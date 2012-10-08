@@ -1,0 +1,19 @@
+<!--
+	This is an example phpunit.xml file to get you started
+	Copy it to a directory, update the relative paths and rename to phpunit.xml
+	Then to run tests cd into it's directory and just run
+		phpunit
+	(it'll automatically use any phpunit.xml file in the current directory)
+
+	Any options you specify when calling phpunit will override the ones in here
+-->
+<php>
+	<includePath>./cache</includePath>
+</php>
+<phpunit colors="true" bootstrap="/path/to/your/unittest/bootstrap.php">
+	<testsuites>
+		<testsuite name="Kohana Cache Tests">
+			<directory suffix=".php">cache/</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

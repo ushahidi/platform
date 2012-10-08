@@ -1,0 +1,6 @@
+.*swp
+*~
+*.DS_Store
+application/logs/*
+application/cache/*
+application/config/*.php
