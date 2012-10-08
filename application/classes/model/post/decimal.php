@@ -26,7 +26,7 @@ class Model_Post_Decimal extends ORM
 		);
 
 	// Insert/Update Timestamps
-	protected $_created_column = array('column' => 'created', 'format' => 'Y-m-d H:i:s');
+	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 
 	// Table Name
 	protected $_table_name = 'post_decimal';

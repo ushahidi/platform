@@ -17,7 +17,7 @@
 class Model_Post extends ORM
 {
 	/**
-	 * A post has many datetime, decimal, geometry, int
+	 * A post has many decimal, geometry, int
 	 * point, text, varchar
 	 * 
 	 * A post has and belongs to many sets and tags
@@ -27,7 +27,6 @@ class Model_Post extends ORM
 	 * @var array Relationhips
 	 */
 	protected $_has_many = array(
-		'post_datetime' => array(),
 		'post_decimal' => array(),
 		'post_geometry' => array(),
 		'post_int' => array(),
@@ -64,7 +63,7 @@ class Model_Post extends ORM
 
 
 	// Insert/Update Timestamps
-	protected $_created_column = array('column' => 'created', 'format' => 'Y-m-d H:i:s');
+	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 	protected $_updated_column = array('column' => 'updated', 'format' => 'Y-m-d H:i:s');
 
 	/**

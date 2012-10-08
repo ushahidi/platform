@@ -50,13 +50,13 @@ class Model_Form_Attribute extends ORM
 					'select',
 					'radio',
 					'checkbox',
-					'file'
+					'file',
+					'date'
 				)) )
 			),
 			'type' => array(
 				array('not_empty'),
 				array('in_array', array(':value', array(
-					'datetime',
 					'decimal',
 					'int',
 					'geometry',
