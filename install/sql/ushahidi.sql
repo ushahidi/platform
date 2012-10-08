@@ -24,7 +24,6 @@ CREATE  TABLE IF NOT EXISTS `form_attributes` (
   UNIQUE INDEX `unq_form_id_key` (`form_id` ASC, `key` ASC) ,
   INDEX `idx_form_group_id` (`form_group_id` ASC) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -38,7 +37,6 @@ CREATE  TABLE IF NOT EXISTS `form_groups` (
   `priority` TINYINT(4) NOT NULL DEFAULT '99' ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -54,7 +52,6 @@ CREATE  TABLE IF NOT EXISTS `forms` (
   `updated` DATETIME NOT NULL DEFAULT '1000-01-01 00:00:00' ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -83,7 +80,6 @@ CREATE  TABLE IF NOT EXISTS `posts` (
   INDEX `idx_type` (`type` ASC) ,
   INDEX `idx_status` (`status` ASC) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -104,7 +100,6 @@ CREATE  TABLE IF NOT EXISTS `post_datetime` (
     REFERENCES `posts` (`id` )
     ON DELETE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -205,7 +200,6 @@ CREATE  TABLE IF NOT EXISTS `post_text` (
     REFERENCES `posts` (`id` )
     ON DELETE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -226,7 +220,6 @@ CREATE  TABLE IF NOT EXISTS `post_varchar` (
     REFERENCES `posts` (`id` )
     ON DELETE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8;
 
 
