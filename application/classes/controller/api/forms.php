@@ -99,7 +99,7 @@ class Controller_API_Forms extends Ushahidi_API {
 			}
 
 			// Response is the complete form
-			$this->_response_payload = $this->form($form->id);
+			$this->_response_payload = $this->form($form);
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -129,7 +129,7 @@ class Controller_API_Forms extends Ushahidi_API {
 
 		foreach ($forms as $form)
 		{
-			$results[] = $this->form($form->id);
+			$results[] = $this->form($form);
 		}
 
 		// Respond with forms
@@ -151,7 +151,8 @@ class Controller_API_Forms extends Ushahidi_API {
 		$form_id = $this->request->param('id', 0);
 
 		// Respond with form
-		$this->_response_payload = $this->form($form_id);
+		$form = ORM::factory('form', $form_id);
+		$this->_response_payload = $this->form($form);
 	}
 
 	/**
@@ -188,13 +189,12 @@ class Controller_API_Forms extends Ushahidi_API {
 	 * Retrieve a single form, along with all its 
 	 * groups and attributes
 	 * 
-	 * @param $id int - ID of the form
+	 * @param $form object - form model
 	 * @return array $response
 	 */
-	public function form($id = 0)
+	public function form($form = NULL)
 	{
 		$response = array();
-		$form = ORM::factory('form', $id);
 		if ( $form->loaded() )
 		{
 			$response = array(
