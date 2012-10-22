@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Model for User_Task
+ * Model for task
  *
  * PHP version 5
  * LICENSE: This source file is subject to GPLv3 license
@@ -14,29 +14,29 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_User_Task extends ORM {
+class Model_Task extends ORM {
 	/**
-	 * A user_task has many [children]
+	 * A task has many [children]
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_has_many = array(
 		'children' => array(
-			'model' => 'user_task',
+			'model' => 'task',
 			'foreign_key' => 'parent_id',
 			),
 		);
 
 	/**
-	 * A user_task belongs to a post, an assignor and an assignee
-	 * and a [parent] user_task
+	 * A task belongs to a post, an assignor and an assignee
+	 * and a [parent] task
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),
 		'parent' => array(
-			'model'  => 'user_task',
+			'model'  => 'task',
 			'foreign_key' => 'parent_id',
 			),
 		'assignor' => array(
@@ -54,7 +54,7 @@ class Model_User_Task extends ORM {
 	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
 
 	/**
-	 * Rules for the user_task model
+	 * Rules for the task model
 	 *
 	 * @return array Rules
 	 */

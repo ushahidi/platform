@@ -17,7 +17,7 @@
 class Model_Post extends ORM {
 	/**
 	 * A post has many comments decimal, geometry, int
-	 * point, text, varchar
+	 * point, text, varchar, tasks
 	 * 
 	 * A post has and belongs to many sets and tags
 	 * 
@@ -32,6 +32,8 @@ class Model_Post extends ORM {
 		'post_int' => array(),
 		'post_point' => array(),
 		'post_text' => array(),
+
+		'tasks' => array(),
 
 		'sets' => array('through' => 'posts_sets'),
 		'tags' => array('through' => 'posts_tags'),

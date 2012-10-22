@@ -28,15 +28,14 @@ class Model_User extends Model_Auth_User {
 			'through' => 'roles_users'
 			),
 		'sets' => array(),
-		'user_tasks' => array(),
 
-		// User_Task Assignor / Assignee relationship
+		// Task Assignor / Assignee relationship
 		'assignors' => array(
-			'model' => 'user_task',
+			'model' => 'task',
 			'foreign_key' => 'assignor',
 			),
 		'assignees' => array(
-			'model' => 'user_task',
+			'model' => 'task',
 			'foreign_key' => 'assignee'
 			),
 	);

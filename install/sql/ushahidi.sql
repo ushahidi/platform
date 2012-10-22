@@ -354,9 +354,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `user_tasks`
+-- Table `tasks`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `user_tasks` (
+CREATE  TABLE IF NOT EXISTS `tasks` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
