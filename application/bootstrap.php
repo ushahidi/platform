@@ -122,7 +122,7 @@ Route::set('api', 'api/v2(/<controller>(/<id>))',
 	));
 
 /**
- * Forms SubRoute Ushahidi API Route
+ * Forms API SubRoute
  */	
 Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>))', 
 	array(
@@ -132,6 +132,19 @@ Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>))',
 	->defaults(array(
 		'action'     => 'index',
 		'directory'  => 'api/forms'
+	));
+
+/**
+ * Posts API SubRoute
+ */	
+Route::set('posts', 'api/v2/posts/<post_id>(/<controller>(/<id>))', 
+	array(
+		'post_id' => '\d+',
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'api/posts'
 	));
 
 /**

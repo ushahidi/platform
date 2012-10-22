@@ -14,8 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Set extends ORM
-{
+class Model_Set extends ORM {
 	/**
 	 * A set has and belongs to many posts
 	 *

@@ -14,8 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Form_Group extends ORM
-{
+class Model_Form_Group extends ORM {
 	/**
 	 * A form_group has many groups
 	 *

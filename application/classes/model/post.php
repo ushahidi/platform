@@ -14,10 +14,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post extends ORM
-{
+class Model_Post extends ORM {
 	/**
-	 * A post has many decimal, geometry, int
+	 * A post has many comments decimal, geometry, int
 	 * point, text, varchar
 	 * 
 	 * A post has and belongs to many sets and tags
@@ -27,6 +26,7 @@ class Model_Post extends ORM
 	 * @var array Relationhips
 	 */
 	protected $_has_many = array(
+		'post_comments' => array(),
 		'post_decimal' => array(),
 		'post_geometry' => array(),
 		'post_int' => array(),
@@ -37,11 +37,6 @@ class Model_Post extends ORM
 		'tags' => array('through' => 'posts_tags'),
 
 		'children' => array(
-			'model'  => 'post',
-			'foreign_key' => 'parent_id',
-			),
-
-		'comments' => array(
 			'model'  => 'post',
 			'foreign_key' => 'parent_id',
 			),
@@ -64,7 +59,7 @@ class Model_Post extends ORM
 
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
-	protected $_updated_column = array('column' => 'updated', 'format' => 'Y-m-d H:i:s');
+	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
 
 	/**
 	 * Rules for the post model

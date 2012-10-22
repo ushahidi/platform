@@ -17,6 +17,16 @@
 class Controller_API_Posts extends Ushahidi_API {
 
 	/**
+	 * @var int Post Parent ID
+	 */
+	protected $_parent_id = 0;
+
+	/**
+	 * @var string Post Type
+	 */
+	protected $_type = 'report';
+
+	/**
 	 * Create A Post
 	 * 
 	 * POST /api/posts
@@ -60,6 +70,8 @@ class Controller_API_Posts extends Ushahidi_API {
 				'form_id', 'type', 'title', 'content', 'status'
 				));
 			$_post->status = (isset($post['status'])) ? $post['status'] : NULL;
+			$_post->parent_id = $this->_parent_id;
+			$_post->type = $this->_type;
 			$_post->save();
 
 			if ( isset($post['values']) )
@@ -82,8 +94,8 @@ class Controller_API_Posts extends Ushahidi_API {
 				}
 			}
 
-			// Response is the complete form
-			$this->_response_payload = $this->post($_post->id);
+			// Response is the complete post
+			$this->_response_payload = $this->post($_post);
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -134,14 +146,13 @@ class Controller_API_Posts extends Ushahidi_API {
 	 * Retrieve a single post ( ++ Hairy :) )
 	 * along with values from attached tables
 	 * 
-	 * @param $id int - ID of the post
+	 * @param $post object - Post Model
 	 * @return array $response
 	 * @todo the queries need some optimizing (EAV Fun)
 	 */
-	public function post($id = 0)
+	public function post($post = NULL)
 	{
 		$response = array();
-		$post = ORM::factory('post', $id);
 		if ( $post->loaded() )
 		{
 			$response = array(

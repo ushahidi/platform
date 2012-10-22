@@ -1,7 +1,7 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Model for Post_Point
+ * Ushahidi API Posts Streams Controller
  *
  * PHP version 5
  * LICENSE: This source file is subject to GPLv3 license
@@ -9,24 +9,19 @@
  * http://www.gnu.org/copyleft/gpl.html
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Models
+ * @subpackage Controllers
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post_Point extends ORM {
-	/**
-	 * A post_point belongs to a post
-	 *
-	 * @var array Relationhips
-	 */
-	protected $_belongs_to = array(
-		'post' => array(),
-		);
+class Controller_API_Posts_Streams extends Controller_API_Posts {
 
-	// Insert/Update Timestamps
-	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 
-	// Table Name
-	protected $_table_name = 'post_point';
+	public function before()
+	{
+		parent::before();
+
+		// Parent ID of this Stream Post
+		$this->_parent_id = $this->request->param('post_id', 0);
+	}
 }

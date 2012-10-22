@@ -14,11 +14,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Tags extends ORM
-{
+class Model_Tags extends ORM {
 	/**
 	 * A tag has and belongs to many posts
-	 * 
 	 * A tag has many [children] tags
 	 *
 	 * @var array Relationhips
@@ -43,4 +41,7 @@ class Model_Tags extends ORM
 			'foreign_key' => 'parent_id',
 			),
 		);
+
+	// Insert/Update Timestamps
+	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 }

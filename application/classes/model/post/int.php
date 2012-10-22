@@ -14,8 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post_Int extends ORM
-{
+class Model_Post_Int extends ORM {
 	/**
 	 * A post_int belongs to a post
 	 *

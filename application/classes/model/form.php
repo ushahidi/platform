@@ -14,25 +14,35 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Form extends ORM
-{
+class Model_Form extends ORM {
 	/**
 	 * A form has many attributes and groups
+	 * A form has many [children] forms
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_has_many = array(
 		'form_attributes' => array(),
 		'form_groups' => array(),
+
+		'children' => array(
+			'model'  => 'form',
+			'foreign_key' => 'parent_id',
+			),
 		);
 
 	/**
-	 * A form belongs to a user
+	 * A form belongs to a user and a [parent] form
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_belongs_to = array(
-		'user' => array()
+		'user' => array(),
+
+		'parent' => array(
+			'model'  => 'form',
+			'foreign_key' => 'parent_id',
+			),
 		);
 
 	/**

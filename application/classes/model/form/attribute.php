@@ -14,8 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Form_Attribute extends ORM
-{
+class Model_Form_Attribute extends ORM {
 	/**
 	 * A form_attribute belongs to a form
 	 *

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Model for Post_Varchar
+ * Model for User_Task
  *
  * PHP version 5
  * LICENSE: This source file is subject to GPLv3 license
@@ -14,42 +14,54 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post_Varchar extends ORM {
+class Model_User_Task extends ORM {
 	/**
-	 * A post_varchar belongs to a post
+	 * A user_task has many [children]
+	 *
+	 * @var array Relationhips
+	 */
+	protected $_has_many = array(
+		'children' => array(
+			'model' => 'user_task',
+			'foreign_key' => 'parent_id',
+			),
+		);
+
+	/**
+	 * A user_task belongs to a post, an assignor and an assignee
+	 * and a [parent] user_task
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),
+		'parent' => array(
+			'model'  => 'user_task',
+			'foreign_key' => 'parent_id',
+			),
+		'assignor' => array(
+			'model' => 'user',
+			'foreign_key' => 'assignor',
+			),
+		'assignee' => array(
+			'model' => 'user',
+			'foreign_key' => 'assignee',
+			),
 		);
 
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
-
-	// Table Name
-	protected $_table_name = 'post_varchar';
+	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
 
 	/**
-	 * Rules for the post_varchar model
+	 * Rules for the user_task model
 	 *
 	 * @return array Rules
 	 */
 	public function rules()
 	{
 		return array(
-			'post_id' => array(
-				//array('not_empty'),
-				array('numeric'),
-			),
-			'form_attribute_id' => array(
-				//array('not_empty'),
-				array('numeric'),
-			),
-			'value' => array(
-				array('not_empty'),
-				array('max_length', array(':value', 255))
-			)
+
 		);
 	}
 }

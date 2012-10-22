@@ -3,7 +3,6 @@
 -- -----------------------------------------------------
 ALTER DATABASE DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-
 -- -----------------------------------------------------
 -- Table `form_attributes`
 -- -----------------------------------------------------
@@ -45,9 +44,30 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `forms` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   `name` VARCHAR(255) NOT NULL DEFAULT '' ,
   `description` TEXT NULL DEFAULT NULL ,
-  `type` VARCHAR(30) NOT NULL DEFAULT 'report' COMMENT 'report, comment' ,
+  `type` VARCHAR(30) NOT NULL DEFAULT 'report' COMMENT 'report, comment, stream' ,
+  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `post_comments`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `post_comments` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `user_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `content` TEXT NULL DEFAULT NULL ,
+  `author` VARCHAR(150) NULL DEFAULT NULL ,
+  `email` VARCHAR(150) NULL DEFAULT NULL ,
+  `ip_address` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `status` VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT 'pending, publish' ,
   `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
   `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`id`) )
@@ -63,7 +83,7 @@ CREATE  TABLE IF NOT EXISTS `posts` (
   `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   `form_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   `user_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-  `type` VARCHAR(20) NOT NULL DEFAULT 'report' COMMENT 'report, revision, comments, alerts' ,
+  `type` VARCHAR(20) NOT NULL DEFAULT 'report' COMMENT 'report, stream, revision' ,
   `title` VARCHAR(255) NULL DEFAULT NULL ,
   `slug` VARCHAR(255) NULL DEFAULT NULL ,
   `content` TEXT NULL DEFAULT NULL ,
@@ -264,13 +284,13 @@ CREATE  TABLE IF NOT EXISTS `posts_tags` (
   `tag_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`post_id`, `tag_id`) ,
   INDEX `fk_posts_tags_tag_id` (`tag_id` ASC) ,
-  CONSTRAINT `fk_posts_tags_tag_id`
-    FOREIGN KEY (`tag_id` )
-    REFERENCES `tags` (`id` )
-    ON DELETE CASCADE,
   CONSTRAINT `fk_posts_tags_post_id`
     FOREIGN KEY (`post_id` )
     REFERENCES `posts` (`id` )
+    ON DELETE CASCADE,
+  CONSTRAINT `fk_posts_tags_tag_id`
+    FOREIGN KEY (`tag_id` )
+    REFERENCES `tags` (`id` )
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -321,14 +341,33 @@ CREATE  TABLE IF NOT EXISTS `roles_users` (
   `role_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`user_id`, `role_id`) ,
   INDEX `fk_roles_users_role_id` (`role_id` ASC) ,
-  CONSTRAINT `fk_roles_users_user_id`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `users` (`id` )
-    ON DELETE CASCADE,
   CONSTRAINT `fk_roles_users_role_id`
     FOREIGN KEY (`role_id` )
     REFERENCES `roles` (`id` )
+    ON DELETE CASCADE,
+  CONSTRAINT `fk_roles_users_user_id`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `users` (`id` )
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+
+-- -----------------------------------------------------
+-- Table `user_tasks`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `user_tasks` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `assignee` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `assignor` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `description` VARCHAR(255) NULL DEFAULT NULL ,
+  `status` VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT 'pending, complete, later' ,
+  `due` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+  PRIMARY KEY (`id`) ,
+  INDEX `idx_status` (`status` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
