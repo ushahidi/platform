@@ -107,6 +107,35 @@ class Controller_API_Posts extends Ushahidi_API {
 	}
 
 	/**
+	 * Retrieve All Posts
+	 * 
+	 * GET /api/posts
+	 * 
+	 * @return void
+	 */
+	public function action_get_index_collection()
+	{
+		$results = array();
+
+		$posts = ORM::factory('post')
+			->order_by('created', 'ASC')
+			->find_all();
+
+		$count = $posts->count();
+
+		foreach ($posts as $post)
+		{
+			$results[] = $this->post($post);
+		}
+
+		// Respond with posts
+		$this->_response_payload = array(
+			'count' => $count,
+			'results' => $results
+		);
+	}
+
+	/**
 	 * Retrieve A Post
 	 * 
 	 * GET /api/posts/:id
@@ -115,7 +144,11 @@ class Controller_API_Posts extends Ushahidi_API {
 	 */
 	public function action_get_index()
 	{
-		
+		$post_id = $this->request->param('id', 0);
+
+		// Respond with post
+		$post = ORM::factory('post', $post_id);
+		$this->_response_payload = $this->post($post);
 	}
 
 	/**
@@ -139,7 +172,12 @@ class Controller_API_Posts extends Ushahidi_API {
 	 */
 	public function action_delete_index()
 	{
-		
+		$post_id = $this->request->param('id', 0);
+		$post = ORM::factory('post', $post_id);
+		if ( $post->loaded() )
+		{
+			$post->delete();
+		}
 	}
 
 	/**
