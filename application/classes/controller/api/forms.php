@@ -232,6 +232,14 @@ class Controller_API_Forms extends Ushahidi_API {
 					);
 			}
 		}
+		else
+		{
+			$response = array(
+				'errors' => array(
+					'Form does not exist'
+					)
+				);
+		}
 
 		return $response;
 	}
