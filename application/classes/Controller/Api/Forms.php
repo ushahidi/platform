@@ -207,29 +207,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 			foreach ($form->form_groups->find_all() as $group)
 			{
-				$attributes = array();
-				foreach ($group->form_attributes->find_all() as $attribute)
-				{
-					$attributes[] = array(
-						'id' => $attribute->id,
-						'key' => $attribute->key,
-						'label' => $attribute->label,
-						'input' => $attribute->input,
-						'type' => $attribute->type,
-						'required' => ($attribute->required) ? TRUE : FALSE,
-						'default' => $attribute->default,
-						'unique' => ($attribute->unique) ? TRUE : FALSE,
-						'priority' => $attribute->priority,
-						'options' => json_decode($attribute->options)
-						);
-				}
-
-				$response['groups'][] = array(
-					'id' => $group->id,
-					'label' => $group->label,
-					'priority' => $group->priority,
-					'attributes' => $attributes
-					);
+				$response['groups'][] = Controller_API_Forms_Groups::group($group);
 			}
 		}
 		else

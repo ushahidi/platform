@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API Forms Attributes Controller
+ * Ushahidi API Forms Groups Controller
  *
  * PHP version 5
  * LICENSE: This source file is subject to GPLv3 license
@@ -14,12 +14,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_Api_Forms_Attributes extends Ushahidi_Api {
+class Controller_API_Forms_Groups extends Ushahidi_API {
 
 	/**
-	 * Retrieve an attribute
+	 * Retrieve a group
 	 * 
-	 * GET /api/forms/:form_id/attributes/:id
+	 * GET /api/forms/:form_id/groups/:id
 	 * 
 	 * @return void
 	 */
@@ -28,19 +28,19 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		$form_id = $this->request->param('form_id');
 		$results = array();
 
-		$attributes = ORM::factory('form_attribute')
+		$groups = ORM::factory('form_group')
 			->order_by('id', 'ASC')
 			->where('form_id', '=', $form_id)
 			->find_all();
 
-		$count = $attributes->count();
+		$count = $groups->count();
 
-		foreach ($attributes as $attribute)
+		foreach ($groups as $group)
 		{
-			$results[] = $this->attribute($attribute);
+			$results[] = $this->group($group);
 		}
 
-		// Respond with attributes
+		// Respond with groups
 		$this->_response_payload = array(
 			'count' => $count,
 			'results' => $results
@@ -48,34 +48,33 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	}
 
 	/**
-	 * Retrieve a single attribute
+	 * Retrieve a single group, along with all its attributes
 	 * 
-	 * @param $attribute object - attribute model
+	 * @param $group object - group model
 	 * @return array $response
 	 */
-	public static function attribute($attribute = NULL)
+	public static function group($group = NULL)
 	{
 		$response = array();
-		if ( $attribute->loaded() )
+		if ( $group->loaded() )
 		{
 			$response = array(
-				'id' => $attribute->id,
-				'key' => $attribute->key,
-				'label' => $attribute->label,
-				'input' => $attribute->input,
-				'type' => $attribute->type,
-				'required' => ($attribute->required) ? TRUE : FALSE,
-				'default' => $attribute->default,
-				'unique' => ($attribute->unique) ? TRUE : FALSE,
-				'priority' => $attribute->priority,
-				'options' => json_decode($attribute->options)
-			);
+				'id' => $group->id,
+				'label' => $group->label,
+				'priority' => $group->priority,
+				'attributes' => array()
+				);
+			
+			foreach ($group->form_attributes->find_all() as $attribute)
+			{
+				$response['attributes'][] = Controller_API_Forms_Attributes::attribute($attribute);
+			}
 		}
 		else
 		{
 			$response = array(
 				'errors' => array(
-					'Attribute does not exist'
+					'Group does not exist'
 					)
 				);
 		}
