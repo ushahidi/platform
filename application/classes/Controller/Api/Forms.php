@@ -179,8 +179,11 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	{
 		$form_id = $this->request->param('id', 0);
 		$form = ORM::factory('Form', $form_id);
+		$this->_response_payload = array();
 		if ( $form->loaded() )
 		{
+			// Return the form we just deleted (provides some confirmation)
+			$this->_response_payload = $this->form($form);
 			$form->delete();
 		}
 	}

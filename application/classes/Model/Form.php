@@ -75,4 +75,27 @@ class Model_Form extends ORM {
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 	protected $_updated_column = array('column' => 'updated', 'format' => 'Y-m-d H:i:s');
+	
+	/**
+	 * Deletes a single record while ignoring relationships.
+	 * Extend ORM::delete() to cascade delete assoc. objects
+	 * 
+	 * @chainable
+	 * @return ORM
+	 */
+	public function delete()
+	{
+		// Delete associated objects
+		if ($this->form_attributes->loaded())
+		{
+			$this->form_attributes->delete();
+		}
+
+		if ($this->form_groups->loaded())
+		{
+			$this->form_groups->delete();
+		}
+		
+		parent::delete();
+	}
 }
