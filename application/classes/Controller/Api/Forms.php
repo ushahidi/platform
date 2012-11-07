@@ -201,6 +201,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		if ( $form->loaded() )
 		{
 			$response = array(
+				'url' => url::site('api/v2/forms/'.$form->id, Request::current()),
 				'id' => $form->id,
 				'name' => $form->name,
 				'description' => $form->description,

@@ -59,6 +59,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		if ( $group->loaded() )
 		{
 			$response = array(
+				'url' => url::site('api/v2/forms/'.$group->form_id.'/groups/'.$group->id, Request::current()),
 				'id' => $group->id,
 				'label' => $group->label,
 				'priority' => $group->priority,

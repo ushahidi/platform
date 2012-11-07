@@ -59,6 +59,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		if ( $attribute->loaded() )
 		{
 			$response = array(
+				'url' => url::site('api/v2/forms/'.$attribute->form_id.'/attributes/'.$attribute->id, Request::current()),
 				'id' => $attribute->id,
 				'key' => $attribute->key,
 				'label' => $attribute->label,
