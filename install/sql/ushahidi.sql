@@ -4,12 +4,29 @@
 ALTER DATABASE DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 -- -----------------------------------------------------
+-- Table `forms`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `forms` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `name` VARCHAR(255) NOT NULL DEFAULT '' ,
+  `description` TEXT NULL DEFAULT NULL ,
+  `type` VARCHAR(30) NOT NULL DEFAULT 'report' COMMENT 'report, comment, stream' ,
+  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+  PRIMARY KEY (`id`) ,
+  INDEX `idx_parent_id` (`parent_id` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
 -- Table `form_attributes`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `form_attributes` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `form_id` INT(11) NOT NULL DEFAULT '0' ,
-  `form_group_id` INT(11) NOT NULL DEFAULT '0' ,
+  `form_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+  `form_group_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   `key` VARCHAR(150) NOT NULL DEFAULT '' ,
   `label` VARCHAR(150) NOT NULL DEFAULT '' ,
   `input` VARCHAR(30) NOT NULL DEFAULT 'text' COMMENT 'text, textarea, select, radio, checkbox, file, date' ,
@@ -21,7 +38,17 @@ CREATE  TABLE IF NOT EXISTS `form_attributes` (
   `options` VARCHAR(255) NULL DEFAULT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unq_form_id_key` (`form_id` ASC, `key` ASC) ,
-  INDEX `idx_form_group_id` (`form_group_id` ASC) )
+  INDEX `idx_form_group_id` (`form_group_id` ASC),
+  INDEX `fk_form_attributes_form_id` (`form_id` ASC),
+  INDEX `fk_form_attributes_form_group_id` (`form_group_id` ASC),
+  CONSTRAINT `fk_form_attributes_form_id`
+    FOREIGN KEY (`form_id`)
+    REFERENCES `forms` (`id`)
+    ON DELETE CASCADE ,
+  CONSTRAINT `fk_form_attributes_form_group_id`
+    FOREIGN KEY (`form_group_id`)
+    REFERENCES `form_groups` (`id`)
+    ON DELETE CASCADE )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -34,23 +61,12 @@ CREATE  TABLE IF NOT EXISTS `form_groups` (
   `form_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   `label` VARCHAR(150) NOT NULL DEFAULT '' ,
   `priority` TINYINT(4) NOT NULL DEFAULT '99' ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `forms`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `forms` (
-  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-  `name` VARCHAR(255) NOT NULL DEFAULT '' ,
-  `description` TEXT NULL DEFAULT NULL ,
-  `type` VARCHAR(30) NOT NULL DEFAULT 'report' COMMENT 'report, comment, stream' ,
-  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
-  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`),
+  INDEX `fk_form_groups_form_id` (`form_id` ASC),
+  CONSTRAINT `fk_form_groups_form_id`
+    FOREIGN KEY (`form_id`)
+    REFERENCES `forms` (`id`)
+    ON DELETE CASCADE )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
