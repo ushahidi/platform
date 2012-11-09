@@ -17,9 +17,9 @@
 class Controller_API_Forms_Groups extends Ushahidi_API {
 
 	/**
-	 * Retrieve a group
+	 * Retrieve all groups
 	 * 
-	 * GET /api/forms/:form_id/groups/:id
+	 * GET /api/forms/:form_id/groups
 	 * 
 	 * @return void
 	 */
@@ -48,6 +48,29 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 	}
 
 	/**
+	 * Retrieve a group
+	 * 
+	 * GET /api/forms/:form_id/groups/:id
+	 * 
+	 * @return void
+	 */
+	public function action_get_index()
+	{
+		$form_id = $this->request->param('form_id');
+		$id = $this->request->param('id');
+		$results = array();
+
+		$group = ORM::factory('form_group')
+			->order_by('id', 'ASC')
+			->where('form_id', '=', $form_id)
+			->where('id', '=', $id)
+			->find();
+
+		// Respond with group
+		$this->_response_payload = $this->group($group);
+	}
+
+	/**
 	 * Retrieve a single group, along with all its attributes
 	 * 
 	 * @param $group object - group model
@@ -60,6 +83,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		{
 			$response = array(
 				'url' => url::site('api/v2/forms/'.$group->form_id.'/groups/'.$group->id, Request::current()),
+				'form' => url::site('api/v2/forms/'.$group->form_id, Request::current()),
 				'id' => $group->id,
 				'label' => $group->label,
 				'priority' => $group->priority,

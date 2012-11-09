@@ -17,9 +17,9 @@
 class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 
 	/**
-	 * Retrieve an attribute
+	 * Retrieve all attributes
 	 * 
-	 * GET /api/forms/:form_id/attributes/:id
+	 * GET /api/forms/:form_id/attributes
 	 * 
 	 * @return void
 	 */
@@ -48,6 +48,28 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	}
 
 	/**
+	 * Retrieve an attribute
+	 * 
+	 * GET /api/forms/:form_id/attributes/:id
+	 * 
+	 * @return void
+	 */
+	public function action_get_index()
+	{
+		$id = $this->request->param('id');
+		$form_id = $this->request->param('form_id');
+		$results = array();
+
+		$attribute = ORM::factory('form_attribute')
+			->order_by('id', 'ASC')
+			->where('form_id', '=', $form_id)
+			->where('id', '=', $id)
+			->find();
+
+		$this->_response_payload = $this->attribute($attribute);
+	}
+
+	/**
 	 * Retrieve a single attribute
 	 * 
 	 * @param $attribute object - attribute model
@@ -60,6 +82,8 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		{
 			$response = array(
 				'url' => url::site('api/v2/forms/'.$attribute->form_id.'/attributes/'.$attribute->id, Request::current()),
+				'form' => url::site('api/v2/forms/'.$attribute->form_id, Request::current()),
+				'group' => url::site('api/v2/forms/'.$attribute->form_id.'/groups/'.$attribute->form_group_id, Request::current()),
 				'id' => $attribute->id,
 				'key' => $attribute->key,
 				'label' => $attribute->label,
@@ -69,7 +93,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 				'default' => $attribute->default,
 				'unique' => ($attribute->unique) ? TRUE : FALSE,
 				'priority' => $attribute->priority,
-				'options' => json_decode($attribute->options)
+				'options' => json_decode($attribute->options),
 			);
 		}
 		else
