@@ -61,7 +61,8 @@ class Model_Form_Attribute extends ORM {
 					'geometry',
 					'text',
 					'varchar',
-					'point'
+					'point',
+					'datetime'
 				)) )
 			),
 			'required' => array(

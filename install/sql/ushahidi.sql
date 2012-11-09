@@ -102,6 +102,25 @@ CREATE  TABLE IF NOT EXISTS `posts` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- Table `post_datetime`
+-- -----------------------------------------------------
+CREATE TABLE `post_datetime` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `form_attribute_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `value` datetime DEFAULT NULL,
+  `created` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  INDEX `fk_post_datetime_post_id` (`post_id` ASC),
+  INDEX `idx_form_attribute_id` (`form_attribute_id` ASC),
+  CONSTRAINT `fk_post_datetime_post_id`
+    FOREIGN KEY (`post_id`)
+    REFERENCES `posts` (`id`)
+    ON DELETE CASCADE)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 -- -----------------------------------------------------
 -- Table `post_decimal`
