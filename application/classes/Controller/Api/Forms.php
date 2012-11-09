@@ -164,7 +164,41 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
+		$form_id = $this->request->param('id', 0);
+		$post = $this->_request_payload;
 		
+		$form = ORM::factory('form', $form_id)->values($post);
+		
+		// Set form id to ensure sane response if form doesn't exist yet.
+		$form->id = $form_id;
+		
+		
+		// Validation - cycle through nested models 
+		// and perform in-model validation before
+		// saving
+		try
+		{
+			// Validate base form data
+			$form->check();
+
+
+			// Validates ... so save
+			$form->values($post, array(
+				'name', 'description', 'type'
+				));
+			$form->save();
+
+
+			// Response is the complete form
+			$this->_response_payload = $this->form($form);
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			// Error response
+			$this->_response_payload = array(
+				'errors' => Arr::flatten($e->errors('models'))
+				);
+		}
 	}
 
 	/**
