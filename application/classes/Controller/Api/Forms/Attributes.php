@@ -33,6 +33,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		
 		if ( ! $form->loaded())
 		{
+			// @todo throw 400 or 404
 			$this->_response_payload = array(
 				'errors' => array(
 					'Form does not exist'
@@ -56,6 +57,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		
 		if ( ! $group->loaded())
 		{
+			// @todo throw 400 or 404?
 			$this->_response_payload = array(
 				'errors' => array(
 					'Group does not exist'
@@ -84,6 +86,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
+			// @todo throw 400 or similar
 			// Error response
 			$this->_response_payload = array(
 				'errors' => Arr::flatten($e->errors('models'))
@@ -164,6 +167,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		
 		if ( ! $attribute->loaded())
 		{
+			// @todo throw 404
 			$this->_response_payload = array(
 				'errors' => array(
 					'Attribute does not exist'
@@ -194,6 +198,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
+			// @todo throw 400 or similar
 			// Error response
 			$this->_response_payload = array(
 				'errors' => Arr::flatten($e->errors('models'))
@@ -258,6 +263,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		}
 		else
 		{
+			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Attribute does not exist'

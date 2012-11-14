@@ -33,6 +33,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $form->loaded())
 		{
+			// @todo throw 400 or 404
 			$this->_response_payload = array(
 				'errors' => array(
 					'Form does not exist'
@@ -61,6 +62,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
+			// @todo throw 400
 			// Error response
 			$this->_response_payload = array(
 				'errors' => Arr::flatten($e->errors('models'))
@@ -142,6 +144,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $group->loaded())
 		{
+			// @todo throw 404
 			$this->_response_payload = array(
 				'errors' => array(
 					'Group does not exist'
@@ -257,6 +260,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $form->loaded())
 		{
+			// @todo throw 400 or 404
 			$this->_response_payload = array(
 				'errors' => array(
 					'Form does not exist'
@@ -269,6 +273,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $group->loaded())
 		{
+			// @todo throw 400 or 404
 			$this->_response_payload = array(
 				'errors' => array(
 					'Group does not exist'
@@ -298,6 +303,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
+			// @todo throw 400
 			// Error response
 			$this->_response_payload = array(
 				'errors' => Arr::flatten($e->errors('models'))
@@ -332,6 +338,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		else
 		{
+			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Group does not exist'

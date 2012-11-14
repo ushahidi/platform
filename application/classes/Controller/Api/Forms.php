@@ -103,6 +103,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
+			// @todo throw 400
 			// Error response
 			$this->_response_payload = array(
 				'errors' => Arr::flatten($e->errors('models'))
@@ -194,6 +195,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
+			// @todo throw 400
 			// Error response
 			$this->_response_payload = array(
 				'errors' => Arr::flatten($e->errors('models'))
@@ -250,6 +252,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		}
 		else
 		{
+			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Form does not exist'
