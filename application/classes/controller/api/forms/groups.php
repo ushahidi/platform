@@ -17,6 +17,58 @@
 class Controller_API_Forms_Groups extends Ushahidi_API {
 
 	/**
+	 * Create a new group
+	 * 
+	 * POST /api/forms/:form_id/groups
+	 * 
+	 * @return void
+	 */
+	public function action_post_index_collection()
+	{
+		$form_id = $this->request->param('form_id');
+		$results = array();
+		$post = $this->_request_payload;
+		
+		$form = ORM::factory('form', $form_id);
+		
+		if ( ! $form->loaded())
+		{
+			$this->_response_payload = array(
+				'errors' => array(
+					'Form does not exist'
+					)
+				);
+			return;
+		}
+		
+		$group = ORM::factory('form_group')->values($post);
+		$group->form_id = $form_id;
+		
+		// Validation - perform in-model validation before saving
+		try
+		{
+			// Validate base group data
+			$group->check();
+
+			// Validates ... so save
+			$group->values($post, array(
+				'label', 'priority'
+				));
+			$group->save();
+
+			// Response is the complete form
+			$this->_response_payload = $this->group($group);
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			// Error response
+			$this->_response_payload = array(
+				'errors' => Arr::flatten($e->errors('models'))
+				);
+		}
+	}
+
+	/**
 	 * Retrieve all groups
 	 * 
 	 * GET /api/forms/:form_id/groups
@@ -61,13 +113,96 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$results = array();
 
 		$group = ORM::factory('form_group')
-			->order_by('id', 'ASC')
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
 
 		// Respond with group
 		$this->_response_payload = $this->group($group);
+	}
+
+	/**
+	 * Update a single group
+	 * 
+	 * PUT /api/forms/:form_id/groups/:id
+	 * 
+	 * @return void
+	 */
+	public function action_put_index()
+	{
+		$form_id = $this->request->param('form_id');
+		$id = $this->request->param('id');
+		$results = array();
+		$post = $this->_request_payload;
+
+		$group = ORM::factory('form_group')
+			->where('form_id', '=', $form_id)
+			->where('id', '=', $id)
+			->find();
+		
+		if ( ! $group->loaded())
+		{
+			$this->_response_payload = array(
+				'errors' => array(
+					'Group does not exist'
+					)
+				);
+			return;
+		}
+		
+		// Load post values into group model
+		$group->values($post);
+		
+		$group->id = $id;
+		
+		// Validation - perform in-model validation before saving
+		try
+		{
+			// Validate base group data
+			$group->check();
+
+			// Validates ... so save
+			$group->values($post, array(
+				'label', 'priority'
+				));
+			$group->save();
+
+			// Response is the complete form
+			$this->_response_payload = $this->group($group);
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			// Error response
+			$this->_response_payload = array(
+				'errors' => Arr::flatten($e->errors('models'))
+				);
+		}
+	}
+
+	/**
+	 * Delete a single group
+	 * 
+	 * DELETE /api/forms/:form_id/groups/:id
+	 * 
+	 * @return void
+	 */
+	public function action_delete_index()
+	{
+		$id = $this->request->param('id');
+		$form_id = $this->request->param('form_id');
+
+		$group = ORM::factory('form_group')
+			->where('form_id', '=', $form_id)
+			->where('id', '=', $id)
+			->find();
+
+		$this->_response_payload = array();
+		if ( $group->loaded() )
+		{
+			// Return the group we just deleted (provides some confirmation)
+			$this->_response_payload = $this->group($group);
+			$group->delete();
+		}
 	}
 
 	/**
