@@ -37,8 +37,10 @@ class FeatureContext extends BehatContext
 	/** @AfterSuite */
 	public static function teardown($event)
 	{
+		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=0;")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_attributes")->execute();
+		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
 	}
 }

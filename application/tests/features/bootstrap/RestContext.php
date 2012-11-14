@@ -54,6 +54,15 @@ class RestContext extends BehatContext
 	}
 
 	/**
+	 * @Given /^that I want to update a "([^"]*)"$/
+	 */
+	public function thatIWantToUpdateA($objectType)
+	{
+		$this->_restObjectType   = ucwords(strtolower($objectType));
+		$this->_restObjectMethod = 'put';
+	}
+
+	/**
 	 * @Given /^that I want to find a "([^"]*)"$/
 	 */
 	public function thatIWantToFindA($objectType)
@@ -116,6 +125,13 @@ class RestContext extends BehatContext
 				$postFields = (array)$this->_restObject;
 				$response = $this->_client
 					->post($this->_requestUrl,null,$postFields['data'])
+					->send();
+				break;
+			case 'PUT':
+				$request = (array)$this->_restObject;
+				$id = ( isset($request['id']) ) ? $request['id'] : '';
+				$response = $this->_client
+					->put($this->_requestUrl.'/'.$id,null,$request['data'])
 					->send();
 				break;
 			case 'DELETE':
