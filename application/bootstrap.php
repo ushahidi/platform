@@ -135,6 +135,19 @@ Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>))',
 	));
 
 /**
+ * Forms API SubRoute
+ */	
+Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>(/<action>)))', 
+	array(
+		'form_id' => '\d+',
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'api/forms'
+	));
+
+/**
  * Posts API SubRoute
  */	
 Route::set('posts', 'api/v2/posts/<post_id>(/<controller>(/<id>))', 

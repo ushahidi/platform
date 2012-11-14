@@ -204,6 +204,106 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			$group->delete();
 		}
 	}
+	
+	/**
+	 * Retrieve group's attributes
+	 * 
+	 * GET /api/forms/:form_id/groups/:id/attributes
+	 * 
+	 * @return void
+	 */
+	public function action_get_attributes()
+	{
+		$form_id = $this->request->param('form_id');
+		$id = $this->request->param('id');
+		$results = array();
+
+		$attributes = ORM::factory('form_attribute')
+			->order_by('id', 'ASC')
+			->where('form_id', '=', $form_id)
+			->where('form_group_id', '=', $id)
+			->find_all();
+		
+		$count = $attributes->count();
+
+		foreach ($attributes as $attribute)
+		{
+			$results[] = Controller_API_Forms_Attributes::attribute($attribute);
+		}
+
+		// Respond with attributes
+		$this->_response_payload = array(
+			'count' => $count,
+			'results' => $results
+			);
+	}
+	
+	/**
+	 * Add new attribute to group
+	 * 
+	 * POST /api/forms/:form_id/groups/:id/attributes
+	 * 
+	 * @todo share code between this and POST /api/forms/:form_id/attributes
+	 * @return void
+	 */
+	public function action_post_attributes()
+	{
+		$form_id = $this->request->param('form_id');
+		$group_id = $this->request->param('id');
+		$results = array();
+		$post = $this->_request_payload;
+		
+		$form = ORM::factory('form', $form_id);
+		
+		if ( ! $form->loaded())
+		{
+			$this->_response_payload = array(
+				'errors' => array(
+					'Form does not exist'
+					)
+				);
+			return;
+		}
+		
+		$group = ORM::factory('form_group', $group_id);
+		
+		if ( ! $group->loaded())
+		{
+			$this->_response_payload = array(
+				'errors' => array(
+					'Group does not exist'
+					)
+				);
+			return;
+		}
+		
+		$attribute = ORM::factory('form_attribute')->values($post);
+		$attribute->form_id = $form_id;
+		$attribute->form_group_id = $group_id;
+		
+		// Validation - perform in-model validation before saving
+		try
+		{
+			// Validate base group data
+			$attribute->check();
+
+			// Validates ... so save
+			$attribute->values($post, array(
+				'key', 'label', 'input', 'type'
+				));
+			$attribute->save();
+
+			// Response is the complete form
+			$this->_response_payload = Controller_API_Forms_Attributes::attribute($attribute);
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			// Error response
+			$this->_response_payload = array(
+				'errors' => Arr::flatten($e->errors('models'))
+				);
+		}
+	}
 
 	/**
 	 * Retrieve a single group, along with all its attributes
