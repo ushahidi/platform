@@ -26,7 +26,7 @@ class Model_Form extends ORM {
 		'form_groups' => array(),
 
 		'children' => array(
-			'model'  => 'form',
+			'model'  => 'Form',
 			'foreign_key' => 'parent_id',
 			),
 		);

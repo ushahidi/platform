@@ -4,3 +4,5 @@
 application/logs/*
 application/cache/*
 application/config/*.php
+
+core.ignorecase=true

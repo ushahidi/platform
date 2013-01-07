@@ -22,7 +22,7 @@ class Model_Task extends ORM {
 	 */
 	protected $_has_many = array(
 		'children' => array(
-			'model' => 'task',
+			'model' => 'Task',
 			'foreign_key' => 'parent_id',
 			),
 		);
@@ -36,15 +36,15 @@ class Model_Task extends ORM {
 	protected $_belongs_to = array(
 		'post' => array(),
 		'parent' => array(
-			'model'  => 'task',
+			'model'  => 'Task',
 			'foreign_key' => 'parent_id',
 			),
 		'assignor' => array(
-			'model' => 'user',
+			'model' => 'User',
 			'foreign_key' => 'assignor',
 			),
 		'assignee' => array(
-			'model' => 'user',
+			'model' => 'User',
 			'foreign_key' => 'assignee',
 			),
 		);

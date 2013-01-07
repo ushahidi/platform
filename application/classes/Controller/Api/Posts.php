@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_API_Posts extends Ushahidi_API {
+class Controller_Api_Posts extends Ushahidi_Api {
 
 	/**
 	 * @var int Post Parent ID
@@ -37,7 +37,7 @@ class Controller_API_Posts extends Ushahidi_API {
 	{
 		$post = $this->_request_payload;
 		
-		$_post = ORM::factory('post')->values($post);
+		$_post = ORM::factory('Post')->values($post);
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -53,12 +53,12 @@ class Controller_API_Posts extends Ushahidi_API {
 				// to the form_attribute
 				foreach ($post['values'] as $key => $value)
 				{
-					$attribute = ORM::factory('form_attribute')
+					$attribute = ORM::factory('Form_Attribute')
 						->where('form_id', '=', $post['form_id'])
 						->where('key', '=', $key)
 						->find();
 
-					$_value = ORM::factory('post_'.$attribute->type)->values(array(
+					$_value = ORM::factory('Post_'.ucfirst($attribute->type))->values(array(
 						'value' => $value
 						));
 					$_value->check();
@@ -78,14 +78,14 @@ class Controller_API_Posts extends Ushahidi_API {
 			{
 				foreach ($post['values'] as $key => $value)
 				{
-					$attribute = ORM::factory('form_attribute')
+					$attribute = ORM::factory('Form_Attribute')
 						->where('form_id', '=', $post['form_id'])
 						->where('key', '=', $key)
 						->find();
 
 					if ( $attribute->loaded() )
 					{
-						$_value = ORM::factory('post_'.$attribute->type);
+						$_value = ORM::factory('Post_'.ucfirst($attribute->type));
 						$_value->post_id = $_post->id;
 						$_value->form_attribute_id = $attribute->id;
 						$_value->value = $value;
@@ -117,7 +117,7 @@ class Controller_API_Posts extends Ushahidi_API {
 	{
 		$results = array();
 
-		$posts = ORM::factory('post')
+		$posts = ORM::factory('Post')
 			->order_by('created', 'ASC')
 			->find_all();
 
@@ -147,7 +147,7 @@ class Controller_API_Posts extends Ushahidi_API {
 		$post_id = $this->request->param('id', 0);
 
 		// Respond with post
-		$post = ORM::factory('post', $post_id);
+		$post = ORM::factory('Post', $post_id);
 		$this->_response_payload = $this->post($post);
 	}
 
@@ -173,7 +173,7 @@ class Controller_API_Posts extends Ushahidi_API {
 	public function action_delete_index()
 	{
 		$post_id = $this->request->param('id', 0);
-		$post = ORM::factory('post', $post_id);
+		$post = ORM::factory('Post', $post_id);
 		if ( $post->loaded() )
 		{
 			$post->delete();
@@ -258,6 +258,14 @@ class Controller_API_Posts extends Ushahidi_API {
 			{
 				$response['values'][$result['key']] = $result['value'];
 			}
+		}
+		else
+		{
+			$response = array(
+				'errors' => array(
+					'Post does not exist'
+					)
+				);
 		}
 
 		return $response;

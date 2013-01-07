@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_API_Forms extends Ushahidi_API {
+class Controller_Api_Forms extends Ushahidi_Api {
 
 	/**
 	 * Create A Form
@@ -27,7 +27,7 @@ class Controller_API_Forms extends Ushahidi_API {
 	{
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('form')->values($post);
+		$form = ORM::factory('Form')->values($post);
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -42,7 +42,7 @@ class Controller_API_Forms extends Ushahidi_API {
 				// Yes, loop through and validate each group
 				foreach ($post['groups'] as $group)
 				{
-					$_group = ORM::factory('form_group')->values($group);
+					$_group = ORM::factory('Form_Group')->values($group);
 					$_group->check();
 
 					// Are form attributes defined?
@@ -51,7 +51,7 @@ class Controller_API_Forms extends Ushahidi_API {
 						// Yes, loop through and validate each form attribute
 						foreach ($group['attributes'] as $attribute)
 						{
-							$_attribute = ORM::factory('form_attribute')->values($attribute);
+							$_attribute = ORM::factory('Form_Attribute')->values($attribute);
 							$_attribute->check();
 						}
 					}
@@ -68,7 +68,7 @@ class Controller_API_Forms extends Ushahidi_API {
 			{
 				foreach ($post['groups'] as $group)
 				{
-					$_group = ORM::factory('form_group');
+					$_group = ORM::factory('Form_Group');
 					if ( isset($group['label']) )
 					{
 						$_group->label = $group['label'];
@@ -85,7 +85,7 @@ class Controller_API_Forms extends Ushahidi_API {
 					{
 						foreach ($group['attributes'] as $attribute)
 						{
-							$_attribute = ORM::factory('form_attribute');
+							$_attribute = ORM::factory('Form_Attribute');
 							$_attribute->values($attribute, array(
 								'key', 'label', 'input', 'type'
 								));
@@ -121,7 +121,7 @@ class Controller_API_Forms extends Ushahidi_API {
 	{
 		$results = array();
 
-		$forms = ORM::factory('form')
+		$forms = ORM::factory('Form')
 			->order_by('created', 'ASC')
 			->find_all();
 
@@ -151,7 +151,7 @@ class Controller_API_Forms extends Ushahidi_API {
 		$form_id = $this->request->param('id', 0);
 
 		// Respond with form
-		$form = ORM::factory('form', $form_id);
+		$form = ORM::factory('Form', $form_id);
 		$this->_response_payload = $this->form($form);
 	}
 
@@ -178,7 +178,7 @@ class Controller_API_Forms extends Ushahidi_API {
 	public function action_delete_index()
 	{
 		$form_id = $this->request->param('id', 0);
-		$form = ORM::factory('form', $form_id);
+		$form = ORM::factory('Form', $form_id);
 		if ( $form->loaded() )
 		{
 			$form->delete();

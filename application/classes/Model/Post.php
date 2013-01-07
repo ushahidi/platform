@@ -39,7 +39,7 @@ class Model_Post extends ORM {
 		'tags' => array('through' => 'posts_tags'),
 
 		'children' => array(
-			'model'  => 'post',
+			'model'  => 'Post',
 			'foreign_key' => 'parent_id',
 			),
 		);
@@ -109,7 +109,7 @@ class Model_Post extends ORM {
 	 */
 	public function form_exists($validation, $field, $value)
 	{
-		$form = ORM::factory('form')
+		$form = ORM::factory('Form')
 			->where('id', '=', $value)
 			->find();
 

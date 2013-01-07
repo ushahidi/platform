@@ -25,7 +25,7 @@ class Model_Tags extends ORM {
 		'posts' => array('through' => 'posts_tags'),
 
 		'children' => array(
-			'model' => 'tag',
+			'model' => 'Tag',
 			'foreign_key' => 'parent_id'
 			)
 		);
@@ -37,7 +37,7 @@ class Model_Tags extends ORM {
 	 */
 	protected $_belongs_to = array(
 		'parent' => array(
-			'model'  => 'tag',
+			'model'  => 'Tag',
 			'foreign_key' => 'parent_id',
 			),
 		);

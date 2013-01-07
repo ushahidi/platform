@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_API_Posts_Streams extends Controller_API_Posts {
+class Controller_Api_Posts_Streams extends Controller_Api_Posts {
 
 
 	public function before()

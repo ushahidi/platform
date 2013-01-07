@@ -22,7 +22,7 @@ class Model_Post_Comment extends ORM {
 	 */
 	protected $_has_many = array(
 		'children' => array(
-			'model'  => 'post_comment',
+			'model'  => 'Post_Comment',
 			'foreign_key' => 'parent_id',
 			),
 		);

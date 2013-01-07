@@ -31,11 +31,11 @@ class Model_User extends Model_Auth_User {
 
 		// Task Assignor / Assignee relationship
 		'assignors' => array(
-			'model' => 'task',
+			'model' => 'Task',
 			'foreign_key' => 'assignor',
 			),
 		'assignees' => array(
-			'model' => 'task',
+			'model' => 'Task',
 			'foreign_key' => 'assignee'
 			),
 	);

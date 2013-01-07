@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Ushahidi_API extends Controller {
+class Ushahidi_Api extends Controller {
 
 	protected $version = '2.0.0';
 
