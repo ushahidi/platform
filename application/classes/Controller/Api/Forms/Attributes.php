@@ -29,7 +29,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		$results = array();
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('form', $form_id);
+		$form = ORM::factory('Form', $form_id);
 		
 		if ( ! $form->loaded())
 		{
@@ -53,7 +53,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			return;
 		}
 		
-		$group = ORM::factory('form_group', $post["form_group_id"]);
+		$group = ORM::factory('Form_Group', $post["form_group_id"]);
 		
 		if ( ! $group->loaded())
 		{
@@ -66,7 +66,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			return;
 		}
 		
-		$attribute = ORM::factory('form_attribute')->values($post);
+		$attribute = ORM::factory('Form_Attribute')->values($post);
 		$attribute->form_id = $form_id;
 		
 		// Validation - perform in-model validation before saving
@@ -106,7 +106,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		$form_id = $this->request->param('form_id');
 		$results = array();
 
-		$attributes = ORM::factory('form_attribute')
+		$attributes = ORM::factory('Form_Attribute')
 			->order_by('id', 'ASC')
 			->where('form_id', '=', $form_id)
 			->find_all();
@@ -138,7 +138,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		$form_id = $this->request->param('form_id');
 		$results = array();
 
-		$attribute = ORM::factory('form_attribute')
+		$attribute = ORM::factory('Form_Attribute')
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
@@ -160,7 +160,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		$results = array();
 		$post = $this->_request_payload;
 
-		$attribute = ORM::factory('form_attribute')
+		$attribute = ORM::factory('Form_Attribute')
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();

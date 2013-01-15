@@ -168,7 +168,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		$form_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('form', $form_id)->values($post);
+		$form = ORM::factory('Form', $form_id)->values($post);
 		
 		// Set form id to ensure sane response if form doesn't exist yet.
 		$form->id = $form_id;

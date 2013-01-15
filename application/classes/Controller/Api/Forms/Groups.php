@@ -29,7 +29,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$results = array();
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('form', $form_id);
+		$form = ORM::factory('Form', $form_id);
 		
 		if ( ! $form->loaded())
 		{
@@ -42,7 +42,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			return;
 		}
 		
-		$group = ORM::factory('form_group')->values($post);
+		$group = ORM::factory('Form_Group')->values($post);
 		$group->form_id = $form_id;
 		
 		// Validation - perform in-model validation before saving
@@ -82,7 +82,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$form_id = $this->request->param('form_id');
 		$results = array();
 
-		$groups = ORM::factory('form_group')
+		$groups = ORM::factory('Form_Group')
 			->order_by('id', 'ASC')
 			->where('form_id', '=', $form_id)
 			->find_all();
@@ -114,7 +114,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$id = $this->request->param('id');
 		$results = array();
 
-		$group = ORM::factory('form_group')
+		$group = ORM::factory('Form_Group')
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
@@ -137,7 +137,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$results = array();
 		$post = $this->_request_payload;
 
-		$group = ORM::factory('form_group')
+		$group = ORM::factory('Form_Group')
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
@@ -194,7 +194,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$id = $this->request->param('id');
 		$form_id = $this->request->param('form_id');
 
-		$group = ORM::factory('form_group')
+		$group = ORM::factory('Form_Group')
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
@@ -221,7 +221,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$id = $this->request->param('id');
 		$results = array();
 
-		$attributes = ORM::factory('form_attribute')
+		$attributes = ORM::factory('Form_Attribute')
 			->order_by('id', 'ASC')
 			->where('form_id', '=', $form_id)
 			->where('form_group_id', '=', $id)
@@ -256,7 +256,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$results = array();
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('form', $form_id);
+		$form = ORM::factory('Form', $form_id);
 		
 		if ( ! $form->loaded())
 		{
@@ -269,7 +269,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			return;
 		}
 		
-		$group = ORM::factory('form_group', $group_id);
+		$group = ORM::factory('Form_Group', $group_id);
 		
 		if ( ! $group->loaded())
 		{
@@ -282,7 +282,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			return;
 		}
 		
-		$attribute = ORM::factory('form_attribute')->values($post);
+		$attribute = ORM::factory('Form_Attribute')->values($post);
 		$attribute->form_id = $form_id;
 		$attribute->form_group_id = $group_id;
 		
