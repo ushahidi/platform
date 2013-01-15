@@ -108,4 +108,43 @@ class Model_Form_Attribute extends ORM {
 			->execute()
 			->get('total');
 	}
+
+	/**
+	 * Prepare attribute data for API
+	 * 
+	 * @return array $response - array to be returned by API (as json)
+	 */
+	public function for_api()
+	{
+		$response = array();
+		if ( $this->loaded() )
+		{
+			$response = array(
+				'url' => url::site('api/v2/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
+				'form' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+				'form_group' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
+				'id' => $this->id,
+				'key' => $this->key,
+				'label' => $this->label,
+				'input' => $this->input,
+				'type' => $this->type,
+				'required' => ($this->required) ? TRUE : FALSE,
+				'default' => $this->default,
+				'unique' => ($this->unique) ? TRUE : FALSE,
+				'priority' => $this->priority,
+				'options' => json_decode($this->options),
+			);
+		}
+		else
+		{
+			// @todo throw 404
+			$response = array(
+				'errors' => array(
+					'Attribute does not exist'
+					)
+				);
+		}
+
+		return $response;
+	}
 }

@@ -82,7 +82,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			$attribute->save();
 
 			// Response is the complete form
-			$this->_response_payload = $this->attribute($attribute);
+			$this->_response_payload = $attribute->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -115,7 +115,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 
 		foreach ($attributes as $attribute)
 		{
-			$results[] = $this->attribute($attribute);
+			$results[] = $attribute->for_api();
 		}
 
 		// Respond with attributes
@@ -143,7 +143,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			->where('id', '=', $id)
 			->find();
 
-		$this->_response_payload = $this->attribute($attribute);
+		$this->_response_payload = $attribute->for_api();
 	}
 
 	/**
@@ -194,7 +194,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			$attribute->save();
 
 			// Response is the complete form
-			$this->_response_payload = $this->attribute($attribute);
+			$this->_response_payload = $attribute->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -205,8 +205,6 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 				);
 		}
 	}
-	
-	
 
 	/**
 	 * Delete a single attribute
@@ -220,7 +218,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		$id = $this->request->param('id');
 		$form_id = $this->request->param('form_id');
 
-		$attribute = ORM::factory('form_attribute')
+		$attribute = ORM::factory('Form_Attribute')
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
@@ -229,48 +227,8 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		if ( $attribute->loaded() )
 		{
 			// Return the attribute we just deleted (provides some confirmation)
-			$this->_response_payload = $this->attribute($attribute);
+			$this->_response_payload = $attribute->for_api();
 			$attribute->delete();
 		}
-	}
-
-	/**
-	 * Retrieve a single attribute
-	 * 
-	 * @param $attribute object - attribute model
-	 * @return array $response
-	 */
-	public static function attribute($attribute = NULL)
-	{
-		$response = array();
-		if ( $attribute->loaded() )
-		{
-			$response = array(
-				'url' => url::site('api/v2/forms/'.$attribute->form_id.'/attributes/'.$attribute->id, Request::current()),
-				'form' => url::site('api/v2/forms/'.$attribute->form_id, Request::current()),
-				'form_group' => url::site('api/v2/forms/'.$attribute->form_id.'/groups/'.$attribute->form_group_id, Request::current()),
-				'id' => $attribute->id,
-				'key' => $attribute->key,
-				'label' => $attribute->label,
-				'input' => $attribute->input,
-				'type' => $attribute->type,
-				'required' => ($attribute->required) ? TRUE : FALSE,
-				'default' => $attribute->default,
-				'unique' => ($attribute->unique) ? TRUE : FALSE,
-				'priority' => $attribute->priority,
-				'options' => json_decode($attribute->options),
-			);
-		}
-		else
-		{
-			// @todo throw 404
-			$response = array(
-				'errors' => array(
-					'Attribute does not exist'
-					)
-				);
-		}
-
-		return $response;
 	}
 }

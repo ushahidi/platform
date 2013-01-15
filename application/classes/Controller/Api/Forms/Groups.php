@@ -58,7 +58,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			$group->save();
 
 			// Response is the complete form
-			$this->_response_payload = $this->group($group);
+			$this->_response_payload = $group->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -91,7 +91,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 
 		foreach ($groups as $group)
 		{
-			$results[] = $this->group($group);
+			$results[] = $group->for_api();
 		}
 
 		// Respond with groups
@@ -120,7 +120,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			->find();
 
 		// Respond with group
-		$this->_response_payload = $this->group($group);
+		$this->_response_payload =  $group->for_api();
 	}
 
 	/**
@@ -171,7 +171,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			$group->save();
 
 			// Response is the complete form
-			$this->_response_payload = $this->group($group);
+			$this->_response_payload = $group->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -203,7 +203,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		if ( $group->loaded() )
 		{
 			// Return the group we just deleted (provides some confirmation)
-			$this->_response_payload = $this->group($group);
+			$this->_response_payload = $group->for_api();
 			$group->delete();
 		}
 	}
@@ -231,7 +231,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 
 		foreach ($attributes as $attribute)
 		{
-			$results[] = Controller_API_Forms_Attributes::attribute($attribute);
+			$results[] = $attribute->for_api();
 		}
 
 		// Respond with attributes
@@ -299,7 +299,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			$attribute->save();
 
 			// Response is the complete form
-			$this->_response_payload = Controller_API_Forms_Attributes::attribute($attribute);
+			$this->_response_payload = $attribute->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -309,43 +309,5 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 				'errors' => Arr::flatten($e->errors('models'))
 				);
 		}
-	}
-
-	/**
-	 * Retrieve a single group, along with all its attributes
-	 * 
-	 * @param $group object - group model
-	 * @return array $response
-	 */
-	public static function group($group = NULL)
-	{
-		$response = array();
-		if ( $group->loaded() )
-		{
-			$response = array(
-				'url' => url::site('api/v2/forms/'.$group->form_id.'/groups/'.$group->id, Request::current()),
-				'form' => url::site('api/v2/forms/'.$group->form_id, Request::current()),
-				'id' => $group->id,
-				'label' => $group->label,
-				'priority' => $group->priority,
-				'attributes' => array()
-				);
-			
-			foreach ($group->form_attributes->find_all() as $attribute)
-			{
-				$response['attributes'][] = Controller_API_Forms_Attributes::attribute($attribute);
-			}
-		}
-		else
-		{
-			// @todo throw 404
-			$response = array(
-				'errors' => array(
-					'Group does not exist'
-					)
-				);
-		}
-
-		return $response;
 	}
 }

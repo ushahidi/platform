@@ -99,7 +99,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 			}
 
 			// Response is the complete form
-			$this->_response_payload = $this->form($form);
+			$this->_response_payload = $form->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -130,7 +130,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 		foreach ($forms as $form)
 		{
-			$results[] = $this->form($form);
+			$results[] = $form->for_api();
 		}
 
 		// Respond with forms
@@ -153,7 +153,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 		// Respond with form
 		$form = ORM::factory('Form', $form_id);
-		$this->_response_payload = $this->form($form);
+		$this->_response_payload = $form->for_api();
 	}
 
 	/**
@@ -191,7 +191,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 
 			// Response is the complete form
-			$this->_response_payload = $this->form($form);
+			$this->_response_payload = $form->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -219,47 +219,8 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		if ( $form->loaded() )
 		{
 			// Return the form we just deleted (provides some confirmation)
-			$this->_response_payload = $this->form($form);
+			$this->_response_payload = $form->for_api();
 			$form->delete();
 		}
-	}
-
-	/**
-	 * Retrieve a single form, along with all its 
-	 * groups and attributes
-	 * 
-	 * @param $form object - form model
-	 * @return array $response
-	 */
-	public function form($form = NULL)
-	{
-		$response = array();
-		if ( $form->loaded() )
-		{
-			$response = array(
-				'url' => url::site('api/v2/forms/'.$form->id, Request::current()),
-				'id' => $form->id,
-				'name' => $form->name,
-				'description' => $form->description,
-				'type' => $form->type,
-				'groups' => array()
-				);
-
-			foreach ($form->form_groups->find_all() as $group)
-			{
-				$response['groups'][] = Controller_API_Forms_Groups::group($group);
-			}
-		}
-		else
-		{
-			// @todo throw 404
-			$response = array(
-				'errors' => array(
-					'Form does not exist'
-					)
-				);
-		}
-
-		return $response;
 	}
 }
