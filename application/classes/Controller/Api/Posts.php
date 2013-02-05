@@ -95,7 +95,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 
 			// Response is the complete post
-			$this->_response_payload = $this->post($_post);
+			$this->_response_payload = $_post->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -125,7 +125,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		foreach ($posts as $post)
 		{
-			$results[] = $this->post($post);
+			$results[] = $post->for_api();
 		}
 
 		// Respond with posts
@@ -148,7 +148,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		// Respond with post
 		$post = ORM::factory('Post', $post_id);
-		$this->_response_payload = $this->post($post);
+		$this->_response_payload = $post->for_api();
 	}
 
 	/**
@@ -178,105 +178,5 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		{
 			$post->delete();
 		}
-	}
-
-	/**
-	 * Retrieve a single post ( ++ Hairy :) )
-	 * along with values from attached tables
-	 * 
-	 * @param $post object - Post Model
-	 * @return array $response
-	 * @todo the queries need some optimizing (EAV Fun)
-	 */
-	public function post($post = NULL)
-	{
-		$response = array();
-		if ( $post->loaded() )
-		{
-			$response = array(
-				'url' => url::site('api/v2/posts/'.$post->id, Request::current()),
-				'id' => $post->id,
-				'form_id' => $post->form_id,
-				'title' => $post->title,
-				'content' => $post->content,
-				'status' => $post->status,
-				'created' => strtotime($post->created),
-				'updated' => strtotime($post->updated),
-				'values' => array()
-				);
-
-			// Create the Super Union
-			$datetimes = DB::select('key', 'value')
-				->from('post_datetime')
-				->join('form_attributes')
-					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$decimals = DB::select('key', 'value')
-				->union($datetimes)
-				->from('post_decimal')
-				->join('form_attributes')
-					->on('post_decimal.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$geometries = DB::select('key', 'value')
-				->union($decimals)
-				->from('post_geometry')
-				->join('form_attributes')
-					->on('post_geometry.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$ints = DB::select('key', 'value')
-				->union($geometries)
-				->from('post_int')
-				->join('form_attributes')
-					->on('post_int.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$points = DB::select('key', 'value')
-				->union($ints)
-				->from('post_point')
-				->join('form_attributes')
-					->on('post_point.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$texts = DB::select('key', 'value')
-				->union($points)
-				->from('post_text')
-				->join('form_attributes')
-					->on('post_text.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$varchars = DB::select('key', 'value')
-				->union($texts)
-				->from('post_varchar')
-				->join('form_attributes')
-					->on('post_varchar.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$datetimes = DB::select('key', 'value')
-				->union($varchars)
-				->from('post_datetime')
-				->join('form_attributes')
-					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-				
-			$results = $datetimes->execute();
-
-			foreach ($results as $result)
-			{
-				$response['values'][$result['key']] = $result['value'];
-			}
-		}
-		else
-		{
-			$response = array(
-				'errors' => array(
-					'Post does not exist'
-					)
-				);
-		}
-
-		return $response;
 	}
 }
