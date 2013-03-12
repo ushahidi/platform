@@ -2,3 +2,4 @@ default:
   context:
     parameters:
       base_url: http://ushv3.dev
+#      proxy_url: localhost:8888

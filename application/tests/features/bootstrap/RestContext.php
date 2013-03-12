@@ -26,9 +26,19 @@ class RestContext extends BehatContext
 	{
 		// Initialize your context here
 
-		$this->_restObject  = new stdClass();
-		$this->_client      = new Guzzle\Service\Client();
+		$this->_restObject = new stdClass();
 		$this->_parameters = $parameters;
+		
+		$base_url = $this->getParameter('base_url');
+		$proxy_url = $this->getParameter('proxy_url');
+		
+		$options = array();
+		if($proxy_url)
+		{
+			$options['curl.options'] = array(CURLOPT_PROXY => $proxy_url);
+		}
+		
+		$this->_client = new Guzzle\Service\Client($base_url, $options);
 	}
 
 	public function getParameter($name)
@@ -110,8 +120,7 @@ class RestContext extends BehatContext
 	 */
 	public function iRequest($pageUrl)
 	{
-		$baseUrl 			= $this->getParameter('base_url');
-		$this->_requestUrl 	= $baseUrl.$this->_apiUrl.$pageUrl;
+		$this->_requestUrl 	= $this->_apiUrl.$pageUrl;
 
 		switch (strtoupper($this->_restObjectMethod)) {
 			case 'GET':
@@ -140,13 +149,18 @@ class RestContext extends BehatContext
 		}
 
 		try {
-			$response = $http_request->send();
-
-			$this->_response = $response;
+			$http_request->send();
 		} catch (Guzzle\Http\Exception\BadResponseException $e) {
 			// Don't care.
 			// 4xx and 5xx statuses are valid error responses
-			$this->_response = $http_request->getResponse();
+		}
+		
+		// Get response object
+		$this->_response = $http_request->getResponse();
+		// Create fake response object if Guzzle doesn't give us one
+		if (! $this->_response instanceof Guzzle\Http\Message\Response)
+		{
+			$this->_response = new Guzzle\Http\Message\Response(null, null, null);
 		}
 	}
 
