@@ -117,32 +117,37 @@ class RestContext extends BehatContext
 			case 'GET':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$response = $this->_client
-					->get($this->_requestUrl.'/'.$id)
-					->send();
+				$http_request = $this->_client
+					->get($this->_requestUrl.'/'.$id);
 				break;
 			case 'POST':
 				$postFields = (array)$this->_restObject;
-				$response = $this->_client
-					->post($this->_requestUrl,null,$postFields['data'])
-					->send();
+				$http_request = $this->_client
+					->post($this->_requestUrl,null,$postFields['data']);
 				break;
 			case 'PUT':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$response = $this->_client
-					->put($this->_requestUrl.'/'.$id,null,$request['data'])
-					->send();
+				$http_request = $this->_client
+					->put($this->_requestUrl.'/'.$id,null,$request['data']);
 				break;
 			case 'DELETE':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$response = $this->_client
-					->delete($this->_requestUrl.'/'.$id)
-					->send();
+				$http_request = $this->_client
+					->delete($this->_requestUrl.'/'.$id);
 				break;
 		}
-		$this->_response = $response;
+
+		try {
+			$response = $http_request->send();
+
+			$this->_response = $response;
+		} catch (Guzzle\Http\Exception\BadResponseException $e) {
+			// Don't care.
+			// 4xx and 5xx statuses are valid error responses
+			$this->_response = $http_request->getResponse();
+		}
 	}
 
 	/**
