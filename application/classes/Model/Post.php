@@ -86,7 +86,7 @@ class Model_Post extends ORM {
 			'status' => array(
 				array('in_array', array(':value', array(
 					'draft',
-					'publish',
+					'published',
 					'pending'
 				)) )
 			),
