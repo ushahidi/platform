@@ -81,4 +81,6 @@ Feature: Testing the Forms API
         Given that I want to delete a "Form"
         And that its "id" is "1"
         When I request "/forms"
+        Then the response is JSON
+        And the response has a "id" property
         Then the response status code should be 200
