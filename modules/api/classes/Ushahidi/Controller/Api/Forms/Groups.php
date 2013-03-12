@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API Forms Groups Controller
+ * Abstract Ushahidi API Forms Groups Controller Class
  *
  * PHP version 5
  * LICENSE: This source file is subject to GPLv3 license
@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_API_Forms_Groups extends Ushahidi_API {
+abstract class Ushahidi_Controller_API_Forms_Groups extends Ushahidi_API {
 
 	/**
 	 * Create a new group
