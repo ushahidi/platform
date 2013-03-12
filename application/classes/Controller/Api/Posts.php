@@ -57,6 +57,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						->where('form_id', '=', $post['form_id'])
 						->where('key', '=', $key)
 						->find();
+					
+					// Throw 400 if attribute doesn't exist
+					if (! $attribute->loaded() )
+					{
+						throw new Http_Exception_400('Invalid attribute supplied. \':attr\'', array(
+							':attr' => $key,
+						));
+					}
 
 					$_value = ORM::factory('Post_'.ucfirst($attribute->type))->values(array(
 						'value' => $value
