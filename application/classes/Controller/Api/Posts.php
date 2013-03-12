@@ -194,6 +194,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		if ( $post->loaded() )
 		{
 			$response = array(
+				'url' => url::site('api/v2/posts/'.$post->id, Request::current()),
 				'id' => $id,
 				'form_id' => $post->form_id,
 				'title' => $post->title,

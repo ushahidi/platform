@@ -83,7 +83,12 @@ if (isset($_SERVER['KOHANA_ENV']))
  */
 Kohana::init(array(
 	'base_url'   => '/',
+	'index_file' => FALSE
 ));
+
+// Set up custom error view
+Kohana_Exception::$error_view_content_type = 'application/json';
+Kohana_Exception::$error_view = 'api/error';
 
 /**
  * Attach the file write to logging. Multiple writers are supported.
@@ -125,6 +130,19 @@ Route::set('api', 'api/v2(/<controller>(/<id>))',
  * Forms API SubRoute
  */	
 Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>))', 
+	array(
+		'form_id' => '\d+',
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'api/forms'
+	));
+
+/**
+ * Forms API SubRoute
+ */	
+Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>(/<action>)))', 
 	array(
 		'form_id' => '\d+',
 		'id' => '\d+'
