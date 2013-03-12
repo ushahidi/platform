@@ -99,10 +99,11 @@ class Controller_Api_Forms extends Ushahidi_Api {
 			}
 
 			// Response is the complete form
-			$this->_response_payload = $this->form($form);
+			$this->_response_payload = $form->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
+			// @todo throw 400
 			// Error response
 			$this->_response_payload = array(
 				'errors' => Arr::flatten($e->errors('models'))
@@ -129,7 +130,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 		foreach ($forms as $form)
 		{
-			$results[] = $this->form($form);
+			$results[] = $form->for_api();
 		}
 
 		// Respond with forms
@@ -152,7 +153,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 		// Respond with form
 		$form = ORM::factory('Form', $form_id);
-		$this->_response_payload = $this->form($form);
+		$this->_response_payload = $form->for_api();
 	}
 
 	/**
@@ -164,7 +165,42 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
+		$form_id = $this->request->param('id', 0);
+		$post = $this->_request_payload;
 		
+		$form = ORM::factory('Form', $form_id)->values($post);
+		
+		// Set form id to ensure sane response if form doesn't exist yet.
+		$form->id = $form_id;
+		
+		
+		// Validation - cycle through nested models 
+		// and perform in-model validation before
+		// saving
+		try
+		{
+			// Validate base form data
+			$form->check();
+
+
+			// Validates ... so save
+			$form->values($post, array(
+				'name', 'description', 'type'
+				));
+			$form->save();
+
+
+			// Response is the complete form
+			$this->_response_payload = $form->for_api();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			// @todo throw 400
+			// Error response
+			$this->_response_payload = array(
+				'errors' => Arr::flatten($e->errors('models'))
+				);
+		}
 	}
 
 	/**
@@ -179,68 +215,12 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	{
 		$form_id = $this->request->param('id', 0);
 		$form = ORM::factory('Form', $form_id);
+		$this->_response_payload = array();
 		if ( $form->loaded() )
 		{
+			// Return the form we just deleted (provides some confirmation)
+			$this->_response_payload = $form->for_api();
 			$form->delete();
 		}
-	}
-
-	/**
-	 * Retrieve a single form, along with all its 
-	 * groups and attributes
-	 * 
-	 * @param $form object - form model
-	 * @return array $response
-	 */
-	public function form($form = NULL)
-	{
-		$response = array();
-		if ( $form->loaded() )
-		{
-			$response = array(
-				'id' => $form->id,
-				'name' => $form->name,
-				'description' => $form->description,
-				'type' => $form->type,
-				'groups' => array()
-				);
-
-			foreach ($form->form_groups->find_all() as $group)
-			{
-				$attributes = array();
-				foreach ($group->form_attributes->find_all() as $attribute)
-				{
-					$attributes[] = array(
-						'id' => $attribute->id,
-						'key' => $attribute->key,
-						'label' => $attribute->label,
-						'input' => $attribute->input,
-						'type' => $attribute->type,
-						'required' => ($attribute->required) ? TRUE : FALSE,
-						'default' => $attribute->default,
-						'unique' => ($attribute->unique) ? TRUE : FALSE,
-						'priority' => $attribute->priority,
-						'options' => json_decode($attribute->options)
-						);
-				}
-
-				$response['groups'][] = array(
-					'id' => $group->id,
-					'label' => $group->label,
-					'priority' => $group->priority,
-					'attributes' => $attributes
-					);
-			}
-		}
-		else
-		{
-			$response = array(
-				'errors' => array(
-					'Form does not exist'
-					)
-				);
-		}
-
-		return $response;
 	}
 }

@@ -56,7 +56,7 @@ class PostModelTest extends Unittest_TestCase {
 					'form_id' => $form->id,
 					'title' => 'This is a valid Post',
 					'type' => 'report',
-					'status' => 'publish',
+					'status' => 'published',
 					'content' => 'Test Report Content',
 				)
 			),
