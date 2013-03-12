@@ -75,4 +75,42 @@ class Model_Form extends ORM {
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 	protected $_updated_column = array('column' => 'updated', 'format' => 'Y-m-d H:i:s');
+
+	/**
+	 * Prepare form data for API, along with all its 
+	 * groups and attributes
+	 * 
+	 * @return array $response - array to be returned by API (as json)
+	 */
+	public function for_api()
+	{
+		$response = array();
+		if ( $this->loaded() )
+		{
+			$response = array(
+				'url' => url::site('api/v2/forms/'.$this->id, Request::current()),
+				'id' => $this->id,
+				'name' => $this->name,
+				'description' => $this->description,
+				'type' => $this->type,
+				'groups' => array()
+				);
+
+			foreach ($this->form_groups->find_all() as $group)
+			{
+				$response['groups'][] = $group->for_api();
+			}
+		}
+		else
+		{
+			// @todo throw 404
+			$response = array(
+				'errors' => array(
+					'Form does not exist'
+					)
+				);
+		}
+
+		return $response;
+	}
 }
