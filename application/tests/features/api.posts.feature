@@ -55,9 +55,19 @@ Feature: Testing the Posts API
         And that the request "data" is:
             """
             {
+                "form_id":1,
                 "title":"Updated Test Post",
                 "type":"report",
-                "status":"published"
+                "status":"published",
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":"unknown",
+                    "missing_date":"2012/09/25",
+                    "last_location":"atlanta",
+                    "status":"believed_missing"
+                }
             }
             """
         And that its "id" is "1"
@@ -67,7 +77,7 @@ Feature: Testing the Posts API
         And the type of the "id" property is "numeric"
         And the "id" property equals "1"
         And the response has a "title" property
-        And the "name" property equals "Updated Test Post"
+        And the "title" property equals "Updated Test Post"
         Then the response status code should be 200
 
     Scenario: Listing All Posts
