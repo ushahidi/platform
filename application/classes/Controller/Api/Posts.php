@@ -182,8 +182,11 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$post_id = $this->request->param('id', 0);
 		$post = ORM::factory('Post', $post_id);
+		$this->_response_payload = array();
 		if ( $post->loaded() )
 		{
+			// Return the post we just deleted (provides some confirmation)
+			$this->_response_payload = $post->for_api();
 			$post->delete();
 		}
 	}
