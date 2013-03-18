@@ -60,6 +60,22 @@ Feature: Testing the Forms API
         And the "name" property equals "Updated Test Form"
         Then the response status code should be 200
 
+    Scenario: Update a non-existent Form
+        Given that I want to update a "Form"
+        And that the request "data" is:
+            """
+            {
+                "name":"Updated Test Form",
+                "type":"report",
+                "description":"This is a test form updated by BDD testing"
+            }
+            """
+        And that its "id" is "40"
+        When I request "/forms"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 404
+
     Scenario: Listing All Forms
         Given that I want to get all "Forms"
         When I request "/forms"
@@ -77,6 +93,14 @@ Feature: Testing the Forms API
         And the type of the "id" property is "numeric"
         Then the response status code should be 200
 
+    Scenario: Finding a non-existent Form
+        Given that I want to find a "Form"
+        And that its "id" is "35"
+        When I request "/forms"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 404
+
     Scenario: Deleting a Form
         Given that I want to delete a "Form"
         And that its "id" is "1"
@@ -84,3 +108,11 @@ Feature: Testing the Forms API
         Then the response is JSON
         And the response has a "id" property
         Then the response status code should be 200
+
+    Scenario: Fail to delete a non existent Form
+        Given that I want to delete a "Form"
+        And that its "id" is "35"
+        When I request "/forms"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 404

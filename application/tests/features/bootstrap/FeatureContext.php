@@ -193,6 +193,40 @@ class FeatureContext extends BehatContext
 			->save();
 	}
 
+	/**
+	 * @BeforeScenario @searchPostFixture
+	 */
+	public function setupSearchPostFixture()
+	{
+		// Add posts with searchable data
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 99)
+			->save();
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'A comment')
+			->set('type', 'comment')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 98)
+			->save();
+	}
+
+	/**
+	 * @AfterScenario @searchPostFixture
+	 */
+	public function teardownSearchPostFixture()
+	{
+		// Remove post
+		ORM::factory("post", 99)->delete();
+		ORM::factory("post", 98)->delete();
+	}
+
 	/** @AfterSuite */
 	public static function teardown($event)
 	{
