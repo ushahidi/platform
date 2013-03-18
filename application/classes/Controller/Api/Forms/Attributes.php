@@ -143,6 +143,13 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			->where('id', '=', $id)
 			->find();
 
+		if (! $attribute->loaded())
+		{
+			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+				':id' => $id,
+			));
+		}
+
 		$this->_response_payload = $attribute->for_api();
 	}
 
@@ -164,16 +171,12 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
-		
-		if ( ! $attribute->loaded())
+
+		if (! $attribute->loaded())
 		{
-			// @todo throw 404
-			$this->_response_payload = array(
-				'errors' => array(
-					'Attribute does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+				':id' => $id,
+			));
 		}
 		
 		// Load post values into group model
@@ -229,6 +232,12 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			// Return the attribute we just deleted (provides some confirmation)
 			$this->_response_payload = $attribute->for_api();
 			$attribute->delete();
+		}
+		else
+		{
+			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+				':id' => $id,
+			));
 		}
 	}
 }

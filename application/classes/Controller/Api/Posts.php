@@ -156,6 +156,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		// Respond with post
 		$post = ORM::factory('Post', $post_id);
+
+		if (! $post->loaded())
+		{
+			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+				':id' => $post_id,
+			));
+		}
+
 		$this->_response_payload = $post->for_api();
 	}
 
@@ -172,6 +180,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post = $this->_request_payload;
 		
 		$_post = ORM::factory('Post', $post_id)->values($post);
+
+		if (! $_post->loaded())
+		{
+			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+				':id' => $post_id,
+			));
+		}
 		
 		// Set post id to ensure sane response if form doesn't exist yet.
 		$_post->id = $post_id;
@@ -276,6 +291,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			// Return the post we just deleted (provides some confirmation)
 			$this->_response_payload = $post->for_api();
 			$post->delete();
+		}
+		else
+		{
+			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+				':id' => $post_id,
+			));
 		}
 	}
 }

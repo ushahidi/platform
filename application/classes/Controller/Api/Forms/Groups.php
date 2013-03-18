@@ -119,6 +119,13 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			->where('id', '=', $id)
 			->find();
 
+		if (! $group->loaded())
+		{
+			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+				':id' => $id,
+			));
+		}
+
 		// Respond with group
 		$this->_response_payload =  $group->for_api();
 	}
@@ -141,16 +148,12 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
-		
-		if ( ! $group->loaded())
+
+		if (! $group->loaded())
 		{
-			// @todo throw 404
-			$this->_response_payload = array(
-				'errors' => array(
-					'Group does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+				':id' => $id,
+			));
 		}
 		
 		// Load post values into group model
@@ -205,6 +208,12 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			// Return the group we just deleted (provides some confirmation)
 			$this->_response_payload = $group->for_api();
 			$group->delete();
+		}
+		else
+		{
+			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+				':id' => $id,
+			));
 		}
 	}
 	
