@@ -123,21 +123,49 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected function _parse_request_body()
 	{
-		try
-		{
 			$this->_request_payload = json_decode($this->request->body(), TRUE);
+			
+			if ( $this->_request_payload === NULL )
+			{
+				// Get further error info
+				switch (json_last_error()) {
+					case JSON_ERROR_NONE:
+						$error = 'No errors';
+					break;
+					case JSON_ERROR_DEPTH:
+						$error = 'Maximum stack depth exceeded';
+					break;
+					case JSON_ERROR_STATE_MISMATCH:
+						$error = 'Underflow or the modes mismatch';
+					break;
+					case JSON_ERROR_CTRL_CHAR:
+						$error = 'Unexpected control character found';
+					break;
+					case JSON_ERROR_SYNTAX:
+						$error = 'Syntax error, malformed JSON';
+					break;
+					case JSON_ERROR_UTF8:
+						$error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+					break;
+					default:
+						$error = 'Unknown error';
+					break;
+				}
+				
+				
 
-			if ( ! is_array($this->_request_payload) AND ! is_object($this->_request_payload))
-				throw new Http_Exception_400('Invalid json supplied. \':json\'', array(
+				throw new Http_Exception_400('Invalid json supplied. Error: \':error\'. \':json\'', array(
+					':json' => $this->request->body(),
+					':error' => $error,
+				));
+			}
+			// Ensure JSON object/array was supplied, not string etc
+			elseif ( ! is_array($this->_request_payload) AND ! is_object($this->_request_payload) )
+			{
+				throw new Http_Exception_400('Invalid json supplied. Error: \'JSON must be array or object\'. \':json\'', array(
 					':json' => $this->request->body(),
 				));
-		}
-		catch (Exception $e)
-		{
-			throw new Http_Exception_400('Invalid json supplied. \':json\'', array(
-				':json' => $this->request->body(),
-			));
-		}
+			}
 	}
 
 	protected function _prepare_response()
