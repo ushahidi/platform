@@ -55,7 +55,37 @@ class Ushahidi_Api extends Controller {
 	(
 		Http_Request::GET,
 	);
+	
+	/**
+	 * @var int Number of results to return
+	 */
+	protected $record_limit = 50;
+	
+	/**
+	 * @var int Offset for results returned
+	 */
+	protected $record_offset = 0;
+	
+	/**
+	 * @var string Field to sort results by
+	 */
+	protected $record_orderby = 'id';
+	
+	/**
+	 * @var string Direction to sort results
+	 */
+	protected $record_order = 'DESC';
 
+	/**
+	 * @var int Maximum number of results to return
+	 */
+	protected $record_limit_max = 500;
+
+	/**
+	 * @var int Maximum number of results to return
+	 */
+	protected $record_allowed_orderby = array('id');
+	
 	public function before()
 	{
 		parent::before();
@@ -119,7 +149,11 @@ class Ushahidi_Api extends Controller {
 	}
 
 	/**
+	 * Parse the request body
+	 * Decodes JSON request body into PHP array
+	 * 
 	 * @todo Support more than just JSON
+	 * @throws Http_Exception_400
 	 */
 	protected function _parse_request_body()
 	{
@@ -168,6 +202,9 @@ class Ushahidi_Api extends Controller {
 			}
 	}
 
+	/**
+	 * Prepare response headers and body
+	 */
 	protected function _prepare_response()
 	{
 		// Should we prevent this request from being cached?
@@ -197,7 +234,12 @@ class Ushahidi_Api extends Controller {
 	}
 
 	/**
+	 * Prepare response body
+	 * 
+	 * Encode _response_payload into JSON or JSONP
+	 *
 	 * @todo Add support for GeoJSON
+	 * @throws Http_Exception_400|Http_Exception_500
 	 */
 	protected function _prepare_response_body($format = 'json')
 	{
@@ -229,5 +271,32 @@ class Ushahidi_Api extends Controller {
 		}
 
 		$this->response->body($body);
+	}
+	
+	/**
+	 * Prepare request ordering and limit params
+	 * @throws Http_Exception_400
+	 */
+	protected function prepare_order_limit_params()
+	{
+		$this->record_limit = $this->request->query('limit') ? intval($this->request->query('limit')) : $this->record_limit;
+		$this->record_offset = $this->request->query('offset') ? intval($this->request->query('offset')) : $this->record_offset;
+		$this->record_orderby = $this->request->query('orderby') ? $this->request->query('orderby') : $this->record_orderby;
+		$this->record_order = $this->request->query('order') ? strtoupper($this->request->query('order')) : $this->record_order;
+
+		if (! in_array($this->record_order, array('ASC', 'DESC')))
+			throw new Http_Exception_400('Invalid \'order\' parameter supplied: :order.', array(
+				':order' => $this->record_order
+			));
+
+		if (! in_array($this->record_orderby, $this->record_allowed_orderby))
+			throw new Http_Exception_400('Invalid \'orderby\' parameter supplied: :orderby.', array(
+				':orderby' => $this->record_orderby
+			));
+
+		if ($this->record_limit > $this->record_limit_max)
+			throw new Http_Exception_400('Number of records requested was too large: :record_limit.', array(
+				':record_limit' => $this->record_limit
+			));
 	}
 }

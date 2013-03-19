@@ -25,6 +25,21 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 * @var string Post Type
 	 */
 	protected $_type = 'report';
+	
+	/**
+	 * @var string Field to sort results by
+	 */
+	protected $record_orderby = 'created';
+	
+	/**
+	 * @var string Direct to sort results
+	 */
+	protected $record_order = 'ASC';
+
+	/**
+	 * @var int Maximum number of results to return
+	 */
+	protected $record_allowed_orderby = array('id', 'created', 'title');
 
 	/**
 	 * Create A Post
@@ -139,8 +154,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$results = array();
 
+		$this->prepare_order_limit_params();
+
 		$posts = ORM::factory('Post')
-			->order_by('created', 'ASC')
+			->order_by($this->record_orderby, $this->record_order)
+			->offset($this->record_offset)
+			->limit($this->record_limit)
 			->find_all();
 
 		$count = $posts->count();
@@ -150,11 +169,39 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$results[] = $post->for_api();
 		}
 
+		// Current/Next/Prev urls
+		$params = array(
+			'limit' => $this->record_limit,
+			'offset' => $this->record_offset,
+		);
+		// Only add order/orderby if they're already set
+		if ($this->request->query('orderby') OR $this->request->query('order'))
+		{
+			$params['orderby'] = $this->record_orderby;
+			$params['order'] = $this->record_order;
+		}
+		$prev_params = $next_params = $params;
+		$next_params['offset'] = $params['offset'] + $params['limit'];
+		$prev_params['offset'] = $params['offset'] - $params['limit'];
+		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
+		
+		$curr = url::site('api/v2/posts/'.url::query($params));
+		$next = url::site('api/v2/posts/'.url::query($next_params));
+		$prev = url::site('api/v2/posts/'.url::query($prev_params));
+
 		// Respond with posts
 		$this->_response_payload = array(
 			'count' => $count,
-			'results' => $results
+			'results' => $results,
+			'limit' => $this->record_limit,
+			'offset' => $this->record_offset,
+			'order' => $this->record_order,
+			'orderby' => $this->record_orderby,
+			'curr' => $curr,
+			'next' => $next,
+			'prev' => $prev,
 		);
+		
 	}
 
 	/**
