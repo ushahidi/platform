@@ -176,25 +176,58 @@ class Ushahidi_Api extends Controller {
 			$this->response->headers('cache-control', 'no-cache, no-store, max-age=0, must-revalidate');
 		}
 
-		// Set the correct content-type header
-		$this->response->headers('Content-Type', 'application/json');
+		// Switch based on response format
+		$format = strtolower($this->request->query('format'));
+		switch($format)
+		{
+			case 'jsonp':
+				// Set the correct content-type header
+				$this->response->headers('Content-Type', 'application/javascript');
 
-		$this->_prepare_response_body();
+				$this->_prepare_response_body('jsonp');
+				break;
+			case 'json':
+			default:
+				// Set the correct content-type header
+				$this->response->headers('Content-Type', 'application/json');
+
+				$this->_prepare_response_body('json');
+				break;
+		}
 	}
 
 	/**
-	 * @todo Support more than just JSON
+	 * @todo Add support for GeoJSON
 	 */
-	protected function _prepare_response_body()
+	protected function _prepare_response_body($format = 'json')
 	{
+		$body = '';
+
 		try
 		{
 			// Format the reponse as JSON
-			$this->response->body(json_encode($this->_response_payload));
+			$body = json_encode($this->_response_payload);
 		}
 		catch (Exception $e)
 		{
 			throw new Http_Exception_500('Error while formatting response');
 		}
+
+		if ($format == 'jsonp')
+		{
+			$callback = $this->request->query('callback');
+			// ensure we have a callback fn
+			if (empty($callback))
+				throw new Http_Exception_400('Required query parameter \'callback\' is missing or empty.');
+
+			// sanitize callback function name
+			if (preg_match("/^[a-zA-Z0-9]+$/", $callback) != 1)
+				throw new Http_Exception_400('JSONP callback must be alphanumeric.');
+
+			// wrap body in callback
+			$body = "{$callback}({$body})";
+		}
+
+		$this->response->body($body);
 	}
 }
