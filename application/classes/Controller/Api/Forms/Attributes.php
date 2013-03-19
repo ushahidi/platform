@@ -188,6 +188,14 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 				$post['form_group_id'] = $post['form_group'];
 			}
 		}
+
+		$group = ORM::factory('Form_Group', $post['form_group_id']);
+		if (! $group->loaded())
+		{
+			throw new Http_Exception_400('Group does not exist. Group ID: \':id\'', array(
+				':id' => $post['form_group_id'],
+			));
+		}
 		
 		// Load post values into group model
 		$attribute->values($post);

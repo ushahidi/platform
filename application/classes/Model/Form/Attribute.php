@@ -111,6 +111,7 @@ class Model_Form_Attribute extends ORM {
 		return ! (bool) DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from($this->_table_name)
 			->where($field, '=', $value)
+			->where('id', '!=', $this->id) // Exclude the report itself
 			->execute()
 			->get('total');
 	}
