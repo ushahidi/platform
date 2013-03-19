@@ -6,7 +6,7 @@ Feature: Testing the Posts API
         And that the request "data" is:
             """
             {
-                "form_id":1,
+                "form":1,
                 "title":"Test post",
                 "type":"report",
                 "status":"draft",
@@ -36,7 +36,7 @@ Feature: Testing the Posts API
         And that the request "data" is:
             """
             {
-                "form_id":1,
+                "form":1,
                 "title":"Invalid post",
                 "type":"report",
                 "status":"draft",
@@ -57,7 +57,7 @@ Feature: Testing the Posts API
         And that the request "data" is:
             """
             {
-                "form_id":1,
+                "form":1,
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
@@ -89,7 +89,7 @@ Feature: Testing the Posts API
         And that the request "data" is:
             """
             {
-                "form_id":1,
+                "form":1,
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
@@ -116,7 +116,7 @@ Feature: Testing the Posts API
         And that the request "data" is:
             """
             {
-                "form_id":1,
+                "form":1,
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",

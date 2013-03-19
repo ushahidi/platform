@@ -36,8 +36,22 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	public function action_post_index_collection()
 	{
 		$post = $this->_request_payload;
-		
+
+		// unpack form to get form_id
+		if (isset($post['form']))
+		{
+			if (is_array($post['form']) AND isset($post['form']['id']))
+			{
+				$post['form_id'] = $post['form']['id'];
+			}
+			elseif (is_numeric($post['form']))
+			{
+				$post['form_id'] = $post['form'];
+			}
+		}
+
 		$_post = ORM::factory('Post')->values($post);
+		
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -178,7 +192,20 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$post_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
-		
+
+		// unpack form to get form_id
+		if (isset($post['form']))
+		{
+			if (is_array($post['form']) AND isset($post['form']['id']))
+			{
+				$post['form_id'] = $post['form']['id'];
+			}
+			elseif (is_numeric($post['form']))
+			{
+				$post['form_id'] = $post['form'];
+			}
+		}
+
 		$_post = ORM::factory('Post', $post_id)->values($post);
 
 		if (! $_post->loaded())

@@ -120,10 +120,16 @@ class Model_Form_Attribute extends ORM {
 		if ( $this->loaded() )
 		{
 			$response = array(
-				'url' => url::site('api/v2/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
-				'form' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
-				'form_group' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
 				'id' => $this->id,
+				'url' => url::site('api/v2/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
+				'form' => array(
+					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+					'id' => $this->form_id
+				),
+				'form_group' => array(
+					'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
+					'id' => $this->form_group_id
+				),
 				'key' => $this->key,
 				'label' => $this->label,
 				'input' => $this->input,

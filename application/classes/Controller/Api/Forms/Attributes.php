@@ -42,6 +42,19 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			return;
 		}
 		
+		// unpack form_group to get form_group_id
+		if (isset($post['form_group']))
+		{
+			if (is_array($post['form_group']) AND isset($post['form_group']['id']))
+			{
+				$post['form_group_id'] = $post['form_group']['id'];
+			}
+			elseif (is_numeric($post['form_group']))
+			{
+				$post['form_group_id'] = $post['form_group'];
+			}
+		}
+		
 		if (empty($post["form_group_id"]))
 		{
 			// @todo throw 400
@@ -177,6 +190,19 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
 				':id' => $id,
 			));
+		}
+		
+		// unpack form_group to get form_group_id
+		if (isset($post['form_group']))
+		{
+			if (is_array($post['form_group']) AND isset($post['form_group']['id']))
+			{
+				$post['form_group_id'] = $post['form_group']['id'];
+			}
+			elseif (is_numeric($post['form_group']))
+			{
+				$post['form_group_id'] = $post['form_group'];
+			}
 		}
 		
 		// Load post values into group model

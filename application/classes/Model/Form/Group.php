@@ -44,9 +44,12 @@ class Model_Form_Group extends ORM {
 		if ( $this->loaded() )
 		{
 			$response = array(
-				'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
-				'form' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
 				'id' => $this->id,
+				'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
+				'form' => array(
+					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+					'id' => $this->form_id
+				),
 				'label' => $this->label,
 				'priority' => $this->priority,
 				'attributes' => array()

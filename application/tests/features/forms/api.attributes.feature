@@ -5,7 +5,7 @@ Feature: Testing the Form Attributes API
         And that the request "data" is:
             """
             {
-                "form_group_id":1,
+                "form_group":1,
                 "key":"new",
                 "label":"Full Name",
                 "type":"varchar",
@@ -44,7 +44,7 @@ Feature: Testing the Form Attributes API
         And that the request "data" is:
             """
             {
-                "form_group_id":1,
+                "form_group":1,
                 "key":"updated",
                 "label":"Full Name Updated",
                 "type":"varchar",
@@ -68,7 +68,7 @@ Feature: Testing the Form Attributes API
         And that the request "data" is:
             """
             {
-                "form_group_id":1,
+                "form_group":1,
                 "key":"updated",
                 "label":"Full Name Updated",
                 "type":"varchar",

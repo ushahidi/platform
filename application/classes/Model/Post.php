@@ -134,9 +134,12 @@ class Model_Post extends ORM {
 		if ( $this->loaded() )
 		{
 			$response = array(
-				'url' => url::site('api/v2/posts/'.$this->id, Request::current()),
 				'id' => $this->id,
-				'form_id' => $this->form_id,
+				'url' => url::site('api/v2/posts/'.$this->id, Request::current()),
+				'form' => array(
+					'id' => $this->form_id,
+					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+				),
 				'title' => $this->title,
 				'content' => $this->content,
 				'status' => $this->status,
