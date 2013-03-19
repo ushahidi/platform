@@ -244,6 +244,13 @@ class FeatureContext extends BehatContext
 		DB::query(Database::DELETE, "TRUNCATE TABLE post_point")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE post_text")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE post_varchar")->execute();
+		// Tags
+		DB::query(Database::DELETE, "TRUNCATE TABLE tags")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE posts_tags")->execute();
+		// Sets
+		DB::query(Database::DELETE, "TRUNCATE TABLE sets")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE posts_sets")->execute();
+		
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
 	}
 }
