@@ -33,6 +33,12 @@ class Model_Form_Attribute extends ORM {
 	public function rules()
 	{
 		return array(
+			'form_id' => array(
+				array('numeric'),
+			),
+			'form_group_id' => array(
+				array('numeric'),
+			),
 			'key' => array(
 				array('not_empty'),
 				array('max_length', array(':value', 150)),

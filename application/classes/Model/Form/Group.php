@@ -34,6 +34,27 @@ class Model_Form_Group extends ORM {
 		);
 
 	/**
+	 * Rules for the form_attribute model
+	 *
+	 * @return array Rules
+	 */
+	public function rules()
+	{
+		return array(
+			'form_id' => array(
+				array('numeric'),
+			),
+			'label' => array(
+				array('not_empty'),
+				array('max_length', array(':value', 150))
+			),
+			'priority' => array(
+				array('numeric')
+			),
+		);
+	}
+
+	/**
 	 * Prepare group data for API
 	 * 
 	 * @return array $response - array to be returned by API (as json)
