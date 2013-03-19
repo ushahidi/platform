@@ -145,7 +145,8 @@ class Model_Post extends ORM {
 				'status' => $this->status,
 				'created' => strtotime($this->created),
 				'updated' => strtotime($this->updated),
-				'values' => array()
+				'values' => array(),
+				'tags' => array()
 				);
 
 			// Create the Super Union
@@ -210,6 +211,13 @@ class Model_Post extends ORM {
 			foreach ($results as $result)
 			{
 				$response['values'][$result['key']] = $result['value'];
+			}
+			
+			// Get tags
+			foreach ($this->tags->find_all() as $tag)
+			{
+				// @todo use $tag->for_api() once thats built
+				$response['tags'][] = $tag->tag;
 			}
 		}
 		else

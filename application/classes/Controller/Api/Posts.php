@@ -102,6 +102,32 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				}
 			}
 
+			// Does post have tags included?
+			$tag_ids = array();
+			if ( isset($post['tags']) )
+			{
+				// Yes, loop through and validate each tag
+				foreach ($post['tags'] as $value)
+				{
+					$tag = ORM::factory('Tag')
+						->where('tag', '=', $value)
+						->find();
+					
+					// Auto create tags if it doesn't exist
+					if (! $tag->loaded() )
+					{
+						$tag->tag = $value;
+						$tag->slug = $value;
+						$tag->type = 'tag';
+						$tag->check();
+						$tag->save();
+					}
+					
+					// Save tag id for later
+					$tag_ids[] = $tag->id;
+				}
+			}
+
 			// Validates ... so save
 			$_post->values($post, array(
 				'form_id', 'type', 'title', 'content', 'status'
@@ -129,6 +155,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						$_value->save();
 					}
 				}
+			}
+
+			// Add tags to post (has to happen after post is saved)
+			if (count($tag_ids) > 0)
+			{
+				$_post->add('tags', $tag_ids);
 			}
 
 			// Response is the complete post
@@ -180,11 +212,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$params['orderby'] = $this->record_orderby;
 			$params['order'] = $this->record_order;
 		}
+
 		$prev_params = $next_params = $params;
 		$next_params['offset'] = $params['offset'] + $params['limit'];
 		$prev_params['offset'] = $params['offset'] - $params['limit'];
 		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
-		
+
 		$curr = url::site('api/v2/posts/'.url::query($params));
 		$next = url::site('api/v2/posts/'.url::query($next_params));
 		$prev = url::site('api/v2/posts/'.url::query($prev_params));
@@ -300,6 +333,32 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				}
 			}
 
+			// Does post have tags included?
+			$tag_ids = array();
+			if ( isset($post['tags']) )
+			{
+				// Yes, loop through and validate each tag
+				foreach ($post['tags'] as $value)
+				{
+					$tag = ORM::factory('Tag')
+						->where('tag', '=', $value)
+						->find();
+					
+					// Auto create tags if it doesn't exist
+					if (! $tag->loaded() )
+					{
+						$tag->tag = $value;
+						$tag->slug = $value;
+						$tag->type = 'tag';
+						$tag->check();
+						$tag->save();
+					}
+					
+					// Save tag id for later
+					$tag_ids[] = $tag->id;
+				}
+			}
+
 			// Validates ... so save
 			$_post->values($post, array(
 				'form_id', 'type', 'title', 'content', 'status'
@@ -334,6 +393,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				
 				// Currently we just ignore existing values
 				// @todo add a way to delete existing values
+			}
+
+			// Add tags to post (has to happen after post is saved)
+			if (count($tag_ids) > 0)
+			{
+				$_post->remove('tags');
+				$_post->add('tags', $tag_ids);
 			}
 
 			// Response is the complete post
