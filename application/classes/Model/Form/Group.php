@@ -62,7 +62,6 @@ class Model_Form_Group extends ORM {
 		}
 		else
 		{
-			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Group does not exist'

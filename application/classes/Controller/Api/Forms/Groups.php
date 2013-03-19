@@ -33,13 +33,9 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $form->loaded())
 		{
-			// @todo throw 400 or 404
-			$this->_response_payload = array(
-				'errors' => array(
-					'Form does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
+				':id' => $form_id,
+			));
 		}
 		
 		$group = ORM::factory('Form_Group')->values($post);
@@ -62,11 +58,9 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// @todo throw 400
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 
@@ -180,7 +174,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		{
 			// Error response
 			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
+				'errors' => implode(', ', Arr::flatten($e->errors('models')))
 				);
 		}
 	}
@@ -230,6 +224,15 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$id = $this->request->param('id');
 		$results = array();
 
+		$group = ORM::factory('Form_Group', $id);
+
+		if ( ! $group->loaded())
+		{
+			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+				':id' => $id,
+			));
+		}
+
 		$attributes = ORM::factory('Form_Attribute')
 			->order_by('id', 'ASC')
 			->where('form_id', '=', $form_id)
@@ -269,26 +272,18 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $form->loaded())
 		{
-			// @todo throw 400 or 404
-			$this->_response_payload = array(
-				'errors' => array(
-					'Form does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
+				':id' => $form_id,
+			));
 		}
 		
 		$group = ORM::factory('Form_Group', $group_id);
 		
 		if ( ! $group->loaded())
 		{
-			// @todo throw 400 or 404
-			$this->_response_payload = array(
-				'errors' => array(
-					'Group does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+				':id' => $group_id,
+			));
 		}
 		
 		$attribute = ORM::factory('Form_Attribute')->values($post);
@@ -312,11 +307,9 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// @todo throw 400
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 }

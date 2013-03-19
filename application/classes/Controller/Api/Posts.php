@@ -123,7 +123,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		{
 			// Error response
 			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
+				'errors' => implode(', ', Arr::flatten($e->errors('models')))
 				);
 		}
 	}
@@ -294,10 +294,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 

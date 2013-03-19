@@ -33,13 +33,9 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		
 		if ( ! $form->loaded())
 		{
-			// @todo throw 400 or 404
-			$this->_response_payload = array(
-				'errors' => array(
-					'Form does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
+				':id' => $form_id,
+			));
 		}
 		
 		// unpack form_group to get form_group_id
@@ -57,26 +53,16 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		
 		if (empty($post["form_group_id"]))
 		{
-			// @todo throw 400
-			$this->_response_payload = array(
-				'errors' => array(
-					'No form_group_id specified'
-					)
-				);
-			return;
+			throw new Http_Exception_400('No form_group specified');
 		}
 		
 		$group = ORM::factory('Form_Group', $post["form_group_id"]);
 		
 		if ( ! $group->loaded())
 		{
-			// @todo throw 400 or 404?
-			$this->_response_payload = array(
-				'errors' => array(
-					'Group does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Invalid Form Group ID. \':id\'', array(
+				':id' => $post["form_group_id"],
+			));
 		}
 		
 		$attribute = ORM::factory('Form_Attribute')->values($post);
@@ -99,11 +85,9 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// @todo throw 400 or similar
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 
@@ -227,11 +211,9 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// @todo throw 400 or similar
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 

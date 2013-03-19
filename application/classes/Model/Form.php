@@ -103,7 +103,6 @@ class Model_Form extends ORM {
 		}
 		else
 		{
-			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Form does not exist'

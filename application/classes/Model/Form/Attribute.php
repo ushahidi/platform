@@ -143,7 +143,6 @@ class Model_Form_Attribute extends ORM {
 		}
 		else
 		{
-			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Attribute does not exist'
