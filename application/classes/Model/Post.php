@@ -83,6 +83,8 @@ class Model_Post extends ORM {
 			),
 
 			// Post Types
+			// FIXME: pretty sure we don't want to lock this down to 3 states
+			// What do these represent in reality?
 			'status' => array(
 				array('in_array', array(':value', array(
 					'draft',
