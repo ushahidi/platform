@@ -30,6 +30,16 @@ class Model_Post_Datetime extends ORM {
 	// Table Name
 	protected $_table_name = 'post_datetime';
 
+	public function filters()
+	{
+		return array(
+			'value' => array(
+				// Filter to handle special value 'unknown'
+				array(function($value) { return $value == 'unknown' ? FALSE : $value; }, array(':value')),
+			),
+		);
+	}
+
 	/**
 	 * Rules for the post_datetime model
 	 *

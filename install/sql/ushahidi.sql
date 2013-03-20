@@ -121,7 +121,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `post_datetime`
 -- -----------------------------------------------------
-CREATE TABLE `post_datetime` (
+CREATE TABLE IF NOT EXISTS `post_datetime` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` int(11) unsigned NOT NULL DEFAULT '0',
   `form_attribute_id` int(11) unsigned NOT NULL DEFAULT '0',

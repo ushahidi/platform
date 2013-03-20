@@ -33,6 +33,12 @@ class Model_Form_Attribute extends ORM {
 	public function rules()
 	{
 		return array(
+			'form_id' => array(
+				array('numeric'),
+			),
+			'form_group_id' => array(
+				array('numeric'),
+			),
 			'key' => array(
 				array('not_empty'),
 				array('max_length', array(':value', 150)),
@@ -105,6 +111,7 @@ class Model_Form_Attribute extends ORM {
 		return ! (bool) DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from($this->_table_name)
 			->where($field, '=', $value)
+			->where('id', '!=', $this->id) // Exclude the report itself
 			->execute()
 			->get('total');
 	}
@@ -120,10 +127,16 @@ class Model_Form_Attribute extends ORM {
 		if ( $this->loaded() )
 		{
 			$response = array(
-				'url' => url::site('api/v2/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
-				'form' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
-				'form_group' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
 				'id' => $this->id,
+				'url' => url::site('api/v2/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
+				'form' => array(
+					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+					'id' => $this->form_id
+				),
+				'form_group' => array(
+					'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
+					'id' => $this->form_group_id
+				),
 				'key' => $this->key,
 				'label' => $this->label,
 				'input' => $this->input,
@@ -137,7 +150,6 @@ class Model_Form_Attribute extends ORM {
 		}
 		else
 		{
-			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Attribute does not exist'

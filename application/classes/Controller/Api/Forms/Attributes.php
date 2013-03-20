@@ -33,37 +33,36 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		
 		if ( ! $form->loaded())
 		{
-			// @todo throw 400 or 404
-			$this->_response_payload = array(
-				'errors' => array(
-					'Form does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
+				':id' => $form_id,
+			));
+		}
+		
+		// unpack form_group to get form_group_id
+		if (isset($post['form_group']))
+		{
+			if (is_array($post['form_group']) AND isset($post['form_group']['id']))
+			{
+				$post['form_group_id'] = $post['form_group']['id'];
+			}
+			elseif (is_numeric($post['form_group']))
+			{
+				$post['form_group_id'] = $post['form_group'];
+			}
 		}
 		
 		if (empty($post["form_group_id"]))
 		{
-			// @todo throw 400
-			$this->_response_payload = array(
-				'errors' => array(
-					'No form_group_id specified'
-					)
-				);
-			return;
+			throw new Http_Exception_400('No form_group specified');
 		}
 		
 		$group = ORM::factory('Form_Group', $post["form_group_id"]);
 		
 		if ( ! $group->loaded())
 		{
-			// @todo throw 400 or 404?
-			$this->_response_payload = array(
-				'errors' => array(
-					'Group does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Invalid Form Group ID. \':id\'', array(
+				':id' => $post["form_group_id"],
+			));
 		}
 		
 		$attribute = ORM::factory('Form_Attribute')->values($post);
@@ -86,11 +85,9 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// @todo throw 400 or similar
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 
@@ -143,6 +140,13 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			->where('id', '=', $id)
 			->find();
 
+		if (! $attribute->loaded())
+		{
+			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+				':id' => $id,
+			));
+		}
+
 		$this->_response_payload = $attribute->for_api();
 	}
 
@@ -164,16 +168,33 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
-		
-		if ( ! $attribute->loaded())
+
+		if (! $attribute->loaded())
 		{
-			// @todo throw 404
-			$this->_response_payload = array(
-				'errors' => array(
-					'Attribute does not exist'
-					)
-				);
-			return;
+			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+				':id' => $id,
+			));
+		}
+		
+		// unpack form_group to get form_group_id
+		if (isset($post['form_group']))
+		{
+			if (is_array($post['form_group']) AND isset($post['form_group']['id']))
+			{
+				$post['form_group_id'] = $post['form_group']['id'];
+			}
+			elseif (is_numeric($post['form_group']))
+			{
+				$post['form_group_id'] = $post['form_group'];
+			}
+		}
+
+		$group = ORM::factory('Form_Group', $post['form_group_id']);
+		if (! $group->loaded())
+		{
+			throw new Http_Exception_400('Group does not exist. Group ID: \':id\'', array(
+				':id' => $post['form_group_id'],
+			));
 		}
 		
 		// Load post values into group model
@@ -198,11 +219,9 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// @todo throw 400 or similar
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 
@@ -229,6 +248,12 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			// Return the attribute we just deleted (provides some confirmation)
 			$this->_response_payload = $attribute->for_api();
 			$attribute->delete();
+		}
+		else
+		{
+			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+				':id' => $id,
+			));
 		}
 	}
 }

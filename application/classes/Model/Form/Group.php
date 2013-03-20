@@ -34,6 +34,27 @@ class Model_Form_Group extends ORM {
 		);
 
 	/**
+	 * Rules for the form_attribute model
+	 *
+	 * @return array Rules
+	 */
+	public function rules()
+	{
+		return array(
+			'form_id' => array(
+				array('numeric'),
+			),
+			'label' => array(
+				array('not_empty'),
+				array('max_length', array(':value', 150))
+			),
+			'priority' => array(
+				array('numeric')
+			),
+		);
+	}
+
+	/**
 	 * Prepare group data for API
 	 * 
 	 * @return array $response - array to be returned by API (as json)
@@ -44,9 +65,12 @@ class Model_Form_Group extends ORM {
 		if ( $this->loaded() )
 		{
 			$response = array(
-				'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
-				'form' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
 				'id' => $this->id,
+				'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
+				'form' => array(
+					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+					'id' => $this->form_id
+				),
 				'label' => $this->label,
 				'priority' => $this->priority,
 				'attributes' => array()
@@ -59,7 +83,6 @@ class Model_Form_Group extends ORM {
 		}
 		else
 		{
-			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Group does not exist'

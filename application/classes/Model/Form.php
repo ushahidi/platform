@@ -88,8 +88,8 @@ class Model_Form extends ORM {
 		if ( $this->loaded() )
 		{
 			$response = array(
-				'url' => url::site('api/v2/forms/'.$this->id, Request::current()),
 				'id' => $this->id,
+				'url' => url::site('api/v2/forms/'.$this->id, Request::current()),
 				'name' => $this->name,
 				'description' => $this->description,
 				'type' => $this->type,
@@ -103,7 +103,6 @@ class Model_Form extends ORM {
 		}
 		else
 		{
-			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Form does not exist'
