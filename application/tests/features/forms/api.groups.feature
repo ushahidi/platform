@@ -30,7 +30,7 @@ Feature: Testing the Form Groups API
         When I request "/forms/1/groups"
         Then the response is JSON
         And the response has a "id" property
-        And the type of the "id" property is numeric
+        And the type of the "id" property is "numeric"
         Then the response status code should be 200
 
     Scenario: Updating a Group
@@ -46,7 +46,7 @@ Feature: Testing the Form Groups API
         When I request "/forms/1/groups"
         Then the response is JSON
         And the response has a "id" property
-        And the type of the "id" property is numeric
+        And the type of the "id" property is "numeric"
         And the "id" property equals "1"
         And the response has a "label" property
         And the "label" property equals "First Group Updated"
@@ -57,7 +57,7 @@ Feature: Testing the Form Groups API
         When I request "/forms/1/groups"
         Then the response is JSON
         And the response has a "count" property
-        And the type of the "count" property is numeric
+        And the type of the "count" property is "numeric"
         Then the response status code should be 200
 
     Scenario: Finding a Group
@@ -66,7 +66,7 @@ Feature: Testing the Form Groups API
         When I request "/forms/1/groups"
         Then the response is JSON
         And the response has a "id" property
-        And the type of the "id" property is numeric
+        And the type of the "id" property is "numeric"
         Then the response status code should be 200
     
     Scenario: Creating a new Attribute in a Group
@@ -85,7 +85,7 @@ Feature: Testing the Form Groups API
         When I request "/forms/1/groups/1/attributes"
         Then the response is JSON
         And the response has a "id" property
-        And the type of the "id" property is numeric
+        And the type of the "id" property is "numeric"
         Then the response status code should be 200
     
     Scenario: Listing All Attributes in a Group
@@ -93,7 +93,7 @@ Feature: Testing the Form Groups API
         When I request "/forms/1/groups/1/attributes"
         Then the response is JSON
         And the response has a "count" property
-        And the type of the "count" property is numeric
+        And the type of the "count" property is "numeric"
         Then the response status code should be 200
 
     Scenario: Deleting a Group

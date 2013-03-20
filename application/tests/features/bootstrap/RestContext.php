@@ -14,7 +14,7 @@ class RestContext extends BehatContext
 	private $_client            = null;
 	private $_response          = null;
 	private $_requestUrl        = null;
-	private $_apiUrl           = '/api/v2';
+	private $_apiUrl           = 'api/v2';
 
 	private $_parameters			= array();
 
@@ -126,8 +126,9 @@ class RestContext extends BehatContext
 			case 'GET':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
+				$query_string = ( isset($request['query string']) ) ? '?'.$request['query string'] : '';
 				$http_request = $this->_client
-					->get($this->_requestUrl.'/'.$id);
+					->get($this->_requestUrl.'/'.$id.$query_string);
 				break;
 			case 'POST':
 				$postFields = (array)$this->_restObject;
@@ -157,6 +158,7 @@ class RestContext extends BehatContext
 		
 		// Get response object
 		$this->_response = $http_request->getResponse();
+		
 		// Create fake response object if Guzzle doesn't give us one
 		if (! $this->_response instanceof Guzzle\Http\Message\Response)
 		{
@@ -171,8 +173,80 @@ class RestContext extends BehatContext
 	{
 		$data = json_decode($this->_response->getBody(true));
 
-		if (empty($data)) {
-			throw new Exception("Response was not JSON\n" . $this->_response);
+		// Check for NULL not empty - since [] and {} will be empty but valid
+		if ($data === NULL) {
+			
+			// Get further error info
+			switch (json_last_error()) {
+				case JSON_ERROR_NONE:
+					$error = 'No errors';
+				break;
+				case JSON_ERROR_DEPTH:
+					$error = 'Maximum stack depth exceeded';
+				break;
+				case JSON_ERROR_STATE_MISMATCH:
+					$error = 'Underflow or the modes mismatch';
+				break;
+				case JSON_ERROR_CTRL_CHAR:
+					$error = 'Unexpected control character found';
+				break;
+				case JSON_ERROR_SYNTAX:
+					$error = 'Syntax error, malformed JSON';
+				break;
+				case JSON_ERROR_UTF8:
+					$error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+				break;
+				default:
+					$error = 'Unknown error';
+				break;
+			}
+			
+			throw new Exception("Response was not JSON\nBody:" . $this->_response->getBody(true) . "\nError: " . $error );
+		}
+	}
+
+	/**
+	 * @Then /^the response is JSONP$/
+	 */
+	public function theResponseIsJsonp()
+	{
+		$result = preg_match('/^.+\(({.+})\)$/', $this->_response->getBody(true), $matches);
+
+		if ($result != 1 OR empty($matches[1]))
+		{
+			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(true));
+		}
+
+		$data = json_decode($matches[1]);
+
+		// Check for NULL not empty - since [] and {} will be empty but valid
+		if ($data === NULL) {
+			// Get further error info
+			switch (json_last_error()) {
+				case JSON_ERROR_NONE:
+					$error = 'No errors';
+				break;
+				case JSON_ERROR_DEPTH:
+					$error = 'Maximum stack depth exceeded';
+				break;
+				case JSON_ERROR_STATE_MISMATCH:
+					$error = 'Underflow or the modes mismatch';
+				break;
+				case JSON_ERROR_CTRL_CHAR:
+					$error = 'Unexpected control character found';
+				break;
+				case JSON_ERROR_SYNTAX:
+					$error = 'Syntax error, malformed JSON';
+				break;
+				case JSON_ERROR_UTF8:
+					$error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+				break;
+				default:
+					$error = 'Unknown error';
+				break;
+			}
+			
+			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(true) . "\nError: " . $error );
 		}
 	}
 
@@ -183,12 +257,24 @@ class RestContext extends BehatContext
 	{
 		$data = json_decode($this->_response->getBody(true));
 
-		if (!empty($data)) {
-			if (!isset($data->$propertyName)) {
-				throw new Exception("Property '".$propertyName."' is not set!\n");
-			}
-		} else {
-			throw new Exception("Response was not JSON\n" . $this->_response->getBody(true));
+		$this->theResponseIsJson();
+
+		if (!isset($data->$propertyName)) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+	}
+	
+	/**
+	 * @Given /^the response does not have a "([^"]*)" property$/
+	 */
+	public function theResponseDoesNotHaveAProperty($propertyName)
+	{
+		$data = json_decode($this->_response->getBody(true));
+
+		$this->theResponseIsJson();
+
+		if (isset($data->$propertyName)) {
+			throw new Exception("Property '".$propertyName."' is set but should not be!\n");
 		}
 	}
 
@@ -199,40 +285,63 @@ class RestContext extends BehatContext
 	{
 		$data = json_decode($this->_response->getBody(true));
 
-		if (!empty($data)) {
-			if (!isset($data->$propertyName)) {
-				throw new Exception("Property '".$propertyName."' is not set!\n");
-			}
-			if ($data->$propertyName !== $propertyValue) {
-				throw new \Exception('Property value mismatch! (given: '.$propertyValue.', match: '.$data->$propertyName.')');
-			}
-		} else {
-			throw new Exception("Response was not JSON\n" . $this->_response->getBody(true));
+		$this->theResponseIsJson();
+
+		if (!isset($data->$propertyName)) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+		// Check the value - note this has to use != since $propertValue is always a string so strict comparison would fail.
+		if ($data->$propertyName != $propertyValue) {
+			throw new \Exception('Property value mismatch on \''.$propertyName.'\'! (given: '.$propertyValue.', match: '.$data->$propertyName.')');
+		}
+	}
+	
+	/**
+	 * @Given /^the "([^"]*)" property contains "([^"]*)"$/
+	 */
+	public function thePropertyContains($propertyName, $propertyContainsValue)
+	{
+		
+		$data = json_decode($this->_response->getBody(true));
+
+		$this->theResponseIsJson();
+
+		if (!isset($data->$propertyName)) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+		
+		if (is_array($data->$propertyName) AND ! in_array($propertyContainsValue, $data->$propertyName)) {
+			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.json_encode($data->$propertyName).')');
+		}
+		elseif (is_string($data->$propertyName) AND strpos($data->$propertyName, $propertyContainsValue) === FALSE)
+		{
+			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.$data->$propertyName.')');
+		}
+		elseif (!is_array($data->$propertyName) AND !is_string($data->$propertyName))
+		{
+			throw new \Exception("Property '".$propertyName."' could not be compared. Must be string or array.\n");
 		}
 	}
 
 	/**
-	 * @Given /^the type of the "([^"]*)" property is ([^"]*)$/
+	 * @Given /^the type of the "([^"]*)" property is "([^"]*)"$/
 	 */
-	public function theTypeOfThePropertyIsNumeric($propertyName,$typeString)
+	public function theTypeOfThePropertyIs($propertyName, $typeString)
 	{
 		$data = json_decode($this->_response->getBody(true));
 
-		if (!empty($data)) {
-			if (!isset($data->$propertyName)) {
-				throw new Exception("Property '".$propertyName."' is not set!\n");
-			}
-			// check our type
-			switch (strtolower($typeString)) {
-				case 'numeric':
-					if (!is_numeric($data->$propertyName)) {
-						throw new Exception("Property '".$propertyName."' is not of the correct type: ".$theTypeOfThePropertyIsNumeric."!\n");
-					}
-					break;
-			}
+		$this->theResponseIsJson();
 
-		} else {
-			throw new Exception("Response was not JSON\n" . $this->_response->getBody(true));
+		if (!isset($data->$propertyName)) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+		// check our type
+		switch (strtolower($typeString)) {
+			case 'numeric':
+				if (!is_numeric($data->$propertyName)) {
+					throw new Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
+				}
+				break;
 		}
 	}
 

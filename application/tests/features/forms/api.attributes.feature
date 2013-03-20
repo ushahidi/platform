@@ -17,7 +17,7 @@ Feature: Testing the Form Attributes API
         When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "id" property
-        And the type of the "id" property is numeric
+        And the type of the "id" property is "numeric"
         Then the response status code should be 200
 
     Scenario: Updating a Attribute
@@ -38,7 +38,7 @@ Feature: Testing the Form Attributes API
         When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "id" property
-        And the type of the "id" property is numeric
+        And the type of the "id" property is "numeric"
         And the "id" property equals "1"
         And the response has a "label" property
         And the "label" property equals "Full Name Updated"
@@ -49,7 +49,7 @@ Feature: Testing the Form Attributes API
         When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "count" property
-        And the type of the "count" property is numeric
+        And the type of the "count" property is "numeric"
         Then the response status code should be 200
 
     Scenario: Finding a Attribute
@@ -58,7 +58,7 @@ Feature: Testing the Form Attributes API
         When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "id" property
-        And the type of the "id" property is numeric
+        And the type of the "id" property is "numeric"
         Then the response status code should be 200
 
     Scenario: Deleting a Attribute
