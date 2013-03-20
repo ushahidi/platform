@@ -171,7 +171,7 @@ class RestContext extends BehatContext
 	 */
 	public function theResponseIsJson()
 	{
-		$data = json_decode($this->_response->getBody(true));
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		// Check for NULL not empty - since [] and {} will be empty but valid
 		if ($data === NULL) {
@@ -201,7 +201,7 @@ class RestContext extends BehatContext
 				break;
 			}
 			
-			throw new Exception("Response was not JSON\nBody:" . $this->_response->getBody(true) . "\nError: " . $error );
+			throw new Exception("Response was not JSON\nBody:" . $this->_response->getBody(TRUE) . "\nError: " . $error );
 		}
 	}
 
@@ -210,11 +210,11 @@ class RestContext extends BehatContext
 	 */
 	public function theResponseIsJsonp()
 	{
-		$result = preg_match('/^.+\(({.+})\)$/', $this->_response->getBody(true), $matches);
+		$result = preg_match('/^.+\(({.+})\)$/', $this->_response->getBody(TRUE), $matches);
 
 		if ($result != 1 OR empty($matches[1]))
 		{
-			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(true));
+			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(TRUE));
 		}
 
 		$data = json_decode($matches[1]);
@@ -246,7 +246,7 @@ class RestContext extends BehatContext
 				break;
 			}
 			
-			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(true) . "\nError: " . $error );
+			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(TRUE) . "\nError: " . $error );
 		}
 	}
 
@@ -255,11 +255,11 @@ class RestContext extends BehatContext
 	 */
 	public function theResponseHasAProperty($propertyName)
 	{
-		$data = json_decode($this->_response->getBody(true));
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		$this->theResponseIsJson();
 
-		if (!isset($data->$propertyName)) {
+		if (Arr::path($data, $propertyName) === NULL) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}
 	}
@@ -269,11 +269,11 @@ class RestContext extends BehatContext
 	 */
 	public function theResponseDoesNotHaveAProperty($propertyName)
 	{
-		$data = json_decode($this->_response->getBody(true));
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		$this->theResponseIsJson();
 
-		if (isset($data->$propertyName)) {
+		if (Arr::path($data, $propertyName) !== NULL) {
 			throw new Exception("Property '".$propertyName."' is set but should not be!\n");
 		}
 	}
@@ -283,16 +283,18 @@ class RestContext extends BehatContext
 	 */
 	public function thePropertyEquals($propertyName, $propertyValue)
 	{
-		$data = json_decode($this->_response->getBody(true));
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		$this->theResponseIsJson();
 
-		if (!isset($data->$propertyName)) {
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === NULL) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}
 		// Check the value - note this has to use != since $propertValue is always a string so strict comparison would fail.
-		if ($data->$propertyName != $propertyValue) {
-			throw new \Exception('Property value mismatch on \''.$propertyName.'\'! (given: '.$propertyValue.', match: '.$data->$propertyName.')');
+		if ($actualPropertyValue != $propertyValue) {
+			throw new \Exception('Property value mismatch on \''.$propertyName.'\'! (given: '.$propertyValue.', match: '.$actualPropertyValue.')');
 		}
 	}
 	
@@ -302,22 +304,24 @@ class RestContext extends BehatContext
 	public function thePropertyContains($propertyName, $propertyContainsValue)
 	{
 		
-		$data = json_decode($this->_response->getBody(true));
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		$this->theResponseIsJson();
 
-		if (!isset($data->$propertyName)) {
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === NULL) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}
 		
-		if (is_array($data->$propertyName) AND ! in_array($propertyContainsValue, $data->$propertyName)) {
-			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.json_encode($data->$propertyName).')');
+		if (is_array($actualPropertyValue) AND ! in_array($propertyContainsValue, $actualPropertyValue)) {
+			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.json_encode($actualPropertyValue).')');
 		}
-		elseif (is_string($data->$propertyName) AND strpos($data->$propertyName, $propertyContainsValue) === FALSE)
+		elseif (is_string($actualPropertyValue) AND strpos($actualPropertyValue, $propertyContainsValue) === FALSE)
 		{
-			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.$data->$propertyName.')');
+			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.$actualPropertyValue.')');
 		}
-		elseif (!is_array($data->$propertyName) AND !is_string($data->$propertyName))
+		elseif (!is_array($actualPropertyValue) AND !is_string($actualPropertyValue))
 		{
 			throw new \Exception("Property '".$propertyName."' could not be compared. Must be string or array.\n");
 		}
@@ -328,17 +332,19 @@ class RestContext extends BehatContext
 	 */
 	public function theTypeOfThePropertyIs($propertyName, $typeString)
 	{
-		$data = json_decode($this->_response->getBody(true));
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		$this->theResponseIsJson();
 
-		if (!isset($data->$propertyName)) {
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === NULL) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}
 		// check our type
 		switch (strtolower($typeString)) {
 			case 'numeric':
-				if (!is_numeric($data->$propertyName)) {
+				if (!is_numeric($actualPropertyValue)) {
 					throw new Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
 				}
 				break;
