@@ -187,12 +187,86 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$results = array();
 
 		$this->prepare_order_limit_params();
-
-		$posts = ORM::factory('Post')
+		
+		$posts_query = ORM::factory('Post')
 			->order_by($this->record_orderby, $this->record_order)
 			->offset($this->record_offset)
-			->limit($this->record_limit)
-			->find_all();
+			->limit($this->record_limit);
+		
+		// Prepare search params
+		// @todo generalize this?
+		$q = $this->request->query('q');
+		if (! empty($q))
+		{
+			$posts_query->where('title', 'LIKE', "%$q%");
+			$posts_query->or_where('content', 'LIKE', "%$q%");
+		}
+		
+		$type = $this->request->query('type');
+		if (! empty($type))
+		{
+			$posts_query->where('type', '=', $type);
+		}
+		$slug = $this->request->query('slug');
+		if (! empty($slug))
+		{
+			$posts_query->where('slug', '=', $slug);
+		}
+		$form = $this->request->query('form');
+		if (! empty($form))
+		{
+			$posts_query->where('form_id', '=', $form);
+		}
+		$user = $this->request->query('user');
+		if (! empty($user))
+		{
+			$posts_query->where('user_id', '=', $user);
+		}
+		
+		// date chcks
+		$created_after = $this->request->query('created_after');
+		if (! empty($create_after))
+		{
+			$created_after = date('Y-m-d H:i:s', strtotime($create_after));
+			$posts_query->where('created', '>=', $created_after);
+		}
+		$created_before = $this->request->query('created_before');
+		if (! empty($created_before))
+		{
+			$created_before = date('Y-m-d H:i:s', strtotime($created_before));
+			$posts_query->where('created', '<=', $created_before);
+		}
+		$updated_after = $this->request->query('updated_after');
+		if (! empty($updated_after))
+		{
+			$updated_after = date('Y-m-d H:i:s', strtotime($updated_after));
+			$posts_query->where('updated', '>=', $updated_after);
+		}
+		$updated_before = $this->request->query('updated_before');
+		if (! empty($updated_before))
+		{
+			$updated_before = date('Y-m-d H:i:s', strtotime($updated_before));
+			$posts_query->where('updated', '<=', $updated_before);
+		}
+		
+		// Attributes
+		// @todo optimize this - maybe iterate over query params instead
+		// @todo way to do search for attr LIKE %%
+		$attributes = ORM::factory('Form_Attribute')->find_all();
+		foreach($attributes as $attr)
+		{
+			$attr_filter = $this->request->query($attr->key);
+			if (! empty($attr_filter))
+			{
+				$sub = DB::select('post_id')
+					->from('Post_'.ucfirst($attr->type))
+					->where('form_attribute_id', '=', $attr->id)
+					->where('value', '=', $attr_filter);
+				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->type)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->type).'.post_id');
+			}
+		}
+		
+		$posts = $posts_query->find_all();
 
 		$count = $posts->count();
 
