@@ -102,8 +102,6 @@ class FeatureContext extends BehatContext
 			->set('form_group_id', 1)
 			->set('id', 1)
 			->save();
-			
-		//@todo add text attribute for further attr types
 	}
 
 	/**
