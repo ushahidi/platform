@@ -129,11 +129,11 @@ class Model_Form_Attribute extends ORM {
 			$response = array(
 				'id' => $this->id,
 				'url' => url::site('api/v2/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
-				'form' => array(
+				'form' => empty($this->form_id) ? NULL : array(
 					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
 					'id' => $this->form_id
 				),
-				'form_group' => array(
+				'form_group' => empty($this->form_group_id) ? NULL : array(
 					'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
 					'id' => $this->form_group_id
 				),

@@ -139,15 +139,30 @@ class Model_Post extends ORM {
 			$response = array(
 				'id' => $this->id,
 				'url' => url::site('api/v2/posts/'.$this->id, Request::current()),
-				'form' => array(
+				'parent' => empty($this->parent_id) ? NULL : array(
+					'id' => $this->parent_id,
+					'url' => url::site('api/v2/posts/'.$this->parent_id, Request::current())
+				),
+				'user' => empty($this->user_id) ? NULL : array(
+					'id' => $this->user_id,
+					'url' => url::site('api/v2/users/'.$this->user_id, Request::current())
+				),
+				'form' => empty($this->form_id) ? NULL : array(
 					'id' => $this->form_id,
 					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
 				),
 				'title' => $this->title,
 				'content' => $this->content,
 				'status' => $this->status,
-				'created' => strtotime($this->created),
-				'updated' => strtotime($this->updated),
+				'email' => $this->email,
+				'author' => $this->author,
+				'slug' => $this->slug,
+				'created' => ($created = DateTime::createFromFormat('U', $this->created))
+					? $created->format(DateTime::W3C)
+					: $this->created,
+				'updated' => ($updated = DateTime::createFromFormat('U', $this->updated))
+					? $updated->format(DateTime::W3C)
+					: $this->updated,
 				'values' => array(),
 				'tags' => array()
 				);

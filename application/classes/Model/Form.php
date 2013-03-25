@@ -94,6 +94,12 @@ class Model_Form extends ORM {
 				'name' => $this->name,
 				'description' => $this->description,
 				'type' => $this->type,
+				'created' => ($created = DateTime::createFromFormat('U', $this->created))
+					? $created->format(DateTime::W3C)
+					: $this->created,
+				'updated' => ($updated = DateTime::createFromFormat('U', $this->updated))
+					? $updated->format(DateTime::W3C)
+					: $this->updated,
 				'groups' => array()
 				);
 
