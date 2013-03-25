@@ -220,6 +220,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 	 * 
 	 * GET /api/forms/:form_id/groups/:id/attributes
 	 * 
+	 * @todo share code between this and POST /api/attributes/:id
 	 * @return void
 	 */
 	public function action_get_attributes()
@@ -228,20 +229,28 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$id = $this->request->param('id');
 		$results = array();
 
-		$group = ORM::factory('Form_Group', $id);
+		$form = ORM::factory('Form', $form_id);
+		
+		if ( ! $form->loaded())
+		{
+			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
+				':id' => $form_id,
+			));
+		}
 
-		if ( ! $group->loaded())
+		$group = ORM::factory('Form_Group')
+			->where('form_id', '=', $form_id)
+			->where('id', '=', $id)
+			->find();
+
+		if (! $group->loaded())
 		{
 			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
 
-		$attributes = ORM::factory('Form_Attribute')
-			->order_by('id', 'ASC')
-			->where('form_id', '=', $form_id)
-			->where('form_group_id', '=', $id)
-			->find_all();
+		$attributes = $group->form_attributes->find_all();
 		
 		$count = $attributes->count();
 
@@ -280,10 +289,13 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 				':id' => $form_id,
 			));
 		}
-		
-		$group = ORM::factory('Form_Group', $group_id);
-		
-		if ( ! $group->loaded())
+
+		$group = ORM::factory('Form_Group')
+			->where('form_id', '=', $form_id)
+			->where('id', '=', $group_id)
+			->find();
+
+		if (! $group->loaded())
 		{
 			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $group_id,
@@ -293,8 +305,6 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		$attribute = ORM::factory('Form_Attribute')->values($post, array(
 			'key', 'label', 'input', 'type', 'options'
 			));
-		$attribute->form_id = $form_id;
-		$attribute->form_group_id = $group_id;
 		
 		// Validation - perform in-model validation before saving
 		try
@@ -307,6 +317,10 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 				'key', 'label', 'input', 'type', 'options'
 				));
 			$attribute->save();
+
+			// Add relations
+			$group->add('form_attributes', $attribute);
+			$form->add('form_attributes', $attribute);
 
 			// Response is the complete form
 			$this->_response_payload = $attribute->for_api();

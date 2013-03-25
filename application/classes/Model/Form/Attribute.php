@@ -16,15 +16,16 @@
 
 class Model_Form_Attribute extends ORM {
 	/**
-	 * A form_attribute belongs to a form
+	 * An attribute has and belongs to many forms
+	 * An attribute has and belongs to many form_groups
 	 *
 	 * @var array Relationhips
 	 */
-	protected $_belongs_to = array(
-		'form' => array(),
-		'form_group' => array(),
+	protected $_has_many = array(
+		'forms' => array('through' => 'forms_form_attributes'),
+		'form_groups' => array('through' => 'form_groups_form_attributes'),
 		);
-		
+	
 	protected $_serialize_columns = array('options');
 		
 	/**
@@ -118,8 +119,8 @@ class Model_Form_Attribute extends ORM {
 		if ( in_array($field, $this->_reserved_keys) )
 		{
 			$validation->error($field, 'reserved_key');
+			}
 		}
-	}
 
 	/**
 	 * Prepare attribute data for API
@@ -133,15 +134,7 @@ class Model_Form_Attribute extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
-				'form' => empty($this->form_id) ? NULL : array(
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
-					'id' => $this->form_id
-				),
-				'form_group' => empty($this->form_group_id) ? NULL : array(
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
-					'id' => $this->form_group_id
-				),
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/attributes/'.$this->id, Request::current()),
 				'key' => $this->key,
 				'label' => $this->label,
 				'input' => $this->input,

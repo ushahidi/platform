@@ -85,6 +85,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				foreach ($post['values'] as $key => $value)
 				{
 					$attribute = ORM::factory('Form_Attribute')
+						->join('forms_form_attributes', 'INNER')
+							->on('form_attribute.id', '=', 'form_attribute_id')
 						->where('form_id', '=', $post['form_id'])
 						->where('key', '=', $key)
 						->find();
@@ -144,6 +146,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				foreach ($post['values'] as $key => $value)
 				{
 					$attribute = ORM::factory('Form_Attribute')
+						->join('forms_form_attributes', 'INNER')
+							->on('form_attribute.id', '=', 'form_attribute_id')
 						->where('form_id', '=', $post['form_id'])
 						->where('key', '=', $key)
 						->find();
@@ -391,10 +395,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				foreach ($post['values'] as $key => $value)
 				{
 					$attribute = ORM::factory('Form_Attribute')
+						->join('forms_form_attributes', 'INNER')
+							->on('form_attribute.id', '=', 'form_attribute_id')
 						->where('form_id', '=', $_post->form_id)
 						->where('key', '=', $key)
 						->find();
-					
+
 					// Throw 400 if attribute doesn't exist
 					if (! $attribute->loaded() )
 					{
@@ -450,6 +456,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				foreach ($post['values'] as $key => $value)
 				{
 					$attribute = ORM::factory('Form_Attribute')
+						->join('forms_form_attributes', 'INNER')
+							->on('form_attribute.id', '=', 'form_attribute_id')
 						->where('form_id', '=', $_post->form_id)
 						->where('key', '=', $key)
 						->find();

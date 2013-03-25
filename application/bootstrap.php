@@ -131,9 +131,8 @@ Route::set('api', 'api/v2(/<controller>(/<id>))',
 /**
  * Forms API SubRoute
  */	
-Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>))', 
+Route::set('forms-sub', 'api/v2/forms(/<controller>(/<id>(/<action>)))', 
 	array(
-		'form_id' => '\d+',
 		'id' => '\d+'
 	))
 	->defaults(array(

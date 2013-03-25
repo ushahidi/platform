@@ -19,22 +19,40 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	/**
 	 * Create a new attribute
 	 * 
-	 * POST /api/forms/:form_id/attributes
+	 * POST /api/forms/attributes
 	 * 
 	 * @return void
 	 */
 	public function action_post_index_collection()
 	{
-		$form_id = $this->request->param('form_id');
 		$results = array();
 		$post = $this->_request_payload;
+
+		// Check form/form_group - only allow creating attributes with a form and group
+		// unpack form to get form_id
+		if (isset($post['form']))
+		{
+			if (is_array($post['form']) AND isset($post['form']['id']))
+			{
+				$post['form_id'] = $post['form']['id'];
+			}
+			elseif (is_numeric($post['form']))
+			{
+				$post['form_id'] = $post['form'];
+			}
+		}
 		
-		$form = ORM::factory('Form', $form_id);
+		if (empty($post["form_id"]))
+		{
+			throw new Http_Exception_400('No form_id specified');
+		}
+		
+		$form = ORM::factory('Form', $post['form_id']);
 		
 		if ( ! $form->loaded())
 		{
 			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
-				':id' => $form_id,
+				':id' => $post["form_id"],
 			));
 		}
 		
@@ -56,7 +74,10 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			throw new Http_Exception_400('No form_group specified');
 		}
 		
-		$group = ORM::factory('Form_Group', $post["form_group_id"]);
+		$group = ORM::factory('Form_Group')
+			->where('form_id', '=', $post['form_id'])
+			->where('id', '=', $post["form_group_id"])
+			->find();
 		
 		if ( ! $group->loaded())
 		{
@@ -68,8 +89,6 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		$attribute = ORM::factory('Form_Attribute')->values($post, array(
 			'key', 'label', 'input', 'type'
 			));
-		$attribute->form_id = $form_id;
-		$attribute->form_group_id = $group->id;
 		
 		// Validation - perform in-model validation before saving
 		try
@@ -82,6 +101,10 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 				'key', 'label', 'input', 'type'
 				));
 			$attribute->save();
+
+			// Add relations
+			$group->add('form_attributes', $attribute);
+			$form->add('form_attributes', $attribute);
 
 			// Response is the complete form
 			$this->_response_payload = $attribute->for_api();
@@ -97,18 +120,16 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	/**
 	 * Retrieve all attributes
 	 * 
-	 * GET /api/forms/:form_id/attributes
+	 * GET /api/forms/attributes
 	 * 
 	 * @return void
 	 */
 	public function action_get_index_collection()
 	{
-		$form_id = $this->request->param('form_id');
 		$results = array();
 
 		$attributes = ORM::factory('Form_Attribute')
 			->order_by('id', 'ASC')
-			->where('form_id', '=', $form_id)
 			->find_all();
 
 		$count = $attributes->count();
@@ -128,18 +149,16 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	/**
 	 * Retrieve an attribute
 	 * 
-	 * GET /api/forms/:form_id/attributes/:id
+	 * GET /api/forms/attributes/:id
 	 * 
 	 * @return void
 	 */
 	public function action_get_index()
 	{
 		$id = $this->request->param('id');
-		$form_id = $this->request->param('form_id');
 		$results = array();
 
 		$attribute = ORM::factory('Form_Attribute')
-			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
 
@@ -162,13 +181,11 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$form_id = $this->request->param('form_id');
 		$id = $this->request->param('id');
 		$results = array();
 		$post = $this->_request_payload;
 
 		$attribute = ORM::factory('Form_Attribute')
-			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
 
@@ -179,32 +196,10 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			));
 		}
 		
-		// unpack form_group to get form_group_id
-		if (isset($post['form_group']))
-		{
-			if (is_array($post['form_group']) AND isset($post['form_group']['id']))
-			{
-				$post['form_group_id'] = $post['form_group']['id'];
-			}
-			elseif (is_numeric($post['form_group']))
-			{
-				$post['form_group_id'] = $post['form_group'];
-			}
-		}
-
-		$group = ORM::factory('Form_Group', $post['form_group_id']);
-		if (! $group->loaded())
-		{
-			throw new Http_Exception_400('Group does not exist. Group ID: \':id\'', array(
-				':id' => $post['form_group_id'],
-			));
-		}
-		
 		// Load post values into group model
 		$attribute->values($post, array(
 			'key', 'label', 'input', 'type'
 			));
-		$attribute->form_group_id = $group->id;
 		$attribute->id = $id;
 		
 		// Validation - perform in-model validation before saving
@@ -241,10 +236,8 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	public function action_delete_index()
 	{
 		$id = $this->request->param('id');
-		$form_id = $this->request->param('form_id');
 
 		$attribute = ORM::factory('Form_Attribute')
-			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
 			->find();
 
