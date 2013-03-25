@@ -16,7 +16,7 @@
 
 class Model_Form extends ORM {
 	/**
-	 * A form has many attributes and groups
+	 * A form has many attributes, groups, and posts
 	 * A form has many [children] forms
 	 *
 	 * @var array Relationhips
@@ -24,6 +24,7 @@ class Model_Form extends ORM {
 	protected $_has_many = array(
 		'form_attributes' => array(),
 		'form_groups' => array(),
+		'posts' => array(),
 
 		'children' => array(
 			'model'  => 'Form',

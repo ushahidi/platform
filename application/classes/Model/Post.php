@@ -45,12 +45,13 @@ class Model_Post extends ORM {
 		);
 
 	/**
-	 * A post belongs to a user, and a [parent]
+	 * A post belongs to a user, a form and a [parent]
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_belongs_to = array(
 		'user' => array(),
+		'form' => array(),
 
 		'parent' => array(
 			'model'  => 'post',

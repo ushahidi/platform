@@ -19,7 +19,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	/**
 	 * @var int Post Parent ID
 	 */
-	protected $_parent_id = 0;
+	protected $_parent_id = NULL;
 
 	/**
 	 * @var string Post Type
