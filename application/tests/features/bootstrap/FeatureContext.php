@@ -34,21 +34,7 @@ class FeatureContext extends BehatContext
 		// Unnecessary but leaving it anyway
 		
 		// Clean the DB before we start
-		// Forms, Attributes, Groups
-		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=0;")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE form_attributes")->execute();
-		// Posts & field values
-		DB::query(Database::DELETE, "TRUNCATE TABLE posts")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_datetime")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_decimal")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_geometry")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_int")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_point")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_text")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_varchar")->execute();
-		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
+		self::_clean_db();
 	}
 
 	/** @BeforeFeature */
@@ -58,21 +44,7 @@ class FeatureContext extends BehatContext
 		// that would be a bit slow
 		
 		// Clean the DB before we start
-		// Forms, Attributes, Groups
-		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=0;")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE form_attributes")->execute();
-		// Posts & field values
-		DB::query(Database::DELETE, "TRUNCATE TABLE posts")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_datetime")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_decimal")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_geometry")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_int")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_point")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_text")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE post_varchar")->execute();
-		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
+		self::_clean_db();
 		
 		// Create Dummy form
 		ORM::factory("form")
@@ -227,6 +199,11 @@ class FeatureContext extends BehatContext
 
 	/** @AfterSuite */
 	public static function teardown($event)
+	{
+		self::_clean_db();
+	}
+
+	protected static function _clean_db()
 	{
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=0;")->execute();
 		// Forms, Attributes, Groups
