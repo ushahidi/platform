@@ -74,67 +74,110 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
+		// Table `users`
+		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `users` (
+		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+		  `email` VARCHAR(127) NOT NULL ,
+		  `first_name` VARCHAR(150) NULL DEFAULT NULL ,
+		  `last_name` VARCHAR(150) NULL DEFAULT NULL ,
+		  `username` VARCHAR(255) NOT NULL ,
+		  `password` VARCHAR(255) NOT NULL ,
+		  `avatar` VARCHAR(50) NULL DEFAULT NULL ,
+		  `logins` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `last_login` INT(10) UNSIGNED NULL DEFAULT NULL ,
+		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
+		  PRIMARY KEY (`id`) ,
+		  UNIQUE INDEX `unq_email` (`email` ASC) ,
+		  UNIQUE INDEX `unq_username` (`username` ASC) )
+		ENGINE = InnoDB
+		DEFAULT CHARACTER SET = utf8;");
+
 		// Table `posts`
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `posts` (
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-		  `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `form_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `user_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `type` VARCHAR(20) NOT NULL DEFAULT 'report' COMMENT 'report, stream, revision' ,
+		  `parent_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
+		  `form_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
+		  `user_id` INT(11) UNSIGNED NULL DEFAULT NULL COMMENT 'author' ,
+		  `type` VARCHAR(20) NOT NULL DEFAULT 'report' COMMENT 'report, update, revision' ,
 		  `title` VARCHAR(255) NULL DEFAULT NULL ,
 		  `slug` VARCHAR(255) NULL DEFAULT NULL ,
 		  `content` TEXT NULL DEFAULT NULL ,
 		  `author` VARCHAR(150) NULL DEFAULT NULL ,
 		  `email` VARCHAR(150) NULL DEFAULT NULL ,
-		  `ip_address` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
 		  `status` VARCHAR(20) NOT NULL DEFAULT 'draft' COMMENT 'draft, publish, pending' ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`) ,
-		  INDEX `idx_parent_id` (`parent_id` ASC) ,
-		  INDEX `idx_form_id` (`form_id` ASC) ,
-		  INDEX `idx_user_id` (`user_id` ASC) ,
 		  INDEX `idx_type` (`type` ASC) ,
-		  INDEX `idx_status` (`status` ASC) )
+		  INDEX `idx_status` (`status` ASC),
+		  INDEX `fk_posts_parent_id` (`parent_id` ASC),
+		  CONSTRAINT `fk_posts_parent_id`
+		    FOREIGN KEY (`parent_id`)
+		    REFERENCES `posts` (`id`)
+		    ON DELETE SET NULL ,
+		  INDEX `fk_posts_form_id` (`form_id` ASC),
+		  CONSTRAINT `fk_posts_form_id`
+		    FOREIGN KEY (`form_id`)
+		    REFERENCES `forms` (`id`)
+		    ON DELETE SET NULL ,
+		  INDEX `fk_posts_user_id` (`user_id` ASC),
+		  CONSTRAINT `fk_posts_user_id`
+		    FOREIGN KEY (`user_id`)
+		    REFERENCES `users` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
 		// Table `post_comments`
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `post_comments` (
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-		  `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `parent_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `user_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `user_id` INT(11) UNSIGNED NULL DEFAULT NULL COMMENT 'author' ,
 		  `content` TEXT NULL DEFAULT NULL ,
 		  `author` VARCHAR(150) NULL DEFAULT NULL ,
 		  `email` VARCHAR(150) NULL DEFAULT NULL ,
-		  `ip_address` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
 		  `status` VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT 'pending, publish' ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`),
+		  INDEX `fk_post_comments_parent_id` (`parent_id` ASC),
+		  CONSTRAINT `fk_post_comments_parent_id`
+		    FOREIGN KEY (`parent_id`)
+		    REFERENCES `post_comments` (`id`)
+		    ON DELETE SET NULL ,
 		  INDEX `fk_post_comments_post_id` (`post_id` ASC),
 		  CONSTRAINT `fk_post_comments_post_id`
 		    FOREIGN KEY (`post_id`)
 		    REFERENCES `posts` (`id`)
-		    ON DELETE CASCADE )
+		    ON DELETE CASCADE ,
+		  INDEX `fk_post_comments_user_id` (`user_id` ASC),
+		  CONSTRAINT `fk_post_comments_user_id`
+		    FOREIGN KEY (`user_id`)
+		    REFERENCES `users` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
 		// Table `post_datetime`
 		$db->query(NULL, "CREATE TABLE IF NOT EXISTS `post_datetime` (
-		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-		  `post_id` int(11) unsigned NOT NULL DEFAULT '0',
-		  `form_attribute_id` int(11) unsigned NOT NULL DEFAULT '0',
-		  `value` datetime DEFAULT NULL,
-		  `created` int(10) unsigned NOT NULL DEFAULT '0',
+		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `form_attribute_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
+		  `value` DATETIME DEFAULT NULL ,
+		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`),
 		  INDEX `fk_post_datetime_post_id` (`post_id` ASC),
-		  INDEX `idx_form_attribute_id` (`form_attribute_id` ASC),
 		  CONSTRAINT `fk_post_datetime_post_id`
 		    FOREIGN KEY (`post_id`)
 		    REFERENCES `posts` (`id`)
-		    ON DELETE CASCADE)
+		    ON DELETE CASCADE,
+		  INDEX `fk_post_datetime_form_attribute_id` (`form_attribute_id` ASC),
+		  CONSTRAINT `fk_post_datetime_form_attribute_id`
+		    FOREIGN KEY (`form_attribute_id`)
+		    REFERENCES `form_attributes` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE=InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
@@ -142,16 +185,20 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `post_decimal` (
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
 		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `form_attribute_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `form_attribute_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `value` DECIMAL(12,4) NULL DEFAULT '0.0000' ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`) ,
 		  INDEX `fk_post_decimal_post_id` (`post_id` ASC) ,
-		  INDEX `idx_form_attribute_id` (`form_attribute_id` ASC) ,
 		  CONSTRAINT `fk_post_decimal_post_id`
 		    FOREIGN KEY (`post_id` )
 		    REFERENCES `posts` (`id` )
-		    ON DELETE CASCADE)
+		    ON DELETE CASCADE,
+		  INDEX `fk_post_decimal_form_attribute_id` (`form_attribute_id` ASC),
+		  CONSTRAINT `fk_post_decimal_form_attribute_id`
+		    FOREIGN KEY (`form_attribute_id`)
+		    REFERENCES `form_attributes` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
@@ -159,16 +206,20 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `post_geometry` (
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
 		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `form_attribute_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `form_attribute_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `value` GEOMETRY NULL DEFAULT NULL ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`) ,
 		  INDEX `fk_post_geometry_post_id` (`post_id` ASC) ,
-		  INDEX `idx_form_attribute_id` (`form_attribute_id` ASC) ,
 		  CONSTRAINT `fk_post_geometry_post_id`
 		    FOREIGN KEY (`post_id` )
 		    REFERENCES `posts` (`id` )
-		    ON DELETE CASCADE)
+		    ON DELETE CASCADE,
+		  INDEX `fk_post_geometry_form_attribute_id` (`form_attribute_id` ASC),
+		  CONSTRAINT `fk_post_geometry_form_attribute_id`
+		    FOREIGN KEY (`form_attribute_id`)
+		    REFERENCES `form_attributes` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
@@ -176,16 +227,20 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `post_int` (
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
 		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `form_attribute_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `form_attribute_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `value` INT(11) NULL DEFAULT '0' ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`) ,
 		  INDEX `fk_post_int_post_id` (`post_id` ASC) ,
-		  INDEX `idx_form_attribute_id` (`form_attribute_id` ASC) ,
 		  CONSTRAINT `fk_post_int_post_id`
 		    FOREIGN KEY (`post_id` )
 		    REFERENCES `posts` (`id` )
-		    ON DELETE CASCADE)
+		    ON DELETE CASCADE,
+		  INDEX `fk_post_int_form_attribute_id` (`form_attribute_id` ASC),
+		  CONSTRAINT `fk_post_int_form_attribute_id`
+		    FOREIGN KEY (`form_attribute_id`)
+		    REFERENCES `form_attributes` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
@@ -193,16 +248,20 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `post_point` (
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
 		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `form_attribute_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `form_attribute_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `value` POINT NULL DEFAULT NULL ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`) ,
 		  INDEX `fk_post_point_post_id` (`post_id` ASC) ,
-		  INDEX `idx_form_attribute_id` (`form_attribute_id` ASC) ,
 		  CONSTRAINT `fk_post_point_post_id`
 		    FOREIGN KEY (`post_id` )
 		    REFERENCES `posts` (`id` )
-		    ON DELETE CASCADE)
+		    ON DELETE CASCADE,
+		  INDEX `fk_post_point_form_attribute_id` (`form_attribute_id` ASC),
+		  CONSTRAINT `fk_post_point_form_attribute_id`
+		    FOREIGN KEY (`form_attribute_id`)
+		    REFERENCES `form_attributes` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
@@ -210,16 +269,20 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `post_text` (
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
 		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `form_attribute_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `form_attribute_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `value` TEXT NULL DEFAULT NULL ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`) ,
 		  INDEX `fk_post_text_post_id` (`post_id` ASC) ,
-		  INDEX `idx_form_attribute_id` (`form_attribute_id` ASC) ,
 		  CONSTRAINT `fk_post_text_post_id`
 		    FOREIGN KEY (`post_id` )
 		    REFERENCES `posts` (`id` )
-		    ON DELETE CASCADE)
+		    ON DELETE CASCADE,
+		  INDEX `fk_post_text_form_attribute_id` (`form_attribute_id` ASC),
+		  CONSTRAINT `fk_post_text_form_attribute_id`
+		    FOREIGN KEY (`form_attribute_id`)
+		    REFERENCES `form_attributes` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
@@ -227,16 +290,20 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `post_varchar` (
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
 		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `form_attribute_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `form_attribute_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `value` VARCHAR(255) NULL DEFAULT NULL ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`) ,
 		  INDEX `fk_post_varchar_post_id` (`post_id` ASC) ,
-		  INDEX `idx_form_attribute_id` (`form_attribute_id` ASC) ,
 		  CONSTRAINT `fk_post_varchar_post_id`
 		    FOREIGN KEY (`post_id` )
 		    REFERENCES `posts` (`id` )
-		    ON DELETE CASCADE)
+		    ON DELETE CASCADE,
+		  INDEX `fk_post_varchar_form_attribute_id` (`form_attribute_id` ASC),
+		  CONSTRAINT `fk_post_varchar_form_attribute_id`
+		    FOREIGN KEY (`form_attribute_id`)
+		    REFERENCES `form_attributes` (`id`)
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
@@ -313,25 +380,6 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
-		// Table `users`
-		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `users` (
-		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
-		  `email` VARCHAR(127) NOT NULL ,
-		  `first_name` VARCHAR(150) NULL DEFAULT NULL ,
-		  `last_name` VARCHAR(150) NULL DEFAULT NULL ,
-		  `username` VARCHAR(255) NOT NULL ,
-		  `password` VARCHAR(255) NOT NULL ,
-		  `avatar` VARCHAR(50) NULL DEFAULT NULL ,
-		  `logins` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `last_login` INT(10) UNSIGNED NULL DEFAULT NULL ,
-		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
-		  PRIMARY KEY (`id`) ,
-		  UNIQUE INDEX `unq_email` (`email` ASC) ,
-		  UNIQUE INDEX `unq_username` (`username` ASC) )
-		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = utf8;");
-
 		// Table `roles_users`
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `roles_users` (
 		  `user_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
@@ -345,7 +393,7 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		  CONSTRAINT `fk_roles_users_user_id`
 		    FOREIGN KEY (`user_id` )
 		    REFERENCES `users` (`id` )
-		    ON DELETE CASCADE)
+		    ON DELETE CASCADE )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
@@ -354,15 +402,35 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
 		  `parent_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
 		  `post_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `assignee` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `assignor` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
+		  `assignee` INT(11) UNSIGNED NULL DEFAULT NULL ,
+		  `assignor` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `description` VARCHAR(255) NULL DEFAULT NULL ,
 		  `status` VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT 'pending, complete, later' ,
 		  `due` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  `created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  `updated` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 		  PRIMARY KEY (`id`) ,
-		  INDEX `idx_status` (`status` ASC) )
+		  INDEX `idx_status` (`status` ASC),
+		  INDEX `fk_tasks_parent_id` (`parent_id` ASC),
+		  CONSTRAINT `fk_tasks_parent_id`
+		    FOREIGN KEY (`parent_id` )
+		    REFERENCES `tasks` (`id` )
+		    ON DELETE CASCADE ,
+		  INDEX `fk_tasks_post_id` (`post_id` ASC),
+		  CONSTRAINT `fk_tasks_post_id`
+		    FOREIGN KEY (`post_id` )
+		    REFERENCES `posts` (`id` )
+		    ON DELETE CASCADE ,
+		  INDEX `fk_tasks_assignee` (`assignee` ASC),
+		  CONSTRAINT `fk_tasks_assignee`
+		    FOREIGN KEY (`assignee` )
+		    REFERENCES `users` (`id` )
+		    ON DELETE SET NULL ,
+		  INDEX `fk_tasks_assignor` (`assignor` ASC),
+		  CONSTRAINT `fk_tasks_assignor`
+		    FOREIGN KEY (`assignor` )
+		    REFERENCES `users` (`id` )
+		    ON DELETE SET NULL )
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 	}
