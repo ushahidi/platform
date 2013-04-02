@@ -16,12 +16,13 @@
 
 class Model_Post_Geometry extends ORM {
 	/**
-	 * A post_geometry belongs to a post
+	 * A post_geometry belongs to a post and form_attribute
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),
+		'form_attribute' => array(),
 		);
 
 	// Insert/Update Timestamps

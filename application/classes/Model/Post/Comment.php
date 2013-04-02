@@ -40,7 +40,7 @@ class Model_Post_Comment extends ORM {
 		'parent' => array(
 			'model'  => 'post_comment',
 			'foreign_key' => 'parent_id',
-			),		
+			),
 		);
 
 	// Insert/Update Timestamps
