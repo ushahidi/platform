@@ -215,6 +215,20 @@ class FeatureContext extends BehatContext
 			->set('status', 'published')
 			->set('id', 98)
 			->save();
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'search by attribute')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 97)
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 97)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 50)
+			->save();
 	}
 
 	/**
@@ -223,8 +237,10 @@ class FeatureContext extends BehatContext
 	public function teardownSearchPostFixture()
 	{
 		// Remove post
-		ORM::factory("post", 99)->delete();
-		ORM::factory("post", 98)->delete();
+		ORM::factory("Post", 99)->delete();
+		ORM::factory("Post", 98)->delete();
+		ORM::factory("Post_Varchar", 50)->delete();
+		ORM::factory("Post", 97)->delete();
 	}
 
 	/** @AfterSuite */
