@@ -278,3 +278,36 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "errors" property
         Then the response status code should be 404
+
+    Scenario: Creating a new Post with UTF-8 title
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"SUMMARY REPORT (تقرير ملخص)",
+                "author":"robbie",
+                "email":"robbie@ushahidi.com",
+                "type":"report",
+                "status":"draft",
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":"unknown",
+                    "missing_date":"2012/09/25",
+                    "last_location":"atlanta",
+                    "status":"believed_missing"
+                },
+                "tags":["missing"]
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the response has a "title" property
+        And the "title" property equals "SUMMARY REPORT (تقرير ملخص)"
+        And the "slug" property equals "summary-report-تقرير-ملخص-"
+        And the "tags" property contains "missing"
+        Then the response status code should be 200

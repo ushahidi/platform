@@ -75,7 +75,6 @@ class Model_Post extends ORM {
 			'slug' => array(
 				array('trim'),
 				// Replace any non alpha-dash chars with -
-				// @todo improve to handle transliterate utf8 chars
 				array('preg_replace', array('/[^-\pL\pN_]++/uD', '-', ':value')),
 				array('UTF8::strtolower'),
 			),
