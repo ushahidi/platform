@@ -249,7 +249,7 @@ Feature: Testing the Posts API
         Given that I want to get all "Posts"
         And that the request "query string" is:
             """
-            dummy_varchar=special-string
+            dummy_varchar=special
             """
         When I request "/posts"
         Then the response is JSON

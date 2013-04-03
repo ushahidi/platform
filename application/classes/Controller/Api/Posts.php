@@ -251,7 +251,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		
 		// Attributes
 		// @todo optimize this - maybe iterate over query params instead
-		// @todo way to do search for attr LIKE %%
 		$attributes = ORM::factory('Form_Attribute')->find_all();
 		foreach($attributes as $attr)
 		{
@@ -261,7 +260,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$sub = DB::select('post_id')
 					->from('Post_'.ucfirst($attr->type))
 					->where('form_attribute_id', '=', $attr->id)
-					->where('value', '=', $attr_filter);
+					->where('value', 'LIKE', "%$attr_filter%");
 				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->type)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->type).'.post_id');
 			}
 		}
