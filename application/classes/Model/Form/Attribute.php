@@ -42,7 +42,7 @@ class Model_Form_Attribute extends ORM {
 			'key' => array(
 				array('not_empty'),
 				array('max_length', array(':value', 150)),
-				array(array($this, 'is_unique'), array(':field', ':value'))
+				array(array($this, 'unique'), array(':field', ':value'))
 			),
 			'label' => array(
 				array('not_empty'),
@@ -101,19 +101,6 @@ class Model_Form_Attribute extends ORM {
 				$validation->error($field, 'valid_json');
 			}
 		}
-	}
-	
-	/**
-	 * Callback function to check if key is unique
-	 */
-	public function is_unique($field, $value)
-	{
-		return ! (bool) DB::select(array(DB::expr('COUNT(*)'), 'total'))
-			->from($this->_table_name)
-			->where($field, '=', $value)
-			->where('id', '!=', $this->id) // Exclude the report itself
-			->execute()
-			->get('total');
 	}
 
 	/**
