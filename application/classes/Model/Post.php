@@ -65,6 +65,24 @@ class Model_Post extends ORM {
 	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
 
 	/**
+	 * Filters for the post_datetime model
+	 * 
+	 * @return array Filters
+	 */
+	public function filters()
+	{
+		return array(
+			'slug' => array(
+				array('trim'),
+				// Replace any non alpha-dash chars with -
+				// @todo improve to handle transliterate utf8 chars
+				array('preg_replace', array('/[^-\pL\pN_]++/uD', '-', ':value')),
+				array('UTF8::strtolower'),
+			),
+		);
+	}
+
+	/**
 	 * Rules for the post model
 	 *
 	 * @return array Rules
@@ -103,7 +121,25 @@ class Model_Post extends ORM {
 					'comment',
 					'alert'
 				)) )
-			)
+			),
+			
+			// Post slug
+			'slug' => array(
+				array('alpha_dash', array(':value', TRUE)),
+				array('max_length', array(':value', 150)),
+				array(array($this, 'unique'), array(':field', ':value'))
+			),
+			
+			// Post author
+			'author' => array(
+				array('max_length', array(':value', 150))
+			),
+			
+			// Post email
+			'email' => array(
+				array('max_length', array(':value', 150)),
+				array('email')
+			),
 		);
 	}
 
@@ -122,7 +158,30 @@ class Model_Post extends ORM {
 		}
 	}
 
-	
+	/**
+	 * Callback function to generate slug if none set
+	 */
+	public function generate_slug_if_empty()
+	{
+		if (empty($this->slug))
+		{
+			$this->slug = trim($this->title);
+		}
+	}
+
+	/**
+	 * Updates or Creates the record depending on loaded()
+	 *
+	 * @chainable
+	 * @param  Validation $validation Validation object
+	 * @return ORM
+	 */
+	public function save(Validation $validation = NULL)
+	{
+		$this->generate_slug_if_empty();
+		
+		return parent::save($validation);
+	}
 
 	/**
 	 * Prepare single post for api ( ++ Hairy :) )

@@ -100,8 +100,8 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		  `form_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 		  `user_id` INT(11) UNSIGNED NULL DEFAULT NULL COMMENT 'author' ,
 		  `type` VARCHAR(20) NOT NULL DEFAULT 'report' COMMENT 'report, update, revision' ,
-		  `title` VARCHAR(255) NULL DEFAULT NULL ,
-		  `slug` VARCHAR(255) NULL DEFAULT NULL ,
+		  `title` VARCHAR(150) NULL DEFAULT NULL ,
+		  `slug` VARCHAR(150) NULL DEFAULT NULL ,
 		  `content` TEXT NULL DEFAULT NULL ,
 		  `author` VARCHAR(150) NULL DEFAULT NULL ,
 		  `email` VARCHAR(150) NULL DEFAULT NULL ,
@@ -111,6 +111,7 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		  PRIMARY KEY (`id`) ,
 		  INDEX `idx_type` (`type` ASC) ,
 		  INDEX `idx_status` (`status` ASC),
+		  UNIQUE INDEX `unq_slug` (`slug` ASC) ,
 		  INDEX `fk_posts_parent_id` (`parent_id` ASC),
 		  CONSTRAINT `fk_posts_parent_id`
 		    FOREIGN KEY (`parent_id`)

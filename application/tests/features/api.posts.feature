@@ -8,6 +8,8 @@ Feature: Testing the Posts API
             {
                 "form":1,
                 "title":"Test post",
+                "author":"robbie",
+                "email":"robbie@ushahidi.com",
                 "type":"report",
                 "status":"draft",
                 "values":
