@@ -23,7 +23,6 @@ class Model_Form extends ORM {
 	 * @var array Relationhips
 	 */
 	protected $_has_many = array(
-		'form_attributes' => array('through' => 'forms_form_attributes'),
 		'form_groups' => array(),
 		'posts' => array(),
 

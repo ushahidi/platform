@@ -61,24 +61,6 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 
-		// Table `forms_form_attributes`
-		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `forms_form_attributes` (
-		  `form_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  `form_attribute_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-		  PRIMARY KEY (`form_id`,`form_attribute_id`),
-		  KEY `fk_forms_form_attributes_form_id` (`form_id`),
-		  CONSTRAINT `fk_forms_form_attributes_form_id`
-		    FOREIGN KEY (`form_id`)
-		    REFERENCES `forms` (`id`)
-		    ON DELETE CASCADE,
-		  KEY `fk_forms_form_attributes_form_attribute_id` (`form_attribute_id`),
-		  CONSTRAINT `fk_forms_form_attributes_form_attribute_id`
-		    FOREIGN KEY (`form_attribute_id`)
-		    REFERENCES `form_attributes` (`id`)
-		    ON DELETE CASCADE )
-		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = utf8;");
-
 		// Table `form_groups_form_attributes`
 		$db->query(NULL, "CREATE  TABLE IF NOT EXISTS `form_groups_form_attributes` (
 		  `form_group_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,

@@ -14,12 +14,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_Api_Forms_Attributes extends Ushahidi_Api {
+class Controller_Api_Attributes extends Ushahidi_Api {
 
 	/**
 	 * Create a new attribute
 	 * 
-	 * POST /api/forms/attributes
+	 * POST /api/attributes
 	 * 
 	 * @return void
 	 */
@@ -28,34 +28,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		$results = array();
 		$post = $this->_request_payload;
 
-		// Check form/form_group - only allow creating attributes with a form and group
-		// unpack form to get form_id
-		if (isset($post['form']))
-		{
-			if (is_array($post['form']) AND isset($post['form']['id']))
-			{
-				$post['form_id'] = $post['form']['id'];
-			}
-			elseif (is_numeric($post['form']))
-			{
-				$post['form_id'] = $post['form'];
-			}
-		}
-		
-		if (empty($post["form_id"]))
-		{
-			throw new Http_Exception_400('No form_id specified');
-		}
-		
-		$form = ORM::factory('Form', $post['form_id']);
-		
-		if ( ! $form->loaded())
-		{
-			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
-				':id' => $post["form_id"],
-			));
-		}
-		
+		// Check form/form_group - only allow creating attributes with a form_group
 		// unpack form_group to get form_group_id
 		if (isset($post['form_group']))
 		{
@@ -74,14 +47,11 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			throw new Http_Exception_400('No form_group specified');
 		}
 		
-		$group = ORM::factory('Form_Group')
-			->where('form_id', '=', $post['form_id'])
-			->where('id', '=', $post["form_group_id"])
-			->find();
+		$group = ORM::factory('Form_Group', $post["form_group_id"]);
 		
 		if ( ! $group->loaded())
 		{
-			throw new Http_Exception_404('Invalid Form Group ID. \':id\'', array(
+			throw new Http_Exception_400('Invalid Form Group ID. \':id\'', array(
 				':id' => $post["form_group_id"],
 			));
 		}
@@ -104,7 +74,6 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 
 			// Add relations
 			$group->add('form_attributes', $attribute);
-			$form->add('form_attributes', $attribute);
 
 			// Response is the complete form
 			$this->_response_payload = $attribute->for_api();
@@ -120,7 +89,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	/**
 	 * Retrieve all attributes
 	 * 
-	 * GET /api/forms/attributes
+	 * GET /api/attributes
 	 * 
 	 * @return void
 	 */
@@ -149,7 +118,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	/**
 	 * Retrieve an attribute
 	 * 
-	 * GET /api/forms/attributes/:id
+	 * GET /api/attributes/:id
 	 * 
 	 * @return void
 	 */
@@ -175,7 +144,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	/**
 	 * Update a single attribute
 	 * 
-	 * PUT /api/forms/:form_id/attributes/:id
+	 * PUT /api/attributes/:id
 	 * 
 	 * @return void
 	 */
@@ -229,7 +198,7 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 	/**
 	 * Delete a single attribute
 	 * 
-	 * DELETE /api/forms/:form_id/attributes/:id
+	 * DELETE /api/attributes/:id
 	 * 
 	 * @return void
 	 */

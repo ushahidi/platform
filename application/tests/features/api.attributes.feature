@@ -5,7 +5,6 @@ Feature: Testing the Form Attributes API
         And that the request "data" is:
             """
             {
-                "form":1,
                 "form_group":1,
                 "key":"new",
                 "label":"Full Name",
@@ -15,19 +14,18 @@ Feature: Testing the Form Attributes API
                 "priority":1
             }
             """
-        When I request "/forms/attributes"
+        When I request "/attributes"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         Then the response status code should be 200
 
-    Scenario: Creating a new Attribute on a non-existent Form
+    Scenario: Creating a new Attribute on a non-existent Group
         Given that I want to make a new "Attribute"
         And that the request "data" is:
             """
             {
-                "form":35,
-                "form_group":1,
+                "form_group":35,
                 "key":"new",
                 "label":"Full Name",
                 "type":"varchar",
@@ -36,10 +34,10 @@ Feature: Testing the Form Attributes API
                 "priority":1
             }
             """
-        When I request "/forms/attributes"
+        When I request "/attributes"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the response status code should be 400
 
     Scenario: Updating a Attribute
         Given that I want to update a "Attribute"
@@ -55,7 +53,7 @@ Feature: Testing the Form Attributes API
             }
             """
         And that its "id" is "1"
-        When I request "/forms/attributes"
+        When I request "/attributes"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -78,14 +76,14 @@ Feature: Testing the Form Attributes API
             }
             """
         And that its "id" is "40"
-        When I request "/forms/attributes"
+        When I request "/attributes"
         Then the response is JSON
         And the response has a "errors" property
         Then the response status code should be 404
 
     Scenario: Listing All Attributes
         Given that I want to get all "Attributes"
-        When I request "/forms/attributes"
+        When I request "/attributes"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
@@ -94,7 +92,7 @@ Feature: Testing the Form Attributes API
     Scenario: Finding a Attribute
         Given that I want to find a "Attribute"
         And that its "id" is "1"
-        When I request "/forms/attributes"
+        When I request "/attributes"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -103,7 +101,7 @@ Feature: Testing the Form Attributes API
     Scenario: Finding a non-existent Attribute
         Given that I want to find a "Attribute"
         And that its "id" is "35"
-        When I request "/forms/attributes"
+        When I request "/attributes"
         Then the response is JSON
         And the response has a "errors" property
         Then the response status code should be 404
@@ -111,12 +109,12 @@ Feature: Testing the Form Attributes API
     Scenario: Deleting a Attribute
         Given that I want to delete a "Attribute"
         And that its "id" is "1"
-        When I request "/forms/attributes"
+        When I request "/attributes"
         Then the response status code should be 200
 
     Scenario: Deleting a non-existent Attribute
         Given that I want to delete a "Attribute"
         And that its "id" is "35"
-        When I request "/forms/attributes"
+        When I request "/attributes"
         And the response has a "errors" property
         Then the response status code should be 404

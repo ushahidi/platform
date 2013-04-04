@@ -91,7 +91,6 @@ class Controller_Api_Forms extends Ushahidi_Api {
 							$_attribute->save();
 							// Add relation
 							$_group->add('form_attributes', $_attribute);
-							$form->add('form_attributes', $_attribute);
 						}
 					}
 					

@@ -22,7 +22,6 @@ class Model_Form_Attribute extends ORM {
 	 * @var array Relationhips
 	 */
 	protected $_has_many = array(
-		'forms' => array('through' => 'forms_form_attributes'),
 		'form_groups' => array('through' => 'form_groups_form_attributes'),
 		);
 	
@@ -134,7 +133,7 @@ class Model_Form_Attribute extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/attributes/'.$this->id, Request::current()),
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/attributes/'.$this->id, Request::current()),
 				'key' => $this->key,
 				'label' => $this->label,
 				'input' => $this->input,

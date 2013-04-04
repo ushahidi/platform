@@ -73,7 +73,6 @@ class FeatureContext extends BehatContext
 			->set('id', 1)
 			->save();
 		
-		$form->add('form_attributes', $attr);
 		$group->add('form_attributes', $attr);
 	}
 
@@ -94,7 +93,6 @@ class FeatureContext extends BehatContext
 			->set("required", true)
 			->set("priority", 1)
 			->save();
-		$form->add('form_attributes', $attr);
 		$group->add('form_attributes', $attr);
 		
 		// Create description attribute
@@ -106,7 +104,6 @@ class FeatureContext extends BehatContext
 			->set("required", true)
 			->set("priority", 2)
 			->save();
-		$form->add('form_attributes', $attr);
 		$group->add('form_attributes', $attr);
 		
 		// Create dob attribute
@@ -118,7 +115,6 @@ class FeatureContext extends BehatContext
 			->set("required", false)
 			->set("priority", 3)
 			->save();
-		$form->add('form_attributes', $attr);
 		$group->add('form_attributes', $attr);
 		
 		// Create missing_date attribute
@@ -130,7 +126,6 @@ class FeatureContext extends BehatContext
 			->set("required", true)
 			->set("priority", 4)
 			->save();
-		$form->add('form_attributes', $attr);
 		$group->add('form_attributes', $attr);
 		
 		// Create last_location attribute
@@ -142,7 +137,6 @@ class FeatureContext extends BehatContext
 			->set("required", true)
 			->set("priority", 5)
 			->save();
-		$form->add('form_attributes', $attr);
 		$group->add('form_attributes', $attr);
 		
 		// Create status attribute
@@ -162,7 +156,6 @@ class FeatureContext extends BehatContext
 				)
 			->set("priority", 6)
 			->save();
-		$form->add('form_attributes', $attr);
 		$group->add('form_attributes', $attr);
 	}
 
@@ -229,7 +222,6 @@ class FeatureContext extends BehatContext
 		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_attributes")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE forms_form_attributes")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups_form_attributes")->execute();
 		// Posts & field values
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts")->execute();
