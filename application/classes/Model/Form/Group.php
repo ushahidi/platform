@@ -66,9 +66,9 @@ class Model_Form_Group extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
 				'form' => empty($this->form_id) ? NULL : array(
-					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
 					'id' => $this->form_id
 				),
 				'label' => $this->label,

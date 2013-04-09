@@ -90,7 +90,7 @@ class Model_Form extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v2/forms/'.$this->id, Request::current()),
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->id, Request::current()),
 				'name' => $this->name,
 				'description' => $this->description,
 				'type' => $this->type,
