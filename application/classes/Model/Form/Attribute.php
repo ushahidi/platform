@@ -24,6 +24,29 @@ class Model_Form_Attribute extends ORM {
 		'form' => array(),
 		'form_group' => array(),
 		);
+		
+	/**
+	 * Reserved attribute keys to avoid confusion with Posts table columns
+	 * 
+	 * @var array key names
+	 */
+	protected $_reserved_keys = array(
+		'slug',
+		'type',
+		'title',
+		'content',
+		'created',
+		'updated',
+		'email',
+		'author',
+		'form_id',
+		'parent_id',
+		'user_id',
+		'status',
+		'id',
+		'tags',
+		'values'
+	);
 
 	/**
 	 * Rules for the form_attribute model
@@ -42,7 +65,8 @@ class Model_Form_Attribute extends ORM {
 			'key' => array(
 				array('not_empty'),
 				array('max_length', array(':value', 150)),
-				array(array($this, 'unique'), array(':field', ':value'))
+				array(array($this, 'unique'), array(':field', ':value')),
+				array(array($this, 'not_reserved'), array(':validation', ':field', ':value'))
 			),
 			'label' => array(
 				array('not_empty'),
@@ -100,6 +124,17 @@ class Model_Form_Attribute extends ORM {
 			{
 				$validation->error($field, 'valid_json');
 			}
+		}
+	}
+
+	/**
+	 * Callback function to check if field key is reserved
+	 */
+	public function not_reserved($validation, $field, $value)
+	{
+		if ( in_array($field, $this->_reserved_keys) )
+		{
+			$validation->error($field, 'reserved_key');
 		}
 	}
 
