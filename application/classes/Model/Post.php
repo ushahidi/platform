@@ -74,9 +74,8 @@ class Model_Post extends ORM {
 		return array(
 			'slug' => array(
 				array('trim'),
-				// Replace any non alpha-dash chars with -
-				array('preg_replace', array('/[^-\pL\pN_]++/uD', '-', ':value')),
-				array('UTF8::strtolower'),
+				// Make sure we have a URL-safe title.
+				array('URL::title')
 			),
 		);
 	}
@@ -164,7 +163,7 @@ class Model_Post extends ORM {
 	{
 		if (empty($this->slug))
 		{
-			$this->slug = trim($this->title);
+			$this->slug = URL::title($this->title);
 		}
 	}
 

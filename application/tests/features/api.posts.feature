@@ -322,6 +322,6 @@ Feature: Testing the Posts API
         And the type of the "id" property is "numeric"
         And the response has a "title" property
         And the "title" property equals "SUMMARY REPORT (تقرير ملخص)"
-        And the "slug" property equals "summary-report-تقرير-ملخص-"
+        And the "slug" property equals "summary-report-تقرير-ملخص"
         And the "tags" property contains "missing"
         Then the response status code should be 200
