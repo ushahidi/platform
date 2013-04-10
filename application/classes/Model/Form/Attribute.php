@@ -25,6 +25,8 @@ class Model_Form_Attribute extends ORM {
 		'form_group' => array(),
 		);
 		
+	protected $_serialize_columns = array('options');
+		
 	/**
 	 * Reserved attribute keys to avoid confusion with Posts table columns
 	 * 
@@ -104,27 +106,8 @@ class Model_Form_Attribute extends ORM {
 			),
 			'priority' => array(
 				array('numeric')
-			),
-			'options' => array(
-				array(array($this, 'valid_json'), array(':validation', ':field', ':value'))
 			)
 		);
-	}
-
-	/**
-	 * Callback function to check if valid json
-	 */
-	public function valid_json($validation, $field, $value)
-	{
-		if ($value)
-		{
-			$json = json_encode($value);
-
-			if ( $json === FALSE )
-			{
-				$validation->error($field, 'valid_json');
-			}
-		}
 	}
 
 	/**
@@ -167,7 +150,7 @@ class Model_Form_Attribute extends ORM {
 				'default' => $this->default,
 				'unique' => ($this->unique) ? TRUE : FALSE,
 				'priority' => $this->priority,
-				'options' => json_decode($this->options),
+				'options' => $this->options,
 			);
 		}
 		else

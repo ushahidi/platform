@@ -293,7 +293,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		
 		$attribute = ORM::factory('Form_Attribute')->values($post, array(
-			'key', 'label', 'input', 'type'
+			'key', 'label', 'input', 'type', 'options'
 			));
 		$attribute->form_id = $form_id;
 		$attribute->form_group_id = $group_id;
@@ -306,7 +306,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 
 			// Validates ... so save
 			$attribute->values($post, array(
-				'key', 'label', 'input', 'type'
+				'key', 'label', 'input', 'type', 'options'
 				));
 			$attribute->save();
 

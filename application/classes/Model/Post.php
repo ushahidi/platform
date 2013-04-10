@@ -65,7 +65,7 @@ class Model_Post extends ORM {
 	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
 
 	/**
-	 * Filters for the post_datetime model
+	 * Filters for the Post model
 	 * 
 	 * @return array Filters
 	 */

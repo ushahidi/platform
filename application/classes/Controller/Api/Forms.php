@@ -56,7 +56,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 						foreach ($group['attributes'] as $attribute)
 						{
 							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
-								'key', 'label', 'input', 'type'
+								'key', 'label', 'input', 'type', 'options'
 								));
 							$_attribute->check();
 						}
@@ -86,9 +86,8 @@ class Controller_Api_Forms extends Ushahidi_Api {
 						foreach ($group['attributes'] as $attribute)
 						{
 							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
-								'key', 'label', 'input', 'type'
+								'key', 'label', 'input', 'type', 'options'
 								));
-							$_attribute->options = ( isset($attribute['options']) ) ? json_encode($attribute['options']) : NULL;
 							$_attribute->form_id = $form->id;
 							$_attribute->form_group_id = $_group->id;
 							$_attribute->save();

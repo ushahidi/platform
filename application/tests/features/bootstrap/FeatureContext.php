@@ -150,12 +150,12 @@ class FeatureContext extends BehatContext
 			->set("input", "select")
 			->set("required", false)
 			->set("options",
-				json_encode(array(
+				array(
 					"information_sought",
 					"is_note_author",
 					"believed_alive",
 					"believed_missing",
-					"believed_dead"))
+					"believed_dead")
 				)
 			->set("priority", 6)
 			->set('form_id', 1)
