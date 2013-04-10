@@ -27,7 +27,9 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('Form')->values($post);
+		$form = ORM::factory('Form')->values($post, array(
+			'name', 'description', 'type'
+			));
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -42,7 +44,9 @@ class Controller_Api_Forms extends Ushahidi_Api {
 				// Yes, loop through and validate each group
 				foreach ($post['groups'] as $group)
 				{
-					$_group = ORM::factory('Form_Group')->values($group);
+					$_group = ORM::factory('Form_Group')->values($group,array(
+						'label', 'priority'
+					));
 					$_group->check();
 
 					// Are form attributes defined?
@@ -51,7 +55,9 @@ class Controller_Api_Forms extends Ushahidi_Api {
 						// Yes, loop through and validate each form attribute
 						foreach ($group['attributes'] as $attribute)
 						{
-							$_attribute = ORM::factory('Form_Attribute')->values($attribute);
+							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
+								'key', 'label', 'input', 'type', 'options'
+								));
 							$_attribute->check();
 						}
 					}
@@ -68,15 +74,9 @@ class Controller_Api_Forms extends Ushahidi_Api {
 			{
 				foreach ($post['groups'] as $group)
 				{
-					$_group = ORM::factory('Form_Group');
-					if ( isset($group['label']) )
-					{
-						$_group->label = $group['label'];
-					}
-					if ( isset($group['priority']) )
-					{
-						$_group->priority = $group['priority'];
-					}
+					$_group = ORM::factory('Form_Group')->values($group, array(
+						'label', 'priority'
+					));
 					$_group->form_id = $form->id;
 					$_group->save();
 
@@ -85,11 +85,9 @@ class Controller_Api_Forms extends Ushahidi_Api {
 					{
 						foreach ($group['attributes'] as $attribute)
 						{
-							$_attribute = ORM::factory('Form_Attribute');
-							$_attribute->values($attribute, array(
-								'key', 'label', 'input', 'type'
+							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
+								'key', 'label', 'input', 'type', 'options'
 								));
-							$_attribute->options = ( isset($attribute['options']) ) ? json_encode($attribute['options']) : NULL;
 							$_attribute->form_id = $form->id;
 							$_attribute->form_group_id = $_group->id;
 							$_attribute->save();
@@ -174,7 +172,9 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		$form_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('Form', $form_id)->values($post);
+		$form = ORM::factory('Form', $form_id)->values($post, array(
+			'name', 'description', 'type'
+			));
 
 		if (! $form->loaded() )
 		{

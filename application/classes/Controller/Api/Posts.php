@@ -65,7 +65,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 
-		$_post = ORM::factory('Post')->values($post);
+		$_post = ORM::factory('Post')->values($post, array(
+			'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
+			));
 		
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
@@ -130,7 +132,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			// Validates ... so save
 			$_post->values($post, array(
-				'form_id', 'type', 'title', 'content', 'status'
+				'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
 				));
 			$_post->status = (isset($post['status'])) ? $post['status'] : NULL;
 			$_post->parent_id = $this->_parent_id;
@@ -291,9 +293,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$prev_params['offset'] = $params['offset'] - $params['limit'];
 		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
 
-		$curr = url::site('api/v2/posts/'.url::query($params));
-		$next = url::site('api/v2/posts/'.url::query($next_params));
-		$prev = url::site('api/v2/posts/'.url::query($prev_params));
+		$curr = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($params));
+		$next = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($next_params));
+		$prev = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($prev_params));
 
 		// Respond with posts
 		$this->_response_payload = array(
@@ -359,7 +361,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 
-		$_post = ORM::factory('Post', $post_id)->values($post);
+		$_post = ORM::factory('Post', $post_id)->values($post, array(
+			'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
+			));
 
 		if (! $_post->loaded())
 		{
@@ -434,7 +438,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			// Validates ... so save
 			$_post->values($post, array(
-				'form_id', 'type', 'title', 'content', 'status'
+				'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
 				));
 			$_post->status = (isset($post['status'])) ? $post['status'] : NULL;
 			$_post->parent_id = $this->_parent_id;

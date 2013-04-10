@@ -31,6 +31,11 @@ class Model_Post_Datetime extends ORM {
 	// Table Name
 	protected $_table_name = 'post_datetime';
 
+	/**
+	 * Filters for the post_datetime model
+	 * 
+	 * @return array Filters
+	 */
 	public function filters()
 	{
 		return array(

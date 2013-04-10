@@ -90,10 +90,16 @@ class Model_Form extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v2/forms/'.$this->id, Request::current()),
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->id, Request::current()),
 				'name' => $this->name,
 				'description' => $this->description,
 				'type' => $this->type,
+				'created' => ($created = DateTime::createFromFormat('U', $this->created))
+					? $created->format(DateTime::W3C)
+					: $this->created,
+				'updated' => ($updated = DateTime::createFromFormat('U', $this->updated))
+					? $updated->format(DateTime::W3C)
+					: $this->updated,
 				'groups' => array()
 				);
 
