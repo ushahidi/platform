@@ -65,7 +65,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 
-		$_post = ORM::factory('Post')->values($post);
+		$_post = ORM::factory('Post')->values($post, array(
+			'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
+			));
 		
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
@@ -130,7 +132,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			// Validates ... so save
 			$_post->values($post, array(
-				'form_id', 'type', 'title', 'content', 'status'
+				'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
 				));
 			$_post->status = (isset($post['status'])) ? $post['status'] : NULL;
 			$_post->parent_id = $this->_parent_id;
@@ -359,7 +361,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 
-		$_post = ORM::factory('Post', $post_id)->values($post);
+		$_post = ORM::factory('Post', $post_id)->values($post, array(
+			'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
+			));
 
 		if (! $_post->loaded())
 		{
@@ -434,7 +438,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			// Validates ... so save
 			$_post->values($post, array(
-				'form_id', 'type', 'title', 'content', 'status'
+				'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
 				));
 			$_post->status = (isset($post['status'])) ? $post['status'] : NULL;
 			$_post->parent_id = $this->_parent_id;

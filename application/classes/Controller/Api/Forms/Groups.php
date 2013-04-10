@@ -25,7 +25,9 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 	 */
 	public function action_post_index_collection()
 	{
-		$form_id = $this->request->param('form_id');
+		$form_id = $this->request->param('form_id', array(
+			'label', 'priority'
+			));
 		$results = array();
 		$post = $this->_request_payload;
 		
@@ -38,7 +40,9 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			));
 		}
 		
-		$group = ORM::factory('Form_Group')->values($post);
+		$group = ORM::factory('Form_Group')->values($post, array(
+			'label', 'priority'
+			));
 		$group->form_id = $form_id;
 		
 		// Validation - perform in-model validation before saving
@@ -151,7 +155,9 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		
 		// Load post values into group model
-		$group->values($post);
+		$group->values($post, array(
+			'label', 'priority'
+			));
 		
 		$group->id = $id;
 		
@@ -286,7 +292,9 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 			));
 		}
 		
-		$attribute = ORM::factory('Form_Attribute')->values($post);
+		$attribute = ORM::factory('Form_Attribute')->values($post, array(
+			'key', 'label', 'input', 'type'
+			));
 		$attribute->form_id = $form_id;
 		$attribute->form_group_id = $group_id;
 		

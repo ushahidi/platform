@@ -65,8 +65,11 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 			));
 		}
 		
-		$attribute = ORM::factory('Form_Attribute')->values($post);
+		$attribute = ORM::factory('Form_Attribute')->values($post, array(
+			'key', 'label', 'input', 'type'
+			));
 		$attribute->form_id = $form_id;
+		$attribute->form_group_id = $group->id;
 		
 		// Validation - perform in-model validation before saving
 		try
@@ -198,7 +201,10 @@ class Controller_Api_Forms_Attributes extends Ushahidi_Api {
 		}
 		
 		// Load post values into group model
-		$attribute->values($post);
+		$attribute->values($post, array(
+			'key', 'label', 'input', 'type'
+			));
+		$attribute->form_group_id = $group->id;
 		$attribute->id = $id;
 		
 		// Validation - perform in-model validation before saving
