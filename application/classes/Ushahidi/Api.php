@@ -126,7 +126,7 @@ class Ushahidi_Api extends Controller {
 		// Is that a valid method?
 		if ( ! isset($this->_action_map[$this->request->method()]) )
 		{
-			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods',array(
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
 				':method'          => $this->request->method(),
 				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
 			))
@@ -154,7 +154,7 @@ class Ushahidi_Api extends Controller {
 		if (! method_exists($this, 'action_'.$action))
 		{
 			// TODO: filter 'Allow' header to only return implemented methods
-			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods',array(
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
 				':method'          => $this->request->method(),
 				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
 			))

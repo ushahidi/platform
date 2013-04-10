@@ -213,6 +213,71 @@ class FeatureContext extends BehatContext
 		ORM::factory("Post", 97)->delete();
 	}
 
+	/**
+	 * @BeforeScenario @revisionFixture
+	 */
+	public function setupRevisionFixture()
+	{
+		// Add posts with searchable data
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 99)
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 99)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 50)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 101)
+			->set('parent_id', 99)
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 101)
+			->set('form_attribute_id', 1)
+			->set('value', "previous_string")
+			->set('id', 51)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 102)
+			->set('parent_id', 99)
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 102)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 52)
+			->save();
+	}
+
+	/**
+	 * @AfterScenario @revisionFixture
+	 */
+	public function teardownRevisionFixture()
+	{
+		// Remove post
+		ORM::factory("Post", 99)->delete();
+		ORM::factory("Post", 101)->delete();
+		ORM::factory("Post", 102)->delete();
+	}
+
 	/** @AfterSuite */
 	public static function teardown($event)
 	{

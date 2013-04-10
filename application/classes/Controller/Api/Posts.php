@@ -84,10 +84,15 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$this->prepare_order_limit_params();
 
 		$posts_query = ORM::factory('Post')
-			->where('type', '!=', 'revision')
+			->where('type', '=', $this->_type)
 			->order_by($this->record_orderby, $this->record_order)
 			->offset($this->record_offset)
 			->limit($this->record_limit);
+
+		if ($this->_parent_id)
+		{
+			$posts_query->where('parent_id', '=', $this->_parent_id);
+		}
 
 		// Prepare search params
 		// @todo generalize this?
@@ -218,7 +223,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post_id = $this->request->param('id', 0);
 
 		// Respond with post
-		$post = ORM::factory('Post', $post_id);
+		$post = ORM::factory('Post')->where('id', '=', $post_id);
+
+		if ($this->_parent_id)
+		{
+			$post->where('parent_id', '=', $this->_parent_id);
+		}
+		
+		$post = $post->find();
 
 		if (! $post->loaded())
 		{
@@ -281,6 +293,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post->values($post_data, array(
 			'form_id', 'title', 'content', 'status', 'slug', 'email', 'author'
 			));
+		$post->parent_id = $this->_parent_id;
+		$post->type = $this->_type;
 		
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
@@ -310,9 +324,10 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						));
 					}
 
-					$_value = ORM::factory('Post_'.ucfirst($attribute->type))->values(array(
-						'value' => $value
-						));
+					$_value = ORM::factory('Post_'.ucfirst($attribute->type))
+						->set('value', $value)
+						->set('post_id', $post->id)
+						->set('form_attribute_id', $attribute->id);
 					$_value->check();
 				}
 			}
@@ -347,7 +362,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$post->values($post_data, array(
 				'form_id', 'title', 'content', 'status', 'slug', 'email', 'author'
 				));
-			$post->status = (isset($post_data['status'])) ? $post_data['status'] : NULL;
 			$post->parent_id = $this->_parent_id;
 			$post->type = $this->_type;
 			
