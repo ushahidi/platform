@@ -179,8 +179,8 @@ class FeatureContext extends BehatContext
 			->save();
 		ORM::factory("post")
 			->set('form_id', 1)
-			->set('title', 'A comment')
-			->set('type', 'comment')
+			->set('title', 'another report')
+			->set('type', 'report')
 			->set('content', 'Some description')
 			->set('status', 'published')
 			->set('id', 98)
