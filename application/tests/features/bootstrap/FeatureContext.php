@@ -214,9 +214,9 @@ class FeatureContext extends BehatContext
 	}
 
 	/**
-	 * @BeforeScenario @revisionFixture
+	 * @BeforeFeature @revisionFixture
 	 */
-	public function setupRevisionFixture()
+	public static function setupRevisionFixture()
 	{
 		// Add posts with searchable data
 		ORM::factory("post")
@@ -265,17 +265,6 @@ class FeatureContext extends BehatContext
 			->set('value', "special-string")
 			->set('id', 52)
 			->save();
-	}
-
-	/**
-	 * @AfterScenario @revisionFixture
-	 */
-	public function teardownRevisionFixture()
-	{
-		// Remove post
-		ORM::factory("Post", 99)->delete();
-		ORM::factory("Post", 101)->delete();
-		ORM::factory("Post", 102)->delete();
 	}
 
 	/** @AfterSuite */
