@@ -111,7 +111,6 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		  PRIMARY KEY (`id`) ,
 		  INDEX `idx_type` (`type` ASC) ,
 		  INDEX `idx_status` (`status` ASC),
-		  UNIQUE INDEX `unq_slug` (`slug` ASC) ,
 		  INDEX `fk_posts_parent_id` (`parent_id` ASC),
 		  CONSTRAINT `fk_posts_parent_id`
 		    FOREIGN KEY (`parent_id`)

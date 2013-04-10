@@ -117,6 +117,7 @@ class Model_Post extends ORM {
 					'report',
 					'revision',
 					'comment',
+					'translation',
 					'alert'
 				)) )
 			),
@@ -125,7 +126,7 @@ class Model_Post extends ORM {
 			'slug' => array(
 				array('alpha_dash', array(':value', TRUE)),
 				array('max_length', array(':value', 150)),
-				array(array($this, 'unique'), array(':field', ':value'))
+				array(array($this, 'unique_slug'), array(':field', ':value'))
 			),
 			
 			// Post author
@@ -154,6 +155,36 @@ class Model_Post extends ORM {
 		{
 			$validation->error($field, 'form_exists');
 		}
+	}
+
+	/**
+	 * Check whether slug is unique for reports
+	 * ignore for other post types
+	 *
+	 * @param   string   $field  the field to check for uniqueness
+	 * @param   mixed    $value  the value to check for uniqueness
+	 * @return  bool     whteher the value is unique
+	 */
+	public function unique_slug($field, $value)
+	{
+		// If this is a report - check uniqueness
+		if ($this->type == 'report')
+		{
+			$model = ORM::factory($this->object_name())
+				->where($field, '=', $value)
+				->where('type', '=', 'report')
+				->find();
+	
+			if ($this->loaded())
+			{
+				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
+			}
+	
+			return ( ! $model->loaded());
+		}
+		
+		// otherwise skip the check
+		return TRUE;
 	}
 
 	/**
@@ -211,6 +242,7 @@ class Model_Post extends ORM {
 				'title' => $this->title,
 				'content' => $this->content,
 				'status' => $this->status,
+				'type' => $this->type,
 				'email' => $this->email,
 				'author' => $this->author,
 				'slug' => $this->slug,
@@ -305,5 +337,20 @@ class Model_Post extends ORM {
 		}
 
 		return $response;
+	}
+
+	public function revisions()
+	{
+		return $this->children->where('type', '=', 'revision');
+	}
+
+	public function comments()
+	{
+		return $this->children->where('type', '=', 'comments');
+	}
+
+	public function translations()
+	{
+		return $this->children->where('type', '=', 'translations');
 	}
 }
