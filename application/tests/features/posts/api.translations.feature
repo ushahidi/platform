@@ -10,6 +10,13 @@ Feature: Testing the Translations API
         And the "count" property equals "2"
         Then the response status code should be 200
 
+    Scenario: Listing All Translations on a non-existent Post
+        Given that I want to get all "Translations"
+        When I request "/posts/999/translations"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 404
+
     Scenario: Finding a Translation
         Given that I want to find a "Translation"
         And that its "id" is "101"
@@ -174,7 +181,7 @@ Feature: Testing the Translations API
         When I request "/posts/35/translations"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 400
+        Then the response status code should be 404
 
     Scenario: Deleting a Translation
         Given that I want to delete a "Translation"

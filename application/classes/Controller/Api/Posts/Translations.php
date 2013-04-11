@@ -24,5 +24,14 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 
 		// Parent ID of this Stream Post
 		$this->_parent_id = $this->request->param('post_id', 0);
+		
+		$parent = ORM::factory('Post', $this->_parent_id);
+		
+		if ( ! $parent->loaded())
+		{
+			throw new Http_Exception_404('Post does not exist. Post ID: \':id\'', array(
+				':id' => $this->_parent_id,
+			));
+		}
 	}
 }

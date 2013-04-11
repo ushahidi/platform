@@ -10,6 +10,13 @@ Feature: Testing the Revisions API
         And the "count" property equals "2"
         Then the response status code should be 200
 
+    Scenario: Listing All Revisions on a non-existent Post
+        Given that I want to get all "Revisions"
+        When I request "/posts/999/revisions"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 404
+
     Scenario: Finding a Revision
         Given that I want to find a "Revision"
         And that its "id" is "101"
