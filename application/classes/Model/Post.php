@@ -77,6 +77,11 @@ class Model_Post extends ORM {
 				// Make sure we have a URL-safe title.
 				array('URL::title')
 			),
+			
+			'locale' => array(
+				array('trim'),
+				array('UTF8::strtolower')
+			),
 		);
 	}
 
@@ -92,6 +97,11 @@ class Model_Post extends ORM {
 				array('not_empty'),
 				array('numeric'),
 				array(array($this, 'form_exists'), array(':validation', ':field', ':value'))
+			),
+			
+			'parent_id' => array(
+				array('numeric'),
+				array(array($this, 'parent_exists'), array(':field', ':value'))
 			),
 
 			'title' => array(
@@ -139,6 +149,15 @@ class Model_Post extends ORM {
 				array('max_length', array(':value', 150)),
 				array('email')
 			),
+			
+			// Post locale
+			'locale' => array(
+				array('not_empty'),
+				array('max_length', array(':value', 5)),
+				array('alpha_dash', array(':value', TRUE)),
+				// @todo check locale is valid
+				array(array($this, 'unique_locale'), array(':field', ':value'))
+			),
 		);
 	}
 
@@ -155,6 +174,19 @@ class Model_Post extends ORM {
 		{
 			$validation->error($field, 'form_exists');
 		}
+	}
+
+	/**
+	 * Callback function to check if form exists
+	 */
+	public function parent_exists($field, $value)
+	{
+		$parent = ORM::factory('Post')
+			->where('id', '=', $value)
+			->where('id', '!=', $this->id)
+			->find();
+		
+		return $parent->loaded();
 	}
 
 	/**
@@ -175,6 +207,41 @@ class Model_Post extends ORM {
 				->where('type', '=', 'report')
 				->find();
 	
+			if ($this->loaded())
+			{
+				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
+			}
+	
+			return ( ! $model->loaded());
+		}
+		
+		// otherwise skip the check
+		return TRUE;
+	}
+
+	/**
+	 * Check locale is unique for each report
+	 *
+	 * @param   string   $field  the field to check for uniqueness
+	 * @param   mixed    $value  the value to check for uniqueness
+	 * @return  bool     whteher the value is unique
+	 */
+	public function unique_locale($field, $value)
+	{
+		// If this is a report - check uniqueness
+		if ($this->type == 'translation')
+		{
+			// Is locale the same as parent?
+			if ($this->parent->locale == $this->locale)
+				return FALSE;
+			
+			// Check for other translations
+			$model = ORM::factory($this->object_name())
+				->where($field, '=', $value)
+				->where('type', '=', 'translation')
+				->where('parent_id', '=', $this->parent_id)
+				->find();
+
 			if ($this->loaded())
 			{
 				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
@@ -246,6 +313,7 @@ class Model_Post extends ORM {
 				'email' => $this->email,
 				'author' => $this->author,
 				'slug' => $this->slug,
+				'locale' => $this->locale,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)
 					: $this->created,

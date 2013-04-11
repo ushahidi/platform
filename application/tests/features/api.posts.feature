@@ -12,6 +12,7 @@ Feature: Testing the Posts API
                 "email":"robbie@ushahidi.com",
                 "type":"report",
                 "status":"draft",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -42,6 +43,7 @@ Feature: Testing the Posts API
                 "title":"Invalid post",
                 "type":"report",
                 "status":"draft",
+                "locale":"en_US",
                 "values":
                 {
                     "missing_field":"David Kobia",
@@ -63,6 +65,7 @@ Feature: Testing the Posts API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -95,6 +98,7 @@ Feature: Testing the Posts API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -122,6 +126,7 @@ Feature: Testing the Posts API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -148,6 +153,7 @@ Feature: Testing the Posts API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -304,6 +310,7 @@ Feature: Testing the Posts API
                 "email":"robbie@ushahidi.com",
                 "type":"report",
                 "status":"draft",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",

@@ -291,7 +291,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post_data['form_id'] = (String) $post_data['form_id'];
 		
 		$post->values($post_data, array(
-			'form_id', 'title', 'content', 'status', 'slug', 'email', 'author'
+			'form_id', 'title', 'content', 'status', 'slug', 'email', 'author', 'locale'
 			));
 		$post->parent_id = $this->_parent_id;
 		$post->type = $this->_type;
@@ -360,7 +360,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			// Validates ... so save
 			$post->values($post_data, array(
-				'form_id', 'title', 'content', 'status', 'slug', 'email', 'author'
+				'form_id', 'title', 'content', 'status', 'slug', 'email', 'author', 'locale'
 				));
 			$post->parent_id = $this->_parent_id;
 			$post->type = $this->_type;
@@ -410,7 +410,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				// Save Revision
 				$new_revision = ORM::factory('Post');
 				// @todo maybe just exclude some values, rather than have to modify this if schema changes
-				$new_revision->values($post->as_array(), array('form_id', 'user_id', 'slug', 'title', 'content', 'author', 'email', 'status'));
+				$new_revision->values($post->as_array(), array(
+					'form_id', 'user_id', 'slug', 'title', 'content', 'author', 'email', 'status', 'locale'
+				));
 				// @todo grab current user_id
 				$new_revision->parent_id = $post->id;
 				$new_revision->type = 'revision';

@@ -47,6 +47,7 @@ Feature: Testing the Revisions API
                 "email":"robbie@ushahidi.com",
                 "type":"report",
                 "status":"draft",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -71,6 +72,7 @@ Feature: Testing the Revisions API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -108,6 +110,7 @@ Feature: Testing the Revisions API
                 "email": null,
                 "author": null,
                 "slug": "should-be-returned-when-searching",
+                "locale":"en_US",
                 "values": {
                     "dummy_varchar": "updated"
                 },
