@@ -290,7 +290,7 @@ class Model_Post extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current()),
+				'url' => $this->url(),
 				'parent' => empty($this->parent_id) ? NULL : array(
 					'id' => $this->parent_id,
 					'url' => url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id, Request::current())
@@ -402,6 +402,24 @@ class Model_Post extends ORM {
 		}
 
 		return $response;
+	}
+
+	public function url()
+	{
+		switch ($this->type)
+		{
+			case 'revision':
+				return url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/revisions/'.$this->id, Request::current());
+				break;
+			case 'translation':
+				return url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/translations/'.$this->id, Request::current());
+				break;
+			case 'report':
+			default:
+				// @todo maybe put 'updates' url as /post/:parent_id/updates/:id
+				return url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current());
+				break;
+		}
 	}
 
 	public function revisions()
