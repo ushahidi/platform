@@ -65,6 +65,22 @@ class Model_Post extends ORM {
 	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
 
 	/**
+	 * Filters for the Post model
+	 * 
+	 * @return array Filters
+	 */
+	public function filters()
+	{
+		return array(
+			'slug' => array(
+				array('trim'),
+				// Make sure we have a URL-safe title.
+				array('URL::title')
+			),
+		);
+	}
+
+	/**
 	 * Rules for the post model
 	 *
 	 * @return array Rules
@@ -103,7 +119,25 @@ class Model_Post extends ORM {
 					'comment',
 					'alert'
 				)) )
-			)
+			),
+			
+			// Post slug
+			'slug' => array(
+				array('alpha_dash', array(':value', TRUE)),
+				array('max_length', array(':value', 150)),
+				array(array($this, 'unique'), array(':field', ':value'))
+			),
+			
+			// Post author
+			'author' => array(
+				array('max_length', array(':value', 150))
+			),
+			
+			// Post email
+			'email' => array(
+				array('max_length', array(':value', 150)),
+				array('email')
+			),
 		);
 	}
 
@@ -122,7 +156,30 @@ class Model_Post extends ORM {
 		}
 	}
 
-	
+	/**
+	 * Callback function to generate slug if none set
+	 */
+	public function generate_slug_if_empty()
+	{
+		if (empty($this->slug))
+		{
+			$this->slug = URL::title($this->title);
+		}
+	}
+
+	/**
+	 * Updates or Creates the record depending on loaded()
+	 *
+	 * @chainable
+	 * @param  Validation $validation Validation object
+	 * @return ORM
+	 */
+	public function save(Validation $validation = NULL)
+	{
+		$this->generate_slug_if_empty();
+		
+		return parent::save($validation);
+	}
 
 	/**
 	 * Prepare single post for api ( ++ Hairy :) )
@@ -138,16 +195,31 @@ class Model_Post extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v2/posts/'.$this->id, Request::current()),
-				'form' => array(
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current()),
+				'parent' => empty($this->parent_id) ? NULL : array(
+					'id' => $this->parent_id,
+					'url' => url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id, Request::current())
+				),
+				'user' => empty($this->user_id) ? NULL : array(
+					'id' => $this->user_id,
+					'url' => url::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
+				),
+				'form' => empty($this->form_id) ? NULL : array(
 					'id' => $this->form_id,
-					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
 				),
 				'title' => $this->title,
 				'content' => $this->content,
 				'status' => $this->status,
-				'created' => strtotime($this->created),
-				'updated' => strtotime($this->updated),
+				'email' => $this->email,
+				'author' => $this->author,
+				'slug' => $this->slug,
+				'created' => ($created = DateTime::createFromFormat('U', $this->created))
+					? $created->format(DateTime::W3C)
+					: $this->created,
+				'updated' => ($updated = DateTime::createFromFormat('U', $this->updated))
+					? $updated->format(DateTime::W3C)
+					: $this->updated,
 				'values' => array(),
 				'tags' => array()
 				);

@@ -25,6 +25,8 @@ class Model_Form_Attribute extends ORM {
 		'form_group' => array(),
 		);
 		
+	protected $_serialize_columns = array('options');
+		
 	/**
 	 * Reserved attribute keys to avoid confusion with Posts table columns
 	 * 
@@ -65,7 +67,7 @@ class Model_Form_Attribute extends ORM {
 			'key' => array(
 				array('not_empty'),
 				array('max_length', array(':value', 150)),
-				array(array($this, 'is_unique'), array(':field', ':value')),
+				array(array($this, 'unique'), array(':field', ':value')),
 				array(array($this, 'not_reserved'), array(':validation', ':field', ':value'))
 			),
 			'label' => array(
@@ -104,40 +106,8 @@ class Model_Form_Attribute extends ORM {
 			),
 			'priority' => array(
 				array('numeric')
-			),
-			'options' => array(
-				array(array($this, 'valid_json'), array(':validation', ':field', ':value'))
 			)
 		);
-	}
-
-	/**
-	 * Callback function to check if valid json
-	 */
-	public function valid_json($validation, $field, $value)
-	{
-		if ($value)
-		{
-			$json = json_encode($value);
-
-			if ( $json === FALSE )
-			{
-				$validation->error($field, 'valid_json');
-			}
-		}
-	}
-	
-	/**
-	 * Callback function to check if key is unique
-	 */
-	public function is_unique($field, $value)
-	{
-		return ! (bool) DB::select(array(DB::expr('COUNT(*)'), 'total'))
-			->from($this->_table_name)
-			->where($field, '=', $value)
-			->where('id', '!=', $this->id) // Exclude the report itself
-			->execute()
-			->get('total');
 	}
 
 	/**
@@ -163,13 +133,13 @@ class Model_Form_Attribute extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v2/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
-				'form' => array(
-					'url' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
+				'form' => empty($this->form_id) ? NULL : array(
+					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
 					'id' => $this->form_id
 				),
-				'form_group' => array(
-					'url' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
+				'form_group' => empty($this->form_group_id) ? NULL : array(
+					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
 					'id' => $this->form_group_id
 				),
 				'key' => $this->key,
@@ -180,7 +150,7 @@ class Model_Form_Attribute extends ORM {
 				'default' => $this->default,
 				'unique' => ($this->unique) ? TRUE : FALSE,
 				'priority' => $this->priority,
-				'options' => json_decode($this->options),
+				'options' => $this->options,
 			);
 		}
 		else

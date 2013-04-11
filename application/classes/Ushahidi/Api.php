@@ -16,7 +16,10 @@
 
 class Ushahidi_Api extends Controller {
 
-	protected $version = '2.0.0';
+	/**
+	 * @var Current API version
+	 */
+	protected static $version = '2';
 
 	/**
 	 * @var Object Request Payload
@@ -98,6 +101,14 @@ class Ushahidi_Api extends Controller {
 		$this->_prepare_response();
 
 		parent::after();
+	}
+	
+	/**
+	 * Get current api version
+	 */
+	public static function version()
+	{
+		return self::$version;
 	}
 
 	/**

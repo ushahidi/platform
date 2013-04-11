@@ -28,6 +28,19 @@ Feature: Testing the Forms API
                                 "input":"text",
                                 "required":false,
                                 "priority":2
+                            },
+                            {
+                                "key":"missing_status",
+                                "label":"Status",
+                                "type":"varchar",
+                                "input":"text",
+                                "required":false,
+                                "priority":2,
+                                "options":[
+                                    "Missing",
+                                    "Alive",
+                                    "Dead"
+                                ]
                             }
                         ]
                     }
