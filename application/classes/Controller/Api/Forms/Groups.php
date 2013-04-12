@@ -25,9 +25,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 	 */
 	public function action_post_index_collection()
 	{
-		$form_id = $this->request->param('form_id', array(
-			'label', 'priority'
-			));
+		$form_id = $this->request->param('form_id', 0);
 		$results = array();
 		$post = $this->_request_payload;
 		
