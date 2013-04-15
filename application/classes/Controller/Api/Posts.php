@@ -223,13 +223,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post_id = $this->request->param('id', 0);
 
 		// Respond with post
-		$post = ORM::factory('Post')->where('id', '=', $post_id);
-
+		$post = ORM::factory('Post')
+			->where('id', '=', $post_id)
+			->where('type', '=', $this->_type);
 		if ($this->_parent_id)
 		{
 			$post->where('parent_id', '=', $this->_parent_id);
 		}
-		
 		$post = $post->find();
 
 		if (! $post->loaded())
@@ -267,7 +267,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 
-		$_post = ORM::factory('Post', $post_id);
+		$_post = ORM::factory('Post')
+			->where('id', '=', $post_id)
+			->where('type', '=', $this->_type);
+		if ($this->_parent_id)
+		{
+			$_post->where('parent_id', '=', $this->_parent_id);
+		}
+		$_post = $_post->find();
 
 		if (! $_post->loaded())
 		{
@@ -472,7 +479,16 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	public function action_delete_index()
 	{
 		$post_id = $this->request->param('id', 0);
-		$post = ORM::factory('Post', $post_id);
+
+		$post = ORM::factory('Post')
+			->where('id', '=', $post_id)
+			->where('type', '=', $this->_type);
+		if ($this->_parent_id)
+		{
+			$post->where('parent_id', '=', $this->_parent_id);
+		}
+		$post = $post->find();
+
 		$this->_response_payload = array();
 		if ( $post->loaded() )
 		{

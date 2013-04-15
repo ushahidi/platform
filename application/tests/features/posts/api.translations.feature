@@ -52,6 +52,14 @@ Feature: Testing the Translations API
         And the response has a "errors" property
         Then the response status code should be 404
 
+    Scenario: Fail to find Translation through Posts api
+        Given that I want to find a "Translation"
+        And that its "id" is "101"
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 404
+
     Scenario: Creating a new Translation
         Given that I want to make a new "Translation"
         And that the request "data" is:

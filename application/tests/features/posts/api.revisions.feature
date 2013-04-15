@@ -35,6 +35,14 @@ Feature: Testing the Revisions API
         And the response has a "errors" property
         Then the response status code should be 404
 
+    Scenario: Fail to find Revision through Posts api
+        Given that I want to find a "Revision"
+        And that its "id" is "101"
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 404
+
     Scenario: Trying to get Report as Revision
         Given that I want to find a "Revision"
         And that its "id" is "99"
