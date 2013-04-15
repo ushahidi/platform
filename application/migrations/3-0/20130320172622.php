@@ -115,7 +115,7 @@ class Migration_3_0_20130320172622 extends Minion_Migration_Base {
 		  CONSTRAINT `fk_posts_parent_id`
 		    FOREIGN KEY (`parent_id`)
 		    REFERENCES `posts` (`id`)
-		    ON DELETE SET NULL ,
+		    ON DELETE CASCADE DELETE ,
 		  INDEX `fk_posts_form_id` (`form_id` ASC),
 		  CONSTRAINT `fk_posts_form_id`
 		    FOREIGN KEY (`form_id`)
