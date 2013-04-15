@@ -143,7 +143,8 @@ class Ushahidi_Api extends Controller {
 		}
 
 		// If we are acting on a collection, append _collection to the action name.
-		if ($this->request->param('id', FALSE) === FALSE)
+		if ($this->request->param('id', FALSE) === FALSE AND
+			$this->request->param('locale', FALSE) === FALSE)
 		{
 			$action .= '_collection';
 		}

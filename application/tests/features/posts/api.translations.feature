@@ -26,6 +26,16 @@ Feature: Testing the Translations API
         And the type of the "id" property is "numeric"
         Then the response status code should be 200
 
+    Scenario: Finding a Translation with locale
+        Given that I want to find a "Translation"
+        And that its "id" is "fr_FR"
+        When I request "/posts/99/translations"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "locale" property equals "fr_fr"
+        Then the response status code should be 200
+
     Scenario: Finding a non-existent Translation
         Given that I want to find a "Translation"
         And that its "id" is "35"
@@ -135,6 +145,32 @@ Feature: Testing the Translations API
         And the type of the "id" property is "numeric"
         And the response has a "title" property
         And the "title" property equals "Test translation updated"
+        Then the response status code should be 200
+
+    Scenario: Updating a Translation with locale url
+        Given that I want to update a "Translation"
+        And that the request "data" is:
+            """
+            {
+                "form": 1,
+                "title": "Test translation updated2",
+                "content": "Some description",
+                "status": "published",
+                "type": "revision",
+                "locale":"fr_FR",
+                "values": {
+                    "dummy_varchar": "testing"
+                },
+                "tags": ["translation-test"]
+            }
+            """
+        And that its "id" is "fr_FR"
+        When I request "/posts/99/translations"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the response has a "title" property
+        And the "title" property equals "Test translation updated2"
         Then the response status code should be 200
 
     Scenario: Updating a non-existent Translation
