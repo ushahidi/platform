@@ -7,3 +7,6 @@
 [submodule "modules/migrations"]
 	path = modules/migrations
 	url = git://github.com/kohana-minion/tasks-migrations.git
+[submodule "modules/oauth2/classes/oauth2-server-php"]
+	path = modules/oauth2/classes/oauth2-server-php
+	url = git://github.com/bshaffer/oauth2-server-php.git
