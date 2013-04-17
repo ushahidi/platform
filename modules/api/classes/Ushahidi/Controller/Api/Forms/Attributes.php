@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API Forms Attributes Controller
+ * Abstract Ushahidi API Forms Attributes Controller Class
  *
  * PHP version 5
  * LICENSE: This source file is subject to GPLv3 license
@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_Api_Forms_Attributes extends Ushahidi_Api {
+abstract class Ushahidi_Controller_Api_Forms_Attributes extends Ushahidi_Api {
 
 	/**
 	 * Create a new attribute

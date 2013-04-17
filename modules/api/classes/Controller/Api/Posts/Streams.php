@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API Posts Streams Controller
+ * Ushahidi API Posts Streams Controller Class
  *
  * PHP version 5
  * LICENSE: This source file is subject to GPLv3 license
@@ -14,14 +14,4 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_Api_Posts_Streams extends Controller_Api_Posts {
-
-
-	public function before()
-	{
-		parent::before();
-
-		// Parent ID of this Stream Post
-		$this->_parent_id = $this->request->param('post_id', 0);
-	}
-}
+class Controller_Api_Posts_Streams extends Ushahidi_Controller_Api_Posts_Streams {}

@@ -114,6 +114,8 @@ Kohana::modules(array(
 	'minion'     => MODPATH.'minion',
 	'migrations' => MODPATH.'migrations',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+
+	'api'       => MODPATH.'api',         // Ushahidi API
 	));
 
 /**
