@@ -19,12 +19,27 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 	/**
 	 * @var int Post Parent ID
 	 */
-	protected $_parent_id = 0;
+	protected $_parent_id = NULL;
 
 	/**
 	 * @var string Post Type
 	 */
 	protected $_type = 'report';
+	
+	/**
+	 * @var string Field to sort results by
+	 */
+	protected $record_orderby = 'created';
+	
+	/**
+	 * @var string Direct to sort results
+	 */
+	protected $record_order = 'ASC';
+
+	/**
+	 * @var int Maximum number of results to return
+	 */
+	protected $record_allowed_orderby = array('id', 'created', 'title');
 
 	/**
 	 * Create A Post
@@ -36,8 +51,24 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 	public function action_post_index_collection()
 	{
 		$post = $this->_request_payload;
+
+		// unpack form to get form_id
+		if (isset($post['form']))
+		{
+			if (is_array($post['form']) AND isset($post['form']['id']))
+			{
+				$post['form_id'] = $post['form']['id'];
+			}
+			elseif (is_numeric($post['form']))
+			{
+				$post['form_id'] = $post['form'];
+			}
+		}
+
+		$_post = ORM::factory('Post')->values($post, array(
+			'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
+			));
 		
-		$_post = ORM::factory('Post')->values($post);
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -57,6 +88,14 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 						->where('form_id', '=', $post['form_id'])
 						->where('key', '=', $key)
 						->find();
+					
+					// Throw 400 if attribute doesn't exist
+					if (! $attribute->loaded() )
+					{
+						throw new Http_Exception_400('Invalid attribute supplied. \':attr\'', array(
+							':attr' => $key,
+						));
+					}
 
 					$_value = ORM::factory('Post_'.ucfirst($attribute->type))->values(array(
 						'value' => $value
@@ -65,9 +104,35 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 				}
 			}
 
+			// Does post have tags included?
+			$tag_ids = array();
+			if ( isset($post['tags']) )
+			{
+				// Yes, loop through and validate each tag
+				foreach ($post['tags'] as $value)
+				{
+					$tag = ORM::factory('Tag')
+						->where('tag', '=', $value)
+						->find();
+					
+					// Auto create tags if it doesn't exist
+					if (! $tag->loaded() )
+					{
+						$tag->tag = $value;
+						$tag->slug = $value;
+						$tag->type = 'tag';
+						$tag->check();
+						$tag->save();
+					}
+					
+					// Save tag id for later
+					$tag_ids[] = $tag->id;
+				}
+			}
+
 			// Validates ... so save
 			$_post->values($post, array(
-				'form_id', 'type', 'title', 'content', 'status'
+				'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
 				));
 			$_post->status = (isset($post['status'])) ? $post['status'] : NULL;
 			$_post->parent_id = $this->_parent_id;
@@ -94,14 +159,20 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 				}
 			}
 
+			// Add tags to post (has to happen after post is saved)
+			if (count($tag_ids) > 0)
+			{
+				$_post->add('tags', $tag_ids);
+			}
+
 			// Response is the complete post
-			$this->_response_payload = $this->post($_post);
+			$this->_response_payload = $_post->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
 			// Error response
 			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
+				'errors' => implode(', ', Arr::flatten($e->errors('models')))
 				);
 		}
 	}
@@ -117,22 +188,128 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$results = array();
 
-		$posts = ORM::factory('Post')
-			->order_by('created', 'ASC')
-			->find_all();
+		$this->prepare_order_limit_params();
+		
+		$posts_query = ORM::factory('Post')
+			->order_by($this->record_orderby, $this->record_order)
+			->offset($this->record_offset)
+			->limit($this->record_limit);
+		
+		// Prepare search params
+		// @todo generalize this?
+		$q = $this->request->query('q');
+		if (! empty($q))
+		{
+			$posts_query->where('title', 'LIKE', "%$q%");
+			$posts_query->or_where('content', 'LIKE', "%$q%");
+		}
+		
+		$type = $this->request->query('type');
+		if (! empty($type))
+		{
+			$posts_query->where('type', '=', $type);
+		}
+		$slug = $this->request->query('slug');
+		if (! empty($slug))
+		{
+			$posts_query->where('slug', '=', $slug);
+		}
+		$form = $this->request->query('form');
+		if (! empty($form))
+		{
+			$posts_query->where('form_id', '=', $form);
+		}
+		$user = $this->request->query('user');
+		if (! empty($user))
+		{
+			$posts_query->where('user_id', '=', $user);
+		}
+		
+		// date chcks
+		$created_after = $this->request->query('created_after');
+		if (! empty($create_after))
+		{
+			$created_after = date('Y-m-d H:i:s', strtotime($create_after));
+			$posts_query->where('created', '>=', $created_after);
+		}
+		$created_before = $this->request->query('created_before');
+		if (! empty($created_before))
+		{
+			$created_before = date('Y-m-d H:i:s', strtotime($created_before));
+			$posts_query->where('created', '<=', $created_before);
+		}
+		$updated_after = $this->request->query('updated_after');
+		if (! empty($updated_after))
+		{
+			$updated_after = date('Y-m-d H:i:s', strtotime($updated_after));
+			$posts_query->where('updated', '>=', $updated_after);
+		}
+		$updated_before = $this->request->query('updated_before');
+		if (! empty($updated_before))
+		{
+			$updated_before = date('Y-m-d H:i:s', strtotime($updated_before));
+			$posts_query->where('updated', '<=', $updated_before);
+		}
+		
+		// Attributes
+		// @todo optimize this - maybe iterate over query params instead
+		$attributes = ORM::factory('Form_Attribute')->find_all();
+		foreach($attributes as $attr)
+		{
+			$attr_filter = $this->request->query($attr->key);
+			if (! empty($attr_filter))
+			{
+				$sub = DB::select('post_id')
+					->from('Post_'.ucfirst($attr->type))
+					->where('form_attribute_id', '=', $attr->id)
+					->where('value', 'LIKE', "%$attr_filter%");
+				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->type)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->type).'.post_id');
+			}
+		}
+		
+		$posts = $posts_query->find_all();
 
 		$count = $posts->count();
 
 		foreach ($posts as $post)
 		{
-			$results[] = $this->post($post);
+			$results[] = $post->for_api();
 		}
+
+		// Current/Next/Prev urls
+		$params = array(
+			'limit' => $this->record_limit,
+			'offset' => $this->record_offset,
+		);
+		// Only add order/orderby if they're already set
+		if ($this->request->query('orderby') OR $this->request->query('order'))
+		{
+			$params['orderby'] = $this->record_orderby;
+			$params['order'] = $this->record_order;
+		}
+
+		$prev_params = $next_params = $params;
+		$next_params['offset'] = $params['offset'] + $params['limit'];
+		$prev_params['offset'] = $params['offset'] - $params['limit'];
+		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
+
+		$curr = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($params));
+		$next = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($next_params));
+		$prev = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($prev_params));
 
 		// Respond with posts
 		$this->_response_payload = array(
 			'count' => $count,
-			'results' => $results
+			'results' => $results,
+			'limit' => $this->record_limit,
+			'offset' => $this->record_offset,
+			'order' => $this->record_order,
+			'orderby' => $this->record_orderby,
+			'curr' => $curr,
+			'next' => $next,
+			'prev' => $prev,
 		);
+		
 	}
 
 	/**
@@ -148,7 +325,15 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 
 		// Respond with post
 		$post = ORM::factory('Post', $post_id);
-		$this->_response_payload = $this->post($post);
+
+		if (! $post->loaded())
+		{
+			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+				':id' => $post_id,
+			));
+		}
+
+		$this->_response_payload = $post->for_api();
 	}
 
 	/**
@@ -160,7 +345,149 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
+		$post_id = $this->request->param('id', 0);
+		$post = $this->_request_payload;
+
+		// unpack form to get form_id
+		if (isset($post['form']))
+		{
+			if (is_array($post['form']) AND isset($post['form']['id']))
+			{
+				$post['form_id'] = $post['form']['id'];
+			}
+			elseif (is_numeric($post['form']))
+			{
+				$post['form_id'] = $post['form'];
+			}
+		}
+
+		$_post = ORM::factory('Post', $post_id)->values($post, array(
+			'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
+			));
+
+		if (! $_post->loaded())
+		{
+			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+				':id' => $post_id,
+			));
+		}
 		
+		// Set post id to ensure sane response if form doesn't exist yet.
+		$_post->id = $post_id;
+		
+		// Validation - cycle through nested models 
+		// and perform in-model validation before
+		// saving
+		try
+		{
+			// Validate base post data
+			$_post->check();
+
+			// Does post have custom fields included?
+			if ( isset($post['values']) )
+			{
+				// Yes, loop through and validate each value
+				// to the form_attribute
+				foreach ($post['values'] as $key => $value)
+				{
+					$attribute = ORM::factory('Form_Attribute')
+						->where('form_id', '=', $_post->form_id)
+						->where('key', '=', $key)
+						->find();
+					
+					// Throw 400 if attribute doesn't exist
+					if (! $attribute->loaded() )
+					{
+						throw new Http_Exception_400('Invalid attribute supplied. \':attr\'', array(
+							':attr' => $key,
+						));
+					}
+
+					$_value = ORM::factory('Post_'.ucfirst($attribute->type))->values(array(
+						'value' => $value
+						));
+					$_value->check();
+				}
+			}
+
+			// Does post have tags included?
+			$tag_ids = array();
+			if ( isset($post['tags']) )
+			{
+				// Yes, loop through and validate each tag
+				foreach ($post['tags'] as $value)
+				{
+					$tag = ORM::factory('Tag')
+						->where('tag', '=', $value)
+						->find();
+					
+					// Auto create tags if it doesn't exist
+					if (! $tag->loaded() )
+					{
+						$tag->tag = $value;
+						$tag->slug = $value;
+						$tag->type = 'tag';
+						$tag->check();
+						$tag->save();
+					}
+					
+					// Save tag id for later
+					$tag_ids[] = $tag->id;
+				}
+			}
+
+			// Validates ... so save
+			$_post->values($post, array(
+				'form_id', 'type', 'title', 'content', 'status', 'slug', 'email', 'author'
+				));
+			$_post->status = (isset($post['status'])) ? $post['status'] : NULL;
+			$_post->parent_id = $this->_parent_id;
+			$_post->type = $this->_type;
+			$_post->save();
+
+			if ( isset($post['values']) )
+			{
+				foreach ($post['values'] as $key => $value)
+				{
+					$attribute = ORM::factory('Form_Attribute')
+						->where('form_id', '=', $_post->form_id)
+						->where('key', '=', $key)
+						->find();
+
+					if ( $attribute->loaded() )
+					{
+						$_value = ORM::factory('Post_'.ucfirst($attribute->type))
+							->where('post_id', '=', $post_id)
+							->where('form_attribute_id', '=', $attribute->id)
+							->find();
+						
+						$_value->post_id = $_post->id;
+						$_value->form_attribute_id = $attribute->id;
+						$_value->value = $value;
+						$_value->save();
+					}
+				}
+				
+				// Currently we just ignore existing values
+				// @todo add a way to delete existing values
+			}
+
+			// Add tags to post (has to happen after post is saved)
+			if (count($tag_ids) > 0)
+			{
+				$_post->remove('tags');
+				$_post->add('tags', $tag_ids);
+			}
+
+			// Response is the complete post
+			$this->_response_payload = $_post->for_api();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
+		}
 	}
 
 	/**
@@ -174,101 +501,18 @@ abstract class Ushahidi_Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$post_id = $this->request->param('id', 0);
 		$post = ORM::factory('Post', $post_id);
+		$this->_response_payload = array();
 		if ( $post->loaded() )
 		{
+			// Return the post we just deleted (provides some confirmation)
+			$this->_response_payload = $post->for_api();
 			$post->delete();
-		}
-	}
-
-	/**
-	 * Retrieve a single post ( ++ Hairy :) )
-	 * along with values from attached tables
-	 * 
-	 * @param $post object - Post Model
-	 * @return array $response
-	 * @todo the queries need some optimizing (EAV Fun)
-	 */
-	public function post($post = NULL)
-	{
-		$response = array();
-		if ( $post->loaded() )
-		{
-			$response = array(
-				'url' => url::site('api/v2/posts/'.$post->id, Request::current()),
-				'id' => $post->id,
-				'form_id' => $post->form_id,
-				'title' => $post->title,
-				'content' => $post->content,
-				'status' => $post->status,
-				'created' => strtotime($post->created),
-				'updated' => strtotime($post->updated),
-				'values' => array()
-				);
-
-			// Create the Super Union
-			$datetimes = DB::select('key', 'value')
-				->from('post_datetime')
-				->join('form_attributes')
-					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$decimals = DB::select('key', 'value')
-				->union($datetimes)
-				->from('post_decimal')
-				->join('form_attributes')
-					->on('post_decimal.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$geometries = DB::select('key', 'value')
-				->union($decimals)
-				->from('post_geometry')
-				->join('form_attributes')
-					->on('post_geometry.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$ints = DB::select('key', 'value')
-				->union($geometries)
-				->from('post_int')
-				->join('form_attributes')
-					->on('post_int.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$points = DB::select('key', 'value')
-				->union($ints)
-				->from('post_point')
-				->join('form_attributes')
-					->on('post_point.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$texts = DB::select('key', 'value')
-				->union($points)
-				->from('post_text')
-				->join('form_attributes')
-					->on('post_text.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id);
-
-			$results = DB::select('key', 'value')
-				->union($texts)
-				->from('post_varchar')
-				->join('form_attributes')
-					->on('post_varchar.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $post->id)
-				->execute();
-
-			foreach ($results as $result)
-			{
-				$response['values'][$result['key']] = $result['value'];
-			}
 		}
 		else
 		{
-			$response = array(
-				'errors' => array(
-					'Post does not exist'
-					)
-				);
+			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+				':id' => $post_id,
+			));
 		}
-
-		return $response;
 	}
 }

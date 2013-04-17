@@ -16,7 +16,7 @@
 
 class Model_Form extends ORM {
 	/**
-	 * A form has many attributes and groups
+	 * A form has many attributes, groups, and posts
 	 * A form has many [children] forms
 	 *
 	 * @var array Relationhips
@@ -24,6 +24,7 @@ class Model_Form extends ORM {
 	protected $_has_many = array(
 		'form_attributes' => array(),
 		'form_groups' => array(),
+		'posts' => array(),
 
 		'children' => array(
 			'model'  => 'Form',
@@ -88,11 +89,17 @@ class Model_Form extends ORM {
 		if ( $this->loaded() )
 		{
 			$response = array(
-				'url' => url::site('api/v2/forms/'.$this->id, Request::current()),
 				'id' => $this->id,
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->id, Request::current()),
 				'name' => $this->name,
 				'description' => $this->description,
 				'type' => $this->type,
+				'created' => ($created = DateTime::createFromFormat('U', $this->created))
+					? $created->format(DateTime::W3C)
+					: $this->created,
+				'updated' => ($updated = DateTime::createFromFormat('U', $this->updated))
+					? $updated->format(DateTime::W3C)
+					: $this->updated,
 				'groups' => array()
 				);
 
@@ -103,7 +110,6 @@ class Model_Form extends ORM {
 		}
 		else
 		{
-			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Form does not exist'

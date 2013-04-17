@@ -16,12 +16,13 @@
 
 class Model_Post_Datetime extends ORM {
 	/**
-	 * A post_datetime belongs to a post
+	 * A post_datetime belongs to a post, and form_attribute
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),
+		'form_attribute' => array(),
 		);
 
 	// Insert/Update Timestamps
@@ -29,6 +30,21 @@ class Model_Post_Datetime extends ORM {
 
 	// Table Name
 	protected $_table_name = 'post_datetime';
+
+	/**
+	 * Filters for the post_datetime model
+	 * 
+	 * @return array Filters
+	 */
+	public function filters()
+	{
+		return array(
+			'value' => array(
+				// Filter to handle special value 'unknown'
+				array(function($value) { return $value == 'unknown' ? FALSE : $value; }, array(':value')),
+			),
+		);
+	}
 
 	/**
 	 * Rules for the post_datetime model

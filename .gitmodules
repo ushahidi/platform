@@ -1,3 +1,9 @@
 [submodule "system"]
 	path = system
 	url = git://github.com/kohana/core.git
+[submodule "modules/minion"]
+	path = modules/minion
+	url = git://github.com/kohana/minion.git
+[submodule "modules/migrations"]
+	path = modules/migrations
+	url = git://github.com/kohana-minion/tasks-migrations.git

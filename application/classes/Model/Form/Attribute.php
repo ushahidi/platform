@@ -24,6 +24,31 @@ class Model_Form_Attribute extends ORM {
 		'form' => array(),
 		'form_group' => array(),
 		);
+		
+	protected $_serialize_columns = array('options');
+		
+	/**
+	 * Reserved attribute keys to avoid confusion with Posts table columns
+	 * 
+	 * @var array key names
+	 */
+	protected $_reserved_keys = array(
+		'slug',
+		'type',
+		'title',
+		'content',
+		'created',
+		'updated',
+		'email',
+		'author',
+		'form_id',
+		'parent_id',
+		'user_id',
+		'status',
+		'id',
+		'tags',
+		'values'
+	);
 
 	/**
 	 * Rules for the form_attribute model
@@ -33,10 +58,17 @@ class Model_Form_Attribute extends ORM {
 	public function rules()
 	{
 		return array(
+			'form_id' => array(
+				array('numeric'),
+			),
+			'form_group_id' => array(
+				array('numeric'),
+			),
 			'key' => array(
 				array('not_empty'),
 				array('max_length', array(':value', 150)),
-				array(array($this, 'is_unique'), array(':field', ':value'))
+				array(array($this, 'unique'), array(':field', ':value')),
+				array(array($this, 'not_reserved'), array(':validation', ':field', ':value'))
 			),
 			'label' => array(
 				array('not_empty'),
@@ -74,39 +106,19 @@ class Model_Form_Attribute extends ORM {
 			),
 			'priority' => array(
 				array('numeric')
-			),
-			'options' => array(
-				array(array($this, 'valid_json'), array(':validation', ':field', ':value'))
 			)
 		);
 	}
 
 	/**
-	 * Callback function to check if valid json
+	 * Callback function to check if field key is reserved
 	 */
-	public function valid_json($validation, $field, $value)
+	public function not_reserved($validation, $field, $value)
 	{
-		if ($value)
+		if ( in_array($field, $this->_reserved_keys) )
 		{
-			$json = json_encode($value);
-
-			if ( $json === FALSE )
-			{
-				$validation->error($field, 'valid_json');
-			}
+			$validation->error($field, 'reserved_key');
 		}
-	}
-	
-	/**
-	 * Callback function to check if key is unique
-	 */
-	public function is_unique($field, $value)
-	{
-		return ! (bool) DB::select(array(DB::expr('COUNT(*)'), 'total'))
-			->from($this->_table_name)
-			->where($field, '=', $value)
-			->execute()
-			->get('total');
 	}
 
 	/**
@@ -120,10 +132,16 @@ class Model_Form_Attribute extends ORM {
 		if ( $this->loaded() )
 		{
 			$response = array(
-				'url' => url::site('api/v2/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
-				'form' => url::site('api/v2/forms/'.$this->form_id, Request::current()),
-				'form_group' => url::site('api/v2/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
 				'id' => $this->id,
+				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/attributes/'.$this->id, Request::current()),
+				'form' => empty($this->form_id) ? NULL : array(
+					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
+					'id' => $this->form_id
+				),
+				'form_group' => empty($this->form_group_id) ? NULL : array(
+					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/groups/'.$this->form_group_id, Request::current()),
+					'id' => $this->form_group_id
+				),
 				'key' => $this->key,
 				'label' => $this->label,
 				'input' => $this->input,
@@ -132,12 +150,11 @@ class Model_Form_Attribute extends ORM {
 				'default' => $this->default,
 				'unique' => ($this->unique) ? TRUE : FALSE,
 				'priority' => $this->priority,
-				'options' => json_decode($this->options),
+				'options' => $this->options,
 			);
 		}
 		else
 		{
-			// @todo throw 404
 			$response = array(
 				'errors' => array(
 					'Attribute does not exist'

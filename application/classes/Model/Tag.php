@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Tags extends ORM {
+class Model_Tag extends ORM {
 	/**
 	 * A tag has and belongs to many posts
 	 * A tag has many [children] tags

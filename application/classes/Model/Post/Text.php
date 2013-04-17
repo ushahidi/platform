@@ -16,12 +16,13 @@
 
 class Model_Post_Text extends ORM {
 	/**
-	 * A post_text belongs to a post
+	 * A post_text belongs to a post and form_attribute
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),
+		'form_attribute' => array(),
 		);
 
 	// Insert/Update Timestamps

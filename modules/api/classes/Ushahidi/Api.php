@@ -16,7 +16,10 @@
 
 class Ushahidi_Api extends Controller {
 
-	protected $version = '2.0.0';
+	/**
+	 * @var Current API version
+	 */
+	protected static $version = '2';
 
 	/**
 	 * @var Object Request Payload
@@ -55,7 +58,37 @@ class Ushahidi_Api extends Controller {
 	(
 		Http_Request::GET,
 	);
+	
+	/**
+	 * @var int Number of results to return
+	 */
+	protected $record_limit = 50;
+	
+	/**
+	 * @var int Offset for results returned
+	 */
+	protected $record_offset = 0;
+	
+	/**
+	 * @var string Field to sort results by
+	 */
+	protected $record_orderby = 'id';
+	
+	/**
+	 * @var string Direction to sort results
+	 */
+	protected $record_order = 'DESC';
 
+	/**
+	 * @var int Maximum number of results to return
+	 */
+	protected $record_limit_max = 500;
+
+	/**
+	 * @var int Maximum number of results to return
+	 */
+	protected $record_allowed_orderby = array('id');
+	
 	public function before()
 	{
 		parent::before();
@@ -68,6 +101,14 @@ class Ushahidi_Api extends Controller {
 		$this->_prepare_response();
 
 		parent::after();
+	}
+	
+	/**
+	 * Get current api version
+	 */
+	public static function version()
+	{
+		return self::$version;
 	}
 
 	/**
@@ -119,27 +160,62 @@ class Ushahidi_Api extends Controller {
 	}
 
 	/**
+	 * Parse the request body
+	 * Decodes JSON request body into PHP array
+	 * 
 	 * @todo Support more than just JSON
+	 * @throws Http_Exception_400
 	 */
 	protected function _parse_request_body()
 	{
-		try
-		{
 			$this->_request_payload = json_decode($this->request->body(), TRUE);
+			
+			if ( $this->_request_payload === NULL )
+			{
+				// Get further error info
+				switch (json_last_error()) {
+					case JSON_ERROR_NONE:
+						$error = 'No errors';
+					break;
+					case JSON_ERROR_DEPTH:
+						$error = 'Maximum stack depth exceeded';
+					break;
+					case JSON_ERROR_STATE_MISMATCH:
+						$error = 'Underflow or the modes mismatch';
+					break;
+					case JSON_ERROR_CTRL_CHAR:
+						$error = 'Unexpected control character found';
+					break;
+					case JSON_ERROR_SYNTAX:
+						$error = 'Syntax error, malformed JSON';
+					break;
+					case JSON_ERROR_UTF8:
+						$error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+					break;
+					default:
+						$error = 'Unknown error';
+					break;
+				}
+				
+				
 
-			if ( ! is_array($this->_request_payload) AND ! is_object($this->_request_payload))
-				throw new Http_Exception_400('Invalid json supplied. \':json\'', array(
+				throw new Http_Exception_400('Invalid json supplied. Error: \':error\'. \':json\'', array(
+					':json' => $this->request->body(),
+					':error' => $error,
+				));
+			}
+			// Ensure JSON object/array was supplied, not string etc
+			elseif ( ! is_array($this->_request_payload) AND ! is_object($this->_request_payload) )
+			{
+				throw new Http_Exception_400('Invalid json supplied. Error: \'JSON must be array or object\'. \':json\'', array(
 					':json' => $this->request->body(),
 				));
-		}
-		catch (Exception $e)
-		{
-			throw new Http_Exception_400('Invalid json supplied. \':json\'', array(
-				':json' => $this->request->body(),
-			));
-		}
+			}
 	}
 
+	/**
+	 * Prepare response headers and body
+	 */
 	protected function _prepare_response()
 	{
 		// Should we prevent this request from being cached?
@@ -148,25 +224,90 @@ class Ushahidi_Api extends Controller {
 			$this->response->headers('cache-control', 'no-cache, no-store, max-age=0, must-revalidate');
 		}
 
-		// Set the correct content-type header
-		$this->response->headers('Content-Type', 'application/json');
+		// Switch based on response format
+		$format = strtolower($this->request->query('format'));
+		switch($format)
+		{
+			case 'jsonp':
+				// Set the correct content-type header
+				$this->response->headers('Content-Type', 'application/javascript');
 
-		$this->_prepare_response_body();
+				$this->_prepare_response_body('jsonp');
+				break;
+			case 'json':
+			default:
+				// Set the correct content-type header
+				$this->response->headers('Content-Type', 'application/json');
+
+				$this->_prepare_response_body('json');
+				break;
+		}
 	}
 
 	/**
-	 * @todo Support more than just JSON
+	 * Prepare response body
+	 * 
+	 * Encode _response_payload into JSON or JSONP
+	 *
+	 * @todo Add support for GeoJSON
+	 * @throws Http_Exception_400|Http_Exception_500
 	 */
-	protected function _prepare_response_body()
+	protected function _prepare_response_body($format = 'json')
 	{
+		$body = '';
+
 		try
 		{
 			// Format the reponse as JSON
-			$this->response->body(json_encode($this->_response_payload));
+			$body = json_encode($this->_response_payload);
 		}
 		catch (Exception $e)
 		{
 			throw new Http_Exception_500('Error while formatting response');
 		}
+
+		if ($format == 'jsonp')
+		{
+			$callback = $this->request->query('callback');
+			// ensure we have a callback fn
+			if (empty($callback))
+				throw new Http_Exception_400('Required query parameter \'callback\' is missing or empty.');
+
+			// sanitize callback function name
+			if (preg_match("/^[a-zA-Z0-9]+$/", $callback) != 1)
+				throw new Http_Exception_400('JSONP callback must be alphanumeric.');
+
+			// wrap body in callback
+			$body = "{$callback}({$body})";
+		}
+
+		$this->response->body($body);
+	}
+	
+	/**
+	 * Prepare request ordering and limit params
+	 * @throws Http_Exception_400
+	 */
+	protected function prepare_order_limit_params()
+	{
+		$this->record_limit = $this->request->query('limit') ? intval($this->request->query('limit')) : $this->record_limit;
+		$this->record_offset = $this->request->query('offset') ? intval($this->request->query('offset')) : $this->record_offset;
+		$this->record_orderby = $this->request->query('orderby') ? $this->request->query('orderby') : $this->record_orderby;
+		$this->record_order = $this->request->query('order') ? strtoupper($this->request->query('order')) : $this->record_order;
+
+		if (! in_array($this->record_order, array('ASC', 'DESC')))
+			throw new Http_Exception_400('Invalid \'order\' parameter supplied: :order.', array(
+				':order' => $this->record_order
+			));
+
+		if (! in_array($this->record_orderby, $this->record_allowed_orderby))
+			throw new Http_Exception_400('Invalid \'orderby\' parameter supplied: :orderby.', array(
+				':orderby' => $this->record_orderby
+			));
+
+		if ($this->record_limit > $this->record_limit_max)
+			throw new Http_Exception_400('Number of records requested was too large: :record_limit.', array(
+				':record_limit' => $this->record_limit
+			));
 	}
 }

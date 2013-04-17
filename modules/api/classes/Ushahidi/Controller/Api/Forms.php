@@ -27,7 +27,9 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('Form')->values($post);
+		$form = ORM::factory('Form')->values($post, array(
+			'name', 'description', 'type'
+			));
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -42,7 +44,9 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 				// Yes, loop through and validate each group
 				foreach ($post['groups'] as $group)
 				{
-					$_group = ORM::factory('Form_Group')->values($group);
+					$_group = ORM::factory('Form_Group')->values($group,array(
+						'label', 'priority'
+					));
 					$_group->check();
 
 					// Are form attributes defined?
@@ -51,7 +55,9 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 						// Yes, loop through and validate each form attribute
 						foreach ($group['attributes'] as $attribute)
 						{
-							$_attribute = ORM::factory('Form_Attribute')->values($attribute);
+							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
+								'key', 'label', 'input', 'type', 'options'
+								));
 							$_attribute->check();
 						}
 					}
@@ -68,15 +74,9 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 			{
 				foreach ($post['groups'] as $group)
 				{
-					$_group = ORM::factory('Form_Group');
-					if ( isset($group['label']) )
-					{
-						$_group->label = $group['label'];
-					}
-					if ( isset($group['priority']) )
-					{
-						$_group->priority = $group['priority'];
-					}
+					$_group = ORM::factory('Form_Group')->values($group, array(
+						'label', 'priority'
+					));
 					$_group->form_id = $form->id;
 					$_group->save();
 
@@ -85,11 +85,9 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 					{
 						foreach ($group['attributes'] as $attribute)
 						{
-							$_attribute = ORM::factory('Form_Attribute');
-							$_attribute->values($attribute, array(
-								'key', 'label', 'input', 'type'
+							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
+								'key', 'label', 'input', 'type', 'options'
 								));
-							$_attribute->options = ( isset($attribute['options']) ) ? json_encode($attribute['options']) : NULL;
 							$_attribute->form_id = $form->id;
 							$_attribute->form_group_id = $_group->id;
 							$_attribute->save();
@@ -103,11 +101,9 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// @todo throw 400
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 
@@ -153,6 +149,14 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 
 		// Respond with form
 		$form = ORM::factory('Form', $form_id);
+
+		if (! $form->loaded() )
+		{
+			throw new Http_Exception_404('Form does not exist. Form ID \':id\'', array(
+				':id' => $form_id,
+			));
+		}
+
 		$this->_response_payload = $form->for_api();
 	}
 
@@ -168,11 +172,19 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 		$form_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('Form', $form_id)->values($post);
+		$form = ORM::factory('Form', $form_id)->values($post, array(
+			'name', 'description', 'type'
+			));
+
+		if (! $form->loaded() )
+		{
+			throw new Http_Exception_404('Form does not exist. Form ID \':id\'', array(
+				':id' => $form_id,
+			));
+		}
 		
 		// Set form id to ensure sane response if form doesn't exist yet.
 		$form->id = $form_id;
-		
 		
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
@@ -195,11 +207,9 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// @todo throw 400
-			// Error response
-			$this->_response_payload = array(
-				'errors' => Arr::flatten($e->errors('models'))
-				);
+			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 
@@ -221,6 +231,12 @@ abstract class Ushahidi_Controller_Api_Forms extends Ushahidi_Api {
 			// Return the form we just deleted (provides some confirmation)
 			$this->_response_payload = $form->for_api();
 			$form->delete();
+		}
+		else
+		{
+			throw new Http_Exception_404('Form does not exist. Form ID: \':id\'', array(
+				':id' => $form_id,
+			));
 		}
 	}
 }

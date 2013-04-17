@@ -111,6 +111,8 @@ Kohana::modules(array(
 	'image'      => MODPATH.'image',      // Image manipulation
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'unittest'   => MODPATH.'unittest',   // Unit testing
+	'minion'     => MODPATH.'minion',
+	'migrations' => MODPATH.'migrations',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 
 	'api'       => MODPATH.'api',         // Ushahidi API
