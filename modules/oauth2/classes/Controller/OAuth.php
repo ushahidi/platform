@@ -18,6 +18,7 @@ class Controller_OAuth extends Controller {
 	
 	protected $server;
 	protected $storage;
+	protected $_oauth2_response;
 
 	/**
 	 * @var array Map of HTTP methods -> actions
@@ -78,7 +79,7 @@ class Controller_OAuth extends Controller {
 			$this->_rebuild_db();
 		}
 		$this->storage = new OAuth2_Storage_Pdo(array('dsn' => 'sqlite:'.$sqliteDir));
-		$this->server = new OAuth2_Server($this->storage, array(
+		$this->server = new Oauth2_Server($this->storage, array(
 				//'token_type'               => 'bearer',
 				//'access_lifetime'          => 3600,
 				'www_realm'                => 'Ushahidi API',
@@ -108,6 +109,18 @@ class Controller_OAuth extends Controller {
 		$this->server->setScopeUtil($scopeUtil);
 	}
 
+	public function after()
+	{
+		// Process OAuth2_Response
+		if ($this->_oauth2_response instanceof OAuth2_Response)
+		{
+			$this->response->body($this->_oauth2_response->getResponseBody());
+			$this->response->headers($this->_oauth2_response->getHttpHeaders());
+			// @todo set content-type header
+			$this->response->status($this->_oauth2_response->getStatusCode());
+		}
+	}
+
 	public function action_get_debug()
 	{
 		echo json_encode($this->request->query());
@@ -118,8 +131,8 @@ class Controller_OAuth extends Controller {
 	 */
 	public function action_get_authorize()
 	{
-		if (! $this->server->validateAuthorizeRequest(OAuth2_Request::createFromGlobals())) {
-			 $this->server->getResponse()->send(); exit();
+		if (! $this->server->validateAuthorizeRequest(Kohana_OAuth2_Request::createFromRequest($this->request))) {
+			$this->_oauth2_response = $this->server->getResponse();
 		}
 
 		// Show authorize yes/no
@@ -132,8 +145,8 @@ class Controller_OAuth extends Controller {
 	public function action_post_authorize()
 	{
 		$authorized = (bool) $this->request->post('authorize');
-		$this->server->handleAuthorizeRequest(OAuth2_Request::createFromGlobals(), $authorized)->send();
-		exit();
+		$this->_oauth2_response = $this->server->handleAuthorizeRequest(Kohana_OAuth2_Request::createFromRequest($this->request), $authorized);
+		
 	}
 	
 	/**
@@ -141,8 +154,15 @@ class Controller_OAuth extends Controller {
 	 */
 	public function action_get_token()
 	{
-		$this->server->handleTokenRequest(OAuth2_Request::createFromGlobals())->send();
-		exit();
+		$this->_oauth2_response = $this->server->handleTokenRequest(Kohana_OAuth2_Request::createFromRequest($this->request));
+	}
+	
+	/**
+	 * Token Requests
+	 */
+	public function action_post_token()
+	{
+		$this->_oauth2_response = $this->server->handleTokenRequest(Kohana_OAuth2_Request::createFromRequest($this->request));
 	}
 	
 }
