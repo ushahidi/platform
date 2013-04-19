@@ -31,32 +31,6 @@ class Controller_OAuth extends Controller {
 		Http_Request::DELETE => 'delete',
 	);
 	
-	protected function _rebuild_db()
-	{
-		// determine where the sqlite DB will go
-		$dir = DOCROOT.'data/oauth.sqlite';
-		
-		// remove sqlite file if it exists
-		if (file_exists($dir)) {
-			unlink($dir);
-		}
-		
-		// rebuild the DB
-		$db = new PDO(sprintf('sqlite://%s', $dir));
-		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$db->exec('CREATE TABLE oauth_clients (client_id TEXT, client_secret TEXT, redirect_uri TEXT)');
-		$db->exec('CREATE TABLE oauth_access_tokens (access_token TEXT, client_id TEXT, user_id TEXT, expires TIMESTAMP, scope TEXT)');
-		$db->exec('CREATE TABLE oauth_authorization_codes (authorization_code TEXT, client_id TEXT, user_id TEXT, redirect_uri TEXT, expires TIMESTAMP, scope TEXT)');
-		$db->exec('CREATE TABLE oauth_refresh_tokens (refresh_token TEXT, client_id TEXT, user_id TEXT, expires TIMESTAMP, scope TEXT)');
-		
-		// add test data
-		$db->exec('INSERT INTO oauth_clients (client_id, client_secret) VALUES ("demoapp", "demopass")');
-		
-		chmod($dir, 0777);
-		// $db->exec('INSERT INTO oauth_access_tokens (access_token, client_id) VALUES ("testtoken", "Some Client")');
-		// $db->exec('INSERT INTO oauth_authorization_codes (authorization_code, client_id) VALUES ("testcode", "Some Client")');
-	}
-	
 	public function before()
 	{
 		parent::before();
@@ -74,11 +48,7 @@ class Controller_OAuth extends Controller {
 		$this->request->action($action);
 
 		// Set up OAuth2 objects
-		if (!file_exists($sqliteDir = DOCROOT.'data/oauth.sqlite')) {
-			// generate sqlite if it does not exist
-			$this->_rebuild_db();
-		}
-		$this->storage = new OAuth2_Storage_Pdo(array('dsn' => 'sqlite:'.$sqliteDir));
+		$this->storage = new Kohana_OAuth2_Storage_ORM();
 		$this->server = new Oauth2_Server($this->storage, array(
 				//'token_type'               => 'bearer',
 				//'access_lifetime'          => 3600,
