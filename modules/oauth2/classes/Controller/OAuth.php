@@ -86,7 +86,7 @@ class Controller_OAuth extends Controller {
 		{
 			$this->response->body($this->_oauth2_response->getResponseBody());
 			$this->response->headers($this->_oauth2_response->getHttpHeaders());
-			// @todo set content-type header
+			$this->response->headers('Content-Type', 'application/json');
 			$this->response->status($this->_oauth2_response->getStatusCode());
 		}
 	}
@@ -106,6 +106,7 @@ class Controller_OAuth extends Controller {
 		}
 
 		// Show authorize yes/no
+		
 		$this->response->body(View::factory('oauth/authorize'));
 	}
 	
