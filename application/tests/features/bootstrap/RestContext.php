@@ -14,9 +14,10 @@ class RestContext extends BehatContext
 	private $_client            = null;
 	private $_response          = null;
 	private $_requestUrl        = null;
-	private $_apiUrl           = 'api/v2';
+	private $_apiUrl            = 'api/v2';
 
-	private $_parameters			= array();
+	private $_parameters        = array();
+	private $_headers           = array();
 
 	/**
 	 * Initializes context.
@@ -24,7 +25,6 @@ class RestContext extends BehatContext
 	 */
 	public function __construct(array $parameters)
 	{
-		// Initialize your context here
 
 		$this->_restObject = new stdClass();
 		$this->_parameters = $parameters;
@@ -101,18 +101,21 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^that the request "([^"]*)" is:$/
+	 * @Given /^that the request "([^"]*)" is "([^"]*)"$/
+	 * @Given /^that its "([^"]*)" is "([^"]*)"$/
 	 */
-	public function thatTheRequestIs($propertyName, $propertyValue)
+	public function thatTheRequestPropertyIs($propertyName, $propertyValue)
 	{
 		$this->_restObject->$propertyName = $propertyValue;
 	}
 
 	/**
-	 * @Given /^that its "([^"]*)" is "([^"]*)"$/
+	 * @Given /^that the request "([^"]*)" header is:$/
+	 * @Given /^that the request "([^"]*)" header is "([^"]*)"$/
 	 */
-	public function thatItsIs($propertyName, $propertyValue)
+	public function thatTheRequestHeaderIs($headerName, $headerValue)
 	{
-		$this->_restObject->$propertyName = $propertyValue;
+		$this->_headers[$headerName] = $headerValue;
 	}
 		
 	/**
@@ -128,24 +131,37 @@ class RestContext extends BehatContext
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$query_string = ( isset($request['query string']) ) ? '?'.$request['query string'] : '';
 				$http_request = $this->_client
-					->get($this->_requestUrl.'/'.$id.$query_string);
+					->get(
+						$this->_requestUrl.'/'.$id.$query_string,
+						$this->_headers
+					);
 				break;
 			case 'POST':
 				$postFields = (array)$this->_restObject;
 				$http_request = $this->_client
-					->post($this->_requestUrl,null,$postFields['data']);
+					->post(
+						$this->_requestUrl,
+						$this->_headers,
+						$postFields['data']
+					);
 				break;
 			case 'PUT':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$http_request = $this->_client
-					->put($this->_requestUrl.'/'.$id,null,$request['data']);
+					->put(
+						$this->_requestUrl.'/'.$id,
+						$this->_headers,
+						$request['data']);
 				break;
 			case 'DELETE':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$http_request = $this->_client
-					->delete($this->_requestUrl.'/'.$id);
+					->delete(
+						$this->_requestUrl.'/'.$id,
+						$this->_headers
+					);
 				break;
 		}
 
@@ -352,15 +368,16 @@ class RestContext extends BehatContext
 	}
 
 	/**
-	 * @Then /^the response status code should be (\d+)$/
+	 * @Then /^the guzzle status code should be (\d+)$/
 	 */
-	public function theResponseStatusCodeShouldBe($httpStatus)
+	public function theRestResponseStatusCodeShouldBe($httpStatus)
 	{
 		if ((string)$this->_response->getStatusCode() !== $httpStatus) {
 			throw new \Exception('HTTP code does not match '.$httpStatus.
 				' (actual: '.$this->_response->getStatusCode().')');
 		}
 	}
+	
 
 	 /**
 	 * @Then /^echo last response$/
@@ -371,5 +388,13 @@ class RestContext extends BehatContext
 			$this->_requestUrl."\n\n".
 			$this->_response
 		);
+	}
+	
+	/**
+	 * @Given /^that the api_url is "([^"]*)"$/
+	 */
+	public function thatTheApiUrlIs($api_url)
+	{
+		$this->_apiUrl = $api_url;
 	}
 }

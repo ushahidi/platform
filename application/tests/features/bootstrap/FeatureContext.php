@@ -26,6 +26,7 @@ class FeatureContext extends BehatContext
 	{
 		// Initialize your context here
 		$this->useContext('RestContext', new RestContext($parameters));
+		$this->useContext('mink', $minkContext = new MinkExtendedContext);
 	}
 
 	/** @BeforeSuite */
@@ -212,6 +213,29 @@ class FeatureContext extends BehatContext
 		ORM::factory("Post_Varchar", 50)->delete();
 		ORM::factory("Post", 97)->delete();
 	}
+	
+	/**
+	 * @BeforeFeature @oauth2
+	 */
+	public static function setupOauth($event)
+	{
+		ORM::factory('oauth_client')
+			->set('client_id', 'demoapp')
+			->set('client_secret', 'demopass')
+			->save();
+		
+		ORM::factory('oauth_authorizationcode')
+			->set('authorization_code', '4d105df9a7f8645ef8306dd40c7b1952794bf368')
+			->set('client_id', 'demoapp')
+			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
+			->save();
+		
+		ORM::factory('oauth_accesstoken')
+			->set('access_token', 'testingtoken')
+			->set('client_id', 'demoapp')
+			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
+			->save();
+	}
 
 	/** @AfterSuite */
 	public static function teardown($event)
@@ -241,6 +265,11 @@ class FeatureContext extends BehatContext
 		// Sets
 		DB::query(Database::DELETE, "TRUNCATE TABLE sets")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts_sets")->execute();
+		// oauth
+		DB::query(Database::DELETE, "TRUNCATE TABLE oauth_clients")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE oauth_access_tokens")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE oauth_authorization_codes")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE oauth_refresh_tokens")->execute();
 		
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
 	}
