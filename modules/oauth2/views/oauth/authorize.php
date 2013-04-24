@@ -10,7 +10,7 @@
     </li>
     <li class="cancel">
         <form id="cancel" action="" method="post">
-            <a href="#" id="cancelButton" onclick="document.getElementById('cancel').submit()">cancel</a>
+            <input id="cancelButton" type="submit" class="button cancel" value="Cancel" />
             <input type="hidden" name="authorize" value="0" />
         </form>
     </li>

@@ -9,9 +9,9 @@ Feature: Testing OAuth2 endpoints
 
     Scenario: Cancelled request for an Authorization code
         Given I am on "/oauth/authorize?response_type=code&client_id=demoapp&state=testing&scope=basic&redirect_uri=http://ushv3.dev/oauth/debug"
-        And I follow "cancelButton"
+        And I press "cancelButton"
         Then the response status code should be 200
-        Then the full url should match "\?error=access_denied&state=testing"
+        Then the full url should match "\?error=access_denied&error_description=.*&state=testing"
 
     Scenario: Requesting access token with authorization code
         Given that I want to make a new "access_token"
