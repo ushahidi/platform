@@ -235,6 +235,12 @@ class FeatureContext extends BehatContext
 			->set('client_id', 'demoapp')
 			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
 			->save();
+		
+		ORM::factory('user')
+			->set('username', 'robbie')
+			->set('password', 'testing')
+			->set('email', 'robbie@ushahidi.com')
+			->save();
 	}
 
 	/** @AfterSuite */
@@ -246,6 +252,7 @@ class FeatureContext extends BehatContext
 	protected static function _clean_db()
 	{
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=0;")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE users")->execute();
 		// Forms, Attributes, Groups
 		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
