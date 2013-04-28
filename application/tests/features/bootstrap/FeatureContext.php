@@ -227,7 +227,15 @@ class FeatureContext extends BehatContext
 		ORM::factory('oauth_authorizationcode')
 			->set('authorization_code', '4d105df9a7f8645ef8306dd40c7b1952794bf368')
 			->set('client_id', 'demoapp')
+			->set('scope', 'api')
 			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
+			->save();
+		
+		ORM::factory('oauth_refreshtoken')
+			->set('refresh_token', '5a846f5351a46fc9bdd5b8f55224b51671cf8b8f')
+			->set('client_id', 'demoapp')
+			->set('scope', 'api')
+			->set('expires', date('Y-m-d H:i:s', strtotime('+10 day')))
 			->save();
 		
 		ORM::factory('oauth_accesstoken')

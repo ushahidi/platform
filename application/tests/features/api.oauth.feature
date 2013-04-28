@@ -49,6 +49,18 @@ Feature: Testing OAuth2 endpoints
         And the response has a "access_token" property
         Then the guzzle status code should be 200
 
+    Scenario: Requesting access token with refresh_token
+        Given that I want to make a new "access_token"
+        And that the request "data" is:
+        """
+          grant_type=refresh_token&client_id=demoapp&client_secret=demopass&refresh_token=5a846f5351a46fc9bdd5b8f55224b51671cf8b8f&redirect_uri=http://ushv3.dev/oauth/debug&scope=api
+        """
+        And that the api_url is ""
+        Then I request "/oauth/token"
+        Then the response is JSON
+        And the response has a "access_token" property
+        Then the guzzle status code should be 200
+
     Scenario: Requesting an access token with implicit flow
         Given I am on "/oauth/authorize?response_type=token&client_id=demoapp&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug"
         And I press "authorizeButton" without redirection
