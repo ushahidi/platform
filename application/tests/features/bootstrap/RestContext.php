@@ -65,6 +65,7 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^that I want to update a "([^"]*)"$/
+	 * @Given /^that I want to update an "([^"]*)"$/
 	 */
 	public function thatIWantToUpdateA($objectType)
 	{
@@ -74,6 +75,7 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^that I want to find a "([^"]*)"$/
+	 * @Given /^that I want to find an "([^"]*)"$/
 	 */
 	public function thatIWantToFindA($objectType)
 	{
@@ -92,6 +94,7 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^that I want to delete a "([^"]*)"$/
+	 * @Given /^that I want to delete an "([^"]*)"$/
 	 */
 	public function thatIWantToDeleteA($objectType)
 	{
@@ -129,7 +132,7 @@ class RestContext extends BehatContext
 			case 'GET':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$query_string = ( isset($request['query string']) ) ? '?'.$request['query string'] : '';
+				$query_string = ( isset($request['query string']) ) ? '?'.trim($request['query string']) : '';
 				$http_request = $this->_client
 					->get(
 						$this->_requestUrl.'/'.$id.$query_string,
@@ -268,6 +271,7 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^the response has a "([^"]*)" property$/
+	 * @Given /^the response has an "([^"]*)" property$/
 	 */
 	public function theResponseHasAProperty($propertyName)
 	{
@@ -282,6 +286,7 @@ class RestContext extends BehatContext
 	
 	/**
 	 * @Given /^the response does not have a "([^"]*)" property$/
+	 * @Given /^the response does not have an "([^"]*)" property$/
 	 */
 	public function theResponseDoesNotHaveAProperty($propertyName)
 	{
