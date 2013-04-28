@@ -3,15 +3,15 @@ Feature: Testing OAuth2 endpoints
 
     Scenario: Requesting an Authorization code
         Given I am on "/oauth/authorize?response_type=code&client_id=demoapp&state=testing&scope=basic&redirect_uri=http://ushv3.dev/oauth/debug"
-        And I press "authorizeButton"
-        Then the response status code should be 200
-        Then the full url should match "\?code=.*&state=testing"
+        And I press "authorizeButton" without redirection
+        Then the response status code should be 302
+        Then the redirect location should match "\?code=.*&state=testing"
 
     Scenario: Cancelled request for an Authorization code
         Given I am on "/oauth/authorize?response_type=code&client_id=demoapp&state=testing&scope=basic&redirect_uri=http://ushv3.dev/oauth/debug"
-        And I press "cancelButton"
-        Then the response status code should be 200
-        Then the full url should match "\?error=access_denied&error_description=.*&state=testing"
+        And I press "cancelButton" without redirection
+        Then the response status code should be 302
+        Then the redirect location should match "\?error=access_denied&error_description=.*&state=testing"
 
     Scenario: Requesting access token with authorization code
         Given that I want to make a new "access_token"
@@ -51,9 +51,9 @@ Feature: Testing OAuth2 endpoints
 
     Scenario: Requesting an access token with implicit flow
         Given I am on "/oauth/authorize?response_type=token&client_id=demoapp&state=testing&scope=basic&redirect_uri=http://ushv3.dev/oauth/debug"
-        And I press "authorizeButton"
-        Then the response status code should be 200
-        Then the full url should match "\#access_token=.*&expires_in=[0-9]*&token_type=bearer&scope=basic&state=testing"
+        And I press "authorizeButton" without redirection
+        Then the response status code should be 302
+        Then the redirect location should match "\#access_token=.*&expires_in=[0-9]*&token_type=bearer&scope=basic&state=testing"
 
     Scenario: Authorized Posts Request
         Given that I want to get all "Posts"
