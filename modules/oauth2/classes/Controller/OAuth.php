@@ -17,8 +17,6 @@
 class Controller_OAuth extends Controller {
 	
 	protected $_oauth2_server;
-	protected $_oauth2_storage;
-	protected $_oauth2_response;
 
 	/**
 	 * @var array Map of HTTP methods -> actions
@@ -48,52 +46,12 @@ class Controller_OAuth extends Controller {
 		$this->request->action($action);
 
 		// Set up OAuth2 objects
-		$this->_oauth2_storage = new Kohana_OAuth2_Storage_ORM();
-		$this->_oauth2_server = new Oauth2_Server($this->_oauth2_storage, array(
-				//'token_type'               => 'bearer',
-				//'access_lifetime'          => 3600,
-				'www_realm'                => 'Ushahidi API',
-				//'token_param_name'         => 'access_token',
-				//'token_bearer_header_name' => 'Bearer',
-				'enforce_state'            => TRUE,
-				'allow_implicit'           => TRUE,
-			));
-		// Add
-		$this->_oauth2_server->addGrantType(new OAuth2_GrantType_UserCredentials($this->_oauth2_storage));
-		$this->_oauth2_server->addGrantType(new OAuth2_GrantType_AuthorizationCode($this->_oauth2_storage));
-		$this->_oauth2_server->addGrantType(new OAuth2_GrantType_ClientCredentials($this->_oauth2_storage));
-		$this->_oauth2_server->addGrantType(new OAuth2_GrantType_RefreshToken($this->_oauth2_storage));
-		
-		// Configure your available scopes
-		$defaultScope = 'basic';
-		$supportedScopes = array(
-			'basic',
-			'posts'
-		);
-		$memory = new OAuth2_Storage_Memory(array(
-			'default_scope' => $defaultScope,
-			'supported_scopes' => $supportedScopes
-		));
-		$scopeUtil = new OAuth2_Scope($memory);
-		
-		$this->_oauth2_server->setScopeUtil($scopeUtil);
+		$this->_oauth2_server = new Kohana_OAuth2_Server();
 	}
 
 	public function after()
 	{
-		// Process OAuth2_Response
-		if ($this->_oauth2_response instanceof OAuth2_Response)
-		{
-			$this->response->body($this->_oauth2_response->getResponseBody());
-			$this->response->headers($this->_oauth2_response->getHttpHeaders());
-			$this->response->headers('Content-Type', 'application/json');
-			$this->response->status($this->_oauth2_response->getStatusCode());
-		}
-	}
-
-	public function action_get_debug()
-	{
-		echo json_encode($this->request->query());
+		$this->_oauth2_server->processResponse($this->response);
 	}
 	
 	/**
@@ -102,7 +60,7 @@ class Controller_OAuth extends Controller {
 	public function action_get_authorize()
 	{
 		if (! $this->_oauth2_server->validateAuthorizeRequest(Kohana_OAuth2_Request::createFromRequest($this->request))) {
-			$this->_oauth2_response = $this->_oauth2_server->getResponse();
+			//$this->_oauth2_response = $this->_oauth2_server->getResponse();
 		}
 
 		// Show authorize yes/no
@@ -116,8 +74,7 @@ class Controller_OAuth extends Controller {
 	public function action_post_authorize()
 	{
 		$authorized = (bool) $this->request->post('authorize');
-		$this->_oauth2_response = $this->_oauth2_server->handleAuthorizeRequest(Kohana_OAuth2_Request::createFromRequest($this->request), $authorized);
-		
+		$this->_oauth2_server->handleAuthorizeRequest(Kohana_OAuth2_Request::createFromRequest($this->request), $authorized);
 	}
 	
 	/**
@@ -125,7 +82,7 @@ class Controller_OAuth extends Controller {
 	 */
 	public function action_get_token()
 	{
-		$this->_oauth2_response = $this->_oauth2_server->handleTokenRequest(Kohana_OAuth2_Request::createFromRequest($this->request));
+		$this->_oauth2_server->handleTokenRequest(Kohana_OAuth2_Request::createFromRequest($this->request));
 	}
 	
 	/**
@@ -133,7 +90,7 @@ class Controller_OAuth extends Controller {
 	 */
 	public function action_post_token()
 	{
-		$this->_oauth2_response = $this->_oauth2_server->handleTokenRequest(Kohana_OAuth2_Request::createFromRequest($this->request));
+		$this->_oauth2_server->handleTokenRequest(Kohana_OAuth2_Request::createFromRequest($this->request));
 	}
 	
 }
