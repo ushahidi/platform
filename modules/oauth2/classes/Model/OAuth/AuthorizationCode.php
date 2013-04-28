@@ -83,7 +83,7 @@ class Model_OAuth_AuthorizationCode extends ORM {
 			),
 			
 			'scope' => array(
-				array('alpha_dash'),
+				//array('alpha_dash'),
 			),
 		);
 	}

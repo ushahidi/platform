@@ -15,6 +15,11 @@
  */
 
 class Controller_Api_Forms extends Ushahidi_Api {
+	
+	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $scope_required = 'forms';
 
 	/**
 	 * Create A Form

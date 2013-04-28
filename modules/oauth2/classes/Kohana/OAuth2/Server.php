@@ -36,11 +36,11 @@ class Kohana_OAuth2_Server extends OAuth2_Server
 		if ($scopeUtil == NULL)
 		{
 			// Configure your available scopes
-			$defaultScope = 'basic';
+			$defaultScope = 'api';
 			$supportedScopes = array(
-				'basic',
 				'api',
-				'posts'
+				'posts',
+				'forms'
 			);
 			$memory = new OAuth2_Storage_Memory(array(
 				'default_scope' => $defaultScope,

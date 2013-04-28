@@ -79,7 +79,7 @@ class Model_OAuth_AccessToken extends ORM {
 			),
 			
 			'scope' => array(
-				array('alpha_dash'),
+				//array('alpha_dash'),
 			),
 		);
 	}

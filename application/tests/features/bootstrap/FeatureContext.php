@@ -233,6 +233,7 @@ class FeatureContext extends BehatContext
 		ORM::factory('oauth_accesstoken')
 			->set('access_token', 'testingtoken')
 			->set('client_id', 'demoapp')
+			->set('scope', 'api posts forms')
 			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
 			->save();
 		
@@ -240,6 +241,15 @@ class FeatureContext extends BehatContext
 			->set('username', 'robbie')
 			->set('password', 'testing')
 			->set('email', 'robbie@ushahidi.com')
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Test post')
+			->set('type', 'report')
+			->set('content', 'testing post for oauth')
+			->set('status', 'published')
+			->set('id', 95)
 			->save();
 	}
 

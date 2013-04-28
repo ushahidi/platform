@@ -40,6 +40,11 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 * @var int Maximum number of results to return
 	 */
 	protected $record_allowed_orderby = array('id', 'created', 'title');
+	
+	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $scope_required = 'posts';
 
 	/**
 	 * Create A Post
