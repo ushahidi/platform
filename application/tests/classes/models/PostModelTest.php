@@ -21,7 +21,7 @@ class PostModelTest extends Unittest_TestCase {
 	 */
 	private function create_valid_form()
 	{
-		$form = ORM::factory('form');
+		$form = ORM::factory('Form');
 
 		try
 		{
@@ -124,7 +124,7 @@ class PostModelTest extends Unittest_TestCase {
 	 */
 	public function test_validate_valid($set)
 	{
-		$post = ORM::factory('post');
+		$post = ORM::factory('Post');
 		$post->values($set);
 
 		$is_valid = TRUE;
@@ -149,7 +149,7 @@ class PostModelTest extends Unittest_TestCase {
 	 */
 	public function test_validate_invalid($set)
 	{	
-		$post = ORM::factory('post');
+		$post = ORM::factory('Post');
 		$post->values($set);
 
 		$is_valid = FALSE;
