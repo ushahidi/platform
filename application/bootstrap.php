@@ -1,19 +1,19 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 // -- Environment setup --------------------------------------------------------
 
 // Load the core Kohana class
-require SYSPATH.'classes/kohana/core'.EXT;
+require SYSPATH.'classes/Kohana/Core'.EXT;
 
-if (is_file(APPPATH.'classes/kohana'.EXT))
+if (is_file(APPPATH.'classes/Kohana'.EXT))
 {
 	// Application extends the core
-	require APPPATH.'classes/kohana'.EXT;
+	require APPPATH.'classes/Kohana'.EXT;
 }
 else
 {
 	// Load empty core extension
-	require SYSPATH.'classes/kohana'.EXT;
+	require SYSPATH.'classes/Kohana'.EXT;
 }
 
 /**
