@@ -1,5 +1,5 @@
 default:
   context:
     parameters:
-      base_url: http://ushv3.dev
+      base_url: http://localhost:80
 #      proxy_url: localhost:8888
