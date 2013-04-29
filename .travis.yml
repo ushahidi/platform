@@ -2,7 +2,7 @@ language: php
 php:
 #  - "5.3"
   - "5.4"
-  - "5.5"
+#  - "5.5"
 services:
   - mysql
 before_script:
@@ -15,7 +15,7 @@ before_script:
   - mv application/config/database.travis application/config/database.php
   - ./minion --task=migrations:run --up
   # webserver setup
-  - nohup php -S localhost:80 index.php > /dev/null 2>&1 &
+  - sudo nohup php -S localhost:80 index.php > /dev/null 2>&1 &
 script:
   - ./bin/behat --config application/tests/behat.yml
   - phpunit -c application/tests/phpunit.xml
