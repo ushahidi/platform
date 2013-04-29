@@ -209,17 +209,17 @@ Feature: Testing the Posts API
         Then the response status code should be 200
 
     # @todo improve this test to check more response data
-    Scenario: Listing All Posts as GeoJSON
-        Given that I want to get all "Posts"
-        And that the request "query string" is:
-            """
-            format=geojson
-            """
-        When I request "/posts"
-        Then the response is JSON
-        And the response has a "type" property
-        And the response has a "features" property
-        Then the response status code should be 200
+    #Scenario: Listing All Posts as GeoJSON
+    #    Given that I want to get all "Posts"
+    #    And that the request "query string" is:
+    #        """
+    #        format=geojson
+    #        """
+    #    When I request "/posts"
+    #    Then the response is JSON
+    #    And the response has a "type" property
+    #    And the response has a "features" property
+    #    Then the response status code should be 200
 
     # @todo improve this test to check more response data
     Scenario: Listing All Posts as JSONP
