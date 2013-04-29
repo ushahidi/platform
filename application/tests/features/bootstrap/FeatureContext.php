@@ -259,6 +259,19 @@ class FeatureContext extends BehatContext
 			->set('status', 'published')
 			->set('id', 95)
 			->save();
+		
+		ORM::factory('oauth_client')
+			->set('client_id', 'restricted_app')
+			->set('client_secret', 'demopass')
+			->set('grant_types', array('authorization_code'))
+			->save();
+		
+		ORM::factory('oauth_authorizationcode')
+			->set('authorization_code', '4d105df9a7f8645ef8306dd40c7b1952794bf372')
+			->set('client_id', 'restricted_app')
+			->set('scope', 'api')
+			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
+			->save();
 	}
 
 	/** @AfterSuite */

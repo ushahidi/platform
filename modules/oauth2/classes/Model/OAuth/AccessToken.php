@@ -67,7 +67,7 @@ class Model_OAuth_AccessToken extends ORM {
 			
 			'client_id' => array(
 				array('not_empty'),
-				array('alpha_numeric'),
+				array('alpha_dash'),
 			),
 			
 			'user_id' => array(

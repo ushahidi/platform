@@ -62,7 +62,8 @@ class Model_OAuth_Client extends ORM {
 		return array(
 			'client_id' => array(
 				array('not_empty'),
-				array('alpha_numeric'),
+				array('alpha_dash'),
+				array(array($this, 'unique'), array(':field', ':value')),
 			),
 			
 			'client_secret' => array(
