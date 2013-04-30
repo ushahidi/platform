@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_API_Forms_Groups extends Ushahidi_API {
+class Controller_API_Forms_Groups extends Ushahidi_Api {
 
 	/**
 	 * Create a new group
@@ -33,7 +33,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $form->loaded())
 		{
-			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
+			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
 				':id' => $form_id,
 			));
 		}
@@ -60,7 +60,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
@@ -117,7 +117,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 
 		if (! $group->loaded())
 		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
@@ -147,7 +147,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 
 		if (! $group->loaded())
 		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
@@ -209,7 +209,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		else
 		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
@@ -232,7 +232,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 
 		if ( ! $group->loaded())
 		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
@@ -276,7 +276,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $form->loaded())
 		{
-			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
+			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
 				':id' => $form_id,
 			));
 		}
@@ -285,7 +285,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $group->loaded())
 		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $group_id,
 			));
 		}
@@ -313,7 +313,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}

@@ -1,0 +1,24 @@
+language: php
+php:
+#  - "5.3"
+  - "5.4"
+#  - "5.5"
+services:
+  - mysql
+before_script:
+  - composer install --no-interaction --prefer-source # Have to prefer source or hit github rate limit
+  - git submodule update --init --recursive
+  - mkdir application/cache application/logs
+  - chmod 777 application/cache application/logs
+  # db setup
+  - mysql -e 'create database lamu_test;'
+  - mv application/config/database.travis application/config/database.php
+  - ./minion --task=migrations:run --up
+  # webserver setup
+  #- sudo nohup php -S localhost:80 index.php > /dev/null 2>&1 &
+  - php -S localhost:8000 index.php &
+  - sleep 3
+  - curl http://localhost:8000/api/v2/posts
+script:
+  - ./bin/behat --config application/tests/behat.yml
+  - phpunit -c application/tests/phpunit.xml
