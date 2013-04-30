@@ -260,7 +260,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			if (! empty($attr_filter))
 			{
 				$sub = DB::select('post_id')
-					->from('Post_'.ucfirst($attr->type))
+					->from('post_'.$attr->type)
 					->where('form_attribute_id', '=', $attr->id)
 					->where('value', 'LIKE', "%$attr_filter%");
 				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->type)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->type).'.post_id');
