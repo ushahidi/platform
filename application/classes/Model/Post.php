@@ -195,18 +195,18 @@ class Model_Post extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current()),
+				'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current()),
 				'parent' => empty($this->parent_id) ? NULL : array(
 					'id' => $this->parent_id,
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id, Request::current())
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id, Request::current())
 				),
 				'user' => empty($this->user_id) ? NULL : array(
 					'id' => $this->user_id,
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
 				),
 				'form' => empty($this->form_id) ? NULL : array(
 					'id' => $this->form_id,
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
 				),
 				'title' => $this->title,
 				'content' => $this->content,
