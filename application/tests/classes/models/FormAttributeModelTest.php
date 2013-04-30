@@ -123,7 +123,7 @@ class FormAttributeModelTest extends Unittest_TestCase {
 	 */
 	public function test_validate_valid($set)
 	{	
-		$attribute = ORM::factory('form_attribute');
+		$attribute = ORM::factory('Form_Attribute');
 		$attribute->values($set);
 
 		$is_valid = TRUE;
@@ -148,7 +148,7 @@ class FormAttributeModelTest extends Unittest_TestCase {
 	 */
 	public function test_validate_invalid($set)
 	{	
-		$attribute = ORM::factory('form_attribute');
+		$attribute = ORM::factory('Form_Attribute');
 		$attribute->values($set);
 
 		$is_valid = FALSE;
