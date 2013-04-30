@@ -17,6 +17,7 @@ before_script:
   # webserver setup
   #- sudo nohup php -S localhost:80 index.php > /dev/null 2>&1 &
   - php -S localhost:8000 index.php &
+  - sleep 3
   - curl http://localhost:8000/api/v2/posts
 script:
   - ./bin/behat --config application/tests/behat.yml
