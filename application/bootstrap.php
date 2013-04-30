@@ -58,27 +58,17 @@ I18n::lang('en-us');
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
  *
- * Note: If you supply an invalid environment name, a PHP warning will be thrown
- * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
+ * Note: If you supply an invalid environment name 'development' will be used instead
  */
-if (($env = getenv('KOHANA_ENV')) !== FALSE)
-{
-	/**
-	 * We have to ignore this line in the coding standards because it expects
-	 * constants to always be uppercase.
-	 *
-	 * The error that is returned from PHPCS is:
-	 * Constants must be uppercase; expected 'KOHANA::' but found 'Kohana::'
-	 */
-	// @codingStandardsIgnoreStart
-	Kohana::$environment = constant('Kohana::'.strtoupper($env));
-	// @codingStandardsIgnoreEnd
-}
-else
+if (($env = getenv('KOHANA_ENV')) === FALSE OR defined('Kohana::'.strtoupper($env)) === FALSE)
 {
 	$env = 'development';
-	Kohana::$environment = Kohana::DEVELOPMENT;
 }
+
+// Ignoring code standards error about constant case
+// @codingStandardsIgnoreStart
+Kohana::$environment = constant('Kohana::'.strtoupper($env));
+// @codingStandardsIgnoreEnd
 
 /**
  * Attach a file reader to config. Multiple readers are supported.
@@ -128,7 +118,6 @@ include Kohana::find_file('routes', 'default');
 /**
  * Include the routes for the current environment.
  */
-
 if ($routes = Kohana::find_file('routes', Kohana::$environment))
 {
 	include $routes;
