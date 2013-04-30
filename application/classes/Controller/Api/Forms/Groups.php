@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_API_Forms_Groups extends Ushahidi_API {
+class Controller_API_Forms_Groups extends Ushahidi_Api {
 
 	/**
 	 * Create a new group
