@@ -125,7 +125,7 @@ Route::set('api', 'api/v2(/<controller>(/<id>))',
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'api'
+		'directory'  => 'Api'
 	));
 
 /**
@@ -138,7 +138,7 @@ Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>))',
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'api/forms'
+		'directory'  => 'Api/Forms'
 	));
 
 /**
@@ -151,7 +151,7 @@ Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>(/<action>)))',
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'api/forms'
+		'directory'  => 'Api/Forms'
 	));
 
 /**
@@ -164,7 +164,7 @@ Route::set('posts', 'api/v2/posts/<post_id>(/<controller>(/<id>))',
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'api/posts'
+		'directory'  => 'Api/Posts'
 	));
 
 /**
