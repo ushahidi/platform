@@ -92,7 +92,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					// Throw 400 if attribute doesn't exist
 					if (! $attribute->loaded() )
 					{
-						throw new Http_Exception_400('Invalid attribute supplied. \':attr\'', array(
+						throw new HTTP_Exception_400('Invalid attribute supplied. \':attr\'', array(
 							':attr' => $key,
 						));
 					}
@@ -328,7 +328,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		if (! $post->loaded())
 		{
-			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
 				':id' => $post_id,
 			));
 		}
@@ -367,7 +367,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		if (! $_post->loaded())
 		{
-			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
 				':id' => $post_id,
 			));
 		}
@@ -398,7 +398,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					// Throw 400 if attribute doesn't exist
 					if (! $attribute->loaded() )
 					{
-						throw new Http_Exception_400('Invalid attribute supplied. \':attr\'', array(
+						throw new HTTP_Exception_400('Invalid attribute supplied. \':attr\'', array(
 							':attr' => $key,
 						));
 					}
@@ -484,7 +484,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
@@ -510,7 +510,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		}
 		else
 		{
-			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
 				':id' => $post_id,
 			));
 		}
