@@ -6,7 +6,7 @@ php:
 services:
   - mysql
 before_script:
-  - composer install
+  - composer install --no-interaction --prefer-source # Have to prefer source or hit github rate limit
   - git submodule update --init --recursive
   - mkdir application/cache application/logs
   - chmod 777 application/cache application/logs
