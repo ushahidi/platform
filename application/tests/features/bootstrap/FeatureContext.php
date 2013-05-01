@@ -314,6 +314,23 @@ class FeatureContext extends BehatContext
 		
 		ORM::factory("post")
 			->set('form_id', 1)
+			->set('title', 'French post')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 105)
+			->set('parent_id', 101)
+			->set('locale', 'fr_FR')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 105)
+			->set('form_attribute_id', 1)
+			->set('value', "french string")
+			->set('id', 55)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
 			->set('title', 'Arabic post')
 			->set('type', 'translation')
 			->set('content', 'Some description')

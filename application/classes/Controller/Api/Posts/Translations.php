@@ -54,6 +54,7 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 			$post = ORM::factory('Post')
 				->where('locale', '=', $post_locale)
 				->where('parent_id', '=', $this->_parent_id)
+				->where('type', '=', $this->_type)
 				->find();
 
 			if (! $post->loaded())
@@ -100,7 +101,8 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 	
 			$_post = ORM::factory('Post', array(
 				'locale' => $post_locale,
-				'parent_id' => $this->_parent_id
+				'parent_id' => $this->_parent_id,
+				'type' => $this->_type
 			));
 	
 			if (! $_post->loaded())
@@ -132,7 +134,8 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 		{
 			$post = ORM::factory('Post', array(
 				'locale' => $post_locale,
-				'parent_id' => $this->_parent_id
+				'parent_id' => $this->_parent_id,
+				'type' => $this->_type
 			));
 			
 			$this->_response_payload = array();
