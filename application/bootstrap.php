@@ -177,8 +177,8 @@ Route::set('translations', 'api/v2/posts/<post_id>/translations(/<locale>)',
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'controller' => 'translations',
-		'directory'  => 'api/posts'
+		'controller' => 'Translations',
+		'directory'  => 'Api/Posts'
 	));
 
 /**
