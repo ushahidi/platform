@@ -22,7 +22,7 @@ else
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/timezones
  */
-date_default_timezone_set('America/Chicago');
+date_default_timezone_set('UTC');
 
 /**
  * Set the default locale.
@@ -61,9 +61,38 @@ I18n::lang('en-us');
  * Note: If you supply an invalid environment name, a PHP warning will be thrown
  * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
  */
-if (isset($_SERVER['KOHANA_ENV']))
+if (($env = getenv('KOHANA_ENV')) !== FALSE)
 {
-	Kohana::$environment = constant('Kohana::'.strtoupper($_SERVER['KOHANA_ENV']));
+	/**
+	 * We have to ignore this line in the coding standards because it expects
+	 * constants to always be uppercase.
+	 *
+	 * The error that is returned from PHPCS is:
+	 * Constants must be uppercase; expected 'KOHANA::' but found 'Kohana::'
+	 */
+	// @codingStandardsIgnoreStart
+	Kohana::$environment = constant('Kohana::'.strtoupper($env));
+	// @codingStandardsIgnoreEnd
+}
+else
+{
+	$env = 'development';
+	Kohana::$environment = Kohana::DEVELOPMENT;
+}
+
+/**
+ * Attach a file reader to config. Multiple readers are supported.
+ */
+
+Kohana::$config = new Config;
+Kohana::$config->attach(new Config_File);
+
+/**
+ * Attach the environment specific configuration file reader to config if not in production.
+ */
+if (Kohana::$environment != Kohana::PRODUCTION)
+{
+	Kohana::$config->attach(new Config_File('config/environments/'.$env));
 }
 
 /**
@@ -81,10 +110,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  caching     enable or disable internal caching                 FALSE
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
-Kohana::init(array(
-	'base_url'   => '/',
-	'index_file' => FALSE
-));
+Kohana::init(Kohana::$config->load('init')->as_array());
 
 // Set up custom error view
 Kohana_Exception::$error_view_content_type = 'application/json';
@@ -96,82 +122,26 @@ Kohana_Exception::$error_view = 'api/error';
 Kohana::$log->attach(new Log_File(APPPATH.'logs'));
 
 /**
- * Attach a file reader to config. Multiple readers are supported.
- */
-Kohana::$config->attach(new Config_File);
-
-/**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
-Kohana::modules(array(
-	'auth'       => MODPATH.'auth',       // Basic authentication
-	'cache'      => MODPATH.'cache',      // Caching with multiple backends
-	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	'database'   => MODPATH.'database',   // Database access
-	'image'      => MODPATH.'image',      // Image manipulation
-	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-	'unittest'   => MODPATH.'unittest',   // Unit testing
-	'minion'     => MODPATH.'minion',
-	'migrations' => MODPATH.'migrations',
-	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
-	));
+Kohana::modules(Kohana::$config->load('modules')->as_array());
 
 /**
- * Base Ushahidi API Route
- */	
-Route::set('api', 'api/v2(/<controller>(/<id>))', 
-	array(
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api'
-	));
-
-/**
- * Forms API SubRoute
- */	
-Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>))', 
-	array(
-		'form_id' => '\d+',
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api/Forms'
-	));
-
-/**
- * Forms API SubRoute
- */	
-Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>(/<action>)))', 
-	array(
-		'form_id' => '\d+',
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api/Forms'
-	));
-
-/**
- * Posts API SubRoute
- */	
-Route::set('posts', 'api/v2/posts/<post_id>(/<controller>(/<id>))', 
-	array(
-		'post_id' => '\d+',
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api/Posts'
-	));
-
-/**
- * Default Route
+ * Cookie salt is used to make sure cookies haven't been modified by the client
+ * @TODO: Change this for each project
  */
-Route::set('default', '(<controller>(/<action>(/<id>)))')
-	->defaults(array(
-		'controller' => 'ushahidi',
-		'action'     => 'index',
-	));
+Cookie::$salt = 'KEVEHQxU;CfHY32LbpHn(c(uctcexPjA';
+
+/**
+ * Include default routes. Default routes are located in application/routes/default.php
+ */
+include Kohana::find_file('routes', 'default');
+
+/**
+ * Include the routes for the current environment.
+ */
+
+if ($routes = Kohana::find_file('routes', Kohana::$environment))
+{
+	include $routes;
+}
