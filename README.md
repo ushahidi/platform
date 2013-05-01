@@ -45,3 +45,13 @@ Installing
 
   ```./minion --task=migrations:run --up --group=3-0```
 
+Extras
+------
+
+### Vagrantfile
+
+We've included a Vagrantfile and puppet manifests to help build a quick development box. Install [Vagrant](http://www.vagrantup.com/), then run ```vagrant up``` to get started!
+
+### Travis-CI
+
+Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/Lamu). See [.travis.yml](https://github.com/ushahidi/Lamu/blob/projecttemplate-helpers-ideas/.travis.yml) for config details.
