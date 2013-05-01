@@ -18,7 +18,7 @@ return array
 (
 	'default' => array
 	(
-		'type'       => 'mysql',
+		'type'       => 'MySQL',
 		'connection' => array(
 			'hostname'   => '192.168.33.1',
 			'database'   => 'lamu',

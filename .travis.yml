@@ -3,6 +3,8 @@ php:
   - "5.4"
 services:
   - mysql
+env:
+  - KOHANA_ENV=testing
 before_script:
   - composer install --no-interaction --prefer-source # Have to prefer source or hit github rate limit
   - git submodule update --init --recursive
@@ -10,7 +12,6 @@ before_script:
   - chmod 777 application/cache application/logs
   # db setup
   - mysql -e 'create database lamu_test;'
-  - mv application/config/database.travis application/config/database.php
   - ./minion --task=migrations:run --up
   # webserver setup
   - php -S localhost:8000 httpdocs/index.php &

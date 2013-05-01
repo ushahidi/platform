@@ -18,7 +18,7 @@ return array
 (
 	'default' => array
 	(
-		'type'       => 'mysql',
+		'type'       => 'MySQL',
 		'connection' => array(
 			'hostname'   => 'localhost',
 			'database'   => 'database',
