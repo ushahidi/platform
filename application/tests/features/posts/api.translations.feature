@@ -76,6 +76,15 @@ Feature: Testing the Translations API
         And the response has a "errors" property
         Then the response status code should be 404
 
+    Scenario: Finding a Revision of a  Translation
+        Given that I want to find a "Revision"
+        And that its "id" is "105"
+        When I request "/posts/101/revisions"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        Then the response status code should be 200
+
     Scenario: Creating a new Translation
         Given that I want to make a new "Translation"
         And that the request "data" is:
