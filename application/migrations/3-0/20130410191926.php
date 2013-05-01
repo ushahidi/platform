@@ -11,7 +11,17 @@ class Migration_3_0_20130410191926 extends Minion_Migration_Base {
 	{
 		// Add 'locale' to Table `posts`
 		$db->query(NULL, "ALTER TABLE `posts`
-		  ADD COLUMN `locale` VARCHAR(5) NOT NULL DEFAULT 'en_us';");
+		  ADD COLUMN `locale` VARCHAR(5) NOT NULL DEFAULT 'en_us',
+		  DROP INDEX `unq_slug`,
+		  DROP FOREIGN KEY `fk_posts_parent_id`;
+		");
+		
+		$db->query(NULL, "ALTER TABLE `posts`
+		  ADD CONSTRAINT `fk_posts_parent_id`
+		    FOREIGN KEY (`parent_id`)
+		    REFERENCES `posts` (`id`)
+		    ON DELETE CASCADE ;
+		");
 	}
 
 	/**
@@ -23,7 +33,17 @@ class Migration_3_0_20130410191926 extends Minion_Migration_Base {
 	{
 		// Remove 'locale' to Table `posts`
 		$db->query(NULL, "ALTER TABLE `posts`
-		  DROP COLUMN `locale`;");
+		  DROP COLUMN `locale`,
+		  ADD UNIQUE INDEX `unq_slug` (`slug` ASC),
+		  DROP FOREIGN KEY `fk_posts_parent_id`;
+		");
+		
+		$db->query(NULL, "ALTER TABLE `posts`
+		  ADD CONSTRAINT `fk_posts_parent_id`
+		    FOREIGN KEY (`parent_id`)
+		    REFERENCES `posts` (`id`)
+		    ON DELETE SET NULL ;
+		");
 	}
 
 }
