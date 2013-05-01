@@ -15,7 +15,7 @@ before_script:
   - mv application/config/database.travis application/config/database.php
   - ./minion --task=migrations:run --up
   # webserver setup
-  - php -S localhost:8000 index.php &
+  - php -S localhost:8000 httpdocs/index.php &
   - sleep 3
 script:
   - ./bin/behat --config application/tests/behat.yml
