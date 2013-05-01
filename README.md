@@ -45,6 +45,15 @@ Installing
 
   ```./minion --task=migrations:run --up --group=3-0```
 
+Config
+------
+
+Base config files are in ```application/config/```.
+
+You can add per-environment config overrides in ```application/config/environments/```. The environment is switched based on the ```KOHANA_ENV``` environment variable. 
+
+Routes are configured in ```application/routes/default.php```. Additional routes can be added in per-environment routing files ie. ```application/routes/development.php```.
+
 Extras
 ------
 
