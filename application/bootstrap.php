@@ -117,23 +117,9 @@ Kohana::modules(array(
 	));
 
 /**
- * Base Ushahidi API Route
- */	
-Route::set('api', 'api/v2(/<controller>(/<id>))', 
-	array(
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api'
-	));
-
-/**
  * Form Groups API SubRoute
- * 
- * Must appear before forms route - otherwise that will match for api/v2/forms/:id/groups/:id/attributes
  */	
-Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>(/<controller>(/<id>))', 
+Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>/<controller>(/<id>)', 
 	array(
 		'form_id' => '\d+',
 		'group_id' => '\d+',
@@ -147,7 +133,7 @@ Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>(/<controller
 /**
  * Forms API SubRoute
  */	
-Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>(/<action>)))', 
+Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)', 
 	array(
 		'form_id' => '\d+',
 		'id' => '\d+'
@@ -160,7 +146,7 @@ Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>(/<action>)))',
 /**
  * Posts API SubRoute
  */	
-Route::set('posts', 'api/v2/posts/<post_id>(/<controller>(/<id>))', 
+Route::set('posts', 'api/v2/posts/<post_id>/<controller>(/<id>)', 
 	array(
 		'post_id' => '\d+',
 		'id' => '\d+'
@@ -168,6 +154,18 @@ Route::set('posts', 'api/v2/posts/<post_id>(/<controller>(/<id>))',
 	->defaults(array(
 		'action'     => 'index',
 		'directory'  => 'Api/Posts'
+	));
+
+/**
+ * Base Ushahidi API Route
+ */
+Route::set('api', 'api/v2(/<controller>(/<id>))', 
+	array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api'
 	));
 
 /**
