@@ -54,4 +54,4 @@ We've included a Vagrantfile and puppet manifests to help build a quick developm
 
 ### Travis-CI
 
-Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/Lamu). See [.travis.yml](https://github.com/ushahidi/Lamu/blob/projecttemplate-helpers-ideas/.travis.yml) for config details.
+Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/Lamu). See [.travis.yml](https://github.com/ushahidi/Lamu/blob/master/.travis.yml) for config details.
