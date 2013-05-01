@@ -29,7 +29,7 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 		
 		if ( ! $parent->loaded())
 		{
-			throw new Http_Exception_404('Post does not exist. Post ID: \':id\'', array(
+			throw new HTTP_Exception_404('Post does not exist. Post ID: \':id\'', array(
 				':id' => $this->_parent_id,
 			));
 		}
@@ -58,7 +58,7 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 
 			if (! $post->loaded())
 			{
-				throw new Http_Exception_404('Translation does not exist. Locale: \':locale\'', array(
+				throw new HTTP_Exception_404('Translation does not exist. Locale: \':locale\'', array(
 					':locale' => $post_locale,
 				));
 			}
@@ -105,7 +105,7 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 	
 			if (! $_post->loaded())
 			{
-				throw new Http_Exception_404('Translation does not exist. Locale: \':locale\'', array(
+				throw new HTTP_Exception_404('Translation does not exist. Locale: \':locale\'', array(
 					':locale' => $post_locale,
 				));
 			}
@@ -144,7 +144,7 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 			}
 			else
 			{
-				throw new Http_Exception_404('Translation does not exist. Locale: \':locale\'', array(
+				throw new HTTP_Exception_404('Translation does not exist. Locale: \':locale\'', array(
 					':locale' => $post_locale,
 				));
 			}

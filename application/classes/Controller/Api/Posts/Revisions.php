@@ -37,7 +37,7 @@ class Controller_Api_Posts_Revisions extends Controller_Api_Posts {
 		
 		if ( ! $parent->loaded())
 		{
-			throw new Http_Exception_404('Post does not exist. Post ID: \':id\'', array(
+			throw new HTTP_Exception_404('Post does not exist. Post ID: \':id\'', array(
 				':id' => $this->_parent_id,
 			));
 		}
