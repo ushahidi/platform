@@ -372,4 +372,16 @@ class RestContext extends BehatContext
 			$this->_response
 		);
 	}
+	
+	/**
+	 * @AfterScenario
+	 */
+	public function afterScenarioCheckError(Behat\Behat\Event\ScenarioEvent $event)
+	{
+		// If scenario failed, dump response
+		if ($event->getResult() == 4 AND $this->_response)
+		{
+			$this->echoLastResponse();
+		}
+	}
 }

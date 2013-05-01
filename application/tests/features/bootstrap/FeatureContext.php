@@ -47,7 +47,7 @@ class FeatureContext extends BehatContext
 		self::_clean_db();
 		
 		// Create Dummy form
-		$form = ORM::factory("form")
+		$form = ORM::factory("Form")
 			->set('name', 'Dummy')
 			->set('type', 'report')
 			->set('description', 'Dummy')
@@ -55,7 +55,7 @@ class FeatureContext extends BehatContext
 			->save();
 			
 		// Create Dummy groups
-		$group = ORM::factory("form_group")
+		$group = ORM::factory("Form_Group")
 			->set('label', 'Dummy')
 			->set('priority', 99)
 			->set('form_id', 1)
@@ -63,7 +63,7 @@ class FeatureContext extends BehatContext
 			->save();
 			
 		// Create Dummy attribute
-		$attr = ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'dummy_varchar')
 			->set("label", "Dummy")
 			->set("type", "varchar")
@@ -85,7 +85,7 @@ class FeatureContext extends BehatContext
 		$group = ORM::factory('Form_Group', 1);
 		
 		// Create full_name attribute
-		$attr = ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'full_name')
 			->set("label", "Full Name")
 			->set("type", "varchar")
@@ -96,7 +96,7 @@ class FeatureContext extends BehatContext
 		$group->add('form_attributes', $attr);
 		
 		// Create description attribute
-		$attr = ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'description')
 			->set("label", "Description")
 			->set("type", "text")
@@ -107,7 +107,7 @@ class FeatureContext extends BehatContext
 		$group->add('form_attributes', $attr);
 		
 		// Create dob attribute
-		$attr = ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'date_of_birth')
 			->set("label", "Date of birth")
 			->set("type", "datetime")
@@ -118,7 +118,7 @@ class FeatureContext extends BehatContext
 		$group->add('form_attributes', $attr);
 		
 		// Create missing_date attribute
-		$attr = ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'missing_date')
 			->set("label", "Missing Date")
 			->set("type", "datetime")
@@ -129,7 +129,7 @@ class FeatureContext extends BehatContext
 		$group->add('form_attributes', $attr);
 		
 		// Create last_location attribute
-		$attr = ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'last_location')
 			->set("label", "Last Location")
 			->set("type", "varchar")
@@ -140,7 +140,7 @@ class FeatureContext extends BehatContext
 		$group->add('form_attributes', $attr);
 		
 		// Create status attribute
-		$attr = ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'status')
 			->set("label", "Status")
 			->set("type", "varchar")
@@ -165,7 +165,7 @@ class FeatureContext extends BehatContext
 	public function setupSearchPostFixture()
 	{
 		// Add posts with searchable data
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'Should be returned when Searching')
 			->set('type', 'report')
@@ -173,7 +173,7 @@ class FeatureContext extends BehatContext
 			->set('status', 'published')
 			->set('id', 99)
 			->save();
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'A comment')
 			->set('type', 'comment')
@@ -181,7 +181,7 @@ class FeatureContext extends BehatContext
 			->set('status', 'published')
 			->set('id', 98)
 			->save();
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'search by attribute')
 			->set('type', 'report')

@@ -24,7 +24,7 @@ class Model_Form_Attribute extends ORM {
 	protected $_has_many = array(
 		'form_groups' => array('through' => 'form_groups_form_attributes'),
 		);
-	
+		
 	protected $_serialize_columns = array('options');
 		
 	/**
@@ -118,8 +118,8 @@ class Model_Form_Attribute extends ORM {
 		if ( in_array($field, $this->_reserved_keys) )
 		{
 			$validation->error($field, 'reserved_key');
-			}
 		}
+	}
 
 	/**
 	 * Prepare attribute data for API
@@ -133,7 +133,7 @@ class Model_Form_Attribute extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v'.Ushahidi_Api::version().'/attributes/'.$this->id, Request::current()),
+				'url' => URL::site('api/v'.Ushahidi_Api::version().'/attributes/'.$this->id, Request::current()),
 				'key' => $this->key,
 				'label' => $this->label,
 				'input' => $this->input,

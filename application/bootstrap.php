@@ -1,19 +1,19 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 // -- Environment setup --------------------------------------------------------
 
 // Load the core Kohana class
-require SYSPATH.'classes/kohana/core'.EXT;
+require SYSPATH.'classes/Kohana/Core'.EXT;
 
-if (is_file(APPPATH.'classes/kohana'.EXT))
+if (is_file(APPPATH.'classes/Kohana'.EXT))
 {
 	// Application extends the core
-	require APPPATH.'classes/kohana'.EXT;
+	require APPPATH.'classes/Kohana'.EXT;
 }
 else
 {
 	// Load empty core extension
-	require SYSPATH.'classes/kohana'.EXT;
+	require SYSPATH.'classes/Kohana'.EXT;
 }
 
 /**
@@ -118,21 +118,21 @@ Kohana::modules(array(
 
 /**
  * Base Ushahidi API Route
- */
+ */	
 Route::set('api', 'api/v2(/<controller>(/<id>))', 
 	array(
 		'id' => '\d+'
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'api'
+		'directory'  => 'Api'
 	));
 
 /**
  * Form Groups API SubRoute
  * 
  * Must appear before forms route - otherwise that will match for api/v2/forms/:id/groups/:id/attributes
- */
+ */	
 Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>(/<controller>(/<id>))', 
 	array(
 		'form_id' => '\d+',
@@ -141,12 +141,12 @@ Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>(/<controller
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'api/forms/groups'
+		'directory'  => 'Api/Forms/Groups'
 	));
 
 /**
  * Forms API SubRoute
- */
+ */	
 Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>(/<action>)))', 
 	array(
 		'form_id' => '\d+',
@@ -154,12 +154,12 @@ Route::set('forms', 'api/v2/forms/<form_id>(/<controller>(/<id>(/<action>)))',
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'api/forms'
+		'directory'  => 'Api/Forms'
 	));
 
 /**
  * Posts API SubRoute
- */
+ */	
 Route::set('posts', 'api/v2/posts/<post_id>(/<controller>(/<id>))', 
 	array(
 		'post_id' => '\d+',
@@ -167,7 +167,7 @@ Route::set('posts', 'api/v2/posts/<post_id>(/<controller>(/<id>))',
 	))
 	->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'api/posts'
+		'directory'  => 'Api/Posts'
 	));
 
 /**

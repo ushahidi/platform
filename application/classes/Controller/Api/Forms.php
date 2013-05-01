@@ -102,7 +102,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
@@ -153,7 +153,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 		if (! $form->loaded() )
 		{
-			throw new Http_Exception_404('Form does not exist. Form ID \':id\'', array(
+			throw new HTTP_Exception_404('Form does not exist. Form ID \':id\'', array(
 				':id' => $form_id,
 			));
 		}
@@ -179,7 +179,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 		if (! $form->loaded() )
 		{
-			throw new Http_Exception_404('Form does not exist. Form ID \':id\'', array(
+			throw new HTTP_Exception_404('Form does not exist. Form ID \':id\'', array(
 				':id' => $form_id,
 			));
 		}
@@ -208,7 +208,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
@@ -235,7 +235,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		}
 		else
 		{
-			throw new Http_Exception_404('Form does not exist. Form ID: \':id\'', array(
+			throw new HTTP_Exception_404('Form does not exist. Form ID: \':id\'', array(
 				':id' => $form_id,
 			));
 		}

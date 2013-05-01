@@ -27,7 +27,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 	{
 		$results = array();
 		$post = $this->_request_payload;
-
+		
 		// Check form/form_group - only allow creating attributes with a form_group
 		// unpack form_group to get form_group_id
 		if (isset($post['form_group']))
@@ -44,14 +44,14 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 		
 		if (empty($post["form_group_id"]))
 		{
-			throw new Http_Exception_400('No form_group specified');
+			throw new HTTP_Exception_400('No form_group specified');
 		}
 		
 		$group = ORM::factory('Form_Group', $post["form_group_id"]);
 		
 		if ( ! $group->loaded())
 		{
-			throw new Http_Exception_400('Invalid Form Group ID. \':id\'', array(
+			throw new HTTP_Exception_400('Invalid Form Group ID. \':id\'', array(
 				':id' => $post["form_group_id"],
 			));
 		}
@@ -80,7 +80,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
@@ -133,7 +133,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 
 		if (! $attribute->loaded())
 		{
-			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+			throw new HTTP_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
@@ -160,7 +160,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 
 		if (! $attribute->loaded())
 		{
-			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+			throw new HTTP_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
@@ -189,7 +189,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
@@ -219,7 +219,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 		}
 		else
 		{
-			throw new Http_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
+			throw new HTTP_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
