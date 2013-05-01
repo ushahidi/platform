@@ -64,11 +64,11 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$post['form_id'] = $post['form'];
 			}
 		}
-		
-		$_post = ORM::factory('Post');
 
+		$_post = ORM::factory('Post');
+		
 		$this->create_or_update_post($_post, $post);
-	}
+					}
 
 	/**
 	 * Retrieve All Posts
@@ -82,13 +82,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$results = array();
 
 		$this->prepare_order_limit_params();
-
+		
 		$posts_query = ORM::factory('Post')
 			->where('type', '=', $this->_type)
 			->order_by($this->record_orderby, $this->record_order)
 			->offset($this->record_offset)
 			->limit($this->record_limit);
-
+		
 		if ($this->_parent_id)
 		{
 			$posts_query->where('parent_id', '=', $this->_parent_id);
@@ -159,7 +159,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			if (! empty($attr_filter))
 			{
 				$sub = DB::select('post_id')
-					->from('Post_'.ucfirst($attr->type))
+					->from('post_'.$attr->type)
 					->where('form_attribute_id', '=', $attr->id)
 					->where('value', 'LIKE', "%$attr_filter%");
 				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->type)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->type).'.post_id');
@@ -192,9 +192,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$prev_params['offset'] = $params['offset'] - $params['limit'];
 		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
 
-		$curr = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($params));
-		$next = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($next_params));
-		$prev = url::site('api/v'.Ushahidi_Api::version().'/posts/'.url::query($prev_params));
+		$curr = URL::site('api/v'.Ushahidi_Api::version().'/posts/'.URL::query($params));
+		$next = URL::site('api/v'.Ushahidi_Api::version().'/posts/'.URL::query($next_params));
+		$prev = URL::site('api/v'.Ushahidi_Api::version().'/posts/'.URL::query($prev_params));
 
 		// Respond with posts
 		$this->_response_payload = array(
@@ -234,7 +234,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		if (! $post->loaded())
 		{
-			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
 				':id' => $post_id,
 			));
 		}
@@ -278,14 +278,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		if (! $_post->loaded())
 		{
-			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
 				':id' => $post_id,
 			));
 		}
 		
 		$this->create_or_update_post($_post, $post);
 	}
-	
+		
 	/**
 	 * Save post, attributes and tags
 	 * 
@@ -326,7 +326,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					// Throw 400 if attribute doesn't exist
 					if (! $attribute->loaded() )
 					{
-						throw new Http_Exception_400('Invalid attribute supplied. \':attr\'', array(
+						throw new HTTP_Exception_400('Invalid attribute supplied. \':attr\'', array(
 							':attr' => $key,
 						));
 					}
@@ -371,7 +371,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				));
 			$post->parent_id = $this->_parent_id;
 			$post->type = $this->_type;
-			
+
 			$post->save();
 			
 			// Did the post change?
@@ -402,14 +402,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					}
 				}
 			}
-
+				
 			// Add tags to post (has to happen after post is saved)
 			if (count($tag_ids) > 0 AND ! $post->has('tags', $tag_ids))
 			{
 				$post->remove('tags')->add('tags', $tag_ids);
 				$saved = ($saved OR TRUE);
 			}
-			
+
 			// Save revision
 			// Check save was successful, and something actually changed
 			if ($post->type != 'revision' AND $saved)
@@ -450,12 +450,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					}
 				}
 
-				// Add tags to post (has to happen after post is saved)
-				if (count($tag_ids) > 0)
-				{
+			// Add tags to post (has to happen after post is saved)
+			if (count($tag_ids) > 0)
+			{
 					$new_revision->remove('tags');
 					$new_revision->add('tags', $tag_ids);
-				}
+			}
 			}
 
 			// Response is the complete post
@@ -463,7 +463,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
@@ -498,7 +498,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		}
 		else
 		{
-			throw new Http_Exception_404('Post does not exist. ID: \':id\'', array(
+			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
 				':id' => $post_id,
 			));
 		}

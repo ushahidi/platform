@@ -98,7 +98,7 @@ class Model_Post extends ORM {
 				array('numeric'),
 				array(array($this, 'form_exists'), array(':field', ':value'))
 			),
-			
+
 			'parent_id' => array(
 				array('numeric'),
 				array(array($this, 'parent_exists'), array(':field', ':value'))
@@ -177,14 +177,14 @@ class Model_Post extends ORM {
 	 * Callback function to check if form exists
 	 */
 	public function parent_exists($field, $value)
-	{
+		{
 		$parent = ORM::factory('Post')
 			->where('id', '=', $value)
 			->where('id', '!=', $this->id)
 			->find();
 		
 		return $parent->loaded();
-	}
+		}
 
 	/**
 	 * Check whether slug is unique for reports
@@ -207,8 +207,8 @@ class Model_Post extends ORM {
 			if ($this->loaded())
 			{
 				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
-			}
-	
+	}
+
 			return ( ! $model->loaded());
 		}
 		
@@ -293,15 +293,15 @@ class Model_Post extends ORM {
 				'url' => $this->url(),
 				'parent' => empty($this->parent_id) ? NULL : array(
 					'id' => $this->parent_id,
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id, Request::current())
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id, Request::current())
 				),
 				'user' => empty($this->user_id) ? NULL : array(
 					'id' => $this->user_id,
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
 				),
 				'form' => empty($this->form_id) ? NULL : array(
 					'id' => $this->form_id,
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
 				),
 				'title' => $this->title,
 				'content' => $this->content,
@@ -409,17 +409,17 @@ class Model_Post extends ORM {
 		switch ($this->type)
 		{
 			case 'revision':
-				return url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/revisions/'.$this->id, Request::current());
+				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/revisions/'.$this->id, Request::current());
 				break;
 			case 'translation':
-				return url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/translations/'.$this->id, Request::current());
+				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/translations/'.$this->id, Request::current());
 				break;
 			case 'report':
 			default:
 				// @todo maybe put 'updates' url as /post/:parent_id/updates/:id
-				return url::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current());
+				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current());
 				break;
-		}
+}
 	}
 
 	public function revisions()

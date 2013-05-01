@@ -1,0 +1,14 @@
+{
+    "require": {
+        "behat/behat": "2.4.*@stable",
+        "guzzle/guzzle": "3.0.*",
+        "behat/mink-extension": "*",
+        "behat/mink": "*",
+        "behat/mink-goutte-driver": "*",
+        "fabpot/goutte": "*"
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "bin-dir": "bin/"
+    }
+}
