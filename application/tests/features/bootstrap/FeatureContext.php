@@ -47,7 +47,7 @@ class FeatureContext extends BehatContext
 		self::_clean_db();
 		
 		// Create Dummy form
-		ORM::factory("Form")
+		$form = ORM::factory("Form")
 			->set('name', 'Dummy')
 			->set('type', 'report')
 			->set('description', 'Dummy')
@@ -55,7 +55,7 @@ class FeatureContext extends BehatContext
 			->save();
 			
 		// Create Dummy groups
-		ORM::factory("Form_Group")
+		$group = ORM::factory("Form_Group")
 			->set('label', 'Dummy')
 			->set('priority', 99)
 			->set('form_id', 1)
@@ -63,17 +63,17 @@ class FeatureContext extends BehatContext
 			->save();
 			
 		// Create Dummy attribute
-		ORM::factory("Form_Attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'dummy_varchar')
 			->set("label", "Dummy")
 			->set("type", "varchar")
 			->set("input", "text")
 			->set("required", true)
 			->set("priority", 1)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->set('id', 1)
 			->save();
+		
+		$group->add('form_attributes', $attr);
 	}
 
 	/**
@@ -81,69 +81,66 @@ class FeatureContext extends BehatContext
 	 */
 	public static function setupFormForPost($event)
 	{
+		$form = ORM::factory('Form', 1);
+		$group = ORM::factory('Form_Group', 1);
 		
 		// Create full_name attribute
-		ORM::factory("Form_Attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'full_name')
 			->set("label", "Full Name")
 			->set("type", "varchar")
 			->set("input", "text")
 			->set("required", true)
 			->set("priority", 1)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create description attribute
-		ORM::factory("Form_Attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'description')
 			->set("label", "Description")
 			->set("type", "text")
 			->set("input", "textarea")
 			->set("required", true)
 			->set("priority", 2)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create dob attribute
-		ORM::factory("Form_Attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'date_of_birth')
 			->set("label", "Date of birth")
 			->set("type", "datetime")
 			->set("input", "date")
 			->set("required", false)
 			->set("priority", 3)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create missing_date attribute
-		ORM::factory("Form_Attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'missing_date')
 			->set("label", "Missing Date")
 			->set("type", "datetime")
 			->set("input", "date")
 			->set("required", true)
 			->set("priority", 4)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create last_location attribute
-		ORM::factory("Form_Attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'last_location')
 			->set("label", "Last Location")
 			->set("type", "varchar")
 			->set("input", "text")
 			->set("required", true)
 			->set("priority", 5)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create status attribute
-		ORM::factory("Form_Attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'status')
 			->set("label", "Status")
 			->set("type", "varchar")
@@ -158,9 +155,8 @@ class FeatureContext extends BehatContext
 					"believed_dead"
 				))
 			->set("priority", 6)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 	}
 
 	/**
@@ -360,6 +356,7 @@ class FeatureContext extends BehatContext
 		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_attributes")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups_form_attributes")->execute();
 		// Posts & field values
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE post_datetime")->execute();
