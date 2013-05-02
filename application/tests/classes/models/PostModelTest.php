@@ -55,6 +55,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'form_id' => $form->id,
 					'title' => 'This is a valid Post',
+					'locale' => 'en_US',
 					'type' => 'report',
 					'status' => 'published',
 					'content' => 'Test Report Content',
@@ -65,6 +66,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'form_id' => $form->id,
 					'title' => 'This is a valid Post',
+					'locale' => 'en_US',
 					'type' => 'comment'
 				)
 			)
@@ -92,6 +94,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'type' => 'report',
 					'title' => 'Test Post Title',
+					'locale' => 'en_US',
 					'content' => 'Test Report Content',
 				)
 			),
@@ -100,6 +103,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'form_id' => 999999999,
 					'type' => 'report',
+					'locale' => 'en_US',
 					'title' => 'Test Post Title',
 					'content' => 'Test Report Content',
 				)
@@ -109,6 +113,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'form_id' => $form->id,
 					'type' => 'unknown',
+					'locale' => 'en_US',
 					'title' => 'Test Post Title',
 					'content' => 'Test Report Content',
 				)
