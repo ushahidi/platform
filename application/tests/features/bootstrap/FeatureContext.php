@@ -359,39 +359,39 @@ class FeatureContext extends BehatContext
 	 */
 	public static function setupOauth($event)
 	{
-		ORM::factory('oauth_client')
+		ORM::factory('OAuth_Client')
 			->set('client_id', 'demoapp')
 			->set('client_secret', 'demopass')
 			->save();
 		
-		ORM::factory('oauth_authorizationcode')
+		ORM::factory('OAuth_AuthorizationCode')
 			->set('authorization_code', '4d105df9a7f8645ef8306dd40c7b1952794bf368')
 			->set('client_id', 'demoapp')
 			->set('scope', 'api')
 			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
 			->save();
 		
-		ORM::factory('oauth_refreshtoken')
+		ORM::factory('OAuth_RefreshToken')
 			->set('refresh_token', '5a846f5351a46fc9bdd5b8f55224b51671cf8b8f')
 			->set('client_id', 'demoapp')
 			->set('scope', 'api')
 			->set('expires', date('Y-m-d H:i:s', strtotime('+10 day')))
 			->save();
 		
-		ORM::factory('oauth_accesstoken')
+		ORM::factory('OAuth_AccessToken')
 			->set('access_token', 'testingtoken')
 			->set('client_id', 'demoapp')
 			->set('scope', 'api posts forms')
 			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
 			->save();
 		
-		ORM::factory('user')
+		ORM::factory('User')
 			->set('username', 'robbie')
 			->set('password', 'testing')
 			->set('email', 'robbie@ushahidi.com')
 			->save();
 		
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'Test post')
 			->set('type', 'report')
@@ -401,13 +401,13 @@ class FeatureContext extends BehatContext
 			->set('id', 95)
 			->save();
 		
-		ORM::factory('oauth_client')
+		ORM::factory('OAuth_Client')
 			->set('client_id', 'restricted_app')
 			->set('client_secret', 'demopass')
 			->set('grant_types', array('authorization_code'))
 			->save();
 		
-		ORM::factory('oauth_authorizationcode')
+		ORM::factory('OAuth_AuthorizationCode')
 			->set('authorization_code', '4d105df9a7f8645ef8306dd40c7b1952794bf372')
 			->set('client_id', 'restricted_app')
 			->set('scope', 'api')
@@ -421,12 +421,12 @@ class FeatureContext extends BehatContext
 	 */
 	public static function createDefaultBearerToken()
 	{
-		ORM::factory('oauth_client')
+		ORM::factory('OAuth_Client')
 			->set('client_id', 'demoapp')
 			->set('client_secret', 'demopass')
 			->save();
 
-		ORM::factory('oauth_accesstoken', 'default')
+		ORM::factory('OAuth_AccessToken', 'default')
 			->set('access_token', 'defaulttoken')
 			->set('client_id', 'demoapp')
 			->set('scope', 'api posts forms')

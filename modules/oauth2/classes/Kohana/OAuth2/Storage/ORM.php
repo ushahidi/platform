@@ -15,11 +15,11 @@ class Kohana_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInter
 	{
 		$this->config = array_merge(
 			array(
-				'client_model' => 'oauth_client',
-				'access_token_model' => 'oauth_accesstoken',
-				'refresh_token_model' => 'oauth_refreshtoken',
-				'code_model' => 'oauth_authorizationcode',
-				'user_model' => 'user', // @todo figure this out
+				'client_model' => 'OAuth_Client',
+				'access_token_model' => 'OAuth_AccessToken',
+				'refresh_token_model' => 'OAuth_RefreshToken',
+				'code_model' => 'OAuth_AuthorizationCode',
+				'user_model' => 'User', // @todo figure this out
 			),
 			$config
 		);
