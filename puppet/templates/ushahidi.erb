@@ -1,0 +1,26 @@
+# WARNING: managed by puppet!
+# Ushahidi apache server configuration
+<VirtualHost *:80>
+        ServerAdmin robbie@ushahidi.com
+
+        DocumentRoot /var/www/httpdocs
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/httpdocs/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel debug
+
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+

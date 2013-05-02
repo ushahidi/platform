@@ -14,9 +14,9 @@ class RestContext extends BehatContext
 	private $_client            = null;
 	private $_response          = null;
 	private $_requestUrl        = null;
-	private $_apiUrl            = 'api/v2';
+	private $_apiUrl           = 'api/v2';
 
-	private $_parameters        = array();
+	private $_parameters			= array();
 	private $_headers           = array();
 
 	/**
@@ -382,7 +382,7 @@ class RestContext extends BehatContext
 				' (actual: '.$this->_response->getStatusCode().')');
 		}
 	}
-	
+
 
 	 /**
 	 * @Then /^echo last response$/
@@ -401,5 +401,17 @@ class RestContext extends BehatContext
 	public function thatTheApiUrlIs($api_url)
 	{
 		$this->_apiUrl = $api_url;
+	}
+	
+	/**
+	 * @AfterScenario
+	 */
+	public function afterScenarioCheckError(Behat\Behat\Event\ScenarioEvent $event)
+	{
+		// If scenario failed, dump response
+		if ($event->getResult() == 4 AND $this->_response)
+		{
+			$this->echoLastResponse();
+		}
 	}
 }

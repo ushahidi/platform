@@ -16,13 +16,13 @@
 
 class Model_Form extends ORM {
 	/**
-	 * A form has many attributes, groups, and posts
+	 * A form has many groups
+	 * A form has and belongs to many attributes
 	 * A form has many [children] forms
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_has_many = array(
-		'form_attributes' => array(),
 		'form_groups' => array(),
 		'posts' => array(),
 
@@ -90,7 +90,7 @@ class Model_Form extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->id, Request::current()),
+				'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->id, Request::current()),
 				'name' => $this->name,
 				'description' => $this->description,
 				'type' => $this->type,

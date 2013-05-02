@@ -14,7 +14,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_API_Forms_Groups extends Ushahidi_API {
+class Controller_API_Forms_Groups extends Ushahidi_Api {
 
 	/**
 	 * Create a new group
@@ -33,7 +33,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		
 		if ( ! $form->loaded())
 		{
-			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
+			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
 				':id' => $form_id,
 			));
 		}
@@ -60,7 +60,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
@@ -117,7 +117,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 
 		if (! $group->loaded())
 		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
@@ -147,7 +147,7 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 
 		if (! $group->loaded())
 		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $id,
 			));
 		}
@@ -209,112 +209,8 @@ class Controller_API_Forms_Groups extends Ushahidi_API {
 		}
 		else
 		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
+			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
 				':id' => $id,
-			));
-		}
-	}
-	
-	/**
-	 * Retrieve group's attributes
-	 * 
-	 * GET /api/forms/:form_id/groups/:id/attributes
-	 * 
-	 * @return void
-	 */
-	public function action_get_attributes()
-	{
-		$form_id = $this->request->param('form_id');
-		$id = $this->request->param('id');
-		$results = array();
-
-		$group = ORM::factory('Form_Group', $id);
-
-		if ( ! $group->loaded())
-		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
-
-		$attributes = ORM::factory('Form_Attribute')
-			->order_by('id', 'ASC')
-			->where('form_id', '=', $form_id)
-			->where('form_group_id', '=', $id)
-			->find_all();
-		
-		$count = $attributes->count();
-
-		foreach ($attributes as $attribute)
-		{
-			$results[] = $attribute->for_api();
-		}
-
-		// Respond with attributes
-		$this->_response_payload = array(
-			'count' => $count,
-			'results' => $results
-			);
-	}
-	
-	/**
-	 * Add new attribute to group
-	 * 
-	 * POST /api/forms/:form_id/groups/:id/attributes
-	 * 
-	 * @todo share code between this and POST /api/forms/:form_id/attributes
-	 * @return void
-	 */
-	public function action_post_attributes()
-	{
-		$form_id = $this->request->param('form_id');
-		$group_id = $this->request->param('id');
-		$results = array();
-		$post = $this->_request_payload;
-		
-		$form = ORM::factory('Form', $form_id);
-		
-		if ( ! $form->loaded())
-		{
-			throw new Http_Exception_404('Invalid Form ID. \':id\'', array(
-				':id' => $form_id,
-			));
-		}
-		
-		$group = ORM::factory('Form_Group', $group_id);
-		
-		if ( ! $group->loaded())
-		{
-			throw new Http_Exception_404('Group does not exist. Group ID: \':id\'', array(
-				':id' => $group_id,
-			));
-		}
-		
-		$attribute = ORM::factory('Form_Attribute')->values($post, array(
-			'key', 'label', 'input', 'type', 'options'
-			));
-		$attribute->form_id = $form_id;
-		$attribute->form_group_id = $group_id;
-		
-		// Validation - perform in-model validation before saving
-		try
-		{
-			// Validate base group data
-			$attribute->check();
-
-			// Validates ... so save
-			$attribute->values($post, array(
-				'key', 'label', 'input', 'type', 'options'
-				));
-			$attribute->save();
-
-			// Response is the complete form
-			$this->_response_payload = $attribute->for_api();
-		}
-		catch (ORM_Validation_Exception $e)
-		{
-			throw new Http_Exception_400('Validation Error: \':errors\'', array(
-				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
 	}

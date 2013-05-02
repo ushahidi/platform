@@ -21,7 +21,7 @@ class PostModelTest extends Unittest_TestCase {
 	 */
 	private function create_valid_form()
 	{
-		$form = ORM::factory('form');
+		$form = ORM::factory('Form');
 
 		try
 		{
@@ -55,6 +55,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'form_id' => $form->id,
 					'title' => 'This is a valid Post',
+					'locale' => 'en_US',
 					'type' => 'report',
 					'status' => 'published',
 					'content' => 'Test Report Content',
@@ -65,6 +66,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'form_id' => $form->id,
 					'title' => 'This is a valid Post',
+					'locale' => 'en_US',
 					'type' => 'comment'
 				)
 			)
@@ -92,6 +94,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'type' => 'report',
 					'title' => 'Test Post Title',
+					'locale' => 'en_US',
 					'content' => 'Test Report Content',
 				)
 			),
@@ -100,6 +103,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'form_id' => 999999999,
 					'type' => 'report',
+					'locale' => 'en_US',
 					'title' => 'Test Post Title',
 					'content' => 'Test Report Content',
 				)
@@ -109,6 +113,7 @@ class PostModelTest extends Unittest_TestCase {
 				array(
 					'form_id' => $form->id,
 					'type' => 'unknown',
+					'locale' => 'en_US',
 					'title' => 'Test Post Title',
 					'content' => 'Test Report Content',
 				)
@@ -124,7 +129,7 @@ class PostModelTest extends Unittest_TestCase {
 	 */
 	public function test_validate_valid($set)
 	{
-		$post = ORM::factory('post');
+		$post = ORM::factory('Post');
 		$post->values($set);
 
 		$is_valid = TRUE;
@@ -149,7 +154,7 @@ class PostModelTest extends Unittest_TestCase {
 	 */
 	public function test_validate_invalid($set)
 	{	
-		$post = ORM::factory('post');
+		$post = ORM::factory('Post');
 		$post->values($set);
 
 		$is_valid = FALSE;

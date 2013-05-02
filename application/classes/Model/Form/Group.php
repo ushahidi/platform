@@ -16,12 +16,12 @@
 
 class Model_Form_Group extends ORM {
 	/**
-	 * A form_group has many groups
+	 * A form_group has and belongs to many attributes
 	 *
 	 * @var array Relationhips
 	 */
 	protected $_has_many = array(
-		'form_attributes' => array(),
+		'form_attributes' => array('through' => 'form_groups_form_attributes'),
 		);
 
 	/**
@@ -43,6 +43,7 @@ class Model_Form_Group extends ORM {
 		return array(
 			'form_id' => array(
 				array('numeric'),
+				array(array($this, 'form_exists'), array(':field', ':value'))
 			),
 			'label' => array(
 				array('not_empty'),
@@ -52,6 +53,18 @@ class Model_Form_Group extends ORM {
 				array('numeric')
 			),
 		);
+	}
+
+	/**
+	 * Callback function to check if form exists
+	 */
+	public function form_exists($field, $value)
+	{
+		$form = ORM::factory('Form')
+			->where('id', '=', $value)
+			->find();
+
+		return $form->loaded();
 	}
 
 	/**
@@ -66,9 +79,9 @@ class Model_Form_Group extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
+				'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
 				'form' => empty($this->form_id) ? NULL : array(
-					'url' => url::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
 					'id' => $this->form_id
 				),
 				'label' => $this->label,

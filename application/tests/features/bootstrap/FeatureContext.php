@@ -48,7 +48,7 @@ class FeatureContext extends BehatContext
 		self::_clean_db();
 		
 		// Create Dummy form
-		ORM::factory("form")
+		$form = ORM::factory("Form")
 			->set('name', 'Dummy')
 			->set('type', 'report')
 			->set('description', 'Dummy')
@@ -56,7 +56,7 @@ class FeatureContext extends BehatContext
 			->save();
 			
 		// Create Dummy groups
-		ORM::factory("form_group")
+		$group = ORM::factory("Form_Group")
 			->set('label', 'Dummy')
 			->set('priority', 99)
 			->set('form_id', 1)
@@ -64,17 +64,17 @@ class FeatureContext extends BehatContext
 			->save();
 			
 		// Create Dummy attribute
-		ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'dummy_varchar')
 			->set("label", "Dummy")
 			->set("type", "varchar")
 			->set("input", "text")
 			->set("required", true)
 			->set("priority", 1)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->set('id', 1)
 			->save();
+		
+		$group->add('form_attributes', $attr);
 	}
 
 	/**
@@ -82,69 +82,66 @@ class FeatureContext extends BehatContext
 	 */
 	public static function setupFormForPost($event)
 	{
+		$form = ORM::factory('Form', 1);
+		$group = ORM::factory('Form_Group', 1);
 		
 		// Create full_name attribute
-		ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'full_name')
 			->set("label", "Full Name")
 			->set("type", "varchar")
 			->set("input", "text")
 			->set("required", true)
 			->set("priority", 1)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create description attribute
-		ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'description')
 			->set("label", "Description")
 			->set("type", "text")
 			->set("input", "textarea")
 			->set("required", true)
 			->set("priority", 2)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create dob attribute
-		ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'date_of_birth')
 			->set("label", "Date of birth")
 			->set("type", "datetime")
 			->set("input", "date")
 			->set("required", false)
 			->set("priority", 3)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create missing_date attribute
-		ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'missing_date')
 			->set("label", "Missing Date")
 			->set("type", "datetime")
 			->set("input", "date")
 			->set("required", true)
 			->set("priority", 4)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create last_location attribute
-		ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'last_location')
 			->set("label", "Last Location")
 			->set("type", "varchar")
 			->set("input", "text")
 			->set("required", true)
 			->set("priority", 5)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 		
 		// Create status attribute
-		ORM::factory("form_attribute")
+		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'status')
 			->set("label", "Status")
 			->set("type", "varchar")
@@ -156,12 +153,11 @@ class FeatureContext extends BehatContext
 					"is_note_author",
 					"believed_alive",
 					"believed_missing",
-					"believed_dead")
-				)
+					"believed_dead"
+				))
 			->set("priority", 6)
-			->set('form_id', 1)
-			->set('form_group_id', 1)
 			->save();
+		$group->add('form_attributes', $attr);
 	}
 
 	/**
@@ -170,35 +166,47 @@ class FeatureContext extends BehatContext
 	public function setupSearchPostFixture()
 	{
 		// Add posts with searchable data
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'Should be returned when Searching')
 			->set('type', 'report')
 			->set('content', 'Some description')
 			->set('status', 'published')
 			->set('id', 99)
+			->set('locale', 'en_US')
 			->save();
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
-			->set('title', 'A comment')
-			->set('type', 'comment')
+			->set('title', 'another report')
+			->set('type', 'report')
 			->set('content', 'Some description')
 			->set('status', 'published')
 			->set('id', 98)
+			->set('locale', 'en_US')
 			->save();
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'search by attribute')
 			->set('type', 'report')
 			->set('content', 'Some description')
 			->set('status', 'published')
 			->set('id', 97)
+			->set('locale', 'en_US')
 			->save();
 		ORM::factory("Post_Varchar")
 			->set('post_id', 97)
 			->set('form_attribute_id', 1)
 			->set('value', "special-string")
 			->set('id', 50)
+			->save();
+		ORM::factory("Post")
+			->set('form_id', 1)
+			->set('title', 'French post to test Searching')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 96)
+			->set('locale', 'fr_FR')
 			->save();
 	}
 
@@ -212,6 +220,138 @@ class FeatureContext extends BehatContext
 		ORM::factory("Post", 98)->delete();
 		ORM::factory("Post_Varchar", 50)->delete();
 		ORM::factory("Post", 97)->delete();
+		ORM::factory("Post", 96)->delete();
+	}
+
+	/**
+	 * @BeforeFeature @revisionFixture
+	 */
+	public static function setupRevisionFixture()
+	{
+		// Add posts with searchable data
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 99)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 50)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 101)
+			->set('parent_id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 101)
+			->set('form_attribute_id', 1)
+			->set('value', "previous_string")
+			->set('id', 51)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 102)
+			->set('parent_id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 102)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 52)
+			->save();
+	}
+
+	/**
+	 * @BeforeFeature @translationFixture
+	 */
+	public static function setupTranslationFixture()
+	{
+		// Add posts with searchable data
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Original post')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 99)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 50)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'French post')
+			->set('type', 'translation')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 101)
+			->set('parent_id', 99)
+			->set('locale', 'fr_FR')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 101)
+			->set('form_attribute_id', 1)
+			->set('value', "french string")
+			->set('id', 51)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'French post')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 105)
+			->set('parent_id', 101)
+			->set('locale', 'fr_FR')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 105)
+			->set('form_attribute_id', 1)
+			->set('value', "french string")
+			->set('id', 55)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Arabic post')
+			->set('type', 'translation')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 102)
+			->set('parent_id', 99)
+			->set('locale', 'ar_AR')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 102)
+			->set('form_attribute_id', 1)
+			->set('value', "arabic string")
+			->set('id', 52)
+			->save();
 	}
 	
 	/**
@@ -288,6 +428,7 @@ class FeatureContext extends BehatContext
 		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_attributes")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups_form_attributes")->execute();
 		// Posts & field values
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE post_datetime")->execute();

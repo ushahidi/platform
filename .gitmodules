@@ -7,6 +7,24 @@
 [submodule "modules/migrations"]
 	path = modules/migrations
 	url = git://github.com/kohana-minion/tasks-migrations.git
+[submodule "modules/auth"]
+	path = modules/auth
+	url = git://github.com/kohana/auth.git
+[submodule "modules/database"]
+	path = modules/database
+	url = git://github.com/kohana/database.git
+[submodule "modules/orm"]
+	path = modules/orm
+	url = git://github.com/kohana/orm.git
+[submodule "modules/image"]
+	path = modules/image
+	url = git://github.com/kohana/image.git
+[submodule "modules/cache"]
+	path = modules/cache
+	url = git://github.com/kohana/cache.git
+[submodule "modules/unittest"]
+	path = modules/unittest
+	url = git://github.com/kohana/unittest.git
 [submodule "modules/oauth2/classes/oauth2-server-php"]
 	path = modules/oauth2/classes/oauth2-server-php
 	url = git://github.com/bshaffer/oauth2-server-php.git

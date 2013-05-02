@@ -1,11 +1,11 @@
 default:
   context:
     parameters:
-      base_url: http://ushv3.dev
+      base_url: http://localhost:8000
 #      proxy_url: localhost:8888
   extensions:
     Behat\MinkExtension\Extension:
-      base_url:  'http://ushv3.dev'
+      base_url:  'http://localhost:8000'
       goutte:  ~
 #      goutte:
 #        guzzle_parameters:

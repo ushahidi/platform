@@ -156,12 +156,11 @@ class Ushahidi_Api extends Controller {
 		// Is that a valid method?
 		if ( ! isset($this->_action_map[$this->request->method()]))
 		{
-			// TODO .. add to the if (maybe??) .. method_exists($this, 'action_'.$this->request->method())
-			throw new Http_Exception_405(array_keys($this->_action_map),
-				'The :method method is not supported. Supported methods are :allowed_methods', array(
-				':method'          => $method,
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
+				':method'          => $this->request->method(),
 				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
-			));
+			))
+			->allowed(array_keys($this->_action_map));
 		}
 
 		// Get the basic verb based action..
@@ -174,13 +173,24 @@ class Ushahidi_Api extends Controller {
 		}
 
 		// If we are acting on a collection, append _collection to the action name.
-		if ($this->request->param('id', FALSE) === FALSE)
+		if ($this->request->param('id', FALSE) === FALSE AND
+			$this->request->param('locale', FALSE) === FALSE)
 		{
 			$action .= '_collection';
 		}
 		
 		// Override the action
 		$this->request->action($action);
+
+		if (! method_exists($this, 'action_'.$action))
+		{
+			// TODO: filter 'Allow' header to only return implemented methods
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
+				':method'          => $this->request->method(),
+				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
+			))
+			->allowed(array_keys($this->_action_map));
+		}
 
 		// Are we be expecting body content as part of the request?
 		if (in_array($this->request->method(), $this->_methods_with_body_content))
@@ -194,7 +204,7 @@ class Ushahidi_Api extends Controller {
 	 * Decodes JSON request body into PHP array
 	 * 
 	 * @todo Support more than just JSON
-	 * @throws Http_Exception_400
+	 * @throws HTTP_Exception_400
 	 */
 	protected function _parse_request_body()
 	{
@@ -229,7 +239,7 @@ class Ushahidi_Api extends Controller {
 				
 				
 
-				throw new Http_Exception_400('Invalid json supplied. Error: \':error\'. \':json\'', array(
+				throw new HTTP_Exception_400('Invalid json supplied. Error: \':error\'. \':json\'', array(
 					':json' => $this->request->body(),
 					':error' => $error,
 				));
@@ -237,7 +247,7 @@ class Ushahidi_Api extends Controller {
 			// Ensure JSON object/array was supplied, not string etc
 			elseif ( ! is_array($this->_request_payload) AND ! is_object($this->_request_payload) )
 			{
-				throw new Http_Exception_400('Invalid json supplied. Error: \'JSON must be array or object\'. \':json\'', array(
+				throw new HTTP_Exception_400('Invalid json supplied. Error: \'JSON must be array or object\'. \':json\'', array(
 					':json' => $this->request->body(),
 				));
 			}
@@ -280,7 +290,7 @@ class Ushahidi_Api extends Controller {
 	 * Encode _response_payload into JSON or JSONP
 	 *
 	 * @todo Add support for GeoJSON
-	 * @throws Http_Exception_400|Http_Exception_500
+	 * @throws HTTP_Exception_400|HTTP_Exception_500
 	 */
 	protected function _prepare_response_body($format = 'json')
 	{
@@ -293,7 +303,7 @@ class Ushahidi_Api extends Controller {
 		}
 		catch (Exception $e)
 		{
-			throw new Http_Exception_500('Error while formatting response');
+			throw new HTTP_Exception_500('Error while formatting response');
 		}
 
 		if ($format == 'jsonp')
@@ -301,11 +311,11 @@ class Ushahidi_Api extends Controller {
 			$callback = $this->request->query('callback');
 			// ensure we have a callback fn
 			if (empty($callback))
-				throw new Http_Exception_400('Required query parameter \'callback\' is missing or empty.');
+				throw new HTTP_Exception_400('Required query parameter \'callback\' is missing or empty.');
 
 			// sanitize callback function name
 			if (preg_match("/^[a-zA-Z0-9]+$/", $callback) != 1)
-				throw new Http_Exception_400('JSONP callback must be alphanumeric.');
+				throw new HTTP_Exception_400('JSONP callback must be alphanumeric.');
 
 			// wrap body in callback
 			$body = "{$callback}({$body})";
@@ -316,7 +326,7 @@ class Ushahidi_Api extends Controller {
 	
 	/**
 	 * Prepare request ordering and limit params
-	 * @throws Http_Exception_400
+	 * @throws HTTP_Exception_400
 	 */
 	protected function prepare_order_limit_params()
 	{
@@ -326,17 +336,17 @@ class Ushahidi_Api extends Controller {
 		$this->record_order = $this->request->query('order') ? strtoupper($this->request->query('order')) : $this->record_order;
 
 		if (! in_array($this->record_order, array('ASC', 'DESC')))
-			throw new Http_Exception_400('Invalid \'order\' parameter supplied: :order.', array(
+			throw new HTTP_Exception_400('Invalid \'order\' parameter supplied: :order.', array(
 				':order' => $this->record_order
 			));
 
 		if (! in_array($this->record_orderby, $this->record_allowed_orderby))
-			throw new Http_Exception_400('Invalid \'orderby\' parameter supplied: :orderby.', array(
+			throw new HTTP_Exception_400('Invalid \'orderby\' parameter supplied: :orderby.', array(
 				':orderby' => $this->record_orderby
 			));
 
 		if ($this->record_limit > $this->record_limit_max)
-			throw new Http_Exception_400('Number of records requested was too large: :record_limit.', array(
+			throw new HTTP_Exception_400('Number of records requested was too large: :record_limit.', array(
 				':record_limit' => $this->record_limit
 			));
 	}
