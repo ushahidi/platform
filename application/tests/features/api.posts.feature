@@ -236,7 +236,7 @@ Feature: Testing the Posts API
             """
         When I request "/posts"
         Then the response is JSONP
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     @searchPostFixture
     Scenario: Search All Posts

@@ -18,7 +18,7 @@ Feature: Testing the Form Groups API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Creating a new Attribute in a non-existent Group
         Given that I want to make a new "Attribute"
@@ -36,7 +36,7 @@ Feature: Testing the Form Groups API
         When I request "/forms/1/groups/35/attributes"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Adding an existing Attribute to a Group
         Given that I want to make a new "Attribute"
@@ -50,7 +50,7 @@ Feature: Testing the Form Groups API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Listing All Attributes in a Group
         Given that I want to get all "Attributes"
@@ -58,7 +58,7 @@ Feature: Testing the Form Groups API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding an Attribute in a Group
         Given that I want to find a "Attribute"
@@ -67,7 +67,7 @@ Feature: Testing the Form Groups API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Remove an Attribute from a Group
         Given that I want to delete a "Attribute"
@@ -76,4 +76,4 @@ Feature: Testing the Form Groups API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
