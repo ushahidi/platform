@@ -198,6 +198,15 @@ class FeatureContext extends BehatContext
 			->set('value', "special-string")
 			->set('id', 50)
 			->save();
+		ORM::factory("Post")
+			->set('form_id', 1)
+			->set('title', 'French post to test Searching')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 96)
+			->set('locale', 'fr_FR')
+			->save();
 	}
 
 	/**
@@ -210,6 +219,7 @@ class FeatureContext extends BehatContext
 		ORM::factory("Post", 98)->delete();
 		ORM::factory("Post_Varchar", 50)->delete();
 		ORM::factory("Post", 97)->delete();
+		ORM::factory("Post", 96)->delete();
 	}
 
 	/**

@@ -179,7 +179,7 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "4"
+        And the "count" property equals "5"
         Then the response status code should be 200
 
     @searchPostFixture
@@ -197,7 +197,7 @@ Feature: Testing the Posts API
         And the response has a "next" property
         And the response has a "prev" property
         And the response has a "curr" property
-        And the "results.0.id" property equals "97"
+        And the "results.0.id" property equals "96"
         Then the response status code should be 200
 
     @searchPostFixture
@@ -244,6 +244,35 @@ Feature: Testing the Posts API
         And that the request "query string" is:
             """
             q=Searching
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "2"
+        Then the response status code should be 200
+
+    @searchPostFixture
+    Scenario: Search All Posts by locale
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            locale=fr_FR
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        Then the response status code should be 200
+
+    # Regression test to ensure q= filter can be used with other filters
+    @searchPostFixture
+    Scenario: Search All Posts with query and locale
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            q=Searching&locale=fr_FR
             """
         When I request "/posts"
         Then the response is JSON

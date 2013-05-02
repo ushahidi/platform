@@ -99,8 +99,10 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$q = $this->request->query('q');
 		if (! empty($q))
 		{
+			$posts_query->and_where_open();
 			$posts_query->where('title', 'LIKE', "%$q%");
 			$posts_query->or_where('content', 'LIKE', "%$q%");
+			$posts_query->and_where_close();
 		}
 		
 		$type = $this->request->query('type');
@@ -122,6 +124,11 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		if (! empty($user))
 		{
 			$posts_query->where('user_id', '=', $user);
+		}
+		$locale = $this->request->query('locale');
+		if (! empty($locale))
+		{
+			$posts_query->where('locale', '=', $locale);
 		}
 		
 		// date chcks
