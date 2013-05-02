@@ -169,6 +169,20 @@ Route::set('api', 'api/v2(/<controller>(/<id>))',
 	));
 
 /**
+ * Translations API SubRoute
+ */	
+Route::set('translations', 'api/v2/posts/<post_id>/translations(/<locale>)', 
+	array(
+		'post_id' => '\d+',
+		'locale' => '[a-zA-Z_]+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'controller' => 'Translations',
+		'directory'  => 'Api/Posts'
+	));
+
+/**
  * Default Route
  */
 Route::set('default', '(<controller>(/<action>(/<id>)))')

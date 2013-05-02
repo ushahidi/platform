@@ -126,12 +126,11 @@ class Ushahidi_Api extends Controller {
 		// Is that a valid method?
 		if ( ! isset($this->_action_map[$this->request->method()]))
 		{
-			// TODO .. add to the if (maybe??) .. method_exists($this, 'action_'.$this->request->method())
-			throw new HTTP_Exception_405(array_keys($this->_action_map),
-				'The :method method is not supported. Supported methods are :allowed_methods', array(
-				':method'          => $method,
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
+				':method'          => $this->request->method(),
 				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
-			));
+			))
+			->allowed(array_keys($this->_action_map));
 		}
 
 		// Get the basic verb based action..
@@ -144,13 +143,24 @@ class Ushahidi_Api extends Controller {
 		}
 
 		// If we are acting on a collection, append _collection to the action name.
-		if ($this->request->param('id', FALSE) === FALSE)
+		if ($this->request->param('id', FALSE) === FALSE AND
+			$this->request->param('locale', FALSE) === FALSE)
 		{
 			$action .= '_collection';
 		}
 		
 		// Override the action
 		$this->request->action($action);
+
+		if (! method_exists($this, 'action_'.$action))
+		{
+			// TODO: filter 'Allow' header to only return implemented methods
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
+				':method'          => $this->request->method(),
+				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
+			))
+			->allowed(array_keys($this->_action_map));
+		}
 
 		// Are we be expecting body content as part of the request?
 		if (in_array($this->request->method(), $this->_methods_with_body_content))

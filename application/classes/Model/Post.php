@@ -77,6 +77,11 @@ class Model_Post extends ORM {
 				// Make sure we have a URL-safe title.
 				array('URL::title')
 			),
+			
+			'locale' => array(
+				array('trim'),
+				array('UTF8::strtolower')
+			),
 		);
 	}
 
@@ -91,7 +96,12 @@ class Model_Post extends ORM {
 			'form_id' => array(
 				array('not_empty'),
 				array('numeric'),
-				array(array($this, 'form_exists'), array(':validation', ':field', ':value'))
+				array(array($this, 'form_exists'), array(':field', ':value'))
+			),
+
+			'parent_id' => array(
+				array('numeric'),
+				array(array($this, 'parent_exists'), array(':field', ':value'))
 			),
 
 			'title' => array(
@@ -117,6 +127,7 @@ class Model_Post extends ORM {
 					'report',
 					'revision',
 					'comment',
+					'translation',
 					'alert'
 				)) )
 			),
@@ -125,7 +136,7 @@ class Model_Post extends ORM {
 			'slug' => array(
 				array('alpha_dash', array(':value', TRUE)),
 				array('max_length', array(':value', 150)),
-				array(array($this, 'unique'), array(':field', ':value'))
+				array(array($this, 'unique_slug'), array(':field', ':value'))
 			),
 			
 			// Post author
@@ -138,22 +149,106 @@ class Model_Post extends ORM {
 				array('max_length', array(':value', 150)),
 				array('email')
 			),
+			
+			// Post locale
+			'locale' => array(
+				array('not_empty'),
+				array('max_length', array(':value', 5)),
+				array('alpha_dash', array(':value', TRUE)),
+				// @todo check locale is valid
+				array(array($this, 'unique_locale'), array(':field', ':value'))
+			),
 		);
 	}
 
 	/**
 	 * Callback function to check if form exists
 	 */
-	public function form_exists($validation, $field, $value)
+	public function form_exists($field, $value)
 	{
 		$form = ORM::factory('Form')
 			->where('id', '=', $value)
 			->find();
 
-		if ( ! $form->loaded() )
+		return $form->loaded();
+	}
+
+	/**
+	 * Callback function to check if form exists
+	 */
+	public function parent_exists($field, $value)
 		{
-			$validation->error($field, 'form_exists');
+		$parent = ORM::factory('Post')
+			->where('id', '=', $value)
+			->where('id', '!=', $this->id)
+			->find();
+		
+		return $parent->loaded();
 		}
+
+	/**
+	 * Check whether slug is unique for reports
+	 * ignore for other post types
+	 *
+	 * @param   string   $field  the field to check for uniqueness
+	 * @param   mixed    $value  the value to check for uniqueness
+	 * @return  bool     whteher the value is unique
+	 */
+	public function unique_slug($field, $value)
+	{
+		// If this is a report - check uniqueness
+		if ($this->type == 'report')
+		{
+			$model = ORM::factory($this->object_name())
+				->where($field, '=', $value)
+				->where('type', '=', 'report')
+				->find();
+	
+			if ($this->loaded())
+			{
+				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
+	}
+
+			return ( ! $model->loaded());
+		}
+		
+		// otherwise skip the check
+		return TRUE;
+	}
+
+	/**
+	 * Check locale is unique for each report
+	 *
+	 * @param   string   $field  the field to check for uniqueness
+	 * @param   mixed    $value  the value to check for uniqueness
+	 * @return  bool     whteher the value is unique
+	 */
+	public function unique_locale($field, $value)
+	{
+		// If this is a report - check uniqueness
+		if ($this->type == 'translation')
+		{
+			// Is locale the same as parent?
+			if ($this->parent->locale == $this->locale)
+				return FALSE;
+			
+			// Check for other translations
+			$model = ORM::factory($this->object_name())
+				->where($field, '=', $value)
+				->where('type', '=', 'translation')
+				->where('parent_id', '=', $this->parent_id)
+				->find();
+
+			if ($this->loaded())
+			{
+				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
+			}
+	
+			return ( ! $model->loaded());
+		}
+		
+		// otherwise skip the check
+		return TRUE;
 	}
 
 	/**
@@ -195,7 +290,7 @@ class Model_Post extends ORM {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current()),
+				'url' => $this->url(),
 				'parent' => empty($this->parent_id) ? NULL : array(
 					'id' => $this->parent_id,
 					'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id, Request::current())
@@ -211,9 +306,11 @@ class Model_Post extends ORM {
 				'title' => $this->title,
 				'content' => $this->content,
 				'status' => $this->status,
+				'type' => $this->type,
 				'email' => $this->email,
 				'author' => $this->author,
 				'slug' => $this->slug,
+				'locale' => $this->locale,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)
 					: $this->created,
@@ -305,5 +402,38 @@ class Model_Post extends ORM {
 		}
 
 		return $response;
+	}
+
+	public function url()
+	{
+		switch ($this->type)
+		{
+			case 'revision':
+				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/revisions/'.$this->id, Request::current());
+				break;
+			case 'translation':
+				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/translations/'.$this->id, Request::current());
+				break;
+			case 'report':
+			default:
+				// @todo maybe put 'updates' url as /post/:parent_id/updates/:id
+				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current());
+				break;
+}
+	}
+
+	public function revisions()
+	{
+		return $this->children->where('type', '=', 'revision');
+	}
+
+	public function comments()
+	{
+		return $this->children->where('type', '=', 'comments');
+	}
+
+	public function translations()
+	{
+		return $this->children->where('type', '=', 'translations');
 	}
 }

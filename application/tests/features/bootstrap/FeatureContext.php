@@ -152,8 +152,8 @@ class FeatureContext extends BehatContext
 					"is_note_author",
 					"believed_alive",
 					"believed_missing",
-					"believed_dead")
-				)
+					"believed_dead"
+				))
 			->set("priority", 6)
 			->save();
 		$group->add('form_attributes', $attr);
@@ -172,14 +172,16 @@ class FeatureContext extends BehatContext
 			->set('content', 'Some description')
 			->set('status', 'published')
 			->set('id', 99)
+			->set('locale', 'en_US')
 			->save();
 		ORM::factory("Post")
 			->set('form_id', 1)
-			->set('title', 'A comment')
-			->set('type', 'comment')
+			->set('title', 'another report')
+			->set('type', 'report')
 			->set('content', 'Some description')
 			->set('status', 'published')
 			->set('id', 98)
+			->set('locale', 'en_US')
 			->save();
 		ORM::factory("Post")
 			->set('form_id', 1)
@@ -188,6 +190,7 @@ class FeatureContext extends BehatContext
 			->set('content', 'Some description')
 			->set('status', 'published')
 			->set('id', 97)
+			->set('locale', 'en_US')
 			->save();
 		ORM::factory("Post_Varchar")
 			->set('post_id', 97)
@@ -207,6 +210,137 @@ class FeatureContext extends BehatContext
 		ORM::factory("Post", 98)->delete();
 		ORM::factory("Post_Varchar", 50)->delete();
 		ORM::factory("Post", 97)->delete();
+	}
+
+	/**
+	 * @BeforeFeature @revisionFixture
+	 */
+	public static function setupRevisionFixture()
+	{
+		// Add posts with searchable data
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 99)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 50)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 101)
+			->set('parent_id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 101)
+			->set('form_attribute_id', 1)
+			->set('value', "previous_string")
+			->set('id', 51)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Should be returned when Searching')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 102)
+			->set('parent_id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 102)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 52)
+			->save();
+	}
+
+	/**
+	 * @BeforeFeature @translationFixture
+	 */
+	public static function setupTranslationFixture()
+	{
+		// Add posts with searchable data
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Original post')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 99)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 50)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'French post')
+			->set('type', 'translation')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 101)
+			->set('parent_id', 99)
+			->set('locale', 'fr_FR')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 101)
+			->set('form_attribute_id', 1)
+			->set('value', "french string")
+			->set('id', 51)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'French post')
+			->set('type', 'revision')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 105)
+			->set('parent_id', 101)
+			->set('locale', 'fr_FR')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 105)
+			->set('form_attribute_id', 1)
+			->set('value', "french string")
+			->set('id', 55)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Arabic post')
+			->set('type', 'translation')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 102)
+			->set('parent_id', 99)
+			->set('locale', 'ar_AR')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 102)
+			->set('form_attribute_id', 1)
+			->set('value', "arabic string")
+			->set('id', 52)
+			->save();
 	}
 
 	/** @AfterSuite */
