@@ -395,6 +395,7 @@ class FeatureContext extends BehatContext
 			->set('form_id', 1)
 			->set('title', 'Test post')
 			->set('type', 'report')
+			->set('locale', 'en_us')
 			->set('content', 'testing post for oauth')
 			->set('status', 'published')
 			->set('id', 95)
