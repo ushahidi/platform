@@ -307,7 +307,10 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	protected function create_or_update_post($post, $post_data)
 	{
 		// Make form_id a string, avoid triggering 'changed' value
-		$post_data['form_id'] = (String) $post_data['form_id'];
+		if (isset($post_data['form_id']))
+		{
+			$post_data['form_id'] = (String) $post_data['form_id'];
+		}
 		
 		$post->values($post_data, array(
 			'form_id', 'title', 'content', 'status', 'slug', 'email', 'author', 'locale'
