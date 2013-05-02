@@ -11,6 +11,7 @@ before_script:
   # db setup
   - mysql -e 'create database lamu_test;'
   - mv application/config/database.travis application/config/database.php
+  - mv application/config/auth.travis application/config/auth.php
   - ./minion --task=migrations:run --up
   # webserver setup
   - php -S localhost:8000 httpdocs/index.php &
