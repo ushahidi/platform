@@ -439,6 +439,10 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					foreach ($post_data['values'] as $key => $value)
 					{
 						$attribute = ORM::factory('Form_Attribute')
+							->join('form_groups_form_attributes', 'INNER')
+								->on('form_attribute.id', '=', 'form_attribute_id')
+							->join('form_groups', 'INNER')
+								->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id')
 							->where('form_id', '=', $new_revision->form_id)
 							->where('key', '=', $key)
 							->find();
