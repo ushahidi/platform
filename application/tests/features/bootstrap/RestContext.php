@@ -14,9 +14,9 @@ class RestContext extends BehatContext
 	private $_client            = null;
 	private $_response          = null;
 	private $_requestUrl        = null;
-	private $_apiUrl           = 'api/v2';
+	private $_apiUrl            = 'api/v2';
 
-	private $_parameters			= array();
+	private $_parameters        = array();
 	private $_headers           = array();
 
 	/**
@@ -25,7 +25,6 @@ class RestContext extends BehatContext
 	 */
 	public function __construct(array $parameters)
 	{
-
 		$this->_restObject = new stdClass();
 		$this->_parameters = $parameters;
 		
