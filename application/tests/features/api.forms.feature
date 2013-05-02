@@ -1,3 +1,4 @@
+@oauth2Skip
 Feature: Testing the Forms API
 
     Scenario: Creating a new Form

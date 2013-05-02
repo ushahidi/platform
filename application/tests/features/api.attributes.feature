@@ -1,3 +1,4 @@
+@oauth2Skip
 Feature: Testing the Form Attributes API
 
     Scenario: Creating a new Attribute

@@ -1,4 +1,4 @@
-@post @revisionFixture
+@post @revisionFixture @oauth2Skip
 Feature: Testing the Revisions API
 
     Scenario: Listing All Revisions

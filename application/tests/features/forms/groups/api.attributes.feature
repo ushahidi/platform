@@ -1,3 +1,4 @@
+@oauth2Skip
 Feature: Testing the Form Groups API
 
     Scenario: Creating a new Attribute in a Group

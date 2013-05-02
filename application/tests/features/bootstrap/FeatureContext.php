@@ -413,6 +413,34 @@ class FeatureContext extends BehatContext
 			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
 			->save();
 	}
+	
+	/**
+	 * Automatically set bearer token so you can forget about it
+	 * @BeforeFeature @oauth2Skip
+	 */
+	public static function createDefaultBearerToken()
+	{
+		ORM::factory('oauth_client')
+			->set('client_id', 'demoapp')
+			->set('client_secret', 'demopass')
+			->save();
+
+		ORM::factory('oauth_accesstoken', 'default')
+			->set('access_token', 'defaulttoken')
+			->set('client_id', 'demoapp')
+			->set('scope', 'api posts forms')
+			->set('expires', date('Y-m-d H:i:s', strtotime('+1 day')))
+			->save();
+	}
+	
+	/**
+	 * Automatically set bearer token so you can forget about it
+	 * @BeforeScenario @oauth2Skip
+	 */
+	public function setDefaultBearerAuth()
+	{
+		$this->getSubcontext('RestContext')->thatTheRequestHeaderIs('Authorization', 'Bearer defaulttoken');
+	}
 
 	/** @AfterSuite */
 	public static function teardown($event)

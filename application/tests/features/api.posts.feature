@@ -1,4 +1,4 @@
-@post
+@post @oauth2Skip
 Feature: Testing the Posts API
 
     Scenario: Creating a new Post

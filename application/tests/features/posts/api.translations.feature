@@ -1,4 +1,4 @@
-@post @translationFixture
+@post @translationFixture @oauth2Skip
 Feature: Testing the Translations API
 
     Scenario: Listing All Translations
