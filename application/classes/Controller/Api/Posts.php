@@ -192,9 +192,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$prev_params['offset'] = $params['offset'] - $params['limit'];
 		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
 
-		$curr = URL::site('api/v'.Ushahidi_Api::version().'/posts/'.URL::query($params));
-		$next = URL::site('api/v'.Ushahidi_Api::version().'/posts/'.URL::query($next_params));
-		$prev = URL::site('api/v'.Ushahidi_Api::version().'/posts/'.URL::query($prev_params));
+		$curr = URL::site($this->request->uri() . URL::query($params), $this->request);
+		$next = URL::site($this->request->uri() . URL::query($next_params), $this->request);
+		$prev = URL::site($this->request->uri() . URL::query($prev_params), $this->request);
 
 		// Respond with posts
 		$this->_response_payload = array(
