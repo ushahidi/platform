@@ -3,9 +3,12 @@
 /**
  * Kohana ORM storage for all storage types
  *
- * @author Robbie Mackay <robbie@ushahidi.com>
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Koauth
+ * @copyright  Ushahidi - http://www.ushahidi.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
-class Kohana_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInterface,
+class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInterface,
 	OAuth2_Storage_AccessTokenInterface, OAuth2_Storage_ClientCredentialsInterface,
 	OAuth2_Storage_UserCredentialsInterface, OAuth2_Storage_RefreshTokenInterface
 {

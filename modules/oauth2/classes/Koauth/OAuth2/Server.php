@@ -1,12 +1,20 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Kohana_OAuth2_Server extends OAuth2_Server
+/**
+ * Wrapper for OAuth2_Server
+ * 
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Koauth
+ * @copyright  Ushahidi - http://www.ushahidi.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ */
+class Koauth_OAuth2_Server extends OAuth2_Server
 {
 	public function __construct($storage = array(), array $config = array(), array $grantTypes = array(), array $responseTypes = array(), OAuth2_ResponseType_AccessTokenInterface $accessTokenResponseType = null, OAuth2_ScopeInterface $scopeUtil = null)
 	{
 		if (empty($storage))
 		{
-			$storage = new Kohana_OAuth2_Storage_ORM();
+			$storage = new Koauth_OAuth2_Storage_ORM();
 		}
 
 		if (empty($config))

@@ -103,7 +103,7 @@ class Ushahidi_Api extends Controller {
 	{
 		parent::before();
 
-		$this->_oauth2_server = new Kohana_OAuth2_Server();
+		$this->_oauth2_server = new Koauth_OAuth2_Server();
 
 		if (! $this->_check_access() )
 		{
@@ -131,7 +131,7 @@ class Ushahidi_Api extends Controller {
 	protected function _check_access()
 	{
 		// https://api.example.com/resource-requiring-postonwall-scope
-		$request = Kohana_OAuth2_Request::createFromRequest($this->request);
+		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
 		$scopeRequired = $this->scope_required;
 		if (! $this->_oauth2_server->verifyResourceRequest($request, $scopeRequired)) {
 			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
