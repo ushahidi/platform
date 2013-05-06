@@ -113,7 +113,7 @@ Kohana::modules(array(
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'minion'     => MODPATH.'minion',
 	'migrations' => MODPATH.'migrations',
-	'oauth2'     => MODPATH.'oauth2',
+	'koauth'     => MODPATH.'koauth',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 

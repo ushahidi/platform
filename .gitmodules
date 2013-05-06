@@ -25,6 +25,6 @@
 [submodule "modules/unittest"]
 	path = modules/unittest
 	url = git://github.com/kohana/unittest.git
-[submodule "modules/oauth2/vendor/oauth2-server-php"]
-	path = modules/oauth2/vendor/oauth2-server-php
+[submodule "modules/koauth/vendor/oauth2-server-php"]
+	path = modules/koauth/vendor/oauth2-server-php
 	url = git://github.com/bshaffer/oauth2-server-php.git
