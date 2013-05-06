@@ -53,7 +53,7 @@ abstract class Koauth_Controller_OAuth extends Controller {
 	 */
 	public function action_get_authorize()
 	{
-		if (! $this->_oauth2_server->validateAuthorizeRequest(Kohana_OAuth2_Request::createFromRequest($this->request))) {
+		if (! $this->_oauth2_server->validateAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request))) {
 			//$this->_oauth2_response = $this->_oauth2_server->getResponse();
 		}
 
@@ -68,7 +68,7 @@ abstract class Koauth_Controller_OAuth extends Controller {
 	public function action_post_authorize()
 	{
 		$authorized = (bool) $this->request->post('authorize');
-		$this->_oauth2_server->handleAuthorizeRequest(Kohana_OAuth2_Request::createFromRequest($this->request), $authorized);
+		$this->_oauth2_server->handleAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request), $authorized);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ abstract class Koauth_Controller_OAuth extends Controller {
 	 */
 	public function action_get_token()
 	{
-		$this->_oauth2_server->handleTokenRequest(Kohana_OAuth2_Request::createFromRequest($this->request));
+		$this->_oauth2_server->handleTokenRequest(Koauth_OAuth2_Request::createFromRequest($this->request));
 	}
 	
 	/**
@@ -84,7 +84,7 @@ abstract class Koauth_Controller_OAuth extends Controller {
 	 */
 	public function action_post_token()
 	{
-		$this->_oauth2_server->handleTokenRequest(Kohana_OAuth2_Request::createFromRequest($this->request));
+		$this->_oauth2_server->handleTokenRequest(Koauth_OAuth2_Request::createFromRequest($this->request));
 	}
 	
 }
