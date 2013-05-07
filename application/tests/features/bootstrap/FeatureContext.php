@@ -228,7 +228,7 @@ class FeatureContext extends BehatContext
 	public static function setupRevisionFixture()
 	{
 		// Add posts with searchable data
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'Should be returned when Searching')
 			->set('type', 'report')
@@ -244,7 +244,7 @@ class FeatureContext extends BehatContext
 			->set('id', 50)
 			->save();
 		
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'Should be returned when Searching')
 			->set('type', 'revision')
@@ -261,7 +261,7 @@ class FeatureContext extends BehatContext
 			->set('id', 51)
 			->save();
 		
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'Should be returned when Searching')
 			->set('type', 'revision')
@@ -285,7 +285,7 @@ class FeatureContext extends BehatContext
 	public static function setupTranslationFixture()
 	{
 		// Add posts with searchable data
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'Original post')
 			->set('type', 'report')
@@ -301,7 +301,7 @@ class FeatureContext extends BehatContext
 			->set('id', 50)
 			->save();
 		
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'French post')
 			->set('type', 'translation')
@@ -318,7 +318,7 @@ class FeatureContext extends BehatContext
 			->set('id', 51)
 			->save();
 		
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'French post')
 			->set('type', 'revision')
@@ -335,7 +335,7 @@ class FeatureContext extends BehatContext
 			->set('id', 55)
 			->save();
 		
-		ORM::factory("post")
+		ORM::factory("Post")
 			->set('form_id', 1)
 			->set('title', 'Arabic post')
 			->set('type', 'translation')

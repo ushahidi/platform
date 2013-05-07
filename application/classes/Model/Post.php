@@ -174,17 +174,20 @@ class Model_Post extends ORM {
 	}
 
 	/**
-	 * Callback function to check if form exists
+	 * Callback function to check if parent exists
 	 */
 	public function parent_exists($field, $value)
-		{
+	{
+		// Skip check if parent is empty
+		if (empty($value)) return TRUE;
+		
 		$parent = ORM::factory('Post')
 			->where('id', '=', $value)
 			->where('id', '!=', $this->id)
 			->find();
 		
 		return $parent->loaded();
-		}
+	}
 
 	/**
 	 * Check whether slug is unique for reports
@@ -207,7 +210,7 @@ class Model_Post extends ORM {
 			if ($this->loaded())
 			{
 				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
-	}
+			}
 
 			return ( ! $model->loaded());
 		}
@@ -419,7 +422,7 @@ class Model_Post extends ORM {
 				// @todo maybe put 'updates' url as /post/:parent_id/updates/:id
 				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current());
 				break;
-}
+		}
 	}
 
 	public function revisions()
