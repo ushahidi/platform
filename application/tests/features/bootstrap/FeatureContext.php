@@ -363,6 +363,93 @@ class FeatureContext extends BehatContext
 			->save();
 	}
 
+	/**
+	 * @BeforeFeature @updatesFixture
+	 */
+	public static function setupUpdatesFixture()
+	{
+		// Create additional form
+		// Create Dummy form
+		$form = ORM::factory("Form")
+			->set('name', 'Missing people')
+			->set('type', 'report')
+			->set('description', 'Missing persons')
+			->set('id', 2)
+			->save();
+			
+		// Create Dummy groups
+		$group = ORM::factory("Form_Group")
+			->set('label', 'Main')
+			->set('priority', 99)
+			->set('form_id', 2)
+			->set('id', 10)
+			->save();
+			
+		// Create Dummy attribute
+		$attr = ORM::factory("Form_Attribute")
+			->set('key', 'missing_status')
+			->set("label", "Missing Status")
+			->set("type", "varchar")
+			->set("input", "text")
+			->set("required", true)
+			->set("priority", 1)
+			->set('id', 10)
+			->save();
+		
+		$group->add('form_attributes', $attr);
+		
+		// Add posts with searchable data
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Example parent report')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 99)
+			->set('form_attribute_id', 1)
+			->set('value', "special-string")
+			->set('id', 50)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 1)
+			->set('title', 'Child dummy report')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 101)
+			->set('parent_id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 101)
+			->set('form_attribute_id', 1)
+			->set('value', "dummy string")
+			->set('id', 51)
+			->save();
+		
+		ORM::factory("post")
+			->set('form_id', 2)
+			->set('title', 'Child missing person report')
+			->set('type', 'report')
+			->set('content', 'Some description')
+			->set('status', 'published')
+			->set('id', 102)
+			->set('parent_id', 99)
+			->set('locale', 'en_US')
+			->save();
+		ORM::factory("Post_Varchar")
+			->set('post_id', 102)
+			->set('form_attribute_id', 2)
+			->set('value', "missing")
+			->set('id', 52)
+			->save();
+	}
+
 	/** @AfterSuite */
 	public static function teardown($event)
 	{
