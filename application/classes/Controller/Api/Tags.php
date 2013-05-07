@@ -10,6 +10,21 @@
  */
 
 class Controller_Api_Tags extends Ushahidi_Api {
+	
+	/**
+	 * @var string Field to sort results by
+	 */
+	protected $record_orderby = 'priority';
+	
+	/**
+	 * @var string Direct to sort results
+	 */
+	protected $record_order = 'ASC';
+
+	/**
+	 * @var int Maximum number of results to return
+	 */
+	protected $record_allowed_orderby = array('id', 'created', 'tag', 'slug', 'priority');
 
 	/**
 	 * Create A Tag
@@ -38,9 +53,40 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	{
 		$results = array();
 
-		$tags = ORM::factory('Tag')
-			->order_by('created', 'ASC')
-			->find_all();
+		$this->prepare_order_limit_params();
+
+		$tags_query = ORM::factory('Tag')
+			->order_by($this->record_orderby, $this->record_order)
+			->offset($this->record_offset)
+			->limit($this->record_limit);
+		
+		// Prepare search params
+		// @todo generalize this?
+		$q = $this->request->query('q');
+		if (! empty($q))
+		{
+			$tags_query->where('tag', 'LIKE', "%$q%");
+		}
+
+		$tag = $this->request->query('tag');
+		if (! empty($tag))
+		{
+			$tags_query->where('tag', '=', $tag);
+		}
+		
+		$type = $this->request->query('type');
+		if (! empty($type))
+		{
+			$tags_query->where('type', '=', $type);
+		}
+		
+		$type = $this->request->query('parent');
+		if (! empty($type))
+		{
+			$tags_query->where('parent_id', '=', $type);
+		}
+		
+		$tags = $tags_query->find_all();
 
 		$count = $tags->count();
 
@@ -49,11 +95,39 @@ class Controller_Api_Tags extends Ushahidi_Api {
 			$results[] = $tag->for_api();
 		}
 
-		// Respond with forms
+		// Current/Next/Prev urls
+		$params = array(
+			'limit' => $this->record_limit,
+			'offset' => $this->record_offset,
+		);
+		// Only add order/orderby if they're already set
+		if ($this->request->query('orderby') OR $this->request->query('order'))
+		{
+			$params['orderby'] = $this->record_orderby;
+			$params['order'] = $this->record_order;
+		}
+
+		$prev_params = $next_params = $params;
+		$next_params['offset'] = $params['offset'] + $params['limit'];
+		$prev_params['offset'] = $params['offset'] - $params['limit'];
+		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
+
+		$curr = URL::site($this->request->uri() . URL::query($params), $this->request);
+		$next = URL::site($this->request->uri() . URL::query($next_params), $this->request);
+		$prev = URL::site($this->request->uri() . URL::query($prev_params), $this->request);
+
+		// Respond with posts
 		$this->_response_payload = array(
 			'count' => $count,
-			'results' => $results
-			);
+			'results' => $results,
+			'limit' => $this->record_limit,
+			'offset' => $this->record_offset,
+			'order' => $this->record_order,
+			'orderby' => $this->record_orderby,
+			'curr' => $curr,
+			'next' => $next,
+			'prev' => $prev,
+		);
 	}
 
 	/**

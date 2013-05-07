@@ -96,6 +96,41 @@ Feature: Testing the Tags API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
+        And the "count" property equals "8"
+        Then the response status code should be 200
+
+    Scenario: Search All Tags
+        Given that I want to get all "Tags"
+        And that the request "query string" is:
+            """
+            q=Explo
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the "count" property equals "1"
+        And the "results.0.tag" property equals "Explosion"
+        Then the response status code should be 200
+
+    Scenario: Search All Tags by type
+        Given that I want to get all "Tags"
+        And that the request "query string" is:
+            """
+            type=category
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the "count" property equals "5"
+        Then the response status code should be 200
+
+    Scenario: Search All Tags by parent
+        Given that I want to get all "Tags"
+        And that the request "query string" is:
+            """
+            parent=3
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the "count" property equals "1"
         Then the response status code should be 200
 
     Scenario: Finding a Tag

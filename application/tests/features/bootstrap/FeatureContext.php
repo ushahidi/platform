@@ -373,6 +373,39 @@ class FeatureContext extends BehatContext
 			->set('type', 'category')
 			->set('id', 2)
 			->save();
+			
+		ORM::factory("Tag")
+			->set('tag', 'Disaster')
+			->set('slug', 'disaster')
+			->set('priority', 0)
+			->set('type', 'category')
+			->set('id', 3)
+			->save();
+			
+		ORM::factory("Tag")
+			->set('tag', 'Explosion')
+			->set('slug', 'explosion')
+			->set('parent_id', 3)
+			->set('priority', 0)
+			->set('type', 'category')
+			->set('id', 4)
+			->save();
+			
+		ORM::factory("Tag")
+			->set('tag', 'Todo')
+			->set('slug', 'todo')
+			->set('priority', 0)
+			->set('type', 'status')
+			->set('id', 5)
+			->save();
+			
+		ORM::factory("Tag")
+			->set('tag', 'Done')
+			->set('slug', 'done')
+			->set('priority', 0)
+			->set('type', 'status')
+			->set('id', 6)
+			->save();
 	}
 
 	/** @AfterSuite */
