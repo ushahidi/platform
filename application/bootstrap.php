@@ -1,8 +1,18 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
-
+/**
+ * Ushahidi Bootstrap
+ * 
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application
+ * @copyright  Ushahidi - http://www.ushahidi.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ */
+ 
 // -- Environment setup --------------------------------------------------------
 
-// Load the core Kohana class
+/**
+ * Load the core Kohana class
+ */
 require SYSPATH.'classes/Kohana/Core'.EXT;
 
 if (is_file(APPPATH.'classes/Kohana'.EXT))
