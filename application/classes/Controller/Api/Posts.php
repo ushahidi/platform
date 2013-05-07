@@ -366,7 +366,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					{
 						$tag->tag = $value;
 						$tag->slug = $value;
-						$tag->type = 'tag';
+						$tag->type = 'category';
 						$tag->check();
 						$tag->save();
 					}

@@ -353,6 +353,28 @@ class FeatureContext extends BehatContext
 			->save();
 	}
 
+	/**
+	 * @BeforeFeature @tagsFixture
+	 */
+	public static function setupTagFixture($event)
+	{
+		ORM::factory("Tag")
+			->set('tag', 'Test tag')
+			->set('slug', 'test-tag')
+			->set('priority', 0)
+			->set('type', 'category')
+			->set('id', 1)
+			->save();
+			
+		ORM::factory("Tag")
+			->set('tag', 'Duplicate')
+			->set('slug', 'duplicate')
+			->set('priority', 0)
+			->set('type', 'category')
+			->set('id', 2)
+			->save();
+	}
+
 	/** @AfterSuite */
 	public static function teardown($event)
 	{
