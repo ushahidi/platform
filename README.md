@@ -1,6 +1,8 @@
 Ushahidi 3
 ============
 
+[![Build Status](https://travis-ci.org/ushahidi/Lamu.png)](https://travis-ci.org/ushahidi/Lamu)
+
 System Requirements
 -------------------
 To install the platform on your computer/server, the target system must meet the following requirements:
