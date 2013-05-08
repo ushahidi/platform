@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * Ushahidi Rest Context
+ * 
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application\Tests
+ * @copyright  Ushahidi - http://www.ushahidi.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ */
+
 use Behat\Behat\Context\BehatContext;
 use Symfony\Component\Yaml\Yaml;
 

@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * Ushahidi Feature Context
+ * 
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application\Tests
+ * @copyright  Ushahidi - http://www.ushahidi.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ */
+
 // We'll use the unittest modules bootstrap to hook into Kohana
 require_once __DIR__.'/../../../../modules/unittest/bootstrap.php';
 
