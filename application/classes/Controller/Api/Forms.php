@@ -56,7 +56,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 						foreach ($group['attributes'] as $attribute)
 						{
 							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
-								'key', 'label', 'input', 'type', 'options'
+								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
 								));
 							$_attribute->check();
 						}
@@ -86,7 +86,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 						foreach ($group['attributes'] as $attribute)
 						{
 							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
-								'key', 'label', 'input', 'type', 'options'
+								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
 								));
 							$_attribute->save();
 							// Add relation
