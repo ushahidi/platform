@@ -9,19 +9,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post_Int extends ORM {
-	/**
-	 * A post_int belongs to a post and form_attribute
-	 *
-	 * @var array Relationhips
-	 */
-	protected $_belongs_to = array(
-		'post' => array(),
-		'form_attribute' => array(),
-		);
-
-	// Insert/Update Timestamps
-	protected $_created_column = array('column' => 'created', 'format' => TRUE);
+class Model_Post_Int extends Model_Post_Value {
 
 	// Table Name
 	protected $_table_name = 'post_int';
@@ -34,16 +22,7 @@ class Model_Post_Int extends ORM {
 	public function rules()
 	{
 		return array(
-			'post_id' => array(
-				//array('not_empty'),
-				array('numeric'),
-			),
-			'form_attribute_id' => array(
-				//array('not_empty'),
-				array('numeric'),
-			),
 			'value' => array(
-				array('not_empty'),
 				array('numeric')
 			)
 		);

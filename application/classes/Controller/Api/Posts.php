@@ -47,19 +47,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 
-		// unpack form to get form_id
-		if (isset($post['form']))
-		{
-			if (is_array($post['form']) AND isset($post['form']['id']))
-			{
-				$post['form_id'] = $post['form']['id'];
-			}
-			elseif (is_numeric($post['form']))
-			{
-				$post['form_id'] = $post['form'];
-			}
-		}
-
 		$_post = ORM::factory('Post');
 		
 		$this->create_or_update_post($_post, $post);
@@ -256,19 +243,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 
-		// unpack form to get form_id
-		if (isset($post['form']))
-		{
-			if (is_array($post['form']) AND isset($post['form']['id']))
-			{
-				$post['form_id'] = $post['form']['id'];
-			}
-			elseif (is_numeric($post['form']))
-			{
-				$post['form_id'] = $post['form'];
-			}
-		}
-
 		$_post = ORM::factory('Post')
 			->where('id', '=', $post_id)
 			->where('type', '=', $this->_type);
@@ -298,6 +272,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	{
 		// Make form_id a string, avoid triggering 'changed' value
 		$post_data['form_id'] = isset($post_data['form_id']) ? (String) $post_data['form_id'] : NULL;
+
+		// unpack form to get form_id
+		if (isset($post_data['form']))
+		{
+			if (is_array($post_data['form']) AND isset($post_data['form']['id']))
+			{
+				$post_data['form_id'] = $post_data['form']['id'];
+			}
+			elseif (is_numeric($post_data['form']))
+			{
+				$post_data['form_id'] = $post_data['form'];
+			}
+		}
 		
 		$post->values($post_data, array(
 			'form_id', 'title', 'content', 'status', 'slug', 'email', 'author', 'locale'
@@ -336,6 +323,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 							':attr' => $key,
 						));
 					}
+
+					// @todo validate required / unique attributes
 
 					$_value = ORM::factory('Post_'.ucfirst($attribute->type))
 						->set('value', $value)
@@ -403,6 +392,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 							->where('form_attribute_id', '=', $attribute->id)
 							->find();
 						
+						// @todo delete missing attribute values
+						// use a PATCH if we want to submit partial data.
+						
 						$_value->post_id = $post->id;
 						$_value->form_attribute_id = $attribute->id;
 						$_value->value = $value;
@@ -435,7 +427,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$new_revision->type = 'revision';
 				$new_revision->save();
 				
-				// @todo copy attribute values too
 				if ( isset($post_data['values']) )
 				{
 					foreach ($post_data['values'] as $key => $value)

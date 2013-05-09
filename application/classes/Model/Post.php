@@ -91,7 +91,7 @@ class Model_Post extends ORM {
 			'form_id' => array(
 				array('not_empty'),
 				array('numeric'),
-				array(array($this, 'form_exists'), array(':field', ':value'))
+				array(array($this, 'fk_exists'), array('Form', ':field', ':value'))
 			),
 
 			'parent_id' => array(
@@ -154,18 +154,6 @@ class Model_Post extends ORM {
 				array(array($this, 'unique_locale'), array(':field', ':value'))
 			),
 		);
-	}
-
-	/**
-	 * Callback function to check if form exists
-	 */
-	public function form_exists($field, $value)
-	{
-		$form = ORM::factory('Form')
-			->where('id', '=', $value)
-			->find();
-
-		return $form->loaded();
 	}
 
 	/**
