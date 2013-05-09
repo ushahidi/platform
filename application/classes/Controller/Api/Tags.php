@@ -213,6 +213,30 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	protected function create_or_update_tag($tag, $post)
 	{
+		// Check
+		if (isset($post['parent']))
+		{
+			// If we have a parent array with url/id
+			if (is_array($post['parent']) AND isset($post['parent']['id']))
+			{
+				$post['parent_id'] = $post['parent']['id'];
+			}
+			// If parent is numeric, assume its an id
+			elseif (Valid::numeric($post['parent']))
+			{
+				$post['parent_id'] = $post['parent'];
+			}
+			else
+			{
+				// Try to find parent by slug
+				$parent = ORM::factory('Tag', array('slug' => $post['parent']));
+				if ($parent->loaded())
+				{
+					$post['parent_id'] = $parent->id;
+				}
+			}
+		}
+		
 		$tag->values($post, array(
 			'tag', 'slug', 'type', 'parent_id', 'priority'
 			));
