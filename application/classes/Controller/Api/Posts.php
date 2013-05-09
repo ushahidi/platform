@@ -478,8 +478,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		catch (ORM_Validation_Exception $e)
 		{
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
-			));
+				':errors' => implode(', ', Arr::flatten($e->errors('models')))
+				));
 		}
 	}
 
