@@ -263,6 +263,15 @@ EOFORM;
 			$comments = $report['comments'];
 			$customfields = $report['customfields'];
 			
+			$tags = array();
+			foreach ($categories as $cat)
+			{
+				if (isset($slugs[$cat['category']['id']]))
+				{
+					$tags[] = $slugs[$cat['category']['id']];
+				}
+			}
+			
 			$body = json_encode(array(
 				"form" => $form_id,
 				"title" => $incident['incidenttitle'],
@@ -284,7 +293,7 @@ EOFORM;
 					"photo" => "",
 					"video" => "",
 				),
-				"tags" => array()
+				"tags" => $tags
 			));
 			
 			$post_response = Request::factory("api/v2/posts")
