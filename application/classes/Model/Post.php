@@ -387,7 +387,10 @@ class Model_Post extends ORM {
 			foreach ($this->tags->find_all() as $tag)
 			{
 				// @todo use $tag->for_api() once thats built
-				$response['tags'][] = $tag->tag;
+				$response['tags'][] = array(
+					'id' => $tag->id,
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/tags/'.$tag->id, Request::current())
+				);
 			}
 		}
 		else
