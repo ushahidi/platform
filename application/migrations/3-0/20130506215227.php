@@ -12,8 +12,8 @@ class Migration_3_0_20130506215227 extends Minion_Migration_Base {
 		
 		// Add unique keys to Table `tags`
 		$db->query(NULL, "ALTER TABLE `tags`
-		  ADD UNIQUE INDEX `unq_tags_slug` (`slug` ASC),
-		  ADD UNIQUE INDEX `unq_tags_tag` (`tag` ASC);
+		  ADD UNIQUE INDEX `unq_tags_slug` (`slug`),
+		  ADD UNIQUE INDEX `unq_tags_tag_parent_type` (`tag`, `parent_id`, `type`);
 		");
 	}
 
@@ -27,7 +27,7 @@ class Migration_3_0_20130506215227 extends Minion_Migration_Base {
 		// Remove unique keys from Table `tags`
 		$db->query(NULL, "ALTER TABLE `tags`
 		  DROP INDEX `unq_tags_slug`,
-		  DROP INDEX `unq_tags_tag`;
+		  DROP INDEX `unq_tags_tag_parent_type`;
 		");
 	}
 

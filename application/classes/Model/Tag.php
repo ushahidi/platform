@@ -68,7 +68,7 @@ class Model_Tag extends ORM {
 				array('not_empty'),
 				array('min_length', array(':value', 3)),
 				array('max_length', array(':value', 200)),
-				array(array($this, 'unique'), array(':field', ':value'))
+				array(array($this, 'unique_tag_parent_type'), array(':field', ':value'))
 			),
 			
 			// Tag slug
@@ -101,6 +101,21 @@ class Model_Tag extends ORM {
 
 	/**
 	 * Callback function to check if tag exists
+	 */
+	public function unique_tag_parent_type($field, $value)
+	{
+		$duplicate = ORM::factory('Tag')
+			->where('tag', '=', $value)
+			->where('parent_id', '=', $this->parent_id)
+			->where('type', '=', $this->type)
+			->where('id', '!=', $this->id)
+			->find();
+		
+		return ! $duplicate->loaded();
+	}
+
+	/**
+	 * Callback function to check if tag parent exists
 	 */
 	public function parent_exists($field, $value)
 	{
