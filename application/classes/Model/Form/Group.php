@@ -38,7 +38,7 @@ class Model_Form_Group extends ORM {
 		return array(
 			'form_id' => array(
 				array('numeric'),
-				array(array($this, 'form_exists'), array(':field', ':value'))
+				array(array($this, 'fk_exists'), array('Form', ':field', ':value'))
 			),
 			'label' => array(
 				array('not_empty'),
@@ -48,18 +48,6 @@ class Model_Form_Group extends ORM {
 				array('numeric')
 			),
 		);
-	}
-
-	/**
-	 * Callback function to check if form exists
-	 */
-	public function form_exists($field, $value)
-	{
-		$form = ORM::factory('Form')
-			->where('id', '=', $value)
-			->find();
-
-		return $form->loaded();
 	}
 
 	/**
