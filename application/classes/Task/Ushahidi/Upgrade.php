@@ -72,7 +72,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"required":false,
 					"priority":0,
 					"default":"",
-					"unique":false,
 					"options":{}
 				},
 				{
@@ -83,7 +82,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"required":true,
 					"priority":0,
 					"default":"",
-					"unique":false,
 					"options":{}
 				},
 				{
@@ -92,7 +90,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"type":"varchar",
 					"input":"text",
 					"required":true,
-					"unique":false,
 					"priority":1
 				},
 				{
@@ -101,7 +98,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"type":"geometry",
 					"input":"text",
 					"required":true,
-					"unique":false,
 					"priority":2
 				},
 				{
@@ -110,7 +106,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"type":"int",
 					"input":"checkbox",
 					"required":false,
-					"unique":false,
 					"priority":3
 				},
 				{
@@ -119,7 +114,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"type":"varchar",
 					"input":"select",
 					"required":false,
-					"unique":false,
 					"priority":4,
 					"default":"Web",
 					"options":[
@@ -142,7 +136,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"type":"varchar",
 					"input":"text",
 					"required":false,
-					"unique":false,
 					"priority":0
 				},
 				{
@@ -151,7 +144,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"type":"varchar",
 					"input":"file",
 					"required":false,
-					"unique":false,
 					"priority":1
 				},
 				{
@@ -160,7 +152,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					"type":"varchar",
 					"input":"file",
 					"required":false,
-					"unique":false,
 					"priority":2
 				}
 			]
