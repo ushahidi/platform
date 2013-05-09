@@ -28,11 +28,7 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 	protected function __construct()
 	{
 		parent::__construct();
-		
-		//require Kohana::find_file('vendor/Transform/lib/Transform', 'Transformer');
-		//require Kohana::find_file('vendor/Transform/lib/Transform', 'PropertyManipulator');
 	}
-
 
 	/**
 	 * Execute the task
