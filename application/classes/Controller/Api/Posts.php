@@ -352,15 +352,34 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				// Yes, loop through and validate each tag
 				foreach ($post_data['tags'] as $value)
 				{
-					$tag = ORM::factory('Tag')
-						->where('tag', '=', $value)
+					// Handle multiple formats
+					// ID + URL array
+					if (is_array($value) AND isset($value['id']))
+					{
+						$tag = ORM::factory('Tag')
+						->where('id', '=', $value['id'])
 						->find();
+					}
+					// Just ID
+					elseif (is_int($value))
+					{
+						$tag = ORM::factory('Tag')
+						->where('id', '=', $value)
+						->find();
+					}
+					// Tag or slug string
+					else
+					{
+						$tag = ORM::factory('Tag')
+						->where('slug', '=', $value)
+						->or_where('tag', '=', $value)
+						->find();
+					}
 					
 					// Auto create tags if it doesn't exist
 					if (! $tag->loaded() )
 					{
 						$tag->tag = $value;
-						$tag->slug = $value;
 						$tag->type = 'category';
 						$tag->check();
 						$tag->save();
