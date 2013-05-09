@@ -78,7 +78,7 @@ class FeatureContext extends BehatContext
 			->set("label", "Dummy")
 			->set("type", "varchar")
 			->set("input", "text")
-			->set("required", true)
+			->set("required", false)
 			->set("priority", 1)
 			->set('id', 1)
 			->save();
@@ -100,7 +100,7 @@ class FeatureContext extends BehatContext
 			->set("label", "Full Name")
 			->set("type", "varchar")
 			->set("input", "text")
-			->set("required", true)
+			->set("required", false)
 			->set("priority", 1)
 			->save();
 		$group->add('form_attributes', $attr);
@@ -111,7 +111,7 @@ class FeatureContext extends BehatContext
 			->set("label", "Description")
 			->set("type", "text")
 			->set("input", "textarea")
-			->set("required", true)
+			->set("required", false)
 			->set("priority", 2)
 			->save();
 		$group->add('form_attributes', $attr);
@@ -133,7 +133,7 @@ class FeatureContext extends BehatContext
 			->set("label", "Missing Date")
 			->set("type", "datetime")
 			->set("input", "date")
-			->set("required", true)
+			->set("required", false)
 			->set("priority", 4)
 			->save();
 		$group->add('form_attributes', $attr);

@@ -324,7 +324,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						));
 					}
 
-					// @todo validate required / unique attributes
+					// @todo validate unique attributes
 
 					$_value = ORM::factory('Post_'.ucfirst($attribute->type))
 						->set('value', $value)
@@ -332,6 +332,32 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						->set('form_attribute_id', $attribute->id);
 					$_value->check();
 				}
+			}
+
+			// Validate required attributes
+			$validation = Validation::factory($post_data);
+			$keys = isset($post_data['values']) ? array_keys($post_data['values']) : array();
+			$required_attributes = ORM::factory('Form_Attribute')
+				->join('form_groups_form_attributes', 'INNER')
+					->on('form_attribute.id', '=', 'form_attribute_id')
+				->join('form_groups', 'INNER')
+					->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id')
+				->where('form_id', '=', $post_data['form_id'])
+				->where('required', '=', 1)
+				->where('key', 'NOT IN', $keys)
+				->find_all();
+
+			if ($required_attributes->count() > 0)
+			{
+				foreach ($required_attributes as $attr)
+				{
+					$validation->rule('values.'.$attr->key, 'not_empty');
+				}
+			}
+
+			if ($validation->check() === FALSE)
+			{
+				throw new ORM_Validation_Exception('post_value', $validation);
 			}
 
 			// Does post have tags included?

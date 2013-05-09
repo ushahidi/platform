@@ -34,7 +34,7 @@ Feature: Testing the Posts API
         And the "tags" property contains "missing"
         Then the response status code should be 200
 
-    Scenario: Creating an invalid Post
+    Scenario: Creating an Post with invalid data returns an error
         Given that I want to make a new "Post"
         And that the request "data" is:
             """
@@ -48,6 +48,31 @@ Feature: Testing the Posts API
                 {
                     "missing_field":"David Kobia",
                     "date_of_birth":"2012/33/33"
+                }
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 400
+
+    Scenario: Creating an Post without required fields returns an error
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Invalid post",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":"unknown",
+                    "missing_date":"2012/09/25",
+                    "status":"believed_missing"
                 }
             }
             """
@@ -133,7 +158,7 @@ Feature: Testing the Posts API
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
-                    "status":"believed_missing"
+                    "last_location":"atlanta"
                 },
                 "tags":["missing","kenyan"]
             }
@@ -141,7 +166,7 @@ Feature: Testing the Posts API
         And that its "id" is "1"
         When I request "/posts"
         Then the response is JSON
-        And the response has a "values.last_location" property
+        And the response has a "values.status" property
         Then the response status code should be 200
 
     Scenario: Updating a Post with non-existent Form
