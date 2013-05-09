@@ -2,14 +2,9 @@
 
 /**
  * Ushahidi API Form Group Attributes Controller
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Controllers
+ * @package    Ushahidi\Application\Controllers
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
@@ -105,7 +100,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 			catch (ORM_Validation_Exception $e)
 			{
 				throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-					'errors' => implode(', ', Arr::flatten($e->errors('models'))),
+					':errors' => implode(', ', Arr::flatten($e->errors('models'))),
 				));
 			}
 		}
