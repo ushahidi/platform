@@ -56,4 +56,13 @@ We've included a Vagrantfile and puppet manifests to help build a quick developm
 
 ### Travis-CI
 
-Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/Lamu). See [.travis.yml](https://github.com/ushahidi/Lamu/blob/master/.travis.yml) for config details.
+Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/Lamu).
+See [.travis.yml](https://github.com/ushahidi/Lamu/blob/master/.travis.yml) for config details.
+
+### Testing
+
+We use PHPUnit for unit tests, and Behat and Mink for functional testing.
+You can install the Behat, Mink and other required packages using [Composer](getcomposer.org). Just run
+```composer install```
+
+Currently you'll have to install PHPUnit manually.
