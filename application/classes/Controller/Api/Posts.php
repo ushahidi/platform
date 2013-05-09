@@ -324,8 +324,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						));
 					}
 
-					// @todo validate unique attributes
-
 					$_value = ORM::factory('Post_'.ucfirst($attribute->type))
 						->set('value', $value)
 						->set('post_id', $post->id)
@@ -430,7 +428,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					}
 				}
 			}
-				
+			
 			// Add tags to post (has to happen after post is saved)
 			if (count($tag_ids) > 0 AND ! $post->has('tags', $tag_ids))
 			{

@@ -21,7 +21,6 @@ Feature: Testing the Forms API
                                 "required":true,
                                 "priority":1,
                                 "default":"",
-                                "unique":true,
                                 "options":{}
                             },
                             {
@@ -30,7 +29,6 @@ Feature: Testing the Forms API
                                 "type":"varchar",
                                 "input":"text",
                                 "required":false,
-                                "unique":false,
                                 "priority":11
                             },
                             {
@@ -39,7 +37,6 @@ Feature: Testing the Forms API
                                 "type":"varchar",
                                 "input":"text",
                                 "required":false,
-                                "unique":false,
                                 "priority":2,
                                 "default":"Missing",
                                 "options":[
@@ -57,7 +54,6 @@ Feature: Testing the Forms API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        And the "groups.0.attributes.0.unique" property equals "true"
         And the "groups.0.attributes.1.priority" property equals "11"
         And the "groups.0.attributes.2.default" property equals "Missing"
         And the "groups.0.attributes.2.options.1" property equals "Alive"
