@@ -63,7 +63,7 @@ class Model_Form_Attribute extends ORM {
 				array('not_empty'),
 				array('max_length', array(':value', 150)),
 				array(array($this, 'unique'), array(':field', ':value')),
-				array(array($this, 'not_reserved'), array(':validation', ':field', ':value'))
+				array(array($this, 'not_reserved'), array(':field', ':value'))
 			),
 			'label' => array(
 				array('not_empty'),
@@ -108,12 +108,9 @@ class Model_Form_Attribute extends ORM {
 	/**
 	 * Callback function to check if field key is reserved
 	 */
-	public function not_reserved($validation, $field, $value)
+	public function not_reserved($field, $value)
 	{
-		if ( in_array($field, $this->_reserved_keys) )
-		{
-			$validation->error($field, 'reserved_key');
-		}
+		return ! in_array($field, $this->_reserved_keys);
 	}
 
 	/**
