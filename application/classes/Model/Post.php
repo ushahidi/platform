@@ -252,6 +252,7 @@ class Model_Post extends ORM {
 			while (! $this->unique_slug('slug', $this->slug))
 			{
 				$this->slug = $this->title." $i";
+				$i++;
 			}
 		}
 	}
