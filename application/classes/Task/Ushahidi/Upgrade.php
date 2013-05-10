@@ -324,7 +324,7 @@ EOFORM;
 				
 				$body = json_encode(array(
 					"form" => $form_id,
-					"title" => $incident['incidenttitle'],
+					"title" => substr($incident['incidenttitle'], 0, 150), // Make we don't exceed the max length.
 					"content" => $incident['incidentdescription'],
 					"author" => "",
 					"email" => "",
