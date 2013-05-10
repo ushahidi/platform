@@ -296,6 +296,13 @@ EOFORM;
 			
 			if (! isset($body['payload']['incidents']))
 			{
+				// Check for 'No data' error
+				if (isset($body['payload']['success']) AND $body['payload']['success'] == "true" 
+					AND isset($body['error']['code']) AND $body['error']['code'] == 007 )
+				{
+					$done = TRUE; continue;
+				}
+				
 				throw new Minion_Exception("Error getting incidents. Details:\n\n :error", array(':error' => $response->body()));
 			}
 			
