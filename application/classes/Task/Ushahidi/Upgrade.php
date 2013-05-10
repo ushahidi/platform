@@ -1,9 +1,56 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 /**
- * Displays the current status of migrations in all groups
+ * Imports data from Ushahidi 2.x
  *
- * This task takes no config options
+ * Available config options are:
+ * 
+ * --source=source
+ * 
+ *   The type of source to import from: api or db
+ *
+ * --url=url
+ *
+ *   Specify the base url of a 2.x deployment to import from
+ *
+ * --username=username
+ * --password=password
+ *
+ *   The username and password of a superadmin user on the 2.x deployment (if importing via API)
+ *   Or the username and password for the DB being imported.
+ *
+ * --clean
+ *
+ *   Clean the 3.x DB before importing. This will wipe any existing data.
+ *
+ * --proxy=proxy
+ *
+ *   A proxy server to user for any external connections
+ *
+ * --use_external=[url]
+ *
+ *   Use external HTTP requests to connect to the 3.x API.
+ * 
+ *   You can optionally pass a base URL here, otherwise the base_url
+ *   defined in bootstrap.php will be used.
+ *
+ * --dry-run
+ *
+ *  No value taken, if this is specified then instead of creating posts
+ *  titles of posts to be imported will be printed
+ *
+ * --quiet
+ *
+ *  Suppress all unnecessary output.  If --dry-run is enabled then only dry run
+ *  SQL will be output
+ *
+ * --verbose
+ *
+ *  Display full details of posts being imported.
+ * 
+ * --debug
+ *
+ *  Display additional debug info. Implies --verbose
  *
  */
 class Task_Ushahidi_Upgrade extends Minion_Task {
@@ -16,10 +63,11 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		'dry-run'     => FALSE,
 		'quiet'       => FALSE,
 		'verbose'     => FALSE,
+		'debug'       => FALSE,
 		'clean'       => FALSE,
 		'use_external'       => FALSE,
 		'url'         => FALSE,
-		'type'        => FALSE,
+		'source'        => FALSE,
 		'username'    => FALSE,
 		'password'    => FALSE,
 		'proxy'       => FALSE
@@ -45,13 +93,14 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		$dry_run  = $options['dry-run'] !== FALSE;
 		$quiet    = $options['quiet'] !== FALSE;
 		$verbose  = $options['verbose'] !== FALSE;
+		$debug    = $options['debug'] !== FALSE;
 		$clean    = $options['clean'] !== FALSE;
 		$use_external = $options['use_external'];
 		
 		$url      = $options['url']; // URL
 		$username = $options['username'];
 		$password = $options['password'];
-		$type     = $options['type'];   // api / sql
+		$source     = $options['source'];   // api / sql
 		$this->proxy    = $options['proxy'];
 		
 		// Ensure url ends with /
