@@ -92,16 +92,17 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 	{
 		$dry_run  = $options['dry-run'] !== FALSE;
 		$quiet    = $options['quiet'] !== FALSE;
-		$verbose  = $options['verbose'] !== FALSE;
 		$debug    = $options['debug'] !== FALSE;
-		$clean    = $options['clean'] !== FALSE;
-		$use_external = $options['use_external'];
+		$verbose  = ($options['verbose'] !== FALSE OR $debug);
 		
+		$clean    = $options['clean'] !== FALSE;
+		$use_external   = $options['use_external'];
+		$this->proxy    = $options['proxy'];
+		
+		$source   = $options['source'];   // api / sql
 		$url      = $options['url']; // URL
 		$username = $options['username'];
 		$password = $options['password'];
-		$source     = $options['source'];   // api / sql
-		$this->proxy    = $options['proxy'];
 		
 		// Ensure url ends with /
 		if (substr_compare($url, '/', -1) !== 0) $url .= '/';
@@ -139,6 +140,7 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		if ($this->use_external AND substr_compare($this->use_external, '/', -1) !== 0) $this->use_external .= '/';
 		
 		// Create 2.x style reports form
+		// @todo move definition to view
 		$form_data = <<<EOFORM
 {
 	"name":"Classic Report Form",
@@ -332,7 +334,7 @@ EOFORM;
 		flush();
 		while (! $done)
 		{
-			echo "Memory Usage: ". memory_get_usage() . "\n";
+			if ($debug) echo "Memory Usage: ". memory_get_usage() . "\n";
 			echo "Fetching reports $limit reports, starting at ID: $since\n";
 			$processed = 0;
 			
@@ -361,8 +363,8 @@ EOFORM;
 			
 			foreach ($reports as $report)
 			{
-				echo "Memory Usage: ". memory_get_usage() . "\n";
-				echo "Importing report id: ".$report['incident']['incidentid']." .. ";
+				if ($debug) echo "\nMemory Usage: ". memory_get_usage() . "\n";
+				if ($verbose) echo "Importing report id: ".$report['incident']['incidentid']." .. ";
 				$incident = $report['incident'];
 				$categories = $report['categories'];
 				$media = $report['media'];
@@ -402,7 +404,8 @@ EOFORM;
 					"tags" => $tags
 				));
 				
-				echo "POSTing.. "; echo $body;
+				if ($debug) echo "POSTing.. ";
+				if ($debug) echo "\n" . $body ."\n";
 				$post_response = $this->_request("api/v2/posts")
 				->method(Request::POST)
 				->body($body)
@@ -426,7 +429,7 @@ EOFORM;
 						));
 				}
 
-				echo " .. new post id: {$post['id']}\n";
+				if ($verbose) echo " .. new post id: {$post['id']}\n";
 
 				// Set start id for next batch
 				$since = $incident['incidentid'];
@@ -445,6 +448,8 @@ EOFORM;
 		$view = View::factory('minion/task/ushahidi/upgrade')
 			->set('dry_run', $dry_run)
 			->set('quiet', $quiet)
+			->set('debug', $debug)
+			->set('verbose', $verbose)
 			->set('form_id', $form_id)
 			->set('post_count', $post_count)
 			->set('category_count', $category_count)
