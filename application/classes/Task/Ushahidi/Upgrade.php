@@ -17,11 +17,16 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		'quiet'       => FALSE,
 		'verbose'     => FALSE,
 		'clean'       => FALSE,
+		'use_external'       => FALSE,
 		'url'         => FALSE,
 		'type'        => FALSE,
 		'username'    => FALSE,
 		'password'    => FALSE,
+		'proxy'       => FALSE
 	);
+	
+	protected $proxy = FALSE;
+	protected $use_external = FALSE;
 
 // @todo add build validation to validate options
 
@@ -41,17 +46,24 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		$quiet    = $options['quiet'] !== FALSE;
 		$verbose  = $options['verbose'] !== FALSE;
 		$clean    = $options['clean'] !== FALSE;
+		$use_external = $options['use_external'];
 		
 		$url      = $options['url']; // URL
 		$username = $options['username'];
 		$password = $options['password'];
 		$type     = $options['type'];   // api / sql
+		$this->proxy    = $options['proxy'];
+		
+		// Ensure url ends with /
+		if (substr_compare($url, '/', -1) !== 0) $url .= '/';
 		
 		$post_count = 0;
 		$category_count = 0;
 		
+		// Kill output buffer so users get feedback as we progress
 		ob_end_flush();
 		ob_implicit_flush(TRUE);
+		
 		ini_set('memory_limit', -1); // Disable memory limit
 		
 		// Wipe db first?
@@ -63,6 +75,19 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		
 		// Hack so URL::site() doesn't error out
 		if (Kohana::$base_url == '/') $_SERVER['SERVER_NAME'] = 'internal';
+		
+		if (is_string($use_external))
+		{
+			$this->use_external = $use_external;
+		}
+		elseif ($use_external !== FALSE)
+		{
+			if (Kohana::$base_url == '/') throw new Minion_Exception('To use --use_external : Set base_url in bootstrap, or pass a base url');
+			
+			$this->use_external = Kohana::$base_url;
+		}
+		// Ensure base url ends with /
+		if ($this->use_external AND substr_compare($this->use_external, '/', -1) !== 0) $this->use_external .= '/';
 		
 		// Create 2.x style reports form
 		$form_data = <<<EOFORM
@@ -171,7 +196,7 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 }
 EOFORM;
 
-		$form_response = Request::factory("api/v2/forms")
+		$form_response = $this->_request("api/v2/forms")
 			->method(Request::POST)
 			->body($form_data)
 			->execute();
@@ -188,7 +213,7 @@ EOFORM;
 		// Create categories
 		echo "Fetching categories\n";
 		// FIXME will only get visible categories. Probably just have to caveat with that
-		$cat_request = Request::factory("{$url}/index.php/api?task=categories")
+		$cat_request = $this->_request("{$url}index.php/api?task=categories")
 			->headers('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
 		$cat_response = $cat_request->execute();
 		$cat_body = json_decode($cat_response->body(), TRUE);
@@ -222,7 +247,7 @@ EOFORM;
 				"priority" => $category['position'],
 				"parent" => isset($slugs[$category['parent_id']]) ? $slugs[$category['parent_id']] : 0
 			));
-			$tag_response = Request::factory("api/v2/tags")
+			$tag_response = $this->_request("api/v2/tags")
 			->method(Request::POST)
 			->body($body)
 			->execute();
@@ -264,7 +289,7 @@ EOFORM;
 			
 			// FIXME doesn't return incident_person info
 			// FIXME can't get unapproved reports
-			$request = Request::factory("{$url}/index.php/api?task=incidents&by=sinceid&comments=1&sort=ASC&orderfield=incidentid&id={$since}&limit={$limit}")
+			$request = $this->_request("{$url}index.php/api?task=incidents&by=sinceid&comments=1&sort=0&orderfield=incidentid&id={$since}&limit={$limit}")
 				->headers('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
 			$response = $request->execute();
 			$body = json_decode($response->body(), TRUE);
@@ -322,7 +347,7 @@ EOFORM;
 				));
 				
 				echo "POSTing.. "; echo $body;
-				$post_response = Request::factory("http://ushv3.dev/api/v2/posts")
+				$post_response = $this->_request("api/v2/posts")
 				->method(Request::POST)
 				->body($body)
 				->execute();
@@ -373,7 +398,7 @@ EOFORM;
 		echo $view;
 	}
 
-	protected static function _clean_db()
+	protected function _clean_db()
 	{
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=0;")->execute();
 		// Forms, Attributes, Groups
@@ -398,6 +423,26 @@ EOFORM;
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts_sets")->execute();
 		
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
+	}
+	
+	/**
+	 * Request Factory wrapper to handle proxy settings
+	 */
+	protected function _request($location)
+	{
+		if ($this->use_external AND stripos($location, 'http') === FALSE)
+		{
+			$location = $this->use_external.$location;
+		}
+		
+		$request = Request::factory($location);
+		
+		if ($this->proxy AND $request->client() instanceof Request_Client_External)
+		{
+			$request->client()->options(CURLOPT_PROXY, $this->proxy);
+		}
+		
+		return $request;
 	}
 
 }
