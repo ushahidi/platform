@@ -229,73 +229,86 @@ EOFORM;
 			4 => 'Twitter'
 		);
 		
-		// FIXME doesn't return incident_person info
-		$request = Request::factory("{$url}/index.php/api?task=reports&by=all&comments=1")
-			->headers('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
-		$response = $request->execute();
-		$body = json_decode($response->body(), TRUE);
+		$limit = 50;
+		$since = 0;
+		$done = FALSE;
 		
-		if (! isset($body['payload']['incidents']))
+		while (! $done)
 		{
-			throw new Minion_Exception("Error getting incidents. Details:\n\n :error", array(':error' => $response->body()));
-		}
-		
-		$reports = $body['payload']['incidents'];
-		
-		foreach ($reports as $report)
-		{
-			$incident = $report['incident'];
-			$categories = $report['categories'];
-			$media = $report['media'];
-			$comments = $report['comments'];
-			$customfields = $report['customfields'];
+			$processed = 0;
 			
-			$tags = array();
-			foreach ($categories as $cat)
+			// FIXME doesn't return incident_person info
+			$request = Request::factory("{$url}/index.php/api?task=reports&by=all&comments=1&sinceid={$since}&limit={$limit}")
+				->headers('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
+			$response = $request->execute();
+			$body = json_decode($response->body(), TRUE);
+			
+			if (! isset($body['payload']['incidents']))
 			{
-				if (isset($slugs[$cat['category']['id']]))
+				throw new Minion_Exception("Error getting incidents. Details:\n\n :error", array(':error' => $response->body()));
+			}
+			
+			$reports = $body['payload']['incidents'];
+			
+			foreach ($reports as $report)
+			{
+				$incident = $report['incident'];
+				$categories = $report['categories'];
+				$media = $report['media'];
+				$comments = $report['comments'];
+				$customfields = $report['customfields'];
+				
+				$tags = array();
+				foreach ($categories as $cat)
 				{
-					$tags[] = $slugs[$cat['category']['id']];
+					if (isset($slugs[$cat['category']['id']]))
+					{
+						$tags[] = $slugs[$cat['category']['id']];
+					}
 				}
+				
+				$body = json_encode(array(
+					"form" => $form_id,
+					"title" => $incident['incidenttitle'],
+					"content" => $incident['incidentdescription'],
+					"author" => "",
+					"email" => "",
+					"type" => "report",
+					"status" => $incident['incidentactive'] ? 'published' : 'draft',
+					"locale" => "en_US",
+					"values" => array(
+						"original_id" => $incident['incidentid'],
+						"date" => $incident['incidentdate'],
+						"location_name" => $incident['locationname'],
+						"location" => "",
+						"verified" => $incident['incidentverified'],
+						"source" => $source[$incident['incidentmode']],
+						// FIXME
+						"news" => "",
+						"photo" => "",
+						"video" => "",
+					),
+					"tags" => $tags
+				));
+				
+				$post_response = Request::factory("api/v2/posts")
+				->method(Request::POST)
+				->body($body)
+				->execute();
+				
+				$post = json_decode($post_response->body(), TRUE);
+				if (! isset($post['id']))
+				{
+					throw new Minion_Exception("Error creating post. Details:\\nn :error \n\n Request Body: :body", array(
+						':error' => $post_response->body(),
+						':body' => $body
+						));
+				}
+
+				$processed++;
 			}
-			
-			$body = json_encode(array(
-				"form" => $form_id,
-				"title" => $incident['incidenttitle'],
-				"content" => $incident['incidentdescription'],
-				"author" => "",
-				"email" => "",
-				"type" => "report",
-				"status" => $incident['incidentactive'] ? 'published' : 'draft',
-				"locale" => "en_US",
-				"values" => array(
-					"original_id" => $incident['incidentid'],
-					"date" => $incident['incidentdate'],
-					"location_name" => $incident['locationname'],
-					"location" => "",
-					"verified" => $incident['incidentverified'],
-					"source" => $source[$incident['incidentmode']],
-					// FIXME
-					"news" => "",
-					"photo" => "",
-					"video" => "",
-				),
-				"tags" => $tags
-			));
-			
-			$post_response = Request::factory("api/v2/posts")
-			->method(Request::POST)
-			->body($body)
-			->execute();
-			
-			$post = json_decode($post_response->body(), TRUE);
-			if (! isset($post['id']))
-			{
-				throw new Minion_Exception("Error creating post. Details:\\nn :error \n\n Request Body: :body", array(
-					':error' => $post_response->body(),
-					':body' => $body
-					));
-			}
+
+			if ($processed == 0) $done = TRUE;
 		}
 
 		$view = View::factory('minion/task/ushahidi/upgrade')
