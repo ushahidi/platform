@@ -263,7 +263,8 @@ EOFORM;
 			$processed = 0;
 			
 			// FIXME doesn't return incident_person info
-			$request = Request::factory("{$url}/index.php/api?task=reports&by=all&comments=1&sinceid={$since}&limit={$limit}")
+			// FIXME can't get unapproved reports
+			$request = Request::factory("{$url}/index.php/api?task=incidents&by=sinceid&comments=1&sort=ASC&orderfield=incidentid&id={$since}&limit={$limit}")
 				->headers('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
 			$response = $request->execute();
 			$body = json_decode($response->body(), TRUE);
