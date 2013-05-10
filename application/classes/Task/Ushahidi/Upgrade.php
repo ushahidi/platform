@@ -47,8 +47,19 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		$password = $options['password'];
 		$type     = $options['type'];   // api / sql
 		
+		$post_count = 0;
+		$category_count = 0;
+		
+		ob_end_flush();
+		ob_implicit_flush(TRUE);
+		ini_set('memory_limit', -1); // Disable memory limit
+		
 		// Wipe db first?
-		if ($clean) $this->_clean_db();
+		if ($clean)
+		{
+			echo "Cleaning DB\n\n";
+			$this->_clean_db();
+		}
 		
 		// Hack so URL::site() doesn't error out
 		if (Kohana::$base_url == '/') $_SERVER['SERVER_NAME'] = 'internal';
@@ -172,8 +183,10 @@ EOFORM;
 		}
 		
 		$form_id = $form_body['id'];
+		echo "Created form id: $form_id\n\n";
 		
 		// Create categories
+		echo "Fetching categories\n";
 		// FIXME will only get visible categories. Probably just have to caveat with that
 		$cat_request = Request::factory("{$url}/index.php/api?task=categories")
 			->headers('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
@@ -187,6 +200,8 @@ EOFORM;
 		
 		$categories = $cat_body['payload']['categories'];
 		
+		unset($form_response, $form_body, $cat_request, $cat_response, $cat_body);
+		
 		$slugs = array();
 		
 		// loop to generate slugs to use finding parents
@@ -195,6 +210,7 @@ EOFORM;
 			$slugs[$obj['category']['id']] = URL::title($obj['category']['title'].'-'.$obj['category']['id']);
 		}
 		
+		echo "Importing categories\n";
 		foreach($categories as $obj)
 		{
 			$category = $obj['category'];
@@ -219,7 +235,13 @@ EOFORM;
 					':body' => $body
 					));
 			}
+			
+			$category_count++;
+			
+			unset($tag_response, $tag, $body, $category);
 		}
+		
+		unset($categories);
 		
 		$source = array(
 			0 => 'Unknown',
@@ -229,12 +251,15 @@ EOFORM;
 			4 => 'Twitter'
 		);
 		
-		$limit = 50;
+		// TODO make batch size an option
+		$limit = 20;
 		$since = 0;
 		$done = FALSE;
-		
+		flush();
 		while (! $done)
 		{
+			echo "Memory Usage: ". memory_get_usage() . "\n";
+			echo "Fetching reports $limit reports, starting at ID: $since\n";
 			$processed = 0;
 			
 			// FIXME doesn't return incident_person info
@@ -250,8 +275,12 @@ EOFORM;
 			
 			$reports = $body['payload']['incidents'];
 			
+			unset($request, $response, $body);
+			
 			foreach ($reports as $report)
 			{
+				echo "Memory Usage: ". memory_get_usage() . "\n";
+				echo "Importing report id: ".$report['incident']['incidentid']." .. ";
 				$incident = $report['incident'];
 				$categories = $report['categories'];
 				$media = $report['media'];
@@ -291,10 +320,20 @@ EOFORM;
 					"tags" => $tags
 				));
 				
-				$post_response = Request::factory("api/v2/posts")
+				echo "POSTing.. "; echo $body;
+				$post_response = Request::factory("http://ushv3.dev/api/v2/posts")
 				->method(Request::POST)
 				->body($body)
 				->execute();
+				
+				if ($post_response->status() != 200)
+				{
+					throw new Minion_Exception("Error creating post. Server returned :status. Details:\\nn :error \n\n Request Body: :body", array(
+						':status' => $post_response->status(),
+						':error' => $post_response->body(),
+						':body' => $body
+						));
+				}
 				
 				$post = json_decode($post_response->body(), TRUE);
 				if (! isset($post['id']))
@@ -305,8 +344,18 @@ EOFORM;
 						));
 				}
 
+				echo " .. new post id: {$post['id']}\n";
+
+				// Set start id for next batch
+				$since = $incident['incidentid'];
+
+				unset($post_response, $post, $body, $tags, $incident, $categories, $media, $comments, $customfields);
+
 				$processed++;
+				$post_count++;
 			}
+
+			unset($reports);
 
 			if ($processed == 0) $done = TRUE;
 		}
@@ -314,6 +363,10 @@ EOFORM;
 		$view = View::factory('minion/task/ushahidi/upgrade')
 			->set('dry_run', $dry_run)
 			->set('quiet', $quiet)
+			->set('form_id', $form_id)
+			->set('post_count', $post_count)
+			->set('category_count', $category_count)
+			->set('memory_used', memory_get_peak_usage())
 			->set('dry_run_sql', array());
 
 		echo $view;
