@@ -184,6 +184,11 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 			->set('dry_run_sql', array());
 
 		echo $view;
+		
+		if (Kohana::$profiling)
+		{
+			echo View::factory('profiler/stats');
+		}
 	}
 
 	protected function _clean_db()
@@ -243,6 +248,12 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 			3 => 'Email',
 			4 => 'Twitter'
 		);
+		
+		if (Kohana::$profiling === TRUE)
+		{
+			// Start a new benchmark
+			$benchmark = Profiler::start('Upgrade', __FUNCTION__);
+		}
 		
 		// TODO make batch size an option
 		$limit = 20;
@@ -363,12 +374,24 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 			if ($processed == 0) $done = TRUE;
 		}
 
+		if (isset($benchmark))
+		{
+			// Stop the benchmark
+			Profiler::stop($benchmark);
+		}
+
 		return $post_count;
 	}
 	
 	protected function _import_categories($url, $username, $password)
 	{
 		$category_count = 0;
+		
+		if (Kohana::$profiling === TRUE)
+		{
+			// Start a new benchmark
+			$benchmark = Profiler::start('Upgrade', __FUNCTION__);
+		}
 		
 		// Create categories
 		$this->logger->add(Log::NOTICE, 'Fetching categories');
@@ -427,12 +450,24 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		}
 		
 		unset($categories);
+
+		if (isset($benchmark))
+		{
+			// Stop the benchmark
+			Profiler::stop($benchmark);
+		}
 		
 		return $category_count;
 	}
 	
 	protected function _create_form()
 	{
+		if (Kohana::$profiling === TRUE)
+		{
+			// Start a new benchmark
+			$benchmark = Profiler::start('Upgrade', __FUNCTION__);
+		}
+		
 		// Create 2.x style reports form
 		// @todo move definition to view
 		$form_data = View::factory('minion/task/ushahidi/form_json')->render();
@@ -449,6 +484,12 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		}
 		
 		$this->logger->add(Log::INFO, "Created form id: :form_id", array(':form_id' => $form_body['id']));
+
+		if (isset($benchmark))
+		{
+			// Stop the benchmark
+			Profiler::stop($benchmark);
+		}
 		
 		return $form_body['id'];
 	}
