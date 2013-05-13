@@ -128,21 +128,31 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 	 */
 	protected function _execute(array $options)
 	{
-		$dry_run  = $options['dry-run'] !== FALSE;
-		$quiet    = $options['quiet'] !== FALSE;
-		$debug    = $options['debug'] !== FALSE;
-		$verbose  = $options['verbose'] !== FALSE;
+		// Kill output buffer so users get feedback as we progress
+		ob_end_flush();
+		ob_implicit_flush(TRUE);
 		
-		$clean    = $options['clean'] !== FALSE;
+		ini_set('memory_limit', -1); // Disable memory limit
+		
+		// Hack so URL::site() doesn't error out
+		if (Kohana::$base_url == '/') $_SERVER['SERVER_NAME'] = 'internal';
+		
+		// Get CLI params
+		$dry_run        = $options['dry-run'] !== FALSE; // TODO implement this
+		$quiet          = $options['quiet'] !== FALSE;
+		$debug          = $options['debug'] !== FALSE;
+		$verbose        = $options['verbose'] !== FALSE;
+		
+		$clean          = $options['clean'] !== FALSE;
 		$use_external   = $options['use_external'];
 		$this->proxy    = $options['proxy'];
 		
-		$source   = $options['source'];   // api / sql
-		$url      = $options['url']; // URL
-		$username = $options['username'];
-		$password = $options['password'];
+		$source         = $options['source'];
+		$url            = $options['url'];
+		$username       = $options['username'];
+		$password       = $options['password'];
 		
-		// Check log levels
+		// Check log levels based on quiet/verbose/debug option
 		if ($debug)
 		{
 			$max_level = Log::DEBUG;
@@ -161,28 +171,11 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		}
 		// Attach StdOut logger
 		$this->logger->attach(new Log_StdOut, $max_level, 0, TRUE);
-		// @todo attach stderr?
 		
 		// Ensure url ends with /
 		if (substr_compare($url, '/', -1) !== 0) $url .= '/';
 		
-		
-		// Kill output buffer so users get feedback as we progress
-		ob_end_flush();
-		ob_implicit_flush(TRUE);
-		
-		ini_set('memory_limit', -1); // Disable memory limit
-		
-		// Wipe db first?
-		if ($clean)
-		{
-			$this->logger->add(Log::NOTICE, 'Cleaning DB');
-			$this->_clean_db();
-		}
-		
-		// Hack so URL::site() doesn't error out
-		if (Kohana::$base_url == '/') $_SERVER['SERVER_NAME'] = 'internal';
-		
+		// Handle 'use_external' param 
 		if (is_string($use_external))
 		{
 			$this->use_external = $use_external;
@@ -195,6 +188,14 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		}
 		// Ensure base url ends with /
 		if ($this->use_external AND substr_compare($this->use_external, '/', -1) !== 0) $this->use_external .= '/';
+		
+		
+		// Wipe db first?
+		if ($clean)
+		{
+			$this->logger->add(Log::NOTICE, 'Cleaning DB');
+			$this->_clean_db();
+		}
 		
 		// Create 2.x style form
 		$form_id = $this->_create_form();
@@ -211,8 +212,7 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 			->set('form_id', $form_id)
 			->set('post_count', $post_count)
 			->set('category_count', $category_count)
-			->set('memory_used', memory_get_peak_usage())
-			->set('dry_run_sql', array());
+			->set('memory_used', memory_get_peak_usage());
 
 		echo $view;
 		
