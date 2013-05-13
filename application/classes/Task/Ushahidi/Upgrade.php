@@ -73,12 +73,23 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		'proxy'       => FALSE
 	);
 	
+	/**
+	 * Proxy url
+	 * @param String
+	 */
 	protected $proxy = FALSE;
+	
+	/**
+	 * Base URL of 3.x deployment or TRUE
+	 * @param String|Boolean
+	 */
 	protected $use_external = FALSE;
 	
+	/**
+	 * Log instance
+	 * @param Log
+	 */
 	protected $logger;
-
-// @todo add build validation to validate options
 
 	protected function __construct()
 	{
@@ -88,6 +99,26 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		Log::$write_on_add = TRUE;
 		// Create new Log instance, don't use default one otherwise we pollute the logs
 		$this->logger = new Log;
+	}
+	
+	/**
+	 * Add extra parameter validation
+	 */
+	public function build_validation(Validation $validation)
+	{
+		return parent::build_validation($validation)
+			->rule('url', 'not_empty')
+			->rule('url', 'url')
+			->rule('source', 'in_array', array(':value', array('api', 'sql')) )
+			// Ensure use_external is either TRUE or a valid url
+			->rule('use_external', function($value) {
+					if ($value === TRUE) return TRUE;
+					
+					if (is_string($value)) return Valid::url($value);
+					
+					return FALSE;
+			}, array(':value'))
+			->rule('proxy', 'url');
 	}
 
 	/**
@@ -238,6 +269,15 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		return $request;
 	}
 	
+	/**
+	 * Import reports
+	 * 
+	 * @param int $form_id      Form ID for 2.x style form
+	 * @param string $url       Base url of deployment to import from
+	 * @param string $username  Username on 2.x deploymnet
+	 * @param string $password  Password on 2.x deployment
+	 * @return int count of report imported
+	 */
 	protected function _import_reports($form_id, $url, $username, $password)
 	{
 		$post_count = 0;
@@ -383,6 +423,14 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		return $post_count;
 	}
 	
+	/**
+	 * Import categories
+	 * 
+	 * @param string $url       Base url of deployment to import from
+	 * @param string $username  Username on 2.x deploymnet
+	 * @param string $password  Password on 2.x deployment
+	 * @return int count of categories imported
+	 */
 	protected function _import_categories($url, $username, $password)
 	{
 		$category_count = 0;
@@ -460,6 +508,10 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		return $category_count;
 	}
 	
+	/**
+	 * Create 2.x style form
+	 * @return form id
+	 */
 	protected function _create_form()
 	{
 		if (Kohana::$profiling === TRUE)
