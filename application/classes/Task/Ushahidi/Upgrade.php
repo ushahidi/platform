@@ -68,6 +68,8 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		'use_external'       => FALSE,
 		'url'         => FALSE,
 		'source'        => FALSE,
+		'hostname'    => FALSE,
+		'database'    => FALSE,
 		'username'    => FALSE,
 		'password'    => FALSE,
 		'proxy'       => FALSE
@@ -90,6 +92,12 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 	 * @param Log
 	 */
 	protected $logger;
+	
+	/**
+	 * Database instance for Ushahidi 2.x DB
+	 * @param Database
+	 */
+	protected $db2;
 
 	protected function __construct()
 	{
@@ -107,9 +115,18 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 	public function build_validation(Validation $validation)
 	{
 		return parent::build_validation($validation)
-			->rule('url', 'not_empty')
-			->rule('url', 'url')
+			->rule('source', 'not_empty')
 			->rule('source', 'in_array', array(':value', array('api', 'sql')) )
+			->rule('url', 'url')
+			->rule('url', function($validation, $value) {
+				$data = $validation->data();
+				if ($data['source'] == 'api')
+				{
+					return Valid::not_empty($value);
+				}
+				
+				return TRUE;
+			}, array(':validation', ':value'))
 			// Ensure use_external is either TRUE or a valid url
 			->rule('use_external', function($value) {
 					if ($value === TRUE) return TRUE;
@@ -118,7 +135,34 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 					
 					return FALSE;
 			}, array(':value'))
-			->rule('proxy', 'url');
+			->rule('proxy', 'url')
+			->rule('username', function($validation, $value) {
+				$data = $validation->data();
+				if ($data['source'] == 'sql')
+				{
+					return Valid::not_empty($value);
+				}
+				
+				return TRUE;
+			}, array(':validation', ':value'))
+			->rule('password', function($validation, $value) {
+				$data = $validation->data();
+				if ($data['source'] == 'sql')
+				{
+					return Valid::not_empty($value);
+				}
+				
+				return TRUE;
+			}, array(':validation', ':value'))
+			->rule('database', function($validation, $value) {
+				$data = $validation->data();
+				if ($data['source'] == 'sql')
+				{
+					return Valid::not_empty($value);
+				}
+				
+				return TRUE;
+			}, array(':validation', ':value'));
 	}
 
 	/**
@@ -128,6 +172,8 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 	 */
 	protected function _execute(array $options)
 	{
+		$post_count = $category_count = 0;
+		
 		// Kill output buffer so users get feedback as we progress
 		ob_end_flush();
 		ob_implicit_flush(TRUE);
@@ -151,6 +197,8 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		$url            = $options['url'];
 		$username       = $options['username'];
 		$password       = $options['password'];
+		$database       = $options['database'];
+		$hostname       = $options['hostname'];
 		
 		// Check log levels based on quiet/verbose/debug option
 		if ($debug)
@@ -172,9 +220,6 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		// Attach StdOut logger
 		$this->logger->attach(new Log_StdOut, $max_level, 0, TRUE);
 		
-		// Ensure url ends with /
-		if (substr_compare($url, '/', -1) !== 0) $url .= '/';
-		
 		// Handle 'use_external' param 
 		if (is_string($use_external))
 		{
@@ -189,6 +234,8 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		// Ensure base url ends with /
 		if ($this->use_external AND substr_compare($this->use_external, '/', -1) !== 0) $this->use_external .= '/';
 		
+		// Default to localhost if no hostname provided
+		if (! $hostname) $hostname = "127.0.0.1";
 		
 		// Wipe db first?
 		if ($clean)
@@ -200,9 +247,43 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		// Create 2.x style form
 		$form_id = $this->_create_form();
 		
-		$category_count = $this->_import_categories($url, $username, $password);
+		if($source == 'sql')
+		{
+			$this->db2 = Database::instance('ushahidi2', array
+				(
+					'type'       => 'MySQL',
+					'connection' => array(
+						'hostname'   => $hostname,
+						'database'   => $database,
+						'username'   => $username,
+						'password'   => $password,
+						'persistent' => FALSE,
+					),
+					'table_prefix' => '',
+					'charset'      => 'utf8',
+					'caching'      => FALSE,
+					'profiling'    => TRUE,
+				)
+			);
+			$this->db2->connect();
+			
+			$category_count = $this->_sql_import_categories($url, $username, $password);
+			
+			$post_count = $this->_sql_import_reports($form_id);
+			
+			// @todo import users
+		}
+		elseif ($source == 'api')
+		{
+			// Ensure url ends with /
+			if (substr_compare($url, '/', -1) !== 0) $url .= '/';
+			
+			// TODO: Test API connection
 		
-		$post_count = $this->_import_reports($form_id, $url, $username, $password);
+			$category_count = $this->_import_categories($url, $username, $password);
+			
+			$post_count = $this->_import_reports($form_id, $url, $username, $password);
+		}
 
 		$view = View::factory('minion/task/ushahidi/upgrade')
 			->set('dry_run', $dry_run)
@@ -218,7 +299,7 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		
 		if (Kohana::$profiling)
 		{
-			echo View::factory('profiler/stats');
+			//echo View::factory('profiler/stats');
 		}
 	}
 
@@ -344,9 +425,9 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 				$tags = array();
 				foreach ($categories as $cat)
 				{
-					if (isset($slugs[$cat['category']['id']]))
+					if (isset($this->tag_map[$cat['category']['id']]))
 					{
-						$tags[] = $slugs[$cat['category']['id']];
+						$tags[] = $this->tag_map[$cat['category']['id']];
 					}
 				}
 				
@@ -366,7 +447,7 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 						"location" => "",
 						"verified" => $incident['incidentverified'],
 						"source" => $source[$incident['incidentmode']],
-						// FIXME
+						// FIXME save media
 						"news" => "",
 						"photo" => "",
 						"video" => "",
@@ -424,6 +505,167 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 	}
 	
 	/**
+	 * Import reports
+	 * 
+	 * @param int $form_id      Form ID for 2.x style form
+	 * @param string $url       Base url of deployment to import from
+	 * @param string $username  Username on 2.x deploymnet
+	 * @param string $password  Password on 2.x deployment
+	 * @return int count of report imported
+	 */
+	protected function _sql_import_reports($form_id)
+	{
+		$post_count = 0;
+		$source = array(
+			0 => 'Unknown',
+			1 => 'Web',
+			2 => 'SMS',
+			3 => 'Email',
+			4 => 'Twitter'
+		);
+		
+		if (Kohana::$profiling === TRUE)
+		{
+			// Start a new benchmark
+			$benchmark = Profiler::start('Upgrade', __FUNCTION__);
+		}
+		
+		// TODO make batch size an option
+		$limit = 20;
+		$offset = 0;
+		$done = FALSE;
+		
+		while (! $done)
+		{
+			$this->logger->add(Log::DEBUG, 'Memory Usage: :mem', array(':mem' => memory_get_usage()));
+			$this->logger->add(Log::NOTICE, 'Fetching reports reports :offset - :end',
+				array(':offset' => $offset, ':end' => $offset+$limit ));
+			$processed = 0;
+			
+			$reports = DB::query(Database::SELECT, '
+					SELECT *, i.id AS incident_id FROM incident i 
+					LEFT JOIN incident_person p ON (i.id = p.incident_id)
+					LEFT JOIN location l ON (i.location_id = l.id)
+					ORDER BY i.id ASC LIMIT :limit OFFSET :offset
+				')
+				->parameters(array(':limit' => $limit, ':offset' => $offset))
+				->execute($this->db2);
+			
+			foreach ($reports as $report)
+			{
+				$this->logger->add(Log::DEBUG, 'Memory Usage: :mem', array(':mem' => memory_get_usage()));
+				$this->logger->add(Log::INFO, 'Importing report id:  :id', array(':id' => $report['incident_id']));
+				
+				// Grab categoires
+				$categories = DB::query(Database::SELECT, '
+					SELECT c.id FROM category c
+					LEFT JOIN incident_category ic ON (c.id = ic.category_id)
+					WHERE incident_id = :incident_id
+				')
+				->parameters(array(':incident_id' => $report['incident_id']))
+				->execute($this->db2);
+				
+				//@TODO grab custom fields
+				
+				$tags = array();
+				foreach ($categories as $cat)
+				{
+					if (isset($this->tag_map[$cat['id']]))
+					{
+						$tags[] = $this->tag_map[$cat['id']];
+					}
+				}
+				
+				// Get media - dummy query since we can't save this yet.
+				$media = DB::query(Database::SELECT, '
+					SELECT * FROM media m
+					WHERE incident_id = :incident_id
+				')
+				->parameters(array(':incident_id' => $report['incident_id']))
+				->execute($this->db2);
+				
+				$body = json_encode(array(
+					"form" => $form_id,
+					"title" => substr($report['incident_title'], 0, 150), // Make we don't exceed the max length.
+					"content" => $report['incident_description'],
+					"author" => "",
+					"email" => "",
+					"type" => "report",
+					"status" => $report['incident_active'] ? 'published' : 'draft',
+					"locale" => "en_US",
+					"values" => array(
+						"original_id" => $report['incident_id'],
+						"date" => $report['incident_date'],
+						"location_name" => $report['location_name'],
+						"location" => "",
+						"verified" => $report['incident_verified'],
+						"source" => $source[$report['incident_mode']],
+						// FIXME save media
+						"news" => "",
+						"photo" => "",
+						"video" => "",
+					),
+					"tags" => $tags
+				));
+				
+				$this->logger->add(Log::DEBUG, "POSTing..\n :body", array(':body' => $body));
+				$post_response = $this->_request("api/v2/posts")
+				->method(Request::POST)
+				->body($body)
+				->execute();
+				
+				if ($post_response->status() != 200)
+				{
+					throw new Minion_Exception("Error creating post. Server returned :status. Details:\\nn :error \n\n Request Body: :body", array(
+						':status' => $post_response->status(),
+						':error' => $post_response->body(),
+						':body' => $body
+						));
+				}
+				
+				$post = json_decode($post_response->body(), TRUE);
+				if (! isset($post['id']))
+				{
+					throw new Minion_Exception("Error creating post. Details:\\nn :error \n\n Request Body: :body", array(
+						':error' => $post_response->body(),
+						':body' => $body
+						));
+				}
+
+				$this->logger->add(Log::INFO, "new post id: :id", array(':id' => $post['id']));
+
+				// Dummy query since we can't do anything with this data yet.
+				$comments = DB::query(Database::SELECT, '
+					SELECT * FROM comment c
+					WHERE incident_id = :incident_id
+				')
+				->parameters(array(':incident_id' => $report['incident_id']))
+				->execute($this->db2);
+
+				unset($post_response, $post, $body, $tags, $incident, $categories, $media, $comments, $customfields);
+
+				$processed++;
+				$post_count++;
+			}
+
+			unset($reports);
+			
+			// Set offset for next batch
+			$offset += $limit;
+
+			if ($processed == 0) $done = TRUE;
+		}
+
+		if (isset($benchmark))
+		{
+			// Stop the benchmark
+			Profiler::stop($benchmark);
+		}
+
+		return $post_count;
+	}
+	
+	/**
 	 * Import categories
 	 * 
 	 * @param string $url       Base url of deployment to import from
@@ -458,12 +700,11 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		
 		unset($form_response, $form_body, $cat_request, $cat_response, $cat_body);
 		
-		$slugs = array();
-		
+		$this->tag_map = array();
 		// loop to generate slugs to use finding parents
 		foreach($categories as $obj)
 		{
-			$slugs[$obj['category']['id']] = URL::title($obj['category']['title'].'-'.$obj['category']['id']);
+			$this->tag_map[$obj['category']['id']] = URL::title($obj['category']['title'].'-'.$obj['category']['id']);
 		}
 		
 		$this->logger->add(Log::NOTICE, 'Importing categories');
@@ -476,7 +717,7 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 				"type" => "category",
 				"slug" => URL::title($category['title'].'-'.$category['id']), // Hack to handle dupe titles
 				"priority" => $category['position'],
-				"parent" => isset($slugs[$category['parent_id']]) ? $slugs[$category['parent_id']] : 0
+				"parent" => isset($this->tag_map[$category['parent_id']]) ? $this->tag_map[$category['parent_id']] : 0
 			));
 			$tag_response = $this->_request("api/v2/tags")
 			->method(Request::POST)
@@ -503,6 +744,48 @@ class Task_Ushahidi_Upgrade extends Minion_Task {
 		{
 			// Stop the benchmark
 			Profiler::stop($benchmark);
+		}
+		
+		return $category_count;
+	}
+
+	protected function _sql_import_categories()
+	{
+		$category_count = 0;
+		$this->tag_map = array();
+		
+		$this->logger->add(Log::NOTICE, 'Fetching categories');
+		$categories = DB::query(Database::SELECT, 'SELECT * FROM category ORDER BY parent_id ASC, id ASC')->execute($this->db2);
+		
+		$this->logger->add(Log::NOTICE, 'Importing categories');
+		foreach ($categories as $category)
+		{
+			// FIXME nowhere to store color/icon/description/translations
+			$body = json_encode(array(
+				"tag" => $category['category_title'],
+				"type" => "category",
+				"slug" => URL::title($category['category_title'].'-'.$category['id']), // Hack to handle dupe titles
+				"priority" => $category['category_position'],
+				"parent" => isset($this->tag_map[$category['parent_id']]) ? $this->tag_map[$category['parent_id']] : 0
+			));
+			$tag_response = $this->_request("api/v2/tags")
+			->method(Request::POST)
+			->body($body)
+			->execute();
+			
+			$tag = json_decode($tag_response->body(), TRUE);
+			if (! isset($tag['id']))
+			{
+				throw new Minion_Exception("Error creating tag. Details:\n\n :error \n\n Request Body: :body", array(
+					':error' => $tag_response->body(),
+					':body' => $body
+					));
+			}
+			$this->tag_map[$category['id']] = $tag['slug'];
+			
+			$category_count++;
+			
+			unset($tag_response, $tag, $body, $category);
 		}
 		
 		return $category_count;
