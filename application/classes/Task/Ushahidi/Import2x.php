@@ -65,14 +65,15 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		'verbose'     => FALSE,
 		'debug'       => FALSE,
 		'clean'       => FALSE,
-		'use_external'       => FALSE,
+		'use-external'       => FALSE,
 		'url'         => FALSE,
 		'source'        => FALSE,
 		'hostname'    => FALSE,
 		'database'    => FALSE,
 		'username'    => FALSE,
 		'password'    => FALSE,
-		'proxy'       => FALSE
+		'proxy'       => FALSE,
+		'batch-size'  => FALSE
 	);
 	
 	/**
@@ -86,6 +87,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	 * @param String|Boolean
 	 */
 	protected $use_external = FALSE;
+	
+	/**
+	 * Size of batch when importing reports
+	 * @param Int|Boolean
+	 */
+	protected $batch_size = 20;
 	
 	/**
 	 * Log instance
@@ -128,7 +135,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				return TRUE;
 			}, array(':validation', ':value'))
 			// Ensure use_external is either TRUE or a valid url
-			->rule('use_external', function($value) {
+			->rule('use-external', function($value) {
 					if ($value === TRUE) return TRUE;
 					
 					if (is_string($value)) return Valid::url($value);
@@ -162,7 +169,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				}
 				
 				return TRUE;
-			}, array(':validation', ':value'));
+			}, array(':validation', ':value'))
+			->rule('batch-size', 'numeric');
 	}
 
 	/**
@@ -190,8 +198,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		$verbose        = $options['verbose'] !== FALSE;
 		
 		$clean          = $options['clean'] !== FALSE;
-		$use_external   = $options['use_external'];
+		$use_external   = $options['use-external'];
 		$this->proxy    = $options['proxy'];
+		$batch_size     = $options['batch-size'];
 		
 		$source         = $options['source'];
 		$url            = $options['url'];
@@ -236,6 +245,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		
 		// Default to localhost if no hostname provided
 		if (! $hostname) $hostname = "127.0.0.1";
+		
+		// Save batch size if passed
+		if (intval($batch_size) > 0) $this->batch_size = intval($batch_size);
 		
 		// Wipe db first?
 		if ($clean)
@@ -376,8 +388,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$benchmark = Profiler::start('Upgrade', __FUNCTION__);
 		}
 		
-		// TODO make batch size an option
-		$limit = 20;
+		$limit = $this->batch_size;
 		$since = 0;
 		$done = FALSE;
 		
@@ -530,8 +541,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$benchmark = Profiler::start('Upgrade', __FUNCTION__);
 		}
 		
-		// TODO make batch size an option
-		$limit = 20;
+		$limit = $this->batch_size;
 		$offset = 0;
 		$done = FALSE;
 		
@@ -804,7 +814,6 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		}
 		
 		// Create 2.x style reports form
-		// @todo move definition to view
 		$form_data = View::factory('minion/task/ushahidi/form_json')->render();
 
 		$form_response = $this->_request("api/v2/forms")
