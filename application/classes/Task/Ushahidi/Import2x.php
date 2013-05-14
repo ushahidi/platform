@@ -142,7 +142,6 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					
 					return FALSE;
 			}, array(':value'))
-			->rule('proxy', 'url')
 			->rule('username', function($validation, $value) {
 				$data = $validation->data();
 				if ($data['source'] == 'sql')
