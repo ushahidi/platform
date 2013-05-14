@@ -73,8 +73,15 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 		$point = ORM::factory('Post_Point');
 		$point->values($set);
 
-		$point->check();
-		$point->save();
+		try
+		{
+			$point->check();
+			$point->save();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			$this->fail('This entry qualifies as invalid when it should be valid: '. json_encode($e->errors('models')));
+		}
 
 		// ID should be an int greater than 0
 		$this->assertTrue($point->saved());
@@ -112,8 +119,15 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 		$point = ORM::factory('Post_Point', 1);
 		$point->values($set);
 
-		$point->check();
-		$point->save();
+		try
+		{
+			$point->check();
+			$point->save();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			$this->fail('This entry qualifies as invalid when it should be valid: '. json_encode($e->errors('models')));
+		}
 
 		// ID should be an int greater than 0
 		$this->assertTrue($point->saved());
