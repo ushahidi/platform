@@ -28,3 +28,6 @@
 [submodule "application/vendor/geoPHP"]
 	path = application/vendor/geoPHP
 	url = git://github.com/phayes/geoPHP.git
+[submodule "application/vendor/gisconverter"]
+	path = application/vendor/gisconverter
+	url = git://github.com/arenevier/gisconverter.php.git

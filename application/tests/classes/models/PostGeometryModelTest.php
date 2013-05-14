@@ -122,4 +122,104 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 		$this->assertInternalType('string', $point->value);
 		$this->assertEquals($set['value'], $point->value);
 	}
+
+	/**
+	 * Provider for test_validate_valid
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function provider_validate_valid()
+	{
+		return array(
+			array(
+				// Valid geom data
+				array(
+					'post_id' => 1,
+					'form_attribute_id' => 1,
+					'value' => 'POLYGON((1 1,5 1,5 5,1 5,1 1),(2 2,2 3,3 3,3 2,2 2))',
+				)
+			),
+			array(
+				// Valid geom data
+				array(
+					'post_id' => 1,
+					'form_attribute_id' => 1,
+					'value' => 'MULTIPOLYGON(((40 40,20 45,45 30,40 40)),((20 35,45 20,30 5,10 10,10 30,20 35),(30 20,20 25,20 15,30 20)))',
+				)
+			)
+		);
+	}
+
+	/**
+	 * Provider for test_validate_invalid
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function provider_validate_invalid()
+	{
+		return array(
+			array(
+				// Valid geom data
+				array(
+					'post_id' => 999,
+					'form_attribute_id' => 999,
+					'value' => 'POLYGON((1 1,5 1,5 5,1 5,1 1),(2 2,2 3,3 3,3 2,2 2))',
+				)
+			),
+			array(
+				// Valid geom data
+				array(
+					'post_id' => 1,
+					'form_attribute_id' => 1,
+					'value' => 'MULTIPOLYGON(((40 40,20 45,45 30,40 40)),(20 35 45 20,30 5,10 10,10 30,20 35),(30 20,20 25,20 15,30 20',
+				)
+			)
+		);
+	}
+
+	/**
+	 * Test Validate Valid Entries
+	 *
+	 * @dataProvider provider_validate_valid
+	 * @return void
+	 */
+	public function test_validate_valid($set)
+	{
+		$geom = ORM::factory('Post_Geometry');
+		$geom->values($set);
+
+		try
+		{
+			$geom->check();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			$this->fail('This entry qualifies as invalid when it should be valid: '. json_encode($e->errors('models')));
+		}
+	}
+
+	/**
+	 * Test Validate Invalid Entries
+	 *
+	 * @dataProvider provider_validate_invalid
+	 * @return void
+	 */
+	public function test_validate_invalid($set)
+	{
+		$geom = ORM::factory('Post_Geometry');
+		$geom->values($set);
+
+		try
+		{
+			$geom->check();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			return;
+		}
+
+		$this->fail('This entry qualifies as valid when it should be invalid');
+	}
 }

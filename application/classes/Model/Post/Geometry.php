@@ -9,7 +9,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post_Geometry extends ORM {
+class Model_Post_Geometry extends Model_Post_Value {
 	/**
 	 * A post_geometry belongs to a post and form_attribute
 	 *
@@ -35,8 +35,23 @@ class Model_Post_Geometry extends ORM {
 	{
 		return Arr::merge(parent::rules(), array(
 			'value' => array(
+				array(array($this, 'validate_wkt'), array(':value'))
 			)
 		));
+	}
+
+	public function validate_wkt($value)
+	{
+		$decoder = new gisconverter\WKT();
+		try
+		{
+			$decoder->geomFromText($value);
+		}
+		catch (gisconverter\InvalidText $itex) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	/**
