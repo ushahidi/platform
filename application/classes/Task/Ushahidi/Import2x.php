@@ -301,9 +301,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			
 			$this->logger->add(Log::NOTICE, 'Successfully connected to API. Remote Ushahidi version: :version', array(':version' => $body['payload']['version'][0]['version']));
 			
-			$category_count = $this->_import_categories($url, $username, $password);
+			$category_count = $this->_api_import_categories($url, $username, $password);
 			
-			$post_count = $this->_import_reports($form_id, $url, $username, $password);
+			$post_count = $this->_api_import_reports($form_id, $url, $username, $password);
 		}
 
 		$view = View::factory('minion/task/ushahidi/upgrade')
@@ -380,7 +380,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	 * @param string $password  Password on 2.x deployment
 	 * @return int count of report imported
 	 */
-	protected function _import_reports($form_id, $url, $username, $password)
+	protected function _api_import_reports($form_id, $url, $username, $password)
 	{
 		$post_count = 0;
 		$source = array(
@@ -692,7 +692,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	 * @param string $password  Password on 2.x deployment
 	 * @return int count of categories imported
 	 */
-	protected function _import_categories($url, $username, $password)
+	protected function _api_import_categories($url, $username, $password)
 	{
 		$category_count = 0;
 		
