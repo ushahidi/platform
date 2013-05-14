@@ -154,6 +154,7 @@ class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInter
 			->find();
 		
 		// @todo check an empty is actually correct as per interface docs
+		// @todo return 'user_id'
 		return $user->loaded() ? $user->as_array() : array();
 	}
 
