@@ -116,6 +116,9 @@ Kohana::modules(array(
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 
+// Load GeoPHP
+include_once(Kohana::find_file('vendor', 'geoPHP/geoPHP', 'inc'));
+
 /**
  * Form Groups API SubRoute
  */	

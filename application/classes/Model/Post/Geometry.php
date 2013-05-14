@@ -2,7 +2,7 @@
 
 /**
  * Model for Post_Geometry
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
  * @copyright  Ushahidi - http://www.ushahidi.com
@@ -35,8 +35,61 @@ class Model_Post_Geometry extends ORM {
 	{
 		return array(
 			'value' => array(
-				
+
 			)
 		);
+	}
+
+	/**
+	 * Updates or Creates the record depending on loaded()
+	 * Overriding this method to handle WKT Geometry value
+	 *
+	 * @chainable
+	 * @param  Validation $validation Validation object
+	 * @return ORM
+	 */
+	public function save(Validation $validation = NULL)
+	{
+		$original_value = FALSE;
+		if (is_string($this->_object['value']))
+		{
+			$original_value = $this->_object['value'];
+			$this->_object['value'] = DB::expr('GeomFromText(:wkt)', array(':wkt' => $this->_object['value']));
+		}
+
+		parent::save($validation);
+
+		if ($original_value)
+		{
+			$this->_object['value'] = $original_value;
+		}
+	}
+
+	/**
+	 * Returns an array of columns to include in the select query.
+	 * Overridding to add custom handling for Geometry value
+	 *
+	 * @return array Columns to select
+	 */
+	protected function _build_select()
+	{
+		$columns = array();
+
+		foreach ($this->_table_columns as $column => $_)
+		{
+			if ($column == 'value')
+			{
+				$columns[] = array(
+					DB::expr( 'AsText('. $this->_db->quote_column($this->_object_name.'.'.$column) .')' ),
+					$column
+				);
+			}
+			else
+			{
+				$columns[] = array($this->_object_name.'.'.$column, $column);
+			}
+		}
+
+		return $columns;
 	}
 }

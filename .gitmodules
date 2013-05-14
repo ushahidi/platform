@@ -25,3 +25,6 @@
 [submodule "modules/unittest"]
 	path = modules/unittest
 	url = git://github.com/kohana/unittest.git
+[submodule "application/vendor/geoPHP"]
+	path = application/vendor/geoPHP
+	url = git://github.com/phayes/geoPHP.git
