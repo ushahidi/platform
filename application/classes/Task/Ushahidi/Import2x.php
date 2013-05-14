@@ -290,8 +290,18 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			// Ensure url ends with /
 			if (substr_compare($url, '/', -1) !== 0) $url .= '/';
 			
-			// TODO: Test API connection
-		
+			$request = $this->_request("{$url}index.php/api?task=version")
+				->headers('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
+			$response = $request->execute();
+			$body = json_decode($response->body(), TRUE);
+			
+			if (! isset($body['payload']['version'][0]['version']))
+			{
+				throw new Minion_Exception("Could not connect to 2.x API. Details:\n\n :error", array(':error' => $response->body()));
+			}
+			
+			$this->logger->add(Log::NOTICE, 'Successfully connected to API. Remote Ushahidi version: :version', array(':version' => $body['payload']['version'][0]['version']));
+			
 			$category_count = $this->_import_categories($url, $username, $password);
 			
 			$post_count = $this->_import_reports($form_id, $url, $username, $password);
