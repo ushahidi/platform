@@ -134,4 +134,107 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 		$this->assertEquals($set['value']['lon'], $point->value['lon']);
 		$this->assertEquals($set['value']['lat'], $point->value['lat']);
 	}
+
+	/**
+	 * Provider for test_validate_valid
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function provider_validate_valid()
+	{
+		return array(
+			array(
+				// Valid geom data
+				array(
+					'post_id' => 1,
+					'form_attribute_id' => 1,
+					'value' => array('lat' => 24, 'lon' => 25),
+				),
+				'return_value' => array('lat' => 24, 'lon' => 25)
+			),
+			array(
+				// Valid geom data
+				array(
+					'post_id' => 1,
+					'form_attribute_id' => 1,
+					'value' => 'POINT(22 25)',
+				),
+				'return_value' => array('lat' => 25, 'lon' => 22)
+			)
+		);
+	}
+
+	/**
+	 * Provider for test_validate_invalid
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function provider_validate_invalid()
+	{
+		return array(
+			array(
+				// Valid geom data
+				array(
+					'post_id' => 999,
+					'form_attribute_id' => 999,
+					'value' => array('lat' => 24, 'lon' => 25),
+				)
+			),
+			array(
+				// Valid geom data
+				array(
+					'post_id' => 1,
+					'form_attribute_id' => 1,
+					'value' => 'Some other string',
+				)
+			)
+		);
+	}
+
+	/**
+	 * Test Validate Valid Entries
+	 *
+	 * @dataProvider provider_validate_valid
+	 * @return void
+	 */
+	public function test_validate_valid($set, $return_value)
+	{
+		$geom = ORM::factory('Post_Point');
+		$geom->values($set);
+
+		try
+		{
+			$geom->check();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			$this->fail('This entry qualifies as invalid when it should be valid: '. json_encode($e->errors('models')));
+		}
+		$this->assertEquals($return_value, $geom->value);
+	}
+
+	/**
+	 * Test Validate Invalid Entries
+	 *
+	 * @dataProvider provider_validate_invalid
+	 * @return void
+	 */
+	public function test_validate_invalid($set)
+	{
+		$geom = ORM::factory('Post_Point');
+		$geom->values($set);
+
+		try
+		{
+			$geom->check();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			return;
+		}
+
+		$this->fail('This entry qualifies as valid when it should be invalid');
+	}
 }

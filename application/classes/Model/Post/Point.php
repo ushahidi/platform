@@ -38,11 +38,23 @@ class Model_Post_Point extends Model_Post_Geometry {
 	 */
 	public function get($column)
 	{
-		// Decode WKB value
-		if (array_key_exists($column, $this->_object) AND $column == 'value')
+		// Decode WKT value
+		if (array_key_exists($column, $this->_object)
+				AND $column == 'value'
+				AND is_string($this->_object[$column])
+			)
 		{
-			$point = geoPHP::load($this->_object[$column], 'wkt');
-			if ($point instanceof Geometry) return array('lon' => $point->x(), 'lat' => $point->y());
+			$decoder = new gisconverter\WKT();
+			try
+			{
+				$geometry = $decoder->geomFromText($this->_object[$column]);
+				if ($geometry instanceof gisconverter\Point) return array('lon' => $geometry->lon, 'lat' => $geometry->lat);
+			}
+			catch (gisconverter\InvalidText $itex) {
+				// noop - continue to return raw value
+			}
+
+			// continue to return raw value
 		}
 
 		return parent::get($column);
@@ -60,10 +72,14 @@ class Model_Post_Point extends Model_Post_Geometry {
 	 */
 	public function set($column, $value)
 	{
-		if ($column == 'value')
+		// Convert to WKT Point
+		if ($column == 'value'
+				AND is_array($value)
+				AND array_key_exists('lat', $value) AND Valid::numeric($value['lat'])
+				AND array_key_exists('lon', $value) AND Valid::numeric($value['lon'])
+			)
 		{
-			$point = new Point($value['lon'], $value['lat']);
-			$value = $point->out('wkt');
+			$value = strtr("POINT(lon lat)", $value);
 		}
 
 		return parent::set($column, $value);
