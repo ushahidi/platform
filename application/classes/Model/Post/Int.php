@@ -2,7 +2,7 @@
 
 /**
  * Model for Post_Int
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
  * @copyright  Ushahidi - http://www.ushahidi.com
@@ -21,10 +21,10 @@ class Model_Post_Int extends Model_Post_Value {
 	 */
 	public function rules()
 	{
-		return array(
+		return Arr::merge(parent::rules(), array(
 			'value' => array(
 				array('numeric')
 			)
-		);
+		));
 	}
 }

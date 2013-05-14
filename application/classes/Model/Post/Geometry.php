@@ -33,11 +33,10 @@ class Model_Post_Geometry extends ORM {
 	 */
 	public function rules()
 	{
-		return array(
+		return Arr::merge(parent::rules(), array(
 			'value' => array(
-
 			)
-		);
+		));
 	}
 
 	/**

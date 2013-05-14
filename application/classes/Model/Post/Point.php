@@ -21,11 +21,11 @@ class Model_Post_Point extends Model_Post_Geometry {
 	 */
 	public function rules()
 	{
-		return array(
+		return Arr::merge(parent::rules(), array(
 			'value' => array(
 
-			)
-		);
+			),
+		));
 	}
 
 	/**
