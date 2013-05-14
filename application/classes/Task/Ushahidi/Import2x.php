@@ -483,7 +483,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				
 				if ($post_response->status() != 200)
 				{
-					throw new Minion_Exception("Error creating post. Server returned :status. Details:\\nn :error \n\n Request Body: :body", array(
+					throw new Minion_Exception("Error creating post. Server returned :status. Details:\n\n :error \n\n Request Body: :body", array(
 						':status' => $post_response->status(),
 						':error' => $post_response->body(),
 						':body' => $body
@@ -493,7 +493,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				$post = json_decode($post_response->body(), TRUE);
 				if (! isset($post['id']))
 				{
-					throw new Minion_Exception("Error creating post. Details:\\nn :error \n\n Request Body: :body", array(
+					throw new Minion_Exception("Error creating post. Details:\n\n :error \n\n Request Body: :body", array(
 						':error' => $post_response->body(),
 						':body' => $body
 						));
@@ -635,7 +635,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				
 				if ($post_response->status() != 200)
 				{
-					throw new Minion_Exception("Error creating post. Server returned :status. Details:\\nn :error \n\n Request Body: :body", array(
+					throw new Minion_Exception("Error creating post. Server returned :status. Details:\n\n :error \n\n Request Body: :body", array(
 						':status' => $post_response->status(),
 						':error' => $post_response->body(),
 						':body' => $body
@@ -645,7 +645,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				$post = json_decode($post_response->body(), TRUE);
 				if (! isset($post['id']))
 				{
-					throw new Minion_Exception("Error creating post. Details:\\nn :error \n\n Request Body: :body", array(
+					throw new Minion_Exception("Error creating post. Details:\n\n :error \n\n Request Body: :body", array(
 						':error' => $post_response->body(),
 						':body' => $body
 						));
