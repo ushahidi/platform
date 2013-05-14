@@ -53,7 +53,7 @@
  *  Display additional debug info. Implies --verbose
  *
  */
-class Task_Ushahidi_Upgrade extends Minion_Task {
+class Task_Ushahidi_Import2x extends Minion_Task {
 
 	/**
 	 * A set of config options that this task accepts
