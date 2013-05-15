@@ -99,6 +99,9 @@ class Model_Form_Attribute extends ORM {
 			),
 			'priority' => array(
 				array('numeric')
+			),
+			'cardinality' => array(
+				array('numeric')
 			)
 		);
 	}
@@ -132,6 +135,7 @@ class Model_Form_Attribute extends ORM {
 				'default' => $this->default,
 				'priority' => $this->priority,
 				'options' => $this->options,
+				'cardinality' => $this->cardinality
 			);
 		}
 		else

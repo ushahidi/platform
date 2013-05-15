@@ -11,7 +11,9 @@ class Migration_3_0_20130509175301 extends Minion_Migration_Base {
 	{
 		// Drop unique column from `form_attributes`
 		$db->query(NULL, "ALTER TABLE `form_attributes` 
-		  DROP COLUMN `unique`;");
+		  DROP COLUMN `unique`,
+		  ADD COLUMN `cardinality` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1'
+		    COMMENT 'Max number of values, 0 = Unlimited';");
 	}
 
 	/**
@@ -22,7 +24,8 @@ class Migration_3_0_20130509175301 extends Minion_Migration_Base {
 	public function down(Kohana_Database $db)
 	{
 		$db->query(NULL, "ALTER TABLE `form_attributes` 
-		  ADD COLUMN `unique` TINYINT(1) NOT NULL DEFAULT '0';");
+		  ADD COLUMN `unique` TINYINT(1) NOT NULL DEFAULT '0',
+		  DROP COLUMN `cardinality`;");
 	}
 
 }

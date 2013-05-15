@@ -13,6 +13,12 @@ class Model_Post_Point extends Model_Post_Geometry {
 
 	// Table Name
 	protected $_table_name = 'post_point';
+	
+	/**
+	 * Does this attribute type have complex (ie. array) values?
+	 * @var boolean 
+	 **/
+	protected $_complex_value = TRUE;
 
 	/**
 	 * Rules for the post_point model
