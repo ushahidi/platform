@@ -38,7 +38,7 @@
 				{
 					"key":"location",
 					"label":"Location",
-					"type":"geometry",
+					"type":"point",
 					"input":"text",
 					"required":true,
 					"priority":2
