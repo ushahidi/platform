@@ -268,7 +268,7 @@ class Ushahidi_Api extends Controller {
 		}
 		catch (Exception $e)
 		{
-			throw new HTTP_Exception_500('Error while formatting response');
+			throw new HTTP_Exception_500('Error while formatting response: :message', array(':message' => $e->getMessage()));
 		}
 
 		if ($format == 'jsonp')

@@ -64,6 +64,12 @@ class Model_Post_Geometry extends Model_Post_Value {
 	 */
 	public function save(Validation $validation = NULL)
 	{
+		// Validate before replacing value with Database_Expression
+		if ( ! $this->_valid OR $validation)
+		{
+			$this->check($validation);
+		}
+
 		$original_value = FALSE;
 		if (is_string($this->_object['value']))
 		{

@@ -322,7 +322,8 @@ class Model_Post extends ORM {
 					->on('post_decimal.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$geometries = DB::select('key', 'value')
+			// Load Geometry value as WKT
+			$geometries = DB::select('key', array(DB::expr('AsText(`value`)'), 'value'))
 				->union($decimals)
 				->from('post_geometry')
 				->join('form_attributes')
@@ -336,15 +337,8 @@ class Model_Post extends ORM {
 					->on('post_int.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$points = DB::select('key', 'value')
-				->union($ints)
-				->from('post_point')
-				->join('form_attributes')
-					->on('post_point.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $this->id);
-
 			$texts = DB::select('key', 'value')
-				->union($points)
+				->union($ints)
 				->from('post_text')
 				->join('form_attributes')
 					->on('post_text.form_attribute_id', '=', 'form_attributes.id')
@@ -363,14 +357,28 @@ class Model_Post extends ORM {
 				->join('form_attributes')
 					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
-				
+
 			$results = $datetimes->execute();
 
 			foreach ($results as $result)
 			{
 				$response['values'][$result['key']] = $result['value'];
 			}
-			
+
+			// Special handling for points
+			// Load points through ORM to use special Geometry handling
+			$points = ORM::factory('Post_Point')
+				->select('key')
+				->join('form_attributes')
+					->on('post_point.form_attribute_id', '=', 'form_attributes.id')
+				->where('post_id', '=', $this->id)
+				->find_all();
+
+			foreach ($points as $point)
+			{
+				$response['values'][$point->key] = $point->value;
+			}
+
 			// Get tags
 			foreach ($this->tags->find_all() as $tag)
 			{

@@ -20,6 +20,11 @@ Feature: Testing the Posts API
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
+                    "last_location_point":{
+                      "lat":33.755,
+                      "lon":-84.39
+                    },
+                    "geometry_test":"POLYGON((0 0,1 1,2 2,0 0))",
                     "status":"believed_missing"
                 },
                 "tags":["missing"]
@@ -32,6 +37,8 @@ Feature: Testing the Posts API
         And the response has a "title" property
         And the "title" property equals "Test post"
         And the "tags" property contains "missing"
+        And the "values.last_location_point.lat" property equals "33.755"
+        And the "values.geometry_test" property equals "POLYGON((0 0,1 1,2 2,0 0))"
         Then the response status code should be 200
 
     Scenario: Creating an Post with invalid data returns an error
@@ -98,6 +105,7 @@ Feature: Testing the Posts API
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
+                    "last_location_point":"POINT(-85.39 33.755)",
                     "status":"believed_missing"
                 },
                 "tags":["missing","kenyan"]
@@ -112,6 +120,7 @@ Feature: Testing the Posts API
         And the "tags" property contains "kenyan"
         And the response has a "title" property
         And the "title" property equals "Updated Test Post"
+        And the "values.last_location_point.lon" property equals "-85.39"
         Then the response status code should be 200
 
     Scenario: Updating a non-existent Post

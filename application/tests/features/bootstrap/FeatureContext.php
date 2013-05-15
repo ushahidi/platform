@@ -148,7 +148,29 @@ class FeatureContext extends BehatContext
 			->set("priority", 5)
 			->save();
 		$group->add('form_attributes', $attr);
-		
+
+		// Create last_location attribute
+		$attr = ORM::factory("Form_Attribute")
+			->set('key', 'last_location_point')
+			->set("label", "Last Location (Point)")
+			->set("type", "point")
+			->set("input", "text")
+			->set("required", false)
+			->set("priority", 5)
+			->save();
+		$group->add('form_attributes', $attr);
+
+		// Create last_location attribute
+		$attr = ORM::factory("Form_Attribute")
+			->set('key', 'geometry_test')
+			->set("label", "Geometry Test")
+			->set("type", "geometry")
+			->set("input", "text")
+			->set("required", false)
+			->set("priority", 5)
+			->save();
+		$group->add('form_attributes', $attr);
+
 		// Create status attribute
 		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'status')
