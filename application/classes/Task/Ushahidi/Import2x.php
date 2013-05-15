@@ -464,10 +464,11 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"original_id" => $incident['incidentid'],
 						"date" => $incident['incidentdate'],
 						"location_name" => $incident['locationname'],
-						"location" => array(
+						// FIXME this might skip 0,0 values
+						"location" => ($incident['locationlatitude'] AND $incident['locationlongitude']) ? array(
 							'lat' => $incident['locationlatitude'],
 							'lon' => $incident['locationlongitude']
-						),
+						) : NULL,
 						"verified" => $incident['incidentverified'],
 						"source" => $source[$incident['incidentmode']],
 						// FIXME save media
@@ -619,10 +620,11 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"original_id" => $report['incident_id'],
 						"date" => $report['incident_date'],
 						"location_name" => $report['location_name'],
-						"location" => array(
+						// FIXME: this might skip valid 0,0 locations
+						"location" => ($incident['location_latitude'] AND $incident['location_longitude']) ? array(
 							'lat' => $incident['location_latitude'],
 							'lon' => $incident['location_longitude']
-						),
+						) : NULL,
 						"verified" => $report['incident_verified'],
 						"source" => $source[$report['incident_mode']],
 						// FIXME save media
