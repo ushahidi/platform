@@ -78,7 +78,8 @@ class Model_Form_Attribute extends ORM {
 					'radio',
 					'checkbox',
 					'file',
-					'date'
+					'date',
+					'location'
 				)) )
 			),
 			'type' => array(
