@@ -91,7 +91,8 @@ class Model_Form_Attribute extends ORM {
 					'text',
 					'varchar',
 					'point',
-					'datetime'
+					'datetime',
+					'link'
 				)) )
 			),
 			'required' => array(

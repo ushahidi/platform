@@ -189,6 +189,18 @@ class FeatureContext extends BehatContext
 			->set("priority", 6)
 			->save();
 		$group->add('form_attributes', $attr);
+
+		// Create links attribute: tests link validation and cardinality
+		$attr = ORM::factory("Form_Attribute")
+			->set('key', 'links')
+			->set("label", "Links")
+			->set("type", "link")
+			->set("input", "text")
+			->set("required", false)
+			->set("cardinality", 0)
+			->set("priority", 7)
+			->save();
+		$group->add('form_attributes', $attr);
 	}
 
 	/**

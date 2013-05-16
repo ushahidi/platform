@@ -309,13 +309,13 @@ class Model_Post extends ORM {
 
 			// Create the Super Union
 			// @todo generalize this - how do plugins add other attribute types?
-			$datetimes = DB::select('key', 'value')
+			$datetimes = DB::select('key', 'value', array('post_datetime.id', 'id'))
 				->from('post_datetime')
 				->join('form_attributes')
 					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$decimals = DB::select('key', 'value')
+			$decimals = DB::select('key', 'value', array('post_decimal.id', 'id'))
 				->union($datetimes)
 				->from('post_decimal')
 				->join('form_attributes')
@@ -323,46 +323,59 @@ class Model_Post extends ORM {
 				->where('post_id', '=', $this->id);
 
 			// Load Geometry value as WKT
-			$geometries = DB::select('key', array(DB::expr('AsText(`value`)'), 'value'))
+			$geometries = DB::select('key', array(DB::expr('AsText(`value`)'), 'value'), array('post_geometry.id', 'id'))
 				->union($decimals)
 				->from('post_geometry')
 				->join('form_attributes')
 					->on('post_geometry.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$ints = DB::select('key', 'value')
+			$ints = DB::select('key', 'value', array('post_int.id', 'id'))
 				->union($geometries)
 				->from('post_int')
 				->join('form_attributes')
 					->on('post_int.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$texts = DB::select('key', 'value')
+			$texts = DB::select('key', 'value', array('post_text.id', 'id'))
 				->union($ints)
 				->from('post_text')
 				->join('form_attributes')
 					->on('post_text.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$varchars = DB::select('key', 'value')
+			$varchars = DB::select('key', 'value', array('post_varchar.id', 'id'))
 				->union($texts)
 				->from('post_varchar')
 				->join('form_attributes')
 					->on('post_varchar.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$datetimes = DB::select('key', 'value')
-				->union($varchars)
-				->from('post_datetime')
-				->join('form_attributes')
-					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $this->id);
+			$results = $varchars->execute();
 
-			$results = $datetimes->execute();
-
+			$values_with_keys = array();
 			foreach ($results as $result)
 			{
-				$response['values'][$result['key']] = $result['value'];
+				if (! isset($values_with_keys[$result['key']]))
+				{
+					$values_with_keys[$result['key']] = array();
+				}
+				// Save value and id in multi-value format.
+				$values_with_keys[$result['key']][] = array(
+					'id' => $result['id'],
+					'value' => $result['value']
+				);
+				
+				// First or single value for attribute
+				if (! isset($response['values'][$result['key']]))
+				{
+					$response['values'][$result['key']] = $result['value'];
+				}
+				// Multivalue - use array instead
+				else
+				{
+					$response['values'][$result['key']] = $values_with_keys[$result['key']];
+				}
 			}
 
 			// Special handling for points
@@ -376,7 +389,26 @@ class Model_Post extends ORM {
 
 			foreach ($points as $point)
 			{
-				$response['values'][$point->key] = $point->value;
+				if (! isset($values_with_keys[$point->key]))
+				{
+					$values_with_keys[$point->key] = array();
+				}
+				// Save value and id in multi-value format.
+				$values_with_keys[$point->key][] = array(
+					'id' => $point->id,
+					'value' => $point->value
+				);
+				
+				// First or single value for attribute
+				if (! isset($response['values'][$point->key]))
+				{
+					$response['values'][$point->key] = $point->value;
+				}
+				// Multivalue - use array instead
+				else
+				{
+					$response['values'][$point->key] = $values_with_keys[$point->key];
+				}
 			}
 
 			// Get tags

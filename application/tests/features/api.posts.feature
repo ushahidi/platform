@@ -25,7 +25,11 @@ Feature: Testing the Posts API
                       "lon":-84.39
                     },
                     "geometry_test":"POLYGON((0 0,1 1,2 2,0 0))",
-                    "status":"believed_missing"
+                    "status":"believed_missing",
+                    "links":[
+                      {"value":"http://google.com"},
+                      {"value":"http://facebook.com"}
+                    ]
                 },
                 "tags":["missing"]
             }
@@ -39,6 +43,8 @@ Feature: Testing the Posts API
         And the "tags" property contains "missing"
         And the "values.last_location_point.lat" property equals "33.755"
         And the "values.geometry_test" property equals "POLYGON((0 0,1 1,2 2,0 0))"
+        And the "values.links.0.value" property equals "http://google.com"
+        And the response has a "values.links.0.id" property
         Then the response status code should be 200
 
     Scenario: Creating an Post with invalid data returns an error
