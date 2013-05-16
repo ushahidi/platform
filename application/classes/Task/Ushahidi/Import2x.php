@@ -487,14 +487,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"original_id" => $incident['incidentid'],
 						"date" => $incident['incidentdate'],
 						"location_name" => $incident['locationname'],
-						// FIXME this might skip 0,0 values
-						"location" => ($incident['locationlatitude'] AND $incident['locationlongitude']) ? array(
+						"location" => (is_numeric($incident['locationlatitude']) AND is_numeric($incident['locationlongitude'])) ? array(
 							'lat' => $incident['locationlatitude'],
 							'lon' => $incident['locationlongitude']
 						) : NULL,
 						"verified" => $incident['incidentverified'],
 						"source" => $source[$incident['incidentmode']],
-						// FIXME save media
 						"news" => $news_media,
 						"photo" => $photo_media,
 						"video" => $video_media,
@@ -666,14 +664,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"original_id" => $report['incident_id'],
 						"date" => $report['incident_date'],
 						"location_name" => $report['location_name'],
-						// FIXME: this might skip valid 0,0 locations
-						"location" => ($report['latitude'] AND $report['longitude']) ? array(
+						"location" => (is_numeric($incident['latitude']) AND is_numeric($incident['longitude']))  ? array(
 							'lat' => $report['latitude'],
 							'lon' => $report['longitude']
 						) : NULL,
 						"verified" => $report['incident_verified'],
 						"source" => $source[$report['incident_mode']],
-						// FIXME save media
 						"news" => $news_media,
 						"photo" => $photo_media,
 						"video" => $video_media,
