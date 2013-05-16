@@ -451,7 +451,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					}
 				}
 
-				$news_media = array();
+				$news_media = $video_media = $photo_media = array();
 				foreach($media as $m)
 				{
 					switch ($m['type'])
@@ -461,6 +461,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 							break;
 						// video
 						case 2:
+							$news_media[] = array(
+								'value' => $m['link']
+							);
 							break;
 						// news
 						case 4:
@@ -493,8 +496,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"source" => $source[$incident['incidentmode']],
 						// FIXME save media
 						"news" => $news_media,
-						"photo" => "",
-						"video" => "",
+						"photo" => $photo_media,
+						"video" => $video_media,
 					),
 					"tags" => $tags
 				));
@@ -627,7 +630,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				->parameters(array(':incident_id' => $report['incident_id']))
 				->execute($this->db2);
 				
-				$news_media = array();
+				$news_media = $video_media = $photo_media = array();
 				foreach($media as $m)
 				{
 					switch ($m['media_type'])
@@ -637,6 +640,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 							break;
 						// video
 						case 2:
+							$video_media[] = array(
+								'value' => $m['media_link']
+							);
 							break;
 						// news
 						case 4:
@@ -669,8 +675,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"source" => $source[$report['incident_mode']],
 						// FIXME save media
 						"news" => $news_media,
-						"photo" => "",
-						"video" => "",
+						"photo" => $photo_media,
+						"video" => $video_media,
 					),
 					"tags" => $tags
 				));

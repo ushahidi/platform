@@ -85,8 +85,8 @@
 				{
 					"key":"photo",
 					"label":"Photo",
-					"type":"varchar",
-					"input":"file",
+					"type":"link",
+					"input":"text",
 					"required":false,
 					"priority":1,
 					"cardinality":0
