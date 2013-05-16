@@ -661,9 +661,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"date" => $report['incident_date'],
 						"location_name" => $report['location_name'],
 						// FIXME: this might skip valid 0,0 locations
-						"location" => ($incident['location_latitude'] AND $incident['location_longitude']) ? array(
-							'lat' => $incident['location_latitude'],
-							'lon' => $incident['location_longitude']
+						"location" => ($report['latitude'] AND $report['longitude']) ? array(
+							'lat' => $report['latitude'],
+							'lon' => $report['longitude']
 						) : NULL,
 						"verified" => $report['incident_verified'],
 						"source" => $source[$report['incident_mode']],
