@@ -450,6 +450,26 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						$tags[] = $this->tag_map[$cat['category']['id']];
 					}
 				}
+
+				$news_media = array();
+				foreach($media as $m)
+				{
+					switch ($m['type'])
+					{
+						// photo
+						case 1:
+							break;
+						// video
+						case 2:
+							break;
+						// news
+						case 4:
+							$news_media[] = array(
+								'value' => $m['link']
+							);
+							break;
+					}
+				}
 				
 				$body = json_encode(array(
 					"form" => $form_id,
@@ -472,7 +492,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"verified" => $incident['incidentverified'],
 						"source" => $source[$incident['incidentmode']],
 						// FIXME save media
-						"news" => "",
+						"news" => $news_media,
 						"photo" => "",
 						"video" => "",
 					),
@@ -607,6 +627,26 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				->parameters(array(':incident_id' => $report['incident_id']))
 				->execute($this->db2);
 				
+				$news_media = array();
+				foreach($media as $m)
+				{
+					switch ($m['media_type'])
+					{
+						// photo
+						case 1:
+							break;
+						// video
+						case 2:
+							break;
+						// news
+						case 4:
+							$news_media[] = array(
+								'value' => $m['media_link']
+							);
+							break;
+					}
+				}
+				
 				$body = json_encode(array(
 					"form" => $form_id,
 					"title" => substr($report['incident_title'], 0, 150), // Make we don't exceed the max length.
@@ -628,7 +668,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"verified" => $report['incident_verified'],
 						"source" => $source[$report['incident_mode']],
 						// FIXME save media
-						"news" => "",
+						"news" => $news_media,
 						"photo" => "",
 						"video" => "",
 					),

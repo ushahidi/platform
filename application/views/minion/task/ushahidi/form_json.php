@@ -76,10 +76,11 @@
 				{
 					"key":"news",
 					"label":"News",
-					"type":"varchar",
+					"type":"link",
 					"input":"text",
 					"required":false,
-					"priority":0
+					"priority":0,
+					"cardinality":0
 				},
 				{
 					"key":"photo",
@@ -87,7 +88,8 @@
 					"type":"varchar",
 					"input":"file",
 					"required":false,
-					"priority":1
+					"priority":1,
+					"cardinality":0
 				},
 				{
 					"key":"video",
@@ -95,7 +97,8 @@
 					"type":"varchar",
 					"input":"file",
 					"required":false,
-					"priority":2
+					"priority":2,
+					"cardinality":0
 				}
 			]
 		}
