@@ -780,10 +780,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		foreach($categories as $obj)
 		{
 			$category = $obj['category'];
-			// FIXME nowhere to store color/icon/description/translations
+			// FIXME nowhere to store icon or translations
 			$body = json_encode(array(
 				"tag" => $category['title'],
 				"type" => "category",
+				"description" => $category['description'],
+				"color" => $category['color'],
 				"slug" => URL::title($category['title'].'-'.$category['id']), // Hack to handle dupe titles
 				"priority" => $category['position'],
 				"parent" => isset($this->tag_map[$category['parent_id']]) ? $this->tag_map[$category['parent_id']] : 0
@@ -829,10 +831,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		$this->logger->add(Log::NOTICE, 'Importing categories');
 		foreach ($categories as $category)
 		{
-			// FIXME nowhere to store color/icon/description/translations
+			// FIXME nowhere to store icon or translations
 			$body = json_encode(array(
 				"tag" => $category['category_title'],
 				"type" => "category",
+				"description" => $category['category_description'],
+				"color" => $category['category_color'],
 				"slug" => URL::title($category['category_title'].'-'.$category['id']), // Hack to handle dupe titles
 				"priority" => $category['category_position'],
 				"parent" => isset($this->tag_map[$category['parent_id']]) ? $this->tag_map[$category['parent_id']] : 0
