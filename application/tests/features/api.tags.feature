@@ -65,7 +65,7 @@ Feature: Testing the Tags API
         And that the request "data" is:
             """
             {
-                "tag":"My magical tag",
+                "tag":"Another tag",
                 "type":"category",
                 "priority":1,
                 "color":"#00ff00"
