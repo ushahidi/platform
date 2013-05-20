@@ -664,7 +664,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						"original_id" => $report['incident_id'],
 						"date" => $report['incident_date'],
 						"location_name" => $report['location_name'],
-						"location" => (is_numeric($incident['latitude']) AND is_numeric($incident['longitude']))  ? array(
+						"location" => (is_numeric($report['latitude']) AND is_numeric($report['longitude']))  ? array(
 							'lat' => $report['latitude'],
 							'lon' => $report['longitude']
 						) : NULL,
