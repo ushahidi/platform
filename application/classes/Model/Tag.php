@@ -146,7 +146,16 @@ class Model_Tag extends ORM {
 	{
 		if (empty($this->slug))
 		{
-			$this->slug = URL::title($this->tag);
+			$this->slug = $this->tag;
+			
+			// FIXME horribly inefficient
+			// If the slug exists add a count to the end
+			$i = 1;
+			while (! $this->unique('slug', $this->slug))
+			{
+				$this->slug = $this->tag." $i";
+				$i++;
+			}
 		}
 	}
 
