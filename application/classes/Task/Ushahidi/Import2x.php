@@ -770,23 +770,60 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		unset($form_response, $form_body, $cat_request, $cat_response, $cat_body);
 		
 		$this->tag_map = array();
-		// loop to generate slugs to use finding parents
-		foreach($categories as $obj)
-		{
-			$this->tag_map[$obj['category']['id']] = URL::title($obj['category']['title'].'-'.$obj['category']['id']);
-		}
 		
-		$this->logger->add(Log::NOTICE, 'Importing categories');
+		// First pass - just saving parents
+		$this->logger->add(Log::NOTICE, 'Importing parent categories');
 		foreach($categories as $obj)
 		{
 			$category = $obj['category'];
+			
+			if ($category['parent_id'] != 0) continue;
+			
 			// FIXME nowhere to store icon or translations
 			$body = json_encode(array(
 				"tag" => $category['title'],
 				"type" => "category",
 				"description" => $category['description'],
 				"color" => $category['color'],
-				"slug" => URL::title($category['title'].'-'.$category['id']), // Hack to handle dupe titles
+				"priority" => $category['position'],
+				"parent" => 0
+			));
+			$tag_response = $this->_request("api/v2/tags")
+			->method(Request::POST)
+			->body($body)
+			->execute();
+			
+			$tag = json_decode($tag_response->body(), TRUE);
+			if (! isset($tag['id']))
+			{
+				throw new Minion_Exception("Error creating tag. Details:\n\n :error \n\n Request Body: :body", array(
+					':error' => $tag_response->body(),
+					':body' => $body
+					));
+			}
+			
+			// Save into tag_map so we know the parent id later
+			$this->tag_map[$category['id']] = $tag['id'];
+			
+			$category_count++;
+			
+			unset($tag_response, $tag, $body, $category);
+		}
+		
+		// Second pass - all non top level categories
+		$this->logger->add(Log::NOTICE, 'Importing rest of categories');
+		foreach($categories as $obj)
+		{
+			$category = $obj['category'];
+			
+			if ($category['parent_id'] == 0) continue;
+			
+			// FIXME nowhere to store icon or translations
+			$body = json_encode(array(
+				"tag" => $category['title'],
+				"type" => "category",
+				"description" => $category['description'],
+				"color" => $category['color'],
 				"priority" => $category['position'],
 				"parent" => isset($this->tag_map[$category['parent_id']]) ? $this->tag_map[$category['parent_id']] : 0
 			));
@@ -803,6 +840,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					':body' => $body
 					));
 			}
+			
+			// Save into tag_map so we know the new id later
+			$this->tag_map[$category['id']] = $tag['id'];
 			
 			$category_count++;
 			
@@ -832,6 +872,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		foreach ($categories as $category)
 		{
 			// FIXME nowhere to store icon or translations
+			// FIXME nowhere to store visiblity
 			$body = json_encode(array(
 				"tag" => $category['category_title'],
 				"type" => "category",
@@ -854,7 +895,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					':body' => $body
 					));
 			}
-			$this->tag_map[$category['id']] = $tag['slug'];
+			$this->tag_map[$category['id']] = $tag['id'];
 			
 			$category_count++;
 			
