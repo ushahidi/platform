@@ -1,7 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Model for Post_Varchar
+ * Model for Post_Link
+ * 
+ * This model extends Post_Varchar and uses the same table
+ * but validates values as urls
  * 
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
@@ -9,10 +12,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post_Varchar extends Model_Post_Value {
-
-	// Table Name
-	protected $_table_name = 'post_varchar';
+class Model_Post_Link extends Model_Post_Varchar {
 
 	/**
 	 * Rules for the post_varchar model
@@ -23,7 +23,7 @@ class Model_Post_Varchar extends Model_Post_Value {
 	{
 		return Arr::merge(parent::rules(), array(
 			'value' => array(
-				array('max_length', array(':value', 255))
+				array('url')
 			)
 		));
 	}

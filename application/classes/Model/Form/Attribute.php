@@ -78,7 +78,8 @@ class Model_Form_Attribute extends ORM {
 					'radio',
 					'checkbox',
 					'file',
-					'date'
+					'date',
+					'location'
 				)) )
 			),
 			'type' => array(
@@ -90,16 +91,17 @@ class Model_Form_Attribute extends ORM {
 					'text',
 					'varchar',
 					'point',
-					'datetime'
+					'datetime',
+					'link'
 				)) )
 			),
 			'required' => array(
 				array('in_array', array(':value', array(true,false)))
 			),
-			'unique' => array(
-				array('in_array', array(':value', array(true,false)))
-			),
 			'priority' => array(
+				array('numeric')
+			),
+			'cardinality' => array(
 				array('numeric')
 			)
 		);
@@ -132,9 +134,9 @@ class Model_Form_Attribute extends ORM {
 				'type' => $this->type,
 				'required' => ($this->required) ? TRUE : FALSE,
 				'default' => $this->default,
-				'unique' => ($this->unique) ? TRUE : FALSE,
 				'priority' => $this->priority,
 				'options' => $this->options,
+				'cardinality' => $this->cardinality
 			);
 		}
 		else

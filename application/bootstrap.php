@@ -116,6 +116,9 @@ Kohana::modules(array(
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 
+// Load gisconverter
+include_once(Kohana::find_file('vendor', 'gisconverter/gisconverter', 'php'));
+
 /**
  * Form Groups API SubRoute
  */	

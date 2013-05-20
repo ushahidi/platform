@@ -52,7 +52,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 		}
 		
 		$attribute = ORM::factory('Form_Attribute')->values($post, array(
-			'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+			'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
 			));
 		
 		// Validation - perform in-model validation before saving
@@ -63,7 +63,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 
 			// Validates ... so save
 			$attribute->values($post, array(
-				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
 				));
 			$attribute->save();
 
@@ -162,7 +162,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 		
 		// Load post values into group model
 		$attribute->values($post, array(
-			'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+			'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
 			));
 		$attribute->id = $id;
 		
@@ -174,7 +174,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 
 			// Validates ... so save
 			$attribute->values($post, array(
-				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
 				));
 			$attribute->options = ( isset($post['options']) ) ? json_encode($post['options']) : NULL;
 			$attribute->save();

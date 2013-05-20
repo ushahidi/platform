@@ -2,7 +2,7 @@
 
 /**
  * Unit tests for the form model
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Tests
  * @copyright  Ushahidi - http://www.ushahidi.com
@@ -75,7 +75,7 @@ class FormModelTest extends Unittest_TestCase {
 			)
 		);
 	}
-	
+
 	/**
 	 * Test Validate Valid Entries
 	 *
@@ -83,20 +83,18 @@ class FormModelTest extends Unittest_TestCase {
 	 * @return void
 	 */
 	public function test_validate_valid($set)
-	{	
+	{
 		$form = ORM::factory('Form');
 		$form->values($set);
 
-		$is_valid = TRUE;
 		try
 		{
 			$form->check();
 		}
-		catch (Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			$is_valid = FALSE;
+			$this->fail('This entry qualifies as invalid when it should be valid: '. json_encode($e->errors('models')));
 		}
-		$this->assertTrue($is_valid);
 	}
 
 	/**
@@ -106,19 +104,19 @@ class FormModelTest extends Unittest_TestCase {
 	 * @return void
 	 */
 	public function test_validate_invalid($set)
-	{	
+	{
 		$form = ORM::factory('Form');
 		$form->values($set);
 
-		$is_valid = FALSE;
 		try
 		{
 			$form->check();
 		}
-		catch (Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			$is_valid = TRUE;
+			return;
 		}
-		$this->assertTrue($is_valid);
+
+		$this->fail('This entry qualifies as valid when it should be invalid');
 	}
 }

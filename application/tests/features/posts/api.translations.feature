@@ -97,7 +97,8 @@ Feature: Testing the Translations API
                 "type": "revision",
                 "locale":"de_DE",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["translation-test"]
             }
@@ -122,7 +123,8 @@ Feature: Testing the Translations API
                 "type": "revision",
                 "locale":"en_US",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["translation-test"]
             }
@@ -144,7 +146,8 @@ Feature: Testing the Translations API
                 "type": "revision",
                 "locale":"fr_FR",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["translation-test"]
             }
@@ -166,7 +169,8 @@ Feature: Testing the Translations API
                 "type": "revision",
                 "locale":"fr_FR",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["translation-test"]
             }
@@ -192,7 +196,8 @@ Feature: Testing the Translations API
                 "type": "revision",
                 "locale":"fr_FR",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["translation-test"]
             }
@@ -218,7 +223,8 @@ Feature: Testing the Translations API
                 "type": "revision",
                 "locale":"de_DE",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["translation-test"]
             }
@@ -241,7 +247,8 @@ Feature: Testing the Translations API
                 "type": "revision",
                 "locale":"de_DE",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["translation-test"]
             }

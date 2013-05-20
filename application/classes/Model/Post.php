@@ -91,7 +91,7 @@ class Model_Post extends ORM {
 			'form_id' => array(
 				array('not_empty'),
 				array('numeric'),
-				array(array($this, 'form_exists'), array(':field', ':value'))
+				array(array($this, 'fk_exists'), array('Form', ':field', ':value'))
 			),
 
 			'parent_id' => array(
@@ -154,18 +154,6 @@ class Model_Post extends ORM {
 				array(array($this, 'unique_locale'), array(':field', ':value'))
 			),
 		);
-	}
-
-	/**
-	 * Callback function to check if form exists
-	 */
-	public function form_exists($field, $value)
-	{
-		$form = ORM::factory('Form')
-			->where('id', '=', $value)
-			->find();
-
-		return $form->loaded();
 	}
 
 	/**
@@ -321,68 +309,108 @@ class Model_Post extends ORM {
 
 			// Create the Super Union
 			// @todo generalize this - how do plugins add other attribute types?
-			$datetimes = DB::select('key', 'value')
+			$datetimes = DB::select('key', 'value', array('post_datetime.id', 'id'))
 				->from('post_datetime')
 				->join('form_attributes')
 					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$decimals = DB::select('key', 'value')
+			$decimals = DB::select('key', 'value', array('post_decimal.id', 'id'))
 				->union($datetimes)
 				->from('post_decimal')
 				->join('form_attributes')
 					->on('post_decimal.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$geometries = DB::select('key', 'value')
+			// Load Geometry value as WKT
+			$geometries = DB::select('key', array(DB::expr('AsText(`value`)'), 'value'), array('post_geometry.id', 'id'))
 				->union($decimals)
 				->from('post_geometry')
 				->join('form_attributes')
 					->on('post_geometry.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$ints = DB::select('key', 'value')
+			$ints = DB::select('key', 'value', array('post_int.id', 'id'))
 				->union($geometries)
 				->from('post_int')
 				->join('form_attributes')
 					->on('post_int.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$points = DB::select('key', 'value')
+			$texts = DB::select('key', 'value', array('post_text.id', 'id'))
 				->union($ints)
-				->from('post_point')
-				->join('form_attributes')
-					->on('post_point.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $this->id);
-
-			$texts = DB::select('key', 'value')
-				->union($points)
 				->from('post_text')
 				->join('form_attributes')
 					->on('post_text.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$varchars = DB::select('key', 'value')
+			$varchars = DB::select('key', 'value', array('post_varchar.id', 'id'))
 				->union($texts)
 				->from('post_varchar')
 				->join('form_attributes')
 					->on('post_varchar.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$datetimes = DB::select('key', 'value')
-				->union($varchars)
-				->from('post_datetime')
-				->join('form_attributes')
-					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $this->id);
-				
-			$results = $datetimes->execute();
+			$results = $varchars->execute();
 
+			$values_with_keys = array();
 			foreach ($results as $result)
 			{
-				$response['values'][$result['key']] = $result['value'];
+				if (! isset($values_with_keys[$result['key']]))
+				{
+					$values_with_keys[$result['key']] = array();
+				}
+				// Save value and id in multi-value format.
+				$values_with_keys[$result['key']][] = array(
+					'id' => $result['id'],
+					'value' => $result['value']
+				);
+				
+				// First or single value for attribute
+				if (! isset($response['values'][$result['key']]))
+				{
+					$response['values'][$result['key']] = $result['value'];
+				}
+				// Multivalue - use array instead
+				else
+				{
+					$response['values'][$result['key']] = $values_with_keys[$result['key']];
+				}
 			}
-			
+
+			// Special handling for points
+			// Load points through ORM to use special Geometry handling
+			$points = ORM::factory('Post_Point')
+				->select('key')
+				->join('form_attributes')
+					->on('post_point.form_attribute_id', '=', 'form_attributes.id')
+				->where('post_id', '=', $this->id)
+				->find_all();
+
+			foreach ($points as $point)
+			{
+				if (! isset($values_with_keys[$point->key]))
+				{
+					$values_with_keys[$point->key] = array();
+				}
+				// Save value and id in multi-value format.
+				$values_with_keys[$point->key][] = array(
+					'id' => $point->id,
+					'value' => $point->value
+				);
+				
+				// First or single value for attribute
+				if (! isset($response['values'][$point->key]))
+				{
+					$response['values'][$point->key] = $point->value;
+				}
+				// Multivalue - use array instead
+				else
+				{
+					$response['values'][$point->key] = $values_with_keys[$point->key];
+				}
+			}
+
 			// Get tags
 			foreach ($this->tags->find_all() as $tag)
 			{

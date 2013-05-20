@@ -76,7 +76,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 		else
 		{
 			$attribute = ORM::factory('Form_Attribute')->values($post, array(
-				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'priority'
 				));
 			
 			// Validation - perform in-model validation before saving
@@ -87,7 +87,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 	
 				// Validates ... so save
 				$attribute->values($post, array(
-					'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+					'key', 'label', 'input', 'type', 'options', 'required', 'default', 'priority'
 					));
 				$attribute->save();
 	

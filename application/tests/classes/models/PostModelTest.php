@@ -2,35 +2,25 @@
 
 /**
  * Unit tests for the post model
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Tests
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class PostModelTest extends Unittest_TestCase {
-	/**
-	 * Create A Valid Form
-	 * @return object $form - a valid form
-	 */
-	private function create_valid_form()
-	{
-		$form = ORM::factory('Form');
+class PostModelTest extends Unittest_Database_TestCase {
 
-		try
-		{
-			$form->name = 'Test Form';
-			$form->type = 'report';
-			$form->description = 'Test Report Form';
-			$form->save();
-		}
-		catch (Kohana_Exception $e)
-		{
-			$this->fail("Can't create form: ".Kohana_Debug::dump($e));
-		}
-		
-		return $form;
+	/**
+	 * Get data set PostPointModel
+	 *
+	 * @return PHPUnit_Extensions_Database_DataSet_IDataSet
+	 */
+	public function getDataSet()
+	{
+		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
+			Kohana::find_file('tests/datasets', 'ushahidi/PostPointModel', 'yml')
+		);
 	}
 
 	/**
@@ -42,13 +32,11 @@ class PostModelTest extends Unittest_TestCase {
 	public function provider_validate_valid()
 	{
 		// Setup valid form
-		$form = $this->create_valid_form();
-
 		return array(
 			array(
 				// Valid form data
 				array(
-					'form_id' => $form->id,
+					'form_id' => 1,
 					'title' => 'This is a valid Post',
 					'locale' => 'en_US',
 					'type' => 'report',
@@ -59,7 +47,7 @@ class PostModelTest extends Unittest_TestCase {
 			array(
 				// Valid form data
 				array(
-					'form_id' => $form->id,
+					'form_id' => 1,
 					'title' => 'This is a valid Post',
 					'locale' => 'en_US',
 					'type' => 'comment'
@@ -76,9 +64,6 @@ class PostModelTest extends Unittest_TestCase {
 	 */
 	public function provider_validate_invalid()
 	{
-		// Setup valid form
-		$form = $this->create_valid_form();
-
 		return array(
 			array(
 				// Invalid post data set 1 - No Data
@@ -106,7 +91,7 @@ class PostModelTest extends Unittest_TestCase {
 			array(
 				// Invalid post data set 3 - Invalid Type
 				array(
-					'form_id' => $form->id,
+					'form_id' => 1,
 					'type' => 'unknown',
 					'locale' => 'en_US',
 					'title' => 'Test Post Title',
@@ -115,7 +100,7 @@ class PostModelTest extends Unittest_TestCase {
 			)
 		);
 	}
-	
+
 	/**
 	 * Test Validate Valid Entries
 	 *
@@ -127,18 +112,14 @@ class PostModelTest extends Unittest_TestCase {
 		$post = ORM::factory('Post');
 		$post->values($set);
 
-		$is_valid = TRUE;
-		$message = '';
 		try
 		{
 			$post->check();
 		}
-		catch (Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			$message = json_encode($e->errors('models'));
-			$is_valid = FALSE;
+			$this->fail('This entry qualifies as invalid when it should be valid: '. json_encode($e->errors('models')));
 		}
-		$this->assertTrue($is_valid, $message);
 	}
 
 	/**
@@ -148,21 +129,19 @@ class PostModelTest extends Unittest_TestCase {
 	 * @return void
 	 */
 	public function test_validate_invalid($set)
-	{	
+	{
 		$post = ORM::factory('Post');
 		$post->values($set);
 
-		$is_valid = FALSE;
-		$message = '';
 		try
 		{
 			$post->check();
-			$message = 'This entry qualifies as valid when it should be invalid';
 		}
-		catch (Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			$is_valid = TRUE;
+			return;
 		}
-		$this->assertTrue($is_valid, $message);
+
+		$this->fail('This entry qualifies as valid when it should be invalid');
 	}
 }

@@ -5,7 +5,9 @@
         "behat/mink-extension": "*",
         "behat/mink": "*",
         "behat/mink-goutte-driver": "*",
-        "fabpot/goutte": "*"
+        "fabpot/goutte": "*",
+        "phpunit/phpunit": "3.7.*",
+        "phpunit/dbunit": ">=1.2"
     },
     "minimum-stability": "dev",
     "config": {

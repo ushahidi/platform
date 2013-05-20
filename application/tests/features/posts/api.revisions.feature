@@ -127,7 +127,8 @@ Feature: Testing the Revisions API
                 "slug": "should-be-returned-when-searching",
                 "locale":"en_US",
                 "values": {
-                    "dummy_varchar": "updated"
+                    "dummy_varchar": "updated",
+                    "last_location": "blah"
                 },
                 "tags": []
             }

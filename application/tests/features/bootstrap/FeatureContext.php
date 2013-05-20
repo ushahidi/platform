@@ -78,7 +78,7 @@ class FeatureContext extends BehatContext
 			->set("label", "Dummy")
 			->set("type", "varchar")
 			->set("input", "text")
-			->set("required", true)
+			->set("required", false)
 			->set("priority", 1)
 			->set('id', 1)
 			->save();
@@ -100,7 +100,7 @@ class FeatureContext extends BehatContext
 			->set("label", "Full Name")
 			->set("type", "varchar")
 			->set("input", "text")
-			->set("required", true)
+			->set("required", false)
 			->set("priority", 1)
 			->save();
 		$group->add('form_attributes', $attr);
@@ -111,7 +111,7 @@ class FeatureContext extends BehatContext
 			->set("label", "Description")
 			->set("type", "text")
 			->set("input", "textarea")
-			->set("required", true)
+			->set("required", false)
 			->set("priority", 2)
 			->save();
 		$group->add('form_attributes', $attr);
@@ -133,7 +133,7 @@ class FeatureContext extends BehatContext
 			->set("label", "Missing Date")
 			->set("type", "datetime")
 			->set("input", "date")
-			->set("required", true)
+			->set("required", false)
 			->set("priority", 4)
 			->save();
 		$group->add('form_attributes', $attr);
@@ -148,7 +148,29 @@ class FeatureContext extends BehatContext
 			->set("priority", 5)
 			->save();
 		$group->add('form_attributes', $attr);
-		
+
+		// Create last_location attribute
+		$attr = ORM::factory("Form_Attribute")
+			->set('key', 'last_location_point')
+			->set("label", "Last Location (Point)")
+			->set("type", "point")
+			->set("input", "text")
+			->set("required", false)
+			->set("priority", 5)
+			->save();
+		$group->add('form_attributes', $attr);
+
+		// Create last_location attribute
+		$attr = ORM::factory("Form_Attribute")
+			->set('key', 'geometry_test')
+			->set("label", "Geometry Test")
+			->set("type", "geometry")
+			->set("input", "text")
+			->set("required", false)
+			->set("priority", 5)
+			->save();
+		$group->add('form_attributes', $attr);
+
 		// Create status attribute
 		$attr = ORM::factory("Form_Attribute")
 			->set('key', 'status')
@@ -165,6 +187,18 @@ class FeatureContext extends BehatContext
 					"believed_dead"
 				))
 			->set("priority", 6)
+			->save();
+		$group->add('form_attributes', $attr);
+
+		// Create links attribute: tests link validation and cardinality
+		$attr = ORM::factory("Form_Attribute")
+			->set('key', 'links')
+			->set("label", "Links")
+			->set("type", "link")
+			->set("input", "text")
+			->set("required", false)
+			->set("cardinality", 0)
+			->set("priority", 7)
 			->save();
 		$group->add('form_attributes', $attr);
 	}

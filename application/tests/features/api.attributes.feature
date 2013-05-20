@@ -13,7 +13,6 @@ Feature: Testing the Form Attributes API
                 "required":true,
                 "priority":1,
                 "default":"",
-                "unique":false,
                 "options":{}
             }
             """
@@ -55,7 +54,6 @@ Feature: Testing the Form Attributes API
                 "required":true,
                 "priority":11,
                 "default":"default val",
-                "unique":true,
                 "options":[
                   "option1",
                   "option2"
@@ -71,7 +69,6 @@ Feature: Testing the Form Attributes API
         And the "required" property equals "true"
         And the "priority" property equals "11"
         And the "default" property equals "default val"
-        And the "unique" property equals "true"
         And the "options.0" property equals "option1"
         Then the response status code should be 200
 

@@ -2,7 +2,7 @@
 
 /**
  * Unit tests for the form_attribute model
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Tests
  * @copyright  Ushahidi - http://www.ushahidi.com
@@ -109,7 +109,7 @@ class FormAttributeModelTest extends Unittest_TestCase {
 			)
 		);
 	}
-	
+
 	/**
 	 * Test Validate Valid Entries
 	 *
@@ -117,22 +117,18 @@ class FormAttributeModelTest extends Unittest_TestCase {
 	 * @return void
 	 */
 	public function test_validate_valid($set)
-	{	
+	{
 		$attribute = ORM::factory('Form_Attribute');
 		$attribute->values($set);
 
-		$is_valid = TRUE;
-		$message = '';
 		try
 		{
 			$attribute->check();
 		}
-		catch (Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			$message = json_encode($e->errors('models'));
-			$is_valid = FALSE;
+			$this->fail('This entry qualifies as invalid when it should be valid: '. json_encode($e->errors('models')));
 		}
-		$this->assertTrue($is_valid, $message);
 	}
 
 	/**
@@ -142,21 +138,19 @@ class FormAttributeModelTest extends Unittest_TestCase {
 	 * @return void
 	 */
 	public function test_validate_invalid($set)
-	{	
+	{
 		$attribute = ORM::factory('Form_Attribute');
 		$attribute->values($set);
 
-		$is_valid = FALSE;
-		$message = '';
 		try
 		{
 			$attribute->check();
-			$message = 'This entry qualifies as valid when it should be invalid';
 		}
-		catch (Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			$is_valid = TRUE;
+			return;
 		}
-		$this->assertTrue($is_valid, $message);
+
+		$this->fail('This entry qualifies as valid when it should be invalid');
 	}
 }
