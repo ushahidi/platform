@@ -31,7 +31,7 @@ Feature: Testing the Posts API
         And the type of the "id" property is "numeric"
         And the response has a "title" property
         And the "title" property equals "Test post"
-        And the "tags" property contains "missing"
+        And the response has a "tags.0.id" property
         Then the response status code should be 200
 
     Scenario: Creating an invalid Post
@@ -84,7 +84,7 @@ Feature: Testing the Posts API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the "id" property equals "1"
-        And the "tags" property contains "kenyan"
+        And the response has a "tags.1.id" property
         And the response has a "title" property
         And the "title" property equals "Updated Test Post"
         Then the response status code should be 200
@@ -359,5 +359,5 @@ Feature: Testing the Posts API
         And the response has a "title" property
         And the "title" property equals "SUMMARY REPORT (تقرير ملخص)"
         And the "slug" property equals "summary-report-تقرير-ملخص"
-        And the "tags" property contains "missing"
+        And the response has a "tags.0.id" property
         Then the response status code should be 200
