@@ -8,14 +8,22 @@ Feature: Testing the Tags API
             {
                 "tag":"Boxes",
                 "slug":"boxes",
+                "description":"Is this a box? Awesome",
                 "type":"category",
-                "priority":1
+                "priority":1,
+                "color":"00ff00"
             }
             """
         When I request "/tags"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the "tag" property equals "Boxes"
+        And the "slug" property equals "boxes"
+        And the "description" property equals "Is this a box? Awesome"
+        And the "color" property equals "00ff00"
+        And the "priority" property equals "1"
+        And the "type" property equals "category"
         Then the response status code should be 200
 
     Scenario: Creating a duplicate tag
@@ -50,6 +58,24 @@ Feature: Testing the Tags API
         And the type of the "id" property is "numeric"
         And the response has a "slug" property
         And the "slug" property equals "my-magical-tag"
+        Then the response status code should be 200
+
+    Scenario: Check hash removed from color when creating tag
+        Given that I want to make a new "Tag"
+        And that the request "data" is:
+            """
+            {
+                "tag":"My magical tag",
+                "type":"category",
+                "priority":1,
+                "color":"#00ff00"
+            }
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "color" property equals "00ff00"
         Then the response status code should be 200
 
     Scenario: Updating a Tag
@@ -96,7 +122,7 @@ Feature: Testing the Tags API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "8"
+        And the "count" property equals "9"
         Then the response status code should be 200
 
     Scenario: Search All Tags
@@ -119,7 +145,7 @@ Feature: Testing the Tags API
             """
         When I request "/tags"
         Then the response is JSON
-        And the "count" property equals "5"
+        And the "count" property equals "6"
         Then the response status code should be 200
 
     Scenario: Search All Tags by parent

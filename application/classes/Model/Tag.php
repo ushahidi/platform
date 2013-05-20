@@ -53,6 +53,11 @@ class Model_Tag extends ORM {
 				// Make sure we have a URL-safe title.
 				array('URL::title')
 			),
+			
+			'color' => array(
+				// Remove # from start of color value
+				array('ltrim', array(':value', '#'))
+			)
 		);
 	}
 	
@@ -96,6 +101,10 @@ class Model_Tag extends ORM {
 				array('numeric'),
 				array(array($this, 'parent_exists'), array(':field', ':value'))
 			),
+			
+			'color' => array(
+				array('color')
+			)
 		);
 	}
 
@@ -176,6 +185,8 @@ class Model_Tag extends ORM {
 				'tag' => $this->tag,
 				'slug' => $this->slug,
 				'type' => $this->type,
+				'color' => $this->color,
+				'description' => $this->description,
 				'priority' => $this->priority,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)

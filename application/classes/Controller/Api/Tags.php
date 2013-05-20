@@ -238,7 +238,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		}
 		
 		$tag->values($post, array(
-			'tag', 'slug', 'type', 'parent_id', 'priority'
+			'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'description'
 			));
 		
 		// Validation - cycle through nested models 
@@ -251,7 +251,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 
 			// Validates ... so save
 			$tag->values($post, array(
-				'tag', 'slug', 'type', 'parent_id', 'priority'
+				'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'description'
 				));
 			$tag->save();
 
