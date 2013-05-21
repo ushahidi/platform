@@ -14,6 +14,10 @@ class Migration_3_0_20130509175301 extends Minion_Migration_Base {
 		  DROP COLUMN `unique`,
 		  ADD COLUMN `cardinality` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1'
 		    COMMENT 'Max number of values, 0 = Unlimited';");
+		
+		// Make title NOT NULL from `posts`
+		$db->query(NULL, "ALTER TABLE `posts` 
+		  MODIFY COLUMN `title` VARCHAR(150) NOT NULL DEFAULT '';");
 	}
 
 	/**
@@ -26,6 +30,9 @@ class Migration_3_0_20130509175301 extends Minion_Migration_Base {
 		$db->query(NULL, "ALTER TABLE `form_attributes` 
 		  ADD COLUMN `unique` TINYINT(1) NOT NULL DEFAULT '0',
 		  DROP COLUMN `cardinality`;");
+		
+		$db->query(NULL, "ALTER TABLE `posts` 
+		  MODIFY COLUMN `title` VARCHAR(150) NULL DEFAULT NULL;");
 	}
 
 }
