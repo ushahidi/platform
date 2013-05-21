@@ -17,7 +17,9 @@ class Migration_3_0_20130509175301 extends Minion_Migration_Base {
 		
 		// Make title NOT NULL from `posts`
 		$db->query(NULL, "ALTER TABLE `posts` 
-		  MODIFY COLUMN `title` VARCHAR(150) NOT NULL DEFAULT '';");
+		  MODIFY COLUMN `title` VARCHAR(150) NOT NULL DEFAULT '',
+		  DROP COLUMN `author`,
+		  DROP COLUMN `email`;");
 	}
 
 	/**
@@ -32,7 +34,9 @@ class Migration_3_0_20130509175301 extends Minion_Migration_Base {
 		  DROP COLUMN `cardinality`;");
 		
 		$db->query(NULL, "ALTER TABLE `posts` 
-		  MODIFY COLUMN `title` VARCHAR(150) NULL DEFAULT NULL;");
+		  MODIFY COLUMN `title` VARCHAR(150) NULL DEFAULT NULL,
+		  ADD COLUMN `author` VARCHAR(150) DEFAULT NULL,
+		  ADD COLUMN `email` VARCHAR(150) DEFAULT NULL;");
 	}
 
 }

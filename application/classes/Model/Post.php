@@ -293,8 +293,6 @@ class Model_Post extends ORM {
 				'content' => $this->content,
 				'status' => $this->status,
 				'type' => $this->type,
-				'email' => $this->email,
-				'author' => $this->author,
 				'slug' => $this->slug,
 				'locale' => $this->locale,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
