@@ -418,6 +418,23 @@ class FeatureContext extends BehatContext
 			->save();
 	}
 
+	/**
+	 * @BeforeFeature @setsFixture
+	 */
+	public static function setupSetFixture($event)
+	{
+		ORM::factory("Set")
+		 ->set('name', 'Test set')
+		 ->set('id', 1)
+		 ->save();
+
+		ORM::factory("Set")
+		 ->set('name', 'Explosion')
+		 ->set('id', 2)
+		 ->save();
+
+	}
+
 	/** @AfterSuite */
 	public static function teardown($event)
 	{
