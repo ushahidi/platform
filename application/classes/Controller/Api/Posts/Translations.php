@@ -24,7 +24,7 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 		
 		if ( ! $parent->loaded())
 		{
-			throw new HTTP_Exception_404('Post does not exist. Post ID: \':id\'', array(
+			throw new HTTP_Exception_404('Parent Post does not exist. Post ID: \':id\'', array(
 				':id' => $this->_parent_id,
 			));
 		}
