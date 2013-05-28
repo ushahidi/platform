@@ -96,7 +96,7 @@ Feature: Testing OAuth2 endpoints
         And the response has an "id" property
         Then the guzzle status code should be 200
 
-    Scenario: Unauthorized Forms Request (no token)
+    Scenario: Unauthorized Posts Request (no token)
         Given that I want to update a "Post"
         And that its "id" is "95"
         And that the request "data" is:
@@ -112,7 +112,7 @@ Feature: Testing OAuth2 endpoints
         And the response has an "errors" property
         Then the guzzle status code should be 400
 
-    Scenario: Unauthorized Forms Request (invalid token)
+    Scenario: Unauthorized Posts Request (invalid token)
         Given that I want to update a "Post"
         And that its "id" is "95"
         And that the request "Authorization" header is "Bearer missingtoken"

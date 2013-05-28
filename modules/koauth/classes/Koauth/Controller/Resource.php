@@ -38,8 +38,9 @@ abstract class Koauth_Controller_Resouce extends Controller {
 	{
 		// https://api.example.com/resource-requiring-postonwall-scope
 		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
+		$response = new OAuth2_Response();
 		$scopeRequired = $this->scope_required;
-		if (! $this->_oauth2_server->verifyResourceRequest($request, $scopeRequired)) {
+		if (! $this->_oauth2_server->verifyResourceRequest($request, $response, $scopeRequired)) {
 			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
 			$this->_oauth2_server->processResponse($this->response);
 			return FALSE;

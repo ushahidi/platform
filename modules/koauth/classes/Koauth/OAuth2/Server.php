@@ -10,7 +10,49 @@
  */
 class Koauth_OAuth2_Server extends OAuth2_Server
 {
-	public function __construct($storage = array(), array $config = array(), array $grantTypes = array(), array $responseTypes = array(), OAuth2_ResponseType_AccessTokenInterface $accessTokenResponseType = null, OAuth2_ScopeInterface $scopeUtil = null)
+	/**
+	 * Overriding the Constructor to add our own default
+	 * 
+	 * @param mixed $storage
+	 * array - array of Objects to implement storage
+	 * OAuth2_Storage object implementing all required storage types (ClientCredentialsInterface and AccessTokenInterface as a minimum)
+	 *
+	 * @param array $config
+	 * specify a different token lifetime, token header name, etc
+	 *
+	 * @param array $grantTypes
+	 * An array of OAuth2_GrantTypeInterface to use for granting access tokens
+	 *
+	 * @param array $responseTypes
+	 * Response types to use.  array keys should be "code" and and "token" for
+	 * Access Token and Authorization Code response types
+	 *
+	 * @param OAuth2_TokenTypeInterface $tokenType
+	 * The token type object to use. Valid token types are "bearer" and "mac"
+	 *
+	 * @param OAuth2_ScopeInterface $scopeUtil
+	 * The scope utility class to use to validate scope
+	 *
+	 * @param OAuth2_ClientAssertionTypeInterface $clientAssertionType
+	 * The method in which to verify the client identity.  Default is HttpBasic
+	 *
+	 * @return
+	 * TRUE if everything in required scope is contained in available scope,
+	 * and FALSE if it isn't.
+	 *
+	 * @see http://tools.ietf.org/html/rfc6749#section-7
+	 *
+	 * @ingroup oauth2_section_7
+	 */
+	public function __construct(
+			$storage = array(),
+			array $config = array(),
+			array $grantTypes = array(),
+			array $responseTypes = array(),
+			OAuth2_TokenTypeInterface $tokenType = null,
+			OAuth2_ScopeInterface $scopeUtil = null,
+			OAuth2_ClientAssertionTypeInterface $clientAssertionType = null
+		)
 	{
 		if (empty($storage))
 		{
@@ -20,7 +62,6 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 		if (empty($config))
 		{
 			$config = array(
-				//'token_type'               => 'bearer',
 				//'access_lifetime'          => 3600,
 				'www_realm'                => 'Ushahidi API',
 				//'token_param_name'         => 'access_token',
@@ -57,33 +98,35 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 			$scopeUtil = new OAuth2_Scope($memory);
 		}
 		
-		parent::__construct($storage, $config, $grantTypes, $responseTypes, $accessTokenResponseType, $scopeUtil);
+		parent::__construct($storage, $config, $grantTypes, $responseTypes, $tokenType, $scopeUtil, $clientAssertionType);
 	}
 	
 	public function processResponse(Kohana_Response &$koresponse)
 	{
-		if ($this->response instanceof OAuth2_Response_Error)
+		if ($this->response instanceof OAuth2_Response)
 		{
-			$exception = HTTP_Exception::factory(
-				$this->response->getStatusCode(),
-				$this->response->getError() .": ". $this->response->getErrorDescription()
-			);
-			// If this is a 401 - copy the WWW-Authenticate header too
-			if ($this->response->getStatusCode() == 401)
+			if ($this->response->isClientError() OR $this->response->isServerError())
 			{
-				$headers = $this->response->getHttpHeaders();
-				$exception->authenticate($headers['WWW-Authenticate']);
+				$exception = HTTP_Exception::factory(
+					$this->response->getStatusCode(),
+					$this->response->getParameter('error') .": ". $this->response->getParameter('error_description')
+				);
+				// If this is a 401 - copy the WWW-Authenticate header too
+				if ($this->response->getStatusCode() == 401)
+				{
+					$headers = $this->response->getHttpHeaders();
+					$exception->authenticate($headers['WWW-Authenticate']);
+				}
+				
+				throw $exception;
 			}
-			
-			throw $exception;
-		}
-		// Handle normal response
-		elseif ($this->response instanceof OAuth2_Response)
-		{
-			$koresponse->body($this->response->getResponseBody());
-			$koresponse->headers($this->response->getHttpHeaders());
-			$koresponse->headers('Content-Type', 'application/json');
-			$koresponse->status($this->response->getStatusCode());
+			else
+			{
+				$koresponse->body($this->response->getResponseBody());
+				$koresponse->headers($this->response->getHttpHeaders());
+				$koresponse->headers('Content-Type', 'application/json');
+				$koresponse->status($this->response->getStatusCode());
+			}
 		}
 	}
 }

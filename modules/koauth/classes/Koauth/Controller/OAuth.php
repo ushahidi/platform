@@ -11,6 +11,7 @@
 abstract class Koauth_Controller_OAuth extends Controller {
 	
 	protected $_oauth2_server;
+	protected $_skip_oauth_response = FALSE;
 
 	/**
 	 * @var array Map of HTTP methods -> actions
@@ -45,7 +46,10 @@ abstract class Koauth_Controller_OAuth extends Controller {
 
 	public function after()
 	{
-		$this->_oauth2_server->processResponse($this->response);
+		if (! $this->_skip_oauth_response)
+		{
+			$this->_oauth2_server->processResponse($this->response);
+		}
 	}
 	
 	/**
@@ -53,12 +57,12 @@ abstract class Koauth_Controller_OAuth extends Controller {
 	 */
 	public function action_get_authorize()
 	{
-		if (! $this->_oauth2_server->validateAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request))) {
-			//$this->_oauth2_response = $this->_oauth2_server->getResponse();
+		if (! ($params = $this->_oauth2_server->validateAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request), new OAuth2_Response())) ) {
+			return;
 		}
 
 		// Show authorize yes/no
-		
+		$this->_skip_oauth_response = TRUE;
 		$this->response->body(View::factory('oauth/authorize'));
 	}
 	
@@ -68,7 +72,7 @@ abstract class Koauth_Controller_OAuth extends Controller {
 	public function action_post_authorize()
 	{
 		$authorized = (bool) $this->request->post('authorize');
-		$this->_oauth2_server->handleAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request), $authorized);
+		$this->_oauth2_server->handleAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request), new OAuth2_Response(), $authorized);
 	}
 	
 	/**
@@ -76,7 +80,7 @@ abstract class Koauth_Controller_OAuth extends Controller {
 	 */
 	public function action_get_token()
 	{
-		$this->_oauth2_server->handleTokenRequest(Koauth_OAuth2_Request::createFromRequest($this->request));
+		$this->_oauth2_server->handleTokenRequest(Koauth_OAuth2_Request::createFromRequest($this->request), new OAuth2_Response());
 	}
 	
 	/**
@@ -84,7 +88,7 @@ abstract class Koauth_Controller_OAuth extends Controller {
 	 */
 	public function action_post_token()
 	{
-		$this->_oauth2_server->handleTokenRequest(Koauth_OAuth2_Request::createFromRequest($this->request));
+		$this->_oauth2_server->handleTokenRequest(Koauth_OAuth2_Request::createFromRequest($this->request), new OAuth2_Response());
 	}
 	
 }

@@ -153,9 +153,19 @@ class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInter
 			->where($user->unique_key($username), '=', $username)
 			->find();
 		
-		// @todo check an empty is actually correct as per interface docs
-		// @todo return 'user_id'
-		return $user->loaded() ? $user->as_array() : array();
+		if ($user->loaded())
+		{
+			$result = $user->as_array();
+			// Have to return 'user_id' to match interface requirements
+			$result['user_id'] = $result['id'];
+			return $result;
+		}
+		else
+		{
+			// Return FALSE here as expected by UserCredentials GrantType
+			// despite docs saying return array()
+			return FALSE;
+		}
 	}
 
 	/* RefreshTokenInterface */
