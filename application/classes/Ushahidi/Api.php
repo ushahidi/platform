@@ -102,6 +102,10 @@ class Ushahidi_Api extends Controller {
 	public function before()
 	{
 		parent::before();
+		
+		// Set up custom error view
+		Kohana_Exception::$error_view_content_type = 'application/json';
+		Kohana_Exception::$error_view = 'api/error';
 
 		$this->_oauth2_server = new Koauth_OAuth2_Server();
 
