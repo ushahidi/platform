@@ -12,7 +12,7 @@ class Koauth_OAuth2_Request extends OAuth2_Request implements OAuth2_RequestInte
 
 		public static function createFromRequest(Request $request)
 		{
-			return new static($request->query(), $request->post(), array(), $request->cookie(), $_FILES, $_SERVER);
+			return new static($request->query(), $request->post(), array(), $request->cookie(), $_FILES, $_SERVER, $request->headers());
 		}
 
 	}
