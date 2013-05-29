@@ -109,7 +109,8 @@ Feature: Testing OAuth2 endpoints
         """
         When I request "/posts"
         Then the response is JSON
-        And the response has an "errors" property
+        And the response has an "error" property
+        And the "error" property equals "invalid_request"
         Then the guzzle status code should be 400
 
     Scenario: Unauthorized Posts Request (invalid token)
@@ -126,7 +127,8 @@ Feature: Testing OAuth2 endpoints
         """
         When I request "/posts"
         Then the response is JSON
-        And the response has an "errors" property
+        And the response has an "error" property
+        And the "error" property equals "invalid_grant"
         Then the guzzle status code should be 401
 
 # Tests for client with restricted grant types: authorization_code only!
@@ -158,7 +160,8 @@ Feature: Testing OAuth2 endpoints
         And that the api_url is ""
         Then I request "/oauth/token"
         Then the response is JSON
-        And the response has an "errors" property
+        And the response has an "error" property
+        And the "error" property equals "unauthorized_client"
         Then the guzzle status code should be 400
 
     Scenario: Restricted client requesting an access token with implicit flow

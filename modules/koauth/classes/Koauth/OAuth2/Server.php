@@ -107,18 +107,7 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 		{
 			if ($this->response->isClientError() OR $this->response->isServerError())
 			{
-				$exception = HTTP_Exception::factory(
-					$this->response->getStatusCode(),
-					$this->response->getParameter('error') .": ". $this->response->getParameter('error_description')
-				);
-				// If this is a 401 - copy the WWW-Authenticate header too
-				if ($this->response->getStatusCode() == 401)
-				{
-					$headers = $this->response->getHttpHeaders();
-					$exception->authenticate($headers['WWW-Authenticate']);
-				}
-				
-				throw $exception;
+				throw new OAuth2_Exception($this->response);
 			}
 			else
 			{
