@@ -499,7 +499,7 @@ class FeatureContext extends BehatContext
 			->set("input", "text")
 			->set("required", true)
 			->set("priority", 1)
-			->set('id', 10)
+			->set('id', 20)
 			->save();
 		
 		$group->add('form_attributes', $attr);
