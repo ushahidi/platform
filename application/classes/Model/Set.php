@@ -13,7 +13,7 @@ class Model_Set extends ORM {
 	/**
 	 * A set has and belongs to many posts
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'posts' => array('through' => 'posts_sets'),
@@ -22,7 +22,7 @@ class Model_Set extends ORM {
 	/**
 	 * A set belongs to a user
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'user' => array()

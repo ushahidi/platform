@@ -14,7 +14,7 @@ class Model_Tag extends ORM {
 	 * A tag has and belongs to many posts
 	 * A tag has many [children] tags
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'posts' => array('through' => 'posts_tags'),
@@ -28,7 +28,7 @@ class Model_Tag extends ORM {
 	/**
 	 * A tag belongs to a [parent] user
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'parent' => array(

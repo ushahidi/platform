@@ -13,7 +13,7 @@ abstract class Model_Post_Value extends ORM {
 	/**
 	 * A post_decimal belongs to a post and form_attribute
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),

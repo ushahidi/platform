@@ -13,7 +13,7 @@ class Model_Task extends ORM {
 	/**
 	 * A task has many [children]
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'children' => array(
@@ -26,7 +26,7 @@ class Model_Task extends ORM {
 	 * A task belongs to a post, an assignor and an assignee
 	 * and a [parent] task
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),

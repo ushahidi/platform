@@ -13,7 +13,7 @@ class Model_Post_Geometry extends Model_Post_Value {
 	/**
 	 * A post_geometry belongs to a post and form_attribute
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),

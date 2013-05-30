@@ -14,7 +14,7 @@ class Model_Form_Attribute extends ORM {
 	 * An attribute has and belongs to many forms
 	 * An attribute has and belongs to many form_groups
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'form_groups' => array('through' => 'form_groups_form_attributes'),
