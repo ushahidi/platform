@@ -1,0 +1,31 @@
+forms:
+  -
+    id: 1
+    name: "Test Form"
+    type: "report"
+    description: "Testing form"
+form_groups:
+  -
+    id: 1
+    form_id: 1
+    label: "Main"
+form_attributes:
+  -
+    id: 1
+    label: "Test point"
+    key: "test_point"
+    type: "point"
+    input: "text"
+form_groups_form_attributes:
+  -
+    form_group_id: 1
+    form_attribute_id: 1
+posts:
+  -
+    title: "Test post"
+    content: "Testing post"
+    form_id: 1
+    type: "report"
+    locale: "en_us"
+post_point:
+post_geometry:

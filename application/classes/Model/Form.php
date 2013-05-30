@@ -15,7 +15,7 @@ class Model_Form extends ORM {
 	 * A form has and belongs to many attributes
 	 * A form has many [children] forms
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'form_groups' => array(),
@@ -30,7 +30,7 @@ class Model_Form extends ORM {
 	/**
 	 * A form belongs to a user and a [parent] form
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'user' => array(),

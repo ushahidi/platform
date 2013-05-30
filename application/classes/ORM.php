@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Model for Post_Int
+ * ORM parent class - with extra Ushahidi extensions
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
@@ -9,22 +9,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post_Int extends Model_Post_Value {
-
-	// Table Name
-	protected $_table_name = 'post_int';
-
+class ORM extends Kohana_ORM {
+	
 	/**
-	 * Rules for the post_int model
-	 *
-	 * @return array Rules
+	 * Callback function to check if fk exists
 	 */
-	public function rules()
+	public function fk_exists($model_name, $field, $value)
 	{
-		return Arr::merge(parent::rules(), array(
-			'value' => array(
-				array('numeric')
-			)
-		));
+		return ORM::factory($model_name, $value)->loaded();
 	}
+	
 }

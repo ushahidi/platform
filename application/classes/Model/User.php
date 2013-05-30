@@ -14,7 +14,7 @@ class Model_User extends Model_Auth_User {
 	 * A user has many tokens and roles
 	 * A user has many posts, post_comments, roles and sets 
 	 * 
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'posts' => array(),

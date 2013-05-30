@@ -13,7 +13,7 @@ class Model_Post_Comment extends ORM {
 	/**
 	 * A post has many [children] post_comments
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'children' => array(
@@ -26,7 +26,7 @@ class Model_Post_Comment extends ORM {
 	 * A post_comment belongs to a post and a user
 	 * A post_comment also belongs to a [parent] post_comment
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'post' => array(),
