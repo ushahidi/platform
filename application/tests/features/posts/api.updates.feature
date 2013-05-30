@@ -67,7 +67,8 @@ Feature: Testing the Updates API
                 "type": "report",
                 "locale":"en_US",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["update-test"]
             }
@@ -92,7 +93,8 @@ Feature: Testing the Updates API
                 "type": "report",
                 "locale":"en_US",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["update-test"]
             }
@@ -118,7 +120,8 @@ Feature: Testing the Updates API
                 "type": "revision",
                 "locale":"de_DE",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["update-test"]
             }
@@ -141,7 +144,8 @@ Feature: Testing the Updates API
                 "type": "revision",
                 "locale":"de_DE",
                 "values": {
-                    "dummy_varchar": "testing"
+                    "dummy_varchar": "testing",
+                    "last_location": "blah"
                 },
                 "tags": ["update-test"]
             }
