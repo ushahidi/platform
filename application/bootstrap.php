@@ -117,7 +117,9 @@ Kohana::modules(array(
 	));
 
 // Load gisconverter
-include_once(Kohana::find_file('vendor', 'gisconverter/gisconverter', 'php'));
+$gisconverter = Kohana::find_file('vendor', 'gisconverter/gisconverter', 'php');
+if (! $gisconverter) throw new Kohana_Exception('Could not load gisconverter library. Have you checked out the gisconverter submodule?');
+include($gisconverter);
 
 /**
  * Form Groups API SubRoute
