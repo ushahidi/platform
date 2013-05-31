@@ -14,7 +14,7 @@ Feature: Testing the Forms API
                         "priority": 1,
                         "attributes":[
                             {
-                                "key":"full_name",
+                                "key":"test_full_name",
                                 "label":"Full Name",
                                 "type":"varchar",
                                 "input":"text",
@@ -24,7 +24,7 @@ Feature: Testing the Forms API
                                 "options":{}
                             },
                             {
-                                "key":"last_name",
+                                "key":"test_last_name",
                                 "label":"Last Name",
                                 "type":"varchar",
                                 "input":"text",
@@ -32,7 +32,7 @@ Feature: Testing the Forms API
                                 "priority":11
                             },
                             {
-                                "key":"missing_status",
+                                "key":"test_missing_status",
                                 "label":"Status",
                                 "type":"varchar",
                                 "input":"text",
