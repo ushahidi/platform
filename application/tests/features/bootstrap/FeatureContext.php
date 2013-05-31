@@ -45,26 +45,26 @@ class FeatureContext extends BehatContext
 	public static function featureSetup(FeatureEvent $event)
 	{
 		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
-		$fixtureContext->setUpDBTester('Ushahidi/Base');
+		$fixtureContext->setUpDBTester('ushahidi/Base');
 	}
 	
 	/** @AfterFeature */
 	public static function featureTearDown(FeatureEvent $event)
 	{
 		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
-		$fixtureContext->tearDownDBTester('Ushahidi/Base');
+		$fixtureContext->tearDownDBTester('ushahidi/Base');
 	}
 	
 	/** @BeforeScenario @resetFixture */
 	public function scenarioSetup()
 	{
-		$this->getSubcontext('PHPUnitFixtureContext')->setUpDBTester('Ushahidi/Base');
+		$this->getSubcontext('PHPUnitFixtureContext')->setUpDBTester('ushahidi/Base');
 	}
 	
 	/** @BeforeScenario @resetFixture */
 	public function scenarioTearDown()
 	{
-		$this->getSubcontext('PHPUnitFixtureContext')->tearDownDBTester('Ushahidi/Base');
+		$this->getSubcontext('PHPUnitFixtureContext')->tearDownDBTester('ushahidi/Base');
 	}
 
 }
