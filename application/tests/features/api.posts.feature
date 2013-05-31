@@ -219,7 +219,7 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "5"
+        And the "count" property equals "8"
         Then the response status code should be 200
 
     @searchPostFixture
@@ -251,7 +251,7 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "results.0.id" property equals "99"
+        And the "results.0.id" property equals "105"
         Then the response status code should be 200
 
     # @todo improve this test to check more response data
@@ -326,7 +326,7 @@ Feature: Testing the Posts API
         Given that I want to get all "Posts"
         And that the request "query string" is:
             """
-            dummy_varchar=special
+            test_varchar=special
             """
         When I request "/posts"
         Then the response is JSON

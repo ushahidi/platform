@@ -58,7 +58,7 @@ Feature: Testing the Sets API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "3"
+		And the "count" property equals "2"
 		Then the response status code should be 200
 
 	Scenario: Search All Sets
