@@ -1,6 +1,7 @@
-@post @updatesFixture
+@post
 Feature: Testing the Updates API
 
+    @resetFixture
     Scenario: Listing All Updates
         Given that I want to get all "Updates"
         When I request "/posts/99/updates"
@@ -17,6 +18,7 @@ Feature: Testing the Updates API
         And the response has a "errors" property
         Then the response status code should be 404
 
+    @resetFixture
     Scenario: Search All Posts by form id
         Given that I want to get all "Posts"
         And that the request "query string" is:

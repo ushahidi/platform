@@ -18,6 +18,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
 	Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
 	Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Event\FeatureEvent;
 
 require_once 'RestContext.php';
 require_once 'PHPUnitFixtureContext.php';
@@ -40,13 +41,27 @@ class FeatureContext extends BehatContext
 		$this->useContext('PHPUnitFixtureContext', new PHPUnitFixtureContext($parameters));
 	}
 	
-	/** @BeforeScenario */
-	public function scenarioSetup()
+	/** @BeforeFeature */
+	public static function featureSetup(FeatureEvent $event)
 	{
-		$this->getSubcontext('PHPUnitFixtureContext')->setUpDBTester('Ushahidi/Base');;
+		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
+		$fixtureContext->setUpDBTester('Ushahidi/Base');
 	}
 	
-	/** @BeforeScenario */
+	/** @AfterFeature */
+	public static function featureTearDown(FeatureEvent $event)
+	{
+		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
+		$fixtureContext->tearDownDBTester('Ushahidi/Base');
+	}
+	
+	/** @BeforeScenario @resetFixture */
+	public function scenarioSetup()
+	{
+		$this->getSubcontext('PHPUnitFixtureContext')->setUpDBTester('Ushahidi/Base');
+	}
+	
+	/** @BeforeScenario @resetFixture */
 	public function scenarioTearDown()
 	{
 		$this->getSubcontext('PHPUnitFixtureContext')->tearDownDBTester('Ushahidi/Base');

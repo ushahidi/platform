@@ -52,6 +52,7 @@ Feature: Testing the Sets API
 		And the response has a "errors" property
 		Then the response status code should be 404
 
+	@resetFixture
 	Scenario: Listing All Sets
 		Given that I want to get all "Sets"
 		When I request "/sets"
@@ -61,6 +62,7 @@ Feature: Testing the Sets API
 		And the "count" property equals "2"
 		Then the response status code should be 200
 
+	@resetFixture
 	Scenario: Search All Sets
 		Given that I want to get all "Sets"
 		And that the request "query string" is:

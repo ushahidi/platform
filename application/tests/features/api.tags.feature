@@ -116,6 +116,7 @@ Feature: Testing the Tags API
         And the response has a "errors" property
         Then the response status code should be 404
 
+    @resetFixture
     Scenario: Listing All Tags
         Given that I want to get all "Tags"
         When I request "/tags"
@@ -125,6 +126,7 @@ Feature: Testing the Tags API
         And the "count" property equals "6"
         Then the response status code should be 200
 
+    @resetFixture
     Scenario: Search All Tags
         Given that I want to get all "Tags"
         And that the request "query string" is:
@@ -137,6 +139,7 @@ Feature: Testing the Tags API
         And the "results.0.tag" property equals "Explosion"
         Then the response status code should be 200
 
+    @resetFixture
     Scenario: Search All Tags by type
         Given that I want to get all "Tags"
         And that the request "query string" is:
@@ -148,6 +151,7 @@ Feature: Testing the Tags API
         And the "count" property equals "4"
         Then the response status code should be 200
 
+    @resetFixture
     Scenario: Search All Tags by parent
         Given that I want to get all "Tags"
         And that the request "query string" is:

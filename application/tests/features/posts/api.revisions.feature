@@ -1,6 +1,7 @@
-@post @revisionFixture
+@post
 Feature: Testing the Revisions API
 
+    @resetFixture
     Scenario: Listing All Revisions
         Given that I want to get all "Revisions"
         When I request "/posts/99/revisions"
@@ -110,6 +111,7 @@ Feature: Testing the Revisions API
         When I request "/posts/99/revisions"
         Then the response status code should be 405
 
+    @resetFixture
     Scenario: Updating a Post creates a new revision
         Given that I want to update a "Post"
         And that the request "data" is:

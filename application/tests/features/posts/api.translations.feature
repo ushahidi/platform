@@ -1,6 +1,7 @@
-@post @translationFixture
+@post
 Feature: Testing the Translations API
 
+    @resetFixture
     Scenario: Listing All Translations
         Given that I want to get all "Translations"
         When I request "/posts/105/translations"
