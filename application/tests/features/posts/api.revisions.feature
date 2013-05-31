@@ -110,8 +110,6 @@ Feature: Testing the Revisions API
         When I request "/posts/99/revisions"
         Then the response status code should be 405
 
-    # These 2 tests are really testing 1 thing
-    # TODO: figure out how to combine this
     Scenario: Updating a Post creates a new revision
         Given that I want to update a "Post"
         And that the request "data" is:
@@ -134,11 +132,10 @@ Feature: Testing the Revisions API
             }
             """
         And that its "id" is "99"
-        When I request "/posts"
+        Then I request "/posts"
         Then the response is JSON
         Then the response status code should be 200
-
-    Scenario: Updated post has new revision
+        # Start 2nd request
         Given that I want to get all "Revisions"
         When I request "/posts/99/revisions"
         Then the response is JSON
