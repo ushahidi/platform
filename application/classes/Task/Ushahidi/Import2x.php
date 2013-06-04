@@ -19,6 +19,14 @@
  *   The username and password of a superadmin user on the 2.x deployment (if importing via API)
  *   Or the username and password for the DB being imported.
  *
+ * --database=database
+ *
+ *   Specify the database name of a 2.x deployment to import from
+ *
+ * --hostname=hostname
+ *
+ *   Specify the mysql hostname to import from
+ *
  * --clean
  *
  *   Clean the 3.x DB before importing. This will wipe any existing data.
@@ -67,7 +75,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		'clean'       => FALSE,
 		'use-external'       => FALSE,
 		'url'         => FALSE,
-		'source'        => FALSE,
+		'source'      => FALSE,
 		'hostname'    => FALSE,
 		'database'    => FALSE,
 		'username'    => FALSE,
