@@ -2,6 +2,16 @@
 
 /**
  * Imports data from Ushahidi 2.x
+ * 
+ * Examples:
+ * 
+ *   Import from API:
+ * 
+ *     ./minion --task=ushahidi:import2x --source=api --url=http://zombiereports.com
+ * 
+ *   Import from DB:
+ * 
+ *     ./minion --task=ushahidi:import2x --source=db --database=ushahidi_zombie --username=ushahidi --password=ushahidi
  *
  * Available config options are:
  * 
