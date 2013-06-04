@@ -62,7 +62,11 @@ See [.travis.yml](https://github.com/ushahidi/Lamu/blob/master/.travis.yml) for 
 ### Testing
 
 We use PHPUnit for unit tests, and Behat and Mink for functional testing.
-You can install the Behat, Mink and other required packages using [Composer](getcomposer.org). Just run
+You can install the Behat, Mink, PHPUnit and other required packages using [Composer](getcomposer.org). Just run
 ```composer install```
 
-Currently you'll have to install PHPUnit manually.
+Behat and PHPUnit will be install to ```./bin``` at the root of the repository. Run the tests as follows:
+```
+./bin/behat --config application/tests/behat.yml
+./bin/phpunit -c application/tests/phpunit.xml
+```

@@ -1,0 +1,402 @@
+forms:
+  -
+    id: 1
+    name: "Test Form"
+    type: "report"
+    description: "Testing form"
+  -
+    id: 2
+    name: "Missing people"
+    type: "report"
+    description: "Missing persons"
+form_groups:
+  -
+    id: 1
+    form_id: 1
+    label: "Main"
+  -
+    id: 2
+    form_id: 2
+    label: "Main"
+form_attributes:
+  -
+    id: 1
+    label: "Test varchar"
+    key: "test_varchar"
+    type: "varchar"
+    input: "text"
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+  -
+    id: 2
+    label: "Test point"
+    key: "test_point"
+    type: "point"
+    input: "text"
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+  -
+    id: 3
+    label: "Full Name"
+    key: "full_name"
+    type: "varchar"
+    input: "text"
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+  -
+    id: 4
+    label: "Description"
+    key: "description"
+    type: "text"
+    input: "textarea"
+    required: 0
+    priority: 2
+    options: ""
+    cardinality: 1
+  -
+    id: 5
+    label: "Date of birth"
+    key: "date_of_birth"
+    type: "datetime"
+    input: "date"
+    required: 0
+    priority: 3
+    options: ""
+    cardinality: 1
+  -
+    id: 6
+    label: "Missing date"
+    key: "missing_date"
+    type: "datetime"
+    input: "date"
+    required: 0
+    priority: 4
+    options: ""
+    cardinality: 1
+  -
+    id: 7
+    label: "Last Location"
+    key: "last_location"
+    type: "varchar"
+    input: "text"
+    required: 1
+    priority: 5
+    options: ""
+    cardinality: 1
+  -
+    id: 8
+    label: "Last Location (point)"
+    key: "last_location_point"
+    type: "point"
+    input: "text"
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 1
+  -
+    id: 9
+    label: "Geometry test"
+    key: "geometry_test"
+    type: "geometry"
+    input: "text"
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 1
+  -
+    id: 10
+    label: "Status"
+    key: "status"
+    type: "varchar"
+    input: "select"
+    required: 0
+    options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
+    priority: 5
+    cardinality: 0
+  -
+    id: 11
+    label: "Links"
+    key: "links"
+    type: "link"
+    input: "text"
+    required: 0
+    priority: 7
+    cardinality: 0
+form_groups_form_attributes:
+  -
+    form_group_id: 1
+    form_attribute_id: 1
+  -
+    form_group_id: 1
+    form_attribute_id: 2
+  -
+    form_group_id: 1
+    form_attribute_id: 3
+  -
+    form_group_id: 1
+    form_attribute_id: 4
+  -
+    form_group_id: 1
+    form_attribute_id: 5
+  -
+    form_group_id: 1
+    form_attribute_id: 6
+  -
+    form_group_id: 1
+    form_attribute_id: 7
+  -
+    form_group_id: 1
+    form_attribute_id: 8
+  -
+    form_group_id: 1
+    form_attribute_id: 9
+  -
+    form_group_id: 1
+    form_attribute_id: 10
+  -
+    form_group_id: 1
+    form_attribute_id: 11
+  -
+    form_group_id: 2
+    form_attribute_id: 10
+posts:
+  -
+    id: 1
+    form_id: 1
+    parent_id:
+    title: "Test post"
+    type: "report"
+    content: "Testing post"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 99
+    form_id: 1
+    parent_id:
+    title: "Should be returned when Searching"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 98
+    form_id: 1
+    parent_id:
+    title: "another report"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 97
+    form_id: 1
+    parent_id:
+    title: "search by attribute"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 96
+    form_id: 1
+    parent_id:
+    title: "French post to test Searching"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    locale: "fr_fr"
+  -
+    id: 101
+    form_id: 1
+    parent_id: 99
+    title: "Child dummy report"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 102
+    form_id: 2
+    parent_id: 99
+    title: "Child missing person report"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 103
+    form_id: 1
+    parent_id: 99
+    title: "Should be returned when Searching"
+    type: "revision"
+    content: "Some description"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 104
+    form_id: 1
+    parent_id: 99
+    title: "Should be returned when Searching"
+    type: "revision"
+    content: "Some description"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 105
+    form_id: 1
+    parent_id:
+    title: "Original post"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 106
+    form_id: 1
+    parent_id: 105
+    title: "French post"
+    type: "translation"
+    content: "Some description"
+    status: "published"
+    locale: "fr_fr"
+  -
+    id: 107
+    form_id: 1
+    parent_id: 106
+    title: "French post"
+    type: "revision"
+    content: "Some description"
+    status: "published"
+    locale: "fr_fr"
+  -
+    id: 108
+    form_id: 1
+    parent_id: 105
+    title: "Arabic post"
+    type: "translation"
+    content: "Some description"
+    status: "published"
+    locale: "ar_ar"
+post_datetime:
+post_decimal:
+post_geometry:
+post_int:
+post_point:
+post_text:
+post_varchar:
+  -
+    id: 50
+    post_id: 97
+    form_attribute_id: 1
+    value: "special-string"
+  -
+    id: 1
+    post_id: 1
+    form_attribute_id: 10
+    value: "believed_missing"
+  -
+    id: 2
+    post_id: 101
+    form_attribute_id: 1
+    value: "dummy string"
+  -
+    id: 3
+    post_id: 102
+    form_attribute_id: 10
+    value: "believed_missing"
+  -
+    id: 4
+    post_id: 99
+    form_attribute_id: 1
+    value: "some-string"
+  -
+    id: 5
+    post_id: 103
+    form_attribute_id: 1
+    value: "previous_string"
+  -
+    id: 6
+    post_id: 104
+    form_attribute_id: 1
+    value: "some-string"
+  -
+    id: 7
+    post_id: 105
+    form_attribute_id: 1
+    value: "some-string"
+  -
+    id: 8
+    post_id: 106
+    form_attribute_id: 1
+    value: "french string"
+  -
+    id: 9
+    post_id: 107
+    form_attribute_id: 1
+    value: "french string"
+  -
+    id: 10
+    post_id: 108
+    form_attribute_id: 1
+    value: "arabic string"
+post_comments:
+tags:
+  -
+    id: 1
+    parent_id: 0
+    tag: "Test tag"
+    slug: "test-tag"
+    priority: 0
+    type: 'category'
+  -
+    id: 2
+    parent_id: 0
+    tag: "Duplicate"
+    slug: "duplicate"
+    priority: 0
+    type: 'category'
+  -
+    id: 3
+    parent_id: 0
+    tag: "Disaster"
+    slug: "disaster"
+    priority: 0
+    type: 'category'
+  -
+    id: 4
+    parent_id: 3
+    tag: "Explosion"
+    slug: "explosion"
+    priority: 0
+    type: 'category'
+  -
+    id: 5
+    parent_id: 0
+    tag: "Todo"
+    slug: "todo"
+    priority: 0
+    type: 'status'
+  -
+    id: 6
+    parent_id: 0
+    tag: "Done"
+    slug: "done"
+    priority: 0
+    type: 'status'
+posts_tags:
+sets:
+  -
+    id: 1
+    name: Test set
+  -
+    id: 2
+    name: Explosion
+posts_sets:
+users:
+tasks:

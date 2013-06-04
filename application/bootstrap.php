@@ -116,6 +116,12 @@ Kohana::modules(array(
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 
+/**
+ * Set cookie salt
+ * @TODO change this for your project
+ */
+Cookie::$salt = 'ushahidi-insecure-please-change-me';
+
 // Load gisconverter
 $gisconverter = Kohana::find_file('vendor', 'gisconverter/gisconverter', 'php');
 if (! $gisconverter) throw new Kohana_Exception('Could not load gisconverter library. Have you checked out the gisconverter submodule?');
