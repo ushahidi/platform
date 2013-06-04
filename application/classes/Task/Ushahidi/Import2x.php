@@ -306,7 +306,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$post_count = $this->_api_import_reports($form_id, $url, $username, $password);
 		}
 
-		$view = View::factory('minion/task/ushahidi/upgrade')
+		$view = View::factory('minion/task/ushahidi/import2x')
 			->set('dry_run', $dry_run)
 			->set('quiet', $quiet)
 			->set('debug', $debug)
