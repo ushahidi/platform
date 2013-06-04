@@ -42,15 +42,9 @@
  *   You can optionally pass a base URL here, otherwise the base_url
  *   defined in bootstrap.php will be used.
  *
- * --dry-run
- *
- *  No value taken, if this is specified then instead of creating posts
- *  titles of posts to be imported will be printed
- *
  * --quiet
  *
- *  Suppress all unnecessary output.  If --dry-run is enabled then only dry run
- *  SQL will be output
+ *  Suppress all unnecessary output.
  *
  * --verbose
  *
@@ -68,7 +62,6 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	 * @var array
 	 */
 	protected $_options = array(
-		'dry-run'     => FALSE,
 		'quiet'       => FALSE,
 		'verbose'     => FALSE,
 		'debug'       => FALSE,
@@ -199,7 +192,6 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		if (Kohana::$base_url == '/') $_SERVER['SERVER_NAME'] = 'internal';
 		
 		// Get CLI params
-		$dry_run        = $options['dry-run'] !== FALSE; // TODO implement this
 		$quiet          = $options['quiet'] !== FALSE;
 		$debug          = $options['debug'] !== FALSE;
 		$verbose        = $options['verbose'] !== FALSE;
@@ -315,7 +307,6 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		}
 
 		$view = View::factory('minion/task/ushahidi/import2x')
-			->set('dry_run', $dry_run)
 			->set('quiet', $quiet)
 			->set('debug', $debug)
 			->set('verbose', $verbose)

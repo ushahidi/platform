@@ -8,8 +8,5 @@ Imported <?php echo $post_count ?> posts
 Max memory usage <?php echo $memory_used ?>
 <?php endif; ?>
 
-<?php if ($dry_run): ?>
-This was a dry run, if it was a real run the following SQL would've been executed:
-<?php endif; ?>
 <?php endif; ?>
 
