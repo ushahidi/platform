@@ -134,7 +134,6 @@ class Ushahidi_Api extends Controller {
 	
 	protected function _check_access()
 	{
-		// https://api.example.com/resource-requiring-postonwall-scope
 		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
 		$response = new OAuth2_Response();
 		$scopeRequired = $this->scope_required;
