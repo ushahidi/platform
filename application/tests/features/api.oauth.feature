@@ -121,9 +121,7 @@ Feature: Testing OAuth2 endpoints
         """
         When I request "/posts"
         Then the response is JSON
-        And the response has an "error" property
-        And the "error" property equals "invalid_request"
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 401
 
     Scenario: Unauthorized Posts Request (invalid token)
         Given that I want to update a "Post"
