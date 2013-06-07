@@ -63,7 +63,10 @@ abstract class Koauth_Controller_OAuth extends Controller {
 
 		// Show authorize yes/no
 		$this->_skip_oauth_response = TRUE;
-		$this->response->body(View::factory('oauth/authorize'));
+		$view = View::factory('oauth/authorize');
+		$view->scopes = explode(',', $params['scope']);
+		$view->params = $params;
+		$this->response->body($view->render());
 	}
 	
 	/**
