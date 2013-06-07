@@ -37,6 +37,18 @@ Feature: Testing OAuth2 endpoints
         And the response has a "access_token" property
         Then the guzzle status code should be 200
 
+    Scenario: Requesting access token with incorrect password fails
+        Given that I want to make a new "access_token"
+        And that the request "data" is:
+        """
+          grant_type=password&client_id=demoapp&client_secret=demopass&username=robbie&password=wrongpassword
+        """
+        And that the api_url is ""
+        Then I request "/oauth/token"
+        Then the response is JSON
+        And the "error" property equals "invalid_grant"
+        Then the guzzle status code should be 400
+
     Scenario: Requesting access token with client credentials
         Given that I want to make a new "access_token"
         And that the request "data" is:
