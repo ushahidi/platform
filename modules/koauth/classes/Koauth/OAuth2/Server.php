@@ -56,7 +56,7 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 	{
 		if (empty($storage))
 		{
-			$storage = new Koauth_OAuth2_Storage_ORM();
+			$storage = new OAuth2_Storage_ORM();
 		}
 
 		if (empty($config))

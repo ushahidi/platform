@@ -8,7 +8,7 @@
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
-class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInterface,
+abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInterface,
 	OAuth2_Storage_AccessTokenInterface, OAuth2_Storage_ClientCredentialsInterface,
 	OAuth2_Storage_UserCredentialsInterface, OAuth2_Storage_RefreshTokenInterface
 {
