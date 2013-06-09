@@ -1,6 +1,5 @@
 <?php
 use Behat\Behat\Context\BehatContext;
-//use PHPUnit\Extensions\Database\TestCase;
 
 class PHPUnitFixtureContext extends BehatContext {
 
@@ -45,6 +44,7 @@ class PHPUnitFixtureContext extends BehatContext {
 	/**
 	 * Returns the test dataset.
 	 *
+	 * @param string|array $dataset Dataset filename
 	 * @return PHPUnit_Extensions_Database_DataSet_IDataSet
 	 */
 	protected function getDataSet($dataset)

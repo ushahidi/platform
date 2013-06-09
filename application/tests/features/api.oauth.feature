@@ -86,6 +86,7 @@ Feature: Testing OAuth2 endpoints
         And that the request "data" is:
         """
         {
+            "form_id": 1,
             "title": "Test post",
             "description": "testing post for oauth",
             "status": "published"

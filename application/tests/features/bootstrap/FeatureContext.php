@@ -20,9 +20,6 @@ use Behat\Gherkin\Node\PyStringNode,
 	Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Event\FeatureEvent;
 
-require_once 'RestContext.php';
-require_once 'PHPUnitFixtureContext.php';
-
 /**
  * Features context.
  */
@@ -39,7 +36,7 @@ class FeatureContext extends BehatContext
 		// Initialize your context here
 		$this->useContext('RestContext', new RestContext($parameters));
 		$this->useContext('PHPUnitFixtureContext', new PHPUnitFixtureContext($parameters));
-		$this->useContext('mink', $minkContext = new MinkExtendedContext);
+		$this->useContext('MinkContext', $minkContext = new MinkExtendedContext);
 	}
 	
 	/** @BeforeFeature */
@@ -66,6 +63,15 @@ class FeatureContext extends BehatContext
 	public function scenarioTearDown()
 	{
 		$this->getSubcontext('PHPUnitFixtureContext')->tearDownDBTester('ushahidi/Base');
+	}
+	
+	/**
+	 * Automatically set bearer token so you can forget about it
+	 * @BeforeScenario @oauth2Skip
+	 */
+	public function setDefaultBearerAuth()
+	{
+		$this->getSubcontext('RestContext')->thatTheRequestHeaderIs('Authorization', 'Bearer defaulttoken');
 	}
 
 }

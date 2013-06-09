@@ -194,6 +194,15 @@ posts:
     status: "published"
     locale: "en_us"
   -
+    id: 95
+    form_id: 1
+    parent_id:
+    title: "OAuth test post"
+    type: "report"
+    content: "Testing oauth posts api access"
+    status: "published"
+    locale: "en_us"
+  -
     id: 97
     form_id: 1
     parent_id:
@@ -399,4 +408,47 @@ sets:
     name: Explosion
 posts_sets:
 users:
+  -
+    username: "robbie"
+    password: "68701056c23d7d4305cb28880d06e4cc97bef9cddb250a421bfdfb0dda1d7721"
+    email: "robbie@ushahidi.com"
 tasks:
+# OAuth Tables
+oauth_clients:
+  -
+    client_id: "demoapp"
+    client_secret: "demopass"
+    grant_types: ""
+  -
+    client_id: "restricted_app"
+    client_secret: "demopass"
+    grant_types: '["authorization_code"]'
+oauth_access_tokens:
+  -
+    access_token: "testingtoken"
+    client_id: "demoapp"
+    scope: "api posts forms"
+    expires: "2030-01-01 00:00:00"
+  -
+    access_token: "defaulttoken"
+    client_id: "demoapp"
+    scope: "api posts forms"
+    expires: "2030-01-01 00:00:00"
+oauth_authorization_codes:
+  -
+    authorization_code: "4d105df9a7f8645ef8306dd40c7b1952794bf368"
+    client_id: "demoapp"
+    scope: "api"
+    expires: "2030-01-01 00:00:00"
+  -
+    authorization_code: "4d105df9a7f8645ef8306dd40c7b1952794bf372"
+    client_id: "restricted_app"
+    scope: "api"
+    expires: "2030-01-01 00:00:00"
+oauth_refresh_tokens:
+  -
+    refresh_token: "5a846f5351a46fc9bdd5b8f55224b51671cf8b8f"
+    client_id: "demoapp"
+    scope: "api"
+    expires: "2030-01-01 00:00:00"
+

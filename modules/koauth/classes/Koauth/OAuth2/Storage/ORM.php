@@ -22,7 +22,7 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_Authorization
 				'access_token_model' => 'OAuth_AccessToken',
 				'refresh_token_model' => 'OAuth_RefreshToken',
 				'code_model' => 'OAuth_AuthorizationCode',
-				'user_model' => 'User', // @todo figure this out
+				'user_model' => 'User',
 			),
 			$config
 		);
