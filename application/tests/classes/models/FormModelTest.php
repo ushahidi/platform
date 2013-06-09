@@ -3,13 +3,8 @@
 /**
  * Unit tests for the form model
  *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Unit Tests
+ * @package    Ushahidi\Application\Tests
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
@@ -80,7 +75,7 @@ class FormModelTest extends Unittest_TestCase {
 			)
 		);
 	}
-	
+
 	/**
 	 * Test Validate Valid Entries
 	 *
@@ -88,20 +83,18 @@ class FormModelTest extends Unittest_TestCase {
 	 * @return void
 	 */
 	public function test_validate_valid($set)
-	{	
+	{
 		$form = ORM::factory('Form');
 		$form->values($set);
 
-		$is_valid = TRUE;
 		try
 		{
 			$form->check();
 		}
-		catch (Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			$is_valid = FALSE;
+			$this->fail('This entry qualifies as invalid when it should be valid: '. json_encode($e->errors('models')));
 		}
-		$this->assertTrue($is_valid);
 	}
 
 	/**
@@ -111,19 +104,19 @@ class FormModelTest extends Unittest_TestCase {
 	 * @return void
 	 */
 	public function test_validate_invalid($set)
-	{	
+	{
 		$form = ORM::factory('Form');
 		$form->values($set);
 
-		$is_valid = FALSE;
 		try
 		{
 			$form->check();
 		}
-		catch (Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			$is_valid = TRUE;
+			return;
 		}
-		$this->assertTrue($is_valid);
+
+		$this->fail('This entry qualifies as valid when it should be invalid');
 	}
 }

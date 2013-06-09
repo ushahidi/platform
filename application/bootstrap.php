@@ -114,6 +114,17 @@ Kohana::modules(array(
 	));
 
 /**
+ * Set cookie salt
+ * @TODO change this for your project
+ */
+Cookie::$salt = 'ushahidi-insecure-please-change-me';
+
+// Load gisconverter
+$gisconverter = Kohana::find_file('vendor', 'gisconverter/gisconverter', 'php');
+if (! $gisconverter) throw new Kohana_Exception('Could not load gisconverter library. Have you checked out the gisconverter submodule?');
+include($gisconverter);
+
+/**
  * Form Groups API SubRoute
  */	
 Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>/<controller>(/<id>)', 

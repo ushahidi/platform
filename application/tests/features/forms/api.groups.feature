@@ -7,25 +7,7 @@ Feature: Testing the Form Groups API
             """
             {
                 "label":"First Group",
-                "priority": 1,
-                "attributes":[
-                    {
-                        "key":"full_name",
-                        "label":"Full Name",
-                        "type":"varchar",
-                        "input":"text",
-                        "required":true,
-                        "priority":1
-                    },
-                    {
-                        "key":"last_name",
-                        "label":"Last Name",
-                        "type":"varchar",
-                        "input":"text",
-                        "required":false,
-                        "priority":2
-                    }
-                ]
+                "priority": 1
             }
             """
         When I request "/forms/1/groups"
@@ -40,25 +22,7 @@ Feature: Testing the Form Groups API
             """
             {
                 "label":"First Group",
-                "priority": 1,
-                "attributes":[
-                    {
-                        "key":"full_name",
-                        "label":"Full Name",
-                        "type":"varchar",
-                        "input":"text",
-                        "required":true,
-                        "priority":1
-                    },
-                    {
-                        "key":"last_name",
-                        "label":"Last Name",
-                        "type":"varchar",
-                        "input":"text",
-                        "required":false,
-                        "priority":2
-                    }
-                ]
+                "priority": 1
             }
             """
         When I request "/forms/35/groups"
@@ -71,7 +35,7 @@ Feature: Testing the Form Groups API
         And that the request "data" is:
             """
             {
-                "label":"First Group Updated",
+                "label":"Dummy Group Updated",
                 "priority": 1
             }
             """
@@ -82,7 +46,7 @@ Feature: Testing the Form Groups API
         And the type of the "id" property is "numeric"
         And the "id" property equals "1"
         And the response has a "label" property
-        And the "label" property equals "First Group Updated"
+        And the "label" property equals "Dummy Group Updated"
         Then the guzzle status code should be 200
 
     Scenario: Updating a non-existent Group
@@ -90,7 +54,7 @@ Feature: Testing the Form Groups API
         And that the request "data" is:
             """
             {
-                "label":"First Group Updated",
+                "label":"Missing Group Updated",
                 "priority": 1
             }
             """

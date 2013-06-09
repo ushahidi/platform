@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * Ushahidi Rest Context
+ * 
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application\Tests
+ * @copyright  Ushahidi - http://www.ushahidi.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ */
+
 use Behat\Behat\Context\BehatContext;
 use Symfony\Component\Yaml\Yaml;
 
@@ -58,6 +68,9 @@ class RestContext extends BehatContext
 	 */
 	public function thatIWantToMakeANew($objectType)
 	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+		
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'post';
 	}
@@ -68,6 +81,9 @@ class RestContext extends BehatContext
 	 */
 	public function thatIWantToUpdateA($objectType)
 	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+		
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'put';
 	}
@@ -78,6 +94,9 @@ class RestContext extends BehatContext
 	 */
 	public function thatIWantToFindA($objectType)
 	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+		
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'get';
 	}
@@ -87,6 +106,9 @@ class RestContext extends BehatContext
 	 */
 	public function thatIWantToGetAll($objectType)
 	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+		
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'get';
 	}
@@ -97,6 +119,9 @@ class RestContext extends BehatContext
 	 */
 	public function thatIWantToDeleteA($objectType)
 	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+		
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'delete';
 	}

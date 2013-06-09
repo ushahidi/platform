@@ -2,14 +2,9 @@
 
 /**
  * Ushahidi API Posts Controller
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Controllers
+ * @package    Ushahidi\Application\Controllers
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
@@ -40,7 +35,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 * @var int Maximum number of results to return
 	 */
 	protected $record_allowed_orderby = array('id', 'created', 'title');
-	
+
 	/**
 	 * @var string oauth2 scope required for access
 	 */
@@ -57,23 +52,10 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 
-		// unpack form to get form_id
-		if (isset($post['form']))
-		{
-			if (is_array($post['form']) AND isset($post['form']['id']))
-			{
-				$post['form_id'] = $post['form']['id'];
-			}
-			elseif (is_numeric($post['form']))
-			{
-				$post['form_id'] = $post['form'];
-			}
-		}
-
 		$_post = ORM::factory('Post');
 		
 		$this->create_or_update_post($_post, $post);
-					}
+	}
 
 	/**
 	 * Retrieve All Posts
@@ -266,19 +248,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 
-		// unpack form to get form_id
-		if (isset($post['form']))
-		{
-			if (is_array($post['form']) AND isset($post['form']['id']))
-			{
-				$post['form_id'] = $post['form']['id'];
-			}
-			elseif (is_numeric($post['form']))
-			{
-				$post['form_id'] = $post['form'];
-			}
-		}
-
 		$_post = ORM::factory('Post')
 			->where('id', '=', $post_id)
 			->where('type', '=', $this->_type);
@@ -297,7 +266,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		
 		$this->create_or_update_post($_post, $post);
 	}
-		
+	
 	/**
 	 * Save post, attributes and tags
 	 * 
@@ -307,9 +276,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	protected function create_or_update_post($post, $post_data)
 	{
 		// Make form_id a string, avoid triggering 'changed' value
-		if (isset($post_data['form_id']))
+		$post_data['form_id'] = isset($post_data['form_id']) ? (String) $post_data['form_id'] : NULL;
+
+		// unpack form to get form_id
+		if (isset($post_data['form']))
 		{
-			$post_data['form_id'] = (String) $post_data['form_id'];
+			if (is_array($post_data['form']) AND isset($post_data['form']['id']))
+			{
+				$post_data['form_id'] = $post_data['form']['id'];
+			}
+			elseif (is_numeric($post_data['form']))
+			{
+				$post_data['form_id'] = $post_data['form'];
+			}
 		}
 		
 		$post->values($post_data, array(
@@ -318,6 +297,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post->parent_id = $this->_parent_id;
 		$post->type = $this->_type;
 		
+		// Validation object for additional validation (not in model)
+		$validation = Validation::factory($post_data);
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -327,6 +308,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$post->check();
 
 			// Does post have custom fields included?
+			$_values = array();
 			if ( isset($post_data['values']) )
 			{
 				// Yes, loop through and validate each value
@@ -349,13 +331,116 @@ class Controller_Api_Posts extends Ushahidi_Api {
 							':attr' => $key,
 						));
 					}
-
-					$_value = ORM::factory('Post_'.ucfirst($attribute->type))
-						->set('value', $value)
-						->set('post_id', $post->id)
-						->set('form_attribute_id', $attribute->id);
-					$_value->check();
+					
+					// If we've got a complex value and just a single value (assuming complex values are associative arrays)
+					// Handling exactly the same as a single value
+					// @todo more complex handling ie. location + location name?
+					if (ORM::factory('Post_'.ucfirst($attribute->type))->complex_value()
+							AND is_array($value)
+							AND (bool)count(array_filter(array_keys($value), 'is_string')) // is the array associative?
+						)
+					{
+						$_value = ORM::factory('Post_'.ucfirst($attribute->type))
+							->where('post_id', '=', $post->id)
+							->where('form_attribute_id', '=', $attribute->id)
+							->find();
+						
+						$_value
+							->set('value', $value)
+							->set('post_id', $post->id)
+							->set('form_attribute_id', $attribute->id);
+						$_value->check();
+						
+						// Add to array to save later
+						$_values[] = $_value;
+						
+						continue;
+					}
+					
+					// Handle single value
+					if (! is_array($value))
+					{
+						$_value = ORM::factory('Post_'.ucfirst($attribute->type))
+							->where('post_id', '=', $post->id)
+							->where('form_attribute_id', '=', $attribute->id)
+							->find();
+						
+						$_value
+							->set('value', $value)
+							->set('post_id', $post->id)
+							->set('form_attribute_id', $attribute->id);
+						$_value->check();
+						
+						// Add to array to save later
+						$_values[] = $_value;
+						
+						continue;
+					}
+					
+					// Are there multiple values? Are they greater than cardinality limit?
+					if (is_array($value) AND count($value) > $attribute->cardinality AND $attribute->cardinality != 0)
+					{
+						$validation->error('values.'.$key, 'cardinality');
+					}
+					
+					foreach ($value as $k => $v)
+					{
+						// Add error if no value passed
+						if (! isset($v['value'])) $validation->error("values.$key.$k", 'value_array_invalid');
+						
+						// Load existing Post_* object
+						if (! empty($v['id']))
+						{
+							$_value = ORM::factory('Post_'.ucfirst($attribute->type))
+								->where('post_id', '=', $post->id)
+								->where('form_attribute_id', '=', $attribute->id)
+								->where('id', '=', $v['id'])
+								->find();
+							
+							// Add error if id specified by doesn't exist
+							if (! $_value->loaded()) $validation->error("values.$key.$k", 'value_id_exists');
+						}
+						// Or get a new Post_* object
+						else
+						{
+							$_value = ORM::factory('Post_'.ucfirst($attribute->type));
+						}
+						
+						$_value
+							->set('value', $v['value'])
+							->set('post_id', $post->id)
+							->set('form_attribute_id', $attribute->id);
+						$_value->check();
+						
+						// Add to array to save later
+						$_values[] = $_value;
+					}
 				}
+			}
+
+			// Validate required attributes
+			$keys = isset($post_data['values']) ? array_keys($post_data['values']) : array();
+			$required_attributes = ORM::factory('Form_Attribute')
+				->join('form_groups_form_attributes', 'INNER')
+					->on('form_attribute.id', '=', 'form_attribute_id')
+				->join('form_groups', 'INNER')
+					->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id')
+				->where('form_id', '=', $post_data['form_id'])
+				->where('required', '=', 1)
+				->where('key', 'NOT IN', $keys)
+				->find_all();
+
+			if ($required_attributes->count() > 0)
+			{
+				foreach ($required_attributes as $attr)
+				{
+					$validation->rule('values.'.$attr->key, 'not_empty');
+				}
+			}
+
+			if ($validation->check() === FALSE)
+			{
+				throw new ORM_Validation_Exception('post_value', $validation);
 			}
 
 			// Does post have tags included?
@@ -365,16 +450,35 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				// Yes, loop through and validate each tag
 				foreach ($post_data['tags'] as $value)
 				{
-					$tag = ORM::factory('Tag')
-						->where('tag', '=', $value)
+					// Handle multiple formats
+					// ID + URL array
+					if (is_array($value) AND isset($value['id']))
+					{
+						$tag = ORM::factory('Tag')
+						->where('id', '=', $value['id'])
 						->find();
+					}
+					// Just ID
+					elseif (is_int($value))
+					{
+						$tag = ORM::factory('Tag')
+						->where('id', '=', $value)
+						->find();
+					}
+					// Tag or slug string
+					else
+					{
+						$tag = ORM::factory('Tag')
+						->where('slug', '=', $value)
+						->or_where('tag', '=', $value)
+						->find();
+					}
 					
 					// Auto create tags if it doesn't exist
 					if (! $tag->loaded() )
 					{
 						$tag->tag = $value;
-						$tag->slug = $value;
-						$tag->type = 'tag';
+						$tag->type = 'category';
 						$tag->check();
 						$tag->save();
 					}
@@ -385,47 +489,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 
 			// Validates ... so save
-			$post->values($post_data, array(
-				'form_id', 'title', 'content', 'status', 'slug', 'email', 'author', 'locale'
-				));
-			$post->parent_id = $this->_parent_id;
-			$post->type = $this->_type;
-
 			$post->save();
 			
 			// Did the post change?
 			$saved = $post->saved();
 
-			if ( isset($post_data['values']) )
+			// Save values
+			foreach ($_values as $_value)
 			{
-				foreach ($post_data['values'] as $key => $value)
-				{
-					$attribute = ORM::factory('Form_Attribute')
-						->join('form_groups_form_attributes', 'INNER')
-							->on('form_attribute.id', '=', 'form_attribute_id')
-						->join('form_groups', 'INNER')
-							->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id')
-						->where('form_id', '=', $post->form_id)
-						->where('key', '=', $key)
-						->find();
-
-					if ( $attribute->loaded() )
-					{
-						$_value = ORM::factory('Post_'.ucfirst($attribute->type))
-							->where('post_id', '=', $post->id)
-							->where('form_attribute_id', '=', $attribute->id)
-							->find();
-						
-						$_value->post_id = $post->id;
-						$_value->form_attribute_id = $attribute->id;
-						$_value->value = $value;
-						$_value->save();
-						
-						$saved = ($saved OR $_value->saved());
-					}
-				}
+				$_value
+					->set('post_id', $post->id)
+					->save();
 			}
-				
+			
 			// Add tags to post (has to happen after post is saved)
 			if (count($tag_ids) > 0 AND ! $post->has('tags', $tag_ids))
 			{
@@ -448,41 +524,21 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$new_revision->type = 'revision';
 				$new_revision->save();
 				
-				// @todo copy attribute values too
-				if ( isset($post_data['values']) )
+				foreach ($_values as $post_value)
 				{
-					foreach ($post_data['values'] as $key => $value)
-					{
-						$attribute = ORM::factory('Form_Attribute')
-							->join('form_groups_form_attributes', 'INNER')
-								->on('form_attribute.id', '=', 'form_attribute_id')
-							->join('form_groups', 'INNER')
-								->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id')
-							->where('form_id', '=', $new_revision->form_id)
-							->where('key', '=', $key)
-							->find();
-	
-						if ( $attribute->loaded() )
-						{
-							$_value = ORM::factory('Post_'.ucfirst($attribute->type))
-								->where('post_id', '=', $new_revision->id)
-								->where('form_attribute_id', '=', $attribute->id)
-								->find();
-							
-							$_value->post_id = $new_revision->id;
-							$_value->form_attribute_id = $attribute->id;
-							$_value->value = $value;
-							$_value->save();
-						}
-					}
+					$_value = ORM::factory($post_value->object_name());
+					$_value->post_id = $new_revision->id;
+					$_value->form_attribute_id = $post_value->form_attribute_id;
+					$_value->value = $post_value->value;
+					$_value->save();
 				}
 
-			// Add tags to post (has to happen after post is saved)
-			if (count($tag_ids) > 0)
-			{
-					$new_revision->remove('tags');
-					$new_revision->add('tags', $tag_ids);
-			}
+				// Add tags to post (has to happen after post is saved)
+				if (count($tag_ids) > 0)
+				{
+						$new_revision->remove('tags');
+						$new_revision->add('tags', $tag_ids);
+				}
 			}
 
 			// Response is the complete post
@@ -491,8 +547,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		catch (ORM_Validation_Exception $e)
 		{
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				'errors' => implode(', ', Arr::flatten($e->errors('models'))),
-			));
+				':errors' => implode(', ', Arr::flatten($e->errors('models')))
+				));
 		}
 	}
 

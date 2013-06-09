@@ -2,14 +2,9 @@
 
 /**
  * Model for Posts
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Models
+ * @package    Ushahidi\Application\Models
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
@@ -23,7 +18,7 @@ class Model_Post extends ORM {
 	 * 
 	 * A post has many [children] posts
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'post_comments' => array(),
@@ -47,7 +42,7 @@ class Model_Post extends ORM {
 	/**
 	 * A post belongs to a user, a form and a [parent]
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'user' => array(),
@@ -96,7 +91,7 @@ class Model_Post extends ORM {
 			'form_id' => array(
 				array('not_empty'),
 				array('numeric'),
-				array(array($this, 'form_exists'), array(':field', ':value'))
+				array(array($this, 'fk_exists'), array('Form', ':field', ':value'))
 			),
 
 			'parent_id' => array(
@@ -162,29 +157,20 @@ class Model_Post extends ORM {
 	}
 
 	/**
-	 * Callback function to check if form exists
-	 */
-	public function form_exists($field, $value)
-	{
-		$form = ORM::factory('Form')
-			->where('id', '=', $value)
-			->find();
-
-		return $form->loaded();
-	}
-
-	/**
-	 * Callback function to check if form exists
+	 * Callback function to check if parent exists
 	 */
 	public function parent_exists($field, $value)
-		{
+	{
+		// Skip check if parent is empty
+		if (empty($value)) return TRUE;
+		
 		$parent = ORM::factory('Post')
 			->where('id', '=', $value)
 			->where('id', '!=', $this->id)
 			->find();
 		
 		return $parent->loaded();
-		}
+	}
 
 	/**
 	 * Check whether slug is unique for reports
@@ -207,7 +193,7 @@ class Model_Post extends ORM {
 			if ($this->loaded())
 			{
 				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
-	}
+			}
 
 			return ( ! $model->loaded());
 		}
@@ -323,73 +309,116 @@ class Model_Post extends ORM {
 
 			// Create the Super Union
 			// @todo generalize this - how do plugins add other attribute types?
-			$datetimes = DB::select('key', 'value')
+			$datetimes = DB::select('key', 'value', array('post_datetime.id', 'id'))
 				->from('post_datetime')
 				->join('form_attributes')
 					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$decimals = DB::select('key', 'value')
+			$decimals = DB::select('key', 'value', array('post_decimal.id', 'id'))
 				->union($datetimes)
 				->from('post_decimal')
 				->join('form_attributes')
 					->on('post_decimal.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$geometries = DB::select('key', 'value')
+			// Load Geometry value as WKT
+			$geometries = DB::select('key', array(DB::expr('AsText(`value`)'), 'value'), array('post_geometry.id', 'id'))
 				->union($decimals)
 				->from('post_geometry')
 				->join('form_attributes')
 					->on('post_geometry.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$ints = DB::select('key', 'value')
+			$ints = DB::select('key', 'value', array('post_int.id', 'id'))
 				->union($geometries)
 				->from('post_int')
 				->join('form_attributes')
 					->on('post_int.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$points = DB::select('key', 'value')
+			$texts = DB::select('key', 'value', array('post_text.id', 'id'))
 				->union($ints)
-				->from('post_point')
-				->join('form_attributes')
-					->on('post_point.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $this->id);
-
-			$texts = DB::select('key', 'value')
-				->union($points)
 				->from('post_text')
 				->join('form_attributes')
 					->on('post_text.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$varchars = DB::select('key', 'value')
+			$varchars = DB::select('key', 'value', array('post_varchar.id', 'id'))
 				->union($texts)
 				->from('post_varchar')
 				->join('form_attributes')
 					->on('post_varchar.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$datetimes = DB::select('key', 'value')
-				->union($varchars)
-				->from('post_datetime')
-				->join('form_attributes')
-					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
-				->where('post_id', '=', $this->id);
-				
-			$results = $datetimes->execute();
+			$results = $varchars->execute();
 
+			$values_with_keys = array();
 			foreach ($results as $result)
 			{
-				$response['values'][$result['key']] = $result['value'];
+				if (! isset($values_with_keys[$result['key']]))
+				{
+					$values_with_keys[$result['key']] = array();
+				}
+				// Save value and id in multi-value format.
+				$values_with_keys[$result['key']][] = array(
+					'id' => $result['id'],
+					'value' => $result['value']
+				);
+				
+				// First or single value for attribute
+				if (! isset($response['values'][$result['key']]))
+				{
+					$response['values'][$result['key']] = $result['value'];
+				}
+				// Multivalue - use array instead
+				else
+				{
+					$response['values'][$result['key']] = $values_with_keys[$result['key']];
+				}
 			}
-			
+
+			// Special handling for points
+			// Load points through ORM to use special Geometry handling
+			$points = ORM::factory('Post_Point')
+				->select('key')
+				->join('form_attributes')
+					->on('post_point.form_attribute_id', '=', 'form_attributes.id')
+				->where('post_id', '=', $this->id)
+				->find_all();
+
+			foreach ($points as $point)
+			{
+				if (! isset($values_with_keys[$point->key]))
+				{
+					$values_with_keys[$point->key] = array();
+				}
+				// Save value and id in multi-value format.
+				$values_with_keys[$point->key][] = array(
+					'id' => $point->id,
+					'value' => $point->value
+				);
+				
+				// First or single value for attribute
+				if (! isset($response['values'][$point->key]))
+				{
+					$response['values'][$point->key] = $point->value;
+				}
+				// Multivalue - use array instead
+				else
+				{
+					$response['values'][$point->key] = $values_with_keys[$point->key];
+				}
+			}
+
 			// Get tags
 			foreach ($this->tags->find_all() as $tag)
 			{
 				// @todo use $tag->for_api() once thats built
-				$response['tags'][] = $tag->tag;
+				$response['tags'][] = array(
+					'id' => $tag->id,
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/tags/'.$tag->id, Request::current())
+				);
 			}
 		}
 		else
@@ -419,7 +448,7 @@ class Model_Post extends ORM {
 				// @todo maybe put 'updates' url as /post/:parent_id/updates/:id
 				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current());
 				break;
-}
+		}
 	}
 
 	public function revisions()

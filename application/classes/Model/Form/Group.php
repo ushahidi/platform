@@ -2,14 +2,9 @@
 
 /**
  * Model for Form_Groups
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Models
+ * @package    Ushahidi\Application\Models
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
@@ -18,7 +13,7 @@ class Model_Form_Group extends ORM {
 	/**
 	 * A form_group has and belongs to many attributes
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
 		'form_attributes' => array('through' => 'form_groups_form_attributes'),
@@ -27,7 +22,7 @@ class Model_Form_Group extends ORM {
 	/**
 	 * A form_group belongs to a form
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'form' => array(),
@@ -43,7 +38,7 @@ class Model_Form_Group extends ORM {
 		return array(
 			'form_id' => array(
 				array('numeric'),
-				array(array($this, 'form_exists'), array(':field', ':value'))
+				array(array($this, 'fk_exists'), array('Form', ':field', ':value'))
 			),
 			'label' => array(
 				array('not_empty'),
@@ -53,18 +48,6 @@ class Model_Form_Group extends ORM {
 				array('numeric')
 			),
 		);
-	}
-
-	/**
-	 * Callback function to check if form exists
-	 */
-	public function form_exists($field, $value)
-	{
-		$form = ORM::factory('Form')
-			->where('id', '=', $value)
-			->find();
-
-		return $form->loaded();
 	}
 
 	/**

@@ -12,7 +12,9 @@ Feature: Testing the Form Attributes API
                 "type":"varchar",
                 "input":"text",
                 "required":true,
-                "priority":1
+                "priority":1,
+                "default":"",
+                "options":{}
             }
             """
         When I request "/attributes"
@@ -39,6 +41,37 @@ Feature: Testing the Form Attributes API
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 400
+
+    Scenario: Check all attribute values were saved
+        Given that I want to make a new "Attribute"
+        And that the request "data" is:
+            """
+            {
+                "form_group":1,
+                "key":"value_test",
+                "label":"Value test",
+                "type":"varchar",
+                "input":"text",
+                "required":true,
+                "priority":11,
+                "default":"default val",
+                "options":[
+                  "option1",
+                  "option2"
+                ]
+            }
+            """
+        When I request "/attributes"
+        Then the response is JSON
+        And the "key" property equals "value_test"
+        And the "label" property equals "Value test"
+        And the "type" property equals "varchar"
+        And the "input" property equals "text"
+        And the "required" property equals "true"
+        And the "priority" property equals "11"
+        And the "default" property equals "default val"
+        And the "options.0" property equals "option1"
+        Then the response status code should be 200
 
     Scenario: Updating a Attribute
         Given that I want to update a "Attribute"

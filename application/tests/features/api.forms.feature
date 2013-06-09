@@ -15,28 +15,31 @@ Feature: Testing the Forms API
                         "priority": 1,
                         "attributes":[
                             {
-                                "key":"full_name",
+                                "key":"test_full_name",
                                 "label":"Full Name",
                                 "type":"varchar",
                                 "input":"text",
                                 "required":true,
-                                "priority":1
+                                "priority":1,
+                                "default":"",
+                                "options":{}
                             },
                             {
-                                "key":"last_name",
+                                "key":"test_last_name",
                                 "label":"Last Name",
                                 "type":"varchar",
                                 "input":"text",
                                 "required":false,
-                                "priority":2
+                                "priority":11
                             },
                             {
-                                "key":"missing_status",
+                                "key":"test_missing_status",
                                 "label":"Status",
                                 "type":"varchar",
                                 "input":"text",
                                 "required":false,
                                 "priority":2,
+                                "default":"Missing",
                                 "options":[
                                     "Missing",
                                     "Alive",
@@ -52,6 +55,9 @@ Feature: Testing the Forms API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the "groups.0.attributes.1.priority" property equals "11"
+        And the "groups.0.attributes.2.default" property equals "Missing"
+        And the "groups.0.attributes.2.options.1" property equals "Alive"
         Then the guzzle status code should be 200
 
     Scenario: Updating a Form

@@ -2,31 +2,14 @@
 
 /**
  * Model for Post_Datetime
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Models
+ * @package    Ushahidi\Application\Models
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Post_Datetime extends ORM {
-	/**
-	 * A post_datetime belongs to a post, and form_attribute
-	 *
-	 * @var array Relationhips
-	 */
-	protected $_belongs_to = array(
-		'post' => array(),
-		'form_attribute' => array(),
-		);
-
-	// Insert/Update Timestamps
-	protected $_created_column = array('column' => 'created', 'format' => TRUE);
+class Model_Post_Datetime extends Model_Post_Value {
 
 	// Table Name
 	protected $_table_name = 'post_datetime';
@@ -42,6 +25,7 @@ class Model_Post_Datetime extends ORM {
 			'value' => array(
 				// Filter to handle special value 'unknown'
 				array(function($value) { return $value == 'unknown' ? FALSE : $value; }, array(':value')),
+				// @todo handle 'now' ?
 			),
 		);
 	}
@@ -53,18 +37,10 @@ class Model_Post_Datetime extends ORM {
 	 */
 	public function rules()
 	{
-		return array(
-			'post_id' => array(
-				//array('not_empty'),
-				array('numeric'),
-			),
-			'form_attribute_id' => array(
-				//array('not_empty'),
-				array('numeric'),
-			),
+		return Arr::merge(parent::rules(), array(
 			'value' => array(
 				array('date')
 			)
-		);
+		));
 	}
 }

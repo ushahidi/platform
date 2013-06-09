@@ -2,14 +2,9 @@
 
 /**
  * Ushahidi API Base Controller
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Controllers
+ * @package    Ushahidi\Application\Controllers
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
@@ -307,7 +302,7 @@ class Ushahidi_Api extends Controller {
 		}
 		catch (Exception $e)
 		{
-			throw new HTTP_Exception_500('Error while formatting response');
+			throw new HTTP_Exception_500('Error while formatting response: :message', array(':message' => $e->getMessage()));
 		}
 
 		if ($format == 'jsonp')

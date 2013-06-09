@@ -18,4 +18,4 @@ before_script:
   - sleep 3
 script:
   - ./bin/behat --config application/tests/behat.yml
-  - phpunit -c application/tests/phpunit.xml
+  - ./bin/phpunit -c application/tests/phpunit.xml
