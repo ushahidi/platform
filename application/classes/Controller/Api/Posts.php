@@ -419,7 +419,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 
 			// Validate required attributes
-			$keys = isset($post_data['values']) ? array_keys($post_data['values']) : array();
+			$keys = (isset($post_data['values']) AND count($post_data['values']) > 0)
+				? array_keys($post_data['values'])
+				: array(0);
 			$required_attributes = ORM::factory('Form_Attribute')
 				->join('form_groups_form_attributes', 'INNER')
 					->on('form_attribute.id', '=', 'form_attribute_id')
