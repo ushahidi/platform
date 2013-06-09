@@ -71,7 +71,7 @@ Feature: Testing the Form Attributes API
         And the "priority" property equals "11"
         And the "default" property equals "default val"
         And the "options.0" property equals "option1"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Updating a Attribute
         Given that I want to update a "Attribute"

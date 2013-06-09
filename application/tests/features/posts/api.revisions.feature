@@ -136,7 +136,7 @@ Feature: Testing the Revisions API
         And that its "id" is "99"
         Then I request "/posts"
         Then the response is JSON
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
         # Start 2nd request
         Given that I want to get all "Revisions"
         When I request "/posts/99/revisions"

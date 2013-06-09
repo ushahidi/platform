@@ -92,7 +92,7 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 400
+        Then the guzzle status code should be 400
 
     Scenario: Updating a Post
         Given that I want to update a "Post"
@@ -127,7 +127,7 @@ Feature: Testing the Posts API
         And the response has a "title" property
         And the "title" property equals "Updated Test Post"
         And the "values.last_location_point.lon" property equals "-85.39"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Updating a non-existent Post
         Given that I want to update a "Post"
@@ -182,7 +182,7 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "values.status" property
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Updating a Post with non-existent Form
         Given that I want to update a "Post"
@@ -219,8 +219,8 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "8"
-        Then the response status code should be 200
+        And the "count" property equals "9"
+        Then the guzzle status code should be 200
 
     @resetFixture
     Scenario: Listing All Posts with limit and offset
@@ -237,7 +237,7 @@ Feature: Testing the Posts API
         And the response has a "next" property
         And the response has a "prev" property
         And the response has a "curr" property
-        And the "results.0.id" property equals "96"
+        And the "results.0.id" property equals "95"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -252,7 +252,7 @@ Feature: Testing the Posts API
         And the response has a "count" property
         And the type of the "count" property is "numeric"
         And the "results.0.id" property equals "105"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     # @todo improve this test to check more response data
     #Scenario: Listing All Posts as GeoJSON
@@ -400,4 +400,4 @@ Feature: Testing the Posts API
         And the "title" property equals "SUMMARY REPORT (تقرير ملخص)"
         And the "slug" property equals "summary-report-تقرير-ملخص"
         And the response has a "tags.0.id" property
-        Then the response status code should be 200
+        Then the guzzle status code should be 200

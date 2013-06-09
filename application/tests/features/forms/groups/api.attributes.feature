@@ -83,7 +83,7 @@ Feature: Testing the Form Groups API
         And the "priority" property equals "11"
         And the "default" property equals "default val"
         And the "options.0" property equals "option1"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Listing All Attributes in a Group
         Given that I want to get all "Attributes"
