@@ -449,11 +449,13 @@ oauth_access_tokens:
     client_id: "demoapp"
     scope: "api posts forms"
     expires: "2030-01-01 00:00:00"
+    user_id:
   -
     access_token: "defaulttoken"
     client_id: "demoapp"
     scope: "api posts forms"
     expires: "2030-01-01 00:00:00"
+    user_id: 2
 oauth_authorization_codes:
   -
     authorization_code: "4d105df9a7f8645ef8306dd40c7b1952794bf368"
