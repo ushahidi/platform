@@ -411,7 +411,7 @@ users:
   -
     id: 1
     username: "robbie"
-    password: "68701056c23d7d4305cb28880d06e4cc97bef9cddb250a421bfdfb0dda1d7721"
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     first_name: Robbie
     last_name: Mackay
     email: "robbie@ushahidi.com"

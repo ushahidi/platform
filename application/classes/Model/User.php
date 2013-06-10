@@ -9,7 +9,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_User extends Model_Auth_User {
+class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface {
 	/**
 	 * A user has many tokens and roles
 	 * A user has many posts, post_comments, roles and sets 
@@ -101,6 +101,17 @@ class Model_User extends Model_Auth_User {
 	}
 
 	/**
+	 * Allows a model use both email and username as unique identifiers for login
+	 *
+	 * @param   string  unique value
+	 * @return  string  field name
+	 */
+	public function unique_key($value)
+	{
+		return Valid::email($value) ? 'email' : 'username';
+	}
+
+	/**
 	 * Prepare user data for API
 	 * 
 	 * @return array $response - array to be returned by API (as json)
@@ -142,5 +153,9 @@ class Model_User extends Model_Auth_User {
 
 		return $response;
 	}
-
+	
+	public function get_role_id()
+	{
+		return null;
+	}
 }
