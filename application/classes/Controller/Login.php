@@ -5,12 +5,16 @@ class Controller_Login extends Controller_Template {
 	public $template = 'login/main';
 	
 	protected $auth;
+	protected $acl;
+	protected $user;
 	
-	public function __construct(Request $request, Response $response)
+	public function before()
 	{
-		parent::__construct($request, $response);
+		parent::before();
 		
-		$this->auth = A1::instance();
+		$this->acl  = A2::instance();
+		$this->auth = $this->acl->auth();
+		$this->user = $this->acl->get_user();
 	}
 	
 	protected $redirect_whitelist = array(
@@ -19,7 +23,7 @@ class Controller_Login extends Controller_Template {
 	
 	public function action_index()
 	{
-		if ($this->auth->logged_in())
+		if (! $this->acl->allowed('login') AND ! $this->acl->allowed('register'))
 		{
 			if ($from_url = $this->request->query('from_url')
 					AND in_array(parse_url($from_url, PHP_URL_PATH), $this->redirect_whitelist)
@@ -38,7 +42,7 @@ class Controller_Login extends Controller_Template {
 	
 	public function action_submit()
 	{
-		if ($this->auth->logged_in())
+		if (! $this->acl->allowed('login'))
 		{
 			$this->redirect('login/done' . URL::query());
 		}
@@ -89,7 +93,7 @@ class Controller_Login extends Controller_Template {
 	
 	public function action_register()
 	{
-		if ($this->auth->logged_in())
+		if (! $this->acl->allowed('register'))
 		{
 			$this->redirect('login/done' . URL::query());
 		}
@@ -130,7 +134,7 @@ class Controller_Login extends Controller_Template {
 	
 	public function action_done()
 	{
-		if (! $this->auth->logged_in())
+		if (! $this->acl->allowed('logout'))
 		{
 			$this->redirect('login' . URL::query());
 		}
@@ -140,7 +144,7 @@ class Controller_Login extends Controller_Template {
 	
 	public function action_logout()
 	{
-		if (! $this->auth->logged_in())
+		if (! $this->acl->allowed('logout'))
 		{
 			$this->redirect('login' . URL::query());
 		}

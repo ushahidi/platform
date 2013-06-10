@@ -31,6 +31,12 @@
 [submodule "modules/koauth/vendor/oauth2-server-php"]
 	path = modules/koauth/vendor/oauth2-server-php
 	url = git://github.com/bshaffer/oauth2-server-php.git
+[submodule "modules/ACL"]
+	path = modules/ACL
+	url = https://github.com/Wouterrr/ACL
 [submodule "modules/A1"]
 	path = modules/A1
 	url = https://github.com/rjmackay/A1
+[submodule "modules/A2"]
+	path = modules/A2
+	url = https://github.com/Wouterrr/A2

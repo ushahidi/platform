@@ -1,0 +1,139 @@
+<?php
+
+return array(
+
+	/*
+	 * The Authentication library to use
+	 * Make sure that the library supports:
+	 * 1) A get_user method that returns FALSE when no user is logged in
+	 *	  and a user object that implements Acl_Role_Interface when a user is logged in
+	 * 2) A static instance method to instantiate a Authentication object
+	 *
+	 * array(CLASS_NAME,array $arguments)
+	 */
+	'lib' => array(
+		'class'  => 'A1', // (or AUTH)
+		'params' => array(
+			'name' => 'a1'
+		)
+	),
+
+	/**
+	 * Throws an exception when authorization fails.
+	 */
+	'exception' => FALSE,
+
+	/**
+	 * Exception class to throw when authorization fails (eg 'HTTP_Exception_401')
+	 */
+	'exception_type' => 'a2_exception',
+
+	/*
+	 * The ACL Roles (String IDs are fine, use of ACL_Role_Interface objects also possible)
+	 * Use: ROLE => PARENT(S) (make sure parent is defined as role itself before you use it as a parent)
+	 */
+	'roles' => array
+	(
+		// ADD YOUR OWN ROLES HERE
+		'user'  => 'guest',
+		'admin' => 'user'
+	),
+
+	/*
+	 * The name of the guest role 
+	 * Used when no user is logged in.
+	 */
+	'guest_role' => 'guest',
+
+	/*
+	 * The name of the user role 
+	 * Used when user is logged in but has no role.
+	 */
+	'user_role' => 'user',
+
+	/*
+	 * The ACL Resources (String IDs are fine, use of ACL_Resource_Interface objects also possible)
+	 * Use: ROLE => PARENT (make sure parent is defined as resource itself before you use it as a parent)
+	 */
+	'resources' => array
+	(
+		'api'                => NULL, // Not sure we really need this?
+		'posts'              => NULL,
+		'forms'              => NULL,
+		'form_attributes'    => 'form',
+		'form_groups'        => 'form',
+		// Pages
+		'login'              => NULL,
+		'register'           => NULL,
+		'logout'             => NULL,
+	),
+
+	/*
+	 * The ACL Rules (Again, string IDs are fine, use of ACL_Role/Resource_Interface objects also possible)
+	 * Split in allow rules and deny rules, one sub-array per rule:
+	     array( ROLES, RESOURCES, PRIVILEGES, ASSERTION)
+	 *
+	 * Assertions are defined as follows :
+			array(CLASS_NAME,$argument) // (only assertion objects that support (at most) 1 argument are supported
+			                            //  if you need to give your assertion object several arguments, use an array)
+	 */
+	'rules' => array
+	(
+		'allow' => array
+		(
+			'AdminAllowAll' => array(
+				'role' => 'admin'
+			),
+			'UserCanEditOwnPost' => array(
+				'role'     => 'user',
+				'resource' => 'posts',
+				'privilege'=> array('get', 'put', 'delete'),
+				'assert'   => array('Acl_Assert_Argument', array('id' => 'user_id'))
+			),
+			'UserCanLogout' => array(
+				'role'     => 'user',
+				'resource' => 'logout'
+			),
+			'GuestCanViewPublicPost' => array(
+				'role'     => 'guest',
+				'resource' => 'posts',
+				'privilege'=> array('get'),
+				'assert'   => array('Acl_Assert_ArgumentStatic', array('status' => 'published'))
+			),
+			'GuestCanCreatePost' => array(
+				'role'     => 'guest',
+				'resource' => 'posts',
+				'privilege'=> array('put')
+			),
+			'GuestCanViewForm' => array(
+				'role'     => 'guest',
+				'resource' => 'forms',
+				'privilege'=> array('get')
+			),
+			'GuestCanViewApi' => array(
+				'role'     => 'guest',
+				'resource' => 'api',
+				'privilege'=> array('get')
+			),
+			'GuestCanLogin' => array(
+				'role'     => 'guest',
+				'resource' => 'login'
+			),
+			'GuestCanRegister' => array(
+				'role'     => 'guest',
+				'resource' => 'register'
+			),
+		),
+		'deny' => array
+		(
+			'UserCantLogin' => array(
+				'role'     => 'user',
+				'resource' => 'login'
+			),
+			'UserCantRegister' => array(
+				'role'     => 'user',
+				'resource' => 'register'
+			),
+		)
+	)
+);

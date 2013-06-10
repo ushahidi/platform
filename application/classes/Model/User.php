@@ -156,6 +156,13 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface {
 	
 	public function get_role_id()
 	{
-		return null;
+		// If set, return user role
+		if ($this->role) return $this->role;
+		
+		// If we have no role, but the user is actually loaded (ie. its a real user), return user role
+		if ($this->loaded()) return Kohana::$config->load('a2.user_role');
+		
+		// Otherwise return logged out/guest role
+		return Kohana::$config->load('a2.guest_role');
 	}
 }

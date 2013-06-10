@@ -94,6 +94,10 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected $scope_required = 'api';
 	
+	
+	protected $auth;
+	protected $acl;
+	
 	public function before()
 	{
 		parent::before();
@@ -104,12 +108,15 @@ class Ushahidi_Api extends Controller {
 
 		$this->_oauth2_server = new Koauth_OAuth2_Server();
 
+		$this->acl  = A2::instance();
+		$this->auth = $this->acl->auth();
+
+		$this->_parse_request();
+
 		if (! $this->_check_access() )
 		{
 			return;
 		}
-
-		$this->_parse_request();
 	}
 
 	public function after()
@@ -137,6 +144,19 @@ class Ushahidi_Api extends Controller {
 			$this->_oauth2_server->processResponse($this->response);
 			return FALSE;
 		}
+		
+		$token = $this->_oauth2_server->getAccessTokenData($request, $response);
+		$user = ORM::factory('User', $token['user_id']);
+		
+		// does user have access to X?
+		$resource = $this->scope_required;
+		if (! A2::instance()->is_allowed($user, $resource, strtolower($this->request->method())) )
+		{
+			// @todo proper message
+			throw HTTP_Exception::factory('403', 'You do not have permission to access :resource', array(':resource' => $resource));
+			return FALSE;
+		}
+
 		return TRUE;
 	}
 
