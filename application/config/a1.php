@@ -3,7 +3,7 @@
 return array(
 
 	'driver'     => 'ORM', // orm/jelly/mango/sprig
-	'user_model' => 'user',
+	'user_model' => 'User',
 	'cost'       => 15,    // Bcrypt Cost - any number between 4 and 31 -> higher = stronger hash. FALSE = use default
 	'algorithm'  => PASSWORD_BCRYPT, // password constant defining algorithm, available algorithms: http://php.net/manual/en/password.constants.php
 
