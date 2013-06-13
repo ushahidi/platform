@@ -258,11 +258,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		{
 			// Validate base form data
 			$tag->check();
-
-			// Validates ... so save
-			$tag->values($post, array(
-				'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'description'
-				));
+			
 			$tag->save();
 
 			// Response is the complete form

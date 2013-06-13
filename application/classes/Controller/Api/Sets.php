@@ -238,9 +238,6 @@ class Controller_Api_Sets extends Ushahidi_Api {
 			// Validate base set data	
 			$set->check();
 			
-			// Validates ... so save
-			$set->values($post, array(
-					'name','filter', 'user_id'));
 			$set->save();
 
 			// Response is the set
