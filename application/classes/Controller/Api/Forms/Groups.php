@@ -33,32 +33,10 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 			));
 		}
 		
-		$group = ORM::factory('Form_Group')->values($post, array(
-			'label', 'priority'
-			));
+		$group = ORM::factory('Form_Group');
 		$group->form_id = $form_id;
 		
-		// Validation - perform in-model validation before saving
-		try
-		{
-			// Validate base group data
-			$group->check();
-
-			// Validates ... so save
-			$group->values($post, array(
-				'label', 'priority'
-				));
-			$group->save();
-
-			// Response is the complete form
-			$this->_response_payload = $group->for_api();
-		}
-		catch (ORM_Validation_Exception $e)
-		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
-			));
-		}
+		$this->create_or_update($group, $post);
 	}
 
 	/**
@@ -134,7 +112,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 		$id = $this->request->param('id');
 		$results = array();
 		$post = $this->_request_payload;
-
+		
 		$group = ORM::factory('Form_Group')
 			->where('form_id', '=', $form_id)
 			->where('id', '=', $id)
@@ -147,12 +125,21 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 			));
 		}
 		
+		$this->create_or_update($group, $post);
+	}
+	
+	/**
+	 * Save Group
+	 * 
+	 * @param Model_Form_Group $group
+	 * @param array $post POST data
+	 */
+	protected function create_or_update($group, $post)
+	{
 		// Load post values into group model
 		$group->values($post, array(
 			'label', 'priority'
 			));
-		
-		$group->id = $id;
 		
 		// Validation - perform in-model validation before saving
 		try
@@ -161,9 +148,6 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 			$group->check();
 
 			// Validates ... so save
-			$group->values($post, array(
-				'label', 'priority'
-				));
 			$group->save();
 
 			// Response is the complete form
@@ -171,10 +155,9 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// Error response
-			$this->_response_payload = array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models')))
-				);
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 

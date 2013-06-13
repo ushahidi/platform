@@ -51,34 +51,9 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 			));
 		}
 		
-		$attribute = ORM::factory('Form_Attribute')->values($post, array(
-			'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
-			));
+		$attribute = ORM::factory('Form_Attribute');
 		
-		// Validation - perform in-model validation before saving
-		try
-		{
-			// Validate base group data
-			$attribute->check();
-
-			// Validates ... so save
-			$attribute->values($post, array(
-				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
-				));
-			$attribute->save();
-
-			// Add relations
-			$group->add('form_attributes', $attribute);
-
-			// Response is the complete form
-			$this->_response_payload = $attribute->for_api();
-		}
-		catch (ORM_Validation_Exception $e)
-		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
-			));
-		}
+		$this->create_or_update($attribute, $post);
 	}
 
 	/**
@@ -160,11 +135,21 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 			));
 		}
 		
+		$this->create_or_update($attribute, $post);
+	}
+	
+	/**
+	 * Save Attribute
+	 * 
+	 * @param Model_Form_Attribute $attribute
+	 * @param array $post POST data
+	 */
+	protected function create_or_update($attribute, $post)
+	{
 		// Load post values into group model
 		$attribute->values($post, array(
 			'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
 			));
-		$attribute->id = $id;
 		
 		// Validation - perform in-model validation before saving
 		try
@@ -173,10 +158,6 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 			$attribute->check();
 
 			// Validates ... so save
-			$attribute->values($post, array(
-				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
-				));
-			$attribute->options = ( isset($post['options']) ) ? json_encode($post['options']) : NULL;
 			$attribute->save();
 
 			// Response is the complete form
