@@ -63,7 +63,7 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 		{
 			$config = array(
 				//'access_lifetime'          => 3600,
-				'www_realm'                => 'Ushahidi API',
+				'www_realm'                => Kohana::$config->load('koauth.www_realm'),
 				//'token_param_name'         => 'access_token',
 				//'token_bearer_header_name' => 'Bearer',
 				'enforce_state'            => TRUE,
@@ -85,15 +85,9 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 		if ($scopeUtil == NULL)
 		{
 			// Configure your available scopes
-			$defaultScope = 'api';
-			$supportedScopes = array(
-				'api',
-				'posts',
-				'forms'
-			);
 			$memory = new OAuth2_Storage_Memory(array(
-				'default_scope' => $defaultScope,
-				'supported_scopes' => $supportedScopes
+				'default_scope' => Kohana::$config->load('koauth.default_scope'),
+				'supported_scopes' => Kohana::$config->load('koauth.supported_scopes')
 			));
 			$scopeUtil = new OAuth2_Scope($memory);
 		}
