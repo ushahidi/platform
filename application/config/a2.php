@@ -59,6 +59,8 @@ return array(
 	(
 		'api'                => NULL, // Not sure we really need this?
 		'posts'              => NULL,
+		'tags'               => NULL,
+		'sets'               => NULL,
 		'forms'              => NULL,
 		'form_attributes'    => 'form',
 		'form_groups'        => 'form',
@@ -84,6 +86,7 @@ return array(
 			'AdminAllowAll' => array(
 				'role' => 'admin'
 			),
+			// User
 			'UserCanEditOwnPost' => array(
 				'role'      => 'user',
 				'resource'  => 'posts',
@@ -94,6 +97,18 @@ return array(
 				'role'      => 'user',
 				'resource'  => 'logout'
 			),
+			'UserCanCreateSet' => array(
+				'role'      => 'guest',
+				'resource'  => 'sets',
+				'privilege' => array('post')
+			),
+			'UserCanEditOwnSet' => array(
+				'role'      => 'guest',
+				'resource'  => 'sets',
+				'privilege' => array('put', 'delete'),
+				'assertion' => array('Acl_Assert_Argument', array('id' => 'user_id'))
+			),
+			// Guest
 			'GuestCanViewPublicPost' => array(
 				'role'      => 'guest',
 				'resource'  => 'posts',
@@ -105,14 +120,9 @@ return array(
 				'resource'  => 'posts',
 				'privilege' => array('post')
 			),
-			'GuestCanViewForm' => array(
+			'GuestCanView' => array(
 				'role'      => 'guest',
-				'resource'  => 'forms',
-				'privilege' => array('get')
-			),
-			'GuestCanViewApi' => array(
-				'role'      => 'guest',
-				'resource'  => 'api',
+				'resource'  => array('forms', 'sets', 'tags', 'api'),
 				'privilege' => array('get')
 			),
 			'GuestCanLogin' => array(

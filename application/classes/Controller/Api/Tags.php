@@ -27,6 +27,41 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	protected $_record_allowed_orderby = array('id', 'created', 'tag', 'slug', 'priority');
 
 	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'tags';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'tags';
+		
+		$this->_resource = ORM::factory('Tag');
+
+		// Get post
+		if ($tag_id = $this->request->param('id', 0))
+		{
+			// Respond with set
+			$tag = ORM::factory('Tag', $tag_id);
+			
+			if (! $tag->loaded())
+			{
+				throw new HTTP_Exception_404('Tag does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
+			}
+			
+			$this->_resource = $tag;
+		}
+	}
+
+	/**
 	 * Create A Tag
 	 * 
 	 * POST /api/tags
@@ -37,7 +72,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 		
-		$tag = ORM::factory('Tag');
+		$tag = $this->resource();
 		
 		$this->create_or_update_tag($tag, $post);
 	}
@@ -139,17 +174,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$id = $this->request->param('id', 0);
-
-		// Respond with form
-		$tag = ORM::factory('Tag', $id);
-
-		if (! $tag->loaded() )
-		{
-			throw new HTTP_Exception_404('Tag does not exist. ID \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$tag = $this->resource();
 
 		$this->_response_payload = $tag->for_api();
 	}
@@ -163,17 +188,9 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 		
-		$tag = ORM::factory('Tag', $id);
-		
-		if (! $tag->loaded())
-		{
-			throw new HTTP_Exception_404('Tag does not exist. ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$tag = $this->resource();
 		
 		$this->create_or_update_tag($tag, $post);
 	}
@@ -188,20 +205,13 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$id = $this->request->param('id', 0);
-		$tag = ORM::factory('Tag', $id);
+		$tag = $this->resource();
 		$this->_response_payload = array();
 		if ( $tag->loaded() )
 		{
 			// Return the form we just deleted (provides some confirmation)
 			$this->_response_payload = $tag->for_api();
 			$tag->delete();
-		}
-		else
-		{
-			throw new HTTP_Exception_404('Tag does not exist. ID: \':id\'', array(
-				':id' => $id,
-			));
 		}
 	}
 	

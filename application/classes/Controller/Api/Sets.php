@@ -19,17 +19,52 @@ class Controller_Api_Sets extends Ushahidi_Api {
 	/**
 	 * @var string Field to sort results by
 	 */
-	 protected $_record_orderby = 'created';
+	protected $_record_orderby = 'created';
 
 	/**
 	 * @var string Direct to sort results
 	 */
-	 protected $_record_order = 'DESC';
+	protected $_record_order = 'DESC';
 	
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	 protected $_record_allowed_orderby = array('id', 'created', 'name');
+	protected $_record_allowed_orderby = array('id', 'created', 'name');
+
+	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'sets';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'sets';
+		
+		$this->_resource = ORM::factory('Set');
+
+		// Get post
+		if ($set_id = $this->request->param('id', 0))
+		{
+			// Respond with set
+			$set = ORM::factory('Set', $set_id);
+			
+			if (! $set->loaded())
+			{
+				throw new HTTP_Exception_404('Set does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
+			}
+			
+			$this->_resource = $set;
+		}
+	}
 
 	/**
 	 * Create A Set
@@ -42,7 +77,7 @@ class Controller_Api_Sets extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 		
-		$set = ORM::factory('Set');
+		$set = $this->resource();
 
 		$this->create_or_update_set($set, $post);
 	}
@@ -140,17 +175,7 @@ class Controller_Api_Sets extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$set_id = $this->request->param('id', 0);
-
-		// Respond with set
-		$set = ORM::factory('Set', $set_id);
-
-		if (! $set->loaded() )
-		{
-			throw new HTTP_Exception_404('Set does not exist. Set ID \':id\'', array(
-				':id' => $set_id,
-			));
-		}
+		$set = $this->resource();
 
 		$this->_response_payload = $set->for_api();
 	}
@@ -165,19 +190,9 @@ class Controller_Api_Sets extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$set_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
-		
-		$set = ORM::factory('Set', $set_id)->values($post, array(
-			'name', 'filter'
-			));
 
-		if (! $set->loaded() )
-		{
-			throw new HTTP_Exception_404('Set does not exist. Set ID \':id\'', array(
-				':id' => $set_id,
-			));
-		}
+		$set = $this->resource();
 
 		$this->create_or_update_set($set, $post);
 		
@@ -193,20 +208,13 @@ class Controller_Api_Sets extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$set_id = $this->request->param('id', 0);
-		$set = ORM::factory('Set', $set_id);
+		$set = $this->resource();
 		$this->_response_payload = array();
 		if ( $set->loaded() )
 		{
 			// Return the set we just deleted (provides some confirmation)
 			$this->_response_payload = $set->for_api();
 			$set->delete();
-		}
-		else
-		{
-			throw new HTTP_Exception_404('Set does not exist. Set ID: \':id\'', array(
-				':id' => $set_id,
-			));
 		}
 	}
 
