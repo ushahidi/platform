@@ -166,10 +166,26 @@ class Controller_Api_Forms extends Ushahidi_Api {
 						// Yes, loop through and validate each form attribute
 						foreach ($group['attributes'] as $attribute)
 						{
-							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
-								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
-								));
-							$_attribute->check();
+							// If we're trying to add an existing attribute
+							if (! empty($attribute['id']))
+							{
+								$_attribute = ORM::factory('Form_Attribute', $attribute['id']);
+								
+								if (! $_attribute->loaded())
+								{
+									throw new HTTP_Exception_400('Attribute does not exist. Attribute ID: \':id\'', array(
+										':id' => $attribute['id'],
+									));
+								}
+							}
+							// Else: create a new attribute and add it to the group
+							else
+							{
+								$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
+									'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+									));
+								$_attribute->check();
+							}
 							$_attributes[] = $_attribute;
 						}
 					}
