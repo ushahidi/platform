@@ -121,3 +121,11 @@ Feature: API Access Control Layer
 		And that its "id" is "111"
 		When I request "/posts"
 		Then the guzzle status code should be 403
+	
+	Scenario: Anonymous users can view public post
+		Given that I want to find a "Post"
+		And that the request "Authorization" header is "Bearer testanon"
+		And that its "id" is "110"
+		When I request "/posts"
+		Then the guzzle status code should be 200
+		And the response has an "id" property
