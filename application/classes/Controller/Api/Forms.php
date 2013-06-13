@@ -58,86 +58,8 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		$post = $this->_request_payload;
 		
 		$form = $this->resource();
-		$form->values($post, array(
-			'name', 'description', 'type'
-			));
 		
-		// Validation - cycle through nested models 
-		// and perform in-model validation before
-		// saving
-		try
-		{
-			// Validate base form data
-			$form->check();
-
-			// Are form groups defined?
-			if ( isset($post['groups']) )
-			{
-				// Yes, loop through and validate each group
-				foreach ($post['groups'] as $group)
-				{
-					$_group = ORM::factory('Form_Group')->values($group,array(
-						'label', 'priority'
-					));
-					$_group->check();
-
-					// Are form attributes defined?
-					if ( isset($group['attributes']) )
-					{
-						// Yes, loop through and validate each form attribute
-						foreach ($group['attributes'] as $attribute)
-						{
-							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
-								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
-								));
-							$_attribute->check();
-						}
-					}
-				}
-			}
-
-			// Validates ... so save
-			$form->values($post, array(
-				'name', 'description', 'type'
-				));
-			$form->save();
-
-			if ( isset($post['groups']) )
-			{
-				foreach ($post['groups'] as $group)
-				{
-					$_group = ORM::factory('Form_Group')->values($group, array(
-						'label', 'priority'
-					));
-					$_group->form_id = $form->id;
-					$_group->save();
-
-
-					if ( isset($group['attributes']) )
-					{
-						foreach ($group['attributes'] as $attribute)
-						{
-							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
-								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
-								));
-							$_attribute->save();
-							// Add relation
-							$_group->add('form_attributes', $_attribute);
-						}
-					}
-					
-				}
-			}
-
-			// Response is the complete form
-			$this->_response_payload = $form->for_api();
-		}
-		catch (ORM_Validation_Exception $e)
-		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
-			));
-		}
+		$this->create_or_update($form, $post);
 	}
 
 	/**
@@ -195,10 +117,28 @@ class Controller_Api_Forms extends Ushahidi_Api {
 		$post = $this->_request_payload;
 		
 		$form = $this->resource();
-		$form->values(array(
+		
+		$this->create_or_update($form, $post);
+	}
+	
+	/**
+	 * Save form
+	 * 
+	 * @param Form_Model $form
+	 * @param array $post POST data
+	 */
+	protected function create_or_update($form, $post)
+	{
+		$form->values($post, array(
 			'name', 'description', 'type'
 			));
 		
+		// Unset groups if we're updating a post
+		if ( $form->loaded() AND isset($post['groups']) )
+		{
+			unset($post['groups']);
+		}
+
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -207,13 +147,61 @@ class Controller_Api_Forms extends Ushahidi_Api {
 			// Validate base form data
 			$form->check();
 
+			// Are form groups defined?
+			if ( isset($post['groups']) )
+			{
+				// Yes, loop through and validate each group
+				foreach ($post['groups'] as $group)
+				{
+					$_group = ORM::factory('Form_Group')->values($group,array(
+						'label', 'priority'
+					));
+					$_group->check();
+
+					// Are form attributes defined?
+					if ( isset($group['attributes']) )
+					{
+						// Yes, loop through and validate each form attribute
+						foreach ($group['attributes'] as $attribute)
+						{
+							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
+								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+								));
+							$_attribute->check();
+						}
+					}
+				}
+			}
 
 			// Validates ... so save
-			$form->values($post, array(
-				'name', 'description', 'type'
-				));
 			$form->save();
 
+			if ( isset($post['groups']) )
+			{
+				foreach ($post['groups'] as $group)
+				{
+					$_group = ORM::factory('Form_Group')->values($group, array(
+						'label', 'priority'
+					));
+					$_group->form_id = $form->id;
+					$_group->save();
+
+
+					if ( isset($group['attributes']) )
+					{
+						foreach ($group['attributes'] as $attribute)
+						{
+							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
+								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
+								));
+							$_attribute->save();
+							// Add relation
+							$_group->add('form_attributes', $_attribute);
+						}
+					}
+					
+				}
+			}
 
 			// Response is the complete form
 			$this->_response_payload = $form->for_api();
