@@ -72,30 +72,22 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 			return;
 		}
 		// Else: create a new attribute and add it to the group
-		// @todo reuse POST /attribute code here
 		else
 		{
-			$attribute = ORM::factory('Form_Attribute')->values($post, array(
-				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'priority'
-				));
 			
 			// Validation - perform in-model validation before saving
 			try
 			{
-				// Validate base group data
-				$attribute->check();
-	
-				// Validates ... so save
-				$attribute->values($post, array(
-					'key', 'label', 'input', 'type', 'options', 'required', 'default', 'priority'
-					));
-				$attribute->save();
-	
-				// Add relations
-				$group->add('form_attributes', $attribute);
-	
+				$post['form_group_id'] = $group_id;
+				$response = Request::factory('api/v'.Ushahidi_Api::version().'/attributes/')
+					->method(Request::POST)
+					->body(json_encode($post))
+					->execute();
+				// Override response to ensure status code etc is set
+				$this->response = $response;
+
 				// Response is the complete form
-				$this->_response_payload = $attribute->for_api();
+				$this->_response_payload = json_decode($response->body());
 			}
 			catch (ORM_Validation_Exception $e)
 			{
