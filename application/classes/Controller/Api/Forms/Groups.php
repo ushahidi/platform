@@ -10,6 +10,55 @@
  */
 
 class Controller_API_Forms_Groups extends Ushahidi_Api {
+	
+	/**
+	 * Require forms scope - extra scope for groups seems unnecessary
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'forms';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'form_groups';
+		
+		// Check form exists
+		$form_id = $this->request->param('form_id', 0);
+		$form = ORM::factory('Form', $form_id);
+		if ( ! $form->loaded())
+		{
+			throw new HTTP_Exception_404('Form does not exist. ID: \':id\'', array(
+				':id' => $form_id,
+			));
+		}
+		
+		$this->_resource = ORM::factory('Form_Group')
+			->set('form_id', $form_id);
+		
+		// Get group
+		if ($id = $this->request->param('id', 0))
+		{
+			$group = ORM::factory('Form_Group')
+				->where('form_id', '=', $form_id)
+				->where('id', '=', $id)
+				->find();
+
+			if (! $group->loaded())
+			{
+				throw new HTTP_Exception_404('Form Group does not exist. ID: \':id\'', array(
+					':id' => $id,
+				));
+			}
+			
+			$this->_resource = $group;
+		}
+	}
 
 	/**
 	 * Create a new group
@@ -20,21 +69,9 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$form_id = $this->request->param('form_id', 0);
-		$results = array();
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('Form', $form_id);
-		
-		if ( ! $form->loaded())
-		{
-			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
-				':id' => $form_id,
-			));
-		}
-		
-		$group = ORM::factory('Form_Group');
-		$group->form_id = $form_id;
+		$group = $this->resource();
 		
 		$this->create_or_update($group, $post);
 	}
@@ -79,21 +116,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$form_id = $this->request->param('form_id');
-		$id = $this->request->param('id');
-		$results = array();
-
-		$group = ORM::factory('Form_Group')
-			->where('form_id', '=', $form_id)
-			->where('id', '=', $id)
-			->find();
-
-		if (! $group->loaded())
-		{
-			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$group = $this->resource();
 
 		// Respond with group
 		$this->_response_payload =  $group->for_api();
@@ -108,22 +131,9 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$form_id = $this->request->param('form_id');
-		$id = $this->request->param('id');
-		$results = array();
 		$post = $this->_request_payload;
 		
-		$group = ORM::factory('Form_Group')
-			->where('form_id', '=', $form_id)
-			->where('id', '=', $id)
-			->find();
-
-		if (! $group->loaded())
-		{
-			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$group = $this->resource();
 		
 		$this->create_or_update($group, $post);
 	}
