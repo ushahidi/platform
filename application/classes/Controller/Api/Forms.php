@@ -148,6 +148,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 			$form->check();
 
 			// Are form groups defined?
+			$_groups = array();
 			if ( isset($post['groups']) )
 			{
 				// Yes, loop through and validate each group
@@ -159,6 +160,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 					$_group->check();
 
 					// Are form attributes defined?
+					$_attributes = array();
 					if ( isset($group['attributes']) )
 					{
 						// Yes, loop through and validate each form attribute
@@ -168,38 +170,35 @@ class Controller_Api_Forms extends Ushahidi_Api {
 								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
 								));
 							$_attribute->check();
+							$_attributes[] = $_attribute;
 						}
 					}
+					
+					$_groups[] = array(
+						'group' => $_group,
+						'attributes' => $_attributes
+					);
 				}
 			}
 
 			// Validates ... so save
 			$form->save();
 
-			if ( isset($post['groups']) )
+			// Save groups
+			foreach ($_groups as $group)
 			{
-				foreach ($post['groups'] as $group)
+				$_group = $group['group'];
+				$_group
+					->set('form_id', $form->id)
+					->save();
+				
+				// Save attributes
+				foreach($group['attributes'] as $_attribute)
 				{
-					$_group = ORM::factory('Form_Group')->values($group, array(
-						'label', 'priority'
-					));
-					$_group->form_id = $form->id;
-					$_group->save();
-
-
-					if ( isset($group['attributes']) )
-					{
-						foreach ($group['attributes'] as $attribute)
-						{
-							$_attribute = ORM::factory('Form_Attribute')->values($attribute, array(
-								'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority'
-								));
-							$_attribute->save();
-							// Add relation
-							$_group->add('form_attributes', $_attribute);
-						}
-					}
+					$_attribute->save();
 					
+					// Add relation
+					$_group->add('form_attributes', $_attribute);
 				}
 			}
 
