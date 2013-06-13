@@ -10,6 +10,41 @@
  */
 
 class Controller_Api_Attributes extends Ushahidi_Api {
+	
+	/**
+	 * Require forms scope - extra scope for attribute seems unnecessary
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'forms';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'form_attributes';
+		
+		$this->_resource = ORM::factory('Form_Attribute');
+		
+		// Get attribute
+		if ($id = $this->request->param('id', 0))
+		{
+			$attribute = ORM::factory('Form_Attribute', $id);
+			
+			if (! $attribute->loaded())
+			{
+				throw new HTTP_Exception_404('Form Attribute does not exist. ID: \':id\'', array(
+					':id' => $id,
+				));
+			}
+			
+			$this->_resource = $attribute;
+		}
+	}
 
 	/**
 	 * Create a new attribute
@@ -94,19 +129,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$id = $this->request->param('id');
-		$results = array();
-
-		$attribute = ORM::factory('Form_Attribute')
-			->where('id', '=', $id)
-			->find();
-
-		if (! $attribute->loaded())
-		{
-			throw new HTTP_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$attribute = $this->resource();
 
 		$this->_response_payload = $attribute->for_api();
 	}
@@ -120,20 +143,9 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$id = $this->request->param('id');
-		$results = array();
 		$post = $this->_request_payload;
 
-		$attribute = ORM::factory('Form_Attribute')
-			->where('id', '=', $id)
-			->find();
-
-		if (! $attribute->loaded())
-		{
-			throw new HTTP_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$attribute = $this->resource();
 		
 		$this->create_or_update($attribute, $post);
 	}
