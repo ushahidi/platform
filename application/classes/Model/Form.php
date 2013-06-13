@@ -9,7 +9,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_Form extends ORM {
+class Model_Form extends ORM implements Acl_Resource_Interface {
 	/**
 	 * A form has many groups
 	 * A form has and belongs to many attributes
@@ -113,5 +113,15 @@ class Model_Form extends ORM {
 		}
 
 		return $response;
+	}
+	
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function get_resource_id()
+	{
+		return 'forms';
 	}
 }

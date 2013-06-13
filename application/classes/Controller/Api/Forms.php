@@ -15,6 +15,36 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	 * @var string oauth2 scope required for access
 	 */
 	protected $_scope_required = 'forms';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'forms';
+		
+		$this->_resource = ORM::factory('Form');
+
+		// Get post
+		if ($form_id = $this->request->param('id', 0))
+		{
+			// Respond with set
+			$form = ORM::factory('Form', $form_id);
+			
+			if (! $form->loaded())
+			{
+				throw new HTTP_Exception_404('Form does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
+			}
+			
+			$this->_resource = $form;
+		}
+	}
 
 	/**
 	 * Create A Form
@@ -27,9 +57,11 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('Form')->values($post, array(
+		$form = $this->resource();
+		$form->values($post, array(
 			'name', 'description', 'type'
 			));
+		
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
 		// saving
@@ -146,17 +178,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$form_id = $this->request->param('id', 0);
-
-		// Respond with form
-		$form = ORM::factory('Form', $form_id);
-
-		if (! $form->loaded() )
-		{
-			throw new HTTP_Exception_404('Form does not exist. Form ID \':id\'', array(
-				':id' => $form_id,
-			));
-		}
+		$form = $this->resource();
 
 		$this->_response_payload = $form->for_api();
 	}
@@ -170,22 +192,12 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$form_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('Form', $form_id)->values($post, array(
+		$form = $this->resource();
+		$form->values(array(
 			'name', 'description', 'type'
 			));
-
-		if (! $form->loaded() )
-		{
-			throw new HTTP_Exception_404('Form does not exist. Form ID \':id\'', array(
-				':id' => $form_id,
-			));
-		}
-		
-		// Set form id to ensure sane response if form doesn't exist yet.
-		$form->id = $form_id;
 		
 		// Validation - cycle through nested models 
 		// and perform in-model validation before
@@ -224,20 +236,13 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$form_id = $this->request->param('id', 0);
-		$form = ORM::factory('Form', $form_id);
+		$form = $this->resource();
 		$this->_response_payload = array();
 		if ( $form->loaded() )
 		{
 			// Return the form we just deleted (provides some confirmation)
 			$this->_response_payload = $form->for_api();
 			$form->delete();
-		}
-		else
-		{
-			throw new HTTP_Exception_404('Form does not exist. Form ID: \':id\'', array(
-				':id' => $form_id,
-			));
 		}
 	}
 }
