@@ -351,6 +351,26 @@ posts:
     content: "Testing oauth posts api access"
     status: "draft"
     locale: "en_us"
+  -
+    id: 112
+    form_id: 1
+    parent_id:
+    user_id: 
+    title: "Draft 1"
+    type: "report"
+    content: "Testing draft"
+    status: "draft"
+    locale: "en_us"
+  -
+    id: 113
+    form_id: 1
+    parent_id:
+    user_id: 
+    title: "Draft 2"
+    type: "report"
+    content: "Testing draft 2"
+    status: "pending"
+    locale: "en_us"
 post_datetime:
 post_decimal:
 post_geometry:

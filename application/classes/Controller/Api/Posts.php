@@ -202,12 +202,17 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		
 		$posts = $posts_query->find_all();
 
-		$count = $posts->count();
-
 		foreach ($posts as $post)
 		{
-			$results[] = $post->for_api();
+			// Check if use is allowed to access this post
+			if ($this->acl->is_allowed($this->user, $post, 'get') )
+			{
+				$results[] = $post->for_api();
+			}
 		}
+
+		// Count actual results since they're filtered by access check
+		$count = count($results);
 
 		// Current/Next/Prev urls
 		$params = array(

@@ -6,15 +6,31 @@ Feature: API Access Control Layer
 		When I request "/posts"
 		Then the guzzle status code should be 200
 		And the response is JSON
-		And the "count" property equals "11"
+		And the "count" property equals "10"
 		
 	Scenario: All users can view public posts
+		Given that I want to get all "Posts"
+		And that the request "Authorization" header is "Bearer testbasicuser2"
+		When I request "/posts"
+		Then the guzzle status code should be 200
+		And the response is JSON
+		And the "count" property equals "10"
+		
+	Scenario: User can view public and own private posts in collection
 		Given that I want to get all "Posts"
 		And that the request "Authorization" header is "Bearer testbasicuser"
 		When I request "/posts"
 		Then the guzzle status code should be 200
 		And the response is JSON
 		And the "count" property equals "11"
+		
+	Scenario: Admin can view all posts in collection
+		Given that I want to get all "Posts"
+		And that the request "Authorization" header is "Bearer testadminuser"
+		When I request "/posts"
+		Then the guzzle status code should be 200
+		And the response is JSON
+		And the "count" property equals "13"
 	
 	Scenario: Admin user can view private posts
 		Given that I want to find a "Post"
