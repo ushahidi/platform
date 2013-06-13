@@ -11,6 +11,7 @@ Feature: API Access Control Layer
 	Scenario: All users can view public posts
 		Given that I want to get all "Posts"
 		And that the request "Authorization" header is "Bearer testbasicuser2"
+		And that the request "query string" is "status=all"
 		When I request "/posts"
 		Then the guzzle status code should be 200
 		And the response is JSON
@@ -19,6 +20,7 @@ Feature: API Access Control Layer
 	Scenario: User can view public and own private posts in collection
 		Given that I want to get all "Posts"
 		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the request "query string" is "status=all"
 		When I request "/posts"
 		Then the guzzle status code should be 200
 		And the response is JSON
@@ -27,6 +29,7 @@ Feature: API Access Control Layer
 	Scenario: Admin can view all posts in collection
 		Given that I want to get all "Posts"
 		And that the request "Authorization" header is "Bearer testadminuser"
+		And that the request "query string" is "status=all"
 		When I request "/posts"
 		Then the guzzle status code should be 200
 		And the response is JSON

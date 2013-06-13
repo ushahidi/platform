@@ -28,7 +28,7 @@ Feature: Testing the Posts API
                       "lon":-84.39
                     },
                     "geometry_test":"POLYGON((0 0,1 1,2 2,0 0))",
-                    "status":"believed_missing",
+                    "missing_status":"believed_missing",
                     "links":[
                       {"value":"http://google.com"},
                       {"value":"http://facebook.com"}
@@ -88,7 +88,7 @@ Feature: Testing the Posts API
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
-                    "status":"believed_missing"
+                    "missing_status":"believed_missing"
                 }
             }
             """
@@ -146,7 +146,7 @@ Feature: Testing the Posts API
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "last_location_point":"POINT(-85.39 33.755)",
-                    "status":"believed_missing"
+                    "missing_status":"believed_missing"
                 },
                 "tags":["missing","kenyan"]
             }
@@ -180,7 +180,7 @@ Feature: Testing the Posts API
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
-                    "status":"believed_missing"
+                    "missing_status":"believed_missing"
                 },
                 "tags":["missing","kenyan"]
             }
@@ -215,7 +215,7 @@ Feature: Testing the Posts API
         And that its "id" is "1"
         When I request "/posts"
         Then the response is JSON
-        And the response has a "values.status" property
+        And the response has a "values.missing_status" property
         Then the guzzle status code should be 200
 
     Scenario: Updating a Post with non-existent Form
@@ -235,7 +235,7 @@ Feature: Testing the Posts API
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
-                    "status":"believed_missing"
+                    "missing_status":"believed_missing"
                 },
                 "tags":["missing","kenyan"]
             }
@@ -421,7 +421,7 @@ Feature: Testing the Posts API
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
-                    "status":"believed_missing"
+                    "missing_status":"believed_missing"
                 },
                 "tags":["missing"]
             }

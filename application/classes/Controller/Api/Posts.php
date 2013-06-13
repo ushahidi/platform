@@ -157,6 +157,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		{
 			$posts_query->where('locale', '=', $locale);
 		}
+		// Filter on status, default status=published
+		$status = $this->request->query('status');
+		if (! empty($status))
+		{
+			if ($status != 'all')
+			{
+				$posts_query->where('status', '=', $status);
+			}
+		}
+		else
+		{
+			$posts_query->where('status', '=', 'published');
+		}
 		
 		// date chcks
 		$created_after = $this->request->query('created_after');
