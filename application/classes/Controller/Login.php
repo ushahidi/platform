@@ -4,9 +4,13 @@ class Controller_Login extends Controller_Template {
 	
 	public $template = 'login/main';
 	
-	protected $auth;
-	protected $acl;
-	protected $user;
+	protected $_auth;
+	protected $_acl;
+	protected $_user;
+	
+	protected $_redirect_whitelist = array(
+		'oauth/authorize'
+	);
 	
 	public function before()
 	{
@@ -17,16 +21,12 @@ class Controller_Login extends Controller_Template {
 		$this->user = $this->acl->get_user();
 	}
 	
-	protected $redirect_whitelist = array(
-		'oauth/authorize'
-	);
-	
 	public function action_index()
 	{
 		if (! $this->acl->allowed('login') AND ! $this->acl->allowed('register'))
 		{
 			if ($from_url = $this->request->query('from_url')
-					AND in_array(parse_url($from_url, PHP_URL_PATH), $this->redirect_whitelist)
+					AND in_array(parse_url($from_url, PHP_URL_PATH), $this->_redirect_whitelist)
 				)
 			{
 				$this->redirect($from_url);
@@ -68,7 +68,7 @@ class Controller_Login extends Controller_Template {
 			if ($user instanceof Model_User)
 			{
 				if ($from_url = $this->request->query('from_url')
-						AND in_array(parse_url($from_url, PHP_URL_PATH), $this->redirect_whitelist)
+						AND in_array(parse_url($from_url, PHP_URL_PATH), $this->_redirect_whitelist)
 					)
 				{
 					$this->redirect($from_url);

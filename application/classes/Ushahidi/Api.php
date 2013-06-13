@@ -57,32 +57,32 @@ class Ushahidi_Api extends Controller {
 	/**
 	 * @var int Number of results to return
 	 */
-	protected $record_limit = 50;
+	protected $_record_limit = 50;
 	
 	/**
 	 * @var int Offset for results returned
 	 */
-	protected $record_offset = 0;
+	protected $_record_offset = 0;
 	
 	/**
 	 * @var string Field to sort results by
 	 */
-	protected $record_orderby = 'id';
+	protected $_record_orderby = 'id';
 	
 	/**
 	 * @var string Direction to sort results
 	 */
-	protected $record_order = 'DESC';
+	protected $_record_order = 'DESC';
 
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	protected $record_limit_max = 500;
+	protected $_record_limit_max = 500;
 
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	protected $record_allowed_orderby = array('id');
+	protected $_record_allowed_orderby = array('id');
 	
 	/**
 	 * @var OAuth2_Server
@@ -92,16 +92,16 @@ class Ushahidi_Api extends Controller {
 	/**
 	 * @var string oauth2 scope required for access
 	 */
-	protected $scope_required = 'api';
+	protected $_scope_required = 'api';
 	
 	/**
 	 * $var
 	 */
 	protected $acl_resource = 'api';
 	
-	protected $auth;
-	protected $acl;
-	protected $user;
+	protected $_auth;
+	protected $_acl;
+	protected $_user;
 	
 	public function before()
 	{
@@ -151,7 +151,7 @@ class Ushahidi_Api extends Controller {
 		// Check OAuth2 token is valid and has required scope
 		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
 		$response = new OAuth2_Response();
-		$scopeRequired = $this->scope_required;
+		$scopeRequired = $this->_scope_required;
 		if (! $this->_oauth2_server->verifyResourceRequest($request, $response, $scopeRequired)) {
 			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
 			$this->_oauth2_server->processResponse($this->response);
@@ -370,26 +370,26 @@ class Ushahidi_Api extends Controller {
 	 * Prepare request ordering and limit params
 	 * @throws HTTP_Exception_400
 	 */
-	protected function prepare_order_limit_params()
+	protected function _prepare_order_limit_params()
 	{
-		$this->record_limit = $this->request->query('limit') ? intval($this->request->query('limit')) : $this->record_limit;
-		$this->record_offset = $this->request->query('offset') ? intval($this->request->query('offset')) : $this->record_offset;
-		$this->record_orderby = $this->request->query('orderby') ? $this->request->query('orderby') : $this->record_orderby;
-		$this->record_order = $this->request->query('order') ? strtoupper($this->request->query('order')) : $this->record_order;
+		$this->_record_limit = $this->request->query('limit') ? intval($this->request->query('limit')) : $this->_record_limit;
+		$this->_record_offset = $this->request->query('offset') ? intval($this->request->query('offset')) : $this->_record_offset;
+		$this->_record_orderby = $this->request->query('orderby') ? $this->request->query('orderby') : $this->_record_orderby;
+		$this->_record_order = $this->request->query('order') ? strtoupper($this->request->query('order')) : $this->_record_order;
 
-		if (! in_array($this->record_order, array('ASC', 'DESC')))
+		if (! in_array($this->_record_order, array('ASC', 'DESC')))
 			throw new HTTP_Exception_400('Invalid \'order\' parameter supplied: :order.', array(
-				':order' => $this->record_order
+				':order' => $this->_record_order
 			));
 
-		if (! in_array($this->record_orderby, $this->record_allowed_orderby))
+		if (! in_array($this->_record_orderby, $this->_record_allowed_orderby))
 			throw new HTTP_Exception_400('Invalid \'orderby\' parameter supplied: :orderby.', array(
-				':orderby' => $this->record_orderby
+				':orderby' => $this->_record_orderby
 			));
 
-		if ($this->record_limit > $this->record_limit_max)
+		if ($this->_record_limit > $this->_record_limit_max)
 			throw new HTTP_Exception_400('Number of records requested was too large: :record_limit.', array(
-				':record_limit' => $this->record_limit
+				':record_limit' => $this->_record_limit
 			));
 	}
 }

@@ -6,7 +6,7 @@ class PHPUnitFixtureContext extends BehatContext {
 	/**
 	 * @var PHPUnit_Extensions_Database_ITester
 	 */
-	private $databaseTester;
+	private $_databaseTester;
 
 	/**
 	 * The kohana database connection that PHPUnit should use for this test
@@ -61,7 +61,7 @@ class PHPUnitFixtureContext extends BehatContext {
 	/** Call this in a BeforeScenario hook */
 	public function setUpDBTester($dataset)
 	{
-		$this->databaseTester = NULL;
+		$this->_databaseTester = NULL;
 
 		$this->getDatabaseTester()->setSetUpOperation($this->getSetUpOperation());
 		$this->getDatabaseTester()->setDataSet($this->getDataSet($dataset));
@@ -79,7 +79,7 @@ class PHPUnitFixtureContext extends BehatContext {
 		 * Destroy the tester after the test is run to keep DB connections
 		 * from piling up.
 		 */
-		$this->databaseTester = NULL;
+		$this->_databaseTester = NULL;
 	}
 
 	/**
@@ -91,11 +91,11 @@ class PHPUnitFixtureContext extends BehatContext {
 	 */
 	protected function getDatabaseTester()
 	{
-		if (empty($this->databaseTester))
+		if (empty($this->_databaseTester))
 		{
-			$this->databaseTester = $this->newDatabaseTester();
+			$this->_databaseTester = $this->newDatabaseTester();
 		}
-		return $this->databaseTester;
+		return $this->_databaseTester;
 	}
 
 	/**
