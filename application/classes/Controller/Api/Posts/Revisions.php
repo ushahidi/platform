@@ -21,20 +21,20 @@ class Controller_Api_Posts_Revisions extends Controller_Api_Posts {
 		Http_Request::GET    => 'get',
 	);
 
-	public function before()
+	public function _resource()
 	{
-		parent::before();
-
 		// Parent ID of this Stream Post
 		$this->_parent_id = $this->request->param('post_id', 0);
 		
+		// Check parent post exists
 		$parent = ORM::factory('Post', $this->_parent_id);
-		
 		if ( ! $parent->loaded())
 		{
 			throw new HTTP_Exception_404('Parent Post does not exist. Post ID: \':id\'', array(
 				':id' => $this->_parent_id,
 			));
 		}
+		
+		parent::_resource();
 	}
 }

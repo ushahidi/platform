@@ -95,9 +95,9 @@ class Ushahidi_Api extends Controller {
 	protected $_scope_required = 'api';
 	
 	/**
-	 * $var
+	 * @var string|ORM  resource used for access check and get/:id put/:id requests
 	 */
-	protected $acl_resource = 'api';
+	protected $_resource;
 	
 	protected $_auth;
 	protected $_acl;
@@ -118,10 +118,7 @@ class Ushahidi_Api extends Controller {
 
 		$this->_parse_request();
 
-		if (! $this->_check_access() )
-		{
-			return;
-		}
+		$this->_check_access();
 	}
 
 	public function after()
@@ -137,6 +134,31 @@ class Ushahidi_Api extends Controller {
 	public static function version()
 	{
 		return self::$version;
+	}
+	
+	/**
+	 * Get resource object/string
+	 * @return string|ORM
+	 */
+	public function resource()
+	{
+		if ( ! isset($this->_resource))
+		{
+			// Initialize the validation object
+			$this->_resource();
+		}
+
+		return $this->_resource;
+	}
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		$this->_resource = 'api';
 	}
 	
 	/**
@@ -162,19 +184,20 @@ class Ushahidi_Api extends Controller {
 		$token = $this->_oauth2_server->getAccessTokenData($request, $response);
 		$this->user = ORM::factory('User', $token['user_id']);
 		
+		$resource = $this->resource();
 		// Does the user have required role/permissions ?
-		if (! $this->acl->is_allowed($this->user, $this->acl_resource, strtolower($this->request->method())) )
+		if (! $this->acl->is_allowed($this->user, $resource, strtolower($this->request->method())) )
 		{
 			// @todo proper message
-			if ($this->acl_resource->id)
+			if ($resource->id)
 				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource id :id', array(
-					':resource' => $this->acl_resource->get_resource_id(),
-					':id' => $this->acl_resource->id
+					':resource' => $resource->get_resource_id(),
+					':id' => $resource->id
 					));
 			else
 			{
 				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource', array(
-					':resource' => $this->acl_resource->get_resource_id()
+					':resource' => $resource->get_resource_id()
 					));
 			}
 			return FALSE;

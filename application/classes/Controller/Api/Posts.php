@@ -42,22 +42,16 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	protected $_scope_required = 'posts';
 	
 	/**
-	 * $var
-	 */
-	protected $acl_resource;
-	
-	
-	/**
-	 * Check if access is allowed
-	 * Runs additional check for access to a specific post
+	 * Load resource object
 	 * 
-	 * @return bool
-	 * @throws HTTP_Exception|OAuth_Exception
+	 * @return void
 	 */
-	protected function _check_access()
+	protected function _resource()
 	{
+		parent::_resource();
+		
 		// Get dummy post for access check
-		$this->acl_resource = ORM::factory('Post')
+		$this->_resource = ORM::factory('Post')
 			->set('status', 'published');
 
 		// Get post
@@ -72,13 +66,15 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 			$post = $post->find();
 			
-			if ($post->loaded())
+			if (! $post->loaded())
 			{
-				$this->acl_resource = $post;
+				throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
 			}
+			
+			$this->_resource = $post;
 		}
-		
-		return parent::_check_access();
 	}
 
 	/**
@@ -272,24 +268,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$post_id = $this->request->param('id', 0);
-
-		// Respond with post
-		$post = ORM::factory('Post')
-			->where('id', '=', $post_id)
-			->where('type', '=', $this->_type);
-		if ($this->_parent_id)
-		{
-			$post->where('parent_id', '=', $this->_parent_id);
-		}
-		$post = $post->find();
-
-		if (! $post->loaded())
-		{
-			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
-				':id' => $post_id,
-			));
-		}
+		$post = $this->resource();
 
 		$this->_response_payload = $post->for_api();
 	}
@@ -303,24 +282,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$post_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 
-		$_post = ORM::factory('Post')
-			->where('id', '=', $post_id)
-			->where('type', '=', $this->_type);
-		if ($this->_parent_id)
-		{
-			$_post->where('parent_id', '=', $this->_parent_id);
-		}
-		$_post = $_post->find();
-
-		if (! $_post->loaded())
-		{
-			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
-				':id' => $post_id,
-			));
-		}
+		$_post = $this->resource();
 		
 		$this->create_or_update_post($_post, $post);
 	}
@@ -655,16 +619,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$post_id = $this->request->param('id', 0);
-
-		$post = ORM::factory('Post')
-			->where('id', '=', $post_id)
-			->where('type', '=', $this->_type);
-		if ($this->_parent_id)
-		{
-			$post->where('parent_id', '=', $this->_parent_id);
-		}
-		$post = $post->find();
+		$post = $this->resource();
 
 		$this->_response_payload = array();
 		if ( $post->loaded() )
@@ -672,12 +627,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			// Return the post we just deleted (provides some confirmation)
 			$this->_response_payload = $post->for_api();
 			$post->delete();
-		}
-		else
-		{
-			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
-				':id' => $post_id,
-			));
 		}
 	}
 }
