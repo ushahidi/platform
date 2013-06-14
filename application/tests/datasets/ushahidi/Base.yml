@@ -371,6 +371,46 @@ posts:
     content: "Testing draft 2"
     status: "pending"
     locale: "en_us"
+  -
+    id: 114
+    form_id: 1
+    parent_id: 111
+    user_id: 
+    title: "Update for draft"
+    type: "report"
+    content: "Update for draft"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 115
+    form_id: 1
+    parent_id: 111
+    user_id: 
+    title: "Translation of draft"
+    type: "translation"
+    content: "Translation of draft"
+    status: "published"
+    locale: "fr_fr"
+  -
+    id: 116
+    form_id: 1
+    parent_id: 111
+    user_id: 
+    title: "Revision of draft"
+    type: "revision"
+    content: "Revision of draft"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 117
+    form_id: 1
+    parent_id: 110
+    user_id: 
+    title: "Update for draft"
+    type: "report"
+    content: "Update for draft"
+    status: "draft"
+    locale: "en_us"
 post_datetime:
 post_decimal:
 post_geometry:

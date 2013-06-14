@@ -24,7 +24,7 @@ Feature: API Access Control Layer
 		When I request "/posts"
 		Then the guzzle status code should be 200
 		And the response is JSON
-		And the "count" property equals "11"
+		And the "count" property equals "12"
 		
 	Scenario: Admin can view all posts in collection
 		Given that I want to get all "Posts"
@@ -33,7 +33,7 @@ Feature: API Access Control Layer
 		When I request "/posts"
 		Then the guzzle status code should be 200
 		And the response is JSON
-		And the "count" property equals "13"
+		And the "count" property equals "15"
 	
 	Scenario: Admin user can view private posts
 		Given that I want to find a "Post"
@@ -129,3 +129,70 @@ Feature: API Access Control Layer
 		When I request "/posts"
 		Then the guzzle status code should be 200
 		And the response has an "id" property
+	
+	Scenario: Anonymous user can not access updates with private parent post
+		Given that I want to get all "Updates"
+		And that the request "Authorization" header is "Bearer testanon"
+		When I request "/posts/111/updates"
+		Then the guzzle status code should be 403
+	
+	Scenario: Anonymous user can not access update with private parent post
+		Given that I want to find an "Update"
+		And that the request "Authorization" header is "Bearer testanon"
+		And that its "id" is "114"
+		When I request "/posts/111/updates"
+		Then the guzzle status code should be 403
+	
+	Scenario: User user can access update to their own private parent post
+		Given that I want to find an "Update"
+		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that its "id" is "114"
+		When I request "/posts/111/updates"
+		Then the guzzle status code should be 200
+	
+	Scenario: User user can not access update with private parent post
+		Given that I want to find an "Update"
+		And that the request "Authorization" header is "Bearer testbasicuser2"
+		And that its "id" is "114"
+		When I request "/posts/111/updates"
+		Then the guzzle status code should be 403
+	
+	Scenario: Anonymous user can not access translations with private parent post
+		Given that I want to get all "Translations"
+		And that the request "Authorization" header is "Bearer testanon"
+		When I request "/posts/111/translations"
+		Then the guzzle status code should be 403
+	
+	Scenario: Anonymous user can not access translation with private parent post
+		Given that I want to find a "Translation"
+		And that the request "Authorization" header is "Bearer testanon"
+		And that its "id" is "115"
+		When I request "/posts/111/translations"
+		Then the guzzle status code should be 403
+	
+	Scenario: Anonymous user can not access revisions with private parent post
+		Given that I want to get all "Revisions"
+		And that the request "Authorization" header is "Bearer testanon"
+		When I request "/posts/111/revisions"
+		Then the guzzle status code should be 403
+	
+	Scenario: Anonymous user can not access revision with private parent post
+		Given that I want to find a "Revision"
+		And that the request "Authorization" header is "Bearer testanon"
+		And that its "id" is "116"
+		When I request "/posts/111/revisions"
+		Then the guzzle status code should be 403
+
+	Scenario: Anonymous user can not access private update in listing
+		Given that I want to get all "Updates"
+		And that the request "Authorization" header is "Bearer testanon"
+		When I request "/posts/110/updates"
+		Then the guzzle status code should be 200
+		And the "count" property equals "0"
+
+	Scenario: Anonymous user can not access private update
+		Given that I want to find an "Update"
+		And that the request "Authorization" header is "Bearer testanon"
+		And that its "id" is "117"
+		When I request "/posts/110/updates"
+		Then the guzzle status code should be 403
