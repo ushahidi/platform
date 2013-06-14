@@ -68,6 +68,8 @@ return array(
 		'login'              => NULL,
 		'register'           => NULL,
 		'logout'             => NULL,
+		// Special default value - used to ensure dev assign some resource id
+		'undefined'          => NULL,
 	),
 
 	/*
@@ -122,7 +124,7 @@ return array(
 			),
 			'GuestCanView' => array(
 				'role'      => 'guest',
-				'resource'  => array('forms', 'sets', 'tags', 'api'),
+				'resource'  => array('forms', 'sets', 'tags'),
 				'privilege' => array('get')
 			),
 			'GuestCanLogin' => array(
@@ -143,6 +145,11 @@ return array(
 			'UserCantRegister' => array(
 				'role'      => 'user',
 				'resource'  => 'register'
+			),
+			// Block admin from resources with undefined permissions
+			'AdminCantAccessUndefined' => array(
+				'role'      => 'admin',
+				'resource'  => 'undefined'
 			),
 		)
 	)

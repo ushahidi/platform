@@ -92,7 +92,7 @@ class Ushahidi_Api extends Controller {
 	/**
 	 * @var string oauth2 scope required for access
 	 */
-	protected $_scope_required = 'api';
+	protected $_scope_required = 'undefined';
 	
 	/**
 	 * @var string|ORM  resource used for access check and get/:id put/:id requests
@@ -158,7 +158,7 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected function _resource()
 	{
-		$this->_resource = 'api';
+		$this->_resource = 'undefined';
 	}
 	
 	/**
@@ -189,15 +189,15 @@ class Ushahidi_Api extends Controller {
 		if (! $this->acl->is_allowed($this->user, $resource, strtolower($this->request->method())) )
 		{
 			// @todo proper message
-			if ($resource->id)
+			if (isset($resource->id))
 				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource id :id', array(
-					':resource' => $resource->get_resource_id(),
+					':resource' => $resource instanceof Acl_Resource_Interface ? $resource->get_resource_id() : $resource,
 					':id' => $resource->id
 					));
 			else
 			{
 				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource', array(
-					':resource' => $resource->get_resource_id()
+					':resource' => $resource instanceof Acl_Resource_Interface ? $resource->get_resource_id() : $resource,
 					));
 			}
 			return FALSE;
