@@ -115,7 +115,10 @@ return array(
 				'role'      => 'guest',
 				'resource'  => 'posts',
 				'privilege' => array('get'),
-				'assertion' => array('Acl_Assert_ArgumentStatic', array('status' => 'published'))
+				'assertion' => array('Acl_Assert_Combined', array(
+					array('Acl_Assert_Value', array('status' => 'published')), // Post itself is published
+					array('Acl_Assert_RelationAllowed', array('parent')), // Parent post is published
+				))
 			),
 			'GuestCanCreatePost' => array(
 				'role'      => 'guest',

@@ -53,6 +53,23 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		// Get dummy post for access check
 		$this->_resource = ORM::factory('Post')
 			->set('status', 'published');
+		
+		// Get parent if we have one
+		if ($this->_parent_id = $this->request->param('post_id', NULL))
+		{
+			// Check parent post exists
+			$parent = ORM::factory('Post', $this->_parent_id);
+			if ( ! $parent->loaded())
+			{
+				throw new HTTP_Exception_404('Parent Post does not exist. Post ID: \':id\'', array(
+					':id' => $this->_parent_id,
+				));
+			}
+			
+			// Use parent post for access check if no individual post set
+			// This happens when getting all translations/revisions/updates..
+			$this->_resource = $parent;
+		}
 
 		// Get post
 		if ($post_id = $this->request->param('id', 0))

@@ -15,18 +15,6 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 
 	public function _resource()
 	{
-		// Parent ID of this Stream Post
-		$this->_parent_id = $this->request->param('post_id', 0);
-		
-		// Check parent post exists
-		$parent = ORM::factory('Post', $this->_parent_id);
-		if ( ! $parent->loaded())
-		{
-			throw new HTTP_Exception_404('Parent Post does not exist. Post ID: \':id\'', array(
-				':id' => $this->_parent_id,
-			));
-		}
-		
 		// Normal post loading: dummy post, then by id
 		parent::_resource();
 		
