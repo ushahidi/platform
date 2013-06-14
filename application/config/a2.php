@@ -125,9 +125,21 @@ return array(
 				'resource'  => 'posts',
 				'privilege' => array('post')
 			),
-			'GuestCanView' => array(
+			'GuestCanViewForms' => array(
 				'role'      => 'guest',
-				'resource'  => array('forms', 'sets', 'tags'),
+				'resource'  => array('forms'),
+				'privilege' => array('get'),
+				'assertion' => array('Acl_Assert_RelationAllowed', array('parent'))
+			),
+			'GuestCanViewTags' => array(
+				'role'      => 'guest',
+				'resource'  => array('tags'),
+				'privilege' => array('get'),
+				'assertion' => array('Acl_Assert_RelationAllowed', array('parent'))
+			),
+			'GuestCanViewSets' => array(
+				'role'      => 'guest',
+				'resource'  => array('sets'),
 				'privilege' => array('get')
 			),
 			'GuestCanLogin' => array(
