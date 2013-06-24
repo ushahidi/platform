@@ -399,4 +399,22 @@ sets:
     name: Explosion
 posts_sets:
 users:
+  -
+    id: 1
+    username: "robbie"
+    password: "b3154acf3a344170077d11bdb5fff31532f679a1919e716a02"
+    email: "robbie@ushahidi.com"
+    role: "user"
+  -
+    id: 2
+    username: "admin"
+    password: ""
+    email:
+    role: "admin"
+  -
+    id: 3
+    username: "test"
+    password: ""
+    email:
+    role: "user"
 tasks:

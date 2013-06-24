@@ -10,7 +10,7 @@ Feature: Testing the Users API
 				"first_name":"Linda",
 				"last_name":"Kamau",
 				"username":"kamaulynder",
-				"password":"b3154acf3a344170077d11bdb5fff31532f679a1919e716a02"
+				"password":"testing"
 
 			}
 			"""
@@ -27,11 +27,11 @@ Feature: Testing the Users API
 		And that the request "data" is:
 			"""
 			{
-				"email":"linda@ushahidi.com",
-				"first_name":"Lindah",
-				"last_name":"Kamau",
-				"username":"kamaulynder",
-				"password":"b3154acf3a344170077d11bdb5fff31532f679a1919e716a02"
+				"email":"robbie@ushahidi.com",
+				"first_name":"Robbie",
+				"last_name":"Mackay",
+				"username":"rjmackay",
+				"password":"testing"
 			}
 			"""
 		And that its "id" is "1"
@@ -41,7 +41,7 @@ Feature: Testing the Users API
 		And the type of the "id" property is "numeric"
 		And the "id" property equals "1"
 		And the response has a "email" property
-		And the "email" property equals "linda@ushahidi.com"
+		And the "email" property equals "robbie@ushahidi.com"
 		Then the response status code should be 200
 
 	Scenario: Updating a non-existent User
@@ -62,25 +62,27 @@ Feature: Testing the Users API
 		And the response has a "errors" property
 		Then the response status code should be 404
 
+	@resetFixture
 	Scenario: Listing All Users
 		Given that I want to get all "Users"
 		When I request "/users"
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "2"
+		And the "count" property equals "3"
 		Then the response status code should be 200
 
+	@resetFixture
 	Scenario: Search All Users
 		Given that I want to get all "Users"
 		And that the request "query string" is:
 			"""
-			q=Kamau
+			q=rob
 			"""
 		When I request "/users"
 		Then the response is JSON
 		And the "count" property equals "1"
-		And the "results.0.last_name" property equals "Kamau"
+		And the "results.0.username" property equals "robbie"
 		Then the response status code should be 200
 
 	Scenario: Finding a User
