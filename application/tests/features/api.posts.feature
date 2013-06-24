@@ -212,17 +212,17 @@ Feature: Testing the Posts API
         And the response has a "errors" property
         Then the response status code should be 400
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Listing All Posts
         Given that I want to get all "Posts"
         When I request "/posts"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "5"
+        And the "count" property equals "8"
         Then the response status code should be 200
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Listing All Posts with limit and offset
         Given that I want to get all "Posts"
         And that the request "query string" is:
@@ -240,7 +240,7 @@ Feature: Testing the Posts API
         And the "results.0.id" property equals "96"
         Then the response status code should be 200
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Listing All Posts with different sort
         Given that I want to get all "Posts"
         And that the request "query string" is:
@@ -251,7 +251,7 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "results.0.id" property equals "99"
+        And the "results.0.id" property equals "105"
         Then the response status code should be 200
 
     # @todo improve this test to check more response data
@@ -278,7 +278,7 @@ Feature: Testing the Posts API
         Then the response is JSONP
         Then the response status code should be 200
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Search All Posts
         Given that I want to get all "Posts"
         And that the request "query string" is:
@@ -292,7 +292,7 @@ Feature: Testing the Posts API
         And the "count" property equals "2"
         Then the response status code should be 200
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Search All Posts by locale
         Given that I want to get all "Posts"
         And that the request "query string" is:
@@ -307,7 +307,7 @@ Feature: Testing the Posts API
         Then the response status code should be 200
 
     # Regression test to ensure q= filter can be used with other filters
-    @searchPostFixture
+    @resetFixture
     Scenario: Search All Posts with query and locale
         Given that I want to get all "Posts"
         And that the request "query string" is:
@@ -321,12 +321,12 @@ Feature: Testing the Posts API
         And the "count" property equals "1"
         Then the response status code should be 200
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Search All Posts by attribute
         Given that I want to get all "Posts"
         And that the request "query string" is:
             """
-            dummy_varchar=special
+            test_varchar=special
             """
         When I request "/posts"
         Then the response is JSON
