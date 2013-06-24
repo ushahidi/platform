@@ -29,7 +29,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	 protected $record_allowed_orderby = array('id', 'created', 'email');
+	 protected $record_allowed_orderby = array('id', 'created', 'email', 'username');
 
 	/**
 	 * Create A User
@@ -69,7 +69,12 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$q = $this->request->query('q');
 		if (! empty($q))
 		{
+			$users_query->and_where_open();
 			$users_query->where('email', 'LIKE', "%$q%");
+			$users_query->or_where('username', 'LIKE', "%$q%");
+			$users_query->or_where('first_name', 'LIKE', "%$q%");
+			$users_query->or_where('last_name', 'LIKE', "%$q%");
+			$users_query->and_where_close();
 		}
 
 		$user = $this->request->query('email');
@@ -88,6 +93,12 @@ class Controller_Api_Users extends Ushahidi_Api {
 		if (! empty($last_name))
 		{
 			$users_query->where('last_name', '=', $last_name);	
+		}
+
+		$username = $this->request->query('username');
+		if (! empty($username))
+		{
+			$users_query->where('username', '=', $username);	
 		}
 
 		$users = $users_query->find_all();
@@ -254,7 +265,6 @@ class Controller_Api_Users extends Ushahidi_Api {
 					':errors' => implode(', ', Arr::flatten($e->errors('models'))),	
 			));
 		}
-						
 	
 	 }
 }
