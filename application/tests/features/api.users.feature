@@ -2,7 +2,7 @@
 Feature: Testing the Users API
 
 	Scenario: Creating a User
-		Given that I want to add a new "user"
+		Given that I want to make a new "user"
 		And that the request "data" is:
 			"""
 			{
@@ -14,7 +14,7 @@ Feature: Testing the Users API
 
 			}
 			"""
-		When I request "/users""
+		When I request "/users"
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
