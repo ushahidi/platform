@@ -185,10 +185,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$user_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 		
-		$user = ORM::factory('User', $user_id)->values($post, array(
-			'email', 'first_name', 'last_name', 'username', 'password',
-			'avatar', 'logins', 'last_login'
-			));
+		$user = ORM::factory('User', $user_id);
 
 		if (! $user->loaded() )
 		{
@@ -250,9 +247,6 @@ class Controller_Api_Users extends Ushahidi_Api {
 			$user->check();
 			
 			// Validates ... so save
-			$user->values($post, array(
-					'email', 'first_name', 'last_name', 'username', 'password',
-					'avatar', 'logins', 'last_login'));
 			$user->save();
 
 			// Response is the user
