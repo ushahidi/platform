@@ -8,8 +8,11 @@ Feature: Testing the Posts API
             {
                 "form":1,
                 "title":"Test post",
-                "author":"robbie",
-                "email":"robbie@ushahidi.com",
+                "user":{
+                  "first_name": "Robbie",
+                  "last_name": "Mackay",
+                  "email": "someotherrobbie@test.com"
+                },
                 "type":"report",
                 "status":"draft",
                 "locale":"en_US",
@@ -86,6 +89,37 @@ Feature: Testing the Posts API
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
                     "status":"believed_missing"
+                }
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the response status code should be 400
+
+    Scenario: Creating an Post with existing user returns an error
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Invalid author",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "user":{
+                  "first_name": "Robbie",
+                  "last_name": "Mackay",
+                  "email": "robbie@ushahidi.com"
+                },
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":"unknown",
+                    "missing_date":"2012/09/25",
+                    "status":"believed_missing",
+                    "last_location":"atlanta"
                 }
             }
             """
