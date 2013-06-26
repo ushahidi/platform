@@ -234,9 +234,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 */
 	 protected function create_or_update_user($user, $post)
 	 {
-		$user->values($post, array(
-				'email', 'first_name', 'last_name', 'username', 'password',
-				'avatar', 'logins', 'last_login'));
+		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
 
 		//Validation - cycle through nested models and perform in-model
 		//validation before saving
@@ -244,7 +242,10 @@ class Controller_Api_Users extends Ushahidi_Api {
 		try
 		{
 			// Validate base user data	
-			$user->check();
+			$user_validation = Validation::factory($post);
+			$user_validation->rule('username', 'not_empty');
+			$user_validation->rule('password', 'not_empty');
+			$user->check($user_validation);
 			
 			// Validates ... so save
 			$user->save();

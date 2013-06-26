@@ -403,18 +403,24 @@ users:
     id: 1
     username: "robbie"
     password: "b3154acf3a344170077d11bdb5fff31532f679a1919e716a02"
+    first_name: Robbie
+    last_name: Mackay
     email: "robbie@ushahidi.com"
     role: "user"
   -
     id: 2
     username: "admin"
     password: ""
+    first_name:
+    last_name: 
     email:
     role: "admin"
   -
     id: 3
     username: "test"
     password: ""
+    first_name:
+    last_name: 
     email:
     role: "user"
 tasks:

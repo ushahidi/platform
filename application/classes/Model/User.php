@@ -70,14 +70,12 @@ class Model_User extends Model_Auth_User {
 			
 			//username of user
 			'username' => array(
-				array('not_empty'),
 				array('min_length', array(':value', 3)),
 				array('max_length', array(':value', 255)),
 			),
 			
 			//password of user
 			'password' => array(
-				array('not_empty'),
 				array('min_length', array(':value', 7)),
 				array('max_length', array(':value', 72)), // Bcrypt max length is 72
 				// NOTE: Password should allow ANY character at all. Do not limit to alpha numeric or alpha dash.
@@ -104,6 +102,9 @@ class Model_User extends Model_Auth_User {
 				'last_name' => $this->last_name,
 				'username' => $this->username,
 				'logins' => $this->logins,
+				'last_login' => $this->last_login,
+				'failed_attempts' => $this->failed_attempts,
+				'last_attempt' => $this->last_attempt,
 
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)

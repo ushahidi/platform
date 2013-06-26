@@ -9,14 +9,18 @@ class Migration_3_0_20130604220936 extends Minion_Migration_Base {
 	 */
 	public function up(Kohana_Database $db)
 	{
+		// Refactor users table
 		$db->query(NULL, "ALTER TABLE `users`
 			ADD COLUMN `failed_attempts` INT(10) UNSIGNED NOT NULL DEFAULT '0' AFTER `logins`,
 			ADD COLUMN `last_attempt` INT(10) UNSIGNED DEFAULT NULL AFTER `last_login`,
-			MODIFY COLUMN `email` VARCHAR(127) NULL DEFAULT NULL
+			MODIFY COLUMN `email` VARCHAR(127) NULL DEFAULT NULL,
+			MODIFY COLUMN `username` VARCHAR(255) NULL DEFAULT NULL,
+			MODIFY COLUMN `password` VARCHAR(255) NULL DEFAULT NULL,
+			DROP COLUMN `avatar`
 		");
 		
+		// Drop roles and roles_users
 		$db->query(NULL, "DROP TABLE `roles_users`");
-		
 		$db->query(NULL, "DROP TABLE `roles`");
 		
 		// Table `roles`
@@ -30,6 +34,7 @@ class Migration_3_0_20130604220936 extends Minion_Migration_Base {
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
 		
+		// Add default roles
 		$db->query(NULL, "INSERT INTO `roles`
 			(`name`, `display_name`, `description`)
 			VALUES
@@ -38,12 +43,25 @@ class Migration_3_0_20130604220936 extends Minion_Migration_Base {
 			('admin', 'Admin', 'Administrator')
 			");
 		
+		// Add roles and person fk to users
 		$db->query(NULL, "ALTER TABLE `users`
 		  ADD COLUMN `role` VARCHAR(127) NULL DEFAULT 'user',
 		  ADD CONSTRAINT `fk_users_role`
 		    FOREIGN KEY (`role` )
 		    REFERENCES `roles` (`name`)
 		    ON DELETE SET NULL
+		");
+		
+		// Move post author info to persons table
+		$db->query(NULL, "ALTER TABLE `posts`
+			DROP COLUMN `email`,
+			DROP COLUMN `author`
+		");
+		
+		// Move comment author info to persons table
+		$db->query(NULL, "ALTER TABLE `post_comments`
+			DROP COLUMN `email`,
+			DROP COLUMN `author`
 		");
 		
 	}
@@ -55,14 +73,31 @@ class Migration_3_0_20130604220936 extends Minion_Migration_Base {
 	 */
 	public function down(Kohana_Database $db)
 	{
+		// Restore users table
 		$db->query(NULL, "ALTER TABLE `users`
 			DROP COLUMN `failed_attempts`,
 			DROP COLUMN `last_attempt`,
 			MODIFY COLUMN `email` VARCHAR(127) NOT NULL,
+			MODIFY COLUMN `username` VARCHAR(255) NOT NULL,
+			MODIFY COLUMN `password` VARCHAR(255) NOT NULL,
 			DROP COLUMN `role`,
-			DROP FOREIGN KEY `fk_users_role`
+			DROP FOREIGN KEY `fk_users_role`,
+			ADD COLUMN `avatar` VARCHAR(50) DEFAULT NULL
 		");
 		
+		// Restore author fields in posts table
+		$db->query(NULL, "ALTER TABLE `posts`
+		  ADD COLUMN `email` VARCHAR(150) NULL DEFAULT NULL ,
+		  ADD COLUMN `author` VARCHAR(150) NULL DEFAULT NULL
+		");
+		
+		// Restore author fields in comments table
+		$db->query(NULL, "ALTER TABLE `post_comments`
+		  ADD COLUMN `email` VARCHAR(150) NULL DEFAULT NULL ,
+		  ADD COLUMN `author` VARCHAR(150) NULL DEFAULT NULL
+		");
+		
+		// remove poeple and roles table
 		$db->query(NULL, "DROP TABLE `roles`");
 
 		// Table `roles`
