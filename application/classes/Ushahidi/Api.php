@@ -158,6 +158,7 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected function _resource()
 	{
+		// @todo split this up by get resource for collection, and get individual resource.. or maybe by action?
 		$this->_resource = 'undefined';
 	}
 	
