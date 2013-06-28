@@ -46,6 +46,21 @@ class Model_User extends Model_Auth_User {
 	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
 
 	/**
+	 * Filters for the Tag model
+	 * 
+	 * @return array Filters
+	 */
+	public function filters()
+	{
+		return array(
+			'username' => array(
+				array('trim'),
+			),
+		);
+	}
+
+
+	/**
 	 * Rules for the user model
 	 *
 	 * @return array Rules
@@ -72,6 +87,7 @@ class Model_User extends Model_Auth_User {
 			'username' => array(
 				array('min_length', array(':value', 3)),
 				array('max_length', array(':value', 255)),
+				array(array($this, 'unique'), array(':field', ':value')),
 			),
 			
 			//password of user
