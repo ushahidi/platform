@@ -86,10 +86,6 @@ Kohana::init(array(
 	'index_file' => FALSE
 ));
 
-// Set up custom error view
-Kohana_Exception::$error_view_content_type = 'application/json';
-Kohana_Exception::$error_view = 'api/error';
-
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
@@ -113,6 +109,7 @@ Kohana::modules(array(
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'minion'     => MODPATH.'minion',
 	'migrations' => MODPATH.'migrations',
+	'koauth'     => MODPATH.'koauth',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 

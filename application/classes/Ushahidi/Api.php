@@ -84,9 +84,30 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected $record_allowed_orderby = array('id');
 	
+	/**
+	 * @var OAuth2_Server
+	 */
+	protected $_oauth2_server;
+	
+	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $scope_required = 'api';
+	
 	public function before()
 	{
 		parent::before();
+		
+		// Set up custom error view
+		Kohana_Exception::$error_view_content_type = 'application/json';
+		Kohana_Exception::$error_view = 'api/error';
+
+		$this->_oauth2_server = new Koauth_OAuth2_Server();
+
+		if (! $this->_check_access() )
+		{
+			return;
+		}
 
 		$this->_parse_request();
 	}
@@ -104,6 +125,19 @@ class Ushahidi_Api extends Controller {
 	public static function version()
 	{
 		return self::$version;
+	}
+	
+	protected function _check_access()
+	{
+		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
+		$response = new OAuth2_Response();
+		$scopeRequired = $this->scope_required;
+		if (! $this->_oauth2_server->verifyResourceRequest($request, $response, $scopeRequired)) {
+			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
+			$this->_oauth2_server->processResponse($this->response);
+			return FALSE;
+		}
+		return TRUE;
 	}
 
 	/**

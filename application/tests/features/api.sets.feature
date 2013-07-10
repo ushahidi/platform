@@ -1,4 +1,4 @@
-@setsFixture
+@setsFixture @oauth2Skip
 Feature: Testing the Sets API
 
 	Scenario: Creating a Set
@@ -16,7 +16,7 @@ Feature: Testing the Sets API
 		And the type of the "id" property is "numeric"
 		And the response has a "name" property
 		And the "name" property equals "Set One"
-		Then the response status code should be 200
+		Then the guzzle status code should be 200
 
 	Scenario: Updating a Set
 		Given that I want to update a "set"
@@ -35,7 +35,7 @@ Feature: Testing the Sets API
 		And the "id" property equals "1"
 		And the response has a "name" property
 		And the "name" property equals "Updated Set One"
-		Then the response status code should be 200
+		Then the guzzle status code should be 200
 
 	Scenario: Updating a non-existent Set
 		Given that I want to update a "set"
@@ -50,7 +50,7 @@ Feature: Testing the Sets API
 		When I request "/sets"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the response status code should be 404
+		Then the guzzle status code should be 404
 
 	@resetFixture
 	Scenario: Listing All Sets
@@ -60,7 +60,7 @@ Feature: Testing the Sets API
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
 		And the "count" property equals "2"
-		Then the response status code should be 200
+		Then the guzzle status code should be 200
 
 	@resetFixture
 	Scenario: Search All Sets
@@ -73,7 +73,7 @@ Feature: Testing the Sets API
 		Then the response is JSON
 		And the "count" property equals "1"
 		And the "results.0.name" property equals "Explosion"
-		Then the response status code should be 200
+		Then the guzzle status code should be 200
 
 	Scenario: Finding a Set
 		Given that I want to find a "Set"
@@ -82,7 +82,7 @@ Feature: Testing the Sets API
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
-		Then the response status code should be 200
+		Then the guzzle status code should be 200
 
 	Scenario: Finding a non-existent Set
 		Given that I want to find a "Set"
@@ -90,18 +90,18 @@ Feature: Testing the Sets API
 		When I request "/sets"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the response status code should be 404
+		Then the guzzle status code should be 404
 
 	Scenario: Deleting a Set
 		Given that I want to delete a "Set"
 		And that its "id" is "1"
 		When I request "/sets"
-		Then the response status code should be 200
+		Then the guzzle status code should be 200
 
 	Scenario: Deleting a non-existent Set
 		Given that I want to delete a "Set"
 		And that its "id" is "22"
 		When I request "/sets"
 		And the response has a "errors" property
-		Then the response status code should be 404
+		Then the guzzle status code should be 404
 
