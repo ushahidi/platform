@@ -81,7 +81,11 @@ class Controller_Api_Forms extends Ushahidi_Api {
 
 		foreach ($forms as $form)
 		{
-			$results[] = $form->for_api();
+			// Check if user is allowed to access this form
+			if ($this->acl->is_allowed($this->user, $form, 'get') )
+			{
+				$results[] = $form->for_api();
+			}
 		}
 
 		// Respond with forms

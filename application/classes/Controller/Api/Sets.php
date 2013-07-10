@@ -125,8 +125,11 @@ class Controller_Api_Sets extends Ushahidi_Api {
 
 		foreach ($sets as $set)
 		{
-			$results[] = $set->for_api();
-	
+			// Check if user is allowed to access this set
+			if ($this->acl->is_allowed($this->user, $set, 'get') )
+			{
+				$results[] = $set->for_api();
+			}
 		}	
 
 		// Current/Next/Prev urls

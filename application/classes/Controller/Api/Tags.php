@@ -127,7 +127,11 @@ class Controller_Api_Tags extends Ushahidi_Api {
 
 		foreach ($tags as $tag)
 		{
-			$results[] = $tag->for_api();
+			// Check if user is allowed to access this tag
+			if ($this->acl->is_allowed($this->user, $tag, 'get') )
+			{
+				$results[] = $tag->for_api();
+			}
 		}
 
 		// Current/Next/Prev urls

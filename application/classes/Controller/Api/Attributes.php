@@ -110,7 +110,11 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 
 		foreach ($attributes as $attribute)
 		{
-			$results[] = $attribute->for_api();
+			// Check if user is allowed to access this attribute
+			if ($this->acl->is_allowed($this->user, $attribute, 'get') )
+			{
+				$results[] = $attribute->for_api();
+			}
 		}
 
 		// Respond with attributes

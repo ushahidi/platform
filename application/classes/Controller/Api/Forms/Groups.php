@@ -97,7 +97,11 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 
 		foreach ($groups as $group)
 		{
-			$results[] = $group->for_api();
+			// Check if user is allowed to access this group
+			if ($this->acl->is_allowed($this->user, $group, 'get') )
+			{
+				$results[] = $group->for_api();
+			}
 		}
 
 		// Respond with groups
