@@ -58,12 +58,12 @@ class Controller_Api_Users extends Ushahidi_Api {
 	{
 		$results = array();
 
-		$this->prepare_order_limit_params();
+		$this->_prepare_order_limit_params();
 
 		$users_query = ORM::factory('User')
-				->order_by($this->record_orderby, $this->record_order)
-				->offset($this->record_offset)
-				->limit($this->record_limit);
+				->order_by($this->_record_orderby, $this->_record_order)
+				->offset($this->_record_offset)
+				->limit($this->_record_limit);
 
 		//Prepare search params
 		$q = $this->request->query('q');
@@ -113,15 +113,15 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 		// Current/Next/Prev urls
 		$params = array(
-				'limit' => $this->record_limit,
-				'offset' => $this->record_offset,
+				'limit' => $this->_record_limit,
+				'offset' => $this->_record_offset,
 		);
 
 		// Only add order/orderby if they're already set 
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
-			$params['orderby'] = $this->record_orderby;
-			$params['order'] = $this->record_order;	
+			$params['orderby'] = $this->_record_orderby;
+			$params['order'] = $this->_record_order;	
 		}
 
 		$prev_params = $next_params = $params;
@@ -137,10 +137,10 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$this->_response_payload = array(
 				'count' => $count,
 				'results' => $results,
-				'limit' => $this->record_limit,
-				'offset' => $this->record_offset,
-				'order' => $this->record_order,
-				'orderby' => $this->record_orderby,
+				'limit' => $this->_record_limit,
+				'offset' => $this->_record_offset,
+				'order' => $this->_record_order,
+				'orderby' => $this->_record_orderby,
 				'curr' => $curr,
 				'next' => $next,
 				'prev' => $prev,
