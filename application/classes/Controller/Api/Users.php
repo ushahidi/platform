@@ -32,6 +32,41 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 protected $record_allowed_orderby = array('id', 'created', 'email', 'username');
 
 	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'users';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'users';
+		
+		$this->_resource = ORM::factory('User');
+
+		// Get post
+		if ($user_id = $this->request->param('id', 0))
+		{
+			// Respond with set
+			$user = ORM::factory('User', $user_id);
+			
+			if (! $user->loaded())
+			{
+				throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
+			}
+			
+			$this->_resource = $user;
+		}
+	}
+
+	/**
 	 * Create A User
 	 * 
 	 * POST /api/users
@@ -42,7 +77,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 		
-		$user = ORM::factory('User');
+		$user = $this->resource();
 
 		$this->create_or_update_user($user, $post);
 	}
@@ -107,8 +142,11 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 		foreach ($users as $user)
 		{
-			$results[] = $user->for_api();
-	
+			// Check if user is allowed to access this user
+			if ($this->acl->is_allowed($this->user, $user, 'get') )
+			{
+				$results[] = $user->for_api();
+			}
 		}	
 
 		// Current/Next/Prev urls
@@ -157,17 +195,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$user_id = $this->request->param('id', 0);
-
-		// Respond with user
-		$user = ORM::factory('User', $user_id);
-
-		if (! $user->loaded() )
-		{
-			throw new HTTP_Exception_404('User does not exist. User ID \':id\'', array(
-				':id' => $user_id,
-			));
-		}
+		$user = $this->resource();
 
 		$this->_response_payload = $user->for_api();
 	}
@@ -182,17 +210,9 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$user_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 		
-		$user = ORM::factory('User', $user_id);
-
-		if (! $user->loaded() )
-		{
-			throw new HTTP_Exception_404('User does not exist. User ID \':id\'', array(
-				':id' => $user_id,
-			));
-		}
+		$user = $this->resource();
 
 		$this->create_or_update_user($user, $post);
 		
@@ -208,20 +228,13 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$user_id = $this->request->param('id', 0);
-		$user = ORM::factory('User', $user_id);
+		$user = $this->resource();
 		$this->_response_payload = array();
 		if ( $user->loaded() )
 		{
 			// Return the user we just deleted (provides some confirmation)
 			$this->_response_payload = $user->for_api();
 			$user->delete();
-		}
-		else
-		{
-			throw new HTTP_Exception_404('User does not exist. User ID: \':id\'', array(
-				':id' => $user_id,
-			));
 		}
 	}
 

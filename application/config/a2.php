@@ -62,8 +62,9 @@ return array(
 		'tags'               => NULL,
 		'sets'               => NULL,
 		'forms'              => NULL,
-		'form_attributes'    => 'form',
-		'form_groups'        => 'form',
+		'form_attributes'    => 'forms',
+		'form_groups'        => 'forms',
+		'users'              => NULL,
 		// Pages
 		'login'              => NULL,
 		'register'           => NULL,
@@ -140,6 +141,11 @@ return array(
 			'GuestCanViewSets' => array(
 				'role'      => 'guest',
 				'resource'  => array('sets'),
+				'privilege' => array('get')
+			),
+			'GuestCanViewUsers' => array(
+				'role'      => 'guest',
+				'resource'  => array('users'),
 				'privilege' => array('get')
 			),
 			'GuestCanLogin' => array(
