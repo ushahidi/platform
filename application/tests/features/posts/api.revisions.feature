@@ -1,4 +1,4 @@
-@post
+@post @oauth2Skip
 Feature: Testing the Revisions API
 
     @resetFixture
@@ -9,14 +9,14 @@ Feature: Testing the Revisions API
         And the response has a "count" property
         And the type of the "count" property is "numeric"
         And the "count" property equals "2"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Listing All Revisions on a non-existent Post
         Given that I want to get all "Revisions"
         When I request "/posts/999/revisions"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Finding a Revision
         Given that I want to find a "Revision"
@@ -26,7 +26,7 @@ Feature: Testing the Revisions API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the "values.test_varchar" property equals "previous_string"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Revision
         Given that I want to find a "Revision"
@@ -34,7 +34,7 @@ Feature: Testing the Revisions API
         When I request "/posts/99/revisions"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Fail to find Revision through Posts api
         Given that I want to find a "Revision"
@@ -42,7 +42,7 @@ Feature: Testing the Revisions API
         When I request "/posts"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Trying to get Report as Revision
         Given that I want to find a "Revision"
@@ -50,7 +50,7 @@ Feature: Testing the Revisions API
         When I request "/posts/99/revisions"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Creating a new Revision Fails
         Given that I want to make a new "Revision"
@@ -77,7 +77,7 @@ Feature: Testing the Revisions API
             }
             """
         When I request "/posts/99/revisions"
-        Then the response status code should be 405
+        Then the guzzle status code should be 405
 
     Scenario: Updating a Revision
         Given that I want to update a "Revision"
@@ -103,13 +103,13 @@ Feature: Testing the Revisions API
             """
         And that its "id" is "103"
         When I request "/posts/99/revisions"
-        Then the response status code should be 405
+        Then the guzzle status code should be 405
 
     Scenario: Deleting a Revision
         Given that I want to delete a "Revision"
         And that its "id" is "103"
         When I request "/posts/99/revisions"
-        Then the response status code should be 405
+        Then the guzzle status code should be 405
 
     @resetFixture
     Scenario: Updating a Post creates a new revision
@@ -136,7 +136,7 @@ Feature: Testing the Revisions API
         And that its "id" is "99"
         Then I request "/posts"
         Then the response is JSON
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
         # Start 2nd request
         Given that I want to get all "Revisions"
         When I request "/posts/99/revisions"
@@ -144,4 +144,4 @@ Feature: Testing the Revisions API
         And the response has a "count" property
         And the type of the "count" property is "numeric"
         And the "count" property equals "3"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200

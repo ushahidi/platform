@@ -28,3 +28,6 @@
 [submodule "application/vendor/gisconverter"]
 	path = application/vendor/gisconverter
 	url = git://github.com/arenevier/gisconverter.php.git
+[submodule "modules/koauth/vendor/oauth2-server-php"]
+	path = modules/koauth/vendor/oauth2-server-php
+	url = git://github.com/bshaffer/oauth2-server-php.git

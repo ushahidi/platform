@@ -3,3 +3,11 @@ default:
     parameters:
       base_url: http://localhost:8000
 #      proxy_url: localhost:8888
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url:  'http://localhost:8000'
+      goutte:  ~
+#      goutte:
+#        guzzle_parameters:
+#          curl.options:
+#            10004: localhost:8888 #CURLOPT_PROXY=10004
