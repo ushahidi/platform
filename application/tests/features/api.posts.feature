@@ -126,7 +126,7 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 400
+        Then the guzzle status code should be 400
 
     Scenario: Updating a Post
         Given that I want to update a "Post"
