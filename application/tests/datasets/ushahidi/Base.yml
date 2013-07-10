@@ -1,3 +1,28 @@
+users:
+  -
+    id: 1
+    username: "robbie"
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    first_name: Robbie
+    last_name: Mackay
+    email: "robbie@ushahidi.com"
+    role: "user"
+  -
+    id: 2
+    username: "admin"
+    password: ""
+    first_name:
+    last_name:
+    email:
+    role: "admin"
+  -
+    id: 3
+    username: "test"
+    password: ""
+    first_name:
+    last_name:
+    email:
+    role: "user"
 forms:
   -
     id: 1
@@ -170,6 +195,7 @@ posts:
     id: 1
     form_id: 1
     parent_id:
+    user_id:
     title: "Test post"
     type: "report"
     content: "Testing post"
@@ -179,15 +205,17 @@ posts:
     id: 99
     form_id: 1
     parent_id:
+    user_id:
     title: "Should be returned when Searching"
     type: "report"
     content: "Some description"
     status: "published"
     locale: "en_us"
   -
-    id: 98
+    id: 9999
     form_id: 1
     parent_id:
+    user_id:
     title: "another report"
     type: "report"
     content: "Some description"
@@ -197,6 +225,7 @@ posts:
     id: 95
     form_id: 1
     parent_id:
+    user_id:
     title: "OAuth test post"
     type: "report"
     content: "Testing oauth posts api access"
@@ -206,6 +235,7 @@ posts:
     id: 97
     form_id: 1
     parent_id:
+    user_id:
     title: "search by attribute"
     type: "report"
     content: "Some description"
@@ -215,6 +245,7 @@ posts:
     id: 96
     form_id: 1
     parent_id:
+    user_id:
     title: "French post to test Searching"
     type: "report"
     content: "Some description"
@@ -224,6 +255,7 @@ posts:
     id: 101
     form_id: 1
     parent_id: 99
+    user_id:
     title: "Child dummy report"
     type: "report"
     content: "Some description"
@@ -233,6 +265,7 @@ posts:
     id: 102
     form_id: 2
     parent_id: 99
+    user_id:
     title: "Child missing person report"
     type: "report"
     content: "Some description"
@@ -242,6 +275,7 @@ posts:
     id: 103
     form_id: 1
     parent_id: 99
+    user_id:
     title: "Should be returned when Searching"
     type: "revision"
     content: "Some description"
@@ -251,6 +285,7 @@ posts:
     id: 104
     form_id: 1
     parent_id: 99
+    user_id:
     title: "Should be returned when Searching"
     type: "revision"
     content: "Some description"
@@ -260,6 +295,7 @@ posts:
     id: 105
     form_id: 1
     parent_id:
+    user_id:
     title: "Original post"
     type: "report"
     content: "Some description"
@@ -269,6 +305,7 @@ posts:
     id: 106
     form_id: 1
     parent_id: 105
+    user_id:
     title: "French post"
     type: "translation"
     content: "Some description"
@@ -278,6 +315,7 @@ posts:
     id: 107
     form_id: 1
     parent_id: 106
+    user_id:
     title: "French post"
     type: "revision"
     content: "Some description"
@@ -287,11 +325,32 @@ posts:
     id: 108
     form_id: 1
     parent_id: 105
+    user_id:
     title: "Arabic post"
     type: "translation"
     content: "Some description"
     status: "published"
     locale: "ar_ar"
+  -
+    id: 110
+    form_id: 1
+    parent_id:
+    user_id: 1
+    title: "ACL test post"
+    type: "report"
+    content: "Testing oauth posts api access"
+    status: "published"
+    locale: "en_us"
+  -
+    id: 111
+    form_id: 1
+    parent_id:
+    user_id: 1
+    title: "ACL private post"
+    type: "report"
+    content: "Testing oauth posts api access"
+    status: "draft"
+    locale: "en_us"
 post_datetime:
 post_decimal:
 post_geometry:
@@ -407,31 +466,6 @@ sets:
     id: 2
     name: Explosion
 posts_sets:
-users:
-  -
-    id: 1
-    username: "robbie"
-    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
-    first_name: Robbie
-    last_name: Mackay
-    email: "robbie@ushahidi.com"
-    role: "user"
-  -
-    id: 2
-    username: "admin"
-    password: ""
-    first_name:
-    last_name: 
-    email:
-    role: "admin"
-  -
-    id: 3
-    username: "test"
-    password: ""
-    first_name:
-    last_name: 
-    email:
-    role: "user"
 tasks:
 # OAuth Tables
 oauth_clients:
@@ -456,6 +490,30 @@ oauth_access_tokens:
     scope: "api posts forms"
     expires: "2030-01-01 00:00:00"
     user_id: 2
+  -
+    access_token: "testbasicuser"
+    client_id: "demoapp"
+    scope: "api posts forms"
+    expires: "2030-01-01 00:00:00"
+    user_id: 1
+  -
+    access_token: "testadminuser"
+    client_id: "demoapp"
+    scope: "api posts forms"
+    expires: "2030-01-01 00:00:00"
+    user_id: 2
+  -
+    access_token: "testbasicuser2"
+    client_id: "demoapp"
+    scope: "api posts forms"
+    expires: "2030-01-01 00:00:00"
+    user_id: 3
+  -
+    access_token: "testanon"
+    client_id: "demoapp"
+    scope: "api posts forms"
+    expires: "2030-01-01 00:00:00"
+    user_id: 
 oauth_authorization_codes:
   -
     authorization_code: "4d105df9a7f8645ef8306dd40c7b1952794bf368"

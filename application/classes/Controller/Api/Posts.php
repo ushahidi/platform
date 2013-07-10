@@ -40,6 +40,46 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 * @var string oauth2 scope required for access
 	 */
 	protected $scope_required = 'posts';
+	
+	/**
+	 * $var
+	 */
+	protected $acl_resource;
+	
+	
+	/**
+	 * Check if access is allowed
+	 * Runs additional check for access to a specific post
+	 * 
+	 * @return bool
+	 * @throws HTTP_Exception|OAuth_Exception
+	 */
+	protected function _check_access()
+	{
+		// Get dummy post for access check
+		$this->acl_resource = ORM::factory('Post')
+			->set('status', 'published');
+
+		// Get post
+		if ($post_id = $this->request->param('id', 0))
+		{
+			$post = ORM::factory('Post')
+				->where('id', '=', $post_id)
+				->where('type', '=', $this->_type);
+			if ($this->_parent_id)
+			{
+				$post->where('parent_id', '=', $this->_parent_id);
+			}
+			$post = $post->find();
+			
+			if ($post->loaded())
+			{
+				$this->acl_resource = $post;
+			}
+		}
+		
+		return parent::_check_access();
+	}
 
 	/**
 	 * Create A Post

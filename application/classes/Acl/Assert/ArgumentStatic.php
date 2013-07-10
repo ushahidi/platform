@@ -22,9 +22,16 @@ class Acl_Assert_ArgumentStatic implements Acl_Assert_Interface {
 	
 	public function assert(Acl $acl, $role = null, $resource = null, $privilege = null)
 	{
+		if (! $resource instanceof Acl_Resource_Interface)
+		{
+			return FALSE;
+		}
+		
 		foreach($this->_arguments as $resource_key => $value_match)
 		{
-			if($resource->$resource_key !== $value_match)
+			if(! isset($resource->$resource_key)
+				OR $resource->$resource_key !== $value_match
+			)
 			{
 				return FALSE;
 			}

@@ -253,7 +253,7 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "9"
+        And the "count" property equals "10"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -271,7 +271,7 @@ Feature: Testing the Posts API
         And the response has a "next" property
         And the response has a "prev" property
         And the response has a "curr" property
-        And the "results.0.id" property equals "95"
+        And the "results.0.id" property equals "9999"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -285,7 +285,7 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "results.0.id" property equals "105"
+        And the "results.0.id" property equals "9999"
         Then the guzzle status code should be 200
 
     # @todo improve this test to check more response data

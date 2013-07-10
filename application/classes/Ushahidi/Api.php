@@ -94,9 +94,14 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected $scope_required = 'api';
 	
+	/**
+	 * $var
+	 */
+	protected $acl_resource = 'api';
 	
 	protected $auth;
 	protected $acl;
+	protected $user;
 	
 	public function before()
 	{
@@ -134,8 +139,16 @@ class Ushahidi_Api extends Controller {
 		return self::$version;
 	}
 	
+	/**
+	 * Check if access is allowed
+	 * Checks if oauth token and user permissions
+	 * 
+	 * @return bool
+	 * @throws HTTP_Exception|OAuth_Exception
+	 */
 	protected function _check_access()
 	{
+		// Check OAuth2 token is valid and has required scope
 		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
 		$response = new OAuth2_Response();
 		$scopeRequired = $this->scope_required;
@@ -145,15 +158,25 @@ class Ushahidi_Api extends Controller {
 			return FALSE;
 		}
 		
+		// Get user from token
 		$token = $this->_oauth2_server->getAccessTokenData($request, $response);
-		$user = ORM::factory('User', $token['user_id']);
+		$this->user = ORM::factory('User', $token['user_id']);
 		
-		// does user have access to X?
-		$resource = $this->scope_required;
-		if (! A2::instance()->is_allowed($user, $resource, strtolower($this->request->method())) )
+		// Does the user have required role/permissions ?
+		if (! $this->acl->is_allowed($this->user, $this->acl_resource, strtolower($this->request->method())) )
 		{
 			// @todo proper message
-			throw HTTP_Exception::factory('403', 'You do not have permission to access :resource', array(':resource' => $resource));
+			if ($this->acl_resource->id)
+				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource id :id', array(
+					':resource' => $this->acl_resource->get_resource_id(),
+					':id' => $this->acl_resource->id
+					));
+			else
+			{
+				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource', array(
+					':resource' => $this->acl_resource->get_resource_id()
+					));
+			}
 			return FALSE;
 		}
 

@@ -85,54 +85,54 @@ return array(
 				'role' => 'admin'
 			),
 			'UserCanEditOwnPost' => array(
-				'role'     => 'user',
-				'resource' => 'posts',
-				'privilege'=> array('get', 'put', 'delete'),
-				'assert'   => array('Acl_Assert_Argument', array('id' => 'user_id'))
+				'role'      => 'user',
+				'resource'  => 'posts',
+				'privilege' => array('get', 'put', 'delete'),
+				'assertion' => array('Acl_Assert_Argument', array('id' => 'user_id'))
 			),
 			'UserCanLogout' => array(
-				'role'     => 'user',
-				'resource' => 'logout'
+				'role'      => 'user',
+				'resource'  => 'logout'
 			),
 			'GuestCanViewPublicPost' => array(
-				'role'     => 'guest',
-				'resource' => 'posts',
-				'privilege'=> array('get'),
-				'assert'   => array('Acl_Assert_ArgumentStatic', array('status' => 'published'))
+				'role'      => 'guest',
+				'resource'  => 'posts',
+				'privilege' => array('get'),
+				'assertion' => array('Acl_Assert_ArgumentStatic', array('status' => 'published'))
 			),
 			'GuestCanCreatePost' => array(
-				'role'     => 'guest',
-				'resource' => 'posts',
-				'privilege'=> array('put')
+				'role'      => 'guest',
+				'resource'  => 'posts',
+				'privilege' => array('post')
 			),
 			'GuestCanViewForm' => array(
-				'role'     => 'guest',
-				'resource' => 'forms',
-				'privilege'=> array('get')
+				'role'      => 'guest',
+				'resource'  => 'forms',
+				'privilege' => array('get')
 			),
 			'GuestCanViewApi' => array(
-				'role'     => 'guest',
-				'resource' => 'api',
-				'privilege'=> array('get')
+				'role'      => 'guest',
+				'resource'  => 'api',
+				'privilege' => array('get')
 			),
 			'GuestCanLogin' => array(
-				'role'     => 'guest',
-				'resource' => 'login'
+				'role'      => 'guest',
+				'resource'  => 'login'
 			),
 			'GuestCanRegister' => array(
-				'role'     => 'guest',
-				'resource' => 'register'
+				'role'      => 'guest',
+				'resource'  => 'register'
 			),
 		),
 		'deny' => array
 		(
 			'UserCantLogin' => array(
-				'role'     => 'user',
-				'resource' => 'login'
+				'role'      => 'user',
+				'resource'  => 'login'
 			),
 			'UserCantRegister' => array(
-				'role'     => 'user',
-				'resource' => 'register'
+				'role'      => 'user',
+				'resource'  => 'register'
 			),
 		)
 	)
