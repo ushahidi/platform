@@ -292,7 +292,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		}
 		
 		$post->values($post_data, array(
-			'form_id', 'title', 'content', 'status', 'slug', 'email', 'author', 'locale'
+			'form_id', 'title', 'content', 'status', 'slug', 'locale'
 			));
 		$post->parent_id = $this->_parent_id;
 		$post->type = $this->_type;
@@ -445,6 +445,33 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				throw new ORM_Validation_Exception('post_value', $validation);
 			}
 
+			// if name / email included with post
+			$user = FALSE;
+			if ( isset($post_data['user'])
+					AND is_array($post_data['user'])
+					AND ! isset($post_data['user']['id'])
+				)
+			{
+				// Make sure email is set to something
+				$post_data['user']['email'] = (! empty($post_data['user']['email'])) ? $post_data['user']['email'] : null;
+				
+				// Check if user was loaded
+				$user = ORM::factory('User')
+					->where('email', '=', $post_data['user']['email'])
+					->find();
+				if ($user->loaded() AND $user->username)
+				{
+					throw new HTTP_Exception_400('Email already registered, please log in to submit a report.');
+				}
+				
+				$user->values($post_data['user'], array('email', 'first_name', 'last_name'));
+				
+				$user_validation = Validation::factory($post_data['user']);
+				$user_validation->rule('email', 'not_empty');
+				
+				$user->check($user_validation);
+			}
+
 			// Does post have tags included?
 			$tag_ids = array();
 			if ( isset($post_data['tags']) )
@@ -489,7 +516,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					$tag_ids[] = $tag->id;
 				}
 			}
-
+			
+			// Save user
+			if ($user)
+			{
+				$user->save();
+				$post->user_id = $user->id;
+			}
+			
 			// Validates ... so save
 			$post->save();
 			
@@ -519,7 +553,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$new_revision = ORM::factory('Post');
 				// @todo maybe just exclude some values, rather than have to modify this if schema changes
 				$new_revision->values($post->as_array(), array(
-					'form_id', 'user_id', 'slug', 'title', 'content', 'author', 'email', 'status', 'locale'
+					'form_id', 'user_id', 'slug', 'title', 'content', 'status', 'locale'
 				));
 				// @todo grab current user_id
 				$new_revision->parent_id = $post->id;

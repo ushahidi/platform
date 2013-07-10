@@ -409,9 +409,29 @@ sets:
 posts_sets:
 users:
   -
+    id: 1
     username: "robbie"
     password: "68701056c23d7d4305cb28880d06e4cc97bef9cddb250a421bfdfb0dda1d7721"
+    first_name: Robbie
+    last_name: Mackay
     email: "robbie@ushahidi.com"
+    role: "user"
+  -
+    id: 2
+    username: "admin"
+    password: ""
+    first_name:
+    last_name: 
+    email:
+    role: "admin"
+  -
+    id: 3
+    username: "test"
+    password: ""
+    first_name:
+    last_name: 
+    email:
+    role: "user"
 tasks:
 # OAuth Tables
 oauth_clients:
