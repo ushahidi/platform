@@ -9,7 +9,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface {
+class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Resource_Interface {
 	/**
 	 * A user has many tokens and roles
 	 * A user has many posts, post_comments, roles and sets 
@@ -154,6 +154,11 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface {
 		return $response;
 	}
 	
+	/**
+	 * Returns string identifier of the Role
+	 * 
+	 * @return string
+	 */
 	public function get_role_id()
 	{
 		// If set, return user role
@@ -164,5 +169,15 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface {
 		
 		// Otherwise return logged out/guest role
 		return Kohana::$config->load('a2.guest_role');
+	}
+	
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function get_resource_id()
+	{
+		return 'users';
 	}
 }
