@@ -452,7 +452,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				{
 					if (isset($this->tag_map[$cat['category']['id']]))
 					{
-						$tags[] = $this->tag_map[$cat['category']['id']];
+						$tags[$this->tag_map[$cat['category']['id']]] = $this->tag_map[$cat['category']['id']];
 					}
 				}
 
@@ -775,6 +775,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		unset($form_response, $form_body, $cat_request, $cat_response, $cat_body);
 		
 		$this->tag_map = array();
+		$tag_titles = array();
 		
 		// First pass - just saving parents
 		$this->logger->add(Log::NOTICE, 'Importing parent categories');
@@ -782,7 +783,22 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		{
 			$category = $obj['category'];
 			
+			// Skip child categories
 			if ($category['parent_id'] != 0) continue;
+			
+			// Remove duplicate tags
+			if (isset($tag_titles[$category['title']][$category['parent_id']]))
+			{
+				// Copy existing tag id into tag_map, then skip creating this category
+				$dupe_cat = $tag_titles[$category['title']][$category['parent_id']];
+				$this->tag_map[$category['id']] = $this->tag_map[$dupe_cat];
+				continue;
+			}
+			else
+			{
+				// Add title to registry
+				$tag_titles[$category['title']][$category['parent_id']] = $category['id'];
+			}
 			
 			// FIXME nowhere to store icon or translations
 			$body = json_encode(array(
@@ -822,6 +838,20 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$category = $obj['category'];
 			
 			if ($category['parent_id'] == 0) continue;
+			
+			// Remove duplicate tags
+			if (isset($tag_titles[$category['title']][$category['parent_id']]))
+			{
+				// Copy existing tag id into tag_map, then skip creating this category
+				$dupe_cat = $tag_titles[$category['title']][$category['parent_id']];
+				$this->tag_map[$category['id']] = $this->tag_map[$dupe_cat];
+				continue;
+			}
+			else
+			{
+				// Add title to registry
+				$tag_titles[$category['title']][$category['parent_id']] = $category['id'];
+			}
 			
 			// FIXME nowhere to store icon or translations
 			$body = json_encode(array(
@@ -869,6 +899,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	{
 		$category_count = 0;
 		$this->tag_map = array();
+		$tag_titles = array();
 		
 		$this->logger->add(Log::NOTICE, 'Fetching categories');
 		$categories = DB::query(Database::SELECT, 'SELECT * FROM category ORDER BY parent_id ASC, id ASC')->execute($this->db2);
@@ -876,6 +907,20 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		$this->logger->add(Log::NOTICE, 'Importing categories');
 		foreach ($categories as $category)
 		{
+			// Remove duplicate tags
+			if (isset($tag_titles[$category['title']][$category['parent_id']]))
+			{
+				// Copy existing tag id into tag_map, then skip creating this category
+				$dupe_cat = $tag_titles[$category['title']][$category['parent_id']];
+				$this->tag_map[$category['id']] = $this->tag_map[$dupe_cat];
+				continue;
+			}
+			else
+			{
+				// Add title to registry
+				$tag_titles[$category['title']][$category['parent_id']] = $category['id'];
+			}
+			
 			// FIXME nowhere to store icon or translations
 			// FIXME nowhere to store visiblity
 			$body = json_encode(array(
