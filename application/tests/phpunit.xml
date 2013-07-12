@@ -1,7 +1,9 @@
 <phpunit colors="true" bootstrap="../../modules/unittest/bootstrap.php">
     <testsuites>
-        <testsuite name="Kohana Tests">
+        <testsuite name="Ushahidi Tests">
             <directory>./</directory>
+            <!-- Exclude Import Task tests since they rely on external resources -->
+            <exclude>./classes/tasks/TaskImport2xTest.php</exclude>
         </testsuite>
     </testsuites>
 </phpunit>

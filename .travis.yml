@@ -12,9 +12,13 @@ before_script:
   - mysql -e 'create database lamu_test;'
   - mv application/config/database.travis application/config/database.php
   - ./minion --task=migrations:run --up
+  # 2.x db setup for import test
+  - mysql -e 'create database zombie2x;'
+  - curl https://72c9192a7b87de5fc63a-f9fe2e6be12470a7bff22b7693bc7329.ssl.cf1.rackcdn.com/lamu-ci-zombie2x.sql | mysql zombie2x
   # webserver setup
   - php -S localhost:8000 httpdocs/index.php &
   - sleep 3
 script:
   - ./bin/behat --config application/tests/behat.yml
   - ./bin/phpunit -c application/tests/phpunit.xml
+  - ./bin/phpunit ./classes/tasks/TaskImport2xTest.php # Run excluded import test

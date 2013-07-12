@@ -192,10 +192,6 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	{
 		$post_count = $category_count = 0;
 		
-		// Kill output buffer so users get feedback as we progress
-		ob_end_flush();
-		ob_implicit_flush(TRUE);
-		
 		ini_set('memory_limit', -1); // Disable memory limit
 		
 		// Hack so URL::site() doesn't error out
