@@ -441,11 +441,11 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				$this->logger->add(Log::DEBUG, 'Memory Usage: :mem', array(':mem' => memory_get_usage()));
 				$this->logger->add(Log::INFO, 'Importing report id:  :id', array(':id' => $report['incident']['incidentid']));
 				
-				$incident = $report['incident'];
-				$categories = $report['categories'];
-				$media = $report['media'];
-				$comments = $report['comments'];
-				$customfields = $report['customfields'];
+				$incident = isset($report['incident']) ? $report['incident'] : array();
+				$categories = isset($report['categories']) ? $report['categories'] : array();
+				$media = isset($report['media']) ? $report['media'] : array();
+				$comments = isset($report['comments']) ? $report['comments'] : array();
+				$customfields = isset($report['customfields']) ? $report['customfields'] : array();
 				
 				$tags = array();
 				foreach ($categories as $cat)
