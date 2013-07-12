@@ -21,4 +21,3 @@ before_script:
 script:
   - ./bin/behat --config application/tests/behat.yml
   - ./bin/phpunit -c application/tests/phpunit.xml
-  - ./bin/phpunit ./classes/tasks/TaskImport2xTest.php # Run excluded import test
