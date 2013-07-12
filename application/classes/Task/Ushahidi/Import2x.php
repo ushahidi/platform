@@ -908,17 +908,17 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		foreach ($categories as $category)
 		{
 			// Remove duplicate tags
-			if (isset($tag_titles[$category['title']][$category['parent_id']]))
+			if (isset($tag_titles[$category['category_title']][$category['parent_id']]))
 			{
 				// Copy existing tag id into tag_map, then skip creating this category
-				$dupe_cat = $tag_titles[$category['title']][$category['parent_id']];
+				$dupe_cat = $tag_titles[$category['category_title']][$category['parent_id']];
 				$this->tag_map[$category['id']] = $this->tag_map[$dupe_cat];
 				continue;
 			}
 			else
 			{
 				// Add title to registry
-				$tag_titles[$category['title']][$category['parent_id']] = $category['id'];
+				$tag_titles[$category['category_title']][$category['parent_id']] = $category['id'];
 			}
 			
 			// FIXME nowhere to store icon or translations
