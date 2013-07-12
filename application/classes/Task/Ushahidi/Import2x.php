@@ -978,7 +978,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		
 		if (! isset($form_body['id']))
 		{
-			throw new Minion_Exception("Error creating form. Details:\n :error", array(':error' => $form_response->body()));
+			throw new Minion_Exception("Error creating form. Maybe the form already exists? \nYou can use --clean to wipe the DB before import\nError Details:\n :error", array(':error' => $form_response->body()));
 		}
 		
 		$this->logger->add(Log::INFO, "Created form id: :form_id", array(':form_id' => $form_body['id']));
