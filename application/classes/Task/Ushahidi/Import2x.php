@@ -11,13 +11,13 @@
  * 
  *   Import from DB:
  * 
- *     ./minion --task=ushahidi:import2x --source=db --database=ushahidi_zombie --username=ushahidi --password=ushahidi
+ *     ./minion --task=ushahidi:import2x --source=sql --database=ushahidi_zombie --username=ushahidi --password=ushahidi
  *
  * Available config options are:
  * 
  * --source=source
  * 
- *   The type of source to import from: api or db
+ *   The type of source to import from: api or sql
  *
  * --url=url
  *
