@@ -29,7 +29,10 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	 */
 	protected $record_limit_max = FALSE;
 	
-	protected $_point_attributes = FALSE;
+	/**
+	 * @var Database_Result Collection of all Point/Geometry Attributes
+	 */
+	protected $_geom_attributes = FALSE;
 
 	public function before()
 	{
@@ -94,44 +97,57 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 		// Get possible point attributes
 		$point_attributes = $this->location_attributes();
 		
+		// Geometry Decoder
+		$decoder = new gisconverter\WKT();
+		
 		// loop over possible locations and add to geometry array
-		$geom_keys = array();
+		$geometries = array();
 		foreach($point_attributes as $attr)
 		{
+			// Does the post have this attribute?
 			if (array_key_exists($attr->key, $post['values']))
 			{
-				$geom_keys[] = $attr->key;
+				$geom_key = $attr->key;
+				// Point
+				if ($attr->type == 'point')
+				{
+					$geometries[] = array(
+						'type' => 'Point',
+						'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
+					);
+				}
+				// Geometry
+				else
+				{
+					try
+					{
+						$geometry = $decoder->geomFromText($post['values'][$geom_key]);
+						$geometries[] = $geometry->toGeoJSON();
+					}
+					catch (gisconverter\InvalidText $itex) {
+						// Invalid value, just skip it
+					}
+				}
 			}
 		}
 		
 		// Post doesn't have any geometry values : skip
-		if (count($geom_keys) == 0) 
+		if (count($geometries) == 0) 
 		{
 			return FALSE;
 		}
 		// Just 1 geometry : return that
-		elseif (count($geom_keys) == 1)
+		elseif (count($geometries) == 1)
 		{
-			$geom_key = $geom_keys[0];
-			$geometry = array(
-				'type' => 'Point',
-				'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
-			);
+			$geometry = $geometries[0];
 		}
 		// More than 1 geometry : return geometry collection
 		else
 		{
 			$geometry = array(
 				'type' => 'GeometryCollection',
-				'geometries' => array()
+				'geometries' => $geometries
 			);
-			foreach ($geom_keys as $geom_key)
-			{
-				$geometry['geometries'][] = array(
-					'type' => 'Point',
-					'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
-				);
-			}
 		}
 		
 		return array(
@@ -151,13 +167,14 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	
 	protected function location_attributes()
 	{
-		if (! $this->_point_attributes)
+		if (! $this->_geom_attributes)
 		{
-			$this->_point_attributes = ORM::factory('Form_Attribute')
+			$this->_geom_attributes = ORM::factory('Form_Attribute')
 				->where('type', '=', 'point')
+				->or_where('type', '=', 'geometry')
 				->find_all();
 		}
 
-		return $this->_point_attributes;
+		return $this->_geom_attributes;
 	}
 }
