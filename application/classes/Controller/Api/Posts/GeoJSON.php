@@ -29,6 +29,8 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	 */
 	protected $record_limit_max = FALSE;
 	
+	protected $_point_attributes = FALSE;
+
 	public function before()
 	{
 		parent::before();
@@ -64,7 +66,10 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 		$this->_response_payload['features'] = array();
 		foreach($posts as $post)
 		{
-			$this->_response_payload['features'][] = $this->_post_to_feature($post);
+			if ($feature = $this->_post_to_feature($post))
+			{
+				$this->_response_payload['features'][] = $feature;
+			}
 		}
 	}
 	
@@ -75,34 +80,84 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 		$post = $this->_response_payload;
 		$this->_response_payload = array(
 			'type' => 'FeatureCollection',
-			'features' => array(
-				$this->_post_to_feature($post),
-			)
+			'features' => array()
 		);
+		
+		if ($feature = $this->_post_to_feature($post))
+		{
+			$this->_response_payload['features'][] = $feature;
+		}
 	}
 	
 	protected function _post_to_feature($post)
 	{
-		// get possible point attributes
+		// Get possible point attributes
+		$point_attributes = $this->location_attributes();
+		
 		// loop over possible locations and add to geometry array
-		// If geometry count == 0 : skip
-		// If geometry count == 1 : just return that
-		// If geometry count > 1  : convert to geometry collection
+		$geom_keys = array();
+		foreach($point_attributes as $attr)
+		{
+			if (array_key_exists($attr->key, $post['values']))
+			{
+				$geom_keys[] = $attr->key;
+			}
+		}
+		
+		// Post doesn't have any geometry values : skip
+		if (count($geom_keys) == 0) 
+		{
+			return FALSE;
+		}
+		// Just 1 geometry : return that
+		elseif (count($geom_keys) == 1)
+		{
+			$geom_key = $geom_keys[0];
+			$geometry = array(
+				'type' => 'Point',
+				'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
+			);
+		}
+		// More than 1 geometry : return geometry collection
+		else
+		{
+			$geometry = array(
+				'type' => 'GeometryCollection',
+				'geometries' => array()
+			);
+			foreach ($geom_keys as $geom_key)
+			{
+				$geometry['geometries'][] = array(
+					'type' => 'Point',
+					'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
+				);
+			}
+		}
 		
 		return array(
 			'type' => 'Feature',
-			'geometry' => array(
-				'type' => 'Point',
-				'coordinates' => array($post['values']['location']['lon'], $post['values']['location']['lat']),
-			),
+			'geometry' => $geometry,
 			'properties' => array(
 				'title' => $post['title'],
 				'description' => $post['content'],
+				// @todo add mark- attributes based on tag symbol+color
 				//'marker-size' => '',
 				//'marker-symbol' => '',
 				//'marker-color' => '',
 				'resource' => $post
 			)
 		);
+	}
+	
+	protected function location_attributes()
+	{
+		if (! $this->_point_attributes)
+		{
+			$this->_point_attributes = ORM::factory('Form_Attribute')
+				->where('type', '=', 'point')
+				->find_all();
+		}
+
+		return $this->_point_attributes;
 	}
 }
