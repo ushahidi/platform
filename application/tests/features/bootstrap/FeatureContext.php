@@ -44,6 +44,23 @@ class FeatureContext extends BehatContext
 	{
 		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
 		$fixtureContext->setUpDBTester('ushahidi/Base');
+
+		// Hack to insert spatial data
+		$pdo_connection = $fixtureContext->getConnection()->getConnection();
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (1, 1, 8, POINT(12.123, 21.213));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (2, 99, 8, POINT(11.123, 24.213));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (3, 98, 8, POINT(10.123, 26.213));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (4, 95, 8, POINT(13.123, 18.213));");
+		
+		$pdo_connection->query("INSERT INTO `post_geometry` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (1, 1, 9,
+				GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
+					((20 35, 45 20, 30 5, 10 10, 10 30, 20 35),
+					(30 20, 20 25, 20 15, 30 20)))'));");
 	}
 	
 	/** @AfterFeature */

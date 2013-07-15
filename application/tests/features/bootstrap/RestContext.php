@@ -371,6 +371,31 @@ class RestContext extends BehatContext
 			throw new \Exception("Property '".$propertyName."' could not be compared. Must be string or array.\n");
 		}
 	}
+	
+	/**
+	 * @Given /^the "([^"]*)" property count is "([^"]*)"$/
+	 */
+	public function thePropertyCountIs($propertyName, $propertyCountValue)
+	{
+		
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+
+		$this->theResponseIsJson();
+
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === NULL) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+		
+		if (is_array($actualPropertyValue) AND count($actualPropertyValue) != $propertyCountValue) {
+			throw new \Exception('Property \''.$propertyName.'\' count does not match! (given: '.$propertyCountValue.', match: '.count($actualPropertyValue).')');
+		}
+		elseif (!is_array($actualPropertyValue))
+		{
+			throw new \Exception("Property '".$propertyName."' could not be compared. Must be an array.\n");
+		}
+	}
 
 	/**
 	 * @Given /^the type of the "([^"]*)" property is "([^"]*)"$/
