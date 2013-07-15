@@ -18,10 +18,32 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	(
 		Http_Request::GET    => 'get',
 	);
+	
+	/**
+	 * @var int Number of results to return
+	 */
+	protected $record_limit = FALSE;
 
+	/**
+	 * @var int Maximum number of results to return
+	 */
+	protected $record_limit_max = FALSE;
+	
 	public function before()
 	{
 		parent::before();
+		
+		// If zoom/x/y are passwed get bounding box
+		$zoom = $this->request->param('zoom', FALSE);
+		$x = $this->request->param('x', FALSE);
+		$y = $this->request->param('y', FALSE);
+		if ($zoom !== FALSE AND
+			$x !== FALSE AND
+			$y !== FALSE)
+		{
+			$this->_boundingbox = Util_Tile::tileToBoundingBox($zoom, $x, $y);
+		}
+		
 	}
 	
 	public function action_get_index_collection()
@@ -30,12 +52,16 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 		
 		$posts = $this->_response_payload['results'];
 		$this->_response_payload = array(
-			'type' => 'FeatureCollection',
-			'features' => array()
+			'type' => 'FeatureCollection'
 		);
-		// Add bbox array if we're returning a tile
 		
+		// Add bounding box array if needed
+		if ($this->_boundingbox)
+		{
+			$this->_response_payload['bbox'] = array($this->_boundingbox->west, $this->_boundingbox->north, $this->_boundingbox->east, $this->_boundingbox->south);
+		}
 		
+		$this->_response_payload['features'] = array();
 		foreach($posts as $post)
 		{
 			$this->_response_payload['features'][] = $this->_post_to_feature($post);
@@ -45,7 +71,7 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	public function action_get_index()
 	{
 		parent::action_get_index();
-		
+
 		$post = $this->_response_payload;
 		$this->_response_payload = array(
 			'type' => 'FeatureCollection',

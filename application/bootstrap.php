@@ -154,7 +154,22 @@ Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)',
 /**
  * GeoJSON API SubRoute
  */	
-Route::set('geojson', 'api/v2/posts(/<id>)/geojson(/<zoom>/<x>/<y>)', 
+Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)', 
+	array(
+		'zoom' => '\d+',
+		'x' => '\d+',
+		'y' => '\d+',
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'controller' => 'GeoJSON',
+		'directory'  => 'Api/Posts'
+	));
+
+/**
+ * GeoJSON API SubRoute
+ */	
+Route::set('geojson-post-id', 'api/v2/posts/<id>/geojson', 
 	array(
 		'id' => '\d+',
 		'zoom' => '\d+',
