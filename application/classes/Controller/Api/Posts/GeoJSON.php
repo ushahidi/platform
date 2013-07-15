@@ -63,7 +63,7 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 		// Add bounding box array if needed
 		if ($this->_boundingbox)
 		{
-			$this->_response_payload['bbox'] = array($this->_boundingbox->west, $this->_boundingbox->north, $this->_boundingbox->east, $this->_boundingbox->south);
+			$this->_response_payload['bbox'] = $this->_boundingbox->as_array();
 		}
 		
 		$this->_response_payload['features'] = array();
@@ -122,7 +122,7 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 					try
 					{
 						$geometry = $decoder->geomFromText($post['values'][$geom_key]);
-						$geometries[] = $geometry->toGeoJSON();
+						$geometries[] = $geometry->toGeoArray();
 					}
 					catch (gisconverter\InvalidText $itex) {
 						// Invalid value, just skip it

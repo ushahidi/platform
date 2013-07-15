@@ -36,11 +36,11 @@ class Util_BoundingBox {
 	{
 		return new Polygon(array(
 				new LinearRing(array(
-					new Point(array($bb_west, $bb_north)),
-					new Point(array($bb_east, $bb_north)),
-					new Point(array($bb_east, $bb_south)),
-					new Point(array($bb_west, $bb_south)),
-					new Point(array($bb_west, $bb_north))
+					new Point(array($this->west, $this->north)),
+					new Point(array($this->east, $this->north)),
+					new Point(array($this->east, $this->south)),
+					new Point(array($this->west, $this->south)),
+					new Point(array($this->west, $this->north))
 				))
 			));
 	}
@@ -53,5 +53,10 @@ class Util_BoundingBox {
 			':east' => $this->east,
 			':south' => $this->south
 		));
+	}
+	
+	public function as_array()
+	{
+		return array($this->west, $this->north, $this->east, $this->south);
 	}
 }
