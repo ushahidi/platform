@@ -1,0 +1,28 @@
+{
+  "name": "Ushahidi-MRB",
+  "title": "Ushahidi MRB default theme",
+  "description": "",
+  "version": "1.0.0",
+  "homepage": "https://github.com/ushahidi/Lamu",
+  "author": {
+    "name": "Ushahidi",
+    "email": "",
+    "url": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ushahidi/Lamu.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ushahidi/Lamu/issues"
+  },
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-uglify": "~0.2.2"
+  },
+  "keywords": ["Marionette.js", "Backbone.js", "Require.js", "Marionette and Require Boilerplate Lite"]
+}
