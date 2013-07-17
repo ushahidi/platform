@@ -54,7 +54,11 @@ class FeatureContext extends BehatContext
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
 			VALUES (3, 98, 8, POINT(10.123, 26.213));");
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (4, 95, 8, POINT(13.123, 18.213));");
+			VALUES (4, 95, 8, POINT(1, 1));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (5, 95, 12, POINT(1.2, 0.5));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (6, 97, 8, POINT(1, 1));");
 		
 		$pdo_connection->query("INSERT INTO `post_geometry` (`id`, `post_id`, `form_attribute_id`, `value`)
 			VALUES (1, 1, 9,

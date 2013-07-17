@@ -7,8 +7,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "type" property
 		And the response has a "features" property
-		And the "features.2.geometry.coordinates.0" property equals "10.123"
-		And the "features.2.geometry.coordinates.1" property equals "26.213"
+		And the "features.2.geometry.coordinates.0" property equals "1"
+		And the "features.2.geometry.coordinates.1" property equals "1"
 		Then the guzzle status code should be 200
 	
 	Scenario: Find a Post as GeoJSON
@@ -31,7 +31,7 @@ Feature: Testing the Posts API
 		And the "features.0.geometry.coordinates.1" property equals "24.213"
 		Then the guzzle status code should be 200
 
-	Scenario: Listing All Posts as GeoJSON
+	Scenario: Listing 1 tile as GeoJSON
 		Given that I want to get all "Posts"
 		When I request "/posts/geojson/1/0/0"
 		Then the response is JSON
@@ -45,11 +45,38 @@ Feature: Testing the Posts API
 		And the "bbox.3" property equals "0"
 		Then the guzzle status code should be 200
 
-	Scenario: Listing All Posts as GeoJSON
+	Scenario: Listing 1 tile as GeoJSON
 		Given that I want to get all "Posts"
 		When I request "/posts/geojson/1/1/0"
 		Then the response is JSON
 		And the response has a "type" property
 		And the response has a "features" property
-		And the "features" property count is "4"
+		And the "features" property count is "5"
+		Then the guzzle status code should be 200
+
+	Scenario: Return GeoJSON for bounding box
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+		"""
+			bbox=-2,-2,2,2
+		"""
+		When I request "/posts/geojson"
+		Then the response is JSON
+		And the response has a "type" property
+		And the response has a "bbox" property
+		And the response has a "features" property
+		And the "features" property count is "2"
+		Then the guzzle status code should be 200
+
+	Scenario: Get GeoJSON for last_location_point attribute
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+		"""
+			geometry_attribute=second_point
+		"""
+		When I request "/posts/geojson"
+		Then the response is JSON
+		And the response has a "type" property
+		And the response has a "features" property
+		And the "features" property count is "1"
 		Then the guzzle status code should be 200

@@ -169,10 +169,20 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	{
 		if (! $this->_geom_attributes)
 		{
-			$this->_geom_attributes = ORM::factory('Form_Attribute')
-				->where('type', '=', 'point')
-				->or_where('type', '=', 'geometry')
-				->find_all();
+			$attr_query = ORM::factory('Form_Attribute')
+				->and_where_open()
+					->where('type', '=', 'point')
+					->or_where('type', '=', 'geometry')
+				->and_where_close();
+			
+			// If geometry attribute is specified, only get selected attributes
+			if ($geom_attr = $this->request->query('geometry_attribute'))
+			{
+				$geom_attr = is_array($geom_attr) ? $geom_attr : array($geom_attr);
+				$attr_query->where('key', 'IN', $geom_attr);
+			}
+			
+			$this->_geom_attributes = $attr_query->find_all();
 		}
 
 		return $this->_geom_attributes;
