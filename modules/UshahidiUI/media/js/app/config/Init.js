@@ -1,6 +1,6 @@
 require.config(
 {
-	baseUrl : "./js/app",
+	baseUrl : "./media/kohana/js/app",
 	// 3rd party script alias names (Easier to type "jquery" than "libs/jquery, etc")
 	// probably a good idea to keep version numbers in the file names for updates checking
 	paths :
@@ -25,7 +25,7 @@ require.config(
 		"jqueryui" : ["jquery"],
 		"backbone" :
 		{
-			"deps" : ["underscore"],
+			"deps" : ["underscore", "jquery"],
 			// Exports the global window.Backbone object
 			"exports" : "Backbone"
 		},

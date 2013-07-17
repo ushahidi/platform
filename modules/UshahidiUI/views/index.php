@@ -17,10 +17,10 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
 
     <!--Change to app.min.css for production-->
-    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/app.css'); ?>"/>
 
     <!--Change to Init.min.js below for production-->
-    <script type="text/javascript" src="js/libs/require.js" data-main="js/app/config/Init.js"></script>
+    <script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
     <!--<script type="text/javascript" src="js/app/config/Init.min.js"></script>-->
 
 
