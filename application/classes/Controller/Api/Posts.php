@@ -73,6 +73,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$this->prepare_order_limit_params();
 		
 		$posts_query = ORM::factory('Post')
+			->distinct(TRUE)
 			->where('type', '=', $this->_type)
 			->order_by($this->record_orderby, $this->record_order);
 		
