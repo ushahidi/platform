@@ -177,7 +177,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					'=',
 					1
 				);
-			$posts_query->join(array($sub, 'Filter_Point'), 'INNER')->on('post.id', '=', 'Filter_Point.post_id');
+			$posts_query->join(array($sub, 'Filter_BBox'), 'INNER')->on('post.id', '=', 'Filter_BBox.post_id');
 		}
 		
 		// Attributes
