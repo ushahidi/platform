@@ -11,11 +11,15 @@ define( [ 'App', 'marionette', 'handlebars', 'text!templates/post.html'],
 			},
 			
 			events: {
+				"click li.edit > a": "editpost",
+				"click li.view > a": "viewpost",
+				"click li.delete > a": "deletepost"
 			
 			},
 			
 			editpost: function() {
-				
+				// executed when edit link is clicked
+
 			},
 
 			viewpost: function() {
@@ -32,11 +36,13 @@ define( [ 'App', 'marionette', 'handlebars', 'text!templates/post.html'],
 					success: function(){
 						// Delete the view from the listing
 						view.$el.fadeOut("fast");
+						view.$el.remove();
+						showSuccessMessage('<?php echo __("The Post has been deleted!"); ?>', {flash: true});
 					},
 
 					// When the operation fails
 					error: function() {
-						// TODO: Show error dialog or other message
+						showFailureMessage("Unable to delete post. Try again later.");
 					},
 				});
 			}
