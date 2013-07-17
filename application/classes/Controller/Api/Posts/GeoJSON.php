@@ -156,11 +156,13 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 			'properties' => array(
 				'title' => $post['title'],
 				'description' => $post['content'],
+				'id' => $post['id'],
+				'url' => $post['url'],
 				// @todo add mark- attributes based on tag symbol+color
 				//'marker-size' => '',
 				//'marker-symbol' => '',
 				//'marker-color' => '',
-				'resource' => $post
+				//'resource' => $post
 			)
 		);
 	}
