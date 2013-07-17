@@ -6,15 +6,13 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars'],
 		//Regions can contain views, Layouts, or subregions nested as necessary
 		App.addRegions(
 		{
-			headerRegion : "header",
-			mainRegion : "#main"
+			body : "body"
 		});
 	
 		function isMobile() {
 			var ua = (navigator.userAgent || navigator.vendor || window.opera, window, window.document);
 			return (/iPhone|iPod|iPad|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
 		}
-	
 	
 		App.mobile = isMobile();
 	
