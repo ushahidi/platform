@@ -354,6 +354,16 @@ post_varchar:
     post_id: 108
     form_attribute_id: 1
     value: "arabic string"
+  -
+    id: 11
+    post_id: 1
+    form_attribute_id: 11
+    value: "http://google.com"
+  -
+    id: 12
+    post_id: 1
+    form_attribute_id: 11
+    value: "http://ushahidi.com"
 post_comments:
 tags:
   -
