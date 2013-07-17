@@ -163,6 +163,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		
 		$posts = $posts_query->find_all();
 
+		$post_query_sql = $posts_query->last_query();
+
 		$count = $posts->count();
 
 		foreach ($posts as $post)
@@ -203,6 +205,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			'next' => $next,
 			'prev' => $prev,
 		);
+		
+		// Add debug info if environment isn't production
+		if (Kohana::$environment !== Kohana::PRODUCTION)
+		{
+			$this->_response_payload['query'] = $post_query_sql;
+		}
 		
 	}
 
