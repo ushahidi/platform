@@ -40,6 +40,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 * @var string oauth2 scope required for access
 	 */
 	protected $scope_required = 'posts';
+	
+	protected $_boundingbox = FALSE;
 
 	/**
 	 * Create A Post
@@ -71,10 +73,16 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$this->prepare_order_limit_params();
 		
 		$posts_query = ORM::factory('Post')
+			->distinct(TRUE)
 			->where('type', '=', $this->_type)
-			->order_by($this->record_orderby, $this->record_order)
-			->offset($this->record_offset)
-			->limit($this->record_limit);
+			->order_by($this->record_orderby, $this->record_order);
+		
+		if ($this->record_limit !== FALSE)
+		{
+			$posts_query
+				->limit($this->record_limit)
+				->offset($this->record_offset);
+		}
 		
 		if ($this->_parent_id)
 		{
@@ -142,6 +150,34 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		{
 			$updated_before = date('Y-m-d H:i:s', strtotime($updated_before));
 			$posts_query->where('updated', '<=', $updated_before);
+		}
+		
+		// Bounding box search
+		// @todo eventually move this to Post_Point class?
+		// Create geometry from bbox
+		$bbox = $this->request->query('bbox');
+		if (! empty($bbox) )
+		{
+			$bbox = array_map('floatval', explode(',', $bbox));
+			$bb_west = $bbox[0];
+			$bb_north = $bbox[1];
+			$bb_east = $bbox[2];
+			$bb_south = $bbox[3];
+			$this->_boundingbox = new Util_BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
+		}
+		
+		if ($this->_boundingbox)
+		{
+			$sub = DB::select('post_id')
+				->from('post_point')
+				->where(
+					DB::expr(
+						'CONTAINS(GeomFromText(:bounds), value)',
+						array(':bounds' => $this->_boundingbox->toWKT()) ),
+					'=',
+					1
+				);
+			$posts_query->join(array($sub, 'Filter_BBox'), 'INNER')->on('post.id', '=', 'Filter_BBox.post_id');
 		}
 		
 		// Attributes

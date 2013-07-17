@@ -344,7 +344,7 @@ class Ushahidi_Api extends Controller {
 				':orderby' => $this->record_orderby
 			));
 
-		if ($this->record_limit > $this->record_limit_max)
+		if ($this->record_limit_max !== FALSE AND $this->record_limit > $this->record_limit_max)
 			throw new HTTP_Exception_400('Number of records requested was too large: :record_limit.', array(
 				':record_limit' => $this->record_limit
 			));
