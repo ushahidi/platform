@@ -4,8 +4,10 @@ define(['App', 'marionette', 'handlebars', 'text!templates/AppLayout.html'],
 		{
 			template : Handlebars.compile(template),
 			regions : {
-				headerRegion : "header",
-				mainRegion : "#main"
+				headerRegion : "#headerRegion",
+				mainRegion :   "#main",
+				footerRegion : "#footerRegion",
+				adminPanel : "#admin-panel"
 			}
 		});
 	}); 
