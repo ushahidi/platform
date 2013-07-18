@@ -1,0 +1,16 @@
+/*
+******************************
+* Font Family
+******************************
+*/
+
+@mixin font-family-reg {
+  font-family: 'proxima-nova';
+  font-weight: 400;
+}
+
+@mixin font-family-bold {
+  font-family: 'proxima-nova';
+  font-weight: 600;
+}
+

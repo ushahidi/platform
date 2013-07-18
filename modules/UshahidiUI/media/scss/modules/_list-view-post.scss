@@ -1,0 +1,144 @@
+.list-view-post {
+  @include grid-column(12);
+}
+
+.list-view-select-post {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+}
+
+.list-view-post-image {
+  @include grid-column(4);
+  @media #{$small} {
+    @include grid-column(2);
+
+  }
+  img {
+    margin: 10px 0 10px 0;
+    border: 4px solid $blueGray;
+    border-radius: 125px;
+  }
+}
+
+/*.post-category-notification {
+  position: absolute;
+  top: 20px;
+  left: 120px;
+  border-radius: 20px;
+  width: 30px;
+  height: 30px;
+  border: 6px solid $white;
+}
+
+.post-category-notification-red {
+  @extend .post-category-notification;
+  background-color: red
+}*/
+
+/*.list-view-post-details-wrapper {
+  @include grid-column(7);
+  margin-top: 20px;
+  @media #{$small} {
+    @include grid-column(10);
+  }
+}*/
+
+.list-view-post-details {
+  @include grid-column(8, $collapse: true);
+  margin-top: 10px;
+  @media #{$small} {
+    @include grid-column(10);
+    margin-top: 20px;
+  }
+}
+
+.list-view-post-title {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(8);
+
+  }
+}
+
+.list-view-post-time {
+  @include grid-column(12);
+  font-size: 15px;
+  @media #{$small} {
+    @include grid-column(4);
+    p {
+      float: right;
+    }
+  }
+  p {
+    float: left;
+  }
+}
+
+.list-view-post-excerpt {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(10, $offset: 2);
+    margin-left: 0;
+  }
+}
+
+.list-view-post-admin {
+  @include grid-column(12);
+  i {
+    padding: 0;
+  }
+
+/*
+TODO: offset on 768px because of paragraph text pushing div down
+*/
+  @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+    @include grid-column(10, $offset: 2);
+    padding-right: 0em;
+  }
+
+  @media only screen and (min-width : 768px) and (max-width : 768px) {
+    @include grid-column(10, $offset: 2);
+    padding-right: 0em;
+  }
+
+  @media #{$small} {
+    @include grid-column(10);
+    margin-left: 0;
+    padding-right: 0em;
+  }
+}
+
+.list-view-post-categories {
+  @include grid-column(12, $collapse: true);
+  @media #{$small} {
+    @include grid-column(3, $collapse: true);
+  }
+  button {
+    padding-left: 10px;
+    i {
+        color: $alert-color;
+        padding-right: 5px;
+      }
+  }
+}
+
+.list-view-post-edit-wrapper {
+  @include grid-column(12, $collapse: true);
+  @media #{$small} {
+    @include grid-column(9, $collapse: true);
+  }
+}
+
+.list-view-post-edit {
+  @include block-grid($per-row: 4);
+  @media #{$small} {
+    /*@include grid-column(12, $collapse: true);*/
+    @include block-grid($per-row: false, $spacing: emCalc(0px), $base-style: false);
+    float: right;
+    li {
+      width: auto;
+    }
+  }
+}

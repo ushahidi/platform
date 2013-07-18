@@ -1,0 +1,12 @@
+.post-overlay:before {
+  top: -19px !important;
+  border-color: transparent transparent $lightGray transparent !important;
+}
+
+.post-overlay {
+  @include dropdown-container($content: content);
+  padding: 0;
+  h5, h6 {
+    line-height: 1em;
+  }
+}

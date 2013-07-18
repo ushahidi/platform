@@ -1,0 +1,90 @@
+.list-view-bulk-actions {
+  @include grid-column(12, $collapse: true);
+  background-color: $blueGray;
+  padding: 20px 0 0 0;
+  .list-view-bulk-actions-list>li {
+    padding-right: 1.375em;
+    /*border-right: 1px solid;*/
+    line-height: 1em;
+    &:last-child {
+      border-right: 0px;
+    }
+  }
+  a {
+    color: $white;
+  }
+}
+
+.list-view-bulk-actions-list {
+  @include block-grid($per-row: 7);
+  padding: 0 15px;
+  li {
+    font-size: 20px;
+  }
+  form {
+    margin: 0;
+    input[type="checkbox"] {
+      margin: 0;
+    }
+  }
+  @media #{$small} {
+    @include block-grid($per-row: 7);
+    padding: 0 20px;
+  }
+  @media #{$medium} {
+    padding: 0;
+    li {
+      font-size: $base-font-size;
+    }
+  }
+}
+
+.list-view-wrapper {
+  @include grid-column(12);
+  background-color: $white;
+  color: $sub-body-font-color;
+}
+
+.list-view-filter {
+  padding: 20px 15px;
+  margin: 0 0 20px 0;
+  border-bottom: 1px solid $midGray;
+  .list-view-filter-info,
+  .list-view-filter-count {
+    @media #{$small} {
+      border-right: 1px solid $midGray ;
+    }
+  }
+}
+
+.list-view-filter-info {
+  @include grid-column(12);
+  border-bottom: 1px solid $midGray;
+  padding-bottom: 10px;
+  padding-left: 0;
+  margin-bottom: 20px;
+  @media #{$small} {
+    @include grid-column(5);
+    border-bottom: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+}
+
+.list-view-filter-count {
+  @include grid-column(12);
+  padding: 0;
+  @media #{$small} {
+    @include grid-column(3);
+  }
+}
+
+.list-view-filter-sort {
+  @include grid-column(12);
+  padding: 0;
+  @media #{$small} {
+    @include grid-column(4);
+    padding-right: 0px;
+  }
+}
