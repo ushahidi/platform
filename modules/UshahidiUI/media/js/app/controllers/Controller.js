@@ -13,6 +13,7 @@ define(['App', 'backbone', 'marionette', 'views/AppLayout', 'views/HomeLayout', 
 			},
 			//gets mapped to in AppRouter's appRoutes
 			index : function() {
+				App.vent.trigger("page:change", "index");
 				var home = new HomeLayout();
 				this.layout.mainRegion.show(home);
 				
@@ -23,6 +24,7 @@ define(['App', 'backbone', 'marionette', 'views/AppLayout', 'views/HomeLayout', 
 				//home.searchRegion
 			},
 			postList : function() {
+				App.vent.trigger("page:change", "posts");
 				this.layout.mainRegion.show(new PostListView({
 					collection: App.Posts
 				}));
