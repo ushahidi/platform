@@ -6,7 +6,7 @@ module.exports = function(grunt) {
             mainJS: {
                 options: {
                     baseUrl: "media/js/app",
-                    wrap: true,
+                    wrap: false,
                     name: "../libs/almond",
                     preserveLicenseComments: false,
                     optimize: "uglify",
