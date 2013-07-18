@@ -1,0 +1,22 @@
+/*Custom Buttons Overrides*/
+
+button.secondary, .button.secondary {
+  @include transition (background-color 0ms ease-in-out);
+}
+
+button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
+  background-color: $blueGray;
+  color: $white;
+  @include transition (background-color 0ms ease-in-out);
+}
+
+.clearing-blackout {
+z-index: 9999;
+}
+
+.clearing-container {
+  margin-top: 90px;
+  @media #{$small} {
+    margin-top: 45px;
+  }
+}

@@ -5,6 +5,7 @@ define( [ 'App', 'marionette', 'handlebars', 'text!templates/post.html'],
 			//Template HTML string
 			template: Handlebars.compile(template),
 			tagName: 'li',
+			className: 'list-view-post',
 
 			initialize: function(params) {
 				//console.log(params);

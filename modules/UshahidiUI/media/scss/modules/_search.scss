@@ -1,0 +1,94 @@
+.collapse-map {
+  background-color: $blueGray;
+  position: relative;
+  top: -38px;
+  margin: auto;
+  width: 186px;
+  height: 38px;
+  color: $white;
+  cursor: pointer;
+  z-index: 2;
+  p {
+    text-align: center;
+    padding-top: 6px;
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: .1em;
+    color: $white;
+  }
+}
+
+.search-bar {
+  @include grid-column(12);
+  /*margin: 569px 0%;*/
+  /*position: relative;*/
+  background: $darkBlue url(../images/search-bg.png) repeat;
+  width: 100%;
+  border-top: 1px solid darken($blue, 5%);
+  border-bottom: 3px solid darken($blue, 5%);
+  /*padding-top: 2em;*/
+}
+
+.search-form-wrapper {
+  @include grid-row;
+}
+
+.search-field {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(12)
+  }
+  @media #{$medium} {
+    @include grid-column(3, $collapse: true);
+  }
+}
+
+.categories-select {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(6)
+  }
+  @media #{$medium} {
+    @include grid-column(2, $collapse: true);
+  }
+}
+
+.sets-select {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(6)
+  }
+  @media #{$medium} {
+    @include grid-column(2, $collapse: true);
+  }
+}
+
+.location-select {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(6)
+  }
+  @media #{$medium} {
+    @include grid-column(2, $collapse: true);
+  }
+}
+
+.time-select {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(6)
+  }
+  @media #{$medium} {
+    @include grid-column(2, $collapse: true);
+  }
+}
+
+.search-bar-button {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(12)
+  }
+  @media #{$medium} {
+    @include grid-column(1, $collapse: true);
+  }
+}
