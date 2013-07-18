@@ -28,3 +28,6 @@
 [submodule "application/vendor/gisconverter"]
 	path = application/vendor/gisconverter
 	url = git://github.com/arenevier/gisconverter.php.git
+[submodule "modules/media"]
+	path = modules/media
+	url = git://github.com/Zeelot/kohana-media.git
