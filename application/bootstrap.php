@@ -113,6 +113,8 @@ Kohana::modules(array(
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'minion'     => MODPATH.'minion',
 	'migrations' => MODPATH.'migrations',
+	'media'      => MODPATH.'media',
+	'ushahidiui' => MODPATH.'UshahidiUI',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 

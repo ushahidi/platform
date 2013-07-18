@@ -1,33 +1,30 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
-        //pkg: grunt.file.readJSON('package.json'),
+        pkg: grunt.file.readJSON('package.json'),
         requirejs: {
             mainJS: {
                 options: {
-                    baseUrl: "js/",
-                    paths: {
-                        "app": "app/config/Init"
-                    },
-                    wrap: true,
-                    name: "libs/almond",
+                    baseUrl: "media/js/app",
+                    wrap: false,
+                    name: "../libs/almond",
                     preserveLicenseComments: false,
                     optimize: "uglify",
-                    mainConfigFile: "js/app/config/Init.js",
-                    include: ["app"],
-                    out: "js/app/config/Init.min.js"
+                    mainConfigFile: "media/js/app/config/Init.js",
+                    include: ["config/Init"],
+                    out: "media/js/app/config/Init.min.js"
                 }
             },
             mainCSS: {
                 options: {
                     optimizeCss: "standard",
-                    cssIn: "./css/app.css",
-                    out: "./css/app.min.css"
+                    cssIn: "./media/css/app.css",
+                    out: "./media/css/app.min.css"
                 }
             }
         },
         jshint: {
-            files: ['Gruntfile.js', 'js/app/**/*.js', '!js/app/**/*min.js'],
+            files: ['Gruntfile.js', 'media/js/app/**/*.js', '!media/js/app/**/*min.js'],
             options: {
                 globals: {
                     jQuery: true,
