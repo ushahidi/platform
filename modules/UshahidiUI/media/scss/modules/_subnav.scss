@@ -1,0 +1,38 @@
+nav[role="sub-navigation"] {
+  @include grid-column(12, $collapse: true);
+  display: none;
+  margin-top: 90px;
+  background-color: $white;
+  @media #{$small} {
+  margin-top: 45px;
+  }
+  ul {
+    margin: 0;
+  }
+}
+
+nav[role="sub-navigation"] li {
+  display: block;
+  @media #{$small} {
+    float: left;
+    clear: none;
+  }
+}
+
+nav[role="sub-navigation"] li a {
+  display: block;
+  padding: 20px 20px;
+  color: $black;
+  border-bottom: 1px solid $lightGray;
+  @media #{$small} {
+    float: left;
+    padding: 20px 30px;
+    border-bottom: 0;
+  }
+}
+
+nav[role="sub-navigation"] li:hover,
+nav[role="sub-navigation"] li:focus,
+nav[role="sub-navigation"] li:active {
+
+}

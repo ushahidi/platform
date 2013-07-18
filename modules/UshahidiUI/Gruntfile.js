@@ -19,15 +19,6 @@ module.exports = function(grunt) {
 					include : ["config/Init"],
 					out : "media/js/app/config/Init.min.js"
 				}
-			},
-			mainCSS :
-			{
-				options :
-				{
-					optimizeCss : "standard",
-					cssIn : "./media/css/app.css",
-					out : "./media/css/app.min.css"
-				}
 			}
 		},
 
@@ -44,13 +35,35 @@ module.exports = function(grunt) {
 					document : true
 				}
 			}
+		},
+
+		compass :
+		{
+			dist :
+			{
+				options :
+				{
+					config : 'config.rb'
+				}
+			}
+		},
+
+		watch :
+		{
+			sass :
+			{
+				files : ['media/scss/*.scss'],
+				tasks : ['compass']
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-compass');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.registerTask('test', ['jshint']);
 	grunt.registerTask('build', ['requirejs:mainJS', 'requirejs:mainCSS']);
 	grunt.registerTask('default', ['test', 'build']);
 
-}; 
+};

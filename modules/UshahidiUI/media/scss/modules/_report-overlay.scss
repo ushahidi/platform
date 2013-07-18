@@ -1,0 +1,144 @@
+.report-overlay:before {
+  top: -19px !important;
+  border-color: transparent transparent $lightGray transparent !important;
+}
+
+.report-overlay {
+  @include grid-column(12);
+  @include dropdown-container($content: content);
+  padding: 0;
+  h5, h6 {
+    line-height: 1em;
+  }
+}
+
+
+/*report-overlay header*/
+
+.report-overlay-header {
+  @include grid-column(12);
+  background-color: $lightGray;
+
+  padding: 1em 1em 0 1em;
+  -webkit-box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
+    -moz-box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
+      box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
+      @media #{$small} {
+        padding: 1em;
+      }
+}
+
+.report-overlay-category-marker {
+  @include grid-column(1, $collapse: true);
+}
+
+.report-overlay-title {
+  @include grid-column(11);
+  margin-bottom: 20px;
+  @media #{$small} {
+    @include grid-column(8);
+  }
+}
+
+.report-overlay-title-tag {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(12);
+  }
+  .subheader {
+    font-style: italic;
+  }
+}
+
+.report-overlay-actions {
+  @include grid-column(6, $collapse: true);
+  @media #{$small} {
+    @include grid-column(3, $collapse: true);
+  }
+}
+
+
+/*report-overlay body*/
+
+.report-overlay-body {
+  @include grid-column(12);
+  padding: 1em;
+}
+
+.report-overlay-image {
+  @include grid-column(12, $collapse: true);
+  margin-bottom: 20px;
+  border: 3px solid $lightGray;
+  @media #{$small} {
+    @include grid-column(4, $collapse: true);
+    margin-bottom: 0px;
+  }
+}
+
+.report-overlay-details {
+  @include grid-column(12, $collapse: true);
+  @media #{$small} {
+    @include grid-column(8);
+  }
+}
+
+/*report-overlay details*/
+
+.report-overlay-author {
+  @include grid-column(12);
+  padding: 0;
+  @media #{$small} {
+    padding-right: 0;
+  }
+}
+
+.report-overlay-excerpt {
+  @include grid-column(12);
+  padding: 0;
+  @media #{$small} {
+    padding-right: 0;
+  }
+  p {
+  line-height: 1.1;
+ }
+}
+
+.report-overlay-location-meta {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(5);
+  }
+  .report-overlay-location {
+    font-weight: bold;
+  }
+
+}
+
+.report-overlay-time-meta {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(3);
+  }
+}
+
+/*.report-overlay-privacy {
+  @include grid-column(2);
+  position: relative;
+  top: 4px;
+  @media #{$small} {
+    @include grid-column(2);
+  }
+
+}*/
+
+.report-overlay-details-button {
+  @include grid-column(5);
+  margin-top: 10px;
+  @media #{$small} {
+    @include grid-column(4);
+    margin-top: 7px;
+  }
+  button {
+    float: right;
+  }
+}

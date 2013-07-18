@@ -1,0 +1,42 @@
+/*Global Styles loaded before Foundation*/
+
+* {
+  @include box-sizing(border-box);
+}
+
+/*Font-Awesome global icon padding*/
+i {
+  padding-right: 10px;
+}
+
+/*custom css for Typekit asynchronous loading*/
+.wf-loading {
+  visibility: hidden;
+}
+.wf-active {
+  visibility: visible;
+}
+
+.none {
+  display: none;
+}
+
+.hidden {
+  opacity: 0;
+  @include transition (all .25s ease-in-out);
+}
+
+.visible {
+  opacity: 1;
+  @include transition (all .25s ease-in-out);
+}
+
+.inverse {
+  background-color: $blueGray !important;
+  color: $white !important;
+}
+
+.underline {
+  border-bottom: 1px dotted;
+  padding-bottom: 3px;
+}

@@ -1,0 +1,23 @@
+/*custom-dropdowns*/
+
+.search-bar form.custom .custom.dropdown {
+  @media #{$medium} {
+    margin-bottom: 0;
+  }
+}
+
+form.custom .custom.dropdown ul li:hover {
+  background-color: $blueGray;
+  color: $white;
+}
+
+form.custom .custom.dropdown ul li.selected:hover {
+  background: $body-bg;
+  cursor: "none";
+  color: $body-font-color;
+}
+
+form.custom .custom.checkbox.checked:before {
+  margin-top: 5px;
+  font-size: 20px;
+}

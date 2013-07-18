@@ -1,0 +1,51 @@
+.checkbox-wrapper-left {
+  float: left;
+  width: 140px;
+  margin: 20px 0 0 15px;
+}
+
+.checkbox-wrapper-right {
+  float: left;
+  width: 140px;
+  margin: 20px 0 0 18px;
+}
+
+.category-checkbox {
+  font-size: 12px;
+  @include font-family-reg;
+  float: left;
+  margin-top: 3px
+}
+
+.icheckbox_square {
+  margin: 0;
+  padding: 0;
+  width: 35px;
+  height: 35px;
+  background: url(../images/category-checkbox.png) no-repeat;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  right: -105px;
+  top: -10px;
+}
+
+.icheckbox_square {
+  background-position: 0 0;
+}
+
+.icheckbox_square.checked {
+  background-position: -45px 0px;
+}
+
+/* Retina support */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+       only screen and (-moz-min-device-pixel-ratio: 1.5),
+       only screen and (-o-min-device-pixel-ratio: 3/2),
+       only screen and (min-device-pixel-ratio: 1.5) {
+  .icheckbox_square {
+      background-image: url(../images/category-checkbox@2x.png);
+      -webkit-background-size: 240px 24px;
+      background-size: 240px 24px;
+  }
+}

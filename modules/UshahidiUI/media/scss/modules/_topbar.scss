@@ -1,0 +1,97 @@
+.top-bar {
+  overflow: hidden;
+}
+
+.logo-image {
+  background: url( ../images/logo.png ) no-repeat;
+  background-size: 100%;
+  height: 29px;
+  width: 29px;
+  margin: 10px;
+  float: left;
+}
+
+.top-bar .title-area {
+  position: relative;
+  float: left;
+  width: 318px;
+}
+
+.top-bar .name h1 a {
+  width: 100%;
+  padding: 0 20px;
+  @media #{$small} {
+    padding: 0 52px;
+  }
+}
+
+.views {
+  .icon-eye-open {
+    position: relative;
+    top: -1px;
+  }
+}
+
+/*.top-bar-section ul {
+  width: auto;
+  height: auto !important;
+  display: inline;
+}*/
+
+.top-bar-section li.create-post a{
+  background-color: #C50813;
+  color: $white;
+}
+
+.top-bar-section ul.right {
+  width: 110px;
+  @media #{$medium} {
+    width: 300px;
+  }
+}
+
+.top-bar-section li a.admin-panel-button {
+  padding: 0 66px 0 18px;
+  .icon-dashboard {
+    position: relative;
+    top: -1px;
+  }
+}
+
+.top-bar-section li.show-for-medium-down a {
+  &.admin-panel-button,
+  &.create-post-button,
+  &.views,
+  &.sets {
+    padding: 0 20px;
+    i {
+      position: relative;
+      top: 3px;
+      font-size: 19px;
+      padding: 0;
+    }
+  }
+  &.admin-panel-button {
+    padding: 0 18px;
+  }
+}
+
+/*.top-bar-section li a:not(.button).admin-panel-arrow.icon-arrow-right {
+  position: relative;
+  top: -1px;
+  padding: 0 14px;
+}*/
+
+.name-small {
+  background-color: $lightGray;
+  margin-top: 45px;
+  h4 {
+    line-height: 2.688em;
+    margin: 0;
+    a {
+      color: $topbar-link-color;
+    }
+  }
+}
+
+
