@@ -12,6 +12,7 @@ require.config(
 		"backbone" : "../libs/backbone",
 		"marionette" : "../libs/backbone.marionette",
 		"handlebars" : "../libs/handlebars",
+		"leaflet" : "../libs/leaflet",
 
 		// Plugins
 		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",
@@ -40,7 +41,12 @@ require.config(
 			"exports" : "Handlebars"
 		},
 		// Backbone.validateAll plugin (https://github.com/gfranko/Backbone.validateAll)
-		"backbone.validateAll" : ["backbone"]
+		"backbone.validateAll" : ["backbone"],
+
+		'leaflet': {
+			deps: ['jquery'],
+			exports: 'L'
+		},
 	}
 });
 
