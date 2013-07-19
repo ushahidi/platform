@@ -13,6 +13,9 @@ require.config(
 		"marionette" : "../libs/backbone.marionette",
 		"handlebars" : "../libs/handlebars",
 		"leaflet" : "../libs/leaflet",
+		"jso2" : "../libs/jso2",
+		"store" : "../libs/jso2/store",
+		"utils" : "../libs/jso2/utils",
 
 		// Plugins
 		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",
