@@ -1,8 +1,8 @@
 define(['App', 'backbone', 'marionette',
-	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/AdminPanelView', 'views/SearchBarView', 
+	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/AdminPanelView', 'views/SearchBarView', 'views/MapView',
 	'views/PostListView', 'collections/PostCollection'],
 	function(App, Backbone, Marionette,
-		AppLayout, HomeLayout, HeaderView, FooterView, AdminPanelView, SearchBarView,
+		AppLayout, HomeLayout, HeaderView, FooterView, AdminPanelView, SearchBarView, MapView,
 		PostListView, PostCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
@@ -27,7 +27,7 @@ define(['App', 'backbone', 'marionette',
 				home.contentRegion.show(new PostListView({
 					collection: App.Posts
 				}));
-				//home.mapRegion
+				home.mapRegion.show(new MapView());
 				home.searchRegion.show(new SearchBarView());
 			},
 			postList : function() {

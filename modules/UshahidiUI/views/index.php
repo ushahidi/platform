@@ -16,6 +16,11 @@
     <!-- Mobile Viewport meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=0.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="<?php echo Media::url('css/leaflet.css'); ?>" />
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="<?php echo Media::url('css/leaflet.ie.css'); ?>" />
+        <![endif]-->
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">

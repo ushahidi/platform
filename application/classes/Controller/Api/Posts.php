@@ -37,6 +37,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	protected $record_allowed_orderby = array('id', 'created', 'title');
 
 	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $scope_required = 'posts';
+	
+	protected $_boundingbox = FALSE;
+
+	/**
 	 * Create A Post
 	 * 
 	 * POST /api/posts
@@ -66,10 +73,16 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$this->prepare_order_limit_params();
 		
 		$posts_query = ORM::factory('Post')
+			->distinct(TRUE)
 			->where('type', '=', $this->_type)
-			->order_by($this->record_orderby, $this->record_order)
-			->offset($this->record_offset)
-			->limit($this->record_limit);
+			->order_by($this->record_orderby, $this->record_order);
+		
+		if ($this->record_limit !== FALSE)
+		{
+			$posts_query
+				->limit($this->record_limit)
+				->offset($this->record_offset);
+		}
 		
 		if ($this->_parent_id)
 		{
@@ -139,6 +152,34 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$posts_query->where('updated', '<=', $updated_before);
 		}
 		
+		// Bounding box search
+		// @todo eventually move this to Post_Point class?
+		// Create geometry from bbox
+		$bbox = $this->request->query('bbox');
+		if (! empty($bbox) )
+		{
+			$bbox = array_map('floatval', explode(',', $bbox));
+			$bb_west = $bbox[0];
+			$bb_north = $bbox[1];
+			$bb_east = $bbox[2];
+			$bb_south = $bbox[3];
+			$this->_boundingbox = new Util_BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
+		}
+		
+		if ($this->_boundingbox)
+		{
+			$sub = DB::select('post_id')
+				->from('post_point')
+				->where(
+					DB::expr(
+						'CONTAINS(GeomFromText(:bounds), value)',
+						array(':bounds' => $this->_boundingbox->toWKT()) ),
+					'=',
+					1
+				);
+			$posts_query->join(array($sub, 'Filter_BBox'), 'INNER')->on('post.id', '=', 'Filter_BBox.post_id');
+		}
+		
 		// Attributes
 		// @todo optimize this - maybe iterate over query params instead
 		$attributes = ORM::factory('Form_Attribute')->find_all();
@@ -147,15 +188,18 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$attr_filter = $this->request->query($attr->key);
 			if (! empty($attr_filter))
 			{
+				$table_name = ORM::factory('Post_'.ucfirst($attr->type))->table_name();
 				$sub = DB::select('post_id')
-					->from('post_'.$attr->type)
+					->from($table_name)
 					->where('form_attribute_id', '=', $attr->id)
 					->where('value', 'LIKE', "%$attr_filter%");
-				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->type)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->type).'.post_id');
+				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->key)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->key).'.post_id');
 			}
 		}
 		
 		$posts = $posts_query->find_all();
+
+		$post_query_sql = $posts_query->last_query();
 
 		$count = $posts->count();
 
@@ -197,6 +241,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			'next' => $next,
 			'prev' => $prev,
 		);
+		
+		// Add debug info if environment isn't production
+		if (Kohana::$environment !== Kohana::PRODUCTION)
+		{
+			$this->_response_payload['query'] = $post_query_sql;
+		}
 		
 	}
 
@@ -287,7 +337,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		}
 		
 		$post->values($post_data, array(
-			'form_id', 'title', 'content', 'status', 'slug', 'email', 'author', 'locale'
+			'form_id', 'title', 'content', 'status', 'slug', 'locale'
 			));
 		$post->parent_id = $this->_parent_id;
 		$post->type = $this->_type;
@@ -414,7 +464,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 
 			// Validate required attributes
-			$keys = isset($post_data['values']) ? array_keys($post_data['values']) : array();
+			$keys = (isset($post_data['values']) AND count($post_data['values']) > 0)
+				? array_keys($post_data['values'])
+				: array(0);
 			$required_attributes = ORM::factory('Form_Attribute')
 				->join('form_groups_form_attributes', 'INNER')
 					->on('form_attribute.id', '=', 'form_attribute_id')
@@ -436,6 +488,33 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			if ($validation->check() === FALSE)
 			{
 				throw new ORM_Validation_Exception('post_value', $validation);
+			}
+
+			// if name / email included with post
+			$user = FALSE;
+			if ( isset($post_data['user'])
+					AND is_array($post_data['user'])
+					AND ! isset($post_data['user']['id'])
+				)
+			{
+				// Make sure email is set to something
+				$post_data['user']['email'] = (! empty($post_data['user']['email'])) ? $post_data['user']['email'] : null;
+				
+				// Check if user was loaded
+				$user = ORM::factory('User')
+					->where('email', '=', $post_data['user']['email'])
+					->find();
+				if ($user->loaded() AND $user->username)
+				{
+					throw new HTTP_Exception_400('Email already registered, please log in to submit a report.');
+				}
+				
+				$user->values($post_data['user'], array('email', 'first_name', 'last_name'));
+				
+				$user_validation = Validation::factory($post_data['user']);
+				$user_validation->rule('email', 'not_empty');
+				
+				$user->check($user_validation);
 			}
 
 			// Does post have tags included?
@@ -482,7 +561,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					$tag_ids[] = $tag->id;
 				}
 			}
-
+			
+			// Save user
+			if ($user)
+			{
+				$user->save();
+				$post->user_id = $user->id;
+			}
+			
 			// Validates ... so save
 			$post->save();
 			
@@ -512,7 +598,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$new_revision = ORM::factory('Post');
 				// @todo maybe just exclude some values, rather than have to modify this if schema changes
 				$new_revision->values($post->as_array(), array(
-					'form_id', 'user_id', 'slug', 'title', 'content', 'author', 'email', 'status', 'locale'
+					'form_id', 'user_id', 'slug', 'title', 'content', 'status', 'locale'
 				));
 				// @todo grab current user_id
 				$new_revision->parent_id = $post->id;
