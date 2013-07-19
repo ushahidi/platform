@@ -19,7 +19,7 @@ class PostModelTest extends Unittest_Database_TestCase {
 	public function getDataSet()
 	{
 		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
-			Kohana::find_file('tests/datasets', 'ushahidi/PostPointModel', 'yml')
+			Kohana::find_file('tests/datasets', 'ushahidi/Base', 'yml')
 		);
 	}
 

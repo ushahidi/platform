@@ -12,16 +12,18 @@ require.config(
 		"backbone" : "../libs/backbone",
 		"marionette" : "../libs/backbone.marionette",
 		"handlebars" : "../libs/handlebars",
+		"leaflet" : "../libs/leaflet",
+		"jso2" : "../libs/jso2",
+		"store" : "../libs/jso2/store",
+		"utils" : "../libs/jso2/utils",
 
 		// Plugins
 		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",
-		"bootstrap" : "../libs/plugins/bootstrap",
 		"text" : "../libs/plugins/text"
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
 	{
-		"bootstrap" : ["jquery"],
 		"jqueryui" : ["jquery"],
 		"backbone" :
 		{
@@ -40,12 +42,17 @@ require.config(
 			"exports" : "Handlebars"
 		},
 		// Backbone.validateAll plugin (https://github.com/gfranko/Backbone.validateAll)
-		"backbone.validateAll" : ["backbone"]
+		"backbone.validateAll" : ["backbone"],
+
+		'leaflet': {
+			deps: ['jquery'],
+			exports: 'L'
+		},
 	}
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(["App", "routers/AppRouter", "controllers/Controller", "jquery", "jqueryui", "bootstrap", "backbone.validateAll"],
+require(["App", "routers/AppRouter", "controllers/Controller", "jquery", "jqueryui", "backbone.validateAll"],
 	function(App, AppRouter, Controller) {
 		App.appRouter = new AppRouter(
 		{

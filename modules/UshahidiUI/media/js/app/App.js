@@ -1,7 +1,10 @@
-define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars'],
-	function($, Backbone, Marionette, _, Handlebars) {
+define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oauth'],
+	function($, Backbone, Marionette, _, Handlebars, OAuth) {
 		var App = new Backbone.Marionette.Application();
-	
+		
+		// Save oauth object in App - just in case
+		App.oauth = OAuth;
+		
 		//Organize Application into regions corresponding to DOM elements
 		//Regions can contain views, Layouts, or subregions nested as necessary
 		App.addRegions(
