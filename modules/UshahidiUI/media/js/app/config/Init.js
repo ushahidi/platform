@@ -16,13 +16,11 @@ require.config(
 
 		// Plugins
 		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",
-		"bootstrap" : "../libs/plugins/bootstrap",
 		"text" : "../libs/plugins/text"
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
 	{
-		"bootstrap" : ["jquery"],
 		"jqueryui" : ["jquery"],
 		"backbone" :
 		{
@@ -51,7 +49,7 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(["App", "routers/AppRouter", "controllers/Controller", "jquery", "jqueryui", "bootstrap", "backbone.validateAll"],
+require(["App", "routers/AppRouter", "controllers/Controller", "jquery", "jqueryui", "backbone.validateAll"],
 	function(App, AppRouter, Controller) {
 		App.appRouter = new AppRouter(
 		{
