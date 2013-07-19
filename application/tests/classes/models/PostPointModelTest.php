@@ -18,7 +18,7 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 		// Hack to insert post_point value with POINT() data
 		$pdo_connection = $this->getConnection()->getConnection();
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (1, 1, 1, POINT(12.123, 21.213));");
+			VALUES (1, 1, 8, POINT(12.123, 21.213));");
 	}
 
 	/**
@@ -29,7 +29,7 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 	public function getDataSet()
 	{
 		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
-			Kohana::find_file('tests/datasets', 'ushahidi/PostPointModel', 'yml')
+			Kohana::find_file('tests/datasets', 'ushahidi/Base', 'yml')
 		);
 	}
 
@@ -46,7 +46,7 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 				// Valid point data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 8,
 					'value' => array('lat' => 0, 'lon' => 1),
 				)
 			),
@@ -54,7 +54,7 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 				// Valid point data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 8,
 					'value' => array('lat' => 90, 'lon' => 180),
 				)
 			)
@@ -148,7 +148,7 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 				// Valid geom data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 8,
 					'value' => array('lat' => 24, 'lon' => 25),
 				),
 				'return_value' => array('lat' => 24, 'lon' => 25)
@@ -157,7 +157,7 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 				// Valid geom data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 8,
 					'value' => 'POINT(22 25)',
 				),
 				'return_value' => array('lat' => 25, 'lon' => 22)
@@ -175,7 +175,7 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 	{
 		return array(
 			array(
-				// Valid geom data
+				// Invalid attribute id
 				array(
 					'post_id' => 999,
 					'form_attribute_id' => 999,
@@ -183,10 +183,10 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 				)
 			),
 			array(
-				// Valid geom data
+				// Invalid value
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 8,
 					'value' => 'Some other string',
 				)
 			)

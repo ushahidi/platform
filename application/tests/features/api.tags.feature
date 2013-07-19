@@ -1,4 +1,4 @@
-@tagsFixture
+@tagsFixture @oauth2Skip
 Feature: Testing the Tags API
 
     Scenario: Creating a new Tag
@@ -24,7 +24,7 @@ Feature: Testing the Tags API
         And the "color" property equals "00ff00"
         And the "priority" property equals "1"
         And the "type" property equals "category"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Creating a duplicate tag
         Given that I want to make a new "Tag"
@@ -40,7 +40,7 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 400
+        Then the guzzle status code should be 400
 
     Scenario: Check slug is generated on new tag
         Given that I want to make a new "Tag"
@@ -58,7 +58,7 @@ Feature: Testing the Tags API
         And the type of the "id" property is "numeric"
         And the response has a "slug" property
         And the "slug" property equals "my-magical-tag"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Check hash removed from color when creating tag
         Given that I want to make a new "Tag"
@@ -76,7 +76,7 @@ Feature: Testing the Tags API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the "color" property equals "00ff00"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Updating a Tag
         Given that I want to update a "Tag"
@@ -97,7 +97,7 @@ Feature: Testing the Tags API
         And the "id" property equals "1"
         And the response has a "tag" property
         And the "tag" property equals "Updated"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Updating a non-existent Tag
         Given that I want to update a "Tag"
@@ -114,17 +114,19 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
+    @resetFixture
     Scenario: Listing All Tags
         Given that I want to get all "Tags"
         When I request "/tags"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "9"
-        Then the response status code should be 200
+        And the "count" property equals "6"
+        Then the guzzle status code should be 200
 
+    @resetFixture
     Scenario: Search All Tags
         Given that I want to get all "Tags"
         And that the request "query string" is:
@@ -135,8 +137,9 @@ Feature: Testing the Tags API
         Then the response is JSON
         And the "count" property equals "1"
         And the "results.0.tag" property equals "Explosion"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
+    @resetFixture
     Scenario: Search All Tags by type
         Given that I want to get all "Tags"
         And that the request "query string" is:
@@ -145,9 +148,10 @@ Feature: Testing the Tags API
             """
         When I request "/tags"
         Then the response is JSON
-        And the "count" property equals "6"
-        Then the response status code should be 200
+        And the "count" property equals "4"
+        Then the guzzle status code should be 200
 
+    @resetFixture
     Scenario: Search All Tags by parent
         Given that I want to get all "Tags"
         And that the request "query string" is:
@@ -157,7 +161,7 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the response is JSON
         And the "count" property equals "1"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a Tag
         Given that I want to find a "Tag"
@@ -166,7 +170,7 @@ Feature: Testing the Tags API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Tag
         Given that I want to find a "Tag"
@@ -174,17 +178,17 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Deleting a Tag
         Given that I want to delete a "Tag"
         And that its "id" is "1"
         When I request "/tags"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Deleting a non-existent Tag
         Given that I want to delete a "Tag"
         And that its "id" is "35"
         When I request "/tags"
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404

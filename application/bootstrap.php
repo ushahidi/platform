@@ -22,7 +22,7 @@ else
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/timezones
  */
-date_default_timezone_set('America/Chicago');
+date_default_timezone_set('UTC');
 
 /**
  * Set the default locale.
@@ -86,10 +86,6 @@ Kohana::init(array(
 	'index_file' => FALSE
 ));
 
-// Set up custom error view
-Kohana_Exception::$error_view_content_type = 'application/json';
-Kohana_Exception::$error_view = 'api/error';
-
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
@@ -113,6 +109,7 @@ Kohana::modules(array(
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'minion'     => MODPATH.'minion',
 	'migrations' => MODPATH.'migrations',
+	'koauth'     => MODPATH.'koauth',
 	'media'      => MODPATH.'media',
 	'ushahidiui' => MODPATH.'UshahidiUI',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
@@ -154,6 +151,37 @@ Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)',
 	->defaults(array(
 		'action'     => 'index',
 		'directory'  => 'Api/Forms'
+	));
+
+/**
+ * GeoJSON API SubRoute
+ */	
+Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)', 
+	array(
+		'zoom' => '\d+',
+		'x' => '\d+',
+		'y' => '\d+',
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'controller' => 'GeoJSON',
+		'directory'  => 'Api/Posts'
+	));
+
+/**
+ * GeoJSON API SubRoute
+ */	
+Route::set('geojson-post-id', 'api/v2/posts/<id>/geojson', 
+	array(
+		'id' => '\d+',
+		'zoom' => '\d+',
+		'x' => '\d+',
+		'y' => '\d+',
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'controller' => 'GeoJSON',
+		'directory'  => 'Api/Posts'
 	));
 
 /**
