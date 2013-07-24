@@ -43,7 +43,7 @@ $white:          #FCFCFC;
 
 $primary-color: $blue;
 $secondary-color: $lightGray;
-$alert-color: #E3AAA9;
+$alert-color: #C50813;
 $success-color: $green;
 
 $default-float: left;
@@ -153,7 +153,7 @@ $block-grid-media-queries: true;
 
 // Heading font styles
 
-$header-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$header-font-family: "proxima-nova", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $header-font-weight: bold;
 $header-font-style: normal;
 $header-font-color: #565656;
@@ -984,7 +984,7 @@ $reveal-overlay-bg-old: #000;
 
 $reveal-modal-bg: #fff;
 $reveal-position-top: 20px;
-$reveal-default-width: 95%;
+$reveal-default-width: 90%;
 $reveal-modal-padding: 0px;
 $reveal-box-shadow: 0 0 10px rgba(#000,.4);
 
@@ -999,7 +999,7 @@ $reveal-close-weight: bold;
 // Modal border
 
 $reveal-border-style: solid;
-$reveal-border-width: 10px;
+$reveal-border-width: 4px;
 $reveal-border-color: rgba(0, 0, 0, 0.8);
 
 $reveal-modal-class: "reveal-modal";

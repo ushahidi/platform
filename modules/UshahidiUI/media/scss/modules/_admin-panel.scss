@@ -1,6 +1,20 @@
-/*Admin-Profile*/
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * ADMIN PROFILE...............user avatar and account settings/edits
+ * ADMIN STATS WRAPPER..................post, user and post views stats
+ * ADMIN ACCORDION MENU..................posts, tasks and tools
+ */
 
-.admin-profile {
+
+
+
+
+/*------------------------------------*\
+    $ADMIN PROFILE
+\*------------------------------------*/
+ .admin-profile {
   @include grid-row;
   border-top: 1px solid black;
 }
@@ -29,7 +43,14 @@
   }
 }
 
-/*Admin Stats Wrapper*/
+
+
+
+
+
+/*------------------------------------*\
+    $ADMIN STATS WRAPPER
+\*------------------------------------*/
 
 .admin-stats-wrapper {
   @include grid-row;
@@ -50,8 +71,12 @@
 }
 
 
-/*Admin Menu*/
 
+
+
+ /*------------------------------------*\
+     $ADMIN ACCORDIAN MENU
+ \*------------------------------------*/
 .admin-menu {
   @include grid-row;
   @include section-container($section-type:accordion);

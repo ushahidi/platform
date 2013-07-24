@@ -1,5 +1,6 @@
-define( [ 'App', 'marionette', 'handlebars', 'text!templates/post.html'],
-	function( App, Marionette, Handlebars, template) {
+define( [ 'App', 'marionette', 'handlebars',
+'text!templates/post.html','App.oauth'],
+	function( App, Marionette, Handlebars, template, OAuth) {
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend( {
 			//Template HTML string
@@ -18,12 +19,15 @@ define( [ 'App', 'marionette', 'handlebars', 'text!templates/post.html'],
 			
 			},
 			
-			editpost: function() {
+			editpost: function(id) {
 				// executed when edit link is clicked
 
 			},
 
-			viewpost: function() {
+			viewpost: function(id) {
+				//var post = postList.get(id);
+				//var postdetailview = new PostDetailView({model: post, baseURL:
+				//baseURL, router: }).render();
 
 			},
 

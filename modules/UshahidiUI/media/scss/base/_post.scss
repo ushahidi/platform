@@ -1,3 +1,17 @@
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * GLOBAL...............global styles
+ * POST HEADER...............post header, title, categories and actions
+ * POST BODY..................post images, excerpt and meta
+ */
+
+
+
+/*------------------------------------*\
+    $GLOBAL
+\*------------------------------------*/
 .post {
   @include grid-column(12, $collapse: true);
   h5, h6 {
@@ -5,13 +19,19 @@
   }
 }
 
+
+
+
+/*------------------------------------*\
+    $POST HEADER
+\*------------------------------------*/
+
+
 .post-header {
   @include grid-column(12);
   background-color: $lightGray;
   padding: 1em 1em 0 1em;
-  -webkit-box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
-    -moz-box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
-      box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
+  @extend .box-shadow;
   z-index: 1;
       @media #{$small} {
         padding: 1em;
@@ -33,7 +53,7 @@
     margin-bottom: 0px;
   }
   @media #{$medium} {
-    @include grid-column(8);
+    @include grid-column(7);
   }
 }
 
@@ -53,21 +73,25 @@
     margin-top: 20px;
   }
   @media #{$medium} {
-    @include grid-column(3, $collapse: true);
+    @include grid-column(4, $collapse: true);
     margin-top: 0;
   }
 }
 
 
-/*post-body*/
+
+
+
+/*------------------------------------*\
+    $POST BODY
+\*------------------------------------*/
+
 
 .post-body {
   @include grid-column(12);
   background-color: $white;
   padding: 1em;
-  -webkit-box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
-    -moz-box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
-      box-shadow: 0px 1px 2px rgba($darkGray, 0.5);
+  @extend .box-shadow;
 }
 
 .post-image {
@@ -89,8 +113,6 @@
     @include grid-column(8);
   }
 }
-
-/*post-details*/
 
 .post-author {
   @include grid-column(12);

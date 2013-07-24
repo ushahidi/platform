@@ -1,4 +1,31 @@
-/*Custom Buttons Overrides*/
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * GENERAL OVERRIDES............general restyles
+ * BUTTON OVERRIDES...............restyling foundation buttons
+ */
+
+
+
+
+
+/*------------------------------------*\
+    $GENERAL OVERRIDES
+\*------------------------------------*/
+
+.body-wrapper {
+  @include grid-column(12);
+  margin-top: 20px;
+}
+
+/*------------------------------------*\
+    $BUTTON OVERRIDES
+\*------------------------------------*/
+
+a.button {
+letter-spacing: .1em;
+}
 
 button.secondary, .button.secondary {
   @include transition (background-color 0ms ease-in-out);
@@ -8,15 +35,4 @@ button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button
   background-color: $blueGray;
   color: $white;
   @include transition (background-color 0ms ease-in-out);
-}
-
-.clearing-blackout {
-z-index: 9999;
-}
-
-.clearing-container {
-  margin-top: 90px;
-  @media #{$small} {
-    margin-top: 45px;
-  }
 }

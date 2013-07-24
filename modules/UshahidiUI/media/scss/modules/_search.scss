@@ -1,3 +1,18 @@
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * COLLAPSE MAP...............collapse and expand map tab
+ * SEARCH BAR...............search bar body
+ * SEARCH FORM FIELDS...............search bar input and dropdown fields
+ */
+
+
+
+
+/*------------------------------------*\
+    $COLLAPSE MAP
+\*------------------------------------*/
 .collapse-map {
   background-color: $blueGray;
   position: relative;
@@ -18,20 +33,31 @@
   }
 }
 
+
+
+
+
+/*------------------------------------*\
+    $SEARCH BAR
+\*------------------------------------*/
 .search-bar {
   @include grid-column(12);
-  /*margin: 569px 0%;*/
-  /*position: relative;*/
-  background: $darkBlue url(../images/search-bg.png) repeat;
+  @extend .box-shadow;
+  background: $darkBlue url(../images/search-bg.jpg) repeat;
   width: 100%;
-  border-top: 1px solid darken($blue, 5%);
-  border-bottom: 3px solid darken($blue, 5%);
-  /*padding-top: 2em;*/
+  border-top: 3px solid darken($blue, 5%);
 }
 
 .search-form-wrapper {
   @include grid-row;
 }
+
+
+
+
+/*------------------------------------*\
+    $SEARCH FORM FIELDS
+\*------------------------------------*/
 
 .search-field {
   @include grid-column(12);

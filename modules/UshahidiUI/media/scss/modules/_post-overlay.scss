@@ -1,3 +1,7 @@
+/*-------------------------------------------------------------------------*\
+    $POST OVERLAY...............post details popup when map icons are clicked
+\*-------------------------------------------------------------------------*/
+
 .post-overlay:before {
   top: -19px !important;
   border-color: transparent transparent $lightGray transparent !important;
@@ -8,5 +12,13 @@
   padding: 0;
   h5, h6 {
     line-height: 1em;
+  }
+}
+
+.post-overlay .post-details-button {
+  @media #{$small} {
+    button {
+      float: left;
+    }
   }
 }

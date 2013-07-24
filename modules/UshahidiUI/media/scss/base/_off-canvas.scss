@@ -1,10 +1,23 @@
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * GLOBAL...............global styles
+ * ACTIVE STYLES...............style on .active class
+ */
+
+
+
+ /*------------------------------------*\
+     $GLOBAL
+ \*------------------------------------*/
+
 [role="complementary"], [role="main"] {
   width: 100%;
   display: block;
   position: relative;
   z-index: 1;
 }
-
 
 [role="main"] {
   width: 100%;
@@ -13,21 +26,22 @@
   clear: both;
   margin-left: 0px;
   overflow: hidden;
-  -webkit-box-shadow: 0px 0 1px 2px rgba($darkGray, 0.5);
-    -moz-box-shadow: 0px 0 1px 2px rgba($darkGray, 0.5);
-      box-shadow: 0px 0 1px 2px rgba($darkGray, 0.5);
-/*  @media #{$medium-up} {
-    margin-left: -300px;
-  }*/
-
+  @extend .box-shadow;
 }
 
 [role="complementary"] {
   width: 300px;
-  background-color: $white;
   margin-right: -200%;
   float: left;
 }
+
+
+
+
+
+/*------------------------------------*\
+    $ACTIVE
+\*------------------------------------*/
 
 .active [role="main"] {
   margin-left: -310px;

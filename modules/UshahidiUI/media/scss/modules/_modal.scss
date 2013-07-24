@@ -1,9 +1,26 @@
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * MODAL...............via Reveal.js included in Foundation
+ * FORM BODY...............all input fields and dropdowns
+ * UPLOAD MEDIA BAR...............wrapper and button for various media uploads
+ * MEDIA ICONS...............icons for uploading various media
+ */
+
+
+
+
+/*-----------------------------------------------------------*\
+    $MODAL
+\*-----------------------------------------------------------*/
+
 .reveal-modal {
   top: 25px;
   @media #{$small} {
     width: 80%;
     left: 57%;
-    border: 10px solid $blueGray;
+    border: 4px solid $blueGray;
     padding: 0;
   }
   @media #{$medium-up} {
@@ -11,11 +28,18 @@
     left: 67%;
   }
   @media #{$large} {
-    width: 40%;
+    width: 38%;
     left: 77%;
     top: 65px;
   }
 }
+
+
+
+
+/*------------------------------------*\
+    $FORM BODY
+\*------------------------------------*/
 
 .create-post-header {
   @include grid-row;
@@ -32,6 +56,7 @@
 
 .create-post-options {
   @include grid-column(11, $center: true);
+  margin-bottom: 40px;
   hr {
     margin: 0 0 1.25em 0;
   }
@@ -45,8 +70,15 @@
   width: 100%;
   height: 100px;
   background-size: cover;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
+
+
+
+
+/*------------------------------------*\
+    $UPLOAD MEDIA BAR
+\*------------------------------------*/
 
 .media-bar-wrap {
   @include grid-column(12);
@@ -63,20 +95,15 @@
 
 .media-bar-row {
   @include grid-row(collapse);
-/*  @media #{$small} {
-    padding-right: 41px;
-  }*/
 }
 
 
 .media-bar-uploads-wrap {
   @include grid-column(12);
   padding: 0;
-  /*margin-bottom: 20px;*/
   border-bottom: 1px solid $darkGray;
   @media #{$small} {
     @include grid-column(8, $collapse: true);
-/*    padding: 0;*/
     margin-bottom: 0;
     border-bottom: 0;
   }
@@ -88,10 +115,8 @@
 
 .create-post-submit {
   @include grid-column(12, $collapse: true);
-/*  padding: 0;*/
   @media #{$small} {
     @include grid-column(4, $collapse: true);
-/*    padding: 0;*/
     top: 9px;
   }
   .button {
@@ -99,19 +124,16 @@
   }
 }
 
-/*.media-bar-uploads {
-  @include grid-column(12);
-  @media #{$small} {
-    @include grid-column(5);
-  }
-}*/
 
 
+
+/*------------------------------------*\
+    $MEDIA ICONS
+\*------------------------------------*/
 
 .select-icon {
   width: 56px;
   height: 60px !important;
-  /*border-right: 1px solid $darkGray;*/
   [class^="icon-"] {
     position: relative;
     top: 20px;
@@ -126,7 +148,6 @@
 .upload-location {
 
   .icon-map-marker {
-    /*left: 23px;*/
     font-size: 19px;
     color: $white;
   }
@@ -151,7 +172,6 @@
 .upload-link {
 
   .icon-link {
-    /*left: 21px;*/
     font-size: 19px;
     color: $white;
   }
@@ -160,7 +180,6 @@
 .upload-audio {
 
   .icon-microphone {
-    /*left: 23px;*/
     font-size: 20px;
     color: $white;
   }

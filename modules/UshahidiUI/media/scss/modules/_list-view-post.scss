@@ -1,19 +1,23 @@
+/*-------------------------------------------------------------------*\
+    $LIST VIEW POST...............individual posts within the LIST VIEW
+\*-------------------------------------------------------------------*/
+
 .list-view-post {
   @include grid-column(12);
+  border-bottom: 1px solid $midGray;
+  margin-bottom: 20px;
 }
 
 .list-view-select-post {
   position: absolute;
   top: 0;
   left: 0;
-
 }
 
 .list-view-post-image {
   @include grid-column(4);
   @media #{$small} {
     @include grid-column(2);
-
   }
   img {
     margin: 10px 0 10px 0;
@@ -21,29 +25,6 @@
     border-radius: 125px;
   }
 }
-
-/*.post-category-notification {
-  position: absolute;
-  top: 20px;
-  left: 120px;
-  border-radius: 20px;
-  width: 30px;
-  height: 30px;
-  border: 6px solid $white;
-}
-
-.post-category-notification-red {
-  @extend .post-category-notification;
-  background-color: red
-}*/
-
-/*.list-view-post-details-wrapper {
-  @include grid-column(7);
-  margin-top: 20px;
-  @media #{$small} {
-    @include grid-column(10);
-  }
-}*/
 
 .list-view-post-details {
   @include grid-column(8, $collapse: true);
@@ -58,7 +39,6 @@
   @include grid-column(12);
   @media #{$small} {
     @include grid-column(8);
-
   }
 }
 
