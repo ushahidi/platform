@@ -6,7 +6,8 @@ define(['marionette', 'controllers/Controller'],
 			appRoutes :
 			{
 				"" : "index",
-				"posts" : "postList"
+				"posts" : "postList",
+				"posts/:id" : "postDetail"
 			}
 		});
 	}); 

@@ -24,13 +24,6 @@ define( [ 'App', 'marionette', 'handlebars',
 
 			},
 
-			viewpost: function(id) {
-				//var post = postList.get(id);
-				//var postdetailview = new PostDetailView({model: post, baseURL:
-				//baseURL, router: }).render();
-
-			},
-
 			deletepost: function() {
 				var view = this;
 				this.model.destroy({

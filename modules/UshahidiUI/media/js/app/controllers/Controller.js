@@ -1,9 +1,9 @@
 define(['App', 'backbone', 'marionette',
 	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/AdminPanelView', 'views/SearchBarView', 'views/MapView',
-	'views/PostListView', 'collections/PostCollection'],
+	'views/PostListView', 'views/PostDetailView','collections/PostCollection'],
 	function(App, Backbone, Marionette,
 		AppLayout, HomeLayout, HeaderView, FooterView, AdminPanelView, SearchBarView, MapView,
-		PostListView, PostCollection)
+		PostListView, PostDetailView, PostCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -33,6 +33,12 @@ define(['App', 'backbone', 'marionette',
 			postList : function() {
 				App.vent.trigger("page:change", "posts");
 				this.layout.mainRegion.show(new PostListView({
+					collection: App.Posts
+				}));
+			},
+			postDetail : function() {
+				App.vent.trigger("page:change", "posts/:id");
+				this.layout.mainRegion.show(new PostDetailView({
 					collection: App.Posts
 				}));
 			}
