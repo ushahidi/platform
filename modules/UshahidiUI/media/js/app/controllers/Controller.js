@@ -36,11 +36,12 @@ define(['App', 'backbone', 'marionette',
 					collection: App.Posts
 				}));
 			},
-			postDetail : function() {
+			postDetail : function(id) {
 				App.vent.trigger("page:change", "posts/:id");
 				this.layout.mainRegion.show(new PostDetailView({
-					collection: App.Posts
+					model: App.Posts.get(id)	
 				}));
+
 			}
 		});
 	}); 

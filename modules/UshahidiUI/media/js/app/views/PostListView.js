@@ -23,15 +23,7 @@ define( [ 'App', 'marionette', 'handlebars', 'views/PostItemView',
 		
 			onDomRefresh: function()
 			{
-				this.collection.fetch(
-				{
-					success: function () {
-						console.log(that.collection.toJSON());
-					},
-					error: function() {
-						console.log('Failed to fetch!');
-					}
-				});
+				this.collection.fetch({});
 				return this;
 			}
 
