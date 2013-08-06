@@ -1,7 +1,8 @@
-define( [ 'App', 'marionette', 'handlebars', 'views/PostItemView',
-'text!templates/postlist.html', 'App.oauth', 'models/PostModel'],
-	function( App, Marionette, Handlebars, PostItemView, template,
-	OAuth,PostModel) {
+define(['App', 'marionette', 'handlebars', 'views/PostItemView',
+	'text!templates/postlist.html', 'App.oauth', 'models/PostModel'],
+	function( App, Marionette, Handlebars, PostItemView,
+		template, OAuth, PostModel)
+	{
 		//CollectionView provides some default rendering logic
 		return Marionette.CompositeView.extend( {
 			//Template HTML string
@@ -19,14 +20,5 @@ define( [ 'App', 'marionette', 'handlebars', 'views/PostItemView',
 			events: {
 			
 			},
-			
-		
-			onDomRefresh: function()
-			{
-				this.collection.fetch({});
-				return this;
-			}
-
-			
 		});
 	});
