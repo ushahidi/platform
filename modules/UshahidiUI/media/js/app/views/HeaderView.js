@@ -11,6 +11,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/header.html', 'text!t
 				// @todo update this for real UI
 				//App.vent.on("page:change", this.updateActiveNav, this);
 			},
+			triggers : {
+				'click .js-workspace-panel-button, .js-workspace-panel-button-small' : 'workspace:toggle'
+			},
 			updateActiveNav : function (page)
 			{
 				this.$('li').removeClass('active');

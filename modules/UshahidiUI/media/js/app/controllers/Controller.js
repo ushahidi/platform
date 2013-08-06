@@ -1,8 +1,8 @@
 define(['App', 'backbone', 'marionette',
-	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/AdminPanelView', 'views/SearchBarView', 'views/MapView',
+	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/MapView',
 	'views/PostListView', 'views/PostDetailView','collections/PostCollection'],
 	function(App, Backbone, Marionette,
-		AppLayout, HomeLayout, HeaderView, FooterView, AdminPanelView, SearchBarView, MapView,
+		AppLayout, HomeLayout, HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
 		PostListView, PostDetailView, PostCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
@@ -11,9 +11,14 @@ define(['App', 'backbone', 'marionette',
 				this.layout = new AppLayout();
 				App.body.show(this.layout);
 				
-				this.layout.headerRegion.show(new HeaderView());
+				var header = new HeaderView();
+				header.on('workspace:toggle', function () {
+					App.body.$el.toggleClass('active-workspace')
+				});
+				
+				this.layout.headerRegion.show(header);
 				this.layout.footerRegion.show(new FooterView());
-				this.layout.adminPanel.show(new AdminPanelView());
+				this.layout.workspacePanel.show(new WorkspacePanelView());
 				
 				App.Posts = new PostCollection();
 				App.Posts.fetch();

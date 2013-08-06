@@ -10,7 +10,7 @@ define(['App', 'marionette', 'handlebars', 'text!templates/AppLayout.html', 'tex
 				headerRegion : "#headerRegion",
 				mainRegion :   "#mainRegion",
 				footerRegion : "#footerRegion",
-				adminPanel : "#admin-panel"
+				workspacePanel : "#workspace-panel"
 			}
 		});
 	}); 

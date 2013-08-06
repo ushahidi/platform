@@ -3,7 +3,7 @@
 \*------------------------------------*/
 /**
  * GLOBAL...............global styles
- * ACTIVE STYLES...............style on .active class
+ * ACTIVE STYLES...............style on .active-workspace class
  */
 
 
@@ -49,13 +49,13 @@
     $ACTIVE
 \*------------------------------------*/
 
-.active [role="main"] {
+.active-workspace [role="main"] {
   margin-left: -310px;
   @media #{$medium-up} {
     margin-left: -300px;
   }
 }
-.active [role="complementary"] {
+.active-workspace [role="complementary"] {
   margin-left: 0;
   width: 310px;
 }
