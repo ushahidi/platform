@@ -23,6 +23,11 @@
   font-weight: 600;
 }
 
+@mixin box-shadow($clear) {
+  -webkit-box-shadow: $clear;
+    -moz-box-shadow: $clear;
+      box-shadow: $clear;
+}
 
 
 

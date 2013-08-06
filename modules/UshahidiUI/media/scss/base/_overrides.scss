@@ -16,7 +16,10 @@
 
 .body-wrapper {
   @include grid-column(12);
-  margin-top: 20px;
+  margin-top: 0px;
+  @media #{$small} {
+    margin-top: 20px;
+  }
 }
 
 /*------------------------------------*\

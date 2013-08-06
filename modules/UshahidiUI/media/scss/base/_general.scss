@@ -15,6 +15,7 @@
 
 * {
   @include box-sizing(border-box);
+  *behavior: url(../js/ie/boxsizing.htc);
 }
 
 /*Font-Awesome global icon padding*/
@@ -30,6 +31,14 @@ i {
   visibility: visible;
 }
 
+::-moz-selection {
+    color: white;
+    background: $blueGray;
+}
+::selection {
+    color: white;
+    background: $blueGray;
+}
 
 
 
@@ -57,12 +66,12 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 
 .hidden {
   opacity: 0;
-  @include transition (all .25s ease-in-out);
+  @include transition (opacity .3s ease-in-out);
 }
 
 .visible {
   opacity: 1;
-  @include transition (all .25s ease-in-out);
+  @include transition (opacity .3s ease-in-out);
 }
 
 .inverse {

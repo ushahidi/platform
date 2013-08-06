@@ -14,7 +14,7 @@ define( [ 'App', 'marionette', 'handlebars', 'views/PostItemView',
 				//foo: "bar"
 			},
 
-			itemViewContainer: '.posts',
+			itemViewContainer: '.list-view-posts-list',
 			
 			events: {
 			

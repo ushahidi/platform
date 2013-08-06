@@ -14,24 +14,40 @@
 
 nav[role="sub-navigation"] {
   @include grid-column(12, $collapse: true);
-  display: none;
-  max-height:1.2em;
+  @extend .box-shadow;
   background-color: $white;
-  -webkit-transition: all .4s ease;
-  -moz-transition: all .4s ease;
-  -ms-transition: all .4s ease;
-  -o-transition: all .4s ease;
-  transition: all .4s ease;
+  max-height: 0;
+  /*overflow: hidden;*/
+  display: none;
   ul {
     margin: 0;
   }
+  /*not working because css3 animation don't support display*/
+  -webkit-transition: max-height .3s ease-in-out;
+    -moz-transition: max-height .3s ease-in-out;
+      -ms-transition: max-height .3s ease-in-out;
+        -o-transition: max-height .3s ease-in-out;
+          transition: max-height .3s ease-in-out;
 }
 
-/*subnav reveal for mobile menu*/
 nav[role="sub-navigation"].subnav {
+  max-height: 999px;
+/*  overflow: visible;*/
   display: block;
-  max-height:999px;
 }
+
+/*nav[role="sub-navigation"] ul {
+  opacity: 0;
+  -webkit-transition: opacity .3s ease;
+    -moz-transition: opacity .3s ease;
+      -ms-transition: opacity .3s ease;
+        -o-transition: opacity .3s ease;
+          transition: opacity .3s ease;
+}
+
+nav[role="sub-navigation"] ul.subnav {
+  opacity: 1;
+}*/
 
 nav[role="sub-navigation"] ul li.active>a {
   background: $blueGray;

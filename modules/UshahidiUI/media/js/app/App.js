@@ -22,6 +22,25 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oau
 		App.addInitializer(function(options) {
 			Backbone.history.start();
 		});
+		
+		// Global config params
+		// @todo dynamically get this from kohana
+		var site = {
+			'baseurl' : '',
+			'imagedir' : 'media/kohana/images'
+		};
+		
+		Handlebars.registerHelper('baseurl', function() {
+			return site.baseurl;
+		});
+		
+		Handlebars.registerHelper('url', function(url) {
+			return site.baseurl + '/' + url;
+		});
+		
+		Handlebars.registerHelper('imageurl', function(url) {
+			return site.baseurl + '/' + site.imagedir +  '/' + url;
+		});
 	
 		return App;
 	}); 

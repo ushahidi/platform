@@ -3,8 +3,9 @@
 \*-------------------------------------------------------------------*/
 
 .list-view-post {
-  @include grid-column(12);
+  @include grid-column(12, $collapse: true);
   border-bottom: 1px solid $midGray;
+  padding-right: 20px;
   margin-bottom: 20px;
 }
 
