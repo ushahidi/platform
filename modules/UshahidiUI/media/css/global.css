@@ -4993,10 +4993,6 @@ nav[role="sub-navigation"] li a {
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out; }
 
-/* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
-.leaflet-container .leaflet-control-attribution {
-  visibility: hidden; }
-
 /*------------------------------------*\
     $CONTENTS
 \*------------------------------------*/
