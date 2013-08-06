@@ -13,27 +13,15 @@ define(['App', 'marionette', 'handlebars', 'text!templates/post.html','App.oauth
 			},
 			
 			events: {
-				"click .delete": "deletepost"
+				"click .post-delete": "deletepost"
 			},
 
-			deletepost: function() {
-				var view = this;
+			// @todo add confirmation dialog
+			deletepost: function(e) {
+				e.preventDefault();
 				this.model.destroy({
 					// Wait till server responds before destroying model
-					wait: true,
-
-					// When the operation succeeds
-					success: function(){
-						// Delete the view from the listing
-						view.$el.fadeOut("fast");
-						view.$el.remove();
-						showSuccessMessage('<?php echo __("The Post has been deleted!"); ?>', {flash: true});
-					},
-
-					// When the operation fails
-					error: function() {
-						showFailureMessage("Unable to delete post. Try again later.");
-					},
+					wait: true
 				});
 			}
 		});
