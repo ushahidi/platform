@@ -18,7 +18,22 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 			itemViewContainer: '.list-view-posts-list',
 			
 			events: {
-			
+				'click .js-list-view-select-post' : 'showHideBulkActions'
 			},
+			
+			showHideBulkActions : function ()
+			{
+				$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked')
+				if ($checked.length > 0)
+				{
+					this.$('.js-list-view-bulk-actions').removeClass('hidden');
+					this.$('.js-list-view-bulk-actions').addClass('visible');
+				}
+				else
+				{
+					this.$('.js-list-view-bulk-actions').removeClass('visible');
+					this.$('.js-list-view-bulk-actions').addClass('hidden');
+				}
+			}
 		});
 	});
