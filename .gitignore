@@ -6,4 +6,6 @@ application/logs/*
 application/cache/*
 application/config/*.php
 application/config/environments/development/*.php
+.htaccess
 core.ignorecase=true
+
