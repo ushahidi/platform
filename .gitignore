@@ -8,5 +8,4 @@ application/config/*.php
 application/config/environments/development/*.php
 .htaccess
 application/tests/behat.yml
-core.ignorecase=true
 
