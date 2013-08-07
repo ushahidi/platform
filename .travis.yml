@@ -10,6 +10,7 @@ before_script:
   - git submodule update --init --recursive
   - mkdir application/cache application/logs
   - chmod 777 application/cache application/logs
+  - cp application/tests/behat.template application/tests/behat.yml
   # db setup
   - mysql -e 'create database lamu_test;'
   - ./minion --task=migrations:run --up

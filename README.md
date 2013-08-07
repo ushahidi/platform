@@ -78,7 +78,10 @@ We use PHPUnit for unit tests, and Behat and Mink for functional testing.
 You can install the Behat, Mink, PHPUnit and other required packages using [Composer](getcomposer.org). Just run
 ```composer install```
 
-Behat and PHPUnit will be install to ```./bin``` at the root of the repository. Run the tests as follows:
+Behat and PHPUnit will be installed to ```./bin``` at the root of the repository.
+
+Create a behat config file by copying ```application/tests/behat.template``` to ```application/tests/behat.yml```. Edit the file to set your deployments base url.
+Run the tests as follows:
 ```
 ./bin/behat --config application/tests/behat.yml
 ./bin/phpunit -c application/tests/phpunit.xml
