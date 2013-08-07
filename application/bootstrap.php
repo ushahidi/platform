@@ -90,10 +90,6 @@ if (Kohana::$environment != Kohana::PRODUCTION)
  */
 Kohana::init(Kohana::$config->load('init')->as_array());
 
-// Set up custom error view
-Kohana_Exception::$error_view_content_type = 'application/json';
-Kohana_Exception::$error_view = 'api/error';
-
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
@@ -105,19 +101,24 @@ Kohana::$log->attach(new Log_File(APPPATH.'logs'));
 Kohana::modules(Kohana::$config->load('modules')->as_array());
 
 /**
- * Cookie salt is used to make sure cookies haven't been modified by the client
- * @TODO: Change this for each project
+ * Set cookie salt
+ * @TODO change this for your project
  */
-Cookie::$salt = 'KEVEHQxU;CfHY32LbpHn(c(uctcexPjA';
+Cookie::$salt = 'ushahidi-insecure-please-change-me';
+
+// Load gisconverter
+$gisconverter = Kohana::find_file('vendor', 'gisconverter/gisconverter', 'php');
+if (! $gisconverter) throw new Kohana_Exception('Could not load gisconverter library. Have you checked out the gisconverter submodule?');
+include($gisconverter);
 
 /**
  * Include default routes. Default routes are located in application/routes/default.php
- */
+ */	
 include Kohana::find_file('routes', 'default');
 
 /**
  * Include the routes for the current environment.
- */
+ */	
 if ($routes = Kohana::find_file('routes', Kohana::$environment))
 {
 	include $routes;

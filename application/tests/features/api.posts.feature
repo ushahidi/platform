@@ -1,4 +1,4 @@
-@post
+@post @oauth2Skip
 Feature: Testing the Posts API
 
     Scenario: Creating a new Post
@@ -8,10 +8,14 @@ Feature: Testing the Posts API
             {
                 "form":1,
                 "title":"Test post",
-                "author":"robbie",
-                "email":"robbie@ushahidi.com",
+                "user":{
+                  "first_name": "Robbie",
+                  "last_name": "Mackay",
+                  "email": "someotherrobbie@test.com"
+                },
                 "type":"report",
                 "status":"draft",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -19,7 +23,16 @@ Feature: Testing the Posts API
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
-                    "status":"believed_missing"
+                    "last_location_point":{
+                      "lat":33.755,
+                      "lon":-84.39
+                    },
+                    "geometry_test":"POLYGON((0 0,1 1,2 2,0 0))",
+                    "status":"believed_missing",
+                    "links":[
+                      {"value":"http://google.com"},
+                      {"value":"http://facebook.com"}
+                    ]
                 },
                 "tags":["missing"]
             }
@@ -30,10 +43,14 @@ Feature: Testing the Posts API
         And the type of the "id" property is "numeric"
         And the response has a "title" property
         And the "title" property equals "Test post"
-        And the "tags" property contains "missing"
-        Then the response status code should be 200
+        And the response has a "tags.0.id" property
+        And the "values.last_location_point.lat" property equals "33.755"
+        And the "values.geometry_test" property equals "POLYGON((0 0,1 1,2 2,0 0))"
+        And the "values.links.0.value" property equals "http://google.com"
+        And the response has a "values.links.0.id" property
+        Then the guzzle status code should be 200
 
-    Scenario: Creating an invalid Post
+    Scenario: Creating an Post with invalid data returns an error
         Given that I want to make a new "Post"
         And that the request "data" is:
             """
@@ -42,6 +59,7 @@ Feature: Testing the Posts API
                 "title":"Invalid post",
                 "type":"report",
                 "status":"draft",
+                "locale":"en_US",
                 "values":
                 {
                     "missing_field":"David Kobia",
@@ -52,7 +70,63 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 400
+        Then the guzzle status code should be 400
+
+    Scenario: Creating an Post without required fields returns an error
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Invalid post",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":"unknown",
+                    "missing_date":"2012/09/25",
+                    "status":"believed_missing"
+                }
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
+    Scenario: Creating an Post with existing user returns an error
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Invalid author",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "user":{
+                  "first_name": "Robbie",
+                  "last_name": "Mackay",
+                  "email": "robbie@ushahidi.com"
+                },
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":"unknown",
+                    "missing_date":"2012/09/25",
+                    "status":"believed_missing",
+                    "last_location":"atlanta"
+                }
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
 
     Scenario: Updating a Post
         Given that I want to update a "Post"
@@ -63,6 +137,7 @@ Feature: Testing the Posts API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -70,6 +145,7 @@ Feature: Testing the Posts API
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
+                    "last_location_point":"POINT(-85.39 33.755)",
                     "status":"believed_missing"
                 },
                 "tags":["missing","kenyan"]
@@ -81,10 +157,11 @@ Feature: Testing the Posts API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the "id" property equals "1"
-        And the "tags" property contains "kenyan"
+        And the response has a "tags.1.id" property
         And the response has a "title" property
         And the "title" property equals "Updated Test Post"
-        Then the response status code should be 200
+        And the "values.last_location_point.lon" property equals "-85.39"
+        Then the guzzle status code should be 200
 
     Scenario: Updating a non-existent Post
         Given that I want to update a "Post"
@@ -95,6 +172,7 @@ Feature: Testing the Posts API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -111,7 +189,7 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Updating a Post with partial data
         Given that I want to update a "Post"
@@ -122,13 +200,14 @@ Feature: Testing the Posts API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
-                    "status":"believed_missing"
+                    "last_location":"atlanta"
                 },
                 "tags":["missing","kenyan"]
             }
@@ -136,8 +215,8 @@ Feature: Testing the Posts API
         And that its "id" is "1"
         When I request "/posts"
         Then the response is JSON
-        And the response has a "values.last_location" property
-        Then the response status code should be 200
+        And the response has a "values.status" property
+        Then the guzzle status code should be 200
 
     Scenario: Updating a Post with non-existent Form
         Given that I want to update a "Post"
@@ -148,6 +227,7 @@ Feature: Testing the Posts API
                 "title":"Updated Test Post",
                 "type":"report",
                 "status":"published",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -164,19 +244,19 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 400
+        Then the guzzle status code should be 400
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Listing All Posts
         Given that I want to get all "Posts"
         When I request "/posts"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "4"
-        Then the response status code should be 200
+        And the "count" property equals "9"
+        Then the guzzle status code should be 200
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Listing All Posts with limit and offset
         Given that I want to get all "Posts"
         And that the request "query string" is:
@@ -191,10 +271,10 @@ Feature: Testing the Posts API
         And the response has a "next" property
         And the response has a "prev" property
         And the response has a "curr" property
-        And the "results.0.id" property equals "97"
-        Then the response status code should be 200
+        And the "results.0.id" property equals "95"
+        Then the guzzle status code should be 200
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Listing All Posts with different sort
         Given that I want to get all "Posts"
         And that the request "query string" is:
@@ -205,21 +285,8 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "results.0.id" property equals "99"
-        Then the response status code should be 200
-
-    # @todo improve this test to check more response data
-    #Scenario: Listing All Posts as GeoJSON
-    #    Given that I want to get all "Posts"
-    #    And that the request "query string" is:
-    #        """
-    #        format=geojson
-    #        """
-    #    When I request "/posts"
-    #    Then the response is JSON
-    #    And the response has a "type" property
-    #    And the response has a "features" property
-    #    Then the response status code should be 200
+        And the "results.0.id" property equals "105"
+        Then the guzzle status code should be 200
 
     # @todo improve this test to check more response data
     Scenario: Listing All Posts as JSONP
@@ -230,35 +297,64 @@ Feature: Testing the Posts API
             """
         When I request "/posts"
         Then the response is JSONP
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
-    @searchPostFixture
+    @resetFixture
     Scenario: Search All Posts
         Given that I want to get all "Posts"
         And that the request "query string" is:
             """
-            q=Searching&type=report
+            q=Searching
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "2"
+        Then the guzzle status code should be 200
+
+    @resetFixture
+    Scenario: Search All Posts by locale
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            locale=fr_FR
             """
         When I request "/posts"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
         And the "count" property equals "1"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
-    @searchPostFixture
+    # Regression test to ensure q= filter can be used with other filters
+    @resetFixture
+    Scenario: Search All Posts with query and locale
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            q=Searching&locale=fr_FR
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        Then the guzzle status code should be 200
+
+    @resetFixture
     Scenario: Search All Posts by attribute
         Given that I want to get all "Posts"
         And that the request "query string" is:
             """
-            dummy_varchar=special
+            test_varchar=special
             """
         When I request "/posts"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
         And the "count" property equals "1"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a Post
         Given that I want to find a "Post"
@@ -267,7 +363,7 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Post
         Given that I want to find a "Post"
@@ -275,7 +371,7 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Deleting a Post
         Given that I want to delete a "Post"
@@ -283,7 +379,7 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "id" property
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Fail to delete a non existent Post
         Given that I want to delete a "Post"
@@ -291,7 +387,7 @@ Feature: Testing the Posts API
         When I request "/posts"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Creating a new Post with UTF-8 title
         Given that I want to make a new "Post"
@@ -304,6 +400,7 @@ Feature: Testing the Posts API
                 "email":"robbie@ushahidi.com",
                 "type":"report",
                 "status":"draft",
+                "locale":"en_US",
                 "values":
                 {
                     "full_name":"David Kobia",
@@ -323,5 +420,19 @@ Feature: Testing the Posts API
         And the response has a "title" property
         And the "title" property equals "SUMMARY REPORT (تقرير ملخص)"
         And the "slug" property equals "summary-report-تقرير-ملخص"
-        And the "tags" property contains "missing"
-        Then the response status code should be 200
+        And the response has a "tags.0.id" property
+        Then the guzzle status code should be 200
+
+    @resetFixture
+    Scenario: Search All Posts by link attribute
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            links=http://google.com
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        Then the guzzle status code should be 200

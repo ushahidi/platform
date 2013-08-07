@@ -2,14 +2,9 @@
 
 /**
  * Ushahidi API Base Controller
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Controllers
+ * @package    Ushahidi\Application\Controllers
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
@@ -89,9 +84,30 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected $record_allowed_orderby = array('id');
 	
+	/**
+	 * @var OAuth2_Server
+	 */
+	protected $_oauth2_server;
+	
+	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $scope_required = 'api';
+	
 	public function before()
 	{
 		parent::before();
+		
+		// Set up custom error view
+		Kohana_Exception::$error_view_content_type = 'application/json';
+		Kohana_Exception::$error_view = 'api/error';
+
+		$this->_oauth2_server = new Koauth_OAuth2_Server();
+
+		if (! $this->_check_access() )
+		{
+			return;
+		}
 
 		$this->_parse_request();
 	}
@@ -110,6 +126,19 @@ class Ushahidi_Api extends Controller {
 	{
 		return self::$version;
 	}
+	
+	protected function _check_access()
+	{
+		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
+		$response = new OAuth2_Response();
+		$scopeRequired = $this->scope_required;
+		if (! $this->_oauth2_server->verifyResourceRequest($request, $response, $scopeRequired)) {
+			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
+			$this->_oauth2_server->processResponse($this->response);
+			return FALSE;
+		}
+		return TRUE;
+	}
 
 	/**
 	 * Parse the request...
@@ -126,12 +155,11 @@ class Ushahidi_Api extends Controller {
 		// Is that a valid method?
 		if ( ! isset($this->_action_map[$this->request->method()]))
 		{
-			// TODO .. add to the if (maybe??) .. method_exists($this, 'action_'.$this->request->method())
-			throw new HTTP_Exception_405(array_keys($this->_action_map),
-				'The :method method is not supported. Supported methods are :allowed_methods', array(
-				':method'          => $method,
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
+				':method'          => $this->request->method(),
 				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
-			));
+			))
+			->allowed(array_keys($this->_action_map));
 		}
 
 		// Get the basic verb based action..
@@ -144,13 +172,24 @@ class Ushahidi_Api extends Controller {
 		}
 
 		// If we are acting on a collection, append _collection to the action name.
-		if ($this->request->param('id', FALSE) === FALSE)
+		if ($this->request->param('id', FALSE) === FALSE AND
+			$this->request->param('locale', FALSE) === FALSE)
 		{
 			$action .= '_collection';
 		}
 		
 		// Override the action
 		$this->request->action($action);
+
+		if (! method_exists($this, 'action_'.$action))
+		{
+			// TODO: filter 'Allow' header to only return implemented methods
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
+				':method'          => $this->request->method(),
+				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
+			))
+			->allowed(array_keys($this->_action_map));
+		}
 
 		// Are we be expecting body content as part of the request?
 		if (in_array($this->request->method(), $this->_methods_with_body_content))
@@ -263,7 +302,7 @@ class Ushahidi_Api extends Controller {
 		}
 		catch (Exception $e)
 		{
-			throw new HTTP_Exception_500('Error while formatting response');
+			throw new HTTP_Exception_500('Error while formatting response: :message', array(':message' => $e->getMessage()));
 		}
 
 		if ($format == 'jsonp')
@@ -305,7 +344,7 @@ class Ushahidi_Api extends Controller {
 				':orderby' => $this->record_orderby
 			));
 
-		if ($this->record_limit > $this->record_limit_max)
+		if ($this->record_limit_max !== FALSE AND $this->record_limit > $this->record_limit_max)
 			throw new HTTP_Exception_400('Number of records requested was too large: :record_limit.', array(
 				':record_limit' => $this->record_limit
 			));

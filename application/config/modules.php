@@ -10,5 +10,6 @@ return array(
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'minion'     => MODPATH.'minion',
 	'migrations' => MODPATH.'migrations',
+	'koauth'     => MODPATH.'koauth',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 );

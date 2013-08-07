@@ -2,27 +2,22 @@
 
 /**
  * Model for Forms
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Models
+ * @package    Ushahidi\Application\Models
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
 class Model_Form extends ORM {
 	/**
-	 * A form has many attributes, groups, and posts
+	 * A form has many groups
+	 * A form has and belongs to many attributes
 	 * A form has many [children] forms
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_has_many = array(
-		'form_attributes' => array(),
 		'form_groups' => array(),
 		'posts' => array(),
 
@@ -35,7 +30,7 @@ class Model_Form extends ORM {
 	/**
 	 * A form belongs to a user and a [parent] form
 	 *
-	 * @var array Relationhips
+	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
 		'user' => array(),

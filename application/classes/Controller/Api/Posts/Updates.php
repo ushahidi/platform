@@ -2,20 +2,14 @@
 
 /**
  * Ushahidi API Posts Streams Controller
- *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Controllers
+ * @package    Ushahidi\Application\Controllers
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_Api_Posts_Streams extends Controller_Api_Posts {
-
+class Controller_Api_Posts_Updates extends Controller_Api_Posts {
 
 	public function before()
 	{
@@ -23,5 +17,14 @@ class Controller_Api_Posts_Streams extends Controller_Api_Posts {
 
 		// Parent ID of this Stream Post
 		$this->_parent_id = $this->request->param('post_id', 0);
+		
+		$parent = ORM::factory('Post', $this->_parent_id);
+		
+		if ( ! $parent->loaded())
+		{
+			throw new HTTP_Exception_404('Parent Post does not exist. Post ID: \':id\'', array(
+				':id' => $this->_parent_id,
+			));
+		}
 	}
 }

@@ -1,6 +1,8 @@
 Ushahidi 3
 ============
 
+[![Build Status](https://travis-ci.org/ushahidi/Lamu.png)](https://travis-ci.org/ushahidi/Lamu)
+
 System Requirements
 -------------------
 To install the platform on your computer/server, the target system must meet the following requirements:
@@ -63,4 +65,17 @@ We've included a Vagrantfile and puppet manifests to help build a quick developm
 
 ### Travis-CI
 
-Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/Lamu). See [.travis.yml](https://github.com/ushahidi/Lamu/blob/master/.travis.yml) for config details.
+Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/Lamu).
+See [.travis.yml](https://github.com/ushahidi/Lamu/blob/master/.travis.yml) for config details.
+
+### Testing
+
+We use PHPUnit for unit tests, and Behat and Mink for functional testing.
+You can install the Behat, Mink, PHPUnit and other required packages using [Composer](getcomposer.org). Just run
+```composer install```
+
+Behat and PHPUnit will be install to ```./bin``` at the root of the repository. Run the tests as follows:
+```
+./bin/behat --config application/tests/behat.yml
+./bin/phpunit -c application/tests/phpunit.xml
+```
