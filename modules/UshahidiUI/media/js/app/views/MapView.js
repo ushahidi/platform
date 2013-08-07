@@ -1,14 +1,13 @@
 define(['marionette', 'handlebars', 'App', 'leaflet', 'App.oauth'],
 	function(Marionette, Handlebars, App, L, OAuth) {
 		// Hack to fix default image url
-		L.Icon.Default.imagePath = "/media/kohana/images";
+		L.Icon.Default.imagePath = App.config.baseurl + "media/kohana/images";
 		
 		return Marionette.ItemView.extend(
 		{
 			// Blank template just so it renders
 			template : Handlebars.compile(""),
-			initialize: function(options) {
-			},
+			initialize: function(options) {},
 			id: 'map',
 			className: 'map',
 			// Use onDomRefresh rather than render() because we need this.$el in the DOM first
@@ -37,7 +36,7 @@ define(['marionette', 'handlebars', 'App', 'leaflet', 'App.oauth'],
 				
 				posts = L.geoJson().addTo(this.map);
 				OAuth.ajax({
-					url : '/api/v2/posts/geojson',
+					url : App.config.baseurl + 'api/v2/posts/geojson',
 					success: function (data) { 
 						posts.addData(data);
 						// Center map on post markers

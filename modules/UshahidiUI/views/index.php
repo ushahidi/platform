@@ -30,6 +30,14 @@
 
     <!-- Font Awesome CSS CDN -->
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    
+    <!-- Global site config -->
+    <script type="text/javascript">
+      (function() {
+        window.config = <?php echo json_encode($site); ?>;
+      })();
+    </script>
+    <!-- end global site config -->
 
     <!--Change to Init.min.js below for production-->
     <script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
@@ -50,8 +58,6 @@
       })();
     </script>
     <!-- end Typekit script -->
-
-
 
 </head>
 <body>

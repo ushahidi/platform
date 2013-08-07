@@ -24,22 +24,23 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oau
 		});
 		
 		// Global config params
-		// @todo dynamically get this from kohana
-		var site = {
-			'baseurl' : '',
-			'imagedir' : 'media/kohana/images'
-		};
+		App.config = _.extend({
+			baseurl : '/',
+			imagedir : '/media/kohana/images',
+			jsdir : '/media/kohana/js',
+			cssdir : '/media/kohana/css'
+		}, window.config);
 		
 		Handlebars.registerHelper('baseurl', function() {
-			return site.baseurl;
+			return App.config.baseurl;
 		});
 		
 		Handlebars.registerHelper('url', function(url) {
-			return site.baseurl + '/' + url;
+			return App.config.baseurl  + url;
 		});
 		
 		Handlebars.registerHelper('imageurl', function(url) {
-			return site.baseurl + '/' + site.imagedir +  '/' + url;
+			return App.config.baseurl + App.config.imagedir +  '/' + url;
 		});
 	
 		return App;

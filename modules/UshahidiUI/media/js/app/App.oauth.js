@@ -6,8 +6,8 @@ define(['backbone', 'jso2', 'jquery'],
 		var oauth = new jso2('google', {
 			// @todo change client_id and ensure it always exists
 			client_id: "demoapp",
-			authorization: "/oauth/authorize",
-			redirect_uri: "/",
+			authorization: window.config.baseurl + "oauth/authorize",
+			redirect_uri: window.config.baseurl,
 			scopes: {
 				request: ["posts", "forms", "api"],
 				require: ["posts"]
