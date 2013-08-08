@@ -1,5 +1,5 @@
-define(['App', 'marionette', 'handlebars', 'text!templates/PostListItem.html','App.oauth'],
-	function(App, Marionette, Handlebars, template, OAuth)
+define(['App', 'marionette', 'handlebars', 'text!templates/PostListItem.html'],
+	function(App, Marionette, Handlebars, template)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend( {

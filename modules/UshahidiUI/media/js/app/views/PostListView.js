@@ -1,7 +1,5 @@
-define(['App', 'marionette', 'handlebars', 'views/PostItemView',
-	'text!templates/PostList.html', 'App.oauth', 'models/PostModel'],
-	function( App, Marionette, Handlebars, PostItemView,
-		template, OAuth, PostModel)
+define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates/PostList.html'],
+	function( App, Marionette, Handlebars, PostItemView, template)
 	{
 		//CollectionView provides some default rendering logic
 		return Marionette.CompositeView.extend( {

@@ -1,6 +1,5 @@
-define(['App', 'marionette', 'handlebars', 'text!templates/PostDetail.html',
-	'App.oauth'],
-	function( App, Marionette, Handlebars, template, OAuth, PostModel)
+define(['App', 'marionette', 'handlebars', 'text!templates/PostDetail.html'],
+	function( App, Marionette, Handlebars, template)
 	{
 		//CollectionView provides some default rendering logic
 		return Marionette.ItemView.extend( {
