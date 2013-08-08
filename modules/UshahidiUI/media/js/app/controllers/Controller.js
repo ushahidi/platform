@@ -37,9 +37,23 @@ define(['App', 'backbone', 'marionette',
 			},
 			postList : function() {
 				App.vent.trigger("page:change", "posts");
-				this.layout.mainRegion.show(new PostListView({
+				var home = new HomeLayout();
+				this.layout.mainRegion.show(home);
+				
+				home.contentRegion.show(new PostListView({
 					collection: App.Posts
 				}));
+				// Nothing bound to map region
+				home.searchRegion.show(new SearchBarView());
+			},
+			map : function() {
+				App.vent.trigger("page:change", "map");
+				var home = new HomeLayout();
+				this.layout.mainRegion.show(home);
+				
+				// Nothing bound to content region
+				home.mapRegion.show(new MapView());
+				home.searchRegion.show(new SearchBarView());
 			},
 			postDetail : function(id) {
 				App.vent.trigger("page:change", "posts/:id");

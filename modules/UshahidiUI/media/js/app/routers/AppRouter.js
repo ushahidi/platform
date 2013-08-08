@@ -7,6 +7,7 @@ define(['marionette', 'controllers/Controller'],
 			{
 				"" : "index",
 				"posts" : "postList",
+				"map" : "map",
 				"posts/:id" : "postDetail"
 			}
 		});
