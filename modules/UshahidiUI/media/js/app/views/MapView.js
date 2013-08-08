@@ -1,4 +1,4 @@
-define(['marionette', 'handlebars', 'App', 'leaflet', 'App.oauth'],
+define(['marionette', 'handlebars', 'App', 'leaflet', 'util/App.oauth'],
 	function(Marionette, Handlebars, App, L, OAuth) {
 		// Hack to fix default image url
 		L.Icon.Default.imagePath = App.config.baseurl + "media/kohana/images";
