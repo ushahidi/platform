@@ -35,8 +35,8 @@ define(['App', 'backbone', 'marionette',
 				home.mapRegion.show(new MapView());
 				home.searchRegion.show(new SearchBarView());
 			},
-			postList : function() {
-				App.vent.trigger("page:change", "posts");
+			viewsList : function() {
+				App.vent.trigger("page:change", "views/list");
 				var home = new HomeLayout();
 				this.layout.mainRegion.show(home);
 				
@@ -46,8 +46,8 @@ define(['App', 'backbone', 'marionette',
 				// Nothing bound to map region
 				home.searchRegion.show(new SearchBarView());
 			},
-			map : function() {
-				App.vent.trigger("page:change", "map");
+			viewsMap : function() {
+				App.vent.trigger("page:change", "views/map");
 				var home = new HomeLayout();
 				this.layout.mainRegion.show(home);
 				
