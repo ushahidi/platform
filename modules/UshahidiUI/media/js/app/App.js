@@ -1,5 +1,5 @@
-define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oauth'],
-	function($, Backbone, Marionette, _, Handlebars, OAuth) {
+define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oauth', 'moment'],
+	function($, Backbone, Marionette, _, Handlebars, OAuth, moment) {
 		var App = new Backbone.Marionette.Application();
 		
 		// Save oauth object in App - just in case
@@ -42,6 +42,18 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oau
 		Handlebars.registerHelper('imageurl', function(url) {
 			return App.config.baseurl + App.config.imagedir +  '/' + url;
 		});
-	
+		
+		Handlebars.registerHelper('datetime-fromNow', function(timestamp) {
+			return moment(timestamp).fromNow();
+		});
+		
+		Handlebars.registerHelper('datetime-calendar', function(timestamp) {
+			return moment(timestamp).calendar();
+		});
+		
+		Handlebars.registerHelper('datetime', function(timestamp) {
+			return moment(timestamp).format('LLL');
+		});
+		
 		return App;
 	}); 

@@ -16,6 +16,7 @@ require.config(
 		"jso2" : "../libs/jso2",
 		"store" : "../libs/jso2/store",
 		"utils" : "../libs/jso2/utils",
+		"moment" : "../libs/moment",
 
 		// Plugins
 		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",
@@ -47,6 +48,9 @@ require.config(
 		'leaflet': {
 			deps: ['jquery'],
 			exports: 'L'
+		},
+		'moment': {
+			exports: 'moment'
 		},
 	}
 });
