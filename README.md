@@ -45,7 +45,7 @@ Installing
 
 4. Install the database schema using migrations
 
-  ```./minion --task=migrations:run --up --group=3-0```
+  ```./minion --task=migrations:run --up```
 
 Extras
 ------
