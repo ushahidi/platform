@@ -1,0 +1,63 @@
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * SUBNAV............all subnav styles
+ */
+
+
+
+
+/*------------------------------------*\
+    $SUBNAV
+\*------------------------------------*/
+
+nav[role="sub-navigation"] {
+  @include grid-column(12, $collapse: true);
+  display: none;
+  max-height:1.2em;
+  background-color: $white;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  transition: all .4s ease;
+  ul {
+    margin: 0;
+  }
+}
+
+/*subnav reveal for mobile menu*/
+nav[role="sub-navigation"].subnav {
+  display: block;
+  max-height:999px;
+}
+
+nav[role="sub-navigation"] ul li.active>a {
+  background: $blueGray;
+  color: $white;
+}
+
+nav[role="sub-navigation"] li {
+  display: block;
+  @media #{$small} {
+    float: left;
+    clear: none;
+  }
+}
+
+nav[role="sub-navigation"] li a {
+  display: block;
+  padding: 20px 20px;
+  color: $blueGray;
+  border-bottom: 1px solid $lightGray;
+  @media #{$small} {
+    float: left;
+    padding: 20px 30px;
+    border-bottom: 0;
+  }
+}
+
+nav[role="sub-navigation"] li:focus,
+nav[role="sub-navigation"] li:active {
+}
