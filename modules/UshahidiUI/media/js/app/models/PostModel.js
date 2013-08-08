@@ -16,6 +16,11 @@ define(["jquery", "backbone"],
 			// Get's called automatically by Backbone when the set and/or save methods are called (Add your own logic)
 			validate : function(attrs) {
 	
+			},
+			
+			published : function ()
+			{
+				if (this.get('status') == 'published') return true;
 			}
 		});
 	

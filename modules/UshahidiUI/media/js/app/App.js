@@ -1,5 +1,5 @@
-define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oauth', 'moment'],
-	function($, Backbone, Marionette, _, Handlebars, OAuth, moment) {
+define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oauth', 'moment', 'underscore.string'],
+	function($, Backbone, Marionette, _, Handlebars, OAuth, moment, _str) {
 		var App = new Backbone.Marionette.Application();
 		
 		// Save oauth object in App - just in case
@@ -53,6 +53,12 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oau
 		
 		Handlebars.registerHelper('datetime', function(timestamp) {
 			return moment(timestamp).format('LLL');
+		});
+		
+		_.str = require('underscore.string');
+		Handlebars.registerHelper('prune', function(text, length) {
+			
+			return _str.prune(text, length);
 		});
 		
 		return App;

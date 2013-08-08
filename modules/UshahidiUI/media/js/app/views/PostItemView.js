@@ -23,6 +23,13 @@ define(['App', 'marionette', 'handlebars', 'text!templates/PostListItem.html','A
 					// Wait till server responds before destroying model
 					wait: true
 				});
+			},
+			
+			serializeData: function()
+			{
+				return _.extend(this.model.toJSON(), {
+					published : this.model.published()
+				});
 			}
 		});
 	});

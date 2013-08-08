@@ -17,6 +17,7 @@ require.config(
 		"store" : "../libs/jso2/store",
 		"utils" : "../libs/jso2/utils",
 		"moment" : "../libs/moment",
+		"underscore.string" : "../libs/underscore.string",
 
 		// Plugins
 		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",

@@ -20,7 +20,7 @@
   </div> <!-- end .list-view-post-details -->
 
   <div class="list-view-post-excerpt">
-    <p>{{ content }}. <a href="#"><span class="read-more">...&nbsp;Read&nbsp;More</span></a></p>
+    <p>{{ prune content 100 }} <a href="#posts/{{id}}"><span class="read-more">&nbsp;Read&nbsp;More</span></a></p>
   </div> <!-- end .list-view-post-excerpt -->
 
   <div class="list-view-post-admin">
@@ -31,7 +31,12 @@
       <ul class="list-view-post-edit">
         <li><a href="#" class="button  small  secondary post-edit"> <i class="icon-edit"></i> edit</a></li>
         <li><a href="#" class="button  small  secondary post-set"> <i class="icon-plus-sign"></i> set</a></li>
-        <li><a href="#" class="button  small  secondary post-unpublish"> <i class="icon-file"></i> unpublish</a></li>
+        <li>{{#if published}}
+          <a href="#" class="button  small  secondary post-unpublish"> <i class="icon-file"></i> unpublish</a>
+          {{else}}
+          <a href="#" class="button  small  secondary post-publish"> <i class="icon-file"></i> publish</a>
+          {{/if}}
+        </li>
         <li><a href="#" class="button  small  secondary post-delete"> <i class="icon-trash"></i></a></li>
       </ul> <!-- end .list-view-post-edit -->
     </div> <!-- end .list-view-post-edit-wrapper .hide-for-medium-down -->
