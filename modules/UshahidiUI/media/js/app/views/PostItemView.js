@@ -1,4 +1,4 @@
-define(['App', 'marionette', 'handlebars', 'text!templates/post.html','App.oauth'],
+define(['App', 'marionette', 'handlebars', 'text!templates/PostListItem.html','App.oauth'],
 	function(App, Marionette, Handlebars, template, OAuth)
 	{
 		//ItemView provides some default rendering logic

@@ -1,5 +1,5 @@
 define(['App', 'marionette', 'handlebars', 'views/PostItemView',
-	'text!templates/postlist.html', 'App.oauth', 'models/PostModel'],
+	'text!templates/PostList.html', 'App.oauth', 'models/PostModel'],
 	function( App, Marionette, Handlebars, PostItemView,
 		template, OAuth, PostModel)
 	{

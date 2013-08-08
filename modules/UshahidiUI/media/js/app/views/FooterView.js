@@ -1,4 +1,4 @@
-define(['marionette', 'handlebars', 'App', 'text!templates/footer.html'],
+define(['marionette', 'handlebars', 'App', 'text!templates/Footer.html'],
 	function(Marionette, Handlebars, App, template) {
 		return Marionette.ItemView.extend(
 		{

@@ -1,4 +1,4 @@
-define(['App', 'marionette', 'handlebars', 'text!templates/postdetail.html',
+define(['App', 'marionette', 'handlebars', 'text!templates/PostDetail.html',
 	'App.oauth'],
 	function( App, Marionette, Handlebars, template, OAuth, PostModel)
 	{
