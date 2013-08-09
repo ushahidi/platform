@@ -1,5 +1,5 @@
-define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'util/App.handlebars'],
-	function($, Backbone, Marionette, _, Handlebars, OAuth, AppHandlebars) {
+define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'util/App.handlebars', 'foundation-loader'],
+	function($, Backbone, Marionette, _, Handlebars, OAuth, AppHandlebars, FoundationLoader) {
 		var App = new Backbone.Marionette.Application();
 		
 		// Save oauth object in App - just in case
@@ -21,6 +21,9 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 	
 		App.addInitializer(function(options) {
 			Backbone.history.start();
+			
+			// Init foundation
+			$(document).foundation();
 		});
 		
 		// Global config params
