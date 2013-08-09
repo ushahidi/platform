@@ -5567,7 +5567,7 @@ nav[role="sub-navigation"] li a {
       padding-right: 0em; } }
 
 /* line 94, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-.list-view-post-categories {
+.list-view-post-categories-wrapper {
   position: relative;
   padding-left: 0;
   padding-right: 0;
@@ -5575,21 +5575,59 @@ nav[role="sub-navigation"] li a {
   float: left; }
   @media only screen and (min-width: 768px) {
     /* line 94, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-    .list-view-post-categories {
+    .list-view-post-categories-wrapper {
       position: relative;
       padding-left: 0;
       padding-right: 0;
-      width: 25%;
+      width: 50%;
       float: left; } }
   /* line 99, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-  .list-view-post-categories button {
+  .list-view-post-categories-wrapper button {
     padding-left: 10px; }
     /* line 101, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-    .list-view-post-categories button i {
+    .list-view-post-categories-wrapper button i {
       color: #c50813;
       padding-right: 5px; }
 
 /* line 108, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+.list-view-post-categories {
+  display: block;
+  padding: 0;
+  margin: 0 -0.625em;
+  *zoom: 1; }
+  /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
+  .list-view-post-categories:before, .list-view-post-categories:after {
+    content: " ";
+    display: table; }
+  /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
+  .list-view-post-categories:after {
+    clear: both; }
+  /* line 27, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
+  .list-view-post-categories > li {
+    display: inline;
+    height: auto;
+    float: left;
+    padding: 0 0.625em 1.25em; }
+  /* line 36, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
+  .list-view-post-categories > li {
+    width: 25%;
+    padding: 0 0.625em 1.25em; }
+    /* line 40, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
+    .list-view-post-categories > li:nth-of-type(n) {
+      clear: none; }
+    /* line 41, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
+    .list-view-post-categories > li:nth-of-type(4n+1) {
+      clear: both; }
+  @media only screen and (min-width: 768px) {
+    /* line 108, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    .list-view-post-categories {
+      /*@include grid-column(12, $collapse: true);*/
+      float: left; }
+      /* line 114, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+      .list-view-post-categories li {
+        width: auto; } }
+
+/* line 120, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-edit-wrapper {
   position: relative;
   padding-left: 0;
@@ -5597,15 +5635,16 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 108, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 120, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-edit-wrapper {
       position: relative;
       padding-left: 0;
       padding-right: 0;
-      width: 75%;
-      float: left; } }
+      width: 50%;
+      float: left;
+      float: right; } }
 
-/* line 115, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 128, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-edit {
   display: block;
   padding: 0;
@@ -5635,11 +5674,11 @@ nav[role="sub-navigation"] li a {
     .list-view-post-edit > li:nth-of-type(4n+1) {
       clear: both; }
   @media only screen and (min-width: 768px) {
-    /* line 115, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 128, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-edit {
       /*@include grid-column(12, $collapse: true);*/
       float: right; }
-      /* line 121, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+      /* line 134, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
       .list-view-post-edit li {
         width: auto; } }
 
