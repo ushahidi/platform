@@ -1,9 +1,9 @@
 define(['App', 'backbone', 'marionette',
 	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/MapView',
-	'views/PostListView', 'views/PostDetailView','collections/PostCollection'],
+	'views/PostListView', 'views/PostDetailView','collections/PostCollection','collections/TagCollection','collections/FormCollection'],
 	function(App, Backbone, Marionette,
 		AppLayout, HomeLayout, HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
-		PostListView, PostDetailView, PostCollection)
+		PostListView, PostDetailView, PostCollection, TagCollection, FormCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -20,8 +20,13 @@ define(['App', 'backbone', 'marionette',
 				this.layout.footerRegion.show(new FooterView());
 				this.layout.workspacePanel.show(new WorkspacePanelView());
 				
-				App.Posts = new PostCollection();
-				App.Posts.fetch();
+				App.Collections = {};
+				App.Collections.Posts = new PostCollection();
+				App.Collections.Posts.fetch();
+				App.Collections.Tags = new TagCollection();
+				App.Collections.Tags.fetch();
+				App.Collections.Forms = new FormCollection();
+				App.Collections.Forms.fetch();
 			},
 			//gets mapped to in AppRouter's appRoutes
 			index : function() {
@@ -30,7 +35,7 @@ define(['App', 'backbone', 'marionette',
 				this.layout.mainRegion.show(home);
 				
 				home.contentRegion.show(new PostListView({
-					collection: App.Posts
+					collection: App.Collections.Posts
 				}));
 				home.mapRegion.show(new MapView());
 				home.searchRegion.show(new SearchBarView());
@@ -41,7 +46,7 @@ define(['App', 'backbone', 'marionette',
 				this.layout.mainRegion.show(home);
 				
 				home.contentRegion.show(new PostListView({
-					collection: App.Posts
+					collection: App.Collections.Posts
 				}));
 				// Nothing bound to map region
 				home.searchRegion.show(new SearchBarView());
@@ -58,7 +63,7 @@ define(['App', 'backbone', 'marionette',
 			postDetail : function(id) {
 				App.vent.trigger("page:change", "posts/:id");
 				this.layout.mainRegion.show(new PostDetailView({
-					model: App.Posts.get(id)	
+					model: App.Collections.Posts.get(id)	
 				}));
 
 			}
