@@ -1,15 +1,13 @@
-define(['marionette', 'handlebars', 'App', 'leaflet', 'util/App.oauth'],
-	function(Marionette, Handlebars, App, L, OAuth) {
+define(['marionette', 'handlebars', 'App', 'leaflet', 'util/App.oauth', 'text!templates/Map.html'],
+	function(Marionette, Handlebars, App, L, OAuth, template) {
 		// Hack to fix default image url
 		L.Icon.Default.imagePath = App.config.baseurl + "media/kohana/images";
 		
 		return Marionette.ItemView.extend(
 		{
 			// Blank template just so it renders
-			template : Handlebars.compile(""),
+			template : Handlebars.compile(template),
 			initialize: function(options) {},
-			id: 'map',
-			className: 'map',
 			// Use onDomRefresh rather than render() because we need this.$el in the DOM first
 			onDomRefresh: function()
 			{
@@ -27,7 +25,7 @@ define(['marionette', 'handlebars', 'App', 'leaflet', 'util/App.oauth'],
 				var minimal   = L.tileLayer(cloudmadeUrl, {styleId: 22677, attribution: cloudmadeAttribution});
 				
 				// create a map in the "map" div, set the view to a given place and zoom
-				var map = this.map = L.map(this.$el[0], {
+				var map = this.map = L.map(this.$('#map')[0], {
 					center : new L.LatLng(-36.85, 174.78),
 					zoom : 5,
 					layers : [minimal],
@@ -56,6 +54,16 @@ define(['marionette', 'handlebars', 'App', 'leaflet', 'util/App.oauth'],
 				L.control.layers(baseMaps, overlayMaps).addTo(this.map);
 				
 				return this;
+			},
+			events : {
+				'click .js-collapse-map' : 'collapseMap'
+			},
+			collapseMap : function () {
+				$('#map').toggleClass('map-collapse');
+				this.$('.js-collapse-tab').toggleClass('none');
+				this.$('.js-expand-tab').toggleClass('none');
+				this.$('.leaflet-container .leaflet-control-zoom').toggle();
+				return false;
 			}
 		});
 	}); 

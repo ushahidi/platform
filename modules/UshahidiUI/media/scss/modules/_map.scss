@@ -37,3 +37,34 @@
 	@include transition (all .3s ease-in-out);
 }
 
+
+
+
+/*------------------------------------*\
+		$COLLAPSE MAP
+\*------------------------------------*/
+.collapse-map {
+	background-color: $blueGray;
+	position: relative;
+	top: -38px;
+	margin: auto;
+	width: 186px;
+	height: 38px;
+	color: $white;
+	cursor: pointer;
+	z-index: 2;
+	p {
+		text-align: center;
+		padding-top: 6px;
+		margin: 0;
+		font-size: 18px;
+		letter-spacing: .1em;
+		color: $white;
+	}
+}
+
+.collapse-map-container {
+	height: 0;
+	margin-bottom: -3px; // @todo maybe move this to margin-top on search bar
+}
+

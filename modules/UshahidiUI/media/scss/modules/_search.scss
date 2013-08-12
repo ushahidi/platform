@@ -10,32 +10,6 @@
 
 
 
-/*------------------------------------*\
-		$COLLAPSE MAP
-\*------------------------------------*/
-.collapse-map {
-	background-color: $blueGray;
-	position: relative;
-	top: -38px;
-	margin: auto;
-	width: 186px;
-	height: 38px;
-	color: $white;
-	cursor: pointer;
-	z-index: 2;
-	p {
-		text-align: center;
-		padding-top: 6px;
-		margin: 0;
-		font-size: 18px;
-		letter-spacing: .1em;
-		color: $white;
-	}
-}
-
-
-
-
 
 /*------------------------------------*\
 		$SEARCH BAR
@@ -46,6 +20,7 @@
 	background: $darkBlue url(../images/search-bg.jpg) repeat;
 	width: 100%;
 	border-top: 3px solid darken($blue, 5%);
+	padding-top: 2em;
 }
 
 .search-form-wrapper {
