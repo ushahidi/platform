@@ -1,91 +1,82 @@
 <div class="list-view-bulk-actions  js-list-view-bulk-actions  hidden">
-  <div class="row">
-  <ul class="list-view-bulk-actions-list  hide-for-medium-down">
-    <li><a href="#" class="underline" >Select All</a></li>
-    <li><a href="#"> <i class="icon-edit"></i> Edit</a></li>
-    <li><a href="#"> <i class="icon-file-alt"></i> Publish</a></li>
-    <li><a href="#"> <i class="icon-file"></i> Unpublish</a></li>
-    <li><a href="#"> <i class="icon-trash"></i> Delete</a></li>
-    <li><a href="#"> <i class="icon-mail-forward"></i> Assign</a></li>
-    <li><a href="#"> <i class="icon-lock"></i> Privacy</a></li>
-  </ul> <!-- end .list-view-bulk-actions-list .hide-for-medium-down-->
-
-  <ul class="list-view-bulk-actions-list  show-for-medium-down">
-    <li>
-      <form>
-        <label class="visually-hidden" for="select-all">Select All</label>
-        <input type="checkbox" id="select-all">
-          <!-- <span class="custom checkbox"></span> -->
-      </form>
-    </li>
-    <li><a href="#"> <i class="icon-edit"></i></a></li>
-    <li><a href="#"> <i class="icon-file-alt"></i></a></li>
-    <li><a href="#"> <i class="icon-file"></i></a></li>
-    <li><a href="#"> <i class="icon-trash"></i></a></li>
-    <li><a href="#"> <i class="icon-mail-forward"></i></a></li>
-    <li><a href="#"> <i class="icon-lock"></i></a></li>
-  </ul> <!-- end .list-view-bulk-actions-list .show-for-medium-down -->
-  </div> <!-- end .row -->
+	<div class="row">
+		<ul class="list-view-bulk-actions-list">
+			<li>
+				<form>
+					<label class="select-all" for="select-all">
+						<input class="show-for-medium-down" type="checkbox" id="select-all">
+						<span class="hide-for-medium-down underline">Select All</span>
+					</label>
+				</form>
+			</li>
+			<li><a href="#"> <i class="icon-edit"></i> <span class="hide-for-medium-down">Edit</span></a></li>
+			<li><a href="#"> <i class="icon-file-alt"></i> <span class="hide-for-medium-down">Publish</span></a></li>
+			<li><a href="#"> <i class="icon-file"></i> <span class="hide-for-medium-down">Unpublish</span></a></li>
+			<li><a href="#"> <i class="icon-trash"></i> <span class="hide-for-medium-down">Delete</span></a></li>
+			<li><a href="#"> <i class="icon-mail-forward"></i> <span class="hide-for-medium-down">Assign</span></a></li>
+			<li><a href="#"> <i class="icon-lock"></i> <span class="hide-for-medium-down">Privacy</span></a></li>
+		</ul> <!-- end .list-view-bulk-actions-list .hide-for-medium-down-->
+	</div> <!-- end .row -->
 </div> <!-- end .list-view-bulk-actions -->
 
 <div class="row">
-  <div class="list-view-filter">
-    <div class="row">
+	<div class="list-view-filter">
+		<div class="row">
 
-      <form role="form" class="custom" action="">
-        <div class="list-view-filter-info">
-          <h5>Showing 3 from 1,500 posts</h5>
-        </div> <!-- end .list-view-filter-info -->
+			<form role="form" class="custom" action="">
+				<div class="list-view-filter-info">
+					<h5>Showing 3 from 1,500 posts</h5>
+				</div> <!-- end .list-view-filter-info -->
 
-        <div class="list-view-filter-count">
-          <div class="filter-count-select">
-            <label class="visually-hidden" for="filter-posts-count">Count</label>
-            <select id="filter-posts-count" >
-              <option selected DISABLED>Count:</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>All</option>
-            </select>
-          </div>
+				<div class="list-view-filter-count">
+					<div class="filter-count-select">
+						<label class="visually-hidden" for="filter-posts-count">Count</label>
+						<select id="filter-posts-count" >
+							<option selected DISABLED>Count:</option>
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>All</option>
+						</select>
+					</div>
 
-        </div> <!-- end .list-view-filter-count -->
+				</div> <!-- end .list-view-filter-count -->
 
-        <div class="list-view-filter-sort">
-          <div class="filter-sort-select">
-            <label class="visually-hidden" for="filter-posts-sort">Sort Posts</label>
-            <select id="filter-posts-sort" >
-              <option selected DISABLED>Sort by:</option>
-              <option>Title A-Z</option>
-              <option>Category</option>
-              <option>Time</option>
-            </select>
-          </div>
+				<div class="list-view-filter-sort">
+					<div class="filter-sort-select">
+						<label class="visually-hidden" for="filter-posts-sort">Sort Posts</label>
+						<select id="filter-posts-sort" >
+							<option selected DISABLED>Sort by:</option>
+							<option>Title A-Z</option>
+							<option>Category</option>
+							<option>Time</option>
+						</select>
+					</div>
 
-        </div> <!-- end .list-view-filter-sort -->
-      </form>
+				</div> <!-- end .list-view-filter-sort -->
+			</form>
 
-    </div> <!-- end .row -->
-  </div> <!-- end .list-view-filter -->
+		</div> <!-- end .row -->
+	</div> <!-- end .list-view-filter -->
 
-  <div class="list-view-wrapper">
+	<div class="list-view-wrapper">
 
-    <ul class="list-view-posts-list">
-    </ul>
+		<ul class="list-view-posts-list">
+		</ul>
 
-  </div> <!-- end .list-view-wrapper -->
+	</div> <!-- end .list-view-wrapper -->
 </div> <!-- end .row -->
 
 <div class="pagination-centered">
-  <ul class="pagination">
-    <li class="arrow unavailable"><a href="">&laquo;</a></li>
-    <li class="current"><a href="">1</a></li>
-    <li><a href="">2</a></li>
-    <li><a href="">3</a></li>
-    <li><a href="">4</a></li>
-    <li class="unavailable"><a href="">&hellip;</a></li>
-    <li><a href="">12</a></li>
-    <li><a href="">13</a></li>
-    <li class="arrow"><a href="">&raquo;</a></li>
-  </ul>
+	<ul class="pagination">
+		<li class="arrow unavailable"><a href="">&laquo;</a></li>
+		<li class="current"><a href="">1</a></li>
+		<li><a href="">2</a></li>
+		<li><a href="">3</a></li>
+		<li><a href="">4</a></li>
+		<li class="unavailable"><a href="">&hellip;</a></li>
+		<li><a href="">12</a></li>
+		<li><a href="">13</a></li>
+		<li class="arrow"><a href="">&raquo;</a></li>
+	</ul>
 </div> <!-- end .pagination-centered -->

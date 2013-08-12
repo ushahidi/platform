@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * POST DETAILS MAP...............map with smaller height than main index view
@@ -11,64 +11,86 @@
 
 
 /*------------------------------------*\
-    $POST DETAILS MAP
+		$POST DETAILS MAP
 \*------------------------------------*/
 
 .post-details-map {
-  height: 200px;
-  border-bottom: 3px solid $darkBlue;
+	height: 200px;
+	border-bottom: 3px solid $darkBlue;
 /*  -moz-border-image: url(../images/search-bg.png) repeat;
-    -webkit-border-image: url(../images/search-bg.png) repeat;
-      -o-border-image: url(../images/search-bg.png) repeat;
-        border-image: url(../images/search-bg.png) repeat;*/
+		-webkit-border-image: url(../images/search-bg.png) repeat;
+			-o-border-image: url(../images/search-bg.png) repeat;
+				border-image: url(../images/search-bg.png) repeat;*/
 }
 
 
 
 
 /*------------------------------------*\
-    $POST DETIALS
+		$POST DETIALS
 \*------------------------------------*/
 
 .post-details {
-  @extend .post;
-  margin-bottom: 20px;
-  @media #{$medium} {
-    @include grid-column(8);
-  }
+	@extend .post;
+	margin-bottom: 20px;
+	@media #{$medium} {
+		@include grid-column(8);
+	}
 }
 
 .post-location-meta {
-  @include grid-column(12);
+	@include grid-column(12);
 }
 
 .post-time-meta {
-  @include grid-column(12);
+	@include grid-column(12);
 }
 
 .post-privacy-status {
-  @include grid-column(12);
+	@include grid-column(12);
+	margin-bottom: 20px;
+}
+
+.post-categories-wrapper {
+	@include grid-column(12);
+	button {
+		margin-bottom: 0;
+	}
+	@media #{$small} {
+		button.expand, .button.expand {
+			padding-right: 1.125em;
+			padding-left: 1.125em;
+			width: auto;
+		}
+	}
+}
+
+.post-categories {
+	@include block-grid($per-row: 2);
+	@media #{$small} {
+		@include block-grid($per-row: 1);
+	}
 }
 
 .post-thumbnails-wrapper {
-  @include grid-column(12, $collapse: true);
-  [data-clearing] li {
-  margin-right: 0;
-  }
+	@include grid-column(12, $collapse: true);
+	[data-clearing] li {
+	margin-right: 0;
+	}
 }
 
 .click-to-zoom {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .post-thumbnails {
-  @include block-grid($per-row: 2);
-  @media #{$small} {
-    @include block-grid($per-row: 4);
-  }
-  li img {
-    @include thumb;
-  }
+	@include block-grid($per-row: 2);
+	@media #{$small} {
+		@include block-grid($per-row: 4);
+	}
+	li img {
+		@include thumb;
+	}
 }
 
 

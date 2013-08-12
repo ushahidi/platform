@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * workspace PROFILE...............user avatar and account settings/edits
@@ -12,35 +12,35 @@
 
 
 /*------------------------------------*\
-    $WORKSPACE PROFILE
+		$WORKSPACE PROFILE
 \*------------------------------------*/
  .workspace-profile {
-  @include grid-row;
-  border-top: 1px solid black;
+	@include grid-row;
+	border-top: 1px solid black;
 }
 
 .workspace-avatar {
-  background: url( ../images/avatar.png ) no-repeat;
-  background-size: 100%;
-  height: 58px;
-  width: 58px;
-  margin: 15px 7px 15px 15px;
-  float: left;
+	background: url( ../images/avatar.png ) no-repeat;
+	background-size: 100%;
+	height: 58px;
+	width: 58px;
+	margin: 15px 7px 15px 15px;
+	float: left;
 }
 
 .workspace-edit {
-  float: left;
-  margin: 21px 0 0 7px;
-  .username {
-    @include font-family-bold;
-    margin: 0;
-    line-height: 1;
-  }
-  .workspace-role {
-    font-size: 13px;
-    margin: 0;
-    line-height: 1;
-  }
+	float: left;
+	margin: 21px 0 0 7px;
+	.username {
+		@include font-family-bold;
+		margin: 0;
+		line-height: 1;
+	}
+	.workspace-role {
+		font-size: 13px;
+		margin: 0;
+		line-height: 1;
+	}
 }
 
 
@@ -49,25 +49,29 @@
 
 
 /*------------------------------------*\
-    $WORKSPACE STATS WRAPPER
+		$WORKSPACE STATS WRAPPER
 \*------------------------------------*/
 
 .workspace-stats-wrapper {
-  @include grid-row;
+	@include grid-row;
 }
 
 .workspace-stats {
-  @include block-grid(3);
-  margin: 0;
+	@include block-grid(3);
+	margin: 0;
 }
 
 .workspace-stats li.panel {
-  padding: 10px 10px 10px 20px;
-  margin: 0;
+	padding: 10px 10px 10px 20px;
+	margin: 0;
 }
 
 .panel h4 {
-  margin: 0;
+	margin: 0;
+	span {
+		font-size: $base-font-size;
+		font-weight: normal;
+	}
 }
 
 
@@ -75,29 +79,33 @@
 
 
  /*------------------------------------*\
-     $WORKSPACE ACCORDIAN MENU
+		 $WORKSPACE ACCORDIAN MENU
  \*------------------------------------*/
 .workspace-menu {
-  @include grid-row;
-  @include section-container($section-type:accordion);
-  & > section { @include section($section-type:accordion, $title-color:$white, $title-font-size:17px, $content-bg:$lightGray);
-  }
-  i {
-    padding-left: 10px;
-  }
+	@include grid-row;
+	@include section-container($section-type:accordion);
+	& > section { @include section($section-type:accordion, $title-color:$white, $title-font-size:17px, $content-bg:$lightGray);
+	}
+	i {
+		padding-left: 10px;
+	}
+}
+
+.workspace-menu>section.active>.title a {
+	color: $white;
 }
 
 .workspace-menu>section .content {
-  &.active {
-    background: $section-content-bg-active;
-  }
-  a {
-    color: $body-font-color;
-    p {
-      margin: 0;
-      span {
-        float: right;
-      }
-    }
-  }
+	&.active {
+		background: $section-content-bg-active;
+	}
+	a {
+		color: $body-font-color;
+		p {
+			margin: 0;
+			span {
+				float: right;
+			}
+		}
+	}
 }

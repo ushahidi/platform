@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * GLOBAL...............global styles
@@ -9,36 +9,36 @@
 
 
  /*------------------------------------*\
-     $GLOBAL
+		 $GLOBAL
  \*------------------------------------*/
 
 [role="complementary"], [role="main"] {
-  width: 100%;
-  display: block;
-  position: relative;
-  z-index: 1;
+	width: 100%;
+	display: block;
+	position: relative;
+	z-index: 1;
 }
 
 [role="main"] {
-  width: 100%;
-  margin-left: 0;
-  float: left;
-  clear: both;
-  margin-left: 0px;
-  overflow: hidden;
-  @extend .box-shadow;
-  -webkit-transition: margin .3s ease;
-    -moz-transition: margin .3s ease;
-      -ms-transition: margin .3s ease;
-        -o-transition: margin .3s ease;
-          transition: margin .3s ease;
+	width: 100%;
+	margin-left: 0;
+	float: left;
+	clear: both;
+	margin-left: 0px;
+	overflow: hidden;
+	@extend .box-shadow;
+	-webkit-transition: margin .3s ease;
+		-moz-transition: margin .3s ease;
+			-ms-transition: margin .3s ease;
+				-o-transition: margin .3s ease;
+					transition: margin .3s ease;
 
 }
 
 [role="complementary"] {
-  width: 310px;
-  margin-right: -200%;
-  float: left;
+	width: 310px;
+	margin-right: -200%;
+	float: left;
 }
 
 
@@ -46,16 +46,16 @@
 
 
 /*------------------------------------*\
-    $ACTIVE
+		$ACTIVE
 \*------------------------------------*/
 
-.active-workspace [role="main"] {
-  margin-left: -310px;
-  @media #{$medium-up} {
-    margin-left: -300px;
-  }
+.active-workspace [role="main"], .active-workspace #mainRegion {
+	margin-left: -310px;
+	@media #{$medium-up} {
+		margin-left: -300px;
+	}
 }
 .active-workspace [role="complementary"] {
-  margin-left: 0;
-  width: 310px;
+	margin-left: 0;
+	width: 310px;
 }

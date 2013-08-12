@@ -1,66 +1,75 @@
 <section class="post-details">
-  <div class="post-header">
-    <div class="post-category-marker">
-      <img src="{{ imageurl "category-icon.png" }}" alt="">
-    </div> <!-- end .post-category-marker -->
+	<div class="post-header">
+		<div class="post-category-marker">
+			<img src="{{ imageurl "category-icon.png" }}" alt="">
+		</div> <!-- end .post-category-marker -->
 
-    <div class="post-title">
-      <h6>{{title}}</h6>
-      <div class="row">
-        <div class="post-title-tag">
-          <h6 class="subheader">Automobiles</h6>
-        </div>
-      </div>
-    </div> <!-- end .post-title -->
+		<div class="post-title">
+			<h6>{{ title }}</h6>
+			<div class="row">
+				<div class="post-title-tag">
+					<h6 class="subheader">Automobiles</h6>
+				</div>
+			</div>
+		</div> <!-- end .post-title -->
 
-    <div class="post-actions">
-      <button class="small  secondary  button"> <i class="icon-edit"></i>edit</button>
-      <button class="small  secondary  button"> <i class="icon-plus-sign"></i>set</button>
-    </div> <!-- end .post-actions -->
-  </div> <!-- end .post-header -->
+		<div class="post-actions">
+			<button class="small  secondary  button"> <i class="icon-edit"></i>edit</button>
+			<button class="small  secondary  button"> <i class="icon-plus-sign"></i>set</button>
+		</div> <!-- end .post-actions -->
+	</div> <!-- end .post-header -->
 
-  <div class="post-body">
-    <div class="post-image">
-      <img src="{{ imageurl "mini-coop.jpg"}}" alt="">
+	<div class="post-body">
+		<div class="post-image">
+			<img src="{{ imageurl "mini-coop.jpg" }}" alt="">
 
-      <div class="row">
+			<div class="row">
 
-        <div class="post-location-meta">
-          <h5><small> <i class="icon-map-marker"></i><span class="post-location  underline" ><a href=""> London, UK</a></span></small></h5>
-        </div> <!-- end .post-location-meta -->
+				<div class="post-location-meta">
+					<h5><small> <i class="icon-map-marker"></i><span class="post-location  underline" ><a href=""> London, UK</a></span></small></h5>
+				</div> <!-- end .post-location-meta -->
 
-        <div class="post-time-meta">
-          <h5><small> <i class="icon-time"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></small></h5>
-        </div> <!-- end .post-time-meta -->
+				<div class="post-time-meta">
+					<h5><small> <i class="icon-time"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></small></h5>
+				</div> <!-- end .post-time-meta -->
 
-        <div class="post-privacy-status">
-          <h5><small> <i class="icon-lock"></i><strong class="post-time" > Private</strong></small></h5>
-        </div> <!-- end .post-privacy-status -->
+				<div class="post-privacy-status">
+					<h5><small> <i class="icon-lock"></i><strong class="post-time" > Private</strong></small></h5>
+				</div> <!-- end .post-privacy-status -->
 
-      </div> <!-- end .row -->
+				<div class="post-categories-wrapper">
+					<ul class="post-categories">
+						<li><button class="button  small  secondary  expand"> <i class="icon-circle"></i> Automobiles</button></li>
+						<li><button class="button  small  secondary  expand"> <i class="icon-circle"></i> Transport</button></li>
+						<li><button class="button  small  secondary  expand"> <i class="icon-circle"></i> London</button></li>
+						<li><button class="button  small  secondary  expand"> <i class="icon-circle"></i> Retro</button></li>
+					</ul>
+				</div> <!-- end .post-categories-wrapper -->
 
-    </div> <!-- end .post-body -->
+			</div> <!-- end .row -->
 
-    <div class="post-details">
+		</div> <!-- end .post-body -->
 
-      <div class="post-author">
-        <h6><small><span class= "underline"><a href="">DUDE BRO</a> </span>ADDED A POST</small></h6>
-      </div> <!-- end .post-author -->
+		<div class="post-details">
 
-      <div class="post-excerpt">
-        <p>{{content}}</p>
-      </div> <!-- end .post-excerpt -->
+			<div class="post-author">
+				<h6><small><span class= "underline"><a href="">DUDE BRO</a> </span>ADDED A POST</small></h6>
+			</div> <!-- end .post-author -->
 
-    </div> <!-- end .post-details -->
-    <hr>
-    <p class="click-to-zoom"><small><i class="icon-zoom-in"></i> click images to zoom</small></p>
-    <div class="post-thumbnails-wrapper">
-      <ul class="post-thumbnails  js-lightbox-gallery">
-        <li><a href="{{ imageurl "mini-coop.jpg"}}"><img src="{{ imageurl "mini-coop.jpg"}}" alt=""></a></li>
-        <li><a href="{{ imageurl "mini-coop-2.jpg"}}"><img src="{{ imageurl "mini-coop-2.jpg"}}" alt=""></a></li>
-        <li><a href="{{ imageurl "mini-coop-3.jpg"}}"><img src="{{ imageurl "mini-coop-3.jpg"}}" alt=""></a></li>
-        <li><a href="{{ imageurl "mini-coop-4.jpg"}}"><img src="{{ imageurl "mini-coop-4.jpg"}}" alt=""></a></li>
-      </ul>
-    </div> <!-- end .post-thumbnails-wrapper -->
-  </div> <!-- end .post-body -->
+			<div class="post-excerpt">
+				{{ content }}
+			</div> <!-- end .post-excerpt -->
+
+		</div> <!-- end .post-details -->
+		<hr>
+		<p class="click-to-zoom"><small><i class="icon-zoom-in"></i> click images to zoom</small></p>
+		<div class="post-thumbnails-wrapper">
+			<ul class="post-thumbnails  js-lightbox-gallery">
+				<li><a href="{{ imageurl "mini-coop.jpg"}}"><img src="{{ imageurl "mini-coop.jpg"}}" alt=""></a></li>
+				<li><a href="{{ imageurl "mini-coop-2.jpg"}}"><img src="{{ imageurl "mini-coop-2.jpg"}}" alt=""></a></li>
+				<li><a href="{{ imageurl "mini-coop-3.jpg"}}"><img src="{{ imageurl "mini-coop-3.jpg"}}" alt=""></a></li>
+				<li><a href="{{ imageurl "mini-coop-4.jpg"}}"><img src="{{ imageurl "mini-coop-4.jpg"}}" alt=""></a></li>
+			</ul>
+		</div> <!-- end .post-thumbnails-wrapper -->
+	</div> <!-- end .post-body -->
 </section> <!-- end .post -->

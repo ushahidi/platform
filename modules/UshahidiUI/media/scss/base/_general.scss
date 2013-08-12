@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
 
@@ -14,72 +14,72 @@
 
 
 * {
-  @include box-sizing(border-box);
-  *behavior: url(../js/ie/boxsizing.htc);
+	@include box-sizing(border-box);
+	*behavior: url(../js/ie/boxsizing.htc);
 }
 
 /*Font-Awesome global icon padding*/
 i {
-  padding-right: 10px;
+	padding-right: 10px;
 }
 
 /*custom css for Typekit asynchronous loading*/
 .wf-loading {
-  visibility: hidden;
+	visibility: hidden;
 }
 .wf-active {
-  visibility: visible;
+	visibility: visible;
 }
 
 ::-moz-selection {
-    color: white;
-    background: $blueGray;
+		color: white;
+		background: $blueGray;
 }
 ::selection {
-    color: white;
-    background: $blueGray;
+		color: white;
+		background: $blueGray;
 }
 
 
 
 /*------------------------------------*\
-    $CUSTOM CLASSES
+		$CUSTOM CLASSES
 \*------------------------------------*/
 
 .none {
-  display: none;
-  visibility: hidden;
+	display: none;
+	visibility: hidden;
 }
 
 .visually-hidden { /*http://developer.yahoo.com/blogs/ydn/posts/2012/10/clip-your-hidden-content-for-better-accessibility/*/
-    position: absolute !important;
-    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-    clip: rect(1px, 1px, 1px, 1px);
-    padding:0 !important;
-    border:0 !important;
-    height: 1px !important;
-    width: 1px !important;
-    overflow: hidden;
+		position: absolute !important;
+		clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+		clip: rect(1px, 1px, 1px, 1px);
+		padding:0 !important;
+		border:0 !important;
+		height: 1px !important;
+		width: 1px !important;
+		overflow: hidden;
 }
 
 body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .visually-hidden button { display: none !important; }
 
 .hidden {
-  opacity: 0;
-  @include transition (opacity .3s ease-in-out);
+	opacity: 0;
+	@include transition (opacity .3s ease-in-out);
 }
 
 .visible {
-  opacity: 1;
-  @include transition (opacity .3s ease-in-out);
+	opacity: 1;
+	@include transition (opacity .3s ease-in-out);
 }
 
 .inverse {
-  background-color: $blueGray !important;
-  color: $white !important;
+	background-color: $blueGray !important;
+	color: $white !important;
 }
 
 .underline {
-  border-bottom: 1px dotted;
-  padding-bottom: 3px;
+	border-bottom: 1px dotted;
+	padding-bottom: 3px;
 }

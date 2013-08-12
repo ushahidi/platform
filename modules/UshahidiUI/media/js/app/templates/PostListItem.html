@@ -1,61 +1,55 @@
 <div class="row">
-  <div class="list-view-post-image">
-
-  <div class="list-view-select-post  js-list-view-select-post">
-    <form>
-      <label class="visually-hidden" for="select-post">Select Post</label>
-      <input type="checkbox" id="select-post">
-    </form>
-  </div> <!-- end .list-view-select-post -->
-  <img src="{{imageurl "mini-coop.png"}}" alt="">
-  </div> <!-- end .list-view-post-image -->
-
-  <div class="list-view-post-details">
-    <div class="row">
-      <h5 class="list-view-post-title"><a href="#posts/{{id}}">{{ title }}</a> <i class="icon-lock"></i></h5>
-      <div class="list-view-post-time">
-        <p> <i class="icon-time"></i> {{ datetime-calendar created }}</p>
-      </div> <!-- end .list-view-post-time -->
-    </div> <!-- end .row -->
-  </div> <!-- end .list-view-post-details -->
-
-  <div class="list-view-post-excerpt">
-    <p>{{ prune content 100 }} <a href="#posts/{{id}}"><span class="read-more">&nbsp;Read&nbsp;More</span></a></p>
-  </div> <!-- end .list-view-post-excerpt -->
-
-  <div class="list-view-post-admin">
-    {{#if tags}}
-    <div class="list-view-post-categories-wrapper">
-      <ul class="list-view-post-categories">
-      {{#each tags}}
-        <li><button class="button  small  secondary" {{#if title}}title="{{ description }}"{{/if}}> <i class="icon-circle" {{#if color}}style="color: #{{color}};"{{/if}}></i> {{ tag }}</button></li>
-      {{/each}}
-      </ul>
-    </div> <!-- end .list-view-post-categories-wrapper -->
-    {{/if}}
-    
-    <div class="list-view-post-edit-wrapper  hide-for-medium-down">
-      <ul class="list-view-post-edit">
-        <li><a href="#" class="button  small  secondary post-edit"> <i class="icon-edit"></i> edit</a></li>
-        <li><a href="#" class="button  small  secondary post-set"> <i class="icon-plus-sign"></i> set</a></li>
-        <li>{{#if published}}
-          <a href="#" class="button  small  secondary post-unpublish"> <i class="icon-file"></i> unpublish</a>
-          {{else}}
-          <a href="#" class="button  small  secondary post-publish"> <i class="icon-file"></i> publish</a>
-          {{/if}}
-        </li>
-        <li><a href="#" class="button  small  secondary post-delete"> <i class="icon-trash"></i></a></li>
-      </ul> <!-- end .list-view-post-edit -->
-    </div> <!-- end .list-view-post-edit-wrapper .hide-for-medium-down -->
-
-    <div class="list-view-post-edit-wrapper show-for-medium-down">
-      <ul class="list-view-post-edit">
-        <li><a href="#" class="button  small  secondary post-edit"> <i class="icon-edit"></i></a></li>
-        <li><a href="#" class="button  small  secondary post-set"> <i class="icon-plus-sign"></i></a></li>
-        <li><a href="#" class="button  small  secondary post-unpublish"> <i class="icon-file-alt"></i></a></li>
-        <li><a href="#" class="button  small  secondary post-delete"> <i class="icon-trash"></i></a></li>
-      </ul>
-
-    </div> <!-- end .list-view-post-edit-wrapper .show-for-medium-down -->
-  </div> <!-- end .list-view-post-admin -->
+	<article>
+		<div class="list-view-post-image">
+	
+			<div class="list-view-select-post  js-list-view-select-post">
+				<form>
+					<label class="visually-hidden" for="select-post">Select Post</label>
+					<input type="checkbox" id="select-post">
+				</form>
+			</div> <!-- end .list-view-select-post -->
+			<img src="{{imageurl "mini-coop.png"}}" alt="">
+		</div> <!-- end .list-view-post-image -->
+	
+		<div class="list-view-post-details">
+			<div class="row">
+				<h5 class="list-view-post-title"><a href="#posts/{{id}}">{{ title }}</a><i class="icon-lock"></i></h5>
+				<div class="list-view-post-time">
+					<p><i class="icon-time"></i> {{ datetime-calendar created }}</p>
+				</div> <!-- end .list-view-post-time -->
+			</div> <!-- end .row -->
+		</div> <!-- end .list-view-post-details -->
+	
+		<div class="list-view-post-excerpt">
+			<p>{{ prune content 100 }} <a href="#posts/{{id}}"><span class="read-more">&nbsp;Read&nbsp;More</span></a></p>
+		</div> <!-- end .list-view-post-excerpt -->
+	
+		<div class="list-view-post-admin">
+			{{#if tags}}
+			<div class="list-view-post-categories-wrapper">
+				<ul class="list-view-post-categories">
+					{{#each tags}}
+					<li><button class="button  small  secondary  expand" {{#if title}}title="{{ description }}"{{/if}}><i class="icon-circle" {{#if color}}style="color: #{{color}};"{{/if}}></i> {{ tag }}</button></li>
+					{{/each}}
+				</ul>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+			{{/if}}
+	
+			<div class="list-view-post-edit-wrapper">
+				<ul class="list-view-post-edit">
+					<li><a href="#" class="button  small  secondary post-edit"> <i class="icon-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+					<li><a href="#" class="button  small  secondary post-set"> <i class="icon-plus-sign"></i> <span class="hide-for-medium-down">set</span></a></li>
+					<li>
+						{{#if published}}
+							<a href="#" class="button  small  secondary post-unpublish"> <i class="icon-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
+						{{else}}
+							<a href="#" class="button  small  secondary post-publish"> <i class="icon-file"></i> <span class="hide-for-medium-down">publish</span></a>
+						{{/if}}
+					</li>
+					<li><a href="#" class="button  small  secondary post-delete"> <i class="icon-trash"></i></a></li>
+				</ul> <!-- end .list-view-post-edit -->
+			</div> <!-- end .list-view-post-edit-wrapper .hide-for-medium-down -->
+			
+		</div> <!-- end .list-view-post-admin -->
+	</article>
 </div> <!-- end .row -->

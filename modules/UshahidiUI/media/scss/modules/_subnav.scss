@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * SUBNAV............all subnav styles
@@ -9,69 +9,69 @@
 
 
 /*------------------------------------*\
-    $SUBNAV
+		$SUBNAV
 \*------------------------------------*/
 
 nav[role="sub-navigation"] {
-  @include grid-column(12, $collapse: true);
-  @extend .box-shadow;
-  background-color: $white;
-  max-height: 0;
-  /*overflow: hidden;*/
-  display: none;
-  ul {
-    margin: 0;
-  }
-  /*not working because css3 animation don't support display*/
-  -webkit-transition: max-height .3s ease-in-out;
-    -moz-transition: max-height .3s ease-in-out;
-      -ms-transition: max-height .3s ease-in-out;
-        -o-transition: max-height .3s ease-in-out;
-          transition: max-height .3s ease-in-out;
+	@include grid-column(12, $collapse: true);
+	@extend .box-shadow;
+	background-color: $white;
+	max-height: 0;
+	/*overflow: hidden;*/
+	display: none;
+	ul {
+		margin: 0;
+	}
+	/*not working because css3 animation don't support display*/
+	-webkit-transition: max-height .3s ease-in-out;
+		-moz-transition: max-height .3s ease-in-out;
+			-ms-transition: max-height .3s ease-in-out;
+				-o-transition: max-height .3s ease-in-out;
+					transition: max-height .3s ease-in-out;
 }
 
 nav[role="sub-navigation"].subnav {
-  max-height: 999px;
+	max-height: 999px;
 /*  overflow: visible;*/
-  display: block;
+	display: block;
 }
 
 /*nav[role="sub-navigation"] ul {
-  opacity: 0;
-  -webkit-transition: opacity .3s ease;
-    -moz-transition: opacity .3s ease;
-      -ms-transition: opacity .3s ease;
-        -o-transition: opacity .3s ease;
-          transition: opacity .3s ease;
+	opacity: 0;
+	-webkit-transition: opacity .3s ease;
+		-moz-transition: opacity .3s ease;
+			-ms-transition: opacity .3s ease;
+				-o-transition: opacity .3s ease;
+					transition: opacity .3s ease;
 }
 
 nav[role="sub-navigation"] ul.subnav {
-  opacity: 1;
+	opacity: 1;
 }*/
 
 nav[role="sub-navigation"] ul li.active>a {
-  background: $blueGray;
-  color: $white;
+	background: $blueGray;
+	color: $white;
 }
 
 nav[role="sub-navigation"] li {
-  display: block;
-  @media #{$small} {
-    float: left;
-    clear: none;
-  }
+	display: block;
+	@media #{$small} {
+		float: left;
+		clear: none;
+	}
 }
 
 nav[role="sub-navigation"] li a {
-  display: block;
-  padding: 20px 20px;
-  color: $blueGray;
-  border-bottom: 1px solid $lightGray;
-  @media #{$small} {
-    float: left;
-    padding: 20px 30px;
-    border-bottom: 0;
-  }
+	display: block;
+	padding: 20px 20px;
+	color: $blueGray;
+	border-bottom: 1px solid $lightGray;
+	@media #{$small} {
+		float: left;
+		padding: 20px 30px;
+		border-bottom: 0;
+	}
 }
 
 nav[role="sub-navigation"] li:focus,

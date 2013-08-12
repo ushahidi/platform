@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * GENERAL OVERRIDES............general restyles
@@ -11,19 +11,19 @@
 
 
 /*------------------------------------*\
-    $GENERAL OVERRIDES
+		$GENERAL OVERRIDES
 \*------------------------------------*/
 
 .body-wrapper {
-  @include grid-column(12);
-  margin-top: 0px;
-  @media #{$small} {
-    margin-top: 20px;
-  }
+	@include grid-column(12);
+	margin-top: 0px;
+	@media #{$small} {
+		margin-top: 20px;
+	}
 }
 
 /*------------------------------------*\
-    $BUTTON OVERRIDES
+		$BUTTON OVERRIDES
 \*------------------------------------*/
 
 a.button {
@@ -31,11 +31,11 @@ letter-spacing: .1em;
 }
 
 button.secondary, .button.secondary {
-  @include transition (background-color 0ms ease-in-out);
+	@include transition (background-color 0ms ease-in-out);
 }
 
 button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
-  background-color: $blueGray;
-  color: $white;
-  @include transition (background-color 0ms ease-in-out);
+	background-color: $blueGray;
+	color: $white;
+	@include transition (background-color 0ms ease-in-out);
 }
