@@ -28,8 +28,11 @@
 		<!--Change to app.min.css for production-->
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/global.css'); ?>"/>
 		
-		<!-- Font Awesome CSS CDN -->
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<!-- Font Awesome CSS -->
+		<link href="<?php echo Media::url('css/font-awesome.min.css'); ?>" rel="stylesheet">
+		<!--[if IE 7]>
+			<link rel="stylesheet" href="<?php echo Media::url('css/font-awesome-ie7.min.css'); ?>">
+		<![endif]-->
 		
 		<!-- Global site config -->
 		<script type="text/javascript">
