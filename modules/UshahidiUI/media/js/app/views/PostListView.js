@@ -56,24 +56,36 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates
 			showNextPage : function (e)
 			{
 				e.preventDefault();
+				// Already at last page, skip
+				if (this.collection.state.lastPage <= this.collection.state.currentPage) return;
+
 				this.collection.getNextPage();
 				this.updatePagination();
 			},
 			showPreviousPage : function (e)
 			{
 				e.preventDefault();
+				// Already at last page, skip
+				if (this.collection.state.firstPage >= this.collection.state.currentPage) return;
+
 				this.collection.getPreviousPage();
 				this.updatePagination();
 			},
 			showFirstPage : function (e)
 			{
 				e.preventDefault();
+				// Already at last page, skip
+				if (this.collection.state.firstPage >= this.collection.state.currentPage) return;
+
 				this.collection.getFirstPage();
 				this.updatePagination();
 			},
 			showLastPage : function (e)
 			{
 				e.preventDefault();
+				// Already at last page, skip
+				if (this.collection.state.lastPage <= this.collection.state.currentPage) return;
+
 				this.collection.getLastPage();
 				this.updatePagination();
 			},
