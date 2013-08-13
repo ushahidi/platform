@@ -1,0 +1,17 @@
+	<ul class="pagination">
+		{{#paginate pagination type="previous"}}
+		<li class="arrow {{#if disabled}}unavailable{{/if}} js-page-first"><a {{#unless disabled}}href="#"{{/unless}}>&laquo;</a></li>
+		{{/paginate}}
+		{{#paginate pagination type="previous"}}
+		<li class="arrow {{#if disabled}}unavailable{{/if}} js-page-prev"><a {{#unless disabled}}href="#"{{/unless}}>&lsaquo;</a></li>
+		{{/paginate}}
+		{{#paginate pagination type="middle" limit="7"}}
+			<li class="{{#if active}}current{{/if}} js-page-change page-{{n}}"><a {{#unless active}}href="#"{{/unless}}>{{n}}</a></li>
+		{{/paginate}}
+		{{#paginate pagination type="next"}}
+			<li class="arrow {{#if disabled}}unavailable{{/if}} js-page-next"><a {{#unless disabled}}href="#"{{/unless}}>&rsaquo;</a></li>
+		{{/paginate}}
+		{{#paginate pagination type="next"}}
+			<li class="arrow {{#if disabled}}unavailable{{/if}} js-page-last"><a {{#unless disabled}}href="#"{{/unless}}>&raquo;</a></li>
+		{{/paginate}}
+	</ul>
