@@ -11,7 +11,9 @@ define(["jquery", "backbone", "models/PostModel", "App", "backbone-pageable"],
 				return response.results;
 			},
 			parseState: function(response) {
-				return this.state;
+				return {
+					totalRecords: response.total_count
+				};
 			},
 			// Set state params for `Backbone.PageableCollection#state`
 			state: {
@@ -19,7 +21,7 @@ define(["jquery", "backbone", "models/PostModel", "App", "backbone-pageable"],
 				currentPage: 0,
 				pageSize: 3,
 				// Required under server-mode
-				totalRecords: 200,
+				totalRecords: 3,
 				sortKey: 'updated',
 				order: 1 // 1 = desc
 			},

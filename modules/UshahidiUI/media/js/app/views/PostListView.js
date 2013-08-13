@@ -6,7 +6,10 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates
 		return Marionette.CompositeView.extend( {
 			//Template HTML string
 			template: Handlebars.compile(template),
-			initialize: function(params) {
+			initialize: function() {
+				this.listenTo(this.collection, "add", this.updatePagination, this);
+				this.listenTo(this.collection, "remove", this.updatePagination, this);
+				this.listenTo(this.collection, "reset", this.updatePagination, this);
 			},
 			
 			itemView: PostItemView,
