@@ -197,10 +197,21 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 		
-		$posts = $posts_query->find_all();
+		// Get the count of ALL records
+		$count_query = clone $posts_query;
+		$total_records = (int)$count_query
+			->select(array(DB::expr('COUNT(DISTINCT `post`.`id`)'), 'records_found'))
+			->limit(NULL)
+			->offset(NULL)
+			->find_all()
+			->get('records_found');
+		$count_query_sql = $count_query->last_query();
 
+		// Get posts
+		$posts = $posts_query->find_all();
 		$post_query_sql = $posts_query->last_query();
 
+		// Result count (for this request)
 		$count = $posts->count();
 
 		foreach ($posts as $post)
@@ -232,6 +243,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		// Respond with posts
 		$this->_response_payload = array(
 			'count' => $count,
+			'total_count' => $total_records,
 			'results' => $results,
 			'limit' => $this->record_limit,
 			'offset' => $this->record_offset,
@@ -246,6 +258,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		if (Kohana::$environment !== Kohana::PRODUCTION)
 		{
 			$this->_response_payload['query'] = $post_query_sql;
+			$this->_response_payload['count_query'] = $count_query_sql;
 		}
 		
 	}
