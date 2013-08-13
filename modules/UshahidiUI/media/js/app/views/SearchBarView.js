@@ -4,6 +4,6 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 		{
 			template : Handlebars.compile(template),
 			initialize: function() {
-			},
+			}
 		});
 	}); 

@@ -1,5 +1,5 @@
-define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oauth'],
-	function($, Backbone, Marionette, _, Handlebars, OAuth) {
+define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'util/App.handlebars', 'foundation-loader'],
+	function($, Backbone, Marionette, _, Handlebars, OAuth, AppHandlebars, FoundationLoader) {
 		var App = new Backbone.Marionette.Application();
 		
 		// Save oauth object in App - just in case
@@ -21,7 +21,18 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oau
 	
 		App.addInitializer(function(options) {
 			Backbone.history.start();
+			
+			// Init foundation
+			$(document).foundation();
 		});
-	
+		
+		// Global config params
+		App.config = _.extend({
+			baseurl : '/',
+			imagedir : '/media/kohana/images',
+			jsdir : '/media/kohana/js',
+			cssdir : '/media/kohana/css'
+		}, window.config);
+		
 		return App;
 	}); 

@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * COPYRIGHT............
@@ -10,11 +10,11 @@
 
 
 /*------------------------------------*\
-    $COPYRIGHT
+		$COPYRIGHT
 \*------------------------------------*/
 
 footer {
-  @include grid-column(12);
-  background-color: $white;
-  padding: 20px;
+	@include grid-column(12);
+	background-color: $white;
+	padding: 20px;
 }
