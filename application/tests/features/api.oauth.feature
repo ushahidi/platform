@@ -2,7 +2,7 @@
 Feature: Testing OAuth2 endpoints
 
     Scenario: Requesting an Authorization code
-        Given I am on "/oauth/authorize?response_type=code&client_id=demoapp&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" with redirection
+        Given I am on "oauth/authorize?response_type=code&client_id=demoapp&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" with redirection
         When I fill in "login-username" with "robbie"
         And I fill in "login-password" with "testing"
         And I press "login-submit"
@@ -11,7 +11,7 @@ Feature: Testing OAuth2 endpoints
         Then the redirect location should match "\?code=.*&state=testing"
 
     Scenario: Cancelled request for an Authorization code
-        Given I am on "/oauth/authorize?response_type=code&client_id=demoapp&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" with redirection
+        Given I am on "oauth/authorize?response_type=code&client_id=demoapp&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" with redirection
         When I fill in "login-username" with "robbie"
         And I fill in "login-password" with "testing"
         And I press "login-submit"
@@ -26,7 +26,7 @@ Feature: Testing OAuth2 endpoints
           code=4d105df9a7f8645ef8306dd40c7b1952794bf368&grant_type=authorization_code&client_id=demoapp&client_secret=demopass
         """
         And that the api_url is ""
-        Then I request "/oauth/token"
+        Then I request "oauth/token"
         Then the response is JSON
         And the response has a "access_token" property
         Then the guzzle status code should be 200
@@ -38,7 +38,7 @@ Feature: Testing OAuth2 endpoints
           grant_type=password&client_id=demoapp&client_secret=demopass&username=robbie&password=testing
         """
         And that the api_url is ""
-        Then I request "/oauth/token"
+        Then I request "oauth/token"
         Then the response is JSON
         And the response has a "access_token" property
         Then the guzzle status code should be 200
@@ -50,7 +50,7 @@ Feature: Testing OAuth2 endpoints
           grant_type=password&client_id=demoapp&client_secret=demopass&username=robbie&password=wrongpassword
         """
         And that the api_url is ""
-        Then I request "/oauth/token"
+        Then I request "oauth/token"
         Then the response is JSON
         And the "error" property equals "invalid_grant"
         Then the guzzle status code should be 400
@@ -62,7 +62,7 @@ Feature: Testing OAuth2 endpoints
           grant_type=client_credentials&client_id=demoapp&client_secret=demopass
         """
         And that the api_url is ""
-        Then I request "/oauth/token"
+        Then I request "oauth/token"
         Then the response is JSON
         And the response has a "access_token" property
         Then the guzzle status code should be 200
@@ -74,13 +74,13 @@ Feature: Testing OAuth2 endpoints
           grant_type=refresh_token&client_id=demoapp&client_secret=demopass&refresh_token=5a846f5351a46fc9bdd5b8f55224b51671cf8b8f&redirect_uri=http://ushv3.dev/oauth/debug&scope=api
         """
         And that the api_url is ""
-        Then I request "/oauth/token"
+        Then I request "oauth/token"
         Then the response is JSON
         And the response has a "access_token" property
         Then the guzzle status code should be 200
 
     Scenario: Requesting an access token with implicit flow
-        Given I am on "/oauth/authorize?response_type=token&client_id=demoapp&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" with redirection
+        Given I am on "oauth/authorize?response_type=token&client_id=demoapp&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" with redirection
         When I fill in "login-username" with "robbie"
         And I fill in "login-password" with "testing"
         And I press "login-submit"
@@ -154,7 +154,7 @@ Feature: Testing OAuth2 endpoints
 # Tests for client with restricted grant types: authorization_code only!
 
     Scenario: Restricted client requesting an Authorization code
-        Given I am on "/oauth/authorize?response_type=code&client_id=restricted_app&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" with redirection
+        Given I am on "oauth/authorize?response_type=code&client_id=restricted_app&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" with redirection
         When I fill in "login-username" with "robbie"
         And I fill in "login-password" with "testing"
         And I press "login-submit"
@@ -169,7 +169,7 @@ Feature: Testing OAuth2 endpoints
           code=4d105df9a7f8645ef8306dd40c7b1952794bf372&grant_type=authorization_code&client_id=restricted_app&client_secret=demopass
         """
         And that the api_url is ""
-        Then I request "/oauth/token"
+        Then I request "oauth/token"
         Then the response is JSON
         And the response has a "access_token" property
         Then the guzzle status code should be 200
@@ -181,13 +181,13 @@ Feature: Testing OAuth2 endpoints
           grant_type=password&client_id=restricted_app&client_secret=demopass&username=robbie&password=testing
         """
         And that the api_url is ""
-        Then I request "/oauth/token"
+        Then I request "oauth/token"
         Then the response is JSON
         And the response has an "error" property
         And the "error" property equals "unauthorized_client"
         Then the guzzle status code should be 400
 
     Scenario: Restricted client requesting an access token with implicit flow
-        Given I am on "/oauth/authorize?response_type=token&client_id=restricted_app&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" without redirection
+        Given I am on "oauth/authorize?response_type=token&client_id=restricted_app&state=testing&scope=api&redirect_uri=http://ushv3.dev/oauth/debug" without redirection
         Then the response status code should be 302
         Then the redirect location should match "error=unauthorized_client&error_description=.*&state=testing"
