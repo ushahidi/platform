@@ -1,0 +1,161 @@
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * GLOBAL...............global styles
+ * POST HEADER...............post header, title, categories and actions
+ * POST BODY..................post images, excerpt and meta
+ */
+
+
+
+/*------------------------------------*\
+    $GLOBAL
+\*------------------------------------*/
+.post {
+  @include grid-column(12, $collapse: true);
+  h5, h6 {
+    line-height: 1em;
+  }
+}
+
+
+
+
+/*------------------------------------*\
+    $POST HEADER
+\*------------------------------------*/
+
+
+.post-header {
+  @include grid-column(12);
+  background-color: $lightGray;
+  padding: 1em 1em 0 1em;
+  @extend .box-shadow;
+  z-index: 1;
+      @media #{$small} {
+        padding: 1em;
+      }
+}
+
+.post-category-marker {
+  @include grid-column(2, $collapse: true);
+  @media #{$small} {
+    @include grid-column(1, $collapse: true);
+  }
+}
+
+.post-title {
+  @include grid-column(10, $collapse: true);
+  margin-bottom: 20px;
+  @media #{$small} {
+    @include grid-column(11);
+    margin-bottom: 0px;
+  }
+  @media #{$medium} {
+    @include grid-column(7);
+  }
+}
+
+.post-title-tag {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(12);
+  }
+  .subheader {
+    font-style: italic;
+  }
+}
+
+.post-actions {
+  @include grid-column(12, $collapse: true);
+  @media #{$small} {
+    margin-top: 20px;
+  }
+  @media #{$medium} {
+    @include grid-column(4, $collapse: true);
+    margin-top: 0;
+  }
+}
+
+
+
+
+
+/*------------------------------------*\
+    $POST BODY
+\*------------------------------------*/
+
+
+.post-body {
+  @include grid-column(12);
+  background-color: $white;
+  padding: 1em;
+  @extend .box-shadow;
+}
+
+.post-image {
+  @include grid-column(12, $collapse: true);
+  margin-bottom: 20px;
+  @media #{$small} {
+    @include grid-column(4, $collapse: true);
+    margin-bottom: 0;
+  }
+  img {
+    @include thumb;
+    margin-bottom: 20px;
+  }
+}
+
+.post-details {
+  @include grid-column(12, $collapse: true);
+  @media #{$small} {
+    @include grid-column(8);
+  }
+}
+
+.post-author {
+  @include grid-column(12);
+  padding: 0;
+  @media #{$small} {
+    padding-right: 0;
+  }
+}
+
+.post-excerpt {
+  @include grid-column(12, $collapse: true);
+  @media #{$small} {
+    padding-right: 0;
+  }
+}
+
+.post-location-meta {
+  @include grid-column(12);
+  clear: both;
+  @media #{$small} {
+    @include grid-column(5);
+  }
+}
+
+.post-location {
+  font-weight: bold;
+}
+
+.post-time-meta {
+  @include grid-column(12);
+  @media #{$small} {
+    @include grid-column(3);
+  }
+}
+
+.post-details-button {
+  @include grid-column(5);
+  margin-top: 10px;
+  @media #{$small} {
+    @include grid-column(4);
+    margin-top: 7px;
+    button {
+      float: right;
+    }
+  }
+}

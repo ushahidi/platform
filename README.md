@@ -45,7 +45,7 @@ Installing
 
 4. Install the database schema using migrations
 
-  ```./minion --task=migrations:run --up --group=3-0```
+  ```./minion --task=migrations:run --up```
 5. Copy ```appliication/config/init.php``` to ```application/config/environments/development/init.php```
 6. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
 7. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
