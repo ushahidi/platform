@@ -1,7 +1,8 @@
 # Turn on URL rewriting
 RewriteEngine On
 
-RewriteRule .* - [E=REWRITEBASE:/]
+# Set base directory
+RewriteBase /
 
 # Protect hidden files from being viewed
 <Files .*>
@@ -17,6 +18,5 @@ RewriteRule .* - [E=REWRITEBASE:/]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-
 # Rewrite all other URLs to index.php/URL
-RewriteRule .* %{ENV:REWRITEBASE}index.php/$0 [PT]
+RewriteRule .* index.php/$0 [PT]

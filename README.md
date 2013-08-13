@@ -19,8 +19,8 @@ To install the platform on your computer/server, the target system must meet the
 Installing
 ----------
 1. Create a database
-2. Copy ```application/config/database.template``` to ```application/config/database.php```
-3. Edit ```application/config/database.php``` and set database, username and password params
+2. Copy ```appliication/config/database.php``` to ```application/config/environments/development/database.php```
+3. Edit ```application/config/environments/development/database.php``` and set database, username and password params
 
 	```
 	return array
@@ -46,6 +46,19 @@ Installing
 4. Install the database schema using migrations
 
   ```./minion --task=migrations:run --up```
+5. Copy ```appliication/config/init.php``` to ```application/config/environments/development/init.php```
+6. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
+7. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
+8. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
+
+Config
+------
+
+Base config files are in ```application/config/```.
+
+You can add per-environment config overrides in ```application/config/environments/```. The environment is switched based on the ```KOHANA_ENV``` environment variable. 
+
+Routes are configured in ```application/routes/default.php```. Additional routes can be added in per-environment routing files ie. ```application/routes/development.php```.
 
 Extras
 ------
@@ -65,7 +78,10 @@ We use PHPUnit for unit tests, and Behat and Mink for functional testing.
 You can install the Behat, Mink, PHPUnit and other required packages using [Composer](getcomposer.org). Just run
 ```composer install```
 
-Behat and PHPUnit will be install to ```./bin``` at the root of the repository. Run the tests as follows:
+Behat and PHPUnit will be installed to ```./bin``` at the root of the repository.
+
+Create a behat config file by copying ```application/tests/behat.template``` to ```application/tests/behat.yml```. Edit the file to set your deployments base url.
+Run the tests as follows:
 ```
 ./bin/behat --config application/tests/behat.yml
 ./bin/phpunit -c application/tests/phpunit.xml

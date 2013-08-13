@@ -22,6 +22,14 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oau
 		App.addInitializer(function(options) {
 			Backbone.history.start();
 		});
+		
+		// Global config params
+		App.config = _.extend({
+			baseurl : '/',
+			imagedir : '/media/kohana/images',
+			jsdir : '/media/kohana/js',
+			cssdir : '/media/kohana/css'
+		}, window.config);
 	
 		return App;
 	}); 
