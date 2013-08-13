@@ -1,7 +1,7 @@
 <html>
 	<body>
 	<h1>Login</h1>
-	<?php echo Form::open(URL::site('login/submit') . URL::query()); ?>
+	<?php echo Form::open('login/submit' . URL::query()); ?>
 	<?php echo Form::hidden('csrf', Security::token()); ?>
 	<ul class="login">
 		<li>
@@ -18,7 +18,7 @@
 	
 	
 	<h1>Register</h1>
-	<?php echo Form::open(URL::site('login/register') . URL::query()); ?>
+	<?php echo Form::open('login/register' . URL::query()); ?>
 	<?php echo Form::hidden('csrf', Security::token()); ?>
 	<ul class="login">
 		<li>
