@@ -11,5 +11,7 @@ return array(
 	'minion'     => MODPATH.'minion',
 	'migrations' => MODPATH.'migrations',
 	'koauth'     => MODPATH.'koauth',
+	'media'      => MODPATH.'media',
+	'ushahidiui' => MODPATH.'UshahidiUI',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 );
