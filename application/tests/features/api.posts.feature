@@ -289,19 +289,6 @@ Feature: Testing the Posts API
         Then the guzzle status code should be 200
 
     # @todo improve this test to check more response data
-    #Scenario: Listing All Posts as GeoJSON
-    #    Given that I want to get all "Posts"
-    #    And that the request "query string" is:
-    #        """
-    #        format=geojson
-    #        """
-    #    When I request "/posts"
-    #    Then the response is JSON
-    #    And the response has a "type" property
-    #    And the response has a "features" property
-    #    Then the guzzle status code should be 200
-
-    # @todo improve this test to check more response data
     Scenario: Listing All Posts as JSONP
         Given that I want to get all "Posts"
         And that the request "query string" is:
@@ -434,4 +421,18 @@ Feature: Testing the Posts API
         And the "title" property equals "SUMMARY REPORT (تقرير ملخص)"
         And the "slug" property equals "summary-report-تقرير-ملخص"
         And the response has a "tags.0.id" property
+        Then the guzzle status code should be 200
+
+    @resetFixture
+    Scenario: Search All Posts by link attribute
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            links=http://google.com
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
         Then the guzzle status code should be 200

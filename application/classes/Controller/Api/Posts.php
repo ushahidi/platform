@@ -41,6 +41,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	protected $_scope_required = 'posts';
 	
+	protected $_boundingbox = FALSE;
+
 	/**
 	 * Load resource object
 	 * 
@@ -124,10 +126,16 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$this->_prepare_order_limit_params();
 		
 		$posts_query = ORM::factory('Post')
+			->distinct(TRUE)
 			->where('type', '=', $this->_type)
-			->order_by($this->_record_orderby, $this->_record_order)
-			->offset($this->_record_offset)
-			->limit($this->_record_limit);
+			->order_by($this->_record_orderby, $this->_record_order);
+		
+		if ($this->_record_limit !== FALSE)
+		{
+			$posts_query
+				->limit($this->_record_limit)
+				->offset($this->_record_offset);
+		}
 		
 		if ($this->_parent_id)
 		{
@@ -210,6 +218,34 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$posts_query->where('updated', '<=', $updated_before);
 		}
 		
+		// Bounding box search
+		// @todo eventually move this to Post_Point class?
+		// Create geometry from bbox
+		$bbox = $this->request->query('bbox');
+		if (! empty($bbox) )
+		{
+			$bbox = array_map('floatval', explode(',', $bbox));
+			$bb_west = $bbox[0];
+			$bb_north = $bbox[1];
+			$bb_east = $bbox[2];
+			$bb_south = $bbox[3];
+			$this->_boundingbox = new Util_BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
+		}
+		
+		if ($this->_boundingbox)
+		{
+			$sub = DB::select('post_id')
+				->from('post_point')
+				->where(
+					DB::expr(
+						'CONTAINS(GeomFromText(:bounds), value)',
+						array(':bounds' => $this->_boundingbox->toWKT()) ),
+					'=',
+					1
+				);
+			$posts_query->join(array($sub, 'Filter_BBox'), 'INNER')->on('post.id', '=', 'Filter_BBox.post_id');
+		}
+		
 		// Attributes
 		// @todo optimize this - maybe iterate over query params instead
 		$attributes = ORM::factory('Form_Attribute')->find_all();
@@ -218,23 +254,28 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$attr_filter = $this->request->query($attr->key);
 			if (! empty($attr_filter))
 			{
+				$table_name = ORM::factory('Post_'.ucfirst($attr->type))->table_name();
 				$sub = DB::select('post_id')
-					->from('post_'.$attr->type)
+					->from($table_name)
 					->where('form_attribute_id', '=', $attr->id)
 					->where('value', 'LIKE', "%$attr_filter%");
-				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->type)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->type).'.post_id');
+				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->key)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->key).'.post_id');
 			}
 		}
 		
 		$posts = $posts_query->find_all();
+
+		$post_query_sql = $posts_query->last_query();
+
+		$count = $posts->count();
 
 		foreach ($posts as $post)
 		{
 			// Check if use is allowed to access this post
 			if ($this->acl->is_allowed($this->user, $post, 'get') )
 			{
-				$results[] = $post->for_api();
-			}
+			$results[] = $post->for_api();
+		}
 		}
 
 		// Count actual results since they're filtered by access check
@@ -274,6 +315,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			'prev' => $prev,
 		);
 		
+		// Add debug info if environment isn't production
+		if (Kohana::$environment !== Kohana::PRODUCTION)
+		{
+			$this->_response_payload['query'] = $post_query_sql;
+		}
+		
 	}
 
 	/**
@@ -302,7 +349,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post = $this->_request_payload;
 
 		$_post = $this->resource();
-		
+
 		$this->create_or_update_post($_post, $post);
 	}
 	
@@ -645,5 +692,5 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$this->_response_payload = $post->for_api();
 			$post->delete();
 		}
+		}
 	}
-}

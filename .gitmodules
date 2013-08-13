@@ -27,10 +27,13 @@
 	url = git://github.com/kohana/unittest.git
 [submodule "application/vendor/gisconverter"]
 	path = application/vendor/gisconverter
-	url = git://github.com/arenevier/gisconverter.php.git
+	url = git://github.com/rjmackay/gisconverter.php.git
 [submodule "modules/koauth/vendor/oauth2-server-php"]
 	path = modules/koauth/vendor/oauth2-server-php
 	url = git://github.com/bshaffer/oauth2-server-php.git
+[submodule "modules/media"]
+	path = modules/media
+	url = git://github.com/Zeelot/kohana-media.git
 [submodule "modules/ACL"]
 	path = modules/ACL
 	url = https://github.com/Wouterrr/ACL

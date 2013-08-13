@@ -18,7 +18,7 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 		// Hack to insert post_point value with POINT() data
 		$pdo_connection = $this->getConnection()->getConnection();
 		$pdo_connection->query("INSERT INTO `post_geometry` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (1, 1, 1,
+			VALUES (1, 1, 9,
 				GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
 					((20 35, 45 20, 30 5, 10 10, 10 30, 20 35),
 					(30 20, 20 25, 20 15, 30 20)))'));");
@@ -32,7 +32,7 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 	public function getDataSet()
 	{
 		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
-			Kohana::find_file('tests/datasets', 'ushahidi/PostPointModel', 'yml')
+			Kohana::find_file('tests/datasets', 'ushahidi/Base', 'yml')
 		);
 	}
 
@@ -49,7 +49,7 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 				// Valid geom data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 9,
 					'value' => 'POLYGON((1 1,5 1,5 5,1 5,1 1),(2 2,2 3,3 3,3 2,2 2))',
 				)
 			),
@@ -57,7 +57,7 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 				// Valid geom data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 9,
 					'value' => 'MULTIPOLYGON(((40 40,20 45,45 30,40 40)),((20 35,45 20,30 5,10 10,10 30,20 35),(30 20,20 25,20 15,30 20)))',
 				)
 			)
@@ -136,7 +136,7 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 				// Valid geom data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 9,
 					'value' => 'POLYGON((1 1,5 1,5 5,1 5,1 1),(2 2,2 3,3 3,3 2,2 2))',
 				)
 			),
@@ -144,7 +144,7 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 				// Valid geom data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 9,
 					'value' => 'MULTIPOLYGON(((40 40,20 45,45 30,40 40)),((20 35,45 20,30 5,10 10,10 30,20 35),(30 20,20 25,20 15,30 20)))',
 				)
 			)
@@ -161,7 +161,7 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 	{
 		return array(
 			array(
-				// Valid geom data
+				// Invalid attribute and post id
 				array(
 					'post_id' => 999,
 					'form_attribute_id' => 999,
@@ -169,10 +169,10 @@ class PostGeometryModelTest extends Unittest_Database_TestCase {
 				)
 			),
 			array(
-				// Valid geom data
+				// Invalid geometry data
 				array(
 					'post_id' => 1,
-					'form_attribute_id' => 1,
+					'form_attribute_id' => 9,
 					'value' => 'MULTIPOLYGON(((40 40,20 45,45 30,40 40)),(20 35 45 20,30 5,10 10,10 30,20 35),(30 20,20 25,20 15,30 20',
 				)
 			)

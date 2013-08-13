@@ -153,6 +153,16 @@ form_attributes:
     required: 0
     priority: 7
     cardinality: 0
+  -
+    id: 12
+    label: "Second Point"
+    key: "second_point"
+    type: "point"
+    input: "text"
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 1
 form_groups_form_attributes:
   -
     form_group_id: 1
@@ -190,6 +200,9 @@ form_groups_form_attributes:
   -
     form_group_id: 2
     form_attribute_id: 10
+  -
+    form_group_id: 1
+    form_attribute_id: 12
 posts:
   -
     id: 1
@@ -473,6 +486,16 @@ post_varchar:
     post_id: 108
     form_attribute_id: 1
     value: "arabic string"
+  -
+    id: 11
+    post_id: 1
+    form_attribute_id: 11
+    value: "http://google.com"
+  -
+    id: 12
+    post_id: 1
+    form_attribute_id: 11
+    value: "http://ushahidi.com"
 post_comments:
 tags:
   -
