@@ -27,38 +27,39 @@ define(['App', 'backbone', 'marionette',
 				App.Collections.Tags.fetch();
 				App.Collections.Forms = new FormCollection();
 				App.Collections.Forms.fetch();
+				
+				App.homeLayout = new HomeLayout();
 			},
 			//gets mapped to in AppRouter's appRoutes
 			index : function() {
 				App.vent.trigger("page:change", "index");
-				var home = new HomeLayout();
-				this.layout.mainRegion.show(home);
+				this.layout.mainRegion.show(App.homeLayout);
 				
-				home.contentRegion.show(new PostListView({
+				App.homeLayout.contentRegion.show(new PostListView({
 					collection: App.Collections.Posts
 				}));
-				home.mapRegion.show(new MapView());
-				home.searchRegion.show(new SearchBarView());
+				App.homeLayout.mapRegion.show(new MapView());
+				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
 			viewsList : function() {
 				App.vent.trigger("page:change", "views/list");
-				var home = new HomeLayout();
-				this.layout.mainRegion.show(home);
+				this.layout.mainRegion.show(App.homeLayout);
 				
-				home.contentRegion.show(new PostListView({
+				App.homeLayout.contentRegion.show(new PostListView({
 					collection: App.Collections.Posts
 				}));
 				// Nothing bound to map region
-				home.searchRegion.show(new SearchBarView());
+				App.homeLayout.mapRegion.close();
+				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
 			viewsMap : function() {
 				App.vent.trigger("page:change", "views/map");
-				var home = new HomeLayout();
-				this.layout.mainRegion.show(home);
+				this.layout.mainRegion.show(App.homeLayout);
 				
 				// Nothing bound to content region
-				home.mapRegion.show(new MapView());
-				home.searchRegion.show(new SearchBarView());
+				App.homeLayout.contentRegion.close();
+				App.homeLayout.mapRegion.show(new MapView());
+				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
 			postDetail : function(id) {
 				App.vent.trigger("page:change", "posts/:id");
