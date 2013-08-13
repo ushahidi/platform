@@ -34,7 +34,7 @@ define(["jquery", "backbone", "models/PostModel", "App", "backbone-pageable"],
 				totalRecords: null,
 				pageSize: "limit",
 				offset: function () { return this.state.currentPage * this.state.pageSize },
-				sortKey: 'order_by'
+				sortKey: 'orderby'
 			}
 		});
 	

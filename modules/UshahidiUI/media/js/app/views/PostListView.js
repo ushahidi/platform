@@ -26,6 +26,9 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates
 				'click .js-page-prev' : 'showPreviousPage',
 				'click .js-page-last' : 'showLastPage',
 				'click .js-page-change' : 'showPage',
+				'change #filter-posts-count' : 'updatePageSize',
+				'change #filter-posts-sort' : 'updatePostsSort',
+				
 			},
 			
 			showHideBulkActions : function ()
@@ -113,6 +116,24 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates
 				this.$('.pagination').replaceWith(template({
 					pagination: this.collection.state
 				}));
+			},
+			updatePageSize : function (e)
+			{
+				e.preventDefault();
+				var size = parseInt(this.$('#filter-posts-count').val());
+				if (typeof size == 'number' && size > 0)
+				{
+					this.collection.setPageSize(size, {
+						first: true
+					});
+				}
+			},
+			updatePostsSort : function (e)
+			{
+				e.preventDefault();
+				var orderby = this.$('#filter-posts-sort').val();
+				this.collection.setSorting(orderby);
+				this.collection.getFirstPage();
 			}
 		});
 	});

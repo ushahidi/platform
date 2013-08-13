@@ -30,13 +30,12 @@
 
 				<div class="list-view-filter-count">
 					<div class="filter-count-select">
-						<label class="visually-hidden" for="filter-posts-count">Count</label>
+						<label class="visually-hidden" for="filter-posts-count">Number of posts shown</label>
 						<select id="filter-posts-count" >
-							<option selected DISABLED>Count:</option>
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>All</option>
+							<option selected>3</option>
+							<option>5</option>
+							<option>10</option>
+							<option>20</option>
 						</select>
 					</div>
 
@@ -44,12 +43,12 @@
 
 				<div class="list-view-filter-sort">
 					<div class="filter-sort-select">
-						<label class="visually-hidden" for="filter-posts-sort">Sort Posts</label>
+						<label class="visually-hidden" for="filter-posts-sort">Sort posts by</label>
 						<select id="filter-posts-sort" >
-							<option selected DISABLED>Sort by:</option>
-							<option>Title A-Z</option>
-							<option>Category</option>
-							<option>Time</option>
+							<option selected value="updated">Date/Time updated</option>
+							<option value="created">Date/Time created</option>
+							<option value="title">Title A-Z</option>
+							<option value="id">ID</option>
 						</select>
 					</div>
 
