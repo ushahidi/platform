@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * SEARCH BAR...............sets create and search bar
@@ -10,65 +10,65 @@
 
 
 /*------------------------------------*\
-    $SEARCH BAR
+		$SEARCH BAR
 \*------------------------------------*/
 .sets-search-bar {
-  @include grid-row();
-  @extend .box-shadow;
-  background: $darkBlue url(../images/search-bg.jpg) repeat;
-  margin-bottom: 20px;
-  padding: 1.25em 0;
+	@include grid-row();
+	@extend .box-shadow;
+	background: $darkBlue url(../images/search-bg.jpg) repeat;
+	margin-bottom: 20px;
+	padding: 1.25em 0;
 }
 
 .sets-search-bar-title {
-  @include grid-column(5);
-  h5 {
-    letter-spacing: .1em;
-    color: $white;
-    margin: 0 0 5px 0;
-  }
-  @media #{$small} {
-    @include grid-column(6);
-    border-right: 1px solid darken($darkBlue, 10);
-  }
+	@include grid-column(5);
+	h5 {
+		letter-spacing: .1em;
+		color: $white;
+		margin: 0 0 5px 0;
+	}
+	@media #{$small} {
+		@include grid-column(6);
+		border-right: 1px solid darken($darkBlue, 10);
+	}
 }
 
 .sets-search-bar-create-button {
  @include grid-column(7);
  @media #{$small} {
-    @include grid-column(3);
-    border-right: 1px solid darken($darkBlue, 10);
-    a {
-     margin: 0;
-    }
+		@include grid-column(3);
+		border-right: 1px solid darken($darkBlue, 10);
+		a {
+		 margin: 0;
+		}
  }
 }
 
 .sets-search-bar-search-field {
-  @include grid-column(12);
-  @media #{$small} {
-    @include grid-column(3);
-  }
-  input[type="text"] {
-    margin: 0;
-  }
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(3);
+	}
+	input[type="text"] {
+		margin: 0;
+	}
 }
 
 /*------------------------------------*\
-    $SETS GRID
+		$SETS GRID
 \*------------------------------------*/
 .sets-grid {
-  @include block-grid($per-row: 1);
-  @media #{$portrait} {
-    @include block-grid($per-row: 1);
-  }
-  @media #{$landscape} {
-    @include block-grid($per-row: 2);
-  }
-  @media #{$small} {
-    @include block-grid($per-row: 2);
-  }
-  @media #{$medium} {
-    @include block-grid($per-row: 4);
-  }
+	@include block-grid($per-row: 1);
+	@media #{$portrait} {
+		@include block-grid($per-row: 1);
+	}
+	@media #{$landscape} {
+		@include block-grid($per-row: 2);
+	}
+	@media #{$small} {
+		@include block-grid($per-row: 2);
+	}
+	@media #{$medium} {
+		@include block-grid($per-row: 4);
+	}
  }

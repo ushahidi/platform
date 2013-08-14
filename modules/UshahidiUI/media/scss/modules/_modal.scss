@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * MODAL...............via Reveal.js included in Foundation
@@ -12,175 +12,175 @@
 
 
 /*-----------------------------------------------------------*\
-    $MODAL
+		$MODAL
 \*-----------------------------------------------------------*/
 
 .reveal-modal {
-  top: 25px;
-  @media #{$small} {
-    width: 80%;
-    left: 57%;
-    border: 4px solid $blueGray;
-    padding: 0;
-  }
-  @media #{$medium-up} {
-    width: 60%;
-    left: 67%;
-  }
-  @media #{$large} {
-    width: 38%;
-    left: 77%;
-    top: 65px;
-  }
+	top: 25px;
+	@media #{$small} {
+		width: 80%;
+		left: 57%;
+		border: 4px solid $blueGray;
+		padding: 0;
+	}
+	@media #{$medium-up} {
+		width: 60%;
+		left: 67%;
+	}
+	@media #{$large} {
+		width: 38%;
+		left: 77%;
+		top: 65px;
+	}
 }
 
 
 
 
 /*------------------------------------*\
-    $FORM BODY
+		$FORM BODY
 \*------------------------------------*/
 
 .create-post-header {
-  @include grid-row;
-  background-color: #e9e9e9;
-  border: 1px solid #d0d0d0;
-  padding: 10px;
-  text-align: center;
+	@include grid-row;
+	background-color: #e9e9e9;
+	border: 1px solid #d0d0d0;
+	padding: 10px;
+	text-align: center;
 }
 
 .create-post-wrapper {
-  @include grid-row;
-  margin-top: 20px;
+	@include grid-row;
+	margin-top: 20px;
 }
 
 .create-post-options {
-  @include grid-column(11, $center: true);
-  margin-bottom: 40px;
-  hr {
-    margin: 0 0 1.25em 0;
-  }
-  input[type="text"], textarea {
-    margin-bottom: 2em;
-  }
+	@include grid-column(11, $center: true);
+	margin-bottom: 40px;
+	hr {
+		margin: 0 0 1.25em 0;
+	}
+	input[type="text"], textarea {
+		margin-bottom: 2em;
+	}
 }
 
 .create-post-location-map {
-  background: url( ../images/map.jpg ) no-repeat;
-  width: 100%;
-  height: 100px;
-  background-size: cover;
-  margin-bottom: 30px;
+	background: url( ../images/map.jpg ) no-repeat;
+	width: 100%;
+	height: 100px;
+	background-size: cover;
+	margin-bottom: 30px;
 }
 
 
 
 
 /*------------------------------------*\
-    $UPLOAD MEDIA BAR
+		$UPLOAD MEDIA BAR
 \*------------------------------------*/
 
 .media-bar-wrap {
-  @include grid-column(12);
-  background-color: $blueGray;
-  padding: 0;
+	@include grid-column(12);
+	background-color: $blueGray;
+	padding: 0;
 }
 
 .media-bar{
-  @include grid-column(12, $collapse: true);
-  @media #{$small} {
-    @include grid-column(11, $center: true);
-  }
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(11, $center: true);
+	}
 }
 
 .media-bar-row {
-  @include grid-row(collapse);
+	@include grid-row(collapse);
 }
 
 
 .media-bar-uploads-wrap {
-  @include grid-column(12);
-  padding: 0;
-  border-bottom: 1px solid $darkGray;
-  @media #{$small} {
-    @include grid-column(8, $collapse: true);
-    margin-bottom: 0;
-    border-bottom: 0;
-  }
+	@include grid-column(12);
+	padding: 0;
+	border-bottom: 1px solid $darkGray;
+	@media #{$small} {
+		@include grid-column(8, $collapse: true);
+		margin-bottom: 0;
+		border-bottom: 0;
+	}
 }
 
 .media-bar-uploads {
-  @include block-grid($spacing: 0px);
+	@include block-grid($spacing: 0px);
 }
 
 .create-post-submit {
-  @include grid-column(12, $collapse: true);
-  @media #{$small} {
-    @include grid-column(4, $collapse: true);
-    top: 9px;
-  }
-  .button {
-    margin-bottom: 0;
-  }
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(4, $collapse: true);
+		top: 9px;
+	}
+	.button {
+		margin-bottom: 0;
+	}
 }
 
 
 
 
 /*------------------------------------*\
-    $MEDIA ICONS
+		$MEDIA ICONS
 \*------------------------------------*/
 
 .select-icon {
-  width: 56px;
-  height: 60px !important;
-  [class^="icon-"] {
-    position: relative;
-    top: 20px;
-    left: 20px;
-    padding: 0;
-    @media #{$small} {
-      left: 0;
-    }
-  }
+	width: 56px;
+	height: 60px !important;
+	[class^="icon-"] {
+		position: relative;
+		top: 20px;
+		left: 20px;
+		padding: 0;
+		@media #{$small} {
+			left: 0;
+		}
+	}
 }
 
 .upload-location {
 
-  .icon-map-marker {
-    font-size: 19px;
-    color: $white;
-  }
+	.icon-map-marker {
+		font-size: 19px;
+		color: $white;
+	}
 }
 
 .upload-image {
 
-  .icon-picture {
-    font-size: 19px;
-    color: $white;
-  }
+	.icon-picture {
+		font-size: 19px;
+		color: $white;
+	}
 }
 
 .upload-video {
 
-  .icon-facetime-video {
-    font-size: 19px;
-    color: $white;
-  }
+	.icon-facetime-video {
+		font-size: 19px;
+		color: $white;
+	}
 }
 
 .upload-link {
 
-  .icon-link {
-    font-size: 19px;
-    color: $white;
-  }
+	.icon-link {
+		font-size: 19px;
+		color: $white;
+	}
 }
 
 .upload-audio {
 
-  .icon-microphone {
-    font-size: 20px;
-    color: $white;
-  }
+	.icon-microphone {
+		font-size: 20px;
+		color: $white;
+	}
 }

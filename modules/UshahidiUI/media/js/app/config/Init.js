@@ -16,6 +16,10 @@ require.config(
 		"jso2" : "../libs/jso2",
 		"store" : "../libs/jso2/store",
 		"utils" : "../libs/jso2/utils",
+		"moment" : "../libs/moment",
+		"underscore.string" : "../libs/underscore.string",
+		"foundation" : "../libs/foundation",
+		"foundation-loader" : "../libs/foundation-loader",
 
 		// Plugins
 		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",
@@ -48,6 +52,25 @@ require.config(
 			deps: ['jquery'],
 			exports: 'L'
 		},
+		'moment': {
+			exports: 'moment'
+		},
+		
+		'foundation/foundation' : {exports: 'Foundation'},
+		'foundation/foundation.alerts': {deps: ['foundation/foundation'] },
+		'foundation/foundation.clearing': {deps: ['foundation/foundation'] },
+		'foundation/foundation.cookie': {deps: ['foundation/foundation'] },
+		'foundation/foundation.dropdown': {deps: ['foundation/foundation'] },
+		'foundation/foundation.forms': {deps: ['foundation/foundation'] },
+		'foundation/foundation.interchange': {deps: ['foundation/foundation'] },
+		'foundation/foundation.joyride': {deps: ['foundation/foundation'] },
+		'foundation/foundation.magellan': {deps: ['foundation/foundation'] },
+		'foundation/foundation.orbit': {deps: ['foundation/foundation'] },
+		'foundation/foundation.placeholder': {deps: ['foundation/foundation'] },
+		'foundation/foundation.reveal': {deps: ['foundation/foundation'] },
+		'foundation/foundation.section': {deps: ['foundation/foundation'] },
+		'foundation/foundation.tooltips': {deps: ['foundation/foundation'] },
+		'foundation/foundation.topbar': {deps: ['foundation/foundation'] },
 	}
 });
 

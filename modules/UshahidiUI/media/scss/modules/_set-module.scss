@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * GLOBAL............global set styles
@@ -11,14 +11,14 @@
 
 
 /*------------------------------------*\
-    $GLOBAL
+		$GLOBAL
 \*------------------------------------*/
 
 .set-wrapper {
-  text-align: center;
-  background-color: $white;
-  padding-bottom: 12px;
-  @extend .box-shadow;
+	text-align: center;
+	background-color: $white;
+	padding-bottom: 12px;
+	@extend .box-shadow;
 }
 
 
@@ -26,7 +26,7 @@
 
 
 /*------------------------------------*\
-    $SET MODULE IMAGE
+		$SET MODULE IMAGE
 \*------------------------------------*/
 /*
 TODO: may need a notification mixin here
@@ -42,64 +42,64 @@ TODO: may need a notification mixin here
 
 
 /*------------------------------------*\
-    $SET MODULE BODY
+		$SET MODULE BODY
 \*------------------------------------*/
 
 .set-body {
-  padding: 0 10px 0;
+	padding: 0 10px 0;
 }
 
 .set-title h3 {
-  @media #{$small} {
-    font-size: 1.375em;
-  }
-  @media #{$medium} {
-    font-size: 1.175em;
-  }
+	@media #{$small} {
+		font-size: 1.375em;
+	}
+	@media #{$medium} {
+		font-size: 1.175em;
+	}
 }
 
 .set-time-meta {
-  margin-bottom: 5px;
-  color: $sub-body-font-color;
+	margin-bottom: 5px;
+	color: $sub-body-font-color;
 }
 
 .set-excerpt {
-  margin-bottom: 20px;
-  font-size: 14px;
-  p {
-    line-height: 1.3em;
-  }
+	margin-bottom: 20px;
+	font-size: 14px;
+	p {
+		line-height: 1.3em;
+	}
 }
 
 .set-view-posts .button {
-  margin-bottom: 2em;
+	margin-bottom: 2em;
 }
 
 .set-tags {
-  @extend .border-bottom;
-  padding-bottom: 10px;
-  margin: 0 10px 10px;
-  color: $sub-body-font-color;
-  text-align: left;
-  line-height: .8em;
-  a {
-    color: inherit;
-  }
+	@extend .border-bottom;
+	padding-bottom: 10px;
+	margin: 0 10px 10px;
+	color: $sub-body-font-color;
+	text-align: left;
+	line-height: .8em;
+	a {
+		color: inherit;
+	}
 }
 
 .set-actions-list {
-  margin-left: 0;
-  i {
-    padding: 0;
-  }
+	margin-left: 0;
+	i {
+		padding: 0;
+	}
  li {
-  display: inline;
-  padding-right: 10px;
-  small {
-    font-size: 85%;
-    @media#{$medium} {
-      font-size: 70%;
-    }
-  }
+	display: inline;
+	padding-right: 10px;
+	small {
+		font-size: 85%;
+		@media#{$medium} {
+			font-size: 70%;
+		}
+	}
  }
 }

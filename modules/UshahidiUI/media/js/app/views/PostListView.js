@@ -1,7 +1,6 @@
-define( [ 'App', 'marionette', 'handlebars', 'views/PostItemView',
-'text!templates/postlist.html', 'App.oauth', 'models/PostModel'],
-	function( App, Marionette, Handlebars, PostItemView, template,
-	OAuth,PostModel) {
+define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates/PostList.html'],
+	function( App, Marionette, Handlebars, PostItemView, template)
+	{
 		//CollectionView provides some default rendering logic
 		return Marionette.CompositeView.extend( {
 			//Template HTML string
@@ -14,19 +13,25 @@ define( [ 'App', 'marionette', 'handlebars', 'views/PostItemView',
 				//foo: "bar"
 			},
 
-			itemViewContainer: '.posts',
+			itemViewContainer: '.list-view-posts-list',
 			
 			events: {
-			
+				'click .js-list-view-select-post' : 'showHideBulkActions'
 			},
 			
-		
-			onDomRefresh: function()
+			showHideBulkActions : function ()
 			{
-				this.collection.fetch({});
-				return this;
+				$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked')
+				if ($checked.length > 0)
+				{
+					this.$('.js-list-view-bulk-actions').removeClass('hidden');
+					this.$('.js-list-view-bulk-actions').addClass('visible');
+				}
+				else
+				{
+					this.$('.js-list-view-bulk-actions').removeClass('visible');
+					this.$('.js-list-view-bulk-actions').addClass('hidden');
+				}
 			}
-
-			
 		});
 	});

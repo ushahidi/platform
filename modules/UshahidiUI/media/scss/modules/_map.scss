@@ -1,13 +1,13 @@
 /*------------------------------------*\
-    $MAP...............via Leaflet.js
+		$MAP...............via Leaflet.js
 
-    NOTE:
-    Works in:
-    Safari 3+
-    Chrome Whatever+
-    IE 9+
-    Opera 10+ (Opera 9.5 supported background-size but not the keywords)
-    Firefox 3.6+ (Firefox 4 supports non-vendor prefixed version)
+		NOTE:
+		Works in:
+		Safari 3+
+		Chrome Whatever+
+		IE 9+
+		Opera 10+ (Opera 9.5 supported background-size but not the keywords)
+		Firefox 3.6+ (Firefox 4 supports non-vendor prefixed version)
 
 \*------------------------------------*/
 
@@ -16,30 +16,55 @@
 
 
 .content-wrapper {
-  overflow: hidden;
-  @include grid-column(12);
-  padding: 0;
+	overflow: hidden;
+	@include grid-column(12);
+	padding: 0;
 }
 
 .map {
-  opacity: 1;
-  width: 100%;
-  height: 386px;
-  @include transition (all .25s ease-in-out);
-  @media #{$small} {
-    height: 500px;
-  }
+	opacity: 1;
+	width: 100%;
+	height: 386px;
+	@include transition (all .3s ease-in-out);
+	@media #{$small} {
+		height: 500px;
+	}
 }
 
 .map-collapse {
-  opacity: .5;
-  height: 38px;
-  @include transition (all .25s ease-in-out);
-}
-
-.leaflet-container .leaflet-control-attribution {
-  visibility: hidden;
+	opacity: .5;
+	height: 38px;
+	@include transition (all .3s ease-in-out);
 }
 
 
+
+
+/*------------------------------------*\
+		$COLLAPSE MAP
+\*------------------------------------*/
+.collapse-map {
+	background-color: $blueGray;
+	position: relative;
+	top: -38px;
+	margin: auto;
+	width: 186px;
+	height: 38px;
+	color: $white;
+	cursor: pointer;
+	z-index: 2;
+	p {
+		text-align: center;
+		padding-top: 6px;
+		margin: 0;
+		font-size: 18px;
+		letter-spacing: .1em;
+		color: $white;
+	}
+}
+
+.collapse-map-container {
+	height: 0;
+	margin-bottom: -3px; // @todo maybe move this to margin-top on search bar
+}
 
