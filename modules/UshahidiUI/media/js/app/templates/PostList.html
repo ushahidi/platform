@@ -25,18 +25,17 @@
 
 			<form role="form" class="custom" action="">
 				<div class="list-view-filter-info">
-					<h5>Showing 3 from 1,500 posts</h5>
+					{{> post-list-info }}
 				</div> <!-- end .list-view-filter-info -->
 
 				<div class="list-view-filter-count">
 					<div class="filter-count-select">
-						<label class="visually-hidden" for="filter-posts-count">Count</label>
+						<label class="visually-hidden" for="filter-posts-count">Number of posts shown</label>
 						<select id="filter-posts-count" >
-							<option selected DISABLED>Count:</option>
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>All</option>
+							<option selected>3</option>
+							<option>5</option>
+							<option>10</option>
+							<option>20</option>
 						</select>
 					</div>
 
@@ -44,12 +43,12 @@
 
 				<div class="list-view-filter-sort">
 					<div class="filter-sort-select">
-						<label class="visually-hidden" for="filter-posts-sort">Sort Posts</label>
+						<label class="visually-hidden" for="filter-posts-sort">Sort posts by</label>
 						<select id="filter-posts-sort" >
-							<option selected DISABLED>Sort by:</option>
-							<option>Title A-Z</option>
-							<option>Category</option>
-							<option>Time</option>
+							<option selected value="updated">Date/Time updated</option>
+							<option value="created">Date/Time created</option>
+							<option value="title">Title A-Z</option>
+							<option value="id">ID</option>
 						</select>
 					</div>
 
@@ -68,15 +67,5 @@
 </div> <!-- end .row -->
 
 <div class="pagination-centered">
-	<ul class="pagination">
-		<li class="arrow unavailable"><a href="">&laquo;</a></li>
-		<li class="current"><a href="">1</a></li>
-		<li><a href="">2</a></li>
-		<li><a href="">3</a></li>
-		<li><a href="">4</a></li>
-		<li class="unavailable"><a href="">&hellip;</a></li>
-		<li><a href="">12</a></li>
-		<li><a href="">13</a></li>
-		<li class="arrow"><a href="">&raquo;</a></li>
-	</ul>
+	{{>pagination}}
 </div> <!-- end .pagination-centered -->

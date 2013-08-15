@@ -1,5 +1,5 @@
-define(['handlebars', 'moment', 'underscore.string'],
-	function(Handlebars, moment, _str) {
+define(['handlebars', 'moment', 'underscore.string', 'handlebars-paginate'],
+	function(Handlebars, moment, _str, paginate) {
 		Handlebars.registerHelper('baseurl', function() {
 			var App = require ('App');
 			return App.config.baseurl;
@@ -33,5 +33,7 @@ define(['handlebars', 'moment', 'underscore.string'],
 			return _str.prune(text, length);
 		});
 		
+		Handlebars.registerHelper('paginate', paginate);
+
 		return Handlebars;
 	}); 
