@@ -199,7 +199,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		
 		// Get the count of ALL records
 		$count_query = clone $posts_query;
-		$total_records = (int)$count_query
+		$total_records = (int) $count_query
 			->select(array(DB::expr('COUNT(DISTINCT `post`.`id`)'), 'records_found'))
 			->limit(NULL)
 			->offset(NULL)
