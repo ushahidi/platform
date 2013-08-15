@@ -1,11 +1,20 @@
-define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates/PostList.html', 'text!templates/partials/pagination.html'],
-	function( App, Marionette, Handlebars, PostItemView, template, paginationTemplate)
+define(['App', 'marionette', 'handlebars', 'views/PostItemView',
+		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
+	function( App, Marionette, Handlebars, PostItemView,
+		template, paginationTemplate, postListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
+		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
 
 		return Marionette.CompositeView.extend( {
 			//Template HTML string
 			template: Handlebars.compile(template),
+			// Lets just store the partial templates somewhere usefule
+			partialTemplates :
+			{
+				pagination : Handlebars.compile(paginationTemplate),
+				postListInfo : Handlebars.compile(postListInfoTemplate)
+			},
 			initialize: function() {
 				this.listenTo(this.collection, "add", this.updatePagination, this);
 				this.listenTo(this.collection, "remove", this.updatePagination, this);
@@ -112,8 +121,10 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates
 
 			updatePagination: function ()
 			{
-				var template = Handlebars.compile(paginationTemplate);
-				this.$('.pagination').replaceWith(template({
+				this.$('.pagination').replaceWith(this.partialTemplates.pagination({
+					pagination: this.collection.state
+				}));
+				this.$('.list-view-filter-info').html(this.partialTemplates.postListInfo({
 					pagination: this.collection.state
 				}));
 			},

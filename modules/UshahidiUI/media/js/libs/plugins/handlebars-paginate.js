@@ -10,6 +10,8 @@ define([], function() {
 		var ret = '';
 		var pageCount = pagination.totalPages;
 		var currentPage = pagination.currentPage +1;
+		var pageSize = pagination.pageSize;
+		var totalRecords = pagination.totalRecords;
 		var limit;
 		if (options.hash.limit)
 			limit = +options.hash.limit;
@@ -96,6 +98,17 @@ define([], function() {
 						n : currentPage + 1
 					}
 				}
+				ret = ret + options.fn(newContext);
+				break;
+			case 'info':
+				// Keep current pagination state values
+				newContext = pagination;
+				// First record of current page
+				newContext.startRecord = ((currentPage-1) * pageSize) +1;
+				// Last record of current page
+				newContext.endRecord = currentPage * pageSize;
+				newContext.endRecord > totalRecords ? newContext.endRecord = totalRecords : null;
+				
 				ret = ret + options.fn(newContext);
 				break;
 		}
