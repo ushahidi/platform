@@ -15,20 +15,20 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 				pagination : Handlebars.compile(paginationTemplate),
 				postListInfo : Handlebars.compile(postListInfoTemplate)
 			},
-			initialize: function() {
+			initialize: function()
+			{
 				this.listenTo(this.collection, "add", this.updatePagination, this);
 				this.listenTo(this.collection, "remove", this.updatePagination, this);
 				this.listenTo(this.collection, "reset", this.updatePagination, this);
 			},
 			
 			itemView: PostItemView,
-			itemViewOptions: {
-				//foo: "bar"
-			},
+			itemViewOptions: {},
 
 			itemViewContainer: '.list-view-posts-list',
 			
-			events: {
+			events:
+			{
 				'click .js-list-view-select-post' : 'showHideBulkActions',
 				'click .js-page-first' : 'showFirstPage',
 				'click .js-page-next' : 'showNextPage',
