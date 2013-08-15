@@ -23,6 +23,8 @@ require.config(
 
 		// Plugins
 		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",
+		"backbone-pageable" : "../libs/plugins/backbone-pageable",
+		"handlebars-paginate" : "../libs/plugins/handlebars-paginate",
 		"text" : "../libs/plugins/text"
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
