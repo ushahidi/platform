@@ -1,9 +1,11 @@
 define(['App', 'backbone', 'marionette',
 	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/MapView',
-	'views/PostListView', 'views/PostDetailView','collections/PostCollection','collections/TagCollection','collections/FormCollection'],
+	'views/PostListView',
+	'views/PostDetailView','collections/PostCollection','collections/TagCollection','collections/FormCollection','views/PostDetailLayout', 'views/RelatedPostsView'],
 	function(App, Backbone, Marionette,
-		AppLayout, HomeLayout, HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
-		PostListView, PostDetailView, PostCollection, TagCollection, FormCollection)
+		AppLayout, HomeLayout,HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
+		PostListView, PostDetailView, PostCollection, TagCollection,
+		FormCollection, PostDetailLayout, RelatedPostsView)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -63,10 +65,13 @@ define(['App', 'backbone', 'marionette',
 			},
 			postDetail : function(id) {
 				App.vent.trigger("page:change", "posts/:id");
-				this.layout.mainRegion.show(new PostDetailView({
-					model: App.Collections.Posts.get(id)	
-				}));
-
+				App.postdetailLayout = new PostDetailLayout();
+				this.layout.mainRegion.show(App.postdetailLayout);
+				App.postdetailLayout.mapRegion.show(new MapView());
+				App.postdetailLayout.postdetailRegion.show(new PostDetailView({
+					model: App.Collections.Posts.get(id)
+					}));	
+				App.postdetailLayout.relatedpostsRegion.show(new RelatedPostsView());
 			}
 		});
 	}); 
