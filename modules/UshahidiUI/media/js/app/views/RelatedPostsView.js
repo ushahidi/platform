@@ -1,14 +1,13 @@
-define(['App', 'marionette', 'handlebars', 'text!templates/RelatedPosts.html'],
-	function( App, Marionette, Handlebars, template)
+define(['App', 'marionette', 'handlebars', 'views/PostItemView','text!templates/RelatedPosts.html'],
+	function( App, Marionette, Handlebars, PostItemView, template)
 	{
-		//CollectionView provides some default rendering logic
-		return Marionette.ItemView.extend( {
+		return Marionette.CompositeView.extend( {
 			//Template HTML string
 			template: Handlebars.compile(template),
-			initialize: function(options) {
+			initialize: function() {
 			},
 			
-			itemViewContainer: '.related-posts',
+			itemView: PostItemView,
 			
 		});
 	});

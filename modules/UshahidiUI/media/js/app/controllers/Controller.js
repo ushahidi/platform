@@ -1,11 +1,14 @@
 define(['App', 'backbone', 'marionette',
-	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/MapView',
-	'views/PostListView',
-	'views/PostDetailView','collections/PostCollection','collections/TagCollection','collections/FormCollection','views/PostDetailLayout', 'views/RelatedPostsView'],
+
+	'views/AppLayout', 'views/HomeLayout', 'views/PostDetailLayout',
+	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 
+	'views/MapView','views/PostListView','views/PostDetailView','views/RelatedPostsView',
+	'collections/PostCollection','collections/TagCollection','collections/FormCollection'],
 	function(App, Backbone, Marionette,
-		AppLayout, HomeLayout,HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
-		PostListView, PostDetailView, PostCollection, TagCollection,
-		FormCollection, PostDetailLayout, RelatedPostsView)
+		AppLayout, HomeLayout, PostDetailLayout,
+		HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
+		PostListView, PostDetailView, RelatedPostsView,
+		PostCollection, TagCollection, FormCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -67,6 +70,7 @@ define(['App', 'backbone', 'marionette',
 				App.vent.trigger("page:change", "posts/:id");
 				App.postdetailLayout = new PostDetailLayout();
 				this.layout.mainRegion.show(App.postdetailLayout);
+				//@TODO find a better way of handling this
 				App.postdetailLayout.mapRegion.show(new MapView());
 				App.postdetailLayout.postdetailRegion.show(new PostDetailView({
 					model: App.Collections.Posts.get(id)
