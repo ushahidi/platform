@@ -466,6 +466,10 @@ oauth_clients:
     client_id: "restricted_app"
     client_secret: "demopass"
     grant_types: '["authorization_code"]'
+  -
+    client_id: "ushahidiui"
+    client_secret: ""
+    grant_types: ""
 oauth_access_tokens:
   -
     access_token: "testingtoken"
