@@ -20,13 +20,13 @@
 }
 
 [role="main"] {
+	margin-bottom: 74px;
 	width: 100%;
+	height: 100%;
 	margin-left: 0;
 	float: left;
 	clear: both;
 	margin-left: 0px;
-	overflow: hidden;
-	@extend .box-shadow;
 	-webkit-transition: margin .3s ease;
 		-moz-transition: margin .3s ease;
 			-ms-transition: margin .3s ease;

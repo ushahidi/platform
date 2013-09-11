@@ -5,14 +5,16 @@
 .list-view-post {
 	@include grid-column(12, $collapse: true);
 	border-bottom: 1px solid $midGray;
-	padding-right: 20px;
 	margin-bottom: 20px;
+	&:last-child {
+		border-bottom: 0;
+	}
 }
 
 .list-view-select-post {
 	position: absolute;
-	top: 0;
-	left: 0;
+	top: -17px;
+	left: -24px;
 }
 
 .list-view-post-image {
@@ -22,17 +24,16 @@
 	}
 	img {
 		margin: 10px 0 10px 0;
-		border: 4px solid $blueGray;
-		border-radius: 125px;
+		@include thumb;
 	}
 }
 
 .list-view-post-details {
-	@include grid-column(8, $collapse: true);
-	margin-top: 10px;
+	@include grid-column(8);
+	margin-top: 5px;
+	padding-left: 0;
 	@media #{$small} {
 		@include grid-column(10);
-		margin-top: 20px;
 	}
 }
 
@@ -46,14 +47,14 @@
 .list-view-post-time {
 	@include grid-column(12);
 	font-size: 15px;
+	p {
+		float: left;
+	}
 	@media #{$small} {
 		@include grid-column(4);
 		p {
 			float: right;
 		}
-	}
-	p {
-		float: left;
 	}
 }
 
@@ -73,37 +74,47 @@
 }
 
 .list-view-post-admin {
-	@include grid-column(12, $collapse: true);
-	margin-top: 20px;
+	@include grid-column(12);
+	margin: 20px 0;
 	i {
 		padding: 0;
 	}
 }
 
 .list-view-post-categories-wrapper {
-	@include grid-column(12);
-	@media #{$small} {
-		@include grid-column(6, $collapse: true);
-		padding-left: 15px;
+	@include grid-column(12, $collapse: true);
+	h6 {
+		margin: 0;
 	}
 	button {
 		margin-bottom: 0;
 		i {
-			color: $alert-color;
 			padding-right: 5px;
 		}
+	}
+	@media #{$small} {
+		@include grid-column(6, $collapse: true);
 	}
 }
 
 .list-view-post-categories {
-	@include block-grid($per-row: 2);
-	@media #{$small} {
-		@include block-grid($per-row: 2);
+	margin: 0;
+	a {
+		color: $subheader-font-color
+	}
+	li {
+		display: inline;
+		font-size: $small-font-size;
+		padding-right: 5px;
+	}
+	.icon-circle {
+		color: $alert-color;
+		padding-right: 5px;
 	}
 }
 
 .list-view-post-edit-wrapper {
-	@include grid-column(12);
+	@include grid-column(12, $collapse: true);
 	margin-top: 20px;
 	@media #{$small} {
 		@include grid-column(6, $collapse: true);
@@ -118,6 +129,9 @@
 		display: inline;
 		float: left;
 		padding: 0 20px 0 0;
+		a {
+			margin-bottom: 0;
+		}
 	}
 	button.expand, .button.expand {
 		padding-right: 1.125em;
@@ -126,5 +140,9 @@
 	@media #{$small} {
 		@include block-grid($per-row: false, $spacing: emCalc(20px));
 		float: right;
+		padding-top: 13px;
+		li {
+			padding-bottom: 3px;
+		}
 	}
 }

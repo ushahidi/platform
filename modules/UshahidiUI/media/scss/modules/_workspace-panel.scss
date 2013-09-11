@@ -14,7 +14,15 @@
 /*------------------------------------*\
 		$WORKSPACE PROFILE
 \*------------------------------------*/
- .workspace-profile {
+
+.workspace-panel {
+	margin-bottom: -9999px;
+	padding-bottom: 9999px;
+	background-color: $midGray;
+	border-left: 3px solid $blueGray;
+}
+
+.workspace-profile {
 	@include grid-row;
 	border-top: 1px solid black;
 }
@@ -28,7 +36,7 @@
 	float: left;
 }
 
-.workspace-edit {
+.workspace-admin {
 	float: left;
 	margin: 21px 0 0 7px;
 	.username {
@@ -38,8 +46,14 @@
 	}
 	.workspace-role {
 		font-size: 13px;
-		margin: 0;
+		margin: 0 0 10px 0;
 		line-height: 1;
+	}
+	ul {
+		margin-bottom: 0.0625em;
+	}
+	.edit-profile, .logout {
+		font-size: 13px;
 	}
 }
 
@@ -62,14 +76,20 @@
 }
 
 .workspace-stats li.panel {
-	padding: 10px 10px 10px 20px;
+	padding: 12px 0 12px 12px;
 	margin: 0;
 }
 
-.panel h4 {
+.workspace-stats .panel h5 {
 	margin: 0;
-	span {
+	i {
+		position: relative;
+		top: -2px;
 		font-size: $base-font-size;
+		padding-right: 3px;
+	}
+	span {
+		font-size: 14px;
 		font-weight: normal;
 	}
 }
@@ -89,23 +109,37 @@
 	i {
 		padding-left: 10px;
 	}
+  .title {
+    line-height: .8em;
+    margin: 0;
+  }
 }
 
 .workspace-menu>section.active>.title a {
 	color: $white;
 }
 
-.workspace-menu>section .content {
-	&.active {
-		background: $section-content-bg-active;
-	}
-	a {
-		color: $body-font-color;
-		p {
-			margin: 0;
-			span {
-				float: right;
-			}
-		}
-	}
+.workspace-menu>section ul {
+  margin: 0;
+    .content {
+      padding: 10px;
+      &.active {
+        background: $section-content-bg-active;
+      }
+    	a {
+    		color: $body-font-color;
+    		p {
+    			margin: 0;
+    			span {
+    				float: right;
+    			}
+    		}
+    	}
+    }
+
+}
+
+
+.workspace-menu>section>.js-title {
+	border: 0;
 }
