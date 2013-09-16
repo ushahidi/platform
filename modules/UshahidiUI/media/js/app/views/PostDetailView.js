@@ -15,6 +15,11 @@ define(['App', 'marionette', 'handlebars', 'text!templates/PostDetail.html'],
 				return data;
 			},
 			
+			modelEvents : {
+				// hack to re-render this view when the model actually loads
+				// @todo fix race condition so we don't need this
+				'change' : function () { this.render(); }
+			}
 			
 		});
 	});
