@@ -29,10 +29,7 @@ define(['App', 'marionette', 'handlebars', 'text!templates/PostListItem.html'],
 			{
 				var data = _.extend(this.model.toJSON(), {
 					published : this.model.published(),
-					tags : _.map(this.model.get('tags'), function(tag) {
-						var tagModel = App.Collections.Tags.get(tag.id);
-						return tagModel ? tagModel.toJSON() : null;
-					})
+					tags : this.model.tags()
 				});
 				return data;
 			}

@@ -19,6 +19,13 @@ define(["jquery", "backbone", "App"],
 			published : function ()
 			{
 				if (this.get('status') == 'published') return true;
+			},
+			
+			tags : function () {
+				return _.map(this.get('tags'), function(tag) {
+					var tagModel = App.Collections.Tags.get(tag.id);
+					return tagModel ? tagModel.toJSON() : null;
+				});
 			}
 		});
 	

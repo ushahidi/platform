@@ -34,15 +34,16 @@
 					<p><i class="icon-lock"></i><strong class="post-time" > Private</strong></p>
 				</div> <!-- end .post-privacy-status -->
 
+				{{#if tags}}
 				<div class="post-categories">
 					<h6>Categories</h6>
 					<ul>
-						<a href="#"><li><i class="icon-circle" style="color: #C50813"></i>Automobiles</li></a>
-						<a href="#"><li><i class="icon-circle" style="color: #23699D;"></i>Transport</li></a>
-						<a href="#"><li><i class="icon-circle" style="color: #4fa425;"></i>London</li></a>
-						<a href="#"><li><i class="icon-circle" style="color: #baac29;"></i>Retro</li></a>
+						{{#each tags}}
+						<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}><i class="icon-circle"  {{#if color}}style="color: #{{color}}"{{/if}}></i>{{tag}}</li></a>
+						{{/each}}
 					</ul>
 				</div> <!-- end .post-categories-wrapper -->
+				{{/if}}
 			</div> <!-- end .post-meta -->
 
 		</div> <!-- end .post-body -->
