@@ -4,48 +4,46 @@
 		</div> <!-- end .post-category-marker -->
 
 		<div class="post-title">
-			<h6>{{ title }}</h6>
-			<div class="row">
-				<div class="post-title-tag">
-					<h6 class="subheader">Automobiles</h6>
-				</div>
-			</div>
+			<h5>{{ title }}</h5>
 		</div> <!-- end .post-title -->
 
-		<div class="post-actions">
-			<button class="small  secondary  button"> <i class="icon-edit"></i>edit</button>
-			<button class="small  secondary  button"> <i class="icon-plus-sign"></i>set</button>
+		<div class="post-actions-wrapper">
+			<ul class="post-actions">
+				<li><a href="#" class="small  secondary  radius  button"> <i class="icon-edit"></i>edit</a></li>
+				<li><a href="#" class="small  secondary  radius  button"> <i class="icon-plus-sign"></i>set</a></li>
+			</ul>
 		</div> <!-- end .post-actions -->
+
 	</div> <!-- end .post-header -->
 
 	<div class="post-body">
 		<div class="post-image">
 			<img src="{{ imageurl "mini-coop.jpg" }}" alt="">
 
-			<div class="row">
-
+			<div class="post-meta">
 				<div class="post-location-meta">
-					<h5><small> <i class="icon-map-marker"></i><span class="post-location  underline" ><a href=""> London, UK</a></span></small></h5>
+					<h6>Post Details</h6>
+					<p><i class="icon-map-marker"></i><span class="post-location  underline" ><a href=""> London, UK</a></span></p>
 				</div> <!-- end .post-location-meta -->
 
 				<div class="post-time-meta">
-					<h5><small> <i class="icon-time"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></small></h5>
+					<p><i class="icon-time"></i><strong class="post-time" > {{ datetime-fromNow created }}</strong></p>
 				</div> <!-- end .post-time-meta -->
 
 				<div class="post-privacy-status">
-					<h5><small> <i class="icon-lock"></i><strong class="post-time" > Private</strong></small></h5>
+					<p><i class="icon-lock"></i><strong class="post-time" > Private</strong></p>
 				</div> <!-- end .post-privacy-status -->
 
-				<div class="post-categories-wrapper">
-					<ul class="post-categories">
-						<li><button class="button  small  secondary  expand"> <i class="icon-circle"></i> Automobiles</button></li>
-						<li><button class="button  small  secondary  expand"> <i class="icon-circle"></i> Transport</button></li>
-						<li><button class="button  small  secondary  expand"> <i class="icon-circle"></i> London</button></li>
-						<li><button class="button  small  secondary  expand"> <i class="icon-circle"></i> Retro</button></li>
+				<div class="post-categories">
+					<h6>Categories</h6>
+					<ul>
+						<a href="#"><li><i class="icon-circle" style="color: #C50813"></i>Automobiles</li></a>
+						<a href="#"><li><i class="icon-circle" style="color: #23699D;"></i>Transport</li></a>
+						<a href="#"><li><i class="icon-circle" style="color: #4fa425;"></i>London</li></a>
+						<a href="#"><li><i class="icon-circle" style="color: #baac29;"></i>Retro</li></a>
 					</ul>
 				</div> <!-- end .post-categories-wrapper -->
-
-			</div> <!-- end .row -->
+			</div> <!-- end .post-meta -->
 
 		</div> <!-- end .post-body -->
 
@@ -71,3 +69,4 @@
 			</ul>
 		</div> <!-- end .post-thumbnails-wrapper -->
 	</div> <!-- end .post-body -->
+
