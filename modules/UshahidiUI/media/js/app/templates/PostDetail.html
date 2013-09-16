@@ -27,11 +27,16 @@
 				</div> <!-- end .post-location-meta -->
 
 				<div class="post-time-meta">
-					<p><i class="icon-time"></i><strong class="post-time" > {{ datetime-fromNow created }}</strong></p>
+					<p><i class="icon-time"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
 				</div> <!-- end .post-time-meta -->
 
 				<div class="post-privacy-status">
-					<p><i class="icon-lock"></i><strong class="post-time" > Private</strong></p>
+					{{#if published}}
+						<p><i class="icon-unlock"></i><strong class="post-time" >Published</strong></p>
+					{{else}}
+						{{!-- @todo add ucfirst handler and format status --}}
+						<p><i class="icon-lock"></i><strong class="post-time" >{{status}}</strong></p>
+					{{/if}}
 				</div> <!-- end .post-privacy-status -->
 
 				{{#if tags}}
