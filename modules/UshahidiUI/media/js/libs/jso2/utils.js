@@ -89,7 +89,8 @@ define(function(require, exports, module) {
 	 * @param  {string} msg Log message
 	 */
 	utils.log = function(msg) {
-		// if (!options.debug) return;
+		return;
+		//if (!options.debug) return;
 		if (!console) return;
 		if (!console.log) return;
 
