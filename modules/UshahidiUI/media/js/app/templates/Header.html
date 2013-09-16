@@ -5,13 +5,11 @@
 			<li class="name  hide-for-small">
 				<div class="logo-image"></div>
 				<h1><a href="#">Deployment Name</a></h1>
-			</li>
-		</ul>
-
-		<!-- TODO: figure out mobile nav and subnav -->
-		<!-- TODO: work out active styles -->
+			</li> <!-- end .name -->
+		</ul> <!-- end .title-area -->
 
 		<section class="top-bar-section">
+			<h1 class="visually-hidden">Main Navigation</h1>
 			<!-- Left Nav Section -->
 			<ul class="left">
 				<li class="divider"></li>
@@ -22,7 +20,7 @@
 				<li class="js-sets-menu-link-mobile  show-for-medium-down"><a class="sets" href="#"><i class="icon-th-large"></i><!-- icon only --></a></li>
 				<li class="divider"></li>
 
-			</ul>
+			</ul> <!-- end .left -->
 
 			<!-- Right Nav Section -->
 			<ul class="right">
@@ -30,17 +28,17 @@
 				<li class="create-post  show-for-medium-down"><a id="create-post-button-small" class="create-post-button" href="#" data-reveal-id="createPost"><i class="icon-plus"></i><!-- icon only --></a></li>
 				<li class="js-workspace-panel-button  hide-for-medium-down"><a class="workspace-panel-button  inverse" href="#workspace-panel"><i class="icon-dashboard  icon-large"></i> WORKSPACE</a></li>
 				<li class="js-workspace-panel-button-small  show-for-medium-down"><a class="workspace-panel-button  inverse" href="#workspace-panel"><i class="icon-dashboard"></i><!-- icon only --></a></li>
-			</ul>
-		</section>
-	</nav>
-</header>
+			</ul> <!-- end .right -->
+		</section> <!-- end .top-bar-section -->
+	</nav> <!-- end .navigation -->
+</header> <!-- end .banner -->
 
 <!-- subnavs need to be outside of header and above map-wrapper-->
 {{> views-dropdown-nav }}
 {{> sets-dropdown-nav }}
 
 <!-- on mobile devices deployment name is moved below topbar nav for better layout-->
-<li class="name-small  show-for-small">
+<div class="name-small  show-for-small">
 	<div class="logo-image"></div>
 	<h4><a href="#">Deployment Name</a></h4>
-</li>
+</div>
