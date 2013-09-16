@@ -27,28 +27,14 @@
 
 
 /*------------------------------------*\
-		$POST DETIALS
+		$POST DETAILS
 \*------------------------------------*/
 
 .post-details {
 	@extend .post;
-	margin-bottom: 20px;
 	@media #{$medium} {
 		@include grid-column(8);
 	}
-}
-
-.post-location-meta {
-	@include grid-column(12);
-}
-
-.post-time-meta {
-	@include grid-column(12);
-}
-
-.post-privacy-status {
-	@include grid-column(12);
-	margin-bottom: 20px;
 }
 
 .post-categories-wrapper {
@@ -62,13 +48,6 @@
 			padding-left: 1.125em;
 			width: auto;
 		}
-	}
-}
-
-.post-categories {
-	@include block-grid($per-row: 2);
-	@media #{$small} {
-		@include block-grid($per-row: 1);
 	}
 }
 

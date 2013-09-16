@@ -4,6 +4,7 @@
 /**
  * GENERAL OVERRIDES............general restyles
  * BUTTON OVERRIDES...............restyling foundation buttons
+ * SOCIAL BUTTONS...............custom social buttons
  */
 
 
@@ -16,11 +17,11 @@
 
 .body-wrapper {
 	@include grid-column(12);
-	margin-top: 0px;
-	@media #{$small} {
-		margin-top: 20px;
-	}
+	margin-top: 20px;
 }
+
+
+
 
 /*------------------------------------*\
 		$BUTTON OVERRIDES
@@ -38,4 +39,39 @@ button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button
 	background-color: $blueGray;
 	color: $white;
 	@include transition (background-color 0ms ease-in-out);
+}
+
+.button.secondary:hover {
+	background-color: $alert-color;
+}
+
+
+
+
+/*------------------------------------*\
+    $SOCIAL BUTTONS
+\*------------------------------------*/
+
+button.facebook, .button.facebook {
+	background-color: $facebook-color;
+}
+
+.button.facebook:hover {
+	background-color: darken($facebook-color, 10);
+}
+
+button.twitter, .button.twitter {
+	background-color: $twitter-color;
+}
+
+.button.twitter:hover {
+	background-color: darken($twitter-color, 10);
+}
+
+button.google, .button.google {
+	background-color: $google-color;
+}
+
+.button.google:hover {
+	background-color: darken($google-color, 10);
 }

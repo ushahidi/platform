@@ -1,0 +1,63 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+
+ These are global helper classes loaded before Foundation
+
+ * HELPER CLASSES...............custom classes
+ */
+
+
+
+
+
+/*------------------------------------*\
+		$HELPER CLASSES
+\*------------------------------------*/
+
+.none {
+	display: none;
+	visibility: hidden;
+}
+
+.visually-hidden { /*http://developer.yahoo.com/blogs/ydn/posts/2012/10/clip-your-hidden-content-for-better-accessibility/*/
+		position: absolute !important;
+		clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+		clip: rect(1px, 1px, 1px, 1px);
+		padding:0 !important;
+		border:0 !important;
+		height: 1px !important;
+		width: 1px !important;
+		overflow: hidden;
+}
+
+body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .visually-hidden button { display: none !important; }
+
+.hidden {
+	opacity: 0;
+	@include transition (opacity .3s ease-in-out);
+}
+
+.visible {
+	opacity: 1;
+	@include transition (opacity .3s ease-in-out);
+}
+
+.half-opacity {
+	opacity: .5;
+}
+
+.inverse {
+	background-color: $blueGray !important;
+	color: $white !important;
+}
+
+.underline {
+	border-bottom: 1px dotted;
+	padding-bottom: 3px;
+}
+
+.medium-text {
+	font-size: .8em;
+}

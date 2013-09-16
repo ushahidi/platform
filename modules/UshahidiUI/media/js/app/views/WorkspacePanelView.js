@@ -6,7 +6,7 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 			initialize: function() {
 			},
 			events : {
-				'click p.js-title' : 'toggleSection',
+				'click .js-title' : 'toggleSection',
 				'click .workspace-menu > section .js-content' : 'toggleMenuItem'
 			},
 			toggleSection : function(e) {

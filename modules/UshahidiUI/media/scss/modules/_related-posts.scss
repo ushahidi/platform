@@ -14,6 +14,9 @@
 	@include grid-column(12);
 	background-color: $white;
 	@extend .box-shadow;
+	p {
+		font-size: $medium-font-size;
+	}
 }
 
 .related-post-module-wrapper {
@@ -33,8 +36,7 @@
 		margin-bottom: 0;
 	}
 	img {
-		border: 4px solid $blueGray;
-		border-radius: 125px;
+		@include thumb;
 	}
 }
 
