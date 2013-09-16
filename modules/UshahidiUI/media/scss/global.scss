@@ -21,6 +21,10 @@
 @import "compass";
 @import "compass/reset";
 @import "compass/css3";
+@import "compass/layout/sticky-footer";
+
+@include sticky-footer(72px, ".content-wrapper", ".sticky-footer-root", ".footer");
+
 @import "bourbon/bourbon";
 
 
@@ -42,6 +46,7 @@
 /*@import "base/vars";*/
 @import "base/mixins";
 @import "base/general";
+@import "base/helpers";
 
 
 
@@ -103,6 +108,7 @@ NOTE: comment out what I don't use
 		$MODULES
 \*------------------------------------*/
 @import "modules/topbar";
+@import "modules/login-register";
 @import "modules/subnav";
 @import "modules/workspace-panel";
 @import "modules/map";
@@ -142,3 +148,5 @@ NOTE: comment out what I don't use
 
 /*modules/modal must be called at bottom*/
 @import "modules/modal";
+@import "modules/create-post-modal";
+@import "modules/add-to-set-modal";

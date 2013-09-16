@@ -16,8 +16,9 @@
 
 
 .content-wrapper {
-	overflow: hidden;
 	@include grid-column(12);
+	overflow: hidden;
+	height: 100%;
 	padding: 0;
 }
 
@@ -67,4 +68,3 @@
 	height: 0;
 	margin-bottom: -3px; // @todo maybe move this to margin-top on search bar
 }
-

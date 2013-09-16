@@ -70,6 +70,27 @@ a img {
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block; }
 
+/* line 10, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+html, body {
+  height: 100%; }
+
+/* line 12, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+.content-wrapper {
+  clear: both;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin-bottom: -72px; }
+  /* line 18, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+  .content-wrapper .sticky-footer-root {
+    height: 72px; }
+
+/* line 20, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+.footer {
+  clear: both;
+  position: relative;
+  height: 72px; }
+
 /*------------------------------------*\
 		$FOUNDATION CUSTOM SETTINGS
 \*------------------------------------*/
@@ -95,10 +116,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   border-bottom: 1px solid #e3e3e3; }
 
 /* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_mixins.scss */
-.box-shadow, .top-bar, nav[role="sub-navigation"], .search-bar, .list-view-wrapper, .list-view-filter, .post-header, .post-body, .related-posts-body, .sets-search-bar, .set-wrapper, [role="main"] {
-  -webkit-box-shadow: 0px 1px 2px rgba(31, 31, 31, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(31, 31, 31, 0.5);
-  box-shadow: 0px 1px 2px rgba(31, 31, 31, 0.5); }
+.box-shadow, .top-bar, nav[role="sub-navigation"], .search-bar, .list-view-wrapper, .list-view-filter, .post-header, .post-body, .related-posts-body, .sets-search-bar, .set-wrapper {
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5); }
 
 /* line 49, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_mixins.scss */
 .notification, .set-post-number {
@@ -119,48 +140,72 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
  These are global styles loaded before Foundation
 
  * GLOBAL...............global custom classes
- * CUSTOM CLASSES...............custom classes
  */
-/* line 16, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 15, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   *behavior: url(../js/ie/boxsizing.htc); }
 
+/* line 20, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+html, body {
+  min-height: 100%; }
+
 /*Font-Awesome global icon padding*/
-/* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
 i {
   padding-right: 10px; }
 
 /*custom css for Typekit asynchronous loading*/
-/* line 27, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 30, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
 .wf-loading {
   visibility: hidden; }
 
-/* line 30, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 33, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
 .wf-active {
   visibility: visible; }
 
-/* line 34, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 37, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
 ::-moz-selection {
   color: white;
   background: #323a45; }
 
-/* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
 ::selection {
   color: white;
   background: #323a45; }
 
+/* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+ul.pagination li.current a {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px; }
+
+/* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+ul.pagination li:hover a, ul.pagination li a:focus {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px; }
+
 /*------------------------------------*\
-		$CUSTOM CLASSES
+		$CONTENTS
 \*------------------------------------*/
-/* line 49, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/**
+
+ These are global helper classes loaded before Foundation
+
+ * HELPER CLASSES...............custom classes
+ */
+/*------------------------------------*\
+		$HELPER CLASSES
+\*------------------------------------*/
+/* line 19, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
 .none {
   display: none;
   visibility: hidden; }
 
-/* line 54, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 24, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
 .visually-hidden {
   /*http://developer.yahoo.com/blogs/ydn/posts/2012/10/clip-your-hidden-content-for-better-accessibility/*/
   position: absolute !important;
@@ -173,33 +218,41 @@ i {
   width: 1px !important;
   overflow: hidden; }
 
-/* line 65, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 35, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
 body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .visually-hidden button {
   display: none !important; }
 
-/* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 37, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
 .hidden {
   opacity: 0;
   -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out; }
 
-/* line 72, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
 .visible {
   opacity: 1;
   -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out; }
 
-/* line 77, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
+.half-opacity {
+  opacity: .5; }
+
+/* line 51, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
 .inverse {
   background-color: #323a45 !important;
   color: #fcfcfc !important; }
 
-/* line 82, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_general.scss */
+/* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
 .underline {
   border-bottom: 1px dotted;
   padding-bottom: 3px; }
+
+/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_helpers.scss */
+.medium-text {
+  font-size: .8em; }
 
 /*------------------------------------*\
 		$FOUNDATION IMPORTS
@@ -320,7 +373,7 @@ select {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 80em;
   *zoom: 1; }
   /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
   .row:before, .row:after {
@@ -1886,15 +1939,15 @@ button, .button {
       color: #333333; }
   /* line 178, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
   button.success, .button.success {
-    background-color: #ccdea3;
-    border-color: #b7d17d;
-    color: #333333; }
+    background-color: #3cb81c;
+    border-color: #2e8c15;
+    color: white; }
     /* line 123, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
     button.success:hover, button.success:focus, .button.success:hover, .button.success:focus {
-      background-color: #b7d17d; }
-    /* line 129, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
+      background-color: #2e8c15; }
+    /* line 134, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
     button.success:hover, button.success:focus, .button.success:hover, .button.success:focus {
-      color: #333333; }
+      color: white; }
   /* line 179, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
   button.alert, .button.alert {
     background-color: #c50813;
@@ -1978,22 +2031,22 @@ button, .button {
         background-color: #eff0f3; }
     /* line 191, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
     button.disabled.success, button[disabled].success, .button.disabled.success, .button[disabled].success {
-      background-color: #ccdea3;
-      border-color: #b7d17d;
-      color: #333333;
+      background-color: #3cb81c;
+      border-color: #2e8c15;
+      color: white;
       cursor: "default";
       opacity: 0.6;
       -webkit-box-shadow: none;
       box-shadow: none; }
       /* line 123, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
       button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
-        background-color: #b7d17d; }
-      /* line 129, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
+        background-color: #2e8c15; }
+      /* line 134, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
       button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
-        color: #333333; }
+        color: white; }
       /* line 147, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
       button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
-        background-color: #ccdea3; }
+        background-color: #3cb81c; }
     /* line 192, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_buttons.scss */
     button.disabled.alert, button[disabled].alert, .button.disabled.alert, .button[disabled].alert {
       background-color: #c50813;
@@ -2843,7 +2896,7 @@ form.custom {
     border-left-color: #7b050c; }
   /* line 79, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_split-buttons.scss */
   .split.button.success span {
-    border-left-color: #adca6b; }
+    border-left-color: #267612; }
   /* line 156, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_split-buttons.scss */
   .split.button.tiny {
     padding-right: 3.9375em; }
@@ -2934,7 +2987,7 @@ form.custom {
     .section-container > section .content, .section-container > .section .content, .section-container.auto > section .content, .section-container.auto > .section .content {
       display: none;
       padding: 0.625em;
-      background-color: #fcfcfc; }
+      background-color: #e3e3e3; }
       /* line 107, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
       .section-container > section .content > *:last-child, .section-container > .section .content > *:last-child, .section-container.auto > section .content > *:last-child, .section-container.auto > .section .content > *:last-child {
         margin-bottom: 0; }
@@ -2990,7 +3043,7 @@ form.custom {
     .section-container.tabs > section .content, .section-container.tabs > .section .content {
       display: none;
       padding: 0.625em;
-      background-color: #fcfcfc; }
+      background-color: #e3e3e3; }
       /* line 107, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
       .section-container.tabs > section .content > *:last-child, .section-container.tabs > .section .content > *:last-child {
         margin-bottom: 0; }
@@ -3068,7 +3121,7 @@ form.custom {
       .section-container.auto > section .content, .section-container.auto > .section .content {
         display: none;
         padding: 0.625em;
-        background-color: #fcfcfc; }
+        background-color: #e3e3e3; }
         /* line 107, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
         .section-container.auto > section .content > *:last-child, .section-container.auto > .section .content > *:last-child {
           margin-bottom: 0; }
@@ -3155,7 +3208,7 @@ form.custom {
       .section-container.vertical-tabs .section .content {
         display: none;
         padding: 0.625em;
-        background-color: #fcfcfc; }
+        background-color: #e3e3e3; }
         /* line 107, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
         .section-container.vertical-tabs section .content > *:last-child,
         .section-container.vertical-tabs .section .content > *:last-child {
@@ -3237,7 +3290,7 @@ form.custom {
       .section-container.vertical-nav > section .content, .section-container.vertical-nav > .section .content {
         display: none;
         padding: 0.625em;
-        background-color: #fcfcfc; }
+        background-color: #e3e3e3; }
         /* line 107, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
         .section-container.vertical-nav > section .content > *:last-child, .section-container.vertical-nav > .section .content > *:last-child {
           margin-bottom: 0; }
@@ -3309,7 +3362,7 @@ form.custom {
       .section-container.horizontal-nav > section .content, .section-container.horizontal-nav > .section .content {
         display: none;
         padding: 0.625em;
-        background-color: #fcfcfc; }
+        background-color: #e3e3e3; }
         /* line 107, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
         .section-container.horizontal-nav > section .content > *:last-child, .section-container.horizontal-nav > .section .content > *:last-child {
           margin-bottom: 0; }
@@ -3380,7 +3433,7 @@ form.custom {
     .no-js .section-container.auto > section .content, .no-js .section-container.auto > .section .content, .no-js .section-container.accordion > section .content, .no-js .section-container.accordion > .section .content, .no-js .section-container.tabs > section .content, .no-js .section-container.tabs > .section .content, .no-js .section-container.vertical-tabs > section .content, .no-js .section-container.vertical-tabs > .section .content, .no-js .section-container.vertical-nav > section .content, .no-js .section-container.vertical-nav > .section .content, .no-js .section-container.horizontal-nav > section .content, .no-js .section-container.horizontal-nav > .section .content {
       display: none;
       padding: 0.625em;
-      background-color: #fcfcfc; }
+      background-color: #e3e3e3; }
       /* line 107, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
       .no-js .section-container.auto > section .content > *:last-child, .no-js .section-container.auto > .section .content > *:last-child, .no-js .section-container.accordion > section .content > *:last-child, .no-js .section-container.accordion > .section .content > *:last-child, .no-js .section-container.tabs > section .content > *:last-child, .no-js .section-container.tabs > .section .content > *:last-child, .no-js .section-container.vertical-tabs > section .content > *:last-child, .no-js .section-container.vertical-tabs > .section .content > *:last-child, .no-js .section-container.vertical-nav > section .content > *:last-child, .no-js .section-container.vertical-nav > .section .content > *:last-child, .no-js .section-container.horizontal-nav > section .content > *:last-child, .no-js .section-container.horizontal-nav > .section .content > *:last-child {
         margin-bottom: 0; }
@@ -3409,7 +3462,7 @@ form.custom {
       .no-js .section-container.auto > section > .title a, .no-js .section-container.auto > .section > .title a, .no-js .section-container.accordion > section > .title a, .no-js .section-container.accordion > .section > .title a, .no-js .section-container.tabs > section > .title a, .no-js .section-container.tabs > .section > .title a, .no-js .section-container.vertical-tabs > section > .title a, .no-js .section-container.vertical-tabs > .section > .title a, .no-js .section-container.vertical-nav > section > .title a, .no-js .section-container.vertical-nav > .section > .title a, .no-js .section-container.horizontal-nav > section > .title a, .no-js .section-container.horizontal-nav > .section > .title a {
         width: 100%; }
     /* line 333, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
-    .no-js .section-container.auto > section .title, .no-js .section-container.auto > .section .title, .no-js .section-container.accordion > section .title, .no-js .section-container.accordion > .section .title, .no-js .section-container.tabs > section .title, .no-js .section-container.tabs > .section .title, .no-js .section-container.vertical-tabs > section .title, .no-js .section-container.vertical-tabs > .section .title, .no-js .section-container.vertical-nav > section .title, .no-js .section-container.vertical-nav > .section .title, .no-js .section-container.horizontal-nav > section .title, .no-js .section-container.horizontal-nav > .section .title {
+    .no-js .section-container.auto > section .js-title, .no-js .section-container.auto > .section .js-title, .no-js .section-container.accordion > section .js-title, .no-js .section-container.accordion > .section .js-title, .no-js .section-container.tabs > section .js-title, .no-js .section-container.tabs > .section .js-title, .no-js .section-container.vertical-tabs > section .js-title, .no-js .section-container.vertical-tabs > .section .js-title, .no-js .section-container.vertical-nav > section .js-title, .no-js .section-container.vertical-nav > .section .js-title, .no-js .section-container.horizontal-nav > section .js-title, .no-js .section-container.horizontal-nav > .section .js-title {
       position: static;
       width: 100%;
       border-left: 0;
@@ -3591,10 +3644,10 @@ form.custom {
         background: #d2d5dd; }
     /* line 259, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_top-bar.scss */
     .top-bar-section ul li > a.button.success {
-      background: #ccdea3; }
+      background: #3cb81c; }
       /* line 261, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_top-bar.scss */
       .top-bar-section ul li > a.button.success.hover {
-        background: #b7d17d; }
+        background: #2e8c15; }
     /* line 265, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_top-bar.scss */
     .top-bar-section ul li > a.button.alert {
       background: #c50813; }
@@ -3713,7 +3766,7 @@ form.custom {
 
   /* line 382, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_top-bar.scss */
   .contain-to-grid .top-bar {
-    max-width: 62.5em;
+    max-width: 80em;
     margin: 0 auto; }
 
   /* line 387, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_top-bar.scss */
@@ -4118,9 +4171,9 @@ form.custom {
     border-radius: 1000px; }
   /* line 102, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_alert-boxes.scss */
   .alert-box.success {
-    background-color: #ccdea3;
-    border-color: #b7d17d;
-    color: #4b5265; }
+    background-color: #3cb81c;
+    border-color: #2e8c15;
+    color: white; }
   /* line 103, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_alert-boxes.scss */
   .alert-box.alert {
     background-color: #c50813;
@@ -4162,8 +4215,8 @@ form.custom {
     color: white; }
   /* line 81, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_labels.scss */
   .label.success {
-    background-color: #ccdea3;
-    color: #333333; }
+    background-color: #3cb81c;
+    color: white; }
   /* line 82, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_labels.scss */
   .label.secondary {
     background-color: #eff0f3;
@@ -4316,7 +4369,7 @@ ul.pagination {
     display: block; }
   /* line 58, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_progress-bars.scss */
   .progress.success .meter {
-    background: #ccdea3;
+    background: #3cb81c;
     height: 100%;
     display: block; }
   /* line 59, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_progress-bars.scss */
@@ -4523,43 +4576,71 @@ a.th {
 /**
  * GENERAL OVERRIDES............general restyles
  * BUTTON OVERRIDES...............restyling foundation buttons
+ * SOCIAL BUTTONS...............custom social buttons
  */
 /*------------------------------------*\
 		$GENERAL OVERRIDES
 \*------------------------------------*/
-/* line 17, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+/* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
 .body-wrapper {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  margin-top: 0px; }
-  @media only screen and (min-width: 768px) {
-    /* line 17, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
-    .body-wrapper {
-      margin-top: 20px; } }
+  margin-top: 20px; }
 
 /*------------------------------------*\
 		$BUTTON OVERRIDES
 \*------------------------------------*/
-/* line 29, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+/* line 30, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
 a.button {
   letter-spacing: .1em; }
 
-/* line 33, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+/* line 34, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
 button.secondary, .button.secondary {
   -webkit-transition: background-color 0ms ease-in-out;
   -moz-transition: background-color 0ms ease-in-out;
   transition: background-color 0ms ease-in-out; }
 
-/* line 37, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+/* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
 button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
   background-color: #323a45;
   color: #fcfcfc;
   -webkit-transition: background-color 0ms ease-in-out;
   -moz-transition: background-color 0ms ease-in-out;
   transition: background-color 0ms ease-in-out; }
+
+/* line 44, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+.button.secondary:hover {
+  background-color: #c50813; }
+
+/*------------------------------------*\
+    $SOCIAL BUTTONS
+\*------------------------------------*/
+/* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+button.facebook, .button.facebook {
+  background-color: #3b5998; }
+
+/* line 59, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+.button.facebook:hover {
+  background-color: #2d4373; }
+
+/* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+button.twitter, .button.twitter {
+  background-color: #00acee; }
+
+/* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+.button.twitter:hover {
+  background-color: #0087bb; }
+
+/* line 71, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+button.google, .button.google {
+  background-color: #dd4b39; }
+
+/* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_overrides.scss */
+.button.google:hover {
+  background-color: #c23321; }
 
 /*------------------------------------*\
 		$MODULES
@@ -4577,10 +4658,21 @@ button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button
 		$GLOBAL
 \*------------------------------------*/
 /* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+#headerRegion {
+  *zoom: 1; }
+  /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
+  #headerRegion:before, #headerRegion:after {
+    content: " ";
+    display: table; }
+  /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
+  #headerRegion:after {
+    clear: both; }
+
+/* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .top-bar {
   overflow: hidden; }
   @media only screen and (min-width: 768px) {
-    /* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+    /* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
     .top-bar {
       -webkit-box-shadow: 0;
       -moz-box-shadow: 0;
@@ -4589,7 +4681,7 @@ button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button
 /*------------------------------------*\
 		$LEFT
 \*------------------------------------*/
-/* line 33, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 37, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .logo-image {
   background: url(../images/logo.png) no-repeat;
   background-size: 100%;
@@ -4598,22 +4690,22 @@ button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button
   margin: 10px;
   float: left; }
 
-/* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .top-bar .title-area {
   position: relative;
   float: left;
   width: 318px; }
 
-/* line 48, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .top-bar .name h1 a {
   width: 100%;
   padding: 0 20px; }
   @media only screen and (min-width: 768px) {
-    /* line 48, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+    /* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
     .top-bar .name h1 a {
       padding: 0 52px; } }
 
-/* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .views .icon-eye-open {
   position: relative;
   top: -1px; }
@@ -4621,55 +4713,243 @@ button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button
 /*------------------------------------*\
 		$RIGHT
 \*------------------------------------*/
-/* line 70, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 74, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .top-bar-section li.create-post a {
   background-color: #c50813;
   color: #fcfcfc; }
 
-/* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 79, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .top-bar-section ul.right {
   width: 110px; }
   @media only screen and (min-width: 1024px) {
-    /* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+    /* line 79, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
     .top-bar-section ul.right {
       width: 300px; } }
 
-/* line 82, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 86, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .top-bar-section li a.workspace-panel-button {
   padding: 0 53px 0 18px; }
-  /* line 84, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+  /* line 88, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
   .top-bar-section li a.workspace-panel-button .icon-dashboard {
     position: relative;
     top: -1px; }
 
-/* line 94, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 98, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .top-bar-section li.show-for-medium-down a.workspace-panel-button, .top-bar-section li.show-for-medium-down a.create-post-button, .top-bar-section li.show-for-medium-down a.views, .top-bar-section li.show-for-medium-down a.sets {
   padding: 0 20px; }
-  /* line 96, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+  /* line 100, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
   .top-bar-section li.show-for-medium-down a.workspace-panel-button i, .top-bar-section li.show-for-medium-down a.create-post-button i, .top-bar-section li.show-for-medium-down a.views i, .top-bar-section li.show-for-medium-down a.sets i {
     position: relative;
     top: 3px;
     font-size: 19px;
     padding: 0; }
-/* line 103, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 107, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .top-bar-section li.show-for-medium-down a.workspace-panel-button {
   padding: 0 18px; }
 
 /*------------------------------------*\
 		$MOBILE
 \*------------------------------------*/
-/* line 115, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+/* line 119, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .name-small {
   background-color: #eff0f3;
   /*  margin-top: 45px;*/ }
-  /* line 118, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+  /* line 122, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
   .name-small h4 {
     line-height: 2.688em;
     margin: 0; }
-    /* line 121, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
+    /* line 125, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
     .name-small h4 a {
       color: #565656; }
 
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * TOPBAR-LOGIN/REGISTER...............topbar styles on login and register pages
+ * GENERAL...............modular styles for both login and register pages
+ * LOGIN...............login page styles
+ * REGISTER...............register page styles
+ */
+/*------------------------------------*\
+		$TOPBAR-LOGIN/REGISTER
+\*------------------------------------*/
+/* line 20, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.top-bar-section-login ul.right {
+  width: auto; }
+/* line 23, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.top-bar-section-login li.show-for-medium-down a {
+  padding: 0 18px; }
+  /* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .top-bar-section-login li.show-for-medium-down a i {
+    font-size: 18px;
+    padding: 0; }
+
+/*------------------------------------*\
+    GENERAL
+\*------------------------------------*/
+/* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.login-box {
+  margin-top: 50px; }
+  /* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .login-box .post-body {
+    padding-top: 2em; }
+  @media only screen and (min-width: 768px) {
+    /* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+    .login-box {
+      position: relative;
+      padding-left: 0.9375em;
+      padding-right: 0.9375em;
+      width: 66.66667%;
+      margin-left: auto;
+      margin-right: auto;
+      float: none !important;
+      float: left; } }
+
+/* line 48, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.login-form-wrapper {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  border-bottom: 1px solid #eff0f3;
+  padding-bottom: 20px;
+  margin-bottom: 20px; }
+
+/* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.login-form {
+  border-bottom: 1px solid #eff0f3;
+  margin-bottom: 20px; }
+  /* line 58, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .login-form input[type="checkbox"] {
+    margin-right: 10px; }
+  /* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .login-form input[type="submit"] {
+    margin: 20px 0 10px 0; }
+  @media only screen and (min-width: 1025px) {
+    /* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+    .login-form {
+      position: relative;
+      padding-left: 0;
+      padding-right: 0;
+      width: 41.66667%;
+      float: left;
+      border-right: 1px solid #eff0f3;
+      border-bottom: 0;
+      padding-right: 20px; } }
+
+/* line 72, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.login-form-checkboxes {
+  margin-top: 30px; }
+
+/* line 76, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.social-login {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left; }
+  @media only screen and (min-width: 1025px) {
+    /* line 76, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+    .social-login {
+      position: relative;
+      padding-left: 0;
+      padding-right: 0;
+      width: 58.33333%;
+      float: left;
+      padding-left: 20px; } }
+
+/* line 84, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.social-buttons {
+  margin-bottom: 20px;
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left; }
+  /* line 87, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .social-buttons .button {
+    padding: 8px; }
+  /* line 90, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .social-buttons i {
+    font-size: 16px; }
+
+/* line 95, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.facebook-button, .twitter-button, .google-button {
+  padding-left: 0; }
+  @media only screen and (min-width: 768px) {
+    /* line 95, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+    .facebook-button, .twitter-button, .google-button {
+      position: relative;
+      padding-left: 0.9375em;
+      padding-right: 0.9375em;
+      width: 33.33333%;
+      float: left;
+      padding-left: 0; } }
+  @media only screen and (min-width: 1024px) {
+    /* line 95, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+    .facebook-button, .twitter-button, .google-button {
+      position: relative;
+      padding-left: 0.9375em;
+      padding-right: 0.9375em;
+      width: 33.33333%;
+      float: left;
+      padding-left: 0; } }
+
+/* line 108, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.open-id {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left; }
+  /* line 110, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .open-id .open-id-input {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 83.33333%;
+    float: left; }
+    /* line 112, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+    .open-id .open-id-input input[type="text"] {
+      border-radius: 3px 0 0 3px; }
+  /* line 116, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .open-id .open-id-submit {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left; }
+
+/* line 121, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.login-box-meta {
+  float: right; }
+  /* line 123, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .login-box-meta p {
+    margin: 0; }
+
+/* line 128, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+.login-disclaimer {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  font-style: italic;
+  color: #979797; }
+  /* line 132, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_login-register.scss */
+  .login-disclaimer i {
+    position: relative;
+    top: 1px;
+    font-size: 14px; }
+
+/*------------------------------------*\
+		$LOGIN
+\*------------------------------------*/
+/*------------------------------------*\
+		$REGISTER
+\*------------------------------------*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -4756,14 +5036,21 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$WORKSPACE PROFILE
 \*------------------------------------*/
-/* line 17, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+/* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+.workspace-panel {
+  margin-bottom: -9999px;
+  padding-bottom: 9999px;
+  background-color: #e3e3e3;
+  border-left: 3px solid #323a45; }
+
+/* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
 .workspace-profile {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 80em;
   *zoom: 1;
   border-top: 1px solid black; }
   /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
@@ -4774,7 +5061,7 @@ nav[role="sub-navigation"] li a {
   .workspace-profile:after {
     clear: both; }
 
-/* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+/* line 30, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
 .workspace-avatar {
   background: url(../images/avatar.png) no-repeat;
   background-size: 100%;
@@ -4783,33 +5070,39 @@ nav[role="sub-navigation"] li a {
   margin: 15px 7px 15px 15px;
   float: left; }
 
-/* line 31, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-.workspace-edit {
+/* line 39, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+.workspace-admin {
   float: left;
   margin: 21px 0 0 7px; }
-  /* line 34, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-  .workspace-edit .username {
+  /* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  .workspace-admin .username {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     margin: 0;
     line-height: 1; }
-  /* line 39, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-  .workspace-edit .workspace-role {
+  /* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  .workspace-admin .workspace-role {
     font-size: 13px;
-    margin: 0;
+    margin: 0 0 10px 0;
     line-height: 1; }
+  /* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  .workspace-admin ul {
+    margin-bottom: 0.0625em; }
+  /* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  .workspace-admin .edit-profile, .workspace-admin .logout {
+    font-size: 13px; }
 
 /*------------------------------------*\
 		$WORKSPACE STATS WRAPPER
 \*------------------------------------*/
-/* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+/* line 69, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
 .workspace-stats-wrapper {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 80em;
   *zoom: 1; }
   /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
   .workspace-stats-wrapper:before, .workspace-stats-wrapper:after {
@@ -4819,7 +5112,7 @@ nav[role="sub-navigation"] li a {
   .workspace-stats-wrapper:after {
     clear: both; }
 
-/* line 59, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+/* line 73, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
 .workspace-stats {
   display: block;
   padding: 0;
@@ -4850,30 +5143,36 @@ nav[role="sub-navigation"] li a {
     .workspace-stats > li:nth-of-type(3n+1) {
       clear: both; }
 
-/* line 64, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+/* line 78, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
 .workspace-stats li.panel {
-  padding: 10px 10px 10px 20px;
+  padding: 12px 0 12px 12px;
   margin: 0; }
 
-/* line 69, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-.panel h4 {
+/* line 83, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+.workspace-stats .panel h5 {
   margin: 0; }
-  /* line 71, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-  .panel h4 span {
+  /* line 85, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  .workspace-stats .panel h5 i {
+    position: relative;
+    top: -2px;
     font-size: 16px;
+    padding-right: 3px; }
+  /* line 91, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  .workspace-stats .panel h5 span {
+    font-size: 14px;
     font-weight: normal; }
 
  /*------------------------------------*\
 		 $WORKSPACE ACCORDIAN MENU
  \*------------------------------------*/
-/* line 84, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+/* line 104, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
 .workspace-menu {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 80em;
   *zoom: 1;
   width: 100%;
   display: block;
@@ -4887,7 +5186,7 @@ nav[role="sub-navigation"] li a {
   /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
   .workspace-menu:after {
     clear: both; }
-  /* line 87, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  /* line 107, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
   .workspace-menu > section {
     position: relative; }
     /* line 87, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
@@ -4937,26 +5236,40 @@ nav[role="sub-navigation"] li a {
       /* line 130, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_section.scss */
       .workspace-menu > section > .title a {
         width: 100%; }
-  /* line 89, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  /* line 109, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
   .workspace-menu i {
     padding-left: 10px; }
+  /* line 112, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  .workspace-menu .title {
+    line-height: .8em;
+    margin: 0; }
 
-/* line 94, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+/* line 118, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
 .workspace-menu > section.active > .title a {
   color: #fcfcfc; }
 
-/* line 99, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-.workspace-menu > section .content.active {
-  background: #e3e3e3; }
-/* line 102, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-.workspace-menu > section .content a {
-  color: #1f1f1f; }
-  /* line 104, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-  .workspace-menu > section .content a p {
-    margin: 0; }
-    /* line 106, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
-    .workspace-menu > section .content a p span {
-      float: right; }
+/* line 122, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+.workspace-menu > section ul {
+  margin: 0; }
+  /* line 124, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+  .workspace-menu > section ul .content {
+    padding: 10px; }
+    /* line 126, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+    .workspace-menu > section ul .content.active {
+      background: #c9c9c9; }
+    /* line 129, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+    .workspace-menu > section ul .content a {
+      color: #1f1f1f; }
+      /* line 131, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+      .workspace-menu > section ul .content a p {
+        margin: 0; }
+        /* line 133, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+        .workspace-menu > section ul .content a p span {
+          float: right; }
+
+/* line 143, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
+.workspace-menu > section > .js-title {
+  border: 0; }
 
 /*------------------------------------*\
 		$MAP...............via Leaflet.js
@@ -4972,15 +5285,16 @@ nav[role="sub-navigation"] li a {
 \*------------------------------------*/
 /* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
 .content-wrapper {
-  overflow: hidden;
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 100%;
   float: left;
+  overflow: hidden;
+  height: 100%;
   padding: 0; }
 
-/* line 24, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
+/* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
 .map {
   opacity: 1;
   width: 100%;
@@ -4989,11 +5303,11 @@ nav[role="sub-navigation"] li a {
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out; }
   @media only screen and (min-width: 768px) {
-    /* line 24, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
+    /* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
     .map {
       height: 500px; } }
 
-/* line 34, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
+/* line 35, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
 .map-collapse {
   opacity: .5;
   height: 38px;
@@ -5004,7 +5318,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$COLLAPSE MAP
 \*------------------------------------*/
-/* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
+/* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
 .collapse-map {
   background-color: #323a45;
   position: relative;
@@ -5015,7 +5329,7 @@ nav[role="sub-navigation"] li a {
   color: #fcfcfc;
   cursor: pointer;
   z-index: 2; }
-  /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
+  /* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
   .collapse-map p {
     text-align: center;
     padding-top: 6px;
@@ -5024,7 +5338,7 @@ nav[role="sub-navigation"] li a {
     letter-spacing: .1em;
     color: #fcfcfc; }
 
-/* line 66, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
+/* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_map.scss */
 .collapse-map-container {
   height: 0;
   margin-bottom: -3px; }
@@ -5059,7 +5373,7 @@ nav[role="sub-navigation"] li a {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 80em;
   *zoom: 1; }
   /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
   .search-form-wrapper:before, .search-form-wrapper:after {
@@ -5096,7 +5410,14 @@ nav[role="sub-navigation"] li a {
       width: 25%;
       float: left; } }
 
-/* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+@media only screen and (min-width: 1024px) {
+  /* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+  .search-bar .search-field input[type="text"] {
+    -webkit-border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px; } }
+
+/* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
 .categories-select {
   position: relative;
   padding-left: 0.9375em;
@@ -5104,7 +5425,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .categories-select {
       position: relative;
       padding-left: 0.9375em;
@@ -5112,7 +5433,7 @@ nav[role="sub-navigation"] li a {
       width: 50%;
       float: left; } }
   @media only screen and (min-width: 1024px) {
-    /* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .categories-select {
       position: relative;
       padding-left: 0;
@@ -5120,7 +5441,7 @@ nav[role="sub-navigation"] li a {
       width: 16.66667%;
       float: left; } }
 
-/* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+/* line 65, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
 .sets-select {
   position: relative;
   padding-left: 0.9375em;
@@ -5128,7 +5449,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 65, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .sets-select {
       position: relative;
       padding-left: 0.9375em;
@@ -5136,7 +5457,7 @@ nav[role="sub-navigation"] li a {
       width: 50%;
       float: left; } }
   @media only screen and (min-width: 1024px) {
-    /* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 65, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .sets-select {
       position: relative;
       padding-left: 0;
@@ -5144,7 +5465,7 @@ nav[role="sub-navigation"] li a {
       width: 16.66667%;
       float: left; } }
 
-/* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+/* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
 .location-select {
   position: relative;
   padding-left: 0.9375em;
@@ -5152,7 +5473,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .location-select {
       position: relative;
       padding-left: 0.9375em;
@@ -5160,7 +5481,7 @@ nav[role="sub-navigation"] li a {
       width: 50%;
       float: left; } }
   @media only screen and (min-width: 1024px) {
-    /* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .location-select {
       position: relative;
       padding-left: 0;
@@ -5168,7 +5489,7 @@ nav[role="sub-navigation"] li a {
       width: 16.66667%;
       float: left; } }
 
-/* line 77, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+/* line 85, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
 .time-select {
   position: relative;
   padding-left: 0.9375em;
@@ -5176,7 +5497,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 77, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 85, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .time-select {
       position: relative;
       padding-left: 0.9375em;
@@ -5184,7 +5505,7 @@ nav[role="sub-navigation"] li a {
       width: 50%;
       float: left; } }
   @media only screen and (min-width: 1024px) {
-    /* line 77, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 85, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .time-select {
       position: relative;
       padding-left: 0;
@@ -5192,7 +5513,7 @@ nav[role="sub-navigation"] li a {
       width: 16.66667%;
       float: left; } }
 
-/* line 87, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+/* line 95, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
 .search-bar-button {
   position: relative;
   padding-left: 0.9375em;
@@ -5200,7 +5521,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 87, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 95, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .search-bar-button {
       position: relative;
       padding-left: 0.9375em;
@@ -5208,7 +5529,7 @@ nav[role="sub-navigation"] li a {
       width: 100%;
       float: left; } }
   @media only screen and (min-width: 1024px) {
-    /* line 87, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
+    /* line 95, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_search.scss */
     .search-bar-button {
       position: relative;
       padding-left: 0;
@@ -5326,7 +5647,7 @@ nav[role="sub-navigation"] li a {
   @media only screen and (min-width: 1024px) {
     /* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
     .list-view-bulk-actions-list {
-      padding: 0; }
+      padding: 0 20px; }
       /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
       .list-view-bulk-actions-list li {
         font-size: 16px; } }
@@ -5339,7 +5660,7 @@ nav[role="sub-navigation"] li a {
 .list-view-bulk-actions label.select-all span {
   float: left;
   margin-top: -3px;
-  font-size: 1em;
+  font-size: 1.2em;
   color: #fcfcfc; }
 
 /*------------------------------------*\
@@ -5354,52 +5675,54 @@ nav[role="sub-navigation"] li a {
   float: left;
   background-color: #fcfcfc;
   color: #9a9797;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  padding-top: 20px; }
 
-/* line 86, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+/* line 87, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
 .list-view-filter {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  background: #22699d url(../images/search-bg.jpg) repeat;
+  background: #323a45;
   padding: 20px 15px;
   margin: 0 0 20px 0; }
   @media only screen and (min-width: 768px) {
-    /* line 93, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+    /* line 94, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
     .list-view-filter .list-view-filter-info,
     .list-view-filter .list-view-filter-count {
-      border-right: 1px solid #194d73; } }
+      border-right: 1px solid #1d2127; } }
 
-/* line 100, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+/* line 101, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
 .list-view-filter-info {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  border-bottom: 1px solid #194d73;
+  border-bottom: 1px solid #1d2127;
   padding-bottom: 10px;
   margin-bottom: 20px; }
-  /* line 105, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+  /* line 106, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
   .list-view-filter-info h5 {
     letter-spacing: .1em;
     color: #fcfcfc;
-    margin: 0 0 5px 0; }
+    padding: 8px 0 0 0;
+    margin: 0 0 8px 0; }
   @media only screen and (min-width: 768px) {
-    /* line 100, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+    /* line 101, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
     .list-view-filter-info {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
-      width: 41.66667%;
+      width: 66.66667%;
       float: left;
       border-bottom: 0;
       padding-bottom: 0;
       margin-bottom: 0; } }
 
-/* line 118, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+/* line 120, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
 .list-view-filter-count {
   position: relative;
   padding-left: 0.9375em;
@@ -5407,15 +5730,15 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 118, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+    /* line 120, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
     .list-view-filter-count {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
-      width: 25%;
+      width: 16.66667%;
       float: left; } }
 
-/* line 125, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+/* line 127, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
 .list-view-filter-sort {
   position: relative;
   padding-left: 0.9375em;
@@ -5423,12 +5746,12 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 125, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
+    /* line 127, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view.scss */
     .list-view-filter-sort {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
-      width: 33.33333%;
+      width: 16.66667%;
       float: left; } }
 
 /*-------------------------------------------------------------------*\
@@ -5442,16 +5765,18 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   border-bottom: 1px solid #e3e3e3;
-  padding-right: 20px;
   margin-bottom: 20px; }
+  /* line 9, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  .list-view-post:last-child {
+    border-bottom: 0; }
 
-/* line 12, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 14, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-select-post {
   position: absolute;
-  top: 0;
-  left: 0; }
+  top: -17px;
+  left: -24px; }
 
-/* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 20, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-image {
   position: relative;
   padding-left: 0.9375em;
@@ -5459,38 +5784,45 @@ nav[role="sub-navigation"] li a {
   width: 33.33333%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 20, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-image {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
       width: 16.66667%;
       float: left; } }
-  /* line 23, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  /* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
   .list-view-post-image img {
     margin: 10px 0 10px 0;
-    border: 4px solid #323a45;
-    border-radius: 125px; }
+    line-height: 0;
+    display: inline-block;
+    border: solid 4px white;
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); }
+    /* line 32, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_thumbs.scss */
+    .list-view-post-image img:hover, .list-view-post-image img:focus {
+      -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
+      box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
 
-/* line 30, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 31, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-details {
   position: relative;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
   width: 66.66667%;
   float: left;
-  margin-top: 10px; }
+  margin-top: 5px;
+  padding-left: 0; }
   @media only screen and (min-width: 768px) {
-    /* line 30, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 31, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-details {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
       width: 83.33333%;
-      float: left;
-      margin-top: 20px; } }
+      float: left; } }
 
-/* line 39, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-title {
   position: relative;
   padding-left: 0.9375em;
@@ -5498,7 +5830,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 39, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-title {
       position: relative;
       padding-left: 0.9375em;
@@ -5506,7 +5838,7 @@ nav[role="sub-navigation"] li a {
       width: 66.66667%;
       float: left; } }
 
-/* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-time {
   position: relative;
   padding-left: 0.9375em;
@@ -5514,22 +5846,22 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   font-size: 15px; }
+  /* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  .list-view-post-time p {
+    float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-time {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
       width: 33.33333%;
       float: left; }
-      /* line 51, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+      /* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
       .list-view-post-time p {
         float: right; } }
-  /* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-  .list-view-post-time p {
-    float: left; }
 
-/* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-body {
   position: relative;
   padding-left: 0;
@@ -5537,7 +5869,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-body {
       position: relative;
       padding-left: 0;
@@ -5546,7 +5878,7 @@ nav[role="sub-navigation"] li a {
       margin-left: 16.66667%;
       float: left; } }
 
-/* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 68, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-excerpt {
   position: relative;
   padding-left: 0.9375em;
@@ -5554,7 +5886,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 68, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-excerpt {
       position: relative;
       padding-left: 0.9375em;
@@ -5564,112 +5896,69 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-left: 0; } }
 
-/* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 76, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-admin {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  margin: 20px 0; }
+  /* line 79, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  .list-view-post-admin i {
+    padding: 0; }
+
+/* line 84, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+.list-view-post-categories-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left; }
+  /* line 86, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  .list-view-post-categories-wrapper h6 {
+    margin: 0; }
+  /* line 89, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  .list-view-post-categories-wrapper button {
+    margin-bottom: 0; }
+    /* line 91, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    .list-view-post-categories-wrapper button i {
+      padding-right: 5px; }
+  @media only screen and (min-width: 768px) {
+    /* line 84, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    .list-view-post-categories-wrapper {
+      position: relative;
+      padding-left: 0;
+      padding-right: 0;
+      width: 50%;
+      float: left; } }
+
+/* line 100, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+.list-view-post-categories {
+  margin: 0; }
+  /* line 102, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  .list-view-post-categories a {
+    color: #a3a3a3; }
+  /* line 105, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  .list-view-post-categories li {
+    display: inline;
+    font-size: 70%;
+    padding-right: 5px; }
+  /* line 110, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  .list-view-post-categories .icon-circle {
+    color: #c50813;
+    padding-right: 5px; }
+
+/* line 116, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+.list-view-post-edit-wrapper {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left;
   margin-top: 20px; }
-  /* line 78, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-  .list-view-post-admin i {
-    padding: 0; }
-
-/* line 83, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-.list-view-post-categories-wrapper {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 83, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-    .list-view-post-categories-wrapper {
-      position: relative;
-      padding-left: 0;
-      padding-right: 0;
-      width: 50%;
-      float: left;
-      padding-left: 15px; } }
-  /* line 89, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-  .list-view-post-categories-wrapper button {
-    margin-bottom: 0; }
-    /* line 91, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-    .list-view-post-categories-wrapper button i {
-      color: #c50813;
-      padding-right: 5px; }
-
-/* line 98, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-.list-view-post-categories {
-  display: block;
-  padding: 0;
-  margin: 0 -0.625em;
-  *zoom: 1; }
-  /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .list-view-post-categories:before, .list-view-post-categories:after {
-    content: " ";
-    display: table; }
-  /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .list-view-post-categories:after {
-    clear: both; }
-  /* line 27, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-  .list-view-post-categories > li {
-    display: inline;
-    height: auto;
-    float: left;
-    padding: 0 0.625em 1.25em; }
-  /* line 36, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-  .list-view-post-categories > li {
-    width: 50%;
-    padding: 0 0.625em 1.25em; }
-    /* line 40, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-    .list-view-post-categories > li:nth-of-type(n) {
-      clear: none; }
-    /* line 41, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-    .list-view-post-categories > li:nth-of-type(2n+1) {
-      clear: both; }
-  @media only screen and (min-width: 768px) {
-    /* line 98, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-    .list-view-post-categories {
-      display: block;
-      padding: 0;
-      margin: 0 -0.625em;
-      *zoom: 1; }
-      /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-      .list-view-post-categories:before, .list-view-post-categories:after {
-        content: " ";
-        display: table; }
-      /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-      .list-view-post-categories:after {
-        clear: both; }
-      /* line 27, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-      .list-view-post-categories > li {
-        display: inline;
-        height: auto;
-        float: left;
-        padding: 0 0.625em 1.25em; }
-      /* line 36, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-      .list-view-post-categories > li {
-        width: 50%;
-        padding: 0 0.625em 1.25em; }
-        /* line 40, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-        .list-view-post-categories > li:nth-of-type(n) {
-          clear: none; }
-        /* line 41, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-        .list-view-post-categories > li:nth-of-type(2n+1) {
-          clear: both; } }
-
-/* line 105, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-.list-view-post-edit-wrapper {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  margin-top: 20px; }
-  @media only screen and (min-width: 768px) {
-    /* line 105, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 116, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-edit-wrapper {
       position: relative;
       padding-left: 0;
@@ -5679,26 +5968,30 @@ nav[role="sub-navigation"] li a {
       float: right;
       margin-top: 0; } }
 
-/* line 115, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+/* line 126, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
 .list-view-post-edit {
   margin-left: 0; }
-  /* line 117, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+  /* line 128, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
   .list-view-post-edit li {
     display: inline;
     float: left;
     padding: 0 20px 0 0; }
-  /* line 122, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 132, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    .list-view-post-edit li a {
+      margin-bottom: 0; }
+  /* line 136, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
   .list-view-post-edit button.expand, .list-view-post-edit .button.expand {
     padding-right: 1.125em;
     padding-left: 1.125em; }
   @media only screen and (min-width: 768px) {
-    /* line 115, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+    /* line 126, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
     .list-view-post-edit {
       display: block;
       padding: 0;
       margin: 0 -0.625em;
       *zoom: 1;
-      float: right; }
+      float: right;
+      padding-top: 13px; }
       /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
       .list-view-post-edit:before, .list-view-post-edit:after {
         content: " ";
@@ -5711,7 +6004,10 @@ nav[role="sub-navigation"] li a {
         display: inline;
         height: auto;
         float: left;
-        padding: 0 0.625em 1.25em; } }
+        padding: 0 0.625em 1.25em; }
+      /* line 144, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
+      .list-view-post-edit li {
+        padding-bottom: 3px; } }
 
 /*------------------------------------*\
 		$CONTENTS
@@ -5748,15 +6044,22 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  background-color: #eff0f3;
-  padding: 1em 1em 0 1em;
+  background-color: #323a45;
+  padding: 1em;
   z-index: 1; }
-  @media only screen and (min-width: 768px) {
+  /* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+  .post-header h5, .post-header h6 {
+    color: #fcfcfc;
+    margin: 5px 0; }
+  @media only screen and (min-width: 1024px) {
     /* line 32, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-header {
       padding: 1em; } }
+  /* line 45, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+  .post-header .post-actions .button {
+    border: 0px; }
 
-/* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-category-marker {
   position: relative;
   padding-left: 0;
@@ -5764,7 +6067,7 @@ nav[role="sub-navigation"] li a {
   width: 16.66667%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    /* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-category-marker {
       position: relative;
       padding-left: 0;
@@ -5772,7 +6075,7 @@ nav[role="sub-navigation"] li a {
       width: 8.33333%;
       float: left; } }
 
-/* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-title {
   position: relative;
   padding-left: 0;
@@ -5781,7 +6084,7 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-bottom: 20px; }
   @media only screen and (min-width: 768px) {
-    /* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    /* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-title {
       position: relative;
       padding-left: 0.9375em;
@@ -5790,7 +6093,7 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-bottom: 0px; } }
   @media only screen and (min-width: 1024px) {
-    /* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    /* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-title {
       position: relative;
       padding-left: 0.9375em;
@@ -5798,39 +6101,20 @@ nav[role="sub-navigation"] li a {
       width: 58.33333%;
       float: left; } }
 
-/* line 62, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-.post-title-tag {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left; }
-  @media only screen and (min-width: 768px) {
-    /* line 62, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-    .post-title-tag {
-      position: relative;
-      padding-left: 0.9375em;
-      padding-right: 0.9375em;
-      width: 100%;
-      float: left; } }
-  /* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-  .post-title-tag .subheader {
-    font-style: italic; }
-
-/* line 72, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-.post-actions {
+/* line 69, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+.post-actions-wrapper {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 72, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-    .post-actions {
+    /* line 69, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    .post-actions-wrapper {
       margin-top: 20px; } }
   @media only screen and (min-width: 1024px) {
-    /* line 72, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-    .post-actions {
+    /* line 69, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    .post-actions-wrapper {
       position: relative;
       padding-left: 0;
       padding-right: 0;
@@ -5838,10 +6122,18 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-top: 0; } }
 
+/* line 80, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+.post-actions {
+  float: right;
+  margin: 0; }
+  /* line 83, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+  .post-actions li {
+    display: inline; }
+
 /*------------------------------------*\
 		$POST BODY
 \*------------------------------------*/
-/* line 92, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 97, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-body {
   position: relative;
   padding-left: 0.9375em;
@@ -5849,9 +6141,10 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   background-color: #fcfcfc;
-  padding: 1em; }
+  padding: 1em;
+  margin-bottom: 20px; }
 
-/* line 99, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 105, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-image {
   position: relative;
   padding-left: 0;
@@ -5860,7 +6153,7 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-bottom: 20px; }
   @media only screen and (min-width: 768px) {
-    /* line 99, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    /* line 105, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-image {
       position: relative;
       padding-left: 0;
@@ -5868,7 +6161,7 @@ nav[role="sub-navigation"] li a {
       width: 33.33333%;
       float: left;
       margin-bottom: 0; } }
-  /* line 106, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+  /* line 112, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
   .post-image img {
     line-height: 0;
     display: inline-block;
@@ -5881,7 +6174,7 @@ nav[role="sub-navigation"] li a {
       -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
       box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
 
-/* line 112, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 118, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-details {
   position: relative;
   padding-left: 0;
@@ -5889,7 +6182,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 112, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    /* line 118, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-details {
       position: relative;
       padding-left: 0.9375em;
@@ -5897,7 +6190,7 @@ nav[role="sub-navigation"] li a {
       width: 66.66667%;
       float: left; } }
 
-/* line 119, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 125, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-author {
   position: relative;
   padding-left: 0.9375em;
@@ -5906,11 +6199,11 @@ nav[role="sub-navigation"] li a {
   float: left;
   padding: 0; }
   @media only screen and (min-width: 768px) {
-    /* line 119, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    /* line 125, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-author {
       padding-right: 0; } }
 
-/* line 127, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 133, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-excerpt, .related-post-excerpt {
   position: relative;
   padding-left: 0;
@@ -5918,66 +6211,103 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 127, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    /* line 133, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-excerpt, .related-post-excerpt {
       padding-right: 0; } }
 
-/* line 134, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 140, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+.post-meta {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left; }
+  /* line 142, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+  .post-meta p {
+    font-size: 70%;
+    color: #a3a3a3;
+    margin-bottom: .7em; }
+
+/* line 149, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-location-meta {
   position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
+  padding-left: 0;
+  padding-right: 0;
   width: 100%;
   float: left;
   clear: both; }
-  @media only screen and (min-width: 768px) {
-    /* line 134, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-    .post-location-meta {
-      position: relative;
-      padding-left: 0.9375em;
-      padding-right: 0.9375em;
-      width: 41.66667%;
-      float: left; } }
 
-/* line 142, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 154, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-location {
   font-weight: bold; }
 
-/* line 146, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 158, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-time-meta {
   position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
+  padding-left: 0;
+  padding-right: 0;
   width: 100%;
   float: left; }
+
+/* line 162, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+.post-privacy-status {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  margin-bottom: 20px; }
+
+/* line 167, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+.post-categories {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 50%;
+  float: left; }
+  /* line 169, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+  .post-categories ul {
+    margin: 0; }
+    /* line 171, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    .post-categories ul a {
+      color: #a3a3a3; }
+    /* line 174, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    .post-categories ul li {
+      font-size: 70%;
+      padding-right: 5px;
+      margin-bottom: .7em; }
   @media only screen and (min-width: 768px) {
-    /* line 146, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-    .post-time-meta {
+    /* line 167, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    .post-categories {
       position: relative;
-      padding-left: 0.9375em;
-      padding-right: 0.9375em;
-      width: 25%;
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
       float: left; } }
 
-/* line 153, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+/* line 185, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
 .post-details-button {
   position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
+  padding-left: 0;
+  padding-right: 0;
   width: 41.66667%;
   float: left;
-  margin-top: 10px; }
+  margin-top: 10px;
+  float: right; }
+  /* line 189, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+  .post-details-button .button {
+    float: right; }
   @media only screen and (min-width: 768px) {
-    /* line 153, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+    /* line 185, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
     .post-details-button {
       position: relative;
-      padding-left: 0.9375em;
-      padding-right: 0.9375em;
+      padding-left: 0;
+      padding-right: 0;
       width: 33.33333%;
       float: left;
       margin-top: 7px; }
-      /* line 159, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-      .post-details-button button {
+      /* line 195, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
+      .post-details-button .button {
         float: right; } }
 
 /*-------------------------------------------------------------------------*\
@@ -5986,7 +6316,7 @@ nav[role="sub-navigation"] li a {
 /* line 5, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
 .post-overlay:before {
   top: -19px !important;
-  border-color: transparent transparent #eff0f3 transparent !important; }
+  border-color: transparent transparent #323a45 transparent !important; }
 
 /* line 10, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
 .post-overlay {
@@ -6004,7 +6334,10 @@ nav[role="sub-navigation"] li a {
   z-index: 99;
   margin-top: 2px;
   max-width: 530px;
-  padding: 0; }
+  padding: 0;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); }
   /* line 50, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_dropdown.scss */
   .post-overlay > *:first-child {
     margin-top: 0; }
@@ -6045,14 +6378,39 @@ nav[role="sub-navigation"] li a {
   .post-overlay.right:after {
     left: auto;
     right: 7px; }
-  /* line 13, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
+  /* line 16, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
   .post-overlay h5, .post-overlay h6 {
     line-height: 1em; }
-
-@media only screen and (min-width: 768px) {
-  /* line 20, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
-  .post-overlay .post-details-button button {
-    float: left; } }
+  /* line 19, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
+  .post-overlay .post-body {
+    -webkit-box-shadow: 0px;
+    -moz-box-shadow: 0px;
+    box-shadow: 0px; }
+  /* line 24, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
+  .post-overlay .post-details-button {
+    float: right; }
+    @media only screen and (min-width: 768px) {
+      /* line 27, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
+      .post-overlay .post-details-button button {
+        float: right; } }
+  /* line 32, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
+  .post-overlay .post-excerpt, .post-overlay .related-post-excerpt {
+    font-size: 80%; }
+  /* line 35, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
+  .post-overlay .post-meta {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 50%;
+    float: left; }
+    @media only screen and (min-width: 768px) {
+      /* line 35, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
+      .post-overlay .post-meta {
+        position: relative;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+        float: left; } }
 
 /*------------------------------------*\
 		$CONTENTS
@@ -6074,138 +6432,50 @@ nav[role="sub-navigation"] li a {
   				border-image: url(../images/search-bg.png) repeat;*/ }
 
 /*------------------------------------*\
-		$POST DETIALS
+		$POST DETAILS
 \*------------------------------------*/
-/* line 33, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
-.post-details {
-  margin-bottom: 20px; }
-  @media only screen and (min-width: 1024px) {
-    /* line 33, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
-    .post-details {
-      position: relative;
-      padding-left: 0.9375em;
-      padding-right: 0.9375em;
-      width: 66.66667%;
-      float: left; } }
+@media only screen and (min-width: 1024px) {
+  /* line 33, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+  .post-details {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 66.66667%;
+    float: left; } }
 
-/* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
-.post-location-meta {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left; }
-
-/* line 45, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
-.post-time-meta {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left; }
-
-/* line 49, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
-.post-privacy-status {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  margin-bottom: 20px; }
-
-/* line 54, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .post-categories-wrapper {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 100%;
   float: left; }
-  /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+  /* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
   .post-categories-wrapper button {
     margin-bottom: 0; }
   @media only screen and (min-width: 768px) {
-    /* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+    /* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
     .post-categories-wrapper button.expand, .post-categories-wrapper .button.expand {
       padding-right: 1.125em;
       padding-left: 1.125em;
       width: auto; } }
 
-/* line 68, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
-.post-categories {
-  display: block;
-  padding: 0;
-  margin: 0 -0.625em;
-  *zoom: 1; }
-  /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .post-categories:before, .post-categories:after {
-    content: " ";
-    display: table; }
-  /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .post-categories:after {
-    clear: both; }
-  /* line 27, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-  .post-categories > li {
-    display: inline;
-    height: auto;
-    float: left;
-    padding: 0 0.625em 1.25em; }
-  /* line 36, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-  .post-categories > li {
-    width: 50%;
-    padding: 0 0.625em 1.25em; }
-    /* line 40, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-    .post-categories > li:nth-of-type(n) {
-      clear: none; }
-    /* line 41, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-    .post-categories > li:nth-of-type(2n+1) {
-      clear: both; }
-  @media only screen and (min-width: 768px) {
-    /* line 68, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
-    .post-categories {
-      display: block;
-      padding: 0;
-      margin: 0 -0.625em;
-      *zoom: 1; }
-      /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-      .post-categories:before, .post-categories:after {
-        content: " ";
-        display: table; }
-      /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-      .post-categories:after {
-        clear: both; }
-      /* line 27, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-      .post-categories > li {
-        display: inline;
-        height: auto;
-        float: left;
-        padding: 0 0.625em 1.25em; }
-      /* line 36, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-      .post-categories > li {
-        width: 100%;
-        padding: 0 0.625em 1.25em; }
-        /* line 40, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-        .post-categories > li:nth-of-type(n) {
-          clear: none; }
-        /* line 41, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
-        .post-categories > li:nth-of-type(1n+1) {
-          clear: both; } }
-
-/* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 54, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .post-thumbnails-wrapper {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 77, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+  /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
   .post-thumbnails-wrapper [data-clearing] li {
     margin-right: 0; }
 
-/* line 82, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .click-to-zoom {
   margin-bottom: 10px; }
 
-/* line 86, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 65, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .post-thumbnails {
   display: block;
   padding: 0;
@@ -6235,7 +6505,7 @@ nav[role="sub-navigation"] li a {
     .post-thumbnails > li:nth-of-type(2n+1) {
       clear: both; }
   @media only screen and (min-width: 768px) {
-    /* line 86, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+    /* line 65, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
     .post-thumbnails {
       display: block;
       padding: 0;
@@ -6264,7 +6534,7 @@ nav[role="sub-navigation"] li a {
         /* line 41, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
         .post-thumbnails > li:nth-of-type(4n+1) {
           clear: both; } }
-  /* line 91, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+  /* line 70, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
   .post-thumbnails li img {
     line-height: 0;
     display: inline-block;
@@ -6299,8 +6569,11 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   background-color: #fcfcfc; }
+  /* line 17, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+  .related-posts-body p {
+    font-size: 80%; }
 
-/* line 19, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-module-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -6309,7 +6582,7 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-top: 20px; }
 
-/* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-image {
   position: relative;
   padding-left: 0;
@@ -6317,7 +6590,7 @@ nav[role="sub-navigation"] li a {
   width: 33.33333%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+    /* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
     .related-post-image {
       position: relative;
       padding-left: 0;
@@ -6326,7 +6599,7 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-bottom: 20px; } }
   @media only screen and (min-width: 1024px) {
-    /* line 25, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+    /* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
     .related-post-image {
       position: relative;
       padding-left: 0;
@@ -6334,12 +6607,19 @@ nav[role="sub-navigation"] li a {
       width: 25%;
       float: left;
       margin-bottom: 0; } }
-  /* line 35, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+  /* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
   .related-post-image img {
-    border: 4px solid #323a45;
-    border-radius: 125px; }
+    line-height: 0;
+    display: inline-block;
+    border: solid 4px white;
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); }
+    /* line 32, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_thumbs.scss */
+    .related-post-image img:hover, .related-post-image img:focus {
+      -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
+      box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
 
-/* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-details {
   position: relative;
   padding-left: 0.9375em;
@@ -6347,7 +6627,7 @@ nav[role="sub-navigation"] li a {
   width: 66.66667%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+    /* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
     .related-post-details {
       position: relative;
       padding-left: 0;
@@ -6355,7 +6635,7 @@ nav[role="sub-navigation"] li a {
       width: 100%;
       float: left; } }
   @media only screen and (min-width: 1024px) {
-    /* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+    /* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
     .related-post-details {
       position: relative;
       padding-left: 0.9375em;
@@ -6363,7 +6643,7 @@ nav[role="sub-navigation"] li a {
       width: 75%;
       float: left; } }
 
-/* line 51, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 53, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-title {
   position: relative;
   padding-left: 0.9375em;
@@ -6371,7 +6651,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-time {
   position: relative;
   padding-left: 0.9375em;
@@ -6379,7 +6659,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 59, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-excerpt {
   margin-top: 20px; }
 
@@ -6400,9 +6680,9 @@ nav[role="sub-navigation"] li a {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 80em;
   *zoom: 1;
-  background: #22699d url(../images/search-bg.jpg) repeat;
+  background: #323a45;
   margin-bottom: 20px;
   padding: 1.25em 0; }
   /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
@@ -6433,7 +6713,7 @@ nav[role="sub-navigation"] li a {
       padding-right: 0.9375em;
       width: 50%;
       float: left;
-      border-right: 1px solid #194d73; } }
+      border-right: 1px solid #1d2127; } }
 
 /* line 36, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
 .sets-search-bar-create-button {
@@ -6442,20 +6722,23 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 58.33333%;
   float: left; }
+  /* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+  .sets-search-bar-create-button .button {
+    padding: 13px 0; }
   @media only screen and (min-width: 768px) {
     /* line 36, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
     .sets-search-bar-create-button {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
-      width: 25%;
+      width: 16.66667%;
       float: left;
-      border-right: 1px solid #194d73; }
-      /* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+      border-right: 1px solid #1d2127; }
+      /* line 44, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
       .sets-search-bar-create-button a {
         margin: 0; } }
 
-/* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+/* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
 .sets-search-bar-search-field {
   position: relative;
   padding-left: 0.9375em;
@@ -6463,21 +6746,21 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+    /* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
     .sets-search-bar-search-field {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
-      width: 25%;
+      width: 33.33333%;
       float: left; } }
-  /* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+  /* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
   .sets-search-bar-search-field input[type="text"] {
     margin: 0; }
 
 /*------------------------------------*\
 		$SETS GRID
 \*------------------------------------*/
-/* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+/* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
 .sets-grid {
   display: block;
   padding: 0;
@@ -6507,7 +6790,7 @@ nav[role="sub-navigation"] li a {
     .sets-grid > li:nth-of-type(1n+1) {
       clear: both; }
   @media only screen and (orientation: portrait) {
-    /* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+    /* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -6537,7 +6820,7 @@ nav[role="sub-navigation"] li a {
         .sets-grid > li:nth-of-type(1n+1) {
           clear: both; } }
   @media only screen and (orientation: landscape) {
-    /* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+    /* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -6567,7 +6850,7 @@ nav[role="sub-navigation"] li a {
         .sets-grid > li:nth-of-type(2n+1) {
           clear: both; } }
   @media only screen and (min-width: 768px) {
-    /* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+    /* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -6597,7 +6880,7 @@ nav[role="sub-navigation"] li a {
         .sets-grid > li:nth-of-type(2n+1) {
           clear: both; } }
   @media only screen and (min-width: 1024px) {
-    /* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
+    /* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -6640,6 +6923,7 @@ nav[role="sub-navigation"] li a {
 \*------------------------------------*/
 /* line 17, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
 .set-wrapper {
+  position: relative;
   text-align: center;
   background-color: #fcfcfc;
   padding-bottom: 12px; }
@@ -6650,7 +6934,7 @@ nav[role="sub-navigation"] li a {
 /*
 TODO: may need a notification mixin here
 */
-/* line 34, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+/* line 35, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
 .set-post-number {
   background-color: #323a45;
   top: -18px; }
@@ -6658,62 +6942,62 @@ TODO: may need a notification mixin here
 /*------------------------------------*\
 		$SET MODULE BODY
 \*------------------------------------*/
-/* line 48, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+/* line 49, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
 .set-body {
   padding: 0 10px 0; }
 
 @media only screen and (min-width: 768px) {
-  /* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+  /* line 53, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
   .set-title h3 {
     font-size: 1.375em; } }
 @media only screen and (min-width: 1024px) {
-  /* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+  /* line 53, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
   .set-title h3 {
     font-size: 1.175em; } }
 
-/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+/* line 62, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
 .set-time-meta {
   margin-bottom: 5px;
   color: #9a9797; }
 
-/* line 66, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+/* line 67, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
 .set-excerpt {
   margin-bottom: 20px;
   font-size: 14px; }
-  /* line 69, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+  /* line 70, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
   .set-excerpt p {
     line-height: 1.3em; }
 
-/* line 74, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+/* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
 .set-view-posts .button {
   margin-bottom: 2em; }
 
-/* line 78, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+/* line 79, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
 .set-tags {
   padding-bottom: 10px;
   margin: 0 10px 10px;
   color: #9a9797;
   text-align: left;
   line-height: .8em; }
-  /* line 85, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+  /* line 86, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
   .set-tags a {
     color: inherit; }
 
-/* line 90, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+/* line 91, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
 .set-actions-list {
   margin-left: 0; }
-  /* line 92, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+  /* line 93, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
   .set-actions-list i {
     padding: 0; }
-  /* line 95, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+  /* line 96, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
   .set-actions-list li {
     display: inline;
     padding-right: 10px; }
-    /* line 98, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+    /* line 99, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
     .set-actions-list li small {
       font-size: 85%; }
       @media only screen and (min-width: 1024px) {
-        /* line 98, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
+        /* line 99, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_set-module.scss */
         .set-actions-list li small {
           font-size: 70%; } }
 
@@ -7211,32 +7495,92 @@ img.mfp-img {
 \*------------------------------------*/
 /**
  * CUSTOM DROPDOWNS...............custom form overrides
+ * CREATE POST MODAL...............create post modal styling
+ * SEARCH BAR...............search bar styling
+ * LIST VIEW FILTER...............list view filter styling
+ * PSEUDO ELEMENTS...............pseudo element styling
  */
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
+/* line 19, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+input[type="text"], input[type="email"] {
+  padding: 20px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px; }
+
+/* line 26, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+form.custom .custom.dropdown {
+  height: 3em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 31, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  form.custom .custom.dropdown .current {
+    margin-top: .4em;
+    margin-left: 1.4em; }
+  /* line 35, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  form.custom .custom.dropdown .selector {
+    height: 3.3125em; }
+
+/* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+.postfix.button {
+  height: 3em;
+  border-radius: 3px; }
+  @media only screen and (min-width: 1024px) {
+    /* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+    .postfix.button {
+      border-radius: 0 3px 3px 0; } }
+
+/*------------------------------------*\
+		$SEARCH BAR
+\*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 15, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  /* line 55, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  .search-bar input[type="text"] {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px; } }
+
+@media only screen and (min-width: 1024px) {
+  /* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0; } }
+@media only screen and (min-width: 1024px) {
+  /* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  .search-bar form.custom .custom.dropdown {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px; } }
 
+/*------------------------------------*\
+		$LIST VIEW FILTER
+\*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 21, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  /* line 81, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
   .list-view-filter form.custom .custom.dropdown {
     margin-bottom: 0; } }
 
-/* line 27, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 87, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+form.custom .custom.dropdown .current {
+  margin-left: 0.4em; }
+
+/*------------------------------------*\
+		$PSEUDO ELEMENTS
+\*------------------------------------*/
+/* line 98, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc; }
 
-/* line 32, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 103, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f; }
 
-/* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 109, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px; }
@@ -7260,12 +7604,13 @@ form.custom .custom.checkbox.checked:before {
 
 /* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_off-canvas.scss */
 [role="main"] {
+  margin-bottom: 74px;
   width: 100%;
+  height: 100%;
   margin-left: 0;
   float: left;
   clear: both;
   margin-left: 0px;
-  overflow: hidden;
   -webkit-transition: margin .3s ease;
   -moz-transition: margin .3s ease;
   -ms-transition: margin .3s ease;
@@ -7311,7 +7656,7 @@ footer {
   width: 100%;
   float: left;
   background-color: #fcfcfc;
-  padding: 20px; }
+  padding: 20px 0 40px 0; }
 
 /*modules/modal must be called at bottom*/
 /*------------------------------------*\
@@ -7319,96 +7664,143 @@ footer {
 \*------------------------------------*/
 /**
  * MODAL...............via Reveal.js included in Foundation
- * FORM BODY...............all input fields and dropdowns
- * UPLOAD MEDIA BAR...............wrapper and button for various media uploads
- * MEDIA ICONS...............icons for uploading various media
+ * MODAL BODY...............all input fields and dropdowns
  */
 /*-----------------------------------------------------------*\
 		$MODAL
 \*-----------------------------------------------------------*/
-/* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 16, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
 .reveal-modal {
   top: 25px; }
   @media only screen and (min-width: 768px) {
-    /* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+    /* line 16, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
     .reveal-modal {
       width: 80%;
       left: 57%;
-      border: 4px solid #323a45;
       padding: 0; } }
   @media only screen and (min-width: 1025px) {
-    /* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+    /* line 16, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
     .reveal-modal {
       width: 60%;
       left: 67%; } }
   @media only screen and (min-width: 1440px) {
-    /* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+    /* line 16, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
     .reveal-modal {
       width: 38%;
       left: 77%;
       top: 65px; } }
 
 /*------------------------------------*\
-		$FORM BODY
+		$MODAL BODY
 \*------------------------------------*/
-/* line 44, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
-.create-post-header {
+/* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+.modal-header {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 80em;
   *zoom: 1;
   background-color: #e9e9e9;
   border: 1px solid #d0d0d0;
-  padding: 10px;
+  padding: 20px;
   text-align: center; }
   /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .create-post-header:before, .create-post-header:after {
+  .modal-header:before, .modal-header:after {
     content: " ";
     display: table; }
   /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .create-post-header:after {
+  .modal-header:after {
     clear: both; }
+  /* line 47, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+  .modal-header h4 {
+    margin: 0;
+    line-height: 1em; }
 
-/* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
-.create-post-wrapper {
+/* line 53, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+.modal-wrapper {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 80em;
   *zoom: 1;
-  margin-top: 20px; }
+  padding: 20px 20px 0; }
   /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .create-post-wrapper:before, .create-post-wrapper:after {
+  .modal-wrapper:before, .modal-wrapper:after {
     content: " ";
     display: table; }
   /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .create-post-wrapper:after {
+  .modal-wrapper:after {
     clear: both; }
 
-/* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 58, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+.modal-footer {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 80em;
+  *zoom: 1;
+  background-color: #323a45;
+  padding: 0; }
+  /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
+  .modal-footer:before, .modal-footer:after {
+    content: " ";
+    display: table; }
+  /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
+  .modal-footer:after {
+    clear: both; }
+
+/* line 64, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+.modal-submit {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left; }
+  @media only screen and (min-width: 768px) {
+    /* line 64, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+    .modal-submit {
+      position: relative;
+      padding-left: 0.9375em;
+      padding-right: 0.9375em;
+      width: 33.33333%;
+      float: left;
+      padding: 10px;
+      float: right; } }
+  /* line 71, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+  .modal-submit .button {
+    margin-bottom: 0; }
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * CREATE-POST...............create-post specific styles
+ * UPLOAD MEDIA BAR...............wrapper and button for various media uploads
+ * MEDIA ICONS...............icons for uploading various media
+ */
+/*-----------------------------------------------------------*\
+		$CREATE-POST
+\*-----------------------------------------------------------*/
+/* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .create-post-options {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
-  width: 91.66667%;
-  margin-left: auto;
-  margin-right: auto;
-  float: none !important;
+  width: 100%;
   float: left;
-  margin-bottom: 40px; }
-  /* line 60, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
-  .create-post-options hr {
-    margin: 0 0 1.25em 0; }
-  /* line 63, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+  margin-bottom: 40px;
+  padding: 0; }
+  /* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
   .create-post-options input[type="text"], .create-post-options textarea {
     margin-bottom: 2em; }
 
-/* line 68, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 27, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .create-post-location-map {
   background: url(../images/map.jpg) no-repeat;
   width: 100%;
@@ -7419,17 +7811,7 @@ footer {
 /*------------------------------------*\
 		$UPLOAD MEDIA BAR
 \*------------------------------------*/
-/* line 83, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
-.media-bar-wrap {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  background-color: #323a45;
-  padding: 0; }
-
-/* line 89, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .media-bar {
   position: relative;
   padding-left: 0;
@@ -7437,32 +7819,16 @@ footer {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 89, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+    /* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
     .media-bar {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
-      width: 91.66667%;
-      margin-left: auto;
-      margin-right: auto;
-      float: none !important;
-      float: left; } }
+      width: 66.66667%;
+      float: left;
+      padding: 0 20px; } }
 
-/* line 96, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
-.media-bar-row {
-  width: 100%;
-  margin: 0;
-  max-width: 62.5em;
-  *zoom: 1; }
-  /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .media-bar-row:before, .media-bar-row:after {
-    content: " ";
-    display: table; }
-  /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
-  .media-bar-row:after {
-    clear: both; }
-
-/* line 101, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .media-bar-uploads-wrap {
   position: relative;
   padding-left: 0.9375em;
@@ -7472,22 +7838,23 @@ footer {
   padding: 0;
   border-bottom: 1px solid #1f1f1f; }
   @media only screen and (min-width: 768px) {
-    /* line 101, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+    /* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
     .media-bar-uploads-wrap {
       position: relative;
       padding-left: 0;
       padding-right: 0;
-      width: 66.66667%;
+      width: 100%;
       float: left;
-      margin-bottom: 0;
+      margin: 2px 0 1px;
       border-bottom: 0; } }
 
-/* line 112, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .media-bar-uploads {
   display: block;
   padding: 0;
   margin: 0 0px;
-  *zoom: 1; }
+  *zoom: 1;
+  padding: 0 10px; }
   /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
   .media-bar-uploads:before, .media-bar-uploads:after {
     content: " ";
@@ -7501,66 +7868,143 @@ footer {
     height: auto;
     float: left;
     padding: 0 0px 0px; }
-
-/* line 116, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
-.create-post-submit {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 116, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
-    .create-post-submit {
-      position: relative;
-      padding-left: 0;
-      padding-right: 0;
-      width: 33.33333%;
-      float: left;
-      top: 9px; } }
-  /* line 122, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
-  .create-post-submit .button {
-    margin-bottom: 0; }
+    /* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
+    .media-bar-uploads {
+      padding: 0; } }
 
 /*------------------------------------*\
 		$MEDIA ICONS
 \*------------------------------------*/
-/* line 134, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 76, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .select-icon {
   width: 56px;
   height: 60px !important; }
-  /* line 137, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+  /* line 79, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
   .select-icon [class^="icon-"] {
     position: relative;
     top: 20px;
     left: 20px;
     padding: 0; }
     @media only screen and (min-width: 768px) {
-      /* line 137, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+      /* line 79, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
       .select-icon [class^="icon-"] {
         left: 0; } }
 
-/* line 150, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 91, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .upload-location .icon-map-marker {
   font-size: 19px;
   color: #fcfcfc; }
 
-/* line 158, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 98, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .upload-image .icon-picture {
   font-size: 19px;
   color: #fcfcfc; }
 
-/* line 166, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 105, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .upload-video .icon-facetime-video {
   font-size: 19px;
   color: #fcfcfc; }
 
-/* line 174, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 112, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .upload-link .icon-link {
   font-size: 19px;
   color: #fcfcfc; }
 
-/* line 182, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_modal.scss */
+/* line 119, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_create-post-modal.scss */
 .upload-audio .icon-microphone {
   font-size: 20px;
   color: #fcfcfc; }
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * ADD-TO-SET...............add-to-set specific styles
+ */
+/*-----------------------------------------------------------*\
+		$ADD-TO-SET
+\*-----------------------------------------------------------*/
+/* line 15, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+.sets-grid li {
+  cursor: pointer; }
+
+/* line 19, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+.more {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 80em;
+  *zoom: 1;
+  text-align: center;
+  margin-bottom: 20px; }
+  /* line 121, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
+  .more:before, .more:after {
+    content: " ";
+    display: table; }
+  /* line 122, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
+  .more:after {
+    clear: both; }
+  /* line 23, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+  .more a {
+    border-bottom: 1px dotted; }
+
+/* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+.current-sets-wrapper {
+  margin-bottom: 20px; }
+
+/* line 32, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+.current-sets {
+  margin: 0; }
+  /* line 34, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+  .current-sets li {
+    display: inline;
+    margin-right: 10px; }
+    /* line 37, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+    .current-sets li a:hover {
+      color: #fcfcfc; }
+    /* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+    .current-sets li i {
+      color: #1f1f1f;
+      font-size: 18px;
+      padding: 0 0 0 5px; }
+  /* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+  .current-sets .label {
+    padding: 10px; }
+
+/*green check icon styles*/
+/*.set-is-selected {
+	position: relative;
+	top: 40px;
+	margin: 0 auto;
+	width: 40px;
+	height: 0;
+	.icon-stack [class^="icon-"], .icon-stack [class*=" icon-"] {
+		font-size: 3em;
+	}
+	.icon-stack {
+		height: 0;
+		display: block;
+		width: 1em;
+		height: 1em;
+		line-height: 1em;
+	}
+
+	.icon-circle {
+		color: $white;
+	}
+	.icon-ok-sign {
+		color: $success-color;
+	}
+}*/
+/* line 77, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_add-to-set-modal.scss */
+.set-is-selected {
+  position: absolute;
+  background-color: #3cb81c;
+  color: #fcfcfc;
+  width: 100%;
+  height: 40px;
+  padding: 6px 0 0 0;
+  font-size: 1.2em; }

@@ -15,6 +15,10 @@
 		$GLOBAL
 \*------------------------------------*/
 
+#headerRegion {
+	@include clearfix;
+}
+
 .top-bar {
 	overflow: hidden;
 	@extend .box-shadow;
