@@ -1,0 +1,123 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * CREATE-POST...............create-post specific styles
+ * UPLOAD MEDIA BAR...............wrapper and button for various media uploads
+ * MEDIA ICONS...............icons for uploading various media
+ */
+
+
+
+
+ /*-----------------------------------------------------------*\
+ 		$CREATE-POST
+ \*-----------------------------------------------------------*/
+
+
+.create-post-options {
+	@include grid-column(12);
+	margin-bottom: 40px;
+	padding: 0;
+	input[type="text"], textarea {
+		margin-bottom: 2em;
+	}
+}
+
+.create-post-location-map {
+	background: url( ../images/map.jpg ) no-repeat;
+	width: 100%;
+	height: 100px;
+	background-size: cover;
+	margin-bottom: 30px;
+}
+
+
+
+
+/*------------------------------------*\
+		$UPLOAD MEDIA BAR
+\*------------------------------------*/
+
+.media-bar{
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(8);
+		padding: 0 20px;
+	}
+}
+
+.media-bar-uploads-wrap {
+	@include grid-column(12);
+	padding: 0;
+	border-bottom: 1px solid $darkGray;
+	@media #{$small} {
+		@include grid-column(12, $collapse: true);
+		margin: 2px 0 1px;
+		border-bottom: 0;
+	}
+}
+
+.media-bar-uploads {
+	@include block-grid($spacing: 0px);
+	padding: 0 10px;
+	@media #{$small} {
+		padding: 0;
+	}
+}
+
+
+
+
+/*------------------------------------*\
+		$MEDIA ICONS
+\*------------------------------------*/
+
+.select-icon {
+	width: 56px;
+	height: 60px !important;
+	[class^="icon-"] {
+		position: relative;
+		top: 20px;
+		left: 20px;
+		padding: 0;
+		@media #{$small} {
+			left: 0;
+		}
+	}
+}
+
+.upload-location {
+	.icon-map-marker {
+		font-size: 19px;
+		color: $white;
+	}
+}
+
+.upload-image {
+	.icon-picture {
+		font-size: 19px;
+		color: $white;
+	}
+}
+
+.upload-video {
+	.icon-facetime-video {
+		font-size: 19px;
+		color: $white;
+	}
+}
+
+.upload-link {
+	.icon-link {
+		font-size: 19px;
+		color: $white;
+	}
+}
+
+.upload-audio {
+	.icon-microphone {
+		font-size: 20px;
+		color: $white;
+	}
+}

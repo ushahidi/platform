@@ -36,7 +36,7 @@ $darkBlue:       #22699D;
 
 // Ushahidi Pallette
 $blue:           #14B4D1;
-$green:          #CCDEA3;
+$green:          #3CB81C;
 $lightGray:      #EFF0F3;
 $blueGray:       #323A45;
 $white:          #FCFCFC;
@@ -45,6 +45,10 @@ $primary-color: $blue;
 $secondary-color: $lightGray;
 $alert-color: #C50813;
 $success-color: $green;
+
+$facebook-color:  #3b5998;
+$twitter-color:   #00acee;
+$google-color:    #dd4b39;
 
 $default-float: left;
 
@@ -130,7 +134,7 @@ $cursor-help-value: "help";
 // Grid Variables
 //
 
-$row-width: emCalc(1000px);
+$row-width: emCalc(1280px);
 $column-gutter: emCalc(30px);
 $total-columns: 12;
 
@@ -182,6 +186,7 @@ $subheader-bottom-margin: .5em;
 // <small> styling
 
 $small-font-size: 70%;
+$medium-font-size: 80%;
 $small-font-color: lighten($header-font-color, 30%);
 
 // Paragraphs
@@ -1035,13 +1040,13 @@ $section-font-size: emCalc(16px);
 
 // Control the color of the background and some size options
 
-$section-content-bg: $white;
+$section-content-bg: darken($white, $section-function-factor);
 $section-content-bg-active: darken($section-content-bg, $section-function-factor);
 $section-vertical-nav-min-width: emCalc(200px);
 $section-vertical-tabs-title-width: emCalc(200px);
 $section-bottom-margin: emCalc(0px);
 
-$title-selector: ".title";
+$title-selector: ".js-title";
 $content-selector: ".content";
 
 //

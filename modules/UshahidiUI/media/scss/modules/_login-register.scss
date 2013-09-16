@@ -1,0 +1,156 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * TOPBAR-LOGIN/REGISTER...............topbar styles on login and register pages
+ * GENERAL...............modular styles for both login and register pages
+ * LOGIN...............login page styles
+ * REGISTER...............register page styles
+ */
+
+
+
+
+
+ /*------------------------------------*\
+ 		$TOPBAR-LOGIN/REGISTER
+ \*------------------------------------*/
+
+.top-bar-section-login {
+	ul.right{
+		width: auto;
+	}
+	li.show-for-medium-down a {
+		padding: 0 18px;
+		i {
+			font-size: 18px;
+			padding: 0;
+		}
+	}
+}
+
+
+
+/*------------------------------------*\
+    GENERAL
+\*------------------------------------*/
+
+.login-box {
+	margin-top: 50px;
+	.post-body {
+		padding-top: 2em;
+	}
+	@media #{$small} {
+		@include grid-column(8, $center: true);
+	}
+}
+
+.login-form-wrapper {
+	@include grid-column(12);
+	border-bottom: 1px solid $lightGray;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.login-form {
+	border-bottom: 1px solid $lightGray;
+	margin-bottom: 20px;
+	input[type="checkbox"] {
+		margin-right: 10px;
+	}
+	input[type="submit"] {
+		margin: 20px 0 10px 0;
+ }
+	@media #{$medium-up} {
+		@include grid-column(5, $collapse: true);
+		border-right: 1px solid $lightGray;
+		border-bottom: 0;
+		padding-right: 20px;
+	}
+}
+
+.login-form-checkboxes {
+	margin-top: 30px;
+}
+
+.social-login {
+	@include grid-column(12, $collapse: true);
+	@media #{$medium-up} {
+		@include grid-column(7, $collapse: true);
+		padding-left: 20px;
+	}
+}
+
+.social-buttons {
+	margin-bottom: 20px;
+	@include grid-column(12, $collapse: true);
+	.button {
+		padding: 8px;
+	}
+	i {
+		font-size: 16px;
+	}
+}
+
+.facebook-button, .twitter-button, .google-button {
+	padding-left: 0;
+	@media #{$small} {
+		@include grid-column(4);
+		padding-left: 0;
+	}
+	@media #{$medium} {
+		@include grid-column(4);
+		padding-left: 0;
+	}
+
+}
+
+.open-id {
+	@include grid-column(12, $collapse: true);
+	.open-id-input {
+		@include grid-column(10, $collapse: true);
+		input[type="text"] {
+			border-radius: 3px 0 0 3px;
+		}
+	}
+	.open-id-submit {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.login-box-meta {
+	float: right;
+	p {
+		margin: 0;
+	}
+}
+
+.login-disclaimer {
+	@include grid-column(12, $collapse: true);
+	font-style: italic;
+	color: darken($midGray, 30);
+	i {
+		position: relative;
+		top: 1px;
+		font-size: 14px;
+	}
+}
+
+
+
+
+ /*------------------------------------*\
+ 		$LOGIN
+ \*------------------------------------*/
+
+
+
+
+
+ /*------------------------------------*\
+ 		$REGISTER
+ \*------------------------------------*/
+
+
+
+

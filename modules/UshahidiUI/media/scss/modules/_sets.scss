@@ -15,7 +15,7 @@
 .sets-search-bar {
 	@include grid-row();
 	@extend .box-shadow;
-	background: $darkBlue url(../images/search-bg.jpg) repeat;
+	background: $blueGray;
 	margin-bottom: 20px;
 	padding: 1.25em 0;
 }
@@ -29,15 +29,18 @@
 	}
 	@media #{$small} {
 		@include grid-column(6);
-		border-right: 1px solid darken($darkBlue, 10);
+		border-right: 1px solid darken($blueGray, 10);
 	}
 }
 
 .sets-search-bar-create-button {
  @include grid-column(7);
+ .button {
+ 	padding: 13px 0;
+ }
  @media #{$small} {
-		@include grid-column(3);
-		border-right: 1px solid darken($darkBlue, 10);
+		@include grid-column(2);
+		border-right: 1px solid darken($blueGray, 10);
 		a {
 		 margin: 0;
 		}
@@ -47,7 +50,7 @@
 .sets-search-bar-search-field {
 	@include grid-column(12);
 	@media #{$small} {
-		@include grid-column(3);
+		@include grid-column(4);
 	}
 	input[type="text"] {
 		margin: 0;

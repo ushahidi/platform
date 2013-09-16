@@ -37,12 +37,20 @@
 .search-field {
 	@include grid-column(12);
 	@media #{$small} {
-		@include grid-column(12)
+		@include grid-column(12);
 	}
 	@media #{$medium} {
 		@include grid-column(3, $collapse: true);
 	}
 }
+
+.search-bar .search-field input[type="text"] {
+	@media #{$medium} {
+		-webkit-border-radius: $global-radius 0 0 $global-radius;
+			-moz-border-radius: $global-radius 0 0 $global-radius;
+				border-radius: $global-radius 0 0 $global-radius;
+		}
+	}
 
 .categories-select {
 	@include grid-column(12);
