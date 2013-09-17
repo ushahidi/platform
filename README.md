@@ -17,9 +17,9 @@ Sorry, not yet.. Probably in 2014. I'd love to say you should, but right now its
 
 Maybe.. We're still in heavy development, many architecture questions haven't been answered yet, many that have will still change.
 
-If you just want to fix a few bugs, or build a prototype on Ushahidi.. you're probably better helping out on Ushahidi 2.x right now.
+If you just want to fix a few bugs, or build a prototype on Ushahidi.. you're probably better helping out on [Ushahidi 2.x](https://github.com/ushahidi/Ushahidi_Web) right now.
 
-If you're keen to help build something awesome, and happy to get deep into the core workings.. then yes. Jump on board..
+If you're keen to help build something awesome, and happy to get deep into the core workings.. then yes. [Jump on board](https://wiki.ushahidi.com/display/WIKI/Ushahidi%2C+v3.x+-+Getting+Involved)..
 
 ## More info
 
