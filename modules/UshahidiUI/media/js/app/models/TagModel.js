@@ -1,5 +1,5 @@
-define(['jquery', 'backbone'],
-	function($, Backbone) {
+define(['backbone'],
+	function(Backbone) {
 		var TagModel = Backbone.Model.extend(
 		{
 			
