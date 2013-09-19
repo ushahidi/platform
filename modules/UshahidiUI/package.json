@@ -25,7 +25,10 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-contrib-compass": "~0.3.0",
-    "grunt-contrib-watch": "~0.4.4"
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-contrib-csslint": "~0.1.2",
+    "grunt-contrib-imagemin": "~0.1.4",
+    "grunt-autoprefixer": "~0.2.20130806"
   },
   "keywords": ["Marionette.js", "Backbone.js", "Require.js", "Marionette and Require Boilerplate Lite"]
 }
