@@ -21,23 +21,29 @@
 			<img src="{{ imageurl "mini-coop.jpg" }}" alt="">
 
 			<div class="post-meta">
-				<div class="post-location-meta">
+				<div class="post-meta-details">
 					<h6>Post Details</h6>
-					<p><i class="icon-map-marker"></i><span class="post-location  underline" ><a href=""> London, UK</a></span></p>
-				</div> <!-- end .post-location-meta -->
+					<div class="post-author">
+						<p><i class="icon-user"></i><strong class="" >{{#if author}}<a href="#users/{{id}}">{{first_name}} {{last_name}}</a>{{else}}Anonymous{{/if}}</strong></p>
+					</div> <!-- end .post-author -->
 
-				<div class="post-time-meta">
-					<p><i class="icon-time"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
-				</div> <!-- end .post-time-meta -->
+					<div class="post-location-meta">
+						<p><i class="icon-map-marker"></i><span class="post-location  underline" ><a href=""> London, UK</a></span></p>
+					</div> <!-- end .post-location-meta -->
 
-				<div class="post-privacy-status">
-					{{#if published}}
-						<p><i class="icon-unlock"></i><strong class="post-time" >Published</strong></p>
-					{{else}}
-						{{!-- @todo add ucfirst handler and format status --}}
-						<p><i class="icon-lock"></i><strong class="post-time" >{{status}}</strong></p>
-					{{/if}}
-				</div> <!-- end .post-privacy-status -->
+					<div class="post-time-meta">
+						<p><i class="icon-time"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
+					</div> <!-- end .post-time-meta -->
+
+					<div class="post-privacy-status">
+						{{#if published}}
+							<p><i class="icon-unlock"></i><strong class="post-time" >Published</strong></p>
+						{{else}}
+							{{!-- @todo add ucfirst handler and format status --}}
+							<p><i class="icon-lock"></i><strong class="post-time" >{{status}}</strong></p>
+						{{/if}}
+					</div> <!-- end .post-privacy-status -->
+				</div> <!-- end .post-details -->
 
 				{{#if tags}}
 				<div class="post-categories">
@@ -54,10 +60,6 @@
 		</div> <!-- end .post-body -->
 
 		<div class="post-details">
-
-			<div class="post-author">
-				<h6><small><span class= "underline"><a href="">DUDE BRO</a> </span>ADDED A POST</small></h6>
-			</div> <!-- end .post-author -->
 
 			<div class="post-excerpt">
 				{{ content }}

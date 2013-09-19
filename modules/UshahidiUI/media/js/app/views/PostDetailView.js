@@ -11,16 +11,17 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostDet
 			{
 				var data = _.extend(this.model.toJSON(), {
 					published : this.model.published(),
-					tags : this.model.tags()
+					tags : this.model.tags(),
+					user : this.model.user()
 				});
 				return data;
 			},
-			
+
 			modelEvents : {
 				// hack to re-render this view when the model actually loads
 				// @todo fix race condition so we don't need this
 				'change' : function () { this.render(); }
 			}
-			
+
 		});
 	});

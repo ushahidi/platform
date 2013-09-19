@@ -122,14 +122,6 @@
 	}
 }
 
-.post-author {
-	@include grid-column(12);
-	padding: 0;
-	@media #{$small} {
-		padding-right: 0;
-	}
-}
-
 .post-excerpt {
 	@include grid-column(12, $collapse: true);
 	@media #{$small} {
@@ -146,9 +138,17 @@
 	}
 }
 
+.post-meta-details {
+	margin-bottom: 20px;
+	@include clearfix;
+}
+
+.post-author {
+	@include grid-column(12, $collapse: true);
+}
+
 .post-location-meta {
 	@include grid-column(12, $collapse: true);
-	clear: both;
 }
 
 .post-location {
@@ -161,7 +161,6 @@
 
 .post-privacy-status {
 	@include grid-column(12, $collapse: true);
-	margin-bottom: 20px;
 }
 
 .post-categories {
