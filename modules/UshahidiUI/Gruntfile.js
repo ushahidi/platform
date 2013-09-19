@@ -19,22 +19,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		csslint :
-		{
-			options :
-			{
-				csslintrc : '.csslintrc' // get CSSLint options from .csslintrc file in project root
-			},
-			dev :
-			{
-				src : ['media/css/test/*.css']
-			},
-			prod :
-			{
-				src : ['media/css/*.css']
-			}
-		},
-
 		imagemin :
 		{
 			all :
@@ -107,7 +91,6 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-autoprefixer');
-	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
