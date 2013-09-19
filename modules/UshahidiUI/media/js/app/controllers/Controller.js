@@ -1,7 +1,6 @@
 define(['App', 'backbone', 'marionette',
-
 	'views/AppLayout', 'views/HomeLayout', 'views/PostDetailLayout',
-	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 
+	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView',
 	'views/MapView','views/PostListView','views/PostDetailView','views/RelatedPostsView',
 	'collections/PostCollection','collections/TagCollection','collections/FormCollection','models/PostModel'],
 	function(App, Backbone, Marionette,
@@ -12,13 +11,14 @@ define(['App', 'backbone', 'marionette',
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
-			initialize : function(options) {
+			initialize : function()
+			{
 				this.layout = new AppLayout();
 				App.body.show(this.layout);
 				
 				var header = new HeaderView();
 				header.on('workspace:toggle', function () {
-					App.body.$el.toggleClass('active-workspace')
+					App.body.$el.toggleClass('active-workspace');
 				});
 				
 				this.layout.headerRegion.show(header);
@@ -36,8 +36,9 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout = new HomeLayout();
 			},
 			//gets mapped to in AppRouter's appRoutes
-			index : function() {
-				App.vent.trigger("page:change", "index");
+			index : function()
+			{
+				App.vent.trigger('page:change', 'index');
 				this.layout.mainRegion.show(App.homeLayout);
 				
 				App.homeLayout.contentRegion.show(new PostListView({
@@ -46,8 +47,9 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout.mapRegion.show(new MapView());
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
-			viewsList : function() {
-				App.vent.trigger("page:change", "views/list");
+			viewsList : function()
+			{
+				App.vent.trigger('page:change', 'views/list');
 				this.layout.mainRegion.show(App.homeLayout);
 				
 				App.homeLayout.contentRegion.show(new PostListView({
@@ -57,8 +59,9 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout.mapRegion.close();
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
-			viewsMap : function() {
-				App.vent.trigger("page:change", "views/map");
+			viewsMap : function()
+			{
+				App.vent.trigger('page:change', 'views/map');
 				this.layout.mainRegion.show(App.homeLayout);
 				
 				// Nothing bound to content region
@@ -66,18 +69,19 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout.mapRegion.show(new MapView());
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
-			postDetail : function(id) {
-				App.vent.trigger("page:change", "posts/:id");
+			postDetail : function(id)
+			{
+				App.vent.trigger('page:change', 'posts/:id');
 				var postDetailLayout = new PostDetailLayout();
 				this.layout.mainRegion.show(postDetailLayout);
-				
+
 				// @todo improve this to avoid double loading of model (and race conditions)
 				var model = App.Collections.Posts.get(id);
 				if (typeof model === 'undefined')
 				{
 					model = new PostModel({id: id});
 					model.fetch();
-				}
+			}
 
 				// @TODO find a way to reuse post detail views
 				postDetailLayout.mapRegion.show(new MapView());
@@ -87,4 +91,4 @@ define(['App', 'backbone', 'marionette',
 				postDetailLayout.relatedPostsRegion.show(new RelatedPostsView());
 			}
 		});
-	}); 
+	});

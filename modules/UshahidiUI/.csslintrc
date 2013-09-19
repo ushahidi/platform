@@ -1,0 +1,9 @@
+{
+  "adjoining-classes": false,
+  "box-model": false,
+  "box-sizing": false,
+  "important": true,
+  "star-property-hack": false,
+  "universal-selector": false,
+  "zero-units": false
+}

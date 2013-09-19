@@ -1,54 +1,54 @@
 require.config(
 {
-	baseUrl : "./media/kohana/js/app",
-	// 3rd party script alias names (Easier to type "jquery" than "libs/jquery, etc")
+	baseUrl : './media/kohana/js/app',
+	// 3rd party script alias names (Easier to type 'jquery' than 'libs/jquery, etc')
 	// probably a good idea to keep version numbers in the file names for updates checking
 	paths :
 	{
 		// Core Libraries
-		"jquery" : "../libs/jquery",
-		"jqueryui" : "../libs/jqueryui",
-		"underscore" : "../libs/lodash",
-		"backbone" : "../libs/backbone",
-		"marionette" : "../libs/backbone.marionette",
-		"handlebars" : "../libs/handlebars",
-		"leaflet" : "../libs/leaflet",
-		"jso2" : "../libs/jso2",
-		"store" : "../libs/jso2/store",
-		"utils" : "../libs/jso2/utils",
-		"moment" : "../libs/moment",
-		"underscore.string" : "../libs/underscore.string",
-		"foundation" : "../libs/foundation",
-		"foundation-loader" : "../libs/foundation-loader",
+		'jquery' : '../libs/jquery',
+		'jqueryui' : '../libs/jqueryui',
+		'underscore' : '../libs/lodash',
+		'backbone' : '../libs/backbone',
+		'marionette' : '../libs/backbone.marionette',
+		'handlebars' : '../libs/handlebars',
+		'leaflet' : '../libs/leaflet',
+		'jso2' : '../libs/jso2',
+		'store' : '../libs/jso2/store',
+		'utils' : '../libs/jso2/utils',
+		'moment' : '../libs/moment',
+		'underscore.string' : '../libs/underscore.string',
+		'foundation' : '../libs/foundation',
+		'foundation-loader' : '../libs/foundation-loader',
 
 		// Plugins
-		"backbone.validateAll" : "../libs/plugins/Backbone.validateAll",
-		"backbone-pageable" : "../libs/plugins/backbone-pageable",
-		"handlebars-paginate" : "../libs/plugins/handlebars-paginate",
-		"text" : "../libs/plugins/text"
+		'backbone.validateAll' : '../libs/plugins/Backbone.validateAll',
+		'backbone-pageable' : '../libs/plugins/backbone-pageable',
+		'handlebars-paginate' : '../libs/plugins/handlebars-paginate',
+		'text' : '../libs/plugins/text'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
 	{
-		"jqueryui" : ["jquery"],
-		"backbone" :
+		'jqueryui' : ['jquery'],
+		'backbone' :
 		{
-			"deps" : ["underscore", "jquery"],
+			'deps' : ['underscore', 'jquery'],
 			// Exports the global window.Backbone object
-			"exports" : "Backbone"
+			'exports' : 'Backbone'
 		},
-		"marionette" :
+		'marionette' :
 		{
-			"deps" : ["underscore", "backbone", "jquery"],
+			'deps' : ['underscore', 'backbone', 'jquery'],
 			// Exports the global window.Marionette object
-			"exports" : "Marionette"
+			'exports' : 'Marionette'
 		},
-		"handlebars" :
+		'handlebars' :
 		{
-			"exports" : "Handlebars"
+			'exports' : 'Handlebars'
 		},
 		// Backbone.validateAll plugin (https://github.com/gfranko/Backbone.validateAll)
-		"backbone.validateAll" : ["backbone"],
+		'backbone.validateAll' : ['backbone'],
 
 		'leaflet': {
 			deps: ['jquery'],
@@ -77,12 +77,13 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(["App", "routers/AppRouter", "controllers/Controller", "jquery", "jqueryui", "backbone.validateAll"],
-	function(App, AppRouter, Controller) {
+require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'jqueryui', 'backbone.validateAll'],
+	function(App, AppRouter, Controller)
+	{
 		App.appRouter = new AppRouter(
 		{
 			controller : new Controller()
 		});
 		App.start();
 		window.App = App;
-	}); 
+	});
