@@ -8,7 +8,7 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 			template : Handlebars.compile(template),
 			initialize: function() {
 				// @todo update this for real UI
-				App.vent.on("page:change", this.updateActiveNav, this);
+				App.vent.on('page:change', this.updateActiveNav, this);
 			},
 			events : {
 				'click .js-views-menu-link' : 'showViewsMenu'
@@ -27,11 +27,11 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				var pageSegments = page.split('/');
 				// Ignore first segment for now
 				
-				if (pageSegments[0] == 'index')
+				if (pageSegments[0] === 'index')
 				{
 					this.$('.views-full').addClass('active');
 				}
-				else if (pageSegments[0] == 'views' && typeof pageSegments[1] != 'undefined')
+				else if (pageSegments[0] === 'views' && typeof pageSegments[1] !== 'undefined')
 				{
 					this.$('.views-'+pageSegments[1]).addClass('active');
 				}
@@ -48,4 +48,4 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				e.preventDefault();
 			}
 		});
-	}); 
+	});

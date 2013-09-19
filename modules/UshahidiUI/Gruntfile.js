@@ -55,14 +55,14 @@ module.exports = function(grunt) {
 			{
 				options :
 				{
-					baseUrl : "media/js/app",
+					baseUrl : 'media/js/app',
 					wrap : false,
-					name : "../libs/almond",
+					name : '../libs/almond',
 					preserveLicenseComments : false,
-					optimize : "uglify",
-					mainConfigFile : "media/js/app/config/Init.js",
-					include : ["config/Init"],
-					out : "media/js/app/config/Init.min.js"
+					optimize : 'uglify',
+					mainConfigFile : 'media/js/app/config/Init.js',
+					include : ['config/Init'],
+					out : 'media/js/app/config/Init.min.js'
 				}
 			}
 		},
@@ -71,7 +71,7 @@ module.exports = function(grunt) {
 		{
 			files : ['Gruntfile.js', 'media/js/app/**/*.js', '!media/js/app/**/*min.js'],
 			options : {
-				jshintrc : ".jshintrc"
+				jshintrc : '.jshintrc'
 			}
 		},
 

@@ -7,10 +7,10 @@ define(['App', 'marionette', 'handlebars', 'text!templates/AppLayout.html', 'tex
 			className: 'App',
 			template : Handlebars.compile(template),
 			regions : {
-				headerRegion : "#headerRegion",
-				mainRegion :   "#mainRegion",
-				footerRegion : "#footerRegion",
-				workspacePanel : "#workspace-panel"
+				headerRegion : '#headerRegion',
+				mainRegion :   '#mainRegion',
+				footerRegion : '#footerRegion',
+				workspacePanel : '#workspace-panel'
 			}
 		});
-	}); 
+	});

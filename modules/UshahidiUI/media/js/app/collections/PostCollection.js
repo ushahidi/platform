@@ -1,12 +1,12 @@
-define(["jquery", "backbone", "models/PostModel", "App", "backbone-pageable"],
+define(['jquery', 'backbone', 'models/PostModel', 'App', 'backbone-pageable'],
 	function($, Backbone, PostModel, App, PageableCollection) {
 		// Creates a new Backbone Collection class object
 		//var PostCollection = Backbone.Collection.extend(
-		var PostCollection = Backbone.PageableCollection.extend(
+		var PostCollection = PageableCollection.extend(
 		{
 			model : PostModel,
-			url: App.config.baseurl + "api/v2/posts",
-			// The Ushahidi API returns models under "results".
+			url: App.config.baseurl + 'api/v2/posts',
+			// The Ushahidi API returns models under 'results'.
 			parseRecords: function(response) {
 				return response.results;
 			},
@@ -32,11 +32,11 @@ define(["jquery", "backbone", "models/PostModel", "App", "backbone-pageable"],
 				currentPage: null,
 				totalPages: null,
 				totalRecords: null,
-				pageSize: "limit",
-				offset: function () { return this.state.currentPage * this.state.pageSize },
+				pageSize: 'limit',
+				offset: function () { return this.state.currentPage * this.state.pageSize; },
 				sortKey: 'orderby'
 			}
 		});
 	
 		return PostCollection;
-	}); 
+	});

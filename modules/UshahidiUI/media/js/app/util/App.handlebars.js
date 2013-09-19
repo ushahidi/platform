@@ -27,13 +27,11 @@ define(['handlebars', 'moment', 'underscore.string', 'handlebars-paginate'],
 			return moment(timestamp).format('LLL');
 		});
 		
-		_.str = require('underscore.string');
 		Handlebars.registerHelper('prune', function(text, length) {
-			
 			return _str.prune(text, length);
 		});
 		
 		Handlebars.registerHelper('paginate', paginate);
 
 		return Handlebars;
-	}); 
+	});

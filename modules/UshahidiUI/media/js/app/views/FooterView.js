@@ -5,4 +5,4 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Footer.html'],
 			template : Handlebars.compile(template),
 			initialize: function() { },
 		});
-	}); 
+	});

@@ -6,4 +6,4 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 			initialize: function() {
 			}
 		});
-	}); 
+	});

@@ -5,10 +5,7 @@ define(['App', 'marionette', 'handlebars', 'text!templates/PostDetail.html'],
 		return Marionette.ItemView.extend( {
 			//Template HTML string
 			template: Handlebars.compile(template),
-			initialize: function(options) {
-			},
 			
-			itemViewContainer: '.post-details',
-			
+			itemViewContainer: '.post-details'
 		});
 	});
