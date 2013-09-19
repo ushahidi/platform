@@ -7,7 +7,6 @@ require.config(
 	{
 		// Core Libraries
 		'jquery' : '../libs/jquery',
-		'jqueryui' : '../libs/jqueryui',
 		'underscore' : '../libs/lodash',
 		'backbone' : '../libs/backbone',
 		'marionette' : '../libs/backbone.marionette',
@@ -30,7 +29,6 @@ require.config(
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
 	{
-		'jqueryui' : ['jquery'],
 		'backbone' :
 		{
 			'deps' : ['underscore', 'jquery'],
@@ -77,7 +75,7 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'jqueryui', 'backbone.validateAll'],
+require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'backbone.validateAll'],
 	function(App, AppRouter, Controller)
 	{
 		App.appRouter = new AppRouter(
