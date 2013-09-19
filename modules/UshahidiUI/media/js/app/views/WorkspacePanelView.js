@@ -1,5 +1,5 @@
 define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html'],
-	function(Marionette, Handlebars, App, template, setsDropdown, viewsDropdown) {
+	function(Marionette, Handlebars, App, template) {
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
@@ -7,7 +7,7 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 			},
 			events : {
 				'click .js-title' : 'toggleSection',
-				'click .workspace-menu > section .js-content' : 'toggleMenuItem'
+				'click .workspace-menu li' : 'toggleMenuItem' // THIS RULE IS WRONG NOW
 			},
 			toggleSection : function(e) {
 				var $el = this.$(e.currentTarget.parentNode);
@@ -16,8 +16,8 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 			},
 			toggleMenuItem : function(e) {
 				e.preventDefault();
-				this.$('.js-content').removeClass('active');
-				$(e.currentTarget).addClass('active');
+				this.$('.workspace-menu li').removeClass('active');
+				this.$(e.currentTarget).addClass('active');
 			}
 		});
-	}); 
+	});
