@@ -71,12 +71,15 @@ define(['App', 'backbone', 'marionette',
 			},
 			postDetail : function(id)
 			{
+				var postDetailLayout,
+						model;
+
 				App.vent.trigger('page:change', 'posts/:id');
-				var postDetailLayout = new PostDetailLayout();
+				postDetailLayout = new PostDetailLayout();
 				this.layout.mainRegion.show(postDetailLayout);
 
 				// @todo improve this to avoid double loading of model (and race conditions)
-				var model = App.Collections.Posts.get(id);
+				model = App.Collections.Posts.get(id);
 				if (typeof model === 'undefined')
 				{
 					model = new PostModel({id: id});
@@ -87,7 +90,7 @@ define(['App', 'backbone', 'marionette',
 				postDetailLayout.mapRegion.show(new MapView());
 				postDetailLayout.postDetailRegion.show(new PostDetailView({
 					model: model
-				}));	
+				}));
 				postDetailLayout.relatedPostsRegion.show(new RelatedPostsView());
 			}
 		});

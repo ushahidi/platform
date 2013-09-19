@@ -5,9 +5,9 @@ define(['App', 'marionette', 'handlebars', 'text!templates/PostDetailLayout.html
 			className: 'layout-posts',
 			template : Handlebars.compile(template),
 			regions : {
-				mapRegion : "#mapRegion",
-				postDetailRegion : "#post-details",
-				relatedPostsRegion : "#related-posts"
+				mapRegion : '#mapRegion',
+				postDetailRegion : '#post-details',
+				relatedPostsRegion : '#related-posts'
 			}
 		});
-	}); 
+	});

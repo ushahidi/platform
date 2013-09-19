@@ -1,8 +1,8 @@
-define(["jquery", "backbone", "App"],
-	function($, Backbone, App) {
+define(['jquery', 'backbone', 'App', 'underscore'],
+	function($, Backbone, App, _) {
 		var PostModel = Backbone.Model.extend(
 		{
-			urlRoot: App.config.baseurl + "api/v2/posts",
+			urlRoot: App.config.baseurl + 'api/v2/posts',
 			
 			published : function ()
 			{
