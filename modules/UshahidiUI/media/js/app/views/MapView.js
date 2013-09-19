@@ -1,5 +1,6 @@
 define(['marionette', 'handlebars', 'App', 'leaflet', 'util/App.oauth', 'text!templates/Map.html'],
-	function(Marionette, Handlebars, App, L, OAuth, template) {
+	function(Marionette, Handlebars, App, L, OAuth, template)
+	{
 		// Hack to fix default image url
 		L.Icon.Default.imagePath = App.config.baseurl + 'media/kohana/images';
 		
@@ -64,7 +65,8 @@ define(['marionette', 'handlebars', 'App', 'leaflet', 'util/App.oauth', 'text!te
 			events : {
 				'click .js-collapse-map' : 'collapseMap'
 			},
-			collapseMap : function () {
+			collapseMap : function ()
+			{
 				this.$('#map').toggleClass('map-collapse');
 				this.$('.js-collapse-tab').toggleClass('none');
 				this.$('.js-expand-tab').toggleClass('none');

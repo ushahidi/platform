@@ -7,7 +7,8 @@ define(['App', 'backbone', 'marionette',
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
-			initialize : function() {
+			initialize : function()
+			{
 				this.layout = new AppLayout();
 				App.body.show(this.layout);
 				
@@ -31,7 +32,8 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout = new HomeLayout();
 			},
 			//gets mapped to in AppRouter's appRoutes
-			index : function() {
+			index : function()
+			{
 				App.vent.trigger('page:change', 'index');
 				this.layout.mainRegion.show(App.homeLayout);
 				
@@ -41,7 +43,8 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout.mapRegion.show(new MapView());
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
-			viewsList : function() {
+			viewsList : function()
+			{
 				App.vent.trigger('page:change', 'views/list');
 				this.layout.mainRegion.show(App.homeLayout);
 				
@@ -52,7 +55,8 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout.mapRegion.close();
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
-			viewsMap : function() {
+			viewsMap : function()
+			{
 				App.vent.trigger('page:change', 'views/map');
 				this.layout.mainRegion.show(App.homeLayout);
 				
@@ -61,7 +65,8 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout.mapRegion.show(new MapView());
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
-			postDetail : function(id) {
+			postDetail : function(id)
+			{
 				App.vent.trigger('page:change', 'posts/:id');
 				this.layout.mainRegion.show(new PostDetailView({
 					model: App.Collections.Posts.get(id)

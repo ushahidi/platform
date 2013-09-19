@@ -1,5 +1,6 @@
 define(['backbone', 'jso2', 'jquery', 'underscore'],
-	function(Backbone, Jso2, $, _) {
+	function(Backbone, Jso2, $, _)
+	{
 		
 		Jso2.enablejQuery($);
 		

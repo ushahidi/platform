@@ -1,5 +1,6 @@
 define(['jquery', 'backbone', 'models/PostModel', 'App', 'backbone-pageable'],
-	function($, Backbone, PostModel, App, PageableCollection) {
+	function($, Backbone, PostModel, App, PageableCollection)
+	{
 		// Creates a new Backbone Collection class object
 		//var PostCollection = Backbone.Collection.extend(
 		var PostCollection = PageableCollection.extend(
@@ -7,10 +8,12 @@ define(['jquery', 'backbone', 'models/PostModel', 'App', 'backbone-pageable'],
 			model : PostModel,
 			url: App.config.baseurl + 'api/v2/posts',
 			// The Ushahidi API returns models under 'results'.
-			parseRecords: function(response) {
+			parseRecords: function(response)
+			{
 				return response.results;
 			},
-			parseState: function(response) {
+			parseState: function(response)
+			{
 				return {
 					totalRecords: response.total_count
 				};

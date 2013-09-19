@@ -1,5 +1,6 @@
 define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'util/App.handlebars', 'foundation-loader'],
-	function($, Backbone, Marionette, _, Handlebars, OAuth) {
+	function($, Backbone, Marionette, _, Handlebars, OAuth)
+	{
 		var App = new Backbone.Marionette.Application();
 		
 		// Save oauth object in App - just in case
@@ -20,7 +21,7 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 	
 		App.mobile = isMobile();
 
-		App.addInitializer(function(options)
+		App.addInitializer(function(/*options*/)
 		{
 			Backbone.history.start();
 			

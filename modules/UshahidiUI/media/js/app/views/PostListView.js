@@ -6,7 +6,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
 		Handlebars.registerPartial('pagination', paginationTemplate);
 		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
 
-		return Marionette.CompositeView.extend( {
+		return Marionette.CompositeView.extend(
+		{
 			//Template HTML string
 			template: Handlebars.compile(template),
 			// Lets just store the partial templates somewhere usefule

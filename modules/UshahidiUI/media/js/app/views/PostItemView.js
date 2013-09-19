@@ -2,7 +2,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostLis
 	function(App, Marionette, _, Handlebars, template)
 	{
 		//ItemView provides some default rendering logic
-		return Marionette.ItemView.extend( {
+		return Marionette.ItemView.extend(
+		{
 			//Template HTML string
 			template: Handlebars.compile(template),
 			tagName: 'li',
@@ -13,7 +14,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostLis
 			},
 
 			// @todo add confirmation dialog
-			deletepost: function(e) {
+			deletepost: function(e)
+			{
 				e.preventDefault();
 				this.model.destroy({
 					// Wait till server responds before destroying model

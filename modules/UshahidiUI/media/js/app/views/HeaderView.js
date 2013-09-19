@@ -1,5 +1,6 @@
 define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!templates/partials/views-dropdown-nav.html'],
-	function(Marionette, Handlebars, App, template, viewsDropdown) {
+	function(Marionette, Handlebars, App, template, viewsDropdown)
+	{
 		// Hacky - make sure we register partials before we call compile
 		Handlebars.registerPartial('views-dropdown-nav', viewsDropdown);
 		
