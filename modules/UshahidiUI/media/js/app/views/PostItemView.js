@@ -26,8 +26,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostLis
 			serializeData: function()
 			{
 				var data = _.extend(this.model.toJSON(), {
-					published : this.model.published(),
-					tags : this.model.tags()
+					isPublished : this.model.isPublished(),
+					tags : this.model.getTags()
 				});
 				return data;
 			}
