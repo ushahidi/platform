@@ -6427,7 +6427,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$POST DETAILS MAP
 \*------------------------------------*/
-/* line 17, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .post-details-map {
   height: 200px;
   border-bottom: 3px solid #22699d;
@@ -6436,11 +6436,19 @@ nav[role="sub-navigation"] li a {
   			-o-border-image: url(../images/search-bg.png) repeat;
   				border-image: url(../images/search-bg.png) repeat;*/ }
 
+/* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+.postDetailsMapView .map {
+  border-bottom: 3px solid #22699d; }
+/* line 31, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+.postDetailsMapView .map-collapse {
+  height: 200px;
+  opacity: 1; }
+
 /*------------------------------------*\
 		$POST DETAILS
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 33, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+  /* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
   .post-details {
     position: relative;
     padding-left: 0.9375em;
@@ -6448,39 +6456,39 @@ nav[role="sub-navigation"] li a {
     width: 66.66667%;
     float: left; } }
 
-/* line 40, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .post-categories-wrapper {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 100%;
   float: left; }
-  /* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+  /* line 52, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
   .post-categories-wrapper button {
     margin-bottom: 0; }
   @media only screen and (min-width: 768px) {
-    /* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+    /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
     .post-categories-wrapper button.expand, .post-categories-wrapper .button.expand {
       padding-right: 1.125em;
       padding-left: 1.125em;
       width: auto; } }
 
-/* line 54, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 64, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .post-thumbnails-wrapper {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+  /* line 66, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
   .post-thumbnails-wrapper [data-clearing] li {
     margin-right: 0; }
 
-/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 71, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .click-to-zoom {
   margin-bottom: 10px; }
 
-/* line 65, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+/* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
 .post-thumbnails {
   display: block;
   padding: 0;
@@ -6510,7 +6518,7 @@ nav[role="sub-navigation"] li a {
     .post-thumbnails > li:nth-of-type(2n+1) {
       clear: both; }
   @media only screen and (min-width: 768px) {
-    /* line 65, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+    /* line 75, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
     .post-thumbnails {
       display: block;
       padding: 0;
@@ -6539,7 +6547,7 @@ nav[role="sub-navigation"] li a {
         /* line 41, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/zurb-foundation-4.2.3/scss/foundation/components/_block-grid.scss */
         .post-thumbnails > li:nth-of-type(4n+1) {
           clear: both; } }
-  /* line 70, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
+  /* line 80, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-details.scss */
   .post-thumbnails li img {
     line-height: 0;
     display: inline-block;

@@ -44,7 +44,9 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout.contentRegion.show(new PostListView({
 					collection: App.Collections.Posts
 				}));
-				App.homeLayout.mapRegion.show(new MapView());
+				App.homeLayout.mapRegion.show(new MapView({
+					collection : App.Collections.Posts
+				}));
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
 			viewsList : function()
@@ -66,7 +68,9 @@ define(['App', 'backbone', 'marionette',
 				
 				// Nothing bound to content region
 				App.homeLayout.contentRegion.close();
-				App.homeLayout.mapRegion.show(new MapView());
+				App.homeLayout.mapRegion.show(new MapView({
+					collection : App.Collections.Posts
+				}));
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
 			postDetail : function(id)
@@ -84,10 +88,14 @@ define(['App', 'backbone', 'marionette',
 				{
 					model = new PostModel({id: id});
 					model.fetch();
-			}
+				}
 
 				// @TODO find a way to reuse post detail views
-				postDetailLayout.mapRegion.show(new MapView());
+				postDetailLayout.mapRegion.show(new MapView({
+					className : 'mapView postDetailsMapView',
+					collapsed : true,
+					model : model
+				}));
 				postDetailLayout.postDetailRegion.show(new PostDetailView({
 					model: model
 				}));
