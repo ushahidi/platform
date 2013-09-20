@@ -6581,12 +6581,13 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  background-color: #fcfcfc; }
-  /* line 17, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+  background-color: #fcfcfc;
+  margin-left: 0; }
+  /* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
   .related-posts-body p {
     font-size: 80%; }
 
-/* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 23, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-module-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -6595,7 +6596,7 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-top: 20px; }
 
-/* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 29, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-image {
   position: relative;
   padding-left: 0;
@@ -6603,7 +6604,7 @@ nav[role="sub-navigation"] li a {
   width: 33.33333%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+    /* line 29, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
     .related-post-image {
       position: relative;
       padding-left: 0;
@@ -6612,7 +6613,7 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-bottom: 20px; } }
   @media only screen and (min-width: 1024px) {
-    /* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+    /* line 29, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
     .related-post-image {
       position: relative;
       padding-left: 0;
@@ -6620,7 +6621,7 @@ nav[role="sub-navigation"] li a {
       width: 25%;
       float: left;
       margin-bottom: 0; } }
-  /* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+  /* line 39, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
   .related-post-image img {
     line-height: 0;
     display: inline-block;
@@ -6632,7 +6633,7 @@ nav[role="sub-navigation"] li a {
       -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
       box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
 
-/* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 44, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-details {
   position: relative;
   padding-left: 0.9375em;
@@ -6640,7 +6641,7 @@ nav[role="sub-navigation"] li a {
   width: 66.66667%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+    /* line 44, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
     .related-post-details {
       position: relative;
       padding-left: 0;
@@ -6648,7 +6649,7 @@ nav[role="sub-navigation"] li a {
       width: 100%;
       float: left; } }
   @media only screen and (min-width: 1024px) {
-    /* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+    /* line 44, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
     .related-post-details {
       position: relative;
       padding-left: 0.9375em;
@@ -6656,7 +6657,7 @@ nav[role="sub-navigation"] li a {
       width: 75%;
       float: left; } }
 
-/* line 53, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 54, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-title {
   position: relative;
   padding-left: 0.9375em;
@@ -6664,7 +6665,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 57, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 58, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-time {
   position: relative;
   padding-left: 0.9375em;
@@ -6672,7 +6673,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
+/* line 62, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_related-posts.scss */
 .related-post-excerpt {
   margin-top: 20px; }
 

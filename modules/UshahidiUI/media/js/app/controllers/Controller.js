@@ -97,7 +97,9 @@ define(['App', 'backbone', 'marionette',
 					postDetailLayout.postDetailRegion.show(new PostDetailView({
 						model: model
 					}));
-					postDetailLayout.relatedPostsRegion.show(new RelatedPostsView());
+					postDetailLayout.relatedPostsRegion.show(new RelatedPostsView({
+						collection : new PostCollection(App.Collections.Posts.slice(0, 3)) // fake related posts with first 3 from default collection
+					}));
 				});
 
 				postDetailLayout.mapRegion.show(new MapView({

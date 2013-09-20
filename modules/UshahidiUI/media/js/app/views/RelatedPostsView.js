@@ -1,13 +1,14 @@
-define(['App', 'marionette', 'handlebars', 'views/PostItemView','text!templates/RelatedPosts.html'],
-	function( App, Marionette, Handlebars, PostItemView, template)
+define(['App', 'marionette', 'handlebars', 'views/PostItemView', 'text!templates/RelatedPosts.html', 'text!templates/RelatedPostItem.html'],
+	function( App, Marionette, Handlebars, PostItemView, template, itemTemplate)
 	{
+		var itemTemplateCpl = Handlebars.compile(itemTemplate);
 		return Marionette.CompositeView.extend( {
-			//Template HTML string
 			template: Handlebars.compile(template),
-			initialize: function() {
-			},
-			
 			itemView: PostItemView,
-			
+			itemViewContainer: '.related-posts-body',
+			itemViewOptions: {
+				template : itemTemplateCpl,
+				className: 'related-post-module-wrapper'
+			}
 		});
 	});
