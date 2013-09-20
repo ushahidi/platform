@@ -1,14 +1,14 @@
-define(['marionette', 'controllers/Controller'],
-	function(Marionette, Controller) {
+define(['marionette'],
+	function(Marionette) {
 		return Marionette.AppRouter.extend(
 		{
 			appRoutes :
 			{
-				"" : "index",
-				"views/list" : "viewsList",
-				"views/map" : "viewsMap",
-				"posts/:id" : "postDetail",
-				"*path" : "index"
+				'' : 'index',
+				'views/list' : 'viewsList',
+				'views/map' : 'viewsMap',
+				'posts/:id' : 'postDetail',
+				'*path' : 'index'
 			}
 		});
-	}); 
+	});

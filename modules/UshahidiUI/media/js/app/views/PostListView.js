@@ -1,12 +1,13 @@
-define(['App', 'marionette', 'handlebars', 'views/PostItemView',
+define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
 		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
-	function( App, Marionette, Handlebars, PostItemView,
+	function( App, Marionette, Handlebars, _, PostItemView,
 		template, paginationTemplate, postListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
 		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
 
-		return Marionette.CompositeView.extend( {
+		return Marionette.CompositeView.extend(
+		{
 			//Template HTML string
 			template: Handlebars.compile(template),
 			// Lets just store the partial templates somewhere usefule
@@ -17,9 +18,9 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 			},
 			initialize: function()
 			{
-				this.listenTo(this.collection, "add", this.updatePagination, this);
-				this.listenTo(this.collection, "remove", this.updatePagination, this);
-				this.listenTo(this.collection, "reset", this.updatePagination, this);
+				this.listenTo(this.collection, 'add', this.updatePagination, this);
+				this.listenTo(this.collection, 'remove', this.updatePagination, this);
+				this.listenTo(this.collection, 'reset', this.updatePagination, this);
 			},
 			
 			itemView: PostItemView,
@@ -42,7 +43,8 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 			
 			showHideBulkActions : function ()
 			{
-				$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked')
+				var $checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked');
+				
 				if ($checked.length > 0)
 				{
 					this.$('.js-list-view-bulk-actions').removeClass('hidden');
@@ -69,8 +71,11 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 			{
 				e.preventDefault();
 				// Already at last page, skip
-				if (this.collection.state.lastPage <= this.collection.state.currentPage) return;
-
+				if (this.collection.state.lastPage <= this.collection.state.currentPage)
+				{
+					return;
+				}
+				
 				this.collection.getNextPage();
 				this.updatePagination();
 			},
@@ -78,7 +83,10 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 			{
 				e.preventDefault();
 				// Already at last page, skip
-				if (this.collection.state.firstPage >= this.collection.state.currentPage) return;
+				if (this.collection.state.firstPage >= this.collection.state.currentPage)
+				{
+					return;
+				}
 
 				this.collection.getPreviousPage();
 				this.updatePagination();
@@ -87,7 +95,10 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 			{
 				e.preventDefault();
 				// Already at last page, skip
-				if (this.collection.state.firstPage >= this.collection.state.currentPage) return;
+				if (this.collection.state.firstPage >= this.collection.state.currentPage)
+				{
+					return;
+				}
 
 				this.collection.getFirstPage();
 				this.updatePagination();
@@ -96,22 +107,27 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 			{
 				e.preventDefault();
 				// Already at last page, skip
-				if (this.collection.state.lastPage <= this.collection.state.currentPage) return;
+				if (this.collection.state.lastPage <= this.collection.state.currentPage)
+				{
+					return;
+				}
 
 				this.collection.getLastPage();
 				this.updatePagination();
 			},
 			showPage : function (e)
 			{
+				var $el = this.$(e.currentTarget),
+						num = 0;
+				
 				e.preventDefault();
-				var $el = this.$(e.currentTarget);
-				var num = 0;
+				
 				_.each(
-					$el.attr('class').split(" "),
+					$el.attr('class').split(' '),
 					function (v) {
-						if (v.indexOf("page-") === 0)
+						if (v.indexOf('page-') === 0)
 						{
-							num = v.replace("page-", "");
+							num = v.replace('page-', '');
 						}
 					}
 				);
@@ -131,8 +147,8 @@ define(['App', 'marionette', 'handlebars', 'views/PostItemView',
 			updatePageSize : function (e)
 			{
 				e.preventDefault();
-				var size = parseInt(this.$('#filter-posts-count').val());
-				if (typeof size == 'number' && size > 0)
+				var size = parseInt(this.$('#filter-posts-count').val(), 10);
+				if (typeof size === 'number' && size > 0)
 				{
 					this.collection.setPageSize(size, {
 						first: true
