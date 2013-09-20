@@ -79,27 +79,32 @@ define(['App', 'backbone', 'marionette',
 						model;
 
 				App.vent.trigger('page:change', 'posts/:id');
+				// @TODO find a way to reuse post detail views
 				postDetailLayout = new PostDetailLayout();
 				this.layout.mainRegion.show(postDetailLayout);
 
 				// @todo improve this to avoid double loading of model (and race conditions)
-				model = App.Collections.Posts.get(id);
-				if (typeof model === 'undefined')
+				//model = App.Collections.Posts.get({id : id});
+				model = new PostModel({id: id});
+				model.fetch().done(function ()
 				{
-					model = new PostModel({id: id});
-					model.fetch();
-				}
+					model.fetchRelations();
+				});
 
-				// @TODO find a way to reuse post detail views
+				// Make sure we have loaded the form and user before we render the post details
+				model.relationsCallback.done(function()
+				{
+					postDetailLayout.postDetailRegion.show(new PostDetailView({
+						model: model
+					}));
+					postDetailLayout.relatedPostsRegion.show(new RelatedPostsView());
+				});
+
 				postDetailLayout.mapRegion.show(new MapView({
 					className : 'mapView postDetailsMapView',
 					collapsed : true,
 					model : model
 				}));
-				postDetailLayout.postDetailRegion.show(new PostDetailView({
-					model: model
-				}));
-				postDetailLayout.relatedPostsRegion.show(new RelatedPostsView());
 			}
 		});
 	});

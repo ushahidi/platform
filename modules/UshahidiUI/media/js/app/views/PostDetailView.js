@@ -10,9 +10,9 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostDet
 			serializeData: function()
 			{
 				var data = _.extend(this.model.toJSON(), {
-					published : this.model.published(),
-					tags : this.model.tags(),
-					user : this.model.user()
+					isPublished : this.model.isPublished(),
+					tags : this.model.getTags(),
+					user : this.model.user.toJSON()
 				});
 				return data;
 			},

@@ -24,7 +24,13 @@
 				<div class="post-meta-details">
 					<h6>Post Details</h6>
 					<div class="post-author">
-						<p><i class="icon-user"></i><strong class="" >{{#if author}}<a href="#users/{{id}}">{{first_name}} {{last_name}}</a>{{else}}Anonymous{{/if}}</strong></p>
+						<p><i class="icon-user"></i><strong class="" >
+							{{#if user}}
+								<a href="#users/{{user.id}}">{{user.first_name}} {{user.last_name}}</a>
+							{{else}}
+								Anonymous
+							{{/if}}
+						</strong></p>
 					</div> <!-- end .post-author -->
 
 					<div class="post-location-meta">
@@ -36,7 +42,7 @@
 					</div> <!-- end .post-time-meta -->
 
 					<div class="post-privacy-status">
-						{{#if published}}
+						{{#if isPublished}}
 							<p><i class="icon-unlock"></i><strong class="post-time" >Published</strong></p>
 						{{else}}
 							{{!-- @todo add ucfirst handler and format status --}}
