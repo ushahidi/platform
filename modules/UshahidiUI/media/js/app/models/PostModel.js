@@ -17,7 +17,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						user,
 						form;
 				
-				if (typeof this.get('user') !== 'undefined')
+				if (this.get('user'))
 				{
 					user = new UserModel({
 						id: this.get('user').id
@@ -25,7 +25,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					requests.push(user.fetch());
 				}
 
-				if (typeof this.get('form') !== 'undefined')
+				if (this.get('form'))
 				{
 					form = new FormModel({
 						id: this.get('form').id

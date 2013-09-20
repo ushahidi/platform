@@ -27,7 +27,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostLis
 			{
 				var data = _.extend(this.model.toJSON(), {
 					isPublished : this.model.isPublished(),
-					tags : this.model.getTags()
+					tags : this.model.getTags(),
+					user : this.model.user ? this.model.user.toJSON() : null
 				});
 				return data;
 			}
