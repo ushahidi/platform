@@ -5,7 +5,6 @@ require.config(
 	// probably a good idea to keep version numbers in the file names for updates checking
 	paths :
 	{
-		// Core Libraries
 		'jquery' : '../libs/jquery',
 		'underscore' : '../libs/lodash',
 		'backbone' : '../libs/backbone',
@@ -19,12 +18,10 @@ require.config(
 		'underscore.string' : '../libs/underscore.string',
 		'foundation' : '../libs/foundation',
 		'foundation-loader' : '../libs/foundation-loader',
-
-		// Plugins
-		'backbone.validateAll' : '../libs/plugins/Backbone.validateAll',
-		'backbone-pageable' : '../libs/plugins/backbone-pageable',
-		'handlebars-paginate' : '../libs/plugins/handlebars-paginate',
-		'text' : '../libs/plugins/text'
+		'backbone.validateAll' : '../libs/Backbone.validateAll',
+		'backbone-pageable' : '../libs/backbone-pageable',
+		'handlebars-paginate' : '../libs/handlebars-paginate',
+		'text' : '../libs/requirejs-text'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
