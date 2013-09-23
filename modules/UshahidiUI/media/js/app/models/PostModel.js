@@ -45,6 +45,21 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				});
 			},
 			
+			/**
+			 * Accessor function for custom field values
+			 * 
+			 * @param string key to return from 'values' object
+			 * @return value from 'values' object
+			 **/
+			getValue : function (key)
+			{
+				var values = this.get('values');
+				if (values)
+				{
+					return values[key];
+				}
+			},
+			
 			isPublished : function ()
 			{
 				if (this.get('status') === 'published')
@@ -60,6 +75,44 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					var tagModel = App.Collections.Tags.get(tag.id);
 					return tagModel ? tagModel.toJSON() : null;
 				});
+			},
+			
+			/**
+			 * Get the first populated location field we find
+			 * @TODO update this with a way to control which location field is returned
+			 * @return object lat/lon values for the location
+			 **/
+			getLocation : function ()
+			{
+				var groups,
+						g,
+						attributes,
+						a,
+						attribute;
+				
+				if (! this.form)
+				{
+					return;
+				}
+				
+				// Loop over all attributes to find a location
+				groups = this.form.get('groups');
+				loop_groups : for (g = 0; g < groups.length; g++)
+				{
+					attributes = groups[g].attributes;
+					loop_attributes : for (a = 0; a < attributes.length; a++)
+					{
+						attribute = attributes[a];
+						// Is it point? do we have a value for it?
+						if (attribute.type === 'point' && this.getValue(attribute.key))
+						{
+							// Return the first point attribute with a value we find
+							return this.getValue(attribute.key);
+						}
+					}
+				}
+				
+				return false;
 			}
 		});
 

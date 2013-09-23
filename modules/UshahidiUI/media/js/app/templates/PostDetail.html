@@ -33,9 +33,11 @@
 						</strong></p>
 					</div> <!-- end .post-author -->
 
+					{{#if location}}
 					<div class="post-location-meta">
-						<p><i class="icon-map-marker"></i><span class="post-location  underline" ><a href=""> London, UK</a></span></p>
+						<p><i class="icon-map-marker"></i><span class="post-location  underline" ><a href="">{{location.lat}}, {{location.lon}}</a></span></p>
 					</div> <!-- end .post-location-meta -->
+					{{/if}}
 
 					<div class="post-time-meta">
 						<p><i class="icon-time"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>

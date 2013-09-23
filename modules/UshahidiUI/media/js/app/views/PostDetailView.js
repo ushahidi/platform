@@ -12,7 +12,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostDet
 				var data = _.extend(this.model.toJSON(), {
 					isPublished : this.model.isPublished(),
 					tags : this.model.getTags(),
-					user : this.model.user ? this.model.user.toJSON() : null
+					user : this.model.user ? this.model.user.toJSON() : null,
+					location : this.model.getLocation()
 				});
 				return data;
 			},
