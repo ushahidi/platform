@@ -1,9 +1,13 @@
 define(['App', 'backbone', 'marionette',
-	'views/AppLayout', 'views/HomeLayout', 'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/MapView',
-	'views/PostListView', 'views/PostDetailView','collections/PostCollection','collections/TagCollection','collections/FormCollection'],
+	'views/AppLayout', 'views/HomeLayout', 'views/PostDetailLayout',
+	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView',
+	'views/MapView','views/PostListView','views/PostDetailView','views/RelatedPostsView',
+	'collections/PostCollection','collections/TagCollection','collections/FormCollection','models/PostModel'],
 	function(App, Backbone, Marionette,
-		AppLayout, HomeLayout, HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
-		PostListView, PostDetailView, PostCollection, TagCollection, FormCollection)
+		AppLayout, HomeLayout, PostDetailLayout,
+		HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
+		PostListView, PostDetailView, RelatedPostsView,
+		PostCollection, TagCollection, FormCollection, PostModel)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -40,7 +44,9 @@ define(['App', 'backbone', 'marionette',
 				App.homeLayout.contentRegion.show(new PostListView({
 					collection: App.Collections.Posts
 				}));
-				App.homeLayout.mapRegion.show(new MapView());
+				App.homeLayout.mapRegion.show(new MapView({
+					collection : App.Collections.Posts
+				}));
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
 			viewsList : function()
@@ -62,16 +68,45 @@ define(['App', 'backbone', 'marionette',
 				
 				// Nothing bound to content region
 				App.homeLayout.contentRegion.close();
-				App.homeLayout.mapRegion.show(new MapView());
+				App.homeLayout.mapRegion.show(new MapView({
+					collection : App.Collections.Posts
+				}));
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
 			postDetail : function(id)
 			{
-				App.vent.trigger('page:change', 'posts/:id');
-				this.layout.mainRegion.show(new PostDetailView({
-					model: App.Collections.Posts.get(id)
-				}));
+				var postDetailLayout,
+						model;
 
+				App.vent.trigger('page:change', 'posts/:id');
+				// @TODO find a way to reuse post detail views
+				postDetailLayout = new PostDetailLayout();
+				this.layout.mainRegion.show(postDetailLayout);
+
+				// @todo improve this to avoid double loading of model (and race conditions)
+				//model = App.Collections.Posts.get({id : id});
+				model = new PostModel({id: id});
+				model.fetch().done(function ()
+				{
+					model.fetchRelations();
+				});
+
+				// Make sure we have loaded the form and user before we render the post details
+				model.relationsCallback.done(function()
+				{
+					postDetailLayout.postDetailRegion.show(new PostDetailView({
+						model: model
+					}));
+					postDetailLayout.relatedPostsRegion.show(new RelatedPostsView({
+						collection : new PostCollection(App.Collections.Posts.slice(0, 3)) // fake related posts with first 3 from default collection
+					}));
+				});
+
+				postDetailLayout.mapRegion.show(new MapView({
+					className : 'mapView postDetailsMapView',
+					collapsed : true,
+					model : model
+				}));
 			}
 		});
 	});

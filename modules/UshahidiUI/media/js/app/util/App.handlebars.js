@@ -40,6 +40,26 @@ define(['handlebars', 'moment', 'underscore.string', 'handlebars-paginate'],
 		});
 		
 		Handlebars.registerHelper('paginate', paginate);
+		
+		/** 
+		 * Based on newLineToBR here: https://github.com/elving/swag/blob/master/lib/swag.js
+		 **/
+		Handlebars.registerHelper('newLineToBr', function(options)
+		{
+			var str;
+			
+			// Has this helper been used directly or as a block helper?
+			if (typeof options === 'string')
+			{
+				str = Handlebars.Utils.escapeExpression(options);
+			}
+			else
+			{
+				str = options.fn(this);
+			}
+
+			return new Handlebars.SafeString(str.replace(/\r?\n|\r/g, '<br>'));
+		});
 
 		return Handlebars;
 	});

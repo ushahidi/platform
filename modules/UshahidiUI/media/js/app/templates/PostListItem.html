@@ -31,7 +31,7 @@
 				<h6>Categories</h6>
 				<ul class="list-view-post-categories">
 					{{#each tags}}
-					<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}><i class="icon-circle" style="color: #{{color}}"></i>{{tag}}</li></a>
+					<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}><i class="icon-circle" {{#if color}}style="color: #{{color}}"{{/if}}></i>{{tag}}</li></a>
 					{{/each}}
 				</ul>
 			</div> <!-- end .list-view-post-categories-wrapper -->
@@ -42,7 +42,7 @@
 					<li><a href="#" class="small  secondary  radius  button  post-edit"> <i class="icon-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
 					<li><a href="#" class="small  secondary  radius  button  post-set"  data-reveal-id="add-to-set"> <i class="icon-plus-sign"></i> <span class="hide-for-medium-down">set</span></a></li>
 					<li>
-						{{#if published}}
+						{{#if isPublished}}
 							<a href="#" class="small  secondary  radius  button  post-unpublish"> <i class="icon-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
 						{{else}}
 							<a href="#" class="small  secondary  radius  button  post-publish"> <i class="icon-file"></i> <span class="hide-for-medium-down">publish</span></a>

@@ -14,6 +14,7 @@
 	@include grid-column(12);
 	background-color: $white;
 	@extend .box-shadow;
+	margin-left: 0;
 	p {
 		font-size: $medium-font-size;
 	}

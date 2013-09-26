@@ -26,11 +26,9 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostLis
 			serializeData: function()
 			{
 				var data = _.extend(this.model.toJSON(), {
-					published : this.model.published(),
-					tags : _.map(this.model.get('tags'), function(tag) {
-						var tagModel = App.Collections.Tags.get(tag.id);
-						return tagModel ? tagModel.toJSON() : null;
-					})
+					isPublished : this.model.isPublished(),
+					tags : this.model.getTags(),
+					user : this.model.user ? this.model.user.toJSON() : null
 				});
 				return data;
 			}

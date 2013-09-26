@@ -1,5 +1,5 @@
-define(['App', 'marionette', 'handlebars', 'text!templates/PostDetail.html'],
-	function( App, Marionette, Handlebars, template)
+define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostDetail.html'],
+	function( App, Marionette, _, Handlebars, template)
 	{
 		//CollectionView provides some default rendering logic
 		return Marionette.ItemView.extend(
@@ -7,6 +7,16 @@ define(['App', 'marionette', 'handlebars', 'text!templates/PostDetail.html'],
 			//Template HTML string
 			template: Handlebars.compile(template),
 			
-			itemViewContainer: '.post-details'
+			serializeData: function()
+			{
+				var data = _.extend(this.model.toJSON(), {
+					isPublished : this.model.isPublished(),
+					tags : this.model.getTags(),
+					user : this.model.user ? this.model.user.toJSON() : null,
+					location : this.model.getLocation()
+				});
+				return data;
+			}
+
 		});
 	});
