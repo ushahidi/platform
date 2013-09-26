@@ -68,6 +68,10 @@ class Model_User extends Model_Auth_User {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'email' => array(
 				array('Valid::email'),
 				array(array($this, 'unique'), array(':field', ':value')),
