@@ -6101,7 +6101,7 @@ nav[role="sub-navigation"] li a {
       position: relative;
       padding-left: 0;
       padding-right: 0;
-      width: 66.66667%;
+      width: 50%;
       float: left; } }
 
 /* line 74, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
@@ -6121,7 +6121,7 @@ nav[role="sub-navigation"] li a {
       position: relative;
       padding-left: 0;
       padding-right: 0;
-      width: 33.33333%;
+      width: 50%;
       float: left;
       margin-top: 0; } }
 

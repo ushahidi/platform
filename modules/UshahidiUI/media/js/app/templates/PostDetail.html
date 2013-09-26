@@ -13,6 +13,14 @@
 			<ul class="post-actions">
 				<li><a href="#" class="small  secondary  radius  button"> <i class="icon-edit"></i>edit</a></li>
 				<li><a href="#" class="small  secondary  radius  button"> <i class="icon-plus-sign"></i>set</a></li>
+				<li>
+					{{#if isPublished}}
+						<a href="#" class="small  secondary  radius  button  post-unpublish"> <i class="icon-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
+					{{else}}
+						<a href="#" class="small  secondary  radius  button  post-publish"> <i class="icon-file"></i> <span class="hide-for-medium-down">publish</span></a>
+					{{/if}}
+				</li>
+				<li><a href="#" class="small  secondary  radius  button  post-delete"> <i class="icon-trash"></i></a></li>
 			</ul>
 		</div> <!-- end .post-actions -->
 
