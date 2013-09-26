@@ -14,6 +14,7 @@
 		$POST DETAILS MAP
 \*------------------------------------*/
 
+// @TODO remove this - only needed for UI prototype
 .post-details-map {
 	height: 200px;
 	border-bottom: 3px solid $darkBlue;
@@ -23,6 +24,15 @@
 				border-image: url(../images/search-bg.png) repeat;*/
 }
 
+.postDetailsMapView {
+	.map {
+		border-bottom: 3px solid $darkBlue;
+	}
+	.map-collapse {
+		height: 200px;
+		opacity: 1;
+	}
+}
 
 
 
