@@ -1,5 +1,5 @@
-define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oauth', 'text!templates/Map.html'],
-	function(Marionette, Handlebars, _, App, L, OAuth, template)
+define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oauth', 'text!templates/Map.html', 'text!templates/Popup.html'],
+	function(Marionette, Handlebars, _, App, L, OAuth, template, popupTemplate)
 	{
 		// Hack to fix default image url
 		L.Icon.Default.imagePath = App.config.baseurl + 'media/kohana/images';
@@ -7,6 +7,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
+			popupTemplate : Handlebars.compile(popupTemplate),
 			collapsed : false,
 			className : 'mapView',
 			/**
@@ -92,7 +93,16 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 				
 				// Add the posts marker layer
 				// @TODO split this out so we can manually update the map layer, without redrawing the map
-				posts = L.geoJson().addTo(this.map);
+				posts = L.geoJson([], {
+					onEachFeature: function (feature, layer)
+					{
+						// does this feature have a property named popupContent?
+						if (feature.properties && feature.properties.title)
+						{
+							layer.bindPopup(that.popupTemplate(feature.properties));
+						}
+					}
+				}).addTo(this.map);
 				OAuth.ajax({
 					url : this.dataURL,
 					success: function (data) {
