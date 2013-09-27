@@ -70,7 +70,8 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						posts;
 				
 				// Don't re-render the map
-				if (typeof this.map !== 'undefined') {
+				if (typeof this.map !== 'undefined')
+				{
 					return this;
 				}
 				
