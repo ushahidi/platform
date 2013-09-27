@@ -96,7 +96,11 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 				OAuth.ajax({
 					url : this.dataURL,
 					success: function (data) {
+						// If geojson was empty, return
+						if (data.features.length == 0) return;
+
 						posts.addData(data);
+
 						// Center map on post markers
 						//map.fitBounds(posts.getBounds()).setZoom(5);
 						map.panTo(posts.getBounds().getCenter(), { animate: false });
