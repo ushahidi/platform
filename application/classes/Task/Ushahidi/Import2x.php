@@ -36,6 +36,10 @@
  * --hostname=hostname
  *
  *   Specify the mysql hostname to import from
+ * 
+ * --form-id=id
+ * 
+ *   Specify existing form ID to use for imported posts
  *
  * --clean
  *
@@ -84,7 +88,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		'username'    => FALSE,
 		'password'    => FALSE,
 		'proxy'       => FALSE,
-		'batch-size'  => FALSE
+		'batch-size'  => FALSE,
+		'form-id'     => FALSE
 	);
 	
 	/**
@@ -180,7 +185,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				
 				return TRUE;
 			}, array(':validation', ':value'))
-			->rule('batch-size', 'numeric');
+			->rule('batch-size', 'numeric')
+			->rule('form-id', 'numeric');
 	}
 
 	/**
@@ -206,6 +212,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		$use_external   = $options['use-external'];
 		$this->proxy    = $options['proxy'];
 		$batch_size     = $options['batch-size'];
+		$form_id        = $options['form-id'];
 		
 		$source         = $options['source'];
 		$url            = $options['url'];
@@ -261,8 +268,11 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$this->_clean_db();
 		}
 		
-		// Create 2.x style form
-		$form_id = $this->_create_form();
+		// Create 2.x style form if --form-id param not passed
+		if (! $form_id)
+		{
+			$form_id = $this->_create_form();
+		}
 		
 		if($source == 'sql')
 		{
@@ -958,6 +968,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	/**
 	 * Create 2.x style form
 	 * @return form id
+	 * @todo auto detect existing form and/or attributes
 	 */
 	protected function _create_form()
 	{
