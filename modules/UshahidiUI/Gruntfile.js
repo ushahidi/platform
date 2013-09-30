@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 		{
 			sass :
 			{
-				files : ['media/scss/*.scss'],
+				files : ['media/scss/*.scss', 'media/scss/modules/*.scss', 'media/scss/base/*.scss'],
 				tasks : ['compass']
 			}
 		}
