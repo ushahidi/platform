@@ -44,6 +44,7 @@
  * --clean
  *
  *   Clean the 3.x DB before importing. This will wipe any existing data.
+ *   This option is not compatible with use_externl=url (although can be used with --use_external)
  *
  * --proxy=proxy
  *
@@ -185,6 +186,13 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				
 				return TRUE;
 			}, array(':validation', ':value'))
+			// Reject clean if also using external url
+			->rule('clean', function($validation, $value, $data) {
+				if (is_string($data['use-external']))
+				{
+					return FALSE;
+				}
+			}, array(':validation', ':value', ':data'))
 			->rule('batch-size', 'numeric')
 			->rule('form-id', 'numeric');
 	}
