@@ -32,6 +32,10 @@ class TaskImport2xTest extends Unittest_TestCase {
 				'database' => $config['connection']['database'],
 				'username' => $config['connection']['username'],
 				'password' => $config['connection']['password'],
+				'oauth-client-id' => 'demoapp',
+				'oauth-client-secret' => 'demopass',
+				'dest-username' => 'robbie',
+				'dest-password' => 'testing',
 				'clean' => TRUE,
 			));
 			Log::$write_on_add = FALSE; // avoid dumping output to stdout
@@ -69,6 +73,10 @@ Imported 152 posts/");
 				'source' => 'api',
 				'url' => 'http://demo.ushahidi.com',
 				'clean' => TRUE,
+				'oauth-client-id' => 'demoapp',
+				'oauth-client-secret' => 'demopass',
+				'dest-username' => 'robbie',
+				'dest-password' => 'testing',
 			));
 			Log::$write_on_add = FALSE; // avoid dumping output to stdout
 			$task->execute();
