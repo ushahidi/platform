@@ -24,9 +24,10 @@ class RestContext extends BehatContext
 	private $_client            = null;
 	private $_response          = null;
 	private $_requestUrl        = null;
-	private $_apiUrl           = 'api/v2';
+	private $_apiUrl            = 'api/v2';
 
-	private $_parameters			= array();
+	private $_parameters        = array();
+	private $_headers           = array();
 
 	/**
 	 * Initializes context.
@@ -34,8 +35,6 @@ class RestContext extends BehatContext
 	 */
 	public function __construct(array $parameters)
 	{
-		// Initialize your context here
-
 		$this->_restObject = new stdClass();
 		$this->_parameters = $parameters;
 		
@@ -78,6 +77,7 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^that I want to update a "([^"]*)"$/
+	 * @Given /^that I want to update an "([^"]*)"$/
 	 */
 	public function thatIWantToUpdateA($objectType)
 	{
@@ -90,6 +90,7 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^that I want to find a "([^"]*)"$/
+	 * @Given /^that I want to find an "([^"]*)"$/
 	 */
 	public function thatIWantToFindA($objectType)
 	{
@@ -114,6 +115,7 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^that I want to delete a "([^"]*)"$/
+	 * @Given /^that I want to delete an "([^"]*)"$/
 	 */
 	public function thatIWantToDeleteA($objectType)
 	{
@@ -126,18 +128,21 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^that the request "([^"]*)" is:$/
+	 * @Given /^that the request "([^"]*)" is "([^"]*)"$/
+	 * @Given /^that its "([^"]*)" is "([^"]*)"$/
 	 */
-	public function thatTheRequestIs($propertyName, $propertyValue)
+	public function thatTheRequestPropertyIs($propertyName, $propertyValue)
 	{
 		$this->_restObject->$propertyName = $propertyValue;
 	}
 
 	/**
-	 * @Given /^that its "([^"]*)" is "([^"]*)"$/
+	 * @Given /^that the request "([^"]*)" header is:$/
+	 * @Given /^that the request "([^"]*)" header is "([^"]*)"$/
 	 */
-	public function thatItsIs($propertyName, $propertyValue)
+	public function thatTheRequestHeaderIs($headerName, $headerValue)
 	{
-		$this->_restObject->$propertyName = $propertyValue;
+		$this->_headers[$headerName] = $headerValue;
 	}
 		
 	/**
@@ -151,26 +156,39 @@ class RestContext extends BehatContext
 			case 'GET':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$query_string = ( isset($request['query string']) ) ? '?'.$request['query string'] : '';
+				$query_string = ( isset($request['query string']) ) ? '?'.trim($request['query string']) : '';
 				$http_request = $this->_client
-					->get($this->_requestUrl.'/'.$id.$query_string);
+					->get(
+						$this->_requestUrl.'/'.$id.$query_string,
+						$this->_headers
+					);
 				break;
 			case 'POST':
 				$postFields = (array)$this->_restObject;
 				$http_request = $this->_client
-					->post($this->_requestUrl,null,$postFields['data']);
+					->post(
+						$this->_requestUrl,
+						$this->_headers,
+						$postFields['data']
+					);
 				break;
 			case 'PUT':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$http_request = $this->_client
-					->put($this->_requestUrl.'/'.$id,null,$request['data']);
+					->put(
+						$this->_requestUrl.'/'.$id,
+						$this->_headers,
+						$request['data']);
 				break;
 			case 'DELETE':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$http_request = $this->_client
-					->delete($this->_requestUrl.'/'.$id);
+					->delete(
+						$this->_requestUrl.'/'.$id,
+						$this->_headers
+					);
 				break;
 		}
 
@@ -277,6 +295,7 @@ class RestContext extends BehatContext
 
 	/**
 	 * @Given /^the response has a "([^"]*)" property$/
+	 * @Given /^the response has an "([^"]*)" property$/
 	 */
 	public function theResponseHasAProperty($propertyName)
 	{
@@ -291,6 +310,7 @@ class RestContext extends BehatContext
 	
 	/**
 	 * @Given /^the response does not have a "([^"]*)" property$/
+	 * @Given /^the response does not have an "([^"]*)" property$/
 	 */
 	public function theResponseDoesNotHaveAProperty($propertyName)
 	{
@@ -351,6 +371,31 @@ class RestContext extends BehatContext
 			throw new \Exception("Property '".$propertyName."' could not be compared. Must be string or array.\n");
 		}
 	}
+	
+	/**
+	 * @Given /^the "([^"]*)" property count is "([^"]*)"$/
+	 */
+	public function thePropertyCountIs($propertyName, $propertyCountValue)
+	{
+		
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+
+		$this->theResponseIsJson();
+
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === NULL) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+		
+		if (is_array($actualPropertyValue) AND count($actualPropertyValue) != $propertyCountValue) {
+			throw new \Exception('Property \''.$propertyName.'\' count does not match! (given: '.$propertyCountValue.', match: '.count($actualPropertyValue).')');
+		}
+		elseif (!is_array($actualPropertyValue))
+		{
+			throw new \Exception("Property '".$propertyName."' could not be compared. Must be an array.\n");
+		}
+	}
 
 	/**
 	 * @Given /^the type of the "([^"]*)" property is "([^"]*)"$/
@@ -377,15 +422,16 @@ class RestContext extends BehatContext
 	}
 
 	/**
-	 * @Then /^the response status code should be (\d+)$/
+	 * @Then /^the guzzle status code should be (\d+)$/
 	 */
-	public function theResponseStatusCodeShouldBe($httpStatus)
+	public function theRestResponseStatusCodeShouldBe($httpStatus)
 	{
 		if ((string)$this->_response->getStatusCode() !== $httpStatus) {
 			throw new \Exception('HTTP code does not match '.$httpStatus.
 				' (actual: '.$this->_response->getStatusCode().')');
 		}
 	}
+
 
 	 /**
 	 * @Then /^echo last response$/
@@ -396,6 +442,14 @@ class RestContext extends BehatContext
 			$this->_requestUrl."\n\n".
 			$this->_response
 		);
+	}
+	
+	/**
+	 * @Given /^that the api_url is "([^"]*)"$/
+	 */
+	public function thatTheApiUrlIs($api_url)
+	{
+		$this->_apiUrl = $api_url;
 	}
 	
 	/**

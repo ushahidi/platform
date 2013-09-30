@@ -1,4 +1,4 @@
-@post
+@post @oauth2Skip
 Feature: Testing the Updates API
 
     @resetFixture
@@ -9,14 +9,14 @@ Feature: Testing the Updates API
         And the response has a "count" property
         And the type of the "count" property is "numeric"
         And the "count" property equals "2"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Listing All Updates on a non-existent Post
         Given that I want to get all "Updates"
         When I request "/posts/999/updates"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     @resetFixture
     Scenario: Search All Posts by form id
@@ -30,7 +30,7 @@ Feature: Testing the Updates API
         And the response has a "count" property
         And the type of the "count" property is "numeric"
         And the "count" property equals "1"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a Update
         Given that I want to find a "Update"
@@ -39,7 +39,7 @@ Feature: Testing the Updates API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Update
         Given that I want to find a "Update"
@@ -47,7 +47,7 @@ Feature: Testing the Updates API
         When I request "/posts/99/updates"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Fail to find a Report as Update
         Given that I want to find a "Update"
@@ -55,7 +55,7 @@ Feature: Testing the Updates API
         When I request "/posts/99/updates"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Creating a new Update
         Given that I want to make a new "Update"
@@ -81,7 +81,7 @@ Feature: Testing the Updates API
         And the type of the "id" property is "numeric"
         And the response has a "title" property
         And the "title" property equals "Test update"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Updating a Update
         Given that I want to update a "Update"
@@ -108,7 +108,7 @@ Feature: Testing the Updates API
         And the type of the "id" property is "numeric"
         And the response has a "title" property
         And the "title" property equals "Test update updated"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Updating a non-existent Update
         Given that I want to update a "Update"
@@ -132,7 +132,7 @@ Feature: Testing the Updates API
         When I request "/posts/99/updates"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Updating a Update with non-existent Post
         Given that I want to update a "Update"
@@ -156,7 +156,7 @@ Feature: Testing the Updates API
         When I request "/posts/35/updates"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Deleting a Update
         Given that I want to delete a "Update"
@@ -164,7 +164,7 @@ Feature: Testing the Updates API
         When I request "/posts/99/updates"
         Then the response is JSON
         And the response has a "id" property
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Fail to delete a non existent Update
         Given that I want to delete a "Update"
@@ -172,4 +172,4 @@ Feature: Testing the Updates API
         When I request "/posts/99/updates"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404

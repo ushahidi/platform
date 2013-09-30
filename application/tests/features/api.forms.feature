@@ -1,3 +1,4 @@
+@oauth2Skip
 Feature: Testing the Forms API
 
     Scenario: Creating a new Form
@@ -57,7 +58,7 @@ Feature: Testing the Forms API
         And the "groups.0.attributes.1.priority" property equals "11"
         And the "groups.0.attributes.2.default" property equals "Missing"
         And the "groups.0.attributes.2.options.1" property equals "Alive"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Updating a Form
         Given that I want to update a "Form"
@@ -77,7 +78,7 @@ Feature: Testing the Forms API
         And the "id" property equals "1"
         And the response has a "name" property
         And the "name" property equals "Updated Test Form"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Update a non-existent Form
         Given that I want to update a "Form"
@@ -93,7 +94,7 @@ Feature: Testing the Forms API
         When I request "/forms"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Listing All Forms
         Given that I want to get all "Forms"
@@ -101,7 +102,7 @@ Feature: Testing the Forms API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a Form
         Given that I want to find a "Form"
@@ -110,7 +111,7 @@ Feature: Testing the Forms API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Form
         Given that I want to find a "Form"
@@ -118,7 +119,7 @@ Feature: Testing the Forms API
         When I request "/forms"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404
 
     Scenario: Deleting a Form
         Given that I want to delete a "Form"
@@ -126,7 +127,7 @@ Feature: Testing the Forms API
         When I request "/forms"
         Then the response is JSON
         And the response has a "id" property
-        Then the response status code should be 200
+        Then the guzzle status code should be 200
 
     Scenario: Fail to delete a non existent Form
         Given that I want to delete a "Form"
@@ -134,4 +135,4 @@ Feature: Testing the Forms API
         When I request "/forms"
         Then the response is JSON
         And the response has a "errors" property
-        Then the response status code should be 404
+        Then the guzzle status code should be 404

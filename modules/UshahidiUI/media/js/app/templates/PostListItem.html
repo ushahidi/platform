@@ -1,0 +1,57 @@
+<div class="list-view-select-post  js-list-view-select-post">
+	<form>
+		<label class="visually-hidden" for="select-post">Select Post</label>
+		<input type="checkbox" id="select-post">
+	</form>
+</div> <!-- end .list-view-select-post -->
+
+<div class="row">
+	<article>
+		<div class="list-view-post-image">
+			<img src="{{imageurl "mini-coop.png"}}" alt="">
+		</div> <!-- end .list-view-post-image -->
+
+		<div class="list-view-post-details">
+			<div class="row">
+				<h5 class="list-view-post-title"><a href="#posts/{{id}}">{{ title }}</a> <i class="icon-lock"></i></h5>
+				<div class="list-view-post-time">
+					<p> <i class="icon-time"></i>{{ datetime-calendar created }}</p>
+				</div> <!-- end .list-view-post-time -->
+			</div> <!-- end .row -->
+		</div> <!-- end .list-view-post-details -->
+
+		<div class="list-view-post-excerpt">
+			<p>{{ prune content 100 }} <a href="#posts/{{id}}"><span class="read-more">&nbsp;Read&nbsp;More</span></a></p>
+		</div> <!-- end .list-view-post-excerpt -->
+
+		<div class="list-view-post-admin">
+
+			{{#if tags}}
+			<div class="list-view-post-categories-wrapper">
+				<h6>Categories</h6>
+				<ul class="list-view-post-categories">
+					{{#each tags}}
+					<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}><i class="icon-circle" {{#if color}}style="color: #{{color}}"{{/if}}></i>{{tag}}</li></a>
+					{{/each}}
+				</ul>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+			{{/if}}
+			
+			<div class="list-view-post-edit-wrapper">
+				<ul class="list-view-post-edit">
+					<li><a href="#" class="small  secondary  radius  button  post-edit"> <i class="icon-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+					<li><a href="#" class="small  secondary  radius  button  post-set"  data-reveal-id="add-to-set"> <i class="icon-plus-sign"></i> <span class="hide-for-medium-down">set</span></a></li>
+					<li>
+						{{#if isPublished}}
+							<a href="#" class="small  secondary  radius  button  post-unpublish"> <i class="icon-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
+						{{else}}
+							<a href="#" class="small  secondary  radius  button  post-publish"> <i class="icon-file"></i> <span class="hide-for-medium-down">publish</span></a>
+						{{/if}}
+					</li>
+					<li><a href="#" class="small  secondary  radius  button  post-delete"> <i class="icon-trash"></i></a></li>
+				</ul> <!-- end .list-view-post-edit -->
+			</div> <!-- end .list-view-post-edit-wrapper -->
+			
+		</div> <!-- end .list-view-post-admin -->
+	</article>
+</div> <!-- end .row -->

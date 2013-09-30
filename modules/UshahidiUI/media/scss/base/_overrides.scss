@@ -1,0 +1,77 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * GENERAL OVERRIDES............general restyles
+ * BUTTON OVERRIDES...............restyling foundation buttons
+ * SOCIAL BUTTONS...............custom social buttons
+ */
+
+
+
+
+
+/*------------------------------------*\
+		$GENERAL OVERRIDES
+\*------------------------------------*/
+
+.body-wrapper {
+	@include grid-column(12);
+	margin-top: 20px;
+}
+
+
+
+
+/*------------------------------------*\
+		$BUTTON OVERRIDES
+\*------------------------------------*/
+
+a.button {
+letter-spacing: .1em;
+}
+
+button.secondary, .button.secondary {
+	@include transition (background-color 0ms ease-in-out);
+}
+
+button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
+	background-color: $blueGray;
+	color: $white;
+	@include transition (background-color 0ms ease-in-out);
+}
+
+.button.secondary:hover {
+	background-color: $alert-color;
+}
+
+
+
+
+/*------------------------------------*\
+    $SOCIAL BUTTONS
+\*------------------------------------*/
+
+button.facebook, .button.facebook {
+	background-color: $facebook-color;
+}
+
+.button.facebook:hover {
+	background-color: darken($facebook-color, 10);
+}
+
+button.twitter, .button.twitter {
+	background-color: $twitter-color;
+}
+
+.button.twitter:hover {
+	background-color: darken($twitter-color, 10);
+}
+
+button.google, .button.google {
+	background-color: $google-color;
+}
+
+.button.google:hover {
+	background-color: darken($google-color, 10);
+}

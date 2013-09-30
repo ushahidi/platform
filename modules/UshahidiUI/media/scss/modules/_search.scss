@@ -1,0 +1,103 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * COLLAPSE MAP...............collapse and expand map tab
+ * SEARCH BAR...............search bar body
+ * SEARCH FORM FIELDS...............search bar input and dropdown fields
+ */
+
+
+
+
+
+/*------------------------------------*\
+		$SEARCH BAR
+\*------------------------------------*/
+.search-bar {
+	@include grid-column(12);
+	@extend .box-shadow;
+	background: $darkBlue url(../images/search-bg.jpg) repeat;
+	width: 100%;
+	border-top: 3px solid darken($blue, 5%);
+	padding-top: 2em;
+}
+
+.search-form-wrapper {
+	@include grid-row;
+}
+
+
+
+
+/*------------------------------------*\
+		$SEARCH FORM FIELDS
+\*------------------------------------*/
+
+.search-field {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(12);
+	}
+	@media #{$medium} {
+		@include grid-column(3, $collapse: true);
+	}
+}
+
+.search-bar .search-field input[type="text"] {
+	@media #{$medium} {
+		-webkit-border-radius: $global-radius 0 0 $global-radius;
+			-moz-border-radius: $global-radius 0 0 $global-radius;
+				border-radius: $global-radius 0 0 $global-radius;
+		}
+	}
+
+.categories-select {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(6)
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.sets-select {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(6)
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.location-select {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(6)
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.time-select {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(6)
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.search-bar-button {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(12)
+	}
+	@media #{$medium} {
+		@include grid-column(1, $collapse: true);
+	}
+}

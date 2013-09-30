@@ -53,6 +53,10 @@ class Model_Form_Attribute extends ORM {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'form_id' => array(
 				array('numeric'),
 			),

@@ -88,6 +88,10 @@ class Model_Post extends ORM {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'form_id' => array(
 				array('not_empty'),
 				array('numeric'),
@@ -132,17 +136,6 @@ class Model_Post extends ORM {
 				array('alpha_dash', array(':value', TRUE)),
 				array('max_length', array(':value', 150)),
 				array(array($this, 'unique_slug'), array(':field', ':value'))
-			),
-			
-			// Post author
-			'author' => array(
-				array('max_length', array(':value', 150))
-			),
-			
-			// Post email
-			'email' => array(
-				array('max_length', array(':value', 150)),
-				array('email')
 			),
 			
 			// Post locale
@@ -302,8 +295,6 @@ class Model_Post extends ORM {
 				'content' => $this->content,
 				'status' => $this->status,
 				'type' => $this->type,
-				'email' => $this->email,
-				'author' => $this->author,
 				'slug' => $this->slug,
 				'locale' => $this->locale,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))

@@ -1,0 +1,31 @@
+{
+  "name": "Ushahidi-Lamu-UI",
+  "title": "Ushahidi Lamu UI",
+  "description": "",
+  "version": "1.0.0",
+  "homepage": "https://github.com/ushahidi/Lamu",
+  "author": {
+    "name": "Ushahidi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ushahidi/Lamu.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ushahidi/Lamu/issues"
+  },
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-compass": "~0.3.0",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-contrib-imagemin": "~0.1.4",
+    "grunt-autoprefixer": "~0.2.20130806"
+  },
+  "keywords": ["Ushahidi", "Lamu"]
+}
