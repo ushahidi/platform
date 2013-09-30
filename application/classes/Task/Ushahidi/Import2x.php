@@ -37,6 +37,16 @@
  *
  *   Specify the mysql hostname to import from
  * 
+ * --dest-username=username
+ * --dest-password=password
+ * 
+ *   Username and password of an admin user on the V3 deployment we are importing into
+ * 
+ * --oauth-client-id=id
+ * --oauth-client-secret=secret
+ * 
+ *   OAuth client details for the V3 deployment we are importing into
+ * 
  * --form-id=id
  * 
  *   Specify existing form ID to use for imported posts
