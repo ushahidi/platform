@@ -88,6 +88,10 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		'database'    => FALSE,
 		'username'    => FALSE,
 		'password'    => FALSE,
+		'dest-username'      => FALSE,
+		'dest-password'      => FALSE,
+		'oauth-client-id'    => FALSE,
+		'oauth-client-secret'=> FALSE,
 		'proxy'       => FALSE,
 		'batch-size'  => FALSE,
 		'form-id'     => FALSE
@@ -110,6 +114,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	 * @param Int|Boolean
 	 */
 	protected $batch_size = 20;
+	
+	/**
+	 * OAuth Access token for V3 destination
+	 * @param String|Boolean
+	 */
+	protected $oauth_token = FALSE;
 	
 	/**
 	 * Log instance
@@ -229,6 +239,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		$database       = $options['database'];
 		$hostname       = $options['hostname'];
 		
+		// V3 oauth creds
+		$oauth_client_id      = $options['oauth-client-id'];
+		$oauth_client_secret  = $options['oauth-client-secret'];
+		$dest_username        = $options['dest-username'];
+		$dest_password        = $options['dest-password'];
+		
 		// Check log levels based on quiet/verbose/debug option
 		if ($debug)
 		{
@@ -275,6 +291,18 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$this->logger->add(Log::NOTICE, 'Cleaning DB');
 			$this->_clean_db();
 		}
+		
+		// OAuth juggling
+		$response = $this->_request('oauth/token')
+			->method(Request::POST)
+			->body("grant_type=password&client_id={$oauth_client_id}&client_secret={$oauth_client_secret}&username={$dest_username}&password={$dest_password}&scope=api posts forms")
+			->execute();
+		$body = json_decode($response->body(), TRUE);
+		if (! isset($body['access_token']))
+		{
+			throw new Minion_Exception("Error getting oauth token. Details:\n\n :error", array(':error' => $response->body()));
+		}
+		$this->oauth_token = $body['access_token'];
 		
 		// Create 2.x style form if --form-id param not passed
 		if (! $form_id)
@@ -379,12 +407,24 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	 */
 	protected function _request($location)
 	{
-		if ($this->use_external AND stripos($location, 'http') === FALSE)
+		$V3 = FALSE;
+		if (stripos($location, 'http') === FALSE)
+		{
+			$V3 = TRUE;
+		}
+		
+		if ($this->use_external AND $V3)
 		{
 			$location = $this->use_external.$location;
 		}
 		
 		$request = Request::factory($location);
+		
+		if ($V3)
+		{
+			// add oauth token
+			$request->headers('Authorization', 'Bearer ' . $this->oauth_token);
+		}
 		
 		if ($this->proxy AND $request->client() instanceof Request_Client_External)
 		{
