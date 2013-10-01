@@ -20,6 +20,7 @@ Feature: Testing the Users API
 		And the type of the "id" property is "numeric"
 		And the response has a "email" property
 		And the "email" property equals "linda@ushahidi.com"
+		And the response does not have a "password" property
 		Then the guzzle status code should be 200
 
 	Scenario: Updating a User
