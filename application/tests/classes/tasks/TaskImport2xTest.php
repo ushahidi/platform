@@ -50,7 +50,8 @@ class TaskImport2xTest extends Unittest_TestCase {
 		$this->expectOutputRegex("/.*
 Created 'Classic Report Form', ID: 1.
 Imported 20 tags.
-Imported 152 posts/");
+Imported 152 posts.
+Imported 10 users./");
 	}
 
 	/**
@@ -90,7 +91,8 @@ Imported 152 posts/");
 		$this->expectOutputRegex("/.*
 Created 'Classic Report Form', ID: 1.
 Imported [0-9]+ tags.
-Imported [0-9]+ posts/");
+Imported [0-9]+ posts.
+Imported [0-9]+ users./");
 	}
 
 }
