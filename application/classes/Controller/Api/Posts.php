@@ -349,8 +349,21 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 		
+		// unpack user to get user_id
+		if (isset($post_data['user']))
+		{
+			if (is_array($post_data['user']) AND isset($post_data['user']['id']))
+			{
+				$post_data['user_id'] = $post_data['user']['id'];
+			}
+			elseif (is_numeric($post_data['user']))
+			{
+				$post_data['user_id'] = $post_data['user'];
+			}
+		}
+		
 		$post->values($post_data, array(
-			'form_id', 'title', 'content', 'status', 'slug', 'locale'
+			'form_id', 'title', 'content', 'status', 'slug', 'locale', 'user_id'
 			));
 		$post->parent_id = $this->_parent_id;
 		$post->type = $this->_type;
