@@ -42,10 +42,15 @@ To install the platform on your computer/server, the target system must meet the
     - nginx
 * Unicode support in the operating system
 
+
+### Submodules
+You must initialize and update submodules 
+Run git submodule update --init
+
 ### Installing
 
 1. Create a database
-2. Copy ```appliication/config/database.php``` to ```application/config/environments/development/database.php```
+2. Copy ```application/config/database.php``` to ```application/config/environments/development/database.php```
 3. Edit ```application/config/environments/development/database.php``` and set database, username and password params
 
 	```
@@ -72,10 +77,11 @@ To install the platform on your computer/server, the target system must meet the
 4. Install the database schema using migrations
 
   ```./minion --task=migrations:run --up```
-5. Copy ```appliication/config/init.php``` to ```application/config/environments/development/init.php```
+5. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
 6. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
 7. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
 8. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
+9. Create directories application/cache and application/logs and make them writable
 
 ### Configuration
 
