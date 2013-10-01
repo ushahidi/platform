@@ -52,10 +52,13 @@ class Model_User extends Model_Auth_User {
 	 */
 	public function filters()
 	{
-		return array(
-			'username' => array(
-				array('trim'),
-			),
+		return Arr::merge(
+			parent::filters(),
+			array(
+				'username' => array(
+					array('trim'),
+				),
+			)
 		);
 	}
 
