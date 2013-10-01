@@ -224,7 +224,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	 */
 	protected function _execute(array $options)
 	{
-		$post_count = $category_count = 0;
+		$post_count = $category_count = $user_count = 0;
 		
 		ini_set('memory_limit', -1); // Disable memory limit
 		
@@ -299,7 +299,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		if ($clean)
 		{
 			$this->logger->add(Log::NOTICE, 'Cleaning DB');
-			$this->_clean_db();
+			$this->_clean_db($dest_username);
 		}
 		
 		// OAuth juggling
@@ -340,11 +340,11 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			);
 			$this->db2->connect();
 			
-			$category_count = $this->_sql_import_categories($url, $username, $password);
+			$category_count = $this->_sql_import_categories();
+			
+			$user_count = $this->_sql_import_users();
 			
 			$post_count = $this->_sql_import_reports($form_id);
-			
-			// @todo import users
 		}
 		elseif ($source == 'api')
 		{
@@ -366,6 +366,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$category_count = $this->_api_import_categories($url, $username, $password);
 			
 			$post_count = $this->_api_import_reports($form_id, $url, $username, $password);
+			
+			// @todo import users, needs 2.x API first
 		}
 
 		$view = View::factory('minion/task/ushahidi/import2x')
@@ -375,6 +377,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			->set('form_id', $form_id)
 			->set('post_count', $post_count)
 			->set('category_count', $category_count)
+			->set('user_count', $user_count)
 			->set('memory_used', memory_get_peak_usage());
 
 		echo $view;
@@ -385,7 +388,10 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		}
 	}
 
-	protected function _clean_db()
+	/**
+	 * Empty DB tables
+	 */
+	protected function _clean_db($dest_username)
 	{
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=0;")->execute();
 		// Forms, Attributes, Groups
@@ -408,6 +414,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		// Sets
 		DB::query(Database::DELETE, "TRUNCATE TABLE sets")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts_sets")->execute();
+		// Users
+		DB::query(Database::DELETE, "DELETE FROM users where username <> :username")->bind(':username', $dest_username)->execute();
 		
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
 	}
@@ -551,8 +559,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					"form" => $form_id,
 					"title" => substr($incident['incidenttitle'], 0, 150), // Make we don't exceed the max length.
 					"content" => $incident['incidentdescription'],
-					"author" => "",
-					"email" => "",
+					//"author" => "",
+					//"email" => "",
 					"type" => "report",
 					"status" => $incident['incidentactive'] ? 'published' : 'draft',
 					"locale" => "en_US",
@@ -663,6 +671,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					SELECT *, i.id AS incident_id FROM incident i 
 					LEFT JOIN incident_person p ON (i.id = p.incident_id)
 					LEFT JOIN location l ON (i.location_id = l.id)
+					LEFT JOIN users u ON (i.user_id = u.id)
 					ORDER BY i.id ASC LIMIT :limit OFFSET :offset
 				')
 				->parameters(array(':limit' => $limit, ':offset' => $offset))
@@ -724,12 +733,41 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					}
 				}
 				
+				$author = NULL;
+				// If report has user email
+				if (! empty($report['email']) AND isset($this->user_map[$report['email']]))
+				{
+					$author = array(
+						'id' => $this->user_map[$report['email']]
+					);
+				}
+				// Source report has person info
+				// @todo handle incident_person w/o email, requires changes to Posts API
+				elseif (! empty($report['person_email']) /*OR ! empty($report['person_first']) OR ! empty($report['person_last'])*/)
+				{
+					// Already got this user
+					if (isset($this->user_map[$report['person_email']]))
+					{
+						$author = array(
+							'id' => $this->user_map[$report['person_email']]
+						);
+					}
+					// New user
+					else
+					{
+						$author = array(
+							"first_name" => $report['person_first'],
+							"last_name" => $report['person_last'],
+							"email" => $report['person_email'],
+						);
+					}
+				}
+				
 				$body = json_encode(array(
 					"form" => $form_id,
 					"title" => substr($report['incident_title'], 0, 150), // Make we don't exceed the max length.
 					"content" => $report['incident_description'],
-					"author" => "",
-					"email" => "",
+					"user" => $author,
 					"type" => "report",
 					"status" => $report['incident_active'] ? 'published' : 'draft',
 					"locale" => "en_US",
@@ -772,6 +810,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 						':error' => $post_response->body(),
 						':body' => $body
 						));
+				}
+
+				// If we auto created author user
+				if (isset($author['email']) AND !empty($post['user']['id']))
+				{
+					$users[$author['email']] = $post['user']['id'];
 				}
 
 				$this->logger->add(Log::INFO, "new post id: :id", array(':id' => $post['id']));
@@ -1022,6 +1066,70 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		
 		return $category_count;
 	}
+
+	/**
+	 * Import users
+	 */
+	protected function _sql_import_users()
+	{
+		$user_count = 0;
+		$this->user_map = array();
+		
+		// Grab existing users, and add to user map
+		$existing_users_response = $this->_request("api/v2/users")
+			->method(Request::GET)
+			->execute();
+		$existing_users = json_decode($existing_users_response->body(), TRUE);
+		if (! isset($existing_users['count']))
+		{
+			throw new Minion_Exception("Error getting existing users. Details:\n\n :error", array(
+				':error' => $existing_users_response->body()
+				));
+		}
+		foreach ($existing_users['results'] as $user)
+		{
+			$this->user_map[$user['email']] = $user['id'];
+			$this->user_map[$user['username']] = $user['id'];
+		}
+		
+		$this->logger->add(Log::NOTICE, 'Fetching users');
+		$users = DB::query(Database::SELECT, 'SELECT * FROM users ORDER BY id ASC')->execute($this->db2);
+		
+		$this->logger->add(Log::NOTICE, 'Importing users');
+		foreach ($users as $user)
+		{
+			// Skip any existing users
+			if (isset($this->user_map[$user['email']]) OR isset($this->user_map[$user['username']])) continue;
+			
+			$body = json_encode(array(
+				"email" => $user['email'],
+				"first_name" => $user['name'],
+				"last_name" => '',
+				"username" => $user['username'],
+				'password' => $this->_get_random_str(),
+			));
+			$user_response = $this->_request("api/v2/users")
+			->method(Request::POST)
+			->body($body)
+			->execute();
+			
+			$user = json_decode($user_response->body(), TRUE);
+			if (! isset($user['id']))
+			{
+				throw new Minion_Exception("Error creating user. Details:\n\n :error \n\n Request Body: :body", array(
+					':error' => $user_response->body(),
+					':body' => $body
+					));
+			}
+			$this->user_map[$user['email']] = $user['id'];
+			
+			$user_count++;
+			
+			unset($user_response, $user, $body);
+		}
+		
+		return $user_count;
+	}
 	
 	/**
 	 * Create 2.x style form
@@ -1059,6 +1167,43 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		}
 		
 		return $form_body['id'];
+	}
+	
+	/**
+	 * Generates a random alpha-numeric string
+	 *
+	 * @param length
+	 * @return string
+	 */
+	protected function _get_random_str($length = 24)
+	{
+		// Characters to be used for random string generatino
+		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+[]{};:,./?`~';
+		
+		// Split the pool into an array of characters
+		$pool = str_split($pool, 1);
+		
+		$max = count($pool) - 1;
+		
+		$str = '';
+		for ($i=0; $i < $length; $i++)
+		{
+			$str .= $pool[mt_rand(0, $max)];
+		}
+		
+		// Ensure the string has at least one digit and one letter
+		if (ctype_alpha($str))
+		{
+			// Add a random digit at a randomly chosen position
+			$str[mt_rand(0, $length - 1)] = chr(mt_rand(23, 61));
+		}
+		elseif (ctype_digit($str))
+		{
+			// Add a random character at a randomly chosen position
+			$str[mt_rand(0, $length - 1)] = chr(mt_rand(65, 90));
+		}
+		
+		return $str;
 	}
 
 }
