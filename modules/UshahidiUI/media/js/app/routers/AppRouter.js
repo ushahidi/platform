@@ -9,6 +9,8 @@ define(['marionette'],
 				'views/map' : 'viewsMap',
 				'posts/:id' : 'postDetail',
 				'sets' : 'sets',
+				'login' : 'login',
+				'register' : 'register',
 				'*path' : 'index'
 			}
 		});
