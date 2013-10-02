@@ -308,9 +308,14 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			->body("grant_type=password&client_id={$oauth_client_id}&client_secret={$oauth_client_secret}&username={$dest_username}&password={$dest_password}&scope=api posts forms")
 			->execute();
 		$body = json_decode($response->body(), TRUE);
-		if (! isset($body['access_token']))
+		if ($response->status() != 200 OR ! isset($body['access_token']))
 		{
-			throw new Minion_Exception("Error getting oauth token. Details:\n\n :error", array(':error' => $response->body()));
+			throw new Minion_Exception("Error getting oauth token. Details:\n\n HTTP Status: :status, Body: :error",
+				array(
+					':status' => $response->status(),
+					':error' => $response->body()
+				)
+			);
 		}
 		$this->oauth_token = $body['access_token'];
 		
@@ -356,9 +361,14 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$response = $request->execute();
 			$body = json_decode($response->body(), TRUE);
 			
-			if (! isset($body['payload']['version'][0]['version']))
+			if ($response->status() != 200 OR ! isset($body['payload']['version'][0]['version']))
 			{
-				throw new Minion_Exception("Could not connect to 2.x API. Details:\n\n :error", array(':error' => $response->body()));
+				throw new Minion_Exception("Could not connect to 2.x API. Details:\n\n HTTP Status: :status, Body: :error",
+					array(
+						':status' => $response->status(),
+						':error' => $response->body()
+					)
+				);
 			}
 			
 			$this->logger->add(Log::NOTICE, 'Successfully connected to API. Remote Ushahidi version: :version', array(':version' => $body['payload']['version'][0]['version']));
@@ -496,7 +506,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			$response = $request->execute();
 			$body = json_decode($response->body(), TRUE);
 			
-			if (! isset($body['payload']['incidents']))
+			if (! isset($body['payload']['incidents']) OR $response->status() != 200)
 			{
 				// Check for 'No data' error
 				if (isset($body['payload']['success']) AND $body['payload']['success'] == "true" 
@@ -505,7 +515,12 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					$done = TRUE; continue;
 				}
 				
-				throw new Minion_Exception("Error getting incidents. Details:\n\n :error", array(':error' => $response->body()));
+				throw new Minion_Exception("Error getting incidents. Details:\n\n HTTP Status: :status, Body: :error",
+					array(
+						':status' => $response->status(),
+						':error' => $response->body()
+					)
+				);
 			}
 			
 			$reports = $body['payload']['incidents'];
@@ -877,9 +892,14 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		$cat_response = $cat_request->execute();
 		$cat_body = json_decode($cat_response->body(), TRUE);
 		
-		if (! isset($cat_body['payload']['categories']))
+		if ($cat_response->status() != 200 OR ! isset($cat_body['payload']['categories']))
 		{
-			throw new Minion_Exception("Error getting categories. Details:\n :error", array(':error' => $cat_response->body()));
+			throw new Minion_Exception("Error getting categories. Details:\n\n HTTP Status: :status, Body: :error",
+				array(
+					':status' => $cat_response->status(),
+					':error' => $cat_response->body()
+				)
+			);
 		}
 		
 		$categories = $cat_body['payload']['categories'];
@@ -1153,9 +1173,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			->execute();
 		$form_body = json_decode($form_response->body(), TRUE);
 		
-		if (! isset($form_body['id']))
+		if ($form_response->status() != 200 OR ! isset($form_body['id']))
 		{
-			throw new Minion_Exception("Error creating form. Maybe the form already exists? \nYou can use --clean to wipe the DB before import\nError Details:\n :error", array(':error' => $form_response->body()));
+			throw new Minion_Exception("Error creating form. Maybe the form already exists? \nYou can use --clean to wipe the DB before import\nError Details:\n HTTP Status :status, Body: :error", array(':status' => $form_response->status(), ':error' => $form_response->body()));
 		}
 		
 		$this->logger->add(Log::INFO, "Created form id: :form_id", array(':form_id' => $form_body['id']));
