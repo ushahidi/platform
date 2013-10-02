@@ -73,7 +73,6 @@ abstract class Koauth_Model_OAuth_RefreshToken extends ORM {
 			),
 			
 			'scope' => array(
-				array('alpha_dash'),
 			),
 		);
 	}

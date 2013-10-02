@@ -237,7 +237,16 @@ class Model_Post extends ORM {
 	{
 		if (empty($this->slug))
 		{
-			$this->slug = URL::title($this->title);
+			$this->slug = $this->title;
+			
+			// FIXME horribly inefficient
+			// If the slug exists add a count to the end
+			$i = 1;
+			while (! $this->unique_slug('slug', $this->slug))
+			{
+				$this->slug = $this->title." $i";
+				$i++;
+			}
 		}
 	}
 
