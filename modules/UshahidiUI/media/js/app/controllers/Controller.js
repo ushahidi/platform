@@ -107,6 +107,15 @@ define(['App', 'backbone', 'marionette',
 					collapsed : true,
 					model : model
 				}));
+			},
+			sets : function ()
+			{
+				var that = this;
+				require(['views/SetsView'], function(SetsView)
+				{
+					App.vent.trigger('page:change', 'sets');
+					that.layout.mainRegion.show(new SetsView());
+				});
 			}
 		});
 	});

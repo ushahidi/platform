@@ -8,6 +8,7 @@ define(['marionette'],
 				'views/list' : 'viewsList',
 				'views/map' : 'viewsMap',
 				'posts/:id' : 'postDetail',
+				'sets' : 'sets',
 				'*path' : 'index'
 			}
 		});
