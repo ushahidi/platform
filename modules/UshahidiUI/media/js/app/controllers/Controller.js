@@ -103,7 +103,7 @@ define(['App', 'backbone', 'marionette',
 				});
 
 				postDetailLayout.mapRegion.show(new MapView({
-					className : 'mapView postDetailsMapView',
+					className : 'map-view post-details-map-view',
 					collapsed : true,
 					model : model
 				}));

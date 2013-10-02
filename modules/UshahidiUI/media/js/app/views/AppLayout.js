@@ -5,12 +5,12 @@ define(['App', 'marionette', 'handlebars', 'text!templates/AppLayout.html', 'tex
 		Handlebars.registerPartial('modal', modalTemplate);
 		return Marionette.Layout.extend(
 		{
-			className: 'App',
+			className: 'app-layout',
 			template : Handlebars.compile(template),
 			regions : {
-				headerRegion : '#headerRegion',
-				mainRegion :   '#mainRegion',
-				footerRegion : '#footerRegion',
+				headerRegion : '#header-region',
+				mainRegion :   '#main-region',
+				footerRegion : '#footer-region',
 				workspacePanel : '#workspace-panel'
 			}
 		});
