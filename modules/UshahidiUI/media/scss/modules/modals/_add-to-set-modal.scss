@@ -48,32 +48,6 @@
 	}
 }
 
-/*green check icon styles*/
-/*.set-is-selected {
-	position: relative;
-	top: 40px;
-	margin: 0 auto;
-	width: 40px;
-	height: 0;
-	.icon-stack [class^="icon-"], .icon-stack [class*=" icon-"] {
-		font-size: 3em;
-	}
-	.icon-stack {
-		height: 0;
-		display: block;
-		width: 1em;
-		height: 1em;
-		line-height: 1em;
-	}
-
-	.icon-circle {
-		color: $white;
-	}
-	.icon-ok-sign {
-		color: $success-color;
-	}
-}*/
-
 .set-is-selected {
 	position: absolute;
 	background-color: $success-color;

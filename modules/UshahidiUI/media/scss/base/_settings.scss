@@ -112,12 +112,14 @@ $small-screen: 768px;
 $medium-screen: 1024px;
 $medium-up-screen: 1025px;
 $large-screen: 1440px;
+$large-up-screen: 2200px;
 
 $screen: "only screen";
 $small: "only screen and (min-width: #{$small-screen})";
 $medium: "only screen and (min-width: #{$medium-screen})";
 $medium-up: "only screen and (min-width: #{$medium-up-screen})";
 $large: "only screen and (min-width: #{$large-screen})";
+$large-up: "only screen and (min-width: #{$large-up-screen})";
 $landscape: "only screen and (orientation: landscape)";
 $portrait: "only screen and (orientation: portrait)";
 

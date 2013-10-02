@@ -104,7 +104,7 @@
 .workspace-menu {
 	@include grid-row;
 	@include section-container($section-type:accordion);
-	& > section { @include section($section-type:accordion, $title-color:$white, $title-font-size:17px, $content-bg:$lightGray);
+	& > section { @include section($section-type:accordion, $title-color:$white, $title-font-size:17px, $content-bg:$white);
 	}
 	i {
 		padding-left: 10px;
@@ -121,8 +121,8 @@
 
 .workspace-menu>section ul {
   margin: 0;
-    .content {
-      padding: 10px;
+    li {
+      padding: 10px 0;
       &.active {
         background: $section-content-bg-active;
       }
@@ -130,6 +130,9 @@
     		color: $body-font-color;
     		p {
     			margin: 0;
+    			i {
+    				color: $body-font-color;
+    			}
     			span {
     				float: right;
     			}

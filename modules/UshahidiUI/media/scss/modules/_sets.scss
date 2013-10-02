@@ -74,4 +74,10 @@
 	@media #{$medium} {
 		@include block-grid($per-row: 4);
 	}
+	@media #{$large} {
+		@include block-grid($per-row: 2);
+	}
+	@media #{$large-up} {
+		@include block-grid($per-row: 4);
+	}
  }
