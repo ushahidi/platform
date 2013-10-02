@@ -97,9 +97,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		'hostname'    => FALSE,
 		'database'    => FALSE,
 		'username'    => FALSE,
-		'password'    => FALSE,
+		'password'    => "",
 		'dest-username'      => FALSE,
-		'dest-password'      => FALSE,
+		'dest-password'      => "",
 		'oauth-client-id'    => FALSE,
 		'oauth-client-secret'=> FALSE,
 		'proxy'       => FALSE,
@@ -162,59 +162,55 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			->rule('source', 'not_empty')
 			->rule('source', 'in_array', array(':value', array('api', 'sql')) )
 			->rule('url', 'url')
-			->rule('url', function($validation, $value) {
-				$data = $validation->data();
-				if ($data['source'] == 'api')
-				{
-					return Valid::not_empty($value);
-				}
-				
-				return TRUE;
-			}, array(':validation', ':value'))
+			->rule('url', function($validation, $field, $value, $data) {
+					if ($data['source'] == 'api' AND ! Valid::not_empty($value))
+					{
+						$validation->error($field, 'not_empty');
+					}
+				},
+				array(':validation', ':field', ':value', ':data'))
 			// Ensure use_external is either TRUE or a valid url
-			->rule('use-external', function($value) {
-					if ($value === TRUE) return TRUE;
-					
-					if (is_string($value)) return Valid::url($value);
-					
-					return FALSE;
-			}, array(':value'))
-			->rule('username', function($validation, $value) {
-				$data = $validation->data();
-				if ($data['source'] == 'sql')
+			->rule('use-external', function($validation, $field, $value, $data)
 				{
-					return Valid::not_empty($value);
-				}
-				
-				return TRUE;
-			}, array(':validation', ':value'))
-			->rule('password', function($validation, $value) {
-				$data = $validation->data();
-				if ($data['source'] == 'sql')
+						if ($value === TRUE) return TRUE;
+						
+						if (is_string($value) AND ! Valid::url($value))
+						{
+							$validation->error($field, 'url');
+						}
+						
+						return FALSE;
+				},
+				array(':validation', ':field', ':value', ':data'))
+			->rule('username', function($validation, $field, $value, $data)
 				{
-					return Valid::not_empty($value);
-				}
-				
-				return TRUE;
-			}, array(':validation', ':value'))
-			->rule('database', function($validation, $value) {
-				$data = $validation->data();
-				if ($data['source'] == 'sql')
+					if ($data['source'] == 'sql' AND ! Valid::not_empty($value))
+					{
+						$validation->error($field, 'not_empty');
+					}
+				},
+				array(':validation', ':field', ':value', ':data'))
+			->rule('database', function($validation, $field, $value, $data)
 				{
-					return Valid::not_empty($value);
-				}
-				
-				return TRUE;
-			}, array(':validation', ':value'))
+					if ($data['source'] == 'sql' AND ! Valid::not_empty($value))
+					{
+						$validation->error($field, 'not_empty');
+					}
+				},
+				array(':validation', ':field', ':value', ':data'))
 			// Reject clean if also using external url
-			->rule('clean', function($validation, $value, $data) {
-				if (is_string($data['use-external']))
-				{
-					return FALSE;
-				}
-			}, array(':validation', ':value', ':data'))
+			->rule('clean', function($validation, $field, $value, $data) {
+					if ($value AND is_string($data['use-external']))
+					{
+						$validation->error($field, 'incompatible_use_external');
+					}
+				},
+				array(':validation', ':field', ':value', ':data'))
 			->rule('batch-size', 'numeric')
-			->rule('form-id', 'numeric');
+			->rule('form-id', 'numeric')
+			->rule('oauth-client-id', 'not_empty')
+			->rule('oauth-client-secret', 'not_empty')
+			->rule('dest-username', 'not_empty');
 	}
 
 	/**
