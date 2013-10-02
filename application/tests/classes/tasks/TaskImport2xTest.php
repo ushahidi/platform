@@ -60,7 +60,7 @@ class TaskImport2xTest extends Unittest_TestCase {
 Created 'Classic Report Form', ID: 1.
 Imported 20 tags.
 Imported 152 posts.
-Imported 10 users./");
+Imported 11 users./");
 	}
 
 	/**
