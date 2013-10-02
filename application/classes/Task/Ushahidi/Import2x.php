@@ -1118,7 +1118,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			if (isset($this->user_map[$user['email']]) OR isset($this->user_map[$user['username']])) continue;
 			
 			$body = json_encode(array(
-				"email" => $user['email'],
+				"email" => Valid::email($user['email']) ? $user['email'] : NULL,
 				"first_name" => $user['name'],
 				"last_name" => '',
 				"username" => $user['username'],
