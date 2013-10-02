@@ -753,8 +753,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					);
 				}
 				// Source report has person info
-				// @todo handle incident_person w/o email, requires changes to Posts API
-				elseif (! empty($report['person_email']) /*OR ! empty($report['person_first']) OR ! empty($report['person_last'])*/)
+				elseif (! empty($report['person_email']) OR ! empty($report['person_first']) OR ! empty($report['person_last']))
 				{
 					// Already got this user
 					if (isset($this->user_map[$report['person_email']]))
