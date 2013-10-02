@@ -1,0 +1,54 @@
+<section id="add-to-set" class="reveal-modal">
+  <div class="modal-header">
+    <h4>Add to Set</h4>
+    <a class="close-reveal-modal">&#215;</a>
+  </div> <!-- end modal-header -->
+
+  <div class="modal-wrapper">
+    <ul class="sets-grid  js-sets-grid  show-for-medium-up">
+      {% include set-module-mini.html %}
+      {% include set-module-mini.html %}
+      {% include set-module-mini.html %}
+      {% include set-module-mini.html %}
+    </ul> <!-- end .sets-grid -->
+
+    <ul class="sets-grid  show-for-small"> 
+      <a href="#" class="secondary  expand  button">London Transporation</a>
+      <a href="#" class="secondary  expand  button">English Pubs</a>
+      <a href="#" class="secondary  expand  button">Coffee Shops</a>
+      <a href="#" class="secondary  expand  button">Category #4</a>
+      <a href="#" class="secondary  expand  button">Category #5</a>
+      <a href="#" class="secondary  expand  button">Category #6</a>
+    </ul> <!-- end .sets-grid -->
+
+    <div class="more">
+      <h5><a href="">more</a></h5>
+    </div>
+
+  <div class="current-sets-wrapper  show-for-medium-up">
+    <ul class="current-sets">
+      <h5>This post has been added to:</h5>
+      <li>
+        <a href="" class="label  round">London Automobiles</a>
+        <a href=""><i class="icon-remove-circle"></i></a>
+      </li>
+      <li>
+        <a href="" class="label  round">English Pubs</a>
+        <a href=""><i class="icon-remove-circle"></i></a>
+      </li>
+      <li>
+        <a href="" class="label  round">Coffee Shops</a>
+        <a href=""><i class="icon-remove-circle"></i></a>
+      </li>
+    </ul> <!-- end .current-sets -->
+  </div>
+
+  </div> <!-- end modal-wrapper -->
+
+  <section class="modal-footer">
+    <div class="modal-submit">
+      <button type="submit" class="success  radius  expand  button" form="search-form"><i class="icon-cloud-upload  icon-large"></i> Save Changes</button>
+    </div>
+  </section> <!-- end modal-footer -->
+
+</section> <!-- end reveal-modal -->

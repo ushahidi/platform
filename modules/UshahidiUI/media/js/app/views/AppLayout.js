@@ -11,7 +11,8 @@ define(['App', 'marionette', 'handlebars', 'text!templates/AppLayout.html', 'tex
 				headerRegion : '#header-region',
 				mainRegion :   '#main-region',
 				footerRegion : '#footer-region',
-				workspacePanel : '#workspace-panel'
+				workspacePanel : '#workspace-panel',
+				modal : '#modal'
 			}
 		});
 	});

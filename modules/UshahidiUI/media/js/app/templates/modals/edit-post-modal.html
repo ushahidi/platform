@@ -1,0 +1,169 @@
+<section id="edit-post" class="edit-post  js-edit-post  reveal-modal">
+  <div class="modal-header">
+    <h4>Edit Post</h4>
+    <a class="close-reveal-modal">&#215;</a>
+  </div> <!-- end modal-header -->
+
+  <div class="modal-wrapper">
+    <section class="post-details">
+      <div class="post-header">
+        <div class="post-category-marker">
+          <img src="{{ site.baseurl }}/images/category-icon.png" alt="">
+        </div> <!-- end .post-category-marker -->
+
+        <div class="post-title">
+          <h5>Mini Cooper spotted in the streets of London.</h5>
+        </div> <!-- end .post-title -->
+
+      </div> <!-- end .post-header -->
+
+      <div class="post-body">
+        <div class="post-image">
+          <a href="#" class="close-icon">
+            <span class="icon-stack">
+              <i class="icon-circle icon-stack-base"></i>
+              <i class="icon-remove-sign"></i>
+            </span>
+          </a>
+
+          <img src="{{ site.baseurl }}/images/mini-coop.jpg" alt="">
+
+          <div class="post-meta">
+            <div class="post-location-meta">
+              <h6>Post Details</h6>
+              <p><i class="icon-map-marker"></i><span class="post-location" ><a href=""> London, UK</a></span></p>
+            </div> <!-- end .post-location-meta -->
+
+            <div class="post-time-meta">
+              <p><i class="icon-time"></i><strong class="post-time" > 1 hour ago</strong></p>
+            </div> <!-- end .post-time-meta -->
+
+            <div class="post-privacy-status">
+              <p><i class="icon-lock"></i><strong class="post-time" > Private</strong></p>
+            </div> <!-- end .post-privacy-status -->
+
+            <div class="post-categories">
+              <h6>Categories <small class="add-a-category"><a href="#">add</a></small></h6>
+              <ul>
+                <a href="#"><li><i class="icon-circle" style="color: #C50813"></i>Automobiles <i class="icon-remove-sign"></i></li></a>
+                <a href="#"><li><i class="icon-circle" style="color: #23699D;"></i>Transport <i class="icon-remove-sign"></i></li></a>
+                <a href="#"><li><i class="icon-circle" style="color: #4fa425;"></i>London <i class="icon-remove-sign"></i></li></a>
+                <a href="#"><li><i class="icon-circle" style="color: #baac29;"></i>Retro <i class="icon-remove-sign"></i></li></a>
+              </ul>
+            </div> <!-- end .post-categories -->
+          </div> <!-- end .post-meta -->
+
+        </div> <!-- end .post-body -->
+
+        <div class="post-details">
+
+          <div class="post-excerpt  js-post-excerpt">
+            <p>Nullam quis risus eget urna mollis ornare vel eu leo. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec ullamcorper nulla non metus auctor fringilla. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Aenean lacinia bibendum nulla sed consectetur. Aenean lacinia bibendum nulla sed consectetur. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p>
+            <p>Nullam quis risus eget urna mollis ornare vel eu leo. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+          </div> <!-- end .post-excerpt -->
+          <button id="save-text" class="success  radius  expand  button"><i class="icon-pencil  icon-large"></i> Save Text</button>
+
+        </div> <!-- end .post-details -->
+        <hr>
+        <div class="post-thumbnails-wrapper">
+          <ul class="post-thumbnails  js-lightbox-gallery">
+
+            <li class="post-thumbnails-list-item">
+              <a href="#" class="close-icon">
+                <span class="icon-stack">
+                  <i class="icon-circle icon-stack-base"></i>
+                  <i class="icon-remove-sign"></i>
+                </span>
+              </a>
+              <a href="{{ site.baseurl }}/images/mini-coop.jpg"><img src="{{ site.baseurl }}/images/mini-coop.jpg" alt=""></a>
+            </li>
+
+            <li class="post-thumbnails-list-item">
+              <a href="#" class="close-icon">
+                <span class="icon-stack">
+                  <i class="icon-circle icon-stack-base"></i>
+                  <i class="icon-remove-sign"></i>
+                </span>
+              </a>
+              <a href="{{ site.baseurl }}/images/mini-coop-2.jpg"><img src="{{ site.baseurl }}/images/mini-coop-2.jpg" alt=""></a>
+            </li>
+
+            <li class="post-thumbnails-list-item">
+              <a href="#" class="close-icon">
+                <span class="icon-stack">
+                  <i class="icon-circle icon-stack-base"></i>
+                  <i class="icon-remove-sign"></i>
+                </span>
+              </a>
+              <a href="{{ site.baseurl }}/images/mini-coop-3.jpg"><img src="{{ site.baseurl }}/images/mini-coop-3.jpg" alt=""></a>
+            </li>
+
+            <li class="post-thumbnails-list-item">
+              <a href="#" class="close-icon">
+                <span class="icon-stack">
+                  <i class="icon-circle icon-stack-base"></i>
+                  <i class="icon-remove-sign"></i>
+                </span>
+              </a>
+              <a href="{{ site.baseurl }}/images/mini-coop-4.jpg"><img src="{{ site.baseurl }}/images/mini-coop-4.jpg" alt=""></a>
+            </li>
+
+          </ul>
+        </div> <!-- end .post-thumbnails-wrapper -->
+
+        <div class="post-wrapper">
+          <div class="post-status">
+            <h6>Post Status</h6>
+            <ul class="post-status-list">
+              <li><i class="icon-thumbs-down"></i> Unverified</li>
+              <li><i class="icon-file-alt"></i> Published</li>
+              <li><i class="icon-lock"></i> Private</li>
+            </ul>
+          </div>
+
+          <div class="post-history">
+            <h6>Post History</h6>
+            <ul class="post-history-list">
+
+              <li class="post-history-list-item">edited by <span class="post-history-name"><a href="#">{User Name}</a></span></li>
+              <div class="post-history-time"><span><i class="icon-time"></i> 3 hours ago</span></div>
+
+              <li class="post-history-list-item">published by <span class="post-history-name"><a href="#">{Admin Display Title}</a></span></li>
+              <div class="post-history-time"><span><i class="icon-time"></i> 6 hours ago</span></div>
+
+              <li class="post-history-list-item">created by <span class="post-history-name"><a href="#">{Anonymous}</a></span></li>
+              <div class="post-history-time"><span><i class="icon-time"></i> 14 hours ago</span></div>
+
+            </ul>
+          </div>
+        </div>
+
+
+
+      </div> <!-- end .post-body -->
+    </section> <!-- end .post -->
+
+  </div> <!-- end modal-wrapper -->
+
+  <section class="modal-footer">
+    <h1 class="visually-hidden">Add Media</h1>
+    <div class="media-bar">
+      <div class="media-bar-uploads-wrap">
+        <ul class="media-bar-uploads">
+          <li id="upload-location" class="select-icon upload-location"><a href="#" title="Add Location"><i class="icon-map-marker"></i></a></li>
+          <li id="upload-image" class="select-icon upload-image"><a href="#" title="Add Image"><i class="icon-picture"></i></a></li>
+          <li id="upload-video" class="select-icon upload-video"><a href="#" title="Add Video"><i class="icon-facetime-video"></i></a></li>
+          <li id="upload-link" class="select-icon upload-link"><a href="#" title="Add Link"><i class="icon-link"></i></a></li>
+          <li id="upload-audio" class="select-icon upload-audio"><a href="#" title="Add Audio"><i class="icon-microphone"></i></a></li>
+        </ul>
+      </div>
+    </div> <!-- end media bar -->
+
+    <div class="modal-submit">
+      <button class="success  radius  expand  button"><i class="icon-cloud-upload  icon-large"></i> Save Changes</button>
+    </div>
+
+  </section> <!-- end modal-footer -->
+
+</section> <!-- end reveal-modal -->
