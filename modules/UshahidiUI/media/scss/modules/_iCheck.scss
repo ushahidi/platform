@@ -26,7 +26,7 @@
 	padding: 0;
 	width: 35px;
 	height: 35px;
-	background: url(../images/category-checkbox.png) no-repeat;
+	background: image-url("category-checkbox.png") no-repeat;
 	border: none;
 	cursor: pointer;
 	position: relative;
@@ -48,7 +48,7 @@
 			 only screen and (-o-min-device-pixel-ratio: 3/2),
 			 only screen and (min-device-pixel-ratio: 1.5) {
 	.icheckbox_square {
-			background-image: url(../images/category-checkbox@2x.png);
+			background-image: image-url("category-checkbox@2x.png");
 			-webkit-background-size: 240px 24px;
 			background-size: 240px 24px;
 	}

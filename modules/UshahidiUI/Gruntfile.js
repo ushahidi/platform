@@ -65,9 +65,7 @@ module.exports = function(grunt) {
 			{
 				options :
 				{
-					sassDir : 'media/scss',
-					cssDir : 'media/css/test',
-					outputStyle : 'nested'
+					config : 'config-dev.rb'
 				}
 			},
 
