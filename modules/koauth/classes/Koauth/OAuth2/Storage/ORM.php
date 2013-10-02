@@ -86,13 +86,21 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_Authorization
 			->where('access_token', '=', $access_token)
 			->find();
 		
-		$token
-			->set('access_token', $access_token)
-			->set('client_id', $client_id)
-			->set('expires', $expires)
-			->set('user_id', $user_id)
-			->set('scope', $scope)
-			->save();
+		try {
+			$token
+				->set('access_token', $access_token)
+				->set('client_id', $client_id)
+				->set('expires', $expires)
+				->set('user_id', $user_id)
+				->set('scope', $scope)
+				->save();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			throw new HTTP_Exception_500('Error saving access token: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->errors('models')))
+				));
+		}
 	}
 
 	/* AuthorizationCodeInterface */
@@ -122,13 +130,21 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_Authorization
 			->where('authorization_code', '=', $authorization_code)
 			->find();
 
-		$code_model->set('authorization_code', $authorization_code)
-			->set('client_id', $client_id)
-			->set('user_id', $user_id)
-			->set('redirect_uri', $redirect_uri)
-			->set('expires', $expires)
-			->set('scope', $scope)
-			->save();
+		try {
+			$code_model->set('authorization_code', $authorization_code)
+				->set('client_id', $client_id)
+				->set('user_id', $user_id)
+				->set('redirect_uri', $redirect_uri)
+				->set('expires', $expires)
+				->set('scope', $scope)
+				->save();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			throw new HTTP_Exception_500('Error saving authorization code: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->errors('models')))
+				));
+		}
 	}
 
 	public function expireAuthorizationCode($authorization_code)
@@ -191,13 +207,21 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_Authorization
 		// convert expires to datestring
 		$expires = date('Y-m-d H:i:s', $expires);
 
-		ORM::factory($this->config['refresh_token_model'])
-			->set('refresh_token', $refresh_token)
-			->set('client_id', $client_id)
-			->set('user_id', $user_id)
-			->set('expires', $expires)
-			->set('scope', $scope)
-			->save();
+		try {
+			ORM::factory($this->config['refresh_token_model'])
+				->set('refresh_token', $refresh_token)
+				->set('client_id', $client_id)
+				->set('user_id', $user_id)
+				->set('expires', $expires)
+				->set('scope', $scope)
+				->save();
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			throw new HTTP_Exception_500('Error saving refresh token: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->errors('models')))
+				));
+		}
 	}
 
 	public function unsetRefreshToken($refresh_token)

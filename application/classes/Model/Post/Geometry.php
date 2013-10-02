@@ -42,6 +42,8 @@ class Model_Post_Geometry extends Model_Post_Value {
 
 	public function validate_wkt($value)
 	{
+		if (! is_string($value)) return FALSE;
+		
 		$decoder = new gisconverter\WKT();
 		try
 		{

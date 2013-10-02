@@ -25,5 +25,20 @@ return array
 		'charset'      => 'utf8',
 		'caching'      => TRUE,
 		'profiling'    => TRUE,
+	),
+	'TestImport2x' => array
+	(
+		'type'       => 'MySQL',
+		'connection' => array(
+			'hostname'   => 'localhost',
+			'database'   => 'zombie2x',
+			'username'   => 'root',
+			'password'   => '',
+			'persistent' => FALSE,
+		),
+		'table_prefix' => '',
+		'charset'      => 'utf8',
+		'caching'      => TRUE,
+		'profiling'    => TRUE,
 	)
 );
