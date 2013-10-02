@@ -43,15 +43,32 @@ To install the platform on your computer/server, the target system must meet the
 * Unicode support in the operating system
 
 
-### Submodules
-You must initialize and update submodules 
-Run git submodule update --init
+### Getting the code
+
+You can get the code by cloning the github repo.
+
+```
+git clone --recursive https://github.com/ushahidi/Lamu
+```
+
+You need to use ```--recursive``` to initialize and clone all the submodules.
+If you've already cloned without submodules you can already initialize (or update) them but running:
+
+```
+git submodule update --init
+```
 
 ### Installing
 
-1. Create a database
-2. Copy ```application/config/database.php``` to ```application/config/environments/development/database.php```
-3. Edit ```application/config/environments/development/database.php``` and set database, username and password params
+1. Get the code by cloning the git repo
+
+    ```
+    git clone --recursive https://github.com/ushahidi/Lamu
+    ```
+   (```-–recursive``` is needed to make sure submodules are cloned too)
+2. Create a database
+3. Copy ```application/config/database.php``` to ```application/config/environments/development/database.php```
+4. Edit ```application/config/environments/development/database.php``` and set database, username and password params
 
 	```
 	return array
@@ -74,14 +91,20 @@ Run git submodule update --init
 	);
 	```
 
-4. Install the database schema using migrations
+5. Install the database schema using migrations
 
-  ```./minion --task=migrations:run --up```
-5. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
-6. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
-7. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
-8. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
-9. Create directories application/cache and application/logs and make them writable
+  ```
+  ./minion --task=migrations:run --up
+  ```
+6. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
+7. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
+8. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
+9. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
+10. Create directories ```application/cache``` and ```application/logs``` and make sure they're writeable by your webserver
+    ```
+    mkdir application/cache application/logs
+    chown www-data application/cache application/logs
+    ```
 
 ### Configuration
 
