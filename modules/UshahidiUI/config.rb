@@ -12,8 +12,8 @@ images_dir = "media/images"
 javascripts_dir = "media/js"
 fonts_dir = "media/fonts"
 
-#output_style = :compressed
-output_style = :nested
+output_style = :compressed
+#output_style = :nested
 
 relative_assets = true
 

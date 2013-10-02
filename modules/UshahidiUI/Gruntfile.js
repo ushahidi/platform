@@ -67,7 +67,7 @@ module.exports = function(grunt) {
 				{
 					sassDir : 'media/scss',
 					cssDir : 'media/css/test',
-					outputStyle : 'expanded'
+					outputStyle : 'nested'
 				}
 			},
 
