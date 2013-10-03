@@ -91,20 +91,21 @@ git submodule update --init
 	);
 	```
 
-5. Install the database schema using migrations
-
-  ```
-  ./minion --task=migrations:run --up
-  ```
-6. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
-7. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
-8. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
-9. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
-10. Create directories ```application/cache``` and ```application/logs``` and make sure they're writeable by your webserver
+5. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
+6. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
+7. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
+8. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
+9. Create directories ```application/cache``` and ```application/logs``` and make sure they're writeable by your webserver
     ```
     mkdir application/cache application/logs
     chown www-data application/cache application/logs
     ```
+10. Install the database schema using migrations
+
+  ```
+  ./minion --task=migrations:run --up
+  ```
+
 
 ### Configuration
 
