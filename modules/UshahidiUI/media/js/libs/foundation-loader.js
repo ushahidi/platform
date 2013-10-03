@@ -1,5 +1,6 @@
 define(["jquery", 
 		"foundation/foundation",
+		"foundation/foundation.abide",
 		"foundation/foundation.alerts",
 		"foundation/foundation.clearing",
 		"foundation/foundation.cookie",

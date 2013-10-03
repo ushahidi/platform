@@ -9,7 +9,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			template : Handlebars.compile(template),
 			popupTemplate : Handlebars.compile(popupTemplate),
 			collapsed : false,
-			className : 'mapView',
+			className : 'map-view',
 			/**
 			 * Initialize the map view
 			 * 

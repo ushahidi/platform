@@ -1,0 +1,145 @@
+.edit-post section.post-details {
+	@extend .post;
+	padding: 0;
+	h6 {
+		margin-bottom: 15px
+	}
+	@media #{$medium} {
+		@include grid-column(12);
+		padding: 0;
+	}
+}
+
+.edit-post .post-title {
+	@include grid-column(10, $collapse: true);
+}
+
+.close-icon {
+	color: $body-font-color;
+}
+
+.edit-post .post-image {
+	.icon-stack {
+		position: absolute;
+		top: -15px;
+		right: -21px;
+		.icon-circle {
+			color: $white;
+		}
+		[class^="icon-"], [class*=" icon-"] {
+			font-size: 1.5em;
+		}
+	}
+}
+
+.edit-post .post-categories {
+	@include grid-column(12, $collapse: true);
+	.add-a-category a {
+		float: right;
+		margin-top: 6px;
+	}
+	.icon-remove-sign {
+		color: $body-font-color;
+		float: right;
+		font-size: 16px;
+		padding: 0;
+	}
+}
+
+.edit-post .post-excerpt {
+	@media #{$small} {
+		padding-left: 20px;
+	}
+}
+
+textarea {
+	height: 400px;
+	font-family: inherit;
+	font-weight: normal;
+	font-size: 1em;
+	line-height: 1.6;
+	margin-bottom: 1.25em;
+	text-rendering: optimizeLegibility;
+}
+
+.edit-post .post-thumbnails-list-item {
+	position: relative;
+	a {
+		color: $body-font-color;
+	}
+	.icon-stack {
+		position: absolute;
+		top: -15px;
+		right: -12px;
+		.icon-circle {
+			color: $white;
+		}
+		[class^="icon-"], [class*=" icon-"] {
+			font-size: 1.2em;
+		}
+	}
+}
+
+.post-wrapper {
+	@include grid-column(12, $collapse: true);
+	border-top: 1px solid $midGray;
+	padding-top: 20px;
+}
+
+.post-status {
+	margin-bottom: 20px;
+	.post-status-list {
+		margin: 0;
+		li {
+			color: $subheader-font-color;
+			font-size: $small-font-size;
+			padding-right: 5px;
+			margin-bottom: .7em;
+		}
+	}
+	@media #{$small} {
+		@include grid-column(6, $collapse: true);
+	}
+}
+
+.post-history {
+	margin-bottom: 20px;
+	border-top: 1px solid $midGray;
+	padding-top: 20px;
+	.post-history-list {
+		@include grid-column(12, $collapse: true);
+		margin: 0;
+		font-size: $small-font-size;
+		padding-right: 5px;
+		.post-history-list-item {
+			@media #{$small} {
+				@include grid-column(8, $collapse: true)
+			}
+			.post-history-name {
+				font-weight: bold;
+				color: $body-font-color;
+			}
+		}
+	}
+		.post-history-time {
+			color: $subheader-font-color;
+			margin-bottom: .7em;
+			@media #{$small} {
+				@include grid-column(4, $collapse: true)
+			}
+			span {
+				@media #{$small} {
+					float: right;
+				}
+				i {
+					padding-right: 3px;
+				}
+			}
+		}
+
+	@media #{$small} {
+		@include grid-column(6, $collapse: true);
+		border-top: 0;
+		padding-top: 0;
+	}
+}

@@ -25,6 +25,11 @@
 		left: 67%;
 	}
 	@media #{$large} {
+		width: 50%;
+		left: 70%;
+		top: 65px;
+	}
+	@media #{$large-up} {
 		width: 38%;
 		left: 77%;
 		top: 65px;

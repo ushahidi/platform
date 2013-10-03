@@ -6,7 +6,7 @@ define(['App', 'marionette', 'handlebars', 'text!templates/HomeLayout.html'],
 			className: 'layout-home',
 			template : Handlebars.compile(template),
 			regions : {
-				mapRegion : '#mapRegion',
+				mapRegion : '#map-region',
 				searchRegion : '#search-bar',
 				contentRegion : '#post-list-view'
 			}

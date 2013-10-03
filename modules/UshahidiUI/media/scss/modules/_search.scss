@@ -17,7 +17,7 @@
 .search-bar {
 	@include grid-column(12);
 	@extend .box-shadow;
-	background: $darkBlue url(../images/search-bg.jpg) repeat;
+	background: $darkBlue image-url("search-bg.jpg") repeat;
 	width: 100%;
 	border-top: 3px solid darken($blue, 5%);
 	padding-top: 2em;
