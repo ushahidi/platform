@@ -115,6 +115,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			sets : function ()
 			{
 				var that = this;
+				App.homeLayout.close();
 				require(['views/SetsView'], function(SetsView)
 				{
 					App.vent.trigger('page:change', 'sets');
