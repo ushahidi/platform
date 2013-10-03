@@ -50,12 +50,12 @@
 \*------------------------------------*/
 
 .active-workspace [role="main"], .active-workspace #main-region {
-	margin-left: -310px;
+	margin-left: -300px;
 	@media #{$medium-up} {
 		margin-left: -300px;
 	}
 }
 .active-workspace [role="complementary"] {
 	margin-left: 0;
-	width: 310px;
+	width: 300px;
 }
