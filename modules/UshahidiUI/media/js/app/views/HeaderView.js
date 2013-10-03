@@ -12,7 +12,8 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				App.vent.on('page:change', this.updateActiveNav, this);
 			},
 			events : {
-				'click .js-views-menu-link' : 'showViewsMenu'
+				'click .js-views-menu-link' : 'showViewsMenu',
+				'click .js-create-post' : 'showCreatePost'
 			},
 			triggers : {
 				'click .js-workspace-panel-button, .js-workspace-panel-button-small' : 'workspace:toggle'
@@ -47,6 +48,10 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				this.$('.js-views-menu-link').toggleClass('active');
 				
 				e.preventDefault();
+			},
+			showCreatePost : function ()
+			{
+				App.vent.trigger('post:create');
 			}
 		});
 	});

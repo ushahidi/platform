@@ -1,9 +1,9 @@
-define(['App', 'backbone', 'marionette',
+define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout', 'views/PostDetailLayout',
 	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView',
 	'views/MapView','views/PostListView','views/PostDetailView','views/RelatedPostsView',
 	'collections/PostCollection','collections/TagCollection','collections/FormCollection','models/PostModel'],
-	function(App, Backbone, Marionette,
+	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout, PostDetailLayout,
 		HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
 		PostListView, PostDetailView, RelatedPostsView,
@@ -34,6 +34,10 @@ define(['App', 'backbone', 'marionette',
 				App.Collections.Forms.fetch();
 				
 				App.homeLayout = new HomeLayout();
+				
+				this.modalController = new ModalController({
+					modal : this.layout.modal
+				});
 			},
 			//gets mapped to in AppRouter's appRoutes
 			index : function()
@@ -103,10 +107,47 @@ define(['App', 'backbone', 'marionette',
 				});
 
 				postDetailLayout.mapRegion.show(new MapView({
-					className : 'mapView postDetailsMapView',
+					className : 'map-view post-details-map-view',
 					collapsed : true,
 					model : model
 				}));
+			},
+			sets : function ()
+			{
+				var that = this;
+				require(['views/SetsView'], function(SetsView)
+				{
+					App.vent.trigger('page:change', 'sets');
+					that.layout.mainRegion.show(new SetsView());
+				});
+			},
+			login : function ()
+			{
+				var that = this;
+				require(['views/LoginView', 'text!templates/WorkspacePanel_login.html', 'handlebars'], function(LoginView, workspaceTpl, Handlebars)
+				{
+					App.vent.trigger('page:change', 'login');
+					that.layout.mainRegion.show(new LoginView());
+					// @FIXME this will break other controllers, fix this when wiring login properly
+					that.layout.headerRegion.show(new WorkspacePanelView({
+						template: Handlebars.compile(workspaceTpl)
+					}));
+					that.layout.footerRegion.close();
+				});
+			},
+			register : function ()
+			{
+				var that = this;
+				require(['views/RegisterView', 'text!templates/WorkspacePanel_login.html', 'handlebars'], function(RegisterView, workspaceTpl, Handlebars)
+				{
+					App.vent.trigger('page:change', 'register');
+					that.layout.mainRegion.show(new RegisterView());
+					// @FIXME this will break other controllers, fix this when wiring login properly
+					that.layout.headerRegion.show(new WorkspacePanelView({
+						template: Handlebars.compile(workspaceTpl)
+					}));
+					that.layout.footerRegion.close();
+				});
 			}
 		});
 	});

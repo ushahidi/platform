@@ -49,7 +49,7 @@
 		$ACTIVE
 \*------------------------------------*/
 
-.active-workspace [role="main"], .active-workspace #mainRegion {
+.active-workspace [role="main"], .active-workspace #main-region {
 	margin-left: -310px;
 	@media #{$medium-up} {
 		margin-left: -300px;

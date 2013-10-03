@@ -54,6 +54,7 @@ require.config(
 		},
 		
 		'foundation/foundation' : {exports: 'Foundation'},
+		'foundation/foundation.abide': {deps: ['foundation/foundation'] },
 		'foundation/foundation.alerts': {deps: ['foundation/foundation'] },
 		'foundation/foundation.clearing': {deps: ['foundation/foundation'] },
 		'foundation/foundation.cookie': {deps: ['foundation/foundation'] },
