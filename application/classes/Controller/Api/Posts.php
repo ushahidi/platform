@@ -546,7 +546,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				//$user_validation = Validation::factory($post_data['user']);
 				//$user_validation->rule('email', 'not_empty');
 				
-				$user->check($user_validation);
+				$user->check(/* $user_validation */);
 			}
 
 			// Does post have tags included?
