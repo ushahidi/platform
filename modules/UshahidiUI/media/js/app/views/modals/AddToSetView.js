@@ -5,6 +5,15 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/AddToSet.html', 'tex
 		Handlebars.registerPartial('set-module-mini', setModuleMiniTemplate);
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
-			initialize: function() { }
+			initialize: function() { },
+			events : {
+				'click .js-sets-grid li' : 'selectSet'
+			},
+			selectSet : function (e)
+			{
+				e.preventDefault();
+				var $el = this.$(e.currentTarget);
+				$el.toggleClass('selected');
+			}
 		});
 	});
