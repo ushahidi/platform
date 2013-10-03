@@ -1,7 +1,7 @@
 define(['App', 'backbone', 'marionette'],
 	function(App, Backbone, Marionette)
 	{
-		return Backbone.Marionette.Region.extend(
+		return Marionette.Region.extend(
 		{
 			// Override open to trigger foundation reveal
 			open : function(view){

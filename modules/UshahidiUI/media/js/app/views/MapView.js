@@ -108,7 +108,10 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					url : this.dataURL,
 					success: function (data) {
 						// If geojson was empty, return
-						if (data.features.length == 0) return;
+						if (data.features.length === 0)
+						{
+							return;
+						}
 
 						posts.addData(data);
 

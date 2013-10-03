@@ -21,7 +21,7 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/EditPost.html'],
 				
 				$input.appendTo($el).select();
 				$input.blur(
-					function(event)
+					function()
 					{
 						var newText = $input.val();
 						$el.empty.text(newText);
@@ -40,7 +40,7 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/EditPost.html'],
 				
 				$input.appendTo($el).select();
 				$input.blur(
-					function(event)
+					function()
 					{
 						var newText = $input.val();
 						$el.empty.text(newText);
