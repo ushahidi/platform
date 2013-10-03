@@ -17,21 +17,18 @@ define(['App', 'backbone', 'marionette',
 			postCreate : function ()
 			{
 				this.modal.show(new PostCreateView());
-				Backbone.$(this.modal.el).foundation('reveal', 'open');
 			},
 			postEdit : function (post)
 			{
 				this.modal.show(new PostEditView({
 					model : post
 				}));
-				Backbone.$(this.modal.el).foundation('reveal', 'open');
 			},
 			addToSet : function (post)
 			{
 				this.modal.show(new AddToSetView({
 					model : post
 				}));
-				Backbone.$(this.modal.el).foundation('reveal', 'open');
 			}
 		});
 	});
