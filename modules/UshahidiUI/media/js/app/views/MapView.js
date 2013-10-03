@@ -116,8 +116,12 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						posts.addData(data);
 
 						// Center map on post markers
-						//map.fitBounds(posts.getBounds()).setZoom(5);
-						map.panTo(posts.getBounds().getCenter(), { animate: false });
+						map.fitBounds(posts.getBounds());
+						// Avoid zooming further than 15 (particularly when we just have a single point)
+						if (map.getZoom() > 15)
+						{
+							map.setZoom(15);
+						}
 					}
 				});
 				
