@@ -10,7 +10,9 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostLis
 			className: 'list-view-post',
 			
 			events: {
-				'click .post-delete': 'deletepost'
+				'click .post-delete': 'deletepost',
+				'click .js-post-edit' : 'showEditPost',
+				'click .js-post-set' : 'showAddToSet'
 			},
 
 			// @todo add confirmation dialog
@@ -31,6 +33,14 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'text!templates/PostLis
 					user : this.model.user ? this.model.user.toJSON() : null
 				});
 				return data;
+			},
+			showEditPost : function ()
+			{
+				App.vent.trigger('post:edit', this.model);
+			},
+			showAddToSet : function ()
+			{
+				App.vent.trigger('post:set', this.model);
 			}
 		});
 	});

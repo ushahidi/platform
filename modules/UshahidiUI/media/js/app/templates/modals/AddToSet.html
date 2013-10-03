@@ -1,4 +1,3 @@
-<section id="add-to-set" class="reveal-modal">
   <div class="modal-header">
     <h4>Add to Set</h4>
     <a class="close-reveal-modal">&#215;</a>
@@ -6,10 +5,10 @@
 
   <div class="modal-wrapper">
     <ul class="sets-grid  js-sets-grid  show-for-medium-up">
-      {% include set-module-mini.html %}
-      {% include set-module-mini.html %}
-      {% include set-module-mini.html %}
-      {% include set-module-mini.html %}
+      {{> set-module-mini }}
+      {{> set-module-mini }}
+      {{> set-module-mini }}
+      {{> set-module-mini }}
     </ul> <!-- end .sets-grid -->
 
     <ul class="sets-grid  show-for-small"> 
@@ -50,5 +49,3 @@
       <button type="submit" class="success  radius  expand  button" form="search-form"><i class="icon-cloud-upload  icon-large"></i> Save Changes</button>
     </div>
   </section> <!-- end modal-footer -->
-
-</section> <!-- end reveal-modal -->

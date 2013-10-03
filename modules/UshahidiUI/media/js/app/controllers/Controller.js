@@ -1,9 +1,9 @@
-define(['App', 'backbone', 'marionette',
+define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout', 'views/PostDetailLayout',
 	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView',
 	'views/MapView','views/PostListView','views/PostDetailView','views/RelatedPostsView',
 	'collections/PostCollection','collections/TagCollection','collections/FormCollection','models/PostModel'],
-	function(App, Backbone, Marionette,
+	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout, PostDetailLayout,
 		HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
 		PostListView, PostDetailView, RelatedPostsView,
@@ -34,6 +34,10 @@ define(['App', 'backbone', 'marionette',
 				App.Collections.Forms.fetch();
 				
 				App.homeLayout = new HomeLayout();
+				
+				this.modalController = new ModalController({
+					modal : this.layout.modal
+				});
 			},
 			//gets mapped to in AppRouter's appRoutes
 			index : function()
