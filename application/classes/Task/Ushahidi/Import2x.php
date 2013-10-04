@@ -1137,6 +1137,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					));
 			}
 			$this->user_map[$user['email']] = $user['id'];
+			$this->user_map[$user['username']] = $user['id'];
 			
 			$user_count++;
 			
