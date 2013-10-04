@@ -8591,6 +8591,10 @@ footer {
     margin-bottom: 2em; }
 
 /* line 27, ../../scss/modules/modals/_create-post-modal.scss */
+.post-description {
+  height: 200px; }
+
+/* line 31, ../../scss/modules/modals/_create-post-modal.scss */
 .create-post-location-map {
   background: url('../../images/map.jpg?1380838163') no-repeat;
   width: 100%;
@@ -8601,7 +8605,7 @@ footer {
 /*------------------------------------*\
 		$UPLOAD MEDIA BAR
 \*------------------------------------*/
-/* line 42, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 46, ../../scss/modules/modals/_create-post-modal.scss */
 .media-bar {
   position: relative;
   padding-left: 0;
@@ -8609,7 +8613,7 @@ footer {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 42, ../../scss/modules/modals/_create-post-modal.scss */
+    /* line 46, ../../scss/modules/modals/_create-post-modal.scss */
     .media-bar {
       position: relative;
       padding-left: 0.9375em;
@@ -8618,7 +8622,7 @@ footer {
       float: left;
       padding: 0 20px; } }
 
-/* line 50, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 54, ../../scss/modules/modals/_create-post-modal.scss */
 .media-bar-uploads-wrap {
   position: relative;
   padding-left: 0.9375em;
@@ -8628,7 +8632,7 @@ footer {
   padding: 0;
   border-bottom: 1px solid #1f1f1f; }
   @media only screen and (min-width: 768px) {
-    /* line 50, ../../scss/modules/modals/_create-post-modal.scss */
+    /* line 54, ../../scss/modules/modals/_create-post-modal.scss */
     .media-bar-uploads-wrap {
       position: relative;
       padding-left: 0;
@@ -8638,7 +8642,7 @@ footer {
       margin: 2px 0 1px;
       border-bottom: 0; } }
 
-/* line 61, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 65, ../../scss/modules/modals/_create-post-modal.scss */
 .media-bar-uploads {
   display: block;
   padding: 0;
@@ -8659,49 +8663,49 @@ footer {
     float: left;
     padding: 0 0px 0px; }
   @media only screen and (min-width: 768px) {
-    /* line 61, ../../scss/modules/modals/_create-post-modal.scss */
+    /* line 65, ../../scss/modules/modals/_create-post-modal.scss */
     .media-bar-uploads {
       padding: 0; } }
 
 /*------------------------------------*\
 		$MEDIA ICONS
 \*------------------------------------*/
-/* line 76, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 80, ../../scss/modules/modals/_create-post-modal.scss */
 .select-icon {
   width: 56px;
   height: 60px !important; }
-  /* line 79, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 83, ../../scss/modules/modals/_create-post-modal.scss */
   .select-icon [class^="icon-"] {
     position: relative;
     top: 20px;
     left: 20px;
     padding: 0; }
     @media only screen and (min-width: 768px) {
-      /* line 79, ../../scss/modules/modals/_create-post-modal.scss */
+      /* line 83, ../../scss/modules/modals/_create-post-modal.scss */
       .select-icon [class^="icon-"] {
         left: 0; } }
 
-/* line 91, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 95, ../../scss/modules/modals/_create-post-modal.scss */
 .upload-location .icon-map-marker {
   font-size: 19px;
   color: #fcfcfc; }
 
-/* line 98, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 102, ../../scss/modules/modals/_create-post-modal.scss */
 .upload-image .icon-picture {
   font-size: 19px;
   color: #fcfcfc; }
 
-/* line 105, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 109, ../../scss/modules/modals/_create-post-modal.scss */
 .upload-video .icon-facetime-video {
   font-size: 19px;
   color: #fcfcfc; }
 
-/* line 112, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 116, ../../scss/modules/modals/_create-post-modal.scss */
 .upload-link .icon-link {
   font-size: 19px;
   color: #fcfcfc; }
 
-/* line 119, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 123, ../../scss/modules/modals/_create-post-modal.scss */
 .upload-audio .icon-microphone {
   font-size: 20px;
   color: #fcfcfc; }
