@@ -200,7 +200,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				array(':validation', ':field', ':value', ':data'))
 			// Reject clean if also using external url
 			->rule('clean', function($validation, $field, $value, $data) {
-					if ($value AND is_string($data['use-external']))
+					if ($value !== FALSE AND is_string($data['use-external']))
 					{
 						$validation->error($field, 'incompatible_use_external');
 					}
