@@ -90,8 +90,21 @@ git submodule update --init
 		)
 	);
 	```
-
+	
 5. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
+
+   > **A note on urls, docroots and base_url** 
+   >
+   > The repository is set up so that ```httpdocs``` is expected to be the doc root.
+   > If the docroot on your development server is /var/www and you put the code into /var/www/lamu
+   > then the base_url for your deployment is going to be http://localhost/lamu/httpdocs/
+   >
+   > If you're installing a live deployment you should set up a virtual host and make the 
+   > ```DocumentRoot``` point directly to ```httpdocs```.
+   >
+   > If you can't use a vhost you can copy just the httpdocs directory into your docroot, rename it as needed.
+   > Then update the paths for application, modules and system in index.php.
+
 6. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
 7. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
 8. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url

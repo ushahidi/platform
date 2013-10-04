@@ -94,8 +94,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.registerTask('test', ['csslint', 'jshint']);
+	grunt.registerTask('test', ['jshint']);
 	grunt.registerTask('build', ['requirejs', 'imagemin', 'compass']);
-	grunt.registerTask('default', ['requirejs', 'imagemin', 'compass']);
+	grunt.registerTask('default', ['jshint', 'requirejs', 'compass']);
 
 };
