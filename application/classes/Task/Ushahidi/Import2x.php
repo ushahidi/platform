@@ -878,6 +878,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			// Start a new benchmark
 			$benchmark = Profiler::start('Upgrade', __FUNCTION__);
 		}
+
+		// @todo handle existing categories
 		
 		// Create categories
 		$this->logger->add(Log::NOTICE, 'Fetching categories');
@@ -1027,6 +1029,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		$category_count = 0;
 		$this->tag_map = array();
 		$tag_titles = array();
+
+		// @todo handle existing categories
 		
 		$this->logger->add(Log::NOTICE, 'Fetching categories');
 		$categories = DB::query(Database::SELECT, 'SELECT * FROM category ORDER BY parent_id ASC, id ASC')->execute($this->db2);
