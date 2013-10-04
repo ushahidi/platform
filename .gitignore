@@ -12,3 +12,4 @@ composer.phar
 vendor/*
 bin/*
 node_modules*
+.sass-cache*
