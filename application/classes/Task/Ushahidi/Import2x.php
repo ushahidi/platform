@@ -421,8 +421,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		DB::query(Database::DELETE, "TRUNCATE TABLE sets")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts_sets")->execute();
 		// Users
-		DB::query(Database::DELETE, "DELETE FROM users where username <> :username")->bind(':username', $dest_username)->execute();
-		
+		DB::query(Database::DELETE, "DELETE FROM users where username <> :username OR USERNAME IS NULL")->bind(':username', $dest_username)->execute();
+
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
 	}
 	
