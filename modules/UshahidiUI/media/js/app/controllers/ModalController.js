@@ -13,7 +13,7 @@ define(['App', 'backbone', 'marionette',
 				App.vent.on('post:create', this.postCreate, this);
 				App.vent.on('post:edit', this.postEdit, this);
 				App.vent.on('post:set', this.addToSet, this);
-				App.vent.on('post:createSet', this.setCreate, this);
+				App.vent.on('set:create', this.setCreate, this);
 			},
 			postCreate : function ()
 			{
