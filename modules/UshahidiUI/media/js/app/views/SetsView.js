@@ -5,6 +5,10 @@ define([ 'marionette', 'handlebars', 'text!templates/Sets.html', 'text!templates
 		Handlebars.registerPartial('set-module', setModuleTemplate);
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
-			initialize: function() { }
+			initialize: function() {
+				events : {
+					'click .js-create-set' : 'showCreateSet'
+				}
+			}
 		});
 	});
