@@ -13,7 +13,7 @@ return array
 (
 	'default' => array
 	(
-		'type'       => 'MySQL',
+		'type'       => 'MySQLi',
 		'connection' => array(
 			'hostname'   => 'localhost',
 			'database'   => 'lamu_test',
@@ -28,7 +28,7 @@ return array
 	),
 	'TestImport2x' => array
 	(
-		'type'       => 'MySQL',
+		'type'       => 'MySQLi',
 		'connection' => array(
 			'hostname'   => 'localhost',
 			'database'   => 'zombie2x',
