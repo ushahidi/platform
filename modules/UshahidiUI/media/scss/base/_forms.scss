@@ -17,7 +17,13 @@
 \*------------------------------------*/
 
 input[type="text"], input[type="email"] {
-	padding: 20px;
+	// Something weird with this styling. Disabling padding for now.
+	/*
+	 * Foundation sets a fixed height on input elements.. so in FF styling with padding forces the
+	 * text to overflow the input field and its invisible. Possibly need to set box-sizing
+	 * since I think webkit defaults to border-box for form fields, but FF doesn't.
+	 */
+	// padding: 20px;
 	-webkit-border-radius: $global-radius;
 		-moz-border-radius: $global-radius;
 			border-radius: $global-radius;
