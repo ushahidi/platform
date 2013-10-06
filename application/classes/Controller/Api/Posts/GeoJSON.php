@@ -111,10 +111,15 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 				// Point
 				if ($attr->type == 'point')
 				{
-					$geometries[] = array(
-						'type' => 'Point',
-						'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
-					);
+					// ensure values aren't null - in case of junk in DB
+					if ($post['values'][$geom_key]['lon'] != NULL
+						AND $post['values'][$geom_key]['lat'] != NULL)
+					{
+						$geometries[] = array(
+							'type' => 'Point',
+							'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
+						);
+					}
 				}
 				// Geometry
 				else
