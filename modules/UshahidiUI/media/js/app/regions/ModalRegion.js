@@ -4,9 +4,13 @@ define(['App', 'backbone', 'marionette'],
 		return Marionette.Region.extend(
 		{
 			// Override open to trigger foundation reveal
-			open : function(view){
-				this.$el.empty().append(view.el);
+			onShow : function()
+			{
 				this.$el.foundation('reveal', 'open');
+			},
+			onClose : function()
+			{
+				this.$el.foundation('reveal', 'close');
 			}
 		});
 	});

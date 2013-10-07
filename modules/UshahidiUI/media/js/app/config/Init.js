@@ -21,6 +21,7 @@ require.config(
 		'backbone.validateAll' : '../libs/Backbone.validateAll',
 		'backbone-pageable' : '../libs/backbone-pageable',
 		'handlebars-paginate' : '../libs/handlebars-paginate',
+		'backbone.syphon' : '../libs/backbone.syphon',
 		'text' : '../libs/requirejs-text'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
