@@ -40,17 +40,17 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 			},
 			showViewsMenu : function(e)
 			{
+				e.preventDefault();
 				// Hide other menu
 				this.$('.js-sets-menu').removeClass('subnav');
 				this.$('.js-sets-menu-link').removeClass('active');
 				// Toggle this menu
 				this.$('.js-views-menu').toggleClass('subnav');
 				this.$('.js-views-menu-link').toggleClass('active');
-				
-				e.preventDefault();
 			},
-			showCreatePost : function ()
+			showCreatePost : function (e)
 			{
+				e.preventDefault();
 				App.vent.trigger('post:create');
 			}
 		});
