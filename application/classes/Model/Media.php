@@ -67,7 +67,7 @@ class Model_Media extends ORM {
 				array('max_length', array(':value',100))
 			),
 			// Caption set on meda
-			'caption' => array => array((
+			'caption' => array(
 				array('min_length', array(':value', 3)),
 				array('max_length', array(':value', 255))
 			)

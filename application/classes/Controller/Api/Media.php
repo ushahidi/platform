@@ -27,11 +27,6 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 protected $record_order = 'DESC';
 
 	/**
-	 * @var int Maximum number of results to return
-	 */
-	 protected $record_allowed_orderby = array('id', 'created');
-
-	/**
 	 * Retrieve all media
 	 *
 	 * GET /api/media
@@ -112,7 +107,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 		if ( ! $media->loaded())
 		{
-			throw new HTTP_Exception_404('Set does not exist. Set ID \':id\'', array(
+			throw new HTTP_Exception_404('Media does not exist. Media ID \':id\'', array(
 				':id' => $media_id,
 			));
 		}
@@ -135,7 +130,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 	/**
 	 * Delete a media
 	 *
-	 * DELETE /api/sets/:id
+	 * DELETE /api/media/:id
 	 *
 	 * @return void
 	 */

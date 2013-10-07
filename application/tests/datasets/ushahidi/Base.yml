@@ -444,7 +444,7 @@ users:
     username: "admin"
     password: ""
     first_name:
-    last_name: 
+    last_name:
     email:
     role: "admin"
   -
@@ -452,7 +452,7 @@ users:
     username: "test"
     password: ""
     first_name:
-    last_name: 
+    last_name:
     email:
     role: "user"
 tasks:
@@ -498,4 +498,47 @@ oauth_refresh_tokens:
     client_id: "demoapp"
     scope: "api"
     expires: "2030-01-01 00:00:00"
-
+# media
+media:
+  -
+    id:1
+    caption:"at the ihub"
+    mime:"application\/octet-stream"
+    file_url:"http://domain.com/media/upload/photos"
+    o_filename:"51f75f03cb6fe1.02579520_o.jpg"
+    o_width:600
+    o_height:700
+    m_filename:"51f75f03cb6fe1.02579520_m.jpg"
+    m_width:300
+    m_height:400
+    t_filename:"51f75f03cb6fe1.02579520_t.jpg"
+    t_width:100
+    t_height:100
+  -
+    id:2
+    caption:"at the sendai"
+    mime:"application\/octet-stream"
+    file_url:"http://domain.com/media/upload/photos"
+    o_filename:"51f75f03cb6fe1.02579520_o.jpg"
+    o_width:500
+    o_height:600
+    m_filename:"51f75f03cb6fe1.02579520_m.jpg"
+    m_width:200
+    m_height:300
+    t_filename:"51f75f03cb6fe1.02579520_t.jpg"
+    t_width:100
+    t_height:100
+  -
+    id:3
+    caption:"at the cocolin"
+    mime:"application\/octet-stream"
+    file_url:"http://domain.com/media/upload/photos"
+    o_filename:"51f75f03cb6fe1.02579520_o.jpg"
+    o_width:400
+    o_height:500
+    m_filename:"51f75f03cb6fe1.02579520_m.jpg"
+    m_width:200
+    m_height:300
+    t_filename:"51f75f03cb6fe1.02579520_t.jpg"
+    t_width:100
+    t_height:100
