@@ -13,7 +13,7 @@ class Migration_3_0_20131007103144 extends Minion_Migration_Base {
 		$db->query(NULL, 'ALTER DATABASE DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci');
 
 		// Table `media`
-		$db-query(NULL," CREATE  TABLE IF NOT EXISTS `media` (
+		$db->query(NULL," CREATE  TABLE IF NOT EXISTS `media` (
 		  `id` Int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  `mime` VARCHAR(50) NOT NULL,
 		  `caption` VARCHAR(255) NOT NULL DEFAULT '' ,
