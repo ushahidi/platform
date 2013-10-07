@@ -1,11 +1,19 @@
-define([ 'marionette', 'handlebars', 'backbone.syphon', 'text!templates/modals/CreatePost.html'],
-	function( Marionette, Handlebars, Syphon, template)
+	function( Marionette, Handlebars, Syphon, BackboneForm, template)
 	{
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
-			initialize: function() { },
 			events: {
 				'submit form' : 'formSubmitted'
+			},
+			onDomRefresh : function()
+			{
+				var form = new BackboneForm({
+					model: this.model,
+					idPrefix : 'post-',
+					template : Handlebars.compile('<form data-fieldsets id="create-post-form"></form>'),
+				}).render();
+
+				this.$('.create-post-options').append(form.el);
 			},
 			formSubmitted : function (e)
 			{

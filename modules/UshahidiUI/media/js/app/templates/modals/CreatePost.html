@@ -5,31 +5,6 @@
 
 	<div class="modal-wrapper">
 		<section class="create-post-options">
-			<form role="search" id="search-form" class="custom" action="">
-
-				<h6>Title</h6>
-				<input name="title" type="text" placeholder="Enter a title" required="required">
-
-				<h6>Description</h6>
-				<textarea name="content" id="post-description" placeholder="Enter a short description" cols="30" rows="30"  required="required"></textarea>
-
-				// @todo add rest of the custom form fields
-
-				<h6>Location</h6>
-				<input name="location_name" placeholder="Enter a location">
-				<label>Latitude <input name="location_lat"></label>
-				<label>Longitude <input name="location_lon"></label>
-				<div class="create-post-location-map"></div>
-
-				<h6>Categories</h6>
-				<select id="customDropdown" multiple="multiple">
-					<option selected DISABLED>Choose a category</option>
-					<option>Voting Issues</option>
-					<option>Security</option>
-					<option>Urgent</option>
-				</select>
-
-			</form> <!-- end form -->
 		</section> <!-- end create-post-options -->
 	</div> <!-- end modal-wrapper -->
 
@@ -48,7 +23,7 @@
 		</div> <!-- end media bar -->
 
 		<div class="modal-submit">
-			<button type="submit" class="alert  radius  expand  button" form="search-form"><i class="icon-plus  icon-large"></i> Create Post</button>
+			<button type="submit" class="alert  radius  expand  button" form="create-post-form"><i class="icon-plus  icon-large"></i> Create Post</button>
 		</div>
 
 	</section> <!-- end modal-footer -->

@@ -5,6 +5,36 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 			urlRoot: App.config.baseurl + 'api/v2/posts',
 			user : null,
 			form : null,
+			schema : {
+				title: {
+					type: 'Text',
+					title: 'Title',
+					editorAttrs : {
+						placeholder : 'Enter a title',
+						required : 'required'
+					}
+				},
+				content: {
+					type: 'TextArea',
+					title: 'Description',
+					editorAttrs : {
+						placeholder : 'Enter a short description',
+						required : 'required',
+						rows : 30,
+						cols : 30
+					}
+				},
+				status : {
+					type: 'Radio',
+					title: 'Status',
+					options: {
+						'published' : 'Published',
+						'draft' : 'Draft',
+						'pending' : 'Pending'
+					}
+				}
+
+			},
 			initialize : function ()
 			{
 				this.relationsCallback = $.Deferred();

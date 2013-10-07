@@ -22,6 +22,7 @@ require.config(
 		'backbone-pageable' : '../libs/backbone-pageable',
 		'handlebars-paginate' : '../libs/handlebars-paginate',
 		'backbone.syphon' : '../libs/backbone.syphon',
+		'backbone-forms' : '../libs/backbone-forms',
 		'text' : '../libs/requirejs-text'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
@@ -53,7 +54,7 @@ require.config(
 		'moment': {
 			exports: 'moment'
 		},
-		
+
 		'foundation/foundation' : {exports: 'Foundation'},
 		'foundation/foundation.abide': {deps: ['foundation/foundation'] },
 		'foundation/foundation.alerts': {deps: ['foundation/foundation'] },
