@@ -279,7 +279,7 @@ body {
   color: #1f1f1f;
   padding: 0;
   margin: 0;
-  font-family: "Montserrat", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
   line-height: 1;
@@ -1600,8 +1600,8 @@ p {
 /* Default header styles */
 /* line 181, ../../scss/foundation/components/_type.scss */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Montserrat", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-  font-weight: bold;
+  font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-weight: 700;
   font-style: normal;
   color: #565656;
   text-rendering: optimizeLegibility;
@@ -8956,3 +8956,13 @@ textarea {
       float: left;
       border-top: 0;
       padding-top: 0; } }
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * CREATE-SET...............create-set specific styles
+ */
+/*-----------------------------------------------------------*\
+		$CREATE-SET
+\*-----------------------------------------------------------*/
