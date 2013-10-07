@@ -8289,35 +8289,32 @@ img.mfp-img {
 \*------------------------------------*/
 /* line 19, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 input[type="text"], input[type="email"] {
-  /*
-   * Foundation sets a fixed height on input elements.. so in FF styling with padding forces the
-   * text to overflow the input field and its invisible. Possibly need to set box-sizing
-   * since I think webkit defaults to border-box for form fields, but FF doesn't.
-   */
+  padding: 10px;
+  height: 100%;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 32, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 27, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 form.custom .custom.dropdown {
   height: 3em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px; }
-  /* line 37, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  /* line 32, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
   form.custom .custom.dropdown .current {
     margin-top: .4em;
     margin-left: 1.4em; }
-  /* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  /* line 36, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
   form.custom .custom.dropdown .selector {
     height: 3.3125em; }
 
-/* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 .postfix.button {
   height: 3em;
   border-radius: 3px; }
   @media only screen and (min-width: 1024px) {
-    /* line 46, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+    /* line 41, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
     .postfix.button {
       border-radius: 0 3px 3px 0; } }
 
@@ -8325,18 +8322,18 @@ form.custom .custom.dropdown {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px; } }
 
 @media only screen and (min-width: 1024px) {
-  /* line 69, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  /* line 64, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0; } }
 @media only screen and (min-width: 1024px) {
-  /* line 69, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  /* line 64, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -8346,29 +8343,29 @@ form.custom .custom.dropdown {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 87, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+  /* line 82, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
   .list-view-filter form.custom .custom.dropdown {
     margin-bottom: 0; } }
 
-/* line 93, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 88, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em; }
 
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 104, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 99, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc; }
 
-/* line 109, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 104, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f; }
 
-/* line 115, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
+/* line 110, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px; }
