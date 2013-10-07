@@ -13,7 +13,7 @@
 
 		<div class="list-view-post-details">
 			<div class="row">
-				<h5 class="list-view-post-title"><a href="#posts/{{id}}">{{ title }}</a> <i class="icon-lock"></i></h5>
+				<h5 class="list-view-post-title"><i class="icon-lock"></i> <a href="#posts/{{id}}">{{ title }}</a></h5>
 				<div class="list-view-post-time">
 					<p> <i class="icon-time"></i>{{ datetime-calendar created }}</p>
 				</div> <!-- end .list-view-post-time -->
@@ -21,7 +21,7 @@
 		</div> <!-- end .list-view-post-details -->
 
 		<div class="list-view-post-excerpt">
-			<p>{{ prune content 100 }} <a href="#posts/{{id}}"><span class="read-more">&nbsp;Read&nbsp;More</span></a></p>
+			<p>{{ prune content 100 }} <a href="#posts/{{id}}"><span class="read-more">&nbsp;Read&nbsp;More ...</span></a></p>
 		</div> <!-- end .list-view-post-excerpt -->
 
 		<div class="list-view-post-admin">
