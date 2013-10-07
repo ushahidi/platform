@@ -17,7 +17,8 @@
 \*------------------------------------*/
 
 input[type="text"], input[type="email"] {
-	padding: 20px;
+	height: 100%; /* FF fix */
+	padding: 10px;
 	-webkit-border-radius: $global-radius;
 		-moz-border-radius: $global-radius;
 			border-radius: $global-radius;

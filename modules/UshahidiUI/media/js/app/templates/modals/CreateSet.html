@@ -7,29 +7,28 @@
   <section class="create-post-options">
     <form role="search" id="search-form" class="custom" action="">
 
-      <h6>Title</h6>
-      <input type="text" placeholder="Enter a title">
+      <h6>Name</h6>
+      <input type="text" placeholder="Enter your name">
 
       <h6>Description</h6>
-      <textarea name="post-description" id="post-description" placeholder="Enter a short description" cols="30" rows="30"></textarea>
+      <textarea name="post-description" id="post-description" class="post-description" placeholder="Enter a short description" cols="30" rows="30"></textarea>
 
-      <h6>Location</h6>
-      <select id="customDropdown" >
-        <option selected DISABLED>Choose a location</option>
-        <option>United States</option>
-        <option>Kenya</option>
-        <option>South Africa</option>
-        <option>New Zealand</option>
-      </select>
-      <div class="create-post-location-map"></div>
+      <h6>Keywords</h6>
+      <input type="text" placeholder="Separate tags with comma">
 
       <h6>Categories</h6>
-      <select id="customDropdown" >
+      <select id= "customDropdown" class="custom dropdown">
         <option selected DISABLED>Choose a category</option>
         <option>Voting Issues</option>
         <option>Security</option>
         <option>Urgent</option>
       </select>
+
+      <div class="visibility-select">
+        <h6>Visibility</h6>
+        <button class="radius  secondary  expand  button"> <i class="icon-lock"></i>Private</button>
+        <button class="radius  bluegray  expand  button"> <i class="icon-unlock"></i>Public</button>
+      </div>
 
     </form> <!-- end form -->
   </section> <!-- end create-post-options -->
