@@ -23,17 +23,19 @@
 
 				data = Syphon.serialize(this);
 				this.model.set(data);
+				// Temporarily hard code form id
+				this.model.set('form_id', 1);
 
 				this.model.save()
-				.done(function (model, response, options)
-					{
-						// alertify message about 'saved'
-						//
-					})
-				.fail(function (response, xhr, options)
-					{
-						// validation error
-					});
+					.done(function (model, response, options)
+						{
+							// alertify message about 'saved'
+							//
+						})
+					.fail(function (response, xhr, options)
+						{
+							// validation error
+						});
 
 				this.trigger('close');
 			}
