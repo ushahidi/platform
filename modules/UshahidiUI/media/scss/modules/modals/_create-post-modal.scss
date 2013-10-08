@@ -55,7 +55,7 @@
 	@include grid-column(12, $collapse: true);
 	@media #{$small} {
 		@include grid-column(8);
-		padding: 0 20px;
+		padding: 0;
 	}
 }
 
@@ -86,11 +86,15 @@
 \*------------------------------------*/
 
 .select-icon {
-	width: 56px;
-	height: 60px !important;
+	display: inline;
+
 	color: $white;
 	a {
+		display: block;
+		width: 56px;
+		height: 60px;
 		color: $white;
+		text-align: center;
 	}
 	[class^="icon-"] {
 		position: relative;
