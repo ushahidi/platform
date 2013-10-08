@@ -8302,7 +8302,7 @@ input[type="text"], input[type="email"] {
 
 /* line 27, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown {
-  height: 3em;
+  height: 2.9em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px; }
@@ -8316,7 +8316,7 @@ form.custom .custom.dropdown {
 
 /* line 41, ../../scss/base/_forms.scss */
 .postfix.button {
-  height: 3em;
+  height: 2.9em;
   border-radius: 3px; }
   @media only screen and (min-width: 1024px) {
     /* line 41, ../../scss/base/_forms.scss */
@@ -8988,3 +8988,54 @@ textarea {
       width: 25%;
       float: left;
       margin-right: 20px; } }
+
+/* line 25, ../../scss/modules/modals/_create-set-modal.scss */
+.create-set-photo {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  margin-bottom: 2em; }
+  /* line 28, ../../scss/modules/modals/_create-set-modal.scss */
+  .create-set-photo .create-set-thumbnail {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    float: left;
+    position: relative;
+    margin-bottom: 20px; }
+    @media only screen and (min-width: 768px) {
+      /* line 28, ../../scss/modules/modals/_create-set-modal.scss */
+      .create-set-photo .create-set-thumbnail {
+        position: relative;
+        padding-left: 0;
+        padding-right: 0;
+        width: 25%;
+        float: left;
+        margin-bottom: 0; } }
+  /* line 37, ../../scss/modules/modals/_create-set-modal.scss */
+  .create-set-photo img {
+    width: 100%; }
+  /* line 40, ../../scss/modules/modals/_create-set-modal.scss */
+  .create-set-photo button.expand {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 100%;
+    float: left; }
+    @media only screen and (min-width: 768px) {
+      /* line 40, ../../scss/modules/modals/_create-set-modal.scss */
+      .create-set-photo button.expand {
+        position: relative;
+        padding-left: 0.9375em;
+        padding-right: 0.9375em;
+        width: 25%;
+        float: left;
+        vertical-align: bottom;
+        margin: 0 0 0 20px; } }
+
+/* line 50, ../../scss/modules/modals/_create-set-modal.scss */
+.create-set-categories {
+  margin-bottom: 2em; }

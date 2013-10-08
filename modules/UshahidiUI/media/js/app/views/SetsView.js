@@ -10,8 +10,9 @@ define([ 'App', 'marionette', 'handlebars', 'text!templates/Sets.html', 'text!te
 			events : {
 				'click .js-create-set' : 'showCreateSet'
 			},
-			showCreateSet : function ()
+			showCreateSet : function (e)
 			{
+				e.preventDefault();
 				App.vent.trigger('set:create', this.model);
 			}
 		});

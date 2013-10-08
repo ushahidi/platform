@@ -25,7 +25,7 @@ input[type="text"], input[type="email"] {
 }
 
 form.custom .custom.dropdown {
-	height: 3em;
+	height: 2.9em;
 	-webkit-border-radius: $global-radius;
 		-moz-border-radius: $global-radius;
 			border-radius: $global-radius;
@@ -39,7 +39,7 @@ form.custom .custom.dropdown {
 }
 
 .postfix.button {
-	height: 3em;
+	height: 2.9em;
 	border-radius: $global-radius;
 	@media #{$medium} {
 		border-radius: 0 $global-radius $global-radius 0;

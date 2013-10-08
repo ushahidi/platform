@@ -22,5 +22,31 @@
 	}
 }
 
+.create-set-photo {
+	@include grid-column(12, $collapse: true);
+	margin-bottom: 2em;
+	.create-set-thumbnail {
+		@include grid-column(12, $collapse: true);
+		position: relative;
+		margin-bottom: 20px;
+		@media #{$small} {
+			@include grid-column(3, $collapse: true);
+			margin-bottom: 0;
+		}
+	}
+	img {
+		width: 100%;
+	}
+	button.expand {
+		@include grid-column(12);
+		@media #{$small} {
+			@include grid-column(3);
+			vertical-align: bottom;
+			margin: 0 0 0 20px;
+		}
+	}
+}
 
- 
+.create-set-categories {
+	margin-bottom: 2em;
+}
