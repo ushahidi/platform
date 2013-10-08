@@ -16,7 +16,7 @@
 \*------------------------------------*/
 /* line 17, /Users/robbie/.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+h1, h2, h3, h4, h5, h6, .create-post-options label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -1559,6 +1559,7 @@ h3,
 h4,
 h5,
 h6,
+.create-post-options label,
 pre,
 form,
 p,
@@ -1599,7 +1600,7 @@ p {
 
 /* Default header styles */
 /* line 181, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_type.scss */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .create-post-options label {
   font-family: "Montserrat", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-style: normal;
@@ -1609,7 +1610,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5em;
   line-height: 1.2125em; }
   /* line 191, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_type.scss */
-  h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+  h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .create-post-options label small {
     font-size: 70%;
     color: #a3a3a3;
     line-height: 0; }
@@ -1635,7 +1636,7 @@ h5 {
   font-size: 1.125em; }
 
 /* line 203, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_type.scss */
-h6 {
+h6, .create-post-options label {
   font-size: 1em; }
 
 /* line 207, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_type.scss */
@@ -1793,7 +1794,7 @@ blockquote p {
 
 @media only screen and (min-width: 768px) {
   /* line 366, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_type.scss */
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5, h6, .create-post-options label {
     line-height: 1.4; }
 
   /* line 367, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_type.scss */
@@ -4474,7 +4475,9 @@ form.custom {
 .joyride-tip-guide h3,
 .joyride-tip-guide h4,
 .joyride-tip-guide h5,
-.joyride-tip-guide h6 {
+.joyride-tip-guide h6,
+.joyride-tip-guide .create-post-options label,
+.create-post-options .joyride-tip-guide label {
   line-height: 1.25;
   margin: 0;
   font-weight: bold;
@@ -4754,14 +4757,14 @@ ul.pagination {
   .panel > :last-child {
     margin-bottom: 0; }
   /* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_panels.scss */
-  .panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel p {
+  .panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .create-post-options label, .create-post-options .panel label, .panel p {
     color: #333333; }
   /* line 54, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_panels.scss */
-  .panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6 {
+  .panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .create-post-options label, .create-post-options .panel label {
     line-height: 1;
     margin-bottom: 0.625em; }
     /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_panels.scss */
-    .panel h1.subheader, .panel h2.subheader, .panel h3.subheader, .panel h4.subheader, .panel h5.subheader, .panel h6.subheader {
+    .panel h1.subheader, .panel h2.subheader, .panel h3.subheader, .panel h4.subheader, .panel h5.subheader, .panel h6.subheader, .panel .create-post-options label.subheader, .create-post-options .panel label.subheader {
       line-height: 1.4; }
   /* line 68, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_panels.scss */
   .panel.callout {
@@ -4780,14 +4783,14 @@ ul.pagination {
     .panel.callout > :last-child {
       margin-bottom: 0; }
     /* line 51, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_panels.scss */
-    .panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout p {
+    .panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .create-post-options label, .create-post-options .panel.callout label, .panel.callout p {
       color: white; }
     /* line 54, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_panels.scss */
-    .panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6 {
+    .panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .create-post-options label, .create-post-options .panel.callout label {
       line-height: 1;
       margin-bottom: 0.625em; }
       /* line 56, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_panels.scss */
-      .panel.callout h1.subheader, .panel.callout h2.subheader, .panel.callout h3.subheader, .panel.callout h4.subheader, .panel.callout h5.subheader, .panel.callout h6.subheader {
+      .panel.callout h1.subheader, .panel.callout h2.subheader, .panel.callout h3.subheader, .panel.callout h4.subheader, .panel.callout h5.subheader, .panel.callout h6.subheader, .panel.callout .create-post-options label.subheader, .create-post-options .panel.callout label.subheader {
         line-height: 1.4; }
   /* line 73, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/foundation/components/_panels.scss */
   .panel.radius {
@@ -6388,7 +6391,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   /* line 86, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
-  .list-view-post-categories-wrapper h6 {
+  .list-view-post-categories-wrapper h6, .list-view-post-categories-wrapper .create-post-options label, .create-post-options .list-view-post-categories-wrapper label {
     margin: 0; }
   /* line 89, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_list-view-post.scss */
   .list-view-post-categories-wrapper button {
@@ -6503,7 +6506,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   /* line 19, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-  .post h5, .post-details h5, .related-posts h5, .edit-post section.post-details h5, .post h6, .post-details h6, .related-posts h6, .edit-post section.post-details h6 {
+  .post h5, .post-details h5, .related-posts h5, .edit-post section.post-details h5, .post h6, .post-details h6, .related-posts h6, .edit-post section.post-details h6, .post .create-post-options label, .create-post-options .post label, .post-details .create-post-options label, .create-post-options .post-details label, .related-posts .create-post-options label, .create-post-options .related-posts label, .edit-post section.post-details .create-post-options label, .create-post-options .edit-post section.post-details label {
     line-height: 1em; }
 
 /*------------------------------------*\
@@ -6520,7 +6523,7 @@ nav[role="sub-navigation"] li a {
   padding: 1em;
   z-index: 1; }
   /* line 38, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/base/_post.scss */
-  .post-header h5, .post-header h6 {
+  .post-header h5, .post-header h6, .post-header .create-post-options label, .create-post-options .post-header label {
     color: #fcfcfc;
     margin: 5px 0; }
   @media only screen and (min-width: 1024px) {
@@ -6859,7 +6862,7 @@ nav[role="sub-navigation"] li a {
     left: auto;
     right: 7px; }
   /* line 16, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
-  .post-overlay h5, .post-overlay h6 {
+  .post-overlay h5, .post-overlay h6, .post-overlay .create-post-options label, .create-post-options .post-overlay label {
     line-height: 1em; }
   /* line 19, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_post-overlay.scss */
   .post-overlay .post-body {
@@ -8578,7 +8581,7 @@ footer {
 /*-----------------------------------------------------------*\
 		$CREATE-POST
 \*-----------------------------------------------------------*/
-/* line 18, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+/* line 20, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
 .create-post-options {
   position: relative;
   padding-left: 0.9375em;
@@ -8587,11 +8590,20 @@ footer {
   float: left;
   margin-bottom: 40px;
   padding: 0; }
-  /* line 22, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+  /* line 24, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
   .create-post-options input[type="text"], .create-post-options textarea {
     margin-bottom: 2em; }
+  /* line 28, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+  .create-post-options fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: none; }
+    /* line 33, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+    .create-post-options fieldset.active {
+      display: block; }
 
-/* line 27, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+/* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
 .create-post-location-map {
   background: url('map.jpg?1380838163') no-repeat;
   width: 100%;
@@ -8602,7 +8614,7 @@ footer {
 /*------------------------------------*\
 		$UPLOAD MEDIA BAR
 \*------------------------------------*/
-/* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+/* line 58, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
 .media-bar {
   position: relative;
   padding-left: 0;
@@ -8610,16 +8622,16 @@ footer {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 42, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+    /* line 58, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
     .media-bar {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
       width: 66.66667%;
       float: left;
-      padding: 0 20px; } }
+      padding: 0; } }
 
-/* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+/* line 66, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
 .media-bar-uploads-wrap {
   position: relative;
   padding-left: 0.9375em;
@@ -8629,7 +8641,7 @@ footer {
   padding: 0;
   border-bottom: 1px solid #1f1f1f; }
   @media only screen and (min-width: 768px) {
-    /* line 50, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+    /* line 66, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
     .media-bar-uploads-wrap {
       position: relative;
       padding-left: 0;
@@ -8639,7 +8651,7 @@ footer {
       margin: 2px 0 1px;
       border-bottom: 0; } }
 
-/* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+/* line 77, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
 .media-bar-uploads {
   display: block;
   padding: 0;
@@ -8660,52 +8672,35 @@ footer {
     float: left;
     padding: 0 0px 0px; }
   @media only screen and (min-width: 768px) {
-    /* line 61, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+    /* line 77, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
     .media-bar-uploads {
       padding: 0; } }
 
 /*------------------------------------*\
 		$MEDIA ICONS
 \*------------------------------------*/
-/* line 76, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+/* line 92, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
 .select-icon {
-  width: 56px;
-  height: 60px !important; }
-  /* line 79, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+  display: inline;
+  color: #fcfcfc; }
+  /* line 96, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+  .select-icon a {
+    display: block;
+    width: 56px;
+    height: 60px;
+    color: #fcfcfc;
+    text-align: center; }
+  /* line 103, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
   .select-icon [class^="icon-"] {
     position: relative;
     top: 20px;
     left: 20px;
-    padding: 0; }
+    padding: 0;
+    font-size: 19px; }
     @media only screen and (min-width: 768px) {
-      /* line 79, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
+      /* line 103, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
       .select-icon [class^="icon-"] {
         left: 0; } }
-
-/* line 91, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
-.upload-location .icon-map-marker {
-  font-size: 19px;
-  color: #fcfcfc; }
-
-/* line 98, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
-.upload-image .icon-picture {
-  font-size: 19px;
-  color: #fcfcfc; }
-
-/* line 105, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
-.upload-video .icon-facetime-video {
-  font-size: 19px;
-  color: #fcfcfc; }
-
-/* line 112, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
-.upload-link .icon-link {
-  font-size: 19px;
-  color: #fcfcfc; }
-
-/* line 119, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
-.upload-audio .icon-microphone {
-  font-size: 20px;
-  color: #fcfcfc; }
 
 /*------------------------------------*\
 		$CONTENTS
@@ -8779,7 +8774,7 @@ footer {
 .edit-post section.post-details {
   padding: 0; }
   /* line 4, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_edit-post-modal.scss */
-  .edit-post section.post-details h6 {
+  .edit-post section.post-details h6, .edit-post section.post-details .create-post-options label, .create-post-options .edit-post section.post-details label {
     margin-bottom: 15px; }
   @media only screen and (min-width: 1024px) {
     /* line 1, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_edit-post-modal.scss */
