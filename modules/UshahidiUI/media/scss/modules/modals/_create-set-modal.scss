@@ -26,7 +26,7 @@
 	@include grid-column(12, $collapse: true);
 	margin-bottom: 2em;
 	.create-set-thumbnail {
-		@include grid-column(12, $collapse: true);
+		@include grid-column(4, $collapse: true);
 		position: relative;
 		margin-bottom: 20px;
 		@media #{$small} {
@@ -38,11 +38,11 @@
 		width: 100%;
 	}
 	button.expand {
-		@include grid-column(12);
+		@include grid-column(7);
+		margin: 0 0 0 20px;
 		@media #{$small} {
 			@include grid-column(3);
 			vertical-align: bottom;
-			margin: 0 0 0 20px;
 		}
 	}
 }

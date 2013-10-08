@@ -9002,7 +9002,7 @@ textarea {
     position: relative;
     padding-left: 0;
     padding-right: 0;
-    width: 100%;
+    width: 33.33333%;
     float: left;
     position: relative;
     margin-bottom: 20px; }
@@ -9023,8 +9023,9 @@ textarea {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 100%;
-    float: left; }
+    width: 58.33333%;
+    float: left;
+    margin: 0 0 0 20px; }
     @media only screen and (min-width: 768px) {
       /* line 40, ../../scss/modules/modals/_create-set-modal.scss */
       .create-set-photo button.expand {
@@ -9033,8 +9034,7 @@ textarea {
         padding-right: 0.9375em;
         width: 25%;
         float: left;
-        vertical-align: bottom;
-        margin: 0 0 0 20px; } }
+        vertical-align: bottom; } }
 
 /* line 50, ../../scss/modules/modals/_create-set-modal.scss */
 .create-set-categories {
