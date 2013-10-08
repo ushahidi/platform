@@ -1,5 +1,5 @@
-define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'backbone-forms/backbone-forms', 'util/FormTemplates'],
-	function( Marionette, Handlebars, template, BackboneForm)
+define([ 'App', 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'backbone-validation', 'backbone-forms/backbone-forms', 'util/FormTemplates'],
+	function( App, Marionette, Handlebars, template, BackboneValidation, BackboneForm)
 	{
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
@@ -30,6 +30,16 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'b
 						}
 					]
 				});
+				BackboneValidation.bind(this, {
+					valid: function(/* view, attr */)
+					{
+						// Do nothing, displaying errors is handled by backbone-forms
+					},
+					invalid: function(/* view, attr, error */)
+					{
+						// Do nothing, displaying errors is handled by backbone-forms
+					}
+				});
 			},
 			events: {
 				'submit form' : 'formSubmitted',
@@ -47,29 +57,36 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'b
 			},
 			formSubmitted : function (e)
 			{
+				var that = this,
+					errors;
+
+				errors = this.form.commit();
+
+				if (! errors)
+				{
+					// @todo don't hard code id
+					this.model.set('form_id', 1);
+					// @todo don't hard code locale
+					this.model.set('locale', 'en_us');
+
+					this.model.save()
+						.done(function (model /*, response, options*/)
+							{
+								App.appRouter.navigate('posts/' + model.id, { trigger : true });
+								that.trigger('close');
+							})
+						.fail(function (response /*, xhr, options*/)
+							{
+								console.log(response);
+								// validation error
+								if (response.errors)
+								{
+									// @todo Display this error somehow
+								}
+							});
+				}
+
 				e.preventDefault();
-
-				/*var data = Syphon.serialize(this);
-				this.model.set(data);*/
-				this.form.commit();
-
-				// @todo don't hard code id
-				this.model.set('form_id', 1);
-				// @todo don't hard code locale
-				this.model.set('locale', 'en_us');
-
-				this.model.save()
-					.done(function (model, response, options)
-						{
-							// alertify message about 'saved'
-							//
-						})
-					.fail(function (response, xhr, options)
-						{
-							// validation error
-						});
-
-				this.trigger('close');
 			},
 			switchFieldSet : function (e)
 			{
@@ -78,6 +95,10 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'b
 				this.$($el.attr('href')).addClass('active');
 
 				e.preventDefault();
+			},
+			onClose : function ()
+			{
+				BackboneValidation.unbind(this);
 			}
 		});
 	});

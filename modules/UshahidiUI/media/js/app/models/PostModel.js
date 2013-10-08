@@ -14,21 +14,17 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					type: 'Text',
 					title: 'Title',
 					editorAttrs : {
-						placeholder : 'Enter a title',
-						required : 'required'
-					},
-					validators: ['required']
+						placeholder : 'Enter a title'
+					}
 				},
 				content: {
 					type: 'TextArea',
 					title: 'Description',
 					editorAttrs : {
 						placeholder : 'Enter a short description',
-						required : 'required',
 						rows : 30,
 						cols : 30
-					},
-					validators: ['required']
+					}
 				},
 				status : {
 					type: 'Radio',
@@ -37,10 +33,25 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						'published' : 'Published',
 						'draft' : 'Draft',
 						'pending' : 'Pending'
-					},
-					validators: ['required']
+					}
 				}
-
+				// @todo should we include slug?
+			},
+			validation : {
+				title : {
+					required : true,
+					maxLength : 150
+				},
+				content : {
+					required : true
+				},
+				status : {
+					required : true,
+					oneOf : ['published', 'draft', 'pending']
+				},
+				locale : {
+					required : true
+				}
 			},
 			initialize : function ()
 			{
