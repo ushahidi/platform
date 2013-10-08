@@ -88,48 +88,18 @@
 .select-icon {
 	width: 56px;
 	height: 60px !important;
+	color: $white;
+	a {
+		color: $white;
+	}
 	[class^="icon-"] {
 		position: relative;
 		top: 20px;
 		left: 20px;
 		padding: 0;
+		font-size: 19px;
 		@media #{$small} {
 			left: 0;
 		}
-	}
-}
-
-.upload-location {
-	.icon-map-marker {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-image {
-	.icon-picture {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-video {
-	.icon-facetime-video {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-link {
-	.icon-link {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-audio {
-	.icon-microphone {
-		font-size: 20px;
-		color: $white;
 	}
 }
