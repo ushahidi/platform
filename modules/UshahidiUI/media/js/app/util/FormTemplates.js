@@ -14,7 +14,7 @@ define(['jquery', 'handlebars', 'backbone', 'backbone-forms/backbone-forms'], fu
 
 
 	Form.Fieldset.template = Handlebars.compile(
-		'<fieldset class="fieldset-{{ name }}" data-fields>' +
+		'<fieldset id="fieldset-{{ name }}" class="fieldset-{{ name }} {{#if active}}active{{/if}}" data-fields>' +
 		'	{{#if legend  }}' +
 		'		<legend>{{ legend }}</legend>' +
 		'	{{/if}}' +

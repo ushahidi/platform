@@ -3,12 +3,10 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'b
 	{
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
-			events: {
-				'submit form' : 'formSubmitted'
-			},
-			onDomRefresh : function()
+			initialize : function ()
 			{
-				var form = this.form = new BackboneForm({
+				// Set up the form
+				this.form = new BackboneForm({
 					model: this.model,
 					idPrefix : 'post-',
 					className : 'create-post-form',
@@ -16,7 +14,8 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'b
 						{
 							name : 'main',
 							legend : '',
-							fields : ['title', 'content']
+							fields : ['title', 'content'],
+							active: true
 						},
 						{
 							name : 'image'
@@ -30,11 +29,21 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'b
 							fields : ['status']
 						}
 					]
-				}).render();
-				// Set form id, backbone-forms doesn't do it.
-				form.$el.attr('id', 'create-post-form');
+				});
+			},
+			events: {
+				'submit form' : 'formSubmitted',
+				'click .js-switch-fieldset' : 'switchFieldSet'
+			},
+			onDomRefresh : function()
+			{
+				// Render the form and add it to the view
+				this.form.render();
 
-				this.$('.create-post-options').append(form.el);
+				// Set form id, backbone-forms doesn't do it.
+				this.form.$el.attr('id', 'create-post-form');
+
+				this.$('.create-post-options').append(this.form.el);
 			},
 			formSubmitted : function (e)
 			{
@@ -59,6 +68,14 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'b
 						});
 
 				this.trigger('close');
+			},
+			switchFieldSet : function (e)
+			{
+				var $el = this.$(e.currentTarget);
+				this.$('fieldset').removeClass('active');
+				this.$($el.attr('href')).addClass('active');
+
+				e.preventDefault();
 			}
 		});
 	});
