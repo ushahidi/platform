@@ -12,7 +12,8 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					editorAttrs : {
 						placeholder : 'Enter a title',
 						required : 'required'
-					}
+					},
+					validators: ['required']
 				},
 				content: {
 					type: 'TextArea',
@@ -22,7 +23,8 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						required : 'required',
 						rows : 30,
 						cols : 30
-					}
+					},
+					validators: ['required']
 				},
 				status : {
 					type: 'Radio',
@@ -31,7 +33,8 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						'published' : 'Published',
 						'draft' : 'Draft',
 						'pending' : 'Pending'
-					}
+					},
+					validators: ['required']
 				}
 
 			},

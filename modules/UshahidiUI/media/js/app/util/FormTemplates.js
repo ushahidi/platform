@@ -1,0 +1,71 @@
+/**
+ * Include this template file after backbone-forms.amd.js to override the default templates
+ *
+ * 'data-*' attributes control where elements are placed
+ */
+define(['jquery', 'handlebars', 'backbone', 'backbone-forms/backbone-forms'], function($, Handlebars, Backbone) {
+	var Form = Backbone.Form;
+
+
+	/**
+	 * Bootstrap templates for Backbone Forms
+	 */
+	Form.template = Handlebars.compile('<form data-fieldsets></form>');
+
+
+	Form.Fieldset.template = Handlebars.compile(
+		'<fieldset class="fieldset-{{ name }}" data-fields>' +
+		'	{{#if legend  }}' +
+		'		<legend>{{ legend }}</legend>' +
+		'	{{/if}}' +
+		'</fieldset>'
+	);
+
+
+	Form.Field.template = Handlebars.compile(
+		'<div class="field-{{ key }}">' +
+		'	<label for="{{ editorId }}">{{ title }}</label>' +
+		'	<div>' +
+		'		<span data-editor></span>' +
+		'		<div data-error></div>' +
+		'		{{#if help}}<div>{{ help }}</div>{{/if}}' +
+		'	</div>' +
+		'</div>'
+	);
+
+
+	// @todo should this show title? (maybe in a title attr)
+	Form.NestedField.template = Handlebars.compile(
+		'<div class="field-{{ key }}">' +
+		'	<span data-editor></span>' +
+		'	<div data-error></div>' +
+		'	{{#if help}}<div>{{ help }}</div>{{/if}}' +
+		'</div>'
+	);
+
+
+	if (Form.editors.List) {
+
+		Form.editors.List.template = Handlebars.compile(
+			'<div>' +
+			'	<ul data-items></ul>' +
+			'	<button type="button" data-action="add">Add</button>' +
+			'</div>'
+		);
+
+
+		Form.editors.List.Item.template = Handlebars.compile(
+			'<li>' +
+			'	<span data-editor></span>' +
+			'	<button type="button" data-action="remove">&times;</button>' +
+			'</li>'
+		);
+
+		Form.editors.List.Object.template = Form.editors.List.NestedModel.template = Handlebars.compile(
+			'<div>{{ summary }}</div>'
+		);
+
+	}
+
+
+});
