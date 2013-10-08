@@ -5,6 +5,10 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 			urlRoot: App.config.baseurl + 'api/v2/posts',
 			user : null,
 			form : null,
+			defaults : {
+				locale : 'en_us',
+				status : 'draft'
+			},
 			schema : {
 				title: {
 					type: 'Text',

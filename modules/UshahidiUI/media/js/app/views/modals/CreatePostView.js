@@ -53,8 +53,10 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'b
 				this.model.set(data);*/
 				this.form.commit();
 
-				// Temporarily hard code form id
+				// @todo don't hard code id
 				this.model.set('form_id', 1);
+				// @todo don't hard code locale
+				this.model.set('locale', 'en_us');
 
 				this.model.save()
 					.done(function (model, response, options)
