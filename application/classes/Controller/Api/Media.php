@@ -15,16 +15,10 @@
  */
 
 class Controller_Api_Media extends Ushahidi_Api {
-
 	/**
 	 * @var string Field to sort results by
 	 */
 	 protected $record_orderby = 'created';
-
-	/**
-	 * @var string Direct to sort results
-	 */
-	 protected $record_order = 'DESC';
 
 	/**
 	 * Retrieve all media
@@ -49,8 +43,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 		$count = $media->count();
 
-		foreach ($media as $m)
-		{
+		foreach ($media as $m) {
 			$results[] = $m->for_api();
 
 		}
@@ -62,8 +55,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 		);
 
 		// Only add order/orderby if they're already set
-		if ($this->request->query('orderby') OR $this->request->query('order'))
-		{
+		if ($this->request->query('orderby') OR $this->request->query('order')) {
 			$params['orderby'] = $this->record_orderby;
 			$params['order'] = $this->record_order;
 		}
@@ -71,13 +63,13 @@ class Controller_Api_Media extends Ushahidi_Api {
 		$prev_params = $next_params = $params;
 		$next_params['offset'] = $params['offset'] + $params['limit'];
 		$prev_params['offset'] = $params['offset'] - $params['limit'];
-		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
+		$prev_params['offset'] = ($prev_params['offset'] > 0) ? $prev_params['offset'] : 0;
 
-		$curr = URL::site($this->request->uri() . URL::query($params), $this->request);
-		$next = URL::site($this->request->uri() . URL::query($next_params), $this->request);
-		$prev = URL::site($this->request->uri() . URL::query($prev_params), $this->request);
+		$curr = URL::site($this->request->uri().URL::query($params), $this->request);
+		$next = URL::site($this->request->uri().URL::query($next_params), $this->request);
+		$prev = URL::site($this->request->uri().URL::query($prev_params), $this->request);
 
-		//Respond with media details
+		// Respond with media details
 		$this->_response_payload = array(
 				'count' => $count,
 				'results' => $results,
@@ -105,13 +97,11 @@ class Controller_Api_Media extends Ushahidi_Api {
 		// Query media table
 		$media = ORM::factory('Media', $media_id);
 
-		if ( ! $media->loaded())
-		{
+		if ( ! $media->loaded()) {
 			throw new HTTP_Exception_404('Media does not exist. Media ID \':id\'', array(
 				':id' => $media_id,
 			));
 		}
-
 		$this->_response_payload = $media->for_api();
 	}
 
@@ -122,9 +112,10 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 *
 	 * @return void
 	 */
-	public function action_post_index()
+	public function action_post_index_collection()
 	{
-
+		$media = $this->_request_payload;
+		print_r($media); exit;
 	}
 
 	/**
@@ -136,6 +127,35 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-
+		$media_id = $this->request->param('id', 0);
 	}
+
+	/**
+	 * Save Image to the configured upload directory
+	 *
+	 * @param  FILE        $image the image to save
+	 * @return string|bool the file name
+	 */
+	protected function save_image($image)
+	{
+		// Validate image type. Only jpg, jpeg, png and gif are supported
+		if ( ! Upload::valid($image) OR ! Upload::not_empty($image) OR ! Upload::type($image,
+			array('jpg', 'jpeg', 'png', 'gif')))
+		{
+			return FALSE;
+		}
+
+		// Set the directory to upload the images to
+		$upload_dir = Kohana::config('upload.directory', TRUE);
+
+		if ($file = upload::save($image, NULL, $upload_dir)) {
+			Image::factory($file)->save($upload_dir.$filename);
+
+			// Delete temporary image file
+			unlink($image);
+
+			return $filename;
+		}
+	}
+
 }
