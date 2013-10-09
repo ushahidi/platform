@@ -212,14 +212,16 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$filename = strtolower(Text::random('alnum', 3))."_".time();
 
 			// Save original size
-			$o_image = Image::factory($file)->save($upload_dir.$filename."_o.jpg");
+			$o_image = Image::factory($file);
+			$o_image->save($upload_dir.$filename."_o.jpg");
 
 			if ($o_image->width < $this->width_medium)
 			{
 				$this->width_medium = $o_image->width;
 			}
 			// Resize original file to a medium size
-			$m_image = Image::factory($filename)->resize($this->width_medium,NULL,Image::AUTO)
+			$m_image = Image::factory($file);
+			$m_image->resize($this->width_medium,NULL,Image::AUTO)
 				->save($upload_dir.$filename."_m.jpg");
 
 			// Resize original to a thumbnail size
@@ -228,34 +230,39 @@ class Controller_Api_Media extends Ushahidi_Api {
 				$this->width_thumbnail = $m_image->width;
 			}
 
-			$t_image = Image::factory($filename)->resize($this->width_thumbnail,NULL,Image::AUTO)
+			$t_image = Image::factory($file);
+			$t_image->resize($this->width_thumbnail,NULL,Image::AUTO)
 				->save($upload_dir.$filename."_t.jpg");
 
 			// Remove the temporary file
 			Unlink($file);
 
 			// Save details to the database
-			$media = ORM::factory('media');
+			$media = ORM::factory('Media');
 
-			// Save original details
+			// Set original details
 			$media->o_width = $o_image->width;
 			$media->o_height = $o_image->height;
 			$media->o_filename = $filename."_o.jpg";
 
-			// Save medium details
+			// Set medium details
 			$media->m_filename = $filename."_m.jpg";
 			$media->m_width = $m_image->width;
 			$media->m_height = $m_image->height;
 
-			// Save thubnail details
+			// Set thubnail details
 			$media->t_filename = $filename."_t.jpg";
 			$media->t_width = $t_image->width;
 			$media->t_height = $t_image->height;
-			// Save caption is if is set
+
+			// Set caption is if is set
 			if (isset($media_post['caption']))
 			{
 				$media->caption = $media_post['caption'];
 			}
+
+			// Save details to the database
+			$media->save();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -277,41 +284,6 @@ class Controller_Api_Media extends Ushahidi_Api {
 		$media_id = $this->request->param('id', 0);
 
 		// TODO:// delete from db and disk
-	}
-
-	/**
-	 * Save Image to the configured upload directory
-	 *
-	 * @param  FILE        $image the image to save
-	 * @return string|bool the file name
-	 */
-	protected function _save_image($image)
-	{
-		// Validate image type. Only jpg, jpeg, png and gif are supported
-		if (( ! Upload::valid($image)) OR
-			( ! Upload::not_empty($image)) OR
-			( ! Upload::size($image,array('1M'))) OR
-			( ! Upload::type($image, array('jpg', 'jpeg', 'png', 'gif'))))
-		{
-			return FALSE;
-		}
-
-		// Set the directory to upload the images
-		// TODO:: read this from configuration instead
-		$upload_dir = DOCROOT.'uploads/';
-
-		if ($file = upload::save($file, NULL, $upload_dir)) {
-
-			// Get image details.
-			list($width, $height, $type) = getimagesize($file);
-
-			$image = Image::factory($file)->save($upload_dir.$filename);
-
-			// Delete temporary image file
-			unlink($file);
-
-			return $image;
-		}
 	}
 
 	protected function _parse_request_body()
