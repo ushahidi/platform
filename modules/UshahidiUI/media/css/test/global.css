@@ -5132,7 +5132,7 @@ button.google, .button.google {
 \*------------------------------------*/
 /* line 37, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_topbar.scss */
 .logo-image {
-  background: url('logo.png?1380749441') no-repeat;
+  background: url('/media/kohana/images/logo.png?1380749441') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -5512,7 +5512,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 31, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('avatar.png?1380749440') no-repeat;
+  background: url('/media/kohana/images/avatar.png?1380749440') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -5836,7 +5836,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  background: #22699d url('search-bg.jpg?1380749441') repeat;
+  background: #22699d url('/media/kohana/images/search-bg.jpg?1380749441') repeat;
   width: 100%;
   border-top: 3px solid #12a0ba;
   padding-top: 2em; }
@@ -8605,7 +8605,7 @@ footer {
 
 /* line 43, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
 .create-post-location-map {
-  background: url('map.jpg?1380838163') no-repeat;
+  background: url('/media/kohana/images/map.jpg?1380838163') no-repeat;
   width: 100%;
   height: 100px;
   background-size: cover;
