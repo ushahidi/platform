@@ -36,13 +36,19 @@ define(['jquery', 'handlebars', 'backbone', 'backbone-forms/backbone-forms'], fu
 
 	// @todo should this show title? (maybe in a title attr)
 	Form.NestedField.template = Handlebars.compile(
-		'<div class="field-{{ key }}">' +
-		'	<div data-error></div>' +
-		'	<span data-editor></span>' +
-		'	{{#if help}}<div>{{ help }}</div>{{/if}}' +
+		'<div class="NestedField field-{{ key }}">' +
+		'	<label for="{{ editorId }}">{{ title }}</label>' +
+		'	<div>' +
+		'		<div data-error></div>' +
+		'		<span data-editor></span>' +
+		'		{{#if help}}<div>{{ help }}</div>{{/if}}' +
+		'	</div>' +
 		'</div>'
 	);
 
+	Form.NestedForm.template = Handlebars.compile(
+		'<span class="NestedForm" data-fieldsets></span>'
+	);
 
 	if (Form.editors.List) {
 

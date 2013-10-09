@@ -23,6 +23,7 @@ require.config(
 		'handlebars-paginate' : '../libs/handlebars-paginate',
 		'backbone.syphon' : '../libs/backbone.syphon',
 		'backbone-forms' : '../libs/backbone-forms',
+		'backbone-deep-model' : '../libs/deep-model',
 		'backbone-validation' : '../libs/backbone-validation-amd',
 		'text' : '../libs/requirejs-text'
 	},

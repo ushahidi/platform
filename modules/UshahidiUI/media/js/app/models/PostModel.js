@@ -1,6 +1,6 @@
-define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/FormModel'],
+define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/FormModel', 'backbone-deep-model'],
 	function($, Backbone, App, _, UserModel, FormModel) {
-		var PostModel = Backbone.Model.extend(
+		var PostModel = Backbone.DeepModel.extend(
 		{
 			urlRoot: App.config.baseurl + 'api/v2/posts',
 			user : null,
@@ -9,33 +9,83 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				locale : 'en_us',
 				status : 'draft'
 			},
-			schema : {
-				title: {
-					type: 'Text',
-					title: 'Title',
-					editorAttrs : {
-						placeholder : 'Enter a title'
+			schema : function ()
+			{
+				var schema = {
+					title: {
+						type: 'Text',
+						title: 'Title',
+						editorAttrs : {
+							placeholder : 'Enter a title'
+						}
+					},
+					content: {
+						type: 'TextArea',
+						title: 'Description',
+						editorAttrs : {
+							placeholder : 'Enter a short description',
+							rows : 30,
+							cols : 30
+						}
+					},
+					status : {
+						type: 'Radio',
+						title: 'Status',
+						options: {
+							'published' : 'Published',
+							'draft' : 'Draft',
+							'pending' : 'Pending'
+						}
+					},
+					user : {
+						type: 'Object',
+						subSchema: {
+							//id: null,
+							first_name: {
+								title : 'First Name',
+								type: 'Text'
+							},
+							last_name: {
+								title : 'Last Name',
+								type: 'Text'
+							},
+							email : 'Text'
+						}
 					}
-				},
-				content: {
-					type: 'TextArea',
-					title: 'Description',
-					editorAttrs : {
-						placeholder : 'Enter a short description',
-						rows : 30,
-						cols : 30
-					}
-				},
-				status : {
-					type: 'Radio',
-					title: 'Status',
-					options: {
-						'published' : 'Published',
-						'draft' : 'Draft',
-						'pending' : 'Pending'
-					}
+					// @todo should we include slug?
+				};
+
+				// Extend with form schema if form_id is set
+				if (this.get('form.id'))
+				{
+					_.extend(schema, this.form.getPostSchema());
 				}
-				// @todo should we include slug?
+
+				return schema;
+			},
+			fieldsets : function ()
+			{
+				var fieldsets = [
+					{
+						name : 'main',
+						legend : '',
+						fields : ['title', 'content'],
+						active: true
+					},
+					{
+						name : 'permissions',
+						legend : '',
+						fields : ['status']
+					}
+				];
+
+				// Extend with form schema if form_id is set
+				if (this.get('form.id'))
+				{
+					fieldsets = _.union(fieldsets, this.form.getPostFieldsets());
+				}
+
+				return fieldsets;
 			},
 			validation : {
 				title : {
@@ -68,7 +118,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				if (this.get('user'))
 				{
 					user = new UserModel({
-						id: this.get('user').id
+						id: this.get('user.id')
 					});
 					requests.push(user.fetch());
 				}
@@ -76,7 +126,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				if (this.get('form'))
 				{
 					form = new FormModel({
-						id: this.get('form').id
+						id: this.get('form.id')
 					});
 					requests.push(form.fetch());
 				}

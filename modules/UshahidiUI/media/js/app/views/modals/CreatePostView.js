@@ -10,25 +10,7 @@ define([ 'App', 'marionette', 'handlebars', 'text!templates/modals/CreatePost.ht
 					model: this.model,
 					idPrefix : 'post-',
 					className : 'create-post-form',
-					fieldsets : [
-						{
-							name : 'main',
-							legend : '',
-							fields : ['title', 'content'],
-							active: true
-						},
-						{
-							name : 'image'
-						},
-						{
-							name : 'location'
-						},
-						{
-							name : 'permissions',
-							legend : '',
-							fields : ['status']
-						}
-					]
+					fieldsets : _.result(this.model, 'fieldsets')
 				});
 				BackboneValidation.bind(this, {
 					valid: function(/* view, attr */)

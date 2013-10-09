@@ -18,10 +18,23 @@ define(['App', 'backbone', 'marionette',
 			},
 			postCreate : function ()
 			{
-				this.modal.show(new PostCreateView({
-					model: new PostModel()
-				}));
-				this.modal.currentView.on('close', this.modal.close, this.modal);
+				var that = this,
+					post;
+
+				post = new PostModel({
+					// @todo stop hard coding form-id
+					form : {
+						id : 1
+					}
+				});
+
+				post.relationsCallback.done( function () {
+					that.modal.show(new PostCreateView({
+						model: post
+					}));
+					that.modal.currentView.on('close', that.modal.close, that.modal);
+				});
+				post.fetchRelations();
 			},
 			postEdit : function (post)
 			{
