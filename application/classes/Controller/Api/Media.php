@@ -20,8 +20,11 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 	protected $width_thumbnail = 70;
 
+	protected $upload_dir;
+
 	public function before()
 	{
+
 		// Set up custom error view
 		Kohana_Exception::$error_view_content_type = 'application/json';
 		Kohana_Exception::$error_view = 'api/error';
@@ -33,11 +36,17 @@ class Controller_Api_Media extends Ushahidi_Api {
 			RETURN;
 		}
 
+		// Set the directory to upload images to
+		// TODO:: read this from a configuration file or something
+		$this->upload_dir = DOCROOT.'uploads/';
+
 		$this->_parse_request();
 	}
 
 	/**
-	 * Parse the request...
+	 * Override parent _parese_request() so it calls
+	 *
+	 *
 	 */
 	protected function _parse_request()
 	{
@@ -204,17 +213,13 @@ class Controller_Api_Media extends Ushahidi_Api {
 			}
 
 			// Upload the file
-			// Set the directory to upload the images to
-			// TODO:: read this from a configuration file or something
-			$upload_dir = DOCROOT.'uploads/';
-
-			$file = upload::save($media_data['file'], NULL, $upload_dir);
+			$file = upload::save($media_data['file'], NULL, $this->upload_dir);
 
 			$filename = strtolower(Text::random('alnum', 3))."_".time();
 
 			// Save original size
 			$o_image = Image::factory($file);
-			$o_image->save($upload_dir.$filename."_o.jpg");
+			$o_image->save($this->upload_dir.$filename."_o.jpg");
 
 			if ($o_image->width < $this->width_medium)
 			{
@@ -223,7 +228,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			// Resize original file to a medium size
 			$m_image = Image::factory($file);
 			$m_image->resize($this->width_medium,NULL,Image::AUTO)
-				->save($upload_dir.$filename."_m.jpg");
+				->save($this->upload_dir.$filename."_m.jpg");
 
 			// Resize original file to a thumbnail size
 			if ($m_image->width < $this->width_thumbnail)
@@ -233,7 +238,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 			$t_image = Image::factory($file);
 			$t_image->resize($this->width_thumbnail,NULL,Image::AUTO)
-				->save($upload_dir.$filename."_t.jpg");
+				->save($this->upload_dir.$filename."_t.jpg");
 
 			// Remove the temporary file
 			Unlink($file);
@@ -251,13 +256,13 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$media->m_width = $m_image->width;
 			$media->m_height = $m_image->height;
 
-			// Set thubnail details
+			// Set thumbnail details
 			$media->t_filename = $filename."_t.jpg";
 			$media->t_width = $t_image->width;
 			$media->t_height = $t_image->height;
 
 
-			// Set caption is if is set
+			// Set caption if it is set
 			if (isset($media_data['caption']))
 			{
 				$media->caption = $media_data['caption'];
@@ -291,9 +296,42 @@ class Controller_Api_Media extends Ushahidi_Api {
 	{
 		$media_id = $this->request->param('id', 0);
 
-		// TODO:// delete from db and disk
+		$media = ORM::factory('Media', $media_id);
+
+		$this->_response_payload = array();
+
+		if ($media->loaded())
+		{
+			// Return the media that is about to be deleted
+			$this->_response_payload = $media->for_api();
+
+			// Delete files from disk
+			// Delete the original size file
+			unlink($this->upload_dir.$media->o_filename);
+
+			// Delete the medium size file
+			unlink($this->upload_dir.$media->m_filename);
+
+			// Delete the thumbnail size file
+			unlink($this->upload_dir.$media->t_filename);
+
+			// Delete the details from the db
+			$media->delete();
+		}
+		else
+		{
+			throw new HTTP_Exception_404('Media does not exist. Media ID: \':id\'', array(
+				':id' => $media_id,
+			));
+		}
 	}
 
+	/**
+	 * Override the parent parse request body implementation so it doesn't
+	 * ask for JSON body when action_post_index_collection is implemented
+	 *
+	 * @return
+	 */
 	protected function _parse_request_body()
 	{
 		if ($this->request->action() === "post_index_collection")
