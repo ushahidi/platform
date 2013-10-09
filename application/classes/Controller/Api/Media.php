@@ -201,6 +201,61 @@ class Controller_Api_Media extends Ushahidi_Api {
 			{
 				throw new ORM_Validation_Exception('media_value', $media_data);
 			}
+
+			// Upload the file
+			// Set the directory to upload the images to
+			// TODO:: read this from a configuration file or something
+			$upload_dir = DOCROOT.'uploads/';
+
+			$file = upload::save($media_data['file'], NULL, $upload_dir);
+
+			$filename = strtolower(Text::random('alnum', 3))."_".time();
+
+			// Save original size
+			$o_image = Image::factory($file)->save($upload_dir.$filename."_o.jpg");
+
+			if ($o_image->width < $this->width_medium)
+			{
+				$this->width_medium = $o_image->width;
+			}
+			// Resize original file to a medium size
+			$m_image = Image::factory($filename)->resize($this->width_medium,NULL,Image::AUTO)
+				->save($upload_dir.$filename."_m.jpg");
+
+			// Resize original to a thumbnail size
+			if ($m_image->width < $this->width_thumbnail)
+			{
+				$this->width_thumbnail = $m_image->width;
+			}
+
+			$t_image = Image::factory($filename)->resize($this->width_thumbnail,NULL,Image::AUTO)
+				->save($upload_dir.$filename."_t.jpg");
+
+			// Remove the temporary file
+			Unlink($file);
+
+			// Save details to the database
+			$media = ORM::factory('media');
+
+			// Save original details
+			$media->o_width = $o_image->width;
+			$media->o_height = $o_image->height;
+			$media->o_filename = $filename."_o.jpg";
+
+			// Save medium details
+			$media->m_filename = $filename."_m.jpg";
+			$media->m_width = $m_image->width;
+			$media->m_height = $m_image->height;
+
+			// Save thubnail details
+			$media->t_filename = $filename."_t.jpg";
+			$media->t_width = $t_image->width;
+			$media->t_height = $t_image->height;
+			// Save caption is if is set
+			if (isset($media_post['caption']))
+			{
+				$media->caption = $media_post['caption'];
+			}
 		}
 		catch (ORM_Validation_Exception $e)
 		{
