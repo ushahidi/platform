@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Ushahidi API Media Controller
@@ -15,10 +15,6 @@
  */
 
 class Controller_Api_Media extends Ushahidi_Api {
-	/**
-	 * @var string Field to sort results by
-	 */
-	 protected $record_orderby = 'created';
 
 	/**
 	 * Retrieve all media
@@ -114,8 +110,8 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$media = $this->_request_payload;
-		print_r($media); exit;
+		// Get POST values
+		$media = $this->_request_post();
 	}
 
 	/**
@@ -128,6 +124,8 @@ class Controller_Api_Media extends Ushahidi_Api {
 	public function action_delete_index()
 	{
 		$media_id = $this->request->param('id', 0);
+
+		// TODO:// delete from db and disk
 	}
 
 	/**
@@ -139,14 +137,16 @@ class Controller_Api_Media extends Ushahidi_Api {
 	protected function save_image($image)
 	{
 		// Validate image type. Only jpg, jpeg, png and gif are supported
-		if ( ! Upload::valid($image) OR ! Upload::not_empty($image) OR ! Upload::type($image,
-			array('jpg', 'jpeg', 'png', 'gif')))
+		if (( ! Upload::valid($image)) OR
+			( ! Upload::not_empty($image)) OR
+			( ! Upload::type($image, array('jpg', 'jpeg', 'png', 'gif'))))
 		{
 			return FALSE;
 		}
 
 		// Set the directory to upload the images to
-		$upload_dir = Kohana::config('upload.directory', TRUE);
+		// TODO:: read this from configuration instead
+		$upload_dir = DOCROOT.'uploads/';
 
 		if ($file = upload::save($image, NULL, $upload_dir)) {
 			Image::factory($file)->save($upload_dir.$filename);

@@ -516,7 +516,7 @@ media:
     t_height: 100
   -
     id: 2
-    caption: "at the sendai"
+    caption: "at sendai"
     mime: "application/octet-stream"
     file_url: "http://domain.com/media/upload/photos"
     o_filename: "51f75f03cb6fe1.02579520_o.jpg"
@@ -530,7 +530,7 @@ media:
     t_height: 100
   -
     id: 3
-    caption: "at the cocolin"
+    caption: "at cocolin"
     mime: "application/octet-stream"
     file_url: "http://domain.com/media/upload/photos"
     o_filename: "51f75f03cb6fe1.02579520_o.jpg"
