@@ -5,7 +5,7 @@ return array(
 	'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
-	//'image'      => MODPATH.'image',      // Image manipulation
+	'image'      => MODPATH.'image',      // Image manipulation
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'minion'     => MODPATH.'minion',
