@@ -194,6 +194,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			->rule('file','Upload::valid')
 			->rule('file','Upload::type',array(':value',array('gif','jpg','jpeg','png')))
 			->rule('file','Upload::size', [':value', '1M']);
+
 		try
 		{
 			// Validate base post data
@@ -255,14 +256,18 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$media->t_width = $t_image->width;
 			$media->t_height = $t_image->height;
 
+
 			// Set caption is if is set
-			if (isset($media_post['caption']))
+			if (isset($media_data['caption']))
 			{
-				$media->caption = $media_post['caption'];
+				$media->caption = $media_data['caption'];
 			}
 
 			// Save details to the database
 			$media->save();
+
+			// Return the newly created media
+			$this->_response_payload = $media->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
 		{
