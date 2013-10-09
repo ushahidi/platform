@@ -225,7 +225,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$m_image->resize($this->width_medium,NULL,Image::AUTO)
 				->save($upload_dir.$filename."_m.jpg");
 
-			// Resize original to a thumbnail size
+			// Resize original file to a thumbnail size
 			if ($m_image->width < $this->width_thumbnail)
 			{
 				$this->width_thumbnail = $m_image->width;
@@ -262,6 +262,9 @@ class Controller_Api_Media extends Ushahidi_Api {
 			{
 				$media->caption = $media_data['caption'];
 			}
+
+			// Save file url
+			$media->file_url = URL::site('uploads',Request::current());
 
 			// Save details to the database
 			$media->save();
