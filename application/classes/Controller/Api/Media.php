@@ -13,8 +13,86 @@
  * @copyright  Ushahidi - http://www.ushahidi.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
-
 class Controller_Api_Media extends Ushahidi_Api {
+
+	// Resize to these dimentions
+	protected $width_medium = 824;
+
+	protected $width_thumbnail = 70;
+
+	public function before()
+	{
+		// Set up custom error view
+		Kohana_Exception::$error_view_content_type = 'application/json';
+		Kohana_Exception::$error_view = 'api/error';
+
+		$this->_oauth2_server = new Koauth_OAuth2_Server;
+
+		if ( ! $this->_check_access())
+		{
+			RETURN;
+		}
+
+		$this->_parse_request();
+	}
+
+	/**
+	 * Parse the request...
+	 */
+	protected function _parse_request()
+	{
+		// Override the method if needed.
+		$this->request->method(Arr::get(
+			$_SERVER,
+			'HTTP_X_HTTP_METHOD_OVERRIDE',
+			$this->request->method()
+		));
+
+		// Is that a valid method?
+		if ( ! isset($this->_action_map[$this->request->method()]))
+		{
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
+				':method'          => $this->request->method(),
+				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
+			))
+			->allowed(array_keys($this->_action_map));
+		}
+
+		// Get the basic verb based action..
+		$action = $this->_action_map[$this->request->method()];
+
+		// If this is a custom action, lets make sure we use it.
+		if ($this->request->action() != '_none')
+		{
+			$action .= '_'.$this->request->action();
+		}
+
+		// If we are acting on a collection, append _collection to the action name.
+		if ($this->request->param('id', FALSE) === FALSE AND
+			$this->request->param('locale', FALSE) === FALSE)
+		{
+			$action .= '_collection';
+		}
+
+		// Override the action
+		$this->request->action($action);
+
+		if ( ! method_exists($this, 'action_'.$action))
+		{
+			// TODO: filter 'Allow' header to only return implemented methods
+			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
+				':method'          => $this->request->method(),
+				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
+			))
+			->allowed(array_keys($this->_action_map));
+		}
+
+		// Are we be expecting body content as part of the request?
+		if (in_array($this->request->method(), $this->_methods_with_body_content))
+		{
+			$this->_parse_request_body();
+		}
+	}
 
 	/**
 	 * Retrieve all media
@@ -110,8 +188,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		// Get POST values
-		$media = $this->_request_post();
+
 	}
 
 	/**
@@ -134,28 +211,41 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 * @param  FILE        $image the image to save
 	 * @return string|bool the file name
 	 */
-	protected function save_image($image)
+	protected function _save_image($image)
 	{
 		// Validate image type. Only jpg, jpeg, png and gif are supported
 		if (( ! Upload::valid($image)) OR
 			( ! Upload::not_empty($image)) OR
+			( ! Upload::size($image,array('1M'))) OR
 			( ! Upload::type($image, array('jpg', 'jpeg', 'png', 'gif'))))
 		{
 			return FALSE;
 		}
 
-		// Set the directory to upload the images to
+		// Set the directory to upload the images
 		// TODO:: read this from configuration instead
 		$upload_dir = DOCROOT.'uploads/';
 
-		if ($file = upload::save($image, NULL, $upload_dir)) {
-			Image::factory($file)->save($upload_dir.$filename);
+		if ($file = upload::save($file, NULL, $upload_dir)) {
+
+			// Get image details.
+			list($width, $height, $type) = getimagesize($file);
+
+			$image = Image::factory($file)->save($upload_dir.$filename);
 
 			// Delete temporary image file
-			unlink($image);
+			unlink($file);
 
-			return $filename;
+			return $image;
 		}
 	}
 
+	protected function _parse_request_body()
+	{
+		if ($this->request->action() === "post_index_collection")
+		{
+			RETURN;
+		}
+		parent::_parse_request_body();
+	}
 }
