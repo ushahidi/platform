@@ -188,7 +188,26 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-
+		// Validation object for additional validation (not in model)
+		$media_data = Validation::factory(array_merge($_FILES,$this->request->post()))
+			->rule('file', 'not_empty')
+			->rule('file','Upload::valid')
+			->rule('file','Upload::type',array(':value',array('gif','jpg','jpeg','png')))
+			->rule('file','Upload::size', [':value', '1M']);
+		try
+		{
+			// Validate base post data
+			if ($media_data->check() === FALSE)
+			{
+				throw new ORM_Validation_Exception('media_value', $media_data);
+			}
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->errors('models')))
+				));
+		}
 	}
 
 	/**
