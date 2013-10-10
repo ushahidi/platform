@@ -22,6 +22,14 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 	protected $upload_dir;
 
+	/**
+	 * @var array List of HTTP methods which support body content
+	 */
+	protected $_methods_with_body_content = array
+	(
+		Http_Request::PUT,
+	);
+
 	public function before()
 	{
 		parent::before();
@@ -251,20 +259,5 @@ class Controller_Api_Media extends Ushahidi_Api {
 				':id' => $media_id,
 			));
 		}
-	}
-
-	/**
-	 * Override the parent parse request body implementation so it doesn't
-	 * ask for JSON body when action_post_index_collection is implemented
-	 *
-	 * @return
-	 */
-	protected function _parse_request_body()
-	{
-		if ($this->request->action() === "post_index_collection")
-		{
-			RETURN;
-		}
-		parent::_parse_request_body();
 	}
 }
