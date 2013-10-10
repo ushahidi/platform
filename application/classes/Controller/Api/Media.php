@@ -172,8 +172,11 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$t_image->resize($this->width_thumbnail,NULL,Image::AUTO)
 				->save($upload_dir.$filename."_t.jpg");
 
-			// Remove the temporary file
-			Unlink($file);
+			if (file_exists($file))
+			{
+				// Remove the temporary file
+				Unlink($file);
+			}
 
 			// Save details to the database
 			$media = ORM::factory('Media');
