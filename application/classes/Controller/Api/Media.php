@@ -142,7 +142,8 @@ class Controller_Api_Media extends Ushahidi_Api {
 				throw new ORM_Validation_Exception('media_value', $media_data);
 			}
 
-			$upload_dir = DOCROOT.'uploads/';
+			$upload_dir = Kohana::$config->load('media.media_upload_dir');
+
 			// Upload the file
 			$file = upload::save($media_data['file'], NULL, $upload_dir);
 

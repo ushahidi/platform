@@ -14,6 +14,6 @@ return array(
 	*/
 	'uid' => NULL, // Replace this later - needs to get passed into app to change paths there too.
 	// 'uid' => "3-0-dev",
-	// Where to upload media files eg. images.
-	'media_upload_dir' => DOCROOT.'media/uploads',
+	// Where to upload media files eg. images. Take note of the trailing slash
+	'media_upload_dir' => DOCROOT.'media/uploads/',
 );

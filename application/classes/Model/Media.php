@@ -127,7 +127,8 @@ class Model_Media extends ORM {
 	public function delete()
 	{
 
-		$upload_dir = DOCROOT.'uploads/';
+		$upload_dir = Kohana::$config->load('media.media_upload_dir');
+
 		// Delete files from disk
 
 		if (file_exists($upload_dir.$this->o_filename))
