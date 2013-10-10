@@ -325,7 +325,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		{
 			$this->db2 = Database::instance('ushahidi2', array
 				(
-					'type'       => 'MySQL',
+					'type'       => 'MySQLi',
 					'connection' => array(
 						'hostname'   => $hostname,
 						'database'   => $database,

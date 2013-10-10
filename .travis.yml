@@ -1,6 +1,11 @@
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.net#ushahidi"
 language: php
 php:
   - "5.4"
+  - "5.5"
 services:
   - mysql
 env:

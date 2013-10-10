@@ -47,6 +47,9 @@
 	}
 }
 
+/**
+ * 	Hidden for now, and probably not best handled with columns
+ */
 .post-category-marker {
 	@include grid-column(2, $collapse: true);
 	@media #{$small} {
@@ -54,25 +57,27 @@
 	}
 }
 
+// @todo Reduce column's when category marker re-added
 .post-title {
-	@include grid-column(10, $collapse: true);
+	@include grid-column(12, $collapse: true);
 	margin-bottom: 20px;
 	@media #{$small} {
-		@include grid-column(11);
+		@include grid-column(12, $collapse: true);
 		margin-bottom: 0px;
 	}
 	@media #{$medium} {
-		@include grid-column(7);
+		@include grid-column(6, $collapse: true);
 	}
 }
 
+// @todo Reduce column's when category marker re-added
 .post-actions-wrapper {
 	@include grid-column(12, $collapse: true);
 	@media #{$small} {
 		margin-top: 20px;
 	}
 	@media #{$medium} {
-		@include grid-column(4, $collapse: true);
+		@include grid-column(6, $collapse: true);
 		margin-top: 0;
 	}
 }

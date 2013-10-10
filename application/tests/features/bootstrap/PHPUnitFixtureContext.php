@@ -27,7 +27,10 @@ class PHPUnitFixtureContext extends BehatContext {
 
 		if($config['type'] !== 'pdo')
 		{
-			$config['connection']['dsn'] = strtolower($config['type']).':'.
+			// Replace MySQLi with MySQL since MySQLi isn't valid for a DSN
+			$type = $config['type'] === 'MySQLi' ? 'MySQL' : $config['type'];
+
+			$config['connection']['dsn'] = strtolower($type).':'.
 			'host='.$config['connection']['hostname'].';'.
 			'dbname='.$config['connection']['database'];
 		}
