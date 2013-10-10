@@ -65,25 +65,38 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 			},
 			fieldsets : function ()
 			{
-				var fieldsets = [
-					{
-						name : 'main',
-						legend : '',
-						fields : ['title', 'content'],
-						active: true
-					},
-					{
-						name : 'permissions',
-						legend : '',
-						fields : ['status']
-					}
-				];
+				var fieldsets = [];
 
 				// Extend with form schema if form_id is set
 				if (this.get('form.id'))
 				{
 					fieldsets = _.union(fieldsets, this.form.getPostFieldsets());
+
+					// Push main fields onto first group.
+					fieldsets[0].name = 'main';
+					fieldsets[0].active = true;
+					fieldsets[0].fields.unshift('content');
+					fieldsets[0].fields.unshift('title');
 				}
+				else
+				{
+					fieldsets.push(
+						{
+							name : 'main',
+							legend : '',
+							fields : ['title', 'content'],
+							active: true
+						}
+					);
+				}
+
+				fieldsets.push(
+					{
+						name : 'permissions',
+						legend : 'Permissions',
+						fields : ['status']
+					}
+				);
 
 				return fieldsets;
 			},
