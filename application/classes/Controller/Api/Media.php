@@ -26,25 +26,12 @@ class Controller_Api_Media extends Ushahidi_Api {
 	protected $width_thumbnail = 70;
 
 	/**
-	 * @var string Directory that holds uploaded images
-	 */
-	protected $upload_dir;
-
-	/**
 	 * @var array List of HTTP methods which support body content
 	 */
 	protected $_methods_with_body_content = array
 	(
 		Http_Request::PUT,
 	);
-
-	public function before()
-	{
-		parent::before();
-
-		// Initialize the uploads directory.
-		$this->upload_dir = DOCROOT.'uploads/';
-	}
 
 	/**
 	 * Retrieve all media
@@ -155,14 +142,15 @@ class Controller_Api_Media extends Ushahidi_Api {
 				throw new ORM_Validation_Exception('media_value', $media_data);
 			}
 
+			$upload_dir = DOCROOT.'uploads/';
 			// Upload the file
-			$file = upload::save($media_data['file'], NULL, $this->upload_dir);
+			$file = upload::save($media_data['file'], NULL, $upload_dir);
 
 			$filename = strtolower(Text::random('alnum', 3))."_".time();
 
 			// Save original size
 			$o_image = Image::factory($file);
-			$o_image->save($this->upload_dir.$filename."_o.jpg");
+			$o_image->save($upload_dir.$filename."_o.jpg");
 
 			if ($o_image->width < $this->width_medium)
 			{
@@ -171,7 +159,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			// Resize original file to a medium size
 			$m_image = Image::factory($file);
 			$m_image->resize($this->width_medium,NULL,Image::AUTO)
-				->save($this->upload_dir.$filename."_m.jpg");
+				->save($upload_dir.$filename."_m.jpg");
 
 			// Resize original file to a thumbnail size
 			if ($m_image->width < $this->width_thumbnail)
@@ -181,7 +169,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 			$t_image = Image::factory($file);
 			$t_image->resize($this->width_thumbnail,NULL,Image::AUTO)
-				->save($this->upload_dir.$filename."_t.jpg");
+				->save($upload_dir.$filename."_t.jpg");
 
 			// Remove the temporary file
 			Unlink($file);
