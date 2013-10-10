@@ -1,12 +1,11 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
 
  These are global styles loaded before Foundation
 
  * GLOBAL...............global custom classes
- * CUSTOM CLASSES...............custom classes
  */
 
 
@@ -14,63 +13,44 @@
 
 
 * {
-  @include box-sizing(border-box);
+	@include box-sizing(border-box);
+	*behavior: url(../js/ie/boxsizing.htc);
+}
+
+html, body {
+	min-height: 100%;
 }
 
 /*Font-Awesome global icon padding*/
 i {
-  padding-right: 10px;
+	padding-right: 10px;
 }
 
 /*custom css for Typekit asynchronous loading*/
 .wf-loading {
-  visibility: hidden;
+	visibility: hidden;
 }
 .wf-active {
-  visibility: visible;
+	visibility: visible;
 }
 
-
-
-
-/*------------------------------------*\
-    $CUSTOM CLASSES
-\*------------------------------------*/
-
-.none {
-  display: none;
-  visibility: hidden;
+::-moz-selection {
+		color: white;
+		background: $blueGray;
+}
+::selection {
+		color: white;
+		background: $blueGray;
 }
 
-.visually-hidden { /*http://developer.yahoo.com/blogs/ydn/posts/2012/10/clip-your-hidden-content-for-better-accessibility/*/
-    position: absolute !important;
-    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-    clip: rect(1px, 1px, 1px, 1px);
-    padding:0 !important;
-    border:0 !important;
-    height: 1px !important;
-    width: 1px !important;
-    overflow: hidden;
+ul.pagination li.current a {
+	-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+			border-radius: 3px;
 }
 
-body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .visually-hidden button { display: none !important; }
-
-.hidden {
-  opacity: 0;
-  @include transition (all .25s ease-in-out);
-}
-
-.visible {
-  opacity: 1;
-  @include transition (all .25s ease-in-out);
-}
-
-.inverse {
-  background-color: $blueGray !important;
-  color: $white !important;
-}
-
-.underline {
-  border-bottom: 1px dotted;
-  padding-bottom: 3px;
+ul.pagination li:hover a, ul.pagination li a:focus {
+	-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+			border-radius: 3px;
 }

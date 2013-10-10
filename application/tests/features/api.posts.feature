@@ -128,6 +128,36 @@ Feature: Testing the Posts API
         And the response has a "errors" property
         Then the guzzle status code should be 400
 
+    Scenario: Creating a Post with existing user by ID
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Invalid author",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "user":{
+                  "id": 1
+                },
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":"unknown",
+                    "missing_date":"2012/09/25",
+                    "status":"believed_missing",
+                    "last_location":"atlanta"
+                }
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "id" property
+        And the "user.id" property equals "1"
+        Then the guzzle status code should be 200
+
     Scenario: Updating a Post
         Given that I want to update a "Post"
         And that the request "data" is:

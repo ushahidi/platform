@@ -1,13 +1,17 @@
-define(['marionette', 'controllers/Controller'],
-	function(Marionette, Controller) {
+define(['marionette'],
+	function(Marionette) {
 		return Marionette.AppRouter.extend(
 		{
-			//"index" must be a method in AppRouter's controller
 			appRoutes :
 			{
-				"" : "index",
-				"posts" : "postList",
-				"posts/:id" : "postDetail"
+				'' : 'index',
+				'views/list' : 'viewsList',
+				'views/map' : 'viewsMap',
+				'posts/:id' : 'postDetail',
+				'sets' : 'sets',
+				'login' : 'login',
+				'register' : 'register',
+				'*path' : 'index'
 			}
 		});
-	}); 
+	});

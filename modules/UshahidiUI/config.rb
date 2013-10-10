@@ -1,19 +1,16 @@
 # Compass config file
 
-# Require any additional compass plugins here.
-# @import "susy";
-require "zurb-foundation";
-
 # Set this to the root of your project when deployed:
 http_path = "/"
+http_images_dir = "media/kohana/images"
 css_dir = "media/css"
 sass_dir = "media/scss"
 images_dir = "media/images"
 javascripts_dir = "media/js"
 fonts_dir = "media/fonts"
 
-#output_style = :compressed
-output_style = :nested
+output_style = :compressed
+#output_style = :nested
 
 relative_assets = true
 

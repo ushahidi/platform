@@ -1,51 +1,52 @@
 
-  <div id="collapse-map" class="collapse-map">
-    <p id="collapse-tab">collapse map</p>
-    <p id="collapse-tab" class="none" >expand map</p>
-  </div>
-  <form role="search" id="search-form" class="custom" action="">
-    <div class="search-form-wrapper">
+	<form role="search" class="custom" action="">
+		<div class="search-form-wrapper">
 
-      <div class="search-field">
-        <input aria-labelledby="search-label" type="text" class="search-field" placeholder="Keyword" value="">
-      </div>
+			<div class="search-field">
+				<label class="visually-hidden" for="search-field">Search</label>
+				<input aria-labelledby="search-label" type="text" id="search-field" class="search-field" placeholder="Keyword" value="">
+			</div>
 
-      <div class="location-select">
-        <input aria-labelledby="" type="text" class="location-field" placeholder="Location" value="">
-      </div>
+			<div class="location-select">
+				<label class="visually-hidden" for="location-field">Location</label>
+				<input aria-labelledby="" type="text" id="location-field" class="location-field" placeholder="Location" value="">
+			</div>
 
-      <!-- TODO: need to figure out best solution for categorie, time etc... -->
-      <div class="categories-select">
-        <select id="customDropdown" >
-          <option selected DISABLED>Categories</option>
-          <option>Voting Issues</option>
-          <option>Security</option>
-          <option>Urgent</option>
-        </select>
-      </div>
+			<!-- TODO: need to figure out best solution for categorie, time etc... -->
+			<div class="categories-select">
+				<label class="visually-hidden" for="categories">Categories</label>
+				<select >
+					<option selected DISABLED>Categories</option>
+					<option>Voting Issues</option>
+					<option>Security</option>
+					<option>Urgent</option>
+				</select>
+			</div>
 
-      <div class="sets-select">
-        <select id="customDropdown" >
-          <option selected DISABLED>Sets</option>
-          <option>SET #1</option>
-          <option>SET #2</option>
-          <option>SET #3</option>
-        </select>
-      </div>
+			<div class="sets-select">
+				<label class="visually-hidden" for="sets">Sets</label>
+				<select >
+					<option selected DISABLED>Sets</option>
+					<option>SET #1</option>
+					<option>SET #2</option>
+					<option>SET #3</option>
+				</select>
+			</div>
 
-      <div class="time-select">
-        <select id="customDropdown" >
-          <option selected DISABLED>Time</option>
-          <option>Time #1</option>
-          <option>Time #2</option>
-          <option>Time #3</option>
-        </select>
-      </div>
+			<div class="time-select">
+				<label class="visually-hidden" for="time">Time</label>
+				<select >
+					<option selected DISABLED>Time</option>
+					<option>Time #1</option>
+					<option>Time #2</option>
+					<option>Time #3</option>
+				</select>
+			</div>
 
-      <div class="search-bar-button">
-        <button type="submit" class="hide-for-medium-down button success postfix"><i class="icon-search"></i></button>
-        <button type="submit" class="show-for-medium-down button success postfix"><i class="icon-search"></i>SEARCH</button>
-      </div>
+			<div class="search-bar-button">
+				<button type="submit" class="hide-for-medium-down button success postfix"><i class="icon-search"></i></button>
+				<button type="submit" class="show-for-medium-down button success postfix"><i class="icon-search"></i>SEARCH</button>
+			</div>
 
-    </div>
-  </form>
+		</div>
+	</form>

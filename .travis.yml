@@ -1,6 +1,11 @@
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.net#ushahidi"
 language: php
 php:
   - "5.4"
+  - "5.5"
 services:
   - mysql
 env:
@@ -14,6 +19,9 @@ before_script:
   # db setup
   - mysql -e 'create database lamu_test;'
   - ./minion --task=migrations:run --up
+  # 2.x db setup for import test
+  - mysql -e 'create database zombie2x;'
+  - curl https://72c9192a7b87de5fc63a-f9fe2e6be12470a7bff22b7693bc7329.ssl.cf1.rackcdn.com/lamu-ci-zombie2x.sql | mysql zombie2x
   # webserver setup
   - php -S localhost:8000 httpdocs/index.php &
   - sleep 3

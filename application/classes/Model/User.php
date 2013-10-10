@@ -52,10 +52,13 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 	 */
 	public function filters()
 	{
-		return array(
-			'username' => array(
-				array('trim'),
-			),
+		return Arr::merge(
+			parent::filters(),
+			array(
+				'username' => array(
+					array('trim'),
+				),
+			)
 		);
 	}
 
@@ -68,6 +71,10 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'email' => array(
 				array('Valid::email'),
 				array(array($this, 'unique'), array(':field', ':value')),

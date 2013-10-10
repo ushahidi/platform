@@ -49,6 +49,10 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'name' => array(
 				array('not_empty'),
 				array('min_length', array(':value', 3)),

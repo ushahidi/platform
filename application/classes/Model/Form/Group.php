@@ -36,6 +36,10 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'form_id' => array(
 				array('numeric'),
 				array(array($this, 'fk_exists'), array('Form', ':field', ':value'))

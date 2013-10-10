@@ -37,6 +37,10 @@ abstract class Model_Post_Value extends ORM {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'post_id' => array(
 				array('numeric'),
 				array(array($this, 'fk_exists'), array('Post', ':field', ':value')),

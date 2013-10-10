@@ -34,7 +34,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	protected $_record_allowed_orderby = array('id', 'created', 'title');
+	protected $_record_allowed_orderby = array('id', 'created', 'updated', 'title');
 
 	/**
 	 * @var string oauth2 scope required for access
@@ -263,10 +263,21 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 		
-		$posts = $posts_query->find_all();
+		// Get the count of ALL records
+		$count_query = clone $posts_query;
+		$total_records = (int) $count_query
+			->select(array(DB::expr('COUNT(DISTINCT `post`.`id`)'), 'records_found'))
+			->limit(NULL)
+			->offset(NULL)
+			->find_all()
+			->get('records_found');
+		$count_query_sql = $count_query->last_query();
 
+		// Get posts
+		$posts = $posts_query->find_all();
 		$post_query_sql = $posts_query->last_query();
 
+		// Result count (for this request)
 		$count = $posts->count();
 
 		foreach ($posts as $post)
@@ -305,6 +316,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		// Respond with posts
 		$this->_response_payload = array(
 			'count' => $count,
+			'total_count' => $total_records,
 			'results' => $results,
 			'limit' => $this->_record_limit,
 			'offset' => $this->_record_offset,
@@ -319,6 +331,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		if (Kohana::$environment !== Kohana::PRODUCTION)
 		{
 			$this->_response_payload['query'] = $post_query_sql;
+			$this->_response_payload['count_query'] = $count_query_sql;
 		}
 		
 	}
@@ -377,8 +390,21 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 		
+		// unpack user to get user_id
+		if (isset($post_data['user']))
+		{
+			if (is_array($post_data['user']) AND isset($post_data['user']['id']))
+			{
+				$post_data['user_id'] = $post_data['user']['id'];
+			}
+			elseif (is_numeric($post_data['user']))
+			{
+				$post_data['user_id'] = $post_data['user'];
+			}
+		}
+		
 		$post->values($post_data, array(
-			'form_id', 'title', 'content', 'status', 'slug', 'locale'
+			'form_id', 'title', 'content', 'status', 'slug', 'locale', 'user_id'
 			));
 		$post->parent_id = $this->_parent_id;
 		$post->type = $this->_type;
@@ -536,6 +562,11 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			if ( isset($post_data['user'])
 					AND is_array($post_data['user'])
 					AND ! isset($post_data['user']['id'])
+					AND ( // at least one value is set
+						! empty($post_data['user']['email'])
+						OR ! empty($post_data['user']['first_name'])
+						OR ! empty($post_data['user']['last_name'])
+					)
 				)
 			{
 				// Make sure email is set to something
@@ -552,10 +583,11 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				
 				$user->values($post_data['user'], array('email', 'first_name', 'last_name'));
 				
-				$user_validation = Validation::factory($post_data['user']);
-				$user_validation->rule('email', 'not_empty');
+				// @todo add a setting for requiring email or not
+				//$user_validation = Validation::factory($post_data['user']);
+				//$user_validation->rule('email', 'not_empty');
 				
-				$user->check($user_validation);
+				$user->check(/* $user_validation */);
 			}
 
 			// Does post have tags included?

@@ -41,6 +41,11 @@ class Model_Set extends ORM implements Acl_Resource_Interface {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
+			
 			'user_id' => array(
 				array('numeric'),
 				array(array($this, 'user_exists'), array(':field', ':value'))

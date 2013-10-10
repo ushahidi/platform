@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    $CONTENTS
+		$CONTENTS
 \*------------------------------------*/
 /**
  * LIST VIEW BULK ACTIONS...............actions for all listed posts
@@ -10,112 +10,123 @@
 
 
 /*------------------------------------*\
-    $LIST VIEW BULK ACTIONS
+		$LIST VIEW BULK ACTIONS
 \*------------------------------------*/
 
 .list-view-bulk-actions {
-  @include grid-column(12, $collapse: true);
-  background-color: $blueGray;
-  padding: 20px 0 0 0;
-  border-top: 3px solid $white;
-  border-bottom: 3px solid $white;
+	@include grid-column(12, $collapse: true);
+	background-color: $blueGray;
+	padding: 20px 0 0 0;
+	border-top: 3px solid $white;
+	border-bottom: 3px solid $white;
 @media #{$medium} {
-  border-top: 0;
+	border-top: 0;
 }
-  .list-view-bulk-actions-list>li {
-    padding-right: 1.375em;
-    /*border-right: 1px solid;*/
-    line-height: 1em;
-    &:last-child {
-      border-right: 0px;
-    }
-  }
-  a {
-    color: $white;
-  }
+	.list-view-bulk-actions-list>li {
+		padding-right: 1.375em;
+		/*border-right: 1px solid;*/
+		line-height: 1em;
+		&:last-child {
+			border-right: 0px;
+		}
+	}
+	a {
+		color: $white;
+	}
 }
 
 .list-view-bulk-actions-list {
-  @include block-grid($per-row: 7);
-  padding: 0 15px;
-  li {
-    font-size: 20px;
-  }
-  form {
-    margin: 0;
-    input[type="checkbox"] {
-      margin: 0;
-    }
-  }
-  @media #{$small} {
-    @include block-grid($per-row: 7);
-    padding: 0 20px;
-  }
-  @media #{$medium} {
-    padding: 0;
-    li {
-      font-size: $base-font-size;
-    }
-  }
+	@include block-grid($per-row: 7);
+	padding: 0 15px;
+	li {
+		font-size: 20px;
+	}
+	form {
+		margin: 0;
+		input[type="checkbox"] {
+			margin: 0;
+		}
+	}
+	@media #{$small} {
+		@include block-grid($per-row: 7);
+		padding: 0 20px;
+	}
+	@media #{$medium} {
+		padding: 0 20px;
+		li {
+			font-size: $base-font-size;
+		}
+	}
 }
 
+.list-view-bulk-actions input[type="checkbox"] {
+	float: left;
+}
 
+.list-view-bulk-actions label.select-all span {
+	float: left;
+	margin-top: -3px;
+	font-size: 1.2em;
+	color: $white;
+}
 
 
 /*------------------------------------*\
-    $LIST VIEW WRAPPER AND FILTER BAR
+		$LIST VIEW WRAPPER AND FILTER BAR
 \*------------------------------------*/
 
 .list-view-wrapper {
-  @include grid-column(12);
-  @extend .box-shadow;
-  background-color: $white;
-  color: $sub-body-font-color;
-  margin-bottom: 20px;
+	@include grid-column(12);
+	@extend .box-shadow;
+	background-color: $white;
+	color: $sub-body-font-color;
+	margin-bottom: 20px;
+	padding-top: 20px;
 }
 
 .list-view-filter {
-  @include grid-column(12);
-  @extend .box-shadow;
-  background: $darkBlue url(../images/search-bg.jpg) repeat;
-  padding: 20px 15px;
-  margin: 0 0 20px 0;
-  .list-view-filter-info,
-  .list-view-filter-count {
-    @media #{$small} {
-      border-right: 1px solid darken($darkBlue, 10);
-    }
-  }
+	@include grid-column(12);
+	@extend .box-shadow;
+	background: $blueGray;
+	padding: 20px 15px;
+	margin: 0 0 20px 0;
+	.list-view-filter-info,
+	.list-view-filter-count {
+		@media #{$small} {
+			border-right: 1px solid darken($blueGray, 10);
+		}
+	}
 }
 
 .list-view-filter-info {
-  @include grid-column(12);
-  border-bottom: 1px solid darken($darkBlue, 10);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  h5 {
-    letter-spacing: .1em;
-    color: $white;
-    margin: 0 0 5px 0;
-  }
-  @media #{$small} {
-    @include grid-column(5);
-    border-bottom: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
+	@include grid-column(12);
+	border-bottom: 1px solid darken($blueGray, 10);
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+	h5 {
+		letter-spacing: .1em;
+		color: $white;
+		padding: 8px 0 0 0;
+		margin: 0 0 8px 0;
+	}
+	@media #{$small} {
+		@include grid-column(8);
+		border-bottom: 0;
+		padding-bottom: 0;
+		margin-bottom: 0;
+	}
 }
 
 .list-view-filter-count {
-  @include grid-column(12);
-  @media #{$small} {
-    @include grid-column(3);
-  }
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(2);
+	}
 }
 
 .list-view-filter-sort {
-  @include grid-column(12);
-  @media #{$small} {
-    @include grid-column(4);
-  }
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(2);
+	}
 }

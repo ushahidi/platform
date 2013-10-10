@@ -69,6 +69,10 @@ class Model_Tag extends ORM implements Acl_Resource_Interface {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'tag' => array(
 				array('not_empty'),
 				array('min_length', array(':value', 3)),

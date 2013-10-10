@@ -18,7 +18,7 @@ $em-base: 16px !default;
 
 // Working in ems is annoying. Think in pixels by using this handy function, emCalc(#px)
 @function emCalc($pxWidth) {
-  @return $pxWidth / $em-base * 1em;
+	@return $pxWidth / $em-base * 1em;
 }
 
 // Change whether or not you include browser prefixes
@@ -36,7 +36,7 @@ $darkBlue:       #22699D;
 
 // Ushahidi Pallette
 $blue:           #14B4D1;
-$green:          #CCDEA3;
+$green:          #3CB81C;
 $lightGray:      #EFF0F3;
 $blueGray:       #323A45;
 $white:          #FCFCFC;
@@ -46,12 +46,16 @@ $secondary-color: $lightGray;
 $alert-color: #C50813;
 $success-color: $green;
 
+$facebook-color:  #3b5998;
+$twitter-color:   #00acee;
+$google-color:    #dd4b39;
+
 $default-float: left;
 
 $body-bg: $lightGray;
 $body-font-color: $darkGray;
 $sub-body-font-color: #9A9797;
-$body-font-family: "proxima-nova", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$body-font-family: 'Open Sans', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $body-font-weight: normal;
 $body-font-style: normal;
 
@@ -108,12 +112,14 @@ $small-screen: 768px;
 $medium-screen: 1024px;
 $medium-up-screen: 1025px;
 $large-screen: 1440px;
+$large-up-screen: 2200px;
 
 $screen: "only screen";
 $small: "only screen and (min-width: #{$small-screen})";
 $medium: "only screen and (min-width: #{$medium-screen})";
 $medium-up: "only screen and (min-width: #{$medium-up-screen})";
 $large: "only screen and (min-width: #{$large-screen})";
+$large-up: "only screen and (min-width: #{$large-up-screen})";
 $landscape: "only screen and (orientation: landscape)";
 $portrait: "only screen and (orientation: portrait)";
 
@@ -130,7 +136,7 @@ $cursor-help-value: "help";
 // Grid Variables
 //
 
-$row-width: emCalc(1000px);
+$row-width: emCalc(1280px);
 $column-gutter: emCalc(30px);
 $total-columns: 12;
 
@@ -153,8 +159,8 @@ $block-grid-media-queries: true;
 
 // Heading font styles
 
-$header-font-family: "proxima-nova", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-$header-font-weight: bold;
+$header-font-family: 'Open Sans', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$header-font-weight: 700;
 $header-font-style: normal;
 $header-font-color: #565656;
 $header-line-height: 1.4;
@@ -182,6 +188,7 @@ $subheader-bottom-margin: .5em;
 // <small> styling
 
 $small-font-size: 70%;
+$medium-font-size: 80%;
 $small-font-color: lighten($header-font-color, 30%);
 
 // Paragraphs
@@ -1035,13 +1042,13 @@ $section-font-size: emCalc(16px);
 
 // Control the color of the background and some size options
 
-$section-content-bg: $white;
+$section-content-bg: darken($white, $section-function-factor);
 $section-content-bg-active: darken($section-content-bg, $section-function-factor);
 $section-vertical-nav-min-width: emCalc(200px);
 $section-vertical-tabs-title-width: emCalc(200px);
 $section-bottom-margin: emCalc(0px);
 
-$title-selector: ".title";
+$title-selector: ".js-title";
 $content-selector: ".content";
 
 //

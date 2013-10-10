@@ -97,7 +97,18 @@ class PostModelTest extends Unittest_Database_TestCase {
 					'title' => 'Test Post Title',
 					'content' => 'Test Report Content',
 				)
-			)
+			),
+			array(
+				// Invalid post data set 4 - Junk ID
+				array(
+					'id' => 'abc123',
+					'form_id' => 1,
+					'type' => 'report',
+					'title' => 'Test Post Title',
+					'locale' => 'en_US',
+					'content' => 'Test Report Content',
+				)
+			),
 		);
 	}
 
@@ -132,6 +143,8 @@ class PostModelTest extends Unittest_Database_TestCase {
 	{
 		$post = ORM::factory('Post');
 		$post->values($set);
+		// Set ID too so we can test validation here
+		$post->values($set, array('id'));
 
 		try
 		{

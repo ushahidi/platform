@@ -4,20 +4,49 @@ module.exports = function(grunt) {
 	{
 		pkg : grunt.file.readJSON('package.json'),
 
+		autoprefixer :
+		{
+			options :
+			{
+				browsers : ['last 2 versions']
+			},
+			prod :
+			{
+				files :
+				{
+					'media/css/test/style.css' : 'media/css/global.css'
+				}
+			}
+		},
+
+		imagemin :
+		{
+			all :
+			{
+				files : [
+				{
+					expand : true,
+					cwd : 'media/images',
+					src : ['*.{png,jpg, jpeg}'],
+					dest : 'media/images'
+				}]
+			}
+		},
+
 		requirejs :
 		{
 			mainJS :
 			{
 				options :
 				{
-					baseUrl : "media/js/app",
+					baseUrl : 'media/js/app',
 					wrap : false,
-					name : "../libs/almond",
+					name : '../libs/almond',
 					preserveLicenseComments : false,
-					optimize : "uglify",
-					mainConfigFile : "media/js/app/config/Init.js",
-					include : ["config/Init"],
-					out : "media/js/app/config/Init.min.js"
+					optimize : 'uglify',
+					mainConfigFile : 'media/js/app/config/Init.js',
+					include : ['config/Init'],
+					out : 'media/js/app/config/Init.min.js'
 				}
 			}
 		},
@@ -25,25 +54,26 @@ module.exports = function(grunt) {
 		jshint :
 		{
 			files : ['Gruntfile.js', 'media/js/app/**/*.js', '!media/js/app/**/*min.js'],
-			options :
-			{
-				globals :
-				{
-					jQuery : true,
-					console : false,
-					module : true,
-					document : true
-				}
+			options : {
+				jshintrc : '.jshintrc'
 			}
 		},
 
 		compass :
 		{
-			dist :
+			dev :
 			{
 				options :
 				{
-					config : 'config.rb'
+					config : 'config-dev.rb'
+				}
+			},
+
+			prod :
+			{
+				options :
+				{
+					config : 'config.rb' // compass config file is located in project root
 				}
 			}
 		},
@@ -52,18 +82,20 @@ module.exports = function(grunt) {
 		{
 			sass :
 			{
-				files : ['media/scss/*.scss'],
+				files : ['media/scss/*.scss', 'media/scss/modules/*.scss', 'media/scss/base/*.scss'],
 				tasks : ['compass']
 			}
 		}
 	});
 
+	grunt.loadNpmTasks('grunt-autoprefixer');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.registerTask('test', ['jshint']);
-	grunt.registerTask('build', ['requirejs:mainJS', 'requirejs:mainCSS']);
-	grunt.registerTask('default', ['test', 'build']);
+	grunt.registerTask('build', ['requirejs', 'imagemin', 'compass']);
+	grunt.registerTask('default', ['jshint', 'requirejs', 'compass']);
 
 };

@@ -88,6 +88,10 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 	public function rules()
 	{
 		return array(
+			'id' => array(
+				array('numeric')
+			),
+			
 			'form_id' => array(
 				array('not_empty'),
 				array('numeric'),
@@ -233,7 +237,16 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 	{
 		if (empty($this->slug))
 		{
-			$this->slug = URL::title($this->title);
+			$this->slug = $this->title;
+			
+			// FIXME horribly inefficient
+			// If the slug exists add a count to the end
+			$i = 1;
+			while (! $this->unique_slug('slug', $this->slug))
+			{
+				$this->slug = $this->title." $i";
+				$i++;
+			}
 		}
 	}
 

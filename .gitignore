@@ -8,4 +8,8 @@ application/config/*.php
 application/config/environments/development/*.php
 .htaccess
 application/tests/behat.yml
-
+composer.phar
+vendor/*
+bin/*
+node_modules*
+.sass-cache*

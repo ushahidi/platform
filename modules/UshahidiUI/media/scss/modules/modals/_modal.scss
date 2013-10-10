@@ -1,0 +1,79 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * MODAL...............via Reveal.js included in Foundation
+ * MODAL BODY...............all input fields and dropdowns
+ */
+
+
+
+
+/*-----------------------------------------------------------*\
+		$MODAL
+\*-----------------------------------------------------------*/
+
+.reveal-modal {
+	top: 25px;
+	@media #{$small} {
+		width: 80%;
+		left: 57%;
+		padding: 0;
+	}
+	@media #{$medium-up} {
+		width: 60%;
+		left: 67%;
+	}
+	@media #{$large} {
+		width: 50%;
+		left: 70%;
+		top: 65px;
+	}
+	@media #{$large-up} {
+		width: 38%;
+		left: 77%;
+		top: 65px;
+	}
+}
+
+
+
+
+/*------------------------------------*\
+		$MODAL BODY
+\*------------------------------------*/
+
+.modal-header {
+	@include grid-row;
+	background-color: #e9e9e9;
+	border: 1px solid #d0d0d0;
+	padding: 20px;
+	text-align: center;
+	h4 {
+		margin: 0;
+		line-height: 1em;
+	}
+}
+
+.modal-wrapper {
+	@include grid-row;
+	padding: 20px 20px 0;
+}
+
+.modal-footer {
+	@include grid-row;
+	background-color: $blueGray;
+	padding: 0;
+}
+
+.modal-submit {
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(4);
+		padding: 10px;
+		float: right;
+	}
+	.button {
+		margin-bottom: 0;
+	}
+}

@@ -1,5 +1,6 @@
-define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oauth'],
-	function($, Backbone, Marionette, _, Handlebars, OAuth) {
+define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'util/App.handlebars', 'foundation-loader'],
+	function($, Backbone, Marionette, _, Handlebars, OAuth)
+	{
 		var App = new Backbone.Marionette.Application();
 		
 		// Save oauth object in App - just in case
@@ -9,18 +10,23 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oau
 		//Regions can contain views, Layouts, or subregions nested as necessary
 		App.addRegions(
 		{
-			body : "body"
+			body : 'body'
 		});
 	
-		function isMobile() {
+		function isMobile()
+		{
 			var ua = (navigator.userAgent || navigator.vendor || window.opera, window, window.document);
 			return (/iPhone|iPod|iPad|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
 		}
 	
 		App.mobile = isMobile();
-	
-		App.addInitializer(function(options) {
+
+		App.addInitializer(function(/*options*/)
+		{
 			Backbone.history.start();
+			
+			// Init foundation
+			$(document).foundation();
 		});
 		
 		// Global config params
@@ -30,6 +36,6 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'handlebars', 'App.oau
 			jsdir : '/media/kohana/js',
 			cssdir : '/media/kohana/css'
 		}, window.config);
-	
+		
 		return App;
-	}); 
+	});

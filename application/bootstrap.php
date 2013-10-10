@@ -78,12 +78,9 @@ Kohana::$config = new Config;
 Kohana::$config->attach(new Config_File);
 
 /**
- * Attach the environment specific configuration file reader to config if not in production.
+ * Attach the environment specific configuration file reader to config
  */
-if (Kohana::$environment != Kohana::PRODUCTION)
-{
-	Kohana::$config->attach(new Config_File('config/environments/'.$env));
-}
+Kohana::$config->attach(new Config_File('config/environments/'.$env));
 
 /**
  * Initialize Kohana, setting the default options.

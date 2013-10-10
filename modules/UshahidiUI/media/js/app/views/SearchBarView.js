@@ -1,9 +1,8 @@
 define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
-	function(Marionette, Handlebars, App, template) {
+	function(Marionette, Handlebars, App, template)
+	{
 		return Marionette.ItemView.extend(
 		{
-			template : Handlebars.compile(template),
-			initialize: function() {
-			},
+			template : Handlebars.compile(template)
 		});
-	}); 
+	});

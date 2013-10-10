@@ -13,10 +13,25 @@ return array
 (
 	'default' => array
 	(
-		'type'       => 'MySQL',
+		'type'       => 'MySQLi',
 		'connection' => array(
 			'hostname'   => 'localhost',
 			'database'   => 'lamu_test',
+			'username'   => 'root',
+			'password'   => '',
+			'persistent' => FALSE,
+		),
+		'table_prefix' => '',
+		'charset'      => 'utf8',
+		'caching'      => TRUE,
+		'profiling'    => TRUE,
+	),
+	'TestImport2x' => array
+	(
+		'type'       => 'MySQLi',
+		'connection' => array(
+			'hostname'   => 'localhost',
+			'database'   => 'zombie2x',
 			'username'   => 'root',
 			'password'   => '',
 			'persistent' => FALSE,
