@@ -1,5 +1,5 @@
-define([ 'App', 'marionette', 'handlebars', 'text!templates/modals/CreatePost.html', 'backbone-validation', 'backbone-forms/backbone-forms', 'util/FormTemplates'],
-	function( App, Marionette, Handlebars, template, BackboneValidation, BackboneForm)
+define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals/CreatePost.html', 'backbone-validation', 'backbone-forms/backbone-forms', 'util/FormTemplates'],
+	function( App, Marionette, Handlebars, _, template, BackboneValidation, BackboneForm)
 	{
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
@@ -81,6 +81,16 @@ define([ 'App', 'marionette', 'handlebars', 'text!templates/modals/CreatePost.ht
 			onClose : function ()
 			{
 				BackboneValidation.unbind(this);
+			},
+			serializeData: function()
+			{
+				var data = _.extend(this.model.toJSON(), {
+					isPublished : this.model.isPublished(),
+					tags : this.model.getTags(),
+					user : this.model.user ? this.model.user.toJSON() : null,
+					fieldsets : _.result(this.model, 'fieldsets')
+				});
+				return data;
 			}
 		});
 	});

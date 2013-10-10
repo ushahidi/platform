@@ -10,19 +10,28 @@
 	</div> <!-- end modal-wrapper -->
 
 	<section class="modal-footer">
+		{{#if fieldsets}}
 		<h1 class="visually-hidden">Add Media</h1>
 		<div class="media-bar">
 			<div class="media-bar-uploads-wrap">
 				<ul class="media-bar-uploads">
+					{{#each fieldsets}}
+						<li class="select-icon"><a class="js-switch-fieldset" href="#fieldset-{{name}}">
+							<i class="icon-circle"></i>
+						</a></li>
+					{{/each}}
+					{{!--
 					<li id="upload-location" class="select-icon upload-location"><a class="js-switch-fieldset" href="#fieldset-location"><i class="icon-map-marker"></i></a></li>
 					<li id="upload-image" class="select-icon upload-image"><a class="js-switch-fieldset" href="#fieldset-image"><i class="icon-picture"></i></a></li>
 					<!-- <li id="upload-video" class="select-icon upload-video"><a class="js-switch-fieldset" href="#"><i class="icon-facetime-video"></i></a></li>
 					<li id="upload-link" class="select-icon upload-link"><a class="js-switch-fieldset" href="#"><i class="icon-link"></i></a></li>
 					<li id="upload-audio" class="select-icon upload-audio"><a class="js-switch-fieldset" href="#"><i class="icon-microphone"></i></a></li> -->
 					<li id="post-permissions" class="select-icon post-permissions"><a class="js-switch-fieldset" href="#fieldset-permissions"><i class="icon-lock"></i></a></li>
+					--}}
 				</ul>
 			</div>
 		</div> <!-- end media bar -->
+		{{/if}}
 
 		<div class="modal-submit">
 			<button type="submit" class="alert  radius  expand  button" form="create-post-form"><i class="icon-plus  icon-large"></i> Create Post</button>
