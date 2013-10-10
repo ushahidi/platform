@@ -103,7 +103,8 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					{
 						name : 'permissions',
 						legend : 'Permissions',
-						fields : ['status']
+						fields : ['status'],
+						icon : 'icon-lock'
 					}
 				);
 

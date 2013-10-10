@@ -17,7 +17,7 @@
 				<ul class="media-bar-uploads">
 					{{#each fieldsets}}
 						<li class="select-icon"><a class="js-switch-fieldset" href="#fieldset-{{name}}">
-							<i class="icon-circle"></i>
+							{{#if icon}}<i class="{{icon}}"></i>{{ else }}<i class="icon-circle"></i>{{/if}}
 						</a></li>
 					{{/each}}
 					{{!--
