@@ -15,11 +15,19 @@
  */
 class Controller_Api_Media extends Ushahidi_Api {
 
-	// Resize to these dimentions
+	/**
+	 * @var integer Image medium width size.
+	 */
 	protected $width_medium = 824;
 
+	/**
+	 * @var integer Image thumbnail width size.
+	 */
 	protected $width_thumbnail = 70;
 
+	/**
+	 * @var string Directory that holds uploaded images
+	 */
 	protected $upload_dir;
 
 	/**
