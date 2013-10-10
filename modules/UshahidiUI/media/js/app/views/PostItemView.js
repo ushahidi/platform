@@ -18,19 +18,20 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			// @todo add confirmation dialog
 			deletepost: function(e)
 			{
-				alertify.confirm("Are you sure you want to delete", function(e)
+				var that = this;
+				e.preventDefault();
+				alertify.confirm('Are you sure you want to delete', function()
 				{
-					e.preventDefault();
-					this.model.destroy({
+					that.model.destroy({
 						// Wait till server responds before destroying model
 						wait: true
 					});
 
 					if(true){
-						alertify.success("Post has been deleted.");
+						alertify.success('Post has been deleted.');
 
 					} else {
-						alertify.error("Please try again");
+						alertify.error('Unable to delete Post, please try again');
 					}
 				});
 			},
