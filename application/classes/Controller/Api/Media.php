@@ -24,83 +24,10 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 	public function before()
 	{
+		parent::before();
 
-		// Set up custom error view
-		Kohana_Exception::$error_view_content_type = 'application/json';
-		Kohana_Exception::$error_view = 'api/error';
-
-		$this->_oauth2_server = new Koauth_OAuth2_Server;
-
-		if ( ! $this->_check_access())
-		{
-			RETURN;
-		}
-
-		// Set the directory to upload images to
-		// TODO:: read this from a configuration file or something
+		// Initialize the uploads directory.
 		$this->upload_dir = DOCROOT.'uploads/';
-
-		$this->_parse_request();
-	}
-
-	/**
-	 * Override parent _parese_request() so it calls
-	 *
-	 *
-	 */
-	protected function _parse_request()
-	{
-		// Override the method if needed.
-		$this->request->method(Arr::get(
-			$_SERVER,
-			'HTTP_X_HTTP_METHOD_OVERRIDE',
-			$this->request->method()
-		));
-
-		// Is that a valid method?
-		if ( ! isset($this->_action_map[$this->request->method()]))
-		{
-			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
-				':method'          => $this->request->method(),
-				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
-			))
-			->allowed(array_keys($this->_action_map));
-		}
-
-		// Get the basic verb based action..
-		$action = $this->_action_map[$this->request->method()];
-
-		// If this is a custom action, lets make sure we use it.
-		if ($this->request->action() != '_none')
-		{
-			$action .= '_'.$this->request->action();
-		}
-
-		// If we are acting on a collection, append _collection to the action name.
-		if ($this->request->param('id', FALSE) === FALSE AND
-			$this->request->param('locale', FALSE) === FALSE)
-		{
-			$action .= '_collection';
-		}
-
-		// Override the action
-		$this->request->action($action);
-
-		if ( ! method_exists($this, 'action_'.$action))
-		{
-			// TODO: filter 'Allow' header to only return implemented methods
-			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
-				':method'          => $this->request->method(),
-				':allowed_methods' => implode(', ', array_keys($this->_action_map)),
-			))
-			->allowed(array_keys($this->_action_map));
-		}
-
-		// Are we be expecting body content as part of the request?
-		if (in_array($this->request->method(), $this->_methods_with_body_content))
-		{
-			$this->_parse_request_body();
-		}
 	}
 
 	/**
