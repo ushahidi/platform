@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * Model for Media
@@ -87,7 +87,8 @@ class Model_Media extends ORM {
 	public function for_api()
 	{
 		$response = array();
-		if ( $this->loaded() )
+
+		if ($this->loaded())
 		{
 			$response = array(
 				'id' => $this->id,
@@ -121,5 +122,32 @@ class Model_Media extends ORM {
 		}
 
 		return $response;
+	}
+
+	public function delete()
+	{
+
+		$upload_dir = DOCROOT.'uploads/';
+		// Delete files from disk
+
+		if (file_exists($upload_dir.$this->o_filename))
+		{
+			// Delete the original file
+			unlink($upload_dir.$this->o_filename);
+		}
+
+		if (file_exists($upload_dir.$this->m_filename))
+		{
+			// Delete the medium file
+			unlink($upload_dir.$this->m_filename);
+		}
+
+		if (file_exists($upload_dir.$this->t_filename))
+		{
+			// Delete the thumbnail file
+			unlink($upload_dir.$this->t_filename);
+		}
+
+		parent::delete();
 	}
 }

@@ -236,16 +236,6 @@ class Controller_Api_Media extends Ushahidi_Api {
 			// Return the media that is about to be deleted
 			$this->_response_payload = $media->for_api();
 
-			// Delete files from disk
-			// Delete the original size file
-			unlink($this->upload_dir.$media->o_filename);
-
-			// Delete the medium size file
-			unlink($this->upload_dir.$media->m_filename);
-
-			// Delete the thumbnail size file
-			unlink($this->upload_dir.$media->t_filename);
-
 			// Delete the details from the db
 			$media->delete();
 		}
