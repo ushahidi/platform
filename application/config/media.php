@@ -13,5 +13,6 @@ return array(
 	 * App versions and repository revisions are good UIDs to use.
 	*/
 	'uid' => NULL, // Replace this later - needs to get passed into app to change paths there too.
-	//'uid' => "3-0-dev",
+	// 'uid' => "3-0-dev",
+	'media_upload_dir' => DOCROOT.'media/uploads',
 );
