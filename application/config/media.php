@@ -16,4 +16,10 @@ return array(
 	// 'uid' => "3-0-dev",
 	// Where to upload media files eg. images. Take note of the trailing slash
 	'media_upload_dir' => DOCROOT.'media/uploads/',
+
+	// Width to be used to resize the image to a medium size
+	'image_medium_width' => 800,
+
+	// Width to be used to resize the image to a thumbnail size
+	'image_thumbnail_width' => 70,
 );

@@ -16,16 +16,6 @@
 class Controller_Api_Media extends Ushahidi_Api {
 
 	/**
-	 * @var integer Image medium width size.
-	 */
-	protected $width_medium = 824;
-
-	/**
-	 * @var integer Image thumbnail width size.
-	 */
-	protected $width_thumbnail = 70;
-
-	/**
 	 * @var array List of HTTP methods which support body content
 	 */
 	protected $_methods_with_body_content = array
@@ -133,7 +123,6 @@ class Controller_Api_Media extends Ushahidi_Api {
 			->rule('file','Upload::valid')
 			->rule('file','Upload::type',array(':value',array('gif','jpg','jpeg','png')))
 			->rule('file','Upload::size', [':value', '1M']);
-
 		try
 		{
 			// Validate base post data
@@ -151,25 +140,33 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 			// Save original size
 			$o_image = Image::factory($file);
+
 			$o_image->save($upload_dir.$filename."_o.jpg");
 
-			if ($o_image->width < $this->width_medium)
+			// Set medium image width
+			$medium_width = Kohana::$config->load('media.image_medium_width');
+
+			if ($o_image->width < $medium_width)
 			{
-				$this->width_medium = $o_image->width;
+				$medium_width = $o_image->width;
 			}
 			// Resize original file to a medium size
 			$m_image = Image::factory($file);
-			$m_image->resize($this->width_medium,NULL,Image::AUTO)
+
+			$m_image->resize($medium_width,NULL,Image::AUTO)
 				->save($upload_dir.$filename."_m.jpg");
 
+			// Set thumbnail size width
+			$thumbnail_width = 	Kohana::$config->load('media.image_thumbnail_width');
+
 			// Resize original file to a thumbnail size
-			if ($m_image->width < $this->width_thumbnail)
+			if ($m_image->width < $thumbnail_width)
 			{
-				$this->width_thumbnail = $m_image->width;
+				$thumbnail_width = $m_image->width;
 			}
 
 			$t_image = Image::factory($file);
-			$t_image->resize($this->width_thumbnail,NULL,Image::AUTO)
+			$t_image->resize($thumbnail_width,NULL,Image::AUTO)
 				->save($upload_dir.$filename."_t.jpg");
 
 			if (file_exists($file))
@@ -196,13 +193,11 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$media->t_width = $t_image->width;
 			$media->t_height = $t_image->height;
 
-
 			// Set caption if it is set
 			if (isset($media_data['caption']))
 			{
 				$media->caption = $media_data['caption'];
 			}
-
 			// Save file url
 			$media->file_url = URL::site('uploads',Request::current());
 
