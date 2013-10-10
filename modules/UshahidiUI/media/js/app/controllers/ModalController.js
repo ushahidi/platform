@@ -28,6 +28,8 @@ define(['App', 'backbone', 'marionette',
 					}
 				});
 
+				// @todo ensure tagscollection is loaded
+
 				post.relationsCallback.done( function () {
 					that.modal.show(new PostCreateView({
 						model: post

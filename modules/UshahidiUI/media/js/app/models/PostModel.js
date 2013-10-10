@@ -51,6 +51,14 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 							},
 							email : 'Text'
 						}
+					},
+					tags : {
+						type : 'Select',
+						title : 'Tags',
+						options : App.Collections.Tags,
+						editorAttrs : {
+							multiple : true
+						}
 					}
 					// @todo should we include slug?
 				};
@@ -75,6 +83,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					// Push main fields onto first group.
 					fieldsets[0].name = 'main';
 					fieldsets[0].active = true;
+					fieldsets[0].fields.unshift('tags');
 					fieldsets[0].fields.unshift('content');
 					fieldsets[0].fields.unshift('title');
 				}
