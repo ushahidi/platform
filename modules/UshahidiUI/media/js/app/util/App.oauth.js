@@ -10,7 +10,7 @@ define(['backbone', 'jso2', 'jquery', 'underscore'],
 			authorization: window.config.baseurl + 'oauth/authorize',
 			redirect_uri: window.config.baseurl,
 			scopes: {
-				request: ['posts', 'forms', 'api'],
+				request: ['posts', 'forms', 'api', 'tags', 'sets'],
 				require: ['posts']
 			}
 		});
