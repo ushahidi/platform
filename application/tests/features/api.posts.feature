@@ -147,7 +147,7 @@ Feature: Testing the Posts API
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
                     "date_of_birth":"unknown",
                     "missing_date":"2012/09/25",
-                    "status":"believed_missing",
+                    "missing_status":"believed_missing",
                     "last_location":"atlanta"
                 }
             }
