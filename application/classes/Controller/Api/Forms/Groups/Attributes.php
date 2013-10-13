@@ -137,6 +137,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 				$response = Request::factory('api/v'.Ushahidi_Api::version().'/attributes/')
 					->method(Request::POST)
 					->body(json_encode($post))
+					->headers($this->request->headers()) // Forward headers for OAuth checks
 					->execute();
 				// Override response to ensure status code etc is set
 				$this->response = $response;
