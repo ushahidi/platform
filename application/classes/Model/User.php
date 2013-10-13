@@ -92,7 +92,6 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 			
 			//username of user
 			'username' => array(
-				array('min_length', array(':value', 3)),
 				array('max_length', array(':value', 255)),
 				array(array($this, 'unique'), array(':field', ':value')),
 			),

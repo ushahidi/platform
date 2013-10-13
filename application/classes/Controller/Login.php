@@ -110,8 +110,14 @@ class Controller_Login extends Controller_Template {
 		
 		$valid = Validation::factory($params)
 			->rules('csrf', array(
-				array('not_empty'),
-				array('Security::check')
+					array('not_empty'),
+					array('Security::check')
+				))
+			->rules('username', array(
+					array('not_empty')
+				))
+			->rules('password', array(
+					array('not_empty')
 				));
 
 		// do login magic
