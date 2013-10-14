@@ -111,7 +111,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 	/**
 	 * Create a media
 	 *
-	 * POST /api/meida
+	 * POST /api/media
 	 *
 	 * @return void
 	 */
