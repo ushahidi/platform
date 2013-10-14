@@ -158,6 +158,9 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$media->o_height = $o_image->height;
 			$media->o_filename = $filename."_o.jpg";
 
+			// Set mime type
+			$media->mime = $o_image->mime;
+
 			// Set caption if it is set
 			if (isset($media_data['caption']))
 			{

@@ -101,7 +101,7 @@ class Model_Media extends ORM {
 				'id' => $this->id,
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
 				'caption' => $this->caption,
-				'file_url' => $this->file_url,
+				'mime' => $this->mime,
 				'original_file_url' => $this->_resize_image($this->o_width,$this->o_height,$this->o_filename),
 				'original_width' => $this->o_width,
 				'original_height' => $this->o_height,
