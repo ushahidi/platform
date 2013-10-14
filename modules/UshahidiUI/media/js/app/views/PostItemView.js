@@ -20,19 +20,21 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			{
 				var that = this;
 				e.preventDefault();
-				alertify.confirm('Are you sure you want to delete', function()
+				alertify.confirm('Are you sure you want to delete', function(confirmed)
 				{
 					that.model.destroy({
 						// Wait till server responds before destroying model
 						wait: true
-					});
-
-					if(true){
+					}).done(function()
+					{
 						alertify.success('Post has been deleted.');
+						PostListView.updatePagination();
 
-					} else {
-						alertify.error('Unable to delete Post, please try again');
-					}
+					}).fail(function ()
+					{
+						alertify.info('Cancelled');
+						//alertify.error('Unable to delete Post, please try again');
+					});
 				});
 			},
 			
