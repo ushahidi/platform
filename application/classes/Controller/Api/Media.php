@@ -200,7 +200,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 				$media->caption = $media_data['caption'];
 			}
 			// Save file url
-			$media->file_url = URL::site('uploads',Request::current());
+			$media->file_url = URL::site(Kohana::$config->load('media.media_upload_dir'),Request::current());
 
 			// Save details to the database
 			$media->save();

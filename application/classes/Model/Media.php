@@ -130,25 +130,39 @@ class Model_Media extends ORM {
 		$upload_dir = Kohana::$config->load('media.media_upload_dir');
 
 		// Delete files from disk
+		try {
+			if (file_exists($upload_dir.$this->o_filename))
+			{
+				// Delete the original file
+				 unlink($upload_dir.$this->o_filename);
 
-		if (file_exists($upload_dir.$this->o_filename))
+			}
+
+			if (file_exists($upload_dir.$this->m_filename))
+			{
+				// Delete the medium file
+				unlink($upload_dir.$this->m_filename);
+
+			}
+
+			if (file_exists($upload_dir.$this->t_filename))
+			{
+				// Delete the thumbnail file
+				unlink($upload_dir.$this->t_filename);
+			}
+		}
+		catch (ErrorException $e)
 		{
-			// Delete the original file
-			unlink($upload_dir.$this->o_filename);
+			// Catch any delete file warnings
+			if ($e->getCode() === E_WARNING)
+			{
+				// Log warning to log file.
+				Kohana::$log->add(Log::WARNING, 'Cannot delete file: :message',
+				array(':message' => $e->getMessage()));
+			}
 		}
 
-		if (file_exists($upload_dir.$this->m_filename))
-		{
-			// Delete the medium file
-			unlink($upload_dir.$this->m_filename);
-		}
-
-		if (file_exists($upload_dir.$this->t_filename))
-		{
-			// Delete the thumbnail file
-			unlink($upload_dir.$this->t_filename);
-		}
-
+		// Delete database entry
 		parent::delete();
 	}
 }

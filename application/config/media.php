@@ -16,8 +16,9 @@ return array(
 	'uid' => NULL, // Replace this later - needs to get passed into app to change paths there too.
 	// 'uid' => "3-0-dev",
 
-	// Where to upload media files eg. images. Take note of the trailing slash
-	'media_upload_dir' => DOCROOT.'media'DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR,
+	// Where to upload media files eg. images. Take note of the trailing slash.
+	// This should be in the Document root.
+	'media_upload_dir' => 'media'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR,
 
 	// Width to be used to resize the image to a medium size
 	'image_medium_width' => 800,
