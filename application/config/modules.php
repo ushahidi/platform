@@ -13,5 +13,6 @@ return array(
 	'koauth'     => MODPATH.'koauth',
 	'media'      => MODPATH.'media',
 	'ushahidiui' => MODPATH.'UshahidiUI',
+	'imagefly'   => MODPATH.'imagefly', // Dynamic image generation
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 );
