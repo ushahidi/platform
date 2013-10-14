@@ -41,31 +41,6 @@ class Model_Media extends ORM {
 				array('max_length', array(':value',100))
 			),
 
-			'm_width' => array(
-				array('numeric')
-			),
-
-			'm_height' => array(
-				array('numeric')
-			),
-
-			'm_filename' => array(
-				array('min_length', array(':value',3)),
-				array('max_length', array(':value',100))
-			),
-
-			't_width'=> array(
-				array('numeric')
-			),
-
-			't_height' => array(
-				array('numeric')
-			),
-
-			't_filename' => array(
-				array('min_length', array(':value',3)),
-				array('max_length', array(':value',100))
-			),
 			// Caption set on meda
 			'caption' => array(
 				array('min_length', array(':value', 3)),
