@@ -118,11 +118,12 @@ class Controller_Api_Media extends Ushahidi_Api {
 	public function action_post_index_collection()
 	{
 		// Validation object for additional validation (not in model)
+		$max_file_size = Kohana::$config->load('media.max_file_upload_size');
 		$media_data = Validation::factory(array_merge($_FILES,$this->request->post()))
 			->rule('file', 'not_empty')
 			->rule('file','Upload::valid')
 			->rule('file','Upload::type',array(':value',array('gif','jpg','jpeg','png')))
-			->rule('file','Upload::size', [':value', '1M']);
+			->rule('file','Upload::size', [':value', $max_file_size]);
 		try
 		{
 			// Validate base post data
@@ -153,7 +154,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			// Resize original file to a medium size
 			$m_image = Image::factory($file);
 
-			$m_image->resize($medium_width,NULL,Image::AUTO)
+			$m_image->resize($medium_width,Kohana::$config->load('media.image_medium_height'),Image::AUTO)
 				->save($upload_dir.$filename."_m.jpg");
 
 			// Set thumbnail size width
@@ -166,7 +167,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			}
 
 			$t_image = Image::factory($file);
-			$t_image->resize($thumbnail_width,NULL,Image::AUTO)
+			$t_image->resize($thumbnail_width,Kohana::$config->load('media.image_thumbnail_height'),Image::AUTO)
 				->save($upload_dir.$filename."_t.jpg");
 
 			if (file_exists($file))
