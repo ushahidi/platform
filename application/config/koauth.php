@@ -8,6 +8,7 @@ return array(
 		'forms',
 		'sets',
 		'tags',
+		'users',
 	),
 	'www_realm'        => 'Ushahidi API'
 );
