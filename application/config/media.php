@@ -21,5 +21,5 @@ return array(
 
 	// Maximum file upload size. Eg. 4M, 2G. Remember this figure should not be larger
 	// than the maximum file upload size set on the server. 1M by default.
-	'max_file_upload_size' => 1M,
+	'max_file_upload_size' => '1M',
 );
