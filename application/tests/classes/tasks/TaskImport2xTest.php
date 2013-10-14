@@ -9,7 +9,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class TaskImport2xTest extends Unittest_TestCase {
+class TaskImport2xTest extends Unittest_Database_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
@@ -18,6 +18,18 @@ class TaskImport2xTest extends Unittest_TestCase {
 		Session::$default = 'mock';
 		Kohana::$config->load('auth')->set('session_type', 'mock');
 		$this->getMockForAbstractClass('Session', array(), 'Session_Mock');
+	}
+
+	/**
+	 * Get data set PostPointModel
+	 *
+	 * @return PHPUnit_Extensions_Database_DataSet_IDataSet
+	 */
+	public function getDataSet()
+	{
+		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
+			Kohana::find_file('tests/datasets', 'ushahidi/Base', 'yml')
+		);
 	}
 	
 	/**
