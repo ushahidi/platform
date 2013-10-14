@@ -90,20 +90,27 @@ class Model_Media extends ORM {
 
 		if ($this->loaded())
 		{
+			// Set image dimensions from the config file
+			$medium_width = 	Kohana::$config->load('media.image_medium_width');
+			$medium_height = Kohana::$config->load('media.image_medium_height');
+
+			$thumbnail_width = Kohana::$config->load('media.image_thumbnail_width');
+			$thumbnail_height = Kohana::$config->load('media.image_thumbnail_height');
+
 			$response = array(
 				'id' => $this->id,
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
 				'caption' => $this->caption,
 				'file_url' => $this->file_url,
-				'original_filename' => $this->o_filename,
+				'original_file_url' => $this->_resize_image($this->o_width,$this->o_height,$this->o_filename),
 				'original_width' => $this->o_width,
 				'original_height' => $this->o_height,
-				'medium_filename' => $this->m_filename,
-				'medium_width' => $this->m_width,
-				'medium_height' => $this->m_height,
-				'thumbnail_filename' => $this->t_filename,
-				'thumbnail_width' => $this->t_width,
-				'thumbnail_height' => $this->t_height,
+				'medium_file_url' => $this->_resize_image($medium_width,$medium_height,$this->o_filename),
+				'medium_width' => $medium_width,
+				'medium_height' => $medium_height,
+				'thumbnail_file_url' => $this->_resize_image($thumbnail_width,$thumbnail_height,$this->o_filename),
+				'thumbnail_width' => $thumbnail_width,
+				'thumbnail_height' => $thumbnail_height,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)
 					: $this->created,
@@ -164,5 +171,32 @@ class Model_Media extends ORM {
 
 		// Delete database entry
 		parent::delete();
+	}
+
+	/**
+	 * Dynamically resizes an image and return URL for accessing it.
+	 *
+	 * @param  integer $width    The width of the image
+	 * @param  integer $height   The height of the image
+	 * @param  string $filename  The file name of the image
+	 * @return string           URL to the resized image
+	 */
+	private function _resize_image($width, $height, $filename)
+	{
+		// Format demensions appropriately depending on the value of the height
+		if ($height != NULL)
+		{
+			// Image height has been set
+			$dimension = sprintf('w%s-h%s',$width,$height);
+		}
+		else
+		{
+			// No image height set.
+			$dimension = sprintf('w%s',$width);
+		}
+
+		$file_url = sprintf('imagefly/%s/%s%s',$dimension,Kohana::$config->load('media.media_upload_dir'),$filename);
+
+		return URL::site($file_url,Request::current());
 	}
 }
