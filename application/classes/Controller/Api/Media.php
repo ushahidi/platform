@@ -144,32 +144,6 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 			$o_image->save($upload_dir.$filename."_o.jpg");
 
-			// Set medium image width
-			$medium_width = Kohana::$config->load('media.image_medium_width');
-
-			if ($o_image->width < $medium_width)
-			{
-				$medium_width = $o_image->width;
-			}
-			// Resize original file to a medium size
-			$m_image = Image::factory($file);
-
-			$m_image->resize($medium_width,Kohana::$config->load('media.image_medium_height'),Image::AUTO)
-				->save($upload_dir.$filename."_m.jpg");
-
-			// Set thumbnail size width
-			$thumbnail_width = 	Kohana::$config->load('media.image_thumbnail_width');
-
-			// Resize original file to a thumbnail size
-			if ($m_image->width < $thumbnail_width)
-			{
-				$thumbnail_width = $m_image->width;
-			}
-
-			$t_image = Image::factory($file);
-			$t_image->resize($thumbnail_width,Kohana::$config->load('media.image_thumbnail_height'),Image::AUTO)
-				->save($upload_dir.$filename."_t.jpg");
-
 			if (file_exists($file))
 			{
 				// Remove the temporary file
@@ -183,16 +157,6 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$media->o_width = $o_image->width;
 			$media->o_height = $o_image->height;
 			$media->o_filename = $filename."_o.jpg";
-
-			// Set medium details
-			$media->m_filename = $filename."_m.jpg";
-			$media->m_width = $m_image->width;
-			$media->m_height = $m_image->height;
-
-			// Set thumbnail details
-			$media->t_filename = $filename."_t.jpg";
-			$media->t_width = $t_image->width;
-			$media->t_height = $t_image->height;
 
 			// Set caption if it is set
 			if (isset($media_data['caption']))

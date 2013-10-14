@@ -144,19 +144,6 @@ class Model_Media extends ORM {
 				 unlink($upload_dir.$this->o_filename);
 
 			}
-
-			if (file_exists($upload_dir.$this->m_filename))
-			{
-				// Delete the medium file
-				unlink($upload_dir.$this->m_filename);
-
-			}
-
-			if (file_exists($upload_dir.$this->t_filename))
-			{
-				// Delete the thumbnail file
-				unlink($upload_dir.$this->t_filename);
-			}
 		}
 		catch (ErrorException $e)
 		{
