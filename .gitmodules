@@ -34,3 +34,6 @@
 [submodule "modules/media"]
 	path = modules/media
 	url = git://github.com/Zeelot/kohana-media.git
+[submodule "modules/imagefly"]
+	path = modules/imagefly
+	url = git://github.com/Bodom78/kohana-imagefly.git
