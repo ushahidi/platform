@@ -129,6 +129,10 @@ class Model_Media extends ORM {
 				Kohana::$log->add(Log::WARNING, 'Cannot delete file: :message',
 				array(':message' => $e->getMessage()));
 			}
+			else
+			{
+				throw new Kohana_Exception("Cannot delete file. Unknown error");
+			}
 		}
 
 		// Delete database entry
