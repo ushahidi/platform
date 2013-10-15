@@ -12,16 +12,6 @@
  		$CREATE-SET
  \*-----------------------------------------------------------*/
 
-.visibility-select {
-	button.expand {
-		@include grid-column(12);
-		@media #{$small} {
-			@include grid-column(3);
-			margin-right: 20px;
-		}
-	}
-}
-
 .create-set-photo {
 	@include grid-column(12, $collapse: true);
 	margin-bottom: 2em;
@@ -49,4 +39,21 @@
 
 .create-set-categories {
 	margin-bottom: 2em;
+}
+
+.visibility-select {
+	@include grid-column(12, $collapse: true);
+	.visibility-meta-text {
+		@include grid-column(12, $collapse: true);
+		margin-bottom: 20px;
+	}
+	button.expand {
+		@include grid-column(12);
+		@media #{$small} {
+			@include grid-column(2);
+			margin-right: 20px;
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
 }

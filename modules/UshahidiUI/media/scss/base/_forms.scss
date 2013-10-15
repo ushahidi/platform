@@ -2,6 +2,7 @@
 	$CONTENTS
 \*------------------------------------*/
 /**
+ * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
  * CREATE POST MODAL...............create post modal styling
  * SEARCH BAR...............search bar styling
@@ -11,6 +12,18 @@
 
 
 
+
+
+
+ /*------------------------------------*\
+ 	$GENERAL
+ \*------------------------------------*/
+
+input[type="radio"], select {
+	margin: 0 3px 1em 0;
+	position: relative;
+	top: -2px;
+} 
 
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS

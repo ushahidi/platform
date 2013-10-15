@@ -8282,6 +8282,7 @@ img.mfp-img {
 	$CONTENTS
 \*------------------------------------*/
 /**
+ * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
  * CREATE POST MODAL...............create post modal styling
  * SEARCH BAR...............search bar styling
@@ -8289,9 +8290,18 @@ img.mfp-img {
  * PSEUDO ELEMENTS...............pseudo element styling
  */
 /*------------------------------------*\
+	$GENERAL
+\*------------------------------------*/
+/* line 22, ../../scss/base/_forms.scss */
+input[type="radio"], select {
+  margin: 0 3px 1em 0;
+  position: relative;
+  top: -2px; }
+
+/*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
-/* line 19, ../../scss/base/_forms.scss */
+/* line 32, ../../scss/base/_forms.scss */
 input[type="text"], input[type="email"] {
   height: 100%;
   /* FF fix */
@@ -8300,26 +8310,26 @@ input[type="text"], input[type="email"] {
   -moz-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 27, ../../scss/base/_forms.scss */
+/* line 40, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown {
   height: 2.9em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px; }
-  /* line 32, ../../scss/base/_forms.scss */
+  /* line 45, ../../scss/base/_forms.scss */
   form.custom .custom.dropdown .current {
     margin-top: .4em;
     margin-left: 1.4em; }
-  /* line 36, ../../scss/base/_forms.scss */
+  /* line 49, ../../scss/base/_forms.scss */
   form.custom .custom.dropdown .selector {
     height: 3.3125em; }
 
-/* line 41, ../../scss/base/_forms.scss */
+/* line 54, ../../scss/base/_forms.scss */
 .postfix.button {
   height: 2.9em;
   border-radius: 3px; }
   @media only screen and (min-width: 1024px) {
-    /* line 41, ../../scss/base/_forms.scss */
+    /* line 54, ../../scss/base/_forms.scss */
     .postfix.button {
       border-radius: 0 3px 3px 0; } }
 
@@ -8327,18 +8337,18 @@ form.custom .custom.dropdown {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 56, ../../scss/base/_forms.scss */
+  /* line 69, ../../scss/base/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px; } }
 
 @media only screen and (min-width: 1024px) {
-  /* line 64, ../../scss/base/_forms.scss */
+  /* line 77, ../../scss/base/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0; } }
 @media only screen and (min-width: 1024px) {
-  /* line 64, ../../scss/base/_forms.scss */
+  /* line 77, ../../scss/base/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -8348,29 +8358,29 @@ form.custom .custom.dropdown {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 82, ../../scss/base/_forms.scss */
+  /* line 95, ../../scss/base/_forms.scss */
   .list-view-filter form.custom .custom.dropdown {
     margin-bottom: 0; } }
 
-/* line 88, ../../scss/base/_forms.scss */
+/* line 101, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em; }
 
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 99, ../../scss/base/_forms.scss */
+/* line 112, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc; }
 
-/* line 104, ../../scss/base/_forms.scss */
+/* line 117, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f; }
 
-/* line 110, ../../scss/base/_forms.scss */
+/* line 123, ../../scss/base/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px; }
@@ -8972,24 +8982,7 @@ textarea {
 /*-----------------------------------------------------------*\
 		$CREATE-SET
 \*-----------------------------------------------------------*/
-/* line 16, ../../scss/modules/modals/_create-set-modal.scss */
-.visibility-select button.expand {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left; }
-  @media only screen and (min-width: 768px) {
-    /* line 16, ../../scss/modules/modals/_create-set-modal.scss */
-    .visibility-select button.expand {
-      position: relative;
-      padding-left: 0.9375em;
-      padding-right: 0.9375em;
-      width: 25%;
-      float: left;
-      margin-right: 20px; } }
-
-/* line 25, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 15, ../../scss/modules/modals/_create-set-modal.scss */
 .create-set-photo {
   position: relative;
   padding-left: 0;
@@ -8997,7 +8990,7 @@ textarea {
   width: 100%;
   float: left;
   margin-bottom: 2em; }
-  /* line 28, ../../scss/modules/modals/_create-set-modal.scss */
+  /* line 18, ../../scss/modules/modals/_create-set-modal.scss */
   .create-set-photo .create-set-thumbnail {
     position: relative;
     padding-left: 0;
@@ -9007,7 +9000,7 @@ textarea {
     position: relative;
     margin-bottom: 20px; }
     @media only screen and (min-width: 768px) {
-      /* line 28, ../../scss/modules/modals/_create-set-modal.scss */
+      /* line 18, ../../scss/modules/modals/_create-set-modal.scss */
       .create-set-photo .create-set-thumbnail {
         position: relative;
         padding-left: 0;
@@ -9015,10 +9008,10 @@ textarea {
         width: 25%;
         float: left;
         margin-bottom: 0; } }
-  /* line 37, ../../scss/modules/modals/_create-set-modal.scss */
+  /* line 27, ../../scss/modules/modals/_create-set-modal.scss */
   .create-set-photo img {
     width: 100%; }
-  /* line 40, ../../scss/modules/modals/_create-set-modal.scss */
+  /* line 30, ../../scss/modules/modals/_create-set-modal.scss */
   .create-set-photo button.expand {
     position: relative;
     padding-left: 0.9375em;
@@ -9027,7 +9020,7 @@ textarea {
     float: left;
     margin: 0 0 0 20px; }
     @media only screen and (min-width: 768px) {
-      /* line 40, ../../scss/modules/modals/_create-set-modal.scss */
+      /* line 30, ../../scss/modules/modals/_create-set-modal.scss */
       .create-set-photo button.expand {
         position: relative;
         padding-left: 0.9375em;
@@ -9036,6 +9029,40 @@ textarea {
         float: left;
         vertical-align: bottom; } }
 
-/* line 50, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 40, ../../scss/modules/modals/_create-set-modal.scss */
 .create-set-categories {
   margin-bottom: 2em; }
+
+/* line 44, ../../scss/modules/modals/_create-set-modal.scss */
+.visibility-select {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left; }
+  /* line 46, ../../scss/modules/modals/_create-set-modal.scss */
+  .visibility-select .visibility-meta-text {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    float: left;
+    margin-bottom: 20px; }
+  /* line 50, ../../scss/modules/modals/_create-set-modal.scss */
+  .visibility-select button.expand {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 100%;
+    float: left; }
+    @media only screen and (min-width: 768px) {
+      /* line 50, ../../scss/modules/modals/_create-set-modal.scss */
+      .visibility-select button.expand {
+        position: relative;
+        padding-left: 0.9375em;
+        padding-right: 0.9375em;
+        width: 16.66667%;
+        float: left;
+        margin-right: 20px;
+        padding-left: 0;
+        padding-right: 0; } }
