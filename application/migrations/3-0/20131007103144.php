@@ -17,6 +17,7 @@ class Migration_3_0_20131007103144 extends Minion_Migration_Base {
 		  `id` Int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  `mime` VARCHAR(50) NOT NULL,
 		  `caption` VARCHAR(255) NOT NULL DEFAULT '' ,
+		  `file_url` VARCHAR(100) NOT NULL,
 		  `o_filename` VARCHAR(100) NOT NULL,
 		  `o_width` INT(11) DEFAULT NULL,
 		  `o_height` INT(11) DEFAULT NULL,
