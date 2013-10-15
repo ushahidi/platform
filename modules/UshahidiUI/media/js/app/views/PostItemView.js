@@ -1,4 +1,4 @@
-define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templates/PostListItem.html'],
+define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templates/PostListItem.html', 'views/PostListView'],
 	function(App, Marionette, _, Handlebars, alertify, template)
 	{
 		//ItemView provides some default rendering logic
@@ -20,21 +20,26 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			{
 				var that = this;
 				e.preventDefault();
-				alertify.confirm('Are you sure you want to delete', function(confirmed)
+				alertify.confirm('Are you sure you want to delete', function(e)
 				{
-					that.model.destroy({
+					if (e)
+					{
+						that.model.destroy({
 						// Wait till server responds before destroying model
 						wait: true
-					}).done(function()
+						}).done(function()
+						{	
+							alertify.success('Post has been deleted.');
+		
+						}).fail(function ()
+						{
+							alertify.error('Unable to delete Post, please try again');
+						});
+					}
+					else
 					{
-						alertify.success('Post has been deleted.');
-						PostListView.updatePagination();
-
-					}).fail(function ()
-					{
-						alertify.info('Cancelled');
-						//alertify.error('Unable to delete Post, please try again');
-					});
+						alertify.error('Cancelled');
+					}
 				});
 			},
 			
