@@ -131,7 +131,7 @@ class Model_Media extends ORM {
 			}
 			else
 			{
-				throw new Kohana_Exception("Cannot delete file. Unknown error");
+				throw $e;
 			}
 		}
 
