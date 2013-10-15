@@ -501,50 +501,50 @@ oauth_refresh_tokens:
 # media
 media:
   -
-    id: 3,
-    url: "http://domain.com/api/v2/media/3",
-    caption: "ihub",
-    mime: "image/jpeg",
-    original_file_url: "http://domain.com/imagefly/w420-h420/media/uploads/j2o_1381815821_o.jpg",
-    original_width: 600,
-    original_height: 700,
-    medium_file_url: "http://domain.com/imagefly/w800/media/uploads/j2o_1381815821_o.jpg",
-    medium_width: 600,
-    medium_height: 500,
-    thumbnail_file_url: "http://domain.com/imagefly/w70/media/uploads/j2o_1381815821_o.jpg",
-    thumbnail_width: 70,
-    thumbnail_height: 70,
-    created: "2013-10-15T05:43:41+00:00",
+    id: 3
+    url: "http://domain.com/api/v2/media/3"
+    caption: "ihub"
+    mime: "image/jpeg"
+    original_file_url: "http://domain.com/imagefly/w420-h420/media/uploads/j2o_1381815821_o.jpg"
+    original_width: 600
+    original_height: 700
+    medium_file_url: "http://domain.com/imagefly/w800/media/uploads/j2o_1381815821_o.jpg"
+    medium_width: 600
+    medium_height: 500
+    thumbnail_file_url: "http://domain.com/imagefly/w70/media/uploads/j2o_1381815821_o.jpg"
+    thumbnail_width: 70
+    thumbnail_height: 70
+    created: "2013-10-15T05:43:41+00:00"
     updated: "1970-01-01T00:00:00+00:00"
   -
     id: 2,
-    url: "http://domain.com/api/v2/media/2",
-    caption: "at sendai",
-    mime: "image/jpeg",
-    original_file_url: "http://domain.com/imagefly/w420-h420/media/uploads/j2o_1381815821_o.jpg",
-    original_width: 500,
-    original_height: 600,
-    medium_file_url: "http://domain.com/imagefly/w800/media/uploads/j2o_1381815821_o.jpg",
-    medium_width: 200,
-    medium_height: 300,
-    thumbnail_file_url: "http://domain.com/imagefly/w70/media/uploads/j2o_1381815821_o.jpg",
-    thumbnail_width: 100,
-    thumbnail_height: 100,
-    created: "2013-10-15T05:43:41+00:00",
+    url: "http://domain.com/api/v2/media/2"
+    caption: "at sendai"
+    mime: "image/jpeg"
+    original_file_url: "http://domain.com/imagefly/w420-h420/media/uploads/j2o_1381815821_o.jpg"
+    original_width: 500
+    original_height: 600
+    medium_file_url: "http://domain.com/imagefly/w800/media/uploads/j2o_1381815821_o.jpg"
+    medium_width: 200
+    medium_height: 300
+    thumbnail_file_url: "http://domain.com/imagefly/w70/media/uploads/j2o_1381815821_o.jpg"
+    thumbnail_width: 100
+    thumbnail_height: 100
+    created: "2013-10-15T05:43:41+00:00"
     updated: "1970-01-01T00:00:00+00:00"
   -
     id: 1,
-    url: "http://domain.com/api/v2/media/1",
-    caption: "at cocolin",
-    mime: "image/jpeg",
-    original_file_url: "http://domain.com/imagefly/w420-h420/media/uploads/j2o_1381815821_o.jpg",
-    original_width: 400,
-    original_height: 500,
-    medium_file_url: "http://domain.com/imagefly/w800/media/uploads/j2o_1381815821_o.jpg",
-    medium_width: 200,
-    medium_height: 300,
+    url: "http://domain.com/api/v2/media/1"
+    caption: "at cocolin"
+    mime: "image/jpeg"
+    original_file_url: "http://domain.com/imagefly/w420-h420/media/uploads/j2o_1381815821_o.jpg"
+    original_width: 400
+    original_height: 500
+    medium_file_url: "http://domain.com/imagefly/w800/media/uploads/j2o_1381815821_o.jpg"
+    medium_width: 200
+    medium_height: 300
     thumbnail_file_url: "http://domain.com/imagefly/w70/media/uploads/j2o_1381815821_o.jpg",
-    thumbnail_width: 100,
-    thumbnail_height: 100,
-    created: "2013-10-15T05:43:41+00:00",
+    thumbnail_width: 100
+    thumbnail_height: 100
+    created: "2013-10-15T05:43:41+00:00"
     updated: "1970-01-01T00:00:00+00:00"
