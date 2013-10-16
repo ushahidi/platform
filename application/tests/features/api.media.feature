@@ -46,7 +46,7 @@ Feature: Testing the Media API
         Then the guzzle status code should be 404
 
     @resetFixture
-    Scenario: Listing all media
+    Scenario: Listing all Media
         Given that I want to get all "Media"
         When I request "/media"
         Then the response is JSON
@@ -54,3 +54,37 @@ Feature: Testing the Media API
         And the type of the "count" property is "numeric"
         And the "count" property equals "3"
         Then the guzzle status code should be 200
+
+    @resetFixture
+    Scenario: Listing All Media with limit and offset
+        Given that I want to get all "Media"
+        And that the request "query string" is:
+            """
+            limit=1&offset=1
+            """
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        And the response has a "next" property
+        And the response has a "prev" property
+        And the response has a "curr" property
+        And the "results.0.id" property equals "2"
+        Then the guzzle status code should be 200
+
+        Scenario: Deleting a Media
+        Given that I want to delete a "Media"
+        And that its "id" is "1"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "id" property
+        Then the guzzle status code should be 200
+
+    Scenario: Fail to delete a non existent Media
+        Given that I want to delete a "Media"
+        And that its "id" is "10"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 404
