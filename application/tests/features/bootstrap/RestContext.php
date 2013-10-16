@@ -28,6 +28,8 @@ class RestContext extends BehatContext
 
 	private $_parameters        = array();
 	private $_headers           = array();
+	private $_postFields        = array();
+	private $_postFiles        = array();
 
 	/**
 	 * Initializes context.
@@ -144,6 +146,24 @@ class RestContext extends BehatContext
 	{
 		$this->_headers[$headerName] = $headerValue;
 	}
+
+	/**
+	 * @Given /^that the post field "([^"]*)" is:$/
+	 * @Given /^that the post field "([^"]*)" is "([^"]*)"$/
+	 */
+	public function thatThePostFieldIs($fieldName, $fieldValue)
+	{
+		$this->_postFields[$fieldName] = $fieldValue;
+	}
+
+	/**
+	 * @Given /^that the post file "([^"]*)" is:$/
+	 * @Given /^that the post file "([^"]*)" is "([^"]*)"$/
+	 */
+	public function thatThePostFileIs($fieldName, $fieldValue)
+	{
+		$this->_postFiles[$fieldName] = $fieldValue;
+	}
 		
 	/**
 	 * @When /^I request "([^"]*)"$/
@@ -165,12 +185,27 @@ class RestContext extends BehatContext
 				break;
 			case 'POST':
 				$postFields = (array)$this->_restObject;
-				$http_request = $this->_client
-					->post(
-						$this->_requestUrl,
-						$this->_headers,
-						$postFields['data']
-					);
+				// If post fields or files are set assume this is a 'normal' POST request
+				if ($this->_postFields OR $this->_postFiles)
+				{
+					$http_request = $this->_client
+						->post(
+							$this->_requestUrl,
+							$this->_headers
+						)
+						->addPostFields($this->_postFields)
+						->addPostFiles($this->_postFiles);
+				}
+				// Otherwise assume we have JSON
+				else
+				{
+					$http_request = $this->_client
+						->post(
+							$this->_requestUrl,
+							$this->_headers,
+							$postFields['data']
+						);
+				}
 				break;
 			case 'PUT':
 				$request = (array)$this->_restObject;

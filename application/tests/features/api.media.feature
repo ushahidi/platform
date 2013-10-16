@@ -1,9 +1,10 @@
-@media
+@media @oauth2Skip
 Feature: Testing the Media API
 
     Scenario: Creating a new Media
         Given that I want to make a new "Media"
-        When I fill in "caption" with "ihub"
+        And that the post field "caption" is "ihub"
+        And that the post file "file" is "/Users/robbie/devel/Lamu/modules/UshahidiUI/media/images/avatar.png"
         When I request "/media"
         Then the response is JSON
         And the response has a "id" property
