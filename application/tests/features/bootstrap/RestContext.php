@@ -2,7 +2,7 @@
 
 /**
  * Ushahidi Rest Context
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Tests
  * @copyright  Ushahidi - http://www.ushahidi.com
@@ -39,7 +39,7 @@ class RestContext extends BehatContext
 	{
 		$this->_restObject = new stdClass();
 		$this->_parameters = $parameters;
-		
+
 		$base_url = $this->getParameter('base_url');
 		$proxy_url = $this->getParameter('proxy_url');
 
@@ -48,7 +48,7 @@ class RestContext extends BehatContext
 		{
 			$options['curl.options'] = array(CURLOPT_PROXY => $proxy_url);
 		}
-		
+
 		$this->_client = new Guzzle\Service\Client($base_url, $options);
 	}
 
@@ -72,7 +72,7 @@ class RestContext extends BehatContext
 	{
 		// Reset _restObject
 		$this->_restObject = new stdClass();
-		
+
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'post';
 	}
@@ -85,7 +85,7 @@ class RestContext extends BehatContext
 	{
 		// Reset _restObject
 		$this->_restObject = new stdClass();
-		
+
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'put';
 	}
@@ -98,7 +98,7 @@ class RestContext extends BehatContext
 	{
 		// Reset _restObject
 		$this->_restObject = new stdClass();
-		
+
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'get';
 	}
@@ -110,7 +110,7 @@ class RestContext extends BehatContext
 	{
 		// Reset _restObject
 		$this->_restObject = new stdClass();
-		
+
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'get';
 	}
@@ -123,7 +123,7 @@ class RestContext extends BehatContext
 	{
 		// Reset _restObject
 		$this->_restObject = new stdClass();
-		
+
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'delete';
 	}
@@ -164,7 +164,7 @@ class RestContext extends BehatContext
 	{
 		$this->_postFiles[$fieldName] = $fieldValue;
 	}
-		
+
 	/**
 	 * @When /^I request "([^"]*)"$/
 	 */
@@ -188,7 +188,7 @@ class RestContext extends BehatContext
 					$http_request = $this->_client
 						->post($this->_requestUrl)
 						->addPostFields($this->_postFields)
-						->addPostFiles($this->_postFiles);
+						->addPostFiles($this->_preparePostFileData($this->_postFiles));
 				}
 				// Otherwise assume we have JSON
 				else
@@ -221,10 +221,10 @@ class RestContext extends BehatContext
 			// Don't care.
 			// 4xx and 5xx statuses are valid error responses
 		}
-		
+
 		// Get response object
 		$this->_response = $http_request->getResponse();
-		
+
 		// Create fake response object if Guzzle doesn't give us one
 		if (! $this->_response instanceof Guzzle\Http\Message\Response)
 		{
@@ -241,7 +241,7 @@ class RestContext extends BehatContext
 
 		// Check for NULL not empty - since [] and {} will be empty but valid
 		if ($data === NULL) {
-			
+
 			// Get further error info
 			switch (json_last_error()) {
 				case JSON_ERROR_NONE:
@@ -266,7 +266,7 @@ class RestContext extends BehatContext
 					$error = 'Unknown error';
 				break;
 			}
-			
+
 			throw new Exception("Response was not JSON\nBody:" . $this->_response->getBody(TRUE) . "\nError: " . $error );
 		}
 	}
@@ -311,7 +311,7 @@ class RestContext extends BehatContext
 					$error = 'Unknown error';
 				break;
 			}
-			
+
 			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(TRUE) . "\nError: " . $error );
 		}
 	}
@@ -330,7 +330,7 @@ class RestContext extends BehatContext
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}
 	}
-	
+
 	/**
 	 * @Given /^the response does not have a "([^"]*)" property$/
 	 * @Given /^the response does not have an "([^"]*)" property$/
@@ -365,13 +365,13 @@ class RestContext extends BehatContext
 			throw new \Exception('Property value mismatch on \''.$propertyName.'\'! (given: '.$propertyValue.', match: '.$actualPropertyValue.')');
 		}
 	}
-	
+
 	/**
 	 * @Given /^the "([^"]*)" property contains "([^"]*)"$/
 	 */
 	public function thePropertyContains($propertyName, $propertyContainsValue)
 	{
-		
+
 		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		$this->theResponseIsJson();
@@ -381,7 +381,7 @@ class RestContext extends BehatContext
 		if ($actualPropertyValue === NULL) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}
-		
+
 		if (is_array($actualPropertyValue) AND ! in_array($propertyContainsValue, $actualPropertyValue)) {
 			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.json_encode($actualPropertyValue).')');
 		}
@@ -394,13 +394,13 @@ class RestContext extends BehatContext
 			throw new \Exception("Property '".$propertyName."' could not be compared. Must be string or array.\n");
 		}
 	}
-	
+
 	/**
 	 * @Given /^the "([^"]*)" property count is "([^"]*)"$/
 	 */
 	public function thePropertyCountIs($propertyName, $propertyCountValue)
 	{
-		
+
 		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		$this->theResponseIsJson();
@@ -410,7 +410,7 @@ class RestContext extends BehatContext
 		if ($actualPropertyValue === NULL) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}
-		
+
 		if (is_array($actualPropertyValue) AND count($actualPropertyValue) != $propertyCountValue) {
 			throw new \Exception('Property \''.$propertyName.'\' count does not match! (given: '.$propertyCountValue.', match: '.count($actualPropertyValue).')');
 		}
@@ -466,7 +466,7 @@ class RestContext extends BehatContext
 			$this->_response
 		);
 	}
-	
+
 	/**
 	 * @Given /^that the api_url is "([^"]*)"$/
 	 */
@@ -474,7 +474,7 @@ class RestContext extends BehatContext
 	{
 		$this->_apiUrl = $api_url;
 	}
-	
+
 	/**
 	 * @AfterScenario
 	 */
@@ -485,5 +485,28 @@ class RestContext extends BehatContext
 		{
 			$this->echoLastResponse();
 		}
+	}
+
+	private function _preparePostFileData($postFiles)
+	{
+		//Check if post files is not empty
+		if ( count($postFiles) > 0)
+		{
+			//
+			array_walk_recursive($postFiles, array($this, '_prefix_app_path'));
+			return $postFiles;
+		}
+		return $postFiles;
+	}
+
+	/**
+	 * Make the path to upload a files to relative to the application directory
+	 *
+	 * @param  string $item the path to the file to be uploaded
+	 * @return string       path to application folder
+	 */
+	private function _prefix_app_path(&$item)
+	{
+		$item = APPPATH.$item;
 	}
 }

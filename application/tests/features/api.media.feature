@@ -4,13 +4,21 @@ Feature: Testing the Media API
     Scenario: Creating a new Media
         Given that I want to make a new "Media"
         And that the post field "caption" is "ihub"
-        And that the post file "file" is "/Users/robbie/devel/Lamu/modules/UshahidiUI/media/images/avatar.png"
+        And that the post file "file" is "tests/datasets/ushahidi/sample.png"
         When I request "/media"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the response has a "caption" property
+        And the "caption" property equals "ihub"
+        And the response has a "mime" property
+        And the type of the "mime" property is "string"
+        And the "mime" property equals "image/jpeg"
+        And the response has a "original_file_url" property
+        And the type of the "original_file_url" property is "string"
         Then the guzzle status code should be 200
 
+    @resetFixture
     Scenario: List all media
         Given that I want to get all "Media"
         When I request "/media"
