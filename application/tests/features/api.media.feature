@@ -28,8 +28,25 @@ Feature: Testing the Media API
         And the type of the "thumbnail_file_url" property is "string"
         Then the guzzle status code should be 200
 
+    Scenario: Finding a Media
+        Given that I want to find a "Media"
+        And that its "id" is "2"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        Then the guzzle status code should be 200
+
+        Scenario: Finding a non-existent Media
+        Given that I want to find a "Media"
+        And that its "id" is "10"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 404
+
     @resetFixture
-    Scenario: List all media
+    Scenario: Listing all media
         Given that I want to get all "Media"
         When I request "/media"
         Then the response is JSON
