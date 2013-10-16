@@ -1,4 +1,4 @@
-define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templates/PostListItem.html', 'views/PostListView'],
+define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templates/PostListItem.html'],
 	function(App, Marionette, _, Handlebars, alertify, template)
 	{
 		//ItemView provides some default rendering logic
@@ -15,7 +15,6 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 				'click .js-post-set' : 'showAddToSet'
 			},
 
-			// @todo add confirmation dialog
 			deletepost: function(e)
 			{
 				var that = this;
@@ -38,7 +37,7 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 					}
 					else
 					{
-						alertify.error('Cancelled');
+						alertify.log('Cancelled');
 					}
 				});
 			},
