@@ -42,7 +42,7 @@ class RestContext extends BehatContext
 		
 		$base_url = $this->getParameter('base_url');
 		$proxy_url = $this->getParameter('proxy_url');
-		
+
 		$options = array();
 		if($proxy_url)
 		{
@@ -178,21 +178,15 @@ class RestContext extends BehatContext
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$query_string = ( isset($request['query string']) ) ? '?'.trim($request['query string']) : '';
 				$http_request = $this->_client
-					->get(
-						$this->_requestUrl.'/'.$id.$query_string,
-						$this->_headers
-					);
+					->get($this->_requestUrl.'/'.$id.$query_string);
 				break;
 			case 'POST':
-				$postFields = (array)$this->_restObject;
+				$request = (array)$this->_restObject;
 				// If post fields or files are set assume this is a 'normal' POST request
 				if ($this->_postFields OR $this->_postFiles)
 				{
 					$http_request = $this->_client
-						->post(
-							$this->_requestUrl,
-							$this->_headers
-						)
+						->post($this->_requestUrl)
 						->addPostFields($this->_postFields)
 						->addPostFiles($this->_postFiles);
 				}
@@ -200,35 +194,29 @@ class RestContext extends BehatContext
 				else
 				{
 					$http_request = $this->_client
-						->post(
-							$this->_requestUrl,
-							$this->_headers,
-							$postFields['data']
-						);
+						->post($this->_requestUrl)
+						->setBody($request['data']);
 				}
 				break;
 			case 'PUT':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$http_request = $this->_client
-					->put(
-						$this->_requestUrl.'/'.$id,
-						$this->_headers,
-						$request['data']);
+					->put($this->_requestUrl.'/'.$id)
+					->setBody($request['data']);
 				break;
 			case 'DELETE':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$http_request = $this->_client
-					->delete(
-						$this->_requestUrl.'/'.$id,
-						$this->_headers
-					);
+					->delete($this->_requestUrl.'/'.$id);
 				break;
 		}
 
 		try {
-			$http_request->send();
+			$http_request
+				->addHeaders($this->_headers)
+				->send();
 		} catch (Guzzle\Http\Exception\BadResponseException $e) {
 			// Don't care.
 			// 4xx and 5xx statuses are valid error responses
