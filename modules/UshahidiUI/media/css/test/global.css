@@ -279,7 +279,7 @@ body {
   color: #1f1f1f;
   padding: 0;
   margin: 0;
-  font-family: "Montserrat", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
   line-height: 1;
@@ -8686,7 +8686,7 @@ footer {
   /* line 96, /Users/robbie/devel/Lamu/modules/UshahidiUI/media/scss/modules/modals/_create-post-modal.scss */
   .select-icon a {
     display: block;
-    width: 56px;
+  width: 56px;
     height: 60px;
     color: #fcfcfc;
     text-align: center; }
@@ -8948,3 +8948,13 @@ textarea {
       float: left;
       border-top: 0;
       padding-top: 0; } }
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * CREATE-SET...............create-set specific styles
+ */
+/*-----------------------------------------------------------*\
+		$CREATE-SET
+\*-----------------------------------------------------------*/

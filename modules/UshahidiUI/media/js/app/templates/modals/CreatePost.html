@@ -1,20 +1,20 @@
-	<div class="modal-header">
+  <div class="modal-header">
 		<a class="js-switch-fieldset" href="#fieldset-main"><i class="icon-angle-left"></i></a>
-		<h4>Create Post</h4>
-		<a class="close-reveal-modal">&#215;</a>
-	</div> <!-- end modal-header -->
+    <h4>Create Post</h4>
+    <a class="close-reveal-modal">&#215;</a>
+  </div> <!-- end modal-header -->
 
-	<div class="modal-wrapper">
-		<section class="create-post-options">
-		</section> <!-- end create-post-options -->
-	</div> <!-- end modal-wrapper -->
+  <div class="modal-wrapper">
+    <section class="create-post-options">
+    </section> <!-- end create-post-options -->
+  </div> <!-- end modal-wrapper -->
 
-	<section class="modal-footer">
+  <section class="modal-footer">
 		{{#if fieldsets}}
-		<h1 class="visually-hidden">Add Media</h1>
-		<div class="media-bar">
-			<div class="media-bar-uploads-wrap">
-				<ul class="media-bar-uploads">
+    <h1 class="visually-hidden">Add Media</h1>
+    <div class="media-bar">
+      <div class="media-bar-uploads-wrap">
+        <ul class="media-bar-uploads">
 					{{#each fieldsets}}
 						<li class="select-icon"><a class="js-switch-fieldset" href="#fieldset-{{name}}">
 							{{#if icon}}<i class="{{icon}}"></i>{{ else }}<i class="icon-circle"></i>{{/if}}
@@ -28,13 +28,13 @@
 					<li id="upload-audio" class="select-icon upload-audio"><a class="js-switch-fieldset" href="#"><i class="icon-microphone"></i></a></li> -->
 					<li id="post-permissions" class="select-icon post-permissions"><a class="js-switch-fieldset" href="#fieldset-permissions"><i class="icon-lock"></i></a></li>
 					--}}
-				</ul>
-			</div>
-		</div> <!-- end media bar -->
+        </ul>
+      </div>
+    </div> <!-- end media bar -->
 		{{/if}}
 
-		<div class="modal-submit">
+    <div class="modal-submit">
 			<button type="submit" class="alert  radius  expand  button" form="create-post-form"><i class="icon-plus  icon-large"></i> Create Post</button>
-		</div>
+    </div>
 
-	</section> <!-- end modal-footer -->
+  </section> <!-- end modal-footer -->

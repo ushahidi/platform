@@ -1,8 +1,8 @@
 define(['App', 'backbone', 'marionette',
-	'views/modals/CreatePostView', 'views/modals/EditPostView', 'views/modals/AddToSetView',
+	'views/modals/CreatePostView', 'views/modals/EditPostView', 'views/modals/AddToSetView', 'views/modals/CreateSetView',
 	'models/PostModel'],
 	function(App, Backbone, Marionette,
-		PostCreateView, PostEditView, AddToSetView,
+		PostCreateView, PostEditView, AddToSetView, CreateSetView,
 		PostModel)
 	{
 		return Backbone.Marionette.Controller.extend(
@@ -11,10 +11,11 @@ define(['App', 'backbone', 'marionette',
 			{
 				// Store modal region we're controlling
 				this.modal = options.modal;
-
+				
 				App.vent.on('post:create', this.postCreate, this);
 				App.vent.on('post:edit', this.postEdit, this);
 				App.vent.on('post:set', this.addToSet, this);
+				App.vent.on('set:create', this.setCreate, this);
 			},
 			postCreate : function ()
 			{
@@ -51,6 +52,12 @@ define(['App', 'backbone', 'marionette',
 					model : post
 				}));
 				this.modal.currentView.on('close', this.modal.close, this.modal);
+			},
+			setCreate : function (post)
+			{
+				this.modal.show(new CreateSetView({
+					model : post
+				}));
 			}
 		});
 	});
