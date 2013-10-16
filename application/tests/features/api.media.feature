@@ -16,6 +16,16 @@ Feature: Testing the Media API
         And the "mime" property equals "image/jpeg"
         And the response has a "original_file_url" property
         And the type of the "original_file_url" property is "string"
+        And the response has a "original_width" property
+        And the type of the "original_width" property is "numeric"
+        And the response has a "original_height" property
+        And the type of the "original_height" property is "numeric"
+        And the response has a "medium_file_url" property
+        And the type of the "medium_file_url" property is "string"
+        And the response has a "medium_width" property
+        And the type of the "medium_width" property is "numeric"
+        And the response has a "thumbnail_file_url" property
+        And the type of the "thumbnail_file_url" property is "string"
         Then the guzzle status code should be 200
 
     @resetFixture
