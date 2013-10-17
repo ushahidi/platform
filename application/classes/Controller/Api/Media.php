@@ -135,7 +135,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			$upload_dir = Kohana::$config->load('media.media_upload_dir');
 
 			// Make media/uploads/ directory if doesn't exist
-			if ( file_exists($upload_dir))
+			if ( ! file_exists($upload_dir))
 			{
 				// Make directory recursively
 				mkdir($upload_dir,0755,true);
