@@ -26,9 +26,9 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 						// Wait till server responds before destroying model
 						wait: true
 						}).done(function()
-						{	
+						{
 							alertify.success('Post has been deleted.');
-							Backbone.history.navigate("views/list",{trigger: true});
+							App.appRouter.navigate('views/list', {trigger: true});
 		
 						}).fail(function ()
 						{

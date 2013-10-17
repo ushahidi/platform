@@ -27,8 +27,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 						// Wait till server responds before destroying model
 						wait: true
 						}).done(function()
-						{	
-							alertify.success('Post has been deleted.');
+						{
+							alertify.success('Post has been deleted');
 		
 						}).fail(function ()
 						{
