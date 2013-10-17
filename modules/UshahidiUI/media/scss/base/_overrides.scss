@@ -31,7 +31,9 @@ a.button {
 letter-spacing: .1em;
 }
 
-button.secondary, .button.secondary {
+
+
+/*button.secondary, .button.secondary {
 	@include transition (background-color 0ms ease-in-out);
 }
 
@@ -43,6 +45,17 @@ button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button
 
 .button.secondary:hover {
 	background-color: $alert-color;
+}*/
+
+
+
+.button.bluegray {
+	background-color: $blueGray;
+	color: $white;
+}
+
+.button.bluegray:hover {
+	background-color: darken($blueGray, 10);
 }
 
 

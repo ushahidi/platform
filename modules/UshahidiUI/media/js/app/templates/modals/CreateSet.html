@@ -7,29 +7,53 @@
   <section class="create-post-options">
     <form role="search" id="search-form" class="custom" action="">
 
-      <h6>Title</h6>
-      <input type="text" placeholder="Enter a title">
+      <h6>Name</h6>
+      <input type="text" placeholder="Enter your name">
+
+      <div class="create-set-photo">
+        <h6>Photo</h6>
+        <a href="" class="th  create-set-thumbnail">
+          <img src="/media/kohana/images/placeholder.jpg">
+        </a>
+        <button class="radius  secondary  small  expand  button"><i class="icon-camera-retro"></i> Add a Photo</button>
+      </div>
 
       <h6>Description</h6>
-      <textarea name="post-description" id="post-description" placeholder="Enter a short description" cols="30" rows="30"></textarea>
+      <textarea name="post-description" id="post-description" class="post-description" placeholder="Enter a short description" cols="30" rows="30"></textarea>
 
-      <h6>Location</h6>
-      <select id="customDropdown" >
-        <option selected DISABLED>Choose a location</option>
-        <option>United States</option>
-        <option>Kenya</option>
-        <option>South Africa</option>
-        <option>New Zealand</option>
-      </select>
-      <div class="create-post-location-map"></div>
+      <h6>Keywords</h6>
+      <input type="text" placeholder="Separate tags with comma">
 
-      <h6>Categories</h6>
-      <select id="customDropdown" >
-        <option selected DISABLED>Choose a category</option>
-        <option>Voting Issues</option>
-        <option>Security</option>
-        <option>Urgent</option>
-      </select>
+      <div class="create-set-categories">
+        <h6>Categories</h6>
+        <select id= "customDropdown" class="custom dropdown">
+          <option selected DISABLED>Choose a category</option>
+          <option>Voting Issues</option>
+          <option>Security</option>
+          <option>Urgent</option>
+        </select>
+      </div>
+
+      <div class="visibility-select">
+        <h6>Visibility</h6>
+        <small class="visibility-meta-text">This set is <strong>Private</strong> by default. Click or tap button to change.</small>
+        <button class="radius  bluegray  expand  button  js-visibility-private"> <i class="icon-lock"></i>Private</button>
+        <button class="radius  success  expand  button  js-visibility-public  none"> <i class="icon-unlock"></i>Public</button>
+        <!-- <button class="radius  bluegray  expand  button"> <i class="icon-unlock"></i>Public</button> -->
+<!--         <button class="radius  secondary  expand  button"> <i class="icon-lock"></i>
+        <label for="private">
+          <input type="radio" name="visibility" id="private" value="small" checked="checked" />
+          Private
+        </label>
+      </button>
+
+      <button class="radius  bluegray  expand  button"> <i class="icon-unlock"></i>
+        <label for="public">
+          <input type="radio" name="visibility" id="public" value="large" />
+          Public
+        </label>
+      </button> -->
+      </div>
 
     </form> <!-- end form -->
   </section> <!-- end create-post-options -->
