@@ -14,7 +14,7 @@
 /*------------------------------------*\
 		$COMPASS
 \*------------------------------------*/
-/* line 17, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -35,57 +35,57 @@ time, mark, audio, video {
   font-size: 100%;
   vertical-align: baseline; }
 
-/* line 22, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1; }
 
-/* line 24, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none; }
 
-/* line 26, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-/* line 28, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle; }
 
-/* line 30, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none; }
-  /* line 103, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+  /* line 103, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
   q:before, q:after, blockquote:before, blockquote:after {
     content: "";
     content: none; }
 
-/* line 32, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none; }
 
-/* line 116, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block; }
 
-/* line 10, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%; }
 
-/* line 12, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper {
   clear: both;
   min-height: 100%;
   height: auto !important;
   height: 100%;
   margin-bottom: -72px; }
-  /* line 18, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+  /* line 18, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
   .content-wrapper .sticky-footer-root {
     height: 72px; }
 
-/* line 20, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .footer {
   clear: both;
   position: relative;
@@ -5043,48 +5043,52 @@ a.th {
 a.button {
   letter-spacing: .1em; }
 
-/* line 34, ../../scss/base/_overrides.scss */
-button.secondary, .button.secondary {
-  -webkit-transition: background-color 0ms ease-in-out;
-  -moz-transition: background-color 0ms ease-in-out;
-  transition: background-color 0ms ease-in-out; }
+/*button.secondary, .button.secondary {
+	@include transition (background-color 0ms ease-in-out);
+}
 
-/* line 38, ../../scss/base/_overrides.scss */
 button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
-  background-color: #323a45;
-  color: #fcfcfc;
-  -webkit-transition: background-color 0ms ease-in-out;
-  -moz-transition: background-color 0ms ease-in-out;
-  transition: background-color 0ms ease-in-out; }
+	background-color: $blueGray;
+	color: $white;
+	@include transition (background-color 0ms ease-in-out);
+}
 
-/* line 44, ../../scss/base/_overrides.scss */
 .button.secondary:hover {
-  background-color: #c50813; }
+	background-color: $alert-color;
+}*/
+/* line 52, ../../scss/base/_overrides.scss */
+.button.bluegray {
+  background-color: #323a45;
+  color: #fcfcfc; }
+
+/* line 57, ../../scss/base/_overrides.scss */
+.button.bluegray:hover {
+  background-color: #1d2127; }
 
 /*------------------------------------*\
     $SOCIAL BUTTONS
 \*------------------------------------*/
-/* line 55, ../../scss/base/_overrides.scss */
+/* line 68, ../../scss/base/_overrides.scss */
 button.facebook, .button.facebook {
   background-color: #3b5998; }
 
-/* line 59, ../../scss/base/_overrides.scss */
+/* line 72, ../../scss/base/_overrides.scss */
 .button.facebook:hover {
   background-color: #2d4373; }
 
-/* line 63, ../../scss/base/_overrides.scss */
+/* line 76, ../../scss/base/_overrides.scss */
 button.twitter, .button.twitter {
   background-color: #00acee; }
 
-/* line 67, ../../scss/base/_overrides.scss */
+/* line 80, ../../scss/base/_overrides.scss */
 .button.twitter:hover {
   background-color: #0087bb; }
 
-/* line 71, ../../scss/base/_overrides.scss */
+/* line 84, ../../scss/base/_overrides.scss */
 button.google, .button.google {
   background-color: #dd4b39; }
 
-/* line 75, ../../scss/base/_overrides.scss */
+/* line 88, ../../scss/base/_overrides.scss */
 .button.google:hover {
   background-color: #c23321; }
 
@@ -5129,7 +5133,7 @@ button.google, .button.google {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/_topbar.scss */
 .logo-image {
-  background: url('../../images/logo.png?1380749441') no-repeat;
+  background: url('../../images/logo.png?1380641241') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -5509,7 +5513,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 31, ../../scss/modules/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1380749440') no-repeat;
+  background: url('../../images/avatar.png?1380641241') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -5833,7 +5837,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  background: #22699d url('../../images/search-bg.jpg?1380749441') repeat;
+  background: #22699d url('../../images/search-bg.jpg?1380641241') repeat;
   width: 100%;
   border-top: 3px solid #12a0ba;
   padding-top: 2em; }
@@ -8278,6 +8282,7 @@ img.mfp-img {
 	$CONTENTS
 \*------------------------------------*/
 /**
+ * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
  * CREATE POST MODAL...............create post modal styling
  * SEARCH BAR...............search bar styling
@@ -8285,35 +8290,46 @@ img.mfp-img {
  * PSEUDO ELEMENTS...............pseudo element styling
  */
 /*------------------------------------*\
+	$GENERAL
+\*------------------------------------*/
+/* line 22, ../../scss/base/_forms.scss */
+input[type="radio"], select {
+  margin: 0 3px 1em 0;
+  position: relative;
+  top: -2px; }
+
+/*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
-/* line 19, ../../scss/base/_forms.scss */
+/* line 32, ../../scss/base/_forms.scss */
 input[type="text"], input[type="email"] {
-  padding: 20px;
+  height: 100%;
+  /* FF fix */
+  padding: 10px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 26, ../../scss/base/_forms.scss */
+/* line 40, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown {
-  height: 3em;
+  height: 2.9em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px; }
-  /* line 31, ../../scss/base/_forms.scss */
+  /* line 45, ../../scss/base/_forms.scss */
   form.custom .custom.dropdown .current {
     margin-top: .4em;
     margin-left: 1.4em; }
-  /* line 35, ../../scss/base/_forms.scss */
+  /* line 49, ../../scss/base/_forms.scss */
   form.custom .custom.dropdown .selector {
     height: 3.3125em; }
 
-/* line 40, ../../scss/base/_forms.scss */
+/* line 54, ../../scss/base/_forms.scss */
 .postfix.button {
-  height: 3em;
+  height: 2.9em;
   border-radius: 3px; }
   @media only screen and (min-width: 1024px) {
-    /* line 40, ../../scss/base/_forms.scss */
+    /* line 54, ../../scss/base/_forms.scss */
     .postfix.button {
       border-radius: 0 3px 3px 0; } }
 
@@ -8321,18 +8337,18 @@ form.custom .custom.dropdown {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 55, ../../scss/base/_forms.scss */
+  /* line 69, ../../scss/base/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px; } }
 
 @media only screen and (min-width: 1024px) {
-  /* line 63, ../../scss/base/_forms.scss */
+  /* line 77, ../../scss/base/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0; } }
 @media only screen and (min-width: 1024px) {
-  /* line 63, ../../scss/base/_forms.scss */
+  /* line 77, ../../scss/base/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -8342,29 +8358,29 @@ form.custom .custom.dropdown {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 81, ../../scss/base/_forms.scss */
+  /* line 95, ../../scss/base/_forms.scss */
   .list-view-filter form.custom .custom.dropdown {
     margin-bottom: 0; } }
 
-/* line 87, ../../scss/base/_forms.scss */
+/* line 101, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em; }
 
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 98, ../../scss/base/_forms.scss */
+/* line 112, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc; }
 
-/* line 103, ../../scss/base/_forms.scss */
+/* line 117, ../../scss/base/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f; }
 
-/* line 109, ../../scss/base/_forms.scss */
+/* line 123, ../../scss/base/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px; }
@@ -8596,7 +8612,7 @@ footer {
 
 /* line 31, ../../scss/modules/modals/_create-post-modal.scss */
 .create-post-location-map {
-  background: url('../../images/map.jpg?1380838163') no-repeat;
+  background: url('../../images/map.jpg?1380820946') no-repeat;
   width: 100%;
   height: 100px;
   background-size: cover;
@@ -8966,3 +8982,87 @@ textarea {
 /*-----------------------------------------------------------*\
 		$CREATE-SET
 \*-----------------------------------------------------------*/
+/* line 15, ../../scss/modules/modals/_create-set-modal.scss */
+.create-set-photo {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  margin-bottom: 2em; }
+  /* line 18, ../../scss/modules/modals/_create-set-modal.scss */
+  .create-set-photo .create-set-thumbnail {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 33.33333%;
+    float: left;
+    position: relative;
+    margin-bottom: 20px; }
+    @media only screen and (min-width: 768px) {
+      /* line 18, ../../scss/modules/modals/_create-set-modal.scss */
+      .create-set-photo .create-set-thumbnail {
+        position: relative;
+        padding-left: 0;
+        padding-right: 0;
+        width: 25%;
+        float: left;
+        margin-bottom: 0; } }
+  /* line 27, ../../scss/modules/modals/_create-set-modal.scss */
+  .create-set-photo img {
+    width: 100%; }
+  /* line 30, ../../scss/modules/modals/_create-set-modal.scss */
+  .create-set-photo button.expand {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 58.33333%;
+    float: left;
+    margin: 0 0 0 20px; }
+    @media only screen and (min-width: 768px) {
+      /* line 30, ../../scss/modules/modals/_create-set-modal.scss */
+      .create-set-photo button.expand {
+        position: relative;
+        padding-left: 0.9375em;
+        padding-right: 0.9375em;
+        width: 25%;
+        float: left;
+        vertical-align: bottom; } }
+
+/* line 40, ../../scss/modules/modals/_create-set-modal.scss */
+.create-set-categories {
+  margin-bottom: 2em; }
+
+/* line 44, ../../scss/modules/modals/_create-set-modal.scss */
+.visibility-select {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left; }
+  /* line 46, ../../scss/modules/modals/_create-set-modal.scss */
+  .visibility-select .visibility-meta-text {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    float: left;
+    margin-bottom: 20px; }
+  /* line 50, ../../scss/modules/modals/_create-set-modal.scss */
+  .visibility-select button.expand {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 100%;
+    float: left; }
+    @media only screen and (min-width: 768px) {
+      /* line 50, ../../scss/modules/modals/_create-set-modal.scss */
+      .visibility-select button.expand {
+        position: relative;
+        padding-left: 0.9375em;
+        padding-right: 0.9375em;
+        width: 16.66667%;
+        float: left;
+        margin-right: 20px;
+        padding-left: 0;
+        padding-right: 0; } }
