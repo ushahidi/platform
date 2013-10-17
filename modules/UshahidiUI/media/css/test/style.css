@@ -6003,6 +6003,74 @@ nav[role="sub-navigation"] li a {
       padding-right: 0;
       width: 8.33333%;
       float: left; } }
+  /* line 103, ../../scss/modules/map/_search.scss */
+  .search-bar-button button {
+    border-style: solid;
+    border-width: 1px;
+    cursor: "pointer";
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0 0 1.25em;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    padding-top: 0.75em;
+    padding-right: 1.5em;
+    padding-bottom: 0.8125em;
+    padding-left: 1.5em;
+    font-size: 1em;
+    padding-top: 0.75em;
+    padding-bottom: 0.8125em;
+    padding-right: 0px;
+    padding-left: 0px;
+    width: 100%;
+    background-color: #3cb81c;
+    border-color: #2e8c15;
+    color: white;
+    display: block;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    font-size: 0.875em;
+    height: 2.3125em;
+    line-height: 2.3125em;
+    background: #3cb81c;
+    border-color: #267612;
+    border-left: none;
+    color: white;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
+    line-height: 2.125em;
+    height: 2.9em;
+    font-size: 0.875em;
+    border-width: 0;
+    -webkit-border-radius: 3px;
+    border-radius: 3px; }
+    /* line 122, ../../scss/foundation/components/_buttons.scss */
+    .search-bar-button button:hover, .search-bar-button button:focus {
+      background-color: #2e8c15; }
+    /* line 133, ../../scss/foundation/components/_buttons.scss */
+    .search-bar-button button:hover, .search-bar-button button:focus {
+      color: white; }
+    @media only screen and (min-width: 1024px) {
+      /* line 103, ../../scss/modules/map/_search.scss */
+      .search-bar-button button {
+        -webkit-border-radius: 0 3px 3px 0;
+        border-radius: 0 3px 3px 0; } }
+    /* line 114, ../../scss/modules/map/_search.scss */
+    .search-bar-button button i {
+      font-size: 1.2em; }
 
 /*------------------------------------*\
 		$CONTENTS
@@ -6221,10 +6289,16 @@ nav[role="sub-navigation"] li a {
       width: 16.66667%;
       float: left; } }
 
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * LIST VIEW POST...............individual posts within the LIST VIEW
+ */
 /*-------------------------------------------------------------------*\
-		$LIST VIEW POST...............individual posts within the LIST VIEW
+		$LIST VIEW POST
 \*-------------------------------------------------------------------*/
-/* line 5, ../../scss/modules/posts/_list-view-post.scss */
+/* line 15, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post {
   position: relative;
   padding-left: 0;
@@ -6233,17 +6307,17 @@ nav[role="sub-navigation"] li a {
   float: left;
   border-bottom: 1px solid #e3e3e3;
   margin-bottom: 20px; }
-  /* line 9, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 19, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post:last-child {
     border-bottom: 0; }
 
-/* line 14, ../../scss/modules/posts/_list-view-post.scss */
+/* line 24, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-select-post {
   position: absolute;
   top: -17px;
   left: -24px; }
 
-/* line 20, ../../scss/modules/posts/_list-view-post.scss */
+/* line 30, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-image {
   position: relative;
   padding-left: 0.9375em;
@@ -6251,14 +6325,14 @@ nav[role="sub-navigation"] li a {
   width: 33.33333%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 20, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 30, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-image {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
       width: 16.66667%;
       float: left; } }
-  /* line 25, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 35, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-image img {
     margin: 10px 0 10px 0;
     line-height: 0;
@@ -6271,7 +6345,7 @@ nav[role="sub-navigation"] li a {
       -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
       box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
 
-/* line 31, ../../scss/modules/posts/_list-view-post.scss */
+/* line 41, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-details {
   position: relative;
   padding-left: 0.9375em;
@@ -6281,7 +6355,7 @@ nav[role="sub-navigation"] li a {
   margin-top: 5px;
   padding-left: 0; }
   @media only screen and (min-width: 768px) {
-    /* line 31, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 41, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-details {
       position: relative;
       padding-left: 0.9375em;
@@ -6289,7 +6363,7 @@ nav[role="sub-navigation"] li a {
       width: 83.33333%;
       float: left; } }
 
-/* line 40, ../../scss/modules/posts/_list-view-post.scss */
+/* line 50, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-title {
   position: relative;
   padding-left: 0.9375em;
@@ -6297,7 +6371,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 40, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 50, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-title {
       position: relative;
       padding-left: 0.9375em;
@@ -6305,7 +6379,7 @@ nav[role="sub-navigation"] li a {
       width: 66.66667%;
       float: left; } }
 
-/* line 47, ../../scss/modules/posts/_list-view-post.scss */
+/* line 57, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-time {
   position: relative;
   padding-left: 0.9375em;
@@ -6313,22 +6387,22 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   font-size: 15px; }
-  /* line 50, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 60, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-time p {
     float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 47, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 57, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-time {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
       width: 33.33333%;
       float: left; }
-      /* line 55, ../../scss/modules/posts/_list-view-post.scss */
+      /* line 65, ../../scss/modules/posts/_list-view-post.scss */
       .list-view-post-time p {
         float: right; } }
 
-/* line 61, ../../scss/modules/posts/_list-view-post.scss */
+/* line 71, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-body {
   position: relative;
   padding-left: 0;
@@ -6336,7 +6410,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 61, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 71, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-body {
       position: relative;
       padding-left: 0;
@@ -6345,7 +6419,7 @@ nav[role="sub-navigation"] li a {
       margin-left: 16.66667%;
       float: left; } }
 
-/* line 68, ../../scss/modules/posts/_list-view-post.scss */
+/* line 78, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-excerpt {
   position: relative;
   padding-left: 0.9375em;
@@ -6353,7 +6427,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 68, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 78, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-excerpt {
       position: relative;
       padding-left: 0.9375em;
@@ -6363,7 +6437,7 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-left: 0; } }
 
-/* line 76, ../../scss/modules/posts/_list-view-post.scss */
+/* line 86, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-admin {
   position: relative;
   padding-left: 0.9375em;
@@ -6371,28 +6445,28 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   margin: 20px 0; }
-  /* line 79, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 89, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-admin i {
     padding: 0; }
 
-/* line 84, ../../scss/modules/posts/_list-view-post.scss */
+/* line 94, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories-wrapper {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 86, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 96, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-categories-wrapper h6 {
     margin: 0; }
-  /* line 89, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 99, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-categories-wrapper button {
     margin-bottom: 0; }
-    /* line 91, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 101, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-categories-wrapper button i {
       padding-right: 5px; }
   @media only screen and (min-width: 768px) {
-    /* line 84, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 94, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-categories-wrapper {
       position: relative;
       padding-left: 0;
@@ -6400,23 +6474,23 @@ nav[role="sub-navigation"] li a {
       width: 50%;
       float: left; } }
 
-/* line 100, ../../scss/modules/posts/_list-view-post.scss */
+/* line 110, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories {
   margin: 0; }
-  /* line 102, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 112, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-categories a {
     color: #a3a3a3; }
-  /* line 105, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 115, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-categories li {
     display: inline;
     font-size: 70%;
     padding-right: 5px; }
-  /* line 110, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 120, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-categories .icon-circle {
     color: #c50813;
     padding-right: 5px; }
 
-/* line 116, ../../scss/modules/posts/_list-view-post.scss */
+/* line 126, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit-wrapper {
   position: relative;
   padding-left: 0;
@@ -6425,7 +6499,7 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-top: 20px; }
   @media only screen and (min-width: 768px) {
-    /* line 116, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 126, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-edit-wrapper {
       position: relative;
       padding-left: 0;
@@ -6435,23 +6509,23 @@ nav[role="sub-navigation"] li a {
       float: right;
       margin-top: 0; } }
 
-/* line 126, ../../scss/modules/posts/_list-view-post.scss */
+/* line 136, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit {
   margin-left: 0; }
-  /* line 128, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 138, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-edit li {
     display: inline;
     float: left;
     padding: 0 20px 0 0; }
-    /* line 132, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 142, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-edit li a {
       margin-bottom: 0; }
-  /* line 136, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 146, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-edit button.expand, .list-view-post-edit .button.expand {
     padding-right: 1.125em;
     padding-left: 1.125em; }
   @media only screen and (min-width: 768px) {
-    /* line 126, ../../scss/modules/posts/_list-view-post.scss */
+    /* line 136, ../../scss/modules/posts/_list-view-post.scss */
     .list-view-post-edit {
       display: block;
       padding: 0;
@@ -6472,10 +6546,41 @@ nav[role="sub-navigation"] li a {
         height: auto;
         float: left;
         padding: 0 0.625em 1.25em; }
-      /* line 144, ../../scss/modules/posts/_list-view-post.scss */
+      /* line 154, ../../scss/modules/posts/_list-view-post.scss */
       .list-view-post-edit li {
         padding-bottom: 3px; } }
 
+/* line 160, ../../scss/modules/posts/_list-view-post.scss */
+.list-view-post-edit-buttons {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  background-color: #eff0f3;
+  border-color: #d2d5dd;
+  color: #333333;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .list-view-post-edit-buttons:hover, .list-view-post-edit-buttons:focus {
+    background-color: #d2d5dd; }
+  /* line 128, ../../scss/foundation/components/_buttons.scss */
+  .list-view-post-edit-buttons:hover, .list-view-post-edit-buttons:focus {
+    color: #333333; }
+
+/*small  secondary  radius  button*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -6785,15 +6890,21 @@ nav[role="sub-navigation"] li a {
       .post-details-button .button {
         float: right; } }
 
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * POST OVERLAY...............post details popup when map icons are clicked
+ */
 /*-------------------------------------------------------------------------*\
-		$POST OVERLAY...............post details popup when map icons are clicked
+		$POST OVERLAY
 \*-------------------------------------------------------------------------*/
-/* line 5, ../../scss/modules/posts/_post-overlay.scss */
+/* line 16, ../../scss/modules/posts/_post-overlay.scss */
 .post-overlay:before {
   top: -19px !important;
   border-color: transparent transparent #323a45 transparent !important; }
 
-/* line 10, ../../scss/modules/posts/_post-overlay.scss */
+/* line 21, ../../scss/modules/posts/_post-overlay.scss */
 .post-overlay {
   position: absolute;
   top: -9999px;
@@ -6853,25 +6964,25 @@ nav[role="sub-navigation"] li a {
   .post-overlay.right:after {
     left: auto;
     right: 7px; }
-  /* line 16, ../../scss/modules/posts/_post-overlay.scss */
+  /* line 27, ../../scss/modules/posts/_post-overlay.scss */
   .post-overlay h5, .post-overlay h6 {
     line-height: 1em; }
-  /* line 19, ../../scss/modules/posts/_post-overlay.scss */
+  /* line 30, ../../scss/modules/posts/_post-overlay.scss */
   .post-overlay .post-body {
     -webkit-box-shadow: 0px;
     -moz-box-shadow: 0px;
     box-shadow: 0px; }
-  /* line 24, ../../scss/modules/posts/_post-overlay.scss */
+  /* line 35, ../../scss/modules/posts/_post-overlay.scss */
   .post-overlay .post-details-button {
     float: right; }
     @media only screen and (min-width: 768px) {
-      /* line 27, ../../scss/modules/posts/_post-overlay.scss */
+      /* line 38, ../../scss/modules/posts/_post-overlay.scss */
       .post-overlay .post-details-button button {
         float: right; } }
-  /* line 32, ../../scss/modules/posts/_post-overlay.scss */
+  /* line 43, ../../scss/modules/posts/_post-overlay.scss */
   .post-overlay .post-excerpt, .post-overlay .related-post-excerpt {
     font-size: 80%; }
-  /* line 35, ../../scss/modules/posts/_post-overlay.scss */
+  /* line 46, ../../scss/modules/posts/_post-overlay.scss */
   .post-overlay .post-meta {
     position: relative;
     padding-left: 0;
@@ -6879,7 +6990,7 @@ nav[role="sub-navigation"] li a {
     width: 50%;
     float: left; }
     @media only screen and (min-width: 768px) {
-      /* line 35, ../../scss/modules/posts/_post-overlay.scss */
+      /* line 46, ../../scss/modules/posts/_post-overlay.scss */
       .post-overlay .post-meta {
         position: relative;
         padding-left: 0;
@@ -7020,14 +7131,20 @@ nav[role="sub-navigation"] li a {
       -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
       box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
 
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * RELATED POSTS...............sidebar widget displaying related posts
+ */
 /*--------------------------------------------------------------------*\
-		$RELATED POSTS...............sidebar widget displaying related posts
+		$RELATED POSTS
 \*--------------------------------------------------------------------*/
-/* line 5, ../../scss/modules/posts/_related-posts.scss */
+/* line 16, ../../scss/modules/posts/_related-posts.scss */
 .related-posts {
   margin-bottom: 20px; }
   @media only screen and (min-width: 768px) {
-    /* line 5, ../../scss/modules/posts/_related-posts.scss */
+    /* line 16, ../../scss/modules/posts/_related-posts.scss */
     .related-posts {
       position: relative;
       padding-left: 0.9375em;
@@ -7035,7 +7152,7 @@ nav[role="sub-navigation"] li a {
       width: 33.33333%;
       float: left; } }
 
-/* line 13, ../../scss/modules/posts/_related-posts.scss */
+/* line 24, ../../scss/modules/posts/_related-posts.scss */
 .related-posts-body {
   position: relative;
   padding-left: 0.9375em;
@@ -7044,11 +7161,11 @@ nav[role="sub-navigation"] li a {
   float: left;
   background-color: #fcfcfc;
   margin-left: 0; }
-  /* line 18, ../../scss/modules/posts/_related-posts.scss */
+  /* line 29, ../../scss/modules/posts/_related-posts.scss */
   .related-posts-body p {
     font-size: 80%; }
 
-/* line 23, ../../scss/modules/posts/_related-posts.scss */
+/* line 34, ../../scss/modules/posts/_related-posts.scss */
 .related-post-module-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -7057,7 +7174,7 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-top: 20px; }
 
-/* line 29, ../../scss/modules/posts/_related-posts.scss */
+/* line 40, ../../scss/modules/posts/_related-posts.scss */
 .related-post-image {
   position: relative;
   padding-left: 0;
@@ -7065,7 +7182,7 @@ nav[role="sub-navigation"] li a {
   width: 33.33333%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 29, ../../scss/modules/posts/_related-posts.scss */
+    /* line 40, ../../scss/modules/posts/_related-posts.scss */
     .related-post-image {
       position: relative;
       padding-left: 0;
@@ -7074,7 +7191,7 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-bottom: 20px; } }
   @media only screen and (min-width: 1024px) {
-    /* line 29, ../../scss/modules/posts/_related-posts.scss */
+    /* line 40, ../../scss/modules/posts/_related-posts.scss */
     .related-post-image {
       position: relative;
       padding-left: 0;
@@ -7082,7 +7199,7 @@ nav[role="sub-navigation"] li a {
       width: 25%;
       float: left;
       margin-bottom: 0; } }
-  /* line 39, ../../scss/modules/posts/_related-posts.scss */
+  /* line 50, ../../scss/modules/posts/_related-posts.scss */
   .related-post-image img {
     line-height: 0;
     display: inline-block;
@@ -7094,7 +7211,7 @@ nav[role="sub-navigation"] li a {
       -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
       box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
 
-/* line 44, ../../scss/modules/posts/_related-posts.scss */
+/* line 55, ../../scss/modules/posts/_related-posts.scss */
 .related-post-details {
   position: relative;
   padding-left: 0.9375em;
@@ -7102,7 +7219,7 @@ nav[role="sub-navigation"] li a {
   width: 66.66667%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 44, ../../scss/modules/posts/_related-posts.scss */
+    /* line 55, ../../scss/modules/posts/_related-posts.scss */
     .related-post-details {
       position: relative;
       padding-left: 0;
@@ -7110,7 +7227,7 @@ nav[role="sub-navigation"] li a {
       width: 100%;
       float: left; } }
   @media only screen and (min-width: 1024px) {
-    /* line 44, ../../scss/modules/posts/_related-posts.scss */
+    /* line 55, ../../scss/modules/posts/_related-posts.scss */
     .related-post-details {
       position: relative;
       padding-left: 0.9375em;
@@ -7118,7 +7235,7 @@ nav[role="sub-navigation"] li a {
       width: 75%;
       float: left; } }
 
-/* line 54, ../../scss/modules/posts/_related-posts.scss */
+/* line 65, ../../scss/modules/posts/_related-posts.scss */
 .related-post-title {
   position: relative;
   padding-left: 0.9375em;
@@ -7126,7 +7243,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 58, ../../scss/modules/posts/_related-posts.scss */
+/* line 69, ../../scss/modules/posts/_related-posts.scss */
 .related-post-time {
   position: relative;
   padding-left: 0.9375em;
@@ -7134,7 +7251,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 62, ../../scss/modules/posts/_related-posts.scss */
+/* line 73, ../../scss/modules/posts/_related-posts.scss */
 .related-post-excerpt {
   margin-top: 20px; }
 
@@ -8334,31 +8451,22 @@ form.custom .custom.dropdown {
   form.custom .custom.dropdown .selector {
     height: 3.3125em; }
 
-/* line 54, ../../scss/modules/forms/_forms.scss */
-.postfix.button {
-  height: 2.9em;
-  border-radius: 3px; }
-  @media only screen and (min-width: 1024px) {
-    /* line 54, ../../scss/modules/forms/_forms.scss */
-    .postfix.button {
-      border-radius: 0 3px 3px 0; } }
-
 /*------------------------------------*\
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 69, ../../scss/modules/forms/_forms.scss */
+  /* line 61, ../../scss/modules/forms/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px; } }
 
 @media only screen and (min-width: 1024px) {
-  /* line 77, ../../scss/modules/forms/_forms.scss */
+  /* line 69, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0; } }
 @media only screen and (min-width: 1024px) {
-  /* line 77, ../../scss/modules/forms/_forms.scss */
+  /* line 69, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -8368,29 +8476,29 @@ form.custom .custom.dropdown {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 95, ../../scss/modules/forms/_forms.scss */
+  /* line 87, ../../scss/modules/forms/_forms.scss */
   .list-view-filter form.custom .custom.dropdown {
     margin-bottom: 0; } }
 
-/* line 101, ../../scss/modules/forms/_forms.scss */
+/* line 93, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em; }
 
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 112, ../../scss/modules/forms/_forms.scss */
+/* line 104, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc; }
 
-/* line 117, ../../scss/modules/forms/_forms.scss */
+/* line 109, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f; }
 
-/* line 123, ../../scss/modules/forms/_forms.scss */
+/* line 115, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px; }
@@ -8785,14 +8893,23 @@ form.custom .custom.checkbox.checked:before {
   padding: 6px 0 0 0;
   font-size: 1.2em; }
 
-/* line 1, ../../scss/modules/modals/_edit-post-modal.scss */
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * EDIT POST...............Edit Post styles
+ */
+/*-----------------------------------------------------------*\
+		$EDIT POST
+\*-----------------------------------------------------------*/
+/* line 15, ../../scss/modules/modals/_edit-post-modal.scss */
 .edit-post section.post-details {
   padding: 0; }
-  /* line 4, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 18, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post section.post-details h6 {
     margin-bottom: 15px; }
   @media only screen and (min-width: 1024px) {
-    /* line 1, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 15, ../../scss/modules/modals/_edit-post-modal.scss */
     .edit-post section.post-details {
       position: relative;
       padding-left: 0.9375em;
@@ -8801,7 +8918,7 @@ form.custom .custom.checkbox.checked:before {
       float: left;
       padding: 0; } }
 
-/* line 13, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 27, ../../scss/modules/modals/_edit-post-modal.scss */
 .edit-post .post-title {
   position: relative;
   padding-left: 0;
@@ -8809,34 +8926,34 @@ form.custom .custom.checkbox.checked:before {
   width: 83.33333%;
   float: left; }
 
-/* line 17, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 31, ../../scss/modules/modals/_edit-post-modal.scss */
 .close-icon {
   color: #1f1f1f; }
 
-/* line 22, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 36, ../../scss/modules/modals/_edit-post-modal.scss */
 .edit-post .post-image .icon-stack {
   position: absolute;
   top: -15px;
   right: -21px; }
-  /* line 26, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 40, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-image .icon-stack .icon-circle {
     color: #fcfcfc; }
-  /* line 29, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 43, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-image .icon-stack [class^="icon-"], .edit-post .post-image .icon-stack [class*=" icon-"] {
     font-size: 1.5em; }
 
-/* line 35, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 49, ../../scss/modules/modals/_edit-post-modal.scss */
 .edit-post .post-categories {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 37, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 51, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-categories .add-a-category a {
     float: right;
     margin-top: 6px; }
-  /* line 41, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 55, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-categories .icon-remove-sign {
     color: #1f1f1f;
     float: right;
@@ -8844,11 +8961,11 @@ form.custom .custom.checkbox.checked:before {
     padding: 0; }
 
 @media only screen and (min-width: 768px) {
-  /* line 49, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 63, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-excerpt, .edit-post .related-post-excerpt {
     padding-left: 20px; } }
 
-/* line 55, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 69, ../../scss/modules/modals/_edit-post-modal.scss */
 textarea {
   height: 400px;
   font-family: inherit;
@@ -8858,25 +8975,25 @@ textarea {
   margin-bottom: 1.25em;
   text-rendering: optimizeLegibility; }
 
-/* line 65, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 79, ../../scss/modules/modals/_edit-post-modal.scss */
 .edit-post .post-thumbnails-list-item {
   position: relative; }
-  /* line 67, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 81, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-thumbnails-list-item a {
     color: #1f1f1f; }
-  /* line 70, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 84, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-thumbnails-list-item .icon-stack {
     position: absolute;
     top: -15px;
     right: -12px; }
-    /* line 74, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 88, ../../scss/modules/modals/_edit-post-modal.scss */
     .edit-post .post-thumbnails-list-item .icon-stack .icon-circle {
       color: #fcfcfc; }
-    /* line 77, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 91, ../../scss/modules/modals/_edit-post-modal.scss */
     .edit-post .post-thumbnails-list-item .icon-stack [class^="icon-"], .edit-post .post-thumbnails-list-item .icon-stack [class*=" icon-"] {
       font-size: 1.2em; }
 
-/* line 83, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 97, ../../scss/modules/modals/_edit-post-modal.scss */
 .post-wrapper {
   position: relative;
   padding-left: 0;
@@ -8886,20 +9003,20 @@ textarea {
   border-top: 1px solid #e3e3e3;
   padding-top: 20px; }
 
-/* line 89, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 103, ../../scss/modules/modals/_edit-post-modal.scss */
 .post-status {
   margin-bottom: 20px; }
-  /* line 91, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 105, ../../scss/modules/modals/_edit-post-modal.scss */
   .post-status .post-status-list {
     margin: 0; }
-    /* line 93, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 107, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-status .post-status-list li {
       color: #a3a3a3;
       font-size: 70%;
       padding-right: 5px;
       margin-bottom: .7em; }
   @media only screen and (min-width: 768px) {
-    /* line 89, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 103, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-status {
       position: relative;
       padding-left: 0;
@@ -8907,12 +9024,12 @@ textarea {
       width: 50%;
       float: left; } }
 
-/* line 105, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 119, ../../scss/modules/modals/_edit-post-modal.scss */
 .post-history {
   margin-bottom: 20px;
   border-top: 1px solid #e3e3e3;
   padding-top: 20px; }
-  /* line 109, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 123, ../../scss/modules/modals/_edit-post-modal.scss */
   .post-history .post-history-list {
     position: relative;
     padding-left: 0;
@@ -8923,23 +9040,23 @@ textarea {
     font-size: 70%;
     padding-right: 5px; }
     @media only screen and (min-width: 768px) {
-      /* line 114, ../../scss/modules/modals/_edit-post-modal.scss */
+      /* line 128, ../../scss/modules/modals/_edit-post-modal.scss */
       .post-history .post-history-list .post-history-list-item {
         position: relative;
         padding-left: 0;
         padding-right: 0;
         width: 66.66667%;
         float: left; } }
-    /* line 118, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 132, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-history .post-history-list .post-history-list-item .post-history-name {
       font-weight: bold;
       color: #1f1f1f; }
-  /* line 124, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 138, ../../scss/modules/modals/_edit-post-modal.scss */
   .post-history .post-history-time {
     color: #a3a3a3;
     margin-bottom: .7em; }
     @media only screen and (min-width: 768px) {
-      /* line 124, ../../scss/modules/modals/_edit-post-modal.scss */
+      /* line 138, ../../scss/modules/modals/_edit-post-modal.scss */
       .post-history .post-history-time {
         position: relative;
         padding-left: 0;
@@ -8947,14 +9064,14 @@ textarea {
         width: 33.33333%;
         float: left; } }
     @media only screen and (min-width: 768px) {
-      /* line 130, ../../scss/modules/modals/_edit-post-modal.scss */
+      /* line 144, ../../scss/modules/modals/_edit-post-modal.scss */
       .post-history .post-history-time span {
         float: right; } }
-    /* line 134, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 148, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-history .post-history-time span i {
       padding-right: 3px; }
   @media only screen and (min-width: 768px) {
-    /* line 105, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 119, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-history {
       position: relative;
       padding-left: 0;
