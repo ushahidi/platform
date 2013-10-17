@@ -492,7 +492,6 @@ class RestContext extends BehatContext
 		//Check if post files is not empty
 		if ( count($postFiles) > 0)
 		{
-			//
 			array_walk_recursive($postFiles, array($this, '_prefix_app_path'));
 			return $postFiles;
 		}
@@ -500,7 +499,7 @@ class RestContext extends BehatContext
 	}
 
 	/**
-	 * Make the path to upload a files to relative to the application directory
+	 * Make the path to upload files to, relative to the application directory
 	 *
 	 * @param  string $item the path to the file to be uploaded
 	 * @return string       path to application folder
