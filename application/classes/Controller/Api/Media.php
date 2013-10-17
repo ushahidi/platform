@@ -138,7 +138,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			if ( ! file_exists($upload_dir))
 			{
 				// Make directory recursively
-				mkdir($upload_dir,0755,true);
+				mkdir($upload_dir,0755,TRUE);
 			}
 
 			// Upload the file
