@@ -26,8 +26,8 @@
 		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
 		
 		<!--Change to app.min.css for production-->
-		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/global.css'); ?>"/>
-		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/global.css'); ?>"/>-->
+		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
+		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
 		
 		<!-- Font Awesome CSS -->
 		<link href="<?php echo Media::url('css/font-awesome.min.css'); ?>" rel="stylesheet">
