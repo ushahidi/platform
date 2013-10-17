@@ -77,13 +77,13 @@ class Model_Media extends ORM {
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
 				'caption' => $this->caption,
 				'mime' => $this->mime,
-				'original_file_url' => $this->_resize_image($this->o_width,$this->o_height,$this->o_filename),
+				'original_file_url' => $this->_resize_image($this->o_width, $this->o_height, $this->o_filename),
 				'original_width' => $this->o_width,
 				'original_height' => $this->o_height,
-				'medium_file_url' => $this->_resize_image($medium_width,$medium_height,$this->o_filename),
+				'medium_file_url' => $this->_resize_image($medium_width, $medium_height, $this->o_filename),
 				'medium_width' => $medium_width,
 				'medium_height' => $medium_height,
-				'thumbnail_file_url' => $this->_resize_image($thumbnail_width,$thumbnail_height,$this->o_filename),
+				'thumbnail_file_url' => $this->_resize_image($thumbnail_width, $thumbnail_height, $this->o_filename),
 				'thumbnail_width' => $thumbnail_width,
 				'thumbnail_height' => $thumbnail_height,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
@@ -112,7 +112,8 @@ class Model_Media extends ORM {
 		$upload_dir = Kohana::$config->load('media.media_upload_dir');
 
 		// Delete files from disk
-		try {
+		try
+		{
 			if (file_exists($upload_dir.$this->o_filename))
 			{
 				// Delete the original file
@@ -153,15 +154,15 @@ class Model_Media extends ORM {
 		if ($height != NULL)
 		{
 			// Image height has been set
-			$dimension = sprintf('w%s-h%s',$width,$height);
+			$dimension = sprintf('w%s-h%s', $width, $height);
 		}
 		else
 		{
 			// No image height set.
-			$dimension = sprintf('w%s',$width);
+			$dimension = sprintf('w%s', $width);
 		}
 
-		$file_url = sprintf('imagefly/%s/%s%s',$dimension,Kohana::$config->load('media.media_upload_dir'),$filename);
+		$file_url = sprintf('imagefly/%s/%s%s', $dimension, Kohana::$config->load('media.media_upload_dir'), $filename);
 
 		return URL::site($file_url,Request::current());
 	}
