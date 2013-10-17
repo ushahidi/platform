@@ -16,16 +16,23 @@ Feature: Testing the Media API
         And the "mime" property equals "image/jpeg"
         And the response has a "original_file_url" property
         And the type of the "original_file_url" property is "string"
+        And the "original_file_url" property contains "http"
         And the response has a "original_width" property
         And the type of the "original_width" property is "numeric"
         And the response has a "original_height" property
         And the type of the "original_height" property is "numeric"
         And the response has a "medium_file_url" property
         And the type of the "medium_file_url" property is "string"
+        And the "medium_file_url" property contains "http"
         And the response has a "medium_width" property
         And the type of the "medium_width" property is "numeric"
+        And the "medium_width" property equals "800"
         And the response has a "thumbnail_file_url" property
         And the type of the "thumbnail_file_url" property is "string"
+        And the "thumbnail_file_url" property contains "http"
+        And the response has a "thumbnail_width" property
+        And the type of the "thumbnail_width" property is "numeric"
+        And the "thumbnail_width" property equals "70"
         Then the guzzle status code should be 200
 
     Scenario: Finding a Media
@@ -35,6 +42,32 @@ Feature: Testing the Media API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the response has a "caption" property
+        And the "caption" property equals "at sendai"
+        And the response has a "mime" property
+        And the type of the "mime" property is "string"
+        And the "mime" property equals "image/jpeg"
+        And the response has a "original_file_url" property
+        And the type of the "original_file_url" property is "string"
+        And the "original_file_url" property contains "/imagefly/w500-h600/media/uploads/"
+        And the response has a "original_width" property
+        And the type of the "original_width" property is "numeric"
+        And the "original_width" property equals "500"
+        And the response has a "original_height" property
+        And the type of the "original_height" property is "numeric"
+        And the "original_height" property equals "600"
+        And the response has a "medium_file_url" property
+        And the type of the "medium_file_url" property is "string"
+        And the "medium_file_url" property contains "/imagefly/w800/media/uploads/"
+        And the response has a "medium_width" property
+        And the type of the "medium_width" property is "numeric"
+        And the "medium_width" property equals "800"
+        And the response has a "thumbnail_file_url" property
+        And the type of the "thumbnail_file_url" property is "string"
+        And the "thumbnail_file_url" property contains "/imagefly/w70/media/uploads/"
+        And the response has a "thumbnail_width" property
+        And the type of the "thumbnail_width" property is "numeric"
+        And the "thumbnail_width" property equals "70"
         Then the guzzle status code should be 200
 
         Scenario: Finding a non-existent Media
