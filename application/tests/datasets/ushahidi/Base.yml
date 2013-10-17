@@ -504,7 +504,6 @@ media:
     id: 3
     caption: "ihub"
     mime: "image/jpeg"
-    file_url: "http://domain.com/imagefly/w420-h420/media/uploads"
     o_filename: "9ze_1381815819_o.jpg"
     o_width: 600
     o_height: 700
@@ -514,7 +513,6 @@ media:
     id: 2
     caption: "at sendai"
     mime: "image/jpeg"
-    file_url: "http://domain.com/imagefly/w420-h420/media/uploads"
     o_filename: "9ze_1381815819_o.jpg"
     o_width: 500
     o_height: 600
@@ -524,7 +522,6 @@ media:
     id: 1
     caption: "ihub"
     mime: "image/jpeg"
-    file_url: "http://domain.com/imagefly/w420-h420/media/uploads"
     o_filename: "9ze_1381815819_o.jpg"
     o_width: 400
     o_height: 500
