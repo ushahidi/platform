@@ -72,18 +72,20 @@ class Model_Media extends ORM {
 			$thumbnail_width = Kohana::$config->load('media.image_thumbnail_width');
 			$thumbnail_height = Kohana::$config->load('media.image_thumbnail_height');
 
+			$relative_path = str_replace(Kohana::$config->load('imagefly.media_dir'),'',Kohana::$config->load('media.media_upload_dir'));
+
 			$response = array(
 				'id' => $this->id,
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
 				'caption' => $this->caption,
 				'mime' => $this->mime,
-				'original_file_url' => $this->_resize_image($this->o_width, $this->o_height, $this->o_filename),
+				'original_file_url' => URL::site(Media::url($relative_path.$this->o_filename), Request::current()),
 				'original_width' => $this->o_width,
 				'original_height' => $this->o_height,
-				'medium_file_url' => $this->_resize_image($medium_width, $medium_height, $this->o_filename),
+				'medium_file_url' => $this->_resized_url($medium_width,$medium_height,$this->o_filename),
 				'medium_width' => $medium_width,
 				'medium_height' => $medium_height,
-				'thumbnail_file_url' => $this->_resize_image($thumbnail_width, $thumbnail_height, $this->o_filename),
+				'thumbnail_file_url' => $this->_resized_url($thumbnail_width,$thumbnail_height,$this->o_filename),
 				'thumbnail_width' => $thumbnail_width,
 				'thumbnail_height' => $thumbnail_height,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
@@ -141,20 +143,20 @@ class Model_Media extends ORM {
 	}
 
 	/**
-	 * Dynamically resizes an image and return URL for accessing it.
+	 * Return URL for accessing the resized image it.
 	 *
 	 * @param  integer $width    The width of the image
 	 * @param  integer $height   The height of the image
 	 * @param  string $filename  The file name of the image
 	 * @return string           URL to the resized image
 	 */
-	private function _resize_image($width, $height, $filename)
+	private function _resized_url($width, $height, $filename)
 	{
 		// Format demensions appropriately depending on the value of the height
 		if ($height != NULL)
 		{
 			// Image height has been set
-			$dimension = sprintf('w%s-h%s', $width, $height);
+			$dimension = sprintf('w%s-h%s',$width,$height);
 		}
 		else
 		{
@@ -162,8 +164,14 @@ class Model_Media extends ORM {
 			$dimension = sprintf('w%s', $width);
 		}
 
-		$file_url = sprintf('imagefly/%s/%s%s', $dimension, Kohana::$config->load('media.media_upload_dir'), $filename);
+		$relative_path = str_replace(Kohana::$config->load('imagefly.media_dir'),'',Kohana::$config->load('media.media_upload_dir'));
 
-		return URL::site($file_url,Request::current());
+		return URL::site(
+			Route::url('imagefly', array(
+				'params' => $dimension,
+				'imagepath' => $relative_path.$filename
+			)),
+			Request::current()
+		);
 	}
 }
