@@ -2,6 +2,7 @@
 	$CONTENTS
 \*------------------------------------*/
 /**
+ * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
  * CREATE POST MODAL...............create post modal styling
  * SEARCH BAR...............search bar styling
@@ -12,20 +13,32 @@
 
 
 
+
+
+ /*------------------------------------*\
+ 	$GENERAL
+ \*------------------------------------*/
+
+input[type="radio"], select {
+	margin: 0 3px 1em 0;
+	position: relative;
+	top: -2px;
+} 
+
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
 
 input[type="text"], input[type="email"] {
+	height: 100%; /* FF fix */
 	padding: 10px;
-	height: 100%;
 	-webkit-border-radius: $global-radius;
 		-moz-border-radius: $global-radius;
 			border-radius: $global-radius;
 }
 
 form.custom .custom.dropdown {
-	height: 3em;
+	height: 2.9em;
 	-webkit-border-radius: $global-radius;
 		-moz-border-radius: $global-radius;
 			border-radius: $global-radius;
@@ -39,7 +52,7 @@ form.custom .custom.dropdown {
 }
 
 .postfix.button {
-	height: 3em;
+	height: 2.9em;
 	border-radius: $global-radius;
 	@media #{$medium} {
 		border-radius: 0 $global-radius $global-radius 0;
