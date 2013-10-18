@@ -58,7 +58,7 @@ return array
             'offset_x' => TRUE,
             'offset_y' => TRUE,
             'opacity'  => 80
-        ) 
+        )
         */
     )
 );
