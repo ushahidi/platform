@@ -23,13 +23,13 @@ Feature: Testing the Media API
         And the type of the "original_height" property is "numeric"
         And the response has a "medium_file_url" property
         And the type of the "medium_file_url" property is "string"
-        And the "medium_file_url" property contains "/imagefly/w800/media/uploads/"
+        And the "medium_file_url" property contains "/imagefly/w800/uploads/"
         And the response has a "medium_width" property
         And the type of the "medium_width" property is "numeric"
         And the "medium_width" property equals "800"
         And the response has a "thumbnail_file_url" property
         And the type of the "thumbnail_file_url" property is "string"
-        And the "thumbnail_file_url" property contains "/imagefly/w70/media/uploads/"
+        And the "thumbnail_file_url" property contains "/imagefly/w70/uploads/"
         And the response has a "thumbnail_width" property
         And the type of the "thumbnail_width" property is "numeric"
         And the "thumbnail_width" property equals "70"
@@ -58,13 +58,13 @@ Feature: Testing the Media API
         And the "original_height" property equals "600"
         And the response has a "medium_file_url" property
         And the type of the "medium_file_url" property is "string"
-        And the "medium_file_url" property contains "/imagefly/w800/media/uploads/"
+        And the "medium_file_url" property contains "/imagefly/w800/uploads/"
         And the response has a "medium_width" property
         And the type of the "medium_width" property is "numeric"
         And the "medium_width" property equals "800"
         And the response has a "thumbnail_file_url" property
         And the type of the "thumbnail_file_url" property is "string"
-        And the "thumbnail_file_url" property contains "/imagefly/w70/media/uploads/"
+        And the "thumbnail_file_url" property contains "/imagefly/w70/uploads/"
         And the response has a "thumbnail_width" property
         And the type of the "thumbnail_width" property is "numeric"
         And the "thumbnail_width" property equals "70"

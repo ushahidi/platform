@@ -6,6 +6,7 @@ application/logs/*
 application/cache/*
 application/config/*.php
 application/config/environments/development/*.php
+application/media/uploads/*
 .htaccess
 application/tests/behat.yml
 composer.phar
