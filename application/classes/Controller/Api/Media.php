@@ -46,7 +46,8 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 		$count = $media->count();
 
-		foreach ($media as $m) {
+		foreach ($media as $m)
+		{
 			$results[] = $m->for_api();
 
 		}
@@ -58,7 +59,8 @@ class Controller_Api_Media extends Ushahidi_Api {
 		);
 
 		// Only add order/orderby if they're already set
-		if ($this->request->query('orderby') OR $this->request->query('order')) {
+		if ($this->request->query('orderby') OR $this->request->query('order'))
+		{
 			$params['orderby'] = $this->record_orderby;
 			$params['order'] = $this->record_order;
 		}
@@ -100,7 +102,8 @@ class Controller_Api_Media extends Ushahidi_Api {
 		// Query media table
 		$media = ORM::factory('Media', $media_id);
 
-		if ( ! $media->loaded()) {
+		if ( ! $media->loaded())
+		{
 			throw new HTTP_Exception_404('Media does not exist. Media ID \':id\'', array(
 				':id' => $media_id,
 			));
@@ -122,7 +125,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 		$media_data = Validation::factory(array_merge($_FILES,$this->request->post()))
 			->rule('file', 'not_empty')
 			->rule('file','Upload::valid')
-			->rule('file','Upload::type',array(':value',array('gif','jpg','jpeg','png')))
+			->rule('file','Upload::type', array(':value', array('gif','jpg','jpeg','png')))
 			->rule('file','Upload::size', [':value', $max_file_size]);
 		try
 		{
@@ -134,11 +137,11 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 			$upload_dir = Kohana::$config->load('media.media_upload_dir');
 
-			// Make media/uploads/ directory if doesn't exist
+			// Make media/uploads/ directory if it doesn't exist
 			if ( ! file_exists($upload_dir))
 			{
 				// Make directory recursively
-				mkdir($upload_dir,0755,TRUE);
+				mkdir($upload_dir, 0755, TRUE);
 			}
 
 			// Upload the file

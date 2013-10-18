@@ -79,7 +79,7 @@ class Model_Media extends ORM {
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
 				'caption' => $this->caption,
 				'mime' => $this->mime,
-				'original_file_url' => URL::site(Media::url($relative_path.$this->o_filename), Request::current()),
+				'original_file_url' => URL::site(Media::uri($relative_path.$this->o_filename), Request::current()),
 				'original_width' => $this->o_width,
 				'original_height' => $this->o_height,
 				'medium_file_url' => $this->_resized_url($medium_width,$medium_height,$this->o_filename),
@@ -114,7 +114,8 @@ class Model_Media extends ORM {
 		$upload_dir = Kohana::$config->load('media.media_upload_dir');
 
 		// Delete files from disk
-		try {
+		try
+		{
 			if (file_exists($upload_dir.$this->o_filename))
 			{
 				// Delete the original file
@@ -155,20 +156,18 @@ class Model_Media extends ORM {
 		if ($height != NULL)
 		{
 			// Image height has been set
-			$dimension = sprintf('w%s-h%s',$width,$height);
+			$dimension = sprintf('w%s-h%s', $width, $height);
 		}
 		else
 		{
 			// No image height set.
-			$dimension = sprintf('w%s',$width);
+			$dimension = sprintf('w%s', $width);
 		}
 
-		$relative_path = str_replace(Kohana::$config->load('imagefly.media_dir'),'',Kohana::$config->load('media.media_upload_dir'));
-
 		return URL::site(
-			Route::url('imagefly', array(
+			Route::get('imagefly')->uri(array(
 				'params' => $dimension,
-				'imagepath' => $relative_path.$filename
+				'imagepath' => Kohana::$config->load('media.media_upload_dir').$filename
 			)),
 			Request::current()
 		);

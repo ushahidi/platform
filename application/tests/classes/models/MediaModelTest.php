@@ -25,7 +25,6 @@ class MediaModelTest extends Unittest_TestCase {
 				array(
 					'id' => 1,
 					'caption' => 'at cocolin',
-					'file_url' => 'http://domain.com/imagefly/w420-h420/media/uploads',
 					'mime' => 'image/jpeg',
 					'o_filename' => '9ze_1381815819_o.jpg',
 					'o_width' => 600,
@@ -39,7 +38,6 @@ class MediaModelTest extends Unittest_TestCase {
 				array(
 					'id' => 2,
 					'caption' => 'at sendai',
-					'file_url' => 'http://domain.com/imagefly/w420-h420/media/uploads',
 					'mime' => 'image/jpeg',
 					'o_filename' => '9ze_1381815819_o.jpg',
 					'o_width' => 500,
@@ -53,7 +51,6 @@ class MediaModelTest extends Unittest_TestCase {
 				array(
 					'id' => 3,
 					'caption' => 'ihub',
-					'file_url' => 'http://domain.com/imagefly/w420-h420/media/uploads',
 					'mime' => 'image/jpeg',
 					'o_filename' => '9ze_1381815819_o.jpg',
 					'o_width' => 600,
@@ -83,7 +80,6 @@ class MediaModelTest extends Unittest_TestCase {
 				array(
 					'id' => 2,
 					'caption' => 'at sendai',
-					'file_url' => 'http://domain.com/imagefly/w420-h420/media/uploads',
 					'mime' => 'image/jpeg',
 					'o_filename' => '9ze_1381815819_o.jpg',
 					'o_width' => 500,
@@ -97,7 +93,6 @@ class MediaModelTest extends Unittest_TestCase {
 				array(
 					'id' => 3,
 					'caption' => 'ihub',
-					'file_url' => 'http://domain.com/imagefly/w420-h420/media/uploads',
 					'mime' => 'image/jpeg',
 					'o_filename' => '9ze_1381815819_o.jpg',
 					'o_width' => 600,
