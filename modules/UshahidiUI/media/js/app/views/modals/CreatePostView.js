@@ -1,5 +1,7 @@
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals/CreatePost.html', 'backbone-validation', 'backbone-forms/backbone-forms', 'util/FormTemplates'],
-	function( App, Marionette, Handlebars, _, template, BackboneValidation, BackboneForm)
+define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals/CreatePost.html',
+	'backbone-validation', 'backbone-forms/backbone-forms', 'forms/templates/FormTemplates', 'forms/editors/Location'],
+	function( App, Marionette, Handlebars, _, template,
+		BackboneValidation, BackboneForm)
 	{
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),

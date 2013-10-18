@@ -22,7 +22,7 @@ define(['jquery', 'backbone', 'App'],
 					'date' : 'Date',
 					'datetime' : 'DateTime',
 					'select' : 'Select',
-					'location' : 'Text',
+					'location' : 'Location',
 					'number' : 'Number',
 					'file' : 'Text'
 				};
