@@ -82,10 +82,10 @@ class Model_Media extends ORM {
 				'original_file_url' => URL::site(Media::uri($relative_path.$this->o_filename), Request::current()),
 				'original_width' => $this->o_width,
 				'original_height' => $this->o_height,
-				'medium_file_url' => $this->_resized_url($medium_width,$medium_height,$this->o_filename),
+				'medium_file_url' => $this->_resized_url($medium_width, $medium_height, $relative_path.$this->o_filename),
 				'medium_width' => $medium_width,
 				'medium_height' => $medium_height,
-				'thumbnail_file_url' => $this->_resized_url($thumbnail_width,$thumbnail_height,$this->o_filename),
+				'thumbnail_file_url' => $this->_resized_url($thumbnail_width, $thumbnail_height, $relative_path.$this->o_filename),
 				'thumbnail_width' => $thumbnail_width,
 				'thumbnail_height' => $thumbnail_height,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
@@ -164,12 +164,10 @@ class Model_Media extends ORM {
 			$dimension = sprintf('w%s', $width);
 		}
 
-		$relative_path = str_replace(Kohana::$config->load('imagefly.media_dir'),'',Kohana::$config->load('media.media_upload_dir'));
-
 		return URL::site(
 			Route::get('imagefly')->uri(array(
 				'params' => $dimension,
-				'imagepath' => $relative_path.$filename
+				'imagepath' => $filename
 			)),
 			Request::current()
 		);
