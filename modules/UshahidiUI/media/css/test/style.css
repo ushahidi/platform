@@ -5149,8 +5149,35 @@ button.google, .button.google {
   .login-form input[type="checkbox"] {
     margin-right: 10px; }
   /* line 61, ../../scss/modules/login/_login-register.scss */
-  .login-form input[type="submit"] {
+  .login-form .submit-button {
+    border-style: solid;
+    border-width: 1px;
+    cursor: "pointer";
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0 0 1.25em;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    padding-top: 0.75em;
+    padding-right: 1.5em;
+    padding-bottom: 0.8125em;
+    padding-left: 1.5em;
+    font-size: 1em;
+    background-color: #3cb81c;
+    border-color: #2e8c15;
+    color: white;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
     margin: 20px 0 10px 0; }
+    /* line 122, ../../scss/foundation/components/_buttons.scss */
+    .login-form .submit-button:hover, .login-form .submit-button:focus {
+      background-color: #2e8c15; }
+    /* line 133, ../../scss/foundation/components/_buttons.scss */
+    .login-form .submit-button:hover, .login-form .submit-button:focus {
+      color: white; }
   @media only screen and (min-width: 1025px) {
     /* line 55, ../../scss/modules/login/_login-register.scss */
     .login-form {
@@ -5163,11 +5190,11 @@ button.google, .button.google {
       border-bottom: 0;
       padding-right: 20px; } }
 
-/* line 72, ../../scss/modules/login/_login-register.scss */
+/* line 73, ../../scss/modules/login/_login-register.scss */
 .login-form-checkboxes {
   margin-top: 30px; }
 
-/* line 76, ../../scss/modules/login/_login-register.scss */
+/* line 77, ../../scss/modules/login/_login-register.scss */
 .social-login {
   position: relative;
   padding-left: 0;
@@ -5175,7 +5202,7 @@ button.google, .button.google {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 1025px) {
-    /* line 76, ../../scss/modules/login/_login-register.scss */
+    /* line 77, ../../scss/modules/login/_login-register.scss */
     .social-login {
       position: relative;
       padding-left: 0;
@@ -5184,7 +5211,7 @@ button.google, .button.google {
       float: left;
       padding-left: 20px; } }
 
-/* line 84, ../../scss/modules/login/_login-register.scss */
+/* line 85, ../../scss/modules/login/_login-register.scss */
 .social-buttons {
   margin-bottom: 20px;
   position: relative;
@@ -5192,18 +5219,50 @@ button.google, .button.google {
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 87, ../../scss/modules/login/_login-register.scss */
+  /* line 88, ../../scss/modules/login/_login-register.scss */
   .social-buttons .button {
     padding: 8px; }
-  /* line 90, ../../scss/modules/login/_login-register.scss */
+  /* line 91, ../../scss/modules/login/_login-register.scss */
   .social-buttons i {
     font-size: 16px; }
 
-/* line 95, ../../scss/modules/login/_login-register.scss */
+/* line 96, ../../scss/modules/login/_login-register.scss */
 .facebook-button, .twitter-button, .google-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  padding-top: 0.5625em;
+  padding-bottom: 0.625em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #14b4d1;
+  border-color: #108ca2;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
   padding-left: 0; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .facebook-button:hover, .facebook-button:focus, .twitter-button:hover, .twitter-button:focus, .google-button:hover, .google-button:focus {
+    background-color: #108ca2; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .facebook-button:hover, .facebook-button:focus, .twitter-button:hover, .twitter-button:focus, .google-button:hover, .google-button:focus {
+    color: white; }
   @media only screen and (min-width: 768px) {
-    /* line 95, ../../scss/modules/login/_login-register.scss */
+    /* line 96, ../../scss/modules/login/_login-register.scss */
     .facebook-button, .twitter-button, .google-button {
       position: relative;
       padding-left: 0.9375em;
@@ -5212,7 +5271,7 @@ button.google, .button.google {
       float: left;
       padding-left: 0; } }
   @media only screen and (min-width: 1024px) {
-    /* line 95, ../../scss/modules/login/_login-register.scss */
+    /* line 96, ../../scss/modules/login/_login-register.scss */
     .facebook-button, .twitter-button, .google-button {
       position: relative;
       padding-left: 0.9375em;
@@ -5221,39 +5280,93 @@ button.google, .button.google {
       float: left;
       padding-left: 0; } }
 
-/* line 108, ../../scss/modules/login/_login-register.scss */
+/* line 109, ../../scss/modules/login/_login-register.scss */
 .open-id {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 110, ../../scss/modules/login/_login-register.scss */
+  /* line 111, ../../scss/modules/login/_login-register.scss */
   .open-id .open-id-input {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     width: 83.33333%;
     float: left; }
-    /* line 112, ../../scss/modules/login/_login-register.scss */
+    /* line 113, ../../scss/modules/login/_login-register.scss */
     .open-id .open-id-input input[type="text"] {
       border-radius: 3px 0 0 3px; }
-  /* line 116, ../../scss/modules/login/_login-register.scss */
+  /* line 117, ../../scss/modules/login/_login-register.scss */
   .open-id .open-id-submit {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     width: 16.66667%;
     float: left; }
+    /* line 119, ../../scss/modules/login/_login-register.scss */
+    .open-id .open-id-submit button {
+      border-style: solid;
+      border-width: 1px;
+      cursor: "pointer";
+      font-family: inherit;
+      font-weight: bold;
+      line-height: 1;
+      margin: 0 0 1.25em;
+      position: relative;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+      padding-top: 0.75em;
+      padding-right: 1.5em;
+      padding-bottom: 0.8125em;
+      padding-left: 1.5em;
+      font-size: 1em;
+      background-color: #eff0f3;
+      border-color: #d2d5dd;
+      color: #333333;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      display: block;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: 100%;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-style: solid;
+      border-width: 1px;
+      overflow: hidden;
+      font-size: 0.875em;
+      height: 2.3125em;
+      line-height: 2.3125em;
+      background: #eff0f3;
+      border-color: #c3c7d2;
+      border-left: none;
+      color: #333333;
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      text-align: center;
+      line-height: 2.125em;
+      -webkit-border-radius: 3px;
+      border-radius: 3px; }
+      /* line 122, ../../scss/foundation/components/_buttons.scss */
+      .open-id .open-id-submit button:hover, .open-id .open-id-submit button:focus {
+        background-color: #d2d5dd; }
+      /* line 128, ../../scss/foundation/components/_buttons.scss */
+      .open-id .open-id-submit button:hover, .open-id .open-id-submit button:focus {
+        color: #333333; }
 
-/* line 121, ../../scss/modules/login/_login-register.scss */
+/* line 128, ../../scss/modules/login/_login-register.scss */
 .login-box-meta {
   float: right; }
-  /* line 123, ../../scss/modules/login/_login-register.scss */
+  /* line 130, ../../scss/modules/login/_login-register.scss */
   .login-box-meta p {
     margin: 0; }
 
-/* line 128, ../../scss/modules/login/_login-register.scss */
+/* line 135, ../../scss/modules/login/_login-register.scss */
 .login-disclaimer {
   position: relative;
   padding-left: 0;
@@ -5262,7 +5375,7 @@ button.google, .button.google {
   float: left;
   font-style: italic;
   color: #979797; }
-  /* line 132, ../../scss/modules/login/_login-register.scss */
+  /* line 139, ../../scss/modules/login/_login-register.scss */
   .login-disclaimer i {
     position: relative;
     top: 1px;
@@ -5312,7 +5425,7 @@ button.google, .button.google {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('../../images/logo.png?1380641241') no-repeat;
+  background: url('../../images/logo.png?1382046508') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -5344,7 +5457,7 @@ button.google, .button.google {
 \*------------------------------------*/
 /* line 74, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li.create-post a {
-  background-color: #c50813;
+  background-color: #3cb81c;
   color: #fcfcfc; }
 
 /* line 79, ../../scss/modules/header/_topbar.scss */
@@ -5504,7 +5617,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 31, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1380641241') no-repeat;
+  background: url('../../images/avatar.png?1382046505') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -5828,7 +5941,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  background: #22699d url('../../images/search-bg.jpg?1380641241') repeat;
+  background: #22699d url('../../images/search-bg.jpg?1382046511') repeat;
   width: 100%;
   border-top: 3px solid #12a0ba;
   padding-top: 2em; }
@@ -6628,13 +6741,40 @@ nav[role="sub-navigation"] li a {
     .post-header {
       padding: 1em; } }
   /* line 45, ../../scss/modules/posts/_post.scss */
-  .post-header .post-actions .button {
+  .post-header .post-actions-button {
+    border-style: solid;
+    border-width: 1px;
+    cursor: "pointer";
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0 0 1.25em;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    padding-top: 0.5625em;
+    padding-right: 1.125em;
+    padding-bottom: 0.625em;
+    padding-left: 1.125em;
+    font-size: 0.8125em;
+    background-color: #eff0f3;
+    border-color: #d2d5dd;
+    color: #333333;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
     border: 0px; }
+    /* line 122, ../../scss/foundation/components/_buttons.scss */
+    .post-header .post-actions-button:hover, .post-header .post-actions-button:focus {
+      background-color: #d2d5dd; }
+    /* line 128, ../../scss/foundation/components/_buttons.scss */
+    .post-header .post-actions-button:hover, .post-header .post-actions-button:focus {
+      color: #333333; }
 
 /**
  * 	Hidden for now, and probably not best handled with columns
  */
-/* line 53, ../../scss/modules/posts/_post.scss */
+/* line 54, ../../scss/modules/posts/_post.scss */
 .post-category-marker {
   position: relative;
   padding-left: 0;
@@ -6642,7 +6782,7 @@ nav[role="sub-navigation"] li a {
   width: 16.66667%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 53, ../../scss/modules/posts/_post.scss */
+    /* line 54, ../../scss/modules/posts/_post.scss */
     .post-category-marker {
       position: relative;
       padding-left: 0;
@@ -6650,7 +6790,7 @@ nav[role="sub-navigation"] li a {
       width: 8.33333%;
       float: left; } }
 
-/* line 61, ../../scss/modules/posts/_post.scss */
+/* line 62, ../../scss/modules/posts/_post.scss */
 .post-title {
   position: relative;
   padding-left: 0;
@@ -6659,7 +6799,7 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-bottom: 20px; }
   @media only screen and (min-width: 768px) {
-    /* line 61, ../../scss/modules/posts/_post.scss */
+    /* line 62, ../../scss/modules/posts/_post.scss */
     .post-title {
       position: relative;
       padding-left: 0;
@@ -6668,7 +6808,7 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-bottom: 0px; } }
   @media only screen and (min-width: 1024px) {
-    /* line 61, ../../scss/modules/posts/_post.scss */
+    /* line 62, ../../scss/modules/posts/_post.scss */
     .post-title {
       position: relative;
       padding-left: 0;
@@ -6676,7 +6816,7 @@ nav[role="sub-navigation"] li a {
       width: 50%;
       float: left; } }
 
-/* line 74, ../../scss/modules/posts/_post.scss */
+/* line 75, ../../scss/modules/posts/_post.scss */
 .post-actions-wrapper {
   position: relative;
   padding-left: 0;
@@ -6684,11 +6824,11 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 74, ../../scss/modules/posts/_post.scss */
+    /* line 75, ../../scss/modules/posts/_post.scss */
     .post-actions-wrapper {
       margin-top: 20px; } }
   @media only screen and (min-width: 1024px) {
-    /* line 74, ../../scss/modules/posts/_post.scss */
+    /* line 75, ../../scss/modules/posts/_post.scss */
     .post-actions-wrapper {
       position: relative;
       padding-left: 0;
@@ -6697,18 +6837,18 @@ nav[role="sub-navigation"] li a {
       float: left;
       margin-top: 0; } }
 
-/* line 85, ../../scss/modules/posts/_post.scss */
+/* line 86, ../../scss/modules/posts/_post.scss */
 .post-actions {
   float: right;
   margin: 0; }
-  /* line 88, ../../scss/modules/posts/_post.scss */
+  /* line 89, ../../scss/modules/posts/_post.scss */
   .post-actions li {
     display: inline; }
 
 /*------------------------------------*\
 		$POST BODY
 \*------------------------------------*/
-/* line 102, ../../scss/modules/posts/_post.scss */
+/* line 103, ../../scss/modules/posts/_post.scss */
 .post-body {
   position: relative;
   padding-left: 0.9375em;
@@ -6719,7 +6859,7 @@ nav[role="sub-navigation"] li a {
   padding: 1em;
   margin-bottom: 20px; }
 
-/* line 110, ../../scss/modules/posts/_post.scss */
+/* line 111, ../../scss/modules/posts/_post.scss */
 .post-image {
   position: relative;
   padding-left: 0;
@@ -6728,7 +6868,7 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-bottom: 20px; }
   @media only screen and (min-width: 768px) {
-    /* line 110, ../../scss/modules/posts/_post.scss */
+    /* line 111, ../../scss/modules/posts/_post.scss */
     .post-image {
       position: relative;
       padding-left: 0;
@@ -6736,7 +6876,7 @@ nav[role="sub-navigation"] li a {
       width: 33.33333%;
       float: left;
       margin-bottom: 0; } }
-  /* line 117, ../../scss/modules/posts/_post.scss */
+  /* line 118, ../../scss/modules/posts/_post.scss */
   .post-image img {
     line-height: 0;
     display: inline-block;
@@ -6749,7 +6889,7 @@ nav[role="sub-navigation"] li a {
       -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
       box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
 
-/* line 123, ../../scss/modules/posts/_post.scss */
+/* line 124, ../../scss/modules/posts/_post.scss */
 .post-details {
   position: relative;
   padding-left: 0;
@@ -6757,7 +6897,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 123, ../../scss/modules/posts/_post.scss */
+    /* line 124, ../../scss/modules/posts/_post.scss */
     .post-details {
       position: relative;
       padding-left: 0.9375em;
@@ -6765,7 +6905,7 @@ nav[role="sub-navigation"] li a {
       width: 66.66667%;
       float: left; } }
 
-/* line 130, ../../scss/modules/posts/_post.scss */
+/* line 131, ../../scss/modules/posts/_post.scss */
 .post-excerpt, .related-post-excerpt {
   position: relative;
   padding-left: 0;
@@ -6773,24 +6913,24 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 130, ../../scss/modules/posts/_post.scss */
+    /* line 131, ../../scss/modules/posts/_post.scss */
     .post-excerpt, .related-post-excerpt {
       padding-right: 0; } }
 
-/* line 137, ../../scss/modules/posts/_post.scss */
+/* line 138, ../../scss/modules/posts/_post.scss */
 .post-meta {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 139, ../../scss/modules/posts/_post.scss */
+  /* line 140, ../../scss/modules/posts/_post.scss */
   .post-meta p {
     font-size: 70%;
     color: #a3a3a3;
     margin-bottom: .7em; }
 
-/* line 146, ../../scss/modules/posts/_post.scss */
+/* line 147, ../../scss/modules/posts/_post.scss */
 .post-meta-details {
   margin-bottom: 20px;
   *zoom: 1; }
@@ -6802,7 +6942,7 @@ nav[role="sub-navigation"] li a {
   .post-meta-details:after {
     clear: both; }
 
-/* line 151, ../../scss/modules/posts/_post.scss */
+/* line 152, ../../scss/modules/posts/_post.scss */
 .post-author {
   position: relative;
   padding-left: 0;
@@ -6810,7 +6950,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 155, ../../scss/modules/posts/_post.scss */
+/* line 156, ../../scss/modules/posts/_post.scss */
 .post-location-meta {
   position: relative;
   padding-left: 0;
@@ -6818,11 +6958,11 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 159, ../../scss/modules/posts/_post.scss */
+/* line 160, ../../scss/modules/posts/_post.scss */
 .post-location {
   font-weight: bold; }
 
-/* line 163, ../../scss/modules/posts/_post.scss */
+/* line 164, ../../scss/modules/posts/_post.scss */
 .post-time-meta {
   position: relative;
   padding-left: 0;
@@ -6830,7 +6970,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 167, ../../scss/modules/posts/_post.scss */
+/* line 168, ../../scss/modules/posts/_post.scss */
 .post-privacy-status {
   position: relative;
   padding-left: 0;
@@ -6838,26 +6978,26 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
 
-/* line 171, ../../scss/modules/posts/_post.scss */
+/* line 172, ../../scss/modules/posts/_post.scss */
 .post-categories {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 50%;
   float: left; }
-  /* line 173, ../../scss/modules/posts/_post.scss */
+  /* line 174, ../../scss/modules/posts/_post.scss */
   .post-categories ul {
     margin: 0; }
-    /* line 175, ../../scss/modules/posts/_post.scss */
+    /* line 176, ../../scss/modules/posts/_post.scss */
     .post-categories ul a {
       color: #a3a3a3; }
-    /* line 178, ../../scss/modules/posts/_post.scss */
+    /* line 179, ../../scss/modules/posts/_post.scss */
     .post-categories ul li {
       font-size: 70%;
       padding-right: 5px;
       margin-bottom: .7em; }
   @media only screen and (min-width: 768px) {
-    /* line 171, ../../scss/modules/posts/_post.scss */
+    /* line 172, ../../scss/modules/posts/_post.scss */
     .post-categories {
       position: relative;
       padding-left: 0;
@@ -6865,7 +7005,7 @@ nav[role="sub-navigation"] li a {
       width: 100%;
       float: left; } }
 
-/* line 189, ../../scss/modules/posts/_post.scss */
+/* line 190, ../../scss/modules/posts/_post.scss */
 .post-details-button {
   position: relative;
   padding-left: 0;
@@ -6874,11 +7014,11 @@ nav[role="sub-navigation"] li a {
   float: left;
   margin-top: 10px;
   float: right; }
-  /* line 193, ../../scss/modules/posts/_post.scss */
+  /* line 194, ../../scss/modules/posts/_post.scss */
   .post-details-button .button {
     float: right; }
   @media only screen and (min-width: 768px) {
-    /* line 189, ../../scss/modules/posts/_post.scss */
+    /* line 190, ../../scss/modules/posts/_post.scss */
     .post-details-button {
       position: relative;
       padding-left: 0;
@@ -6886,7 +7026,7 @@ nav[role="sub-navigation"] li a {
       width: 33.33333%;
       float: left;
       margin-top: 7px; }
-      /* line 199, ../../scss/modules/posts/_post.scss */
+      /* line 200, ../../scss/modules/posts/_post.scss */
       .post-details-button .button {
         float: right; } }
 
@@ -7315,8 +7455,39 @@ nav[role="sub-navigation"] li a {
   width: 58.33333%;
   float: left; }
   /* line 38, ../../scss/modules/sets/_sets.scss */
-  .sets-search-bar-create-button .button {
-    padding: 13px 0; }
+  .sets-search-bar-create-button a {
+    border-style: solid;
+    border-width: 1px;
+    cursor: "pointer";
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0 0 1.25em;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    padding-top: 0.9375em;
+    padding-right: 1.875em;
+    padding-bottom: 1em;
+    padding-left: 1.875em;
+    font-size: 0.8125em;
+    padding-top: 0.9375em;
+    padding-bottom: 1em;
+    padding-right: 0px;
+    padding-left: 0px;
+    width: 100%;
+    background-color: #3cb81c;
+    border-color: #2e8c15;
+    color: white;
+    -webkit-border-radius: 3px;
+    border-radius: 3px; }
+    /* line 122, ../../scss/foundation/components/_buttons.scss */
+    .sets-search-bar-create-button a:hover, .sets-search-bar-create-button a:focus {
+      background-color: #2e8c15; }
+    /* line 133, ../../scss/foundation/components/_buttons.scss */
+    .sets-search-bar-create-button a:hover, .sets-search-bar-create-button a:focus {
+      color: white; }
   @media only screen and (min-width: 768px) {
     /* line 36, ../../scss/modules/sets/_sets.scss */
     .sets-search-bar-create-button {
@@ -7621,35 +7792,62 @@ TODO: may need a notification mixin here
     line-height: 1.3em; }
 
 /* line 75, ../../scss/modules/sets/_set-module.scss */
-.set-view-posts .button {
+.set-view-posts-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
   margin-bottom: 2em; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .set-view-posts-button:hover, .set-view-posts-button:focus {
+    background-color: #2e8c15; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .set-view-posts-button:hover, .set-view-posts-button:focus {
+    color: white; }
 
-/* line 79, ../../scss/modules/sets/_set-module.scss */
+/* line 80, ../../scss/modules/sets/_set-module.scss */
 .set-tags {
   padding-bottom: 10px;
   margin: 0 10px 10px;
   color: #9a9797;
   text-align: left;
   line-height: .8em; }
-  /* line 86, ../../scss/modules/sets/_set-module.scss */
+  /* line 87, ../../scss/modules/sets/_set-module.scss */
   .set-tags a {
     color: inherit; }
 
-/* line 91, ../../scss/modules/sets/_set-module.scss */
+/* line 92, ../../scss/modules/sets/_set-module.scss */
 .set-actions-list {
   margin-left: 0; }
-  /* line 93, ../../scss/modules/sets/_set-module.scss */
+  /* line 94, ../../scss/modules/sets/_set-module.scss */
   .set-actions-list i {
     padding: 0; }
-  /* line 96, ../../scss/modules/sets/_set-module.scss */
+  /* line 97, ../../scss/modules/sets/_set-module.scss */
   .set-actions-list li {
     display: inline;
     padding-right: 10px; }
-    /* line 99, ../../scss/modules/sets/_set-module.scss */
+    /* line 100, ../../scss/modules/sets/_set-module.scss */
     .set-actions-list li small {
       font-size: 85%; }
       @media only screen and (min-width: 1024px) {
-        /* line 99, ../../scss/modules/sets/_set-module.scss */
+        /* line 100, ../../scss/modules/sets/_set-module.scss */
         .set-actions-list li small {
           font-size: 70%; } }
 
@@ -8678,8 +8876,40 @@ form.custom .custom.checkbox.checked:before {
       padding: 10px;
       float: right; } }
   /* line 76, ../../scss/modules/modals/_modal.scss */
-  .modal-submit .button {
+  .modal-submit button {
+    border-style: solid;
+    border-width: 1px;
+    cursor: "pointer";
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0 0 1.25em;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    padding-top: 0.75em;
+    padding-right: 1.5em;
+    padding-bottom: 0.8125em;
+    padding-left: 1.5em;
+    font-size: 1em;
+    padding-top: 0.75em;
+    padding-bottom: 0.8125em;
+    padding-right: 0px;
+    padding-left: 0px;
+    width: 100%;
+    background-color: #3cb81c;
+    border-color: #2e8c15;
+    color: white;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
     margin-bottom: 0; }
+    /* line 122, ../../scss/foundation/components/_buttons.scss */
+    .modal-submit button:hover, .modal-submit button:focus {
+      background-color: #2e8c15; }
+    /* line 133, ../../scss/foundation/components/_buttons.scss */
+    .modal-submit button:hover, .modal-submit button:focus {
+      color: white; }
 
 /*------------------------------------*\
 		$CONTENTS
@@ -8711,7 +8941,7 @@ form.custom .custom.checkbox.checked:before {
 
 /* line 31, ../../scss/modules/modals/_create-post-modal.scss */
 .create-post-location-map {
-  background: url('../../images/map.jpg?1380820946') no-repeat;
+  background: url('../../images/map.jpg?1382046510') no-repeat;
   width: 100%;
   height: 100px;
   background-size: cover;
@@ -8839,6 +9069,41 @@ form.custom .custom.checkbox.checked:before {
   cursor: pointer; }
 
 /* line 29, ../../scss/modules/modals/_add-to-set-modal.scss */
+.add-to-set-category-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #eff0f3;
+  border-color: #d2d5dd;
+  color: #333333;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .add-to-set-category-button:hover, .add-to-set-category-button:focus {
+    background-color: #d2d5dd; }
+  /* line 128, ../../scss/foundation/components/_buttons.scss */
+  .add-to-set-category-button:hover, .add-to-set-category-button:focus {
+    color: #333333; }
+
+/* line 33, ../../scss/modules/modals/_add-to-set-modal.scss */
 .more {
   width: 100%;
   margin-left: auto;
@@ -8856,34 +9121,34 @@ form.custom .custom.checkbox.checked:before {
   /* line 122, ../../scss/foundation/components/_global.scss */
   .more:after {
     clear: both; }
-  /* line 33, ../../scss/modules/modals/_add-to-set-modal.scss */
+  /* line 37, ../../scss/modules/modals/_add-to-set-modal.scss */
   .more a {
     border-bottom: 1px dotted; }
 
-/* line 38, ../../scss/modules/modals/_add-to-set-modal.scss */
+/* line 42, ../../scss/modules/modals/_add-to-set-modal.scss */
 .current-sets-wrapper {
   margin-bottom: 20px; }
 
-/* line 42, ../../scss/modules/modals/_add-to-set-modal.scss */
+/* line 46, ../../scss/modules/modals/_add-to-set-modal.scss */
 .current-sets {
   margin: 0; }
-  /* line 44, ../../scss/modules/modals/_add-to-set-modal.scss */
+  /* line 48, ../../scss/modules/modals/_add-to-set-modal.scss */
   .current-sets li {
     display: inline;
     margin-right: 10px; }
-    /* line 47, ../../scss/modules/modals/_add-to-set-modal.scss */
+    /* line 51, ../../scss/modules/modals/_add-to-set-modal.scss */
     .current-sets li a:hover {
       color: #fcfcfc; }
-    /* line 50, ../../scss/modules/modals/_add-to-set-modal.scss */
+    /* line 54, ../../scss/modules/modals/_add-to-set-modal.scss */
     .current-sets li i {
       color: #1f1f1f;
       font-size: 18px;
       padding: 0 0 0 5px; }
-  /* line 56, ../../scss/modules/modals/_add-to-set-modal.scss */
+  /* line 60, ../../scss/modules/modals/_add-to-set-modal.scss */
   .current-sets .label {
     padding: 10px; }
 
-/* line 61, ../../scss/modules/modals/_add-to-set-modal.scss */
+/* line 65, ../../scss/modules/modals/_add-to-set-modal.scss */
 .set-is-selected {
   position: absolute;
   background-color: #3cb81c;
@@ -8966,6 +9231,41 @@ form.custom .custom.checkbox.checked:before {
     padding-left: 20px; } }
 
 /* line 69, ../../scss/modules/modals/_edit-post-modal.scss */
+.post-excerpt-save-text-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .post-excerpt-save-text-button:hover, .post-excerpt-save-text-button:focus {
+    background-color: #2e8c15; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .post-excerpt-save-text-button:hover, .post-excerpt-save-text-button:focus {
+    color: white; }
+
+/* line 73, ../../scss/modules/modals/_edit-post-modal.scss */
 textarea {
   height: 400px;
   font-family: inherit;
@@ -8975,25 +9275,25 @@ textarea {
   margin-bottom: 1.25em;
   text-rendering: optimizeLegibility; }
 
-/* line 79, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 83, ../../scss/modules/modals/_edit-post-modal.scss */
 .edit-post .post-thumbnails-list-item {
   position: relative; }
-  /* line 81, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 85, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-thumbnails-list-item a {
     color: #1f1f1f; }
-  /* line 84, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 88, ../../scss/modules/modals/_edit-post-modal.scss */
   .edit-post .post-thumbnails-list-item .icon-stack {
     position: absolute;
     top: -15px;
     right: -12px; }
-    /* line 88, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 92, ../../scss/modules/modals/_edit-post-modal.scss */
     .edit-post .post-thumbnails-list-item .icon-stack .icon-circle {
       color: #fcfcfc; }
-    /* line 91, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 95, ../../scss/modules/modals/_edit-post-modal.scss */
     .edit-post .post-thumbnails-list-item .icon-stack [class^="icon-"], .edit-post .post-thumbnails-list-item .icon-stack [class*=" icon-"] {
       font-size: 1.2em; }
 
-/* line 97, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 101, ../../scss/modules/modals/_edit-post-modal.scss */
 .post-wrapper {
   position: relative;
   padding-left: 0;
@@ -9003,20 +9303,20 @@ textarea {
   border-top: 1px solid #e3e3e3;
   padding-top: 20px; }
 
-/* line 103, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 107, ../../scss/modules/modals/_edit-post-modal.scss */
 .post-status {
   margin-bottom: 20px; }
-  /* line 105, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 109, ../../scss/modules/modals/_edit-post-modal.scss */
   .post-status .post-status-list {
     margin: 0; }
-    /* line 107, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 111, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-status .post-status-list li {
       color: #a3a3a3;
       font-size: 70%;
       padding-right: 5px;
       margin-bottom: .7em; }
   @media only screen and (min-width: 768px) {
-    /* line 103, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 107, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-status {
       position: relative;
       padding-left: 0;
@@ -9024,12 +9324,12 @@ textarea {
       width: 50%;
       float: left; } }
 
-/* line 119, ../../scss/modules/modals/_edit-post-modal.scss */
+/* line 123, ../../scss/modules/modals/_edit-post-modal.scss */
 .post-history {
   margin-bottom: 20px;
   border-top: 1px solid #e3e3e3;
   padding-top: 20px; }
-  /* line 123, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 127, ../../scss/modules/modals/_edit-post-modal.scss */
   .post-history .post-history-list {
     position: relative;
     padding-left: 0;
@@ -9040,23 +9340,23 @@ textarea {
     font-size: 70%;
     padding-right: 5px; }
     @media only screen and (min-width: 768px) {
-      /* line 128, ../../scss/modules/modals/_edit-post-modal.scss */
+      /* line 132, ../../scss/modules/modals/_edit-post-modal.scss */
       .post-history .post-history-list .post-history-list-item {
         position: relative;
         padding-left: 0;
         padding-right: 0;
         width: 66.66667%;
         float: left; } }
-    /* line 132, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 136, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-history .post-history-list .post-history-list-item .post-history-name {
       font-weight: bold;
       color: #1f1f1f; }
-  /* line 138, ../../scss/modules/modals/_edit-post-modal.scss */
+  /* line 142, ../../scss/modules/modals/_edit-post-modal.scss */
   .post-history .post-history-time {
     color: #a3a3a3;
     margin-bottom: .7em; }
     @media only screen and (min-width: 768px) {
-      /* line 138, ../../scss/modules/modals/_edit-post-modal.scss */
+      /* line 142, ../../scss/modules/modals/_edit-post-modal.scss */
       .post-history .post-history-time {
         position: relative;
         padding-left: 0;
@@ -9064,14 +9364,14 @@ textarea {
         width: 33.33333%;
         float: left; } }
     @media only screen and (min-width: 768px) {
-      /* line 144, ../../scss/modules/modals/_edit-post-modal.scss */
+      /* line 148, ../../scss/modules/modals/_edit-post-modal.scss */
       .post-history .post-history-time span {
         float: right; } }
-    /* line 148, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 152, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-history .post-history-time span i {
       padding-right: 3px; }
   @media only screen and (min-width: 768px) {
-    /* line 119, ../../scss/modules/modals/_edit-post-modal.scss */
+    /* line 123, ../../scss/modules/modals/_edit-post-modal.scss */
     .post-history {
       position: relative;
       padding-left: 0;
@@ -9119,36 +9419,69 @@ textarea {
   /* line 27, ../../scss/modules/modals/_create-set-modal.scss */
   .create-set-photo img {
     width: 100%; }
-  /* line 30, ../../scss/modules/modals/_create-set-modal.scss */
-  .create-set-photo button.expand {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 58.33333%;
-    float: left;
-    margin: 0 0 0 20px; }
-    @media only screen and (min-width: 768px) {
-      /* line 30, ../../scss/modules/modals/_create-set-modal.scss */
-      .create-set-photo button.expand {
-        position: relative;
-        padding-left: 0.9375em;
-        padding-right: 0.9375em;
-        width: 25%;
-        float: left;
-        vertical-align: bottom; } }
 
-/* line 40, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 32, ../../scss/modules/modals/_create-set-modal.scss */
+.create-set-photo-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  padding-top: 0.5625em;
+  padding-bottom: 0.625em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #eff0f3;
+  border-color: #d2d5dd;
+  color: #333333;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 58.33333%;
+  float: left;
+  margin: 0 0 0 20px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .create-set-photo-button:hover, .create-set-photo-button:focus {
+    background-color: #d2d5dd; }
+  /* line 128, ../../scss/foundation/components/_buttons.scss */
+  .create-set-photo-button:hover, .create-set-photo-button:focus {
+    color: #333333; }
+  @media only screen and (min-width: 768px) {
+    /* line 32, ../../scss/modules/modals/_create-set-modal.scss */
+    .create-set-photo-button {
+      position: relative;
+      padding-left: 0.9375em;
+      padding-right: 0.9375em;
+      width: 25%;
+      float: left;
+      vertical-align: bottom; } }
+
+/* line 42, ../../scss/modules/modals/_create-set-modal.scss */
 .create-set-categories {
   margin-bottom: 2em; }
 
-/* line 44, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 46, ../../scss/modules/modals/_create-set-modal.scss */
 .visibility-select {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 46, ../../scss/modules/modals/_create-set-modal.scss */
+  /* line 48, ../../scss/modules/modals/_create-set-modal.scss */
   .visibility-select .visibility-meta-text {
     position: relative;
     padding-left: 0;
@@ -9156,21 +9489,92 @@ textarea {
     width: 100%;
     float: left;
     margin-bottom: 20px; }
-  /* line 50, ../../scss/modules/modals/_create-set-modal.scss */
-  .visibility-select button.expand {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 100%;
-    float: left; }
-    @media only screen and (min-width: 768px) {
-      /* line 50, ../../scss/modules/modals/_create-set-modal.scss */
-      .visibility-select button.expand {
-        position: relative;
-        padding-left: 0.9375em;
-        padding-right: 0.9375em;
-        width: 16.66667%;
-        float: left;
-        margin-right: 20px;
-        padding-left: 0;
-        padding-right: 0; } }
+
+/* line 54, ../../scss/modules/modals/_create-set-modal.scss */
+.visibility-select-private-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #323a45;
+  border-color: #1d2127;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .visibility-select-private-button:hover, .visibility-select-private-button:focus {
+    background-color: #1d2127; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .visibility-select-private-button:hover, .visibility-select-private-button:focus {
+    color: white; }
+
+/* line 58, ../../scss/modules/modals/_create-set-modal.scss */
+.visibility-select-public-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .visibility-select-public-button:hover, .visibility-select-public-button:focus {
+    background-color: #2e8c15; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .visibility-select-public-button:hover, .visibility-select-public-button:focus {
+    color: white; }
+
+/* line 62, ../../scss/modules/modals/_create-set-modal.scss */
+.visibility-select-private-button, .visibility-select-public-button {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left; }
+  @media only screen and (min-width: 768px) {
+    /* line 62, ../../scss/modules/modals/_create-set-modal.scss */
+    .visibility-select-private-button, .visibility-select-public-button {
+      position: relative;
+      padding-left: 0.9375em;
+      padding-right: 0.9375em;
+      width: 16.66667%;
+      float: left;
+      margin-right: 20px;
+      padding-left: 0;
+      padding-right: 0; } }

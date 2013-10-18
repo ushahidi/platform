@@ -58,7 +58,8 @@
 	input[type="checkbox"] {
 		margin-right: 10px;
 	}
-	input[type="submit"] {
+	.submit-button {
+		@include button($bg: $success-color, $radius: true);
 		margin: 20px 0 10px 0;
  }
 	@media #{$medium-up} {
@@ -93,6 +94,7 @@
 }
 
 .facebook-button, .twitter-button, .google-button {
+	@include button($padding: $button-sml, $radius: true, $full-width: true);
 	padding-left: 0;
 	@media #{$small} {
 		@include grid-column(4);
@@ -102,7 +104,6 @@
 		@include grid-column(4);
 		padding-left: 0;
 	}
-
 }
 
 .open-id {
@@ -115,6 +116,12 @@
 	}
 	.open-id-submit {
 		@include grid-column(2, $collapse: true);
+		button {
+			@include button($bg: $secondary-color, $radius: true);
+			@include prefix-postfix-base;
+			@include postfix($bg: $secondary-color, $is-button: true);
+			@include radius ($global-radius);		
+		}
 	}
 }
 

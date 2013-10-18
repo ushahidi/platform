@@ -27,13 +27,15 @@
 	img {
 		width: 100%;
 	}
-	button.expand {
-		@include grid-column(7);
-		margin: 0 0 0 20px;
-		@media #{$small} {
-			@include grid-column(3);
-			vertical-align: bottom;
-		}
+}
+
+.create-set-photo-button {
+	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true, $full-width: true);
+	@include grid-column(7);
+	margin: 0 0 0 20px;
+	@media #{$small} {
+		@include grid-column(3);
+		vertical-align: bottom;
 	}
 }
 
@@ -47,13 +49,22 @@
 		@include grid-column(12, $collapse: true);
 		margin-bottom: 20px;
 	}
-	button.expand {
-		@include grid-column(12);
-		@media #{$small} {
-			@include grid-column(2);
-			margin-right: 20px;
-			padding-left: 0;
-			padding-right: 0;
-		}
+}
+
+.visibility-select-private-button {
+	@include button($bg: $blueGray, $radius: true, $full-width: true);
+}
+
+.visibility-select-public-button {
+	@include button($bg: $success-color, $radius: true, $full-width: true);
+}
+
+.visibility-select-private-button, .visibility-select-public-button {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(2);
+		margin-right: 20px;
+		padding-left: 0;
+		padding-right: 0;
 	}
 }

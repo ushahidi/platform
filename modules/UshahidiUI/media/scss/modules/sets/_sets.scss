@@ -35,9 +35,9 @@
 
 .sets-search-bar-create-button {
  @include grid-column(7);
- .button {
- 	padding: 13px 0;
- }
+	 a {
+	 	@include button($padding: emCalc(15px), $bg: $success-color, $radius: true, $full-width: true);
+	 }
  @media #{$small} {
 		@include grid-column(2);
 		border-right: 1px solid darken($blueGray, 10);

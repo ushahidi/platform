@@ -26,6 +26,10 @@
 	}
 }
 
+.add-to-set-category-button {
+	@include button($bg: $secondary-color, $radius: true, $full-width: true);
+}
+
 .more {
 	@include grid-row();
 	text-align: center;

@@ -35,13 +35,13 @@
 			<link rel="stylesheet" href="<?php echo Media::url('css/font-awesome-ie7.min.css'); ?>">
 		<![endif]-->
 		
-		<!-- style site config -->
+		<!-- Global site config -->
 		<script type="text/javascript">
 		  (function() {
 		    window.config = <?php echo json_encode($site); ?>;
 		  })();
 		</script>
-		<!-- end style site config -->
+		<!-- end Global site config -->
 		
 		<!--Change to Init.min.js below for production-->
 		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
