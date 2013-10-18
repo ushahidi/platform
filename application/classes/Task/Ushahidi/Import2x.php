@@ -200,7 +200,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 				array(':validation', ':field', ':value', ':data'))
 			// Reject clean if also using external url
 			->rule('clean', function($validation, $field, $value, $data) {
-					if ($value AND is_string($data['use-external']))
+					if ($value !== FALSE AND is_string($data['use-external']))
 					{
 						$validation->error($field, 'incompatible_use_external');
 					}
@@ -421,8 +421,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		DB::query(Database::DELETE, "TRUNCATE TABLE sets")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts_sets")->execute();
 		// Users
-		DB::query(Database::DELETE, "DELETE FROM users where username <> :username")->bind(':username', $dest_username)->execute();
-		
+		DB::query(Database::DELETE, "DELETE FROM users where username <> :username OR USERNAME IS NULL")->bind(':username', $dest_username)->execute();
+
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=1;")->execute();
 	}
 	
@@ -878,6 +878,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			// Start a new benchmark
 			$benchmark = Profiler::start('Upgrade', __FUNCTION__);
 		}
+
+		// @todo handle existing categories
 		
 		// Create categories
 		$this->logger->add(Log::NOTICE, 'Fetching categories');
@@ -1027,6 +1029,8 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		$category_count = 0;
 		$this->tag_map = array();
 		$tag_titles = array();
+
+		// @todo handle existing categories
 		
 		$this->logger->add(Log::NOTICE, 'Fetching categories');
 		$categories = DB::query(Database::SELECT, 'SELECT * FROM category ORDER BY parent_id ASC, id ASC')->execute($this->db2);
@@ -1137,6 +1141,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					));
 			}
 			$this->user_map[$user['email']] = $user['id'];
+			$this->user_map[$user['username']] = $user['id'];
 			
 			$user_count++;
 			
