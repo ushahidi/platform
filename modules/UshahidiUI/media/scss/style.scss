@@ -106,11 +106,11 @@ NOTE: comment out what I don't use
 		$MODULES
 \*------------------------------------*/
 
-/*LOGIN*/
-@import "modules/login/login-register";
-
 /*BUTTONS*/
 @import "modules/buttons/social-buttons";
+
+/*LOGIN*/
+@import "modules/login/login-register";
 
 /*HEADER*/
 @import "modules/header/topbar";
