@@ -164,10 +164,12 @@ class Model_Media extends ORM {
 			$dimension = sprintf('w%s', $width);
 		}
 
+		$relative_path = str_replace(Kohana::$config->load('imagefly.media_dir'),'',Kohana::$config->load('media.media_upload_dir'));
+
 		return URL::site(
 			Route::get('imagefly')->uri(array(
 				'params' => $dimension,
-				'imagepath' => Kohana::$config->load('media.media_upload_dir').$filename
+				'imagepath' => $relative_path.$filename
 			)),
 			Request::current()
 		);
