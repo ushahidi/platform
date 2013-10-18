@@ -4,6 +4,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
 		tagName : 'div',
 		template : Handlebars.compile(template),
+		marker : L.marker([-36.85, 174.78], { draggable : true }),
 		defaultValue : {
 			lat : null,
 			lon : null
@@ -35,7 +36,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 			//this.setElement($editor);
 			this.$el.append($editor);
-			this.setValue(this.value);
+			//this.setValue(this.value);
 
 			// Don't re-render the map
 			if (typeof this.map !== 'undefined')
@@ -61,9 +62,10 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			});
 
 			marker = this.marker = L.marker([-36.85, 174.78], { draggable : true }).addTo(map);
-			marker.addEventListener('dragend', function (e) {
-				console.log(e);
-			});
+			marker.addEventListener('dragend', function ()
+			{
+				this.value = this.getValue();
+			}, this);
 
 			// Fix any leaflet weirdness after map resizes
 			// @TODO check if this works in older browsers, add backup delayed call if not
@@ -92,21 +94,21 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 		getValue: function()
 		{
-			return;
+			var latlng = this.marker.getLatLng(),
+				label = this.$('#' + this.id + '_label').val();
+
 			return {
-				lat : this.$('.lat').val(),
-				lon : this.$('.lon').val()
+				label : label,
+				lat : latlng.lat,
+				lon : latlng.lng
 			};
 		},
 
 		setValue: function(value)
 		{
-			return;
-			if (value.lat) {
-				this.$('.lat').val(value.lat);
-			}
-			if (value.lon) {
-				this.$('.lon').val(value.lon);
+			if (value.lat && value.lon)
+			{
+				this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
 			}
 		}
 	});
