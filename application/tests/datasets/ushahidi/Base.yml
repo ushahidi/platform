@@ -444,7 +444,7 @@ users:
     username: "admin"
     password: ""
     first_name:
-    last_name: 
+    last_name:
     email:
     role: "admin"
   -
@@ -452,7 +452,7 @@ users:
     username: "test"
     password: ""
     first_name:
-    last_name: 
+    last_name:
     email:
     role: "user"
 tasks:
@@ -498,4 +498,32 @@ oauth_refresh_tokens:
     client_id: "demoapp"
     scope: "api"
     expires: "2030-01-01 00:00:00"
-
+# media
+media:
+  -
+    id: 3
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 600
+    o_height: 700
+    created: 1381815821
+    updated: 1381815819
+  -
+    id: 2
+    caption: "at sendai"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 500
+    o_height: 600
+    created: 1381815821
+    updated: 1381815819
+  -
+    id: 1
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 400
+    o_height: 500
+    created: 1381815821
+    updated: 1381815819
