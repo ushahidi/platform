@@ -105,28 +105,36 @@ NOTE: comment out what I don't use
 /*------------------------------------*\
 		$MODULES
 \*------------------------------------*/
-@import "modules/buttons/social-buttons";
 
+/*LOGIN*/
 @import "modules/login/login-register";
 
+/*BUTTONS*/
+@import "modules/buttons/social-buttons";
+
+/*HEADER*/
 @import "modules/header/topbar";
 @import "modules/header/subnav";
 @import "modules/header/workspace-panel";
 
+/*MAP*/
 @import "modules/map/map";
 @import "modules/map/search";
 
+/*POSTS*/
 @import "modules/posts/list-view";
 @import "modules/posts/list-view-post";
-
 @import "modules/posts/post";
 @import "modules/posts/post-overlay";
 @import "modules/posts/post-details";
 @import "modules/posts/related-posts";
 
+/*SETS*/
 @import "modules/sets/sets";
 @import "modules/sets/set-module";
+@import "modules/sets/set-details";
 
+/*FOOTER*/
 @import "modules/footer/footer";
 
 

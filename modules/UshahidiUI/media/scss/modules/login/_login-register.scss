@@ -93,8 +93,7 @@
 	}
 }
 
-.facebook-button, .twitter-button, .google-button {
-	@include button($padding: $button-sml, $radius: true, $full-width: true);
+.facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
 	padding-left: 0;
 	@media #{$small} {
 		@include grid-column(4);
@@ -120,7 +119,8 @@
 			@include button($bg: $secondary-color, $radius: true);
 			@include prefix-postfix-base;
 			@include postfix($bg: $secondary-color, $is-button: true);
-			@include radius ($global-radius);		
+			@include radius ($global-radius);
+			height: 2.9em;
 		}
 	}
 }

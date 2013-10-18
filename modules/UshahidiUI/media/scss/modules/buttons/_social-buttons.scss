@@ -11,26 +11,26 @@
     $SOCIAL BUTTONS
 \*------------------------------------*/
 
-button.facebook, .button.facebook {
-	background-color: $facebook-color;
+.facebook-button {
+	@include button($bg: $facebook-color, $padding: $button-sml, $radius: true, $full-width: true);
 }
 
-.button.facebook:hover {
+.facebook-button:hover {
 	background-color: darken($facebook-color, 10);
 }
 
-button.twitter, .button.twitter {
-	background-color: $twitter-color;
+.twitter-button {
+	@include button($bg: $twitter-color, $padding: $button-sml, $radius: true, $full-width: true);
 }
 
-.button.twitter:hover {
+.twitter-button:hover {
 	background-color: darken($twitter-color, 10);
 }
 
-button.google, .button.google {
-	background-color: $google-color;
+.google-button {
+	@include button($bg: $google-color, $padding: $button-sml, $radius: true, $full-width: true);
 }
 
-.button.google:hover {
+.google-button:hover {
 	background-color: darken($google-color, 10);
 }

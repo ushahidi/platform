@@ -5053,39 +5053,7 @@ a.button {
 /*------------------------------------*\
 		$MODULES
 \*------------------------------------*/
-/*------------------------------------*\
-		$CONTENTS
-\*------------------------------------*/
-/**
- * SOCIAL BUTTONS...............custom social buttons
- */
-/*------------------------------------*\
-    $SOCIAL BUTTONS
-\*------------------------------------*/
-/* line 14, ../../scss/modules/buttons/_social-buttons.scss */
-button.facebook, .button.facebook {
-  background-color: #3b5998; }
-
-/* line 18, ../../scss/modules/buttons/_social-buttons.scss */
-.button.facebook:hover {
-  background-color: #2d4373; }
-
-/* line 22, ../../scss/modules/buttons/_social-buttons.scss */
-button.twitter, .button.twitter {
-  background-color: #00acee; }
-
-/* line 26, ../../scss/modules/buttons/_social-buttons.scss */
-.button.twitter:hover {
-  background-color: #0087bb; }
-
-/* line 30, ../../scss/modules/buttons/_social-buttons.scss */
-button.google, .button.google {
-  background-color: #dd4b39; }
-
-/* line 34, ../../scss/modules/buttons/_social-buttons.scss */
-.button.google:hover {
-  background-color: #c23321; }
-
+/*LOGIN*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -5227,43 +5195,11 @@ button.google, .button.google {
     font-size: 16px; }
 
 /* line 96, ../../scss/modules/login/_login-register.scss */
-.facebook-button, .twitter-button, .google-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: "pointer";
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.5625em;
-  padding-right: 1.125em;
-  padding-bottom: 0.625em;
-  padding-left: 1.125em;
-  font-size: 0.8125em;
-  padding-top: 0.5625em;
-  padding-bottom: 0.625em;
-  padding-right: 0px;
-  padding-left: 0px;
-  width: 100%;
-  background-color: #14b4d1;
-  border-color: #108ca2;
-  color: white;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+.facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
   padding-left: 0; }
-  /* line 122, ../../scss/foundation/components/_buttons.scss */
-  .facebook-button:hover, .facebook-button:focus, .twitter-button:hover, .twitter-button:focus, .google-button:hover, .google-button:focus {
-    background-color: #108ca2; }
-  /* line 133, ../../scss/foundation/components/_buttons.scss */
-  .facebook-button:hover, .facebook-button:focus, .twitter-button:hover, .twitter-button:focus, .google-button:hover, .google-button:focus {
-    color: white; }
   @media only screen and (min-width: 768px) {
     /* line 96, ../../scss/modules/login/_login-register.scss */
-    .facebook-button, .twitter-button, .google-button {
+    .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
@@ -5272,7 +5208,7 @@ button.google, .button.google {
       padding-left: 0; } }
   @media only screen and (min-width: 1024px) {
     /* line 96, ../../scss/modules/login/_login-register.scss */
-    .facebook-button, .twitter-button, .google-button {
+    .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
@@ -5280,31 +5216,31 @@ button.google, .button.google {
       float: left;
       padding-left: 0; } }
 
-/* line 109, ../../scss/modules/login/_login-register.scss */
+/* line 108, ../../scss/modules/login/_login-register.scss */
 .open-id {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 111, ../../scss/modules/login/_login-register.scss */
+  /* line 110, ../../scss/modules/login/_login-register.scss */
   .open-id .open-id-input {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     width: 83.33333%;
     float: left; }
-    /* line 113, ../../scss/modules/login/_login-register.scss */
+    /* line 112, ../../scss/modules/login/_login-register.scss */
     .open-id .open-id-input input[type="text"] {
       border-radius: 3px 0 0 3px; }
-  /* line 117, ../../scss/modules/login/_login-register.scss */
+  /* line 116, ../../scss/modules/login/_login-register.scss */
   .open-id .open-id-submit {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     width: 16.66667%;
     float: left; }
-    /* line 119, ../../scss/modules/login/_login-register.scss */
+    /* line 118, ../../scss/modules/login/_login-register.scss */
     .open-id .open-id-submit button {
       border-style: solid;
       border-width: 1px;
@@ -5351,7 +5287,8 @@ button.google, .button.google {
       text-align: center;
       line-height: 2.125em;
       -webkit-border-radius: 3px;
-      border-radius: 3px; }
+      border-radius: 3px;
+      height: 2.9em; }
       /* line 122, ../../scss/foundation/components/_buttons.scss */
       .open-id .open-id-submit button:hover, .open-id .open-id-submit button:focus {
         background-color: #d2d5dd; }
@@ -5387,6 +5324,134 @@ button.google, .button.google {
 /*------------------------------------*\
 		$REGISTER
 \*------------------------------------*/
+/*BUTTONS*/
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * SOCIAL BUTTONS...............custom social buttons
+ */
+/*------------------------------------*\
+    $SOCIAL BUTTONS
+\*------------------------------------*/
+/* line 14, ../../scss/modules/buttons/_social-buttons.scss */
+.facebook-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  padding-top: 0.5625em;
+  padding-bottom: 0.625em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #3b5998;
+  border-color: #2d4373;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .facebook-button:hover, .facebook-button:focus {
+    background-color: #2d4373; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .facebook-button:hover, .facebook-button:focus {
+    color: white; }
+
+/* line 18, ../../scss/modules/buttons/_social-buttons.scss */
+.facebook-button:hover {
+  background-color: #2d4373; }
+
+/* line 22, ../../scss/modules/buttons/_social-buttons.scss */
+.twitter-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  padding-top: 0.5625em;
+  padding-bottom: 0.625em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #00acee;
+  border-color: #0087bb;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .twitter-button:hover, .twitter-button:focus {
+    background-color: #0087bb; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .twitter-button:hover, .twitter-button:focus {
+    color: white; }
+
+/* line 26, ../../scss/modules/buttons/_social-buttons.scss */
+.twitter-button:hover {
+  background-color: #0087bb; }
+
+/* line 30, ../../scss/modules/buttons/_social-buttons.scss */
+.google-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  padding-top: 0.5625em;
+  padding-bottom: 0.625em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #dd4b39;
+  border-color: #c23321;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .google-button:hover, .google-button:focus {
+    background-color: #c23321; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .google-button:hover, .google-button:focus {
+    color: white; }
+
+/* line 34, ../../scss/modules/buttons/_social-buttons.scss */
+.google-button:hover {
+  background-color: #c23321; }
+
+/*HEADER*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -5425,7 +5490,7 @@ button.google, .button.google {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('../../images/logo.png?1382046508') no-repeat;
+  background: url('../../images/logo.png?1382122927') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -5617,7 +5682,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 31, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1382046505') no-repeat;
+  background: url('../../images/avatar.png?1382122926') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -5851,6 +5916,7 @@ nav[role="sub-navigation"] li a {
 .workspace-menu > section > .js-title {
   border: 0; }
 
+/*MAP*/
 /*------------------------------------*\
 		$MAP...............via Leaflet.js
 
@@ -5941,7 +6007,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  background: #22699d url('../../images/search-bg.jpg?1382046511') repeat;
+  background: #22699d url('../../images/search-bg.jpg?1382122932') repeat;
   width: 100%;
   border-top: 3px solid #12a0ba;
   padding-top: 2em; }
@@ -6185,6 +6251,7 @@ nav[role="sub-navigation"] li a {
     .search-bar-button button i {
       font-size: 1.2em; }
 
+/*POSTS*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -7395,6 +7462,7 @@ nav[role="sub-navigation"] li a {
 .related-post-excerpt {
   margin-top: 20px; }
 
+/*SETS*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -7851,6 +7919,7 @@ TODO: may need a notification mixin here
         .set-actions-list li small {
           font-size: 70%; } }
 
+/*FOOTER*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -8941,7 +9010,7 @@ form.custom .custom.checkbox.checked:before {
 
 /* line 31, ../../scss/modules/modals/_create-post-modal.scss */
 .create-post-location-map {
-  background: url('../../images/map.jpg?1382046510') no-repeat;
+  background: url('../../images/map.jpg?1382122931') no-repeat;
   width: 100%;
   height: 100px;
   background-size: cover;
