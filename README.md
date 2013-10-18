@@ -110,8 +110,8 @@ git submodule update --init
 8. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
 9. Create directories ```application/cache```, ```application/media/uploads``` and ```application/logs``` and make sure they're writeable by your webserver
     ```
-    mkdir application/cache application/logs
-    chown www-data application/cache application/logs
+    mkdir application/cache application/logs application/media/uploads
+    chown www-data application/cache application/logs application/media/uploads
     ```
 10. Install the database schema using migrations
 
