@@ -94,7 +94,7 @@ form_attributes:
     label: "Last Location (point)"
     key: "last_location_point"
     type: "point"
-    input: "text"
+    input: "location"
     required: 0
     priority: 5
     options: ""
@@ -104,7 +104,7 @@ form_attributes:
     label: "Geometry test"
     key: "geometry_test"
     type: "geometry"
-    input: "text"
+    input: "location"
     required: 0
     priority: 5
     options: ""
@@ -133,7 +133,7 @@ form_attributes:
     label: "Second Point"
     key: "second_point"
     type: "point"
-    input: "text"
+    input: "location"
     required: 0
     priority: 5
     options: ""
