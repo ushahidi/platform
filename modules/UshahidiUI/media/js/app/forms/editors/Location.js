@@ -1,4 +1,5 @@
-define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!forms/templates/LocationEditor.html', 'backbone-forms/backbone-forms'],
+define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!forms/templates/LocationEditor.html',
+	'backbone-forms/backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap'],
 	function(_, Handlebars, Backbone, Marionette, L, template)
 {
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
@@ -11,6 +12,8 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		},
 
 		events: {
+			'click .map-search-btn' : 'search',
+			'keyUp .map-search-field' : 'searchKeyUp',
 			'click .geolocate-btn' : 'geolocate'
 		},
 
@@ -18,9 +21,6 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		{
 			// Call parent constructor
 			Backbone.Form.editors.Base.prototype.initialize.call(this, options);
-
-			// Init map once form has rendered
-			this.form.on('render', this.onDomRefresh, this);
 		},
 
 		render : function()
@@ -80,6 +80,14 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				that.setValue(e.latlng);
 			});
 
+			//
+			this.geosearch = new L.Control.GeoSearch({
+				provider: new L.GeoSearch.Provider.OpenStreetMap(),
+				zoomLevel : 15
+			});
+			this.geosearch._positionMarker = this.marker;
+			this.geosearch._map = this.map;
+
 			return this;
 		},
 
@@ -132,6 +140,23 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				setView : true,
 				maxZoom : 15
 			});
+		},
+
+		searchKeyUp : function(e)
+		{
+			var enter = 13;
+
+			if (e.keyCode === enter) {
+				this.search(e);
+			}
+		},
+
+		search : function(e)
+		{
+			e.preventDefault();
+			var value = this.$('#' + this.id + '_label').val();
+
+			this.geosearch.geosearch(value);
 		}
 	});
 	return Location;

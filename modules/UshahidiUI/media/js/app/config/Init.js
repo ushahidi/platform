@@ -11,6 +11,7 @@ require.config(
 		'marionette' : '../libs/backbone.marionette',
 		'handlebars' : '../libs/handlebars',
 		'leaflet' : '../libs/leaflet',
+		'l.geosearch' : '../libs/L.GeoSearch/src/js/',
 		'jso2' : '../libs/jso2',
 		'store' : '../libs/jso2/store',
 		'utils' : '../libs/jso2/utils',
@@ -53,6 +54,31 @@ require.config(
 			deps: ['jquery'],
 			exports: 'L'
 		},
+		'l.geosearch/l.control.geosearch': {
+			deps: ['leaflet'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.bing': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.esri': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.google': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.nokia': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.openstreetmap': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+
 		'moment': {
 			exports: 'moment'
 		},
