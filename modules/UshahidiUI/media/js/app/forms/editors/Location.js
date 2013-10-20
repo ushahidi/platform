@@ -11,7 +11,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		},
 
 		events: {
-
+			'click .geolocate-btn' : 'geolocate'
 		},
 
 		initialize : function(options)
@@ -74,6 +74,12 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				that.map.invalidateSize();
 			});
 
+			// Update map marker on location found events
+			this.map.on('locationfound', function (e)
+			{
+				that.setValue(e.latlng);
+			});
+
 			return this;
 		},
 
@@ -106,10 +112,26 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 		setValue: function(value)
 		{
+			// Handle LatLng object as value, make it match API value object.
+			if (value.lng)
+			{
+				value.lon = value.lng;
+			}
+
 			if (value.lat && value.lon)
 			{
 				this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
 			}
+		},
+
+		geolocate : function(e)
+		{
+			e.preventDefault();
+
+			this.map.locate({
+				setView : true,
+				maxZoom : 15
+			});
 		}
 	});
 	return Location;
