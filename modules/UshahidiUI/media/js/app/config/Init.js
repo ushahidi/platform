@@ -12,6 +12,7 @@ require.config(
 		'handlebars' : '../libs/handlebars',
 		'leaflet' : '../libs/leaflet',
 		'l.geosearch' : '../libs/L.GeoSearch/src/js/',
+		'leaflet-locatecontrol' : '../libs/leaflet-locatecontrol/src/',
 		'jso2' : '../libs/jso2',
 		'store' : '../libs/jso2/store',
 		'utils' : '../libs/jso2/utils',
@@ -76,6 +77,10 @@ require.config(
 		},
 		'l.geosearch/l.geosearch.provider.openstreetmap': {
 			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'leaflet-locatecontrol/L.Control.Locate.js': {
+			deps: ['leaflet'],
 			exports: 'L'
 		},
 

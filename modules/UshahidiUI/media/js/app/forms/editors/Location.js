@@ -1,5 +1,5 @@
 define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!forms/templates/LocationEditor.html',
-	'backbone-forms/backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap'],
+	'backbone-forms/backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap', 'leaflet-locatecontrol/L.Control.Locate'],
 	function(_, Handlebars, Backbone, Marionette, L, template)
 {
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
@@ -12,7 +12,6 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		},
 
 		events: {
-			'click .geolocate-btn' : 'geolocate'
 		},
 
 		initialize : function(options)
@@ -84,6 +83,15 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				zoomLevel : 15
 			}).addTo(this.map);
 
+			// Add locate control to get user location
+			this.locate = new L.Control.Locate({
+				setView : true, // not sure we need this here?
+				locateOptions : {
+					setView : true,
+					maxZoom : 15
+				}
+			}).addTo(this.map);
+
 			return this;
 		},
 
@@ -126,16 +134,6 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			{
 				this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
 			}
-		},
-
-		geolocate : function(e)
-		{
-			e.preventDefault();
-
-			this.map.locate({
-				setView : true,
-				maxZoom : 15
-			});
 		}
 	});
 	return Location;

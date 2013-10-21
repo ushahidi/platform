@@ -19,8 +19,10 @@
 		<!-- Leaflet CSS -->
 		<link rel="stylesheet" href="<?php echo Media::url('css/leaflet.css'); ?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/L.GeoSearch/src/css/l.geosearch.css'); ?>"/>
+		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.css'); ?>"/>
 		<!--[if lte IE 8]>
 		    <link rel="stylesheet" href="<?php echo Media::url('css/leaflet.ie.css'); ?>" />
+				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
 		<![endif]-->
 		
 		<!-- Mobile viewport optimized: h5bp.com/viewport -->
