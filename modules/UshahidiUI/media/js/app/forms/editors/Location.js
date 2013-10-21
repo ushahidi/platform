@@ -18,6 +18,8 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		{
 			// Call parent constructor
 			Backbone.Form.editors.Base.prototype.initialize.call(this, options);
+
+			this.form.on('dom:refresh', this.refreshMap, this);
 		},
 
 		render : function()
@@ -63,13 +65,6 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			{
 				this.value = this.getValue();
 			}, this);
-
-			// Fix any leaflet weirdness after map resizes
-			// @TODO check if this works in older browsers, add backup delayed call if not
-			this.$el.on('transitionend', function ()
-			{
-				that.map.invalidateSize();
-			});
 
 			// Update map marker on location found events
 			this.map.on('locationfound', function (e)
@@ -133,6 +128,14 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			if (value.lat && value.lon)
 			{
 				this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
+			}
+		},
+
+		refreshMap : function ()
+		{
+			if (typeof this.map !== 'undefined')
+			{
+				this.map.invalidateSize();
 			}
 		}
 	});

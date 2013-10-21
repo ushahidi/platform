@@ -24,6 +24,12 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals
 						// Do nothing, displaying errors is handled by backbone-forms
 					}
 				});
+
+				// Trigger event when modal is fully opened, used to refresh map size
+				this.on('modal:opened', function ()
+				{
+					this.form.trigger('dom:refresh');
+				});
 			},
 			events: {
 				'submit form' : 'formSubmitted',
