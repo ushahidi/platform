@@ -6,207 +6,198 @@
 L.GeoSearch = {};
 L.GeoSearch.Provider = {};
 
+// MSIE needs cors support
+jQuery.support.cors = true;
+
 L.GeoSearch.Result = function (x, y, label) {
-    this.X = x;
-    this.Y = y;
-    this.Label = label;
+	this.X = x;
+	this.Y = y;
+	this.Label = label;
 };
 
 L.Control.GeoSearch = L.Control.extend({
-    options: {
-        position: 'topcenter',
-        showMarker: true
-    },
+	options: {
+		position: 'topleft'
+	},
 
-    _config: {
-        country: '',
-        searchLabel: 'search for address ...',
-        notFoundMessage: 'Sorry, that address could not be found.',
-        messageHideDelay: 3000,
-        zoomLevel: 18
-    },
+	initialize: function (options) {
+		this._config = {};
+		L.Util.extend(this.options, options);
+		this.setConfig(options);
+	},
 
-    initialize: function (options) {
-        L.Util.extend(this.options, options);
-        L.Util.extend(this._config, options);
-    },
+	setConfig: function (options) {
+		this._config = {
+			'provider': options.provider,
+			'searchLabel': options.searchLabel || 'Enter address',
+			'notFoundMessage' : options.notFoundMessage || 'Sorry, that address could not be found.',
+			'zoomLevel': options.zoomLevel || 17,
+			'showMarker': typeof options.showMarker !== 'undefined' ? options.showMarker : true
+		};
+	},
 
-    onAdd: function (map) {
-        var $controlContainer = map._controlContainer,
-            nodes = $controlContainer.childNodes,
-            topCenter = false;
+	resetLink: function(extraClass) {
+		var link = this._container.querySelector('a');
+		link.className = 'leaflet-bar-part leaflet-bar-part-single' + ' ' + extraClass;
+	},
 
-        for (var i = 0, len = nodes.length; i < len; i++) {
-            var klass = nodes[i].className;
-            if (/leaflet-top/.test(klass) && /leaflet-center/.test(klass)) {
-                topCenter = true;
-                break;
-            }
-        }
+	onAdd: function (map) {
 
-        if (!topCenter) {
-            var tc = document.createElement('div');
-            tc.className += 'leaflet-top leaflet-center';
-            $controlContainer.appendChild(tc);
-            map._controlCorners.topcenter = tc;
-        }
+		// create the container
+		this._container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-geosearch');
 
-        this._map = map;
-        this._container = L.DomUtil.create('div', 'leaflet-control-geosearch');
+		// create the link - this will contain one of the icons
+		var link = L.DomUtil.create('a', '', this._container);
+		link.href = '#';
+		link.title = this._config.searchLabel;
 
-        var searchbox = document.createElement('input');
-        searchbox.id = 'leaflet-control-geosearch-qry';
-        searchbox.type = 'text';
-        searchbox.placeholder = this._config.searchLabel;
-        this._searchbox = searchbox;
+		// set the link's icon to magnifying glass
+		this.resetLink('glass');
 
-        var msgbox = document.createElement('div');
-        msgbox.id = 'leaflet-control-geosearch-msg';
-        msgbox.className = 'leaflet-control-geosearch-msg';
-        this._msgbox = msgbox;
+		var displayNoneClass = 'displayNone';
 
-        var resultslist = document.createElement('ul');
-        resultslist.id = 'leaflet-control-geosearch-results';
-        this._resultslist = resultslist;
+		// create the form that will contain the input
+		var form = L.DomUtil.create('form', displayNoneClass, this._container);
 
-        this._msgbox.appendChild(this._resultslist);
-        this._container.appendChild(this._searchbox);
-        this._container.appendChild(this._msgbox);
+		// create the input, and set its placeholder ("Enter address") text
+		var input = L.DomUtil.create('input', null, form);
+		input.placeholder = 'Enter address';
 
-        L.DomEvent
-          .addListener(this._container, 'click', L.DomEvent.stop)
-          .addListener(this._searchbox, 'keypress', this._onKeyUp, this);
+		// create the error message div
+		var message = L.DomUtil.create('div', 'leaflet-bar message displayNone', this._container);
 
-        L.DomEvent.disableClickPropagation(this._container);
+		L.DomEvent
+			.on(link, 'click', L.DomEvent.stopPropagation)
+			.on(link, 'click', L.DomEvent.preventDefault)
+			.on(link, 'click', function() {
 
-        return this._container;
-    },
+				if (L.DomUtil.hasClass(form, displayNoneClass)) {
+					L.DomUtil.removeClass(form, 'displayNone'); // unhide form
+					input.focus();
+				} else {
+					L.DomUtil.addClass(form, 'displayNone'); // hide form
+				}
 
-    geosearch: function (qry) {
-        try {
-            var provider = this._config.provider;
+			})
+			.on(link, 'dblclick', L.DomEvent.stopPropagation);
 
-            if(typeof provider.GetLocations == 'function') {
-                var results = provider.GetLocations(qry, function(results) {
-                    this._processResults(results);
-                }.bind(this));
-            }
-            else {
-                var url = provider.GetServiceUrl(qry);
-                this.sendRequest(provider, url);
-            }
-        }
-        catch (error) {
-            this._printError(error);
-        }
-    },
+		L.DomEvent
+			.on(input, 'keypress', this.onKeyPress, this)
+			.on(input, 'keyup', this.onKeyUp, this)
+			.on(input, 'input', this.onInput, this);
 
-    sendRequest: function (provider, url) {
-        var that = this;
+		return this._container;
+	},
+	
+	geosearch: function (qry) {
+		try {
+			var provider = this._config.provider;
 
-        window.parseLocation = function (response) {
-            var results = provider.ParseJSON(response);
-            that._processResults(results);
+			if(typeof provider.GetLocations == 'function') {
+				var results = provider.GetLocations(qry, function(results) {
+					this._processResults(results);
+				}.bind(this));
+			}
+			else {
+				var url = provider.GetServiceUrl(qry);
 
-            document.body.removeChild(document.getElementById('getJsonP'));
-            delete window.parseLocation;
-        };
+				$.getJSON(url, function (data) {
+					try {
+						var results = provider.ParseJSON(data);
+						this._processResults(results);
+					}
+					catch (error) {
+						this._printError(error);
+					}
+				}.bind(this));
+			}
+		}
+		catch (error) {
+			this._printError(error);
+		}
+	},
 
-        function getJsonP (url) {
-            url = url + '&callback=parseLocation'
-            var script = document.createElement('script');
-            script.id = 'getJsonP';
-            script.src = url;
-            script.async = true;
-            document.body.appendChild(script);
-        }
+	_processResults: function(results) {
+		if (results.length === 0)
+			throw this._config.notFoundMessage;
 
-        if (XMLHttpRequest) {
-            var xhr = new XMLHttpRequest();
+		this.cancelSearch();
+		this._showLocation(results[0]);
+	},
 
-            if ('withCredentials' in xhr) {
-                var xhr = new XMLHttpRequest();
+	_showLocation: function (location) {
+		if (this._config.showMarker) {
+			if (typeof this._positionMarker === 'undefined')
+				this._positionMarker = L.marker([location.Y, location.X]).addTo(this._map);
+			else
+				this._positionMarker.setLatLng([location.Y, location.X]);
+		}
 
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4) {
-                        if (xhr.status == 200) {
-                            var response = JSON.parse(xhr.responseText),
-                                results = provider.ParseJSON(response);
+		this._map.setView([location.Y, location.X], this._config.zoomLevel, false);
+	},
 
-                            that._processResults(results);
-                        } else if (xhr.status == 0 || xhr.status == 400) {
-                            getJsonP(url);
-                        } else {
-                            that._printError(xhr.responseText);
-                        }
-                    }
-                };
+	_isShowingError: false,
 
-                xhr.open('GET', url, true);
-                xhr.send();
-            } else if (XDomainRequest) {
-                var xdr = new XDomainRequest();
+	_printError: function(error) {
+		var message = this._container.querySelector('.message');
+		message.innerHTML = error;
+		L.DomUtil.removeClass(message, 'displayNone');
 
-                xdr.onerror = function (err) {
-                    that._printError(err);
-                };
+		// show alert icon
+		this.resetLink('alert');
 
-                xdr.onload = function () {
-                    var response = JSON.parse(xdr.responseText),
-                        results = provider.ParseJSON(response);
+		this._isShowingError = true;
+	},
 
-                    that._processResults(results);
-                };
+	cancelSearch: function() {
+		var form = this._container.querySelector('form');
+		L.DomUtil.addClass(form, 'displayNone'); // hide form
 
-                xdr.open('GET', url);
-                xdr.send();
-            } else {
-                getJsonP(url);
-            }
-        }
-    },
+		var input = form.querySelector('input');
+		input.value = ''; // clear form
 
-    _processResults: function(results) {
-        if (results.length > 0) {
-            this._map.fireEvent('geosearch_foundlocations', {Locations: results});
-            this._showLocation(results[0]);
-        } else {
-            this._printError(this._config.notFoundMessage);
-        }
-    },
+		// show glass icon
+		this.resetLink('glass');
 
-    _showLocation: function (location) {
-        if (this.options.showMarker == true) {
-            if (typeof this._positionMarker === 'undefined')
-                this._positionMarker = L.marker([location.Y, location.X]).addTo(this._map);
-            else
-                this._positionMarker.setLatLng([location.Y, location.X]);
-        }
+		var message = this._container.querySelector('.message');
+		L.DomUtil.addClass(message, 'displayNone'); // hide message
+	},
 
-        this._map.setView([location.Y, location.X], this._config.zoomLevel, false);
-        this._map.fireEvent('geosearch_showlocation', {Location: location});
-    },
+	startSearch: function() {
+		// show spinner icon
+		this.resetLink('spinner');
 
-    _printError: function(message) {
-        var elem = this._resultslist;
-        elem.innerHTML = '<li>' + message + '</li>';
-        elem.style.display = 'block';
+		var input = this._container.querySelector('input');
+		this.geosearch(input.value);
+	},
 
-        setTimeout(function () {
-            elem.style.display = 'none';
-        }, 3000);
-    },
+	onInput: function() {
+		if (this._isShowingError) {
+			// show glass icon
+			this.resetLink('glass');
 
-    _onKeyUp: function (e) {
-        var esc = 27,
-            enter = 13,
-            queryBox = document.getElementById('leaflet-control-geosearch-qry');
+			var message = this._container.querySelector('.message');
+			L.DomUtil.addClass(message, 'displayNone'); // hide message
 
-        if (e.keyCode === esc) { // escape key detection is unreliable
-            queryBox.value = '';
-            this._map._container.focus();
-        } else if (e.keyCode === enter) {
-            this.geosearch(queryBox.value);
-        }
-    }
+			this._isShowingError = false;
+		}
+	},
+
+	onKeyPress: function (e) {
+		var enterKey = 13;
+
+		if (e.keyCode === enterKey) {
+			L.DomEvent.preventDefault(e); // prevent default form submission
+
+			this.startSearch();
+		}
+	},
+	
+	onKeyUp: function (e) {
+		var escapeKey = 27;
+
+		if (e.keyCode === escapeKey) {
+			this.cancelSearch();
+		}
+	}
 });
