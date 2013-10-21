@@ -13,3 +13,6 @@ vendor/*
 bin/*
 node_modules*
 .sass-cache*
+.floo
+.flooignore
+.sublime-project
