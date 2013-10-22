@@ -40,6 +40,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
 				'change #filter-posts-sort' : 'updatePostsSort',
 				
 			},
+
+			collectionEvents :
+			{
+				'remove' : function () { this.collection.fetch(); }
+			},
 			
 			showHideBulkActions : function ()
 			{
