@@ -2,7 +2,7 @@
 
 /**
  * Ushahidi API Base Controller
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Controllers
  * @copyright  Ushahidi - http://www.ushahidi.com
@@ -53,22 +53,22 @@ class Ushahidi_Api extends Controller {
 	(
 		Http_Request::GET,
 	);
-	
+
 	/**
 	 * @var int Number of results to return
 	 */
 	protected $record_limit = 50;
-	
+
 	/**
 	 * @var int Offset for results returned
 	 */
 	protected $record_offset = 0;
-	
+
 	/**
 	 * @var string Field to sort results by
 	 */
 	protected $record_orderby = 'id';
-	
+
 	/**
 	 * @var string Direction to sort results
 	 */
@@ -83,21 +83,21 @@ class Ushahidi_Api extends Controller {
 	 * @var int Maximum number of results to return
 	 */
 	protected $record_allowed_orderby = array('id');
-	
+
 	/**
 	 * @var OAuth2_Server
 	 */
 	protected $_oauth2_server;
-	
+
 	/**
 	 * @var string oauth2 scope required for access
 	 */
 	protected $scope_required = 'api';
-	
+
 	public function before()
 	{
 		parent::before();
-		
+
 		// Set up custom error view
 		Kohana_Exception::$error_view_content_type = 'application/json';
 		Kohana_Exception::$error_view = 'api/error';
@@ -118,7 +118,7 @@ class Ushahidi_Api extends Controller {
 
 		parent::after();
 	}
-	
+
 	/**
 	 * Get current api version
 	 */
@@ -126,7 +126,7 @@ class Ushahidi_Api extends Controller {
 	{
 		return self::$version;
 	}
-	
+
 	protected function _check_access()
 	{
 		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
@@ -177,7 +177,7 @@ class Ushahidi_Api extends Controller {
 		{
 			$action .= '_collection';
 		}
-		
+
 		// Override the action
 		$this->request->action($action);
 
@@ -201,14 +201,14 @@ class Ushahidi_Api extends Controller {
 	/**
 	 * Parse the request body
 	 * Decodes JSON request body into PHP array
-	 * 
+	 *
 	 * @todo Support more than just JSON
 	 * @throws HTTP_Exception_400
 	 */
 	protected function _parse_request_body()
 	{
 			$this->_request_payload = json_decode($this->request->body(), TRUE);
-			
+
 			if ( $this->_request_payload === NULL )
 			{
 				// Get further error info
@@ -235,8 +235,8 @@ class Ushahidi_Api extends Controller {
 						$error = 'Unknown error';
 					break;
 				}
-				
-				
+
+
 
 				throw new HTTP_Exception_400('Invalid json supplied. Error: \':error\'. \':json\'', array(
 					':json' => $this->request->body(),
@@ -285,7 +285,7 @@ class Ushahidi_Api extends Controller {
 
 	/**
 	 * Prepare response body
-	 * 
+	 *
 	 * Encode _response_payload into JSON or JSONP
 	 *
 	 * @todo Add support for GeoJSON
@@ -322,7 +322,7 @@ class Ushahidi_Api extends Controller {
 
 		$this->response->body($body);
 	}
-	
+
 	/**
 	 * Prepare request ordering and limit params
 	 * @throws HTTP_Exception_400

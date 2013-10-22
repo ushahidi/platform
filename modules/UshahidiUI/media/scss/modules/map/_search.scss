@@ -100,4 +100,19 @@
 	@media #{$medium} {
 		@include grid-column(1, $collapse: true);
 	}
+	button {
+		@include button($bg: $success-color, $full-width: true);
+		@include prefix-postfix-base;
+		@include postfix($bg: $success-color, $is-button: true);
+		height: 2.9em;
+		font-size: 0.875em;
+		border-width: 0;
+		@include radius ($global-radius);
+		@media #{$medium} {
+			@include radius (0 $global-radius $global-radius 0);
+		}
+		i {
+			font-size: 1.2em;
+		}
+	}
 }

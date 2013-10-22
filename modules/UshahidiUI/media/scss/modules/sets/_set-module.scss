@@ -72,7 +72,8 @@ TODO: may need a notification mixin here
 	}
 }
 
-.set-view-posts .button {
+.set-view-posts-button {
+	@include button($padding: $button-sml, $bg: $success-color, $radius: true);    
 	margin-bottom: 2em;
 }
 

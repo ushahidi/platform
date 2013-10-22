@@ -66,6 +66,10 @@
 	}
 }
 
+.post-excerpt-save-text-button {
+	@include button($bg: $success-color, $radius: true, $full-width: true);
+}
+
 textarea {
 	height: 400px;
 	font-family: inherit;

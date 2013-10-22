@@ -2,8 +2,8 @@
 
 /**
  * Form Groups API SubRoute
- */	
-Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>/<controller>(/<id>)', 
+ */
+Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>/<controller>(/<id>)',
 	array(
 		'form_id' => '\d+',
 		'group_id' => '\d+',
@@ -16,8 +16,8 @@ Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>/<controller>
 
 /**
  * Forms API SubRoute
- */	
-Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)', 
+ */
+Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)',
 	array(
 		'form_id' => '\d+',
 		'id' => '\d+'
@@ -29,8 +29,8 @@ Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)',
 
 /**
  * GeoJSON API SubRoute
- */	
-Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)', 
+ */
+Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)',
 	array(
 		'zoom' => '\d+',
 		'x' => '\d+',
@@ -44,8 +44,8 @@ Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)',
 
 /**
  * GeoJSON API SubRoute
- */	
-Route::set('geojson-post-id', 'api/v2/posts/<id>/geojson', 
+ */
+Route::set('geojson-post-id', 'api/v2/posts/<id>/geojson',
 	array(
 		'id' => '\d+',
 		'zoom' => '\d+',
@@ -60,8 +60,8 @@ Route::set('geojson-post-id', 'api/v2/posts/<id>/geojson',
 
 /**
  * Posts API SubRoute
- */	
-Route::set('posts', 'api/v2/posts/<post_id>/<controller>(/<id>)', 
+ */
+Route::set('posts', 'api/v2/posts/<post_id>/<controller>(/<id>)',
 	array(
 		'post_id' => '\d+',
 		'id' => '\d+'
@@ -74,7 +74,7 @@ Route::set('posts', 'api/v2/posts/<post_id>/<controller>(/<id>)',
 /**
  * Base Ushahidi API Route
  */
-Route::set('api', 'api/v2(/<controller>(/<id>))', 
+Route::set('api', 'api/v2(/<controller>(/<id>))',
 	array(
 		'id' => '\d+'
 	))
@@ -85,8 +85,8 @@ Route::set('api', 'api/v2(/<controller>(/<id>))',
 
 /**
  * Translations API SubRoute
- */	
-Route::set('translations', 'api/v2/posts/<post_id>/translations(/<locale>)', 
+ */
+Route::set('translations', 'api/v2/posts/<post_id>/translations(/<locale>)',
 	array(
 		'post_id' => '\d+',
 		'locale' => '[a-zA-Z_]+'
