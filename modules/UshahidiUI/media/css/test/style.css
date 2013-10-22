@@ -171,7 +171,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
   border-bottom: 1px solid #e3e3e3; }
 
 /* line 43, ../../scss/tools/_mixins.scss */
-.box-shadow, .top-bar, nav[role="sub-navigation"], .search-bar, .list-view-wrapper, .list-view-filter, .post-header, .post-body, .related-posts-body, .sets-search-bar, .set-wrapper, .alertify {
+.box-shadow, .top-bar, nav[role="sub-navigation"], .search-bar, .list-view-wrapper, .list-view-filter, .post-header, .post-body, .related-posts-body, .sets-search-bar, .set-wrapper, .set-detail-post-list-inner-wrapper, .alertify {
   -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5); }
@@ -5053,6 +5053,133 @@ a.button {
 /*------------------------------------*\
 		$MODULES
 \*------------------------------------*/
+/*BUTTONS*/
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * SOCIAL BUTTONS...............custom social buttons
+ */
+/*------------------------------------*\
+    $SOCIAL BUTTONS
+\*------------------------------------*/
+/* line 14, ../../scss/modules/buttons/_social-buttons.scss */
+.facebook-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  padding-top: 0.5625em;
+  padding-bottom: 0.625em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #3b5998;
+  border-color: #2d4373;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .facebook-button:hover, .facebook-button:focus {
+    background-color: #2d4373; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .facebook-button:hover, .facebook-button:focus {
+    color: white; }
+
+/* line 18, ../../scss/modules/buttons/_social-buttons.scss */
+.facebook-button:hover {
+  background-color: #2d4373; }
+
+/* line 22, ../../scss/modules/buttons/_social-buttons.scss */
+.twitter-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  padding-top: 0.5625em;
+  padding-bottom: 0.625em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #00acee;
+  border-color: #0087bb;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .twitter-button:hover, .twitter-button:focus {
+    background-color: #0087bb; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .twitter-button:hover, .twitter-button:focus {
+    color: white; }
+
+/* line 26, ../../scss/modules/buttons/_social-buttons.scss */
+.twitter-button:hover {
+  background-color: #0087bb; }
+
+/* line 30, ../../scss/modules/buttons/_social-buttons.scss */
+.google-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  padding-top: 0.5625em;
+  padding-bottom: 0.625em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #dd4b39;
+  border-color: #c23321;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+  /* line 122, ../../scss/foundation/components/_buttons.scss */
+  .google-button:hover, .google-button:focus {
+    background-color: #c23321; }
+  /* line 133, ../../scss/foundation/components/_buttons.scss */
+  .google-button:hover, .google-button:focus {
+    color: white; }
+
+/* line 34, ../../scss/modules/buttons/_social-buttons.scss */
+.google-button:hover {
+  background-color: #c23321; }
+
 /*LOGIN*/
 /*------------------------------------*\
 		$CONTENTS
@@ -5324,133 +5451,6 @@ a.button {
 /*------------------------------------*\
 		$REGISTER
 \*------------------------------------*/
-/*BUTTONS*/
-/*------------------------------------*\
-		$CONTENTS
-\*------------------------------------*/
-/**
- * SOCIAL BUTTONS...............custom social buttons
- */
-/*------------------------------------*\
-    $SOCIAL BUTTONS
-\*------------------------------------*/
-/* line 14, ../../scss/modules/buttons/_social-buttons.scss */
-.facebook-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: "pointer";
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.5625em;
-  padding-right: 1.125em;
-  padding-bottom: 0.625em;
-  padding-left: 1.125em;
-  font-size: 0.8125em;
-  padding-top: 0.5625em;
-  padding-bottom: 0.625em;
-  padding-right: 0px;
-  padding-left: 0px;
-  width: 100%;
-  background-color: #3b5998;
-  border-color: #2d4373;
-  color: white;
-  -webkit-border-radius: 3px;
-  border-radius: 3px; }
-  /* line 122, ../../scss/foundation/components/_buttons.scss */
-  .facebook-button:hover, .facebook-button:focus {
-    background-color: #2d4373; }
-  /* line 133, ../../scss/foundation/components/_buttons.scss */
-  .facebook-button:hover, .facebook-button:focus {
-    color: white; }
-
-/* line 18, ../../scss/modules/buttons/_social-buttons.scss */
-.facebook-button:hover {
-  background-color: #2d4373; }
-
-/* line 22, ../../scss/modules/buttons/_social-buttons.scss */
-.twitter-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: "pointer";
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.5625em;
-  padding-right: 1.125em;
-  padding-bottom: 0.625em;
-  padding-left: 1.125em;
-  font-size: 0.8125em;
-  padding-top: 0.5625em;
-  padding-bottom: 0.625em;
-  padding-right: 0px;
-  padding-left: 0px;
-  width: 100%;
-  background-color: #00acee;
-  border-color: #0087bb;
-  color: white;
-  -webkit-border-radius: 3px;
-  border-radius: 3px; }
-  /* line 122, ../../scss/foundation/components/_buttons.scss */
-  .twitter-button:hover, .twitter-button:focus {
-    background-color: #0087bb; }
-  /* line 133, ../../scss/foundation/components/_buttons.scss */
-  .twitter-button:hover, .twitter-button:focus {
-    color: white; }
-
-/* line 26, ../../scss/modules/buttons/_social-buttons.scss */
-.twitter-button:hover {
-  background-color: #0087bb; }
-
-/* line 30, ../../scss/modules/buttons/_social-buttons.scss */
-.google-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: "pointer";
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.5625em;
-  padding-right: 1.125em;
-  padding-bottom: 0.625em;
-  padding-left: 1.125em;
-  font-size: 0.8125em;
-  padding-top: 0.5625em;
-  padding-bottom: 0.625em;
-  padding-right: 0px;
-  padding-left: 0px;
-  width: 100%;
-  background-color: #dd4b39;
-  border-color: #c23321;
-  color: white;
-  -webkit-border-radius: 3px;
-  border-radius: 3px; }
-  /* line 122, ../../scss/foundation/components/_buttons.scss */
-  .google-button:hover, .google-button:focus {
-    background-color: #c23321; }
-  /* line 133, ../../scss/foundation/components/_buttons.scss */
-  .google-button:hover, .google-button:focus {
-    color: white; }
-
-/* line 34, ../../scss/modules/buttons/_social-buttons.scss */
-.google-button:hover {
-  background-color: #c23321; }
-
 /*HEADER*/
 /*------------------------------------*\
 		$CONTENTS
@@ -6404,12 +6404,11 @@ nav[role="sub-navigation"] li a {
   padding: 20px 15px;
   margin: 0 0 20px 0; }
   @media only screen and (min-width: 768px) {
-    /* line 94, ../../scss/modules/posts/_list-view.scss */
-    .list-view-filter .list-view-filter-info,
+    /* line 93, ../../scss/modules/posts/_list-view.scss */
     .list-view-filter .list-view-filter-count {
       border-right: 1px solid #1d2127; } }
 
-/* line 101, ../../scss/modules/posts/_list-view.scss */
+/* line 100, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-info {
   position: relative;
   padding-left: 0.9375em;
@@ -6419,14 +6418,14 @@ nav[role="sub-navigation"] li a {
   border-bottom: 1px solid #1d2127;
   padding-bottom: 10px;
   margin-bottom: 20px; }
-  /* line 106, ../../scss/modules/posts/_list-view.scss */
+  /* line 105, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-info h5 {
     letter-spacing: .1em;
     color: #fcfcfc;
     padding: 8px 0 0 0;
     margin: 0 0 8px 0; }
   @media only screen and (min-width: 768px) {
-    /* line 101, ../../scss/modules/posts/_list-view.scss */
+    /* line 100, ../../scss/modules/posts/_list-view.scss */
     .list-view-filter-info {
       position: relative;
       padding-left: 0.9375em;
@@ -6437,7 +6436,7 @@ nav[role="sub-navigation"] li a {
       padding-bottom: 0;
       margin-bottom: 0; } }
 
-/* line 120, ../../scss/modules/posts/_list-view.scss */
+/* line 119, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-count {
   position: relative;
   padding-left: 0.9375em;
@@ -6445,7 +6444,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 120, ../../scss/modules/posts/_list-view.scss */
+    /* line 119, ../../scss/modules/posts/_list-view.scss */
     .list-view-filter-count {
       position: relative;
       padding-left: 0.9375em;
@@ -6453,7 +6452,7 @@ nav[role="sub-navigation"] li a {
       width: 16.66667%;
       float: left; } }
 
-/* line 127, ../../scss/modules/posts/_list-view.scss */
+/* line 126, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-sort {
   position: relative;
   padding-left: 0.9375em;
@@ -6461,7 +6460,7 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 127, ../../scss/modules/posts/_list-view.scss */
+    /* line 126, ../../scss/modules/posts/_list-view.scss */
     .list-view-filter-sort {
       position: relative;
       padding-left: 0.9375em;
@@ -7504,25 +7503,40 @@ nav[role="sub-navigation"] li a {
   .sets-search-bar-title h5 {
     letter-spacing: .1em;
     color: #fcfcfc;
-    margin: 0 0 5px 0; }
+    margin: 0; }
   @media only screen and (min-width: 768px) {
     /* line 23, ../../scss/modules/sets/_sets.scss */
     .sets-search-bar-title {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
+      width: 41.66667%;
+      float: left; } }
+  @media only screen and (min-width: 1024px) {
+    /* line 23, ../../scss/modules/sets/_sets.scss */
+    .sets-search-bar-title {
+      position: relative;
+      padding-left: 0.9375em;
+      padding-right: 0.9375em;
       width: 50%;
-      float: left;
-      border-right: 1px solid #1d2127; } }
+      float: left; } }
 
-/* line 36, ../../scss/modules/sets/_sets.scss */
+/* line 38, ../../scss/modules/sets/_sets.scss */
+.sets-search-bar-subtitle {
+  font-size: 14px;
+  font-style: italic;
+  color: #d2d5dd;
+  line-height: 1.2em;
+  margin-bottom: 0; }
+
+/* line 46, ../../scss/modules/sets/_sets.scss */
 .sets-search-bar-create-button {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 58.33333%;
   float: left; }
-  /* line 38, ../../scss/modules/sets/_sets.scss */
+  /* line 48, ../../scss/modules/sets/_sets.scss */
   .sets-search-bar-create-button a {
     border-style: solid;
     border-width: 1px;
@@ -7557,19 +7571,27 @@ nav[role="sub-navigation"] li a {
     .sets-search-bar-create-button a:hover, .sets-search-bar-create-button a:focus {
       color: white; }
   @media only screen and (min-width: 768px) {
-    /* line 36, ../../scss/modules/sets/_sets.scss */
+    /* line 46, ../../scss/modules/sets/_sets.scss */
+    .sets-search-bar-create-button {
+      position: relative;
+      padding-left: 0.9375em;
+      padding-right: 0.9375em;
+      width: 25%;
+      float: left;
+      border-right: 1px solid #1d2127; }
+      /* line 54, ../../scss/modules/sets/_sets.scss */
+      .sets-search-bar-create-button a {
+        margin: 0; } }
+  @media only screen and (min-width: 1024px) {
+    /* line 46, ../../scss/modules/sets/_sets.scss */
     .sets-search-bar-create-button {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
       width: 16.66667%;
-      float: left;
-      border-right: 1px solid #1d2127; }
-      /* line 44, ../../scss/modules/sets/_sets.scss */
-      .sets-search-bar-create-button a {
-        margin: 0; } }
+      float: left; } }
 
-/* line 50, ../../scss/modules/sets/_sets.scss */
+/* line 63, ../../scss/modules/sets/_sets.scss */
 .sets-search-bar-search-field {
   position: relative;
   padding-left: 0.9375em;
@@ -7577,21 +7599,21 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 50, ../../scss/modules/sets/_sets.scss */
+    /* line 63, ../../scss/modules/sets/_sets.scss */
     .sets-search-bar-search-field {
       position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
       width: 33.33333%;
       float: left; } }
-  /* line 55, ../../scss/modules/sets/_sets.scss */
+  /* line 68, ../../scss/modules/sets/_sets.scss */
   .sets-search-bar-search-field input[type="text"] {
     margin: 0; }
 
 /*------------------------------------*\
 		$SETS GRID
 \*------------------------------------*/
-/* line 63, ../../scss/modules/sets/_sets.scss */
+/* line 76, ../../scss/modules/sets/_sets.scss */
 .sets-grid {
   display: block;
   padding: 0;
@@ -7621,7 +7643,7 @@ nav[role="sub-navigation"] li a {
     .sets-grid > li:nth-of-type(1n+1) {
       clear: both; }
   @media only screen and (orientation: portrait) {
-    /* line 63, ../../scss/modules/sets/_sets.scss */
+    /* line 76, ../../scss/modules/sets/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -7651,7 +7673,7 @@ nav[role="sub-navigation"] li a {
         .sets-grid > li:nth-of-type(1n+1) {
           clear: both; } }
   @media only screen and (orientation: landscape) {
-    /* line 63, ../../scss/modules/sets/_sets.scss */
+    /* line 76, ../../scss/modules/sets/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -7681,7 +7703,7 @@ nav[role="sub-navigation"] li a {
         .sets-grid > li:nth-of-type(2n+1) {
           clear: both; } }
   @media only screen and (min-width: 768px) {
-    /* line 63, ../../scss/modules/sets/_sets.scss */
+    /* line 76, ../../scss/modules/sets/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -7711,7 +7733,7 @@ nav[role="sub-navigation"] li a {
         .sets-grid > li:nth-of-type(2n+1) {
           clear: both; } }
   @media only screen and (min-width: 1024px) {
-    /* line 63, ../../scss/modules/sets/_sets.scss */
+    /* line 76, ../../scss/modules/sets/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -7741,7 +7763,7 @@ nav[role="sub-navigation"] li a {
         .sets-grid > li:nth-of-type(4n+1) {
           clear: both; } }
   @media only screen and (min-width: 1440px) {
-    /* line 63, ../../scss/modules/sets/_sets.scss */
+    /* line 76, ../../scss/modules/sets/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -7771,7 +7793,7 @@ nav[role="sub-navigation"] li a {
         .sets-grid > li:nth-of-type(2n+1) {
           clear: both; } }
   @media only screen and (min-width: 2200px) {
-    /* line 63, ../../scss/modules/sets/_sets.scss */
+    /* line 76, ../../scss/modules/sets/_sets.scss */
     .sets-grid {
       display: block;
       padding: 0;
@@ -7918,6 +7940,85 @@ TODO: may need a notification mixin here
         /* line 100, ../../scss/modules/sets/_set-module.scss */
         .set-actions-list li small {
           font-size: 70%; } }
+
+/* line 1, ../../scss/modules/sets/_set-details.scss */
+.set-detail-map {
+  height: 200px;
+  background-color: #e3e3e3;
+  margin-bottom: 20px; }
+
+/* line 7, ../../scss/modules/sets/_set-details.scss */
+.set-detail-summary-card {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  margin-bottom: 20px; }
+  @media only screen and (min-width: 768px) {
+    /* line 7, ../../scss/modules/sets/_set-details.scss */
+    .set-detail-summary-card {
+      position: relative;
+      padding-left: 0;
+      padding-right: 0;
+      width: 33.33333%;
+      float: left;
+      padding-right: 20px; } }
+  @media only screen and (min-width: 1024px) {
+    /* line 7, ../../scss/modules/sets/_set-details.scss */
+    .set-detail-summary-card {
+      position: relative;
+      padding-left: 0;
+      padding-right: 0;
+      width: 25%;
+      float: left;
+      padding-right: 20px; } }
+
+/* line 20, ../../scss/modules/sets/_set-details.scss */
+.set-detail-post-list-outer-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  margin-bottom: 20px; }
+  @media only screen and (min-width: 768px) {
+    /* line 20, ../../scss/modules/sets/_set-details.scss */
+    .set-detail-post-list-outer-wrapper {
+      position: relative;
+      padding-left: 0;
+      padding-right: 0;
+      width: 66.66667%;
+      float: left; } }
+  @media only screen and (min-width: 1024px) {
+    /* line 20, ../../scss/modules/sets/_set-details.scss */
+    .set-detail-post-list-outer-wrapper {
+      position: relative;
+      padding-left: 0;
+      padding-right: 0;
+      width: 75%;
+      float: left; } }
+  /* line 29, ../../scss/modules/sets/_set-details.scss */
+  .set-detail-post-list-outer-wrapper .list-view-filter {
+    margin-bottom: 20px; }
+
+/* line 34, ../../scss/modules/sets/_set-details.scss */
+.set-detail-post-list-inner-wrapper {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  background-color: #fcfcfc; }
+
+/* line 40, ../../scss/modules/sets/_set-details.scss */
+.set-detail-post-list {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  margin: 0; }
 
 /*FOOTER*/
 /*------------------------------------*\

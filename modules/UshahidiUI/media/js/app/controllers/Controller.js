@@ -122,6 +122,18 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 					that.layout.mainRegion.show(new SetsView());
 				});
 			},
+
+			setDetail : function(id)
+            {
+    			var that = this;
+				App.homeLayout.close();
+				require(['views/SetDetailView'], function(SetDetailView)
+				{
+					App.vent.trigger('page:change', 'sets/:id');
+					that.layout.mainRegion.show(new SetDetailView());
+				});
+			},
+
 			login : function ()
 			{
 				var that = this;
