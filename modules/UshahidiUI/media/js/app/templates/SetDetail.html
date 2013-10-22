@@ -21,13 +21,13 @@
 
 		<div id="map" class="set-detail-map"></div> <!-- end .map -->
 
-		<div class="set-detail-summary-card">
+		<aside class="set-detail-summary-card">
 			{{> set-module }}
-		</div>
+		</aside>
 
-		<div class="set-detail-post-list-outer-wrapper">
+		<div class="set-detail-post-list-wrapper">
 
-			<div class="list-view-filter">
+			<div class="set-detail-post-list-filter">
 				<div class="row">
 
 					<form role="form" class="custom" action="">
@@ -61,51 +61,34 @@
 							</div>
 
 						</div> <!-- end .list-view-filter-sort -->
-					</form>
+					</form> <!-- end .form -->
 
 				</div> <!-- end .row -->
 			</div> <!-- end .list-view-filter -->
 
-			<div class="set-detail-post-list-inner-wrapper">
-				<ul class="set-detail-post-list">
-					<div class="row">
-						<li>
-							<article>
-								<div class="list-view-post-image">
-									<img src="{{imageurl "mini-coop-square.jpg"}}" alt="">
-								</div> <!-- end .list-view-post-image -->
+			<ul class="set-detail-post-list">
+				<li class="set-detail-post">
+					<article>
+						<div class="list-view-post-image">
+							<img src="{{imageurl "mini-coop-square.jpg"}}" alt="">
+						</div> <!-- end .list-view-post-image -->
 
-								<div class="list-view-post-details">
-									<div class="row">
-										<h5 class="list-view-post-title"><i class="icon-lock"></i> <a href="#posts/{{id}}">{{ title }}</a></h5>
-										<div class="list-view-post-time">
-											<p> <i class="icon-time"></i>{{ datetime-calendar created }}</p>
-										</div> <!-- end .list-view-post-time -->
-									</div> <!-- end .row -->
-								</div> <!-- end .list-view-post-details -->
+						<div class="list-view-post-details">
+							<div class="row">
+								<h5 class="list-view-post-title"><i class="icon-lock"></i> <a href="#posts/{{id}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
+								<div class="list-view-post-time">
+									<p> <i class="icon-time"></i>{{ datetime-calendar created }}</p>
+								</div> <!-- end .list-view-post-time -->
+							</div> <!-- end .row -->
+						</div> <!-- end .list-view-post-details -->
 
-								<div class="list-view-post-excerpt">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="#posts/{{id}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
-								</div> <!-- end .list-view-post-excerpt -->
+						<div class="list-view-post-excerpt">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="#posts/{{id}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
+						</div> <!-- end .list-view-post-excerpt -->
+					</article> <!-- end <article> -->
 
-								<div class="list-view-post-admin">
-
-									{{#if tags}}
-									<div class="list-view-post-categories-wrapper">
-										<h6>Categories</h6>
-										<ul class="list-view-post-categories">
-											{{#each tags}}
-											<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}><i class="icon-circle" {{#if color}}style="color: #{{color}}"{{/if}}></i>{{tag}}</li></a>
-											{{/each}}
-										</ul>
-									</div> <!-- end .list-view-post-categories-wrapper -->
-									{{/if}}
-									
-								</div> <!-- end .list-view-post-admin -->
-							</article>
-						</li>
-
-						<div class="list-view-post-categories-wrapper">
+					<div class="set-detail-post-admin">
+						<div class="set-detail-post-list-categories-wrapper">
 							<h6>Categories</h6>
 							<ul class="list-view-post-categories">
 								<a href="#"><li><i class="icon-circle" style="color: #C50813"></i>Automobiles</li></a>
@@ -115,10 +98,120 @@
 							</ul>
 						</div> <!-- end .list-view-post-categories-wrapper -->
 
-					</div> <!-- end .row -->
-				</ul> <!-- end .set-detail-post-list -->
-			</div> <!-- end .set-detail-post-list-inner-wrapper -->
+						<div class="set-detail-post-edit-wrapper">
+							<ul class="list-view-post-edit">
+								<li><a href="#" class="list-view-post-edit-buttons  js-post-edit"> <i class="icon-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+								<li><a href="#" class="list-view-post-edit-buttons  js-post-set"> <i class="icon-plus-sign"></i> <span class="hide-for-medium-down">set</span></a></li>
+								<li>
+									{{#if isPublished}}
+										<a href="#" class="list-view-post-edit-buttons  post-unpublish"> <i class="icon-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
+									{{else}}
+										<a href="#" class="list-view-post-edit-buttons  post-publish"> <i class="icon-file"></i> <span class="hide-for-medium-down">publish</span></a>
+									{{/if}}
+								</li>
+								<li><a href="#" class="list-view-post-edit-buttons  post-delete"> <i class="icon-trash"></i></a></li>
+							</ul> <!-- end .list-view-post-edit -->
+						</div> <!-- end .list-view-post-edit-wrapper -->
+					</div>
+				</li> <!-- end .set-detail-post-list-item -->
 
+				<li class="set-detail-post">
+					<article>
+						<div class="list-view-post-image">
+							<img src="{{imageurl "mini-coop-square.jpg"}}" alt="">
+						</div> <!-- end .list-view-post-image -->
+
+						<div class="list-view-post-details">
+							<div class="row">
+								<h5 class="list-view-post-title"><i class="icon-lock"></i> <a href="#posts/{{id}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
+								<div class="list-view-post-time">
+									<p> <i class="icon-time"></i>{{ datetime-calendar created }}</p>
+								</div> <!-- end .list-view-post-time -->
+							</div> <!-- end .row -->
+						</div> <!-- end .list-view-post-details -->
+
+						<div class="list-view-post-excerpt">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="#posts/{{id}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
+						</div> <!-- end .list-view-post-excerpt -->
+					</article> <!-- end <article> -->
+
+					<div class="set-detail-post-admin">
+						<div class="set-detail-post-list-categories-wrapper">
+							<h6>Categories</h6>
+							<ul class="list-view-post-categories">
+								<a href="#"><li><i class="icon-circle" style="color: #C50813"></i>Automobiles</li></a>
+								<a href="#"><li><i class="icon-circle" style="color: #23699D;"></i>Transport</li></a>
+								<a href="#"><li><i class="icon-circle" style="color: #4fa425;"></i>London</li></a>
+								<a href="#"><li><i class="icon-circle" style="color: #baac29;"></i>Retro</li></a>
+							</ul>
+						</div> <!-- end .list-view-post-categories-wrapper -->
+
+						<div class="set-detail-post-edit-wrapper">
+							<ul class="list-view-post-edit">
+								<li><a href="#" class="list-view-post-edit-buttons  js-post-edit"> <i class="icon-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+								<li><a href="#" class="list-view-post-edit-buttons  js-post-set"> <i class="icon-plus-sign"></i> <span class="hide-for-medium-down">set</span></a></li>
+								<li>
+									{{#if isPublished}}
+										<a href="#" class="list-view-post-edit-buttons  post-unpublish"> <i class="icon-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
+									{{else}}
+										<a href="#" class="list-view-post-edit-buttons  post-publish"> <i class="icon-file"></i> <span class="hide-for-medium-down">publish</span></a>
+									{{/if}}
+								</li>
+								<li><a href="#" class="list-view-post-edit-buttons  post-delete"> <i class="icon-trash"></i></a></li>
+							</ul> <!-- end .list-view-post-edit -->
+						</div> <!-- end .list-view-post-edit-wrapper -->
+					</div>
+				</li> <!-- end .set-detail-post-list-item -->
+
+				<li class="set-detail-post">
+					<article>
+						<div class="list-view-post-image">
+							<img src="{{imageurl "mini-coop-square.jpg"}}" alt="">
+						</div> <!-- end .list-view-post-image -->
+
+						<div class="list-view-post-details">
+							<div class="row">
+								<h5 class="list-view-post-title"><i class="icon-lock"></i> <a href="#posts/{{id}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
+								<div class="list-view-post-time">
+									<p> <i class="icon-time"></i>{{ datetime-calendar created }}</p>
+								</div> <!-- end .list-view-post-time -->
+							</div> <!-- end .row -->
+						</div> <!-- end .list-view-post-details -->
+
+						<div class="list-view-post-excerpt">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="#posts/{{id}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
+						</div> <!-- end .list-view-post-excerpt -->
+					</article> <!-- end <article> -->
+
+					<div class="set-detail-post-admin">
+						<div class="set-detail-post-list-categories-wrapper">
+							<h6>Categories</h6>
+							<ul class="list-view-post-categories">
+								<a href="#"><li><i class="icon-circle" style="color: #C50813"></i>Automobiles</li></a>
+								<a href="#"><li><i class="icon-circle" style="color: #23699D;"></i>Transport</li></a>
+								<a href="#"><li><i class="icon-circle" style="color: #4fa425;"></i>London</li></a>
+								<a href="#"><li><i class="icon-circle" style="color: #baac29;"></i>Retro</li></a>
+							</ul>
+						</div> <!-- end .list-view-post-categories-wrapper -->
+
+						<div class="set-detail-post-edit-wrapper">
+							<ul class="list-view-post-edit">
+								<li><a href="#" class="list-view-post-edit-buttons  js-post-edit"> <i class="icon-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+								<li><a href="#" class="list-view-post-edit-buttons  js-post-set"> <i class="icon-plus-sign"></i> <span class="hide-for-medium-down">set</span></a></li>
+								<li>
+									{{#if isPublished}}
+										<a href="#" class="list-view-post-edit-buttons  post-unpublish"> <i class="icon-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
+									{{else}}
+										<a href="#" class="list-view-post-edit-buttons  post-publish"> <i class="icon-file"></i> <span class="hide-for-medium-down">publish</span></a>
+									{{/if}}
+								</li>
+								<li><a href="#" class="list-view-post-edit-buttons  post-delete"> <i class="icon-trash"></i></a></li>
+							</ul> <!-- end .list-view-post-edit -->
+						</div> <!-- end .list-view-post-edit-wrapper -->
+					</div>
+				</li> <!-- end .set-detail-post-list-item -->
+			</ul> <!-- end .set-detail-post-list -->
+			
 		</div> <!-- end .set-detail-post-list-outer-wrapper -->
 
 	</div>
