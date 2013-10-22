@@ -42,7 +42,8 @@
 			@media #{$medium} {
 				padding: 1em;
 			}
-	.post-actions .button {
+	.post-actions-button {
+		@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
 		border: 0px;
 	}
 }
