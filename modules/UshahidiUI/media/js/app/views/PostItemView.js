@@ -8,7 +8,7 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			template: Handlebars.compile(template),
 			tagName: 'li',
 			className: 'list-view-post',
-			
+
 			events: {
 				'click .post-delete': 'deletepost',
 				'click .js-post-edit' : 'showEditPost',
@@ -19,29 +19,28 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			{
 				var that = this;
 				e.preventDefault();
-				alertify.confirm('Are you sure you want to delete', function(e)
+				alertify.confirm('Are you sure you want to delete?', function(e)
 				{
 					if (e)
 					{
 						that.model.destroy({
-						// Wait till server responds before destroying model
-						wait: true
+							// Wait till server responds before destroying model
+							wait: true
 						}).done(function()
 						{
 							alertify.success('Post has been deleted');
-		
 						}).fail(function ()
 						{
-							alertify.error('Unable to delete Post, please try again');
+							alertify.error('Unable to delete post, please try again');
 						});
 					}
 					else
 					{
-						alertify.log('Cancelled');
+						alertify.log('Delete cancelled');
 					}
 				});
 			},
-			
+
 			serializeData: function()
 			{
 				var data = _.extend(this.model.toJSON(), {
