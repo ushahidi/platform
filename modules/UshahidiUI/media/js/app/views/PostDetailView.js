@@ -27,7 +27,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 						}).done(function()
 						{
 							alertify.success('Post has been deleted');
-							App.appRouter.navigate('views/list', {trigger: true});
+							App.Collections.Posts.fetch();
+							App.appRouter.navigate('views/list', { trigger: true });
 						}).fail(function ()
 						{
 							alertify.error('Unable to delete post, please try again');
@@ -39,7 +40,7 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 					}
 				});
 			},
-			
+
 			serializeData: function()
 			{
 				var data = _.extend(this.model.toJSON(), {
