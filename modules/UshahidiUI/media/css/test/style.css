@@ -5582,16 +5582,14 @@ nav[role="sub-navigation"] {
   /*overflow: hidden;*/
   display: none;
   /*not working because css3 animation don't support display*/
-  -webkit-transition: max-height .3s ease-in-out;
-  -moz-transition: max-height .3s ease-in-out;
-  -ms-transition: max-height .3s ease-in-out;
-  -o-transition: max-height .3s ease-in-out;
-  transition: max-height .3s ease-in-out; }
+  -webkit-transition: max-height 0.3s ease-in-out;
+  -moz-transition: max-height 0.3s ease-in-out;
+  transition: max-height 0.3s ease-in-out; }
   /* line 22, ../../scss/modules/header/_subnav.scss */
   nav[role="sub-navigation"] ul {
     margin: 0; }
 
-/* line 33, ../../scss/modules/header/_subnav.scss */
+/* line 29, ../../scss/modules/header/_subnav.scss */
 nav[role="sub-navigation"].subnav {
   max-height: 999px;
   /*  overflow: visible;*/
@@ -5599,38 +5597,34 @@ nav[role="sub-navigation"].subnav {
 
 /*nav[role="sub-navigation"] ul {
 	opacity: 0;
-	-webkit-transition: opacity .3s ease;
-		-moz-transition: opacity .3s ease;
-			-ms-transition: opacity .3s ease;
-				-o-transition: opacity .3s ease;
-					transition: opacity .3s ease;
+	@include transition (opacity .3s ease-in-out);
 }
 
 nav[role="sub-navigation"] ul.subnav {
 	opacity: 1;
 }*/
-/* line 52, ../../scss/modules/header/_subnav.scss */
+/* line 44, ../../scss/modules/header/_subnav.scss */
 nav[role="sub-navigation"] ul li.active > a {
   background: #323a45;
   color: #fcfcfc; }
 
-/* line 57, ../../scss/modules/header/_subnav.scss */
+/* line 49, ../../scss/modules/header/_subnav.scss */
 nav[role="sub-navigation"] li {
   display: block; }
   @media only screen and (min-width: 768px) {
-    /* line 57, ../../scss/modules/header/_subnav.scss */
+    /* line 49, ../../scss/modules/header/_subnav.scss */
     nav[role="sub-navigation"] li {
       float: left;
       clear: none; } }
 
-/* line 65, ../../scss/modules/header/_subnav.scss */
+/* line 57, ../../scss/modules/header/_subnav.scss */
 nav[role="sub-navigation"] li a {
   display: block;
   padding: 20px 20px;
   color: #323a45;
   border-bottom: 1px solid #eff0f3; }
   @media only screen and (min-width: 768px) {
-    /* line 65, ../../scss/modules/header/_subnav.scss */
+    /* line 57, ../../scss/modules/header/_subnav.scss */
     nav[role="sub-navigation"] li a {
       float: left;
       padding: 20px 30px;
@@ -5662,13 +5656,11 @@ nav[role="sub-navigation"] li a {
   float: left;
   clear: both;
   margin-left: 0px;
-  -webkit-transition: margin .3s ease;
-  -moz-transition: margin .3s ease;
-  -ms-transition: margin .3s ease;
-  -o-transition: margin .3s ease;
-  transition: margin .3s ease; }
+  -webkit-transition: margin 0.3s ease-in-out;
+  -moz-transition: margin 0.3s ease-in-out;
+  transition: margin 0.3s ease-in-out; }
 
-/* line 38, ../../scss/modules/header/_off-canvas.scss */
+/* line 34, ../../scss/modules/header/_off-canvas.scss */
 [role="complementary"] {
   width: 310px;
   margin-right: -200%;
@@ -5677,15 +5669,15 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$ACTIVE
 \*------------------------------------*/
-/* line 52, ../../scss/modules/header/_off-canvas.scss */
+/* line 48, ../../scss/modules/header/_off-canvas.scss */
 .active-workspace [role="main"], .active-workspace #main-region {
   margin-left: -300px; }
   @media only screen and (min-width: 1025px) {
-    /* line 52, ../../scss/modules/header/_off-canvas.scss */
+    /* line 48, ../../scss/modules/header/_off-canvas.scss */
     .active-workspace [role="main"], .active-workspace #main-region {
       margin-left: -300px; } }
 
-/* line 58, ../../scss/modules/header/_off-canvas.scss */
+/* line 54, ../../scss/modules/header/_off-canvas.scss */
 .active-workspace [role="complementary"] {
   margin-left: 0;
   width: 300px; }
