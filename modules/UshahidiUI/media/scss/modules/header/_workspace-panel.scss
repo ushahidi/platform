@@ -5,6 +5,7 @@
  * workspace PROFILE...............user avatar and account settings/edits
  * workspace STATS WRAPPER..................post, user and post views stats
  * workspace ACCORDION MENU..................posts, tasks and tools
+ 				*Labels..................dynamic labels
  */
 
 
@@ -66,6 +67,16 @@
 /*------------------------------------*\
 		$WORKSPACE STATS WRAPPER
 \*------------------------------------*/
+.post-stats {
+	@include panel($adjust: false);
+}
+
+.user-stats {
+	@include panel($adjust: false);
+}
+.views-stats {
+	@include panel($adjust: false);
+}
 
 .workspace-stats-wrapper {
 	@include grid-row;
@@ -76,12 +87,12 @@
 	margin: 0;
 }
 
-.workspace-stats li.panel {
+.workspace-stats li {
 	padding: 12px 0 12px 12px;
 	margin: 0;
 }
 
-.workspace-stats .panel h5 {
+.workspace-stats h5 {
 	margin: 0;
 	i {
 		position: relative;
@@ -100,9 +111,9 @@
 
 
 
- /*------------------------------------*\
-		 $WORKSPACE ACCORDIAN MENU
- \*------------------------------------*/
+/*------------------------------------*\
+	 $WORKSPACE ACCORDIAN MENU
+\*------------------------------------*/
 .workspace-menu {
 	@include grid-row;
 	@include section-container($section-type:accordion);
@@ -150,7 +161,7 @@
 }
 
 
-/*Labels*/
+/*$LABELS*/
 .all-posts-label {
 	@include label($padding: $label-padding, $bg: $secondary-color, $radius: true);
 }

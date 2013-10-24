@@ -5640,21 +5640,76 @@ nav[role="sub-navigation"] li a {
 		$CONTENTS
 \*------------------------------------*/
 /**
+ * GLOBAL...............global styles
+ * ACTIVE STYLES...............style on .active-workspace class
+ */
+ /*------------------------------------*\
+		 $GLOBAL
+ \*------------------------------------*/
+/* line 15, ../../scss/modules/header/_off-canvas.scss */
+[role="complementary"], [role="main"] {
+  width: 100%;
+  display: block;
+  position: relative;
+  z-index: 1; }
+
+/* line 22, ../../scss/modules/header/_off-canvas.scss */
+[role="main"] {
+  margin-bottom: 74px;
+  width: 100%;
+  height: 100%;
+  margin-left: 0;
+  float: left;
+  clear: both;
+  margin-left: 0px;
+  -webkit-transition: margin .3s ease;
+  -moz-transition: margin .3s ease;
+  -ms-transition: margin .3s ease;
+  -o-transition: margin .3s ease;
+  transition: margin .3s ease; }
+
+/* line 38, ../../scss/modules/header/_off-canvas.scss */
+[role="complementary"] {
+  width: 310px;
+  margin-right: -200%;
+  float: left; }
+
+/*------------------------------------*\
+		$ACTIVE
+\*------------------------------------*/
+/* line 52, ../../scss/modules/header/_off-canvas.scss */
+.active-workspace [role="main"], .active-workspace #main-region {
+  margin-left: -300px; }
+  @media only screen and (min-width: 1025px) {
+    /* line 52, ../../scss/modules/header/_off-canvas.scss */
+    .active-workspace [role="main"], .active-workspace #main-region {
+      margin-left: -300px; } }
+
+/* line 58, ../../scss/modules/header/_off-canvas.scss */
+.active-workspace [role="complementary"] {
+  margin-left: 0;
+  width: 300px; }
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
  * workspace PROFILE...............user avatar and account settings/edits
  * workspace STATS WRAPPER..................post, user and post views stats
  * workspace ACCORDION MENU..................posts, tasks and tools
+ 				*Labels..................dynamic labels
  */
 /*------------------------------------*\
 		$WORKSPACE PROFILE
 \*------------------------------------*/
-/* line 19, ../../scss/modules/header/_workspace-panel.scss */
+/* line 20, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-panel {
   margin-bottom: -9999px;
   padding-bottom: 9999px;
   background-color: #e3e3e3;
   border-left: 3px solid #323a45; }
 
-/* line 26, ../../scss/modules/header/_workspace-panel.scss */
+/* line 27, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-profile {
   width: 100%;
   margin-left: auto;
@@ -5672,7 +5727,7 @@ nav[role="sub-navigation"] li a {
   .workspace-profile:after {
     clear: both; }
 
-/* line 31, ../../scss/modules/header/_workspace-panel.scss */
+/* line 32, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-avatar {
   background: url('../../images/avatar.png?1382122926') no-repeat;
   background-size: 100%;
@@ -5681,24 +5736,24 @@ nav[role="sub-navigation"] li a {
   margin: 15px 7px 15px 15px;
   float: left; }
 
-/* line 40, ../../scss/modules/header/_workspace-panel.scss */
+/* line 41, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-admin {
   float: left;
   margin: 21px 0 0 7px; }
-  /* line 43, ../../scss/modules/header/_workspace-panel.scss */
+  /* line 44, ../../scss/modules/header/_workspace-panel.scss */
   .workspace-admin .username {
     font-weight: 600;
     margin: 0;
     line-height: 1; }
-  /* line 48, ../../scss/modules/header/_workspace-panel.scss */
+  /* line 49, ../../scss/modules/header/_workspace-panel.scss */
   .workspace-admin .workspace-role {
     font-size: 13px;
     margin: 0 0 10px 0;
     line-height: 1; }
-  /* line 53, ../../scss/modules/header/_workspace-panel.scss */
+  /* line 54, ../../scss/modules/header/_workspace-panel.scss */
   .workspace-admin ul {
     margin-bottom: 0.0625em; }
-  /* line 56, ../../scss/modules/header/_workspace-panel.scss */
+  /* line 57, ../../scss/modules/header/_workspace-panel.scss */
   .workspace-admin .edit-profile, .workspace-admin .logout {
     font-size: 13px; }
 
@@ -5706,6 +5761,51 @@ nav[role="sub-navigation"] li a {
 		$WORKSPACE STATS WRAPPER
 \*------------------------------------*/
 /* line 70, ../../scss/modules/header/_workspace-panel.scss */
+.post-stats {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d9d9d9;
+  margin-bottom: 1.25em;
+  padding: 1.25em;
+  background: #f2f2f2; }
+  /* line 44, ../../scss/foundation/components/_panels.scss */
+  .post-stats > :first-child {
+    margin-top: 0; }
+  /* line 45, ../../scss/foundation/components/_panels.scss */
+  .post-stats > :last-child {
+    margin-bottom: 0; }
+
+/* line 74, ../../scss/modules/header/_workspace-panel.scss */
+.user-stats {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d9d9d9;
+  margin-bottom: 1.25em;
+  padding: 1.25em;
+  background: #f2f2f2; }
+  /* line 44, ../../scss/foundation/components/_panels.scss */
+  .user-stats > :first-child {
+    margin-top: 0; }
+  /* line 45, ../../scss/foundation/components/_panels.scss */
+  .user-stats > :last-child {
+    margin-bottom: 0; }
+
+/* line 77, ../../scss/modules/header/_workspace-panel.scss */
+.views-stats {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d9d9d9;
+  margin-bottom: 1.25em;
+  padding: 1.25em;
+  background: #f2f2f2; }
+  /* line 44, ../../scss/foundation/components/_panels.scss */
+  .views-stats > :first-child {
+    margin-top: 0; }
+  /* line 45, ../../scss/foundation/components/_panels.scss */
+  .views-stats > :last-child {
+    margin-bottom: 0; }
+
+/* line 81, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-stats-wrapper {
   width: 100%;
   margin-left: auto;
@@ -5722,7 +5822,7 @@ nav[role="sub-navigation"] li a {
   .workspace-stats-wrapper:after {
     clear: both; }
 
-/* line 74, ../../scss/modules/header/_workspace-panel.scss */
+/* line 85, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-stats {
   display: block;
   padding: 0;
@@ -5753,30 +5853,30 @@ nav[role="sub-navigation"] li a {
     .workspace-stats > li:nth-of-type(3n+1) {
       clear: both; }
 
-/* line 79, ../../scss/modules/header/_workspace-panel.scss */
-.workspace-stats li.panel {
+/* line 90, ../../scss/modules/header/_workspace-panel.scss */
+.workspace-stats li {
   padding: 12px 0 12px 12px;
   margin: 0; }
 
-/* line 84, ../../scss/modules/header/_workspace-panel.scss */
-.workspace-stats .panel h5 {
+/* line 95, ../../scss/modules/header/_workspace-panel.scss */
+.workspace-stats h5 {
   margin: 0; }
-  /* line 86, ../../scss/modules/header/_workspace-panel.scss */
-  .workspace-stats .panel h5 i {
+  /* line 97, ../../scss/modules/header/_workspace-panel.scss */
+  .workspace-stats h5 i {
     position: relative;
     top: -2px;
     font-size: 16px;
     padding-right: 3px; }
-  /* line 92, ../../scss/modules/header/_workspace-panel.scss */
-  .workspace-stats .panel h5 span {
+  /* line 103, ../../scss/modules/header/_workspace-panel.scss */
+  .workspace-stats h5 span {
     font-size: 14px;
     font-weight: normal;
     margin-left: 25px; }
 
- /*------------------------------------*\
-		 $WORKSPACE ACCORDIAN MENU
- \*------------------------------------*/
-/* line 106, ../../scss/modules/header/_workspace-panel.scss */
+/*------------------------------------*\
+	 $WORKSPACE ACCORDIAN MENU
+\*------------------------------------*/
+/* line 117, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-menu {
   width: 100%;
   margin-left: auto;
@@ -5807,7 +5907,7 @@ nav[role="sub-navigation"] li a {
       /* line 61, ../../scss/foundation/components/_section.scss */
       .workspace-menu[data-section-small-style] > [data-section-region] > [data-section-title], .workspace-menu[data-section-small-style] > [data-section-region] > .js-title, .workspace-menu[data-section-small-style] > section > [data-section-title], .workspace-menu[data-section-small-style] > section > .js-title, .workspace-menu[data-section-small-style] > .section > [data-section-title], .workspace-menu[data-section-small-style] > .section > .js-title {
         width: 100% !important; }
-  /* line 109, ../../scss/modules/header/_workspace-panel.scss */
+  /* line 120, ../../scss/modules/header/_workspace-panel.scss */
   .workspace-menu > section {
     margin: 0; }
     /* line 102, ../../scss/foundation/components/_section.scss */
@@ -5870,46 +5970,46 @@ nav[role="sub-navigation"] li a {
     /* line 243, ../../scss/foundation/components/_section.scss */
     .workspace-menu > section > .js-title {
       border-top: none; }
-  /* line 111, ../../scss/modules/header/_workspace-panel.scss */
+  /* line 122, ../../scss/modules/header/_workspace-panel.scss */
   .workspace-menu i {
     padding-left: 10px; }
-  /* line 114, ../../scss/modules/header/_workspace-panel.scss */
+  /* line 125, ../../scss/modules/header/_workspace-panel.scss */
   .workspace-menu .title {
     line-height: .8em;
     margin: 0; }
 
-/* line 120, ../../scss/modules/header/_workspace-panel.scss */
+/* line 131, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-menu > section.active > .title a {
   color: #fcfcfc; }
 
-/* line 124, ../../scss/modules/header/_workspace-panel.scss */
+/* line 135, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-menu > section ul {
   margin: 0; }
-  /* line 126, ../../scss/modules/header/_workspace-panel.scss */
+  /* line 137, ../../scss/modules/header/_workspace-panel.scss */
   .workspace-menu > section ul li {
     padding: 10px 0; }
-    /* line 128, ../../scss/modules/header/_workspace-panel.scss */
+    /* line 139, ../../scss/modules/header/_workspace-panel.scss */
     .workspace-menu > section ul li.active {
       background: #c9c9c9; }
-    /* line 131, ../../scss/modules/header/_workspace-panel.scss */
+    /* line 142, ../../scss/modules/header/_workspace-panel.scss */
     .workspace-menu > section ul li a {
       color: #1f1f1f; }
-      /* line 133, ../../scss/modules/header/_workspace-panel.scss */
+      /* line 144, ../../scss/modules/header/_workspace-panel.scss */
       .workspace-menu > section ul li a p {
         margin: 0; }
-        /* line 135, ../../scss/modules/header/_workspace-panel.scss */
+        /* line 146, ../../scss/modules/header/_workspace-panel.scss */
         .workspace-menu > section ul li a p i {
           color: #1f1f1f; }
-        /* line 138, ../../scss/modules/header/_workspace-panel.scss */
+        /* line 149, ../../scss/modules/header/_workspace-panel.scss */
         .workspace-menu > section ul li a p span {
           float: right; }
 
-/* line 148, ../../scss/modules/header/_workspace-panel.scss */
+/* line 159, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-menu > section > .js-title {
   border: 0; }
 
-/*Labels*/
-/* line 154, ../../scss/modules/header/_workspace-panel.scss */
+/*$LABELS*/
+/* line 165, ../../scss/modules/header/_workspace-panel.scss */
 .all-posts-label {
   font-weight: bold;
   text-align: center;
@@ -5925,7 +6025,7 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 158, ../../scss/modules/header/_workspace-panel.scss */
+/* line 169, ../../scss/modules/header/_workspace-panel.scss */
 .awaiting-review-label {
   font-weight: bold;
   text-align: center;
@@ -5941,7 +6041,7 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 162, ../../scss/modules/header/_workspace-panel.scss */
+/* line 173, ../../scss/modules/header/_workspace-panel.scss */
 .published-label {
   font-weight: bold;
   text-align: center;
@@ -5957,7 +6057,7 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 166, ../../scss/modules/header/_workspace-panel.scss */
+/* line 177, ../../scss/modules/header/_workspace-panel.scss */
 .unpublished-label {
   font-weight: bold;
   text-align: center;
@@ -5973,7 +6073,7 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 170, ../../scss/modules/header/_workspace-panel.scss */
+/* line 181, ../../scss/modules/header/_workspace-panel.scss */
 .my-tasks-label {
   font-weight: bold;
   text-align: center;
@@ -5989,7 +6089,7 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 174, ../../scss/modules/header/_workspace-panel.scss */
+/* line 185, ../../scss/modules/header/_workspace-panel.scss */
 .todo-label {
   font-weight: bold;
   text-align: center;
@@ -6005,7 +6105,7 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px; }
 
-/* line 178, ../../scss/modules/header/_workspace-panel.scss */
+/* line 189, ../../scss/modules/header/_workspace-panel.scss */
 .completed-label {
   font-weight: bold;
   text-align: center;
@@ -9021,60 +9121,6 @@ form.custom .custom.dropdown ul li.selected:hover {
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px; }
-
-/*------------------------------------*\
-		$CONTENTS
-\*------------------------------------*/
-/**
- * GLOBAL...............global styles
- * ACTIVE STYLES...............style on .active-workspace class
- */
- /*------------------------------------*\
-		 $GLOBAL
- \*------------------------------------*/
-/* line 15, ../../scss/plugins/_off-canvas.scss */
-[role="complementary"], [role="main"] {
-  width: 100%;
-  display: block;
-  position: relative;
-  z-index: 1; }
-
-/* line 22, ../../scss/plugins/_off-canvas.scss */
-[role="main"] {
-  margin-bottom: 74px;
-  width: 100%;
-  height: 100%;
-  margin-left: 0;
-  float: left;
-  clear: both;
-  margin-left: 0px;
-  -webkit-transition: margin .3s ease;
-  -moz-transition: margin .3s ease;
-  -ms-transition: margin .3s ease;
-  -o-transition: margin .3s ease;
-  transition: margin .3s ease; }
-
-/* line 38, ../../scss/plugins/_off-canvas.scss */
-[role="complementary"] {
-  width: 310px;
-  margin-right: -200%;
-  float: left; }
-
-/*------------------------------------*\
-		$ACTIVE
-\*------------------------------------*/
-/* line 52, ../../scss/plugins/_off-canvas.scss */
-.active-workspace [role="main"], .active-workspace #main-region {
-  margin-left: -300px; }
-  @media only screen and (min-width: 1025px) {
-    /* line 52, ../../scss/plugins/_off-canvas.scss */
-    .active-workspace [role="main"], .active-workspace #main-region {
-      margin-left: -300px; } }
-
-/* line 58, ../../scss/plugins/_off-canvas.scss */
-.active-workspace [role="complementary"] {
-  margin-left: 0;
-  width: 300px; }
 
 /* the `modules/modals` folder must be called at bottom */
 /*------------------------------------*\
