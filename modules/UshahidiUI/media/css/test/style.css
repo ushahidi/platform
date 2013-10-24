@@ -9772,8 +9772,17 @@ textarea {
     padding-right: 0;
     width: 33.33333%;
     float: left;
+    line-height: 0;
+    display: inline-block;
+    border: solid 4px white;
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
     position: relative;
     margin-bottom: 20px; }
+    /* line 32, ../../scss/foundation/components/_thumbs.scss */
+    .create-set-photo .create-set-thumbnail:hover, .create-set-photo .create-set-thumbnail:focus {
+      -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
+      box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5); }
     @media only screen and (min-width: 768px) {
       /* line 18, ../../scss/modules/modals/_create-set-modal.scss */
       .create-set-photo .create-set-thumbnail {
@@ -9783,11 +9792,11 @@ textarea {
         width: 25%;
         float: left;
         margin-bottom: 0; } }
-  /* line 27, ../../scss/modules/modals/_create-set-modal.scss */
+  /* line 28, ../../scss/modules/modals/_create-set-modal.scss */
   .create-set-photo img {
     width: 100%; }
 
-/* line 32, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 33, ../../scss/modules/modals/_create-set-modal.scss */
 .create-set-photo-button {
   border-style: solid;
   border-width: 1px;
@@ -9828,7 +9837,7 @@ textarea {
   .create-set-photo-button:hover, .create-set-photo-button:focus {
     color: #333333; }
   @media only screen and (min-width: 768px) {
-    /* line 32, ../../scss/modules/modals/_create-set-modal.scss */
+    /* line 33, ../../scss/modules/modals/_create-set-modal.scss */
     .create-set-photo-button {
       position: relative;
       padding-left: 0.9375em;
@@ -9837,18 +9846,18 @@ textarea {
       float: left;
       vertical-align: bottom; } }
 
-/* line 42, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 43, ../../scss/modules/modals/_create-set-modal.scss */
 .create-set-categories {
   margin-bottom: 2em; }
 
-/* line 46, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 47, ../../scss/modules/modals/_create-set-modal.scss */
 .visibility-select {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left; }
-  /* line 48, ../../scss/modules/modals/_create-set-modal.scss */
+  /* line 49, ../../scss/modules/modals/_create-set-modal.scss */
   .visibility-select .visibility-meta-text {
     position: relative;
     padding-left: 0;
@@ -9857,7 +9866,7 @@ textarea {
     float: left;
     margin-bottom: 20px; }
 
-/* line 54, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 55, ../../scss/modules/modals/_create-set-modal.scss */
 .visibility-select-private-button {
   border-style: solid;
   border-width: 1px;
@@ -9892,7 +9901,7 @@ textarea {
   .visibility-select-private-button:hover, .visibility-select-private-button:focus {
     color: white; }
 
-/* line 58, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 59, ../../scss/modules/modals/_create-set-modal.scss */
 .visibility-select-public-button {
   border-style: solid;
   border-width: 1px;
@@ -9927,7 +9936,7 @@ textarea {
   .visibility-select-public-button:hover, .visibility-select-public-button:focus {
     color: white; }
 
-/* line 62, ../../scss/modules/modals/_create-set-modal.scss */
+/* line 63, ../../scss/modules/modals/_create-set-modal.scss */
 .visibility-select-private-button, .visibility-select-public-button {
   position: relative;
   padding-left: 0.9375em;
@@ -9935,7 +9944,7 @@ textarea {
   width: 100%;
   float: left; }
   @media only screen and (min-width: 768px) {
-    /* line 62, ../../scss/modules/modals/_create-set-modal.scss */
+    /* line 63, ../../scss/modules/modals/_create-set-modal.scss */
     .visibility-select-private-button, .visibility-select-public-button {
       position: relative;
       padding-left: 0.9375em;
