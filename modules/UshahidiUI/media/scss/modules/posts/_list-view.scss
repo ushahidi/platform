@@ -90,7 +90,6 @@
 	background: $blueGray;
 	padding: 20px 15px;
 	margin: 0 0 20px 0;
-	.list-view-filter-info,
 	.list-view-filter-count {
 		@media #{$small} {
 			border-right: 1px solid darken($blueGray, 10);

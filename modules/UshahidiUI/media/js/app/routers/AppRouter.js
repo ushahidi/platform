@@ -9,6 +9,7 @@ define(['marionette'],
 				'views/map' : 'viewsMap',
 				'posts/:id' : 'postDetail',
 				'sets' : 'sets',
+				'sets/:id' : 'setDetail',
 				'login' : 'login',
 				'register' : 'register',
 				'*path' : 'index'
