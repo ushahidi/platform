@@ -2,34 +2,16 @@
 		$CONTENTS
 \*------------------------------------*/
 /**
- * @INCLUDES
- * @EXTENDS
+ * @MIXINS...............custom Sass mixins
+ * @EXTENDS...............custom Sass extends
  */
 
 
 
 
 /*------------------------------------*\
-		$@INCLUDES
+		$@MIXINS
 \*------------------------------------*/
-
-@mixin font-family-reg {
-	font-family: 'Montserrat', sans-serif;
-	font-weight: 400;
-}
-
-@mixin font-family-bold {
-	font-family: 'Montserrat', sans-serif;
-	font-weight: 600;
-}
-
-@mixin box-shadow($clear) {
-	-webkit-box-shadow: $clear;
-		-moz-box-shadow: $clear;
-			box-shadow: $clear;
-}
-
-
 
 
 /*------------------------------------*\
@@ -41,9 +23,7 @@
 }
 
 .box-shadow {
-	-webkit-box-shadow: 0px 1px 2px rgba(lighten($darkGray, 30), 0.5);
-		-moz-box-shadow: 0px 1px 2px rgba(lighten($darkGray, 30), 0.5);
-			box-shadow: 0px 1px 2px rgba(lighten($darkGray, 30), 0.5);
+	box-shadow: 0px 1px 2px rgba(lighten($darkGray, 30), 0.5);
 }
 
 .notification {

@@ -41,7 +41,7 @@
 	float: left;
 	margin: 21px 0 0 7px;
 	.username {
-		@include font-family-bold;
+		font-weight: 600;
 		margin: 0;
 		line-height: 1;
 	}
@@ -92,6 +92,7 @@
 	span {
 		font-size: 14px;
 		font-weight: normal;
+		margin-left: 25px;
 	}
 }
 
@@ -146,4 +147,34 @@
 
 .workspace-menu>section>.js-title {
 	border: 0;
+}
+
+
+/*Labels*/
+.all-posts-label {
+	@include label($padding: $label-padding, $bg: $secondary-color, $radius: true);
+}
+
+.awaiting-review-label {
+	@include label($padding: $label-padding, $bg: $secondary-color, $radius: true);
+}
+
+.published-label {
+	@include label($padding: $label-padding, $bg: $success-color, $radius: true);
+}
+
+.unpublished-label {
+	@include label($padding: $label-padding, $bg: $alert-color, $radius: true);
+}
+
+.my-tasks-label {
+	@include label($padding: $label-padding, $bg: $secondary-color, $radius: true);
+}
+
+.todo-label {
+	@include label($padding: $label-padding, $radius: true);
+}
+
+.completed-label {
+	@include label($padding: $label-padding, $bg: $success-color, $radius: true);
 }

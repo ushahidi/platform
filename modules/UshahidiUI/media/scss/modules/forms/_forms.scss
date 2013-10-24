@@ -32,16 +32,12 @@ input[type="radio"], select {
 input[type="text"], input[type="email"] {
 	height: 100%; /* FF fix */
 	padding: 10px;
-	-webkit-border-radius: $global-radius;
-		-moz-border-radius: $global-radius;
-			border-radius: $global-radius;
+	@include border-radius($global-radius);
 }
 
 form.custom .custom.dropdown {
 	height: 2.9em;
-	-webkit-border-radius: $global-radius;
-		-moz-border-radius: $global-radius;
-			border-radius: $global-radius;
+	@include border-radius($global-radius);
 	.current {
 	margin-top: .4em;
 	margin-left: 1.4em;
@@ -60,9 +56,7 @@ form.custom .custom.dropdown {
 
 .search-bar input[type="text"] {
 	@media #{$medium} {
-		-webkit-border-radius: 0px;
-			-moz-border-radius: 0px;
-				border-radius: 0px;
+		@include border-radius(0px);
 	}
 }
 
@@ -71,9 +65,7 @@ form.custom .custom.dropdown {
 		margin-bottom: 0;
 	}
 	@media #{$medium} {
-		-webkit-border-radius: 0px;
-			-moz-border-radius: 0px;
-				border-radius: 0px;
+		@include border-radius(0px);
 	}
 }
 

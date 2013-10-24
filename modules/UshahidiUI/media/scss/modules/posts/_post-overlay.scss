@@ -21,16 +21,12 @@
 .post-overlay {
 	@include dropdown-container($content: content);
 	padding: 0;
-	-webkit-box-shadow: $reveal-box-shadow;
-		-moz-box-shadow: $reveal-box-shadow;
-			box-shadow: $reveal-box-shadow;
+	box-shadow: $reveal-box-shadow;
 	h5, h6 {
 		line-height: 1em;
 	}
 	.post-body {
-		-webkit-box-shadow: 0px;
-		-moz-box-shadow: 0px;
-		box-shadow: 0px;
+		box-shadow: none;
 	}
 	.post-details-button {
 		float: right;

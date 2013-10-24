@@ -23,7 +23,7 @@
 	overflow: hidden;
 	@extend .box-shadow;
 	@media #{$small} {
-		@include box-shadow(0);
+		box-shadow: none;
 	}
 }
 
