@@ -159,18 +159,27 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 /*------------------------------------*\
 		$@MIXINS
 \*------------------------------------*/
+/*@2x RETINA IMAGES - use image that's scaled by 2*/
+/* EXAMPLE: 
+
+div.logo {
+   background: url("logo.png") no-repeat;
+   @include image-2x("logo2x.png", 100px, 25px);
+ }
+
+ */
 /*------------------------------------*\
 		$@EXTENDS
 \*------------------------------------*/
-/* line 21, ../../scss/tools/_mixins.scss */
+/* line 42, ../../scss/tools/_mixins.scss */
 .border-bottom, .related-post-module-wrapper, .set-tags {
   border-bottom: 1px solid #e3e3e3; }
 
-/* line 25, ../../scss/tools/_mixins.scss */
+/* line 46, ../../scss/tools/_mixins.scss */
 .box-shadow, .top-bar, nav[role="sub-navigation"], .search-bar, .list-view-wrapper, .list-view-filter, .set-detail-post-list-filter, .post-header, .post-body, .related-posts-body, .sets-search-bar, .set-wrapper, .set-detail-post-list, .alertify {
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5); }
 
-/* line 29, ../../scss/tools/_mixins.scss */
+/* line 50, ../../scss/tools/_mixins.scss */
 .notification, .set-post-number {
   position: relative;
   width: 40px;
@@ -5482,29 +5491,34 @@ a.button {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('../../images/logo.png?1382122927') no-repeat;
+  background: url('../../images/logo.png?1382649841') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
   margin: 10px;
   float: left; }
+  @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
+    /* line 37, ../../scss/modules/header/_topbar.scss */
+    .logo-image {
+      background-image: url("logo2x.png");
+      background-size: 62px 58px; } }
 
-/* line 46, ../../scss/modules/header/_topbar.scss */
+/* line 47, ../../scss/modules/header/_topbar.scss */
 .top-bar .title-area {
   position: relative;
   float: left;
   width: 318px; }
 
-/* line 52, ../../scss/modules/header/_topbar.scss */
+/* line 53, ../../scss/modules/header/_topbar.scss */
 .top-bar .name h1 a {
   width: 100%;
   padding: 0 20px; }
   @media only screen and (min-width: 768px) {
-    /* line 52, ../../scss/modules/header/_topbar.scss */
+    /* line 53, ../../scss/modules/header/_topbar.scss */
     .top-bar .name h1 a {
       padding: 0 52px; } }
 
-/* line 61, ../../scss/modules/header/_topbar.scss */
+/* line 62, ../../scss/modules/header/_topbar.scss */
 .views .icon-eye-open {
   position: relative;
   top: -1px; }
@@ -5512,52 +5526,52 @@ a.button {
 /*------------------------------------*\
 		$RIGHT
 \*------------------------------------*/
-/* line 74, ../../scss/modules/header/_topbar.scss */
+/* line 75, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li.create-post a {
   background-color: #3cb81c;
   color: #fcfcfc; }
 
-/* line 79, ../../scss/modules/header/_topbar.scss */
+/* line 80, ../../scss/modules/header/_topbar.scss */
 .top-bar-section ul.right {
   width: 110px; }
   @media only screen and (min-width: 1024px) {
-    /* line 79, ../../scss/modules/header/_topbar.scss */
+    /* line 80, ../../scss/modules/header/_topbar.scss */
     .top-bar-section ul.right {
       width: 300px; } }
 
-/* line 86, ../../scss/modules/header/_topbar.scss */
+/* line 87, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li a.workspace-panel-button {
   padding: 0 53px 0 18px; }
-  /* line 88, ../../scss/modules/header/_topbar.scss */
+  /* line 89, ../../scss/modules/header/_topbar.scss */
   .top-bar-section li a.workspace-panel-button .icon-dashboard {
     position: relative;
     top: -1px; }
 
-/* line 98, ../../scss/modules/header/_topbar.scss */
+/* line 99, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li.show-for-medium-down a.workspace-panel-button, .top-bar-section li.show-for-medium-down a.create-post-button, .top-bar-section li.show-for-medium-down a.views, .top-bar-section li.show-for-medium-down a.sets {
   padding: 0 20px; }
-  /* line 100, ../../scss/modules/header/_topbar.scss */
+  /* line 101, ../../scss/modules/header/_topbar.scss */
   .top-bar-section li.show-for-medium-down a.workspace-panel-button i, .top-bar-section li.show-for-medium-down a.create-post-button i, .top-bar-section li.show-for-medium-down a.views i, .top-bar-section li.show-for-medium-down a.sets i {
     position: relative;
     top: 3px;
     font-size: 19px;
     padding: 0; }
-/* line 107, ../../scss/modules/header/_topbar.scss */
+/* line 108, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li.show-for-medium-down a.workspace-panel-button {
   padding: 0 18px; }
 
 /*------------------------------------*\
 		$MOBILE
 \*------------------------------------*/
-/* line 119, ../../scss/modules/header/_topbar.scss */
+/* line 120, ../../scss/modules/header/_topbar.scss */
 .name-small {
   background-color: #eff0f3;
   /*  margin-top: 45px;*/ }
-  /* line 122, ../../scss/modules/header/_topbar.scss */
+  /* line 123, ../../scss/modules/header/_topbar.scss */
   .name-small h4 {
     line-height: 2.688em;
     margin: 0; }
-    /* line 125, ../../scss/modules/header/_topbar.scss */
+    /* line 126, ../../scss/modules/header/_topbar.scss */
     .name-small h4 a {
       color: #565656; }
 
