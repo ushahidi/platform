@@ -36,7 +36,7 @@
 
 .logo-image {
 	background: image-url("logo.png") no-repeat;
-	@include image-2x("logo2x.png", 62px, 58px);
+	@include image-2x("logo@2x.png", 29px, 29px);
 	background-size: 100%;
 	height: 29px;
 	width: 29px;
