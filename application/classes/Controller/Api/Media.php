@@ -3,15 +3,10 @@
 /**
  * Ushahidi API Media Controller
  *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
- * @author     Ushahidi Team <team@ushahidi.come
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Controllers
- * @copyright  Ushahidi - http://www.ushahidi.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application\Controllers
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 class Controller_Api_Media extends Ushahidi_Api {
 
