@@ -10,10 +10,10 @@
  */
 
 define(['App', 'backbone', 'marionette',
-	'views/modals/CreatePostView', 'views/modals/EditPostView', 'views/modals/AddToSetView', 'views/modals/CreateSetView',
+	'views/modals/CreatePostView', 'views/modals/EditPostView', 'views/modals/AddToSetView', 'views/modals/CreateSetView', 'views/modals/ChooseFormView',
 	'models/PostModel'],
 	function(App, Backbone, Marionette,
-		PostCreateView, PostEditView, AddToSetView, CreateSetView,
+		PostCreateView, PostEditView, AddToSetView, CreateSetView, ChooseFormView,
 		PostModel)
 	{
 		return Backbone.Marionette.Controller.extend(
@@ -31,24 +31,31 @@ define(['App', 'backbone', 'marionette',
 			postCreate : function ()
 			{
 				var that = this,
-					post;
+					post = new PostModel({}),
+					chooseView;
 
-				post = new PostModel({
-					// @todo stop hard coding form-id
-					form : {
-						id : 1
+				chooseView = new ChooseFormView({
+					model: post,
+					forms: App.Collections.Forms
+				}).on('form:select', function ()
+					{
+						// @todo ensure tagscollection is loaded
+
+						// @todo move this event handling to modal region
+						that.modal.currentView.on('modal:closed', function ()
+						{
+							that.modal.show(new PostCreateView({
+								model: post
+							}));
+							that.modal.currentView.on('close', that.modal.close, that.modal);
+							// Unbind fn
+							this.off('modal:closed');
+						});
+						that.modal.close();
 					}
-				});
+				);
 
-				// @todo ensure tagscollection is loaded
-
-				post.relationsCallback.done( function () {
-					that.modal.show(new PostCreateView({
-						model: post
-					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
-				});
-				post.fetchRelations();
+				that.modal.show(chooseView);
 			},
 			postEdit : function (post)
 			{

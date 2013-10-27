@@ -63,8 +63,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 
 				if (! errors)
 				{
-					// @todo don't hard code id
-					this.model.set('form_id', 1);
 					// @todo don't hard code locale
 					this.model.set('locale', 'en_us');
 

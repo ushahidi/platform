@@ -17,6 +17,8 @@ define(['App', 'backbone', 'marionette', 'underscore'],
 			// Override open to trigger foundation reveal
 			onShow : function(view)
 			{
+				var that = this;
+
 				this.$el.foundation('reveal', 'open')
 					.on('open', function (e) { view.trigger('modal:open', e); })
 					.on('opened', function (e) { view.trigger('modal:opened', e); })
@@ -25,11 +27,11 @@ define(['App', 'backbone', 'marionette', 'underscore'],
 			},
 			onClose : function()
 			{
-				this.$el.foundation('reveal', 'close')
-					.off('open')
+				this.$el.foundation('reveal', 'close');
+					/*.off('open')
 					.off('opened')
 					.off('close')
-					.off('closed');
+					.off('closed');*/
 			}
 		});
 	});
