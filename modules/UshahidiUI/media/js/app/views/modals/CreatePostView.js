@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals/CreatePost.html',
+define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/CreatePost.html',
 	'backbone-validation', 'backbone-forms/backbone-forms', 'forms/templates/FormTemplates', 'forms/editors/Location'],
-	function( App, Marionette, Handlebars, _, template,
+	function( App, Marionette, Handlebars, _, alertify, template,
 		BackboneValidation, BackboneForm)
 	{
 		return Marionette.ItemView.extend( {
@@ -22,7 +22,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals
 					idPrefix : 'post-',
 					className : 'create-post-form',
 					fieldsets : _.result(this.model, 'fieldsets')
-		});
+					});
 				BackboneValidation.bind(this, {
 					valid: function(/* view, attr */)
 					{
@@ -32,7 +32,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals
 					{
 						// Do nothing, displaying errors is handled by backbone-forms
 					}
-	});
+				});
 
 				// Trigger event when modal is fully opened, used to refresh map size
 				this.on('modal:opened', function ()
@@ -76,7 +76,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals
 							})
 						.fail(function (response /*, xhr, options*/)
 							{
-								console.log(response);
+								alertify.error('Unable to save post, please try again.');
 								// validation error
 								if (response.errors)
 								{
