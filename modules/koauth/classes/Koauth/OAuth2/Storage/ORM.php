@@ -5,8 +5,8 @@
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Koauth
- * @copyright  Ushahidi - http://www.ushahidi.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInterface,
 	OAuth2_Storage_AccessTokenInterface, OAuth2_Storage_ClientCredentialsInterface,
