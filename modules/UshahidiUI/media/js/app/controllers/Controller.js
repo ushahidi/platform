@@ -1,3 +1,12 @@
+/**
+ * Ushahidi Main Controller
+ *
+ * @module     Controller
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
+
 define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout', 'views/PostDetailLayout',
 	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView',
@@ -122,6 +131,18 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 					that.layout.mainRegion.show(new SetsView());
 				});
 			},
+
+			setDetail : function(id)
+            {
+    			var that = this;
+				App.homeLayout.close();
+				require(['views/SetDetailView'], function(SetDetailView)
+				{
+					App.vent.trigger('page:change', 'sets/:id');
+					that.layout.mainRegion.show(new SetDetailView());
+				});
+			},
+
 			login : function ()
 			{
 				var that = this;

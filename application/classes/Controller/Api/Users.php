@@ -3,15 +3,10 @@
 /**
  * Ushahidi API Users Controller
  *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
- * @author     Ushahidi Team <team@ushahidi.come
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Controllers
- * @copyright  Ushahidi - http://www.ushahidi.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application\Controllers
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 class Controller_Api_Users extends Ushahidi_Api {
@@ -25,7 +20,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 * @var string Direct to sort results
 	 */
 	 protected $record_order = 'DESC';
-	
+
 	/**
 	 * @var int Maximum number of results to return
 	 */
@@ -33,15 +28,15 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 	/**
 	 * Create A User
-	 * 
+	 *
 	 * POST /api/users
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_post_index_collection()
 	{
 		$post = $this->_request_payload;
-		
+
 		$user = ORM::factory('User');
 
 		$this->create_or_update_user($user, $post);
@@ -49,9 +44,9 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 	/**
 	 * Retrieve All Users
-	 * 
+	 *
 	 * GET /api/users
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_get_index_collection()
@@ -80,25 +75,25 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$user = $this->request->query('email');
 		if (! empty($user))
 		{
-			$users_query->where('email', '=', $user);	
+			$users_query->where('email', '=', $user);
 		}
 
 		$first_name = $this->request->query('first_name');
 		if (! empty($first_name))
 		{
-			$users_query->where('first_name', '=', $first_name);	
+			$users_query->where('first_name', '=', $first_name);
 		}
 
 		$last_name = $this->request->query('last_name');
 		if (! empty($last_name))
 		{
-			$users_query->where('last_name', '=', $last_name);	
+			$users_query->where('last_name', '=', $last_name);
 		}
 
 		$username = $this->request->query('username');
 		if (! empty($username))
 		{
-			$users_query->where('username', '=', $username);	
+			$users_query->where('username', '=', $username);
 		}
 
 		$users = $users_query->find_all();
@@ -108,8 +103,8 @@ class Controller_Api_Users extends Ushahidi_Api {
 		foreach ($users as $user)
 		{
 			$results[] = $user->for_api();
-	
-		}	
+
+		}
 
 		// Current/Next/Prev urls
 		$params = array(
@@ -117,11 +112,11 @@ class Controller_Api_Users extends Ushahidi_Api {
 				'offset' => $this->record_offset,
 		);
 
-		// Only add order/orderby if they're already set 
+		// Only add order/orderby if they're already set
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
 			$params['orderby'] = $this->record_orderby;
-			$params['order'] = $this->record_order;	
+			$params['order'] = $this->record_order;
 		}
 
 		$prev_params = $next_params = $params;
@@ -146,13 +141,13 @@ class Controller_Api_Users extends Ushahidi_Api {
 				'prev' => $prev,
 		);
 
-	}	
+	}
 
 	/**
 	 * Retrieve A User
-	 * 
+	 *
 	 * GET /api/users/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_get_index()
@@ -175,16 +170,16 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 	/**
 	 * Update A User
-	 * 
+	 *
 	 * PUT /api/users/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_put_index()
 	{
 		$user_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
-		
+
 		$user = ORM::factory('User', $user_id);
 
 		if (! $user->loaded() )
@@ -195,14 +190,14 @@ class Controller_Api_Users extends Ushahidi_Api {
 		}
 
 		$this->create_or_update_user($user, $post);
-		
+
 	}
 
 	/**
 	 * Delete A User
-	 * 
+	 *
 	 * DELETE /api/user/:id
-	 * 
+	 *
 	 * @return void
 	 * @todo Authentication
 	 */
@@ -241,12 +236,12 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 		try
 		{
-			// Validate base user data	
+			// Validate base user data
 			$user_validation = Validation::factory($post);
 			$user_validation->rule('username', 'not_empty');
 			$user_validation->rule('password', 'not_empty');
 			$user->check($user_validation);
-			
+
 			// Validates ... so save
 			$user->save();
 
@@ -257,9 +252,9 @@ class Controller_Api_Users extends Ushahidi_Api {
 		catch(ORM_Validation_Exception $e)
 		{
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-					':errors' => implode(', ', Arr::flatten($e->errors('models'))),	
+					':errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
-	
+
 	 }
 }

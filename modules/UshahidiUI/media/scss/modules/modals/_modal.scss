@@ -73,7 +73,8 @@
 		padding: 10px;
 		float: right;
 	}
-	.button {
+	button {
+		@include button($bg: $success-color, $radius: true, $full-width: true);
 		margin-bottom: 0;
 	}
 }

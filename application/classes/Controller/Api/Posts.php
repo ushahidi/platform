@@ -2,11 +2,11 @@
 
 /**
  * Ushahidi API Posts Controller
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Controllers
- * @copyright  Ushahidi - http://www.ushahidi.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 class Controller_Api_Posts extends Ushahidi_Api {
@@ -20,12 +20,12 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 * @var string Post Type
 	 */
 	protected $_type = 'report';
-	
+
 	/**
 	 * @var string Field to sort results by
 	 */
 	protected $record_orderby = 'created';
-	
+
 	/**
 	 * @var string Direct to sort results
 	 */
@@ -40,14 +40,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 * @var string oauth2 scope required for access
 	 */
 	protected $scope_required = 'posts';
-	
+
 	protected $_boundingbox = FALSE;
 
 	/**
 	 * Create A Post
-	 * 
+	 *
 	 * POST /api/posts
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_post_index_collection()
@@ -55,15 +55,15 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post = $this->_request_payload;
 
 		$_post = ORM::factory('Post');
-		
+
 		$this->create_or_update_post($_post, $post);
 	}
 
 	/**
 	 * Retrieve All Posts
-	 * 
+	 *
 	 * GET /api/posts
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_get_index_collection()
@@ -71,19 +71,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$results = array();
 
 		$this->prepare_order_limit_params();
-		
+
 		$posts_query = ORM::factory('Post')
 			->distinct(TRUE)
 			->where('type', '=', $this->_type)
 			->order_by($this->record_orderby, $this->record_order);
-		
+
 		if ($this->record_limit !== FALSE)
 		{
 			$posts_query
 				->limit($this->record_limit)
 				->offset($this->record_offset);
 		}
-		
+
 		if ($this->_parent_id)
 		{
 			$posts_query->where('parent_id', '=', $this->_parent_id);
@@ -99,7 +99,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$posts_query->or_where('content', 'LIKE', "%$q%");
 			$posts_query->and_where_close();
 		}
-		
+
 		$type = $this->request->query('type');
 		if (! empty($type))
 		{
@@ -125,7 +125,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		{
 			$posts_query->where('locale', '=', $locale);
 		}
-		
+
 		// date chcks
 		$created_after = $this->request->query('created_after');
 		if (! empty($create_after))
@@ -151,7 +151,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$updated_before = date('Y-m-d H:i:s', strtotime($updated_before));
 			$posts_query->where('updated', '<=', $updated_before);
 		}
-		
+
 		// Bounding box search
 		// @todo eventually move this to Post_Point class?
 		// Create geometry from bbox
@@ -165,7 +165,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$bb_south = $bbox[3];
 			$this->_boundingbox = new Util_BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
 		}
-		
+
 		if ($this->_boundingbox)
 		{
 			$sub = DB::select('post_id')
@@ -179,7 +179,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				);
 			$posts_query->join(array($sub, 'Filter_BBox'), 'INNER')->on('post.id', '=', 'Filter_BBox.post_id');
 		}
-		
+
 		// Attributes
 		// @todo optimize this - maybe iterate over query params instead
 		$attributes = ORM::factory('Form_Attribute')->find_all();
@@ -196,7 +196,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->key)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->key).'.post_id');
 			}
 		}
-		
+
 		// Get the count of ALL records
 		$count_query = clone $posts_query;
 		$total_records = (int) $count_query
@@ -253,21 +253,21 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			'next' => $next,
 			'prev' => $prev,
 		);
-		
+
 		// Add debug info if environment isn't production
 		if (Kohana::$environment !== Kohana::PRODUCTION)
 		{
 			$this->_response_payload['query'] = $post_query_sql;
 			$this->_response_payload['count_query'] = $count_query_sql;
 		}
-		
+
 	}
 
 	/**
 	 * Retrieve A Post
-	 * 
+	 *
 	 * GET /api/posts/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_get_index()
@@ -296,9 +296,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 	/**
 	 * Update A Post
-	 * 
+	 *
 	 * PUT /api/posts/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_put_index()
@@ -321,13 +321,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				':id' => $post_id,
 			));
 		}
-		
+
 		$this->create_or_update_post($_post, $post);
 	}
-	
+
 	/**
 	 * Save post, attributes and tags
-	 * 
+	 *
 	 * @param Post_Model $post
 	 * @param array $post_data
 	 */
@@ -348,7 +348,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$post_data['form_id'] = $post_data['form'];
 			}
 		}
-		
+
 		// unpack user to get user_id
 		if (isset($post_data['user']))
 		{
@@ -361,16 +361,16 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$post_data['user_id'] = $post_data['user'];
 			}
 		}
-		
+
 		$post->values($post_data, array(
 			'form_id', 'title', 'content', 'status', 'slug', 'locale', 'user_id'
 			));
 		$post->parent_id = $this->_parent_id;
 		$post->type = $this->_type;
-		
+
 		// Validation object for additional validation (not in model)
 		$validation = Validation::factory($post_data);
-		// Validation - cycle through nested models 
+		// Validation - cycle through nested models
 		// and perform in-model validation before
 		// saving
 		try
@@ -394,7 +394,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						->where('form_id', '=', $post_data['form_id'])
 						->where('key', '=', $key)
 						->find();
-					
+
 					// Throw 400 if attribute doesn't exist
 					if (! $attribute->loaded() )
 					{
@@ -402,7 +402,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 							':attr' => $key,
 						));
 					}
-					
+
 					// If we've got a complex value and just a single value (assuming complex values are associative arrays)
 					// Handling exactly the same as a single value
 					// @todo more complex handling ie. location + location name?
@@ -415,19 +415,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 							->where('post_id', '=', $post->id)
 							->where('form_attribute_id', '=', $attribute->id)
 							->find();
-						
+
 						$_value
 							->set('value', $value)
 							->set('post_id', $post->id)
 							->set('form_attribute_id', $attribute->id);
 						$_value->check();
-						
+
 						// Add to array to save later
 						$_values[] = $_value;
-						
+
 						continue;
 					}
-					
+
 					// Handle single value
 					if (! is_array($value))
 					{
@@ -435,30 +435,30 @@ class Controller_Api_Posts extends Ushahidi_Api {
 							->where('post_id', '=', $post->id)
 							->where('form_attribute_id', '=', $attribute->id)
 							->find();
-						
+
 						$_value
 							->set('value', $value)
 							->set('post_id', $post->id)
 							->set('form_attribute_id', $attribute->id);
 						$_value->check();
-						
+
 						// Add to array to save later
 						$_values[] = $_value;
-						
+
 						continue;
 					}
-					
+
 					// Are there multiple values? Are they greater than cardinality limit?
 					if (is_array($value) AND count($value) > $attribute->cardinality AND $attribute->cardinality != 0)
 					{
 						$validation->error('values.'.$key, 'cardinality');
 					}
-					
+
 					foreach ($value as $k => $v)
 					{
 						// Add error if no value passed
 						if (! isset($v['value'])) $validation->error("values.$key.$k", 'value_array_invalid');
-						
+
 						// Load existing Post_* object
 						if (! empty($v['id']))
 						{
@@ -467,7 +467,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 								->where('form_attribute_id', '=', $attribute->id)
 								->where('id', '=', $v['id'])
 								->find();
-							
+
 							// Add error if id specified by doesn't exist
 							if (! $_value->loaded()) $validation->error("values.$key.$k", 'value_id_exists');
 						}
@@ -476,13 +476,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						{
 							$_value = ORM::factory('Post_'.ucfirst($attribute->type));
 						}
-						
+
 						$_value
 							->set('value', $v['value'])
 							->set('post_id', $post->id)
 							->set('form_attribute_id', $attribute->id);
 						$_value->check();
-						
+
 						// Add to array to save later
 						$_values[] = $_value;
 					}
@@ -530,7 +530,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			{
 				// Make sure email is set to something
 				$post_data['user']['email'] = (! empty($post_data['user']['email'])) ? $post_data['user']['email'] : null;
-				
+
 				// Check if user was loaded
 				$user = ORM::factory('User')
 					->where('email', '=', $post_data['user']['email'])
@@ -539,13 +539,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				{
 					throw new HTTP_Exception_400('Email already registered, please log in to submit a report.');
 				}
-				
+
 				$user->values($post_data['user'], array('email', 'first_name', 'last_name'));
-				
+
 				// @todo add a setting for requiring email or not
 				//$user_validation = Validation::factory($post_data['user']);
 				//$user_validation->rule('email', 'not_empty');
-				
+
 				$user->check(/* $user_validation */);
 			}
 
@@ -579,7 +579,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						->or_where('tag', '=', $value)
 						->find();
 					}
-					
+
 					// Auto create tags if it doesn't exist
 					if (! $tag->loaded() )
 					{
@@ -588,22 +588,22 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						$tag->check();
 						$tag->save();
 					}
-					
+
 					// Save tag id for later
 					$tag_ids[] = $tag->id;
 				}
 			}
-			
+
 			// Save user
 			if ($user)
 			{
 				$user->save();
 				$post->user_id = $user->id;
 			}
-			
+
 			// Validates ... so save
 			$post->save();
-			
+
 			// Did the post change?
 			$saved = $post->saved();
 
@@ -614,7 +614,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					->set('post_id', $post->id)
 					->save();
 			}
-			
+
 			// Add tags to post (has to happen after post is saved)
 			if (count($tag_ids) > 0 AND ! $post->has('tags', $tag_ids))
 			{
@@ -636,7 +636,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$new_revision->parent_id = $post->id;
 				$new_revision->type = 'revision';
 				$new_revision->save();
-				
+
 				foreach ($_values as $post_value)
 				{
 					$_value = ORM::factory($post_value->object_name());
@@ -667,9 +667,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 	/**
 	 * Delete A Post
-	 * 
+	 *
 	 * DELETE /api/posts/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_delete_index()

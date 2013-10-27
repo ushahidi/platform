@@ -1,6 +1,15 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
+ * Kohana Init Config
+ *
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application\Config
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
+
+/**
  * Initialize Kohana, setting the default options.
  *
  * The following options are available:
@@ -15,7 +24,6 @@
  * - boolean  caching     enable or disable internal caching                 FALSE
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
-
 return array(
 	'base_url'    => '/',
 	'index_file'  => FALSE,

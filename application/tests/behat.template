@@ -1,3 +1,6 @@
+## Example behat.yml file for running Ushahidi tests
+## Replace base_url values with the url of your dev site
+##
 default:
   context:
     parameters:

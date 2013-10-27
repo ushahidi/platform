@@ -1,3 +1,11 @@
+/**
+ * Ushahidi RequireJS initialisation and config
+ *
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
+
 require.config(
 {
 	baseUrl : './media/kohana/js/app',
@@ -27,6 +35,7 @@ require.config(
 		'backbone-forms' : '../libs/backbone-forms',
 		'backbone-deep-model' : '../libs/deep-model',
 		'backbone-validation' : '../libs/backbone-validation-amd',
+		'alertify' : '../libs/alertify',
 		'text' : '../libs/requirejs-text'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
@@ -87,7 +96,7 @@ require.config(
 		'moment': {
 			exports: 'moment'
 		},
-
+		
 		'foundation/foundation' : {exports: 'Foundation'},
 		'foundation/foundation.abide': {deps: ['foundation/foundation'] },
 		'foundation/foundation.alerts': {deps: ['foundation/foundation'] },

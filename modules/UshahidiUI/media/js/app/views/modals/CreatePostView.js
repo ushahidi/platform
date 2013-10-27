@@ -1,3 +1,12 @@
+/**
+ * Create Post
+ *
+ * @module     CreatePostView
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
+
 define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals/CreatePost.html',
 	'backbone-validation', 'backbone-forms/backbone-forms', 'forms/templates/FormTemplates', 'forms/editors/Location'],
 	function( App, Marionette, Handlebars, _, template,
@@ -13,7 +22,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals
 					idPrefix : 'post-',
 					className : 'create-post-form',
 					fieldsets : _.result(this.model, 'fieldsets')
-				});
+		});
 				BackboneValidation.bind(this, {
 					valid: function(/* view, attr */)
 					{
@@ -23,7 +32,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'text!templates/modals
 					{
 						// Do nothing, displaying errors is handled by backbone-forms
 					}
-				});
+	});
 
 				// Trigger event when modal is fully opened, used to refresh map size
 				this.on('modal:opened', function ()

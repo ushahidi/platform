@@ -1,3 +1,17 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * EDIT POST...............Edit Post styles
+ */
+
+
+
+
+/*-----------------------------------------------------------*\
+		$EDIT POST
+\*-----------------------------------------------------------*/
+
 .edit-post section.post-details {
 	@extend .post;
 	padding: 0;
@@ -50,6 +64,10 @@
 	@media #{$small} {
 		padding-left: 20px;
 	}
+}
+
+.post-excerpt-save-text-button {
+	@include button($bg: $success-color, $radius: true, $full-width: true);
 }
 
 textarea {

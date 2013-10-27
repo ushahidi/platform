@@ -1,3 +1,12 @@
+/**
+ * Post Model
+ *
+ * @module     PostModel
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
+
 define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/FormModel', 'backbone-deep-model'],
 	function($, Backbone, App, _, UserModel, FormModel) {
 		var PostModel = Backbone.DeepModel.extend(

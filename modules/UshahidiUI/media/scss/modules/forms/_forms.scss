@@ -51,14 +51,6 @@ form.custom .custom.dropdown {
 	}
 }
 
-.postfix.button {
-	height: 2.9em;
-	border-radius: $global-radius;
-	@media #{$medium} {
-		border-radius: 0 $global-radius $global-radius 0;
-	}
-}
-
 
 
 

@@ -1,7 +1,7 @@
 {
     "require": {
         "behat/behat": "2.4.*@stable",
-        "guzzle/guzzle": "3.0.*",
+        "guzzle/guzzle": "3.7.*",
         "behat/mink-extension": "*",
         "behat/mink": "*",
         "behat/mink-goutte-driver": "*",
