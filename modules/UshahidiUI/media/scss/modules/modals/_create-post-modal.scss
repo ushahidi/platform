@@ -15,12 +15,31 @@
  \*-----------------------------------------------------------*/
 
 
+
+
 .create-post-options {
 	@include grid-column(12);
 	margin-bottom: 40px;
 	padding: 0;
 	input[type="text"], textarea {
 		margin-bottom: 2em;
+	}
+
+	fieldset {
+		border: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	form > fieldset {
+		display:none;
+		&.active {
+			display: block;
+		}
+	}
+
+	label {
+		@extend h6;
 	}
 }
 
@@ -47,7 +66,7 @@
 	@include grid-column(12, $collapse: true);
 	@media #{$small} {
 		@include grid-column(8);
-		padding: 0 20px;
+		padding: 0;
 	}
 }
 
@@ -78,50 +97,24 @@
 \*------------------------------------*/
 
 .select-icon {
-	width: 56px;
-	height: 60px !important;
+	display: inline;
+
+	color: $white;
+	a {
+		display: block;
+		width: 56px;
+		height: 60px;
+		color: $white;
+		text-align: center;
+	}
 	[class^="icon-"] {
 		position: relative;
 		top: 20px;
 		left: 20px;
 		padding: 0;
+		font-size: 19px;
 		@media #{$small} {
 			left: 0;
 		}
-	}
-}
-
-.upload-location {
-	.icon-map-marker {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-image {
-	.icon-picture {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-video {
-	.icon-facetime-video {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-link {
-	.icon-link {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-audio {
-	.icon-microphone {
-		font-size: 20px;
-		color: $white;
 	}
 }
