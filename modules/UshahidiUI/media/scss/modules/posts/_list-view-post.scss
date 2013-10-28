@@ -32,6 +32,10 @@
 	@media #{$small} {
 		@include grid-column(2);
 	}
+	@media #{$medium-up} {
+		@include grid-column(1);
+		width: 10.33333%;
+	}
 	img {
 		margin: 10px 0 10px 0;
 		@include thumb;
@@ -44,6 +48,10 @@
 	padding-left: 0;
 	@media #{$small} {
 		@include grid-column(10);
+	}
+	@media #{$medium-up} {
+		@include grid-column(11);
+		width: 89.66667%;
 	}
 }
 

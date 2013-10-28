@@ -80,12 +80,12 @@
 .top-bar-section ul.right {
 	width: 110px;
 	@media #{$medium} {
-		width: 300px;
+		width: 250px;
 	}
 }
 
 .top-bar-section li a.workspace-panel-button {
-	padding: 0 53px 0 18px;
+	padding: 0 18px;
 	.icon-dashboard {
 		position: relative;
 		top: -1px;
