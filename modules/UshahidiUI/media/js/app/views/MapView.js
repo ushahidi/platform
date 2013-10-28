@@ -1,3 +1,12 @@
+/**
+ * Map View
+ *
+ * @module     MapView
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
+
 define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oauth', 'text!templates/Map.html', 'text!templates/Popup.html'],
 	function(Marionette, Handlebars, _, App, L, OAuth, template, popupTemplate)
 	{

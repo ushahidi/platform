@@ -5,8 +5,8 @@
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Tests
- * @copyright  Ushahidi - http://www.ushahidi.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 class MediaModelTest extends Unittest_TestCase {

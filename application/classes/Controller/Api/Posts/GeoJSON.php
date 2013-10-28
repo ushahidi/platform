@@ -5,8 +5,8 @@
  * 
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Controllers
- * @copyright  Ushahidi - http://www.ushahidi.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
@@ -111,10 +111,15 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 				// Point
 				if ($attr->type == 'point')
 				{
-					$geometries[] = array(
-						'type' => 'Point',
-						'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
-					);
+					// ensure values aren't null - in case of junk in DB
+					if ($post['values'][$geom_key]['lon'] != NULL
+						AND $post['values'][$geom_key]['lat'] != NULL)
+					{
+						$geometries[] = array(
+							'type' => 'Point',
+							'coordinates' => array($post['values'][$geom_key]['lon'], $post['values'][$geom_key]['lat']),
+						);
+					}
 				}
 				// Geometry
 				else

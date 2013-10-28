@@ -1,4 +1,12 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
+/**
+ * Ushahidi Database Migration
+ *
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application\Migrations
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
 
 class Migration_3_0_20130604220936 extends Minion_Migration_Base {
 
