@@ -54,7 +54,10 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						title : 'Last Name',
 						type: 'Text'
 					},
-					'user.email' : 'Text',
+					'user.email' : {
+						type : 'Text',
+						title : 'Email'
+					},
 					tags : {
 						type : 'Select',
 						title : 'Tags',
