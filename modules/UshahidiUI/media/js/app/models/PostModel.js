@@ -120,21 +120,41 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 
 				return fieldsets;
 			},
-			validation : {
-				title : {
-					required : true,
-					maxLength : 150
-				},
-				content : {
-					required : true
-				},
-				status : {
-					required : true,
-					oneOf : ['published', 'draft', 'pending']
-				},
-				locale : {
-					required : true
+			validation : function ()
+			{
+				var rules = {
+					title : {
+						required : true,
+						maxLength : 150
+					},
+					content : {
+						required : true
+					},
+					status : {
+						required : true,
+						oneOf : ['published', 'draft', 'pending']
+					},
+					locale : {
+						required : true
+					},
+					'user.email' : {
+						pattern: 'email'
+					},
+					'user.first_name' : {
+						maxLength: 150
+					},
+					'user.last_name' : {
+						maxLength: 150
+					}
+				};
+
+				// Extend with form schema if form_id is set
+				if (this.get('form.id'))
+				{
+					rules = _.extend(rules, this.form.getPostValidation());
 				}
+
+				return rules;
 			},
 			initialize : function ()
 			{

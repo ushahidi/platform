@@ -96,6 +96,38 @@ define(['jquery', 'backbone', 'App'],
 				}
 
 				return fieldsets;
+			},
+			getPostValidation : function ()
+			{
+				var rules = {},
+					groups = this.get('groups'),
+					group,
+					attributes,
+					attribute,
+					i,
+					j;
+
+				for (i = 0; i < groups.length; i++)
+				{
+					group = groups[i];
+					attributes = group.attributes;
+
+					for (j = 0; j < attributes.length; j++)
+					{
+						attribute = attributes[j];
+						// Skip attribute if missing options
+						if (attribute.input === 'Select' && ! attribute.options)
+						{
+							continue;
+						}
+
+						rules['values.' + attribute.key] = {
+							required : attribute.required
+						};
+					}
+				}
+
+				return rules;
 			}
 		});
 		return FormModel;
