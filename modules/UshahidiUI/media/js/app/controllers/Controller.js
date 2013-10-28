@@ -170,6 +170,16 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 					}));
 					that.layout.footerRegion.close();
 				});
+			},
+			// Extra postCreate handler to give us a direct URL to posts/create
+			postCreate : function ()
+			{
+				if (typeof this.layout.mainRegion.currentView === 'undefined')
+				{
+					this.index();
+				}
+
+				this.modalController.postCreate();
 			}
 		});
 	});
