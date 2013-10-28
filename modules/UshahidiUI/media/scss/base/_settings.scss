@@ -59,6 +59,8 @@ $body-font-family: 'Open Sans', "Helvetica Neue", "Helvetica", Helvetica, Arial,
 $body-font-weight: normal;
 $body-font-style: normal;
 
+$workspace-body-bg: $midGray;
+
 // Font-smoothing
 
 $font-smoothing: antialiased;
@@ -1043,7 +1045,7 @@ $section-font-size: emCalc(16px);
 // Control the color of the background and some size options
 
 $section-content-bg: darken($white, $section-function-factor);
-$section-content-bg-active: darken($section-content-bg, $section-function-factor);
+$section-content-bg-active: $workspace-body-bg;
 $section-vertical-nav-min-width: emCalc(200px);
 $section-vertical-tabs-title-width: emCalc(200px);
 $section-bottom-margin: emCalc(0px);

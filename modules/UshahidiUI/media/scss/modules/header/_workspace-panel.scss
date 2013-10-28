@@ -20,7 +20,7 @@
 .workspace-panel {
 	margin-bottom: -9999px;
 	padding-bottom: 9999px;
-	background-color: $midGray;
+	background-color: $workspace-body-bg;
 	border-left: 3px solid $blueGray;
 }
 
@@ -132,8 +132,9 @@
 	color: $white;
 }
 
-.workspace-menu>section ul {
+.workspace-menu>section>.content {
   margin: 0;
+  padding: 0;
     li {
       padding: 10px 0;
       &.active {
@@ -152,9 +153,10 @@
     		}
     	}
     }
-
+    > *:first-child, > *:last-child:not(.flex-video) {
+    padding: 10px 0;
+    }
 }
-
 
 .workspace-menu>section>.js-title {
 	border: 0;
