@@ -66,12 +66,12 @@
 .set-detail-post-edit-wrapper {
 	@extend .list-view-post-edit-wrapper;
 	@media #{$small} {
-		@include grid-column(12);
+		@include grid-column(12, $collapse: true);
 		.list-view-post-edit {
 			float: left;
 		}
 		@media #{$medium} {
-			@include grid-column(6);
+			@include grid-column(6, $collapse: true);
 			.list-view-post-edit {
 				float: right;
 			}

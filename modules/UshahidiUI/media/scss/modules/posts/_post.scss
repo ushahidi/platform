@@ -53,6 +53,9 @@
  */
 .post-category-marker {
 	@include grid-column(2, $collapse: true);
+	background: image-url("category-icon.png") no-repeat;
+	@include image-2x("category-icon@2x.png", 34px, 34px);
+
 	@media #{$small} {
 		@include grid-column(1, $collapse: true);
 	}

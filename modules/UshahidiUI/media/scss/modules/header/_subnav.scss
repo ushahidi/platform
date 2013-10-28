@@ -23,11 +23,7 @@ nav[role="sub-navigation"] {
 		margin: 0;
 	}
 	/*not working because css3 animation don't support display*/
-	-webkit-transition: max-height .3s ease-in-out;
-		-moz-transition: max-height .3s ease-in-out;
-			-ms-transition: max-height .3s ease-in-out;
-				-o-transition: max-height .3s ease-in-out;
-					transition: max-height .3s ease-in-out;
+	@include transition (max-height .3s ease-in-out);
 }
 
 nav[role="sub-navigation"].subnav {
@@ -38,11 +34,7 @@ nav[role="sub-navigation"].subnav {
 
 /*nav[role="sub-navigation"] ul {
 	opacity: 0;
-	-webkit-transition: opacity .3s ease;
-		-moz-transition: opacity .3s ease;
-			-ms-transition: opacity .3s ease;
-				-o-transition: opacity .3s ease;
-					transition: opacity .3s ease;
+	@include transition (opacity .3s ease-in-out);
 }
 
 nav[role="sub-navigation"] ul.subnav {
