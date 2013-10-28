@@ -92,6 +92,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					// Push main fields onto first group.
 					fieldsets[0].name = 'main';
 					fieldsets[0].active = true;
+					fieldsets[0].fields.unshift('user');
 					fieldsets[0].fields.unshift('tags');
 					fieldsets[0].fields.unshift('content');
 					fieldsets[0].fields.unshift('title');
@@ -102,7 +103,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						{
 							name : 'main',
 							legend : '',
-							fields : ['title', 'content'],
+							fields : ['title', 'content', 'tags', 'user'],
 							active: true
 						}
 					);
