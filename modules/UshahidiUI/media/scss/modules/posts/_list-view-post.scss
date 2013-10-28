@@ -34,7 +34,8 @@
 	}
 	@media #{$medium-up} {
 		@include grid-column(1);
-		width: 10.33333%;
+		width: 12.33333%;
+
 	}
 	img {
 		margin: 10px 0 10px 0;
@@ -51,7 +52,7 @@
 	}
 	@media #{$medium-up} {
 		@include grid-column(11);
-		width: 89.66667%;
+		width: 87.66667%;
 	}
 }
 
@@ -93,7 +94,7 @@
 
 .list-view-post-admin {
 	@include grid-column(12);
-	margin: 20px 0;
+	margin: 10px 0 20px 0;
 	i {
 		padding: 0;
 	}

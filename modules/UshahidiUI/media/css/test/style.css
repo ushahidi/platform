@@ -7933,10 +7933,10 @@ nav[role="sub-navigation"] li a {
     padding-right: 0.9375em;
     width: 8.33333%;
     float: left;
-    width: 10.33333%;
+    width: 12.33333%;
   }
 }
-/* line 39, ../../scss/modules/posts/_list-view-post.scss */
+/* line 40, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-image img {
   margin: 10px 0 10px 0;
   line-height: 0;
@@ -7951,7 +7951,7 @@ nav[role="sub-navigation"] li a {
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
 }
 
-/* line 45, ../../scss/modules/posts/_list-view-post.scss */
+/* line 46, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-details {
   position: relative;
   padding-left: 0.9375em;
@@ -7962,7 +7962,7 @@ nav[role="sub-navigation"] li a {
   padding-left: 0;
 }
 @media only screen and (min-width: 768px) {
-  /* line 45, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 46, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-details {
     position: relative;
     padding-left: 0.9375em;
@@ -7972,18 +7972,18 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1025px) {
-  /* line 45, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 46, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-details {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
     width: 91.66667%;
     float: left;
-    width: 89.66667%;
+    width: 87.66667%;
   }
 }
 
-/* line 58, ../../scss/modules/posts/_list-view-post.scss */
+/* line 59, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-title {
   position: relative;
   padding-left: 0.9375em;
@@ -7992,7 +7992,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 58, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 59, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-title {
     position: relative;
     padding-left: 0.9375em;
@@ -8002,7 +8002,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 65, ../../scss/modules/posts/_list-view-post.scss */
+/* line 66, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-time {
   position: relative;
   padding-left: 0.9375em;
@@ -8011,12 +8011,12 @@ nav[role="sub-navigation"] li a {
   float: left;
   font-size: 15px;
 }
-/* line 68, ../../scss/modules/posts/_list-view-post.scss */
+/* line 69, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-time p {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 65, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 66, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-time {
     position: relative;
     padding-left: 0.9375em;
@@ -8024,13 +8024,13 @@ nav[role="sub-navigation"] li a {
     width: 33.33333%;
     float: left;
   }
-  /* line 73, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 74, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-time p {
     float: right;
   }
 }
 
-/* line 79, ../../scss/modules/posts/_list-view-post.scss */
+/* line 80, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-body {
   position: relative;
   padding-left: 0;
@@ -8039,7 +8039,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 79, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 80, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-body {
     position: relative;
     padding-left: 0;
@@ -8050,7 +8050,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 86, ../../scss/modules/posts/_list-view-post.scss */
+/* line 87, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-excerpt {
   position: relative;
   padding-left: 0.9375em;
@@ -8059,7 +8059,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 86, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 87, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-excerpt {
     position: relative;
     padding-left: 0.9375em;
@@ -8071,21 +8071,21 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 94, ../../scss/modules/posts/_list-view-post.scss */
+/* line 95, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-admin, .set-detail-post-admin {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  margin: 20px 0;
+  margin: 10px 0 20px 0;
 }
-/* line 97, ../../scss/modules/posts/_list-view-post.scss */
+/* line 98, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-admin i, .set-detail-post-admin i {
   padding: 0;
 }
 
-/* line 102, ../../scss/modules/posts/_list-view-post.scss */
+/* line 103, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories-wrapper, .set-detail-post-list-categories-wrapper {
   position: relative;
   padding-left: 0;
@@ -8093,20 +8093,20 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-/* line 104, ../../scss/modules/posts/_list-view-post.scss */
+/* line 105, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6 {
   margin: 0;
 }
-/* line 107, ../../scss/modules/posts/_list-view-post.scss */
+/* line 108, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories-wrapper button, .set-detail-post-list-categories-wrapper button {
   margin-bottom: 0;
 }
-/* line 109, ../../scss/modules/posts/_list-view-post.scss */
+/* line 110, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories-wrapper button i, .set-detail-post-list-categories-wrapper button i {
   padding-right: 5px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 102, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 103, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-categories-wrapper, .set-detail-post-list-categories-wrapper {
     position: relative;
     padding-left: 0;
@@ -8116,27 +8116,27 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 118, ../../scss/modules/posts/_list-view-post.scss */
+/* line 119, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories {
   margin: 0;
 }
-/* line 120, ../../scss/modules/posts/_list-view-post.scss */
+/* line 121, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories a {
   color: #a3a3a3;
 }
-/* line 123, ../../scss/modules/posts/_list-view-post.scss */
+/* line 124, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories li {
   display: inline;
   font-size: 70%;
   padding-right: 5px;
 }
-/* line 128, ../../scss/modules/posts/_list-view-post.scss */
+/* line 129, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-categories .icon-circle {
   color: #c50813;
   padding-right: 5px;
 }
 
-/* line 134, ../../scss/modules/posts/_list-view-post.scss */
+/* line 135, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit-wrapper, .set-detail-post-edit-wrapper {
   position: relative;
   padding-left: 0;
@@ -8146,7 +8146,7 @@ nav[role="sub-navigation"] li a {
   margin-top: 20px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 134, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 135, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-edit-wrapper, .set-detail-post-edit-wrapper {
     position: relative;
     padding-left: 0;
@@ -8158,27 +8158,27 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 144, ../../scss/modules/posts/_list-view-post.scss */
+/* line 145, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit {
   margin-left: 0;
 }
-/* line 146, ../../scss/modules/posts/_list-view-post.scss */
+/* line 147, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit li {
   display: inline;
   float: left;
   padding: 0 20px 0 0;
 }
-/* line 150, ../../scss/modules/posts/_list-view-post.scss */
+/* line 151, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit li a {
   margin-bottom: 0;
 }
-/* line 154, ../../scss/modules/posts/_list-view-post.scss */
+/* line 155, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit button.expand, .list-view-post-edit .button.expand {
   padding-right: 1.125em;
   padding-left: 1.125em;
 }
 @media only screen and (min-width: 768px) {
-  /* line 144, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 145, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-edit {
     display: block;
     padding: 0;
@@ -8203,13 +8203,13 @@ nav[role="sub-navigation"] li a {
     float: left;
     padding: 0 0.625em 1.25em;
   }
-  /* line 162, ../../scss/modules/posts/_list-view-post.scss */
+  /* line 163, ../../scss/modules/posts/_list-view-post.scss */
   .list-view-post-edit li {
     padding-bottom: 3px;
   }
 }
 
-/* line 168, ../../scss/modules/posts/_list-view-post.scss */
+/* line 169, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit-buttons {
   border-style: solid;
   border-width: 1px;
@@ -9319,7 +9319,7 @@ nav[role="sub-navigation"] li a {
     clear: both;
   }
 }
-@media only screen and (orientation: landscape) {
+@media only screen and (min-width: 421px) {
   /* line 76, ../../scss/modules/sets/_sets.scss */
   .sets-grid {
     display: block;
@@ -9459,7 +9459,7 @@ nav[role="sub-navigation"] li a {
   }
   /* line 36, ../../scss/foundation/components/_block-grid.scss */
   .sets-grid > li {
-    width: 50%;
+    width: 33.33333%;
     padding: 0 0.625em 1.25em;
   }
   /* line 40, ../../scss/foundation/components/_block-grid.scss */
@@ -9467,7 +9467,7 @@ nav[role="sub-navigation"] li a {
     clear: none;
   }
   /* line 41, ../../scss/foundation/components/_block-grid.scss */
-  .sets-grid > li:nth-of-type(2n+1) {
+  .sets-grid > li:nth-of-type(3n+1) {
     clear: both;
   }
 }

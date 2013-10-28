@@ -110,6 +110,8 @@ $include-html-tooltip-classes: $include-html-classes;
 
 // Media Queries
 
+$mobile-screen: 420px;
+$mobile-up-screen: 421px;
 $small-screen: 768px;
 $medium-screen: 1024px;
 $medium-up-screen: 1025px;
@@ -117,6 +119,8 @@ $large-screen: 1440px;
 $large-up-screen: 2200px;
 
 $screen: "only screen";
+$mobile: "only screen and (min-width: #{$mobile-screen})";
+$mobile-up: "only screen and (min-width: #{$mobile-up-screen})";
 $small: "only screen and (min-width: #{$small-screen})";
 $medium: "only screen and (min-width: #{$medium-screen})";
 $medium-up: "only screen and (min-width: #{$medium-up-screen})";
