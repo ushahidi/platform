@@ -34,7 +34,7 @@ form_attributes:
     label: "Test point"
     key: "test_point"
     type: "point"
-    input: "text"
+    input: "location"
     required: 0
     priority: 1
     options: ""
