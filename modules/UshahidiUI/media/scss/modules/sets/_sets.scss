@@ -25,12 +25,22 @@
 	h5 {
 		letter-spacing: .1em;
 		color: $white;
-		margin: 0 0 5px 0;
+		margin: 0;
 	}
 	@media #{$small} {
-		@include grid-column(6);
-		border-right: 1px solid darken($blueGray, 10);
+		@include grid-column(5);
 	}
+	@media #{$medium} {
+		@include grid-column(6);
+	}
+}
+
+.sets-search-bar-subtitle {
+	font-size: 14px;
+	font-style: italic;
+	color: darken($lightGray, 10);
+	line-height: 1.2em;
+	margin-bottom: 0;
 }
 
 .sets-search-bar-create-button {
@@ -39,11 +49,14 @@
 	 	@include button($padding: emCalc(15px), $bg: $success-color, $radius: true, $full-width: true);
 	 }
  @media #{$small} {
-		@include grid-column(2);
+		@include grid-column(3);
 		border-right: 1px solid darken($blueGray, 10);
 		a {
 		 margin: 0;
 		}
+ }
+ @media #{$medium} {
+ 	@include grid-column(2);
  }
 }
 
