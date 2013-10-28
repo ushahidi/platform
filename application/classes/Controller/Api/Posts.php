@@ -457,7 +457,11 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					foreach ($value as $k => $v)
 					{
 						// Add error if no value passed
-						if (! isset($v['value'])) $validation->error("values.$key.$k", 'value_array_invalid');
+						if (! is_array($v) OR ! isset($v['value']))
+						{
+							$validation->error("values.$key.$k", 'value_array_invalid');
+							continue;
+						}
 
 						// Load existing Post_* object
 						if (! empty($v['id']))
