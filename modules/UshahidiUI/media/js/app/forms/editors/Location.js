@@ -12,6 +12,9 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		},
 
 		events: {
+			'click .map-search-btn' : 'search',
+			'keyUp .map-search-field' : 'searchKeyUp',
+			'click .geolocate-btn' : 'geolocate'
 		},
 
 		initialize : function(options)
@@ -76,7 +79,9 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			this.geosearch = new L.Control.GeoSearch({
 				provider: new L.GeoSearch.Provider.OpenStreetMap(),
 				zoomLevel : 15
-			}).addTo(this.map);
+			});
+			this.geosearch._positionMarker = this.marker;
+			this.geosearch._map = this.map;
 
 			// Add locate control to get user location
 			this.locate = new L.Control.Locate({
@@ -137,6 +142,33 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			{
 				this.map.invalidateSize();
 			}
+		},
+
+		geolocate : function(e)
+		{
+			e.preventDefault();
+
+			this.map.locate({
+				setView : true,
+				maxZoom : 15
+			});
+		},
+
+		searchKeyUp : function(e)
+		{
+			var enter = 13;
+
+			if (e.keyCode === enter) {
+				this.search(e);
+			}
+		},
+
+		search : function(e)
+		{
+			e.preventDefault();
+			var value = this.$('#' + this.id + '_label').val();
+
+			this.geosearch.geosearch(value);
 		}
 	});
 	return Location;
