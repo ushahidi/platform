@@ -1,4 +1,5 @@
 # Compass config file
+require "compass-csslint"
 
 # Set this to the root of your project when deployed:
 http_path = "/"
@@ -9,8 +10,11 @@ images_dir = "media/images"
 javascripts_dir = "media/js"
 fonts_dir = "media/fonts"
 
-output_style = :compressed
-#output_style = :nested
+# Production
+#output_style = :compressed
+
+# Development
+output_style = :expanded
 
 relative_assets = true
 
