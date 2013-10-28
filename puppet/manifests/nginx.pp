@@ -1,4 +1,4 @@
-class nginx {
+class base::nginx {
   $web_packages = [
       "nginx-full",
       "php5-fpm"

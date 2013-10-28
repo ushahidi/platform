@@ -1,4 +1,4 @@
-class phpunit {
+class base::phpunit {
   # phpunit
   exec {"pear-channel-phpunit":
     command => "pear channel-discover pear.phpunit.de",
