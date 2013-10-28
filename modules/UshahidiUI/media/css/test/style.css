@@ -5490,7 +5490,7 @@ a.button {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('../../images/logo.png?1381889821') no-repeat;
+  background: url('../../images/logo.png?1382660984') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -5682,7 +5682,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 31, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1381889816') no-repeat;
+  background: url('../../images/avatar.png?1382660984') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -6007,7 +6007,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  background: #22699d url('../../images/search-bg.jpg?1381889829') repeat;
+  background: #22699d url('../../images/search-bg.jpg?1382660984') repeat;
   width: 100%;
   border-top: 3px solid #12a0ba;
   padding-top: 2em; }
@@ -9154,7 +9154,7 @@ form.custom .custom.checkbox.checked:before {
 
 /* line 31, ../../scss/modules/modals/_create-post-modal.scss */
 .create-post-location-map {
-  background: url('../../images/map.jpg?1381889826') no-repeat;
+  background: url('../../images/map.jpg?1382660984') no-repeat;
   width: 100%;
   height: 100px;
   background-size: cover;
