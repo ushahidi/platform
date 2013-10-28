@@ -565,7 +565,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						->find();
 					}
 					// Just ID
-					elseif (is_int($value))
+					elseif (is_numeric($value) AND intval($value) > 0)
 					{
 						$tag = ORM::factory('Tag')
 						->where('id', '=', $value)
