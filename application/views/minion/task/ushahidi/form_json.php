@@ -39,7 +39,7 @@
 					"key":"location",
 					"label":"Location",
 					"type":"point",
-					"input":"text",
+					"input":"location",
 					"required":true,
 					"priority":2
 				},
