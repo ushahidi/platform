@@ -59,7 +59,9 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				var that = this,
 					errors;
 
-				errors = this.form.commit();
+				e.preventDefault();
+
+				errors = this.form.commit({ validate: true });
 
 				if (! errors)
 				{
@@ -82,8 +84,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 								}
 							});
 				}
-
-				e.preventDefault();
 			},
 			switchFieldSet : function (e)
 			{

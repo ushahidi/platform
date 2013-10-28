@@ -1937,9 +1937,7 @@ Form.editors.Object = Form.editors.Base.extend({
     //Check required options
     if (!this.form) throw 'Missing required option "form"';
     if (!this.schema.subSchema) throw new Error("Missing required 'schema.subSchema' option for Object editor");
-  },
 
-  render: function() {
     //Get the constructor for creating the nested form; i.e. the same constructor as used by the parent form
     var NestedForm = this.form.NestedForm;
 
@@ -1950,6 +1948,9 @@ Form.editors.Object = Form.editors.Base.extend({
       idPrefix: this.id + '_',
       Field: NestedForm.NestedField
     });
+  },
+
+  render: function() {
 
     this._observeFormEvents();
 
