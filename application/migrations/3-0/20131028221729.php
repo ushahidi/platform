@@ -50,6 +50,14 @@ class Migration_3_0_20131028221729 extends Minion_Migration_Base {
 			")->bind(':field_id', $field_id)
 			->bind(':post', $post_id)
 			->execute($db);
+
+		DB::query(DATABASE::INSERT, "
+			INSERT INTO `tags` (`tag`, `slug`, `type`, `color`, `description`, `priority`)
+			VALUES
+				('example1', 'example1', 'category', 'ff0000', 'Example Category', 0),
+				('example2', 'example2', 'category', '00ff00', 'Example Category', 0),
+				('example3', 'example3', 'category', '0000ff', 'Example Category', 0)
+			")->execute($db);
 	}
 
 	/**
