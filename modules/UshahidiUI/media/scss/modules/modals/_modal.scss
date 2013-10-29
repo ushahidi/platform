@@ -4,6 +4,7 @@
 /**
  * MODAL...............via Reveal.js included in Foundation
  * MODAL BODY...............all input fields and dropdowns
+ * MEDIA ICONS...............icons for uploading various media
  */
 
 
@@ -76,5 +77,92 @@
 	button {
 		@include button($bg: $success-color, $radius: true, $full-width: true);
 		margin-bottom: 0;
+	}
+}
+
+/*------------------------------------*\
+		$UPLOAD MEDIA BAR
+\*------------------------------------*/
+
+.media-bar{
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(8);
+		padding: 0 20px;
+	}
+}
+
+.media-bar-uploads-wrap {
+	@include grid-column(12);
+	padding: 0;
+	border-bottom: 1px solid $darkGray;
+	@media #{$small} {
+		@include grid-column(12, $collapse: true);
+		margin: 2px 0 1px;
+		border-bottom: 0;
+	}
+}
+
+.media-bar-uploads {
+	@include block-grid($spacing: 0px);
+	padding: 0 10px;
+	@media #{$small} {
+		padding: 0;
+	}
+}
+
+
+
+
+/*------------------------------------*\
+		$MEDIA ICONS
+\*------------------------------------*/
+
+.select-icon {
+	width: 56px;
+	height: 60px !important;
+	[class^="fa"] {
+		position: relative;
+		top: 20px;
+		left: 20px;
+		padding: 0;
+		@media #{$small} {
+			left: 0;
+		}
+	}
+}
+
+.upload-location {
+	.fa-map-marker {
+		font-size: 19px;
+		color: $white;
+	}
+}
+
+.upload-image {
+	.fa-picture-o {
+		font-size: 19px;
+		color: $white;
+	}
+}
+
+.upload-video {
+	.fa-video-camera {
+		font-size: 19px;
+		color: $white;
+	}
+}
+
+.upload-link {
+	.fa-link {
+		font-size: 19px;
+		color: $white;
+	}
+}
+
+.upload-audio {
+	.fa-microphone {
+		font-size: 20px;
+		color: $white;
 	}
 }

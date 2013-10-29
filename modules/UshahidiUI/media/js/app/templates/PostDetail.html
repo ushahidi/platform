@@ -9,16 +9,16 @@
 
 		<div class="post-actions-wrapper">
 			<ul class="post-actions">
-				<li><a href="#" class="post-actions-button"> <i class="icon-edit"></i>edit</a></li>
-				<li><a href="#" class="post-actions-button"> <i class="icon-plus-sign"></i>set</a></li>
+				<li><a href="#" class="post-actions-button"> <i class="fa  fa-edit"></i>edit</a></li>
+				<li><a href="#" class="post-actions-button"> <i class="fa  fa-plus"></i>set</a></li>
 				<li>
 					{{#if isPublished}}
-						<a href="#" class="post-actions-button  post-unpublish"> <i class="icon-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
+						<a href="#" class="post-actions-button  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
 					{{else}}
-						<a href="#" class="post-actions-button  post-publish"> <i class="icon-file"></i> <span class="hide-for-medium-down">publish</span></a>
+						<a href="#" class="post-actions-button  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
 					{{/if}}
 				</li>
-				<li><a href="#" class="post-actions-button  post-delete"> <i class="icon-trash"></i></a></li>
+				<li><a href="#" class="post-actions-button  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
 			</ul>
 		</div> <!-- end .post-actions -->
 
@@ -32,25 +32,25 @@
 				<div class="post-meta-details">
 					<h6>Post Details</h6>
 					<div class="post-author">
-						<p><i class="icon-user"></i><strong class="" >{{#if user}}<a href="#users/{{user.id}}">{{user.first_name}} {{user.last_name}}</a>{{else}}Anonymous{{/if}}</strong></p>
+						<p><i class="fa  fa-user"></i><strong class="" >{{#if user}}<a href="#users/{{user.id}}">{{user.first_name}} {{user.last_name}}</a>{{else}}Anonymous{{/if}}</strong></p>
 					</div> <!-- end .post-author -->
 
 					{{#if location}}
 					<div class="post-location-meta">
-						<p><i class="icon-map-marker"></i><span class="post-location  underline" ><a href="">{{location.lat}}, {{location.lon}}</a></span></p>
+						<p><i class="fa  fa-map-marker"></i><span class="post-location  underline" ><a href="">{{location.lat}}, {{location.lon}}</a></span></p>
 					</div> <!-- end .post-location-meta -->
 					{{/if}}
 
 					<div class="post-time-meta">
-						<p><i class="icon-time"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
+						<p><i class="fa  fa-clock-o"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
 					</div> <!-- end .post-time-meta -->
 
 					<div class="post-privacy-status">
 						{{#if isPublished}}
-							<p><i class="icon-unlock"></i><strong class="post-time" >Published</strong></p>
+							<p><i class="fa  fa-unlock"></i><strong class="post-time" >Published</strong></p>
 						{{else}}
 							{{!-- @todo add ucfirst handler and format status --}}
-							<p><i class="icon-lock"></i><strong class="post-time" >{{status}}</strong></p>
+							<p><i class="fa  fa-lock"></i><strong class="post-time" >{{status}}</strong></p>
 						{{/if}}
 					</div> <!-- end .post-privacy-status -->
 				</div> <!-- end .post-details -->
@@ -60,7 +60,7 @@
 					<h6>Categories</h6>
 					<ul>
 						{{#each tags}}
-						<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}><i class="icon-circle"  {{#if color}}style="color: #{{color}}"{{/if}}></i>{{tag}}</li></a>
+						<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}><i class="fa  fa-circle"  {{#if color}}style="color: #{{color}}"{{/if}}></i>{{tag}}</li></a>
 						{{/each}}
 					</ul>
 				</div> <!-- end .post-categories-wrapper -->
@@ -80,7 +80,7 @@
 
 		</div> <!-- end .post-details -->
 		<hr>
-		<p class="click-to-zoom"><small><i class="icon-zoom-in"></i> click images to zoom</small></p>
+		<p class="click-to-zoom"><small><i class="fa  fa-search-plus"></i> click images to zoom</small></p>
 		<div class="post-thumbnails-wrapper">
 			<ul class="post-thumbnails  js-lightbox-gallery">
 				<li><a href="{{ imageurl "mini-coop.jpg"}}"><img src="{{ imageurl "mini-coop.jpg"}}" alt=""></a></li>

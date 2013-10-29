@@ -95,9 +95,6 @@
 .list-view-post-admin {
 	@include grid-column(12);
 	margin: 10px 0 20px 0;
-	i {
-		padding: 0;
-	}
 }
 
 .list-view-post-categories-wrapper {
@@ -126,7 +123,7 @@
 		font-size: $small-font-size;
 		padding-right: 5px;
 	}
-	.icon-circle {
+	.fa-circle {
 		color: $alert-color;
 		padding-right: 5px;
 	}
