@@ -152,7 +152,7 @@ prototypes. They look real, but they're not powered by real data.
 * Editing posts
 * Adding posts to sets
 
-#### Authorization (aka. why does it asking me to 'Authorize This Request'?)
+#### Authorization (aka. why does it keep asking me to 'Authorize This Request'?)
 
 Our authorization is currently a quick hack. The JS app hits the API directly,
 and this means it has to use a standard OAuth authorization flow. At the moment
