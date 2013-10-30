@@ -141,7 +141,7 @@
 
 .list-view-post-edit {
 	margin-left: 0;
-	li {
+	> li {
 		display: inline;
 		float: left;
 		padding: 0 20px 0 0;
@@ -152,6 +152,9 @@
 	button.expand, .button.expand {
 		padding-right: 1.125em;
 		padding-left: 1.125em;
+	}
+	[class^="fa"], [class*=" fa"] {
+		padding: 0;
 	}
 	@media #{$small} {
 		@include block-grid($per-row: false, $spacing: emCalc(20px));

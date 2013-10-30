@@ -8140,7 +8140,7 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 132, ../../scss/modules/posts/_list-view-post.scss */
-.list-view-post-edit-wrapper, .set-detail-post-edit-wrapper {
+.list-view-post-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
   position: relative;
   padding-left: 0;
   padding-right: 0;
@@ -8150,7 +8150,7 @@ nav[role="sub-navigation"] li a {
 }
 @media only screen and (min-width: 768px) {
   /* line 132, ../../scss/modules/posts/_list-view-post.scss */
-  .list-view-post-edit-wrapper, .set-detail-post-edit-wrapper {
+  .list-view-post-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -8162,27 +8162,31 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 142, ../../scss/modules/posts/_list-view-post.scss */
-.list-view-post-edit {
+.list-view-post-edit, .post-actions {
   margin-left: 0;
 }
 /* line 144, ../../scss/modules/posts/_list-view-post.scss */
-.list-view-post-edit li {
+.list-view-post-edit > li, .post-actions > li {
   display: inline;
   float: left;
   padding: 0 20px 0 0;
 }
 /* line 148, ../../scss/modules/posts/_list-view-post.scss */
-.list-view-post-edit li a {
+.list-view-post-edit > li a, .post-actions > li a {
   margin-bottom: 0;
 }
 /* line 152, ../../scss/modules/posts/_list-view-post.scss */
-.list-view-post-edit button.expand, .list-view-post-edit .button.expand {
+.list-view-post-edit button.expand, .post-actions button.expand, .list-view-post-edit .button.expand, .post-actions .button.expand {
   padding-right: 1.125em;
   padding-left: 1.125em;
 }
+/* line 156, ../../scss/modules/posts/_list-view-post.scss */
+.list-view-post-edit [class^="fa"], .post-actions [class^="fa"], .list-view-post-edit [class*=" fa"], .post-actions [class*=" fa"] {
+  padding: 0;
+}
 @media only screen and (min-width: 768px) {
   /* line 142, ../../scss/modules/posts/_list-view-post.scss */
-  .list-view-post-edit {
+  .list-view-post-edit, .post-actions {
     display: block;
     padding: 0;
     margin: 0 -0.625em;
@@ -8191,28 +8195,28 @@ nav[role="sub-navigation"] li a {
     padding-top: 13px;
   }
   /* line 121, ../../scss/foundation/components/_global.scss */
-  .list-view-post-edit:before, .list-view-post-edit:after {
+  .list-view-post-edit:before, .post-actions:before, .list-view-post-edit:after, .post-actions:after {
     content: " ";
     display: table;
   }
   /* line 122, ../../scss/foundation/components/_global.scss */
-  .list-view-post-edit:after {
+  .list-view-post-edit:after, .post-actions:after {
     clear: both;
   }
   /* line 27, ../../scss/foundation/components/_block-grid.scss */
-  .list-view-post-edit > li {
+  .list-view-post-edit > li, .post-actions > li {
     display: inline;
     height: auto;
     float: left;
     padding: 0 0.625em 1.25em;
   }
-  /* line 160, ../../scss/modules/posts/_list-view-post.scss */
-  .list-view-post-edit li {
+  /* line 163, ../../scss/modules/posts/_list-view-post.scss */
+  .list-view-post-edit li, .post-actions li {
     padding-bottom: 3px;
   }
 }
 
-/* line 166, ../../scss/modules/posts/_list-view-post.scss */
+/* line 169, ../../scss/modules/posts/_list-view-post.scss */
 .list-view-post-edit-buttons {
   border-style: solid;
   border-width: 1px;
@@ -8373,65 +8377,42 @@ nav[role="sub-navigation"] li a {
 @media only screen and (min-width: 768px) {
   /* line 65, ../../scss/modules/posts/_post.scss */
   .post-title {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 100%;
-    float: left;
     margin-bottom: 0px;
   }
 }
-@media only screen and (min-width: 1024px) {
-  /* line 65, ../../scss/modules/posts/_post.scss */
-  .post-title {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 50%;
-    float: left;
-  }
-}
 
-/* line 78, ../../scss/modules/posts/_post.scss */
+/* line 74, ../../scss/modules/posts/_post.scss */
 .post-actions-wrapper {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left;
+  margin-top: 0;
 }
 @media only screen and (min-width: 768px) {
-  /* line 78, ../../scss/modules/posts/_post.scss */
+  /* line 74, ../../scss/modules/posts/_post.scss */
   .post-actions-wrapper {
-    margin-top: 20px;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 78, ../../scss/modules/posts/_post.scss */
-  .post-actions-wrapper {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 50%;
+    width: 100%;
     float: left;
-    margin-top: 0;
   }
 }
 
-/* line 89, ../../scss/modules/posts/_post.scss */
+/* line 83, ../../scss/modules/posts/_post.scss */
 .post-actions {
-  float: right;
   margin: 0;
 }
-/* line 92, ../../scss/modules/posts/_post.scss */
-.post-actions li {
-  display: inline;
+@media only screen and (min-width: 768px) {
+  /* line 83, ../../scss/modules/posts/_post.scss */
+  .post-actions {
+    float: left;
+    margin: 20px 0 0 0;
+  }
+  /* line 89, ../../scss/modules/posts/_post.scss */
+  .post-actions li {
+    padding: 0 1em 0 0;
+  }
 }
 
 /*------------------------------------*\
 		$POST BODY
 \*------------------------------------*/
-/* line 106, ../../scss/modules/posts/_post.scss */
+/* line 104, ../../scss/modules/posts/_post.scss */
 .post-body {
   position: relative;
   padding-left: 0.9375em;
@@ -8443,7 +8424,7 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 20px;
 }
 
-/* line 114, ../../scss/modules/posts/_post.scss */
+/* line 112, ../../scss/modules/posts/_post.scss */
 .post-image {
   position: relative;
   padding-left: 0;
@@ -8453,7 +8434,7 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 20px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 114, ../../scss/modules/posts/_post.scss */
+  /* line 112, ../../scss/modules/posts/_post.scss */
   .post-image {
     position: relative;
     padding-left: 0;
@@ -8463,7 +8444,7 @@ nav[role="sub-navigation"] li a {
     margin-bottom: 0;
   }
 }
-/* line 121, ../../scss/modules/posts/_post.scss */
+/* line 119, ../../scss/modules/posts/_post.scss */
 .post-image img {
   line-height: 0;
   display: inline-block;
@@ -8478,7 +8459,7 @@ nav[role="sub-navigation"] li a {
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
 }
 
-/* line 127, ../../scss/modules/posts/_post.scss */
+/* line 125, ../../scss/modules/posts/_post.scss */
 .post-details {
   position: relative;
   padding-left: 0;
@@ -8487,7 +8468,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 127, ../../scss/modules/posts/_post.scss */
+  /* line 125, ../../scss/modules/posts/_post.scss */
   .post-details {
     position: relative;
     padding-left: 0.9375em;
@@ -8497,7 +8478,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 134, ../../scss/modules/posts/_post.scss */
+/* line 132, ../../scss/modules/posts/_post.scss */
 .post-excerpt, .related-post-excerpt {
   position: relative;
   padding-left: 0;
@@ -8506,13 +8487,13 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 134, ../../scss/modules/posts/_post.scss */
+  /* line 132, ../../scss/modules/posts/_post.scss */
   .post-excerpt, .related-post-excerpt {
     padding-right: 0;
   }
 }
 
-/* line 141, ../../scss/modules/posts/_post.scss */
+/* line 139, ../../scss/modules/posts/_post.scss */
 .post-meta {
   position: relative;
   padding-left: 0;
@@ -8520,14 +8501,14 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-/* line 143, ../../scss/modules/posts/_post.scss */
+/* line 141, ../../scss/modules/posts/_post.scss */
 .post-meta p {
   font-size: 70%;
   color: #a3a3a3;
   margin-bottom: .7em;
 }
 
-/* line 150, ../../scss/modules/posts/_post.scss */
+/* line 148, ../../scss/modules/posts/_post.scss */
 .post-meta-details {
   margin-bottom: 20px;
   *zoom: 1;
@@ -8542,7 +8523,7 @@ nav[role="sub-navigation"] li a {
   clear: both;
 }
 
-/* line 155, ../../scss/modules/posts/_post.scss */
+/* line 153, ../../scss/modules/posts/_post.scss */
 .post-author {
   position: relative;
   padding-left: 0;
@@ -8551,7 +8532,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 159, ../../scss/modules/posts/_post.scss */
+/* line 157, ../../scss/modules/posts/_post.scss */
 .post-location-meta {
   position: relative;
   padding-left: 0;
@@ -8560,12 +8541,12 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 163, ../../scss/modules/posts/_post.scss */
+/* line 161, ../../scss/modules/posts/_post.scss */
 .post-location {
   font-weight: bold;
 }
 
-/* line 167, ../../scss/modules/posts/_post.scss */
+/* line 165, ../../scss/modules/posts/_post.scss */
 .post-time-meta {
   position: relative;
   padding-left: 0;
@@ -8574,7 +8555,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 171, ../../scss/modules/posts/_post.scss */
+/* line 169, ../../scss/modules/posts/_post.scss */
 .post-privacy-status {
   position: relative;
   padding-left: 0;
@@ -8583,7 +8564,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 175, ../../scss/modules/posts/_post.scss */
+/* line 173, ../../scss/modules/posts/_post.scss */
 .post-categories {
   position: relative;
   padding-left: 0;
@@ -8591,22 +8572,22 @@ nav[role="sub-navigation"] li a {
   width: 50%;
   float: left;
 }
-/* line 177, ../../scss/modules/posts/_post.scss */
+/* line 175, ../../scss/modules/posts/_post.scss */
 .post-categories ul {
   margin: 0;
 }
-/* line 179, ../../scss/modules/posts/_post.scss */
+/* line 177, ../../scss/modules/posts/_post.scss */
 .post-categories ul a {
   color: #a3a3a3;
 }
-/* line 182, ../../scss/modules/posts/_post.scss */
+/* line 180, ../../scss/modules/posts/_post.scss */
 .post-categories ul li {
   font-size: 70%;
   padding-right: 5px;
   margin-bottom: .7em;
 }
 @media only screen and (min-width: 768px) {
-  /* line 175, ../../scss/modules/posts/_post.scss */
+  /* line 173, ../../scss/modules/posts/_post.scss */
   .post-categories {
     position: relative;
     padding-left: 0;
@@ -8616,7 +8597,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 193, ../../scss/modules/posts/_post.scss */
+/* line 191, ../../scss/modules/posts/_post.scss */
 .post-details-button {
   position: relative;
   padding-left: 0;
@@ -8626,12 +8607,12 @@ nav[role="sub-navigation"] li a {
   margin-top: 10px;
   float: right;
 }
-/* line 197, ../../scss/modules/posts/_post.scss */
+/* line 195, ../../scss/modules/posts/_post.scss */
 .post-details-button .button {
   float: right;
 }
 @media only screen and (min-width: 768px) {
-  /* line 193, ../../scss/modules/posts/_post.scss */
+  /* line 191, ../../scss/modules/posts/_post.scss */
   .post-details-button {
     position: relative;
     padding-left: 0;
@@ -8640,7 +8621,7 @@ nav[role="sub-navigation"] li a {
     float: left;
     margin-top: 7px;
   }
-  /* line 203, ../../scss/modules/posts/_post.scss */
+  /* line 201, ../../scss/modules/posts/_post.scss */
   .post-details-button .button {
     float: right;
   }
@@ -9780,7 +9761,7 @@ TODO: may need a notification mixin here
     float: left;
   }
   /* line 70, ../../scss/modules/sets/_set-details.scss */
-  .set-detail-post-edit-wrapper .list-view-post-edit {
+  .set-detail-post-edit-wrapper .list-view-post-edit, .set-detail-post-edit-wrapper .post-actions {
     float: left;
   }
 }
@@ -9794,7 +9775,7 @@ TODO: may need a notification mixin here
     float: left;
   }
   /* line 75, ../../scss/modules/sets/_set-details.scss */
-  .set-detail-post-edit-wrapper .list-view-post-edit {
+  .set-detail-post-edit-wrapper .list-view-post-edit, .set-detail-post-edit-wrapper .post-actions {
     float: right;
   }
 }
