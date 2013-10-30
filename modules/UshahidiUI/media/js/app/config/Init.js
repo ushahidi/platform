@@ -60,6 +60,9 @@ require.config(
 		// Backbone.validateAll plugin (https://github.com/gfranko/Backbone.validateAll)
 		'backbone.validateAll' : ['backbone'],
 
+		// Deep model supposedly has AMD support but adds a bunch of underscore mixins before loading underscore
+		'backbone-deep-model' : ['underscore', 'backbone'],
+
 		'leaflet': {
 			deps: ['jquery'],
 			exports: 'L'
