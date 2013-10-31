@@ -45,3 +45,8 @@ Kohana License Agreement <http://kohanaframework.org/license>
 * Lodash is available under MIT License <https://github.com/lodash/lodash/blob/master/LICENSE.txt>
 * Jasmine is available under MIT License <https://github.com/pivotal/jasmine/blob/master/MIT.LICENSE>
 * Moment JS is available under MIT License <https://github.com/moment/moment/blob/develop/LICENSE>
+* Backbone Deep Model is available under MIT License <https://github.com/powmedia/backbone-deep-model/blob/master/LICENSE>
+* Leaflet Locate Control is available under MIT License <https://github.com/domoritz/leaflet-locatecontrol>
+* Leaflet GeoSearch Control is available under BSD License <https://github.com/smeijer/L.GeoSearch/blob/master/LICENSE>
+* Backbone Validation is available under MIT License <http://thedersen.mit-license.org/>
+* Backbone Forms is available under MIT License <https://github.com/powmedia/backbone-forms/blob/master/LICENSE>

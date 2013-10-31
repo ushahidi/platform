@@ -18,8 +18,10 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<!-- Leaflet CSS -->
 		<link rel="stylesheet" href="<?php echo Media::url('css/leaflet.css'); ?>" />
+		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.css'); ?>"/>
 		<!--[if lte IE 8]>
 		    <link rel="stylesheet" href="<?php echo Media::url('css/leaflet.ie.css'); ?>" />
+				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
 		<![endif]-->
 		
 		<!-- Mobile viewport optimized: h5bp.com/viewport -->
@@ -28,12 +30,6 @@
 		<!--Change to app.min.css for production-->
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
 		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
-		
-		<!-- Font Awesome CSS -->
-		<link href="<?php echo Media::url('css/font-awesome.min.css'); ?>" rel="stylesheet">
-		<!--[if IE 7]>
-			<link rel="stylesheet" href="<?php echo Media::url('css/font-awesome-ie7.min.css'); ?>">
-		<![endif]-->
 		
 		<!-- Global site config -->
 		<script type="text/javascript">

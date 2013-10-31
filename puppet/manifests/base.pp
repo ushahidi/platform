@@ -2,6 +2,10 @@ Exec {
     path => "/usr/sbin:/usr/bin:/sbin:/bin",
 }
 
+import "apache2.pp"
+import "php.pp"
+import "phpunit.pp"
+
 group { "puppet":
   ensure => "present",
 }
@@ -61,9 +65,9 @@ bulkpackage { "misc-packages":
 
 package { $misc_packages: }
 
-include apache2
-include php
-include phpunit
+include base::apache2
+include base::php
+include base::phpunit
 
 #@todo: disable default site
 #@todo: add ushahidi vhost and enable

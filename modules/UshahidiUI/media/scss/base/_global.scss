@@ -22,18 +22,12 @@ html, body {
 }
 
 /*Font-Awesome global icon padding*/
-i {
-	padding-right: 10px;
+[class^="fa"], [class*=" fa"] {
+	padding-right: emCalc(10px);
 }
 
-/*custom css for Typekit asynchronous loading*/
-.wf-loading {
-	visibility: hidden;
-}
-.wf-active {
-	visibility: visible;
-}
 
+/*custom text selection*/
 ::-moz-selection {
 		color: white;
 		background: $blueGray;
@@ -43,14 +37,11 @@ i {
 		background: $blueGray;
 }
 
+
 ul.pagination li.current a {
-	-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-			border-radius: 3px;
+	@include border-radius(3px);
 }
 
 ul.pagination li:hover a, ul.pagination li a:focus {
-	-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-			border-radius: 3px;
+	@include border-radius(3px);
 }

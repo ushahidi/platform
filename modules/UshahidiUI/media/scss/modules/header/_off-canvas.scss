@@ -27,11 +27,7 @@
 	float: left;
 	clear: both;
 	margin-left: 0px;
-	-webkit-transition: margin .3s ease;
-		-moz-transition: margin .3s ease;
-			-ms-transition: margin .3s ease;
-				-o-transition: margin .3s ease;
-					transition: margin .3s ease;
+	@include transition (margin .3s ease-in-out);
 
 }
 

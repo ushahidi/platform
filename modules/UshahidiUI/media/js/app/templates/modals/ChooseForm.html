@@ -1,0 +1,15 @@
+	<div class="modal-header">
+		<h4>Create Post</h4>
+		<a class="close-reveal-modal">&#215;</a>
+	</div> <!-- end modal-header -->
+
+	<div class="modal-wrapper">
+		<h3>I want to create a..</h3>
+		<ul class="forms-grid  js-forms-grid  show-for-medium-up">
+			{{#each forms}}
+				<li id="form-{{id}}" data-form-id="{{id}}">{{name}}</li>
+			{{/each}}
+		</ul> <!-- end .sets-grid -->
+
+	</div> <!-- end modal-wrapper -->
+

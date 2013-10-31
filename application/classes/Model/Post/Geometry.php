@@ -42,8 +42,10 @@ class Model_Post_Geometry extends Model_Post_Value {
 
 	public function validate_wkt($value)
 	{
+		if (empty($value)) return TRUE;
+
 		if (! is_string($value)) return FALSE;
-		
+
 		$decoder = new gisconverter\WKT();
 		try
 		{
@@ -73,7 +75,7 @@ class Model_Post_Geometry extends Model_Post_Value {
 		}
 
 		$original_value = FALSE;
-		if (is_string($this->_object['value']))
+		if (is_string($this->_object['value']) AND ! empty($this->_object['value']))
 		{
 			$original_value = $this->_object['value'];
 			$this->_object['value'] = DB::expr('GeomFromText(:wkt)', array(':wkt' => $this->_object['value']));
