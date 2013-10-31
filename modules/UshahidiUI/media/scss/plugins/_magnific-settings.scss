@@ -54,7 +54,5 @@ $caption-subtitle-color:          #BDBDBD;                    // Caption subtitl
 //Custom Styles
 
 .mfp-close, .mfp-arrow {
-	-webkit-box-shadow: none;
-		-moz-box-shadow: none;
-			box-shadow: none;
+	box-shadow: none;
 }

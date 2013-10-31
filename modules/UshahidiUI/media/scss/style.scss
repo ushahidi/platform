@@ -41,7 +41,7 @@
 		$USER CONFIGS
 \*------------------------------------*/
 @import "base/settings";
-@import "base/base";
+@import "base/global";
 
 @import "tools/mixins";
 @import "tools/helpers";
@@ -115,6 +115,7 @@ NOTE: comment out what I don't use
 /*HEADER*/
 @import "modules/header/topbar";
 @import "modules/header/subnav";
+@import "modules/header/off-canvas";
 @import "modules/header/workspace-panel";
 
 /*MAP*/
@@ -155,7 +156,6 @@ NOTE: comment out what I don't use
 		$BOTTOM FILES
 \*------------------------------------*/
 @import "modules/forms/forms";
-@import "plugins/off-canvas";
 
 /* the `modules/modals` folder must be called at bottom */
 @import "modules/modals/modal";

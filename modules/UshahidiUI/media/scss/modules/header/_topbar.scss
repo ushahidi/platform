@@ -23,7 +23,7 @@
 	overflow: hidden;
 	@extend .box-shadow;
 	@media #{$small} {
-		@include box-shadow(0);
+		box-shadow: none;
 	}
 }
 
@@ -36,6 +36,7 @@
 
 .logo-image {
 	background: image-url("logo.png") no-repeat;
+	@include image-2x("logo@2x.png", 29px, 29px);
 	background-size: 100%;
 	height: 29px;
 	width: 29px;
