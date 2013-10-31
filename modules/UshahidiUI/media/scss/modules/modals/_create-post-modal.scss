@@ -14,12 +14,31 @@
  \*-----------------------------------------------------------*/
 
 
+
+
 .create-post-options {
 	@include grid-column(12);
 	margin-bottom: 40px;
 	padding: 0;
 	input[type="text"], textarea {
 		margin-bottom: 2em;
+	}
+
+	fieldset {
+		border: none;
+		padding: 0;
+		margin: 0;
+}
+
+	form > fieldset {
+		display:none;
+		&.active {
+			display: block;
+		}
+	}
+
+	label {
+		@extend h6;
 	}
 }
 

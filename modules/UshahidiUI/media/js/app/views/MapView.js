@@ -99,7 +99,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					zoom : 5,
 					layers : [minimal],
 					scrollWheelZoom : false,
-					prefix : false
+					attributionControl : false
 				});
 				
 				// Add the posts marker layer
@@ -146,9 +146,13 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 				
 				// Fix any leaflet weirdness after map resizes
 				// @TODO check if this works in older browsers, add backup delayed call if not
-				this.$el.on('transitionend', function ()
+				this.$el.on('transitionend', function (e)
 				{
-					that.map.invalidateSize();
+					// Make sure we only trigger this on size change for the actual map div
+					if (e.originalEvent.originalTarget.id === 'map')
+					{
+						that.map.invalidateSize();
+					}
 				});
 				
 				return this;

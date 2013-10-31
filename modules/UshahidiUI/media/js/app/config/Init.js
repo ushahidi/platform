@@ -19,6 +19,8 @@ require.config(
 		'marionette' : '../libs/backbone.marionette',
 		'handlebars' : '../libs/handlebars',
 		'leaflet' : '../libs/leaflet',
+		'l.geosearch' : '../libs/L.GeoSearch/src/js',
+		'leaflet-locatecontrol' : '../libs/leaflet-locatecontrol/src',
 		'jso2' : '../libs/jso2',
 		'store' : '../libs/jso2/store',
 		'utils' : '../libs/jso2/utils',
@@ -29,6 +31,10 @@ require.config(
 		'backbone.validateAll' : '../libs/Backbone.validateAll',
 		'backbone-pageable' : '../libs/backbone-pageable',
 		'handlebars-paginate' : '../libs/handlebars-paginate',
+		'backbone.syphon' : '../libs/backbone.syphon',
+		'backbone-forms' : '../libs/backbone-forms',
+		'backbone-deep-model' : '../libs/deep-model',
+		'backbone-validation' : '../libs/backbone-validation-amd',
 		'alertify' : '../libs/alertify',
 		'text' : '../libs/requirejs-text'
 	},
@@ -54,10 +60,42 @@ require.config(
 		// Backbone.validateAll plugin (https://github.com/gfranko/Backbone.validateAll)
 		'backbone.validateAll' : ['backbone'],
 
+		// Deep model supposedly has AMD support but adds a bunch of underscore mixins before loading underscore
+		'backbone-deep-model' : ['underscore', 'backbone'],
+
 		'leaflet': {
 			deps: ['jquery'],
 			exports: 'L'
 		},
+		'l.geosearch/l.control.geosearch': {
+			deps: ['leaflet'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.bing': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.esri': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.google': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.nokia': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'l.geosearch/l.geosearch.provider.openstreetmap': {
+			deps: ['leaflet', 'l.geosearch/l.control.geosearch'],
+			exports: 'L'
+		},
+		'leaflet-locatecontrol/L.Control.Locate.js': {
+			deps: ['leaflet'],
+			exports: 'L'
+		},
+
 		'moment': {
 			exports: 'moment'
 		},
@@ -82,7 +120,7 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'backbone.validateAll'],
+require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery'],
 	function(App, AppRouter, Controller)
 	{
 		App.appRouter = new AppRouter(

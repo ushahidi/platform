@@ -121,6 +121,49 @@ You can add per-environment config overrides in ```application/config/environmen
 
 Routes are configured in ```application/routes/default.php```. Additional routes can be added in per-environment routing files ie. ```application/routes/development.php```.
 
+Release Notes
+-------------
+
+### What to expect in the Developer Release (aka v3.0.0-alpha.1)
+
+We've built a working API and a basic JS powered UI, however there are still a lot of rough edges you should know about.
+
+#### What's working:
+* Post listings - listings work and load real data. They're page-able and sort-able, but not search-able yet.
+* Post detail pages - these work and load real data. However they don't render custom form data yet, and the images are faked.
+* Post create form - well kind of. It should mostly work, but there are definitely still bugs with this.
+* Posts delete
+
+#### What's not working:
+* Searching posts
+* Workspace menu - the menu is there, but none of the links do anything
+* Login
+* Register
+* Related posts - always shows the most recent 3 posts
+* Media - We're just using fake images at the moment, there's no way to upload new ones
+* Custom forms - these exist in the API, but there's no UI for managing them.
+
+#### Looks like it works, but doesn't
+There are a bunch of views built into that app that are really just design
+prototypes. They look real, but they're not powered by real data.
+
+* Sets listing
+* Set details
+* Editing posts
+* Adding posts to sets
+
+#### Authorization (aka. why does it keep asking me to 'Authorize This Request'?)
+
+Our authorization is currently a quick hack. The JS app hits the API directly,
+and this means it has to use a standard OAuth authorization flow. At the moment
+thats a plain unstyled bit of UI: the ugly 'Authorize This Request' screen.
+On top of that the default token time out is only an hour - so you'll often
+hit the authorize screen quite a few times while developing.
+
+This is temporary, we're working on a real solution, but for now please bear
+with us.
+
+
 Extras
 ------
 

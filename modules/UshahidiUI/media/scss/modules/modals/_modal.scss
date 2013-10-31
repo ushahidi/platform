@@ -80,6 +80,7 @@
 	}
 }
 
+
 /*------------------------------------*\
 		$UPLOAD MEDIA BAR
 \*------------------------------------*/
@@ -88,7 +89,7 @@
 	@include grid-column(12, $collapse: true);
 	@media #{$small} {
 		@include grid-column(8);
-		padding: 0 20px;
+		padding: 0;
 	}
 }
 
@@ -119,50 +120,24 @@
 \*------------------------------------*/
 
 .select-icon {
-	width: 56px;
-	height: 60px !important;
-	[class^="fa"] {
+	display: inline;
+
+	color: $white;
+	a {
+		display: block;
+		width: 56px;
+		height: 60px;
+		color: $white;
+		text-align: center;
+	}
+	[class^="fa-"] {
 		position: relative;
 		top: 20px;
 		left: 20px;
 		padding: 0;
+		font-size: 19px;
 		@media #{$small} {
 			left: 0;
 		}
-	}
-}
-
-.upload-location {
-	.fa-map-marker {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-image {
-	.fa-picture-o {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-video {
-	.fa-video-camera {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-link {
-	.fa-link {
-		font-size: 19px;
-		color: $white;
-	}
-}
-
-.upload-audio {
-	.fa-microphone {
-		font-size: 20px;
-		color: $white;
 	}
 }
