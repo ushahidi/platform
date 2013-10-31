@@ -32,6 +32,11 @@
 	@media #{$small} {
 		@include grid-column(2);
 	}
+	@media #{$medium-up} {
+		@include grid-column(1);
+		width: 12.33333%;
+
+	}
 	img {
 		margin: 10px 0 10px 0;
 		@include thumb;
@@ -44,6 +49,10 @@
 	padding-left: 0;
 	@media #{$small} {
 		@include grid-column(10);
+	}
+	@media #{$medium-up} {
+		@include grid-column(11);
+		width: 87.66667%;
 	}
 }
 
@@ -85,10 +94,7 @@
 
 .list-view-post-admin {
 	@include grid-column(12);
-	margin: 20px 0;
-	i {
-		padding: 0;
-	}
+	margin: 10px 0 20px 0;
 }
 
 .list-view-post-categories-wrapper {
@@ -117,7 +123,7 @@
 		font-size: $small-font-size;
 		padding-right: 5px;
 	}
-	.icon-circle {
+	.fa-circle {
 		color: $alert-color;
 		padding-right: 5px;
 	}
@@ -135,7 +141,7 @@
 
 .list-view-post-edit {
 	margin-left: 0;
-	li {
+	> li {
 		display: inline;
 		float: left;
 		padding: 0 20px 0 0;
@@ -146,6 +152,9 @@
 	button.expand, .button.expand {
 		padding-right: 1.125em;
 		padding-left: 1.125em;
+	}
+	[class^="fa"], [class*=" fa"] {
+		padding: 0;
 	}
 	@media #{$small} {
 		@include block-grid($per-row: false, $spacing: emCalc(20px));

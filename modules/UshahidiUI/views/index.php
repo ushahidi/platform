@@ -31,12 +31,6 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
 		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
 		
-		<!-- Font Awesome CSS -->
-		<link href="<?php echo Media::url('css/font-awesome.min.css'); ?>" rel="stylesheet">
-		<!--[if IE 7]>
-			<link rel="stylesheet" href="<?php echo Media::url('css/font-awesome-ie7.min.css'); ?>">
-		<![endif]-->
-		
 		<!-- Global site config -->
 		<script type="text/javascript">
 		  (function() {

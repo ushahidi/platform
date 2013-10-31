@@ -66,31 +66,29 @@
 	@include grid-column(12, $collapse: true);
 	margin-bottom: 20px;
 	@media #{$small} {
-		@include grid-column(12, $collapse: true);
 		margin-bottom: 0px;
-	}
-	@media #{$medium} {
-		@include grid-column(6, $collapse: true);
 	}
 }
 
 // @todo Reduce column's when category marker re-added
 .post-actions-wrapper {
-	@include grid-column(12, $collapse: true);
+	@extend .list-view-post-edit-wrapper;
+	margin-top: 0;
 	@media #{$small} {
-		margin-top: 20px;
-	}
-	@media #{$medium} {
-		@include grid-column(6, $collapse: true);
-		margin-top: 0;
+		width: 100%;
+		float: left;
 	}
 }
 
 .post-actions {
-	float: right;
+	@extend .list-view-post-edit;
 	margin: 0;
-	li {
-		display: inline;
+	@media #{$small} {
+		float: left;
+		margin: 20px 0 0 0;
+		li {
+			padding: 0 emCalc(16px) 0 0;
+		}
 	}
 }
 

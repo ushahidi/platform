@@ -14,26 +14,18 @@
     <div class="media-bar">
       <div class="media-bar-uploads-wrap">
         <ul class="media-bar-uploads">
-					{{#each fieldsets}}
-						<li class="select-icon"><a class="js-switch-fieldset" href="#fieldset-{{name}}">
-							{{#if icon}}<i class="{{icon}}"></i>{{ else }}<i class="icon-circle"></i>{{/if}}
-						</a></li>
-					{{/each}}
-					{{!--
-					<li id="upload-location" class="select-icon upload-location"><a class="js-switch-fieldset" href="#fieldset-location"><i class="icon-map-marker"></i></a></li>
-					<li id="upload-image" class="select-icon upload-image"><a class="js-switch-fieldset" href="#fieldset-image"><i class="icon-picture"></i></a></li>
-					<!-- <li id="upload-video" class="select-icon upload-video"><a class="js-switch-fieldset" href="#"><i class="icon-facetime-video"></i></a></li>
-					<li id="upload-link" class="select-icon upload-link"><a class="js-switch-fieldset" href="#"><i class="icon-link"></i></a></li>
-					<li id="upload-audio" class="select-icon upload-audio"><a class="js-switch-fieldset" href="#"><i class="icon-microphone"></i></a></li> -->
-					<li id="post-permissions" class="select-icon post-permissions"><a class="js-switch-fieldset" href="#fieldset-permissions"><i class="icon-lock"></i></a></li>
-					--}}
+			{{#each fieldsets}}
+				<li class="select-icon"><a class="js-switch-fieldset" href="#fieldset-{{name}}" title="{{name}}">
+					{{#if icon}}<i class="fa {{icon}}"></i>{{ else }}<i class="fa fa-circle"></i>{{/if}}
+				</a></li>
+			{{/each}}
         </ul>
       </div>
     </div> <!-- end media bar -->
 		{{/if}}
 
     <div class="modal-submit">
-      <button type="submit" form="create-post-form"><i class="icon-plus  icon-large"></i> Create Post</button>
+      <button type="submit" form="create-post-form"><i class="fa  fa-plus  fa-lg"></i> Create Post</button>
     </div>
 
   </section> <!-- end modal-footer -->

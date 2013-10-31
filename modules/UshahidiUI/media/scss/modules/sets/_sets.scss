@@ -78,7 +78,7 @@
 	@media #{$portrait} {
 		@include block-grid($per-row: 1);
 	}
-	@media #{$landscape} {
+	@media #{$mobile-up} {
 		@include block-grid($per-row: 2);
 	}
 	@media #{$small} {
@@ -88,7 +88,7 @@
 		@include block-grid($per-row: 4);
 	}
 	@media #{$large} {
-		@include block-grid($per-row: 2);
+		@include block-grid($per-row: 3);
 	}
 	@media #{$large-up} {
 		@include block-grid($per-row: 4);
