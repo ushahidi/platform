@@ -20,10 +20,9 @@
 \*------------------------------------*/
 @import "compass";
 @import "compass/reset";
-@import "compass/css3";
-
+@import 'color-schemer';
 @import "compass/layout/sticky-footer";
-@include sticky-footer(100px, ".content-wrapper", ".sticky-footer-root", ".footer");
+@include sticky-footer(72px, ".content-wrapper", ".sticky-footer-root", ".footer");
 
 
 
@@ -45,6 +44,7 @@
 
 @import "tools/mixins";
 @import "tools/helpers";
+@import "tools/colors";
 
 
 
@@ -160,6 +160,7 @@ NOTE: comment out what I don't use
 
 /* the `modules/modals` folder must be called at bottom */
 @import "modules/modals/modal";
+@import "modules/modals/choose-form-modal";
 @import "modules/modals/create-post-modal";
 @import "modules/modals/add-to-set-modal";
 @import "modules/modals/edit-post-modal";

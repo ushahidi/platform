@@ -21,9 +21,9 @@
 
 .top-bar {
 	overflow: hidden;
-	@extend .box-shadow;
+	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
 	@media #{$small} {
-		box-shadow: none;
+		@include box-shadow(0);
 	}
 }
 
