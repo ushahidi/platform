@@ -1,0 +1,83 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * SCHEME...............form select color scheme
+ * GENERAL STYLES...............general styles
+ */
+
+
+ /*------------------------------------*\
+ 		$SCHEME
+ \*------------------------------------*/
+
+/*Pick the base color for your scheme:*/
+$cs-primary: $blueGray;
+
+/*$cs-scheme: mono; // mono, complement, triad, tetrad, analogic, accented-analogic
+$cs-hue-offset: 40; // offset distance
+$cs-brightness-offset: 10; //shade and tint distance from base
+$cs-color-model: rgb; // rgb, ryb
+$cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanomaly, deuteranomaly, tritanomaly, monochromacy, amonochromacy*/
+
+$color1: lighten(cs-primary(), 30%);;
+$color2: lighten(cs-primary(), 20%);
+$color3: lighten(cs-primary(), 10%);
+$color4: cs-primary();
+$color5: cs-primary();
+$color6: lighten(cs-primary(), 10%);
+$color7: lighten(cs-primary(), 20%);
+$color8: lighten(cs-primary(), 30%);
+
+/*color function for choose form blocks*/
+$colors: $color1, $color2, $color3, $color4, $color5, $color6, $color7, $color8;
+
+@for $i from 1 through length($colors) {
+    .forms-grid li:nth-child(#{length($colors)}n+#{$i}) .forms-grid-name-wrapper {
+        background-color: (nth($colors, $i));
+
+        &:hover {
+        	background-color: shade((nth($colors, $i)), $button-function-factor);
+        }
+    }
+}
+
+
+
+
+/*------------------------------------*\
+		$GENERAL STYLES
+\*------------------------------------*/
+
+.back-button {
+	@include button($padding: $button-sml, $bg: $blueGray, $radius: true);
+	position: absolute;
+	left: 20px;
+	top: 17px;
+}
+
+.forms-grid {
+	@include block-grid($per-row: 1);
+	@media #{$mobile-up} {
+		@include block-grid($per-row: 2);
+	}
+	@media #{$small} {
+		@include block-grid($per-row: 4);
+	}
+}
+
+.forms-grid-name-wrapper {
+	color: $white;
+	text-align: center;
+	padding: 40px 20px;
+	@include border-radius($global-radius + 7);
+	&:hover {
+		cursor: pointer;
+	}
+	[class^="fa"], [class*=" fa"] {
+		width: 100%;
+		font-size: 35px;
+		padding: 0;
+		margin-bottom: 20px;
+	}
+}
