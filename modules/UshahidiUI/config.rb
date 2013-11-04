@@ -1,4 +1,5 @@
 # Compass config file
+require 'color-schemer'
 
 # Set this to the root of your project when deployed:
 http_path = "/"
