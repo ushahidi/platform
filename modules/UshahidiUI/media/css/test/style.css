@@ -198,11 +198,6 @@ div.logo {
 }
 
 /* line 47, ../../scss/tools/_mixins.scss */
-.box-shadow, .top-bar, nav[role="sub-navigation"], .search-bar, .list-view-wrapper, .list-view-filter, .set-detail-post-list-filter, .post-header, .post-body, .related-posts-body, .sets-search-bar, .set-wrapper, .set-detail-post-list, .alertify {
-  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-}
-
-/* line 51, ../../scss/tools/_mixins.scss */
 .notification, .set-post-number {
   position: relative;
   width: 40px;
@@ -6476,11 +6471,16 @@ a.button {
 /* line 22, ../../scss/modules/header/_topbar.scss */
 .top-bar {
   overflow: hidden;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 @media only screen and (min-width: 768px) {
   /* line 22, ../../scss/modules/header/_topbar.scss */
   .top-bar {
-    box-shadow: none;
+    -webkit-box-shadow: 0;
+    -moz-box-shadow: 0;
+    box-shadow: 0;
   }
 }
 
@@ -6489,7 +6489,7 @@ a.button {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('/media/kohana/images/logo.png?1383533167') no-repeat;
+  background: url('/media/kohana/images/logo.png?1383533337') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -6609,6 +6609,9 @@ nav[role="sub-navigation"] {
   padding-right: 0;
   width: 100%;
   float: left;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   max-height: 0;
   /*overflow: hidden;*/
@@ -7345,6 +7348,9 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #22699d url('/media/kohana/images/search-bg.jpg?1382660984') repeat;
   width: 100%;
   border-top: 3px solid #12a0ba;
@@ -7799,6 +7805,9 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   color: #9a9797;
   margin-bottom: 20px;
@@ -7812,6 +7821,9 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #323a45;
   padding: 20px 15px;
   margin: 0 0 20px 0;
@@ -8298,6 +8310,9 @@ nav[role="sub-navigation"] li a {
   float: left;
   background-color: #323a45;
   padding: 1em;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   z-index: 1;
 }
 /* line 38, ../../scss/modules/posts/_post.scss */
@@ -8355,7 +8370,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('/media/kohana/images/category-icon.png?1383533167') no-repeat;
+  background: url('/media/kohana/images/category-icon.png?1383533337') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 54, ../../scss/modules/posts/_post.scss */
@@ -8432,6 +8447,9 @@ nav[role="sub-navigation"] li a {
   background-color: #fcfcfc;
   padding: 1em;
   margin-bottom: 20px;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
 /* line 112, ../../scss/modules/posts/_post.scss */
@@ -8951,6 +8969,9 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   background-color: #fcfcfc;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   margin-left: 0;
 }
 /* line 29, ../../scss/modules/posts/_related-posts.scss */
@@ -9084,6 +9105,9 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 0;
   max-width: 80em;
   *zoom: 1;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #323a45;
   margin-bottom: 20px;
   padding: 1.25em 0;
@@ -9521,6 +9545,9 @@ nav[role="sub-navigation"] li a {
   text-align: center;
   background-color: #fcfcfc;
   padding-bottom: 12px;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
 /*------------------------------------*\
@@ -9724,6 +9751,9 @@ TODO: may need a notification mixin here
   padding-right: 0;
   width: 100%;
   float: left;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   color: #9a9797;
   margin: 0;
@@ -10564,6 +10594,9 @@ img.mfp-img {
   border: 4px solid #333;
   /* browsers that don't support rgba */
   border-radius: 3px;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -webkit-background-clip: padding;
   /* Safari 4? Chrome 6? */
   -moz-background-clip: padding;
@@ -13232,6 +13265,270 @@ form.custom .custom.checkbox.checked:before {
   .select-icon [class^="fa-"] {
     left: 0;
   }
+}
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * SCHEME...............form select color scheme
+ * GENERAL STYLES...............general styles
+ */
+/*------------------------------------*\
+		$SCHEME
+\*------------------------------------*/
+/*Pick the base color for your scheme:*/
+/*$cs-scheme: mono; // mono, complement, triad, tetrad, analogic, accented-analogic
+$cs-hue-offset: 40; // offset distance
+$cs-brightness-offset: 10; //shade and tint distance from base
+$cs-color-model: rgb; // rgb, ryb
+$cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanomaly, deuteranomaly, tritanomaly, monochromacy, amonochromacy*/
+/*color function for choose form blocks*/
+/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+1) .forms-grid-name-wrapper {
+  background-color: #75859b;
+}
+/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+1) .forms-grid-name-wrapper:hover {
+  background-color: #69778b;
+}
+
+/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+2) .forms-grid-name-wrapper {
+  background-color: #5d6c80;
+}
+/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+2) .forms-grid-name-wrapper:hover {
+  background-color: #536173;
+}
+
+/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+3) .forms-grid-name-wrapper {
+  background-color: #475363;
+}
+/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+3) .forms-grid-name-wrapper:hover {
+  background-color: #3f4a59;
+}
+
+/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+4) .forms-grid-name-wrapper {
+  background-color: #323a45;
+}
+/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+4) .forms-grid-name-wrapper:hover {
+  background-color: #2d343e;
+}
+
+/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+5) .forms-grid-name-wrapper {
+  background-color: #323a45;
+}
+/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+5) .forms-grid-name-wrapper:hover {
+  background-color: #2d343e;
+}
+
+/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+6) .forms-grid-name-wrapper {
+  background-color: #475363;
+}
+/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+6) .forms-grid-name-wrapper:hover {
+  background-color: #3f4a59;
+}
+
+/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+7) .forms-grid-name-wrapper {
+  background-color: #5d6c80;
+}
+/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+7) .forms-grid-name-wrapper:hover {
+  background-color: #536173;
+}
+
+/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+8) .forms-grid-name-wrapper {
+  background-color: #75859b;
+}
+/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid li:nth-child(8n+8) .forms-grid-name-wrapper:hover {
+  background-color: #69778b;
+}
+
+/*------------------------------------*\
+		$GENERAL STYLES
+\*------------------------------------*/
+/* line 52, ../../scss/modules/modals/_choose-form-modal.scss */
+.back-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  background-color: #323a45;
+  border-color: #1d2127;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  position: absolute;
+  left: 20px;
+  top: 17px;
+}
+/* line 122, ../../scss/foundation/components/_buttons.scss */
+.back-button:hover, .back-button:focus {
+  background-color: #1d2127;
+}
+/* line 133, ../../scss/foundation/components/_buttons.scss */
+.back-button:hover, .back-button:focus {
+  color: white;
+}
+
+/* line 59, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid {
+  display: block;
+  padding: 0;
+  margin: 0 -0.625em;
+  *zoom: 1;
+}
+/* line 121, ../../scss/foundation/components/_global.scss */
+.forms-grid:before, .forms-grid:after {
+  content: " ";
+  display: table;
+}
+/* line 122, ../../scss/foundation/components/_global.scss */
+.forms-grid:after {
+  clear: both;
+}
+/* line 27, ../../scss/foundation/components/_block-grid.scss */
+.forms-grid > li {
+  display: inline;
+  height: auto;
+  float: left;
+  padding: 0 0.625em 1.25em;
+}
+/* line 36, ../../scss/foundation/components/_block-grid.scss */
+.forms-grid > li {
+  width: 100%;
+  padding: 0 0.625em 1.25em;
+}
+/* line 40, ../../scss/foundation/components/_block-grid.scss */
+.forms-grid > li:nth-of-type(n) {
+  clear: none;
+}
+/* line 41, ../../scss/foundation/components/_block-grid.scss */
+.forms-grid > li:nth-of-type(1n+1) {
+  clear: both;
+}
+@media only screen and (min-width: 421px) {
+  /* line 59, ../../scss/modules/modals/_choose-form-modal.scss */
+  .forms-grid {
+    display: block;
+    padding: 0;
+    margin: 0 -0.625em;
+    *zoom: 1;
+  }
+  /* line 121, ../../scss/foundation/components/_global.scss */
+  .forms-grid:before, .forms-grid:after {
+    content: " ";
+    display: table;
+  }
+  /* line 122, ../../scss/foundation/components/_global.scss */
+  .forms-grid:after {
+    clear: both;
+  }
+  /* line 27, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li {
+    display: inline;
+    height: auto;
+    float: left;
+    padding: 0 0.625em 1.25em;
+  }
+  /* line 36, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li {
+    width: 50%;
+    padding: 0 0.625em 1.25em;
+  }
+  /* line 40, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li:nth-of-type(n) {
+    clear: none;
+  }
+  /* line 41, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li:nth-of-type(2n+1) {
+    clear: both;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 59, ../../scss/modules/modals/_choose-form-modal.scss */
+  .forms-grid {
+    display: block;
+    padding: 0;
+    margin: 0 -0.625em;
+    *zoom: 1;
+  }
+  /* line 121, ../../scss/foundation/components/_global.scss */
+  .forms-grid:before, .forms-grid:after {
+    content: " ";
+    display: table;
+  }
+  /* line 122, ../../scss/foundation/components/_global.scss */
+  .forms-grid:after {
+    clear: both;
+  }
+  /* line 27, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li {
+    display: inline;
+    height: auto;
+    float: left;
+    padding: 0 0.625em 1.25em;
+  }
+  /* line 36, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li {
+    width: 25%;
+    padding: 0 0.625em 1.25em;
+  }
+  /* line 40, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li:nth-of-type(n) {
+    clear: none;
+  }
+  /* line 41, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li:nth-of-type(4n+1) {
+    clear: both;
+  }
+}
+
+/* line 69, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid-name-wrapper {
+  color: #fcfcfc;
+  text-align: center;
+  padding: 40px 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+}
+/* line 74, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid-name-wrapper:hover {
+  cursor: pointer;
+}
+/* line 77, ../../scss/modules/modals/_choose-form-modal.scss */
+.forms-grid-name-wrapper [class^="fa"], .forms-grid-name-wrapper [class*=" fa"] {
+  width: 100%;
+  font-size: 35px;
+  padding: 0;
+  margin-bottom: 20px;
 }
 
 /*------------------------------------*\
