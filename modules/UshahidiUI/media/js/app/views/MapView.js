@@ -98,8 +98,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					center : new L.LatLng(-36.85, 174.78),
 					zoom : 5,
 					layers : [minimal],
-					scrollWheelZoom : false,
-					attributionControl : false
+					scrollWheelZoom : false
 				});
 				
 				// Add the posts marker layer
