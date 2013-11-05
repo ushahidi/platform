@@ -132,9 +132,9 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				});
 			},
 
-			setDetail : function(id)
-            {
-    			var that = this;
+			setDetail : function(/* id */)
+			{
+				var that = this;
 				App.homeLayout.close();
 				require(['views/SetDetailView'], function(SetDetailView)
 				{
