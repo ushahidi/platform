@@ -9,8 +9,8 @@ default:
   extensions:
     Behat\MinkExtension\Extension:
       base_url:  'http://localhost:8000'
-      goutte:  ~
-#      goutte:
-#        guzzle_parameters:
-#          curl.options:
+      goutte:
+        guzzle_parameters:
+          curl.options:
+             3 : 8000 #CURLOPT_PORT=3
 #            10004: localhost:8888 #CURLOPT_PROXY=10004
