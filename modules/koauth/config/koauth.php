@@ -6,5 +6,6 @@ return array(
 		'api',
 		'profile',
 	),
-	'www_realm'        => 'Kohana API'
+	'www_realm'        => 'Kohana API',
+	'access_lifetime'  => 3600
 );
