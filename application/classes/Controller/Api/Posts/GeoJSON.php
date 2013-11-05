@@ -22,12 +22,12 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	/**
 	 * @var int Number of results to return
 	 */
-	protected $record_limit = FALSE;
+	protected $_record_limit = FALSE;
 
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	protected $record_limit_max = FALSE;
+	protected $_record_limit_max = FALSE;
 	
 	/**
 	 * @var Database_Result Collection of all Point/Geometry Attributes

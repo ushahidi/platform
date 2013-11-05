@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Model_Form_Group extends ORM {
+class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 	/**
 	 * A form_group has and belongs to many attributes
 	 *
@@ -91,5 +91,15 @@ class Model_Form_Group extends ORM {
 		}
 
 		return $response;
+	}
+	
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function get_resource_id()
+	{
+		return 'form_groups';
 	}
 }

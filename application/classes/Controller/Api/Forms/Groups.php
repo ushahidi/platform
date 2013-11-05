@@ -10,6 +10,55 @@
  */
 
 class Controller_API_Forms_Groups extends Ushahidi_Api {
+	
+	/**
+	 * Require forms scope - extra scope for groups seems unnecessary
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'forms';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'form_groups';
+		
+		// Check form exists
+		$form_id = $this->request->param('form_id', 0);
+		$form = ORM::factory('Form', $form_id);
+		if ( ! $form->loaded())
+		{
+			throw new HTTP_Exception_404('Form does not exist. ID: \':id\'', array(
+				':id' => $form_id,
+			));
+		}
+		
+		$this->_resource = ORM::factory('Form_Group')
+			->set('form_id', $form_id);
+		
+		// Get group
+		if ($id = $this->request->param('id', 0))
+		{
+			$group = ORM::factory('Form_Group')
+				->where('form_id', '=', $form_id)
+				->where('id', '=', $id)
+				->find();
+
+			if (! $group->loaded())
+			{
+				throw new HTTP_Exception_404('Form Group does not exist. ID: \':id\'', array(
+					':id' => $id,
+				));
+			}
+			
+			$this->_resource = $group;
+		}
+	}
 
 	/**
 	 * Create a new group
@@ -20,45 +69,11 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$form_id = $this->request->param('form_id', 0);
-		$results = array();
 		$post = $this->_request_payload;
 		
-		$form = ORM::factory('Form', $form_id);
+		$group = $this->resource();
 		
-		if ( ! $form->loaded())
-		{
-			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
-				':id' => $form_id,
-			));
-		}
-		
-		$group = ORM::factory('Form_Group')->values($post, array(
-			'label', 'priority'
-			));
-		$group->form_id = $form_id;
-		
-		// Validation - perform in-model validation before saving
-		try
-		{
-			// Validate base group data
-			$group->check();
-
-			// Validates ... so save
-			$group->values($post, array(
-				'label', 'priority'
-				));
-			$group->save();
-
-			// Response is the complete form
-			$this->_response_payload = $group->for_api();
-		}
-		catch (ORM_Validation_Exception $e)
-		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
-			));
-		}
+		$this->create_or_update($group, $post);
 	}
 
 	/**
@@ -82,7 +97,11 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 
 		foreach ($groups as $group)
 		{
-			$results[] = $group->for_api();
+			// Check if user is allowed to access this group
+			if ($this->acl->is_allowed($this->user, $group, 'get') )
+			{
+				$results[] = $group->for_api();
+			}
 		}
 
 		// Respond with groups
@@ -101,21 +120,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$form_id = $this->request->param('form_id');
-		$id = $this->request->param('id');
-		$results = array();
-
-		$group = ORM::factory('Form_Group')
-			->where('form_id', '=', $form_id)
-			->where('id', '=', $id)
-			->find();
-
-		if (! $group->loaded())
-		{
-			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$group = $this->resource();
 
 		// Respond with group
 		$this->_response_payload =  $group->for_api();
@@ -130,29 +135,25 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$form_id = $this->request->param('form_id');
-		$id = $this->request->param('id');
-		$results = array();
 		$post = $this->_request_payload;
-
-		$group = ORM::factory('Form_Group')
-			->where('form_id', '=', $form_id)
-			->where('id', '=', $id)
-			->find();
-
-		if (! $group->loaded())
-		{
-			throw new HTTP_Exception_404('Group does not exist. Group ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
 		
+		$group = $this->resource();
+		
+		$this->create_or_update($group, $post);
+	}
+	
+	/**
+	 * Save Group
+	 * 
+	 * @param Model_Form_Group $group
+	 * @param array $post POST data
+	 */
+	protected function create_or_update($group, $post)
+	{
 		// Load post values into group model
 		$group->values($post, array(
 			'label', 'priority'
 			));
-		
-		$group->id = $id;
 		
 		// Validation - perform in-model validation before saving
 		try
@@ -161,9 +162,6 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 			$group->check();
 
 			// Validates ... so save
-			$group->values($post, array(
-				'label', 'priority'
-				));
 			$group->save();
 
 			// Response is the complete form
@@ -171,10 +169,9 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			// Error response
-			$this->_response_payload = array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models')))
-				);
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
+			));
 		}
 	}
 

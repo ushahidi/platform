@@ -12,6 +12,41 @@
  * Attributes API Controller
  */
 class Controller_Api_Attributes extends Ushahidi_Api {
+	
+	/**
+	 * Require forms scope - extra scope for attribute seems unnecessary
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'forms';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'form_attributes';
+		
+		$this->_resource = ORM::factory('Form_Attribute');
+		
+		// Get attribute
+		if ($id = $this->request->param('id', 0))
+		{
+			$attribute = ORM::factory('Form_Attribute', $id);
+			
+			if (! $attribute->loaded())
+			{
+				throw new HTTP_Exception_404('Form Attribute does not exist. ID: \':id\'', array(
+					':id' => $id,
+				));
+			}
+			
+			$this->_resource = $attribute;
+		}
+	}
 
 	/**
 	 * Create a new attribute
@@ -53,34 +88,9 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 			));
 		}
 		
-		$attribute = ORM::factory('Form_Attribute')->values($post, array(
-			'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
-			));
+		$attribute = ORM::factory('Form_Attribute');
 		
-		// Validation - perform in-model validation before saving
-		try
-		{
-			// Validate base group data
-			$attribute->check();
-
-			// Validates ... so save
-			$attribute->values($post, array(
-				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
-				));
-			$attribute->save();
-
-			// Add relations
-			$group->add('form_attributes', $attribute);
-
-			// Response is the complete form
-			$this->_response_payload = $attribute->for_api();
-		}
-		catch (ORM_Validation_Exception $e)
-		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
-			));
-		}
+		$this->create_or_update($attribute, $post);
 	}
 
 	/**
@@ -102,7 +112,11 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 
 		foreach ($attributes as $attribute)
 		{
-			$results[] = $attribute->for_api();
+			// Check if user is allowed to access this attribute
+			if ($this->acl->is_allowed($this->user, $attribute, 'get') )
+			{
+				$results[] = $attribute->for_api();
+			}
 		}
 
 		// Respond with attributes
@@ -121,19 +135,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$id = $this->request->param('id');
-		$results = array();
-
-		$attribute = ORM::factory('Form_Attribute')
-			->where('id', '=', $id)
-			->find();
-
-		if (! $attribute->loaded())
-		{
-			throw new HTTP_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$attribute = $this->resource();
 
 		$this->_response_payload = $attribute->for_api();
 	}
@@ -147,26 +149,25 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$id = $this->request->param('id');
-		$results = array();
 		$post = $this->_request_payload;
 
-		$attribute = ORM::factory('Form_Attribute')
-			->where('id', '=', $id)
-			->find();
-
-		if (! $attribute->loaded())
-		{
-			throw new HTTP_Exception_404('Attribute does not exist. Attribute ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$attribute = $this->resource();
 		
+		$this->create_or_update($attribute, $post);
+	}
+	
+	/**
+	 * Save Attribute
+	 * 
+	 * @param Model_Form_Attribute $attribute
+	 * @param array $post POST data
+	 */
+	protected function create_or_update($attribute, $post)
+	{
 		// Load post values into group model
 		$attribute->values($post, array(
 			'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
 			));
-		$attribute->id = $id;
 		
 		// Validation - perform in-model validation before saving
 		try
@@ -175,10 +176,6 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 			$attribute->check();
 
 			// Validates ... so save
-			$attribute->values($post, array(
-				'key', 'label', 'input', 'type', 'options', 'required', 'default', 'unique', 'priority', 'cardinality'
-				));
-			$attribute->options = ( isset($post['options']) ) ? json_encode($post['options']) : NULL;
 			$attribute->save();
 
 			// Response is the complete form

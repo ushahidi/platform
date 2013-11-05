@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Model_Tag extends ORM {
+class Model_Tag extends ORM implements Acl_Resource_Interface {
 	/**
 	 * A tag has and belongs to many posts
 	 * A tag has many [children] tags
@@ -217,4 +217,15 @@ class Model_Tag extends ORM {
 
 		return $response;
 	}
+	
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function get_resource_id()
+	{
+		return 'tags';
+	}
+	
 }

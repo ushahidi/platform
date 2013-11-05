@@ -22,11 +22,18 @@ class Migration_3_0_20131028221729 extends Minion_Migration_Base {
 			")->bind(':form_id', $form_id)
 			->execute($db);
 
-		list($field_id, $affected_rows) = DB::query(DATABASE::INSERT, "
-			INSERT INTO `form_attributes` (`key`, `label`, `input`, `type`, `required`, `default`, `priority`, `options`, `cardinality`)
-			VALUES
-				('location','Location','location','point',0,NULL,2,'',1)
-			")->execute($db);
+		// Check for 'location' field and create if it doesn't exist
+		$field_id = DB::query(DATABASE::SELECT, "
+			SELECT id FROM `form_attributes` WHERE `key` = 'location';
+			")->execute($db)->get('id', FALSE);
+		if (! $field_id)
+		{
+			list($field_id, $affected_rows) = DB::query(DATABASE::INSERT, "
+				INSERT INTO `form_attributes` (`key`, `label`, `input`, `type`, `required`, `default`, `priority`, `options`, `cardinality`)
+				VALUES
+					('location','Location','location','point',0,NULL,2,'',1)
+				")->execute($db);
+		}
 
 		DB::query(DATABASE::INSERT, "
 			INSERT INTO `form_groups_form_attributes` (`form_group_id`, `form_attribute_id`)

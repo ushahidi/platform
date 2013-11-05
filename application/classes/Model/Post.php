@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Model_Post extends ORM {
+class Model_Post extends ORM implements Acl_Resource_Interface {
 	/**
 	 * A post has many comments decimal, geometry, int
 	 * point, text, varchar, tasks
@@ -464,5 +464,15 @@ class Model_Post extends ORM {
 	public function translations()
 	{
 		return $this->children->where('type', '=', 'translations');
+	}
+	
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function get_resource_id()
+	{
+		return 'posts';
 	}
 }

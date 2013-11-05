@@ -14,17 +14,52 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	/**
 	 * @var string Field to sort results by
 	 */
-	protected $record_orderby = 'priority';
+	protected $_record_orderby = 'priority';
 	
 	/**
 	 * @var string Direct to sort results
 	 */
-	protected $record_order = 'ASC';
+	protected $_record_order = 'ASC';
 
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	protected $record_allowed_orderby = array('id', 'created', 'tag', 'slug', 'priority');
+	protected $_record_allowed_orderby = array('id', 'created', 'tag', 'slug', 'priority');
+
+	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'tags';
+	
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		$this->_resource = 'tags';
+		
+		$this->_resource = ORM::factory('Tag');
+
+		// Get post
+		if ($tag_id = $this->request->param('id', 0))
+		{
+			// Respond with set
+			$tag = ORM::factory('Tag', $tag_id);
+			
+			if (! $tag->loaded())
+			{
+				throw new HTTP_Exception_404('Tag does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
+			}
+			
+			$this->_resource = $tag;
+		}
+	}
 
 	/**
 	 * Create A Tag
@@ -37,7 +72,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	{
 		$post = $this->_request_payload;
 		
-		$tag = ORM::factory('Tag');
+		$tag = $this->resource();
 		
 		$this->create_or_update_tag($tag, $post);
 	}
@@ -53,12 +88,12 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	{
 		$results = array();
 
-		$this->prepare_order_limit_params();
+		$this->_prepare_order_limit_params();
 
 		$tags_query = ORM::factory('Tag')
-			->order_by($this->record_orderby, $this->record_order)
-			->offset($this->record_offset)
-			->limit($this->record_limit);
+			->order_by($this->_record_orderby, $this->_record_order)
+			->offset($this->_record_offset)
+			->limit($this->_record_limit);
 		
 		// Prepare search params
 		// @todo generalize this?
@@ -92,19 +127,23 @@ class Controller_Api_Tags extends Ushahidi_Api {
 
 		foreach ($tags as $tag)
 		{
-			$results[] = $tag->for_api();
+			// Check if user is allowed to access this tag
+			if ($this->acl->is_allowed($this->user, $tag, 'get') )
+			{
+				$results[] = $tag->for_api();
+			}
 		}
 
 		// Current/Next/Prev urls
 		$params = array(
-			'limit' => $this->record_limit,
-			'offset' => $this->record_offset,
+			'limit' => $this->_record_limit,
+			'offset' => $this->_record_offset,
 		);
 		// Only add order/orderby if they're already set
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
-			$params['orderby'] = $this->record_orderby;
-			$params['order'] = $this->record_order;
+			$params['orderby'] = $this->_record_orderby;
+			$params['order'] = $this->_record_order;
 		}
 
 		$prev_params = $next_params = $params;
@@ -120,10 +159,10 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		$this->_response_payload = array(
 			'count' => $count,
 			'results' => $results,
-			'limit' => $this->record_limit,
-			'offset' => $this->record_offset,
-			'order' => $this->record_order,
-			'orderby' => $this->record_orderby,
+			'limit' => $this->_record_limit,
+			'offset' => $this->_record_offset,
+			'order' => $this->_record_order,
+			'orderby' => $this->_record_orderby,
 			'curr' => $curr,
 			'next' => $next,
 			'prev' => $prev,
@@ -139,17 +178,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$id = $this->request->param('id', 0);
-
-		// Respond with form
-		$tag = ORM::factory('Tag', $id);
-
-		if (! $tag->loaded() )
-		{
-			throw new HTTP_Exception_404('Tag does not exist. ID \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$tag = $this->resource();
 
 		$this->_response_payload = $tag->for_api();
 	}
@@ -163,17 +192,9 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 		
-		$tag = ORM::factory('Tag', $id);
-		
-		if (! $tag->loaded())
-		{
-			throw new HTTP_Exception_404('Tag does not exist. ID: \':id\'', array(
-				':id' => $id,
-			));
-		}
+		$tag = $this->resource();
 		
 		$this->create_or_update_tag($tag, $post);
 	}
@@ -188,20 +209,13 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$id = $this->request->param('id', 0);
-		$tag = ORM::factory('Tag', $id);
+		$tag = $this->resource();
 		$this->_response_payload = array();
 		if ( $tag->loaded() )
 		{
 			// Return the form we just deleted (provides some confirmation)
 			$this->_response_payload = $tag->for_api();
 			$tag->delete();
-		}
-		else
-		{
-			throw new HTTP_Exception_404('Tag does not exist. ID: \':id\'', array(
-				':id' => $id,
-			));
 		}
 	}
 	
@@ -248,11 +262,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		{
 			// Validate base form data
 			$tag->check();
-
-			// Validates ... so save
-			$tag->values($post, array(
-				'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'description'
-				));
+			
 			$tag->save();
 
 			// Response is the complete form

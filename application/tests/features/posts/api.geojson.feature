@@ -7,8 +7,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "type" property
 		And the response has a "features" property
-		And the "features.2.geometry.coordinates.0" property equals "1"
-		And the "features.2.geometry.coordinates.1" property equals "1"
+		And the "features.3.geometry.coordinates.0" property equals "1"
+		And the "features.3.geometry.coordinates.1" property equals "1"
 		Then the guzzle status code should be 200
 	
 	Scenario: Find a Post as GeoJSON

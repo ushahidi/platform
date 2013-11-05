@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Model_User extends Model_Auth_User {
+class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Resource_Interface {
 	/**
 	 * A user has many tokens and roles
 	 * A user has many posts, post_comments, roles and sets 
@@ -92,7 +92,6 @@ class Model_User extends Model_Auth_User {
 			
 			//username of user
 			'username' => array(
-				array('min_length', array(':value', 3)),
 				array('max_length', array(':value', 255)),
 				array(array($this, 'unique'), array(':field', ':value')),
 			),
@@ -105,6 +104,17 @@ class Model_User extends Model_Auth_User {
 			)
 		);
 			
+	}
+
+	/**
+	 * Allows a model use both email and username as unique identifiers for login
+	 *
+	 * @param   string  unique value
+	 * @return  string  field name
+	 */
+	public function unique_key($value)
+	{
+		return Valid::email($value) ? 'email' : 'username';
 	}
 
 	/**
@@ -149,5 +159,31 @@ class Model_User extends Model_Auth_User {
 
 		return $response;
 	}
-
+	
+	/**
+	 * Returns string identifier of the Role
+	 * 
+	 * @return string
+	 */
+	public function get_role_id()
+	{
+		// If set, return user role
+		if ($this->role) return $this->role;
+		
+		// If we have no role, but the user is actually loaded (ie. its a real user), return user role
+		if ($this->loaded()) return Kohana::$config->load('a2.user_role');
+		
+		// Otherwise return logged out/guest role
+		return Kohana::$config->load('a2.guest_role');
+	}
+	
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function get_resource_id()
+	{
+		return 'users';
+	}
 }

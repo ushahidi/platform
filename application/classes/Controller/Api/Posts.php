@@ -24,24 +24,77 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	/**
 	 * @var string Field to sort results by
 	 */
-	protected $record_orderby = 'created';
+	protected $_record_orderby = 'created';
 
 	/**
 	 * @var string Direct to sort results
 	 */
-	protected $record_order = 'ASC';
+	protected $_record_order = 'ASC';
 
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	protected $record_allowed_orderby = array('id', 'created', 'updated', 'title');
+	protected $_record_allowed_orderby = array('id', 'created', 'updated', 'title');
 
 	/**
 	 * @var string oauth2 scope required for access
 	 */
-	protected $scope_required = 'posts';
+	protected $_scope_required = 'posts';
 
 	protected $_boundingbox = FALSE;
+
+	/**
+	 * Load resource object
+	 * 
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+		
+		// Get dummy post for access check
+		$this->_resource = ORM::factory('Post')
+			->set('status', 'published');
+		
+		// Get parent if we have one
+		if ($this->_parent_id = $this->request->param('post_id', NULL))
+		{
+			// Check parent post exists
+			$parent = ORM::factory('Post', $this->_parent_id);
+			if ( ! $parent->loaded())
+			{
+				throw new HTTP_Exception_404('Parent Post does not exist. Post ID: \':id\'', array(
+					':id' => $this->_parent_id,
+				));
+			}
+			
+			// Use parent post for access check if no individual post set
+			// This happens when getting all translations/revisions/updates..
+			$this->_resource = $parent;
+		}
+
+		// Get post
+		if ($post_id = $this->request->param('id', 0))
+		{
+			$post = ORM::factory('Post')
+				->where('id', '=', $post_id)
+				->where('type', '=', $this->_type);
+			if ($this->_parent_id)
+			{
+				$post->where('parent_id', '=', $this->_parent_id);
+			}
+			$post = $post->find();
+			
+			if (! $post->loaded())
+			{
+				throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
+			}
+			
+			$this->_resource = $post;
+		}
+	}
 
 	/**
 	 * Create A Post
@@ -70,18 +123,18 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$results = array();
 
-		$this->prepare_order_limit_params();
+		$this->_prepare_order_limit_params();
 
 		$posts_query = ORM::factory('Post')
 			->distinct(TRUE)
 			->where('type', '=', $this->_type)
-			->order_by($this->record_orderby, $this->record_order);
+			->order_by($this->_record_orderby, $this->_record_order);
 
-		if ($this->record_limit !== FALSE)
+		if ($this->_record_limit !== FALSE)
 		{
 			$posts_query
-				->limit($this->record_limit)
-				->offset($this->record_offset);
+				->limit($this->_record_limit)
+				->offset($this->_record_offset);
 		}
 
 		if ($this->_parent_id)
@@ -124,6 +177,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		if (! empty($locale))
 		{
 			$posts_query->where('locale', '=', $locale);
+		}
+		// Filter on status, default status=published
+		$status = $this->request->query('status');
+		if (! empty($status))
+		{
+			if ($status != 'all')
+			{
+				$posts_query->where('status', '=', $status);
+			}
+		}
+		else
+		{
+			$posts_query->where('status', '=', 'published');
 		}
 
 		// date chcks
@@ -216,19 +282,26 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		foreach ($posts as $post)
 		{
+			// Check if use is allowed to access this post
+			if ($this->acl->is_allowed($this->user, $post, 'get') )
+			{
 			$results[] = $post->for_api();
 		}
+		}
+
+		// Count actual results since they're filtered by access check
+		$count = count($results);
 
 		// Current/Next/Prev urls
 		$params = array(
-			'limit' => $this->record_limit,
-			'offset' => $this->record_offset,
+			'limit' => $this->_record_limit,
+			'offset' => $this->_record_offset,
 		);
 		// Only add order/orderby if they're already set
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
-			$params['orderby'] = $this->record_orderby;
-			$params['order'] = $this->record_order;
+			$params['orderby'] = $this->_record_orderby;
+			$params['order'] = $this->_record_order;
 		}
 
 		$prev_params = $next_params = $params;
@@ -245,10 +318,10 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			'count' => $count,
 			'total_count' => $total_records,
 			'results' => $results,
-			'limit' => $this->record_limit,
-			'offset' => $this->record_offset,
-			'order' => $this->record_order,
-			'orderby' => $this->record_orderby,
+			'limit' => $this->_record_limit,
+			'offset' => $this->_record_offset,
+			'order' => $this->_record_order,
+			'orderby' => $this->_record_orderby,
 			'curr' => $curr,
 			'next' => $next,
 			'prev' => $prev,
@@ -272,24 +345,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$post_id = $this->request->param('id', 0);
-
-		// Respond with post
-		$post = ORM::factory('Post')
-			->where('id', '=', $post_id)
-			->where('type', '=', $this->_type);
-		if ($this->_parent_id)
-		{
-			$post->where('parent_id', '=', $this->_parent_id);
-		}
-		$post = $post->find();
-
-		if (! $post->loaded())
-		{
-			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
-				':id' => $post_id,
-			));
-		}
+		$post = $this->resource();
 
 		$this->_response_payload = $post->for_api();
 	}
@@ -303,24 +359,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$post_id = $this->request->param('id', 0);
 		$post = $this->_request_payload;
 
-		$_post = ORM::factory('Post')
-			->where('id', '=', $post_id)
-			->where('type', '=', $this->_type);
-		if ($this->_parent_id)
-		{
-			$_post->where('parent_id', '=', $this->_parent_id);
-		}
-		$_post = $_post->find();
-
-		if (! $_post->loaded())
-		{
-			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
-				':id' => $post_id,
-			));
-		}
+		$_post = $this->resource();
 
 		$this->create_or_update_post($_post, $post);
 	}
@@ -678,16 +719,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$post_id = $this->request->param('id', 0);
-
-		$post = ORM::factory('Post')
-			->where('id', '=', $post_id)
-			->where('type', '=', $this->_type);
-		if ($this->_parent_id)
-		{
-			$post->where('parent_id', '=', $this->_parent_id);
-		}
-		$post = $post->find();
+		$post = $this->resource();
 
 		$this->_response_payload = array();
 		if ( $post->loaded() )
@@ -696,11 +728,5 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$this->_response_payload = $post->for_api();
 			$post->delete();
 		}
-		else
-		{
-			throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
-				':id' => $post_id,
-			));
 		}
 	}
-}

@@ -45,6 +45,9 @@ Feature: Testing the Forms API
                                     "Alive",
                                     "Dead"
                                 ]
+                            },
+                            {
+                                "id":5
                             }
                         ]
                     }
@@ -55,9 +58,10 @@ Feature: Testing the Forms API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        And the "groups.0.attributes.1.priority" property equals "11"
-        And the "groups.0.attributes.2.default" property equals "Missing"
-        And the "groups.0.attributes.2.options.1" property equals "Alive"
+        And the "groups.0.attributes.0.key" property equals "date_of_birth"
+        And the "groups.0.attributes.2.priority" property equals "11"
+        And the "groups.0.attributes.3.default" property equals "Missing"
+        And the "groups.0.attributes.3.options.1" property equals "Alive"
         Then the guzzle status code should be 200
 
     Scenario: Updating a Form

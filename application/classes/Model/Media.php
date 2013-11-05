@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Model_Media extends ORM {
+class Model_Media extends ORM implements Acl_Resource_Interface {
 
 	/**
 	 * Rules for the media model
@@ -166,5 +166,15 @@ class Model_Media extends ORM {
 			)),
 			Request::current()
 		);
+	}
+
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function get_resource_id()
+	{
+		return 'media';
 	}
 }

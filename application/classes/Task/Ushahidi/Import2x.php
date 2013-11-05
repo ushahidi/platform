@@ -309,7 +309,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		// OAuth juggling
 		$response = $this->_request('oauth/token')
 			->method(Request::POST)
-			->body("grant_type=password&client_id={$oauth_client_id}&client_secret={$oauth_client_secret}&username={$dest_username}&password={$dest_password}&scope=api posts forms")
+			->body("grant_type=password&client_id={$oauth_client_id}&client_secret={$oauth_client_secret}&username={$dest_username}&password={$dest_password}&scope=api posts forms tags sets users")
 			->execute();
 		$body = json_decode($response->body(), TRUE);
 		if ($response->status() != 200 OR ! isset($body['access_token']))

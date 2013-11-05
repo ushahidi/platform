@@ -55,7 +55,7 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 				'password' => $config['connection']['password'],
 				'oauth-client-id' => 'demoapp',
 				'oauth-client-secret' => 'demopass',
-				'dest-username' => 'robbie',
+				'dest-username' => 'importadmin',
 				'dest-password' => 'testing',
 				'clean' => TRUE,
 			));
@@ -64,7 +64,9 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 		}
 		catch (Exception $e)
 		{
-			$this->fail("Minion task ushahidi:import2x threw an exception");
+			// Don't hide exception.
+			//$this->fail("Minion task ushahidi:import2x threw an exception");
+			throw $e;
 		}
 		
 		// Assert output
@@ -72,7 +74,7 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 Created 'Classic Report Form', ID: 1.
 Imported 20 tags.
 Imported 152 posts.
-Imported 11 users./");
+Imported 12 users./");
 	}
 
 	/**
@@ -97,7 +99,7 @@ Imported 11 users./");
 				'clean' => TRUE,
 				'oauth-client-id' => 'demoapp',
 				'oauth-client-secret' => 'demopass',
-				'dest-username' => 'robbie',
+				'dest-username' => 'importadmin',
 				'dest-password' => 'testing',
 			));
 			Log::$write_on_add = FALSE; // avoid dumping output to stdout
@@ -105,7 +107,9 @@ Imported 11 users./");
 		}
 		catch (Exception $e)
 		{
-			$this->fail("Minion task ushahidi:import2x threw an exception");
+			// Don't hide exception.
+			//$this->fail("Minion task ushahidi:import2x threw an exception");
+			throw $e;
 		}
 		
 		// Assert output
