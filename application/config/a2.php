@@ -61,6 +61,7 @@ return array(
 		'posts'              => NULL,
 		'tags'               => NULL,
 		'sets'               => NULL,
+		'media'              => NULL,
 		'forms'              => NULL,
 		'form_attributes'    => 'forms',
 		'form_groups'        => 'forms',
@@ -126,6 +127,11 @@ return array(
 				'resource'  => 'posts',
 				'privilege' => array('post')
 			),
+			'GuestCanCreateMedia' => array(
+				'role'      => 'guest',
+				'resource'  => array('media'),
+				'privilege' => array('post'),
+			),
 			'GuestCanViewForms' => array(
 				'role'      => 'guest',
 				'resource'  => array('forms'),
@@ -137,6 +143,11 @@ return array(
 				'resource'  => array('tags'),
 				'privilege' => array('get'),
 				'assertion' => array('Acl_Assert_RelationAllowed', array('parent'))
+			),
+			'GuestCanViewMedia' => array(
+				'role'      => 'guest',
+				'resource'  => array('media'),
+				'privilege' => array('get'),
 			),
 			'GuestCanViewSets' => array(
 				'role'      => 'guest',

@@ -8,7 +8,8 @@
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-class Controller_Api_Media extends Ushahidi_Api {
+class Controller_Api_Media extends Ushahidi_Api
+{
 
 	/**
 	 * @var array List of HTTP methods which support body content
@@ -17,6 +18,41 @@ class Controller_Api_Media extends Ushahidi_Api {
 	(
 		Http_Request::PUT,
 	);
+
+	/**
+	 * @var string oauth2 scope required for access
+	 */
+	protected $_scope_required = 'media';
+
+	/**
+	 * Load resource object
+	 *
+	 * @return void
+	 */
+	protected function _resource()
+	{
+		parent::_resource();
+
+		$this->_resource = 'media';
+
+		$this->_resource = ORM::factory('Media');
+
+		// Get post
+		if ($media_id = $this->request->param('id', 0))
+		{
+			// Respond with set
+			$media = ORM::factory('Media', $media_id);
+
+			if (! $media->loaded())
+			{
+				throw new HTTP_Exception_404('Media does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
+			}
+
+			$this->_resource = $media;
+		}
+	}
 
 	/**
 	 * Retrieve all media
@@ -29,13 +65,13 @@ class Controller_Api_Media extends Ushahidi_Api {
 	{
 		$results = array();
 
-		$this->prepare_order_limit_params();
+		$this->_prepare_order_limit_params();
 
 		// Query media table
 		$media_query = ORM::factory('Media')
-				->order_by($this->record_orderby, $this->record_order)
-				->offset($this->record_offset)
-				->limit($this->record_limit);
+				->order_by($this->_record_orderby, $this->_record_order)
+				->offset($this->_record_offset)
+				->limit($this->_record_limit);
 
 		$media = $media_query->find_all();
 
@@ -43,21 +79,24 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 		foreach ($media as $m)
 		{
-			$results[] = $m->for_api();
-
+			// Check if user is allowed to access this tag
+			if ($this->acl->is_allowed($this->user, $media, 'get') )
+			{
+				$results[] = $m->for_api();
+			}
 		}
 
 		// Current/Next/Prev urls
 		$params = array(
-				'limit' => $this->record_limit,
-				'offset' => $this->record_offset,
+				'limit' => $this->_record_limit,
+				'offset' => $this->_record_offset,
 		);
 
 		// Only add order/orderby if they're already set
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
-			$params['orderby'] = $this->record_orderby;
-			$params['order'] = $this->record_order;
+			$params['orderby'] = $this->_record_orderby;
+			$params['order'] = $this->_record_order;
 		}
 
 		$prev_params = $next_params = $params;
@@ -73,10 +112,10 @@ class Controller_Api_Media extends Ushahidi_Api {
 		$this->_response_payload = array(
 				'count' => $count,
 				'results' => $results,
-				'limit' => $this->record_limit,
-				'offset' => $this->record_offset,
-				'order' => $this->record_order,
-				'orderby' => $this->record_orderby,
+				'limit' => $this->_record_limit,
+				'offset' => $this->_record_offset,
+				'order' => $this->_record_order,
+				'orderby' => $this->_record_orderby,
 				'curr' => $curr,
 				'next' => $next,
 				'prev' => $prev,
@@ -92,17 +131,8 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$media_id = $this->request->param('id', 0);
+		$media = $this->resource();
 
-		// Query media table
-		$media = ORM::factory('Media', $media_id);
-
-		if ( ! $media->loaded())
-		{
-			throw new HTTP_Exception_404('Media does not exist. Media ID \':id\'', array(
-				':id' => $media_id,
-			));
-		}
 		$this->_response_payload = $media->for_api();
 	}
 
@@ -121,7 +151,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			->rule('file', 'not_empty')
 			->rule('file','Upload::valid')
 			->rule('file','Upload::type', array(':value', array('gif','jpg','jpeg','png')))
-			->rule('file','Upload::size', [':value', $max_file_size]);
+			->rule('file','Upload::size', array(':value', $max_file_size));
 		try
 		{
 			// Validate base post data
@@ -156,7 +186,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 			}
 
 			// Save details to the database
-			$media = ORM::factory('Media');
+			$media = $this->resource();
 
 			// Set original details
 			$media->o_width = $o_image->width;
@@ -195,9 +225,7 @@ class Controller_Api_Media extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$media_id = $this->request->param('id', 0);
-
-		$media = ORM::factory('Media', $media_id);
+		$media = $this->resource();
 
 		$this->_response_payload = array();
 
@@ -208,12 +236,6 @@ class Controller_Api_Media extends Ushahidi_Api {
 
 			// Delete the details from the db
 			$media->delete();
-		}
-		else
-		{
-			throw new HTTP_Exception_404('Media does not exist. Media ID: \':id\'', array(
-				':id' => $media_id,
-			));
 		}
 	}
 }

@@ -9,6 +9,7 @@ return array(
 		'sets',
 		'tags',
 		'users',
+		'media',
 	),
 	'www_realm'        => 'Ushahidi API'
 );
