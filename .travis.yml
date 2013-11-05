@@ -10,9 +10,11 @@ services:
   - mysql
 env:
   - KOHANA_ENV=testing
-before_script:
-  - composer install --no-interaction --prefer-source # Have to prefer source or hit github rate limit
+before_install:
   - git submodule update --init --recursive
+install:
+  - composer install --no-interaction --prefer-source # Have to prefer source or hit github rate limit
+before_script:
   - mkdir application/cache application/logs
   - chmod 777 application/cache application/logs
   - cp application/tests/behat.template application/tests/behat.yml
