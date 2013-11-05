@@ -20,7 +20,7 @@ class Controller_OAuth extends Koauth_Controller_OAuth {
 		// Not logged in: rendirect to login
 		if (! $auth->logged_in())
 		{
-			$this->redirect('login' . URL::query(array('from_url' => 'oauth/authorize'. URL::query()), FALSE));
+			$this->redirect('user/login' . URL::query(array('from_url' => 'oauth/authorize'. URL::query()), FALSE));
 		}
 		// Logged in: Ask for authorization
 		else
