@@ -80,7 +80,7 @@ class Controller_Api_Media extends Ushahidi_Api
 		foreach ($media as $m)
 		{
 			// Check if user is allowed to access this tag
-			if ($this->acl->is_allowed($this->user, $media, 'get') )
+			if ($this->acl->is_allowed($this->user, $m, 'get') )
 			{
 				$results[] = $m->for_api();
 			}
