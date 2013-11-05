@@ -9,16 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'backbone', 'marionette', 'underscore'],
-	function(App, Backbone, Marionette, _)
+define(['App', 'backbone', 'marionette'],
+	function(App, Backbone, Marionette)
 	{
 		return Marionette.Region.extend(
 		{
 			// Override open to trigger foundation reveal
 			onShow : function(view)
 			{
-				var that = this;
-
 				this.$el.foundation('reveal', 'open')
 					.on('open', function (e) { view.trigger('modal:open', e); })
 					.on('opened', function (e) { view.trigger('modal:opened', e); })

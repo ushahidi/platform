@@ -8,7 +8,7 @@
  */
 
 define([ 'marionette', 'handlebars', 'text!templates/modals/ChooseForm.html'],
-	function( Marionette, Handlebars, template, setModuleMiniTemplate)
+	function( Marionette, Handlebars, template)
 	{
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
