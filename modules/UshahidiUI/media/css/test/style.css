@@ -12879,7 +12879,7 @@ input[type="radio"], select {
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
 /* line 32, ../../scss/modules/forms/_forms.scss */
-input[type="text"], input[type="email"] {
+input[type="text"], input[type="email"], input[type="password"] {
   height: 100%;
   /* FF fix */
   padding: 10px;

@@ -135,7 +135,7 @@ class Controller_User extends Controller_Template {
 		$params = $this->request->post();
 
 		$user = ORM::factory('User')
-			->values($params, array('username', 'password'));
+			->values($params, array('username', 'password', 'email'));
 
 		$valid = Validation::factory($params)
 			->rules('csrf', array(
