@@ -1,0 +1,36 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * SOCIAL BUTTONS...............custom social buttons
+ */
+
+
+
+/*------------------------------------*\
+    $SOCIAL BUTTONS
+\*------------------------------------*/
+
+.facebook-button {
+	@include button($bg: $facebook-color, $padding: $button-sml, $radius: true, $full-width: true);
+}
+
+.facebook-button:hover {
+	background-color: darken($facebook-color, 10);
+}
+
+.twitter-button {
+	@include button($bg: $twitter-color, $padding: $button-sml, $radius: true, $full-width: true);
+}
+
+.twitter-button:hover {
+	background-color: darken($twitter-color, 10);
+}
+
+.google-button {
+	@include button($bg: $google-color, $padding: $button-sml, $radius: true, $full-width: true);
+}
+
+.google-button:hover {
+	background-color: darken($google-color, 10);
+}

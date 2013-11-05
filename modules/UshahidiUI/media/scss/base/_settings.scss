@@ -59,6 +59,8 @@ $body-font-family: 'Open Sans', "Helvetica Neue", "Helvetica", Helvetica, Arial,
 $body-font-weight: normal;
 $body-font-style: normal;
 
+$workspace-body-bg: $midGray;
+
 // Font-smoothing
 
 $font-smoothing: antialiased;
@@ -108,6 +110,8 @@ $include-html-tooltip-classes: $include-html-classes;
 
 // Media Queries
 
+$mobile-screen: 420px;
+$mobile-up-screen: 421px;
 $small-screen: 768px;
 $medium-screen: 1024px;
 $medium-up-screen: 1025px;
@@ -115,6 +119,8 @@ $large-screen: 1440px;
 $large-up-screen: 2200px;
 
 $screen: "only screen";
+$mobile: "only screen and (min-width: #{$mobile-screen})";
+$mobile-up: "only screen and (min-width: #{$mobile-up-screen})";
 $small: "only screen and (min-width: #{$small-screen})";
 $medium: "only screen and (min-width: #{$medium-screen})";
 $medium-up: "only screen and (min-width: #{$medium-up-screen})";
@@ -1043,7 +1049,7 @@ $section-font-size: emCalc(16px);
 // Control the color of the background and some size options
 
 $section-content-bg: darken($white, $section-function-factor);
-$section-content-bg-active: darken($section-content-bg, $section-function-factor);
+$section-content-bg-active: $workspace-body-bg;
 $section-vertical-nav-min-width: emCalc(200px);
 $section-vertical-tabs-title-width: emCalc(200px);
 $section-bottom-margin: emCalc(0px);

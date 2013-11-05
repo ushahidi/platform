@@ -17,23 +17,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<!-- Leaflet CSS -->
-		<link rel="stylesheet" href="<?php echo Media::url('css/leaflet.css'); ?>" />
+		<link rel="stylesheet" href="<?php echo Media::url('css/plugins/leaflet.css'); ?>" />
+		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.css'); ?>"/>
 		<!--[if lte IE 8]>
-		    <link rel="stylesheet" href="<?php echo Media::url('css/leaflet.ie.css'); ?>" />
+		    <link rel="stylesheet" href="<?php echo Media::url('css/plugins/leaflet.ie.css'); ?>" />
+				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
 		<![endif]-->
 		
 		<!-- Mobile viewport optimized: h5bp.com/viewport -->
 		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
 		
 		<!--Change to app.min.css for production-->
-		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/global.css'); ?>"/>
-		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/global.css'); ?>"/>-->
-		
-		<!-- Font Awesome CSS -->
-		<link href="<?php echo Media::url('css/font-awesome.min.css'); ?>" rel="stylesheet">
-		<!--[if IE 7]>
-			<link rel="stylesheet" href="<?php echo Media::url('css/font-awesome-ie7.min.css'); ?>">
-		<![endif]-->
+		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
+		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
 		
 		<!-- Global site config -->
 		<script type="text/javascript">
@@ -57,8 +53,8 @@
 		<![endif]-->
 
 		<!-- Google Font -->
-		<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 
 </head>
 <body>

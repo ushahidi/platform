@@ -67,7 +67,7 @@ form_attributes:
     label: "Test point"
     key: "test_point"
     type: "point"
-    input: "text"
+    input: "location"
     required: 0
     priority: 1
     options: ""
@@ -127,7 +127,7 @@ form_attributes:
     label: "Last Location (point)"
     key: "last_location_point"
     type: "point"
-    input: "text"
+    input: "location"
     required: 0
     priority: 5
     options: ""
@@ -137,7 +137,7 @@ form_attributes:
     label: "Geometry test"
     key: "geometry_test"
     type: "geometry"
-    input: "text"
+    input: "location"
     required: 0
     priority: 5
     options: ""
@@ -166,7 +166,7 @@ form_attributes:
     label: "Second Point"
     key: "second_point"
     type: "point"
-    input: "text"
+    input: "location"
     required: 0
     priority: 5
     options: ""
@@ -626,4 +626,32 @@ oauth_refresh_tokens:
     client_id: "demoapp"
     scope: "api"
     expires: "2030-01-01 00:00:00"
-
+# media
+media:
+  -
+    id: 3
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 600
+    o_height: 700
+    created: 1381815821
+    updated: 1381815819
+  -
+    id: 2
+    caption: "at sendai"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 500
+    o_height: 600
+    created: 1381815821
+    updated: 1381815819
+  -
+    id: 1
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 400
+    o_height: 500
+    created: 1381815821
+    updated: 1381815819

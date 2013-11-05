@@ -1,4 +1,4 @@
-class php {
+class base::php {
   $php_packages = [
       "php5-mysqlnd",
       "php5-mcrypt",

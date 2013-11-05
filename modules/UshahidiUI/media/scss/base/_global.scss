@@ -1,0 +1,47 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+
+ These are global styles loaded before Foundation
+
+ * GLOBAL...............global custom classes
+ */
+
+
+
+
+
+* {
+	@include box-sizing(border-box);
+	*behavior: url(../js/ie/boxsizing.htc);
+}
+
+html, body {
+	min-height: 100%;
+}
+
+/*Font-Awesome global icon padding*/
+[class^="fa"], [class*=" fa"] {
+	padding-right: emCalc(10px);
+}
+
+
+/*custom text selection*/
+::-moz-selection {
+		color: white;
+		background: $blueGray;
+}
+::selection {
+		color: white;
+		background: $blueGray;
+}
+
+
+ul.pagination li.current a {
+	@include border-radius(3px);
+}
+
+ul.pagination li:hover a, ul.pagination li a:focus {
+	@include border-radius(3px);
+}

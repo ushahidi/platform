@@ -1,16 +1,26 @@
 {
-    "require": {
+    "require" : {},
+    "require-dev": {
         "behat/behat": "2.4.*@stable",
-        "guzzle/guzzle": "3.0.*",
+        "guzzle/guzzle": "3.7.*",
         "behat/mink-extension": "*",
         "behat/mink": "*",
         "behat/mink-goutte-driver": "*",
         "fabpot/goutte": "*",
         "phpunit/phpunit": "3.7.*",
-        "phpunit/dbunit": ">=1.2"
+        "phpunit/dbunit": ">=1.2",
+        "phing/phing": "2.6.*",
+        "pear-pear/Archive_Tar": "1.3.*",
+        "pear-pear/PEAR": "*"
     },
     "minimum-stability": "dev",
     "config": {
         "bin-dir": "bin/"
-    }
+    },
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://pear.php.net"
+        }
+    ]
 }

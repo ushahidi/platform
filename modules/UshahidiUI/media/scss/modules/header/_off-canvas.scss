@@ -1,0 +1,57 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * GLOBAL...............global styles
+ * ACTIVE STYLES...............style on .active-workspace class
+ */
+
+
+
+ /*------------------------------------*\
+		 $GLOBAL
+ \*------------------------------------*/
+
+[role="complementary"], [role="main"] {
+	width: 100%;
+	display: block;
+	position: relative;
+	z-index: 1;
+}
+
+[role="main"] {
+	margin-bottom: 74px;
+	width: 100%;
+	height: 100%;
+	margin-left: 0;
+	float: left;
+	clear: both;
+	margin-left: 0px;
+	@include transition (margin .3s ease-in-out);
+
+}
+
+[role="complementary"] {
+	width: 310px;
+	margin-right: -200%;
+	float: left;
+}
+
+
+
+
+
+/*------------------------------------*\
+		$ACTIVE
+\*------------------------------------*/
+
+.active-workspace [role="main"], .active-workspace #main-region {
+	margin-left: -300px;
+	@media #{$medium-up} {
+		margin-left: -300px;
+	}
+}
+.active-workspace [role="complementary"] {
+	margin-left: 0;
+	width: 300px;
+}

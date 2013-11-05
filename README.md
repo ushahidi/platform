@@ -24,8 +24,8 @@ If you're keen to help build something awesome, and happy to get deep into the c
 ## More info
 
 - [The Wiki](https://wiki.ushahidi.com/display/WIKI/Ushahidi,+v3.X)
-- [Ushahidi (the organisation)](http://ushahidi.com) 
-- [Ushahidi Blog](http://blog.ushahidi.com) 
+- [Ushahidi (the organisation)](http://ushahidi.com)
+- [Ushahidi Blog](http://blog.ushahidi.com)
 
 ## Getting started
 
@@ -59,61 +59,54 @@ git submodule update --init
 ```
 
 ### Installing
+1. Create a database
+2. Copy ```application/config/database.php``` to ```application/config/environments/development/database.php```
+3. Edit ```application/config/environments/development/database.php``` and set database, username and password params
 
-1. Get the code by cloning the git repo
+  ```
+  return array
+  (
+    'default' => array
+    (
+      'type'       => 'mysql',
+      'connection' => array(
+        'hostname'   => 'localhost',
+        'database'   => 'lamu',
+        'username'   => 'lamu',
+        'password'   => 'lamu',
+        'persistent' => FALSE,
+      ),
+      'table_prefix' => '',
+      'charset'      => 'utf8',
+      'caching'      => TRUE,
+      'profiling'    => TRUE,
+    )
+  );
+  ```
 
-    ```
-    git clone --recursive https://github.com/ushahidi/Lamu
-    ```
-   (```-–recursive``` is needed to make sure submodules are cloned too)
-2. Create a database
-3. Copy ```application/config/database.php``` to ```application/config/environments/development/database.php```
-4. Edit ```application/config/environments/development/database.php``` and set database, username and password params
+4. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
 
-	```
-	return array
-	(
-		'default' => array
-		(
-			'type'       => 'mysql',
-			'connection' => array(
-				'hostname'   => 'localhost',
-				'database'   => 'lamu',
-				'username'   => 'lamu',
-				'password'   => 'lamu',
-				'persistent' => FALSE,
-			),
-			'table_prefix' => '',
-			'charset'      => 'utf8',
-			'caching'      => TRUE,
-			'profiling'    => TRUE,
-		)
-	);
-	```
-	
-5. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
-
-   > **A note on urls, docroots and base_url** 
+   > **A note on urls, docroots and base_url**
    >
    > The repository is set up so that ```httpdocs``` is expected to be the doc root.
    > If the docroot on your development server is /var/www and you put the code into /var/www/lamu
    > then the base_url for your deployment is going to be http://localhost/lamu/httpdocs/
    >
-   > If you're installing a live deployment you should set up a virtual host and make the 
+   > If you're installing a live deployment you should set up a virtual host and make the
    > ```DocumentRoot``` point directly to ```httpdocs```.
    >
    > If you can't use a vhost you can copy just the httpdocs directory into your docroot, rename it as needed.
    > Then update the paths for application, modules and system in index.php.
 
-6. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
-7. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
-8. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
-9. Create directories ```application/cache``` and ```application/logs``` and make sure they're writeable by your webserver
+5. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
+6. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
+7. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
+8. Create directories ```application/cache```, ```application/media/uploads``` and ```application/logs``` and make sure they're writeable by your webserver
     ```
-    mkdir application/cache application/logs
-    chown www-data application/cache application/logs
+    mkdir application/cache application/logs application/media/uploads
+    chown www-data application/cache application/logs application/media/uploads
     ```
-10. Install the database schema using migrations
+9. Install the database schema using migrations
 
   ```
   ./minion --task=migrations:run --up
@@ -124,9 +117,52 @@ git submodule update --init
 
 Base config files are in ```application/config/```.
 
-You can add per-environment config overrides in ```application/config/environments/```. The environment is switched based on the ```KOHANA_ENV``` environment variable. 
+You can add per-environment config overrides in ```application/config/environments/```. The environment is switched based on the ```KOHANA_ENV``` environment variable.
 
 Routes are configured in ```application/routes/default.php```. Additional routes can be added in per-environment routing files ie. ```application/routes/development.php```.
+
+Release Notes
+-------------
+
+### What to expect in the Developer Release (aka v3.0.0-alpha.1)
+
+We've built a working API and a basic JS powered UI, however there are still a lot of rough edges you should know about.
+
+#### What's working:
+* Post listings - listings work and load real data. They're page-able and sort-able, but not search-able yet.
+* Post detail pages - these work and load real data. However they don't render custom form data yet, and the images are faked.
+* Post create form - well kind of. It should mostly work, but there are definitely still bugs with this.
+* Posts delete
+
+#### What's not working:
+* Searching posts
+* Workspace menu - the menu is there, but none of the links do anything
+* Login
+* Register
+* Related posts - always shows the most recent 3 posts
+* Media - We're just using fake images at the moment, there's no way to upload new ones
+* Custom forms - these exist in the API, but there's no UI for managing them.
+
+#### Looks like it works, but doesn't
+There are a bunch of views built into that app that are really just design
+prototypes. They look real, but they're not powered by real data.
+
+* Sets listing
+* Set details
+* Editing posts
+* Adding posts to sets
+
+#### Authorization (aka. why does it keep asking me to 'Authorize This Request'?)
+
+Our authorization is currently a quick hack. The JS app hits the API directly,
+and this means it has to use a standard OAuth authorization flow. At the moment
+thats a plain unstyled bit of UI: the ugly 'Authorize This Request' screen.
+On top of that the default token time out is only an hour - so you'll often
+hit the authorize screen quite a few times while developing.
+
+This is temporary, we're working on a real solution, but for now please bear
+with us.
+
 
 Extras
 ------
@@ -153,4 +189,3 @@ Run the tests as follows:
 ```
 ./bin/behat --config application/tests/behat.yml
 ./bin/phpunit -c application/tests/phpunit.xml
-```

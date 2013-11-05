@@ -1,3 +1,17 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * EDIT POST...............Edit Post styles
+ */
+
+
+
+
+/*-----------------------------------------------------------*\
+		$EDIT POST
+\*-----------------------------------------------------------*/
+
 .edit-post section.post-details {
 	@extend .post;
 	padding: 0;
@@ -19,14 +33,14 @@
 }
 
 .edit-post .post-image {
-	.icon-stack {
+	.fa-stack {
 		position: absolute;
 		top: -15px;
 		right: -21px;
-		.icon-circle {
+		.fa-circle {
 			color: $white;
 		}
-		[class^="icon-"], [class*=" icon-"] {
+		[class^="fa"], [class*=" fa"] {
 			font-size: 1.5em;
 		}
 	}
@@ -38,7 +52,7 @@
 		float: right;
 		margin-top: 6px;
 	}
-	.icon-remove-sign {
+	.fa-times-circle {
 		color: $body-font-color;
 		float: right;
 		font-size: 16px;
@@ -50,6 +64,10 @@
 	@media #{$small} {
 		padding-left: 20px;
 	}
+}
+
+.post-excerpt-save-text-button {
+	@include button($bg: $success-color, $radius: true, $full-width: true);
 }
 
 textarea {
@@ -67,14 +85,14 @@ textarea {
 	a {
 		color: $body-font-color;
 	}
-	.icon-stack {
+	.fa-stack {
 		position: absolute;
 		top: -15px;
 		right: -12px;
-		.icon-circle {
+		.fa-circle {
 			color: $white;
 		}
-		[class^="icon-"], [class*=" icon-"] {
+		[class^="fa"], [class*=" fa"] {
 			font-size: 1.2em;
 		}
 	}

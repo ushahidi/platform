@@ -1,0 +1,110 @@
+/*------------------------------------*\
+	$CONTENTS
+\*------------------------------------*/
+/**
+ * GENERAL...............general form overrides
+ * CUSTOM DROPDOWNS...............custom form overrides
+ * CREATE POST MODAL...............create post modal styling
+ * SEARCH BAR...............search bar styling
+ * LIST VIEW FILTER...............list view filter styling
+ * PSEUDO ELEMENTS...............pseudo element styling
+ */
+
+
+
+
+
+
+ /*------------------------------------*\
+ 	$GENERAL
+ \*------------------------------------*/
+
+input[type="radio"], select {
+	margin: 0 3px 1em 0;
+	position: relative;
+	top: -2px;
+} 
+
+/*------------------------------------*\
+	$CUSTOM DROPDOWNS
+\*------------------------------------*/
+
+input[type="text"], input[type="email"] {
+	height: 100%; /* FF fix */
+	padding: 10px;
+	@include border-radius($global-radius);
+}
+
+form.custom .custom.dropdown {
+	height: 2.9em;
+	@include border-radius($global-radius);
+	.current {
+	margin-top: .4em;
+	margin-left: 1.4em;
+	}
+	.selector {
+	height: 3.3125em;
+	}
+}
+
+
+
+
+/*------------------------------------*\
+		$SEARCH BAR
+\*------------------------------------*/
+
+.search-bar input[type="text"] {
+	@media #{$medium} {
+		@include border-radius(0px);
+	}
+}
+
+.search-bar form.custom .custom.dropdown {
+	@media #{$medium} {
+		margin-bottom: 0;
+	}
+	@media #{$medium} {
+		@include border-radius(0px);
+	}
+}
+
+
+
+
+/*------------------------------------*\
+		$LIST VIEW FILTER
+\*------------------------------------*/
+
+.list-view-filter form.custom .custom.dropdown {
+	@media #{$small} {
+		margin-bottom: 0;
+	}
+}
+
+form.custom .custom.dropdown .current {
+	margin-left: 0.4em;
+}
+
+
+
+
+/*------------------------------------*\
+		$PSEUDO ELEMENTS
+\*------------------------------------*/
+
+form.custom .custom.dropdown ul li:hover {
+	background-color: $blueGray;
+	color: $white;
+}
+
+form.custom .custom.dropdown ul li.selected:hover {
+	background: $body-bg;
+	cursor: "none";
+	color: $body-font-color;
+}
+
+form.custom .custom.checkbox.checked:before {
+	margin-top: 5px;
+	font-size: 20px;
+}

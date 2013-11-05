@@ -1,0 +1,71 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * SUBNAV............all subnav styles
+ */
+
+
+
+
+/*------------------------------------*\
+		$SUBNAV
+\*------------------------------------*/
+
+nav[role="sub-navigation"] {
+	@include grid-column(12, $collapse: true);
+	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
+	background-color: $white;
+	max-height: 0;
+	/*overflow: hidden;*/
+	display: none;
+	ul {
+		margin: 0;
+	}
+	/*not working because css3 animation don't support display*/
+	@include transition (max-height .3s ease-in-out);
+}
+
+nav[role="sub-navigation"].subnav {
+	max-height: 999px;
+/*  overflow: visible;*/
+	display: block;
+}
+
+/*nav[role="sub-navigation"] ul {
+	opacity: 0;
+	@include transition (opacity .3s ease-in-out);
+}
+
+nav[role="sub-navigation"] ul.subnav {
+	opacity: 1;
+}*/
+
+nav[role="sub-navigation"] ul li.active>a {
+	background: $blueGray;
+	color: $white;
+}
+
+nav[role="sub-navigation"] li {
+	display: block;
+	@media #{$small} {
+		float: left;
+		clear: none;
+	}
+}
+
+nav[role="sub-navigation"] li a {
+	display: block;
+	padding: 20px 20px;
+	color: $blueGray;
+	border-bottom: 1px solid $lightGray;
+	@media #{$small} {
+		float: left;
+		padding: 20px 30px;
+		border-bottom: 0;
+	}
+}
+
+nav[role="sub-navigation"] li:focus,
+nav[role="sub-navigation"] li:active {
+}

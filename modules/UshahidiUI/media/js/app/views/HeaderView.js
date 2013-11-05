@@ -1,3 +1,12 @@
+/**
+ * Header View
+ *
+ * @module     HeaderView
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
+
 define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!templates/partials/views-dropdown-nav.html'],
 	function(Marionette, Handlebars, App, template, viewsDropdown)
 	{
@@ -40,17 +49,17 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 			},
 			showViewsMenu : function(e)
 			{
+				e.preventDefault();
 				// Hide other menu
 				this.$('.js-sets-menu').removeClass('subnav');
 				this.$('.js-sets-menu-link').removeClass('active');
 				// Toggle this menu
 				this.$('.js-views-menu').toggleClass('subnav');
 				this.$('.js-views-menu-link').toggleClass('active');
-				
-				e.preventDefault();
 			},
-			showCreatePost : function ()
+			showCreatePost : function (e)
 			{
+				e.preventDefault();
 				App.vent.trigger('post:create');
 			}
 		});

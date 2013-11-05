@@ -1,0 +1,76 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * RELATED POSTS...............sidebar widget displaying related posts
+ */
+
+
+
+
+
+/*--------------------------------------------------------------------*\
+		$RELATED POSTS
+\*--------------------------------------------------------------------*/
+
+.related-posts {
+	@extend .post;
+	margin-bottom: 20px;
+	@media #{$small} {
+		@include grid-column(4);
+	}
+}
+
+.related-posts-body {
+	@include grid-column(12);
+	background-color: $white;
+	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));
+	margin-left: 0;
+	p {
+		font-size: $medium-font-size;
+	}
+}
+
+.related-post-module-wrapper {
+	@include grid-column(12);
+	margin-top: 20px;
+	@extend .border-bottom;
+}
+
+.related-post-image {
+	@include grid-column(4, $collapse: true);
+	@media #{$small} {
+		@include grid-column(11, $collapse: true);
+		margin-bottom: 20px;
+	}
+	@media #{$medium} {
+		@include grid-column(3, $collapse: true);
+		margin-bottom: 0;
+	}
+	img {
+		@include thumb;
+	}
+}
+
+.related-post-details {
+	@include grid-column(8);
+	@media #{$small} {
+		@include grid-column(12, $collapse: true);
+	}
+	@media #{$medium} {
+		@include grid-column(9);
+	}
+}
+
+.related-post-title {
+	@include grid-column(12);
+}
+
+.related-post-time {
+	@include grid-column(12);
+}
+
+.related-post-excerpt {
+	@extend .post-excerpt;
+	margin-top: 20px;
+}

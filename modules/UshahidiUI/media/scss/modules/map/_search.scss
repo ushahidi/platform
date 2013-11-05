@@ -1,0 +1,116 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * COLLAPSE MAP...............collapse and expand map tab
+ * SEARCH BAR...............search bar body
+ * SEARCH FORM FIELDS...............search bar input and dropdown fields
+ */
+
+
+
+
+
+/*------------------------------------*\
+		$SEARCH BAR
+\*------------------------------------*/
+.search-bar {
+	@include grid-column(12);
+	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
+	background: $darkBlue image-url("search-bg.jpg") repeat;
+	width: 100%;
+	border-top: 3px solid darken($blue, 5%);
+	padding-top: 2em;
+}
+
+.search-form-wrapper {
+	@include grid-row;
+}
+
+
+
+
+/*------------------------------------*\
+		$SEARCH FORM FIELDS
+\*------------------------------------*/
+
+.search-field {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(12);
+	}
+	@media #{$medium} {
+		@include grid-column(3, $collapse: true);
+	}
+}
+
+.search-bar .search-field input[type="text"] {
+	@media #{$medium} {
+			@include border-radius($global-radius 0 0 $global-radius);
+		}
+	}
+
+.categories-select {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(6)
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.sets-select {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(6)
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.location-select {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(6)
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.time-select {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(6)
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+.search-bar-button {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(12)
+	}
+	@media #{$medium} {
+		@include grid-column(1, $collapse: true);
+	}
+	button {
+		@include button($bg: $success-color, $full-width: true);
+		@include prefix-postfix-base;
+		@include postfix($bg: $success-color, $is-button: true);
+		height: 2.9em;
+		font-size: 0.875em;
+		border-width: 0;
+		@include radius ($global-radius);
+		@media #{$medium} {
+			@include radius (0 $global-radius $global-radius 0);
+		}
+		i {
+			font-size: 1.2em;
+		}
+	}
+}

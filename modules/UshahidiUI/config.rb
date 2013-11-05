@@ -1,4 +1,5 @@
 # Compass config file
+require 'color-schemer'
 
 # Set this to the root of your project when deployed:
 http_path = "/"
@@ -9,8 +10,8 @@ images_dir = "media/images"
 javascripts_dir = "media/js"
 fonts_dir = "media/fonts"
 
+# Production
 output_style = :compressed
-#output_style = :nested
 
 relative_assets = true
 

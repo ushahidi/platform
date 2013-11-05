@@ -3,15 +3,10 @@
 /**
  * Ushahidi API Sets Controller
  *
- * PHP version 5
- * LICENSE: This source file is subject to GPLv3 license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/gpl.html
- * @author     Ushahidi Team <team@ushahidi.come
- * @package    Ushahidi - http://source.ushahididev.com
- * @subpackage Controllers
- * @copyright  Ushahidi - http://www.ushahidi.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Application\Controllers
+ * @copyright  2013 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 class Controller_Api_Sets extends Ushahidi_Api {
@@ -25,7 +20,7 @@ class Controller_Api_Sets extends Ushahidi_Api {
 	 * @var string Direct to sort results
 	 */
 	protected $_record_order = 'DESC';
-	
+
 	/**
 	 * @var int Maximum number of results to return
 	 */
@@ -68,15 +63,15 @@ class Controller_Api_Sets extends Ushahidi_Api {
 
 	/**
 	 * Create A Set
-	 * 
+	 *
 	 * POST /api/sets
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_post_index_collection()
 	{
 		$post = $this->_request_payload;
-		
+
 		$set = $this->resource();
 
 		$this->create_or_update_set($set, $post);
@@ -84,9 +79,9 @@ class Controller_Api_Sets extends Ushahidi_Api {
 
 	/**
 	 * Retrieve All Sets
-	 * 
+	 *
 	 * GET /api/sets
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_get_index_collection()
@@ -110,13 +105,13 @@ class Controller_Api_Sets extends Ushahidi_Api {
 		$set = $this->request->query('name');
 		if (! empty($set))
 		{
-			$sets_query->where('name', '=', $set);	
+			$sets_query->where('name', '=', $set);
 		}
 
 		$user = $this->request->query('user');
 		if(! empty($user))
 		{
-			$sets_query->where('user_id', '=', $user);	
+			$sets_query->where('user_id', '=', $user);
 		}
 
 		$sets = $sets_query->find_all();
@@ -128,8 +123,8 @@ class Controller_Api_Sets extends Ushahidi_Api {
 			// Check if user is allowed to access this set
 			if ($this->acl->is_allowed($this->user, $set, 'get') )
 			{
-				$results[] = $set->for_api();
-			}
+			$results[] = $set->for_api();
+		}
 		}	
 
 		// Current/Next/Prev urls
@@ -138,7 +133,7 @@ class Controller_Api_Sets extends Ushahidi_Api {
 				'offset' => $this->_record_offset,
 		);
 
-		// Only add order/orderby if they're already set 
+		// Only add order/orderby if they're already set
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
 			$params['orderby'] = $this->_record_orderby;
@@ -167,13 +162,13 @@ class Controller_Api_Sets extends Ushahidi_Api {
 				'prev' => $prev,
 		);
 
-	}	
+	}
 
 	/**
 	 * Retrieve A Set
-	 * 
+	 *
 	 * GET /api/sets/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_get_index()
@@ -186,9 +181,9 @@ class Controller_Api_Sets extends Ushahidi_Api {
 
 	/**
 	 * Update A Set
-	 * 
+	 *
 	 * PUT /api/sets/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_put_index()
@@ -198,14 +193,14 @@ class Controller_Api_Sets extends Ushahidi_Api {
 		$set = $this->resource();
 
 		$this->create_or_update_set($set, $post);
-		
+
 	}
 
 	/**
 	 * Delete A Set
-	 * 
+	 *
 	 * DELETE /api/sets/:id
-	 * 
+	 *
 	 * @return void
 	 * @todo Authentication
 	 */
@@ -219,7 +214,7 @@ class Controller_Api_Sets extends Ushahidi_Api {
 			$this->_response_payload = $set->for_api();
 			$set->delete();
 		}
-	}
+		}
 
 
 	/**
@@ -238,9 +233,9 @@ class Controller_Api_Sets extends Ushahidi_Api {
 
 		try
 		{
-			// Validate base set data	
+			// Validate base set data
 			$set->check();
-			
+
 			$set->save();
 
 			// Response is the set
@@ -250,10 +245,10 @@ class Controller_Api_Sets extends Ushahidi_Api {
 		catch(ORM_Validation_Exception $e)
 		{
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-					':errors' => implode(', ', Arr::flatten($e->errors('models'))),	
+					':errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
-						
-	
+
+
 	 }
 }

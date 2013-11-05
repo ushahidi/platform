@@ -12,7 +12,60 @@
  		$CREATE-SET
  \*-----------------------------------------------------------*/
 
+.create-set-photo {
+	@include grid-column(12, $collapse: true);
+	margin-bottom: 2em;
+	.create-set-thumbnail {
+		@include grid-column(4, $collapse: true);
+		@include thumb;
+		position: relative;
+		margin-bottom: 20px;
+		@media #{$small} {
+			@include grid-column(3, $collapse: true);
+			margin-bottom: 0;
+		}
+	}
+	img {
+		width: 100%;
+	}
+}
 
+.create-set-photo-button {
+	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true, $full-width: true);
+	@include grid-column(7);
+	margin: 0 0 0 20px;
+	@media #{$small} {
+		@include grid-column(3);
+		vertical-align: bottom;
+	}
+}
 
+.create-set-categories {
+	margin-bottom: 2em;
+}
 
- 
+.visibility-select {
+	@include grid-column(12, $collapse: true);
+	.visibility-meta-text {
+		@include grid-column(12, $collapse: true);
+		margin-bottom: 20px;
+	}
+}
+
+.visibility-select-private-button {
+	@include button($bg: $blueGray, $radius: true, $full-width: true);
+}
+
+.visibility-select-public-button {
+	@include button($bg: $success-color, $radius: true, $full-width: true);
+}
+
+.visibility-select-private-button, .visibility-select-public-button {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(2);
+		margin-right: 20px;
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
