@@ -113,10 +113,10 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						name : 'permissions',
 						legend : 'Permissions',
 						fields : ['status'],
-						icon : 'icon-lock'
+						icon : 'fa-lock'
 					}
 				);
-console.log(fieldsets);
+
 				return fieldsets;
 			},
 			validation : function ()
