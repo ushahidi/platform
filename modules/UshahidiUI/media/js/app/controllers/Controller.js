@@ -8,15 +8,13 @@
  */
 
 define(['App', 'backbone', 'marionette', 'controllers/ModalController',
-	'views/AppLayout', 'views/HomeLayout', 'views/PostDetailLayout',
-	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView',
-	'views/MapView','views/PostListView','views/PostDetailView','views/RelatedPostsView',
-	'collections/PostCollection','collections/TagCollection','collections/FormCollection','models/PostModel'],
+	'views/AppLayout', 'views/HomeLayout',
+	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/MapView','views/PostListView',
+	'collections/PostCollection','collections/TagCollection','collections/FormCollection'],
 	function(App, Backbone, Marionette, ModalController,
-		AppLayout, HomeLayout, PostDetailLayout,
-		HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView,
-		PostListView, PostDetailView, RelatedPostsView,
-		PostCollection, TagCollection, FormCollection, PostModel)
+		AppLayout, HomeLayout,
+		HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView, PostListView,
+		PostCollection, TagCollection, FormCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -88,38 +86,43 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			},
 			postDetail : function(id)
 			{
-				var postDetailLayout,
+				var that = this,
+						postDetailLayout,
 						model;
 
-				App.vent.trigger('page:change', 'posts/:id');
-				// @TODO find a way to reuse post detail views
-				postDetailLayout = new PostDetailLayout();
-				this.layout.mainRegion.show(postDetailLayout);
-
-				// @todo improve this to avoid double loading of model (and race conditions)
-				//model = App.Collections.Posts.get({id : id});
-				model = new PostModel({id: id});
-				model.fetch().done(function ()
+				require(['views/PostDetailLayout', 'views/PostDetailView', 'views/RelatedPostsView', 'models/PostModel'],
+					function(PostDetailLayout, PostDetailView, RelatedPostsView, PostModel)
 				{
-					model.fetchRelations();
-				});
+					App.vent.trigger('page:change', 'posts/:id');
+					// @TODO find a way to reuse post detail views
+					postDetailLayout = new PostDetailLayout();
+					that.layout.mainRegion.show(postDetailLayout);
 
-				// Make sure we have loaded the form and user before we render the post details
-				model.relationsCallback.done(function()
-				{
-					postDetailLayout.postDetailRegion.show(new PostDetailView({
-						model: model
-					}));
-					postDetailLayout.relatedPostsRegion.show(new RelatedPostsView({
-						collection : new PostCollection(App.Collections.Posts.slice(0, 3)) // fake related posts with first 3 from default collection
+					// @todo improve this to avoid double loading of model (and race conditions)
+					//model = App.Collections.Posts.get({id : id});
+					model = new PostModel({id: id});
+					model.fetch().done(function ()
+					{
+						model.fetchRelations();
+					});
+
+					// Make sure we have loaded the form and user before we render the post details
+					model.relationsCallback.done(function()
+					{
+						postDetailLayout.postDetailRegion.show(new PostDetailView({
+							model: model
+						}));
+						postDetailLayout.relatedPostsRegion.show(new RelatedPostsView({
+							collection : new PostCollection(App.Collections.Posts.slice(0, 3)) // fake related posts with first 3 from default collection
+						}));
+					});
+
+					postDetailLayout.mapRegion.show(new MapView({
+						className : 'map-view post-details-map-view',
+						collapsed : true,
+						model : model
 					}));
 				});
-
-				postDetailLayout.mapRegion.show(new MapView({
-					className : 'map-view post-details-map-view',
-					collapsed : true,
-					model : model
-				}));
 			},
 			sets : function ()
 			{
