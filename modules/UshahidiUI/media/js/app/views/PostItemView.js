@@ -19,7 +19,7 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			className: 'list-view-post',
 
 			events: {
-				'click .post-delete': 'deletepost',
+				'click .js-post-delete': 'deletepost',
 				'click .js-post-edit' : 'showEditPost',
 				'click .js-post-set' : 'showAddToSet'
 			},

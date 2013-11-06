@@ -17,7 +17,7 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			template: Handlebars.compile(template),
 
 			events: {
-				'click .post-delete': 'deletepost',
+				'click .js-post-delete': 'deletepost',
 				'click .js-post-edit' : 'showEditPost',
 				'click .js-post-set' : 'showAddToSet'
 			},
