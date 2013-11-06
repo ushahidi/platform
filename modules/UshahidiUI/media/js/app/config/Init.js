@@ -99,23 +99,23 @@ require.config(
 		'moment': {
 			exports: 'moment'
 		},
-		
-		'foundation/foundation' : {exports: 'Foundation'},
-		'foundation/foundation.abide': {deps: ['foundation/foundation'] },
-		'foundation/foundation.alerts': {deps: ['foundation/foundation'] },
-		'foundation/foundation.clearing': {deps: ['foundation/foundation'] },
-		'foundation/foundation.cookie': {deps: ['foundation/foundation'] },
-		'foundation/foundation.dropdown': {deps: ['foundation/foundation'] },
-		'foundation/foundation.forms': {deps: ['foundation/foundation'] },
-		'foundation/foundation.interchange': {deps: ['foundation/foundation'] },
-		'foundation/foundation.joyride': {deps: ['foundation/foundation'] },
-		'foundation/foundation.magellan': {deps: ['foundation/foundation'] },
-		'foundation/foundation.orbit': {deps: ['foundation/foundation'] },
-		'foundation/foundation.placeholder': {deps: ['foundation/foundation'] },
-		'foundation/foundation.reveal': {deps: ['foundation/foundation'] },
-		'foundation/foundation.section': {deps: ['foundation/foundation'] },
-		'foundation/foundation.tooltips': {deps: ['foundation/foundation'] },
-		'foundation/foundation.topbar': {deps: ['foundation/foundation'] },
+
+		'foundation/foundation' : {deps: ['jquery']},
+		'foundation/foundation.abide': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.alerts': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.clearing': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.cookie': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.dropdown': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.forms': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.interchange': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.joyride': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.magellan': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.orbit': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.placeholder': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.reveal': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.section': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.tooltips': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.topbar': {deps: ['jquery', 'foundation/foundation'] },
 	}
 });
 
