@@ -9,10 +9,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'backbone', 'marionette'],
-	function(App, Backbone)
+define(['App', 'marionette'],
+	function(App, Marionette)
 	{
-		return Backbone.Marionette.Controller.extend(
+		return Marionette.Controller.extend(
 		{
 			initialize : function(options)
 			{
@@ -65,10 +65,14 @@ define(['App', 'backbone', 'marionette'],
 				require(['views/modals/EditPostView'],
 					function(EditPostView)
 				{
-					that.modal.show(new EditPostView({
-						model : post
-					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
+					post.relationsCallback.done(function()
+					{
+						that.modal.show(new EditPostView({
+							model : post
+						}));
+						that.modal.currentView.on('close', that.modal.close, that.modal);
+					});
+					post.fetchRelations();
 				});
 			},
 			addToSet : function (post)

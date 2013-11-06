@@ -52,7 +52,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				// Set form id, backbone-forms doesn't do it.
 				this.form.$el.attr('id', 'create-post-form');
 
-				this.$('.create-post-options').append(this.form.el);
+				this.$('.post-form-wrapper').append(this.form.el);
 			},
 			formSubmitted : function (e)
 			{

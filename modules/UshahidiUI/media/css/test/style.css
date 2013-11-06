@@ -16,7 +16,7 @@
 \*------------------------------------*/
 /* line 17, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, .create-post-options label, p, blockquote, pre,
+h1, h2, h3, h4, h5, h6, .post-form-wrapper label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -1870,7 +1870,7 @@ h3,
 h4,
 h5,
 h6,
-.create-post-options label,
+.post-form-wrapper label,
 pre,
 form,
 p,
@@ -1917,7 +1917,7 @@ p aside {
 
 /* Default header styles */
 /* line 181, ../../scss/foundation/components/_type.scss */
-h1, h2, h3, h4, h5, h6, .create-post-options label {
+h1, h2, h3, h4, h5, h6, .post-form-wrapper label {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: 700;
   font-style: normal;
@@ -1928,7 +1928,7 @@ h1, h2, h3, h4, h5, h6, .create-post-options label {
   line-height: 1.2125em;
 }
 /* line 191, ../../scss/foundation/components/_type.scss */
-h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .create-post-options label small {
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .post-form-wrapper label small {
   font-size: 70%;
   color: #a3a3a3;
   line-height: 0;
@@ -1960,7 +1960,7 @@ h5 {
 }
 
 /* line 203, ../../scss/foundation/components/_type.scss */
-h6, .create-post-options label {
+h6, .post-form-wrapper label {
   font-size: 1em;
 }
 
@@ -2147,7 +2147,7 @@ blockquote p {
 
 @media only screen and (min-width: 768px) {
   /* line 366, ../../scss/foundation/components/_type.scss */
-  h1, h2, h3, h4, h5, h6, .create-post-options label {
+  h1, h2, h3, h4, h5, h6, .post-form-wrapper label {
     line-height: 1.4;
   }
 
@@ -5317,8 +5317,8 @@ form.custom .custom.disabled {
 .joyride-tip-guide h4,
 .joyride-tip-guide h5,
 .joyride-tip-guide h6,
-.joyride-tip-guide .create-post-options label,
-.create-post-options .joyride-tip-guide label {
+.joyride-tip-guide .post-form-wrapper label,
+.post-form-wrapper .joyride-tip-guide label {
   line-height: 1.25;
   margin: 0;
   font-weight: bold;
@@ -5643,16 +5643,16 @@ ul.pagination li {
   margin-bottom: 0;
 }
 /* line 50, ../../scss/foundation/components/_panels.scss */
-.panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .create-post-options label, .create-post-options .panel label, .panel p {
+.panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .post-form-wrapper label, .post-form-wrapper .panel label, .panel p {
   color: #333333;
 }
 /* line 54, ../../scss/foundation/components/_panels.scss */
-.panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .create-post-options label, .create-post-options .panel label {
+.panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .post-form-wrapper label, .post-form-wrapper .panel label {
   line-height: 1;
   margin-bottom: 0.625em;
 }
 /* line 56, ../../scss/foundation/components/_panels.scss */
-.panel h1.subheader, .panel h2.subheader, .panel h3.subheader, .panel h4.subheader, .panel h5.subheader, .panel h6.subheader, .panel .create-post-options label.subheader, .create-post-options .panel label.subheader {
+.panel h1.subheader, .panel h2.subheader, .panel h3.subheader, .panel h4.subheader, .panel h5.subheader, .panel h6.subheader, .panel .post-form-wrapper label.subheader, .post-form-wrapper .panel label.subheader {
   line-height: 1.4;
 }
 /* line 68, ../../scss/foundation/components/_panels.scss */
@@ -5675,16 +5675,16 @@ ul.pagination li {
   margin-bottom: 0;
 }
 /* line 51, ../../scss/foundation/components/_panels.scss */
-.panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .create-post-options label, .create-post-options .panel.callout label, .panel.callout p {
+.panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .post-form-wrapper label, .post-form-wrapper .panel.callout label, .panel.callout p {
   color: white;
 }
 /* line 54, ../../scss/foundation/components/_panels.scss */
-.panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .create-post-options label, .create-post-options .panel.callout label {
+.panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .post-form-wrapper label, .post-form-wrapper .panel.callout label {
   line-height: 1;
   margin-bottom: 0.625em;
 }
 /* line 56, ../../scss/foundation/components/_panels.scss */
-.panel.callout h1.subheader, .panel.callout h2.subheader, .panel.callout h3.subheader, .panel.callout h4.subheader, .panel.callout h5.subheader, .panel.callout h6.subheader, .panel.callout .create-post-options label.subheader, .create-post-options .panel.callout label.subheader {
+.panel.callout h1.subheader, .panel.callout h2.subheader, .panel.callout h3.subheader, .panel.callout h4.subheader, .panel.callout h5.subheader, .panel.callout h6.subheader, .panel.callout .post-form-wrapper label.subheader, .post-form-wrapper .panel.callout label.subheader {
   line-height: 1.4;
 }
 /* line 73, ../../scss/foundation/components/_panels.scss */
@@ -6489,7 +6489,7 @@ a.button {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('/media/kohana/images/logo.png?1383533337') no-repeat;
+  background: url('/media/kohana/images/logo.png?1383615105') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -7351,7 +7351,7 @@ nav[role="sub-navigation"] li a {
   -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  background: #22699d url('/media/kohana/images/search-bg.jpg?1382660984') repeat;
+  background: #22699d url('/media/kohana/images/search-bg.jpg?1383699176') repeat;
   width: 100%;
   border-top: 3px solid #12a0ba;
   padding-top: 2em;
@@ -8119,7 +8119,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 /* line 102, ../../scss/modules/posts/_list-view-post.scss */
-.list-view-post-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-post-categories-wrapper .create-post-options label, .create-post-options .list-view-post-categories-wrapper label, .set-detail-post-list-categories-wrapper .create-post-options label, .create-post-options .set-detail-post-list-categories-wrapper label {
+.list-view-post-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-post-categories-wrapper .post-form-wrapper label, .post-form-wrapper .list-view-post-categories-wrapper label, .set-detail-post-list-categories-wrapper .post-form-wrapper label, .post-form-wrapper .set-detail-post-list-categories-wrapper label {
   margin: 0;
 }
 /* line 105, ../../scss/modules/posts/_list-view-post.scss */
@@ -8294,7 +8294,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 /* line 19, ../../scss/modules/posts/_post.scss */
-.post h5, .post-details h5, .related-posts h5, .edit-post section.post-details h5, .post h6, .post-details h6, .related-posts h6, .edit-post section.post-details h6, .post .create-post-options label, .create-post-options .post label, .post-details .create-post-options label, .create-post-options .post-details label, .related-posts .create-post-options label, .create-post-options .related-posts label {
+.post h5, .post-details h5, .related-posts h5, .edit-post section.post-details h5, .post h6, .post-details h6, .related-posts h6, .edit-post section.post-details h6, .post .post-form-wrapper label, .post-form-wrapper .post label, .post-details .post-form-wrapper label, .post-form-wrapper .post-details label, .related-posts .post-form-wrapper label, .post-form-wrapper .related-posts label {
   line-height: 1em;
 }
 
@@ -8316,7 +8316,7 @@ nav[role="sub-navigation"] li a {
   z-index: 1;
 }
 /* line 38, ../../scss/modules/posts/_post.scss */
-.post-header h5, .post-header h6, .post-header .create-post-options label, .create-post-options .post-header label {
+.post-header h5, .post-header h6, .post-header .post-form-wrapper label, .post-form-wrapper .post-header label {
   color: #fcfcfc;
   margin: 5px 0;
 }
@@ -8370,7 +8370,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('/media/kohana/images/category-icon.png?1383533337') no-repeat;
+  background: url('/media/kohana/images/category-icon.png?1383700448') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 54, ../../scss/modules/posts/_post.scss */
@@ -8736,7 +8736,7 @@ nav[role="sub-navigation"] li a {
   right: 7px;
 }
 /* line 25, ../../scss/modules/posts/_post-overlay.scss */
-.post-overlay h5, .post-overlay h6, .post-overlay .create-post-options label, .create-post-options .post-overlay label {
+.post-overlay h5, .post-overlay h6, .post-overlay .post-form-wrapper label, .post-form-wrapper .post-overlay label {
   line-height: 1em;
 }
 /* line 28, ../../scss/modules/posts/_post-overlay.scss */
@@ -13253,7 +13253,7 @@ form.custom .custom.checkbox.checked:before {
   text-align: center;
 }
 /* line 133, ../../scss/modules/modals/_modal.scss */
-.select-icon [class^="fa-"] {
+.select-icon .fa {
   position: relative;
   top: 20px;
   left: 20px;
@@ -13262,7 +13262,7 @@ form.custom .custom.checkbox.checked:before {
 }
 @media only screen and (min-width: 768px) {
   /* line 133, ../../scss/modules/modals/_modal.scss */
-  .select-icon [class^="fa-"] {
+  .select-icon .fa {
     left: 0;
   }
 }
@@ -13542,7 +13542,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
 		$CREATE-POST
 \*-----------------------------------------------------------*/
 /* line 19, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options {
+.post-form-wrapper {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -13552,21 +13552,21 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   padding: 0;
 }
 /* line 23, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options input[type="text"], .create-post-options textarea {
+.post-form-wrapper input[type="text"], .post-form-wrapper textarea {
   margin-bottom: 2em;
 }
 /* line 27, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options fieldset {
+.post-form-wrapper fieldset {
   border: none;
   padding: 0;
   margin: 0;
 }
 /* line 33, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options form > fieldset {
+.post-form-wrapper form > fieldset {
   display: none;
 }
 /* line 35, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options form > fieldset.active {
+.post-form-wrapper form > fieldset.active {
   display: block;
 }
 
@@ -13577,7 +13577,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
 
 /* line 49, ../../scss/modules/modals/_create-post-modal.scss */
 .create-post-location-map {
-  background: url('/media/kohana/images/map.jpg?1382660984') no-repeat;
+  background: url('/media/kohana/images/map.jpg?1383699176') no-repeat;
   width: 100%;
   height: 100px;
   background-size: cover;
@@ -13716,7 +13716,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   padding: 0;
 }
 /* line 18, ../../scss/modules/modals/_edit-post-modal.scss */
-.edit-post section.post-details h6, .edit-post section.post-details .create-post-options label, .create-post-options .edit-post section.post-details label {
+.edit-post section.post-details h6, .edit-post section.post-details .post-form-wrapper label, .post-form-wrapper .edit-post section.post-details label {
   margin-bottom: 15px;
 }
 @media only screen and (min-width: 1024px) {

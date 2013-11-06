@@ -1,31 +1,31 @@
-  <div class="modal-header">
-    <h4>Create Post</h4>
-    <a class="close-reveal-modal">&#215;</a>
-  </div> <!-- end modal-header -->
+	<div class="modal-header">
+		<h4>Create Post</h4>
+		<a class="close-reveal-modal">&#215;</a>
+	</div> <!-- end modal-header -->
 
-  <div class="modal-wrapper">
-    <section class="create-post-options">
-    </section> <!-- end create-post-options -->
-  </div> <!-- end modal-wrapper -->
+	<div class="modal-wrapper">
+		<section class="post-form-wrapper">
+		</section> <!-- end create-post-options -->
+	</div> <!-- end modal-wrapper -->
 
-  <section class="modal-footer">
+	<section class="modal-footer">
 		{{#if fieldsets}}
-    <h1 class="visually-hidden">Add Media</h1>
-    <div class="media-bar">
-      <div class="media-bar-uploads-wrap">
-        <ul class="media-bar-uploads">
+		<h1 class="visually-hidden">Add Media</h1>
+		<div class="media-bar">
+			<div class="media-bar-uploads-wrap">
+				<ul class="media-bar-uploads">
 			{{#each fieldsets}}
 				<li class="select-icon"><a class="js-switch-fieldset" href="#fieldset-{{name}}" title="{{name}}">
 					{{#if icon}}<i class="fa {{icon}}"></i>{{ else }}<i class="fa fa-circle"></i>{{/if}}
 				</a></li>
 			{{/each}}
-        </ul>
-      </div>
-    </div> <!-- end media bar -->
+				</ul>
+			</div>
+		</div> <!-- end media bar -->
 		{{/if}}
 
-    <div class="modal-submit">
-      <button type="submit" form="create-post-form"><i class="fa  fa-plus  fa-lg"></i> Create Post</button>
-    </div>
+		<div class="modal-submit">
+			<button type="submit" form="create-post-form"><i class="fa  fa-plus  fa-lg"></i> Create Post</button>
+		</div>
 
-  </section> <!-- end modal-footer -->
+	</section> <!-- end modal-footer -->
