@@ -7,8 +7,8 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		template : Handlebars.compile(template),
 		marker : L.marker([-36.85, 174.78], { draggable : true }),
 		defaultValue : {
-			lat : null,
-			lon : null
+			lat : -36.85,
+			lon : 174.78
 		},
 
 		events: {
@@ -57,13 +57,14 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 			// create a map in the 'map' div, set the view to a given place and zoom
 			map = this.map = L.map(this.$('.map')[0], {
-				center : new L.LatLng(-36.85, 174.78),
-				zoom : 5,
+				center : new L.LatLng(this.value.lat, this.value.lon),
+				zoom : 15,
 				layers : [minimal],
 				scrollWheelZoom : false
 			});
 
-			marker = this.marker = L.marker([-36.85, 174.78], { draggable : true }).addTo(map);
+			marker = this.marker;
+			marker.setLatLng(new L.LatLng(this.value.lat, this.value.lon)).addTo(map);
 			marker.addEventListener('dragend', function ()
 			{
 				this.value = this.getValue();
@@ -133,6 +134,9 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			if (value.lat && value.lon)
 			{
 				this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
+
+				// Center map on post markers
+				this.map.setCenter(new L.LatLng(value.lat, value.lon));
 			}
 		},
 
