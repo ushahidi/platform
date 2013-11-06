@@ -24,16 +24,16 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			{
 				this.layout = new AppLayout();
 				App.body.show(this.layout);
-				
+
 				var header = new HeaderView();
 				header.on('workspace:toggle', function () {
 					App.body.$el.toggleClass('active-workspace');
 				});
-				
+
 				this.layout.headerRegion.show(header);
 				this.layout.footerRegion.show(new FooterView());
 				this.layout.workspacePanel.show(new WorkspacePanelView());
-				
+
 				App.Collections = {};
 				App.Collections.Posts = new PostCollection();
 				App.Collections.Posts.fetch();
@@ -41,9 +41,9 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Tags.fetch();
 				App.Collections.Forms = new FormCollection();
 				App.Collections.Forms.fetch();
-				
+
 				App.homeLayout = new HomeLayout();
-				
+
 				this.modalController = new ModalController({
 					modal : this.layout.modal
 				});
@@ -53,7 +53,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			{
 				App.vent.trigger('page:change', 'index');
 				this.layout.mainRegion.show(App.homeLayout);
-				
+
 				App.homeLayout.contentRegion.show(new PostListView({
 					collection: App.Collections.Posts
 				}));
@@ -66,7 +66,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			{
 				App.vent.trigger('page:change', 'views/list');
 				this.layout.mainRegion.show(App.homeLayout);
-				
+
 				App.homeLayout.contentRegion.show(new PostListView({
 					collection: App.Collections.Posts
 				}));
@@ -78,7 +78,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			{
 				App.vent.trigger('page:change', 'views/map');
 				this.layout.mainRegion.show(App.homeLayout);
-				
+
 				// Nothing bound to content region
 				App.homeLayout.contentRegion.close();
 				App.homeLayout.mapRegion.show(new MapView({
