@@ -60,12 +60,14 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 				});
 				return data;
 			},
-			showEditPost : function ()
+			showEditPost : function (e)
 			{
+				e.preventDefault();
 				App.vent.trigger('post:edit', this.model);
 			},
-			showAddToSet : function ()
+			showAddToSet : function (e)
 			{
+				e.preventDefault();
 				App.vent.trigger('post:set', this.model);
 			}
 
