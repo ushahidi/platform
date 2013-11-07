@@ -89,9 +89,13 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					// Push main fields onto first group.
 					fieldsets[0].name = 'main';
 					fieldsets[0].active = true;
-					fieldsets[0].fields.unshift('user.email');
-					fieldsets[0].fields.unshift('user.last_name');
-					fieldsets[0].fields.unshift('user.first_name');
+					// Only show user fields if not set yet
+					if (this.get('user') === null)
+					{
+						fieldsets[0].fields.unshift('user.email');
+						fieldsets[0].fields.unshift('user.last_name');
+						fieldsets[0].fields.unshift('user.first_name');
+					}
 					fieldsets[0].fields.unshift('tags');
 					fieldsets[0].fields.unshift('content');
 					fieldsets[0].fields.unshift('title');
@@ -102,7 +106,9 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						{
 							name : 'main',
 							legend : '',
-							fields : ['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email'],
+							fields : this.get('user') === null
+								? ['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email']
+								: ['title', 'content', 'tags'],
 							active: true
 						}
 					);
