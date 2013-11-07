@@ -70,7 +70,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				};
 
 				// Extend with form schema if form_id is set
-				if (this.get('form.id'))
+				if (this.get('form'))
 				{
 					_.extend(schema, this.form.getPostSchema());
 				}
@@ -82,7 +82,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				var fieldsets = [];
 
 				// Extend with form schema if form_id is set
-				if (this.get('form.id'))
+				if (this.get('form'))
 				{
 					fieldsets = _.union(fieldsets, this.form.getPostFieldsets());
 
@@ -151,7 +151,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				};
 
 				// Extend with form schema if form_id is set
-				if (this.get('form.id'))
+				if (this.get('form'))
 				{
 					rules = _.extend(rules, this.form.getPostValidation());
 				}
@@ -173,7 +173,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				if (this.get('user'))
 				{
 					user = new UserModel({
-						id: this.get('user.id')
+						id: this.get('user')
 					});
 					requests.push(user.fetch());
 				}
@@ -181,7 +181,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				if (this.get('form'))
 				{
 					form = new FormModel({
-						id: this.get('form.id')
+						id: this.get('form')
 					});
 					requests.push(form.fetch());
 				}
@@ -225,7 +225,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 			{
 				return _.map(this.get('tags'), function(tag)
 				{
-					var tagModel = App.Collections.Tags.get(tag.id);
+					var tagModel = App.Collections.Tags.get(tag);
 					return tagModel ? tagModel.toJSON() : null;
 				});
 			},
@@ -266,6 +266,25 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				}
 				
 				return false;
+			},
+			parse : function (data)
+			{
+				if (data.user !== null && data.user.id !== null)
+				{
+					data.user = data.user.id;
+				}
+
+				if (data.form !== null && data.form.id !== null)
+				{
+					data.form = data.form.id;
+				}
+
+				if (data.tags !== null)
+				{
+					data.tags = _.pluck(data.tags, 'id');
+				}
+
+				return data;
 			}
 		});
 
