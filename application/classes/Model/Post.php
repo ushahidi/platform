@@ -309,7 +309,15 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 
 			// Create the Super Union
 			// @todo generalize this - how do plugins add other attribute types?
-			$datetimes = DB::select('key', 'value', array('post_datetime.id', 'id'))
+
+			// Get date in ISO8601 format
+			// @todo handle timezones
+			$tz = date('P'); // cheating: we're assuming that PHP and MySQL timezones match
+			$datetimes = DB::select(
+					'key',
+					array(DB::expr("DATE_FORMAT(`value`, '%Y-%m-%dT%H:%i:%s{$tz}')"), 'value'),
+					array('post_datetime.id', 'id')
+					)
 				->from('post_datetime')
 				->join('form_attributes')
 					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
@@ -323,7 +331,11 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 				->where('post_id', '=', $this->id);
 
 			// Load Geometry value as WKT
-			$geometries = DB::select('key', array(DB::expr('AsText(`value`)'), 'value'), array('post_geometry.id', 'id'))
+			$geometries = DB::select(
+					'key',
+					array(DB::expr('AsText(`value`)'), 'value'),
+					array('post_geometry.id', 'id')
+					)
 				->union($decimals)
 				->from('post_geometry')
 				->join('form_attributes')
