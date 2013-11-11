@@ -38,8 +38,22 @@
 	@include transition (all .3s ease-in-out);
 }
 
+.leaflet-container .leaflet-control-attribution {
+	margin-bottom: 4px;
+	@media (max-width: #{$medium-screen}) {
+		width: 55%;
+	}
+	@media (max-width: #{$small-screen}) {
+		display: none;
+	}
+}
 
-
+.leaflet-bottom.leaflet-right:after {
+	@media (max-width: #{$small-screen}) {
+		content: "© OSM, CloudMade";
+		float: right;
+	}
+}
 
 /*------------------------------------*\
 		$COLLAPSE MAP
