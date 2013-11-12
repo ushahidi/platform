@@ -19,11 +19,11 @@
  	$GENERAL
  \*------------------------------------*/
 
-input[type="radio"] {
+input[type="radio"], select {
 	margin: 0 3px 1em 0;
 	position: relative;
 	top: -2px;
-}
+} 
 
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
