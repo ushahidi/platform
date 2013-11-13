@@ -84,8 +84,7 @@
 				</div> <!-- end .post-header -->
 
 				<div class="post-body">
-							<a href="<?php echo URL::site('user/logout'); ?>">Logout</a>
-
+						<a href="<?php echo URL::site('user/logout'); ?>" class="logout-button">Logout</a>
 				</div> <!-- end .post-body -->
 
 			</section> <!-- end .login-box -->
