@@ -37,7 +37,7 @@
 
 					{{#if location}}
 					<div class="post-location-meta">
-						<p><i class="fa  fa-map-marker"></i><span class="post-location  underline" ><a href="">{{location.lat}}, {{location.lon}}</a></span></p>
+						<p><i class="fa  fa-map-marker"></i><span class="post-location  underline" >{{location.lat}}, {{location.lon}}</span></p>
 					</div> <!-- end .post-location-meta -->
 					{{/if}}
 
@@ -45,14 +45,14 @@
 						<p><i class="fa  fa-clock-o"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
 					</div> <!-- end .post-time-meta -->
 
-					<div class="post-privacy-status">
+					<div class="post-published-status">
 						{{#if isPublished}}
-							<p><i class="fa  fa-unlock"></i><strong class="post-time" >Published</strong></p>
+							<p><i class="fa  fa-file-o"></i><strong class="post-time" >Published</strong></p>
 						{{else}}
 							{{!-- @todo add ucfirst handler and format status --}}
-							<p><i class="fa  fa-lock"></i><strong class="post-time" >{{status}}</strong></p>
+							<p><i class="fa  fa-file"></i><strong class="post-time" >{{status}}</strong></p>
 						{{/if}}
-					</div> <!-- end .post-privacy-status -->
+					</div> <!-- end .post-published-status -->
 				</div> <!-- end .post-details -->
 
 				{{#if tags}}
