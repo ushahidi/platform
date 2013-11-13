@@ -46,18 +46,6 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 							'pending' : 'Pending'
 						}
 					},
-					'user.first_name' : {
-						title : 'First Name',
-						type: 'Text'
-					},
-					'user.last_name': {
-						title : 'Last Name',
-						type: 'Text'
-					},
-					'user.email' : {
-						type : 'Text',
-						title : 'Email'
-					},
 					tags : {
 						type : 'Select',
 						title : 'Tags',
@@ -68,6 +56,36 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					}
 					// @todo should we include slug?
 				};
+
+				if (parseInt(this.get('user'), 10) > 0)
+				{
+					_.extend(schema, {
+						'user' : {
+							'title' : 'User ID',
+							'type' : 'Number',
+							editorAttrs: {
+								disabled : true
+							}
+						}
+					});
+				}
+				else
+				{
+					_.extend(schema, {
+						'user.first_name' : {
+							title : 'First Name',
+							type: 'Text'
+						},
+						'user.last_name': {
+							title : 'Last Name',
+							type: 'Text'
+						},
+						'user.email' : {
+							type : 'Text',
+							title : 'Email'
+						}
+					});
+				}
 
 				// Extend with form schema if form_id is set
 				if (this.get('form'))
@@ -90,7 +108,11 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					fieldsets[0].name = 'main';
 					fieldsets[0].active = true;
 					// Only show user fields if not set yet
-					if (this.get('user') === null)
+					if (parseInt(this.get('user'), 10) > 0)
+					{
+						fieldsets[0].fields.unshift('user');
+					}
+					else
 					{
 						fieldsets[0].fields.unshift('user.email');
 						fieldsets[0].fields.unshift('user.last_name');
@@ -106,9 +128,9 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						{
 							name : 'main',
 							legend : '',
-							fields : this.get('user') === null
-								? ['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email']
-								: ['title', 'content', 'tags'],
+							fields : (parseInt(this.get('user'), 10) > 0) ?
+								['title', 'content', 'tags', 'user'] :
+								['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email'],
 							active: true
 						}
 					);
@@ -141,20 +163,31 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					},
 					locale : {
 						required : true
-					},
-					'user.email' : {
-						pattern: 'email',
-						required: false
-					},
-					'user.first_name' : {
-						maxLength: 150,
-						required: false
-					},
-					'user.last_name' : {
-						maxLength: 150,
-						required: false
 					}
 				};
+
+				if (parseInt(this.get('user'), 10) > 0)
+				{
+					rules.user = {
+						required: true,
+						pattern: 'number'
+					};
+				}
+				else
+				{
+					rules['user.email'] = {
+						pattern: 'email',
+						required: false
+					};
+					rules['user.first_name'] = {
+						maxLength: 150,
+						required: false
+					};
+					rules['user.last_name'] = {
+						maxLength: 150,
+						required: false
+					};
+				}
 
 				// Extend with form schema if form_id is set
 				if (this.get('form'))
