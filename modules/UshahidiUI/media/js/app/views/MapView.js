@@ -20,7 +20,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			collapsed : false,
 			className : 'map-view',
 			modelEvents : {
-			  "sync": "updateMarkers"
+			  'sync': 'updateMarkers'
 			},
 			/**
 			 * Initialize the map view

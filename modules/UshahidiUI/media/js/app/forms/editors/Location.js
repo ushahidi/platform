@@ -33,8 +33,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 					cloudmadeUrl,
 					cloudmadeAttribution,
 					minimal,
-					map,
-					marker;
+					map;
 
 			//this.setElement($editor);
 			this.$el.append($editor);

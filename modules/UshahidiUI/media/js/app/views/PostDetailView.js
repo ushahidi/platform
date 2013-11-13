@@ -23,7 +23,7 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			},
 
 			modelEvents: {
-			  "sync": "render"
+			  'sync': 'render'
 			},
 
 			deletepost: function(e)

@@ -67,7 +67,8 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 
 				if (! errors)
 				{
-					if (request = this.model.save())
+					request = this.model.save();
+					if (request)
 					{
 						request
 							.done(function (model /*, response, options*/)
