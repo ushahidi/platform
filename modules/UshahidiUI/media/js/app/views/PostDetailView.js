@@ -22,6 +22,10 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 				'click .js-post-set' : 'showAddToSet'
 			},
 
+			modelEvents: {
+			  "sync": "render"
+			},
+
 			deletepost: function(e)
 			{
 				var that = this;

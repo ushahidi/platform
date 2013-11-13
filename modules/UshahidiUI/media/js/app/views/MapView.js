@@ -19,6 +19,9 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			popupTemplate : Handlebars.compile(popupTemplate),
 			collapsed : false,
 			className : 'map-view',
+			modelEvents : {
+			  "sync": "updateMarkers"
+			},
 			/**
 			 * Initialize the map view
 			 * 
@@ -103,7 +106,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 				
 				// Add the posts marker layer
 				// @TODO split this out so we can manually update the map layer, without redrawing the map
-				posts = L.geoJson([], {
+				posts = this.posts = L.geoJson([], {
 					onEachFeature: function (feature, layer)
 					{
 						// does this feature have a property named popupContent?
@@ -113,36 +116,18 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						}
 					}
 				}).addTo(this.map);
-				OAuth.ajax({
-					url : this.dataURL,
-					success: function (data) {
-						// If geojson was empty, return
-						if (data.features.length === 0)
-						{
-							return;
-						}
 
-						posts.addData(data);
+				this.updateMarkers();
 
-						// Center map on post markers
-						map.fitBounds(posts.getBounds());
-						// Avoid zooming further than 15 (particularly when we just have a single point)
-						if (map.getZoom() > 15)
-						{
-							map.setZoom(15);
-						}
-					}
-				});
-				
 				baseMaps = { 'Minimal': minimal };
 				overlayMaps = { 'Posts': posts };
-				
+
 				L.control.layers(baseMaps, overlayMaps).addTo(this.map);
-				
+
 				// Set initial collapsed state
 				// @TODO Maybe move this into the view html: set classes when we render
 				this.collapseMap(this.collapsed);
-				
+
 				// Fix any leaflet weirdness after map resizes
 				// @TODO check if this works in older browsers, add backup delayed call if not
 				this.$el.on('transitionend', function (e)
@@ -153,7 +138,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						that.map.invalidateSize();
 					}
 				});
-				
+
 				return this;
 			},
 			events : {
@@ -161,8 +146,8 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			},
 			/**
 			 * Toggle map size
-			 * 
-			 * @param <Boolean> collapse - Set collapsed state rather than toggle (true = collapsed) 
+			 *
+			 * @param <Boolean> collapse - Set collapsed state rather than toggle (true = collapsed)
 			 **/
 			collapseMap : function (collapse)
 			{
@@ -190,8 +175,35 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					this.$('.js-expand-tab').toggleClass('none');
 					this.$('.leaflet-container .leaflet-control-zoom').toggle();
 				}
-				
+
 				return false;
+			},
+			updateMarkers : function ()
+			{
+				var map = this.map,
+					posts = this.posts;
+
+				OAuth.ajax({
+					url : this.dataURL,
+					success: function (data) {
+						// If geojson was empty, return
+						if (data.features.length === 0)
+						{
+							return;
+						}
+
+						posts.clearLayers();
+						posts.addData(data);
+
+						// Center map on post markers
+						map.fitBounds(posts.getBounds());
+						// Avoid zooming further than 15 (particularly when we just have a single point)
+						if (map.getZoom() > 15)
+						{
+							map.setZoom(15);
+						}
+					}
+				});
 			}
 		});
 	});
