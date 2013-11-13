@@ -57,7 +57,8 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			formSubmitted : function (e)
 			{
 				var that = this,
-					errors;
+					errors,
+					request;
 
 				e.preventDefault();
 
@@ -65,24 +66,31 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 
 				if (! errors)
 				{
-					// @todo don't hard code locale
-					this.model.set('locale', 'en_us');
-
-					this.model.save()
-						.done(function (model /*, response, options*/)
-							{
-								App.appRouter.navigate('posts/' + model.id, { trigger : true });
-								that.trigger('close');
-							})
-						.fail(function (response /*, xhr, options*/)
-							{
-								alertify.error('Unable to save post, please try again.');
-								// validation error
-								if (response.errors)
+					if (request = this.model.save())
+					{
+						request
+							.done(function (model /*, response, options*/)
 								{
-									// @todo Display this error somehow
-								}
-							});
+									alertify.success('Post saved.');
+									App.appRouter.navigate('posts/' + model.id, { trigger : true });
+									that.trigger('close');
+								})
+							.fail(function (response /*, xhr, options*/)
+								{
+									alertify.error('Unable to save post, please try again.');
+									// validation error
+									if (response.errors)
+									{
+										// @todo Display this error somehow
+										console.log(response.errors);
+									}
+								});
+					}
+					else
+					{
+						alertify.error('Unable to save post, please try again.');
+						console.log(this.model.validationError);
+					}
 				}
 			},
 			switchFieldSet : function (e)
