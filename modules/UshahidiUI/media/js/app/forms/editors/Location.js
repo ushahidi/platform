@@ -5,7 +5,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
 		tagName : 'div',
 		template : Handlebars.compile(template),
-		marker : L.marker([-36.85, 174.78], { draggable : true }),
+		marker : null,
 		defaultValue : {
 			lat : -36.85,
 			lon : 174.78
@@ -63,12 +63,8 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				scrollWheelZoom : false
 			});
 
-			marker = this.marker;
-			marker.setLatLng(new L.LatLng(this.value.lat, this.value.lon)).addTo(map);
-			marker.addEventListener('dragend', function ()
-			{
-				this.value = this.getValue();
-			}, this);
+			this.setValue(this.value);
+			this.marker.addTo(map);
 
 			// Update map marker on location found events
 			this.map.on('locationfound', function (e)
@@ -133,10 +129,21 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 			if (value.lat && value.lon)
 			{
-				this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
+				if (this.marker === null)
+				{
+					this.marker = L.marker([value.lat, value.lon], { draggable : true })
+						.addEventListener('dragend', function ()
+							{
+								this.value = this.getValue();
+							}, this);
+				}
+				else
+				{
+					this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
+				}
 
 				// Center map on post markers
-				this.map.setCenter(new L.LatLng(value.lat, value.lon));
+				this.map.panTo(new L.LatLng(value.lat, value.lon));
 			}
 		},
 
