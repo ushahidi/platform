@@ -74,12 +74,6 @@
 					</section> <!-- end .top-bar-section -->
 				</nav> <!-- end .navigation -->
 			</header> <!-- end .banner -->
-
-			<!-- on mobile devices deployment name is moved below topbar nav for better layout-->
-			<div class="name-small  show-for-small">
-				<div class="logo-image"></div>
-				<h4><a href="#">Deployment Name</a></h4>
-			</div>
 		</div>
 		<div id="main-region">
 			<article class="body-wrapper">
