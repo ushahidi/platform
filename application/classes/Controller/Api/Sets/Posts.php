@@ -25,7 +25,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	{
 		parent::_resource();
 
-		$this->_resource = 'set_posts';
+		$this->_resource = 'sets_posts';
 
 		// Check set exist
 		$set_id = $this->request->param('set_id', 0);
@@ -39,15 +39,16 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 			));
 		}
 
-		$this->_resource = ORM::factory('Set')
-			->set('set_id', $set_id);
+		$this->_resource = ORM::factory('Set');
+
 
 		// Get post
 		if ($post_id = $this->request->param('id', 0))
 		{
-			$post = ORM::factory('Set')
-				->where('set_id', '=', $set_id)
+			$post = ORM::factory('Post')
+				->join('posts_sets', 'INNER')->on('posts_sets.set_id', '=', 'posts_sets.set_id')
 				->where('id', '=', $post_id)
+				->where('set_id', '=',$set_id)
 				->find();
 
 			if ( ! $post->loaded())
@@ -89,7 +90,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		$set_id = $this->request->param('set_id');
 		$results = array();
 
-		$posts = ORM::factory('Set')
+		$posts = ORM::factory('Post')
 			->order_by('id', 'ASC')
 			->where('set_id', '=', $set_id)
 			->find_all();
@@ -137,7 +138,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	{
 		// Load post values into post model
 		$post->values($post_data, array(
-			'label', 'priority'
+			'set_id', 'post_id'
 			));
 
 		// Validation - perform in-model validation before saving
@@ -147,9 +148,10 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 			$post->check();
 
 			// Validates ... so save
+
 			$post->save();
 
-			// Response is the complete set
+			// Response is the complete form
 			$this->_response_payload = $post->for_api();
 		}
 		catch (ORM_Validation_Exception $e)
