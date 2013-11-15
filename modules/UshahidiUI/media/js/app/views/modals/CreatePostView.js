@@ -8,7 +8,7 @@
  */
 
 define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/CreatePost.html',
-	'backbone-validation', 'backbone-forms/backbone-forms', 'forms/templates/FormTemplates', 'forms/editors/Location'],
+	'backbone-validation', 'forms/UshahidiForms'],
 	function( App, Marionette, Handlebars, _, alertify, template,
 		BackboneValidation, BackboneForm)
 	{
