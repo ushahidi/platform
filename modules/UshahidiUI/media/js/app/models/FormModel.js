@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'App', 'underscore'],
-	function($, Backbone, App, _) {
+define(['jquery', 'backbone', 'App'],
+	function($, Backbone, App) {
 		var FormModel = Backbone.Model.extend(
 		{
 			urlRoot: App.config.baseurl + 'api/v2/forms',
