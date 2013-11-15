@@ -1,5 +1,5 @@
 define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!forms/templates/LocationEditor.html',
-	'backbone-forms/backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap', 'leaflet-locatecontrol/L.Control.Locate'],
+	'backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap', 'leaflet-locatecontrol/L.Control.Locate'],
 	function(_, Handlebars, Backbone, Marionette, L, template)
 {
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({

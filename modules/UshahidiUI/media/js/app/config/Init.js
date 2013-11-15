@@ -32,8 +32,8 @@ require.config(
 		'backbone-pageable' : '../libs/backbone-pageable',
 		'handlebars-paginate' : '../libs/handlebars-paginate',
 		'backbone.syphon' : '../libs/backbone.syphon',
-		'backbone-forms' : '../libs/backbone-forms',
-		'backbone-deep-model' : '../libs/deep-model',
+		'backbone-forms' : '../libs/backbone-forms/backbone-forms',
+		'bf' : '../libs/backbone-forms/',
 		'backbone-validation' : '../libs/backbone-validation-amd',
 		'alertify' : '../libs/alertify',
 		'text' : '../libs/requirejs-text'
@@ -59,9 +59,6 @@ require.config(
 		},
 		// Backbone.validateAll plugin (https://github.com/gfranko/Backbone.validateAll)
 		'backbone.validateAll' : ['backbone'],
-
-		// Deep model supposedly has AMD support but adds a bunch of underscore mixins before loading underscore
-		'backbone-deep-model' : ['underscore', 'backbone'],
 
 		'leaflet': {
 			deps: ['jquery'],

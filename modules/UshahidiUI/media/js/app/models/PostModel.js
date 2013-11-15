@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/FormModel', 'backbone-deep-model'],
+define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/FormModel'],
 	function($, Backbone, App, _, UserModel, FormModel) {
-		var PostModel = Backbone.DeepModel.extend(
+		var PostModel = Backbone.Model.extend(
 		{
 			urlRoot: App.config.baseurl + 'api/v2/posts',
 			user : null,
@@ -208,7 +208,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						requests = [],
 						user,
 						form;
-				
+
 				if (this.get('user'))
 				{
 					user = new UserModel({
@@ -236,10 +236,10 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					that.relationsCallback.resolve();
 				});
 			},
-			
+
 			/**
 			 * Accessor function for custom field values
-			 * 
+			 *
 			 * @param string key to return from 'values' object
 			 * @return value from 'values' object
 			 **/
@@ -251,7 +251,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					return values[key];
 				}
 			},
-			
+
 			isPublished : function ()
 			{
 				if (this.get('status') === 'published')
@@ -268,7 +268,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					return tagModel ? tagModel.toJSON() : null;
 				});
 			},
-			
+
 			/**
 			 * Get the first populated location field we find
 			 * @TODO update this with a way to control which location field is returned
@@ -281,12 +281,12 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						attributes,
 						a,
 						attribute;
-				
+
 				if (! this.form)
 				{
 					return;
 				}
-				
+
 				// Loop over all attributes to find a location
 				groups = this.form.get('groups');
 				loop_groups : for (g = 0; g < groups.length; g++)
@@ -303,11 +303,14 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						}
 					}
 				}
-				
+
 				return false;
 			},
+			// Overriding the parse method to handle nested JSON values
 			parse : function (data)
 			{
+				var key;
+
 				if (data.user !== null && data.user.id !== null)
 				{
 					data.user = data.user.id;
@@ -322,6 +325,35 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				{
 					data.tags = _.pluck(data.tags, 'id');
 				}
+
+				for (key in data.values)
+				{
+					if( data.values.hasOwnProperty( key ) )
+					{
+						data['values.'+key] = data.values[key];
+					}
+				}
+				delete data.values;
+
+				return data;
+			},
+			// Overriding toJSON to reverse parsing of values
+			toJSON : function ()
+			{
+				var data = Backbone.Model.prototype.toJSON.call(this),
+					values = {},
+					key;
+
+				for (key in data)
+				{
+					if (data.hasOwnProperty( key ) &&
+						key.substr(0, 7) === 'values.')
+					{
+						values[key.substr(7)] = data[key];
+						delete data[key];
+					}
+				}
+				data.values = values;
 
 				return data;
 			}
