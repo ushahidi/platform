@@ -16,13 +16,20 @@
 			    <section class="top-bar-section  top-bar-section-login">
 						<!-- Right Nav Section -->
 						<ul class="right">
-							<?php if ($logged_in) : ?>
-								<li class="show-for-medium-up"><a class="inverse" href="<?php echo URL::site('user/logout'); ?>"><i class="fa  fa-user  fa-lg"></i> LOGOUT</a></li>
-								<li class="show-for-small"><a class="inverse" href="<?php echo URL::site('user/logout'); ?>"><i class="fa  fa-user  fa-lg"></i></a></li>
-							<?php else: ?>
-								<li class="show-for-medium-up"><a class="inverse" href="<?php echo URL::site('user'); ?>"><i class="fa  fa-user  fa-lg"></i> LOGIN/REGISTER</a></li>
-								<li class="show-for-small"><a class="inverse" href="<?php echo URL::site('user'); ?>"><i class="fa  fa-user  fa-lg"></i></a></li>
-							<?php endif; ?>
+							<?php
+							// Is $logged_in set..
+							if (isset($logged_in))
+							{
+								if ($logged_in) : ?>
+									<li class="show-for-medium-up"><a class="inverse" href="<?php echo URL::site('user/logout'); ?>"><i class="fa  fa-user  fa-lg"></i> LOGOUT</a></li>
+									<li class="show-for-small"><a class="inverse" href="<?php echo URL::site('user/logout'); ?>"><i class="fa  fa-user  fa-lg"></i></a></li>
+								<?php else: ?>
+									<li class="show-for-medium-up"><a class="inverse" href="<?php echo URL::site('user'); ?>"><i class="fa  fa-user  fa-lg"></i> LOGIN/REGISTER</a></li>
+									<li class="show-for-small"><a class="inverse" href="<?php echo URL::site('user'); ?>"><i class="fa  fa-user  fa-lg"></i></a></li>
+								<?php endif;
+							}
+							// No $logged_in set, don't display anything (probably in an error state)
+							?>
 						</ul>
 					</section> <!-- end .top-bar-section -->
 				</nav> <!-- end .navigation -->
