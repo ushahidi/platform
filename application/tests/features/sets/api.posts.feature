@@ -32,7 +32,7 @@ Feature: Testing the Sets Posts API
         And the type of the "id" property is "numeric"
         Then the guzzle status code should be 200
 
-    Scenario: Remove an Post from a Set
+    Scenario: Remove a Post from a Set
         Given that I want to delete a "Post"
         And that its "id" is "1"
         When I request "/sets/1/posts/"
