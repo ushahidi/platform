@@ -71,11 +71,44 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$post_data = $this->_request_payload;
+		$set_id = $this->request->param('set_id');
 
-		$post = $this->resource();
+		$results = array();
 
-		$this->create_or_update($post, $post_data);
+		$post = $this->_request_payload;
+
+		$set = ORM::factory('Set', $set_id);
+
+		if ( ! $set->loaded())
+		{
+			throw new HTTP_Exception_404('Invalid Set ID. \':id\'', array(
+				':id' => $set_id,
+			));
+		}
+
+		// If we're trying to add an existing attribute
+		if (! empty($post['id']))
+		{
+			$posts = ORM::factory('Post', $post['id']);
+
+			if (! $posts->loaded())
+			{
+				throw new HTTP_Exception_400('Post does not exist. Post ID: \':id\'', array(
+				':id' => $post['id'],
+			));
+			}
+
+			// Add to group (if not already)
+			if (!$set->has('posts', $posts))
+			{
+				$set->add('posts', $posts);
+			}
+
+			// Response is the complete form
+			$this->_response_payload = $posts->for_api();
+
+			print $this->_response_payload;
+		}
 	}
 
 	/**
@@ -128,39 +161,6 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		$this->_response_payload =  $set->for_api();
 	}
 
-	/**
-	 * Save Post
-	 *
-	 * @param Model_Set_Post $post
-	 * @param array $post_data POST data
-	 */
-	protected function create_or_update($post, $post_data)
-	{
-
-		// Load post values into post model
-		$post->values($post_data, array(
-			'set_id', 'post_id'
-			));
-
-		// Validation - perform in-model validation before saving
-		try
-		{
-			// Validate base post data
-			$post->check();
-
-			// Validates ... so save
-			$post->save();
-
-			// Response is the complete form
-			$this->_response_payload = $post->for_api();
-		}
-		catch (ORM_Validation_Exception $e)
-		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
-			));
-		}
-	}
 
 	/**
 	 * Delete a single post
