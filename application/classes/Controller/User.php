@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Controller_User extends Controller_Template {
+class Controller_User extends Controller_Layout {
 
-	public $template = 'user/login';
+	public $template = 'user/main';
 
 	protected $_auth;
 	protected $_acl;
@@ -19,6 +19,8 @@ class Controller_User extends Controller_Template {
 		$this->acl  = A2::instance();
 		$this->auth = $this->acl->auth();
 		$this->user = $this->acl->get_user();
+
+		$this->header->set('logged_in', $this->auth->logged_in());
 	}
 
 	public function action_index()
