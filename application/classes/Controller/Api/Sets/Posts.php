@@ -63,7 +63,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	}
 
 	/**
-	 * Create a new post
+	 * Add an existing post to a set
 	 *
 	 * POST /api/sets/:set_id/posts
 	 *
@@ -109,7 +109,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	}
 
 	/**
-	 * Retrieve all posts
+	 * Retrieve all posts attached to a set
 	 *
 	 * GET /api/sets/:set_id/posts
 	 *
@@ -174,26 +174,32 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$id = $this->request->param('id');
+		$post_id = $this->request->param('id');
+
 		$set_id = $this->request->param('set_id');
 
-		$post = ORM::factory('Set_Post')
-			->where('set_id', '=', $set_id)
-			->where('id', '=', $id)
-			->find();
+		$set = ORM::factory('Set', $set_id);
 
-		$this->_response_payload = array();
-		if ($post->loaded())
+		if ( ! $set->loaded())
 		{
-			// Return the post we just deleted (provides some confirmation)
-			$this->_response_payload = $post->for_api();
-			$post->delete();
-		}
-		else
-		{
-			throw new HTTP_Exception_404('Post does not exist. Post ID: \':id\'', array(
-				':id' => $id,
+			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
+				':id' => $set_id,
 			));
 		}
+
+		$post = $set->posts->where('post_id', '=', $post_id)->find();
+
+		if ( ! $post->loaded())
+		{
+			// Return the post we just deleted (provides some confirmation)
+			throw new HTTP_Exception_404('Post does not exist or does not belong to this set. Post ID: \':id\'', array(
+				':id' => $post_id,
+			));
+		}
+
+		$set->remove('posts',$post);
+
+		// Response is the complete post
+		$this->_response_payload = $post->for_api();
 	}
 }
