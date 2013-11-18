@@ -45,10 +45,10 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		// Get post
 		if ($post_id = $this->request->param('id', 0))
 		{
-			$post = ORM::factory('Post')
-				->join('posts_sets', 'INNER')->on('posts_sets.set_id', '=', 'posts_sets.set_id')
-				->where('id', '=', $post_id)
-				->where('set_id', '=',$set_id)
+
+			$post = $set->posts
+				->where('post_id', '=', $post_id)
+				->where('set_id', '=', $set_id)
 				->find();
 
 			if ( ! $post->loaded())
