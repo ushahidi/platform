@@ -136,6 +136,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	protected function create_or_update($post, $post_data)
 	{
+
 		// Load post values into post model
 		$post->values($post_data, array(
 			'set_id', 'post_id'
@@ -148,7 +149,6 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 			$post->check();
 
 			// Validates ... so save
-
 			$post->save();
 
 			// Response is the complete form
