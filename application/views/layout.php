@@ -1,3 +1,4 @@
+<?php defined('SYSPATH') OR die('No direct script access.') ?>
 <!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]>

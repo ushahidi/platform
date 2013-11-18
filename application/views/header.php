@@ -1,3 +1,4 @@
+<?php defined('SYSPATH') OR die('No direct script access.') ?>
 <div class="content-wrapper  js-content-wrapper">
 	<h1 class="visually-hidden">Main Section</h1>
 	<section id="main" role="main">

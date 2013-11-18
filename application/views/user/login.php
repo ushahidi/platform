@@ -1,3 +1,4 @@
+<?php defined('SYSPATH') OR die('No direct script access.') ?>
 
 		<div id="main-region">
 			<article class="body-wrapper">
