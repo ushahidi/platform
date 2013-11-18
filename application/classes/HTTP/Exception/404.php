@@ -11,6 +11,11 @@
 class HTTP_Exception_404 extends Kohana_HTTP_Exception_404 {
 
 	/**
+	 * @var  string  error rendering view
+	 */
+	public static $error_view = 'error/404';
+
+	/**
 	 * Generate a Response for the current Exception
 	 *
 	 * @uses   Kohana_Exception::response()
@@ -18,7 +23,7 @@ class HTTP_Exception_404 extends Kohana_HTTP_Exception_404 {
 	 */
 	public function get_response()
 	{
-		Kohana_Exception::$error_view = 'error/404';
+		Kohana_Exception::$error_view = self::$error_view;
 
 		return Kohana_Exception::response($this);
 	}

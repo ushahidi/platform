@@ -33,9 +33,12 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 			$response = parent::response($e);
 
 			// Wrap default response in Ushahidi layout
-			$view = View::factory(Kohana_Exception::$error_layout)
-				->set('content', $response->body());
-			$response->body($view->render());
+			if (Kohana_Exception::$error_layout)
+			{
+				$view = View::factory(Kohana_Exception::$error_layout)
+					->set('content', $response->body());
+				$response->body($view->render());
+			}
 		}
 		catch (Exception $e)
 		{
