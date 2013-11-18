@@ -11,12 +11,18 @@
 				<div class="post-body">
 					<div class="login-form-wrapper">
 
+						<?php if (! empty($error)): ?>
+						<div class="error">
+							<?php echo html::entities($error)?>
+						</div>
+						<?php endif; ?>
+
 						<div class="login-form">
 							<?php echo Form::open('user/submit_register' . URL::query()); ?>
 								<?php echo Form::hidden('csrf', Security::token()); ?>
 
-								<?php echo Form::input('email', '', array('placeholder' => 'Email', 'type' => 'email')); ?>
-								<?php echo Form::input('username', '', array('placeholder' => 'Username', 'required', 'aria-required' => 'true')); ?>
+								<?php echo Form::input('email', ! empty($form['email']) ? $form['email'] : '', array('placeholder' => 'Email', 'type' => 'email')); ?>
+								<?php echo Form::input('username', ! empty($form['username']) ? $form['username'] : '', array('placeholder' => 'Username', 'required', 'aria-required' => 'true')); ?>
 								<?php echo Form::input('password', '', array('placeholder' => 'Password', 'type' => 'password', 'required', 'aria-required' => 'true')); ?>
 
 								<!--<div class="login-form-checkboxes">

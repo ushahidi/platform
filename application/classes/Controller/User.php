@@ -73,53 +73,70 @@ class Controller_User extends Controller_Layout {
 
 	public function action_submit_login()
 	{
-		if (! $this->acl->allowed('login'))
+		try
 		{
-			$this->redirect('user' . URL::query());
-		}
-
-		if ($this->request->method() != 'POST')
-		{
-			$this->redirect('user' . URL::query());
-		}
-
-		$params = $this->request->post();
-		$valid = new Validation($params);
-		$valid
-			->rule('username', 'not_empty')
-			->rule('password', 'not_empty')
-			->rules('csrf', array(
-				array('not_empty'),
-				array('Security::check'),
-				));
-
-		if ($valid->check())
-		{
-			$user = $this->auth->login($params['username'], $params['password']);
-			if ($user instanceof Model_User)
+			if (! $this->acl->allowed('login'))
 			{
-				if ($from_url = $this->request->query('from_url')
-						AND in_array(parse_url($from_url, PHP_URL_PATH), $this->_redirect_whitelist)
-					)
+				$this->redirect('user' . URL::query());
+			}
+
+			if ($this->request->method() != 'POST')
+			{
+				$this->redirect('user' . URL::query());
+			}
+
+			$params = $this->request->post();
+			$valid = new Validation($params);
+			$valid
+				->rule('username', 'not_empty')
+				->rule('password', 'not_empty')
+				->rules('csrf', array(
+					array('not_empty'),
+					array('Security::check'),
+					));
+
+			if ($valid->check())
+			{
+				$user = $this->auth->login($params['username'], $params['password']);
+				if ($user instanceof Model_User)
 				{
-					$this->redirect($from_url);
+					if ($from_url = $this->request->query('from_url')
+							AND in_array(parse_url($from_url, PHP_URL_PATH), $this->_redirect_whitelist)
+						)
+					{
+						$this->redirect($from_url);
+					}
+					else
+					{
+						$this->redirect('user' . URL::query());
+					}
+					return;
 				}
 				else
 				{
-					$this->redirect('user' . URL::query());
+					throw new Exception_Login('Log in failed - incorrect username or password');
 				}
-				return;
 			}
-			else
-			{
-				throw new Kohana_Exception('Log in failed - incorrect username or password');
-				$this->redirect('user/login' . URL::query());
-				return;
-			}
+
+			throw new Exception_Login('Log in failed - incorrect username or password');
+		}
+		catch (Exception_Login $e)
+		{
+			$this->template = View::factory('user/login')
+				->set('error', $e->getMessage())
+				->set('form', $params);
+			return;
+		}
+		catch (A1_Rate_Exception $e)
+		{
+			$this->template = View::factory('user/login')
+				->set('error', $e->getMessage())
+				->set('form', $params);
+			return;
 		}
 
-		throw new Kohana_Exception('Log in failed - incorrect username or password');
-
+		// If we somehow fall through to here;
+		$this->redirect('user');
 	}
 
 	public function action_submit_register()
@@ -163,9 +180,9 @@ class Controller_User extends Controller_Layout {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			throw new Kohana_Exception('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models')))
-				));
+			$this->template = View::factory('user/register')
+				->set('error', implode(', ', Arr::flatten($e->errors('models'))))
+				->set('form', $params);
 		}
 	}
 
