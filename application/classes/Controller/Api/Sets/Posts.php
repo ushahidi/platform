@@ -73,8 +73,6 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	{
 		$set_id = $this->request->param('set_id');
 
-		$results = array();
-
 		$post = $this->_request_payload;
 
 		$set = ORM::factory('Set', $set_id);
@@ -87,11 +85,11 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		}
 
 		// If we're trying to add an existing attribute
-		if (! empty($post['id']))
+		if ( ! empty($post['id']))
 		{
 			$posts = ORM::factory('Post', $post['id']);
 
-			if (! $posts->loaded())
+			if ( ! $posts->loaded())
 			{
 				throw new HTTP_Exception_400('Post does not exist. Post ID: \':id\'', array(
 				':id' => $post['id'],
@@ -99,7 +97,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 			}
 
 			// Add to group (if not already)
-			if (!$set->has('posts', $posts))
+			if ( ! $set->has('posts', $posts))
 			{
 				$set->add('posts', $posts);
 			}
@@ -107,7 +105,6 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 			// Response is the complete form
 			$this->_response_payload = $posts->for_api();
 
-			print $this->_response_payload;
 		}
 	}
 
@@ -123,10 +120,16 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		$set_id = $this->request->param('set_id');
 		$results = array();
 
-		$posts = ORM::factory('Post')
-			->order_by('id', 'ASC')
-			->where('set_id', '=', $set_id)
-			->find_all();
+		$set = ORM::factory('Set', $set_id)->order_by('id', 'ASC');
+
+		if ( ! $set->loaded())
+		{
+			throw new HTTP_Exception_404('Set does not exist. Set ID: \':id\'', array(
+				':id' => $set_id,
+			));
+		}
+
+		$posts = $set->posts->find_all();
 
 		$count = $posts->count();
 
