@@ -27,8 +27,8 @@
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.eot?v=4.0.1");
-  src: url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.eot?#iefix&v=4.0.1") format("embedded-opentype"), url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.woff?v=4.0.1") format("woff"), url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.ttf?v=4.0.1") format("truetype"), url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.svg?v=4.0.1#fontawesomeregular") format("svg");
+  src: url("/media/kohana/font/fontawesome-webfont.eot?v=4.0.1");
+  src: url("/media/kohana/font/fontawesome-webfont.eot?#iefix&v=4.0.1") format("embedded-opentype"), url("/media/kohana/font/fontawesome-webfont.woff?v=4.0.1") format("woff"), url("/media/kohana/font/fontawesome-webfont.ttf?v=4.0.1") format("truetype"), url("/media/kohana/font/fontawesome-webfont.svg?v=4.0.1#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal;
 }
