@@ -62,7 +62,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					_.extend(schema, {
 						'user' : {
 							'title' : 'User ID',
-							'type' : 'Number',
+							'type' : 'Hidden',
 							editorAttrs: {
 								disabled : true
 							}
