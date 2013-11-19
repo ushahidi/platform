@@ -16,6 +16,8 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	protected $_scope_required = 'sets';
 
+	private $set = NULL;
+
 	/**
 	 * Load resource object
 	 *
@@ -41,7 +43,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 
 		$this->_resource = $set;
 
-
+		$this->set = $set;
 		// Get post
 		if ($post_id = $this->request->param('id', 0))
 		{
@@ -140,7 +142,22 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	public function action_get_index()
 	{
 		// Respond with set
-		$this->_response_payload =  $this->resource()->for_api();
+		if ($this->set !== NULL)
+		{
+			// Perhaps there is a better way to get to the api/posts/:id controller?
+			$uri = Route::get('api')->uri(array(
+				'id' => $this->set->posts->find()->id,
+				'controller' => 'posts'
+			));
+			// Send a sub request to api/posts/:id
+			$request = Request::factory($uri);
+
+			// Forward current request headers to the sub request
+			$request->headers($this->request->headers());
+
+			// Return a JSON formatted response
+			$this->_response_payload  = json_decode($request->execute()->body(),TRUE);
+		}
 	}
 
 
