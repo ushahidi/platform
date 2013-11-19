@@ -25,7 +25,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	{
 		parent::_resource();
 
-		$this->_resource = 'sets_posts';
+		$this->_resource = 'posts';
 
 		// Check set exist
 		$set_id = $this->request->param('set_id', 0);
@@ -39,7 +39,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 			));
 		}
 
-		$this->_resource = ORM::factory('Set');
+		$this->_resource = $set;
 
 
 		// Get post
@@ -71,40 +71,31 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$set_id = $this->request->param('set_id');
 
 		$post = $this->_request_payload;
 
-		$set = ORM::factory('Set', $set_id);
-
-		if ( ! $set->loaded())
-		{
-			throw new HTTP_Exception_404('Invalid Set ID. \':id\'', array(
-				':id' => $set_id,
-			));
-		}
-
-		// If we're trying to add an existing attribute
+		// Add an existing post
 		if ( ! empty($post['id']))
 		{
 			$posts = ORM::factory('Post', $post['id']);
-
 			if ( ! $posts->loaded())
 			{
-				throw new HTTP_Exception_400('Post does not exist. Post ID: \':id\'', array(
-				':id' => $post['id'],
-			));
+				throw new HTTP_Exception_400('Post does not exist or is not in this set');
 			}
 
-			// Add to group (if not already)
-			if ( ! $set->has('posts', $posts))
+			// Add to set (if not already)
+			if ( ! $this->resource()->has('posts', $posts))
 			{
-				$set->add('posts', $posts);
+				$this->resource()->add('posts', $posts);
 			}
 
-			// Response is the complete form
+			// Response is the complete post
 			$this->_response_payload = $posts->for_api();
 
+		}
+		else
+		{
+			throw new HTTP_Exception_400('No Post ID');
 		}
 	}
 
@@ -117,19 +108,9 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$set_id = $this->request->param('set_id');
 		$results = array();
 
-		$set = ORM::factory('Set', $set_id)->order_by('id', 'ASC');
-
-		if ( ! $set->loaded())
-		{
-			throw new HTTP_Exception_404('Set does not exist. Set ID: \':id\'', array(
-				':id' => $set_id,
-			));
-		}
-
-		$posts = $set->posts->find_all();
+		$posts = $this->resource()->posts->find_all();
 
 		$count = $posts->count();
 
@@ -158,10 +139,8 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$set = $this->resource();
-
 		// Respond with set
-		$this->_response_payload =  $set->for_api();
+		$this->_response_payload =  $this->resource()->for_api();
 	}
 
 
@@ -174,8 +153,6 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$post_id = $this->request->param('id');
-
 		$set_id = $this->request->param('set_id');
 
 		$set = ORM::factory('Set', $set_id);
@@ -183,23 +160,13 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		if ( ! $set->loaded())
 		{
 			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
-				':id' => $set_id,
+				':id' => $set_id
 			));
 		}
 
-		$post = $set->posts->where('post_id', '=', $post_id)->find();
-
-		if ( ! $post->loaded())
-		{
-			// Return the post we just deleted (provides some confirmation)
-			throw new HTTP_Exception_404('Post does not exist or does not belong to this set. Post ID: \':id\'', array(
-				':id' => $post_id,
-			));
-		}
-
-		$set->remove('posts',$post);
+		$set->remove('posts',$this->resource());
 
 		// Response is the complete post
-		$this->_response_payload = $post->for_api();
+		$this->_response_payload = $this->_resource->for_api();
 	}
 }
