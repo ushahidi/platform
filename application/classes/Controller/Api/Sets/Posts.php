@@ -150,13 +150,15 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 				'controller' => 'posts'
 			));
 			// Send a sub request to api/posts/:id
-			$request = Request::factory($uri);
+			$response = Request::factory($uri)
+				->headers($this->request->headers()) // Forward current request headers to the sub request
+				->execute();
 
-			// Forward current request headers to the sub request
-			$request->headers($this->request->headers());
+			// Override response to ensure status code etc is set
+			$this->response = $response;
 
 			// Return a JSON formatted response
-			$this->_response_payload  = json_decode($request->execute()->body(),TRUE);
+			$this->_response_payload  = json_decode($response->body());
 		}
 	}
 
