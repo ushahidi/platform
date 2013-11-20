@@ -10707,8 +10707,8 @@ img.mfp-img {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.eot?v=4.0.1");
-  src: url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.eot?#iefix&v=4.0.1") format("embedded-opentype"), url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.woff?v=4.0.1") format("woff"), url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.ttf?v=4.0.1") format("truetype"), url("//netdna.bootstrapcdn.com/font-awesome/4.0.1/fonts/fontawesome-webfont.svg?v=4.0.1#fontawesomeregular") format("svg");
+  src: url("/media/kohana/font/fontawesome-webfont.eot?v=4.0.1");
+  src: url("/media/kohana/font/fontawesome-webfont.eot?#iefix&v=4.0.1") format("embedded-opentype"), url("/media/kohana/font/fontawesome-webfont.woff?v=4.0.1") format("woff"), url("/media/kohana/font/fontawesome-webfont.ttf?v=4.0.1") format("truetype"), url("/media/kohana/font/fontawesome-webfont.svg?v=4.0.1#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -12860,7 +12860,6 @@ img.mfp-img {
 /**
  * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
- * CREATE POST MODAL...............create post modal styling
  * SEARCH BAR...............search bar styling
  * LIST VIEW FILTER...............list view filter styling
  * PSEUDO ELEMENTS...............pseudo element styling
@@ -12868,7 +12867,7 @@ img.mfp-img {
 /*------------------------------------*\
 	$GENERAL
 \*------------------------------------*/
-/* line 22, ../../scss/modules/forms/_forms.scss */
+/* line 21, ../../scss/modules/forms/_forms.scss */
 input[type="radio"], select {
   margin: 0 3px 1em 0;
   position: relative;
@@ -12878,7 +12877,7 @@ input[type="radio"], select {
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
-/* line 32, ../../scss/modules/forms/_forms.scss */
+/* line 31, ../../scss/modules/forms/_forms.scss */
 input[type="text"], input[type="email"] {
   height: 100%;
   /* FF fix */
@@ -12890,7 +12889,7 @@ input[type="text"], input[type="email"] {
   border-radius: 3px;
 }
 
-/* line 38, ../../scss/modules/forms/_forms.scss */
+/* line 37, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown {
   height: 2.9em;
   -webkit-border-radius: 3px;
@@ -12899,12 +12898,12 @@ form.custom .custom.dropdown {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 41, ../../scss/modules/forms/_forms.scss */
+/* line 40, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-top: .4em;
   margin-left: 1.4em;
 }
-/* line 45, ../../scss/modules/forms/_forms.scss */
+/* line 44, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .selector {
   height: 3.3125em;
 }
@@ -12913,7 +12912,7 @@ form.custom .custom.dropdown .selector {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 57, ../../scss/modules/forms/_forms.scss */
+  /* line 56, ../../scss/modules/forms/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -12924,13 +12923,13 @@ form.custom .custom.dropdown .selector {
 }
 
 @media only screen and (min-width: 1024px) {
-  /* line 63, ../../scss/modules/forms/_forms.scss */
+  /* line 62, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 63, ../../scss/modules/forms/_forms.scss */
+  /* line 62, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -12944,13 +12943,13 @@ form.custom .custom.dropdown .selector {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 79, ../../scss/modules/forms/_forms.scss */
+  /* line 78, ../../scss/modules/forms/_forms.scss */
   .list-view-filter form.custom .custom.dropdown, .set-detail-post-list-filter form.custom .custom.dropdown {
     margin-bottom: 0;
   }
 }
 
-/* line 85, ../../scss/modules/forms/_forms.scss */
+/* line 84, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em;
 }
@@ -12958,20 +12957,20 @@ form.custom .custom.dropdown .current {
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 96, ../../scss/modules/forms/_forms.scss */
+/* line 95, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc;
 }
 
-/* line 101, ../../scss/modules/forms/_forms.scss */
+/* line 100, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f;
 }
 
-/* line 107, ../../scss/modules/forms/_forms.scss */
+/* line 106, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px;
@@ -13271,11 +13270,11 @@ form.custom .custom.checkbox.checked:before {
 		$CONTENTS
 \*------------------------------------*/
 /**
- * SCHEME...............form select color scheme
+ * COLOR SCHEME...............form select color scheme
  * GENERAL STYLES...............general styles
  */
 /*------------------------------------*\
-		$SCHEME
+		COLOR SCHEME
 \*------------------------------------*/
 /*Pick the base color for your scheme:*/
 /*$cs-scheme: mono; // mono, complement, triad, tetrad, analogic, accented-analogic
@@ -13495,6 +13494,44 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   }
   /* line 36, ../../scss/foundation/components/_block-grid.scss */
   .forms-grid > li {
+    width: 33.33333%;
+    padding: 0 0.625em 1.25em;
+  }
+  /* line 40, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li:nth-of-type(n) {
+    clear: none;
+  }
+  /* line 41, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li:nth-of-type(3n+1) {
+    clear: both;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 59, ../../scss/modules/modals/_choose-form-modal.scss */
+  .forms-grid {
+    display: block;
+    padding: 0;
+    margin: 0 -0.625em;
+    *zoom: 1;
+  }
+  /* line 121, ../../scss/foundation/components/_global.scss */
+  .forms-grid:before, .forms-grid:after {
+    content: " ";
+    display: table;
+  }
+  /* line 122, ../../scss/foundation/components/_global.scss */
+  .forms-grid:after {
+    clear: both;
+  }
+  /* line 27, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li {
+    display: inline;
+    height: auto;
+    float: left;
+    padding: 0 0.625em 1.25em;
+  }
+  /* line 36, ../../scss/foundation/components/_block-grid.scss */
+  .forms-grid > li {
     width: 25%;
     padding: 0 0.625em 1.25em;
   }
@@ -13508,7 +13545,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   }
 }
 
-/* line 69, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 72, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid-name-wrapper {
   color: #fcfcfc;
   text-align: center;
@@ -13519,11 +13556,11 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   -o-border-radius: 10px;
   border-radius: 10px;
 }
-/* line 74, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 77, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid-name-wrapper:hover {
   cursor: pointer;
 }
-/* line 77, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 80, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid-name-wrapper [class^="fa"], .forms-grid-name-wrapper [class*=" fa"] {
   width: 100%;
   font-size: 35px;
