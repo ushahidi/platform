@@ -8,7 +8,6 @@ Feature: API Access Control Layer
 		And the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "1"
 
 	Scenario: Anonymous user can access public posts
 		Given that I want to get all "Posts"
