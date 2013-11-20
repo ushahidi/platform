@@ -11,5 +11,6 @@ return array(
 		'users',
 		'media',
 	),
-	'www_realm'        => 'Ushahidi API'
+	'www_realm'        => 'Ushahidi API',
+	'access_lifetime'  => 86400 // 1 day
 );
