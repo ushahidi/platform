@@ -3,10 +3,12 @@ Feature: API Access Control Layer
 	Scenario: User can view public and own private posts in a set
 		Given that I want to get all "Posts"
 		And that the request "Authorization" header is "Bearer testadminuser"
-		When I request "/sets/1/posts/"
+		When I request "/sets/1/posts"
 		Then the guzzle status code should be 200
 		And the response is JSON
-		And the "count" property equals "2"
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "1"
 
 	Scenario: Anonymous user can access public posts
 		Given that I want to get all "Posts"
