@@ -20,7 +20,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "last_location_point":{
@@ -86,7 +86,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "missing_status":"believed_missing"
                 }
@@ -116,7 +116,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "status":"believed_missing",
                     "last_location":"atlanta"
@@ -145,7 +145,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "missing_status":"believed_missing",
                     "last_location":"atlanta"
@@ -172,7 +172,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "last_location_point":"POINT(-85.39 33.755)",
@@ -207,7 +207,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "missing_status":"believed_missing"
@@ -235,7 +235,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta"
                 },
@@ -262,7 +262,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "missing_status":"believed_missing"
@@ -435,7 +435,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-                    "date_of_birth":"unknown",
+		    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "missing_status":"believed_missing"

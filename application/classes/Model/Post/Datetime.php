@@ -2,7 +2,7 @@
 
 /**
  * Model for Post_Datetime
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
  * @copyright  2013 Ushahidi
@@ -16,18 +16,11 @@ class Model_Post_Datetime extends Model_Post_Value {
 
 	/**
 	 * Filters for the post_datetime model
-	 * 
+	 *
 	 * @return array Filters
 	 */
 	public function filters()
 	{
-		return array(
-			'value' => array(
-				// Filter to handle special value 'unknown'
-				array(function($value) { return $value == 'unknown' ? FALSE : $value; }, array(':value')),
-				// @todo handle 'now' ?
-			),
-		);
 	}
 
 	/**
