@@ -435,6 +435,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				// to the form_attribute
 				foreach ($post_data['values'] as $key => $value)
 				{
+					// Skip null/empty values
+					if (empty($value)) continue;
+
 					$attribute = ORM::factory('Form_Attribute')
 						->join('form_groups_form_attributes', 'INNER')
 							->on('form_attribute.id', '=', 'form_attribute_id')
@@ -511,6 +514,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 							$validation->error("values.$key.$k", 'value_array_invalid');
 							continue;
 						}
+
+						// Skip empty/null values
+						if (empty($v['value'])) continue;
 
 						// Load existing Post_* object
 						if (! empty($v['id']))
