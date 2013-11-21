@@ -47,17 +47,30 @@ class Controller_Api_Users extends Ushahidi_Api {
 		// Get post
 		if ($user_id = $this->request->param('id', 0))
 		{
-			// Respond with set
-			$user = ORM::factory('User', $user_id);
-			
-			if (! $user->loaded())
+			if ($user_id == 'me')
 			{
-				throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
-					':id' => $this->request->param('id', 0),
-				));
+				$user = $this->user;
+
+				if (! $user->loaded())
+				{
+					throw new HTTP_Exception_404('No user currently authenticated');
+				}
+
+				$this->_resource = $user;
 			}
-			
-			$this->_resource = $user;
+			else
+			{
+				$user = ORM::factory('User', $user_id);
+
+				if (! $user->loaded())
+				{
+					throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
+						':id' => $this->request->param('id', 0),
+					));
+				}
+
+				$this->_resource = $user;
+			}
 		}
 	}
 
@@ -240,8 +253,8 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 * @param User_Model $user
 	 * @aparam array $post POST data
 	 */
-	 protected function create_or_update_user($user, $post)
-	 {
+	protected function create_or_update_user($user, $post)
+	{
 		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
 
 		//Validation - cycle through nested models and perform in-model
@@ -252,7 +265,8 @@ class Controller_Api_Users extends Ushahidi_Api {
 			// Validate base user data
 			$user_validation = Validation::factory($post);
 			$user_validation->rule('username', 'not_empty');
-			$user_validation->rule('password', 'not_empty');
+			// If this is a new user, require password
+			if (! $user->loaded()) $user_validation->rule('password', 'not_empty');
 			$user->check($user_validation);
 
 			// Validates ... so save
@@ -268,6 +282,29 @@ class Controller_Api_Users extends Ushahidi_Api {
 					':errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
+	}
 
-	 }
+	/**
+	 * Get current user
+	 *
+	 * GET /api/users/me
+	 *
+	 * @return void
+	 */
+	public function action_get_me()
+	{
+		$this->action_get_index();
+	}
+
+	/**
+	 * Update current user
+	 *
+	 * PUT /api/users/me
+	 *
+	 * @return void
+	 */
+	public function action_put_me()
+	{
+		$this->action_put_index();
+	}
 }

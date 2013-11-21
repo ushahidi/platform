@@ -112,6 +112,12 @@ return array(
 				'privilege' => array('put', 'delete'),
 				'assertion' => array('Acl_Assert_Argument', array('id' => 'user_id'))
 			),
+			'UserCanEditOwnUser' => array(
+				'role'      => 'user',
+				'resource'  => 'users',
+				'privilege' => array('put', 'get', 'delete'),
+				'assertion' => array('Acl_Assert_Argument', array('id' => 'id'))
+			),
 			// Guest
 			'GuestCanViewPublicPost' => array(
 				'role'      => 'guest',
