@@ -2,13 +2,13 @@
 		$CONTENTS
 \*------------------------------------*/
 /**
- * SCHEME...............form select color scheme
+ * COLOR SCHEME...............form select color scheme
  * GENERAL STYLES...............general styles
  */
 
 
  /*------------------------------------*\
- 		$SCHEME
+		COLOR SCHEME
  \*------------------------------------*/
 
 /*Pick the base color for your scheme:*/
@@ -62,6 +62,9 @@ $colors: $color1, $color2, $color3, $color4, $color5, $color6, $color7, $color8;
 		@include block-grid($per-row: 2);
 	}
 	@media #{$small} {
+		@include block-grid($per-row: 3);
+	}
+	@media #{$medium} {
 		@include block-grid($per-row: 4);
 	}
 }

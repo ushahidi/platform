@@ -55,7 +55,7 @@ You need to use ```--recursive``` to initialize and clone all the submodules.
 If you've already cloned without submodules you can already initialize (or update) them but running:
 
 ```
-git submodule update --init
+git submodule update --init --recursive
 ```
 
 ### Installing

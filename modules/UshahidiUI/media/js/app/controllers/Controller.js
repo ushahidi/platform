@@ -149,12 +149,12 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			login : function ()
 			{
 				var that = this;
-				require(['views/LoginView', 'text!templates/WorkspacePanel_login.html', 'handlebars'], function(LoginView, workspaceTpl, Handlebars)
+				require(['views/LoginView', 'text!templates/Header_login.html', 'handlebars'], function(LoginView, workspaceTpl, Handlebars)
 				{
 					App.vent.trigger('page:change', 'login');
 					that.layout.mainRegion.show(new LoginView());
 					// @FIXME this will break other controllers, fix this when wiring login properly
-					that.layout.headerRegion.show(new WorkspacePanelView({
+					that.layout.headerRegion.show(new HeaderView({
 						template: Handlebars.compile(workspaceTpl)
 					}));
 					that.layout.footerRegion.close();
@@ -163,12 +163,12 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			register : function ()
 			{
 				var that = this;
-				require(['views/RegisterView', 'text!templates/WorkspacePanel_login.html', 'handlebars'], function(RegisterView, workspaceTpl, Handlebars)
+				require(['views/RegisterView', 'text!templates/Header_login.html', 'handlebars'], function(RegisterView, workspaceTpl, Handlebars)
 				{
 					App.vent.trigger('page:change', 'register');
 					that.layout.mainRegion.show(new RegisterView());
 					// @FIXME this will break other controllers, fix this when wiring login properly
-					that.layout.headerRegion.show(new WorkspacePanelView({
+					that.layout.headerRegion.show(new HeaderView({
 						template: Handlebars.compile(workspaceTpl)
 					}));
 					that.layout.footerRegion.close();
