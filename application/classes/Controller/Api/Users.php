@@ -30,18 +30,18 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 * @var string oauth2 scope required for access
 	 */
 	protected $_scope_required = 'users';
-	
+
 	/**
 	 * Load resource object
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _resource()
 	{
 		parent::_resource();
-		
+
 		$this->_resource = 'users';
-		
+
 		$this->_resource = ORM::factory('User');
 
 		// Get post
@@ -140,9 +140,9 @@ class Controller_Api_Users extends Ushahidi_Api {
 			// Check if user is allowed to access this user
 			if ($this->acl->is_allowed($this->user, $user, 'get') )
 			{
-			$results[] = $user->for_api();
+				$results[] = $user->for_api();
+			}
 		}
-		}	
 
 		// Current/Next/Prev urls
 		$params = array(
@@ -154,7 +154,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
 			$params['orderby'] = $this->_record_orderby;
-			$params['order'] = $this->_record_order;	
+			$params['order'] = $this->_record_order;
 		}
 
 		$prev_params = $next_params = $params;
@@ -231,7 +231,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 			$this->_response_payload = $user->for_api();
 			$user->delete();
 		}
-		}
+	}
 
 
 	/**
