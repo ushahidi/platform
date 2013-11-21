@@ -70,10 +70,10 @@ define(['jquery', 'backbone', 'App'],
 									id : 'Hidden',
 									value : {
 										title: null,
-										type: inputFieldMap[attribute.input]
+										type: inputFieldMap[attribute.input],
+										options : attribute.options
 									}
-								},
-								options : attribute.options
+								}
 							};
 						}
 					}
