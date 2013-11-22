@@ -30,11 +30,11 @@ html, body {
 /*custom text selection*/
 ::-moz-selection {
 		color: white;
-		background: $blueGray;
+		background: $accent-color;
 }
 ::selection {
 		color: white;
-		background: $blueGray;
+		background: $accent-color;
 }
 
 

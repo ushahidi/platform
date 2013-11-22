@@ -53,7 +53,7 @@
 }
 
 .visibility-select-private-button {
-	@include button($bg: $blueGray, $radius: true, $full-width: true);
+	@include button($bg: $accent-color, $radius: true, $full-width: true);
 }
 
 .visibility-select-public-button {

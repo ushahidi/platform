@@ -31,7 +31,7 @@
 
 .post-header {
 	@include grid-column(12);
-	background-color: $blueGray;
+	background-color: $accent-color;
 	padding: 1em;
 	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
 	z-index: 1;
