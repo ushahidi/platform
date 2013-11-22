@@ -1,0 +1,30 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * USHAHIDI THEME............UI theme based off of Ushahidi's brand colors
+ */
+
+
+
+
+/*------------------------------------*\
+    $USHAHIDI THEME
+\*------------------------------------*/
+
+$primary-color: #005596; // the link-color
+$secondary-color: #EEE6CE; // the "action buttons" color
+$accent-color: #8A1F03; // the title bar color
+$alert-color: #D40900; // the red color
+$success-color: #26b653; // the green color
+
+/*Overrides*/
+.search-bar {
+	background: #000 !important;
+}
+
+.post-details-map-view {
+	.map {
+		border-bottom: 3px solid #000 !important;
+	}
+}

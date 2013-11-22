@@ -31,10 +31,10 @@ letter-spacing: .1em;
 }
 
 .button.bluegray {
-	background-color: $blueGray;
+	background-color: $accent-color;
 	color: $white;
 }
 
 .button.bluegray:hover {
-	background-color: darken($blueGray, 10);
+	background-color: darken($accent-color, 10);
 }

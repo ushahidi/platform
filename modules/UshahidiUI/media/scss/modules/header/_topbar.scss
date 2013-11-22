@@ -74,7 +74,7 @@
 
 .top-bar-section li.create-post a{
 	background-color: $success-color;
-	color: $white;
+	color: set-text-color($success-color);
 }
 
 .top-bar-section ul.right {
