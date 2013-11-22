@@ -418,4 +418,24 @@ class Ushahidi_Api extends Controller {
 				':record_limit' => $this->_record_limit
 			));
 	}
+
+	/**
+	 * Get allowed HTTP method for current resource
+	 * @param  boolean $resource Optional resources to check access for
+	 * @return Array             Array of methods, TRUE if allowed
+	 */
+	protected function _allowed_methods($resource = FALSE)
+	{
+		if (! $resource)
+		{
+			$resource = $this->resource();
+		}
+
+		return array(
+					'get' => $this->acl->is_allowed($this->user, $resource, 'get'),
+					'post' => $this->acl->is_allowed($this->user, $resource, 'post'),
+					'put' => $this->acl->is_allowed($this->user, $resource, 'put'),
+					'delete' => $this->acl->is_allowed($this->user, $resource, 'delete')
+				);
+	}
 }

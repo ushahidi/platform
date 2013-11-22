@@ -287,14 +287,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			{
 				$result = $post->for_api();
 
-
 				// @todo move this to 'meta' info
-				$result['allowed_methods'] = array(
-					'get' => $this->acl->is_allowed($this->user, $post, 'get'),
-					'post' => $this->acl->is_allowed($this->user, $post, 'post'),
-					'put' => $this->acl->is_allowed($this->user, $post, 'put'),
-					'delete' => $this->acl->is_allowed($this->user, $post, 'delete')
-				);
+				$result['allowed_methods'] = $this->_allowed_methods($post);
 
 				$results[] = $result;
 			}
@@ -361,12 +355,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$this->_response_payload = $post->for_api();
 
 		// @todo move this to 'meta' info
-		$this->_response_payload['allowed_methods'] = array(
-			'get' => $this->acl->is_allowed($this->user, $post, 'get'),
-			'post' => $this->acl->is_allowed($this->user, $post, 'post'),
-			'put' => $this->acl->is_allowed($this->user, $post, 'put'),
-			'delete' => $this->acl->is_allowed($this->user, $post, 'delete')
-		);
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**
@@ -383,13 +372,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$_post = $this->resource();
 
 		$this->create_or_update_post($_post, $post);
-
-		$this->_response_payload['allowed_methods'] = array(
-			'get' => $this->acl->is_allowed($this->user, $post, 'get'),
-			'post' => $this->acl->is_allowed($this->user, $post, 'post'),
-			'put' => $this->acl->is_allowed($this->user, $post, 'put'),
-			'delete' => $this->acl->is_allowed($this->user, $post, 'delete')
-		);
 	}
 
 	/**
@@ -727,6 +709,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			// Response is the complete post
 			$this->_response_payload = $post->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($post);
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -754,12 +737,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$this->_response_payload = $post->for_api();
 
 			// @todo move this to 'meta' info
-			$this->_response_payload['allowed_methods'] = array(
-				'get' => $this->acl->is_allowed($this->user, $post, 'get'),
-				'post' => $this->acl->is_allowed($this->user, $post, 'post'),
-				'put' => $this->acl->is_allowed($this->user, $post, 'put'),
-				'delete' => $this->acl->is_allowed($this->user, $post, 'delete')
-			);
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 
 			$post->delete();
 		}
