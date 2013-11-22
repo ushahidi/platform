@@ -285,8 +285,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			// Check if use is allowed to access this post
 			if ($this->acl->is_allowed($this->user, $post, 'get') )
 			{
-			$results[] = $post->for_api();
-		}
+				$result = $post->for_api();
+
+
+				// @todo move this to 'meta' info
+				$result['allowed_methods'] = array(
+					'get' => $this->acl->is_allowed($this->user, $post, 'get'),
+					'post' => $this->acl->is_allowed($this->user, $post, 'post'),
+					'put' => $this->acl->is_allowed($this->user, $post, 'put'),
+					'delete' => $this->acl->is_allowed($this->user, $post, 'delete')
+				);
+
+				$results[] = $result;
+			}
 		}
 
 		// Count actual results since they're filtered by access check
@@ -348,6 +359,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$post = $this->resource();
 
 		$this->_response_payload = $post->for_api();
+
+		// @todo move this to 'meta' info
+		$this->_response_payload['allowed_methods'] = array(
+			'get' => $this->acl->is_allowed($this->user, $post, 'get'),
+			'post' => $this->acl->is_allowed($this->user, $post, 'post'),
+			'put' => $this->acl->is_allowed($this->user, $post, 'put'),
+			'delete' => $this->acl->is_allowed($this->user, $post, 'delete')
+		);
 	}
 
 	/**
@@ -364,6 +383,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$_post = $this->resource();
 
 		$this->create_or_update_post($_post, $post);
+
+		$this->_response_payload['allowed_methods'] = array(
+			'get' => $this->acl->is_allowed($this->user, $post, 'get'),
+			'post' => $this->acl->is_allowed($this->user, $post, 'post'),
+			'put' => $this->acl->is_allowed($this->user, $post, 'put'),
+			'delete' => $this->acl->is_allowed($this->user, $post, 'delete')
+		);
 	}
 
 	/**
@@ -726,6 +752,15 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		{
 			// Return the post we just deleted (provides some confirmation)
 			$this->_response_payload = $post->for_api();
+
+			// @todo move this to 'meta' info
+			$this->_response_payload['allowed_methods'] = array(
+				'get' => $this->acl->is_allowed($this->user, $post, 'get'),
+				'post' => $this->acl->is_allowed($this->user, $post, 'post'),
+				'put' => $this->acl->is_allowed($this->user, $post, 'put'),
+				'delete' => $this->acl->is_allowed($this->user, $post, 'delete')
+			);
+
 			$post->delete();
 		}
 		}

@@ -9,8 +9,11 @@
 
 		<div class="post-actions-wrapper">
 			<ul class="post-actions">
-				<li><a href="#" class="post-actions-button  post-edit"> <i class="fa  fa-edit"></i><span class="hide-for-medium-down">edit</span></a></li>
+				{{#if allowed_methods.put}}
+					<li><a href="#" class="post-actions-button  post-edit"> <i class="fa  fa-edit"></i><span class="hide-for-medium-down">edit</span></a></li>
+				{{/if}}
 				<li><a href="#" class="post-actions-button  post-add-to-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
+				{{#if allowed_methods.put}}
 				<li>
 					{{#if isPublished}}
 						<a href="#" class="post-actions-button  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
@@ -18,7 +21,10 @@
 						<a href="#" class="post-actions-button  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
 					{{/if}}
 				</li>
-				<li><a href="#" class="post-actions-button  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
+				{{/if}}
+				{{#if allowed_methods.delete}}
+					<li><a href="#" class="post-actions-button  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
+				{{/if}}
 			</ul>
 		</div> <!-- end .post-actions -->
 
