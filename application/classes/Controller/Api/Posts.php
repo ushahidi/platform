@@ -45,17 +45,17 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 	/**
 	 * Load resource object
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _resource()
 	{
 		parent::_resource();
-		
+
 		// Get dummy post for access check
 		$this->_resource = ORM::factory('Post')
 			->set('status', 'published');
-		
+
 		// Get parent if we have one
 		if ($this->_parent_id = $this->request->param('post_id', NULL))
 		{
@@ -67,7 +67,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					':id' => $this->_parent_id,
 				));
 			}
-			
+
 			// Use parent post for access check if no individual post set
 			// This happens when getting all translations/revisions/updates..
 			$this->_resource = $parent;
@@ -84,14 +84,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$post->where('parent_id', '=', $this->_parent_id);
 			}
 			$post = $post->find();
-			
+
 			if (! $post->loaded())
 			{
 				throw new HTTP_Exception_404('Post does not exist. ID: \':id\'', array(
 					':id' => $this->request->param('id', 0),
 				));
 			}
-			
+
 			$this->_resource = $post;
 		}
 	}
@@ -763,5 +763,5 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			$post->delete();
 		}
-		}
 	}
+}
