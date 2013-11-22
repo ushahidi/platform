@@ -1,0 +1,36 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * LOGOUT............already logged in styles
+ */
+
+
+
+
+ /*------------------------------------*\
+     $LOGOUT
+ \*------------------------------------*/
+
+.logout-button-wrapper {
+	@include grid-column(12, $collapse: true);
+	@media #{$mobile-up} {
+		@include grid-column(3, $collapse: true);
+	}
+	@media #{$small} {
+		@include grid-column(4, $collapse: true);
+	}
+	@media #{$medium} {
+		@include grid-column(2, $collapse: true);
+	}
+}
+
+ .logout-button {
+ 	@include button($bg: $alert-color, $radius: true, $full-width: true);
+
+ }
+
+
+
+
+

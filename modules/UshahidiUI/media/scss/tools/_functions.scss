@@ -1,0 +1,22 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * SET TEXT COLOR............sets text color based on the background color
+ */
+
+
+
+
+/*------------------------------------*\
+    $SET TEXT COLOR
+\*------------------------------------*/
+
+@function set-text-color($color) {
+    @if (lightness( $color ) > 50) {
+      @return $body-font-color;
+    }
+    @else {
+      @return $white;
+    }
+}

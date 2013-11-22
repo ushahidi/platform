@@ -12,22 +12,16 @@
  \*------------------------------------*/
 
 /*Pick the base color for your scheme:*/
-$cs-primary: $blueGray;
+$cs-primary: $accent-color;
 
-/*$cs-scheme: mono; // mono, complement, triad, tetrad, analogic, accented-analogic
-$cs-hue-offset: 40; // offset distance
-$cs-brightness-offset: 10; //shade and tint distance from base
-$cs-color-model: rgb; // rgb, ryb
-$cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanomaly, deuteranomaly, tritanomaly, monochromacy, amonochromacy*/
-
-$color1: lighten(cs-primary(), 30%);;
-$color2: lighten(cs-primary(), 20%);
-$color3: lighten(cs-primary(), 10%);
-$color4: cs-primary();
-$color5: cs-primary();
-$color6: lighten(cs-primary(), 10%);
-$color7: lighten(cs-primary(), 20%);
-$color8: lighten(cs-primary(), 30%);
+$color1: lighten($cs-primary, 30%);;
+$color2: lighten($cs-primary, 20%);
+$color3: lighten($cs-primary, 10%);
+$color4: $cs-primary;
+$color5: $cs-primary;
+$color6: lighten($cs-primary, 10%);
+$color7: lighten($cs-primary, 20%);
+$color8: lighten($cs-primary, 30%);
 
 /*color function for choose form blocks*/
 $colors: $color1, $color2, $color3, $color4, $color5, $color6, $color7, $color8;
@@ -50,7 +44,7 @@ $colors: $color1, $color2, $color3, $color4, $color5, $color6, $color7, $color8;
 \*------------------------------------*/
 
 .back-button {
-	@include button($padding: $button-sml, $bg: $blueGray, $radius: true);
+	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
 	position: absolute;
 	left: 20px;
 	top: 17px;
