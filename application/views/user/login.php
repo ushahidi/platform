@@ -23,7 +23,10 @@
 							<?php echo Form::hidden('csrf', Security::token()); ?>
 								<?php echo Form::input('username', ! empty($form['username']) ? $form['username'] : '', array('id' => 'login-username', 'placeholder' => 'Username', 'required', 'aria-required' => 'true')); ?>
 								<?php echo Form::input('password', '', array('id' => 'login-password', 'placeholder' => 'Password', 'type' => 'password', 'required', 'aria-required' => 'true')); ?>
-								<?php echo Form::submit('submit', 'Login', array('id' => 'login-submit', 'class' => 'submit-button')); ?>
+								<div class="login-button-wrapper">
+									<?php echo Form::submit('submit', 'Login', array('id' => 'login-submit', 'class' => 'login-button')); ?>
+								</div>
+								
 								<!-- <p class="medium-text">CrowdmapID is supported</p> -->
 
 							</form> <!-- end .form -->

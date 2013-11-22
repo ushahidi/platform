@@ -37,7 +37,9 @@
 									</label>
 								</div>-->
 
-								<?php echo Form::submit('submit', 'Register', array('id' => 'register-submit', 'class' => 'submit-button')); ?>
+								<div class="register-button-wrapper">
+									<?php echo Form::submit('submit', 'Register', array('id' => 'register-submit', 'class' => 'register-button')); ?>
+								</div>
 
 							</form> <!-- end .form -->
 						</div> <!-- end .login-form -->
