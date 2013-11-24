@@ -112,103 +112,66 @@ html, body {
 		$USER CONFIGS
 \*------------------------------------*/
 /*------------------------------------*\
-		$CONTENTS
+    CONTENTS
 \*------------------------------------*/
 /**
-
- These are global styles loaded before Foundation
-
- * GLOBAL...............global custom classes
+ * COLOR VARIABLES............global color variables
+ * IMPORT COLOR SCHEME............default colors
+ * BASIC COLOR SCHEME FUNCTION...............basic color function based on a custom primary color
+ * ADVANCED COLOR SCHEME FUNCTION...............advanced color function with advanced options - rendered via @import "color-schemer" in style.scss
  */
-/* line 15, ../../scss/base/_global.scss */
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  *behavior: url(../js/ie/boxsizing.htc);
-}
-
-/* line 20, ../../scss/base/_global.scss */
-html, body {
-  min-height: 100%;
-}
-
-/*Font-Awesome global icon padding*/
-/* line 25, ../../scss/base/_global.scss */
-[class^="fa"], [class*=" fa"] {
-  padding-right: 0.625em;
-}
-
-/*custom text selection*/
-/* line 31, ../../scss/base/_global.scss */
-::-moz-selection {
-  color: white;
-  background: #323a45;
-}
-
-/* line 35, ../../scss/base/_global.scss */
-::selection {
-  color: white;
-  background: #323a45;
-}
-
-/* line 41, ../../scss/base/_global.scss */
-ul.pagination li.current a {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-
-/* line 45, ../../scss/base/_global.scss */
-ul.pagination li:hover a, ul.pagination li a:focus {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-
 /*------------------------------------*\
-		$CONTENTS
+    $COLOR VARIABLES
+\*------------------------------------*/
+/*Global Colors*/
+/*Social Network Colors*/
+/*------------------------------------*\
+    $IMPORT COLOR SCHEME
+\*------------------------------------*/
+/*Import your desired color theme here. Themes are located in /themes folder*/
+/*------------------------------------*\
+    CONTENTS
 \*------------------------------------*/
 /**
- * @MIXINS...............custom Sass mixins
- * @EXTENDS...............custom Sass extends
+ * DEFAULT COLOR SCHEME............default color scheme
  */
 /*------------------------------------*\
-		$@MIXINS
+    $DEFAULT COLOR SCHEME
 \*------------------------------------*/
-/*@2x RETINA IMAGES - use image that's scaled by 2*/
-/* EXAMPLE: 
+/* @import "themes/ushahidi"; */
+/* @import "themes/baridi"; // cool */
+/* @import "themes/chiriku"; // canary */
+/* @import "themes/pipi"; // candy */
+/* @import "themes/msimu"; //season */
+/*-----------------------------------------*\
+    $BASIC COLOR SCHEME FUNCTION
+\*-----------------------------------------*/
+/*
+This is a basic color function that allows you to change the primary color to generate a color scheme (the primary color is the link color).
 
-div.logo {
-   background: url("logo.png") no-repeat;
-   @include image-2x("logo2x.png", 100px, 25px);
- }
+How to use:
+* uncomment the code block below
+* change $cs-primary value to generate your color scheme
+* make sure the Advanced Color Function is commented out
+*/
+/*$cs-primary: hotpink; // change this to generate your color scheme
 
- */
-/*------------------------------------*\
-		$@EXTENDS
-\*------------------------------------*/
-/* line 43, ../../scss/tools/_mixins.scss */
-.border-bottom, .related-post-module-wrapper, .set-tags {
-  border-bottom: 1px solid #e3e3e3;
-}
+$primary-color   : $cs-primary;
+$secondary-color : lighten(desaturate(adjust-hue($cs-primary, 36deg), 69), 50);
+$accent-color    : darken(desaturate(adjust-hue($cs-primary, 26deg), 67), 22);
+$alert-color     : darken(saturate(adjust-hue($cs-primary, 168deg), 9), 5);
+$success-color   : darken(desaturate(adjust-hue($cs-primary, -81deg), 9), 3);*/
+/*----------------------------------------------*\
+    $ADVANCED COLOR SCHEME FUNCTION
+\*----------------------------------------------*/
+/*
+This is an advanced color function that allows you to change you color, scheme, hue offset, tint and shade distance, color mode and colorblindness settings.
 
-/* line 47, ../../scss/tools/_mixins.scss */
-.notification, .set-post-number {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border: 4px solid #fcfcfc;
-  border-radius: 20px;
-  margin: 0 auto;
-  line-height: 2em;
-  color: #fcfcfc;
-}
-
+How to use:
+* uncomment the code block below
+* adjust each option as needed to generate different color schemes
+* For more details please visit - https://github.com/Team-Sass/color-schemer
+*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -284,6 +247,113 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 /* line 61, ../../scss/tools/_helpers.scss */
 .medium-text {
   font-size: .8em;
+}
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * @MIXINS...............custom Sass mixins
+ * @EXTENDS...............custom Sass extends
+ */
+/*------------------------------------*\
+		$@MIXINS
+\*------------------------------------*/
+/*@2x RETINA IMAGES - use image that's scaled by 2*/
+/* EXAMPLE: 
+
+div.logo {
+   background: url("logo.png") no-repeat;
+   @include image-2x("logo2x.png", 100px, 25px);
+ }
+
+ */
+/*------------------------------------*\
+		$@EXTENDS
+\*------------------------------------*/
+/* line 43, ../../scss/tools/_mixins.scss */
+.border-bottom, .related-post-module-wrapper, .set-tags {
+  border-bottom: 1px solid #e3e3e3;
+}
+
+/* line 47, ../../scss/tools/_mixins.scss */
+.notification, .set-post-number {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #fcfcfc;
+  border-radius: 20px;
+  margin: 0 auto;
+  line-height: 2em;
+  color: #fcfcfc;
+}
+
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * SET TEXT COLOR............sets text color based on the background color
+ */
+/*------------------------------------*\
+    $SET TEXT COLOR
+\*------------------------------------*/
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+
+ These are global styles loaded before Foundation
+
+ * GLOBAL...............global custom classes
+ */
+/* line 15, ../../scss/base/_global.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url(../js/ie/boxsizing.htc);
+}
+
+/* line 20, ../../scss/base/_global.scss */
+html, body {
+  min-height: 100%;
+}
+
+/*Font-Awesome global icon padding*/
+/* line 25, ../../scss/base/_global.scss */
+[class^="fa"], [class*=" fa"] {
+  padding-right: 0.625em;
+}
+
+/*custom text selection*/
+/* line 31, ../../scss/base/_global.scss */
+::-moz-selection {
+  color: white;
+  background: #323a45;
+}
+
+/* line 35, ../../scss/base/_global.scss */
+::selection {
+  color: white;
+  background: #323a45;
+}
+
+/* line 41, ../../scss/base/_global.scss */
+ul.pagination li.current a {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+/* line 45, ../../scss/base/_global.scss */
+ul.pagination li:hover a, ul.pagination li a:focus {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
 }
 
 /*------------------------------------*\
@@ -5993,6 +6063,196 @@ a.button {
 /*------------------------------------*\
 		$MODULES
 \*------------------------------------*/
+/*AUTHORIZATION*/
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * AUTHORIZATION............application authorization styles
+ */
+/*------------------------------------*\
+    $AUTHORIZATION
+\*------------------------------------*/
+/* line 15, ../../scss/modules/authorization/_authorization.scss */
+.authorization-wrapper {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+
+/* line 19, ../../scss/modules/authorization/_authorization.scss */
+.auth-intro {
+  margin-bottom: .8em;
+}
+
+/* line 23, ../../scss/modules/authorization/_authorization.scss */
+.authorize-button-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 23, ../../scss/modules/authorization/_authorization.scss */
+  .authorize-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 33.33333%;
+    float: left;
+    padding-right: 10px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 23, ../../scss/modules/authorization/_authorization.scss */
+  .authorize-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 25%;
+    float: left;
+    padding-right: 10px;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  /* line 23, ../../scss/modules/authorization/_authorization.scss */
+  .authorize-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+    padding-right: 10px;
+  }
+}
+
+/* line 39, ../../scss/modules/authorization/_authorization.scss */
+.authorize-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+/* line 122, ../../scss/foundation/components/_buttons.scss */
+.authorize-button:hover, .authorize-button:focus {
+  background-color: #2e8c15;
+}
+/* line 133, ../../scss/foundation/components/_buttons.scss */
+.authorize-button:hover, .authorize-button:focus {
+  color: white;
+}
+
+/* line 44, ../../scss/modules/authorization/_authorization.scss */
+.cancel-button-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 44, ../../scss/modules/authorization/_authorization.scss */
+  .cancel-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 33.33333%;
+    float: left;
+    padding-left: 10px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 44, ../../scss/modules/authorization/_authorization.scss */
+  .cancel-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 25%;
+    float: left;
+    padding-left: 10px;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  /* line 44, ../../scss/modules/authorization/_authorization.scss */
+  .cancel-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+    padding-left: 10px;
+  }
+}
+
+/* line 60, ../../scss/modules/authorization/_authorization.scss */
+.cancel-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #c50813;
+  border-color: #94060e;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+/* line 122, ../../scss/foundation/components/_buttons.scss */
+.cancel-button:hover, .cancel-button:focus {
+  background-color: #94060e;
+}
+/* line 133, ../../scss/foundation/components/_buttons.scss */
+.cancel-button:hover, .cancel-button:focus {
+  color: white;
+}
+
+/* line 64, ../../scss/modules/authorization/_authorization.scss */
+.authorize-form, .authorize-cancel-form {
+  display: inline;
+}
+
 /*BUTTONS*/
 /*------------------------------------*\
 		$CONTENTS
@@ -6139,21 +6399,22 @@ a.button {
 /**
  * TOPBAR-LOGIN/REGISTER...............topbar styles on login and register pages
  * GENERAL...............modular styles for both login and register pages
- * LOGIN...............login page styles
- * REGISTER...............register page styles
+ * LOGIN...............login specific styles
+ * REGISTER...............register specific styles
+ * LOGOUT...............logout specific styles
  */
 /*------------------------------------*\
 		$TOPBAR-LOGIN/REGISTER
 \*------------------------------------*/
-/* line 20, ../../scss/modules/login/_login-register.scss */
+/* line 21, ../../scss/modules/user/_login-register.scss */
 .top-bar-section.top-bar-section-login ul.right {
   width: auto;
 }
-/* line 23, ../../scss/modules/login/_login-register.scss */
+/* line 24, ../../scss/modules/user/_login-register.scss */
 .top-bar-section.top-bar-section-login li.show-for-small a {
   padding: 0 18px;
 }
-/* line 25, ../../scss/modules/login/_login-register.scss */
+/* line 26, ../../scss/modules/user/_login-register.scss */
 .top-bar-section.top-bar-section-login li.show-for-small a i {
   font-size: 18px;
   padding: 0;
@@ -6162,16 +6423,16 @@ a.button {
 /*------------------------------------*\
     GENERAL
 \*------------------------------------*/
-/* line 38, ../../scss/modules/login/_login-register.scss */
+/* line 39, ../../scss/modules/user/_login-register.scss */
 .login-box {
   margin-top: 50px;
 }
-/* line 40, ../../scss/modules/login/_login-register.scss */
+/* line 41, ../../scss/modules/user/_login-register.scss */
 .login-box .post-body {
   padding-top: 2em;
 }
 @media only screen and (min-width: 768px) {
-  /* line 38, ../../scss/modules/login/_login-register.scss */
+  /* line 39, ../../scss/modules/user/_login-register.scss */
   .login-box {
     position: relative;
     padding-left: 0.9375em;
@@ -6184,7 +6445,7 @@ a.button {
   }
 }
 
-/* line 48, ../../scss/modules/login/_login-register.scss */
+/* line 49, ../../scss/modules/user/_login-register.scss */
 .login-form-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -6196,49 +6457,16 @@ a.button {
   margin-bottom: 20px;
 }
 
-/* line 55, ../../scss/modules/login/_login-register.scss */
+/* line 56, ../../scss/modules/user/_login-register.scss */
 .login-form {
   margin-bottom: 20px;
 }
-/* line 58, ../../scss/modules/login/_login-register.scss */
+/* line 59, ../../scss/modules/user/_login-register.scss */
 .login-form input[type="checkbox"] {
   margin-right: 10px;
 }
-/* line 61, ../../scss/modules/login/_login-register.scss */
-.login-form .submit-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: "pointer";
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.75em;
-  padding-right: 1.5em;
-  padding-bottom: 0.8125em;
-  padding-left: 1.5em;
-  font-size: 1em;
-  background-color: #3cb81c;
-  border-color: #2e8c15;
-  color: white;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  margin: 20px 0 10px 0;
-}
-/* line 122, ../../scss/foundation/components/_buttons.scss */
-.login-form .submit-button:hover, .login-form .submit-button:focus {
-  background-color: #2e8c15;
-}
-/* line 133, ../../scss/foundation/components/_buttons.scss */
-.login-form .submit-button:hover, .login-form .submit-button:focus {
-  color: white;
-}
 @media only screen and (min-width: 1025px) {
-  /* line 55, ../../scss/modules/login/_login-register.scss */
+  /* line 56, ../../scss/modules/user/_login-register.scss */
   .login-form {
     position: relative;
     padding-left: 0;
@@ -6250,12 +6478,12 @@ a.button {
   }
 }
 
-/* line 73, ../../scss/modules/login/_login-register.scss */
+/* line 70, ../../scss/modules/user/_login-register.scss */
 .login-form-checkboxes {
   margin-top: 30px;
 }
 
-/* line 77, ../../scss/modules/login/_login-register.scss */
+/* line 74, ../../scss/modules/user/_login-register.scss */
 .social-login {
   position: relative;
   padding-left: 0;
@@ -6264,7 +6492,7 @@ a.button {
   float: left;
 }
 @media only screen and (min-width: 1025px) {
-  /* line 77, ../../scss/modules/login/_login-register.scss */
+  /* line 74, ../../scss/modules/user/_login-register.scss */
   .social-login {
     position: relative;
     padding-left: 0;
@@ -6275,7 +6503,7 @@ a.button {
   }
 }
 
-/* line 85, ../../scss/modules/login/_login-register.scss */
+/* line 82, ../../scss/modules/user/_login-register.scss */
 .social-buttons {
   margin-bottom: 20px;
   position: relative;
@@ -6284,21 +6512,21 @@ a.button {
   width: 100%;
   float: left;
 }
-/* line 88, ../../scss/modules/login/_login-register.scss */
+/* line 85, ../../scss/modules/user/_login-register.scss */
 .social-buttons .button {
   padding: 8px;
 }
-/* line 91, ../../scss/modules/login/_login-register.scss */
+/* line 88, ../../scss/modules/user/_login-register.scss */
 .social-buttons i {
   font-size: 16px;
 }
 
-/* line 96, ../../scss/modules/login/_login-register.scss */
+/* line 93, ../../scss/modules/user/_login-register.scss */
 .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
   padding-left: 0;
 }
 @media only screen and (min-width: 768px) {
-  /* line 96, ../../scss/modules/login/_login-register.scss */
+  /* line 93, ../../scss/modules/user/_login-register.scss */
   .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
     position: relative;
     padding-left: 0.9375em;
@@ -6309,7 +6537,7 @@ a.button {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 96, ../../scss/modules/login/_login-register.scss */
+  /* line 93, ../../scss/modules/user/_login-register.scss */
   .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
     position: relative;
     padding-left: 0.9375em;
@@ -6320,7 +6548,7 @@ a.button {
   }
 }
 
-/* line 108, ../../scss/modules/login/_login-register.scss */
+/* line 105, ../../scss/modules/user/_login-register.scss */
 .open-id {
   position: relative;
   padding-left: 0;
@@ -6328,7 +6556,7 @@ a.button {
   width: 100%;
   float: left;
 }
-/* line 110, ../../scss/modules/login/_login-register.scss */
+/* line 107, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-input {
   position: relative;
   padding-left: 0;
@@ -6336,11 +6564,11 @@ a.button {
   width: 83.33333%;
   float: left;
 }
-/* line 112, ../../scss/modules/login/_login-register.scss */
+/* line 109, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-input input[type="text"] {
   border-radius: 3px 0 0 3px;
 }
-/* line 116, ../../scss/modules/login/_login-register.scss */
+/* line 113, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-submit {
   position: relative;
   padding-left: 0;
@@ -6348,7 +6576,7 @@ a.button {
   width: 16.66667%;
   float: left;
 }
-/* line 118, ../../scss/modules/login/_login-register.scss */
+/* line 115, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-submit button {
   border-style: solid;
   border-width: 1px;
@@ -6407,16 +6635,16 @@ a.button {
   color: #333333;
 }
 
-/* line 128, ../../scss/modules/login/_login-register.scss */
+/* line 125, ../../scss/modules/user/_login-register.scss */
 .login-box-meta {
   float: right;
 }
-/* line 130, ../../scss/modules/login/_login-register.scss */
+/* line 127, ../../scss/modules/user/_login-register.scss */
 .login-box-meta p {
   margin: 0;
 }
 
-/* line 135, ../../scss/modules/login/_login-register.scss */
+/* line 132, ../../scss/modules/user/_login-register.scss */
 .login-disclaimer {
   position: relative;
   padding-left: 0;
@@ -6424,16 +6652,128 @@ a.button {
   width: 100%;
   float: left;
   font-style: italic;
-  color: #979797;
+  color: #4d4b4b;
 }
-/* line 139, ../../scss/modules/login/_login-register.scss */
+/* line 136, ../../scss/modules/user/_login-register.scss */
 .login-disclaimer i {
   position: relative;
   top: 1px;
   font-size: 14px;
 }
 
-/* line 146, ../../scss/modules/login/_login-register.scss */
+/*------------------------------------*\
+    $LOGIN
+\*------------------------------------*/
+/* line 150, ../../scss/modules/user/_login-register.scss */
+.login-button-wrapper, .register-button-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 150, ../../scss/modules/user/_login-register.scss */
+  .login-button-wrapper, .register-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 33.33333%;
+    float: left;
+  }
+}
+
+/* line 157, ../../scss/modules/user/_login-register.scss */
+.login-button, .register-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  margin: 20px 0 10px 0;
+}
+/* line 122, ../../scss/foundation/components/_buttons.scss */
+.login-button:hover, .register-button:hover, .login-button:focus, .register-button:focus {
+  background-color: #2e8c15;
+}
+/* line 133, ../../scss/foundation/components/_buttons.scss */
+.login-button:hover, .register-button:hover, .login-button:focus, .register-button:focus {
+  color: white;
+}
+
+/*------------------------------------*\
+    $REGISTER
+\*------------------------------------*/
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * LOGOUT............already logged in styles
+ */
+/*------------------------------------*\
+    $LOGOUT
+\*------------------------------------*/
+/* line 15, ../../scss/modules/user/_main.scss */
+.logout-button-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 15, ../../scss/modules/user/_main.scss */
+  .logout-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 25%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 15, ../../scss/modules/user/_main.scss */
+  .logout-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 15, ../../scss/modules/user/_main.scss */
+  .logout-button-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+}
+
+/* line 28, ../../scss/modules/user/_main.scss */
 .logout-button {
   border-style: solid;
   border-width: 1px;
@@ -6451,6 +6791,11 @@ a.button {
   padding-bottom: 0.8125em;
   padding-left: 1.5em;
   font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
   background-color: #c50813;
   border-color: #94060e;
   color: white;
@@ -6466,84 +6811,6 @@ a.button {
   color: white;
 }
 
-/* line 150, ../../scss/modules/login/_login-register.scss */
-.authorize-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: "pointer";
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.75em;
-  padding-right: 1.5em;
-  padding-bottom: 0.8125em;
-  padding-left: 1.5em;
-  font-size: 1em;
-  background-color: #3cb81c;
-  border-color: #2e8c15;
-  color: white;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-/* line 122, ../../scss/foundation/components/_buttons.scss */
-.authorize-button:hover, .authorize-button:focus {
-  background-color: #2e8c15;
-}
-/* line 133, ../../scss/foundation/components/_buttons.scss */
-.authorize-button:hover, .authorize-button:focus {
-  color: white;
-}
-
-/* line 155, ../../scss/modules/login/_login-register.scss */
-.cancel-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: "pointer";
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.75em;
-  padding-right: 1.5em;
-  padding-bottom: 0.8125em;
-  padding-left: 1.5em;
-  font-size: 1em;
-  background-color: #c50813;
-  border-color: #94060e;
-  color: white;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-/* line 122, ../../scss/foundation/components/_buttons.scss */
-.cancel-button:hover, .cancel-button:focus {
-  background-color: #94060e;
-}
-/* line 133, ../../scss/foundation/components/_buttons.scss */
-.cancel-button:hover, .cancel-button:focus {
-  color: white;
-}
-
-/* line 159, ../../scss/modules/login/_login-register.scss */
-.authorize-form, .authorize-cancel-form {
-  display: inline;
-}
-
-/*------------------------------------*\
-		$LOGIN
-\*------------------------------------*/
-/*------------------------------------*\
-		$REGISTER
-\*------------------------------------*/
 /*HEADER*/
 /*------------------------------------*\
 		$CONTENTS
@@ -7454,7 +7721,7 @@ nav[role="sub-navigation"] li a {
   -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  background: #22699d url('/media/kohana/images/search-bg.jpg?1383699176') repeat;
+  background: #226a9c;
   width: 100%;
   border-top: 3px solid #12a0ba;
   padding-top: 2em;
@@ -8024,7 +8291,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 100%;
   float: left;
-  border-bottom: 1px solid #e3e3e3;
+  border-bottom: 1px solid #eff0f3;
   margin-bottom: 20px;
 }
 /* line 19, ../../scss/modules/posts/_list-view-post.scss */
@@ -8891,7 +9158,7 @@ nav[role="sub-navigation"] li a {
 \*------------------------------------*/
 /* line 18, ../../scss/modules/posts/_post-details.scss */
 .post-details-map-view .map {
-  border-bottom: 3px solid #22699d;
+  border-bottom: 3px solid #226a9c;
 }
 /* line 21, ../../scss/modules/posts/_post-details.scss */
 .post-details-map-view .map-collapse {
@@ -9776,7 +10043,7 @@ TODO: may need a notification mixin here
 /* line 1, ../../scss/modules/sets/_set-details.scss */
 .set-detail-map {
   height: 200px;
-  background-color: #e3e3e3;
+  background-color: #eff0f3;
   margin-bottom: 20px;
 }
 
@@ -10745,7 +11012,7 @@ img.mfp-img {
 .alertify-button-cancel,
 .alertify-button-cancel:hover,
 .alertify-button-cancel:focus {
-  background-color: #c50813;
+  background-color: #C50813;
   border: 1px solid #108ca2;
 }
 
@@ -10753,7 +11020,7 @@ img.mfp-img {
 .alertify-button-ok,
 .alertify-button-ok:hover,
 .alertify-button-ok:focus {
-  background-color: #3cb81c;
+  background-color: #3CB81C;
   border: 1px solid #108ca2;
 }
 
@@ -10772,12 +11039,12 @@ img.mfp-img {
 
 /* line 68, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-log-error {
-  background: #c50813;
+  background: #C50813;
 }
 
 /* line 72, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-log-success {
-  background: #3cb81c;
+  background: #3CB81C;
 }
 
 /* Theme alertify css - customize as needed */
@@ -13139,7 +13406,7 @@ form.custom .custom.checkbox.checked:before {
   margin-bottom: 0;
   max-width: 80em;
   *zoom: 1;
-  background-color: #e9e9e9;
+  background-color: #323a45;
   border: 1px solid #d0d0d0;
   padding: 20px;
   text-align: center;
@@ -13155,11 +13422,12 @@ form.custom .custom.checkbox.checked:before {
 }
 /* line 53, ../../scss/modules/modals/_modal.scss */
 .modal-header h4 {
+  color: #fcfcfc;
   margin: 0;
   line-height: 1em;
 }
 
-/* line 59, ../../scss/modules/modals/_modal.scss */
+/* line 60, ../../scss/modules/modals/_modal.scss */
 .modal-wrapper {
   width: 100%;
   margin-left: auto;
@@ -13180,7 +13448,7 @@ form.custom .custom.checkbox.checked:before {
   clear: both;
 }
 
-/* line 64, ../../scss/modules/modals/_modal.scss */
+/* line 65, ../../scss/modules/modals/_modal.scss */
 .modal-footer {
   width: 100%;
   margin-left: auto;
@@ -13202,7 +13470,7 @@ form.custom .custom.checkbox.checked:before {
   clear: both;
 }
 
-/* line 70, ../../scss/modules/modals/_modal.scss */
+/* line 71, ../../scss/modules/modals/_modal.scss */
 .modal-submit {
   position: relative;
   padding-left: 0;
@@ -13211,7 +13479,7 @@ form.custom .custom.checkbox.checked:before {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 70, ../../scss/modules/modals/_modal.scss */
+  /* line 71, ../../scss/modules/modals/_modal.scss */
   .modal-submit {
     position: relative;
     padding-left: 0.9375em;
@@ -13222,7 +13490,7 @@ form.custom .custom.checkbox.checked:before {
     float: right;
   }
 }
-/* line 77, ../../scss/modules/modals/_modal.scss */
+/* line 78, ../../scss/modules/modals/_modal.scss */
 .modal-submit button {
   border-style: solid;
   border-width: 1px;
@@ -13264,7 +13532,7 @@ form.custom .custom.checkbox.checked:before {
 /*------------------------------------*\
 		$UPLOAD MEDIA BAR
 \*------------------------------------*/
-/* line 88, ../../scss/modules/modals/_modal.scss */
+/* line 89, ../../scss/modules/modals/_modal.scss */
 .media-bar {
   position: relative;
   padding-left: 0;
@@ -13273,7 +13541,7 @@ form.custom .custom.checkbox.checked:before {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 88, ../../scss/modules/modals/_modal.scss */
+  /* line 89, ../../scss/modules/modals/_modal.scss */
   .media-bar {
     position: relative;
     padding-left: 0.9375em;
@@ -13284,7 +13552,7 @@ form.custom .custom.checkbox.checked:before {
   }
 }
 
-/* line 96, ../../scss/modules/modals/_modal.scss */
+/* line 97, ../../scss/modules/modals/_modal.scss */
 .media-bar-uploads-wrap {
   position: relative;
   padding-left: 0.9375em;
@@ -13295,7 +13563,7 @@ form.custom .custom.checkbox.checked:before {
   border-bottom: 1px solid #1f1f1f;
 }
 @media only screen and (min-width: 768px) {
-  /* line 96, ../../scss/modules/modals/_modal.scss */
+  /* line 97, ../../scss/modules/modals/_modal.scss */
   .media-bar-uploads-wrap {
     position: relative;
     padding-left: 0;
@@ -13307,7 +13575,7 @@ form.custom .custom.checkbox.checked:before {
   }
 }
 
-/* line 107, ../../scss/modules/modals/_modal.scss */
+/* line 108, ../../scss/modules/modals/_modal.scss */
 .media-bar-uploads {
   display: block;
   padding: 0;
@@ -13332,7 +13600,7 @@ form.custom .custom.checkbox.checked:before {
   padding: 0 0px 0px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 107, ../../scss/modules/modals/_modal.scss */
+  /* line 108, ../../scss/modules/modals/_modal.scss */
   .media-bar-uploads {
     padding: 0;
   }
@@ -13341,12 +13609,12 @@ form.custom .custom.checkbox.checked:before {
 /*------------------------------------*\
 		$MEDIA ICONS
 \*------------------------------------*/
-/* line 122, ../../scss/modules/modals/_modal.scss */
+/* line 123, ../../scss/modules/modals/_modal.scss */
 .select-icon {
   display: inline;
   color: #fcfcfc;
 }
-/* line 126, ../../scss/modules/modals/_modal.scss */
+/* line 127, ../../scss/modules/modals/_modal.scss */
 .select-icon a {
   display: block;
   width: 56px;
@@ -13354,7 +13622,7 @@ form.custom .custom.checkbox.checked:before {
   color: #fcfcfc;
   text-align: center;
 }
-/* line 133, ../../scss/modules/modals/_modal.scss */
+/* line 134, ../../scss/modules/modals/_modal.scss */
 .select-icon [class^="fa-"] {
   position: relative;
   top: 20px;
@@ -13363,7 +13631,7 @@ form.custom .custom.checkbox.checked:before {
   font-size: 19px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 133, ../../scss/modules/modals/_modal.scss */
+  /* line 134, ../../scss/modules/modals/_modal.scss */
   .select-icon [class^="fa-"] {
     left: 0;
   }
@@ -13380,80 +13648,75 @@ form.custom .custom.checkbox.checked:before {
 		COLOR SCHEME
  \*------------------------------------*/
 /*Pick the base color for your scheme:*/
-/*$cs-scheme: mono; // mono, complement, triad, tetrad, analogic, accented-analogic
-$cs-hue-offset: 40; // offset distance
-$cs-brightness-offset: 10; //shade and tint distance from base
-$cs-color-model: rgb; // rgb, ryb
-$cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanomaly, deuteranomaly, tritanomaly, monochromacy, amonochromacy*/
 /*color function for choose form blocks*/
-/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 30, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+1) .forms-grid-name-wrapper {
   background-color: #75859b;
 }
-/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 33, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+1) .forms-grid-name-wrapper:hover {
   background-color: #69778b;
 }
 
-/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 30, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+2) .forms-grid-name-wrapper {
   background-color: #5d6c80;
 }
-/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 33, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+2) .forms-grid-name-wrapper:hover {
   background-color: #536173;
 }
 
-/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 30, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+3) .forms-grid-name-wrapper {
   background-color: #475363;
 }
-/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 33, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+3) .forms-grid-name-wrapper:hover {
   background-color: #3f4a59;
 }
 
-/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 30, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+4) .forms-grid-name-wrapper {
   background-color: #323a45;
 }
-/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 33, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+4) .forms-grid-name-wrapper:hover {
   background-color: #2d343e;
 }
 
-/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 30, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+5) .forms-grid-name-wrapper {
   background-color: #323a45;
 }
-/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 33, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+5) .forms-grid-name-wrapper:hover {
   background-color: #2d343e;
 }
 
-/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 30, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+6) .forms-grid-name-wrapper {
   background-color: #475363;
 }
-/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 33, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+6) .forms-grid-name-wrapper:hover {
   background-color: #3f4a59;
 }
 
-/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 30, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+7) .forms-grid-name-wrapper {
   background-color: #5d6c80;
 }
-/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 33, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+7) .forms-grid-name-wrapper:hover {
   background-color: #536173;
 }
 
-/* line 36, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 30, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+8) .forms-grid-name-wrapper {
   background-color: #75859b;
 }
-/* line 39, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 33, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid li:nth-child(8n+8) .forms-grid-name-wrapper:hover {
   background-color: #69778b;
 }
@@ -13461,7 +13724,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
 /*------------------------------------*\
 		$GENERAL STYLES
 \*------------------------------------*/
-/* line 52, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 46, ../../scss/modules/modals/_choose-form-modal.scss */
 .back-button {
   border-style: solid;
   border-width: 1px;
@@ -13479,9 +13742,9 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   padding-bottom: 0.625em;
   padding-left: 1.125em;
   font-size: 0.8125em;
-  background-color: #323a45;
-  border-color: #1d2127;
-  color: white;
+  background-color: #eff0f3;
+  border-color: #d2d5dd;
+  color: #333333;
   -webkit-border-radius: 3px;
   border-radius: 3px;
   position: absolute;
@@ -13490,14 +13753,14 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
 }
 /* line 122, ../../scss/foundation/components/_buttons.scss */
 .back-button:hover, .back-button:focus {
-  background-color: #1d2127;
+  background-color: #d2d5dd;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 128, ../../scss/foundation/components/_buttons.scss */
 .back-button:hover, .back-button:focus {
-  color: white;
+  color: #333333;
 }
 
-/* line 59, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 53, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid {
   display: block;
   padding: 0;
@@ -13534,7 +13797,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   clear: both;
 }
 @media only screen and (min-width: 421px) {
-  /* line 59, ../../scss/modules/modals/_choose-form-modal.scss */
+  /* line 53, ../../scss/modules/modals/_choose-form-modal.scss */
   .forms-grid {
     display: block;
     padding: 0;
@@ -13572,7 +13835,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 59, ../../scss/modules/modals/_choose-form-modal.scss */
+  /* line 53, ../../scss/modules/modals/_choose-form-modal.scss */
   .forms-grid {
     display: block;
     padding: 0;
@@ -13610,7 +13873,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 59, ../../scss/modules/modals/_choose-form-modal.scss */
+  /* line 53, ../../scss/modules/modals/_choose-form-modal.scss */
   .forms-grid {
     display: block;
     padding: 0;
@@ -13648,7 +13911,7 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   }
 }
 
-/* line 72, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 66, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid-name-wrapper {
   color: #fcfcfc;
   text-align: center;
@@ -13659,11 +13922,11 @@ $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanoma
   -o-border-radius: 10px;
   border-radius: 10px;
 }
-/* line 77, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 71, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid-name-wrapper:hover {
   cursor: pointer;
 }
-/* line 80, ../../scss/modules/modals/_choose-form-modal.scss */
+/* line 74, ../../scss/modules/modals/_choose-form-modal.scss */
 .forms-grid-name-wrapper [class^="fa"], .forms-grid-name-wrapper [class*=" fa"] {
   width: 100%;
   font-size: 35px;
@@ -14007,7 +14270,7 @@ textarea {
   padding-right: 0;
   width: 100%;
   float: left;
-  border-top: 1px solid #e3e3e3;
+  border-top: 1px solid #eff0f3;
   padding-top: 20px;
 }
 
@@ -14040,7 +14303,7 @@ textarea {
 /* line 123, ../../scss/modules/modals/_edit-post-modal.scss */
 .post-history {
   margin-bottom: 20px;
-  border-top: 1px solid #e3e3e3;
+  border-top: 1px solid #eff0f3;
   padding-top: 20px;
 }
 /* line 127, ../../scss/modules/modals/_edit-post-modal.scss */
