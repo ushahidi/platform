@@ -20,7 +20,7 @@
 \*------------------------------------*/
 @import "compass";
 @import "compass/reset";
-@import 'color-schemer';
+@import "plugins/color-schemer";
 @import "compass/layout/sticky-footer";
 @include sticky-footer(72px, ".content-wrapper", ".sticky-footer-root", ".footer");
 
