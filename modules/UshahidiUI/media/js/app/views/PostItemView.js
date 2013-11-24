@@ -1,5 +1,5 @@
 /**
- * Post Item
+ * Post Item Parent View
  *
  * @module     PostItemView
  * @author     Ushahidi Team <team@ushahidi.com>
@@ -13,18 +13,14 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
 		{
-			//Template HTML string
-			template: Handlebars.compile(template),
-			tagName: 'li',
-			className: 'list-view-post',
 
 			events: {
-				'click .js-post-delete': 'deletepost',
+				'click .js-post-delete': 'deletePost',
 				'click .js-post-edit' : 'showEditPost',
 				'click .js-post-set' : 'showAddToSet'
 			},
 
-			deletepost: function(e)
+			deletePost: function(e)
 			{
 				var that = this;
 				e.preventDefault();
@@ -55,7 +51,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 				var data = _.extend(this.model.toJSON(), {
 					isPublished : this.model.isPublished(),
 					tags : this.model.getTags(),
-					user : this.model.user ? this.model.user.toJSON() : null
+					user : this.model.user ? this.model.user.toJSON() : null,
+					location : this.model.getLocation()
 				});
 				return data;
 			},
