@@ -17,7 +17,13 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 			events: {
 				'click .js-post-delete': 'deletePost',
 				'click .js-post-edit' : 'showEditPost',
-				'click .js-post-set' : 'showAddToSet'
+				'click .js-post-set' : 'showAddToSet',
+				'click .js-post-publish' : 'publishPost',
+				'click .js-post-unpublish' : 'unpublishPost'
+			},
+
+			modelEvents: {
+				'sync': 'render'
 			},
 
 			deletePost: function(e)
@@ -43,6 +49,40 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 					{
 						alertify.log('Delete cancelled');
 					}
+				});
+			},
+
+			publishPost: function(e)
+			{
+				var that = this;
+				e.preventDefault();
+
+				this.model.set('status', 'published');
+
+				this.model.save()
+				.done(function()
+				{
+					alertify.success('Post has been published');
+				}).fail(function ()
+				{
+					alertify.error('Unable to publish post, please try again');
+				});
+			},
+
+			unpublishPost: function(e)
+			{
+				var that = this;
+				e.preventDefault();
+
+				this.model.set('status', 'draft');
+
+				this.model.save()
+				.done(function()
+				{
+					alertify.success('Post has been unpublished');
+				}).fail(function ()
+				{
+					alertify.error('Unable to un-publish post, please try again');
 				});
 			},
 
