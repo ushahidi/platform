@@ -52,24 +52,21 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				// show current last home view
 				App.vent.trigger('page:change', 'index');
 				App.Collections.Posts.setFilterParams({});
-				this.layout.mainRegion.show(this.homeLayout);
-				this.homeLayout.showRegions();
+				this.showHomeLayout();
 			},
 			postsAll : function()
 			{
 				App.Collections.Posts.setFilterParams({
 					status : 'all'
 				});
-				this.layout.mainRegion.show(this.homeLayout);
-				this.homeLayout.showRegions();
+				this.showHomeLayout();
 			},
 			postsUnpublished : function()
 			{
 				App.Collections.Posts.setFilterParams({
 					status : 'draft'
 				});
-				this.layout.mainRegion.show(this.homeLayout);
-				this.homeLayout.showRegions();
+				this.showHomeLayout();
 			},
 			postsPublished : function()
 			{
@@ -78,37 +75,39 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			viewsFull : function()
 			{
 				App.vent.trigger('page:change', 'views/full');
-				this.layout.mainRegion.show(this.homeLayout);
-
 				this.homeLayout.setViews({
 					map: true,
 					search: true,
 					list: true
 				});
-				this.homeLayout.showRegions();
+				this.showHomeLayout();
 			},
 			viewsList : function()
 			{
 				App.vent.trigger('page:change', 'views/list');
-				this.layout.mainRegion.show(this.homeLayout);
-
 				this.homeLayout.setViews({
 					map: false,
 					search: true,
 					list: true
 				});
-				this.homeLayout.showRegions();
+				this.showHomeLayout();
 			},
 			viewsMap : function()
 			{
 				App.vent.trigger('page:change', 'views/map');
-				this.layout.mainRegion.show(this.homeLayout);
-
 				this.homeLayout.setViews({
 					map: true,
 					search: true,
 					list: false
 				});
+				this.showHomeLayout();
+			},
+			showHomeLayout : function()
+			{
+				if (this.layout.mainRegion.currentView instanceof HomeLayout === false)
+				{
+					this.layout.mainRegion.show(this.homeLayout);
+				}
 				this.homeLayout.showRegions();
 			},
 			postDetail : function(id)
