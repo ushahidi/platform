@@ -51,7 +51,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 			{
 				$user = $this->user;
 
-				if (! $user->loaded())
+				if ( ! $user->loaded())
 				{
 					throw new HTTP_Exception_404('No user currently authenticated');
 				}
@@ -62,7 +62,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 			{
 				$user = ORM::factory('User', $user_id);
 
-				if (! $user->loaded())
+				if ( ! $user->loaded())
 				{
 					throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
 						':id' => $this->request->param('id', 0),
@@ -110,7 +110,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 		//Prepare search params
 		$q = $this->request->query('q');
-		if (! empty($q))
+		if ( ! empty($q))
 		{
 			$users_query->and_where_open();
 			$users_query->where('email', 'LIKE', "%$q%");
@@ -121,25 +121,25 @@ class Controller_Api_Users extends Ushahidi_Api {
 		}
 
 		$user = $this->request->query('email');
-		if (! empty($user))
+		if ( ! empty($user))
 		{
 			$users_query->where('email', '=', $user);
 		}
 
 		$first_name = $this->request->query('first_name');
-		if (! empty($first_name))
+		if ( ! empty($first_name))
 		{
 			$users_query->where('first_name', '=', $first_name);
 		}
 
 		$last_name = $this->request->query('last_name');
-		if (! empty($last_name))
+		if ( ! empty($last_name))
 		{
 			$users_query->where('last_name', '=', $last_name);
 		}
 
 		$username = $this->request->query('username');
-		if (! empty($username))
+		if ( ! empty($username))
 		{
 			$users_query->where('username', '=', $username);
 		}
