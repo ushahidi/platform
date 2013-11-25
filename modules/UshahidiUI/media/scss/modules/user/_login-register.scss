@@ -36,6 +36,10 @@
     GENERAL
 \*------------------------------------*/
 
+.error {
+	@include alert($alert-color);
+}
+
 .login-box {
 	margin-top: 50px;
 	.post-body {
