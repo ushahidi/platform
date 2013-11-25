@@ -16,8 +16,6 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	protected $_scope_required = 'sets';
 
-	private $set = NULL;
-
 	/**
 	 * Load resource object
 	 *
@@ -43,25 +41,59 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 
 		$this->_resource = $set;
 
-		$this->set = $set;
-		// Get post
-		if ($post_id = $this->request->param('id', 0))
-		{
+	}
 
-			$post = $set->posts
-				->where('post_id', '=', $post_id)
-				->where('set_id', '=', $set_id)
-				->find();
+	/**
+	 * Check if access is allowed
+	 * Checks if oauth token and user permissions
+	 *
+	 * @return bool
+	 * @throws HTTP_Exception|OAuth_Exception
+	 */
+	protected function _check_access()
+	{
+		// Check OAuth2 token is valid and has required scope
+		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
+		$response = new OAuth2_Response;
+		$scope_required = $this->_scope_required;
 
-			if ( ! $post->loaded())
-			{
-				throw new HTTP_Exception_404('Set Post does not exist. ID: \':id\'', array(
-					':id' => $post_id,
-				));
-			}
-
-			$this->_resource = $post;
+		if ( ! $this->_oauth2_server->verifyResourceRequest($request, $response, $scope_required)) {
+			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
+			$this->_oauth2_server->processResponse($this->response);
+			return FALSE;
 		}
+
+		// Get user from token
+		$token = $this->_oauth2_server->getAccessTokenData($request, $response);
+		$this->user = ORM::factory('User', $token['user_id']);
+
+		$resource = $this->resource();
+
+		$method = strtolower($this->request->method());
+
+		if ($method == 'delete' OR $method = 'post')
+		{
+			$method = 'put';
+		}
+		// Does the user have required role/permissions ?
+		if ( ! $this->acl->is_allowed($this->user, $resource, strtolower($method)))
+		{
+			// @todo proper message
+			if (isset($resource->id))
+				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource id :id', array(
+					':resource' => $resource instanceof Acl_Resource_Interface ? $resource->get_resource_id() : $resource,
+					':id' => $resource->id
+					));
+			else
+			{
+				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource', array(
+					':resource' => $resource instanceof Acl_Resource_Interface ? $resource->get_resource_id() : $resource,
+					));
+			}
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	/**
@@ -142,24 +174,41 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	public function action_get_index()
 	{
 		// Respond with set
-		if ($this->set !== NULL)
+		$set = $this->resource();
+		if ($post_id = $this->request->param('id', 0))
 		{
-			// Perhaps there is a better way to get to the api/posts/:id controller?
-			$uri = Route::get('api')->uri(array(
-				'id' => $this->set->posts->find()->id,
-				'controller' => 'posts'
-			));
-			// Send a sub request to api/posts/:id
-			$response = Request::factory($uri)
-				->headers($this->request->headers()) // Forward current request headers to the sub request
-				->execute();
 
-			// Override response to ensure status code etc is set
-			$this->response = $response;
+			$post = $set->posts
+				->where('post_id', '=', $post_id)
+				->where('set_id', '=', $set->id)
+				->find();
 
-			// Return a JSON formatted response
-			$this->_response_payload  = json_decode($response->body());
+			if ( ! $post->loaded())
+			{
+				throw new HTTP_Exception_404('Set Post does not exist. ID: \':id\'', array(
+					':id' => $post_id,
+				));
+			}
+
+			$this->_resource = $post;
 		}
+
+		// Perhaps there is a better way to get to the api/posts/:id controller?
+		$uri = Route::get('api')->uri(array(
+			'id' => $this->_resource->id,
+			'controller' => 'posts'
+		));
+
+		// Send a sub request to api/posts/:id
+		$response = Request::factory($uri)
+			->headers($this->request->headers()) // Forward current request headers to the sub request
+			->execute();
+
+		// Override response to ensure status code etc is set
+		$this->response = $response;
+
+		// Return a JSON formatted response
+		$this->_response_payload  = json_decode($response->body());
 	}
 
 
@@ -172,18 +221,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$set_id = $this->request->param('set_id');
-
-		$set = ORM::factory('Set', $set_id);
-
-		if ( ! $set->loaded())
-		{
-			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
-				':id' => $set_id
-			));
-		}
-
-		$set->remove('posts',$this->resource());
+		$this->resource()->remove('posts',$this->resource());
 
 		// Response is the complete post
 		$this->_response_payload = $this->_resource->for_api();
