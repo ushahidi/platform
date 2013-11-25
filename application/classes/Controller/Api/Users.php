@@ -53,7 +53,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 				if ( ! $user->loaded())
 				{
-					throw new HTTP_Exception_404('No user currently authenticated');
+					throw new HTTP_Exception_404('No user associated with the access token.');
 				}
 
 				$this->_resource = $user;
