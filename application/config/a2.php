@@ -40,13 +40,13 @@ return array(
 	),
 
 	/*
-	 * The name of the guest role 
+	 * The name of the guest role
 	 * Used when no user is logged in.
 	 */
 	'guest_role' => 'guest',
 
 	/*
-	 * The name of the user role 
+	 * The name of the user role
 	 * Used when user is logged in but has no role.
 	 */
 	'user_role' => 'user',
@@ -102,15 +102,21 @@ return array(
 				'resource'  => 'logout'
 			),
 			'UserCanCreateSet' => array(
-				'role'      => 'guest',
+				'role'      => 'user',
 				'resource'  => 'sets',
 				'privilege' => array('post')
 			),
 			'UserCanEditOwnSet' => array(
-				'role'      => 'guest',
+				'role'      => 'user',
 				'resource'  => 'sets',
 				'privilege' => array('put', 'delete'),
 				'assertion' => array('Acl_Assert_Argument', array('id' => 'user_id'))
+			),
+			'UserCanEditOwnUser' => array(
+				'role'      => 'user',
+				'resource'  => 'users',
+				'privilege' => array('put', 'get', 'delete'),
+				'assertion' => array('Acl_Assert_Argument', array('id' => 'id'))
 			),
 			// Guest
 			'GuestCanViewPublicPost' => array(

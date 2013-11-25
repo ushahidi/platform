@@ -82,6 +82,17 @@ Route::set('posts', 'api/v2/posts/<post_id>/<controller>(/<id>)',
 /**
  * Base Ushahidi API Route
  */
+Route::set('current-user', 'api/v2/users/me')
+	->defaults(array(
+		'action'     => 'me',
+		'directory'  => 'Api',
+		'controller' => 'Users',
+		'id'         => 'me'
+	));
+
+/**
+ * Base Ushahidi API Route
+ */
 Route::set('api', 'api/v2(/<controller>(/<id>))',
 	array(
 		'id' => '\d+'
