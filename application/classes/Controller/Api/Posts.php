@@ -134,7 +134,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$posts_query = ORM::factory('Post')
 			->distinct(TRUE)
 			->join('posts_sets', 'INNER')
-			->on('posts_sets.set_id', '=', DB::expr($set_id))
+			->on('posts_sets.set_id', '=', DB::expr($set_id)) // Without DB:expr ORM throws a column error
 			->where('type', '=', $this->_type)
 			->order_by($this->_record_orderby, $this->_record_order);
 		}
