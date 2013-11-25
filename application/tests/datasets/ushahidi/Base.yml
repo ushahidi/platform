@@ -19,9 +19,9 @@ users:
     id: 3
     username: "test"
     password: ""
-    first_name:
-    last_name:
-    email:
+    first_name: Test
+    last_name: User
+    email: test@v3.ushahidi.com
     role: "user"
   -
     id: 4
@@ -376,7 +376,7 @@ posts:
     id: 112
     form_id: 1
     parent_id:
-    user_id: 
+    user_id:
     title: "Draft 1"
     type: "report"
     content: "Testing draft"
@@ -386,7 +386,7 @@ posts:
     id: 113
     form_id: 1
     parent_id:
-    user_id: 
+    user_id:
     title: "Draft 2"
     type: "report"
     content: "Testing draft 2"
@@ -396,7 +396,7 @@ posts:
     id: 114
     form_id: 1
     parent_id: 111
-    user_id: 
+    user_id:
     title: "Update for draft"
     type: "report"
     content: "Update for draft"
@@ -406,7 +406,7 @@ posts:
     id: 115
     form_id: 1
     parent_id: 111
-    user_id: 
+    user_id:
     title: "Translation of draft"
     type: "translation"
     content: "Translation of draft"
@@ -416,7 +416,7 @@ posts:
     id: 116
     form_id: 1
     parent_id: 111
-    user_id: 
+    user_id:
     title: "Revision of draft"
     type: "revision"
     content: "Revision of draft"
@@ -426,7 +426,7 @@ posts:
     id: 117
     form_id: 1
     parent_id: 110
-    user_id: 
+    user_id:
     title: "Update for draft"
     type: "report"
     content: "Update for draft"
@@ -600,15 +600,15 @@ oauth_access_tokens:
   -
     access_token: "testbasicuser2"
     client_id: "demoapp"
-    scope: "api posts forms"
+    scope: "api posts forms users"
     expires: "2030-01-01 00:00:00"
     user_id: 3
   -
     access_token: "testanon"
     client_id: "demoapp"
-    scope: "api posts forms"
+    scope: "api posts forms users"
     expires: "2030-01-01 00:00:00"
-    user_id: 
+    user_id:
 oauth_authorization_codes:
   -
     authorization_code: "4d105df9a7f8645ef8306dd40c7b1952794bf368"
