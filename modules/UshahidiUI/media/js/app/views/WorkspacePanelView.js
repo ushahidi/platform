@@ -25,7 +25,7 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 			},
 			toggleMenuItem : function(e)
 			{
-				e.preventDefault();
+				//e.preventDefault();
 				this.$('.workspace-menu li').removeClass('active');
 				this.$(e.currentTarget).addClass('active');
 			}

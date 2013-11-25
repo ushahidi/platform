@@ -60,6 +60,25 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				}));
 				App.homeLayout.searchRegion.show(new SearchBarView());
 			},
+			postsAll : function()
+			{
+				App.Collections.Posts.setFilterParams({
+					status : 'all'
+				});
+				this.index();
+			},
+			postsUnpublished : function()
+			{
+				App.Collections.Posts.setFilterParams({
+					status : 'draft'
+				});
+				this.index();
+			},
+			postsPublished : function()
+			{
+				App.Collections.Posts.setFilterParams({});
+				this.index();
+			},
 			viewsList : function()
 			{
 				App.vent.trigger('page:change', 'views/list');
