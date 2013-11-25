@@ -40,6 +40,8 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
 						}).done(function()
 						{
 							alertify.success('Post has been deleted');
+							// Trigger a fetch. This is to remove the model from the listing and load another
+							App.Collections.Posts.fetch();
 						}).fail(function ()
 						{
 							alertify.error('Unable to delete post, please try again');

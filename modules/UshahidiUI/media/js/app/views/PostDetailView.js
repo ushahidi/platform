@@ -23,9 +23,9 @@ define(['App', 'handlebars', 'views/PostItemView', 'text!templates/PostDetail.ht
 
 			handleDeleted : function()
 			{
+				// Redirect user to previous page (probably post list)
+				// @todo does this always make sense?
 				window.history.back();
-				// Trigger a fetch. This is to remove the model from the listing and load another
-				App.Collections.Posts.fetch();
 			}
 
 		});

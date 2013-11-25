@@ -50,7 +50,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView'
 			{
 				reset : 'updatePagination',
 				add : 'updatePagination',
-				remove : 'updatePagination reloadPage'
+				remove : 'updatePagination'
 			},
 
 			showHideBulkActions : function ()
@@ -145,10 +145,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView'
 				);
 				this.collection.getPage(num -1);
 				this.updatePagination();
-			},
-			reloadPage : function ()
-			{
-				this.collection.fetch();
 			},
 
 			updatePagination: function ()
