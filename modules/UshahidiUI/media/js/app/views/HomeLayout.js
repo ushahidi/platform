@@ -48,7 +48,7 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'text!templates/HomeLay
 				}
 				else if(! this.views.map)
 				{
-					this.contentRegion.close();
+					this.mapRegion.close();
 				}
 
 				if (this.contentRegion.currentView instanceof PostListView === false && this.views.list)
@@ -68,7 +68,7 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'text!templates/HomeLay
 				}
 				else if(! this.views.search)
 				{
-					this.contentRegion.close();
+					this.searchRegion.close();
 				}
 				return this;
 			}
