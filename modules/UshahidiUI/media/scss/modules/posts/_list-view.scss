@@ -108,7 +108,7 @@
 		padding: 8px 0 0 0;
 		margin: 0 0 8px 0;
 	}
-	@media #{$small} {
+	@media #{$medium} {
 		@include grid-column(8);
 		border-bottom: 0;
 		padding-bottom: 0;
@@ -118,14 +118,20 @@
 
 .list-view-filter-count {
 	@include grid-column(12);
-	@media #{$small} {
+	@media #{$mobile-up} {
+		@include grid-column(6);
+	}
+	@media #{$medium} {
 		@include grid-column(2);
 	}
 }
 
 .list-view-filter-sort {
 	@include grid-column(12);
-	@media #{$small} {
+	@media #{$mobile-up} {
+		@include grid-column(6);
+	}
+	@media #{$medium} {
 		@include grid-column(2);
 	}
 }
