@@ -9,11 +9,11 @@
 
 define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout',
-	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/MapView','views/PostListView',
+	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/PostListView',
 	'collections/PostCollection','collections/TagCollection','collections/FormCollection'],
 	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout,
-		HeaderView, FooterView, WorkspacePanelView, SearchBarView, MapView, PostListView,
+		HeaderView, FooterView, WorkspacePanelView, SearchBarView, PostListView,
 		PostCollection, TagCollection, FormCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
@@ -40,7 +40,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Forms = new FormCollection();
 				App.Collections.Forms.fetch();
 
-				App.homeLayout = new HomeLayout();
+				this.homeLayout = new HomeLayout();
 
 				this.modalController = new ModalController({
 					modal : this.layout.modal
@@ -49,16 +49,10 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			//gets mapped to in AppRouter's appRoutes
 			index : function()
 			{
+				// show current last home view
 				App.vent.trigger('page:change', 'index');
-				this.layout.mainRegion.show(App.homeLayout);
-
-				App.homeLayout.contentRegion.show(new PostListView({
-					collection: App.Collections.Posts
-				}));
-				App.homeLayout.mapRegion.show(new MapView({
-					collection : App.Collections.Posts
-				}));
-				App.homeLayout.searchRegion.show(new SearchBarView());
+				this.layout.mainRegion.show(this.homeLayout);
+				this.homeLayout.showRegions();
 			},
 			postsAll : function()
 			{
@@ -79,29 +73,41 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Posts.setFilterParams({});
 				this.index();
 			},
+			viewsFull : function()
+			{
+				App.vent.trigger('page:change', 'views/full');
+				this.layout.mainRegion.show(this.homeLayout);
+
+				this.homeLayout.setViews({
+					map: true,
+					search: true,
+					list: true
+				});
+				this.homeLayout.showRegions();
+			},
 			viewsList : function()
 			{
 				App.vent.trigger('page:change', 'views/list');
-				this.layout.mainRegion.show(App.homeLayout);
+				this.layout.mainRegion.show(this.homeLayout);
 
-				App.homeLayout.contentRegion.show(new PostListView({
-					collection: App.Collections.Posts
-				}));
-				// Nothing bound to map region
-				App.homeLayout.mapRegion.close();
-				App.homeLayout.searchRegion.show(new SearchBarView());
+				this.homeLayout.setViews({
+					map: false,
+					search: true,
+					list: true
+				});
+				this.homeLayout.showRegions();
 			},
 			viewsMap : function()
 			{
 				App.vent.trigger('page:change', 'views/map');
-				this.layout.mainRegion.show(App.homeLayout);
+				this.layout.mainRegion.show(this.homeLayout);
 
-				// Nothing bound to content region
-				App.homeLayout.contentRegion.close();
-				App.homeLayout.mapRegion.show(new MapView({
-					collection : App.Collections.Posts
-				}));
-				App.homeLayout.searchRegion.show(new SearchBarView());
+				this.homeLayout.setViews({
+					map: true,
+					search: true,
+					list: false
+				});
+				this.homeLayout.showRegions();
 			},
 			postDetail : function(id)
 			{
@@ -109,8 +115,8 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 						postDetailLayout,
 						model;
 
-				require(['views/PostDetailLayout', 'views/PostDetailView', 'views/RelatedPostsView', 'models/PostModel'],
-					function(PostDetailLayout, PostDetailView, RelatedPostsView, PostModel)
+				require(['views/PostDetailLayout', 'views/PostDetailView', 'views/RelatedPostsView', 'views/MapView', 'models/PostModel'],
+					function(PostDetailLayout, PostDetailView, RelatedPostsView, MapView, PostModel)
 				{
 					App.vent.trigger('page:change', 'posts/:id');
 					// @TODO find a way to reuse post detail views
@@ -146,7 +152,6 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			sets : function ()
 			{
 				var that = this;
-				App.homeLayout.close();
 				require(['views/SetsView'], function(SetsView)
 				{
 					App.vent.trigger('page:change', 'sets');
@@ -157,7 +162,6 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			setDetail : function(/* id */)
 			{
 				var that = this;
-				App.homeLayout.close();
 				require(['views/SetDetailView'], function(SetDetailView)
 				{
 					App.vent.trigger('page:change', 'sets/:id');

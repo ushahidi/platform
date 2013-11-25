@@ -82,7 +82,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						posts;
 
 				// Don't re-render the map
-				if (typeof this.map !== 'undefined')
+				if (this.map instanceof L.map)
 				{
 					return this;
 				}
@@ -142,6 +142,14 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 
 				return this;
 			},
+			onClose : function()
+			{
+				if (this.map instanceof L.map)
+				{
+					this.map.remove();
+					delete this.map;
+				}
+			},
 			events : {
 				'click .js-collapse-map' : 'collapseMap'
 			},
@@ -191,7 +199,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						if (data.features.length === 0)
 						{
 							return;
-						}
+			}
 
 						posts.clearLayers();
 						posts.addData(data);
@@ -204,7 +212,6 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 							map.setZoom(15);
 						}
 					}
-				});
-			}
 		});
-	});
+			}
+	});	});
