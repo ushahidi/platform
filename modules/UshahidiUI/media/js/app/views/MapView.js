@@ -22,6 +22,9 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			modelEvents : {
 			  'sync': 'updateMarkers'
 			},
+			collectionEvents : {
+				'filter:change' : 'updateMarkers'
+			},
 			events : {
 				'click .js-collapse-map' : 'collapseMap'
 			},

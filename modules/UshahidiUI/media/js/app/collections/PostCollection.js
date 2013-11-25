@@ -102,6 +102,7 @@ define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone
 				// If filter has changed, reload
 				if (! _.isEqual(oldFilterParams, newFilterParams))
 				{
+					this.trigger('filter:change');
 					this.fetch();
 				}
 
