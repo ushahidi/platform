@@ -50,7 +50,25 @@ define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone
 			},
 
 			/**
-			 * Set filter params to be set to the server as query params
+			 * Get filter params to be sent to the server
+			 * @return {Object} Filter params
+			 */
+			getFilterParams : function ()
+			{
+				var pagingParamKeys;
+
+				// Grab the keys of the paging params so we don't overwrite these
+				// and mess up the paging
+				pagingParamKeys = _.union(
+					_.keys(Object.getPrototypeOf(this).queryParams),
+					_.keys(PageableCollection.prototype.queryParams)
+				);
+
+				return _.omit(this.queryParams, pagingParamKeys);
+			},
+
+			/**
+			 * Set filter params to be sent to the server as query params
 			 * @param  {Object} filterParams New parameters to filter by
 			 * @return {Object}              Filter params set on the object
 			 */
