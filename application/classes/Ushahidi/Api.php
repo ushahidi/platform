@@ -109,7 +109,9 @@ class Ushahidi_Api extends Controller {
 
 		// Set up custom error view
 		Kohana_Exception::$error_view_content_type = 'application/json';
-		Kohana_Exception::$error_view = 'api/error';
+		Kohana_Exception::$error_view = 'error/api';
+		Kohana_Exception::$error_layout = FALSE;
+		HTTP_Exception_404::$error_view = 'error/api';
 
 		$this->_oauth2_server = new Koauth_OAuth2_Server();
 
@@ -415,5 +417,25 @@ class Ushahidi_Api extends Controller {
 			throw new HTTP_Exception_400('Number of records requested was too large: :record_limit.', array(
 				':record_limit' => $this->_record_limit
 			));
+	}
+
+	/**
+	 * Get allowed HTTP method for current resource
+	 * @param  boolean $resource Optional resources to check access for
+	 * @return Array             Array of methods, TRUE if allowed
+	 */
+	protected function _allowed_methods($resource = FALSE)
+	{
+		if (! $resource)
+		{
+			$resource = $this->resource();
+		}
+
+		return array(
+					'get' => $this->acl->is_allowed($this->user, $resource, 'get'),
+					'post' => $this->acl->is_allowed($this->user, $resource, 'post'),
+					'put' => $this->acl->is_allowed($this->user, $resource, 'put'),
+					'delete' => $this->acl->is_allowed($this->user, $resource, 'delete')
+				);
 	}
 }

@@ -4,8 +4,9 @@
 /**
  * TOPBAR-LOGIN/REGISTER...............topbar styles on login and register pages
  * GENERAL...............modular styles for both login and register pages
- * LOGIN...............login page styles
- * REGISTER...............register page styles
+ * LOGIN...............login specific styles
+ * REGISTER...............register specific styles
+ * LOGOUT...............logout specific styles
  */
 
 
@@ -18,7 +19,7 @@
 
  .top-bar-section.top-bar-section-login {
 	ul.right{
-		width: 146px;
+		width: auto;
 	}
 	li.show-for-small a {
 		padding: 0 18px;
@@ -47,24 +48,20 @@
 
 .login-form-wrapper {
 	@include grid-column(12);
-	border-bottom: 1px solid $lightGray;
+	border-bottom: 1px solid $secondary-color;
 	padding-bottom: 20px;
 	margin-bottom: 20px;
 }
 
 .login-form {
-	border-bottom: 1px solid $lightGray;
+	//border-bottom: 1px solid $secondary-color;
 	margin-bottom: 20px;
 	input[type="checkbox"] {
 		margin-right: 10px;
 	}
-	.submit-button {
-		@include button($bg: $success-color, $radius: true);
-		margin: 20px 0 10px 0;
- }
 	@media #{$medium-up} {
 		@include grid-column(5, $collapse: true);
-		border-right: 1px solid $lightGray;
+		//border-right: 1px solid $secondary-color;
 		border-bottom: 0;
 		padding-right: 20px;
 	}
@@ -135,7 +132,7 @@
 .login-disclaimer {
 	@include grid-column(12, $collapse: true);
 	font-style: italic;
-	color: darken($midGray, 30);
+	color: darken($sub-body-font-color, 30);
 	i {
 		position: relative;
 		top: 1px;
@@ -146,18 +143,33 @@
 
 
 
- /*------------------------------------*\
- 		$LOGIN
- \*------------------------------------*/
+/*------------------------------------*\
+    $LOGIN
+\*------------------------------------*/
+
+.login-button-wrapper {
+	@include grid-column(12, $collapse: true);
+	@media #{$mobile-up} {
+		@include grid-column(4, $collapse: true);
+	}
+}
+
+.login-button {
+	@include button($bg: $success-color, $radius: true, $full-width: true);
+	margin: 20px 0 10px 0;
+}
 
 
 
 
+/*------------------------------------*\
+    $REGISTER
+\*------------------------------------*/
 
- /*------------------------------------*\
- 		$REGISTER
- \*------------------------------------*/
+.register-button-wrapper {
+	@extend .login-button-wrapper;
+}
 
-
-
-
+.register-button {
+	@extend .login-button;
+}

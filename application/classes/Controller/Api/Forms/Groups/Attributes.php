@@ -2,7 +2,7 @@
 
 /**
  * Ushahidi API Form Group Attributes Controller
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
@@ -10,24 +10,24 @@
  */
 
 class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
-	
+
 	/**
 	 * Require forms scope - extra scope for attribute seems unnecessary
 	 * @var string oauth2 scope required for access
 	 */
 	protected $_scope_required = 'forms';
-	
+
 	/**
 	 * Load resource object
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _resource()
 	{
 		parent::_resource();
-		
+
 		$this->_resource = 'form_attributes';
-		
+
 		// Check form exists
 		$form_id = $this->request->param('form_id', 0);
 		$form = ORM::factory('Form', $form_id);
@@ -37,7 +37,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 				':id' => $form_id,
 			));
 		}
-		
+
 		// Check group exists
 		$group_id = $this->request->param('group_id', 0);
 		$group = ORM::factory('Form_Group', $group_id);
@@ -47,31 +47,31 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 				':id' => $group_id,
 			));
 		}
-		
+
 		$this->_resource = ORM::factory('Form_Attribute');
-		
+
 		// Get attribute
 		if ($id = $this->request->param('id', 0))
 		{
 			$attribute = ORM::factory('Form_Attribute', $id);
-			
+
 			if (! $attribute->loaded())
 			{
 				throw new HTTP_Exception_404('Form Attribute does not exist. ID: \':id\'', array(
 					':id' => $id,
 				));
 			}
-			
+
 			$this->_resource = $attribute;
 		}
 	}
 
-	
+
 	/**
 	 * Add new attribute to group
-	 * 
+	 *
 	 * POST /api/forms/:form_id/groups/:id/attributes
-	 * 
+	 *
 	 * @todo share code between this and POST /api/attributes
 	 * @return void
 	 */
@@ -81,9 +81,9 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 		$group_id = $this->request->param('group_id');
 		$results = array();
 		$post = $this->_request_payload;
-		
+
 		$form = ORM::factory('Form', $form_id);
-		
+
 		if ( ! $form->loaded())
 		{
 			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
@@ -107,29 +107,30 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 		if (! empty($post['id']))
 		{
 			$attribute = ORM::factory('Form_Attribute', $post['id']);
-			
+
 			if (! $attribute->loaded())
 			{
 				throw new HTTP_Exception_400('Attribute does not exist. Attribute ID: \':id\'', array(
 				':id' => $post['id'],
 			));
 			}
-			
+
 			// Add to group (if not already)
 			if (!$group->has('form_attributes', $attribute))
 			{
 				$group->add('form_attributes', $attribute);
 			}
-			
+
 			// Response is the complete form
 			$this->_response_payload = $attribute->for_api();
-			
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($attribute);
+
 			return;
 		}
 		// Else: create a new attribute and add it to the group
 		else
 		{
-			
+
 			// Validation - perform in-model validation before saving
 			try
 			{
@@ -156,9 +157,9 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 
 	/**
 	 * Retrieve group's attributes
-	 * 
+	 *
 	 * GET /api/forms/:form_id/groups/:id/attributes
-	 * 
+	 *
 	 * @todo share code between this and GET /api/attributes/:id
 	 * @return void
 	 */
@@ -169,7 +170,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 		$results = array();
 
 		$form = ORM::factory('Form', $form_id);
-		
+
 		if ( ! $form->loaded())
 		{
 			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
@@ -190,7 +191,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 		}
 
 		$attributes = $group->form_attributes->find_all();
-		
+
 		$count = $attributes->count();
 
 		foreach ($attributes as $attribute)
@@ -198,7 +199,9 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 			// Check if user is allowed to access this attribute
 			if ($this->acl->is_allowed($this->user, $attribute, 'get') )
 			{
-				$results[] = $attribute->for_api();
+				$result = $attribute->for_api();
+				$result['allowed_methods'] = $this->_allowed_methods($attribute);
+				$results[] = $result;
 			}
 		}
 
@@ -208,12 +211,12 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 			'results' => $results
 			);
 	}
-	
+
 	/**
 	 * Remove a group attribute from the group
-	 * 
+	 *
 	 * GET /api/forms/:form_id/groups/:id/attributes/:id
-	 * 
+	 *
 	 * @todo share code between this and POST /api/attributes/:id
 	 * @return void
 	 */
@@ -225,7 +228,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 		$results = array();
 
 		$form = ORM::factory('Form', $form_id);
-		
+
 		if ( ! $form->loaded())
 		{
 			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
@@ -253,16 +256,17 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 				':id' => $attr_id,
 			));
 		}
-		
+
 		// Response is the complete attribute
 		$this->_response_payload = $attr->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods($attr);
 	}
-	
+
 	/**
 	 * Remove a group attribute from the group
-	 * 
+	 *
 	 * DELETE /api/forms/:form_id/groups/:id/attributes/:id
-	 * 
+	 *
 	 * @todo share code between this and POST /api/attributes/:id
 	 * @return void
 	 */
@@ -274,7 +278,7 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 		$results = array();
 
 		$form = ORM::factory('Form', $form_id);
-		
+
 		if ( ! $form->loaded())
 		{
 			throw new HTTP_Exception_404('Invalid Form ID. \':id\'', array(
@@ -304,8 +308,9 @@ class Controller_API_Forms_Groups_Attributes extends Ushahidi_Api {
 		}
 
 		$group->remove('form_attributes', $attr);
-		
+
 		// Response is the complete attribute
 		$this->_response_payload = $attr->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods($attr);
 	}
 }

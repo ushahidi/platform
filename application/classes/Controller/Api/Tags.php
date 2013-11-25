@@ -10,12 +10,12 @@
  */
 
 class Controller_Api_Tags extends Ushahidi_Api {
-	
+
 	/**
 	 * @var string Field to sort results by
 	 */
 	protected $_record_orderby = 'priority';
-	
+
 	/**
 	 * @var string Direct to sort results
 	 */
@@ -30,18 +30,18 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 * @var string oauth2 scope required for access
 	 */
 	protected $_scope_required = 'tags';
-	
+
 	/**
 	 * Load resource object
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _resource()
 	{
 		parent::_resource();
-		
+
 		$this->_resource = 'tags';
-		
+
 		$this->_resource = ORM::factory('Tag');
 
 		// Get post
@@ -49,39 +49,39 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		{
 			// Respond with set
 			$tag = ORM::factory('Tag', $tag_id);
-			
+
 			if (! $tag->loaded())
 			{
 				throw new HTTP_Exception_404('Tag does not exist. ID: \':id\'', array(
 					':id' => $this->request->param('id', 0),
 				));
 			}
-			
+
 			$this->_resource = $tag;
 		}
 	}
 
 	/**
 	 * Create A Tag
-	 * 
+	 *
 	 * POST /api/tags
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_post_index_collection()
 	{
 		$post = $this->_request_payload;
-		
+
 		$tag = $this->resource();
-		
+
 		$this->create_or_update_tag($tag, $post);
 	}
 
 	/**
 	 * Retrieve All Tags
-	 * 
+	 *
 	 * GET /api/tags
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_get_index_collection()
@@ -94,7 +94,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 			->order_by($this->_record_orderby, $this->_record_order)
 			->offset($this->_record_offset)
 			->limit($this->_record_limit);
-		
+
 		// Prepare search params
 		// @todo generalize this?
 		$q = $this->request->query('q');
@@ -108,19 +108,19 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		{
 			$tags_query->where('tag', '=', $tag);
 		}
-		
+
 		$type = $this->request->query('type');
 		if (! empty($type))
 		{
 			$tags_query->where('type', '=', $type);
 		}
-		
+
 		$type = $this->request->query('parent');
 		if (! empty($type))
 		{
 			$tags_query->where('parent_id', '=', $type);
 		}
-		
+
 		$tags = $tags_query->find_all();
 
 		$count = $tags->count();
@@ -130,7 +130,9 @@ class Controller_Api_Tags extends Ushahidi_Api {
 			// Check if user is allowed to access this tag
 			if ($this->acl->is_allowed($this->user, $tag, 'get') )
 			{
-				$results[] = $tag->for_api();
+				$result = $tag->for_api();
+				$result['allowed_methods'] = $this->_allowed_methods($tag);
+				$results[] = $result;
 			}
 		}
 
@@ -171,9 +173,9 @@ class Controller_Api_Tags extends Ushahidi_Api {
 
 	/**
 	 * Retrieve A Tag
-	 * 
+	 *
 	 * GET /api/tags/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_get_index()
@@ -181,29 +183,30 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		$tag = $this->resource();
 
 		$this->_response_payload = $tag->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**
 	 * Update A Tag
-	 * 
+	 *
 	 * PUT /api/tags/:id
-	 * 
+	 *
 	 * @return void
 	 */
 	public function action_put_index()
 	{
 		$post = $this->_request_payload;
-		
+
 		$tag = $this->resource();
-		
+
 		$this->create_or_update_tag($tag, $post);
 	}
 
 	/**
 	 * Delete A Tag
-	 * 
+	 *
 	 * DELETE /api/tags/:id
-	 * 
+	 *
 	 * @return void
 	 * @todo Authentication
 	 */
@@ -215,13 +218,14 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		{
 			// Return the form we just deleted (provides some confirmation)
 			$this->_response_payload = $tag->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 			$tag->delete();
 		}
 	}
-	
+
 	/**
 	 * Save tags
-	 * 
+	 *
 	 * @param Tag_Model $tag
 	 * @param array $post POST data
 	 */
@@ -250,23 +254,24 @@ class Controller_Api_Tags extends Ushahidi_Api {
 				}
 			}
 		}
-		
+
 		$tag->values($post, array(
 			'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'description'
 			));
-		
-		// Validation - cycle through nested models 
+
+		// Validation - cycle through nested models
 		// and perform in-model validation before
 		// saving
 		try
 		{
 			// Validate base form data
 			$tag->check();
-			
+
 			$tag->save();
 
 			// Response is the complete form
 			$this->_response_payload = $tag->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 		}
 		catch (ORM_Validation_Exception $e)
 		{

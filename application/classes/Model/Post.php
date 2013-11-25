@@ -2,7 +2,7 @@
 
 /**
  * Model for Posts
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
  * @copyright  2013 Ushahidi
@@ -13,9 +13,9 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 	/**
 	 * A post has many comments decimal, geometry, int
 	 * point, text, varchar, tasks
-	 * 
+	 *
 	 * A post has and belongs to many sets and tags
-	 * 
+	 *
 	 * A post has many [children] posts
 	 *
 	 * @var array Relationships
@@ -61,7 +61,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 
 	/**
 	 * Filters for the Post model
-	 * 
+	 *
 	 * @return array Filters
 	 */
 	public function filters()
@@ -72,7 +72,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 				// Make sure we have a URL-safe title.
 				array('URL::title')
 			),
-			
+
 			'locale' => array(
 				array('trim'),
 				array('UTF8::strtolower')
@@ -91,7 +91,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 			'id' => array(
 				array('numeric')
 			),
-			
+
 			'form_id' => array(
 				array('not_empty'),
 				array('numeric'),
@@ -130,14 +130,14 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 					'alert'
 				)) )
 			),
-			
+
 			// Post slug
 			'slug' => array(
 				array('alpha_dash', array(':value', TRUE)),
 				array('max_length', array(':value', 150)),
 				array(array($this, 'unique_slug'), array(':field', ':value'))
 			),
-			
+
 			// Post locale
 			'locale' => array(
 				array('not_empty'),
@@ -156,12 +156,12 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 	{
 		// Skip check if parent is empty
 		if (empty($value)) return TRUE;
-		
+
 		$parent = ORM::factory('Post')
 			->where('id', '=', $value)
 			->where('id', '!=', $this->id)
 			->find();
-		
+
 		return $parent->loaded();
 	}
 
@@ -182,7 +182,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 				->where($field, '=', $value)
 				->where('type', '=', 'report')
 				->find();
-	
+
 			if ($this->loaded())
 			{
 				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
@@ -190,7 +190,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 
 			return ( ! $model->loaded());
 		}
-		
+
 		// otherwise skip the check
 		return TRUE;
 	}
@@ -210,7 +210,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 			// Is locale the same as parent?
 			if ($this->parent->locale == $this->locale)
 				return FALSE;
-			
+
 			// Check for other translations
 			$model = ORM::factory($this->object_name())
 				->where($field, '=', $value)
@@ -222,10 +222,10 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 			{
 				return ( ! ($model->loaded() AND $model->pk() != $this->pk()));
 			}
-	
+
 			return ( ! $model->loaded());
 		}
-		
+
 		// otherwise skip the check
 		return TRUE;
 	}
@@ -238,7 +238,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 		if (empty($this->slug))
 		{
 			$this->slug = $this->title;
-			
+
 			// FIXME horribly inefficient
 			// If the slug exists add a count to the end
 			$i = 1;
@@ -260,14 +260,14 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 	public function save(Validation $validation = NULL)
 	{
 		$this->generate_slug_if_empty();
-		
+
 		return parent::save($validation);
 	}
 
 	/**
 	 * Prepare single post for api ( ++ Hairy :) )
 	 * along with values from attached tables
-	 * 
+	 *
 	 * @return array $response
 	 * @todo the queries need some optimizing (EAV Fun)
 	 */
@@ -305,7 +305,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 					: $this->updated,
 				'values' => array(),
 				'tags' => array()
-				);
+			);
 
 			// Create the Super Union
 			// @todo generalize this - how do plugins add other attribute types?
@@ -365,7 +365,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 					'id' => $result['id'],
 					'value' => $result['value']
 				);
-				
+
 				// First or single value for attribute
 				if (! isset($response['values'][$result['key']]))
 				{
@@ -398,7 +398,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 					'id' => $point->id,
 					'value' => $point->value
 				);
-				
+
 				// First or single value for attribute
 				if (! isset($response['values'][$point->key]))
 				{
@@ -465,7 +465,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 	{
 		return $this->children->where('type', '=', 'translations');
 	}
-	
+
 	/**
 	 * Returns the string identifier of the Resource
 	 *

@@ -4,7 +4,6 @@
 /**
  * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
- * CREATE POST MODAL...............create post modal styling
  * SEARCH BAR...............search bar styling
  * LIST VIEW FILTER...............list view filter styling
  * PSEUDO ELEMENTS...............pseudo element styling
@@ -29,7 +28,7 @@ input[type="radio"], select {
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
 
-input[type="text"], input[type="email"] {
+input[type="text"], input[type="email"], input[type="password"] {
 	height: 100%; /* FF fix */
 	padding: 10px;
 	@include border-radius($global-radius);
@@ -94,7 +93,7 @@ form.custom .custom.dropdown .current {
 \*------------------------------------*/
 
 form.custom .custom.dropdown ul li:hover {
-	background-color: $blueGray;
+	background-color: $accent-color;
 	color: $white;
 }
 

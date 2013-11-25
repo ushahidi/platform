@@ -30,18 +30,18 @@ class Controller_Api_Sets extends Ushahidi_Api {
 	 * @var string oauth2 scope required for access
 	 */
 	protected $_scope_required = 'sets';
-	
+
 	/**
 	 * Load resource object
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _resource()
 	{
 		parent::_resource();
-		
+
 		$this->_resource = 'sets';
-		
+
 		$this->_resource = ORM::factory('Set');
 
 		// Get post
@@ -49,14 +49,14 @@ class Controller_Api_Sets extends Ushahidi_Api {
 		{
 			// Respond with set
 			$set = ORM::factory('Set', $set_id);
-			
+
 			if (! $set->loaded())
 			{
 				throw new HTTP_Exception_404('Set does not exist. ID: \':id\'', array(
 					':id' => $this->request->param('id', 0),
 				));
 			}
-			
+
 			$this->_resource = $set;
 		}
 	}
@@ -123,9 +123,11 @@ class Controller_Api_Sets extends Ushahidi_Api {
 			// Check if user is allowed to access this set
 			if ($this->acl->is_allowed($this->user, $set, 'get') )
 			{
-			$results[] = $set->for_api();
+				$result = $set->for_api();
+				$result['allowed_methods'] = $this->_allowed_methods($set);
+				$results[] = $result;
+			}
 		}
-		}	
 
 		// Current/Next/Prev urls
 		$params = array(
@@ -137,7 +139,7 @@ class Controller_Api_Sets extends Ushahidi_Api {
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
 			$params['orderby'] = $this->_record_orderby;
-			$params['order'] = $this->_record_order;	
+			$params['order'] = $this->_record_order;
 		}
 
 		$prev_params = $next_params = $params;
@@ -176,6 +178,7 @@ class Controller_Api_Sets extends Ushahidi_Api {
 		$set = $this->resource();
 
 		$this->_response_payload = $set->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 
@@ -212,9 +215,10 @@ class Controller_Api_Sets extends Ushahidi_Api {
 		{
 			// Return the set we just deleted (provides some confirmation)
 			$this->_response_payload = $set->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 			$set->delete();
 		}
-		}
+	}
 
 
 	/**
@@ -240,7 +244,7 @@ class Controller_Api_Sets extends Ushahidi_Api {
 
 			// Response is the set
 			$this->_response_payload = $set->for_api();
-
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($set);
 		}
 		catch(ORM_Validation_Exception $e)
 		{

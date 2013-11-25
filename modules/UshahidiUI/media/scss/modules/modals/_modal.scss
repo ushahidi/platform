@@ -46,11 +46,12 @@
 
 .modal-header {
 	@include grid-row;
-	background-color: #e9e9e9;
+	background-color: $accent-color;
 	border: 1px solid #d0d0d0;
 	padding: 20px;
 	text-align: center;
 	h4 {
+		color: set-text-color($accent-color);
 		margin: 0;
 		line-height: 1em;
 	}
@@ -63,7 +64,7 @@
 
 .modal-footer {
 	@include grid-row;
-	background-color: $blueGray;
+	background-color: $accent-color;
 	padding: 0;
 }
 

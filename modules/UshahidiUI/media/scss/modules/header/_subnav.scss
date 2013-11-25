@@ -42,7 +42,7 @@ nav[role="sub-navigation"] ul.subnav {
 }*/
 
 nav[role="sub-navigation"] ul li.active>a {
-	background: $blueGray;
+	background: $accent-color;
 	color: $white;
 }
 
@@ -57,8 +57,8 @@ nav[role="sub-navigation"] li {
 nav[role="sub-navigation"] li a {
 	display: block;
 	padding: 20px 20px;
-	color: $blueGray;
-	border-bottom: 1px solid $lightGray;
+	color: $accent-color;
+	border-bottom: 1px solid $secondary-color;
 	@media #{$small} {
 		float: left;
 		padding: 20px 30px;

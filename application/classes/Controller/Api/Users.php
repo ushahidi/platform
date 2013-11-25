@@ -60,18 +60,18 @@ class Controller_Api_Users extends Ushahidi_Api {
 			}
 			else
 			{
-				$user = ORM::factory('User', $user_id);
+			$user = ORM::factory('User', $user_id);
 
-				if ( ! $user->loaded())
-				{
-					throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
-						':id' => $this->request->param('id', 0),
-					));
-				}
-
-				$this->_resource = $user;
+			if (! $user->loaded())
+			{
+				throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
+					':id' => $this->request->param('id', 0),
+				));
 			}
+
+			$this->_resource = $user;
 		}
+	}
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 		//Prepare search params
 		$q = $this->request->query('q');
-		if ( ! empty($q))
+		if (! empty($q))
 		{
 			$users_query->and_where_open();
 			$users_query->where('email', 'LIKE', "%$q%");
@@ -121,25 +121,25 @@ class Controller_Api_Users extends Ushahidi_Api {
 		}
 
 		$user = $this->request->query('email');
-		if ( ! empty($user))
+		if (! empty($user))
 		{
 			$users_query->where('email', '=', $user);
 		}
 
 		$first_name = $this->request->query('first_name');
-		if ( ! empty($first_name))
+		if (! empty($first_name))
 		{
 			$users_query->where('first_name', '=', $first_name);
 		}
 
 		$last_name = $this->request->query('last_name');
-		if ( ! empty($last_name))
+		if (! empty($last_name))
 		{
 			$users_query->where('last_name', '=', $last_name);
 		}
 
 		$username = $this->request->query('username');
-		if ( ! empty($username))
+		if (! empty($username))
 		{
 			$users_query->where('username', '=', $username);
 		}
@@ -153,7 +153,9 @@ class Controller_Api_Users extends Ushahidi_Api {
 			// Check if user is allowed to access this user
 			if ($this->acl->is_allowed($this->user, $user, 'get') )
 			{
-				$results[] = $user->for_api();
+				$result = $user->for_api();
+				$result['allowed_methods'] = $this->_allowed_methods($user);
+				$results[] = $result;
 			}
 		}
 
@@ -206,6 +208,8 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$user = $this->resource();
 
 		$this->_response_payload = $user->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+
 	}
 
 
@@ -223,7 +227,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$user = $this->resource();
 
 		$this->create_or_update_user($user, $post);
-
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**
@@ -242,9 +246,10 @@ class Controller_Api_Users extends Ushahidi_Api {
 		{
 			// Return the user we just deleted (provides some confirmation)
 			$this->_response_payload = $user->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 			$user->delete();
 		}
-	}
+		}
 
 
 	/**
@@ -253,8 +258,8 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 * @param User_Model $user
 	 * @aparam array $post POST data
 	 */
-	protected function create_or_update_user($user, $post)
-	{
+	 protected function create_or_update_user($user, $post)
+	 {
 		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
 
 		//Validation - cycle through nested models and perform in-model
@@ -274,7 +279,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 			// Response is the user
 			$this->_response_payload = $user->for_api();
-
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($user);
 		}
 		catch(ORM_Validation_Exception $e)
 		{
@@ -294,7 +299,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	public function action_get_me()
 	{
 		$this->action_get_index();
-	}
+	 }
 
 	/**
 	 * Update current user
@@ -306,5 +311,5 @@ class Controller_Api_Users extends Ushahidi_Api {
 	public function action_put_me()
 	{
 		$this->action_put_index();
-	}
+}
 }
