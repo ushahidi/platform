@@ -126,7 +126,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$this->_prepare_order_limit_params();
 
 		// set request
-
 		// set param is set
 		$set_id = $this->request->query('set');
 		if ( ! empty($set_id))
@@ -134,7 +133,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$posts_query = ORM::factory('Post')
 			->distinct(TRUE)
 			->join('posts_sets', 'INNER')
-			->on('posts_sets.set_id', '=', DB::expr($set_id)) // Without DB:expr ORM throws a column error
+			->on('post.id', '=', 'posts_sets.post_id')
+			->where('posts_sets.set_id', '=', $set_id) // Without DB:expr ORM throws a column error
 			->where('type', '=', $this->_type)
 			->order_by($this->_record_orderby, $this->_record_order);
 		}

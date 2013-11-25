@@ -142,26 +142,25 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$results = array();
+		// Perhaps there is a better way to get to the api/posts/:id controller?
+		$set_id = $this->resource();
 
-		$posts = $this->resource()->posts->find_all();
+		$uri = Route::get('api')->uri(array(
+			'set' => $set_id->id,
+			'controller' => 'posts'
+		));
 
-		$count = $posts->count();
+		// Send a sub request to api/posts/:id
 
-		foreach ($posts as $post)
-		{
-			// Check if user is allowed to access this post
-			if ($this->acl->is_allowed($this->user, $post, 'get'))
-			{
-				$results[] = $post->for_api();
-			}
-		}
+		$response = Request::factory(sprintf('%s?set=%d',$uri,$set_id->id))
+			->headers($this->request->headers()) // Forward current request headers to the sub request
+			->execute();
 
-		// Respond with posts
-		$this->_response_payload = array(
-			'count' => $count,
-			'results' => $results
-			);
+		// Override response to ensure status code etc is set
+		$this->response = $response;
+
+		// Return a JSON formatted response
+		$this->_response_payload  = json_decode($response->body());
 	}
 
 	/**
