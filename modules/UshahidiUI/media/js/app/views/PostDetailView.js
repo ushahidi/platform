@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['views/PostItemView', 'text!templates/PostDetail.html'],
-	function( PostItemView, template)
+define(['App', 'handlebars', 'views/PostItemView', 'text!templates/PostDetail.html'],
+	function(App, Handlebars, PostItemView, template)
 	{
 		//CollectionView provides some default rendering logic
 		return PostItemView.extend(

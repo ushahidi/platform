@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['views/PostItemView', 'text!templates/PostListItem.html'],
-	function(PostItemView, template)
+define(['handlebars', 'views/PostItemView', 'text!templates/PostListItem.html'],
+	function(Handlebars, PostItemView, template)
 	{
 		//ItemView provides some default rendering logic
 		return PostItemView.extend(

@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templates/PostListItem.html'],
-	function(App, Marionette, _, Handlebars, alertify, template)
+define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
+	function(App, Marionette, _, Handlebars, alertify)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
@@ -54,7 +54,6 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 
 			publishPost: function(e)
 			{
-				var that = this;
 				e.preventDefault();
 
 				this.model.set('status', 'published');
@@ -71,7 +70,6 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 
 			unpublishPost: function(e)
 			{
-				var that = this;
 				e.preventDefault();
 
 				this.model.set('status', 'draft');
