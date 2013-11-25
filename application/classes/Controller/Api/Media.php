@@ -82,7 +82,9 @@ class Controller_Api_Media extends Ushahidi_Api
 			// Check if user is allowed to access this tag
 			if ($this->acl->is_allowed($this->user, $m, 'get') )
 			{
-				$results[] = $m->for_api();
+				$result = $m->for_api();
+				$result['allowed_methods'] = $this->_allowed_methods($m);
+				$results[] = $result;
 			}
 		}
 
@@ -134,6 +136,7 @@ class Controller_Api_Media extends Ushahidi_Api
 		$media = $this->resource();
 
 		$this->_response_payload = $media->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**
@@ -207,6 +210,7 @@ class Controller_Api_Media extends Ushahidi_Api
 
 			// Return the newly created media
 			$this->_response_payload = $media->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($media);
 		}
 		catch (ORM_Validation_Exception $e)
 		{
@@ -233,6 +237,7 @@ class Controller_Api_Media extends Ushahidi_Api
 		{
 			// Return the media that is about to be deleted
 			$this->_response_payload = $media->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 
 			// Delete the details from the db
 			$media->delete();
