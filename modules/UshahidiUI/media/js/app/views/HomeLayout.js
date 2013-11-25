@@ -43,7 +43,7 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'text!templates/HomeLay
 				if (this.mapRegion.currentView instanceof MapView === false && this.views.map)
 				{
 					this.mapRegion.show(new MapView({
-						collection : App.Collections.Posts
+						collection : this.collection
 					}));
 				}
 				else if(! this.views.map)
@@ -54,7 +54,7 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'text!templates/HomeLay
 				if (this.contentRegion.currentView instanceof PostListView === false && this.views.list)
 				{
 					this.contentRegion.show(new PostListView({
-						collection: App.Collections.Posts
+						collection: this.collection
 					}));
 				}
 				else if(! this.views.list)

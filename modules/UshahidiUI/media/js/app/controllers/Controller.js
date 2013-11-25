@@ -40,7 +40,9 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Forms = new FormCollection();
 				App.Collections.Forms.fetch();
 
-				this.homeLayout = new HomeLayout();
+				this.homeLayout = new HomeLayout({
+					collection : App.Collections.Posts
+				});
 
 				this.modalController = new ModalController({
 					modal : this.layout.modal
