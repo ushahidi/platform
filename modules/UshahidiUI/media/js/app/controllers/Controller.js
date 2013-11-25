@@ -51,6 +51,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			{
 				// show current last home view
 				App.vent.trigger('page:change', 'index');
+				App.Collections.Posts.setFilterParams({});
 				this.layout.mainRegion.show(this.homeLayout);
 				this.homeLayout.showRegions();
 			},
@@ -59,18 +60,19 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Posts.setFilterParams({
 					status : 'all'
 				});
-				this.index();
+				this.layout.mainRegion.show(this.homeLayout);
+				this.homeLayout.showRegions();
 			},
 			postsUnpublished : function()
 			{
 				App.Collections.Posts.setFilterParams({
 					status : 'draft'
 				});
-				this.index();
+				this.layout.mainRegion.show(this.homeLayout);
+				this.homeLayout.showRegions();
 			},
 			postsPublished : function()
 			{
-				App.Collections.Posts.setFilterParams({});
 				this.index();
 			},
 			viewsFull : function()
