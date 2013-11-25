@@ -13,7 +13,7 @@
 
 		<div class="list-view-post-details">
 			<div class="row">
-				<h5 class="list-view-post-title"><i class="fa  fa-lock"></i> <a href="#posts/{{id}}">{{ title }}</a></h5>
+				<h5 class="list-view-post-title">{{!--<i class="fa  fa-lock"></i> --}}<a href="#posts/{{id}}">{{ title }}</a></h5>
 				<div class="list-view-post-time">
 					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 				</div> <!-- end .list-view-post-time -->
@@ -36,22 +36,22 @@
 				</ul>
 			</div> <!-- end .list-view-post-categories-wrapper -->
 			{{/if}}
-			
+
 			<div class="list-view-post-edit-wrapper">
 				<ul class="list-view-post-edit">
-					<li><a href="#" class="list-view-post-edit-buttons  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
-					<li><a href="#" class="list-view-post-edit-buttons  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
+					<li><a href="#" class="list-view-post-edit-buttons  post-edit  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+					<li><a href="#" class="list-view-post-edit-buttons  post-add-to-set  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
 					<li>
 						{{#if isPublished}}
-							<a href="#" class="list-view-post-edit-buttons  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
+							<a href="#" class="list-view-post-edit-buttons  post-unpublish  js-post-unpublish"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
 						{{else}}
-							<a href="#" class="list-view-post-edit-buttons  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
+							<a href="#" class="list-view-post-edit-buttons  post-publish  js-post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
 						{{/if}}
 					</li>
-					<li><a href="#" class="list-view-post-edit-buttons  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
+					<li><a href="#" class="list-view-post-edit-buttons  post-delete  js-post-delete"> <i class="fa  fa-trash-o"></i></a></li>
 				</ul> <!-- end .list-view-post-edit -->
 			</div> <!-- end .list-view-post-edit-wrapper -->
-			
+
 		</div> <!-- end .list-view-post-admin -->
 	</article>
 </div> <!-- end .row -->

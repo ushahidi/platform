@@ -22,7 +22,7 @@ define([ 'marionette', 'handlebars', 'text!templates/modals/ChooseForm.html'],
 			{
 				e.preventDefault();
 				var $el = this.$(e.currentTarget);
-				this.model.set('form.id', $el.attr('data-form-id'));
+				this.model.set('form', $el.attr('data-form-id'));
 				this.model.form = this.forms.get($el.attr('data-form-id'));
 				this.trigger('form:select');
 			},

@@ -32,8 +32,8 @@ require.config(
 		'backbone-pageable' : '../libs/backbone-pageable',
 		'handlebars-paginate' : '../libs/handlebars-paginate',
 		'backbone.syphon' : '../libs/backbone.syphon',
-		'backbone-forms' : '../libs/backbone-forms',
-		'backbone-deep-model' : '../libs/deep-model',
+		'backbone-forms' : '../libs/backbone-forms/backbone-forms',
+		'bf' : '../libs/backbone-forms/',
 		'backbone-validation' : '../libs/backbone-validation-amd',
 		'alertify' : '../libs/alertify',
 		'text' : '../libs/requirejs-text'
@@ -59,9 +59,6 @@ require.config(
 		},
 		// Backbone.validateAll plugin (https://github.com/gfranko/Backbone.validateAll)
 		'backbone.validateAll' : ['backbone'],
-
-		// Deep model supposedly has AMD support but adds a bunch of underscore mixins before loading underscore
-		'backbone-deep-model' : ['underscore', 'backbone'],
 
 		'leaflet': {
 			deps: ['jquery'],
@@ -99,23 +96,23 @@ require.config(
 		'moment': {
 			exports: 'moment'
 		},
-		
-		'foundation/foundation' : {exports: 'Foundation'},
-		'foundation/foundation.abide': {deps: ['foundation/foundation'] },
-		'foundation/foundation.alerts': {deps: ['foundation/foundation'] },
-		'foundation/foundation.clearing': {deps: ['foundation/foundation'] },
-		'foundation/foundation.cookie': {deps: ['foundation/foundation'] },
-		'foundation/foundation.dropdown': {deps: ['foundation/foundation'] },
-		'foundation/foundation.forms': {deps: ['foundation/foundation'] },
-		'foundation/foundation.interchange': {deps: ['foundation/foundation'] },
-		'foundation/foundation.joyride': {deps: ['foundation/foundation'] },
-		'foundation/foundation.magellan': {deps: ['foundation/foundation'] },
-		'foundation/foundation.orbit': {deps: ['foundation/foundation'] },
-		'foundation/foundation.placeholder': {deps: ['foundation/foundation'] },
-		'foundation/foundation.reveal': {deps: ['foundation/foundation'] },
-		'foundation/foundation.section': {deps: ['foundation/foundation'] },
-		'foundation/foundation.tooltips': {deps: ['foundation/foundation'] },
-		'foundation/foundation.topbar': {deps: ['foundation/foundation'] },
+
+		'foundation/foundation' : {deps: ['jquery']},
+		'foundation/foundation.abide': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.alerts': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.clearing': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.cookie': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.dropdown': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.forms': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.interchange': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.joyride': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.magellan': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.orbit': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.placeholder': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.reveal': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.section': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.tooltips': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.topbar': {deps: ['jquery', 'foundation/foundation'] },
 	}
 });
 

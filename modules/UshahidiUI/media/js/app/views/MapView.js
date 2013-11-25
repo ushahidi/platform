@@ -12,16 +12,19 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 	{
 		// Hack to fix default image url
 		L.Icon.Default.imagePath = App.config.baseurl + 'media/kohana/images';
-		
+
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
 			popupTemplate : Handlebars.compile(popupTemplate),
 			collapsed : false,
 			className : 'map-view',
+			modelEvents : {
+			  'sync': 'updateMarkers'
+			},
 			/**
 			 * Initialize the map view
-			 * 
+			 *
 			 * @param <object> options - Configuration object. Possible params:
 			 *   collapsed  - Starting 'collapsed' state for the map
 			 *   dataURL    - DataURL to load geoJSON from. Takes precedence over model or collection URLs.
@@ -32,14 +35,14 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			{
 				// ensure options is an object
 				options = _.extend({}, options);
-				
+
 				// Should the view start collapsed
 				this.collapsed = false;
 				if (options.collapsed)
 				{
 					this.collapsed = true;
 				}
-				
+
 				// Get data url
 				if (typeof options.dataURL !== 'undefined')
 				{
@@ -77,22 +80,22 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						baseMaps,
 						overlayMaps,
 						posts;
-				
+
 				// Don't re-render the map
 				if (typeof this.map !== 'undefined')
 				{
 					return this;
 				}
-				
+
 				// add an OpenStreetMap tile layer
 				osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				});
-				
+
 				cloudmadeUrl = 'http://{s}.tile.cloudmade.com/528babad266546698317425055510f96/{styleId}/256/{z}/{x}/{y}.png';
 				cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
 				minimal = L.tileLayer(cloudmadeUrl, {styleId: 22677, attribution: cloudmadeAttribution});
-				
+
 				// create a map in the 'map' div, set the view to a given place and zoom
 				map = this.map = L.map(this.$('#map')[0], {
 					center : new L.LatLng(-36.85, 174.78),
@@ -100,10 +103,10 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					layers : [minimal],
 					scrollWheelZoom : false
 				});
-				
+
 				// Add the posts marker layer
 				// @TODO split this out so we can manually update the map layer, without redrawing the map
-				posts = L.geoJson([], {
+				posts = this.posts = L.geoJson([], {
 					onEachFeature: function (feature, layer)
 					{
 						// does this feature have a property named popupContent?
@@ -113,47 +116,30 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						}
 					}
 				}).addTo(this.map);
-				OAuth.ajax({
-					url : this.dataURL,
-					success: function (data) {
-						// If geojson was empty, return
-						if (data.features.length === 0)
-						{
-							return;
-						}
 
-						posts.addData(data);
+				this.updateMarkers();
 
-						// Center map on post markers
-						map.fitBounds(posts.getBounds());
-						// Avoid zooming further than 15 (particularly when we just have a single point)
-						if (map.getZoom() > 15)
-						{
-							map.setZoom(15);
-						}
-					}
-				});
-				
 				baseMaps = { 'Minimal': minimal };
 				overlayMaps = { 'Posts': posts };
-				
+
 				L.control.layers(baseMaps, overlayMaps).addTo(this.map);
-				
+
 				// Set initial collapsed state
 				// @TODO Maybe move this into the view html: set classes when we render
 				this.collapseMap(this.collapsed);
-				
+
 				// Fix any leaflet weirdness after map resizes
 				// @TODO check if this works in older browsers, add backup delayed call if not
 				this.$el.on('transitionend', function (e)
 				{
 					// Make sure we only trigger this on size change for the actual map div
-					if (e.originalEvent.originalTarget.id === 'map')
+					if ((e.originalEvent.target && e.originalEvent.target.id === 'map') ||
+							(e.originalEvent.originalTarget && e.originalEvent.originalTarget.id === 'map'))
 					{
 						that.map.invalidateSize();
 					}
 				});
-				
+
 				return this;
 			},
 			events : {
@@ -161,8 +147,8 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			},
 			/**
 			 * Toggle map size
-			 * 
-			 * @param <Boolean> collapse - Set collapsed state rather than toggle (true = collapsed) 
+			 *
+			 * @param <Boolean> collapse - Set collapsed state rather than toggle (true = collapsed)
 			 **/
 			collapseMap : function (collapse)
 			{
@@ -190,8 +176,35 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					this.$('.js-expand-tab').toggleClass('none');
 					this.$('.leaflet-container .leaflet-control-zoom').toggle();
 				}
-				
+
 				return false;
+			},
+			updateMarkers : function ()
+			{
+				var map = this.map,
+					posts = this.posts;
+
+				OAuth.ajax({
+					url : this.dataURL,
+					success: function (data) {
+						// If geojson was empty, return
+						if (data.features.length === 0)
+						{
+							return;
+						}
+
+						posts.clearLayers();
+						posts.addData(data);
+
+						// Center map on post markers
+						map.fitBounds(posts.getBounds());
+						// Avoid zooming further than 15 (particularly when we just have a single point)
+						if (map.getZoom() > 15)
+						{
+							map.setZoom(15);
+						}
+					}
+				});
 			}
 		});
 	});
