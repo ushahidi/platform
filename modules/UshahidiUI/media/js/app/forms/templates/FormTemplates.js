@@ -3,7 +3,7 @@
  *
  * 'data-*' attributes control where elements are placed
  */
-define(['jquery', 'handlebars', 'backbone', 'backbone-forms/backbone-forms'], function($, Handlebars, Backbone) {
+define(['jquery', 'handlebars', 'backbone', 'backbone-forms'], function($, Handlebars, Backbone) {
 	var Form = Backbone.Form;
 
 

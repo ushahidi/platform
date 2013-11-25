@@ -245,7 +245,7 @@ Feature: Testing the Posts API
         And that its "id" is "1"
         When I request "/posts"
         Then the response is JSON
-        And the response has a "values.missing_status" property
+        And the response does not have a "values.missing_status" property
         Then the guzzle status code should be 200
 
     Scenario: Updating a Post with non-existent Form

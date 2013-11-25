@@ -1,14 +1,14 @@
 define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!forms/templates/LocationEditor.html',
-	'backbone-forms/backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap', 'leaflet-locatecontrol/L.Control.Locate'],
+	'backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap', 'leaflet-locatecontrol/L.Control.Locate'],
 	function(_, Handlebars, Backbone, Marionette, L, template)
 {
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
 		tagName : 'div',
 		template : Handlebars.compile(template),
-		marker : L.marker([-36.85, 174.78], { draggable : true }),
+		marker : null,
 		defaultValue : {
-			lat : null,
-			lon : null
+			lat : -36.85,
+			lon : 174.78
 		},
 
 		events: {
@@ -33,8 +33,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 					cloudmadeUrl,
 					cloudmadeAttribution,
 					minimal,
-					map,
-					marker;
+					map;
 
 			//this.setElement($editor);
 			this.$el.append($editor);
@@ -57,17 +56,14 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 			// create a map in the 'map' div, set the view to a given place and zoom
 			map = this.map = L.map(this.$('.map')[0], {
-				center : new L.LatLng(-36.85, 174.78),
-				zoom : 5,
+				center : new L.LatLng(this.value.lat, this.value.lon),
+				zoom : 15,
 				layers : [minimal],
 				scrollWheelZoom : false
 			});
 
-			marker = this.marker = L.marker([-36.85, 174.78], { draggable : true }).addTo(map);
-			marker.addEventListener('dragend', function ()
-			{
-				this.value = this.getValue();
-			}, this);
+			this.setValue(this.value);
+			this.marker.addTo(map);
 
 			// Update map marker on location found events
 			this.map.on('locationfound', function (e)
@@ -132,7 +128,21 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 			if (value.lat && value.lon)
 			{
-				this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
+				if (this.marker === null)
+				{
+					this.marker = L.marker([value.lat, value.lon], { draggable : true })
+						.addEventListener('dragend', function ()
+							{
+								this.value = this.getValue();
+							}, this);
+				}
+				else
+				{
+					this.marker.setLatLng(new L.LatLng(value.lat, value.lon));
+				}
+
+				// Center map on post markers
+				this.map.panTo(new L.LatLng(value.lat, value.lon));
 			}
 		},
 

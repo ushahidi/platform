@@ -1,5 +1,5 @@
 /**
- * Post Item
+ * Post Item Parent View
  *
  * @module     PostItemView
  * @author     Ushahidi Team <team@ushahidi.com>
@@ -7,24 +7,26 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templates/PostListItem.html'],
-	function(App, Marionette, _, Handlebars, alertify, template)
+define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
+	function(App, Marionette, _, Handlebars, alertify)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
 		{
-			//Template HTML string
-			template: Handlebars.compile(template),
-			tagName: 'li',
-			className: 'list-view-post',
 
 			events: {
-				'click .post-delete': 'deletepost',
+				'click .js-post-delete': 'deletePost',
 				'click .js-post-edit' : 'showEditPost',
-				'click .js-post-set' : 'showAddToSet'
+				'click .js-post-set' : 'showAddToSet',
+				'click .js-post-publish' : 'publishPost',
+				'click .js-post-unpublish' : 'unpublishPost'
 			},
 
-			deletepost: function(e)
+			modelEvents: {
+				'sync': 'render'
+			},
+
+			deletePost: function(e)
 			{
 				var that = this;
 				e.preventDefault();
@@ -50,12 +52,45 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify', 'text!templ
 				});
 			},
 
+			publishPost: function(e)
+			{
+				e.preventDefault();
+
+				this.model.set('status', 'published');
+
+				this.model.save()
+				.done(function()
+				{
+					alertify.success('Post has been published');
+				}).fail(function ()
+				{
+					alertify.error('Unable to publish post, please try again');
+				});
+			},
+
+			unpublishPost: function(e)
+			{
+				e.preventDefault();
+
+				this.model.set('status', 'draft');
+
+				this.model.save()
+				.done(function()
+				{
+					alertify.success('Post has been unpublished');
+				}).fail(function ()
+				{
+					alertify.error('Unable to un-publish post, please try again');
+				});
+			},
+
 			serializeData: function()
 			{
 				var data = _.extend(this.model.toJSON(), {
 					isPublished : this.model.isPublished(),
 					tags : this.model.getTags(),
-					user : this.model.user ? this.model.user.toJSON() : null
+					user : this.model.user ? this.model.user.toJSON() : null,
+					location : this.model.getLocation()
 				});
 				return data;
 			},

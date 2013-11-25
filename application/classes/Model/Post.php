@@ -309,13 +309,22 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 
 			// Create the Super Union
 			// @todo generalize this - how do plugins add other attribute types?
-			$datetimes = DB::select('key', 'value', array('post_datetime.id', 'id'))
+
+			// Get date in ISO8601 format
+			// @todo handle timezones
+			$tz = date('P'); // cheating: we're assuming that PHP and MySQL timezones match
+			$datetimes = DB::select(
+					'key',
+					array(DB::expr("DATE_FORMAT(`value`, '%Y-%m-%dT%H:%i:%s{$tz}')"), 'value'),
+					array('post_datetime.id', 'id'),
+					'form_attributes.cardinality'
+					)
 				->from('post_datetime')
 				->join('form_attributes')
 					->on('post_datetime.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$decimals = DB::select('key', 'value', array('post_decimal.id', 'id'))
+			$decimals = DB::select('key', 'value', array('post_decimal.id', 'id'), 'form_attributes.cardinality')
 				->union($datetimes)
 				->from('post_decimal')
 				->join('form_attributes')
@@ -323,28 +332,33 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 				->where('post_id', '=', $this->id);
 
 			// Load Geometry value as WKT
-			$geometries = DB::select('key', array(DB::expr('AsText(`value`)'), 'value'), array('post_geometry.id', 'id'))
+			$geometries = DB::select(
+					'key',
+					array(DB::expr('AsText(`value`)'), 'value'),
+					array('post_geometry.id', 'id'),
+					'form_attributes.cardinality'
+					)
 				->union($decimals)
 				->from('post_geometry')
 				->join('form_attributes')
 					->on('post_geometry.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$ints = DB::select('key', 'value', array('post_int.id', 'id'))
+			$ints = DB::select('key', 'value', array('post_int.id', 'id'), 'form_attributes.cardinality')
 				->union($geometries)
 				->from('post_int')
 				->join('form_attributes')
 					->on('post_int.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$texts = DB::select('key', 'value', array('post_text.id', 'id'))
+			$texts = DB::select('key', 'value', array('post_text.id', 'id'), 'form_attributes.cardinality')
 				->union($ints)
 				->from('post_text')
 				->join('form_attributes')
 					->on('post_text.form_attribute_id', '=', 'form_attributes.id')
 				->where('post_id', '=', $this->id);
 
-			$varchars = DB::select('key', 'value', array('post_varchar.id', 'id'))
+			$varchars = DB::select('key', 'value', array('post_varchar.id', 'id'), 'form_attributes.cardinality')
 				->union($texts)
 				->from('post_varchar')
 				->join('form_attributes')
@@ -353,6 +367,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 
 			$results = $varchars->execute();
 
+			// values stored by 'key' with their post_*.'id'
 			$values_with_keys = array();
 			foreach ($results as $result)
 			{
@@ -367,7 +382,8 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 				);
 
 				// First or single value for attribute
-				if (! isset($response['values'][$result['key']]))
+				if (! isset($response['values'][$result['key']]) AND
+					$result['cardinality'] == 1 )
 				{
 					$response['values'][$result['key']] = $result['value'];
 				}

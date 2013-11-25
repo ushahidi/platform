@@ -661,12 +661,26 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$saved = $post->saved();
 
 			// Save values
+			$saved_value_ids = array();
 			foreach ($_values as $_value)
 			{
 				$_value
 					->set('post_id', $post->id)
 					->save();
+				// Save ID for deletion check later.
+				$saved_value_ids[$_value->table_name()][] = $_value->id;
 			}
+
+			// Delete any old values that weren't passed through
+			$db = Database::instance();
+			foreach($saved_value_ids as $table => $_saved_value_ids)
+			{
+				DB::delete($table)
+					->where('post_id', '=', $post->id)
+					->where('id', 'NOT IN', $_saved_value_ids)
+					->execute();
+			}
+
 
 			// Add tags to post (has to happen after post is saved)
 			if (count($tag_ids) > 0 AND ! $post->has('tags', $tag_ids))
