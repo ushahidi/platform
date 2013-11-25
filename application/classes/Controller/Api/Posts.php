@@ -125,10 +125,26 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		$this->_prepare_order_limit_params();
 
-		$posts_query = ORM::factory('Post')
+		// set request
+
+		// set param is set
+		$set_id = $this->request->query('set');
+		if ( ! empty($set_id))
+		{
+			$posts_query = ORM::factory('Post')
+			->distinct(TRUE)
+			->join('posts_sets', 'INNER')
+			->on('posts_sets.set_id', '=', DB::expr($set_id))
+			->where('type', '=', $this->_type)
+			->order_by($this->_record_orderby, $this->_record_order);
+		}
+		else
+		{
+			$posts_query = ORM::factory('Post')
 			->distinct(TRUE)
 			->where('type', '=', $this->_type)
 			->order_by($this->_record_orderby, $this->_record_order);
+		}
 
 		if ($this->_record_limit !== FALSE)
 		{
@@ -222,7 +238,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		// @todo eventually move this to Post_Point class?
 		// Create geometry from bbox
 		$bbox = $this->request->query('bbox');
-		if (! empty($bbox) )
+		if ( ! empty($bbox) )
 		{
 			$bbox = array_map('floatval', explode(',', $bbox));
 			$bb_west = $bbox[0];
