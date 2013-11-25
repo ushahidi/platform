@@ -11,7 +11,7 @@ Feature: Testing the current user API
 		Then the guzzle status code should be 200
 
 	@oauth2Skip
-	Scenario: Updating a the current user
+	Scenario: Updating the current user
 		Given that I want to update a "user"
 		And that the request "data" is:
 			"""
