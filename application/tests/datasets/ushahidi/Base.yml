@@ -557,6 +557,24 @@ sets:
     id: 2
     name: Explosion
 posts_sets:
+  -
+    set_id: 1
+    post_id: 1
+  -
+    set_id: 1
+    post_id: 9999
+  -
+    set_id: 1
+    post_id: 114
+  -
+    set_id: 1
+    post_id: 111
+  -
+    set_id: 1
+    post_id: 113
+  -
+    set_id: 1
+    post_id: 112
 tasks:
 # OAuth Tables
 oauth_clients:
@@ -576,7 +594,7 @@ oauth_access_tokens:
   -
     access_token: "testingtoken"
     client_id: "demoapp"
-    scope: "api posts forms"
+    scope: "api posts forms sets tags users media"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
@@ -588,7 +606,7 @@ oauth_access_tokens:
   -
     access_token: "testbasicuser"
     client_id: "demoapp"
-    scope: "api posts forms"
+    scope: "api posts forms sets tags users media"
     expires: "2030-01-01 00:00:00"
     user_id: 1
   -
@@ -600,13 +618,13 @@ oauth_access_tokens:
   -
     access_token: "testbasicuser2"
     client_id: "demoapp"
-    scope: "api posts forms users"
+    scope: "api posts forms sets tags users media"
     expires: "2030-01-01 00:00:00"
     user_id: 3
   -
     access_token: "testanon"
     client_id: "demoapp"
-    scope: "api posts forms users"
+    scope: "api posts forms sets tags users media"
     expires: "2030-01-01 00:00:00"
     user_id:
 oauth_authorization_codes:
