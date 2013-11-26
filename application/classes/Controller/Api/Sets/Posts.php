@@ -195,12 +195,11 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 				));
 			}
 
-			$this->_resource = $post;
 		}
 
 		// Perhaps there is a better way to get to the api/posts/:id controller?
 		$uri = Route::get('api')->uri(array(
-			'id' => $this->_resource->id,
+			'id' => $post->id,
 			'controller' => 'posts'
 		));
 
