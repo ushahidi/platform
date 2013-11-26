@@ -207,7 +207,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		));
 
 		// Send a sub request to api/posts/:id
-		$response = Request::factory($uri)
+		$response = Request::factory($uri.URL::query()) // Forward query params
 			->headers($this->request->headers()) // Forward current request headers to the sub request
 			->execute();
 
