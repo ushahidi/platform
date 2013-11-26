@@ -15,15 +15,6 @@ class Model_Post_Datetime extends Model_Post_Value {
 	protected $_table_name = 'post_datetime';
 
 	/**
-	 * Filters for the post_datetime model
-	 *
-	 * @return array Filters
-	 */
-	public function filters()
-	{
-	}
-
-	/**
 	 * Rules for the post_datetime model
 	 *
 	 * @return array Rules
