@@ -153,7 +153,7 @@ How to use:
 * uncomment the code block below
 * change $cs-primary value to generate your color scheme
 * make sure the Advanced Color Function is commented out
- */
+*/
 /*$cs-primary: hotpink; // change this to generate your color scheme
 
 $primary-color   : $cs-primary;
@@ -6424,15 +6424,30 @@ a.button {
     GENERAL
 \*------------------------------------*/
 /* line 39, ../../scss/modules/user/_login-register.scss */
+.error {
+  border-style: solid;
+  border-width: 1px;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1.25em;
+  position: relative;
+  padding: 0.6875em 1.3125em 0.75em 0.6875em;
+  font-size: 0.875em;
+  background-color: #c50813;
+  border-color: #94060e;
+  color: white;
+}
+
+/* line 43, ../../scss/modules/user/_login-register.scss */
 .login-box {
   margin-top: 50px;
 }
-/* line 41, ../../scss/modules/user/_login-register.scss */
+/* line 45, ../../scss/modules/user/_login-register.scss */
 .login-box .post-body {
   padding-top: 2em;
 }
 @media only screen and (min-width: 768px) {
-  /* line 39, ../../scss/modules/user/_login-register.scss */
+  /* line 43, ../../scss/modules/user/_login-register.scss */
   .login-box {
     position: relative;
     padding-left: 0.9375em;
@@ -6445,7 +6460,7 @@ a.button {
   }
 }
 
-/* line 49, ../../scss/modules/user/_login-register.scss */
+/* line 53, ../../scss/modules/user/_login-register.scss */
 .login-form-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -6457,16 +6472,16 @@ a.button {
   margin-bottom: 20px;
 }
 
-/* line 56, ../../scss/modules/user/_login-register.scss */
+/* line 60, ../../scss/modules/user/_login-register.scss */
 .login-form {
   margin-bottom: 20px;
 }
-/* line 59, ../../scss/modules/user/_login-register.scss */
+/* line 63, ../../scss/modules/user/_login-register.scss */
 .login-form input[type="checkbox"] {
   margin-right: 10px;
 }
 @media only screen and (min-width: 1025px) {
-  /* line 56, ../../scss/modules/user/_login-register.scss */
+  /* line 60, ../../scss/modules/user/_login-register.scss */
   .login-form {
     position: relative;
     padding-left: 0;
@@ -6478,12 +6493,12 @@ a.button {
   }
 }
 
-/* line 70, ../../scss/modules/user/_login-register.scss */
+/* line 74, ../../scss/modules/user/_login-register.scss */
 .login-form-checkboxes {
   margin-top: 30px;
 }
 
-/* line 74, ../../scss/modules/user/_login-register.scss */
+/* line 78, ../../scss/modules/user/_login-register.scss */
 .social-login {
   position: relative;
   padding-left: 0;
@@ -6492,7 +6507,7 @@ a.button {
   float: left;
 }
 @media only screen and (min-width: 1025px) {
-  /* line 74, ../../scss/modules/user/_login-register.scss */
+  /* line 78, ../../scss/modules/user/_login-register.scss */
   .social-login {
     position: relative;
     padding-left: 0;
@@ -6503,7 +6518,7 @@ a.button {
   }
 }
 
-/* line 82, ../../scss/modules/user/_login-register.scss */
+/* line 86, ../../scss/modules/user/_login-register.scss */
 .social-buttons {
   margin-bottom: 20px;
   position: relative;
@@ -6512,21 +6527,21 @@ a.button {
   width: 100%;
   float: left;
 }
-/* line 85, ../../scss/modules/user/_login-register.scss */
+/* line 89, ../../scss/modules/user/_login-register.scss */
 .social-buttons .button {
   padding: 8px;
 }
-/* line 88, ../../scss/modules/user/_login-register.scss */
+/* line 92, ../../scss/modules/user/_login-register.scss */
 .social-buttons i {
   font-size: 16px;
 }
 
-/* line 93, ../../scss/modules/user/_login-register.scss */
+/* line 97, ../../scss/modules/user/_login-register.scss */
 .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
   padding-left: 0;
 }
 @media only screen and (min-width: 768px) {
-  /* line 93, ../../scss/modules/user/_login-register.scss */
+  /* line 97, ../../scss/modules/user/_login-register.scss */
   .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
     position: relative;
     padding-left: 0.9375em;
@@ -6537,7 +6552,7 @@ a.button {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 93, ../../scss/modules/user/_login-register.scss */
+  /* line 97, ../../scss/modules/user/_login-register.scss */
   .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
     position: relative;
     padding-left: 0.9375em;
@@ -6548,7 +6563,7 @@ a.button {
   }
 }
 
-/* line 105, ../../scss/modules/user/_login-register.scss */
+/* line 109, ../../scss/modules/user/_login-register.scss */
 .open-id {
   position: relative;
   padding-left: 0;
@@ -6556,7 +6571,7 @@ a.button {
   width: 100%;
   float: left;
 }
-/* line 107, ../../scss/modules/user/_login-register.scss */
+/* line 111, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-input {
   position: relative;
   padding-left: 0;
@@ -6564,11 +6579,11 @@ a.button {
   width: 83.33333%;
   float: left;
 }
-/* line 109, ../../scss/modules/user/_login-register.scss */
+/* line 113, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-input input[type="text"] {
   border-radius: 3px 0 0 3px;
 }
-/* line 113, ../../scss/modules/user/_login-register.scss */
+/* line 117, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-submit {
   position: relative;
   padding-left: 0;
@@ -6576,7 +6591,7 @@ a.button {
   width: 16.66667%;
   float: left;
 }
-/* line 115, ../../scss/modules/user/_login-register.scss */
+/* line 119, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-submit button {
   border-style: solid;
   border-width: 1px;
@@ -6635,16 +6650,16 @@ a.button {
   color: #333333;
 }
 
-/* line 125, ../../scss/modules/user/_login-register.scss */
+/* line 129, ../../scss/modules/user/_login-register.scss */
 .login-box-meta {
   float: right;
 }
-/* line 127, ../../scss/modules/user/_login-register.scss */
+/* line 131, ../../scss/modules/user/_login-register.scss */
 .login-box-meta p {
   margin: 0;
 }
 
-/* line 132, ../../scss/modules/user/_login-register.scss */
+/* line 136, ../../scss/modules/user/_login-register.scss */
 .login-disclaimer {
   position: relative;
   padding-left: 0;
@@ -6654,7 +6669,7 @@ a.button {
   font-style: italic;
   color: #4d4b4b;
 }
-/* line 136, ../../scss/modules/user/_login-register.scss */
+/* line 140, ../../scss/modules/user/_login-register.scss */
 .login-disclaimer i {
   position: relative;
   top: 1px;
@@ -6664,7 +6679,7 @@ a.button {
 /*------------------------------------*\
     $LOGIN
 \*------------------------------------*/
-/* line 150, ../../scss/modules/user/_login-register.scss */
+/* line 154, ../../scss/modules/user/_login-register.scss */
 .login-button-wrapper, .register-button-wrapper {
   position: relative;
   padding-left: 0;
@@ -6673,17 +6688,17 @@ a.button {
   float: left;
 }
 @media only screen and (min-width: 421px) {
-  /* line 150, ../../scss/modules/user/_login-register.scss */
+  /* line 154, ../../scss/modules/user/_login-register.scss */
   .login-button-wrapper, .register-button-wrapper {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     width: 33.33333%;
     float: left;
-}
+  }
 }
 
-/* line 157, ../../scss/modules/user/_login-register.scss */
+/* line 161, ../../scss/modules/user/_login-register.scss */
 .login-button, .register-button {
   border-style: solid;
   border-width: 1px;
@@ -7704,14 +7719,13 @@ nav[role="sub-navigation"] li a {
 		$CONTENTS
 \*------------------------------------*/
 /**
- * COLLAPSE MAP...............collapse and expand map tab
  * SEARCH BAR...............search bar body
  * SEARCH FORM FIELDS...............search bar input and dropdown fields
  */
 /*------------------------------------*\
 		$SEARCH BAR
 \*------------------------------------*/
-/* line 17, ../../scss/modules/map/_search.scss */
+/* line 16, ../../scss/modules/map/_search.scss */
 .search-bar {
   position: relative;
   padding-left: 0.9375em;
@@ -7727,7 +7741,7 @@ nav[role="sub-navigation"] li a {
   padding-top: 2em;
 }
 
-/* line 26, ../../scss/modules/map/_search.scss */
+/* line 25, ../../scss/modules/map/_search.scss */
 .search-form-wrapper {
   width: 100%;
   margin-left: auto;
@@ -7750,7 +7764,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$SEARCH FORM FIELDS
 \*------------------------------------*/
-/* line 37, ../../scss/modules/map/_search.scss */
+/* line 36, ../../scss/modules/map/_search.scss */
 .search-field {
   position: relative;
   padding-left: 0.9375em;
@@ -7758,18 +7772,28 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 37, ../../scss/modules/map/_search.scss */
+@media only screen and (min-width: 421px) {
+  /* line 36, ../../scss/modules/map/_search.scss */
   .search-field {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 100%;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 36, ../../scss/modules/map/_search.scss */
+  .search-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 37, ../../scss/modules/map/_search.scss */
+  /* line 36, ../../scss/modules/map/_search.scss */
   .search-field {
     position: relative;
     padding-left: 0;
@@ -7780,7 +7804,7 @@ nav[role="sub-navigation"] li a {
 }
 
 @media only screen and (min-width: 1024px) {
-  /* line 47, ../../scss/modules/map/_search.scss */
+  /* line 49, ../../scss/modules/map/_search.scss */
   .search-bar .search-field input[type="text"] {
     -webkit-border-radius: 3px 0 0 3px;
     -moz-border-radius: 3px 0 0 3px;
@@ -7790,7 +7814,46 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 53, ../../scss/modules/map/_search.scss */
+/* line 55, ../../scss/modules/map/_search.scss */
+.location-field {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 55, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 55, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 55, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+}
+
+/* line 68, ../../scss/modules/map/_search.scss */
 .categories-select {
   position: relative;
   padding-left: 0.9375em;
@@ -7798,18 +7861,36 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 53, ../../scss/modules/map/_search.scss */
+@media only screen and (min-width: 421px) {
+  /* line 68, ../../scss/modules/map/_search.scss */
   .categories-select {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 50%;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 73, ../../scss/modules/map/_search.scss */
+.categories-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 68, ../../scss/modules/map/_search.scss */
+  .categories-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 53, ../../scss/modules/map/_search.scss */
+  /* line 68, ../../scss/modules/map/_search.scss */
   .categories-select {
     position: relative;
     padding-left: 0;
@@ -7817,9 +7898,17 @@ nav[role="sub-navigation"] li a {
     width: 16.66667%;
     float: left;
   }
+  /* line 81, ../../scss/modules/map/_search.scss */
+  .categories-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
 }
 
-/* line 63, ../../scss/modules/map/_search.scss */
+/* line 87, ../../scss/modules/map/_search.scss */
 .sets-select {
   position: relative;
   padding-left: 0.9375em;
@@ -7827,18 +7916,36 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 63, ../../scss/modules/map/_search.scss */
+@media only screen and (min-width: 421px) {
+  /* line 87, ../../scss/modules/map/_search.scss */
   .sets-select {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 50%;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 92, ../../scss/modules/map/_search.scss */
+.sets-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 87, ../../scss/modules/map/_search.scss */
+  .sets-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 63, ../../scss/modules/map/_search.scss */
+  /* line 87, ../../scss/modules/map/_search.scss */
   .sets-select {
     position: relative;
     padding-left: 0;
@@ -7846,38 +7953,17 @@ nav[role="sub-navigation"] li a {
     width: 16.66667%;
     float: left;
   }
-}
-
-/* line 73, ../../scss/modules/map/_search.scss */
-.location-select {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 73, ../../scss/modules/map/_search.scss */
-  .location-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 73, ../../scss/modules/map/_search.scss */
-  .location-select {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
+  /* line 100, ../../scss/modules/map/_search.scss */
+  .sets-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
   }
 }
 
-/* line 83, ../../scss/modules/map/_search.scss */
+/* line 106, ../../scss/modules/map/_search.scss */
 .time-select {
   position: relative;
   padding-left: 0.9375em;
@@ -7885,18 +7971,36 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 83, ../../scss/modules/map/_search.scss */
+@media only screen and (min-width: 421px) {
+  /* line 106, ../../scss/modules/map/_search.scss */
   .time-select {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 50%;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 111, ../../scss/modules/map/_search.scss */
+.time-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 106, ../../scss/modules/map/_search.scss */
+  .time-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 83, ../../scss/modules/map/_search.scss */
+  /* line 106, ../../scss/modules/map/_search.scss */
   .time-select {
     position: relative;
     padding-left: 0;
@@ -7904,9 +8008,17 @@ nav[role="sub-navigation"] li a {
     width: 16.66667%;
     float: left;
   }
+  /* line 119, ../../scss/modules/map/_search.scss */
+  .time-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
 }
 
-/* line 93, ../../scss/modules/map/_search.scss */
+/* line 125, ../../scss/modules/map/_search.scss */
 .search-bar-button {
   position: relative;
   padding-left: 0.9375em;
@@ -7915,7 +8027,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 93, ../../scss/modules/map/_search.scss */
+  /* line 125, ../../scss/modules/map/_search.scss */
   .search-bar-button {
     position: relative;
     padding-left: 0.9375em;
@@ -7925,7 +8037,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 93, ../../scss/modules/map/_search.scss */
+  /* line 125, ../../scss/modules/map/_search.scss */
   .search-bar-button {
     position: relative;
     padding-left: 0;
@@ -7934,7 +8046,7 @@ nav[role="sub-navigation"] li a {
     float: left;
   }
 }
-/* line 101, ../../scss/modules/map/_search.scss */
+/* line 133, ../../scss/modules/map/_search.scss */
 .search-bar-button button {
   border-style: solid;
   border-width: 1px;
@@ -7998,13 +8110,13 @@ nav[role="sub-navigation"] li a {
   color: white;
 }
 @media only screen and (min-width: 1024px) {
-  /* line 101, ../../scss/modules/map/_search.scss */
+  /* line 133, ../../scss/modules/map/_search.scss */
   .search-bar-button button {
     -webkit-border-radius: 0 3px 3px 0;
     border-radius: 0 3px 3px 0;
   }
 }
-/* line 112, ../../scss/modules/map/_search.scss */
+/* line 144, ../../scss/modules/map/_search.scss */
 .search-bar-button button i {
   font-size: 1.2em;
 }
@@ -8223,7 +8335,7 @@ nav[role="sub-navigation"] li a {
   padding: 8px 0 0 0;
   margin: 0 0 8px 0;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
   /* line 100, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-info {
     position: relative;
@@ -8245,7 +8357,17 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 421px) {
+  /* line 119, ../../scss/modules/posts/_list-view.scss */
+  .list-view-filter-count {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
   /* line 119, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-count {
     position: relative;
@@ -8256,7 +8378,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 126, ../../scss/modules/posts/_list-view.scss */
+/* line 129, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-sort {
   position: relative;
   padding-left: 0.9375em;
@@ -8264,8 +8386,18 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 126, ../../scss/modules/posts/_list-view.scss */
+@media only screen and (min-width: 421px) {
+  /* line 129, ../../scss/modules/posts/_list-view.scss */
+  .list-view-filter-sort {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 129, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-sort {
     position: relative;
     padding-left: 0.9375em;
@@ -13240,14 +13372,30 @@ img.mfp-img {
 /* line 21, ../../scss/modules/forms/_forms.scss */
 input[type="radio"], select {
   margin: 0 3px 1em 0;
-  position: relative;
-  top: -2px;
+}
+
+/* line 25, ../../scss/modules/forms/_forms.scss */
+select {
+  -webkit-appearance: none !important;
+  background: #fcfcfc url('/media/kohana/images/dropdown-arrow.svg?1385411973') no-repeat;
+  background-size: 9px;
+  background-position-x: 97%;
+  background-position-y: center;
+  border: 1px solid #cccccc;
+  padding: 0.78em 1em 0.78em 0.78em;
+  font-size: 0.875em;
+  color: #9a9797;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
 }
 
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
-/* line 31, ../../scss/modules/forms/_forms.scss */
+/* line 42, ../../scss/modules/forms/_forms.scss */
 input[type="text"], input[type="email"], input[type="password"] {
   height: 100%;
   /* FF fix */
@@ -13259,7 +13407,7 @@ input[type="text"], input[type="email"], input[type="password"] {
   border-radius: 3px;
 }
 
-/* line 37, ../../scss/modules/forms/_forms.scss */
+/* line 48, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown {
   height: 2.9em;
   -webkit-border-radius: 3px;
@@ -13268,12 +13416,12 @@ form.custom .custom.dropdown {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 40, ../../scss/modules/forms/_forms.scss */
+/* line 51, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-top: .4em;
   margin-left: 1.4em;
 }
-/* line 44, ../../scss/modules/forms/_forms.scss */
+/* line 55, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .selector {
   height: 3.3125em;
 }
@@ -13282,7 +13430,7 @@ form.custom .custom.dropdown .selector {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 56, ../../scss/modules/forms/_forms.scss */
+  /* line 67, ../../scss/modules/forms/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -13293,13 +13441,13 @@ form.custom .custom.dropdown .selector {
 }
 
 @media only screen and (min-width: 1024px) {
-  /* line 62, ../../scss/modules/forms/_forms.scss */
+  /* line 73, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 62, ../../scss/modules/forms/_forms.scss */
+  /* line 73, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -13313,13 +13461,13 @@ form.custom .custom.dropdown .selector {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 78, ../../scss/modules/forms/_forms.scss */
-  .list-view-filter form.custom .custom.dropdown, .set-detail-post-list-filter form.custom .custom.dropdown {
+  /* line 89, ../../scss/modules/forms/_forms.scss */
+  .list-view-filter form.custom, .set-detail-post-list-filter form.custom {
     margin-bottom: 0;
   }
 }
 
-/* line 84, ../../scss/modules/forms/_forms.scss */
+/* line 95, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em;
 }
@@ -13327,20 +13475,20 @@ form.custom .custom.dropdown .current {
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 95, ../../scss/modules/forms/_forms.scss */
+/* line 106, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc;
 }
 
-/* line 100, ../../scss/modules/forms/_forms.scss */
+/* line 111, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f;
 }
 
-/* line 106, ../../scss/modules/forms/_forms.scss */
+/* line 117, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px;
@@ -13622,7 +13770,7 @@ form.custom .custom.checkbox.checked:before {
   color: #fcfcfc;
   text-align: center;
 }
-/* line 133, ../../scss/modules/modals/_modal.scss */
+/* line 134, ../../scss/modules/modals/_modal.scss */
 .select-icon .fa {
   position: relative;
   top: 20px;
@@ -13631,7 +13779,7 @@ form.custom .custom.checkbox.checked:before {
   font-size: 19px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 133, ../../scss/modules/modals/_modal.scss */
+  /* line 134, ../../scss/modules/modals/_modal.scss */
   .select-icon .fa {
     left: 0;
   }
