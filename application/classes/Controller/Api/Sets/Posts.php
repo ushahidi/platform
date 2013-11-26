@@ -76,12 +76,12 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		$method = strtolower($this->request->method());
 
 		// Make POST or DELETE method a PUT
-		if ($method == 'delete' OR $method = 'post')
+		if ($method == 'delete' OR $method == 'post')
 		{
 			$method = 'put';
 		}
 		// Does the user have required role/permissions ?
-		if ( ! $this->acl->is_allowed($this->user, $resource, strtolower($method)))
+		if ( ! $this->acl->is_allowed($this->user, $resource, $method))
 		{
 			// @todo proper message
 			if (isset($resource->id))
