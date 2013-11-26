@@ -148,7 +148,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		// Perhaps there is a better way to get to the api/posts/:id controller?
+
 		$set_id = $this->resource();
 
 		$uri = Route::get('api')->uri(array(
@@ -157,8 +157,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 		));
 
 		// Send a sub request to api/posts/:id
-
-		$response = Request::factory(sprintf('%s?set=%d',$uri,$set_id->id))
+		$response = Request::factory($uri.URL::query(array('set' => $set_id->id)))
 			->headers($this->request->headers()) // Forward current request headers to the sub request
 			->execute();
 
