@@ -149,15 +149,15 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	public function action_get_index_collection()
 	{
 
-		$set_id = $this->resource();
+		$set = $this->resource();
 
 		$uri = Route::get('api')->uri(array(
-			'set' => $set_id->id,
+			'set' => $set->id,
 			'controller' => 'posts'
 		));
 
 		// Send a sub request to api/posts/:id
-		$response = Request::factory($uri.URL::query(array('set' => $set_id->id)))
+		$response = Request::factory($uri.URL::query(array('set' => $set->id)))
 			->headers($this->request->headers()) // Forward current request headers to the sub request
 			->execute();
 
