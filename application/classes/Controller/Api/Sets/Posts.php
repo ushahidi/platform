@@ -111,12 +111,13 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	public function action_post_index_collection()
 	{
 
-		$post = $this->_request_payload;
+		$post_data = $this->_request_payload;
 
 		// Add an existing post
-		if ( ! empty($post['id']))
+		if ( ! empty($post_data['id']))
 		{
-			$posts = ORM::factory('Post', $post['id']);
+			$posts = ORM::factory('Post', $post_data['id']);
+
 			if ( ! $posts->loaded())
 			{
 				throw new HTTP_Exception_400('Post does not exist or is not in this set');
