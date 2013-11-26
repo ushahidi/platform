@@ -25,7 +25,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	{
 		parent::_resource();
 
-		$this->_resource = 'posts';
+		$this->_resource = 'sets';
 
 		// Check set exist
 		$set_id = $this->request->param('set_id', 0);
