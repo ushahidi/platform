@@ -130,6 +130,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 
 			// Response is the complete post
 			$this->_response_payload = $posts->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($posts);
 
 		}
 		else
@@ -229,5 +230,6 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 
 		// Response is the complete post
 		$this->_response_payload = $this->_resource->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods($this->_resource);
 	}
 }
