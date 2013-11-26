@@ -436,7 +436,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				foreach ($post_data['values'] as $key => $value)
 				{
 					// Skip null/empty values
-					if (empty($value)) continue;
+					if (empty($value))
+						continue;
 
 					$attribute = ORM::factory('Form_Attribute')
 						->join('form_groups_form_attributes', 'INNER')
@@ -516,7 +517,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						}
 
 						// Skip empty/null values
-						if (empty($v['value'])) continue;
+						if (empty($v['value']))
+							continue;
 
 						// Load existing Post_* object
 						if (! empty($v['id']))
