@@ -35,6 +35,13 @@ select {
 	@include border-radius($global-radius)
 }
 
+@-moz-document url-prefix() {
+  select {
+   	background: #fafafa;
+  	padding: 0.7em 1em 0.78em 0.78em;
+  }
+}
+
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
