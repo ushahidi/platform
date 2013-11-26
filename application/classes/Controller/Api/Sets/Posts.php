@@ -177,28 +177,26 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		// Respond with set
-		$set = $this->resource();
-		if ($post_id = $this->request->param('id', 0))
-		{
-
-			$post = $set->posts
-				->where('post_id', '=', $post_id)
-				->where('set_id', '=', $set->id)
-				->find();
-
-			if ( ! $post->loaded())
-			{
-				throw new HTTP_Exception_404('Set Post does not exist. ID: \':id\'', array(
-					':id' => $post_id,
-				));
-			}
-
-		}
-		else
+		if ( ! $post_id = $this->request->param('id', 0))
 		{
 			throw new HTTP_Exception_400('No Post ID');
 		}
+
+		$set = $this->resource();
+
+
+		$post = $set->posts
+			->where('post_id', '=', $post_id)
+			->where('set_id', '=', $set->id)
+			->find();
+
+		if ( ! $post->loaded())
+		{
+			throw new HTTP_Exception_404('Post does not exist or is not in this set. Post ID: \':id\'', array(
+				':id' => $post_id,
+			));
+		}
+
 		// Perhaps there is a better way to get to the api/posts/:id controller?
 		$uri = Route::get('api')->uri(array(
 			'id' => $post->id,
@@ -227,10 +225,33 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$this->resource()->remove('posts',$this->resource());
+		$this->_response_payload = array();
+
+		if ( ! $post_id = $this->request->param('id', 0))
+		{
+			throw new HTTP_Exception_400('No Post ID');
+		}
+
+		$set = $this->resource();
+
+
+		$post = $set->posts
+			->where('post_id', '=', $post_id)
+			->where('set_id', '=', $set->id)
+			->find();
+
+		if ( ! $post->loaded())
+		{
+			throw new HTTP_Exception_404('Post does not exist or is not in this set. Post ID: \':id\'', array(
+				':id' => $post_id,
+			));
+		}
+
+		$set->remove('posts', $post);
 
 		// Response is the complete post
-		$this->_response_payload = $this->_resource->for_api();
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods($this->_resource);
+		$this->_response_payload = $post->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods($post);
+
 	}
 }
