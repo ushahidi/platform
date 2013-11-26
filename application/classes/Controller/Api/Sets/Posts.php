@@ -86,13 +86,13 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 			// @todo proper message
 			if (isset($resource->id))
 				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource id :id', array(
-					':resource' => $resource instanceof Acl_Resource_Interface ? $resource->get_resource_id() : $resource,
+					':resource' => ($resource instanceof Acl_Resource_Interface) ? $resource->get_resource_id() : $resource,
 					':id' => $resource->id
 					));
 			else
 			{
 				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource', array(
-					':resource' => $resource instanceof Acl_Resource_Interface ? $resource->get_resource_id() : $resource,
+					':resource' => ($resource instanceof Acl_Resource_Interface) ? $resource->get_resource_id() : $resource,
 					));
 			}
 			return FALSE;
@@ -110,7 +110,6 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-
 		$post_data = $this->_request_payload;
 
 		// Add an existing post
