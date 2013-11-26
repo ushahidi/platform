@@ -196,7 +196,10 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 			}
 
 		}
-
+		else
+		{
+			throw new HTTP_Exception_400('No Post ID');
+		}
 		// Perhaps there is a better way to get to the api/posts/:id controller?
 		$uri = Route::get('api')->uri(array(
 			'id' => $post->id,
