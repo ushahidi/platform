@@ -14,8 +14,7 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 		{
 			template : Handlebars.compile(template),
 			events : {
-				'click .js-title' : 'toggleSection',
-				//'click .workspace-menu li' : 'toggleMenuItem'
+				'click .js-title' : 'toggleSection'
 			},
 			initialize : function ()
 			{
@@ -27,16 +26,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 				$el.toggleClass('active');
 				e.preventDefault();
 			},
-			toggleMenuItem : function(e)
-			{
-				// @todo base this on some state, not click actions.
-				//e.preventDefault();
-				this.$('.workspace-menu li').removeClass('active');
-				this.$(e.currentTarget).addClass('active');
-			},
 			selectMenuItem : function(page)
 			{
-				var target = this.$('.workspace-menu li[data-page='+page+']');
+				var target = this.$('.workspace-menu li[data-page="'+page+'"]');
 				if (target.length > 0)
 				{
 					this.$('.workspace-menu li').removeClass('active');

@@ -43,6 +43,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				this.homeLayout = new HomeLayout({
 					collection : App.Collections.Posts
 				});
+				App.vent.trigger('views:change', 'full');
 
 				this.modalController = new ModalController({
 					modal : this.layout.modal
@@ -51,13 +52,13 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			//gets mapped to in AppRouter's appRoutes
 			index : function()
 			{
-				// show current last home view
-				App.vent.trigger('page:change', 'index');
+				App.vent.trigger('page:change', 'posts');
 				App.Collections.Posts.setFilterParams({});
 				this.showHomeLayout();
 			},
 			postsAll : function()
 			{
+				App.vent.trigger('page:change', 'posts/all');
 				App.Collections.Posts.setFilterParams({
 					status : 'all'
 				});
@@ -65,6 +66,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			},
 			postsUnpublished : function()
 			{
+				App.vent.trigger('page:change', 'posts/unpublished');
 				App.Collections.Posts.setFilterParams({
 					status : 'draft'
 				});
@@ -76,7 +78,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			},
 			viewsFull : function()
 			{
-				App.vent.trigger('page:change', 'views/full');
+				App.vent.trigger('views:change', 'full');
 				this.homeLayout.setViews({
 					map: true,
 					search: true,
@@ -86,7 +88,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			},
 			viewsList : function()
 			{
-				App.vent.trigger('page:change', 'views/list');
+				App.vent.trigger('views:change', 'list');
 				this.homeLayout.setViews({
 					map: false,
 					search: true,
@@ -96,7 +98,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			},
 			viewsMap : function()
 			{
-				App.vent.trigger('page:change', 'views/map');
+				App.vent.trigger('views:change', 'map');
 				this.homeLayout.setViews({
 					map: true,
 					search: true,
