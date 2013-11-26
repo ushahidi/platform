@@ -47,6 +47,10 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	 * Check if access is allowed
 	 * Checks if oauth token and user permissions
 	 *
+	 * Overriding this method to allow POST/DELETE methods to be
+	 * PUT method because add/remove is equivalent to edit on the
+	 * set
+	 *
 	 * @return bool
 	 * @throws HTTP_Exception|OAuth_Exception
 	 */
@@ -71,6 +75,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 
 		$method = strtolower($this->request->method());
 
+		// Make POST or DELETE method a PUT
 		if ($method == 'delete' OR $method = 'post')
 		{
 			$method = 'put';
