@@ -12,6 +12,7 @@ Feature: API Access Control Layer
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the "id" property equals "1"
         Then the guzzle status code should be 200
 
     Scenario: User can view public and own private posts in a set
