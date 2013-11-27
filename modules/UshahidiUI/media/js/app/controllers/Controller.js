@@ -180,6 +180,15 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				}
 
 				this.modalController.postCreate();
+			},
+			searchPosts : function(querystring) 
+			{
+				if (typeof querystring == 'keyword')
+				{
+					App.Collections.Posts.fetch({querystring: 'keyword'});
+				}
+
 			}
+
 		});
 	});
