@@ -15,14 +15,14 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 			template : Handlebars.compile(template),
 
 			events:{
-				'click button': 'SearchPosts'
+				'submit form': 'SearchPosts'
 			},
 
 			SearchPosts: function(e)
 			{
 			 e.preventDefault();
 			 var keyword = this.$('.search-field').val();
-			 App.appRouter.trigger('posts?*querystring',keyword);
+			 App.Collections.Posts.fetch({querystring: 'keyword'});
 			},
 		});
 	});

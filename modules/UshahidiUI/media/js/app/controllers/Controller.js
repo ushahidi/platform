@@ -185,7 +185,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			{
 				if (typeof querystring == 'keyword')
 				{
-					App.Collections.Posts.fetch({querystring: 'keyword'});
+					App.Collections.Posts.fetch({data: {q: 'keyword'}});
 				}
 
 			}
