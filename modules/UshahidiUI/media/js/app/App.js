@@ -33,7 +33,7 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 		App.addInitializer(function(/*options*/)
 		{
 			Backbone.history.start();
-			
+
 			// Init foundation
 			$(document).foundation();
 		});
@@ -41,6 +41,7 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 		// Global config params
 		App.config = _.extend({
 			baseurl : '/',
+			apiurl : '/api/v2/',
 			imagedir : '/media/kohana/images',
 			jsdir : '/media/kohana/js',
 			cssdir : '/media/kohana/css'
