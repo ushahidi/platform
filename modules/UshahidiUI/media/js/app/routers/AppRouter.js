@@ -14,8 +14,12 @@ define(['marionette'],
 			appRoutes :
 			{
 				'' : 'index',
+				'views/full' : 'viewsFull',
 				'views/list' : 'viewsList',
 				'views/map' : 'viewsMap',
+				'posts' : 'postsPublished',
+				'posts/all' : 'postsAll',
+				'posts/unpublished' : 'postsUnpublished',
 				'posts/create' : 'postCreate',
 				'posts/:id' : 'postDetail',
 				'sets' : 'sets',

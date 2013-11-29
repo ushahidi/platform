@@ -22,14 +22,20 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			modelEvents : {
 			  'sync': 'updateMarkers'
 			},
+			collectionEvents : {
+				'filter:change' : 'updateMarkers'
+			},
+			events : {
+				'click .js-collapse-map' : 'collapseMap'
+			},
 			/**
 			 * Initialize the map view
 			 *
 			 * @param <object> options - Configuration object. Possible params:
 			 *   collapsed  - Starting 'collapsed' state for the map
-			 *   dataURL    - DataURL to load geoJSON from. Takes precedence over model or collection URLs.
-			 *   model      - Model to show location data for, used to populate dataURL. Takes precedence over collection URL.
-			 *   collection - Collection to show location data for, used to populate dataURL
+			 *   dataUrl    - Data Url to load geoJSON from. Takes precedence over model or collection URLs.
+			 *   model      - Model to show location data for, used to populate dataUrl. Takes precedence over collection URL.
+			 *   collection - Collection to show location data for, used to populate dataUrl
 			 **/
 			initialize : function (options)
 			{
@@ -43,28 +49,10 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					this.collapsed = true;
 				}
 
-				// Get data url
-				if (typeof options.dataURL !== 'undefined')
+				// Save custom dataUrl to view object
+				if (typeof options.dataUrl !== 'undefined')
 				{
-					this.dataURL = options.dataURL;
-				}
-				else if (typeof options.model !== 'undefined')
-				{
-					this.dataURL = typeof options.model.url === 'function' ? options.model.url() : options.model.url;
-					this.dataURL = this.dataURL + (this.dataURL.charAt(this.dataURL.length - 1) === '/' ? '' : '/') + 'geojson';
-				}
-				else if (typeof options.collection !== 'undefined')
-				{
-					// @TODO improve this to handle query params, etc
-					this.dataURL = typeof options.collection.url === 'function' ? options.collection.url() : options.collection.url;
-					this.dataURL = this.dataURL + (this.dataURL.charAt(this.dataURL.length - 1) === '/' ? '' : '/') + 'geojson';
-				}
-				else
-				{
-					throw {
-						name:    'System Error',
-						message: 'Error detected. Could not get dataURL for MapView'
-					};
+					this.dataUrl = options.dataUrl;
 				}
 			},
 
@@ -82,7 +70,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						posts;
 
 				// Don't re-render the map
-				if (typeof this.map !== 'undefined')
+				if (this.map instanceof L.map)
 				{
 					return this;
 				}
@@ -142,9 +130,16 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 
 				return this;
 			},
-			events : {
-				'click .js-collapse-map' : 'collapseMap'
+
+			onClose : function()
+			{
+				if (this.map instanceof L.map)
+				{
+					this.map.remove();
+					delete this.map;
+				}
 			},
+
 			/**
 			 * Toggle map size
 			 *
@@ -179,13 +174,48 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 
 				return false;
 			},
+
+			getDataUrl : function()
+			{
+				var dataUrl;
+
+				// Get data url
+				if (typeof this.dataUrl !== 'undefined')
+				{
+					dataUrl = this.dataUrl;
+				}
+				else if (typeof this.model !== 'undefined')
+				{
+					dataUrl = typeof this.model.url === 'function' ? this.model.url() : this.model.url;
+					dataUrl = dataUrl + (dataUrl.charAt(dataUrl.length - 1) === '/' ? '' : '/') + 'geojson';
+				}
+				else if (typeof this.collection !== 'undefined')
+				{
+					// @TODO improve this to handle query params, etc
+					dataUrl = typeof this.collection.url === 'function' ? this.collection.url() : this.collection.url;
+					dataUrl = dataUrl + (dataUrl.charAt(dataUrl.length - 1) === '/' ? '' : '/') + 'geojson';
+				}
+				else
+				{
+					throw {
+						name:    'System Error',
+						message: 'Error detected. Could not get dataUrl for MapView'
+					};
+				}
+
+				return dataUrl;
+			},
+
+			/**
+			 * Reload map markers from the server and add to map
+			 */
 			updateMarkers : function ()
 			{
 				var map = this.map,
 					posts = this.posts;
 
 				OAuth.ajax({
-					url : this.dataURL,
+					url : this.getDataUrl(),
 					success: function (data) {
 						// If geojson was empty, return
 						if (data.features.length === 0)
@@ -203,7 +233,8 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						{
 							map.setZoom(15);
 						}
-					}
+					},
+					data : (typeof this.collection !== 'undefined') ? this.collection.getFilterParams() : {}
 				});
 			}
 		});
