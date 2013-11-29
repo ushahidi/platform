@@ -2,7 +2,7 @@
 
 /**
  * Model for Form_Attributes
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
  * @copyright  2013 Ushahidi
@@ -19,12 +19,12 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 	protected $_has_many = array(
 		'form_groups' => array('through' => 'form_groups_form_attributes'),
 		);
-		
+
 	protected $_serialize_columns = array('options');
-		
+
 	/**
 	 * Reserved attribute keys to avoid confusion with Posts table columns
-	 * 
+	 *
 	 * @var array key names
 	 */
 	protected $_reserved_keys = array(
@@ -46,6 +46,30 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 	);
 
 	/**
+	 * Available attribute types
+	 * @var array
+	 */
+	protected static $_attribute_types = array(
+		'datetime',
+		'decimal',
+		'geometry',
+		'int',
+		'link',
+		'point',
+		'text',
+		'varchar'
+	);
+
+	/**
+	 * Getter for $_attribute_types
+	 * @return array available attribute types
+	 */
+	public static function attribute_types()
+	{
+		return self::$_attribute_types;
+	}
+
+	/**
 	 * Rules for the form_attribute model
 	 *
 	 * @return array Rules
@@ -56,7 +80,7 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 			'id' => array(
 				array('numeric')
 			),
-			
+
 			'form_id' => array(
 				array('numeric'),
 			),
@@ -123,7 +147,7 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 
 	/**
 	 * Prepare attribute data for API
-	 * 
+	 *
 	 * @return array $response - array to be returned by API (as json)
 	 */
 	public function for_api()
@@ -156,7 +180,7 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 
 		return $response;
 	}
-	
+
 	/**
 	 * Returns the string identifier of the Resource
 	 *
