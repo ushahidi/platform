@@ -93,9 +93,9 @@ class Migration_3_0_20131127220443 extends Minion_Migration_Base {
 	 */
 	public function down(Kohana_Database $db)
 	{
-		$db->query('DROP TABLE `messages`');
-		$db->query('DROP TABLE `contacts`');
-		$db->query('DROP TABLE `data_feeds`');
+		$db->query(NULL, 'DROP TABLE `messages`');
+		$db->query(NULL, 'DROP TABLE `contacts`');
+		$db->query(NULL, 'DROP TABLE `data_feeds`');
 	}
 
 }
