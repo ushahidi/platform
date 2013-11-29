@@ -66,6 +66,7 @@ return array(
 		'form_attributes'    => 'forms',
 		'form_groups'        => 'forms',
 		'users'              => NULL,
+		'messages'           => NULL,
 		// Pages
 		'login'              => NULL,
 		'register'           => NULL,

@@ -56,6 +56,26 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 			),
 			'message' => array(
 				array('trim'),
+			),
+			'datetime' => array(
+				function ($value)
+				{
+					// Try to convert W3C format first
+					$date = DateTime::createFromFormat(DateTime::W3C, $value);
+					// If that failed, try standard strtotime
+					if (! $date)
+					{
+						$date = date_create($value);
+					}
+
+					// Output date in MySQL format
+					if ($date)
+					{
+						$value = $date->format('Y-m-d H:i:s');
+					}
+
+					return $value;
+				}
 			)
 		);
 	}
@@ -153,6 +173,58 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 		return $parent->loaded();
 	}
 
+	/**
+	 * Prepare form data for API, along with all its
+	 * groups and attributes
+	 *
+	 * @return array $response - array to be returned by API (as json)
+	 */
+	public function for_api()
+	{
+		$response = array();
+		if ( $this->loaded() )
+		{
+			$response = array(
+				'id' => $this->id,
+				'url' => URL::site('api/v'.Ushahidi_Api::version().'/messages/'.$this->id, Request::current()),
+				'parent' => empty($this->parent_id) ? NULL : array(
+					'id' => $this->parent_id,
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/messages/'.$this->parent_id, Request::current())
+				),
+				'contact' => empty($this->contact_id) ? NULL : array(
+					'id' => $this->contact_id,
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/contacts/'.$this->contact_id, Request::current())
+				),
+				'data_feed' => empty($this->data_feed_id) ? NULL : array(
+					'id' => $this->data_feed_id,
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/datafeeds/'.$this->data_feed_id, Request::current())
+				),
+				'data_provider' => $this->data_provider,
+				'data_provider_message_id' => $this->data_provider_message_id,
+				'title' => $this->title,
+				'message' => $this->message,
+				'datetime' => ($date = DateTime::createFromFormat('Y-m-d H:i:s', $this->datetime))
+					? $date->format(DateTime::W3C)
+					: $this->datetime,
+				'type' => $this->type,
+				'status' => $this->status,
+				'direction' => $this->direction,
+				'created' => ($created = DateTime::createFromFormat('U', $this->created))
+					? $created->format(DateTime::W3C)
+					: $this->created,
+			);
+		}
+		else
+		{
+			$response = array(
+				'errors' => array(
+					'Message does not exist'
+					)
+				);
+		}
+
+		return $response;
+	}
 
 	/**
 	 * Returns the string identifier of the Resource
