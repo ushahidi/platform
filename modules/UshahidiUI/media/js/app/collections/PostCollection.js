@@ -11,7 +11,6 @@ define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone
 	function($, Backbone, _, PostModel, App, PageableCollection)
 	{
 		// Creates a new Backbone Collection class object
-		//var PostCollection = Backbone.Collection.extend(
 		var PostCollection = PageableCollection.extend(
 		{
 			model : PostModel,

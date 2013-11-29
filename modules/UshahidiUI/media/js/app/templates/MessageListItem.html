@@ -1,0 +1,37 @@
+<div class="list-view-select  js-list-view-select">
+	<form>
+		<label class="visually-hidden" for="select-message">Select Post</label>
+		<input type="checkbox" id="select-message">
+	</form>
+</div> <!-- end .list-view-select-post -->
+
+<div class="row">
+	<article>
+		<div class="list-view-post-details">
+			<div class="row">
+				{{#if title}}<h5 class="list-view-post-title"><a href="#messages/{{id}}">{{ title }}</a></h5>{{/if}}
+				<div class="list-view-post-time">
+					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+				</div> <!-- end .list-view-post-time -->
+			</div> <!-- end .row -->
+		</div> <!-- end .list-view-post-details -->
+
+		<div class="list-view-post-excerpt">
+			<p>{{message}}</p>
+		</div> <!-- end .list-view-post-excerpt -->
+
+		<div class="list-view-post-admin">
+			Status: {{status}} Type: {{type}} {{#if data_provider}}({{data_provider}}){{/if}} {{direction}}
+
+			<div class="list-view-post-edit-wrapper">
+				<ul class="list-view-post-edit">
+						<li><a href="#" class="list-view-post-edit-buttons  post-create-post  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">create post</span></a></li>
+					{{#if allowed_methods.delete}}
+						<li><a href="#" class="list-view-post-edit-buttons  post-delete  js-post-delete"> <i class="fa  fa-trash-o"></i> archive</a></li>
+					{{/if}}
+				</ul> <!-- end .list-view-post-edit -->
+			</div> <!-- end .list-view-post-edit-wrapper -->
+
+		</div> <!-- end .list-view-post-admin -->
+	</article>
+</div> <!-- end .row -->

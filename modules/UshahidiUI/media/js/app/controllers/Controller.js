@@ -225,6 +225,21 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 					App.vent.trigger('page:change', 'settings');
 					that.layout.mainRegion.show(new SettingsView());
 				});
+			},
+			messages : function ()
+			{
+
+				var that = this;
+				App.homeLayout.close();
+				require(['views/MessageListView', 'collections/MessageCollection'], function(MessageListView, MessageCollection)
+				{
+					App.vent.trigger('page:change', 'messages');
+					App.Collections.Messages = new MessageCollection();
+					App.Collections.Messages.fetch();
+					that.layout.mainRegion.show(new MessageListView({
+						collection : App.Collections.Messages
+					}));
+				});
 			}
 		});
 	});
