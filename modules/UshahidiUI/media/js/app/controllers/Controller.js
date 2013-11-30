@@ -228,9 +228,8 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			},
 			messages : function ()
 			{
-
 				var that = this;
-				App.homeLayout.close();
+				this.homeLayout.close();
 				require(['views/MessageListView', 'collections/MessageCollection'], function(MessageListView, MessageCollection)
 				{
 					App.vent.trigger('page:change', 'messages');
