@@ -160,9 +160,22 @@ class Controller_Api_Messages extends Ushahidi_Api {
 			$messages_query->where('direction', '=', $direction);
 		}
 
-		$messages = $messages_query->find_all();
 
-		$count = $messages->count();
+		// Get the count of ALL records
+		$count_query = clone $messages_query;
+		$total_records = (int) $count_query
+			->select(array(DB::expr('COUNT(DISTINCT `message`.`id`)'), 'records_found'))
+			->limit(NULL)
+			->offset(NULL)
+			->find_all()
+			->get('records_found');
+		$count_query_sql = $count_query->last_query();
+
+		// Get posts
+		$messages = $messages_query->find_all();
+		$messages_query_sql = $messages_query->last_query();
+
+		//$count = $messages->count();
 
 		foreach ($messages as $message)
 		{
@@ -174,6 +187,9 @@ class Controller_Api_Messages extends Ushahidi_Api {
 				$results[] = $result;
 			}
 		}
+
+		// Count actual results since they're filtered by access check
+		$count = count($results);
 
 		// Current/Next/Prev urls
 		$params = array(
@@ -199,6 +215,7 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		// Respond with posts
 		$this->_response_payload = array(
 			'count' => $count,
+			'total_count' => $total_records,
 			'results' => $results,
 			'limit' => $this->_record_limit,
 			'offset' => $this->_record_offset,
