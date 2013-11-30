@@ -199,6 +199,10 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 					'id' => $this->data_feed_id,
 					'url' => URL::site('api/v'.Ushahidi_Api::version().'/datafeeds/'.$this->data_feed_id, Request::current())
 				),
+				'post' => empty($this->post_id) ? NULL : array(
+					'id' => $this->post_id,
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->post_id, Request::current())
+				),
 				'data_provider' => $this->data_provider,
 				'data_provider_message_id' => $this->data_provider_message_id,
 				'title' => $this->title,

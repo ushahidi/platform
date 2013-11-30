@@ -25,10 +25,13 @@
 
 			<div class="list-view-post-edit-wrapper">
 				<ul class="list-view-post-edit">
+					{{#if post}}
+						<li><a href="#post/{{post}}" class="list-view-post-edit-buttons  post-create-post  js-post-set"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">view post</span></a></li>
+						<li><a href="#post/{{post}}/edit" class="list-view-post-edit-buttons  post-create-post  js-post-set"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit post</span></a></li>
+					{{else}}
 						<li><a href="#" class="list-view-post-edit-buttons  post-create-post  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">create post</span></a></li>
-					{{#if allowed_methods.delete}}
-						<li><a href="#" class="list-view-post-edit-buttons  post-delete  js-post-delete"> <i class="fa  fa-trash-o"></i> archive</a></li>
 					{{/if}}
+					<li><a href="#" class="list-view-post-edit-buttons  post-delete  js-post-delete"> <i class="fa  fa-trash-o"></i> archive</a></li>
 				</ul> <!-- end .list-view-post-edit -->
 			</div> <!-- end .list-view-post-edit-wrapper -->
 
