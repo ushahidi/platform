@@ -14,8 +14,11 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 		{
 			template : Handlebars.compile(template),
 			events : {
-				'click .js-title' : 'toggleSection',
-				'click .workspace-menu li' : 'toggleMenuItem'
+				'click .js-title' : 'toggleSection'
+			},
+			initialize : function ()
+			{
+				App.vent.on('page:change', this.selectMenuItem, this);
 			},
 			toggleSection : function(e)
 			{
@@ -23,11 +26,14 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 				$el.toggleClass('active');
 				e.preventDefault();
 			},
-			toggleMenuItem : function(e)
+			selectMenuItem : function(page)
 			{
-				e.preventDefault();
-				this.$('.workspace-menu li').removeClass('active');
-				this.$(e.currentTarget).addClass('active');
+				var target = this.$('.workspace-menu li[data-page="'+page+'"]');
+				if (target.length > 0)
+				{
+					this.$('.workspace-menu li').removeClass('active');
+					target.addClass('active');
+				}
 			}
 		});
 	});

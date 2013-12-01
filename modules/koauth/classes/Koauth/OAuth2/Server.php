@@ -62,7 +62,7 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 		if (empty($config))
 		{
 			$config = array(
-				//'access_lifetime'          => 3600,
+				'access_lifetime'          => Kohana::$config->load('koauth.access_lifetime'),
 				'www_realm'                => Kohana::$config->load('koauth.www_realm'),
 				//'token_param_name'         => 'access_token',
 				//'token_bearer_header_name' => 'Bearer',

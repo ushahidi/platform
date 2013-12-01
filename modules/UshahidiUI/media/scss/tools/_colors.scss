@@ -1,0 +1,107 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * COLOR VARIABLES............global color variables
+ * IMPORT COLOR SCHEME............default colors
+ * BASIC COLOR SCHEME FUNCTION...............basic color function based on a custom primary color
+ * ADVANCED COLOR SCHEME FUNCTION...............advanced color function with advanced options - rendered via @import "color-schemer" in style.scss
+ */
+
+
+
+
+/*------------------------------------*\
+    $COLOR VARIABLES
+\*------------------------------------*/
+
+/*Global Colors*/
+$black:          #000;
+$darkGray:       lighten($black, 12);
+$midGray:        lighten( saturate( $black, 1 ), 60 );
+$lightGray:      lighten($black, 89);
+$white:          lighten($black, 99);
+
+/*Social Network Colors*/
+$facebook-color:  #3b5998;
+$twitter-color:   #00acee;
+$google-color:    #dd4b39;
+
+
+
+
+/*------------------------------------*\
+    $IMPORT COLOR SCHEME
+\*------------------------------------*/
+
+/*Import your desired color theme here. Themes are located in /themes folder*/
+
+@import "themes/default";
+/* @import "themes/ushahidi"; */
+/* @import "themes/baridi"; // cool */
+/* @import "themes/chiriku"; // canary */
+/* @import "themes/pipi"; // candy */
+/* @import "themes/msimu"; //season */
+
+
+
+
+/*-----------------------------------------*\
+    $BASIC COLOR SCHEME FUNCTION
+\*-----------------------------------------*/
+
+/*
+This is a basic color function that allows you to change the primary color to generate a color scheme (the primary color is the link color).
+
+How to use:
+* uncomment the code block below
+* change $cs-primary value to generate your color scheme
+* make sure the Advanced Color Function is commented out
+*/
+
+
+/*$cs-primary: hotpink; // change this to generate your color scheme
+
+$primary-color   : $cs-primary;
+$secondary-color : lighten(desaturate(adjust-hue($cs-primary, 36deg), 69), 50);
+$accent-color    : darken(desaturate(adjust-hue($cs-primary, 26deg), 67), 22);
+$alert-color     : darken(saturate(adjust-hue($cs-primary, 168deg), 9), 5);
+$success-color   : darken(desaturate(adjust-hue($cs-primary, -81deg), 9), 3);*/
+
+
+
+
+
+/*----------------------------------------------*\
+    $ADVANCED COLOR SCHEME FUNCTION
+\*----------------------------------------------*/
+
+/*
+This is an advanced color function that allows you to change you color, scheme, hue offset, tint and shade distance, color mode and colorblindness settings.
+
+How to use:
+* uncomment the code block below
+* adjust each option as needed to generate different color schemes
+* For more details please visit - https://github.com/Team-Sass/color-schemer
+*/
+
+/*// Pick the base color for your scheme:
+$cs-primary: #196040;
+
+// Select your scheme from the list and place it here:
+$cs-scheme: complement; // mono, complement, triad, tetrad, analogic, accented-analogic
+
+// How distant do you want the hue offset to be:
+$cs-hue-offset: 40;
+
+// How distant do you want tints and shades to be from their base:
+$cs-brightness-offset: 10;
+
+$cs-color-model: ryb; // rgb, ryb
+// $cs-colorblind: deuteranopia; // protanopia, deuteranopia, tritanopia, protanomaly, deuteranomaly, tritanomaly, monochromacy, amonochromacy
+
+$primary-color    : cs-tertiary();
+$secondary-color  : tint(cs-secondary(), 60%);
+$accent-color     : cs-primary();
+$alert-color      : cs-quadrary();
+$success-color    : cs-quadrary();*/

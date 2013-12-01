@@ -100,7 +100,7 @@ textarea {
 
 .post-wrapper {
 	@include grid-column(12, $collapse: true);
-	border-top: 1px solid $midGray;
+	border-top: 1px solid $lightGray;
 	padding-top: 20px;
 }
 
@@ -122,7 +122,7 @@ textarea {
 
 .post-history {
 	margin-bottom: 20px;
-	border-top: 1px solid $midGray;
+	border-top: 1px solid $lightGray;
 	padding-top: 20px;
 	.post-history-list {
 		@include grid-column(12, $collapse: true);

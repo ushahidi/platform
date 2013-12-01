@@ -16,6 +16,7 @@ define(['jquery', 'backbone', 'App'],
 			{
 				var schema = {},
 					groups = this.get('groups'),
+					valueToString = function(item) { return item.value; },
 					inputFieldMap,
 					attributes,
 					attribute,
@@ -48,11 +49,33 @@ define(['jquery', 'backbone', 'App'],
 							continue;
 						}
 
-						schema['values.' + attribute.key] = {
-							title : attribute.label,
-							type : inputFieldMap[attribute.input],
-							options : attribute.options
-						};
+						// Single value field
+						if (parseInt(attribute.cardinality, 10) === 1)
+						{
+							schema['values.' + attribute.key] = {
+								title : attribute.label,
+								type : inputFieldMap[attribute.input],
+								options : attribute.options
+							};
+						}
+						// Multi-value field, handled with List editor
+						else
+						{
+							schema['values.' + attribute.key] = {
+								title : attribute.label,
+								type : 'List',
+								itemToString : valueToString,
+								itemType : 'Object',
+								subSchema : {
+									id : 'Hidden',
+									value : {
+										title: null,
+										type: inputFieldMap[attribute.input],
+										options : attribute.options
+									}
+								}
+							};
+						}
 					}
 				}
 
@@ -105,7 +128,8 @@ define(['jquery', 'backbone', 'App'],
 					attributes,
 					attribute,
 					i,
-					j;
+					j,
+					key;
 
 				for (i = 0; i < groups.length; i++)
 				{
@@ -121,9 +145,21 @@ define(['jquery', 'backbone', 'App'],
 							continue;
 						}
 
-						rules['values.' + attribute.key] = {
-							required : attribute.required
-						};
+						key = 'values.' + attribute.key;
+						rules[key] = {};
+						rules[key].required = attribute.required;
+						if (attribute.type === 'link')
+						{
+							rules[key].pattern = 'url';
+						}
+
+						// Multi value field - pipe through validateArray
+						if (parseInt(attribute.cardinality, 10) !== 1)
+						{
+							rules[key] = {
+								validateArray : rules[key]
+							};
+						}
 					}
 				}
 

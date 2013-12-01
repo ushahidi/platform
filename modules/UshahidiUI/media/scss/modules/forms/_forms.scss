@@ -4,7 +4,6 @@
 /**
  * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
- * CREATE POST MODAL...............create post modal styling
  * SEARCH BAR...............search bar styling
  * LIST VIEW FILTER...............list view filter styling
  * PSEUDO ELEMENTS...............pseudo element styling
@@ -21,15 +20,33 @@
 
 input[type="radio"], select {
 	margin: 0 3px 1em 0;
-	position: relative;
-	top: -2px;
 } 
+
+select {
+	-webkit-appearance: none !important;
+	background: $white image-url("dropdown-arrow.svg") no-repeat;
+	background-size: 9px;
+	background-position-x: 97%;
+	background-position-y: center;
+	border: 1px solid #cccccc;
+	padding: 0.78em emCalc(16px) 0.78em 0.78em;
+	font-size: emCalc(14px);
+	color: $sub-body-font-color;
+	@include border-radius($global-radius)
+}
+
+@-moz-document url-prefix() {
+  select {
+   	background: #fafafa;
+  	padding: 0.7em 1em 0.78em 0.78em;
+  }
+}
 
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
 
-input[type="text"], input[type="email"] {
+input[type="text"], input[type="email"], input[type="password"] {
 	height: 100%; /* FF fix */
 	padding: 10px;
 	@include border-radius($global-radius);
@@ -76,7 +93,7 @@ form.custom .custom.dropdown {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 
-.list-view-filter form.custom .custom.dropdown {
+.list-view-filter form.custom {
 	@media #{$small} {
 		margin-bottom: 0;
 	}
@@ -94,7 +111,7 @@ form.custom .custom.dropdown .current {
 \*------------------------------------*/
 
 form.custom .custom.dropdown ul li:hover {
-	background-color: $blueGray;
+	background-color: $accent-color;
 	color: $white;
 }
 

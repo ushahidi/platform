@@ -30,35 +30,48 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 * @var string oauth2 scope required for access
 	 */
 	protected $_scope_required = 'users';
-	
+
 	/**
 	 * Load resource object
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _resource()
 	{
 		parent::_resource();
-		
+
 		$this->_resource = 'users';
-		
+
 		$this->_resource = ORM::factory('User');
 
 		// Get post
 		if ($user_id = $this->request->param('id', 0))
 		{
-			// Respond with set
+			if ($user_id == 'me')
+			{
+				$user = $this->user;
+
+				if ( ! $user->loaded())
+				{
+					throw new HTTP_Exception_404('No user associated with the access token.');
+				}
+
+				$this->_resource = $user;
+			}
+			else
+			{
 			$user = ORM::factory('User', $user_id);
-			
+
 			if (! $user->loaded())
 			{
 				throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
 					':id' => $this->request->param('id', 0),
 				));
 			}
-			
+
 			$this->_resource = $user;
 		}
+	}
 	}
 
 	/**
@@ -140,9 +153,11 @@ class Controller_Api_Users extends Ushahidi_Api {
 			// Check if user is allowed to access this user
 			if ($this->acl->is_allowed($this->user, $user, 'get') )
 			{
-			$results[] = $user->for_api();
+				$result = $user->for_api();
+				$result['allowed_methods'] = $this->_allowed_methods($user);
+				$results[] = $result;
+			}
 		}
-		}	
 
 		// Current/Next/Prev urls
 		$params = array(
@@ -154,7 +169,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		if ($this->request->query('orderby') OR $this->request->query('order'))
 		{
 			$params['orderby'] = $this->_record_orderby;
-			$params['order'] = $this->_record_order;	
+			$params['order'] = $this->_record_order;
 		}
 
 		$prev_params = $next_params = $params;
@@ -193,6 +208,8 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$user = $this->resource();
 
 		$this->_response_payload = $user->for_api();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+
 	}
 
 
@@ -210,7 +227,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$user = $this->resource();
 
 		$this->create_or_update_user($user, $post);
-
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**
@@ -229,6 +246,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		{
 			// Return the user we just deleted (provides some confirmation)
 			$this->_response_payload = $user->for_api();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 			$user->delete();
 		}
 		}
@@ -252,7 +270,8 @@ class Controller_Api_Users extends Ushahidi_Api {
 			// Validate base user data
 			$user_validation = Validation::factory($post);
 			$user_validation->rule('username', 'not_empty');
-			$user_validation->rule('password', 'not_empty');
+			// If this is a new user, require password
+			if (! $user->loaded()) $user_validation->rule('password', 'not_empty');
 			$user->check($user_validation);
 
 			// Validates ... so save
@@ -260,7 +279,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 
 			// Response is the user
 			$this->_response_payload = $user->for_api();
-
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($user);
 		}
 		catch(ORM_Validation_Exception $e)
 		{
@@ -268,6 +287,29 @@ class Controller_Api_Users extends Ushahidi_Api {
 					':errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
+	}
 
+	/**
+	 * Get current user
+	 *
+	 * GET /api/users/me
+	 *
+	 * @return void
+	 */
+	public function action_get_me()
+	{
+		$this->action_get_index();
 	 }
+
+	/**
+	 * Update current user
+	 *
+	 * PUT /api/users/me
+	 *
+	 * @return void
+	 */
+	public function action_put_me()
+	{
+		$this->action_put_index();
+}
 }

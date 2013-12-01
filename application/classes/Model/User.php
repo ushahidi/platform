@@ -12,8 +12,8 @@
 class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Resource_Interface {
 	/**
 	 * A user has many tokens and roles
-	 * A user has many posts, post_comments, roles and sets 
-	 * 
+	 * A user has many posts, post_comments, roles and sets
+	 *
 	 * @var array Relationships
 	 */
 	protected $_has_many = array(
@@ -47,7 +47,7 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 
 	/**
 	 * Filters for the Tag model
-	 * 
+	 *
 	 * @return array Filters
 	 */
 	public function filters()
@@ -74,28 +74,28 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 			'id' => array(
 				array('numeric')
 			),
-			
+
 			'email' => array(
 				array('Valid::email'),
 				array(array($this, 'unique'), array(':field', ':value')),
 			),
-			
+
 			//First name of user
 			'first_name' => array(
 				array('max_length', array(':value', 150)),
 			),
-			
+
 			//Last name of user
 			'last_name' => array(
 				array('max_length', array(':value', 150)),
 			),
-			
+
 			//username of user
 			'username' => array(
 				array('max_length', array(':value', 255)),
 				array(array($this, 'unique'), array(':field', ':value')),
 			),
-			
+
 			//password of user
 			'password' => array(
 				array('min_length', array(':value', 7)),
@@ -103,7 +103,7 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 				// NOTE: Password should allow ANY character at all. Do not limit to alpha numeric or alpha dash.
 			)
 		);
-			
+
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 
 	/**
 	 * Prepare user data for API
-	 * 
+	 *
 	 * @return array $response - array to be returned by API (as json)
 	 */
 	public function for_api()
@@ -138,6 +138,7 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 				'last_login' => $this->last_login,
 				'failed_attempts' => $this->failed_attempts,
 				'last_attempt' => $this->last_attempt,
+				'role' => $this->role,
 
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)
@@ -159,24 +160,24 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 
 		return $response;
 	}
-	
+
 	/**
 	 * Returns string identifier of the Role
-	 * 
+	 *
 	 * @return string
 	 */
 	public function get_role_id()
 	{
 		// If set, return user role
 		if ($this->role) return $this->role;
-		
+
 		// If we have no role, but the user is actually loaded (ie. its a real user), return user role
 		if ($this->loaded()) return Kohana::$config->load('a2.user_role');
-		
+
 		// Otherwise return logged out/guest role
 		return Kohana::$config->load('a2.guest_role');
 	}
-	
+
 	/**
 	 * Returns the string identifier of the Resource
 	 *

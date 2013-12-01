@@ -1,0 +1,66 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * AUTHORIZATION............application authorization styles
+ */
+
+
+
+
+/*------------------------------------*\
+    $AUTHORIZATION
+\*------------------------------------*/
+
+.authorization-wrapper {
+	@include grid-column(12);
+}
+
+.auth-intro {
+	margin-bottom: .8em;
+}
+
+.authorize-button-wrapper {
+	@include grid-column(12, $collapse: true);
+	@media #{$mobile-up} {
+		@include grid-column(4, $collapse: true);
+		padding-right: 10px;
+	}
+	@media #{$medium} {
+		@include grid-column(3, $collapse: true);
+		padding-right: 10px;
+	}
+	@media #{$medium-up} {
+		@include grid-column(2, $collapse: true);
+		padding-right: 10px;
+	}
+}
+
+.authorize-button {
+	@include button($bg: $success-color, $radius: true, $full-width: true);
+	margin-right: 10px;
+}
+
+.cancel-button-wrapper {
+	@include grid-column(12, $collapse: true);
+	@media #{$mobile-up} {
+		@include grid-column(4, $collapse: true);
+		padding-left: 10px;
+	}
+	@media #{$medium} {
+		@include grid-column(3, $collapse: true);
+		padding-left: 10px;
+	}
+	@media #{$medium-up} {
+		@include grid-column(2, $collapse: true);
+		padding-left: 10px;
+	}
+}
+
+.cancel-button {
+	@include button($bg: $alert-color, $radius: true, $full-width: true);
+}
+
+.authorize-form, .authorize-cancel-form {
+	display: inline;
+}

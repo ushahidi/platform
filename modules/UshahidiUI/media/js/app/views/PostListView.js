@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
+define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView',
 		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
-	function( App, Marionette, Handlebars, _, PostItemView,
+	function( App, Marionette, Handlebars, _, PostListItemView,
 		template, paginationTemplate, postListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
@@ -27,16 +27,13 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
 			},
 			initialize: function()
 			{
-				this.listenTo(this.collection, 'add', this.updatePagination, this);
-				this.listenTo(this.collection, 'remove', this.updatePagination, this);
-				this.listenTo(this.collection, 'reset', this.updatePagination, this);
 			},
-			
-			itemView: PostItemView,
+
+			itemView: PostListItemView,
 			itemViewOptions: {},
 
 			itemViewContainer: '.list-view-posts-list',
-			
+
 			events:
 			{
 				'click .js-list-view-select-post' : 'showHideBulkActions',
@@ -47,18 +44,19 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
 				'click .js-page-change' : 'showPage',
 				'change #filter-posts-count' : 'updatePageSize',
 				'change #filter-posts-sort' : 'updatePostsSort',
-				
 			},
 
 			collectionEvents :
 			{
-				'remove' : function () { this.collection.fetch(); }
+				reset : 'updatePagination',
+				add : 'updatePagination',
+				remove : 'updatePagination'
 			},
-			
+
 			showHideBulkActions : function ()
 			{
 				var $checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked');
-				
+
 				if ($checked.length > 0)
 				{
 					this.$('.js-list-view-bulk-actions').removeClass('hidden');
@@ -89,7 +87,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
 				{
 					return;
 				}
-				
+
 				this.collection.getNextPage();
 				this.updatePagination();
 			},
@@ -133,9 +131,9 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
 			{
 				var $el = this.$(e.currentTarget),
 						num = 0;
-				
+
 				e.preventDefault();
-				
+
 				_.each(
 					$el.attr('class').split(' '),
 					function (v) {
@@ -151,12 +149,16 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostItemView',
 
 			updatePagination: function ()
 			{
-				this.$('.pagination').replaceWith(this.partialTemplates.pagination({
-					pagination: this.collection.state
-				}));
-				this.$('.list-view-filter-info').html(this.partialTemplates.postListInfo({
-					pagination: this.collection.state
-				}));
+				this.$('.pagination').replaceWith(
+					this.partialTemplates.pagination({
+						pagination: this.collection.state
+					})
+				);
+				this.$('.list-view-filter-info').html(
+					this.partialTemplates.postListInfo({
+						pagination: this.collection.state
+					})
+				);
 			},
 			updatePageSize : function (e)
 			{

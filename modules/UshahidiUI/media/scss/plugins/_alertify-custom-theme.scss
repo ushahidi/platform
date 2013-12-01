@@ -43,14 +43,14 @@
 .alertify-button-cancel,
 .alertify-button-cancel:hover,
 .alertify-button-cancel:focus {
-	background-color: $alert-color;
+	background-color: #C50813;
 	border: 1px solid $button-border-color;
 }
 
 .alertify-button-ok,
 .alertify-button-ok:hover,
 .alertify-button-ok:focus {
-	background-color: $success-color;
+	background-color: #3CB81C;
 	border: 1px solid $button-border-color;
 }
 
@@ -66,9 +66,9 @@
 }
 
 .alertify-log-error {
-	background: $alert-color;
+	background: #C50813;
 }
 
 .alertify-log-success {
-	background: $success-color;
+	background: #3CB81C;
 }

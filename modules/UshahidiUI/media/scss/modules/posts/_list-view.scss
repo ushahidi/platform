@@ -15,7 +15,7 @@
 
 .list-view-bulk-actions {
 	@include grid-column(12, $collapse: true);
-	background-color: $blueGray;
+	background-color: $accent-color;
 	padding: 20px 0 0 0;
 	border-top: 3px solid $white;
 	border-bottom: 3px solid $white;
@@ -87,19 +87,19 @@
 .list-view-filter {
 	@include grid-column(12);
 	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
-	background: $blueGray;
+	background: $accent-color;
 	padding: 20px 15px;
 	margin: 0 0 20px 0;
 	.list-view-filter-count {
 		@media #{$small} {
-			border-right: 1px solid darken($blueGray, 10);
+			border-right: 1px solid darken($accent-color, 10);
 		}
 	}
 }
 
 .list-view-filter-info {
 	@include grid-column(12);
-	border-bottom: 1px solid darken($blueGray, 10);
+	border-bottom: 1px solid darken($accent-color, 10);
 	padding-bottom: 10px;
 	margin-bottom: 20px;
 	h5 {
@@ -108,7 +108,7 @@
 		padding: 8px 0 0 0;
 		margin: 0 0 8px 0;
 	}
-	@media #{$small} {
+	@media #{$medium} {
 		@include grid-column(8);
 		border-bottom: 0;
 		padding-bottom: 0;
@@ -118,14 +118,20 @@
 
 .list-view-filter-count {
 	@include grid-column(12);
-	@media #{$small} {
+	@media #{$mobile-up} {
+		@include grid-column(6);
+	}
+	@media #{$medium} {
 		@include grid-column(2);
 	}
 }
 
 .list-view-filter-sort {
 	@include grid-column(12);
-	@media #{$small} {
+	@media #{$mobile-up} {
+		@include grid-column(6);
+	}
+	@media #{$medium} {
 		@include grid-column(2);
 	}
 }

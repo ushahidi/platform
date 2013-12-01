@@ -20,7 +20,7 @@
 \*------------------------------------*/
 @import "compass";
 @import "compass/reset";
-@import 'color-schemer';
+@import "plugins/color-schemer";
 @import "compass/layout/sticky-footer";
 @include sticky-footer(72px, ".content-wrapper", ".sticky-footer-root", ".footer");
 
@@ -35,16 +35,17 @@
 
 
 
-
 /*------------------------------------*\
 		$USER CONFIGS
 \*------------------------------------*/
+@import "tools/colors";
+@import "tools/helpers";
+@import "tools/mixins";
+@import "tools/functions";
+
 @import "base/settings";
 @import "base/global";
 
-@import "tools/mixins";
-@import "tools/helpers";
-@import "tools/colors";
 
 
 
@@ -106,11 +107,15 @@ NOTE: comment out what I don't use
 		$MODULES
 \*------------------------------------*/
 
+/*AUTHORIZATION*/
+@import "modules/authorization/authorization";
+
 /*BUTTONS*/
 @import "modules/buttons/social-buttons";
 
 /*LOGIN*/
-@import "modules/login/login-register";
+@import "modules/user/login-register";
+@import "modules/user/main";
 
 /*HEADER*/
 @import "modules/header/topbar";

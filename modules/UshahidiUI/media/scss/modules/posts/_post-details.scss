@@ -16,7 +16,7 @@
 
 .post-details-map-view {
 	.map {
-		border-bottom: 3px solid $darkBlue;
+		border-bottom: 3px solid lighten( saturate( adjust-hue( $accent-color, -10deg ), 48 ), 14 );;
 	}
 	.map-collapse {
 		height: 200px;
