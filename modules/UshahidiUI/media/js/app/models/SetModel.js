@@ -11,14 +11,8 @@ define(['jquery', 'backbone', 'App'],
 	function($, Backbone, App) {
 		var SetModel = Backbone.Model.extend(
 		{
-			urlRoot: App.config.baseurl + App.config.apiuri + '/sets',
-			id: '',
-			name : '',
-			filter : null,
-			user : null,
-			updated : null
+			urlRoot: App.config.baseurl + App.config.apiuri + '/sets'
 		});
 
 		return SetModel;
-
 	});

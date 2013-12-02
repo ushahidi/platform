@@ -33,7 +33,7 @@ define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone-pageable'],
 				pageSize: 3,
 				// Required under server-mode
 				totalRecords: 3,
-				sortKey: 'id',
+				sortKey: 'created',
 				order: 1 // 1 = desc
 			},
 
@@ -46,6 +46,11 @@ define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone-pageable'],
 				pageSize: 'limit',
 				offset: function () { return this.state.currentPage * this.state.pageSize; },
 				sortKey: 'orderby'
+			},
+
+			sortKeys: {
+				'created' : 'Date/Time created',
+				'id' : 'ID'
 			}
 		});
 
