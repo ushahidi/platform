@@ -11,7 +11,7 @@ define(['jquery', 'backbone', 'App'],
 	function($, Backbone, App) {
 		var MessageModel = Backbone.Model.extend(
 		{
-			urlRoot: App.config.baseurl + 'api/v2/message',
+			urlRoot: App.config.baseurl + 'api/v2/messages',
 			toString : function ()
 			{
 				return this.get('message');
@@ -40,7 +40,15 @@ define(['jquery', 'backbone', 'App'],
 				}
 
 				return data;
-			}
+			},
+			isArchived : function()
+			{
+				return (this.get('status') === 'archived');
+			},
+			isIncoming : function()
+			{
+				return (this.get('direction') === 'incoming');
+			},
 		});
 
 		return MessageModel;
