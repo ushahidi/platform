@@ -67,14 +67,14 @@ class Controller_Api_Messages extends Ushahidi_Api {
 	 *
 	 * @return void
 	 */
-	/*public function action_post_index_collection()
+	public function action_post_index_collection()
 	{
 		$post = $this->_request_payload;
 
 		$message = $this->resource();
 
 		$this->create_or_update_message($message, $post);
-	}*/
+	}
 
 	/**
 	 * Retrieve All Messages
@@ -287,44 +287,65 @@ class Controller_Api_Messages extends Ushahidi_Api {
 	 */
 	protected function create_or_update_message($message, $post)
 	{
-		// Check
+		// unpack user to get contact_id
+		if (isset($post['contact']))
+		{
+			if (is_array($post['contact']) AND isset($post['contact']['id']))
+			{
+				$post['contact_id'] = $post['contact']['id'];
+			}
+			elseif (is_numeric($post['contact']))
+			{
+				$post['contact_id'] = $post['contact'];
+			}
+		}
+
+		// unpack user to get contact_id
 		if (isset($post['parent']))
 		{
-			// If we have a parent array with url/id
 			if (is_array($post['parent']) AND isset($post['parent']['id']))
 			{
 				$post['parent_id'] = $post['parent']['id'];
 			}
-			// If parent is numeric, assume its an id
-			elseif (Valid::numeric($post['parent']))
+			elseif (is_numeric($post['parent']))
 			{
 				$post['parent_id'] = $post['parent'];
 			}
-			else
-			{
-				// Try to find parent by slug
-				$parent = ORM::factory('Message', array('slug' => $post['parent']));
-				if ($parent->loaded())
-				{
-					$post['parent_id'] = $parent->id;
-				}
-			}
 		}
-
-		// Really limited update, users can't actually edit a message, just archived/unarchive
-		$message->values($post, array(
-			'status'
-			));
 
 		// Validation & saving
 		try
 		{
 			$validation = Validation::factory($post);
-			// @todo base allowed status values on previous values and direction
-			$validation->rule(
-				'status',
-				'in_array', array(':value', array('received', 'archived') )
-			);
+
+			// If message is new
+			if (! $message->loaded())
+			{
+				$message->values($post, array('parent_id', 'contact_id', 'data_provider', 'title', 'message', 'datetime', 'type', 'direction'));
+				$message->status = 'pending';
+
+				// Users can only create outgoing messages.
+				$validation->rule('direction', 'equals', array(':value', 'outgoing'));
+			}
+			// Else: must be an existing message
+			else
+			{
+				// incoming
+				if ($message->direction == 'incoming')
+				{
+					// Really limited update, users can't actually edit a message, just archived/unarchive
+					$message->values($post, array('status'));
+				}
+				// outgoing
+				else
+				{
+					// Update most values, exclude direction and parent id.
+					$message->values($post, array('contact_id', 'data_provider', 'title', 'message', 'datetime', 'type', 'status'));
+
+					// Shouldn't be setting to failed, unknown or sent. Only Pending, expired and cancelled should be set by the user.
+					$validation->rule('status', 'in_array', array(':value', array('pending', 'expired', 'cancelled')));
+				}
+			}
 
 			$message->check($validation);
 

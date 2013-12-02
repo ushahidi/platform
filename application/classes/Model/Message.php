@@ -114,11 +114,13 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 			),
 			'status' => array(
 				array('not_empty'),
-				array('in_array', array(':value', array('pending', 'received', 'expired', 'cancelled', 'failed', 'unknown', 'archived')) ),
+				array('in_array', array(':value', array('pending', 'archived', 'received', 'expired', 'cancelled', 'failed', 'unknown', 'sent')) ),
+				array(array($this, 'valid_status'), array(':value', ':original_values'))
 			),
 			'direction' => array(
 				array('not_empty'),
 				array('in_array', array(':value', array('incoming', 'outgoing')) ),
+				array(array($this, 'valid_direction'), array(':field', ':value', ':original_values'))
 			),
 			'parent_id' => array(
 				array('numeric'),
@@ -155,6 +157,43 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 		{
 			$validation->error($field, 'invalid_title');
 		}
+	}
+
+	/**
+	 * Check if status is valid based on message direction
+	 * @param  string $value             Status value
+	 * @param  array  $original_values   Original model values
+	 * @return Boolean
+	 */
+	public function valid_status($value, $original_values)
+	{
+		if ($this->direction == 'incoming')
+		{
+			// Incoming messages can only be: received, archived
+			return in_array($value, array('received', 'archived'));
+		}
+
+		if ($this->direction == 'outgoing')
+		{
+			// Outgoing messages can only be: pending, cancelled, failed, unknown, sent
+			return in_array($value, array('pending', 'expired', 'cancelled', 'failed', 'unknown', 'sent'));
+		}
+	}
+
+	/**
+	 * Check if direction is valid, based on previous value
+	 *
+	 * @param  [type] $field             Field name
+	 * @param  [type] $value             Direction value
+	 * @param  array  $original_values   Original model values
+	 * @return Boolean
+	 */
+	public function valid_direction($field, $value, $original_values)
+	{
+		// Either direction is valid for new post
+		if (! $this->loaded()) return TRUE;
+
+		return $value == $original_values[$field];
 	}
 
 	/**

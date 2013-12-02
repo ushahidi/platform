@@ -6,11 +6,35 @@ Feature: Testing the Messages API
         And that the request "data" is:
             """
             {
-                "message":"Boxes"
+                "message":"Test creating outgoing",
+                "type":"sms",
+                "direction":"outgoing",
+                "contact_id":"1"
             }
             """
         When I request "/messages"
-        Then the guzzle status code should be 405
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "message" property equals "Test creating outgoing"
+        And the "status" property equals "pending"
+        Then the guzzle status code should be 200
+
+    Scenario: Creating an incoming message should fail
+        Given that I want to make a new "Message"
+        And that the request "data" is:
+            """
+            {
+                "message":"Test creating outgoing",
+                "type":"sms",
+                "direction":"incoming",
+                "contact_id":"1"
+            }
+            """
+        When I request "/messages"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
 
     Scenario: Updating a Message
         Given that I want to update a "Message"
@@ -29,6 +53,40 @@ Feature: Testing the Messages API
         And the "id" property equals "1"
         And the "message" property equals "A test message"
         And the "status" property equals "archived"
+        Then the guzzle status code should be 200
+
+    Scenario: Updating an incoming message to "sent" fails
+        Given that I want to update a "Message"
+        And that the request "data" is:
+            """
+            {
+                "message": "Overwrite message",
+                "status": "sent"
+            }
+            """
+        And that its "id" is "1"
+        When I request "/messages"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
+    Scenario: Updating an outoing message
+        Given that I want to update a "Message"
+        And that the request "data" is:
+            """
+            {
+                "message": "Updated message",
+                "status": "cancelled"
+            }
+            """
+        And that its "id" is "7"
+        When I request "/messages"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "id" property equals "7"
+        And the "message" property equals "Updated message"
+        And the "status" property equals "cancelled"
         Then the guzzle status code should be 200
 
     Scenario: Updating a non-existent Message

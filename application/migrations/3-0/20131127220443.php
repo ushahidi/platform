@@ -54,7 +54,7 @@ class Migration_3_0_20131127220443 extends Minion_Migration_Base {
 			`message` TEXT,
 			`datetime` DATETIME NULL DEFAULT NULL,
 			`type` varchar(20) DEFAULT NULL COMMENT 'email, phone, twitter',
-			`status` VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT 'pending, received, expired, cancelled, failed, unknown',
+			`status` VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT 'pending, received, expired, cancelled, failed, unknown, sent',
 			`direction` VARCHAR(20) NOT NULL DEFAULT 'incoming' COMMENT 'incoming, outgoing',
 			`created` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
 			PRIMARY KEY (`id`) ,
