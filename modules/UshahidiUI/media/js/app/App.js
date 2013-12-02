@@ -41,7 +41,7 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 		// Global config params
 		App.config = _.extend({
 			baseurl : '/',
-			apiuri : '/api/v2',
+			apiuri : 'api/v2',
 			imagedir : '/media/kohana/images',
 			jsdir : '/media/kohana/js',
 			cssdir : '/media/kohana/css'

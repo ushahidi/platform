@@ -11,10 +11,10 @@ define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone-pageable'],
 	function($, Backbone, SetModel, App, PageableCollection)
 	{
 		// Creates a new Backbone Collection class object
-		var SetCollection = Backbone.Collection.extend(
+		var SetCollection = PageableCollection.extend(
 		{
 			model : SetModel,
-			url: App.config.apiuri + '/sets',
+			url: App.config.baseurl + App.config.apiuri + '/sets',
 			// The Ushahidi API returns models under 'results'.
 			parseRecords: function(response)
 			{
@@ -23,7 +23,7 @@ define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone-pageable'],
 			parseState: function(response)
 			{
 				return {
-					totalRecords: response.total_count
+					totalRecords: response.count
 				};
 			},
 			// Set state params for `Backbone.PageableCollection#state`
@@ -33,7 +33,7 @@ define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone-pageable'],
 				pageSize: 3,
 				// Required under server-mode
 				totalRecords: 3,
-				sortKey: 'updated',
+				sortKey: 'id',
 				order: 1 // 1 = desc
 			},
 
