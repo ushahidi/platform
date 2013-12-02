@@ -20,9 +20,11 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 
 			SearchPosts: function(e)
 			{
-			 e.preventDefault();
-			 var keyword = this.$('.search-field').val();
-			 App.Collections.Posts.fetch({querystring: 'keyword'});
+				e.preventDefault();
+				var keyword = this.$('.search-field').val();
+				App.Collections.Posts.setFilterParams({
+					 data : {q: keyword}
+				});
 			},
 		});
 	});

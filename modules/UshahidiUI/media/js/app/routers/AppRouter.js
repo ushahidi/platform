@@ -24,7 +24,8 @@ define(['marionette'],
 				'posts/:id' : 'postDetail',
 				'sets' : 'sets',
 				'sets/:id' : 'setDetail',
-				'posts?*querystring' : 'searchPosts',
+				//'login' : 'login',
+				//'register' : 'register',
 				'*path' : 'index'
 			}
 		});

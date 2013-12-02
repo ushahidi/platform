@@ -211,19 +211,6 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				}
 
 				this.modalController.postCreate();
-			},
-			searchPosts : function(querystring)
-			{
-				if (typeof querystring === 'keyword')
-				{
-					App.vent.trigger('page:change', 'posts*?querystring');
-					App.Collections.Posts.setFilterParams({
-						data : {q: 'keyword'}
-					});
-					this.showHomeLayout();
-				}
-
 			}
-
 		});
 	});
