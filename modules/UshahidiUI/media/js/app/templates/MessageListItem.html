@@ -28,9 +28,9 @@
 					{{#if isIncoming}}
 						{{#if post}}
 							<li><a href="#posts/{{post}}" class="list-view-post-edit-buttons  message-view-post"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">view post</span></a></li>
-							<li><a href="#posts/{{post}}/edit" class="list-view-post-edit-buttons  message-create-post  js-message-create-post"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit post</span></a></li>
+							<li><a href="#posts/{{post}}/edit" class="list-view-post-edit-buttons  message-create-post  js-message-edit-post"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit post</span></a></li>
 						{{else}}
-							<li><a href="#" class="list-view-post-edit-buttons  message-edit-post  js-message-edit-post"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">create post</span></a></li>
+							<li><a href="#" class="list-view-post-edit-buttons  message-edit-post  js-message-create-post"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">create post</span></a></li>
 						{{/if}}
 						{{#if isArchived}}
 							<li><a href="#" class="list-view-post-edit-buttons  message-archive  js-message-unarchive"> <i class="fa  fa-trash-o"></i> unarchive</a></li>

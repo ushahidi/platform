@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'marionette', 'text!templates/MessageListItem.html', 'alertify', 'underscore'],
-	function(Handlebars, Marionette, template, alertify, _)
+define(['App', 'handlebars', 'marionette', 'text!templates/MessageListItem.html', 'alertify', 'underscore', 'models/PostModel'],
+	function(App, Handlebars, Marionette, template, alertify, _, PostModel)
 	{
 		//ItemView provides some default rendering logic
 		return  Marionette.ItemView.extend(
@@ -21,6 +21,8 @@ define(['handlebars', 'marionette', 'text!templates/MessageListItem.html', 'aler
 			events: {
 				'click .js-message-archive': 'archiveMessage',
 				'click .js-message-unarchive': 'unarchiveMessage',
+				'click .js-message-create-post' : 'createPost',
+				'click .js-message-edit-post' : 'editPost'
 			},
 
 			modelEvents: {
@@ -54,6 +56,41 @@ define(['handlebars', 'marionette', 'text!templates/MessageListItem.html', 'aler
 					}).fail(function ()
 					{
 						alertify.error('Unable to restore message, please try again');
+					});
+			},
+
+			createPost : function(e)
+			{
+				e.preventDefault();
+
+				var that = this,
+					post;
+
+				post = new PostModel();
+				post.url = this.model.url() + '/post';
+
+				post.save()
+					.done(function ()
+					{
+						alertify.success('Post has been created');
+						that.model.fetch();
+					}).fail(function ()
+					{
+						alertify.success('Unable to create post, please try again');
+					});
+			},
+
+			editPost : function(e)
+			{
+				e.preventDefault();
+
+				var post = new PostModel()
+					.set('id', this.model.get('post'));
+
+				post.fetch()
+					.done(function ()
+					{
+						App.vent.trigger('post:edit', post);
 					});
 			},
 

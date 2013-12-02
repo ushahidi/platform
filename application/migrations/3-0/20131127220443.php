@@ -84,6 +84,11 @@ class Migration_3_0_20131127220443 extends Minion_Migration_Base {
 		)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = utf8;");
+
+		// Make title column optional - allow for
+		$db->query(NULL, "ALTER TABLE `posts`
+			MODIFY COLUMN `title` VARCHAR(150) NULL DEFAULT NULL;
+		");
 	}
 
 	/**
@@ -96,6 +101,9 @@ class Migration_3_0_20131127220443 extends Minion_Migration_Base {
 		$db->query(NULL, 'DROP TABLE `messages`');
 		$db->query(NULL, 'DROP TABLE `contacts`');
 		$db->query(NULL, 'DROP TABLE `data_feeds`');
+		$db->query(NULL, "ALTER TABLE `posts`
+			MODIFY COLUMN `title` VARCHAR(150) NOT NULL DEFAULT '';
+		");
 	}
 
 }

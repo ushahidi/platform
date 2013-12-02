@@ -111,7 +111,6 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 			),
 
 			'title' => array(
-				array('not_empty'),
 				array('max_length', array(':value', 150))
 			),
 

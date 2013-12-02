@@ -119,6 +119,19 @@ Route::set('config-api', 'api/v2/config(/<group>(/<id>))',
 	));
 
 /**
+ * Messages API Route
+ */
+Route::set('messages-api', 'api/v2/messages(/<id>(/<action>))',
+	array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api',
+		'controller' => 'Messages'
+	));
+
+/**
  * Base Ushahidi API Route
  */
 Route::set('api', 'api/v2(/<controller>(/<id>))',

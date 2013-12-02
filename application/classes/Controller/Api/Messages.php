@@ -363,8 +363,85 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		}
 	}
 
+	/**
+	 * Create post from message
+	 *
+	 * POST /messages/:id/post
+	 */
 	public function action_post_post()
 	{
+		$message = $this->resource();
 
+		if ($message->direction !== 'incoming')
+		{
+			throw HTTP_Exception::factory(400, 'Posts can only be created from incoming messages.');
+		}
+
+		if ($message->post_id !== NULL)
+		{
+			throw HTTP_Exception::factory(400, 'Post already exists for this message.');
+		}
+
+		$uri = Route::get('api')->uri(array(
+			'controller' => 'Posts'
+		));
+
+		$post_data = array(
+			'title' => $message->title,
+			'content' => $message->message,
+			'status' => 'draft',
+			'form' => 1,
+			'locale' => 'en_us'
+		);
+
+		// Send a sub request to api/posts
+		$response = Request::factory($uri)
+			->headers($this->request->headers()) // Forward current request headers to the sub request
+			->method(Request::POST)
+			->body(json_encode($post_data))
+			->execute();
+
+		// Override response to ensure status code etc is set
+		$this->response = $response;
+
+		// Return a JSON formatted response
+		$this->_response_payload  = json_decode($response->body(), TRUE);
+
+		if ($response->status() == 200)
+		{
+			$message->post_id = $this->_response_payload['id'];
+			$message->save();
+		}
+	}
+
+	/**
+	 * GET post created from message
+	 *
+	 * GET /messages/:id/post
+	 */
+	public function action_get_post()
+	{
+		$message = $this->resource();
+
+		if ($message->post_id === NULL)
+		{
+			throw HTTP_Exception::factory(404, 'Post does not exist this message.');
+		}
+
+		$uri = Route::get('api')->uri(array(
+			'controller' => 'Posts',
+			'id' => $message->post_id
+		));
+
+		// Send a sub request to api/posts/:id
+		$response = Request::factory($uri)
+			->headers($this->request->headers()) // Forward current request headers to the sub request
+			->execute();
+
+		// Override response to ensure status code etc is set
+		$this->response = $response;
+
+		// Return a JSON formatted response
+		$this->_response_payload  = json_decode($response->body(), TRUE);
 	}
 }
