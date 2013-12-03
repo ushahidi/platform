@@ -14,7 +14,7 @@ define(['jquery', 'backbone', 'models/MessageModel', 'App', 'backbone-pageable']
 		var MessageCollection = PageableCollection.extend(
 		{
 			model : MessageModel,
-			url: App.config.baseurl + 'api/v2/messages',
+			url: App.config.baseurl + App.config.apiuri + '/messages',
 			// The Ushahidi API returns models under 'results'.
 			parseRecords: function(response)
 			{
