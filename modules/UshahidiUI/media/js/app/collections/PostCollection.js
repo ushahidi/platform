@@ -15,7 +15,7 @@ define(['jquery', 'backbone', 'models/PostModel', 'App', 'backbone-pageable'],
 		var PostCollection = PageableCollection.extend(
 		{
 			model : PostModel,
-			url: App.config.baseurl + 'api/v2/posts',
+			url: App.config.baseurl + App.config.apiuri +'/posts',
 			// The Ushahidi API returns models under 'results'.
 			parseRecords: function(response)
 			{
@@ -49,6 +49,6 @@ define(['jquery', 'backbone', 'models/PostModel', 'App', 'backbone-pageable'],
 				sortKey: 'orderby'
 			}
 		});
-	
+
 		return PostCollection;
 	});

@@ -14,13 +14,13 @@ define(['jquery', 'backbone', 'models/TagModel', 'App'],
 		var TagCollection = Backbone.Collection.extend(
 		{
 			model : TagModel,
-			url: App.config.baseurl + 'api/v2/tags',
+			url: App.config.baseurl + App.config.apiuri +'/tags',
 			// The Ushahidi API returns models under 'results'.
 			parse: function(response)
 			{
-				return response.results;
+turn response.results;
 			}
 		});
-	
+
 		return TagCollection;
 	});
