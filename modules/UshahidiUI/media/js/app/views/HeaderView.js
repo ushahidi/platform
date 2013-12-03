@@ -23,10 +23,13 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 			},
 			events : {
 				'click .js-views-menu-link' : 'showViewsMenu',
-				'click .js-create-post' : 'showCreatePost'
+				'click .js-create-post' : 'showCreatePost',
+				'click .js-workspace-toggle' : 'triggerWorkspaceToggle'
 			},
-			triggers : {
-				'click .js-workspace-panel-button, .js-workspace-panel-button-small' : 'workspace:toggle'
+			triggerWorkspaceToggle : function (e)
+			{
+				e.preventDefault();
+				this.trigger('workspace:toggle');
 			},
 			updateActiveNav : function (page)
 			{

@@ -24,7 +24,8 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.body.show(this.layout);
 
 				var header = new HeaderView();
-				header.on('workspace:toggle', function () {
+				header.on('workspace:toggle', function ()
+				{
 					App.body.$el.toggleClass('active-workspace');
 				});
 

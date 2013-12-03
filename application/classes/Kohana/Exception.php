@@ -55,4 +55,31 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 		return $response;
 	}
 
+	/**
+	 * Override Exception handler to better handle exceptions at CLI
+	 *
+	 * @uses    Kohana_Exception::text
+	 * @param   Exception   $e
+	 * @return  boolean
+	 */
+	public static function handler(Exception $e)
+	{
+		if (PHP_SAPI == 'cli')
+		{
+			echo Kohana_Exception::text($e);
+
+			$exit_code = $e->getCode();
+
+			// Never exit "0" after an exception.
+			if ($exit_code == 0)
+			{
+				$exit_code = 1;
+			}
+
+			exit($exit_code);
+		}
+
+		return parent::handler($e);
+	}
+
 }
