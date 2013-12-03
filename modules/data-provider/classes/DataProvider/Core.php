@@ -3,11 +3,10 @@
 /**
  * Base class for all Data Providers
  *
- * @author     Ushahidi Dev Team, Emmanuel Kala <emkala(at)gmail.com>
- * @package    Ushahidi - http://ping.ushahidi.com
- * @copyright  Ushahidi - http://www.ushahidi.com
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    DataProvider
+ * @copyright  2013 Ushahidi
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
- *
  */
 abstract class DataProvider_Core {
 

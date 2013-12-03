@@ -4,9 +4,9 @@
  * Data Provider Config
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Config
+ * @package    DataProvider
  * @copyright  2013 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
 return array(
