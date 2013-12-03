@@ -367,6 +367,44 @@ class RestContext extends BehatContext
 	}
 
 	/**
+	 * @Then /^the "([^"]*)" property is true$/
+	 */
+	public function thePropertyIsTrue($propertyName)
+	{
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+
+		$this->theResponseIsJson();
+
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === NULL) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+		if ($actualPropertyValue !== TRUE) {
+			throw new \Exception('Property \''.$propertyName.'\' is not true! (match: '.$actualPropertyValue.')');
+		}
+	}
+
+	/**
+	 * @Then /^the "([^"]*)" property is false$/
+	 */
+	public function thePropertyIsFalse($propertyName)
+	{
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+
+		$this->theResponseIsJson();
+
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === NULL) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+		if ($actualPropertyValue !== FALSE) {
+			throw new \Exception('Property \''.$propertyName.'\' is not false! (match: '.$actualPropertyValue.')');
+		}
+	}
+
+	/**
 	 * @Given /^the "([^"]*)" property contains "([^"]*)"$/
 	 */
 	public function thePropertyContains($propertyName, $propertyContainsValue)
