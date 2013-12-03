@@ -19,7 +19,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/MessageListItemVi
 		{
 			//Template HTML string
 			template: Handlebars.compile(template),
-			// Lets just store the partial templates somewhere usefule
+			// Lets just store the partial templates somewhere useful
 			partialTemplates :
 			{
 				pagination : Handlebars.compile(paginationTemplate),
