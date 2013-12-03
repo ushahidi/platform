@@ -54,7 +54,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			index : function()
 			{
 				App.vent.trigger('page:change', 'posts');
-				App.Collections.Posts.setFilterParams({});
+				App.Collections.Posts.setFilterParams({}, true);
 				this.showHomeLayout();
 			},
 			postsAll : function()
@@ -62,7 +62,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.vent.trigger('page:change', 'posts/all');
 				App.Collections.Posts.setFilterParams({
 					status : 'all'
-				});
+				}, true);
 				this.showHomeLayout();
 			},
 			postsUnpublished : function()
@@ -70,7 +70,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.vent.trigger('page:change', 'posts/unpublished');
 				App.Collections.Posts.setFilterParams({
 					status : 'draft'
-				});
+				}, true);
 				this.showHomeLayout();
 			},
 			postsPublished : function()
