@@ -12,6 +12,22 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 	{
 		return Marionette.ItemView.extend(
 		{
-			template : Handlebars.compile(template)
+			template : Handlebars.compile(template),
+			events:{
+				'submit form': 'SearchPosts'
+			},
+
+			SearchPosts: function(e)
+			{
+				//var that = this;
+
+				e.preventDefault();
+				var keyword = this.$('#q').val();
+				App.Collections.Posts.setFilterParams({
+					q : keyword
+				});
+
+			},
+
 		});
 	});

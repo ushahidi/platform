@@ -69,10 +69,12 @@ define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone
 
 			/**
 			 * Set filter params to be sent to the server as query params
-			 * @param  {Object} filterParams New parameters to filter by
-			 * @return {Object}              Filter params set on the object
+			 * @param  {Object}  filterParams     New parameters to filter by
+			 * @param  {Boolean} replaceExisting  If true, filters replace the existing filter
+			 *                                    If false, filters are added to existing filter
+			 * @return {Object}                   Filter params set on the object
 			 */
-			setFilterParams : function (filterParams)
+			setFilterParams : function (filterParams, replaceExisting)
 			{
 				var pagingParamKeys,
 					pagingParams,
@@ -80,7 +82,7 @@ define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone
 					newFilterParams;
 
 				// Make sure filter params is an object
-				filterParams = _.extend({}, filterParams),
+				filterParams = _.extend({}, filterParams);
 
 				// Grab the keys of the paging params so we don't overwrite these
 				// and mess up the paging
@@ -96,8 +98,14 @@ define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone
 				// Get filter params, excluded keys reserved for paging.
 				newFilterParams = _.omit(filterParams, pagingParamKeys);
 
+				// If we're not replacing all filters, merge the oldFilters in too
+				if (! replaceExisting)
+				{
+					newFilterParams = _.extend({}, oldFilterParams, newFilterParams);
+				}
+
 				// Override query params with new filter params + paging params
-				this.queryParams = _.extend(_.clone(newFilterParams), pagingParams);
+				this.queryParams = _.extend({}, newFilterParams, pagingParams);
 
 				// If filter has changed, reload
 				if (! _.isEqual(oldFilterParams, newFilterParams))
