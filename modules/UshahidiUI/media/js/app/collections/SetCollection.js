@@ -48,10 +48,6 @@ define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone-pageable'],
 				sortKey: 'orderby'
 			},
 
-			sortKeys: {
-				'created' : 'Date/Time created',
-				'id' : 'ID'
-			}
 		});
 
 		return SetCollection;
