@@ -226,15 +226,43 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 					that.layout.mainRegion.show(new SettingsView());
 				});
 			},
-			messages : function ()
+			messages : function (view)
 			{
 				var that = this;
 				this.homeLayout.close();
 				require(['views/MessageListView', 'collections/MessageCollection'], function(MessageListView, MessageCollection)
 				{
-					App.vent.trigger('page:change', 'messages');
+					App.vent.trigger('page:change', view ? 'messages/' + view : 'messages');
+
 					App.Collections.Messages = new MessageCollection();
-					App.Collections.Messages.fetch();
+					//App.Collections.Messages.fetch();
+
+					switch (view)
+					{
+						// Filter by type. Will also default to incoming + received status
+						case 'email':
+							App.Collections.Messages.fetch({data : {type : 'email'}});
+							break;
+						case 'sms':
+							App.Collections.Messages.fetch({data : {type : 'sms'}});
+							break;
+						case 'twitter':
+							App.Collections.Messages.fetch({data : {type : 'twitter'}});
+							break;
+						// Filter by archived status. Will also default to incoming only
+						case 'archived':
+							App.Collections.Messages.fetch({data : {status : 'archived'}});
+							break;
+						// Show all statuses. Will still default to incoming only
+						case 'all':
+							App.Collections.Messages.fetch({data : {status : 'all'}});
+							break;
+						// Grab default: incoming + received + all types
+						default:
+							App.Collections.Messages.fetch();
+							break;
+					}
+
 					that.layout.mainRegion.show(new MessageListView({
 						collection : App.Collections.Messages
 					}));

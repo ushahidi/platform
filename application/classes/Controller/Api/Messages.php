@@ -157,7 +157,14 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		$direction = $this->request->query('direction');
 		if (! empty($direction))
 		{
-			$messages_query->where('direction', '=', $direction);
+			if ($direction != 'all')
+			{
+				$messages_query->where('direction', '=', $direction);
+			}
+		}
+		else
+		{
+			$messages_query->where('direction', '=', 'incoming');
 		}
 
 

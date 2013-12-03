@@ -105,8 +105,22 @@ Feature: Testing the Messages API
         Then the guzzle status code should be 404
 
     @resetFixture
+    Scenario: Listing Messages (default filters)
+        Given that I want to get all "Messages"
+        When I request "/messages"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "5"
+        Then the guzzle status code should be 200
+
+    @resetFixture
     Scenario: Listing All Messages
         Given that I want to get all "Messages"
+        And that the request "query string" is:
+            """
+            direction=all
+            """
         When I request "/messages"
         Then the response is JSON
         And the response has a "count" property
@@ -156,7 +170,7 @@ Feature: Testing the Messages API
         Given that I want to get all "Messages"
         And that the request "query string" is:
             """
-            status=pending
+            status=pending&direction=outgoing
             """
         When I request "/messages"
         Then the response is JSON
@@ -169,7 +183,7 @@ Feature: Testing the Messages API
         Given that I want to get all "Messages"
         And that the request "query string" is:
             """
-            status=all
+            status=all&direction=all
             """
         When I request "/messages"
         Then the response is JSON
