@@ -10,10 +10,10 @@
 define(['App', 'marionette', 'handlebars','underscore', 'views/SetListItemView',
 	'text!templates/SetList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
 	function(App, Marionette, Handlebars, _, SetListItemView,
-		template, paginationTemplate, setModuleTemplate)
+		template, paginationTemplate, setListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
-		Handlebars.registerPartial('post-list-info', setModuleTemplate);
+		Handlebars.registerPartial('post-list-info', setListInfoTemplate);
 
 		return Marionette.CompositeView.extend(
 		{
@@ -23,7 +23,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/SetListItemView',
 			partialTemplates :
 			{
 				pagination : Handlebars.compile(paginationTemplate),
-				setListInfo : Handlebars.compile(setModuleTemplate)
+				setListInfo : Handlebars.compile(setListInfoTemplate)
 			},
 
 			initialize: function()
