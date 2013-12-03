@@ -15,10 +15,11 @@ define(['jquery', 'backbone', 'models/TagModel', 'App'],
 		{
 			model : TagModel,
 			url: App.config.baseurl + App.config.apiuri +'/tags',
+
 			// The Ushahidi API returns models under 'results'.
 			parse: function(response)
 			{
-turn response.results;
+				return response.results;
 			}
 		});
 
