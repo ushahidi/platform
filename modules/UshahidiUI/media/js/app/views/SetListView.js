@@ -8,12 +8,11 @@
  */
 
 define(['App', 'marionette', 'handlebars','underscore', 'views/SetListItemView',
-	'text!templates/SetList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
+	'text!templates/SetList.html', 'text!templates/partials/pagination.html'],
 	function(App, Marionette, Handlebars, _, SetListItemView,
-		template, paginationTemplate, setListInfoTemplate)
+		template, paginationTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
-		Handlebars.registerPartial('post-list-info', setListInfoTemplate);
 
 		return Marionette.CompositeView.extend(
 		{
@@ -22,8 +21,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/SetListItemView',
 
 			partialTemplates :
 			{
-				pagination : Handlebars.compile(paginationTemplate),
-				setListInfo : Handlebars.compile(setListInfoTemplate)
+				pagination : Handlebars.compile(paginationTemplate)
 			},
 
 			initialize: function()
@@ -47,8 +45,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/SetListItemView',
 			collectionEvents :
 			{
 				reset : 'updatePagination',
-				add : 'updatePagination',
-				remove : 'updatePagination reloadPage'
+				add : 'updatePagination'
 			},
 
 			serializeData : function ()
@@ -128,20 +125,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/SetListItemView',
 				this.collection.getPage(num -1);
 				this.updatePagination();
 			},
-			reloadPage : function ()
-			{
-				this.collection.fetch();
-			},
 
 			updatePagination: function ()
 			{
 				this.$('.pagination').replaceWith(
 					this.partialTemplates.pagination({
-						pagination: this.collection.state
-					})
-				);
-				this.$('.list-view-filter-info').html(
-					this.partialTemplates.setListInfo({
 						pagination: this.collection.state
 					})
 				);
