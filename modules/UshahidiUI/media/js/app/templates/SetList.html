@@ -1,0 +1,28 @@
+<!-- NOTE: is this used enough to be generic -->
+<div class="body-wrapper">
+	<div class="row">
+
+		<form role="form" action="">
+			<div class="sets-search-bar">
+				<div class="sets-search-bar-title">
+					<h5>My Sets</h5>
+				</div> <!-- end .sets-search-bar-title -->
+
+				<div class="sets-search-bar-create-button">
+					<a href="#sets" class="js-create-set"> <i class="fa  fa-plus"></i>Create a Set</a>
+				</div>
+
+				<div class="sets-search-bar-search-field">
+					<label class="visually-hidden" for="sets-search-field"></label>
+					<input id= "sets-search-field" type="text" placeholder="Find Sets">
+				</div>
+			</div> <!-- end .set-search-bar -->
+		</form> <!-- end form -->
+		<ul class="sets-grid"></ul> <!-- end .sets-grid -->
+
+	</div> <!-- end .row -->
+	<div class="pagination-centered">
+		{{>pagination}}
+	</div> <!-- end .pagination-centered -->
+</div> <!-- end .body-wrapper -->
+

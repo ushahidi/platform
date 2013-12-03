@@ -10,11 +10,11 @@
 define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout',
 	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/PostListView',
-	'collections/PostCollection','collections/TagCollection','collections/FormCollection'],
+	'collections/PostCollection','collections/TagCollection','collections/FormCollection', 'collections/SetCollection'],
 	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout,
 		HeaderView, FooterView, WorkspacePanelView, SearchBarView, PostListView,
-		PostCollection, TagCollection, FormCollection)
+		PostCollection, TagCollection, FormCollection, SetCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -40,6 +40,8 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Tags.fetch();
 				App.Collections.Forms = new FormCollection();
 				App.Collections.Forms.fetch();
+				App.Collections.Sets = new SetCollection();
+				App.Collections.Sets.fetch();
 
 				this.homeLayout = new HomeLayout({
 					collection : App.Collections.Posts
@@ -158,10 +160,12 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			sets : function ()
 			{
 				var that = this;
-				require(['views/SetsView'], function(SetsView)
+				require(['views/SetListView'], function(SetListView)
 				{
 					App.vent.trigger('page:change', 'sets');
-					that.layout.mainRegion.show(new SetsView());
+					that.layout.mainRegion.show(new SetListView({
+						collection : App.Collections.Sets
+					}));
 				});
 			},
 

@@ -15,7 +15,7 @@ define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone
 		var PostCollection = PageableCollection.extend(
 		{
 			model : PostModel,
-			url: App.config.baseurl + 'api/v2/posts',
+			url: App.config.baseurl + App.config.apiuri +'/posts',
 			// The Ushahidi API returns models under 'results'.
 			parseRecords: function(response)
 			{
