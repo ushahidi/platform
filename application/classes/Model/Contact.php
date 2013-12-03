@@ -10,6 +10,11 @@
  */
 
 class Model_Contact extends ORM implements Acl_Resource_Interface {
+
+	const EMAIL = 'email';
+	const PHONE = 'phone';
+	const TWITTER = 'twitter';
+
 	/**
 	 * A contact has many messages
 	 *
@@ -66,7 +71,7 @@ class Model_Contact extends ORM implements Acl_Resource_Interface {
 			),
 			'type' => array(
 				array('not_empty'),
-				array('in_array', array(':value', array('email', 'phone', 'twitter')) ),
+				array('in_array', array(':value', array(self::EMAIL, self::PHONE, self::TWITTER)) ),
 			),
 			'contact' => array(
 				array('not_empty'),
@@ -88,7 +93,7 @@ class Model_Contact extends ORM implements Acl_Resource_Interface {
 	{
 		// Valid Email?
 		if ( isset($validation['type']) AND
-			$validation['type'] == 'email' AND
+			$validation['type'] == self::EMAIL AND
 			 ! Valid::email($validation[$field]) )
 		{
 			$validation->error($field, 'invalid_email');
@@ -99,7 +104,7 @@ class Model_Contact extends ORM implements Acl_Resource_Interface {
 		// so just look for numbers only. A valid international phone
 		// number should have atleast 9 digits
 		else if ( isset($validation['type']) AND
-			$validation['type'] == 'phone' )
+			$validation['type'] == self::PHONE )
 		{
 			// Remove all non-digit characters from the number
 			$number = preg_replace('/\D+/', '', $validation[$field]);
@@ -140,7 +145,7 @@ class Model_Contact extends ORM implements Acl_Resource_Interface {
 	public function clean_phone_number($value)
 	{
 		// Clean up phone numbers
-		if ($this->type == 'phone')
+		if ($this->type == self::PHONE)
 		{
 			$value = preg_replace("/[^0-9,.]/", "", $value);
 		}

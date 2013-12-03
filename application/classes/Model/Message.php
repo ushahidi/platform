@@ -114,12 +114,21 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 			),
 			'status' => array(
 				array('not_empty'),
-				array('in_array', array(':value', array('pending', 'archived', 'received', 'expired', 'cancelled', 'failed', 'unknown', 'sent')) ),
+				array('in_array', array(':value', array(
+						Message_Status::PENDING,
+						Message_Status::ARCHIVED,
+						Message_Status::RECEIVED,
+						Message_Status::EXPIRED,
+						Message_Status::CANCELLED,
+						Message_Status::FAILED,
+						Message_Status::UNKNOWN,
+						Message_Status::SENT
+					) ) ),
 				array(array($this, 'valid_status'), array(':value', ':original_values'))
 			),
 			'direction' => array(
 				array('not_empty'),
-				array('in_array', array(':value', array('incoming', 'outgoing')) ),
+				array('in_array', array(':value', array(Message_Direction::INCOMING, Message_Direction::OUTGOING)) ),
 				array(array($this, 'valid_direction'), array(':field', ':value', ':original_values'))
 			),
 			'parent_id' => array(
@@ -153,7 +162,7 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 	{
 		// Valid Email?
 		if ( isset($validation['type']) AND
-			$validation['type'] == 'email' AND ! $validation[$field] )
+			$validation['type'] == Message_Type::EMAIL AND ! $validation[$field] )
 		{
 			$validation->error($field, 'invalid_title');
 		}
@@ -167,16 +176,23 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 	 */
 	public function valid_status($value, $original_values)
 	{
-		if ($this->direction == 'incoming')
+		if ($this->direction == Message_Direction::INCOMING)
 		{
 			// Incoming messages can only be: received, archived
-			return in_array($value, array('received', 'archived'));
+			return in_array($value, array(Message_Status::RECEIVED, Message_Status::ARCHIVED));
 		}
 
-		if ($this->direction == 'outgoing')
+		if ($this->direction == Message_Direction::OUTGOING)
 		{
 			// Outgoing messages can only be: pending, cancelled, failed, unknown, sent
-			return in_array($value, array('pending', 'expired', 'cancelled', 'failed', 'unknown', 'sent'));
+			return in_array($value, array(
+				Message_Status::PENDING,
+				Message_Status::EXPIRED,
+				Message_Status::CANCELLED,
+				Message_Status::FAILED,
+				Message_Status::UNKNOWN,
+				Message_Status::SENT
+			));
 		}
 	}
 

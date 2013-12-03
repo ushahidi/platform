@@ -8,10 +8,10 @@ $plugin = array(
 
 		// Services Provided By This Plugin
 		'services' => array(
-			'sms' => TRUE,
-			'ivr' => FALSE,
-			'email' => FALSE,
-			'twitter' => FALSE
+			Message_Type::SMS => TRUE,
+			Message_Type::IVR => FALSE,
+			Message_Type::EMAIL => FALSE,
+			Message_Type::TWITTER => FALSE
 		),
 
 		// Option Key and Label

@@ -36,7 +36,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			{
 				$contact = ORM::factory('Contact')
 					->set('contact', $from)
-					->set('type', 'phone')
+					->set('type', Contact::PHONE)
 					->set('data_provider', $this->provider_name())
 					->save();
 			}
@@ -66,9 +66,9 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 					'message' => $message,
 					'title' => $title,
 					'contact_id' => $contact->id,
-					'status' => 'received',
-					'direction' => 'incoming',
-					'type' => 'sms' // @todo stop hard coding this
+					'status' => Message_Status::RECEIVED,
+					'direction' => Message_Direction::INCOMING,
+					'type' => Message_Type::SMS // @todo stop hard coding this
 				))
 				->save();
 		}
@@ -102,8 +102,8 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			->select('message.message')
 			->join('contacts', 'INNER')
 				->on('contact_id', '=', 'contacts.id')
-			->where('status', '=', 'pending')
-			->where('direction', '=', 'outgoing')
+			->where('status', '=', Message_Status::PENDING)
+			->where('direction', '=', Message_Direction::OUTGOING)
 			->where('message.data_provider', '=', $this->provider_name())
 			->order_by('created', 'ASC')
 			->limit($limit)
@@ -122,7 +122,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			// Also we don't know if the SMSSync from the phone
 			// itself worked or not
 			// @todo don't hard code this, receive status based on provider
-			$message->status = 'unknown';
+			$message->status = Message_Status::UNKNOWN;
 			$message->save();
 		}
 
