@@ -27,7 +27,7 @@ class Controller_Sms_Smssync extends Controller {
 		if (! $this->request->post('secret') OR
 			$this->request->post('secret') != $options['secret'])
 		{
-			throw HTTP_Exception::factory(400, 'Incorrect or missing secret key');
+			throw HTTP_Exception::factory(403, 'Incorrect or missing secret key');
 		}
 
 		// Remove Non-Numeric characters because that's what the DB has
