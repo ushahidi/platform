@@ -152,11 +152,15 @@ abstract class DataProvider_Core {
 	/**
 	 * Receive Messages From Data Provider
 	 *
-	 * @param  string from from Phone number
+	 * @param  string type    Message type
+	 * @param  string from    From contact
 	 * @param  string message Received Message
+	 * @param  string to      To contact
+	 * @param  string title   Received Message title
+	 * @param  string data_provider_message_id Message ID
 	 * @return void
 	 */
-	abstract public function receive($from = NULL, $message = NULL);
+	abstract public function receive($type, $from, $message, $to = NULL, $title = NULL, $data_provider_message_id = NULL);
 
 	/**
 	 * Get queued outgoing messages

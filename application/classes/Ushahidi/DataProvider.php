@@ -22,11 +22,15 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	/**
 	 * Receive Messages From data provider
 	 *
-	 * @param  string from from Phone number
+	 * @param  string type    Message type
+	 * @param  string from    From contact
 	 * @param  string message Received Message
+	 * @param  string to      To contact
+	 * @param  string title   Received Message title
+	 * @param  string data_provider_message_id Message ID
 	 * @return void
 	 */
-	public function receive($from = NULL, $message = NULL, $title = NULL)
+	public function receive($type, $from, $message, $to = NULL, $title = NULL, $data_provider_message_id = NULL)
 	{
 		// Is the sender of the message a registered contact?
 		$contact = Model_Contact::get_contact($from, 'phone');
@@ -65,10 +69,11 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 				->values(array(
 					'message' => $message,
 					'title' => $title,
+					'data_provider_message_id' => $data_provider_message_id,
 					'contact_id' => $contact->id,
 					'status' => Message_Status::RECEIVED,
 					'direction' => Message_Direction::INCOMING,
-					'type' => Message_Type::SMS // @todo stop hard coding this
+					'type' => $type
 				))
 				->save();
 		}

@@ -1,24 +1,24 @@
 <?php
 
 /**
- * SMSSync Data Providers
+ * Twilio Data Provider
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    DataProvider\SMSSync
+ * @package    DataProvider\Twilio
  * @copyright  2013 Ushahidi
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
 // Plugin Info
 $plugin = array(
-	'smssync' => array(
-		'name' => 'SMSSync',
+	'twilio' => array(
+		'name' => 'Twilio',
 		'version' => '0.1',
 
 		// Services Provided By This Plugin
 		'services' => array(
 			Message_Type::SMS => TRUE,
-			Message_Type::IVR => FALSE,
+			Message_Type::IVR => TRUE,
 			Message_Type::EMAIL => FALSE,
 			Message_Type::TWITTER => FALSE
 		),
@@ -26,13 +26,15 @@ $plugin = array(
 		// Option Key and Label
 		'options' => array(
 			'phone' => 'Phone Number',
-			'secret' => 'Secret',
+			'account_sid' => 'Account SID',
+			'auth_token' => 'Auth Token',
+			'sms_auto_response' => ''
 		),
 
 		// Links
 		'links' => array(
-			'developer' => 'http://smssync.ushahidi.com/',
-			'signup' => 'http://smssync.ushahidi.com/'
+			'developer' => 'https://www.twilio.com',
+			'signup' => 'https://www.twilio.com/try-twilio'
 		)
 	)
 );
@@ -45,17 +47,17 @@ Event::instance()->fire('Ushahidi_Plugin', array($plugin));
 /**
  * SMS Callback url
  */
-Route::set('smssync_sms_callback_url', 'sms/smssync(/<action>)')
+Route::set('twillio_sms_callback_url', 'sms/twillio(/<action>)')
 	->defaults(array(
 		'directory' => 'Sms',
-		'controller' => 'Smssync',
+		'controller' => 'Twillio',
 	));
 
 /**
- * Legacy SMSSync Callback url
+ * Ivr Callback url
  */
-Route::set('smssync_legacy_callback_url', 'smssync(/<action>)')
+Route::set('twillio_ivr_callback_url', 'ivr/twillio(/<action>)')
 	->defaults(array(
-		'directory' => 'Sms',
-		'controller' => 'Smssync'
+		'directory' => 'Ivr',
+		'controller' => 'Twillio',
 	));

@@ -48,7 +48,7 @@ class Controller_Sms_Smssync extends Controller {
 		// If receiving an SMS Message
 		if ($to AND $from AND $message_text)
 		{
-			$provider->receive($from, $message_text);
+			$provider->receive(Message_Type::SMS, $from, $message_text, $to);
 		}
 
 		$json = array(
