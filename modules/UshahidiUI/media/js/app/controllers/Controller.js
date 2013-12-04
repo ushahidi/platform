@@ -192,7 +192,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 
 					that.layout.mainRegion.show(new UserListView());
 				});
-			}
+			},
 
 			login : function ()
 			{
