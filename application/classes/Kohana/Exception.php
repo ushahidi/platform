@@ -28,10 +28,10 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 	 */
 	public static function response(Exception $e)
 	{
+		$response = parent::response($e);
+
 		try
 		{
-			$response = parent::response($e);
-
 			// Wrap default response in Ushahidi layout
 			if (Kohana_Exception::$error_layout)
 			{
@@ -40,16 +40,11 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 				$response->body($view->render());
 			}
 		}
-		catch (Exception $e)
+		catch (Exception $new_e)
 		{
 			/**
-			 * Things are going badly for us, Lets try to keep things under control by
-			 * generating a simpler response object.
+			 * Things are going badly for us, just fall back to the default kohana response
 			 */
-			$response = Response::factory();
-			$response->status(500);
-			$response->headers('Content-Type', 'text/plain');
-			$response->body(Kohana_Exception::text($e));
 		}
 
 		return $response;
