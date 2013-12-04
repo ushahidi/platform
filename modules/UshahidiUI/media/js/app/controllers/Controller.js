@@ -187,10 +187,12 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				{
 					App.vent.trigger('page:change', 'users');
 
-					App.Collections.UserCollection = new UserCollection();
-					App.Collections.UserCollection.fetch();
+					App.Collections.Users = new UserCollection();
+					App.Collections.Users.fetch();
 
-					that.layout.mainRegion.show(new UserListView());
+					that.layout.mainRegion.show(new UserListView({
+						collection : App.Collections.Users
+					}));
 				});
 			},
 

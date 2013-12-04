@@ -10,38 +10,44 @@
 		<div class="list-view-post-details">
 			<div class="row">
 				<h5 class="list-view-post-title">
-					{{!--<i class="fa  fa-lock"></i> --}}
-					<a href="#posts/{{id}}">
-						<span>{{ first_name }}</span> <span>{{ last_name }}</span>
+
+					<a href="#user/{{id}}">
+						{{ username }}
 					</a>
 				</h5>
+
 				<div class="list-view-post-time">
 					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 				</div> <!-- end .list-view-post-time -->
-			</div> <!-- end .row -->
-		</div> <!-- end .list-view-post-details -->
+			</div> <!-- end .row
 
-		<div class="list-view-post-details">
-			<div class="row">
-				<h5 class="list-view-post-title">
-					{{ username }}
-				</h5>
-			</div> <!-- end .row -->
-		</div> <!-- end .list-view-post-details -->
-
-		<div class="list-view-post-details">
-			<div class="row">
-				<h5 class="list-view-post-title">
-					{{ role }}
-				</h5>
-			</div> <!-- end .row -->
 		</div> <!-- end .list-view-post-details -->
 
 		<div class="list-view-post-admin">
 			<div class="list-view-post-categories-wrapper">
+				<h6>Role</h6>
+				{{ role }}
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
+				<h6>Full name</h6>
+				<div class="list-view-post-categories">
+					{{#if first_name}}
+						<span>{{ first_name }}</span> <span>{{ last_name }}</span>
+					{{else}}
+						No full name
+					{{/if}}
+				</div>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
 				<h6>Last login</h6>
 				<div class="list-view-post-categories">
-					{{ last_login }}
+					{{#if last_login}}
+						{{ datetime-fromNow last_login }}
+					{{else}}
+						Never
+					{{/if}}
 				</div>
 			</div> <!-- end .list-view-post-categories-wrapper -->
 
@@ -53,16 +59,13 @@
 			</div> <!-- end .list-view-post-categories-wrapper -->
 
 			<div class="list-view-post-categories-wrapper">
-				<h6>Last login</h6>
-				<div class="list-view-post-categories">
-					{{ last_login }}
-				</div>
-			</div> <!-- end .list-view-post-categories-wrapper -->
-
-			<div class="list-view-post-categories-wrapper">
 				<h6>Last attempt</h6>
 				<div class="list-view-post-categories">
-					{{ last_attempt }}
+					{{#if last_attempt}}
+						{{ datetime-calendar last_attempt }}
+					{{else}}
+						Never
+					{{/if}}
 				</div>
 			</div> <!-- end .list-view-post-categories-wrapper -->
 
@@ -75,17 +78,17 @@
 							</a>
 						</li>
 					{{/if}}
+					{{#if allowed_methods.put}}
 						<li>
 							<a href="#" class="list-view-post-edit-buttons  post-add-to-set  js-post-set">
 								<i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">change role</span>
 							</a>
 						</li>
-					{{#if allowed_methods.put}}
-
+					{{/if}}
 					{{#if allowed_methods.delete}}
 						<li>
 							<a href="#" class="list-view-post-edit-buttons  post-delete  js-post-delete">
-								<i class="fa  fa-trash-o"></i>
+								<i class="fa  fa-trash-o"></i><span class="hide-for-medium-down">delete</span>
 							</a>
 						</li>
 					{{/if}}

@@ -29,10 +29,10 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 			{
 			},
 
-			itemView: PostListItemView,
+			itemView: UserListItemView,
 			itemViewOptions: {},
 
-			itemViewContainer: '.list-view-posts-list',
+			itemViewContainer: '.list-view-user-list',
 
 			events:
 			{
@@ -73,7 +73,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 			{
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
-					pagination: this.collection.state
+					pagination: this.collection.state,
+					sortKeys: this.collection.sortKeys
 				});
 
 				return data;

@@ -33,7 +33,7 @@ define(['jquery', 'backbone', 'models/UserModel', 'App', 'backbone-pageable'],
 				pageSize: 3,
 				// Required under server-mode
 				totalRecords: 3,
-				sortKey: 'created',
+				sortKey: 'id',
 				order: 1 // 1 = desc
 			},
 
