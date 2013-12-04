@@ -33,10 +33,33 @@ abstract class Ushahidi_Core {
 		 */
 		self::load();
 
+		/**
+		 * Attach database config
+		 */
+		self::attached_db_config();
+
 		// Set site name in all view
 		View::set_global('site_name', Kohana::$config->load('site')->get('site_name'));
+	}
 
-
+	public static function attached_db_config()
+	{
+		/**
+		 * Attach database config to override some settings
+		 */
+		try
+		{
+			if (DB::query(Database::SELECT, 'SHOW TABLES LIKE \'config\'')->execute()->count() > 0)
+			{
+				Kohana::$config->attach(new Ushahidi_Config_Database(array(
+					'groups' => array('site')
+				)));
+			}
+		}
+		catch (Exception $e)
+		{
+			// Ignore errors if database table doesn't exist yet
+		}
 	}
 
 	/**
