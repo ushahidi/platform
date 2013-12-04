@@ -1,8 +1,14 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * SMSSync SMS provider
+ * SMSSync Data Providers
+ *
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    DataProvider\SMSSync
+ * @copyright  2013 Ushahidi
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
+
 class DataProvider_Smssync extends DataProvider {
 
 	/**

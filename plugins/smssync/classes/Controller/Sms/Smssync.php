@@ -1,5 +1,14 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * SMS Sync Callback controller
+ *
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    DataProvider\SMSSync
+ * @copyright  2013 Ushahidi
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ */
+
 class Controller_Sms_Smssync extends Controller {
 
 	public function action_index()
