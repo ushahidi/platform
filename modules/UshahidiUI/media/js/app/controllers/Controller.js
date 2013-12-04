@@ -10,11 +10,11 @@
 define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout',
 	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/PostListView',
-	'collections/PostCollection','collections/TagCollection','collections/FormCollection', 'collections/SetCollection'],
+	'collections/PostCollection','collections/TagCollection','collections/FormCollection', 'collections/SetCollection','collections/UserCollection'],
 	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout,
 		HeaderView, FooterView, WorkspacePanelView, SearchBarView, PostListView,
-		PostCollection, TagCollection, FormCollection, SetCollection)
+		PostCollection, TagCollection, FormCollection, SetCollection, UserCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -178,6 +178,21 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 					that.layout.mainRegion.show(new SetDetailView());
 				});
 			},
+
+			users : function()
+			{
+				var that = this;
+				this.homeLayout.close();
+				require(['views/UserListView','collections/UserCollection'], function(UserListView,UserCollection)
+				{
+					App.vent.trigger('page:change', 'users');
+
+					App.Collections.UserCollection = new UserCollection();
+					App.Collections.UserCollection.fetch();
+
+					that.layout.mainRegion.show(new UserListView());
+				});
+			}
 
 			login : function ()
 			{
