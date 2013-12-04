@@ -146,6 +146,7 @@ abstract class DataProvider_Core {
 	/**
 	 * @param  string  to Phone number to receive the message
 	 * @param  string  message Message to be sent
+	 * @return array   Array of message status, and tracking ID.
 	 */
 	abstract public function send($to, $message);
 

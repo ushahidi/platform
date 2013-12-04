@@ -39,10 +39,10 @@ class DataProvider_Nexmo extends DataProvider {
 				if ( $message->status != 0)
 				{
 					Kohana::$log->add(Log::ERROR, 'Nexmo: '.$message->errortext);
-					return FALSE;
+					return array(Message_Status::FAILED, FALSE);
 				}
 
-				return $message->messageid;
+				return array(Message_Status::SENT, $message->messageid);
 			}
 		}
 		catch (Exception $e)
@@ -50,6 +50,6 @@ class DataProvider_Nexmo extends DataProvider {
 			Kohana::$log->add(Log::ERROR, $e->getMessage());
 		}
 
-		return FALSE;
+		return array(Message_Status::FAILED, FALSE);
 	}
 }

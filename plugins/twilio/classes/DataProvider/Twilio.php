@@ -34,13 +34,13 @@ class DataProvider_Twilio extends DataProvider {
 		try
 		{
 			$message = $this->_client->account->messages->sendMessage($this->_from, '+'.$to, $message);
-			return $message->sid;
+			return array(Message_Status::SENT, $message->sid);
 		}
 		catch (Services_Twilio_RestException $e)
 		{
 			Kohana::$log->add(Log::ERROR, $e->getMessage());
 		}
 
-		return FALSE;
+		return array(Message_Status::FAILED, FALSE);
 	}
 }
