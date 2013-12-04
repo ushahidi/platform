@@ -60,8 +60,11 @@ class Controller_Sms_Smssync extends Controller {
 
 		// Do we have any tasks for SMSSync?
 		// Grab messages to send, 20 at a time.
-		$messages = $provider->get_outgoing_messages(20);
-
+		//
+		// We don't know if the SMS from the phone itself work or not,
+		// but we'll update the messages status to 'unknown' so that
+		// its not picked up again
+		$messages = $provider->get_pending_messages(20, Message_Status::UNKNOWN);
 		if (count($messages) > 0)
 		{
 			$json['payload']['task'] = "send";

@@ -92,10 +92,11 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	 * Get queued outgoing messages
 	 *
 	 * @param  boolean $limit   maximum number of messages to return
+	 * @param  mixed   $new_status  New status to save for message, FALSE to leave status as is
 	 * @return array            array of messages to be sent.
 	 *                          Each element in the array should have 'to' and 'message' fields
 	 */
-	public function get_outgoing_messages($limit = FALSE)
+	public function get_pending_messages($limit = FALSE, $new_status = Message_Status::UNKNOWN)
 	{
 		$messages = array();
 
@@ -122,20 +123,15 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 				'message_id' => $message->id
 				);
 
-			// We'll update the pings status to 'unknown'
-			// just so that its not picked up again
-			// Also we don't know if the SMSSync from the phone
-			// itself worked or not
-			// @todo don't hard code this, receive status based on provider
-			$message->status = Message_Status::UNKNOWN;
-			$message->save();
+			// Update the message status
+			if ($new_status)
+			{
+				$message->status = $new_status;
+				$message->save();
+			}
 		}
 
 		return $messages;
 	}
 
-	public function set_message_status()
-	{
-
-	}
 }

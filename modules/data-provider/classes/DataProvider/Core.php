@@ -170,8 +170,9 @@ abstract class DataProvider_Core {
 	 * 'to' and 'message' fields
 	 *
 	 * @param  boolean $limit   maximum number of messages to return
+	 * @param  mixed   $new_status  New status to save for message, FALSE to leave status as is
 	 * @return array            array of messages to be sent.
 	 */
-	abstract public function get_outgoing_messages($limit = FALSE);
+	abstract public function get_pending_messages($limit = FALSE, $new_status = Message_Status::UNKNOWN);
 
 }
