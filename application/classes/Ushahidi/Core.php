@@ -32,6 +32,11 @@ abstract class Ushahidi_Core {
 		 * 2. Load the plugins
 		 */
 		self::load();
+
+		// Set site name in all view
+		View::set_global('site_name', Kohana::$config->load('site')->get('site_name'));
+
+
 	}
 
 	/**

@@ -70,6 +70,13 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 			{
 				e.preventDefault();
 				App.vent.trigger('post:create');
+			},
+			serializeData : function()
+			{
+				return {
+					site_name : App.config.site.site_name,
+					owner_name : App.config.site.owner_name
+				};
 			}
 		});
 	});

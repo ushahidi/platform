@@ -14,5 +14,12 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Footer.html'],
 		{
 			template : Handlebars.compile(template),
 			initialize: function() { },
+			serializeData : function()
+			{
+				return {
+					site_name : App.config.site.site_name,
+					owner_name : App.config.site.owner_name
+				};
+			}
 		});
 	});
