@@ -48,6 +48,10 @@ define(['jquery', 'backbone', 'models/UserModel', 'App', 'backbone-pageable'],
 				sortKey: 'orderby'
 			},
 
+			sortKeys: {
+				'created' : 'Date/Time created',
+				'id' : 'ID'
+			}
 		});
 
 		return UserCollection;
