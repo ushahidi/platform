@@ -58,6 +58,8 @@ define(['handlebars', 'marionette', 'alertify', 'text!templates/UserListItem.htm
 
 			showEditUser : function (e)
 			{
+				var that = this;
+				e.preventDefault();
 				App.vent.trigger('user:edit', this.model);
 			},
 

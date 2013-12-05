@@ -23,6 +23,7 @@ define(['App', 'marionette'],
 				App.vent.on('post:edit', this.postEdit, this);
 				App.vent.on('post:set', this.addToSet, this);
 				App.vent.on('set:create', this.setCreate, this);
+				App.vent.on('user:edit', this.editUser, this);
 			},
 			postCreate : function ()
 			{
@@ -107,9 +108,10 @@ define(['App', 'marionette'],
 				require(['views/modals/EditUserView'],
 					function(EditUserView)
 				{
-					this.modal.show(new EditUserView({
+					that.modal.show(new EditUserView({
 						model : user
 					}));
+					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});
 			}
 		});

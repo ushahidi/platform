@@ -12,14 +12,13 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 	{
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
-			className: 'edit-user',
 			initialize : function ()
 			{
 				// Set up the form
 				this.form = new BackboneForm({
 					model: this.model,
-					idPrefix : 'post-',
-					className : 'create-post-form',
+					idPrefix : 'user-',
+					className : 'edit-user-form',
 					fieldsets : _.result(this.model, 'fieldsets')
 					});
 				BackboneValidation.bind(this, {
@@ -41,8 +40,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			},
 
 			events: {
-				'submit form' : 'formSubmitted',
-				'click .js-switch-fieldset' : 'switchFieldSet'
+				'submit form' : 'formSubmitted'
 			},
 
 			onDomRefresh : function()
@@ -53,7 +51,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				// Set form id, backbone-forms doesn't do it.
 				this.form.$el.attr('id', 'edit-user-form');
 
-				this.$('.post-form-wrapper').append(this.form.el);
+				this.$('.user-form-wrapper').append(this.form.el);
 			},
 			formSubmitted : function (e)
 			{
@@ -95,14 +93,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 					}
 				}
 			},
-			switchFieldSet : function (e)
-			{
-				var $el = this.$(e.currentTarget);
-				this.$('fieldset').removeClass('active');
-				this.$($el.attr('href')).addClass('active');
-
-				e.preventDefault();
-			},
 			onClose : function ()
 			{
 				BackboneValidation.unbind(this);
@@ -110,9 +100,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			serializeData: function()
 			{
 				var data = _.extend(this.model.toJSON(), {
-					isPublished : this.model.isPublished(),
-					tags : this.model.getTags(),
-					user : this.model.user ? this.model.user.toJSON() : null,
 					fieldsets : _.result(this.model, 'fieldsets')
 				});
 				return data;
