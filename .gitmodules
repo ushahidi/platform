@@ -30,7 +30,7 @@
 	url = git://github.com/bshaffer/oauth2-server-php.git
 [submodule "modules/media"]
 	path = modules/media
-	url = git://github.com/Zeelot/kohana-media.git
+	url = git://github.com/rjmackay/kohana-media.git
 [submodule "modules/imagefly"]
 	path = modules/imagefly
 	url = git://github.com/rjmackay/kohana-imagefly.git
