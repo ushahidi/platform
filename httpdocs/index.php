@@ -16,11 +16,6 @@ $application = '../application';
 $modules = '../modules';
 
 /**
- * The directory in which your plugins are located.
- */
-$plugins = '../plugins';
-
-/**
  * The directory in which the Kohana resources are located. The system
  * directory must contain the classes/kohana.php file.
  *
@@ -73,12 +68,6 @@ if ( ! is_dir($modules) AND is_dir(DOCROOT.$modules))
 	$modules = DOCROOT.$modules;
 }
 
-// Make the plugins relative to the docroot
-if ( ! is_dir($plugins) AND is_dir(DOCROOT.$plugins))
-{
-	$plugins = DOCROOT.$plugins;
-}
-
 // Make the system relative to the docroot
 if ( ! is_dir($system) AND is_dir(DOCROOT.$system))
 {
@@ -88,7 +77,6 @@ if ( ! is_dir($system) AND is_dir(DOCROOT.$system))
 // Define the absolute paths for configured directories
 define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
-define('PLUGINPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
 
 // Clean up the configuration vars

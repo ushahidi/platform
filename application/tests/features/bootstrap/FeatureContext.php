@@ -2,7 +2,7 @@
 
 /**
  * Ushahidi Feature Context
- *
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
@@ -10,7 +10,6 @@
  */
 
 // We'll use the unittest modules bootstrap to hook into Kohana
-define('PLUGINPATH', __DIR__.'/../../../../plugins/');
 require_once __DIR__.'/../../../../modules/unittest/bootstrap.php';
 
 use Behat\Behat\Context\ClosuredContextInterface,
@@ -39,7 +38,7 @@ class FeatureContext extends BehatContext
 		$this->useContext('PHPUnitFixtureContext', new PHPUnitFixtureContext($parameters));
 		$this->useContext('MinkContext', $minkContext = new MinkExtendedContext);
 	}
-
+	
 	/** @BeforeFeature */
 	public static function featureSetup(FeatureEvent $event)
 	{
@@ -60,33 +59,33 @@ class FeatureContext extends BehatContext
 			VALUES (5, 95, 12, POINT(1.2, 0.5));");
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
 			VALUES (6, 97, 8, POINT(1, 1));");
-
+		
 		$pdo_connection->query("INSERT INTO `post_geometry` (`id`, `post_id`, `form_attribute_id`, `value`)
 			VALUES (1, 1, 9,
 				GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
 					((20 35, 45 20, 30 5, 10 10, 10 30, 20 35),
 					(30 20, 20 25, 20 15, 30 20)))'));");
 	}
-
+	
 	/** @AfterFeature */
 	public static function featureTearDown(FeatureEvent $event)
 	{
 		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
 		$fixtureContext->tearDownDBTester('ushahidi/Base');
 	}
-
+	
 	/** @BeforeScenario @resetFixture */
 	public function scenarioSetup()
 	{
 		$this->getSubcontext('PHPUnitFixtureContext')->setUpDBTester('ushahidi/Base');
 	}
-
+	
 	/** @BeforeScenario @resetFixture */
 	public function scenarioTearDown()
 	{
 		$this->getSubcontext('PHPUnitFixtureContext')->tearDownDBTester('ushahidi/Base');
 	}
-
+	
 	/**
 	 * Automatically set bearer token so you can forget about it
 	 * @BeforeScenario @oauth2Skip

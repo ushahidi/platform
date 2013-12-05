@@ -4,7 +4,4 @@
             <directory>./</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <const name="PLUGINPATH" value="plugins/"/>
-    </php>
 </phpunit>
