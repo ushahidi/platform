@@ -99,6 +99,18 @@ define(['App', 'marionette'],
 						model : post
 					}));
 				});
+			},
+			editUser : function (user)
+			{
+				var that = this;
+
+				require(['views/modals/EditUserView'],
+					function(EditUserView)
+				{
+					this.modal.show(new EditUserView({
+						model : user
+					}));
+				});
 			}
 		});
 	});
