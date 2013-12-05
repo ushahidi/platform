@@ -22,7 +22,7 @@ class Migration_3_0_20131204232927 extends Minion_Migration_Base {
 	public function down(Kohana_Database $db)
 	{
 		 $db->query(NULL, "ALTER TABLE `form_groups`
-		 DROP COLUMN 'icon' VARCHAR(100) NOT NULL DEFAULT '';");
+		 DROP COLUMN `icon` VARCHAR(100) NOT NULL DEFAULT '';");
 	}
 
 }
