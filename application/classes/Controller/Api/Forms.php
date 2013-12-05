@@ -162,7 +162,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 				foreach ($post['groups'] as $group)
 				{
 					$_group = ORM::factory('Form_Group')->values($group,array(
-						'label', 'priority'
+						'label', 'priority', 'icon'
 					));
 					$_group->check();
 

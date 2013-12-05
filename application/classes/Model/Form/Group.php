@@ -73,6 +73,7 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 				),
 				'label' => $this->label,
 				'priority' => $this->priority,
+				'icon' => $this->icon,
 				'attributes' => array()
 				);
 			
