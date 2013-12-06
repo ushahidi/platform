@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'App','models/UserRoleModel'],
-	function(Backbone, App, UserRoleModel)
+define(['backbone', 'App'],
+	function(Backbone, App)
 	{
 
 		var UserModel = Backbone.Model.extend(
@@ -47,7 +47,7 @@ define(['backbone', 'App','models/UserRoleModel'],
 						}
 					},
 					role: {
-						type: 'Radio',
+						type: 'Select',
 						title: 'Roles',
 						options: {
 							admin: 'Admin',
