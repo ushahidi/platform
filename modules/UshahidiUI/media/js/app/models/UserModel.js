@@ -7,10 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'App'],
-	function(Backbone, App) {
+define(['backbone', 'App','models/UserRoleModel'],
+	function(Backbone, App, UserRoleModel)
+	{
+
 		var UserModel = Backbone.Model.extend(
 		{
+			//console.log("user "+new UserRoleModel().toJSON());
 			urlRoot: App.config.baseurl + App.config.apiuri + '/users',
 			schema : function ()
 			{
@@ -46,11 +49,12 @@ define(['backbone', 'App'],
 					role: {
 						type: 'Radio',
 						title: 'Roles',
-						options: { // The roles should be read from it own model instead of hard coding it
-							'admin' : 'Admin',
-							'user' : 'User',
-							'guest' : 'Guest'
+						options: {
+							admin: 'Admin',
+							user: 'User',
+							guest: 'Guest'
 						}
+
 					}
 				};
 
