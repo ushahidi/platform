@@ -21,7 +21,6 @@ define(['handlebars', 'marionette', 'alertify', 'text!templates/UserListItem.htm
 			events: {
 				'click .js-user-delete': 'deleteUser',
 				'click .js-user-edit' : 'showEditUser',
-				'click .js-user-change-role' : 'showChangeRole'
 			},
 
 			modelEvent: {
@@ -62,10 +61,5 @@ define(['handlebars', 'marionette', 'alertify', 'text!templates/UserListItem.htm
 				e.preventDefault();
 				App.vent.trigger('user:edit', this.model);
 			},
-
-			showChangeRole : function ()
-			{
-				App.vent.trigger('post:set', this.model);
-			}
 		});
 	});
