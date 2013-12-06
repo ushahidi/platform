@@ -62,7 +62,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 					if (request)
 					{
 						request
-							.done(function (model /*, response, options*/)
+							.done(function (response/*, options*/)
 								{
 									alertify.success('User details saved.');
 									that.trigger('close');
