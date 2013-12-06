@@ -11,7 +11,50 @@ define(['backbone', 'App'],
 	function(Backbone, App) {
 		var UserModel = Backbone.Model.extend(
 		{
-			urlRoot: App.config.baseurl + App.config.apiuri + '/users'
+			urlRoot: App.config.baseurl + App.config.apiuri + '/users',
+			schema : function ()
+			{
+				var schema = {
+					username: {
+						type: 'Text',
+						title: 'Username',
+						editorAttrs : {
+							placeholder : 'Enter username'
+						}
+					},
+					firstname: {
+						type: 'Text',
+						title: 'First name',
+						editorAttrs : {
+							placeholder : 'Enter first name'
+						}
+					},
+					lastname: {
+						type: 'Text',
+						title: 'Last name',
+						editorAttrs : {
+							placeholder : 'Enter last name'
+						}
+					},
+					email: {
+						type: 'Text',
+						title: 'Email address',
+						editorAttrs : {
+							placeholder : 'Enter email address'
+						}
+					},
+					role: {
+						type: 'Radio',
+						title: 'Roles',
+						options: {
+							'admin' : 'Admin',
+							'user' : 'User',
+							'guest' : 'Guest'
+						}
+					}
+				};
+				return schema;
+			}
 		});
 		return UserModel;
 	});

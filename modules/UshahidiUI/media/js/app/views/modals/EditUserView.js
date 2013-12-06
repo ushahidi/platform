@@ -19,7 +19,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 					model: this.model,
 					idPrefix : 'user-',
 					className : 'edit-user-form',
-					fieldsets : _.result(this.model, 'fieldsets')
 					});
 				BackboneValidation.bind(this, {
 					valid: function(/* view, attr */)
@@ -30,12 +29,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 					{
 						// Do nothing, displaying errors is handled by backbone-forms
 					}
-				});
-
-				// Trigger event when modal is fully opened, used to refresh map size
-				this.on('modal:opened', function ()
-				{
-					this.form.trigger('dom:refresh');
 				});
 			},
 
