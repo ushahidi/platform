@@ -65,8 +65,8 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 							.done(function (model /*, response, options*/)
 								{
 									alertify.success('User details saved.');
-									App.appRouter.navigate('users', { trigger : true });
 									that.trigger('close');
+									App.appRouter.navigate('users', { trigger : true });
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
@@ -90,12 +90,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			{
 				BackboneValidation.unbind(this);
 			},
-			serializeData: function()
-			{
-				var data = _.extend(this.model.toJSON(), {
-					fieldsets : _.result(this.model, 'fieldsets')
-				});
-				return data;
-			}
+
 		});
 	});
