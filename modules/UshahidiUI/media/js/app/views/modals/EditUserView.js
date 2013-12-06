@@ -64,13 +64,13 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 						request
 							.done(function (model /*, response, options*/)
 								{
-									alertify.success('Post saved.');
-									App.appRouter.navigate('posts/' + model.id, { trigger : true });
+									alertify.success('User details saved.');
+									App.appRouter.navigate('users', { trigger : true });
 									that.trigger('close');
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
-									alertify.error('Unable to save post, please try again.');
+									alertify.error('Unable to save user details, please try again.');
 									// validation error
 									if (response.errors)
 									{
@@ -81,7 +81,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 					}
 					else
 					{
-						alertify.error('Unable to save post, please try again.');
+						alertify.error('Unable to save user details, please try again.');
 						console.log(this.model.validationError);
 					}
 				}

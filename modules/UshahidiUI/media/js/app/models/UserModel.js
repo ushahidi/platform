@@ -13,7 +13,7 @@ define(['backbone', 'App'],
 
 		var UserModel = Backbone.Model.extend(
 		{
-			//console.log("user "+new UserRoleModel().toJSON());
+
 			urlRoot: App.config.baseurl + App.config.apiuri + '/users',
 			schema : function ()
 			{
@@ -25,14 +25,14 @@ define(['backbone', 'App'],
 							placeholder : 'Enter username'
 						}
 					},
-					firstname: {
+					first_name: {
 						type: 'Text',
 						title: 'First name',
 						editorAttrs : {
 							placeholder : 'Enter first name'
 						}
 					},
-					lastname: {
+					last_name: {
 						type: 'Text',
 						title: 'Last name',
 						editorAttrs : {
@@ -46,6 +46,10 @@ define(['backbone', 'App'],
 							placeholder : 'Enter email address'
 						}
 					},
+					password: {
+						type: 'Password',
+						title: 'Password'
+					},
 					role: {
 						type: 'Select',
 						title: 'Roles',
@@ -54,12 +58,34 @@ define(['backbone', 'App'],
 							user: 'User',
 							guest: 'Guest'
 						}
-
 					}
 				};
 
 				return schema;
-			}
+			},
+			validation : function ()
+			{
+				var rules = {
+					username : {
+						maxLength : 150,
+						required : true
+					},
+					firstname : {
+						maxLength : 150,
+						required: false
+					},
+					lastname : {
+						maxLength : 150,
+						required: false
+					},
+					email : {
+						pattern: 'email',
+						required : false
+					}
+				};
+
+				return rules;
+			},
 		});
 		return UserModel;
 	});
