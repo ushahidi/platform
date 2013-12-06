@@ -14,7 +14,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout,
 		HeaderView, FooterView, WorkspacePanelView, SearchBarView, PostListView,
-		PostCollection, TagCollection, FormCollection, SetCollection, UserCollection)
+		PostCollection, TagCollection, FormCollection, SetCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
