@@ -102,7 +102,6 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
 			},
 			showAddToSet : function (e)
 			{
-				var that = this;
 				e.preventDefault();
 				App.vent.trigger('post:set', this.model);
 			}

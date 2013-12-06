@@ -57,7 +57,6 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListIt
 
 			showEditUser : function (e)
 			{
-				var that = this;
 				e.preventDefault();
 				App.vent.trigger('user:edit', this.model);
 			},
