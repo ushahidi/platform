@@ -46,13 +46,14 @@ define(['backbone', 'App'],
 					role: {
 						type: 'Radio',
 						title: 'Roles',
-						options: {
+						options: { // The roles should be read from it own model instead of hard coding it
 							'admin' : 'Admin',
 							'user' : 'User',
 							'guest' : 'Guest'
 						}
 					}
 				};
+
 				return schema;
 			}
 		});
