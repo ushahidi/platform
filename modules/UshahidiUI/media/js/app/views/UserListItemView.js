@@ -1,7 +1,7 @@
 /**
- * User List Item
+ * User List Item View
  *
- * @module     UserListItem
+ * @module     UserListItemView
  * @author     Ushahidi Team <team@ushahidi.com>
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
@@ -21,6 +21,12 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListIt
 			events: {
 				'click .js-user-delete': 'deleteUser',
 				'click .js-user-edit' : 'showEditUser',
+			},
+
+			initialize: function()
+			{
+				// Refresh this view when there is a change in this model
+				this.listenTo(this.model,'change', this.render);
 			},
 
 			modelEvent: {

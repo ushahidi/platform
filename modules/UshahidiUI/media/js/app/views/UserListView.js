@@ -25,9 +25,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 				pagination : Handlebars.compile(paginationTemplate),
 				postListInfo : Handlebars.compile(postListInfoTemplate)
 			},
-			initialize: function()
-			{
-			},
 
 			itemView: UserListItemView,
 			itemViewOptions: {},

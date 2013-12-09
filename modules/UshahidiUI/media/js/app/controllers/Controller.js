@@ -10,7 +10,7 @@
 define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout',
 	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/PostListView',
-	'collections/PostCollection','collections/TagCollection','collections/FormCollection', 'collections/SetCollection','collections/UserCollection'],
+	'collections/PostCollection','collections/TagCollection','collections/FormCollection', 'collections/SetCollection'],
 	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout,
 		HeaderView, FooterView, WorkspacePanelView, SearchBarView, PostListView,

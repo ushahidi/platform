@@ -7,7 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/EditUser.html', 'forms/UshahidiForms', 'backbone-validation'],
+define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/EditUser.html',
+	'forms/UshahidiForms', 'backbone-validation'],
 	function( App, Marionette, Handlebars, _, alertify, template, BackboneForm, BackboneValidation)
 	{
 		return Marionette.ItemView.extend( {
@@ -65,8 +66,8 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 							.done(function ()
 								{
 									alertify.success('User details saved.');
+
 									that.trigger('close');
-									App.appRouter.navigate('users', { trigger : true });
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
@@ -89,6 +90,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			onClose : function ()
 			{
 				BackboneValidation.unbind(this);
+				App.Collections.Users.fetch();
 			},
 
 		});
