@@ -41,6 +41,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 				'click .js-page-change' : 'showPage',
 				'change #filter-posts-count' : 'updatePageSize',
 				'change #filter-posts-sort' : 'updatePostsSort',
+				'click .js-user-create' : 'showCreateUser',
 			},
 
 			collectionEvents :
@@ -175,6 +176,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 				var orderby = this.$('#filter-posts-sort').val();
 				this.collection.setSorting(orderby);
 				this.collection.getFirstPage();
-			}
+			},
+			showCreateUser : function (e)
+			{
+				e.preventDefault();
+				App.vent.trigger('user:create', this.model);
+			},
 		});
 	});

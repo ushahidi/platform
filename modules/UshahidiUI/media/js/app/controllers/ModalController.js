@@ -23,7 +23,8 @@ define(['App', 'marionette'],
 				App.vent.on('post:edit', this.postEdit, this);
 				App.vent.on('post:set', this.addToSet, this);
 				App.vent.on('set:create', this.setCreate, this);
-				App.vent.on('user:edit', this.editUser, this);
+				App.vent.on('user:edit', this.userEdit, this);
+				App.vent.on('user:create',this.userCreate, this);
 			},
 			postCreate : function ()
 			{
@@ -101,7 +102,7 @@ define(['App', 'marionette'],
 					}));
 				});
 			},
-			editUser : function (user)
+			userEdit : function (user)
 			{
 				var that = this;
 
@@ -112,6 +113,24 @@ define(['App', 'marionette'],
 						model : user
 					}));
 					that.modal.currentView.on('close', that.modal.close, that.modal);
+					// Unbind fn
+					this.off('modal:closed');
+				});
+			},
+			userCreate : function ()
+			{
+				var that = this;
+
+				require(['views/modals/EditUserView', 'models/UserModel'],
+					function(EditUserView,UserModel)
+				{
+					var user = new UserModel({});
+					that.modal.show(new EditUserView({
+						model : user
+					}));
+					that.modal.currentView.on('close', that.modal.close, that.modal);
+					// Unbind fn
+					this.off('modal:closed');
 				});
 			}
 		});
