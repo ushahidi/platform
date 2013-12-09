@@ -13,6 +13,15 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Footer.html'],
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
-			initialize: function() { },
+			initialize: function() {
+				App.vent.on('config:change', this.render, this);
+			},
+			serializeData : function()
+			{
+				return {
+					site_name : App.config.site.site_name,
+					owner_name : App.config.site.owner_name
+				};
+			}
 		});
 	});

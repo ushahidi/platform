@@ -20,6 +20,7 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				// @todo update this for real UI
 				//App.vent.on('page:change', this.updateActiveNav, this);
 				App.vent.on('views:change', this.updateActiveView, this);
+				App.vent.on('config:change', this.render, this);
 			},
 			events : {
 				'click .js-views-menu-link' : 'showViewsMenu',
@@ -70,6 +71,13 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 			{
 				e.preventDefault();
 				App.vent.trigger('post:create');
+			},
+			serializeData : function()
+			{
+				return {
+					site_name : App.config.site.site_name,
+					owner_name : App.config.site.owner_name
+				};
 			}
 		});
 	});

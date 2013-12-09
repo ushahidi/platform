@@ -47,5 +47,16 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			cssdir : '/media/kohana/css'
 		}, window.config);
 
+		/**
+		 * Update App.config
+		 * @param {Object} newConfig new config vars to merge into old config
+		 */
+		App.updateConfig = function (newConfig)
+		{
+			_.extend(this.config, newConfig);
+			this.vent.trigger('config:change', this.config);
+			return this.config;
+		};
+
 		return App;
 	});

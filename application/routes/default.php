@@ -105,6 +105,20 @@ Route::set('current-user', 'api/v2/users/me')
 	));
 
 /**
+ * Config API Route
+ */
+Route::set('config-api', 'api/v2/config(/<group>(/<id>))',
+	array(
+		'group' => '[a-zA-Z_-]+',
+		'id' => '[a-zA-Z_.-]+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api',
+		'controller' => 'Config',
+	));
+
+/**
  * Base Ushahidi API Route
  */
 Route::set('api', 'api/v2(/<controller>(/<id>))',

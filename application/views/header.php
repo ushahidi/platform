@@ -9,7 +9,7 @@
 						<!-- retina ready logo is a css background image -->
 						<li class="name">
 							<div class="logo-image"></div>
-							<h1><a href="<?php echo URL::site(''); ?>">Deployment Name</a></h1>
+							<h1><a href="<?php echo URL::site(''); ?>"><?php echo HTML::entities($site_name); ?></a></h1>
 						</li> <!-- end .name -->
 					</ul> <!-- end .title-area -->
 
