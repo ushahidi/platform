@@ -14,6 +14,8 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 
 		// Save oauth object in App - just in case
 		App.oauth = OAuth;
+		App.vent.on('login', OAuth.login);
+		App.vent.on('logout', OAuth.logout);
 
 		//Organize Application into regions corresponding to DOM elements
 		//Regions can contain views, Layouts, or subregions nested as necessary

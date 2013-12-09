@@ -13,7 +13,8 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 		var ushahidi_auth = {
 			initialize : function ()
 			{
-				var that = this;
+				var that = this,
+					token;
 
 				_.bindAll(this, 'setProvider', 'login', 'logout', 'ajax');
 
@@ -49,7 +50,8 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 				});
 
 				// Do we already have a logged in token?
-				if (Jso2.store.getTokens('ushahidi_implicit'))
+				token = Jso2.store.getTokens('ushahidi_implicit');
+				if (token.length > 0)
 				{
 					that.setProvider('implicit');
 				}
@@ -63,7 +65,8 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 				this.providers.implicit.callback(false, function()
 				{
 					// Check if we have tokens
-					if (Jso2.store.getTokens('ushahidi_implicit'))
+					var token = Jso2.store.getTokens('ushahidi_implicit');
+					if (token.length > 0)
 					{
 						that.setProvider('implicit');
 					}
