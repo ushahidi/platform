@@ -137,29 +137,6 @@ class Controller_Api_Config extends Ushahidi_Api {
 		$this->_response_payload = $this->_for_api($group, $key, $post['config_value']);
 	}
 
-	/**
-	 * Delete A Config
-	 *
-	 * DELETE /api/config/:group/:key
-	 *
-	 * @return void
-	 * @todo Authentication
-	 */
-	/*public function action_delete_index()
-	{
-		$group = $this->request->param('group');
-		$key = $this->request->param('id');
-
-		$value = Kohana::$config->load($group)->get($key);
-
-		DB::delete('config')
-			->where('group_name', '=', $group)
-			->where('config_key', '=', $key)
-			->execute();
-
-		$this->_response_payload = $this->_for_api($group, $key, $value);
-	}*/
-
 	protected function _for_api($group, $key, $value)
 	{
 		return array(
