@@ -13,7 +13,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Footer.html'],
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
-			initialize: function() { },
+			initialize: function() {
+				App.vent.on('config:change', this.render, this);
+			},
 			serializeData : function()
 			{
 				return {

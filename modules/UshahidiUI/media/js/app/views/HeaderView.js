@@ -20,6 +20,7 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				// @todo update this for real UI
 				//App.vent.on('page:change', this.updateActiveNav, this);
 				App.vent.on('views:change', this.updateActiveView, this);
+				App.vent.on('config:change', this.render, this);
 			},
 			events : {
 				'click .js-views-menu-link' : 'showViewsMenu',

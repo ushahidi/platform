@@ -51,11 +51,16 @@ define([ 'App', 'marionette', 'handlebars', 'jquery', 'alertify', 'underscore', 
 				$.when(site_name_model.save(), owner_name_model.save())
 					.done(function (/* model, response, options*/)
 						{
+							var newSite;
+
 							alertify.success('Settings saved.');
+
 							// Update config
-							App.config.site.site_name = site_name,
-							App.config.site.owner_name = owner_name;
-							// @todo trigger Header/Footer re-render
+							newSite = _.clone(App.config.site);
+							newSite.site_name = site_name,
+							newSite.owner_name = owner_name;
+							App.updateConfig({ site : newSite });
+
 							window.history.back();
 						})
 					.fail(function (response /*, xhr, options*/)
