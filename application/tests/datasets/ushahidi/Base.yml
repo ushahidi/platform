@@ -594,37 +594,37 @@ oauth_access_tokens:
   -
     access_token: "testingtoken"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media"
+    scope: "api posts forms sets tags users media config"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "defaulttoken"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media"
+    scope: "api posts forms sets tags users media config"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "testbasicuser"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media"
+    scope: "api posts forms sets tags users media config"
     expires: "2030-01-01 00:00:00"
     user_id: 1
   -
     access_token: "testadminuser"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media"
+    scope: "api posts forms sets tags users media config"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "testbasicuser2"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media"
+    scope: "api posts forms sets tags users media config"
     expires: "2030-01-01 00:00:00"
     user_id: 3
   -
     access_token: "testanon"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media"
+    scope: "api posts forms sets tags users media config"
     expires: "2030-01-01 00:00:00"
     user_id:
 oauth_authorization_codes:
@@ -673,3 +673,16 @@ media:
     o_height: 500
     created: 1381815821
     updated: 1381815819
+config:
+  -
+    group_name: site
+    config_key: site_name
+    config_value: "\"testing site\""
+  -
+    group_name: site
+    config_key: owner_name
+    config_value: "\"testerbot\""
+  -
+    group_name: test
+    config_key: testkey
+    config_value: "\"testval\""

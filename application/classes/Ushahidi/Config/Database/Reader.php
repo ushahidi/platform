@@ -15,7 +15,7 @@ class Ushahidi_Config_Database_Reader implements Kohana_Config_Reader
 
 	protected $_table_name  = 'config';
 
-	protected $_groups  = FALSE;
+	public static $groups  = FALSE;
 
 	/**
 	 * Constructs the database reader object
@@ -40,8 +40,17 @@ class Ushahidi_Config_Database_Reader implements Kohana_Config_Reader
 
 		if (isset($config['groups']))
 		{
-			$this->_groups = $config['groups'];
+			self::$groups = $config['groups'];
 		}
+	}
+
+	/**
+	 * Get allowed groups
+	 * @return mixed Array of groups or FALSE
+	 */
+	public static function groups()
+	{
+		return self::$groups;
 	}
 
 	/**
@@ -63,7 +72,7 @@ class Ushahidi_Config_Database_Reader implements Kohana_Config_Reader
 		if ($group === 'database')
 			return FALSE;
 
-		if ($this->_groups AND ! in_array($group, $this->_groups))
+		if (self::$groups AND ! in_array($group, self::$groups))
 			return FALSE;
 
 		$query = DB::select('config_key', 'config_value')

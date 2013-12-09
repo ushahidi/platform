@@ -52,7 +52,7 @@ abstract class Ushahidi_Core {
 			if (DB::query(Database::SELECT, 'SHOW TABLES LIKE \'config\'')->execute()->count() > 0)
 			{
 				Kohana::$config->attach(new Ushahidi_Config_Database(array(
-					'groups' => array('site')
+					'groups' => array('site', 'test')
 				)));
 			}
 		}
