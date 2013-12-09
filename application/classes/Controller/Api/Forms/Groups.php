@@ -155,7 +155,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 	{
 		// Load post values into group model
 		$group->values($post, array(
-			'label', 'priority'
+			'label', 'priority', 'icon'
 			));
 
 		// Validation - perform in-model validation before saving
