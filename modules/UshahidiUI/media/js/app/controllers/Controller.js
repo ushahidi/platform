@@ -216,6 +216,15 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				}
 
 				this.modalController.postCreate();
+			},
+			settings : function()
+			{
+				var that = this;
+				require(['views/SettingsView'], function(SettingsView)
+				{
+					App.vent.trigger('page:change', 'settings');
+					that.layout.mainRegion.show(new SettingsView());
+				});
 			}
 		});
 	});
