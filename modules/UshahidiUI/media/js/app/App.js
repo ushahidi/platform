@@ -8,7 +8,7 @@
  */
 
 define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'util/App.handlebars', 'foundation-loader'],
-	function($, Backbone, Marionette, _, Handlebars, OAuth)
+	function($, Backbone, Marionette, _, OAuth)
 	{
 		var App = new Backbone.Marionette.Application();
 

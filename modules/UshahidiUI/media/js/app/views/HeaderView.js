@@ -77,7 +77,7 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				return {
 					site_name : App.config.site.site_name,
 					owner_name : App.config.site.owner_name,
-					logged_in : false
+					logged_in : App.oauth.provider.providerID === 'ushahidi_implicit'
 				};
 			}
 		});
