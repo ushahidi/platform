@@ -85,10 +85,17 @@ if ( ! is_dir($system) AND is_dir(DOCROOT.$system))
 	$system = DOCROOT.$system;
 }
 
+// Make sure plugins exists before we define PLUGINPATH
+// If it doesn't exist realpath($plugins) returns FALSE
+// FALSE.DIRECTORY_SEPERATOR = '/' .. mayhem insues.
+if (realpath($plugins))
+{
+	define('PLUGINPATH', realpath($plugins).DIRECTORY_SEPARATOR);
+}
+
 // Define the absolute paths for configured directories
 define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
-define('PLUGINPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
 
 // Clean up the configuration vars
