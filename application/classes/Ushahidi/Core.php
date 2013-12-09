@@ -67,6 +67,8 @@ abstract class Ushahidi_Core {
 	 */
 	public static function load()
 	{
+		if (! is_dir(PLUGINPATH)) return;
+
 		// Load Plugins
 		$results = scandir(PLUGINPATH);
 		foreach ($results as $result)
