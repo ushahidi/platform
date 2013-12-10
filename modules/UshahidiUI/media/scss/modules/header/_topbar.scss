@@ -79,13 +79,14 @@
 
 .top-bar-section ul.right {
 	width: 110px;
+	background-color: $accent-color;
 	@media #{$medium} {
 		width: 252px;
 	}
 }
 
 .top-bar-section li a.workspace-panel-button {
-	padding: 0 18px;
+	padding: 0 7px 0 18px;
 	.fa-dashboard {
 		position: relative;
 		top: -1px;
