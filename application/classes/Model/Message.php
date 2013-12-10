@@ -229,8 +229,7 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 	}
 
 	/**
-	 * Prepare form data for API, along with all its
-	 * groups and attributes
+	 * Prepare model data for API
 	 *
 	 * @return array $response - array to be returned by API (as json)
 	 */
@@ -246,10 +245,7 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 					'id' => $this->parent_id,
 					'url' => URL::site('api/v'.Ushahidi_Api::version().'/messages/'.$this->parent_id, Request::current())
 				),
-				'contact' => empty($this->contact_id) ? NULL : array(
-					'id' => $this->contact_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/contacts/'.$this->contact_id, Request::current())
-				),
+				'contact' => empty($this->contact_id) ? NULL : $this->contact->for_api(),
 				'data_feed' => empty($this->data_feed_id) ? NULL : array(
 					'id' => $this->data_feed_id,
 					'url' => URL::site('api/v'.Ushahidi_Api::version().'/datafeeds/'.$this->data_feed_id, Request::current())

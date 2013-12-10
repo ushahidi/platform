@@ -163,4 +163,41 @@ class Model_Contact extends ORM implements Acl_Resource_Interface {
 		return 'contacts';
 	}
 
+	/**
+	 * Prepare data for API
+	 *
+	 * @return array $response - array to be returned by API (as json)
+	 */
+	public function for_api()
+	{
+		$response = array();
+		if ( $this->loaded() )
+		{
+			$response = array(
+				'id' => $this->id,
+				'url' => URL::site('api/v'.Ushahidi_Api::version().'/contacts/'.$this->id, Request::current()),
+				'user' => empty($this->user_id) ? NULL : array(
+					'id' => $this->user_id,
+					'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
+				),
+				'contact' => $this->contact,
+				'type' => $this->type,
+				'data_provider' => $this->data_provider,
+				'created' => ($created = DateTime::createFromFormat('U', $this->created))
+					? $created->format(DateTime::W3C)
+					: $this->created,
+			);
+		}
+		else
+		{
+			$response = array(
+				'errors' => array(
+					'Message does not exist'
+					)
+				);
+		}
+
+		return $response;
+	}
+
 }

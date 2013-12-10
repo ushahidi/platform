@@ -34,10 +34,10 @@ define(['jquery', 'backbone', 'App'],
 					data.parent = data.parent.id;
 				}
 
-				if (data.contact !== null && data.contact.id !== null)
+				/*if (data.contact !== null && data.contact.id !== null)
 				{
 					data.contact = data.contact.id;
-				}
+				}*/
 
 				return data;
 			},
