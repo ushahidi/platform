@@ -25,6 +25,7 @@ define(['marionette'],
 				'sets' : 'sets',
 				'sets/:id' : 'setDetail',
 				'users' : 'users',
+				'settings/site' : 'settings',
 				//'login' : 'login',
 				//'register' : 'register',
 				'*path' : 'index'
