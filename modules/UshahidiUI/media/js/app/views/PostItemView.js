@@ -100,8 +100,9 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
 			{
 				App.vent.trigger('post:edit', this.model);
 			},
-			showAddToSet : function ()
+			showAddToSet : function (e)
 			{
+				e.preventDefault();
 				App.vent.trigger('post:set', this.model);
 			}
 		});

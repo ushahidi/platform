@@ -179,6 +179,22 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				});
 			},
 
+			users : function()
+			{
+				var that = this;
+				require(['views/UserListView','collections/UserCollection'], function(UserListView,UserCollection)
+				{
+					App.vent.trigger('page:change', 'users');
+
+					App.Collections.Users = new UserCollection();
+					App.Collections.Users.fetch();
+
+					that.layout.mainRegion.show(new UserListView({
+						collection : App.Collections.Users
+					}));
+				});
+			},
+
 			login : function ()
 			{
 				var that = this;
