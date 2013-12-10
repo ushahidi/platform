@@ -15,4 +15,4 @@ define(['jquery',
 	//'foundation/foundation.tooltips',
 	//'foundation/foundation.topbar',
 	//'foundation/foundation.interchange'
-	]);
+	], {});
