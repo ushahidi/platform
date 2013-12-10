@@ -30,4 +30,4 @@ Feature: Testing the SMSSync Data Provider
         And the response has a "payload.error" property
         And the "payload.success" property is false
         And the "payload.error" property equals "Incorrect or missing secret key"
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 403
