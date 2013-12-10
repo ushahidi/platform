@@ -52,7 +52,7 @@ define(['backbone', 'App'],
 					},
 					role: {
 						type: 'Select',
-						title: 'Roles',
+						title: 'Role',
 						options: {
 							admin: 'Admin',
 							user: 'User',
