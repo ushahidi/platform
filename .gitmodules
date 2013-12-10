@@ -7,9 +7,6 @@
 [submodule "modules/migrations"]
 	path = modules/migrations
 	url = git://github.com/kohana-minion/tasks-migrations.git
-[submodule "modules/auth"]
-	path = modules/auth
-	url = git://github.com/kohana/auth.git
 [submodule "modules/database"]
 	path = modules/database
 	url = git://github.com/kohana/database.git
@@ -33,7 +30,7 @@
 	url = git://github.com/bshaffer/oauth2-server-php.git
 [submodule "modules/media"]
 	path = modules/media
-	url = git://github.com/Zeelot/kohana-media.git
+	url = git://github.com/rjmackay/kohana-media.git
 [submodule "modules/imagefly"]
 	path = modules/imagefly
 	url = git://github.com/rjmackay/kohana-imagefly.git
@@ -46,3 +43,6 @@
 [submodule "modules/A2"]
 	path = modules/A2
 	url = https://github.com/Wouterrr/A2
+[submodule "modules/KO3-Event"]
+	path = modules/KO3-Event
+	url = git://github.com/rjmackay/KO3-Event.git

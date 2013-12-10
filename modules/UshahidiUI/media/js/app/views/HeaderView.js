@@ -12,20 +12,24 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 	{
 		// Hacky - make sure we register partials before we call compile
 		Handlebars.registerPartial('views-dropdown-nav', viewsDropdown);
-		
+
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
 			initialize: function() {
 				// @todo update this for real UI
-				App.vent.on('page:change', this.updateActiveNav, this);
+				//App.vent.on('page:change', this.updateActiveNav, this);
+				App.vent.on('views:change', this.updateActiveView, this);
 			},
 			events : {
 				'click .js-views-menu-link' : 'showViewsMenu',
-				'click .js-create-post' : 'showCreatePost'
+				'click .js-create-post' : 'showCreatePost',
+				'click .js-workspace-toggle' : 'triggerWorkspaceToggle'
 			},
-			triggers : {
-				'click .js-workspace-panel-button, .js-workspace-panel-button-small' : 'workspace:toggle'
+			triggerWorkspaceToggle : function (e)
+			{
+				e.preventDefault();
+				this.trigger('workspace:toggle');
 			},
 			updateActiveNav : function (page)
 			{
@@ -33,11 +37,11 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				this.$('nav[role="sub-navigation"]').removeClass('subnav');
 				this.$('nav[role="sub-navigation"] ul li').removeClass('active');
 				this.$('.js-sets-menu, .js-views-menu').removeClass('active');
-				
+
 				// Active current
 				var pageSegments = page.split('/');
 				// Ignore first segment for now
-				
+
 				if (pageSegments[0] === 'index')
 				{
 					this.$('.views-full').addClass('active');
@@ -46,6 +50,11 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				{
 					this.$('.views-'+pageSegments[1]).addClass('active');
 				}
+			},
+			updateActiveView : function (view)
+			{
+				this.$('.js-views-menu li').removeClass('active');
+				this.$('li[data-view="'+view+'"]').addClass('active');
 			},
 			showViewsMenu : function(e)
 			{

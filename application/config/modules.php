@@ -10,7 +10,6 @@
  */
 
 return array(
-	'auth'       => MODPATH.'auth',       // Basic authentication
 	'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
@@ -26,5 +25,6 @@ return array(
 	'ACL'        => MODPATH.'ACL', // Access control layer based on Zend_ACL
 	'A1'         => MODPATH.'A1', // Auth library using bcrypt
 	'A2'         => MODPATH.'A2', // Tying A1/Auth and ACL together
+	'KO3-Event'  => MODPATH.'KO3-Event',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 );

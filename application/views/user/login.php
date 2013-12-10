@@ -14,7 +14,7 @@
 
 						<?php if (! empty($error)): ?>
 						<div class="error">
-							<?php echo html::entities($error)?>
+							<?php echo HTML::entities($error)?>
 						</div>
 						<?php endif; ?>
 
@@ -26,7 +26,7 @@
 								<div class="login-button-wrapper">
 									<?php echo Form::submit('submit', 'Login', array('id' => 'login-submit', 'class' => 'login-button')); ?>
 								</div>
-								
+
 								<!-- <p class="medium-text">CrowdmapID is supported</p> -->
 
 							</form> <!-- end .form -->

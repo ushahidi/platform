@@ -13,7 +13,7 @@
 
 						<?php if (! empty($error)): ?>
 						<div class="error">
-							<?php echo html::entities($error)?>
+							<?php echo HTML::entities($error)?>
 						</div>
 						<?php endif; ?>
 

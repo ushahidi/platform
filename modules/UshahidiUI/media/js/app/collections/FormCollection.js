@@ -14,13 +14,13 @@ define(['jquery', 'backbone', 'models/FormModel', 'App'],
 		var FormCollection = Backbone.Collection.extend(
 		{
 			model : FormModel,
-			url: App.config.baseurl + 'api/v2/forms',
+			url: App.config.baseurl + App.config.apiuri +'/forms',
 			// The Ushahidi API returns models under 'results'.
 			parse: function(response)
 			{
 				return response.results;
 			}
 		});
-	
+
 		return FormCollection;
 	});

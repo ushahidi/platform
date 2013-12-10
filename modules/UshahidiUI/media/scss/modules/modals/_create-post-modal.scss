@@ -16,7 +16,7 @@
 
 
 
-.create-post-options {
+.post-form-wrapper {
 	@include grid-column(12);
 	margin-bottom: 40px;
 	padding: 0;
@@ -28,7 +28,7 @@
 		border: none;
 		padding: 0;
 		margin: 0;
-}
+	}
 
 	form > fieldset {
 		display:none;

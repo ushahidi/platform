@@ -23,14 +23,11 @@
 		    <link rel="stylesheet" href="<?php echo Media::url('css/plugins/leaflet.ie.css'); ?>" />
 				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
 		<![endif]-->
-		
-		<!-- Mobile viewport optimized: h5bp.com/viewport -->
-		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
-		
+
 		<!--Change to app.min.css for production-->
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
 		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
-		
+
 		<!-- Global site config -->
 		<script type="text/javascript">
 		  (function() {
@@ -38,11 +35,11 @@
 		  })();
 		</script>
 		<!-- end global site config -->
-		
+
 		<!--Change to Init.min.js below for production-->
 		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
 		<!-- <script type="text/javascript" src="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script> -->
-		
+
 		<!-- Custom Modernizr Build - add, subtract and rebuild at end of project -->
 		<script src="<?php echo Media::url('js/libs/custom.modernizr.js'); ?>"></script>
 

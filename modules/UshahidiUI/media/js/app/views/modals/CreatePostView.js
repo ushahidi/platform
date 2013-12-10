@@ -8,7 +8,7 @@
  */
 
 define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/CreatePost.html',
-	'backbone-validation', 'backbone-forms/backbone-forms', 'forms/templates/FormTemplates', 'forms/editors/Location'],
+	'backbone-validation', 'forms/UshahidiForms'],
 	function( App, Marionette, Handlebars, _, alertify, template,
 		BackboneValidation, BackboneForm)
 	{
@@ -52,12 +52,13 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				// Set form id, backbone-forms doesn't do it.
 				this.form.$el.attr('id', 'create-post-form');
 
-				this.$('.create-post-options').append(this.form.el);
+				this.$('.post-form-wrapper').append(this.form.el);
 			},
 			formSubmitted : function (e)
 			{
 				var that = this,
-					errors;
+					errors,
+					request;
 
 				e.preventDefault();
 
@@ -65,24 +66,32 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 
 				if (! errors)
 				{
-					// @todo don't hard code locale
-					this.model.set('locale', 'en_us');
-
-					this.model.save()
-						.done(function (model /*, response, options*/)
-							{
-								App.appRouter.navigate('posts/' + model.id, { trigger : true });
-								that.trigger('close');
-							})
-						.fail(function (response /*, xhr, options*/)
-							{
-								alertify.error('Unable to save post, please try again.');
-								// validation error
-								if (response.errors)
+					request = this.model.save();
+					if (request)
+					{
+						request
+							.done(function (model /*, response, options*/)
 								{
-									// @todo Display this error somehow
-								}
-							});
+									alertify.success('Post saved.');
+									App.appRouter.navigate('posts/' + model.id, { trigger : true });
+									that.trigger('close');
+								})
+							.fail(function (response /*, xhr, options*/)
+								{
+									alertify.error('Unable to save post, please try again.');
+									// validation error
+									if (response.errors)
+									{
+										// @todo Display this error somehow
+										console.log(response.errors);
+									}
+								});
+					}
+					else
+					{
+						alertify.error('Unable to save post, please try again.');
+						console.log(this.model.validationError);
+					}
 				}
 			},
 			switchFieldSet : function (e)

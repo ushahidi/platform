@@ -1,72 +1,51 @@
 /**
- * Post List View
+ * Sets List View
  *
- * @module     PostListView
+ * @module     SetLitView
  * @author     Ushahidi Team <team@ushahidi.com>
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView',
-		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
-	function( App, Marionette, Handlebars, _, PostListItemView,
-		template, paginationTemplate, postListInfoTemplate)
+define(['App', 'marionette', 'handlebars','underscore', 'views/SetListItemView',
+	'text!templates/SetList.html', 'text!templates/partials/pagination.html'],
+	function(App, Marionette, Handlebars, _, SetListItemView,
+		template, paginationTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
-		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
 
 		return Marionette.CompositeView.extend(
 		{
-			//Template HTML string
+			// Template HTML String
 			template: Handlebars.compile(template),
-			// Lets just store the partial templates somewhere usefule
+
 			partialTemplates :
 			{
-				pagination : Handlebars.compile(paginationTemplate),
-				postListInfo : Handlebars.compile(postListInfoTemplate)
+				pagination : Handlebars.compile(paginationTemplate)
 			},
+
 			initialize: function()
 			{
 			},
 
-			itemView: PostListItemView,
+			itemView: SetListItemView,
 			itemViewOptions: {},
 
-			itemViewContainer: '.list-view-posts-list',
+			itemViewContainer: '.sets-grid',
 
 			events:
 			{
-				'click .js-list-view-select-post' : 'showHideBulkActions',
 				'click .js-page-first' : 'showFirstPage',
 				'click .js-page-next' : 'showNextPage',
 				'click .js-page-prev' : 'showPreviousPage',
 				'click .js-page-last' : 'showLastPage',
 				'click .js-page-change' : 'showPage',
-				'change #filter-posts-count' : 'updatePageSize',
-				'change #filter-posts-sort' : 'updatePostsSort',
 			},
 
 			collectionEvents :
 			{
 				reset : 'updatePagination',
-				add : 'updatePagination',
-				remove : 'updatePagination'
-			},
-
-			showHideBulkActions : function ()
-			{
-				var $checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked');
-
-				if ($checked.length > 0)
-				{
-					this.$('.js-list-view-bulk-actions').removeClass('hidden');
-					this.$('.js-list-view-bulk-actions').addClass('visible');
-				}
-				else
-				{
-					this.$('.js-list-view-bulk-actions').removeClass('visible');
-					this.$('.js-list-view-bulk-actions').addClass('hidden');
-				}
+				add : 'updatePagination'
 			},
 
 			serializeData : function ()
@@ -154,29 +133,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView'
 						pagination: this.collection.state
 					})
 				);
-				this.$('.list-view-filter-info').html(
-					this.partialTemplates.postListInfo({
-						pagination: this.collection.state
-					})
-				);
-			},
-			updatePageSize : function (e)
-			{
-				e.preventDefault();
-				var size = parseInt(this.$('#filter-posts-count').val(), 10);
-				if (typeof size === 'number' && size > 0)
-				{
-					this.collection.setPageSize(size, {
-						first: true
-					});
-				}
-			},
-			updatePostsSort : function (e)
-			{
-				e.preventDefault();
-				var orderby = this.$('#filter-posts-sort').val();
-				this.collection.setSorting(orderby);
-				this.collection.getFirstPage();
 			}
+
 		});
+
 	});

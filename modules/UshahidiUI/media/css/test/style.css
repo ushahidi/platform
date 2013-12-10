@@ -16,7 +16,7 @@
 \*------------------------------------*/
 /* line 17, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, .create-post-options label, p, blockquote, pre,
+h1, h2, h3, h4, h5, h6, .post-form-wrapper label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -1940,7 +1940,7 @@ h3,
 h4,
 h5,
 h6,
-.create-post-options label,
+.post-form-wrapper label,
 pre,
 form,
 p,
@@ -1987,7 +1987,7 @@ p aside {
 
 /* Default header styles */
 /* line 181, ../../scss/foundation/components/_type.scss */
-h1, h2, h3, h4, h5, h6, .create-post-options label {
+h1, h2, h3, h4, h5, h6, .post-form-wrapper label {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: 700;
   font-style: normal;
@@ -1998,7 +1998,7 @@ h1, h2, h3, h4, h5, h6, .create-post-options label {
   line-height: 1.2125em;
 }
 /* line 191, ../../scss/foundation/components/_type.scss */
-h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .create-post-options label small {
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .post-form-wrapper label small {
   font-size: 70%;
   color: #a3a3a3;
   line-height: 0;
@@ -2030,7 +2030,7 @@ h5 {
 }
 
 /* line 203, ../../scss/foundation/components/_type.scss */
-h6, .create-post-options label {
+h6, .post-form-wrapper label {
   font-size: 1em;
 }
 
@@ -2217,7 +2217,7 @@ blockquote p {
 
 @media only screen and (min-width: 768px) {
   /* line 366, ../../scss/foundation/components/_type.scss */
-  h1, h2, h3, h4, h5, h6, .create-post-options label {
+  h1, h2, h3, h4, h5, h6, .post-form-wrapper label {
     line-height: 1.4;
   }
 
@@ -5387,8 +5387,8 @@ form.custom .custom.disabled {
 .joyride-tip-guide h4,
 .joyride-tip-guide h5,
 .joyride-tip-guide h6,
-.joyride-tip-guide .create-post-options label,
-.create-post-options .joyride-tip-guide label {
+.joyride-tip-guide .post-form-wrapper label,
+.post-form-wrapper .joyride-tip-guide label {
   line-height: 1.25;
   margin: 0;
   font-weight: bold;
@@ -5713,16 +5713,16 @@ ul.pagination li {
   margin-bottom: 0;
 }
 /* line 50, ../../scss/foundation/components/_panels.scss */
-.panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .create-post-options label, .create-post-options .panel label, .panel p {
+.panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .post-form-wrapper label, .post-form-wrapper .panel label, .panel p {
   color: #333333;
 }
 /* line 54, ../../scss/foundation/components/_panels.scss */
-.panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .create-post-options label, .create-post-options .panel label {
+.panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel .post-form-wrapper label, .post-form-wrapper .panel label {
   line-height: 1;
   margin-bottom: 0.625em;
 }
 /* line 56, ../../scss/foundation/components/_panels.scss */
-.panel h1.subheader, .panel h2.subheader, .panel h3.subheader, .panel h4.subheader, .panel h5.subheader, .panel h6.subheader, .panel .create-post-options label.subheader, .create-post-options .panel label.subheader {
+.panel h1.subheader, .panel h2.subheader, .panel h3.subheader, .panel h4.subheader, .panel h5.subheader, .panel h6.subheader, .panel .post-form-wrapper label.subheader, .post-form-wrapper .panel label.subheader {
   line-height: 1.4;
 }
 /* line 68, ../../scss/foundation/components/_panels.scss */
@@ -5745,16 +5745,16 @@ ul.pagination li {
   margin-bottom: 0;
 }
 /* line 51, ../../scss/foundation/components/_panels.scss */
-.panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .create-post-options label, .create-post-options .panel.callout label, .panel.callout p {
+.panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .post-form-wrapper label, .post-form-wrapper .panel.callout label, .panel.callout p {
   color: white;
 }
 /* line 54, ../../scss/foundation/components/_panels.scss */
-.panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .create-post-options label, .create-post-options .panel.callout label {
+.panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout .post-form-wrapper label, .post-form-wrapper .panel.callout label {
   line-height: 1;
   margin-bottom: 0.625em;
 }
 /* line 56, ../../scss/foundation/components/_panels.scss */
-.panel.callout h1.subheader, .panel.callout h2.subheader, .panel.callout h3.subheader, .panel.callout h4.subheader, .panel.callout h5.subheader, .panel.callout h6.subheader, .panel.callout .create-post-options label.subheader, .create-post-options .panel.callout label.subheader {
+.panel.callout h1.subheader, .panel.callout h2.subheader, .panel.callout h3.subheader, .panel.callout h4.subheader, .panel.callout h5.subheader, .panel.callout h6.subheader, .panel.callout .post-form-wrapper label.subheader, .post-form-wrapper .panel.callout label.subheader {
   line-height: 1.4;
 }
 /* line 73, ../../scss/foundation/components/_panels.scss */
@@ -6424,15 +6424,30 @@ a.button {
     GENERAL
 \*------------------------------------*/
 /* line 39, ../../scss/modules/user/_login-register.scss */
+.error {
+  border-style: solid;
+  border-width: 1px;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1.25em;
+  position: relative;
+  padding: 0.6875em 1.3125em 0.75em 0.6875em;
+  font-size: 0.875em;
+  background-color: #c50813;
+  border-color: #94060e;
+  color: white;
+}
+
+/* line 43, ../../scss/modules/user/_login-register.scss */
 .login-box {
   margin-top: 50px;
 }
-/* line 41, ../../scss/modules/user/_login-register.scss */
+/* line 45, ../../scss/modules/user/_login-register.scss */
 .login-box .post-body {
   padding-top: 2em;
 }
 @media only screen and (min-width: 768px) {
-  /* line 39, ../../scss/modules/user/_login-register.scss */
+  /* line 43, ../../scss/modules/user/_login-register.scss */
   .login-box {
     position: relative;
     padding-left: 0.9375em;
@@ -6445,7 +6460,7 @@ a.button {
   }
 }
 
-/* line 49, ../../scss/modules/user/_login-register.scss */
+/* line 53, ../../scss/modules/user/_login-register.scss */
 .login-form-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -6457,16 +6472,16 @@ a.button {
   margin-bottom: 20px;
 }
 
-/* line 56, ../../scss/modules/user/_login-register.scss */
+/* line 60, ../../scss/modules/user/_login-register.scss */
 .login-form {
   margin-bottom: 20px;
 }
-/* line 59, ../../scss/modules/user/_login-register.scss */
+/* line 63, ../../scss/modules/user/_login-register.scss */
 .login-form input[type="checkbox"] {
   margin-right: 10px;
 }
 @media only screen and (min-width: 1025px) {
-  /* line 56, ../../scss/modules/user/_login-register.scss */
+  /* line 60, ../../scss/modules/user/_login-register.scss */
   .login-form {
     position: relative;
     padding-left: 0;
@@ -6478,12 +6493,12 @@ a.button {
   }
 }
 
-/* line 70, ../../scss/modules/user/_login-register.scss */
+/* line 74, ../../scss/modules/user/_login-register.scss */
 .login-form-checkboxes {
   margin-top: 30px;
 }
 
-/* line 74, ../../scss/modules/user/_login-register.scss */
+/* line 78, ../../scss/modules/user/_login-register.scss */
 .social-login {
   position: relative;
   padding-left: 0;
@@ -6492,7 +6507,7 @@ a.button {
   float: left;
 }
 @media only screen and (min-width: 1025px) {
-  /* line 74, ../../scss/modules/user/_login-register.scss */
+  /* line 78, ../../scss/modules/user/_login-register.scss */
   .social-login {
     position: relative;
     padding-left: 0;
@@ -6503,7 +6518,7 @@ a.button {
   }
 }
 
-/* line 82, ../../scss/modules/user/_login-register.scss */
+/* line 86, ../../scss/modules/user/_login-register.scss */
 .social-buttons {
   margin-bottom: 20px;
   position: relative;
@@ -6512,21 +6527,21 @@ a.button {
   width: 100%;
   float: left;
 }
-/* line 85, ../../scss/modules/user/_login-register.scss */
+/* line 89, ../../scss/modules/user/_login-register.scss */
 .social-buttons .button {
   padding: 8px;
 }
-/* line 88, ../../scss/modules/user/_login-register.scss */
+/* line 92, ../../scss/modules/user/_login-register.scss */
 .social-buttons i {
   font-size: 16px;
 }
 
-/* line 93, ../../scss/modules/user/_login-register.scss */
+/* line 97, ../../scss/modules/user/_login-register.scss */
 .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
   padding-left: 0;
 }
 @media only screen and (min-width: 768px) {
-  /* line 93, ../../scss/modules/user/_login-register.scss */
+  /* line 97, ../../scss/modules/user/_login-register.scss */
   .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
     position: relative;
     padding-left: 0.9375em;
@@ -6537,7 +6552,7 @@ a.button {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 93, ../../scss/modules/user/_login-register.scss */
+  /* line 97, ../../scss/modules/user/_login-register.scss */
   .facebook-button-wrapper, .twitter-button-wrapper, .google-button-wrapper {
     position: relative;
     padding-left: 0.9375em;
@@ -6548,7 +6563,7 @@ a.button {
   }
 }
 
-/* line 105, ../../scss/modules/user/_login-register.scss */
+/* line 109, ../../scss/modules/user/_login-register.scss */
 .open-id {
   position: relative;
   padding-left: 0;
@@ -6556,7 +6571,7 @@ a.button {
   width: 100%;
   float: left;
 }
-/* line 107, ../../scss/modules/user/_login-register.scss */
+/* line 111, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-input {
   position: relative;
   padding-left: 0;
@@ -6564,11 +6579,11 @@ a.button {
   width: 83.33333%;
   float: left;
 }
-/* line 109, ../../scss/modules/user/_login-register.scss */
+/* line 113, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-input input[type="text"] {
   border-radius: 3px 0 0 3px;
 }
-/* line 113, ../../scss/modules/user/_login-register.scss */
+/* line 117, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-submit {
   position: relative;
   padding-left: 0;
@@ -6576,7 +6591,7 @@ a.button {
   width: 16.66667%;
   float: left;
 }
-/* line 115, ../../scss/modules/user/_login-register.scss */
+/* line 119, ../../scss/modules/user/_login-register.scss */
 .open-id .open-id-submit button {
   border-style: solid;
   border-width: 1px;
@@ -6635,16 +6650,16 @@ a.button {
   color: #333333;
 }
 
-/* line 125, ../../scss/modules/user/_login-register.scss */
+/* line 129, ../../scss/modules/user/_login-register.scss */
 .login-box-meta {
   float: right;
 }
-/* line 127, ../../scss/modules/user/_login-register.scss */
+/* line 131, ../../scss/modules/user/_login-register.scss */
 .login-box-meta p {
   margin: 0;
 }
 
-/* line 132, ../../scss/modules/user/_login-register.scss */
+/* line 136, ../../scss/modules/user/_login-register.scss */
 .login-disclaimer {
   position: relative;
   padding-left: 0;
@@ -6654,7 +6669,7 @@ a.button {
   font-style: italic;
   color: #4d4b4b;
 }
-/* line 136, ../../scss/modules/user/_login-register.scss */
+/* line 140, ../../scss/modules/user/_login-register.scss */
 .login-disclaimer i {
   position: relative;
   top: 1px;
@@ -6664,7 +6679,7 @@ a.button {
 /*------------------------------------*\
     $LOGIN
 \*------------------------------------*/
-/* line 150, ../../scss/modules/user/_login-register.scss */
+/* line 154, ../../scss/modules/user/_login-register.scss */
 .login-button-wrapper, .register-button-wrapper {
   position: relative;
   padding-left: 0;
@@ -6673,7 +6688,7 @@ a.button {
   float: left;
 }
 @media only screen and (min-width: 421px) {
-  /* line 150, ../../scss/modules/user/_login-register.scss */
+  /* line 154, ../../scss/modules/user/_login-register.scss */
   .login-button-wrapper, .register-button-wrapper {
     position: relative;
     padding-left: 0;
@@ -6683,7 +6698,7 @@ a.button {
   }
 }
 
-/* line 157, ../../scss/modules/user/_login-register.scss */
+/* line 161, ../../scss/modules/user/_login-register.scss */
 .login-button, .register-button {
   border-style: solid;
   border-width: 1px;
@@ -7704,14 +7719,13 @@ nav[role="sub-navigation"] li a {
 		$CONTENTS
 \*------------------------------------*/
 /**
- * COLLAPSE MAP...............collapse and expand map tab
  * SEARCH BAR...............search bar body
  * SEARCH FORM FIELDS...............search bar input and dropdown fields
  */
 /*------------------------------------*\
 		$SEARCH BAR
 \*------------------------------------*/
-/* line 17, ../../scss/modules/map/_search.scss */
+/* line 16, ../../scss/modules/map/_search.scss */
 .search-bar {
   position: relative;
   padding-left: 0.9375em;
@@ -7727,7 +7741,7 @@ nav[role="sub-navigation"] li a {
   padding-top: 2em;
 }
 
-/* line 26, ../../scss/modules/map/_search.scss */
+/* line 25, ../../scss/modules/map/_search.scss */
 .search-form-wrapper {
   width: 100%;
   margin-left: auto;
@@ -7750,7 +7764,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$SEARCH FORM FIELDS
 \*------------------------------------*/
-/* line 37, ../../scss/modules/map/_search.scss */
+/* line 36, ../../scss/modules/map/_search.scss */
 .search-field {
   position: relative;
   padding-left: 0.9375em;
@@ -7758,18 +7772,28 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 37, ../../scss/modules/map/_search.scss */
+@media only screen and (min-width: 421px) {
+  /* line 36, ../../scss/modules/map/_search.scss */
   .search-field {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 100%;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 36, ../../scss/modules/map/_search.scss */
+  .search-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 37, ../../scss/modules/map/_search.scss */
+  /* line 36, ../../scss/modules/map/_search.scss */
   .search-field {
     position: relative;
     padding-left: 0;
@@ -7780,7 +7804,7 @@ nav[role="sub-navigation"] li a {
 }
 
 @media only screen and (min-width: 1024px) {
-  /* line 47, ../../scss/modules/map/_search.scss */
+  /* line 49, ../../scss/modules/map/_search.scss */
   .search-bar .search-field input[type="text"] {
     -webkit-border-radius: 3px 0 0 3px;
     -moz-border-radius: 3px 0 0 3px;
@@ -7790,7 +7814,46 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 53, ../../scss/modules/map/_search.scss */
+/* line 55, ../../scss/modules/map/_search.scss */
+.location-field {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 55, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 55, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 55, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+}
+
+/* line 68, ../../scss/modules/map/_search.scss */
 .categories-select {
   position: relative;
   padding-left: 0.9375em;
@@ -7798,18 +7861,36 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 53, ../../scss/modules/map/_search.scss */
+@media only screen and (min-width: 421px) {
+  /* line 68, ../../scss/modules/map/_search.scss */
   .categories-select {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 50%;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 73, ../../scss/modules/map/_search.scss */
+.categories-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 68, ../../scss/modules/map/_search.scss */
+  .categories-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 53, ../../scss/modules/map/_search.scss */
+  /* line 68, ../../scss/modules/map/_search.scss */
   .categories-select {
     position: relative;
     padding-left: 0;
@@ -7817,9 +7898,17 @@ nav[role="sub-navigation"] li a {
     width: 16.66667%;
     float: left;
   }
+  /* line 81, ../../scss/modules/map/_search.scss */
+  .categories-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
 }
 
-/* line 63, ../../scss/modules/map/_search.scss */
+/* line 87, ../../scss/modules/map/_search.scss */
 .sets-select {
   position: relative;
   padding-left: 0.9375em;
@@ -7827,18 +7916,36 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 63, ../../scss/modules/map/_search.scss */
+@media only screen and (min-width: 421px) {
+  /* line 87, ../../scss/modules/map/_search.scss */
   .sets-select {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 50%;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 92, ../../scss/modules/map/_search.scss */
+.sets-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 87, ../../scss/modules/map/_search.scss */
+  .sets-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 63, ../../scss/modules/map/_search.scss */
+  /* line 87, ../../scss/modules/map/_search.scss */
   .sets-select {
     position: relative;
     padding-left: 0;
@@ -7846,38 +7953,17 @@ nav[role="sub-navigation"] li a {
     width: 16.66667%;
     float: left;
   }
-}
-
-/* line 73, ../../scss/modules/map/_search.scss */
-.location-select {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 73, ../../scss/modules/map/_search.scss */
-  .location-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 73, ../../scss/modules/map/_search.scss */
-  .location-select {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
+  /* line 100, ../../scss/modules/map/_search.scss */
+  .sets-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
   }
 }
 
-/* line 83, ../../scss/modules/map/_search.scss */
+/* line 106, ../../scss/modules/map/_search.scss */
 .time-select {
   position: relative;
   padding-left: 0.9375em;
@@ -7885,18 +7971,36 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 83, ../../scss/modules/map/_search.scss */
+@media only screen and (min-width: 421px) {
+  /* line 106, ../../scss/modules/map/_search.scss */
   .time-select {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
-    width: 50%;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 111, ../../scss/modules/map/_search.scss */
+.time-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 106, ../../scss/modules/map/_search.scss */
+  .time-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 83, ../../scss/modules/map/_search.scss */
+  /* line 106, ../../scss/modules/map/_search.scss */
   .time-select {
     position: relative;
     padding-left: 0;
@@ -7904,9 +8008,17 @@ nav[role="sub-navigation"] li a {
     width: 16.66667%;
     float: left;
   }
+  /* line 119, ../../scss/modules/map/_search.scss */
+  .time-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
 }
 
-/* line 93, ../../scss/modules/map/_search.scss */
+/* line 125, ../../scss/modules/map/_search.scss */
 .search-bar-button {
   position: relative;
   padding-left: 0.9375em;
@@ -7915,7 +8027,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 93, ../../scss/modules/map/_search.scss */
+  /* line 125, ../../scss/modules/map/_search.scss */
   .search-bar-button {
     position: relative;
     padding-left: 0.9375em;
@@ -7925,7 +8037,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 93, ../../scss/modules/map/_search.scss */
+  /* line 125, ../../scss/modules/map/_search.scss */
   .search-bar-button {
     position: relative;
     padding-left: 0;
@@ -7934,7 +8046,7 @@ nav[role="sub-navigation"] li a {
     float: left;
   }
 }
-/* line 101, ../../scss/modules/map/_search.scss */
+/* line 133, ../../scss/modules/map/_search.scss */
 .search-bar-button button {
   border-style: solid;
   border-width: 1px;
@@ -7998,13 +8110,13 @@ nav[role="sub-navigation"] li a {
   color: white;
 }
 @media only screen and (min-width: 1024px) {
-  /* line 101, ../../scss/modules/map/_search.scss */
+  /* line 133, ../../scss/modules/map/_search.scss */
   .search-bar-button button {
     -webkit-border-radius: 0 3px 3px 0;
     border-radius: 0 3px 3px 0;
   }
 }
-/* line 112, ../../scss/modules/map/_search.scss */
+/* line 144, ../../scss/modules/map/_search.scss */
 .search-bar-button button i {
   font-size: 1.2em;
 }
@@ -8223,7 +8335,7 @@ nav[role="sub-navigation"] li a {
   padding: 8px 0 0 0;
   margin: 0 0 8px 0;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
   /* line 100, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-info {
     position: relative;
@@ -8245,7 +8357,17 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 421px) {
+  /* line 119, ../../scss/modules/posts/_list-view.scss */
+  .list-view-filter-count {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
   /* line 119, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-count {
     position: relative;
@@ -8256,7 +8378,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 126, ../../scss/modules/posts/_list-view.scss */
+/* line 129, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-sort {
   position: relative;
   padding-left: 0.9375em;
@@ -8264,8 +8386,18 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 768px) {
-  /* line 126, ../../scss/modules/posts/_list-view.scss */
+@media only screen and (min-width: 421px) {
+  /* line 129, ../../scss/modules/posts/_list-view.scss */
+  .list-view-filter-sort {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 129, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-sort {
     position: relative;
     padding-left: 0.9375em;
@@ -8489,7 +8621,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 /* line 102, ../../scss/modules/posts/_list-view-post.scss */
-.list-view-post-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-post-categories-wrapper .create-post-options label, .create-post-options .list-view-post-categories-wrapper label, .set-detail-post-list-categories-wrapper .create-post-options label, .create-post-options .set-detail-post-list-categories-wrapper label {
+.list-view-post-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-post-categories-wrapper .post-form-wrapper label, .post-form-wrapper .list-view-post-categories-wrapper label, .set-detail-post-list-categories-wrapper .post-form-wrapper label, .post-form-wrapper .set-detail-post-list-categories-wrapper label {
   margin: 0;
 }
 /* line 105, ../../scss/modules/posts/_list-view-post.scss */
@@ -8664,7 +8796,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 /* line 19, ../../scss/modules/posts/_post.scss */
-.post h5, .post-details h5, .related-posts h5, .edit-post section.post-details h5, .post h6, .post-details h6, .related-posts h6, .edit-post section.post-details h6, .post .create-post-options label, .create-post-options .post label, .post-details .create-post-options label, .create-post-options .post-details label, .related-posts .create-post-options label, .create-post-options .related-posts label {
+.post h5, .post-details h5, .related-posts h5, .edit-post section.post-details h5, .post h6, .post-details h6, .related-posts h6, .edit-post section.post-details h6, .post .post-form-wrapper label, .post-form-wrapper .post label, .post-details .post-form-wrapper label, .post-form-wrapper .post-details label, .related-posts .post-form-wrapper label, .post-form-wrapper .related-posts label {
   line-height: 1em;
 }
 
@@ -8686,7 +8818,7 @@ nav[role="sub-navigation"] li a {
   z-index: 1;
 }
 /* line 38, ../../scss/modules/posts/_post.scss */
-.post-header h5, .post-header h6, .post-header .create-post-options label, .create-post-options .post-header label {
+.post-header h5, .post-header h6, .post-header .post-form-wrapper label, .post-form-wrapper .post-header label {
   color: #fcfcfc;
   margin: 5px 0;
 }
@@ -9106,7 +9238,7 @@ nav[role="sub-navigation"] li a {
   right: 7px;
 }
 /* line 25, ../../scss/modules/posts/_post-overlay.scss */
-.post-overlay h5, .post-overlay h6, .post-overlay .create-post-options label, .create-post-options .post-overlay label {
+.post-overlay h5, .post-overlay h6, .post-overlay .post-form-wrapper label, .post-form-wrapper .post-overlay label {
   line-height: 1em;
 }
 /* line 28, ../../scss/modules/posts/_post-overlay.scss */
@@ -13240,14 +13372,30 @@ img.mfp-img {
 /* line 21, ../../scss/modules/forms/_forms.scss */
 input[type="radio"], select {
   margin: 0 3px 1em 0;
-  position: relative;
-  top: -2px;
+}
+
+/* line 25, ../../scss/modules/forms/_forms.scss */
+select {
+  -webkit-appearance: none !important;
+  background: #fcfcfc url('/media/kohana/images/dropdown-arrow.svg?1385411973') no-repeat;
+  background-size: 9px;
+  background-position-x: 97%;
+  background-position-y: center;
+  border: 1px solid #cccccc;
+  padding: 0.78em 1em 0.78em 0.78em;
+  font-size: 0.875em;
+  color: #9a9797;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
 }
 
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
-/* line 31, ../../scss/modules/forms/_forms.scss */
+/* line 42, ../../scss/modules/forms/_forms.scss */
 input[type="text"], input[type="email"], input[type="password"] {
   height: 100%;
   /* FF fix */
@@ -13259,7 +13407,7 @@ input[type="text"], input[type="email"], input[type="password"] {
   border-radius: 3px;
 }
 
-/* line 37, ../../scss/modules/forms/_forms.scss */
+/* line 48, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown {
   height: 2.9em;
   -webkit-border-radius: 3px;
@@ -13268,12 +13416,12 @@ form.custom .custom.dropdown {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 40, ../../scss/modules/forms/_forms.scss */
+/* line 51, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-top: .4em;
   margin-left: 1.4em;
 }
-/* line 44, ../../scss/modules/forms/_forms.scss */
+/* line 55, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .selector {
   height: 3.3125em;
 }
@@ -13282,7 +13430,7 @@ form.custom .custom.dropdown .selector {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 56, ../../scss/modules/forms/_forms.scss */
+  /* line 67, ../../scss/modules/forms/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -13293,13 +13441,13 @@ form.custom .custom.dropdown .selector {
 }
 
 @media only screen and (min-width: 1024px) {
-  /* line 62, ../../scss/modules/forms/_forms.scss */
+  /* line 73, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 62, ../../scss/modules/forms/_forms.scss */
+  /* line 73, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -13313,13 +13461,13 @@ form.custom .custom.dropdown .selector {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 78, ../../scss/modules/forms/_forms.scss */
-  .list-view-filter form.custom .custom.dropdown, .set-detail-post-list-filter form.custom .custom.dropdown {
+  /* line 89, ../../scss/modules/forms/_forms.scss */
+  .list-view-filter form.custom, .set-detail-post-list-filter form.custom {
     margin-bottom: 0;
   }
 }
 
-/* line 84, ../../scss/modules/forms/_forms.scss */
+/* line 95, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em;
 }
@@ -13327,20 +13475,20 @@ form.custom .custom.dropdown .current {
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 95, ../../scss/modules/forms/_forms.scss */
+/* line 106, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc;
 }
 
-/* line 100, ../../scss/modules/forms/_forms.scss */
+/* line 111, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f;
 }
 
-/* line 106, ../../scss/modules/forms/_forms.scss */
+/* line 117, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px;
@@ -13623,7 +13771,7 @@ form.custom .custom.checkbox.checked:before {
   text-align: center;
 }
 /* line 134, ../../scss/modules/modals/_modal.scss */
-.select-icon [class^="fa-"] {
+.select-icon .fa {
   position: relative;
   top: 20px;
   left: 20px;
@@ -13632,7 +13780,7 @@ form.custom .custom.checkbox.checked:before {
 }
 @media only screen and (min-width: 768px) {
   /* line 134, ../../scss/modules/modals/_modal.scss */
-  .select-icon [class^="fa-"] {
+  .select-icon .fa {
     left: 0;
   }
 }
@@ -13945,7 +14093,7 @@ form.custom .custom.checkbox.checked:before {
 		$CREATE-POST
 \*-----------------------------------------------------------*/
 /* line 19, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options {
+.post-form-wrapper {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -13955,21 +14103,21 @@ form.custom .custom.checkbox.checked:before {
   padding: 0;
 }
 /* line 23, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options input[type="text"], .create-post-options textarea {
+.post-form-wrapper input[type="text"], .post-form-wrapper textarea {
   margin-bottom: 2em;
 }
 /* line 27, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options fieldset {
+.post-form-wrapper fieldset {
   border: none;
   padding: 0;
   margin: 0;
 }
 /* line 33, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options form > fieldset {
+.post-form-wrapper form > fieldset {
   display: none;
 }
 /* line 35, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-options form > fieldset.active {
+.post-form-wrapper form > fieldset.active {
   display: block;
 }
 
@@ -14119,7 +14267,7 @@ form.custom .custom.checkbox.checked:before {
   padding: 0;
 }
 /* line 18, ../../scss/modules/modals/_edit-post-modal.scss */
-.edit-post section.post-details h6, .edit-post section.post-details .create-post-options label, .create-post-options .edit-post section.post-details label {
+.edit-post section.post-details h6, .edit-post section.post-details .post-form-wrapper label, .post-form-wrapper .edit-post section.post-details label {
   margin-bottom: 15px;
 }
 @media only screen and (min-width: 1024px) {
