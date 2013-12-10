@@ -272,6 +272,13 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 */
 	 protected function create_or_update_user($user, $post)
 	 {
+	 	// If the password is empty, delete the value
+	 	// This ensures we don't overwrite a password with null.
+	 	if (empty($post['password']))
+	 	{
+	 		unset($post['password']);
+	 	}
+
 		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
 
 		//Validation - cycle through nested models and perform in-model
