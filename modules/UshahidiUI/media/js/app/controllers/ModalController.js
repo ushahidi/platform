@@ -113,8 +113,6 @@ define(['App', 'marionette'],
 						model : user
 					}));
 					that.modal.currentView.on('close', that.modal.close, that.modal);
-					// Unbind fn
-					this.off('modal:closed');
 				});
 			},
 			userCreate : function ()
@@ -129,8 +127,6 @@ define(['App', 'marionette'],
 						model : user
 					}));
 					that.modal.currentView.on('close', that.modal.close, that.modal);
-					// Unbind fn
-					this.off('modal:closed');
 				});
 			}
 		});

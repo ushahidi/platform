@@ -182,7 +182,6 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			users : function()
 			{
 				var that = this;
-				this.homeLayout.close();
 				require(['views/UserListView','collections/UserCollection'], function(UserListView,UserCollection)
 				{
 					App.vent.trigger('page:change', 'users');
