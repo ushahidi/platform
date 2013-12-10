@@ -24,6 +24,7 @@ define(['marionette'],
 				'posts/:id' : 'postDetail',
 				'sets' : 'sets',
 				'sets/:id' : 'setDetail',
+				'settings/site' : 'settings',
 				//'login' : 'login',
 				//'register' : 'register',
 				'*path' : 'index'

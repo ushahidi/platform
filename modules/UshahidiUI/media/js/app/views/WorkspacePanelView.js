@@ -14,7 +14,8 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 		{
 			template : Handlebars.compile(template),
 			events : {
-				'click .js-title' : 'toggleSection'
+				'click .js-title' : 'toggleSection',
+				'click .js-logout' : 'logout'
 			},
 			initialize : function ()
 			{
@@ -34,6 +35,12 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 					this.$('.workspace-menu li').removeClass('active');
 					target.addClass('active');
 				}
+			},
+			logout : function(e)
+			{
+				e.preventDefault();
+				App.vent.trigger('logout');
+				App.vent.trigger('workspace:toggle', true);
 			}
 		});
 	});

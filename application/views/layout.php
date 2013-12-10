@@ -12,7 +12,7 @@
 <head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>Ushahidi V3</title>
+		<title><?php echo HTML::entities($site_name); ?></title>
 		<meta name="description" content="Ushahidi V3">
 		<!-- Mobile Viewport meta tags -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,10 +31,6 @@
 		<!--Change to app.min.css for production-->
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
 		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
-
-		<!--Change to Init.min.js below for production-->
-		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
-		<!-- <script type="text/javascript" src="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script> -->
 
 		<!-- Custom Modernizr Build - add, subtract and rebuild at end of project -->
 		<script src="<?php echo Media::url('js/libs/custom.modernizr.js'); ?>"></script>

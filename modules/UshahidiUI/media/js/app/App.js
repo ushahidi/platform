@@ -8,12 +8,14 @@
  */
 
 define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'util/App.handlebars', 'foundation-loader'],
-	function($, Backbone, Marionette, _, Handlebars, OAuth)
+	function($, Backbone, Marionette, _, OAuth)
 	{
 		var App = new Backbone.Marionette.Application();
 
 		// Save oauth object in App - just in case
 		App.oauth = OAuth;
+		App.vent.on('login', OAuth.login);
+		App.vent.on('logout', OAuth.logout);
 
 		//Organize Application into regions corresponding to DOM elements
 		//Regions can contain views, Layouts, or subregions nested as necessary
@@ -46,6 +48,17 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			jsdir : '/media/kohana/js',
 			cssdir : '/media/kohana/css'
 		}, window.config);
+
+		/**
+		 * Update App.config
+		 * @param {Object} newConfig new config vars to merge into old config
+		 */
+		App.updateConfig = function (newConfig)
+		{
+			_.extend(this.config, newConfig);
+			this.vent.trigger('config:change', this.config);
+			return this.config;
+		};
 
 		return App;
 	});

@@ -1,13 +1,13 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * Ushahidi Bootstrap
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
- 
+
 // -- Environment setup --------------------------------------------------------
 
 /**
@@ -119,13 +119,19 @@ if (! $gisconverter) throw new Kohana_Exception('Could not load gisconverter lib
 include($gisconverter);
 
 /**
+ * Initialize Ushahidi, setting the defaults
+ * Note: We have to do this before routing kicks in, so that the 'default' route doesn't catch any custom plugin routes.
+ */
+Ushahidi::init();
+
+/**
  * Include default routes. Default routes are located in application/routes/default.php
- */	
+ */
 include Kohana::find_file('routes', 'default');
 
 /**
  * Include the routes for the current environment.
- */	
+ */
 if ($routes = Kohana::find_file('routes', Kohana::$environment))
 {
 	include $routes;

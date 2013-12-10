@@ -20,16 +20,19 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				// @todo update this for real UI
 				//App.vent.on('page:change', this.updateActiveNav, this);
 				App.vent.on('views:change', this.updateActiveView, this);
+				App.vent.on('config:change', this.render, this);
+				App.vent.on('logout', this.render, this);
 			},
 			events : {
 				'click .js-views-menu-link' : 'showViewsMenu',
 				'click .js-create-post' : 'showCreatePost',
-				'click .js-workspace-toggle' : 'triggerWorkspaceToggle'
+				'click .js-workspace-toggle' : 'triggerWorkspaceToggle',
+				'click .js-login' : 'login'
 			},
 			triggerWorkspaceToggle : function (e)
 			{
 				e.preventDefault();
-				this.trigger('workspace:toggle');
+				App.vent.trigger('workspace:toggle');
 			},
 			updateActiveNav : function (page)
 			{
@@ -70,6 +73,19 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 			{
 				e.preventDefault();
 				App.vent.trigger('post:create');
+			},
+			serializeData : function()
+			{
+				return {
+					site_name : App.config.site.site_name,
+					owner_name : App.config.site.owner_name,
+					logged_in : App.oauth.provider.providerID === 'ushahidi_implicit'
+				};
+			},
+			login : function(e)
+			{
+				e.preventDefault();
+				App.vent.trigger('login');
 			}
 		});
 	});
