@@ -81,6 +81,10 @@ define(['backbone', 'App'],
 					email : {
 						pattern: 'email',
 						required : false
+					},
+					password : {
+						minLength: 7,
+						required : false
 					}
 				};
 
