@@ -144,9 +144,17 @@ class Controller_Api_Users extends Ushahidi_Api {
 			$users_query->where('username', '=', $username);
 		}
 
-		$users = $users_query->find_all();
+		// Get the count of ALL records
+		$count_query = clone $users_query;
+		$total_records = (int) $count_query
+			->select(array(DB::expr('COUNT(DISTINCT `user`.`id`)'), 'records_found'))
+			->limit(NULL)
+			->offset(NULL)
+			->find_all()
+			->get('records_found');
 
-		$count = $users->count();
+		// Get posts
+		$users = $users_query->find_all();
 
 		foreach ($users as $user)
 		{
@@ -158,6 +166,9 @@ class Controller_Api_Users extends Ushahidi_Api {
 				$results[] = $result;
 			}
 		}
+
+		// @todo should we update this to only count users we actually allowed to see?
+		$count = $users->count();
 
 		// Current/Next/Prev urls
 		$params = array(
@@ -184,6 +195,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		//Respond with Users
 		$this->_response_payload = array(
 				'count' => $count,
+				'total_count' => $total_records,
 				'results' => $results,
 				'limit' => $this->_record_limit,
 				'offset' => $this->_record_offset,

@@ -23,7 +23,7 @@ define(['jquery', 'backbone', 'models/UserModel', 'App', 'backbone-pageable'],
 			parseState: function(response)
 			{
 				return {
-					totalRecords: response.count
+					totalRecords: response.total_count
 				};
 			},
 			// Set state params for `Backbone.PageableCollection#state`
