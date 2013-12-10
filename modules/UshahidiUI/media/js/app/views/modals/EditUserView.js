@@ -93,5 +93,13 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				App.Collections.Users.fetch();
 			},
 
+			serializeData: function()
+			{
+				var data = _.extend(this.model.toJSON(),
+				{
+					isNew : this.model.isNew()
+				});
+				return data;
+			},
 		});
 	});
