@@ -18,3 +18,12 @@ footer {
 	background-color: $white;
 	padding: 20px 0 40px 0;
 }
+
+.footer-copyright-wrapper {
+	@include grid-row();
+}
+
+.footer-copyright {
+	@include grid-column(12);
+}
+
