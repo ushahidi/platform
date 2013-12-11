@@ -4,7 +4,6 @@
 /**
  * MODAL...............via Reveal.js included in Foundation
  * MODAL BODY...............all input fields and dropdowns
- * MEDIA ICONS...............icons for uploading various media
  */
 
 
@@ -86,7 +85,7 @@
 		$UPLOAD MEDIA BAR
 \*------------------------------------*/
 
-.media-bar{
+/*.media-bar{
 	@include grid-column(12, $collapse: true);
 	@media #{$small} {
 		@include grid-column(8);
@@ -111,34 +110,4 @@
 	@media #{$small} {
 		padding: 0;
 	}
-}
-
-
-
-
-/*------------------------------------*\
-		$MEDIA ICONS
-\*------------------------------------*/
-
-.select-icon {
-	display: inline;
-
-	color: $white;
-	a {
-		display: block;
-		width: 56px;
-		height: 60px;
-		color: $white;
-		text-align: center;
-	}
-	.fa {
-		position: relative;
-		top: 20px;
-		left: 20px;
-		padding: 0;
-		font-size: 19px;
-		@media #{$small} {
-			left: 0;
-		}
-	}
-}
+}*/

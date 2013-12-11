@@ -14,7 +14,7 @@
 /*------------------------------------*\
 		$COMPASS
 \*------------------------------------*/
-/* line 17, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 5, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, .post-form-wrapper label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -36,55 +36,55 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
 
-/* line 10, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper {
   clear: both;
   min-height: 100%;
@@ -92,12 +92,12 @@ html, body {
   height: 100%;
   margin-bottom: -72px;
 }
-/* line 18, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper .sticky-footer-root {
   height: 72px;
 }
 
-/* line 20, ../../../../../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .footer {
   clear: both;
   position: relative;
@@ -212,18 +212,18 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 /* line 37, ../../scss/tools/_helpers.scss */
 .hidden, .sets-grid li .set-is-selected {
   opacity: 0;
-  -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
   -o-transition: opacity 0.3s ease-in-out;
+  -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
 }
 
 /* line 42, ../../scss/tools/_helpers.scss */
 .visible, .sets-grid li.selected .set-is-selected {
   opacity: 1;
-  -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
   -o-transition: opacity 0.3s ease-in-out;
+  -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -308,8 +308,8 @@ div.logo {
  */
 /* line 15, ../../scss/base/_global.scss */
 * {
-  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   *behavior: url(../js/ie/boxsizing.htc);
 }
@@ -340,19 +340,15 @@ html, body {
 
 /* line 41, ../../scss/base/_global.scss */
 ul.pagination li.current a {
-  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
 }
 
 /* line 45, ../../scss/base/_global.scss */
 ul.pagination li:hover a, ul.pagination li a:focus {
-  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
 }
 
@@ -362,7 +358,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 /*
 NOTE: comment out what I don't use
 */
-/* line 264, ../../scss/foundation/components/_global.scss */
+/* line 262, ../../scss/foundation/components/_global.scss */
 *,
 *:before,
 *:after {
@@ -371,7 +367,7 @@ NOTE: comment out what I don't use
   box-sizing: border-box;
 }
 
-/* line 269, ../../scss/foundation/components/_global.scss */
+/* line 268, ../../scss/foundation/components/_global.scss */
 html,
 body {
   font-size: 16px;
@@ -401,7 +397,7 @@ a:focus {
   outline: none;
 }
 
-/* line 293, ../../scss/foundation/components/_global.scss */
+/* line 291, ../../scss/foundation/components/_global.scss */
 img,
 object,
 embed {
@@ -409,7 +405,7 @@ embed {
   height: auto;
 }
 
-/* line 296, ../../scss/foundation/components/_global.scss */
+/* line 295, ../../scss/foundation/components/_global.scss */
 object,
 embed {
   height: 100%;
@@ -420,7 +416,7 @@ img {
   -ms-interpolation-mode: bicubic;
 }
 
-/* line 303, ../../scss/foundation/components/_global.scss */
+/* line 301, ../../scss/foundation/components/_global.scss */
 #map_canvas img,
 #map_canvas embed,
 #map_canvas object,
@@ -507,7 +503,7 @@ select {
 .row:after {
   clear: both;
 }
-/* line 121, ../../scss/foundation/components/_grid.scss */
+/* line 120, ../../scss/foundation/components/_grid.scss */
 .row.collapse .column,
 .row.collapse .columns {
   position: relative;
@@ -551,7 +547,7 @@ select {
   clear: both;
 }
 
-/* line 130, ../../scss/foundation/components/_grid.scss */
+/* line 129, ../../scss/foundation/components/_grid.scss */
 .column,
 .columns {
   position: relative;
@@ -562,7 +558,7 @@ select {
 }
 
 @media only screen {
-  /* line 135, ../../scss/foundation/components/_grid.scss */
+  /* line 134, ../../scss/foundation/components/_grid.scss */
   .column,
   .columns {
     position: relative;
@@ -719,7 +715,7 @@ select {
     float: left;
   }
 
-  /* line 149, ../../scss/foundation/components/_grid.scss */
+  /* line 148, ../../scss/foundation/components/_grid.scss */
   .column.small-centered,
   .columns.small-centered {
     position: relative;
@@ -1028,7 +1024,7 @@ select {
     left: auto;
   }
 
-  /* line 169, ../../scss/foundation/components/_grid.scss */
+  /* line 168, ../../scss/foundation/components/_grid.scss */
   .column.large-centered,
   .columns.large-centered {
     position: relative;
@@ -1037,7 +1033,7 @@ select {
     float: none !important;
   }
 
-  /* line 172, ../../scss/foundation/components/_grid.scss */
+  /* line 171, ../../scss/foundation/components/_grid.scss */
   .column.large-uncentered,
   .columns.large-uncentered {
     margin-left: 0;
@@ -1045,21 +1041,21 @@ select {
     float: left !important;
   }
 
-  /* line 179, ../../scss/foundation/components/_grid.scss */
+  /* line 178, ../../scss/foundation/components/_grid.scss */
   .column.large-uncentered.opposite,
   .columns.large-uncentered.opposite {
     float: right !important;
   }
 }
 /* Foundation Visibility HTML Classes */
-/* line 11, ../../scss/foundation/components/_visibility.scss */
+/* line 9, ../../scss/foundation/components/_visibility.scss */
 .show-for-small,
 .show-for-medium-down,
 .show-for-large-down {
   display: inherit !important;
 }
 
-/* line 17, ../../scss/foundation/components/_visibility.scss */
+/* line 13, ../../scss/foundation/components/_visibility.scss */
 .show-for-medium,
 .show-for-medium-up,
 .show-for-large,
@@ -1068,7 +1064,7 @@ select {
   display: none !important;
 }
 
-/* line 23, ../../scss/foundation/components/_visibility.scss */
+/* line 19, ../../scss/foundation/components/_visibility.scss */
 .hide-for-medium,
 .hide-for-medium-up,
 .hide-for-large,
@@ -1077,7 +1073,7 @@ select {
   display: inherit !important;
 }
 
-/* line 27, ../../scss/foundation/components/_visibility.scss */
+/* line 25, ../../scss/foundation/components/_visibility.scss */
 .hide-for-small,
 .hide-for-medium-down,
 .hide-for-large-down {
@@ -1085,27 +1081,27 @@ select {
 }
 
 /* Specific visilbity for tables */
-/* line 38, ../../scss/foundation/components/_visibility.scss */
+/* line 31, ../../scss/foundation/components/_visibility.scss */
 table.show-for-small, table.show-for-medium-down, table.show-for-large-down, table.hide-for-medium, table.hide-for-medium-up, table.hide-for-large, table.hide-for-large-up, table.hide-for-xlarge {
   display: table;
 }
 
-/* line 48, ../../scss/foundation/components/_visibility.scss */
+/* line 41, ../../scss/foundation/components/_visibility.scss */
 thead.show-for-small, thead.show-for-medium-down, thead.show-for-large-down, thead.hide-for-medium, thead.hide-for-medium-up, thead.hide-for-large, thead.hide-for-large-up, thead.hide-for-xlarge {
   display: table-header-group !important;
 }
 
-/* line 58, ../../scss/foundation/components/_visibility.scss */
+/* line 51, ../../scss/foundation/components/_visibility.scss */
 tbody.show-for-small, tbody.show-for-medium-down, tbody.show-for-large-down, tbody.hide-for-medium, tbody.hide-for-medium-up, tbody.hide-for-large, tbody.hide-for-large-up, tbody.hide-for-xlarge {
   display: table-row-group !important;
 }
 
-/* line 68, ../../scss/foundation/components/_visibility.scss */
+/* line 61, ../../scss/foundation/components/_visibility.scss */
 tr.show-for-small, tr.show-for-medium-down, tr.show-for-large-down, tr.hide-for-medium, tr.hide-for-medium-up, tr.hide-for-large, tr.hide-for-large-up, tr.hide-for-xlarge {
   display: table-row !important;
 }
 
-/* line 79, ../../scss/foundation/components/_visibility.scss */
+/* line 72, ../../scss/foundation/components/_visibility.scss */
 td.show-for-small, td.show-for-medium-down, td.show-for-large-down, td.hide-for-medium, td.hide-for-medium-up, td.hide-for-large, td.hide-for-large-up, td.hide-for-xlarge,
 th.show-for-small,
 th.show-for-medium-down,
@@ -1120,7 +1116,7 @@ th.hide-for-xlarge {
 
 /* Medium Displays: 768px - 1279px */
 @media only screen and (min-width: 768px) {
-  /* line 85, ../../scss/foundation/components/_visibility.scss */
+  /* line 84, ../../scss/foundation/components/_visibility.scss */
   .show-for-medium,
   .show-for-medium-up {
     display: inherit !important;
@@ -1136,34 +1132,34 @@ th.hide-for-xlarge {
     display: inherit !important;
   }
 
-  /* line 92, ../../scss/foundation/components/_visibility.scss */
+  /* line 91, ../../scss/foundation/components/_visibility.scss */
   .hide-for-medium,
   .hide-for-medium-up {
     display: none !important;
   }
 
   /* Specific visilbity for tables */
-  /* line 98, ../../scss/foundation/components/_visibility.scss */
+  /* line 96, ../../scss/foundation/components/_visibility.scss */
   table.show-for-medium, table.show-for-medium-up, table.hide-for-small {
     display: table;
   }
 
-  /* line 103, ../../scss/foundation/components/_visibility.scss */
+  /* line 101, ../../scss/foundation/components/_visibility.scss */
   thead.show-for-medium, thead.show-for-medium-up, thead.hide-for-small {
     display: table-header-group !important;
   }
 
-  /* line 108, ../../scss/foundation/components/_visibility.scss */
+  /* line 106, ../../scss/foundation/components/_visibility.scss */
   tbody.show-for-medium, tbody.show-for-medium-up, tbody.hide-for-small {
     display: table-row-group !important;
   }
 
-  /* line 113, ../../scss/foundation/components/_visibility.scss */
+  /* line 111, ../../scss/foundation/components/_visibility.scss */
   tr.show-for-medium, tr.show-for-medium-up, tr.hide-for-small {
     display: table-row !important;
   }
 
-  /* line 119, ../../scss/foundation/components/_visibility.scss */
+  /* line 117, ../../scss/foundation/components/_visibility.scss */
   td.show-for-medium, td.show-for-medium-up, td.hide-for-small,
   th.show-for-medium,
   th.show-for-medium-up,
@@ -1173,52 +1169,52 @@ th.hide-for-xlarge {
 }
 /* Large Displays: 1280px - 1440px */
 @media only screen and (min-width: 1024px) {
-  /* line 126, ../../scss/foundation/components/_visibility.scss */
+  /* line 125, ../../scss/foundation/components/_visibility.scss */
   .show-for-large,
   .show-for-large-up {
     display: inherit !important;
   }
 
-  /* line 129, ../../scss/foundation/components/_visibility.scss */
+  /* line 128, ../../scss/foundation/components/_visibility.scss */
   .show-for-medium,
   .show-for-medium-down {
     display: none !important;
   }
 
-  /* line 132, ../../scss/foundation/components/_visibility.scss */
+  /* line 131, ../../scss/foundation/components/_visibility.scss */
   .hide-for-medium,
   .hide-for-medium-down {
     display: inherit !important;
   }
 
-  /* line 135, ../../scss/foundation/components/_visibility.scss */
+  /* line 134, ../../scss/foundation/components/_visibility.scss */
   .hide-for-large,
   .hide-for-large-up {
     display: none !important;
   }
 
   /* Specific visilbity for tables */
-  /* line 142, ../../scss/foundation/components/_visibility.scss */
+  /* line 139, ../../scss/foundation/components/_visibility.scss */
   table.show-for-large, table.show-for-large-up, table.hide-for-medium, table.hide-for-medium-down {
     display: table;
   }
 
-  /* line 148, ../../scss/foundation/components/_visibility.scss */
+  /* line 145, ../../scss/foundation/components/_visibility.scss */
   thead.show-for-large, thead.show-for-large-up, thead.hide-for-medium, thead.hide-for-medium-down {
     display: table-header-group !important;
   }
 
-  /* line 154, ../../scss/foundation/components/_visibility.scss */
+  /* line 151, ../../scss/foundation/components/_visibility.scss */
   tbody.show-for-large, tbody.show-for-large-up, tbody.hide-for-medium, tbody.hide-for-medium-down {
     display: table-row-group !important;
   }
 
-  /* line 160, ../../scss/foundation/components/_visibility.scss */
+  /* line 157, ../../scss/foundation/components/_visibility.scss */
   tr.show-for-large, tr.show-for-large-up, tr.hide-for-medium, tr.hide-for-medium-down {
     display: table-row !important;
   }
 
-  /* line 167, ../../scss/foundation/components/_visibility.scss */
+  /* line 164, ../../scss/foundation/components/_visibility.scss */
   td.show-for-large, td.show-for-large-up, td.hide-for-medium, td.hide-for-medium-down,
   th.show-for-large,
   th.show-for-large-up,
@@ -1234,13 +1230,13 @@ th.hide-for-xlarge {
     display: inherit !important;
   }
 
-  /* line 176, ../../scss/foundation/components/_visibility.scss */
+  /* line 175, ../../scss/foundation/components/_visibility.scss */
   .show-for-large,
   .show-for-large-down {
     display: none !important;
   }
 
-  /* line 179, ../../scss/foundation/components/_visibility.scss */
+  /* line 178, ../../scss/foundation/components/_visibility.scss */
   .hide-for-large,
   .hide-for-large-down {
     display: inherit !important;
@@ -1252,27 +1248,27 @@ th.hide-for-xlarge {
   }
 
   /* Specific visilbity for tables */
-  /* line 187, ../../scss/foundation/components/_visibility.scss */
+  /* line 185, ../../scss/foundation/components/_visibility.scss */
   table.show-for-xlarge, table.hide-for-large, table.hide-for-large-down {
     display: table;
   }
 
-  /* line 192, ../../scss/foundation/components/_visibility.scss */
+  /* line 190, ../../scss/foundation/components/_visibility.scss */
   thead.show-for-xlarge, thead.hide-for-large, thead.hide-for-large-down {
     display: table-header-group !important;
   }
 
-  /* line 197, ../../scss/foundation/components/_visibility.scss */
+  /* line 195, ../../scss/foundation/components/_visibility.scss */
   tbody.show-for-xlarge, tbody.hide-for-large, tbody.hide-for-large-down {
     display: table-row-group !important;
   }
 
-  /* line 202, ../../scss/foundation/components/_visibility.scss */
+  /* line 200, ../../scss/foundation/components/_visibility.scss */
   tr.show-for-xlarge, tr.hide-for-large, tr.hide-for-large-down {
     display: table-row !important;
   }
 
-  /* line 208, ../../scss/foundation/components/_visibility.scss */
+  /* line 206, ../../scss/foundation/components/_visibility.scss */
   td.show-for-xlarge, td.hide-for-large, td.hide-for-large-down,
   th.show-for-xlarge,
   th.hide-for-large,
@@ -1281,40 +1277,40 @@ th.hide-for-xlarge {
   }
 }
 /* Orientation targeting */
-/* line 215, ../../scss/foundation/components/_visibility.scss */
+/* line 214, ../../scss/foundation/components/_visibility.scss */
 .show-for-landscape,
 .hide-for-portrait {
   display: inherit !important;
 }
 
-/* line 217, ../../scss/foundation/components/_visibility.scss */
+/* line 216, ../../scss/foundation/components/_visibility.scss */
 .hide-for-landscape,
 .show-for-portrait {
   display: none !important;
 }
 
 /* Specific visilbity for tables */
-/* line 222, ../../scss/foundation/components/_visibility.scss */
+/* line 221, ../../scss/foundation/components/_visibility.scss */
 table.hide-for-landscape, table.show-for-portrait {
   display: table;
 }
 
-/* line 226, ../../scss/foundation/components/_visibility.scss */
+/* line 225, ../../scss/foundation/components/_visibility.scss */
 thead.hide-for-landscape, thead.show-for-portrait {
   display: table-header-group !important;
 }
 
-/* line 230, ../../scss/foundation/components/_visibility.scss */
+/* line 229, ../../scss/foundation/components/_visibility.scss */
 tbody.hide-for-landscape, tbody.show-for-portrait {
   display: table-row-group !important;
 }
 
-/* line 234, ../../scss/foundation/components/_visibility.scss */
+/* line 233, ../../scss/foundation/components/_visibility.scss */
 tr.hide-for-landscape, tr.show-for-portrait {
   display: table-row !important;
 }
 
-/* line 239, ../../scss/foundation/components/_visibility.scss */
+/* line 238, ../../scss/foundation/components/_visibility.scss */
 td.hide-for-landscape, td.show-for-portrait,
 th.hide-for-landscape,
 th.show-for-portrait {
@@ -1322,40 +1318,40 @@ th.show-for-portrait {
 }
 
 @media only screen and (orientation: landscape) {
-  /* line 244, ../../scss/foundation/components/_visibility.scss */
+  /* line 243, ../../scss/foundation/components/_visibility.scss */
   .show-for-landscape,
   .hide-for-portrait {
     display: inherit !important;
   }
 
-  /* line 246, ../../scss/foundation/components/_visibility.scss */
+  /* line 245, ../../scss/foundation/components/_visibility.scss */
   .hide-for-landscape,
   .show-for-portrait {
     display: none !important;
   }
 
   /* Specific visilbity for tables */
-  /* line 251, ../../scss/foundation/components/_visibility.scss */
+  /* line 250, ../../scss/foundation/components/_visibility.scss */
   table.show-for-landscape, table.hide-for-portrait {
     display: table;
   }
 
-  /* line 255, ../../scss/foundation/components/_visibility.scss */
+  /* line 254, ../../scss/foundation/components/_visibility.scss */
   thead.show-for-landscape, thead.hide-for-portrait {
     display: table-header-group !important;
   }
 
-  /* line 259, ../../scss/foundation/components/_visibility.scss */
+  /* line 258, ../../scss/foundation/components/_visibility.scss */
   tbody.show-for-landscape, tbody.hide-for-portrait {
     display: table-row-group !important;
   }
 
-  /* line 263, ../../scss/foundation/components/_visibility.scss */
+  /* line 262, ../../scss/foundation/components/_visibility.scss */
   tr.show-for-landscape, tr.hide-for-portrait {
     display: table-row !important;
   }
 
-  /* line 268, ../../scss/foundation/components/_visibility.scss */
+  /* line 267, ../../scss/foundation/components/_visibility.scss */
   td.show-for-landscape, td.hide-for-portrait,
   th.show-for-landscape,
   th.hide-for-portrait {
@@ -1363,40 +1359,40 @@ th.show-for-portrait {
   }
 }
 @media only screen and (orientation: portrait) {
-  /* line 274, ../../scss/foundation/components/_visibility.scss */
+  /* line 273, ../../scss/foundation/components/_visibility.scss */
   .show-for-portrait,
   .hide-for-landscape {
     display: inherit !important;
   }
 
-  /* line 276, ../../scss/foundation/components/_visibility.scss */
+  /* line 275, ../../scss/foundation/components/_visibility.scss */
   .hide-for-portrait,
   .show-for-landscape {
     display: none !important;
   }
 
   /* Specific visilbity for tables */
-  /* line 281, ../../scss/foundation/components/_visibility.scss */
+  /* line 280, ../../scss/foundation/components/_visibility.scss */
   table.show-for-portrait, table.hide-for-landscape {
     display: table;
   }
 
-  /* line 285, ../../scss/foundation/components/_visibility.scss */
+  /* line 284, ../../scss/foundation/components/_visibility.scss */
   thead.show-for-portrait, thead.hide-for-landscape {
     display: table-header-group !important;
   }
 
-  /* line 289, ../../scss/foundation/components/_visibility.scss */
+  /* line 288, ../../scss/foundation/components/_visibility.scss */
   tbody.show-for-portrait, tbody.hide-for-landscape {
     display: table-row-group !important;
   }
 
-  /* line 293, ../../scss/foundation/components/_visibility.scss */
+  /* line 292, ../../scss/foundation/components/_visibility.scss */
   tr.show-for-portrait, tr.hide-for-landscape {
     display: table-row !important;
   }
 
-  /* line 298, ../../scss/foundation/components/_visibility.scss */
+  /* line 297, ../../scss/foundation/components/_visibility.scss */
   td.show-for-portrait, td.hide-for-landscape,
   th.show-for-portrait,
   th.hide-for-landscape {
@@ -1926,7 +1922,7 @@ p.lead {
 }
 
 /* Typography resets */
-/* line 144, ../../scss/foundation/components/_type.scss */
+/* line 126, ../../scss/foundation/components/_type.scss */
 div,
 dl,
 dt,
@@ -1959,7 +1955,7 @@ a {
   text-decoration: none;
   line-height: inherit;
 }
-/* line 157, ../../scss/foundation/components/_type.scss */
+/* line 156, ../../scss/foundation/components/_type.scss */
 a:hover, a:focus {
   color: #12a0ba;
 }
@@ -2044,14 +2040,14 @@ hr {
 }
 
 /* Helpful Typography Defaults */
-/* line 217, ../../scss/foundation/components/_type.scss */
+/* line 216, ../../scss/foundation/components/_type.scss */
 em,
 i {
   font-style: italic;
   line-height: inherit;
 }
 
-/* line 223, ../../scss/foundation/components/_type.scss */
+/* line 222, ../../scss/foundation/components/_type.scss */
 strong,
 b {
   font-weight: bold;
@@ -2072,7 +2068,7 @@ code {
 }
 
 /* Lists */
-/* line 242, ../../scss/foundation/components/_type.scss */
+/* line 240, ../../scss/foundation/components/_type.scss */
 ul,
 ol,
 dl {
@@ -2089,7 +2085,7 @@ ul, ol {
 }
 
 /* Unordered Lists */
-/* line 258, ../../scss/foundation/components/_type.scss */
+/* line 257, ../../scss/foundation/components/_type.scss */
 ul li ul,
 ul li ol {
   margin-left: 1.25em;
@@ -2119,7 +2115,7 @@ ul.no-bullet {
 }
 
 /* Ordered Lists */
-/* line 280, ../../scss/foundation/components/_type.scss */
+/* line 279, ../../scss/foundation/components/_type.scss */
 ol li ul,
 ol li ol {
   margin-left: 1.25em;
@@ -2138,7 +2134,7 @@ dl dd {
 }
 
 /* Abbreviations */
-/* line 298, ../../scss/foundation/components/_type.scss */
+/* line 297, ../../scss/foundation/components/_type.scss */
 abbr,
 acronym {
   text-transform: uppercase;
@@ -2170,13 +2166,13 @@ blockquote cite {
 blockquote cite:before {
   content: "\2014 \0020";
 }
-/* line 324, ../../scss/foundation/components/_type.scss */
+/* line 323, ../../scss/foundation/components/_type.scss */
 blockquote cite a,
 blockquote cite a:visited {
   color: #898989;
 }
 
-/* line 330, ../../scss/foundation/components/_type.scss */
+/* line 329, ../../scss/foundation/components/_type.scss */
 blockquote,
 blockquote p {
   line-height: 1.6;
@@ -2262,7 +2258,7 @@ blockquote p {
     text-shadow: none !important;
   }
 
-  /* line 391, ../../scss/foundation/components/_type.scss */
+  /* line 390, ../../scss/foundation/components/_type.scss */
   a,
   a:visited {
     text-decoration: underline;
@@ -2278,14 +2274,14 @@ blockquote p {
     content: " (" attr(title) ")";
   }
 
-  /* line 399, ../../scss/foundation/components/_type.scss */
+  /* line 397, ../../scss/foundation/components/_type.scss */
   .ir a:after,
   a[href^="javascript:"]:after,
   a[href^="#"]:after {
     content: "";
   }
 
-  /* line 402, ../../scss/foundation/components/_type.scss */
+  /* line 401, ../../scss/foundation/components/_type.scss */
   pre,
   blockquote {
     border: 1px solid #999;
@@ -2298,7 +2294,7 @@ blockquote p {
     /* h5bp.com/t */
   }
 
-  /* line 410, ../../scss/foundation/components/_type.scss */
+  /* line 409, ../../scss/foundation/components/_type.scss */
   tr,
   img {
     page-break-inside: avoid;
@@ -2311,9 +2307,8 @@ blockquote p {
 
   @page {
     margin: 0.5cm;
-}
-
-  /* line 418, ../../scss/foundation/components/_type.scss */
+  }
+  /* line 416, ../../scss/foundation/components/_type.scss */
   p,
   h2,
   h3 {
@@ -2321,7 +2316,7 @@ blockquote p {
     widows: 3;
   }
 
-  /* line 424, ../../scss/foundation/components/_type.scss */
+  /* line 423, ../../scss/foundation/components/_type.scss */
   h2,
   h3 {
     page-break-after: avoid;
@@ -2369,11 +2364,11 @@ button, .button {
   border-color: #108ca2;
   color: white;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 button:hover, button:focus, .button:hover, .button:focus {
   background-color: #108ca2;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 button:hover, button:focus, .button:hover, .button:focus {
   color: white;
 }
@@ -2383,11 +2378,11 @@ button.secondary, .button.secondary {
   border-color: #d2d5dd;
   color: #333333;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
   background-color: #d2d5dd;
 }
-/* line 128, ../../scss/foundation/components/_buttons.scss */
+/* line 127, ../../scss/foundation/components/_buttons.scss */
 button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
   color: #333333;
 }
@@ -2397,11 +2392,11 @@ button.success, .button.success {
   border-color: #2e8c15;
   color: white;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 button.success:hover, button.success:focus, .button.success:hover, .button.success:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 button.success:hover, button.success:focus, .button.success:hover, .button.success:focus {
   color: white;
 }
@@ -2411,11 +2406,11 @@ button.alert, .button.alert {
   border-color: #94060e;
   color: white;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 button.alert:hover, button.alert:focus, .button.alert:hover, .button.alert:focus {
   background-color: #94060e;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 button.alert:hover, button.alert:focus, .button.alert:hover, .button.alert:focus {
   color: white;
 }
@@ -2469,15 +2464,15 @@ button.disabled, button[disabled], .button.disabled, .button[disabled] {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
   background-color: #108ca2;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
   color: white;
 }
-/* line 146, ../../scss/foundation/components/_buttons.scss */
+/* line 145, ../../scss/foundation/components/_buttons.scss */
 button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
   background-color: #14b4d1;
 }
@@ -2491,15 +2486,15 @@ button.disabled.secondary, button[disabled].secondary, .button.disabled.secondar
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 button.disabled.secondary:hover, button.disabled.secondary:focus, button[disabled].secondary:hover, button[disabled].secondary:focus, .button.disabled.secondary:hover, .button.disabled.secondary:focus, .button[disabled].secondary:hover, .button[disabled].secondary:focus {
   background-color: #d2d5dd;
 }
-/* line 128, ../../scss/foundation/components/_buttons.scss */
+/* line 127, ../../scss/foundation/components/_buttons.scss */
 button.disabled.secondary:hover, button.disabled.secondary:focus, button[disabled].secondary:hover, button[disabled].secondary:focus, .button.disabled.secondary:hover, .button.disabled.secondary:focus, .button[disabled].secondary:hover, .button[disabled].secondary:focus {
   color: #333333;
 }
-/* line 146, ../../scss/foundation/components/_buttons.scss */
+/* line 145, ../../scss/foundation/components/_buttons.scss */
 button.disabled.secondary:hover, button.disabled.secondary:focus, button[disabled].secondary:hover, button[disabled].secondary:focus, .button.disabled.secondary:hover, .button.disabled.secondary:focus, .button[disabled].secondary:hover, .button[disabled].secondary:focus {
   background-color: #eff0f3;
 }
@@ -2513,15 +2508,15 @@ button.disabled.success, button[disabled].success, .button.disabled.success, .bu
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
   color: white;
 }
-/* line 146, ../../scss/foundation/components/_buttons.scss */
+/* line 145, ../../scss/foundation/components/_buttons.scss */
 button.disabled.success:hover, button.disabled.success:focus, button[disabled].success:hover, button[disabled].success:focus, .button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus {
   background-color: #3cb81c;
 }
@@ -2535,15 +2530,15 @@ button.disabled.alert, button[disabled].alert, .button.disabled.alert, .button[d
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert:hover, button[disabled].alert:focus, .button.disabled.alert:hover, .button.disabled.alert:focus, .button[disabled].alert:hover, .button[disabled].alert:focus {
   background-color: #94060e;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert:hover, button[disabled].alert:focus, .button.disabled.alert:hover, .button.disabled.alert:focus, .button[disabled].alert:hover, .button[disabled].alert:focus {
   color: white;
 }
-/* line 146, ../../scss/foundation/components/_buttons.scss */
+/* line 145, ../../scss/foundation/components/_buttons.scss */
 button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert:hover, button[disabled].alert:focus, .button.disabled.alert:hover, .button.disabled.alert:focus, .button[disabled].alert:hover, .button[disabled].alert:focus {
   background-color: #c50813;
 }
@@ -2615,7 +2610,7 @@ form {
 form .row .row {
   margin: 0 -0.5em;
 }
-/* line 70, ../../scss/foundation/components/_forms.scss */
+/* line 69, ../../scss/foundation/components/_forms.scss */
 form .row .row .column,
 form .row .row .columns {
   padding: 0 0.5em;
@@ -2624,12 +2619,12 @@ form .row .row .columns {
 form .row .row.collapse {
   margin: 0;
 }
-/* line 76, ../../scss/foundation/components/_forms.scss */
+/* line 75, ../../scss/foundation/components/_forms.scss */
 form .row .row.collapse .column,
 form .row .row.collapse .columns {
   padding: 0;
 }
-/* line 83, ../../scss/foundation/components/_forms.scss */
+/* line 80, ../../scss/foundation/components/_forms.scss */
 form .row input.column,
 form .row input.columns,
 form .row textarea.column,
@@ -2665,7 +2660,7 @@ label small {
 }
 
 /* Attach elements to the beginning or end of an input */
-/* line 276, ../../scss/foundation/components/_forms.scss */
+/* line 275, ../../scss/foundation/components/_forms.scss */
 .prefix,
 .postfix {
   display: block;
@@ -2830,7 +2825,7 @@ span.postfix.radius, label.postfix.radius {
 }
 
 /* We use this to get basic styling on all basic form elements */
-/* line 329, ../../scss/foundation/components/_forms.scss */
+/* line 316, ../../scss/foundation/components/_forms.scss */
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -2922,7 +2917,7 @@ textarea[disabled] {
 }
 
 /* Adjust margin for form elements below */
-/* line 340, ../../scss/foundation/components/_forms.scss */
+/* line 337, ../../scss/foundation/components/_forms.scss */
 input[type="file"],
 input[type="checkbox"],
 input[type="radio"],
@@ -2982,7 +2977,7 @@ span.error, small.error {
   color: white;
 }
 
-/* line 369, ../../scss/foundation/components/_forms.scss */
+/* line 367, ../../scss/foundation/components/_forms.scss */
 .error input,
 .error textarea,
 .error select {
@@ -2997,7 +2992,7 @@ span.error, small.error {
   background: #fafafa;
   border-color: #999999;
 }
-/* line 375, ../../scss/foundation/components/_forms.scss */
+/* line 374, ../../scss/foundation/components/_forms.scss */
 .error label,
 .error label.error {
   color: #c50813;
@@ -3018,7 +3013,7 @@ span.error, small.error {
   display: block;
 }
 
-/* line 389, ../../scss/foundation/components/_forms.scss */
+/* line 388, ../../scss/foundation/components/_forms.scss */
 input.error,
 textarea.error {
   border-color: #c50813;
@@ -3340,7 +3335,7 @@ form.custom .custom.disabled {
 .button-group > *:first-child {
   margin-left: 0;
 }
-/* line 53, ../../scss/foundation/components/_button-groups.scss */
+/* line 50, ../../scss/foundation/components/_button-groups.scss */
 .button-group.radius > *:first-child, .button-group.radius > *:first-child > a, .button-group.radius > *:first-child > button, .button-group.radius > *:first-child > .button {
   -moz-border-radius-bottomleft: 3px;
   -moz-border-radius-topleft: 3px;
@@ -3349,7 +3344,7 @@ form.custom .custom.disabled {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
 }
-/* line 57, ../../scss/foundation/components/_button-groups.scss */
+/* line 54, ../../scss/foundation/components/_button-groups.scss */
 .button-group.radius > *:last-child, .button-group.radius > *:last-child > a, .button-group.radius > *:last-child > button, .button-group.radius > *:last-child > .button {
   -moz-border-radius-topright: 3px;
   -moz-border-radius-bottomright: 3px;
@@ -3358,7 +3353,7 @@ form.custom .custom.disabled {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-/* line 53, ../../scss/foundation/components/_button-groups.scss */
+/* line 50, ../../scss/foundation/components/_button-groups.scss */
 .button-group.round > *:first-child, .button-group.round > *:first-child > a, .button-group.round > *:first-child > button, .button-group.round > *:first-child > .button {
   -moz-border-radius-bottomleft: 1000px;
   -moz-border-radius-topleft: 1000px;
@@ -3367,7 +3362,7 @@ form.custom .custom.disabled {
   border-bottom-left-radius: 1000px;
   border-top-left-radius: 1000px;
 }
-/* line 57, ../../scss/foundation/components/_button-groups.scss */
+/* line 54, ../../scss/foundation/components/_button-groups.scss */
 .button-group.round > *:last-child, .button-group.round > *:last-child > a, .button-group.round > *:last-child > button, .button-group.round > *:last-child > .button {
   -moz-border-radius-topright: 1000px;
   -moz-border-radius-bottomright: 1000px;
@@ -3668,7 +3663,7 @@ form.custom .custom.disabled {
 
 /*@import "foundation/components/flex-video";*/
 /* Sections */
-/* line 285, ../../scss/foundation/components/_section.scss */
+/* line 281, ../../scss/foundation/components/_section.scss */
 [data-section=''], [data-section='auto'], .section-container.auto,
 [data-section='vertical-tabs'], .section-container.vertical-tabs,
 [data-section='vertical-nav'], .section-container.vertical-nav,
@@ -3907,7 +3902,7 @@ form.custom .custom.disabled {
   width: 100%;
 }
 
-/* line 296, ../../scss/foundation/components/_section.scss */
+/* line 292, ../../scss/foundation/components/_section.scss */
 .section-container.auto,
 .section-container.vertical-tabs,
 .section-container.vertical-nav,
@@ -4760,7 +4755,7 @@ form.custom .custom.disabled {
 .top-bar .row {
   max-width: none;
 }
-/* line 100, ../../scss/foundation/components/_top-bar.scss */
+/* line 99, ../../scss/foundation/components/_top-bar.scss */
 .top-bar form,
 .top-bar input {
   margin-bottom: 0;
@@ -4881,7 +4876,7 @@ form.custom .custom.disabled {
   font-size: 16px;
   margin: 0;
 }
-/* line 227, ../../scss/foundation/components/_top-bar.scss */
+/* line 226, ../../scss/foundation/components/_top-bar.scss */
 .top-bar-section .divider,
 .top-bar-section [role="separator"] {
   border-bottom: solid 1px white;
@@ -5056,7 +5051,7 @@ form.custom .custom.disabled {
   .top-bar .name h1 a {
     width: auto;
   }
-  /* line 373, ../../scss/foundation/components/_top-bar.scss */
+  /* line 372, ../../scss/foundation/components/_top-bar.scss */
   .top-bar input,
   .top-bar .button {
     line-height: 2em;
@@ -5169,7 +5164,7 @@ form.custom .custom.disabled {
     left: 100%;
     top: 0;
   }
-  /* line 478, ../../scss/foundation/components/_top-bar.scss */
+  /* line 477, ../../scss/foundation/components/_top-bar.scss */
   .top-bar-section > ul > .divider, .top-bar-section > ul > [role="separator"] {
     border-bottom: none;
     border-top: none;
@@ -5241,7 +5236,7 @@ form.custom .custom.disabled {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   top: 20px;
 }
-/* line 62, ../../scss/foundation/components/_reveal.scss */
+/* line 61, ../../scss/foundation/components/_reveal.scss */
 .reveal-modal .column,
 .reveal-modal .columns {
   min-width: 0;
@@ -5380,7 +5375,7 @@ form.custom .custom.disabled {
 }
 
 /* Typography */
-/* line 109, ../../scss/foundation/components/_joyride.scss */
+/* line 104, ../../scss/foundation/components/_joyride.scss */
 .joyride-tip-guide h1,
 .joyride-tip-guide h2,
 .joyride-tip-guide h3,
@@ -5431,7 +5426,7 @@ form.custom .custom.disabled {
   font-weight: normal;
   line-height: .5 !important;
 }
-/* line 147, ../../scss/foundation/components/_joyride.scss */
+/* line 146, ../../scss/foundation/components/_joyride.scss */
 .joyride-close-tip:hover, .joyride-close-tip:focus {
   color: #eee !important;
 }
@@ -5534,7 +5529,7 @@ form.custom .custom.disabled {
   color: #333333;
   opacity: 0.3;
 }
-/* line 81, ../../scss/foundation/components/_alert-boxes.scss */
+/* line 80, ../../scss/foundation/components/_alert-boxes.scss */
 .alert-box .close:hover, .alert-box .close:focus {
   opacity: 0.5;
 }
@@ -5652,7 +5647,7 @@ ul.pagination li a {
   padding: 0.0625em 0.4375em 0.0625em;
   color: #999999;
 }
-/* line 100, ../../scss/foundation/components/_pagination.scss */
+/* line 99, ../../scss/foundation/components/_pagination.scss */
 ul.pagination li:hover a,
 ul.pagination li a:focus {
   background: #e6e6e6;
@@ -5662,7 +5657,7 @@ ul.pagination li.unavailable a {
   cursor: "default";
   color: #999999;
 }
-/* line 50, ../../scss/foundation/components/_pagination.scss */
+/* line 49, ../../scss/foundation/components/_pagination.scss */
 ul.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {
   background: transparent;
 }
@@ -5673,7 +5668,7 @@ ul.pagination li.current a {
   font-weight: bold;
   cursor: "default";
 }
-/* line 64, ../../scss/foundation/components/_pagination.scss */
+/* line 63, ../../scss/foundation/components/_pagination.scss */
 ul.pagination li.current a:hover, ul.pagination li.current a:focus {
   background: #323a45;
 }
@@ -5830,7 +5825,7 @@ ul.pagination li {
   margin-right: 0;
   margin-left: -0.5625em;
 }
-/* line 38, ../../scss/foundation/components/_sub-nav.scss */
+/* line 37, ../../scss/foundation/components/_sub-nav.scss */
 .sub-nav dt,
 .sub-nav dd {
   float: left;
@@ -5873,7 +5868,7 @@ ul.pagination li {
   -moz-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
-/* line 32, ../../scss/foundation/components/_thumbs.scss */
+/* line 31, ../../scss/foundation/components/_thumbs.scss */
 .th:hover, .th:focus {
   -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
@@ -5967,7 +5962,7 @@ a.th {
   line-height: 1.125em;
   margin: 0;
 }
-/* line 115, ../../scss/foundation/components/_dropdown.scss */
+/* line 114, ../../scss/foundation/components/_dropdown.scss */
 .f-dropdown li:hover, .f-dropdown li:focus {
   background: #eeeeee;
 }
@@ -6159,11 +6154,11 @@ a.button {
   border-radius: 3px;
   margin-right: 10px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .authorize-button:hover, .authorize-button:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .authorize-button:hover, .authorize-button:focus {
   color: white;
 }
@@ -6239,11 +6234,11 @@ a.button {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .cancel-button:hover, .cancel-button:focus {
   background-color: #94060e;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .cancel-button:hover, .cancel-button:focus {
   color: white;
 }
@@ -6292,11 +6287,11 @@ a.button {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .facebook-button:hover, .facebook-button:focus {
   background-color: #2d4373;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .facebook-button:hover, .facebook-button:focus {
   color: white;
 }
@@ -6335,11 +6330,11 @@ a.button {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .twitter-button:hover, .twitter-button:focus {
   background-color: #0087bb;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .twitter-button:hover, .twitter-button:focus {
   color: white;
 }
@@ -6378,11 +6373,11 @@ a.button {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .google-button:hover, .google-button:focus {
   background-color: #c23321;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .google-button:hover, .google-button:focus {
   color: white;
 }
@@ -6641,11 +6636,11 @@ a.button {
   border-radius: 3px;
   height: 2.9em;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .open-id .open-id-submit button:hover, .open-id .open-id-submit button:focus {
   background-color: #d2d5dd;
 }
-/* line 128, ../../scss/foundation/components/_buttons.scss */
+/* line 127, ../../scss/foundation/components/_buttons.scss */
 .open-id .open-id-submit button:hover, .open-id .open-id-submit button:focus {
   color: #333333;
 }
@@ -6728,11 +6723,11 @@ a.button {
   border-radius: 3px;
   margin: 20px 0 10px 0;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .login-button:hover, .register-button:hover, .login-button:focus, .register-button:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .login-button:hover, .register-button:hover, .login-button:focus, .register-button:focus {
   color: white;
 }
@@ -6817,11 +6812,11 @@ a.button {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .logout-button:hover, .logout-button:focus {
   background-color: #94060e;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .logout-button:hover, .logout-button:focus {
   color: white;
 }
@@ -6856,15 +6851,15 @@ a.button {
 /* line 22, ../../scss/modules/header/_topbar.scss */
 .top-bar {
   overflow: hidden;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 @media only screen and (min-width: 768px) {
   /* line 22, ../../scss/modules/header/_topbar.scss */
   .top-bar {
-    -webkit-box-shadow: 0;
     -moz-box-shadow: 0;
+    -webkit-box-shadow: 0;
     box-shadow: 0;
   }
 }
@@ -6874,7 +6869,7 @@ a.button {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('/media/kohana/images/logo.png?1383615105') no-repeat;
+  background: url('/media/kohana/images/logo.png?1383248488') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -6945,7 +6940,7 @@ a.button {
   top: -1px;
 }
 
-/* line 100, ../../scss/modules/header/_topbar.scss */
+/* line 97, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li.show-for-medium-down a.workspace-panel-button, .top-bar-section li.show-for-medium-down a.create-post-button, .top-bar-section li.show-for-medium-down a.views, .top-bar-section li.show-for-medium-down a.sets {
   padding: 0 20px;
 }
@@ -6995,17 +6990,17 @@ nav[role="sub-navigation"] {
   padding-right: 0;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   max-height: 0;
   /*overflow: hidden;*/
   display: none;
   /*not working because css3 animation don't support display*/
-  -webkit-transition: max-height 0.3s ease-in-out;
   -moz-transition: max-height 0.3s ease-in-out;
   -o-transition: max-height 0.3s ease-in-out;
+  -webkit-transition: max-height 0.3s ease-in-out;
   transition: max-height 0.3s ease-in-out;
 }
 /* line 22, ../../scss/modules/header/_subnav.scss */
@@ -7089,9 +7084,9 @@ nav[role="sub-navigation"] li a {
   float: left;
   clear: both;
   margin-left: 0px;
-  -webkit-transition: margin 0.3s ease-in-out;
   -moz-transition: margin 0.3s ease-in-out;
   -o-transition: margin 0.3s ease-in-out;
+  -webkit-transition: margin 0.3s ease-in-out;
   transition: margin 0.3s ease-in-out;
 }
 
@@ -7165,7 +7160,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 32, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('/media/kohana/images/avatar.png?1382660984') no-repeat;
+  background: url('/media/kohana/images/avatar.png?1382122926') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -7663,9 +7658,9 @@ nav[role="sub-navigation"] li a {
   opacity: 1;
   width: 100%;
   height: 386px;
-  -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
 @media only screen and (min-width: 768px) {
@@ -7679,9 +7674,9 @@ nav[role="sub-navigation"] li a {
 .map-collapse {
   opacity: .5;
   height: 38px;
-  -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
 
@@ -7733,8 +7728,8 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #226a9c;
   width: 100%;
@@ -7807,10 +7802,8 @@ nav[role="sub-navigation"] li a {
 @media only screen and (min-width: 1024px) {
   /* line 49, ../../scss/modules/map/_search.scss */
   .search-bar .search-field input[type="text"] {
-    -webkit-border-radius: 3px 0 0 3px;
     -moz-border-radius: 3px 0 0 3px;
-    -ms-border-radius: 3px 0 0 3px;
-    -o-border-radius: 3px 0 0 3px;
+    -webkit-border-radius: 3px;
     border-radius: 3px 0 0 3px;
   }
 }
@@ -7874,10 +7867,8 @@ nav[role="sub-navigation"] li a {
 }
 /* line 73, ../../scss/modules/map/_search.scss */
 .categories-select select {
-  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
 }
 @media only screen and (min-width: 768px) {
@@ -7901,10 +7892,8 @@ nav[role="sub-navigation"] li a {
   }
   /* line 81, ../../scss/modules/map/_search.scss */
   .categories-select select {
-    -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
     border-radius: 0px;
   }
 }
@@ -7929,10 +7918,8 @@ nav[role="sub-navigation"] li a {
 }
 /* line 92, ../../scss/modules/map/_search.scss */
 .sets-select select {
-  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
 }
 @media only screen and (min-width: 768px) {
@@ -7956,10 +7943,8 @@ nav[role="sub-navigation"] li a {
   }
   /* line 100, ../../scss/modules/map/_search.scss */
   .sets-select select {
-    -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
     border-radius: 0px;
   }
 }
@@ -7984,10 +7969,8 @@ nav[role="sub-navigation"] li a {
 }
 /* line 111, ../../scss/modules/map/_search.scss */
 .time-select select {
-  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
 }
 @media only screen and (min-width: 768px) {
@@ -8011,10 +7994,8 @@ nav[role="sub-navigation"] li a {
   }
   /* line 119, ../../scss/modules/map/_search.scss */
   .time-select select {
-    -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
     border-radius: 0px;
   }
 }
@@ -8102,11 +8083,11 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .search-bar-button button:hover, .search-bar-button button:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .search-bar-button button:hover, .search-bar-button button:focus {
   color: white;
 }
@@ -8288,8 +8269,8 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   color: #9a9797;
@@ -8304,8 +8285,8 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375em;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #323a45;
   padding: 20px 15px;
@@ -8477,7 +8458,7 @@ nav[role="sub-navigation"] li a {
   -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
-/* line 32, ../../scss/foundation/components/_thumbs.scss */
+/* line 31, ../../scss/foundation/components/_thumbs.scss */
 .list-view-post-image img:hover, .list-view-post-image img:focus {
   -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
@@ -8765,11 +8746,11 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .list-view-post-edit-buttons:hover, .list-view-post-edit-buttons:focus {
   background-color: #d2d5dd;
 }
-/* line 128, ../../scss/foundation/components/_buttons.scss */
+/* line 127, ../../scss/foundation/components/_buttons.scss */
 .list-view-post-edit-buttons:hover, .list-view-post-edit-buttons:focus {
   color: #333333;
 }
@@ -8813,8 +8794,8 @@ nav[role="sub-navigation"] li a {
   float: left;
   background-color: #323a45;
   padding: 1em;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   z-index: 1;
 }
@@ -8854,11 +8835,11 @@ nav[role="sub-navigation"] li a {
   border-radius: 3px;
   border: 0px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .post-header .post-actions-button:hover, .post-header .post-actions-button:focus {
   background-color: #d2d5dd;
 }
-/* line 128, ../../scss/foundation/components/_buttons.scss */
+/* line 127, ../../scss/foundation/components/_buttons.scss */
 .post-header .post-actions-button:hover, .post-header .post-actions-button:focus {
   color: #333333;
 }
@@ -8873,7 +8854,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('/media/kohana/images/category-icon.png?1383700448') no-repeat;
+  background: url('/media/kohana/images/category-icon.png?1383248488') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 54, ../../scss/modules/posts/_post.scss */
@@ -8950,8 +8931,8 @@ nav[role="sub-navigation"] li a {
   background-color: #fcfcfc;
   padding: 1em;
   margin-bottom: 20px;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
@@ -8984,7 +8965,7 @@ nav[role="sub-navigation"] li a {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
 }
-/* line 32, ../../scss/foundation/components/_thumbs.scss */
+/* line 31, ../../scss/foundation/components/_thumbs.scss */
 .post-image img:hover, .post-image img:focus {
   -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
@@ -9434,7 +9415,7 @@ nav[role="sub-navigation"] li a {
   -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
-/* line 32, ../../scss/foundation/components/_thumbs.scss */
+/* line 31, ../../scss/foundation/components/_thumbs.scss */
 .post-thumbnails li img:hover, .post-thumbnails li img:focus {
   -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
@@ -9472,8 +9453,8 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   background-color: #fcfcfc;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   margin-left: 0;
 }
@@ -9530,7 +9511,7 @@ nav[role="sub-navigation"] li a {
   -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
-/* line 32, ../../scss/foundation/components/_thumbs.scss */
+/* line 31, ../../scss/foundation/components/_thumbs.scss */
 .related-post-image img:hover, .related-post-image img:focus {
   -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
@@ -9608,8 +9589,8 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 0;
   max-width: 80em;
   *zoom: 1;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #323a45;
   margin-bottom: 20px;
@@ -9706,11 +9687,11 @@ nav[role="sub-navigation"] li a {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .sets-search-bar-create-button a:hover, .sets-search-bar-create-button a:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .sets-search-bar-create-button a:hover, .sets-search-bar-create-button a:focus {
   color: white;
 }
@@ -10048,8 +10029,8 @@ nav[role="sub-navigation"] li a {
   text-align: center;
   background-color: #fcfcfc;
   padding-bottom: 12px;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
@@ -10127,11 +10108,11 @@ TODO: may need a notification mixin here
   border-radius: 3px;
   margin-bottom: 2em;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .set-view-posts-button:hover, .set-view-posts-button:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .set-view-posts-button:hover, .set-view-posts-button:focus {
   color: white;
 }
@@ -10254,8 +10235,8 @@ TODO: may need a notification mixin here
   padding-right: 0;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   color: #9a9797;
@@ -10457,7 +10438,7 @@ footer {
   z-index: 505;
 }
 
-/* line 141, ../../scss/plugins/_magnific.scss */
+/* line 140, ../../scss/plugins/_magnific.scss */
 .mfp-inline-holder .mfp-content,
 .mfp-ajax-holder .mfp-content {
   width: 100%;
@@ -10469,7 +10450,7 @@ footer {
   cursor: progress;
 }
 
-/* line 151, ../../scss/plugins/_magnific.scss */
+/* line 150, ../../scss/plugins/_magnific.scss */
 .mfp-zoom-out-cur,
 .mfp-zoom-out-cur .mfp-image-holder .mfp-close {
   cursor: -moz-zoom-out;
@@ -10490,7 +10471,7 @@ footer {
   cursor: auto;
 }
 
-/* line 169, ../../scss/plugins/_magnific.scss */
+/* line 166, ../../scss/plugins/_magnific.scss */
 .mfp-close,
 .mfp-arrow,
 .mfp-preloader,
@@ -10543,7 +10524,7 @@ footer {
   display: none;
 }
 
-/* line 223, ../../scss/plugins/_magnific.scss */
+/* line 222, ../../scss/plugins/_magnific.scss */
 button.mfp-close,
 button.mfp-arrow {
   overflow: visible;
@@ -10579,7 +10560,7 @@ button::-moz-focus-inner {
   font-size: 28px;
   font-family: Arial, Baskerville, monospace;
 }
-/* line 259, ../../scss/plugins/_magnific.scss */
+/* line 258, ../../scss/plugins/_magnific.scss */
 .mfp-close:hover, .mfp-close:focus {
   opacity: 1;
 }
@@ -10593,7 +10574,7 @@ button::-moz-focus-inner {
   color: #333333;
 }
 
-/* line 271, ../../scss/plugins/_magnific.scss */
+/* line 270, ../../scss/plugins/_magnific.scss */
 .mfp-image-holder .mfp-close,
 .mfp-iframe-holder .mfp-close {
   color: white;
@@ -10623,7 +10604,7 @@ button::-moz-focus-inner {
   padding: 0;
   width: 90px;
   height: 110px;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* line 302, ../../scss/plugins/_magnific.scss */
@@ -10631,13 +10612,13 @@ button::-moz-focus-inner {
   margin-top: -54px;
 }
 
-/* line 306, ../../scss/plugins/_magnific.scss */
+/* line 305, ../../scss/plugins/_magnific.scss */
 .mfp-arrow:hover,
 .mfp-arrow:focus {
   opacity: 1;
 }
 
-/* line 315, ../../scss/plugins/_magnific.scss */
+/* line 312, ../../scss/plugins/_magnific.scss */
 .mfp-arrow:before, .mfp-arrow:after,
 .mfp-arrow .mfp-b,
 .mfp-arrow .mfp-a {
@@ -10652,14 +10633,14 @@ button::-moz-focus-inner {
   margin-left: 35px;
   border: solid transparent;
 }
-/* line 329, ../../scss/plugins/_magnific.scss */
+/* line 328, ../../scss/plugins/_magnific.scss */
 .mfp-arrow:after,
 .mfp-arrow .mfp-a {
   border-top-width: 13px;
   border-bottom-width: 13px;
   top: 8px;
 }
-/* line 337, ../../scss/plugins/_magnific.scss */
+/* line 336, ../../scss/plugins/_magnific.scss */
 .mfp-arrow:before,
 .mfp-arrow .mfp-b {
   border-top-width: 21px;
@@ -10670,13 +10651,13 @@ button::-moz-focus-inner {
 .mfp-arrow-left {
   left: 0;
 }
-/* line 348, ../../scss/plugins/_magnific.scss */
+/* line 347, ../../scss/plugins/_magnific.scss */
 .mfp-arrow-left:after,
 .mfp-arrow-left .mfp-a {
   border-right: 17px solid #FFF;
   margin-left: 31px;
 }
-/* line 353, ../../scss/plugins/_magnific.scss */
+/* line 352, ../../scss/plugins/_magnific.scss */
 .mfp-arrow-left:before,
 .mfp-arrow-left .mfp-b {
   margin-left: 25px;
@@ -10687,13 +10668,13 @@ button::-moz-focus-inner {
 .mfp-arrow-right {
   right: 0;
 }
-/* line 362, ../../scss/plugins/_magnific.scss */
+/* line 361, ../../scss/plugins/_magnific.scss */
 .mfp-arrow-right:after,
 .mfp-arrow-right .mfp-a {
   border-left: 17px solid #FFF;
   margin-left: 39px;
 }
-/* line 367, ../../scss/plugins/_magnific.scss */
+/* line 366, ../../scss/plugins/_magnific.scss */
 .mfp-arrow-right:before,
 .mfp-arrow-right .mfp-b {
   border-left: 27px solid #3f3f3f;
@@ -10929,7 +10910,7 @@ img.mfp-img {
 }
 
 /* settings and base styles. For custom CSS, do not edit this file, edit magnific-settings.scss instead*/
-/* line 3, ../../scss/plugins/_alertify-core.scss */
+/* line 1, ../../scss/plugins/_alertify-core.scss */
 .alertify,
 .alertify-show,
 .alertify-log {
@@ -11079,7 +11060,7 @@ img.mfp-img {
   font-size: 100%;
 }
 
-/* line 113, ../../scss/plugins/_alertify-core.scss */
+/* line 110, ../../scss/plugins/_alertify-core.scss */
 .alertify-button,
 .alertify-button:hover,
 .alertify-button:active,
@@ -11101,7 +11082,7 @@ img.mfp-img {
 }
 
 @media only screen and (max-width: 680px) {
-  /* line 131, ../../scss/plugins/_alertify-core.scss */
+  /* line 130, ../../scss/plugins/_alertify-core.scss */
   .alertify,
   .alertify-logs {
     width: 90%;
@@ -11126,8 +11107,8 @@ img.mfp-img {
   border: 4px solid #333;
   /* browsers that don't support rgba */
   border-radius: 3px;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   -webkit-background-clip: padding;
   /* Safari 4? Chrome 6? */
@@ -11153,7 +11134,7 @@ img.mfp-img {
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
-/* line 30, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 29, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button:hover,
 .alertify-button:focus {
   outline: none;
@@ -11170,7 +11151,7 @@ img.mfp-img {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* line 45, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 43, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button-cancel,
 .alertify-button-cancel:hover,
 .alertify-button-cancel:focus {
@@ -11178,7 +11159,7 @@ img.mfp-img {
   border: 1px solid #108ca2;
 }
 
-/* line 52, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 50, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button-ok,
 .alertify-button-ok:hover,
 .alertify-button-ok:focus {
@@ -11244,7 +11225,6 @@ img.mfp-img {
   font-weight: normal;
   font-style: normal;
 }
-
 /* line 4, ../../scss/plugins/font-awesome/_core.scss */
 .fa {
   display: inline-block;
@@ -11359,7 +11339,6 @@ img.mfp-img {
     -moz-transform: rotate(359deg);
   }
 }
-
 @-webkit-keyframes spin {
   /* line 16, ../../scss/plugins/font-awesome/_spinning.scss */
   0% {
@@ -11371,7 +11350,6 @@ img.mfp-img {
     -webkit-transform: rotate(359deg);
   }
 }
-
 @-o-keyframes spin {
   /* line 20, ../../scss/plugins/font-awesome/_spinning.scss */
   0% {
@@ -11383,7 +11361,6 @@ img.mfp-img {
     -o-transform: rotate(359deg);
   }
 }
-
 @-ms-keyframes spin {
   /* line 24, ../../scss/plugins/font-awesome/_spinning.scss */
   0% {
@@ -11395,7 +11372,6 @@ img.mfp-img {
     -ms-transform: rotate(359deg);
   }
 }
-
 @keyframes spin {
   /* line 28, ../../scss/plugins/font-awesome/_spinning.scss */
   0% {
@@ -11407,7 +11383,6 @@ img.mfp-img {
     transform: rotate(359deg);
   }
 }
-
 /* line 4, ../../scss/plugins/font-awesome/_rotated-flipped.scss */
 .fa-rotate-90 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=$rotation);
@@ -11583,7 +11558,7 @@ img.mfp-img {
   content: "\f012";
 }
 
-/* line 23, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 22, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-gear:before,
 .fa-cog:before {
   content: "\f013";
@@ -11639,7 +11614,7 @@ img.mfp-img {
   content: "\f01d";
 }
 
-/* line 35, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 34, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-rotate-right:before,
 .fa-repeat:before {
   content: "\f01e";
@@ -11775,7 +11750,7 @@ img.mfp-img {
   content: "\f03a";
 }
 
-/* line 63, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 62, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-dedent:before,
 .fa-outdent:before {
   content: "\f03b";
@@ -11816,7 +11791,7 @@ img.mfp-img {
   content: "\f043";
 }
 
-/* line 72, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 71, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-edit:before,
 .fa-pencil-square-o:before {
   content: "\f044";
@@ -11967,7 +11942,7 @@ img.mfp-img {
   content: "\f063";
 }
 
-/* line 103, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 102, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-mail-forward:before,
 .fa-share:before {
   content: "\f064";
@@ -12028,7 +12003,7 @@ img.mfp-img {
   content: "\f070";
 }
 
-/* line 116, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 115, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-warning:before,
 .fa-exclamation-triangle:before {
   content: "\f071";
@@ -12124,7 +12099,7 @@ img.mfp-img {
   content: "\f084";
 }
 
-/* line 136, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 135, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-gears:before,
 .fa-cogs:before {
   content: "\f085";
@@ -12345,7 +12320,7 @@ img.mfp-img {
   content: "\f0c0";
 }
 
-/* line 181, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 180, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-chain:before,
 .fa-link:before {
   content: "\f0c1";
@@ -12361,13 +12336,13 @@ img.mfp-img {
   content: "\f0c3";
 }
 
-/* line 185, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 184, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-cut:before,
 .fa-scissors:before {
   content: "\f0c4";
 }
 
-/* line 187, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 186, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-copy:before,
 .fa-files-o:before {
   content: "\f0c5";
@@ -12378,7 +12353,7 @@ img.mfp-img {
   content: "\f0c6";
 }
 
-/* line 190, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 189, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-save:before,
 .fa-floppy-o:before {
   content: "\f0c7";
@@ -12479,19 +12454,19 @@ img.mfp-img {
   content: "\f0db";
 }
 
-/* line 211, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 210, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-unsorted:before,
 .fa-sort:before {
   content: "\f0dc";
 }
 
-/* line 213, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 212, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-sort-down:before,
 .fa-sort-asc:before {
   content: "\f0dd";
 }
 
-/* line 215, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 214, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-sort-up:before,
 .fa-sort-desc:before {
   content: "\f0de";
@@ -12507,19 +12482,19 @@ img.mfp-img {
   content: "\f0e1";
 }
 
-/* line 219, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 218, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-rotate-left:before,
 .fa-undo:before {
   content: "\f0e2";
 }
 
-/* line 221, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 220, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-legal:before,
 .fa-gavel:before {
   content: "\f0e3";
 }
 
-/* line 223, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 222, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-dashboard:before,
 .fa-tachometer:before {
   content: "\f0e4";
@@ -12535,7 +12510,7 @@ img.mfp-img {
   content: "\f0e6";
 }
 
-/* line 227, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 226, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-flash:before,
 .fa-bolt:before {
   content: "\f0e7";
@@ -12551,7 +12526,7 @@ img.mfp-img {
   content: "\f0e9";
 }
 
-/* line 231, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 230, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-paste:before,
 .fa-clipboard:before {
   content: "\f0ea";
@@ -12707,7 +12682,7 @@ img.mfp-img {
   content: "\f10a";
 }
 
-/* line 263, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 262, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-mobile-phone:before,
 .fa-mobile:before {
   content: "\f10b";
@@ -12738,7 +12713,7 @@ img.mfp-img {
   content: "\f111";
 }
 
-/* line 270, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 269, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-mail-reply:before,
 .fa-reply:before {
   content: "\f112";
@@ -12824,7 +12799,7 @@ img.mfp-img {
   content: "\f122";
 }
 
-/* line 289, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 287, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-star-half-empty:before,
 .fa-star-half-full:before,
 .fa-star-half-o:before {
@@ -12846,7 +12821,7 @@ img.mfp-img {
   content: "\f126";
 }
 
-/* line 294, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 293, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-unlink:before,
 .fa-chain-broken:before {
   content: "\f127";
@@ -13037,25 +13012,25 @@ img.mfp-img {
   content: "\f14e";
 }
 
-/* line 333, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 332, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-toggle-down:before,
 .fa-caret-square-o-down:before {
   content: "\f150";
 }
 
-/* line 335, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 334, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-toggle-up:before,
 .fa-caret-square-o-up:before {
   content: "\f151";
 }
 
-/* line 337, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 336, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-toggle-right:before,
 .fa-caret-square-o-right:before {
   content: "\f152";
 }
 
-/* line 339, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 338, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-euro:before,
 .fa-eur:before {
   content: "\f153";
@@ -13066,19 +13041,19 @@ img.mfp-img {
   content: "\f154";
 }
 
-/* line 342, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 341, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-dollar:before,
 .fa-usd:before {
   content: "\f155";
 }
 
-/* line 344, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 343, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-rupee:before,
 .fa-inr:before {
   content: "\f156";
 }
 
-/* line 348, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 345, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-cny:before,
 .fa-rmb:before,
 .fa-yen:before,
@@ -13086,20 +13061,20 @@ img.mfp-img {
   content: "\f157";
 }
 
-/* line 351, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 349, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-ruble:before,
 .fa-rouble:before,
 .fa-rub:before {
   content: "\f158";
 }
 
-/* line 353, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 352, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-won:before,
 .fa-krw:before {
   content: "\f159";
 }
 
-/* line 355, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 354, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-bitcoin:before,
 .fa-btc:before {
   content: "\f15a";
@@ -13355,7 +13330,7 @@ img.mfp-img {
   content: "\f190";
 }
 
-/* line 407, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 406, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-toggle-left:before,
 .fa-caret-square-o-left:before {
   content: "\f191";
@@ -13376,7 +13351,7 @@ img.mfp-img {
   content: "\f194";
 }
 
-/* line 412, ../../scss/plugins/font-awesome/_icons.scss */
+/* line 411, ../../scss/plugins/font-awesome/_icons.scss */
 .fa-turkish-lira:before,
 .fa-try:before {
   content: "\f195";
@@ -13407,7 +13382,7 @@ input[type="radio"], select {
 /* line 25, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
-  background: #fcfcfc url('/media/kohana/images/dropdown-arrow.svg?1385527168') no-repeat;
+  background: #fcfcfc url('/media/kohana/images/dropdown-arrow.svg?1386640387') no-repeat;
   background-size: 9px;
   background-position-x: 97%;
   background-position-y: center;
@@ -13415,10 +13390,8 @@ select {
   padding: 0.78em 1em 0.78em 0.78em;
   font-size: 0.875em;
   color: #9a9797;
-  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
 }
 
@@ -13429,7 +13402,6 @@ select {
     padding: 0.7em 1em 0.78em 0.78em;
   }
 }
-
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
@@ -13438,20 +13410,16 @@ input[type="text"], input[type="email"], input[type="password"] {
   height: 100%;
   /* FF fix */
   padding: 10px;
-  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
 }
 
 /* line 55, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown {
   height: 2.9em;
-  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border-radius: 3px;
 }
 /* line 58, ../../scss/modules/forms/_forms.scss */
@@ -13470,10 +13438,8 @@ form.custom .custom.dropdown .selector {
 @media only screen and (min-width: 1024px) {
   /* line 74, ../../scss/modules/forms/_forms.scss */
   .search-bar input[type="text"] {
-    -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
     border-radius: 0px;
   }
 }
@@ -13487,10 +13453,8 @@ form.custom .custom.dropdown .selector {
 @media only screen and (min-width: 1024px) {
   /* line 80, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
-    -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
+    -webkit-border-radius: 0px;
     border-radius: 0px;
   }
 }
@@ -13539,17 +13503,16 @@ form.custom .custom.checkbox.checked:before {
 /**
  * MODAL...............via Reveal.js included in Foundation
  * MODAL BODY...............all input fields and dropdowns
- * MEDIA ICONS...............icons for uploading various media
  */
 /*-----------------------------------------------------------*\
 		$MODAL
 \*-----------------------------------------------------------*/
-/* line 17, ../../scss/modules/modals/_modal.scss */
+/* line 16, ../../scss/modules/modals/_modal.scss */
 .reveal-modal {
   top: 25px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 17, ../../scss/modules/modals/_modal.scss */
+  /* line 16, ../../scss/modules/modals/_modal.scss */
   .reveal-modal {
     width: 80%;
     left: 57%;
@@ -13557,14 +13520,14 @@ form.custom .custom.checkbox.checked:before {
   }
 }
 @media only screen and (min-width: 1025px) {
-  /* line 17, ../../scss/modules/modals/_modal.scss */
+  /* line 16, ../../scss/modules/modals/_modal.scss */
   .reveal-modal {
     width: 60%;
     left: 67%;
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 17, ../../scss/modules/modals/_modal.scss */
+  /* line 16, ../../scss/modules/modals/_modal.scss */
   .reveal-modal {
     width: 50%;
     left: 70%;
@@ -13572,7 +13535,7 @@ form.custom .custom.checkbox.checked:before {
   }
 }
 @media only screen and (min-width: 2200px) {
-  /* line 17, ../../scss/modules/modals/_modal.scss */
+  /* line 16, ../../scss/modules/modals/_modal.scss */
   .reveal-modal {
     width: 38%;
     left: 77%;
@@ -13583,7 +13546,7 @@ form.custom .custom.checkbox.checked:before {
 /*------------------------------------*\
 		$MODAL BODY
 \*------------------------------------*/
-/* line 47, ../../scss/modules/modals/_modal.scss */
+/* line 46, ../../scss/modules/modals/_modal.scss */
 .modal-header {
   width: 100%;
   margin-left: auto;
@@ -13606,14 +13569,14 @@ form.custom .custom.checkbox.checked:before {
 .modal-header:after {
   clear: both;
 }
-/* line 53, ../../scss/modules/modals/_modal.scss */
+/* line 52, ../../scss/modules/modals/_modal.scss */
 .modal-header h4 {
   color: #fcfcfc;
   margin: 0;
   line-height: 1em;
 }
 
-/* line 60, ../../scss/modules/modals/_modal.scss */
+/* line 59, ../../scss/modules/modals/_modal.scss */
 .modal-wrapper {
   width: 100%;
   margin-left: auto;
@@ -13634,7 +13597,7 @@ form.custom .custom.checkbox.checked:before {
   clear: both;
 }
 
-/* line 65, ../../scss/modules/modals/_modal.scss */
+/* line 64, ../../scss/modules/modals/_modal.scss */
 .modal-footer {
   width: 100%;
   margin-left: auto;
@@ -13656,7 +13619,7 @@ form.custom .custom.checkbox.checked:before {
   clear: both;
 }
 
-/* line 71, ../../scss/modules/modals/_modal.scss */
+/* line 70, ../../scss/modules/modals/_modal.scss */
 .modal-submit {
   position: relative;
   padding-left: 0;
@@ -13665,7 +13628,7 @@ form.custom .custom.checkbox.checked:before {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 71, ../../scss/modules/modals/_modal.scss */
+  /* line 70, ../../scss/modules/modals/_modal.scss */
   .modal-submit {
     position: relative;
     padding-left: 0.9375em;
@@ -13676,7 +13639,7 @@ form.custom .custom.checkbox.checked:before {
     float: right;
   }
 }
-/* line 78, ../../scss/modules/modals/_modal.scss */
+/* line 77, ../../scss/modules/modals/_modal.scss */
 .modal-submit button {
   border-style: solid;
   border-width: 1px;
@@ -13706,11 +13669,11 @@ form.custom .custom.checkbox.checked:before {
   border-radius: 3px;
   margin-bottom: 0;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .modal-submit button:hover, .modal-submit button:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .modal-submit button:hover, .modal-submit button:focus {
   color: white;
 }
@@ -13718,111 +13681,32 @@ form.custom .custom.checkbox.checked:before {
 /*------------------------------------*\
 		$UPLOAD MEDIA BAR
 \*------------------------------------*/
-/* line 89, ../../scss/modules/modals/_modal.scss */
-.media-bar {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 89, ../../scss/modules/modals/_modal.scss */
-  .media-bar {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 66.66667%;
-    float: left;
-    padding: 0;
-  }
+/*.media-bar{
+	@include grid-column(12, $collapse: true);
+	@media only screen and (min-width: 768px) {
+		@include grid-column(8);
+		padding: 0;
+	}
 }
 
-/* line 97, ../../scss/modules/modals/_modal.scss */
 .media-bar-uploads-wrap {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  padding: 0;
-  border-bottom: 1px solid #1f1f1f;
-}
-@media only screen and (min-width: 768px) {
-  /* line 97, ../../scss/modules/modals/_modal.scss */
-  .media-bar-uploads-wrap {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 100%;
-    float: left;
-    margin: 2px 0 1px;
-    border-bottom: 0;
-  }
+	@include grid-column(12);
+	padding: 0;
+	border-bottom: 1px solid $darkGray;
+	@media only screen and (min-width: 768px) {
+		@include grid-column(12, $collapse: true);
+		margin: 2px 0 1px;
+		border-bottom: 0;
+	}
 }
 
-/* line 108, ../../scss/modules/modals/_modal.scss */
 .media-bar-uploads {
-  display: block;
-  padding: 0;
-  margin: 0 0px;
-  *zoom: 1;
-  padding: 0 10px;
-}
-/* line 121, ../../scss/foundation/components/_global.scss */
-.media-bar-uploads:before, .media-bar-uploads:after {
-  content: " ";
-  display: table;
-}
-/* line 122, ../../scss/foundation/components/_global.scss */
-.media-bar-uploads:after {
-  clear: both;
-}
-/* line 27, ../../scss/foundation/components/_block-grid.scss */
-.media-bar-uploads > li {
-  display: inline;
-  height: auto;
-  float: left;
-  padding: 0 0px 0px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 108, ../../scss/modules/modals/_modal.scss */
-  .media-bar-uploads {
-    padding: 0;
-  }
-}
-
-/*------------------------------------*\
-		$MEDIA ICONS
-\*------------------------------------*/
-/* line 123, ../../scss/modules/modals/_modal.scss */
-.select-icon {
-  display: inline;
-  color: #fcfcfc;
-}
-/* line 127, ../../scss/modules/modals/_modal.scss */
-.select-icon a {
-  display: block;
-  width: 56px;
-  height: 60px;
-  color: #fcfcfc;
-  text-align: center;
-}
-/* line 134, ../../scss/modules/modals/_modal.scss */
-.select-icon .fa {
-  position: relative;
-  top: 20px;
-  left: 20px;
-  padding: 0;
-  font-size: 19px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 134, ../../scss/modules/modals/_modal.scss */
-  .select-icon .fa {
-    left: 0;
-  }
-}
-
+	@include block-grid($spacing: 0px);
+	padding: 0 10px;
+	@media only screen and (min-width: 768px) {
+		padding: 0;
+	}
+}*/
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -13937,11 +13821,11 @@ form.custom .custom.checkbox.checked:before {
   left: 20px;
   top: 17px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .back-button:hover, .back-button:focus {
   background-color: #d2d5dd;
 }
-/* line 128, ../../scss/foundation/components/_buttons.scss */
+/* line 127, ../../scss/foundation/components/_buttons.scss */
 .back-button:hover, .back-button:focus {
   color: #333333;
 }
@@ -14102,10 +13986,8 @@ form.custom .custom.checkbox.checked:before {
   color: #fcfcfc;
   text-align: center;
   padding: 40px 20px;
-  -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 10px;
   border-radius: 10px;
 }
 /* line 71, ../../scss/modules/modals/_choose-form-modal.scss */
@@ -14124,13 +14006,82 @@ form.custom .custom.checkbox.checked:before {
 		$CONTENTS
 \*------------------------------------*/
 /**
- * CREATE-POST...............create-post specific styles
- * UPLOAD MEDIA BAR...............wrapper and button for various media uploads
+ * OPTIONS NAV..............form options nav icons
+ * CREATE-POST-FORM...............create-post specific styles
  */
-/*-----------------------------------------------------------*\
-		$CREATE-POST
-\*-----------------------------------------------------------*/
+/*------------------------------------*\
+		$OPTIONS NAV
+\*------------------------------------*/
+/* line 16, ../../scss/modules/modals/_create-post-modal.scss */
+.form-options-nav-wrapper {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  padding-left: 0;
+}
 /* line 19, ../../scss/modules/modals/_create-post-modal.scss */
+.form-options-nav-wrapper ul {
+  margin-left: 0;
+}
+
+/*.sub-nav .select-icon {
+	display: inline;
+	color: $form-label-font-color;
+	a {
+		display: block;
+		text-align: center;
+	}
+	.fa {
+		position: relative;
+		padding: 0;
+		color: $body-font-color;
+		font-size: 17px;
+	}
+}*/
+/* line 39, ../../scss/modules/modals/_create-post-modal.scss */
+.form-options-nav {
+  display: block;
+  width: auto;
+  overflow: hidden;
+  margin: -0.25em 0 1.125em;
+  padding-top: 0.25em;
+  margin-right: 0;
+  margin-left: -0.5625em;
+}
+/* line 37, ../../scss/foundation/components/_sub-nav.scss */
+.form-options-nav dt,
+.form-options-nav dd {
+  float: left;
+  display: inline;
+  margin-left: 0.5625em;
+  margin-bottom: 0.625em;
+  font-weight: normal;
+  font-size: 0.875em;
+}
+/* line 46, ../../scss/foundation/components/_sub-nav.scss */
+.form-options-nav dt a,
+.form-options-nav dd a {
+  color: #999999;
+  text-decoration: none;
+}
+/* line 50, ../../scss/foundation/components/_sub-nav.scss */
+.form-options-nav dt.active a,
+.form-options-nav dd.active a {
+  -webkit-border-radius: 1000px;
+  border-radius: 1000px;
+  font-weight: bold;
+  background: #323a45;
+  padding: 0.1875em 0.5625em;
+  cursor: "default";
+  color: white;
+}
+
+/*-----------------------------------------------------------*\
+		$CREATE-POST-FORM
+\*-----------------------------------------------------------*/
+/* line 50, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -14140,37 +14091,131 @@ form.custom .custom.checkbox.checked:before {
   margin-bottom: 40px;
   padding: 0;
 }
-/* line 23, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 54, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper input[type="text"], .post-form-wrapper textarea {
   margin-bottom: 2em;
 }
-/* line 27, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 58, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper fieldset {
   border: none;
   padding: 0;
   margin: 0;
 }
-/* line 33, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 64, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form > fieldset {
   display: none;
 }
-/* line 35, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 66, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form > fieldset.active {
   display: block;
 }
 
-/* line 45, ../../scss/modules/modals/_create-post-modal.scss */
-.post-description {
+/* line 76, ../../scss/modules/modals/_create-post-modal.scss */
+.create-post-form textarea {
+  height: 100px;
+}
+
+/* line 80, ../../scss/modules/modals/_create-post-modal.scss */
+.location-search-row {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 80em;
+  *zoom: 1;
+}
+/* line 121, ../../scss/foundation/components/_global.scss */
+.location-search-row:before, .location-search-row:after {
+  content: " ";
+  display: table;
+}
+/* line 122, ../../scss/foundation/components/_global.scss */
+.location-search-row:after {
+  clear: both;
+}
+
+/* line 84, ../../scss/modules/modals/_create-post-modal.scss */
+.location-search-field {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 84, ../../scss/modules/modals/_create-post-modal.scss */
+  .location-search-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 75%;
+    float: left;
+    padding-right: 10px;
+  }
+}
+
+/* line 92, ../../scss/modules/modals/_create-post-modal.scss */
+.location-search-button {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 92, ../../scss/modules/modals/_create-post-modal.scss */
+  .location-search-button {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 25%;
+    float: left;
+    padding-left: 10px;
+  }
+}
+
+/* line 100, ../../scss/modules/modals/_create-post-modal.scss */
+.create-post-form-map {
   height: 200px;
 }
 
-/* line 49, ../../scss/modules/modals/_create-post-modal.scss */
-.create-post-location-map {
-  background: url('/media/kohana/images/map.jpg?1383699176') no-repeat;
+/* line 104, ../../scss/modules/modals/_create-post-modal.scss */
+.map-search-btn {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
   width: 100%;
-  height: 100px;
-  background-size: cover;
-  margin-bottom: 30px;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+/* line 121, ../../scss/foundation/components/_buttons.scss */
+.map-search-btn:hover, .map-search-btn:focus {
+  background-color: #2e8c15;
+}
+/* line 132, ../../scss/foundation/components/_buttons.scss */
+.map-search-btn:hover, .map-search-btn:focus {
+  color: white;
 }
 
 /*------------------------------------*\
@@ -14216,11 +14261,11 @@ form.custom .custom.checkbox.checked:before {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .add-to-set-category-button:hover, .add-to-set-category-button:focus {
   background-color: #d2d5dd;
 }
-/* line 128, ../../scss/foundation/components/_buttons.scss */
+/* line 127, ../../scss/foundation/components/_buttons.scss */
 .add-to-set-category-button:hover, .add-to-set-category-button:focus {
   color: #333333;
 }
@@ -14406,11 +14451,11 @@ form.custom .custom.checkbox.checked:before {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .post-excerpt-save-text-button:hover, .post-excerpt-save-text-button:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .post-excerpt-save-text-button:hover, .post-excerpt-save-text-button:focus {
   color: white;
 }
@@ -14589,7 +14634,7 @@ textarea {
   position: relative;
   margin-bottom: 20px;
 }
-/* line 32, ../../scss/foundation/components/_thumbs.scss */
+/* line 31, ../../scss/foundation/components/_thumbs.scss */
 .create-set-photo .create-set-thumbnail:hover, .create-set-photo .create-set-thumbnail:focus {
   -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
@@ -14645,11 +14690,11 @@ textarea {
   float: left;
   margin: 0 0 0 20px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .create-set-photo-button:hover, .create-set-photo-button:focus {
   background-color: #d2d5dd;
 }
-/* line 128, ../../scss/foundation/components/_buttons.scss */
+/* line 127, ../../scss/foundation/components/_buttons.scss */
 .create-set-photo-button:hover, .create-set-photo-button:focus {
   color: #333333;
 }
@@ -14717,11 +14762,11 @@ textarea {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .visibility-select-private-button:hover, .visibility-select-private-button:focus {
   background-color: #1d2127;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .visibility-select-private-button:hover, .visibility-select-private-button:focus {
   color: white;
 }
@@ -14755,11 +14800,11 @@ textarea {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
+/* line 121, ../../scss/foundation/components/_buttons.scss */
 .visibility-select-public-button:hover, .visibility-select-public-button:focus {
   background-color: #2e8c15;
 }
-/* line 133, ../../scss/foundation/components/_buttons.scss */
+/* line 132, ../../scss/foundation/components/_buttons.scss */
 .visibility-select-public-button:hover, .visibility-select-public-button:focus {
   color: white;
 }
