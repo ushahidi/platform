@@ -66,6 +66,8 @@
 			<!-- Deployment Files -->
 			<exclude name="application/cache/**" />
 			<exclude name="application/logs/**" />
+			<exclude name="application/config/environments/development/**" />
+			<exclude name="application/media/uploads/**" />
 			<exclude name=".htaccess" />
 			<!-- Build Files -->
 			<exclude name="*.zip" />
@@ -80,7 +82,8 @@
 			<exclude name="bin/**" />
 			<exclude name="vendor/**" />
 			<!-- IDE Files -->
-			<exclude name=".sass-cache/**" />
+			<exclude name="modules/UshahidiUI/.sass-cache/**" />
+			<exclude name="modules/UshahidiUI/node_modules/**" />
 			<exclude name=".floo*" />
 			<exclude name=".project" />
 			<exclude name=".settings/**" />
