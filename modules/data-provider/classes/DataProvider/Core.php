@@ -34,6 +34,12 @@ abstract class DataProvider_Core {
 	public $contact_type = NULL;
 
 	/**
+	 * Data Provider instances
+	 * @var array
+	 */
+	public static $instances = array();
+
+	/**
 	 * Creates and returns a new provider.
 	 * Provider name must be passed with its' original casing, e.g.
 	 *
@@ -41,40 +47,84 @@ abstract class DataProvider_Core {
 	 *
 	 * @chainable
 	 * @param   string  $provider  Provider name
+	 * @param   string  $type      Required provider type
 	 * @return  ORM
 	 */
-	public static function factory($provider_name = NULL)
+	public static function factory($provider_name = NULL, $type = Message_Type::SMS)
 	{
 		$config = Kohana::$config->load('data-provider');
-
 		// Grab default provider if none passed
-		$provider_name = ($provider_name) ? $provider_name : $config->get('default_provider');
-		$provider_name = strtolower($provider_name);
+		if ( ! $provider_name)
+		{
+			$default_providers = $config->get('default_providers');
+			if ($default_providers[$type])
+			{
+				$provider_name = $default_providers[$type];
+			}
+			else
+			{
+				$provider_name = self::getProviderForType($type);
+			}
+		}
 
-		$enabled_providers = $config->get('providers');
-		if ( empty($enabled_providers[$provider_name]) )
+		if ( ! $provider_name)
 		{
 			throw new Kohana_Exception("The messaging service is unavailable at this time. No data provider has been configured for use.");
 		}
 
-		$class_name = 'DataProvider_'.ucfirst($provider_name);
+		$provider_name = strtolower($provider_name);
 
-		if ( ! class_exists($class_name))
+		if ( ! isset(DataProvider::$instances[$provider_name]))
 		{
-			throw new Kohana_Exception(__("Implementation for ':provider' data provider not found",
-			    array(":provider" => $provider_name)));
+			$enabled_providers = $config->get('providers');
+			if ( empty($enabled_providers[$provider_name]) )
+			{
+				throw new Kohana_Exception("The messaging service is unavailable at this time. No data provider has been configured for use.");
+			}
+
+			$class_name = 'DataProvider_'.ucfirst($provider_name);
+
+			if ( ! class_exists($class_name))
+			{
+				throw new Kohana_Exception(__("Implementation for ':provider' data provider not found",
+				    array(":provider" => $provider_name)));
+			}
+
+			DataProvider::$instances[$provider_name] = $provider = new $class_name();
+
+			// Check if the provider is a subclass of DataProvider
+			if ( ! is_a($provider, 'DataProvider'))
+			{
+				throw new Kohana_Exception(__("':class' must extend the DataProvider class",
+					array(":provider" => $class_name)));
+			}
 		}
 
-		$provider = new $class_name();
+		return DataProvider::$instances[$provider_name];
+	}
 
-		// Check if the provider is a subclass of DataProvider
-		if ( ! is_a($provider, 'DataProvider'))
+	/**
+	 * Get Provider For a particular message type
+	 * @param  string $type Message/Service Type
+	 * @return string       Provider name
+	 */
+	protected static function getProviderForType($type)
+	{
+		$config = Kohana::$config->load('data-provider');
+		$plugin_config = Kohana::$config->load('_plugins');
+
+		$enabled_providers = $config->get('providers');
+		foreach ($enabled_providers as $provider)
 		{
-			throw new Kohana_Exception(__("':class' must extend the DataProvider class",
-				array(":provider" => $class_name)));
+			$provider_config = $plugin_config->get($provider);
+
+			if ($provider_config['services'][$type])
+			{
+				return $provider;
+			}
 		}
 
-		return $provider;
+		return FALSE;
 	}
 
 	/**

@@ -10,7 +10,12 @@
  */
 
 return array(
-	'default_provider' => 'smssync',
+	'default_provider' => array(
+		Message_Type::SMS => 'smssync',
+		Message_Type::IVR => FALSE,
+		Message_Type::EMAIL => 'email',
+		Message_Type::TWITTER => 'twitter'
+	),
 	'providers' => array(
 		'smssync' => TRUE,
 	),

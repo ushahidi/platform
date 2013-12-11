@@ -146,7 +146,6 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	{
 		$providers = array();
 		$count = 0;
-		$default_provider = DataProvider::factory();
 
 		// Grab latest messages
 		$ping_query = ORM::factory('Message')
@@ -168,22 +167,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 
 		foreach($pings as $message)
 		{
-			// Initialize provider, try to reuse existing instances
-			$provider_name = $message->data_provider;
-			if ($provider_name)
-			{
-				// Have we loaded this provider already?
-				if (! $providers[$message->data_provider])
-				{
-					$providers[$message->data_provider] = DataProvider::factory($provider_name);
-				}
-
-				$provider = $providers[$message->data_provider];
-			}
-			else
-			{
-				$provider = $default_provider;
-			}
+			$provider = DataProvider::factory($message->data_provider, $message->type);
 
 			// Send message and get new status/tracking id
 			list($new_status, $tracking_id) = $provider->send($message->contact, $message->message);
