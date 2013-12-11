@@ -94,7 +94,15 @@ class DataProvider_Email extends DataProvider {
 		try
 		{
 			// Try to connect
-			$connection = imap_open('{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX', $username, $password);
+			// Use OP_SILENT to avoid errors when mailbox is empty.
+			$connection = imap_open('{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX', $username, $password, OP_SILENT);
+
+			// Return on connection error
+			if (! $connection)
+			{
+				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
+				return 0;
+			}
 
 			$emails = imap_search($connection,'ALL');
 			if ($emails)
