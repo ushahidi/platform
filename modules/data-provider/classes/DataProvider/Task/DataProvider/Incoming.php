@@ -38,7 +38,7 @@ abstract class DataProvider_Task_DataProvider_Incoming extends Minion_Task
 
 			// Get messages
 			$count = $provider->fetch($params['limit']);
-			echo __("Fetched :count messages from :provider", array(':count' => $count, ':provider' => $provider_name));
+			echo __("Fetched :count messages from :provider", array(':count' => $count, ':provider' => $provider_name))."\n";
 		}
 	}
 

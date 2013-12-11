@@ -24,7 +24,7 @@ abstract class DataProvider_Task_DataProvider_Outgoing extends Minion_Task
 	protected function _execute(array $params)
 	{
 		$count = DataProvider::process_pending_messages($params['limit'], $params['provider']);
-		echo __("Processed :count messages", array(':count' => $count));
+		echo __("Processed :count messages", array(':count' => $count))."\n";
 	}
 
 }
