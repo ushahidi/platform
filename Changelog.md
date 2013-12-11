@@ -1,5 +1,22 @@
 # Changelog
 
+### v3.0.0-alpha.3
+
+* Post search by keyword
+* Unpublished, published and all posts workspaces
+* Data sources, including SMS (SMSSync, Twilio, Nexmo) and Email data providers
+* Messages UI, including archive messages and creating posts from messages
+* Current User API (/users/me) for returning the currently logged in user
+* Login, Register and Logout UI
+* Anonymous access. View the site and public data without logging in
+* Manage Users UI
+* Site Settings UI
+* Access checks in the UI, aka hiding actions you can't actually use
+* SASS Color themes
+* Access Control layer in the API
+* Edit posts
+* Sets detail view wired with real data (but hidden for release)
+
 ### v3.0.0-alpha.2
 
 * UI - create post
