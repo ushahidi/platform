@@ -25,7 +25,7 @@ $plugin = array(
 
 		// Option Key and Label
 		'options' => array(
-			'phone' => 'Phone Number',
+			'from' => 'Phone Number',
 			'account_sid' => 'Account SID',
 			'auth_token' => 'Auth Token',
 			'sms_auto_response' => ''

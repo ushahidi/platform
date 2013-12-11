@@ -25,7 +25,7 @@ $plugin = array(
 
 		// Option Key and Label
 		'options' => array(
-			'phone' => 'Phone Number',
+			'from' => 'Phone Number',
 			'secret' => 'Secret',
 		),
 
