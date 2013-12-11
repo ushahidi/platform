@@ -170,7 +170,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			$provider = DataProvider::factory($message->data_provider, $message->type);
 
 			// Send message and get new status/tracking id
-			list($new_status, $tracking_id) = $provider->send($message->contact, $message->message);
+			list($new_status, $tracking_id) = $provider->send($message->contact, $message->message, $message->title);
 
 			// Update message details
 			$message->status = $new_status;
