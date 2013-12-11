@@ -116,6 +116,7 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 				array('not_empty'),
 				array('in_array', array(':value', array(
 						Message_Status::PENDING,
+						Message_Status::PENDING_POLL,
 						Message_Status::ARCHIVED,
 						Message_Status::RECEIVED,
 						Message_Status::EXPIRED,
@@ -187,6 +188,7 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 			// Outgoing messages can only be: pending, cancelled, failed, unknown, sent
 			return in_array($value, array(
 				Message_Status::PENDING,
+				Message_Status::PENDING_POLL,
 				Message_Status::EXPIRED,
 				Message_Status::CANCELLED,
 				Message_Status::FAILED,
