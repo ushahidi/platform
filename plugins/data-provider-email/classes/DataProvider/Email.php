@@ -47,13 +47,13 @@ class DataProvider_Email extends DataProvider {
 		$body->site_url = rtrim(URL::site(), '/');
 
 		$from = $this->from();
-		$from_name = $provider_options['from_name'];
+		$from_name = ! empty($provider_options['from_name']) ? $provider_options['from_name'] : $from;
 
 		try
 		{
 			$result = Email::factory($title, $body->render(), 'text/html')
 				->to($to)
-				->from($from, $sender)
+				->from($from, $from_name)
 				->send();
 
 			return array(Message_Status::SENT, $tracking_id);
