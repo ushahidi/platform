@@ -22,8 +22,8 @@ each is available under its own license. These licenses are documented
 in the source code of the individual libraries. For convenience each
 library and its license is listed below:
 
-* The Kohana Framework and code modules are distributed under the
-Kohana License Agreement <http://kohanaframework.org/license>
+* Data Provider modules - some of this code is released under GPLv3
+* The Kohana Framework and code modules are distributed under theKohana License Agreement <http://kohanaframework.org/license>
 * gisconverter.php is available under Modified BSD License <https://github.com/arenevier/gisconverter.php/blob/master/copying.txt>
 * KOAuth is released under MIT License <https://github.com/ushahidi/koauth/blob/master/LICENSE>
 * OAuth2-Server-PHP is available under the MIT License <https://github.com/bshaffer/oauth2-server-php/blob/develop/LICENSE>
@@ -50,3 +50,7 @@ Kohana License Agreement <http://kohanaframework.org/license>
 * Leaflet GeoSearch Control is available under BSD License <https://github.com/smeijer/L.GeoSearch/blob/master/LICENSE>
 * Backbone Validation is available under MIT License <http://thedersen.mit-license.org/>
 * Backbone Forms is available under MIT License <https://github.com/powmedia/backbone-forms/blob/master/LICENSE>
+* Swift Mailer is released under MIT License <https://github.com/swiftmailer/swiftmailer/blob/master/LICENSE>
+* KO3-Event module is released under MIT License
+* Twilio client libraries are released under MIT License <https://github.com/twilio/twilio-php/blob/master/LICENSE>
+* Nexmo client libraries are publicly released, but the license is unknown: <https://github.com/prawnsalad/Nexmo-PHP-lib> **To be removed in next release**
