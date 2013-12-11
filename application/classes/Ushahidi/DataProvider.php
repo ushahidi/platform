@@ -152,7 +152,6 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 		$ping_query = ORM::factory('Message')
 			->select('contacts.contact')
 			->select('message.message')
-			->select('message.data_provider')
 			->join('contacts', 'INNER')
 				->on('contact_id', '=', 'contacts.id')
 			->where('status', '=', Message_Status::PENDING)
@@ -196,7 +195,18 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			{
 				$message->data_provider_message_id = $tracking_id;
 			}
-			$message->save();
+
+			try
+			{
+				$message->save();
+			}
+			catch(ORM_Validation_Exception $e)
+			{
+				Kohana::$log->add(Log::ERROR, 'Validation Error: \':errors\'', array(
+					':errors' => implode(', ', Arr::flatten($e->errors('models'))),
+				));
+			}
+
 			$count ++;
 		}
 

@@ -13,7 +13,7 @@ abstract class DataProvider_Task_DataProvider_Outgoing extends Minion_Task
 
 	protected $_options = array(
 		'provider' => FALSE,
-		'limit' => FALSE,
+		'limit' => 20,
 	);
 
 	/**
