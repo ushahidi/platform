@@ -54,6 +54,13 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 			),
 		);
 
+	/**
+	 * A post has zero or one message
+	 * @var array Relationships
+	 */
+	protected $_has_one = array(
+			'messages' => array()
+		);
 
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
@@ -104,7 +111,6 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 			),
 
 			'title' => array(
-				array('not_empty'),
 				array('max_length', array(':value', 150))
 			),
 

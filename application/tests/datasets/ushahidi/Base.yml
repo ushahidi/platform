@@ -594,37 +594,37 @@ oauth_access_tokens:
   -
     access_token: "testingtoken"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config"
+    scope: "api posts forms sets tags users media config messages"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "defaulttoken"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config"
+    scope: "api posts forms sets tags users media config messages"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "testbasicuser"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config"
+    scope: "api posts forms sets tags users media config messages"
     expires: "2030-01-01 00:00:00"
     user_id: 1
   -
     access_token: "testadminuser"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config"
+    scope: "api posts forms sets tags users media config messages"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "testbasicuser2"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config"
+    scope: "api posts forms sets tags users media config messages"
     expires: "2030-01-01 00:00:00"
     user_id: 3
   -
     access_token: "testanon"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config"
+    scope: "api posts forms sets tags users media config messages"
     expires: "2030-01-01 00:00:00"
     user_id:
 oauth_authorization_codes:
@@ -686,3 +686,120 @@ config:
     group_name: test
     config_key: testkey
     config_value: "\"testval\""
+data_feeds:
+  -
+    id: 1
+    data_provider: "smssync"
+    name: "SMSSync SMS Messages"
+    options: "{}"
+contacts:
+  -
+    id: 1
+    user_id: 1
+    contact: 123456789
+    type: "phone"
+  -
+    id: 2
+    user_id:
+    contact: somejunkemail@v3.ushahidi.com
+    type: "email"
+  -
+    id: 3
+    user_id:
+    contact: 773456789
+    type: "phone"
+messages:
+  -
+    id: 1
+    title: "abc"
+    message: "A test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    datetime:
+    data_feed_id:
+    data_provider:
+  -
+    id: 2
+    title: ""
+    message: "Another test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 3
+    datetime:
+    post_id:
+    data_feed_id:
+    data_provider:
+  -
+    id: 3
+    title: "Test email"
+    message: "test email body abc"
+    type: "email"
+    direction: "incoming"
+    status: "received"
+    contact_id: 2
+    datetime: "2013-01-02 07:07"
+    post_id:
+    data_feed_id:
+    data_provider:
+  -
+    id: 4
+    title: ""
+    message: "Another message with a post"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 3
+    datetime:
+    post_id: 110
+    data_feed_id: 1
+    data_provider:
+  -
+    id: 5
+    title: ""
+    message: "A test message with provider"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    datetime:
+    data_feed_id:
+    data_provider: "smssync"
+  -
+    id: 6
+    title: ""
+    message: "Archived message"
+    type: "sms"
+    direction: "incoming"
+    status: "archived"
+    contact_id: 3
+    datetime:
+    post_id:
+    data_feed_id: 1
+    data_provider:
+  -
+    id: 7
+    title: ""
+    message: "Pending outgoing message"
+    type: "sms"
+    direction: "outgoing"
+    status: "pending"
+    contact_id: 3
+    datetime:
+    post_id:
+    data_feed_id:
+    data_provider:
+  -
+    id: 8
+    title: ""
+    message: "Outgoing message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 3
+    datetime:
+    post_id:
+    data_feed_id:
+    data_provider:

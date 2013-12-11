@@ -30,7 +30,7 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 					token: window.config.baseurl + 'oauth/token',
 					redirect_uri: window.config.baseurl,
 					scopes: {
-						request: ['posts', 'forms', 'api', 'tags', 'sets', 'users', 'config'],
+						request: ['posts', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages'],
 						require: ['posts', 'forms', 'api', 'tags', 'sets', 'users']
 					},
 					grant_type: 'client_credentials'
@@ -43,7 +43,7 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 					//token: window.config.baseurl + 'oauth/token',
 					redirect_uri: window.config.baseurl,
 					scopes: {
-						request: ['posts', 'forms', 'api', 'tags', 'sets', 'users', 'config'],
+						request: ['posts', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages'],
 						require: ['posts', 'forms', 'api', 'tags', 'sets', 'users']
 					},
 					grant_type: 'implicit'

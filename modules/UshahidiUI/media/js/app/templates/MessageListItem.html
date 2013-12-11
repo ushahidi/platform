@@ -1,0 +1,47 @@
+<div class="list-view-select  js-list-view-select">
+	<form>
+		<label class="visually-hidden" for="select-message">Select Post</label>
+		<input type="checkbox" id="select-message">
+	</form>
+</div> <!-- end .list-view-select-post -->
+
+<div class="row">
+	<article>
+		<div class="list-view-post-details">
+			<div class="row">
+				{{#if title}}<h5 class="list-view-post-title"><a href="#messages/{{id}}">{{ title }}</a></h5>{{/if}}
+				<div class="list-view-post-time">
+					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+				</div> <!-- end .list-view-post-time -->
+			</div> <!-- end .row -->
+		</div> <!-- end .list-view-post-details -->
+
+		<div class="list-view-post-excerpt">
+			<p>{{message}}</p>
+			{{#if contact.contact}}From {{contact.contact}}{{/if}}
+		</div> <!-- end .list-view-post-excerpt -->
+
+		<div class="list-view-post-admin">
+			Status: {{status}} Type: {{type}} {{#if data_provider}}({{data_provider}}){{/if}} {{direction}}
+
+			<div class="list-view-post-edit-wrapper">
+				<ul class="list-view-post-edit">
+					{{#if isIncoming}}
+						{{#if post}}
+							<li><a href="#posts/{{post}}" class="list-view-post-edit-buttons  message-view-post"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">view post</span></a></li>
+							<li><a href="#posts/{{post}}/edit" class="list-view-post-edit-buttons  message-create-post  js-message-edit-post"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit post</span></a></li>
+						{{else}}
+							<li><a href="#" class="list-view-post-edit-buttons  message-edit-post  js-message-create-post"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">create post</span></a></li>
+						{{/if}}
+						{{#if isArchived}}
+							<li><a href="#" class="list-view-post-edit-buttons  message-archive  js-message-unarchive"> <i class="fa  fa-trash-o"></i> unarchive</a></li>
+						{{else}}
+							<li><a href="#" class="list-view-post-edit-buttons  message-archive  js-message-archive"> <i class="fa  fa-trash-o"></i> archive</a></li>
+						{{/if}}
+					{{/if}}
+				</ul> <!-- end .list-view-post-edit -->
+			</div> <!-- end .list-view-post-edit-wrapper -->
+
+		</div> <!-- end .list-view-post-admin -->
+	</article>
+</div> <!-- end .row -->

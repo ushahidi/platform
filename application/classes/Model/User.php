@@ -20,6 +20,7 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 		'posts' => array(),
 		'post_comments' => array(),
 		'sets' => array(),
+		'contacts' => array(),
 
 		// Task Assignor / Assignee relationship
 		'assignors' => array(
