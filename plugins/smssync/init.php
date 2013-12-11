@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * SMSSync Data Providers
@@ -27,6 +27,10 @@ $plugin = array(
 		'options' => array(
 			'phone' => 'Phone Number',
 			'secret' => 'Secret',
+		),
+
+		// Option Key and Label
+		'feed_options' => array(
 		),
 
 		// Links
