@@ -11,6 +11,21 @@
 
 class DataProvider_Twilio extends DataProvider {
 
+
+	/**
+	 * Sets the FROM parameter for the provider
+	 *
+	 * @return int
+	 */
+	public function from()
+	{
+		// Get provider phone (FROM)
+		// Replace non-numeric
+		$this->_from = preg_replace("/[^0-9,.]/", "", parent::from());
+
+		return $this->_from;
+	}
+
 	/**
 	 * Client to talk to the Twilio API
 	 *
@@ -21,7 +36,7 @@ class DataProvider_Twilio extends DataProvider {
 	/**
 	 * @return mixed
 	 */
-	public function send($to, $message)
+	public function send($to, $message, $title = "")
 	{
 		include_once Kohana::find_file('vendor', 'twilio/Services/Twilio');
 
@@ -43,4 +58,5 @@ class DataProvider_Twilio extends DataProvider {
 
 		return array(Message_Status::FAILED, FALSE);
 	}
+
 }

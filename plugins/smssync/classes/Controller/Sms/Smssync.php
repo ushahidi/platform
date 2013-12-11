@@ -64,7 +64,7 @@ class Controller_Sms_Smssync extends Controller {
 		// We don't know if the SMS from the phone itself work or not,
 		// but we'll update the messages status to 'unknown' so that
 		// its not picked up again
-		$messages = $provider->get_pending_messages(20, Message_Status::UNKNOWN);
+		$messages = $provider->get_pending_messages(20, Message_Status::PENDING_POLL, Message_Status::UNKNOWN);
 		if (count($messages) > 0)
 		{
 			$json['payload']['task'] = "send";

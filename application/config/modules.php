@@ -27,5 +27,6 @@ return array(
 	'A2'         => MODPATH.'A2', // Tying A1/Auth and ACL together
 	'KO3-Event'  => MODPATH.'KO3-Event',
 	'data-provider'  => MODPATH.'data-provider',
+	'email'      => MODPATH.'email',
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 );

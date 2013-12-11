@@ -19,9 +19,23 @@ class DataProvider_Nexmo extends DataProvider {
 	private $_client;
 
 	/**
+	 * Sets the FROM parameter for the provider
+	 *
+	 * @return int
+	 */
+	public function from()
+	{
+		// Get provider phone (FROM)
+		// Replace non-numeric
+		$this->_from = preg_replace("/[^0-9,.]/", "", parent::from());
+
+		return $this->_from;
+	}
+
+	/**
 	 * @return mixed
 	 */
-	public function send($to, $message)
+	public function send($to, $message, $title = "")
 	{
 		include_once Kohana::find_file('vendor', 'nexmo/NexmoMessage');
 
@@ -52,4 +66,5 @@ class DataProvider_Nexmo extends DataProvider {
 
 		return array(Message_Status::FAILED, FALSE);
 	}
+
 }

@@ -14,7 +14,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	 * @param  string  to Phone number to receive the message
 	 * @param  string  message Message to be sent
 	 */
-	public function send($to, $message)
+	public function send($to, $message, $title = "")
 	{
 		// noop, but must be defined or we hit errors in concrete DataProvider class
 	}
@@ -92,15 +92,15 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	 * Get queued outgoing messages
 	 *
 	 * @param  boolean $limit   maximum number of messages to return
+	 * @param  mixed   $current_status  Current status of messages
 	 * @param  mixed   $new_status  New status to save for message, FALSE to leave status as is
 	 * @return array            array of messages to be sent.
 	 *                          Each element in the array should have 'to' and 'message' fields
 	 */
-	public function get_pending_messages($limit = FALSE, $new_status = Message_Status::UNKNOWN)
+	public function get_pending_messages($limit = FALSE, $current_status = Message_Status::PENDING_POLL, $new_status = Message_Status::UNKNOWN)
 	{
 		$messages = array();
 
-		//
 		// Get All "Sent" SMSSync messages
 		// Limit it to 20 MAX and FIFO
 		$pings = ORM::factory('Message')
@@ -108,7 +108,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			->select('message.message')
 			->join('contacts', 'INNER')
 				->on('contact_id', '=', 'contacts.id')
-			->where('status', '=', Message_Status::PENDING)
+			->where('status', '=', $current_status)
 			->where('direction', '=', Message_Direction::OUTGOING)
 			->where('message.data_provider', '=', $this->provider_name())
 			->order_by('created', 'ASC')
@@ -132,6 +132,75 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 		}
 
 		return $messages;
+	}
+
+	/**
+	 * Process pending messages for provider
+	 *
+	 * For services where we can push messages (rather than being polled like SMS Sync):
+	 * this should grab pending messages and pass them to send()
+	 *
+	 * @param  boolean $limit   maximum number of messages to send at a time
+	 */
+	public static function process_pending_messages($limit = 20, $provider = FALSE)
+	{
+		$providers = array();
+		$count = 0;
+		$default_provider = DataProvider::factory();
+
+		// Grab latest messages
+		$ping_query = ORM::factory('Message')
+			->select('contacts.contact')
+			->select('message.message')
+			->select('message.data_provider')
+			->join('contacts', 'INNER')
+				->on('contact_id', '=', 'contacts.id')
+			->where('status', '=', Message_Status::PENDING)
+			->where('direction', '=', Message_Direction::OUTGOING)
+			->order_by('created', 'ASC')
+			->limit($limit);
+
+		if ($provider)
+		{
+			$ping_query->where('message.data_provider', '=', $provider);
+		}
+
+		$pings = $ping_query->find_all();
+
+		foreach($pings as $message)
+		{
+			// Initialize provider, try to reuse existing instances
+			$provider_name = $message->data_provider;
+			if ($provider_name)
+			{
+				// Have we loaded this provider already?
+				if (! $providers[$message->data_provider])
+				{
+					$providers[$message->data_provider] = DataProvider::factory($provider_name);
+				}
+
+				$provider = $providers[$message->data_provider];
+			}
+			else
+			{
+				$provider = $default_provider;
+			}
+
+			// Send message and get new status/tracking id
+			list($new_status, $tracking_id) = $provider->send($message->contact, $message->message);
+
+			// Update message details
+			$message->status = $new_status;
+			$message->data_provider = $provider->provider_name();
+			if ($tracking_id)
+			{
+				$message->data_provider_message_id = $tracking_id;
+			}
+			$message->save();
+			$count ++;
+		}
+
+		return $count;
 	}
 
 }

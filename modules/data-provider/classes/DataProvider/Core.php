@@ -109,10 +109,8 @@ abstract class DataProvider_Core {
 	 */
 	public function from()
 	{
-		// Get provider phone (FROM)
-		// Replace non-numeric
 		$options = $this->options();
-		$this->_from = preg_replace("/[^0-9,.]/", "", $options['from']);
+		$this->_from = isset($options['from']) ? $options['from'] : '';
 
 		return $this->_from;
 	}
@@ -146,9 +144,10 @@ abstract class DataProvider_Core {
 	/**
 	 * @param  string  to Phone number to receive the message
 	 * @param  string  message Message to be sent
+	 * @param  string  title   Message title
 	 * @return array   Array of message status, and tracking ID.
 	 */
-	abstract public function send($to, $message);
+	abstract public function send($to, $message, $title = "");
 
 	/**
 	 * Receive Messages From Data Provider
@@ -170,9 +169,38 @@ abstract class DataProvider_Core {
 	 * 'to' and 'message' fields
 	 *
 	 * @param  boolean $limit   maximum number of messages to return
+	 * @param  mixed   $current_status  Current status of messages
 	 * @param  mixed   $new_status  New status to save for message, FALSE to leave status as is
 	 * @return array            array of messages to be sent.
 	 */
-	abstract public function get_pending_messages($limit = FALSE, $new_status = Message_Status::UNKNOWN);
+	abstract public function get_pending_messages($limit = FALSE, $current_status = Message_Status::PENDING_POLL, $new_status = Message_Status::UNKNOWN);
+
+	/**
+	 * Fetch messages from provider
+	 *
+	 * For services where we have to poll for message (Twitter, Email, FrontlineSMS) this should
+	 * poll the service and pass messages to $this->receive()
+	 *
+	 * @param  boolean $limit   maximum number of messages to fetch at a time
+	 * @return int              number of messages fetched
+	 */
+	public function fetch($limit = FALSE)
+	{
+		return 0;
+	}
+
+	/**
+	 * Process pending messages for provider
+	 *
+	 * For services where we can push messages (rather than being polled like SMS Sync):
+	 * this should grab pending messages and pass them to send()
+	 *
+	 * @param  boolean $limit   maximum number of messages to send at a time
+	 * @param  string  $provider Grab messages for only this provider
+	 */
+	public static function process_pending_messages($limit = 20, $provider = FALSE)
+	{
+		return 0;
+	}
 
 }

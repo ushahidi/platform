@@ -11,7 +11,10 @@
  */
 interface DataProvider_Message_Status {
 
+	// Waiting to be sent
 	const PENDING = 'pending';
+	// Waiting to be sent when provider polls (ie. SMSSync)
+	const PENDING_POLL = 'pending_poll';
 	const ARCHIVED = 'archived';
 	const RECEIVED = 'received';
 	const EXPIRED = 'expired';
