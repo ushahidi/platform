@@ -17,7 +17,6 @@
 				'class' => $class,
 				'file' => $file,
 				'line' => $line,
-				//'trace' => $trace
 			)
 		)
 	);
