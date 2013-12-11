@@ -24,9 +24,16 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.body.show(this.layout);
 
 				var header = new HeaderView();
-				header.on('workspace:toggle', function ()
+				App.vent.on('workspace:toggle', function (close)
 				{
-					App.body.$el.toggleClass('active-workspace');
+					if (close)
+					{
+						App.body.$el.removeClass('active-workspace');
+					}
+					else
+					{
+						App.body.$el.toggleClass('active-workspace');
+					}
 				});
 
 				this.layout.headerRegion.show(header);
@@ -176,6 +183,22 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				{
 					App.vent.trigger('page:change', 'sets/:id');
 					that.layout.mainRegion.show(new SetDetailView());
+				});
+			},
+
+			users : function()
+			{
+				var that = this;
+				require(['views/UserListView','collections/UserCollection'], function(UserListView,UserCollection)
+				{
+					App.vent.trigger('page:change', 'users');
+
+					App.Collections.Users = new UserCollection();
+					App.Collections.Users.fetch();
+
+					that.layout.mainRegion.show(new UserListView({
+						collection : App.Collections.Users
+					}));
 				});
 			},
 

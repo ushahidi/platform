@@ -1,0 +1,93 @@
+<div class="list-view-select-post  js-list-view-select-post">
+	<form>
+		<label class="visually-hidden" for="select-post">Select User</label>
+		<input type="checkbox" id="select-post">
+	</form>
+</div> <!-- end .list-view-select-post -->
+
+<div class="row">
+	<article>
+		<div class="list-view-post-details">
+			<div class="row">
+				<h5 class="list-view-post-title">
+
+					<a href="#user/{{id}}">
+						{{ username }}
+					</a>
+				</h5>
+
+				<div class="list-view-post-time">
+					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+				</div> <!-- end .list-view-post-time -->
+			</div> <!-- end .row -->
+
+		</div> <!-- end .list-view-post-details -->
+
+		<div class="list-view-post-admin">
+			<div class="list-view-post-categories-wrapper">
+				<h6>Role</h6>
+				{{ role }}
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
+				<h6>Full name</h6>
+				<div class="list-view-post-categories">
+					{{#if first_name}}
+						<span>{{ first_name }}</span> <span>{{ last_name }}</span>
+					{{else}}
+						No full name
+					{{/if}}
+				</div>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
+				<h6>Last login</h6>
+				<div class="list-view-post-categories">
+					{{#if last_login}}
+						{{ datetime-fromNow last_login }}
+					{{else}}
+						Never
+					{{/if}}
+				</div>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
+				<h6>Failed attempts</h6>
+				<div class="list-view-post-categories">
+					{{ failed_attempts }}
+				</div>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
+				<h6>Last attempt</h6>
+				<div class="list-view-post-categories">
+					{{#if last_attempt}}
+						{{ datetime-fromNow last_attempt }}
+					{{else}}
+						Never
+					{{/if}}
+				</div>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-edit-wrapper">
+				<ul class="list-view-post-edit">
+					{{#if allowed_methods.put}}
+						<li>
+							<a href="#" class="list-view-post-edit-buttons  post-edit  js-user-edit">
+								<i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span>
+							</a>
+						</li>
+					{{/if}}
+					{{#if allowed_methods.delete}}
+						<li>
+							<a href="#" class="list-view-post-edit-buttons  post-delete  js-user-delete">
+								<i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">delete</span>
+							</a>
+						</li>
+					{{/if}}
+				</ul> <!-- end .list-view-post-edit -->
+			</div> <!-- end .list-view-post-edit-wrapper -->
+
+		</div> <!-- end .list-view-post-admin -->
+	</article>
+</div> <!-- end .row -->

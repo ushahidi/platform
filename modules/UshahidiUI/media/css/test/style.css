@@ -322,7 +322,7 @@ html, body {
 /*Font-Awesome global icon padding*/
 /* line 25, ../../scss/base/_global.scss */
 [class^="fa"], [class*=" fa"] {
-  padding-right: 0.625em;
+  padding-right: 0.375em;
 }
 
 /*custom text selection*/
@@ -6926,6 +6926,7 @@ a.button {
 /* line 80, ../../scss/modules/header/_topbar.scss */
 .top-bar-section ul.right {
   width: 110px;
+  background-color: #323a45;
 }
 @media only screen and (min-width: 1024px) {
   /* line 80, ../../scss/modules/header/_topbar.scss */
@@ -6934,28 +6935,28 @@ a.button {
   }
 }
 
-/* line 87, ../../scss/modules/header/_topbar.scss */
+/* line 88, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li a.workspace-panel-button {
-  padding: 0 18px;
+  padding: 0 7px 0 18px;
 }
-/* line 89, ../../scss/modules/header/_topbar.scss */
+/* line 90, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li a.workspace-panel-button .fa-dashboard {
   position: relative;
   top: -1px;
 }
 
-/* line 99, ../../scss/modules/header/_topbar.scss */
+/* line 100, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li.show-for-medium-down a.workspace-panel-button, .top-bar-section li.show-for-medium-down a.create-post-button, .top-bar-section li.show-for-medium-down a.views, .top-bar-section li.show-for-medium-down a.sets {
   padding: 0 20px;
 }
-/* line 101, ../../scss/modules/header/_topbar.scss */
+/* line 102, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li.show-for-medium-down a.workspace-panel-button i, .top-bar-section li.show-for-medium-down a.create-post-button i, .top-bar-section li.show-for-medium-down a.views i, .top-bar-section li.show-for-medium-down a.sets i {
   position: relative;
   top: 3px;
   font-size: 19px;
   padding: 0;
 }
-/* line 108, ../../scss/modules/header/_topbar.scss */
+/* line 109, ../../scss/modules/header/_topbar.scss */
 .top-bar-section li.show-for-medium-down a.workspace-panel-button {
   padding: 0 18px;
 }
@@ -6963,17 +6964,17 @@ a.button {
 /*------------------------------------*\
 		$MOBILE
 \*------------------------------------*/
-/* line 120, ../../scss/modules/header/_topbar.scss */
+/* line 121, ../../scss/modules/header/_topbar.scss */
 .name-small {
   background-color: #eff0f3;
   /*  margin-top: 45px;*/
 }
-/* line 123, ../../scss/modules/header/_topbar.scss */
+/* line 124, ../../scss/modules/header/_topbar.scss */
 .name-small h4 {
   line-height: 2.688em;
   margin: 0;
 }
-/* line 126, ../../scss/modules/header/_topbar.scss */
+/* line 127, ../../scss/modules/header/_topbar.scss */
 .name-small h4 a {
   color: #565656;
 }
@@ -10343,6 +10344,35 @@ footer {
   padding: 20px 0 40px 0;
 }
 
+/* line 22, ../../scss/modules/footer/_footer.scss */
+.footer-copyright-wrapper {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 80em;
+  *zoom: 1;
+}
+/* line 121, ../../scss/foundation/components/_global.scss */
+.footer-copyright-wrapper:before, .footer-copyright-wrapper:after {
+  content: " ";
+  display: table;
+}
+/* line 122, ../../scss/foundation/components/_global.scss */
+.footer-copyright-wrapper:after {
+  clear: both;
+}
+
+/* line 26, ../../scss/modules/footer/_footer.scss */
+.footer-copyright {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+
 /*------------------------------------*\
 		$PLUGINS
 \*------------------------------------*/
@@ -13377,7 +13407,7 @@ input[type="radio"], select {
 /* line 25, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
-  background: #fcfcfc url('/media/kohana/images/dropdown-arrow.svg?1385411973') no-repeat;
+  background: #fcfcfc url('/media/kohana/images/dropdown-arrow.svg?1385527168') no-repeat;
   background-size: 9px;
   background-position-x: 97%;
   background-position-y: center;
@@ -13392,10 +13422,18 @@ select {
   border-radius: 3px;
 }
 
+@-moz-document url-prefix() {
+  /* line 39, ../../scss/modules/forms/_forms.scss */
+  select {
+    background: #fafafa;
+    padding: 0.7em 1em 0.78em 0.78em;
+  }
+}
+
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
-/* line 42, ../../scss/modules/forms/_forms.scss */
+/* line 49, ../../scss/modules/forms/_forms.scss */
 input[type="text"], input[type="email"], input[type="password"] {
   height: 100%;
   /* FF fix */
@@ -13407,7 +13445,7 @@ input[type="text"], input[type="email"], input[type="password"] {
   border-radius: 3px;
 }
 
-/* line 48, ../../scss/modules/forms/_forms.scss */
+/* line 55, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown {
   height: 2.9em;
   -webkit-border-radius: 3px;
@@ -13416,12 +13454,12 @@ form.custom .custom.dropdown {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 51, ../../scss/modules/forms/_forms.scss */
+/* line 58, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-top: .4em;
   margin-left: 1.4em;
 }
-/* line 55, ../../scss/modules/forms/_forms.scss */
+/* line 62, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .selector {
   height: 3.3125em;
 }
@@ -13430,7 +13468,7 @@ form.custom .custom.dropdown .selector {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 67, ../../scss/modules/forms/_forms.scss */
+  /* line 74, ../../scss/modules/forms/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -13441,13 +13479,13 @@ form.custom .custom.dropdown .selector {
 }
 
 @media only screen and (min-width: 1024px) {
-  /* line 73, ../../scss/modules/forms/_forms.scss */
+  /* line 80, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 73, ../../scss/modules/forms/_forms.scss */
+  /* line 80, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -13461,13 +13499,13 @@ form.custom .custom.dropdown .selector {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 89, ../../scss/modules/forms/_forms.scss */
+  /* line 96, ../../scss/modules/forms/_forms.scss */
   .list-view-filter form.custom, .set-detail-post-list-filter form.custom {
     margin-bottom: 0;
   }
 }
 
-/* line 95, ../../scss/modules/forms/_forms.scss */
+/* line 102, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em;
 }
@@ -13475,20 +13513,20 @@ form.custom .custom.dropdown .current {
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 106, ../../scss/modules/forms/_forms.scss */
+/* line 113, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc;
 }
 
-/* line 111, ../../scss/modules/forms/_forms.scss */
+/* line 118, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f;
 }
 
-/* line 117, ../../scss/modules/forms/_forms.scss */
+/* line 124, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px;

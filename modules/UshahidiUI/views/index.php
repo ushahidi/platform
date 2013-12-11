@@ -25,8 +25,11 @@
 		<![endif]-->
 
 		<!--Change to app.min.css for production-->
+		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>
+		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>
+		<?php else: ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
-		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
+		<?php endif; ?>
 
 		<!-- Global site config -->
 		<script type="text/javascript">
@@ -37,8 +40,11 @@
 		<!-- end global site config -->
 
 		<!--Change to Init.min.js below for production-->
+		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>
+		<script type="text/javascript" src="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script>
+		<?php else: ?>
 		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
-		<!-- <script type="text/javascript" src="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script> -->
+		<?php endif; ?>
 
 		<!-- Custom Modernizr Build - add, subtract and rebuild at end of project -->
 		<script src="<?php echo Media::url('js/libs/custom.modernizr.js'); ?>"></script>

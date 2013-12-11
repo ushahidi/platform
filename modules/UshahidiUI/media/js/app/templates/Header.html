@@ -8,7 +8,7 @@
 			</li> <!-- end .name -->
 		</ul> <!-- end .title-area -->
 
-		<section class="top-bar-section">
+		<section class="top-bar-section  {{#unless logged_in}}top-bar-section-login{{/unless}}">
 			<h1 class="visually-hidden">Main Navigation</h1>
 			<!-- Left Nav Section -->
 			<ul class="left">
@@ -16,9 +16,9 @@
 				<li class="js-views-menu-link  hide-for-medium-down"><a class="views" href="#"><i class="fa  fa-eye  fa-lg"></i> VIEWS</a></li>
 				<li class="js-views-menu-link-mobile  show-for-medium-down"><a class="views" href="#"><i class="fa  fa-eye"></i><!-- icon only --></a></li>
 				<li class="divider"></li>
-				<li class="js-sets-menu-link  hide-for-medium-down"><a class="sets" href="#sets"><i class="fa  fa-th-large  fa-lg"></i> SETS</a></li>
+				{{!--<li class="js-sets-menu-link  hide-for-medium-down"><a class="sets" href="#sets"><i class="fa  fa-th-large  fa-lg"></i> SETS</a></li>
 				<li class="js-sets-menu-link-mobile  show-for-medium-down"><a class="sets" href="#sets"><i class="fa  fa-th-large"></i><!-- icon only --></a></li>
-				<li class="divider"></li>
+				<li class="divider"></li>--}}
 
 			</ul> <!-- end .left -->
 
@@ -26,8 +26,13 @@
 			<ul class="right">
 				<li class="create-post  hide-for-medium-down"><a id="create-post-button" class="create-post-button js-create-post" href="#posts/create"><i class="fa  fa-plus  fa-lg"></i> CREATE</a></li>
 				<li class="create-post  show-for-medium-down"><a id="create-post-button-small" class="create-post-button js-create-post" href="#posts/create"><i class="fa  fa-plus"></i><!-- icon only --></a></li>
+				{{#if logged_in}}
 				<li class="hide-for-medium-down"><a class="workspace-panel-button  inverse  js-workspace-toggle" href="#"><i class="fa  fa-dashboard  fa-lg"></i> WORKSPACE</a></li>
 				<li class="show-for-medium-down"><a class="workspace-panel-button  inverse  js-workspace-toggle" href="#"><i class="fa  fa-dashboard"></i><!-- icon only --></a></li>
+				{{else}}
+				<li class="show-for-medium-up"><a class="inverse  js-login" href="#login"><i class="fa  fa-user  fa-lg"></i> LOGIN/REGISTER</a></li>
+				<li class="show-for-small"><a class="inverse  js-login" href="#login"><i class="fa  fa-user  fa-lg"></i></a></li>
+				{{/if}}
 			</ul> <!-- end .right -->
 		</section> <!-- end .top-bar-section -->
 	</nav> <!-- end .navigation -->

@@ -14,7 +14,7 @@ return array(
 	// The public accessible directory where the file will be copied
 	'public_dir' => DOCROOT.'media/<uid>/kohana/<filepath>',
 	// Write the files to the public directory when in production
-	'cache'      => Kohana::$environment === Kohana::PRODUCTION,
+	'cache'      => FALSE, //Kohana::$environment === Kohana::PRODUCTION,
 	/**
 	 * The UID for media files.
 	 * This should be unique across the entire project because from a css file

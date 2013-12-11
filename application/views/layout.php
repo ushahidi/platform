@@ -32,10 +32,6 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
 		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
 
-		<!--Change to Init.min.js below for production-->
-		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
-		<!-- <script type="text/javascript" src="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script> -->
-
 		<!-- Custom Modernizr Build - add, subtract and rebuild at end of project -->
 		<script src="<?php echo Media::url('js/libs/custom.modernizr.js'); ?>"></script>
 

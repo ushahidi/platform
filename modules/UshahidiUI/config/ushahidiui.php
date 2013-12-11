@@ -11,6 +11,7 @@
 
 return array(
 	'oauth' => array(
-		'client' => 'ushahidiui'
+		'client' => 'ushahidiui',
+		'client_secret' => '',
 	)
 );
