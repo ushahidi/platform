@@ -109,7 +109,7 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 			 */
 			ajax : function()
 			{
-				this.provider.ajax.apply(this.provider, arguments);
+				return this.provider.ajax.apply(this.provider, arguments);
 			}
 		};
 
