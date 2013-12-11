@@ -11,6 +11,10 @@
 
 class DataProvider_Smssync extends DataProvider {
 
+	/**
+	 * Contact type user for this provider
+	 */
+	public $contact_type = Model_Contact::PHONE;
 
 	/**
 	 * Sets the FROM parameter for the provider

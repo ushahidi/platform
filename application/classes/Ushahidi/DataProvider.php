@@ -33,14 +33,14 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	public function receive($type, $from, $message, $to = NULL, $title = NULL, $data_provider_message_id = NULL)
 	{
 		// Is the sender of the message a registered contact?
-		$contact = Model_Contact::get_contact($from, 'phone');
+		$contact = Model_Contact::get_contact($from, $this->contact_type);
 		if ( ! $contact)
 		{
 			try
 			{
 				$contact = ORM::factory('Contact')
 					->set('contact', $from)
-					->set('type', Contact::PHONE)
+					->set('type', $this->contact_type)
 					->set('data_provider', $this->provider_name())
 					->save();
 			}

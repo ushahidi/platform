@@ -12,6 +12,11 @@
 class DataProvider_Email extends DataProvider {
 
 	/**
+	 * Contact type user for this provider
+	 */
+	public $contact_type = Model_Contact::EMAIL;
+
+	/**
 	 * @return mixed
 	 */
 	public function send($to, $message, $title = "")

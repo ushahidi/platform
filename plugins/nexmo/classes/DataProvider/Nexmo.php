@@ -12,6 +12,11 @@
 class DataProvider_Nexmo extends DataProvider {
 
 	/**
+	 * Contact type user for this provider
+	 */
+	public $contact_type = Model_Contact::PHONE;
+
+	/**
 	 * Client to talk to the Nexmo API
 	 *
 	 * @var NexmoMessage

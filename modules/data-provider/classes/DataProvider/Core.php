@@ -20,13 +20,18 @@ abstract class DataProvider_Core {
 	 * [FROM] Number/Contact
 	 * @var array
 	 */
-	protected $_from = null;
+	protected $_from = NULL;
 
 	/**
 	 * Authentication parameters for the default Data provider
 	 * @var array
 	 */
 	protected $_options = array();
+
+	/**
+	 * Contact type user for this provider
+	 */
+	public $contact_type = NULL;
 
 	/**
 	 * Creates and returns a new provider.
