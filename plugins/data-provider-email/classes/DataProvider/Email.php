@@ -25,7 +25,7 @@ class DataProvider_Email extends DataProvider {
 
 		$driver = $provider_options['outgoing_type'];
 		$options = array(
-			'hostname' => $provider_options['outgoing_host'],
+			'hostname' => $provider_options['outgoing_server'],
 			'port' => $provider_options['outgoing_port'],
 			'encryption' =>
 				($provider_options['outgoing_security'] != 'none') ?
