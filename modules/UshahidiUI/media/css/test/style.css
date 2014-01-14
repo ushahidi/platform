@@ -13539,17 +13539,16 @@ form.custom .custom.checkbox.checked:before {
 /**
  * MODAL...............via Reveal.js included in Foundation
  * MODAL BODY...............all input fields and dropdowns
- * MEDIA ICONS...............icons for uploading various media
  */
 /*-----------------------------------------------------------*\
 		$MODAL
 \*-----------------------------------------------------------*/
-/* line 17, ../../scss/modules/modals/_modal.scss */
+/* line 16, ../../scss/modules/modals/_modal.scss */
 .reveal-modal {
   top: 25px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 17, ../../scss/modules/modals/_modal.scss */
+  /* line 16, ../../scss/modules/modals/_modal.scss */
   .reveal-modal {
     width: 80%;
     left: 57%;
@@ -13557,14 +13556,14 @@ form.custom .custom.checkbox.checked:before {
   }
 }
 @media only screen and (min-width: 1025px) {
-  /* line 17, ../../scss/modules/modals/_modal.scss */
+  /* line 16, ../../scss/modules/modals/_modal.scss */
   .reveal-modal {
     width: 60%;
     left: 67%;
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 17, ../../scss/modules/modals/_modal.scss */
+  /* line 16, ../../scss/modules/modals/_modal.scss */
   .reveal-modal {
     width: 50%;
     left: 70%;
@@ -13572,7 +13571,7 @@ form.custom .custom.checkbox.checked:before {
   }
 }
 @media only screen and (min-width: 2200px) {
-  /* line 17, ../../scss/modules/modals/_modal.scss */
+  /* line 16, ../../scss/modules/modals/_modal.scss */
   .reveal-modal {
     width: 38%;
     left: 77%;
@@ -13583,7 +13582,7 @@ form.custom .custom.checkbox.checked:before {
 /*------------------------------------*\
 		$MODAL BODY
 \*------------------------------------*/
-/* line 47, ../../scss/modules/modals/_modal.scss */
+/* line 46, ../../scss/modules/modals/_modal.scss */
 .modal-header {
   width: 100%;
   margin-left: auto;
@@ -13606,14 +13605,14 @@ form.custom .custom.checkbox.checked:before {
 .modal-header:after {
   clear: both;
 }
-/* line 53, ../../scss/modules/modals/_modal.scss */
+/* line 52, ../../scss/modules/modals/_modal.scss */
 .modal-header h4 {
   color: #fcfcfc;
   margin: 0;
   line-height: 1em;
 }
 
-/* line 60, ../../scss/modules/modals/_modal.scss */
+/* line 59, ../../scss/modules/modals/_modal.scss */
 .modal-wrapper {
   width: 100%;
   margin-left: auto;
@@ -13634,7 +13633,7 @@ form.custom .custom.checkbox.checked:before {
   clear: both;
 }
 
-/* line 65, ../../scss/modules/modals/_modal.scss */
+/* line 64, ../../scss/modules/modals/_modal.scss */
 .modal-footer {
   width: 100%;
   margin-left: auto;
@@ -13656,7 +13655,7 @@ form.custom .custom.checkbox.checked:before {
   clear: both;
 }
 
-/* line 71, ../../scss/modules/modals/_modal.scss */
+/* line 70, ../../scss/modules/modals/_modal.scss */
 .modal-submit {
   position: relative;
   padding-left: 0;
@@ -13665,7 +13664,7 @@ form.custom .custom.checkbox.checked:before {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 71, ../../scss/modules/modals/_modal.scss */
+  /* line 70, ../../scss/modules/modals/_modal.scss */
   .modal-submit {
     position: relative;
     padding-left: 0.9375em;
@@ -13676,7 +13675,7 @@ form.custom .custom.checkbox.checked:before {
     float: right;
   }
 }
-/* line 78, ../../scss/modules/modals/_modal.scss */
+/* line 77, ../../scss/modules/modals/_modal.scss */
 .modal-submit button {
   border-style: solid;
   border-width: 1px;
@@ -13713,114 +13712,6 @@ form.custom .custom.checkbox.checked:before {
 /* line 133, ../../scss/foundation/components/_buttons.scss */
 .modal-submit button:hover, .modal-submit button:focus {
   color: white;
-}
-
-/*------------------------------------*\
-		$UPLOAD MEDIA BAR
-\*------------------------------------*/
-/* line 89, ../../scss/modules/modals/_modal.scss */
-.media-bar {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 89, ../../scss/modules/modals/_modal.scss */
-  .media-bar {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 66.66667%;
-    float: left;
-    padding: 0;
-  }
-}
-
-/* line 97, ../../scss/modules/modals/_modal.scss */
-.media-bar-uploads-wrap {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  padding: 0;
-  border-bottom: 1px solid #1f1f1f;
-}
-@media only screen and (min-width: 768px) {
-  /* line 97, ../../scss/modules/modals/_modal.scss */
-  .media-bar-uploads-wrap {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 100%;
-    float: left;
-    margin: 2px 0 1px;
-    border-bottom: 0;
-  }
-}
-
-/* line 108, ../../scss/modules/modals/_modal.scss */
-.media-bar-uploads {
-  display: block;
-  padding: 0;
-  margin: 0 0px;
-  *zoom: 1;
-  padding: 0 10px;
-}
-/* line 121, ../../scss/foundation/components/_global.scss */
-.media-bar-uploads:before, .media-bar-uploads:after {
-  content: " ";
-  display: table;
-}
-/* line 122, ../../scss/foundation/components/_global.scss */
-.media-bar-uploads:after {
-  clear: both;
-}
-/* line 27, ../../scss/foundation/components/_block-grid.scss */
-.media-bar-uploads > li {
-  display: inline;
-  height: auto;
-  float: left;
-  padding: 0 0px 0px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 108, ../../scss/modules/modals/_modal.scss */
-  .media-bar-uploads {
-    padding: 0;
-  }
-}
-
-/*------------------------------------*\
-		$MEDIA ICONS
-\*------------------------------------*/
-/* line 123, ../../scss/modules/modals/_modal.scss */
-.select-icon {
-  display: inline;
-  color: #fcfcfc;
-}
-/* line 127, ../../scss/modules/modals/_modal.scss */
-.select-icon a {
-  display: block;
-  width: 56px;
-  height: 60px;
-  color: #fcfcfc;
-  text-align: center;
-}
-/* line 134, ../../scss/modules/modals/_modal.scss */
-.select-icon .fa {
-  position: relative;
-  top: 20px;
-  left: 20px;
-  padding: 0;
-  font-size: 19px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 134, ../../scss/modules/modals/_modal.scss */
-  .select-icon .fa {
-    left: 0;
-  }
 }
 
 /*------------------------------------*\
@@ -14124,13 +14015,68 @@ form.custom .custom.checkbox.checked:before {
 		$CONTENTS
 \*------------------------------------*/
 /**
- * CREATE-POST...............create-post specific styles
- * UPLOAD MEDIA BAR...............wrapper and button for various media uploads
+ * OPTIONS NAV..............form options nav icons
+ * CREATE-POST-FORM...............create-post specific styles
  */
-/*-----------------------------------------------------------*\
-		$CREATE-POST
-\*-----------------------------------------------------------*/
+/*------------------------------------*\
+		$OPTIONS NAV
+\*------------------------------------*/
+/* line 16, ../../scss/modules/modals/_create-post-modal.scss */
+.form-options-nav-wrapper {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  padding-left: 0;
+}
 /* line 19, ../../scss/modules/modals/_create-post-modal.scss */
+.form-options-nav-wrapper ul {
+  margin-left: 0;
+}
+
+/* line 24, ../../scss/modules/modals/_create-post-modal.scss */
+.form-options-nav {
+  display: block;
+  width: auto;
+  overflow: hidden;
+  margin: -0.25em 0 1.125em;
+  padding-top: 0.25em;
+  margin-right: 0;
+  margin-left: -0.5625em;
+}
+/* line 38, ../../scss/foundation/components/_sub-nav.scss */
+.form-options-nav dt,
+.form-options-nav dd {
+  float: left;
+  display: inline;
+  margin-left: 0.5625em;
+  margin-bottom: 0.625em;
+  font-weight: normal;
+  font-size: 0.875em;
+}
+/* line 46, ../../scss/foundation/components/_sub-nav.scss */
+.form-options-nav dt a,
+.form-options-nav dd a {
+  color: #999999;
+  text-decoration: none;
+}
+/* line 50, ../../scss/foundation/components/_sub-nav.scss */
+.form-options-nav dt.active a,
+.form-options-nav dd.active a {
+  -webkit-border-radius: 1000px;
+  border-radius: 1000px;
+  font-weight: bold;
+  background: #323a45;
+  padding: 0.1875em 0.5625em;
+  cursor: "default";
+  color: white;
+}
+
+/*-----------------------------------------------------------*\
+		$CREATE-POST-FORM
+\*-----------------------------------------------------------*/
+/* line 35, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -14140,27 +14086,92 @@ form.custom .custom.checkbox.checked:before {
   margin-bottom: 40px;
   padding: 0;
 }
-/* line 23, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 39, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper input[type="text"], .post-form-wrapper textarea {
   margin-bottom: 2em;
 }
-/* line 27, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 43, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper fieldset {
   border: none;
   padding: 0;
   margin: 0;
 }
-/* line 33, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 49, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form > fieldset {
   display: none;
 }
-/* line 35, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 51, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form > fieldset.active {
   display: block;
 }
 
-/* line 45, ../../scss/modules/modals/_create-post-modal.scss */
-.post-description {
+/* line 61, ../../scss/modules/modals/_create-post-modal.scss */
+.post-form-wrapper textarea {
+  height: 100px;
+}
+
+/* line 65, ../../scss/modules/modals/_create-post-modal.scss */
+.location-search-row {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 80em;
+  *zoom: 1;
+}
+/* line 121, ../../scss/foundation/components/_global.scss */
+.location-search-row:before, .location-search-row:after {
+  content: " ";
+  display: table;
+}
+/* line 122, ../../scss/foundation/components/_global.scss */
+.location-search-row:after {
+  clear: both;
+}
+
+/* line 69, ../../scss/modules/modals/_create-post-modal.scss */
+.location-search-field {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 69, ../../scss/modules/modals/_create-post-modal.scss */
+  .location-search-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 75%;
+    float: left;
+    padding-right: 10px;
+  }
+}
+
+/* line 77, ../../scss/modules/modals/_create-post-modal.scss */
+.location-search-button {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 77, ../../scss/modules/modals/_create-post-modal.scss */
+  .location-search-button {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 25%;
+    float: left;
+    padding-left: 10px;
+  }
+}
+
+/* line 85, ../../scss/modules/modals/_create-post-modal.scss */
+.location-editor-map {
   height: 200px;
 }
 
@@ -14168,9 +14179,19 @@ form.custom .custom.checkbox.checked:before {
 .create-post-location-map {
   background: url('/media/kohana/images/map.jpg?1386852954') no-repeat;
   width: 100%;
-  height: 100px;
-  background-size: cover;
-  margin-bottom: 30px;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+/* line 122, ../../scss/foundation/components/_buttons.scss */
+.map-search-btn:hover, .map-search-btn:focus {
+  background-color: #2e8c15;
+}
+/* line 133, ../../scss/foundation/components/_buttons.scss */
+.map-search-btn:hover, .map-search-btn:focus {
+  color: white;
 }
 
 /*------------------------------------*\

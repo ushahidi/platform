@@ -127,7 +127,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					fieldsets.push(
 						{
 							name : 'main',
-							legend : '',
+							legend : 'Main',
 							fields : (parseInt(this.get('user'), 10) > 0) ?
 								['title', 'content', 'tags', 'user'] :
 								['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email'],

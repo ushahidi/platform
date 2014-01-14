@@ -2,19 +2,35 @@
 		$CONTENTS
 \*------------------------------------*/
 /**
- * CREATE-POST...............create-post specific styles
- * UPLOAD MEDIA BAR...............wrapper and button for various media uploads
+ * OPTIONS NAV..............form options nav icons
+ * CREATE-POST-FORM...............create-post specific styles
  */
 
 
 
 
- /*-----------------------------------------------------------*\
- 		$CREATE-POST
- \*-----------------------------------------------------------*/
+/*------------------------------------*\
+		$OPTIONS NAV
+\*------------------------------------*/
+
+.form-options-nav-wrapper {
+	@include grid-column(12);
+	padding-left: 0;
+	ul {
+		margin-left: 0;
+	}
+}
+
+.form-options-nav {
+	@include sub-nav($active-bg: $accent-color);
+}
 
 
 
+
+/*-----------------------------------------------------------*\
+		$CREATE-POST-FORM
+\*-----------------------------------------------------------*/
 
 .post-form-wrapper {
 	@include grid-column(12);
@@ -42,14 +58,34 @@
 	}
 }
 
-.post-description {
- height: 200px;
+.post-form-wrapper textarea {
+	height: 100px;
 }
 
-.create-post-location-map {
-	background: image-url("map.jpg") no-repeat;
-	width: 100%;
-	height: 100px;
-	background-size: cover;
-	margin-bottom: 30px;
+.location-search-row {
+	@include grid-row();
+}
+
+.location-search-field {
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(9, $collapse: true);
+		padding-right: 10px;
+	}
+}
+
+.location-search-button {
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(3, $collapse: true);
+		padding-left: 10px;
+	}
+}
+
+.location-editor-map {
+	height: 400px;
+}
+
+.map-search-btn {
+	@include button($bg: $success-color, $radius: true, $full-width: true);
 }
