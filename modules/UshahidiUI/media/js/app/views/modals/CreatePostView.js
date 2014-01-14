@@ -97,8 +97,12 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			switchFieldSet : function (e)
 			{
 				var $el = this.$(e.currentTarget);
+				// Add active class to fieldset
 				this.$('fieldset').removeClass('active');
 				this.$($el.attr('href')).addClass('active');
+				// Add active class to nav
+				this.$('.form-options-nav dd').removeClass('active');
+				$el.parent().addClass('active');
 
 				e.preventDefault();
 			},
