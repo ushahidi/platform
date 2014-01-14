@@ -64,6 +64,19 @@
 
 				</div> <!-- end .post-body -->
 
+				<div class="form-options-nav-wrapper">
+					{{#if fieldsets}}
+					<dl class="form-options-nav">
+						<dt>Options:</dt>
+						{{#each fieldsets}}
+							<dd class="{{#if active}}active{{/if}}">
+								<a class="js-switch-fieldset" href="#fieldset-{{name}}" title="{{name}}">{{legend}}</a>
+							</dd>
+						{{/each}}
+					</dl>
+					{{/if}}
+				</div>
+
 				<div class="post-form-wrapper">
 
 				</div> <!-- end .post-details -->
@@ -94,20 +107,6 @@
 	</div> <!-- end modal-wrapper -->
 
 	<section class="modal-footer">
-		{{#if fieldsets}}
-		<h1 class="visually-hidden">Add Media</h1>
-		<div class="media-bar">
-			<div class="media-bar-uploads-wrap">
-				<ul class="media-bar-uploads">
-			{{#each fieldsets}}
-				<li class="select-icon"><a class="js-switch-fieldset" href="#fieldset-{{name}}" title="{{name}}">
-					{{#if icon}}<i class="fa {{icon}}"></i>{{ else }}<i class="fa fa-circle"></i>{{/if}}
-				</a></li>
-			{{/each}}
-				</ul>
-			</div>
-		</div> <!-- end media bar -->
-		{{/if}}
 
 		<div class="modal-submit">
 			<button type="submit" form="edit-post-form"><i class="fa  fa-plus  fa-lg"></i> Save Changes</button>
