@@ -80,34 +80,3 @@
 	}
 }
 
-
-/*------------------------------------*\
-		$UPLOAD MEDIA BAR
-\*------------------------------------*/
-
-/*.media-bar{
-	@include grid-column(12, $collapse: true);
-	@media #{$small} {
-		@include grid-column(8);
-		padding: 0;
-	}
-}
-
-.media-bar-uploads-wrap {
-	@include grid-column(12);
-	padding: 0;
-	border-bottom: 1px solid $darkGray;
-	@media #{$small} {
-		@include grid-column(12, $collapse: true);
-		margin: 2px 0 1px;
-		border-bottom: 0;
-	}
-}
-
-.media-bar-uploads {
-	@include block-grid($spacing: 0px);
-	padding: 0 10px;
-	@media #{$small} {
-		padding: 0;
-	}
-}*/

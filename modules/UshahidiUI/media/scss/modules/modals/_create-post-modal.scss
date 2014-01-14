@@ -17,24 +17,9 @@
 	@include grid-column(12);
 	padding-left: 0;
 	ul {
-		margin-left: 0; 
+		margin-left: 0;
 	}
 }
-
-/*.sub-nav .select-icon {
-	display: inline;
-	color: $form-label-font-color;
-	a {
-		display: block;
-		text-align: center;
-	}
-	.fa {
-		position: relative;
-		padding: 0;
-		color: $body-font-color;
-		font-size: 17px;
-	}
-}*/
 
 .form-options-nav {
 	@include sub-nav($active-bg: $accent-color);
