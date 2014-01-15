@@ -1,20 +1,17 @@
+<form role="form" action="">
 <div class="list-view-bulk-actions  js-list-view-bulk-actions  hidden">
 	<div class="row">
 		<ul class="list-view-bulk-actions-list">
 			<li>
-				<form>
-					<label class="select-all" for="select-all">
-						<input class="show-for-medium-down" type="checkbox" id="select-all">
-						<span class="hide-for-medium-down underline">Select All</span>
-					</label>
-				</form>
+				<label class="select-all js-post-select-all" for="select-all">
+					<input class="show-for-medium-down js-post-select-all-input" type="checkbox" id="select-all" value="on">
+					<span class="hide-for-medium-down underline select-text">Select All</span>
+					<span class="hide-for-medium-down underline unselect-text visually-hidden">Unselect All</span>
+				</label>
 			</li>
-			<li><a href="#"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">Edit</span></a></li>
-			<li><a href="#"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">Publish</span></a></li>
-			<li><a href="#"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">Unpublish</span></a></li>
-			<li><a href="#"> <i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">Delete</span></a></li>
-			<li><a href="#"> <i class="fa  fa-mail-forward"></i> <span class="hide-for-medium-down">Assign</span></a></li>
-			<li><a href="#"> <i class="fa  fa-lock"></i> <span class="hide-for-medium-down">Privacy</span></a></li>
+			<li><a href="#" class="js-post-bulk-publish"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">Publish</span></a></li>
+			<li><a href="#" class="js-post-bulk-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">Unpublish</span></a></li>
+			<li><a href="#" class="js-post-bulk-delete"> <i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">Delete</span></a></li>
 		</ul> <!-- end .list-view-bulk-actions-list .hide-for-medium-down-->
 	</div> <!-- end .row -->
 </div> <!-- end .list-view-bulk-actions -->
@@ -23,37 +20,35 @@
 	<div class="list-view-filter">
 		<div class="row">
 
-			<form role="form" action="">
-				<div class="list-view-filter-info">
-					{{>post-list-info}}
-				</div> <!-- end .list-view-filter-info -->
+			<div class="list-view-filter-info">
+				{{>post-list-info}}
+			</div> <!-- end .list-view-filter-info -->
 
-				<div class="list-view-filter-count">
-					<div class="filter-count-select">
-						<label class="visually-hidden" for="filter-posts-count">Number of posts shown</label>
-						<select id="filter-posts-count" >
-							<option selected>3</option>
-							<option>5</option>
-							<option>10</option>
-							<option>20</option>
-						</select>
-					</div>
+			<div class="list-view-filter-count">
+				<div class="filter-count-select">
+					<label class="visually-hidden" for="filter-posts-count">Number of posts shown</label>
+					<select id="filter-posts-count" >
+						<option selected>3</option>
+						<option>5</option>
+						<option>10</option>
+						<option>20</option>
+					</select>
+				</div>
 
-				</div> <!-- end .list-view-filter-count -->
+			</div> <!-- end .list-view-filter-count -->
 
-				<div class="list-view-filter-sort">
-					<div class="filter-sort-select">
-						<label class="visually-hidden" for="filter-posts-sort">Sort posts by</label>
-						<select id="filter-posts-sort" >
-							<option selected value="updated">Date/Time updated</option>
-							<option value="created">Date/Time created</option>
-							<option value="title">Title A-Z</option>
-							<option value="id">ID</option>
-						</select>
-					</div>
+			<div class="list-view-filter-sort">
+				<div class="filter-sort-select">
+					<label class="visually-hidden" for="filter-posts-sort">Sort posts by</label>
+					<select id="filter-posts-sort" >
+						<option selected value="updated">Date/Time updated</option>
+						<option value="created">Date/Time created</option>
+						<option value="title">Title A-Z</option>
+						<option value="id">ID</option>
+					</select>
+				</div>
 
-				</div> <!-- end .list-view-filter-sort -->
-			</form>
+			</div> <!-- end .list-view-filter-sort -->
 
 		</div> <!-- end .row -->
 	</div> <!-- end .list-view-filter -->
@@ -69,3 +64,4 @@
 <div class="pagination-centered">
 	{{>pagination}}
 </div> <!-- end .pagination-centered -->
+</form>

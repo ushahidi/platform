@@ -44,6 +44,10 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView'
 				'click .js-page-change' : 'showPage',
 				'change #filter-posts-count' : 'updatePageSize',
 				'change #filter-posts-sort' : 'updatePostsSort',
+				'click .js-post-bulk-publish' : 'bulkPublish',
+				'click .js-post-bulk-unpublish' : 'bulkUnpublish',
+				'click .js-post-bulk-delete' : 'bulkDelete',
+				'change .js-post-select-all' : 'selectAll',
 			},
 
 			collectionEvents :
@@ -66,6 +70,69 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView'
 				{
 					this.$('.js-list-view-bulk-actions').removeClass('visible');
 					this.$('.js-list-view-bulk-actions').addClass('hidden');
+				}
+			},
+
+			bulkPublish : function (e)
+			{
+				e.preventDefault();
+
+				var that = this,
+					$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked'),
+					vals;
+
+				vals = $checked.each(function(i, item) {
+					var model = that.collection.get(item.value);
+					model.set('status', 'draft').save();
+				} );
+			},
+
+			bulkUnpublish : function (e)
+			{
+				e.preventDefault();
+
+				var that = this,
+					$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked'),
+					vals;
+
+				vals = $checked.each(function(i, item) {
+					var model = that.collection.get(item.value);
+					model.set('status', 'draft').save();
+				} );
+			},
+
+			bulkDelete : function (e)
+			{
+				e.preventDefault();
+
+				var that = this,
+					$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked'),
+					vals;
+
+				vals = $checked.each(function(i, item) {
+					var model = that.collection.get(item.value);
+					model.destroy();
+				} );
+			},
+
+			selectAll : function ()
+			{
+				//e.preventDefault();
+
+				var $boxes = this.$('.js-list-view-select-post input[type="checkbox"]'),
+					$el = this.$('.js-post-select-all-input');
+
+				if ($el.is(':checked'))
+				{
+					$boxes.attr('checked', true);
+					this.$('.select-text').addClass('visually-hidden');
+					this.$('.unselect-text').removeClass('visually-hidden');
+				}
+				else
+				{
+					$boxes.attr('checked', false);
+					this.$('.select-text').removeClass('visually-hidden');
+					this.$('.unselect-text').addClass('visually-hidden');
 				}
 			},
 
