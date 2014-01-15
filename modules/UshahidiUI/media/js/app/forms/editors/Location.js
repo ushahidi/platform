@@ -47,11 +47,13 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 			// add an OpenStreetMap tile layer
 			osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
 			});
 
 			cloudmadeUrl = 'http://{s}.tile.cloudmade.com/528babad266546698317425055510f96/{styleId}/256/{z}/{x}/{y}.png';
-			cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+			cloudmadeAttribution =
+				'<span class="hide-for-medium-down">Map data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Imagery &copy; <a href="http://cloudmade.com">CloudMade</a></span>' +
+				'<span class="show-for-medium-down">&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>, &copy; <a href="http://cloudmade.com">CloudMade</a></span>';
 			minimal = L.tileLayer(cloudmadeUrl, {styleId: 22677, attribution: cloudmadeAttribution});
 
 			// create a map in the 'map' div, set the view to a given place and zoom
@@ -61,6 +63,8 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				layers : [minimal],
 				scrollWheelZoom : false
 			});
+			// Disable 'Leaflet prefix on attributions'
+			map.attributionControl.setPrefix(false);
 
 			this.setValue(this.value);
 			this.marker.addTo(map);
