@@ -20,7 +20,17 @@
 
 input[type="radio"], select {
 	margin: 0 3px 1em 0;
-} 
+}
+
+textarea {
+	height: 400px;
+	font-family: inherit;
+	font-weight: normal;
+	font-size: emCalc(14px);
+	line-height: 1.6;
+	margin-bottom: 1.25em;
+	text-rendering: optimizeLegibility;
+}
 
 select {
 	-webkit-appearance: none !important;
@@ -30,9 +40,17 @@ select {
 	background-position-y: center;
 	border: 1px solid #cccccc;
 	padding: 0.78em emCalc(16px) 0.78em 0.78em;
+	font-family: inherit;
+	font-weight: normal;
 	font-size: emCalc(14px);
+	line-height: 1.6;
 	color: $sub-body-font-color;
-	@include border-radius($global-radius)
+	text-rendering: optimizeLegibility;
+	@include border-radius($global-radius);
+}
+
+select[multiple] {
+	background-image: none;
 }
 
 @-moz-document url-prefix() {
