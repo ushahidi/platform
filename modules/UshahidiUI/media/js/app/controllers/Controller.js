@@ -128,7 +128,8 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			{
 				var that = this,
 						postDetailLayout,
-						model;
+						model,
+						relatedPosts;
 
 				require(['views/PostDetailLayout', 'views/PostDetailView', 'views/RelatedPostsView', 'views/MapView', 'models/PostModel'],
 					function(PostDetailLayout, PostDetailView, RelatedPostsView, MapView, PostModel)
@@ -144,6 +145,22 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 					model.fetch().done(function ()
 					{
 						model.fetchRelations();
+
+						relatedPosts = new PostCollection();
+						relatedPosts
+							.setPageSize(4, {
+								first : true,
+								fetch : false,
+								data : {
+									tags : model.get('tags').join(',')
+								}
+							})
+							.done(function () {
+								// Remove current post from the collection
+								relatedPosts.remove(model);
+								// Remove extra posts if we still have 4 posts..
+								relatedPosts.remove(relatedPosts.at(3));
+							});
 					});
 
 					// Make sure we have loaded the form and user before we render the post details
@@ -152,8 +169,10 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 						postDetailLayout.postDetailRegion.show(new PostDetailView({
 							model: model
 						}));
+
 						postDetailLayout.relatedPostsRegion.show(new RelatedPostsView({
-							collection : new PostCollection(App.Collections.Posts.slice(0, 3)) // fake related posts with first 3 from default collection
+							collection : relatedPosts,
+							model : model
 						}));
 					});
 
