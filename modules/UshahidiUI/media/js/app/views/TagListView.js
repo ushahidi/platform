@@ -26,7 +26,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/TagListItemView',
 				postListInfo : Handlebars.compile(postListInfoTemplate)
 			},
 
-			itemView: UserListItemView,
+			itemView: TagListItemView,
 			itemViewOptions: {},
 
 			itemViewContainer: '.list-view-tag-list',
