@@ -10,11 +10,11 @@
 define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout',
 	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/PostListView',
-	'collections/PostCollection','collections/TagCollection','collections/FormCollection', 'collections/SetCollection'],
+	'collections/PostCollection','collections/FormCollection', 'collections/SetCollection'],
 	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout,
 		HeaderView, FooterView, WorkspacePanelView, SearchBarView, PostListView,
-		PostCollection, TagCollection, FormCollection, SetCollection)
+		PostCollection, FormCollection, SetCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -43,8 +43,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections = {};
 				App.Collections.Posts = new PostCollection();
 				App.Collections.Posts.fetch();
-				App.Collections.Tags = new TagCollection();
-				App.Collections.Tags.fetch();
+
 				App.Collections.Forms = new FormCollection();
 				App.Collections.Forms.fetch();
 				App.Collections.Sets = new SetCollection();
@@ -198,6 +197,22 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 
 					that.layout.mainRegion.show(new UserListView({
 						collection : App.Collections.Users
+					}));
+				});
+			},
+
+			tags : function()
+			{
+				var that = this;
+				require(['views/TagListView','collections/TagCollection'], function(TagListView,TagCollection)
+				{
+					App.vent.trigger('page:change', 'tags');
+
+					App.Collections.Tags = new TagCollection();
+					App.Collections.Tags.fetch();
+
+					that.layout.mainRegion.show(new TagListView({
+						collection : App.Collections.Tags
 					}));
 				});
 			},
