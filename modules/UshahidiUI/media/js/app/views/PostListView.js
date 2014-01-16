@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView',
+define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostListItemView',
 		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
-	function( App, Marionette, Handlebars, _, PostListItemView,
+	function( App, Marionette, Handlebars, _, alertify, PostListItemView,
 		template, paginationTemplate, postListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
@@ -83,7 +83,14 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView'
 
 				vals = $checked.each(function(i, item) {
 					var model = that.collection.get(item.value);
-					model.set('status', 'draft').save();
+					model.set('status', 'draft').save()
+						.done(function()
+						{
+							alertify.success('Post has been published');
+						}).fail(function ()
+						{
+							alertify.error('Unable to publish post, please try again');
+						});
 				} );
 			},
 
@@ -97,7 +104,14 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView'
 
 				vals = $checked.each(function(i, item) {
 					var model = that.collection.get(item.value);
-					model.set('status', 'draft').save();
+					model.set('status', 'draft').save()
+						.done(function()
+						{
+							alertify.success('Post has been unpublished');
+						}).fail(function ()
+						{
+							alertify.error('Unable to unpublish post, please try again');
+						});
 				} );
 			},
 
