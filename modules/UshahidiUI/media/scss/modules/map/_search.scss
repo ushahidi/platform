@@ -33,11 +33,18 @@
 		$SEARCH FORM FIELDS
 \*------------------------------------*/
 
+.search-field-wrapper {
+	@include grid-column(12, $collapse: true);
+	@media #{$medium} {
+		@include grid-column(12, $collapse: true, $push: 8);
+	}
+}
+
 .search-field {
 	@include grid-column(12);
-	@media #{$mobile-up} {
+/*	@media #{$mobile-up} {
 		@include grid-column(6);
-	}
+	}*/
 	@media #{$small} {
 		@include grid-column(6);
 	}
@@ -124,8 +131,11 @@
 
 .search-bar-button {
 	@include grid-column(12);
-	@media #{$small} {
+/*	@media #{$small} {
 		@include grid-column(12)
+	}*/
+	@media #{$small} {
+		@include grid-column(6)
 	}
 	@media #{$medium} {
 		@include grid-column(1, $collapse: true);
