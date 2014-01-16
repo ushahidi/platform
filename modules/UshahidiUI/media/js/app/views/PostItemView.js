@@ -34,18 +34,21 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
 				{
 					if (e)
 					{
-						that.model.destroy({
-							// Wait till server responds before destroying model
-							wait: true
-						}).done(function()
-						{
-							alertify.success('Post has been deleted');
-							// Trigger a fetch. This is to remove the model from the listing and load another
-							App.Collections.Posts.fetch();
-						}).fail(function ()
-						{
-							alertify.error('Unable to delete post, please try again');
-						});
+						that.model
+							.destroy({
+								// Wait till server responds before destroying model
+								wait: true
+							})
+							.done(function()
+							{
+								alertify.success('Post has been deleted');
+								// Trigger a fetch. This is to remove the model from the listing and load another
+								App.Collections.Posts.fetch();
+							})
+							.fail(function ()
+							{
+								alertify.error('Unable to delete post, please try again');
+							});
 					}
 					else
 					{
@@ -61,13 +64,14 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
 				this.model.set('status', 'published');
 
 				this.model.save()
-				.done(function()
-				{
-					alertify.success('Post has been published');
-				}).fail(function ()
-				{
-					alertify.error('Unable to publish post, please try again');
-				});
+					.done(function()
+					{
+						alertify.success('Post has been published');
+					})
+					.fail(function ()
+					{
+						alertify.error('Unable to publish post, please try again');
+					});
 			},
 
 			unpublishPost: function(e)
@@ -77,13 +81,14 @@ define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
 				this.model.set('status', 'draft');
 
 				this.model.save()
-				.done(function()
-				{
-					alertify.success('Post has been unpublished');
-				}).fail(function ()
-				{
-					alertify.error('Unable to un-publish post, please try again');
-				});
+					.done(function()
+					{
+						alertify.success('Post has been unpublished');
+					})
+					.fail(function ()
+					{
+						alertify.error('Unable to unpublish post, please try again');
+					});
 			},
 
 			serializeData: function()
