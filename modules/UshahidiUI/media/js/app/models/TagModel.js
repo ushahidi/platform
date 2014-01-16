@@ -61,7 +61,7 @@ define(['backbone', 'App'],
 					}
 				};
 				return schema;
-			}
+			},
 			validation : function ()
 			{
 				var rules = {
