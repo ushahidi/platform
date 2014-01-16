@@ -83,7 +83,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 
 				vals = $checked.each(function(i, item) {
 					var model = that.collection.get(item.value);
-					model.set('status', 'draft').save()
+					model.set('status', 'published').save()
 						.done(function()
 						{
 							alertify.success('Post has been published');
