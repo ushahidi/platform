@@ -124,13 +124,13 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/PostListItemView'
 
 				if ($el.is(':checked'))
 				{
-					$boxes.attr('checked', true);
+					$boxes.prop('checked', true);
 					this.$('.select-text').addClass('visually-hidden');
 					this.$('.unselect-text').removeClass('visually-hidden');
 				}
 				else
 				{
-					$boxes.attr('checked', false);
+					$boxes.prop('checked', false);
 					this.$('.select-text').removeClass('visually-hidden');
 					this.$('.unselect-text').addClass('visually-hidden');
 				}
