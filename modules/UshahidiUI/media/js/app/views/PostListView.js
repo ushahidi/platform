@@ -27,6 +27,9 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			},
 			initialize: function()
 			{
+				// Bind select/unselect events from itemviews
+				this.on('itemview:select', this.showHideBulkActions, this);
+				this.on('itemview:unselect', this.showHideBulkActions, this);
 			},
 
 			itemView: PostListItemView,
@@ -36,7 +39,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 
 			events:
 			{
-				'click .js-list-view-select-post' : 'showHideBulkActions',
 				'click .js-page-first' : 'showFirstPage',
 				'click .js-page-next' : 'showNextPage',
 				'click .js-page-prev' : 'showPreviousPage',
@@ -47,7 +49,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 				'click .js-post-bulk-publish' : 'bulkPublish',
 				'click .js-post-bulk-unpublish' : 'bulkUnpublish',
 				'click .js-post-bulk-delete' : 'bulkDelete',
-				'change .js-post-select-all' : 'selectAll',
+				'change .js-post-select-all' : 'selectAll'
 			},
 
 			collectionEvents :
@@ -57,11 +59,22 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 				remove : 'updatePagination'
 			},
 
+			/**
+			 * Get select child views
+			 */
+			getSelected : function ()
+			{
+				return this.children.filter('selected');
+			},
+
+			/**
+			 * Show / Hide bulk actions toolbar when posts are selected
+			 */
 			showHideBulkActions : function ()
 			{
-				var $checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked');
+				var selected = this.getSelected();
 
-				if ($checked.length > 0)
+				if (selected.length > 0)
 				{
 					this.$('.js-list-view-bulk-actions').removeClass('hidden');
 					this.$('.js-list-view-bulk-actions').addClass('visible');
@@ -73,16 +86,17 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 				}
 			},
 
+			/**
+			 * Bulk publish selected posts
+			 */
 			bulkPublish : function (e)
 			{
 				e.preventDefault();
 
-				var that = this,
-					$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked'),
-					vals;
+				var selected = this.getSelected();
 
-				vals = $checked.each(function(i, item) {
-					var model = that.collection.get(item.value);
+				_.each(selected, function(item) {
+					var model = item.model;
 					model.set('status', 'published').save()
 						.done(function()
 						{
@@ -94,16 +108,17 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 				} );
 			},
 
+			/**
+			 * Bulk unpublish selected posts
+			 */
 			bulkUnpublish : function (e)
 			{
 				e.preventDefault();
 
-				var that = this,
-					$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked'),
-					vals;
+				var selected = this.getSelected();
 
-				vals = $checked.each(function(i, item) {
-					var model = that.collection.get(item.value);
+				_.each(selected, function(item) {
+					var model = item.model;
 					model.set('status', 'draft').save()
 						.done(function()
 						{
@@ -115,20 +130,21 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 				} );
 			},
 
+			/**
+			 * Bulk delete selected posts
+			 */
 			bulkDelete : function (e)
 			{
 				e.preventDefault();
 
-				var that = this,
-					$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked'),
-					vals;
+				var selected = this.getSelected();
 
-				alertify.confirm('Are you sure you want to delete ' + $checked.length + ' posts?', function(e)
+				alertify.confirm('Are you sure you want to delete ' + selected.length + ' posts?', function(e)
 				{
 					if (e)
 					{
-						vals = $checked.each(function(i, item) {
-							var model = that.collection.get(item.value);
+						_.each(selected, function(item) {
+							var model = item.model;
 							model
 								.destroy({wait : true})
 								.done(function()
@@ -148,22 +164,24 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 				});
 			},
 
+			/**
+			 * Select all posts
+			 */
 			selectAll : function ()
 			{
 				//e.preventDefault();
 
-				var $boxes = this.$('.js-list-view-select-post input[type="checkbox"]'),
-					$el = this.$('.js-post-select-all-input');
+				var $el = this.$('.js-post-select-all-input');
 
 				if ($el.is(':checked'))
 				{
-					$boxes.prop('checked', true);
+					this.children.each(function (child) { child.select(); });
 					this.$('.select-text').addClass('visually-hidden');
 					this.$('.unselect-text').removeClass('visually-hidden');
 				}
 				else
 				{
-					$boxes.prop('checked', false);
+					this.children.each(function (child) { child.unselect(); });
 					this.$('.select-text').removeClass('visually-hidden');
 					this.$('.unselect-text').addClass('visually-hidden');
 				}
