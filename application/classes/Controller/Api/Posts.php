@@ -273,6 +273,39 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			}
 		}
 
+		// Filter by tag
+		$tags = $this->request->query('tags');
+		if ( ! empty($tags))
+		{
+			// Default to filtering to ANY of the tags.
+			if (! is_array($tags))
+			{
+				$tags = array('any' => $tags);
+			}
+
+			if (isset($tags['any']))
+			{
+				$tags['any'] = explode(',', $tags['any']);
+				$posts_query
+					->join('posts_tags')->on('post.id', '=', 'posts_tags.post_id')
+					->where('tag_id', 'IN', $tags['any']);
+			}
+
+			if (isset($tags['all']))
+			{
+				$tags['all'] = explode(',', $tags['all']);
+				foreach ($tags['all'] as $tag)
+				{
+					$sub = DB::select('post_id')
+						->from('posts_tags')
+						->where('tag_id', '=', $tag);
+
+					$posts_query
+						->where('post.id', 'IN', $sub);
+				}
+			}
+		}
+
 		// Get the count of ALL records
 		$count_query = clone $posts_query;
 		$total_records = (int) $count_query

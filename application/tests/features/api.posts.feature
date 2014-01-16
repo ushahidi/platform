@@ -386,6 +386,48 @@ Feature: Testing the Posts API
         And the "count" property equals "1"
         Then the guzzle status code should be 200
 
+    @resetFixture
+    Scenario: Search All Posts by single tag
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            tags=4
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        Then the guzzle status code should be 200
+
+    @resetFixture
+    Scenario: Search for posts with tag 3 AND 4
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            tags[all]=3,4
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        Then the guzzle status code should be 200
+
+    @resetFixture
+    Scenario: Search for posts with tag 3 OR 4
+        Given that I want to get all "Posts"
+        And that the request "query string" is:
+            """
+            tags[any]=3,4
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "2"
+        Then the guzzle status code should be 200
+
     Scenario: Finding a Post
         Given that I want to find a "Post"
         And that its "id" is "1"
