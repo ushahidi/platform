@@ -38,7 +38,7 @@
 
 				<div class="list-view-filter-sort">
 					<div class="filter-sort-select">
-						<label class="visually-hidden" for="filter-posts-sort">Sort users by</label>
+						<label class="visually-hidden" for="filter-posts-sort">Sort tags by</label>
 						<select id="filter-posts-sort" >
 							{{#each sortKeys}}
 								<option value="{{@key}}">{{this}}</option>
@@ -54,11 +54,11 @@
 
 	<div class="list-view-wrapper">
 		<div class="right">
-			<a href="#" class="list-view-post-edit-buttons  post-edit  js-user-create">
+			<a href="#" class="list-view-post-edit-buttons  post-edit  js-tag-create">
 				<i class="fa  fa-edit"></i> <span class="hide-for-medium-down"> Add Tag</span>
 			</a>
 		</div>
-		<ul class="list-view-user-list"></ul>
+		<ul class="list-view-tag-list"></ul>
 	</div> <!-- end .list-view-wrapper -->
 </div> <!-- end .row -->
 
