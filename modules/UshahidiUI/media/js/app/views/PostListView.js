@@ -123,10 +123,29 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 					$checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked'),
 					vals;
 
-				vals = $checked.each(function(i, item) {
-					var model = that.collection.get(item.value);
-					model.destroy();
-				} );
+				alertify.confirm('Are you sure you want to delete ' + $checked.length + ' posts?', function(e)
+				{
+					if (e)
+					{
+						vals = $checked.each(function(i, item) {
+							var model = that.collection.get(item.value);
+							model
+								.destroy({wait : true})
+								.done(function()
+								{
+									alertify.success('Post has been deleted');
+								})
+								.fail(function ()
+								{
+									alertify.error('Unable to delete post, please try again');
+								});
+						} );
+					}
+					else
+					{
+						alertify.log('Delete cancelled');
+					}
+				});
 			},
 
 			selectAll : function ()
