@@ -31,40 +31,43 @@
 
 			<div class="list-view-post-categories-wrapper">
 				<h6>Description</h6>
+				{{#if description}}
+					{{ description }}
+				{{else}}
+					No description given
+				{{/if}}
+
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
+				<h6>Slug</h6>
 				<div class="list-view-post-categories">
-					{{#if first_name}}
-						<span>{{ first_name }}</span> <span>{{ last_name }}</span>
+					{{#if slug}}
+						{{ slug }}
 					{{else}}
-						No full name
+						No slug given
 					{{/if}}
 				</div>
 			</div> <!-- end .list-view-post-categories-wrapper -->
 
 			<div class="list-view-post-categories-wrapper">
-				<h6>Last login</h6>
+				<h6>Category</h6>
 				<div class="list-view-post-categories">
-					{{#if last_login}}
-						{{ datetime-fromNow last_login }}
+					{{#if category}}
+						{{ category }}
 					{{else}}
-						Never
+						No category given
 					{{/if}}
 				</div>
 			</div> <!-- end .list-view-post-categories-wrapper -->
 
 			<div class="list-view-post-categories-wrapper">
-				<h6>Failed attempts</h6>
+				<h6>Color</h6>
 				<div class="list-view-post-categories">
-					{{ failed_attempts }}
-				</div>
-			</div> <!-- end .list-view-post-categories-wrapper -->
-
-			<div class="list-view-post-categories-wrapper">
-				<h6>Last attempt</h6>
-				<div class="list-view-post-categories">
-					{{#if last_attempt}}
-						{{ datetime-fromNow last_attempt }}
+					{{#if color}}
+						{{ color }}
 					{{else}}
-						Never
+						Has no color
 					{{/if}}
 				</div>
 			</div> <!-- end .list-view-post-categories-wrapper -->
