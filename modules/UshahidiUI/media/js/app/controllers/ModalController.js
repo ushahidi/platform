@@ -26,7 +26,7 @@ define(['App', 'marionette'],
 				App.vent.on('user:edit', this.userEdit, this);
 				App.vent.on('user:create',this.userCreate, this);
 				App.vent.on('tag:edit', this.tagEdit, this);
-				App.vent.on('tag.create', this.tagCreate, this);
+				App.vent.on('tag:create', this.tagCreate, this);
 			},
 			postCreate : function ()
 			{

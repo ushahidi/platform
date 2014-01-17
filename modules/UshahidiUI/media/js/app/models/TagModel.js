@@ -47,9 +47,9 @@ define(['backbone', 'App'],
 						type: 'Select',
 						title: 'Priority',
 						options: {
-							admin: 'High',
-							user: 'Medium',
-							guest: 'Low'
+							2: 'High',
+							1: 'Medium',
+							0: 'Low'
 						}
 					},
 					color : {
