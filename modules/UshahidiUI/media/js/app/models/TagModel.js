@@ -36,9 +36,9 @@ define(['backbone', 'App'],
 							placeholder : 'Enter a description'
 						}
 					},
-					category : {
+					type : {
 						type: 'Text',
-						title: 'Category',
+						title: 'Type',
 						editorAttrs : {
 							placeholder : 'Enter a category'
 						}
@@ -77,7 +77,7 @@ define(['backbone', 'App'],
 						maxLength : 150,
 						required: false
 					},
-					category : {
+					type : {
 						maxLength: 150,
 						required : false
 					},
