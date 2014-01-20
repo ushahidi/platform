@@ -71,7 +71,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
-									alertify.error('Unable to save user details, please try again.');
+									alertify.error('Unable to save tag details, please try again.');
 									// validation error
 									if (response.errors)
 									{
