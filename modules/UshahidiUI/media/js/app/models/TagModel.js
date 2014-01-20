@@ -43,7 +43,7 @@ define(['backbone', 'App'],
 					},
 					description: {
 						type: 'Text',
-						title: 'description',
+						title: 'Description',
 						editorAttrs : {
 							placeholder : 'Enter a description'
 						}
