@@ -23,7 +23,7 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 			events: {
 				'click .js-tag-delete': 'deleteTag',
 				'click .js-tag-edit' : 'showEditTag',
-				'change .js-select-tag-input' : 'updatedSelected',
+				'change .js-select-tag-input' : 'updatedSelected'
 			},
 
 			initialize: function()
