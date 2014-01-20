@@ -40,7 +40,7 @@ define(['backbone', 'App'],
 						type: 'Text',
 						title: 'Type',
 						editorAttrs : {
-							placeholder : 'Enter a category'
+							placeholder : 'Enter a type'
 						}
 					},
 					priority : {
