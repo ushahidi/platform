@@ -19,13 +19,10 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 			className: 'list-view-post',
 
 			// Value to track if checkbox for this post has been selected
-			events : {
-				'change .js-select-tag-input' : 'updatedSelected',
-			},
-
 			events: {
 				'click .js-tag-delete': 'deleteTag',
 				'click .js-tag-edit' : 'showEditTag',
+				'change .js-select-tag-input' : 'updatedSelected',
 			},
 
 			initialize: function()
