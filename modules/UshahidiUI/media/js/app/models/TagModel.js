@@ -13,6 +13,7 @@ define(['backbone', 'App'],
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri +'/tags',
 
+			// To prevent tag selector widget in the create post form from breaking
 			toString : function ()
 			{
 				return this.get('tag');
