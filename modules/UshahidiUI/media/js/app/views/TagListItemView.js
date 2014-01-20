@@ -50,8 +50,6 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 						}).done(function()
 						{
 							alertify.success('Tag has been deleted');
-							// Trigger a fetch. This is to remove the model from the listing and load another
-							App.Collections.Users.fetch();
 						}).fail(function ()
 						{
 							alertify.error('Unable to delete tag, please try again');
