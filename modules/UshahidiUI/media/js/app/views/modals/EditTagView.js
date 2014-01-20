@@ -1,5 +1,5 @@
 /**
- * Edit / Create User
+ * Edit / Create Tag
  *
  * @module     EditUserView
  * @author     Ushahidi Team <team@ushahidi.com>
