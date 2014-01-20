@@ -20,7 +20,8 @@ define(['backbone', 'App'],
 			},
 
 			defaults : {
-				type : 'category'
+				type : 'category',
+				priority : 0,
 			},
 			schema : function ()
 			{
@@ -45,15 +46,6 @@ define(['backbone', 'App'],
 						title: 'description',
 						editorAttrs : {
 							placeholder : 'Enter a description'
-						}
-					},
-					priority : {
-						type: 'Select',
-						title: 'Priority',
-						options: {
-							2: 'High',
-							1: 'Medium',
-							0: 'Low'
 						}
 					},
 					color : {

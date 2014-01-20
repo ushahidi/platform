@@ -20,21 +20,6 @@
 
 		<div class="list-view-post-admin">
 			<div class="list-view-post-categories-wrapper">
-				<h6>Priority</h6>
-				{{ priority }}
-			</div> <!-- end .list-view-post-categories-wrapper -->
-
-			<div class="list-view-post-categories-wrapper">
-				<h6>Description</h6>
-				{{#if description}}
-					{{ description }}
-				{{else}}
-					No description given
-				{{/if}}
-
-			</div> <!-- end .list-view-post-categories-wrapper -->
-
-			<div class="list-view-post-categories-wrapper">
 				<h6>Slug</h6>
 				<div class="list-view-post-categories">
 					{{#if slug}}
@@ -46,14 +31,13 @@
 			</div> <!-- end .list-view-post-categories-wrapper -->
 
 			<div class="list-view-post-categories-wrapper">
-				<h6>Type</h6>
-				<div class="list-view-post-categories">
-					{{#if type }}
-						{{ type }}
-					{{else}}
-						No type given
-					{{/if}}
-				</div>
+				<h6>Description</h6>
+				{{#if description}}
+					{{ description }}
+				{{else}}
+					No description given
+				{{/if}}
+
 			</div> <!-- end .list-view-post-categories-wrapper -->
 
 			<div class="list-view-post-categories-wrapper">
