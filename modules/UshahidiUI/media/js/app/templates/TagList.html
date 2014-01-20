@@ -2,14 +2,16 @@
 	<div class="row">
 		<ul class="list-view-bulk-actions-list">
 			<li>
-				<form>
-					<label class="select-all" for="select-all">
-						<input class="show-for-medium-down" type="checkbox" id="select-all">
-						<span class="hide-for-medium-down underline">Select All</span>
-					</label>
-				</form>
+				<label class="select-all js-tag-select-all" for="select-all">
+					<input class="show-for-medium-down js-tag-select-all-input" type="checkbox" id="select-all">
+					<span class="hide-for-medium-down underline select-text">Select All</span>
+					<span class="hide-for-medium-down underline unselect-text visually-hidden">Unselect All</span>
+				</label>
 			</li>
-			<li><a href="#"> <i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">Delete</span></a></li>
+			<li>
+				<a href="#" class="js-tag-bulk-delete"> <i class="fa  fa-trash-o"></i>
+				<span class="hide-for-medium-down">Delete</span></a>
+			</li>
 		</ul> <!-- end .list-view-bulk-actions-list .hide-for-medium-down-->
 	</div> <!-- end .row -->
 </div> <!-- end .list-view-bulk-actions -->

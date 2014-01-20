@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'views/TagListItemView',
+define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagListItemView',
 		'text!templates/TagList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
-	function( App, Marionette, Handlebars, _, TagListItemView,
+	function( App, Marionette, Handlebars, _, alertify, TagListItemView,
 		template, paginationTemplate, postListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
@@ -24,6 +24,13 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/TagListItemView',
 			{
 				pagination : Handlebars.compile(paginationTemplate),
 				postListInfo : Handlebars.compile(postListInfoTemplate)
+			},
+
+			initialize: function ()
+			{
+				// Bind select/unselect events from itemviews
+				this.on('itemview:select', this.showHideBulkActions, this);
+				this.on('itemview:unselect', this.showHideBulkActions, this);
 			},
 
 			itemView: TagListItemView,
@@ -42,6 +49,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/TagListItemView',
 				'change #filter-posts-count' : 'updatePageSize',
 				'change #filter-posts-sort' : 'updatePostsSort',
 				'click .js-tag-create' : 'showCreateTag',
+				'click .js-tag-bulk-delete' : 'bulkDelete',
+				'change .js-tag-select-all' : 'selectAll'
 			},
 
 			collectionEvents :
@@ -49,6 +58,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/TagListItemView',
 				reset : 'updatePagination',
 				add : 'updatePagination',
 				remove : 'updatePagination'
+			},
+
+			getSelected : function ()
+			{
+				return this.children.filter('selected');
 			},
 
 			showHideBulkActions : function ()
@@ -181,6 +195,55 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/TagListItemView',
 			{
 				e.preventDefault();
 				App.vent.trigger('tag:create', this.model);
+			},
+
+			bulkDelete : function (e)
+			{
+				e.preventDefault();
+
+				var selected = this.getSelected();
+
+				alertify.confirm('Are you sure you want to delete ' + selected.length + ' tags?', function(e)
+				{
+					if (e)
+					{
+						_.each(selected, function(item) {
+						var model = item.model;
+						model
+								.destroy({wait : true})
+								.done(function()
+								{
+									alertify.success('Tag has been deleted');
+								})
+								.fail(function ()
+								{
+									alertify.error('Unable to delete tag, please try again');
+							});
+						} );
+					}
+					else
+					{
+						alertify.log('Delete cancelled');
+					}
+				});
+			},
+
+			selectAll : function ()
+			{
+				//e.preventDefault();
+				var $el = this.$('.js-tag-select-all-input');
+				if ($el.is(':checked'))
+				{
+					this.children.each(function (child) { child.select(); });
+					this.$('.select-text').addClass('visually-hidden');
+					this.$('.unselect-text').removeClass('visually-hidden');
+				}
+				else
+				{
+					this.children.each(function (child) { child.unselect(); });
+					this.$('.select-text').removeClass('visually-hidden');
+					this.$('.unselect-text').addClass('visually-hidden');
+				}
 			},
 		});
 	});

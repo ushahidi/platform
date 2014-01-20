@@ -18,6 +18,11 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 			tagName: 'li',
 			className: 'list-view-post',
 
+			// Value to track if checkbox for this post has been selected
+			events : {
+				'change .js-select-tag-input' : 'updatedSelected',
+			},
+
 			events: {
 				'click .js-tag-delete': 'deleteTag',
 				'click .js-tag-edit' : 'showEditTag',
@@ -65,6 +70,27 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 			{
 				e.preventDefault();
 				App.vent.trigger('tag:edit', this.model);
+			},
+
+			select : function ()
+			{
+				this.selected = true;
+				this.$('.js-select-tag-input').prop('checked',true);
+				this.trigger('select');
+			},
+
+			unselect : function ()
+			{
+				this.selected = false;
+				this.$('.js-select-tag-input').prop('checked',false);
+				this.trigger('select');
+			},
+
+			updatedSelected : function (e)
+			{
+				var $el = this.$(e.currentTarget);
+				this.selected = $el.is(':checked');
+				this.trigger(this.selected ? 'select' : 'unselect');
 			},
 		});
 	});
