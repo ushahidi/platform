@@ -18,6 +18,10 @@ define(['backbone', 'App'],
 			{
 				return this.get('tag');
 			},
+
+			defaults : {
+				type : 'category'
+			},
 			schema : function ()
 			{
 
@@ -41,13 +45,6 @@ define(['backbone', 'App'],
 						title: 'description',
 						editorAttrs : {
 							placeholder : 'Enter a description'
-						}
-					},
-					type : {
-						type: 'Text',
-						title: 'Type',
-						editorAttrs : {
-							placeholder : 'Enter a type'
 						}
 					},
 					priority : {
@@ -83,10 +80,6 @@ define(['backbone', 'App'],
 					description : {
 						maxLength : 150,
 						required: false
-					},
-					type : {
-						maxLength: 150,
-						required : false
 					},
 					color : {
 						maxLength: 7,
