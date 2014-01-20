@@ -87,6 +87,6 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 				var $el = this.$(e.currentTarget);
 				this.selected = $el.is(':checked');
 				this.trigger(this.selected ? 'select' : 'unselect');
-			},
+			}
 		});
 	});

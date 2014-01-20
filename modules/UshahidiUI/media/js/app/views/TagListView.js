@@ -244,6 +244,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 					this.$('.select-text').removeClass('visually-hidden');
 					this.$('.unselect-text').addClass('visually-hidden');
 				}
-			},
+			}
 		});
 	});
