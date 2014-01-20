@@ -201,7 +201,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 			{
 				e.preventDefault();
 
-				var selected = this.getSelected();
+				var selected = this.getSelected(e);
 
 				alertify.confirm('Are you sure you want to delete ' + selected.length + ' tags?', function(e)
 				{
