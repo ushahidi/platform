@@ -1,0 +1,75 @@
+<div class="list-view-select-post  js-list-view-select-post">
+	<label class="visually-hidden" for="select-post">Select Post</label>
+	<input type="checkbox" name="select-post" class="select-post-input  js-select-tag-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
+</div> <!-- end .list-view-select-post -->
+
+<div class="row">
+	<article>
+		<div class="list-view-post-details">
+			<div class="row">
+				<h5 class="list-view-post-title">
+					{{ tag }}
+				</h5>
+
+				<div class="list-view-post-time">
+					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+				</div> <!-- end .list-view-post-time -->
+			</div> <!-- end .row -->
+
+		</div> <!-- end .list-view-post-details -->
+
+		<div class="list-view-post-admin">
+			<div class="list-view-post-categories-wrapper">
+				<h6>Slug</h6>
+				<div class="list-view-post-categories">
+					{{#if slug}}
+						{{ slug }}
+					{{else}}
+						No slug given
+					{{/if}}
+				</div>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
+				<h6>Description</h6>
+				{{#if description}}
+					{{ description }}
+				{{else}}
+					No description given
+				{{/if}}
+
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-categories-wrapper">
+				<h6>Color</h6>
+				<div class="list-view-post-categories">
+					{{#if color}}
+						{{ color }}
+					{{else}}
+						Has no color
+					{{/if}}
+				</div>
+			</div> <!-- end .list-view-post-categories-wrapper -->
+
+			<div class="list-view-post-edit-wrapper">
+				<ul class="list-view-post-edit">
+					{{#if allowed_methods.put}}
+						<li>
+							<a href="#" class="list-view-post-edit-buttons  post-edit  js-tag-edit">
+								<i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span>
+							</a>
+						</li>
+					{{/if}}
+					{{#if allowed_methods.delete}}
+						<li>
+							<a href="#" class="list-view-post-edit-buttons  post-delete  js-tag-delete">
+								<i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">delete</span>
+							</a>
+						</li>
+					{{/if}}
+				</ul> <!-- end .list-view-post-edit -->
+			</div> <!-- end .list-view-post-edit-wrapper -->
+
+		</div> <!-- end .list-view-post-admin -->
+	</article>
+</div> <!-- end .row -->

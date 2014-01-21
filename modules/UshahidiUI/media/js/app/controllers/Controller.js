@@ -43,12 +43,13 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections = {};
 				App.Collections.Posts = new PostCollection();
 				App.Collections.Posts.fetch();
-				App.Collections.Tags = new TagCollection();
-				App.Collections.Tags.fetch();
+
 				App.Collections.Forms = new FormCollection();
 				App.Collections.Forms.fetch();
 				App.Collections.Sets = new SetCollection();
 				App.Collections.Sets.fetch();
+
+				App.Collections.Tags = new TagCollection();
 
 				this.homeLayout = new HomeLayout({
 					collection : App.Collections.Posts
@@ -225,6 +226,20 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 
 					that.layout.mainRegion.show(new UserListView({
 						collection : App.Collections.Users
+					}));
+				});
+			},
+
+			tags : function()
+			{
+				var that = this;
+				require(['views/TagListView'], function(TagListView)
+				{
+					App.vent.trigger('page:change', 'tags');
+					App.Collections.Tags.fetch();
+
+					that.layout.mainRegion.show(new TagListView({
+						collection : App.Collections.Tags
 					}));
 				});
 			},
