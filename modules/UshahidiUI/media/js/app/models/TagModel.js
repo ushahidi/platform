@@ -21,8 +21,9 @@ define(['backbone', 'App'],
 
 			defaults : {
 				type : 'category',
-				priority : 0,
+				priority : 0
 			},
+
 			schema : function ()
 			{
 
