@@ -34,13 +34,6 @@ define(['backbone', 'App'],
 							placeholder : 'Enter name'
 						}
 					},
-					slug: {
-						type: 'Text',
-						title: 'Slug',
-						editorAttrs : {
-							placeholder : 'Enter a slug'
-						}
-					},
 					description: {
 						type: 'Text',
 						title: 'Description',
@@ -52,7 +45,7 @@ define(['backbone', 'App'],
 						type: 'Text',
 						title: 'Color',
 						editorAttrs : {
-							placeholder : 'Enter a color'
+							placeholder : 'Enter a color. Eg. #c96880'
 						}
 					}
 				};
@@ -62,20 +55,18 @@ define(['backbone', 'App'],
 			{
 				var rules = {
 					tag : {
-						maxLength : 150,
-						required : true
-					},
-					slug : {
-						maxLength : 150,
-						required: false
+						required : true,
+						maxLength : 150
 					},
 					description : {
-						maxLength : 150,
-						required: false
+						required: false,
+						maxLength : 150
 					},
 					color : {
+						required : false,
 						maxLength: 7,
-						required : false
+						pattern: '^#?(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$',
+						msg: 'Please enter a valid hex color code. Eg. #000000 or fff or c96880 or #fff'
 					}
 				};
 
