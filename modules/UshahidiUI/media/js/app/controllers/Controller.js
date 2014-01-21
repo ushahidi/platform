@@ -10,11 +10,11 @@
 define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 	'views/AppLayout', 'views/HomeLayout',
 	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/PostListView',
-	'collections/PostCollection','collections/FormCollection', 'collections/SetCollection'],
+	'collections/PostCollection','collections/TagCollection','collections/FormCollection', 'collections/SetCollection'],
 	function(App, Backbone, Marionette, ModalController,
 		AppLayout, HomeLayout,
 		HeaderView, FooterView, WorkspacePanelView, SearchBarView, PostListView,
-		PostCollection, FormCollection, SetCollection)
+		PostCollection, TagCollection, FormCollection, SetCollection)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
@@ -48,6 +48,8 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Forms.fetch();
 				App.Collections.Sets = new SetCollection();
 				App.Collections.Sets.fetch();
+
+				App.Collections.Tags = new TagCollection();
 
 				this.homeLayout = new HomeLayout({
 					collection : App.Collections.Posts
@@ -204,11 +206,9 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 			tags : function()
 			{
 				var that = this;
-				require(['views/TagListView','collections/TagCollection'], function(TagListView,TagCollection)
+				require(['views/TagListView'], function(TagListView)
 				{
 					App.vent.trigger('page:change', 'tags');
-
-					App.Collections.Tags = new TagCollection();
 					App.Collections.Tags.fetch();
 
 					that.layout.mainRegion.show(new TagListView({
