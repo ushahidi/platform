@@ -11235,17 +11235,6 @@ img.mfp-img {
  */
 /* FONT PATH
  * -------------------------- */
-/*@font-face {
-  font-family: 'FontAwesome';
-  src: url('media/kohana/font/fontawesome-webfont.eot?v=4.0.1');
-  src: url('media/kohana/font/fontawesome-webfont.eot?#iefix&v=4.0.1') format('embedded-opentype'),
-    url('media/kohana/font/fontawesome-webfont.woff?v=4.0.1') format('woff'),
-    url('media/kohana/font/fontawesome-webfont.ttf?v=4.0.1') format('truetype'),
-    url('media/kohana/font/fontawesome-webfont.svg?v=4.0.1#fontawesomeregular') format('svg');
-  //src: url('media/kohana/font/FontAwesome.otf') format('opentype'); // used when developing fonts
-  font-weight: normal;
-  font-style: normal;
-}*/
 @font-face {
   font-family: "FontAwesome";
   src: url('../../kohana/font/normal');
