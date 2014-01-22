@@ -14,7 +14,7 @@
 /*------------------------------------*\
 		$COMPASS
 \*------------------------------------*/
-/* line 5, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 5, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, .post-form-wrapper label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -36,55 +36,55 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+/* line 116, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
 
-/* line 10, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper {
   clear: both;
   min-height: 100%;
@@ -92,12 +92,12 @@ html, body {
   height: 100%;
   margin-bottom: -72px;
 }
-/* line 18, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper .sticky-footer-root {
   height: 72px;
 }
 
-/* line 20, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../../../../.gem/ruby/gems/compass-core-1.0.0.alpha.16/stylesheets/compass/layout/_sticky-footer.scss */
 .footer {
   clear: both;
   position: relative;
@@ -6869,7 +6869,7 @@ a.button {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('/media/kohana/images/logo.png?1383248488') no-repeat;
+  background: url('../../images/logo.png?1389085131') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -7160,7 +7160,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 32, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('/media/kohana/images/avatar.png?1382122926') no-repeat;
+  background: url('../../images/avatar.png?1389085131') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -8871,7 +8871,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('/media/kohana/images/category-icon.png?1383248488') no-repeat;
+  background: url('../../images/category-icon.png?1389085131') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 54, ../../scss/modules/posts/_post.scss */
@@ -11235,12 +11235,22 @@ img.mfp-img {
  */
 /* FONT PATH
  * -------------------------- */
-@font-face {
+/*@font-face {
   font-family: 'FontAwesome';
-  src: url("/media/kohana/font/fontawesome-webfont.eot?v=4.0.1");
-  src: url("/media/kohana/font/fontawesome-webfont.eot?#iefix&v=4.0.1") format("embedded-opentype"), url("/media/kohana/font/fontawesome-webfont.woff?v=4.0.1") format("woff"), url("/media/kohana/font/fontawesome-webfont.ttf?v=4.0.1") format("truetype"), url("/media/kohana/font/fontawesome-webfont.svg?v=4.0.1#fontawesomeregular") format("svg");
+  src: url('media/kohana/font/fontawesome-webfont.eot?v=4.0.1');
+  src: url('media/kohana/font/fontawesome-webfont.eot?#iefix&v=4.0.1') format('embedded-opentype'),
+    url('media/kohana/font/fontawesome-webfont.woff?v=4.0.1') format('woff'),
+    url('media/kohana/font/fontawesome-webfont.ttf?v=4.0.1') format('truetype'),
+    url('media/kohana/font/fontawesome-webfont.svg?v=4.0.1#fontawesomeregular') format('svg');
+  //src: url('media/kohana/font/FontAwesome.otf') format('opentype'); // used when developing fonts
   font-weight: normal;
   font-style: normal;
+}*/
+@font-face {
+  font-family: "FontAwesome";
+  src: url('../../kohana/font/normal');
+  src: url('../../kohana/font/normal?#iefix') format('embedded-opentype'), url('../../kohana/font/fontawesome-webfont.eot') format('embedded-opentype'), url('../../kohana/font/fontawesome-webfont.eot?#iefix') format('embedded-opentype'), url('../../kohana/font/fontawesome-webfont.woff') format('woff'), url('../../kohana/font/fontawesome-webfont.ttf') format('truetype'), url('../../kohana/font/fontawesome-webfont.svg') format('svg');
+  font-weight: "normal";
 }
 /* line 4, ../../scss/plugins/font-awesome/_core.scss */
 .fa {
@@ -13410,7 +13420,7 @@ textarea {
 /* line 35, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
-  background: #fcfcfc url('/media/kohana/images/dropdown-arrow.svg?1386640387') no-repeat;
+  background: #fcfcfc url('../../images/dropdown-arrow.svg?1389085131') no-repeat;
   background-size: 9px;
   background-position-x: 97%;
   background-position-y: center;
