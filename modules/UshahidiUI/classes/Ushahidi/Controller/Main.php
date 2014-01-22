@@ -17,9 +17,9 @@ abstract class Ushahidi_Controller_Main extends Controller_Template {
 	{
 		$this->template->site = array();
 		$this->template->site['baseurl'] = URL::base(TRUE, TRUE);
-		$this->template->site['imagedir'] = Media::url('/images/');
-		$this->template->site['cssdir'] = Media::url('/css/');
-		$this->template->site['jsdir'] = Media::url('/js/');
+		$this->template->site['imagedir'] = Media::uri('/images/');
+		$this->template->site['cssdir'] = Media::uri('/css/');
+		$this->template->site['jsdir'] = Media::uri('/js/');
 		$this->template->site['oauth'] = Kohana::$config->load('ushahidiui.oauth');
 		$this->template->site['site'] = Kohana::$config->load('site');
 
