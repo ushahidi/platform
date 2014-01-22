@@ -53,6 +53,10 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						editorAttrs : {
 							multiple : true
 						}
+					},
+					media : {
+						type : 'Text',
+						title : 'Upload an image',
 					}
 					// @todo should we include slug?
 				};
@@ -144,6 +148,14 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						icon : 'fa-lock'
 					}
 				);
+				fieldsets.push(
+					{
+						name : 'media',
+						legend : 'Media',
+						fields : ['media'],
+						icon : 'fa-lock'
+					}
+				);
 
 				return fieldsets;
 			},
@@ -163,6 +175,10 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					},
 					locale : {
 						required : true
+					},
+					media : {
+						required : false,
+						oneOf :['test1','test2']
 					}
 				};
 
@@ -188,7 +204,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						required: false
 					};
 				}
-
+				
 				// Extend with form schema if form_id is set
 				if (this.get('form'))
 				{

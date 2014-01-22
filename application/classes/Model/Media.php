@@ -10,6 +10,23 @@
  */
 
 class Model_Media extends ORM implements Acl_Resource_Interface {
+	/**
+	 * A media has and belongs to many posts
+	 *
+	 * @var array Relationships
+	 */
+	protected $_has_many = array(
+		'posts' => array('through' => 'posts_media'),
+		);
+
+	/**
+	 * A set belongs to a user
+	 *
+	 * @var array Relationships
+	 */
+	protected $_belongs_to = array(
+		'user' => array()
+		);
 
 	/**
 	 * Rules for the media model
