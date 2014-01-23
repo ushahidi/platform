@@ -8,12 +8,12 @@ css_dir = "media/css/test"
 sass_dir = "media/scss"
 images_dir = "media/images"
 javascripts_dir = "media/js"
-fonts_dir = "media/fonts"
+fonts_dir = "media/kohana/font"
 
 # Development
 output_style = :expanded
 
-#relative_assets = true
+relative_assets = true
 
 # To disable debugging comments that display the original location of your selectors. Uncomment:
 # line_comments = false
