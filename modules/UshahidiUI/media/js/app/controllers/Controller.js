@@ -50,6 +50,7 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Sets.fetch();
 
 				App.Collections.Tags = new TagCollection();
+				App.Collections.Tags.fetch();
 
 				this.homeLayout = new HomeLayout({
 					collection : App.Collections.Posts

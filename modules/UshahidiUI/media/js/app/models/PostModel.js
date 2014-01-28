@@ -262,11 +262,11 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 
 			getTags : function ()
 			{
-				return _.map(this.get('tags'), function(tag)
+				return _.compact(_.map(this.get('tags'), function(tag)
 				{
 					var tagModel = App.Collections.Tags.get(tag);
-					return tagModel ? tagModel.toJSON() : null;
-				});
+					return tagModel ? tagModel.toJSON() : false;
+				}));
 			},
 
 			/**
