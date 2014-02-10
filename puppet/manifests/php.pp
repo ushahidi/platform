@@ -25,5 +25,15 @@ class base::php {
   }
   
   package { $php_packages: }
+
+  file { "/etc/php5/apache2/conf.d/99-ushahidi.ini":
+    ensure  => "present",
+    owner   => "root",
+    group   => "root",
+    mode    => 444,
+    content => template("php-defaults.erb"),
+    require => Bulkpackage["php-packages"],
+  }
+
 }
 
