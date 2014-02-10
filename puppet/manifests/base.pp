@@ -68,7 +68,3 @@ package { $misc_packages: }
 include base::apache2
 include base::php
 include base::phpunit
-
-#@todo: disable default site
-#@todo: add ushahidi vhost and enable
-
