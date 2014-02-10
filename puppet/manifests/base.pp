@@ -38,7 +38,7 @@ file { "norecommends":
 
 file { "defaultrelease":
     path    => "/etc/apt/apt.conf.d/03defaultrelease",
-    content => "APT::Default-Release \"precise\";",
+    content => "APT::Default-Release \"saucy\";",
 }
 
 $misc_packages = [
