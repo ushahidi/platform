@@ -19,6 +19,14 @@ class base::apache2 {
   package { $web_packages: }
   
   # apache2
+  file { "/etc/apache2/sites-available/ushahidi.conf":
+    ensure  => "present",
+    owner   => "root",
+    group   => "root",
+    mode    => 444,
+    content => template("ushahidi.erb"),
+    require => Package["apache2"],
+  }
   service { "apache2":
     ensure  => running,
     require => Package["apache2"],
@@ -34,22 +42,14 @@ class base::apache2 {
     require => Package["apache2"],
   }
   exec { "apache2-dissite-default":
-    command     => "a2dissite default",
+    command     => "a2dissite 000-default default-ssl",
     notify => [Exec["apache2-reload"], ],
     require => Package["apache2"],
   }
   exec { "apache2-ensite":
     command     => "a2ensite ushahidi",
     notify => [Exec["apache2-reload"], ],
-    require => [ Package["apache2"], File["/etc/apache2/sites-available/ushahidi"] ],
-  }
-  file { "/etc/apache2/sites-available/ushahidi":
-    ensure  => "present",
-    owner   => "root",
-    group   => "root",
-    mode    => 444,
-    content => template("ushahidi.erb"),
-    require => Package["apache2"],
+    require => [ Package["apache2"], File["/etc/apache2/sites-available/ushahidi.conf"] ],
   }
 
 }
