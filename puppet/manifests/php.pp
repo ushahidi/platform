@@ -4,6 +4,7 @@ class base::php {
       "php5-curl",
       "php5-gd",
       "php5-imap",
+      "php5-json",
       "php5-mcrypt",
       "php5-mysqlnd",
       "php5-xcache",
