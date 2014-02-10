@@ -2,7 +2,7 @@
 # ready to go for ushahidi dev
 Vagrant.configure("2") do |config|
   config.vm.box = "puppetlabs-ubuntu-12042-x64-vbox4210"
-  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
+  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-1310-x64-virtualbox-puppet.box"
   config.vm.network "private_network", ip: "192.168.33.110"
   config.vm.synced_folder "./", "/var/www", id: "vagrant-root", :nfs => true
   config.vm.network "forwarded_port", guest: 22, host: 2210
