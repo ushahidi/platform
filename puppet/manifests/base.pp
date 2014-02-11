@@ -30,6 +30,13 @@ file { '/var/www/application/logs':
   mode   => '0775',
 }
 
+file { '/var/www/application/media/uploads':
+  ensure => directory,
+  owner  => root,
+  group  => www-data,
+  mode   => '0775',
+}
+
 exec { "apt-get_update":
     command     => "/usr/bin/apt-get update",
     require     => [ File["norecommends"],
