@@ -13,6 +13,7 @@ composer.phar
 vendor/*
 bin/*
 node_modules*
+.vagrant/*
 .sass-cache*
 .floo
 .flooignore
