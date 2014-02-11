@@ -8,7 +8,6 @@ class base::php {
       "php5-mcrypt",
       "php5-mysqlnd",
       "php5-xcache",
-      "php5-xdebug",
       "php-pear",
       "php5"
   ]
