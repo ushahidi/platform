@@ -3,6 +3,7 @@ Exec {
 }
 
 import "apache2.pp"
+import "mysql.pp"
 import "php.pp"
 import "phpunit.pp"
 
@@ -80,5 +81,6 @@ bulkpackage { "misc-packages":
 package { $misc_packages: }
 
 include base::apache2
+include base::mysql
 include base::php
 include base::phpunit
