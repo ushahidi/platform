@@ -20,8 +20,7 @@ class Migration_3_0_20130807231415 extends Minion_Migration_Base {
 		DB::query(Database::INSERT, "
 			INSERT IGNORE INTO `oauth_clients` (`client_id`, `client_secret`, `redirect_uri`)
 			VALUES
-			('ushahidiui', '', :base_url)")
-			->param(':base_url', Kohana::$base_url)
+			('ushahidiui', '', '/')")
 			->execute($db);
 	}
 
