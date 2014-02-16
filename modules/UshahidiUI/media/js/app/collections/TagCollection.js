@@ -8,7 +8,7 @@
  */
 
 define(['jquery', 'backbone', 'models/TagModel', 'App','backbone-pageable'],
-	function($, Backbone, TagModel, App,PageableCollection)
+	function($, Backbone, TagModel, App, PageableCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var TagCollection = PageableCollection.extend(
