@@ -59,13 +59,13 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/MessageListItemVi
 
 				if ($checked.length > 0)
 				{
-					this.$('.js-list-view-bulk-actions').removeClass('hidden');
+					this.$('.js-list-view-bulk-actions').removeClass('visually-hidden');
 					this.$('.js-list-view-bulk-actions').addClass('visible');
 				}
 				else
 				{
 					this.$('.js-list-view-bulk-actions').removeClass('visible');
-					this.$('.js-list-view-bulk-actions').addClass('hidden');
+					this.$('.js-list-view-bulk-actions').addClass('visually-hidden');
 				}
 			},
 
