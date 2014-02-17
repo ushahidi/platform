@@ -89,7 +89,7 @@
 	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
 	background: $accent-color;
 	padding: 20px 15px;
-	margin: 0 0 20px 0;
+	margin: 10px 0 20px 0;
 	.list-view-filter-count {
 		@media #{$small} {
 			border-right: 1px solid darken($accent-color, 10);
