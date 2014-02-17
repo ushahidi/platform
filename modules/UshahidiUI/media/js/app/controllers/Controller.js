@@ -49,7 +49,9 @@ define(['App', 'backbone', 'marionette', 'controllers/ModalController',
 				App.Collections.Sets = new SetCollection();
 				App.Collections.Sets.fetch();
 
-				App.Collections.Tags = new TagCollection();
+				// Grab tag collection, use client-side paging and fetch all tags from server at once
+				App.Collections.Tags = new TagCollection([], { mode: 'client' });
+				App.Collections.Tags.fetch();
 
 				this.homeLayout = new HomeLayout({
 					collection : App.Collections.Posts

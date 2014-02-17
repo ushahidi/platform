@@ -49,7 +49,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					tags : {
 						type : 'Select',
 						title : 'Tags',
-						options : App.Collections.Tags,
+						options : App.Collections.Tags.fullCollection ? App.Collections.Tags.fullCollection : App.Collections.Tags,
 						editorAttrs : {
 							multiple : true
 						}
@@ -262,11 +262,12 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 
 			getTags : function ()
 			{
-				return _.map(this.get('tags'), function(tag)
+				return _.compact(_.map(this.get('tags'), function(tag)
 				{
-					var tagModel = App.Collections.Tags.get(tag);
-					return tagModel ? tagModel.toJSON() : null;
-				});
+					var tagCollection = App.Collections.Tags.fullCollection ? App.Collections.Tags.fullCollection : App.Collections.Tags,
+						tagModel = tagCollection.get(tag);
+					return tagModel ? tagModel.toJSON() : false;
+				}));
 			},
 
 			/**
