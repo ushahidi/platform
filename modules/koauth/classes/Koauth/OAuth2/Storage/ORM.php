@@ -46,6 +46,7 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_Authorization
 
 		// Check redirect_uri is a real URL
 		// Add base url if not
+		// Note: if redirect_uri == "", it will be replaced by the base url
 		$registered_uris = explode(' ', $client->redirect_uri);
 		foreach ($registered_uris as $k => $uri)
 		{
