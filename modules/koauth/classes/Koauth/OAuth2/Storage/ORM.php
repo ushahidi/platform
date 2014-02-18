@@ -43,7 +43,20 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_Authorization
 		$client = ORM::factory($this->config['client_model'])
 			->where('client_id', '=', $client_id)
 			->find();
-		
+
+		// Check redirect_uri is a real URL
+		// Add base url if not
+		// Note: if redirect_uri == "", it will be replaced by the base url
+		$registered_uris = explode(' ', $client->redirect_uri);
+		foreach ($registered_uris as $k => $uri)
+		{
+			if (! Valid::url($uri))
+			{
+				$registered_uris[$k] = URL::site($uri, TRUE);
+			}
+		}
+		$client->redirect_uri = implode(' ', $registered_uris);
+
 		return $client->loaded() ? $client->as_array() : FALSE;
 	}
 
