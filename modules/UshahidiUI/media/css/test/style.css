@@ -8141,7 +8141,6 @@ nav[role="sub-navigation"] li a {
   background-color: #323a45;
   padding: 20px 0 0 0;
   border-top: 3px solid #fcfcfc;
-  border-bottom: 3px solid #fcfcfc;
 }
 @media only screen and (min-width: 1024px) {
   /* line 16, ../../scss/modules/posts/_list-view.scss */
@@ -8149,22 +8148,22 @@ nav[role="sub-navigation"] li a {
     border-top: 0;
   }
 }
-/* line 25, ../../scss/modules/posts/_list-view.scss */
+/* line 24, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions .list-view-bulk-actions-list > li {
   padding-right: 1.375em;
   /*border-right: 1px solid;*/
   line-height: 1em;
 }
-/* line 29, ../../scss/modules/posts/_list-view.scss */
+/* line 28, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions .list-view-bulk-actions-list > li:last-child {
   border-right: 0px;
 }
-/* line 33, ../../scss/modules/posts/_list-view.scss */
+/* line 32, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions a {
   color: #fcfcfc;
 }
 
-/* line 38, ../../scss/modules/posts/_list-view.scss */
+/* line 37, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions-list {
   display: block;
   padding: 0;
@@ -8201,20 +8200,20 @@ nav[role="sub-navigation"] li a {
 .list-view-bulk-actions-list > li:nth-of-type(7n+1) {
   clear: both;
 }
-/* line 41, ../../scss/modules/posts/_list-view.scss */
+/* line 40, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions-list li {
   font-size: 20px;
 }
-/* line 44, ../../scss/modules/posts/_list-view.scss */
+/* line 43, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions-list form {
   margin: 0;
 }
-/* line 46, ../../scss/modules/posts/_list-view.scss */
+/* line 45, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions-list form input[type="checkbox"] {
   margin: 0;
 }
 @media only screen and (min-width: 768px) {
-  /* line 38, ../../scss/modules/posts/_list-view.scss */
+  /* line 37, ../../scss/modules/posts/_list-view.scss */
   .list-view-bulk-actions-list {
     display: block;
     padding: 0;
@@ -8253,22 +8252,22 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 38, ../../scss/modules/posts/_list-view.scss */
+  /* line 37, ../../scss/modules/posts/_list-view.scss */
   .list-view-bulk-actions-list {
     padding: 0 20px;
   }
-  /* line 56, ../../scss/modules/posts/_list-view.scss */
+  /* line 55, ../../scss/modules/posts/_list-view.scss */
   .list-view-bulk-actions-list li {
     font-size: 16px;
   }
 }
 
-/* line 62, ../../scss/modules/posts/_list-view.scss */
+/* line 61, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions input[type="checkbox"] {
   float: left;
 }
 
-/* line 66, ../../scss/modules/posts/_list-view.scss */
+/* line 65, ../../scss/modules/posts/_list-view.scss */
 .list-view-bulk-actions label.select-all span {
   float: left;
   margin-top: -3px;
@@ -8279,7 +8278,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$LIST VIEW WRAPPER AND FILTER BAR
 \*------------------------------------*/
-/* line 78, ../../scss/modules/posts/_list-view.scss */
+/* line 77, ../../scss/modules/posts/_list-view.scss */
 .list-view-wrapper {
   position: relative;
   padding-left: 0.9375em;
@@ -8295,7 +8294,7 @@ nav[role="sub-navigation"] li a {
   padding-top: 20px;
 }
 
-/* line 87, ../../scss/modules/posts/_list-view.scss */
+/* line 86, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter, .set-detail-post-list-filter {
   position: relative;
   padding-left: 0.9375em;
@@ -8307,16 +8306,16 @@ nav[role="sub-navigation"] li a {
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #323a45;
   padding: 20px 15px;
-  margin: 0 0 20px 0;
+  margin: 10px 0 20px 0;
 }
 @media only screen and (min-width: 768px) {
-  /* line 93, ../../scss/modules/posts/_list-view.scss */
+  /* line 92, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter .list-view-filter-count, .set-detail-post-list-filter .list-view-filter-count {
     border-right: 1px solid #1d2127;
   }
 }
 
-/* line 100, ../../scss/modules/posts/_list-view.scss */
+/* line 99, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-info {
   position: relative;
   padding-left: 0.9375em;
@@ -8327,7 +8326,7 @@ nav[role="sub-navigation"] li a {
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
-/* line 105, ../../scss/modules/posts/_list-view.scss */
+/* line 104, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-info h5 {
   letter-spacing: .1em;
   color: #fcfcfc;
@@ -8335,7 +8334,7 @@ nav[role="sub-navigation"] li a {
   margin: 0 0 8px 0;
 }
 @media only screen and (min-width: 1024px) {
-  /* line 100, ../../scss/modules/posts/_list-view.scss */
+  /* line 99, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-info {
     position: relative;
     padding-left: 0.9375em;
@@ -8348,7 +8347,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 119, ../../scss/modules/posts/_list-view.scss */
+/* line 118, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-count {
   position: relative;
   padding-left: 0.9375em;
@@ -8357,7 +8356,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 421px) {
-  /* line 119, ../../scss/modules/posts/_list-view.scss */
+  /* line 118, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-count {
     position: relative;
     padding-left: 0.9375em;
@@ -8367,7 +8366,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 119, ../../scss/modules/posts/_list-view.scss */
+  /* line 118, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-count {
     position: relative;
     padding-left: 0.9375em;
@@ -8377,7 +8376,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 129, ../../scss/modules/posts/_list-view.scss */
+/* line 128, ../../scss/modules/posts/_list-view.scss */
 .list-view-filter-sort {
   position: relative;
   padding-left: 0.9375em;
@@ -8386,7 +8385,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 421px) {
-  /* line 129, ../../scss/modules/posts/_list-view.scss */
+  /* line 128, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-sort {
     position: relative;
     padding-left: 0.9375em;
@@ -8396,7 +8395,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 129, ../../scss/modules/posts/_list-view.scss */
+  /* line 128, ../../scss/modules/posts/_list-view.scss */
   .list-view-filter-sort {
     position: relative;
     padding-left: 0.9375em;
