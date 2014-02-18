@@ -10,7 +10,7 @@ users:
   -
     id: 2
     username: "admin"
-    password: ""
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     first_name:
     last_name:
     email:
@@ -18,7 +18,7 @@ users:
   -
     id: 3
     username: "test"
-    password: ""
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     first_name: Test
     last_name: User
     email: test@v3.ushahidi.com
