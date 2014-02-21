@@ -1,0 +1,56 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * USER-LIST ADMIN BAR............description
+ * TITLE...............description
+ * TITLE...............description
+ */
+
+
+
+
+/*------------------------------------*\
+    $USER-LIST ADMIN BAR
+\*------------------------------------*/
+
+.user-list-admin-bar {
+	@include grid-column(12);
+	background-color: $accent-color;
+	@media #{$small} {
+		margin-top: 60px;
+	}
+}
+
+.user-list-admin-bar-header {
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(2, $collapse: true);
+	}
+	h1 {
+		color: $white;
+	}
+}
+
+.user-list-admin-bar-select {
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(10, $collapse: true);
+	}
+	ul {
+		margin-top: 33px;
+		float: right;
+		li {
+			display: inline;
+			float: left;
+			padding-left: 60px;
+			color: $white;
+			[class*="fa-"] {
+				padding-right: 10px;
+				a {
+					color: $white;
+				}
+			}
+		}
+	}
+}
