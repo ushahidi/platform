@@ -253,11 +253,12 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 		$CONTENTS
 \*------------------------------------*/
 /**
- * @MIXINS...............custom Sass mixins
- * @EXTENDS...............custom Sass extends
+ * MIXINS...............custom Sass mixins
+ * EXTENDS...............custom Sass extends
+ * PLACEHOLDERS...............custom Sass placeholders
  */
 /*------------------------------------*\
-		$@MIXINS
+		$MIXINS
 \*------------------------------------*/
 /*@2x RETINA IMAGES - use image that's scaled by 2*/
 /* EXAMPLE: 
@@ -269,15 +270,18 @@ div.logo {
 
  */
 /*------------------------------------*\
-		$@EXTENDS
+		$EXTENDS
 \*------------------------------------*/
-/* line 43, ../../scss/tools/_mixins.scss */
+/* line 44, ../../scss/tools/_mixins.scss */
 .border-bottom, .related-post-module-wrapper, .set-tags {
   border-bottom: 1px solid #e3e3e3;
 }
 
-/* line 47, ../../scss/tools/_mixins.scss */
-.notification, .set-post-number {
+/*------------------------------------*\
+    $@PLACEHOLDERS
+\*------------------------------------*/
+/* line 55, ../../scss/tools/_mixins.scss */
+.set-post-number {
   position: relative;
   width: 40px;
   height: 40px;
@@ -6869,7 +6873,7 @@ a.button {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('/media/kohana/images/logo.png?1383248488') no-repeat;
+  background: url('../../images/logo.png?1383248488') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -7160,7 +7164,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 32, ../../scss/modules/header/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('/media/kohana/images/avatar.png?1382122926') no-repeat;
+  background: url('../../images/avatar.png?1382122926') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -7782,16 +7786,16 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 43, ../../scss/modules/map/_search.scss */
-  .search-field {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
+.search-field {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
   width: 100%;
-    float: left;
+  float: left;
   /*	@media only screen and (min-width: 421px) {
   		@include grid-column(6);
   	}*/
-  }
+}
 @media only screen and (min-width: 768px) {
   /* line 43, ../../scss/modules/map/_search.scss */
   .search-field {
@@ -8870,7 +8874,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('/media/kohana/images/category-icon.png?1383248488') no-repeat;
+  background: url('../../images/category-icon.png?1383248488') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 54, ../../scss/modules/posts/_post.scss */
@@ -10060,46 +10064,47 @@ TODO: may need a notification mixin here
 .set-post-number {
   background-color: #323a45;
   top: -18px;
+  border: 4px solid #fcfcfc;
 }
 
 /*------------------------------------*\
 		$SET MODULE BODY
 \*------------------------------------*/
-/* line 49, ../../scss/modules/sets/_set-module.scss */
+/* line 50, ../../scss/modules/sets/_set-module.scss */
 .set-body {
   padding: 0 10px 0;
 }
 
 @media only screen and (min-width: 768px) {
-  /* line 53, ../../scss/modules/sets/_set-module.scss */
+  /* line 54, ../../scss/modules/sets/_set-module.scss */
   .set-title h3 {
     font-size: 1.375em;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 53, ../../scss/modules/sets/_set-module.scss */
+  /* line 54, ../../scss/modules/sets/_set-module.scss */
   .set-title h3 {
     font-size: 1.175em;
   }
 }
 
-/* line 62, ../../scss/modules/sets/_set-module.scss */
+/* line 63, ../../scss/modules/sets/_set-module.scss */
 .set-time-meta {
   margin-bottom: 5px;
   color: #9a9797;
 }
 
-/* line 67, ../../scss/modules/sets/_set-module.scss */
+/* line 68, ../../scss/modules/sets/_set-module.scss */
 .set-excerpt {
   margin-bottom: 20px;
   font-size: 14px;
 }
-/* line 70, ../../scss/modules/sets/_set-module.scss */
+/* line 71, ../../scss/modules/sets/_set-module.scss */
 .set-excerpt p {
   line-height: 1.3em;
 }
 
-/* line 75, ../../scss/modules/sets/_set-module.scss */
+/* line 76, ../../scss/modules/sets/_set-module.scss */
 .set-view-posts-button {
   border-style: solid;
   border-width: 1px;
@@ -10133,7 +10138,7 @@ TODO: may need a notification mixin here
   color: white;
 }
 
-/* line 80, ../../scss/modules/sets/_set-module.scss */
+/* line 81, ../../scss/modules/sets/_set-module.scss */
 .set-tags {
   padding-bottom: 10px;
   margin: 0 10px 10px;
@@ -10141,30 +10146,30 @@ TODO: may need a notification mixin here
   text-align: left;
   line-height: .8em;
 }
-/* line 87, ../../scss/modules/sets/_set-module.scss */
+/* line 88, ../../scss/modules/sets/_set-module.scss */
 .set-tags a {
   color: inherit;
 }
 
-/* line 92, ../../scss/modules/sets/_set-module.scss */
+/* line 93, ../../scss/modules/sets/_set-module.scss */
 .set-actions-list {
   margin-left: 0;
 }
-/* line 94, ../../scss/modules/sets/_set-module.scss */
+/* line 95, ../../scss/modules/sets/_set-module.scss */
 .set-actions-list i {
   padding: 0;
 }
-/* line 97, ../../scss/modules/sets/_set-module.scss */
+/* line 98, ../../scss/modules/sets/_set-module.scss */
 .set-actions-list li {
   display: inline;
   padding-right: 10px;
 }
-/* line 100, ../../scss/modules/sets/_set-module.scss */
+/* line 101, ../../scss/modules/sets/_set-module.scss */
 .set-actions-list li small {
   font-size: 85%;
 }
 @media only screen and (min-width: 1024px) {
-  /* line 100, ../../scss/modules/sets/_set-module.scss */
+  /* line 101, ../../scss/modules/sets/_set-module.scss */
   .set-actions-list li small {
     font-size: 70%;
   }
@@ -10325,15 +10330,15 @@ TODO: may need a notification mixin here
     CONTENTS
 \*------------------------------------*/
 /**
- * USER-LIST ADMIN BAR............description
- * TITLE...............description
+ * USER-LIST ACTIONS BAR............bulk action bar styles
+ * USER-LIST FILTER BAR............stats/filter/search styling
  * TITLE...............description
  */
 /*------------------------------------*\
-    $USER-LIST ADMIN BAR
+    $USER-LIST ACTIONS BAR
 \*------------------------------------*/
 /* line 17, ../../scss/modules/workspace/_users.scss */
-.user-list-admin-bar {
+.user-list-actions-bar {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -10343,22 +10348,22 @@ TODO: may need a notification mixin here
 }
 @media only screen and (min-width: 768px) {
   /* line 17, ../../scss/modules/workspace/_users.scss */
-  .user-list-admin-bar {
-    margin-top: 60px;
+  .user-list-actions-bar {
+    margin: 60px 0 20px 0;
   }
 }
 
 /* line 25, ../../scss/modules/workspace/_users.scss */
-.user-list-admin-bar-header {
+.user-list-actions-bar-header {
   position: relative;
   padding-left: 0;
   padding-right: 0;
-  width: 100%;
+  width: 50%;
   float: left;
 }
 @media only screen and (min-width: 768px) {
   /* line 25, ../../scss/modules/workspace/_users.scss */
-  .user-list-admin-bar-header {
+  .user-list-actions-bar-header {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -10367,21 +10372,21 @@ TODO: may need a notification mixin here
   }
 }
 /* line 30, ../../scss/modules/workspace/_users.scss */
-.user-list-admin-bar-header h1 {
+.user-list-actions-bar-header h1 {
   color: #fcfcfc;
 }
 
 /* line 35, ../../scss/modules/workspace/_users.scss */
-.user-list-admin-bar-select {
+.user-list-actions-bar-select {
   position: relative;
   padding-left: 0;
   padding-right: 0;
-  width: 100%;
+  width: 50%;
   float: left;
 }
 @media only screen and (min-width: 768px) {
   /* line 35, ../../scss/modules/workspace/_users.scss */
-  .user-list-admin-bar-select {
+  .user-list-actions-bar-select {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -10390,24 +10395,252 @@ TODO: may need a notification mixin here
   }
 }
 /* line 40, ../../scss/modules/workspace/_users.scss */
-.user-list-admin-bar-select ul {
+.user-list-actions-bar-select ul {
   margin-top: 33px;
   float: right;
 }
 /* line 43, ../../scss/modules/workspace/_users.scss */
-.user-list-admin-bar-select ul li {
+.user-list-actions-bar-select ul li {
   display: inline;
   float: left;
   padding-left: 60px;
   color: #fcfcfc;
+  font-size: 0.875em;
 }
-/* line 48, ../../scss/modules/workspace/_users.scss */
-.user-list-admin-bar-select ul li [class*="fa-"] {
+/* line 49, ../../scss/modules/workspace/_users.scss */
+.user-list-actions-bar-select ul li a {
+  color: #fcfcfc;
+}
+/* line 52, ../../scss/modules/workspace/_users.scss */
+.user-list-actions-bar-select ul li [class*="fa-"] {
   padding-right: 10px;
 }
-/* line 50, ../../scss/modules/workspace/_users.scss */
-.user-list-admin-bar-select ul li [class*="fa-"] a {
+
+/* line 59, ../../scss/modules/workspace/_users.scss */
+.dropdown-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: "pointer";
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  background-color: #eff0f3;
+  border-color: #d2d5dd;
+  color: #333333;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  position: relative;
+  padding-right: 2.1875em;
+  float: right;
+  margin: 15px 0 0 0;
+}
+/* line 121, ../../scss/foundation/components/_buttons.scss */
+.dropdown-button:hover, .dropdown-button:focus {
+  background-color: #d2d5dd;
+}
+/* line 127, ../../scss/foundation/components/_buttons.scss */
+.dropdown-button:hover, .dropdown-button:focus {
+  color: #333333;
+}
+/* line 46, ../../scss/foundation/components/_dropdown-buttons.scss */
+.dropdown-button:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  display: block;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+  top: 50%;
+}
+/* line 61, ../../scss/foundation/components/_dropdown-buttons.scss */
+.dropdown-button:before {
+  border-width: 0.4375em;
+  right: 0.875em;
+  margin-top: -0.15625em;
+}
+/* line 100, ../../scss/foundation/components/_dropdown-buttons.scss */
+.dropdown-button:before {
+  border-color: white transparent transparent transparent;
+}
+/* line 64, ../../scss/modules/workspace/_users.scss */
+.dropdown-button:before {
+  border-color: black transparent transparent transparent;
+}
+/* line 67, ../../scss/modules/workspace/_users.scss */
+.dropdown-button.show-for-small {
+  display: inline-block !important;
+}
+@media only screen and (min-width: 768px) {
+  /* line 67, ../../scss/modules/workspace/_users.scss */
+  .dropdown-button.show-for-small {
+    display: none !important;
+  }
+}
+
+/*------------------------------------*\
+    $USER-LIST FILTER BAR
+\*------------------------------------*/
+/* line 82, ../../scss/modules/workspace/_users.scss */
+.user-list-filter-bar {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  background-color: #fcfcfc;
+}
+
+/* line 87, ../../scss/modules/workspace/_users.scss */
+.user-list-categories {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 87, ../../scss/modules/workspace/_users.scss */
+  .user-list-categories {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 75%;
+    float: left;
+  }
+}
+
+/* line 94, ../../scss/modules/workspace/_users.scss */
+.user-list-categories-list {
+  display: block;
+  padding: 0;
+  margin: 0 -0.625em;
+  *zoom: 1;
+}
+/* line 121, ../../scss/foundation/components/_global.scss */
+.user-list-categories-list:before, .user-list-categories-list:after {
+  content: " ";
+  display: table;
+}
+/* line 122, ../../scss/foundation/components/_global.scss */
+.user-list-categories-list:after {
+  clear: both;
+}
+/* line 27, ../../scss/foundation/components/_block-grid.scss */
+.user-list-categories-list > li {
+  display: inline;
+  height: auto;
+  float: left;
+  padding: 0 0.625em 1.25em;
+}
+/* line 36, ../../scss/foundation/components/_block-grid.scss */
+.user-list-categories-list > li {
+  width: 25%;
+  padding: 0 0.625em 1.25em;
+}
+/* line 40, ../../scss/foundation/components/_block-grid.scss */
+.user-list-categories-list > li:nth-of-type(n) {
+  clear: none;
+}
+/* line 41, ../../scss/foundation/components/_block-grid.scss */
+.user-list-categories-list > li:nth-of-type(4n+1) {
+  clear: both;
+}
+/* line 96, ../../scss/modules/workspace/_users.scss */
+.user-list-categories-list li {
+  border-right: 1px solid #eff0f3;
+  margin: 10px 0;
+  padding: 0 10px;
+  font-size: 0.875em;
+  line-height: 2.4em;
+  text-align: center;
+}
+@media only screen and (min-width: 768px) {
+  /* line 96, ../../scss/modules/workspace/_users.scss */
+  .user-list-categories-list li {
+    margin: 10px 0;
+    padding: 10px 16px 12px 16px;
+  }
+}
+/* line 107, ../../scss/modules/workspace/_users.scss */
+.user-list-categories-list li .count-number {
+  position: relative;
+  top: 4px;
+  font-size: 0.6875em;
+  letter-spacing: .15em;
+}
+
+/* line 116, ../../scss/modules/workspace/_users.scss */
+[class*='-count'] {
+  position: relative;
+  top: -5px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 100px;
+  margin: 0 auto 0 15px;
   color: #fcfcfc;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/*notifications*/
+/* line 137, ../../scss/modules/workspace/_users.scss */
+.all-count {
+  background-color: #323a45;
+}
+
+/* line 141, ../../scss/modules/workspace/_users.scss */
+.admin-count {
+  background-color: #c50813;
+}
+
+/* line 145, ../../scss/modules/workspace/_users.scss */
+.guest-count {
+  background-color: #3cb81c;
+}
+
+/* line 149, ../../scss/modules/workspace/_users.scss */
+.user-count {
+  background-color: #ffad19;
+}
+
+/* line 153, ../../scss/modules/workspace/_users.scss */
+.user-list-search {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  border-top: 1px solid #eff0f3;
+}
+@media only screen and (min-width: 768px) {
+  /* line 153, ../../scss/modules/workspace/_users.scss */
+  .user-list-search {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 25%;
+    float: left;
+    border-top: none;
+  }
+}
+/* line 160, ../../scss/modules/workspace/_users.scss */
+.user-list-search .user-list-search-form {
+  margin: 17px;
 }
 
 /*FOOTER*/
@@ -13498,7 +13731,7 @@ textarea {
 /* line 35, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
-  background: #fcfcfc url('/media/kohana/images/dropdown-arrow.svg?1392926465') no-repeat;
+  background: #fcfcfc url('../../images/dropdown-arrow.svg?1392926465') no-repeat;
   background-size: 9px;
   background-position-x: 97%;
   background-position-y: center;
@@ -13509,6 +13742,7 @@ select {
   font-size: 0.875em;
   line-height: 1.6;
   color: #9a9797;
+  text-rendering: optimizeLegibility;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -13530,7 +13764,7 @@ select[multiple] {
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
 /* line 67, ../../scss/modules/forms/_forms.scss */
-input[type="text"], input[type="email"], input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"], input[type="search"] {
   height: 100%;
   /* FF fix */
   padding: 10px;

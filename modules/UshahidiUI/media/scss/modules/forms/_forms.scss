@@ -64,7 +64,7 @@ select[multiple] {
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
 
-input[type="text"], input[type="email"], input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"], input[type="search"] {
 	height: 100%; /* FF fix */
 	padding: 10px;
 	@include border-radius($global-radius);
