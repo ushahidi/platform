@@ -1,8 +1,6 @@
 <div class="list-view-select-post  js-list-view-select-post">
-	<form>
-		<label class="visually-hidden" for="select-post">Select Post</label>
-		<input type="checkbox" id="select-post">
-	</form>
+	<label class="visually-hidden" for="select-post">Select Post</label>
+	<input type="checkbox" name="select-post" class="select-post-input  js-select-post-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
 </div> <!-- end .list-view-select-post -->
 
 <div class="row">

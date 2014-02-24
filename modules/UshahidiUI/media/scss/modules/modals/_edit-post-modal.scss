@@ -70,16 +70,6 @@
 	@include button($bg: $success-color, $radius: true, $full-width: true);
 }
 
-textarea {
-	height: 400px;
-	font-family: inherit;
-	font-weight: normal;
-	font-size: 1em;
-	line-height: 1.6;
-	margin-bottom: 1.25em;
-	text-rendering: optimizeLegibility;
-}
-
 .edit-post .post-thumbnails-list-item {
 	position: relative;
 	a {

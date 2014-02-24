@@ -16,6 +16,27 @@ file { '/etc/motd':
     Managed by Puppet.\n"
 }
 
+file { '/var/www/application/cache':
+  ensure => directory,
+  owner  => root,
+  group  => www-data,
+  mode   => '0775',
+}
+
+file { '/var/www/application/logs':
+  ensure => directory,
+  owner  => root,
+  group  => www-data,
+  mode   => '0775',
+}
+
+file { '/var/www/application/media/uploads':
+  ensure => directory,
+  owner  => root,
+  group  => www-data,
+  mode   => '0775',
+}
+
 exec { "apt-get_update":
     command     => "/usr/bin/apt-get update",
     require     => [ File["norecommends"],
@@ -38,7 +59,7 @@ file { "norecommends":
 
 file { "defaultrelease":
     path    => "/etc/apt/apt.conf.d/03defaultrelease",
-    content => "APT::Default-Release \"precise\";",
+    content => "APT::Default-Release \"saucy\";",
 }
 
 $misc_packages = [
@@ -68,7 +89,3 @@ package { $misc_packages: }
 include base::apache2
 include base::php
 include base::phpunit
-
-#@todo: disable default site
-#@todo: add ushahidi vhost and enable
-

@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4>{{#if isNew}}Create Tag{{else}}Edit Tag{{/if}}</h4>
+  <a class="close-reveal-modal">&#215;</a>
+</div> <!-- end modal-header -->
+
+<div class="modal-wrapper">
+    <section class="tag-form-wrapper">
+    </section> <!-- end create-post-options -->
+</div> <!-- end modal-wrapper -->
+
+<section class="modal-footer">
+  <div class="modal-submit">
+    <button type="submit" form="edit-tag-form"><i class="fa  fa-plus  fa-lg"></i> {{#if isNew}}Create Tag{{else}}Update Tag{{/if}} </button>
+  </div>
+</section> <!-- end modal-footer -->

@@ -2,11 +2,6 @@
 	<form role="search" action="">
 		<div class="search-form-wrapper">
 
-			<div class="search-field">
-				<label class="visually-hidden" for="search-field">Search</label>
-				<input aria-labelledby="search-label" type="text" id="q" class="search-field" placeholder="Keyword" value="">
-			</div>
-
 			{{!--<div class="location-field">
 				<label class="visually-hidden" for="location-field">Location</label>
 				<input aria-labelledby="" type="text" id="location-field" class="location-field" placeholder="Location" value="">
@@ -43,9 +38,16 @@
 				</select>
 			</div>--}}
 
-			<div class="search-bar-button">
-				<button type="submit" class="hide-for-medium-down"><i class="fa  fa-search"></i></button>
-				<button type="submit" class="show-for-medium-down"><i class="fa  fa-search"></i>SEARCH</button>
+			<div class="search-field-wrapper">
+				<div class="search-field">
+					<label class="visually-hidden" for="search-field">Search</label>
+					<input aria-labelledby="search-label" type="text" id="q" class="search-field" placeholder="Keyword" value="">
+				</div>
+
+				<div class="search-bar-button">
+					<button type="submit" class="hide-for-medium-down"><i class="fa  fa-search"></i></button>
+					<button type="submit" class="show-for-medium-down"><i class="fa  fa-search"></i>SEARCH</button>
+				</div>
 			</div>
 
 		</div>

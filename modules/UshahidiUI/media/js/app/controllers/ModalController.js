@@ -25,6 +25,8 @@ define(['App', 'marionette'],
 				App.vent.on('set:create', this.setCreate, this);
 				App.vent.on('user:edit', this.userEdit, this);
 				App.vent.on('user:create',this.userCreate, this);
+				App.vent.on('tag:edit', this.tagEdit, this);
+				App.vent.on('tag:create', this.tagCreate, this);
 			},
 			postCreate : function ()
 			{
@@ -125,6 +127,33 @@ define(['App', 'marionette'],
 					var user = new UserModel({});
 					that.modal.show(new EditUserView({
 						model : user
+					}));
+					that.modal.currentView.on('close', that.modal.close, that.modal);
+				});
+			},
+			tagEdit : function (tag)
+			{
+				var that = this;
+
+				require(['views/modals/EditTagView'],
+					function(EditTagView)
+				{
+					that.modal.show(new EditTagView({
+						model : tag
+					}));
+					that.modal.currentView.on('close', that.modal.close, that.modal);
+				});
+			},
+			tagCreate : function ()
+			{
+				var that = this;
+
+				require(['views/modals/EditTagView', 'models/TagModel'],
+					function(EditTagView,TagModel)
+				{
+					var tag = new TagModel({});
+					that.modal.show(new EditTagView({
+						model : tag
 					}));
 					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});

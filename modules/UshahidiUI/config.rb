@@ -7,7 +7,7 @@ css_dir = "media/css"
 sass_dir = "media/scss"
 images_dir = "media/images"
 javascripts_dir = "media/js"
-fonts_dir = "media/fonts"
+fonts_dir = "media/kohana/font"
 
 # Production
 output_style = :compressed

@@ -68,6 +68,7 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 				//'token_bearer_header_name' => 'Bearer',
 				'enforce_state'            => TRUE,
 				'allow_implicit'           => TRUE,
+				'require_exact_redirect_uri' => FALSE
 			);
 		}
 		

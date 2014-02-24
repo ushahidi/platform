@@ -10,7 +10,7 @@ users:
   -
     id: 2
     username: "admin"
-    password: ""
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     first_name:
     last_name:
     email:
@@ -18,7 +18,7 @@ users:
   -
     id: 3
     username: "test"
-    password: ""
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     first_name: Test
     last_name: User
     email: test@v3.ushahidi.com
@@ -549,6 +549,15 @@ tags:
     priority: 0
     type: 'status'
 posts_tags:
+  -
+    post_id: 1
+    tag_id: 4
+  -
+    post_id: 1
+    tag_id: 3
+  -
+    post_id: 99
+    tag_id: 3
 sets:
   -
     id: 1
