@@ -29,21 +29,22 @@ $em-base: 16px !default;
 // Colors vars
 
 $black:          #000;
-$darkGray:       #1F1F1F;
-$midGray:        #E3E3E3;
+$darkGray:       #1f1f1f;
+$midGray:        #e3e3e3;
 
 $darkBlue:       #22699D;
 
 // Ushahidi Pallette
-$blue:           #14B4D1;
-$green:          #3CB81C;
-$lightGray:      #EFF0F3;
-$blueGray:       #323A45;
-$white:          #FCFCFC;
+$blue:           #14b4d1;
+$green:          #3cb81c;
+$lightGray:      #eff0f3;
+$blueGray:       #323a45;
+$white:          #fcfcfc;
 
 $primary-color: $blue;
 $secondary-color: $lightGray;
 $alert-color: #C50813;
+$warning-color: #ffad19;
 $success-color: $green;
 
 $facebook-color:  #3b5998;
