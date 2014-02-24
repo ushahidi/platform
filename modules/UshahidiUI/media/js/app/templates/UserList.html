@@ -1,10 +1,18 @@
 <div class="row">
-	<div class="user-list-admin-bar">
-		<div class="user-list-admin-bar-header">
+	<div class="user-list-actions-bar">
+		<div class="user-list-actions-bar-header">
 			<h1>Users</h1>
 		</div>
-		<div class="user-list-admin-bar-select">
-			<ul>
+		<div class="user-list-actions-bar-select">
+			<ul class="hide-for-small">
+				<li>Select All</li>
+				<li><a href=""><i class="fa  fa-edit"></i>Edit</a></li>
+				<li><a href=""><i class="fa  fa-cogs"></i>Change Role</a></li>
+				<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
+			</ul>
+
+			<a href="#/" data-dropdown="drop" class="dropdown-button  show-for-small">actions</a><br>
+			<ul id="drop" data-dropdown-content class="f-dropdown  show-for-small">
 				<li>Select All</li>
 				<li><a href=""><i class="fa  fa-edit"></i>Edit</a></li>
 				<li><a href=""><i class="fa  fa-cogs"></i>Change Role</a></li>
@@ -12,8 +20,30 @@
 			</ul>
 		</div>
 	</div>
-</div>
 
-<div class="pagination-centered">
+	<div class="user-list-filter-bar">
+		<div class="row">
+			<div class="user-list-categories">
+				<ul class="user-list-categories-list">
+					<li>All</li>
+					<li>Admin</li>
+					<li>Guest</li>
+					<li>User</li>
+<!-- 					<li>All <span class="all-count"><span class="count-number">47</span></span></li>
+					<li>Admin <span class="admin-count"><span class="count-number">9</span></span></li>
+					<li>Guest <span class="guest-count"><span class="count-number">73</span></span></li>
+					<li>User <span class="user-count"><span class="count-number">17</span></span></li> -->
+				</ul>
+			</div>
+			<div class="user-list-search">
+				<form class="user-list-search-form">
+					<input tabindex="1" id="autocomplete" type="search" placeholder="Search Users" autocomplete="off">
+				</form>
+			</div>
+		</div> <!-- end .row --> 
+	</div> <!-- end .user-list-filter-bar -->
+</div> <!-- end .row -->
+
+<!-- <div class="pagination-centered">
 	{{>pagination}}
-</div> <!-- end .pagination-centered -->
+</div> --> <!-- end .pagination-centered -->
