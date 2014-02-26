@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -359,9 +360,66 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 /*------------------------------------*\
 		$FOUNDATION IMPORTS
 \*------------------------------------*/
+=======
+>>>>>>> Stashed changes
 /*
-NOTE: comment out what I don't use
+Syntax error: File to import not found or unreadable: modules/header/off-canvas.
+              Load paths:
+                /Users/M8M/Sites/lamu/modules/UshahidiUI/media/scss
+                /opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets
+                Compass::SpriteImporter
+        on line 123 of /Users/M8M/Sites/lamu/modules/UshahidiUI/media/scss/style.scss
+
+Backtrace:
+/Users/M8M/Sites/lamu/modules/UshahidiUI/media/scss/style.scss:123
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/import_node.rb:66:in `rescue in import'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/import_node.rb:45:in `import'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/import_node.rb:28:in `imported_file'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/import_node.rb:37:in `css_import?'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:278:in `visit_import'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:37:in `visit'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:153:in `block in visit'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:79:in `block in with_base'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:115:in `with_frame'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:79:in `with_base'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:153:in `visit'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:53:in `map'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:162:in `block in visit_children'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:174:in `with_environment'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:161:in `visit_children'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:181:in `visit_root'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:37:in `visit'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/root_node.rb:36:in `css_tree'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/tree/root_node.rb:20:in `render'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/sass-3.3.0.rc.1/lib/sass/engine.rb:277:in `render'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:146:in `block (2 levels) in compile'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:132:in `timed'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:145:in `block in compile'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/logger.rb:46:in `red'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:144:in `compile'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:124:in `compile_if_required'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:109:in `block (2 levels) in run'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:107:in `each'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:107:in `block in run'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:132:in `timed'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:106:in `run'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/commands/update_project.rb:45:in `perform'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/commands/base.rb:18:in `execute'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/commands/project_base.rb:19:in `execute'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/bin/compass:30:in `block in <top (required)>'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/bin/compass:44:in `call'
+/opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/bin/compass:44:in `<top (required)>'
+/opt/boxen/rbenv/versions/1.9.3-p392/bin/compass:23:in `load'
+/opt/boxen/rbenv/versions/1.9.3-p392/bin/compass:23:in `<main>'
 */
+<<<<<<< Updated upstream
 /* line 262, ../../scss/foundation/components/_global.scss */
 *,
 *:before,
@@ -15529,3 +15587,9 @@ form.custom .custom.checkbox.checked:before {
     padding-right: 0;
   }
 }
+=======
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: File to import not found or unreadable: modules/header/off-canvas.\A               Load paths:\A                 /Users/M8M/Sites/lamu/modules/UshahidiUI/media/scss\A                 /opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.13.alpha.10/frameworks/compass/stylesheets\A                 Compass::SpriteImporter\A         on line 123 of /Users/M8M/Sites/lamu/modules/UshahidiUI/media/scss/style.scss"; }
+>>>>>>> Stashed changes
