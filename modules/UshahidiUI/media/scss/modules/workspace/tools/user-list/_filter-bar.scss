@@ -1,0 +1,132 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+
+ * USER-LIST FILTER BAR............stats/filter/search styling
+ */
+
+
+
+
+
+/*------------------------------------*\
+    $USER-LIST FILTER BAR
+\*------------------------------------*/
+
+.user-list-filter-bar {
+	@include grid-column(12);
+	background-color: $white;
+	border-bottom: 1px solid $secondary-color;
+}
+
+.user-list-categories {
+	@include grid-column(12);
+	margin-top: 15px;
+	@media #{$small} {
+		@include grid-column(9);
+		margin-top: 0;
+	}
+	.dropdown-button {
+		@include button($padding: $button-med, $bg: $secondary-color, $radius: true, $full-width: true);
+		@include dropdown-button($padding: tiny);
+		margin-bottom: 0;
+		&:before {
+			border-color: $black transparent transparent transparent;
+		}
+	}
+}
+
+.user-list-categories-list {
+	@include block-grid(5);
+	li {
+		border-right: 1px solid $secondary-color;
+		margin: 10px 0;
+		padding: 0 10px;
+		font-size: emCalc(14);
+		line-height: 2.4em;
+		text-align: center;
+		@media #{$small} {
+			margin: 10px 0;
+			padding: 10px 0px 12px;
+		}
+		.hide-for-small {
+			display: none !important;
+			@media #{$small} {
+				display: inline-block !important;
+			}
+		}
+		.count-number {
+			position: relative;
+			top: 4px;
+			font-size: emCalc(11);
+			letter-spacing: .15em;
+		}
+	}
+}
+
+%user-list-notification {
+	position: relative;
+	top: -5px;
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	border-radius: 100px;
+	margin: 0 auto 0 10px;
+	color: $white;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+/*notifications*/
+/*[class*='-count'] will effect other elements. More specificity.*/
+[class*='-count'] {
+	@extend %user-list-notification;
+}
+
+.all-count {
+	color: $accent-color;
+	@media #{$small} {
+		background-color: $accent-color;
+		color: $white;
+	}
+}
+
+.admin-count {
+	color: $alert-color;
+	@media #{$small} {
+		background-color: $alert-color;
+		color: $white;
+	}
+}
+
+.guest-count {
+	color: $success-color;
+	@media #{$small} {
+		background-color: $success-color;
+		color: $white;
+	}
+}
+
+.user-count {
+	color: $warning-color;
+	@media #{$small} {
+		background-color: $warning-color;
+		color: $white;
+	}
+}
+
+.user-list-search {
+	@include grid-column(12, $collapse: true);
+	border-top: 1px solid $secondary-color;
+	@media #{$small} {
+		@include grid-column(3);
+		border-top: none;
+	}
+	.user-list-search-form {
+		margin: 17px;
+	}
+}

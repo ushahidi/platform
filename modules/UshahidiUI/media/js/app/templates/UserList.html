@@ -3,36 +3,48 @@
 		<div class="user-list-actions-bar-header">
 			<h1>Users</h1>
 		</div>
-		<div class="user-list-actions-bar-select">
+		<div class="user-list-actions-bar-admin">
 			<ul class="hide-for-small">
 				<li>Select All</li>
-				<li><a href=""><i class="fa  fa-edit"></i>Edit</a></li>
-				<li><a href=""><i class="fa  fa-cogs"></i>Change Role</a></li>
+				<li>
+					<a href="#" data-dropdown="drop1"><i class="fa  fa-cogs"></i>Change Role</a>
+					<ul id="drop1" class="f-dropdown" data-dropdown-content>
+					  <li><a href="#">Admin</a></li>
+					  <li><a href="#">User</a></li>
+					  <li><a href="#">Guest</a></li>
+					</ul>
+				</li>
 				<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 
 			<a href="#/" data-dropdown="drop" class="dropdown-button  show-for-small">actions</a><br>
 			<ul id="drop" data-dropdown-content class="f-dropdown  show-for-small">
-				<li>Select All</li>
+				<li><a href=""><i class="fa  fa-edit"></i>Select All</a></li>
 				<li><a href=""><i class="fa  fa-edit"></i>Edit</a></li>
 				<li><a href=""><i class="fa  fa-cogs"></i>Change Role</a></li>
 				<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 		</div>
-	</div>
+	</div> <!-- end .user-list-actions-bar -->
 
 	<div class="user-list-filter-bar">
 		<div class="row">
 			<div class="user-list-categories">
-				<ul class="user-list-categories-list">
-					<li>All</li>
-					<li>Admin</li>
-					<li>Guest</li>
-					<li>User</li>
-<!-- 					<li>All <span class="all-count"><span class="count-number">47</span></span></li>
-					<li>Admin <span class="admin-count"><span class="count-number">9</span></span></li>
-					<li>Guest <span class="guest-count"><span class="count-number">73</span></span></li>
-					<li>User <span class="user-count"><span class="count-number">17</span></span></li> -->
+				<ul class="user-list-categories-list  hide-for-small">
+					<li>All <span class="all-count  hide-for-small"><span class="count-number">47</span></span></li>
+					<li>Admin <span class="admin-count  hide-for-small"><span class="count-number">9</span></span></li>
+					<li>Member <span class="guest-count  hide-for-small"><span class="count-number">73</span></span></li>
+					<li>User <span class="user-count  hide-for-small"><span class="count-number">17</span></span></li>
+					<li>Category <span class="all-count  hide-for-small"><span class="count-number">47</span></span></li>
+				</ul>
+
+				<a href="#/" data-dropdown="drop" class="dropdown-button  show-for-small">filter by roles</a><br>
+				<ul id="drop" data-dropdown-content class="user-list-categories-list  f-dropdown  show-for-small">
+					<li>All <span class="all-count  hide-for-small"><span class="count-number">47</span></span></li>
+					<li>Admin <span class="admin-count  hide-for-small"><span class="count-number">9</span></span></li>
+					<li>Member <span class="guest-count  hide-for-small"><span class="count-number">73</span></span></li>
+					<li>User <span class="user-count  hide-for-small"><span class="count-number">17</span></span></li>
+					<li>Category <span class="all-count  hide-for-small"><span class="count-number">47</span></span></li>
 				</ul>
 			</div>
 			<div class="user-list-search">
@@ -42,8 +54,62 @@
 			</div>
 		</div> <!-- end .row --> 
 	</div> <!-- end .user-list-filter-bar -->
+
+	<div class="user-list-profile">
+		<div class="user-list-select-profile  js-list-view-select-post">
+			<label class="visually-hidden" for="select-post">Select Post</label>
+			<input type="checkbox" name="select-post" class="select-post-input  js-select-post-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
+		</div> <!-- end .user-list-select-post -->
+
+		<div class="row">
+			<article>
+				<div class="user-list-avatar">
+					<img src="http://www.fillmurray.com/400/400" alt="">
+				</div> <!-- end .user-list-avatar -->
+
+				<div class="user-list-details-wrapper">
+					<div class="row">
+						<div class="user-list-details">
+							<h4 class="header">Bill Murray</h4>
+							<div class="row">
+								<div class="details-column-a">
+									<p class="user-list-role"><b>Role:</b> User</p>
+									<p class="user-list-full-name"><b>Full Name:</b> William James Murray</p>
+								</div>
+
+								<div class="details-column-b">
+									<p class="user-list-last-login"> <i class="icon-time"></i><b>Last Login:</b> Today 12:20 pm</p>
+									<p class="user-list-last-attempt"><b>Last Attempt:</b> Never</p>
+									<p class="user-list-failed-attempt"><b>Failed Attempts:</b> 0</p>
+								</div>
+
+							</div>
+					</div> <!-- end .user-list-details -->
+					</div> <!-- end .row -->
+				</div> <!-- end .user-list-details-wrapper -->
+
+				<div class="user-list-profile-admin">
+
+					<div class="list-view-post-edit-wrapper">
+						<ul class="list-view-post-edit">
+							<li><a href="#" class="user-edit-button" title="edit this post" data-reveal-id="edit-post"> <i class="icon-edit"></i>edit</a></li>
+							<li><a href="#" id="confirm" class="user-change-roles-button" title="unpublish this post"> <i class="icon-cogs"></i> change role</a></li>
+							<li><a href="#" class="user-delete-button" title="delete this post"> <i class="icon-trash"></i>delete</a></li>
+						</ul> <!-- end .list-view-post-edit -->
+					</div> <!-- end .list-view-post-edit-wrapper-->
+				</div> <!-- end .list-view-post-admin -->
+			</article>
+		</div> <!-- end .row -->
+	</div> <!-- end .user-list-profile -->
+
 </div> <!-- end .row -->
 
 <!-- <div class="pagination-centered">
 	{{>pagination}}
 </div> --> <!-- end .pagination-centered -->
+
+
+<!-- <li>All <span class="all-count"><span class="count-number">47</span></span></li>
+<li>Admin <span class="admin-count"><span class="count-number">9</span></span></li>
+<li>Guest <span class="guest-count"><span class="count-number">73</span></span></li>
+<li>User <span class="user-count"><span class="count-number">17</span></span></li> -->
