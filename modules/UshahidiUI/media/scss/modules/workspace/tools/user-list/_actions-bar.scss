@@ -1,0 +1,70 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * USER-LIST ACTIONS BAR............bulk action bar styles
+ */
+
+
+
+
+/*------------------------------------*\
+    $USER-LIST ACTIONS BAR
+\*------------------------------------*/
+
+.user-list-actions-bar {
+	@include grid-column(12);
+	background-color: $accent-color;
+	@media #{$small} {
+		margin: 60px 0 20px 0;
+	}
+}
+
+.user-list-actions-bar-header {
+	@include grid-column(6, $collapse: true);
+	@media #{$small} {
+		@include grid-column(2, $collapse: true);
+	}
+	h1 {
+		color: $white;
+	}
+}
+
+.user-list-actions-bar-admin {
+	@include grid-column(6, $collapse: true);
+	@media #{$small} {
+		@include grid-column(10, $collapse: true);
+	}
+	.dropdown-button {
+		@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
+		@include dropdown-button($padding: tiny);
+		float: right;
+		margin: 15px 0 0 0;
+		&:before {
+			border-color: $black transparent transparent transparent;
+		}
+		&.show-for-small {
+			display: inline-block !important;
+			@media #{$small} {
+				display: none !important;
+			}
+		}
+	}
+	ul {
+		margin-top: 33px;
+		float: right;
+		li {
+			display: inline;
+			float: left;
+			padding-left: 60px;
+			color: $white;
+			font-size: emCalc(14);
+			a {
+				color: $white;
+			}
+			[class*="fa-"] {
+				padding-right: 10px;
+			}
+		}
+	}
+}
