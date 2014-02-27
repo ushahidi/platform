@@ -7,34 +7,32 @@ notifications:
       secure: Pz5CQX/NtKLkk8c6kjhxipMS6kdQTj5jaeN9LC2k1IzERsqCYnx/nD2EV0cG4YJO0W3sMK3vaVgL5lLE3xHpe7wsLB/LWmxLY8QV0NJaSGOqqXAC4S5Yo7MRFd2S5fPWN7MC05SPpqiDveEle1fK6Gz7oHXSZxAFMyYnLRcaX3M=
 language: php
 php:
-  - "5.4"
-  - "5.5"
+- '5.4'
+- '5.5'
 services:
-  - mysql
+- mysql
 env:
-  - KOHANA_ENV=testing
+- KOHANA_ENV=testing
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install npm
-  - git submodule update --init --recursive
+- sudo apt-get update
+- sudo apt-get install npm
+- git submodule update --init --recursive
 install:
-  - npm install -g grunt-cli
-  - composer install --no-interaction --prefer-source # Have to prefer source or hit github rate limit
-  - pushd modules/UshahidiUI && npm install && popd
+- npm install -g grunt-cli
+- composer install --no-interaction --prefer-source
+- pushd modules/UshahidiUI && npm install && popd
 before_script:
-  - mkdir application/cache application/logs
-  - chmod 777 application/cache application/logs
-  - cp application/tests/behat.template application/tests/behat.yml
-  # db setup
-  - mysql -e 'create database lamu_test;'
-  - ./minion --task=migrations:run --up
-  # 2.x db setup for import test
-  - mysql -e 'create database zombie2x;'
-  - curl https://72c9192a7b87de5fc63a-f9fe2e6be12470a7bff22b7693bc7329.ssl.cf1.rackcdn.com/lamu-ci-zombie2x.sql | mysql zombie2x
-  # webserver setup
-  - php -S localhost:8000 httpdocs/index.php &
-  - sleep 3
+- mkdir application/cache application/logs
+- chmod 777 application/cache application/logs
+- cp application/tests/behat.template application/tests/behat.yml
+- mysql -e 'create database lamu_test;'
+- ./minion --task=migrations:run --up
+- mysql -e 'create database zombie2x;'
+- curl https://72c9192a7b87de5fc63a-f9fe2e6be12470a7bff22b7693bc7329.ssl.cf1.rackcdn.com/lamu-ci-zombie2x.sql
+  | mysql zombie2x
+- php -S localhost:8000 httpdocs/index.php &
+- sleep 3
 script:
-  - ./bin/behat --config application/tests/behat.yml --format progress
-  - ./bin/phpunit -c application/tests/phpunit.xml
-  - pushd modules/UshahidiUI && grunt test && popd
+- ./bin/behat --config application/tests/behat.yml --format progress
+- ./bin/phpunit -c application/tests/phpunit.xml
+- pushd modules/UshahidiUI && grunt test && popd
