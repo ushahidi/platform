@@ -36,12 +36,3 @@ html, body {
 		color: white;
 		background: $accent-color;
 }
-
-
-ul.pagination li.current a {
-	@include border-radius(3px);
-}
-
-ul.pagination li:hover a, ul.pagination li a:focus {
-	@include border-radius(3px);
-}
