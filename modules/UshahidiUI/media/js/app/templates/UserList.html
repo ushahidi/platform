@@ -31,20 +31,20 @@
 		<div class="row">
 			<div class="user-list-categories">
 				<ul class="user-list-categories-list  hide-for-small">
-					<li>All <span class="all-count  hide-for-small"><span class="count-number">47</span></span></li>
-					<li>Admin <span class="admin-count  hide-for-small"><span class="count-number">9</span></span></li>
-					<li>Member <span class="guest-count  hide-for-small"><span class="count-number">73</span></span></li>
-					<li>User <span class="user-count  hide-for-small"><span class="count-number">17</span></span></li>
-					<li>Category <span class="all-count  hide-for-small"><span class="count-number">47</span></span></li>
+					<li>All <span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li>
+					<li>Admin <span class="admin-count-number  hide-for-small"><span class="count-number">9</span></span></li>
+					<li>Member <span class="guest-count-number  hide-for-small"><span class="count-number">73</span></span></li>
+					<li>User <span class="user-count-number  hide-for-small"><span class="count-number">17</span></span></li>
+					<li>Category <span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li>
 				</ul>
 
 				<a href="#/" data-dropdown="drop" class="dropdown-button  show-for-small">filter by roles</a><br>
 				<ul id="drop" data-dropdown-content class="user-list-categories-list  f-dropdown  show-for-small">
-					<li>All <span class="all-count  hide-for-small"><span class="count-number">47</span></span></li>
-					<li>Admin <span class="admin-count  hide-for-small"><span class="count-number">9</span></span></li>
-					<li>Member <span class="guest-count  hide-for-small"><span class="count-number">73</span></span></li>
-					<li>User <span class="user-count  hide-for-small"><span class="count-number">17</span></span></li>
-					<li>Category <span class="all-count  hide-for-small"><span class="count-number">47</span></span></li>
+					<li>All <span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li>
+					<li>Admin <span class="admin-count-number  hide-for-small"><span class="count-number">9</span></span></li>
+					<li>Member <span class="guest-count-number  hide-for-small"><span class="count-number">73</span></span></li>
+					<li>User <span class="user-count-number  hide-for-small"><span class="count-number">17</span></span></li>
+					<li>Category <span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li>
 				</ul>
 			</div>
 			<div class="user-list-search">
@@ -52,12 +52,12 @@
 					<input tabindex="1" id="autocomplete" type="search" placeholder="Search Users" autocomplete="off">
 				</form>
 			</div>
-		</div> <!-- end .row --> 
+		</div> <!-- end .row -->
 	</div> <!-- end .user-list-filter-bar -->
 
 	<div class="user-list-profile">
 		<div class="user-list-select-profile  js-list-view-select-post">
-			<label class="visually-hidden" for="select-post">Select Post</label>
+			<label class="visually-hidden" for="select-post">Select User</label>
 			<input type="checkbox" name="select-post" class="select-post-input  js-select-post-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
 		</div> <!-- end .user-list-select-post -->
 
@@ -97,7 +97,7 @@
 							<li><a href="#" class="user-delete-button" title="delete this post"> <i class="icon-trash"></i>delete</a></li>
 						</ul> <!-- end .list-view-post-edit -->
 					</div> <!-- end .list-view-post-edit-wrapper-->
-				</div> <!-- end .list-view-post-admin -->
+				</div> <!-- end .user-list-profile-admin -->
 			</article>
 		</div> <!-- end .row -->
 	</div> <!-- end .user-list-profile -->

@@ -65,7 +65,7 @@
 	}
 }
 
-%user-list-notification {
+%user-list-count-number {
 	position: relative;
 	top: -5px;
 	display: inline-block;
@@ -81,41 +81,23 @@
 	white-space: nowrap;
 }
 
-/*notifications*/
-/*[class*='-count'] will effect other elements. More specificity.*/
-[class*='-count'] {
-	@extend %user-list-notification;
+[class*='-count-number'] {
+	@extend %user-list-count-number;
 }
 
-.all-count {
-	color: $accent-color;
-	@media #{$small} {
-		background-color: $accent-color;
-		color: $white;
-	}
-}
+/*random color function for count-number background*/
 
-.admin-count {
-	color: $alert-color;
-	@media #{$small} {
-		background-color: $alert-color;
-		color: $white;
-	}
-}
+$color1: $accent-color;
+$color2: $alert-color;
+$color3: $success-color;
+$color4: $warning-color;
+$color5: $primary-color;
 
-.guest-count {
-	color: $success-color;
-	@media #{$small} {
-		background-color: $success-color;
-		color: $white;
-	}
-}
+$colors: $color1, $color2, $color3, $color4, $color5;
 
-.user-count {
-	color: $warning-color;
-	@media #{$small} {
-		background-color: $warning-color;
-		color: $white;
+@for $i from 1 through length($colors) {
+  .user-list-categories-list li:nth-child(#{length($colors)}n+#{$i}) [class*='-count-number'] {
+		background-color: (nth($colors, $i));
 	}
 }
 
