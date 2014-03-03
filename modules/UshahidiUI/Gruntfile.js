@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 	});
 
 	require('load-grunt-tasks')(grunt);
-	
+
 	grunt.registerTask('test', ['jshint']);
 	grunt.registerTask('build', ['requirejs', 'imagemin', 'compass']);
 	grunt.registerTask('default', ['jshint', 'requirejs', 'compass']);
