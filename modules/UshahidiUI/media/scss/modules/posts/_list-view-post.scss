@@ -12,6 +12,7 @@
 		$LIST VIEW POST
 \*-------------------------------------------------------------------*/
 
+%list-view-post,
 .list-view-post {
 	@include grid-column(12, $collapse: true);
 	border-bottom: 1px solid $lightGray;

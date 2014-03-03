@@ -16,7 +16,7 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListIt
 			//Template HTML string
 			template: Handlebars.compile(template),
 			tagName: 'li',
-			className: 'list-view-post',
+			className: 'list-view-user',
 
 			events: {
 				'click .js-user-delete': 'deleteUser',

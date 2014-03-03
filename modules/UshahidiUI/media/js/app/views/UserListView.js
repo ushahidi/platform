@@ -29,7 +29,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 			itemView: UserListItemView,
 			itemViewOptions: {},
 
-			itemViewContainer: '.list-view-user-list',
+			itemViewContainer: '.list-view-user-profile-list',
 
 			events:
 			{
