@@ -2,14 +2,14 @@
     CONTENTS
 \*------------------------------------*/
 /**
- * USER LIST PROFILE...............avatar, name, roles, admin
+ * USER PROFILE LIST...............avatar, name, roles, admin
  */
 
 
 
 
 /*------------------------------------*\
-    $USER LIST PROFILE
+    $USER PROFILE LIST
 \*------------------------------------*/
 
 .list-view-user {
@@ -80,8 +80,7 @@
 }
 
 .user-list-profile-admin {
-	@include grid-column(12);
-	margin-top: 20px;
+  @extend .list-view-post-admin;
 }
 
 .user-edit-button {
