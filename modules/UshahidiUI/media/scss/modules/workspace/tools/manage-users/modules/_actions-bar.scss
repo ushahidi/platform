@@ -25,8 +25,9 @@
 	@media #{$small} {
 		@include grid-column(2, $collapse: true);
 	}
-	h1 {
+	h3 {
 		color: $white;
+    margin-top: 10px;
 	}
 }
 
@@ -40,10 +41,10 @@
     li { @include dropdown-style; }
   }
 	.dropdown-button {
-		@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
+		@include button($padding: $button-tny, $bg: $secondary-color, $radius: true);
 		@include dropdown-button($padding: tiny);
 		float: right;
-		margin: 15px 0 0 0;
+		margin: 12px 0 0 0;
 		&:before {
 			border-color: $black transparent transparent transparent;
 		}
@@ -55,7 +56,7 @@
 		}
 	}
 	ul {
-		margin-top: 33px;
+		margin-top: 20px;
 		float: right;
 		li {
 			display: inline;
