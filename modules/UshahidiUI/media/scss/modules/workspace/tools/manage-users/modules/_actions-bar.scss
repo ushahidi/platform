@@ -35,6 +35,10 @@
 	@media #{$small} {
 		@include grid-column(10, $collapse: true);
 	}
+  .dropdown-list {
+    @include dropdown-container($content: list, $triangle: true);
+    li { @include dropdown-style; }
+  }
 	.dropdown-button {
 		@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
 		@include dropdown-button($padding: tiny);

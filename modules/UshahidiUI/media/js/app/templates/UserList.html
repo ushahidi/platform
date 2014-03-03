@@ -8,7 +8,7 @@
 				<li>Select All</li>
 				<li>
 					<a href="#" data-dropdown="drop1"><i class="fa  fa-cogs"></i>Change Role</a>
-					<ul id="drop1" class="f-dropdown" data-dropdown-content>
+					<ul id="drop1" class="dropdown-list" data-dropdown-content>
 					  <li><a href="#">Admin</a></li>
 					  <li><a href="#">User</a></li>
 					  <li><a href="#">Guest</a></li>
@@ -18,11 +18,17 @@
 			</ul>
 
 			<a href="#/" data-dropdown="drop" class="dropdown-button  show-for-small">actions</a><br>
-			<ul id="drop" data-dropdown-content class="f-dropdown  show-for-small">
-				<li><a href=""><i class="fa  fa-edit"></i>Select All</a></li>
-				<li><a href=""><i class="fa  fa-edit"></i>Edit</a></li>
-				<li><a href=""><i class="fa  fa-cogs"></i>Change Role</a></li>
-				<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
+			<ul id="drop" data-dropdown-content class="dropdown-list  show-for-small">
+			<li>Select All</li>
+			<li>
+				<a href="#" data-dropdown="drop1"><i class="fa  fa-cogs"></i>Change Role</a>
+				<ul id="drop1" class="dropdown-list" data-dropdown-content>
+					<li><a href="#">Admin</a></li>
+					<li><a href="#">User</a></li>
+					<li><a href="#">Guest</a></li>
+				</ul>
+			</li>
+			<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 		</div>
 	</div> <!-- end .user-list-actions-bar -->

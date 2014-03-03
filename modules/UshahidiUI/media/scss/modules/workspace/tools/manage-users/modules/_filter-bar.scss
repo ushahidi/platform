@@ -39,6 +39,10 @@
 
 .user-list-categories-list {
 	@include block-grid(5);
+  &:after {
+    content: none;
+    display: table;
+  }
 	li {
 		border-right: 1px solid $secondary-color;
 		margin: 10px 0;
