@@ -1,0 +1,5 @@
+# Ignore all files
+*
+# Except this file
+!.gitignore
+# To prevent cache files from ever being committed into the git repo.
