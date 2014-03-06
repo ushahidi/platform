@@ -142,9 +142,14 @@ NOTE: comment out what I don't use
 @import "modules/map/map";
 @import "modules/map/search";
 
+/*HOME*/
+@import "modules/home/bulk-actions";
+
+/*LIST VIEW*/
+@import "modules/list-view/list-view-filter";
+@import "modules/list-view/list-view-post";
+
 /*POSTS*/
-@import "modules/posts/list-view";
-@import "modules/posts/list-view-post";
 @import "modules/posts/post";
 @import "modules/posts/post-overlay";
 @import "modules/posts/post-details";
