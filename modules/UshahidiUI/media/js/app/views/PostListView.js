@@ -8,12 +8,13 @@
  */
 
 define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostListItemView',
-		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
+		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html', 'text!templates/partials/user-list-info.html'],
 	function( App, Marionette, Handlebars, _, alertify, PostListItemView,
-		template, paginationTemplate, postListInfoTemplate)
+		template, paginationTemplate, postListInfoTemplate, userListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
 		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
+    Handlebars.registerPartial('user-list-info', userListInfoTemplate);
 
 		return Marionette.CompositeView.extend(
 		{
@@ -23,7 +24,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			partialTemplates :
 			{
 				pagination : Handlebars.compile(paginationTemplate),
-				postListInfo : Handlebars.compile(postListInfoTemplate)
+				postListInfo : Handlebars.compile(postListInfoTemplate),
+        userListInfo : Handlebars.compile(userListInfoTemplate)
 			},
 			initialize: function()
 			{
@@ -272,16 +274,21 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 						pagination: this.collection.state
 					})
 				);
-				this.$('.list-view-filter-info').html(
+				this.$('.list-view-filter-info--posts').html(
 					this.partialTemplates.postListInfo({
 						pagination: this.collection.state
 					})
 				);
+        this.$('.user-view-filter-info--user').html(
+          this.partialTemplates.userListInfo({
+            pagination: this.collection.state
+          })
+        );
 			},
 			updatePageSize : function (e)
 			{
 				e.preventDefault();
-				var size = parseInt(this.$('#filter-posts-count').val(), 10);
+				var size = parseInt(this.$('#filter-count').val(), 10);
 				if (typeof size === 'number' && size > 0)
 				{
 					this.collection.setPageSize(size, {
@@ -292,7 +299,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			updatePostsSort : function (e)
 			{
 				e.preventDefault();
-				var orderby = this.$('#filter-posts-sort').val();
+				var orderby = this.$('#filter-sort').val();
 				this.collection.setSorting(orderby);
 				this.collection.getFirstPage();
 			}
