@@ -52,6 +52,7 @@
 
 .user-list-details {
 	@include grid-column(12);
+  color: $body-font-color;
 	.header {
 		line-height: 1em;
 		margin-top: 0;

@@ -45,14 +45,18 @@
   }
 	li {
 		border-right: 1px solid $secondary-color;
-		margin: 10px 0;
 		padding: 0 10px;
 		font-size: emCalc(14);
+    color: $sub-body-font-color;
 		line-height: 2.4em;
 		text-align: center;
+    &.active {
+      color: $body-font-color;
+      font-weight: bold;
+      background-color: darken($secondary-color, 2);
+    }
 		@media #{$small} {
-			margin: 10px 0;
-			padding: 10px 0px 12px;
+      padding: 20px 0px 21px;
 		}
 		.hide-for-small {
 			display: none !important;
@@ -114,5 +118,8 @@ $colors: $color1, $color2, $color3, $color4, $color5;
 	}
 	.user-list-search-form {
 		margin: 17px;
+    @media #{$small} {
+      margin: 17px 0 17px 0;
+    }
 	}
 }
