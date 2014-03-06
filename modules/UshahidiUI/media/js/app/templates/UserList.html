@@ -34,24 +34,82 @@
 		</div>
 	</div> <!-- end .user-list-actions-bar -->
 
+	<div class="list-view-filter  list-view-filter--user">
+		<div class="row">
+
+			<div class="list-view-filter-info--user">
+
+				<!-- NOTE: need a user-list-post -->
+				{{>user-list-info}}
+
+			</div> <!-- end .list-view-filter-info -->
+
+			<div class="list-view-filter-count--user">
+				<div class="filter-count-select">
+					<label class="visually-hidden" for="filter-count">Number of users shown</label>
+					<select id="filter-count" class="filter-count">
+						<option selected>3</option>
+						<option>5</option>
+						<option>10</option>
+						<option>20</option>
+					</select>
+				</div>
+
+			</div> <!-- end .list-view-filter-count -->
+
+			<div class="list-view-filter-sort">
+				<div class="filter-sort-select">
+					<label class="visually-hidden" for="filter-sort">Sort users by</label>
+					<select id="filter-sort" class="filter-sort">
+						<option selected value="updated">Date/Time updated</option>
+						<option value="created">Date/Time created</option>
+						<option value="title">Title A-Z</option>
+						<option value="id">ID</option>
+					</select>
+				</div>
+
+			</div> <!-- end .list-view-filter-sort -->
+
+		</div> <!-- end .row -->
+	</div> <!-- end .list-view-filter -->
+
 	<div class="user-list-filter-bar">
 		<div class="row">
 			<div class="user-list-categories">
 				<ul class="user-list-categories-list  hide-for-small">
-					<li>All <span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li>
-					<li>Admin <span class="admin-count-number  hide-for-small"><span class="count-number">9</span></span></li>
-					<li>Member <span class="guest-count-number  hide-for-small"><span class="count-number">73</span></span></li>
-					<li>User <span class="user-count-number  hide-for-small"><span class="count-number">17</span></span></li>
-					<li>Category <span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li>
+					<li>All
+<!-- 						<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span> -->
+					</li>
+					<li class="active">Admin
+						<span class="admin-count-number  hide-for-small"><span class="count-number">9</span></span>
+					</li>
+					<li>Member
+<!-- 						<span class="guest-count-number  hide-for-small"><span class="count-number">73</span></span> -->
+					</li>
+					<li>User
+<!-- 						<span class="user-count-number  hide-for-small"><span class="count-number">17</span></span> -->
+					</li>
+					<li>Category
+<!-- 						<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span> -->
+					</li>
 				</ul>
 
 				<a href="#/" data-dropdown="drop" class="dropdown-button  show-for-small">filter by roles</a><br>
 				<ul id="drop" data-dropdown-content class="user-list-categories-list  f-dropdown  show-for-small">
-					<li>All <span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li>
-					<li>Admin <span class="admin-count-number  hide-for-small"><span class="count-number">9</span></span></li>
-					<li>Member <span class="guest-count-number  hide-for-small"><span class="count-number">73</span></span></li>
-					<li>User <span class="user-count-number  hide-for-small"><span class="count-number">17</span></span></li>
-					<li>Category <span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li>
+					<li>All
+<!-- 						<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li> -->
+					<li class="active">Admin
+						<span class="admin-count-number  hide-for-small"><span class="count-number">9</span></span>
+					</li>
+					<li>Member
+<!-- 						<span class="guest-count-number  hide-for-small"><span class="count-number">73</span></span> -->
+					</li>
+					<li>User
+<!-- 						<span class="user-count-number  hide-for-small"><span class="count-number">17</span></span> -->
+					</li>
+					<li>Category
+<!-- 						<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span> -->
+					</li>
 				</ul>
 			</div>
 			<div class="user-list-search">
