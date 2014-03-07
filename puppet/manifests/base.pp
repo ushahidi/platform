@@ -3,13 +3,14 @@ Exec {
 }
 
 import "apache2.pp"
+import "mysql.pp"
 import "php.pp"
 import "phpunit.pp"
 
 group { "puppet":
   ensure => "present",
 }
-File { owner => 0, group => 0, mode => 0644 }
+File { mode => 0644 }
 
 file { '/etc/motd':
   content => "Welcome to your Vagrant-built virtual machine!
@@ -18,16 +19,27 @@ file { '/etc/motd':
 
 file { '/var/www/application/cache':
   ensure => directory,
-  owner  => root,
-  group  => www-data,
-  mode   => '0775',
+  mode   => '0777',
 }
 
 file { '/var/www/application/logs':
   ensure => directory,
-  owner  => root,
-  group  => www-data,
-  mode   => '0775',
+  mode   => '0777',
+}
+
+file { "/var/www/application/config/environments":
+  ensure => directory
+}
+
+file { "/var/www/application/config/environments/development":
+  ensure => directory,
+  require => File["/var/www/application/config/environments"]
+}
+
+file { "/var/www/application/config/environments/development/database.php":
+  ensure  => "present",
+  content => template("database.erb"),
+  require => File["/var/www/application/config/environments/development"]
 }
 
 file { '/var/www/application/media/uploads':
@@ -62,7 +74,8 @@ file { "defaultrelease":
     content => "APT::Default-Release \"saucy\";",
 }
 
-$misc_packages = [
+package {
+  [
     "mysql-client",
     "curl",
     "wget",
@@ -70,22 +83,15 @@ $misc_packages = [
     "postfix",
     "byobu",
     "nfs-common",
-]
-
-Package {
-    ensure  => installed,
-    require => Bulkpackage["misc-packages"],
+  ]:
+  ensure  => installed,
+  require  => [
+    Exec["apt-get_update"],
+    Exec["apt-get_upgrade"]
+  ]
 }
-
-bulkpackage { "misc-packages":
-    packages => $misc_packages,
-    require  => [ Exec["apt-get_update"],
-                  Exec["apt-get_upgrade"]
-                ],
-}
-
-package { $misc_packages: }
 
 include base::apache2
+include base::mysql
 include base::php
 include base::phpunit

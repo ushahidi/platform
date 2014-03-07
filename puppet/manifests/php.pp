@@ -1,5 +1,6 @@
 class base::php {
-  $php_packages = [
+  package {
+    [
       "php5-cli",
       "php5-curl",
       "php5-gd",
@@ -10,21 +11,12 @@ class base::php {
       "php5-xcache",
       "php-pear",
       "php5"
-  ]
-  
-  Package {
-      ensure  => installed,
-      require => Bulkpackage["php-packages"],
+    ]:
+    ensure => "present",
+    require => [ Exec["apt-get_update"],
+                 Exec["apt-get_upgrade"]
+               ]
   }
-  
-  bulkpackage { "php-packages":
-      packages => $php_packages,
-      require  => [ Exec["apt-get_update"],
-                    Exec["apt-get_upgrade"]
-                  ],
-  }
-  
-  package { $php_packages: }
 
   file { "/etc/php5/apache2/conf.d/99-ushahidi.ini":
     ensure  => "present",
@@ -32,7 +24,7 @@ class base::php {
     group   => "root",
     mode    => 444,
     content => template("php-defaults.erb"),
-    require => Bulkpackage["php-packages"],
+    require => Package["php5"],
   }
 
 }
