@@ -7,14 +7,42 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'backbone', 'marionette', 'controllers/ModalController',
-	'views/AppLayout', 'views/HomeLayout',
-	'views/HeaderView', 'views/FooterView', 'views/WorkspacePanelView', 'views/SearchBarView', 'views/PostListView',
-	'collections/PostCollection','collections/TagCollection','collections/FormCollection', 'collections/SetCollection'],
-	function(App, Backbone, Marionette, ModalController,
-		AppLayout, HomeLayout,
-		HeaderView, FooterView, WorkspacePanelView, SearchBarView, PostListView,
-		PostCollection, TagCollection, FormCollection, SetCollection)
+define(['App', 'backbone', 'marionette',
+    'controllers/ModalController',
+
+	'views/AppLayout',
+    'views/HomeLayout',
+
+	'views/HeaderView',
+    'views/FooterView',
+
+    'views/WorkspacePanelView',
+    'views/SearchBarView',
+    'views/PostListView',
+
+	'collections/PostCollection',
+    'collections/TagCollection',
+    'collections/FormCollection',
+    'collections/SetCollection'
+    ],
+	function(App, Backbone, Marionette,
+        ModalController,
+
+		AppLayout,
+        HomeLayout,
+
+		HeaderView,
+        FooterView,
+
+        WorkspacePanelView,
+        SearchBarView,
+        PostListView,
+
+		PostCollection,
+        TagCollection,
+        FormCollection,
+        SetCollection
+        )
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
