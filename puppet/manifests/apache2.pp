@@ -1,23 +1,14 @@
 class base::apache2 {
-  $web_packages = [
-      "apache2",
+  package {
+    [ "apache2",
       "libapache2-mod-php5"
-  ]
-  
-  Package {
-      ensure  => installed,
-      require => Bulkpackage["web-packages"],
+    ]:
+    ensure => "present",
+    require => [ Exec["apt-get_update"],
+                 Exec["apt-get_upgrade"]
+               ]
   }
-  
-  bulkpackage { "web-packages":
-      packages => $web_packages,
-      require  => [ Exec["apt-get_update"],
-                    Exec["apt-get_upgrade"]
-                  ],
-  }
-  
-  package { $web_packages: }
-  
+
   # apache2
   file { "/etc/apache2/sites-available/ushahidi.conf":
     ensure  => "present",

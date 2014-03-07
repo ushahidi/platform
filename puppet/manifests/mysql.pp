@@ -1,28 +1,17 @@
 class base::mysql {
-  $db_packages = [
-      "mysql-server-5.5",
-  ]
-  
-  Package {
-      ensure  => installed,
-      require => Bulkpackage["db-packages"],
+  package { "mysql-server-5.5":
+    ensure => "installed",
+    require  => [ Exec["apt-get_update"],
+                  Exec["apt-get_upgrade"]
+                ],
   }
-  
-  bulkpackage { "db-packages":
-      packages => $db_packages,
-      require  => [ Exec["apt-get_update"],
-                    Exec["apt-get_upgrade"]
-                  ],
-  }
-  
-  package { $db_packages: }
 
   # mysql-5.5
   service { "mysql":
     ensure  => running,
     require => Package["mysql-server-5.5"],
   }
-  
+
   define mysqldb( $user, $password ) {
     exec { "create-${name}-db":
       unless  => "mysql -u root ${name}",

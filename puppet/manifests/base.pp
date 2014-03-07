@@ -56,7 +56,8 @@ file { "defaultrelease":
     content => "APT::Default-Release \"saucy\";",
 }
 
-$misc_packages = [
+package {
+  [
     "mysql-client",
     "curl",
     "wget",
@@ -64,21 +65,13 @@ $misc_packages = [
     "postfix",
     "byobu",
     "nfs-common",
-]
-
-Package {
-    ensure  => installed,
-    require => Bulkpackage["misc-packages"],
+  ]:
+  ensure  => installed,
+  require  => [
+    Exec["apt-get_update"],
+    Exec["apt-get_upgrade"]
+  ]
 }
-
-bulkpackage { "misc-packages":
-    packages => $misc_packages,
-    require  => [ Exec["apt-get_update"],
-                  Exec["apt-get_upgrade"]
-                ],
-}
-
-package { $misc_packages: }
 
 include base::apache2
 include base::mysql
