@@ -16,7 +16,7 @@ define(['jquery', 'backbone', 'App'],
 			{
 				var schema = {},
 					groups = this.get('groups'),
-					valueToString = function(item) { return item.value; alert(item.value); },
+					valueToString = function(item) { return item.value; },
 					inputFieldMap,
 					attributes,
 					attribute,
@@ -34,7 +34,7 @@ define(['jquery', 'backbone', 'App'],
 					'select' : 'Select',
 					'location' : 'Location',
 					'number' : 'Number',
-					'file' : 'File'
+					'file' : 'Text'
 				};
 
 				for (i = 0; i < groups.length; i++)
