@@ -18,11 +18,13 @@ file { '/etc/motd':
 }
 
 file { '/var/www/application/cache':
-  ensure => directory
+  ensure => directory,
+  mode   => '0777',
 }
 
 file { '/var/www/application/logs':
-  ensure => directory
+  ensure => directory,
+  mode   => '0777',
 }
 
 file { "/var/www/application/config/environments":
