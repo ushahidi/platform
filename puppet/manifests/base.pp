@@ -10,7 +10,7 @@ import "phpunit.pp"
 group { "puppet":
   ensure => "present",
 }
-File { owner => 0, group => 0, mode => 0644 }
+File { mode => 0644 }
 
 file { '/etc/motd':
   content => "Welcome to your Vagrant-built virtual machine!
@@ -18,17 +18,26 @@ file { '/etc/motd':
 }
 
 file { '/var/www/application/cache':
-  ensure => directory,
-  owner  => root,
-  group  => www-data,
-  mode   => '0775',
+  ensure => directory
 }
 
 file { '/var/www/application/logs':
+  ensure => directory
+}
+
+file { "/var/www/application/config/environments":
+  ensure => directory
+}
+
+file { "/var/www/application/config/environments/development":
   ensure => directory,
-  owner  => root,
-  group  => www-data,
-  mode   => '0775',
+  require => File["/var/www/application/config/environments"]
+}
+
+file { "/var/www/application/config/environments/development/database.php":
+  ensure  => "present",
+  content => template("database.erb"),
+  require => File["/var/www/application/config/environments/development"]
 }
 
 exec { "apt-get_update":
