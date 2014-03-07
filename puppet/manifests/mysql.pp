@@ -34,7 +34,11 @@ class base::mysql {
 
   exec { "minion-migrations":
     command => "/var/www/minion --task=migrations:run --up",
-    require => Service["mysql"],
+    require =>  [ Service["mysql"],
+                  File["/var/www/application/config/environments/development/database.php"],
+                  Package["php5-cli"],
+                  Package["php5-mysqlnd"]
+                ]
   }
 
 }
