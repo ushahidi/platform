@@ -22,8 +22,7 @@ install:
 - composer install --no-interaction --prefer-source
 - pushd modules/UshahidiUI && npm install && popd
 before_script:
-- mkdir application/cache application/logs
-- chmod 777 application/cache application/logs
+- chmod 0777 application/cache application/logs
 - cp application/tests/behat.template application/tests/behat.yml
 - mysql -e 'create database lamu_test;'
 - ./minion --task=migrations:run --up
