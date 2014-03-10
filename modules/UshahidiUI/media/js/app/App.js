@@ -49,6 +49,10 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			cssdir : '/media/kohana/css'
 		}, window.config);
 
+		if (typeof App.config.loggedin !== 'boolean') {
+			App.config.loggedin = App.oauth.provider.providerID === 'ushahidi_implicit';
+		}
+
 		/**
 		 * Update App.config
 		 * @param {Object} newConfig new config vars to merge into old config
