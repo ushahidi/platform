@@ -27,6 +27,11 @@ file { '/var/www/application/logs':
   mode   => '0777',
 }
 
+file { '/var/www/application/media/uploads':
+  ensure => directory,
+  mode   => '0777',
+}
+
 file { "/var/www/application/config/environments":
   ensure => directory
 }
@@ -40,13 +45,6 @@ file { "/var/www/application/config/environments/development/database.php":
   ensure  => "present",
   content => template("database.erb"),
   require => File["/var/www/application/config/environments/development"]
-}
-
-file { '/var/www/application/media/uploads':
-  ensure => directory,
-  owner  => root,
-  group  => www-data,
-  mode   => '0775',
 }
 
 exec { "apt-get_update":
