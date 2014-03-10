@@ -188,11 +188,6 @@ class Controller_User extends Controller_Layout {
 
 	public function action_logout()
 	{
-		if (! $this->acl->allowed('logout'))
-		{
-			$this->redirect('user/login' . URL::query());
-		}
-
 		$this->auth->logout();
 		$this->redirect('user/login' . URL::query());
 	}
