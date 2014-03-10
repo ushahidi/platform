@@ -30,7 +30,7 @@ abstract class Koauth_Model_OAuth_AccessToken extends ORM {
 		);
 
 	// Insert/Update Timestamps
-	protected $_created_column = array('column' => 'created', 'format' => 'Y-m-d H:i:s');
+	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 
 	/**
 	 * Filters for the Post model

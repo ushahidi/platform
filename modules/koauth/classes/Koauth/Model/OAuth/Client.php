@@ -28,7 +28,7 @@ abstract class Koauth_Model_OAuth_Client extends ORM {
 		);
 
 	// Insert/Update Timestamps
-	protected $_created_column = array('column' => 'created', 'format' => 'Y-m-d H:i:s');
+	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 	
 	protected $_serialize_columns = array('grant_types');
 
