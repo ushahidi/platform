@@ -36,17 +36,15 @@
 	padding: 20px 15px;
 }
 
-.list-view-filter {
-	&--posts {
-		@extend %list-view-filter;
-		background: $accent-color;
-		margin: 20px 0;
-	}
-	&--user {
-		@extend %list-view-filter;
-		background: lighten($accent-color, 25);
-		margin: 0 0 20px 0;
-	}
+.list-view-filter--posts {
+	@extend %list-view-filter;
+	background: $accent-color;
+	margin: 20px 0;
+}
+.list-view-filter--user {
+	@extend %list-view-filter;
+	background: lighten($accent-color, 25);
+	margin: 0 0 20px 0;
 }
 
 // FILTER INFO
@@ -76,20 +74,18 @@
 	}
 }
 
-.list-view-filter-info {
-	&--posts {
-		@extend %list-view-filter-info;
-		border-bottom: 1px solid darken($accent-color, 10);
-		@media #{$medium} {
-			border-bottom: 0;
-		}
+.list-view-filter-info--post {
+	@extend %list-view-filter-info;
+	border-bottom: 1px solid darken($accent-color, 10);
+	@media #{$medium} {
+		border-bottom: 0;
 	}
-	&--user {
-		@extend %list-view-filter-info;
-		border-bottom: 1px solid lighten($accent-color, 10);
-		@media #{$medium} {
-			border-bottom: 0;
-		}
+}
+.list-view-filter-info--user {
+	@extend %list-view-filter-info;
+	border-bottom: 1px solid lighten($accent-color, 10);
+	@media #{$medium} {
+		border-bottom: 0;
 	}
 }
 
@@ -112,18 +108,16 @@
 	}
 }
 
-.list-view-filter-count {
-	&--posts {
-		@extend %list-view-filter-count;
-		@media #{$small} {
-			border-right: 1px solid darken($accent-color, 10);
-		}
+.list-view-filter-count--posts {
+	@extend %list-view-filter-count;
+	@media #{$small} {
+		border-right: 1px solid darken($accent-color, 10);
 	}
-	&--user {
-		@extend %list-view-filter-count;
-		@media #{$small} {
-			border-right: 1px solid lighten($accent-color, 10);
-		}
+}
+.list-view-filter-count--user {
+	@extend %list-view-filter-count;
+	@media #{$small} {
+		border-right: 1px solid lighten($accent-color, 10);
 	}
 }
 
