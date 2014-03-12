@@ -12,6 +12,10 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'dropzone', 'alertify'
 	function( App, Marionette, Handlebars, _, Dropzone, alertify, template,
 		BackboneValidation, BackboneForm)
 	{
+		// we do not want dropzone to auto-discover, because the upload path is
+		// never stored in the DOM.
+		Dropzone.autoDiscover = false;
+
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
 			initialize : function ()
