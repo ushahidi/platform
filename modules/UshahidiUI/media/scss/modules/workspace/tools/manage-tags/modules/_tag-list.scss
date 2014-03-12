@@ -1,0 +1,30 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * TAG LIST...............tag list styles
+ */
+
+
+
+
+/*------------------------------------*\
+    $TAG LIST
+\*------------------------------------*/
+
+.list-view-tag-list {
+  margin-left: 0;
+}
+
+.list-view-tag {
+  @include grid-column(12, $collapse: true);
+}
+
+/*tag color HSL function*/
+@for $i from 1 through 100 {
+  .list-view-tag:nth-child(#{$i}) {
+		  .tag-color {
+				color: hsl(random(360),random(100),random(100));
+      }
+	}
+}

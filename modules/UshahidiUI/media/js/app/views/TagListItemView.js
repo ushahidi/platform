@@ -16,7 +16,7 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 			//Template HTML string
 			template: Handlebars.compile(template),
 			tagName: 'li',
-			className: 'list-view-post',
+			className: 'list-view-tag',
 
 			// Value to track if checkbox for this post has been selected
 			selected : false,

@@ -1,16 +1,11 @@
-<div class="user-list-select-profile">
-	<label class="visually-hidden" for="select-post">Select User</label>
-	<input type="checkbox" name="select-post" class="select-post-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
-</div> <!-- end .user-list-select-post -->
-
 <div class="row">
 	<article>
-		<div class="user-list-avatar">
-			<img src="http://www.fillmurray.com/400/400" alt="">
 		</div> <!-- end .user-list-avatar -->
 
-		<div class="user-list-details-wrapper">
+		<div class="list-view-details--user">
+		<div class="user-list-avatar">
 			<div class="row">
+			<img src="http://www.fillmurray.com/400/400" alt="">
 				<div class="user-list-details">
 					<h4 class="header">{{ username }}</h4>
 					<div class="row">
@@ -26,7 +21,7 @@
 						</div>
 
 						<div class="details-column-b">
-							<p class="user-list-last-login"><b>Last Login: </b>	
+							<p class="user-list-last-login"><b>Last Login: </b>
 								{{#if last_login}}
 									{{ datetime-fromNow last_login }}
 								{{else}}
@@ -48,18 +43,21 @@
 			</div> <!-- end .row -->
 		</div> <!-- end .user-list-details-wrapper -->
 
-		<div class="user-list-profile-admin">
+		<div class="list-view-admin">
 
-			<div class="list-view-post-edit-wrapper">
-				<ul class="list-view-post-edit">
+			<div class="list-view-edit-wrapper">
+				<ul class="list-view-edit">
 					{{#if allowed_methods.put}}
-						<li><a href="#" class="user-edit-button" title="edit this post" data-reveal-id="edit-post"><i class="fa  fa-edit"></i> edit</a></li>
+						<li><a href="#" class="list-view-edit-buttons" title="edit this post" data-reveal-id="edit-post"><i class="fa  fa-check-square-o"></i> select</a></li>
+					{{/if}}
+					{{#if allowed_methods.put}}
+						<li><a href="#" class="list-view-edit-buttons" title="edit this post" data-reveal-id="edit-post"><i class="fa  fa-edit"></i> edit</a></li>
 					{{/if}}
 					{{#if allowed_methods.changeRole}}
-						<li><a href="#" id="confirm" class="user-change-roles-button" title="unpublish this post"><i class="fa  fa-cogs"></i> change role</a></li>
+						<li><a href="#" id="confirm" class="list-view-edit-buttonsn" title="unpublish this post"><i class="fa  fa-cogs"></i> change role</a></li>
 					{{/if}}
 					{{#if allowed_methods.delete}}
-						<li><a href="#" class="user-delete-button" title="delete this post"><i class="fa  fa-trash-o"></i> delete</a></li>
+						<li><a href="#" class="list-view-edit-buttons" title="delete this post"><i class="fa  fa-trash-o"></i> delete</a></li>
 					{{/if}}
 				</ul> <!-- end .list-view-post-edit -->
 			</div> <!-- end .list-view-post-edit-wrapper-->

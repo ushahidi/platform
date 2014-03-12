@@ -12,8 +12,7 @@
 		$LIST VIEW POST
 \*-------------------------------------------------------------------*/
 
-%list-view-post,
-.list-view-post {
+%list-view {
 	@include grid-column(12, $collapse: true);
 	border-bottom: 1px solid $lightGray;
 	margin-bottom: 20px;
@@ -22,14 +21,8 @@
 	}
 }
 
-%list-view-select-post,
-.list-view-select-post {
-	position: absolute;
-	top: -17px;
-	left: -24px;
-}
-
-.list-view-post-image {
+%list-view-image,
+.list-view-image {
 	@include grid-column(4);
 	@media #{$small} {
 		@include grid-column(2);
@@ -45,10 +38,11 @@
 	}
 }
 
-.list-view-post-details {
+%list-view-details,
+.list-view-details {
 	@include grid-column(8);
 	margin-top: 5px;
-	padding-left: 0;
+	// padding-left: 0;
 	@media #{$small} {
 		@include grid-column(10);
 	}
@@ -58,14 +52,14 @@
 	}
 }
 
-.list-view-post-title {
+.list-view-title {
 	@include grid-column(12);
 	@media #{$small} {
 		@include grid-column(8);
 	}
 }
 
-.list-view-post-time {
+.list-view-time {
 	@include grid-column(12);
 	font-size: 15px;
 	p {
@@ -79,14 +73,14 @@
 	}
 }
 
-.list-view-post-body {
+.list-view-body {
 	@include grid-column(12, $collapse: true);
 	@media #{$small} {
 		@include grid-column(10, $offset: 2, $collapse: true);
 	}
 }
 
-.list-view-post-excerpt {
+.list-view-excerpt {
 	@include grid-column(12);
 	@media #{$small} {
 		@include grid-column(10, $offset: 2);
@@ -94,13 +88,12 @@
 	}
 }
 
-%list-view-post-admin,
-.list-view-post-admin {
+.list-view-admin {
 	@include grid-column(12);
 	margin: 10px 0 20px 0;
 }
 
-.list-view-post-categories-wrapper {
+.list-view-categories-wrapper {
 	@include grid-column(12, $collapse: true);
 	h6 {
 		margin: 0;
@@ -116,7 +109,7 @@
 	}
 }
 
-.list-view-post-categories {
+.list-view-categories {
 	margin: 0;
 	a {
 		color: $subheader-font-color
@@ -132,7 +125,12 @@
 	}
 }
 
-.list-view-post-edit-wrapper {
+.list-view-description {
+	@include grid-column(12, $collapse: true);
+	font-size: emCalc(14);
+}
+
+.list-view-edit-wrapper {
 	@include grid-column(12, $collapse: true);
 	margin-top: 20px;
 	@media #{$small} {
@@ -142,7 +140,7 @@
 	}
 }
 
-.list-view-post-edit {
+.list-view-edit {
 	margin-left: 0;
 	> li {
 		display: inline;
@@ -169,6 +167,6 @@
 	}
 }
 
-.list-view-post-edit-buttons {
+.list-view-edit-buttons {
 	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true)
 }

@@ -72,7 +72,7 @@
 
 // @todo Reduce column's when category marker re-added
 .post-actions-wrapper {
-	@extend .list-view-post-edit-wrapper;
+	@extend .list-view-edit-wrapper;
 	margin-top: 0;
 	@media #{$small} {
 		width: 100%;
@@ -81,7 +81,7 @@
 }
 
 .post-actions {
-	@extend .list-view-post-edit;
+	@extend .list-view-edit;
 	margin: 0;
 	@media #{$small} {
 		float: left;
