@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/CreatePost.html',
+define([ 'App', 'marionette', 'handlebars', 'underscore', 'dropzone', 'alertify', 'text!templates/modals/CreatePost.html',
 	'backbone-validation', 'forms/UshahidiForms'],
-	function( App, Marionette, Handlebars, _, alertify, template,
+	function( App, Marionette, Handlebars, _, Dropzone, alertify, template,
 		BackboneValidation, BackboneForm)
 	{
 		return Marionette.ItemView.extend( {
@@ -53,8 +53,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				this.form.$el.attr('id', 'create-post-form');
 
 				this.$('.post-form-wrapper').append(this.form.el);
-				this.$('.fieldset-media').html('<form enctype="multipart/form-data"><input name="file" type="file" /></form><progress></progress>');
-				
+				this.$('.post-media-wrapper .dropzone').dropzone({ url: "/api/v2/media" });
 			},
 			formSubmitted : function (e)
 			{

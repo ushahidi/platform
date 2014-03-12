@@ -55,8 +55,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						}
 					},
 					media : {
-						type : 'Text',
-						title : 'Upload an image',
+						type : 'Hidden',
 					}
 					// @todo should we include slug?
 				};
@@ -125,6 +124,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					fieldsets[0].fields.unshift('tags');
 					fieldsets[0].fields.unshift('content');
 					fieldsets[0].fields.unshift('title');
+					fieldsets[0].fields.unshift('media');
 				}
 				else
 				{
@@ -145,14 +145,6 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						name : 'permissions',
 						legend : 'Permissions',
 						fields : ['status'],
-						icon : 'fa-lock'
-					}
-				);
-				fieldsets.push(
-					{
-						name : 'media',
-						legend : 'Media',
-						fields : ['media'],
 						icon : 'fa-lock'
 					}
 				);
@@ -177,8 +169,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						required : true
 					},
 					media : {
-						required : false,
-						oneOf :['test1','test2']
+						required : false
 					}
 				};
 
