@@ -1,9 +1,9 @@
 <div class="row">
-	<div class="user-list-actions-bar">
-		<div class="user-list-actions-bar-header">
+	<div class="actions-bar--user-list">
+		<div class="actions-bar-header--user-list">
 			<h3>Users</h3>
 		</div>
-		<div class="user-list-actions-bar-admin">
+		<div class="actions-bar-admin--user-list">
 			<ul class="hide-for-small">
 				<li>Select All</li>
 				<li>
@@ -29,17 +29,18 @@
 					<li><a href="#">Guest</a></li>
 				</ul>
 			</li>
+			<li><a href=""><i class="fa  fa-user"></i>Add User</li>
 			<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 		</div>
-	</div> <!-- end .user-list-actions-bar -->
+	</div> <!-- end .actions-bar-user-list -->
 
-	<div class="list-view-filter  list-view-filter--user">
+	<div class="list-view-filter--user">
 		<div class="row">
 
 			<div class="list-view-filter-info  list-view-filter-info--user">
 
-				<!-- NOTE: need a user-list-post -->
+				<!-- TODO: need a user-list-post -->
 				{{>user-list-info}}
 
 			</div> <!-- end .list-view-filter-info -->
@@ -68,64 +69,49 @@
 					</select>
 				</div>
 
-			</div> <!-- end .list-view-filter-sort -->
+			</div> <!-- end .list-view-filter-sort-user -->
 
 		</div> <!-- end .row -->
 	</div> <!-- end .list-view-filter -->
 
-	<div class="user-list-filter-bar">
+	<div class="role-filter">
 		<div class="row">
-			<div class="user-list-categories">
-				<ul class="user-list-categories-list  hide-for-small">
-					<li>All
-<!-- 						<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span> -->
-					</li>
+			<div class="role-filter-categories">
+				<ul class="role-filter-categories-list  hide-for-small">
+					<li>All</li>
 					<li class="active">Admin
 						<span class="admin-count-number  hide-for-small"><span class="count-number">9</span></span>
 					</li>
-					<li>Member
-<!-- 						<span class="guest-count-number  hide-for-small"><span class="count-number">73</span></span> -->
-					</li>
-					<li>User
-<!-- 						<span class="user-count-number  hide-for-small"><span class="count-number">17</span></span> -->
-					</li>
-					<li>Category
-<!-- 						<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span> -->
-					</li>
+					<li>Member</li>
+					<li>User</li>
+					<li>Category</li>
 				</ul>
 
 				<a href="#/" data-dropdown="drop" class="dropdown-button  show-for-small">filter by roles</a><br>
-				<ul id="drop" data-dropdown-content class="user-list-categories-list  f-dropdown  show-for-small">
-					<li>All
-<!-- 						<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span></li> -->
+				<ul id="drop" data-dropdown-content class="role-filter-categories-list  f-dropdown  show-for-small">
+					<li>All</li>
 					<li class="active">Admin
 						<span class="admin-count-number  hide-for-small"><span class="count-number">9</span></span>
 					</li>
-					<li>Member
-<!-- 						<span class="guest-count-number  hide-for-small"><span class="count-number">73</span></span> -->
-					</li>
-					<li>User
-<!-- 						<span class="user-count-number  hide-for-small"><span class="count-number">17</span></span> -->
-					</li>
-					<li>Category
-<!-- 						<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span> -->
-					</li>
+					<li>Member</li>
+					<li>User</li>
+					<li>Category</li>
 				</ul>
 			</div>
-			<div class="user-list-search">
-				<form class="user-list-search-form">
+			<div class="role-filter-search">
+				<form class="role-filter-search-form">
 					<input tabindex="1" id="autocomplete" type="search" placeholder="Search Users" autocomplete="off">
 				</form>
 			</div>
 		</div> <!-- end .row -->
-	</div> <!-- end .user-list-filter-bar -->
+	</div> <!-- end .role-filter -->
 
 	<div class="list-view-wrapper">
 
 		<ul class="list-view-user-profile-list">
 		</ul>
 
-	</div> <!-- end .user-list-profile -->
+	</div> <!-- end .list-view-wrapper -->
 
 </div> <!-- end .row -->
 

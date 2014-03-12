@@ -21,33 +21,17 @@
 	}
 }
 
-.user-list-select-profile {
-	position: absolute;
-  top: -17px;
-  left: -24px;
-}
-
-.user-list-avatar {
-	@include grid-column(5);
-	@media #{$small} {
-		@include grid-column(2);
-	}
-	@media #{$medium-up} {
-		@include grid-column(1);
-	}
+.list-view-image--user {
+  @extend %list-view-image;
 	img {
 		border-radius: 200px;
+    border: none;
 	}
 }
 
-.user-list-details-wrapper {
-	@include grid-column(6);
-	@media #{$small} {
-		@include grid-column(10);
-	}
-	@media #{$medium-up} {
-		@include grid-column(11);
-	}
+.list-view-details--user {
+  @extend %list-view-details;
+  margin-top: 10px;
 }
 
 .user-list-details {
@@ -78,20 +62,4 @@
 	@media #{$small} {
 		@include grid-column(4, $pull: 4);
 	}
-}
-
-.user-list-profile-admin {
-  @extend .list-view-post-admin;
-}
-
-.user-edit-button {
-	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
-}
-
-.user-change-roles-button {
-	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
-}
-
-.user-delete-button {
-	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
 }
