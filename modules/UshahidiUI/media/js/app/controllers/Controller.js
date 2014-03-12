@@ -1,48 +1,48 @@
 /**
  * Ushahidi Main Controller
  *
- * @module     Controller
- * @author     Ushahidi Team <team@ushahidi.com>
+ * @module	 Controller
+ * @author	 Ushahidi Team <team@ushahidi.com>
  * @copyright  2013 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ * @license	https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 define(['App', 'backbone', 'marionette',
-    'controllers/ModalController',
+	'controllers/ModalController',
 
 	'views/AppLayout',
-    'views/HomeLayout',
+	'views/HomeLayout',
 
 	'views/HeaderView',
-    'views/FooterView',
+	'views/FooterView',
 
-    'views/WorkspacePanelView',
-    'views/SearchBarView',
-    'views/PostListView',
+	'views/WorkspacePanelView',
+	'views/SearchBarView',
+	'views/PostListView',
 
 	'collections/PostCollection',
-    'collections/TagCollection',
-    'collections/FormCollection',
-    'collections/SetCollection'
-    ],
+	'collections/TagCollection',
+	'collections/FormCollection',
+	'collections/SetCollection'
+	],
 	function(App, Backbone, Marionette,
-        ModalController,
+		ModalController,
 
 		AppLayout,
-        HomeLayout,
+		HomeLayout,
 
 		HeaderView,
-        FooterView,
+		FooterView,
 
-        WorkspacePanelView,
-        SearchBarView,
-        PostListView,
+		WorkspacePanelView,
+		SearchBarView,
+		PostListView,
 
 		PostCollection,
-        TagCollection,
-        FormCollection,
-        SetCollection
-        )
+		TagCollection,
+		FormCollection,
+		SetCollection
+		)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
