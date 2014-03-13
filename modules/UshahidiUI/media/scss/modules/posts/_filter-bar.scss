@@ -1,10 +1,10 @@
-.list-view-filter--posts {
+.list-view-filter--post {
   @extend %list-view-filter;
   background: $accent-color;
   margin: 20px 0;
 }
 
-.list-view-filter-info--posts {
+.list-view-filter-info--post {
   @extend %list-view-filter-info;
   border-bottom: 1px solid darken($accent-color, 10);
   @media #{$medium} {
@@ -12,13 +12,13 @@
   }
 }
 
-.list-view-filter-count--posts {
+.list-view-filter-count--post {
   @extend %list-view-filter-count;
   @media #{$small} {
     border-right: 1px solid darken($accent-color, 10);
   }
 }
 
-.list-view-filter-sort--posts {
+.list-view-filter-sort--post {
   @extend %list-view-filter-sort;
 }
