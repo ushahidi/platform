@@ -33,9 +33,10 @@
 TODO: may need a notification mixin here
 */
 .set-post-number {
- @extend .notification;
+ @extend %notification;
  background-color: $accent-color;
  top: -18px;
+ border: 4px solid $white;
 }
 
 

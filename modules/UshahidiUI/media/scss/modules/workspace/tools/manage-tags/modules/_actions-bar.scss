@@ -1,0 +1,25 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * TAG LIST ACTIONS BAR............tag list action bar styles
+ */
+
+
+
+
+/*------------------------------------*\
+    $TAG LIST ACTIONS BAR
+\*------------------------------------*/
+
+.actions-bar--tag-list {
+  @extend %actions-bar;
+}
+
+.actions-bar-header--tag-list {
+  @extend %actions-bar-header;
+}
+
+.actions-bar-admin--tag-list {
+  @extend %actions-bar-admin;
+}

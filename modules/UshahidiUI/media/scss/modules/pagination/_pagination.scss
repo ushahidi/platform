@@ -1,0 +1,29 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * PAGINATION............pagination specific styles
+ */
+
+
+
+
+/*------------------------------------*\
+    $PAGINATION
+\*------------------------------------*/
+
+.pagination-wrapper {
+  @include pagination-container(true);
+  margin-top: 20px;
+  .pagination {
+    @include pagination(true);
+  }
+}
+
+ul.pagination li.current a {
+  @include border-radius(3px);
+}
+
+ul.pagination li:hover a, ul.pagination li a:focus {
+  @include border-radius(3px);
+}

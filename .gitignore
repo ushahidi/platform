@@ -19,3 +19,9 @@ node_modules*
 .flooignore
 .sublime-project
 build/*
+
+/modules/UshahidiUI/config.codekit
+
+/config.codekit
+
+/modules/UshahidiUI/media/css/test/style.css

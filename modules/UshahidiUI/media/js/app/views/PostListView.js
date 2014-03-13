@@ -272,7 +272,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 						pagination: this.collection.state
 					})
 				);
-				this.$('.list-view-filter-info').html(
+				this.$('.list-view-filter-info--posts').html(
 					this.partialTemplates.postListInfo({
 						pagination: this.collection.state
 					})
@@ -281,7 +281,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			updatePageSize : function (e)
 			{
 				e.preventDefault();
-				var size = parseInt(this.$('#filter-posts-count').val(), 10);
+				var size = parseInt(this.$('#filter-count').val(), 10);
 				if (typeof size === 'number' && size > 0)
 				{
 					this.collection.setPageSize(size, {
@@ -292,7 +292,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			updatePostsSort : function (e)
 			{
 				e.preventDefault();
-				var orderby = this.$('#filter-posts-sort').val();
+				var orderby = this.$('#filter-sort').val();
 				this.collection.setSorting(orderby);
 				this.collection.getFirstPage();
 			}

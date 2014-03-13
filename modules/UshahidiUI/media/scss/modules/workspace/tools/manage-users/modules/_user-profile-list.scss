@@ -1,0 +1,65 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * USER PROFILE LIST...............avatar, name, roles, admin
+ */
+
+
+
+
+/*------------------------------------*\
+    $USER PROFILE LIST
+\*------------------------------------*/
+
+.list-view-user {
+	@include grid-column(12, $collapse: true);
+	border-bottom: 1px solid $lightGray;
+	margin-bottom: 20px;
+	&:last-child {
+		border-bottom: 0;
+	}
+}
+
+.list-view-image--user {
+  @extend %list-view-image;
+	img {
+		border-radius: 200px;
+    border: none;
+	}
+}
+
+.list-view-details--user {
+  @extend %list-view-details;
+  margin-top: 10px;
+}
+
+.user-list-details {
+	@include grid-column(12);
+  color: $body-font-color;
+	.header {
+		line-height: 1em;
+		margin-top: 0;
+	}
+	[class*='user-list-'] {
+		margin-bottom: 0;
+		font-size: emCalc(12);
+	}
+}
+
+.details-column-a {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(5);
+	}
+}
+
+.details-column-b {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(4, $pull: 3);
+	}
+	@media #{$small} {
+		@include grid-column(4, $pull: 4);
+	}
+}
