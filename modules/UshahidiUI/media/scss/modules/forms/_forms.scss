@@ -4,17 +4,16 @@
 /**
  * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
- * SEARCH BAR...............search bar styling
- * LIST VIEW FILTER...............list view filter styling
- * PSEUDO ELEMENTS...............pseudo element styling
+ * SEARCH BAR...............search bar styles
+ * LIST VIEW FILTER...............list view filter styles
+ * PSEUDO ELEMENTS...............pseudo element styles
+ * FIELDSETS...............form fieldset styles
  */
 
 
 
 
-
-
- /*------------------------------------*\
+/*------------------------------------*\
  	$GENERAL
  \*------------------------------------*/
 
@@ -142,4 +141,14 @@ form.custom .custom.dropdown ul li.selected:hover {
 form.custom .custom.checkbox.checked:before {
 	margin-top: 5px;
 	font-size: 20px;
+}
+
+/*------------------------------------*\
+	$FIELDSETS
+\*------------------------------------*/
+
+fieldset {
+	border: none;
+	padding: 0;
+	margin: 0;
 }
