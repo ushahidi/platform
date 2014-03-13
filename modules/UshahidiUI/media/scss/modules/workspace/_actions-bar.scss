@@ -12,7 +12,8 @@
     $ACTIONS BAR
 \*------------------------------------*/
 
-%actions-bar {
+%actions-bar,
+.actions-bar {
   @include grid-column(12);
   background-color: $accent-color;
   @media #{$small} {
@@ -23,7 +24,8 @@
   }
 }
 
-%actions-bar-header {
+%actions-bar-header,
+.actions-bar-header {
   @include grid-column(6, $collapse: true);
   @media #{$small} {
     @include grid-column(2, $collapse: true);
@@ -34,7 +36,8 @@
   }
 }
 
-%actions-bar-admin {
+%actions-bar-admin,
+.actions-bar-admin {
   @include grid-column(6, $collapse: true);
   @media #{$small} {
     @include grid-column(10, $collapse: true);
