@@ -44,8 +44,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 				'click .js-page-prev' : 'showPreviousPage',
 				'click .js-page-last' : 'showLastPage',
 				'click .js-page-change' : 'showPage',
-				'change #filter-posts-count' : 'updatePageSize',
-				'change #filter-posts-sort' : 'updatePostsSort',
+				'change #filter-count' : 'updatePageSize',
+				'change #filter-sort' : 'updatePostsSort',
 				'click .js-post-bulk-publish' : 'bulkPublish',
 				'click .js-post-bulk-unpublish' : 'bulkUnpublish',
 				'click .js-post-bulk-delete' : 'bulkDelete',
@@ -272,7 +272,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 						pagination: this.collection.state
 					})
 				);
-				this.$('.list-view-filter-info--posts').html(
+				this.$('.list-view-filter-info').html(
 					this.partialTemplates.postListInfo({
 						pagination: this.collection.state
 					})
