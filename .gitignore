@@ -20,3 +20,5 @@ node_modules*
 .sublime-project
 build/*
 Gemfile.lock
+modules/UshahidiUI/config.codekit
+config.codekit
