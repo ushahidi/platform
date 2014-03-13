@@ -7,19 +7,20 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'dropzone', 'alertify', 'text!templates/modals/CreatePost.html',
+define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/CreatePost.html',
+	'models/MediaModel',
 	'backbone-validation', 'forms/UshahidiForms'],
-	function( App, Marionette, Handlebars, _, Dropzone, alertify, template,
+	function( App, Marionette, Handlebars, _, alertify, template,
+		MediaModel,
 		BackboneValidation, BackboneForm)
 	{
-		// we do not want dropzone to auto-discover, because the upload path is
-		// never stored in the DOM.
-		Dropzone.autoDiscover = false;
-
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
 			initialize : function ()
 			{
+				// Set up media
+				this.media = new MediaModel({post_id: this.model.attributes.id});
+
 				// Set up the form
 				this.form = new BackboneForm({
 					model: this.model,
@@ -57,7 +58,8 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'dropzone', 'alertify'
 				this.form.$el.attr('id', 'create-post-form');
 
 				this.$('.post-form-wrapper').append(this.form.el);
-				this.$('.post-media-wrapper .dropzone').dropzone({ url: "/api/v2/media" });
+
+				this.media.dropzone(this.$('.post-media-wrapper .dropzone'));
 			},
 			formSubmitted : function (e)
 			{
