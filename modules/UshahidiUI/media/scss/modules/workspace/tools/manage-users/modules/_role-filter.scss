@@ -56,7 +56,7 @@
       background-color: darken($secondary-color, 2);
     }
 		@media #{$small} {
-      padding: 20px 0px 21px;
+      padding: 0px;
 		}
 		.hide-for-small {
 			display: none !important;
@@ -71,6 +71,12 @@
 			letter-spacing: .15em;
 		}
 	}
+  a {
+    display: block;
+    padding: 20px 0px;
+    text-decoration: none;
+    color: $body-font-color;
+  }
 }
 
 %role-filter-count-number {
