@@ -12091,7 +12091,7 @@ nav[role="sub-navigation"] li a {
 		$LIST VIEW FILTER BAR
 \*------------------------------------*/
 /* line 33, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter--posts, .list-view-filter--user {
+.list-view-filter--post, .list-view-filter--user {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -12104,7 +12104,7 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 39, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter--posts {
+.list-view-filter--post {
   background: #323a45;
   margin: 20px 0;
 }
@@ -12187,7 +12187,7 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 93, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter-count--posts, .list-view-filter-count--user {
+.list-view-filter-count--post, .list-view-filter-count--user {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -12196,7 +12196,7 @@ nav[role="sub-navigation"] li a {
 }
 @media only screen and (min-width: 421px) {
   /* line 93, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--posts, .list-view-filter-count--user {
+  .list-view-filter-count--post, .list-view-filter-count--user {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
@@ -12206,7 +12206,7 @@ nav[role="sub-navigation"] li a {
 }
 @media only screen and (min-width: 1024px) {
   /* line 93, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--posts, .list-view-filter-count--user {
+  .list-view-filter-count--post, .list-view-filter-count--user {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
@@ -12216,7 +12216,7 @@ nav[role="sub-navigation"] li a {
 }
 @media only screen and (min-width: 1440px) {
   /* line 93, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--posts, .list-view-filter-count--user {
+  .list-view-filter-count--post, .list-view-filter-count--user {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
@@ -12226,14 +12226,14 @@ nav[role="sub-navigation"] li a {
 }
 @media only screen and (min-width: 421px) {
   /* line 104, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--posts .filter-count, .list-view-filter-count--user .filter-count {
+  .list-view-filter-count--post .filter-count, .list-view-filter-count--user .filter-count {
     margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width: 768px) {
   /* line 111, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--posts {
+  .list-view-filter-count--post {
     border-right: 1px solid #1d2127;
   }
 }
