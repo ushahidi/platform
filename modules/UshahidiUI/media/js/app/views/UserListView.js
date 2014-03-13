@@ -8,12 +8,12 @@
  */
 
 define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView',
-		'text!templates/UserList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
+		'text!templates/UserList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/user-list-info.html'],
 	function( App, Marionette, Handlebars, _, UserListItemView,
-		template, paginationTemplate, postListInfoTemplate)
+		template, paginationTemplate, userListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
-		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
+		Handlebars.registerPartial('user-list-info', userListInfoTemplate);
 
 		return Marionette.CompositeView.extend(
 		{
@@ -23,7 +23,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 			partialTemplates :
 			{
 				pagination : Handlebars.compile(paginationTemplate),
-				postListInfo : Handlebars.compile(postListInfoTemplate)
+				userListInfo : Handlebars.compile(userListInfoTemplate)
 			},
 
 			itemView: UserListItemView,
@@ -154,7 +154,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 					})
 				);
 				this.$('.list-view-filter-info').html(
-					this.partialTemplates.postListInfo({
+					this.partialTemplates.userListInfo({
 						pagination: this.collection.state
 					})
 				);

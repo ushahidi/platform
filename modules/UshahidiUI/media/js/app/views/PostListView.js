@@ -8,13 +8,12 @@
  */
 
 define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostListItemView',
-		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html', 'text!templates/partials/user-list-info.html'],
+		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
 	function( App, Marionette, Handlebars, _, alertify, PostListItemView,
-		template, paginationTemplate, postListInfoTemplate, userListInfoTemplate)
+		template, paginationTemplate, postListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
 		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
-    Handlebars.registerPartial('user-list-info', userListInfoTemplate);
 
 		return Marionette.CompositeView.extend(
 		{
@@ -24,8 +23,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			partialTemplates :
 			{
 				pagination : Handlebars.compile(paginationTemplate),
-				postListInfo : Handlebars.compile(postListInfoTemplate),
-        userListInfo : Handlebars.compile(userListInfoTemplate)
+				postListInfo : Handlebars.compile(postListInfoTemplate)
 			},
 			initialize: function()
 			{
@@ -279,11 +277,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 						pagination: this.collection.state
 					})
 				);
-        this.$('.user-view-filter-info--user').html(
-          this.partialTemplates.userListInfo({
-            pagination: this.collection.state
-          })
-        );
 			},
 			updatePageSize : function (e)
 			{
