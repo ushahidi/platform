@@ -8,12 +8,20 @@
  */
 
 define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/CreatePost.html',
+	'dropzone',
+	'util/App.oauth', 
 	'models/MediaModel',
 	'backbone-validation', 'forms/UshahidiForms'],
 	function( App, Marionette, Handlebars, _, alertify, template,
+		Dropzone,
+		OAuth,
 		MediaModel,
 		BackboneValidation, BackboneForm)
 	{
+		// we do not want dropzone to auto-discover, because the upload path is
+		// never stored in the DOM.
+		Dropzone.autoDiscover = false;
+
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
 			initialize : function ()
@@ -59,7 +67,19 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 
 				this.$('.post-form-wrapper').append(this.form.el);
 
-				this.media.dropzone(this.$('.post-media-wrapper .dropzone'));
+				var that = this;
+				this.$('.post-media-wrapper .dropzone').dropzone({
+					url: (new MediaModel()).urlRoot,
+					headers: OAuth.getAuthHeaders(),
+					success: function(file, res) {
+						// Indirect monkey patching
+						Dropzone.prototype.defaultOptions.success.apply(this, arguments);
+
+						// todo: need to associate with post!
+						var media = new MediaModel(res);
+						console.log('uploaded new media', media);
+					}
+					});
 			},
 			formSubmitted : function (e)
 			{

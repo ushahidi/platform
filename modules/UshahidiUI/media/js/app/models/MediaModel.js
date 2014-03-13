@@ -7,22 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'App', 'util/App.oauth', 'dropzone'],
-	function(Backbone, App, OAuth, Dropzone)
+define(['backbone', 'App'],
+	function(Backbone, App)
 	{
-		// we do not want dropzone to auto-discover, because the upload path is
-		// never stored in the DOM.
-		Dropzone.autoDiscover = false;
-
 		var MediaModel = Backbone.Model.extend(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/media',
-			dropzone : function ($el) {
-				$el.dropzone({
-					url: this.urlRoot,
-					headers: OAuth.getAuthHeaders()
-					});
-			},
 			save : function() {
 				console.log('got a media model save', arguments, this.attributes);
 			},
