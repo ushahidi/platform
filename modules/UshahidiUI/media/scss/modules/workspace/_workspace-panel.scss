@@ -125,6 +125,12 @@
   .title {
     line-height: .8em;
     margin: 0;
+    .fa-chevron-down {
+	    float: right;
+	    position: relative;
+	    top: 9px;
+	    font-size: emCalc(12);
+		}
   }
 }
 

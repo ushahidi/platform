@@ -12,6 +12,7 @@
 		$LIST VIEW POST
 \*-------------------------------------------------------------------*/
 
+%list-view-post,
 .list-view-post {
 	@include grid-column(12, $collapse: true);
 	border-bottom: 1px solid $lightGray;
@@ -21,6 +22,7 @@
 	}
 }
 
+%list-view-select-post,
 .list-view-select-post {
 	position: absolute;
 	top: -17px;
@@ -92,6 +94,7 @@
 	}
 }
 
+%list-view-post-admin,
 .list-view-post-admin {
 	@include grid-column(12);
 	margin: 10px 0 20px 0;

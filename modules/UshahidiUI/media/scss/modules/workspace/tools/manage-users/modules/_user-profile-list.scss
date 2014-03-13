@@ -1,0 +1,97 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * USER PROFILE LIST...............avatar, name, roles, admin
+ */
+
+
+
+
+/*------------------------------------*\
+    $USER PROFILE LIST
+\*------------------------------------*/
+
+.list-view-user {
+	@include grid-column(12, $collapse: true);
+	border-bottom: 1px solid $lightGray;
+	margin-bottom: 20px;
+	&:last-child {
+		border-bottom: 0;
+	}
+}
+
+.user-list-select-profile {
+	position: absolute;
+  top: -17px;
+  left: -24px;
+}
+
+.user-list-avatar {
+	@include grid-column(5);
+	@media #{$small} {
+		@include grid-column(2);
+	}
+	@media #{$medium-up} {
+		@include grid-column(1);
+	}
+	img {
+		border-radius: 200px;
+	}
+}
+
+.user-list-details-wrapper {
+	@include grid-column(6);
+	@media #{$small} {
+		@include grid-column(10);
+	}
+	@media #{$medium-up} {
+		@include grid-column(11);
+	}
+}
+
+.user-list-details {
+	@include grid-column(12);
+  color: $body-font-color;
+	.header {
+		line-height: 1em;
+		margin-top: 0;
+	}
+	[class*='user-list-'] {
+		margin-bottom: 0;
+		font-size: emCalc(12);
+	}
+}
+
+.details-column-a {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(5);
+	}
+}
+
+.details-column-b {
+	@include grid-column(12);
+	@media #{$small} {
+		@include grid-column(4, $pull: 3);
+	}
+	@media #{$small} {
+		@include grid-column(4, $pull: 4);
+	}
+}
+
+.user-list-profile-admin {
+  @extend .list-view-post-admin;
+}
+
+.user-edit-button {
+	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
+}
+
+.user-change-roles-button {
+	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
+}
+
+.user-delete-button {
+	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
+}

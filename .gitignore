@@ -19,3 +19,7 @@ node_modules*
 .flooignore
 .sublime-project
 build/*
+
+/modules/UshahidiUI/config.codekit
+
+/config.codekit

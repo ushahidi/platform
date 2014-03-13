@@ -2,15 +2,16 @@
 		$CONTENTS
 \*------------------------------------*/
 /**
- * @MIXINS...............custom Sass mixins
- * @EXTENDS...............custom Sass extends
+ * MIXINS...............custom Sass mixins
+ * EXTENDS...............custom Sass extends
+ * PLACEHOLDERS...............custom Sass placeholders
  */
 
 
 
 
 /*------------------------------------*\
-		$@MIXINS
+		$MIXINS
 \*------------------------------------*/
 
 /*@2x RETINA IMAGES - use image that's scaled by 2*/
@@ -37,14 +38,21 @@ div.logo {
 }
 
 /*------------------------------------*\
-		$@EXTENDS
+		$EXTENDS
 \*------------------------------------*/
 
 .border-bottom {
 	border-bottom: 1px solid $lightGray;
 }
 
-.notification {
+
+
+
+/*------------------------------------*\
+    $@PLACEHOLDERS
+\*------------------------------------*/
+
+%notification {
 	position: relative;
 	width: 40px;
 	height: 40px;
@@ -54,4 +62,3 @@ div.logo {
 	line-height: 2em;
 	color: $white;
 }
-

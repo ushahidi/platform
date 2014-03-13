@@ -1,0 +1,69 @@
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * HOME LIST VIEW BULK ACTIONS...............actions for all listed posts on home page
+ */
+
+
+
+
+/*------------------------------------*\
+    $HOME LIST VIEW BULK ACTIONS
+\*------------------------------------*/
+
+.list-view-bulk-actions {
+  @include grid-column(12, $collapse: true);
+  background-color: $accent-color;
+  padding: 20px 0 0 0;
+  border-top: 3px solid $white;
+@media #{$medium} {
+  border-top: 0;
+}
+  .list-view-bulk-actions-list>li {
+    padding-right: 1.375em;
+    /*border-right: 1px solid;*/
+    line-height: 1em;
+    &:last-child {
+      border-right: 0px;
+    }
+  }
+  a {
+    color: $white;
+  }
+}
+
+.list-view-bulk-actions-list {
+  @include block-grid($per-row: 7);
+  padding: 0 15px;
+  li {
+    font-size: 20px;
+  }
+  form {
+    margin: 0;
+    input[type="checkbox"] {
+      margin: 0;
+    }
+  }
+  @media #{$small} {
+    @include block-grid($per-row: 7);
+    padding: 0 20px;
+  }
+  @media #{$medium} {
+    padding: 0 20px;
+    li {
+      font-size: $base-font-size;
+    }
+  }
+}
+
+.list-view-bulk-actions input[type="checkbox"] {
+  float: left;
+}
+
+.list-view-bulk-actions label.select-all span {
+  float: left;
+  margin-top: -3px;
+  font-size: 1.2em;
+  color: $white;
+}
