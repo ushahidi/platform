@@ -5,25 +5,27 @@
 		</div>
 		<div class="user-list-actions-bar-admin">
 			<ul class="hide-for-small">
-				<li>Select All</li>
 				<li>
-					<a href="#" data-dropdown="drop1"><i class="fa  fa-cogs"></i>Change Role</a>
-					<ul id="drop1" class="dropdown-list" data-dropdown-content>
+					<a href="#" class="js-select-all">Select All</a>
+				</li>
+				<li>
+					<a href="#" class="js-user-bulk-change-role" data-dropdown="drop-bulk-roles"><i class="fa  fa-cogs"></i>Change Role</a>
+					<ul id="drop-bulk-roles" class="dropdown-list" data-dropdown-content>
 					  <li><a href="#">Admin</a></li>
 					  <li><a href="#">User</a></li>
 					  <li><a href="#">Guest</a></li>
 					</ul>
 				</li>
-				<li><a href=""><i class="fa  fa-user"></i>Add User</li>
-				<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
+				<li><a href="#" class="js-user-create"><i class="fa  fa-user"></i>Add User</li>
+				<li><a href="#" class="js-user-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 
-			<a href="#" data-dropdown="drop" class="dropdown-button  show-for-small">actions</a><br>
-			<ul id="drop" data-dropdown-content class="dropdown-list  show-for-small">
+			<a href="#" data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
+			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-list  show-for-small">
 			<li>Select All</li>
 			<li>
-				<a href="#" data-dropdown="drop1"><i class="fa  fa-cogs"></i>Change Role</a>
-				<ul id="drop1" class="dropdown-list" data-dropdown-content>
+				<a href="#" data-dropdown="drop-bulk-roles-small"><i class="fa  fa-cogs"></i>Change Role</a>
+				<ul id="drop-bulk-roles-small" class="dropdown-list" data-dropdown-content>
 					<li><a href="#">Admin</a></li>
 					<li><a href="#">User</a></li>
 					<li><a href="#">Guest</a></li>
