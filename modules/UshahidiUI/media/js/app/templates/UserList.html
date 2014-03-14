@@ -6,9 +6,12 @@
 		<div class="user-list-actions-bar-admin">
 			<ul class="hide-for-small">
 				<li>
-					<a href="#" class="js-select-all">Select All</a>
+					<a href="#" class="js-select-all">
+						<span class="select-text">Select All</span>
+						<span class="unselect-text visually-hidden">Unselect All</span>
+					</a>
 				</li>
-				<li>
+				<li class="js-bulk-action disabled">
 					<a href="#" class="js-user-bulk-change-role" data-dropdown="drop-bulk-roles"><i class="fa  fa-cogs"></i>Change Role</a>
 					<ul id="drop-bulk-roles" class="dropdown-list" data-dropdown-content>
 					  <li><a href="#">Admin</a></li>
@@ -17,13 +20,13 @@
 					</ul>
 				</li>
 				<li><a href="#" class="js-user-create"><i class="fa  fa-user"></i>Add User</li>
-				<li><a href="#" class="js-user-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
+				<li class="js-bulk-action disabled"><a href="#" class="js-user-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 
 			<a href="#" data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
 			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-list  show-for-small">
 			<li>Select All</li>
-			<li>
+			<li class="js-bulk-action disabled">
 				<a href="#" data-dropdown="drop-bulk-roles-small"><i class="fa  fa-cogs"></i>Change Role</a>
 				<ul id="drop-bulk-roles-small" class="dropdown-list" data-dropdown-content>
 					<li><a href="#">Admin</a></li>
@@ -31,7 +34,7 @@
 					<li><a href="#">Guest</a></li>
 				</ul>
 			</li>
-			<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
+			<li class="js-bulk-action disabled"><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 		</div>
 	</div> <!-- end .user-list-actions-bar -->
@@ -49,7 +52,7 @@
 			<div class="list-view-filter-count  list-view-filter-count--user">
 				<div class="filter-count-select">
 					<label class="visually-hidden" for="filter-count">Number of users shown</label>
-					<select id="filter-count" class="filter-count">
+					<select id="filter-count" class="filter-count js-filter-count">
 						<option selected>3</option>
 						<option>5</option>
 						<option>10</option>
@@ -62,7 +65,7 @@
 			<div class="list-view-filter-sort  list-view-filter-sort--user">
 				<div class="filter-sort-select">
 					<label class="visually-hidden" for="filter-sort">Sort users by</label>
-					<select id="filter-sort" class="filter-sort">
+					<select id="filter-sort" class="filter-sort js-filter-sort">
 						<option selected value="updated">Date/Time updated</option>
 						<option value="created">Date/Time created</option>
 						<option value="title">Title A-Z</option>

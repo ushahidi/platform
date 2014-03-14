@@ -1,7 +1,7 @@
 <div class="user-list-select-profile">
-	<label class="visually-hidden" for="select-post">Select User</label>
-	<input type="checkbox" name="select-post" class="select-post-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
-</div> <!-- end .user-list-select-post -->
+	<label class="visually-hidden" for="select-user">Select User</label>
+	<input type="checkbox" name="select-user" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
+</div> <!-- end .user-list-select-profile -->
 
 <div class="row">
 	<article>
@@ -26,7 +26,7 @@
 						</div>
 
 						<div class="details-column-b">
-							<p class="user-list-last-login"><b>Last Login: </b>	
+							<p class="user-list-last-login"><b>Last Login: </b>
 								{{#if last_login}}
 									{{ datetime-fromNow last_login }}
 								{{else}}

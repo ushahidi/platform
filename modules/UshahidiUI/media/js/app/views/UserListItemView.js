@@ -17,8 +17,10 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListIt
 			template: Handlebars.compile(template),
 			tagName: 'li',
 			className: 'list-view-user',
-
-			events: {
+			// Value to track if checkbox for this item has been selected
+			selected : false,
+			events : {
+				'change .js-select-input' : 'updatedSelected',
 				'click .js-user-delete': 'deleteUser',
 				'click .js-user-edit' : 'showEditUser',
 			},
@@ -65,6 +67,36 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListIt
 			{
 				e.preventDefault();
 				App.vent.trigger('user:edit', this.model);
+			},
+
+			/**
+			 * Select this item (for bulk actions)
+			 */
+			select : function ()
+			{
+				this.selected = true;
+				this.$('.js-select-input').prop('checked', true);
+				this.trigger('select');
+			},
+
+			/**
+			 * Unselect this item (for bulk actions)
+			 */
+			unselect : function ()
+			{
+				this.selected = false;
+				this.$('.js-select-input').prop('checked', false);
+				this.trigger('unselect');
+			},
+
+			/**
+			 * Updated 'selected' value from DOM
+			 */
+			updatedSelected : function (e)
+			{
+				var $el = this.$(e.currentTarget);
+				this.selected = $el.is(':checked');
+				this.trigger(this.selected ? 'select' : 'unselect');
 			},
 		});
 	});

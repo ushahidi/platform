@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView',
+define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserListItemView',
 		'text!templates/UserList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/user-list-info.html'],
-	function( App, Marionette, Handlebars, _, UserListItemView,
+	function( App, Marionette, Handlebars, _, alertify, UserListItemView,
 		template, paginationTemplate, userListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
@@ -19,11 +19,18 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 		{
 			//Template HTML string
 			template: Handlebars.compile(template),
+			selectAllValue: false,
 			// Lets just store the partial templates somewhere usefule
 			partialTemplates :
 			{
 				pagination : Handlebars.compile(paginationTemplate),
 				userListInfo : Handlebars.compile(userListInfoTemplate)
+			},
+			initialize: function()
+			{
+				// Bind select/unselect events from itemviews
+				this.on('itemview:select', this.showHideBulkActions, this);
+				this.on('itemview:unselect', this.showHideBulkActions, this);
 			},
 
 			itemView: UserListItemView,
@@ -33,15 +40,16 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 
 			events:
 			{
-				'click .js-list-view-select-post' : 'showHideBulkActions',
 				'click .js-page-first' : 'showFirstPage',
 				'click .js-page-next' : 'showNextPage',
 				'click .js-page-prev' : 'showPreviousPage',
 				'click .js-page-last' : 'showLastPage',
 				'click .js-page-change' : 'showPage',
-				'change #filter-posts-count' : 'updatePageSize',
-				'change #filter-posts-sort' : 'updatePostsSort',
+				'change .js-filter-count' : 'updatePageSize',
+				'change .js-filter-sort' : 'updateSort',
 				'click .js-user-create' : 'showCreateUser',
+				'click .js-user-bulk-delete' : 'bulkDelete',
+				'click .js-select-all' : 'selectAll'
 			},
 
 			collectionEvents :
@@ -51,28 +59,82 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 				remove : 'updatePagination'
 			},
 
+			/**
+			 * Get select child views
+			 */
+			getSelected : function ()
+			{
+				return this.children.filter('selected');
+			},
+
+			/**
+			 * Show / Hide bulk actions toolbar when users are selected
+			 */
 			showHideBulkActions : function ()
 			{
-				var $checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked');
+				var selected = this.getSelected();
+				this.$('.js-bulk-action').toggleClass('disabled', selected.length > 0);
+			},
 
-				if ($checked.length > 0)
+			/**
+			 * Bulk delete selected users
+			 */
+			bulkDelete : function (e)
+			{
+				e.preventDefault();
+
+				var selected = this.getSelected();
+
+				alertify.confirm('Are you sure you want to delete ' + selected.length + ' users?', function(e)
 				{
-					this.$('.js-list-view-bulk-actions').removeClass('visually-hidden');
-					this.$('.js-list-view-bulk-actions').addClass('visible');
+					if (e)
+					{
+						_.each(selected, function(item) {
+							var model = item.model;
+							model
+								.destroy({wait : true})
+								.done(function()
+								{
+									alertify.success('User has been deleted');
+								})
+								.fail(function ()
+								{
+									alertify.error('Unable to delete user, please try again');
+								});
+						} );
+					}
+					else
+					{
+						alertify.log('Delete cancelled');
+					}
+				});
+			},
+
+			/**
+			 * Select all users
+			 */
+			selectAll : function (e)
+			{
+				e.preventDefault();
+				this.selectAllValue = ! this.selectAllValue;
+
+				if (this.selectAllValue)
+				{
+					this.children.each(function (child) { child.select(); });
 				}
 				else
 				{
-					this.$('.js-list-view-bulk-actions').removeClass('visible');
-					this.$('.js-list-view-bulk-actions').addClass('visually-hidden');
+					this.children.each(function (child) { child.unselect(); });
 				}
+				this.$('.select-text').toggleClass('visually-hidden', this.selectAllValue);
+				this.$('.unselect-text').toggleClass('visually-hidden', ! this.selectAllValue);
 			},
 
 			serializeData : function ()
 			{
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
-					pagination: this.collection.state,
-					sortKeys: this.collection.sortKeys
+					pagination: this.collection.state
 				});
 
 				return data;
@@ -162,7 +224,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 			updatePageSize : function (e)
 			{
 				e.preventDefault();
-				var size = parseInt(this.$('#filter-posts-count').val(), 10);
+				var size = parseInt(this.$('.js-filter-count').val(), 10);
 				if (typeof size === 'number' && size > 0)
 				{
 					this.collection.setPageSize(size, {
@@ -170,10 +232,10 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 					});
 				}
 			},
-			updatePostsSort : function (e)
+			updateSort : function (e)
 			{
 				e.preventDefault();
-				var orderby = this.$('#filter-posts-sort').val();
+				var orderby = this.$('.js-filter-sort').val();
 				this.collection.setSorting(orderby);
 				this.collection.getFirstPage();
 			},
@@ -181,6 +243,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/UserListItemView'
 			{
 				e.preventDefault();
 				App.vent.trigger('user:create', this.model);
-			},
+			}
 		});
 	});
