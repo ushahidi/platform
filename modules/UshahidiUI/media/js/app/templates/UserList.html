@@ -81,19 +81,21 @@
 		<div class="row">
 			<div class="user-list-categories">
 				<ul class="user-list-categories-list  hide-for-small">
-					<li class="active">All
+					<li class="active js-user-filter-role active" data-role-name="">All
  							<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
 					</li>
 					{{#each roles}}
-						<li>{{display_name}}</li>
+						<li class="js-user-filter-role" data-role-name="{{name}}">{{display_name}}
+							<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number">0</span></span>
+						</li>
 					{{/each}}
 				</ul>
 
 				<a href="#/" data-dropdown="drop-roles" class="dropdown-button  show-for-small">filter by roles</a><br>
 				<ul id="drop-roles" data-dropdown-content class="user-list-categories-list  f-dropdown  show-for-small">
-					<li class="active">All</li>
+					<li class="js-user-filter-role active" data-role-name="">All</li>
 					{{#each roles}}
-						<li>{{display_name}}</li>
+						<li class="js-user-filter-role" data-role-name="{{name}}">{{display_name}}</li>
 					{{/each}}
 				</ul>
 			</div>

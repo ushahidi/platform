@@ -51,7 +51,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				'click .js-user-bulk-delete' : 'bulkDelete',
 				'click .js-user-bulk-change-role' : 'bulkChangeRole',
 				'click .js-select-all' : 'selectAll',
-				'submit .js-user-search-form' : 'searchUsers'
+				'submit .js-user-search-form' : 'searchUsers',
+				'click .js-user-filter-role' : 'filterByRole',
 			},
 
 			collectionEvents :
@@ -263,7 +264,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 						pagination: this.collection.state
 					})
 				);
-				// @todo update counts next to roles
+				this.$('.user-list-categories-list li.active span.count-number')
+					.text(this.collection.state.totalRecords);
 			},
 			updatePageSize : function (e)
 			{
@@ -296,6 +298,26 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				App.Collections.Users.setFilterParams({
 					q : keyword
 				});
+			},
+			filterByRole : function(e)
+			{
+				e.preventDefault();
+
+				var $el = this.$(e.currentTarget),
+					role;
+
+				role = $el.attr('data-role-name');
+
+				App.Collections.Users.setFilterParams({
+					role : role
+				});
+
+				this.$('.user-list-categories-list li')
+					.removeClass('active')
+					.find('span').addClass('visually-hidden');
+				this.$('.user-list-categories-list li[data-role-name="'+role+'"]')
+					.addClass('active')
+					.find('span').removeClass('visually-hidden');
 			}
 		});
 	});
