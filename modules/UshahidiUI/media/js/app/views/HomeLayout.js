@@ -7,7 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'underscore', 'text!templates/HomeLayout.html', 'views/SearchBarView', 'views/MapView', 'views/PostListView'],
+define(['App', 'marionette', 'handlebars', 'underscore',
+'text!templates/HomeLayout.html', 'views/SearchBarView', 'views/MapView', 'views/PostListView'],
 	function(App, Marionette, Handlebars, _, template, SearchBarView, MapView, PostListView)
 	{
 		return Marionette.Layout.extend(
@@ -64,7 +65,9 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'text!templates/HomeLay
 
 				if (this.searchRegion.currentView instanceof SearchBarView === false && this.views.search)
 				{
-					this.searchRegion.show(new SearchBarView());
+					this.searchRegion.show(new SearchBarView({
+						collection : this.collection
+					}));
 				}
 				else if(! this.views.search)
 				{

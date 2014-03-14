@@ -17,10 +17,16 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 				'submit form': 'SearchPosts'
 			},
 
+			serializeData: function()
+			{
+				var data = {
+					tags : App.Collections.Tags.toJSON()
+				};
+				return data;
+			},
+
 			SearchPosts: function(e)
 			{
-				//var that = this;
-
 				e.preventDefault();
 				var keyword = this.$('#q').val();
 				App.Collections.Posts.setFilterParams({
