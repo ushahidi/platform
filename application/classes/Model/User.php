@@ -59,10 +59,18 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 				'username' => array(
 					array('trim'),
 				),
+				'email' => array(
+					array(array($this, 'emptyToNull'), array(':value'))
+				),
+				'first_name' => array(
+					array(array($this, 'emptyToNull'), array(':value'))
+				),
+				'last_name' => array(
+					array(array($this, 'emptyToNull'), array(':value'))
+				),
 			)
 		);
 	}
-
 
 	/**
 	 * Rules for the user model
@@ -188,5 +196,20 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 	public function get_resource_id()
 	{
 		return 'users';
+	}
+
+	/**
+	 * emptyToNull callback for filters
+	 * Replace empty value with null so that we save NULL into mysql db
+	 *
+	 * @param  string $value
+	 * @return string|NULL
+	 */
+	public function emptyToNull($value)
+	{
+		if ($value === '')
+		{
+			return NULL;
+		}
 	}
 }
