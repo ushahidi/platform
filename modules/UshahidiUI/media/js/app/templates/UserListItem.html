@@ -53,13 +53,13 @@
 			<div class="list-view-post-edit-wrapper">
 				<ul class="list-view-post-edit">
 					{{#if allowed_methods.put}}
-						<li><a href="#" class="user-edit-button" title="edit this post" data-reveal-id="edit-post"><i class="fa  fa-edit"></i> edit</a></li>
+						<li><a href="#" class="user-edit-button  js-user-edit" title="edit this user" data-reveal-id="edit-user"><i class="fa  fa-edit"></i> edit</a></li>
 					{{/if}}
 					{{#if allowed_methods.changeRole}}
-						<li><a href="#" id="confirm" class="user-change-roles-button" title="unpublish this post"><i class="fa  fa-cogs"></i> change role</a></li>
+						<li><a href="#" id="confirm" class="user-change-roles-button js-user-change-role" title="change role"><i class="fa  fa-cogs"></i> change role</a></li>
 					{{/if}}
 					{{#if allowed_methods.delete}}
-						<li><a href="#" class="user-delete-button" title="delete this post"><i class="fa  fa-trash-o"></i> delete</a></li>
+						<li><a href="#" class="user-delete-button  js-user-delete" title="delete this post"><i class="fa  fa-trash-o"></i> delete</a></li>
 					{{/if}}
 				</ul> <!-- end .list-view-post-edit -->
 			</div> <!-- end .list-view-post-edit-wrapper-->
