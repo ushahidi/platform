@@ -50,6 +50,7 @@ define(['jquery', 'backbone', 'models/UserModel', 'App', 'backbone-pageable'],
 
 			sortKeys: {
 				'created' : 'Date/Time created',
+				'username' : 'Username A-Z',
 				'id' : 'ID'
 			}
 		});

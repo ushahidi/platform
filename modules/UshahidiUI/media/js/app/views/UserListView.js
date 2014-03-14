@@ -176,6 +176,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
 					pagination: this.collection.state,
+					sortKeys: this.collection.sortKeys,
 					roles: App.Collections.Roles.toJSON()
 				});
 				return data;
