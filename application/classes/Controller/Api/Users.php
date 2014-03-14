@@ -144,6 +144,12 @@ class Controller_Api_Users extends Ushahidi_Api {
 			$users_query->where('username', '=', $username);
 		}
 
+		$role = $this->request->query('role');
+		if (! empty($role))
+		{
+			$users_query->where('role', '=', $role);
+		}
+
 		// Get the count of ALL records
 		$count_query = clone $users_query;
 		$total_records = (int) $count_query
