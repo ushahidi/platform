@@ -49,6 +49,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				'change .js-filter-sort' : 'updateSort',
 				'click .js-user-create' : 'showCreateUser',
 				'click .js-user-bulk-delete' : 'bulkDelete',
+				'click .js-user-bulk-change-role' : 'bulkChangeRole',
 				'click .js-select-all' : 'selectAll'
 			},
 
@@ -108,6 +109,44 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 					else
 					{
 						alertify.log('Delete cancelled');
+					}
+				});
+			},
+
+			/**
+			 * Bulk change role on selected users
+			 */
+			bulkChangeRole : function (e)
+			{
+				e.preventDefault();
+
+				var selected = this.getSelected(),
+					$el = this.$(e.currentTarget),
+					role,
+					role_name;
+
+				role = $el.attr('data-role-name'),
+				role_name = $el.text();
+
+				alertify.confirm('Are you sure you want to assign ' + selected.length + ' users the ' + role_name + ' role?', function(e)
+				{
+					if (e)
+					{
+						_.each(selected, function(item) {
+							var model = item.model;
+							model.set('role', role).save()
+								.done(function()
+								{
+									alertify.success('User "' + model.get('username') + '" is now a '+ role_name);
+								}).fail(function ()
+								{
+									alertify.error('Unable to change role, please try again');
+								});
+						} );
+					}
+					else
+					{
+						// cancelled
 					}
 				});
 			},
@@ -222,6 +261,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 						pagination: this.collection.state
 					})
 				);
+				// @todo update counts next to roles
 			},
 			updatePageSize : function (e)
 			{

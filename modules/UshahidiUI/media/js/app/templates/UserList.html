@@ -12,10 +12,10 @@
 					</a>
 				</li>
 				<li class="js-bulk-action disabled">
-					<a href="#" class="js-user-bulk-change-role" data-dropdown="drop-bulk-roles"><i class="fa  fa-cogs"></i>Change Role</a>
+					<a href="#" data-dropdown="drop-bulk-roles"><i class="fa  fa-cogs"></i>Change Role</a>
 					<ul id="drop-bulk-roles" class="dropdown-list" data-dropdown-content>
 						{{#each roles}}
-							<li><a href="#">{{display_name}}</a></li>
+							<li><a href="#" class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
 						{{/each}}
 					</ul>
 				</li>
@@ -30,7 +30,7 @@
 				<a href="#" data-dropdown="drop-bulk-roles-small"><i class="fa  fa-cogs"></i>Change Role</a>
 				<ul id="drop-bulk-roles-small" class="dropdown-list" data-dropdown-content>
 					{{#each roles}}
-						<li><a href="#">{{display_name}}</a></li>
+						<li><a href="#" class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
 					{{/each}}
 				</ul>
 			</li>
