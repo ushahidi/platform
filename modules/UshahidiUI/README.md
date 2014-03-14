@@ -4,16 +4,16 @@ Best practices for working on the UI and such.
 
 ## Installing Build Tools
 
-You will need RubyGems and NPM installed. Front end code is built with SASS, Compass, and Grunt.
+You will need RubyGems and NPM installed. Front end code is built with SASS, Compass, and Grunt, which you should probably install globally:
 
 ```sh
-gem install sass compass compass-csslint
 npm install -g grunt-cli
 ```
 
-Now install client side dependencies:
+Now install client side gems and packages:
 
 ```sh
+bundle install
 npm install
 ```
 
