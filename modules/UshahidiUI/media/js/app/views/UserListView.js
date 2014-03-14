@@ -96,6 +96,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 								.done(function()
 								{
 									alertify.success('User has been deleted');
+									// Trigger a fetch. This is to remove the model from the listing and load another
+									App.Collections.Users.fetch();
 								})
 								.fail(function ()
 								{
