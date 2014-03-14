@@ -136,9 +136,9 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 			{
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
-					pagination: this.collection.state
+					pagination: this.collection.state,
+					roles: App.Collections.Roles.toJSON()
 				});
-
 				return data;
 			},
 

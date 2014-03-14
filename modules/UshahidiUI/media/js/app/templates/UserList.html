@@ -14,9 +14,9 @@
 				<li class="js-bulk-action disabled">
 					<a href="#" class="js-user-bulk-change-role" data-dropdown="drop-bulk-roles"><i class="fa  fa-cogs"></i>Change Role</a>
 					<ul id="drop-bulk-roles" class="dropdown-list" data-dropdown-content>
-					  <li><a href="#">Admin</a></li>
-					  <li><a href="#">User</a></li>
-					  <li><a href="#">Guest</a></li>
+						{{#each roles}}
+							<li><a href="#">{{display_name}}</a></li>
+						{{/each}}
 					</ul>
 				</li>
 				<li><a href="#" class="js-user-create"><i class="fa  fa-user"></i>Add User</li>
@@ -29,9 +29,9 @@
 			<li class="js-bulk-action disabled">
 				<a href="#" data-dropdown="drop-bulk-roles-small"><i class="fa  fa-cogs"></i>Change Role</a>
 				<ul id="drop-bulk-roles-small" class="dropdown-list" data-dropdown-content>
-					<li><a href="#">Admin</a></li>
-					<li><a href="#">User</a></li>
-					<li><a href="#">Guest</a></li>
+					{{#each roles}}
+						<li><a href="#">{{display_name}}</a></li>
+					{{/each}}
 				</ul>
 			</li>
 			<li class="js-bulk-action disabled"><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
@@ -83,19 +83,19 @@
 			<div class="user-list-categories">
 				<ul class="user-list-categories-list  hide-for-small">
 					<li class="active">All
- 							<span class="all-count-number  hide-for-small"><span class="count-number">47</span></span>
+ 							<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
 					</li>
-					<li>Admin</li>
-					<li>Member</li>
-					<li>User</li>
+					{{#each roles}}
+						<li>{{display_name}}</li>
+					{{/each}}
 				</ul>
 
 				<a href="#/" data-dropdown="drop-roles" class="dropdown-button  show-for-small">filter by roles</a><br>
 				<ul id="drop-roles" data-dropdown-content class="user-list-categories-list  f-dropdown  show-for-small">
 					<li class="active">All</li>
-					<li class="active">Admin</li>
-					<li>Member</li>
-					<li>User</li>
+					{{#each roles}}
+						<li>{{display_name}}</li>
+					{{/each}}
 				</ul>
 			</div>
 			<div class="user-list-search">

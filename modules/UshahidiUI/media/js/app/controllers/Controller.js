@@ -23,7 +23,8 @@ define(['App', 'backbone', 'marionette',
 	'collections/PostCollection',
 	'collections/TagCollection',
 	'collections/FormCollection',
-	'collections/SetCollection'
+	'collections/SetCollection',
+	'collections/RoleCollection'
 	],
 	function(App, Backbone, Marionette,
 		ModalController,
@@ -41,7 +42,8 @@ define(['App', 'backbone', 'marionette',
 		PostCollection,
 		TagCollection,
 		FormCollection,
-		SetCollection
+		SetCollection,
+		RoleCollection
 		)
 	{
 		return Backbone.Marionette.Controller.extend(
@@ -76,6 +78,25 @@ define(['App', 'backbone', 'marionette',
 				App.Collections.Forms.fetch();
 				App.Collections.Sets = new SetCollection();
 				App.Collections.Sets.fetch();
+
+				// Fake roles collection
+				App.Collections.Roles = new RoleCollection([
+					{
+						name : 'admin',
+						display_name : 'Admin',
+						description : 'Administrator'
+					},
+					{
+						name : 'user',
+						display_name : 'Member',
+						description : 'Default logged in user role'
+					},
+					{
+						name : 'guest',
+						display_name : 'Guest',
+						description : 'Unprivileged role given to users who are not logged in'
+					}
+				]);
 
 				// Grab tag collection, use client-side paging and fetch all tags from server at once
 				App.Collections.Tags = new TagCollection([], { mode: 'client' });
