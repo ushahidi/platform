@@ -14,17 +14,17 @@ class Controller_Api_Users extends Ushahidi_Api {
 	/**
 	 * @var string Field to sort results by
 	 */
-	 protected $record_orderby = 'created';
+	 protected $_record_orderby = 'created';
 
 	/**
 	 * @var string Direct to sort results
 	 */
-	 protected $record_order = 'DESC';
+	 protected $_record_order = 'DESC';
 
 	/**
 	 * @var int Maximum number of results to return
 	 */
-	 protected $record_allowed_orderby = array('id', 'created', 'email', 'username');
+	 protected $_record_allowed_orderby = array('id', 'created', 'email', 'username');
 
 	/**
 	 * @var string oauth2 scope required for access
