@@ -50,7 +50,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				'click .js-user-create' : 'showCreateUser',
 				'click .js-user-bulk-delete' : 'bulkDelete',
 				'click .js-user-bulk-change-role' : 'bulkChangeRole',
-				'click .js-select-all' : 'selectAll'
+				'click .js-select-all' : 'selectAll',
+				'submit .js-user-search-form' : 'searchUsers'
 			},
 
 			collectionEvents :
@@ -286,6 +287,15 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 			{
 				e.preventDefault();
 				App.vent.trigger('user:create', this.model);
+			},
+			searchUsers : function(e)
+			{
+				e.preventDefault();
+
+				var keyword = this.$('.js-user-search-input').val();
+				App.Collections.Users.setFilterParams({
+					q : keyword
+				});
 			}
 		});
 	});
