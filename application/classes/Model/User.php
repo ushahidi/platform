@@ -140,6 +140,7 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 				'failed_attempts' => $this->failed_attempts,
 				'last_attempt' => $this->last_attempt,
 				'role' => $this->role,
+				'gravatar' => md5($this->email),
 
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)
