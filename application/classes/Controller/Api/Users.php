@@ -279,7 +279,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 		unset($post['password']);
 	 	}
 
-		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
+		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email', 'role'));
 
 		//Validation - cycle through nested models and perform in-model
 		//validation before saving
