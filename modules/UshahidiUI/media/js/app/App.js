@@ -65,5 +65,13 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			return this.config;
 		};
 
+		// Helper to generate a cascade from an existing function.
+		App.cascade = function(from, next, that) {
+			return function() {
+				from.apply(that || this, arguments)
+				return next.apply(next, arguments);
+			};
+		};
+
 		return App;
 	});
