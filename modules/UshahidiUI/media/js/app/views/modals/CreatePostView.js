@@ -115,26 +115,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 								{
 									alertify.success('Post saved.');
 									App.appRouter.navigate('posts/' + model.id, { trigger : true });
-									
-									var formData = new FormData($('form')[0]);
-									$.ajax({
-										url: '/api/v2/media',  //Server script to process data
-										type: 'POST',
-										/*xhr: function() {  // Custom XMLHttpRequest
-											var myXhr = $.ajaxSettings.xhr();
-											if(myXhr.upload){ // Check if upload property exists
-												myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-											}
-											return myXhr;
-										},*/
-										//Ajax events
-										// Form data
-										data:formData,
-										//Options to tell jQuery not to process data or worry about content-type.
-										cache: false,
-										contentType: false,
-										processData: false
-									});
 									that.trigger('close');
 								})
 							.fail(function (response /*, xhr, options*/)
