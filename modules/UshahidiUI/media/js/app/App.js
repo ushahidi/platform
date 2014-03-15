@@ -17,6 +17,11 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 		App.vent.on('login', OAuth.login);
 		App.vent.on('logout', OAuth.logout);
 
+		// Quick helper to determine whether or not oauth is logged in
+		App.loggedin = function() {
+			return OAuth.provider.providerID === 'ushahidi_implicit'
+		};
+
 		//Organize Application into regions corresponding to DOM elements
 		//Regions can contain views, Layouts, or subregions nested as necessary
 		App.addRegions(
@@ -48,10 +53,6 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			jsdir : '/media/kohana/js',
 			cssdir : '/media/kohana/css'
 		}, window.config);
-
-		if (typeof App.config.loggedin !== 'boolean') {
-			App.config.loggedin = App.oauth.provider.providerID === 'ushahidi_implicit';
-		}
 
 		/**
 		 * Update App.config

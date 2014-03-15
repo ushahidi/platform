@@ -73,7 +73,7 @@ define(['App', 'backbone', 'marionette',
 				this.layout.headerRegion.show(header);
 				this.layout.footerRegion.show(new FooterView());
 
-				if (App.config.loggedin) {
+				if (App.loggedin()) {
 					// workspace panel includes user details, attempt to load the logged in user
 					var that = this,
 						user = new UserModel({id: 'me'});
