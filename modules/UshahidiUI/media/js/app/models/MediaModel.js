@@ -14,7 +14,10 @@ define(['backbone', 'App'],
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/media',
 			save : function() {
-				console.log('got a media model save', arguments, this.attributes);
+				// block saving of media models, require usage of ie Dropzone
+				// to do POST file uploads directly. the API does not support
+				// creating media via JSON at this time.
+				throw new Error("Media cannot be saved using this interface");
 			},
 			schema : function ()
 			{
