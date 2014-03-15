@@ -52,6 +52,33 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				{
 					this.form.trigger('dom:refresh');
 				});
+
+				this.on('render', function () {
+					this.$('.post-media-wrapper .dropzone').dropzone({
+						url: (new MediaModel()).urlRoot,
+						sending: function (file, xhr) {
+							var headers = OAuth.getAuthHeaders(), header;
+							for (header in headers) {
+								xhr.setRequestHeader(header, headers[header]);
+							}
+						},
+						// rather than overwrite the default success, we extend it with a cascade.
+						// this preserves the default template styles.
+						success: App.cascade(Dropzone.prototype.defaultOptions.success, function (file, res) {
+							//
+							// todo:
+							// - need to associate media with posts via hidden form fields (js)
+							// - need to read media ids in post creation (php)
+							// - need to associate uploaded media files with users (php, js)
+							// - need to load uploaded-but-unattached media for users (php, js)
+							// - need to implement media delete (php, js)
+							// - clean this up! use a composite view, maybe?
+							//
+							var media = new MediaModel(res);
+							console.log('uploaded new media', media);
+						})
+						});
+				});
 			},
 			events: {
 				'submit form' : 'formSubmitted',
@@ -67,19 +94,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 
 				this.$('.post-form-wrapper').append(this.form.el);
 
-				var that = this;
-				this.$('.post-media-wrapper .dropzone').dropzone({
-					url: (new MediaModel()).urlRoot,
-					headers: OAuth.getAuthHeaders(),
-					success: function(file, res) {
-						// Indirect monkey patching
-						Dropzone.prototype.defaultOptions.success.apply(this, arguments);
-
-						// todo: need to associate with post!
-						var media = new MediaModel(res);
-						console.log('uploaded new media', media);
-					}
-					});
 			},
 			formSubmitted : function (e)
 			{
