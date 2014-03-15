@@ -99,11 +99,6 @@ require.config(
 			exports: 'moment'
 		},
 
-		'dropzone': {
-			deps: ['jquery'],
-			exports: 'Dropzone'
-		},
-
 		'foundation/foundation' : {deps: ['jquery']},
 		'foundation/foundation.abide': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.alerts': {deps: ['jquery', 'foundation/foundation'] },
