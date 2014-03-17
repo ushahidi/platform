@@ -54,10 +54,14 @@ define(['App', 'backbone', 'marionette',
 		{
 			initialize : function()
 			{
+				var that = this,
+					header,
+					user;
+
 				this.layout = new AppLayout();
 				App.body.show(this.layout);
 
-				var header = new HeaderView();
+				header = new HeaderView();
 				App.vent.on('workspace:toggle', function (close)
 				{
 					if (close)
@@ -75,8 +79,7 @@ define(['App', 'backbone', 'marionette',
 
 				if (App.loggedin()) {
 					// workspace panel includes user details, attempt to load the logged in user
-					var that = this,
-						user = new UserModel({id: 'me'});
+					user = new UserModel({id: 'me'});
 					user.fetch().done(function() {
 						that.layout.workspacePanel.show(new WorkspacePanelView({ model: user }));
 					});
