@@ -40,6 +40,10 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 				array('numeric')
 			),
 
+			'user_id' => array(
+				array('numeric'),
+			),
+
 			'o_width' => array(
 				array('numeric')
 			),
@@ -88,6 +92,7 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 
 			$response = array(
 				'id' => $this->id,
+				'user_id' => $this->user_id,
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
 				'caption' => $this->caption,
 				'mime' => $this->mime,

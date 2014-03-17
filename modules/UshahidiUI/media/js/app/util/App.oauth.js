@@ -96,7 +96,7 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 			getAuthHeaders : function () {
 				var headers = {};
 				if (this.currentToken) {
-					headers["Authorization"] = "Bearer " + this.currentToken["access_token"];
+					headers['Authorization'] = 'Bearer ' + this.currentToken['access_token'];
 				}
 				return headers;
 			},

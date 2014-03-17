@@ -73,6 +73,12 @@ class Controller_Api_Media extends Ushahidi_Api
 				->offset($this->_record_offset)
 				->limit($this->_record_limit);
 
+		$user = $this->request->query('user');
+		if (! empty($user))
+		{
+			$media_query->where('user_id', '=', $user);
+		}
+
 		$media = $media_query->find_all();
 
 		$count = $media->count();
@@ -190,6 +196,9 @@ class Controller_Api_Media extends Ushahidi_Api
 
 			// Save details to the database
 			$media = $this->resource();
+
+			// Link media with user
+			$media->user_id = $this->user->id;
 
 			// Set original details
 			$media->o_width = $o_image->width;
