@@ -99,11 +99,18 @@
 					{{/each}}
 				</ul>
 			</div>
-			<div class="user-list-search">
-				<form class="user-list-search-form  js-user-search-form">
-					<input tabindex="1" id="autocomplete" type="search" placeholder="Search Users" autocomplete="off" class="js-user-search-input">
-				</form>
-			</div>
+			<div class="search-field-wrapper  search-field-wrapper--role-filter">
+				<div class="search-field">
+					<label class="visually-hidden" for="search-field">Search</label>
+					<input tabindex="1" id="autocomplete" aria-labelledby="search-label" type="search" id="q" class="search-field js-user-search-input" placeholder="Keyword" value="" autocomplete="off">
+					<a href="" class="search-close">×</a>
+				</div> <!-- end .search-field -->
+
+				<div class="search-bar-button">
+					<button type="submit" class=""><i class="fa  fa-search"></i></button>
+<!-- 					<button type="submit" class="show-for-small"><i class="fa  fa-search"></i>SEARCH</button> -->
+				</div> <!-- end .search-bar-button -->
+			</div> <!-- end .search-field-wrapper -->
 		</div> <!-- end .row -->
 	</div> <!-- end .user-list-filter-bar -->
 
@@ -112,8 +119,7 @@
 		<ul class="list-view-user-profile-list">
 		</ul>
 
-	</div> <!-- end .user-list-profile -->
-
+	</div> <!-- end .list-view-wrapper -->
 </div> <!-- end .row -->
 
 <div class="pagination-wrapper">
