@@ -115,17 +115,14 @@ $colors: $color1, $color2, $color3, $color4, $color5;
 	}
 }
 
-.role-filter-search {
-	@include grid-column(12, $collapse: true);
-	border-top: 1px solid $secondary-color;
-	@media #{$small} {
-		@include grid-column(3);
-		border-top: none;
-	}
-	.role-filter-search-form {
-		margin: 17px;
-    @media #{$small} {
-      margin: 17px 0 17px 0;
-    }
-	}
+.search-field-wrapper--role-filter {
+  @extend %search-field-wrapper;
+  @include grid-column(12);
+  padding: 0 20px;
+  border-top: 1px solid $secondary-color;
+  @media #{$small} {
+    @include grid-column(3, $float: right);
+    border-top: none;
+    margin: 17px 0 0 0;
+  }
 }
