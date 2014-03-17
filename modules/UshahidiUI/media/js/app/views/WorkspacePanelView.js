@@ -20,6 +20,14 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 			initialize : function ()
 			{
 				App.vent.on('page:change', this.selectMenuItem, this);
+
+				// Refresh this view when there is a change in this model
+				this.listenTo(this.model, 'change', this.render);
+			},
+			serializeData: function()
+			{
+				var data = {user: this.model.toJSON()};
+				return data;
 			},
 			toggleSection : function(e)
 			{

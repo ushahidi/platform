@@ -17,6 +17,11 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 		App.vent.on('login', OAuth.login);
 		App.vent.on('logout', OAuth.logout);
 
+		// Quick helper to determine whether or not oauth is logged in
+		App.loggedin = function() {
+			return OAuth.provider.providerID === 'ushahidi_implicit';
+		};
+
 		//Organize Application into regions corresponding to DOM elements
 		//Regions can contain views, Layouts, or subregions nested as necessary
 		App.addRegions(

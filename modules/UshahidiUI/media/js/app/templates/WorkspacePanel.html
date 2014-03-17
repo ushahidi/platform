@@ -1,15 +1,20 @@
 <h1 class="visually-hidden">Workspace</h1>
 <div class="workspace-profile">
-	<div id="workspace-avatar" class="workspace-avatar"></div>
+	<div id="workspace-avatar" class="workspace-avatar">
+		{{#if user}}
+		<img src="//www.gravatar.com/avatar/{{ user.gravatar }}" alt="Gravatar" />
+		{{/if}}
+	</div>
 	<div class="workspace-admin">
-		<!-- NOTE: need dynamic usernames/roles here -->
-		<h5 id="username" class="username">Dude Bro</h5>
-		<p id="workspace-role" class="workspace-role" >Super Admin</p>
+		{{#if user}}
+		<h5 id="username" class="username">{{ user.username }}</h5>
+		<p id="workspace-role" class="workspace-role" >{{ user.role }}</p>
 
 		<ul class="inline-list">
 			<li><a href="#" id="edit-profile" class="edit-profile" >Edit Profile</a></li>
 			<li><a href="#" id="logout" class="logout  js-logout" >Logout</a></li>
 		</ul>
+		{{/if}}
 	</div>
 </div>
 

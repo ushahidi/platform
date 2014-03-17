@@ -24,7 +24,9 @@ define(['App', 'backbone', 'marionette',
 	'collections/TagCollection',
 	'collections/FormCollection',
 	'collections/SetCollection',
-	'collections/RoleCollection'
+	'collections/RoleCollection',
+
+	'models/UserModel'
 	],
 	function(App, Backbone, Marionette,
 		ModalController,
@@ -43,17 +45,23 @@ define(['App', 'backbone', 'marionette',
 		TagCollection,
 		FormCollection,
 		SetCollection,
-		RoleCollection
+		RoleCollection,
+
+		UserModel
 		)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
 			initialize : function()
 			{
+				var that = this,
+					header,
+					user;
+
 				this.layout = new AppLayout();
 				App.body.show(this.layout);
 
-				var header = new HeaderView();
+				header = new HeaderView();
 				App.vent.on('workspace:toggle', function (close)
 				{
 					if (close)
@@ -68,7 +76,14 @@ define(['App', 'backbone', 'marionette',
 
 				this.layout.headerRegion.show(header);
 				this.layout.footerRegion.show(new FooterView());
-				this.layout.workspacePanel.show(new WorkspacePanelView());
+
+				if (App.loggedin()) {
+					// workspace panel includes user details, attempt to load the logged in user
+					user = new UserModel({id: 'me'});
+					user.fetch().done(function() {
+						that.layout.workspacePanel.show(new WorkspacePanelView({ model: user }));
+					});
+				}
 
 				App.Collections = {};
 				App.Collections.Posts = new PostCollection();
