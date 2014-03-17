@@ -54,7 +54,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				});
 
 				this.on('render', function () {
-					this.$('.post-media-wrapper .dropzone').dropzone({
+					var zone, config = {
 						url: (new MediaModel()).urlRoot,
 						sending: function (file, xhr) {
 							var headers = OAuth.getAuthHeaders(), header;
@@ -69,7 +69,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 							// todo:
 							// - need to associate media with posts via hidden form fields (js)
 							// - need to read media ids in post creation (php)
-							// - need to associate uploaded media files with users (php, js)
+							// - need to associate uploaded media files with users (js)
 							// - need to load uploaded-but-unattached media for users (php, js)
 							// - need to implement media delete (php, js)
 							// - clean this up! use a composite view, maybe?
@@ -77,7 +77,30 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 							var media = new MediaModel(res);
 							console.log('uploaded new media', media);
 						})
+						};
+
+					zone = this.$('.post-media-wrapper .dropzone').dropzone(config).get(0).dropzone;
+
+					console.log('created new dropzone', zone);
+					/*
+					// at this point, we need to add in all of the media files not already associated
+					// https://github.com/enyo/dropzone/wiki/FAQ#how-to-show-files-already-stored-on-server
+					// todo: need to implement media collections first
+					mediaCollection.fetch().done(function() {
+						_.each(mediaCollection, function(media) {
+							var mockFile = {
+									name: media.original_file_name,
+									size: media.original_file_size
+								};
+
+							// Call the default addedfile event handler
+							zone.emit('addedfile', mockFile);
+
+							// And optionally show the thumbnail of the file:
+							zone.emit('thumbnail', mockFile, media.thumbail_file_url);
 						});
+					});
+					*/
 				});
 			},
 			events: {
