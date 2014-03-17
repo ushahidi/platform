@@ -10,8 +10,8 @@ Feature: Testing the Users API
 				"first_name":"Linda",
 				"last_name":"Kamau",
 				"username":"kamaulynder",
-				"password":"testing"
-
+				"password":"testing",
+				"role":"admin"
 			}
 			"""
 		When I request "/users"
@@ -20,6 +20,7 @@ Feature: Testing the Users API
 		And the type of the "id" property is "numeric"
 		And the response has a "email" property
 		And the "email" property equals "linda@ushahidi.com"
+		And the "role" property equals "admin"
 		And the response does not have a "password" property
 		Then the guzzle status code should be 200
 
@@ -32,7 +33,8 @@ Feature: Testing the Users API
 				"first_name":"Robbie",
 				"last_name":"Mackay",
 				"username":"rjmackay",
-				"password":"testing"
+				"password":"testing",
+				"role":"admin"
 			}
 			"""
 		And that its "id" is "1"
@@ -43,6 +45,7 @@ Feature: Testing the Users API
 		And the "id" property equals "1"
 		And the response has a "email" property
 		And the "email" property equals "robbie@ushahidi.com"
+		And the "role" property equals "admin"
 		Then the guzzle status code should be 200
 
 	Scenario: Updating a non-existent User
@@ -70,7 +73,7 @@ Feature: Testing the Users API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "4"
+		And the "count" property equals "5"
 		Then the guzzle status code should be 200
 
 	@resetFixture

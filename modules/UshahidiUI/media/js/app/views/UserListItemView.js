@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListItem.html'],
-	function(App,Handlebars, Marionette, alertify, template)
+define(['App','handlebars', 'marionette', 'underscore', 'alertify', 'text!templates/UserListItem.html'],
+	function(App,Handlebars, Marionette, _, alertify, template)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
@@ -16,9 +16,11 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListIt
 			//Template HTML string
 			template: Handlebars.compile(template),
 			tagName: 'li',
-			className: 'list-view-post',
-
-			events: {
+			className: 'list-view-user',
+			// Value to track if checkbox for this item has been selected
+			selected : false,
+			events : {
+				'change .js-select-input' : 'updatedSelected',
 				'click .js-user-delete': 'deleteUser',
 				'click .js-user-edit' : 'showEditUser',
 			},
@@ -31,6 +33,13 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListIt
 
 			modelEvent: {
 				'sync': 'render'
+			},
+
+			serializeData : function ()
+			{
+				return _.extend(this.model.toJSON(), {
+					role_name: App.Collections.Roles.get(this.model.get('role'))
+				});
 			},
 
 			deleteUser: function(e)
@@ -65,6 +74,36 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/UserListIt
 			{
 				e.preventDefault();
 				App.vent.trigger('user:edit', this.model);
+			},
+
+			/**
+			 * Select this item (for bulk actions)
+			 */
+			select : function ()
+			{
+				this.selected = true;
+				this.$('.js-select-input').prop('checked', true);
+				this.trigger('select');
+			},
+
+			/**
+			 * Unselect this item (for bulk actions)
+			 */
+			unselect : function ()
+			{
+				this.selected = false;
+				this.$('.js-select-input').prop('checked', false);
+				this.trigger('unselect');
+			},
+
+			/**
+			 * Updated 'selected' value from DOM
+			 */
+			updatedSelected : function (e)
+			{
+				var $el = this.$(e.currentTarget);
+				this.selected = $el.is(':checked');
+				this.trigger(this.selected ? 'select' : 'unselect');
 			},
 		});
 	});

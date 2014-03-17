@@ -83,13 +83,13 @@ module.exports = function(grunt) {
 			sass :
 			{
 				files : ['media/scss/**/*.scss'],
-				tasks : ['compass']
+				tasks : ['compass:dev']
 			}
 		}
 	});
 
 	require('load-grunt-tasks')(grunt);
-	
+
 	grunt.registerTask('test', ['jshint']);
 	grunt.registerTask('build', ['requirejs', 'imagemin', 'compass']);
 	grunt.registerTask('default', ['jshint', 'requirejs', 'compass']);

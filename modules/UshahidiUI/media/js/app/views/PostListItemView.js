@@ -17,9 +17,9 @@ define(['handlebars', 'underscore', 'views/PostItemView', 'text!templates/PostLi
 			className: 'list-view-post',
 			// Value to track if checkbox for this post has been selected
 			selected : false,
-			events : {
-				'change .js-select-post-input' : 'updatedSelected',
-			},
+			events : _.extend(PostItemView.prototype.events, {
+				'change .js-select-post-input' : 'updatedSelected'
+			}),
 			/**
 			 * Select this post (for bulk actions)
 			 */

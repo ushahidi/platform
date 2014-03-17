@@ -53,11 +53,7 @@ define(['backbone', 'App'],
 					role: {
 						type: 'Select',
 						title: 'Role',
-						options: {
-							admin: 'Admin',
-							user: 'User',
-							guest: 'Guest'
-						}
+						options : App.Collections.Roles
 					}
 				};
 

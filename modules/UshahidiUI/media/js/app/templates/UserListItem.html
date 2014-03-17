@@ -1,93 +1,68 @@
-<div class="list-view-select-post  js-list-view-select-post">
-	<form>
-		<label class="visually-hidden" for="select-post">Select User</label>
-		<input type="checkbox" id="select-post">
-	</form>
-</div> <!-- end .list-view-select-post -->
+<div class="user-list-select-profile">
+	<label class="visually-hidden" for="select-user">Select User</label>
+	<input type="checkbox" name="select-user" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
+</div> <!-- end .user-list-select-profile -->
 
 <div class="row">
 	<article>
-		<div class="list-view-post-details">
+		<div class="user-list-avatar">
+			<img src="//www.gravatar.com/avatar/{{gravatar}}?s=400&amp;d=mm" alt="{{ username }}">
+		</div> <!-- end .user-list-avatar -->
+
+		<div class="user-list-details-wrapper">
 			<div class="row">
-				<h5 class="list-view-post-title">
+				<div class="user-list-details">
+					<h4 class="header">{{ username }}</h4>
+					<div class="row">
+						<div class="details-column-a">
+							<p class="user-list-role"><b>Role: </b>{{ role_name }}</p>
+							<p class="user-list-full-name"><b>Full Name: </b>
+								{{#if first_name}}
+									<span>{{ first_name }}</span> <span>{{ last_name }}</span>
+								{{else}}
+									No full name
+								{{/if}}
+							</p>
+						</div>
 
-					<a href="#user/{{id}}">
-						{{ username }}
-					</a>
-				</h5>
+						<div class="details-column-b">
+							<p class="user-list-last-login"><b>Last Login: </b>
+								{{#if last_login}}
+									{{ datetime-fromNow last_login }}
+								{{else}}
+									Never
+								{{/if}}
+							</p>
+							<p class="user-list-last-attempt"><b>Last Attempt: </b>
+								{{#if last_attempt}}
+									{{ datetime-fromNow last_attempt }}
+								{{else}}
+									Never
+								{{/if}}
+							</p>
+							<p class="user-list-failed-attempt"><b>Failed Attempts: </b>{{ failed_attempts }}</p>
+						</div>
 
-				<div class="list-view-post-time">
-					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
-				</div> <!-- end .list-view-post-time -->
+					</div>
+			</div> <!-- end .user-list-details -->
 			</div> <!-- end .row -->
+		</div> <!-- end .user-list-details-wrapper -->
 
-		</div> <!-- end .list-view-post-details -->
-
-		<div class="list-view-post-admin">
-			<div class="list-view-post-categories-wrapper">
-				<h6>Role</h6>
-				{{ role }}
-			</div> <!-- end .list-view-post-categories-wrapper -->
-
-			<div class="list-view-post-categories-wrapper">
-				<h6>Full name</h6>
-				<div class="list-view-post-categories">
-					{{#if first_name}}
-						<span>{{ first_name }}</span> <span>{{ last_name }}</span>
-					{{else}}
-						No full name
-					{{/if}}
-				</div>
-			</div> <!-- end .list-view-post-categories-wrapper -->
-
-			<div class="list-view-post-categories-wrapper">
-				<h6>Last login</h6>
-				<div class="list-view-post-categories">
-					{{#if last_login}}
-						{{ datetime-fromNow last_login }}
-					{{else}}
-						Never
-					{{/if}}
-				</div>
-			</div> <!-- end .list-view-post-categories-wrapper -->
-
-			<div class="list-view-post-categories-wrapper">
-				<h6>Failed attempts</h6>
-				<div class="list-view-post-categories">
-					{{ failed_attempts }}
-				</div>
-			</div> <!-- end .list-view-post-categories-wrapper -->
-
-			<div class="list-view-post-categories-wrapper">
-				<h6>Last attempt</h6>
-				<div class="list-view-post-categories">
-					{{#if last_attempt}}
-						{{ datetime-fromNow last_attempt }}
-					{{else}}
-						Never
-					{{/if}}
-				</div>
-			</div> <!-- end .list-view-post-categories-wrapper -->
+		<div class="user-list-profile-admin">
 
 			<div class="list-view-post-edit-wrapper">
 				<ul class="list-view-post-edit">
 					{{#if allowed_methods.put}}
-						<li>
-							<a href="#" class="list-view-post-edit-buttons  post-edit  js-user-edit">
-								<i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span>
-							</a>
-						</li>
+						<li><a href="#" class="user-edit-button  js-user-edit" title="edit this user"><i class="fa  fa-edit"></i> edit</a></li>
+					{{/if}}
+					{{#if allowed_methods.changeRole}}
+						<li><a href="#" id="confirm" class="user-change-roles-button js-user-change-role" title="change role"><i class="fa  fa-cogs"></i> change role</a></li>
 					{{/if}}
 					{{#if allowed_methods.delete}}
-						<li>
-							<a href="#" class="list-view-post-edit-buttons  post-delete  js-user-delete">
-								<i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">delete</span>
-							</a>
-						</li>
+						<li><a href="#" class="user-delete-button  js-user-delete" title="delete this post"><i class="fa  fa-trash-o"></i> delete</a></li>
 					{{/if}}
 				</ul> <!-- end .list-view-post-edit -->
-			</div> <!-- end .list-view-post-edit-wrapper -->
-
-		</div> <!-- end .list-view-post-admin -->
+			</div> <!-- end .list-view-post-edit-wrapper-->
+		</div> <!-- end .user-list-profile-admin -->
 	</article>
 </div> <!-- end .row -->

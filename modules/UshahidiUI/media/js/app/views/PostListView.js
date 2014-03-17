@@ -44,12 +44,12 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 				'click .js-page-prev' : 'showPreviousPage',
 				'click .js-page-last' : 'showLastPage',
 				'click .js-page-change' : 'showPage',
-				'change #filter-posts-count' : 'updatePageSize',
-				'change #filter-posts-sort' : 'updatePostsSort',
+				'change .js-filter-count' : 'updatePageSize',
+				'change .js-filter-sort' : 'updateSort',
 				'click .js-post-bulk-publish' : 'bulkPublish',
 				'click .js-post-bulk-unpublish' : 'bulkUnpublish',
 				'click .js-post-bulk-delete' : 'bulkDelete',
-				'change .js-post-select-all' : 'selectAll'
+				'change .js-select-all-input' : 'selectAll'
 			},
 
 			collectionEvents :
@@ -150,6 +150,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 								.done(function()
 								{
 									alertify.success('Post has been deleted');
+									// Trigger a fetch. This is to remove the model from the listing and load another
+									App.Collections.Posts.fetch();
 								})
 								.fail(function ()
 								{
@@ -171,7 +173,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			{
 				//e.preventDefault();
 
-				var $el = this.$('.js-post-select-all-input');
+				var $el = this.$('.js-select-all-input');
 
 				if ($el.is(':checked'))
 				{
@@ -281,7 +283,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			updatePageSize : function (e)
 			{
 				e.preventDefault();
-				var size = parseInt(this.$('#filter-posts-count').val(), 10);
+				var size = parseInt(this.$('.js-filter-count').val(), 10);
 				if (typeof size === 'number' && size > 0)
 				{
 					this.collection.setPageSize(size, {
@@ -289,10 +291,10 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 					});
 				}
 			},
-			updatePostsSort : function (e)
+			updateSort : function (e)
 			{
 				e.preventDefault();
-				var orderby = this.$('#filter-posts-sort').val();
+				var orderby = this.$('.js-filter-sort').val();
 				this.collection.setSorting(orderby);
 				this.collection.getFirstPage();
 			}

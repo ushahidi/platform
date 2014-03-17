@@ -31,6 +31,14 @@ users:
     last_name:
     email:
     role: "admin"
+  -
+    id: 5
+    username: "demo"
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    first_name:
+    last_name:
+    email:
+    role: "admin"
 forms:
   -
     id: 1
