@@ -16,8 +16,7 @@
 
 .role-filter {
 	@include grid-column(12);
-	background-color: $white;
-	border-bottom: 1px solid $secondary-color;
+  background-color: $white;
 }
 
 .role-filter-categories {
@@ -51,9 +50,13 @@
 		line-height: 2.4em;
 		text-align: center;
     &.active {
+      background-color: darken($secondary-color, 2);
       color: $body-font-color;
       font-weight: bold;
-      background-color: darken($secondary-color, 2);
+      border-bottom: 3px solid $primary-color;
+    }
+    &:hover:not(.active) {
+      border-bottom: 3px solid $primary-color;
     }
 		@media #{$small} {
       padding: 0px;
