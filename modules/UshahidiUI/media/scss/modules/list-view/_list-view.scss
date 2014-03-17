@@ -34,7 +34,6 @@
 	}
 	img {
 		margin: 10px 0 10px 0;
-		@include thumb;
 	}
 }
 
@@ -52,10 +51,11 @@
 	}
 }
 
-.list-view-title {
+.list-view-header {
 	@include grid-column(12);
 	@media #{$small} {
 		@include grid-column(8);
+		padding-left: 0.4em;
 	}
 }
 
@@ -85,6 +85,9 @@
 	@media #{$small} {
 		@include grid-column(10, $offset: 2);
 		margin-left: 0;
+	}
+	@media #{$large} {
+			@include grid-column(10);
 	}
 }
 
