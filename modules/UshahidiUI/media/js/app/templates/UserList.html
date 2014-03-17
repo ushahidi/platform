@@ -96,11 +96,18 @@
 					<li> <a href="#">Category</a> </li>
 				</ul>
 			</div>
-			<div class="role-filter-search">
-				<form class="role-filter-search-form">
-					<input tabindex="1" id="autocomplete" type="search" placeholder="Search Users" autocomplete="off">
-				</form>
-			</div>
+			<div class="search-field-wrapper  search-field-wrapper--role-filter">
+				<div class="search-field">
+					<label class="visually-hidden" for="search-field">Search</label>
+					<input tabindex="1" id="autocomplete" aria-labelledby="search-label" type="search" id="q" class="search-field" placeholder="Keyword" value="" autocomplete="off">
+					<a href="" class="search-close">×</a>
+				</div> <!-- end .search-field -->
+
+				<div class="search-bar-button">
+					<button type="submit" class=""><i class="fa  fa-search"></i></button>
+<!-- 					<button type="submit" class="show-for-small"><i class="fa  fa-search"></i>SEARCH</button> -->
+				</div> <!-- end .search-bar-button -->
+			</div> <!-- end .search-field-wrapper -->
 		</div> <!-- end .row -->
 	</div> <!-- end .role-filter -->
 
@@ -110,7 +117,6 @@
 		</ul>
 
 	</div> <!-- end .list-view-wrapper -->
-
 </div> <!-- end .row -->
 
 <div class="pagination-wrapper">
