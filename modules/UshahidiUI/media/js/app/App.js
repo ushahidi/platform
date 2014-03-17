@@ -19,7 +19,7 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 
 		// Quick helper to determine whether or not oauth is logged in
 		App.loggedin = function() {
-			return OAuth.provider.providerID === 'ushahidi_implicit'
+			return OAuth.provider.providerID === 'ushahidi_implicit';
 		};
 
 		//Organize Application into regions corresponding to DOM elements
