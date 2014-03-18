@@ -11531,7 +11531,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$SEARCH FORM FIELDS
 \*------------------------------------*/
-/* line 36, ../../scss/modules/map/_search.scss */
+/* line 37, ../../scss/modules/map/_search.scss */
 .search-field-wrapper {
   position: relative;
   padding-left: 0;
@@ -11539,43 +11539,95 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 1024px) {
-  /* line 36, ../../scss/modules/map/_search.scss */
-  .search-field-wrapper {
+
+/* line 41, ../../scss/modules/map/_search.scss */
+.search-field-wrapper--home {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  float: none !important;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 41, ../../scss/modules/map/_search.scss */
+  .search-field-wrapper--home {
     position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 100%;
-    left: 66.66667%;
-    right: auto;
-    float: left;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: right;
+    border-top: none;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  /* line 41, ../../scss/modules/map/_search.scss */
+  .search-field-wrapper--home {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: right;
   }
 }
 
-/* line 43, ../../scss/modules/map/_search.scss */
+/* line 52, ../../scss/modules/map/_search.scss */
 .search-field {
   position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  width: 83.33333%;
   float: left;
   /*	@media only screen and (min-width: 421px) {
   		@include grid-column(6);
   	}*/
 }
 @media only screen and (min-width: 768px) {
-  /* line 43, ../../scss/modules/map/_search.scss */
+  /* line 52, ../../scss/modules/map/_search.scss */
   .search-field {
     position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
+    padding-left: 0;
+    padding-right: 0;
+    width: 75%;
     float: left;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 43, ../../scss/modules/map/_search.scss */
+  /* line 52, ../../scss/modules/map/_search.scss */
   .search-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 75%;
+    float: left;
+  }
+}
+
+/* line 65, ../../scss/modules/map/_search.scss */
+.search-bar .search-field input[type="text"] {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  -ms-border-radius: 3px 0 0 3px;
+  -o-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+/* line 72, ../../scss/modules/map/_search.scss */
+.search-bar-button {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 16.66667%;
+  float: left;
+  /*	@media only screen and (min-width: 768px) {
+  		@include grid-column(12)
+  	}*/
+}
+@media only screen and (min-width: 768px) {
+  /* line 72, ../../scss/modules/map/_search.scss */
+  .search-bar-button {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -11583,254 +11635,17 @@ nav[role="sub-navigation"] li a {
     float: left;
   }
 }
-
 @media only screen and (min-width: 1024px) {
-  /* line 56, ../../scss/modules/map/_search.scss */
-  .search-bar .search-field input[type="text"] {
-    -webkit-border-radius: 3px 0 0 3px;
-    -moz-border-radius: 3px 0 0 3px;
-    -ms-border-radius: 3px 0 0 3px;
-    -o-border-radius: 3px 0 0 3px;
-    border-radius: 3px 0 0 3px;
-  }
-}
-
-/* line 62, ../../scss/modules/map/_search.scss */
-.location-field {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 421px) {
-  /* line 62, ../../scss/modules/map/_search.scss */
-  .location-field {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 768px) {
-  /* line 62, ../../scss/modules/map/_search.scss */
-  .location-field {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 62, ../../scss/modules/map/_search.scss */
-  .location-field {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
-  }
-}
-
-/* line 75, ../../scss/modules/map/_search.scss */
-.categories-select {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 421px) {
-  /* line 75, ../../scss/modules/map/_search.scss */
-  .categories-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-/* line 80, ../../scss/modules/map/_search.scss */
-.categories-select select {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 75, ../../scss/modules/map/_search.scss */
-  .categories-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 75, ../../scss/modules/map/_search.scss */
-  .categories-select {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
-  }
-  /* line 88, ../../scss/modules/map/_search.scss */
-  .categories-select select {
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
-    border-radius: 0px;
-  }
-}
-
-/* line 94, ../../scss/modules/map/_search.scss */
-.sets-select {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 421px) {
-  /* line 94, ../../scss/modules/map/_search.scss */
-  .sets-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-/* line 99, ../../scss/modules/map/_search.scss */
-.sets-select select {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 94, ../../scss/modules/map/_search.scss */
-  .sets-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 94, ../../scss/modules/map/_search.scss */
-  .sets-select {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
-  }
-  /* line 107, ../../scss/modules/map/_search.scss */
-  .sets-select select {
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
-    border-radius: 0px;
-  }
-}
-
-/* line 113, ../../scss/modules/map/_search.scss */
-.time-select {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 421px) {
-  /* line 113, ../../scss/modules/map/_search.scss */
-  .time-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-/* line 118, ../../scss/modules/map/_search.scss */
-.time-select select {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 113, ../../scss/modules/map/_search.scss */
-  .time-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 113, ../../scss/modules/map/_search.scss */
-  .time-select {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
-  }
-  /* line 126, ../../scss/modules/map/_search.scss */
-  .time-select select {
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
-    border-radius: 0px;
-  }
-}
-
-/* line 132, ../../scss/modules/map/_search.scss */
-.search-bar-button {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  /*	@media only screen and (min-width: 768px) {
-  		@include grid-column(12)
-  	}*/
-}
-@media only screen and (min-width: 768px) {
-  /* line 132, ../../scss/modules/map/_search.scss */
-  .search-bar-button {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 132, ../../scss/modules/map/_search.scss */
+  /* line 72, ../../scss/modules/map/_search.scss */
   .search-bar-button {
     position: relative;
     padding-left: 0;
     padding-right: 0;
-    width: 8.33333%;
+    width: 25%;
     float: left;
   }
 }
-/* line 143, ../../scss/modules/map/_search.scss */
+/* line 83, ../../scss/modules/map/_search.scss */
 .search-bar-button button {
   border-style: solid;
   border-width: 1px;
@@ -11882,8 +11697,8 @@ nav[role="sub-navigation"] li a {
   height: 2.9em;
   font-size: 0.875em;
   border-width: 0;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+  -webkit-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
 }
 /* line 122, ../../scss/foundation/components/_buttons.scss */
 .search-bar-button button:hover, .search-bar-button button:focus {
@@ -11893,16 +11708,214 @@ nav[role="sub-navigation"] li a {
 .search-bar-button button:hover, .search-bar-button button:focus {
   color: white;
 }
-@media only screen and (min-width: 1024px) {
-  /* line 143, ../../scss/modules/map/_search.scss */
-  .search-bar-button button {
-    -webkit-border-radius: 0 3px 3px 0;
-    border-radius: 0 3px 3px 0;
-  }
-}
-/* line 154, ../../scss/modules/map/_search.scss */
+/* line 94, ../../scss/modules/map/_search.scss */
 .search-bar-button button i {
   font-size: 1.2em;
+  padding: 0;
+}
+
+/* line 101, ../../scss/modules/map/_search.scss */
+.location-field {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 101, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 101, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 101, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+}
+
+/* line 114, ../../scss/modules/map/_search.scss */
+.categories-select {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 114, ../../scss/modules/map/_search.scss */
+  .categories-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 119, ../../scss/modules/map/_search.scss */
+.categories-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 114, ../../scss/modules/map/_search.scss */
+  .categories-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 114, ../../scss/modules/map/_search.scss */
+  .categories-select {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+  /* line 127, ../../scss/modules/map/_search.scss */
+  .categories-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
+}
+
+/* line 133, ../../scss/modules/map/_search.scss */
+.sets-select {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 133, ../../scss/modules/map/_search.scss */
+  .sets-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 138, ../../scss/modules/map/_search.scss */
+.sets-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 133, ../../scss/modules/map/_search.scss */
+  .sets-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 133, ../../scss/modules/map/_search.scss */
+  .sets-select {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+  /* line 146, ../../scss/modules/map/_search.scss */
+  .sets-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
+}
+
+/* line 152, ../../scss/modules/map/_search.scss */
+.time-select {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 152, ../../scss/modules/map/_search.scss */
+  .time-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 157, ../../scss/modules/map/_search.scss */
+.time-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 152, ../../scss/modules/map/_search.scss */
+  .time-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 152, ../../scss/modules/map/_search.scss */
+  .time-select {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+  /* line 165, ../../scss/modules/map/_search.scss */
+  .time-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
 }
 
 /*HOME*/
@@ -14474,17 +14487,29 @@ form.custom .custom.dropdown .selector {
   }
 }
 
+/* line 107, ../../scss/modules/forms/_forms.scss */
+.search-close {
+  font-size: 1.375em;
+  padding: 5px 4px 4px;
+  line-height: 0;
+  position: absolute;
+  top: .65em;
+  right: 0.4em;
+  color: #5a5757;
+  opacity: 0.3;
+}
+
 /*------------------------------------*\
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 114, ../../scss/modules/forms/_forms.scss */
+  /* line 125, ../../scss/modules/forms/_forms.scss */
   .list-view-filter form.custom, .set-detail-post-list-filter form.custom {
     margin-bottom: 0;
   }
 }
 
-/* line 120, ../../scss/modules/forms/_forms.scss */
+/* line 131, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em;
 }
@@ -14492,20 +14517,20 @@ form.custom .custom.dropdown .current {
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 131, ../../scss/modules/forms/_forms.scss */
+/* line 142, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc;
 }
 
-/* line 136, ../../scss/modules/forms/_forms.scss */
+/* line 147, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f;
 }
 
-/* line 142, ../../scss/modules/forms/_forms.scss */
+/* line 153, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px;
