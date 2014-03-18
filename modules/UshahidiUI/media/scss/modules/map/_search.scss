@@ -39,13 +39,10 @@
 }
 
 .search-field-wrapper--home {
-	@extend %search-field-wrapper;
+	@include grid-column(12, $collapse: true,  $center: true);
 	@media #{$small} {
 		@include grid-column(6, $float: right);
 		border-top: none;
-	}
-	@media #{$medium} {
-		@include grid-column(3, $float: right);
 	}
 	@media #{$medium-up} {
 		@include grid-column(4, $float: right);
