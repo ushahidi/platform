@@ -33,31 +33,70 @@
 		$SEARCH FORM FIELDS
 \*------------------------------------*/
 
+%search-field-wrapper,
 .search-field-wrapper {
 	@include grid-column(12, $collapse: true);
-	@media #{$medium} {
-		@include grid-column(12, $collapse: true, $push: 8);
+}
+
+.search-field-wrapper--home {
+	@include grid-column(12, $collapse: true,  $center: true);
+	@media #{$small} {
+		@include grid-column(6, $float: right);
+		border-top: none;
+	}
+	@media #{$medium-up} {
+		@include grid-column(4, $float: right);
 	}
 }
 
 .search-field {
-	@include grid-column(12);
+	@include grid-column(10, $collapse: true);
 /*	@media #{$mobile-up} {
 		@include grid-column(6);
 	}*/
 	@media #{$small} {
-		@include grid-column(6);
+		@include grid-column(9, $collapse: true);
 	}
 	@media #{$medium} {
-		@include grid-column(3, $collapse: true);
+		@include grid-column(9, $collapse: true);
 	}
 }
 
 .search-bar .search-field input[type="text"] {
+	@include border-radius($global-radius 0 0 $global-radius);
+	// @media #{$small} {
+	// 		@include border-radius($global-radius 0 0 $global-radius);
+	// 	}
+	}
+
+.search-bar-button {
+	@include grid-column(2, $collapse: true);
+/*	@media #{$small} {
+		@include grid-column(12)
+	}*/
+	@media #{$small} {
+		@include grid-column(3, $collapse: true)
+	}
 	@media #{$medium} {
-			@include border-radius($global-radius 0 0 $global-radius);
+		@include grid-column(3, $collapse: true);
+	}
+	button {
+		@include button($bg: $success-color, $full-width: true);
+		@include prefix-postfix-base;
+		@include postfix($bg: $success-color, $is-button: true);
+		height: 2.9em;
+		font-size: 0.875em;
+		border-width: 0;
+		@include radius (0 $global-radius $global-radius 0);
+		// @media #{$small} {
+		// 	@include radius (0 $global-radius $global-radius 0);
+		// }
+		i {
+			font-size: 1.2em;
+			padding: 0;
 		}
 	}
+}
 
 .location-field {
 	@include grid-column(12);
@@ -125,34 +164,6 @@
 		@include grid-column(2, $collapse: true);
 		select {
 			@include border-radius(0px);
-		}
-	}
-}
-
-.search-bar-button {
-	@include grid-column(12);
-/*	@media #{$small} {
-		@include grid-column(12)
-	}*/
-	@media #{$small} {
-		@include grid-column(6)
-	}
-	@media #{$medium} {
-		@include grid-column(1, $collapse: true);
-	}
-	button {
-		@include button($bg: $success-color, $full-width: true);
-		@include prefix-postfix-base;
-		@include postfix($bg: $success-color, $is-button: true);
-		height: 2.9em;
-		font-size: 0.875em;
-		border-width: 0;
-		@include radius ($global-radius);
-		@media #{$medium} {
-			@include radius (0 $global-radius $global-radius 0);
-		}
-		i {
-			font-size: 1.2em;
 		}
 	}
 }
