@@ -1,0 +1,4 @@
+{
+  "phabricator.uri" : "https://phabricator.ushahidi.com/",
+  "lint.engine" : "jshint"
+}
