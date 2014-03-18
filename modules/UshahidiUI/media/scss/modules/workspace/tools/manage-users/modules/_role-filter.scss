@@ -49,31 +49,41 @@
     color: $sub-body-font-color;
 		line-height: 2.4em;
 		text-align: center;
-    &.active {
-      background-color: darken($secondary-color, 2);
-      color: $body-font-color;
-      font-weight: bold;
-      border-bottom: 3px solid $primary-color;
-    }
-    &:hover:not(.active) {
-      border-bottom: 3px solid $primary-color;
-    }
-		@media #{$small} {
+    @media #{$small} {
       padding: 0px;
-		}
-		.hide-for-small {
-			display: none !important;
-			@media #{$small} {
-				display: inline-block !important;
-			}
-		}
-		.count-number {
-			position: relative;
-			top: 4px;
-			font-size: emCalc(11);
-			letter-spacing: .15em;
-		}
+    }
 	}
+}
+
+.role-filter-categories-list li {
+  &.active {
+    background-color: darken($secondary-color, 2);
+    color: $body-font-color;
+    font-weight: bold;
+    border-bottom: 3px solid $primary-color;
+  }
+  &:hover:not(.active) {
+    background-color: darken($secondary-color, 2);
+    border-bottom: 3px solid $primary-color;
+  }
+  &:active:not(.active) {
+    background-color: darken($secondary-color, 6);
+  }
+}
+
+.role-filter-categories-list {
+  .hide-for-small {
+    display: none !important;
+    @media #{$small} {
+      display: inline-block !important;
+    }
+  }
+  .count-number {
+    position: relative;
+    top: 4px;
+    font-size: emCalc(11);
+    letter-spacing: .15em;
+  }
   a {
     display: block;
     padding: 20px 0px;
