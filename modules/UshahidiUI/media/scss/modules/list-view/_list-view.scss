@@ -91,6 +91,7 @@
 	}
 }
 
+%list-view-admin,
 .list-view-admin {
 	@include grid-column(12);
 	margin: 10px 0 20px 0;
@@ -137,7 +138,7 @@
 	@include grid-column(12, $collapse: true);
 	margin-top: 20px;
 	@media #{$small} {
-		@include grid-column(6, $collapse: true);
+		@include grid-column(12, $collapse: true);
 		float: right;
 		margin-top: 0;
 	}

@@ -15,6 +15,7 @@
 		$LIST VIEW WRAPPER
 \*------------------------------------*/
 
+%list-view-wrapper,
 .list-view-wrapper {
 	@include grid-column(12);
 @include box-shadow(0px 2px 4px -1px rgba(lighten($darkGray, 30), 0.5));
@@ -32,7 +33,7 @@
 // FILTER
 %list-view-filter {
 	@include grid-column(12);
-	padding: 20px 15px;
+	padding: 20px;
 }
 
 // FILTER INFO

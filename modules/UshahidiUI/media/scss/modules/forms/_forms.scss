@@ -17,6 +17,11 @@
  	$GENERAL
  \*------------------------------------*/
 
+form .row .row {
+/* margin: 0 -0.5em; */
+	@include grid-row($behavior: nest);
+}
+
 input[type="radio"], select {
 	margin: 0 3px 1em 0;
 }

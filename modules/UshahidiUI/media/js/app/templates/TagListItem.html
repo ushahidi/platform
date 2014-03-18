@@ -19,27 +19,27 @@
 			</div> <!-- end .list-view-description -->
 		</div> <!-- end .list-view-details -->
 
-		<div class="list-view-admin">
+		<div class="list-view-admin  list-view-admin--tag">
 			<div class="list-view-edit-wrapper">
 				<ul class="list-view-edit">
 					{{#if allowed_methods.put}}
 						<li>
 							<a href="#" class="list-view-edit-buttons  js-tag-select">
-								<i class="fa  fa-check-square-o"></i> <span class="hide-for-medium-down">select</span>
+								<i class="fa  fa-check-square-o"></i> <span class="">select</span>
 							</a>
 						</li>
 					{{/if}}
 					{{#if allowed_methods.put}}
 						<li>
 							<a href="#" class="list-view-edit-buttons  js-tag-edit">
-								<i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span>
+								<i class="fa  fa-edit"></i> <span class="">edit</span>
 							</a>
 						</li>
 					{{/if}}
 					{{#if allowed_methods.delete}}
 						<li>
 							<a href="#" class="list-view-edit-buttons  js-tag-delete">
-								<i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">delete</span>
+								<i class="fa  fa-trash-o"></i> <span class="">delete</span>
 							</a>
 						</li>
 					{{/if}}

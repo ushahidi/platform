@@ -12,7 +12,19 @@
     $TAG LIST
 \*------------------------------------*/
 
+.tag-grid {
+	@include block-grid(1);
+  @media #{$small} {
+    @include block-grid(2);
+  }
+}
+
+.list-view-wrapper--tag {
+  @extend %list-view-wrapper;
+}
+
 .list-view-tag-list {
+  @include grid-column(12);
   margin-left: 0;
 }
 
