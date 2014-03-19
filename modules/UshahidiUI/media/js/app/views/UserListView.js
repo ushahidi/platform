@@ -304,20 +304,20 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				e.preventDefault();
 
 				var $el = this.$(e.currentTarget),
-					role;
-
-				role = $el.attr('data-role-name');
+					role = $el.attr('data-role-name');
 
 				App.Collections.Users.setFilterParams({
 					role : role
 				});
 
-				this.$('.user-list-categories-list li')
-					.removeClass('active')
-					.find('span').addClass('visually-hidden');
-				this.$('.user-list-categories-list li[data-role-name="'+role+'"]')
-					.addClass('active')
-					.find('span').removeClass('visually-hidden');
+				$el.closest('.role-filter-categories-list')
+					.find('li')
+						.removeClass('active')
+						.find('.role-title > span').addClass('visually-hidden')
+						.end()
+					.filter('li[data-role-name="' + role + '"]')
+						.addClass('active')
+						.find('.role-title > span').removeClass('visually-hidden');
 			}
 		});
 	});
