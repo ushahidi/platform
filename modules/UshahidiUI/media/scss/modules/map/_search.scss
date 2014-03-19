@@ -41,14 +41,11 @@
 .search-field-wrapper--home {
 	@extend %search-field-wrapper;
 	@media #{$small} {
-		@include grid-column(6, $float: right);
+		@include grid-column(6, $float: right, $center: true);
 		border-top: none;
 	}
-	@media #{$medium} {
-		@include grid-column(3, $float: right);
-	}
 	@media #{$medium-up} {
-		@include grid-column(4, $float: right);
+		@include grid-column(4, $float: right, $center: true);
 	}
 }
 
