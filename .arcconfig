@@ -1,5 +1,4 @@
 {
   "phabricator.uri" : "https://phabricator.ushahidi.com/",
-  "repository.callsign" : "USH",
-  "lint.engine" : "jshint"
+  "repository.callsign" : "USH"
 }
