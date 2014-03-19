@@ -1,0 +1,81 @@
+/*------------------------------------*\
+    CONTENTS
+\*------------------------------------*/
+/**
+ * ACTIONS BAR............action bar styles
+ */
+
+
+
+
+/*------------------------------------*\
+    $ACTIONS BAR
+\*------------------------------------*/
+
+%actions-bar,
+.actions-bar {
+  @include grid-column(12);
+  background-color: $accent-color;
+  @media #{$small} {
+    margin: 20px 0 0 0;
+  }
+  @media #{$large-up} {
+    margin: 40px 0 0 0;
+  }
+}
+
+%actions-bar-header,
+.actions-bar-header {
+  @include grid-column(6, $collapse: true);
+  @media #{$small} {
+    @include grid-column(2, $collapse: true);
+  }
+  h3 {
+    color: $white;
+    margin-top: 10px;
+  }
+}
+
+%actions-bar-admin,
+.actions-bar-admin {
+  @include grid-column(6, $collapse: true);
+  @media #{$small} {
+    @include grid-column(10, $collapse: true);
+  }
+  .dropdown-list {
+    @include dropdown-container($content: list, $triangle: true);
+    li { @include dropdown-style; }
+  }
+  .dropdown-button {
+    @include button($padding: $button-tny, $bg: $secondary-color, $radius: true);
+    @include dropdown-button($padding: tiny);
+    float: right;
+    margin: 12px 0 0 0;
+    &:before {
+      border-color: $black transparent transparent transparent;
+    }
+    &.show-for-small {
+      display: inline-block !important;
+      @media #{$small} {
+	display: none !important;
+      }
+    }
+  }
+  ul {
+    margin-top: 20px;
+    float: right;
+    li {
+      display: inline;
+      float: left;
+      padding-left: 60px;
+      color: $white;
+      font-size: emCalc(14);
+      a {
+	color: $white;
+      }
+      [class*="fa-"] {
+	padding-right: 10px;
+      }
+    }
+  }
+}

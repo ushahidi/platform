@@ -4,7 +4,7 @@
 /**
 	* LIST VIEW WRAPPER..................wrapper around all posts in list view
 	* LIST VIEW FILTER BAR..................list view filter bar styles
-			* --posts
+			* --post
 			* --user
 */
 
@@ -15,9 +15,10 @@
 		$LIST VIEW WRAPPER
 \*------------------------------------*/
 
+%list-view-wrapper,
 .list-view-wrapper {
 	@include grid-column(12);
-	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
+	@include box-shadow(0px 2px 4px -1px rgba(lighten($darkGray, 30), 0.5));
 	background-color: $white;
 	color: $sub-body-font-color;
 	padding-top: 20px;
@@ -32,19 +33,7 @@
 // FILTER
 %list-view-filter {
 	@include grid-column(12);
-	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
-	padding: 20px 15px;
-}
-
-.list-view-filter--post {
-	@extend %list-view-filter;
-	background: $accent-color;
-	margin: 20px 0;
-}
-.list-view-filter--user {
-	@extend %list-view-filter;
-	background: lighten($accent-color, 25);
-	margin: 0 0 20px 0;
+	padding: 20px;
 }
 
 // FILTER INFO
@@ -74,21 +63,6 @@
 	}
 }
 
-.list-view-filter-info--post {
-	@extend %list-view-filter-info;
-	border-bottom: 1px solid darken($accent-color, 10);
-	@media #{$medium} {
-		border-bottom: 0;
-	}
-}
-.list-view-filter-info--user {
-	@extend %list-view-filter-info;
-	border-bottom: 1px solid lighten($accent-color, 10);
-	@media #{$medium} {
-		border-bottom: 0;
-	}
-}
-
 // FILTER COUNT
 %list-view-filter-count {
 	@include grid-column(12);
@@ -108,21 +82,8 @@
 	}
 }
 
-.list-view-filter-count--post {
-	@extend %list-view-filter-count;
-	@media #{$small} {
-		border-right: 1px solid darken($accent-color, 10);
-	}
-}
-.list-view-filter-count--user {
-	@extend %list-view-filter-count;
-	@media #{$small} {
-		border-right: 1px solid lighten($accent-color, 10);
-	}
-}
-
 // SORT
-.list-view-filter-sort {
+%list-view-filter-sort {
 	@include grid-column(12);
 	@media #{$mobile-up} {
 		@include grid-column(6);

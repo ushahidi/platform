@@ -43,16 +43,16 @@
 }
 
 .set-detail-post {
-	@extend .list-view-post;
+	@extend %list-view;
 	margin-bottom: 5px;
 }
 
 .set-detail-post-admin {
-	@extend .list-view-post-admin;
+	@extend .list-view-admin;
 }
 
 .set-detail-post-list-categories-wrapper {
-	@extend .list-view-post-categories-wrapper;
+	@extend .list-view-categories-wrapper;
 	padding-top: 5px;
 	margin-bottom: 20px;
 	@media #{$small} {
@@ -64,15 +64,15 @@
 }
 
 .set-detail-post-edit-wrapper {
-	@extend .list-view-post-edit-wrapper;
+	@extend .list-view-edit-wrapper;
 	@media #{$small} {
 		@include grid-column(12, $collapse: true);
-		.list-view-post-edit {
+		.list-view-edit {
 			float: left;
 		}
 		@media #{$medium} {
 			@include grid-column(6, $collapse: true);
-			.list-view-post-edit {
+			.list-view-edit {
 				float: right;
 			}
 		}

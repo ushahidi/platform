@@ -4,19 +4,23 @@
 /**
  * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
- * SEARCH BAR...............search bar styling
- * LIST VIEW FILTER...............list view filter styling
- * PSEUDO ELEMENTS...............pseudo element styling
+ * SEARCH BAR...............search bar styles
+ * LIST VIEW FILTER...............list view filter styles
+ * PSEUDO ELEMENTS...............pseudo element styles
+ * FIELDSETS...............form fieldset styles
  */
 
 
 
 
-
-
- /*------------------------------------*\
+/*------------------------------------*\
  	$GENERAL
  \*------------------------------------*/
+
+form .row .row {
+/* margin: 0 -0.5em; */
+	@include grid-row($behavior: nest);
+}
 
 input[type="radio"], select {
 	margin: 0 3px 1em 0;
@@ -104,17 +108,6 @@ form.custom .custom.dropdown {
 	}
 }
 
-.search-close {
-	font-size: 1.375em;
-	padding: 5px 4px 4px;
-	line-height: 0;
-	position: absolute;
-	top: .65em;
-	right: 0.4em;
-	color: darken($sub-body-font-color, 25);
-	opacity: 0.3;
-}
-
 
 
 
@@ -153,4 +146,14 @@ form.custom .custom.dropdown ul li.selected:hover {
 form.custom .custom.checkbox.checked:before {
 	margin-top: 5px;
 	font-size: 20px;
+}
+
+/*------------------------------------*\
+	$FIELDSETS
+\*------------------------------------*/
+
+fieldset {
+	border: none;
+	padding: 0;
+	margin: 0;
 }

@@ -10057,6 +10057,1077 @@ nav[role="sub-navigation"] li a {
   }
 }
 
+/*LIST VIEW*/
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+	* LIST VIEW WRAPPER..................wrapper around all posts in list view
+	* LIST VIEW FILTER BAR..................list view filter bar styles
+			* --post
+			* --user
+*/
+/*------------------------------------*\
+		$LIST VIEW WRAPPER
+\*------------------------------------*/
+/* line 19, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-wrapper--tag,
+.list-view-wrapper {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  -webkit-box-shadow: 0px 2px 4px -1px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 2px 4px -1px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 2px 4px -1px rgba(108, 108, 108, 0.5);
+  background-color: #fcfcfc;
+  color: #9a9797;
+  padding-top: 20px;
+}
+
+/*------------------------------------*\
+		$LIST VIEW FILTER BAR
+\*------------------------------------*/
+/* line 34, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-filter--user, .list-view-filter--tags, .list-view-filter--post {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  padding: 20px;
+}
+
+/* line 40, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-filter-info--user, .list-view-filter-info--tags, .list-view-filter-info--post {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+/* line 44, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-filter-info--user h5, .list-view-filter-info--tags h5, .list-view-filter-info--post h5 {
+  font-size: 1em;
+  letter-spacing: .1em;
+  color: #fcfcfc;
+  padding: 0;
+  margin: 0 0 8px 0;
+}
+@media only screen and (min-width: 1024px) {
+  /* line 44, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-info--user h5, .list-view-filter-info--tags h5, .list-view-filter-info--post h5 {
+    padding: 8px 0 0 0;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 40, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-info--user, .list-view-filter-info--tags, .list-view-filter-info--post {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  /* line 40, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-info--user, .list-view-filter-info--tags, .list-view-filter-info--post {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 66.66667%;
+    float: left;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* line 67, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-filter-count--user, .list-view-filter-count--tags, .list-view-filter-count--post {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 67, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-count--user, .list-view-filter-count--tags, .list-view-filter-count--post {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 67, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-count--user, .list-view-filter-count--tags, .list-view-filter-count--post {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 25%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  /* line 67, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-count--user, .list-view-filter-count--tags, .list-view-filter-count--post {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 16.66667%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 421px) {
+  /* line 78, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-count--user .filter-count, .list-view-filter-count--tags .filter-count, .list-view-filter-count--post .filter-count {
+    margin-bottom: 0;
+  }
+}
+
+/* line 86, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-filter-sort--user, .list-view-filter-sort--tags, .list-view-filter-sort--post {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 86, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-sort--user, .list-view-filter-sort--tags, .list-view-filter-sort--post {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 86, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-sort--user, .list-view-filter-sort--tags, .list-view-filter-sort--post {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 25%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  /* line 86, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-sort--user, .list-view-filter-sort--tags, .list-view-filter-sort--post {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 16.66667%;
+    float: left;
+  }
+}
+/* line 97, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-filter-sort--user .filter-sort, .list-view-filter-sort--tags .filter-sort, .list-view-filter-sort--post .filter-sort {
+  margin-bottom: 0;
+}
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * LIST VIEW POST...............individual posts within the LIST VIEW
+ */
+/*-------------------------------------------------------------------*\
+		$LIST VIEW POST
+\*-------------------------------------------------------------------*/
+/* line 15, ../../scss/modules/list-view/_list-view.scss */
+.set-detail-post {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  border-bottom: 1px solid #eff0f3;
+  margin-bottom: 20px;
+}
+/* line 19, ../../scss/modules/list-view/_list-view.scss */
+.set-detail-post:last-child {
+  border-bottom: 0;
+}
+
+/* line 25, ../../scss/modules/list-view/_list-view.scss */
+.list-view-image--user,
+.list-view-image {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 33.33333%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 25, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-image--user,
+  .list-view-image {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 16.66667%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  /* line 25, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-image--user,
+  .list-view-image {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 8.33333%;
+    float: left;
+    width: 12.33333%;
+  }
+}
+/* line 35, ../../scss/modules/list-view/_list-view.scss */
+.list-view-image--user img,
+.list-view-image img {
+  margin: 10px 0 10px 0;
+}
+
+/* line 41, ../../scss/modules/list-view/_list-view.scss */
+.list-view-details--user, .list-view-details--post,
+.list-view-details {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 66.66667%;
+  float: left;
+  margin-top: 5px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 41, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-details--user, .list-view-details--post,
+  .list-view-details {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 83.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  /* line 41, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-details--user, .list-view-details--post,
+  .list-view-details {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 91.66667%;
+    float: left;
+    width: 87.66667%;
+  }
+}
+
+/* line 54, ../../scss/modules/list-view/_list-view.scss */
+.list-view-header {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 54, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-header {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 66.66667%;
+    float: left;
+    padding-left: 0.4em;
+  }
+}
+
+/* line 62, ../../scss/modules/list-view/_list-view.scss */
+.list-view-time {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  font-size: 15px;
+}
+/* line 65, ../../scss/modules/list-view/_list-view.scss */
+.list-view-time p {
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 62, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-time {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+  /* line 70, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-time p {
+    float: right;
+  }
+}
+
+/* line 76, ../../scss/modules/list-view/_list-view.scss */
+.list-view-body {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 76, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-body {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 83.33333%;
+    margin-left: 16.66667%;
+    float: left;
+  }
+}
+
+/* line 83, ../../scss/modules/list-view/_list-view.scss */
+.list-view-excerpt {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 83, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-excerpt {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 83.33333%;
+    margin-left: 16.66667%;
+    float: left;
+    margin-left: 0;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  /* line 83, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-excerpt {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 83.33333%;
+    float: left;
+  }
+}
+
+/* line 95, ../../scss/modules/list-view/_list-view.scss */
+.list-view-admin,
+.set-detail-post-admin {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  margin: 10px 0 20px 0;
+}
+
+/* line 100, ../../scss/modules/list-view/_list-view.scss */
+.list-view-categories-wrapper, .set-detail-post-list-categories-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+/* line 102, ../../scss/modules/list-view/_list-view.scss */
+.list-view-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-categories-wrapper .post-form-wrapper label, .post-form-wrapper .list-view-categories-wrapper label, .set-detail-post-list-categories-wrapper .post-form-wrapper label, .post-form-wrapper .set-detail-post-list-categories-wrapper label {
+  margin: 0;
+}
+/* line 105, ../../scss/modules/list-view/_list-view.scss */
+.list-view-categories-wrapper button, .set-detail-post-list-categories-wrapper button {
+  margin-bottom: 0;
+}
+/* line 107, ../../scss/modules/list-view/_list-view.scss */
+.list-view-categories-wrapper button i, .set-detail-post-list-categories-wrapper button i {
+  padding-right: 5px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 100, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-categories-wrapper, .set-detail-post-list-categories-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 50%;
+    float: left;
+  }
+}
+
+/* line 116, ../../scss/modules/list-view/_list-view.scss */
+.list-view-categories {
+  margin: 0;
+}
+/* line 118, ../../scss/modules/list-view/_list-view.scss */
+.list-view-categories a {
+  color: #a3a3a3;
+}
+/* line 121, ../../scss/modules/list-view/_list-view.scss */
+.list-view-categories li {
+  display: inline;
+  font-size: 70%;
+  padding-right: 5px;
+}
+/* line 126, ../../scss/modules/list-view/_list-view.scss */
+.list-view-categories .fa-circle {
+  color: #c50813;
+  padding-right: 5px;
+}
+
+/* line 132, ../../scss/modules/list-view/_list-view.scss */
+.list-view-description {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  font-size: 0.875em;
+}
+
+/* line 137, ../../scss/modules/list-view/_list-view.scss */
+.list-view-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+  margin-top: 20px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 137, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    float: left;
+    float: right;
+    margin-top: 0;
+  }
+}
+
+/* line 147, ../../scss/modules/list-view/_list-view.scss */
+.list-view-edit, .post-actions {
+  margin-left: 0;
+}
+/* line 149, ../../scss/modules/list-view/_list-view.scss */
+.list-view-edit > li, .post-actions > li {
+  display: inline;
+  float: left;
+  padding: 0 20px 0 0;
+}
+/* line 153, ../../scss/modules/list-view/_list-view.scss */
+.list-view-edit > li a, .post-actions > li a {
+  margin-bottom: 0;
+}
+/* line 157, ../../scss/modules/list-view/_list-view.scss */
+.list-view-edit button.expand, .post-actions button.expand, .list-view-edit .button.expand, .post-actions .button.expand {
+  padding-right: 1.125em;
+  padding-left: 1.125em;
+}
+/* line 161, ../../scss/modules/list-view/_list-view.scss */
+.list-view-edit [class^="fa"], .post-actions [class^="fa"], .list-view-edit [class*=" fa"], .post-actions [class*=" fa"] {
+  padding: 0;
+}
+@media only screen and (min-width: 768px) {
+  /* line 147, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-edit, .post-actions {
+    display: block;
+    padding: 0;
+    margin: 0 -0.625em;
+    *zoom: 1;
+    float: right;
+    padding-top: 13px;
+  }
+  /* line 121, ../../scss/foundation/components/_global.scss */
+  .list-view-edit:before, .post-actions:before, .list-view-edit:after, .post-actions:after {
+    content: " ";
+    display: table;
+  }
+  /* line 122, ../../scss/foundation/components/_global.scss */
+  .list-view-edit:after, .post-actions:after {
+    clear: both;
+  }
+  /* line 27, ../../scss/foundation/components/_block-grid.scss */
+  .list-view-edit > li, .post-actions > li {
+    display: inline;
+    height: auto;
+    float: left;
+    padding: 0 0.625em 1.25em;
+  }
+  /* line 168, ../../scss/modules/list-view/_list-view.scss */
+  .list-view-edit li, .post-actions li {
+    padding-bottom: 3px;
+  }
+}
+
+/* line 174, ../../scss/modules/list-view/_list-view.scss */
+.list-view-edit-buttons {
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5625em;
+  padding-right: 1.125em;
+  padding-bottom: 0.625em;
+  padding-left: 1.125em;
+  font-size: 0.8125em;
+  background-color: #eff0f3;
+  border-color: #d2d5dd;
+  color: #333333;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+/* line 122, ../../scss/foundation/components/_buttons.scss */
+.list-view-edit-buttons:hover, .list-view-edit-buttons:focus {
+  background-color: #d2d5dd;
+}
+/* line 128, ../../scss/foundation/components/_buttons.scss */
+.list-view-edit-buttons:hover, .list-view-edit-buttons:focus {
+  color: #333333;
+}
+
+/*MAP*/
+/*------------------------------------*\
+		$MAP...............via Leaflet.js
+
+		NOTE:
+		Works in:
+		Safari 3+
+		Chrome Whatever+
+		IE 9+
+		Opera 10+ (Opera 9.5 supported background-size but not the keywords)
+		Firefox 3.6+ (Firefox 4 supports non-vendor prefixed version)
+
+\*------------------------------------*/
+/* line 18, ../../scss/modules/map/_map.scss */
+.content-wrapper {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  overflow: hidden;
+  height: 100%;
+  padding: 0;
+}
+
+/* line 25, ../../scss/modules/map/_map.scss */
+.map {
+  opacity: 1;
+  width: 100%;
+  height: 386px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+@media only screen and (min-width: 768px) {
+  /* line 25, ../../scss/modules/map/_map.scss */
+  .map {
+    height: 500px;
+  }
+}
+
+/* line 35, ../../scss/modules/map/_map.scss */
+.map-collapse {
+  opacity: .5;
+  height: 38px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+/*------------------------------------*\
+		$COLLAPSE MAP
+\*------------------------------------*/
+/* line 47, ../../scss/modules/map/_map.scss */
+.collapse-map {
+  background-color: #323a45;
+  position: relative;
+  top: -38px;
+  margin: auto;
+  width: 186px;
+  height: 38px;
+  color: #fcfcfc;
+  cursor: pointer;
+  z-index: 1000;
+}
+/* line 57, ../../scss/modules/map/_map.scss */
+.collapse-map p {
+  text-align: center;
+  padding-top: 6px;
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: .1em;
+  color: #fcfcfc;
+}
+
+/* line 67, ../../scss/modules/map/_map.scss */
+.collapse-map-container {
+  height: 0;
+  margin-bottom: -3px;
+}
+
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * SEARCH BAR...............search bar body
+ * SEARCH FORM FIELDS...............search bar input and dropdown fields
+ */
+/*------------------------------------*\
+		$SEARCH BAR
+\*------------------------------------*/
+/* line 16, ../../scss/modules/map/_search.scss */
+.search-bar {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
+  background: #226a9c;
+  width: 100%;
+  border-top: 3px solid #12a0ba;
+  padding-top: 2em;
+}
+
+/* line 25, ../../scss/modules/map/_search.scss */
+.search-form-wrapper {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 80em;
+  *zoom: 1;
+}
+/* line 121, ../../scss/foundation/components/_global.scss */
+.search-form-wrapper:before, .search-form-wrapper:after {
+  content: " ";
+  display: table;
+}
+/* line 122, ../../scss/foundation/components/_global.scss */
+.search-form-wrapper:after {
+  clear: both;
+}
+
+/*------------------------------------*\
+		$SEARCH FORM FIELDS
+\*------------------------------------*/
+/* line 37, ../../scss/modules/map/_search.scss */
+.search-field-wrapper--home, .search-field-wrapper--role-filter,
+.search-field-wrapper {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+
+@media only screen and (min-width: 768px) {
+  /* line 41, ../../scss/modules/map/_search.scss */
+  .search-field-wrapper--home {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    float: none !important;
+    float: right;
+    border-top: none;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  /* line 41, ../../scss/modules/map/_search.scss */
+  .search-field-wrapper--home {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    margin-left: auto;
+    margin-right: auto;
+    float: none !important;
+    float: right;
+  }
+}
+
+/* line 52, ../../scss/modules/map/_search.scss */
+.search-field {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 83.33333%;
+  float: left;
+  /*	@media only screen and (min-width: 421px) {
+  		@include grid-column(6);
+  	}*/
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, ../../scss/modules/map/_search.scss */
+  .search-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 75%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 52, ../../scss/modules/map/_search.scss */
+  .search-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 75%;
+    float: left;
+  }
+}
+
+/* line 65, ../../scss/modules/map/_search.scss */
+.search-bar .search-field input[type="text"] {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  -ms-border-radius: 3px 0 0 3px;
+  -o-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+/* line 72, ../../scss/modules/map/_search.scss */
+.search-bar-button {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 16.66667%;
+  float: left;
+  /*	@media only screen and (min-width: 768px) {
+  		@include grid-column(12)
+  	}*/
+}
+@media only screen and (min-width: 768px) {
+  /* line 72, ../../scss/modules/map/_search.scss */
+  .search-bar-button {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 25%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 72, ../../scss/modules/map/_search.scss */
+  .search-bar-button {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 25%;
+    float: left;
+  }
+}
+/* line 83, ../../scss/modules/map/_search.scss */
+.search-bar-button button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  padding-top: 0.75em;
+  padding-bottom: 0.8125em;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 100%;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  display: block;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  font-size: 0.875em;
+  height: 2.3125em;
+  line-height: 2.3125em;
+  background: #3cb81c;
+  border-color: #267612;
+  border-left: none;
+  color: white;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: center;
+  line-height: 2.125em;
+  height: 2.9em;
+  font-size: 0.875em;
+  border-width: 0;
+  -webkit-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
+/* line 122, ../../scss/foundation/components/_buttons.scss */
+.search-bar-button button:hover, .search-bar-button button:focus {
+  background-color: #2e8c15;
+}
+/* line 133, ../../scss/foundation/components/_buttons.scss */
+.search-bar-button button:hover, .search-bar-button button:focus {
+  color: white;
+}
+/* line 94, ../../scss/modules/map/_search.scss */
+.search-bar-button button i {
+  font-size: 1.2em;
+  padding: 0;
+}
+
+/* line 101, ../../scss/modules/map/_search.scss */
+.location-field {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 101, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 101, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 101, ../../scss/modules/map/_search.scss */
+  .location-field {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+}
+
+/* line 114, ../../scss/modules/map/_search.scss */
+.categories-select {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 114, ../../scss/modules/map/_search.scss */
+  .categories-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 119, ../../scss/modules/map/_search.scss */
+.categories-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 114, ../../scss/modules/map/_search.scss */
+  .categories-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 114, ../../scss/modules/map/_search.scss */
+  .categories-select {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+  /* line 127, ../../scss/modules/map/_search.scss */
+  .categories-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
+}
+
+/* line 133, ../../scss/modules/map/_search.scss */
+.sets-select {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 133, ../../scss/modules/map/_search.scss */
+  .sets-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 138, ../../scss/modules/map/_search.scss */
+.sets-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 133, ../../scss/modules/map/_search.scss */
+  .sets-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 133, ../../scss/modules/map/_search.scss */
+  .sets-select {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+  /* line 146, ../../scss/modules/map/_search.scss */
+  .sets-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
+}
+
+/* line 152, ../../scss/modules/map/_search.scss */
+.time-select {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 421px) {
+  /* line 152, ../../scss/modules/map/_search.scss */
+  .time-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+/* line 157, ../../scss/modules/map/_search.scss */
+.time-select select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 152, ../../scss/modules/map/_search.scss */
+  .time-select {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* line 152, ../../scss/modules/map/_search.scss */
+  .time-select {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+  }
+  /* line 165, ../../scss/modules/map/_search.scss */
+  .time-select select {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+  }
+}
+
 /*WORKSPACE*/
 /*------------------------------------*\
 		$CONTENTS
@@ -10633,13 +11704,13 @@ nav[role="sub-navigation"] li a {
     CONTENTS
 \*------------------------------------*/
 /**
- * USER-LIST ACTIONS BAR............bulk action bar styles
+ * ACTIONS BAR............action bar styles
  */
 /*------------------------------------*\
-    $USER-LIST ACTIONS BAR
+    $ACTIONS BAR
 \*------------------------------------*/
-/* line 15, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar {
+/* line 16, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -10648,20 +11719,20 @@ nav[role="sub-navigation"] li a {
   background-color: #323a45;
 }
 @media only screen and (min-width: 768px) {
-  /* line 15, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-  .user-list-actions-bar {
+  /* line 16, ../../scss/modules/workspace/_actions-bar.scss */
+  .actions-bar {
     margin: 20px 0 0 0;
   }
 }
 @media only screen and (min-width: 2200px) {
-  /* line 15, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-  .user-list-actions-bar {
+  /* line 16, ../../scss/modules/workspace/_actions-bar.scss */
+  .actions-bar {
     margin: 40px 0 0 0;
   }
 }
 
-/* line 26, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-header {
+/* line 28, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-header {
   position: relative;
   padding-left: 0;
   padding-right: 0;
@@ -10669,8 +11740,8 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 26, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-  .user-list-actions-bar-header {
+  /* line 28, ../../scss/modules/workspace/_actions-bar.scss */
+  .actions-bar-header {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -10678,14 +11749,14 @@ nav[role="sub-navigation"] li a {
     float: left;
   }
 }
-/* line 31, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-header h3 {
+/* line 33, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-header h3 {
   color: #fcfcfc;
   margin-top: 10px;
 }
 
-/* line 37, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin {
+/* line 40, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin {
   position: relative;
   padding-left: 0;
   padding-right: 0;
@@ -10693,8 +11764,8 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 37, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-  .user-list-actions-bar-admin {
+  /* line 40, ../../scss/modules/workspace/_actions-bar.scss */
+  .actions-bar-admin {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -10702,8 +11773,8 @@ nav[role="sub-navigation"] li a {
     float: left;
   }
 }
-/* line 42, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin .dropdown-list {
+/* line 45, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin .dropdown-list {
   position: absolute;
   top: -9999px;
   list-style: none;
@@ -10719,15 +11790,15 @@ nav[role="sub-navigation"] li a {
   max-width: 530px;
 }
 /* line 50, ../../scss/foundation/components/_dropdown.scss */
-.user-list-actions-bar-admin .dropdown-list > *:first-child {
+.actions-bar-admin .dropdown-list > *:first-child {
   margin-top: 0;
 }
 /* line 51, ../../scss/foundation/components/_dropdown.scss */
-.user-list-actions-bar-admin .dropdown-list > *:last-child {
+.actions-bar-admin .dropdown-list > *:last-child {
   margin-bottom: 0;
 }
 /* line 76, ../../scss/foundation/components/_dropdown.scss */
-.user-list-actions-bar-admin .dropdown-list:before {
+.actions-bar-admin .dropdown-list:before {
   content: "";
   display: block;
   width: 0;
@@ -10741,7 +11812,7 @@ nav[role="sub-navigation"] li a {
   z-index: 99;
 }
 /* line 83, ../../scss/foundation/components/_dropdown.scss */
-.user-list-actions-bar-admin .dropdown-list:after {
+.actions-bar-admin .dropdown-list:after {
   content: "";
   display: block;
   width: 0;
@@ -10755,34 +11826,35 @@ nav[role="sub-navigation"] li a {
   z-index: 98;
 }
 /* line 91, ../../scss/foundation/components/_dropdown.scss */
-.user-list-actions-bar-admin .dropdown-list.right:before {
+.actions-bar-admin .dropdown-list.right:before {
   left: auto;
   right: 8px;
 }
 /* line 95, ../../scss/foundation/components/_dropdown.scss */
-.user-list-actions-bar-admin .dropdown-list.right:after {
+.actions-bar-admin .dropdown-list.right:after {
   left: auto;
   right: 7px;
 }
-/* line 44, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin .dropdown-list li {
+/* line 47, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin .dropdown-list li {
   font-size: 0.875em;
   cursor: pointer;
   line-height: 1.125em;
   margin: 0;
 }
 /* line 115, ../../scss/foundation/components/_dropdown.scss */
-.user-list-actions-bar-admin .dropdown-list li:hover, .user-list-actions-bar-admin .dropdown-list li:focus {
+.actions-bar-admin .dropdown-list li:hover,
+.actions-bar-admin .dropdown-list li:focus {
   background: #eeeeee;
 }
 /* line 117, ../../scss/foundation/components/_dropdown.scss */
-.user-list-actions-bar-admin .dropdown-list li a {
+.actions-bar-admin .dropdown-list li a {
   display: block;
   padding: 0.3125em 0.625em;
   color: #555555;
 }
-/* line 46, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin .dropdown-button {
+/* line 49, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin .dropdown-button {
   border-style: solid;
   border-width: 1px;
   cursor: pointer;
@@ -10810,15 +11882,17 @@ nav[role="sub-navigation"] li a {
   margin: 12px 0 0 0;
 }
 /* line 122, ../../scss/foundation/components/_buttons.scss */
-.user-list-actions-bar-admin .dropdown-button:hover, .user-list-actions-bar-admin .dropdown-button:focus {
+.actions-bar-admin .dropdown-button:hover,
+.actions-bar-admin .dropdown-button:focus {
   background-color: #d2d5dd;
 }
 /* line 128, ../../scss/foundation/components/_buttons.scss */
-.user-list-actions-bar-admin .dropdown-button:hover, .user-list-actions-bar-admin .dropdown-button:focus {
+.actions-bar-admin .dropdown-button:hover,
+.actions-bar-admin .dropdown-button:focus {
   color: #333333;
 }
 /* line 46, ../../scss/foundation/components/_dropdown-buttons.scss */
-.user-list-actions-bar-admin .dropdown-button:before {
+.actions-bar-admin .dropdown-button:before {
   position: absolute;
   content: "";
   width: 0;
@@ -10829,49 +11903,73 @@ nav[role="sub-navigation"] li a {
   top: 50%;
 }
 /* line 61, ../../scss/foundation/components/_dropdown-buttons.scss */
-.user-list-actions-bar-admin .dropdown-button:before {
+.actions-bar-admin .dropdown-button:before {
   border-width: 0.4375em;
   right: 0.875em;
   margin-top: -0.15625em;
 }
 /* line 100, ../../scss/foundation/components/_dropdown-buttons.scss */
-.user-list-actions-bar-admin .dropdown-button:before {
+.actions-bar-admin .dropdown-button:before {
   border-color: white transparent transparent transparent;
 }
-/* line 51, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin .dropdown-button:before {
+/* line 54, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin .dropdown-button:before {
   border-color: black transparent transparent transparent;
 }
-/* line 54, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin .dropdown-button.show-for-small {
+/* line 57, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin .dropdown-button.show-for-small {
   display: inline-block !important;
 }
 @media only screen and (min-width: 768px) {
-  /* line 54, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-  .user-list-actions-bar-admin .dropdown-button.show-for-small {
+  /* line 57, ../../scss/modules/workspace/_actions-bar.scss */
+  .actions-bar-admin .dropdown-button.show-for-small {
     display: none !important;
   }
 }
-/* line 61, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin ul {
+/* line 64, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin ul {
   margin-top: 20px;
   float: right;
 }
-/* line 64, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin ul li {
+/* line 67, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin ul li {
   display: inline;
   float: left;
   padding-left: 60px;
   color: #fcfcfc;
   font-size: 0.875em;
 }
-/* line 70, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin ul li a {
+/* line 73, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin ul li a {
   color: #fcfcfc;
 }
-/* line 73, ../../scss/modules/workspace/tools/manage-users/modules/_actions-bar.scss */
-.user-list-actions-bar-admin ul li [class*="fa-"] {
+/* line 76, ../../scss/modules/workspace/_actions-bar.scss */
+.actions-bar-admin ul li [class*="fa-"] {
   padding-right: 10px;
+}
+
+/* line 1, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
+.list-view-filter--user {
+  background: #68788f;
+  margin: 0 0 20px 0;
+}
+
+/* line 7, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
+.list-view-filter-info--user {
+  border-bottom: 1px solid #475363;
+}
+@media only screen and (min-width: 1024px) {
+  /* line 7, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
+  .list-view-filter-info--user {
+    border-bottom: 0;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  /* line 15, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
+  .list-view-filter-count--user {
+    border-right: 1px solid #475363;
+  }
 }
 
 /*------------------------------------*\
@@ -10879,24 +11977,23 @@ nav[role="sub-navigation"] li a {
 \*------------------------------------*/
 /**
 
- * USER-LIST FILTER BAR............stats/filter/search styling
+ * ROLE FILTER............roles, count and search styles
  */
 /*------------------------------------*\
-    $USER-LIST FILTER BAR
+    $USER-LIST ROLE FILTER BAR
 \*------------------------------------*/
-/* line 17, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-filter-bar {
+/* line 17, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
   width: 100%;
   float: left;
   background-color: #fcfcfc;
-  border-bottom: 1px solid #eff0f3;
 }
 
-/* line 23, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories {
+/* line 22, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -10905,8 +12002,8 @@ nav[role="sub-navigation"] li a {
   margin-top: 15px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 23, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-  .user-list-categories {
+  /* line 22, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+  .role-filter-categories {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
@@ -10915,8 +12012,8 @@ nav[role="sub-navigation"] li a {
     margin-top: 0;
   }
 }
-/* line 30, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories .dropdown-button {
+/* line 29, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories .dropdown-button {
   border-style: solid;
   border-width: 1px;
   cursor: pointer;
@@ -10948,15 +12045,15 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 0;
 }
 /* line 122, ../../scss/foundation/components/_buttons.scss */
-.user-list-categories .dropdown-button:hover, .user-list-categories .dropdown-button:focus {
+.role-filter-categories .dropdown-button:hover, .role-filter-categories .dropdown-button:focus {
   background-color: #d2d5dd;
 }
 /* line 128, ../../scss/foundation/components/_buttons.scss */
-.user-list-categories .dropdown-button:hover, .user-list-categories .dropdown-button:focus {
+.role-filter-categories .dropdown-button:hover, .role-filter-categories .dropdown-button:focus {
   color: #333333;
 }
 /* line 46, ../../scss/foundation/components/_dropdown-buttons.scss */
-.user-list-categories .dropdown-button:before {
+.role-filter-categories .dropdown-button:before {
   position: absolute;
   content: "";
   width: 0;
@@ -10967,63 +12064,63 @@ nav[role="sub-navigation"] li a {
   top: 50%;
 }
 /* line 61, ../../scss/foundation/components/_dropdown-buttons.scss */
-.user-list-categories .dropdown-button:before {
+.role-filter-categories .dropdown-button:before {
   border-width: 0.4375em;
   right: 0.875em;
   margin-top: -0.15625em;
 }
 /* line 100, ../../scss/foundation/components/_dropdown-buttons.scss */
-.user-list-categories .dropdown-button:before {
+.role-filter-categories .dropdown-button:before {
   border-color: white transparent transparent transparent;
 }
-/* line 34, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories .dropdown-button:before {
+/* line 33, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories .dropdown-button:before {
   border-color: black transparent transparent transparent;
 }
 
-/* line 40, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list {
+/* line 39, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list {
   display: block;
   padding: 0;
   margin: 0 -0.625em;
   *zoom: 1;
 }
 /* line 121, ../../scss/foundation/components/_global.scss */
-.user-list-categories-list:before, .user-list-categories-list:after {
+.role-filter-categories-list:before, .role-filter-categories-list:after {
   content: " ";
   display: table;
 }
 /* line 122, ../../scss/foundation/components/_global.scss */
-.user-list-categories-list:after {
+.role-filter-categories-list:after {
   clear: both;
 }
 /* line 27, ../../scss/foundation/components/_block-grid.scss */
-.user-list-categories-list > li {
+.role-filter-categories-list > li {
   display: inline;
   height: auto;
   float: left;
   padding: 0 0.625em 1.25em;
 }
 /* line 36, ../../scss/foundation/components/_block-grid.scss */
-.user-list-categories-list > li {
+.role-filter-categories-list > li {
   width: 20%;
   padding: 0 0.625em 1.25em;
 }
 /* line 40, ../../scss/foundation/components/_block-grid.scss */
-.user-list-categories-list > li:nth-of-type(n) {
+.role-filter-categories-list > li:nth-of-type(n) {
   clear: none;
 }
 /* line 41, ../../scss/foundation/components/_block-grid.scss */
-.user-list-categories-list > li:nth-of-type(5n+1) {
+.role-filter-categories-list > li:nth-of-type(5n+1) {
   clear: both;
 }
-/* line 42, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list:after {
+/* line 41, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list:after {
   content: none;
   display: table;
 }
-/* line 46, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li {
+/* line 45, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li {
   border-right: 1px solid #eff0f3;
   padding: 0 10px;
   font-size: 0.875em;
@@ -11031,37 +12128,56 @@ nav[role="sub-navigation"] li a {
   line-height: 2.4em;
   text-align: center;
 }
-/* line 53, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li.active {
-  color: #1f1f1f;
-  font-weight: bold;
-  background-color: #e9ebef;
-}
 @media only screen and (min-width: 768px) {
-  /* line 46, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-  .user-list-categories-list li {
-    padding: 20px 0px 21px;
+  /* line 45, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+  .role-filter-categories-list li {
+    padding: 19px;
   }
 }
-/* line 61, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li .hide-for-small {
+
+/* line 59, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li.active {
+  background-color: #e9ebef;
+  color: #1f1f1f;
+  font-weight: bold;
+  border-bottom: 3px solid #14b4d1;
+}
+/* line 65, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li:hover:not(.active) {
+  background-color: #e9ebef;
+  border-bottom: 3px solid #14b4d1;
+}
+/* line 69, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li:active:not(.active) {
+  background-color: #dee0e6;
+}
+
+/* line 75, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list .hide-for-small {
   display: none !important;
 }
 @media only screen and (min-width: 768px) {
-  /* line 61, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-  .user-list-categories-list li .hide-for-small {
+  /* line 75, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+  .role-filter-categories-list .hide-for-small {
     display: inline-block !important;
   }
 }
-/* line 67, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li .count-number {
+/* line 81, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list .count-number {
   position: relative;
   top: 4px;
   font-size: 0.6875em;
   letter-spacing: .15em;
 }
+/* line 87, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list a {
+  display: block;
+  padding: 20px 0px;
+  text-decoration: none;
+  color: #1f1f1f;
+}
 
-/* line 76, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
+/* line 95, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 [class*='-count-number'] {
   position: relative;
   top: -5px;
@@ -11079,59 +12195,51 @@ nav[role="sub-navigation"] li a {
 }
 
 /*random color function for count-number background*/
-/* line 107, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li:nth-child(5n+1) [class*='-count-number'] {
+/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li:nth-child(5n+1) [class*='-count-number'] {
   background-color: #323a45;
 }
 
-/* line 107, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li:nth-child(5n+2) [class*='-count-number'] {
+/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li:nth-child(5n+2) [class*='-count-number'] {
   background-color: #c50813;
 }
 
-/* line 107, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li:nth-child(5n+3) [class*='-count-number'] {
+/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li:nth-child(5n+3) [class*='-count-number'] {
   background-color: #3cb81c;
 }
 
-/* line 107, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li:nth-child(5n+4) [class*='-count-number'] {
+/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li:nth-child(5n+4) [class*='-count-number'] {
   background-color: #ffad19;
 }
 
-/* line 107, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-categories-list li:nth-child(5n+5) [class*='-count-number'] {
+/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list li:nth-child(5n+5) [class*='-count-number'] {
   background-color: #14b4d1;
 }
 
-/* line 112, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-search {
+/* line 131, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.search-field-wrapper--role-filter {
   position: relative;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
   width: 100%;
   float: left;
+  padding: 0 20px;
   border-top: 1px solid #eff0f3;
 }
 @media only screen and (min-width: 768px) {
-  /* line 112, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-  .user-list-search {
+  /* line 131, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+  .search-field-wrapper--role-filter {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
     width: 25%;
-    float: left;
+    float: right;
     border-top: none;
-  }
-}
-/* line 119, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-.user-list-search .user-list-search-form {
-  margin: 17px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 119, ../../scss/modules/workspace/tools/manage-users/modules/_filter-bar.scss */
-  .user-list-search .user-list-search-form {
-    margin: 17px 0 17px 0;
+    margin: 17px 0 0 0;
   }
 }
 
@@ -11159,96 +12267,24 @@ nav[role="sub-navigation"] li a {
   border-bottom: 0;
 }
 
-/* line 24, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-list-select-profile {
-  position: absolute;
-  top: -17px;
-  left: -24px;
-}
-
-/* line 30, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-list-avatar {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 41.66667%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 30, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-  .user-list-avatar {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 16.66667%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1025px) {
-  /* line 30, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-  .user-list-avatar {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 8.33333%;
-    float: left;
-  }
-}
-/* line 38, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-list-avatar img {
+/* line 26, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
+.list-view-image--user img {
   border-radius: 200px;
+  border: none;
 }
 
-/* line 43, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-list-details-wrapper {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 50%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 43, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-  .user-list-details-wrapper {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 83.33333%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1025px) {
-  /* line 43, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-  .user-list-details-wrapper {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 91.66667%;
-    float: left;
-  }
-}
-
-/* line 53, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-list-details {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
+/* line 32, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
+.list-view-details--user {
+  margin-top: 10px;
   color: #1f1f1f;
 }
-/* line 56, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-list-details .header {
-  line-height: 1em;
-  margin-top: 0;
-}
-/* line 60, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-list-details [class*='user-list-'] {
+/* line 36, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
+.list-view-details--user [class*='user-list-'] {
   margin-bottom: 0;
   font-size: 0.75em;
 }
 
-/* line 66, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
+/* line 42, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
 .details-column-a {
   position: relative;
   padding-left: 0.9375em;
@@ -11257,7 +12293,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 66, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
+  /* line 42, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
   .details-column-a {
     position: relative;
     padding-left: 0.9375em;
@@ -11267,7 +12303,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 73, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
+/* line 49, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
 .details-column-b {
   position: relative;
   padding-left: 0.9375em;
@@ -11276,7 +12312,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 73, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
+  /* line 49, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
   .details-column-b {
     position: relative;
     padding-left: 0.9375em;
@@ -11288,7 +12324,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 73, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
+  /* line 49, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
   .details-column-b {
     position: relative;
     padding-left: 0.9375em;
@@ -11300,622 +12336,632 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 87, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-edit-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.5625em;
-  padding-right: 1.125em;
-  padding-bottom: 0.625em;
-  padding-left: 1.125em;
-  font-size: 0.8125em;
-  background-color: #eff0f3;
-  border-color: #d2d5dd;
-  color: #333333;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-/* line 122, ../../scss/foundation/components/_buttons.scss */
-.user-edit-button:hover, .user-edit-button:focus {
-  background-color: #d2d5dd;
-}
-/* line 128, ../../scss/foundation/components/_buttons.scss */
-.user-edit-button:hover, .user-edit-button:focus {
-  color: #333333;
+/* line 1, ../../scss/modules/workspace/tools/manage-tags/modules/_filter-bar.scss */
+.list-view-filter--tags {
+  background: #68788f;
+  margin: 0 0 20px 0;
 }
 
-/* line 91, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-change-roles-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.5625em;
-  padding-right: 1.125em;
-  padding-bottom: 0.625em;
-  padding-left: 1.125em;
-  font-size: 0.8125em;
-  background-color: #eff0f3;
-  border-color: #d2d5dd;
-  color: #333333;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+/* line 7, ../../scss/modules/workspace/tools/manage-tags/modules/_filter-bar.scss */
+.list-view-filter-info--tags {
+  border-bottom: 1px solid #475363;
 }
-/* line 122, ../../scss/foundation/components/_buttons.scss */
-.user-change-roles-button:hover, .user-change-roles-button:focus {
-  background-color: #d2d5dd;
-}
-/* line 128, ../../scss/foundation/components/_buttons.scss */
-.user-change-roles-button:hover, .user-change-roles-button:focus {
-  color: #333333;
-}
-
-/* line 95, ../../scss/modules/workspace/tools/manage-users/modules/_user-profile-list.scss */
-.user-delete-button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.5625em;
-  padding-right: 1.125em;
-  padding-bottom: 0.625em;
-  padding-left: 1.125em;
-  font-size: 0.8125em;
-  background-color: #eff0f3;
-  border-color: #d2d5dd;
-  color: #333333;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-/* line 122, ../../scss/foundation/components/_buttons.scss */
-.user-delete-button:hover, .user-delete-button:focus {
-  background-color: #d2d5dd;
-}
-/* line 128, ../../scss/foundation/components/_buttons.scss */
-.user-delete-button:hover, .user-delete-button:focus {
-  color: #333333;
-}
-
-/*MAP*/
-/*------------------------------------*\
-		$MAP...............via Leaflet.js
-
-		NOTE:
-		Works in:
-		Safari 3+
-		Chrome Whatever+
-		IE 9+
-		Opera 10+ (Opera 9.5 supported background-size but not the keywords)
-		Firefox 3.6+ (Firefox 4 supports non-vendor prefixed version)
-
-\*------------------------------------*/
-/* line 18, ../../scss/modules/map/_map.scss */
-.content-wrapper {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  overflow: hidden;
-  height: 100%;
-  padding: 0;
-}
-
-/* line 25, ../../scss/modules/map/_map.scss */
-.map {
-  opacity: 1;
-  width: 100%;
-  height: 386px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-@media only screen and (min-width: 768px) {
-  /* line 25, ../../scss/modules/map/_map.scss */
-  .map {
-    height: 500px;
+@media only screen and (min-width: 1024px) {
+  /* line 7, ../../scss/modules/workspace/tools/manage-tags/modules/_filter-bar.scss */
+  .list-view-filter-info--tags {
+    border-bottom: 0;
   }
 }
 
-/* line 35, ../../scss/modules/map/_map.scss */
-.map-collapse {
-  opacity: .5;
-  height: 38px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
+@media only screen and (min-width: 768px) {
+  /* line 15, ../../scss/modules/workspace/tools/manage-tags/modules/_filter-bar.scss */
+  .list-view-filter-count--tags {
+    border-right: 1px solid #475363;
+  }
 }
 
 /*------------------------------------*\
-		$COLLAPSE MAP
-\*------------------------------------*/
-/* line 47, ../../scss/modules/map/_map.scss */
-.collapse-map {
-  background-color: #323a45;
-  position: relative;
-  top: -38px;
-  margin: auto;
-  width: 186px;
-  height: 38px;
-  color: #fcfcfc;
-  cursor: pointer;
-  z-index: 1000;
-}
-/* line 57, ../../scss/modules/map/_map.scss */
-.collapse-map p {
-  text-align: center;
-  padding-top: 6px;
-  margin: 0;
-  font-size: 18px;
-  letter-spacing: .1em;
-  color: #fcfcfc;
-}
-
-/* line 67, ../../scss/modules/map/_map.scss */
-.collapse-map-container {
-  height: 0;
-  margin-bottom: -3px;
-}
-
-/*------------------------------------*\
-		$CONTENTS
+    CONTENTS
 \*------------------------------------*/
 /**
- * SEARCH BAR...............search bar body
- * SEARCH FORM FIELDS...............search bar input and dropdown fields
+ * TAG LIST...............tag list styles
  */
 /*------------------------------------*\
-		$SEARCH BAR
+    $TAG LIST
 \*------------------------------------*/
-/* line 16, ../../scss/modules/map/_search.scss */
-.search-bar {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  background: #226a9c;
-  width: 100%;
-  border-top: 3px solid #12a0ba;
-  padding-top: 2em;
-}
-
-/* line 25, ../../scss/modules/map/_search.scss */
-.search-form-wrapper {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-  max-width: 80em;
+/* line 15, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.tag-grid {
+  display: block;
+  padding: 0;
+  margin: 0 -0.625em;
   *zoom: 1;
 }
 /* line 121, ../../scss/foundation/components/_global.scss */
-.search-form-wrapper:before, .search-form-wrapper:after {
+.tag-grid:before, .tag-grid:after {
   content: " ";
   display: table;
 }
 /* line 122, ../../scss/foundation/components/_global.scss */
-.search-form-wrapper:after {
+.tag-grid:after {
   clear: both;
 }
-
-/*------------------------------------*\
-		$SEARCH FORM FIELDS
-\*------------------------------------*/
-/* line 37, ../../scss/modules/map/_search.scss */
-.search-field-wrapper {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
+/* line 27, ../../scss/foundation/components/_block-grid.scss */
+.tag-grid > li {
+  display: inline;
+  height: auto;
   float: left;
+  padding: 0 0.625em 1.25em;
 }
-
-/* line 41, ../../scss/modules/map/_search.scss */
-.search-field-wrapper--home {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
+/* line 36, ../../scss/foundation/components/_block-grid.scss */
+.tag-grid > li {
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  float: none !important;
-  float: left;
+  padding: 0 0.625em 1.25em;
+}
+/* line 40, ../../scss/foundation/components/_block-grid.scss */
+.tag-grid > li:nth-of-type(n) {
+  clear: none;
+}
+/* line 41, ../../scss/foundation/components/_block-grid.scss */
+.tag-grid > li:nth-of-type(1n+1) {
+  clear: both;
 }
 @media only screen and (min-width: 768px) {
-  /* line 41, ../../scss/modules/map/_search.scss */
-  .search-field-wrapper--home {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
+  /* line 15, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+  .tag-grid {
+    display: block;
+    padding: 0;
+    margin: 0 -0.625em;
+    *zoom: 1;
+  }
+  /* line 121, ../../scss/foundation/components/_global.scss */
+  .tag-grid:before, .tag-grid:after {
+    content: " ";
+    display: table;
+  }
+  /* line 122, ../../scss/foundation/components/_global.scss */
+  .tag-grid:after {
+    clear: both;
+  }
+  /* line 27, ../../scss/foundation/components/_block-grid.scss */
+  .tag-grid > li {
+    display: inline;
+    height: auto;
+    float: left;
+    padding: 0 0.625em 1.25em;
+  }
+  /* line 36, ../../scss/foundation/components/_block-grid.scss */
+  .tag-grid > li {
     width: 50%;
-    float: right;
-    border-top: none;
+    padding: 0 0.625em 1.25em;
   }
-}
-@media only screen and (min-width: 1025px) {
-  /* line 41, ../../scss/modules/map/_search.scss */
-  .search-field-wrapper--home {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: right;
+  /* line 40, ../../scss/foundation/components/_block-grid.scss */
+  .tag-grid > li:nth-of-type(n) {
+    clear: none;
+  }
+  /* line 41, ../../scss/foundation/components/_block-grid.scss */
+  .tag-grid > li:nth-of-type(2n+1) {
+    clear: both;
   }
 }
 
-/* line 52, ../../scss/modules/map/_search.scss */
-.search-field {
+/* line 26, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag-list {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  margin-left: 0;
+}
+
+/* line 31, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag {
   position: relative;
   padding-left: 0;
   padding-right: 0;
-  width: 83.33333%;
-  float: left;
-  /*	@media only screen and (min-width: 421px) {
-  		@include grid-column(6);
-  	}*/
-}
-@media only screen and (min-width: 768px) {
-  /* line 52, ../../scss/modules/map/_search.scss */
-  .search-field {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 75%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 52, ../../scss/modules/map/_search.scss */
-  .search-field {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 75%;
-    float: left;
-  }
-}
-
-/* line 65, ../../scss/modules/map/_search.scss */
-.search-bar .search-field input[type="text"] {
-  -webkit-border-radius: 3px 0 0 3px;
-  -moz-border-radius: 3px 0 0 3px;
-  -ms-border-radius: 3px 0 0 3px;
-  -o-border-radius: 3px 0 0 3px;
-  border-radius: 3px 0 0 3px;
-}
-
-/* line 72, ../../scss/modules/map/_search.scss */
-.search-bar-button {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 16.66667%;
-  float: left;
-  /*	@media only screen and (min-width: 768px) {
-  		@include grid-column(12)
-  	}*/
-}
-@media only screen and (min-width: 768px) {
-  /* line 72, ../../scss/modules/map/_search.scss */
-  .search-bar-button {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 25%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 72, ../../scss/modules/map/_search.scss */
-  .search-bar-button {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 25%;
-    float: left;
-  }
-}
-/* line 83, ../../scss/modules/map/_search.scss */
-.search-bar-button button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.75em;
-  padding-right: 1.5em;
-  padding-bottom: 0.8125em;
-  padding-left: 1.5em;
-  font-size: 1em;
-  padding-top: 0.75em;
-  padding-bottom: 0.8125em;
-  padding-right: 0px;
-  padding-left: 0px;
-  width: 100%;
-  background-color: #3cb81c;
-  border-color: #2e8c15;
-  color: white;
-  display: block;
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  width: 100%;
-  padding-top: 0;
-  padding-bottom: 0;
-  border-style: solid;
-  border-width: 1px;
-  overflow: hidden;
-  font-size: 0.875em;
-  height: 2.3125em;
-  line-height: 2.3125em;
-  background: #3cb81c;
-  border-color: #267612;
-  border-left: none;
-  color: white;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  text-align: center;
-  line-height: 2.125em;
-  height: 2.9em;
-  font-size: 0.875em;
-  border-width: 0;
-  -webkit-border-radius: 0 3px 3px 0;
-  border-radius: 0 3px 3px 0;
-}
-/* line 122, ../../scss/foundation/components/_buttons.scss */
-.search-bar-button button:hover, .search-bar-button button:focus {
-  background-color: #2e8c15;
-}
-/* line 133, ../../scss/foundation/components/_buttons.scss */
-.search-bar-button button:hover, .search-bar-button button:focus {
-  color: white;
-}
-/* line 94, ../../scss/modules/map/_search.scss */
-.search-bar-button button i {
-  font-size: 1.2em;
-  padding: 0;
-}
-
-/* line 101, ../../scss/modules/map/_search.scss */
-.location-field {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
   width: 100%;
   float: left;
 }
-@media only screen and (min-width: 421px) {
-  /* line 101, ../../scss/modules/map/_search.scss */
-  .location-field {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 768px) {
-  /* line 101, ../../scss/modules/map/_search.scss */
-  .location-field {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 101, ../../scss/modules/map/_search.scss */
-  .location-field {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
-  }
+
+/*tag color HSL function*/
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(1) .tag-color {
+  color: #312d11;
 }
 
-/* line 114, ../../scss/modules/map/_search.scss */
-.categories-select {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 421px) {
-  /* line 114, ../../scss/modules/map/_search.scss */
-  .categories-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-/* line 119, ../../scss/modules/map/_search.scss */
-.categories-select select {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 114, ../../scss/modules/map/_search.scss */
-  .categories-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 114, ../../scss/modules/map/_search.scss */
-  .categories-select {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
-  }
-  /* line 127, ../../scss/modules/map/_search.scss */
-  .categories-select select {
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
-    border-radius: 0px;
-  }
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(2) .tag-color {
+  color: #3f4035;
 }
 
-/* line 133, ../../scss/modules/map/_search.scss */
-.sets-select {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 421px) {
-  /* line 133, ../../scss/modules/map/_search.scss */
-  .sets-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-/* line 138, ../../scss/modules/map/_search.scss */
-.sets-select select {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 133, ../../scss/modules/map/_search.scss */
-  .sets-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 133, ../../scss/modules/map/_search.scss */
-  .sets-select {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
-  }
-  /* line 146, ../../scss/modules/map/_search.scss */
-  .sets-select select {
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
-    border-radius: 0px;
-  }
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(3) .tag-color {
+  color: #62b28e;
 }
 
-/* line 152, ../../scss/modules/map/_search.scss */
-.time-select {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(4) .tag-color {
+  color: #72317c;
 }
-@media only screen and (min-width: 421px) {
-  /* line 152, ../../scss/modules/map/_search.scss */
-  .time-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(5) .tag-color {
+  color: #2a1362;
 }
-/* line 157, ../../scss/modules/map/_search.scss */
-.time-select select {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(6) .tag-color {
+  color: #8cb1ac;
 }
-@media only screen and (min-width: 768px) {
-  /* line 152, ../../scss/modules/map/_search.scss */
-  .time-select {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(7) .tag-color {
+  color: #476b6c;
 }
-@media only screen and (min-width: 1024px) {
-  /* line 152, ../../scss/modules/map/_search.scss */
-  .time-select {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 16.66667%;
-    float: left;
-  }
-  /* line 165, ../../scss/modules/map/_search.scss */
-  .time-select select {
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    -ms-border-radius: 0px;
-    -o-border-radius: 0px;
-    border-radius: 0px;
-  }
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(8) .tag-color {
+  color: #51b8c8;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(9) .tag-color {
+  color: #150317;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(10) .tag-color {
+  color: #a7b1be;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(11) .tag-color {
+  color: #84d1f5;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(12) .tag-color {
+  color: #e9eff7;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(13) .tag-color {
+  color: #942624;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(14) .tag-color {
+  color: #c176ef;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(15) .tag-color {
+  color: #920772;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(16) .tag-color {
+  color: #f6e4df;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(17) .tag-color {
+  color: #0c1013;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(18) .tag-color {
+  color: #08050b;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(19) .tag-color {
+  color: #99bf03;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(20) .tag-color {
+  color: #171203;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(21) .tag-color {
+  color: #064b41;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(22) .tag-color {
+  color: #3c2611;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(23) .tag-color {
+  color: #357732;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(24) .tag-color {
+  color: #078847;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(25) .tag-color {
+  color: #b9ebf3;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(26) .tag-color {
+  color: #b6f1da;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(27) .tag-color {
+  color: #2e18b9;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(28) .tag-color {
+  color: #999348;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(29) .tag-color {
+  color: #151910;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(30) .tag-color {
+  color: #687c92;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(31) .tag-color {
+  color: #97637d;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(32) .tag-color {
+  color: #701066;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(33) .tag-color {
+  color: #59c355;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(34) .tag-color {
+  color: #1f2018;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(35) .tag-color {
+  color: #32b355;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(36) .tag-color {
+  color: #18aebf;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(37) .tag-color {
+  color: #b3e5dc;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(38) .tag-color {
+  color: #ed9f78;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(39) .tag-color {
+  color: #406e72;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(40) .tag-color {
+  color: #faf6ef;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(41) .tag-color {
+  color: #2e042f;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(42) .tag-color {
+  color: #5b571f;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(43) .tag-color {
+  color: #9c547a;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(44) .tag-color {
+  color: #f1eeee;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(45) .tag-color {
+  color: #4c4b95;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(46) .tag-color {
+  color: #483346;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(47) .tag-color {
+  color: #f2f2f2;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(48) .tag-color {
+  color: #53f9e3;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(49) .tag-color {
+  color: #b41dac;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(50) .tag-color {
+  color: black;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(51) .tag-color {
+  color: #591e03;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(52) .tag-color {
+  color: #140006;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(53) .tag-color {
+  color: #cae1e2;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(54) .tag-color {
+  color: #bb638f;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(55) .tag-color {
+  color: #d9d9d9;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(56) .tag-color {
+  color: #162c8d;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(57) .tag-color {
+  color: #f5f0f3;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(58) .tag-color {
+  color: #bfedc7;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(59) .tag-color {
+  color: #06082d;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(60) .tag-color {
+  color: #e76750;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(61) .tag-color {
+  color: #207952;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(62) .tag-color {
+  color: #d1e4fa;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(63) .tag-color {
+  color: #e9f1ec;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(64) .tag-color {
+  color: #43895f;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(65) .tag-color {
+  color: #716284;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(66) .tag-color {
+  color: #eac8b3;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(67) .tag-color {
+  color: #49e4b8;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(68) .tag-color {
+  color: #4bf75f;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(69) .tag-color {
+  color: #a0cbda;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(70) .tag-color {
+  color: #fcc979;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(71) .tag-color {
+  color: #5a1b32;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(72) .tag-color {
+  color: #aa7364;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(73) .tag-color {
+  color: #e6eaef;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(74) .tag-color {
+  color: #092f23;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(75) .tag-color {
+  color: #99886c;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(76) .tag-color {
+  color: #f2f6f7;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(77) .tag-color {
+  color: #c86a72;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(78) .tag-color {
+  color: #e3e9ed;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(79) .tag-color {
+  color: #111816;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(80) .tag-color {
+  color: #721ba1;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(81) .tag-color {
+  color: #7876cb;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(82) .tag-color {
+  color: #5c3a83;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(83) .tag-color {
+  color: #3434b7;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(84) .tag-color {
+  color: #e4fde2;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(85) .tag-color {
+  color: #0c162c;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(86) .tag-color {
+  color: #ef0b88;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(87) .tag-color {
+  color: #e2ecdf;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(88) .tag-color {
+  color: #7f2e46;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(89) .tag-color {
+  color: #1b2746;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(90) .tag-color {
+  color: #20231a;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(91) .tag-color {
+  color: #fdfcfd;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(92) .tag-color {
+  color: #d7d7d5;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(93) .tag-color {
+  color: #090b10;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(94) .tag-color {
+  color: #e4c662;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(95) .tag-color {
+  color: #4c2f35;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(96) .tag-color {
+  color: #090108;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(97) .tag-color {
+  color: #d3cc78;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(98) .tag-color {
+  color: #090b0b;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(99) .tag-color {
+  color: #1b2419;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(100) .tag-color {
+  color: #d699cb;
 }
 
 /*HOME*/
@@ -12070,605 +13116,6 @@ nav[role="sub-navigation"] li a {
   margin-top: -3px;
   font-size: 1.2em;
   color: #fcfcfc;
-}
-
-/*LIST VIEW*/
-/*------------------------------------*\
-		$CONTENTS
-\*------------------------------------*/
-/**
-	* LIST VIEW WRAPPER..................wrapper around all posts in list view
-	* LIST VIEW FILTER BAR..................list view filter bar styles
-			* --posts
-			* --user
-*/
-/*------------------------------------*\
-		$LIST VIEW WRAPPER
-\*------------------------------------*/
-/* line 18, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-wrapper {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  background-color: #fcfcfc;
-  color: #9a9797;
-  padding-top: 20px;
-}
-
-/*------------------------------------*\
-		$LIST VIEW FILTER BAR
-\*------------------------------------*/
-/* line 33, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter--post, .list-view-filter--user {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  padding: 20px 15px;
-}
-
-/* line 39, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter--post {
-  background: #323a45;
-  margin: 20px 0;
-}
-
-/* line 44, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter--user {
-  background: #68788f;
-  margin: 0 0 20px 0;
-}
-
-/* line 51, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter-info--post, .list-view-filter-info--user {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-/* line 55, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter-info--post h5, .list-view-filter-info--user h5 {
-  font-size: 1em;
-  letter-spacing: .1em;
-  color: #fcfcfc;
-  padding: 0;
-  margin: 0 0 8px 0;
-}
-@media only screen and (min-width: 1024px) {
-  /* line 55, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-info--post h5, .list-view-filter-info--user h5 {
-    padding: 8px 0 0 0;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 51, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-info--post, .list-view-filter-info--user {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-}
-@media only screen and (min-width: 1440px) {
-  /* line 51, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-info--post, .list-view-filter-info--user {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 66.66667%;
-    float: left;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-}
-
-/* line 77, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter-info--post {
-  border-bottom: 1px solid #1d2127;
-}
-@media only screen and (min-width: 1024px) {
-  /* line 77, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-info--post {
-    border-bottom: 0;
-  }
-}
-
-/* line 84, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter-info--user {
-  border-bottom: 1px solid #475363;
-}
-@media only screen and (min-width: 1024px) {
-  /* line 84, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-info--user {
-    border-bottom: 0;
-  }
-}
-
-/* line 93, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter-count--post, .list-view-filter-count--user {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 421px) {
-  /* line 93, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--post, .list-view-filter-count--user {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 93, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--post, .list-view-filter-count--user {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 25%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1440px) {
-  /* line 93, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--post, .list-view-filter-count--user {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 16.66667%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 421px) {
-  /* line 104, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--post .filter-count, .list-view-filter-count--user .filter-count {
-    margin-bottom: 0;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  /* line 111, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--post {
-    border-right: 1px solid #1d2127;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  /* line 117, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-count--user {
-    border-right: 1px solid #475363;
-  }
-}
-
-/* line 125, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter-sort {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 421px) {
-  /* line 125, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-sort {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 50%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  /* line 125, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-sort {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 25%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1440px) {
-  /* line 125, ../../scss/modules/list-view/_list-view-filter.scss */
-  .list-view-filter-sort {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 16.66667%;
-    float: left;
-  }
-}
-/* line 136, ../../scss/modules/list-view/_list-view-filter.scss */
-.list-view-filter-sort .filter-sort {
-  margin-bottom: 0;
-}
-
-/*------------------------------------*\
-		$CONTENTS
-\*------------------------------------*/
-/**
- * LIST VIEW POST...............individual posts within the LIST VIEW
- */
-/*-------------------------------------------------------------------*\
-		$LIST VIEW POST
-\*-------------------------------------------------------------------*/
-/* line 16, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post,
-.set-detail-post {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left;
-  border-bottom: 1px solid #eff0f3;
-  margin-bottom: 20px;
-}
-/* line 20, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post:last-child,
-.set-detail-post:last-child {
-  border-bottom: 0;
-}
-
-/* line 26, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-select-post {
-  position: absolute;
-  top: -17px;
-  left: -24px;
-}
-
-/* line 32, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-image {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 33.33333%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 32, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-image {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 16.66667%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1025px) {
-  /* line 32, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-image {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 8.33333%;
-    float: left;
-    width: 12.33333%;
-  }
-}
-/* line 42, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-image img {
-  margin: 10px 0 10px 0;
-  line-height: 0;
-  display: inline-block;
-  border: solid 4px white;
-  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-}
-/* line 32, ../../scss/foundation/components/_thumbs.scss */
-.list-view-post-image img:hover, .list-view-post-image img:focus {
-  -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
-  box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
-}
-
-/* line 48, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-details {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 66.66667%;
-  float: left;
-  margin-top: 5px;
-  padding-left: 0;
-}
-@media only screen and (min-width: 768px) {
-  /* line 48, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-details {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 83.33333%;
-    float: left;
-  }
-}
-@media only screen and (min-width: 1025px) {
-  /* line 48, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-details {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 91.66667%;
-    float: left;
-    width: 87.66667%;
-  }
-}
-
-/* line 61, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-title {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 61, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-title {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 66.66667%;
-    float: left;
-  }
-}
-
-/* line 68, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-time {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  font-size: 15px;
-}
-/* line 71, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-time p {
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 68, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-time {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 33.33333%;
-    float: left;
-  }
-  /* line 76, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-time p {
-    float: right;
-  }
-}
-
-/* line 82, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-body {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 82, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-body {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 83.33333%;
-    margin-left: 16.66667%;
-    float: left;
-  }
-}
-
-/* line 89, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-excerpt {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 768px) {
-  /* line 89, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-excerpt {
-    position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
-    width: 83.33333%;
-    margin-left: 16.66667%;
-    float: left;
-    margin-left: 0;
-  }
-}
-
-/* line 98, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-admin,
-.user-list-profile-admin,
-.set-detail-post-admin {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 100%;
-  float: left;
-  margin: 10px 0 20px 0;
-}
-
-/* line 103, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-categories-wrapper, .set-detail-post-list-categories-wrapper {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left;
-}
-/* line 105, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-post-categories-wrapper .post-form-wrapper label, .post-form-wrapper .list-view-post-categories-wrapper label, .set-detail-post-list-categories-wrapper .post-form-wrapper label, .post-form-wrapper .set-detail-post-list-categories-wrapper label {
-  margin: 0;
-}
-/* line 108, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-categories-wrapper button, .set-detail-post-list-categories-wrapper button {
-  margin-bottom: 0;
-}
-/* line 110, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-categories-wrapper button i, .set-detail-post-list-categories-wrapper button i {
-  padding-right: 5px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 103, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-categories-wrapper, .set-detail-post-list-categories-wrapper {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 50%;
-    float: left;
-  }
-}
-
-/* line 119, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-categories {
-  margin: 0;
-}
-/* line 121, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-categories a {
-  color: #a3a3a3;
-}
-/* line 124, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-categories li {
-  display: inline;
-  font-size: 70%;
-  padding-right: 5px;
-}
-/* line 129, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-categories .fa-circle {
-  color: #c50813;
-  padding-right: 5px;
-}
-
-/* line 135, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left;
-  margin-top: 20px;
-}
-@media only screen and (min-width: 768px) {
-  /* line 135, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    width: 50%;
-    float: left;
-    float: right;
-    margin-top: 0;
-  }
-}
-
-/* line 145, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-edit, .post-actions {
-  margin-left: 0;
-}
-/* line 147, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-edit > li, .post-actions > li {
-  display: inline;
-  float: left;
-  padding: 0 20px 0 0;
-}
-/* line 151, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-edit > li a, .post-actions > li a {
-  margin-bottom: 0;
-}
-/* line 155, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-edit button.expand, .post-actions button.expand, .list-view-post-edit .button.expand, .post-actions .button.expand {
-  padding-right: 1.125em;
-  padding-left: 1.125em;
-}
-/* line 159, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-edit [class^="fa"], .post-actions [class^="fa"], .list-view-post-edit [class*=" fa"], .post-actions [class*=" fa"] {
-  padding: 0;
-}
-@media only screen and (min-width: 768px) {
-  /* line 145, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-edit, .post-actions {
-    display: block;
-    padding: 0;
-    margin: 0 -0.625em;
-    *zoom: 1;
-    float: right;
-    padding-top: 13px;
-  }
-  /* line 121, ../../scss/foundation/components/_global.scss */
-  .list-view-post-edit:before, .post-actions:before, .list-view-post-edit:after, .post-actions:after {
-    content: " ";
-    display: table;
-  }
-  /* line 122, ../../scss/foundation/components/_global.scss */
-  .list-view-post-edit:after, .post-actions:after {
-    clear: both;
-  }
-  /* line 27, ../../scss/foundation/components/_block-grid.scss */
-  .list-view-post-edit > li, .post-actions > li {
-    display: inline;
-    height: auto;
-    float: left;
-    padding: 0 0.625em 1.25em;
-  }
-  /* line 166, ../../scss/modules/list-view/_list-view-post.scss */
-  .list-view-post-edit li, .post-actions li {
-    padding-bottom: 3px;
-  }
-}
-
-/* line 172, ../../scss/modules/list-view/_list-view-post.scss */
-.list-view-post-edit-buttons {
-  border-style: solid;
-  border-width: 1px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 0 1.25em;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  padding-top: 0.5625em;
-  padding-right: 1.125em;
-  padding-bottom: 0.625em;
-  padding-left: 1.125em;
-  font-size: 0.8125em;
-  background-color: #eff0f3;
-  border-color: #d2d5dd;
-  color: #333333;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-/* line 122, ../../scss/foundation/components/_buttons.scss */
-.list-view-post-edit-buttons:hover, .list-view-post-edit-buttons:focus {
-  background-color: #d2d5dd;
-}
-/* line 128, ../../scss/foundation/components/_buttons.scss */
-.list-view-post-edit-buttons:hover, .list-view-post-edit-buttons:focus {
-  color: #333333;
 }
 
 /*POSTS*/
@@ -13177,6 +13624,30 @@ nav[role="sub-navigation"] li a {
   }
 }
 
+/* line 1, ../../scss/modules/posts/_filter-bar.scss */
+.list-view-filter--post {
+  background: #323a45;
+  margin: 20px 0;
+}
+
+/* line 7, ../../scss/modules/posts/_filter-bar.scss */
+.list-view-filter-info--post {
+  border-bottom: 1px solid #1d2127;
+}
+@media only screen and (min-width: 1024px) {
+  /* line 7, ../../scss/modules/posts/_filter-bar.scss */
+  .list-view-filter-info--post {
+    border-bottom: 0;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  /* line 15, ../../scss/modules/posts/_filter-bar.scss */
+  .list-view-filter-count--post {
+    border-right: 1px solid #1d2127;
+  }
+}
+
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -13336,6 +13807,25 @@ nav[role="sub-navigation"] li a {
 .post-thumbnails li img:hover, .post-thumbnails li img:focus {
   -webkit-box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
   box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
+}
+
+/*------------------------------------*\
+		CONTENTS
+\*------------------------------------*/
+/**
+* POST LIST...............
+*/
+/*------------------------------------*\
+		$POST LIST
+\*------------------------------------*/
+/* line 15, ../../scss/modules/posts/_post-list.scss */
+.list-view-details--post {
+  margin-top: 10px;
+}
+
+/* line 20, ../../scss/modules/posts/_post-list.scss */
+.list-view-posts-list {
+  margin-left: 0;
 }
 
 /*------------------------------------*\
@@ -14203,7 +14693,7 @@ TODO: may need a notification mixin here
     float: left;
   }
   /* line 70, ../../scss/modules/sets/_set-details.scss */
-  .set-detail-post-edit-wrapper .list-view-post-edit, .set-detail-post-edit-wrapper .post-actions {
+  .set-detail-post-edit-wrapper .list-view-edit, .set-detail-post-edit-wrapper .post-actions {
     float: left;
   }
 }
@@ -14217,7 +14707,7 @@ TODO: may need a notification mixin here
     float: left;
   }
   /* line 75, ../../scss/modules/sets/_set-details.scss */
-  .set-detail-post-edit-wrapper .list-view-post-edit, .set-detail-post-edit-wrapper .post-actions {
+  .set-detail-post-edit-wrapper .list-view-edit, .set-detail-post-edit-wrapper .post-actions {
     float: right;
   }
 }
@@ -14364,19 +14854,41 @@ footer {
 /**
  * GENERAL...............general form overrides
  * CUSTOM DROPDOWNS...............custom form overrides
- * SEARCH BAR...............search bar styling
- * LIST VIEW FILTER...............list view filter styling
- * PSEUDO ELEMENTS...............pseudo element styling
+ * SEARCH BAR...............search bar styles
+ * LIST VIEW FILTER...............list view filter styles
+ * PSEUDO ELEMENTS...............pseudo element styles
+ * FIELDSETS...............form fieldset styles
  */
 /*------------------------------------*\
-	$GENERAL
-\*------------------------------------*/
-/* line 21, ../../scss/modules/forms/_forms.scss */
+ 	$GENERAL
+ \*------------------------------------*/
+/* line 20, ../../scss/modules/forms/_forms.scss */
+form .row .row {
+  /* margin: 0 -0.5em; */
+  width: auto;
+  margin-left: -0.9375em;
+  margin-right: -0.9375em;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: none;
+  *zoom: 1;
+}
+/* line 121, ../../scss/foundation/components/_global.scss */
+form .row .row:before, form .row .row:after {
+  content: " ";
+  display: table;
+}
+/* line 122, ../../scss/foundation/components/_global.scss */
+form .row .row:after {
+  clear: both;
+}
+
+/* line 25, ../../scss/modules/forms/_forms.scss */
 input[type="radio"], select {
   margin: 0 3px 1em 0;
 }
 
-/* line 25, ../../scss/modules/forms/_forms.scss */
+/* line 29, ../../scss/modules/forms/_forms.scss */
 textarea {
   height: 400px;
   font-family: inherit;
@@ -14387,7 +14899,7 @@ textarea {
   text-rendering: optimizeLegibility;
 }
 
-/* line 35, ../../scss/modules/forms/_forms.scss */
+/* line 39, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
   background: #fcfcfc url('../../images/dropdown-arrow.svg?1394043605') no-repeat;
@@ -14409,13 +14921,13 @@ select {
   border-radius: 3px;
 }
 
-/* line 52, ../../scss/modules/forms/_forms.scss */
+/* line 56, ../../scss/modules/forms/_forms.scss */
 select[multiple] {
   background-image: none;
 }
 
 @-moz-document url-prefix() {
-  /* line 57, ../../scss/modules/forms/_forms.scss */
+  /* line 61, ../../scss/modules/forms/_forms.scss */
   select {
     background: #fafafa;
     padding: 0.7em 1em 0.78em 0.78em;
@@ -14425,7 +14937,7 @@ select[multiple] {
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
-/* line 67, ../../scss/modules/forms/_forms.scss */
+/* line 71, ../../scss/modules/forms/_forms.scss */
 input[type="text"], input[type="email"], input[type="password"], input[type="search"] {
   height: 100%;
   /* FF fix */
@@ -14437,7 +14949,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="sea
   border-radius: 3px;
 }
 
-/* line 73, ../../scss/modules/forms/_forms.scss */
+/* line 77, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown {
   height: 2.9em;
   -webkit-border-radius: 3px;
@@ -14446,12 +14958,12 @@ form.custom .custom.dropdown {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 76, ../../scss/modules/forms/_forms.scss */
+/* line 80, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-top: .4em;
   margin-left: 1.4em;
 }
-/* line 80, ../../scss/modules/forms/_forms.scss */
+/* line 84, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .selector {
   height: 3.3125em;
 }
@@ -14460,7 +14972,7 @@ form.custom .custom.dropdown .selector {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 92, ../../scss/modules/forms/_forms.scss */
+  /* line 96, ../../scss/modules/forms/_forms.scss */
   .search-bar input[type="text"] {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -14471,13 +14983,13 @@ form.custom .custom.dropdown .selector {
 }
 
 @media only screen and (min-width: 1024px) {
-  /* line 98, ../../scss/modules/forms/_forms.scss */
+  /* line 102, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 98, ../../scss/modules/forms/_forms.scss */
+  /* line 102, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -14487,29 +14999,17 @@ form.custom .custom.dropdown .selector {
   }
 }
 
-/* line 107, ../../scss/modules/forms/_forms.scss */
-.search-close {
-  font-size: 1.375em;
-  padding: 5px 4px 4px;
-  line-height: 0;
-  position: absolute;
-  top: .65em;
-  right: 0.4em;
-  color: #5a5757;
-  opacity: 0.3;
-}
-
 /*------------------------------------*\
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 125, ../../scss/modules/forms/_forms.scss */
+  /* line 118, ../../scss/modules/forms/_forms.scss */
   .list-view-filter form.custom, .set-detail-post-list-filter form.custom {
     margin-bottom: 0;
   }
 }
 
-/* line 131, ../../scss/modules/forms/_forms.scss */
+/* line 124, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em;
 }
@@ -14517,23 +15017,33 @@ form.custom .custom.dropdown .current {
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 142, ../../scss/modules/forms/_forms.scss */
+/* line 135, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc;
 }
 
-/* line 147, ../../scss/modules/forms/_forms.scss */
+/* line 140, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f;
 }
 
-/* line 153, ../../scss/modules/forms/_forms.scss */
+/* line 146, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px;
+}
+
+/*------------------------------------*\
+	$FIELDSETS
+\*------------------------------------*/
+/* line 155, ../../scss/modules/forms/_forms.scss */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
 /* the `modules/modals` folder must be called at bottom */
@@ -15094,27 +15604,21 @@ form.custom .custom.checkbox.checked:before {
 .post-form-wrapper input[type="text"], .post-form-wrapper textarea {
   margin-bottom: 2em;
 }
-/* line 43, ../../scss/modules/modals/_create-post-modal.scss */
-.post-form-wrapper fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-}
-/* line 49, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 42, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form > fieldset {
   display: none;
 }
-/* line 51, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 44, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form > fieldset.active {
   display: block;
 }
 
-/* line 61, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 54, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper textarea {
   height: 100px;
 }
 
-/* line 65, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 58, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-row {
   width: 100%;
   margin-left: auto;
@@ -15134,7 +15638,7 @@ form.custom .custom.checkbox.checked:before {
   clear: both;
 }
 
-/* line 69, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 62, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-field {
   position: relative;
   padding-left: 0;
@@ -15143,7 +15647,7 @@ form.custom .custom.checkbox.checked:before {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 69, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 62, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-field {
     position: relative;
     padding-left: 0;
@@ -15154,7 +15658,7 @@ form.custom .custom.checkbox.checked:before {
   }
 }
 
-/* line 77, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 70, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-button {
   position: relative;
   padding-left: 0;
@@ -15163,7 +15667,7 @@ form.custom .custom.checkbox.checked:before {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 77, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 70, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-button {
     position: relative;
     padding-left: 0;
@@ -15174,12 +15678,12 @@ form.custom .custom.checkbox.checked:before {
   }
 }
 
-/* line 85, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 78, ../../scss/modules/modals/_create-post-modal.scss */
 .location-editor-map {
   height: 400px;
 }
 
-/* line 89, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 82, ../../scss/modules/modals/_create-post-modal.scss */
 .map-search-btn {
   border-style: solid;
   border-width: 1px;
