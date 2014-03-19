@@ -133,26 +133,30 @@ NOTE: comment out what I don't use
 @import "modules/header/topbar";
 @import "modules/header/subnav";
 
-/*WORKSPACE*/
-@import "modules/workspace/off-canvas";
-@import "modules/workspace/workspace-panel";
-@import "modules/workspace/tools/manage-users/manage-users";
+/*LIST VIEW*/
+@import "modules/list-view/list-view-filter";
+@import "modules/list-view/list-view";
 
 /*MAP*/
 @import "modules/map/map";
 @import "modules/map/search";
 
+/*WORKSPACE*/
+@import "modules/workspace/off-canvas";
+@import "modules/workspace/workspace-panel";
+@import "modules/workspace/actions-bar";
+@import "modules/workspace/tools/manage-users/manage-users";
+@import "modules/workspace/tools/manage-tags/manage-tags";
+
 /*HOME*/
 @import "modules/home/bulk-actions";
-
-/*LIST VIEW*/
-@import "modules/list-view/list-view-filter";
-@import "modules/list-view/list-view-post";
 
 /*POSTS*/
 @import "modules/posts/post";
 @import "modules/posts/post-overlay";
+@import "modules/posts/filter-bar";
 @import "modules/posts/post-details";
+@import "modules/posts/post-list";
 @import "modules/posts/related-posts";
 
 /*SETS*/

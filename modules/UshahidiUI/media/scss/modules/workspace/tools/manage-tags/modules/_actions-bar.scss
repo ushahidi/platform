@@ -2,24 +2,24 @@
     CONTENTS
 \*------------------------------------*/
 /**
- * USER LIST ACTIONS BAR............user list action bar styles
+ * TAG LIST ACTIONS BAR............tag list action bar styles
  */
 
 
 
 
 /*------------------------------------*\
-    $USER-LIST ACTIONS BAR
+    $TAG LIST ACTIONS BAR
 \*------------------------------------*/
 
-.actions-bar--user-list {
+.actions-bar--tag-list {
   @extend %actions-bar;
 }
 
-.actions-bar-header--user-list {
+.actions-bar-header--tag-list {
   @extend %actions-bar-header;
 }
 
-.actions-bar-admin--user-list {
+.actions-bar-admin--tag-list {
   @extend %actions-bar-admin;
 }

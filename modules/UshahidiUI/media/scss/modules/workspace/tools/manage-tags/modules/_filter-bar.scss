@@ -1,10 +1,10 @@
-.list-view-filter--user {
+.list-view-filter--tags {
   @extend %list-view-filter;
   background: lighten($accent-color, 25);
   margin: 0 0 20px 0;
 }
 
-.list-view-filter-info--user {
+.list-view-filter-info--tags {
   @extend %list-view-filter-info;
   border-bottom: 1px solid lighten($accent-color, 10);
   @media #{$medium} {
@@ -12,13 +12,13 @@
   }
 }
 
-.list-view-filter-count--user	{
+.list-view-filter-count--tags	{
   @extend %list-view-filter-count;
   @media #{$small} {
     border-right: 1px solid lighten($accent-color, 10);
   }
 }
 
-.list-view-filter-sort--user {
+.list-view-filter-sort--tags {
   @extend %list-view-filter-sort;
 }

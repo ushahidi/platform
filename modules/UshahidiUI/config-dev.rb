@@ -18,3 +18,10 @@ relative_assets = true
 # To disable debugging comments that display the original location of your selectors. Uncomment:
 # line_comments = false
 color_output = false
+
+# enables Sass random() function
+module Sass::Script::Functions
+  def random(max = Sass::Script::Number.new(2000))
+    Sass::Script::Number.new(rand(max.value), max.numerator_units, max.denominator_units)
+  end
+end

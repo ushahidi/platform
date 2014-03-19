@@ -1,9 +1,9 @@
 <div class="row">
-	<div class="user-list-actions-bar">
-		<div class="user-list-actions-bar-header">
+	<div class="actions-bar">
+		<div class="actions-bar-header">
 			<h3>Users</h3>
 		</div>
-		<div class="user-list-actions-bar-admin">
+		<div class="actions-bar-admin">
 			<ul class="hide-for-small">
 				<li>
 					<a href="#" class="js-select-all">
@@ -34,17 +34,18 @@
 					{{/each}}
 				</ul>
 			</li>
+			<li class="disabled"><a href=""><i class="fa  fa-user"></i>Add User</li>
 			<li class="js-bulk-action disabled"><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 		</div>
-	</div> <!-- end .user-list-actions-bar -->
+	</div> <!-- end .actions-bar -->
 
-	<div class="list-view-filter  list-view-filter--user">
+	<div class="list-view-filter--user">
 		<div class="row">
 
 			<div class="list-view-filter-info  list-view-filter-info--user">
 
-				<!-- NOTE: need a user-list-post -->
+				<!-- TODO: need a user-list-post -->
 				{{>user-list-info}}
 
 			</div> <!-- end .list-view-filter-info -->
@@ -77,25 +78,33 @@
 		</div> <!-- end .row -->
 	</div> <!-- end .list-view-filter -->
 
-	<div class="user-list-filter-bar">
+	<div class="role-filter">
 		<div class="row">
-			<div class="user-list-categories">
-				<ul class="user-list-categories-list  hide-for-small">
-					<li class="active js-user-filter-role active" data-role-name="">All
+			<div class="role-filter-categories">
+				<ul class="role-filter-categories-list  hide-for-small">
+					<li class="active js-user-filter-role active" data-role-name="">
+						<span class="role-title">All
  							<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
+						</span>
 					</li>
 					{{#each roles}}
-						<li class="js-user-filter-role" data-role-name="{{name}}">{{display_name}}
-							<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number">0</span></span>
+						<li class="js-user-filter-role" data-role-name="{{name}}">
+							<span class="role-title">{{display_name}}
+								<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number">{{total}}</span></span>
+							</span>
 						</li>
 					{{/each}}
 				</ul>
 
 				<a href="#/" data-dropdown="drop-roles" class="dropdown-button  show-for-small">filter by roles</a><br>
-				<ul id="drop-roles" data-dropdown-content class="user-list-categories-list  f-dropdown  show-for-small">
+				<ul id="drop-roles" data-dropdown-content class="role-filter-categories-list  f-dropdown  show-for-small">
 					<li class="js-user-filter-role active" data-role-name="">All</li>
 					{{#each roles}}
-						<li class="js-user-filter-role" data-role-name="{{name}}">{{display_name}}</li>
+						<li class="js-user-filter-role" data-role-name="{{name}}">
+							<span class="role-title">{{display_name}}
+								<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number">{{total}}</span></span>
+							</span>
+						</li>
 					{{/each}}
 				</ul>
 			</div>
@@ -112,7 +121,7 @@
 				</div> <!-- end .search-bar-button -->
 			</div> <!-- end .search-field-wrapper -->
 		</div> <!-- end .row -->
-	</div> <!-- end .user-list-filter-bar -->
+	</div> <!-- end .role-filter -->
 
 	<div class="list-view-wrapper">
 

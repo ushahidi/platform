@@ -274,7 +274,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 						pagination: this.collection.state
 					})
 				);
-				this.$('.list-view-filter-info').html(
+				this.$('.list-view-filter-info--posts').html(
 					this.partialTemplates.postListInfo({
 						pagination: this.collection.state
 					})

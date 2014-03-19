@@ -19,3 +19,6 @@ node_modules*
 .flooignore
 .sublime-project
 build/*
+Gemfile.lock
+modules/UshahidiUI/config.codekit
+config.codekit
