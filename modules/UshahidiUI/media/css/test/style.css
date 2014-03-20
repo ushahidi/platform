@@ -14,7 +14,7 @@
 /*------------------------------------*\
 		$COMPASS
 \*------------------------------------*/
-/* line 17, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, .post-form-wrapper label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -36,55 +36,55 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
 
-/* line 10, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper {
   clear: both;
   min-height: 100%;
@@ -92,12 +92,12 @@ html, body {
   height: 100%;
   margin-bottom: -72px;
 }
-/* line 18, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper .sticky-footer-root {
   height: 72px;
 }
 
-/* line 20, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../../../../../opt/boxen/rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .footer {
   clear: both;
   position: relative;
@@ -3513,7 +3513,7 @@ form.custom .custom.disabled {
 }
 /* line 112, ../../scss/foundation/components/_dropdown-buttons.scss */
 .dropdown.button.secondary:before {
-  border-color: #333333 transparent transparent transparent;
+  border-color: #323a45 transparent transparent transparent;
 }
 
 /* Split Buttons */
@@ -5915,7 +5915,7 @@ a.th {
   width: 0;
   height: 0;
   border: inset 12px;
-  border-color: transparent transparent white transparent;
+  border-color: transparent transparent #323a45 transparent;
   border-bottom-style: solid;
   position: absolute;
   top: -24px;
@@ -9869,7 +9869,7 @@ img.mfp-img {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('../../images/logo.png?1394043605') no-repeat;
+  background: url('../../images/logo.png?1383248488') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -11232,7 +11232,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 32, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1394043605') no-repeat;
+  background: url('../../images/avatar.png?1382122926') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -11804,7 +11804,7 @@ nav[role="sub-navigation"] li a {
   width: 0;
   height: 0;
   border: inset 12px;
-  border-color: transparent transparent white transparent;
+  border-color: transparent transparent #323a45 transparent;
   border-bottom-style: solid;
   position: absolute;
   top: -24px;
@@ -11976,13 +11976,15 @@ nav[role="sub-navigation"] li a {
     CONTENTS
 \*------------------------------------*/
 /**
-
- * ROLE FILTER............roles, count and search styles
+ * USER-LIST
+   * ROLE FILTER............roles filter and role count numbers
+   * ROLE FILTER DROPDOWN............role filter dropdown button styles
+   * ROLE FILTER SEARCH FIELD...............search field styles
  */
 /*------------------------------------*\
-    $USER-LIST ROLE FILTER BAR
+    $ROLE FILTER
 \*------------------------------------*/
-/* line 17, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 19, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter {
   position: relative;
   padding-left: 0.9375em;
@@ -11992,7 +11994,7 @@ nav[role="sub-navigation"] li a {
   background-color: #fcfcfc;
 }
 
-/* line 22, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 24, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories {
   position: relative;
   padding-left: 0.9375em;
@@ -12002,7 +12004,7 @@ nav[role="sub-navigation"] li a {
   margin-top: 15px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 22, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+  /* line 24, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
   .role-filter-categories {
     position: relative;
     padding-left: 0.9375em;
@@ -12012,7 +12014,7 @@ nav[role="sub-navigation"] li a {
     margin-top: 0;
   }
 }
-/* line 29, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 31, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories .dropdown-button {
   border-style: solid;
   border-width: 1px;
@@ -12073,12 +12075,12 @@ nav[role="sub-navigation"] li a {
 .role-filter-categories .dropdown-button:before {
   border-color: white transparent transparent transparent;
 }
-/* line 33, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 35, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories .dropdown-button:before {
-  border-color: black transparent transparent transparent;
+  border-color: #323a45 transparent transparent transparent;
 }
 
-/* line 39, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 41, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list {
   display: block;
   padding: 0;
@@ -12114,14 +12116,15 @@ nav[role="sub-navigation"] li a {
 .role-filter-categories-list > li:nth-of-type(5n+1) {
   clear: both;
 }
-/* line 41, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 43, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list:after {
   content: none;
   display: table;
 }
-/* line 45, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 47, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li {
   border-right: 1px solid #eff0f3;
+  border-bottom: 3px solid transparent;
   padding: 0 10px;
   font-size: 0.875em;
   color: #9a9797;
@@ -12129,47 +12132,47 @@ nav[role="sub-navigation"] li a {
   text-align: center;
 }
 @media only screen and (min-width: 768px) {
-  /* line 45, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+  /* line 47, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
   .role-filter-categories-list li {
     padding: 19px;
   }
 }
 
-/* line 59, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 62, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li.active {
   background-color: #e9ebef;
   color: #1f1f1f;
   font-weight: bold;
   border-bottom: 3px solid #14b4d1;
 }
-/* line 65, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 68, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li:hover:not(.active) {
   background-color: #e9ebef;
   border-bottom: 3px solid #14b4d1;
 }
-/* line 69, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 72, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li:active:not(.active) {
   background-color: #dee0e6;
 }
 
-/* line 75, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 78, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list .hide-for-small {
   display: none !important;
 }
 @media only screen and (min-width: 768px) {
-  /* line 75, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+  /* line 78, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
   .role-filter-categories-list .hide-for-small {
     display: inline-block !important;
   }
 }
-/* line 81, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 84, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list .count-number {
   position: relative;
   top: 4px;
   font-size: 0.6875em;
   letter-spacing: .15em;
 }
-/* line 87, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 90, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list a {
   display: block;
   padding: 20px 0px;
@@ -12177,7 +12180,7 @@ nav[role="sub-navigation"] li a {
   color: #1f1f1f;
 }
 
-/* line 95, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 98, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 [class*='-count-number'] {
   position: relative;
   top: -5px;
@@ -12194,33 +12197,59 @@ nav[role="sub-navigation"] li a {
   white-space: nowrap;
 }
 
-/*random color function for count-number background*/
-/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/*random color function for role count-number background*/
+/* line 129, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li:nth-child(5n+1) [class*='-count-number'] {
   background-color: #323a45;
 }
 
-/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 129, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li:nth-child(5n+2) [class*='-count-number'] {
   background-color: #c50813;
 }
 
-/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 129, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li:nth-child(5n+3) [class*='-count-number'] {
   background-color: #3cb81c;
 }
 
-/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 129, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li:nth-child(5n+4) [class*='-count-number'] {
   background-color: #ffad19;
 }
 
-/* line 126, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/* line 129, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .role-filter-categories-list li:nth-child(5n+5) [class*='-count-number'] {
   background-color: #14b4d1;
 }
 
-/* line 131, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+/*------------------------------------*\
+   $ROLE FILTER DROPDOWN
+\*------------------------------------*/
+/* line 138, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list--dropdown li {
+  padding: 15px;
+  width: 100%;
+}
+/* line 141, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list--dropdown li.active {
+  background-color: #e9ebef;
+  border-bottom: 3px solid transparent;
+}
+/* line 145, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list--dropdown li:hover:not(.active) {
+  background-color: #e9ebef;
+  border-bottom: 3px solid transparent;
+}
+/* line 149, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+.role-filter-categories-list--dropdown li:active:not(.active) {
+  background-color: #dee0e6;
+}
+
+/*------------------------------------*\
+   $ROLE FILTER SEARCH FIELD
+\*------------------------------------*/
+/* line 161, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
 .search-field-wrapper--role-filter {
   position: relative;
   padding-left: 0.9375em;
@@ -12231,7 +12260,7 @@ nav[role="sub-navigation"] li a {
   border-top: 1px solid #eff0f3;
 }
 @media only screen and (min-width: 768px) {
-  /* line 131, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
+  /* line 161, ../../scss/modules/workspace/tools/manage-users/modules/_role-filter.scss */
   .search-field-wrapper--role-filter {
     position: relative;
     padding-left: 0.9375em;
@@ -12466,502 +12495,502 @@ nav[role="sub-navigation"] li a {
 /*tag color HSL function*/
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(1) .tag-color {
-  color: #312d11;
+  color: #f6f7f8;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(2) .tag-color {
-  color: #3f4035;
+  color: #57931f;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(3) .tag-color {
-  color: #62b28e;
+  color: #7846aa;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(4) .tag-color {
-  color: #72317c;
+  color: #b1b2a9;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(5) .tag-color {
-  color: #2a1362;
+  color: #58e9b2;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(6) .tag-color {
-  color: #8cb1ac;
+  color: #fbf5ef;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(7) .tag-color {
-  color: #476b6c;
+  color: #0c0d0d;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(8) .tag-color {
-  color: #51b8c8;
+  color: #d35227;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(9) .tag-color {
-  color: #150317;
+  color: #2c32ed;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(10) .tag-color {
-  color: #a7b1be;
+  color: #e2f4b9;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(11) .tag-color {
-  color: #84d1f5;
+  color: #f1cfa2;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(12) .tag-color {
-  color: #e9eff7;
+  color: #c4bfb1;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(13) .tag-color {
-  color: #942624;
+  color: #5d1664;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(14) .tag-color {
-  color: #c176ef;
+  color: #21401c;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(15) .tag-color {
-  color: #920772;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(16) .tag-color {
-  color: #f6e4df;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(17) .tag-color {
-  color: #0c1013;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(18) .tag-color {
-  color: #08050b;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(19) .tag-color {
-  color: #99bf03;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(20) .tag-color {
-  color: #171203;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(21) .tag-color {
-  color: #064b41;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(22) .tag-color {
-  color: #3c2611;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(23) .tag-color {
-  color: #357732;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(24) .tag-color {
-  color: #078847;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(25) .tag-color {
-  color: #b9ebf3;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(26) .tag-color {
-  color: #b6f1da;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(27) .tag-color {
-  color: #2e18b9;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(28) .tag-color {
-  color: #999348;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(29) .tag-color {
-  color: #151910;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(30) .tag-color {
-  color: #687c92;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(31) .tag-color {
-  color: #97637d;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(32) .tag-color {
-  color: #701066;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(33) .tag-color {
-  color: #59c355;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(34) .tag-color {
-  color: #1f2018;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(35) .tag-color {
-  color: #32b355;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(36) .tag-color {
-  color: #18aebf;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(37) .tag-color {
-  color: #b3e5dc;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(38) .tag-color {
-  color: #ed9f78;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(39) .tag-color {
-  color: #406e72;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(40) .tag-color {
-  color: #faf6ef;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(41) .tag-color {
-  color: #2e042f;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(42) .tag-color {
-  color: #5b571f;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(43) .tag-color {
-  color: #9c547a;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(44) .tag-color {
-  color: #f1eeee;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(45) .tag-color {
-  color: #4c4b95;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(46) .tag-color {
-  color: #483346;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(47) .tag-color {
-  color: #f2f2f2;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(48) .tag-color {
-  color: #53f9e3;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(49) .tag-color {
-  color: #b41dac;
-}
-
-/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.list-view-tag:nth-child(50) .tag-color {
   color: black;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(16) .tag-color {
+  color: #83ae5b;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(17) .tag-color {
+  color: #426080;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(18) .tag-color {
+  color: #577cea;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(19) .tag-color {
+  color: #2b165f;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(20) .tag-color {
+  color: #b8c2a8;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(21) .tag-color {
+  color: #5378ea;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(22) .tag-color {
+  color: #feb3c1;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(23) .tag-color {
+  color: #bebe1e;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(24) .tag-color {
+  color: #f5b7ed;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(25) .tag-color {
+  color: #ea3ea5;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(26) .tag-color {
+  color: #808e83;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(27) .tag-color {
+  color: #89ba5e;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(28) .tag-color {
+  color: #080807;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(29) .tag-color {
+  color: #cdd5e9;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(30) .tag-color {
+  color: #1d2734;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(31) .tag-color {
+  color: #9fba17;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(32) .tag-color {
+  color: #7c75db;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(33) .tag-color {
+  color: #26282c;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(34) .tag-color {
+  color: #461d49;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(35) .tag-color {
+  color: #26287d;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(36) .tag-color {
+  color: #0e2739;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(37) .tag-color {
+  color: #f0f3ec;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(38) .tag-color {
+  color: #184e30;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(39) .tag-color {
+  color: #9d345c;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(40) .tag-color {
+  color: #f3e7ea;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(41) .tag-color {
+  color: #4f4f4f;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(42) .tag-color {
+  color: #d37ec2;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(43) .tag-color {
+  color: #93b011;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(44) .tag-color {
+  color: #84f0ec;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(45) .tag-color {
+  color: #608d25;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(46) .tag-color {
+  color: #42013f;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(47) .tag-color {
+  color: #8fb479;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(48) .tag-color {
+  color: #24fc03;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(49) .tag-color {
+  color: #2dfba8;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-tag:nth-child(50) .tag-color {
+  color: #c49508;
+}
+
+/* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(51) .tag-color {
-  color: #591e03;
+  color: #7a7775;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(52) .tag-color {
-  color: #140006;
+  color: #132f3e;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(53) .tag-color {
-  color: #cae1e2;
+  color: #1c0821;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(54) .tag-color {
-  color: #bb638f;
+  color: #e0cbe7;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(55) .tag-color {
-  color: #d9d9d9;
+  color: black;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(56) .tag-color {
-  color: #162c8d;
+  color: #1805c2;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(57) .tag-color {
-  color: #f5f0f3;
+  color: #41541c;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(58) .tag-color {
-  color: #bfedc7;
+  color: #2a2c07;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(59) .tag-color {
-  color: #06082d;
+  color: #2a3e55;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(60) .tag-color {
-  color: #e76750;
+  color: #ab26ed;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(61) .tag-color {
-  color: #207952;
+  color: #6c7109;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(62) .tag-color {
-  color: #d1e4fa;
+  color: #c95e4f;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(63) .tag-color {
-  color: #e9f1ec;
+  color: #040606;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(64) .tag-color {
-  color: #43895f;
+  color: #877654;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(65) .tag-color {
-  color: #716284;
+  color: #3a4041;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(66) .tag-color {
-  color: #eac8b3;
+  color: #91dcf3;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(67) .tag-color {
-  color: #49e4b8;
+  color: #0eaf76;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(68) .tag-color {
-  color: #4bf75f;
+  color: #fcfdfb;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(69) .tag-color {
-  color: #a0cbda;
+  color: #4a14eb;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(70) .tag-color {
-  color: #fcc979;
+  color: #30992e;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(71) .tag-color {
-  color: #5a1b32;
+  color: #0e0f10;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(72) .tag-color {
-  color: #aa7364;
+  color: #8d8d8b;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(73) .tag-color {
-  color: #e6eaef;
+  color: #dfcbeb;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(74) .tag-color {
-  color: #092f23;
+  color: #f5d0c7;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(75) .tag-color {
-  color: #99886c;
+  color: #553f5a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(76) .tag-color {
-  color: #f2f6f7;
+  color: #c59bb7;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(77) .tag-color {
-  color: #c86a72;
+  color: #3d4206;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(78) .tag-color {
-  color: #e3e9ed;
+  color: #ce83a6;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(79) .tag-color {
-  color: #111816;
+  color: #5a0732;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(80) .tag-color {
-  color: #721ba1;
+  color: #eaf7e4;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(81) .tag-color {
-  color: #7876cb;
+  color: #1653f8;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(82) .tag-color {
-  color: #5c3a83;
+  color: #b61edc;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(83) .tag-color {
-  color: #3434b7;
+  color: #b047cd;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(84) .tag-color {
-  color: #e4fde2;
+  color: #a3810f;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(85) .tag-color {
-  color: #0c162c;
+  color: #1a0128;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(86) .tag-color {
-  color: #ef0b88;
+  color: #06051a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(87) .tag-color {
-  color: #e2ecdf;
+  color: #f79492;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(88) .tag-color {
-  color: #7f2e46;
+  color: #22062d;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(89) .tag-color {
-  color: #1b2746;
+  color: #3b3d1f;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(90) .tag-color {
-  color: #20231a;
+  color: #939f65;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(91) .tag-color {
-  color: #fdfcfd;
+  color: #9c9c91;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(92) .tag-color {
-  color: #d7d7d5;
+  color: #adb1b8;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(93) .tag-color {
-  color: #090b10;
+  color: #2c5e47;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(94) .tag-color {
-  color: #e4c662;
+  color: #3c3e3d;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(95) .tag-color {
-  color: #4c2f35;
+  color: #454a4a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(96) .tag-color {
-  color: #090108;
+  color: #ba4f5f;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(97) .tag-color {
-  color: #d3cc78;
+  color: #dceadc;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(98) .tag-color {
-  color: #090b0b;
+  color: #270302;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(99) .tag-color {
-  color: #1b2419;
+  color: #96b2cf;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(100) .tag-color {
-  color: #d699cb;
+  color: #230a75;
 }
 
 /*HOME*/
@@ -13218,7 +13247,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('../../images/category-icon.png?1394043605') no-repeat;
+  background: url('../../images/category-icon.png?1383248488') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 54, ../../scss/modules/posts/_post.scss */
@@ -13552,7 +13581,7 @@ nav[role="sub-navigation"] li a {
   width: 0;
   height: 0;
   border: inset 12px;
-  border-color: transparent transparent white transparent;
+  border-color: transparent transparent #323a45 transparent;
   border-bottom-style: solid;
   position: absolute;
   top: -24px;
@@ -14902,7 +14931,7 @@ textarea {
 /* line 39, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
-  background: #fcfcfc url('../../images/dropdown-arrow.svg?1394043605') no-repeat;
+  background: #fcfcfc url('../../images/dropdown-arrow.svg?1392926465') no-repeat;
   background-size: 9px;
   background-position-x: 97%;
   background-position-y: center;

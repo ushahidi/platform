@@ -406,7 +406,7 @@ $button-bar-margin-opposite: emCalc(10px);
 // Color of the pip in dropdown buttons
 
 $dropdown-button-pip-color: #fff;
-$dropdown-button-pip-color-alt: #333;
+$dropdown-button-pip-color-alt: $blueGray;
 
 // Tiny dropdown buttons
 
@@ -660,7 +660,7 @@ $f-dropdown-border-color: $blueGray;
 // Triangle pip.
 
 $f-dropdown-triangle-size: 12px;
-$f-dropdown-triangle-color: #fff;
+$f-dropdown-triangle-color: $blueGray;
 $f-dropdown-triangle-side-offset: 8px;
 
 // List elements.

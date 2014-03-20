@@ -2,8 +2,10 @@
     CONTENTS
 \*------------------------------------*/
 /**
-
- * ROLE FILTER............roles, count and search styles
+ * USER-LIST
+   * ROLE FILTER............roles filter and role count numbers
+   * ROLE FILTER DROPDOWN............role filter dropdown button styles
+   * ROLE FILTER SEARCH FIELD...............search field styles
  */
 
 
@@ -11,7 +13,7 @@
 
 
 /*------------------------------------*\
-    $USER-LIST ROLE FILTER BAR
+    $ROLE FILTER
 \*------------------------------------*/
 
 .role-filter {
@@ -31,7 +33,7 @@
 		@include dropdown-button($padding: tiny);
 		margin-bottom: 0;
 		&:before {
-			border-color: $black transparent transparent transparent;
+			border-color: $blueGray transparent transparent transparent;
 		}
 	}
 }
@@ -44,6 +46,7 @@
   }
 	li {
 		border-right: 1px solid $secondary-color;
+    border-bottom: 3px solid transparent;
 		padding: 0 10px;
 		font-size: emCalc(14);
     color: $sub-body-font-color;
@@ -112,7 +115,7 @@
 	@extend %role-filter-count-number;
 }
 
-/*random color function for count-number background*/
+/*random color function for role count-number background*/
 
 $color1: $accent-color;
 $color2: $alert-color;
@@ -127,6 +130,33 @@ $colors: $color1, $color2, $color3, $color4, $color5;
 		background-color: (nth($colors, $i));
 	}
 }
+
+/*------------------------------------*\
+   $ROLE FILTER DROPDOWN
+\*------------------------------------*/
+
+.role-filter-categories-list--dropdown li {
+  padding: 15px;
+  width: 100%;
+  &.active {
+    background-color: darken($secondary-color, 2);
+    border-bottom: 3px solid transparent;
+  }
+  &:hover:not(.active) {
+    background-color: darken($secondary-color, 2);
+    border-bottom: 3px solid transparent;
+  }
+  &:active:not(.active) {
+    background-color: darken($secondary-color, 6);
+  }
+}
+
+
+
+
+/*------------------------------------*\
+   $ROLE FILTER SEARCH FIELD
+\*------------------------------------*/
 
 .search-field-wrapper--role-filter {
   @extend %search-field-wrapper;
