@@ -12,8 +12,9 @@
 				<label class="visually-hidden" for="categories">Categories</label>
 				{{#if tags}}
 				<select>
+					<option selected>Tags</option>
 					{{#each tags}}
-			        <option value="{{tags}}">{{tags}}</option>
+			        <option value="{{id}}">{{tag}}</option>
 					{{/each}}
 				</select>
 				 {{/if}}
