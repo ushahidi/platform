@@ -2,6 +2,7 @@
 		$CONTENTS
 \*------------------------------------*/
 /**
+ * COPYRIGHT...............copyright comment
  * COMPASS...............compass imports
  * COMPASS PLUGINS...............compass plugins
  * USER CONFIGS...............user settings, configs and tools
@@ -11,6 +12,12 @@
  * PLUGINS...............custom Sass for plugins
  * BOTTOM FILES...............these files must be called below everything else. Modals.
  */
+
+
+/*------------------------------------*\
+		$COPYRIGHT
+\*------------------------------------*/
+@import "base/copyright";
 
 
 
