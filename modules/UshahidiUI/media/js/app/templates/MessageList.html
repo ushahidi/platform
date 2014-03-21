@@ -1,21 +1,33 @@
-<div class="list-view-bulk-actions  js-list-view-bulk-actions  visually-hidden">
-	<div class="row">
-		<ul class="list-view-bulk-actions-list">
-			<li>
-				<form>
-					<label class="select-all" for="select-all">
-						<input class="show-for-medium-down" type="checkbox" id="select-all">
-						<span class="hide-for-medium-down underline">Select All</span>
-					</label>
-				</form>
-			</li>
-			<li><a href="#"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">Create Post</span></a></li>
-			<li><a href="#"> <i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">Archive</span></a></li>
-		</ul> <!-- end .list-view-bulk-actions-list .hide-for-medium-down-->
-	</div> <!-- end .row -->
-</div> <!-- end .list-view-bulk-actions -->
-
 <div class="row">
+
+	<div class="actions-bar">
+		<div class="actions-bar-header">
+			<h3>Messages</h3>
+		</div>
+		<div class="actions-bar-admin">
+			<ul class="hide-for-small">
+				<li>
+					<a href="#" class="js-select-all">
+						<span class="select-text">Select All</span>
+						<span class="unselect-text visually-hidden">Unselect All</span>
+					</a>
+				</li>
+				<li class="js-bulk-action disabled"><a href="#" class="js-user-bulk-archive"><i class="fa  fa-archive"></i>Archive</a></li>
+			</ul>
+
+			<a href="#" data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
+			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-list  show-for-small">
+			<li>
+				<a href="#" class="js-select-all">
+					<span class="select-text">Select All</span>
+					<span class="unselect-text visually-hidden">Unselect All</span>
+				</a>
+			</li>
+			<li class="js-bulk-action disabled"><a href="#" class="js-user-bulk-archive"><i class="fa  fa-archive"></i>Archive</a></li>
+			</ul>
+		</div>
+	</div> <!-- end .actions-bar -->
+
 	<div class="list-view-filter">
 		<div class="row">
 

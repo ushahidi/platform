@@ -40,20 +40,20 @@
 		</div>
 	</div> <!-- end .actions-bar -->
 
-	<div class="list-view-filter--user">
+	<div class="list-view-filter--alt">
 		<div class="row">
 
-			<div class="list-view-filter-info  list-view-filter-info--user">
+			<div class="list-view-filter-info--alt">
 
 				<!-- TODO: need a user-list-post -->
 				{{>user-list-info}}
 
 			</div> <!-- end .list-view-filter-info -->
 
-			<div class="list-view-filter-count  list-view-filter-count--user">
+			<div class="list-view-filter-count--alt">
 				<div class="filter-count-select">
 					<label class="visually-hidden" for="filter-count">Number of users shown</label>
-					<select id="filter-count" class="filter-count js-filter-count">
+					<select id="filter-count" class="filter-count  js-filter-count">
 						<option selected>3</option>
 						<option>5</option>
 						<option>10</option>
@@ -63,10 +63,10 @@
 
 			</div> <!-- end .list-view-filter-count -->
 
-			<div class="list-view-filter-sort  list-view-filter-sort--user">
+			<div class="list-view-filter-sort">
 				<div class="filter-sort-select">
 					<label class="visually-hidden" for="filter-sort">Sort users by</label>
-					<select id="filter-sort" class="filter-sort js-filter-sort">
+					<select id="filter-sort" class="filter-sort  js-filter-sort">
 						{{#each sortKeys}}
 							<option value="{{@key}}">{{this}}</option>
 						{{/each}}

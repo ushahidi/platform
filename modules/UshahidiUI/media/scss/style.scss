@@ -135,6 +135,7 @@ NOTE: comment out what I don't use
 
 /*LIST VIEW*/
 @import "modules/list-view/list-view-filter";
+@import "modules/list-view/list-view-filter--alt";
 @import "modules/list-view/list-view";
 
 /*MAP*/
@@ -154,7 +155,6 @@ NOTE: comment out what I don't use
 /*POSTS*/
 @import "modules/posts/post";
 @import "modules/posts/post-overlay";
-@import "modules/posts/filter-bar";
 @import "modules/posts/post-details";
 @import "modules/posts/post-list";
 @import "modules/posts/related-posts";

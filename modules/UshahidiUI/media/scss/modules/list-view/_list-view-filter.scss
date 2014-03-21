@@ -4,8 +4,6 @@
 /**
 	* LIST VIEW WRAPPER..................wrapper around all posts in list view
 	* LIST VIEW FILTER BAR..................list view filter bar styles
-			* --post
-			* --user
 */
 
 
@@ -31,13 +29,17 @@
 
 
 // FILTER
-%list-view-filter {
+%list-view-filter,
+.list-view-filter {
 	@include grid-column(12);
+	background: $accent-color;
 	padding: 20px;
+	margin: 20px 0;
 }
 
 // FILTER INFO
-%list-view-filter-info {
+%list-view-filter-info,
+.list-view-filter-info {
 	@include grid-column(12);
 	padding-bottom: 10px;
 	margin-bottom: 20px;
@@ -64,7 +66,8 @@
 }
 
 // FILTER COUNT
-%list-view-filter-count {
+%list-view-filter-count,
+.list-view-filter-count {
 	@include grid-column(12);
 	@media #{$mobile-up} {
 		@include grid-column(6);
@@ -83,7 +86,8 @@
 }
 
 // SORT
-%list-view-filter-sort {
+%list-view-filter-sort,
+.list-view-filter-sort {
 	@include grid-column(12);
 	@media #{$mobile-up} {
 		@include grid-column(6);
