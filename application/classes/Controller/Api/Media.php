@@ -79,6 +79,15 @@ class Controller_Api_Media extends Ushahidi_Api
 			$media_query->where('user_id', '=', $user);
 		}
 
+		$post = $this->request->query('post');
+		if (! empty($post))
+		{
+			$media_query
+				->join('posts_media')
+					->on('posts_media.media_id', '=', 'media.id')
+				->where('posts_media.post_id', '=', (int) $post);
+		}
+
 		$media = $media_query->find_all();
 
 		$count = $media->count();
