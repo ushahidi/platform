@@ -69,6 +69,23 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
+	
+	public function post_ids()
+	{
+		if (!$this->id) {
+			return array();
+		}
+		$ids = DB::select('post_id')
+			->from('posts_media')
+			->where('media_id', '=', $this->id)
+			->execute()
+			->as_array('id', 'id')
+			;
+
+		// exit(Debug::vars($ids));
+
+		return array_values($ids);
+	}
 
 	/**
 	 * Prepare media data for API
@@ -93,6 +110,7 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 			$response = array(
 				'id' => $this->id,
 				'user_id' => $this->user_id,
+				'posts' => $this->post_ids(),
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
 				'caption' => $this->caption,
 				'mime' => $this->mime,
