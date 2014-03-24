@@ -11,11 +11,13 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 	'dropzone',
 	'util/App.oauth', 
 	'models/MediaModel',
+	'collections/MediaCollection',
 	'backbone-validation', 'forms/UshahidiForms'],
 	function( App, Marionette, Handlebars, _, alertify, template,
 		Dropzone,
 		OAuth,
 		MediaModel,
+		MediaCollection,
 		BackboneValidation, BackboneForm)
 	{
 		// we do not want dropzone to auto-discover, because the upload path is
