@@ -13,6 +13,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
+			collectionEvents : {
+				'sync': 'render',
+			},
 			events:{
 				'submit form': 'SearchPosts'
 			},
@@ -20,8 +23,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 			serializeData: function()
 			{
 				var data = {
-					tags : App.Collections.Tags.toJSON()
+					tags : this.collection.toJSON()
 				};
+
 				return data;
 			},
 

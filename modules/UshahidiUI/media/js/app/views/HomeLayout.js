@@ -66,7 +66,7 @@ define(['App', 'marionette', 'handlebars', 'underscore',
 				if (this.searchRegion.currentView instanceof SearchBarView === false && this.views.search)
 				{
 					this.searchRegion.show(new SearchBarView({
-						collection : this.collection
+						collection : App.Collections.Tags
 					}));
 				}
 				else if(! this.views.search)
