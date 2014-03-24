@@ -88,6 +88,19 @@ class Controller_Api_Media extends Ushahidi_Api
 				->where('posts_media.post_id', '=', (int) $post);
 		}
 
+		$orphans = $this->request->query('orphans');
+		if (! empty($orphans))
+		{
+			$media_query
+				->join('posts_media', 'left')
+					->on('posts_media.media_id', '=', 'media.id')
+				->where('posts_media.post_id', 'is', NULL);
+
+			if (! $user) {
+				$media_query->where('user_id', '=', $this->user->id);
+			}
+		}
+
 		$media = $media_query->find_all();
 
 		$count = $media->count();

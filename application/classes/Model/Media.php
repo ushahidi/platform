@@ -75,6 +75,7 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 		if (!$this->id) {
 			return array();
 		}
+
 		$ids = DB::select('post_id')
 			->from('posts_media')
 			->where('media_id', '=', $this->id)
