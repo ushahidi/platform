@@ -10,6 +10,23 @@
  */
 
 class Model_Media extends ORM implements Acl_Resource_Interface {
+	/**
+	 * A media has and belongs to many posts
+	 *
+	 * @var array Relationships
+	 */
+	protected $_has_many = array(
+		'posts' => array('through' => 'posts_media'),
+		);
+
+	/**
+	 * A set belongs to a user
+	 *
+	 * @var array Relationships
+	 */
+	protected $_belongs_to = array(
+		'user' => array()
+		);
 
 	/**
 	 * Rules for the media model
@@ -21,6 +38,10 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 		return array(
 			'id' => array(
 				array('numeric')
+			),
+
+			'user_id' => array(
+				array('numeric'),
 			),
 
 			'o_width' => array(
@@ -48,6 +69,24 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
+	
+	public function post_ids()
+	{
+		if (!$this->id) {
+			return array();
+		}
+
+		$ids = DB::select('post_id')
+			->from('posts_media')
+			->where('media_id', '=', $this->id)
+			->execute()
+			->as_array('id', 'id')
+			;
+
+		// exit(Debug::vars($ids));
+
+		return array_values($ids);
+	}
 
 	/**
 	 * Prepare media data for API
@@ -67,14 +106,18 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 			$thumbnail_width = Kohana::$config->load('media.image_thumbnail_width');
 			$thumbnail_height = Kohana::$config->load('media.image_thumbnail_height');
 
+			$upload_path = Kohana::$config->load('media.media_upload_dir');
 			$relative_path = str_replace(Kohana::$config->load('imagefly.media_dir'),'',Kohana::$config->load('media.media_upload_dir'));
 
 			$response = array(
 				'id' => $this->id,
+				'user_id' => $this->user_id,
+				'posts' => $this->post_ids(),
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
 				'caption' => $this->caption,
 				'mime' => $this->mime,
 				'original_file_url' => URL::site(Media::uri($relative_path.$this->o_filename), Request::current()),
+				'original_file_size' => filesize($upload_path.$this->o_filename),
 				'original_width' => $this->o_width,
 				'original_height' => $this->o_height,
 				'medium_file_url' => $this->_resized_url($medium_width, $medium_height, $relative_path.$this->o_filename),

@@ -53,6 +53,9 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						editorAttrs : {
 							multiple : true
 						}
+					},
+					media : {
+						type : 'Hidden',
 					}
 					// @todo should we include slug?
 				};
@@ -121,6 +124,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					fieldsets[0].fields.unshift('tags');
 					fieldsets[0].fields.unshift('content');
 					fieldsets[0].fields.unshift('title');
+					fieldsets[0].fields.unshift('media');
 				}
 				else
 				{
@@ -163,6 +167,9 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					},
 					locale : {
 						required : true
+					},
+					media : {
+						required : false
 					}
 				};
 
@@ -188,7 +195,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						required: false
 					};
 				}
-
+				
 				// Extend with form schema if form_id is set
 				if (this.get('form'))
 				{

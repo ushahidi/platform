@@ -23,6 +23,9 @@
 		    <link rel="stylesheet" href="<?php echo Media::url('css/plugins/leaflet.ie.css'); ?>" />
 				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
 		<![endif]-->
+		<!-- Dropzone CSS -->
+		<link rel="stylesheet" href="<?php echo Media::url('css/plugins/dropzone.css'); ?>" />
+		<!-- end Dropzone CSS -->
 
 		<!--Change to app.min.css for production-->
 		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>

@@ -8,10 +8,40 @@
  */
 
 define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/CreatePost.html',
+	'dropzone',
+	'util/App.oauth', 
+	'models/MediaModel',
+	'collections/MediaCollection',
 	'backbone-validation', 'forms/UshahidiForms'],
 	function( App, Marionette, Handlebars, _, alertify, template,
+		Dropzone,
+		OAuth,
+		MediaModel,
+		MediaCollection,
 		BackboneValidation, BackboneForm)
 	{
+
+		var postMedia = new MediaCollection(),
+			// dropzone calls the API, which needs authentication, so we capture
+			// the current oauth headers and send them with the POST request.
+			authSend = function (file, xhr) {
+				var headers = OAuth.getAuthHeaders(),
+					header;
+				for (header in headers) {
+					xhr.setRequestHeader(header, headers[header]);
+				}
+			},
+			mediaUploadConfig = {
+				url: MediaModel.prototype.urlRoot,
+				sending: authSend,
+				addRemoveLinks: true,
+				dictRemoveFileConfirmation: 'Are you sure you want to delete this file?'
+			};
+
+		// prevent dropzone from attempting to attach automatically, we want to
+		// create it manually when we render the view.
+		Dropzone.autoDiscover = false;
+
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
 			initialize : function ()
@@ -39,10 +69,66 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				{
 					this.form.trigger('dom:refresh');
 				});
+
+				// Will be replaced with a Dropzone
+				this.zone = {};
 			},
 			events: {
 				'submit form' : 'formSubmitted',
 				'click .js-switch-fieldset' : 'switchFieldSet'
+			},
+			onShow: function()
+			{
+				// todo:
+				// - need to associate media with posts via hidden form fields (js)
+				// - need to read media ids in post creation (php)
+				// - clean this up! use a composite view, maybe?
+
+				var that = this,
+					mediaLoaded = postMedia.fetch({ data: { orphans: true }});
+
+				// Create a new dropzone...
+				this.zone = this.$('.post-media-wrapper .dropzone').dropzone(mediaUploadConfig).get(0).dropzone;
+
+				// ... after an upload, add new media into the collection
+				this.zone.on('success', function (file, res) {
+					var media = new MediaModel(res);
+
+					// add the new media to the collection
+					postMedia.add(media);
+
+					// set the new, anonymous file name
+					// TODO: this doesn't modify the DOM, needs more work
+					// file.name = _.last(media.attributes.original_file_url.split('/'));
+				});
+
+				// ... after confirmation, delete the media records
+				this.zone.on('removedfile', function(file) {
+					var media = postMedia.get(file.mediaId);
+					if (media) {
+						media.destroy();
+						alertify.success('Media file deleted.');
+					}
+				});
+
+				// ... and load all the orphaned media
+				// the user can choose to delete media, etc at this point.
+				mediaLoaded.done(function() {
+					postMedia.forEach(function(media) {
+						var mockFile = {
+								mediaId: media.attributes.id,
+								name: _.last(media.attributes.original_file_url.split('/')),
+								size: media.attributes.original_file_size,
+							},
+							mockThumb = media.attributes.thumbnail_file_url;
+
+						// Call the default addedfile event handler
+						that.zone.emit('addedfile', mockFile);
+
+						// And optionally show the thumbnail of the file:
+						that.zone.emit('thumbnail', mockFile, mockThumb);
+					});
+				});
 			},
 			onDomRefresh : function()
 			{

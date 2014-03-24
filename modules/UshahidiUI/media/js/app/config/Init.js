@@ -37,7 +37,8 @@ require.config(
 		'bf' : '../libs/backbone-forms/',
 		'backbone-validation' : '../libs/backbone-validation-amd',
 		'alertify' : '../libs/alertify',
-		'text' : '../libs/requirejs-text'
+		'text' : '../libs/requirejs-text',
+		'dropzone' : '../libs/dropzone-amd-module'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
