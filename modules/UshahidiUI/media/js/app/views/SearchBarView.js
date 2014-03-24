@@ -13,14 +13,24 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
+			collectionEvents : {
+				'sync': 'render',
+			},
 			events:{
 				'submit form': 'SearchPosts'
 			},
 
+			serializeData: function()
+			{
+				var data = {
+					tags : this.collection.toJSON()
+				};
+
+				return data;
+			},
+
 			SearchPosts: function(e)
 			{
-				//var that = this;
-
 				e.preventDefault();
 				var keyword = this.$('#q').val();
 				App.Collections.Posts.setFilterParams({
