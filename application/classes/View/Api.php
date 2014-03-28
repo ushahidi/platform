@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class View_Api {
+abstract class View_Api {
 
 	// View model
 	protected $_model;
@@ -83,23 +83,6 @@ class View_Api {
 	 * @param    string  view filename
 	 * @return   array
 	 */
-	public function render($model = NULL)
-	{
-		if ($model == NULL)
-		{
-			$model = $this->model;
-		}
-
-		$response = array();
-		if ( $this->model->loaded() )
-		{
-			$response = array(
-				'id' => $this->model->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->model->id, Request::current())
-			);
-		}
-
-		return $response;
-	}
+	abstract public function render($model = NULL)
 
 }
