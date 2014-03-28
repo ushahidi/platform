@@ -13,6 +13,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 		return Marionette.ItemView.extend(
 		{
 			template : Handlebars.compile(template),
+			modelEvents : {
+				'sync' : 'render'
+			},
 			events : {
 				'click .js-title' : 'toggleSection',
 				'click .js-logout' : 'logout'
@@ -20,13 +23,23 @@ define(['marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html']
 			initialize : function ()
 			{
 				App.vent.on('page:change', this.selectMenuItem, this);
-
-				// Refresh this view when there is a change in this model
-				this.listenTo(this.model, 'change', this.render);
 			},
 			serializeData: function()
 			{
-				var data = {user: this.model.toJSON()};
+				var data = {};
+				
+				// TODO: don't assume the user is loaded
+				data.user = this.model.toJSON();
+
+				// TODO: add real info, probably need to fetch this data from
+				// somewhere else, or even break up this view.
+				// also note that formatting these values need to be i18n compatible.
+				data.stats = {
+					'posts' : _.random(0, 10000),
+					'users' : _.random(1, 800),
+					'views' : _.random(100, 100000000)
+				};
+
 				return data;
 			},
 			toggleSection : function(e)

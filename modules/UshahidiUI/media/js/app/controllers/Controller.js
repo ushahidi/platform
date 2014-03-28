@@ -1,8 +1,8 @@
 /**
  * Ushahidi Main Controller
  *
- * @module	 Controller
- * @author	 Ushahidi Team <team@ushahidi.com>
+ * @module     Controller
+ * @author     Ushahidi Team <team@ushahidi.com>
  * @copyright  2013 Ushahidi
  * @license	https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -54,14 +54,20 @@ define(['App', 'backbone', 'marionette',
 		{
 			initialize : function()
 			{
-				var that = this,
-					header,
-					user;
+				var user = new UserModel({ id: 'me' });
+
+				if (App.loggedin()) {
+					// only fetch the user when logged in
+					user.fetch();
+				}
 
 				this.layout = new AppLayout();
 				App.body.show(this.layout);
 
-				header = new HeaderView();
+				this.layout.headerRegion.show(new HeaderView());
+				this.layout.footerRegion.show(new FooterView());
+				this.layout.workspacePanel.show(new WorkspacePanelView({ model: user }));
+
 				App.vent.on('workspace:toggle', function (close)
 				{
 					if (close)
@@ -73,17 +79,6 @@ define(['App', 'backbone', 'marionette',
 						App.body.$el.toggleClass('active-workspace');
 					}
 				});
-
-				this.layout.headerRegion.show(header);
-				this.layout.footerRegion.show(new FooterView());
-
-				if (App.loggedin()) {
-					// workspace panel includes user details, attempt to load the logged in user
-					user = new UserModel({id: 'me'});
-					user.fetch().done(function() {
-						that.layout.workspacePanel.show(new WorkspacePanelView({ model: user }));
-					});
-				}
 
 				App.Collections = {};
 				App.Collections.Posts = new PostCollection();
