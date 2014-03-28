@@ -285,7 +285,13 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 		unset($post['password']);
 	 	}
 
-		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email', 'role'));
+		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
+
+		// Only change users role if we have permission to do so
+		if ($this->acl->is_allowed($this->user, $user, 'change_role'))
+		{
+			$user->role = $post['role'];
+		}
 
 		//Validation - cycle through nested models and perform in-model
 		//validation before saving
