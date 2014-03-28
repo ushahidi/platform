@@ -337,4 +337,22 @@ class Controller_Api_Users extends Ushahidi_Api {
 	{
 		$this->action_put_index();
 }
+	/**
+	 * Get allowed HTTP method for current resource
+	 * @param  boolean $resource Optional resources to check access for
+	 * @return Array             Array of methods, TRUE if allowed
+	 */
+	protected function _allowed_methods($resource = FALSE)
+	{
+		if (! $resource)
+		{
+			$resource = $this->resource();
+		}
+
+		$allowed_methods = parent::_allowed_methods($resource);
+		$allowed_methods['change_role'] = $this->acl->is_allowed($this->user, $resource, 'change_role');
+		$allowed_methods['get_full'] = $this->acl->is_allowed($this->user, $resource, 'get_full');
+
+		return $allowed_methods;
+	}
 }
