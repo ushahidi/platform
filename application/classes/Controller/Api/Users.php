@@ -297,15 +297,18 @@ class Controller_Api_Users extends Ushahidi_Api {
 		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
 
 		// Only change users role if we have permission to do so
-		if ($this->acl->is_allowed($this->user, $user, 'change_role'))
+		if (isset($post['role']))
 		{
-			$user->role = $post['role'];
-		}
-		elseif ($post['role'] != $user->role)
-		{
-			throw HTTP_Exception::factory('403', 'You do not have permission to change the role of user :id', array(
-				':id' => $user->id
-				));
+			if ($this->acl->is_allowed($this->user, $user, 'change_role'))
+			{
+				$user->role = $post['role'];
+			}
+			elseif ($post['role'] != $user->role)
+			{
+				throw HTTP_Exception::factory('403', 'You do not have permission to change the role of user :id', array(
+					':id' => $user->id
+					));
+			}
 		}
 
 		//Validation - cycle through nested models and perform in-model
