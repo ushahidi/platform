@@ -60,18 +60,27 @@ class Controller_Api_Users extends Ushahidi_Api {
 			}
 			else
 			{
-			$user = ORM::factory('User', $user_id);
+				$user = ORM::factory('User', $user_id);
 
-			if (! $user->loaded())
-			{
-				throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
-					':id' => $this->request->param('id', 0),
-				));
+				if (! $user->loaded())
+				{
+					throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
+						':id' => $this->request->param('id', 0),
+					));
+				}
+
+				$this->_resource = $user;
 			}
-
-			$this->_resource = $user;
 		}
 	}
+
+	public function before()
+	{
+		parent::before();
+
+		$this->view = View_Api::factory('User');
+		$this->view->set_acl($this->acl);
+		$this->view->set_user($this->user);
 	}
 
 	/**
@@ -167,7 +176,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 			// Check if user is allowed to access this user
 			if ($this->acl->is_allowed($this->user, $user, 'get') )
 			{
-				$result = $user->for_api();
+				$result = $this->view->render($user);
 				$result['allowed_methods'] = $this->_allowed_methods($user);
 				$results[] = $result;
 			}
@@ -225,7 +234,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	{
 		$user = $this->resource();
 
-		$this->_response_payload = $user->for_api();
+		$this->_response_payload = $this->view->render($user);
 		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 
 	}
@@ -263,7 +272,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		if ( $user->loaded() )
 		{
 			// Return the user we just deleted (provides some confirmation)
-			$this->_response_payload = $user->for_api();
+			$this->_response_payload = $this->view->render($user);
 			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 			$user->delete();
 		}
@@ -309,7 +318,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 			$user->save();
 
 			// Response is the user
-			$this->_response_payload = $user->for_api();
+			$this->_response_payload = $this->view->render($user);
 			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($user);
 		}
 		catch(ORM_Validation_Exception $e)
@@ -342,7 +351,8 @@ class Controller_Api_Users extends Ushahidi_Api {
 	public function action_put_me()
 	{
 		$this->action_put_index();
-}
+	}
+
 	/**
 	 * Get allowed HTTP method for current resource
 	 * @param  boolean $resource Optional resources to check access for

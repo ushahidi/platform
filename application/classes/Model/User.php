@@ -127,56 +127,6 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 	}
 
 	/**
-	 * Prepare user data for API
-	 *
-	 * @return array $response - array to be returned by API (as json)
-	 */
-	public function for_api()
-	{
-		$response = array();
-		if ( $this->loaded() )
-		{
-			$response = array(
-				'id' => $this->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->id, Request::current()),
-				'username' => $this->username,
-				'first_name' => $this->first_name,
-				'last_name' => $this->last_name,
-				'role' => $this->role,
-				'gravatar' => md5($this->email),
-			);
-
-			// Return full user details if user has permission
-			if ($this->acl->is_allowed($this->user, $user, 'get_full') )
-			{
-				$response['email'] = $this->email;
-				$response['logins'] = $this->logins;
-				$response['last_login'] = $this->last_login;
-				$response['failed_attempts'] = $this->failed_attempts;
-				$response['last_attempt'] = $this->last_attempt;
-
-				$response['created'] = ($created = DateTime::createFromFormat('U', $this->created))
-					? $created->format(DateTime::W3C)
-					: $this->created;
-				$response['updated'] = ($updated = DateTime::createFromFormat('U', $this->updated))
-					? $updated->format(DateTime::W3C)
-					: $this->updated;
-			}
-
-		}
-		else
-		{
-			$response = array(
-				'errors' => array(
-					'User does not exist'
-					)
-				);
-		}
-
-		return $response;
-	}
-
-	/**
 	 * Returns string identifier of the Role
 	 *
 	 * @return string
