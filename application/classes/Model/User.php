@@ -139,24 +139,29 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 			$response = array(
 				'id' => $this->id,
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->id, Request::current()),
-				'email' => $this->email,
+				'username' => $this->username,
 				'first_name' => $this->first_name,
 				'last_name' => $this->last_name,
-				'username' => $this->username,
-				'logins' => $this->logins,
-				'last_login' => $this->last_login,
-				'failed_attempts' => $this->failed_attempts,
-				'last_attempt' => $this->last_attempt,
 				'role' => $this->role,
 				'gravatar' => md5($this->email),
+			);
 
-				'created' => ($created = DateTime::createFromFormat('U', $this->created))
+			// Return full user details if user has permission
+			if ($this->acl->is_allowed($this->user, $user, 'get_full') )
+			{
+				$response['email'] = $this->email;
+				$response['logins'] = $this->logins;
+				$response['last_login'] = $this->last_login;
+				$response['failed_attempts'] = $this->failed_attempts;
+				$response['last_attempt'] = $this->last_attempt;
+
+				$response['created'] = ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)
-					: $this->created,
-				'updated' => ($updated = DateTime::createFromFormat('U', $this->updated))
+					: $this->created;
+				$response['updated'] = ($updated = DateTime::createFromFormat('U', $this->updated))
 					? $updated->format(DateTime::W3C)
-					: $this->updated,
-				);
+					: $this->updated;
+			}
 
 		}
 		else
