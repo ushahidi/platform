@@ -83,6 +83,6 @@ abstract class View_Api {
 	 * @param    string  view filename
 	 * @return   array
 	 */
-	abstract public function render($model = NULL)
+	abstract public function render($model = NULL);
 
 }
