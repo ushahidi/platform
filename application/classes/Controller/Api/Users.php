@@ -301,6 +301,12 @@ class Controller_Api_Users extends Ushahidi_Api {
 		{
 			$user->role = $post['role'];
 		}
+		elseif ($post['role'] != $user->role)
+		{
+			throw HTTP_Exception::factory('403', 'You do not have permission to change the role of user :id', array(
+				':id' => $user->id
+				));
+		}
 
 		//Validation - cycle through nested models and perform in-model
 		//validation before saving
@@ -308,7 +314,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		try
 		{
 			// Validate base user data
-			$user_validation = Validation::factory($post);
+			$user_validation = Validation::factory($user->as_array());
 			$user_validation->rule('username', 'not_empty');
 			// If this is a new user, require password
 			if (! $user->loaded()) $user_validation->rule('password', 'not_empty');
