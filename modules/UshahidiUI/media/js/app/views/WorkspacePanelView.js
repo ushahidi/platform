@@ -18,7 +18,8 @@ define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/Workspa
 			},
 			events : {
 				'click .js-title' : 'toggleSection',
-				'click .js-logout' : 'logout'
+				'click .js-logout' : 'logout',
+				'click .js-edit-profile' : 'editUser'
 			},
 			initialize : function ()
 			{
@@ -61,6 +62,11 @@ define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/Workspa
 			{
 				e.preventDefault();
 				App.vent.trigger('logout');
+				App.vent.trigger('workspace:toggle', true);
+			},
+			editUser : function(e) {
+				e.preventDefault();
+				App.vent.trigger('user:edit', this.model);
 				App.vent.trigger('workspace:toggle', true);
 			}
 		});
