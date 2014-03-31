@@ -435,27 +435,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			{
 				$post_data['form_id'] = $post_data['form']['id'];
 			}
-			elseif (is_numeric($post_data['form']))
+			elseif (! is_array($post_data['form']))
 			{
 				$post_data['form_id'] = $post_data['form'];
 			}
 		}
 
-		// unpack user to get user_id
-		if (isset($post_data['user']))
-		{
-			if (is_array($post_data['user']) AND isset($post_data['user']['id']))
-			{
-				$post_data['user_id'] = $post_data['user']['id'];
-			}
-			elseif (is_numeric($post_data['user']))
-			{
-				$post_data['user_id'] = $post_data['user'];
-			}
-		}
-
 		$post->values($post_data, array(
-			'form_id', 'title', 'content', 'status', 'slug', 'locale', 'user_id'
+			'form_id', 'title', 'content', 'status', 'slug', 'locale'
 			));
 		$post->parent_id = $this->_parent_id;
 		$post->type = $this->_type;
@@ -546,7 +533,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 					// Are there multiple values? Are they greater than cardinality limit?
 					if (is_array($value) AND count($value) > $attribute->cardinality AND $attribute->cardinality != 0)
 					{
-						$validation->error('values.'.$key, 'cardinality');
+						$validation->rule('values.'.$key,
+							function(Validation $validation, $field, $value)
+							{
+								$validation->error($field, 'cardinality');
+							},
+							array(':validation', ':field', ':value')
+						);
 					}
 
 					foreach ($value as $k => $v)
@@ -554,7 +547,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						// Add error if no value passed
 						if (! is_array($v) OR ! isset($v['value']))
 						{
-							$validation->error("values.$key.$k", 'value_array_invalid');
+							$validation->rule("values.$key.$k",
+								function(Validation $validation, $field, $value)
+								{
+									$validation->error($field, 'value_array_invalid');
+								},
+								array(':validation', ':field', ':value')
+							);
 							continue;
 						}
 
@@ -574,7 +573,13 @@ class Controller_Api_Posts extends Ushahidi_Api {
 							// Add error if id specified by doesn't exist
 							if (! $_value->loaded())
 							{
-								$validation->error("values.$key.$k", 'value_id_exists');
+								$validation->rule("values.$key.$k",
+									function(Validation $validation, $field, $value)
+									{
+										$validation->error($field, 'value_id_exists');
+									},
+									array(':validation', ':field', ':value')
+								);
 							}
 						}
 						// Or get a new Post_* object
@@ -619,37 +624,29 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			if ($validation->check() === FALSE)
 			{
-				throw new ORM_Validation_Exception('post_value', $validation);
+				throw new Validation_Exception($validation, 'Failed to validate post values');
 			}
 
-			// if name / email included with post
-			$user = FALSE;
-			if (isset($post_data['user'])
-					AND is_array($post_data['user'])
-					AND ! isset($post_data['user']['id'])
-					AND (! empty($post_data['user']['email'])
-						OR ! empty($post_data['user']['first_name'])
-						OR ! empty($post_data['user']['last_name'])))
+			// unpack user to get user_id
+			if (isset($post_data['user']) AND ! is_array($post_data['user']))
 			{
-				// Make sure email is set to something
-				$post_data['user']['email'] = (! empty($post_data['user']['email'])) ? $post_data['user']['email'] : NULL;
+				$post_data['user'] = array('id' => $post_data['user']);
+			}
+			elseif (isset($post_data['user_id']))
+			{
+				$post_data['user'] = array('id' => $post_data['user_id']);
+			}
 
-				// Check if user was loaded
-				$user = ORM::factory('User')
-					->where('email', '=', $post_data['user']['email'])
-					->find();
-				if ($user->loaded() AND $user->username)
+			$user = FALSE;
+			// Only both running through post data checks if we actually have some data
+			if (isset($post_data['user']))
+			{
+				$user_validation = new Validation($post_data) ;
+				$user = $this->save_post_user($post, $post_data['user'], $user_validation);
+				if ($user_validation->check() === FALSE)
 				{
-					throw new HTTP_Exception_400('Email already registered, please log in to submit a report.');
+					throw new Validation_Exception($user_validation, 'Failed to validation user');
 				}
-
-				$user->values($post_data['user'], array('email', 'first_name', 'last_name'));
-
-				// @todo add a setting for requiring email or not
-				// $user_validation = Validation::factory($post_data['user']);
-				// $user_validation->rule('email', 'not_empty');
-
-				$user->check(/* $user_validation */);
 			}
 
 			// Does post have tags included?
@@ -781,6 +778,142 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				':errors' => implode(', ', Arr::flatten($e->errors('models')))
 				));
 		}
+		catch (Validation_Exception $e)
+		{
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->array->errors('api/posts')))
+				));
+		}
+	}
+
+	/**
+	 * Save post user info
+	 *
+	 * @param Post_Model $post
+	 * @param array $post_data
+	 * @param Validation $validation
+	 * @return FALSE|Model_User
+	 */
+	protected function save_post_user($post, $user_data, &$validation)
+	{
+		$user = FALSE;
+		// Do we have user info (email or name or id)
+		if ($user_data)
+		{
+			// Do we have a user id?
+			if (
+				! empty($user_data['id'])
+				AND $user_data['id'] != $post->user_id
+				)
+			{
+				if (
+						// New post and current user id
+						(! $post->loaded() AND $this->user->id == $user_data['id'])
+						// Allowed to manually set user info
+						OR $this->acl->is_allowed($this->user, $post, 'change_user')
+					)
+				{
+					$user = ORM::factory('User', $user_data['id']);
+					if (! $user->loaded())
+					{
+						$validation->rule('user',
+							function(Validation $validation, $field, $value)
+							{
+								$validation->error($field, 'user_exists');
+							},
+							array(':validation', ':field', ':value')
+						);
+						return FALSE;
+					}
+				}
+				else
+				{
+					$validation->rule('user',
+						function(Validation $validation, $field, $value)
+						{
+							$validation->error($field, 'change_user_permission');
+						},
+						array(':validation', ':field', ':value')
+					);
+					return FALSE;
+				}
+			}
+			// Do we have an email or name?
+			elseif (
+				! empty($user_data['email'])
+				OR ! empty($user_data['first_name'])
+				OR ! empty($user_data['last_name'])
+			)
+			{
+				if (
+						// New post and anonymous user
+						(! $post->loaded() AND ! $this->user->loaded())
+						// Allowed to manually set user info
+						OR $this->acl->is_allowed($this->user, $post, 'change_user')
+					)
+				{
+					// Save new user
+					// Make sure email is set to something
+					$user_data['email'] = (! empty($user_data['email'])) ? $user_data['email'] : NULL;
+
+					// Check if user was loaded
+					// Note: if the email was used before but not registered (no username) we're going to overwrite name details
+					if ($post->user_id)
+					{
+						$user = $post->user;
+					}
+					else
+					{
+						$user = ORM::factory('User')
+							->where('email', '=', $user_data['email'])
+							->find();
+					}
+
+					// If user is registered, throw error telling them to log in
+					if ($user->loaded() AND $user->username)
+					{
+						$validation->rule('user',
+							function(Validation $validation, $field, $value)
+							{
+								$validation->error($field, 'user_already_registered');
+							},
+							array(':validation', ':field', ':value')
+						);
+						return FALSE;
+					}
+
+					$user->values($user_data, array('email', 'first_name', 'last_name'));
+
+					// @todo add a setting for requiring email or not
+					// $user_validation = Validation::factory($post_data['user']);
+					// $user_validation->rule('email', 'not_empty');
+
+					$user->check(/* $user_validation */);
+				}
+				else
+				{
+					// @todo fix the case where we end up here but submission actually included same values as before
+					// Error
+					$validation->rule('user',
+						function(Validation $validation, $field, $value)
+						{
+							$validation->error($field, 'change_user_permission');
+						},
+						array(':validation', ':field', ':value')
+					);
+					return FALSE;
+				}
+			}
+		}
+		// Is this a new post from a logged in user?
+		elseif (! $post->loaded() AND $this->user->loaded())
+		{
+			// Set current user as post owner
+			$user = $this->user;
+		}
+		// Otherwise no user info
+
+		return $user;
 	}
 
 	/**

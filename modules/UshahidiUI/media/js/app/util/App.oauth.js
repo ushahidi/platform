@@ -10,7 +10,12 @@
 define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 	function(Backbone, Jso2, $, _)
 	{
-		var ushahidi_auth = {
+		var jso_state_exceptions = [
+				'Could not retrieve state',
+				'Could not get providerid from state',
+				'Could not retrieve OAuth.instances for this provider.'
+			],
+		ushahidi_auth = {
 			initialize : function ()
 			{
 				var that = this,
@@ -61,16 +66,33 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 					this.setProvider('client_credentials');
 				}
 
-				// Check for callback from implicit flow
-				this.providers.implicit.callback(false, function()
+				try
 				{
-					// Check if we have tokens
-					var token = Jso2.store.getTokens('ushahidi_implicit');
-					if (token.length > 0)
+					// Check for callback from implicit flow
+					this.providers.implicit.callback(false, function()
 					{
-						that.setProvider('implicit');
+						// Check if we have tokens
+						var token = Jso2.store.getTokens('ushahidi_implicit');
+						if (token.length > 0)
+						{
+							that.setProvider('implicit');
+						}
+					});
+				}
+				catch (e)
+				{
+					// Just log error on missing state
+					if (_.contains(jso_state_exceptions, e))
+					{
+						console.warn('Exception: ' + e);
 					}
-				});
+					// Propogate any other errors
+					else
+					{
+						throw e;
+					}
+				}
+
 
 				// Override backbone AJAX with our AJAX switcher
 				Backbone.ajax = this.ajax;

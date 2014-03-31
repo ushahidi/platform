@@ -160,7 +160,7 @@ class Controller_Api_Media extends Ushahidi_Api
 			// Validate base post data
 			if ($media_data->check() === FALSE)
 			{
-				throw new ORM_Validation_Exception('media_value', $media_data);
+				throw new Validation_Exception($media_data, 'Failed to validate media');
 			}
 
 			$upload_dir = Kohana::$config->load('media.media_upload_dir');
@@ -216,6 +216,12 @@ class Controller_Api_Media extends Ushahidi_Api
 		{
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				':errors' => implode(', ', Arr::flatten($e->errors('models')))
+				));
+		}
+		catch (Validation_Exception $e)
+		{
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->array->errors('api/posts')))
 				));
 		}
 	}

@@ -20,7 +20,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+                    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "last_location_point":{
@@ -72,6 +72,82 @@ Feature: Testing the Posts API
         And the response has a "errors" property
         Then the guzzle status code should be 400
 
+    Scenario: Creating a new Post with too many values for attribute returns an error
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Test post",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "values":
+                {
+                    "last_location":[
+                        {"value":"atlanta"},
+                        {"value":"auckland"}
+                    ]
+                },
+                "tags":["missing"]
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
+    Scenario: Creating a new Post with missing value for attribute returns an error
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Test post",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "values":
+                {
+                    "last_location":"atlanta",
+                    "links":[
+                        {"value":"http://google.com"},
+                        {"junk":"atlanta"}
+                    ]
+                },
+                "tags":["missing"]
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
+    Scenario: Creating a new Post with invalid value ID for attribute returns an error
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Test post",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "values":
+                {
+                    "last_location":"atlanta",
+                    "links":[
+                        {"id":7, "value":"http://google.com"}
+                    ]
+                },
+                "tags":["missing"]
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
     Scenario: Creating an Post without required fields returns an error
         Given that I want to make a new "Post"
         And that the request "data" is:
@@ -86,7 +162,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+                    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "missing_status":"believed_missing"
                 }
@@ -116,7 +192,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+                    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "status":"believed_missing",
                     "last_location":"atlanta"
@@ -128,13 +204,13 @@ Feature: Testing the Posts API
         And the response has a "errors" property
         Then the guzzle status code should be 400
 
-    Scenario: Creating a Post with existing user by ID
+    Scenario: Creating a Post with existing user by ID (authorized as admin user)
         Given that I want to make a new "Post"
         And that the request "data" is:
             """
             {
                 "form":1,
-                "title":"Invalid author",
+                "title":"Author id 1",
                 "type":"report",
                 "status":"draft",
                 "locale":"en_US",
@@ -145,7 +221,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+                    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "missing_status":"believed_missing",
                     "last_location":"atlanta"
@@ -156,6 +232,92 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "id" property
         And the "user.id" property equals "1"
+        Then the guzzle status code should be 200
+
+    Scenario: A normal user creates a Post with different user as author, should get permission error
+        Given that I want to make a new "Post"
+        And that the request "Authorization" header is "Bearer testbasicuser2"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Author id 1",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "user":{
+                  "id": 1
+                },
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":null,
+                    "missing_date":"2012/09/25",
+                    "missing_status":"believed_missing",
+                    "last_location":"atlanta"
+                }
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
+    Scenario: Creating a Post with no user gets current uid
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Invalid author",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "user":null,
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":null,
+                    "missing_date":"2012/09/25",
+                    "missing_status":"believed_missing",
+                    "last_location":"atlanta"
+                }
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "id" property
+        And the "user.id" property equals "2"
+        Then the guzzle status code should be 200
+
+    Scenario: Creating a Post with no user and no current user
+        Given that I want to make a new "Post"
+        And that the request "Authorization" header is "Bearer testanon"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Invalid author",
+                "type":"report",
+                "status":"draft",
+                "locale":"en_US",
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":null,
+                    "missing_date":"2012/09/25",
+                    "missing_status":"believed_missing",
+                    "last_location":"atlanta"
+                }
+            }
+            """
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "id" property
+        And the response does not have a "user" property
         Then the guzzle status code should be 200
 
     Scenario: Updating a Post
@@ -172,7 +334,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+                    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "last_location_point":"POINT(-85.39 33.755)",
@@ -207,7 +369,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+                    "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "missing_status":"believed_missing"
@@ -220,6 +382,74 @@ Feature: Testing the Posts API
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 404
+
+    Scenario: Updating user info on a Post (as admin)
+        Given that I want to update a "Post"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Updated Test Post",
+                "type":"report",
+                "status":"published",
+                "locale":"en_US",
+                "user":{
+                  "id": 4
+                },
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":null,
+                    "missing_date":"2012/09/25",
+                    "last_location":"atlanta",
+                    "last_location_point":"POINT(-85.39 33.755)",
+                    "missing_status":"believed_missing"
+                },
+                "tags":["missing","kenyan"]
+            }
+            """
+        And that its "id" is "1"
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "id" property equals "1"
+        And the "user.id" property equals "4"
+        Then the guzzle status code should be 200
+
+    Scenario: Updating user info on a Post (as user) gets error
+        Given that I want to update a "Post"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the request "data" is:
+            """
+            {
+                "form":1,
+                "title":"Updated Test Post",
+                "type":"report",
+                "status":"published",
+                "locale":"en_US",
+                "user":{
+                  "id": 4
+                },
+                "values":
+                {
+                    "full_name":"David Kobia",
+                    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+                    "date_of_birth":null,
+                    "missing_date":"2012/09/25",
+                    "last_location":"atlanta",
+                    "last_location_point":"POINT(-85.39 33.755)",
+                    "missing_status":"believed_missing"
+                },
+                "tags":["missing","kenyan"]
+            }
+            """
+        And that its "id" is "110"
+        When I request "/posts"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
 
     Scenario: Updating a Post with partial data
         Given that I want to update a "Post"
@@ -235,7 +465,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+            "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta"
                 },
@@ -262,7 +492,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+            "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "missing_status":"believed_missing"
@@ -477,7 +707,7 @@ Feature: Testing the Posts API
                 {
                     "full_name":"David Kobia",
                     "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
+            "date_of_birth":null,
                     "missing_date":"2012/09/25",
                     "last_location":"atlanta",
                     "missing_status":"believed_missing"

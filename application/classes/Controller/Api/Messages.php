@@ -301,7 +301,7 @@ class Controller_Api_Messages extends Ushahidi_Api {
 			{
 				$post['contact_id'] = $post['contact']['id'];
 			}
-			elseif (is_numeric($post['contact']))
+			elseif (! is_array($post['contact']))
 			{
 				$post['contact_id'] = $post['contact'];
 			}
@@ -314,7 +314,7 @@ class Controller_Api_Messages extends Ushahidi_Api {
 			{
 				$post['parent_id'] = $post['parent']['id'];
 			}
-			elseif (is_numeric($post['parent']))
+			elseif (! is_array($post['parent']))
 			{
 				$post['parent_id'] = $post['parent'];
 			}

@@ -57,7 +57,8 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					// @todo should we include slug?
 				};
 
-				if (parseInt(this.get('user'), 10) > 0)
+				// If post already has a user
+				if (parseInt(this.get('user'), 10) > 0 || App.loggedin())
 				{
 					_.extend(schema, {
 						'user' : {
@@ -108,7 +109,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					fieldsets[0].name = 'main';
 					fieldsets[0].active = true;
 					// Only show user fields if not set yet
-					if (parseInt(this.get('user'), 10) > 0)
+					if (parseInt(this.get('user'), 10) > 0 || App.loggedin())
 					{
 						fieldsets[0].fields.unshift('user');
 					}
@@ -128,7 +129,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						{
 							name : 'main',
 							legend : 'Main',
-							fields : (parseInt(this.get('user'), 10) > 0) ?
+							fields : (parseInt(this.get('user'), 10) > 0 || App.loggedin()) ?
 								['title', 'content', 'tags', 'user'] :
 								['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email'],
 							active: true
@@ -166,10 +167,10 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					}
 				};
 
-				if (parseInt(this.get('user'), 10) > 0)
+				if (parseInt(this.get('user'), 10) > 0 || App.loggedin())
 				{
 					rules.user = {
-						required: true,
+						required: false,
 						pattern: 'number'
 					};
 				}

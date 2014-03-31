@@ -68,7 +68,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 			{
 				$post['form_group_id'] = $post['form_group']['id'];
 			}
-			elseif (is_numeric($post['form_group']))
+			elseif (! is_array($post['form_group']))
 			{
 				$post['form_group_id'] = $post['form_group'];
 			}
