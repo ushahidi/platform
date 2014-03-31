@@ -1,4 +1,5 @@
 {
   "phabricator.uri" : "https://phabricator.ushahidi.com/",
-  "repository.callsign" : "USH"
+  "repository.callsign" : "USH",
+  "lint.jshint.config": "modules/UshahidiUI/.jshintrc"
 }
