@@ -116,7 +116,7 @@ return array(
 			'UserCanEditOwnUser' => array(
 				'role'      => 'user',
 				'resource'  => 'users',
-				'privilege' => array('put', 'get', 'delete'),
+				'privilege' => array('put', 'get', 'delete', 'get_full'),
 				'assertion' => array('Acl_Assert_Argument', array('id' => 'id'))
 			),
 			// Guest

@@ -60,18 +60,27 @@ class Controller_Api_Users extends Ushahidi_Api {
 			}
 			else
 			{
-			$user = ORM::factory('User', $user_id);
+				$user = ORM::factory('User', $user_id);
 
-			if (! $user->loaded())
-			{
-				throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
-					':id' => $this->request->param('id', 0),
-				));
+				if (! $user->loaded())
+				{
+					throw new HTTP_Exception_404('User does not exist. ID: \':id\'', array(
+						':id' => $this->request->param('id', 0),
+					));
+				}
+
+				$this->_resource = $user;
 			}
-
-			$this->_resource = $user;
 		}
 	}
+
+	public function before()
+	{
+		parent::before();
+
+		$this->view = View_Api::factory('User');
+		$this->view->set_acl($this->acl);
+		$this->view->set_user($this->user);
 	}
 
 	/**
@@ -167,7 +176,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 			// Check if user is allowed to access this user
 			if ($this->acl->is_allowed($this->user, $user, 'get') )
 			{
-				$result = $user->for_api();
+				$result = $this->view->render($user);
 				$result['allowed_methods'] = $this->_allowed_methods($user);
 				$results[] = $result;
 			}
@@ -225,7 +234,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	{
 		$user = $this->resource();
 
-		$this->_response_payload = $user->for_api();
+		$this->_response_payload = $this->view->render($user);
 		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 
 	}
@@ -263,7 +272,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		if ( $user->loaded() )
 		{
 			// Return the user we just deleted (provides some confirmation)
-			$this->_response_payload = $user->for_api();
+			$this->_response_payload = $this->view->render($user);
 			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 			$user->delete();
 		}
@@ -285,7 +294,22 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 		unset($post['password']);
 	 	}
 
-		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email', 'role'));
+		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
+
+		// Only change users role if we have permission to do so
+		if (isset($post['role']))
+		{
+			if ($this->acl->is_allowed($this->user, $user, 'change_role'))
+			{
+				$user->role = $post['role'];
+			}
+			elseif ($post['role'] != $user->role)
+			{
+				throw HTTP_Exception::factory('403', 'You do not have permission to change the role of user :id', array(
+					':id' => $user->id
+					));
+			}
+		}
 
 		//Validation - cycle through nested models and perform in-model
 		//validation before saving
@@ -293,7 +317,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		try
 		{
 			// Validate base user data
-			$user_validation = Validation::factory($post);
+			$user_validation = Validation::factory($user->as_array());
 			$user_validation->rule('username', 'not_empty');
 			// If this is a new user, require password
 			if (! $user->loaded()) $user_validation->rule('password', 'not_empty');
@@ -303,7 +327,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 			$user->save();
 
 			// Response is the user
-			$this->_response_payload = $user->for_api();
+			$this->_response_payload = $this->view->render($user);
 			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($user);
 		}
 		catch(ORM_Validation_Exception $e)
@@ -336,5 +360,24 @@ class Controller_Api_Users extends Ushahidi_Api {
 	public function action_put_me()
 	{
 		$this->action_put_index();
-}
+	}
+
+	/**
+	 * Get allowed HTTP method for current resource
+	 * @param  boolean $resource Optional resources to check access for
+	 * @return Array             Array of methods, TRUE if allowed
+	 */
+	protected function _allowed_methods($resource = FALSE)
+	{
+		if (! $resource)
+		{
+			$resource = $this->resource();
+		}
+
+		$allowed_methods = parent::_allowed_methods($resource);
+		$allowed_methods['change_role'] = $this->acl->is_allowed($this->user, $resource, 'change_role');
+		$allowed_methods['get_full'] = $this->acl->is_allowed($this->user, $resource, 'get_full');
+
+		return $allowed_methods;
+	}
 }

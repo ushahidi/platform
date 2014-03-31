@@ -49,13 +49,17 @@ define(['backbone', 'App'],
 					password: {
 						type: 'Password',
 						title: 'Password'
-					},
-					role: {
+					}
+				};
+
+				if (this.get('allowed_methods').change_role)
+				{
+					schema.role = {
 						type: 'Select',
 						title: 'Role',
 						options : App.Collections.Roles
-					}
-				};
+					};
+				}
 
 				return schema;
 			},

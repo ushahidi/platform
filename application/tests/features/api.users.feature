@@ -48,6 +48,22 @@ Feature: Testing the Users API
 		And the "role" property equals "admin"
 		Then the guzzle status code should be 200
 
+	@resetFixture
+	Scenario: A normal user should not be able to change their own role
+		Given that I want to update a "user"
+		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the request "data" is:
+			"""
+			{
+				"role":"admin"
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/users"
+		Then the response is JSON
+		And the response has a "errors" property
+		Then the guzzle status code should be 403
+
 	Scenario: Updating a non-existent User
 		Given that I want to update a "user"
 		And that the request "data" is:
