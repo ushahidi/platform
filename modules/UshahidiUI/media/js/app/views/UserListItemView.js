@@ -144,7 +144,7 @@ define(['App','handlebars', 'marionette', 'underscore', 'alertify', 'text!templa
 				this.selected = $el.is(':checked');
 				this.trigger(this.selected ? 'select' : 'unselect');
 
-				$el.siblings(".fa")
+				$el.siblings('.fa')
 					.toggleClass('fa-check-square', this.selected)
 					.toggleClass('fa-check-square-o', ! this.selected);
 			},

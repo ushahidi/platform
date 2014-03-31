@@ -38,7 +38,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 
 			itemViewOptions:
 			{
-				emptyMessage: "No users found.",
+				emptyMessage: 'No users found.',
 			},
 
 			itemViewContainer: '.list-view-user-profile-list',

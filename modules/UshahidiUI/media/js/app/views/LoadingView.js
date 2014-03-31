@@ -7,8 +7,8 @@
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-define(['App','handlebars', 'marionette', 'text!templates/Loading.html'],
-	function(App,Handlebars, Marionette, template)
+define(['App','handlebars', 'marionette', 'underscore', 'text!templates/Loading.html'],
+	function(App,Handlebars, Marionette, _, template)
 	{
 		return Marionette.ItemView.extend(
 		{
@@ -21,7 +21,7 @@ define(['App','handlebars', 'marionette', 'text!templates/Loading.html'],
 			initialize: function(options)
 			{
 				var defaultOptions = {
-					emptyMessage : "Empty List"
+					emptyMessage : 'Empty List'
 				};
 
 				options = _.defaults(options,defaultOptions);
