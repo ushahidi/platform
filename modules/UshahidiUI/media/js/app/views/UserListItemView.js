@@ -23,6 +23,7 @@ define(['App','handlebars', 'marionette', 'underscore', 'alertify', 'text!templa
 				'change .js-select-input' : 'updatedSelected',
 				'click .js-user-delete': 'deleteUser',
 				'click .js-user-edit' : 'showEditUser',
+				'click .js-user-change-role' : 'changeRole'
 			},
 
 			initialize: function()
@@ -38,7 +39,8 @@ define(['App','handlebars', 'marionette', 'underscore', 'alertify', 'text!templa
 			serializeData : function ()
 			{
 				return _.extend(this.model.toJSON(), {
-					role_name: App.Collections.Roles.get(this.model.get('role'))
+					roles: App.Collections.Roles.toJSON(),
+					selected : this.selected
 				});
 			},
 
@@ -70,6 +72,34 @@ define(['App','handlebars', 'marionette', 'underscore', 'alertify', 'text!templa
 				});
 			},
 
+			changeRole: function(e)
+			{
+				e.preventDefault();
+				var that = this,
+					$el = that.$(e.currentTarget),
+					role = $el.attr('data-role-name'),
+					role_name = $el.text();
+
+				alertify.confirm('Are you sure you want to assign this user the '+ role_name + ' role?' , function(e)
+				{
+					if(e)
+					{
+						that.model.set('role',role).save()
+							.done(function()
+							{
+								alertify.success('User "' + that.model.get('username') + '" is now a '+ role_name);
+							}).fail(function()
+							{
+								alertify.error('Unable to change role, please try again');
+							});
+					}
+					else
+					{
+						alertify.log('Role change cancelled');
+					}
+				});
+			},
+
 			showEditUser : function (e)
 			{
 				e.preventDefault();
@@ -83,6 +113,10 @@ define(['App','handlebars', 'marionette', 'underscore', 'alertify', 'text!templa
 			{
 				this.selected = true;
 				this.$('.js-select-input').prop('checked', true);
+
+				// Update font awesome icon to indicate the checked state. Ideally we should
+				// style this from css
+				this.$('.js-user-select').removeClass('fa-check-square-o').addClass('fa-check-square');
 				this.trigger('select');
 			},
 
@@ -93,6 +127,11 @@ define(['App','handlebars', 'marionette', 'underscore', 'alertify', 'text!templa
 			{
 				this.selected = false;
 				this.$('.js-select-input').prop('checked', false);
+
+				// Update font awesome icon to indicate the unchecked state. Ideally we should
+				// style this from css
+				this.$('.js-user-select').removeClass('fa-check-square').addClass('fa-check-square-o');
+
 				this.trigger('unselect');
 			},
 
@@ -104,6 +143,10 @@ define(['App','handlebars', 'marionette', 'underscore', 'alertify', 'text!templa
 				var $el = this.$(e.currentTarget);
 				this.selected = $el.is(':checked');
 				this.trigger(this.selected ? 'select' : 'unselect');
+
+				$el.siblings(".fa")
+					.toggleClass('fa-check-square', this.selected)
+					.toggleClass('fa-check-square-o', ! this.selected);
 			},
 		});
 	});

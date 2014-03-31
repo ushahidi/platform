@@ -39,12 +39,11 @@
 			</ul>
 		</div>
 	</div> <!-- end .actions-bar -->
-
+<form role="search" class="js-user-search-form" action="">
 	<div class="list-view-filter--alt">
 		<div class="row">
 
-			<div class="list-view-filter-info--alt">
-
+			<div class="list-view-filter-info--alt  js-list-view-filter-info">
 				<!-- TODO: need a user-list-post -->
 				{{>user-list-info}}
 
@@ -77,7 +76,6 @@
 
 		</div> <!-- end .row -->
 	</div> <!-- end .list-view-filter -->
-
 	<div class="role-filter">
 		<div class="row">
 			<div class="role-filter-categories">
@@ -90,23 +88,25 @@
 					{{#each roles}}
 						<li class="js-user-filter-role" data-role-name="{{name}}">
 							<span class="role-title">{{display_name}}
-								<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
+								<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number">{{../pagination.totalRecords}}</span></span>
 							</span>
 						</li>
 					{{/each}}
 				</ul>
 
+				<!-- Filter by role mobile UI -->
 				<a href="#/" data-dropdown="drop-roles" class="dropdown-button  show-for-small">filter by roles</a><br>
 				<ul id="drop-roles" data-dropdown-content class="role-filter-categories-list  role-filter-categories-list--dropdown  f-dropdown  show-for-small">
 					<li class="js-user-filter-role  active" data-role-name="">All</li>
-					{{#each roles}}
+						{{#each roles}}
 						<li class="js-user-filter-role" data-role-name="{{name}}">
 							<span class="role-title">{{display_name}}
-								<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
+								<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number">{{../pagination.totalRecords}}</span></span>
 							</span>
 						</li>
 					{{/each}}
 				</ul>
+				<!-- Filter by role mobile UI ends -->
 			</div>
 			<div class="search-field-wrapper  search-field-wrapper--role-filter">
 				<div class="search-field">
@@ -115,15 +115,15 @@
 				</div> <!-- end .search-field -->
 
 				<div class="search-bar-button">
-					<button type="submit" class=""><i class="fa  fa-search"></i></button>
-<!-- 					<button type="submit" class="show-for-small"><i class="fa  fa-search"></i>SEARCH</button> -->
+					<button type="submit" ><i class="fa  fa-search"></i></button>
 				</div> <!-- end .search-bar-button -->
+
 			</div> <!-- end .search-field-wrapper -->
 		</div> <!-- end .row -->
 	</div> <!-- end .role-filter -->
-
+</form>
 	<div class="list-view-wrapper">
-
+		<p class="loading-message visually-hidden js-loading">Please wait. Loading...</p>
 		<ul class="list-view-user-profile-list">
 		</ul>
 

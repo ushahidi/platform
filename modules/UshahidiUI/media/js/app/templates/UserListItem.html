@@ -43,12 +43,25 @@
 			<div class="list-view-edit-wrapper">
 				<ul class="list-view-edit">
 					{{#if allowed_methods.put}}
-						<li><a href="#" class="list-view-edit-buttons js-user-select" title="select this user"><i class="fa  fa-check-square-o"></i> select</a></li>
+						<li>
+							<label class="checkbox list-view-edit-buttons">
+							<input type="checkbox" name="select-post" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
+							<i class="fa fa-check-square-o js-user-select"></i> select
+							</label>
+						</li>
 						<li><a href="#" class="list-view-edit-buttons js-user-edit" title="edit this post"><i class="fa  fa-edit"></i> edit</a></li>
+
+						<li>
+							<a href="#" data-dropdown="drop-user-roles{{id}}" class="list-view-edit-buttons" title="change user role">
+								<i class="fa  fa-cogs"></i> change role</a>
+							<ul id="drop-user-roles{{id}}" class="f-dropdown" data-dropdown-content>
+								{{#each roles}}
+									<li><a href="#" class="js-user-change-role" data-role-name="{{name}}" >{{display_name}}</a></li>
+								{{/each}}
+							</ul>
+						</li>
 					{{/if}}
-					{{#if allowed_methods.changeRole}}
-						<li><a href="#" id="confirm" class="list-view-edit-buttons js-user-change-role" title="change user role"><i class="fa  fa-cogs"></i> change role</a></li>
-					{{/if}}
+
 					{{#if allowed_methods.delete}}
 						<li><a href="#" class="list-view-edit-buttons js-user-delete" title="delete this user"><i class="fa  fa-trash-o"></i> delete</a></li>
 					{{/if}}

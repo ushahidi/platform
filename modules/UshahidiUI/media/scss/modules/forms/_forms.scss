@@ -26,6 +26,20 @@ input[type="radio"], select {
 	margin: 0 3px 1em 0;
 }
 
+label.checkbox {
+	width:100%;
+	cursor:pointer;
+	overflow: hidden;
+
+	input[type=checkbox] {
+		display:none; margin : 0;
+	}
+
+	i {
+		font-weight: bold;
+	}
+}
+
 textarea {
 	height: 400px;
 	font-family: inherit;

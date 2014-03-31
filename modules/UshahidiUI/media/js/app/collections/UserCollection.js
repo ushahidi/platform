@@ -32,7 +32,7 @@ define(['jquery', 'backbone', 'underscore', 'models/UserModel', 'App', 'backbone
 				currentPage: 0,
 				pageSize: 3,
 				// Required under server-mode
-				totalRecords: 3,
+				totalRecords: 0,
 				sortKey: 'id',
 				order: 1 // 1 = desc
 			},

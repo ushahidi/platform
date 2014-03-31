@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserListItemView',
+define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserListItemView', 'views/LoadingView',
 		'text!templates/UserList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/user-list-info.html'],
-	function( App, Marionette, Handlebars, _, alertify, UserListItemView,
+	function( App, Marionette, Handlebars, _, alertify, UserListItemView, LoadingView,
 		template, paginationTemplate, userListInfoTemplate)
 	{
 		Handlebars.registerPartial('pagination', paginationTemplate);
@@ -31,12 +31,19 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				// Bind select/unselect events from itemviews
 				this.on('itemview:select', this.showHideBulkActions, this);
 				this.on('itemview:unselect', this.showHideBulkActions, this);
+
 			},
 
 			itemView: UserListItemView,
-			itemViewOptions: {},
+
+			itemViewOptions:
+			{
+				emptyMessage: "No users found.",
+			},
 
 			itemViewContainer: '.list-view-user-profile-list',
+
+			emptyView: LoadingView,
 
 			events:
 			{
@@ -59,7 +66,10 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 			{
 				reset : 'updatePagination',
 				add : 'updatePagination',
-				remove : 'updatePagination'
+				remove : 'updatePagination',
+				'change' : 'render', //Refresh this view when there is a change in this model
+				'request': 'showLoading',
+				'sync' : 'hideLoading updatePagination'
 			},
 
 			/**
@@ -170,7 +180,14 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 					this.children.each(function (child) { child.unselect(); });
 				}
 				this.$('.select-text').toggleClass('visually-hidden', this.selectAllValue);
+
 				this.$('.unselect-text').toggleClass('visually-hidden', ! this.selectAllValue);
+
+				// Change checkbox icon state
+				this.$('.js-user-select').toggleClass('fa-check-square', this.selectAllValue);
+
+				this.$('.js-user-select').toggleClass('fa-check-square-o', ! this.selectAllValue);
+
 			},
 
 			serializeData : function ()
@@ -254,18 +271,19 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 
 			updatePagination: function ()
 			{
-				this.$('.pagination').replaceWith(
+				this.$('.js-pagination').replaceWith(
 					this.partialTemplates.pagination({
 						pagination: this.collection.state
 					})
 				);
-				this.$('.list-view-filter-info').html(
+				this.$('.js-list-view-filter-info').html(
 					this.partialTemplates.userListInfo({
 						pagination: this.collection.state
 					})
 				);
-				this.$('.user-list-categories-list li.active span.count-number')
-					.text(this.collection.state.totalRecords);
+
+				// Update counter
+				this.$('li.active span.count-number').text(this.collection.state.totalRecords);
 			},
 			updatePageSize : function (e)
 			{
@@ -295,6 +313,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				e.preventDefault();
 
 				var keyword = this.$('.js-user-search-input').val();
+
 				App.Collections.Users.setFilterParams({
 					q : keyword
 				});
@@ -302,13 +321,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 			filterByRole : function(e)
 			{
 				e.preventDefault();
-
 				var $el = this.$(e.currentTarget),
-					role = $el.attr('data-role-name');
-
-				App.Collections.Users.setFilterParams({
-					role : role
-				});
+					role = $el.attr('data-role-name'),
+					params = App.Collections.Users.setFilterParams({
+						role : role
+					});
 
 				$el.closest('.role-filter-categories-list')
 					.find('li')
@@ -318,6 +335,26 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 					.filter('li[data-role-name="' + role + '"]')
 						.addClass('active')
 						.find('.role-title > span').removeClass('visually-hidden');
+
+				this.$('.js-user-search-input').val(params.q);
+			},
+
+			showLoading : function()
+			{
+				// Hide the ul li
+				this.$('.list-view-user-profile-list').addClass('visually-hidden');
+
+				// Show the loading text
+				this.$('.list-view-wrapper p.js-loading').removeClass('visually-hidden');
+			},
+
+			hideLoading : function()
+			{
+				// Hide the loading text
+				this.$('.list-view-wrapper p.js-loading').addClass('visually-hidden');
+
+				// Show the ul li
+				this.$('.list-view-user-profile-list').removeClass('visually-hidden');
 			}
 		});
 	});

@@ -10,6 +10,7 @@
  * FOUNDATION OVERRIDES...............user created Foundation overrides
  * MODULES...............UI bits
  * PLUGINS...............custom Sass for plugins
+ * PARTIALS..............partials
  * BOTTOM FILES...............these files must be called below everything else. Modals.
  */
 /*------------------------------------*\
@@ -227,6 +228,7 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 /* line 37, ../../scss/tools/_helpers.scss */
 .hidden, .sets-grid li .set-is-selected {
   opacity: 0;
+  -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
   -o-transition: opacity 0.3s ease-in-out;
   -webkit-transition: opacity 0.3s ease-in-out;
@@ -236,6 +238,7 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 /* line 42, ../../scss/tools/_helpers.scss */
 .visible, .sets-grid li.selected .set-is-selected {
   opacity: 1;
+  -webkit-transition: opacity 0.3s ease-in-out;
   -moz-transition: opacity 0.3s ease-in-out;
   -o-transition: opacity 0.3s ease-in-out;
   -webkit-transition: opacity 0.3s ease-in-out;
@@ -329,6 +332,7 @@ div.logo {
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   *behavior: url(../js/ie/boxsizing.htc);
 }
@@ -12486,502 +12490,502 @@ nav[role="sub-navigation"] li a {
 /*tag color HSL function*/
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(1) .tag-color {
-  color: #ae65aa;
+  color: #040a16;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(2) .tag-color {
-  color: #f07451;
+  color: #2c1116;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(3) .tag-color {
-  color: #d3fdf2;
+  color: #d9a1a2;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(4) .tag-color {
-  color: #307a7e;
+  color: #4b1c7d;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(5) .tag-color {
-  color: #0a0a0a;
+  color: #446704;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(6) .tag-color {
-  color: #457415;
+  color: #9fe9b7;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(7) .tag-color {
-  color: #16131b;
+  color: #67282d;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(8) .tag-color {
-  color: #23147b;
+  color: #140601;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(9) .tag-color {
-  color: #2c0ad6;
+  color: #7a31c9;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(10) .tag-color {
-  color: #0aa92c;
+  color: #8e2aa7;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(11) .tag-color {
-  color: #393a0e;
+  color: #1af96c;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(12) .tag-color {
-  color: #f74548;
+  color: #d7d6d6;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(13) .tag-color {
-  color: #fdfcf7;
+  color: #3f2735;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(14) .tag-color {
-  color: #69b44b;
+  color: #632249;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(15) .tag-color {
-  color: #53586e;
+  color: #322d25;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(16) .tag-color {
-  color: #060405;
+  color: #af9db4;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(17) .tag-color {
-  color: #55c1f6;
+  color: #233433;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(18) .tag-color {
-  color: #d9d5d4;
+  color: #b1bcce;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(19) .tag-color {
-  color: #6c6f3e;
+  color: #0e0b19;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(20) .tag-color {
-  color: #bbaaba;
+  color: #e2dee8;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(21) .tag-color {
-  color: #85c8cc;
+  color: #b18925;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(22) .tag-color {
-  color: #fafafa;
+  color: #493903;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(23) .tag-color {
-  color: #d3d4c9;
+  color: #aa226f;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(24) .tag-color {
-  color: #029ea1;
+  color: #1e7476;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(25) .tag-color {
-  color: #f877e2;
+  color: #978c96;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(26) .tag-color {
-  color: #faf9fb;
+  color: #fba2e6;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(27) .tag-color {
-  color: #627a70;
+  color: #030517;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(28) .tag-color {
-  color: #eee3e2;
+  color: #1d032a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(29) .tag-color {
-  color: #033ab0;
+  color: #85de78;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(30) .tag-color {
-  color: #0e1115;
+  color: #2e1b19;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(31) .tag-color {
-  color: #170307;
+  color: #ebd6e1;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(32) .tag-color {
-  color: #28a1a9;
+  color: #267361;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(33) .tag-color {
-  color: #aee359;
+  color: #161a0a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(34) .tag-color {
-  color: #4fa176;
+  color: #344cfe;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(35) .tag-color {
-  color: #546d55;
+  color: #0af53d;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(36) .tag-color {
-  color: #26081e;
+  color: #9d435a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(37) .tag-color {
-  color: #201c35;
+  color: #933510;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(38) .tag-color {
-  color: #0f428a;
+  color: #d5d9a5;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(39) .tag-color {
-  color: #59fa14;
+  color: #041203;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(40) .tag-color {
-  color: #0f0b2d;
+  color: #1d1344;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(41) .tag-color {
-  color: #64f7b5;
+  color: #1c2126;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(42) .tag-color {
-  color: #198401;
+  color: #dc8be5;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(43) .tag-color {
-  color: #5ad3cd;
+  color: #745ba4;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(44) .tag-color {
-  color: #0f0a2e;
+  color: #3f9777;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(45) .tag-color {
-  color: #bbadcd;
+  color: #888687;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(46) .tag-color {
-  color: #4dd195;
+  color: #caee86;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(47) .tag-color {
-  color: #2f2d04;
+  color: #b38dec;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(48) .tag-color {
-  color: #d1d6d3;
+  color: black;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(49) .tag-color {
-  color: #a6a17d;
+  color: #cd74ac;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(50) .tag-color {
-  color: #99ef67;
+  color: #78e398;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(51) .tag-color {
-  color: #f09ff9;
+  color: #52f4c4;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(52) .tag-color {
-  color: #2d2e2e;
+  color: #05071a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(53) .tag-color {
-  color: #eee5ce;
+  color: #fafcee;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(54) .tag-color {
-  color: #1b981b;
+  color: #26321a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(55) .tag-color {
-  color: #051004;
+  color: #61954b;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(56) .tag-color {
-  color: #47551b;
+  color: #2aaf23;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(57) .tag-color {
-  color: #7591f5;
+  color: #0e0137;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(58) .tag-color {
-  color: #e9bec1;
+  color: #fafaf9;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(59) .tag-color {
-  color: #021206;
+  color: #c5a163;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(60) .tag-color {
-  color: #b3aacb;
+  color: #afb9cb;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(61) .tag-color {
-  color: #561a27;
+  color: #6cc1ba;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(62) .tag-color {
-  color: #bcb9ae;
+  color: #5a3416;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(63) .tag-color {
-  color: #02120f;
+  color: #bf3b55;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(64) .tag-color {
-  color: #333f09;
+  color: #70a47e;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(65) .tag-color {
-  color: #566c57;
+  color: #405059;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(66) .tag-color {
-  color: #b4dfc0;
+  color: #c9cdc1;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(67) .tag-color {
-  color: #052a57;
+  color: #8789ba;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(68) .tag-color {
-  color: #1e8f77;
+  color: #050002;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(69) .tag-color {
-  color: #660547;
+  color: #376d9a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(70) .tag-color {
-  color: #121212;
+  color: #0f3835;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(71) .tag-color {
-  color: #0b0904;
+  color: #8a8fa8;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(72) .tag-color {
-  color: #5489de;
+  color: #f9f353;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(73) .tag-color {
-  color: #96fde5;
+  color: #ecd0ec;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(74) .tag-color {
-  color: #db575b;
+  color: #e7fcd9;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(75) .tag-color {
-  color: #2a0929;
+  color: #250e49;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(76) .tag-color {
-  color: #bda9c1;
+  color: #6f9e0a;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(77) .tag-color {
-  color: #3f0458;
+  color: #1e5732;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(78) .tag-color {
-  color: #75accc;
+  color: #819c88;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(79) .tag-color {
-  color: #7cadc0;
+  color: #e3e8ed;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(80) .tag-color {
-  color: #601782;
+  color: #c6b8c2;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(81) .tag-color {
-  color: #72cfc4;
+  color: #231a20;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(82) .tag-color {
-  color: #ebebeb;
+  color: #7c6db0;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(83) .tag-color {
-  color: #0732b0;
+  color: #bdecff;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(84) .tag-color {
-  color: #32352c;
+  color: #2b3b3b;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(85) .tag-color {
-  color: #f0ce47;
+  color: #bad3a1;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(86) .tag-color {
-  color: #1c0217;
+  color: #77765f;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(87) .tag-color {
-  color: #edabcc;
+  color: #737274;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(88) .tag-color {
-  color: #01220d;
+  color: #f19db7;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(89) .tag-color {
-  color: #a1bfd4;
+  color: #eeb4bd;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(90) .tag-color {
-  color: #f0f5f0;
+  color: #2d37f0;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(91) .tag-color {
-  color: #0d7ebf;
+  color: #370623;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(92) .tag-color {
-  color: #ebdbe3;
+  color: #b6bebe;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(93) .tag-color {
-  color: #160d1b;
+  color: #929190;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(94) .tag-color {
-  color: #df2670;
+  color: #b1c6f6;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(95) .tag-color {
-  color: #030104;
+  color: #020104;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(96) .tag-color {
-  color: #734dac;
+  color: #332425;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(97) .tag-color {
-  color: #540d5e;
+  color: #4e2654;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(98) .tag-color {
-  color: #1f3003;
+  color: #a0dc56;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(99) .tag-color {
-  color: #171214;
+  color: #65c86c;
 }
 
 /* line 38, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag:nth-child(100) .tag-color {
-  color: #ccfacd;
+  color: #053325;
 }
 
 /*HOME*/
@@ -14838,6 +14842,20 @@ footer {
 }
 
 /*------------------------------------*\
+		$PARTIALS
+\*------------------------------------*/
+/*Messages*/
+/* line 2, ../../scss/partials/_messages.scss */
+.loading-message {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  text-align: center;
+}
+
+/*------------------------------------*\
 		$BOTTOM FILES
 \*------------------------------------*/
 /*------------------------------------*\
@@ -14881,6 +14899,22 @@ input[type="radio"], select {
 }
 
 /* line 29, ../../scss/modules/forms/_forms.scss */
+label.checkbox {
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;
+}
+/* line 34, ../../scss/modules/forms/_forms.scss */
+label.checkbox input[type=checkbox] {
+  display: none;
+  margin: 0;
+}
+/* line 38, ../../scss/modules/forms/_forms.scss */
+label.checkbox i {
+  font-weight: bold;
+}
+
+/* line 43, ../../scss/modules/forms/_forms.scss */
 textarea {
   height: 400px;
   font-family: inherit;
@@ -14891,7 +14925,7 @@ textarea {
   text-rendering: optimizeLegibility;
 }
 
-/* line 39, ../../scss/modules/forms/_forms.scss */
+/* line 53, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
   background: #fcfcfc url('../../images/dropdown-arrow.svg?1389085131') no-repeat;
@@ -14911,13 +14945,13 @@ select {
   border-radius: 3px;
 }
 
-/* line 56, ../../scss/modules/forms/_forms.scss */
+/* line 70, ../../scss/modules/forms/_forms.scss */
 select[multiple] {
   background-image: none;
 }
 
 @-moz-document url-prefix() {
-  /* line 61, ../../scss/modules/forms/_forms.scss */
+  /* line 75, ../../scss/modules/forms/_forms.scss */
   select {
     background: #fafafa;
     padding: 0.7em 1em 0.78em 0.78em;
@@ -14926,7 +14960,7 @@ select[multiple] {
 /*------------------------------------*\
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
-/* line 71, ../../scss/modules/forms/_forms.scss */
+/* line 85, ../../scss/modules/forms/_forms.scss */
 input[type="text"], input[type="email"], input[type="password"], input[type="search"] {
   height: 100%;
   /* FF fix */
@@ -14936,19 +14970,19 @@ input[type="text"], input[type="email"], input[type="password"], input[type="sea
   border-radius: 3px;
 }
 
-/* line 77, ../../scss/modules/forms/_forms.scss */
+/* line 91, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown {
   height: 2.9em;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 80, ../../scss/modules/forms/_forms.scss */
+/* line 94, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-top: .4em;
   margin-left: 1.4em;
 }
-/* line 84, ../../scss/modules/forms/_forms.scss */
+/* line 98, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .selector {
   height: 3.3125em;
 }
@@ -14957,7 +14991,7 @@ form.custom .custom.dropdown .selector {
 		$SEARCH BAR
 \*------------------------------------*/
 @media only screen and (min-width: 1024px) {
-  /* line 96, ../../scss/modules/forms/_forms.scss */
+  /* line 110, ../../scss/modules/forms/_forms.scss */
   .search-bar input[type="text"] {
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
@@ -14966,13 +15000,13 @@ form.custom .custom.dropdown .selector {
 }
 
 @media only screen and (min-width: 1024px) {
-  /* line 102, ../../scss/modules/forms/_forms.scss */
+  /* line 116, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     margin-bottom: 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 102, ../../scss/modules/forms/_forms.scss */
+  /* line 116, ../../scss/modules/forms/_forms.scss */
   .search-bar form.custom .custom.dropdown {
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
@@ -14984,13 +15018,13 @@ form.custom .custom.dropdown .selector {
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 768px) {
-  /* line 118, ../../scss/modules/forms/_forms.scss */
+  /* line 132, ../../scss/modules/forms/_forms.scss */
   .list-view-filter form.custom, .set-detail-post-list-filter form.custom {
     margin-bottom: 0;
   }
 }
 
-/* line 124, ../../scss/modules/forms/_forms.scss */
+/* line 138, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em;
 }
@@ -14998,20 +15032,20 @@ form.custom .custom.dropdown .current {
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 135, ../../scss/modules/forms/_forms.scss */
+/* line 149, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc;
 }
 
-/* line 140, ../../scss/modules/forms/_forms.scss */
+/* line 154, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f;
 }
 
-/* line 146, ../../scss/modules/forms/_forms.scss */
+/* line 160, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px;
@@ -15020,7 +15054,7 @@ form.custom .custom.checkbox.checked:before {
 /*------------------------------------*\
 	$FIELDSETS
 \*------------------------------------*/
-/* line 155, ../../scss/modules/forms/_forms.scss */
+/* line 169, ../../scss/modules/forms/_forms.scss */
 fieldset {
   border: none;
   padding: 0;

@@ -10,6 +10,7 @@
  * FOUNDATION OVERRIDES...............user created Foundation overrides
  * MODULES...............UI bits
  * PLUGINS...............custom Sass for plugins
+ * PARTIALS..............partials
  * BOTTOM FILES...............these files must be called below everything else. Modals.
  */
 
@@ -177,6 +178,13 @@ NOTE: comment out what I don't use
 /*FOOTER*/
 @import "modules/footer/footer";
 
+
+
+/*------------------------------------*\
+		$PARTIALS
+\*------------------------------------*/
+/*Messages*/
+@import "partials/messages";
 
 
 
