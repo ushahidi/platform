@@ -637,16 +637,16 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				$post_data['user'] = array('id' => $post_data['user_id']);
 			}
 
-			$user = FALSE;
-			// Only both running through post data checks if we actually have some data
-			if (isset($post_data['user']))
+			if (! isset($post_data['user']))
 			{
-				$user_validation = new Validation($post_data) ;
-				$user = $this->save_post_user($post, $post_data['user'], $user_validation);
-				if ($user_validation->check() === FALSE)
-				{
-					throw new Validation_Exception($user_validation, 'Failed to validation user');
-				}
+				$post_data['user'] = NULL;
+			}
+
+			$user_validation = new Validation($post_data) ;
+			$user = $this->save_post_user($post, $post_data['user'], $user_validation);
+			if ($user_validation->check() === FALSE)
+			{
+				throw new Validation_Exception($user_validation, 'Failed to validation user');
 			}
 
 			// Does post have tags included?
