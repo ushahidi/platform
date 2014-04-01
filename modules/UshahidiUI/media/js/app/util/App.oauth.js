@@ -55,8 +55,8 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 				});
 
 				// Do we already have a logged in token?
-				token = Jso2.store.getTokens('ushahidi_implicit');
-				if (token.length > 0)
+				token = Jso2.store.getToken('ushahidi_implicit');
+				if (token)
 				{
 					that.setProvider('implicit');
 				}
