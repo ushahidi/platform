@@ -9,7 +9,8 @@ class Controller_User extends Controller_Layout {
 	protected $_user;
 
 	protected $_redirect_whitelist = array(
-		'oauth/authorize'
+		'oauth/authorize',
+		'/'
 	);
 
 	public function before()
@@ -189,7 +190,16 @@ class Controller_User extends Controller_Layout {
 	public function action_logout()
 	{
 		$this->auth->logout();
-		$this->redirect('user/login' . URL::query());
+		if ($from_url = $this->request->query('from_url')
+				AND in_array(parse_url($from_url, PHP_URL_PATH), $this->_redirect_whitelist)
+			)
+		{
+			$this->redirect($from_url);
+		}
+		else
+		{
+			$this->redirect('user/login' . URL::query());
+		}
 	}
 
 }

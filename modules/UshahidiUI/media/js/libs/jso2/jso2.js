@@ -385,7 +385,7 @@ define(function(require, exports, module) {
 
 		setTimeout(function() {
 			window.location = url;
-		}, 2000);
+		}, 200);
 
 	}
 

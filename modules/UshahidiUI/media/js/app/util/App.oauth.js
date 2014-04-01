@@ -124,6 +124,8 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 			{
 				var xhr = this.setProvider('client_credentials');
 				this.providers.implicit.wipeTokens();
+				// Redirect to /user/logout
+				window.location = window.config.baseurl + 'user/logout?from_url=/';
 				return xhr;
 			},
 			/**
