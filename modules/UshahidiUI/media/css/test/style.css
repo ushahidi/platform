@@ -279,7 +279,7 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 		$MIXINS
 \*------------------------------------*/
 /*@2x RETINA IMAGES - use image that's scaled by 2*/
-/* EXAMPLE: 
+/* EXAMPLE:
 
 div.logo {
    background: url("logo.png") no-repeat;
@@ -16335,3 +16335,5 @@ fieldset {
     padding-right: 0;
   }
 }
+
+input[type=checkbox] { display: none; margin-bottom: 0; }

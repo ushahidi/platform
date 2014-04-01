@@ -76,6 +76,7 @@
 
 		</div> <!-- end .row -->
 	</div> <!-- end .list-view-filter -->
+
 	<div class="role-filter">
 		<div class="row">
 			<div class="role-filter-categories">
@@ -88,7 +89,7 @@
 					{{#each roles}}
 						<li class="js-user-filter-role" data-role-name="{{name}}">
 							<span class="role-title">{{display_name}}
-								<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number">{{../pagination.totalRecords}}</span></span>
+								<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
 							</span>
 						</li>
 					{{/each}}

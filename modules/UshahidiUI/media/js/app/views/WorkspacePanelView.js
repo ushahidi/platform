@@ -28,7 +28,7 @@ define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/Workspa
 			serializeData: function()
 			{
 				var data = {};
-				
+
 				// TODO: don't assume the user is loaded
 				data.user = this.model.toJSON();
 
@@ -52,11 +52,15 @@ define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/Workspa
 			selectMenuItem : function(page)
 			{
 				var target = this.$('.workspace-menu li[data-page="'+page+'"]');
+
 				if (target.length > 0)
 				{
 					this.$('.workspace-menu li').removeClass('active');
 					target.addClass('active');
 				}
+
+				// Close workspace panel
+				App.vent.trigger('workspace:toggle', true);
 			},
 			logout : function(e)
 			{

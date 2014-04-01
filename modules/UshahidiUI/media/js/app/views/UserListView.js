@@ -321,6 +321,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 			filterByRole : function(e)
 			{
 				e.preventDefault();
+
 				var $el = this.$(e.currentTarget),
 					role = $el.attr('data-role-name'),
 					params = App.Collections.Users.setFilterParams({
