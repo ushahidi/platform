@@ -32,14 +32,12 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html'],
 			SearchPosts: function(e)
 			{
 				e.preventDefault();
-				var keyword = this.$('#q').val();
-				var tag = this.$('.js-select-tag-option option:selected').val();
+				var keyword = this.$('#q').val(),
+					tag = this.$('.js-select-tag-option option:selected').val();
 				App.Collections.Posts.setFilterParams({
 					q : keyword,
-					tags : tag 
+					tags : tag
 				});
-				
-			},
-
+			}
 		});
 	});
