@@ -2,7 +2,7 @@
 	<form role="search" action="">
 		<div class="search-form-wrapper">
 
-			{{!--<div class="location-field">
+			<div class="location-field">
 				<label class="visually-hidden" for="location-field">Location</label>
 				<input aria-labelledby="" type="text" id="location-field" class="location-field" placeholder="Location" value="">
 			</div>
@@ -10,12 +10,14 @@
 			<!-- TODO: need to figure out best solution for categorie, time etc... -->
 			<div class="categories-select">
 				<label class="visually-hidden" for="categories">Categories</label>
-				<select >
-					<option selected DISABLED>Categories</option>
-					<option>Voting Issues</option>
-					<option>Security</option>
-					<option>Urgent</option>
+				{{#if tags}}
+				<select class="js-select-tag-option">
+					<option value="" selected>Tags</option>
+					{{#each tags}}
+			        <option value="{{id}}">{{tag}}</option>
+					{{/each}}
 				</select>
+				 {{/if}}
 			</div>
 
 			<div class="sets-select">
@@ -36,7 +38,7 @@
 					<option>Time #2</option>
 					<option>Time #3</option>
 				</select>
-			</div>--}}
+			</div>
 
 			<div class="search-field-wrapper  search-field-wrapper--home">
 				<div class="search-field">
