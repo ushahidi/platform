@@ -3,7 +3,8 @@
   "linters" : {
     "jshint" : {
       "type" : "jshint",
-      "include" : "(\\.js$)"
+      "include" : "(\\.js$)",
+      "exclude" : "@/libs/.*\\.js$@"
     }
   }
 }
