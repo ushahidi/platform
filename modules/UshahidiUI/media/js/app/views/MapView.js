@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oauth', 'text!templates/Map.html', 'text!templates/Popup.html'],
-	function(Marionette, Handlebars, _, App, L, OAuth, template, popupTemplate)
+define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oauth', 'text!templates/Map.html', 'text!templates/Popup.html', 'text!templates/MapAttribution.html'],
+	function(Marionette, Handlebars, _, App, L, OAuth, template, popupTemplate, mapAttributionTemplate)
 	{
 		// Hack to fix default image url
 		L.Icon.Default.imagePath = App.config.baseurl + 'media/kohana/images';
@@ -17,6 +17,11 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 		{
 			template : Handlebars.compile(template),
 			popupTemplate : Handlebars.compile(popupTemplate),
+			baseMaps : {
+				'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
+				'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'})
+			},
+			defaultMap : 'MapQuest',
 			collapsed : false,
 			className : 'map-view',
 			modelEvents : {
@@ -60,12 +65,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 			onDomRefresh: function()
 			{
 				var that = this,
-						osm,
-						cloudmadeUrl,
-						cloudmadeAttribution,
-						minimal,
 						map,
-						baseMaps,
 						overlayMaps,
 						posts;
 
@@ -75,22 +75,11 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					return this;
 				}
 
-				// add an OpenStreetMap tile layer
-				osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
-				});
-
-				cloudmadeUrl = 'http://{s}.tile.cloudmade.com/528babad266546698317425055510f96/{styleId}/256/{z}/{x}/{y}.png';
-				cloudmadeAttribution =
-					'<span class="hide-for-medium-down">Map data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Imagery &copy; <a href="http://cloudmade.com">CloudMade</a></span>' +
-					'<span class="show-for-medium-down">&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>, &copy; <a href="http://cloudmade.com">CloudMade</a></span>';
-				minimal = L.tileLayer(cloudmadeUrl, {styleId: 22677, attribution: cloudmadeAttribution});
-
 				// create a map in the 'map' div, set the view to a given place and zoom
 				map = this.map = L.map(this.$('#map')[0], {
 					center : new L.LatLng(-36.85, 174.78),
 					zoom : 5,
-					layers : [minimal],
+					layers : [this.baseMaps[this.defaultMap]],
 					scrollWheelZoom : false
 				});
 				// Disable 'Leaflet prefix on attributions'
@@ -111,10 +100,9 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 
 				this.updateMarkers();
 
-				baseMaps = { 'Minimal': minimal };
 				overlayMaps = { 'Posts': posts };
 
-				L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+				L.control.layers(this.baseMaps, overlayMaps).addTo(this.map);
 
 				// Set initial collapsed state
 				// @TODO Maybe move this into the view html: set classes when we render

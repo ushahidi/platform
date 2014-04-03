@@ -54,3 +54,9 @@ library and its license is listed below:
 * KO3-Event module is released under MIT License
 * Twilio client libraries are released under MIT License <https://github.com/twilio/twilio-php/blob/master/LICENSE>
 * Nexmo client libraries are publicly released, but the license is unknown: <https://github.com/prawnsalad/Nexmo-PHP-lib> **To be removed in next release**
+
+Map Data
+========
+
+The default map data used comes from OpenStreetMap - http://osm.org/copyright
+The default imagery comes from MapQuest and is subject to the following terms: http://developer.mapquest.com/web/info/terms-of-use and http://info.mapquest.com/terms-of-use/

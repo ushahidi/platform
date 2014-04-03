@@ -1,10 +1,15 @@
-define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!forms/templates/LocationEditor.html',
+define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!forms/templates/LocationEditor.html', 'text!templates/MapAttribution.html',
 	'backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap', 'leaflet-locatecontrol/L.Control.Locate'],
-	function(_, Handlebars, Backbone, Marionette, L, template)
+	function(_, Handlebars, Backbone, Marionette, L, template, mapAttributionTemplate)
 {
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
 		tagName : 'div',
 		template : Handlebars.compile(template),
+		baseMaps : {
+			'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
+			'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'})
+		},
+		defaultMap : 'MapQuest',
 		marker : null,
 		defaultValue : {
 			lat : -36.85,
@@ -29,10 +34,6 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		{
 			var that = this,
 					$editor = this.template(_.result(this, 'templateData')),
-					osm,
-					cloudmadeUrl,
-					cloudmadeAttribution,
-					minimal,
 					map;
 
 			//this.setElement($editor);
@@ -45,22 +46,11 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				return this;
 			}
 
-			// add an OpenStreetMap tile layer
-			osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
-			});
-
-			cloudmadeUrl = 'http://{s}.tile.cloudmade.com/528babad266546698317425055510f96/{styleId}/256/{z}/{x}/{y}.png';
-			cloudmadeAttribution =
-				'<span class="hide-for-medium-down">Map data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Imagery &copy; <a href="http://cloudmade.com">CloudMade</a></span>' +
-				'<span class="show-for-medium-down">&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>, &copy; <a href="http://cloudmade.com">CloudMade</a></span>';
-			minimal = L.tileLayer(cloudmadeUrl, {styleId: 22677, attribution: cloudmadeAttribution});
-
 			// create a map in the 'map' div, set the view to a given place and zoom
 			map = this.map = L.map(this.$('.map')[0], {
 				center : new L.LatLng(this.value.lat, this.value.lon),
 				zoom : 15,
-				layers : [minimal],
+				layers : [this.baseMaps[this.defaultMap]],
 				scrollWheelZoom : false
 			});
 			// Disable 'Leaflet prefix on attributions'
@@ -74,6 +64,8 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			{
 				that.setValue(e.latlng);
 			});
+
+			L.control.layers(this.baseMaps, {}).addTo(this.map);
 
 			// Add geolocation search control
 			this.geosearch = new L.Control.GeoSearch({
