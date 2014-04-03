@@ -32,3 +32,17 @@
 		border-right: 1px solid lighten($accent-color, 10);
 	}
 }
+
+
+
+
+/*------------------------------------*\
+   $LIST VIEW FILTER SOURCE
+\*------------------------------------*/
+
+.list-view-filter-source--alt	{
+	@extend %list-view-filter-source;
+	@media #{$small} {
+		border-right: 1px solid lighten($accent-color, 10);
+	}
+}

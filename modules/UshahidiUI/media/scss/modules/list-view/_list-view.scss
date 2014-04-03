@@ -2,15 +2,36 @@
 		$CONTENTS
 \*------------------------------------*/
 /**
- * LIST VIEW POST...............individual posts within the LIST VIEW
+ * LIST VIEW WRAPPER..................wrapper around all posts in list view
+ * LIST VIEW...............list view {element} list
  */
 
 
 
 
+/*------------------------------------*\
+		$LIST VIEW WRAPPER
+\*------------------------------------*/
+
+.list-view-wrapper {
+	@include grid-column(12);
+	@include box-shadow(0px 2px 4px -1px rgba(lighten($darkGray, 30), 0.5));
+	background-color: $white;
+	color: $sub-body-font-color;
+	padding-top: 30px;
+}
+
+
+
+
 /*-------------------------------------------------------------------*\
-		$LIST VIEW POST
+		$LIST VIEW
 \*-------------------------------------------------------------------*/
+
+%list-view-list {
+	@include grid-column(12);
+	margin-left: 0;
+}
 
 %list-view {
 	@include grid-column(12, $collapse: true);
@@ -30,10 +51,6 @@
 	@media #{$medium-up} {
 		@include grid-column(1);
 		width: 12.33333%;
-
-	}
-	img {
-		margin: 10px 0 10px 0;
 	}
 }
 

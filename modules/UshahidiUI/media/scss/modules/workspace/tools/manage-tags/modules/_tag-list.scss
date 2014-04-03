@@ -19,13 +19,8 @@
   }
 }
 
-.list-view-wrapper--tag {
-  @extend %list-view-wrapper;
-}
-
 .list-view-tag-list {
-  @include grid-column(12);
-  margin-left: 0;
+  @extend %list-view-list;
 }
 
 .list-view-tag {

@@ -4,7 +4,7 @@
 			<h3>Users</h3>
 		</div>
 		<div class="actions-bar-admin">
-			<ul class="hide-for-small">
+			<ul class="actions-bar-admin-list  hide-for-small">
 				<li>
 					<a href="#" class="js-select-all">
 						<span class="select-text">Select All</span>
@@ -24,7 +24,7 @@
 			</ul>
 
 			<a href="#" data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
-			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-list  show-for-small">
+			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-menu  dropdown-list  show-for-small">
 			<li>Select All</li>
 			<li class="js-bulk-action disabled">
 				<a href="#" data-dropdown="drop-bulk-roles-small"><i class="fa  fa-cogs"></i>Change Role</a>
@@ -77,12 +77,12 @@
 		</div> <!-- end .row -->
 	</div> <!-- end .list-view-filter -->
 
-	<div class="role-filter">
+	<div class="filter">
 		<div class="row">
-			<div class="role-filter-categories">
-				<ul class="role-filter-categories-list  hide-for-small">
+			<div class="filter-categories">
+				<ul class="filter-categories-list  js-filter-categories-list  hide-for-small">
 					<li class="active  js-user-filter-role" data-role-name="">
-						<span class="role-title">All
+						<span class="role-title"><i class="fa  "></i>All
  							<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
 						</span>
 					</li>
@@ -97,7 +97,7 @@
 
 				<!-- Filter by role mobile UI -->
 				<a href="#/" data-dropdown="drop-roles" class="dropdown-button  show-for-small">filter by roles</a><br>
-				<ul id="drop-roles" data-dropdown-content class="role-filter-categories-list  role-filter-categories-list--dropdown  f-dropdown  show-for-small">
+				<ul id="drop-roles" data-dropdown-content class="dropdown-menu js-filter-categories-list  filter-categories-list--dropdown  f-dropdown  show-for-small">
 					<li class="js-user-filter-role  active" data-role-name="">All</li>
 						{{#each roles}}
 						<li class="js-user-filter-role" data-role-name="{{name}}">
@@ -109,7 +109,7 @@
 				</ul>
 				<!-- Filter by role mobile UI ends -->
 			</div>
-			<div class="search-field-wrapper  search-field-wrapper--role-filter">
+			<div class="search-field-wrapper--filter--role">
 				<div class="search-field">
 					<label class="visually-hidden" for="search-field">Search</label>
 					<input tabindex="1" id="autocomplete" aria-labelledby="search-label" type="search" id="q" class="search-field js-user-search-input" placeholder="Keyword" value="" autocomplete="off">
@@ -121,13 +121,14 @@
 
 			</div> <!-- end .search-field-wrapper -->
 		</div> <!-- end .row -->
-	</div> <!-- end .role-filter -->
+
+	</div> <!-- end .filter -->
 </form>
+
 	<div class="list-view-wrapper">
-		<p class="loading-message visually-hidden js-loading">Please wait. Loading...</p>
+		<p class="loading-message  visually-hidden  js-loading">Please wait. Loading...</p>
 		<ul class="list-view-user-profile-list">
 		</ul>
-
 	</div> <!-- end .list-view-wrapper -->
 </div> <!-- end .row -->
 

@@ -62,7 +62,7 @@
 	}
 }
 
-.search-bar .search-field input[type="text"] {
+.search-field input[type="search"] {
 	@include border-radius($global-radius 0 0 $global-radius);
 	// @media #{$small} {
 	// 		@include border-radius($global-radius 0 0 $global-radius);

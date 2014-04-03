@@ -44,7 +44,9 @@
   }
   .dropdown-list {
     @include dropdown-container($content: list, $triangle: true);
-    li { @include dropdown-style; }
+    li {
+      @include dropdown-style;
+    }
   }
   .dropdown-button {
     @include button($padding: $button-tny, $bg: $secondary-color, $radius: true);
@@ -61,7 +63,7 @@
       }
     }
   }
-  ul {
+  .actions-bar-admin-list {
     margin-top: 20px;
     float: right;
     li {

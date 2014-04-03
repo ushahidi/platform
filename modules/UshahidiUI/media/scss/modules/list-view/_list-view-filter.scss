@@ -2,25 +2,10 @@
 		$CONTENTS
 \*------------------------------------*/
 /**
-	* LIST VIEW WRAPPER..................wrapper around all posts in list view
 	* LIST VIEW FILTER BAR..................list view filter bar styles
 */
 
 
-
-
-/*------------------------------------*\
-		$LIST VIEW WRAPPER
-\*------------------------------------*/
-
-%list-view-wrapper,
-.list-view-wrapper {
-	@include grid-column(12);
-	@include box-shadow(0px 2px 4px -1px rgba(lighten($darkGray, 30), 0.5));
-	background-color: $white;
-	color: $sub-body-font-color;
-	padding-top: 20px;
-}
 
 
 /*------------------------------------*\
@@ -79,6 +64,26 @@
 		@include grid-column(2);
 	}
 	.filter-count {
+		@media #{$mobile-up} {
+			margin-bottom: 0;
+		}
+	}
+}
+
+// FILTER SOURCE
+%list-view-filter-source,
+.list-view-filter-source {
+	@include grid-column(12);
+	@media #{$mobile-up} {
+		@include grid-column(6);
+	}
+	@media #{$medium} {
+		@include grid-column(3);
+	}
+	@media #{$large} {
+		@include grid-column(2);
+	}
+	.filter-source {
 		@media #{$mobile-up} {
 			margin-bottom: 0;
 		}

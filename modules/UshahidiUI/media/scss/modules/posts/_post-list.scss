@@ -18,5 +18,5 @@
 }
 
 .list-view-posts-list {
-	margin-left: 0;
+	@extend %list-view-list;
 }

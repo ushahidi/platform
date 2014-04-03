@@ -35,7 +35,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			itemView: PostListItemView,
 			itemViewOptions: {},
 
-			itemViewContainer: '.list-view-posts-list',
+			itemViewContainer: '.list-view-post-list',
 
 			events:
 			{

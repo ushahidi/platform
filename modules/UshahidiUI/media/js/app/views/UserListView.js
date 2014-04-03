@@ -328,7 +328,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 						role : role
 					});
 
-				$el.closest('.role-filter-categories-list')
+				$el.closest('.js-filter-categories-list')
 					.find('li')
 						.removeClass('active')
 						.find('.role-title > span').addClass('visually-hidden')

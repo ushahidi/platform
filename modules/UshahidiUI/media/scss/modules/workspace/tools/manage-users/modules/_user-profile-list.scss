@@ -12,6 +12,10 @@
     $USER PROFILE LIST
 \*------------------------------------*/
 
+.list-view-user-profile-list {
+  @extend %list-view-list;
+}
+
 .list-view-user {
 	@include grid-column(12, $collapse: true);
 	border-bottom: 1px solid $lightGray;
