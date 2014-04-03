@@ -40,6 +40,24 @@ define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/Workspa
 					'users' : _.random(1, 800),
 					'views' : _.random(100, 100000000)
 				};
+				data.posts = {
+					'published'   : _.random(1,500),
+					'unpublished' : _.random(1,500),
+					'review'      : 0,
+					'total'       : 0
+				};
+				data.posts.total = data.posts.published + data.posts.unpublished;
+				data.posts.review = _.random(0, data.posts.total);
+				data.messages = {
+					'email'    : _.random(1, 1000),
+					'sms'      : _.random(1, 1000),
+					'unread'   : 0,
+					'archived' : 0,
+					'total'    : 0
+				};
+				data.messages.total = data.messages.email + data.messages.sms;
+				data.messages.unread = _.random(0, data.messages.total);
+				data.messages.archived = data.messages.total - data.messages.unread;
 
 				return data;
 			},
