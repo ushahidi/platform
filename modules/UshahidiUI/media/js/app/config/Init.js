@@ -26,6 +26,7 @@ require.config(
 		'store' : '../libs/jso2/store',
 		'utils' : '../libs/jso2/utils',
 		'moment' : '../libs/moment',
+		'ddt' : '../libs/ddt',
 		'underscore.string' : '../libs/underscore.string',
 		'foundation' : '../libs/foundation',
 		'foundation-loader' : '../libs/foundation-loader',
@@ -98,6 +99,10 @@ require.config(
 			exports: 'moment'
 		},
 
+		'ddt': {
+			exports: 'ddt'
+		},
+
 		'foundation/foundation' : {deps: ['jquery']},
 		'foundation/foundation.abide': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.alerts': {deps: ['jquery', 'foundation/foundation'] },
@@ -118,7 +123,7 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery'],
+require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt'],
 	function(App, AppRouter, Controller)
 	{
 		App.appRouter = new AppRouter(
