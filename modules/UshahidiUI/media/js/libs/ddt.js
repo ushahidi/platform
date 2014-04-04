@@ -1,4 +1,5 @@
 /**
+ * Devious Debugging Tool, v0.2.1
  * Copyright (c) 2013-2014, deviantART, Inc.
  * Licensed under 3-Clause BSD.
  * Refer to the LICENCES.txt file for details.
@@ -155,7 +156,7 @@ if (window.postMessage && typeof JSON === 'object' && typeof JSON.parse === 'fun
         }
     };
 
-    window.onmessage = function(event) {
+    window.addEventListener('message', function(event) {
         var  msg = (event || {}).data
             ,regex_domains = util.regex();
 
@@ -176,7 +177,7 @@ if (window.postMessage && typeof JSON === 'object' && typeof JSON.parse === 'fun
         // continue the sync
         util.sync(ddt.version);
         ddt.log('ddt', 'updated watch list for', String(window.name || window.location), 'to v' + msg.version, ddt.watching());
-    };
+    });
 } else {
     // no postMessage support in this browser, disable sync
     console.warn('[ddt] postMessage and/or JSON support not available, sync disabled');
