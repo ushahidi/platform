@@ -84,6 +84,24 @@ module.exports = function(grunt) {
 			{
 				files : ['media/scss/**/*.scss'],
 				tasks : ['compass:dev', 'compass:prod']
+			},
+
+			css :
+			{
+				files : ['media/css/style.css', 'media/css/test/style.css'],
+				options :
+				{
+					livereload : true
+				}
+			},
+
+			js :
+			{
+				files : ['media/js/**/*.js', 'media/js/**/templates/**/*.html'],
+				options :
+				{
+					livereload : true
+				}
 			}
 		}
 	});
