@@ -12,9 +12,12 @@ define(['jquery', 'backbone', 'App'],
 		var ConfigModel = Backbone.Model.extend(
 		{
 			urlRoot: function() {
-				var base = App.config.baseurl + 'api/v2/config';
-				base = this.get('group_name') ? base + '/' + this.get('group_name') : base;
-				return base;
+				var root = App.config.baseurl + 'api/v2/config',
+					group = this.get('group_name');
+				if (group) {
+					root += '/' + group;
+				}
+				return root;
 			},
 			idAttribute : 'config_key'
 		});

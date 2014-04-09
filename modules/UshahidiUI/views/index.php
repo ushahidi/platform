@@ -11,8 +11,8 @@
 <head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>Ushahidi V3</title>
-		<meta name="description" content="Ushahidi V3">
+		<title><?php echo HTML::entities($site_name) ?></title>
+		<meta name="description" content="<?php echo HTML::entities($site_name) ?>">
 		<!-- Mobile Viewport meta tags -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
