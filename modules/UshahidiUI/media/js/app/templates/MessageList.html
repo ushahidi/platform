@@ -1,75 +1,282 @@
 <div class="row">
-
 	<div class="actions-bar">
 		<div class="actions-bar-header">
 			<h3>Messages</h3>
 		</div>
-		<div class="actions-bar-admin">
-			<ul class="hide-for-small">
-				<li>
-					<a href="#" class="js-select-all">
-						<span class="select-text">Select All</span>
-						<span class="unselect-text visually-hidden">Unselect All</span>
-					</a>
-				</li>
-				<li class="js-bulk-action disabled"><a href="#" class="js-user-bulk-archive"><i class="fa  fa-archive"></i>Archive</a></li>
-			</ul>
-
-			<a href="#" data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
-			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-list  show-for-small">
-			<li>
-				<a href="#" class="js-select-all">
-					<span class="select-text">Select All</span>
-					<span class="unselect-text visually-hidden">Unselect All</span>
-				</a>
-			</li>
-			<li class="js-bulk-action disabled"><a href="#" class="js-user-bulk-archive"><i class="fa  fa-archive"></i>Archive</a></li>
-			</ul>
-		</div>
 	</div> <!-- end .actions-bar -->
-
-	<div class="list-view-filter">
-		<div class="row">
-
-			<form role="form" action="">
-				<div class="list-view-filter-info">
+	<form role="search" class="js-user-search-form" action="">
+		<div class="list-view-filter--alt">
+			<div class="row">
+				<div class="list-view-filter-info--alt">
 					{{>post-list-info}}
-				</div> <!-- end .list-view-filter-info -->
+				</div> <!-- end .list-view-filter-info-alt -->
 
-				<div class="list-view-filter-count">
-					<div class="filter-count-select">
-						<label class="visually-hidden" for="filter-count">Number of messages shown</label>
-						<select id="filter-count" >
-							<option selected>3</option>
-							<option>5</option>
-							<option>10</option>
-							<option>20</option>
+				<div class="list-view-filter-source--alt">
+					<div class="filter-source-select">
+						<label class="visually-hidden" for="filter-source">Message Source</label>
+						<select id="filter-source" class="filter-source" >
+							<option selected>All Sources</option>
+							<option>Email</option>
+							<option>Twitter</option>
+							<option>SMS</option>
 						</select>
-					</div>
-
-				</div> <!-- end .list-view-filter-count -->
+					</div> <!-- end .filter-source-select -->
+				</div> <!-- end .list-view-filter-source-alt -->
 
 				<div class="list-view-filter-sort">
 					<div class="filter-sort-select">
 						<label class="visually-hidden" for="filter-sort">Sort by</label>
-						<select id="filter-sort" >
+						<select id="filter-sort" class="filter-sort" >
 							{{#each sortKeys}}
 								<option value="{{@key}}">{{this}}</option>
 							{{/each}}
 						</select>
-					</div>
-
+					</div> <!-- end .filter-sort-select -->
 				</div> <!-- end .list-view-filter-sort -->
 			</form>
 
 		</div> <!-- end .row -->
 	</div> <!-- end .list-view-filter -->
+	</form>
+	<div class="filter">
+		<div class="row">
+			<div class="filter-categories">
+				<ul class="filter-categories-list  filter-categories-list--message  js-filter-categories-list  hide-for-small">
+					<a href="">
+						<li class="active  js-message-filter-all" data-role-name="">
+							<span class="message-type"><i class="fa  "></i> All
+								<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
+							</span>
+						</li>
+					</a>
+
+					<a href="">
+						<li class="js-message-filter-inbox" data-role-name="">
+							<span class="message-type"><i class="fa  fa-inbox"></i> Inbox
+								<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
+							</span>
+						</li>
+					</a>
+
+					<a href="">
+						<li class="js-message-filter-outbox" data-role-name="">
+							<span class="message-type"><i class="fa  "></i> Outbox
+								<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
+							</span>
+						</li>
+					</a>
+
+					<a href="">
+						<li class="js-message-filter-archive" data-role-name="">
+							<span class="message-type"><i class="fa  fa-archive"></i> Archive
+								<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
+							</span>
+						</li>
+					</a>
+				</ul>
+
+				<a href="#/" data-dropdown="drop-roles" class="dropdown-button  show-for-small">filter by roles</a><br>
+				<ul id="drop-roles" data-dropdown-content class="dropdown-list  js-filter-categories-list  f-dropdown  show-for-small">
+					<a href="">
+						<li class="active  dropdown-list__item  js-message-filter-all" data-role-name="">
+							<span class="message-type">All
+							<span class="{{name}}-count-number  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
+												</span>
+						</li>
+					</a>
+
+					<a href="">
+						<li class="dropdown-list__item  js-message-filter-inbox" data-role-name="">
+							<span class="message-type"><i class="fa  fa-inbox"></i> Inbox
+							<span class="{{name}}-count-number  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
+							</span>
+						</li>
+					</a>
+
+					<a href="">
+						<li class="dropdown-list__item  js-message-filter-outbox" data-role-name="">
+							<span class="message-type"><i class="fa  "></i> Outbox
+							<span class="{{name}}-count-number  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
+							</span>
+						</li>
+					</a>
+
+					<a href="">
+						<li class="dropdown-list__item  js-message-filter-archive" data-role-name="">
+							<span class="message-type"><i class="fa  fa-archive"></i> Archive
+							<span class="{{name}}-count-number  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
+							</span>
+						</li>
+					</a>
+				</ul>
+			</div>
+			<div class="search-field-wrapper--filter--message">
+				<div class="search-field">
+					<label class="visually-hidden" for="search-field">Search</label>
+					<input tabindex="1" id="autocomplete" aria-labelledby="search-label" type="search" id="q" class="search-field js-user-search-input" placeholder="Search Messages" value="" autocomplete="off">
+				</div> <!-- end .search-field -->
+
+				<div class="search-bar-button">
+					<button type="submit" class=""><i class="fa  fa-search"></i></button>
+				</div> <!-- end .search-bar-button -->
+			</div> <!-- end .search-field-wrapper -->
+		</div> <!-- end .row -->
+	</div> <!-- end .filter -->
 
 	<div class="list-view-wrapper">
+		<ul class="list-view-message-list">
 
-		<ul class="list-view-item-list">
+
+
+			<!-- FIXME: hardcoded -->
+			<div class="row">
+				<div class="card-wrapper">
+
+					<div class="card-panel-wrapper  card-panel-wrapper--map  js-card-panel-map">
+						<div class="card-panel  card-panel--map">
+							<img src="{{imageurl "map2.jpg"}}" alt="" />
+						</div> <!-- end .card-panel-map -->
+					</div> <!-- end .card-panel-wrapper -->
+
+					<article class="card">
+						<div class="card__icon"><i class="fa  fa-twitter-square"></i>
+						</div>
+						<div class="card__details">
+							<h5 class="card__header"><a href="#messages/{{id}}">@UshahidiDesign</a></h5>
+							<div class="card__meta">
+								<p class="underline"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">Lamu</a></p>
+								<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+							</div> <!-- end .card-meta -->
+						</div> <!-- end .card-details -->
+						<div class="card__excerpt">
+							<span class="excerpt">This is the visible part of the message. Clicking the DOUBLE DOWN ARROW will reveal the rest of <span class="elipsis">...</span></span><span class="full-message">the message. This is the rest of the message. Clicking on the DOUBLE UP ARROW will hide this and only show the excerpt.</span>
+						<span class="show-full-message"><i class="fa  fa-angle-double-down"></i></span>
+						</div> <!-- end .card-excerpt -->
+					</article> <!-- end .card -->
+
+					<div class="card-actions-wrapper  hide-for-small">
+						<ul class="card-actions-list">
+							<li class="card-actions-list__item"><a href="" class="js-card-action-expand"> <i class="fa  fa-list"></i>Expand</a></li>
+							<li class="card-actions-list__item"><a href="" class="js-card-action-reply"> <i class="fa  fa-reply"></i>Reply</a></li>
+							<li class="card-actions-list__item"><a href="" class=-"js-card-action-create-post"> <i class="fa  fa-edit"></i>Create Post</a></li>
+							<li class="card-actions-list__item"><a href="" class=-"js-card-action-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
+						</ul> <!-- end .card-actions -->
+					</div> <!-- end .card-actions-wrapper .hide-for-small-->
+
+					<div class="card-actions-wrapper  show-for-small">
+						<a href="#" data-dropdown="drop-card-actions" class="dropdown-button  show-for-small">actions</a><br>
+						<ul id="drop-card-actions" data-dropdown-content class="dropdown-list  f-dropdown  show-for-small">
+							<li class="dropdown-list__item"><a href="" class="js-card-action-expand"> <i class="fa  fa-list"></i>Expand</a></li>
+							<li class="dropdown-list__item"><a href="" class="js-card-action-reply"><i class="fa  fa-reply"></i>Reply</a></li>
+							<li class="dropdown-list__item"><a href="" class="js-card-action-create post"> <i class="fa  fa-edit"></i>Create Post</a></li>
+							<li class="dropdown-list__item"><a href="" class="js-card-action-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
+						</ul> <!-- end .card-actions -->
+					</div> <!-- end .card-actions-wrapper .show-for-small -->
+
+					<!-- TODO: These panels should be partials -->
+
+					<div class="card-panel-wrapper  js-card-panel-expand">
+						<div class="card-panel">
+							<h6 class="card-panel__header">Message Activty<span class="subheader  reply-number">2 replies</span></h6>
+							<ul class="card-panel--activity-list">
+								<li class="card-panel--activity-list__item  js-activity-list__item--photo">
+
+									<div class="card-panel__post-image">
+										<img src="{{imageurl "car-tree.jpg"}}" alt="" />
+									</div> <!-- end .card-panel__post-image -->
+									<!-- TODO: generate class in js, based on whether or not we have a post image -->
+									<div class="card-panel__details  js-with-post-image">
+										<div class="subheader"><a class="username" href="#">Ushbot</a> shared a photo</div>
+										<div class="details">"Winter storm claims another vehicle."</div>
+									</div> <!-- end .card-panel__details -->
+									<!-- TODO: generate class in js, based on whether or not we have a post image -->
+									<div class="card-panel__meta  js-with-post-image">
+										<p class="underline  location"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">California</a></p>
+										<p class="datetime"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+									</div> <!-- end .card-panel__meta -->
+
+									<div class="view-post"><a href="#">View Post</a></div>
+								</li>
+
+								<li class="card-panel--activity-list__item  js-activity-list__item--location">
+
+									<div class="card-panel__details  js-no-post-image">
+										<div class="subheader"><a class="username" href="#">Ushbot</a> added a location</div>
+										<div class="details">Lamu, Kenya</div>
+									</div> <!-- end .card-panel__details -->
+
+									<div class="card-panel__meta  js-no-post-image  card-panel__meta--location">
+										<p class="underline  location"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">California</a></p>
+										<p class="datetime"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+									</div> <!-- end .card-panel__meta -->
+
+									<div class="view-post"><a href="#">View Post</a></div>
+								</li>
+							</ul> <!-- end .card-panel-activity-list -->
+
+						</div> <!-- end .card-panel -->
+					</div> <!-- end .card-panel-wrapper -->
+
+					<div class="card-panel-wrapper  js-card-panel-reply">
+						<div class="card-panel">
+							<h6 class="card-panel__header">Send a Response</h6>
+							<textarea name="Name" rows="2" cols="40"></textarea>
+							<div class="card-panel__button-wrap">
+								<button type="submit" class="card-reply-location-button"><i class="fa  fa-reply"></i> location</button>
+								<button type="submit" class="card-reply-more-info-button"><i class="fa  fa-reply"></i> more info</button>
+							</div>
+							<button type="submit" class="card-reply-send-button">Send</button>
+						</div> <!-- end .card-panel -->
+					</div> <!-- end .card-panel-wrapper -->
+
+					<!-- end panel partials -->
+				</div> <!-- end .card-wrapper -->
+
+				<div class="card-wrapper">
+					<div class="card-wrapper--selected">
+						<article class="card  js-selected">
+							<div class="card__icon"><i class="fa  fa-mobile-phone"></i>
+							</div>
+							<div class="card__details">
+								<h5 class="card__header"><a href="#messages/{{id}}">+1 655-5455</a></h5>
+								<div class="card__meta">
+									<p class="underline"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">Lamu</a></p>
+									<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+								</div> <!-- end .card-meta -->
+							</div> <!-- end .card-details -->
+							<div class="card__excerpt">
+								<span class="excerpt">This is the visible part of the message. Clicking the DOUBLE DOWN ARROW will reveal the rest of <span class="elipsis">...</span></span><span class="full-message">the message. This is the rest of the message. Clicking on the DOUBLE UP ARROW will hide this and only show the excerpt.</span>
+							<span class="show-full-message"><i class="fa  fa-angle-double-down"></i></span>
+							</div> <!-- end .card-excerpt -->
+						</article> <!-- end .card -->
+
+					<div class="card-actions-wrapper  js-selected  hide-for-small">
+						<ul class="card-actions-list">
+							<li class="card-actions-list__item"><a href="" class="js-card-action-expand"> <i class="fa  fa-list"></i>Expand</a></li>
+							<li class="card-actions-list__item"><a href="" class="js-card-action-reply"> <i class="fa  fa-reply"></i>Reply</a></li>
+							<li class="card-actions-list__item"><a href="" class=-"js-card-action-create-post"> <i class="fa  fa-edit"></i>Create Post</a></li>
+							<li class="card-actions-list__item"><a href="" class=-"js-card-action-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
+						</ul> <!-- end .card-actions -->
+					</div> <!-- end .card-actions-wrapper .hide-for-small-->
+
+
+					<div class="card-actions-wrapper  js-selected  show-for-small">
+						<a href="#" data-dropdown="drop-card-actions" class="dropdown-button  show-for-small">actions</a><br>
+						<ul id="drop-card-actions" data-dropdown-content class="dropdown-list  f-dropdown  show-for-small">
+							<li class="dropdown-list__item"><a href="" class="js-card-action-expand"> <i class="fa  fa-list"></i>Expand</a></li>
+							<li class="dropdown-list__item"><a href="" class="js-card-action-reply"><i class="fa  fa-reply"></i>Reply</a></li>
+							<li class="dropdown-list__item"><a href="" class="js-card-action-create post"> <i class="fa  fa-edit"></i>Create Post</a></li>
+							<li class="dropdown-list__item"><a href="" class="js-card-action-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
+						</ul> <!-- end .card-actions -->
+					</div> <!-- end .card-actions-wrapper .show-for-small -->
+					</div> <!-- end .card-wrapper-selected -->
+				</div> <!-- end .card-wrapper -->
+
+
+		</div> <!-- end .row -->
+			<!-- end FIXME: hardcoded -->
+
 		</ul>
-
 	</div> <!-- end .list-view-wrapper -->
 </div> <!-- end .row -->
 

@@ -1,0 +1,34 @@
+/*------------------------------------*\
+   CONTENTS
+\*------------------------------------*/
+ /**
+ * DROPDOWN BUTTON MENU...............dropdown button menu styles
+ */
+
+
+
+
+/*------------------------------------*\
+   $DROPDOWN BUTTON MENU
+\*------------------------------------*/
+
+.dropdown-list {
+  a {
+    color: $body-font-color;
+  }
+	.dropdown-list__item {
+		padding: 19px;
+		width: 100%;
+		text-align: center;
+		&.active {
+			background-color: darken($secondary-color, 2);
+			font-weight: bold;
+		}
+		&:hover:not(.active) {
+			background-color: darken($secondary-color, 2);
+		}
+		&:active:not(.active) {
+			background-color: darken($secondary-color, 6);
+		}
+	}
+}

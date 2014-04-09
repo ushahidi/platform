@@ -1,0 +1,50 @@
+/*------------------------------------*\
+   CONTENTS
+\*------------------------------------*/
+ /**
+ * CARD PANEL REPLY...............reply panel styles
+ */
+
+
+
+
+
+/*------------------------------------*\
+   $CARD PANEL REPLY
+\*------------------------------------*/
+
+.card-panel__button-wrap {
+  @include grid-column(12, $collapse: true);
+  @media #{$small} {
+     @include grid-column(10, $collapse: true);
+   }
+}
+
+.card-reply-location-button,
+.card-reply-more-info-button {
+  @include grid-column(5);
+  @include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
+  @media #{$small} {
+     @include grid-column(4);
+   }
+  @media #{$medium-up} {
+     @include grid-column(3);
+   }
+}
+
+.card-reply-more-info-button {
+  margin-left: 20px;
+  float: right;
+  @media #{$small} {
+     float: left;
+   }
+}
+
+.card-reply-send-button {
+  @include button($padding: $button-sml, $bg: $success-color, $radius: true, $full-width: true);
+  float: right;
+  @media #{$small} {
+     @include button($padding: $button-sml, $bg: $success-color, $radius: true);
+     width: auto;
+   }
+}

@@ -1,0 +1,38 @@
+/*------------------------------------*\
+   CONTENTS
+\*------------------------------------*/
+ /**
+ * MESSAGE FILTER CATEGORY LIST..............filter and archive messages styles
+ * MESSAGE FILTER SEARCH FIELD...............message filter search field
+ */
+
+
+
+/*------------------------------------*\
+   $MESSAGE FILTER CATEGORY LIST
+\*------------------------------------*/
+
+.filter-categories-list--message {
+  li {
+    color: $body-font-color;
+  }
+}
+
+
+
+
+/*------------------------------------*\
+	$MESSAGE FILTER SEARCH FIELD
+\*------------------------------------*/
+
+.search-field-wrapper--filter--message  {
+	@extend %search-field-wrapper--filter;
+	@include grid-column(12);
+	padding: 0 20px;
+	border-top: 1px solid $secondary-color;
+	@media #{$small} {
+		@include grid-column(3, $float: right);
+		border-top: none;
+		margin: 17px 0 0 0;
+	}
+}

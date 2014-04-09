@@ -53,8 +53,9 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 	color: $white !important;
 }
 
+%underline,
 .underline {
-	border-bottom: 1px dotted;
+	border-bottom: 2px dotted;
 	padding-bottom: 3px;
 }
 

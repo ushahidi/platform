@@ -1,0 +1,32 @@
+/*------------------------------------*\
+   CONTENTS
+\*------------------------------------*/
+ /**
+ * CARD PANEL ACTIVITY...............activity panel styles
+ */
+
+
+
+
+
+/*------------------------------------*\
+   $CARD PANEL ACTIVITY
+\*------------------------------------*/
+
+.card-panel--activity-list {
+  @include grid-column(12, $collapse: true);
+  margin: 0;
+  .card-panel--activity-list__item {
+    @include grid-column(12, $collapse:true);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid darken($secondary-color, 10);
+    &:last-child {
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+    .card-panel__header {
+      margin-bottom: 12px;
+    }
+  }
+}

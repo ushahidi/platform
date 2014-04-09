@@ -4,6 +4,7 @@
 /**
  * GENERAL OVERRIDES............general restyles
  * BUTTON OVERRIDES...............restyling foundation buttons
+ * DROPDOWN BUTTON OVERRIDES...............restyling foundation's dropdown buttons
  */
 
 
@@ -37,4 +38,15 @@ letter-spacing: .1em;
 
 .button.bluegray:hover {
 	background-color: darken($accent-color, 10);
+}
+
+
+
+
+/*------------------------------------*\
+   $DROPDOWN OVERRIDES
+\*------------------------------------*/
+
+.f-dropdown li a {
+	color: $body-font-color;
 }

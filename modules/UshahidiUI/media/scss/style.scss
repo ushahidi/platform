@@ -124,6 +124,25 @@ NOTE: comment out what I don't use
 
 
 /*------------------------------------*\
+   $PARTIALS
+\*------------------------------------*/
+
+/*CARDS*/
+@import "partials/card/card";
+
+/*FILTER*/
+@import "partials/filter/filter";
+
+/*DROPDOWN*/
+@import "partials/dropdown/dropdown";
+
+/*PAGINATION*/
+@import "partials/pagination/pagination";
+
+
+
+
+/*------------------------------------*\
 		$MODULES
 \*------------------------------------*/
 
@@ -156,6 +175,7 @@ NOTE: comment out what I don't use
 @import "modules/workspace/actions-bar";
 @import "modules/workspace/tools/manage-users/manage-users";
 @import "modules/workspace/tools/manage-tags/manage-tags";
+@import "modules/workspace/incoming-messages/messages/messages";
 
 /*HOME*/
 @import "modules/home/bulk-actions";
@@ -171,9 +191,6 @@ NOTE: comment out what I don't use
 @import "modules/sets/sets";
 @import "modules/sets/set-module";
 @import "modules/sets/set-details";
-
-/*PAGINATION*/
-@import "modules/pagination/pagination";
 
 /*FOOTER*/
 @import "modules/footer/footer";

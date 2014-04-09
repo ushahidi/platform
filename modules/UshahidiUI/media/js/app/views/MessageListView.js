@@ -32,7 +32,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/MessageListItemVi
 			itemView: MessageListItemView,
 			itemViewOptions: {},
 
-			itemViewContainer: '.list-view-item-list',
+			itemViewContainer: '.list-view-message-list',
 
 			events:
 			{
@@ -44,6 +44,13 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/MessageListItemVi
 				'click .js-page-change' : 'showPage',
 				'change #filter-count' : 'updatePageSize',
 				'change #filter-sort' : 'updatePostsSort',
+        'click .js-message-filter-all' : 'filterByMessageType',
+        'click .js-card-action-reply' : 'toggleReply',
+        'click .js-card-action-expand' : 'toggleMessageActivity',
+        'click .js-card-action-location' : 'toggleMap',
+        'click .excerpt, .show-full-message' : 'showFullMessage',
+        'click .card-actions-list__item a' : 'toggleActiveClass'
+
 			},
 
 			collectionEvents :
@@ -178,6 +185,65 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/MessageListItemVi
 				var orderby = this.$('#filter-sort').val();
 				this.collection.setSorting(orderby);
 				this.collection.getFirstPage();
-			}
+			},
+      filterByMessageType : function(e)
+      {
+        e.preventDefault();
+
+        var $el = this.$(e.currentTarget),
+          role = $el.attr('data-role-name');
+
+        App.Collections.Users.setFilterParams({
+          role : role
+        });
+
+        $el.closest('.js-filter-categories-list')
+          .find('li')
+            .removeClass('active')
+            .find('.message-type > span').addClass('visually-hidden')
+            .end()
+          .filter('li[data-role-name=""]')
+            .addClass('active')
+            .find('.message-type > span').removeClass('visually-hidden');
+      },
+      toggleReply : function(e)
+      {
+        e.preventDefault();
+        this.$(e.currentTarget).closest('.card-actions-wrapper').nextAll('.js-card-panel-reply').slideToggle(200);
+      },
+      toggleMessageActivity : function(e)
+      {
+				e.preventDefault();
+							this.$(e.currentTarget).closest('.card-actions-wrapper').nextAll('.js-card-panel-expand').slideToggle(200);
+      },
+      toggleMap : function(e)
+      {
+				e.preventDefault();
+
+				this.$(e.currentTarget).closest('.card').prevAll('.js-card-panel-map').slideToggle(200);
+      },
+      showFullMessage : function(e)
+      {
+        e.preventDefault();
+
+this.$(e.currentTarget).closest('.card__excerpt').toggleClass('show').find('.show-full-message i').toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+
+var that = this.$(e.currentTarget).closest('.card__excerpt');
+
+				if (that.hasClass('show')) {
+					that.find('.elipsis').hide(0);
+					that.find('.full-message').delay(100).fadeIn(200);
+				}
+				else {
+					that.find('.elipsis').delay(300).show(0);
+					that.find('.full-message').fadeOut(200);
+				}
+      },
+      toggleActiveClass : function(e)
+      {
+        e.preventDefault();
+
+        this.$(e.currentTarget).toggleClass('active');
+      }
 		});
 	});
