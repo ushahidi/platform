@@ -1,11 +1,11 @@
 /*------------------------------------*\
-    CONTENTS
+		CONTENTS
 \*------------------------------------*/
 /**
  * USER-LIST
-   * ROLE FILTER............roles filter and role count numbers
-   * ROLE FILTER DROPDOWN............role filter dropdown button styles
-   * ROLE FILTER SEARCH FIELD...............search field styles
+	 * ROLE FILTER............roles filter and role count numbers
+	 * ROLE FILTER DROPDOWN............role filter dropdown button styles
+	 * ROLE FILTER SEARCH FIELD...............search field styles
  */
 
 
@@ -13,17 +13,17 @@
 
 
 /*------------------------------------*\
-  $ROLE FILTER SEARCH FIELD
+	 $ROLE FILTER SEARCH FIELD
 \*------------------------------------*/
 
 .search-field-wrapper--filter--role {
   @extend %search-field-wrapper--filter;
-  @include grid-column(12);
-  padding: 0 20px;
-  border-top: 1px solid $secondary-color;
-  @media #{$small} {
-    @include grid-column(3, $float: right);
-    border-top: none;
-    margin: 17px 0 0 0;
-  }
+	@include grid-column(12);
+	padding: 0 20px;
+	border-top: 1px solid $secondary-color;
+	@media #{$small} {
+		@include grid-column(3, $float: right);
+		border-top: none;
+		margin: 17px 0 0 0;
+	}
 }

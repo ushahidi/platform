@@ -32,6 +32,21 @@ Feature: Testing the Tags API
             """
             {
                 "tag":"Duplicate",
+                "type":"category",
+                "priority":1
+            }
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
+    Scenario: Creating a tag with a duplicate slug
+        Given that I want to make a new "Tag"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Something",
                 "slug":"duplicate",
                 "type":"category",
                 "priority":1

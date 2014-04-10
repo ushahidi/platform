@@ -5,7 +5,7 @@
  * workspace PROFILE...............user avatar and account settings/edits
  * workspace STATS WRAPPER..................post, user and post views stats
  * workspace ACCORDION MENU..................posts, tasks and tools
- 				*Labels..................dynamic labels
+				*Labels..................dynamic labels
  */
 
 
@@ -122,10 +122,10 @@
 	i {
 		padding-left: 10px;
 	}
-  .title {
-    line-height: .8em;
-    margin: 0;
-  }
+	.title {
+		line-height: .8em;
+		margin: 0;
+	}
 }
 
 .workspace-menu>section.active>.title a {
@@ -133,29 +133,29 @@
 }
 
 .workspace-menu>section>.content {
-  margin: 0;
-  padding: 0;
-    li {
-      padding: 10px 0;
-      &.active {
-        background: $section-content-bg-active;
-      }
-    	a {
-    		color: $body-font-color;
-    		p {
-    			margin: 0 20px 0 10px;
-    			i {
-    				color: $body-font-color;
-    			}
-    			span {
-    				float: right;
-    			}
-    		}
-    	}
-    }
-    > *:first-child, > *:last-child:not(.flex-video) {
-    padding: 10px 0;
-    }
+	margin: 0;
+	padding: 0;
+		li {
+			padding: 10px 0;
+			&.active {
+				background: $section-content-bg-active;
+			}
+			a {
+				color: $body-font-color;
+				p {
+					margin: 0 20px 0 10px;
+					i {
+						color: $body-font-color;
+					}
+					span {
+						float: right;
+					}
+				}
+			}
+		}
+		> *:first-child, > *:last-child:not(.flex-video) {
+		padding: 10px 0;
+		}
 }
 
 .workspace-menu>section>.js-title {

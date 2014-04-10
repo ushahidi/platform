@@ -1,51 +1,52 @@
-<div class="row">
-	<article>
-		<div class="list-view-details">
-			<div class="row">
-				<h4 class="list-view-header">
-					<i class="fa  fa-circle  tag-color"></i>
-					{{ tag }}
-				</h4>
-			</div> <!-- end .row -->
+<div class="list-view-wrapper">
+	<div class="row">
+		<article>
+			<div class="list-view-details">
+				<div class="row">
+					<h4 class="list-view-header">
+						<i class="fa  fa-circle" {{#if color}}style="color: #{{color}}"{{/if}}></i>
+						{{ tag }}
+					</h4>
+				</div> <!-- end .row -->
 
-			<div class="list-view-description">
-				<p>
-					{{#if description}}
-						{{ description }}
-					{{else}}
-						No description given
-					{{/if}}
-				</p>
-			</div> <!-- end .list-view-description -->
-		</div> <!-- end .list-view-details -->
+				<div class="list-view-description">
+					<p>
+						{{#if description}}
+							{{ description }}
+						{{else}}
+							No description given
+						{{/if}}
+					</p>
+				</div> <!-- end .list-view-description -->
+			</div> <!-- end .list-view-details -->
 
-		<div class="list-view-admin  list-view-admin--tag">
-			<div class="list-view-edit-wrapper">
-				<ul class="list-view-edit">
-					{{#if allowed_methods.put}}
-						<li>
-							<a href="#" class="list-view-edit-buttons  js-tag-select">
-								<i class="fa  fa-check-square-o"></i> <span class="">select</span>
-							</a>
-						</li>
-					{{/if}}
-					{{#if allowed_methods.put}}
-						<li>
-							<a href="#" class="list-view-edit-buttons  js-tag-edit">
-								<i class="fa  fa-edit"></i> <span class="">edit</span>
-							</a>
-						</li>
-					{{/if}}
-					{{#if allowed_methods.delete}}
-						<li>
-							<a href="#" class="list-view-edit-buttons  js-tag-delete">
-								<i class="fa  fa-trash-o"></i> <span class="">delete</span>
-							</a>
-						</li>
-					{{/if}}
-				</ul> <!-- end .list-view-edit -->
-			</div> <!-- end .list-view-edit-wrapper -->
+			<div class="list-view-admin  list-view-admin--tag">
+				<div class="list-view-edit-wrapper">
+					<ul class="list-view-edit">
+						{{#if allowed_methods.put}}
+							<li>
+								<label class="checkbox list-view-edit-buttons">
+								<input type="checkbox" name="select-post" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
+								<i class="fa fa-check-square-o js-user-select"></i> select
+								</label>
+							</li>
+							<li>
+								<a href="#" class="list-view-edit-buttons  js-tag-edit">
+									<i class="fa  fa-edit"></i> <span class="">edit</span>
+								</a>
+							</li>
+						{{/if}}
+						{{#if allowed_methods.delete}}
+							<li>
+								<a href="#" class="list-view-edit-buttons  js-tag-delete">
+									<i class="fa  fa-trash-o"></i> <span class="">delete</span>
+								</a>
+							</li>
+						{{/if}}
+					</ul> <!-- end .list-view-edit -->
+				</div> <!-- end .list-view-edit-wrapper -->
 
-		</div> <!-- end .list-view-admin -->
-	</article>
-</div> <!-- end .row -->
+			</div> <!-- end .list-view-admin -->
+		</article>
+	</div> <!-- end .row -->
+</div>

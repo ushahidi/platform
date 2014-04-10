@@ -7,7 +7,7 @@
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-define(['App','handlebars', 'marionette', 'underscore', 'text!templates/Loading.html'],
+define(['App','handlebars', 'marionette', 'underscore', 'text!templates/Empty.html'],
 	function(App,Handlebars, Marionette, _, template)
 	{
 		return Marionette.ItemView.extend(
@@ -16,12 +16,13 @@ define(['App','handlebars', 'marionette', 'underscore', 'text!templates/Loading.
 			// Template HTML string
 			template: Handlebars.compile(template),
 			tagName: 'li',
-			className: 'list-view-user',
+			className: 'list-view-empty',
+			selected: false,
 
 			initialize: function(options)
 			{
 				var defaultOptions = {
-					emptyMessage : 'Empty List'
+					emptyMessage : 'No records found.'
 				};
 
 				options = _.defaults(options,defaultOptions);

@@ -7,24 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostListItemView',
-		'text!templates/PostList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
-	function( App, Marionette, Handlebars, _, alertify, PostListItemView,
-		template, paginationTemplate, postListInfoTemplate)
+define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostListItemView', 'text!templates/PostList.html'],
+	function( App, Marionette, Handlebars, _, alertify, PostListItemView, template)
 	{
-		Handlebars.registerPartial('pagination', paginationTemplate);
-		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
-
 		return Marionette.CompositeView.extend(
 		{
-			//Template HTML string
 			template: Handlebars.compile(template),
-			// Lets just store the partial templates somewhere usefule
-			partialTemplates :
-			{
-				pagination : Handlebars.compile(paginationTemplate),
-				postListInfo : Handlebars.compile(postListInfoTemplate)
-			},
+			modelName: 'posts',
+
 			initialize: function()
 			{
 				// Bind select/unselect events from itemviews
@@ -193,7 +183,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			{
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
-					pagination: this.collection.state
+					pagination: this.collection.state,
+					modelName : this.modelName
 				});
 
 				return data;
@@ -269,14 +260,15 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 
 			updatePagination: function ()
 			{
-				this.$('.pagination').replaceWith(
-					this.partialTemplates.pagination({
+				this.$('.js-pagination').replaceWith(
+					Handlebars.partials.pagination({
 						pagination: this.collection.state
 					})
 				);
-				this.$('.list-view-filter-info--posts').html(
-					this.partialTemplates.postListInfo({
-						pagination: this.collection.state
+				this.$('.js-list-view-filter-info').replaceWith(
+					Handlebars.partials.listinfo({
+						pagination: this.collection.state,
+						modelName: this.modelName
 					})
 				);
 			},

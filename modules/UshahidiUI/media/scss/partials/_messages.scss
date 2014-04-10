@@ -1,5 +1,5 @@
 
-.loading-message {
+.loading-message, .empty-message {
 	@include grid-column(12);
 	text-align: center;
 }

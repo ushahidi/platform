@@ -1,6 +1,6 @@
 /*
-  backbone-pageable 1.3.2
-  http://github.com/wyuenho/backbone-pageable
+  backbone-pageable 1.4.5
+  http://github.com/backbone-paginator/backbone-pageable
 
   Copyright (c) 2013 Jimmy Yuen Ho Wong
   Licensed under the MIT @license.
@@ -83,12 +83,35 @@
     for (var i = 0, l = kvps.length; i < l; i++) {
       var param = kvps[i];
       kvp = param.split('='), k = kvp[0], v = kvp[1] || true;
-      k = decode(k), ls = params[k];
+      k = decode(k), v = decode(v), ls = params[k];
       if (_isArray(ls)) ls.push(v);
       else if (ls) params[k] = [ls, v];
       else params[k] = v;
     }
     return params;
+  }
+
+  // hack to make sure the whatever event handlers for this event is run
+  // before func is, and the event handlers that func will trigger.
+  function runOnceAtLastHandler (col, event, func) {
+    var eventHandlers = col._events[event];
+    if (eventHandlers && eventHandlers.length) {
+      var lastHandler = eventHandlers[eventHandlers.length - 1];
+      var oldCallback = lastHandler.callback;
+      lastHandler.callback = function () {
+	try {
+	  oldCallback.apply(this, arguments);
+	  func();
+	}
+	catch (e) {
+	  throw e;
+	}
+	finally {
+	  lastHandler.callback = oldCallback;
+	}
+      };
+    }
+    else func();
   }
 
   var PARAM_TRIM_RE = /[\s'"]/g;
@@ -252,13 +275,13 @@
        @param {-1|1} [options.state.order] The order to use for sorting. Specify
        -1 for ascending order and 1 for descending order.
 
-       @param {Object} [options.queryParam]
+       @param {Object} [options.queryParams]
     */
     constructor: function (models, options) {
 
-      Backbone.Collection.apply(this, arguments);
+      BBColProto.constructor.apply(this, arguments);
 
-      options = options || {};
+      options = this.options = _clone(options) || {};
 
       var mode = this.mode = options.mode || this.mode || PageableProto.mode;
 
@@ -299,7 +322,7 @@
 	var fullCollection = this.fullCollection;
 
 	if (comparator && options.full) {
-	  delete this.comparator;
+	  this.comparator = null;
 	  fullCollection.comparator = comparator;
 	}
 
@@ -308,12 +331,24 @@
 	// make sure the models in the current page and full collection have the
 	// same references
 	if (models && !_isEmpty(models)) {
+	  this.reset([].slice.call(models), _extend({silent: true}, options));
 	  this.getPage(state.currentPage);
 	  models.splice.apply(models, [0, models.length].concat(this.models));
 	}
       }
 
       this._initState = _clone(this.state);
+    },
+
+    /**
+       Makes a clone of this Backbone.PageableCollection instance by using the
+       options originally supplied to the constructor.
+
+       @return {Backbone.PageableCollection}
+     */
+    clone: function () {
+      return new this.constructor((this.fullCollection || this).toJSON(),
+				  _clone(this.options));
     },
 
     /**
@@ -401,7 +436,11 @@
 	      fullIndex;
 	  }
 
-	  ++state.totalRecords;
+	  if (!options.onRemove) {
+	    ++state.totalRecords;
+	    delete options.onRemove;
+	  }
+
 	  pageCol.state = pageCol._checkState(state);
 
 	  if (colToAdd) {
@@ -412,22 +451,9 @@
 	      pageCol.at(pageSize) :
 	      null;
 	    if (modelToRemove) {
-	      var addHandlers = collection._events.add || [],
-	      popOptions = {onAdd: true};
-	      if (addHandlers.length) {
-		var lastAddHandler = addHandlers[addHandlers.length - 1];
-		var oldCallback = lastAddHandler.callback;
-		lastAddHandler.callback = function () {
-		  try {
-		    oldCallback.apply(this, arguments);
-		    pageCol.remove(modelToRemove, popOptions);
-		  }
-		  finally {
-		    lastAddHandler.callback = oldCallback;
-		  }
-		};
-	      }
-	      else pageCol.remove(modelToRemove, popOptions);
+	      runOnceAtLastHandler(collection, event, function () {
+		pageCol.remove(modelToRemove, {onAdd: true});
+	      });
 	    }
 	  }
 	}
@@ -442,20 +468,27 @@
 	    }
 	    else {
 	      var totalPages = state.totalPages = ceil(state.totalRecords / pageSize);
-	      state.lastPage = firstPage === 0 ? totalPages - 1 : totalPages;
+	      state.lastPage = firstPage === 0 ? totalPages - 1 : totalPages || firstPage;
 	      if (state.currentPage > totalPages) state.currentPage = state.lastPage;
 	    }
 	    pageCol.state = pageCol._checkState(state);
 
 	    var nextModel, removedIndex = options.index;
 	    if (collection == pageCol) {
-	      if (nextModel = fullCol.at(pageEnd)) pageCol.push(nextModel);
+	      if (nextModel = fullCol.at(pageEnd)) {
+		runOnceAtLastHandler(pageCol, event, function () {
+		  pageCol.push(nextModel, {onRemove: true});
+		});
+	      }
 	      fullCol.remove(model);
 	    }
 	    else if (removedIndex >= pageStart && removedIndex < pageEnd) {
+	      if (nextModel = fullCol.at(pageEnd - 1)) {
+		runOnceAtLastHandler(pageCol, event, function() {
+		  pageCol.push(nextModel, {onRemove: true});
+		});
+	      }
 	      pageCol.remove(model);
-	      nextModel = fullCol.at(currentPage * (pageSize + removedIndex));
-	      if (nextModel) pageCol.push(nextModel);
 	    }
 	  }
 	  else delete options.onAdd;
@@ -466,13 +499,13 @@
 	  collection = model;
 
 	  // Reset that's not a result of getPage
-	  if (collection === pageCol && options.from == null &&
+	  if (collection == pageCol && options.from == null &&
 	      options.to == null) {
 	    var head = fullCol.models.slice(0, pageStart);
 	    var tail = fullCol.models.slice(pageStart + pageCol.models.length);
 	    fullCol.reset(head.concat(pageCol.models).concat(tail), options);
 	  }
-	  else if (collection === fullCol) {
+	  else if (collection == fullCol) {
 	    if (!(state.totalRecords = fullCol.models.length)) {
 	      state.totalRecords = null;
 	      state.totalPages = null;
@@ -551,7 +584,7 @@
 	  throw new RangeError("`firstPage must be 0 or 1`");
 	}
 
-	state.lastPage = firstPage === 0 ? max(0, totalPages - 1) : totalPages;
+	state.lastPage = firstPage === 0 ? max(0, totalPages - 1) : totalPages || firstPage;
 
 	if (mode == "infinite") {
 	  if (!links[currentPage + '']) {
@@ -681,7 +714,7 @@
       var fullCollection = this.fullCollection;
       var handlers = this._handlers = this._handlers || {}, handler;
       if (mode != "server" && !fullCollection) {
-	fullCollection = this._makeFullCollection(options.models || []);
+	fullCollection = this._makeFullCollection(options.models || [], options);
 	fullCollection.pageableCollection = this;
 	this.fullCollection = fullCollection;
 	var allHandler = this._makeCollectionEventHandler(this, fullCollection);
@@ -856,7 +889,8 @@
 	[];
       if ((mode == "client" || (mode == "infinite" && !_isEmpty(pageModels))) &&
 	  !options.fetch) {
-	return this.reset(pageModels, _omit(options, "fetch"));
+	this.reset(pageModels, _omit(options, "fetch"));
+	return this;
       }
 
       if (mode == "infinite") options.url = this.links[pageNum];
@@ -921,16 +955,10 @@
        links from them for infinite paging.
 
        This default implementation parses the RFC 5988 `Link` header and extract
-       3 links from it - `first`, `prev`, `next`. If a `previous` link is found,
-       it will be found in the `prev` key in the returned object hash. Any
-       subclasses overriding this method __must__ return an object hash having
-       only the keys above. If `first` is missing, the collection's default URL
-       is assumed to be the `first` URL. If `prev` or `next` is missing, it is
-       assumed to be `null`. An empty object hash must be returned if there are
-       no links found. If either the response or the header contains information
-       pertaining to the total number of records on the server, #state.totalRecords
-       must be set to that number. The default implementation uses the `last`
-       link from the header to calculate it.
+       3 links from it - `first`, `prev`, `next`. Any subclasses overriding this
+       method __must__ return an object hash having only the keys
+       above. However, simply returning a `next` link or an empty hash if there
+       are no more links should be enough for most implementations.
 
        @param {*} resp The deserialized response body.
        @param {Object} [options]
@@ -942,7 +970,7 @@
       var links = {};
       var linkHeader = options.xhr.getResponseHeader("Link");
       if (linkHeader) {
-	var relations = ["first", "prev", "previous", "next", "last"];
+	var relations = ["first", "prev", "next"];
 	_each(linkHeader.split(","), function (linkValue) {
 	  var linkParts = linkValue.split(";");
 	  var url = linkParts[0].replace(URL_TRIM_RE, '');
@@ -951,39 +979,10 @@
 	    var paramParts = param.split("=");
 	    var key = paramParts[0].replace(PARAM_TRIM_RE, '');
 	    var value = paramParts[1].replace(PARAM_TRIM_RE, '');
-	    if (key == "rel" && _contains(relations, value)) {
-	      if (value == "previous") links.prev = url;
-	      else links[value] = url;
-	    }
+	    if (key == "rel" && _contains(relations, value)) links[value] = url;
 	  });
 	});
-
-	var last = links.last || '', qsi, qs;
-	if (qs = (qsi = last.indexOf('?')) ? last.slice(qsi + 1) : '') {
-	  var params = queryStringToParams(qs);
-
-	  var state = _clone(this.state);
-	  var queryParams = this.queryParams;
-	  var pageSize = state.pageSize;
-
-	  var totalRecords = params[queryParams.totalRecords] * 1;
-	  var pageNum = params[queryParams.currentPage] * 1;
-	  var totalPages = params[queryParams.totalPages];
-
-	  if (!totalRecords) {
-	    if (pageNum) totalRecords = (state.firstPage === 0 ?
-					 pageNum + 1 :
-					 pageNum) * pageSize;
-	    else if (totalPages) totalRecords = totalPages * pageSize;
-	  }
-
-	  if (totalRecords) state.totalRecords = totalRecords;
-
-	  this.state = this._checkState(state);
-	}
       }
-
-      delete links.last;
 
       return links;
     },
@@ -1028,7 +1027,8 @@
     },
 
     /**
-       Parse server response for server pagination state updates.
+       Parse server response for server pagination state updates. Not applicable
+       under infinite mode.
 
        This default implementation first checks whether the response has any
        state object as documented in #parse. If it exists, a state object is
@@ -1112,7 +1112,7 @@
        then reset.
 
        The query string is constructed by translating the current pagination
-       state to your server API query parameter using #queryParams.  The current
+       state to your server API query parameter using #queryParams. The current
        page will reset after fetch.
 
        @param {Object} [options] Accepts all
@@ -1189,13 +1189,17 @@
 
 	  var models = col.models;
 	  if (mode == "client") fullCol.reset(models, opts);
-	  else fullCol.add(models, _extend({at: fullCol.length}, opts));
+	  else {
+	    fullCol.add(models, _extend({at: fullCol.length},
+					_extend(opts, {parse: false})));
+	    self.trigger("reset", self, opts);
+	  }
 
 	  if (success) success(col, resp, opts);
 	};
 
 	// silent the first reset from backbone
-	return BBColProto.fetch.call(self, _extend({}, options, {silent: true}));
+	return BBColProto.fetch.call(this, _extend({}, options, {silent: true}));
       }
 
       return BBColProto.fetch.call(this, options);
@@ -1310,8 +1314,8 @@
 	this.comparator = comparator;
       }
 
-      if (delComp) delete this.comparator;
-      if (delFullComp && fullCollection) delete fullCollection.comparator;
+      if (delComp) this.comparator = null;
+      if (delFullComp && fullCollection) fullCollection.comparator = null;
 
       return this;
     }

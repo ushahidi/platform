@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    CONTENTS
+		CONTENTS
 \*------------------------------------*/
 /**
  * USER PROFILE LIST...............avatar, name, roles, admin
@@ -9,7 +9,7 @@
 
 
 /*------------------------------------*\
-    $USER PROFILE LIST
+		$USER PROFILE LIST
 \*------------------------------------*/
 
 .list-view-user-profile-list {
@@ -26,21 +26,21 @@
 }
 
 .list-view-image--user {
-  @extend %list-view-image;
-  img {
-    border-radius: 200px;
-    border: none;
-  }
+	@extend %list-view-image;
+	img {
+		border-radius: 200px;
+		border: none;
+	}
 }
 
 .list-view-details--user {
-  @extend %list-view-details;
-  margin-top: 10px;
-  color: $body-font-color;
-  [class*='user-list-'] {
-    margin-bottom: 0;
-    font-size: emCalc(12);
-  }
+	@extend %list-view-details;
+	margin-top: 10px;
+	color: $body-font-color;
+	[class*='user-list-'] {
+		margin-bottom: 0;
+		font-size: emCalc(12);
+	}
 }
 
 .details-column-a {

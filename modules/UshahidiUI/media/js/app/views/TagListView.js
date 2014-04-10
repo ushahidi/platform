@@ -7,24 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagListItemView',
-		'text!templates/TagList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/post-list-info.html'],
-	function( App, Marionette, Handlebars, _, alertify, TagListItemView,
-		template, paginationTemplate, postListInfoTemplate)
+define(['App', 'marionette', 'handlebars', 'underscore', 'alertify', 'views/TagListItemView', 'views/EmptyView', 'text!templates/TagList.html'],
+	function( App, Marionette, Handlebars, _, alertify, TagListItemView, EmptyView, template)
 	{
-		Handlebars.registerPartial('pagination', paginationTemplate);
-		Handlebars.registerPartial('post-list-info', postListInfoTemplate);
-
 		return Marionette.CompositeView.extend(
 		{
-			//Template HTML string
 			template: Handlebars.compile(template),
-			// Lets just store the partial templates somewhere usefule
-			partialTemplates :
-			{
-				pagination : Handlebars.compile(paginationTemplate),
-				postListInfo : Handlebars.compile(postListInfoTemplate)
-			},
+			modelName: 'tags',
 
 			initialize: function ()
 			{
@@ -34,30 +23,36 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 			},
 
 			itemView: TagListItemView,
-			itemViewOptions: {},
 
 			itemViewContainer: '.list-view-tag-list',
 
+			itemViewOptions:
+			{
+				emptyMessage: 'No tags found.',
+			},
+
+			emptyView: EmptyView,
+
 			events:
 			{
-				'click .js-list-view-select-post' : 'showHideBulkActions',
 				'click .js-page-first' : 'showFirstPage',
 				'click .js-page-next' : 'showNextPage',
 				'click .js-page-prev' : 'showPreviousPage',
 				'click .js-page-last' : 'showLastPage',
 				'click .js-page-change' : 'showPage',
-				'change #filter-posts-count' : 'updatePageSize',
-				'change #filter-posts-sort' : 'updatePostsSort',
+				'change .js-filter-count' : 'updatePageSize',
+				'change .js-filter-sort' : 'updateSort',
 				'click .js-tag-create' : 'showCreateTag',
 				'click .js-tag-bulk-delete' : 'bulkDelete',
-				'change .js-tag-select-all' : 'selectAll'
+				'click .js-select-all' : 'toggleSelectAll'
 			},
 
 			collectionEvents :
 			{
-				reset : 'updatePagination',
+				reset : 'updatePagination unselectAll',
 				add : 'updatePagination',
-				remove : 'updatePagination'
+				remove : 'updatePagination',
+				request : 'unselectAll',
 			},
 
 			getSelected : function ()
@@ -65,20 +60,13 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 				return this.children.filter('selected');
 			},
 
+			/**
+			 * Show / Hide bulk actions toolbar when users are selected
+			 */
 			showHideBulkActions : function ()
 			{
-				var $checked = this.$('.js-list-view-select-post input[type="checkbox"]:checked');
-
-				if ($checked.length > 0)
-				{
-					this.$('.js-list-view-bulk-actions').removeClass('visually-hidden');
-					this.$('.js-list-view-bulk-actions').addClass('visible');
-				}
-				else
-				{
-					this.$('.js-list-view-bulk-actions').removeClass('visible');
-					this.$('.js-list-view-bulk-actions').addClass('visually-hidden');
-				}
+				var selected = this.getSelected();
+				this.$('.js-bulk-action').toggleClass('disabled', selected.length === 0);
 			},
 
 			serializeData : function ()
@@ -86,7 +74,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
 					pagination: this.collection.state,
-					sortKeys: this.collection.sortKeys
+					sortKeys: this.collection.sortKeys,
+					modelName : this.modelName
 				});
 
 				return data;
@@ -162,21 +151,22 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 
 			updatePagination: function ()
 			{
-				this.$('.pagination').replaceWith(
-					this.partialTemplates.pagination({
+				this.$('.js-pagination').replaceWith(
+					Handlebars.partials.pagination({
 						pagination: this.collection.state
 					})
 				);
-				this.$('.list-view-filter-info').html(
-					this.partialTemplates.postListInfo({
-						pagination: this.collection.state
+				this.$('.js-list-view-filter-info').replaceWith(
+					Handlebars.partials.listinfo({
+						pagination: this.collection.state,
+						modelName: this.modelName
 					})
 				);
 			},
 			updatePageSize : function (e)
 			{
 				e.preventDefault();
-				var size = parseInt(this.$('#filter-posts-count').val(), 10);
+				var size = parseInt(this.$('.js-filter-count').val(), 10);
 				if (typeof size === 'number' && size > 0)
 				{
 					this.collection.setPageSize(size, {
@@ -184,11 +174,12 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 					});
 				}
 			},
-			updatePostsSort : function (e)
+			updateSort : function (e)
 			{
 				e.preventDefault();
-				var orderby = this.$('#filter-posts-sort').val();
+				var orderby = this.$('.js-filter-sort').val();
 				this.collection.setSorting(orderby);
+				this.collection.fullCollection.sort();
 				this.collection.getFirstPage();
 			},
 			showCreateTag : function (e)
@@ -203,6 +194,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 
 				var selected = this.getSelected();
 
+				if (selected.length === 0)
+				{
+					return;
+				}
+
 				alertify.confirm('Are you sure you want to delete ' + selected.length + ' tags?', function(e)
 				{
 					if (e)
@@ -214,6 +210,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 								.done(function()
 								{
 									alertify.success('Tag has been deleted');
+									// Trigger a fetch. This is to remove the model from the listing and load another
+									App.Collections.Tags.fetch();
 								})
 								.fail(function ()
 								{
@@ -228,22 +226,35 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/TagLi
 				});
 			},
 
-			selectAll : function ()
+			/**
+			 * Select all users
+			 */
+			toggleSelectAll : function (e, select)
 			{
-				//e.preventDefault();
-				var $el = this.$('.js-tag-select-all-input');
-				if ($el.is(':checked'))
+				_.result(e, 'preventDefault');
+
+				this.selectAllValue = (typeof select !== 'undefined') ? select : ! this.selectAllValue;
+
+				if (this.selectAllValue)
 				{
-					this.children.each(function (child) { child.select(); });
-					this.$('.select-text').addClass('visually-hidden');
-					this.$('.unselect-text').removeClass('visually-hidden');
+					this.children.each(function (child) { _.result(child, 'select'); });
 				}
 				else
 				{
-					this.children.each(function (child) { child.unselect(); });
-					this.$('.select-text').removeClass('visually-hidden');
-					this.$('.unselect-text').addClass('visually-hidden');
+					this.children.each(function (child) { _.result(child, 'unselect'); });
 				}
-			}
+				this.$('.select-text').toggleClass('visually-hidden', this.selectAllValue);
+				this.$('.unselect-text').toggleClass('visually-hidden', ! this.selectAllValue);
+			},
+
+			selectAll : function(e)
+			{
+				this.toggleSelectAll(e, true);
+			},
+
+			unselectAll : function (e)
+			{
+				this.toggleSelectAll(e, false);
+			},
 		});
 	});

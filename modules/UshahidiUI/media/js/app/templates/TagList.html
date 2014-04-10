@@ -5,16 +5,26 @@
 		</div>
 		<div class="actions-bar-admin">
 			<ul class="actions-bar-admin-list  hide-for-small">
-				<li>Select All</li>
-				<li><a href=""><i class="fa  fa-tag"></i>Add Tag</li>
-				<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
+				<li>
+					<a href="#" class="js-select-all">
+						<span class="select-text">Select All</span>
+						<span class="unselect-text visually-hidden">Unselect All</span>
+					</a>
+				</li>
+				<li><a href="#" class="js-tag-create"><i class="fa  fa-tag"></i>Add Tag</li>
+				<li class="js-bulk-action disabled"><a href="#" class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 
 			<a href="#" data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
-			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-menu  dropdown-list  show-for-small">
-			<li>Select All</li>
-			<li><a href=""><i class="fa  fa-tag"></i>Add Tag</li>
-			<li><a href=""><i class="fa  fa-trash-o"></i>Delete</a></li>
+			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-menu dropdown-list  show-for-small">
+				<li>
+					<a href="#" class="js-select-all">
+						<span class="select-text">Select All</span>
+						<span class="unselect-text visually-hidden">Unselect All</span>
+					</a>
+				</li>
+				<li><a href="#" class="js-tag-create"><i class="fa  fa-tag"></i>Add Tag</li>
+				<li class="js-bulk-action disabled"><a href="#" class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 		</div> <!-- end .actions-bar-admin tag-list -->
 	</div> <!-- end .actions-bar tag-list -->
@@ -25,15 +35,14 @@
 			<form role="form" action="">
 				<div class="list-view-filter-info--alt">
 					<!-- TODO: label list-info then add array to post list info-->
-					{{>post-list-info}}
+					{{>listinfo}}
 				</div> <!-- end .list-view-filter-info tags -->
 
 				<div class="list-view-filter-count--alt">
 					<div class="filter-count-select">
 						<label class="visually-hidden" for="filter-count">Number of tags shown</label>
-						<select id="filter-count" class="filter-count">
-							<option selected>3</option>
-							<option>5</option>
+						<select id="filter-count" class="filter-count  js-filter-count">
+							<option selected>4</option>
 							<option>10</option>
 							<option>20</option>
 						</select>
@@ -44,7 +53,7 @@
 				<div class="list-view-filter-sort">
 					<div class="filter-sort-select">
 						<label class="visually-hidden" for="filter-sort">Sort tags by</label>
-						<select id="filter-sort" class="filter-sort">
+						<select id="filter-sort" class="filter-sort  js-filter-sort">
 							{{#each sortKeys}}
 								<option value="{{@key}}">{{this}}</option>
 							{{/each}}
@@ -57,24 +66,7 @@
 		</div> <!-- end .row -->
 	</div> <!-- end .list-view-filter tags -->
 
-	<ul class="tag-grid">
-		<li>
-			<div class="list-view-wrapper">
-				<ul class="list-view-tag-list"></ul>
-			</div> <!-- end .list-view-wrapper -->
-		</li>
-
-		<li>
-			<div class="list-view-wrapper">
-				<ul class="list-view-tag-list"></ul>
-			</div> <!-- end .list-view-wrapper -->
-		</li>
-
-		<li>
-			<div class="list-view-wrapper">
-				<ul class="list-view-tag-list"></ul>
-			</div> <!-- end .list-view-wrapper -->
-		</li>
+	<ul class="tag-grid  list-view-tag-list">
 	</ul>
 
 </div> <!-- end .row -->

@@ -31,10 +31,10 @@ define(['jquery', 'backbone', 'models/TagModel', 'App','backbone-pageable'],
 			state: {
 				firstPage: 0,
 				currentPage: 0,
-				pageSize: 3,
+				pageSize: 4,
 				// Required under server-mode
-				totalRecords: 3,
-				sortKey: 'id',
+				totalRecords: 0,
+				sortKey: 'created',
 				order: 1 // 1 = desc
 			},
 
@@ -51,7 +51,8 @@ define(['jquery', 'backbone', 'models/TagModel', 'App','backbone-pageable'],
 
 			sortKeys: {
 				'created' : 'Date/Time created',
-				'id' : 'ID'
+				'id' : 'ID',
+				'tag' : 'Tag Name'
 			}
 		});
 

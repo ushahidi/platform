@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'moment', 'underscore.string', 'handlebars-paginate'],
-	function(Handlebars, moment, _str, paginate)
+define(['handlebars', 'moment', 'underscore.string', 'handlebars-paginate', 'text!templates/partials/pagination.html', 'text!templates/partials/list-info.html'],
+	function(Handlebars, moment, _str, paginate, paginationTpl, listInfoTpl)
 	{
 		Handlebars.registerHelper('baseurl', function()
 		{
@@ -69,6 +69,9 @@ define(['handlebars', 'moment', 'underscore.string', 'handlebars-paginate'],
 
 			return new Handlebars.SafeString(str.replace(/\r?\n|\r/g, '<br>'));
 		});
+
+		Handlebars.registerPartial('pagination', Handlebars.compile(paginationTpl));
+		Handlebars.registerPartial('listinfo', Handlebars.compile(listInfoTpl));
 
 		return Handlebars;
 	});

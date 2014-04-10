@@ -23,7 +23,7 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 			events: {
 				'click .js-tag-delete': 'deleteTag',
 				'click .js-tag-edit' : 'showEditTag',
-				'change .js-select-tag-input' : 'updatedSelected'
+				'change .js-select-input' : 'updatedSelected',
 			},
 
 			initialize: function()
@@ -50,6 +50,8 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 						}).done(function()
 						{
 							alertify.success('Tag has been deleted');
+							// Trigger a fetch. This is to remove the model from the listing and load another
+							App.Collections.Tags.fetch();
 						}).fail(function ()
 						{
 							alertify.error('Unable to delete tag, please try again');
@@ -68,18 +70,33 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 				App.vent.trigger('tag:edit', this.model);
 			},
 
+			/**
+			 * Select this item (for bulk actions)
+			 */
 			select : function ()
 			{
 				this.selected = true;
-				this.$('.js-select-tag-input').prop('checked',true);
+				this.$('.js-select-input').prop('checked', true);
+
+				// Update font awesome icon to indicate the checked state. Ideally we should
+				// style this from css
+				this.$('.js-user-select').removeClass('fa-check-square-o').addClass('fa-check-square');
 				this.trigger('select');
 			},
 
+			/**
+			 * Unselect this item (for bulk actions)
+			 */
 			unselect : function ()
 			{
 				this.selected = false;
-				this.$('.js-select-tag-input').prop('checked',false);
-				this.trigger('select');
+				this.$('.js-select-input').prop('checked', false);
+
+				// Update font awesome icon to indicate the unchecked state. Ideally we should
+				// style this from css
+				this.$('.js-user-select').removeClass('fa-check-square').addClass('fa-check-square-o');
+
+				this.trigger('unselect');
 			},
 
 			updatedSelected : function (e)
@@ -87,6 +104,10 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListIte
 				var $el = this.$(e.currentTarget);
 				this.selected = $el.is(':checked');
 				this.trigger(this.selected ? 'select' : 'unselect');
+
+				$el.siblings('.fa')
+					.toggleClass('fa-check-square', this.selected)
+					.toggleClass('fa-check-square-o', ! this.selected);
 			}
 		});
 	});

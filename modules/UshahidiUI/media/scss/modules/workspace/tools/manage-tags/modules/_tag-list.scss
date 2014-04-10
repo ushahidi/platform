@@ -1,5 +1,5 @@
 /*------------------------------------*\
-    CONTENTS
+		CONTENTS
 \*------------------------------------*/
 /**
  * TAG LIST...............tag list styles
@@ -9,14 +9,14 @@
 
 
 /*------------------------------------*\
-    $TAG LIST
+		$TAG LIST
 \*------------------------------------*/
 
 .tag-grid {
 	@include block-grid(1);
-  @media #{$small} {
-    @include block-grid(2);
-  }
+	@media #{$small} {
+		@include block-grid(2);
+	}
 }
 
 .list-view-tag-list {
@@ -24,14 +24,6 @@
 }
 
 .list-view-tag {
-  @include grid-column(12, $collapse: true);
+	@include grid-column(12, $collapse: true);
 }
 
-/*tag color HSL function*/
-@for $i from 1 through 100 {
-  .list-view-tag:nth-child(#{$i}) {
-		  .tag-color {
-				color: hsl(random(360),random(100),random(100));
-      }
-	}
-}

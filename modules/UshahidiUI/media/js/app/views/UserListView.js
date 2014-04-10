@@ -7,25 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserListItemView', 'views/LoadingView',
-		'text!templates/UserList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/user-list-info.html'],
-	function( App, Marionette, Handlebars, _, alertify, UserListItemView, LoadingView,
-		template, paginationTemplate, userListInfoTemplate)
+define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserListItemView', 'views/EmptyView', 'text!templates/UserList.html'],
+	function( App, Marionette, Handlebars, _, alertify, UserListItemView, EmptyView, template)
 	{
-		Handlebars.registerPartial('pagination', paginationTemplate);
-		Handlebars.registerPartial('user-list-info', userListInfoTemplate);
-
 		return Marionette.CompositeView.extend(
 		{
-			//Template HTML string
 			template: Handlebars.compile(template),
+			modelName: 'users',
 			selectAllValue: false,
-			// Lets just store the partial templates somewhere usefule
-			partialTemplates :
-			{
-				pagination : Handlebars.compile(paginationTemplate),
-				userListInfo : Handlebars.compile(userListInfoTemplate)
-			},
 			initialize: function()
 			{
 				// Bind select/unselect events from itemviews
@@ -43,7 +32,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 
 			itemViewContainer: '.list-view-user-profile-list',
 
-			emptyView: LoadingView,
+			emptyView: EmptyView,
 
 			events:
 			{
@@ -57,7 +46,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				'click .js-user-create' : 'showCreateUser',
 				'click .js-user-bulk-delete' : 'bulkDelete',
 				'click .js-user-bulk-change-role' : 'bulkChangeRole',
-				'click .js-select-all' : 'selectAll',
+				'click .js-select-all' : 'toggleSelectAll',
 				'submit .js-user-search-form' : 'searchUsers',
 				'click .js-user-filter-role' : 'filterByRole',
 			},
@@ -67,9 +56,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				reset : 'updatePagination',
 				add : 'updatePagination',
 				remove : 'updatePagination',
-				'change' : 'render', //Refresh this view when there is a change in this model
-				'request': 'showLoading',
-				'sync' : 'hideLoading updatePagination'
+				request: 'showLoading unselectAll',
+				sync : 'hideLoading updatePagination'
 			},
 
 			/**
@@ -86,7 +74,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 			showHideBulkActions : function ()
 			{
 				var selected = this.getSelected();
-				this.$('.js-bulk-action').toggleClass('disabled', selected.length > 0);
+				this.$('.js-bulk-action').toggleClass('disabled', selected.length === 0);
 			},
 
 			/**
@@ -97,6 +85,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				e.preventDefault();
 
 				var selected = this.getSelected();
+
+				if (selected.length === 0)
+				{
+					return;
+				}
 
 				alertify.confirm('Are you sure you want to delete ' + selected.length + ' users?', function(e)
 				{
@@ -140,6 +133,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				role = $el.attr('data-role-name'),
 				role_name = $el.text();
 
+				if (selected.length === 0)
+				{
+					return;
+				}
+
 				alertify.confirm('Are you sure you want to assign ' + selected.length + ' users the ' + role_name + ' role?', function(e)
 				{
 					if (e)
@@ -166,28 +164,32 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 			/**
 			 * Select all users
 			 */
-			selectAll : function (e)
+			toggleSelectAll : function (e, select)
 			{
-				e.preventDefault();
-				this.selectAllValue = ! this.selectAllValue;
+				_.result(e, 'preventDefault');
+
+				this.selectAllValue = (typeof select !== 'undefined') ? select : ! this.selectAllValue;
 
 				if (this.selectAllValue)
 				{
-					this.children.each(function (child) { child.select(); });
+					this.children.each(function (child) { _.result(child, 'select'); });
 				}
 				else
 				{
-					this.children.each(function (child) { child.unselect(); });
+					this.children.each(function (child) { _.result(child, 'unselect'); });
 				}
 				this.$('.select-text').toggleClass('visually-hidden', this.selectAllValue);
-
 				this.$('.unselect-text').toggleClass('visually-hidden', ! this.selectAllValue);
+			},
 
-				// Change checkbox icon state
-				this.$('.js-user-select').toggleClass('fa-check-square', this.selectAllValue);
+			selectAll : function(e)
+			{
+				this.toggleSelectAll(e, true);
+			},
 
-				this.$('.js-user-select').toggleClass('fa-check-square-o', ! this.selectAllValue);
-
+			unselectAll : function (e)
+			{
+				this.toggleSelectAll(e, false);
 			},
 
 			serializeData : function ()
@@ -196,7 +198,8 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 				data = _.extend(data, {
 					pagination: this.collection.state,
 					sortKeys: this.collection.sortKeys,
-					roles: App.Collections.Roles.toJSON()
+					roles: App.Collections.Roles.toJSON(),
+					modelName : this.modelName
 				});
 				return data;
 			},
@@ -272,13 +275,14 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserL
 			updatePagination: function ()
 			{
 				this.$('.js-pagination').replaceWith(
-					this.partialTemplates.pagination({
+					Handlebars.partials.pagination({
 						pagination: this.collection.state
 					})
 				);
-				this.$('.js-list-view-filter-info').html(
-					this.partialTemplates.userListInfo({
-						pagination: this.collection.state
+				this.$('.js-list-view-filter-info').replaceWith(
+					Handlebars.partials.listinfo({
+						pagination: this.collection.state,
+						modelName: this.modelName
 					})
 				);
 
