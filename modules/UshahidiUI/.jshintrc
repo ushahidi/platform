@@ -21,6 +21,7 @@
 		"module" : true,
 		"document" : true,
 		"define" : true,
-		"require" : true
+		"require" : true,
+		"ddt" : true 
 	}
 }
