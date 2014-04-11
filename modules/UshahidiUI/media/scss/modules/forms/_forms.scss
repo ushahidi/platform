@@ -107,11 +107,6 @@ form.custom .custom.dropdown {
 		$SEARCH BAR
 \*------------------------------------*/
 
-.search-bar input[type="text"] {
-	@media #{$medium} {
-		@include border-radius(0px);
-	}
-}
 
 .search-bar form.custom .custom.dropdown {
 	@media #{$medium} {
