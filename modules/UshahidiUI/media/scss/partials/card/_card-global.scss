@@ -39,7 +39,6 @@
 	background-color: $secondary-color;
 	border: 2px solid darken($secondary-color, 10);
 	border-radius: $global-radius $global-radius 0 0;
-  cursor: pointer;
     &.js-selected {
       background-color: darken($secondary-color, 10);
   }
@@ -70,6 +69,9 @@
 	 }
 	a {
 		color: $accent-color;
+    .js-selected & {
+      cursor: default;
+    }
 	}
 }
 
@@ -89,33 +91,59 @@
 			padding: 0;
 		}
 	}
+  a {
+    .js-selected &{
+      color: $sub-body-font-color;
+      cursor: default;
+    }
+  }
+}
+
+.card__excerpt-wrapper {
+  cursor: pointer;
+  .js-selected & {
+    cursor: default;
+  }
+}
+
+.card__excerpt-wrapper {
+  .expand {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    &:before {
+      content: "\f103";
+    }
+  }
+  &.show {
+    .expand:before {
+      content: "\f102";
+     }
+  }
 }
 
 .card__excerpt {
 	@include grid-column(12, $collapse: true);
   min-height: 48px;
   color: $body-font-color;
-	p {
-		padding-left: 25px;
-		margin-bottom: 0;
-		font-size: emCalc(14px);
-	}
-  .full-message {
+  .rest-of-message {
     display: none;
   }
-	.show-full-message {
+	.show-rest-of-message {
     position: relative;
     bottom: -8px;
 		font-size: 14px;
 		float: right;
-		a {
-			color: inherit;
-		}
 	}
   &.show {
     height: auto;
   }
 }
+
+
+
 
 /*------------------------------------*\
    $CARD ACTIONS
@@ -141,7 +169,7 @@
   &.js-selected {
     background-color: darken($secondary-color, 10);
     .dropdown-button {
-      @include button($disabled: true, $padding: $button-med, $bg: $secondary-color, $radius: false, $full-width:true);
+      @include button($disabled: true, $padding: $button-med, $bg: darken($secondary-color, 10), $radius: false, $full-width:true);
       margin: 0;
     }
   }
@@ -154,13 +182,23 @@
 		text-align: center;
 		padding: emCalc(15px);
 		a {
-			color: $black;
+			color: $body-font-color;
       &:hover {
         color: $primary-color;
       }
       &.active {
         @extend %underline;
         color: $primary-color;
+      }
+      .js-selected & {
+        &:hover {
+          color: $body-font-color;
+          cursor: default;
+        }
+        &.active {
+          border: none;
+          color: $body-font-color;
+        }
       }
 		}
 	}

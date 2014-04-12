@@ -144,19 +144,22 @@
 						<div class="card__details">
 							<h5 class="card__header"><a href="#messages/{{id}}">@UshahidiDesign</a></h5>
 							<div class="card__meta">
-								<p class="underline"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">Lamu</a></p>
+								<p> <i class="fa  fa-map-marker"></i>Lamu</p>
 								<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 							</div> <!-- end .card-meta -->
 						</div> <!-- end .card-details -->
-						<div class="card__excerpt">
-							<span class="excerpt">This is the visible part of the message. Clicking the DOUBLE DOWN ARROW will reveal the rest of <span class="elipsis">...</span></span><span class="full-message">the message. This is the rest of the message. Clicking on the DOUBLE UP ARROW will hide this and only show the excerpt.</span>
-						<span class="show-full-message"><i class="fa  fa-angle-double-down"></i></span>
-						</div> <!-- end .card-excerpt -->
+						<div class="card__excerpt-wrapper">
+							<div class="card__excerpt">
+								<span class="excerpt">This is the visible part of the message. Clicking the DOUBLE DOWN ARROW will reveal the rest of <span class="elipsis">...</span></span>
+								<span class="rest-of-message">the message. This is the rest of the message. Clicking on the DOUBLE UP ARROW will hide this and only show the excerpt.</span>
+								<span class="show-rest-of-message"><i class="expand"></i></span>
+							</div> <!-- end .card-excerpt -->
+						</div>
 					</article> <!-- end .card -->
 
 					<div class="card-actions-wrapper  hide-for-small">
 						<ul class="card-actions-list">
-							<li class="card-actions-list__item"><a href="" class="js-card-action-expand"> <i class="fa  fa-list"></i>Expand</a></li>
+							<li class="card-actions-list__item"><a href="" class="js-card-action-activity"> <i class="fa  fa-list"></i>Activity</a></li>
 							<li class="card-actions-list__item"><a href="" class="js-card-action-reply"> <i class="fa  fa-reply"></i>Reply</a></li>
 							<li class="card-actions-list__item"><a href="" class=-"js-card-action-create-post"> <i class="fa  fa-edit"></i>Create Post</a></li>
 							<li class="card-actions-list__item"><a href="" class=-"js-card-action-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
@@ -166,7 +169,7 @@
 					<div class="card-actions-wrapper  show-for-small">
 						<a href="#" data-dropdown="drop-card-actions" class="dropdown-button  show-for-small">actions</a><br>
 						<ul id="drop-card-actions" data-dropdown-content class="dropdown-list  f-dropdown  show-for-small">
-							<li class="dropdown-list__item"><a href="" class="js-card-action-expand"> <i class="fa  fa-list"></i>Expand</a></li>
+							<li class="dropdown-list__item"><a href="" class="js-card-action-activity"> <i class="fa  fa-list"></i>Activity</a></li>
 							<li class="dropdown-list__item"><a href="" class="js-card-action-reply"><i class="fa  fa-reply"></i>Reply</a></li>
 							<li class="dropdown-list__item"><a href="" class="js-card-action-create post"> <i class="fa  fa-edit"></i>Create Post</a></li>
 							<li class="dropdown-list__item"><a href="" class="js-card-action-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
@@ -175,22 +178,22 @@
 
 					<!-- TODO: These panels should be partials -->
 
-					<div class="card-panel-wrapper  js-card-panel-expand">
+					<div class="card-panel-wrapper  js-card-panel-activity">
 						<div class="card-panel">
 							<h6 class="card-panel__header">Message Activty<span class="subheader  reply-number">2 replies</span></h6>
 							<ul class="card-panel--activity-list">
-								<li class="card-panel--activity-list__item  js-activity-list__item--photo">
+								<li class="card-panel--activity-list__item  js-activity-list__item--photo  has-post-image">
 
 									<div class="card-panel__post-image">
 										<img src="{{imageurl "car-tree.jpg"}}" alt="" />
 									</div> <!-- end .card-panel__post-image -->
 									<!-- TODO: generate class in js, based on whether or not we have a post image -->
-									<div class="card-panel__details  js-with-post-image">
+									<div class="card-panel__details">
 										<div class="subheader"><a class="username" href="#">Ushbot</a> shared a photo</div>
 										<div class="details">"Winter storm claims another vehicle."</div>
 									</div> <!-- end .card-panel__details -->
 									<!-- TODO: generate class in js, based on whether or not we have a post image -->
-									<div class="card-panel__meta  js-with-post-image">
+									<div class="card-panel__meta">
 										<p class="underline  location"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">California</a></p>
 										<p class="datetime"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 									</div> <!-- end .card-panel__meta -->
@@ -200,12 +203,12 @@
 
 								<li class="card-panel--activity-list__item  js-activity-list__item--location">
 
-									<div class="card-panel__details  js-no-post-image">
+									<div class="card-panel__details">
 										<div class="subheader"><a class="username" href="#">Ushbot</a> added a location</div>
 										<div class="details">Lamu, Kenya</div>
 									</div> <!-- end .card-panel__details -->
 
-									<div class="card-panel__meta  js-no-post-image  card-panel__meta--location">
+									<div class="card-panel__meta  card-panel__meta--location">
 										<p class="underline  location"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">California</a></p>
 										<p class="datetime"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 									</div> <!-- end .card-panel__meta -->
@@ -220,10 +223,10 @@
 					<div class="card-panel-wrapper  js-card-panel-reply">
 						<div class="card-panel">
 							<h6 class="card-panel__header">Send a Response</h6>
-							<textarea name="Name" rows="2" cols="40"></textarea>
+							<textarea class="textarea" name="Name" rows="2" cols="40"></textarea>
 							<div class="card-panel__button-wrap">
-								<button type="submit" class="card-reply-location-button"><i class="fa  fa-reply"></i> location</button>
-								<button type="submit" class="card-reply-more-info-button"><i class="fa  fa-reply"></i> more info</button>
+								<button type="submit" class="card-reply-autofill  js-location-autofill"><i class="fa  fa-reply"></i> location</button>
+								<button type="submit" class="card-reply-autofill  card-reply-autofill--more-info  js-more-info-autofill"><i class="fa  fa-reply"></i> more info</button>
 							</div>
 							<button type="submit" class="card-reply-send-button">Send</button>
 						</div> <!-- end .card-panel -->
@@ -240,19 +243,20 @@
 							<div class="card__details">
 								<h5 class="card__header"><a href="#messages/{{id}}">+1 655-5455</a></h5>
 								<div class="card__meta">
-									<p class="underline"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">Lamu</a></p>
+									<p> <i class="fa  fa-map-marker"></i>Lamu</p>
 									<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 								</div> <!-- end .card-meta -->
 							</div> <!-- end .card-details -->
-							<div class="card__excerpt">
-								<span class="excerpt">This is the visible part of the message. Clicking the DOUBLE DOWN ARROW will reveal the rest of <span class="elipsis">...</span></span><span class="full-message">the message. This is the rest of the message. Clicking on the DOUBLE UP ARROW will hide this and only show the excerpt.</span>
-							<span class="show-full-message"><i class="fa  fa-angle-double-down"></i></span>
-							</div> <!-- end .card-excerpt -->
+							<div class="card__excerpt-wrapper">
+								<div class="card__excerpt">
+									<span class="excerpt">This is the visible part of the message. Clicking the DOUBLE DOWN ARROW will reveal the rest of <span class="elipsis">...</span></span><span class="rest-of-message">the message. This is the rest of the message. Clicking on the DOUBLE UP ARROW will hide this and only show the excerpt.</span><span class="show-rest-of-message"><i class="expand"></i></span>
+								</div> <!-- end .card-excerpt -->
+							</div>
 						</article> <!-- end .card -->
 
 					<div class="card-actions-wrapper  js-selected  hide-for-small">
 						<ul class="card-actions-list">
-							<li class="card-actions-list__item"><a href="" class="js-card-action-expand"> <i class="fa  fa-list"></i>Expand</a></li>
+							<li class="card-actions-list__item"><a href="" class="js-card-action-activity"> <i class="fa  fa-list"></i>Activity</a></li>
 							<li class="card-actions-list__item"><a href="" class="js-card-action-reply"> <i class="fa  fa-reply"></i>Reply</a></li>
 							<li class="card-actions-list__item"><a href="" class=-"js-card-action-create-post"> <i class="fa  fa-edit"></i>Create Post</a></li>
 							<li class="card-actions-list__item"><a href="" class=-"js-card-action-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
@@ -263,7 +267,7 @@
 					<div class="card-actions-wrapper  js-selected  show-for-small">
 						<a href="#" data-dropdown="drop-card-actions" class="dropdown-button  show-for-small">actions</a><br>
 						<ul id="drop-card-actions" data-dropdown-content class="dropdown-list  f-dropdown  show-for-small">
-							<li class="dropdown-list__item"><a href="" class="js-card-action-expand"> <i class="fa  fa-list"></i>Expand</a></li>
+							<li class="dropdown-list__item"><a href="" class="js-card-action-activity"> <i class="fa  fa-list"></i>Activity</a></li>
 							<li class="dropdown-list__item"><a href="" class="js-card-action-reply"><i class="fa  fa-reply"></i>Reply</a></li>
 							<li class="dropdown-list__item"><a href="" class="js-card-action-create post"> <i class="fa  fa-edit"></i>Create Post</a></li>
 							<li class="dropdown-list__item"><a href="" class="js-card-action-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
@@ -271,8 +275,6 @@
 					</div> <!-- end .card-actions-wrapper .show-for-small -->
 					</div> <!-- end .card-wrapper-selected -->
 				</div> <!-- end .card-wrapper -->
-
-
 		</div> <!-- end .row -->
 			<!-- end FIXME: hardcoded -->
 

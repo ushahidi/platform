@@ -50,7 +50,11 @@
   @include grid-column(12, $collapse: true);
   padding-bottom: 17px;
   @media #{$small} {
-    @include grid-column(3, $collapse: true);
+    @include grid-column(2, $collapse: true);
+    padding: 0 20px 0 0;
+   }
+  @media #{$medium} {
+    @include grid-column(2, $collapse: true);
     padding: 0 20px 0 0;
    }
    img {
@@ -58,15 +62,13 @@
    }
 }
 
-// WITH POST IMAGE
-
-.card-panel__details.js-with-post-image {
+.card-panel__details {
   @include grid-column(12, $collapse: true);
   @media #{$small} {
     @include grid-column(4, $collapse: true);
   }
   @media #{$medium} {
-    @include grid-column(9, $collapse: true);
+    @include grid-column(6, $collapse: true);
   }
   @media #{$large} {
     @include grid-column(4, $collapse: true);
@@ -87,7 +89,7 @@
    }
 }
 
-.card-panel__meta.js-with-post-image {
+.card-panel__meta {
   @extend .card__meta;
   @include grid-column(12, $collapse: true);
   @media #{$small} {
@@ -96,14 +98,12 @@
     padding-right: 0;
    }
   @media #{$medium} {
-    @include grid-column(12, $collapse: true);
-    text-align: left;
-    margin-top: 15px;
+    @include grid-column(6, $collapse: true);
+    float: right;
   }
   @media #{$large} {
     @include grid-column(5, $collapse: true);
-    text-align: right;
-    margin-top: 0;
+    float: right;
   }
   .location {
     margin-bottom: 0;
@@ -113,15 +113,15 @@
   }
 }
 
-// WITHOUT POST IMAGE
+// WITH POST IMAGE
 
-.card-panel__details.js-no-post-image {
+.has-post-image .card-panel__details {
   @include grid-column(12, $collapse: true);
   @media #{$small} {
     @include grid-column(4, $collapse: true);
   }
   @media #{$medium} {
-    @include grid-column(6, $collapse: true);
+    @include grid-column(4, $collapse: true);
   }
   @media #{$large} {
     @include grid-column(4, $collapse: true);
@@ -142,7 +142,7 @@
    }
 }
 
-.card-panel__meta.js-no-post-image {
+.has-post-image .card-panel__meta {
   @extend .card__meta;
   @include grid-column(12, $collapse: true);
   @media #{$small} {
@@ -152,9 +152,13 @@
    }
   @media #{$medium} {
     @include grid-column(6, $collapse: true);
+    float: right;
   }
   @media #{$large} {
     @include grid-column(5, $collapse: true);
+    float: right;
+    text-align: right;
+    margin-top: 0;
   }
   .location {
     margin-bottom: 0;
@@ -169,8 +173,4 @@
   bottom: 15px;
   right: 0;
   font-size: $small-font-size;
-}
-
-.card-panel__meta--location {
-  @include grid-column(8, $collapse: true);
 }

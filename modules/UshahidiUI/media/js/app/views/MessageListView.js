@@ -46,10 +46,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/MessageListItemVi
 				'change #filter-sort' : 'updatePostsSort',
         'click .js-message-filter-all' : 'filterByMessageType',
         'click .js-card-action-reply' : 'toggleReply',
-        'click .js-card-action-expand' : 'toggleMessageActivity',
-        'click .js-card-action-location' : 'toggleMap',
-        'click .excerpt, .show-full-message' : 'showFullMessage',
-        'click .card-actions-list__item a' : 'toggleActiveClass'
+        'click .js-card-action-activity' : 'toggleMessageActivity',
+        'click .excerpt, .show-rest-of-message' : 'showRestOfMessage',
+        'click .card-actions-list__item a' : 'toggleActiveClass',
+        'click .js-location-autofill' : 'autofillLocation',
+        'click .js-more-info-autofill' : 'autofillMoreInfo'
 
 			},
 
@@ -214,29 +215,25 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/MessageListItemVi
       toggleMessageActivity : function(e)
       {
 				e.preventDefault();
-							this.$(e.currentTarget).closest('.card-actions-wrapper').nextAll('.js-card-panel-expand').slideToggle(200);
+        this.$(e.currentTarget).closest('.card-actions-wrapper').nextAll('.js-card-panel-activity').slideToggle(200);
       },
-      toggleMap : function(e)
-      {
-				e.preventDefault();
-
-				this.$(e.currentTarget).closest('.card').prevAll('.js-card-panel-map').slideToggle(200);
-      },
-      showFullMessage : function(e)
+      showRestOfMessage : function(e)
       {
         e.preventDefault();
 
-this.$(e.currentTarget).closest('.card__excerpt').toggleClass('show').find('.show-full-message i').toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+        this.$(e.currentTarget).closest('.card__excerpt-wrapper').not('.js-selected .card__excerpt-wrapper').toggleClass('show');
 
-var that = this.$(e.currentTarget).closest('.card__excerpt');
+        var target = this.$(e.currentTarget).closest('.card__excerpt-wrapper');
 
-				if (that.hasClass('show')) {
-					that.find('.elipsis').hide(0);
-					that.find('.full-message').delay(100).fadeIn(200);
+				if (target.hasClass('show')) {
+					target.find('.elipsis').hide();
+					target.find('.rest-of-message').delay(100).fadeIn(200);
+          target.parent('.card').prevAll('.js-card-panel-map').slideToggle(200);
 				}
 				else {
-					that.find('.elipsis').delay(300).show(0);
-					that.find('.full-message').fadeOut(200);
+					target.find('.elipsis').delay(300).show(0); //.show(0) is required for delay to work
+					target.find('.rest-of-message').fadeOut(200);
+          target.parent('.card').prevAll('.js-card-panel-map').slideToggle(200);
 				}
       },
       toggleActiveClass : function(e)
@@ -244,6 +241,20 @@ var that = this.$(e.currentTarget).closest('.card__excerpt');
         e.preventDefault();
 
         this.$(e.currentTarget).toggleClass('active');
+      },
+      autofillLocation : function(e)
+      {
+        e.preventDefault();
+
+        this.$(e.currentTarget);
+        this.$('.textarea').val('Greensboro, NC');
+      },
+      autofillMoreInfo : function(e)
+      {
+        e.preventDefault();
+
+        this.$(e.currentTarget);
+        this.$('.textarea').val('Thank you for the message. More information is needed, please provide details.');
       }
 		});
 	});
