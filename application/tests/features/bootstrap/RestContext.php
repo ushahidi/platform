@@ -78,6 +78,18 @@ class RestContext extends BehatContext
 	}
 
 	/**
+	 * @Given /^that I want to submit a new "([^"]*)"$/
+	 */
+	public function thatIWantToSubmitANew($objectType)
+	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+
+		$this->_restObjectType   = ucwords(strtolower($objectType));
+		$this->_restObjectMethod = 'get';
+	}
+
+	/**
 	 * @Given /^that I want to update a "([^"]*)"$/
 	 * @Given /^that I want to update an "([^"]*)"$/
 	 */

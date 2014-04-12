@@ -18,6 +18,7 @@ return array(
 	),
 	'providers' => array(
 		'smssync' => TRUE,
+		'frontlinesms' => TRUE,
 	),
 	'nexmo' => array(
 		'from' => '',
@@ -37,5 +38,9 @@ return array(
 		'incoming_security' => '',
 		'incoming_username' => '',
 		'incoming_password' => ''
-	)
+	),
+	'frontlinesms' => array(
+		'f' => '12345',
+		'key' => '1234'
+	),
 );
