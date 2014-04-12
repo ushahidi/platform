@@ -61,19 +61,23 @@ class Controller_Api_Config extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$results = array();
-
 		$group = $this->request->param('group');
 		$groups = Ushahidi_Config_Database::groups();
+
 		if (! empty($group) )
 		{
-			$groups = array();
-			if (in_array($group, Ushahidi_Config_Database::groups()))
+			if (! in_array($group, $groups))
+			{
+				// no valid group selected
+				$groups = array();
+			}
+			else
 			{
 				$groups = array($group);
 			}
 		}
 
+		$results = array();
 		foreach($groups as $group)
 		{
 			$configs = Kohana::$config->load($group)->as_array();
@@ -103,8 +107,9 @@ class Controller_Api_Config extends Ushahidi_Api {
 	{
 		$group = $this->request->param('group');
 		$key = $this->request->param('id');
+		$groups = Ushahidi_Config_Database::groups();
 
-		if (! in_array($group, Ushahidi_Config_Database::groups()))
+		if (! in_array($group, $groups))
 		{
 			throw HTTP_Exception::factory(400, 'Invalid group');
 		}
@@ -126,15 +131,19 @@ class Controller_Api_Config extends Ushahidi_Api {
 		$post = $this->_request_payload;
 		$group = $this->request->param('group');
 		$key = $this->request->param('id');
+		$groups = Ushahidi_Config_Database::groups();
 
-		if (! in_array($group, Ushahidi_Config_Database::groups()))
+		if (! in_array($group, $groups))
 		{
 			throw HTTP_Exception::factory(400, 'Invalid group');
 		}
 
-		Kohana::$config->load($group)->set($key, $post['config_value']);
+		$config = Kohana::$config->load($group)
+			->set($key, $post['config_value']);
 
-		$this->_response_payload = $this->_for_api($group, $key, $post['config_value']);
+		$value = $config->get($key);
+
+		$this->_response_payload = $this->_for_api($group, $key, $value);
 	}
 
 	protected function _for_api($group, $key, $value)
