@@ -52,7 +52,7 @@ define(['jquery', 'backbone', 'App'],
 						// Single value field
 						if (parseInt(attribute.cardinality, 10) === 1)
 						{
-							schema['values.' + attribute.key] = {
+							schema['values/' + attribute.key] = {
 								title : attribute.label,
 								type : inputFieldMap[attribute.input],
 								options : attribute.options
@@ -61,7 +61,7 @@ define(['jquery', 'backbone', 'App'],
 						// Multi-value field, handled with List editor
 						else
 						{
-							schema['values.' + attribute.key] = {
+							schema['values/' + attribute.key] = {
 								title : attribute.label,
 								type : 'List',
 								itemToString : valueToString,
@@ -112,7 +112,7 @@ define(['jquery', 'backbone', 'App'],
 							continue;
 						}
 
-						fieldset.fields.push('values.' + attribute.key);
+						fieldset.fields.push('values/' + attribute.key);
 					}
 
 					fieldsets.push(fieldset);
@@ -145,7 +145,7 @@ define(['jquery', 'backbone', 'App'],
 							continue;
 						}
 
-						key = 'values.' + attribute.key;
+						key = 'values/' + attribute.key;
 						rules[key] = {};
 						rules[key].required = attribute.required;
 						if (attribute.type === 'link')
