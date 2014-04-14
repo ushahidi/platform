@@ -91,52 +91,44 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				// Extend with form schema if form_id is set
 				if (this.get('form'))
 				{
-					_.extend(schema, this.form.getPostSchema());
+					_.extend(schema, _.result(this.form, 'postSchema'));
 				}
 
 				return schema;
 			},
 			fieldsets : function ()
 			{
-				var fieldsets = [];
+				var fieldsets = [],
+					mainFieldset = {
+						name : 'main',
+						active : true,
+						legend : 'Main',
+						fields : []
+					},
+					mainFields;
+
+				// Only show user fields if not set yet
+				if (parseInt(this.get('user'), 10) > 0 || App.loggedin())
+				{
+					mainFields = ['title', 'content', 'tags', 'user'];
+				}
+				else
+				{
+					mainFields = ['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email'];
+				}
 
 				// Extend with form schema if form_id is set
 				if (this.get('form'))
 				{
-					fieldsets = _.union(fieldsets, this.form.getPostFieldsets());
-
-					// Push main fields onto first group.
-					fieldsets[0].name = 'main';
-					fieldsets[0].active = true;
-					// Only show user fields if not set yet
-					if (parseInt(this.get('user'), 10) > 0 || App.loggedin())
-					{
-						fieldsets[0].fields.unshift('user');
-					}
-					else
-					{
-						fieldsets[0].fields.unshift('user.email');
-						fieldsets[0].fields.unshift('user.last_name');
-						fieldsets[0].fields.unshift('user.first_name');
-					}
-					fieldsets[0].fields.unshift('tags');
-					fieldsets[0].fields.unshift('content');
-					fieldsets[0].fields.unshift('title');
-				}
-				else
-				{
-					fieldsets.push(
-						{
-							name : 'main',
-							legend : 'Main',
-							fields : (parseInt(this.get('user'), 10) > 0 || App.loggedin()) ?
-								['title', 'content', 'tags', 'user'] :
-								['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email'],
-							active: true
-						}
-					);
+					fieldsets = _.union(fieldsets, _.result(this.form, 'postFieldsets'));
+					// Combine main fieldset into the initial fieldset
+					mainFieldset = _.extend(mainFieldset, fieldsets[0]);
+					mainFieldset.name = 'main'; // Always use 'main' as the name
+					// Push default fields onto the start of post form fields
+					mainFieldset.fields = mainFields.concat(mainFieldset.fields);
 				}
 
+				fieldsets[0] = mainFieldset;
 				fieldsets.push(
 					{
 						name : 'permissions',
@@ -193,7 +185,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				// Extend with form schema if form_id is set
 				if (this.get('form'))
 				{
-					rules = _.extend(rules, this.form.getPostValidation());
+					rules = _.extend(rules, _.result(this.form, 'postValidation'));
 				}
 
 				return rules;

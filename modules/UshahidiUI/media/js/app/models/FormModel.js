@@ -8,94 +8,62 @@
  */
 
 define(['jquery', 'backbone', 'App'],
-	function($, Backbone, App) {
-		var FormModel = Backbone.Model.extend(
+	function($, Backbone, App)
+	{
+		var valueToString = function(item) { return item.value; },
+		// Map API 'input' to Backbone Forms Fields
+		inputFieldMap = {
+			'text' : 'Text',
+			'textarea' : 'TextArea',
+			'radio' : 'Radio',
+			'checkbox' : 'Checkbox',
+			'date' : 'Date',
+			'datetime' : 'DateTime',
+			'select' : 'Select',
+			'location' : 'Location',
+			'number' : 'Number',
+			'file' : 'Text'
+		},
+
+		FormModel = Backbone.Model.extend(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/forms',
-			getPostSchema : function()
+			initialize : function()
 			{
-				var schema = {},
-					groups = this.get('groups'),
-					valueToString = function(item) { return item.value; },
-					inputFieldMap,
-					attributes,
-					attribute,
-					i,
-					j;
-
-				// Map API 'input' to Backbone Forms Fields
-				inputFieldMap = {
-					'text' : 'Text',
-					'textarea' : 'TextArea',
-					'radio' : 'Radio',
-					'checkbox' : 'Checkbox',
-					'date' : 'Date',
-					'datetime' : 'DateTime',
-					'select' : 'Select',
-					'location' : 'Location',
-					'number' : 'Number',
-					'file' : 'Text'
-				};
-
-				for (i = 0; i < groups.length; i++)
-				{
-					attributes = groups[i].attributes;
-					for (j = 0; j < attributes.length; j++)
-					{
-						attribute = attributes[j];
-						// Skip attribute if missing options
-						if (attribute.input === 'Select' && ! attribute.options)
-						{
-							continue;
-						}
-
-						// Single value field
-						if (parseInt(attribute.cardinality, 10) === 1)
-						{
-							schema['values/' + attribute.key] = {
-								title : attribute.label,
-								type : inputFieldMap[attribute.input],
-								options : attribute.options
-							};
-						}
-						// Multi-value field, handled with List editor
-						else
-						{
-							schema['values/' + attribute.key] = {
-								title : attribute.label,
-								type : 'List',
-								itemToString : valueToString,
-								itemType : 'Object',
-								subSchema : {
-									id : 'Hidden',
-									value : {
-										title: null,
-										type: inputFieldMap[attribute.input],
-										options : attribute.options
-									}
-								}
-							};
-						}
-					}
-				}
-
-				return schema;
+				this.processForm();
+				this.listenTo(this, 'change', this.processForm);
 			},
-			getPostFieldsets : function ()
+
+			postSchema : {},
+			postFieldsets : [],
+			postValidation : {},
+			formAttributes : {},
+
+			processForm : function()
 			{
-				var fieldsets = [],
-					fieldset,
-					groups = this.get('groups'),
+				var groups = this.get('groups'),
 					group,
 					attributes,
 					attribute,
-					i,
-					j;
+					g,
+					a,
+					fieldset,
+					added;
 
-				for (i = 0; i < groups.length; i++)
+				if (! groups)
 				{
-					group = groups[i];
-					attributes = group.attributes;
+					return;
+				}
+
+				// Reset postSchema, postFieldsets and postValidation
+				this.postSchema = {};
+				this.postFieldsets = [];
+				this.postValidation = {};
+				this.formAttributes = {};
+
+				for (g = 0; g < groups.length; g++)
+				{
+					group = groups[g];
 
 					fieldset = {
 						legend: group.label,
@@ -103,67 +71,80 @@ define(['jquery', 'backbone', 'App'],
 						fields: []
 					};
 
-					for (j = 0; j < attributes.length; j++)
+					attributes = groups[g].attributes;
+					for (a = 0; a < attributes.length; a++)
 					{
-						attribute = attributes[j];
-						// Skip attribute if missing options
-						if (attribute.input === 'Select' && ! attribute.options)
-						{
-							continue;
-						}
+						attribute = attributes[a];
+						this.formAttributes[attribute.key] = attribute;
 
-						fieldset.fields.push('values/' + attribute.key);
+						added = this.processAttribute(attribute);
+						if (added)
+						{
+							fieldset.fields.push('values/' + attribute.key);
+						}
 					}
 
-					fieldsets.push(fieldset);
+					this.postFieldsets.push(fieldset);
 				}
-
-				return fieldsets;
 			},
-			getPostValidation : function ()
+
+			processAttribute : function(attribute)
 			{
-				var rules = {},
-					groups = this.get('groups'),
-					group,
-					attributes,
-					attribute,
-					i,
-					j,
-					key;
-
-				for (i = 0; i < groups.length; i++)
+				// Skip attribute if missing options
+				if (attribute.input === 'Select' && ! attribute.options)
 				{
-					group = groups[i];
-					attributes = group.attributes;
-
-					for (j = 0; j < attributes.length; j++)
-					{
-						attribute = attributes[j];
-						// Skip attribute if missing options
-						if (attribute.input === 'Select' && ! attribute.options)
-						{
-							continue;
-						}
-
-						key = 'values/' + attribute.key;
-						rules[key] = {};
-						rules[key].required = attribute.required;
-						if (attribute.type === 'link')
-						{
-							rules[key].pattern = 'url';
-						}
-
-						// Multi value field - pipe through validateArray
-						if (parseInt(attribute.cardinality, 10) !== 1)
-						{
-							rules[key] = {
-								validateArray : rules[key]
-							};
-						}
-					}
+					return false;
 				}
 
-				return rules;
+				// Add postValidation
+				this.postValidation['values/' + attribute.key] = {};
+				this.postValidation['values/' + attribute.key].required = attribute.required;
+				if (attribute.postValidation === 'link')
+				{
+					this.postValidation['values/' + attribute.key].pattern = 'url';
+				}
+
+				// Single value field
+				if (parseInt(attribute.cardinality, 10) === 1)
+				{
+					// Add postSchema
+					this.postSchema['values/' + attribute.key] = {
+						title : attribute.label,
+						type : inputFieldMap[attribute.input],
+						options : attribute.options
+					};
+				}
+				// Multi-value field
+				else
+				{
+					// Use list editor for postSchema
+					this.postSchema['values/' + attribute.key] = {
+						title : attribute.label,
+						type : 'List',
+						itemToString : valueToString,
+						itemType : 'Object',
+						subSchema : {
+							id : 'Hidden',
+							value : {
+								title: null,
+								type: inputFieldMap[attribute.input],
+								options : attribute.options
+							}
+						}
+					};
+
+					// Pipe postValidation through validateArray
+					this.postValidation['values/' + attribute.key] = {
+						validateArray : this.postValidation['values/' + attribute.key]
+					};
+				}
+
+				return true;
+			},
+
+			getAttribute : function (key)
+			{
+				return this.formAttributes[key];
 			}
 		});
 		return FormModel;
