@@ -33,6 +33,11 @@ abstract class Ushahidi_Core {
 		 */
 		self::load();
 
+		// Store Kohana::$config as the service backend for config
+		// This MUST be done before attaching DB config or reading any "site" values!
+		$service = service();
+		$service['config.backend'] = Kohana::$config;
+
 		/**
 		 * Attach database config
 		 */
@@ -44,6 +49,9 @@ abstract class Ushahidi_Core {
 
 	public static function attached_db_config()
 	{
+		// allowed groups are stored with the config service.
+		$groups = service('config')->groups();
+
 		/**
 		 * Attach database config to override some settings
 		 */
@@ -52,7 +60,7 @@ abstract class Ushahidi_Core {
 			if (DB::query(Database::SELECT, 'SHOW TABLES LIKE \'config\'')->execute()->count() > 0)
 			{
 				Kohana::$config->attach(new Ushahidi_Config(array(
-					'groups' => array('site', 'test', 'features')
+					'groups' => $groups
 				)));
 			}
 		}

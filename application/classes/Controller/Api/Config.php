@@ -62,31 +62,18 @@ class Controller_Api_Config extends Ushahidi_Api {
 	public function action_get_index_collection()
 	{
 		$group = $this->request->param('group');
-		$groups = Ushahidi_Config_Database::groups();
 
-		if (! empty($group) )
+		$repo = service('config');
+		try
 		{
-			if (! in_array($group, $groups))
-			{
-				// no valid group selected
-				$groups = array();
-			}
-			else
-			{
-				$groups = array($group);
-			}
+			$results = $repo->all($group);
+		}
+		catch (InvalidArgumentException $e)
+		{
+			throw HTTP_Exception::factory(400, $e->getMessage());
 		}
 
-		$results = array();
-		foreach($groups as $group)
-		{
-			$configs = Kohana::$config->load($group)->as_array();
-			foreach ($configs as $key => $value)
-			{
-				$results[] = $this->_for_api($group, $key, $value);
-			}
-		}
-
+		$results = array_map(array($this, '_for_api'), $results);
 		$count = count($results);
 
 		// Respond with posts
@@ -107,16 +94,18 @@ class Controller_Api_Config extends Ushahidi_Api {
 	{
 		$group = $this->request->param('group');
 		$key = $this->request->param('id');
-		$groups = Ushahidi_Config_Database::groups();
 
-		if (! in_array($group, $groups))
+		$repo = service('config');
+		try
 		{
-			throw HTTP_Exception::factory(400, 'Invalid group');
+			$config = $repo->get($group, $key);
+		}
+		catch (InvalidArgumentException $e)
+		{
+			throw HTTP_Exception::factory(400, $e->getMessage());
 		}
 
-		$value = Kohana::$config->load($group)->get($key);
-
-		$this->_response_payload = $this->_for_api($group, $key, $value);
+		$this->_response_payload = $this->_for_api($config);
 	}
 
 	/**
@@ -131,27 +120,26 @@ class Controller_Api_Config extends Ushahidi_Api {
 		$post = $this->_request_payload;
 		$group = $this->request->param('group');
 		$key = $this->request->param('id');
-		$groups = Ushahidi_Config_Database::groups();
 
-		if (! in_array($group, $groups))
+		$repo = service('config');
+		try
 		{
-			throw HTTP_Exception::factory(400, 'Invalid group');
+			$config = $repo->set($group, $key, $post['config_value']);
+		}
+		catch (InvalidArgumentException $e)
+		{
+			throw HTTP_Exception::factory(400, $e->getMessage());
 		}
 
-		$config = Kohana::$config->load($group)
-			->set($key, $post['config_value']);
-
-		$value = $config->get($key);
-
-		$this->_response_payload = $this->_for_api($group, $key, $value);
+		$this->_response_payload = $this->_for_api($config);
 	}
 
-	protected function _for_api($group, $key, $value)
+	protected function _for_api(\Ushahidi\Entity\Config $config)
 	{
 		return array(
-			'group_name' => $group,
-			'config_key' => $key,
-			'config_value' => $value,
+			'group_name' => $config->group,
+			'config_key' => $config->key,
+			'config_value' => $config->value,
 			'allowed_methods' => $this->_allowed_methods()
 		);
 	}

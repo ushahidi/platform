@@ -117,6 +117,9 @@ if ( ! defined('KOHANA_START_MEMORY'))
 	define('KOHANA_START_MEMORY', memory_get_usage());
 }
 
+// Ushahidi: load transitional code
+require APPPATH.'../src/Init'.EXT;
+
 // Bootstrap the application
 require APPPATH.'bootstrap'.EXT;
 

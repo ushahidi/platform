@@ -11,6 +11,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi;
+namespace Ushahidi\Entity;
+use Ushahidi;
 
-// put your code here
+class Config extends Ushahidi\Entity
+{
+
+	public $group = '';
+	public $key = '';
+	public $value;
+
+}
