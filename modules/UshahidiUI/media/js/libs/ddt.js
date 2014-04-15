@@ -1,5 +1,5 @@
 /**
- * Devious Debugging Tool, v0.2.1
+ * Devious Debugging Tool, v0.3.0
  * Copyright (c) 2013-2014, deviantART, Inc.
  * Licensed under 3-Clause BSD.
  * Refer to the LICENCES.txt file for details.
@@ -12,7 +12,8 @@
 var  REGEX_ALL_ALPHA = /^[a-zA-Z]+$/
     ,IN_IFRAME = window.parent !== window
     ,ddt = window.ddt // capture existing ddt object
-    ,util = {}; // private utility methods
+    ,util = {} // private utility methods
+    ,channels = {}; // list of potential channels
 
 // if ddt was not predefined, create it now
 if (typeof ddt !== 'object') {
@@ -100,6 +101,7 @@ util.proxy = function(type) {
     }
     return function(name, message /*, ... */) {
         var params;
+        channels[name] = name;
         if (ddt.watching(name)) {
             params = Array.prototype.slice.call(arguments, 1);
             // reformat the message to include the package name
@@ -282,6 +284,16 @@ ddt.watching = function(name) {
         watching.push(name);
     }
     return watching;
+};
+
+// what channels are available?
+ddt.channels = function() {
+    var  list = []
+        ,c;
+    for (c in channels) {
+        list.push(c);
+    }
+    return list;
 };
 
 })();
