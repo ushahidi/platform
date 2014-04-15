@@ -9209,14 +9209,13 @@ img.mfp-img {
   background-color: #eff0f3;
   border: 2px solid #d2d5dd;
   border-radius: 3px 3px 0 0;
-  cursor: pointer;
 }
-/* line 43, ../../scss/partials/card/_card-global.scss */
+/* line 42, ../../scss/partials/card/_card-global.scss */
 .card.js-selected {
   background-color: #d2d5dd;
 }
 
-/* line 49, ../../scss/partials/card/_card-global.scss */
+/* line 48, ../../scss/partials/card/_card-global.scss */
 .card__details {
   position: relative;
   padding-left: 0.9375em;
@@ -9225,19 +9224,19 @@ img.mfp-img {
   float: left;
 }
 
-/* line 53, ../../scss/partials/card/_card-global.scss */
+/* line 52, ../../scss/partials/card/_card-global.scss */
 .card__icon {
   position: absolute;
   font-size: 27px;
   line-height: 0;
   color: #323a45;
 }
-/* line 58, ../../scss/partials/card/_card-global.scss */
+/* line 57, ../../scss/partials/card/_card-global.scss */
 .card__icon [class^="fa"], .card__icon [class*=" fa"] {
   padding: 0;
 }
 
-/* line 63, ../../scss/partials/card/_card-global.scss */
+/* line 62, ../../scss/partials/card/_card-global.scss */
 .card__header {
   position: relative;
   padding-left: 0.9375em;
@@ -9248,7 +9247,7 @@ img.mfp-img {
   padding-left: 25px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 63, ../../scss/partials/card/_card-global.scss */
+  /* line 62, ../../scss/partials/card/_card-global.scss */
   .card__header {
     position: relative;
     padding-left: 0.9375em;
@@ -9258,13 +9257,17 @@ img.mfp-img {
     padding-left: 25px;
   }
 }
-/* line 71, ../../scss/partials/card/_card-global.scss */
+/* line 70, ../../scss/partials/card/_card-global.scss */
 .card__header a {
   color: #323a45;
 }
+/* line 72, ../../scss/partials/card/_card-global.scss */
+.js-selected .card__header a {
+  cursor: default;
+}
 
-/* line 76, ../../scss/partials/card/_card-global.scss */
-.card__meta, .card-panel__meta.js-with-post-image, .card-panel__meta.js-no-post-image {
+/* line 78, ../../scss/partials/card/_card-global.scss */
+.card__meta, .card-panel__meta, .has-post-image .card-panel__meta {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -9274,8 +9277,8 @@ img.mfp-img {
   line-height: 0;
 }
 @media only screen and (min-width: 768px) {
-  /* line 76, ../../scss/partials/card/_card-global.scss */
-  .card__meta, .card-panel__meta.js-with-post-image, .card-panel__meta.js-no-post-image {
+  /* line 78, ../../scss/partials/card/_card-global.scss */
+  .card__meta, .card-panel__meta, .has-post-image .card-panel__meta {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -9284,18 +9287,49 @@ img.mfp-img {
     text-align: right;
   }
 }
-/* line 84, ../../scss/partials/card/_card-global.scss */
-.card__meta p, .card-panel__meta.js-with-post-image p, .card-panel__meta.js-no-post-image p {
+/* line 86, ../../scss/partials/card/_card-global.scss */
+.card__meta p, .card-panel__meta p, .has-post-image .card-panel__meta p {
   font-size: 70%;
   display: inline-block;
   padding-left: 20px;
 }
-/* line 88, ../../scss/partials/card/_card-global.scss */
-.card__meta p:nth-child(1), .card-panel__meta.js-with-post-image p:nth-child(1), .card-panel__meta.js-no-post-image p:nth-child(1) {
+/* line 90, ../../scss/partials/card/_card-global.scss */
+.card__meta p:nth-child(1), .card-panel__meta p:nth-child(1) {
   padding: 0;
 }
+/* line 95, ../../scss/partials/card/_card-global.scss */
+.js-selected .card__meta a, .js-selected .card-panel__meta a {
+  color: #9a9797;
+  cursor: default;
+}
 
-/* line 94, ../../scss/partials/card/_card-global.scss */
+/* line 102, ../../scss/partials/card/_card-global.scss */
+.card__excerpt-wrapper {
+  cursor: pointer;
+}
+/* line 104, ../../scss/partials/card/_card-global.scss */
+.js-selected .card__excerpt-wrapper {
+  cursor: default;
+}
+
+/* line 110, ../../scss/partials/card/_card-global.scss */
+.card__excerpt-wrapper .expand {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+}
+/* line 116, ../../scss/partials/card/_card-global.scss */
+.card__excerpt-wrapper .expand:before {
+  content: "\f103";
+}
+/* line 121, ../../scss/partials/card/_card-global.scss */
+.card__excerpt-wrapper.show .expand:before {
+  content: "\f102";
+}
+
+/* line 127, ../../scss/partials/card/_card-global.scss */
 .card__excerpt {
   position: relative;
   padding-left: 0;
@@ -9305,28 +9339,18 @@ img.mfp-img {
   min-height: 48px;
   color: #1f1f1f;
 }
-/* line 98, ../../scss/partials/card/_card-global.scss */
-.card__excerpt p {
-  padding-left: 25px;
-  margin-bottom: 0;
-  font-size: 0.875em;
-}
-/* line 103, ../../scss/partials/card/_card-global.scss */
-.card__excerpt .full-message {
+/* line 131, ../../scss/partials/card/_card-global.scss */
+.card__excerpt .rest-of-message {
   display: none;
 }
-/* line 106, ../../scss/partials/card/_card-global.scss */
-.card__excerpt .show-full-message {
+/* line 134, ../../scss/partials/card/_card-global.scss */
+.card__excerpt .show-rest-of-message {
   position: relative;
   bottom: -8px;
   font-size: 14px;
   float: right;
 }
-/* line 111, ../../scss/partials/card/_card-global.scss */
-.card__excerpt .show-full-message a {
-  color: inherit;
-}
-/* line 115, ../../scss/partials/card/_card-global.scss */
+/* line 140, ../../scss/partials/card/_card-global.scss */
 .card__excerpt.show {
   height: auto;
 }
@@ -9334,7 +9358,7 @@ img.mfp-img {
 /*------------------------------------*\
    $CARD ACTIONS
 \*------------------------------------*/
-/* line 124, ../../scss/partials/card/_card-global.scss */
+/* line 152, ../../scss/partials/card/_card-global.scss */
 .card-actions-wrapper {
   position: relative;
   padding-left: 0;
@@ -9347,7 +9371,7 @@ img.mfp-img {
   border-left: 2px solid #d2d5dd;
   border-radius: 0 0 3px 3px;
 }
-/* line 131, ../../scss/partials/card/_card-global.scss */
+/* line 159, ../../scss/partials/card/_card-global.scss */
 .card-actions-wrapper .dropdown-button {
   border-style: solid;
   border-width: 1px;
@@ -9408,15 +9432,15 @@ img.mfp-img {
 .card-actions-wrapper .dropdown-button:before {
   border-color: white transparent transparent transparent;
 }
-/* line 137, ../../scss/partials/card/_card-global.scss */
+/* line 165, ../../scss/partials/card/_card-global.scss */
 .card-actions-wrapper .dropdown-button:before {
   border-color: black transparent transparent transparent;
 }
-/* line 141, ../../scss/partials/card/_card-global.scss */
+/* line 169, ../../scss/partials/card/_card-global.scss */
 .card-actions-wrapper.js-selected {
   background-color: #d2d5dd;
 }
-/* line 143, ../../scss/partials/card/_card-global.scss */
+/* line 171, ../../scss/partials/card/_card-global.scss */
 .card-actions-wrapper.js-selected .dropdown-button {
   border-style: solid;
   border-width: 1px;
@@ -9439,8 +9463,8 @@ img.mfp-img {
   padding-right: 0;
   padding-left: 0;
   width: 100%;
-  background-color: #eff0f3;
-  border-color: #d2d5dd;
+  background-color: #d2d5dd;
+  border-color: #b5b9c7;
   color: #333333;
   cursor: default;
   opacity: 0.6;
@@ -9450,7 +9474,7 @@ img.mfp-img {
 }
 /* line 122, ../../scss/foundation/components/_buttons.scss */
 .card-actions-wrapper.js-selected .dropdown-button:hover, .card-actions-wrapper.js-selected .dropdown-button:focus {
-  background-color: #d2d5dd;
+  background-color: #b5b9c7;
 }
 /* line 128, ../../scss/foundation/components/_buttons.scss */
 .card-actions-wrapper.js-selected .dropdown-button:hover, .card-actions-wrapper.js-selected .dropdown-button:focus {
@@ -9458,10 +9482,10 @@ img.mfp-img {
 }
 /* line 146, ../../scss/foundation/components/_buttons.scss */
 .card-actions-wrapper.js-selected .dropdown-button:hover, .card-actions-wrapper.js-selected .dropdown-button:focus {
-  background-color: #eff0f3;
+  background-color: #d2d5dd;
 }
 
-/* line 150, ../../scss/partials/card/_card-global.scss */
+/* line 178, ../../scss/partials/card/_card-global.scss */
 .card-actions-list {
   display: block;
   padding: 0;
@@ -9497,23 +9521,33 @@ img.mfp-img {
 .card-actions-list > li:nth-of-type(4n+1) {
   clear: both;
 }
-/* line 152, ../../scss/partials/card/_card-global.scss */
+/* line 180, ../../scss/partials/card/_card-global.scss */
 .card-actions-list .card-actions-list__item {
   font-size: 0.8125em;
   text-align: center;
   padding: 0.9375em;
 }
-/* line 156, ../../scss/partials/card/_card-global.scss */
+/* line 184, ../../scss/partials/card/_card-global.scss */
 .card-actions-list .card-actions-list__item a {
-  color: black;
+  color: #1f1f1f;
 }
-/* line 158, ../../scss/partials/card/_card-global.scss */
+/* line 186, ../../scss/partials/card/_card-global.scss */
 .card-actions-list .card-actions-list__item a:hover {
   color: #14b4d1;
 }
-/* line 161, ../../scss/partials/card/_card-global.scss */
+/* line 189, ../../scss/partials/card/_card-global.scss */
 .card-actions-list .card-actions-list__item a.active {
   color: #14b4d1;
+}
+/* line 194, ../../scss/partials/card/_card-global.scss */
+.js-selected .card-actions-list .card-actions-list__item a:hover {
+  color: #1f1f1f;
+  cursor: default;
+}
+/* line 198, ../../scss/partials/card/_card-global.scss */
+.js-selected .card-actions-list .card-actions-list__item a.active {
+  border: none;
+  color: #1f1f1f;
 }
 
 /*------------------------------------*\
@@ -9586,18 +9620,29 @@ img.mfp-img {
     position: relative;
     padding-left: 0;
     padding-right: 0;
-    width: 25%;
+    width: 16.66667%;
     float: left;
     padding: 0 20px 0 0;
   }
 }
-/* line 56, ../../scss/partials/card/panels/_panel.scss */
+@media only screen and (min-width: 1024px) {
+  /* line 49, ../../scss/partials/card/panels/_panel.scss */
+  .card-panel__post-image {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 16.66667%;
+    float: left;
+    padding: 0 20px 0 0;
+  }
+}
+/* line 60, ../../scss/partials/card/panels/_panel.scss */
 .card-panel__post-image img {
   width: 100%;
 }
 
-/* line 63, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__details.js-with-post-image {
+/* line 65, ../../scss/partials/card/panels/_panel.scss */
+.card-panel__details {
   position: relative;
   padding-left: 0;
   padding-right: 0;
@@ -9605,8 +9650,8 @@ img.mfp-img {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 63, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__details.js-with-post-image {
+  /* line 65, ../../scss/partials/card/panels/_panel.scss */
+  .card-panel__details {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -9615,18 +9660,18 @@ img.mfp-img {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 63, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__details.js-with-post-image {
+  /* line 65, ../../scss/partials/card/panels/_panel.scss */
+  .card-panel__details {
     position: relative;
     padding-left: 0;
     padding-right: 0;
-    width: 75%;
+    width: 50%;
     float: left;
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 63, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__details.js-with-post-image {
+  /* line 65, ../../scss/partials/card/panels/_panel.scss */
+  .card-panel__details {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -9634,29 +9679,29 @@ img.mfp-img {
     float: left;
   }
 }
-/* line 74, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__details.js-with-post-image .subheader {
+/* line 76, ../../scss/partials/card/panels/_panel.scss */
+.card-panel__details .subheader {
   margin-top: 0;
   font-size: 80%;
 }
-/* line 77, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__details.js-with-post-image .subheader .username {
+/* line 79, ../../scss/partials/card/panels/_panel.scss */
+.card-panel__details .subheader .username {
   font-weight: bold;
 }
-/* line 81, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__details.js-with-post-image .details {
+/* line 83, ../../scss/partials/card/panels/_panel.scss */
+.card-panel__details .details {
   font-size: 80%;
   margin-bottom: 12px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 81, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__details.js-with-post-image .details {
+  /* line 83, ../../scss/partials/card/panels/_panel.scss */
+  .card-panel__details .details {
     margin-bottom: 0;
   }
 }
 
-/* line 90, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__meta.js-with-post-image {
+/* line 92, ../../scss/partials/card/panels/_panel.scss */
+.card-panel__meta {
   position: relative;
   padding-left: 0;
   padding-right: 0;
@@ -9664,8 +9709,8 @@ img.mfp-img {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 90, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__meta.js-with-post-image {
+  /* line 92, ../../scss/partials/card/panels/_panel.scss */
+  .card-panel__meta {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
@@ -9676,40 +9721,38 @@ img.mfp-img {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 90, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__meta.js-with-post-image {
+  /* line 92, ../../scss/partials/card/panels/_panel.scss */
+  .card-panel__meta {
     position: relative;
     padding-left: 0;
     padding-right: 0;
-    width: 100%;
+    width: 50%;
     float: left;
-    text-align: left;
-    margin-top: 15px;
+    float: right;
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 90, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__meta.js-with-post-image {
+  /* line 92, ../../scss/partials/card/panels/_panel.scss */
+  .card-panel__meta {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     width: 41.66667%;
     float: left;
-    text-align: right;
-    margin-top: 0;
+    float: right;
   }
 }
 /* line 108, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__meta.js-with-post-image .location {
+.card-panel__meta .location {
   margin-bottom: 0;
 }
 /* line 111, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__meta.js-with-post-image .datetime {
+.card-panel__meta .datetime {
   margin-bottom: 0;
 }
 
 /* line 118, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__details.js-no-post-image {
+.has-post-image .card-panel__details {
   position: relative;
   padding-left: 0;
   padding-right: 0;
@@ -9718,7 +9761,7 @@ img.mfp-img {
 }
 @media only screen and (min-width: 768px) {
   /* line 118, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__details.js-no-post-image {
+  .has-post-image .card-panel__details {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -9728,17 +9771,17 @@ img.mfp-img {
 }
 @media only screen and (min-width: 1024px) {
   /* line 118, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__details.js-no-post-image {
+  .has-post-image .card-panel__details {
     position: relative;
     padding-left: 0;
     padding-right: 0;
-    width: 50%;
+    width: 33.33333%;
     float: left;
   }
 }
 @media only screen and (min-width: 1440px) {
   /* line 118, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__details.js-no-post-image {
+  .has-post-image .card-panel__details {
     position: relative;
     padding-left: 0;
     padding-right: 0;
@@ -9747,28 +9790,28 @@ img.mfp-img {
   }
 }
 /* line 129, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__details.js-no-post-image .subheader {
+.has-post-image .card-panel__details .subheader {
   margin-top: 0;
   font-size: 80%;
 }
 /* line 132, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__details.js-no-post-image .subheader .username {
+.has-post-image .card-panel__details .subheader .username {
   font-weight: bold;
 }
 /* line 136, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__details.js-no-post-image .details {
+.has-post-image .card-panel__details .details {
   font-size: 80%;
   margin-bottom: 12px;
 }
 @media only screen and (min-width: 768px) {
   /* line 136, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__details.js-no-post-image .details {
+  .has-post-image .card-panel__details .details {
     margin-bottom: 0;
   }
 }
 
 /* line 145, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__meta.js-no-post-image {
+.has-post-image .card-panel__meta {
   position: relative;
   padding-left: 0;
   padding-right: 0;
@@ -9777,7 +9820,7 @@ img.mfp-img {
 }
 @media only screen and (min-width: 768px) {
   /* line 145, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__meta.js-no-post-image {
+  .has-post-image .card-panel__meta {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
@@ -9789,48 +9832,43 @@ img.mfp-img {
 }
 @media only screen and (min-width: 1024px) {
   /* line 145, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__meta.js-no-post-image {
+  .has-post-image .card-panel__meta {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     width: 50%;
     float: left;
+    float: right;
   }
 }
 @media only screen and (min-width: 1440px) {
   /* line 145, ../../scss/partials/card/panels/_panel.scss */
-  .card-panel__meta.js-no-post-image {
+  .has-post-image .card-panel__meta {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     width: 41.66667%;
     float: left;
+    float: right;
+    text-align: right;
+    margin-top: 0;
   }
 }
-/* line 159, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__meta.js-no-post-image .location {
+/* line 163, ../../scss/partials/card/panels/_panel.scss */
+.has-post-image .card-panel__meta .location {
   margin-bottom: 0;
 }
-/* line 162, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__meta.js-no-post-image .datetime {
+/* line 166, ../../scss/partials/card/panels/_panel.scss */
+.has-post-image .card-panel__meta .datetime {
   margin-bottom: 0;
 }
 
-/* line 167, ../../scss/partials/card/panels/_panel.scss */
+/* line 171, ../../scss/partials/card/panels/_panel.scss */
 .view-post {
   position: absolute;
   bottom: 15px;
   right: 0;
   font-size: 70%;
-}
-
-/* line 174, ../../scss/partials/card/panels/_panel.scss */
-.card-panel__meta--location {
-  position: relative;
-  padding-left: 0;
-  padding-right: 0;
-  width: 66.66667%;
-  float: left;
 }
 
 /*------------------------------------*\
@@ -9900,9 +9938,8 @@ img.mfp-img {
   }
 }
 
-/* line 24, ../../scss/partials/card/panels/_reply-panel.scss */
-.card-reply-location-button,
-.card-reply-more-info-button {
+/* line 23, ../../scss/partials/card/panels/_reply-panel.scss */
+.card-reply-autofill {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -9931,21 +9968,16 @@ img.mfp-img {
   border-radius: 3px;
 }
 /* line 122, ../../scss/foundation/components/_buttons.scss */
-.card-reply-location-button:hover, .card-reply-location-button:focus,
-.card-reply-more-info-button:hover,
-.card-reply-more-info-button:focus {
+.card-reply-autofill:hover, .card-reply-autofill:focus {
   background-color: #d2d5dd;
 }
 /* line 128, ../../scss/foundation/components/_buttons.scss */
-.card-reply-location-button:hover, .card-reply-location-button:focus,
-.card-reply-more-info-button:hover,
-.card-reply-more-info-button:focus {
+.card-reply-autofill:hover, .card-reply-autofill:focus {
   color: #333333;
 }
 @media only screen and (min-width: 768px) {
-  /* line 24, ../../scss/partials/card/panels/_reply-panel.scss */
-  .card-reply-location-button,
-  .card-reply-more-info-button {
+  /* line 23, ../../scss/partials/card/panels/_reply-panel.scss */
+  .card-reply-autofill {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
@@ -9953,10 +9985,19 @@ img.mfp-img {
     float: left;
   }
 }
-@media only screen and (min-width: 1025px) {
-  /* line 24, ../../scss/partials/card/panels/_reply-panel.scss */
-  .card-reply-location-button,
-  .card-reply-more-info-button {
+@media only screen and (min-width: 1024px) {
+  /* line 23, ../../scss/partials/card/panels/_reply-panel.scss */
+  .card-reply-autofill {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  /* line 23, ../../scss/partials/card/panels/_reply-panel.scss */
+  .card-reply-autofill {
     position: relative;
     padding-left: 0.9375em;
     padding-right: 0.9375em;
@@ -9965,19 +10006,19 @@ img.mfp-img {
   }
 }
 
-/* line 35, ../../scss/partials/card/panels/_reply-panel.scss */
-.card-reply-more-info-button {
+/* line 37, ../../scss/partials/card/panels/_reply-panel.scss */
+.card-reply-autofill--more-info {
   margin-left: 20px;
   float: right;
 }
 @media only screen and (min-width: 768px) {
-  /* line 35, ../../scss/partials/card/panels/_reply-panel.scss */
-  .card-reply-more-info-button {
+  /* line 37, ../../scss/partials/card/panels/_reply-panel.scss */
+  .card-reply-autofill--more-info {
     float: left;
   }
 }
 
-/* line 43, ../../scss/partials/card/panels/_reply-panel.scss */
+/* line 45, ../../scss/partials/card/panels/_reply-panel.scss */
 .card-reply-send-button {
   border-style: solid;
   border-width: 1px;
@@ -10016,7 +10057,7 @@ img.mfp-img {
   color: white;
 }
 @media only screen and (min-width: 768px) {
-  /* line 43, ../../scss/partials/card/panels/_reply-panel.scss */
+  /* line 45, ../../scss/partials/card/panels/_reply-panel.scss */
   .card-reply-send-button {
     border-style: solid;
     border-width: 1px;
