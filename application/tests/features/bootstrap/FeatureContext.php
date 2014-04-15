@@ -9,9 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-// We'll use the unittest modules bootstrap to hook into Kohana
-define('PLUGINPATH', __DIR__.'/../../../../plugins/');
-require_once __DIR__.'/../../../../modules/unittest/bootstrap.php';
+// Load bootstrap to hook into Kohana
+require_once __DIR__.'/../../bootstrap.php';
 
 use Behat\Behat\Context\ClosuredContextInterface,
 	Behat\Behat\Context\TranslatedContextInterface,

@@ -1,10 +1,7 @@
-<phpunit colors="true" bootstrap="../../modules/unittest/bootstrap.php">
+<phpunit colors="true" bootstrap="./bootstrap.php">
     <testsuites>
         <testsuite name="Ushahidi Tests">
             <directory>./</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <const name="PLUGINPATH" value="plugins/"/>
-    </php>
 </phpunit>
