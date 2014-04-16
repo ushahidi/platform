@@ -238,7 +238,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 			 **/
 			getValue : function (key)
 			{
-				return this.get('values/' + key);
+				return this.get('values-' + key);
 			},
 
 			isPublished : function ()
@@ -326,7 +326,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				{
 					if( data.values.hasOwnProperty( key ) )
 					{
-						data['values/'+key] = data.values[key];
+						data['values-'+key] = data.values[key];
 					}
 				}
 				delete data.values;
@@ -343,7 +343,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				for (key in data)
 				{
 					if (data.hasOwnProperty( key ) &&
-						key.substr(0, 7) === 'values/')
+						key.substr(0, 7) === 'values-')
 					{
 						values[key.substr(7)] = data[key];
 						delete data[key];

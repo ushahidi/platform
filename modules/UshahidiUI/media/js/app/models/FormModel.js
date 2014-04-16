@@ -80,7 +80,7 @@ define(['jquery', 'backbone', 'App'],
 						added = this.processAttribute(attribute);
 						if (added)
 						{
-							fieldset.fields.push('values/' + attribute.key);
+							fieldset.fields.push('values-' + attribute.key);
 						}
 					}
 
@@ -97,18 +97,18 @@ define(['jquery', 'backbone', 'App'],
 				}
 
 				// Add postValidation
-				this.postValidation['values/' + attribute.key] = {};
-				this.postValidation['values/' + attribute.key].required = attribute.required;
+				this.postValidation['values-' + attribute.key] = {};
+				this.postValidation['values-' + attribute.key].required = attribute.required;
 				if (attribute.postValidation === 'link')
 				{
-					this.postValidation['values/' + attribute.key].pattern = 'url';
+					this.postValidation['values-' + attribute.key].pattern = 'url';
 				}
 
 				// Single value field
 				if (parseInt(attribute.cardinality, 10) === 1)
 				{
 					// Add postSchema
-					this.postSchema['values/' + attribute.key] = {
+					this.postSchema['values-' + attribute.key] = {
 						title : attribute.label,
 						type : inputFieldMap[attribute.input],
 						options : attribute.options
@@ -118,7 +118,7 @@ define(['jquery', 'backbone', 'App'],
 				else
 				{
 					// Use list editor for postSchema
-					this.postSchema['values/' + attribute.key] = {
+					this.postSchema['values-' + attribute.key] = {
 						title : attribute.label,
 						type : 'List',
 						itemToString : valueToString,
@@ -134,8 +134,8 @@ define(['jquery', 'backbone', 'App'],
 					};
 
 					// Pipe postValidation through validateArray
-					this.postValidation['values/' + attribute.key] = {
-						validateArray : this.postValidation['values/' + attribute.key]
+					this.postValidation['values-' + attribute.key] = {
+						validateArray : this.postValidation['values-' + attribute.key]
 					};
 				}
 
