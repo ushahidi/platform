@@ -2,7 +2,7 @@
 
 /**
  * Model for Forms
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
  * @copyright  2013 Ushahidi
@@ -52,7 +52,7 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 			'id' => array(
 				array('numeric')
 			),
-			
+
 			'name' => array(
 				array('not_empty'),
 				array('min_length', array(':value', 3)),
@@ -74,12 +74,12 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
-	protected $_updated_column = array('column' => 'updated', 'format' => 'Y-m-d H:i:s');
+	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
 
 	/**
-	 * Prepare form data for API, along with all its 
+	 * Prepare form data for API, along with all its
 	 * groups and attributes
-	 * 
+	 *
 	 * @return array $response - array to be returned by API (as json)
 	 */
 	public function for_api()
@@ -118,7 +118,7 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 
 		return $response;
 	}
-	
+
 	/**
 	 * Returns the string identifier of the Resource
 	 *

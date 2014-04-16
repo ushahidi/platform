@@ -23,7 +23,7 @@ Feature: Testing OAuth2 endpoints
         Given that I want to make a new "access_token"
         And that the request "data" is:
         """
-          code=4d105df9a7f8645ef8306dd40c7b1952794bf368&grant_type=authorization_code&client_id=demoapp&client_secret=demopass
+          code=4d105df9a7f8645ef8306dd40c7b1952794bf368&grant_type=authorization_code&client_id=demoapp&client_secret=demopass&redirect_uri=http://ushv3.dev/
         """
         And that the api_url is ""
         Then I request "oauth/token"
@@ -166,7 +166,7 @@ Feature: Testing OAuth2 endpoints
         Given that I want to make a new "access_token"
         And that the request "data" is:
         """
-          code=4d105df9a7f8645ef8306dd40c7b1952794bf372&grant_type=authorization_code&client_id=restricted_app&client_secret=demopass
+          code=4d105df9a7f8645ef8306dd40c7b1952794bf372&grant_type=authorization_code&client_id=restricted_app&client_secret=demopass&redirect_uri=http://ushv3.dev/
         """
         And that the api_url is ""
         Then I request "oauth/token"

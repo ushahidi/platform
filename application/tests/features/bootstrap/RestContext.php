@@ -188,9 +188,15 @@ class RestContext extends BehatContext
 			case 'GET':
 				$request = (array)$this->_restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$query_string = ( isset($request['query string']) ) ? '?'.trim($request['query string']) : '';
 				$http_request = $this->_client
-					->get($this->_requestUrl.'/'.$id.$query_string);
+					->get($this->_requestUrl.'/'.$id);
+
+				if (isset($request['query string']))
+				{
+					$url = $http_request->getUrl(TRUE);
+					$url->setQuery((string) trim($request['query string']));
+					$http_request->setUrl($url);
+				}
 				break;
 			case 'POST':
 				$request = (array)$this->_restObject;
