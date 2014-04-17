@@ -10,69 +10,98 @@
 define([ 'App', 'marionette', 'handlebars', 'jquery', 'alertify', 'underscore', 'text!templates/Settings.html', 'models/ConfigModel'],
 	function( App, Marionette, Handlebars, $, alertify, _, template, ConfigModel)
 	{
+		var updateConfig = function(group, hash)
+		{
+			var promises = [];
+
+			_.each(hash, function(value, key)
+				{
+					// create a model for each config change
+					var model = new ConfigModel({
+							group_name: group,
+							config_key: key,
+							config_value: value
+						});
+
+					// save model, store the promise
+					promises.push(model.save());
+				});
+
+			// when all model saving is completed...
+			$.when.apply(this, promises)
+				.done(function (/* model, response, options*/)
+					{
+						var oldGroup = _.clone(App.config[group]),
+							newConfig = {};
+						
+						newConfig[group] = _.extend(oldGroup, hash);
+
+						// trigger a config update throughout the app
+						App.updateConfig(newConfig);
+
+						alertify.success('Settings saved.');
+
+						// return to previous page
+						// this is weird, see T199
+						window.history.back();
+					})
+				.fail(function (response /*, xhr, options*/)
+					{
+						alertify.error('Unable to save settings, please try again.');
+						if (response.errors) {
+							ddt.log('debug', response.errors);
+						}
+					});
+		};
+
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
 			initialize: function() {
 
 			},
 			events : {
-				'submit form' : 'formSubmitted',
+				'submit .settings-site form' : 'formSubmitSite',
+				'submit .settings-features form' : 'formSubmitFeatures'
 			},
 			serializeData : function()
 			{
 				return {
-					site_name : App.config.site.site_name,
-					owner_name : App.config.site.owner_name,
+					site : App.config.site,
+					features : App.config.features
 				};
 			},
-			formSubmitted : function(e)
+			formSubmitSite : function(e)
 			{
 				e.preventDefault();
 
-				var site_name = this.$('#site_name').val(),
-					owner_name = this.$('#owner_name').val(),
-					site_name_model,
-					owner_name_model;
+				var form = this.$(e.target),
+					data = form.serializeArray(),
+					group = 'site',
+					hash = {};
 
-				site_name_model = new ConfigModel({
-					config_key: 'site_name',
-					group_name: 'site',
-					config_value : site_name
+				_.each(data, function(input) {
+					hash[input.name] = input.value;
 				});
-				site_name_model.id = 'site_name';
 
-				owner_name_model = new ConfigModel({
-					config_key: 'owner_name',
-					group_name: 'site',
-					config_value : owner_name
+				ddt.log('settings', 'update', group, hash);
+				updateConfig(group, hash);
+			},
+			formSubmitFeatures : function(e)
+			{
+				e.preventDefault();
+
+				var form = this.$(e.target),
+					data = form.serializeArray(),
+					group = 'features',
+					hash = {};
+
+				_.each(data, function(input) {
+					// all feature values are boolean!
+					hash[input.name] = (input.value === 'true');
 				});
-				owner_name_model.id = 'owner_name';
 
-				$.when(site_name_model.save(), owner_name_model.save())
-					.done(function (/* model, response, options*/)
-						{
-							var newSite;
-
-							alertify.success('Settings saved.');
-
-							// Update config
-							newSite = _.clone(App.config.site);
-							newSite.site_name = site_name,
-							newSite.owner_name = owner_name;
-							App.updateConfig({ site : newSite });
-
-							window.history.back();
-						})
-					.fail(function (response /*, xhr, options*/)
-						{
-							alertify.error('Unable to save settings, please try again.');
-							// validation error
-							if (response.errors)
-							{
-								// @todo Display this error somehow
-								console.log(response.errors);
-							}
-						});
+				ddt.log('settings', 'update', group, hash);
+				updateConfig(group, hash);
 			}
 		});
 	});

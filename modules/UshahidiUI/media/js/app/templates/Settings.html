@@ -1,62 +1,61 @@
 <article class="body-wrapper">
 	<div class="row">
-<section class="login-box">
-	<div class="post-header">
-		<h5>Site Settings</h5>
-	</div> <!-- end .post-header -->
 
-	<div class="post-body">
-		<div class="login-form-wrapper">
+		<section class="settings-box">
+			<div class="post-header">
+				<h5>Site Settings</h5>
+			</div> <!-- end .post-header -->
 
-			<div class="login-form">
-				<form action="">
-					<label for="site-name"><h6>Site Name</h6></label>
-					<input type="text" id="site_name" name="site_name" placeholder="My Deployment" required value="{{site_name}}">
+			<div class="post-body">
+				<div class="settings-form-wrapper">
 
-					<label for="owner_name"><h6>Site Owner Name</h6></label>
-					<input type="text" id="owner_name" name="owner_name" placeholder="Crowdsourcing Inc" required value="{{owner_name}}">
+					<div class="settings-form settings-site">
+						<form action="" data-group="site">
+							<label for="site-name"><h6>Site Name</h6></label>
+							<input type="text" id="site_name" name="site_name" placeholder="My Deployment" required value="{{site.site_name}}">
 
-					<input type="submit" name="submit" value="Save Settings" class="submit-button">
+							<label for="owner_name"><h6>Site Owner Name</h6></label>
+							<input type="text" id="owner_name" name="owner_name" placeholder="Crowdsourcing Inc" required value="{{site.owner_name}}">
 
-				</form> <!-- end .form -->
-			</div> <!-- end .login-form -->
+							<div class="settings-button-wrapper">
+								<button type="submit" class="settings-button"><i class="fa  fa-cloud-upload  fa-lg"></i> Save Site Settings</button>
+							</div>
 
-			<!--<div class="social-login">
-				<div class="social-buttons">
-					<p class="medium-text">You can also login with these social accounts</p>
-					<div class="facebook-button-wrapper">
-						<a href="" class="facebook-button"><i class="fa  fa-facebook-square"></i>Facebook</a>
-					</div>
-					<div class="twitter-button-wrapper">
-						<a href="" class="twitter-button"><i class="fa  fa-twitter-square"></i>Twitter</a>
-					</div>
-					<div class="google-button-wrapper">
-						<a href="" class="google-button"><i class="fa  fa-google-plus-square"></i>Google</a>
-					</div>
-				</div>
+						</form> <!-- end .form -->
+					</div> <!-- end .settings-site -->
 
-				<div class="open-id">
-						<p class="medium-text">or use your OpenID</p>
-						<div class="open-id-input">
-							<input type="text" name="open-id" placeholder="Your OpenID">
-						</div>
-						<div class="open-id-submit">
-							<button type="submit">Go</button>
-						</div>
+				</div> <!-- end .settings-form-wrapper -->
 
-				</div>
+				<div class="settings-form-wrapper">
 
-				<div class="login-disclaimer">
-					<small><i class="fa  fa-asterisk"></i>You may need to disable popup blockers to register with the above sites.</small>
-				</div>
+					<div class="settings-form settings-features">
+						<form action="" data-group="features">
+							<h6>Features</h6>
 
-			</div> <!-- end .social-login -->
+							{{! ensure that all features have a default of "false"}}
+							{{#each features}}
+							<input type="hidden" name="{{@key}}" value="false">
+							{{/each}}
 
-		</div> <!-- end .login-form-wrapper -->
+							{{#each features}}
+							<label>
+								<input type="checkbox" name="{{@key}}" value="true"{{#if this}} checked="checked"{{/if}}>
+								{{@key}}
+							</label>
+							{{/each}}
 
-	</div> <!-- end .post-body -->
+							<div class="settings-button-wrapper">
+								<button type="submit" class="settings-button"><i class="fa  fa-cloud-upload  fa-lg"></i> Save Features</button>
+							</div>
 
-</section> <!-- end .login-box -->
+						</form> <!-- end .form -->
+					</div> <!-- end .settings-site -->
 
-</div>
+				</div> <!-- end .settings-form-wrapper -->
+
+			</div> <!-- end .post-body -->
+
+		</section> <!-- end .settings-box -->
+
+	</div>
 </article>

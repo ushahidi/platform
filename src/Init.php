@@ -55,6 +55,8 @@ function service($what = null) {
 }
 
 $services = service();
+
+// Standard services
 $services['config'] = function($c) {
 	return new $c['config.storage']($c['config.backend']);
 };
@@ -62,3 +64,12 @@ $services['config'] = function($c) {
 // $app['user'] = function($c) {
 // 	return new $c['user.storage'];
 // };
+
+// Formatters and other helpers
+$services['config.format.hash'] = $services->protect(function(array $configGroup) {
+	$hash = array();
+	foreach ($configGroup as $config) {
+		$hash[$config->key] = $config->value;
+	}
+	return $hash;
+});

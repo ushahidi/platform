@@ -1,0 +1,45 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * GENERAL...............modular styles for settings page
+ */
+
+
+/*------------------------------------*\
+    GENERAL
+\*------------------------------------*/
+
+.error {
+	@include alert($alert-color);
+}
+
+.settings-box {
+	margin-top: 50px;
+	@media #{$small} {
+		@include grid-column(6, $center: true);
+	}
+}
+
+.settings-form-wrapper {
+	@include grid-column(12);
+	border-bottom: 1px solid $secondary-color;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.settings-form {
+	margin-bottom: 20px;
+	input[type="checkbox"] {
+		margin-right: 10px;
+	}
+}
+
+.settings-button-wrapper {
+	text-align: right;
+}
+
+.settings-button {
+	@include button($bg: $success-color, $radius: true);
+	margin: 20px 0 10px 0;
+}

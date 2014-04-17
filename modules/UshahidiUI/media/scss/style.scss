@@ -177,6 +177,9 @@ NOTE: comment out what I don't use
 @import "modules/workspace/tools/manage-tags/manage-tags";
 @import "modules/workspace/incoming-messages/messages/messages";
 
+/*SETTINGS*/
+@import "modules/settings/settings";
+
 /*HOME*/
 @import "modules/home/bulk-actions";
 

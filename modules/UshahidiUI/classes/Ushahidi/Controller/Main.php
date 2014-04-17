@@ -15,14 +15,26 @@ abstract class Ushahidi_Controller_Main extends Controller_Template {
 
 	public function action_index()
 	{
-		$this->template->site = array();
-		$this->template->site['baseurl'] = URL::base(TRUE, TRUE);
-		$this->template->site['imagedir'] = Media::uri('/images/');
-		$this->template->site['cssdir'] = Media::uri('/css/');
-		$this->template->site['jsdir'] = Media::uri('/js/');
-		$this->template->site['oauth'] = Kohana::$config->load('ushahidiui.oauth');
-		$this->template->site['site'] = Kohana::$config->load('site');
+		// access the config service
+		$config = service('config');
 
+		// config results will be formatted as a hash
+		$hash = service('config.format.hash');
+
+		$this->template->config = array(
+			// these values can be modified in db
+			'site'     => $hash($config->all('site')),
+			'features' => $hash($config->all('features')),
+
+			// these can only be set in config files
+			'oauth'    => Kohana::$config->load('ushahidiui.oauth'),
+
+			// these are set dynamically
+			'baseurl'  => URL::base(TRUE, TRUE),
+			'imagedir' => Media::uri('/images/'),
+			'cssdir'   => Media::uri('/css/'),
+			'jsdir'    => Media::uri('/js/'),
+		);
 	}
 
 }

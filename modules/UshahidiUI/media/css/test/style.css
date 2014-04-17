@@ -13696,6 +13696,109 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
    $MESSAGE CARD
 \*------------------------------------*/
+/*SETTINGS*/
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * GENERAL...............modular styles for settings page
+ */
+/*------------------------------------*\
+    GENERAL
+\*------------------------------------*/
+/* line 13, ../../scss/modules/settings/_settings.scss */
+.error {
+  border-style: solid;
+  border-width: 1px;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1.25em;
+  position: relative;
+  padding: 0.6875em 1.3125em 0.75em 0.6875em;
+  font-size: 0.875em;
+  background-color: #c50813;
+  border-color: #94060e;
+  color: white;
+}
+
+/* line 17, ../../scss/modules/settings/_settings.scss */
+.settings-box {
+  margin-top: 50px;
+}
+@media only screen and (min-width: 768px) {
+  /* line 17, ../../scss/modules/settings/_settings.scss */
+  .settings-box {
+    position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    float: none !important;
+    float: left;
+  }
+}
+
+/* line 24, ../../scss/modules/settings/_settings.scss */
+.settings-form-wrapper {
+  position: relative;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
+  width: 100%;
+  float: left;
+  border-bottom: 1px solid #eff0f3;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+/* line 31, ../../scss/modules/settings/_settings.scss */
+.settings-form {
+  margin-bottom: 20px;
+}
+/* line 33, ../../scss/modules/settings/_settings.scss */
+.settings-form input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* line 38, ../../scss/modules/settings/_settings.scss */
+.settings-button-wrapper {
+  text-align: right;
+}
+
+/* line 42, ../../scss/modules/settings/_settings.scss */
+.settings-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: normal;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.75em;
+  padding-right: 1.5em;
+  padding-bottom: 0.8125em;
+  padding-left: 1.5em;
+  font-size: 1em;
+  background-color: #3cb81c;
+  border-color: #2e8c15;
+  color: white;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  margin: 20px 0 10px 0;
+}
+/* line 122, ../../scss/foundation/components/_buttons.scss */
+.settings-button:hover, .settings-button:focus {
+  background-color: #2e8c15;
+}
+/* line 133, ../../scss/foundation/components/_buttons.scss */
+.settings-button:hover, .settings-button:focus {
+  color: white;
+}
+
 /*HOME*/
 /*------------------------------------*\
     $CONTENTS

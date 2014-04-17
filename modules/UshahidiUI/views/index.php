@@ -33,7 +33,7 @@
 		<!-- Global site config -->
 		<script type="text/javascript">
 		  (function() {
-		    window.config = <?php echo json_encode($site); ?>;
+		    window.config = <?php echo json_encode($config, JSON_FORCE_OBJECT); ?>;
 		  })();
 		</script>
 		<!-- end global site config -->
