@@ -32,7 +32,8 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 
 		'sets' => array('through' => 'posts_sets'),
 		'tags' => array('through' => 'posts_tags'),
-
+		'media' => array('through' => 'posts_media'),
+		
 		'children' => array(
 			'model'  => 'Post',
 			'foreign_key' => 'parent_id',

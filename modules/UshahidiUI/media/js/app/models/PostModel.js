@@ -117,6 +117,10 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 					mainFields = ['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email'];
 				}
 
+				if (App.feature('media_uploads')) {
+					mainFields.push('media');
+				}
+
 				// Extend with form schema if form_id is set
 				if (this.get('form'))
 				{

@@ -35,8 +35,8 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 					token: window.config.baseurl + 'oauth/token',
 					redirect_uri: window.config.baseurl,
 					scopes: {
-						request: ['posts', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages'],
-						require: ['posts', 'forms', 'api', 'tags', 'sets', 'users']
+						request: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages'],
+						require: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users']
 					},
 					grant_type: 'client_credentials'
 				});
@@ -48,8 +48,8 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 					//token: window.config.baseurl + 'oauth/token',
 					redirect_uri: window.config.baseurl,
 					scopes: {
-						request: ['posts', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages'],
-						require: ['posts', 'forms', 'api', 'tags', 'sets', 'users']
+						request: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages'],
+						require: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users']
 					},
 					grant_type: 'implicit'
 				});
@@ -103,12 +103,24 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 			 */
 			setProvider : function(provider_name)
 			{
-				var provider = this.provider = this.providers[provider_name];
+				var that = this,
+					provider = this.provider = this.providers[provider_name];
 
 				// Ensure we have an access token before everything starts
-				return provider.getToken(function() {
+				return provider.getToken(function(token) {
 					// If we've got a token here, check if we're logged in etc.
+					that.currentToken = token;
 				});
+			},
+			/**
+			 * Get authorization headers, ie for an xhr.
+			 */
+			getAuthHeaders : function () {
+				var headers = {};
+				if (this.currentToken) {
+					headers.Authorization = 'Bearer ' + this.currentToken.access_token;
+				}
+				return headers;
 			},
 			/**
 			 * Login: Trigger login via implicit flow
@@ -123,6 +135,7 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 			logout : function ()
 			{
 				var xhr = this.setProvider('client_credentials');
+				this.currentToken = null;
 				this.providers.implicit.wipeTokens();
 				// Redirect to /user/logout
 				window.location = window.config.baseurl + 'user/logout?from_url=/';
