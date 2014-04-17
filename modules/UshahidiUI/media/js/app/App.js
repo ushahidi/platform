@@ -22,6 +22,14 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			return OAuth.provider.providerID === 'ushahidi_implicit';
 		};
 
+		// Quick helper to determine if a feature is enabled
+		App.feature = function(name) {
+			if (!App.config || !App.config.features) {
+				return false;
+			}
+			return Boolean(App.config.features[name]);
+		};
+
 		//Organize Application into regions corresponding to DOM elements
 		//Regions can contain views, Layouts, or subregions nested as necessary
 		App.addRegions(

@@ -36,7 +36,7 @@ spl_autoload_register(function($class) {
 	}
 });
 
-// create global depdendency container, using Pimple:
+// global depdendency container, using Pimple:
 // http://pimple.sensiolabs.org/
 function service($what = null) {
 	static $container;
@@ -53,6 +53,18 @@ function service($what = null) {
 	}
 	return $container;
 }
+
+// global feature checking
+function feature($name) {
+	$config = service('config');
+	try {
+		$conf = $config->get('features', $name);
+	} catch (\Exception $e) {
+		return false;
+	}
+	return (bool) $conf->value;
+}
+
 
 $services = service();
 
