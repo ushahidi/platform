@@ -139,7 +139,7 @@ form_attributes:
     required: 0
     priority: 5
     options: ""
-    cardinality: 1
+    cardinality: 0
   -
     id: 9
     label: "Geometry test"

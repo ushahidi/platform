@@ -10,17 +10,19 @@ Feature: Testing the Posts API
 		And the "features.3.geometry.coordinates.0" property equals "1"
 		And the "features.3.geometry.coordinates.1" property equals "1"
 		Then the guzzle status code should be 200
-	
+
 	Scenario: Find a Post as GeoJSON
 		Given that I want to find a "Post"
 		When I request "/posts/1/geojson"
 		Then the response is JSON
 		And the response has a "type" property
 		And the response has a "features" property
-		And the "features.0.geometry.geometries.0.type" property equals "Point"
-		And the "features.0.geometry.geometries.1.type" property equals "MultiPolygon"
+		And the "features.0.properties.attribute_key" property equals "last_location_point"
+		And the "features.0.geometry.type" property equals "Point"
+		And the "features.2.properties.attribute_key" property equals "geometry_test"
+		And the "features.2.geometry.type" property equals "MultiPolygon"
 		Then the guzzle status code should be 200
-	
+
 	Scenario: Find a Post as GeoJSON
 		Given that I want to find a "Post"
 		When I request "/posts/99/geojson"

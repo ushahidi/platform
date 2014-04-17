@@ -59,6 +59,8 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 				{
 					this.dataUrl = options.dataUrl;
 				}
+
+				App.vent.on('map:showValue', this.showPostValue, this);
 			},
 
 			// Use onDomRefresh rather than render() because we need this.$el in the DOM first
@@ -94,6 +96,19 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 						if (feature.properties && feature.properties.title)
 						{
 							layer.bindPopup(that.popupTemplate(feature.properties));
+
+							// If we have an attribute key, bind showValue events
+							// NB: not check feature.properties.value_id - this can be undefined sometimes and thats fine.
+							if (feature.properties.attribute_key)
+							{
+								ddt.log('MapView', 'Binding event showValue:'+ feature.properties.attribute_key +':'+ feature.properties.value_id);
+								that.stopListening(that, 'showValue:'+ feature.properties.attribute_key +':'+ feature.properties.value_id);
+								that.listenTo(
+									that,
+									'showValue:'+ feature.properties.attribute_key +':'+ feature.properties.value_id,
+									_.partial(that.showValuePopup, layer)
+								);
+							}
 						}
 					}
 				}).addTo(this.map);
@@ -228,6 +243,18 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 					},
 					data : (typeof this.collection !== 'undefined') ? this.collection.getFilterParams() : {}
 				});
+			},
+
+			showPostValue : function(data)
+			{
+				ddt.log('MapView', 'showing post value', data);
+				this.trigger('showValue:'+data.key+':'+data.value_id);
+			},
+
+			showValuePopup : function (layer)
+			{
+				ddt.log('MapView', 'showing popup', layer);
+				layer.openPopup();
 			}
 		});
 	});

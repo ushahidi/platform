@@ -47,7 +47,7 @@ class Migration_Demo_data_20140416012649 extends Minion_Migration_Base {
 			(5,'date_of_birth','Date of birth','date','datetime',0,NULL,3,'',1),
 			(6,'missing_date','Missing date','date','datetime',0,NULL,4,'',1),
 			(7,'last_location','Last Location','text','varchar',1,NULL,5,'',1),
-			(8,'last_location_point','Last Location (point)','location','point',0,NULL,5,'',1),
+			(8,'last_location_point','Last Location (point)','location','point',0,NULL,5,'',0),
 			(9,'geometry_test','Geometry test','text','geometry',0,NULL,5,'',1),
 			(10,'missing_status','Status','select','varchar',0,NULL,5,'[\\\"information_sought\\\",\\\"is_note_author\\\",\\\"believed_alive\\\",\\\"believed_missing\\\",\\\"believed_dead\\\"]',0),
 			(11,'links','Links','text','link',0,NULL,7,NULL,0),
@@ -153,7 +153,8 @@ class Migration_Demo_data_20140416012649 extends Minion_Migration_Base {
 			(3,9999,8, POINT(10.123, 26.213),0),
 			(4,95,8, POINT(1, 1),0),
 			(5,95,12, POINT(1.2, 0.5),0),
-			(6,97,8, POINT(1, 1),0)
+			(6,97,8, POINT(1, 1),0),
+			(7,1,8, POINT(12.223, 21.313),0);
 		");
 
 		$db->query(NULL, "TRUNCATE `post_text`");
