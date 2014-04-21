@@ -91,6 +91,8 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 			$upload_path = Kohana::$config->load('media.media_upload_dir');
 			$relative_path = str_replace(Kohana::$config->load('imagefly.media_dir'),'',Kohana::$config->load('media.media_upload_dir'));
 
+			$original_file = $upload_path . $this->o_filename;
+
 			$response = array(
 				'id' => $this->id,
 				'user' => empty($this->user_id) ? NULL : array(
@@ -101,7 +103,7 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 				'caption' => $this->caption,
 				'mime' => $this->mime,
 				'original_file_url' => URL::site(Media::uri($relative_path.$this->o_filename), Request::current()),
-				'original_file_size' => filesize($upload_path.$this->o_filename),
+				'original_file_size' => is_file($original_file) ? filesize($upload_path.$this->o_filename) : 0,
 				'original_width' => $this->o_width,
 				'original_height' => $this->o_height,
 				'medium_file_url' => $this->_resized_url($medium_width, $medium_height, $relative_path.$this->o_filename),
