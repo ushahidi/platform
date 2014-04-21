@@ -1,5 +1,7 @@
 {
-    "require" : {},
+    "require" : {
+        "pimple/pimple": "2.0.*"
+    },
     "require-dev": {
         "behat/behat": "2.4.*@stable",
         "guzzle/guzzle": "3.7.*",
@@ -16,6 +18,11 @@
     "minimum-stability": "dev",
     "config": {
         "bin-dir": "bin/"
+    },
+    "autoload": {
+        "psr-0": {
+            "Ushahidi\\": "src"
+        }
     },
     "repositories": [
         {
