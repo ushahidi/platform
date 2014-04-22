@@ -13,7 +13,9 @@ env:
 before_install:
 - sudo apt-get update
 - sudo apt-get install npm
+- git submodule sync
 - git submodule update --init --recursive
+- git clean -fd modules/
 install:
 - npm install -g grunt-cli
 - composer install --no-interaction --prefer-source
