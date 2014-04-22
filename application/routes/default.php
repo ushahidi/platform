@@ -107,10 +107,10 @@ Route::set('current-user', 'api/v2/users/me')
 /**
  * Config API Route
  */
-Route::set('config-api', 'api/v2/config(/<group>(/<id>))',
+Route::set('config-api', 'api/v2/config(/<id>(/<key>))',
 	array(
-		'group' => '[a-zA-Z_-]+',
-		'id' => '[a-zA-Z_.-]+'
+		'id' => '[a-zA-Z_-]+',
+		'key' => '[a-zA-Z_.-]+'
 	))
 	->defaults(array(
 		'action'     => 'index',

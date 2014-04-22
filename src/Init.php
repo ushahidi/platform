@@ -19,7 +19,7 @@ function service($what = null) {
 	static $container;
 	if (!$container) {
 		$container = new \Pimple(array(
-			'config.storage' => '\Ushahidi\Storage\Config',
+			'config.storage' => '\Ushahidi\Storage\Kohana\ConfigRepository',
 			// 'user.storage' => '\Ushahidi\Storage\User\KohanaORM',
 		));
 	}
@@ -33,11 +33,11 @@ function service($what = null) {
 function feature($name) {
 	$config = service('config');
 	try {
-		$conf = $config->get('features', $name);
+		$conf = $config->get('features');
 	} catch (\Exception $e) {
 		return false;
 	}
-	return (bool) $conf->value;
+	return !empty($conf->$name);
 }
 
 
@@ -51,12 +51,3 @@ $services['config'] = function($c) {
 // $app['user'] = function($c) {
 // 	return new $c['user.storage'];
 // };
-
-// Formatters and other helpers
-$services['config.format.hash'] = $services->protect(function(array $configGroup) {
-	$hash = array();
-	foreach ($configGroup as $config) {
-		$hash[$config->key] = $config->value;
-	}
-	return $hash;
-});

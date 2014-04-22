@@ -18,13 +18,10 @@ abstract class Ushahidi_Controller_Main extends Controller_Template {
 		// access the config service
 		$config = service('config');
 
-		// config results will be formatted as a hash
-		$hash = service('config.format.hash');
-
 		$this->template->config = array(
 			// these values can be modified in db
-			'site'     => $hash($config->all('site')),
-			'features' => $hash($config->all('features')),
+			'site'     => $config->get('site')->asArray(),
+			'features' => $config->get('features')->asArray(),
 
 			// these can only be set in config files
 			'oauth'    => Kohana::$config->load('ushahidiui.oauth'),

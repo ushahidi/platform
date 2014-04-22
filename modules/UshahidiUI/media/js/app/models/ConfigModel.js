@@ -13,13 +13,13 @@ define(['jquery', 'backbone', 'App'],
 		{
 			urlRoot: function() {
 				var root = App.config.baseurl + 'api/v2/config',
-					group = this.get('group_name');
+					group = this.get('@group');
 				if (group) {
 					root += '/' + group;
 				}
 				return root;
 			},
-			idAttribute : 'config_key'
+			idAttribute : '@group'
 		});
 
 		return ConfigModel;

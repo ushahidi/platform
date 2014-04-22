@@ -53,7 +53,7 @@ class Controller_Api_Config extends Ushahidi_Api {
 	}
 
 	/**
-	 * Retrieve All Config
+	 * Retrieve All Configs
 	 *
 	 * GET /api/config
 	 *
@@ -61,16 +61,16 @@ class Controller_Api_Config extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$group = $this->request->param('group');
+		$groups = (array) $this->request->query('groups');
 
 		$repo = service('config');
 		try
 		{
-			$results = $repo->all($group);
+			$results = $repo->all($groups);
 		}
 		catch (InvalidArgumentException $e)
 		{
-			throw HTTP_Exception::factory(400, $e->getMessage());
+			throw HTTP_Exception::factory(404, $e->getMessage());
 		}
 
 		$results = array_map(array($this, '_for_api'), $results);
@@ -84,62 +84,60 @@ class Controller_Api_Config extends Ushahidi_Api {
 	}
 
 	/**
-	 * Retrieve A Config Value
+	 * Retrieve A Config
 	 *
-	 * GET /api/config/:group/:key
+	 * GET /api/config/:group
 	 *
 	 * @return void
 	 */
 	public function action_get_index()
 	{
-		$group = $this->request->param('group');
-		$key = $this->request->param('id');
+		$group = $this->request->param('id');
 
 		$repo = service('config');
 		try
 		{
-			$config = $repo->get($group, $key);
+			$config = $repo->get($group);
 		}
 		catch (InvalidArgumentException $e)
 		{
-			throw HTTP_Exception::factory(400, $e->getMessage());
+			throw HTTP_Exception::factory(404, $e->getMessage());
 		}
 
 		$this->_response_payload = $this->_for_api($config);
 	}
 
 	/**
-	 * Update A Tag
+	 * Update A Config
 	 *
-	 * PUT /api/config/:group/:key
+	 * PUT /api/config/:group
 	 *
 	 * @return void
 	 */
 	public function action_put_index()
 	{
 		$post = $this->_request_payload;
-		$group = $this->request->param('group');
-		$key = $this->request->param('id');
+		$group = $this->request->param('id');
 
 		$repo = service('config');
 		try
 		{
-			$config = $repo->set($group, $key, $post['config_value']);
+			foreach ($post as $key => $value)
+			{
+				$repo->set($group, $key, $value);
+			}
 		}
 		catch (InvalidArgumentException $e)
 		{
-			throw HTTP_Exception::factory(400, $e->getMessage());
+			throw HTTP_Exception::factory(404, $e->getMessage());
 		}
 
-		$this->_response_payload = $this->_for_api($config);
+		return $this->action_get_index();
 	}
 
 	protected function _for_api(\Ushahidi\Entity\Config $config)
 	{
-		return array(
-			'group_name' => $config->group,
-			'config_key' => $config->key,
-			'config_value' => $config->value,
+		return (array) $config + array(
 			'allowed_methods' => $this->_allowed_methods()
 		);
 	}

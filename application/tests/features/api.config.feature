@@ -6,9 +6,8 @@ Feature: Testing the Config API
         And that the request "data" is:
             """
             {
-                "group_name":"site",
-                "config_key":"test",
-                "config_value":"Test value"
+                "@group":"test",
+                "test":"Test value"
             }
             """
         When I request "/config"
@@ -19,31 +18,27 @@ Feature: Testing the Config API
         And that the request "data" is:
             """
             {
-                "config_value":"Updated value"
+                "testkey":"i am a teapot?"
             }
             """
-        And that its "id" is "test"
-        When I request "/config/site"
+        When I request "/config/test"
         Then the response is JSON
-        And the "group_name" property equals "site"
-        And the "config_key" property equals "test"
-        And the "config_value" property equals "Updated value"
+        And the "@group" property equals "test"
+        And the "testkey" property equals "i am a teapot?"
         Then the guzzle status code should be 200
 
-    Scenario: Creating a new Config with PUT
+    Scenario: Adding to Config with PUT
         Given that I want to update a "Config"
         And that the request "data" is:
             """
             {
-                "config_value":"new test value"
+                "nothing":"new test value"
             }
             """
-        And that its "id" is "nothing"
-        When I request "/config/site"
+        When I request "/config/test"
         Then the response is JSON
-        And the "group_name" property equals "site"
-        And the "config_key" property equals "nothing"
-        And the "config_value" property equals "new test value"
+        And the "@group" property equals "test"
+        And the "nothing" property equals "new test value"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -53,38 +48,36 @@ Feature: Testing the Config API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "5"
+        And the "count" property equals "3"
         Then the guzzle status code should be 200
 
     @resetFixture
-    Scenario: Search All Configs in a group
+    Scenario: Search for Configs by Group
         Given that I want to get all "Configs"
-        When I request "/config/test"
+        And that the request "query string" is "groups[]=test&groups[]=site"
+        When I request "/config"
         Then the response is JSON
-        And the "count" property equals "1"
-        And the "results.0.config_key" property equals "testkey"
+        And the "count" property equals "2"
+        And the "results.0.@group" property equals "test"
+        And the "results.1.@group" property equals "site"
         Then the guzzle status code should be 200
 
     Scenario: Finding a Config
         Given that I want to find a "Config"
-        And that its "id" is "site_name"
-        When I request "/config/site/"
+        When I request "/config/test"
         Then the response is JSON
-        And the "group_name" property equals "site"
-        And the "config_key" property equals "site_name"
+        And the "@group" property equals "test"
         Then the guzzle status code should be 200
 
-#    Scenario: Finding a non-existent Config
-#        Given that I want to find a "Config"
-#        And that its "id" is "nothing"
-#        When I request "/config/site"
-#        Then the response is JSON
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 404
+    Scenario: Finding a non-existent Config
+        Given that I want to find a "Config"
+        When I request "/config/nonexistingconfigshouldfail"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 404
 
     Scenario: Deleting a Config
         Given that I want to delete a "Config"
-        And that its "id" is "site_name"
-        When I request "/config/site"
+        When I request "/config/test"
         Then the guzzle status code should be 405
 

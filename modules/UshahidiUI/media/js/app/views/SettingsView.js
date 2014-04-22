@@ -12,23 +12,10 @@ define([ 'App', 'marionette', 'handlebars', 'jquery', 'alertify', 'underscore', 
 	{
 		var updateConfig = function(group, hash)
 		{
-			var promises = [];
+			var model = new ConfigModel({'@group': group});
 
-			_.each(hash, function(value, key)
-				{
-					// create a model for each config change
-					var model = new ConfigModel({
-							group_name: group,
-							config_key: key,
-							config_value: value
-						});
 
-					// save model, store the promise
-					promises.push(model.save());
-				});
-
-			// when all model saving is completed...
-			$.when.apply(this, promises)
+			model.set(hash).save()
 				.done(function (/* model, response, options*/)
 					{
 						var oldGroup = _.clone(App.config[group]),

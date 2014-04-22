@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Repository;
+namespace Ushahidi\Entity;
 
-interface Config
+interface ConfigRepository
 {
 
 	/**
@@ -20,23 +20,22 @@ interface Config
 	public function groups();
 
 	/**
-	 * @param  string $group
+	 * @param  array $groups
 	 * @return array
 	 */
-	public function all($group = null);
+	public function all(array $groups = null);
 
 	/**
 	 * @param  string $group
-	 * @param  string $key
-	 * @return mixed
+	 * @return \Ushahidi\Entity\Config
 	 */
-	public function get($group, $key);
+	public function get($group);
 
 	/**
 	 * @param  string $group
 	 * @param  string $key
 	 * @param  mixed  $value
-	 * @return mixed
+	 * @return \Ushahidi\Entity\Config
 	 */
 	public function set($group, $key, $value);
 
