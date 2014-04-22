@@ -1,27 +1,6 @@
-[submodule "system"]
-	path = system
-	url = git://github.com/kohana/core.git
-[submodule "modules/minion"]
-	path = modules/minion
-	url = git://github.com/kohana/minion.git
 [submodule "modules/migrations"]
 	path = modules/migrations
 	url = git://github.com/kohana-minion/tasks-migrations.git
-[submodule "modules/database"]
-	path = modules/database
-	url = git://github.com/kohana/database.git
-[submodule "modules/orm"]
-	path = modules/orm
-	url = git://github.com/kohana/orm.git
-[submodule "modules/image"]
-	path = modules/image
-	url = git://github.com/kohana/image.git
-[submodule "modules/cache"]
-	path = modules/cache
-	url = git://github.com/kohana/cache.git
-[submodule "modules/unittest"]
-	path = modules/unittest
-	url = git://github.com/kohana/unittest.git
 [submodule "application/vendor/gisconverter"]
 	path = application/vendor/gisconverter
 	url = git://github.com/rjmackay/gisconverter.php.git

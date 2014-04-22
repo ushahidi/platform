@@ -1,6 +1,13 @@
 {
     "require" : {
-        "pimple/pimple": "2.0.*"
+        "pimple/pimple": "2.0.*",
+        "kohana/core" : "3.3.*@dev",
+        "kohana/database" : "3.3.*@dev",
+        "kohana/cache" : "3.3.*@dev",
+        "kohana/orm" : "3.3.*@dev",
+        "kohana/image" : "3.3.*@dev",
+        "kohana/minion" : "3.3.*@dev",
+        "kohana/unittest" : "3.3.*@dev"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",

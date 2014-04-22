@@ -26,7 +26,7 @@ $plugins = __DIR__ . '/../plugins';
  *
  * @see  http://kohanaframework.org/guide/about.install#system
  */
-$system = __DIR__ . '/../system';
+$system = __DIR__ . '/../vendor/kohana/core';
 
 /**
  * The default extension of resource files. If you change this, all resources

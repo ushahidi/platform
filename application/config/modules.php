@@ -10,13 +10,15 @@
  */
 
 return array(
+	// Composer packages
 	'cache'      => MODPATH.'cache',      // Caching with multiple backends
-	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'minion'     => MODPATH.'minion',
+
+	// Repo packages
 	'migrations' => MODPATH.'migrations',
 	'koauth'     => MODPATH.'koauth',
 	'media'      => MODPATH.'media',
@@ -28,5 +30,7 @@ return array(
 	'KO3-Event'  => MODPATH.'KO3-Event',
 	'data-provider'  => MODPATH.'data-provider',
 	'email'      => MODPATH.'email',
-	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+
+	// Custom packages
+	// 'acme' => MODPATH.'acme',
 );

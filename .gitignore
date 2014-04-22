@@ -2,13 +2,7 @@
 *~
 *.DS_Store
 composer.lock
-application/logs/*
-application/cache/*
-application/config/*.php
-application/config/environments/development/*.php
-application/media/uploads/*
 .htaccess
-application/tests/behat.yml
 composer.phar
 vendor/*
 bin/*
@@ -19,3 +13,24 @@ node_modules*
 .flooignore
 .sublime-project
 build/*
+
+# Kohana deployment specifics
+application/logs/*
+application/cache/*
+application/config/*.php
+application/config/environments/development/*.php
+
+# Kohana tests
+application/tests/behat.yml
+
+# Kohana app uploads
+application/media/uploads/*
+
+# Kohana modules installed composer
+system
+modules/cache
+modules/database
+modules/image
+modules/unittest
+modules/minion
+modules/orm
