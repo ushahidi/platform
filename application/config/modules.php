@@ -27,7 +27,7 @@ return array(
 	'data-provider'  => MODPATH.'data-provider',
 
 	// Vendor modules
-	'email'      => MODPATH.'email',
+	'email'      => VENPATH.'shadowhand/email',
 	'media'      => VENPATH.'zeelot/kohana-media',
 
 	// Kohana modules
