@@ -25,6 +25,7 @@ before_script:
 - cp application/tests/behat.template application/tests/behat.yml
 - mysql -e "SET GLOBAL sql_mode = 'STRICT_ALL_TABLES'";
 - mysql -e 'create database lamu_test;'
+- ./minion --task=migrations:run up --group=oauth2-0-1
 - ./minion --task=migrations:run up --group=3-0
 - ./minion --task=migrations:run up
 - mysql -e 'create database zombie2x;'
