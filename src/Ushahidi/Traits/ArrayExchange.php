@@ -1,9 +1,15 @@
 <?php
 
 /**
- * Ushahidi basic enitity class
+ * Ushahidi Array Exchange Trait
  *
- * Entities should not have methods, they should only have properties!
+ * Gives objects two new methods:
+ *
+ * 1. `setData($arrayhash)`, updating the object properties and returning `$this`
+ * 2. `asArray()`, getting the object properties as an array
+ *
+ * Also defines a default constructor that takes an array as the only argument
+ * and passes it to `setData` if it is not empty.
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -11,11 +17,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi;
+namespace Ushahidi\Traits;
 
-abstract class Entity
+trait ArrayExchange
 {
-
 	/**
 	 * @param  array  $data  initial value
 	 * @return void

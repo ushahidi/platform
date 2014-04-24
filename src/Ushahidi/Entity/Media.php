@@ -11,10 +11,12 @@
 
 namespace Ushahidi\Entity;
 
-use Ushahidi\Entity;
+use Ushahidi\Traits\ArrayExchange;
 
-class Media extends Entity
+class Media
 {
+	use ArrayExchange;
+
 	public $id;
 	public $user_id;
 	public $caption;

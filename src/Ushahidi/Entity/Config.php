@@ -1,9 +1,7 @@
 <?php
 
 /**
- * Ushahidi File
- *
- * Description
+ * Ushahidi Config Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -13,19 +11,27 @@
 
 namespace Ushahidi\Entity;
 
-use Ushahidi\Entity;
+use Ushahidi\Traits\ArrayExchange;
 
-class Config extends Entity
+class Config
 {
+	use ArrayExchange {
+		// We modify the output of asArray, so we alias the implementation
+		// to a private method for clarity.
+		asArray as private asArraySimple;
+	}
+
 	// The @ symbol is not allowed in config keys. Conveniently, this makes it
 	// possible to use for setting a consistent, non-conflicting property.
 	const GROUP_KEY = '@group';
 
-	public function __construct($data = null, $group = '')
+	public function __construct($data = null, $group = null)
 	{
 		$this->setGroup($group);
 
-		parent::__construct($data);
+		if ($data) {
+			$this->setData($data);
+		}
 	}
 
 	/**
@@ -58,9 +64,8 @@ class Config extends Entity
 	public function asArray()
 	{
 		// Plain hash of config does not include the group name
-		$data = parent::asArray();
+		$data = $this->asArraySimple();
 		unset($data[static::GROUP_KEY]);
 		return $data;
 	}
-
 }
