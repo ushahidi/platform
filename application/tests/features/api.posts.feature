@@ -9,8 +9,7 @@ Feature: Testing the Posts API
                 "form":1,
                 "title":"Test post",
                 "user":{
-                  "first_name": "Robbie",
-                  "last_name": "Mackay",
+                  "realname": "Robbie Mackay",
                   "email": "someotherrobbie@test.com"
                 },
                 "type":"report",
@@ -184,8 +183,7 @@ Feature: Testing the Posts API
                 "status":"draft",
                 "locale":"en_US",
                 "user":{
-                  "first_name": "Robbie",
-                  "last_name": "Mackay",
+                  "realname": "Robbie Mackay",
                   "email": "robbie@ushahidi.com"
                 },
                 "values":

@@ -7,8 +7,7 @@ Feature: Testing the Users API
 			"""
 			{
 				"email":"linda@ushahidi.com",
-				"first_name":"Linda",
-				"last_name":"Kamau",
+				"realname":"Linda Kamau",
 				"username":"kamaulynder",
 				"password":"testing",
 				"role":"admin"
@@ -30,8 +29,7 @@ Feature: Testing the Users API
 			"""
 			{
 				"email":"robbie@ushahidi.com",
-				"first_name":"Robbie",
-				"last_name":"Mackay",
+				"realname":"Robbie Mackay",
 				"username":"rjmackay",
 				"password":"testing",
 				"role":"admin"
@@ -70,8 +68,7 @@ Feature: Testing the Users API
 			"""
 			{
 				"email":"tom@ushahidi.com",
-				"first_name":"Tom",
-				"last_name":"Kamau",
+				"realname":"Tom Kamau",
 				"username":"tom",
 				"password":"tomkamau"
 			}

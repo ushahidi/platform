@@ -73,12 +73,8 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				else
 				{
 					_.extend(schema, {
-						'user.first_name' : {
-							title : 'First Name',
-							type: 'Text'
-						},
-						'user.last_name': {
-							title : 'Last Name',
+						'user.realname' : {
+							title : 'Name',
 							type: 'Text'
 						},
 						'user.email' : {
@@ -114,7 +110,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 				}
 				else
 				{
-					mainFields = ['title', 'content', 'tags', 'user.first_name', 'user.last_name', 'user.email'];
+					mainFields = ['title', 'content', 'tags', 'user.realname', 'user.email'];
 				}
 
 				if (App.feature('media_uploads')) {
@@ -176,11 +172,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/F
 						pattern: 'email',
 						required: false
 					};
-					rules['user.first_name'] = {
-						maxLength: 150,
-						required: false
-					};
-					rules['user.last_name'] = {
+					rules['user.realname'] = {
 						maxLength: 150,
 						required: false
 					};

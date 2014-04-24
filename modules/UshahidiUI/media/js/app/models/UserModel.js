@@ -25,18 +25,11 @@ define(['backbone', 'App'],
 							placeholder : 'Enter username'
 						}
 					},
-					first_name: {
+					realname: {
 						type: 'Text',
-						title: 'First name',
+						title: 'Name',
 						editorAttrs : {
-							placeholder : 'Enter first name'
-						}
-					},
-					last_name: {
-						type: 'Text',
-						title: 'Last name',
-						editorAttrs : {
-							placeholder : 'Enter last name'
+							placeholder : 'Enter full name'
 						}
 					},
 					email: {

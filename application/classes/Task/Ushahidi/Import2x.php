@@ -774,8 +774,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					else
 					{
 						$author = array(
-							"first_name" => $report['person_first'],
-							"last_name" => $report['person_last'],
+							"realname" => $report['person_first'] . ' ' . $report['person_last'],
 							"email" => $report['person_email'],
 						);
 					}
@@ -1130,8 +1129,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 			
 			$body = json_encode(array(
 				"email" => Valid::email($user['email']) ? $user['email'] : NULL,
-				"first_name" => $user['name'],
-				"last_name" => '',
+				"realname" => $user['name'],
 				"username" => $user['username'],
 				'password' => $this->_get_random_str(),
 			));

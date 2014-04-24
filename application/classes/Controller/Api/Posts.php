@@ -841,8 +841,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			// Do we have an email or name?
 			elseif (
 				! empty($user_data['email'])
-				OR ! empty($user_data['first_name'])
-				OR ! empty($user_data['last_name'])
+				OR ! empty($user_data['realname'])
 			)
 			{
 				if (
@@ -882,7 +881,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 						return FALSE;
 					}
 
-					$user->values($user_data, array('email', 'first_name', 'last_name'));
+					$user->values($user_data, array('email', 'realname'));
 
 					// @todo add a setting for requiring email or not
 					// $user_validation = Validation::factory($post_data['user']);

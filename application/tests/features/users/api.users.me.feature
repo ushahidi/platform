@@ -17,8 +17,7 @@ Feature: Testing the current user API
 			"""
 			{
 				"email":"admin@v3.ushahidi.com",
-				"first_name":"Admin",
-				"last_name":"User",
+				"realname":"Admin User",
 				"username":"admin"
 			}
 			"""
@@ -47,8 +46,7 @@ Feature: Testing the current user API
 			"""
 			{
 				"email":"test2@v3.ushahidi.com",
-				"first_name":"Test2",
-				"last_name":"User",
+				"realname":"Test User, Jr",
 				"username":"test2"
 			}
 			"""

@@ -62,10 +62,7 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 				'email' => array(
 					array(array($this, 'emptyToNull'), array(':value'))
 				),
-				'first_name' => array(
-					array(array($this, 'emptyToNull'), array(':value'))
-				),
-				'last_name' => array(
+				'realname' => array(
 					array(array($this, 'emptyToNull'), array(':value'))
 				),
 			)
@@ -89,13 +86,8 @@ class Model_User extends Model_A1_User_ORM implements Acl_Role_Interface, Acl_Re
 				array(array($this, 'unique'), array(':field', ':value')),
 			),
 
-			//First name of user
-			'first_name' => array(
-				array('max_length', array(':value', 150)),
-			),
-
-			//Last name of user
-			'last_name' => array(
+			//Real name of user
+			'realname' => array(
 				array('max_length', array(':value', 150)),
 			),
 

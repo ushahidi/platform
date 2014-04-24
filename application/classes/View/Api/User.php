@@ -42,8 +42,7 @@ class View_Api_User extends View_Api {
 				'id' => $model->id,
 				'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$model->id, Request::current()),
 				'username' => $model->username,
-				'first_name' => $model->first_name,
-				'last_name' => $model->last_name,
+				'realname' => $model->realname,
 				'role' => $model->role,
 				'gravatar' => md5($model->email),
 			);

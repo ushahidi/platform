@@ -124,8 +124,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 			$users_query->and_where_open();
 			$users_query->where('email', 'LIKE', "%$q%");
 			$users_query->or_where('username', 'LIKE', "%$q%");
-			$users_query->or_where('first_name', 'LIKE', "%$q%");
-			$users_query->or_where('last_name', 'LIKE', "%$q%");
+			$users_query->or_where('realname', 'LIKE', "%$q%");
 			$users_query->and_where_close();
 		}
 
@@ -135,16 +134,10 @@ class Controller_Api_Users extends Ushahidi_Api {
 			$users_query->where('email', '=', $user);
 		}
 
-		$first_name = $this->request->query('first_name');
-		if (! empty($first_name))
+		$realname = $this->request->query('realname');
+		if (! empty($realname))
 		{
-			$users_query->where('first_name', '=', $first_name);
-		}
-
-		$last_name = $this->request->query('last_name');
-		if (! empty($last_name))
-		{
-			$users_query->where('last_name', '=', $last_name);
+			$users_query->where('realname', '=', $realname);
 		}
 
 		$username = $this->request->query('username');
@@ -294,7 +287,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 	 		unset($post['password']);
 	 	}
 
-		$user->values($post, array('username', 'password', 'first_name', 'last_name', 'email'));
+		$user->values($post, array('username', 'password', 'realname', 'email'));
 
 		// Only change users role if we have permission to do so
 		if (isset($post['role']))
