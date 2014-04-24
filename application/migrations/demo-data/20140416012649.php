@@ -260,13 +260,13 @@ class Migration_Demo_data_20140416012649 extends Minion_Migration_Base {
 
 		$db->query(NULL, "TRUNCATE `users`");
 
-		$db->query(NULL, 'INSERT INTO `users` (`id`, `email`, `realname`, `username`, `password`, `logins`, `failed_attempts`, `last_login`, `last_attempt`, `created`, `updated`, `role`)
+		$db->query(NULL, 'INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `username`, `password`, `logins`, `failed_attempts`, `last_login`, `last_attempt`, `created`, `updated`, `role`)
 		VALUES
-			(1,\'robbie@ushahidi.com\',\'Robbie Mackay\',\'robbie\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'user\'),
-			(2,NULL,NULL,\'admin\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'admin\'),
-			(3,\'test@v3.ushahidi.com\',\'Test User\',\'test\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'user\'),
-			(4,NULL,NULL,\'importadmin\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'admin\'),
-			(5,NULL,NULL,\'demo\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'admin\');
+			(1,\'robbie@ushahidi.com\',\'Robbie\',\'Mackay\',\'robbie\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'user\'),
+			(2,NULL,NULL,NULL,\'admin\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'admin\'),
+			(3,\'test@v3.ushahidi.com\',\'Test\',\'User\',\'test\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'user\'),
+			(4,NULL,NULL,NULL,\'importadmin\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'admin\'),
+			(5,NULL,NULL,NULL,\'demo\',\'$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q\',0,0,NULL,NULL,0,0,\'admin\');
 		');
 
 		$db->query(NULL, 'SET FOREIGN_KEY_CHECKS = 1;');
