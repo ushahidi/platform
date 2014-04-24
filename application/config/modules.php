@@ -10,19 +10,15 @@
  */
 
 return array(
-	// Composer packages
-	'cache'      => MODPATH.'cache',      // Caching with multiple backends
-	'database'   => MODPATH.'database',   // Database access
-	'image'      => MODPATH.'image',      // Image manipulation
-	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-	'unittest'   => MODPATH.'unittest',   // Unit testing
-	'minion'     => MODPATH.'minion',
+	// Custom modules
+	// 'acme' => MODPATH.'acme',
 
-	// Repo packages
+	// Ushahidi modules
+	'ushahidiui' => MODPATH.'UshahidiUI',
+
+	// Submodules
 	'migrations' => MODPATH.'migrations',
 	'koauth'     => MODPATH.'koauth',
-	'media'      => MODPATH.'media',
-	'ushahidiui' => MODPATH.'UshahidiUI',
 	'imagefly'   => MODPATH.'imagefly', // Dynamic image generation
 	'ACL'        => MODPATH.'ACL', // Access control layer based on Zend_ACL
 	'A1'         => MODPATH.'A1', // Auth library using bcrypt
@@ -31,6 +27,15 @@ return array(
 	'data-provider'  => MODPATH.'data-provider',
 	'email'      => MODPATH.'email',
 
-	// Custom packages
-	// 'acme' => MODPATH.'acme',
+	// Vendor modules
+	'media'      => VENPATH.'zeelot/kohana-media',
+
+	// Kohana modules
+	'cache'      => MODPATH.'cache',      // Caching with multiple backends
+	'database'   => MODPATH.'database',   // Database access
+	'image'      => MODPATH.'image',      // Image manipulation
+	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+	'unittest'   => MODPATH.'unittest',   // Unit testing
+	'minion'     => MODPATH.'minion',
+
 );

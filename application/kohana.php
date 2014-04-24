@@ -21,12 +21,17 @@ $modules = __DIR__ . '/../modules';
 $plugins = __DIR__ . '/../plugins';
 
 /**
+ * The directory in which your Composer packages are installed.
+ */
+$vendor = __DIR__ . '/../vendor';
+
+/**
  * The directory in which the Kohana resources are located. The system
  * directory must contain the classes/kohana.php file.
  *
  * @see  http://kohanaframework.org/guide/about.install#system
  */
-$system = __DIR__ . '/../vendor/kohana/core';
+$system = $vendor . '/kohana/core';
 
 /**
  * The default extension of resource files. If you change this, all resources
@@ -60,7 +65,7 @@ error_reporting(E_ALL | E_STRICT);
 
 // Make sure plugins exists before we define PLUGINPATH
 // If it doesn't exist realpath($plugins) returns FALSE
-// FALSE.DIRECTORY_SEPERATOR = '/' .. mayhem insues.
+// FALSE.DIRECTORY_SEPARATOR = '/' .. mayhem insues.
 if (realpath($plugins))
 {
 	define('PLUGINPATH', realpath($plugins).DIRECTORY_SEPARATOR);
@@ -70,6 +75,7 @@ if (realpath($plugins))
 define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
+define('VENPATH', realpath($vendor).DIRECTORY_SEPARATOR);
 
 // Clean up the configuration vars
 unset($application, $modules, $system);
