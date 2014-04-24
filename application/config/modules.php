@@ -25,9 +25,9 @@ return array(
 	'A2'         => MODPATH.'A2', // Tying A1/Auth and ACL together
 	'KO3-Event'  => MODPATH.'KO3-Event',
 	'data-provider'  => MODPATH.'data-provider',
-	'email'      => MODPATH.'email',
 
 	// Vendor modules
+	'email'      => MODPATH.'email',
 	'media'      => VENPATH.'zeelot/kohana-media',
 
 	// Kohana modules

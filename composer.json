@@ -8,6 +8,7 @@
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
         "kohana/unittest" : "3.3.*@dev",
+        "shadowhand/email": "3.3.*@dev",
         "zeelot/kohana-media": "1.3.*@dev"
     },
     "require-dev": {

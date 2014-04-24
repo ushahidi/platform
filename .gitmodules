@@ -22,9 +22,6 @@
 [submodule "modules/KO3-Event"]
 	path = modules/KO3-Event
 	url = git://github.com/rjmackay/KO3-Event.git
-[submodule "modules/email"]
-	path = modules/email
-	url = git://github.com/shadowhand/email.git
 [submodule "plugins/twilio/vendor/twilio"]
 	path = plugins/twilio/vendor/twilio
 	url = https://github.com/twilio/twilio-php
