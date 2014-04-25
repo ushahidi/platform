@@ -11506,11 +11506,12 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   background: #323a45;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin: 20px 0;
 }
 
-/* line 27, ../../scss/modules/list-view/_list-view-filter.scss */
+/* line 28, ../../scss/modules/list-view/_list-view-filter.scss */
 .list-view-filter-info--alt,
 .list-view-filter-info {
   position: relative;
@@ -11521,7 +11522,7 @@ nav[role="sub-navigation"] li a {
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
-/* line 31, ../../scss/modules/list-view/_list-view-filter.scss */
+/* line 32, ../../scss/modules/list-view/_list-view-filter.scss */
 .list-view-filter-info--alt h5,
 .list-view-filter-info h5 {
   font-size: 1em;
@@ -11531,14 +11532,14 @@ nav[role="sub-navigation"] li a {
   margin: 0 0 8px 0;
 }
 @media only screen and (min-width: 1024px) {
-  /* line 31, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 32, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-info--alt h5,
   .list-view-filter-info h5 {
     padding: 8px 0 0 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 27, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 28, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-info--alt,
   .list-view-filter-info {
     position: relative;
@@ -11551,7 +11552,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 27, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 28, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-info--alt,
   .list-view-filter-info {
     position: relative;
@@ -11564,7 +11565,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 55, ../../scss/modules/list-view/_list-view-filter.scss */
+/* line 56, ../../scss/modules/list-view/_list-view-filter.scss */
 .list-view-filter-count--alt,
 .list-view-filter-count {
   position: relative;
@@ -11574,7 +11575,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 421px) {
-  /* line 55, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 56, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-count--alt,
   .list-view-filter-count {
     position: relative;
@@ -11585,7 +11586,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 55, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 56, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-count--alt,
   .list-view-filter-count {
     position: relative;
@@ -11596,7 +11597,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 55, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 56, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-count--alt,
   .list-view-filter-count {
     position: relative;
@@ -11607,14 +11608,14 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 421px) {
-  /* line 66, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 67, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-count--alt .filter-count,
   .list-view-filter-count .filter-count {
     margin-bottom: 0;
   }
 }
 
-/* line 75, ../../scss/modules/list-view/_list-view-filter.scss */
+/* line 76, ../../scss/modules/list-view/_list-view-filter.scss */
 .list-view-filter-source--alt,
 .list-view-filter-source {
   position: relative;
@@ -11624,7 +11625,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 421px) {
-  /* line 75, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 76, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-source--alt,
   .list-view-filter-source {
     position: relative;
@@ -11635,7 +11636,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 75, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 76, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-source--alt,
   .list-view-filter-source {
     position: relative;
@@ -11646,7 +11647,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 75, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 76, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-source--alt,
   .list-view-filter-source {
     position: relative;
@@ -11657,14 +11658,14 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 421px) {
-  /* line 86, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 87, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-source--alt .filter-source,
   .list-view-filter-source .filter-source {
     margin-bottom: 0;
   }
 }
 
-/* line 95, ../../scss/modules/list-view/_list-view-filter.scss */
+/* line 96, ../../scss/modules/list-view/_list-view-filter.scss */
 .list-view-filter-sort {
   position: relative;
   padding-left: 0.9375em;
@@ -11673,7 +11674,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 421px) {
-  /* line 95, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 96, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-sort {
     position: relative;
     padding-left: 0.9375em;
@@ -11683,7 +11684,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1024px) {
-  /* line 95, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 96, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-sort {
     position: relative;
     padding-left: 0.9375em;
@@ -11693,7 +11694,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 95, ../../scss/modules/list-view/_list-view-filter.scss */
+  /* line 96, ../../scss/modules/list-view/_list-view-filter.scss */
   .list-view-filter-sort {
     position: relative;
     padding-left: 0.9375em;
@@ -11702,7 +11703,7 @@ nav[role="sub-navigation"] li a {
     float: left;
   }
 }
-/* line 106, ../../scss/modules/list-view/_list-view-filter.scss */
+/* line 107, ../../scss/modules/list-view/_list-view-filter.scss */
 .list-view-filter-sort .filter-sort {
   margin-bottom: 0;
 }
@@ -11779,7 +11780,7 @@ nav[role="sub-navigation"] li a {
 		$LIST VIEW
 \*-------------------------------------------------------------------*/
 /* line 31, ../../scss/modules/list-view/_list-view.scss */
-.list-view-user-profile-list, .list-view-tag-list, .list-view-message-list, .list-view-posts-list {
+.list-view-user-profile-list, .list-view-tag-list, .list-view-message-list, .list-view-post-list {
   position: relative;
   padding-left: 0.9375em;
   padding-right: 0.9375em;
@@ -11840,8 +11841,8 @@ nav[role="sub-navigation"] li a {
 .list-view-details--user, .list-view-details--post,
 .list-view-details {
   position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
+  padding-left: 0;
+  padding-right: 0;
   width: 66.66667%;
   float: left;
   margin-top: 5px;
@@ -11851,8 +11852,8 @@ nav[role="sub-navigation"] li a {
   .list-view-details--user, .list-view-details--post,
   .list-view-details {
     position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
+    padding-left: 0;
+    padding-right: 0;
     width: 83.33333%;
     float: left;
   }
@@ -11862,8 +11863,8 @@ nav[role="sub-navigation"] li a {
   .list-view-details--user, .list-view-details--post,
   .list-view-details {
     position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
+    padding-left: 0;
+    padding-right: 0;
     width: 91.66667%;
     float: left;
     width: 87.66667%;
@@ -11886,11 +11887,10 @@ nav[role="sub-navigation"] li a {
     padding-right: 0.9375em;
     width: 66.66667%;
     float: left;
-    padding-left: 0.4em;
   }
 }
 
-/* line 79, ../../scss/modules/list-view/_list-view.scss */
+/* line 78, ../../scss/modules/list-view/_list-view.scss */
 .list-view-time {
   position: relative;
   padding-left: 0.9375em;
@@ -11899,12 +11899,12 @@ nav[role="sub-navigation"] li a {
   float: left;
   font-size: 15px;
 }
-/* line 82, ../../scss/modules/list-view/_list-view.scss */
+/* line 81, ../../scss/modules/list-view/_list-view.scss */
 .list-view-time p {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 79, ../../scss/modules/list-view/_list-view.scss */
+  /* line 78, ../../scss/modules/list-view/_list-view.scss */
   .list-view-time {
     position: relative;
     padding-left: 0.9375em;
@@ -11912,13 +11912,13 @@ nav[role="sub-navigation"] li a {
     width: 33.33333%;
     float: left;
   }
-  /* line 87, ../../scss/modules/list-view/_list-view.scss */
+  /* line 86, ../../scss/modules/list-view/_list-view.scss */
   .list-view-time p {
     float: right;
   }
 }
 
-/* line 93, ../../scss/modules/list-view/_list-view.scss */
+/* line 92, ../../scss/modules/list-view/_list-view.scss */
 .list-view-body {
   position: relative;
   padding-left: 0;
@@ -11927,7 +11927,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 93, ../../scss/modules/list-view/_list-view.scss */
+  /* line 92, ../../scss/modules/list-view/_list-view.scss */
   .list-view-body {
     position: relative;
     padding-left: 0;
@@ -11938,7 +11938,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 100, ../../scss/modules/list-view/_list-view.scss */
+/* line 99, ../../scss/modules/list-view/_list-view.scss */
 .list-view-excerpt {
   position: relative;
   padding-left: 0.9375em;
@@ -11947,7 +11947,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 768px) {
-  /* line 100, ../../scss/modules/list-view/_list-view.scss */
+  /* line 99, ../../scss/modules/list-view/_list-view.scss */
   .list-view-excerpt {
     position: relative;
     padding-left: 0.9375em;
@@ -11959,7 +11959,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 1440px) {
-  /* line 100, ../../scss/modules/list-view/_list-view.scss */
+  /* line 99, ../../scss/modules/list-view/_list-view.scss */
   .list-view-excerpt {
     position: relative;
     padding-left: 0.9375em;
@@ -11969,7 +11969,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 112, ../../scss/modules/list-view/_list-view.scss */
+/* line 111, ../../scss/modules/list-view/_list-view.scss */
 .list-view-admin,
 .set-detail-post-admin {
   position: relative;
@@ -11980,7 +11980,7 @@ nav[role="sub-navigation"] li a {
   margin: 10px 0 20px 0;
 }
 
-/* line 117, ../../scss/modules/list-view/_list-view.scss */
+/* line 116, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories-wrapper, .set-detail-post-list-categories-wrapper {
   position: relative;
   padding-left: 0;
@@ -11988,20 +11988,20 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
 }
-/* line 119, ../../scss/modules/list-view/_list-view.scss */
+/* line 118, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-categories-wrapper .post-form-wrapper label, .post-form-wrapper .list-view-categories-wrapper label, .set-detail-post-list-categories-wrapper .post-form-wrapper label, .post-form-wrapper .set-detail-post-list-categories-wrapper label {
   margin: 0;
 }
-/* line 122, ../../scss/modules/list-view/_list-view.scss */
+/* line 121, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories-wrapper button, .set-detail-post-list-categories-wrapper button {
   margin-bottom: 0;
 }
-/* line 124, ../../scss/modules/list-view/_list-view.scss */
+/* line 123, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories-wrapper button i, .set-detail-post-list-categories-wrapper button i {
   padding-right: 5px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 117, ../../scss/modules/list-view/_list-view.scss */
+  /* line 116, ../../scss/modules/list-view/_list-view.scss */
   .list-view-categories-wrapper, .set-detail-post-list-categories-wrapper {
     position: relative;
     padding-left: 0;
@@ -12011,26 +12011,26 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 133, ../../scss/modules/list-view/_list-view.scss */
+/* line 132, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories {
   margin: 0;
 }
-/* line 135, ../../scss/modules/list-view/_list-view.scss */
+/* line 134, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories a {
   color: #a3a3a3;
 }
-/* line 138, ../../scss/modules/list-view/_list-view.scss */
+/* line 137, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories li {
   display: inline;
   font-size: 70%;
   padding-right: 5px;
 }
-/* line 143, ../../scss/modules/list-view/_list-view.scss */
+/* line 142, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories .fa-circle {
   padding-right: 5px;
 }
 
-/* line 148, ../../scss/modules/list-view/_list-view.scss */
+/* line 147, ../../scss/modules/list-view/_list-view.scss */
 .list-view-description {
   position: relative;
   padding-left: 0;
@@ -12040,7 +12040,7 @@ nav[role="sub-navigation"] li a {
   font-size: 0.875em;
 }
 
-/* line 153, ../../scss/modules/list-view/_list-view.scss */
+/* line 152, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
   position: relative;
   padding-left: 0;
@@ -12050,7 +12050,7 @@ nav[role="sub-navigation"] li a {
   margin-top: 20px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 153, ../../scss/modules/list-view/_list-view.scss */
+  /* line 152, ../../scss/modules/list-view/_list-view.scss */
   .list-view-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
     position: relative;
     padding-left: 0;
@@ -12063,31 +12063,47 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 163, ../../scss/modules/list-view/_list-view.scss */
-.list-view-edit, .post-actions {
+.list-view-edit--tag,
+.list-view-edit,
+.post-actions {
   margin-left: 0;
 }
 /* line 165, ../../scss/modules/list-view/_list-view.scss */
-.list-view-edit > li, .post-actions > li {
+.list-view-edit--tag > li,
+.list-view-edit > li,
+.post-actions > li {
   display: inline;
   float: left;
   padding: 0 20px 0 0;
 }
 /* line 169, ../../scss/modules/list-view/_list-view.scss */
-.list-view-edit > li a, .post-actions > li a {
+.list-view-edit--tag > li a,
+.list-view-edit > li a,
+.post-actions > li a {
   margin-bottom: 0;
 }
 /* line 173, ../../scss/modules/list-view/_list-view.scss */
-.list-view-edit button.expand, .post-actions button.expand, .list-view-edit .button.expand, .post-actions .button.expand {
+.list-view-edit--tag button.expand, .list-view-edit--tag .button.expand,
+.list-view-edit button.expand,
+.post-actions button.expand,
+.list-view-edit .button.expand,
+.post-actions .button.expand {
   padding-right: 1.125em;
   padding-left: 1.125em;
 }
 /* line 177, ../../scss/modules/list-view/_list-view.scss */
-.list-view-edit [class^="fa"], .post-actions [class^="fa"], .list-view-edit [class*=" fa"], .post-actions [class*=" fa"] {
+.list-view-edit--tag [class^="fa"], .list-view-edit--tag [class*=" fa"],
+.list-view-edit [class^="fa"],
+.post-actions [class^="fa"],
+.list-view-edit [class*=" fa"],
+.post-actions [class*=" fa"] {
   padding: 0;
 }
 @media only screen and (min-width: 768px) {
   /* line 163, ../../scss/modules/list-view/_list-view.scss */
-  .list-view-edit, .post-actions {
+  .list-view-edit--tag,
+  .list-view-edit,
+  .post-actions {
     display: block;
     padding: 0;
     margin: 0 -0.625em;
@@ -12096,23 +12112,33 @@ nav[role="sub-navigation"] li a {
     padding-top: 13px;
   }
   /* line 121, ../../scss/foundation/components/_global.scss */
-  .list-view-edit:before, .post-actions:before, .list-view-edit:after, .post-actions:after {
+  .list-view-edit--tag:before, .list-view-edit--tag:after,
+  .list-view-edit:before,
+  .post-actions:before,
+  .list-view-edit:after,
+  .post-actions:after {
     content: " ";
     display: table;
   }
   /* line 122, ../../scss/foundation/components/_global.scss */
-  .list-view-edit:after, .post-actions:after {
+  .list-view-edit--tag:after,
+  .list-view-edit:after,
+  .post-actions:after {
     clear: both;
   }
   /* line 27, ../../scss/foundation/components/_block-grid.scss */
-  .list-view-edit > li, .post-actions > li {
+  .list-view-edit--tag > li,
+  .list-view-edit > li,
+  .post-actions > li {
     display: inline;
     height: auto;
     float: left;
     padding: 0 0.625em 1.25em;
   }
   /* line 184, ../../scss/modules/list-view/_list-view.scss */
-  .list-view-edit li, .post-actions li {
+  .list-view-edit--tag li,
+  .list-view-edit li,
+  .post-actions li {
     padding-bottom: 3px;
   }
 }
@@ -13570,92 +13596,52 @@ nav[role="sub-navigation"] li a {
 		CONTENTS
 \*------------------------------------*/
 /**
+ * TAG CARD WRAPPER...............card-wrapper--tag
  * TAG LIST...............tag list styles
  */
 /*------------------------------------*\
 		$TAG LIST
 \*------------------------------------*/
-/* line 15, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-.tag-grid {
-  display: block;
-  padding: 0;
-  margin: 0 -0.625em;
-  *zoom: 1;
-}
-/* line 121, ../../scss/foundation/components/_global.scss */
-.tag-grid:before, .tag-grid:after {
-  content: " ";
-  display: table;
-}
-/* line 122, ../../scss/foundation/components/_global.scss */
-.tag-grid:after {
-  clear: both;
-}
-/* line 27, ../../scss/foundation/components/_block-grid.scss */
-.tag-grid > li {
-  display: inline;
-  height: auto;
-  float: left;
-  padding: 0 0.625em 1.25em;
-}
-/* line 36, ../../scss/foundation/components/_block-grid.scss */
-.tag-grid > li {
+/* line 16, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.card-wrapper--tag {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
   width: 100%;
-  padding: 0 0.625em 1.25em;
-}
-/* line 40, ../../scss/foundation/components/_block-grid.scss */
-.tag-grid > li:nth-of-type(n) {
-  clear: none;
-}
-/* line 41, ../../scss/foundation/components/_block-grid.scss */
-.tag-grid > li:nth-of-type(1n+1) {
-  clear: both;
-}
-@media only screen and (min-width: 768px) {
-  /* line 15, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
-  .tag-grid {
-    display: block;
-    padding: 0;
-    margin: 0 -0.625em;
-    *zoom: 1;
-  }
-  /* line 121, ../../scss/foundation/components/_global.scss */
-  .tag-grid:before, .tag-grid:after {
-    content: " ";
-    display: table;
-  }
-  /* line 122, ../../scss/foundation/components/_global.scss */
-  .tag-grid:after {
-    clear: both;
-  }
-  /* line 27, ../../scss/foundation/components/_block-grid.scss */
-  .tag-grid > li {
-    display: inline;
-    height: auto;
-    float: left;
-    padding: 0 0.625em 1.25em;
-  }
-  /* line 36, ../../scss/foundation/components/_block-grid.scss */
-  .tag-grid > li {
-    width: 50%;
-    padding: 0 0.625em 1.25em;
-  }
-  /* line 40, ../../scss/foundation/components/_block-grid.scss */
-  .tag-grid > li:nth-of-type(n) {
-    clear: none;
-  }
-  /* line 41, ../../scss/foundation/components/_block-grid.scss */
-  .tag-grid > li:nth-of-type(2n+1) {
-    clear: both;
-  }
+  float: left;
+  margin-bottom: 20px;
 }
 
-/* line 26, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+/* line 25, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
 .list-view-tag {
   position: relative;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
+  float: left;
+}
+
+/* line 29, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-header--tag {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 768px) {
+  /* line 29, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+  .list-view-header--tag {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    width: 66.66667%;
+    float: left;
+  }
+}
+
+/* line 36, ../../scss/modules/workspace/tools/manage-tags/modules/_tag-list.scss */
+.list-view-edit--tag {
   float: left;
 }
 
