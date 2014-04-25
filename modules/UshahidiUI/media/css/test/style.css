@@ -30,7 +30,7 @@
 /*------------------------------------*\
 		$COMPASS
 \*------------------------------------*/
-/* line 17, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, .post-form-wrapper label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -52,55 +52,55 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
 
-/* line 10, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper {
   clear: both;
   min-height: 100%;
@@ -108,12 +108,12 @@ html, body {
   height: 100%;
   margin-bottom: -72px;
 }
-/* line 18, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper .sticky-footer-root {
   height: 72px;
 }
 
-/* line 20, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .footer {
   clear: both;
   position: relative;
@@ -7006,7 +7006,7 @@ img.mfp-img {
 @font-face {
   font-family: "FontAwesome";
   src: url('../../kohana/font/normal');
-  src: url('../../kohana/font/normal?#iefix') format('eot'), url('../../kohana/font/fontawesome-webfont.eot') format('embedded-opentype'), url('../../kohana/font/fontawesome-webfont.eot?#iefix') format('embedded-opentype'), url('../../kohana/font/fontawesome-webfont.woff') format('woff'), url('../../kohana/font/fontawesome-webfont.ttf') format('truetype'), url('../../kohana/font/fontawesome-webfont.svg') format('svg');
+  src: url('../../kohana/font/normal?#iefix') format('embedded-opentype'), url('../../kohana/font/fontawesome-webfont.eot') format('embedded-opentype'), url('../../kohana/font/fontawesome-webfont.eot?#iefix') format('embedded-opentype'), url('../../kohana/font/fontawesome-webfont.woff') format('woff'), url('../../kohana/font/fontawesome-webfont.ttf') format('truetype'), url('../../kohana/font/fontawesome-webfont.svg') format('svg');
   font-weight: "normal";
 }
 
@@ -11298,7 +11298,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('../../images/logo.png?1394043605') no-repeat;
+  background: url('../../images/logo.png?1398194936') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -12661,12 +12661,14 @@ nav[role="sub-navigation"] li a {
  * workspace PROFILE...............user avatar and account settings/edits
  * workspace STATS WRAPPER..................post, user and post views stats
  * workspace ACCORDION MENU..................posts, tasks and tools
-				*Labels..................dynamic labels
+				*SECTION..................sections styles
+				*CONTENT..................content styles
+				*LABELS..................dynamic labels
  */
 /*------------------------------------*\
 		$WORKSPACE PROFILE
 \*------------------------------------*/
-/* line 20, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 22, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-panel {
   margin-bottom: -9999px;
   padding-bottom: 9999px;
@@ -12674,7 +12676,7 @@ nav[role="sub-navigation"] li a {
   border-left: 3px solid #323a45;
 }
 
-/* line 27, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 29, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-profile {
   width: 100%;
   margin-left: auto;
@@ -12695,9 +12697,9 @@ nav[role="sub-navigation"] li a {
   clear: both;
 }
 
-/* line 32, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 34, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1394043605') no-repeat;
+  background: url('../../images/avatar.png?1398194936') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -12705,28 +12707,28 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 41, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 43, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-admin {
   float: left;
   margin: 21px 0 0 7px;
 }
-/* line 44, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 46, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-admin .username {
   font-weight: 600;
   margin: 0;
   line-height: 1;
 }
-/* line 49, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 51, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-admin .workspace-role {
   font-size: 13px;
   margin: 0 0 10px 0;
   line-height: 1;
 }
-/* line 54, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 56, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-admin ul {
   margin-bottom: 0.0625em;
 }
-/* line 57, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 59, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-admin .edit-profile, .workspace-admin .logout {
   font-size: 13px;
 }
@@ -12734,7 +12736,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$WORKSPACE STATS WRAPPER
 \*------------------------------------*/
-/* line 70, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 72, ../../scss/modules/workspace/_workspace-panel.scss */
 .post-stats {
   border-style: solid;
   border-width: 1px;
@@ -12752,7 +12754,7 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 0;
 }
 
-/* line 74, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 76, ../../scss/modules/workspace/_workspace-panel.scss */
 .user-stats {
   border-style: solid;
   border-width: 1px;
@@ -12770,7 +12772,7 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 0;
 }
 
-/* line 77, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 79, ../../scss/modules/workspace/_workspace-panel.scss */
 .views-stats {
   border-style: solid;
   border-width: 1px;
@@ -12788,7 +12790,7 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 0;
 }
 
-/* line 81, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 83, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-stats-wrapper {
   width: 100%;
   margin-left: auto;
@@ -12808,7 +12810,7 @@ nav[role="sub-navigation"] li a {
   clear: both;
 }
 
-/* line 85, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 87, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-stats {
   display: block;
   padding: 0;
@@ -12846,24 +12848,24 @@ nav[role="sub-navigation"] li a {
   clear: both;
 }
 
-/* line 90, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 92, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-stats li {
   padding: 12px 0 12px 12px;
   margin: 0;
 }
 
-/* line 95, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 97, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-stats h5 {
   margin: 0;
 }
-/* line 97, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 99, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-stats h5 i {
   position: relative;
   top: -2px;
   font-size: 16px;
   padding-right: 3px;
 }
-/* line 103, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 105, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-stats h5 span {
   font-size: 14px;
   font-weight: normal;
@@ -12873,7 +12875,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 	 $WORKSPACE ACCORDIAN MENU
 \*------------------------------------*/
-/* line 117, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 119, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu {
   width: 100%;
   margin-left: auto;
@@ -12910,87 +12912,6 @@ nav[role="sub-navigation"] li a {
 .workspace-menu[data-section-small-style] > [data-section-region] > [data-section-title], .workspace-menu[data-section-small-style] > [data-section-region] > .js-title, .workspace-menu[data-section-small-style] > section > [data-section-title], .workspace-menu[data-section-small-style] > section > .js-title, .workspace-menu[data-section-small-style] > .section > [data-section-title], .workspace-menu[data-section-small-style] > .section > .js-title {
   width: 100% !important;
 }
-/* line 120, ../../scss/modules/workspace/_workspace-panel.scss */
-.workspace-menu > section {
-  margin: 0;
-}
-/* line 102, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > [data-section-title], .workspace-menu > section > .js-title {
-  margin-bottom: 0;
-}
-/* line 104, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > [data-section-title] a, .workspace-menu > section > .js-title a {
-  width: 100%;
-  display: inline-block;
-  white-space: nowrap;
-}
-/* line 111, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > [data-section-content], .workspace-menu > section > .content {
-  display: none;
-}
-/* line 116, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section.active > [data-section-content], .workspace-menu > section.active > .content {
-  display: block;
-}
-/* line 119, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section:not(.active) {
-  padding: 0 !important;
-}
-/* line 126, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > [data-section-title], .workspace-menu > section > .js-title {
-  width: 100%;
-}
-/* line 207, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > .js-title {
-  background-color: #323a45;
-  cursor: pointer;
-  border: solid 1px #cccccc;
-}
-/* line 211, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > .js-title a {
-  padding: 0.625em;
-  color: #fcfcfc;
-  font-size: 17px;
-  background: none;
-}
-/* line 217, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > .js-title:hover {
-  background-color: #272e36;
-}
-/* line 220, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > .content {
-  padding: 0.625em;
-  background-color: #fcfcfc;
-  border: solid 1px #cccccc;
-}
-/* line 225, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > .content > *:last-child {
-  margin-bottom: 0;
-}
-/* line 226, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > .content > *:first-child {
-  padding-top: 0;
-}
-/* line 227, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > .content > *:last-child:not(.flex-video) {
-  padding-bottom: 0;
-}
-/* line 231, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section.active > .js-title {
-  background: #1d2127;
-}
-/* line 233, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section.active > .js-title a {
-  color: #333333;
-}
-/* line 237, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section:not(.active) {
-  padding: 0 !important;
-}
-/* line 243, ../../scss/foundation/components/_section.scss */
-.workspace-menu > section > .js-title {
-  border-top: none;
-}
 /* line 122, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu i {
   padding-left: 10px;
@@ -13001,52 +12922,148 @@ nav[role="sub-navigation"] li a {
   margin: 0;
 }
 
-/* line 131, ../../scss/modules/workspace/_workspace-panel.scss */
-.workspace-menu > section.active > .title a {
+/*$SECTION*/
+/* line 133, ../../scss/modules/workspace/_workspace-panel.scss */
+.workspace-menu section {
+  margin: 0;
+}
+/* line 102, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > [data-section-title], .workspace-menu section > .js-title {
+  margin-bottom: 0;
+}
+/* line 104, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > [data-section-title] a, .workspace-menu section > .js-title a {
+  width: 100%;
+  display: inline-block;
+  white-space: nowrap;
+}
+/* line 111, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > [data-section-content], .workspace-menu section > .content {
+  display: none;
+}
+/* line 116, ../../scss/foundation/components/_section.scss */
+.workspace-menu section.active > [data-section-content], .workspace-menu section.active > .content {
+  display: block;
+}
+/* line 119, ../../scss/foundation/components/_section.scss */
+.workspace-menu section:not(.active) {
+  padding: 0 !important;
+}
+/* line 126, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > [data-section-title], .workspace-menu section > .js-title {
+  width: 100%;
+}
+/* line 207, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > .js-title {
+  background-color: #323a45;
+  cursor: pointer;
+  border: solid 1px #cccccc;
+}
+/* line 211, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > .js-title a {
+  padding: 0.625em;
+  color: #fcfcfc;
+  font-size: 17px;
+  background: none;
+}
+/* line 217, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > .js-title:hover {
+  background-color: #272e36;
+}
+/* line 220, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > .content {
+  padding: 0.625em;
+  background-color: #fcfcfc;
+  border: solid 1px #cccccc;
+}
+/* line 225, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > .content > *:last-child {
+  margin-bottom: 0;
+}
+/* line 226, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > .content > *:first-child {
+  padding-top: 0;
+}
+/* line 227, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > .content > *:last-child:not(.flex-video) {
+  padding-bottom: 0;
+}
+/* line 231, ../../scss/foundation/components/_section.scss */
+.workspace-menu section.active > .js-title {
+  background: #1d2127;
+}
+/* line 233, ../../scss/foundation/components/_section.scss */
+.workspace-menu section.active > .js-title a {
+  color: #333333;
+}
+/* line 237, ../../scss/foundation/components/_section.scss */
+.workspace-menu section:not(.active) {
+  padding: 0 !important;
+}
+/* line 243, ../../scss/foundation/components/_section.scss */
+.workspace-menu section > .js-title {
+  border-top: none;
+}
+/* line 135, ../../scss/modules/workspace/_workspace-panel.scss */
+.workspace-menu section .title {
+  border: 0;
+}
+/* line 137, ../../scss/modules/workspace/_workspace-panel.scss */
+.workspace-menu section .title a:after {
+  float: right;
+  display: inline-block;
+  font-family: FontAwesome;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: normal;
+  content: "\f078";
+}
+/* line 148, ../../scss/modules/workspace/_workspace-panel.scss */
+.workspace-menu section.active .title a {
   color: #fcfcfc;
 }
+/* line 150, ../../scss/modules/workspace/_workspace-panel.scss */
+.workspace-menu section.active .title a:after {
+  content: "\f077";
+}
 
-/* line 135, ../../scss/modules/workspace/_workspace-panel.scss */
+/*$CONTENT*/
+/* line 159, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu > section > .content {
   margin: 0;
   padding: 0;
 }
-/* line 138, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 162, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu > section > .content li {
   padding: 10px 0;
 }
-/* line 140, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 164, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu > section > .content li.active {
   background: #e3e3e3;
 }
-/* line 143, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 167, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu > section > .content li a {
   color: #1f1f1f;
 }
-/* line 145, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 169, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu > section > .content li a p {
   margin: 0 20px 0 10px;
 }
-/* line 147, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 171, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu > section > .content li a p i {
   color: #1f1f1f;
 }
-/* line 150, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 174, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu > section > .content li a p span {
   float: right;
 }
-/* line 156, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 180, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-menu > section > .content > *:first-child, .workspace-menu > section > .content > *:last-child:not(.flex-video) {
   padding: 10px 0;
 }
 
-/* line 161, ../../scss/modules/workspace/_workspace-panel.scss */
-.workspace-menu > section > .js-title {
-  border: 0;
-}
-
 /*$LABELS*/
-/* line 167, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 186, ../../scss/modules/workspace/_workspace-panel.scss */
 .all-posts-label {
   font-weight: bold;
   text-align: center;
@@ -13063,7 +13080,7 @@ nav[role="sub-navigation"] li a {
   border-radius: 3px;
 }
 
-/* line 171, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 190, ../../scss/modules/workspace/_workspace-panel.scss */
 .awaiting-review-label {
   font-weight: bold;
   text-align: center;
@@ -13080,7 +13097,7 @@ nav[role="sub-navigation"] li a {
   border-radius: 3px;
 }
 
-/* line 175, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 194, ../../scss/modules/workspace/_workspace-panel.scss */
 .published-label {
   font-weight: bold;
   text-align: center;
@@ -13097,7 +13114,7 @@ nav[role="sub-navigation"] li a {
   border-radius: 3px;
 }
 
-/* line 179, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 198, ../../scss/modules/workspace/_workspace-panel.scss */
 .unpublished-label {
   font-weight: bold;
   text-align: center;
@@ -13114,7 +13131,7 @@ nav[role="sub-navigation"] li a {
   border-radius: 3px;
 }
 
-/* line 183, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 202, ../../scss/modules/workspace/_workspace-panel.scss */
 .my-tasks-label {
   font-weight: bold;
   text-align: center;
@@ -13131,7 +13148,7 @@ nav[role="sub-navigation"] li a {
   border-radius: 3px;
 }
 
-/* line 187, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 206, ../../scss/modules/workspace/_workspace-panel.scss */
 .todo-label {
   font-weight: bold;
   text-align: center;
@@ -13148,7 +13165,7 @@ nav[role="sub-navigation"] li a {
   border-radius: 3px;
 }
 
-/* line 191, ../../scss/modules/workspace/_workspace-panel.scss */
+/* line 210, ../../scss/modules/workspace/_workspace-panel.scss */
 .completed-label {
   font-weight: bold;
   text-align: center;
@@ -14053,7 +14070,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('../../images/category-icon.png?1394043605') no-repeat;
+  background: url('../../images/category-icon.png?1398278797') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 54, ../../scss/modules/posts/_post.scss */
@@ -15655,7 +15672,7 @@ textarea {
 /* line 53, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
-  background: #fcfcfc url('../../images/dropdown-arrow.svg?1394043605') no-repeat;
+  background: #fcfcfc url('../../images/dropdown-arrow.svg?1398194936') no-repeat;
   background-size: 9px;
   background-position-x: 97%;
   background-position-y: center;
