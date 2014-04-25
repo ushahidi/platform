@@ -2,6 +2,7 @@
 		CONTENTS
 \*------------------------------------*/
 /**
+ * TAG CARD WRAPPER...............card-wrapper--tag
  * TAG LIST...............tag list styles
  */
 
@@ -12,18 +13,27 @@
 		$TAG LIST
 \*------------------------------------*/
 
-.tag-grid {
-	@include block-grid(1);
-	@media #{$small} {
-		@include block-grid(2);
-	}
+.card-wrapper--tag {
+	@include grid-column(12, $collapse: true);
+	margin-bottom: 20px;
 }
 
 .list-view-tag-list {
-  @extend %list-view-list;
+	@extend %list-view-list;
 }
 
 .list-view-tag {
 	@include grid-column(12, $collapse: true);
 }
 
+.list-view-header--tag {
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(8, $collapse: true);
+	}
+}
+
+.list-view-edit--tag {
+	@extend %list-view-edit;
+	float: left;
+}

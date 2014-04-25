@@ -18,7 +18,8 @@
 .list-view-filter {
 	@include grid-column(12);
 	background: $accent-color;
-	padding: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 	margin: 20px 0;
 }
 
