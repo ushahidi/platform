@@ -19,10 +19,7 @@
         "behat/mink-goutte-driver": "*",
         "fabpot/goutte": "*",
         "phpunit/phpunit": "3.7.*",
-        "phpunit/dbunit": ">=1.2",
-        "phing/phing": "2.6.*",
-        "pear-pear/Archive_Tar": "1.3.*",
-        "pear-pear/PEAR": "*"
+        "phpunit/dbunit": ">=1.2"
     },
     "minimum-stability": "dev",
     "config": {
@@ -32,11 +29,5 @@
         "psr-0": {
             "Ushahidi\\": "src"
         }
-    },
-    "repositories": [
-        {
-            "type": "pear",
-            "url": "http://pear.php.net"
-        }
-    ]
+    }
 }
