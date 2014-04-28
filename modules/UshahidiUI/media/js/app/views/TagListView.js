@@ -178,7 +178,14 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'alertify', 'views/TagL
 			{
 				e.preventDefault();
 				var orderby = this.$('.js-filter-sort').val();
-				this.collection.setSorting(orderby);
+				if (orderby === 'tag')
+				{
+					this.collection.setSorting(orderby, -1);
+				}
+				else
+				{
+					this.collection.setSorting(orderby);
+				}
 				this.collection.fullCollection.sort();
 				this.collection.getFirstPage();
 			},

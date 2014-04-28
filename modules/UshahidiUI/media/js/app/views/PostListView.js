@@ -287,7 +287,14 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/PostL
 			{
 				e.preventDefault();
 				var orderby = this.$('.js-filter-sort').val();
-				this.collection.setSorting(orderby);
+				if (orderby === 'title')
+				{
+					this.collection.setSorting(orderby,-1);
+				}
+				else
+				{
+					this.collection.setSorting(orderby);
+				}
 				this.collection.getFirstPage();
 			}
 		});
