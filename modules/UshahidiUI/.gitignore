@@ -1,3 +1,5 @@
 .bundle/*
 Gemfile.lock
 config.codekit
+media/js/app/config/Init.min.js
+media/js/libs/*.min.js

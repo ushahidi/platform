@@ -16,9 +16,9 @@ module.exports = function(grunt) {
 				src : uipath + 'media/css/style.css'
 			},
 			dev :
-			{
+				{
 				src : uipath + 'media/css/test/style.css'
-			}
+				}
 		},
 
 		imagemin :
@@ -43,13 +43,21 @@ module.exports = function(grunt) {
 				{
 					baseUrl : uipath + 'media/js/app',
 					wrap : false,
-					name : '../libs/almond',
 					preserveLicenseComments : false,
 					optimize : 'uglify',
 					mainConfigFile : uipath + 'media/js/app/config/Init.js',
+					name : 'config/Init',
 					include : ['config/Init'],
-					out : uipath + 'media/js/app/config/Init.min.js'
+					out : uipath + 'media/js/app/config/Init.min.js',
 				}
+			}
+		},
+
+		uglify :
+		{
+			'minify-require-js' : {
+				src : uipath + 'media/js/libs/require.js',
+				dest : uipath + 'media/js/libs/require.min.js'
 			}
 		},
 
@@ -113,7 +121,9 @@ module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('test', ['jshint']);
-	grunt.registerTask('build', ['requirejs', 'imagemin', 'compass']);
-	grunt.registerTask('default', ['jshint', 'requirejs', 'compass']);
+	grunt.registerTask('build:js', ['requirejs', 'uglify']);
+	grunt.registerTask('build:css', ['compass']);
+	grunt.registerTask('build', ['build:js', 'build:css', 'imagemin']);
+	grunt.registerTask('default', ['build']);
 
 };

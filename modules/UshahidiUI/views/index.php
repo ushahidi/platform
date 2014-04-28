@@ -43,7 +43,7 @@
 
 		<!--Change to Init.min.js below for production-->
 		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>
-		<script type="text/javascript" src="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script>
+		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.min.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script>
 		<?php else: ?>
 		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
 		<?php endif; ?>
