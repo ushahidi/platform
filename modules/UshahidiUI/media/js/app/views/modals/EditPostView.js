@@ -34,7 +34,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				});
 
 				// Trigger event when modal is fully opened, used to refresh map size
-				this.on('modal:opened', function ()
+				this.on('modal:open', function ()
 				{
 					this.form.trigger('dom:refresh');
 				});

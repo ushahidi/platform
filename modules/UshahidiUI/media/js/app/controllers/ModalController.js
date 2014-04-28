@@ -36,26 +36,16 @@ define(['App', 'marionette'],
 					function(ChooseFormView, CreatePostView, PostModel)
 				{
 					var post = new PostModel({}),
-							chooseView;
+						chooseView;
 
 					chooseView = new ChooseFormView({
 						model: post,
 						forms: App.Collections.Forms
 					}).on('form:select', function ()
 						{
-							// @todo ensure tagscollection is loaded
-
-							// @todo move this event handling to modal region
-							that.modal.currentView.on('modal:closed', function ()
-							{
-								that.modal.show(new CreatePostView({
-									model: post
-								}));
-								that.modal.currentView.on('close', that.modal.close, that.modal);
-								// Unbind fn
-								this.off('modal:closed');
-							});
-							that.modal.close();
+							that.modal.show(new CreatePostView({
+								model: post
+							}));
 						}
 					);
 

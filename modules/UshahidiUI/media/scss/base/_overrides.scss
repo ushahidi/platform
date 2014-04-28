@@ -19,9 +19,13 @@
 	@include grid-column(12);
 	margin-top: 20px;
 }
-
-
-
+body.modal-active .content-wrapper .map {
+	/**
+	 * Hide content maps when modals are active.
+	 * This increases performance and limits the possiblity of bugs.
+	 */
+	visibility: hidden;
+}
 
 /*------------------------------------*\
 		$BUTTON OVERRIDES

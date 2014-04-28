@@ -65,7 +65,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				});
 
 				// Trigger event when modal is fully opened, used to refresh map size
-				this.on('modal:opened', function ()
+				this.on('modal:open', function ()
 				{
 					this.form.trigger('dom:refresh');
 				});
@@ -75,7 +75,8 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			},
 			events: {
 				'submit form' : 'formSubmitted',
-				'click .js-switch-fieldset' : 'switchFieldSet'
+				'click .js-switch-fieldset' : 'switchFieldSet',
+				'click .js-back-button' : 'goBack'
 			},
 			onShow: function()
 			{
@@ -196,6 +197,10 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				$el.parent().addClass('active');
 
 				e.preventDefault();
+			},
+			goBack : function(e) {
+				e.preventDefault();
+				App.vent.trigger('post:create');
 			},
 			onClose : function ()
 			{
