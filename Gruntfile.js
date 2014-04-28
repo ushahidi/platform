@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+	var uipath = 'modules/UshahidiUI/';
 
 	grunt.initConfig(
 	{
@@ -12,10 +13,11 @@ module.exports = function(grunt) {
 			},
 			prod :
 			{
-				files :
-				{
-					'media/css/test/style.css' : 'media/css/global.css'
-				}
+				src : uipath + 'media/css/style.css'
+			},
+			dev :
+			{
+				src : uipath + 'media/css/test/style.css'
 			}
 		},
 
@@ -26,9 +28,9 @@ module.exports = function(grunt) {
 				files : [
 				{
 					expand : true,
-					cwd : 'media/images',
+					cwd : uipath + 'media/images',
 					src : ['*.{png,jpg, jpeg}'],
-					dest : 'media/images'
+					dest : uipath + 'media/images'
 				}]
 			}
 		},
@@ -39,21 +41,21 @@ module.exports = function(grunt) {
 			{
 				options :
 				{
-					baseUrl : 'media/js/app',
+					baseUrl : uipath + 'media/js/app',
 					wrap : false,
 					name : '../libs/almond',
 					preserveLicenseComments : false,
 					optimize : 'uglify',
-					mainConfigFile : 'media/js/app/config/Init.js',
+					mainConfigFile : uipath + 'media/js/app/config/Init.js',
 					include : ['config/Init'],
-					out : 'media/js/app/config/Init.min.js'
+					out : uipath + 'media/js/app/config/Init.min.js'
 				}
 			}
 		},
 
 		jshint :
 		{
-			files : ['Gruntfile.js', 'media/js/app/**/*.js', '!media/js/app/**/*min.js'],
+			files : ['Gruntfile.js', uipath + 'media/js/app/**/*.js', '!' + uipath + 'media/js/app/**/*min.js'],
 			options : {
 				jshintrc : '.jshintrc'
 			}
@@ -65,7 +67,8 @@ module.exports = function(grunt) {
 			{
 				options :
 				{
-					config : 'config-dev.rb'
+					config : uipath + 'config-dev.rb',
+					basePath: 'modules/UshahidiUI'
 				}
 			},
 
@@ -73,7 +76,8 @@ module.exports = function(grunt) {
 			{
 				options :
 				{
-					config : 'config.rb' // compass config file is located in project root
+					config : uipath + 'config.rb',
+					basePath: 'modules/UshahidiUI'
 				}
 			}
 		},
@@ -82,13 +86,13 @@ module.exports = function(grunt) {
 		{
 			sass :
 			{
-				files : ['media/scss/**/*.scss'],
+				files : [uipath + 'media/scss/**/*.scss'],
 				tasks : ['compass:dev', 'compass:prod']
 			},
 
 			css :
 			{
-				files : ['media/css/style.css', 'media/css/test/style.css'],
+				files : [uipath + 'media/css/style.css', uipath + 'media/css/test/style.css'],
 				options :
 				{
 					livereload : true
@@ -97,7 +101,7 @@ module.exports = function(grunt) {
 
 			js :
 			{
-				files : ['media/js/**/*.js', 'media/js/**/templates/**/*.html'],
+				files : [uipath + 'media/js/**/*.js', uipath + 'media/js/**/templates/**/*.html'],
 				options :
 				{
 					livereload : true
