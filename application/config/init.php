@@ -30,5 +30,5 @@ return array(
 	'charset'     => 'utf-8',
 	'errors'      => TRUE,
 	'profile'     => FALSE,
-	'caching'     => TRUE,
+	'caching'     => FALSE,
 );
