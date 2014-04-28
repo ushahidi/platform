@@ -22,7 +22,8 @@ class Migration_3_0_20140317193349 extends Minion_Migration_Base {
 	 */
 	public function down(Kohana_Database $db)
 	{
-		$db->query(NULL, 'ALTER TABLE `media` DROP `user_id`;');
+		$db->query(NULL, 'ALTER TABLE `media` DROP FOREIGN KEY `fk_media_user_id`;');
+		$db->query(NULL, 'ALTER TABLE `media` DROP COLUMN `user_id`;');
 	}
 
 }
