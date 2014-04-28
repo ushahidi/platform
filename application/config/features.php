@@ -12,4 +12,6 @@
 return array(
 	// T79: implement media uploads for posts
 	'media_uploads' => FALSE,
+	// Sets UI
+	'sets_ui' => FALSE
 );

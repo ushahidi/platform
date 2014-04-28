@@ -70,6 +70,12 @@ define(['handlebars', 'moment', 'underscore.string', 'handlebars-paginate', 'tex
 			return new Handlebars.SafeString(str.replace(/\r?\n|\r/g, '<br>'));
 		});
 
+		Handlebars.registerHelper('feature', function (feature, options)
+		{
+			var App = require ('App');
+			return App.feature(feature) ? options.fn(this) : '';
+		});
+
 		Handlebars.registerPartial('pagination', Handlebars.compile(paginationTpl));
 		Handlebars.registerPartial('listinfo', Handlebars.compile(listInfoTpl));
 
