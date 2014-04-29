@@ -134,7 +134,7 @@
 		@include section($section-type:accordion, $title-color:$white, $title-font-size:17px, $content-bg:$white);
 		.title {
 			border: 0;
-			& a:after {
+			& a:before {
 				float: right;
 				display: inline-block;
 				font-family: FontAwesome;
@@ -147,7 +147,7 @@
 		&.active .title {
 			a {
 				color: $white;
-				&:after {
+				&:before {
 					content: "\f077";
 				}
 			}
