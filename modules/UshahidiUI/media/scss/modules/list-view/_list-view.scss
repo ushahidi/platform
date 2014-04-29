@@ -109,12 +109,12 @@
 
 %list-view-admin,
 .list-view-admin {
-	@include grid-column(12);
-	margin: 10px 0 20px 0;
+	@include grid-column(12, $collapse: true);
+	margin: 30px 0 20px 0;
 }
 
 .list-view-categories-wrapper {
-	@include grid-column(12, $collapse: true);
+	@include grid-column(12);
 	h6 {
 		margin: 0;
 	}
@@ -125,7 +125,7 @@
 		}
 	}
 	@media #{$small} {
-		@include grid-column(6, $collapse: true);
+		@include grid-column(4);
 	}
 }
 
@@ -150,10 +150,10 @@
 }
 
 .list-view-edit-wrapper {
-	@include grid-column(12, $collapse: true);
+	@include grid-column(12);
 	margin-top: 20px;
 	@media #{$small} {
-		@include grid-column(12, $collapse: true);
+		@include grid-column(8, $collapse: true);
 		float: right;
 		margin-top: 0;
 	}
@@ -161,11 +161,10 @@
 
 %list-view-edit,
 .list-view-edit {
-	margin-left: 0;
+	@include block-grid(2);
 	> li {
-		display: inline;
 		float: left;
-		padding: 0 20px 0 0;
+		padding: 0 10px 20px;
 		a {
 			margin-bottom: 0;
 		}
@@ -177,8 +176,12 @@
 	[class^="fa"], [class*=" fa"] {
 		padding: 0;
 	}
+	@media #{$mobile-up} {
+		@include block-grid(4);
+	}
 	@media #{$small} {
-		@include block-grid($per-row: false, $spacing: emCalc(20px));
+		@include grid-column(12);
+		display: flex;
 		float: right;
 		padding-top: 13px;
 		li {
@@ -188,5 +191,5 @@
 }
 
 .list-view-edit-buttons {
-	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true)
+	@include button($padding: $button-tny, $bg: $secondary-color, $radius: true, $full-width: true)
 }

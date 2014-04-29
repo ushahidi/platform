@@ -12,6 +12,10 @@
 		$POST LIST
 \*------------------------------------*/
 
+.list-view-post {
+	@extend %list-view;
+}
+
 .list-view-details--post {
 	@extend %list-view-details;
 	margin-top: 10px;
