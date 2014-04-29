@@ -110,6 +110,7 @@
 %list-view-admin,
 .list-view-admin {
 	@include grid-column(12, $collapse: true);
+	@extend %unselectable;
 	margin: 30px 0 20px 0;
 }
 
@@ -190,6 +191,29 @@
 	}
 }
 
-.list-view-edit-buttons {
-	@include button($padding: $button-tny, $bg: $secondary-color, $radius: true, $full-width: true)
+.list-view-edit-button {
+	@include button($padding: $button-sml, $bg: $secondary-color, $radius: true, $full-width: true);
+	&.selected-button {
+		background-color: darken($secondary-color, $button-function-factor);
+		.select-icon {
+			&:before {
+				content: "\f14a";
+				font-size: .9em;
+			}
+		}
+	}
+	.select-icon {
+		display: inline-block;
+		font-family: FontAwesome;
+		font-style: normal;
+		font-weight: normal;
+		line-height: 1;
+		&:before {
+			content: "\f096";
+		}
+	}
+	.fa-edit:before {
+		position: relative;
+		top: 1px;
+	}
 }

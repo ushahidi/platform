@@ -16,7 +16,7 @@
 
 /*@2x RETINA IMAGES - use image that's scaled by 2*/
 
-/* EXAMPLE: 
+/* EXAMPLE:
 
 div.logo {
    background: url("logo.png") no-repeat;
@@ -61,4 +61,10 @@ div.logo {
 	margin: 0 auto;
 	line-height: 2em;
 	color: $white;
+}
+
+%unselectable {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }

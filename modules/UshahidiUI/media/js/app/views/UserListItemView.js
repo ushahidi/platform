@@ -107,46 +107,33 @@ define(['App', 'handlebars', 'marionette', 'underscore', 'alertify', 'text!templ
 			},
 
 			/**
-			 * Select this item (for bulk actions)
-			 */
+			* Select this item (for bulk actions)
+			*/
 			select : function ()
 			{
 				this.selected = true;
 				this.$('.js-select-input').prop('checked', true);
-
-				// Update font awesome icon to indicate the checked state. Ideally we should
-				// style this from css
-				this.$('.js-user-select').removeClass('fa-check-square-o').addClass('fa-check-square');
 				this.trigger('select');
 			},
 
 			/**
-			 * Unselect this item (for bulk actions)
-			 */
+			* Unselect this item (for bulk actions)
+			*/
 			unselect : function ()
 			{
 				this.selected = false;
 				this.$('.js-select-input').prop('checked', false);
-
-				// Update font awesome icon to indicate the unchecked state. Ideally we should
-				// style this from css
-				this.$('.js-user-select').removeClass('fa-check-square').addClass('fa-check-square-o');
-
 				this.trigger('unselect');
 			},
 
-			/**
-			 * Updated 'selected' value from DOM
-			 */
 			updatedSelected : function (e)
 			{
 				var $el = this.$(e.currentTarget);
 				this.selected = $el.is(':checked');
 				this.trigger(this.selected ? 'select' : 'unselect');
 
-				$el.siblings('.fa')
-					.toggleClass('fa-check-square', this.selected)
-					.toggleClass('fa-check-square-o', ! this.selected);
-			},
+				$el.parent()
+					.toggleClass('selected-button', this.selected);
+			}
 		});
 	});

@@ -44,15 +44,16 @@
 				<ul class="list-view-edit">
 					{{#if allowed_methods.put}}
 						<li>
-							<label class="checkbox list-view-edit-buttons">
-							<input type="checkbox" name="select-post" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
-							<i class="fa fa-check-square-o js-user-select"></i> select
+							<label class="checkbox  list-view-edit-button">
+								<input type="checkbox" name="select-post" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
+								<i class="select-icon"></i> <span>select</span>
 							</label>
 						</li>
-						<li><a href="#" class="list-view-edit-buttons js-user-edit" title="edit this post"><i class="fa  fa-edit"></i> edit</a></li>
-
 						<li>
-							<a href="#" data-dropdown="drop-user-roles{{id}}" class="list-view-edit-buttons" title="change user role">
+							<a href="#" class="list-view-edit-button  js-user-edit" title="edit this post"><i class="fa  fa-edit"></i> edit</a>
+						</li>
+						<li>
+							<a href="#" data-dropdown="drop-user-roles{{id}}" class="list-view-edit-button" title="change user role">
 								<i class="fa  fa-cogs"></i> change role</a>
 							<ul id="drop-user-roles{{id}}" class="f-dropdown" data-dropdown-content>
 								{{#each roles}}
@@ -63,7 +64,7 @@
 					{{/if}}
 
 					{{#if allowed_methods.delete}}
-						<li><a href="#" class="list-view-edit-buttons js-user-delete" title="delete this user"><i class="fa  fa-trash-o"></i> delete</a></li>
+						<li><a href="#" class="list-view-edit-button js-user-delete" title="delete this user"><i class="fa  fa-trash-o"></i> delete</a></li>
 					{{/if}}
 				</ul> <!-- end .list-view-post-edit -->
 			</div> <!-- end .list-view-post-edit-wrapper-->
