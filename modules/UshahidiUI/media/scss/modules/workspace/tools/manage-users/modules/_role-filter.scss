@@ -17,13 +17,9 @@
 \*------------------------------------*/
 
 .search-field-wrapper--filter--role {
-  @extend %search-field-wrapper--filter;
+	@extend %search-field-wrapper--filter;
 	@include grid-column(12);
-	padding: 0 20px;
-	border-top: 1px solid $secondary-color;
 	@media #{$small} {
 		@include grid-column(3, $float: right);
-		border-top: none;
-		margin: 17px 0 0 0;
 	}
 }

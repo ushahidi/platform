@@ -17,14 +17,15 @@
 
 .filter {
 	@include grid-column(12);
-	background-color: $white;
+	background-color: darken($secondary-color, 2);
+@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));;
 }
 
 .filter-categories {
 	@include grid-column(12);
 	margin-top: 15px;
 	@media #{$small} {
-		@include grid-column(9);
+		@include grid-column(9, $collapse: true);
 		margin-top: 0;
 	}
 	.dropdown-button {
@@ -39,7 +40,7 @@
 
 %filter-categories-list,
 .filter-categories-list {
-	@include block-grid(5);
+	margin: 0;
 	&:after {
 		content: none;
 		display: table;
@@ -50,29 +51,30 @@
 			display: inline-block !important;
 		}
 	}
-	a {
-		float: left;
-	}
 	li {
-		border-right: 1px solid $secondary-color;
-		border-bottom: 3px solid transparent;
+		float: left;
+		width: 25%;
+		border-right: 1px solid darken($secondary-color, 10);
+		border-top: 3px solid transparent;
 		padding: 0 10px;
 		font-size: emCalc(14);
-		color: $sub-body-font-color;
+		color: $body-font-color;
 		line-height: 2.4em;
-		text-align: center;
+		cursor: pointer;
 		@media #{$small} {
-			padding: 19px;
+			padding: 10px 19px;
 		}
-		&.active {
-			background-color: darken($secondary-color, 2);
+		a {
 			color: $body-font-color;
 			font-weight: bold;
-			border-bottom: 3px solid $primary-color;
+		}
+		&.active {
+			background-color: $white;
+			color: $body-font-color;
+			font-weight: bold;
 		}
 		&:hover:not(.active) {
 			background-color: darken($secondary-color, 2);
-			border-bottom: 3px solid $primary-color;
 		}
 		&:active:not(.active) {
 			background-color: darken($secondary-color, 6);
@@ -88,7 +90,8 @@
 
 %filter-count-number {
 	position: relative;
-	top: -5px;
+	top: 2px;
+	float: right;
 	display: inline-block;
 	width: 24px;
 	height: 24px;
@@ -100,6 +103,9 @@
 	text-decoration: none;
 	line-height: 1;
 	white-space: nowrap;
+	@media #{$small} {
+		margin-left: 8px;
+	 }
 }
 
 [class*='-count-number'] {
@@ -117,9 +123,18 @@ $color5: $primary-color;
 $colors: $color1, $color2, $color3, $color4, $color5;
 
 @for $i from 1 through length($colors) {
-	.filter-categories-list li:nth-child(#{length($colors)}n+#{$i}) [class*='-count-number'] {
-		background-color: (nth($colors, $i));
+	.filter-categories-list li:nth-child(#{length($colors)}n+#{$i}) {
+		[class*='-count-number'] {
+			background-color: (nth($colors, $i));
+		}
+		&.active {
+			border-top: 3px solid (nth($colors, $i));
+		}
+		&:hover:not(.active) {
+			border-top: 3px solid (nth($colors, $i));
+		}
 	}
+
 }
 
 
@@ -129,6 +144,16 @@ $colors: $color1, $color2, $color3, $color4, $color5;
    $FILTER SEARCH FIELD WRAPPER
 \*------------------------------------*/
 
-%search-field-wrapper--filter {
+%search-field-wrapper--filter{
 	@extend %search-field-wrapper;
+	border-top: 1px solid $secondary-color;
+	margin-top: 8px;
+	padding: 0 20px;
+	@media #{$small} {
+		border-top: none;
+		.search-field input[type="search"],
+		.search-bar-button button {
+			margin: 0;
+		}
+	}
 }

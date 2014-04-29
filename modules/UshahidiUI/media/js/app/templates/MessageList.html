@@ -42,72 +42,71 @@
 		<div class="row">
 			<div class="filter-categories">
 				<ul class="filter-categories-list  filter-categories-list--message  js-filter-categories-list  hide-for-small">
-					<a href="">
-						<li class="active  js-message-filter-all" data-role-name="">
-							<span class="message-type"><i class="fa  "></i> All
-								<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
+					<li class="active  js-message-filter-all" data-role-name="">
+						<a href="">
+							<span class="message-type">All<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
 							</span>
-						</li>
-					</a>
+						</a>
+					</li>
 
-					<a href="">
-						<li class="js-message-filter-inbox" data-role-name="">
-							<span class="message-type"><i class="fa  fa-inbox"></i> Inbox
+					<li class="js-message-filter-inbox" data-role-name="">
+						<a href="">
+							<span class="message-type">Inbox
 								<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
 							</span>
-						</li>
-					</a>
+						</a>
+					</li>
 
-					<a href="">
-						<li class="js-message-filter-outbox" data-role-name="">
-							<span class="message-type"><i class="fa  "></i> Outbox
+					<li class="js-message-filter-outbox" data-role-name="">
+						<a href="">
+							<span class="message-type">Outbox
 								<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
 							</span>
-						</li>
-					</a>
+						</a>
+					</li>
 
-					<a href="">
-						<li class="js-message-filter-archive" data-role-name="">
-							<span class="message-type"><i class="fa  fa-archive"></i> Archive
+					<li class="js-message-filter-archive" data-role-name="">
+						<a href="">
+							<span class="message-type">Archive
 								<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
 							</span>
-						</li>
-					</a>
+						</a>
+					</li>
 				</ul>
 
 				<a href="#/" data-dropdown="drop-roles" class="dropdown-button  show-for-small">filter by roles</a><br>
 				<ul id="drop-roles" data-dropdown-content class="dropdown-list  js-filter-categories-list  f-dropdown  show-for-small">
-					<a href="">
-						<li class="active  dropdown-list__item  js-message-filter-all" data-role-name="">
+					<li class="active  dropdown-list__item  js-message-filter-all" data-role-name="">
+						<a href="">
 							<span class="message-type">All
 							<span class="{{name}}-count-number  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
 												</span>
-						</li>
-					</a>
+						</a>
+					</li>
 
-					<a href="">
-						<li class="dropdown-list__item  js-message-filter-inbox" data-role-name="">
+					<li class="dropdown-list__item  js-message-filter-inbox" data-role-name="">
+						<a href="">
 							<span class="message-type"><i class="fa  fa-inbox"></i> Inbox
 							<span class="{{name}}-count-number  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
 							</span>
-						</li>
-					</a>
+						</a>
+					</li>
 
-					<a href="">
-						<li class="dropdown-list__item  js-message-filter-outbox" data-role-name="">
+					<li class="dropdown-list__item  js-message-filter-outbox" data-role-name="">
+						<a href="">
 							<span class="message-type"><i class="fa  "></i> Outbox
 							<span class="{{name}}-count-number  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
 							</span>
-						</li>
-					</a>
+						</a>
+					</li>
 
-					<a href="">
-						<li class="dropdown-list__item  js-message-filter-archive" data-role-name="">
+					<li class="dropdown-list__item  js-message-filter-archive" data-role-name="">
+						<a href="">
 							<span class="message-type"><i class="fa  fa-archive"></i> Archive
 							<span class="{{name}}-count-number  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
 							</span>
-						</li>
-					</a>
+						</a>
+					</li>
 				</ul>
 			</div>
 			<div class="search-field-wrapper--filter--message">
