@@ -25,6 +25,8 @@
     "grunt-contrib-imagemin": "~0.1.4",
     "grunt-autoprefixer": "~0.4",
     "load-grunt-tasks": "~0.2.1",
+    "css-parse": "~1.5.3",
+    "grunt-combine-media-queries": "~1.0.15"
     "grunt-phpspec": "0.0.3"
   },
   "keywords": [
