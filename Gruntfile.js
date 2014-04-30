@@ -90,6 +90,18 @@ module.exports = function(grunt) {
 			}
 		},
 
+		phpspec:
+		{
+			core :
+			{
+				specs: 'spec/'
+			},
+			options :
+			{
+				prefix: 'bin/'
+			}
+		},
+
 		watch :
 		{
 			sass :
@@ -114,6 +126,12 @@ module.exports = function(grunt) {
 				{
 					livereload : true
 				}
+			},
+
+			specs :
+			{
+				files : ['spec/**/*.php'],
+				tasks : ['phpspec']
 			}
 		}
 	});
