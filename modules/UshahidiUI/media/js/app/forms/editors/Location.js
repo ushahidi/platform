@@ -5,9 +5,11 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
 		tagName : 'div',
 		template : Handlebars.compile(template),
-		baseMaps : {
-			'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
-			'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'})
+		baseMaps : function () {
+			return {
+				'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
+				'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'})
+			};
 		},
 		defaultMap : 'MapQuest',
 		marker : null,
@@ -34,6 +36,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		{
 			var that = this,
 					$editor = this.template(_.result(this, 'templateData')),
+					baseMaps,
 					map;
 
 			//this.setElement($editor);
@@ -46,11 +49,14 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				return this;
 			}
 
+			baseMaps = _.result(this, 'baseMaps');
+			ddt.log('LocationEditor', 'baseMaps', baseMaps);
+
 			// create a map in the 'map' div, set the view to a given place and zoom
 			map = this.map = L.map(this.$('.map')[0], {
 				center : new L.LatLng(this.value.lat, this.value.lon),
 				zoom : 15,
-				layers : [this.baseMaps[this.defaultMap]],
+				layers : [baseMaps[this.defaultMap]],
 				scrollWheelZoom : false
 			});
 			// Disable 'Leaflet prefix on attributions'
@@ -65,7 +71,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 				that.setValue(e.latlng);
 			});
 
-			L.control.layers(this.baseMaps, {}).addTo(this.map);
+			L.control.layers(baseMaps, {}).addTo(this.map);
 
 			// Add geolocation search control
 			this.geosearch = new L.Control.GeoSearch({
@@ -85,6 +91,21 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 			}).addTo(this.map);
 
 			return this;
+		},
+
+		/**
+		 * Override default remove function in order to remove map
+		 */
+		remove: function() {
+			ddt.log('LocationEditor', 'LocationEditor.remove', this.map);
+			if (this.map)
+			{
+				ddt.log('LocationEditor', 'Calling map.remove()');
+				this.map.remove();
+				delete this.map;
+			}
+
+			Backbone.Form.editors.Base.prototype.remove.call(this);
 		},
 
 		/**
@@ -146,6 +167,7 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		{
 			if (typeof this.map !== 'undefined')
 			{
+				ddt.log('LocationEditor', 'Calling map.invalidateSize()', this.map);
 				this.map.invalidateSize();
 			}
 		},

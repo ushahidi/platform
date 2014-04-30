@@ -33,6 +33,7 @@ define(['App', 'marionette', 'handlebars', 'underscore',
 			setViews : function(views)
 			{
 				_.extend(this.views, views);
+				ddt.log('HomeLayout', 'set views', views);
 				return this;
 			},
 			/**
@@ -41,39 +42,54 @@ define(['App', 'marionette', 'handlebars', 'underscore',
 			 */
 			showRegions : function()
 			{
+				ddt.log('HomeLayout', 'showRegions');
 				if (this.mapRegion.currentView instanceof MapView === false && this.views.map)
 				{
+					ddt.log('HomeLayout', 'showMap');
 					this.mapRegion.show(new MapView({
 						collection : this.collection
 					}));
 				}
 				else if(! this.views.map)
 				{
+					ddt.log('HomeLayout', 'closingMap');
 					this.mapRegion.close();
 				}
 
 				if (this.contentRegion.currentView instanceof PostListView === false && this.views.list)
 				{
+					ddt.log('HomeLayout', 'showList');
 					this.contentRegion.show(new PostListView({
 						collection: this.collection
 					}));
 				}
 				else if(! this.views.list)
 				{
+					ddt.log('HomeLayout', 'closeList');
 					this.contentRegion.close();
 				}
 
 				if (this.searchRegion.currentView instanceof SearchBarView === false && this.views.search)
 				{
+					ddt.log('HomeLayout', 'showSearch');
 					this.searchRegion.show(new SearchBarView({
 						collection : App.Collections.Tags
 					}));
 				}
 				else if(! this.views.search)
 				{
+					ddt.log('HomeLayout', 'closeSearch');
 					this.searchRegion.close();
 				}
 				return this;
+			},
+			onClose : function()
+			{
+				ddt.log('HomeLayout', 'onClose');
+			},
+			onShow : function()
+			{
+				ddt.log('HomeLayout', 'onShow');
 			}
 
 		});

@@ -140,8 +140,18 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 
 			onClose : function()
 			{
-				if (this.map instanceof L.map)
+				ddt.log('MapView', 'MapView.onClose', this.map);
+				if (this.map)
 				{
+					// Manually remove layers, map.remove() doesn't do it for us.
+					// https://github.com/Leaflet/Leaflet/issues/2657
+					_.each(this.baseMaps, function (layer)
+						{
+							ddt.log('MapView', 'removing map layer', layer);
+							this.map.removeLayer(layer);
+						}, this);
+
+					ddt.log('MapView', 'Calling map.remove()');
 					this.map.remove();
 					delete this.map;
 				}

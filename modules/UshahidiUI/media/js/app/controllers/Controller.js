@@ -182,6 +182,7 @@ define(['App', 'backbone', 'marionette',
 			{
 				if (this.layout.mainRegion.currentView instanceof HomeLayout === false)
 				{
+					ddt.log('Controller', 'showHomeLayout');
 					this.layout.mainRegion.show(this.homeLayout);
 				}
 				this.homeLayout.showRegions();
