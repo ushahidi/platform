@@ -358,7 +358,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		elseif ($source == 'api')
 		{
 			// Ensure url ends with /
-			if (substr_compare($url, '/', -1) !== 0) $url .= '/';
+			$url = rtrim($url, '/') . '/';
 			
 			$request = $this->_request("{$url}index.php/api?task=version")
 				->headers('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
