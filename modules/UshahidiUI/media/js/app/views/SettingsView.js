@@ -28,9 +28,8 @@ define([ 'App', 'marionette', 'handlebars', 'jquery', 'alertify', 'underscore', 
 
 						alertify.success('Settings saved.');
 
-						// return to previous page
-						// this is weird, see T199
-						window.history.back();
+						// After saving stay on the same page till there is a
+						// dashboard to navigate to.
 					})
 				.fail(function (response /*, xhr, options*/)
 					{
