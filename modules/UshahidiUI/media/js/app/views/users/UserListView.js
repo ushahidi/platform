@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/UserListItemView', 'views/EmptyView', 'text!templates/UserList.html'],
+define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/users/UserListItemView', 'views/EmptyView', 'text!templates/users/UserList.html'],
 	function( App, Marionette, Handlebars, _, alertify, UserListItemView, EmptyView, template)
 	{
 		return Marionette.CompositeView.extend(

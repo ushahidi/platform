@@ -17,8 +17,6 @@ define(['App', 'backbone', 'marionette',
 	'views/FooterView',
 
 	'views/WorkspacePanelView',
-	'views/SearchBarView',
-	'views/PostListView',
 
 	'collections/PostCollection',
 	'collections/TagCollection',
@@ -38,8 +36,6 @@ define(['App', 'backbone', 'marionette',
 		FooterView,
 
 		WorkspacePanelView,
-		SearchBarView,
-		PostListView,
 
 		PostCollection,
 		TagCollection,
@@ -194,7 +190,7 @@ define(['App', 'backbone', 'marionette',
 						model,
 						relatedPosts;
 
-				require(['views/PostDetailLayout', 'views/PostDetailView', 'views/RelatedPostsView', 'views/MapView', 'models/PostModel'],
+				require(['views/posts/PostDetailLayout', 'views/posts/PostDetailView', 'views/posts/RelatedPostsView', 'views/MapView', 'models/PostModel'],
 					function(PostDetailLayout, PostDetailView, RelatedPostsView, MapView, PostModel)
 				{
 					App.vent.trigger('page:change', 'posts/:id');
@@ -257,7 +253,7 @@ define(['App', 'backbone', 'marionette',
 			sets : function ()
 			{
 				var that = this;
-				require(['views/SetListView'], function(SetListView)
+				require(['views/sets/SetListView'], function(SetListView)
 				{
 					App.vent.trigger('page:change', 'sets');
 					that.layout.mainRegion.show(new SetListView({
@@ -269,7 +265,7 @@ define(['App', 'backbone', 'marionette',
 			setDetail : function(/* id */)
 			{
 				var that = this;
-				require(['views/SetDetailView'], function(SetDetailView)
+				require(['views/sets/SetDetailView'], function(SetDetailView)
 				{
 					App.vent.trigger('page:change', 'sets/:id');
 					that.layout.mainRegion.show(new SetDetailView());
@@ -279,7 +275,7 @@ define(['App', 'backbone', 'marionette',
 			users : function()
 			{
 				var that = this;
-				require(['views/UserListView','collections/UserCollection'], function(UserListView,UserCollection)
+				require(['views/users/UserListView','collections/UserCollection'], function(UserListView,UserCollection)
 				{
 					App.vent.trigger('page:change', 'users');
 
@@ -295,7 +291,7 @@ define(['App', 'backbone', 'marionette',
 			tags : function()
 			{
 				var that = this;
-				require(['views/TagListView'], function(TagListView)
+				require(['views/tags/TagListView'], function(TagListView)
 				{
 					App.vent.trigger('page:change', 'tags');
 					App.Collections.Tags.fetch();
@@ -357,7 +353,7 @@ define(['App', 'backbone', 'marionette',
 			{
 				var that = this;
 				this.homeLayout.close();
-				require(['views/MessageListView', 'collections/MessageCollection'], function(MessageListView, MessageCollection)
+				require(['views/messages/MessageListView', 'collections/MessageCollection'], function(MessageListView, MessageCollection)
 				{
 					App.vent.trigger('page:change', view ? 'messages/' + view : 'messages');
 

@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App','handlebars', 'marionette', 'alertify', 'text!templates/TagListItem.html'],
+define(['App','handlebars', 'marionette', 'alertify', 'text!templates/tags/TagListItem.html'],
 	function(App,Handlebars, Marionette, alertify, template)
 	{
 		//ItemView provides some default rendering logic

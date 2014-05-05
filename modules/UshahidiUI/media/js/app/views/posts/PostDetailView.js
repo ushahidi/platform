@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'jquery', 'App', 'handlebars', 'views/PostItemView', 'text!templates/PostDetail.html', 'text!templates/values/ValueContainer.html'],
+define(['underscore', 'jquery', 'App', 'handlebars', 'views/posts/PostItemView', 'text!templates/posts/PostDetail.html', 'text!templates/values/ValueContainer.html'],
 	function(_, $, App, Handlebars, PostItemView, template, valueContainerTemplate)
 	{
 		var PostDetailView = PostItemView.extend(

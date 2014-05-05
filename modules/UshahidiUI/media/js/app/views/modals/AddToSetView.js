@@ -7,11 +7,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'marionette', 'handlebars', 'text!templates/modals/AddToSet.html', 'text!templates/partials/set-module-mini.html'],
-	function( Marionette, Handlebars, template, setModuleMiniTemplate)
+define([ 'marionette', 'handlebars', 'text!templates/modals/AddToSet.html', 'text!templates/sets/SetItemMini.html'],
+	function( Marionette, Handlebars, template, setItemMiniTemplate)
 	{
 		// Hacky - make sure we register partials before we call compile
-		Handlebars.registerPartial('set-module-mini', setModuleMiniTemplate);
+		Handlebars.registerPartial('SetItemMini', setItemMiniTemplate);
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
 			initialize: function() { },

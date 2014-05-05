@@ -8,7 +8,7 @@
  */
 
 define(['App', 'marionette', 'handlebars', 'underscore',
-'text!templates/HomeLayout.html', 'views/SearchBarView', 'views/MapView', 'views/PostListView'],
+'text!templates/HomeLayout.html', 'views/SearchBarView', 'views/MapView', 'views/posts/PostListView'],
 	function(App, Marionette, Handlebars, _, template, SearchBarView, MapView, PostListView)
 	{
 		return Marionette.Layout.extend(

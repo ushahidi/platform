@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'views/SetListItemView',
-	'text!templates/SetList.html', 'text!templates/partials/pagination.html'],
+define(['App', 'marionette', 'handlebars','underscore', 'views/sets/SetListItemView',
+	'text!templates/sets/SetList.html', 'text!templates/partials/pagination.html'],
 	function(App, Marionette, Handlebars, _, SetListItemView,
 		template, paginationTemplate)
 	{

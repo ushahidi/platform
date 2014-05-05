@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'underscore', 'views/PostItemView', 'text!templates/PostListItem.html'],
+define(['handlebars', 'underscore', 'views/posts/PostItemView', 'text!templates/posts/PostListItem.html'],
 	function(Handlebars, _, PostItemView, template)
 	{
 		return PostItemView.extend(

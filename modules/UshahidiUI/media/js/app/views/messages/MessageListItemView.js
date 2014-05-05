@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'handlebars', 'marionette', 'alertify', 'underscore', 'models/PostModel', 'text!templates/MessageListItem.html',],
+define(['App', 'handlebars', 'marionette', 'alertify', 'underscore', 'models/PostModel', 'text!templates/messages/MessageListItem.html',],
 	function(App, Handlebars, Marionette, alertify, _, PostModel, template)
 	{
 		//ItemView provides some default rendering logic
