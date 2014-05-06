@@ -1,37 +1,50 @@
 <?php
 
 /**
- * Ushahidi Init
- *
- * Clean code bootstrap
+ * Ushahidi Platform Bootstrap
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application
+ * @package    Ushahidi\Platform
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+// For dependency management and autoloading, we use [Composer][composer].
+//
+// **If you haven't already done so, you should run `composer install` now.**
+//
+// [composer]: http://getcomposer.org/
 require __DIR__ . '/../vendor/autoload.php';
 
-// global depdendency container, using Pimple:
-// http://pimple.sensiolabs.org/
-function service($what = null) {
-	static $container;
-	if (!$container) {
-		$container = new \Pimple(array(
-			'config.storage' => '\Ushahidi\Storage\Kohana\ConfigRepository',
-			// 'user.storage' => '\Ushahidi\Storage\User\KohanaORM',
-		));
+// The global [Dependency Injection][di] container lives inside of a global
+// `service()` function. This avoids the need to have a global variable, and
+// allows for easy access to loading services by using the `$what` parameter.
+//
+// Currently, we use [Aura.Di][auradi] to power the container.
+//
+// [di]: https://en.wikipedia.org/wiki/Dependency_injection
+// [auradi]: https://github.com/auraphp/Aura.Di/tree/develop-2
+function service($what = null)
+{
+	static $di;
+	if (!$di) {
+		$di = new Aura\Di\Container(new Aura\Di\Factory);
 	}
 	if ($what) {
-		return $container[$what];
+		return $di->get($what);
 	}
-	return $container;
+	return $di;
 }
 
-// global feature checking
+// A special configuration group called "features" stores a list of feature
+// toggles. These switches are used to enable and disable specific aspects
+// of the platform. Often, features are used to to toggle beta or debugging
+// code on and off. To make this as easy as possible, we define a global
+// feature() function that always responds boolean.
+//
+// **Features that do not exist will always return `false`.**
 function feature($name) {
-	$config = service('config');
+	$config = service('repository.config');
 	try {
 		$conf = $config->get('features');
 	} catch (\Exception $e) {
@@ -40,14 +53,13 @@ function feature($name) {
 	return !empty($conf->$name);
 }
 
-
+// All services set in the container should follow a `prefix.name` format,
+// such as `repository.user` or `validate.user.login` or `tool.hash.password`.
+//
+// When adding services that are private to a plugin, define them with a
+// `namespace.`, such as `acme.tool.hash.magic`.
 $services = service();
 
-// Standard services
-$services['config'] = function($c) {
-	return new $c['config.storage']($c['config.backend']);
-};
+// code from D84 will start to define default services:
+/* $services->set('usecase.user.login', $app->lazyNew('\Ushahidi\Usecase\User\Login')); */
 
-// $app['user'] = function($c) {
-// 	return new $c['user.storage'];
-// };

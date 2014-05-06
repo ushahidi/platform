@@ -1,7 +1,7 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access');
 
 /**
- * Entity storage for Config
+ * Ushahidi Config Repository, using Kohana::$config
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,23 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Storage\Kohana;
+use Ushahidi\Entity\Config as ConfigEntity;
+use Ushahidi\Entity\ConfigRepository;
 
-use \Kohana_Config as Backend;
-
-use \Ushahidi\Entity\Config as ConfigEntity;
-use \Ushahidi\Entity\ConfigRepository as ConfigRepositoryInterface;
-
-class ConfigRepository implements ConfigRepositoryInterface
+class Ushahidi_Repository_Config implements ConfigRepository
 {
-
-	protected $backend;
-
-	public function __construct(Backend $backend)
-	{
-		$this->backend = $backend;
-	}
-
 	public function groups()
 	{
 		return array(
@@ -72,7 +60,7 @@ class ConfigRepository implements ConfigRepositoryInterface
 
 		$result = array();
 		foreach ($groups as $group) {
-			$config = $this->backend->load($group)->as_array();
+			$config = Kohana::$config->load($group)->as_array();
 			$result[] = new ConfigEntity($config, $group);
 		}
 
@@ -83,7 +71,7 @@ class ConfigRepository implements ConfigRepositoryInterface
 	{
 		$this->verifyGroup($group);
 
-		$config = $this->backend->load($group)->as_array();
+		$config = Kohana::$config->load($group)->as_array();
 
 		return new ConfigEntity($config, $group);
 	}
@@ -92,7 +80,7 @@ class ConfigRepository implements ConfigRepositoryInterface
 	{
 		$this->verifyGroup($group);
 
-		$config = $this->backend->load($group);
+		$config = Kohana::$config->load($group);
 		$config->set($key, $value);
 
 		return $this->get($group, $key);

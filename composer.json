@@ -1,6 +1,6 @@
 {
     "require" : {
-        "pimple/pimple": "2.0.*",
+        "aura/di": "2.0.*@dev",
         "kohana/core" : "3.3.*@dev",
         "kohana/database" : "3.3.*@dev",
         "kohana/cache" : "3.3.*@dev",

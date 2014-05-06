@@ -18,6 +18,14 @@ abstract class Ushahidi_Core {
 	public static function init()
 	{
 		/**
+		 * 0. Register depenendencies for injection.
+		 */
+		$di = service();
+
+		// Repositories
+		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
+
+		/**
 		 * 1. Plugin Registration Listener
 		 */
 		Event::instance()->listen(
@@ -33,24 +41,19 @@ abstract class Ushahidi_Core {
 		 */
 		self::load();
 
-		// Store Kohana::$config as the service backend for config
-		// This MUST be done before attaching DB config or reading any "site" values!
-		$service = service();
-		$service['config.backend'] = Kohana::$config;
-
 		/**
 		 * Attach database config
 		 */
 		self::attached_db_config();
 
 		// Set site name in all view
-		View::set_global('site_name', Kohana::$config->load('site')->get('site_name'));
+		View::set_global('site_name', service('repository.config')->get('site')->site_name);
 	}
 
 	public static function attached_db_config()
 	{
 		// allowed groups are stored with the config service.
-		$groups = service('config')->groups();
+		$groups = service('repository.config')->groups();
 
 		/**
 		 * Attach database config to override some settings

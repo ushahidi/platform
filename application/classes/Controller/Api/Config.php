@@ -63,7 +63,7 @@ class Controller_Api_Config extends Ushahidi_Api {
 	{
 		$groups = (array) $this->request->query('groups');
 
-		$repo = service('config');
+		$repo = service('repository.config');
 		try
 		{
 			$results = $repo->all($groups);
@@ -94,7 +94,7 @@ class Controller_Api_Config extends Ushahidi_Api {
 	{
 		$group = $this->request->param('id');
 
-		$repo = service('config');
+		$repo = service('repository.config');
 		try
 		{
 			$config = $repo->get($group);
@@ -119,7 +119,7 @@ class Controller_Api_Config extends Ushahidi_Api {
 		$post = $this->_request_payload;
 		$group = $this->request->param('id');
 
-		$repo = service('config');
+		$repo = service('repository.config');
 		try
 		{
 			foreach ($post as $key => $value)

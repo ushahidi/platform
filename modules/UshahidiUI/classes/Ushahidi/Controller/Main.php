@@ -15,8 +15,8 @@ abstract class Ushahidi_Controller_Main extends Controller_Template {
 
 	public function action_index()
 	{
-		// access the config service
-		$config = service('config');
+		// access the config repository
+		$config = service('repository.config');
 
 		$this->template->config = array(
 			// these values can be modified in db
