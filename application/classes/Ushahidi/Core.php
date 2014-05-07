@@ -24,6 +24,7 @@ abstract class Ushahidi_Core {
 
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
+		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 
 		/**
 		 * 1. Plugin Registration Listener
