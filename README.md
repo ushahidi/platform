@@ -109,7 +109,7 @@ You can install the Behat, Mink, PHPUnit and other required packages using
 [Composer](getcomposer.org). Just run:
 
 ```bash
-composer install --require-dev
+composer install
 ```
 
 Behat and PHPUnit will be installed to `bin/` at the root of the repository.
