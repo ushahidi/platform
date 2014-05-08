@@ -5,21 +5,36 @@ Ushahidi 3
 
 ## What is Ushahidi 3.x?
 
-Ushahidi is an open source web application for information collection, visualization and interactive mapping. It helps you to collect info from: SMS, Twitter, RSS feeds, Email. It helps you to process that information, categorize it, geo-locate it and publish it on a map.
+Ushahidi is an open source web application for information collection, visualization,
+and interactive mapping. It helps collect data from many sources, including: email,
+SMS text messaging, Twitter streams, and RSS feeds. The platform offers tools to
+help process that information, categorize it, geo-locate it and publish it on a map.
 
-Ushahidi 3.x is the next iteration of this tool, rebuilt from the ground up -- not only the code but the way in which we think about users interacting with mobile and social data.  Crowdsourcing strategies have come a long way in the five years Ushahidi has been around and we've been fortunate enough to learn a lot from our global community.
+Ushahidi 3.x is the next iteration of this tool, rebuilt from the ground up.
+Not only the code but the way in which we think about users interacting with mobile
+and social data. Crowdsourcing strategies have come a long way in the five years
+Ushahidi has been around and we've been fortunate enough to learn a lot from our
+global community.
 
 ### Should I use Ushahidi 3.x for my new project?
 
-Sorry, not yet.. Probably in 2014. I'd love to say you should, but right now its not complete, we're not even close to ironing out all the bugs.
+We don't recommend it right now. The platform is not complete and there lots of bugs.
 
 ### I'm a developer, should I contribute to Ushahidi 3.x?
 
-Maybe.. We're still in heavy development, many architecture questions haven't been answered yet, many that have will still change.
+We would love your help, but the platform is in heavy development with a rapid rate
+of change. If you're keen to help build something awesome, and happy to get deep
+into the core workings... then yes! Read about [getting involved][getin] page.
+Most of our active development happens on the [Ushahidi Phabricator][ushphab].
+If you haven't used Phabricator before, read [Phab Help][helpphab] after you sign up.
 
-If you just want to fix a few bugs, or build a prototype on Ushahidi.. you're probably better helping out on [Ushahidi 2.x](https://github.com/ushahidi/Ushahidi_Web) right now.
+If you just want to fix a few bugs, or build a prototype on Ushahidi, you're probably
+better helping out on [Ushahidi 2.x][ush2] right now.
 
-If you're keen to help build something awesome, and happy to get deep into the core workings.. then yes. [Jump on board](https://wiki.ushahidi.com/display/WIKI/Ushahidi%2C+v3.x+-+Getting+Involved)..
+[getin]: https://wiki.ushahidi.com/display/WIKI/Ushahidi%2C+v3.x+-+Getting+Involved)
+[ushphab]: https://phabricator.ushahidi.com/
+[helpphab]: https://phabricator.ushahidi.com/w/help/phabricator/
+[ush2]: https://github.com/ushahidi/Ushahidi_Web
 
 ## More info
 
@@ -27,102 +42,20 @@ If you're keen to help build something awesome, and happy to get deep into the c
 - [Ushahidi (the organisation)](http://ushahidi.com)
 - [Ushahidi Blog](http://blog.ushahidi.com)
 
-## Getting started
-
-### System Requirements
-
-To install the platform on your computer/server, the target system must meet the following requirements:
-
-* PHP version 5.3.0 or greater
-* Database Server
-    - MySQL version 5.5 or greater
-    - PostgreSQL support is coming
-* An HTTP Server. Ushahidi is known to work with the following web servers:
-    - Apache 2.2+
-    - nginx
-* Unicode support in the operating system
-
-
-### Getting the code
-
-You can get the code by cloning the github repo.
-
-```
-git clone --recursive https://github.com/ushahidi/Lamu
-```
-
-You need to use ```--recursive``` to initialize and clone all the submodules.
-If you've already cloned without submodules you can already initialize (or update) them but running:
-
-```
-git submodule update --init --recursive
-```
-
-### Installing
-1. Create a database
-2. Copy ```application/config/database.php``` to ```application/config/environments/development/database.php```
-3. Edit ```application/config/environments/development/database.php``` and set database, username and password params
-
-  ```
-  return array
-  (
-    'default' => array
-    (
-      'type'       => 'MySQLi',
-      'connection' => array(
-        'hostname'   => 'localhost',
-        'database'   => 'lamu',
-        'username'   => 'lamu',
-        'password'   => 'lamu',
-        'persistent' => FALSE,
-      ),
-      'table_prefix' => '',
-      'charset'      => 'utf8',
-      'caching'      => TRUE,
-      'profiling'    => TRUE,
-    )
-  );
-  ```
-
-4. Copy ```application/config/init.php``` to ```application/config/environments/development/init.php```
-
-   > **A note on urls, docroots and base_url**
-   >
-   > The repository is set up so that ```httpdocs``` is expected to be the doc root.
-   > If the docroot on your development server is /var/www and you put the code into /var/www/lamu
-   > then the base_url for your deployment is going to be http://localhost/lamu/httpdocs/
-   >
-   > If you're installing a live deployment you should set up a virtual host and make the
-   > ```DocumentRoot``` point directly to ```httpdocs```.
-   >
-   > If you can't use a vhost you can copy just the httpdocs directory into your docroot, rename it as needed.
-   > Then update the paths for application, modules and system in index.php.
-
-5. Edit ```application/config/environments/development/init.php``` and change base_url to point the the httpdocs directory in your deployment
-6. Copy ```httpdocs/template.htaccess``` to ```httpdocs/.htaccess```
-7. Edit ```httpdocs/.htaccess``` and change the RewriteBase value to match your deployment url
-8. Create directories ```application/cache```, ```application/media/uploads``` and ```application/logs``` and make sure they're writeable by your webserver
-    ```
-    mkdir application/cache application/logs application/media/uploads
-    chown www-data application/cache application/logs application/media/uploads
-    ```
-9. Install the database schema using migrations
-
-  ```
-  ./minion --task=migrations:run --up
-  ```
-
 ### Logging in the first time
 
-The default install creates a user 'demo' with password 'testing'. This user has admin privileges. Once logged in this user can create further user accounts or give others admin permissions too.
+The default install creates a user `demo` with password `testing`. This user has
+admin privileges. Once logged in this user can create further user accounts or
+give others admin permissions too.
 
 ### Configuration
 
-Base config files are in ```application/config/```.
+Base config files are in `application/config/`. You can add per-environment config
+overrides in `application/config/environments/`. The environment is switched based
+on the `KOHANA_ENV` environment variable.
 
-You can add per-environment config overrides in ```application/config/environments/```. The environment is switched based on the ```KOHANA_ENV``` environment variable.
-
-Routes are configured in ```application/routes/default.php```. Additional routes can be added in per-environment routing files ie. ```application/routes/development.php```.
+Routes are configured in `application/routes/default.php`. Additional routes can
+be added in per-environment routing files ie. `application/routes/development.php`.
 
 Release Notes
 -------------
@@ -152,14 +85,15 @@ When logging in you still get a standard OAuth authorization screen. This is bec
 
 #### How do I pull in SMS or Email
 
-This is working but the config is still in code. The main config is covered in ```application/config/data-providers.php```. We'll be publishing a detailed guide on how to do this soon!
+This is working but the config is still in code. The main config is covered in `application/config/data-providers.php`. We'll be publishing a detailed guide on how to do this soon!
 
 Extras
 ------
 
 ### Vagrantfile
 
-We've included a Vagrantfile and puppet manifests to help build a quick development box. Install [Vagrant](http://www.vagrantup.com/), then run ```vagrant up``` to get started!
+We've included a Vagrantfile and puppet manifests to help build a quick development box.
+Install [Vagrant](http://www.vagrantup.com/), then run `vagrant up` to get started!
 
 ### Travis-CI
 
@@ -168,14 +102,39 @@ See [.travis.yml](https://github.com/ushahidi/Lamu/blob/master/.travis.yml) for 
 
 ### Testing
 
+See the [3.x Testing](https://wiki.ushahidi.com/display/WIKI/3.x+Testing) page.
+
 We use PHPUnit for unit tests, and Behat and Mink for functional testing.
-You can install the Behat, Mink, PHPUnit and other required packages using [Composer](getcomposer.org). Just run
-```composer install```
+You can install the Behat, Mink, PHPUnit and other required packages using
+[Composer](getcomposer.org). Just run:
 
-Behat and PHPUnit will be installed to ```./bin``` at the root of the repository.
-
-Create a behat config file by copying ```application/tests/behat.template``` to ```application/tests/behat.yml```. Edit the file to set your deployments base url.
-Run the tests as follows:
+```bash
+composer install --require-dev
 ```
-./bin/behat --config application/tests/behat.yml
-./bin/phpunit -c application/tests/phpunit.xml
+
+Behat and PHPUnit will be installed to `bin/` at the root of the repository.
+Run the tests with:
+
+```bash
+bin/behat --config application/tests/behat.yml --format progress
+bin/phpunit -c application/tests/phpunit.xml
+```
+
+#### Creating feature tests
+
+Create your feature file in `application/tests/features/`, eg `foo.bar.feature`.
+You can run a single test with:
+
+
+```bash
+bin/behat --config application/tests/behat.yml application/tests/features/foo.bar.feature --format progress
+```
+
+#### Creating unit tests
+
+Create your test file in `application/tests/classes/Acme/`, eg `FooBarTest.php`.
+You can run a single test with:
+
+```bash
+bin/phpunit -c application/tests/phpunit.xml application/tests/classes/Acme/FooBarTest.php
+```
