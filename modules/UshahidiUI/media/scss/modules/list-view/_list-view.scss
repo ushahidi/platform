@@ -99,7 +99,7 @@
 .list-view-excerpt {
 	@include grid-column(12);
 	@media #{$small} {
-		@include grid-column(10, $offset: 2);
+		@include grid-column(10);
 		margin-left: 0;
 	}
 	@media #{$large} {

@@ -72,14 +72,18 @@
 		$RIGHT
 \*------------------------------------*/
 
-.top-bar-section li.create-post a{
+.top-bar-section li.create-post a:not(.button){
 	background-color: $success-color;
 	color: set-text-color($success-color);
+	&:hover {
+		background-color: scale-color($success-color, $lightness: $button-function-factor);
+		color: set-text-color($success-color);
+	}
 }
 
 .top-bar-section ul.right {
 	width: 110px;
-	background-color: $accent-color;
+	background-color: $white;
 	@media #{$medium} {
 		width: 252px;
 	}
@@ -129,5 +133,3 @@
 		}
 	}
 }
-
-

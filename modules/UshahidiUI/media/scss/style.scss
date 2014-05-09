@@ -71,12 +71,10 @@ NOTE: comment out what I don't use
 @import "foundation/components/type";
 @import "foundation/components/buttons";
 @import "foundation/components/forms"; // *requires components/buttons
-@import "foundation/components/custom-forms"; // *requires components/buttons, components/forms
 @import "foundation/components/button-groups"; // *requires components/buttons
 @import "foundation/components/dropdown-buttons"; // *requires components/buttons
 @import "foundation/components/split-buttons"; // *requires components/buttons
 /*@import "foundation/components/flex-video";*/
-@import "foundation/components/section";
 @import "foundation/components/top-bar";  // *requires components/grid
 /*@import "foundation/components/orbit";*/
 @import "foundation/components/reveal";
@@ -99,7 +97,7 @@ NOTE: comment out what I don't use
 @import "foundation/components/thumbs";
 /*@import "foundation/components/tooltips";*/
 @import "foundation/components/dropdown";
-
+@import "foundation/components/accordion";
 
 
 
@@ -139,6 +137,9 @@ NOTE: comment out what I don't use
 /*PAGINATION*/
 @import "partials/pagination/pagination";
 
+/*ACTIONS BAR*/
+@import "partials/actions-bar/actions-bar";
+
 
 
 
@@ -172,7 +173,6 @@ NOTE: comment out what I don't use
 /*WORKSPACE*/
 @import "modules/workspace/off-canvas";
 @import "modules/workspace/workspace-panel";
-@import "modules/workspace/actions-bar";
 @import "modules/workspace/tools/manage-users/manage-users";
 @import "modules/workspace/tools/manage-tags/manage-tags";
 @import "modules/workspace/incoming-messages/messages/messages";

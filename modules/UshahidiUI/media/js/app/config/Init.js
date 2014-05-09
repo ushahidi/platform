@@ -104,22 +104,23 @@ require.config(
 			exports: 'ddt'
 		},
 
-		'foundation/foundation' : {deps: ['jquery']},
+		'foundation/foundation' : {deps: ['jquery'], exports: 'Foundation'},
 		'foundation/foundation.abide': {deps: ['jquery', 'foundation/foundation'] },
-		'foundation/foundation.alerts': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.accordion': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.alert': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.clearing': {deps: ['jquery', 'foundation/foundation'] },
-		'foundation/foundation.cookie': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.dropdown': {deps: ['jquery', 'foundation/foundation'] },
-		'foundation/foundation.forms': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.equalizer': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.interchange': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.joyride': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.magellan': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.offcanvas': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.orbit': {deps: ['jquery', 'foundation/foundation'] },
-		'foundation/foundation.placeholder': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.reveal': {deps: ['jquery', 'foundation/foundation'] },
-		'foundation/foundation.section': {deps: ['jquery', 'foundation/foundation'] },
-		'foundation/foundation.tooltips': {deps: ['jquery', 'foundation/foundation'] },
-		'foundation/foundation.topbar': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.slider': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.tab': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.tooltip': {deps: ['jquery', 'foundation/foundation'] },
+		'foundation/foundation.topbar': {deps: ['jquery', 'foundation/foundation'] }
 	}
 });
 

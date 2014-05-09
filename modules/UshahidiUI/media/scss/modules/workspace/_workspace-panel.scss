@@ -118,7 +118,7 @@
 \*------------------------------------*/
 .workspace-menu {
 	@include grid-row;
-	@include section-container($section-type:accordion);
+	/*@include section-container($section-type:accordion);*/
 	i {
 		padding-left: 10px;
 	}
@@ -131,7 +131,7 @@
 /*$SECTION*/
 .workspace-menu {
 	section {
-		@include section($section-type:accordion, $title-color:$white, $title-font-size:17px, $content-bg:$white);
+		/*@include section($section-type:accordion, $title-color:$white, $title-font-size:17px, $content-bg:$white);*/
 		.title {
 			border: 0;
 			& a:before {
@@ -162,7 +162,7 @@
 		li {
 			padding: 10px 0;
 			&.active {
-				background: $section-content-bg-active;
+				/*background: $section-content-bg-active;*/
 			}
 			a {
 				color: $body-font-color;
