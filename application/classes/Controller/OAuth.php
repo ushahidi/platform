@@ -28,10 +28,13 @@ class Controller_OAuth extends Koauth_Controller_OAuth {
 	public function action_get_authorize()
 	{
 		// Check for login first?
+		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
+		$response = new OAuth2\Response();
 
-		if (! ($params = $this->_oauth2_server->validateAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request), new OAuth2_Response())) ) {
-			return;
+		if (!$this->_oauth2_server->validateAuthorizeRequest($request, $response)) {
+			$this->redirect('user/login');
 		}
+
 		// Don't do oauth response handling
 		$this->_skip_oauth_response = TRUE;
 
@@ -46,9 +49,10 @@ class Controller_OAuth extends Koauth_Controller_OAuth {
 		else
 		{
 			// Load the content template
-			$this->template = $view = View::factory('oauth/authorize');
-			$view->scopes = explode(' ', $params['scope']);
-			$view->params = $params;
+			$this->template = $view = View::factory('oauth/authorize')
+				->set('scopes', explode(' ', $this->request->query('scope')))
+				->set('client_id', $this->request->query('client_id'))
+				;
 
 			// Load the header/footer/layout
 			$this->header = View::factory($this->header);
@@ -81,7 +85,7 @@ class Controller_OAuth extends Koauth_Controller_OAuth {
 			$user = $auth->get_user();
 			// @todo CSRF validation
 			$authorized = (bool) $this->request->post('authorize');
-			$this->_oauth2_server->handleAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request), new OAuth2_Response(), $authorized, $user->id);
+			$this->_oauth2_server->handleAuthorizeRequest(Koauth_OAuth2_Request::createFromRequest($this->request), new OAuth2\Response(), $authorized, $user->id);
 		}
 	}
 

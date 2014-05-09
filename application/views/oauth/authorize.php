@@ -12,7 +12,7 @@
 				<div class="post-body">
 					<div class="authorization-wrapper">
 
-							<p class="auth-intro">The application "<?php echo $params['client_id']; ?>" is asking for authorization with these scopes:</p>
+							<p class="auth-intro">The application "<?php echo $client_id; ?>" is asking for authorization with these scopes:</p>
 							<ul><?php foreach($scopes as $scope) { ?>
 								<li><i class="fa  fa-check-square"></i><?php echo $scope; ?></li>
 								<?php } ?>

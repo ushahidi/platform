@@ -1,39 +1,39 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Wrapper for OAuth2_Server
+ * Wrapper for OAuth2\Server
  * 
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Koauth
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-class Koauth_OAuth2_Server extends OAuth2_Server
+class Koauth_OAuth2_Server extends OAuth2\Server
 {
 	/**
 	 * Overriding the Constructor to add our own default
 	 * 
 	 * @param mixed $storage
 	 * array - array of Objects to implement storage
-	 * OAuth2_Storage object implementing all required storage types (ClientCredentialsInterface and AccessTokenInterface as a minimum)
+	 * OAuth2\Storage object implementing all required storage types (ClientCredentialsInterface and AccessTokenInterface as a minimum)
 	 *
 	 * @param array $config
 	 * specify a different token lifetime, token header name, etc
 	 *
 	 * @param array $grantTypes
-	 * An array of OAuth2_GrantTypeInterface to use for granting access tokens
+	 * An array of OAuth2\GrantTypeInterface to use for granting access tokens
 	 *
 	 * @param array $responseTypes
 	 * Response types to use.  array keys should be "code" and and "token" for
 	 * Access Token and Authorization Code response types
 	 *
-	 * @param OAuth2_TokenTypeInterface $tokenType
+	 * @param OAuth2\TokenTypeInterface $tokenType
 	 * The token type object to use. Valid token types are "bearer" and "mac"
 	 *
-	 * @param OAuth2_ScopeInterface $scopeUtil
+	 * @param OAuth2\ScopeInterface $scopeUtil
 	 * The scope utility class to use to validate scope
 	 *
-	 * @param OAuth2_ClientAssertionTypeInterface $clientAssertionType
+	 * @param OAuth2\ClientAssertionTypeInterface $clientAssertionType
 	 * The method in which to verify the client identity.  Default is HttpBasic
 	 *
 	 * @return
@@ -49,9 +49,9 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 			array $config = array(),
 			array $grantTypes = array(),
 			array $responseTypes = array(),
-			OAuth2_TokenTypeInterface $tokenType = null,
-			OAuth2_ScopeInterface $scopeUtil = null,
-			OAuth2_ClientAssertionTypeInterface $clientAssertionType = null
+			OAuth2\TokenTypeInterface $tokenType = null,
+			OAuth2\ScopeInterface $scopeUtil = null,
+			OAuth2\ClientAssertionTypeInterface $clientAssertionType = null
 		)
 	{
 		if (empty($storage))
@@ -76,21 +76,21 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 		{
 			// Add grant types
 			$grantTypes = array(
-				new OAuth2_GrantType_UserCredentials($storage),
-				new OAuth2_GrantType_AuthorizationCode($storage),
-				new OAuth2_GrantType_ClientCredentials($storage),
-				new OAuth2_GrantType_RefreshToken($storage)
+				new OAuth2\GrantType\UserCredentials($storage),
+				new OAuth2\GrantType\AuthorizationCode($storage),
+				new OAuth2\GrantType\ClientCredentials($storage),
+				new OAuth2\GrantType\RefreshToken($storage)
 			);
 		}
 		
 		if ($scopeUtil == NULL)
 		{
 			// Configure your available scopes
-			$memory = new OAuth2_Storage_Memory(array(
+			$memory = new OAuth2\Storage\Memory(array(
 				'default_scope' => Kohana::$config->load('koauth.default_scope'),
 				'supported_scopes' => Kohana::$config->load('koauth.supported_scopes')
 			));
-			$scopeUtil = new OAuth2_Scope($memory);
+			$scopeUtil = new OAuth2\Scope($memory);
 		}
 		
 		parent::__construct($storage, $config, $grantTypes, $responseTypes, $tokenType, $scopeUtil, $clientAssertionType);
@@ -98,7 +98,7 @@ class Koauth_OAuth2_Server extends OAuth2_Server
 	
 	public function processResponse(Kohana_Response &$koresponse)
 	{
-		if ($this->response instanceof OAuth2_Response)
+		if ($this->response instanceof OAuth2\Response)
 		{
 			if ($this->response->isClientError() OR $this->response->isServerError())
 			{

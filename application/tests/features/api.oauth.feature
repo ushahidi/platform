@@ -53,7 +53,7 @@ Feature: Testing OAuth2 endpoints
         Then I request "oauth/token"
         Then the response is JSON
         And the "error" property equals "invalid_grant"
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 401
 
     Scenario: Requesting access token with client credentials
         Given that I want to make a new "access_token"
@@ -86,7 +86,7 @@ Feature: Testing OAuth2 endpoints
         And I press "login-submit"
         And I press "authorizeButton" without redirection
         Then the response status code should be 302
-        Then the redirect location should match "\#access_token=.*&expires_in=[0-9]*&token_type=bearer&scope=api&state=testing"
+        Then the redirect location should match "\#access_token=.*&expires_in=[0-9]*&token_type=Bearer&scope=api&state=testing"
 
     Scenario: Authorized Posts Request
         Given that I want to update a "Post"
@@ -148,7 +148,7 @@ Feature: Testing OAuth2 endpoints
         When I request "/posts"
         Then the response is JSON
         And the response has an "error" property
-        And the "error" property equals "invalid_grant"
+        And the "error" property equals "invalid_token"
         Then the guzzle status code should be 401
 
 # Tests for client with restricted grant types: authorization_code only!
@@ -190,4 +190,4 @@ Feature: Testing OAuth2 endpoints
     Scenario: Restricted client requesting an access token with implicit flow
         Given I am on "oauth/authorize?response_type=token&client_id=restricted_app&state=testing&scope=api" without redirection
         Then the response status code should be 302
-        Then the redirect location should match "error=unauthorized_client&error_description=.*&state=testing"
+        Then the redirect location should match "user/login"

@@ -58,7 +58,7 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	{
 		// Check OAuth2 token is valid and has required scope
 		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
-		$response = new OAuth2_Response;
+		$response = new OAuth2\Response;
 		$scope_required = $this->_scope_required;
 
 		if ( ! $this->_oauth2_server->verifyResourceRequest($request, $response, $scope_required)) {

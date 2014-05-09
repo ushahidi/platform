@@ -1,6 +1,7 @@
 {
     "require" : {
         "aura/di": "2.0.*@dev",
+        "bshaffer/oauth2-server-php": "dev-master",
         "kohana/core" : "3.3.*@dev",
         "kohana/database" : "3.3.*@dev",
         "kohana/cache" : "3.3.*@dev",
@@ -15,9 +16,7 @@
         "behat/behat": "2.4.*@stable",
         "guzzle/guzzle": "3.7.*",
         "behat/mink-extension": "*",
-        "behat/mink": "*",
         "behat/mink-goutte-driver": "*",
-        "fabpot/goutte": "*",
         "phpunit/phpunit": "3.7.*",
         "phpunit/dbunit": ">=1.2",
         "phpspec/phpspec": "2.0.*@dev"

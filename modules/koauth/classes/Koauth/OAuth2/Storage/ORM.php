@@ -8,9 +8,9 @@
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_AuthorizationCodeInterface,
-	OAuth2_Storage_AccessTokenInterface, OAuth2_Storage_ClientCredentialsInterface,
-	OAuth2_Storage_UserCredentialsInterface, OAuth2_Storage_RefreshTokenInterface
+abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\AuthorizationCodeInterface,
+	OAuth2\Storage\AccessTokenInterface, OAuth2\Storage\ClientCredentialsInterface,
+	OAuth2\Storage\UserCredentialsInterface, OAuth2\Storage\RefreshTokenInterface
 {
 	protected $config;
 
@@ -38,6 +38,12 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_Authorization
 		return $client->client_secret == $client_secret;
 	}
 
+	public function isPublicClient($client_id)
+	{
+		// we do not implement public clients
+		return FALSE;
+	}
+
 	public function getClientDetails($client_id)
 	{
 		$client = ORM::factory($this->config['client_model'])
@@ -58,6 +64,12 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2_Storage_Authorization
 		$client->redirect_uri = implode(' ', $registered_uris);
 
 		return $client->loaded() ? $client->as_array() : FALSE;
+	}
+
+	public function getClientScope($client_id)
+	{
+		// we do not implement per-client scopes
+		return implode(' ', Kohana::$config->load('koauth.supported_scopes'));
 	}
 
 	public function checkRestrictedGrantType($client_id, $grant_type)

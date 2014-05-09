@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 /**
- * OAuth2 Exception class to proxy error responses from OAuth2_Response library
+ * OAuth2 Exception class to proxy error responses from OAuth2\Response library
  */
 
 abstract class Koauth_OAuth2_Exception extends HTTP_Exception {
@@ -19,10 +19,10 @@ abstract class Koauth_OAuth2_Exception extends HTTP_Exception {
 	/**
 	 * Creates a new oauth exception.
 	 *
-	 * @param   OAuth2_Response  $oauth2_response    OAuth2 Response object
+	 * @param   OAuth2\Response  $oauth2_response    OAuth2 Response object
 	 * @return  void
 	 */
-	public function __construct(OAuth2_Response $oauth2_response)
+	public function __construct(OAuth2\Response $oauth2_response)
 	{
 		$this->_oauth2_response = $oauth2_response;
 		

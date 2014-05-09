@@ -13,7 +13,7 @@
 abstract class Koauth_Controller_Resource extends Controller {
 	
 	/**
-	 * @var OAuth2_Server
+	 * @var OAuth2\Server
 	 */
 	protected $_oauth2_server;
 	
@@ -37,7 +37,7 @@ abstract class Koauth_Controller_Resource extends Controller {
 	protected function _check_access()
 	{
 		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
-		$response = new OAuth2_Response();
+		$response = new OAuth2\Response();
 		$scopeRequired = $this->scope_required;
 		if (! $this->_oauth2_server->verifyResourceRequest($request, $response, $scopeRequired)) {
 			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
