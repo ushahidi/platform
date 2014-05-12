@@ -108,10 +108,21 @@ class Controller_Api_Messages extends Ushahidi_Api {
 			$messages_query->where('direction', '=', 'incoming');
 		}
 
+		// Get the requested status, which is secondary to box
+		$status = $this->request->query('status');
+
 		if ($box === 'archived')
 		{
 			// Archive only shows archived messages
 			$messages_query->where('status', '=', 'archived');
+		}
+		elseif ($status)
+		{
+			if ($status !== 'all') {
+				// Search for a specific status
+				$messages_query->where('status', '=', $status);
+			}
+			// "all" status does nothing :)
 		}
 		else
 		{

@@ -166,6 +166,31 @@ Feature: Testing the Messages API
         Then the guzzle status code should be 200
 
     @resetFixture
+    Scenario: Search All Messages by status
+        Given that I want to get all "Messages"
+        And that the request "query string" is:
+            """
+            status=pending&box=outbox
+            """
+        When I request "/messages"
+        Then the response is JSON
+        And the "count" property equals "1"
+        And the "results.0.id" property equals "7"
+        Then the guzzle status code should be 200
+
+    @resetFixture
+    Scenario: Get all messages regardless of status
+        Given that I want to get all "Messages"
+        And that the request "query string" is:
+            """
+            status=all
+            """
+        When I request "/messages"
+        Then the response is JSON
+        And the "count" property equals "8"
+        Then the guzzle status code should be 200
+
+    @resetFixture
     Scenario: Search All Messages by provider
         Given that I want to get all "Messages"
         And that the request "query string" is:
