@@ -95,7 +95,7 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 		{
 			// convert date string back to timestamp
 			$token->expires = strtotime($token->expires);
-			
+
 			return $token->as_array();
 		}
 
@@ -104,13 +104,16 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 
 	public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope = NULL)
 	{
+		// Attempt to garbage collect expired tokens
+		$this->removeExpiredAccessTokens();
+
 		// convert expires to datestring
 		$expires = date('Y-m-d H:i:s', $expires);
 
 		$token = ORM::factory($this->config['access_token_model'])
 			->where('access_token', '=', $access_token)
 			->find();
-		
+
 		try {
 			$token
 				->set('access_token', $access_token)
@@ -139,7 +142,7 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 		{
 			// convert date string back to timestamp
 			$code_model->expires = strtotime($code_model->expires);
-			
+
 			return $code_model->as_array();
 		}
 
@@ -150,7 +153,7 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 	{
 		// convert expires to datestring
 		$expires = date('Y-m-d H:i:s', $expires);
-		
+
 		$code_model = ORM::factory($this->config['code_model'])
 			->where('authorization_code', '=', $authorization_code)
 			->find();
@@ -193,7 +196,7 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 		$user
 			->where($user->unique_key($username), '=', $username)
 			->find();
-		
+
 		if ($user->loaded())
 		{
 			$result = $user->as_array();
@@ -215,12 +218,12 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 		$token = ORM::factory($this->config['refresh_token_model'])
 			->where('refresh_token', '=', $refresh_token)
 			->find();
-		
+
 		if ($token->loaded())
 		{
 			// convert expires to epoch time
 			$token->expires = strtotime($token->expires);
-			
+
 			return $token->as_array();
 		}
 
@@ -229,6 +232,9 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 
 	public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = NULL)
 	{
+		// Attempt to garbage collect expired tokens
+		$this->removeExpiredRefreshTokens();
+
 		// convert expires to datestring
 		$expires = date('Y-m-d H:i:s', $expires);
 
@@ -253,6 +259,23 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 	{
 		$token = DB::delete(ORM::factory($this->config['refresh_token_model'])->table_name())
 			->where('refresh_token', '=', $refresh_token)
+			->execute();
+	}
+
+	public function removeExpiredAccessTokens()
+	{
+		$this->removeExpiredTokens($this->config['access_token_model']);
+	}
+
+	public function removeExpiredRefreshToken()
+	{
+		$this->removeExpiredTokens($this->config['refresh_token_model']);
+	}
+
+	protected function removeExpiredTokens($model)
+	{
+		DB::delete(ORM::factory($model)->table_name())
+			->where('expires', '<', DB::expr('NOW()'))
 			->execute();
 	}
 
