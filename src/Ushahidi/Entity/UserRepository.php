@@ -13,12 +13,17 @@ namespace Ushahidi\Entity;
 
 interface UserRepository
 {
-
 	/**
 	 * @param  int $id
 	 * @return \Ushahidi\Entity\User
 	 */
 	public function get($id);
+
+	/**
+	 * @param string $email
+	 * @return \Ushahidi\Entity\User
+	 */
+	public function getByUsername($email);
 
 	/**
 	 * @param string $email
@@ -36,13 +41,12 @@ interface UserRepository
 	 * @param \Ushahidi\Entity\User
 	 * @return boolean
 	 */
-	public function update(User $user);
+	public function remove(User $user);
 
 	/**
 	 * @param \Ushahidi\Entity\User
 	 * @return boolean
 	 */
-	public function remove(User $user);
-
+	public function edit(User $user);
 }
 

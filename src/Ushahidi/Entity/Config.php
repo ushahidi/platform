@@ -11,9 +11,10 @@
 
 namespace Ushahidi\Entity;
 
+use Ushahidi\Entity as EntityInterface;
 use Ushahidi\Traits\ArrayExchange;
 
-class Config
+class Config implements EntityInterface
 {
 	use ArrayExchange {
 		// We modify the output of asArray, so we alias the implementation

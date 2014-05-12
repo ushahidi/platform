@@ -22,9 +22,29 @@ abstract class Ushahidi_Core {
 		 */
 		$di = service();
 
+		// Helpers, tools, etc
+		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
+		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
+
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
+		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
+
+		// User login dependencies
+		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));
+		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
+
+		// User registration dependencies
+		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
+		$di->params['Ushahidi_Validator_User_Register'] = [
+			'repo' => $di->lazyGet('repository.user'),
+			];
+
+		$di->set('parser.user.register', $di->lazyNew('Ushahidi_Parser_User_Register'));
+		$di->params['Ushahidi_Parser_User_Register'] = [
+			'hasher' => $di->lazyGet('tool.hasher.password'),
+			];
 
 		/**
 		 * 1. Plugin Registration Listener

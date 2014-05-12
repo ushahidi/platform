@@ -74,70 +74,50 @@ class Controller_User extends Controller_Layout {
 
 	public function action_submit_login()
 	{
+		if (! $this->acl->allowed('login'))
+		{
+			$this->redirect('user' . URL::query());
+		}
+
+		if ($this->request->method() != 'POST')
+		{
+			$this->redirect('user' . URL::query());
+		}
+
+		$parser  = service('parser.user.login');
+		$usecase = service('usecase.user.login');
+		$params  = $this->request->post();
+
 		try
 		{
-			if (! $this->acl->allowed('login'))
-			{
-				$this->redirect('user' . URL::query());
-			}
+			$user = $parser($params);
+			$userid = $usecase->interact($user);
 
-			if ($this->request->method() != 'POST')
-			{
-				$this->redirect('user' . URL::query());
-			}
-
-			$params = $this->request->post();
-			$valid = new Validation($params);
-			$valid
-				->rule('username', 'not_empty')
-				->rule('password', 'not_empty')
-				->rules('csrf', array(
-					array('not_empty'),
-					array('Security::check'),
-					));
-
-			if ($valid->check())
-			{
-				$user = $this->auth->login($params['username'], $params['password']);
-				if ($user instanceof Model_User)
-				{
-					if ($from_url = $this->request->query('from_url')
-							AND in_array(parse_url($from_url, PHP_URL_PATH), $this->_redirect_whitelist)
-						)
-					{
-						$this->redirect($from_url);
-					}
-					else
-					{
-						$this->redirect('user' . URL::query());
-					}
-					return;
-				}
-				else
-				{
-					throw new Exception_Login('Log in failed - incorrect username or password');
-				}
-			}
-
-			throw new Exception_Login('Log in failed - incorrect username or password');
+			// TODO: move this into the use case, somehow, some way...
+			$user = ORM::factory('User', $userid);
+			$this->auth->complete_login($user);
 		}
-		catch (Exception_Login $e)
+		catch (Ushahidi\Exception\Validator $e)
 		{
-			$this->template = View::factory('user/login')
-				->set('error', $e->getMessage())
-				->set('form', $params);
-			return;
+			$error = implode(', ', Arr::flatten($e->getErrors()));
 		}
-		catch (A1_Rate_Exception $e)
+		catch (Ushahidi\Exception\Authenticator $e)
 		{
-			$this->template = View::factory('user/login')
-				->set('error', $e->getMessage())
-				->set('form', $params);
-			return;
+			$error = $e->getMessage();
 		}
 
-		// If we somehow fall through to here;
-		$this->redirect('user');
+		if (empty($error)) {
+			$to_url = $this->request->query('from_url');
+			if (in_array(parse_url($to_url, PHP_URL_PATH), $this->_redirect_whitelist))
+			{
+				$this->redirect($to_url);
+			}
+			$this->redirect('user' . URL::query());
+		}
+
+		$this->template = View::factory('user/login')
+			->set('error', $error)
+			->set('form', $params);
 	}
 
 	public function action_submit_register()
@@ -152,37 +132,21 @@ class Controller_User extends Controller_Layout {
 			$this->redirect('user/login' . URL::query());
 		}
 
-		$params = $this->request->post();
+		$parser  = service('parser.user.register');
+		$usecase = service('usecase.user.register');
+		$params  = $this->request->post();
 
-		$user = ORM::factory('User')
-			->values($params, array('username', 'password', 'email'));
-
-		$valid = Validation::factory($params)
-			->rules('csrf', array(
-					array('not_empty'),
-					array('Security::check')
-				))
-			->rules('username', array(
-					array('not_empty')
-				))
-			->rules('password', array(
-					array('not_empty')
-				));
-
-		// do login magic
 		try
 		{
-			if ($user->check($valid))
-			{
-				$user->save();
+			$user = $parser($params);
+			$userid = $usecase->interact($user);
 
-				$this->redirect('user/login' . URL::query());
-			}
+			return $this->action_submit_login();
 		}
-		catch (ORM_Validation_Exception $e)
+		catch (Ushahidi\Exception\Validator $e)
 		{
 			$this->template = View::factory('user/register')
-				->set('error', implode(', ', Arr::flatten($e->errors('models'))))
+				->set('error', implode(', ', Arr::flatten($e->getErrors())))
 				->set('form', $params);
 		}
 	}

@@ -1,2 +1,3 @@
+formatter.name: pretty
 suites:
     ushahidi_suite: Ushahidi

@@ -11,9 +11,10 @@
 
 namespace Ushahidi\Entity;
 
+use Ushahidi\Entity as EntityInterface;
 use Ushahidi\Traits\ArrayExchange;
 
-class Media
+class Media implements EntityInterface
 {
 	use ArrayExchange;
 

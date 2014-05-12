@@ -58,8 +58,18 @@ function feature($name) {
 //
 // When adding services that are private to a plugin, define them with a
 // `namespace.`, such as `acme.tool.hash.magic`.
-$services = service();
+$di = service();
 
-// code from D84 will start to define default services:
-/* $services->set('usecase.user.login', $app->lazyNew('\Ushahidi\Usecase\User\Login')); */
+$di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
+$di->params['\Ushahidi\Usecase\User\Register'] = [
+	'repo' => $di->lazyGet('repository.user'),
+	'valid' => $di->lazyGet('validator.user.register'),
+	];
+
+$di->set('usecase.user.login', $di->lazyNew('\Ushahidi\Usecase\User\Login'));
+$di->params['\Ushahidi\Usecase\User\Login'] = [
+	'repo' => $di->lazyGet('repository.user'),
+	'valid' => $di->lazyGet('validator.user.login'),
+	'auth' => $di->lazyGet('tool.authenticator.password'),
+	];
 

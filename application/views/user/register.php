@@ -22,6 +22,7 @@
 								<?php echo Form::hidden('csrf', Security::token()); ?>
 
 								<?php echo Form::input('email', ! empty($form['email']) ? $form['email'] : '', array('placeholder' => 'Email', 'type' => 'email')); ?>
+								<?php echo Form::input('verify_email', ! empty($form['verify_email']) ? $form['verify_email'] : '', array('placeholder' => 'Verify email', 'type' => 'email')); ?>
 								<?php echo Form::input('username', ! empty($form['username']) ? $form['username'] : '', array('placeholder' => 'Username', 'required', 'aria-required' => 'true')); ?>
 								<?php echo Form::input('password', '', array('placeholder' => 'Password', 'type' => 'password', 'required', 'aria-required' => 'true')); ?>
 
