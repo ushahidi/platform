@@ -5249,7 +5249,7 @@ ul.pagination li {
 }
 
 /* line 164, ../../scss/foundation/components/_reveal.scss */
-dialog, .reveal-modal {
+dialog, .modal {
   visibility: hidden;
   display: none;
   position: absolute;
@@ -5264,45 +5264,45 @@ dialog, .reveal-modal {
 }
 @media only screen and (max-width: 40em) {
   /* line 164, ../../scss/foundation/components/_reveal.scss */
-  dialog, .reveal-modal {
+  dialog, .modal {
     min-height: 100vh;
   }
 }
 @media only screen and (min-width: 64.063em) {
   /* line 164, ../../scss/foundation/components/_reveal.scss */
-  dialog, .reveal-modal {
+  dialog, .modal {
     left: 50%;
   }
 }
 /* line 86, ../../scss/foundation/components/_reveal.scss */
 dialog .column,
-dialog .columns, .reveal-modal .column,
-.reveal-modal .columns {
+dialog .columns, .modal .column,
+.modal .columns {
   min-width: 0;
 }
 /* line 89, ../../scss/foundation/components/_reveal.scss */
-dialog > :first-child, .reveal-modal > :first-child {
+dialog > :first-child, .modal > :first-child {
   margin-top: 0;
 }
 /* line 90, ../../scss/foundation/components/_reveal.scss */
-dialog > :last-child, .reveal-modal > :last-child {
+dialog > :last-child, .modal > :last-child {
   margin-bottom: 0;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 164, ../../scss/foundation/components/_reveal.scss */
-  dialog, .reveal-modal {
+  dialog, .modal {
     margin-left: -45%;
     width: 90%;
   }
 }
 @media only screen and (min-width: 64.063em) {
   /* line 164, ../../scss/foundation/components/_reveal.scss */
-  dialog, .reveal-modal {
+  dialog, .modal {
     top: 20px;
   }
 }
 /* line 174, ../../scss/foundation/components/_reveal.scss */
-dialog .close-reveal-modal, .reveal-modal .close-reveal-modal {
+dialog .js-modal-close, .modal .js-modal-close {
   font-size: 1.625rem;
   line-height: 1;
   position: absolute;
@@ -5321,23 +5321,23 @@ dialog[open] {
 
 @media only screen and (min-width: 64.063em) {
   /* line 184, ../../scss/foundation/components/_reveal.scss */
-  dialog, .reveal-modal {
+  dialog, .modal {
     padding: 0px;
   }
   /* line 187, ../../scss/foundation/components/_reveal.scss */
-  dialog.radius, .reveal-modal.radius {
+  dialog.radius, .modal.radius {
     border-radius: 3px;
   }
   /* line 188, ../../scss/foundation/components/_reveal.scss */
-  dialog.round, .reveal-modal.round {
+  dialog.round, .modal.round {
     border-radius: 1000px;
   }
   /* line 190, ../../scss/foundation/components/_reveal.scss */
-  dialog.collapse, .reveal-modal.collapse {
+  dialog.collapse, .modal.collapse {
     padding: 0;
   }
   /* line 200, ../../scss/foundation/components/_reveal.scss */
-  dialog.full, .reveal-modal.full {
+  dialog.full, .modal.full {
     top: 0;
     left: 0;
     height: 100vh;
@@ -5347,35 +5347,35 @@ dialog[open] {
 }
 @media only screen and (min-width: 64.063em) and (min-width: 64.063em) {
   /* line 192, ../../scss/foundation/components/_reveal.scss */
-  dialog.tiny, .reveal-modal.tiny {
+  dialog.tiny, .modal.tiny {
     margin-left: -15%;
     width: 30%;
   }
 }
 @media only screen and (min-width: 64.063em) and (min-width: 64.063em) {
   /* line 193, ../../scss/foundation/components/_reveal.scss */
-  dialog.small, .reveal-modal.small {
+  dialog.small, .modal.small {
     margin-left: -20%;
     width: 40%;
   }
 }
 @media only screen and (min-width: 64.063em) and (min-width: 64.063em) {
   /* line 194, ../../scss/foundation/components/_reveal.scss */
-  dialog.medium, .reveal-modal.medium {
+  dialog.medium, .modal.medium {
     margin-left: -30%;
     width: 60%;
   }
 }
 @media only screen and (min-width: 64.063em) and (min-width: 64.063em) {
   /* line 195, ../../scss/foundation/components/_reveal.scss */
-  dialog.large, .reveal-modal.large {
+  dialog.large, .modal.large {
     margin-left: -35%;
     width: 70%;
   }
 }
 @media only screen and (min-width: 64.063em) and (min-width: 64.063em) {
   /* line 196, ../../scss/foundation/components/_reveal.scss */
-  dialog.xlarge, .reveal-modal.xlarge {
+  dialog.xlarge, .modal.xlarge {
     margin-left: -47.5%;
     width: 95%;
   }
@@ -5383,7 +5383,7 @@ dialog[open] {
 
 @media only screen and (min-width: 64.063em) and (min-width: 64.063em) {
   /* line 200, ../../scss/foundation/components/_reveal.scss */
-  dialog.full, .reveal-modal.full {
+  dialog.full, .modal.full {
     margin-left: -50vw;
     width: 100vw;
   }
@@ -5391,7 +5391,7 @@ dialog[open] {
 
 @media print {
   /* line 213, ../../scss/foundation/components/_reveal.scss */
-  dialog, .reveal-modal {
+  dialog, .modal {
     background: #fff !important;
   }
 }
