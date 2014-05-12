@@ -267,7 +267,7 @@ abstract class Koauth_OAuth2_Storage_ORM implements OAuth2\Storage\Authorization
 		$this->removeExpiredTokens($this->config['access_token_model']);
 	}
 
-	public function removeExpiredRefreshToken()
+	public function removeExpiredRefreshTokens()
 	{
 		$this->removeExpiredTokens($this->config['refresh_token_model']);
 	}
