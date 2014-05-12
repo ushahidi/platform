@@ -7,52 +7,49 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'models/MessageModel', 'App', 'backbone-pageable'],
-	function($, Backbone, MessageModel, App, PageableCollection)
+define(['jquery', 'underscore', 'backbone', 'models/MessageModel', 'App', 'backbone-pageable', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
+	function($, _, Backbone, MessageModel, App, PageableCollection, ResultsCollection, FilteredCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var MessageCollection = PageableCollection.extend(
-		{
-			model : MessageModel,
-			url: App.config.baseurl + App.config.apiuri + '/messages',
-			// The Ushahidi API returns models under 'results'.
-			parseRecords: function(response)
+			_.extend(
 			{
-				return response.results;
-			},
-			parseState: function(response)
-			{
-				return {
-					totalRecords: response.total_count
-				};
-			},
-			// Set state params for `Backbone.PageableCollection#state`
-			state: {
-				firstPage: 0,
-				currentPage: 0,
-				pageSize: 3,
-				// Required under server-mode
-				totalRecords: 3,
-				sortKey: 'created',
-				order: 1 // 1 = desc
+				model : MessageModel,
+				url: App.config.baseurl + App.config.apiuri + '/messages',
+
+				// Set state params for `Backbone.PageableCollection#state`
+				state: {
+					firstPage: 0,
+					currentPage: 0,
+					pageSize: 4,
+					// Required under server-mode
+					totalRecords: 0,
+					sortKey: 'created',
+					order: 1 // 1 = desc
+				},
+
+				sortKeys: {
+					'created' : 'Date/Time created',
+					'id' : 'ID'
+				},
+
+				sourceTypes: {
+					'email' : 'Email',
+					'sms' : 'SMS',
+					'twitter' : 'Twitter'
+				},
+
+				boxTypes: {
+					'inbox' : 'Inbox',
+					'outbox' : 'Outbox',
+					'archived' : 'Archived'
+				}
 			},
 
-			// Mapping from a `Backbone.PageableCollection#state` key to the
-			// query string parameters accepted by the Ushahidi API.
-			queryParams: {
-				currentPage: null,
-				totalPages: null,
-				totalRecords: null,
-				pageSize: 'limit',
-				offset: function () { return this.state.currentPage * this.state.pageSize; },
-				sortKey: 'orderby'
-			},
-
-			sortKeys: {
-				'created' : 'Date/Time created',
-				'id' : 'ID'
-			}
-		});
+			// Mixins must always be added last!
+			ResultsCollection,
+			FilteredCollection
+		));
 
 		return MessageCollection;
 	});

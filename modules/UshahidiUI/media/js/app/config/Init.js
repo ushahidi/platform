@@ -126,7 +126,7 @@ require.config(
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
 require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt'],
-	function(App, AppRouter, Controller)
+	function(App, AppRouter, Controller, $)
 	{
 		App.appRouter = new AppRouter(
 		{
@@ -134,4 +134,10 @@ require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt'],
 		});
 		App.start();
 		window.App = App;
+		$(document).on('click.app', '.js-stub', function(e)
+		{
+			e.preventDefault();
+			var alertify = require('alertify');
+			alertify.log('This action has not been implemented yet.');
+		});
 	});

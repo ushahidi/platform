@@ -22,7 +22,7 @@ define(['App', 'handlebars', 'marionette', 'alertify', 'underscore', 'models/Pos
 				'click .js-message-archive': 'archiveMessage',
 				'click .js-message-unarchive': 'unarchiveMessage',
 				'click .js-message-create-post' : 'createPost',
-				'click .js-message-edit-post' : 'editPost'
+				'click .js-message-view-post' : 'viewPost'
 			},
 
 			modelEvents: {
@@ -80,18 +80,15 @@ define(['App', 'handlebars', 'marionette', 'alertify', 'underscore', 'models/Pos
 					});
 			},
 
-			editPost : function(e)
+			viewPost : function(e)
 			{
 				e.preventDefault();
-
-				var post = new PostModel()
-					.set('id', this.model.get('post'));
-
-				post.fetch()
-					.done(function ()
-					{
-						App.vent.trigger('post:edit', post);
-					});
+				alertify.confirm('View the post and lose any unsaved changes?', function(okay) {
+					if (okay) {
+						var hash = e.target.hash.substr(1);
+						window.location.hash = hash;
+					}
+				});
 			},
 
 			serializeData: function()

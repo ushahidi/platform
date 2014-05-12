@@ -94,6 +94,31 @@ class Controller_Api_Messages extends Ushahidi_Api {
 			->offset($this->_record_offset)
 			->limit($this->_record_limit);
 
+		// Get the requested box, default is "all"
+		$box = $this->request->query('box');
+
+		if ($box === 'outbox')
+		{
+			// Outbox only shows outgoing messages
+			$messages_query->where('direction', '=', 'outgoing');
+		}
+		elseif ($box === 'inbox')
+		{
+			// Inbox only shows incoming messages
+			$messages_query->where('direction', '=', 'incoming');
+		}
+
+		if ($box === 'archived')
+		{
+			// Archive only shows archived messages
+			$messages_query->where('status', '=', 'archived');
+		}
+		else
+		{
+			// Other boxes do not display archived
+			$messages_query->where('status', '!=', 'archived');
+		}
+
 		// Prepare search params
 		// @todo generalize this?
 		$q = $this->request->query('q');
@@ -115,19 +140,6 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		if (! empty($type))
 		{
 			$messages_query->where('parent_id', '=', $type);
-		}
-
-		$status = $this->request->query('status');
-		if (! empty($status))
-		{
-			if ($status != 'all')
-			{
-				$messages_query->where('status', '=', $status);
-			}
-		}
-		else
-		{
-			$messages_query->where('status', '!=', 'archived');
 		}
 
 		$contact = $this->request->query('contact');
@@ -153,20 +165,6 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		{
 			$messages_query->where('post_id', '=', $post);
 		}
-
-		$direction = $this->request->query('direction');
-		if (! empty($direction))
-		{
-			if ($direction != 'all')
-			{
-				$messages_query->where('direction', '=', $direction);
-			}
-		}
-		else
-		{
-			$messages_query->where('direction', '=', 'incoming');
-		}
-
 
 		// Get the count of ALL records
 		$count_query = clone $messages_query;

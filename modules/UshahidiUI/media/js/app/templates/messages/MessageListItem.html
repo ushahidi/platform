@@ -1,40 +1,137 @@
-<div class="row">
-	<article>
-		<div class="list-view-post-details">
-			<div class="row">
-				<h5 class="list-view-post-title"><a href="#messages/{{id}}">@dude</a></h5>
-				<div class="list-view-post-time">
-					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
-				</div> <!-- end .list-view-post-time -->
-			</div> <!-- end .row -->
-		</div> <!-- end .list-view-post-details -->
+<div class="card-wrapper">
 
-		<div class="list-view-post-excerpt">
-			<p>{{message}}</p>
-			{{#if contact.contact}}From {{contact.contact}}{{/if}}
-		</div> <!-- end .list-view-post-excerpt -->
+	<div class="card-panel-wrapper  card-panel-wrapper--map  js-card-panel-map">
+		<div class="card-panel  card-panel--map">
+			{{! TODO: add support for real map}}
+			<img src="{{imageurl "map2.jpg"}}" alt="" />
+		</div> <!-- end .card-panel-map -->
+	</div> <!-- end .card-panel-wrapper -->
 
-		<div class="list-view-post-admin">
-			Status: {{status}} Type: {{type}} {{#if data_provider}}({{data_provider}}){{/if}} {{direction}}
+	<article class="card">
+		<div class="card__icon">
+		{{! TODO: this should be dynamic from "type", eg: fa-envelope for email, fa-twitter-square for twitter, etc
+		         correct thing to do would be to add .icon-email, .icon-sms, etc classes}}
+		<i class="fa  fa-envelope"></i>
+		</div>
+		<div class="card__details">
+			<h5 class="card__header">
+				<a href="#messages/{{id}}">
+				{{#if contact}}{{contact.contact}}
+				{{else}}Anonymous
+				{{/if}}
+				</a>
+			</h5>
+			<div class="card__meta">
+				{{#if status}}
+				<p> <i class="fa  fa-inbox"></i>{{status}}</p>
+				{{/if}}
+				{{#if data_provider}}
+				<p> <i class="fa  fa-bolt"></i>{{data_provider}}</p>
+				{{/if}}
+				{{#if location}}
+				{{! TODO: add support for locations}}
+				<p> <i class="fa  fa-map-marker"></i>{{location}}</p>
+				{{/if}}
+				<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+			</div> <!-- end .card-meta -->
+		</div> <!-- end .card-details -->
+		<div class="card__excerpt-wrapper">
+			<div class="card__excerpt">
+				{{! TODO: increase this size before landing, "10" is only for testing }}
+				<span class="excerpt">{{ prune message 10 }}</span>
+				<span class="rest-of-message">{{message}}</span>
+				<span class="show-rest-of-message"><i class="expand"></i></span>
+			</div> <!-- end .card-excerpt -->
+		</div>
+	</article> <!-- end .card -->
 
-			<div class="list-view-post-edit-wrapper">
-				<ul class="list-view-post-edit">
-					{{#if isIncoming}}
-						{{#if post}}
-							<li><a href="#posts/{{post}}" class="list-view-post-edit-buttons  message-view-post"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">view post</span></a></li>
-							<li><a href="#posts/{{post}}/edit" class="list-view-post-edit-buttons  message-create-post  js-message-edit-post"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit post</span></a></li>
-						{{else}}
-							<li><a href="#" class="list-view-post-edit-buttons  message-edit-post  js-message-create-post"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">create post</span></a></li>
-						{{/if}}
-						{{#if isArchived}}
-							<li><a href="#" class="list-view-post-edit-buttons  message-archive  js-message-unarchive"> <i class="fa  fa-trash-o"></i> unarchive</a></li>
-						{{else}}
-							<li><a href="#" class="list-view-post-edit-buttons  message-archive  js-message-archive"> <i class="fa  fa-trash-o"></i> archive</a></li>
-						{{/if}}
-					{{/if}}
-				</ul> <!-- end .list-view-post-edit -->
-			</div> <!-- end .list-view-post-edit-wrapper -->
+	<div class="card-actions-wrapper  hide-for-small">
+		<ul class="card-actions-list">
+			<li class="card-actions-list__item"><a href="" class="js-message-activity js-stub"> <i class="fa  fa-list"></i>Activity</a></li>
+			<li class="card-actions-list__item"><a href="" class="js-message-reply js-stub"> <i class="fa  fa-reply"></i>Reply</a></li>
+			{{#if isIncoming}}
+				{{#if post}}
+				<li class="card-actions-list__item"><a href="#posts/{{post}}" class="js-message-view-post"> <i class="fa  fa-edit"></i>View Post</a></li>
+				{{else}}
+				<li class="card-actions-list__item"><a href="" class="js-message-create-post"> <i class="fa  fa-plus-circle"></i>Create Post</a></li>
+				{{/if}}
+				{{#if isArchived}}
+				<li class="card-actions-list__item"><a href="" class="js-message-unarchive"> <i class="fa  fa-archive"></i>Archive</a></li>
+				{{else}}
+				<li class="card-actions-list__item"><a href="" class="js-message-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
+				{{/if}}
+			{{/if}}
+		</ul> <!-- end .card-actions -->
+	</div> <!-- end .card-actions-wrapper .hide-for-small-->
 
-		</div> <!-- end .list-view-post-admin -->
-	</article>
-</div> <!-- end .row -->
+	<div class="card-actions-wrapper  show-for-small">
+		<a href="#" data-dropdown="drop-card-actions" class="dropdown-button  show-for-small">actions</a><br>
+		<ul id="drop-card-actions" data-dropdown-content class="dropdown-list  f-dropdown  show-for-small">
+			<li class="dropdown-list__item"><a href="" class="js-card-action-activity js-stub"> <i class="fa  fa-list"></i>Activity</a></li>
+			<li class="dropdown-list__item"><a href="" class="js-card-action-reply js-stub"><i class="fa  fa-reply"></i>Reply</a></li>
+			<li class="dropdown-list__item"><a href="" class="js-card-action-create-post"> <i class="fa  fa-edit"></i>Create Post</a></li>
+			<li class="dropdown-list__item"><a href="" class="js-card-action-archive js-stub"> <i class="fa  fa-archive"></i>Archive</a></li>
+		</ul> <!-- end .card-actions -->
+	</div> <!-- end .card-actions-wrapper .show-for-small -->
+
+	<!-- TODO: These panels should be partials -->
+
+	{{! TODO: fill this with real content }}
+	<div class="card-panel-wrapper visually-hidden js-card-panel-activity">
+		<div class="card-panel">
+			<h6 class="card-panel__header">Message Activty<span class="subheader  reply-number">2 replies</span></h6>
+			<ul class="card-panel--activity-list">
+				<li class="card-panel--activity-list__item  js-activity-list__item--photo  has-post-image">
+
+					<div class="card-panel__post-image">
+						<img src="{{imageurl "car-tree.jpg"}}" alt="" />
+					</div> <!-- end .card-panel__post-image -->
+					<!-- TODO: generate class in js, based on whether or not we have a post image -->
+					<div class="card-panel__details">
+						<div class="subheader"><a class="username" href="#">Ushbot</a> shared a photo</div>
+						<div class="details">"Winter storm claims another vehicle."</div>
+					</div> <!-- end .card-panel__details -->
+					<!-- TODO: generate class in js, based on whether or not we have a post image -->
+					<div class="card-panel__meta">
+						<p class="underline  location"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">California</a></p>
+						<p class="datetime"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+					</div> <!-- end .card-panel__meta -->
+
+					<div class="view-post"><a href="#">View Post</a></div>
+				</li>
+
+				<li class="card-panel--activity-list__item  js-activity-list__item--location">
+
+					<div class="card-panel__details">
+						<div class="subheader"><a class="username" href="#">Ushbot</a> added a location</div>
+						<div class="details">Lamu, Kenya</div>
+					</div> <!-- end .card-panel__details -->
+
+					<div class="card-panel__meta  card-panel__meta--location">
+						<p class="underline  location"> <i class="fa  fa-map-marker"></i><a href="" class="js-card-action-location">California</a></p>
+						<p class="datetime"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
+					</div> <!-- end .card-panel__meta -->
+
+					<div class="view-post"><a href="#">View Post</a></div>
+				</li>
+			</ul> <!-- end .card-panel-activity-list -->
+
+		</div> <!-- end .card-panel -->
+	</div> <!-- end .card-panel-wrapper -->
+
+
+	{{! TODO: make this action possible }}
+	<div class="card-panel-wrapper visually-hidden js-card-panel-reply">
+		<div class="card-panel">
+			<h6 class="card-panel__header">Send a Response</h6>
+			<textarea class="textarea" name="Name" rows="2" cols="40"></textarea>
+			<div class="card-panel__button-wrap">
+				<button type="submit" class="card-reply-autofill  js-location-autofill"><i class="fa  fa-reply"></i> location</button>
+				<button type="submit" class="card-reply-autofill  card-reply-autofill--more-info  js-more-info-autofill"><i class="fa  fa-reply"></i> more info</button>
+			</div>
+			<button type="submit" class="card-reply-send-button">Send</button>
+		</div> <!-- end .card-panel -->
+	</div> <!-- end .card-panel-wrapper -->
+
+	<!-- end panel partials -->
+</div> <!-- end .card-wrapper -->
