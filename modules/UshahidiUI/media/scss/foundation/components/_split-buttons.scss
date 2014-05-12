@@ -64,8 +64,8 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
 // $base-style - Apply base style to split button. Default: true.
 @mixin split-button(
   $padding:medium,
-  $pip-color:$split-button-pip-color,
-  $span-border:$primary-color,
+  $pip-color:$split-button-pip-color, 
+  $span-border:$primary-color, 
   $base-style:true) {
 
   // With this, we can control whether or not the base styles come through.
@@ -82,14 +82,14 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
       border-#{$default-float}: solid 1px;
 
       // Building the triangle pip indicator
-      &:before {
+      &:after {
         position: absolute;
         content: "";
         width: 0;
         height: 0;
         display: block;
         border-style: inset;
-	top: 50%;
+        top: 50%;
 
         #{$default-float}: 50%;
       }
@@ -110,10 +110,10 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
     padding-#{$opposite-direction}: $split-button-padding-tny;
 
     span { width: $split-button-span-width-tny;
-      &:before {
+      &:after {
         border-top-style: solid;
         border-width: $split-button-pip-size-tny;
-	top: 48%;
+        top: 48%;
         margin-#{$default-float}: $split-button-pip-default-float-tny;
       }
     }
@@ -124,10 +124,10 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
     padding-#{$opposite-direction}: $split-button-padding-sml;
 
     span { width: $split-button-span-width-sml;
-      &:before {
+      &:after {
         border-top-style: solid;
         border-width: $split-button-pip-size-sml;
-	top: 48%;
+        top: 48%;
         margin-#{$default-float}: $split-button-pip-default-float-sml;
       }
     }
@@ -138,10 +138,10 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
     padding-#{$opposite-direction}: $split-button-padding-med;
 
     span { width: $split-button-span-width-med;
-      &:before {
+      &:after {
         border-top-style: solid;
         border-width: $split-button-pip-size-med;
-	top: 48%;
+        top: 48%;
         margin-#{$default-float}: $split-button-pip-default-float-med;
       }
     }
@@ -152,10 +152,10 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
     padding-#{$opposite-direction}: $split-button-padding-lrg;
 
     span { width: $split-button-span-width-lrg;
-      &:before {
+      &:after {
         border-top-style: solid;
         border-width: $split-button-pip-size-lrg;
-	top: 48%;
+        top: 48%;
         margin-#{$default-float}: $split-button-pip-default-float-lrg;
       }
     }
@@ -163,7 +163,7 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
 
   // Control the color of the triangle pip
   @if $pip-color {
-    span:before { border-color: $pip-color transparent transparent transparent; }
+    span:after { border-color: $pip-color transparent transparent transparent; }
   }
 }
 

@@ -21,7 +21,7 @@ $range-slider-bar-height: rem-calc(16) !default;
 
 $range-slider-bar-border-width: 1px !default;
 $range-slider-bar-border-style: solid !default;
-$range-slider-bar-border-color: #ddd !default;
+$range-slider-bar-border-color: #ddd !default; 
 $range-slider-radius: $global-radius !default;
 $range-slider-round: $global-rounded !default;
 $range-slider-bar-bg-color: #fafafa !default;
@@ -73,7 +73,7 @@ $range-slider-handle-cursor: pointer !default;
   }
 
 @mixin range-slider-bar(
-  $bg: $range-slider-bar-bg-color,
+  $bg: $range-slider-bar-bg-color, 
   $radius:false) {
   @include range-slider-bar-base;
   @include range-slider-bar-style;
@@ -112,26 +112,26 @@ $range-slider-handle-cursor: pointer !default;
       @include range-slider-bar-base;
       @include range-slider-bar-style($bg:true, $radius:false);
       &.vertical-range {
-	@include range-slider-bar-base($vertical: true);
-	.range-slider-handle {
-	  margin-top: 0;
-	  margin-#{$default-float}: -($range-slider-handle-width / 4);
-	  position: absolute;
-	  bottom: -($range-slider-vertical-bar-height - $range-slider-handle-width);
-	}
-	.range-slider-active-segment {
-	  width: $range-slider-bar-height - rem-calc((strip-unit($range-slider-bar-border-width) * 2));
-	  height: auto;
-	  bottom: 0;
-	}
+        @include range-slider-bar-base($vertical: true);
+        .range-slider-handle {
+          margin-top: 0;
+          margin-#{$default-float}: -($range-slider-handle-width / 4);
+          position: absolute;
+          bottom: -($range-slider-vertical-bar-height - $range-slider-handle-width);
+        }
+        .range-slider-active-segment {
+          width: $range-slider-bar-height - rem-calc((strip-unit($range-slider-bar-border-width) * 2));
+          height: auto;
+          bottom: 0;
+        }
       }
       &.radius {
-	@include range-slider-bar-style($radius:true);
-	.range-slider-handle { @include range-slider-handle-style($radius: true); }
+        @include range-slider-bar-style($radius:true);
+        .range-slider-handle { @include range-slider-handle-style($radius: true); }
       }
       &.round {
-	@include range-slider-bar-style($round:true);
-	.range-slider-handle { @include range-slider-handle-style($round: true); }
+        @include range-slider-bar-style($round:true);
+        .range-slider-handle { @include range-slider-handle-style($round: true); }
       }
     }
     .range-slider-active-segment {

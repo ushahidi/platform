@@ -33,39 +33,39 @@
 </div>
 {{/if}}
 
-<nav class="workspace-menu">
-	<section class="active">
-		<h2 id="workspace-menu-posts" class="title  js-title" data-section-title><a href="#"><i class="fa  fa-inbox"></i> Posts</a></h2>
 
-		{{#if posts}}
-		<ul class="content  js-content" data-section-content>
-
+<dl class="workspace-menu  accordion" data-accordion>
+	<dd>
+		<a href="#panel1" id="workspace-menu-posts" class="title  js-title" data-section-title><i class="fa  fa-files-o"></i> Posts</a>
+			{{#if posts}}
+		<div id="panel1" class="active  content  js-content">
+			<ul>
 			<!-- TODO: this needs to be locked to moderators -->
-			<li id="workspace-menu-awaiting-review">
-				<a href="#workspace/review"><p><i class="fa  fa-star-o"></i> Awaiting Review <span class="awaiting-review-label">{{ posts.review }}</span></p></a>
-			</li>
+				<li id="workspace-menu-awaiting-review">
+					<a href="#workspace/review"><p><i class="fa  fa-star-o"></i> Awaiting Review <span class="awaiting-review-label">{{ posts.review }}</span></p></a>
+				</li>
 
-			<li id="workspace-menu-published" data-page="posts">
-				<a href="#posts"><p><i class="fa  fa-file-o"></i> Published <span class="published-label">{{ posts.published }}</span></p></a>
-			</li>
+				<li id="workspace-menu-published" data-page="posts">
+					<a href="#posts"><p><i class="fa  fa-file-o"></i> Published <span class="published-label">{{ posts.published }}</span></p></a>
+				</li>
 
-			<li id="workspace-menu-unpublished" data-page="posts/unpublished">
-				<a href="#posts/unpublished"><p><i class="fa  fa-file"></i> Unpublished <span class="unpublished-label">{{ posts.unpublished }}</span></p></a>
-			</li>
+				<li id="workspace-menu-unpublished" data-page="posts/unpublished">
+					<a href="#posts/unpublished"><p><i class="fa  fa-file"></i> Unpublished <span class="unpublished-label">{{ posts.unpublished }}</span></p></a>
+				</li>
 
-			<li id="workspace-menu-all-posts" data-page="posts/all">
-				<a href="#posts/all"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ posts.total }}</span></p></a>
-			</li>
+				<li id="workspace-menu-all-posts" data-page="posts/all">
+					<a href="#posts/all"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ posts.total }}</span></p></a>
+				</li>
+			</ul>
+		</div> <!-- end .content -->
+			{{/if}}
+	</dd>
 
-		</ul>
-		{{/if}}
-	</section>
-	<section class="active">
-		<h2 id="workspace-menu-messages" class="title  js-title" data-section-title><a href="#"><i class="fa  fa-inbox"></i> Incoming Messages</a></h2>
-
-		{{#if messages}}
-		<ul class="content  js-content" data-section-content>
-
+	<dd>
+		<a href="#panel2" id="workspace-menu-incoming-messages" class="title  js-title" data-section-title><i class="fa  fa-inbox"></i> Incoming Messages</a>
+			{{#if messages}}
+		<div id="panel2" class="active  content  js-content">
+			<ul>
 			<li id="workspace-menu-messages-unread" data-page="messages">
 				<a href="#messages"><p><i class="fa  fa-file-o"></i> New <span class="messages-unread-label">{{ messages.unread }}</span></p></a>
 			</li>
@@ -85,83 +85,87 @@
 			<li id="workspace-menu-messages-all" data-page="messages/all">
 				<a href="#messages/list/all"><p><i class="fa  fa-files-o"></i> All Messages <span class="messages-all-label">{{ messages.total }}</span></p></a>
 			</li>
+			</ul>
+		</div> <!-- end .content -->
+			{{/if}}
+	</dd>
 
-		</ul>
-		{{/if}}
-	</section>
+	<!-- <dd>
+		<a href="#panel3" id="workspace-menu-tasks" class="title  js-title" data-section-title><i class="fa  fa-tasks"></i> Tasks</a>
+		<div id="panel3" class="content  js-content">
+			<ul>
+				<li id="workspace-menu-my-tasks">
+					<a href="#"><p><i class="fa  fa-pencil"></i> My Tasks <span class="my-tasks-label">75</span></p></a>
+				</li>
 
-	<!--<section class="">
-		<h2 id="workspace-menu-tasks" class="title  js-title" data-section-title><a href="#"><i class="fa  fa-tasks"></i> Tasks</a></h2>
+				<li id="workspace-menu-todo">
+					<a href="#"><p><i class="fa  fa-square-o"></i> To Do <span class="todo-label">39</span></p></a>
+				</li>
 
-		<ul class="content  js-content" data-section-content>
-			<li id="workspace-menu-my-tasks">
-				<a href="#"><p><i class="fa  fa-pencil"></i> My Tasks <span class="my-tasks-label">75</span></p></a>
-			</li>
+				<li id="workspace-menu-completed">
+					<a href="#"><p><i class="fa  fa-check-square-o"></i> Completed <span class="completed-label">36</span></p></a>
+				</li>
+			</ul>
+		</div>
+	</dd> -->
 
-			<li id="workspace-menu-todo">
-				<a href="#"><p><i class="fa  fa-square-o"></i> To Do <span class="todo-label">39</span></p></a>
-			</li>
+	<dd>
+		<a href="#panel4" id="workspace-menu-tools" class="title  js-title" data-section-title><i class="fa  fa-cogs"></i> Tools</a>
+		<div id="panel4" class="active  content  js-content">
+			<ul>
+				<li id="workspace-menu-users" data-page="users">
+					<a href="#users"><p><i class="fa fa-group"></i> Manage Users</p></a>
+				</li>
+				<li id="workspace-menu-tags" data-page="tags">
+					<a href="#tags"><p><i class="fa fa-tags"></i> Manage Tags</p></a>
+				</li>
+				<li id="workspace-menu-site" data-page="settings">
+					<a href="#settings/site"><p><i class="fa  fa-wrench"></i> Site Settings</p></a>
+				</li>
+			</ul>
+		</div> <!-- end .content -->
+	</dd>
 
-			<li id="workspace-menu-completed">
-				<a href="#"><p><i class="fa  fa-check-square-o"></i> Completed <span class="completed-label">36</span></p></a>
-			</li>
-		</ul>
-	</section>-->
+	<!-- <dd>
+		<a href="#panel5" id="workspace-menu-tutorials" class="title  js-title" data-section-title><i class="fa  fa-book"></i> Tutorials</a>
+		<div id="panel5" class="content  js-content">
+			<ul>
+				<li>
+					<a href="#"><p><i class="fa  fa-wrench"></i> Getting Started</p></a>
+				</li>
 
-	<section class="">
-		<h2 id="workspace-menu-tools" class="title  js-title" data-section-title><a href="#"><i class="fa  fa-cogs"></i> Tools</a></h2>
+				<li>
+					<a href="#"><p><i class="fa  fa-rocket"></i> Create Your own Deployment</p></a>
+				</li>
 
-		<ul class="content  js-content" data-section-content>
-			<li id="workspace-menu-users" data-page="users">
-				<a href="#users"><p><i class="fa fa-group"></i> Manage Users</p></a>
-			</li>
-			<li id="workspace-menu-tags" data-page="tags">
-				<a href="#tags"><p><i class="fa fa-tags"></i> Manage Tags</p></a>
-			</li>
-			<li id="workspace-menu-site" data-page="settings">
-				<a href="#settings/site"><p><i class="fa  fa-wrench"></i> Site Settings</p></a>
-			</li>
-		</ul>
-	</section>
+				<li>
+					<a href="#"><p><i class="fa  fa-lightbulb-o"></i> Understanding the Workspace</p></a>
+				</li>
 
-<!--
-	<section class="">
-		<h2 id="workspace-menu-tutorials" class="title  js-title" data-section-title><a href="#"><i class="fa  fa-book"></i> Tutorials</a></h2>
+				<li>
+					<a href="#"><p><i class="fa  fa-star"></i>Basics 101</p></a>
+				</li>
+			</ul>
+		</div>
+	</dd> -->
 
-		<ul class="content  js-content">
-			<li>
-				<a href="#"><p><i class="fa  fa-wrench"></i> Getting Started</p></a>
-			</li>
+	<dd>
+		<a href="#panel6" id="workspace-menu-contact" class="title  js-title" data-section-title><i class="fa  fa-smile-o"></i> Contact Us</a>
+		<div id="panel6" class="active  content  js-content">
+			<ul>
+				<li data-page="support">
+					<a href="#"><p><i class="fa  fa-smile-o"></i> Support</p></a>
+				</li>
 
-			<li>
-				<a href="#"><p><i class="fa  fa-rocket"></i> Create Your own Deployment</p></a>
-			</li>
+				<li data-page="ushahidi">
+					<a href="#"><p><i class="fa  fa-globe"></i> Ushahidi</p></a>
+				</li>
 
-			<li>
-				<a href="#"><p><i class="fa  fa-lightbulb-o"></i> Understanding the Workspace</p></a>
-			</li>
+				<li data-page="community">
+					<a href="#"><p><i class="fa  fa-group"></i> Community Liason</p></a>
+				</li>
+			</ul>
+		</div> <!-- end .content -->
+	</dd>
 
-			<li>
-				<a href="#"><p><i class="fa  fa-star"></i>Basics 101</p></a>
-			</li>
-		</ul>
-	</section>
--->
-	<section class="">
-		<h2 id="workspace-menu-tools" class="title  js-title" data-section-title><a href="#"><i class="fa  fa-inbox"></i> Contact Us</a></h2>
-
-		<ul class="content  js-content">
-			<li data-page="support">
-				<a href="#"><p><i class="fa  fa-smile-o"></i> Support</p></a>
-			</li>
-
-			<li data-page="ushahidi">
-				<a href="#"><p><i class="fa  fa-globe"></i> Ushahidi</p></a>
-			</li>
-
-			<li data-page="community">
-				<a href="#"><p><i class="fa  fa-group"></i> Community Liason</p></a>
-			</li>
-		</ul>
-	</section>
-</nav>
+</dl>

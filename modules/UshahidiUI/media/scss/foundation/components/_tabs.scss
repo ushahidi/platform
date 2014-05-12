@@ -4,6 +4,7 @@
 
 @import "global";
 @import "grid";
+@import "type";
 
 //
 // @variables
@@ -30,35 +31,35 @@ $tabs-vertical-navigation-margin-bottom: 1.25rem !default;
       @include clearfix;
       margin-bottom: 0 !important;
       dd {
-	position: relative;
-	margin-bottom: 0 !important;
-	float: $default-float;
-	> a {
-	  display: block;
-	  background: $tabs-navigation-bg-color;
-	  color: $tabs-navigation-font-color;
-	  padding: $tabs-navigation-padding $tabs-navigation-padding * 2;
-	  font-family: $tabs-navigation-font-family;
-	  font-size: $tabs-navigation-font-size;
-	  &:hover { background: $tabs-navigation-hover-bg-color; }
-	}
-	&.active a { background: $tabs-navigation-active-bg-color; }
+        position: relative;
+        margin-bottom: 0 !important;
+        float: $default-float;
+        > a {
+          display: block;
+          background: $tabs-navigation-bg-color;
+          color: $tabs-navigation-font-color;
+          padding: $tabs-navigation-padding $tabs-navigation-padding * 2;
+          font-family: $tabs-navigation-font-family;
+          font-size: $tabs-navigation-font-size;
+          &:hover { background: $tabs-navigation-hover-bg-color; }
+        }
+        &.active a { background: $tabs-navigation-active-bg-color; }
       }
       &.radius {
-	dd:first-child {
-	  a { @include side-radius($default-float, $global-radius); }
-	}
-	dd:last-child {
-	  a { @include side-radius($opposite-direction, $global-radius); }
-	}
+        dd:first-child {
+          a { @include side-radius($default-float, $global-radius); }
+        }
+        dd:last-child {
+          a { @include side-radius($opposite-direction, $global-radius); }
+        }
       }
       &.vertical {
-	dd {
-	  position: inherit;
-	  float: none;
-	  display: block;
-	  top: auto;
-	}
+        dd {
+          position: inherit;
+          float: none;
+          display: block;
+          top: auto;
+        }
       }
     }
 
@@ -67,38 +68,38 @@ $tabs-vertical-navigation-margin-bottom: 1.25rem !default;
       margin-bottom: $tabs-content-margin-bottom;
       width: 100%;
       > .content {
-	display: none;
-	float: $default-float;
-	padding: $tabs-content-padding 0;
-	width: 100%;
-	&.active { display: block; float: none; }
-	&.contained { padding: $tabs-content-padding; }
+        display: none;
+        float: $default-float;
+        padding: $tabs-content-padding 0;
+        width: 100%;
+        &.active { display: block; float: none; }
+        &.contained { padding: $tabs-content-padding; }
       }
       &.vertical {
-	display: block;
-	> .content { padding: 0 $tabs-content-padding; }
+        display: block;
+        > .content { padding: 0 $tabs-content-padding; }
       }
     }
     @media #{$medium-up} {
       .tabs {
-	&.vertical {
-	  width: 20%;
-	  float: $default-float;
-	  margin-bottom: $tabs-vertical-navigation-margin-bottom;
-	}
+        &.vertical {
+          width: 20%;
+          float: $default-float;
+          margin-bottom: $tabs-vertical-navigation-margin-bottom;
+        }
       }
       .tabs-content {
-	&.vertical {
-	  width: 80%;
-	  float: $default-float;
-	  margin-#{$default-float}: -1px;
-	}
+        &.vertical {
+          width: 80%;
+          float: $default-float;
+          margin-#{$default-float}: -1px;
+        }
       }
     }
     .no-js {
       .tabs-content > .content {
-	display: block;
-	float: none;
+        display: block;
+        float: none;
       }
     }
   }

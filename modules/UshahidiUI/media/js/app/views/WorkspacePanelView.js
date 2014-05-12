@@ -63,8 +63,8 @@ define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/Workspa
 			},
 			toggleSection : function(e)
 			{
-				var $el = this.$(e.currentTarget.parentNode);
-				$el.toggleClass('active');
+				var $el = this.$(e.currentTarget);
+				$el.nextAll('.js-content').toggleClass('active');
 				e.preventDefault();
 			},
 			selectMenuItem : function(page)

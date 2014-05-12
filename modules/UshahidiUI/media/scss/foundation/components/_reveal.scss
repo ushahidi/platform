@@ -164,12 +164,12 @@ $close-reveal-modal-class: "close-reveal-modal" !default;
     dialog, .#{$reveal-modal-class} {
       @include reveal-modal-base;
       @include reveal-modal-style(
-	$bg:$reveal-modal-bg,
-	$padding:$reveal-modal-padding,
-	$border:true,
-	$box-shadow:true,
-	$radius:false,
-	$top-offset:$reveal-position-top);
+        $bg:$reveal-modal-bg,
+        $padding:$reveal-modal-padding,
+        $border:true,
+        $box-shadow:true,
+        $radius:false,
+        $top-offset:$reveal-position-top);
 
       .#{$close-reveal-modal-class} { @include reveal-close; }
     }
@@ -182,29 +182,29 @@ $close-reveal-modal-class: "close-reveal-modal" !default;
     @media #{$medium-up} {
 
       dialog, .#{$reveal-modal-class} {
-	@include reveal-modal-style($padding:$reveal-modal-padding * 1.5);
+        @include reveal-modal-style($padding:$reveal-modal-padding * 1.5);
 
-	&.radius { @include reveal-modal-style($radius:true); }
-	&.round  { @include reveal-modal-style($radius:$reveal-round); }
+        &.radius { @include reveal-modal-style($radius:true); }
+        &.round  { @include reveal-modal-style($radius:$reveal-round); }
+        
+        &.collapse { @include reveal-modal-style($padding:0); }
 
-	&.collapse { @include reveal-modal-style($padding:0); }
-
-	&.tiny  { @include reveal-modal-base(false, 30%); }
-	&.small { @include reveal-modal-base(false, 40%); }
-	&.medium  { @include reveal-modal-base(false, 60%); }
-	&.large { @include reveal-modal-base(false, 70%); }
-	&.xlarge { @include reveal-modal-base(false, 95%); }
+        &.tiny  { @include reveal-modal-base(false, 30%); }
+        &.small { @include reveal-modal-base(false, 40%); }
+        &.medium  { @include reveal-modal-base(false, 60%); }
+        &.large { @include reveal-modal-base(false, 70%); }
+        &.xlarge { @include reveal-modal-base(false, 95%); }
       }
 
       dialog, .#{$reveal-modal-class} {
-	&.full {
-	  @include reveal-modal-base(false, 100vw);
-	  top:0;
-	  left:0;
-	  height: 100vh;
-	  min-height:100vh;
-	  margin-left: 0 !important;
-	}
+        &.full {
+          @include reveal-modal-base(false, 100vw);
+          top:0;
+          left:0;
+          height: 100vh;
+          min-height:100vh;
+          margin-left: 0 !important;
+        }
       }
     }
 

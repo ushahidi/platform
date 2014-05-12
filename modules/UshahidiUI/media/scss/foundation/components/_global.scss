@@ -77,7 +77,7 @@ $base-line-height: 150% !default;
 @mixin box-sizing($type:border-box) {
   -webkit-box-sizing: $type; // Android < 2.3, iOS < 4
 	   -moz-box-sizing: $type; // Firefox < 29
-		box-sizing: $type; // Chrome, IE 8+, Opera, Safari 5.1
+	        box-sizing: $type; // Chrome, IE 8+, Opera, Safari 5.1
 }
 
 // @mixins
@@ -112,7 +112,6 @@ $base-line-height: 150% !default;
 
 // We use this to do clear floats
 @mixin clearfix {
-  *zoom:1;
   &:before, &:after { content: " "; display: table; }
   &:after { clear: both; }
 }
@@ -256,11 +255,11 @@ $cursor-text-value: text !default;
   // Meta styles are included in all builds, as they are a dependancy of the Javascript.
   // Used to provide media query values for javascript components.
   // Forward slash placed around everything to convince PhantomJS to read the value.
-
+  
   meta.foundation-version {
     font-family: "/5.2.2/";
   }
-
+  
   meta.foundation-mq-small {
     font-family: "/" + unquote($small-up) + "/";
     width: lower-bound($small-range);

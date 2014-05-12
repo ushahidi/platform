@@ -87,7 +87,7 @@ $sub-nav-item-divider-margin: rem-calc(12) !default;
       color: $sub-nav-font-color;
       padding: $sub-nav-padding;
       &:hover {
-	color: $sub-nav-font-color-hover;
+        color: $sub-nav-font-color-hover;
       }
     }
 
@@ -99,20 +99,20 @@ $sub-nav-item-divider-margin: rem-calc(12) !default;
       cursor: $sub-nav-active-cursor;
       color: $sub-nav-active-color;
       &:hover {
-	background: $active-bg-hover;
+        background: $active-bg-hover;
       }
     }
     @if $sub-nav-item-divider != "" {
       margin-#{$default-float}: 0;
 
       &:before {
-	content: "#{$sub-nav-item-divider}";
-	margin: 0 $sub-nav-item-divider-margin;
+        content: "#{$sub-nav-item-divider}";
+        margin: 0 $sub-nav-item-divider-margin;
       }
 
       &:first-child:before {
-	content: "";
-	margin: 0;
+        content: "";
+        margin: 0;
       }
     }
   }

@@ -140,7 +140,7 @@ $total-columns: 12 !default;
   @if $center {
     margin-#{$default-float}: auto;
     margin-#{$opposite-direction}: auto;
-    float: none;
+    float: none !important;
   }
 
   // If offset, calculate appropriate margins
@@ -177,7 +177,6 @@ $total-columns: 12 !default;
   @for $i from 0 through $total-columns - 1 {
     .#{$size}-offset-#{$i} { @include grid-column($offset:$i, $collapse:null,$float:false); }
   }
-  .#{$size}-reset-order,
   .#{$size}-reset-order {
     margin-#{$default-float}: 0;
     margin-#{$opposite-direction}: 0;
@@ -208,14 +207,14 @@ $total-columns: 12 !default;
       @include grid-row;
 
       &.collapse {
-	 > .column,
-	 > .columns { @include grid-column($collapse:true, $float:false); }
+         > .column,
+         > .columns { @include grid-column($collapse:true, $float:false); }
 
-	.row {margin-left:0; margin-right:0;}
+        .row {margin-left:0; margin-right:0;}
       }
 
       .row { @include grid-row($behavior:nest);
-	&.collapse { @include grid-row($behavior:nest-collapse); }
+        &.collapse { @include grid-row($behavior:nest-collapse); }
       }
     }
 
@@ -230,23 +229,23 @@ $total-columns: 12 !default;
       @include grid-html-classes($size:medium);
       // Old push and pull classes
       @for $i from 0 through $total-columns - 1 {
-	.push-#{$i} {
-	  @include grid-column($push:$i, $collapse:null, $float:false);
-	}
-	.pull-#{$i} {
-	  @include grid-column($pull:$i, $collapse:null, $float:false);
-	}
+        .push-#{$i} {
+          @include grid-column($push:$i, $collapse:null, $float:false);
+        }
+        .pull-#{$i} {
+          @include grid-column($pull:$i, $collapse:null, $float:false);
+        }
       }
     }
     @media #{$large-up} {
       @include grid-html-classes($size:large);
       @for $i from 0 through $total-columns - 1 {
-	.push-#{$i} {
-	  @include grid-column($push:$i, $collapse:null, $float:false);
-	}
-	.pull-#{$i} {
-	  @include grid-column($pull:$i, $collapse:null, $float:false);
-	}
+        .push-#{$i} {
+          @include grid-column($push:$i, $collapse:null, $float:false);
+        }
+        .pull-#{$i} {
+          @include grid-column($pull:$i, $collapse:null, $float:false);
+        }
       }
     }
   }

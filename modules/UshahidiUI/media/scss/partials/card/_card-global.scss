@@ -63,15 +63,17 @@
 	@include grid-column(12);
 	margin-top: 0;
 	padding-left: 25px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	@media #{$small} {
 		@include grid-column(5);
 		padding-left: 25px;
-	 }
+	}
 	a {
 		color: $accent-color;
-	.js-selected & {
-	  cursor: default;
-	}
+		.js-selected & {
+			cursor: default;
+		}
 	}
 }
 

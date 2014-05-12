@@ -120,7 +120,7 @@ $crumb-slash: "/" !default;
       @include radius($crumb-radius);
 
       &>* {
-	@include crumbs;
+        @include crumbs;
       }
     }
   }

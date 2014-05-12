@@ -4,7 +4,6 @@
 
 @import "global";
 @import "type";
-@import "top-bar";
 
 // Off Canvas Tab Bar Variables
 $include-html-off-canvas-classes: $include-html-classes !default;
@@ -89,7 +88,7 @@ $menu-slide: "transform 500ms ease" !default;
      -moz-transform: translate3d($tx,$ty,$tz);
       -ms-transform: translate3d($tx,$ty,$tz);
        -o-transform: translate3d($tx,$ty,$tz);
-	  transform: translate3d($tx,$ty,$tz)
+          transform: translate3d($tx,$ty,$tz)
 }
 
 // basic styles for off-canvas menu container
@@ -104,6 +103,7 @@ $menu-slide: "transform 500ms ease" !default;
   background: $off-canvas-bg;
   z-index: 1001;
   box-sizing: content-box;
+  transition: transform 500ms ease 0s;
   -webkit-overflow-scrolling: touch;
   @if $position == left {
     @include translate3d(-100%,0,0);
@@ -257,7 +257,7 @@ $menu-slide: "transform 500ms ease" !default;
 
     @media #{$medium-up} {
       &:hover {
-	background: $off-canvas-overlay-background-hover;
+        background: $off-canvas-overlay-background-hover;
       }
     }
 }
@@ -274,12 +274,12 @@ $menu-slide: "transform 500ms ease" !default;
 // $color - icon color Default: $tabbar-menu-icon-color
 // $hover-color - icon color when hovered Default: $tabbar-menu-icon-hover
 @mixin hamburger($width:$tabbar-hamburger-icon-width,
-		 $left: $tabbar-hamburger-icon-left,
-		 $top: $tabbar-hamburger-icon-top,
-		 $thickness:$tapbar-hamburger-icon-thickness,
-		 $gap:$tapbar-hamburger-icon-gap,
-		 $color:$tabbar-menu-icon-color,
-		 $hover-color:$tabbar-menu-icon-hover) {
+                 $left: $tabbar-hamburger-icon-left,
+                 $top: $tabbar-hamburger-icon-top,
+                 $thickness:$tapbar-hamburger-icon-thickness,
+                 $gap:$tapbar-hamburger-icon-gap,
+                 $color:$tabbar-menu-icon-color,
+                 $hover-color:$tabbar-menu-icon-hover) {
   span {
     position: absolute;
     display: block;
@@ -302,13 +302,13 @@ $menu-slide: "transform 500ms ease" !default;
       left: ($tabbar-menu-icon-width - $width)/2;
     }
     box-shadow: 0   0px                       0   $thickness $color,
-		0   $gap + $thickness         0   $thickness $color,
-		0   (2 * $gap + 2*$thickness) 0   $thickness $color;
+                0   $gap + $thickness         0   $thickness $color,
+                0   (2 * $gap + 2*$thickness) 0   $thickness $color;
   }
   &:hover span {
     box-shadow: 0   0px                       0   $thickness $hover-color,
-		0   $gap + $thickness         0   $thickness $hover-color,
-		0   (2 * $gap + 2*$thickness) 0   $thickness $hover-color;
+                0   $gap + $thickness         0   $thickness $hover-color,
+                0   (2 * $gap + 2*$thickness) 0   $thickness $hover-color;
   }
 }
 
@@ -330,14 +330,14 @@ $menu-slide: "transform 500ms ease" !default;
 
     // MENU BUTTON
     // This is a little bonus. You don't need it for off canvas to work. Mixins to be written in the future.
-    .tab-bar .menu-icon {
+    .menu-icon {
       text-indent: $tabbar-menu-icon-text-indent;
       width: $tabbar-height;
       height: $tabbar-height;
       display: block;
       line-height: $tabbar-menu-icon-line-height;
       padding: $tabbar-menu-icon-padding;
-      color: $topbar-menu-link-color;
+      color: $tabbar-menu-icon-color;
       position: relative;
       @include translate3d(0,0,0);
 
@@ -355,17 +355,31 @@ $menu-slide: "transform 500ms ease" !default;
     // These classes are added with JS and trigger the actual animation.
     .move-right {
       > .inner-wrap {
-	@include translate3d($off-canvas-width,0,0);
+        @include translate3d($off-canvas-width,0,0);
       }
       .exit-off-canvas { @include back-link;}
     }
 
     .move-left {
       > .inner-wrap {
-	@include translate3d(-($off-canvas-width),0,0);
+        @include translate3d(-($off-canvas-width),0,0);
 
       }
       .exit-off-canvas { @include back-link; }
+    }
+    .offcanvas-overlap {
+      .left-off-canvas-menu, .right-off-canvas-menu {
+        -ms-transform: none;
+        -webkit-transform: none;
+        -moz-transform: none;
+        -o-transform: none;
+        transform: none;
+        z-index: 1003;
+      }
+      .exit-offcanvas-menu {
+        @include back-link;
+        z-index: 1002;
+      }
     }
 
     // Older browsers
