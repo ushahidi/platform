@@ -41,7 +41,7 @@ class Controller_Sms_Frontlinesms extends Controller {
 		}
 
 		// Remove Non-Numeric characters because that's what the DB has
-		$from = preg_replace("/[^0-9,.]/", "", $this->request->post('from'));
+		$from = preg_replace('/\D+/', "", $this->request->post('from'));
 		$message_text = $this->request->query('m');
 		$sender = $provider->from();
 

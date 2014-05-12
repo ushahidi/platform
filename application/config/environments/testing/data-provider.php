@@ -41,6 +41,7 @@ return array(
 	),
 	'frontlinesms' => array(
 		'f' => '12345',
-		'key' => '1234'
+		'key' => '1234',
+		'frontlinecloud_api_url' => 'http://frontlinesms.com:8130/api/1/webconnection/11',
 	),
 );

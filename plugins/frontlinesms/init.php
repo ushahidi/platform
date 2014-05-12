@@ -24,14 +24,8 @@ $plugin = array(
 		'options' => array(
 			'f' => 'Phone Number',
 			'm' => 'Message',
-			'key' => 'Key'
-		),
-
-		// Option Key and Label
-		'feed_options' => array(
-			'f' => 'Phone Number',
-			'm' => 'Message',
-			'key' => 'Key'
+			'key' => 'Key',
+			'frontlinecloud_api_url' => '' // Eg. http://frontlinesms.com:8130/api/1/webconnection/11
 		),
 
 		// Links
