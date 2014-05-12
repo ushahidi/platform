@@ -15,22 +15,12 @@
 	visibility: visible;
 	top: 25px;
 	@media #{$small} {
-		width: 80%;
-		left: 57%;
 		padding: 0;
 	}
-	@media #{$medium-up} {
-		width: 60%;
-		left: 67%;
-	}
 	@media #{$large} {
-		width: 50%;
-		left: 70%;
 		top: 65px;
 	}
 	@media #{$large-up} {
-		width: 38%;
-		left: 77%;
 		top: 65px;
 	}
 	body.modal-active & {

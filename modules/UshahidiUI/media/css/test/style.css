@@ -17856,40 +17856,27 @@ fieldset {
 @media only screen and (min-width: 64.063em) {
   /* line 14, ../../scss/modules/modals/_modal.scss */
   #modal {
-    width: 80%;
-    left: 57%;
     padding: 0;
   }
 }
 @media only screen and (min-width: 64.063em) {
   /* line 14, ../../scss/modules/modals/_modal.scss */
   #modal {
-    width: 60%;
-    left: 67%;
-  }
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 14, ../../scss/modules/modals/_modal.scss */
-  #modal {
-    width: 50%;
-    left: 70%;
     top: 65px;
   }
 }
 @media only screen and (min-width: 64.063em) {
   /* line 14, ../../scss/modules/modals/_modal.scss */
   #modal {
-    width: 38%;
-    left: 77%;
     top: 65px;
   }
 }
-/* line 36, ../../scss/modules/modals/_modal.scss */
+/* line 26, ../../scss/modules/modals/_modal.scss */
 body.modal-active #modal {
   display: block;
 }
 
-/* line 40, ../../scss/modules/modals/_modal.scss */
+/* line 30, ../../scss/modules/modals/_modal.scss */
 #modal-bg {
   position: fixed;
   height: 100%;
@@ -17901,7 +17888,7 @@ body.modal-active #modal {
   top: 0;
   left: 0;
 }
-/* line 42, ../../scss/modules/modals/_modal.scss */
+/* line 32, ../../scss/modules/modals/_modal.scss */
 body.modal-active #modal-bg {
   display: block;
 }
@@ -17909,7 +17896,7 @@ body.modal-active #modal-bg {
 /*------------------------------------*\
 		$MODAL BODY
 \*------------------------------------*/
-/* line 51, ../../scss/modules/modals/_modal.scss */
+/* line 41, ../../scss/modules/modals/_modal.scss */
 .modal-header {
   width: 100%;
   margin-left: auto;
@@ -17931,14 +17918,14 @@ body.modal-active #modal-bg {
 .modal-header:after {
   clear: both;
 }
-/* line 57, ../../scss/modules/modals/_modal.scss */
+/* line 47, ../../scss/modules/modals/_modal.scss */
 .modal-header h4 {
   color: #fcfcfc;
   margin: 0;
   line-height: 1em;
 }
 
-/* line 64, ../../scss/modules/modals/_modal.scss */
+/* line 54, ../../scss/modules/modals/_modal.scss */
 .modal-wrapper {
   width: 100%;
   margin-left: auto;
@@ -17958,7 +17945,7 @@ body.modal-active #modal-bg {
   clear: both;
 }
 
-/* line 69, ../../scss/modules/modals/_modal.scss */
+/* line 59, ../../scss/modules/modals/_modal.scss */
 .modal-footer {
   width: 100%;
   margin-left: auto;
@@ -17979,7 +17966,7 @@ body.modal-active #modal-bg {
   clear: both;
 }
 
-/* line 75, ../../scss/modules/modals/_modal.scss */
+/* line 65, ../../scss/modules/modals/_modal.scss */
 .modal-submit {
   padding-left: 0;
   padding-right: 0;
@@ -17987,7 +17974,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 75, ../../scss/modules/modals/_modal.scss */
+  /* line 65, ../../scss/modules/modals/_modal.scss */
   .modal-submit {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -17997,7 +17984,7 @@ body.modal-active #modal-bg {
     float: right;
   }
 }
-/* line 82, ../../scss/modules/modals/_modal.scss */
+/* line 72, ../../scss/modules/modals/_modal.scss */
 .modal-submit button {
   border-style: solid;
   border-width: 1px;
