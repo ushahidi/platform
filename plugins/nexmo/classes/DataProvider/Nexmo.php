@@ -32,7 +32,7 @@ class DataProvider_Nexmo extends DataProvider {
 	{
 		// Get provider phone (FROM)
 		// Replace non-numeric
-		$this->_from = preg_replace("/[^0-9,.]/", "", parent::from());
+		$this->_from = preg_replace('/\D+/', "", parent::from());
 
 		return $this->_from;
 	}
