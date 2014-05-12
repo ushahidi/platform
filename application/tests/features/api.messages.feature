@@ -111,21 +111,21 @@ Feature: Testing the Messages API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "5"
+        And the "count" property equals "7"
         Then the guzzle status code should be 200
 
     @resetFixture
-    Scenario: Listing All Messages
+    Scenario: Listing All Messages in the inbox
         Given that I want to get all "Messages"
         And that the request "query string" is:
             """
-            direction=all
+            box=inbox
             """
         When I request "/messages"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "7"
+        And the "count" property equals "5"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -158,36 +158,11 @@ Feature: Testing the Messages API
         Given that I want to get all "Messages"
         And that the request "query string" is:
             """
-            direction=outgoing
+            box=outbox
             """
         When I request "/messages"
         Then the response is JSON
         And the "count" property equals "2"
-        Then the guzzle status code should be 200
-
-    @resetFixture
-    Scenario: Search All Messages by status
-        Given that I want to get all "Messages"
-        And that the request "query string" is:
-            """
-            status=pending&direction=outgoing
-            """
-        When I request "/messages"
-        Then the response is JSON
-        And the "count" property equals "1"
-        And the "results.0.id" property equals "7"
-        Then the guzzle status code should be 200
-
-    @resetFixture
-    Scenario: Get all messages regardless of status
-        Given that I want to get all "Messages"
-        And that the request "query string" is:
-            """
-            status=all&direction=all
-            """
-        When I request "/messages"
-        Then the response is JSON
-        And the "count" property equals "8"
         Then the guzzle status code should be 200
 
     @resetFixture
