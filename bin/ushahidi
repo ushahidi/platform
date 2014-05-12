@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+// Kohana requires that DOCROOT be defined. This script is expected to be run
+// from the project root, which is the DOCROOT.
+define('DOCROOT', getcwd() . DIRECTORY_SEPARATOR);
+
+// Make Kohana available for the console commands.
+require DOCROOT . 'application/kohana.php';
+
+// Create a new Symfony Console application.
+use Symfony\Component\Console\Application;
+
+$application = new Application;
+
+// Define all the commands here.
+$commands = array(
+	'oauth:client',
+	'oauth:token',
+	);
+foreach ($commands as $command)
+{
+	// And the commands will be added by their class name:
+	// foo:bar becomes Ushahidi_Console_Foo_Bar
+	$class = 'Ushahidi_Console_' . str_replace(' ', '_', ucwords(str_replace(':', ' ', $command)));
+	$application->add(new $class);
+}
+
+// Once all commands are added, run the application. You can use `bin/ushahidi list`
+// to show available commands.
+$application->run();

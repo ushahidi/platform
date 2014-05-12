@@ -19,7 +19,8 @@
         "behat/mink-goutte-driver": "*",
         "phpunit/phpunit": "3.7.*",
         "phpunit/dbunit": ">=1.2",
-        "phpspec/phpspec": "2.0.*@dev"
+        "phpspec/phpspec": "2.0.*@dev",
+        "symfony/console": "2.5.*@dev"
     },
     "minimum-stability": "dev",
     "config": {
