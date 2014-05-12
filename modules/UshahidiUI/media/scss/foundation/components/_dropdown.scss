@@ -220,15 +220,15 @@ $f-dropdown-content-padding: rem-calc(20) !default;
       @include dropdown-container(list, bottom);
 
       &.drop-right {
-	@include dropdown-container(list, left);
+        @include dropdown-container(list, left);
       }
 
       &.drop-left {
-	@include dropdown-container(list, right);
+        @include dropdown-container(list, right);
       }
 
       &.drop-top {
-	@include dropdown-container(list, top);
+        @include dropdown-container(list, top);
       }
       // max-width: none;
 

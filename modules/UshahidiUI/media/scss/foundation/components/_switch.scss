@@ -208,16 +208,16 @@ $switch-label-outline: 1px dotted #888 !default;
 
       // Building the alternating colored sides of the switch
       box-shadow: 2px 0 10px 0 rgba(0,0,0,0.07),
-		  1000px 0 0 980px $positive-color,
-		  -2px 0 10px 0 rgba(0,0,0,0.07),
-		  -1000px 0 0 1000px $negative-color;
+                  1000px 0 0 980px $positive-color,
+                  -2px 0 10px 0 rgba(0,0,0,0.07),
+                  -1000px 0 0 1000px $negative-color;
     }
 
     &:hover,
     &:focus {
       span:last-child {
         background: $paddle-bg;
-	background: linear-gradient(to bottom, $paddle-bg 0%, scale-color($paddle-bg, $lightness: -10%) 100%);
+        background: linear-gradient(to bottom, $paddle-bg 0%, scale-color($paddle-bg, $lightness: -10%) 100%);
       }
     }
 
@@ -267,27 +267,27 @@ $switch-label-outline: 1px dotted #888 !default;
 @include exports("switch") {
   @if $include-html-form-classes {
       div.switch {
-	@include switch;
+        @include switch;
 
-	// Large radio switches
-	&.large { @include switch-size($switch-height-lrg, $switch-font-size-lrg); }
+        // Large radio switches
+        &.large { @include switch-size($switch-height-lrg, $switch-font-size-lrg); }
 
-	// Small radio switches
-	&.small { @include switch-size($switch-height-sml, $switch-font-size-sml, 2.1rem); }
+        // Small radio switches
+        &.small { @include switch-size($switch-height-sml, $switch-font-size-sml, 2.1rem); }
 
-	// Tiny radio switches
-	&.tiny { @include switch-size($switch-height-tny, $switch-font-size-tny, 1.9rem); }
+        // Tiny radio switches
+        &.tiny { @include switch-size($switch-height-tny, $switch-font-size-tny, 1.9rem); }
 
-	// Add a radius to the switch
-	&.radius { @include radius(4px);
-	  span:last-child{ @include radius(3px); }
-	}
+        // Add a radius to the switch
+        &.radius { @include radius(4px);
+          span:last-child{ @include radius(3px); }
+        }
 
-	// Make the switch completely round, like a pill
-	&.round { @include radius(1000px);
-	  span:last-child { @include radius(999px); }
-	  label { padding: rem-calc(0 $switch-label-side-padding + 3); }
-	}
+        // Make the switch completely round, like a pill
+        &.round { @include radius(1000px);
+          span:last-child { @include radius(999px); }
+          label { padding: rem-calc(0 $switch-label-side-padding + 3); }
+        }
 
       }
   }

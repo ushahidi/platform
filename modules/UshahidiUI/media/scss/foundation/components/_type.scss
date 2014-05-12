@@ -53,6 +53,7 @@ $code-font-weight: bold !default;
 
 // We use these to style anchors
 $anchor-text-decoration: none !default;
+$anchor-text-decoration-hover: none !default;
 $anchor-font-color: $primary-color !default;
 $anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%) !default;
 
@@ -63,6 +64,10 @@ $hr-border-color: #ddd !default;
 $hr-margin: rem-calc(20) !default;
 
 // We use these to style lists
+$list-font-family: $paragraph-font-family !default;
+$list-font-size: $paragraph-font-size !default;
+$list-line-height: $paragraph-line-height !default;
+$list-margin-bottom: $paragraph-margin-bottom !default;
 $list-style-position: outside !default;
 $list-side-margin: 1.1rem !default;
 $list-ordered-side-margin: 1.4rem !default;
@@ -202,7 +207,12 @@ $align-class-breakpoints:
       line-height: inherit;
 
       &:hover,
-      &:focus { color: $anchor-font-color-hover; }
+      &:focus {
+        color: $anchor-font-color-hover;
+        @if $anchor-text-decoration-hover != $anchor-text-decoration {
+        	text-decoration: $anchor-text-decoration-hover;
+        }
+      }
 
       img { border:none; }
     }
@@ -219,9 +229,9 @@ $align-class-breakpoints:
       &.lead { @include lead; }
 
       & aside {
-	font-size: $paragraph-aside-font-size;
-	line-height: $paragraph-aside-line-height;
-	font-style: $paragraph-aside-font-style;
+        font-size: $paragraph-aside-font-size;
+        line-height: $paragraph-aside-line-height;
+        font-style: $paragraph-aside-font-style;
       }
     }
 
@@ -237,9 +247,9 @@ $align-class-breakpoints:
       line-height: $header-line-height;
 
       small {
-	font-size: $small-font-size;
-	color: $small-font-color;
-	line-height: 0;
+        font-size: $small-font-size;
+        color: $small-font-color;
+        line-height: 0;
       }
     }
 
@@ -288,41 +298,41 @@ $align-class-breakpoints:
     ul,
     ol,
     dl {
-      font-size: $paragraph-font-size;
-      line-height: $paragraph-line-height;
-      margin-bottom: $paragraph-margin-bottom;
+      font-size: $list-font-size;
+      line-height: $list-line-height;
+      margin-bottom: $list-margin-bottom;
       list-style-position: $list-style-position;
-      font-family: $paragraph-font-family;
+      font-family: $list-font-family;
     }
 
     ul {
       margin-#{$default-float}: $list-side-margin;
       &.no-bullet {
-	margin-#{$default-float}: $list-side-margin-no-bullet;
-	li {
-	  ul,
-	  ol {
-	    margin-#{$default-float}: $list-nested-margin;
-	    margin-bottom: 0;
-	    list-style: none;
-	  }
-	}
+        margin-#{$default-float}: $list-side-margin-no-bullet;
+        li {
+          ul,
+          ol {
+            margin-#{$default-float}: $list-nested-margin;
+            margin-bottom: 0;
+            list-style: none;
+          }
+        }
       }
     }
 
     /* Unordered Lists */
     ul {
       li {
-	ul,
-	ol {
-	  margin-#{$default-float}: $list-nested-margin;
-	  margin-bottom: 0;
-	}
+        ul,
+        ol {
+          margin-#{$default-float}: $list-nested-margin;
+          margin-bottom: 0;
+        }
       }
       &.square,
       &.circle,
       &.disc {
-	li ul { list-style: inherit; }
+        li ul { list-style: inherit; }
       }
 
       &.square { list-style-type: square; margin-#{$default-float}: $list-side-margin;}
@@ -335,19 +345,19 @@ $align-class-breakpoints:
     ol {
       margin-#{$default-float}: $list-ordered-side-margin;
       li {
-	ul,
-	ol {
-	  margin-#{$default-float}: $list-nested-margin;
-	  margin-bottom: 0;
-	}
+        ul,
+        ol {
+          margin-#{$default-float}: $list-nested-margin;
+          margin-bottom: 0;
+        }
       }
     }
 
     /* Definition Lists */
     dl {
       dt {
-	margin-bottom: $definition-list-header-margin-bottom;
-	font-weight: $definition-list-header-weight;
+        margin-bottom: $definition-list-header-margin-bottom;
+        font-weight: $definition-list-header-weight;
       }
       dd { margin-bottom: $definition-list-margin-bottom; }
     }
@@ -372,17 +382,17 @@ $align-class-breakpoints:
       border-#{$default-float}: $blockquote-border;
 
       cite {
-	display: block;
-	font-size: $blockquote-cite-font-size;
-	color: $blockquote-cite-font-color;
-	&:before {
-	  content: "\2014 \0020";
-	}
+        display: block;
+        font-size: $blockquote-cite-font-size;
+        color: $blockquote-cite-font-color;
+        &:before {
+          content: "\2014 \0020";
+        }
 
-	a,
-	a:visited {
-	  color: $blockquote-cite-link-color;
-	}
+        a,
+        a:visited {
+          color: $blockquote-cite-link-color;
+        }
       }
     }
     blockquote,
@@ -399,12 +409,12 @@ $align-class-breakpoints:
       padding: $microformat-padding;
 
       li {
-	margin: 0;
-	display: block;
+        margin: 0;
+        display: block;
       }
       .fn {
-	font-weight: $microformat-fullname-font-weight;
-	font-size: $microformat-fullname-font-size;
+        font-weight: $microformat-fullname-font-weight;
+        font-size: $microformat-fullname-font-size;
       }
     }
 
@@ -412,11 +422,11 @@ $align-class-breakpoints:
       .summary { font-weight: $microformat-summary-font-weight; }
 
       abbr {
-	cursor: $cursor-default-value;
-	text-decoration: $microformat-abbr-font-decoration;
-	font-weight: $microformat-abbr-font-weight;
-	border: none;
-	padding: $microformat-abbr-padding;
+        cursor: $cursor-default-value;
+        text-decoration: $microformat-abbr-font-decoration;
+        font-weight: $microformat-abbr-font-weight;
+        border: none;
+        padding: $microformat-abbr-padding;
       }
     }
 
@@ -439,53 +449,53 @@ $align-class-breakpoints:
       */
       .print-only { display: none !important; }
       @media print {
-	* {
-	  background: transparent !important;
-	  color: #000 !important; /* Black prints faster: h5bp.com/s */
-	  box-shadow: none !important;
-	  text-shadow: none !important;
-	}
+        * {
+          background: transparent !important;
+          color: #000 !important; /* Black prints faster: h5bp.com/s */
+          box-shadow: none !important;
+          text-shadow: none !important;
+        }
 
-	a,
-	a:visited { text-decoration: underline;}
-	a[href]:after { content: " (" attr(href) ")"; }
+        a,
+        a:visited { text-decoration: underline;}
+        a[href]:after { content: " (" attr(href) ")"; }
 
-	abbr[title]:after { content: " (" attr(title) ")"; }
+        abbr[title]:after { content: " (" attr(title) ")"; }
 
-	// Don't show links for images, or javascript/internal links
-	.ir a:after,
-	a[href^="javascript:"]:after,
-	a[href^="#"]:after { content: ""; }
+        // Don't show links for images, or javascript/internal links
+        .ir a:after,
+        a[href^="javascript:"]:after,
+        a[href^="#"]:after { content: ""; }
 
-	pre,
-	blockquote {
-	  border: 1px solid #999;
-	  page-break-inside: avoid;
-	}
+        pre,
+        blockquote {
+          border: 1px solid #999;
+          page-break-inside: avoid;
+        }
 
-	thead { display: table-header-group; /* h5bp.com/t */ }
+        thead { display: table-header-group; /* h5bp.com/t */ }
 
-	tr,
-	img { page-break-inside: avoid; }
+        tr,
+        img { page-break-inside: avoid; }
 
-	img { max-width: 100% !important; }
+        img { max-width: 100% !important; }
 
-	@page { margin: 0.5cm; }
+        @page { margin: 0.5cm; }
 
-	p,
-	h2,
-	h3 {
-	  orphans: 3;
-	  widows: 3;
-	}
+        p,
+        h2,
+        h3 {
+          orphans: 3;
+          widows: 3;
+        }
 
-	h2,
-	h3 { page-break-after: avoid; }
+        h2,
+        h3 { page-break-after: avoid; }
 
-	.hide-on-print { display: none !important; }
-	.print-only { display: block !important; }
-	.hide-for-print { display: none !important; }
-	.show-for-print { display: inherit !important; }
+        .hide-on-print { display: none !important; }
+        .print-only { display: block !important; }
+        .hide-for-print { display: none !important; }
+        .show-for-print { display: inherit !important; }
       }
     }
 

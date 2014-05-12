@@ -60,7 +60,7 @@ $callout-panel-link-color: $primary-color !default;
 
       // reset header line-heights for panels
       h1,h2,h3,h4,h5,h6 {
-	line-height: 1; margin-bottom: rem-calc(20) / 2;
+        line-height: 1; margin-bottom: rem-calc(20) / 2;
         &.subheader { line-height: 1.4; }
       }
     }
@@ -74,15 +74,15 @@ $callout-panel-link-color: $primary-color !default;
     .panel { @include panel;
 
       &.callout {
-	@include panel(scale-color($primary-color, $lightness: 94%));
-	a:not(.button) {
-	  color: $callout-panel-link-color;
-	}
+        @include panel(scale-color($primary-color, $lightness: 94%));
+        a:not(.button) {
+          color: $callout-panel-link-color;
+        }
       }
 
       &.radius {
-	@include panel($bg:false);
-	@include radius;
+        @include panel($bg:false);
+        @include radius;
       }
 
     }

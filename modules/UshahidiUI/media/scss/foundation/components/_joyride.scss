@@ -39,7 +39,7 @@ $joyride-tip-close-weight: normal !default;
 $joyride-screenfill: rgba(0,0,0,0.5) !default;
 
 
-// We decided not to make a mixin for this because it relies on
+// We decided not to make a mixin for this because it relies on 
 // predefined classes to work properly.
 @include exports("joyride") {
   @if $include-html-joyride-classes {
@@ -78,32 +78,32 @@ $joyride-screenfill: rgba(0,0,0,0.5) !default;
     /* Add a little css triangle pip, older browser just miss out on the fanciness of it */
     .joyride-tip-guide {
       .joyride-nub {
-	display: block;
-	position: absolute;
-	#{$default-float}: $joyride-tip-position-offset;
-	width: 0;
-	height: 0;
-	border: $joyride-tip-nub-size solid $joyride-tip-bg;
+        display: block;
+        position: absolute;
+        #{$default-float}: $joyride-tip-position-offset;
+        width: 0;
+        height: 0;
+        border: $joyride-tip-nub-size solid $joyride-tip-bg;
 
-	&.top {
-	  border-top-style: solid;
-	  border-color: $joyride-tip-bg;
-	  border-top-color: transparent !important;
-	  border-#{$default-float}-color: transparent !important;
-	  border-#{$opposite-direction}-color: transparent !important;
-	  top: -($joyride-tip-nub-size*2);
-	}
-	&.bottom {
-	  border-bottom-style: solid;
-	  border-color: $joyride-tip-bg !important;
-	  border-bottom-color: transparent !important;
-	  border-#{$default-float}-color: transparent !important;
-	  border-#{$opposite-direction}-color: transparent !important;
-	  bottom: -($joyride-tip-nub-size*2);
-	}
+        &.top {
+          border-top-style: solid;
+          border-color: $joyride-tip-bg;
+          border-top-color: transparent !important;
+          border-#{$default-float}-color: transparent !important;
+          border-#{$opposite-direction}-color: transparent !important;
+          top: -($joyride-tip-nub-size*2);
+        }
+        &.bottom {
+          border-bottom-style: solid;
+          border-color: $joyride-tip-bg !important;
+          border-bottom-color: transparent !important;
+          border-#{$default-float}-color: transparent !important;
+          border-#{$opposite-direction}-color: transparent !important;
+          bottom: -($joyride-tip-nub-size*2);
+        }
 
-	&.right { right: -($joyride-tip-nub-size*2); }
-	&.left { left: -($joyride-tip-nub-size*2); }
+        &.right { right: -($joyride-tip-nub-size*2); }
+        &.left { left: -($joyride-tip-nub-size*2); }
       }
     }
 
@@ -188,32 +188,32 @@ $joyride-screenfill: rgba(0,0,0,0.5) !default;
     /* Styles for screens that are at least 768px; */
     @media #{$small} {
       .joyride-tip-guide { width: $joyride-tip-default-width; #{$default-float}: inherit;
-	.joyride-nub {
-	  &.bottom {
-	    border-color: $joyride-tip-bg !important;
-	    border-bottom-color: transparent !important;
-	    border-#{$default-float}-color: transparent !important;
-	    border-#{$opposite-direction}-color: transparent !important;
-	    bottom: -($joyride-tip-nub-size*2);
-	  }
-	  &.right {
-	    border-color: $joyride-tip-bg !important;
-	    border-top-color: transparent !important;
-	    border-right-color: transparent !important; border-bottom-color: transparent !important;
-	    top: $joyride-tip-position-offset;
-	    left: auto;
-	    right: -($joyride-tip-nub-size*2);
-	  }
-	  &.left {
-	    border-color: $joyride-tip-bg !important;
-	    border-top-color: transparent !important;
-	    border-left-color: transparent !important;
-	    border-bottom-color: transparent !important;
-	    top: $joyride-tip-position-offset;
-	    left: -($joyride-tip-nub-size*2);
-	    right: auto;
-	  }
-	}
+        .joyride-nub {
+          &.bottom {
+            border-color: $joyride-tip-bg !important;
+            border-bottom-color: transparent !important;
+            border-#{$default-float}-color: transparent !important;
+            border-#{$opposite-direction}-color: transparent !important;
+            bottom: -($joyride-tip-nub-size*2);
+          }
+          &.right {
+            border-color: $joyride-tip-bg !important;
+            border-top-color: transparent !important;
+            border-right-color: transparent !important; border-bottom-color: transparent !important;
+            top: $joyride-tip-position-offset;
+            left: auto;
+            right: -($joyride-tip-nub-size*2);
+          }
+          &.left {
+            border-color: $joyride-tip-bg !important;
+            border-top-color: transparent !important;
+            border-left-color: transparent !important;
+            border-bottom-color: transparent !important;
+            top: $joyride-tip-position-offset;
+            left: -($joyride-tip-nub-size*2);
+            right: auto;
+          }
+        }
       }
     }
   }

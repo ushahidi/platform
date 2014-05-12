@@ -52,7 +52,7 @@ $block-grid-media-queries: true !default;
       height: auto;
       float: $default-float;
       @if $include-spacing {
-	padding: 0 ($spacing/2) $spacing;
+        padding: 0 ($spacing/2) $spacing;
       }
     }
   }
@@ -61,14 +61,14 @@ $block-grid-media-queries: true !default;
     &>li {
       width: 100%/$per-row;
       @if $include-spacing {
-	padding: 0 ($spacing/2) $spacing;
+        padding: 0 ($spacing/2) $spacing;
       }
       list-style: none;
 
       &:nth-of-type(n) { clear: none; }
       &:nth-of-type(#{$per-row}n+1) { clear: both; }
       @if $align-block-grid-to-grid {
-	@include block-grid-aligned($per-row, $spacing);
+        @include block-grid-aligned($per-row, $spacing);
       }
     }
   }
@@ -79,11 +79,11 @@ $block-grid-media-queries: true !default;
     @if $per-row >= $i {
       $grid-column: '+' + $i;
       @if $per-row == $i {
-	$grid-column: '';
+        $grid-column: '';
       }
       &:nth-of-type(#{$per-row}n#{unquote($grid-column)}) {
-	padding-left: ($spacing - (($spacing / $per-row) * ($per-row - ($i - 1))));
-	padding-right: ($spacing - (($spacing / $per-row) * $i));
+        padding-left: ($spacing - (($spacing / $per-row) * ($per-row - ($i - 1))));
+        padding-right: ($spacing - (($spacing / $per-row) * $i));
       }
     }
   }
@@ -107,25 +107,25 @@ $block-grid-media-queries: true !default;
 
     @if $block-grid-media-queries {
       @media #{$small-up} {
-	@include block-grid-html-classes($size:small,$include-spacing:false);
+        @include block-grid-html-classes($size:small,$include-spacing:false);
       }
 
       @media #{$medium-up} {
-	@include block-grid-html-classes($size:medium,$include-spacing:false);
+        @include block-grid-html-classes($size:medium,$include-spacing:false);
       }
 
       @media #{$large-up} {
-	@include block-grid-html-classes($size:large,$include-spacing:false);
+        @include block-grid-html-classes($size:large,$include-spacing:false);
       }
 
       @if $include-xl-html-block-grid-classes {
-	@media #{$xlarge-up} {
-	  @include block-grid-html-classes($size:xlarge,$include-spacing:false);
-	}
+        @media #{$xlarge-up} {
+          @include block-grid-html-classes($size:xlarge,$include-spacing:false);
+        }
 
-	@media #{$xxlarge-up} {
-	  @include block-grid-html-classes($size:xxlarge,$include-spacing:false);
-	}
+        @media #{$xxlarge-up} {
+          @include block-grid-html-classes($size:xxlarge,$include-spacing:false);
+        }
       }
     }
   }

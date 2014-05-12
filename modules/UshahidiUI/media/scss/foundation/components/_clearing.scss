@@ -48,12 +48,12 @@ $clearing-carousel-thumb-active-border: 1px solid rgb(255,255,255) !default;
       list-style: none;
 
       li {
-	float: $default-float;
-	margin-#{$opposite-direction}: 10px;
+        float: $default-float;
+        margin-#{$opposite-direction}: 10px;
       }
 
       &[class*="block-grid-"] li {
-	margin-#{$opposite-direction}: 0;
+        margin-#{$opposite-direction}: 0;
       }
     }
 
@@ -90,12 +90,12 @@ $clearing-carousel-thumb-active-border: 1px solid rgb(255,255,255) !default;
       position: relative;
 
       img {
-	position: absolute;
-	#{$default-float}: 50%;
-	top: 50%;
-	margin-#{$default-float}: -50%;
-	max-height: 100%;
-	max-width: 100%;
+        position: absolute;
+        #{$default-float}: 50%;
+        top: 50%;
+        margin-#{$default-float}: -50%;
+        max-height: 100%;
+        max-width: 100%;
       }
     }
 
@@ -134,7 +134,7 @@ $clearing-carousel-thumb-active-border: 1px solid rgb(255,255,255) !default;
     .clearing-feature li {
       display: none;
       &.clearing-featured-img {
-	display: block;
+        display: block;
       }
     }
 
@@ -142,104 +142,104 @@ $clearing-carousel-thumb-active-border: 1px solid rgb(255,255,255) !default;
     @media #{$medium-up} {
       .clearing-main-prev,
       .clearing-main-next {
-	position: absolute;
-	height: 100%;
-	width: 40px;
-	top: 0;
-	& > span {
-	  position: absolute;
-	  top: 50%;
-	  display: block;
-	  width: 0;
-	  height: 0;
-	  border: solid $clearing-arrow-size;
-	  &:hover { opacity: 0.8; }
-	}
+        position: absolute;
+        height: 100%;
+        width: 40px;
+        top: 0;
+        & > span {
+          position: absolute;
+          top: 50%;
+          display: block;
+          width: 0;
+          height: 0;
+          border: solid $clearing-arrow-size;
+          &:hover { opacity: 0.8; }
+        }
       }
       .clearing-main-prev {
-	#{$default-float}: 0;
-	& > span {
-	  #{$default-float}: 5px;
-	  border-color: transparent;
-	  border-#{$opposite-direction}-color: $clearing-arrow-color;
-	}
+        #{$default-float}: 0;
+        & > span {
+          #{$default-float}: 5px;
+          border-color: transparent;
+          border-#{$opposite-direction}-color: $clearing-arrow-color;
+        }
       }
       .clearing-main-next {
-	#{$opposite-direction}: 0;
-	& > span {
-	  border-color: transparent;
-	  border-#{$default-float}-color: $clearing-arrow-color;
-	}
+        #{$opposite-direction}: 0;
+        & > span {
+          border-color: transparent;
+          border-#{$default-float}-color: $clearing-arrow-color;
+        }
       }
-
+    
       .clearing-main-prev.disabled,
       .clearing-main-next.disabled { opacity: 0.3; }
 
       .clearing-assembled .clearing-container {
 
-	.carousel {
-	  background: $clearing-carousel-bg;
-	  height: $clearing-carousel-height;
-	  margin-top: 10px;
-	  text-align: center;
+        .carousel {
+          background: $clearing-carousel-bg;
+          height: $clearing-carousel-height;
+          margin-top: 10px;
+          text-align: center;
 
-	  & > ul {
-	    display: inline-block;
-	    z-index: 999;
-	    height: 100%;
-	    position: relative;
-	    float: none;
+          & > ul {
+            display: inline-block;
+            z-index: 999;
+            height: 100%;
+            position: relative;
+            float: none;
 
-	    li {
-	      display: block;
-	      width: $clearing-carousel-thumb-width;
-	      min-height: inherit;
-	      float: $default-float;
-	      overflow: hidden;
-	      margin-#{$opposite-direction}: 0;
-	      padding: 0;
-	      position: relative;
-	      cursor: $cursor-pointer-value;
-	      opacity: 0.4;
-	      clear: none;
+            li {
+              display: block;
+              width: $clearing-carousel-thumb-width;
+              min-height: inherit;
+              float: $default-float;
+              overflow: hidden;
+              margin-#{$opposite-direction}: 0;
+              padding: 0;
+              position: relative;
+              cursor: $cursor-pointer-value;
+              opacity: 0.4;
+              clear: none;
 
-	      &.fix-height {
-		img {
-		  height: 100%;
-		  max-width: none;
-		}
-	      }
+              &.fix-height {
+                img {
+                  height: 100%;
+                  max-width: none;
+                }
+              }
 
-	      a.th {
-		border: none;
-		box-shadow: none;
-		display: block;
-	      }
+              a.th {
+                border: none;
+                box-shadow: none;
+                display: block;
+              }
 
-	      img {
-	      cursor: $cursor-pointer-value !important;
-	      width: 100% !important;
-	      }
+              img {
+              cursor: $cursor-pointer-value !important;
+              width: 100% !important;
+              }
 
-	      &.visible { opacity: 1; }
-	      &:hover { opacity: 0.8; }
-	    }
-	  }
-	}
+              &.visible { opacity: 1; }
+              &:hover { opacity: 0.8; }
+            }
+          }
+        }
 
-	.visible-img {
-	  background: $clearing-img-bg;
-	  overflow: hidden;
-	  height: $clearing-active-img-height;
-	}
+        .visible-img {
+          background: $clearing-img-bg;
+          overflow: hidden;
+          height: $clearing-active-img-height;
+        }
       }
 
       .clearing-close {
-	position: absolute;
-	top: 10px;
-	#{$opposite-direction}: 20px;
-	padding-#{$default-float}: 0;
-	padding-top: 0;
+        position: absolute;
+        top: 10px;
+        #{$opposite-direction}: 20px;
+        padding-#{$default-float}: 0;
+        padding-top: 0;
       }
     }
 
