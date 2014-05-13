@@ -23,6 +23,7 @@ define(['App', 'backbone', 'marionette',
 	'collections/FormCollection',
 	'collections/SetCollection',
 	'collections/RoleCollection',
+	'collections/UserCollection',
 
 	'models/UserModel'
 	],
@@ -42,6 +43,7 @@ define(['App', 'backbone', 'marionette',
 		FormCollection,
 		SetCollection,
 		RoleCollection,
+		UserCollection,
 
 		UserModel
 		)
@@ -103,6 +105,9 @@ define(['App', 'backbone', 'marionette',
 						description : 'Unprivileged role given to users who are not logged in'
 					}
 				]);
+
+				// Open the user collection, but do not fetch it until necessary
+				App.Collections.Users = new UserCollection();
 
 				// Grab tag collection, use client-side paging and fetch all tags from server at once
 				App.Collections.Tags = new TagCollection([], { mode: 'client' });
@@ -275,12 +280,11 @@ define(['App', 'backbone', 'marionette',
 			users : function()
 			{
 				var that = this;
-				require(['views/users/UserListView','collections/UserCollection'], function(UserListView,UserCollection)
+				require(['views/users/UserListView'], function(UserListView)
 				{
-					App.vent.trigger('page:change', 'users');
-
-					App.Collections.Users = new UserCollection();
 					App.Collections.Users.fetch();
+
+					App.vent.trigger('page:change', 'users');
 
 					that.layout.mainRegion.show(new UserListView({
 						collection : App.Collections.Users
