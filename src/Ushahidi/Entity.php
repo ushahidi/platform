@@ -11,16 +11,9 @@
 
 namespace Ushahidi;
 
-interface Entity
-{
-	/**
-	 * @param  array  values to be changed
-	 * @return $this
-	 */
-	public function setData($data);
+use Ushahidi\Traits\ArrayExchange;
 
-	/**
-	 * @return array
-	 **/
-	public function asArray();
+abstract class Entity
+{
+	use ArrayExchange;
 }

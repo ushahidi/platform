@@ -11,13 +11,10 @@
 
 namespace Ushahidi\Entity;
 
-use Ushahidi\Entity as EntityInterface;
-use Ushahidi\Traits\ArrayExchange;
+use Ushahidi\Entity;
 
-class User implements EntityInterface
+class User extends Entity
 {
-	use ArrayExchange;
-
 	public $id;
 	public $email;
 	public $realname;

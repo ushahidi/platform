@@ -4,17 +4,17 @@
  * Ushahidi Config Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application
+ * @package    Ushahidi\Platform
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\Entity;
 
-use Ushahidi\Entity as EntityInterface;
+use Ushahidi\Entity;
 use Ushahidi\Traits\ArrayExchange;
 
-class Config implements EntityInterface
+class Config extends Entity
 {
 	use ArrayExchange {
 		// We modify the output of asArray, so we alias the implementation
