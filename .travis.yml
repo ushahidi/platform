@@ -31,5 +31,6 @@ before_script:
 - sleep 3
 script:
 - ./bin/behat --config application/tests/behat.yml --format progress
+- ./bin/phpspec run --format dot
 - ./bin/phpunit -c application/tests/phpunit.xml
 - pushd modules/UshahidiUI && grunt test && popd
