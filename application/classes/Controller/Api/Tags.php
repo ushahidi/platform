@@ -86,89 +86,42 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
+		$parser = service('parser.tag');
+		$format = service('formatter.api');
+		$usecase = service('usecase.api.tag.collection')
+			->orderBy($this->_record_orderby, $this->_record_order)
+			->limit($this->_record_limit)
+			->offset($this->_record_offset);
+
+		if ($q = $this->request->query('q'))
+		{
+			$usecase->query('tag', $q);
+		}
+
+		try
+		{
+			$tag = $parser($this->request->query());
+			$found = $usecase->search($tag);
+		}
+		catch (Ushahidi\Exception\Validator $e)
+		{
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
+		}
+
+		// This is generic right now, as per-entity ACL checks are not possible
+		// (or required) at this point.
+		$allowed = ['allowed_methods' => $this->_allowed_methods()];
+
 		$results = array();
-
-		$this->_prepare_order_limit_params();
-
-		$tags_query = ORM::factory('Tag')
-			->order_by($this->_record_orderby, $this->_record_order)
-			->offset($this->_record_offset)
-			->limit($this->_record_limit);
-
-		// Prepare search params
-		// @todo generalize this?
-		$q = $this->request->query('q');
-		if (! empty($q))
+		foreach ($found as $tag)
 		{
-			$tags_query->where('tag', 'LIKE', "%$q%");
+			$results[] = $format($tag) + $allowed;
 		}
+		$count = count($results);
 
-		$tag = $this->request->query('tag');
-		if (! empty($tag))
-		{
-			$tags_query->where('tag', '=', $tag);
-		}
-
-		$type = $this->request->query('type');
-		if (! empty($type))
-		{
-			$tags_query->where('type', '=', $type);
-		}
-
-		$type = $this->request->query('parent');
-		if (! empty($type))
-		{
-			$tags_query->where('parent_id', '=', $type);
-		}
-
-		$tags = $tags_query->find_all();
-
-		$count = $tags->count();
-
-		foreach ($tags as $tag)
-		{
-			// Check if user is allowed to access this tag
-			if ($this->acl->is_allowed($this->user, $tag, 'get') )
-			{
-				$result = $tag->for_api();
-				$result['allowed_methods'] = $this->_allowed_methods($tag);
-				$results[] = $result;
-			}
-		}
-
-		// Current/Next/Prev urls
-		$params = array(
-			'limit' => $this->_record_limit,
-			'offset' => $this->_record_offset,
-		);
-		// Only add order/orderby if they're already set
-		if ($this->request->query('orderby') OR $this->request->query('order'))
-		{
-			$params['orderby'] = $this->_record_orderby;
-			$params['order'] = $this->_record_order;
-		}
-
-		$prev_params = $next_params = $params;
-		$next_params['offset'] = $params['offset'] + $params['limit'];
-		$prev_params['offset'] = $params['offset'] - $params['limit'];
-		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
-
-		$curr = URL::site($this->request->uri() . URL::query($params), $this->request);
-		$next = URL::site($this->request->uri() . URL::query($next_params), $this->request);
-		$prev = URL::site($this->request->uri() . URL::query($prev_params), $this->request);
-
-		// Respond with posts
-		$this->_response_payload = array(
-			'count' => $count,
-			'results' => $results,
-			'limit' => $this->_record_limit,
-			'offset' => $this->_record_offset,
-			'order' => $this->_record_order,
-			'orderby' => $this->_record_orderby,
-			'curr' => $curr,
-			'next' => $next,
-			'prev' => $prev,
-		);
+		$this->_response_payload = compact('count', 'results') + $this->_get_paging_parameters();
 	}
 
 	/**

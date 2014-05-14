@@ -20,28 +20,9 @@ interface TagRepository
 	public function get($id);
 
 	/**
-	 * @param  $parent \Ushahidi\Entity\Tag
+	 * @param  int $parent_id
 	 * @return [\Ushahidi\Entity\Tag, ...]
 	 */
-	public function getAllByParent(Tag $parent);
-
-	/**
-	 * @param \Ushahidi\Entity\Tag
-	 * @return boolean
-	 */
-	public function add(Tag $tag);
-
-	/**
-	 * @param \Ushahidi\Entity\Tag
-	 * @return boolean
-	 */
-	public function remove(Tag $tag);
-
-	/**
-	 * @param \Ushahidi\Entity\Tag
-	 * @return boolean
-	 */
-	public function edit(Tag $tag);
-
+	public function getAllByParent($parent_id);
 }
 

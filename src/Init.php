@@ -60,6 +60,13 @@ function feature($name) {
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
+$di->set('usecase.api.tag.collection', function() use ($di)
+	{
+		return $di->newInstance('\Ushahidi\Usecase\API\Collection', [
+			'repo' => $di->lazyGet('repository.tag'),
+			]);
+	});
+
 $di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
 $di->params['\Ushahidi\Usecase\User\Register'] = [
 	'repo' => $di->lazyGet('repository.user'),

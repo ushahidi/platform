@@ -24,6 +24,7 @@ abstract class Ushahidi_Core {
 		$di = service();
 
 		// Helpers, tools, etc
+		$di->set('formatter.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator', $di->lazyNew('Ushahidi_Authenticator'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
@@ -31,6 +32,7 @@ abstract class Ushahidi_Core {
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
+		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 
 		// Abstract repository parameters
@@ -39,6 +41,7 @@ abstract class Ushahidi_Core {
 			];
 
 		// User login dependencies
+		$di->set('parser.tag', $di->lazyNew('Ushahidi_Parser_Tag'));
 		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 

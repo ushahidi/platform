@@ -139,6 +139,17 @@ class Ushahidi_Api extends Controller {
 	}
 
 	/**
+	 * Get an API URL for a resource.
+	 * @param  string  $resource
+	 * @param  mixed   $id
+	 * @return string
+	 */
+	public static function url($resource, $id = null)
+	{
+		return rtrim(sprintf('api/v%d/%s/%d', static::version(), $resource, $id), '/');
+	}
+
+	/**
 	 * Get resource object/string
 	 * @return string|ORM
 	 */
@@ -421,6 +432,44 @@ class Ushahidi_Api extends Controller {
 			throw new HTTP_Exception_400('Number of records requested was too large: :record_limit.', array(
 				':record_limit' => $this->_record_limit
 			));
+	}
+
+	/**
+	 * Get the paging parameters for the current collection request.
+	 * @return Array  limit, offset, order, orderby, curr, next, prev
+	 */
+	protected function _get_paging_parameters()
+	{
+		$params = array(
+			'limit' => $this->_record_limit,
+			'offset' => $this->_record_offset,
+		);
+
+		// Only add order/orderby if they're already set
+		if ($this->request->query('orderby') OR $this->request->query('order'))
+		{
+			$params['orderby'] = $this->_record_orderby;
+			$params['order'] = $this->_record_order;
+		}
+
+		$prev_params = $next_params = $params;
+		$next_params['offset'] = $params['offset'] + $params['limit'];
+		$prev_params['offset'] = $params['offset'] - $params['limit'];
+		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
+
+		$curr = URL::site($this->request->uri() . URL::query($params),      $this->request);
+		$next = URL::site($this->request->uri() . URL::query($next_params), $this->request);
+		$prev = URL::site($this->request->uri() . URL::query($prev_params), $this->request);
+
+		return array(
+			'limit'   => $this->_record_limit,
+			'offset'  => $this->_record_offset,
+			'order'   => $this->_record_order,
+			'orderby' => $this->_record_orderby,
+			'curr'    => $curr,
+			'next'    => $next,
+			'prev'    => $prev,
+		);
 	}
 
 	/**
