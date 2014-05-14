@@ -15,8 +15,11 @@ use Ushahidi\Entity\User;
 use Ushahidi\Entity\UserRepository;
 use Ushahidi\Usecase\User\RegisterRepository;
 
-class Ushahidi_Repository_User implements UserRepository, RegisterRepository
+class Ushahidi_Repository_User implements
+	UserRepository,
+	RegisterRepository
 {
+	// UserRepository
 	public function get($id)
 	{
 		$query = DB::select('*')
@@ -27,6 +30,7 @@ class Ushahidi_Repository_User implements UserRepository, RegisterRepository
 		return new User($result->current());
 	}
 
+	// UserRepository
 	public function getByUsername($username)
 	{
 		$query = DB::select('*')
@@ -37,6 +41,7 @@ class Ushahidi_Repository_User implements UserRepository, RegisterRepository
 		return new User($result->current());
 	}
 
+	// UserRepository
 	public function getByEmail($email)
 	{
 		$query = DB::select('*')
@@ -47,44 +52,7 @@ class Ushahidi_Repository_User implements UserRepository, RegisterRepository
 		return new User($result->current());
 	}
 
-	public function add(User $user)
-	{
-		$data = array_filter($user->asArray());
-		unset($data['id']); // always autoinc
-		$query = DB::insert('users')
-			->columns(array_keys($data))
-			->values(array_values($data))
-			;
-		list($user->id, $count) = $query->execute();
-		return (bool) $count;
-	}
-
-	public function remove(User $user)
-	{
-		if (!$user->id)
-		{
-			throw new Exception("User does not have an id");
-		}
-
-		$query = DB::delete('users')
-			->where('id', '=', $user->id)
-			;
-		$count = $query->execute();
-		return (bool) $count;
-	}
-
-	public function edit(User $user)
-	{
-		$data = array_filter($user->asArray());
-		unset($data['id']); // never update id
-		$query = DB::update('users')
-			->set($data)
-			->where('id', '=', $user->id)
-			;
-		$count = $query->execute();
-		return true;
-	}
-
+	// RegisterRepository
 	public function isUniqueUsername($username)
 	{
 		$query = DB::select('id')
@@ -95,6 +63,7 @@ class Ushahidi_Repository_User implements UserRepository, RegisterRepository
 		return (count($results) === 0);
 	}
 
+	// RegisterRepository
 	public function isUniqueEmail($email)
 	{
 		$query = DB::select('id')
@@ -103,5 +72,17 @@ class Ushahidi_Repository_User implements UserRepository, RegisterRepository
 			;
 		$results = $query->execute();
 		return (count($results) === 0);
+	}
+
+	// RegisterRepository
+	public function register($email, $username, $password)
+	{
+		$data = compact('email', 'username', 'password');
+		$query = DB::insert('users')
+			->columns(array_keys($data))
+			->values(array_values($data))
+			;
+		list($userid) = $query->execute();
+		return $userid;
 	}
 }

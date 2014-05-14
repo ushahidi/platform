@@ -30,23 +30,4 @@ interface UserRepository
 	 * @return \Ushahidi\Entity\User
 	 */
 	public function getByEmail($email);
-
-	/**
-	 * @param \Ushahidi\Entity\User
-	 * @return boolean
-	 */
-	public function add(User $user);
-
-	/**
-	 * @param \Ushahidi\Entity\User
-	 * @return boolean
-	 */
-	public function remove(User $user);
-
-	/**
-	 * @param \Ushahidi\Entity\User
-	 * @return boolean
-	 */
-	public function edit(User $user);
 }
-

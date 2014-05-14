@@ -20,7 +20,7 @@ class Register
 	private $repo;
 	private $valid;
 
-	public function __construct(UserRepository $repo, Validator $valid)
+	public function __construct(RegisterRepository $repo, Validator $valid)
 	{
 		$this->repo = $repo;
 		$this->valid = $valid;
@@ -29,7 +29,10 @@ class Register
 	public function interact(User $user)
 	{
 		$this->valid->check($user);
-		$this->repo->add($user);
+		$user->id = $this->repo->register(
+			$user->email,
+			$user->username,
+			$user->password);
 		return $user->id;
 	}
 }

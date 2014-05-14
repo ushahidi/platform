@@ -17,4 +17,5 @@ interface RegisterRepository
 {
 	public function isUniqueUsername($username);
 	public function isUniqueEmail($email);
+	public function register($email, $username, $password);
 }
