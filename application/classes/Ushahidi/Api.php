@@ -362,12 +362,16 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected function _prepare_response_body($format = 'json')
 	{
-		$body = '';
+		// Are we in development environment?
+		$dev = Kohana::$environment === Kohana::DEVELOPMENT;
 
 		try
 		{
 			// Format the reponse as JSON
-			$body = json_encode($this->_response_payload);
+			$body = json_encode(
+				$this->_response_payload,
+				// in development, make the output human readable
+				$dev ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null);
 		}
 		catch (Exception $e)
 		{
