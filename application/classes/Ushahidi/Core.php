@@ -25,12 +25,18 @@ abstract class Ushahidi_Core {
 
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
+		$di->set('tool.authenticator', $di->lazyNew('Ushahidi_Authenticator'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
 
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
+
+		// Abstract repository parameters
+		$di->params['Ushahidi_Repository_Collection'] = [
+			'auth' => $di->lazyGet('tool.authenticator'),
+			];
 
 		// User login dependencies
 		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));

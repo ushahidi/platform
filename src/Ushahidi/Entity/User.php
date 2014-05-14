@@ -27,4 +27,9 @@ class User extends Entity
 	public $created;
 	public $updated;
 	public $role = 'user';
+
+	public function getResource()
+	{
+		return 'users';
+	}
 }

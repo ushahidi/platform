@@ -27,5 +27,10 @@ class Post extends Entity
 	public $created;
 	public $updated;
 	public $locale;
+
+	public function getResource()
+	{
+		return 'posts';
+	}
 }
 

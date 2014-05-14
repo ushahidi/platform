@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Contact Entity
+ * Ushahidi Platform ACL Authenticator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,21 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Entity;
+namespace Ushahidi\Tool;
 
 use Ushahidi\Entity;
 
-class Contact extends Entity
+interface Authenticator
 {
-	public $id;
-	public $user_id;
-	public $data_provider;
-	public $type;
-	public $contact;
-	public $created;
-
-	public function getResource()
-	{
-		return 'contacts';
-	}
+	public function isAllowed(Entity $entity, $privilege);
 }

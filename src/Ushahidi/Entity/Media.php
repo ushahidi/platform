@@ -24,4 +24,9 @@ class Media extends Entity
 	public $filename;
 	public $width;
 	public $height;
+
+	public function getResource()
+	{
+		return 'media';
+	}
 }

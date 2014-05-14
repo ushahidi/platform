@@ -18,4 +18,9 @@ class Role extends Entity
 	public $name;
 	public $display_name;
 	public $description;
+
+	public function getResource()
+	{
+		return 'roles';
+	}
 }

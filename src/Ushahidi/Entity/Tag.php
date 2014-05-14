@@ -24,4 +24,9 @@ class Tag extends Entity
 	public $description;
 	public $priority;
 	public $created;
+
+	public function getResource()
+	{
+		return 'tags';
+	}
 }

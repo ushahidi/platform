@@ -44,4 +44,9 @@ class Message extends Entity
 	const FAILED = 'failed';
 
 	public $status;
+
+	public function getResource()
+	{
+		return 'messages';
+	}
 }

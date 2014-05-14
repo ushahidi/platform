@@ -69,4 +69,9 @@ class Config extends Entity
 		unset($data[static::GROUP_KEY]);
 		return $data;
 	}
+
+	public function getResource()
+	{
+		return 'config';
+	}
 }

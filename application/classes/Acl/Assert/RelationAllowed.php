@@ -23,18 +23,21 @@ class Acl_Assert_RelationAllowed implements Acl_Assert_Interface {
 	
 	public function assert(Acl $acl, $role = null, $resource = null, $privilege = null)
 	{
-		foreach($this->_relations as $relation)
+		if (is_object($resource))
 		{
-			$relation = $resource->$relation;
-			// If the relation doesn't exist, assume we're OK.
-			if (! $relation->loaded())
+			foreach($this->_relations as $relation)
 			{
-				continue; 
-			}
-			
-			if(! $acl->is_allowed($role, $relation, $privilege))
-			{
-				return FALSE;
+				$relation = $resource->$relation;
+				// If the relation doesn't exist, assume we're OK.
+				if (! $relation->loaded())
+				{
+					continue; 
+				}
+				
+				if(! $acl->is_allowed($role, $relation, $privilege))
+				{
+					return FALSE;
+				}
 			}
 		}
 		

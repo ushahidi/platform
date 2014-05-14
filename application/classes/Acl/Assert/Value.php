@@ -22,13 +22,16 @@ class Acl_Assert_Value implements Acl_Assert_Interface {
 	
 	public function assert(Acl $acl, $role = null, $resource = null, $privilege = null)
 	{
-		foreach($this->_arguments as $resource_key => $value_match)
+		if (is_object($resource))
 		{
-			if(! isset($resource->$resource_key)
-				OR $resource->$resource_key !== $value_match
-			)
+			foreach($this->_arguments as $resource_key => $value_match)
 			{
-				return FALSE;
+				if(! isset($resource->$resource_key)
+					OR $resource->$resource_key !== $value_match
+				)
+				{
+					return FALSE;
+				}
 			}
 		}
 		

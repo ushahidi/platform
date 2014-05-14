@@ -16,4 +16,10 @@ use Ushahidi\Traits\ArrayExchange;
 abstract class Entity
 {
 	use ArrayExchange;
+
+	/**
+	 * Return the resource name for Authenticator.
+	 * @return string
+	 */
+	abstract public function getResource();
 }

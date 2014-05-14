@@ -27,20 +27,23 @@ class Acl_Assert_RelationValue implements Acl_Assert_Interface {
 	
 	public function assert(Acl $acl, $role = null, $resource = null, $privilege = null)
 	{
-		// If the relation doesn't exist, assume we're OK.
-		$relation = $resource->{$this->_relation};
-		if (! $relation->loaded())
+		if (is_object($resource))
 		{
-			return TRUE;
-		}
-		
-		foreach($this->_arguments as $relation_key => $value_match)
-		{
-			if(! isset($relation->$relation_key)
-				OR $relation->$relation_key !== $value_match
-			)
+			// If the relation doesn't exist, assume we're OK.
+			$relation = $resource->{$this->_relation};
+			if (! $relation->loaded())
 			{
-				return FALSE;
+				return TRUE;
+			}
+			
+			foreach($this->_arguments as $relation_key => $value_match)
+			{
+				if(! isset($relation->$relation_key)
+					OR $relation->$relation_key !== $value_match
+				)
+				{
+					return FALSE;
+				}
 			}
 		}
 		
