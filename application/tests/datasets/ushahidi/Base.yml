@@ -609,37 +609,37 @@ oauth_access_tokens:
   -
     access_token: "testingtoken"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages"
+    scope: "api posts forms sets tags users media config messages dataproviders"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "defaulttoken"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages"
+    scope: "api posts forms sets tags users media config messages dataproviders"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "testbasicuser"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages"
+    scope: "api posts forms sets tags users media config messages dataproviders"
     expires: "2030-01-01 00:00:00"
     user_id: 1
   -
     access_token: "testadminuser"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages"
+    scope: "api posts forms sets tags users media config messages dataproviders"
     expires: "2030-01-01 00:00:00"
     user_id: 2
   -
     access_token: "testbasicuser2"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages"
+    scope: "api posts forms sets tags users media config messages dataproviders"
     expires: "2030-01-01 00:00:00"
     user_id: 3
   -
     access_token: "testanon"
     client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages"
+    scope: "api posts forms sets tags users media config messages dataproviders"
     expires: "2030-01-01 00:00:00"
     user_id:
 oauth_authorization_codes:
@@ -703,12 +703,6 @@ config:
     group_name: test
     config_key: testkey
     config_value: "\"testval\""
-data_feeds:
-  -
-    id: 1
-    data_provider: "smssync"
-    name: "SMSSync SMS Messages"
-    options: "{}"
 contacts:
   -
     id: 1
@@ -735,7 +729,6 @@ messages:
     status: "received"
     contact_id: 1
     datetime:
-    data_feed_id:
     data_provider:
   -
     id: 2
@@ -747,7 +740,6 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_feed_id:
     data_provider:
   -
     id: 3
@@ -759,7 +751,6 @@ messages:
     contact_id: 2
     datetime: "2013-01-02 07:07"
     post_id:
-    data_feed_id:
     data_provider:
   -
     id: 4
@@ -771,7 +762,6 @@ messages:
     contact_id: 3
     datetime:
     post_id: 110
-    data_feed_id: 1
     data_provider:
   -
     id: 5
@@ -782,7 +772,6 @@ messages:
     status: "received"
     contact_id: 1
     datetime:
-    data_feed_id:
     data_provider: "smssync"
   -
     id: 6
@@ -794,7 +783,6 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_feed_id: 1
     data_provider:
   -
     id: 7
@@ -806,7 +794,6 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_feed_id:
     data_provider:
   -
     id: 8
@@ -818,5 +805,4 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_feed_id:
     data_provider:

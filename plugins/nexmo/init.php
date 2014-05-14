@@ -11,35 +11,49 @@
 
 // Plugin Info
 $plugin = array(
-	'nexmo' => array(
-		'name' => 'Nexmo',
-		'version' => '0.1',
+	'name' => 'Nexmo',
+	'version' => '0.1',
+	// Services Provided By This Plugin
+	'services' => array(
+		Message_Type::SMS => TRUE,
+		Message_Type::IVR => FALSE,
+		Message_Type::EMAIL => FALSE,
+		Message_Type::TWITTER => FALSE
+	),
 
-		// Services Provided By This Plugin
-		'services' => array(
-			Message_Type::SMS => TRUE,
-			Message_Type::IVR => FALSE,
-			Message_Type::EMAIL => FALSE,
-			Message_Type::TWITTER => FALSE
+	// Form Key and Label
+	'options' => array(
+		'from' => array(
+			'label' => 'From',
+			'input' => 'text',
+			'description' => 'The from number'
 		),
-
-		// Option Key and Label
-		'options' => array(
-			'from' => 'Phone Number',
-			'api_key' => 'API Key',
-			'api_secret' => 'API Secret'
+		'secret' => array(
+			'label' => 'Secret',
+			'input' => 'text',
+			'description' => 'The secret value'
 		),
-
-		// Links
-		'links' => array(
-			'developer' => 'https://www.nexmo.com/',
-			'signup' => 'https://dashboard.nexmo.com/register'
+		'api_key' => array(
+			'label' => 'API Key',
+			'input' => 'text',
+			'description' => 'The API key'
+		),
+		'api_secret' => array(
+			'label' => 'API secret',
+			'input' => 'text',
+			'description' => 'The API secret'
 		)
+	),
+
+	// Links
+	'links' => array(
+		'developer' => 'https://www.nexmo.com/',
+		'signup' => 'https://dashboard.nexmo.com/register'
 	)
 );
 
 // Register the plugin
-Event::instance()->fire('Ushahidi_Plugin', array($plugin));
+DataProvider::register_provider('nexmo', $plugin);
 
 // Additional Routes
 Route::set('nexmo_sms_callback_url', 'sms/nexmo(/<action>)')

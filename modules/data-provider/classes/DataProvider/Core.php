@@ -40,6 +40,114 @@ abstract class DataProvider_Core {
 	public static $instances = array();
 
 	/**
+	 * Provider info
+	 * @var array
+	 */
+	protected static $_providers = array();
+
+	/**
+	 * Register A Provider
+	 *
+	 * @param string $name     Provider name
+	 * @param array  $params   Provider info
+	 */
+	public static function register_provider($name, $params)
+	{
+		if (self::_valid_provider($params, $name))
+		{
+			self::$_providers[$name] = $params;
+		}
+	}
+
+	/**
+	 * Get provider info
+	 * @param  boolean $provider provider name
+	 * @return array             provider info
+	 */
+	public static function get_providers($provider = FALSE)
+	{
+		if ($provider)
+		{
+			return isset(self::$_providers[$provider]) ? self::$_providers[$provider] : array();
+		}
+
+		return self::$_providers;
+	}
+
+	/**
+	 * Get array of enabled provider names
+	 *
+	 * @return array   names of enabled providers
+	 */
+	public static function get_enabled_providers()
+	{
+		$providers = self::get_providers();
+		$enabled_provider_keys = array_keys(array_filter(Kohana::$config->load('data-provider')->get('providers')));
+
+		$enabled_providers = array();
+		foreach ($enabled_provider_keys as $provider)
+		{
+			if (isset($providers[$provider]))
+			{
+				$enabled_providers[$provider] = $providers[$provider];
+			}
+		}
+
+		return $enabled_providers;
+	}
+
+	/**
+	 * Validate Provider Parameters
+	 *
+	 * @param array $params
+	 * @return bool valid/invalid
+	 */
+	protected static function _valid_provider($params, $name)
+	{
+		if ( ! is_array($params) )
+		{
+			return FALSE;
+		}
+
+		// Validate Name
+		if ( ! isset($params['name']) )
+		{
+			Kohana::$log->add(Log::ERROR, __("':provider' does not have 'name'", array(':provider' => $name)));
+			return FALSE;
+		}
+
+		// Validate Version
+		if ( ! isset($params['version']) )
+		{
+			Kohana::$log->add(Log::ERROR, __("':provider' does not have 'version'", array(':provider' => $name)));
+			return FALSE;
+		}
+
+		// Validate Services
+		if ( ! isset($params['services']) OR ! is_array($params['services']) )
+		{
+			Kohana::$log->add(Log::ERROR, __("':provider' does not have 'services' or 'services' is not an array", array(':provider' => $name)));
+			return FALSE;
+		}
+
+		// Validate Options
+		if ( ! isset($params['options']) OR ! is_array($params['options']) )
+		{
+			Kohana::$log->add(Log::ERROR, __("':provider' does not have 'options' or 'options' is not an array", array(':provider' => $name)));
+			return FALSE;
+		}
+
+		// Validate Links
+		if ( ! isset($params['links']) OR ! is_array($params['links']) )
+		{
+			Kohana::$log->add(Log::ERROR, __("':provider' does not have 'links' or 'links' is not an array", array(':provider' => $name)));
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	/**
 	 * Creates and returns a new provider.
 	 * Provider name must be passed with its' original casing, e.g.
 	 *
@@ -77,10 +185,6 @@ abstract class DataProvider_Core {
 		if ( ! isset(DataProvider::$instances[$provider_name]))
 		{
 			$enabled_providers = $config->get('providers');
-			if ( empty($enabled_providers[$provider_name]) )
-			{
-				throw new Kohana_Exception("The messaging service is unavailable at this time. No data provider has been configured for use.");
-			}
 
 			$class_name = 'DataProvider_'.ucfirst($provider_name);
 
@@ -128,16 +232,6 @@ abstract class DataProvider_Core {
 	}
 
 	/**
-	 * Get array of available provider names
-	 * @return array   names of enabled providers
-	 */
-	public static function get_available_providers()
-	{
-		$enabled_providers = Kohana::$config->load('data-provider')->get('providers');
-		return array_keys(array_filter($enabled_providers));
-	}
-
-	/**
 	 * Constructor function for DataProvider
 	 */
 	public function __construct()
@@ -182,7 +276,7 @@ abstract class DataProvider_Core {
 			$this->_options = Kohana::$config->load('data-provider')->get($this->provider_name);
 		}
 
-		return $this->_options;
+		return is_array($this->_options) ? $this->_options : array();
 	}
 
 	/**

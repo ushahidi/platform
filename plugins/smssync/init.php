@@ -11,38 +11,39 @@
 
 // Plugin Info
 $plugin = array(
-	'smssync' => array(
-		'name' => 'SMSSync',
-		'version' => '0.1',
+	'name' => 'SMSSync',
+	'version' => '0.1',
+	// Services Provided By This Plugin
+	'services' => array(
+		Message_Type::SMS => TRUE,
+		Message_Type::IVR => FALSE,
+		Message_Type::EMAIL => FALSE,
+		Message_Type::TWITTER => FALSE
+	),
 
-		// Services Provided By This Plugin
-		'services' => array(
-			Message_Type::SMS => TRUE,
-			Message_Type::IVR => FALSE,
-			Message_Type::EMAIL => FALSE,
-			Message_Type::TWITTER => FALSE
+	// form Key and Label
+	'options' => array(
+		'secret' => array(
+			'label' => 'Secret',
+			'input' => 'text',
+			'description' => 'The secret key from the server'
 		),
-
-		// Option Key and Label
-		'options' => array(
-			'from' => 'Phone Number',
-			'secret' => 'Secret',
-		),
-
-		// Option Key and Label
-		'feed_options' => array(
-		),
-
-		// Links
-		'links' => array(
-			'developer' => 'http://smssync.ushahidi.com/',
-			'signup' => 'http://smssync.ushahidi.com/'
+		'from' => array(
+			'label' => 'From',
+			'input' => 'text',
+			'description' => 'The from number'
 		)
+	),
+
+	// Links
+	'links' => array(
+		'developer' => 'http://smssync.ushahidi.com/',
+		'signup' => 'http://smssync.ushahidi.com/'
 	)
 );
 
 // Register the plugin
-Event::instance()->fire('Ushahidi_Plugin', array($plugin));
+DataProvider::register_provider('smssync', $plugin);
 
 // Additional Routes
 

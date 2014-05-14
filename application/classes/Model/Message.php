@@ -33,10 +33,6 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 	 * @var array Relationships
 	 */
 	protected $_belongs_to = array(
-		'datafeed' => array(
-			'model'  => 'DataFeed',
-			'foreign_key' => 'data_feed_id',
-			),
 		'contact' => array(),
 		);
 
@@ -143,11 +139,7 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 			'contact_id' => array(
 				array('numeric'),
 				array(array($this, 'fk_exists'), array('Contact', ':field', ':value'))
-			),
-			'data_feed_id' => array(
-				array('numeric'),
-				array(array($this, 'fk_exists'), array('DataFeed', ':field', ':value'))
-			),
+			)
 		);
 	}
 
@@ -248,10 +240,6 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 					'url' => URL::site('api/v'.Ushahidi_Api::version().'/messages/'.$this->parent_id, Request::current())
 				),
 				'contact' => empty($this->contact_id) ? NULL : $this->contact->for_api(),
-				'data_feed' => empty($this->data_feed_id) ? NULL : array(
-					'id' => $this->data_feed_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/datafeeds/'.$this->data_feed_id, Request::current())
-				),
 				'post' => empty($this->post_id) ? NULL : array(
 					'id' => $this->post_id,
 					'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->post_id, Request::current())

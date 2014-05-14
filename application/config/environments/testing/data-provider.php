@@ -19,6 +19,8 @@ return array(
 	'providers' => array(
 		'smssync' => TRUE,
 		'frontlinesms' => TRUE,
+		'nexmo' => FALSE,
+		'email' => FALSE,
 	),
 	'nexmo' => array(
 		'from' => '',

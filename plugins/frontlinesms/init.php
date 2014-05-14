@@ -11,33 +11,46 @@
 
 // Plugin Info
 $plugin = array(
-	'frontlinesms' => array(
-		'name' => 'FrontlineSMS',
-		'version' => '0.1',
+	'name' => 'FrontlineSMS',
+	'version' => '0.1',
 
-		// Services Provided By This Plugin
-		'services' => array(
+	// Services Provided By This Plugin
+	'services' => array(
 			Message_Type::SMS => TRUE
-		),
+	),
 
-		// Option Key and Label
-		'options' => array(
-			'f' => 'Phone Number',
-			'm' => 'Message',
-			'key' => 'Key',
-			'frontlinecloud_api_url' => '' // Eg. http://frontlinesms.com:8130/api/1/webconnection/11
+	'options' => array(
+		'key' => array(
+				'label' => 'Key',
+				'input' => 'text',
+				'description' => 'The API key'
 		),
+		'f' => array(
+				'label' => 'From',
+				'input' => 'text',
+				'description' => 'The from number'
+		),
+		'f' => array(
+				'label' => 'From',
+				'input' => 'text',
+				'description' => 'The from number'
+		),
+		'frontlinecloud_api_url' => array(
+				'label' => 'Frontlinecloud API URL',
+				'input' => 'text',
+				'description' => 'The API URL provided by Frontlinecloud'
+		),
+	),
 
 		// Links
-		'links' => array(
-			'overview' => 'http://www.frontlinesms.com/technologies/frontlinesms-overview/',
-			'download' => 'http://www.frontlinesms.com/technologies/download/'
-		)
+	'links' => array(
+		'overview' => 'http://www.frontlinesms.com/technologies/frontlinesms-overview/',
+		'download' => 'http://www.frontlinesms.com/technologies/download/'
 	)
 );
 
 // Register the plugin
-Event::instance()->fire('Ushahidi_Plugin', array($plugin));
+DataProvider::register_provider('frontlinesms', $plugin);
 
 // Additional Routes
 

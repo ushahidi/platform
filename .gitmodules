@@ -16,9 +16,6 @@
 [submodule "modules/A2"]
 	path = modules/A2
 	url = https://github.com/Wouterrr/A2
-[submodule "modules/KO3-Event"]
-	path = modules/KO3-Event
-	url = git://github.com/rjmackay/KO3-Event.git
 [submodule "plugins/twilio/vendor/twilio"]
 	path = plugins/twilio/vendor/twilio
 	url = https://github.com/twilio/twilio-php

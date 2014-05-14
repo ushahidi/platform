@@ -132,6 +132,19 @@ Route::set('messages-api', 'api/v2/messages(/<id>(/<action>))',
 	));
 
 /**
+ * Dataproviders API Route
+ */
+Route::set('dataproviders-api', 'api/v2/dataproviders(/<id>)',
+	array(
+		'id' => '[a-zA-Z_-]+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api',
+		'controller' => 'DataProviders',
+	));
+
+/**
  * Base Ushahidi API Route
  */
 Route::set('api', 'api/v2(/<controller>(/<id>))',

@@ -14,7 +14,7 @@ class DataProvider_Twilio extends DataProvider {
 	/**
 	 * Contact type user for this provider
 	 */
-	public $contact_type = Model_Contact::SMS;
+	public $contact_type = Model_Contact::PHONE;
 
 	/**
 	 * Sets the FROM parameter for the provider

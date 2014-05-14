@@ -11,36 +11,49 @@
 
 // Plugin Info
 $plugin = array(
-	'twilio' => array(
-		'name' => 'Twilio',
-		'version' => '0.1',
+	'name' => 'Twilio',
+	'version' => '0.1',
+	// Services Provided By This Plugin
+	'services' => array(
+		Message_Type::SMS => TRUE,
+		Message_Type::IVR => TRUE,
+		Message_Type::EMAIL => FALSE,
+		Message_Type::TWITTER => FALSE
+	),
 
-		// Services Provided By This Plugin
-		'services' => array(
-			Message_Type::SMS => TRUE,
-			Message_Type::IVR => TRUE,
-			Message_Type::EMAIL => FALSE,
-			Message_Type::TWITTER => FALSE
+	// forms Key and Label
+	'options' => array(
+		'from' => array(
+			'label' => 'Phone Number',
+			'input' => 'text',
+			'description' => 'The from phone number. A Twilio phone number enabled for the type of message you wish to send. '
 		),
-
-		// Option Key and Label
-		'options' => array(
-			'from' => 'Phone Number',
-			'account_sid' => 'Account SID',
-			'auth_token' => 'Auth Token',
-			'sms_auto_response' => ''
+		'account_sid' => array(
+			'label' => 'Account SID',
+			'input' => 'text',
+			'description' => 'The unique id of the Account that sent this message.'
 		),
-
-		// Links
-		'links' => array(
-			'developer' => 'https://www.twilio.com',
-			'signup' => 'https://www.twilio.com/try-twilio'
+		'auth_token' => array(
+			'label' => 'Auth Token',
+			'input' => 'text',
+			'description' => '',
+		),
+		'sms_auto_response' => array(
+			'label' => 'SMS Auto response',
+			'input' => 'text',
+			'description' => '',
 		)
+	),
+
+	// Links
+	'links' => array(
+		'developer' => 'https://www.twilio.com',
+		'signup' => 'https://www.twilio.com/try-twilio'
 	)
 );
 
 // Register the plugin
-Event::instance()->fire('Ushahidi_Plugin', array($plugin));
+DataProvider::register_provider('twilio', $plugin);
 
 // Additional Routes
 
