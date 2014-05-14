@@ -127,11 +127,11 @@
 	}
 }
 
-/*$SECTION*/
+/*$ACCORDION*/
 .workspace-menu {
 	.title {
 		border: 0;
-		& a:before {
+		&:before {
 			float: right;
 			display: inline-block;
 			font-family: FontAwesome;
@@ -141,13 +141,8 @@
 			content: "\f078";
 		}
 	}
-	&.active .title {
-		a {
-			color: $white;
-			&:before {
-				content: "\f077";
-			}
-		}
+	.active.title:before {
+		content: "\f077";
 	}
 }
 
