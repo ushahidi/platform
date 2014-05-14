@@ -103,7 +103,7 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 				array('in_array', array(':value', array('sms', 'email', 'twitter')) ),
 			),
 			'data_provider' => array(
-				array('in_array', array(':value', DataProvider::get_available_providers()) ),
+				array('in_array', array(':value', DataProvider::get_providers()) ),
 			),
 			'data_provider_message_id' => array(
 				array('max_length', array(':value', 511)),
