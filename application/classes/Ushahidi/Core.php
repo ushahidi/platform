@@ -24,10 +24,19 @@ abstract class Ushahidi_Core {
 		$di = service();
 
 		// Helpers, tools, etc
-		$di->set('formatter.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator', $di->lazyNew('Ushahidi_Authenticator'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
+
+		// Formatters
+		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
+		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
+		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
+
+		// Formatter parameters
+		$di->setter['Ushahidi_Formatter_JSONP']['setCallback'] = function() {
+			return Request::current()->query('callback');
+		};
 
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));

@@ -59,5 +59,6 @@ class Ushahidi_Formatter_API implements Formatter
 
 		return $data;
 	}
+
 }
 

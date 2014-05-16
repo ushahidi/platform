@@ -340,71 +340,34 @@ class Ushahidi_Api extends Controller {
 		// Should we prevent this request from being cached?
 		if ( ! in_array($this->request->method(), $this->_cacheable_methods))
 		{
-			$this->response->headers('cache-control', 'no-cache, no-store, max-age=0, must-revalidate');
+			$this->response->headers('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
 		}
 
-		// Switch based on response format
-		$format = strtolower($this->request->query('format'));
-		switch($format)
-		{
-			case 'jsonp':
-				// Set the correct content-type header
-				$this->response->headers('Content-Type', 'application/javascript');
-
-				$this->_prepare_response_body('jsonp');
-				break;
-			case 'json':
-			default:
-				// Set the correct content-type header
-				$this->response->headers('Content-Type', 'application/json');
-
-				$this->_prepare_response_body('json');
-				break;
-		}
-	}
-
-	/**
-	 * Prepare response body
-	 *
-	 * Encode _response_payload into JSON or JSONP
-	 *
-	 * @todo Add support for GeoJSON
-	 * @throws HTTP_Exception_400|HTTP_Exception_500
-	 */
-	protected function _prepare_response_body($format = 'json')
-	{
-		// Are we in development environment?
-		$dev = Kohana::$environment === Kohana::DEVELOPMENT;
+		// Get the requested response format, use JSON for default
+		$type = strtolower($this->request->query('format')) ?: 'json';
 
 		try
 		{
-			// Format the reponse as JSON
-			$body = json_encode(
-				$this->_response_payload,
-				// in development, make the output human readable
-				$dev ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null);
+			$format = service("formatter.output.$type");
+
+			$body = $format($this->_response_payload);
+			$mime = $format->getMimeType();
+
+			$this->response->headers('Content-Type', $mime);
+			$this->response->body($body);
 		}
-		catch (Exception $e)
+		catch (Aura\Di\Exception\ServiceNotFound $e)
+		{
+			throw new HTTP_Exception_400('Unknown response format: :format', array(':format' => $type));
+		}
+		catch (InvalidArgumentException $e)
+		{
+			throw new HTTP_Exception_400('Bad formatting parameters: :message', array(':message' => $e->getMessage()));
+		}
+		catch (Ushahidi\Exception\Formatter $e)
 		{
 			throw new HTTP_Exception_500('Error while formatting response: :message', array(':message' => $e->getMessage()));
 		}
-
-		if ($format == 'jsonp')
-		{
-			$callback = $this->request->query('callback');
-			// ensure we have a callback fn
-			if (empty($callback))
-				throw new HTTP_Exception_400('Required query parameter \'callback\' is missing or empty.');
-
-			// sanitize callback function name
-			if (preg_match("/^[a-zA-Z0-9]+$/", $callback) != 1)
-				throw new HTTP_Exception_400('JSONP callback must be alphanumeric.');
-
-			// wrap body in callback
-			$body = "{$callback}({$body})";
-		}
-
-		$this->response->body($body);
 	}
 
 	/**

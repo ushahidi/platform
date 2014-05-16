@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Ushahidi Platform Formatter Tool
+ * Ushahidi Platform Output Formatter
+ *
+ * Meant to be used in combination with Formatter interface!
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,13 +13,12 @@
 
 namespace Ushahidi\Tool;
 
-interface Formatter
+interface OutputFormatter
 {
 	/**
-	 * @param  mixed $input
-	 * @return mixed
-	 * @throws \Ushahidi\Exception\Formatter
+	 * Get the MIME type of a format.
+	 * @return  string
 	 */
-	public function __invoke($input);
+	public function getMimeType();
 }
 

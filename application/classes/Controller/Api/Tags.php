@@ -87,7 +87,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	public function action_get_index_collection()
 	{
 		$parser = service('parser.tag');
-		$format = service('formatter.api');
+		$format = service('formatter.entity.api');
 		$usecase = service('usecase.api.tag.collection')
 			->orderBy($this->_record_orderby, $this->_record_order)
 			->limit($this->_record_limit)
