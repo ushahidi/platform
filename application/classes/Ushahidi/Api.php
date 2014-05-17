@@ -139,6 +139,17 @@ class Ushahidi_Api extends Controller {
 	}
 
 	/**
+	 * Get an API URL for a resource.
+	 * @param  string  $resource
+	 * @param  mixed   $id
+	 * @return string
+	 */
+	public static function url($resource, $id = null)
+	{
+		return rtrim(sprintf('api/v%d/%s/%d', static::version(), $resource, $id), '/');
+	}
+
+	/**
 	 * Get resource object/string
 	 * @return string|ORM
 	 */
