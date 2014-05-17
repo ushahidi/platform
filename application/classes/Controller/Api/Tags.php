@@ -86,42 +86,62 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$parser = service('parser.tag');
-		$format = service('formatter.entity.api');
-		$usecase = service('usecase.api.tag.collection')
-			->orderBy($this->_record_orderby, $this->_record_order)
-			->limit($this->_record_limit)
-			->offset($this->_record_offset);
-
-		if ($q = $this->request->query('q'))
-		{
-			$usecase->query('tag', $q);
-		}
-
-		try
-		{
-			$tag = $parser($this->request->query());
-			$found = $usecase->search($tag);
-		}
-		catch (Ushahidi\Exception\Validator $e)
-		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->getErrors())),
-			));
-		}
-
-		// This is generic right now, as per-entity ACL checks are not possible
-		// (or required) at this point.
-		$allowed = ['allowed_methods' => $this->_allowed_methods()];
-
 		$results = array();
-		foreach ($found as $tag)
-		{
-			$results[] = $format($tag) + $allowed;
-		}
-		$count = count($results);
 
-		$this->_response_payload = compact('count', 'results') + $this->_get_paging_parameters();
+		$this->_prepare_order_limit_params();
+
+		$tags_query = ORM::factory('Tag')
+			->order_by($this->_record_orderby, $this->_record_order)
+			->offset($this->_record_offset)
+			->limit($this->_record_limit);
+
+		// Prepare search params
+		// @todo generalize this?
+		$q = $this->request->query('q');
+		if (! empty($q))
+		{
+			$tags_query->where('tag', 'LIKE', "%$q%");
+		}
+
+		$tag = $this->request->query('tag');
+		if (! empty($tag))
+		{
+			$tags_query->where('tag', '=', $tag);
+		}
+
+		$type = $this->request->query('type');
+		if (! empty($type))
+		{
+			$tags_query->where('type', '=', $type);
+		}
+
+		$type = $this->request->query('parent');
+		if (! empty($type))
+		{
+			$tags_query->where('parent_id', '=', $type);
+		}
+
+		$tags = $tags_query->find_all();
+
+		$count = $tags->count();
+
+		foreach ($tags as $tag)
+		{
+			// Check if user is allowed to access this tag
+			if ($this->acl->is_allowed($this->user, $tag, 'get') )
+			{
+				$result = $tag->for_api();
+				$result['allowed_methods'] = $this->_allowed_methods($tag);
+				$results[] = $result;
+			}
+		}
+
+		// Respond with posts
+		$this->_response_payload = array(
+			'count' => $count,
+			'results' => $results,
+			)
+			+ $this->_get_paging_parameters();
 	}
 
 	/**
