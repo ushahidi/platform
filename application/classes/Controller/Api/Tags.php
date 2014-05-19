@@ -70,11 +70,25 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$post = $this->_request_payload;
+		$format  = service('formatter.entity.api');
+		$parser  = service('parser.tag.create');
+		$usecase = service('usecase.tag.create');
 
-		$tag = $this->resource();
+		try
+		{
+			$request = $parser($this->_request_payload);
+			$tag = $usecase->interact($request);
+		}
+		catch (Ushahidi\Exception\ValidatorException $e)
+		{
+			// Also handles ParserException
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
+		}
 
-		$this->create_or_update_tag($tag, $post);
+		$this->_response_payload = $format($tag);
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**

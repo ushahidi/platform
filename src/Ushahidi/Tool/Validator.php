@@ -11,14 +11,19 @@
 
 namespace Ushahidi\Tool;
 
-use Ushahidi\Entity;
+use Ushahidi\Request;
 
 interface Validator
 {
 	/**
-	 * @param  Entity to be checked
-	 * @return bool
-	 * @throws Ushahidi\Exception\Validator
+	 * @param  Array   $data
+	 * @return Boolean
 	 */
-	public function check(Entity $entity);
+	public function check(Array $data);
+
+	/**
+	 * @param  String  $source
+	 * @return Array
+	 */
+	public function errors($source = null);
 }

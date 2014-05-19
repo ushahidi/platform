@@ -41,6 +41,7 @@ abstract class Ushahidi_Core {
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
+		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 
 		// Abstract repository parameters
@@ -61,6 +62,13 @@ abstract class Ushahidi_Core {
 		$di->set('parser.user.register', $di->lazyNew('Ushahidi_Parser_User_Register'));
 		$di->params['Ushahidi_Parser_User_Register'] = [
 			'hasher' => $di->lazyGet('tool.hasher.password'),
+			];
+
+		// Tag dependendies 
+		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
+		$di->set('validator.tag.create', $di->lazyNew('Ushahidi_Validator_Tag_Create'));
+		$di->params['Ushahidi_Validator_Tag_Create'] = [
+			'repo' => $di->lazyGet('repository.tag'),
 			];
 
 		/**

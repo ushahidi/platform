@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Formatter Tool
+ * Ushahidi Platform Formatter Exception
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,15 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Tool;
+namespace Ushahidi\Exception;
 
-interface Formatter
+class FormatterException extends \RuntimeException
 {
-	/**
-	 * @param  mixed $input
-	 * @return mixed
-	 * @throws \Ushahidi\Exception\FormatterException
-	 */
-	public function __invoke($input);
 }
-
