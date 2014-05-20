@@ -60,13 +60,6 @@ function feature($name) {
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
-$di->set('usecase.tag.create', $di->lazyNew('\Ushahidi\Usecase\Tag\Create'));
-$di->params['\Ushahidi\Usecase\Tag\Create'] = [
-	'repo' => $di->lazyGet('repository.tag'),
-	'valid' => $di->lazyGet('validator.tag.create'),
-	// 'auth' => $di->lazyGet('tool.authenticator'),
-	];
-
 $di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
 $di->params['\Ushahidi\Usecase\User\Register'] = [
 	'repo' => $di->lazyGet('repository.user'),

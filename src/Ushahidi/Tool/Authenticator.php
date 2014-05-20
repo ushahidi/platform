@@ -15,5 +15,5 @@ use Ushahidi\Entity;
 
 interface Authenticator
 {
-	public function isAllowed($resource, $privilege);
+	public function isAllowed(Entity $entity, $privilege);
 }

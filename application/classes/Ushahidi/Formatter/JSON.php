@@ -11,7 +11,7 @@
 
 use Ushahidi\Tool\Formatter;
 use Ushahidi\Tool\OutputFormatter;
-use Ushahidi\Exception\FormatterException;
+use Ushahidi\Exception\Formatter as FormatterException;
 
 class Ushahidi_Formatter_JSON implements Formatter, OutputFormatter
 {

@@ -13,7 +13,7 @@
 
 use Ushahidi\Entity;
 use Ushahidi\Tool\Formatter;
-use Ushahidi\Exception\FormatterException;
+use Ushahidi\Exception\Formatter as FormatterException;
 
 class Ushahidi_Formatter_API implements Formatter
 {

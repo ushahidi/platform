@@ -24,12 +24,9 @@ class Ushahidi_Authenticator implements Authenticator
 		$this->a2 = A2::instance();
 	}
 
-	public function isAllowed($resource, $privilege)
+	public function isAllowed(Entity $entity, $privilege)
 	{
-		if ($resource instanceof Entity)
-		{
-			$resource = $resource->getResource();
-		}
+		$resource = $entity->getResource();
 
 		if (!$this->a2->allowed($resource, $privilege, FALSE))
 		{
