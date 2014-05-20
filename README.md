@@ -31,7 +31,7 @@ If you haven't used Phabricator before, read [Phab Help][helpphab] after you sig
 If you just want to fix a few bugs, or build a prototype on Ushahidi, you're probably
 better helping out on [Ushahidi 2.x][ush2] right now.
 
-[getin]: https://wiki.ushahidi.com/display/WIKI/Ushahidi%2C+v3.x+-+Getting+Involved)
+[getin]: https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x+-+Getting+Involved
 [ushphab]: https://phabricator.ushahidi.com/
 [helpphab]: https://phabricator.ushahidi.com/w/help/phabricator/
 [ush2]: https://github.com/ushahidi/Ushahidi_Web
