@@ -26,13 +26,7 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/tags/TagLi
 				'change .js-select-input' : 'updatedSelected',
 			},
 
-			initialize: function()
-			{
-				// Refresh this view when there is a change in this model
-				this.listenTo(this.model,'change', this.render);
-			},
-
-			modelEvent: {
+			modelEvents: {
 				'sync': 'render'
 			},
 

@@ -26,13 +26,7 @@ define(['App', 'handlebars', 'marionette', 'underscore', 'alertify', 'text!templ
 				'click .js-user-change-role' : 'changeRole'
 			},
 
-			initialize: function()
-			{
-				// Refresh this view when there is a change in this model
-				this.listenTo(this.model,'change', this.render);
-			},
-
-			modelEvent: {
+			modelEvents: {
 				'sync': 'render'
 			},
 
