@@ -5,18 +5,14 @@ namespace spec\Ushahidi\Usecase\User;
 use Ushahidi\Entity\User;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Usecase\User\RegisterRepository;
+use Ushahidi\Usecase\User\RegisterData;
 
 use PhpSpec\ObjectBehavior;
 
 class RegisterSpec extends ObjectBehavior
 {
-	function let(RegisterRepository $repo, Validator $valid, User $user)
+	function let(RegisterRepository $repo, Validator $valid)
 	{
-		$user->beConstructedWith([]);
-		$user->email = 'test@example.com';
-		$user->username = 'test';
-		$user->password = 'secret';
-
 		$this->beConstructedWith($repo, $valid);
 	}
 
@@ -25,11 +21,15 @@ class RegisterSpec extends ObjectBehavior
 		$this->shouldHaveType('Ushahidi\Usecase\User\Register');
 	}
 
-	function it_does_interact_with_the_validator_and_repository($repo, $valid, $user)
+	function it_does_interact_with_the_validator_and_repository($repo, $valid, RegisterData $input)
 	{
-		$valid->check($user)->shouldBeCalled()->willReturn(true);
-		$repo->register($user->email, $user->username, $user->password)->shouldBeCalled()->willReturn(1);
+		$input->email    = 'test@example.com';
+		$input->username = 'test';
+		$input->password = 'secret';
 
-		$this->interact($user);
+		$valid->check($input)->shouldBeCalled()->willReturn(true);
+		$repo->register($input->email, $input->username, $input->password)->shouldBeCalled()->willReturn(1);
+
+		$this->interact($input);
 	}
 }

@@ -30,20 +30,17 @@ class Login
 		$this->auth = $auth;
 	}
 
-	public function interact(User $user)
+	public function interact(LoginData $input)
 	{
-		$this->valid->check($user);
+		$this->valid->check($input);
 
-		// Password is plaintext at this point, we will check after locating the user
-		$password = $user->password;
-
-		// Attempt to load the member user
-		$member = $this->repo->getByUsername($user->username);
+		// Attempt to load the user
+		$user = $this->repo->getByUsername($input->username);
 
 		// TODO: handle the other bits of A1, like rehashing and brute force checks
-		$this->auth->checkPassword($password, $member->password);
+		$this->auth->checkPassword($input->password, $user->password);
 
-		return $member->id;
+		return $user->id;
 	}
 }
 

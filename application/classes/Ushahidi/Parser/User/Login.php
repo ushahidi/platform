@@ -11,9 +11,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity\User;
 use Ushahidi\Tool\Parser;
 use Ushahidi\Exception\ParserException;
+
+use Ushahidi\Usecase\User\LoginData;
 
 class Ushahidi_Parser_User_Login implements Parser
 {
@@ -41,6 +42,6 @@ class Ushahidi_Parser_User_Login implements Parser
 		// hash is unique, even for the same password, so we cannot compare two
 		// hashes directly.
 
-		return new User($data);
+		return new LoginData(Arr::extract($data, ['username', 'password']));
 	}
 }

@@ -11,7 +11,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity;
+use Ushahidi\Data;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Usecase\User\RegisterRepository;
 use Ushahidi\Exception\ValidatorException;
@@ -27,9 +27,9 @@ class Ushahidi_Validator_User_Register implements Validator
 		$this->repo = $repo;
 	}
 
-	public function check(Entity $user)
+	public function check(Data $input)
 	{
-		$valid = Validation::factory($user->asArray())
+		$valid = Validation::factory($input->asArray())
 			->rules('email', array(
 					array('not_empty'),
 					array('email'),

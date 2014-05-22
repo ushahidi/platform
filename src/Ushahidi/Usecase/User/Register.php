@@ -26,13 +26,13 @@ class Register
 		$this->valid = $valid;
 	}
 
-	public function interact(User $user)
+	public function interact(RegisterData $input)
 	{
-		$this->valid->check($user);
-		$user->id = $this->repo->register(
-			$user->email,
-			$user->username,
-			$user->password);
-		return $user->id;
+		$this->valid->check($input);
+		$userid = $this->repo->register(
+			$input->email,
+			$input->username,
+			$input->password);
+		return $userid;
 	}
 }

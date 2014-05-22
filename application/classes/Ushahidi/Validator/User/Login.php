@@ -3,15 +3,13 @@
 /**
  * Ushahidi User Login Validator
  *
- * Checks the consistency of the User before login
- *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity;
+use Ushahidi\Data;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Usecase\User\LoginRepository;
 use Ushahidi\Exception\ValidatorException;
@@ -20,9 +18,9 @@ class Ushahidi_Validator_User_Login implements Validator
 {
 	private $errors = array();
 
-	public function check(Entity $user)
+	public function check(Data $input)
 	{
-		$valid = Validation::factory($user->asArray())
+		$valid = Validation::factory($input->asArray())
 			->rules('username', array(
 					array('not_empty'),
 					array('max_length', array(':value', 255)),
@@ -34,14 +32,10 @@ class Ushahidi_Validator_User_Login implements Validator
 					// is plaintext, because we always want to run the hash check.
 				));
 
-		$okay = $valid->check();
-
-		if (!$okay)
-		{
+		if (!$valid->check())
 			throw new ValidatorException("Failed to validate user registration", $valid->errors('user'));
-		}
 
-		return true;
+		return TRUE;
 	}
 }
 

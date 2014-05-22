@@ -11,10 +11,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity\User;
 use Ushahidi\Tool\Parser;
 use Ushahidi\Tool\Hasher;
 use Ushahidi\Exception\ParserException;
+
+use Ushahidi\Usecase\User\RegisterData;
 
 class Ushahidi_Parser_User_Register implements Parser
 {
@@ -43,9 +44,12 @@ class Ushahidi_Parser_User_Register implements Parser
 				))
 			->rules('password', array(
 					array('not_empty'),
+					// NOTE: Password should allow ANY character at all. Do not limit to alpha numeric or alpha dash.
 					array('min_length', array(':value', 7)),
 					array('max_length', array(':value', 72)), // Bcrypt max length is 72
-					// NOTE: Password should allow ANY character at all. Do not limit to alpha numeric or alpha dash.
+					// todo: The statement that bcrypt has a max length is wrong. It will
+					// *truncate* passwords longer than 72 characters with *some* methods.
+					// But when it does truncate, the hash should still pass...
 				));
 
 		if (!$valid->check())
@@ -55,6 +59,6 @@ class Ushahidi_Parser_User_Register implements Parser
 
 		$data['password'] = $this->hasher->hash($data['password']);
 
-		return new User($data);
+		return new RegisterData(Arr::extract($data, ['email', 'username', 'password']));
 	}
 }

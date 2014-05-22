@@ -2,21 +2,17 @@
 
 namespace spec\Ushahidi\Usecase\User;
 
-use Ushahidi\Entity\User;
 use Ushahidi\Entity\UserRepository;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Tool\PasswordAuthenticator as Authenticator;
+use Ushahidi\Usecase\User\LoginData;
 
 use PhpSpec\ObjectBehavior;
 
 class LoginSpec extends ObjectBehavior
 {
-	function let(UserRepository $repo, Validator $valid, Authenticator $auth, User $user)
+	function let(UserRepository $repo, Validator $valid, Authenticator $auth)
 	{
-		$user->beConstructedWith([]);
-		$user->username = 'test';
-		$user->password = 'secret';
-
 		$this->beConstructedWith($repo, $valid, $auth);
 	}
 
@@ -25,11 +21,14 @@ class LoginSpec extends ObjectBehavior
 		$this->shouldHaveType('Ushahidi\Usecase\User\Login');
 	}
 
-	function it_does_interact_with_the_validator_and_repository_and_authenticator($valid, $repo, $auth, $user)
+	function it_does_interact_with_the_validator_and_repository_and_authenticator($valid, $repo, $auth, LoginData $input)
 	{
-		$valid->check($user)->shouldBeCalled()->willReturn(true);
+		$input->username = 'test';
+		$input->password = 'secret';
+
+		$valid->check($input)->shouldBeCalled()->willReturn(true);
 		$repo->getByUsername('test')->shouldBeCalled()->willReturn((object) ['id' => 1, 'password' => 'hash']);
 		$auth->checkPassword('secret', 'hash')->shouldBeCalled()->willReturn(true);
-		$this->interact($user)->shouldReturn(1);
+		$this->interact($input)->shouldReturn(1);
 	}
 }
