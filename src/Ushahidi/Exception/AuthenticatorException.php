@@ -11,6 +11,6 @@
 
 namespace Ushahidi\Exception;
 
-class Authenticator extends \InvalidArgumentException
+class AuthenticatorException extends \InvalidArgumentException
 {
 }

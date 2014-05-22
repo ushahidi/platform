@@ -97,11 +97,11 @@ class Controller_User extends Controller_Layout {
 			$user = ORM::factory('User', $userid);
 			$this->auth->complete_login($user);
 		}
-		catch (Ushahidi\Exception\Validator $e)
+		catch (Ushahidi\Exception\ValidatorException $e)
 		{
 			$error = implode(', ', Arr::flatten($e->getErrors()));
 		}
-		catch (Ushahidi\Exception\Authenticator $e)
+		catch (Ushahidi\Exception\AuthenticatorException $e)
 		{
 			$error = $e->getMessage();
 		}
@@ -143,7 +143,7 @@ class Controller_User extends Controller_Layout {
 
 			return $this->action_submit_login();
 		}
-		catch (Ushahidi\Exception\Validator $e)
+		catch (Ushahidi\Exception\ValidatorException $e)
 		{
 			$this->template = View::factory('user/register')
 				->set('error', implode(', ', Arr::flatten($e->getErrors())))

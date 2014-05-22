@@ -14,7 +14,7 @@
 use Ushahidi\Entity;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Usecase\User\LoginRepository;
-use Ushahidi\Exception\Validator as ValidatorException;
+use Ushahidi\Exception\ValidatorException;
 
 class Ushahidi_Validator_User_Login implements Validator
 {

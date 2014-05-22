@@ -13,7 +13,7 @@
 
 use Ushahidi\Entity\User;
 use Ushahidi\Tool\Parser;
-use Ushahidi\Exception\Parser as ParserException;
+use Ushahidi\Exception\ParserException;
 
 class Ushahidi_Parser_User_Login implements Parser
 {

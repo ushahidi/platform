@@ -12,7 +12,7 @@
  */
 
 use Ushahidi\Tool\PasswordAuthenticator;
-use Ushahidi\Exception\Authenticator as AuthenticatorException;;
+use Ushahidi\Exception\AuthenticatorException;
 
 class Ushahidi_Authenticator_Password implements PasswordAuthenticator
 {

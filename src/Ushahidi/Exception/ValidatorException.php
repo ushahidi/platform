@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Exception;
 
-class Validator extends \InvalidArgumentException
+class ValidatorException extends \InvalidArgumentException
 {
 	private $errors;
 

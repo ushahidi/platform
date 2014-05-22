@@ -13,7 +13,7 @@
 
 use Ushahidi\Entity;
 use Ushahidi\Tool\Authenticator;
-use Ushahidi\Exception\Authenticator as AuthenticatorException;;
+use Ushahidi\Exception\AuthenticatorException;
 
 class Ushahidi_Authenticator implements Authenticator
 {

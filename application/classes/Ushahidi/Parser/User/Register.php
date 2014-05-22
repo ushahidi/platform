@@ -14,7 +14,7 @@
 use Ushahidi\Entity\User;
 use Ushahidi\Tool\Parser;
 use Ushahidi\Tool\Hasher;
-use Ushahidi\Exception\Parser as ParserException;
+use Ushahidi\Exception\ParserException;
 
 class Ushahidi_Parser_User_Register implements Parser
 {

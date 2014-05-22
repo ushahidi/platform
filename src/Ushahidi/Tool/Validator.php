@@ -18,7 +18,7 @@ interface Validator
 	/**
 	 * @param  Entity to be checked
 	 * @return bool
-	 * @throws Ushahidi\Exception\Validator
+	 * @throws Ushahidi\Exception\ValidatorException
 	 */
 	public function check(Entity $entity);
 }

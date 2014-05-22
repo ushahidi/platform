@@ -17,7 +17,7 @@ interface PasswordAuthenticator
 	 * @param  string password in plain text
 	 * @param  string stored password hash
 	 * @return boolean
-	 * @throws Ushahidi\Exception\Authenticator
+	 * @throws Ushahidi\Exception\AuthenticatorException
 	 */
 	public function checkPassword($plaintext, $hash);
 }

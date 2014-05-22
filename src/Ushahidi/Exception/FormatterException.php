@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Parser Exception
+ * Ushahidi Platform Formatter Exception
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,6 +11,6 @@
 
 namespace Ushahidi\Exception;
 
-class Parser extends Validator
+class FormatterException extends \RuntimeException
 {
 }

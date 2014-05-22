@@ -16,7 +16,7 @@ interface Formatter
 	/**
 	 * @param  mixed $input
 	 * @return mixed
-	 * @throws \Ushahidi\Exception\Formatter
+	 * @throws \Ushahidi\Exception\FormatterException
 	 */
 	public function __invoke($input);
 }
