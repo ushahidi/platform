@@ -23,6 +23,12 @@ abstract class Ushahidi_Core {
 		 */
 		$di = service();
 
+		// Kohana injection
+		$di->set('kohana.db', function() use ($di) {
+			// todo: is there some way to use different configs here?
+			return Database::instance();
+		});
+
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator', $di->lazyNew('Ushahidi_Authenticator'));
@@ -44,6 +50,9 @@ abstract class Ushahidi_Core {
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 
 		// Abstract repository parameters
+		$di->params['Ushahidi_Repository'] = [
+			'db' => $di->lazyGet('kohana.db'),
+			];
 		$di->params['Ushahidi_Repository_Collection'] = [
 			'auth' => $di->lazyGet('tool.authenticator'),
 			];

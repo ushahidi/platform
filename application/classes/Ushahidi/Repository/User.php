@@ -15,74 +15,51 @@ use Ushahidi\Entity\User;
 use Ushahidi\Entity\UserRepository;
 use Ushahidi\Usecase\User\RegisterRepository;
 
-class Ushahidi_Repository_User implements
+class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	UserRepository,
 	RegisterRepository
 {
+	protected function getTable()
+	{
+		return 'users';
+	}
+
 	// UserRepository
 	public function get($id)
 	{
-		$query = DB::select('*')
-			->from('users')
-			->where('id', '=', $id)
-			;
-		$result = $query->execute();
-		return new User($result->current());
+		$result = $this->selectOne(compact('id'));
+		return new User($result);
 	}
 
 	// UserRepository
 	public function getByUsername($username)
 	{
-		$query = DB::select('*')
-			->from('users')
-			->where('username', '=', $username)
-			;
-		$result = $query->execute();
-		return new User($result->current());
+		$result = $this->selectOne(compact('username'));
+		return new User($result);
 	}
 
 	// UserRepository
 	public function getByEmail($email)
 	{
-		$query = DB::select('*')
-			->from('users')
-			->where('email', '=', $email)
-			;
-		$result = $query->execute();
-		return new User($result->current());
+		$result = $this->selectOne(compact('email'));
+		return new User($result);
 	}
 
 	// RegisterRepository
 	public function isUniqueUsername($username)
 	{
-		$query = DB::select('id')
-			->from('users')
-			->where('username', '=', $username)
-			;
-		$results = $query->execute();
-		return (count($results) === 0);
+		return $this->selectCount(compact('username')) === 0;
 	}
 
 	// RegisterRepository
 	public function isUniqueEmail($email)
 	{
-		$query = DB::select('id')
-			->from('users')
-			->where('email', '=', $email)
-			;
-		$results = $query->execute();
-		return (count($results) === 0);
+		return $this->selectCount(compact('email')) === 0;
 	}
 
 	// RegisterRepository
 	public function register($email, $username, $password)
 	{
-		$data = compact('email', 'username', 'password');
-		$query = DB::insert('users')
-			->columns(array_keys($data))
-			->values(array_values($data))
-			;
-		list($userid) = $query->execute();
-		return $userid;
+		return $this->insert(compact('email', 'username', 'password'));
 	}
 }
