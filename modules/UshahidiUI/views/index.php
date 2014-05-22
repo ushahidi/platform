@@ -17,13 +17,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<!-- Leaflet CSS -->
-		<link rel="stylesheet" href="<?php echo Media::url('css/plugins/leaflet.css'); ?>" />
-		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.css'); ?>"/>
+		<link rel="stylesheet" href="<?php echo Media::url('bower_components/leaflet/leaflet.css'); ?>" />
+		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('bower_components/leaflet-locatecontrol/src/L.Control.Locate.css'); ?>"/>
 		<!--[if lte IE 8]>
-				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
+				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('bower_components/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
 		<![endif]-->
 		<!-- Dropzone CSS -->
-		<link rel="stylesheet" href="<?php echo Media::url('css/plugins/dropzone.css'); ?>" />
+		<link rel="stylesheet" href="<?php echo Media::url('bower_components/dropzone/downloads/css/dropzone.css'); ?>" />
 		<!-- end Dropzone CSS -->
 
 		<!--Change to app.min.css for production-->
@@ -43,9 +43,9 @@
 
 		<!--Change to Init.min.js below for production-->
 		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>
-		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.min.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script>
+		<script type="text/javascript" src="<?php echo Media::url('bower_components/requirejs/require.min.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.min.js'); ?>"></script>
 		<?php else: ?>
-		<script type="text/javascript" src="<?php echo Media::url('js/libs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
+		<script type="text/javascript" src="<?php echo Media::url('bower_components/requirejs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
 		<?php endif; ?>
 
 		<!-- Custom Modernizr Build - add, subtract and rebuild at end of project -->

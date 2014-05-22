@@ -1,6 +1,8 @@
 # Compass config file
 require "compass-csslint"
 
+add_import_path "media/bower_components/foundation/scss"
+
 # Set this to the root of your project when deployed:
 http_path = "/"
 http_images_dir = "media/kohana/images"

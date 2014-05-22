@@ -14,32 +14,31 @@ require.config(
 	// probably a good idea to keep version numbers in the file names for updates checking
 	paths :
 	{
-		'jquery' : '../libs/jquery',
-		'underscore' : '../libs/lodash',
-		'backbone' : '../libs/backbone',
-		'marionette' : '../libs/backbone.marionette',
-		'handlebars' : '../libs/handlebars',
-		'leaflet' : '../libs/leaflet',
-		'l.geosearch' : '../libs/L.GeoSearch/src/js',
-		'leaflet-locatecontrol' : '../libs/leaflet-locatecontrol/src',
+		'jquery' : '../../bower_components/jquery/dist/jquery',
+		'underscore' : '../../bower_components/lodash/dist/lodash',
+		'backbone' : '../../bower_components/backbone/backbone',
+		'marionette' : '../../bower_components/backbone.marionette/lib/backbone.marionette',
+		'handlebars' : '../../bower_components/handlebars/handlebars',
+		'leaflet' : '../../bower_components/leaflet/leaflet',
+		'l.geosearch' : '../../bower_components/L.GeoSearch/src/js',
+		'leaflet-locatecontrol' : '../../bower_components/leaflet-locatecontrol/src',
 		'jso2' : '../libs/jso2',
 		'store' : '../libs/jso2/store',
 		'utils' : '../libs/jso2/utils',
-		'moment' : '../libs/moment',
-		'ddt' : '../libs/ddt',
-		'underscore.string' : '../libs/underscore.string',
-		'foundation' : '../libs/foundation',
+		'moment' : '../../bower_components/moment/moment',
+		'ddt' : '../../bower_components/ddt/ddt',
+		'underscore.string' : '../../bower_components/underscore.string/lib/underscore.string',
+		'foundation' : '../../bower_components/foundation/js/foundation',
 		'foundation-loader' : '../libs/foundation-loader',
-		'backbone.validateAll' : '../libs/Backbone.validateAll',
-		'backbone-pageable' : '../libs/backbone-pageable',
+		'backbone.validateAll' : '../../bower_components/Backbone.validateAll/src/javascripts/Backbone.validateAll',
+		'backbone-pageable' : '../../bower_components/backbone-pageable/lib/backbone-pageable',
 		'handlebars-paginate' : '../libs/handlebars-paginate',
-		'backbone.syphon' : '../libs/backbone.syphon',
 		'backbone-forms' : '../libs/backbone-forms/backbone-forms',
 		'bf' : '../libs/backbone-forms/',
-		'backbone-validation' : '../libs/backbone-validation-amd',
-		'alertify' : '../libs/alertify',
-		'text' : '../libs/requirejs-text',
-		'dropzone' : '../libs/dropzone-amd-module'
+		'backbone-validation' : '../../bower_components/backbone.validation/dist/backbone-validation-amd',
+		'alertify' : '../../bower_components/alertify/alertify',
+		'text' : '../../bower_components/requirejs-text/text',
+		'dropzone' : '../../bower_components/dropzone/downloads/dropzone-amd-module'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
@@ -60,8 +59,6 @@ require.config(
 		{
 			'exports' : 'Handlebars'
 		},
-		// Backbone.validateAll plugin (https://github.com/gfranko/Backbone.validateAll)
-		'backbone.validateAll' : ['backbone'],
 
 		'leaflet': {
 			deps: ['jquery'],
@@ -139,5 +136,4 @@ require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt'],
 			e.preventDefault();
 			var alertify = require('alertify');
 			alertify.log('This action has not been implemented yet.');
-		});
-	});
+	});	});

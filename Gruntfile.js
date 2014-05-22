@@ -56,8 +56,8 @@ module.exports = function(grunt) {
 		uglify :
 		{
 			'minify-require-js' : {
-				src : uipath + 'media/js/libs/require.js',
-				dest : uipath + 'media/js/libs/require.min.js'
+				src : uipath + 'media/bower_components/requirejs/require.js',
+				dest : uipath + 'media/bower_components/requirejs/require.min.js'
 			}
 		},
 
