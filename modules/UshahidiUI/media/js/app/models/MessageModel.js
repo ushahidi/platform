@@ -19,11 +19,6 @@ define(['jquery', 'backbone', 'App'],
 			// Overriding the parse method to handle nested JSON values
 			parse : function (data)
 			{
-				if (data.data_feed !== null && data.data_feed.id !== null)
-				{
-					data.data_feed = data.data_feed.id;
-				}
-
 				if (data.post !== null && data.post.id !== null)
 				{
 					data.post = data.post.id;
