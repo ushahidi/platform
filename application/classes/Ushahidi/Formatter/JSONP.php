@@ -19,6 +19,13 @@ class Ushahidi_Formatter_JSONP extends Ushahidi_Formatter_JSON implements Format
 	 */
 	private $callback;
 
+	protected function getOptions()
+	{
+		$opts = parent::getOptions();
+		// Some clients will not handle formatted JSONP, disable it
+		return intval($opts) & ~JSON_PRETTY_PRINT;
+	}
+
 	/**
 	 * Sets the JSONP callback. Callback must be alpha-numeric, but can contain
 	 * a class name: foo, foo.bar, Foo.go123 are all valid callbacks.

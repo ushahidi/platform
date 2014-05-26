@@ -15,14 +15,18 @@ use Ushahidi\Exception\FormatterException;
 
 class Ushahidi_Formatter_JSON implements Formatter, OutputFormatter
 {
-	// Formatter
-	public function __invoke($input)
+	protected function getOptions()
 	{
 		// Are we in development environment?
 		$dev_env = Kohana::$environment === Kohana::DEVELOPMENT;
-		$options = $dev_env ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null;
+		return $dev_env ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null;
+	}
 
-		$json = json_encode($input, $options);
+	// Formatter
+	public function __invoke($input)
+	{
+		$opts = $this->getOptions();
+		$json = json_encode($input, $opts);
 
 		if ($json === FALSE)
 			throw new FormatterException('Unable to format data as JSON: ' . json_last_error());
