@@ -1,5 +1,6 @@
 /**
  * Using code from here
+ *
  * http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript
  * See  comment by Pumbaa80
  */
@@ -27,7 +28,7 @@
 		});
 	};
 
-	$.fn.syntaxHighlightJson = function(jsonData) {
-			this.append(syntaxHighlight(jsonData));
-	};
+  $.fn.syntaxHighlightJson = function(jsonData) {
+      this.append(syntaxHighlight(jsonData));
+  };
 })(jQuery);

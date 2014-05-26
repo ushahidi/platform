@@ -78,9 +78,9 @@ class Controller_Api_Config extends Ushahidi_Api {
 
 		// Respond with posts
 		$this->_response_payload = array(
-			'count' => $count
+			'count' => $count,
+			'results' => $results
 		);
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**
