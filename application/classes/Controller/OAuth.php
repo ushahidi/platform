@@ -51,8 +51,7 @@ class Controller_OAuth extends Koauth_Controller_OAuth {
 			// Load the content template
 			$this->template = $view = View::factory('oauth/authorize')
 				->set('scopes', explode(' ', $this->request->query('scope')))
-				->set('client_id', $this->request->query('client_id'))
-				;
+				->set('client_id', $this->request->query('client_id'));
 
 			// Load the header/footer/layout
 			$this->header = View::factory($this->header);

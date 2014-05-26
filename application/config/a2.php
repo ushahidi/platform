@@ -67,6 +67,7 @@ return array(
 		'form_groups'        => 'forms',
 		'users'              => NULL,
 		'messages'           => NULL,
+		'dataproviders'      => NULL,
 		// Pages
 		'login'              => NULL,
 		'register'           => NULL,

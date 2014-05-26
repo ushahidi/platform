@@ -38,7 +38,8 @@ require.config(
 		'backbone-validation' : '../../bower_components/backbone.validation/dist/backbone-validation-amd',
 		'alertify' : '../../bower_components/alertify/alertify',
 		'text' : '../../bower_components/requirejs-text/text',
-		'dropzone' : '../../bower_components/dropzone/downloads/dropzone-amd-module'
+		'dropzone' : '../../bower_components/dropzone/downloads/dropzone-amd-module',
+		'syntaxhighlightjson' : '../libs/syntaxHighlightJson'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
@@ -99,6 +100,11 @@ require.config(
 
 		'ddt': {
 			exports: 'ddt'
+		},
+
+		'syntaxhighlightjson' : {
+			deps: ['jquery'],
+			exports: 'syntaxHighlight'
 		},
 
 		'foundation/foundation' : {deps: ['jquery'], exports: 'Foundation'},

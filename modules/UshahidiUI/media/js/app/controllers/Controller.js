@@ -394,6 +394,27 @@ define(['App', 'backbone', 'marionette',
 						collection : App.Collections.Messages
 					}));
 				});
-			}
+			},
+			apiExplorer : function ()
+			{
+				// Api Explorer not enabled, show index page
+				if (!App.feature('api_explorer'))
+				{
+					// Go to index page.
+					this.index();
+					App.appRouter.navigate('', { trigger : true });
+
+					return;
+				}
+
+				var that = this;
+				require(['views/api-explorer/ApiExplorerView','models/ApiExplorerModel',], function(ApiExplorerView, ApiExplorerModel)
+				{
+					App.vent.trigger('page:change', 'apiexplorer');
+					that.layout.mainRegion.show(new ApiExplorerView({
+						model : new ApiExplorerModel()
+					}));
+				});
+			},
 		});
 	});

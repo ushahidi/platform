@@ -1,0 +1,31 @@
+pre {
+	padding: 5px;
+	margin: 5px;
+}
+
+.string {
+	color: green;
+}
+
+.number {
+	color: darkorange;
+}
+
+.boolean {
+	color: blue;
+}
+
+.null {
+	color: magenta;
+}
+
+.key {
+	color: red;
+}
+
+.response {
+	height: 430px;
+	overflow: auto;
+	outline: 1px solid #ccc;
+	background-color: #eeeeee;
+}
