@@ -19,7 +19,7 @@ class Migration_Oauth2_0_1_20140522164823 extends Minion_Migration_Base {
 		if ($results->count())
 		{
 			DB::update('oauth_clients')
-				->set('client_secret', $config['client_secret'])
+				->value('client_secret', $config['client_secret'])
 				->execute($db);
 		}
 		else
