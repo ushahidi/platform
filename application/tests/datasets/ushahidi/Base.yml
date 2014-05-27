@@ -602,7 +602,7 @@ oauth_clients:
     redirect_uri: "http://ushv3.dev/"
   -
     client_id: "ushahidiui"
-    client_secret: ""
+    client_secret: "35e7f0bca957836d05ca0492211b0ac707671261"
     grant_types: ""
     redirect_uri: "/"
 oauth_access_tokens:
