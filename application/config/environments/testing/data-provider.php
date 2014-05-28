@@ -21,29 +21,5 @@ return array(
 		'frontlinesms' => TRUE,
 		'nexmo' => FALSE,
 		'email' => FALSE,
-	),
-	'nexmo' => array(
-		'from' => '',
-		'secret' => '',
-		'api_key' => '',
-		'api_secret' => ''
-	),
-	'smssync' => array(
-		'from' => '12345',
-		'secret' => '1234'
-	),
-	'email' => array(
-		'enabled' => TRUE,
-		'incoming_type' => '',
-		'incoming_server' => '',
-		'incoming_port' => '',
-		'incoming_security' => '',
-		'incoming_username' => '',
-		'incoming_password' => ''
-	),
-	'frontlinesms' => array(
-		'f' => '12345',
-		'key' => '1234',
-		'frontlinecloud_api_url' => 'http://frontlinesms.com:8130/api/1/webconnection/11',
-	),
+	)
 );
