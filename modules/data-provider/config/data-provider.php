@@ -20,5 +20,44 @@ return array(
 		// List of data providers key=provider value=enabled
 		// ie. to enable SMSSync add:
 		// 'smssync' => TRUE,
-	)
+	),
+
+	// Config params for individual providers
+	// 'nexmo' => array(
+	// 	'from' => '',
+	// 	'api_key' => '',
+	// 	'api_secret' => ''
+	// ),
+
+	// // 'twilio' => array(
+	// 	'from' => '',
+	// 	'account_sid' => '',
+	// 	'auth_token' => '',
+	// 	'sms_auto_response' => ''
+	// ),
+
+	// 'smssync' => array(
+	// 	'from' => '12345',
+	// 	'secret' => '1234'
+	// ),
+
+	// 'email' => array(
+	// 	'from' => '',
+	// 	'from_name' => '',
+
+	// 	'incoming_type' => '',
+	// 	'incoming_server' => '',
+	// 	'incoming_port' => '',
+	// 	'incoming_security' => '',
+	// 	'incoming_username' => '',
+	// 	'incoming_password' => '',
+
+	// 	'outgoing_type' => '',
+	// 	'outgoing_server' => '',
+	// 	'outgoing_port' => '',
+	// 	'outgoing_security' => '',
+	// 	'outgoing_username' => '',
+	// 	'outgoing_password' => ''
+	// )
+
 );

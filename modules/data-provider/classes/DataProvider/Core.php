@@ -273,7 +273,7 @@ abstract class DataProvider_Core {
 	{
 		if (empty($this->_options))
 		{
-			$this->_options = Kohana::$config->load('data-provider-' . $this->provider_name)->as_array();
+			$this->_options = Kohana::$config->load('data-provider')->get($this->provider_name);
 		}
 
 		return is_array($this->_options) ? $this->_options : array();
