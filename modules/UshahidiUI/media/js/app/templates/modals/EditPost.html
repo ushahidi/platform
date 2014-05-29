@@ -23,7 +23,18 @@
 						<div class="post-meta-details">
 							<h6>Post Details</h6>
 							<div class="post-author">
-								<p><i class="fa  fa-user"></i><strong class="" >{{#if user}}<a href="#users/{{user.id}}">{{user.realname}}</a>{{else}}Anonymous{{/if}}</strong></p>
+								<p><i class="fa  fa-user"></i><strong class="" >
+								{{#if user}}
+								<a href="#users/{{user.id}}">
+									{{#if user.realname}}
+										{{user.realname}}
+									{{else}}
+										{{user.username}}
+									{{/if}}</a>
+								{{else}}
+									Anonymous
+								{{/if}}
+</strong></p>
 							</div> <!-- end .post-author -->
 
 							{{#if location}}

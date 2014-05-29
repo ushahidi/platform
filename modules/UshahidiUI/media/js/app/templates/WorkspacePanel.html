@@ -6,7 +6,14 @@
 		<img src="//www.gravatar.com/avatar/{{ user.gravatar }}" alt="Gravatar" />
 	</div>
 	<div class="workspace-admin">
-		<h5 id="username" class="username">{{ user.username }}</h5>
+		<h5 id="username" class="username">
+		<a href="#users/{{user.id}}">
+		{{#if user.realname}}
+			{{user.realname}}
+		{{else}}
+			{{user.username}}
+		{{/if}}</a>
+		</h5>
 		<p id="workspace-role" class="workspace-role" >{{ user.role }}</p>
 
 		<ul class="inline-list">
