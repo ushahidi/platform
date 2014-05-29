@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oauth', 'text!templates/Map.html', 'text!templates/Popup.html', 'text!templates/MapAttribution.html'],
-	function(Marionette, Handlebars, _, App, L, OAuth, template, popupTemplate, mapAttributionTemplate)
+define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'text!templates/Map.html', 'text!templates/Popup.html', 'text!templates/MapAttribution.html'],
+	function(Marionette, Handlebars, _, App, L, template, popupTemplate, mapAttributionTemplate)
 	{
 		// Hack to fix default image url
 		L.Icon.Default.imagePath = App.config.baseurl + 'media/kohana/images';
@@ -231,7 +231,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'util/App.oa
 				var map = this.map,
 					posts = this.posts;
 
-				OAuth.ajax({
+				App.oauth.ajax({
 					url : this.getDataUrl(),
 					success: function (data) {
 						// If geojson was empty, return
