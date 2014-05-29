@@ -1,10 +1,59 @@
 module.exports = function(grunt) {
-	var uipath = 'modules/UshahidiUI/';
+
+	require('load-grunt-tasks')(grunt);
+
+	var uipath = 'modules/UshahidiUI/',
+		releaseFiles = [
+			{
+				src: [
+					'**',
+					// Deployment Files
+					'!application/cache/**',
+					'!application/logs/**',
+					'!application/config/environments/**',
+					'!application/routes/**',
+					// Include the default routes file
+					'application/routes/default.php',
+					'!application/media/uploads/**',
+					'!.htaccess',
+					// Build Files
+					'!build/**',
+					// Dev Files
+					'!application/tests/**',
+					'!phpspec/**',
+					'!spec/**',
+					'!.travis.yml',
+					'!.vagrant/**',
+					'!composer.*',
+					'!phpspec.yml.dist',
+					'!package.json',
+					'!.jshintrc',
+					// IDE Files
+					'!modules/UshahidiUI/.sass-cache/**',
+					'!node_modules/**',
+					'!modules/UshahidiUI/node_modules/**',
+					'!.floo*',
+					'!.project',
+					'!.settings/**',
+					'!.sublime-project*',
+					'!.arc**',
+					'!.DS_Store**',
+					// SCM Files
+					'!**/.git/**',
+					'!**/.git*',
+				],
+				dest: 'Lamu/'
+			},
+		];
+
+	// Set default filename for compress tasks
+	grunt.option('filename', 'Lamu');
 
 	grunt.initConfig(
 	{
 		pkg : grunt.file.readJSON('package.json'),
 
+		// Auto browser prefixing on css
 		autoprefixer :
 		{
 			options :
@@ -21,6 +70,7 @@ module.exports = function(grunt) {
 				}
 		},
 
+		// Minify images
 		imagemin :
 		{
 			all :
@@ -35,6 +85,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Combine and optimize JS
 		requirejs :
 		{
 			mainJS :
@@ -53,6 +104,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Use uglify JS to minify require.js
 		uglify :
 		{
 			'minify-require-js' : {
@@ -61,6 +113,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// JSHint checking of the JS app files
 		jshint :
 		{
 			files : ['Gruntfile.js', uipath + 'media/js/app/**/*.js', '!' + uipath + 'media/js/app/**/*min.js'],
@@ -69,6 +122,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Compass CSS build
 		compass :
 		{
 			dev :
@@ -90,6 +144,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Run PHPSpec tests
 		phpspec:
 		{
 			core :
@@ -102,6 +157,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Wache SASS, CSS, JS, Specs
 		watch :
 		{
 			sass :
@@ -135,17 +191,64 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Combine Media Queries
 		cmq :
 		{
 			files: {
 				'media/css' : ['media/css/style.css']
 			}
+		},
+
+		// Create zip/tgz archives for release
+		compress: {
+			zip: {
+				options: {
+					archive: 'build/<%= grunt.option("filename") %>.zip'
+				},
+				files: releaseFiles
+			},
+			tar: {
+				options: {
+					archive: 'build/<%= grunt.option("filename") %>.tar.gz',
+					mode: 'tgz'
+				},
+				files: releaseFiles
+			}
+		},
+
+		// Clean release files
+		clean : {
+			release : ['build/**'],
+			css : [uipath + 'media/css/styles.css', uipath + 'media/css/test/styles.css'],
+			js : [uipath + 'media/js/app/config/Init.min.js', uipath + 'media/js/libs/require.min.js']
 		}
 	});
 
-	require('load-grunt-tasks')(grunt);
+	grunt.registerTask('release', 'Create a release', function (version) {
+		var done = this.async(),
+			inquirer = require('inquirer');
 
-	grunt.registerTask('test', ['jshint']);
+		inquirer.prompt([{
+			type: 'confirm',
+			name: 'confirm',
+			message : 'Releases must be built on a clean checkout without dev dependencies installed. Continue?',
+			default : 'N',
+		}], function( answers )
+		{
+			if (! answers.confirm) { done(); return; }
+
+			if (! version) {
+				grunt.warn('Version number must be specified, like release:v3.2.4');
+			}
+
+			grunt.option('filename', 'Lamu-'+version);
+			grunt.task.run('build', 'compress');
+
+			done();
+		});
+	});
+
+	grunt.registerTask('test', ['jshint', 'phpspec']);
 	grunt.registerTask('build:js', ['requirejs', 'uglify']);
 	grunt.registerTask('build:css', ['compass', 'cmq']);
 	grunt.registerTask('build', ['build:js', 'build:css', 'imagemin']);
