@@ -15,9 +15,11 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 		parent::setUp();
 		
 		// Hack: Make sessions use mock session class to prevent weird exceptions
-		Session::$default = 'mock';
-		Kohana::$config->load('auth')->set('session_type', 'mock');
 		$this->getMockForAbstractClass('Session', array(), 'Session_Mock');
+		$config = Kohana::$config->load('a1');
+		$session = $config->get('session');
+		$session['type'] = 'mock';
+		$config->set('session', $session);
 	}
 
 	/**
