@@ -80,6 +80,10 @@ class Ushahidi_Repository_Config implements ConfigRepository
 	{
 		$this->verifyGroup($group);
 
+		if ($key === ConfigEntity::GROUP_KEY) {
+			return $group;
+		}
+
 		$config = Kohana::$config->load($group);
 		$config->set($key, $value);
 
