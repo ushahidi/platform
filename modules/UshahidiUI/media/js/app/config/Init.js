@@ -15,6 +15,7 @@ require.config(
 	paths :
 	{
 		'jquery' : '../../bower_components/jquery/dist/jquery',
+		'simplepicker' : '../../bower_components/jquery-simplepicker/jquery.simplepicker',
 		'underscore' : '../../bower_components/lodash/dist/lodash',
 		'backbone' : '../../bower_components/backbone/backbone',
 		'marionette' : '../../bower_components/backbone.marionette/lib/backbone.marionette',
@@ -106,6 +107,10 @@ require.config(
 		'syntaxhighlightjson' : {
 			deps: ['jquery'],
 			exports: 'syntaxHighlight'
+		},
+
+		'simplepicker' : {
+			deps: ['jquery'],
 		},
 
 		'foundation/foundation' : {deps: ['jquery'], exports: 'Foundation'},

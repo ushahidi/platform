@@ -25,6 +25,10 @@
 		<!-- Dropzone CSS -->
 		<link rel="stylesheet" href="<?php echo Media::url('bower_components/dropzone/downloads/css/dropzone.css'); ?>" />
 		<!-- end Dropzone CSS -->
+		<!-- SimplePicker CSS -->
+		<link rel="stylesheet" href="<?php echo Media::url('bower_components/jquery-simplepicker/jquery.simplepicker.css'); ?>" />
+		<link rel="stylesheet" href="<?php echo Media::url('bower_components/jquery-simplepicker/jquery.simplepicker-fontawesome.css'); ?>" />
+		<!-- end SimplePicker CSS -->
 
 		<!--Change to app.min.css for production-->
 		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>

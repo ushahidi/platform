@@ -108,7 +108,11 @@ class Model_Tag extends ORM implements Acl_Resource_Interface {
 
 			'color' => array(
 				array('color')
-			)
+			),
+
+			'icon' => array(
+				array('alpha_dash'),
+			),
 		);
 	}
 
@@ -198,7 +202,8 @@ class Model_Tag extends ORM implements Acl_Resource_Interface {
 				'tag' => $this->tag,
 				'slug' => $this->slug,
 				'type' => $this->type,
-				'color' => $this->color,
+				'color' => '#' . $this->color,
+				'icon' => $this->icon,
 				'description' => $this->description,
 				'priority' => $this->priority,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))

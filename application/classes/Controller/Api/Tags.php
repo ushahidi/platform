@@ -229,7 +229,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		}
 
 		$tag->values($post, array(
-			'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'description'
+			'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'icon', 'description'
 			));
 
 		// Validation - cycle through nested models

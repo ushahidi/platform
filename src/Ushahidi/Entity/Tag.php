@@ -21,6 +21,7 @@ class Tag extends Entity
 	public $slug;
 	public $type;
 	public $color;
+	public $icon;
 	public $description;
 	public $priority;
 	public $created;

@@ -42,12 +42,49 @@ define(['backbone', 'App'],
 							placeholder : 'Enter a description'
 						}
 					},
+					type : {
+						type: 'Radio',
+						title: 'Type',
+						options: ['category', 'status']
+					},
 					color : {
-						type: 'Text',
+						type: 'Select',
 						title: 'Color',
-						editorAttrs : {
-							placeholder : 'Enter a color. Eg. #c96880'
+						options: {
+							'#323a45': 'Gray',
+							'#7bd148': 'Green',
+							'#5484ed': 'Bold blue',
+							'#a4bdfc': 'Blue',
+							'#46d6db': 'Turquoise',
+							'#7ae7bf': 'Light green',
+							'#51b749': 'Bold green',
+							'#fbd75b': 'Yellow',
+							'#ffb878': 'Orange',
+							'#ff887c': 'Red',
+							'#dc2127': 'Bold red',
+							'#dbadff': 'Purple'
 						}
+					},
+					icon : {
+						type: 'Select',
+						title: 'Icon',
+						options: [
+							'tag',
+							'medkit',
+							'mobile',
+							'camera-retro',
+							'video-camera',
+							'desktop',
+							'question',
+							'ticket',
+							'coffee',
+							'cutlery',
+							'bell',
+							'suitcase',
+							'legal',
+							'truck',
+							'globe'
+						]
 					}
 				};
 				return schema;
@@ -68,6 +105,11 @@ define(['backbone', 'App'],
 						maxLength: 7,
 						pattern: '^#?(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$',
 						msg: 'Please enter a valid hex color code. Eg. #000000 or fff or c96880 or #fff'
+					},
+					icon : {
+						required: false,
+						maxLength: 32,
+						pattern: '^[a-zA-Z0-9-]+$',
 					}
 				};
 

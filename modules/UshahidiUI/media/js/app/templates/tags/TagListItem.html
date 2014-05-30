@@ -4,7 +4,7 @@
 			<div class="list-view-details">
 				<div class="row">
 					<h4 class="list-view-header">
-						<i class="fa  fa-circle" {{#if color}}style="color: #{{color}}"{{/if}}></i>
+						<i class="fa  fa-{{#if icon}}{{icon}}{{else}}tag{{/if}}" {{#if color}}style="color: {{color}}"{{/if}}></i>
 						{{ tag }}
 					</h4>
 				</div> <!-- end .row -->

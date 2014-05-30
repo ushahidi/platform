@@ -8,9 +8,15 @@
  */
 
 define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/EditTag.html',
-	'forms/UshahidiForms', 'backbone-validation'],
+	'forms/UshahidiForms', 'backbone-validation', 'simplepicker'],
 	function( App, Marionette, Handlebars, _, alertify, template, BackboneForm, BackboneValidation)
 	{
+		function setPickerIcon($span, icon)
+		{
+			$span.addClass('sp-block').html('<i class="fa"></i>')
+				.find('i').addClass('fa-' + icon);
+		}
+
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
 			initialize : function ()
@@ -44,6 +50,16 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 
 				// Set form id, backbone-forms doesn't do it.
 				this.form.$el.attr('id', 'edit-tag-form');
+
+				this.form.$el.find('#tag-color').simplepicker({
+					theme: 'fontawesome'
+				});
+
+				this.form.$el.find('#tag-icon').simplepicker({
+					picker: true,
+					theme: 'iconpicker',
+					setOptionValue: setPickerIcon
+				});
 
 				this.$('.tag-form-wrapper').append(this.form.el);
 			},

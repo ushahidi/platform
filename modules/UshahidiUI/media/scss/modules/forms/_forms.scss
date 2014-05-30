@@ -158,6 +158,21 @@ form.custom .custom.checkbox.checked:before {
 	font-size: 20px;
 }
 
+.simplepicker.icon {
+	margin-bottom: 1em;
+}
+.simplepicker.icon.sp-block,
+.simplepicker span.sp-block {
+	width: 1.6em;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	text-align: center;
+	vertical-align: middle;
+	i.fa {
+		padding-right: 0;
+	}
+}
+
 /*------------------------------------*\
 	$FIELDSETS
 \*------------------------------------*/
