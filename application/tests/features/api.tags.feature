@@ -21,7 +21,7 @@ Feature: Testing the Tags API
         And the "tag" property equals "Boxes"
         And the "slug" property equals "boxes"
         And the "description" property equals "Is this a box? Awesome"
-        And the "color" property equals "00ff00"
+        And the "color" property equals "#00ff00"
         And the "priority" property equals "1"
         And the "type" property equals "category"
         Then the guzzle status code should be 200
@@ -75,7 +75,7 @@ Feature: Testing the Tags API
         And the "slug" property equals "my-magical-tag"
         Then the guzzle status code should be 200
 
-    Scenario: Check hash removed from color when creating tag
+    Scenario: Check hash on color input has no effect when creating tag
         Given that I want to make a new "Tag"
         And that the request "data" is:
             """
@@ -90,7 +90,7 @@ Feature: Testing the Tags API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        And the "color" property equals "00ff00"
+        And the "color" property equals "#00ff00"
         Then the guzzle status code should be 200
 
     Scenario: Updating a Tag
