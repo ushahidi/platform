@@ -9,7 +9,7 @@
 
 define(['backbone', 'App'],
 	function(Backbone, App) {
-		var TagModel = Backbone.Model.extend(
+		var TagModel = Backbone.ModelFactory(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri +'/tags',
 

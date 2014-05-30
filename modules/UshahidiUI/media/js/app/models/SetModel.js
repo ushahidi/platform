@@ -9,7 +9,7 @@
 
 define(['jquery', 'backbone', 'App'],
 	function($, Backbone, App) {
-		var SetModel = Backbone.Model.extend(
+		var SetModel = Backbone.ModelFactory(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/sets'
 		});

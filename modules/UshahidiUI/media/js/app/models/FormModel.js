@@ -25,7 +25,7 @@ define(['jquery', 'backbone', 'App'],
 			'file' : 'Text'
 		},
 
-		FormModel = Backbone.Model.extend(
+		FormModel = Backbone.ModelFactory(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/forms',
 			initialize : function()

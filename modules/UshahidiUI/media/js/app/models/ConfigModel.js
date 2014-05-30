@@ -9,7 +9,7 @@
 
 define(['jquery', 'backbone', 'App'],
 	function($, Backbone, App) {
-		var ConfigModel = Backbone.Model.extend(
+		var ConfigModel = Backbone.ModelFactory(
 		{
 			urlRoot: function() {
 				return App.config.baseurl + 'api/v2/config';

@@ -9,7 +9,7 @@
 
 define(['jquery', 'backbone', 'App'],
 	function($, Backbone, App) {
-		var RoleModel = Backbone.Model.extend(
+		var RoleModel = Backbone.ModelFactory(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/roles',
 			idAttribute : 'name',

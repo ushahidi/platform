@@ -9,7 +9,7 @@
 
 define(['jquery', 'backbone', 'App', 'underscore', 'models/UserModel', 'models/FormModel'],
 	function($, Backbone, App, _, UserModel, FormModel) {
-		var PostModel = Backbone.Model.extend(
+		var PostModel = Backbone.ModelFactory(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/posts',
 			user : null,

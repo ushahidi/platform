@@ -10,7 +10,7 @@
 define(['jquery', 'backbone'],
 	function($, Backbone) {
 		// Creates a new Backbone Model class object
-		var SearchFilterModel = Backbone.Model.extend(
+		var SearchFilterModel = Backbone.ModelFactory(
 		{
 			// Default values for all of the Model attributes
 			defaults :

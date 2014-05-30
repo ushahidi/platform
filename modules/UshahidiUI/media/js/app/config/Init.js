@@ -36,6 +36,7 @@ require.config(
 		'backbone-forms' : '../libs/backbone-forms/backbone-forms',
 		'bf' : '../libs/backbone-forms/',
 		'backbone-validation' : '../../bower_components/backbone.validation/dist/backbone-validation-amd',
+		'backbone-model-factory' : '../../bower_components/backbone-model-factory/backbone-model-factory',
 		'alertify' : '../../bower_components/alertify/alertify',
 		'text' : '../../bower_components/requirejs-text/text',
 		'dropzone' : '../../bower_components/dropzone/downloads/dropzone-amd-module',

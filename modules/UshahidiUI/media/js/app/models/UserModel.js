@@ -11,7 +11,7 @@ define(['backbone', 'App'],
 	function(Backbone, App)
 	{
 
-		var UserModel = Backbone.Model.extend(
+		var UserModel = Backbone.ModelFactory(
 		{
 
 			urlRoot: App.config.baseurl + App.config.apiuri + '/users',

@@ -14,6 +14,7 @@
     "requirejs-text": "~2.0",
     "underscore.string": "~2.3",
     "backbone-pageable": "~1.4",
+    "backbone-model-factory": "~1.2",
     "leaflet": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip",
     "backbone.validation": "https://github.com/thedersen/backbone.validation.git#~0.9.1",
     "alertify": "~0.3",

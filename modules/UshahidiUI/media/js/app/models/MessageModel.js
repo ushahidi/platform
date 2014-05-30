@@ -9,7 +9,7 @@
 
 define(['jquery', 'backbone', 'App'],
 	function($, Backbone, App) {
-		var MessageModel = Backbone.Model.extend(
+		var MessageModel = Backbone.ModelFactory(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/messages',
 			toString : function ()

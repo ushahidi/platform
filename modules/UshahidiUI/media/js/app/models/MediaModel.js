@@ -10,7 +10,7 @@
 define(['backbone', 'App'],
 	function(Backbone, App)
 	{
-		var MediaModel = Backbone.Model.extend(
+		var MediaModel = Backbone.ModelFactory(
 		{
 			urlRoot: App.config.baseurl + App.config.apiuri + '/media',
 			validate : function(/*attrs, options*/) {
