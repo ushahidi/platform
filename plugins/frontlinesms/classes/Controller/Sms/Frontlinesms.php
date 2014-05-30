@@ -34,7 +34,7 @@ class Controller_Sms_Frontlinesms extends Controller {
 		// Authenticate the request
 		$options = $provider->options();
 
-		if( ! isset($options['key']) OR empty($this->_options['key']))
+		if( ! isset($options['key']) OR empty($options['key']))
 		{
 			throw HTTP_Exception::factory(403, 'Key value has not been configured');
 		}
