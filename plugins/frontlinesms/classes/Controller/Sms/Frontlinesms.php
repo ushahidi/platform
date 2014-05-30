@@ -52,7 +52,6 @@ class Controller_Sms_Frontlinesms extends Controller {
 		// Remove Non-Numeric characters because that's what the DB has
 		$from = preg_replace('/\D+/', "", $this->request->post('from'));
 		$message_text = $this->request->query('m');
-		$sender = $provider->from();
 
 		// If receiving an SMS Message
 		if ($from AND $message_text)

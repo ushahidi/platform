@@ -1,0 +1,18 @@
+/*------------------------------------*\
+   CONTENTS
+\*------------------------------------*/
+ /**
+ * MESSAGE CONFIG ACTION BAR...............
+ */
+
+
+
+
+/*------------------------------------*\
+   $ACTION BAR
+\*------------------------------------*/
+
+.actions-bar-header--message-config {
+	@extend %actions-bar-header;
+	@include grid-column(8, $collapse: true);
+}

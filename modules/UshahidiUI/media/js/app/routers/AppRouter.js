@@ -24,14 +24,21 @@ define(['marionette'],
 				'posts/:id' : 'postDetail',
 				'messages' : 'messages',
 				'messages/list/:view' : 'messages',
+				'messages/settings' : 'messageSettingsMain',
+				// FIXME: temp route for sms hard coding
+				'messages/settings/sms' : 'dataProvidersConfigSMS',
+				'messages/settings/:provider' : 'dataProvidersConfig',
 				'sets' : 'sets',
 				'sets/:id' : 'setDetail',
 				'users' : 'users',
 				'tags' : 'tags',
 				'settings/site' : 'settings',
+
 				'apiexplorer' : 'apiExplorer',
 				//'login' : 'login',
 				//'register' : 'register',
+
+				// *path needs to be last
 				'*path' : 'index'
 			}
 		});

@@ -68,3 +68,12 @@ div.logo {
 	-webkit-user-select: none;
 	-ms-user-select: none;
 }
+
+.message-box-wrapper {
+	@include grid-column(12, $collapse: true);
+	%message-box {
+		@include alert($secondary-color);
+		text-align: center;
+		line-height: 1.5em;
+	}
+}

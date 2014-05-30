@@ -92,6 +92,12 @@
 			<li id="workspace-menu-messages-all" data-page="messages/all">
 				<a href="#messages/list/all"><p><i class="fa  fa-files-o"></i> All Messages <span class="messages-all-label">{{ messages.total }}</span></p></a>
 			</li>
+
+		{{#feature 'data_provider_config'}}
+			<li id="workspace-menu-messages-settings" data-page="messages/settings">
+				<a href="#messages/settings"><p><i class="fa  fa-gear"></i> Messages Configurations</p></a>
+			<li>
+		{{/feature}}
 			</ul>
 		</div> <!-- end .content -->
 			{{/if}}

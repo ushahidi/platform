@@ -13,7 +13,7 @@ define(['jquery',
 	//'foundation/foundation.orbit',
 	//'foundation/foundation.reveal',
 	//'foundation/foundation.slider',
-	//'foundation/foundation.tab',
+	'foundation/foundation.tab',
 	//'foundation/foundation.tooltip',
 	//'foundation/foundation.topbar',
 	], {});

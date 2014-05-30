@@ -1,0 +1,74 @@
+/*------------------------------------*\
+   CONTENTS
+\*------------------------------------*/
+ /**
+ * MESSAGE CONFIG TAB NAV...............tab navigation in message config view
+ */
+
+
+
+
+/*------------------------------------*\
+   $MESSAGE CONFIG TAB NAV
+\*------------------------------------*/
+
+.tab-nav {
+	@extend %filter;
+	margin-top: 20px;
+	background-color: darken($secondary-color, 2);
+}
+
+.tab-nav--message-config {
+	@extend %filter-categories;
+	margin-top: 0;
+	padding: 0;
+	text-align: center;
+	@media #{$small} {
+		@include grid-column(12, $collapse: true);
+	}
+}
+
+.tab-nav-list--message-config {
+	@extend %filter-categories-list;
+	@include block-grid(7);
+	margin: 0;
+	.tab-nav-list__list-item {
+		padding: 10px 0;
+		&:last-child {
+			border-right: 0;
+			text-align: center;
+		}
+		a {
+			display: block;
+		}
+		@media #{$small} {
+			padding: 10px 19px;
+		}
+	}
+}
+
+.data-provider-type .fa {
+	font-size: 20px;
+	padding: 0;
+	@media #{$medium} {
+		font-size: inherit;
+	}
+	&.fa-mobile {
+		position: relative;
+		top: 2px;
+		font-size: 29px;
+		@media #{$medium} {
+			font-size: inherit;
+			top: 0;
+		}
+	}
+	&.fa-twitter {
+		position: relative;
+		top: 2px;
+		font-size: 25px;
+		@media #{$medium} {
+			font-size: inherit;
+			top: 0;
+		}
+	}
+}

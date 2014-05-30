@@ -11,7 +11,7 @@
 
 // Plugin Info
 $plugin = array(
-	'name' => 'Email Data Provider',
+	'name' => 'Email',
 	'version' => '0.1',
 
 	// Services Provided By This Plugin
@@ -24,19 +24,85 @@ $plugin = array(
 
 	// Option Key and Label
 	'options' => array(
-		'incoming_type' => 'Incoming Server Type',
-		'incoming_server' => 'Incoming Server',
-		'incoming_port' => 'Incoming Server Port',
-		'incoming_security' => 'Incoming Server Security (SSL, TLS, None)',
-		'incoming_username' => 'Incoming Username',
-		'incoming_password' => 'Incoming Password',
-		'outgoing_type' => 'Outgoing Server Type',
-		'outgoing_server' => 'Outgoing Server',
-		'outgoing_port' => 'Outgoing Server Port',
-		'outgoing_security' => 'Outgoing Server Security (SSL, TLS, None)',
-		'outgoing_username' => 'Outgoing Username',
-		'outgoing_password' => 'Outgoing Password',
-		'from_name' => 'Email Sender Name'
+		'intro_text' => array(
+			'label' => '',
+			'input' => 'read-only-text',
+			'description' => 'In order to receive reports by email, please input your email account settings below'
+		),
+		'incoming_type' => array(
+			'label' => 'Incoming Server Type',
+			'input' => 'radio',
+			'description' => '',
+			'options' => array('POP', 'IMAP')
+		),
+		'incoming_server' => array(
+			'label' => 'Incoming Server',
+			'input' => 'text',
+			'description' => '',
+			'description' => 'Examples: mail.yourwebsite.com, imap.gmail.com, pop.gmail.com',
+		),
+		'incoming_port' => array(
+			'label' => 'Incoming Server Port',
+			'input' => 'text',
+			'description' => 'Common ports: 110 (POP3), 143 (IMAP), 995 (POP3 with SSL), 993 (IMAP with SSL)'
+		),
+		'incoming_security' => array(
+			'label' => 'Incoming Server Security',
+			'input' => 'radio',
+			'description' => '',
+			'options' => array('None', 'SSL', 'TLS')
+		),
+		'incoming_username' => array(
+			'label' => 'Incoming Username',
+			'input' => 'text',
+			'description' => '',
+			'placeholder' => 'Email account username'
+		),
+		'incoming_password' => array(
+			'label' => 'Incoming Password',
+			'input' => 'text',
+			'description' => '',
+			'placeholder' => 'Email account password'
+		),
+		'outgoing_type' => array(
+			'label' => 'Outgoing Server Type',
+			'input' => 'radio',
+			'description' => '',
+			'options' => array('SMTP', 'sendmail', 'Native')
+		),
+		'outgoing_server' => array(
+			'label' => 'Outgoing Server',
+			'input' => 'text',
+			'description' => 'Examples: smtp.yourhost.com, smtp.gmail.com',
+		),
+		'outgoing_port' => array(
+			'label' => 'Outgoing Server Port',
+			'input' => 'text',
+			'description' => 'Common ports: 25 (SMTP default), 465 (SMTP with SSL)'
+		),
+		'outgoing_security' => array(
+			'label' => 'Outgoing Server Security',
+			'input' => 'radio',
+			'description' => '',
+			'options' => array('None', 'SSL', 'TLS')
+		),
+		'outgoing_username' => array(
+			'label' => 'Outgoing Username',
+			'input' => 'text',
+			'description' => '',
+			'placeholder' => 'Email account username'
+		),
+		'outgoing_password' => array(
+			'label' => 'Outgoing Password',
+			'input' => 'text',
+			'description' => '',
+			'placeholder' => 'Email account password'
+		),
+		'from_name' => array(
+			'label' => 'Email Sender Name',
+			'input' => 'text',
+			'description' => 'Appears in the \'from:\' field on outgoing emails'
+		),
 	),
 
 	// Links

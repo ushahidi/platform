@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'backbone-validation', 'backbone-forms', 'forms/templates/FormTemplates', 'forms/editors/Location', 'bf/editors/list'],
+define(['underscore', 'backbone-validation', 'backbone-forms', 'forms/templates/FormTemplates', 'forms/editors/Location', 'forms/editors/ReadOnlyText', 'bf/editors/list'],
 	function(_, BackboneValidation, BackboneForm)
 	{
 		// Hack - Don't want modals within modals for lists of object

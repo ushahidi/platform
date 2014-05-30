@@ -1,0 +1,44 @@
+/*------------------------------------*\
+   CONTENTS
+\*------------------------------------*/
+ /**
+ * MESSAGE CONFIG FILTER...............specific to message config view
+ */
+
+
+
+
+/*------------------------------------*\
+   $MESSAGE FILTER
+\*------------------------------------*/
+
+.filter--message-config {
+	@extend %filter;
+	margin-top: 20px;
+}
+
+.filter-categories--message-config {
+	@extend %filter-categories;
+	@media #{$small} {
+		@include grid-column(12, $collapse: true);
+	}
+	.dropdown-button {
+		margin-bottom: 15px;
+	}
+}
+
+.filter-categories-list--message-config {
+	@extend %filter-categories-list;
+	@include block-grid(7);
+	margin: 0;
+	.filter-categories-list__list-item {
+		padding: 10px 19px;
+		&:last-child {
+			border-right: 0;
+			text-align: center;
+		}
+		a {
+			display: block;
+		}
+	}
+}

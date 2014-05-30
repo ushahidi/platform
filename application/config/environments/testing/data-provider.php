@@ -10,7 +10,7 @@
  */
 
 return array(
-	'default_provider' => array(
+	'default_providers' => array(
 		Message_Type::SMS => 'smssync',
 		Message_Type::IVR => FALSE,
 		Message_Type::EMAIL => 'email',

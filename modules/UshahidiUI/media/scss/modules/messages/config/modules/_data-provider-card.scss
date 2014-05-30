@@ -1,0 +1,180 @@
+/*------------------------------------*\
+   CONTENTS
+\*------------------------------------*/
+/**
+* DATA PROVIDER CARD ENABLED...............enabled card styles
+* DATA PROVIDER CARD DISABLED...............disabled card styles
+*/
+
+
+
+
+/*------------------------------------*\
+	$DATA PROVIDER CARD ENABLED
+\*------------------------------------*/
+
+.data-provider-card__list {
+	@include block-grid(1);
+	@media #{$mobile} {
+		@include block-grid(2);
+	}
+	@media #{$small} {
+		@include block-grid(3);
+	}
+	@media #{$medium} {
+		@include block-grid(4);
+	}
+}
+
+.data-provider-card__list-item {
+	position: relative;
+}
+
+.data-provider-card {
+	@include box-shadow(0px 1px 2px rgba(lighten($darkGray, 30), 0.5));
+}
+
+.data-provider-hero-unit {
+	position: relative;
+	background-color: $success-color;
+	padding: 5px 0 30px;
+	border-bottom: 5px solid darken($accent-color, 30);
+	.data-provider-header {
+		color: $white;
+		text-align: center;
+		text-transform: uppercase;
+		letter-spacing: .01em;
+		font-size: 14px;
+		font-weight: bold;
+	}
+}
+
+.data-provider-icon {
+	position: absolute;
+	top: 40px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	height: 50px;
+	width: 50px;
+	background-color: $secondary-color;
+	border-radius: 100px;
+	border: 3px solid darken($accent-color, 30);
+	[class*='-icon'] {
+		position: relative;
+		top: 8px;
+		left: 8px;
+		padding: 0;
+		display: inline-block;
+		font-family: FontAwesome;
+		font-size: 30px;
+		font-style: normal;
+		font-weight: normal;
+		line-height: 1;
+		&:before {
+			content: "\f00c";
+			color: $success-color;
+		}
+	}
+}
+
+.data-provider-body {
+	background-color: $white;
+	padding: 60px 0 20px;
+}
+
+.data-provider-status-wrapper {
+	@include grid-column(4, $center: true);
+	@media #{$mobile} {
+		@include grid-column(8, $center: true);
+	}
+	@media #{$medium} {
+		@include grid-column(6, $center: true);
+	}
+}
+
+.data-provider-status {
+	@include button($padding: $button-sml, $bg: $secondary-color, $disabled: true, $radius: true, $full-width: false);
+	opacity: 1;
+	color: $accent-color;
+}
+
+.data-provider-configure {
+	@include button($padding: $button-sml, $bg: $secondary-color, $disabled: false, $radius: true, $full-width: false);
+	opacity: 1;
+	color: $accent-color;
+}
+
+/*------------------------------------*\
+	$DATA PROVIDER CARD DISABLED
+\*------------------------------------*/
+
+.disabled {
+	.data-provider-hero-unit {
+		background-color: $secondary-color;
+		border-bottom: 5px solid rgba($accent-color, .5);
+		.data-provider-header  {
+			color: $accent-color;
+		}
+	}
+	.data-provider-status {
+		@include button($padding: $button-sml, $bg: $success-color, $disabled: true, $radius: true, $full-width: false);
+		opacity: 1;
+		cursor: pointer;
+	}
+	.data-provider-icon {
+		border: 3px solid rgba($accent-color, .5);;
+		[class*='-icon'] {
+			&:before {
+				color: $accent-color;
+				opacity: .5;
+			}
+		}
+	}
+}
+
+.disabled .sms-icon {
+	top: 5px;
+	left: 15px;
+	padding: 0;
+	font-size: 35px;
+	&:before {
+		content: "\f10b";
+	}
+}
+.disabled .email-icon {
+	top: 10px;
+	left: 10px;
+	padding: 0;
+	font-size: 24px;
+	&:before {
+		content: "\f0e0";
+	}
+}
+.disabled .twitter-icon {
+	top: 9px;
+	left: 9px;
+	padding: 0;
+	font-size: 30px;
+	&:before {
+		content: "\f099";
+	}
+}
+.disabled .rss-icon {
+	top: 10px;
+	left: 13px;
+	padding: 0;
+	font-size: 26px;
+	&:before {
+		content: "\f09e";
+	}
+}
+.disabled .instagram-icon {
+	top: 9px;
+	left: 11px;
+	padding: 0;
+	font-size: 26px;
+	&:before {
+		content: "\f16d";
+	}
+}

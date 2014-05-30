@@ -1,0 +1,82 @@
+<div class="all-tabs-wrapper">
+
+	<dl class="tabs vertical" data-tab>
+		<dd class="tab-wrapper">
+			<a class="tab-link" href="#panel1a">SMS Sync <span class="status-icon"></span></a>
+			<div class="active  configured-status">
+				Configured
+				<span class="active  test-status"> - Tested</span>
+			</div>
+		</dd>
+		<dd class="active  tab-wrapper">
+			<a class="tab-link" href="#panel2a">Frontline SMS</a>
+			<div class="configured-status">
+				Not Configured
+				<span class="active  test-status"> - Tested</span>
+			</div>
+		</dd>
+		<dd class="tab-wrapper">
+			<a class="tab-link" href="#panel3a">Twilio</a>
+			<div class="active  configured-status">
+				Configured
+				<span class="test-status"> - Not Tested</span>
+			</div>
+		</dd>
+		<dd class="tab-wrapper">
+			<a class="tab-link" href="#panel4a">Clickatell</a>
+			<div class="configured-status">
+				Not Configured
+				<span class="test-status"> - Not Tested</span>
+			</div>
+		</dd>
+	</dl> <!-- end .tabs .vertical -->
+
+	<div class="tabs-content vertical">
+		<div class="content active" id="panel1a">
+			<h5 class="provider-title">Frontline SMS Configuration</h5>
+			<p>Enter all the phone numbers that users can use to send text messages into your system below.</p>
+
+			<div class="input-wrapper--tel">
+				<div class="input--tel">
+					<label class="visually-hidden" for="input-field">Add Phone Numbers</label>
+					<input type="tel" class="input-field" placeholder="123-456-7890" value="">
+				</div>
+
+				<div class="input-button--tel">
+					<button type="submit" class="">Add</button>
+				</div> <!-- end .input-button-tel -->
+
+			</div> <!-- end .input-wrapper-tel -->
+
+			<ul class="phone-number-list">
+				<li class="phone-number-list__item">
+					<div class="phone-number">123-456-7890</div>
+				</li>
+				<li class="phone-number-list__item">
+					<div class="phone-number">123-456-7890</div>
+				</li>
+				<li class="phone-number-list__item">
+					<div class="phone-number">123-456-7890</div>
+				</li>
+				<li class="phone-number-list__item">
+					<div class="phone-number">123-456-7890</div>
+				</li>
+				<li class="phone-number-list__item">
+					<div class="phone-number">123-456-7890</div>
+				</li>
+				<li class="phone-number-list__item">
+					<div class="phone-number">123-456-7890</div>
+				</li>
+			</ul>
+
+			<h5 class="provider-title">Test Your SMS Setup</h5>
+			<h6>Testing Instructions</h6>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div> <!-- end .content .active -->
+	</div> <!-- end .tabs-content .vertical -->
+
+</div> <!-- end .all-tabs-wrapper -->
+
+<div class="message-config-submit">
+	<button type="submit" form="twitter-oauth"><i class="fa  fa-check  fa-lg"></i> Save Settings</button>
+</div><!-- end .message-config-submit -->

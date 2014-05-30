@@ -17,20 +17,6 @@ class DataProvider_Smssync extends DataProvider {
 	public $contact_type = Model_Contact::PHONE;
 
 	/**
-	 * Sets the FROM parameter for the provider
-	 *
-	 * @return int
-	 */
-	public function from()
-	{
-		// Get provider phone (FROM)
-		// Replace non-numeric
-		$this->_from = preg_replace('/\D+/', "", parent::from());
-
-		return $this->_from;
-	}
-
-	/**
 	 * @return mixed
 	 */
 	public function send($to, $message, $title = "")

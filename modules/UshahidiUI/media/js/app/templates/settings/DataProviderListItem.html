@@ -1,0 +1,16 @@
+<div class="data-provider-card {{#unless enabled}}disabled{{/unless}}">
+	<div class="data-provider-hero-unit">
+		<h6 class="data-provider-header">{{ name }}</h6>
+		<div class="data-provider-icon">
+			<i class="sms-icon"></i>
+		</div> <!-- end .data-provider-icon -->
+	</div> <!-- end .data-provider-hero-unit -->
+
+	<div class="data-provider-body">
+		<div class="data-provider-status-wrapper">
+			<a class="data-provider-status  js-provider-status">{{#if enabled}}Disable{{else}}Enable{{/if}}</a>
+			<a class="data-provider-configure" href="#messages/settings/{{id}}"><i class="fa fa-cogs"></i> Configure</a>
+		</div>
+	</div> <!-- end .data-provider-body -->
+
+</div> <!-- end .data-provider-card -->

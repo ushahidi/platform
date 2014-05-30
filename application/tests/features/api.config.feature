@@ -48,7 +48,6 @@ Feature: Testing the Config API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "3"
         Then the guzzle status code should be 200
 
     @resetFixture

@@ -48,7 +48,6 @@ class Controller_Sms_Smssync extends Controller {
 		$to = preg_replace("/[^0-9,.]/", "", $this->request->post('sent_to'));
 		$from = preg_replace("/[^0-9,.]/", "", $this->request->post('from'));
 		$message_text = $this->request->post('message');
-		$sender = $provider->from();
 
 		// If receiving an SMS Message
 		if ($to AND $from AND $message_text)

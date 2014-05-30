@@ -25,11 +25,6 @@ $plugin = array(
 				'input' => 'text',
 				'description' => 'The API key'
 		),
-		'f' => array(
-				'label' => 'From',
-				'input' => 'text',
-				'description' => 'The from number'
-		),
 		'frontlinecloud_api_url' => array(
 				'label' => 'Frontlinecloud API URL',
 				'input' => 'text',

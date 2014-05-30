@@ -7,7 +7,7 @@
  * @license	https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'App', 'backbone', 'marionette',
+define(['jquery', 'App', 'backbone', 'marionette', 'underscore',
 	'controllers/ModalController',
 
 	'views/AppLayout',
@@ -24,10 +24,11 @@ define(['jquery', 'App', 'backbone', 'marionette',
 	'collections/SetCollection',
 	'collections/RoleCollection',
 	'collections/UserCollection',
+	'collections/DataProviderCollection',
 
 	'models/UserModel'
 	],
-	function($, App, Backbone, Marionette,
+	function($, App, Backbone, Marionette, _,
 		ModalController,
 
 		AppLayout,
@@ -44,6 +45,7 @@ define(['jquery', 'App', 'backbone', 'marionette',
 		SetCollection,
 		RoleCollection,
 		UserCollection,
+		DataProviderCollection,
 
 		UserModel
 		)
@@ -114,6 +116,9 @@ define(['jquery', 'App', 'backbone', 'marionette',
 
 				// Open the user collection, but do not fetch it until necessary
 				App.Collections.Users = new UserCollection();
+
+				App.Collections.DataProviders = new DataProviderCollection();
+				App.Collections.DataProviders.fetch();
 
 				// Grab tag collection, use client-side paging and fetch all tags from server at once
 				App.Collections.Tags = new TagCollection([], { mode: 'client' });
@@ -189,7 +194,6 @@ define(['jquery', 'App', 'backbone', 'marionette',
 			{
 				if (this.layout.mainRegion.currentView instanceof HomeLayout === false)
 				{
-					ddt.log('Controller', 'showHomeLayout');
 					this.layout.mainRegion.show(this.homeLayout);
 				}
 				this.homeLayout.showRegions();
@@ -261,6 +265,7 @@ define(['jquery', 'App', 'backbone', 'marionette',
 					}));
 				});
 			},
+
 			sets : function ()
 			{
 				var that = this;
@@ -422,5 +427,135 @@ define(['jquery', 'App', 'backbone', 'marionette',
 					}));
 				});
 			},
-		});
+			/**
+			 * Set up data provider layout
+			 * @todo refactor to better handle loading dplayout
+			 */
+			_setupDataProviderLayout : function (DataProviderLayout)
+			{
+				var that = this,
+					dpTypes,
+					dpLayout;
+
+				if (! this._dpLayout)
+				{
+					dpTypes = new Backbone.Collection([
+							{ id: 'sms', name: 'SMS', icon: 'mobile' },
+							{ id: 'email', name: 'Email', icon: 'envelope-o' },
+							{ id: 'twitter', name: 'Twitter', icon: 'twitter' },
+							{ id: 'rss', name: 'RSS', icon: 'rss' }
+						]);
+					dpLayout = new DataProviderLayout({
+						collection : dpTypes
+					});
+
+					this._dpLayout = dpLayout;
+				}
+
+				that.layout.mainRegion.show(this._dpLayout);
+				return this._dpLayout;
+			},
+			/**
+			 * Shows a data provider listing
+			 */
+			messageSettingsMain : function ()
+			{
+				var that = this;
+
+				if (!App.feature('data_provider_config'))
+				{
+					App.appRouter.navigate('', { trigger : true });
+					return;
+				}
+
+				require(['views/settings/DataProviderLayout', 'views/settings/DataProviderList', 'models/ConfigModel'],
+					function(DataProviderLayout, DataProviderList, ConfigModel)
+				{
+					App.vent.trigger('page:change', 'messages/settings');
+
+					var dpConfig = new ConfigModel({'@group': 'data-provider'}),
+						dpList = new DataProviderList({
+							collection : App.Collections.DataProviders,
+							configModel : dpConfig
+						}),
+						dpLayout = that._setupDataProviderLayout(DataProviderLayout);
+
+					// Grab data-provider config and bind 'enabled'
+					dpConfig.fetch().done(function ()
+					{
+						_.each(dpConfig.get('providers'), function (enabled, index)
+						{
+							App.Collections.DataProviders.get(index).set('enabled', enabled);
+						});
+					});
+
+					dpLayout.main.show(dpList);
+				});
+			},
+			/**
+			 * Show a config form for an individual data provider
+			 * @param  String provider id
+			 */
+			dataProvidersConfig : function(id)
+			{
+				var that = this;
+
+				if (!App.feature('data_provider_config'))
+				{
+					App.appRouter.navigate('', { trigger : true });
+					return;
+				}
+
+				require(['views/settings/DataProviderLayout', 'views/settings/DataProviderConfig', 'models/ConfigModel'],
+					function(DataProviderLayout, DataProviderConfigView, ConfigModel)
+				{
+					App.vent.trigger('page:change', 'messages/settings');
+
+					var
+						dpLayout = that._setupDataProviderLayout(DataProviderLayout),
+						dpModel = App.Collections.DataProviders.get(id),
+						dpConfig = new ConfigModel({'@group': 'data-provider'});
+
+					dpConfig.fetch().done(function ()
+					{
+						dpLayout.main.show(new DataProviderConfigView({
+							dataProviderModel : dpModel,
+							configModel : dpConfig
+						}));
+					});
+				});
+			},
+
+			// FIXME: temp controller for sms hard coding
+			dataProvidersConfigSMS : function(/*id*/)
+			{
+				var that = this;
+
+				if (!App.feature('data_provider_config'))
+				{
+					App.appRouter.navigate('', { trigger : true });
+					return;
+				}
+
+				require(['views/settings/DataProviderLayout', 'views/settings/DataProviderConfig', 'models/ConfigModel', 'text!templates/settings/DataProviderConfigSms.html', 'handlebars'],
+					function(DataProviderLayout, DataProviderConfigView, ConfigModel, template, Handlebars)
+				{
+					App.vent.trigger('page:change', 'messages/settings');
+
+					var
+						dpLayout = that._setupDataProviderLayout(DataProviderLayout),
+						dpModel = App.Collections.DataProviders.get('smssync'),
+						dpConfig = new ConfigModel({'@group': 'data-provider'});
+
+					dpConfig.fetch().done(function ()
+					{
+						dpLayout.main.show(new DataProviderConfigView({
+							dataProviderModel : dpModel,
+							configModel : dpConfig,
+							template: Handlebars.compile(template)
+						}));
+					});
+				});
+			}
 	});
+});

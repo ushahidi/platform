@@ -1,0 +1,47 @@
+/*------------------------------------*\
+	CONTENTS
+\*------------------------------------*/
+/*
+* DATA PROVIDER FORMS...............data provider config styles
+*/
+
+
+
+
+/*------------------------------------*\
+	$DATA PROVIDER FORMS
+\*------------------------------------*/
+
+.message-box {
+	@extend %message-box;
+}
+
+.data-provider-config-form {
+	@include grid-column(12);
+	label {
+		font-size: $h6-font-size;
+		font-family: $header-font-family;
+		font-weight: $header-font-weight;
+		font-style: $header-font-style;
+		color: $header-font-color;
+		text-rendering: $header-text-rendering;
+		margin-top: $header-top-margin;
+		margin-bottom: $header-bottom-margin;
+		line-height: $header-line-height - em-calc(3);
+	}
+}
+
+.message-config-submit {
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(3, $collapse: true);
+		float: right;
+	}
+	@media #{$medium-up} {
+		@include grid-column(2, $collapse: true);
+		float: right;
+	}
+	button {
+		@include button($padding: $button-med, $bg: $success-color, $radius: true, $full-width: true);
+	}
+}

@@ -8,7 +8,7 @@
  * LIST VIEW FILTER...............list view filter styles
  * PSEUDO ELEMENTS...............pseudo element styles
  * FIELDSETS...............form fieldset styles
- */
+*/
 
 
 
@@ -83,7 +83,12 @@ select[multiple] {
 	$CUSTOM DROPDOWNS
 \*------------------------------------*/
 
-input[type="text"], input[type="email"], input[type="password"], input[type="search"] {
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"] {
 	height: 100%; /* FF fix */
 	padding: 10px;
 	@include border-radius($global-radius);

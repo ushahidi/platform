@@ -1,0 +1,36 @@
+/*------------------------------------*\
+	$CONTENTS
+\*------------------------------------*/
+/**
+* INPUT...............reuseable global input module
+*/
+
+
+
+
+/*------------------------------------*\
+	$INPUT
+\*------------------------------------*/
+
+%input-wrapper,
+.input-wrapper {
+	@include grid-column(12, $collapse: true);
+}
+
+%input,
+.input {
+	@include grid-column(9, $collapse: true);
+}
+
+/*------------------------------------*\
+	$INPUT--TEL
+\*------------------------------------*/
+
+%input-button,
+.input-button {
+	@include grid-column(3);
+	padding-right: 0;
+	button {
+		@include button($radius: true, $full-width: true);
+	}
+}

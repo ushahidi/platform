@@ -25,9 +25,7 @@ class DataProvider_Twilio extends DataProvider {
 	{
 		// Get provider phone (FROM)
 		// Replace non-numeric
-		$this->_from = preg_replace("/[^0-9,.]/", "", parent::from());
-
-		return $this->_from;
+		return preg_replace("/[^0-9,.]/", "", parent::from());
 	}
 
 	/**
@@ -52,7 +50,7 @@ class DataProvider_Twilio extends DataProvider {
 		// Send!
 		try
 		{
-			$message = $this->_client->account->messages->sendMessage($this->_from, '+'.$to, $message);
+			$message = $this->_client->account->messages->sendMessage($this->from(), '+'.$to, $message);
 			return array(Message_Status::SENT, $message->sid);
 		}
 		catch (Services_Twilio_RestException $e)

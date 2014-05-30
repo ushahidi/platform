@@ -48,7 +48,6 @@
 \*------------------------------------*/
 @import "tools/colors";
 @import "tools/helpers";
-@import "tools/mixins";
 @import "tools/functions";
 
 @import "base/settings";
@@ -63,6 +62,15 @@
 \*------------------------------------*/
 
 @import "foundation";
+
+
+
+
+/*------------------------------------*\
+		$USER CONFIGS
+\*------------------------------------*/
+
+@import "tools/mixins";
 
 
 
@@ -91,6 +99,9 @@
    $PARTIALS
 \*------------------------------------*/
 
+/*ACTIONS BAR*/
+@import "partials/actions-bar/actions-bar";
+
 /*CARDS*/
 @import "partials/card/card";
 
@@ -105,6 +116,9 @@
 
 /*ACTIONS BAR*/
 @import "partials/actions-bar/actions-bar";
+
+/*INPUT FIELDS*/
+@import "partials/input-field/input-field";
 
 
 
@@ -139,9 +153,14 @@
 /*WORKSPACE*/
 @import "modules/workspace/off-canvas";
 @import "modules/workspace/workspace-panel";
-@import "modules/workspace/tools/manage-users/manage-users";
-@import "modules/workspace/tools/manage-tags/manage-tags";
-@import "modules/workspace/incoming-messages/messages/messages";
+
+/*MESSAGES*/
+@import "modules/messages/listings/messages";
+@import "modules/messages/config/message-config";
+
+/*TOOLS*/
+@import "modules/tools/manage-users/manage-users";
+@import "modules/tools/manage-tags/manage-tags";
 
 /*SETTINGS*/
 @import "modules/settings/settings";

@@ -48,8 +48,8 @@ define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
 					//token: window.config.baseurl + 'oauth/token',
 					redirect_uri: window.config.baseurl,
 					scopes: {
-						request: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages'],
-						require: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users']
+						request: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages', 'dataproviders'],
+						require: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages', 'dataproviders']
 					},
 					grant_type: 'implicit'
 				});

@@ -25,7 +25,7 @@ define(['jquery', 'handlebars', 'backbone', 'backbone-forms'], function($, Handl
 		'	<div>' +
 		'		<div data-error></div>' +
 		'		<span data-editor></span>' +
-		'		{{#if help}}<div>{{ help }}</div>{{/if}}' +
+		'		{{#if help}}<div>{{{ help }}}</div>{{/if}}' +
 		'	</div>' +
 		'</div>'
 	);

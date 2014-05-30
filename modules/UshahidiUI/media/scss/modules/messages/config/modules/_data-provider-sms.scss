@@ -1,0 +1,153 @@
+/*------------------------------------*\
+	CONTENTS
+\*------------------------------------*/
+/*
+* TABS...............vertical tab styles
+* TAB-CONTENT...............tab content styles
+*/
+
+
+
+
+/*------------------------------------*\
+	$TABS
+\*------------------------------------*/
+
+/* Foundation overrides */
+
+.tabs dd {
+	> a {
+		padding-bottom: 0;
+		background: transparent;
+		&:hover {
+			background: transparent;
+		}
+	}
+	&.active a {
+		background: transparent;
+	}
+}
+.all-tabs-wrapper {
+	@include grid-column(12);
+	margin-bottom: 20px;
+}
+
+.tab-wrapper {
+	background: $tabs-navigation-bg-color;
+	border-bottom: 1px solid darken($secondary-color, 10);
+	&.active{
+		background: $white;
+	}
+	&:hover:not(.active) {
+		background: darken($secondary-color, 2);
+	}
+}
+
+.tabs.vertical {
+	@media #{$medium} {
+		@include grid-column(3);
+	}
+}
+
+.tab-link {
+	font-weight: bold;
+}
+
+.status-icon {
+	@extend .fa;
+	color: $success-color;
+	padding-left: 10px;
+	&:before {
+		content: "\f058";
+	}
+}
+
+.configured-status {
+	padding: 0 rem-calc(32) rem-calc(12px);
+	color: $alert-color;
+	font-size: rem-calc(12);
+	&.active {
+		color: $success-color;
+	}
+	.test-status {
+		color: $alert-color;
+		&.active {
+			color: $success-color;
+		}
+	}
+}
+
+
+/*------------------------------------*\
+	$TAB CONTENT
+\*------------------------------------*/
+
+
+.tabs-content.vertical {
+	@media #{$medium} {
+		@include grid-column(9);
+	}
+	padding-top: 20px;
+	> .content {
+		@include grid-column(12, $collapse: true);
+	}
+	@media #{$medium} {
+		padding-top: 0;
+		padding-left: 40px;
+	}
+}
+
+.provider-title {
+	text-transform: uppercase;
+}
+
+
+/*------------------------------------*\
+	$INPUT--TEL
+\*------------------------------------*/
+
+.input-wrapper--tel {
+	@extend %input-wrapper;
+	@media #{$small} {
+		@include grid-column(6, $collapse: true);
+	}
+}
+
+.input--tel {
+	@extend %input;
+}
+
+.input-button--tel {
+	@extend %input-button;
+	button {
+		@include button($padding: $button-med, $bg: $primary-color, $radius: true, $full-width: true);
+		line-height: rem-calc(14);
+	}
+}
+
+.phone-number-list {
+	@include block-grid(2);
+	.phone-number-list__item {
+		display: inline;
+		margin-bottom: 10px;
+		.phone-number {
+			background: $secondary-color;
+			width: 100%;
+			padding: 15px;
+			@extend .fa;
+			&:after {
+				content: "\f057";
+				float: right;
+			}
+		}
+	}
+	@media #{$mobile-up} {
+		@include block-grid(3);
+	}
+	@media #{$medium} {
+		@include block-grid(4);
+	}
+	@media #{$xlarge} {
+		@include block-grid(5);
+	}
+}

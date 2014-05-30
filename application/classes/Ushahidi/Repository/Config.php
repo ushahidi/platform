@@ -20,6 +20,7 @@ class Ushahidi_Repository_Config implements ConfigRepository
 			'site',
 			'test',
 			'features',
+			'data-provider'
 		);
 	}
 

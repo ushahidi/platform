@@ -23,15 +23,22 @@ $plugin = array(
 
 	// form Key and Label
 	'options' => array(
+		'intro_step1' => array(
+			'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
+			'input' => 'read-only-text',
+			'description' => '
+				Scan this QR Code with your phone to download the app from the Android Market <img src="/media/kohana/imagesimages/smssync.png" />'
+		),
+		// @todo figure out how to inject link and fix base url
+		'intro_step2' => array(
+			'label' => 'Step 2: Android App Settings',
+			'input' => 'read-only-text',
+			'description' => 'Turn on SMSSync and use the following link as the website:'
+		),
 		'secret' => array(
 			'label' => 'Secret',
 			'input' => 'text',
-			'description' => 'The secret key from the server'
-		),
-		'from' => array(
-			'label' => 'From',
-			'input' => 'text',
-			'description' => 'The from number'
+			'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message. You need to configure the same secret in the SMSSync App.'
 		)
 	),
 
