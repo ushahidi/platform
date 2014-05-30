@@ -30,7 +30,7 @@
 /*------------------------------------*\
 		$COMPASS
 \*------------------------------------*/
-/* line 17, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, .post-form-wrapper label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -52,55 +52,55 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
 
-/* line 10, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper {
   clear: both;
   min-height: 100%;
@@ -108,12 +108,12 @@ html, body {
   height: 100%;
   margin-bottom: -72px;
 }
-/* line 18, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper .sticky-footer-root {
   height: 72px;
 }
 
-/* line 20, ../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
 .footer {
   clear: both;
   position: relative;
@@ -13581,7 +13581,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 \*------------------------------------*/
 /* line 37, ../../scss/modules/header/_topbar.scss */
 .logo-image {
-  background: url('../../images/logo.png?1400725960') no-repeat;
+  background: url('../../images/logo.png?1398194936') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -13591,7 +13591,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 37, ../../scss/modules/header/_topbar.scss */
   .logo-image {
-    background-image: url('../../images/logo@2x.png?1400725960');
+    background-image: url('../../images/logo@2x.png?1401454052');
     background-size: 29px 29px;
   }
 }
@@ -15108,7 +15108,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 34, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1389753251') no-repeat;
+  background: url('../../images/avatar.png?1398194936') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -16076,12 +16076,12 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('../../images/category-icon.png?1400725960') no-repeat;
+  background: url('../../images/category-icon.png?1398985366') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 54, ../../scss/modules/posts/_post.scss */
   .post-category-marker {
-    background-image: url('../../images/category-icon@2x.png?1400725960');
+    background-image: url('../../images/category-icon@2x.png?1398985366');
     background-size: 34px 34px;
   }
 }
@@ -17638,7 +17638,7 @@ textarea {
 /* line 54, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
-  background: #fcfcfc url('../../images/dropdown-arrow.svg?1400725960') no-repeat;
+  background: #fcfcfc url('../../images/dropdown-arrow.svg?1398194936') no-repeat;
   background-size: 9px;
   background-position-x: 97%;
   background-position-y: center;
@@ -17761,10 +17761,30 @@ form.custom .custom.checkbox.checked:before {
   font-size: 20px;
 }
 
+/* line 161, ../../scss/modules/forms/_forms.scss */
+.simplepicker.icon {
+  margin-bottom: 1em;
+}
+
+/* line 165, ../../scss/modules/forms/_forms.scss */
+.simplepicker.icon.sp-block,
+.simplepicker span.sp-block {
+  width: 1.6em;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  text-align: center;
+  vertical-align: middle;
+}
+/* line 171, ../../scss/modules/forms/_forms.scss */
+.simplepicker.icon.sp-block i.fa,
+.simplepicker span.sp-block i.fa {
+  padding-right: 0;
+}
+
 /*------------------------------------*\
 	$FIELDSETS
 \*------------------------------------*/
-/* line 165, ../../scss/modules/forms/_forms.scss */
+/* line 180, ../../scss/modules/forms/_forms.scss */
 fieldset {
   border: none;
   padding: 0;
