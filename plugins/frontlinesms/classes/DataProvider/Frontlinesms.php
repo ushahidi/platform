@@ -38,7 +38,7 @@ class DataProvider_FrontlineSms extends DataProvider {
 
 		// Prepare data to send to frontline cloud
 		$data = array(
-			"secret" => $this->_options['key'],
+			"secret" => isset($this->_options['key']) ? $this->_options['key'] : '',
 			"message" => $message,
 			"recipients" => array(
 				array(
@@ -48,8 +48,17 @@ class DataProvider_FrontlineSms extends DataProvider {
 			)
 		);
 
-		// Get the frontlinecloud api URL
-		$url = $this->_options['frontlinecloud_api_url'];
+		// Get the frontlinecloud API URL
+		if( !isset($this->_options['frontlinecloud_api_url']) OR empty($this->_options['frontlinecloud_api_url']))
+		{
+			//Log warning to log file.
+			$status = $response->status;
+			Kohana::$log->add(Log::WARNING, 'Could not make a successful POST request: :message status code: :code',
+				array(':message' => $response->messages[$status], ':code' => $status));
+			return array(Message_Status::FAILED, FALSE);
+		}
+
+		$url = isset($this->_options['frontlinecloud_api_url']) ? $this->_options['frontlinecloud_api_url'] : '' ;
 
 		// Make a POST request to send the data to frontline cloud
 		$request = Request::factory($url)
@@ -64,13 +73,11 @@ class DataProvider_FrontlineSms extends DataProvider {
 			{
 				return array(Message_Status::SENT, $this->tracking_id(Message_Type::SMS));
 			}
-			else
-			{
-				// Log warning to log file.
-				$status = $response->status;
-				Kohana::$log->add(Log::WARNING, 'Could not make a successful POST request: :message  status code: :code',
-					array(':message' => $response->messages[$status], ':code' => $status));
-			}
+
+			// Log warning to log file.
+			$status = $response->status;
+			Kohana::$log->add(Log::WARNING, 'Could not make a successful POST request: :message  status code: :code',
+				array(':message' => $response->messages[$status], ':code' => $status));
 		}
 		catch(Request_Exception $e)
 		{

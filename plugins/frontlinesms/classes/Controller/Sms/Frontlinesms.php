@@ -34,12 +34,21 @@ class Controller_Sms_Frontlinesms extends Controller {
 		// Authenticate the request
 		$options = $provider->options();
 
-		if (! $this->request->query('key') OR
+		if( ! isset($options['key']) OR empty($this->_options['key']))
+		{
+			throw HTTP_Exception::factory(403, 'Key value has not been configured');
+		}
+
+		if ( ! $this->request->query('key') OR
 			$this->request->query('key') != $options['key'])
 		{
 			throw HTTP_Exception::factory(403, 'Incorrect or missing key');
 		}
 
+		if ( ! $this->request->query('m'))
+		{
+			throw HTTP_Exception::factory(403, 'Missing message');
+		}
 		// Remove Non-Numeric characters because that's what the DB has
 		$from = preg_replace('/\D+/', "", $this->request->post('from'));
 		$message_text = $this->request->query('m');

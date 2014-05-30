@@ -127,6 +127,16 @@ class Controller_Sms_Nexmo extends Controller {
 		$provider = DataProvider::factory('nexmo');
 		$options = $provider->options();
 
+		if( ! isset($options['api_key']))
+		{
+			throw HTTP_Exception::factory(403, 'Missing API key');
+		}
+
+		if ( ! isset($options['api_secret']))
+		{
+			throw HTTP_Exception::factory(403, 'Missing API secret');
+		}
+
 		$sms = new NexmoMessage($options['api_key'], $options['api_secret']);
 
 		if ( ! $sms->inboundText())
