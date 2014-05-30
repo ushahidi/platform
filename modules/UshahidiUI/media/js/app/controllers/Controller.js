@@ -7,7 +7,7 @@
  * @license	https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'backbone', 'marionette',
+define(['jquery', 'App', 'backbone', 'marionette',
 	'controllers/ModalController',
 
 	'views/AppLayout',
@@ -27,7 +27,7 @@ define(['App', 'backbone', 'marionette',
 
 	'models/UserModel'
 	],
-	function(App, Backbone, Marionette,
+	function($, App, Backbone, Marionette,
 		ModalController,
 
 		AppLayout,
@@ -76,6 +76,12 @@ define(['App', 'backbone', 'marionette',
 					{
 						App.body.$el.toggleClass('active-workspace');
 					}
+				});
+
+				$(document).on('click.workspace', 'body.active-workspace #main-region', function()
+				{
+					// Close the workspace menu when clicking on anything in the body
+					App.vent.trigger('workspace:toggle', true);
 				});
 
 				App.Collections = {};
