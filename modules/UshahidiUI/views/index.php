@@ -20,15 +20,8 @@
 		<link rel="stylesheet" href="<?php echo Media::url('bower_components/leaflet/leaflet.css'); ?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('bower_components/leaflet-locatecontrol/src/L.Control.Locate.css'); ?>"/>
 		<!--[if lte IE 8]>
-				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('bower_components/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
+			<link rel="stylesheet" type="text/css" href="<?php echo Media::url('bower_components/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
 		<![endif]-->
-		<!-- Dropzone CSS -->
-		<link rel="stylesheet" href="<?php echo Media::url('bower_components/dropzone/downloads/css/dropzone.css'); ?>" />
-		<!-- end Dropzone CSS -->
-		<!-- SimplePicker CSS -->
-		<link rel="stylesheet" href="<?php echo Media::url('bower_components/jquery-simplepicker/jquery.simplepicker.css'); ?>" />
-		<link rel="stylesheet" href="<?php echo Media::url('bower_components/jquery-simplepicker/jquery.simplepicker-fontawesome.css'); ?>" />
-		<!-- end SimplePicker CSS -->
 
 		<!--Change to app.min.css for production-->
 		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>

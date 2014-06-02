@@ -92,6 +92,11 @@
 @import "plugins/alertify-custom-theme"; /* Theme alertify css - customize as needed */
 @import "plugins/font-awesome/font-awesome"; /* Font-Awesome Sass files */
 
+/* non-sass vendor plugins */
+@import "CSS:../bower_components/dropzone/downloads/css/dropzone";
+@import "CSS:../bower_components/jquery-simplepicker/jquery.simplepicker";
+@import "CSS:../bower_components/jquery-simplepicker/jquery.simplepicker-fontawesome";
+
 
 
 

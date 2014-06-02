@@ -1,4 +1,5 @@
 # Compass config file
+require "sass-css-importer"
 
 add_import_path "media/bower_components/foundation/scss"
 
