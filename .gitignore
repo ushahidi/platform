@@ -18,7 +18,6 @@ modules/UshahidiUI/media/bower_components/*
 # Kohana deployment specifics
 application/logs/*
 application/cache/*
-application/config/*.php
 application/config/environments/development/*.php
 
 # Kohana tests
