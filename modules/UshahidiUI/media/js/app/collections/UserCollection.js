@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'underscore', 'models/UserModel', 'App', 'backbone-pageable'],
+define(['jquery', 'backbone', 'underscore', 'models/UserModel', 'App', 'backbone.paginator'],
 	function($, Backbone, _, UserModel, App, PageableCollection)
 	{
 		// Creates a new Backbone Collection class object

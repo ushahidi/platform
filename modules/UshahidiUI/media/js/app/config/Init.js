@@ -30,7 +30,7 @@ require.config(
 		'foundation' : '../../bower_components/foundation/js/foundation',
 		'foundation-loader' : '../libs/foundation-loader',
 		'backbone.validateAll' : '../../bower_components/Backbone.validateAll/src/javascripts/Backbone.validateAll',
-		'backbone-pageable' : '../../bower_components/backbone-pageable/lib/backbone-pageable',
+		'backbone.paginator' : '../../bower_components/backbone.paginator/lib/backbone.paginator',
 		'handlebars-paginate' : '../libs/handlebars-paginate',
 		'backbone-forms' : '../libs/backbone-forms/backbone-forms',
 		'bf' : '../libs/backbone-forms/',

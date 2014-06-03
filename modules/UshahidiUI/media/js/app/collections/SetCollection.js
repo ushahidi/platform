@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone-pageable'],
+define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone.paginator'],
 	function($, Backbone, SetModel, App, PageableCollection)
 	{
 		// Creates a new Backbone Collection class object

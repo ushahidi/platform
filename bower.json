@@ -15,7 +15,6 @@
     "moment": "~2.6",
     "requirejs-text": "~2.0",
     "underscore.string": "~2.3",
-    "backbone-pageable": "~1.4",
     "backbone-model-factory": "~1.2",
     "leaflet": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip",
     "backbone.validation": "https://github.com/thedersen/backbone.validation.git#~0.9.1",
@@ -23,7 +22,8 @@
     "ddt": "https://github.com/deviantART/ddt.git#~0.3.0",
     "dropzone": "~3.10.1",
     "L.GeoSearch": "https://github.com/smeijer/L.GeoSearch.git",
-    "leaflet-locatecontrol": "https://github.com/domoritz/leaflet-locatecontrol.git#~0.27.0"
+    "leaflet-locatecontrol": "https://github.com/domoritz/leaflet-locatecontrol.git#~0.27.0",
+    "backbone.paginator": "~2.0.0"
   },
   "devDependencies": {}
 }

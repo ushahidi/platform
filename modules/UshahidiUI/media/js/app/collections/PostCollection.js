@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone-pageable', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
+define(['jquery', 'backbone', 'underscore', 'models/PostModel', 'App', 'backbone.paginator', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
 	function($, Backbone, _, PostModel, App, PageableCollection, ResultsCollection, FilteredCollection)
 	{
 		// Creates a new Backbone Collection class object
