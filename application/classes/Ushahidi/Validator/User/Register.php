@@ -22,7 +22,7 @@ class Ushahidi_Validator_User_Register implements Validator
 
 	public function __construct(RegisterRepository $repo)
 	{
-		$this->this->repo = $repo;
+		$this->repo = $repo;
 	}
 
 	public function check(Data $input)
