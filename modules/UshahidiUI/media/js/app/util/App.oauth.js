@@ -7,150 +7,163 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'jso2/jso2', 'jquery', 'underscore'],
-	function(Backbone, Jso2, $, _)
+define(['backbone', 'jquery', 'underscore', 'ddt', 'util/App.storage'],
+	function(Backbone, $, _, ddt, Storage)
 	{
-		var jso_state_exceptions = [
-				'Could not retrieve state',
-				'Could not get providerid from state',
-				'Could not retrieve OAuth.instances for this provider.'
-			],
-		ushahidi_auth = {
-			initialize : function ()
-			{
-				var that = this,
-					token;
+		function getUserToken() {
+			var cookie = $.cookie('authtoken'),
+				token;
+			if (cookie) {
+				// Kohana signs cookies using "signature~value" format.
+				token = cookie.match(/^.+~(.+)$/);
+				if (token && token[1]) {
+					ddt.log('OAuth', 'got user token', token[1]);
+					return token[1];
+				}
+			}
+		}
 
-				_.bindAll(this, 'setProvider', 'login', 'logout', 'ajax');
-
-				Jso2.enablejQuery($);
-
-				this.providers = {};
-				this.provider = null;
-
-				this.providers.client_credentials = new Jso2('ushahidi_client_credentials', {
+		function getAnonymousToken(callback)
+		{
+			var token_params = {
 					client_id: window.config.oauth.client,
 					client_secret: window.config.oauth.client_secret,
-					//authorization: window.config.baseurl + 'oauth/authorize',
-					token: window.config.baseurl + 'oauth/token',
 					redirect_uri: window.config.baseurl,
-					scopes: {
-						request: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages'],
-						require: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users']
-					},
+					scope: required_scopes.join(' '),
 					grant_type: 'client_credentials'
+				};
+
+			if (!anonymous_storage.request) {
+				anonymous_storage.request = $.ajax({
+					url: window.config.baseurl + 'oauth/token',
+					type: 'POST',
+					data: token_params,
+					dataType: 'json',
+					success: function(data) {
+						ddt.log('OAuth', 'got anonymous token', data.access_token);
+					}
+				})
+				.done(function(data)
+				{
+					// this only needs to run once
+					anonymous_token = data.access_token;
+					anonymous_storage.set(anonymous_token);
 				});
+			} else {
+				ddt.log('OAuth', 'still fetching anonymous token');
+			}
 
-				this.providers.implicit = new Jso2('ushahidi_implicit', {
-					client_id: window.config.oauth.client,
-					//client_secret: window.config.oauth.client_secret,
-					authorization: window.config.baseurl + 'oauth/authorize',
-					//token: window.config.baseurl + 'oauth/token',
-					redirect_uri: window.config.baseurl,
-					scopes: {
-						request: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages', 'dataproviders'],
-						require: ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'config', 'messages', 'dataproviders']
-					},
-					grant_type: 'implicit'
-				});
+			return anonymous_storage.request.done(function()
+			{
+				// got a token, continue processing
+				callback.call(this, anonymous_token);
+			});
+		}
 
-				// Do we already have a logged in token?
-				token = Jso2.store.getToken('ushahidi_implicit');
-				if (token)
-				{
-					that.setProvider('implicit');
-				}
-				// Default to client_credentials grant type
-				else
-				{
-					this.setProvider('client_credentials');
-				}
+		function clearToken(token)
+		{
+			if (anonymous_token === token) {
+				anonymous_token = null;
+				anonymous_storage.clear();
+			}
+			if (user_token === token) {
+				user_token = null;
+			}
+		}
 
-				try
-				{
-					// Check for callback from implicit flow
-					this.providers.implicit.callback(false, function()
-					{
-						// Check if we have tokens
-						var token = Jso2.store.getTokens('ushahidi_implicit');
-						if (token.length > 0)
-						{
-							that.setProvider('implicit');
+		function handleTokenError(settings)
+		{
+			return function(xhr) {
+				var token = user_token || anonymous_token,
+					error,
+					idx;
+				if (xhr.status === 400 && xhr.responseJSON && $.isArray(xhr.responseJSON.errors)) {
+					// Kohana returns HTTP exceptions as an array of errors
+					for (idx in xhr.responseJSON.errors) {
+						error = xhr.responseJSON.errors[idx];
+						if (error && error.message === ACCESS_TOKEN_INVALID) {
+							ddt.log('OAuth', 'Clearing invalid token', token);
+							clearToken(token);
+							// Attempt the AJAX request again without the bad token, while also
+							// preventing the request from falling into an infinite loop.
+							if (!settings.is_a_retry) {
+								settings.is_a_retry = true;
+								return UshahidiAuth.ajax(settings);
+							} else {
+								ddt.log('OAuth', 'Aborted AJAX request after two token failures');
+							}
 						}
+					}
+				}
+			};
+		}
+
+		var ACCESS_TOKEN_INVALID = 'Access token is not valid',
+			anonymous_storage = new Storage('Ushahidi', 'anonymous_access_token'),
+			anonymous_token = anonymous_storage.get(),
+			user_token = getUserToken(),
+			required_scopes = ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users'],
+			all_scopes = required_scopes.concat(['config', 'messages', 'dataproviders']),
+			UshahidiAuth = {
+				initialize : function()
+				{
+					_.bindAll(this, 'getAuthCodeParams', 'getToken', 'ajax');
+
+					// Use authenticated AJAX calls
+					Backbone.ajax = this.ajax;
+				},
+				getAuthCodeParams : function() {
+					return {
+						response_type: 'code',
+						client_id: window.config.oauth.client,
+						redirect_uri: window.config.baseurl + 'user/oauth',
+						scope: all_scopes.join(' ')
+					};
+				},
+				getClientType : function()
+				{
+					return user_token ? 'user' : 'anonymous';
+				},
+				getToken: function(callback)
+				{
+					var defer = $.Deferred();
+					if (user_token) {
+						defer.resolve(user_token);
+					}
+					else if (anonymous_token) {
+						defer.resolve(anonymous_token);
+					}
+					else {
+						getAnonymousToken(function(token) {
+							defer.resolve(token);
+						})
+						.fail(function() {
+							defer.reject();
+						});
+					}
+					defer.always(callback);
+					return defer.promise();
+				},
+				ajax: function(settings)
+				{
+					return this.getToken(function(token) {
+						if (!token) {
+							throw 'Failed to get OAuth token, unable to make authenticated ajax call';
+						}
+						if (!settings) {
+							settings = {};
+						}
+						if (!settings.headers) {
+							settings.headers = {};
+						}
+						settings.headers.Authorization = 'Bearer ' + token;
+						ddt.log('OAuth', 'making AJAX request', settings);
+						return $.ajax(settings).fail(handleTokenError(settings));
 					});
 				}
-				catch (e)
-				{
-					// Just log error on missing state
-					if (_.contains(jso_state_exceptions, e))
-					{
-						console.warn('Exception: ' + e);
-					}
-					// Propogate any other errors
-					else
-					{
-						throw e;
-					}
-				}
+			};
 
+		UshahidiAuth.initialize();
 
-				// Override backbone AJAX with our AJAX switcher
-				Backbone.ajax = this.ajax;
-			},
-			/**
-			 * Set OAuth Provider
-			 * @param {String} provider_name Provider name: client_credentials or implicit
-			 */
-			setProvider : function(provider_name)
-			{
-				var that = this,
-					provider = this.provider = this.providers[provider_name];
-
-				// Ensure we have an access token before everything starts
-				return provider.getToken(function(token) {
-					// If we've got a token here, check if we're logged in etc.
-					that.currentToken = token;
-				});
-			},
-			/**
-			 * Get authorization headers, ie for an xhr.
-			 */
-			getAuthHeaders : function () {
-				var headers = {};
-				if (this.currentToken) {
-					headers.Authorization = 'Bearer ' + this.currentToken.access_token;
-				}
-				return headers;
-			},
-			/**
-			 * Login: Trigger login via implicit flow
-			 */
-			login : function ()
-			{
-				return this.setProvider('implicit');
-			},
-			/**
-			 * Logout: Switch back to anonymous (client credentials)
-			 */
-			logout : function ()
-			{
-				var xhr = this.setProvider('client_credentials');
-				this.currentToken = null;
-				this.providers.implicit.wipeTokens();
-				// Redirect to /user/logout
-				window.location = window.config.baseurl + 'user/logout?from_url=/';
-				return xhr;
-			},
-			/**
-			 * Call the appropriate ajax function based on provider
-			 */
-			ajax : function()
-			{
-				return this.provider.ajax.apply(this.provider, arguments);
-			}
-		};
-
-		ushahidi_auth.initialize();
-
-		return ushahidi_auth;
+		return UshahidiAuth;
 	});

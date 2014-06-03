@@ -151,8 +151,42 @@ class Controller_User extends Controller_Layout {
 		}
 	}
 
+	public function action_oauth()
+	{
+		$code = $this->request->query('code');
+		if (!$this->auth->logged_in() OR !$code)
+		{
+			$this->redirect('oauth' . URL::query());
+		}
+
+		$session = $this->auth->session();
+		$params  = $session->get('oauth');
+
+		$request = Request::factory('oauth/token')
+			->method(Request::POST)
+			->post(array(
+				'grant_type'    => 'authorization_code',
+				'code'          => $code,
+				'client_id'     => $params['client_id'],
+				'client_secret' => $params['client_details']['secret'],
+				'redirect_uri'  => $params['redirect_uri'],
+				));
+
+		$response = $request->execute();
+		$json = json_decode($response->body());
+
+		// Store the auth code in a cookie for the JS app
+		Cookie::set('authtoken', $json->access_token);
+
+		// Flow is complete
+		$session->delete('oauth');
+
+		$this->redirect('/');
+	}
+
 	public function action_logout()
 	{
+		Cookie::delete('authtoken');
 		$this->auth->logout();
 		if ($from_url = $this->request->query('from_url')
 				AND in_array(parse_url($from_url, PHP_URL_PATH), $this->_redirect_whitelist)

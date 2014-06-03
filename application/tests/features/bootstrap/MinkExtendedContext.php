@@ -96,4 +96,12 @@ class MinkExtendedContext extends MinkContext
 		}
 	}
 
+	/**
+	 * @Then /^I should have cookie "(?P<cookie>[^"]*)"$/
+	 */
+	public function iShouldHaveCookie($cookie)
+	{
+		$this->assertSession()->cookieExists($cookie);
+	}
+
 }

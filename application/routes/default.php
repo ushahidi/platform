@@ -171,6 +171,19 @@ Route::set('translations', 'api/v2/posts/<post_id>/translations(/<locale>)',
 	));
 
 /**
+ * OAuth Route
+ * Have to add this manually because the class is OAuth not Oauth
+ */
+Route::set('oauth', 'oauth(/<action>)',
+	array(
+		'action' => '(?:index|authorize|token)',
+	))
+	->defaults(array(
+			'controller' => 'OAuth',
+			'action'     => 'index',
+	));
+
+/**
  * Default Route
  */
 Route::set('default', '(<controller>(/<action>(/<id>)))')

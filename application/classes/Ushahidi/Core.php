@@ -29,6 +29,48 @@ abstract class Ushahidi_Core {
 			return Database::instance();
 		});
 
+		// OAuth servers
+		$di->set('oauth.server.auth', function() use ($di) {
+			$server = $di->newInstance('League\OAuth2\Server\Authorization');
+			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\AuthCode'));
+			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\Password'));
+			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\ClientCredentials'));
+			return $server;
+		});
+		$di->set('oauth.server.resource', $di->lazyNew('League\OAuth2\Server\Resource'));
+
+		// Use Kohana requests for OAuth server requests
+		$di->setter['League\OAuth2\Server\Resource']['setRequest'] = $di->lazyNew('OAuth2_Request');
+		$di->setter['League\OAuth2\Server\Authorization']['setRequest'] = $di->lazyNew('OAuth2_Request');
+
+		// Custom password authenticator
+		$di->setter['League\OAuth2\Server\Grant\Password']['setVerifyCredentialsCallback'] = function($username, $password) {
+			$usecase = service('usecase.user.login');
+			// todo: parse this? inject it?
+			$data    = new Ushahidi\Usecase\User\LoginData(compact('username', 'password'));
+			try
+			{
+				return $usecase->interact($data);
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
+		};
+
+		// Custom storage interfaces for OAuth servers
+		$di->params['League\OAuth2\Server\Authorization'] = [
+			'client'  => $di->lazyGet('repository.oauth.client'),
+			'session' => $di->lazyGet('repository.oauth.session'),
+			'scope'   => $di->lazyGet('repository.oauth.scope'),
+			];
+		$di->params['League\OAuth2\Server\Resource'] = [
+			'session' => $di->lazyNew('OAuth2_Storage_Session'),
+			];
+		$di->params['OAuth2_Storage'] = [
+			'db' => $di->lazyGet('kohana.db'),
+			];
+
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator', $di->lazyNew('Ushahidi_Authenticator'));
@@ -49,6 +91,9 @@ abstract class Ushahidi_Core {
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
+		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
+		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
+		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 
 		// Abstract repository parameters
 		$di->params['Ushahidi_Repository'] = [

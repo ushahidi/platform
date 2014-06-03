@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!templates/partials/views-dropdown-nav.html'],
-	function(Marionette, Handlebars, App, template, viewsDropdown)
+define(['marionette', 'handlebars', 'App', 'jquery', 'text!templates/Header.html', 'text!templates/partials/views-dropdown-nav.html'],
+	function(Marionette, Handlebars, App, $, template, viewsDropdown)
 	{
 		// Hacky - make sure we register partials before we call compile
 		Handlebars.registerPartial('views-dropdown-nav', viewsDropdown);
@@ -21,13 +21,11 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				//App.vent.on('page:change', this.updateActiveNav, this);
 				App.vent.on('views:change', this.updateActiveView, this);
 				App.vent.on('config:change', this.render, this);
-				App.vent.on('logout', this.render, this);
 			},
 			events : {
 				'click .js-views-menu-link' : 'showViewsMenu',
 				'click .js-create-post' : 'showCreatePost',
 				'click .js-workspace-toggle' : 'triggerWorkspaceToggle',
-				'click .js-login' : 'login'
 			},
 			triggerWorkspaceToggle : function (e)
 			{
@@ -79,13 +77,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Header.html', 'text!t
 				return {
 					site_name : App.config.site.site_name,
 					owner_name : App.config.site.owner_name,
-					logged_in : App.loggedin()
+					logged_in : App.loggedin(),
+					login_url : window.config.baseurl + 'oauth?' + $.param(App.oauth.getAuthCodeParams())
 				};
-			},
-			login : function(e)
-			{
-				e.preventDefault();
-				App.vent.trigger('login');
 			}
 		});
 	});

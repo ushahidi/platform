@@ -591,76 +591,252 @@ tasks:
 # OAuth Tables
 oauth_clients:
   -
-    client_id: "demoapp"
-    client_secret: "demopass"
-    grant_types: ""
-    redirect_uri: "http://ushv3.dev/"
+    id: "demoapp"
+    secret: "demopass"
+    name: ""
   -
-    client_id: "restricted_app"
-    client_secret: "demopass"
-    grant_types: '["authorization_code"]'
-    redirect_uri: "http://ushv3.dev/"
+    id: "restricted_app"
+    secret: "demopass"
+    name: ""
   -
+    id: "ushahidiui"
+    secret: "35e7f0bca957836d05ca0492211b0ac707671261"
+    name: ""
+oauth_client_endpoints:
+  -
+    id: 1
     client_id: "ushahidiui"
-    client_secret: "35e7f0bca957836d05ca0492211b0ac707671261"
-    grant_types: ""
+    redirect_uri: "/user/oauth"
+  -
+    id: 2
+    client_id: "demoapp"
     redirect_uri: "/"
-oauth_access_tokens:
   -
-    access_token: "testingtoken"
-    client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages dataproviders"
-    expires: "2030-01-01 00:00:00"
-    user_id: 2
-  -
-    access_token: "defaulttoken"
-    client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages dataproviders"
-    expires: "2030-01-01 00:00:00"
-    user_id: 2
-  -
-    access_token: "testbasicuser"
-    client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages dataproviders"
-    expires: "2030-01-01 00:00:00"
-    user_id: 1
-  -
-    access_token: "testadminuser"
-    client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages dataproviders"
-    expires: "2030-01-01 00:00:00"
-    user_id: 2
-  -
-    access_token: "testbasicuser2"
-    client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages dataproviders"
-    expires: "2030-01-01 00:00:00"
-    user_id: 3
-  -
-    access_token: "testanon"
-    client_id: "demoapp"
-    scope: "api posts forms sets tags users media config messages dataproviders"
-    expires: "2030-01-01 00:00:00"
-    user_id:
-oauth_authorization_codes:
-  -
-    authorization_code: "4d105df9a7f8645ef8306dd40c7b1952794bf368"
-    client_id: "demoapp"
-    scope: "api"
-    expires: "2030-01-01 00:00:00"
-    redirect_uri: "http://ushv3.dev/"
-  -
-    authorization_code: "4d105df9a7f8645ef8306dd40c7b1952794bf372"
+    id: 3
     client_id: "restricted_app"
-    scope: "api"
-    expires: "2030-01-01 00:00:00"
-    redirect_uri: "http://ushv3.dev/"
-oauth_refresh_tokens:
+    redirect_uri: "/"
+oauth_sessions:
   -
-    refresh_token: "5a846f5351a46fc9bdd5b8f55224b51671cf8b8f"
+    id: 1
     client_id: "demoapp"
-    scope: "api"
-    expires: "2030-01-01 00:00:00"
+    owner_type: "client"
+    owner_id: "demoapp"
+  -
+    id: 2
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 2
+  -
+    id: 3
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 1
+  -
+    id: 4
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 3
+oauth_session_redirects:
+  -
+    session_id: 1
+    redirect_uri: "/"
+  -
+    session_id: 2
+    redirect_uri: "/"
+oauth_session_access_tokens:
+  -
+    id: 1
+    session_id: 2
+    access_token: "testingtoken"
+    access_token_expires: 1893477600
+  -
+    id: 2
+    session_id: 2
+    access_token: "defaulttoken"
+    access_token_expires: 1893477600
+  -
+    id: 3
+    session_id: 3
+    access_token: "testbasicuser"
+    access_token_expires: 1893477600
+  -
+    id: 4
+    session_id: 2
+    access_token: "testadminuser"
+    access_token_expires: 1893477600
+  -
+    id: 5
+    session_id: 4
+    access_token: "testbasicuser2"
+    access_token_expires: 1893477600
+  -
+    id: 6
+    session_id: 1
+    access_token: "testanon"
+    access_token_expires: 1893477600
+oauth_session_token_scopes:
+  # for testingtoken
+  -
+    session_access_token_id: 1
+    scope_id: 1
+  -
+    session_access_token_id: 1
+    scope_id: 2
+  # for defaulttoken
+  -
+    session_access_token_id: 2
+    scope_id: 1
+  -
+    session_access_token_id: 2
+    scope_id: 2
+  -
+    session_access_token_id: 2
+    scope_id: 3
+  -
+    session_access_token_id: 2
+    scope_id: 4
+  -
+    session_access_token_id: 2
+    scope_id: 5
+  -
+    session_access_token_id: 2
+    scope_id: 6
+  -
+    session_access_token_id: 2
+    scope_id: 7
+  -
+    session_access_token_id: 2
+    scope_id: 8
+  -
+    session_access_token_id: 2
+    scope_id: 9
+  -
+    session_access_token_id: 2
+    scope_id: 10
+  # for testbasicuser
+  -
+    session_access_token_id: 3
+    scope_id: 1
+  -
+    session_access_token_id: 3
+    scope_id: 2
+  -
+    session_access_token_id: 3
+    scope_id: 3
+  -
+    session_access_token_id: 3
+    scope_id: 4
+  -
+    session_access_token_id: 3
+    scope_id: 5
+  -
+    session_access_token_id: 3
+    scope_id: 6
+  -
+    session_access_token_id: 3
+    scope_id: 7
+  -
+    session_access_token_id: 3
+    scope_id: 8
+  -
+    session_access_token_id: 3
+    scope_id: 9
+  -
+    session_access_token_id: 3
+    scope_id: 10
+  # for testadminuser
+  -
+    session_access_token_id: 4
+    scope_id: 1
+  -
+    session_access_token_id: 4
+    scope_id: 2
+  -
+    session_access_token_id: 4
+    scope_id: 3
+  -
+    session_access_token_id: 4
+    scope_id: 4
+  -
+    session_access_token_id: 4
+    scope_id: 5
+  -
+    session_access_token_id: 4
+    scope_id: 6
+  -
+    session_access_token_id: 4
+    scope_id: 7
+  -
+    session_access_token_id: 4
+    scope_id: 8
+  -
+    session_access_token_id: 4
+    scope_id: 9
+  -
+    session_access_token_id: 4
+    scope_id: 10
+  # for testbasicuser2
+  -
+    session_access_token_id: 5
+    scope_id: 1
+  -
+    session_access_token_id: 5
+    scope_id: 2
+  -
+    session_access_token_id: 5
+    scope_id: 3
+  -
+    session_access_token_id: 5
+    scope_id: 4
+  -
+    session_access_token_id: 5
+    scope_id: 5
+  -
+    session_access_token_id: 5
+    scope_id: 6
+  -
+    session_access_token_id: 5
+    scope_id: 7
+  -
+    session_access_token_id: 5
+    scope_id: 8
+  -
+    session_access_token_id: 5
+    scope_id: 9
+  -
+    session_access_token_id: 5
+    scope_id: 10
+  # for testanon
+  -
+    session_access_token_id: 6
+    scope_id: 1
+  -
+    session_access_token_id: 6
+    scope_id: 2
+  -
+    session_access_token_id: 6
+    scope_id: 3
+  -
+    session_access_token_id: 6
+    scope_id: 4
+  -
+    session_access_token_id: 6
+    scope_id: 5
+  -
+    session_access_token_id: 6
+    scope_id: 6
+  -
+    session_access_token_id: 6
+    scope_id: 7
+  -
+    session_access_token_id: 6
+    scope_id: 8
+  -
+    session_access_token_id: 6
+    scope_id: 9
+  -
+    session_access_token_id: 6
+    scope_id: 10
 # media
 media:
   -

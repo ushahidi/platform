@@ -116,22 +116,6 @@ class Migration_Demo_data_20140416012649 extends Minion_Migration_Base {
 			(8,NULL,3,NULL,NULL,NULL,NULL,'','Outgoing message',NULL,'sms','sent','outgoing',0);
 		");
 
-		// Leave oauth clients alone for now, just clear access tokens (since we're changing users)
-		$db->query(NULL, "TRUNCATE `oauth_refresh_tokens`");
-		$db->query(NULL, "TRUNCATE `oauth_access_tokens`");
-		$db->query(NULL, "TRUNCATE `oauth_authorization_codes`");
-
-		/*
-		$db->query(NULL, "TRUNCATE `oauth_clients`");
-
-		$db->query(NULL, "INSERT INTO `oauth_clients` (`client_id`, `client_secret`, `redirect_uri`, `grant_types`, `created`)
-		VALUES
-			('demoapp','demopass','/','',0),
-			('restricted_app','demopass','/','[\\\"authorization_code\\\"]',0),
-			('ushahidiui','','/','',0);
-		");
-		*/
-
 		$db->query(NULL, "TRUNCATE `post_comments`");
 		$db->query(NULL, "TRUNCATE `post_datetime`");
 		$db->query(NULL, "TRUNCATE `post_decimal`");
@@ -289,11 +273,6 @@ class Migration_Demo_data_20140416012649 extends Minion_Migration_Base {
 		$db->query(NULL, "TRUNCATE `forms`");
 		$db->query(NULL, "TRUNCATE `media`");
 		$db->query(NULL, "TRUNCATE `messages`");
-		// Leave oauth alone for now
-		//$db->query(NULL, "TRUNCATE `oauth_access_tokens`");
-		//$db->query(NULL, "TRUNCATE `oauth_authorization_codes`");
-		//$db->query(NULL, "TRUNCATE `oauth_clients`");
-		//$db->query(NULL, "TRUNCATE `oauth_refresh_tokens`");
 		$db->query(NULL, "TRUNCATE `post_comments`");
 		$db->query(NULL, "TRUNCATE `post_datetime`");
 		$db->query(NULL, "TRUNCATE `post_decimal`");

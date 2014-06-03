@@ -12,22 +12,20 @@
 				<div class="post-body">
 					<div class="authorization-wrapper">
 
-							<p class="auth-intro">The application "<?php echo $client_id; ?>" is asking for authorization with these scopes:</p>
+							<p class="auth-intro">The application "<?php echo $client; ?>" is asking for authorization with these scopes:</p>
 							<ul><?php foreach($scopes as $scope) { ?>
 								<li><i class="fa  fa-check-square"></i><?php echo $scope; ?></li>
 								<?php } ?>
 							</ul>
 							<div class="authorize-button-wrapper">
 								<form action="<?php echo Request::current()->url() . URL::query() ?>" method="post" class="authorize-form">
-									<input id="authorizeButton" type="submit" class="authorize-button" value="Authorize" />
-									<input type="hidden" name="authorize" value="1" />
+									<input id="authorizeButton" type="submit" class="authorize-button" name="approve" value="Authorize" />
 								</form>
 							</div>
 
 							<div class="cancel-button-wrapper">
 								<form id="cancel" action="<?php echo Request::current()->url() . URL::query() ?>" method="post" class="authorize-cancel-form">
-									<input id="cancelButton" type="submit" class="cancel-button" value="Deny" />
-									<input type="hidden" name="authorize" value="0" />
+									<input id="cancelButton" type="submit" class="cancel-button" name="deny" value="Deny" />
 								</form>
 							</div>
 

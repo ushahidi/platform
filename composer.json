@@ -1,7 +1,7 @@
 {
     "require" : {
         "aura/di": "2.0.*@dev",
-        "bshaffer/oauth2-server-php": "dev-master",
+        "league/oauth2-server": "3.2.*",
         "kohana/core" : "3.3.*@dev",
         "kohana/database" : "3.3.*@dev",
         "kohana/cache" : "3.3.*@dev",

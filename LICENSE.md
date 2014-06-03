@@ -25,8 +25,7 @@ library and its license is listed below:
 * Data Provider modules - some of this code is released under GPLv3
 * The Kohana Framework and code modules are distributed under theKohana License Agreement <http://kohanaframework.org/license>
 * gisconverter.php is available under Modified BSD License <https://github.com/arenevier/gisconverter.php/blob/master/copying.txt>
-* KOAuth is released under MIT License <https://github.com/ushahidi/koauth/blob/master/LICENSE>
-* OAuth2-Server-PHP is available under the MIT License <https://github.com/bshaffer/oauth2-server-php/blob/develop/LICENSE>
+* OAuth2-Server is available under the MIT License <https://github.com/thephpleague/oauth2-server/blob/develop/license.txt>
 * Kohana-Imagefly is available under the MIT License <https://github.com/Bodom78/kohana-imagefly/blob/master/LICENSE>
 * BackboneJS is available under the MIT License <https://github.com/jashkenas/backbone/blob/master/LICENSE>
 * MarionetteJS is available under the MIT License <http://mutedsolutions.mit-license.org/>
@@ -36,8 +35,7 @@ library and its license is listed below:
 * RequireJS-text is released under two licenses: new BSD, and MIT. <http://github.com/requirejs/text>
 * Almond is released under two licenses: new BSD, and MIT. <ttp://github.com/jrburke/almond>
 * Leaflet is available under the BSD 2-clause licnse <https://github.com/Leaflet/Leaflet/blob/master/LICENSE>
-* JSO2 is available under Simplified BSD Licence <https://github.com/andreassolberg/jso/blob/version2/jso2.js>
-* JQuery is available under the MIT License <https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt>
+* jQuery is available under the MIT License <https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt>
 * Foundation is available under the MIT License <https://github.com/zurb/foundation/blob/master/LICENSE>
 * Modernizr is available under the MIT License
 * Handlebars is available under the MIT License <https://github.com/wycats/handlebars.js/blob/master/LICENSE>

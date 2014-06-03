@@ -1,6 +1,10 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
-class Migration_Oauth2_0_1_20140522164823 extends Minion_Migration_Base {
+/**
+ * Initial schema setup for oauth module
+ */
+
+class Migration_Oauth2_0_1_20130418204221 extends Minion_Migration_Base {
 
 	/**
 	 * Run queries needed to apply this migration

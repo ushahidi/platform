@@ -44,61 +44,22 @@ class Controller_API_Sets_Posts extends Ushahidi_Api {
 	}
 
 	/**
-	 * Check if access is allowed
-	 * Checks if oauth token and user permissions
+	 * Get the request access method
 	 *
 	 * Overriding this method to allow POST/DELETE methods to be
 	 * PUT method because add/remove is equivalent to edit on the
 	 * set
 	 *
-	 * @return bool
-	 * @throws HTTP_Exception|OAuth_Exception
+	 * @return string
 	 */
-	protected function _check_access()
+	protected function _get_access_method()
 	{
-		// Check OAuth2 token is valid and has required scope
-		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
-		$response = new OAuth2\Response;
-		$scope_required = $this->_scope_required;
-
-		if ( ! $this->_oauth2_server->verifyResourceRequest($request, $response, $scope_required)) {
-			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
-			$this->_oauth2_server->processResponse($this->response);
-			return FALSE;
-		}
-
-		// Get user from token
-		$token = $this->_oauth2_server->getAccessTokenData($request, $response);
-		$this->user = ORM::factory('User', $token['user_id']);
-
-		$resource = $this->resource();
-
-		$method = strtolower($this->request->method());
-
-		// Make POST or DELETE method a PUT
-		if ($method == 'delete' OR $method == 'post')
+		$method = parent::_get_access_method();
+		if ($method === 'delete' OR $method === 'post')
 		{
 			$method = 'put';
 		}
-		// Does the user have required role/permissions ?
-		if ( ! $this->acl->is_allowed($this->user, $resource, $method))
-		{
-			// @todo proper message
-			if (isset($resource->id))
-				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource id :id', array(
-					':resource' => ($resource instanceof Acl_Resource_Interface) ? $resource->get_resource_id() : $resource,
-					':id' => $resource->id
-					));
-			else
-			{
-				throw HTTP_Exception::factory('403', 'You do not have permission to access :resource', array(
-					':resource' => ($resource instanceof Acl_Resource_Interface) ? $resource->get_resource_id() : $resource,
-					));
-			}
-			return FALSE;
-		}
-
-		return TRUE;
+		return $method;
 	}
 
 	/**

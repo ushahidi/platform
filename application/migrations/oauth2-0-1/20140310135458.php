@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
-class Migration_Oauth2_0_1_20140522164823 extends Minion_Migration_Base {
+class Migration_Oauth2_0_1_20140310135458 extends Minion_Migration_Base {
 
 	/**
 	 * Run queries needed to apply this migration

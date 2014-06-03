@@ -14,12 +14,10 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 
 		// Save oauth object in App - just in case
 		App.oauth = OAuth;
-		App.vent.on('login', OAuth.login);
-		App.vent.on('logout', OAuth.logout);
 
 		// Quick helper to determine whether or not oauth is logged in
 		App.loggedin = function() {
-			return OAuth.provider.providerID === 'ushahidi_implicit';
+			return OAuth.getClientType() === 'user';
 		};
 
 		// Quick helper to determine if a feature is enabled

@@ -18,7 +18,6 @@ return array(
 
 	// Submodules
 	'migrations' => MODPATH.'migrations',
-	'koauth'     => MODPATH.'koauth',
 	'imagefly'   => MODPATH.'imagefly', // Dynamic image generation
 	'ACL'        => MODPATH.'ACL', // Access control layer based on Zend_ACL
 	'A1'         => MODPATH.'A1', // Auth library using bcrypt

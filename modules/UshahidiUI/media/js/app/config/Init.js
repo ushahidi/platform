@@ -15,6 +15,7 @@ require.config(
 	paths :
 	{
 		'jquery' : '../../bower_components/jquery/dist/jquery',
+		'jquery.cookie' : '../../bower_components/jquery.cookie/jquery.cookie',
 		'simplepicker' : '../../bower_components/jquery-simplepicker/jquery.simplepicker',
 		'underscore' : '../../bower_components/lodash/dist/lodash',
 		'backbone' : '../../bower_components/backbone/backbone',
@@ -23,9 +24,6 @@ require.config(
 		'leaflet' : '../../bower_components/leaflet/leaflet',
 		'l.geosearch' : '../../bower_components/L.GeoSearch/src/js',
 		'leaflet-locatecontrol' : '../../bower_components/leaflet-locatecontrol/src',
-		'jso2' : '../libs/jso2',
-		'store' : '../libs/jso2/store',
-		'utils' : '../libs/jso2/utils',
 		'moment' : '../../bower_components/moment/moment',
 		'ddt' : '../../bower_components/ddt/ddt',
 		'underscore.string' : '../../bower_components/underscore.string/lib/underscore.string',
@@ -134,7 +132,7 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt'],
+require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt', 'jquery.cookie'],
 	function(App, AppRouter, Controller, $)
 	{
 		App.appRouter = new AppRouter(

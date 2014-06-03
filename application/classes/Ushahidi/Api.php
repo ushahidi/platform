@@ -85,11 +85,6 @@ class Ushahidi_Api extends Controller {
 	protected $_record_allowed_orderby = array('id');
 
 	/**
-	 * @var OAuth2\Server
-	 */
-	protected $_oauth2_server;
-
-	/**
 	 * @var string oauth2 scope required for access
 	 */
 	protected $_scope_required = 'undefined';
@@ -112,8 +107,6 @@ class Ushahidi_Api extends Controller {
 		Kohana_Exception::$error_view = 'error/api';
 		Kohana_Exception::$error_layout = FALSE;
 		HTTP_Exception_404::$error_view = 'error/api';
-
-		$this->_oauth2_server = new Koauth_OAuth2_Server();
 
 		$this->acl  = A2::instance();
 		$this->auth = $this->acl->auth();
@@ -176,6 +169,18 @@ class Ushahidi_Api extends Controller {
 	}
 
 	/**
+	 * Get the request access method
+	 *
+	 * Allows controllers to customize how different methods are treated.
+	 *
+	 * @return string
+	 */
+	protected function _get_access_method()
+	{
+		return strtolower($this->request->method());
+	}
+
+	/**
 	 * Check if access is allowed
 	 * Checks if oauth token and user permissions
 	 *
@@ -184,23 +189,33 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected function _check_access()
 	{
-		// Check OAuth2 token is valid and has required scope
-		$request = Koauth_OAuth2_Request::createFromRequest($this->request);
-		$response = new OAuth2\Response();
-		$scopeRequired = $this->_scope_required;
-		if (! $this->_oauth2_server->verifyResourceRequest($request, $response, $scopeRequired)) {
-			// if the scope required is different from what the token allows, this will send a "401 insufficient_scope" error
-			$this->_oauth2_server->processResponse($this->response);
-			return FALSE;
+		$server = service('oauth.server.resource');
+
+		// Using an "Authorization: Bearer xyz" header is required, except for GET requests
+		$require_header = $this->request->method() !== Request::GET;
+
+		try
+		{
+			$server->isValid($require_header);
+		}
+		catch (League\OAuth2\Server\Exception\InvalidAccessTokenException $e)
+		{
+			throw HTTP_Exception::factory('400', $e->getMessage());
 		}
 
-		// Get user from token
-		$token = $this->_oauth2_server->getAccessTokenData($request, $response);
-		$this->user = ORM::factory('User', $token['user_id']);
+		if ($this->_scope_required AND !$server->hasScope($this->_scope_required))
+		{
+			throw HTTP_Exception::factory('403', 'Token does not have required scope: :scope', array(
+				':scope' => $this->_scope_required,
+				));
+		}
 
-		$resource = $this->resource();
+		$this->user = ORM::factory('User', $server->getOwnerId());
+		$resource   = $this->resource();
+		$method     = $this->_get_access_method();
+
 		// Does the user have required role/permissions ?
-		if (! $this->acl->is_allowed($this->user, $resource, strtolower($this->request->method())) )
+		if (! $this->acl->is_allowed($this->user, $resource, $method) )
 		{
 			// @todo proper message
 			if (isset($resource->id))

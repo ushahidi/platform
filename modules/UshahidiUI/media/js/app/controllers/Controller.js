@@ -317,34 +317,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore',
 				});
 			},
 
-			login : function ()
-			{
-				var that = this;
-				require(['views/LoginView', 'text!templates/Header_login.html', 'handlebars'], function(LoginView, workspaceTpl, Handlebars)
-				{
-					App.vent.trigger('page:change', 'login');
-					that.layout.mainRegion.show(new LoginView());
-					// @FIXME this will break other controllers, fix this when wiring login properly
-					that.layout.headerRegion.show(new HeaderView({
-						template: Handlebars.compile(workspaceTpl)
-					}));
-					that.layout.footerRegion.close();
-				});
-			},
-			register : function ()
-			{
-				var that = this;
-				require(['views/RegisterView', 'text!templates/Header_login.html', 'handlebars'], function(RegisterView, workspaceTpl, Handlebars)
-				{
-					App.vent.trigger('page:change', 'register');
-					that.layout.mainRegion.show(new RegisterView());
-					// @FIXME this will break other controllers, fix this when wiring login properly
-					that.layout.headerRegion.show(new HeaderView({
-						template: Handlebars.compile(workspaceTpl)
-					}));
-					that.layout.footerRegion.close();
-				});
-			},
 			// Extra postCreate handler to give us a direct URL to posts/create
 			postCreate : function ()
 			{
