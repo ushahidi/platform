@@ -146,8 +146,11 @@ define(['backbone', 'jquery', 'underscore', 'ddt', 'util/App.storage'],
 				},
 				ajax: function(settings)
 				{
-					return this.getToken(function(token) {
+					var defer = $.Deferred();
+
+					this.getToken(function(token) {
 						if (!token) {
+							defer.fail('Failed to get OAuth token, unable to make authenticated ajax call');
 							throw 'Failed to get OAuth token, unable to make authenticated ajax call';
 						}
 						if (!settings) {
@@ -158,8 +161,13 @@ define(['backbone', 'jquery', 'underscore', 'ddt', 'util/App.storage'],
 						}
 						settings.headers.Authorization = 'Bearer ' + token;
 						ddt.log('OAuth', 'making AJAX request', settings);
-						return $.ajax(settings).fail(handleTokenError(settings));
+						return $.ajax(settings)
+							.fail(handleTokenError(settings))
+							.done(defer.resolve)
+							.fail(defer.reject);
 					});
+
+					return defer.promise();
 				}
 			};
 
