@@ -12,15 +12,14 @@
 use Ushahidi\Data;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Usecase\User\LoginRepository;
-use Ushahidi\Exception\ValidatorException;
 
 class Ushahidi_Validator_User_Login implements Validator
 {
-	private $errors = array();
+	private $valid;
 
 	public function check(Data $input)
 	{
-		$valid = Validation::factory($input->asArray())
+		$this->valid = Validation::factory($input->asArray())
 			->rules('username', array(
 					array('not_empty'),
 					array('max_length', array(':value', 255)),
@@ -32,10 +31,11 @@ class Ushahidi_Validator_User_Login implements Validator
 					// is plaintext, because we always want to run the hash check.
 				));
 
-		if (!$valid->check())
-			throw new ValidatorException("Failed to validate user registration", $valid->errors('user'));
+		return $this->valid->check();
+	}
 
-		return TRUE;
+	public function errors($from = 'user')
+	{
+		return $this->valid->errors($from);
 	}
 }
-

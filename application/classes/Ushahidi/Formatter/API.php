@@ -51,6 +51,10 @@ class Ushahidi_Formatter_API implements Formatter
 			{
 				$data[$field] = date(DateTime::W3C, $entity->$field);
 			}
+			elseif ($field === 'color')
+			{
+				$data[$field] = '#' . ltrim($entity->$field);
+			}
 			else
 			{
 				$data[$field] = $entity->$field;

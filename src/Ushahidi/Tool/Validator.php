@@ -18,7 +18,12 @@ interface Validator
 	/**
 	 * @param  Ushahidi\Data to be checked
 	 * @return bool
-	 * @throws Ushahidi\Exception\ValidatorException
 	 */
 	public function check(Data $entity);
+
+	/**
+	 * @param  String  $source
+	 * @return Array
+	 */
+	public function errors($source = null);
 }

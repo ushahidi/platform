@@ -62,7 +62,7 @@ abstract class Ushahidi_Repository
 		$result = $this->selectQuery($where)
 			->select([DB::expr('COUNT(*)'), 'total'])
 			->execute($this->db);
-		return $result->get('total');
+		return $result->get('total') ?: 0;
 	}
 
 	/**

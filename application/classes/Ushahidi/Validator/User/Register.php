@@ -14,22 +14,20 @@
 use Ushahidi\Data;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Usecase\User\RegisterRepository;
-use Ushahidi\Exception\ValidatorException;
 
 class Ushahidi_Validator_User_Register implements Validator
 {
 	private $repo;
-
-	private $errors = array();
+	private $valid;
 
 	public function __construct(RegisterRepository $repo)
 	{
-		$this->repo = $repo;
+		$this->this->repo = $repo;
 	}
 
 	public function check(Data $input)
 	{
-		$valid = Validation::factory($input->asArray())
+		$this->valid = Validation::factory($input->asArray())
 			->rules('email', array(
 					array('not_empty'),
 					array('email'),
@@ -46,13 +44,11 @@ class Ushahidi_Validator_User_Register implements Validator
 					// Password is hashed at this point, there is no reason to validate length
 				));
 
-		$okay = $valid->check();
+		return $this->valid->check();
+	}
 
-		if (!$okay)
-		{
-			throw new ValidatorException("Failed to validate user registration", $valid->errors('user'));
-		}
-
-		return true;
+	public function errors($from = 'user')
+	{
+		return $this->valid->errors($from);
 	}
 }

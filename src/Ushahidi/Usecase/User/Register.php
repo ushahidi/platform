@@ -14,6 +14,7 @@ namespace Ushahidi\Usecase\User;
 use Ushahidi\Entity\User;
 use Ushahidi\Entity\UserRepository;
 use Ushahidi\Tool\Validator;
+use Ushahidi\Exception\ValidatorException;
 
 class Register
 {
@@ -28,7 +29,9 @@ class Register
 
 	public function interact(RegisterData $input)
 	{
-		$this->valid->check($input);
+		if (!$this->valid->check($input))
+			throw new ValidatorException("Failed to validate user registration", $this->valid->errors());
+
 		$userid = $this->repo->register(
 			$input->email,
 			$input->username,

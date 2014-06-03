@@ -15,7 +15,7 @@ use Ushahidi\Entity\User;
 use Ushahidi\Entity\UserRepository;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Tool\PasswordAuthenticator;
-use Ushahidi\Exception\Login as LoginException;
+use Ushahidi\Exception\ValidatorException;
 
 class Login
 {
@@ -32,7 +32,8 @@ class Login
 
 	public function interact(LoginData $input)
 	{
-		$this->valid->check($input);
+		if (!$this->valid->check($input))
+			throw new ValidatorException("Failed to validate login", $this->valid->errors());
 
 		// Attempt to load the user
 		$user = $this->repo->getByUsername($input->username);
