@@ -36,9 +36,9 @@ define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/Workspa
 				// somewhere else, or even break up this view.
 				// also note that formatting these values need to be i18n compatible.
 				data.stats = {
-					'posts' : _.random(0, 10000),
-					'users' : _.random(1, 800),
-					'views' : _.random(100, 100000000)
+					'posts' : _.random(0, 1000),
+					'users' : _.random(1, 1000),
+					'views' : _.random(100, 1000)
 				};
 				data.posts = {
 					'published'   : _.random(1,500),
