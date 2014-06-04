@@ -40,7 +40,9 @@ require.config(
 		'alertify' : '../../bower_components/alertify/alertify',
 		'text' : '../../bower_components/requirejs-text/text',
 		'dropzone' : '../../bower_components/dropzone/downloads/dropzone-amd-module',
-		'syntaxhighlightjson' : '../libs/syntaxHighlightJson'
+		'syntaxhighlightjson' : '../libs/syntaxHighlightJson',
+		'geocoder' : '../../bower_components/geocoder-js/dist/geocoder',
+		'geopoint' : '../../bower_components/node-geopoint/geopoint'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
@@ -115,6 +117,11 @@ require.config(
 
 		'simplepicker' : {
 			deps: ['jquery'],
+		},
+
+		'geopoint' :
+		{
+			'exports' : 'GeoPoint'
 		},
 
 		'foundation/foundation' : {deps: ['jquery'], exports: 'Foundation'},
