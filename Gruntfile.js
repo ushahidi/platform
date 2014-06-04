@@ -130,7 +130,8 @@ module.exports = function(grunt) {
 				options :
 				{
 					config : uipath + 'config-dev.rb',
-					basePath: 'modules/UshahidiUI'
+					basePath: 'modules/UshahidiUI',
+					bundleExec: true
 				}
 			},
 
@@ -139,7 +140,8 @@ module.exports = function(grunt) {
 				options :
 				{
 					config : uipath + 'config.rb',
-					basePath: 'modules/UshahidiUI'
+					basePath: 'modules/UshahidiUI',
+					bundleExec: true
 				}
 			}
 		},
@@ -219,7 +221,7 @@ module.exports = function(grunt) {
 		// Clean release files
 		clean : {
 			release : ['build/**'],
-			css : [uipath + 'media/css/styles.css', uipath + 'media/css/test/styles.css'],
+			css : [uipath + 'media/css/style.css', uipath + 'media/css/test/style.css'],
 			js : [uipath + 'media/js/app/config/Init.min.js', uipath + 'media/js/libs/require.min.js']
 		}
 	});

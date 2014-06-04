@@ -13,7 +13,7 @@ node_modules*
 .flooignore
 .sublime-project
 build/*
-modules/UshahidiUI/media/bower_components/*
+Gemfile.lock
 
 # Kohana deployment specifics
 application/logs/*

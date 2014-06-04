@@ -12,13 +12,15 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 		'text!templates/Map.html',
 		'text!templates/Popup.html',
 		'text!templates/MapAttribution.html',
+		'text!templates/MapAttributionHOT.html',
 		'l.markercluster'
 	],
 	function(Marionette, Handlebars, _, App,
 		L,
 		template,
 		popupTemplate,
-		mapAttributionTemplate
+		mapAttributionTemplate,
+		mapAttributionHOTTemplate
 		)
 	{
 		// Hack to fix default image url
@@ -30,11 +32,18 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 			popupTemplate : Handlebars.compile(popupTemplate),
 			baseMaps : {
 				'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
-				'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'})
+				'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
+				'Humanitarian OSM': L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {attribution: mapAttributionHOTTemplate, subdomains: 'abcd'})
 			},
 			defaultMap : 'MapQuest',
 			collapsed : false,
 			clustering : false,
+			defaultView : {
+				lat : -36.85,
+				lon : 174.78,
+				zoom: 5,
+				fitDataOnMap: true
+			},
 			className : 'map-view',
 			modelEvents : {
 			  'sync': 'updateMarkers'
@@ -54,6 +63,7 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 			 *   <object>  model      - Model to show location data for, used to populate dataUrl. Takes precedence over collection URL.
 			 *   <object>  collection - Collection to show location data for, used to populate dataUrl
 			 *   <boolean> clustering - Enable clustering of map points with leaflet.markercluster
+			 *   <object>  defaultView - Starting view for the map. Expects lat, lon, zoom options.
 			 **/
 			initialize : function (options)
 			{
@@ -72,6 +82,12 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 				if (options.clustering)
 				{
 					this.clustering = options.clustering;
+				}
+
+				// Map start location
+				if (options.defaultView)
+				{
+					_.extend(this.defaultView, options.defaultView);
 				}
 
 				// Save custom dataUrl to view object
@@ -101,11 +117,13 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 
 				// create a map in the 'map' div, set the view to a given place and zoom
 				map = this.map = L.map(this.$('#map')[0], {
-					center : new L.LatLng(-36.85, 174.78),
-					zoom : 5,
+					center : new L.LatLng(this.defaultView.lat, this.defaultView.lon),
+					zoom : this.defaultView.zoom,
 					layers : [this.baseMaps[this.defaultMap]],
 					scrollWheelZoom : false
 				});
+				// Expose map for hacking / debugging
+				App.map = map;
 				// Disable 'Leaflet prefix on attributions'
 				map.attributionControl.setPrefix(false);
 
@@ -151,7 +169,7 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 
 				markers.addTo(this.map);
 
-				this.updateMarkers();
+				this.updateMarkers(this.defaultView.fitDataOnMap);
 
 				overlayMaps = { 'Posts': markers };
 
@@ -263,8 +281,9 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 
 			/**
 			 * Reload map markers from the server and add to map
+			 * @param {Boolean} fitDataOnMap   Move map bounds to fit data on the map
 			 */
-			updateMarkers : function ()
+			updateMarkers : function (fitDataOnMap)
 			{
 				var map = this.map,
 					posts = this.posts,
@@ -292,11 +311,14 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 						}
 
 						// Center map on post markers
-						map.fitBounds(cluster ? cluster.getBounds() : posts.getBounds());
-						// Avoid zooming further than 15 (particularly when we just have a single point)
-						if (map.getZoom() > 15)
+						if (fitDataOnMap)
 						{
-							map.setZoom(15);
+							map.fitBounds(cluster ? cluster.getBounds() : posts.getBounds());
+							// Avoid zooming further than 15 (particularly when we just have a single point)
+							if (map.getZoom() > 15)
+							{
+								map.setZoom(15);
+							}
 						}
 					},
 					data : (typeof this.collection !== 'undefined') ? this.collection.getFilterParams() : {}

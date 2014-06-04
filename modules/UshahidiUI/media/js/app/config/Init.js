@@ -40,7 +40,9 @@ require.config(
 		'alertify' : '../../bower_components/alertify/alertify',
 		'text' : '../../bower_components/requirejs-text/text',
 		'dropzone' : '../../bower_components/dropzone/downloads/dropzone-amd-module',
-		'syntaxhighlightjson' : '../libs/syntaxHighlightJson'
+		'syntaxhighlightjson' : '../libs/syntaxHighlightJson',
+		'geocoder' : '../../bower_components/geocoder-js/dist/geocoder',
+		'geopoint' : '../../bower_components/node-geopoint/geopoint'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
@@ -117,6 +119,11 @@ require.config(
 			deps: ['jquery'],
 		},
 
+		'geopoint' :
+		{
+			'exports' : 'GeoPoint'
+		},
+
 		'foundation/foundation' : {deps: ['jquery'], exports: 'Foundation'},
 		'foundation/foundation.abide': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.accordion': {deps: ['jquery', 'foundation/foundation'] },
@@ -138,13 +145,14 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt', 'jquery.cookie'],
+require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt', 'jquery.cookie', 'settings/SettingsApp'],
 	function(App, AppRouter, Controller, $)
 	{
 		App.appRouter = new AppRouter(
 		{
 			controller : new Controller()
 		});
+
 		App.start();
 		window.App = App;
 		$(document).on('click.app', '.js-stub', function(e)

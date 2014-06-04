@@ -4,14 +4,14 @@
 
 			<div class="location-field">
 				<label class="visually-hidden" for="location-field">Location</label>
-				<input aria-labelledby="" type="text" id="location-field" class="location-field" placeholder="Location" value="">
+				<input type="text" id="location-field" class="location-field js-search-location" placeholder="Location" value="">
 			</div>
 
 			<!-- TODO: need to figure out best solution for tags, time etc... -->
 			<div class="tags-select">
 				<label class="visually-hidden" for="tags">Tags</label>
 				{{#if tags}}
-				<select class="js-select-tag-option">
+				<select class="js-search-tag">
 					<option value="" selected>Tags</option>
 					{{#each tags}}
 			        <option value="{{id}}">{{tag}}</option>
@@ -22,7 +22,7 @@
 
 			<div class="sets-select">
 				<label class="visually-hidden" for="sets">Sets</label>
-				<select >
+				<select class="js-search-set">
 					<option selected DISABLED>Sets</option>
 					<option>SET #1</option>
 					<option>SET #2</option>
@@ -32,7 +32,7 @@
 
 			<div class="time-select">
 				<label class="visually-hidden" for="time">Time</label>
-				<select >
+				<select class="js-search-time">
 					<option selected DISABLED>Time</option>
 					<option>Time #1</option>
 					<option>Time #2</option>
@@ -43,7 +43,7 @@
 			<div class="search-field-wrapper">
 				<div class="search-field">
 					<label class="visually-hidden" for="search-field">Search</label>
-					<input aria-labelledby="search-label" type="search" id="q" class="search-field" placeholder="Keyword" value="">
+					<input type="search" id="q" class="search-field js-search-keyword" placeholder="Keyword" value="">
 				</div>
 
 				<div class="search-bar-button">
