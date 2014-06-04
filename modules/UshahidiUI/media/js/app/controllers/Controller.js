@@ -7,7 +7,7 @@
  * @license	https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'App', 'backbone', 'marionette', 'underscore',
+define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 	'controllers/ModalController',
 
 	'views/AppLayout',
@@ -28,7 +28,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore',
 
 	'models/UserModel'
 	],
-	function($, App, Backbone, Marionette, _,
+	function($, App, Backbone, Marionette, _, alertify,
 		ModalController,
 
 		AppLayout,
@@ -239,6 +239,12 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore',
 									relatedPosts.remove(relatedPosts.at(3));
 								});
 						}
+					})
+					// Couldn't load post - redirect to homepage
+					.fail(function ()
+					{
+						alertify.error('The post you requested could not be found.');
+						App.appRouter.navigate('', { trigger : true });
 					});
 
 					// Make sure we have loaded the form and user before we render the post details
