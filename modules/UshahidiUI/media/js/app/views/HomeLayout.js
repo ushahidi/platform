@@ -48,7 +48,8 @@ define(['App', 'marionette', 'handlebars', 'underscore',
 					ddt.log('HomeLayout', 'showMap');
 					this.mapRegion.show(new MapView({
 						collection : this.collection,
-						clustering : App.config.map.clustering
+						clustering : App.config.map.clustering,
+						defaultView : App.config.map.default_view
 					}));
 				}
 				else if(! this.views.map)

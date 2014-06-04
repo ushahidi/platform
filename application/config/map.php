@@ -13,4 +13,12 @@ return array(
 	// Enable marker clustering with leaflet.markercluster
 	'clustering' => FALSE,
 	'maxClusterRadius' => 50,
+	// Map start location
+	'default_view' => array(
+		'lat' => -1.3048035,
+		'lon' => 36.8473969,
+		'zoom' => 2,
+		// Fit map boundaries to current data rendered
+		'fitDataOnMap' => true
+	)
 );
