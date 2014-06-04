@@ -21,6 +21,28 @@ html, body {
 	min-height: 100%;
 }
 
+body > div.app-warning {
+	width: 50%;
+	max-width: 960px;
+	min-width: 320px;
+	padding: 50px 30px 30px;
+	margin: 0 auto 30px;
+}
+body > div.app-loading {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	text-align: center;
+	vertical-align: middle;
+	height: 4em;
+	i.fa-spin {
+		padding: 0 !important;
+	}
+}
+
 /*Font-Awesome global icon padding*/
 [class^="fa"], [class*=" fa"] {
 	padding-right: emCalc(6px);

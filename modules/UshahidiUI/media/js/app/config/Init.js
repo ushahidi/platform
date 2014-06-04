@@ -152,4 +152,5 @@ require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt', 
 			e.preventDefault();
 			var alertify = require('alertify');
 			alertify.log('This action has not been implemented yet.');
-	});	});
+		});
+	});

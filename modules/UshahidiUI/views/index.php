@@ -62,5 +62,24 @@
 
 </head>
 <body>
+<noscript>Ushahidi requires Javascript to be enabled. Please enable Javascript and refresh the page.</noscript>
+<?php if (Kohana::$environment !== Kohana::PRODUCTION AND !is_dir(__DIR__ . '/../media/bower_components')): ?>
+<div id="app-failure-warning" class="app-warning">
+	<h4>Bower Components Missing</h4>
+	<p>
+		Please check that you have followed the <a href="https://wiki.ushahidi.com/display/WIKI/Installing+Ushahidi+3.x">installation guide</a>
+		completely, including installing <a href="http://howtonode.org/introduction-to-npm">NPM</a> and <a href="http://bower.io/">Bower</a>,
+		and then running <code>bower install</code> in your terminal.
+	</p>
+	<p>
+		If you have followed all of those steps, and are still seeing this message, please let us know via Github, email, or IRC!
+	</p>
+</div>
+<?php else: ?>
+<div id="app-is-loading" class="app-loading">
+	<i class="fa fa-2x fa-refresh fa-spin"></i>
+	<span class="hide">Loading...</span>
+</div>
+<?php endif; ?>
 </body>
 </html>
