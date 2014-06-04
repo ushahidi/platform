@@ -27,8 +27,11 @@ class Migration_Oauth_league_20140604205210 extends Minion_Migration_Base {
 	public function down(Kohana_Database $db)
 	{
 		// Revert
+		$replace = URL::base(true, true) . 'user/oauth';
+
 		$query = DB::update('oauth_client_endpoints')
-			->set(array('redirect_uri' => '/user/oauth'));
+			->set(array('redirect_uri' => '/user/oauth'))
+			->where('redirect_uri', '=', $replace);
 
 		$query->execute($db);
 	}
