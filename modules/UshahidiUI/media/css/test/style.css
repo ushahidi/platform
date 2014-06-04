@@ -9238,13 +9238,13 @@ img.mfp-img {
   /* Firefox 4, Safari 5, Opera 10, IE 9 */
 }
 
-/* line 16, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 15, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-text {
   padding: 10px;
   border-radius: 3px;
 }
 
-/* line 21, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 20, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button {
   border-radius: 3px;
   color: #fcfcfc;
@@ -9254,24 +9254,24 @@ img.mfp-img {
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
-/* line 31, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 30, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button:hover,
 .alertify-button:focus {
   outline: none;
 }
 
-/* line 35, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 34, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button:focus {
   box-shadow: 0 0 15px #2B72D5;
 }
 
-/* line 39, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 38, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button:active {
   position: relative;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* line 46, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 45, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button-cancel,
 .alertify-button-cancel:hover,
 .alertify-button-cancel:focus {
@@ -9279,7 +9279,7 @@ img.mfp-img {
   border: 1px solid #108ca2;
 }
 
-/* line 53, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 52, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-button-ok,
 .alertify-button-ok:hover,
 .alertify-button-ok:focus {
@@ -9287,12 +9287,12 @@ img.mfp-img {
   border: 1px solid #108ca2;
 }
 
-/* line 58, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 57, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-logs {
   width: 304px;
 }
 
-/* line 62, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 61, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-log {
   background: #1F1F1F;
   padding: 15px;
@@ -9300,12 +9300,12 @@ img.mfp-img {
   color: #fcfcfc;
 }
 
-/* line 69, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 68, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-log-error {
   background: #C50813;
 }
 
-/* line 73, ../../scss/plugins/_alertify-custom-theme.scss */
+/* line 72, ../../scss/plugins/_alertify-custom-theme.scss */
 .alertify-log-success {
   background: #3CB81C;
 }
@@ -13283,8 +13283,6 @@ img.mfp-img {
   width: 100%;
   float: left;
   background-color: #e9ebef;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
@@ -14779,15 +14777,11 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 /* line 30, ../../scss/modules/header/_topbar.scss */
 .top-bar {
   height: 45px;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 @media only screen and (min-width: 64.063em) {
   /* line 30, ../../scss/modules/header/_topbar.scss */
   .top-bar {
-    -webkit-box-shadow: 0;
-    -moz-box-shadow: 0;
     box-shadow: 0;
   }
 }
@@ -14915,8 +14909,6 @@ nav[role="sub-navigation"] {
   padding-right: 0;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   max-height: 0;
@@ -15247,8 +15239,6 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375rem;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 2px 4px -1px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 2px 4px -1px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 2px 4px -1px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   color: #9a9797;
@@ -15885,8 +15875,6 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375rem;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #226a9c;
   width: 100%;
@@ -17059,8 +17047,6 @@ nav[role="sub-navigation"] li a {
 
 /* line 33, ../../scss/modules/messages/config/modules/_data-provider-card.scss */
 .data-provider-card {
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
@@ -18262,8 +18248,6 @@ nav[role="sub-navigation"] li a {
   float: left;
   background-color: #323a45;
   padding: 1em;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   z-index: 1;
 }
@@ -18396,8 +18380,6 @@ nav[role="sub-navigation"] li a {
   background-color: #fcfcfc;
   padding: 1em;
   margin-bottom: 20px;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
@@ -18869,8 +18851,6 @@ nav[role="sub-navigation"] li a {
   width: 100%;
   float: left;
   background-color: #fcfcfc;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   margin-left: 0;
 }
@@ -18994,8 +18974,6 @@ nav[role="sub-navigation"] li a {
   margin-top: 0;
   margin-bottom: 0;
   max-width: 80rem;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background: #323a45;
   margin-bottom: 20px;
@@ -19426,8 +19404,6 @@ nav[role="sub-navigation"] li a {
   text-align: center;
   background-color: #fcfcfc;
   padding-bottom: 12px;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
@@ -19627,8 +19603,6 @@ TODO: may need a notification mixin here
   padding-right: 0;
   width: 100%;
   float: left;
-  -webkit-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
-  -moz-box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   color: #9a9797;
