@@ -22,7 +22,6 @@ define(['marionette', 'settings/SettingsView'],
 		SettingsAPI = {
 			showSiteSettings : function()
 			{
-				var that = this;
 				App.vent.trigger('page:change', 'settings');
 				App.layout.mainRegion.show(new SettingsView());
 			},
