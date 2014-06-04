@@ -25,7 +25,7 @@
     "leaflet-locatecontrol": "https://github.com/domoritz/leaflet-locatecontrol.git#~0.27.0",
     "backbone.paginator": "~2.0.0",
     "geocoder-js": "https://github.com/geocoder-php/geocoder-js.git#~0.0.1",
-    "node-geopoint": "https://github.com/davidwood/node-geopoint.git"
+    "node-geopoint": "https://github.com/davidwood/node-geopoint.git",
     "leaflet.markercluster": "~0.4.0"
   },
   "devDependencies": {}
