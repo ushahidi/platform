@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'jquery', 'alertify', 'underscore', 'text!templates/Settings.html', 'models/ConfigModel'],
+define([ 'App', 'marionette', 'handlebars', 'jquery', 'alertify', 'underscore', 'text!settings/Settings.html', 'models/ConfigModel'],
 	function( App, Marionette, Handlebars, $, alertify, _, template, ConfigModel)
 	{
 		var updateConfig = function(group, hash)
@@ -20,7 +20,7 @@ define([ 'App', 'marionette', 'handlebars', 'jquery', 'alertify', 'underscore', 
 					{
 						var oldGroup = _.clone(App.config[group]),
 							newConfig = {};
-						
+
 						newConfig[group] = _.extend(oldGroup, hash);
 
 						// trigger a config update throughout the app

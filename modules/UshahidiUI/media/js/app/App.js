@@ -35,17 +35,12 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			body : 'body'
 		});
 
-		function isMobile()
+		App.on("initialize:after", function(/*options*/)
 		{
-			var ua = (navigator.userAgent || navigator.vendor || window.opera, window, window.document);
-			return (/iPhone|iPod|iPad|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
-		}
-
-		App.mobile = isMobile();
-
-		App.addInitializer(function(/*options*/)
-		{
-			Backbone.history.start();
+			if (Backbone.history)
+			{
+				Backbone.history.start();
+			}
 
 			// Init foundation
 			$(document).foundation();

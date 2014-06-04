@@ -61,7 +61,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore',
 					user.fetch();
 				}
 
-				this.layout = new AppLayout();
+				this.layout = App.layout = new AppLayout();
 				App.body.show(this.layout);
 
 				this.layout.headerRegion.show(new HeaderView());
@@ -326,15 +326,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore',
 				}
 
 				this.modalController.postCreate();
-			},
-			settings : function()
-			{
-				var that = this;
-				require(['views/SettingsView'], function(SettingsView)
-				{
-					App.vent.trigger('page:change', 'settings');
-					that.layout.mainRegion.show(new SettingsView());
-				});
 			},
 			messages : function (view)
 			{

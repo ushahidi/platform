@@ -32,8 +32,6 @@ define(['marionette'],
 				'sets/:id' : 'setDetail',
 				'users' : 'users',
 				'tags' : 'tags',
-				'settings/site' : 'settings',
-
 				'apiexplorer' : 'apiExplorer',
 				//'login' : 'login',
 				//'register' : 'register',
