@@ -35,7 +35,7 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			body : 'body'
 		});
 
-		App.on("initialize:after", function(/*options*/)
+		App.on('initialize:after', function(/*options*/)
 		{
 			if (Backbone.history)
 			{
