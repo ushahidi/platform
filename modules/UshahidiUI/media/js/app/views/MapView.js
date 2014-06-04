@@ -12,13 +12,15 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 		'text!templates/Map.html',
 		'text!templates/Popup.html',
 		'text!templates/MapAttribution.html',
+		'text!templates/MapAttributionHOT.html',
 		'l.markercluster'
 	],
 	function(Marionette, Handlebars, _, App,
 		L,
 		template,
 		popupTemplate,
-		mapAttributionTemplate
+		mapAttributionTemplate,
+		mapAttributionHOTTemplate
 		)
 	{
 		// Hack to fix default image url
@@ -30,7 +32,8 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 			popupTemplate : Handlebars.compile(popupTemplate),
 			baseMaps : {
 				'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
-				'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'})
+				'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
+				'Humanitarian OSM': L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {attribution: mapAttributionHOTTemplate, subdomains: 'abcd'})
 			},
 			defaultMap : 'MapQuest',
 			collapsed : false,
