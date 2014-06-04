@@ -22,6 +22,7 @@ abstract class Ushahidi_Controller_Main extends Controller_Template {
 			// these values can be modified in db
 			'site'     => $config->get('site')->asArray(),
 			'features' => $config->get('features')->asArray(),
+			'map'      => $config->get('map')->asArray(),
 
 			// these can only be set in config files
 			'oauth'    => Kohana::$config->load('ushahidiui.oauth'),

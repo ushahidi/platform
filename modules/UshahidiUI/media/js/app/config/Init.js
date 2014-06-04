@@ -23,7 +23,8 @@ require.config(
 		'handlebars' : '../../bower_components/handlebars/handlebars',
 		'leaflet' : '../../bower_components/leaflet/leaflet',
 		'l.geosearch' : '../../bower_components/L.GeoSearch/src/js',
-		'leaflet-locatecontrol' : '../../bower_components/leaflet-locatecontrol/src',
+		'leaflet-locatecontrol' : '../../bower_components/leaflet-locatecontrol/src/L.Control.Locate',
+		'l.markercluster' : '../../bower_components/leaflet.markercluster/dist/leaflet.markercluster',
 		'moment' : '../../bower_components/moment/moment',
 		'ddt' : '../../bower_components/ddt/ddt',
 		'underscore.string' : '../../bower_components/underscore.string/lib/underscore.string',
@@ -90,6 +91,11 @@ require.config(
 			exports: 'L'
 		},
 		'leaflet-locatecontrol/L.Control.Locate.js': {
+			deps: ['leaflet'],
+			exports: 'L'
+		},
+
+		'l.markercluster': {
 			deps: ['leaflet'],
 			exports: 'L'
 		},

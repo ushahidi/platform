@@ -7,8 +7,19 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'text!templates/Map.html', 'text!templates/Popup.html', 'text!templates/MapAttribution.html'],
-	function(Marionette, Handlebars, _, App, L, template, popupTemplate, mapAttributionTemplate)
+define(['marionette', 'handlebars', 'underscore', 'App',
+		'leaflet',
+		'text!templates/Map.html',
+		'text!templates/Popup.html',
+		'text!templates/MapAttribution.html',
+		'l.markercluster'
+	],
+	function(Marionette, Handlebars, _, App,
+		L,
+		template,
+		popupTemplate,
+		mapAttributionTemplate
+		)
 	{
 		// Hack to fix default image url
 		L.Icon.Default.imagePath = App.config.baseurl + 'media/kohana/images';
@@ -23,6 +34,7 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'text!templa
 			},
 			defaultMap : 'MapQuest',
 			collapsed : false,
+			clustering : false,
 			className : 'map-view',
 			modelEvents : {
 			  'sync': 'updateMarkers'
@@ -37,10 +49,11 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'text!templa
 			 * Initialize the map view
 			 *
 			 * @param <object> options - Configuration object. Possible params:
-			 *   collapsed  - Starting 'collapsed' state for the map
-			 *   dataUrl    - Data Url to load geoJSON from. Takes precedence over model or collection URLs.
-			 *   model      - Model to show location data for, used to populate dataUrl. Takes precedence over collection URL.
-			 *   collection - Collection to show location data for, used to populate dataUrl
+			 *   <boolean> collapsed  - Starting 'collapsed' state for the map
+			 *   <string>  dataUrl    - Data Url to load geoJSON from. Takes precedence over model or collection URLs.
+			 *   <object>  model      - Model to show location data for, used to populate dataUrl. Takes precedence over collection URL.
+			 *   <object>  collection - Collection to show location data for, used to populate dataUrl
+			 *   <boolean> clustering - Enable clustering of map points with leaflet.markercluster
 			 **/
 			initialize : function (options)
 			{
@@ -54,11 +67,19 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'text!templa
 					this.collapsed = true;
 				}
 
+				// Cluster objects on the map?
+				this.clustering = false;
+				if (options.clustering)
+				{
+					this.clustering = options.clustering;
+				}
+
 				// Save custom dataUrl to view object
 				if (typeof options.dataUrl !== 'undefined')
 				{
 					this.dataUrl = options.dataUrl;
 				}
+
 
 				App.vent.on('map:showValue', this.showPostValue, this);
 			},
@@ -69,7 +90,8 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'text!templa
 				var that = this,
 						map,
 						overlayMaps,
-						posts;
+						posts,
+						markers;
 
 				// Don't re-render the map
 				if (this.map instanceof L.map)
@@ -111,11 +133,27 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'text!templa
 							}
 						}
 					}
-				}).addTo(this.map);
+				});
+
+				// Cluster markers on the map with Leaflet.markercluster
+				if (this.clustering)
+				{
+					markers = this.cluster = new L.MarkerClusterGroup({
+							maxClusterRadius: App.config.map.maxClusterRadius ? App.config.map.maxClusterRadius : 50,
+							showCoverageOnHover: false
+						})
+						.addLayer(posts);
+				}
+				else
+				{
+					markers = posts;
+				}
+
+				markers.addTo(this.map);
 
 				this.updateMarkers();
 
-				overlayMaps = { 'Posts': posts };
+				overlayMaps = { 'Posts': markers };
 
 				L.control.layers(this.baseMaps, overlayMaps).addTo(this.map);
 
@@ -229,22 +267,32 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'leaflet', 'text!templa
 			updateMarkers : function ()
 			{
 				var map = this.map,
-					posts = this.posts;
+					posts = this.posts,
+					cluster = this.cluster;
 
 				App.oauth.ajax({
 					url : this.getDataUrl(),
 					success: function (data) {
+						posts.clearLayers();
+						if (cluster)
+						{
+							cluster.clearLayers();
+						}
+
 						// If geojson was empty, return
 						if (data.features.length === 0)
 						{
 							return;
 						}
 
-						posts.clearLayers();
 						posts.addData(data);
+						if (cluster)
+						{
+							cluster.addLayer(posts);
+						}
 
 						// Center map on post markers
-						map.fitBounds(posts.getBounds());
+						map.fitBounds(cluster ? cluster.getBounds() : posts.getBounds());
 						// Avoid zooming further than 15 (particularly when we just have a single point)
 						if (map.getZoom() > 15)
 						{

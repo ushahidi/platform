@@ -23,7 +23,8 @@
     "dropzone": "~3.10.1",
     "L.GeoSearch": "https://github.com/smeijer/L.GeoSearch.git",
     "leaflet-locatecontrol": "https://github.com/domoritz/leaflet-locatecontrol.git#~0.27.0",
-    "backbone.paginator": "~2.0.0"
+    "backbone.paginator": "~2.0.0",
+    "leaflet.markercluster": "~0.4.0"
   },
   "devDependencies": {}
 }

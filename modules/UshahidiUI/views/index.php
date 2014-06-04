@@ -22,6 +22,8 @@
 		<!--[if lte IE 8]>
 			<link rel="stylesheet" type="text/css" href="<?php echo Media::url('bower_components/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
 		<![endif]-->
+		<link rel="stylesheet" href="<?php echo Media::url('bower_components/leaflet.markercluster/dist/MarkerCluster.css'); ?>" />
+		<link rel="stylesheet" href="<?php echo Media::url('bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css'); ?>" />
 
 		<!--Change to app.min.css for production-->
 		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>
