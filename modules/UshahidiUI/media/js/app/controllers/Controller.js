@@ -137,6 +137,12 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 			index : function()
 			{
 				App.vent.trigger('page:change', 'posts');
+				this.homeLayout.setViews({
+					map: true,
+					search: true,
+					list: true
+				});
+				App.vent.trigger('views:change', 'full');
 				App.Collections.Posts.setFilterParams({}, true);
 				this.showHomeLayout();
 			},
