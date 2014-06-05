@@ -146,37 +146,40 @@
 	.active.title:before {
 		content: "\f077";
 	}
+	i.fa {
+		width: 32px;
+	}
 }
 
 /*$CONTENT*/
-.workspace-menu .content {
+.workspace-menu dd .content {
 	margin: 0;
 	padding: 0;
-		li {
-			padding: 10px 0;
-			&:hover {
-				background: $secondary-color;
-			}
-			&.active {
-				background: $secondary-color;
-			}
-			a {
-				color: $body-font-color;
-				p {
-					margin: 0 20px 0 10px;
-					i {
-						color: $body-font-color;
-					}
-					span {
-						float: right;
-					}
+	li {
+		padding: 10px 0;
+		&:hover {
+			background: $secondary-color;
+		}
+		&.active {
+			background: $secondary-color;
+		}
+		a {
+			color: $body-font-color;
+			p {
+				margin: 0 20px 0 10px;
+				i {
+					color: $body-font-color;
+				}
+				span {
+					float: right;
 				}
 			}
 		}
-		> *:first-child, > *:last-child:not(.flex-video) {
+	}
+	> *:first-child, > *:last-child:not(.flex-video) {
 		padding: 0;
 		margin-bottom: 0;
-		}
+	}
 }
 
 /*$LABELS*/
