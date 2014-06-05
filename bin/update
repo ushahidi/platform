@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo ">>> Pulling source code"
+git pull
+git submodule sync
+git submodule update
+
+which composer >/dev/null 2>&1
+if [ $? -gt 0 ]; then
+	echo "!!! Missing the `composer` command, please install it: https://getcomposer.org/"
+	exit 1
+fi
+
+echo ">>> Updating server dependencies"
+[ -d vendor ] && composer update || composer install
+
+which bower >/dev/null 2>&1
+if [ $? -gt 0 ]; then
+	echo "!!! Missing the `bower` command, please install it: http://bower.io/"
+	exit 1
+fi
+
+echo ">>> Updating client dependencies"
+[ -d modules/UshahidiUI/media/bower_components ] && bower update || bower install
+
+echo ">>> Running migrations"
+./minion --task=migrations:run --up
