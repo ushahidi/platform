@@ -3,7 +3,7 @@
 echo ">>> Pulling source code"
 git pull
 git submodule sync
-git submodule update
+git submodule update --init --recursive
 
 which composer >/dev/null 2>&1
 if [ $? -gt 0 ]; then
