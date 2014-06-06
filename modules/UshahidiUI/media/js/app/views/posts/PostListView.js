@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/posts/PostListItemView', 'text!templates/posts/PostList.html'],
-	function( App, Marionette, Handlebars, _, alertify, PostListItemView, template)
+define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/posts/PostListItemView', 'text!templates/posts/PostList.html', 'views/EmptyView'],
+	function( App, Marionette, Handlebars, _, alertify, PostListItemView, template, EmptyView)
 	{
 		return Marionette.CompositeView.extend(
 		{
@@ -23,7 +23,13 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/posts
 			},
 
 			itemView: PostListItemView,
-			itemViewOptions: {},
+
+			itemViewOptions:
+			{
+				emptyMessage: 'No posts found.',
+			},
+
+			emptyView: EmptyView,
 
 			itemViewContainer: '.list-view-post-list',
 

@@ -204,27 +204,27 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		// date chcks
 		$created_after = $this->request->query('created_after');
-		if (! empty($create_after))
+		if (! empty($created_after))
 		{
-			$created_after = date('Y-m-d H:i:s', strtotime($create_after));
+			$created_after = date('U', strtotime($created_after));
 			$posts_query->where('created', '>=', $created_after);
 		}
 		$created_before = $this->request->query('created_before');
 		if (! empty($created_before))
 		{
-			$created_before = date('Y-m-d H:i:s', strtotime($created_before));
+			$created_before = date('U', strtotime($created_before));
 			$posts_query->where('created', '<=', $created_before);
 		}
 		$updated_after = $this->request->query('updated_after');
 		if (! empty($updated_after))
 		{
-			$updated_after = date('Y-m-d H:i:s', strtotime($updated_after));
+			$updated_after = date('U', strtotime($updated_after));
 			$posts_query->where('updated', '>=', $updated_after);
 		}
 		$updated_before = $this->request->query('updated_before');
 		if (! empty($updated_before))
 		{
-			$updated_before = date('Y-m-d H:i:s', strtotime($updated_before));
+			$updated_before = date('U', strtotime($updated_before));
 			$posts_query->where('updated', '<=', $updated_before);
 		}
 

@@ -81,8 +81,10 @@
 	@media #{$mobile-up} {
 		@include grid-column(4);
 	}
-		select {
+		input[type="text"] {
 			@include border-radius($global-radius);
+			height: 40px;
+			width: 50%;
 		}
 	@media #{$small} {
 		@include grid-column(3);

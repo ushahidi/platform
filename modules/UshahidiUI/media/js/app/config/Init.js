@@ -42,7 +42,8 @@ require.config(
 		'dropzone' : '../../bower_components/dropzone/downloads/dropzone-amd-module',
 		'syntaxhighlightjson' : '../libs/syntaxHighlightJson',
 		'geocoder' : '../../bower_components/geocoder-js/dist/geocoder',
-		'geopoint' : '../../bower_components/node-geopoint/geopoint'
+		'geopoint' : '../../bower_components/node-geopoint/geopoint',
+		'datetimepicker' : '../../bower_components/datetimepicker/jquery.datetimepicker'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
@@ -122,6 +123,10 @@ require.config(
 		'geopoint' :
 		{
 			'exports' : 'GeoPoint'
+		},
+
+		'datetimepicker' : {
+			deps: ['jquery'],
 		},
 
 		'foundation/foundation' : {deps: ['jquery'], exports: 'Foundation'},

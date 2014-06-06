@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geocoder', 'geopoint'],
+define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geocoder', 'geopoint', 'datetimepicker'],
 	function(Marionette, Handlebars, App, template, GeocoderJS, GeoPoint)
 	{
 		var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap');
@@ -22,11 +22,12 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geo
 				'submit form': 'SearchPosts',
 			},
 			ui : {
-				'tag' : '.js-search-tag',
-				'keyword' : '.js-search-keyword',
-				'location' : '.js-search-location',
-				'set' : '.js-search-set',
-				'time' : '.js-search-time'
+				tag : '.js-search-tag',
+				keyword : '.js-search-keyword',
+				location : '.js-search-location',
+				set : '.js-search-set',
+				timeFrom : '.js-search-time-from',
+				timeTo : '.js-search-time-to'
 			},
 
 			serializeData: function()
@@ -38,12 +39,20 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geo
 				return data;
 			},
 
+			onDomRefresh: function ()
+			{
+				this.ui.timeFrom.datetimepicker();
+				this.ui.timeTo.datetimepicker();
+			},
+
 			SearchPosts: function(e)
 			{
 				e.preventDefault();
 				var keyword = this.ui.keyword.val(),
 					tag = this.ui.tag.val(),
-					location = this.ui.location.val();
+					location = this.ui.location.val(),
+					timeFrom = this.ui.timeFrom.val(),
+					timeTo = this.ui.timeTo.val();
 
 				if (location)
 				{
@@ -64,7 +73,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geo
 						App.Collections.Posts.setFilterParams({
 							q : keyword,
 							tags : tag,
-							bbox: bbox
+							bbox: bbox,
+							created_after: timeFrom,
+							created_before: timeTo
 						});
 					});
 				}
@@ -72,7 +83,9 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geo
 				{
 					App.Collections.Posts.setFilterParams({
 						q : keyword,
-						tags : tag
+						tags : tag,
+						created_after: timeFrom,
+						created_before: timeTo
 					});
 				}
 			}
