@@ -1,7 +1,7 @@
 define(['jquery',
 	'foundation/foundation',
 	'foundation/foundation.abide',
-	'foundation/foundation.accordion',
+	//'foundation/foundation.accordion',
 	//'foundation/foundation.alert',
 	//'foundation/foundation.clearing',
 	'foundation/foundation.dropdown',
