@@ -196,7 +196,7 @@ class Controller_User extends Controller_Layout {
 		}
 		else
 		{
-			$this->redirect('user/login' . URL::query());
+			$this->redirect('/');
 		}
 	}
 
