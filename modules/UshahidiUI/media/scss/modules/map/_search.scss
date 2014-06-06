@@ -77,9 +77,9 @@
 }
 
 .time-select {
-	@include grid-column(12, $collapse: true);
+	@include grid-column(12);
 	@media #{$mobile-up} {
-		@include grid-column(6, $collapse: true);
+		@include grid-column(4);
 	}
 	@media #{$small} {
 		@include grid-column(3, $collapse: true);
