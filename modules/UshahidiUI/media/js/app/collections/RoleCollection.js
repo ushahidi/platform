@@ -7,14 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'models/RoleModel', 'App'],
-	function($, Backbone, RoleModel, App)
+define(['backbone', 'models/RoleModel', 'modules/config'],
+	function(Backbone, RoleModel, config)
 	{
 		// Creates a new Backbone Collection class object
 		var RoleCollection = Backbone.Collection.extend(
 		{
 			model : RoleModel,
-			url: App.config.baseurl + App.config.apiuri +'/roles',
+			url: config.get('apiurl') +'/roles',
 			// The Ushahidi API returns models under 'results'.
 			parse: function(response)
 			{

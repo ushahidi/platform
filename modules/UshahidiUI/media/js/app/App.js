@@ -22,10 +22,10 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 
 		// Quick helper to determine if a feature is enabled
 		App.feature = function(name) {
-			if (!App.config || !App.config.features) {
-				return false;
-			}
-			return Boolean(App.config.features[name]);
+			// config loaded at runtime to avoid any possible circular dependencies
+			var config = require('modules/config'),
+				features = config.get('features');
+			return Boolean(features[name]);
 		};
 
 		//Organize Application into regions corresponding to DOM elements
@@ -45,26 +45,6 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			// Init foundation
 			$(document).foundation();
 		});
-
-		// Global config params
-		App.config = _.extend({
-			baseurl : '/',
-			apiuri : 'api/v2',
-			imagedir : '/media/kohana/images',
-			jsdir : '/media/kohana/js',
-			cssdir : '/media/kohana/css'
-		}, window.config);
-
-		/**
-		 * Update App.config
-		 * @param {Object} newConfig new config vars to merge into old config
-		 */
-		App.updateConfig = function (newConfig)
-		{
-			_.extend(this.config, newConfig);
-			this.vent.trigger('config:change', this.config);
-			return this.config;
-		};
 
 		return App;
 	});

@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'underscore',
+define(['App', 'marionette', 'handlebars', 'underscore', 'modules/config',
 'text!templates/HomeLayout.html', 'views/SearchBarView', 'views/MapView', 'views/posts/PostListView'],
-	function(App, Marionette, Handlebars, _, template, SearchBarView, MapView, PostListView)
+	function(App, Marionette, Handlebars, _, config, template, SearchBarView, MapView, PostListView)
 	{
 		return Marionette.Layout.extend(
 		{
@@ -48,8 +48,8 @@ define(['App', 'marionette', 'handlebars', 'underscore',
 					ddt.log('HomeLayout', 'showMap');
 					this.mapRegion.show(new MapView({
 						collection : this.collection,
-						clustering : App.config.map.clustering,
-						defaultView : App.config.map.default_view
+						clustering : config.get('map').clustering,
+						defaultView : config.get('map').default_view
 					}));
 				}
 				else if(! this.views.map)

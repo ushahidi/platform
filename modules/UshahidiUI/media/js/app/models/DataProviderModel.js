@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'underscore', 'backbone', 'App'],
-	function($, _, Backbone, App) {
+define(['underscore', 'backbone', 'modules/config'],
+	function(_, Backbone, config) {
 		// Map API 'input' to Backbone Forms Fields
 		var inputFieldMap = {
 			'text' : 'Text',
@@ -26,7 +26,7 @@ define(['jquery', 'underscore', 'backbone', 'App'],
 
 		DataProviderModel = Backbone.Model.extend(
 		{
-			urlRoot: App.config.baseurl + App.config.apiuri + '/dataproviders',
+			urlRoot: config.get('apiurl') + '/dataproviders',
 			toString : function ()
 			{
 				return this.get('name');

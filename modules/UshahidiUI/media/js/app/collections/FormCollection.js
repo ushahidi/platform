@@ -7,14 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'models/FormModel', 'App'],
-	function($, Backbone, FormModel, App)
+define(['backbone', 'models/FormModel', 'modules/config'],
+	function(Backbone, FormModel, config)
 	{
 		// Creates a new Backbone Collection class object
 		var FormCollection = Backbone.Collection.extend(
 		{
 			model : FormModel,
-			url: App.config.baseurl + App.config.apiuri +'/forms',
+			url: config.get('apiurl') +'/forms',
 			// The Ushahidi API returns models under 'results'.
 			parse: function(response)
 			{

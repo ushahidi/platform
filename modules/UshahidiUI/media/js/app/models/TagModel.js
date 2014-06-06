@@ -7,11 +7,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'App'],
-	function(Backbone, App) {
+define(['backbone', 'modules/config'],
+	function(Backbone, config) {
 		var TagModel = Backbone.ModelFactory(
 		{
-			urlRoot: App.config.baseurl + App.config.apiuri +'/tags',
+			urlRoot: config.get('apiurl') +'/tags',
 
 			// To prevent tag selector widget in the create post form from breaking
 			toString : function ()

@@ -8,6 +8,7 @@
  */
 
 define(['marionette', 'handlebars', 'underscore', 'App',
+		'modules/config',
 		'leaflet',
 		'text!templates/Map.html',
 		'text!templates/Popup.html',
@@ -16,6 +17,7 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 		'l.markercluster'
 	],
 	function(Marionette, Handlebars, _, App,
+		config,
 		L,
 		template,
 		popupTemplate,
@@ -24,7 +26,7 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 		)
 	{
 		// Hack to fix default image url
-		L.Icon.Default.imagePath = App.config.baseurl + 'media/kohana/images';
+		L.Icon.Default.imagePath = config.get('baseurl') + 'media/kohana/images';
 
 		return Marionette.ItemView.extend(
 		{
@@ -157,7 +159,7 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 				if (this.clustering)
 				{
 					markers = this.cluster = new L.MarkerClusterGroup({
-							maxClusterRadius: App.config.map.maxClusterRadius ? App.config.map.maxClusterRadius : 50,
+							maxClusterRadius: config.get('map').maxClusterRadius || 50,
 							showCoverageOnHover: false
 						})
 						.addLayer(posts);

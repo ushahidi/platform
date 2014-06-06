@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'App', 'jquery', 'text!templates/Header.html', 'text!templates/partials/views-dropdown-nav.html'],
-	function(Marionette, Handlebars, App, $, template, viewsDropdown)
+define(['marionette', 'handlebars', 'App', 'modules/config', 'jquery', 'text!templates/Header.html', 'text!templates/partials/views-dropdown-nav.html'],
+	function(Marionette, Handlebars, App, config, $, template, viewsDropdown)
 	{
 		// Hacky - make sure we register partials before we call compile
 		Handlebars.registerPartial('views-dropdown-nav', viewsDropdown);
@@ -75,10 +75,10 @@ define(['marionette', 'handlebars', 'App', 'jquery', 'text!templates/Header.html
 			serializeData : function()
 			{
 				return {
-					site_name : App.config.site.site_name,
-					owner_name : App.config.site.owner_name,
+					site_name : config.get('site').site_name,
+					owner_name : config.get('site').owner_name,
 					logged_in : App.loggedin(),
-					login_url : window.config.baseurl + 'oauth?' + $.param(App.oauth.getAuthCodeParams())
+					login_url : config.get('baseurl') + 'oauth?' + $.param(App.oauth.getAuthCodeParams())
 				};
 			}
 		});

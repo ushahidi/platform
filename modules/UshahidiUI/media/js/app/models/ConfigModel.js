@@ -7,12 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'App'],
-	function($, Backbone, App) {
+define(['backbone'],
+	function(Backbone) {
 		var ConfigModel = Backbone.ModelFactory(
 		{
 			urlRoot: function() {
-				return App.config.baseurl + 'api/v2/config';
+				// this has to be defined as a closure to prevent a circular dependency
+				var config = require('modules/config');
+				return config.get('apiurl') + '/config';
 			},
 			idAttribute : '@group'
 		});

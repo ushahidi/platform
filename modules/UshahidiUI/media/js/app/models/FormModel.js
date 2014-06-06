@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'App'],
-	function($, Backbone, App)
+define(['backbone', 'modules/config'],
+	function(Backbone, config)
 	{
 		var valueToString = function(item) { return item.value; },
 		// Map API 'input' to Backbone Forms Fields
@@ -27,7 +27,7 @@ define(['jquery', 'backbone', 'App'],
 
 		FormModel = Backbone.ModelFactory(
 		{
-			urlRoot: App.config.baseurl + App.config.apiuri + '/forms',
+			urlRoot: config.get('apiurl') + '/forms',
 			initialize : function()
 			{
 				this.processForm();

@@ -7,14 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'models/SetModel', 'App', 'backbone.paginator'],
-	function($, Backbone, SetModel, App, PageableCollection)
+define(['backbone', 'models/SetModel', 'modules/config', 'backbone.paginator'],
+	function(Backbone, SetModel, config, PageableCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var SetCollection = PageableCollection.extend(
 		{
 			model : SetModel,
-			url: App.config.baseurl + App.config.apiuri + '/sets',
+			url: config.get('apiurl') + '/sets',
 			// The Ushahidi API returns models under 'results'.
 			parseRecords: function(response)
 			{

@@ -7,11 +7,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'App'],
-	function($, Backbone, App) {
+define(['backbone', 'modules/config'],
+	function(Backbone, config) {
 		var MessageModel = Backbone.ModelFactory(
 		{
-			urlRoot: App.config.baseurl + App.config.apiuri + '/messages',
+			urlRoot: config.get('apiurl') + '/messages',
 			toString : function ()
 			{
 				return this.get('message');

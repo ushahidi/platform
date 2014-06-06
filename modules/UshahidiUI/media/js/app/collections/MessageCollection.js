@@ -7,15 +7,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'underscore', 'backbone', 'models/MessageModel', 'App', 'backbone.paginator', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
-	function($, _, Backbone, MessageModel, App, PageableCollection, ResultsCollection, FilteredCollection)
+define(['underscore', 'backbone', 'models/MessageModel', 'modules/config', 'backbone.paginator', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
+	function(_, Backbone, MessageModel, config, PageableCollection, ResultsCollection, FilteredCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var MessageCollection = PageableCollection.extend(
 			_.extend(
 			{
 				model : MessageModel,
-				url: App.config.baseurl + App.config.apiuri + '/messages',
+				url: config.get('apiurl') + '/messages',
 
 				// Set state params for `Backbone.PageableCollection#state`
 				state: {

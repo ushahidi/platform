@@ -7,14 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'App', 'models/MediaModel'],
-	function($, Backbone, App, MediaModel)
+define(['backbone', 'modules/config', 'models/MediaModel'],
+	function(Backbone, config, MediaModel)
 	{
 		// Creates a new Backbone Collection class object
 		var MediaCollection = Backbone.Collection.extend(
 		{
 			model : MediaModel,
-			url: App.config.baseurl + App.config.apiuri +'/media',
+			url: config.get('apiurl') +'/media',
 
 			// The Ushahidi API returns models under 'results'.
 			parse: function(response)

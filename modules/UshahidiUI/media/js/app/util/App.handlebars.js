@@ -7,25 +7,22 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'moment', 'underscore.string', 'handlebars-paginate', 'text!templates/partials/pagination.html', 'text!templates/partials/list-info.html'],
-	function(Handlebars, moment, _str, paginate, paginationTpl, listInfoTpl)
+define(['handlebars', 'moment', 'modules/config', 'underscore.string', 'handlebars-paginate', 'text!templates/partials/pagination.html', 'text!templates/partials/list-info.html'],
+	function(Handlebars, moment, config, _str, paginate, paginationTpl, listInfoTpl)
 	{
 		Handlebars.registerHelper('baseurl', function()
 		{
-			var App = require ('App');
-			return App.config.baseurl;
+			return config.get('baseurl');
 		});
 
 		Handlebars.registerHelper('url', function(url)
 		{
-			var App = require ('App');
-			return App.config.baseurl  + url;
+			return config.get('baseurl')  + url;
 		});
 
 		Handlebars.registerHelper('imageurl', function(url)
 		{
-			var App = require ('App');
-			return App.config.baseurl + App.config.imagedir +  '/' + url;
+			return config.get('baseurl') + config.get('imagedir') +  '/' + url;
 		});
 
 		Handlebars.registerHelper('datetime-fromNow', function(timestamp)

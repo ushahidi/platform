@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'App', 'text!templates/Footer.html'],
-	function(Marionette, Handlebars, App, template)
+define(['marionette', 'handlebars', 'App', 'modules/config', 'text!templates/Footer.html'],
+	function(Marionette, Handlebars, App, config, template)
 	{
 		return Marionette.ItemView.extend(
 		{
@@ -19,8 +19,8 @@ define(['marionette', 'handlebars', 'App', 'text!templates/Footer.html'],
 			serializeData : function()
 			{
 				return {
-					site_name : App.config.site.site_name,
-					owner_name : App.config.site.owner_name
+					site_name : config.get('site').site_name,
+					owner_name : config.get('site').owner_name
 				};
 			}
 		});

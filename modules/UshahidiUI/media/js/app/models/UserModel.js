@@ -7,14 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'App'],
-	function(Backbone, App)
+define(['backbone', 'App', 'modules/config'],
+	function(Backbone, App, config)
 	{
-
 		var UserModel = Backbone.ModelFactory(
 		{
 
-			urlRoot: App.config.baseurl + App.config.apiuri + '/users',
+			urlRoot: config.get('apiurl') + '/users',
 			schema : function ()
 			{
 				var schema = {

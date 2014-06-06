@@ -29,6 +29,7 @@ abstract class Ushahidi_Controller_Main extends Controller_Template {
 
 			// these are set dynamically
 			'baseurl'  => URL::base(TRUE, TRUE),
+			'apiurl'   => URL::base(TRUE, TRUE) . 'api/v2',
 			'imagedir' => Media::uri('/images/'),
 			'cssdir'   => Media::uri('/css/'),
 			'jsdir'    => Media::uri('/js/'),
