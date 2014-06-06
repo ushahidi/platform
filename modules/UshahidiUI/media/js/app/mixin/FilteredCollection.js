@@ -86,7 +86,9 @@ define(['underscore', 'backbone.paginator'],
 				if (! _.isEqual(oldFilterParams, newFilterParams))
 				{
 					this.trigger('filter:change');
-					this.fetch();
+					// .getFirstPage() will trigger a fetch() but also resets to the first page
+					// avoiding weird results when the new result set fewer pages than the current page
+					this.getFirstPage();
 				}
 
 				return newFilterParams;
