@@ -9,15 +9,7 @@ class Migration_Oauth_league_20140604205210 extends Minion_Migration_Base {
 	 */
 	public function up(Kohana_Database $db)
 	{
-
-		$replace = URL::site('user/oauth');
-
-		$query = DB::update('oauth_client_endpoints')
-			->set(array('redirect_uri' => DB::expr("REPLACE(`redirect_uri`,
-				'/user/oauth','$replace')")))
-			->where('client_id', '=', 'ushahidiui');
-
-		$query->execute($db);
+		// noop
 	}
 
 	/**
@@ -27,15 +19,7 @@ class Migration_Oauth_league_20140604205210 extends Minion_Migration_Base {
 	 */
 	public function down(Kohana_Database $db)
 	{
-		// Revert
-		$replace = URL::site('user/oauth');
-
-		$query = DB::update('oauth_client_endpoints')
-			->set(array('redirect_uri' => '/user/oauth'))
-			->where('redirect_uri', '=', $replace)
-			->and_where('client_id', '=', 'ushahidiui');
-
-		$query->execute($db);
+		// noop
 	}
 
 }
