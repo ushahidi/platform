@@ -58,7 +58,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'syntaxhighl
 					type: requestMethod,
 					dataType : 'json',
 					data : extraData
-				}).success(function(data,jqXHR) {
+				}).done(function(data,jqXHR) {
 
 					if (data) {
 						that.model.set('data', JSON.stringify(data,undefined, 4));
@@ -74,7 +74,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'syntaxhighl
 					that.$('.js-api-url').val(apiUri);
 
 					that.showResponse();
-				}).error(function(jqXHR) {
+				}).fail(function(jqXHR) {
 					that.model.set('data',jqXHR.responseText ? JSON.parse(jqXHR.responseText) : {});
 					that.$('.js-response-code').syntaxHighlightJson(that.model.get('data'));
 					that.$('.js-api-url').val(apiUri);
