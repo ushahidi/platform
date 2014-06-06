@@ -69,6 +69,8 @@ class OAuth2_Storage_Client extends OAuth2_Storage implements ClientInterface
 		{
 			// We do not support mutli-domain redirects
 			$redirectUri = parse_url($redirectUri, PHP_URL_PATH);
+			// Replace base_url in redirectUri
+			$redirectUri = str_replace(URL::base(NULL, TRUE), '/', $redirectUri);
 		}
 
 		if ($clientSecret AND $redirectUri)
