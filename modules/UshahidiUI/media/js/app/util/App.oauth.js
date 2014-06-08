@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'jquery', 'underscore', 'ddt', 'util/App.storage'],
+define(['backbone', 'jquery', 'underscore', 'ddt', 'util/App.storage', 'jquery.cookie'],
 	function(Backbone, $, _, ddt, Storage)
 	{
 		function getUserToken() {

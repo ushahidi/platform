@@ -19,7 +19,9 @@ require.config(
 		'simplepicker' : '../../bower_components/jquery-simplepicker/jquery.simplepicker',
 		'underscore' : '../../bower_components/lodash/dist/lodash',
 		'backbone' : '../../bower_components/backbone/backbone',
-		'marionette' : '../../bower_components/backbone.marionette/lib/backbone.marionette',
+		'marionette' : '../../bower_components/backbone.marionette/lib/core/amd/backbone.marionette',
+		'backbone.babysitter' : '../../bower_components/backbone.babysitter/lib/backbone.babysitter',
+		'backbone.wreqr' : '../../bower_components/backbone.wreqr/lib/backbone.wreqr',
 		'handlebars' : '../../bower_components/handlebars/handlebars',
 		'leaflet' : '../../bower_components/leaflet/leaflet',
 		'l.geosearch' : '../../bower_components/L.GeoSearch/src/js',
@@ -48,18 +50,6 @@ require.config(
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
 	{
-		'backbone' :
-		{
-			'deps' : ['underscore', 'jquery'],
-			// Exports the global window.Backbone object
-			'exports' : 'Backbone'
-		},
-		'marionette' :
-		{
-			'deps' : ['underscore', 'backbone', 'jquery'],
-			// Exports the global window.Marionette object
-			'exports' : 'Marionette'
-		},
 		'handlebars' :
 		{
 			'exports' : 'Handlebars'
@@ -101,10 +91,6 @@ require.config(
 		'l.markercluster': {
 			deps: ['leaflet'],
 			exports: 'L'
-		},
-
-		'moment': {
-			exports: 'moment'
 		},
 
 		'ddt': {
@@ -150,7 +136,7 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt', 'jquery.cookie', 'settings/SettingsApp'],
+require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt', 'settings/SettingsApp'],
 	function(App, AppRouter, Controller, $)
 	{
 		App.appRouter = new AppRouter(

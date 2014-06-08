@@ -95,11 +95,12 @@ module.exports = function(grunt) {
 					baseUrl : uipath + 'media/js/app',
 					wrap : false,
 					preserveLicenseComments : false,
-					optimize : 'uglify',
+					optimize : 'uglify2',
 					mainConfigFile : uipath + 'media/js/app/config/Init.js',
 					name : 'config/Init',
 					include : ['config/Init'],
 					out : uipath + 'media/js/app/config/Init.min.js',
+					generateSourceMaps : true
 				}
 			}
 		},
