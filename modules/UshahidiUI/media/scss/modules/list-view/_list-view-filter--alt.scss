@@ -22,27 +22,43 @@
 	@extend %list-view-filter-info;
 	border-bottom: 1px solid lighten($accent-color, 10);
 	@media #{$medium} {
+		@include grid-column(6);
 		border-bottom: 0;
 	}
 }
 
-.list-view-filter-count--alt	{
+.list-view-filter-count--alt {
 	@extend %list-view-filter-count;
+	@media #{$mobile-up} {
+		@include grid-column(4);
+	}
 	@media #{$small} {
 		border-right: 1px solid lighten($accent-color, 10);
 	}
+	@media #{$medium} {
+		@include grid-column(2);
+	}
 }
 
-
-
-
-/*------------------------------------*\
-   $LIST VIEW FILTER SOURCE
-\*------------------------------------*/
-
-.list-view-filter-source--alt	{
+.list-view-filter-source--alt {
 	@extend %list-view-filter-source;
+	@media #{$mobile-up} {
+		@include grid-column(4);
+	}
 	@media #{$small} {
 		border-right: 1px solid lighten($accent-color, 10);
+	}
+	@media #{$medium} {
+		@include grid-column(2);
+	}
+}
+
+.list-view-filter-sort--alt {
+	@extend %list-view-filter-sort;
+	@media #{$mobile-up} {
+		@include grid-column(4);
+	}
+	@media #{$medium} {
+		@include grid-column(2);
 	}
 }
