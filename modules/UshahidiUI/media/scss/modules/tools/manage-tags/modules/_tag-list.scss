@@ -24,12 +24,26 @@
 
 .list-view-tag {
 	@include grid-column(12, $collapse: true);
+	border-bottom: 1px solid $lightGray;
+	margin-bottom: 20px;
+}
+
+.list-view-details--tag {
+	@include grid-column(8, $collapse: false);
+	margin-top: 5px;
+	@media #{$small} {
+		@include grid-column(10, $collapse: false);
+	}
+	@media #{$medium-up} {
+		@include grid-column(11, $collapse: false);
+		width: 87.66667%;
+	}
 }
 
 .list-view-header--tag {
-	@include grid-column(12, $collapse: true);
+	@include grid-column(12, $collapse: false);
 	@media #{$small} {
-		@include grid-column(8, $collapse: true);
+		@include grid-column(8, $collapse: false);
 	}
 }
 
