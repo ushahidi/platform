@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'App', 'underscore', 'modules/config', 'models/UserModel', 'models/FormModel'],
+define(['jquery', 'backbone', 'App', 'underscore', 'modules/config', 'models/UserModel', 'models/FormModel', 'backbone-model-factory'],
 	function($, Backbone, App, _, config, UserModel, FormModel) {
 		var PostModel = Backbone.ModelFactory(
 		{
