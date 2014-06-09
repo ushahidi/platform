@@ -78,10 +78,6 @@ define(['marionette', 'handlebars', 'underscore', 'App', 'text!templates/SearchB
 			onClose : function ()
 			{
 				this.ui.tag.select2('destroy');
-			},
-
-			onClose : function ()
-			{
 				this.ui.timeTo.datetimepicker('destroy');
 				this.ui.timeFrom.datetimepicker('destroy');
 			},
