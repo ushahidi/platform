@@ -45,6 +45,12 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geo
 				this.ui.timeTo.datetimepicker();
 			},
 
+			onClose : function ()
+			{
+				this.ui.timeTo.datetimepicker('destroy');
+				this.ui.timeFrom.datetimepicker('destroy');
+			},
+
 			SearchPosts: function(e)
 			{
 				e.preventDefault();
