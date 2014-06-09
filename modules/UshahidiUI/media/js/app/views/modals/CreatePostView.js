@@ -12,13 +12,13 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 	'util/App.oauth',
 	'models/MediaModel',
 	'collections/MediaCollection',
-	'backbone-validation', 'forms/UshahidiForms'],
+	'backbone-validation', 'forms/UshahidiForms', 'text!templates/partials/tag-with-icon.html', 'select2'],
 	function( App, Marionette, Handlebars, _, alertify, template,
 		Dropzone,
 		OAuth,
 		MediaModel,
 		MediaCollection,
-		BackboneValidation, BackboneForm)
+		BackboneValidation, BackboneForm, tagWithIconTpl)
 	{
 
 		var postMedia = new MediaCollection(),
@@ -36,6 +36,23 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				sending: authSend,
 				addRemoveLinks: true,
 				dictRemoveFileConfirmation: 'Are you sure you want to delete this file?'
+			},
+			tagWithIcon = Handlebars.compile(tagWithIconTpl),
+			formatTagSelectChoice = function (tag)
+			{
+				if (! tag.id)
+				{
+					return tag.text;
+				}
+
+				var model = App.Collections.Tags.get(tag.id);
+
+				if (! model)
+				{
+					return tag.text;
+				}
+
+				return tagWithIcon(model.toJSON());
 			};
 
 		// prevent dropzone from attempting to attach automatically, we want to
@@ -145,6 +162,13 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				this.form.$el.attr('id', 'create-post-form');
 
 				this.$('.post-form-wrapper').append(this.form.el);
+
+				this.$('#post-tags').select2({
+					allowClear: true,
+					formatResult: formatTagSelectChoice,
+					formatSelection: formatTagSelectChoice,
+					escapeMarkup: function(m) { return m; }
+				});
 			},
 			formSubmitted : function (e)
 			{
@@ -205,6 +229,8 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			onClose : function ()
 			{
 				BackboneValidation.unbind(this);
+
+				this.$('#post-tags').select2('destroy');
 			},
 			serializeData: function()
 			{

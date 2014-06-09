@@ -278,14 +278,18 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		if (! empty($tags))
 		{
 			// Default to filtering to ANY of the tags.
-			if (! is_array($tags))
+			// if tags isn't an array or doesn't have any/all keys set
+			if (! is_array($tags) OR (! isset($tags['any']) AND ! isset($tags['all'])))
 			{
 				$tags = array('any' => $tags);
 			}
 
 			if (isset($tags['any']))
 			{
-				$tags['any'] = explode(',', $tags['any']);
+				if (! is_array($tags['any']))
+				{
+					$tags['any'] = explode(',', $tags['any']);
+				}
 				$posts_query
 					->join('posts_tags')->on('post.id', '=', 'posts_tags.post_id')
 					->where('tag_id', 'IN', $tags['any']);
@@ -293,7 +297,10 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 			if (isset($tags['all']))
 			{
-				$tags['all'] = explode(',', $tags['all']);
+				if (! is_array($tags['all']))
+				{
+					$tags['all'] = explode(',', $tags['all']);
+				}
 				foreach ($tags['all'] as $tag)
 				{
 					$sub = DB::select('post_id')

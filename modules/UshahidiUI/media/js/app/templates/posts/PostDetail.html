@@ -79,7 +79,9 @@
 					<h6>Categories</h6>
 					<ul>
 						{{#each tags}}
-						<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}><i class="fa  fa-circle"  {{#if color}}style="color: #{{color}}"{{/if}}></i>{{tag}}</li></a>
+						<li>
+							{{>tag-with-icon}}
+						</li>
 						{{/each}}
 					</ul>
 				</div> <!-- end .post-categories -->

@@ -11,8 +11,7 @@
 			<div class="tags-select">
 				<label class="visually-hidden" for="tags">Tags</label>
 				{{#if tags}}
-				<select class="js-search-tag">
-					<option value="" selected>Tags</option>
+				<select class="search-tag-field js-search-tag" multiple placeholder="Tags">
 					{{#each tags}}
 			        <option value="{{id}}">{{tag}}</option>
 					{{/each}}
@@ -22,8 +21,7 @@
 
 			<div class="sets-select">
 				<label class="visually-hidden" for="sets">Sets</label>
-				<select class="js-search-set">
-					<option selected DISABLED>Sets</option>
+				<select class="js-search-set" placeholder="Sets">
 					<option>SET #1</option>
 					<option>SET #2</option>
 					<option>SET #3</option>

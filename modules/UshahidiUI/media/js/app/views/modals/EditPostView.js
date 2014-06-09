@@ -7,9 +7,27 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/EditPost.html', 'forms/UshahidiForms', 'backbone-validation'],
-	function( App, Marionette, Handlebars, _, alertify, template, BackboneForm, BackboneValidation)
+define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/EditPost.html', 'forms/UshahidiForms', 'backbone-validation', 'text!templates/partials/tag-with-icon.html', 'select2'],
+	function( App, Marionette, Handlebars, _, alertify, template, BackboneForm, BackboneValidation, tagWithIconTpl)
 	{
+		var tagWithIcon = Handlebars.compile(tagWithIconTpl),
+		formatTagSelectChoice = function (tag)
+			{
+				if (! tag.id)
+				{
+					return tag.text;
+				}
+
+				var model = App.Collections.Tags.get(tag.id);
+
+				if (! model)
+				{
+					return tag.text;
+				}
+
+				return tagWithIcon(model.toJSON());
+			};
+
 		return Marionette.ItemView.extend( {
 			template: Handlebars.compile(template),
 			className: 'edit-post',
@@ -52,6 +70,13 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				this.form.$el.attr('id', 'edit-post-form');
 
 				this.$('.post-form-wrapper').append(this.form.el);
+
+				this.$('#post-tags').select2({
+					allowClear: true,
+					formatResult: formatTagSelectChoice,
+					formatSelection: formatTagSelectChoice,
+					escapeMarkup: function(m) { return m; }
+				});
 			},
 			formSubmitted : function (e)
 			{
@@ -108,6 +133,8 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			onClose : function ()
 			{
 				BackboneValidation.unbind(this);
+
+				this.$('#post-tags').select2('destroy');
 			},
 			serializeData: function()
 			{

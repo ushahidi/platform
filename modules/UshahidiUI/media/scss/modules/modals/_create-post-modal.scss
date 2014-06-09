@@ -49,6 +49,10 @@
 	label {
 		@extend h6;
 	}
+
+	.select2-container {
+		width: 100%;
+	}
 }
 
 .post-form-wrapper textarea {

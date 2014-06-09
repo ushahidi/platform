@@ -45,7 +45,8 @@ require.config(
 		'syntaxhighlightjson' : '../libs/syntaxHighlightJson',
 		'geocoder' : '../../bower_components/geocoder-js/dist/geocoder',
 		'geopoint' : '../../bower_components/node-geopoint/geopoint',
-		'datetimepicker' : '../../bower_components/datetimepicker/jquery.datetimepicker'
+		'datetimepicker' : '../../bower_components/datetimepicker/jquery.datetimepicker',
+		'select2' : '../../bower_components/select2/select2'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
@@ -112,6 +113,10 @@ require.config(
 		},
 
 		'datetimepicker' : {
+			deps: ['jquery'],
+		},
+
+		'select2' : {
 			deps: ['jquery'],
 		},
 

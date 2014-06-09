@@ -202,7 +202,7 @@ class Model_Tag extends ORM implements Acl_Resource_Interface {
 				'tag' => $this->tag,
 				'slug' => $this->slug,
 				'type' => $this->type,
-				'color' => '#' . $this->color,
+				'color' => $this->color ? '#' . $this->color : null,
 				'icon' => $this->icon,
 				'description' => $this->description,
 				'priority' => $this->priority,

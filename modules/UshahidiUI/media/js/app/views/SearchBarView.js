@@ -7,10 +7,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geocoder', 'geopoint', 'datetimepicker'],
-	function(Marionette, Handlebars, App, template, GeocoderJS, GeoPoint)
+define(['marionette', 'handlebars', 'underscore', 'App', 'text!templates/SearchBar.html', 'text!templates/partials/tag-with-icon.html', 'geocoder', 'geopoint', 'datetimepicker', 'select2'],
+	function(Marionette, Handlebars, _, App, template, tagWithIconTpl, GeocoderJS, GeoPoint)
 	{
-		var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap');
+		var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap'),
+			tagWithIcon = Handlebars.compile(tagWithIconTpl);
 
 		return Marionette.ItemView.extend(
 		{
@@ -30,6 +31,11 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geo
 				timeTo : '.js-search-time-to'
 			},
 
+			initialize : function ()
+			{
+				_.bindAll(this, 'formatTagSelectChoice');
+			},
+
 			serializeData: function()
 			{
 				var data = {
@@ -39,10 +45,39 @@ define(['marionette', 'handlebars', 'App', 'text!templates/SearchBar.html', 'geo
 				return data;
 			},
 
+			formatTagSelectChoice: function (tag)
+			{
+				if (! tag.id)
+				{
+					return tag.text;
+				}
+
+				var model = this.collection.get(tag.id);
+
+				if (! model)
+				{
+					return tag.text;
+				}
+
+				return tagWithIcon(model.toJSON());
+			},
+
 			onDomRefresh: function ()
 			{
 				this.ui.timeFrom.datetimepicker();
 				this.ui.timeTo.datetimepicker();
+
+				this.ui.tag.select2({
+					allowClear: true,
+					formatResult: this.formatTagSelectChoice,
+					formatSelection: this.formatTagSelectChoice,
+					escapeMarkup: function(m) { return m; }
+				});
+			},
+
+			onClose : function ()
+			{
+				this.ui.tag.select2('destroy');
 			},
 
 			onClose : function ()

@@ -55,6 +55,13 @@
 		select {
 			@include border-radius($global-radius);
 		}
+		.select2-container {
+			width: 100%;
+			.select2-choices {
+				@include border-radius($global-radius);
+				height: 40px !important;
+			}
+		}
 	@media #{$small} {
 		@include grid-column(3);
 	}
