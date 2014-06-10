@@ -28,8 +28,6 @@ define(['marionette', 'settings/SettingsView'],
 			},
 			showMapSettings : function()
 			{
-				var that = this;
-
 				if (!App.feature('map_settings'))
 				{
 					App.appRouter.navigate('', { trigger : true });
