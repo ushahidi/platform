@@ -1,4 +1,4 @@
-define(['marionette', 'handlebars', 'underscore'], function (Marionette, Handlebars, _) {
+define(['marionette', 'handlebars'], function (Marionette, Handlebars) {
 	var PageableView = Marionette.Behavior.extend({
 		ui : {
 			pageFirst : '.js-page-first',
