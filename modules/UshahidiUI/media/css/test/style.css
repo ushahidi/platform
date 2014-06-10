@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*------------------------------------*\
 		$CONTENTS
 \*------------------------------------*/
@@ -123,7 +124,6 @@ html, body {
 /*------------------------------------*\
 		$COMPASS PLUGINS
 \*------------------------------------*/
-/*@import "plugins/bourbon/bourbon";*/
 /*------------------------------------*\
 		$USER CONFIGS
 \*------------------------------------*/
@@ -6720,7 +6720,7 @@ blockquote p {
 }
 
 /* line 53, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-.tooltip {
+.tooltip, .default-zoom-slider-tooltip {
   display: none;
   position: absolute;
   z-index: 999;
@@ -6735,7 +6735,7 @@ blockquote p {
   background: black;
 }
 /* line 67, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-.tooltip > .nub {
+.tooltip > .nub, .default-zoom-slider-tooltip > .nub {
   display: block;
   left: 5px;
   position: absolute;
@@ -6746,24 +6746,24 @@ blockquote p {
   top: -10px;
 }
 /* line 77, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-.tooltip > .nub.rtl {
+.tooltip > .nub.rtl, .default-zoom-slider-tooltip > .nub.rtl {
   left: auto;
   right: 5px;
 }
 /* line 83, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-.tooltip.radius {
+.tooltip.radius, .radius.default-zoom-slider-tooltip {
   border-radius: 3px;
 }
 /* line 86, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-.tooltip.round {
+.tooltip.round, .round.default-zoom-slider-tooltip {
   border-radius: 1000px;
 }
 /* line 88, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-.tooltip.round > .nub {
+.tooltip.round > .nub, .round.default-zoom-slider-tooltip > .nub {
   left: 2rem;
 }
 /* line 93, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-.tooltip.opened {
+.tooltip.opened, .opened.default-zoom-slider-tooltip {
   color: #14b4d1 !important;
   border-bottom: dotted 1px #0b6474 !important;
 }
@@ -6778,22 +6778,22 @@ blockquote p {
 
 @media only screen and (min-width: 64.063em) {
   /* line 108, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-  .tooltip > .nub {
+  .tooltip > .nub, .default-zoom-slider-tooltip > .nub {
     border-color: transparent transparent black transparent;
     top: -10px;
   }
   /* line 112, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-  .tooltip.tip-top > .nub {
+  .tooltip.tip-top > .nub, .tip-top.default-zoom-slider-tooltip > .nub {
     border-color: black transparent transparent transparent;
     top: auto;
     bottom: -10px;
   }
   /* line 119, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-  .tooltip.tip-left, .tooltip.tip-right {
+  .tooltip.tip-left, .tip-left.default-zoom-slider-tooltip, .tooltip.tip-right, .tip-right.default-zoom-slider-tooltip {
     float: none !important;
   }
   /* line 121, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-  .tooltip.tip-left > .nub {
+  .tooltip.tip-left > .nub, .tip-left.default-zoom-slider-tooltip > .nub {
     border-color: transparent transparent transparent black;
     right: -10px;
     left: auto;
@@ -6801,7 +6801,7 @@ blockquote p {
     margin-top: -5px;
   }
   /* line 128, ../../bower_components/foundation/scss/foundation/components/_tooltips.scss */
-  .tooltip.tip-right > .nub {
+  .tooltip.tip-right > .nub, .tip-right.default-zoom-slider-tooltip > .nub {
     border-color: transparent black transparent transparent;
     right: auto;
     left: -10px;
@@ -12109,426 +12109,733 @@ img.mfp-img {
   margin-left: 1px;
 }
 
-/* line 1, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker {
-  box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.506);
-  background: #FFFFFF;
-  border-bottom: 1px solid #BBBBBB;
-  border-left: 1px solid #CCCCCC;
-  border-right: 1px solid #CCCCCC;
-  border-top: 1px solid #CCCCCC;
-  color: #333333;
-  display: block;
-  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  padding: 8px;
-  padding-left: 0px;
-  padding-top: 2px;
-  position: absolute;
-  z-index: 9999;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  display: none;
-}
-
-/* line 21, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker iframe {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 75px;
-  height: 210px;
-  background: transparent;
-  border: none;
-}
-
-/*For IE8 or lower*/
-/* line 31, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker button {
-  border: none !important;
-}
-
-/* line 35, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_noselect {
+/* Functional styling;
+ * These styles are required for noUiSlider to function.
+ * You don't need to change these rules to apply your design.
+ */
+/* line 7, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-target,
+.noUi-target * {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
+  -ms-touch-action: none;
   -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
-/* line 44, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_noselect::selection {
-  background: transparent;
-}
-
-/* line 45, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_noselect::-moz-selection {
-  background: transparent;
-}
-
-/* line 46, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker.xdsoft_inline {
-  display: inline-block;
-  position: static;
-  box-shadow: none;
-}
-
-/* line 51, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker * {
+  -moz-user-select: none;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 0px;
-  margin: 0px;
 }
 
-/* line 57, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_datepicker, .xdsoft_datetimepicker .xdsoft_timepicker {
-  display: none;
-}
-
-/* line 60, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_datepicker.active, .xdsoft_datetimepicker .xdsoft_timepicker.active {
-  display: block;
-}
-
-/* line 63, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_datepicker {
-  width: 224px;
-  float: left;
-  margin-left: 8px;
-}
-
-/* line 68, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_timepicker {
-  width: 58px;
-  float: left;
-  text-align: center;
-  margin-left: 8px;
-  margin-top: 0px;
-}
-
-/* line 75, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_datepicker.active + .xdsoft_timepicker {
-  margin-top: 8px;
-  margin-bottom: 3px;
-}
-
-/* line 79, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_mounthpicker {
-  position: relative;
-  text-align: center;
-}
-
-/* line 84, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_prev, .xdsoft_datetimepicker .xdsoft_next, .xdsoft_datetimepicker .xdsoft_today_button {
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAeCAYAAACsYQl4AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDozQjRCQjRGREU4MkNFMzExQjRDQkIyRDJDOTdBRUI1MCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCQjg0OUYyNTZDODAxMUUzQjMwM0IwMERBNUU0ODQ5NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCQjg0OUYyNDZDODAxMUUzQjMwM0IwMERBNUU0ODQ5NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkI5NzE3MjFBN0E2Q0UzMTFBQjJEQjgzMDk5RTNBNTdBIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjNCNEJCNEZERTgyQ0UzMTFCNENCQjJEMkM5N0FFQjUwIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+aQvATgAAAfVJREFUeNrsmr1OwzAQxzGtkPjYEAuvVGAvfQIGRKADE49gdLwDDwBiZ2RhQUKwICQkWLsgFiRQuIBTucFJ/XFp4+hO+quqnZ4uvzj2nV2RpukCW/22yAgYNINmc7du7DcghCjrkqgOKjF1znpt6rZ0AGWQj7TvCU8d9UM+QAGDrhdyc2Bnc1WVVPBev9V8lBnY+rDwncWZThG4xk4lmxtJy2AHgoY/FySgbSBPwPZ8mEXbQx3aDERb0EbYAYFC7pcAtAvkMWwC0D3NX58S9D/YnoGC7nPWr3Dg9JTbtuHhDShBT8D2CBSK/iIEvVXxpuxSgh7DdgwUTL4iA92zmJb6lKB/YTsECmV+IgK947AGDIqgQ/LojsO135Hn51l2cWlov0JdGNrPUceueXRwilSVgkUyom9Rd6gbLfYTDeO+1v6orn0InTogYDGUkYLO3/wc9BdqqTCKP1Tfi+oTIaCBIL2TES+GTyruT9S61p6BHam+99DFEAgLFklYsIBHwSI9QY80H5ta+1rB/6ovaKihBJeEJbgLbBlQgl+j3lDPqA2tfQV1j3pVn8s+oKHGTSVJ+FqDLeR5bCqJ2E/BCycsoLZETXaKGs7rhKVt+9HZScrZNMi88V8P7LlDbvOZYaJVpMMmBCT4n0o8dTBoNgbdWPsRYACs3r7XyNfbnAAAAABJRU5ErkJggg==");
-}
-
-/* line 87, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_prev {
-  float: left;
-  background-position: -20px 0px;
-}
-
-/* line 91, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_today_button {
-  float: left;
-  background-position: -70px 0px;
-  margin-left: 5px;
-}
-
-/* line 97, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_next {
-  float: right;
-  background-position: 0px 0px;
-}
-
-/* line 103, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_next, .xdsoft_datetimepicker .xdsoft_prev, .xdsoft_datetimepicker .xdsoft_today_button {
-  background-color: transparent;
-  background-repeat: no-repeat;
-  border: 0px none currentColor;
-  cursor: pointer;
-  display: block;
-  height: 30px;
-  opacity: 0.5;
-  outline: medium none currentColor;
-  overflow: hidden;
-  padding: 0px;
-  position: relative;
-  text-indent: 100%;
-  white-space: nowrap;
-  width: 20px;
-}
-
-/* line 120, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_prev,
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_next {
-  float: none;
-  background-position: -40px -15px;
-  height: 15px;
-  width: 30px;
-  display: block;
-  margin-left: 14px;
-  margin-top: 7px;
-}
-
-/* line 129, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_prev {
-  background-position: -40px 0px;
-  margin-bottom: 7px;
-  margin-top: 0px;
-}
-
-/* line 134, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-  height: 151px;
-  overflow: hidden;
-  border-bottom: 1px solid #DDDDDD;
-}
-
-/* line 139, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div {
-  background: #F5F5F5;
-  border-top: 1px solid #DDDDDD;
-  color: #666666;
-  font-size: 12px;
-  text-align: center;
-  border-collapse: collapse;
-  cursor: pointer;
-  border-bottom-width: 0px;
-  height: 25px;
-  line-height: 25px;
-}
-
-/* line 152, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div:first-child {
-  border-top-width: 0px;
-}
-
-/* line 157, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_today_button:hover,
-.xdsoft_datetimepicker .xdsoft_next:hover,
-.xdsoft_datetimepicker .xdsoft_prev:hover {
-  opacity: 1;
-}
-
-/* line 160, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_label {
-  display: inline;
-  position: relative;
-  z-index: 9999;
-  margin: 0;
-  padding: 5px 3px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: bold;
-  background-color: #fff;
-  float: left;
-  width: 182px;
-  text-align: center;
-  cursor: pointer;
-}
-
-/* line 175, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_label:hover {
-  text-decoration: underline;
-}
-
-/* line 178, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_label > .xdsoft_select {
-  border: 1px solid #ccc;
-  position: absolute;
-  display: block;
-  right: 0px;
-  top: 30px;
-  z-index: 101;
-  display: none;
-  background: #fff;
-  max-height: 160px;
-  overflow-y: hidden;
-}
-
-/* line 190, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_label > .xdsoft_select.xdsoft_monthselect {
-  right: -7px;
-}
-
-/* line 191, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_label > .xdsoft_select.xdsoft_yearselect {
-  right: 2px;
-}
-
-/* line 192, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option:hover {
-  color: #fff;
-  background: #ff8000;
-}
-
-/* line 196, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option {
-  padding: 2px 10px 2px 5px;
-}
-
-/* line 199, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option.xdsoft_current {
-  background: #33AAFF;
-  box-shadow: #178FE5 0px 1px 3px 0px inset;
-  color: #fff;
-  font-weight: 700;
-}
-
-/* line 205, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_month {
-  width: 90px;
-  text-align: right;
-}
-
-/* line 209, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar {
-  clear: both;
-}
-
-/* line 212, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_year {
-  width: 56px;
-}
-
-/* line 215, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar table {
-  border-collapse: collapse;
+/* line 16, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-base {
   width: 100%;
-}
-
-/* line 220, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar td > div {
-  padding-right: 5px;
-}
-
-/* line 223, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar th {
-  height: 25px;
-}
-
-/* line 226, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar td, .xdsoft_datetimepicker .xdsoft_calendar th {
-  width: 14.2857142%;
-  text-align: center;
-  background: #F5F5F5;
-  border: 1px solid #DDDDDD;
-  color: #666666;
-  font-size: 12px;
-  text-align: right;
-  padding: 0px;
-  border-collapse: collapse;
-  cursor: pointer;
-  height: 25px;
-}
-
-/* line 239, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar th {
-  background: #F1F1F1;
-}
-
-/* line 242, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_today {
-  color: #33AAFF;
-}
-
-/* line 247, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default,
-.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current,
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div.xdsoft_current {
-  background: #33AAFF;
-  box-shadow: #178FE5 0px 1px 3px 0px inset;
-  color: #fff;
-  font-weight: 700;
-}
-
-/* line 255, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_other_month,
-.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_disabled,
-.xdsoft_datetimepicker .xdsoft_time_box > div > div.xdsoft_disabled {
-  opacity: 0.5;
-}
-
-/* line 258, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_other_month.xdsoft_disabled {
-  opacity: 0.2;
-}
-
-/* line 262, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar td:hover,
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div:hover {
-  color: #fff !important;
-  background: #ff8000 !important;
-  box-shadow: none !important;
-}
-
-/* line 268, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_disabled:hover,
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div.xdsoft_disabled:hover {
-  color: inherit	!important;
-  background: inherit !important;
-  box-shadow: inherit !important;
-}
-
-/* line 273, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_calendar th {
-  font-weight: 700;
-  text-align: center;
-  color: #999;
-  cursor: default;
-}
-
-/* line 279, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_copyright {
-  color: #ccc !important;
-  font-size: 10px;
-  clear: both;
-  float: none;
-  margin-left: 8px;
-}
-
-/* line 280, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_copyright a {
-  color: #eee !important;
-}
-
-/* line 281, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_datetimepicker .xdsoft_copyright a:hover {
-  color: #aaa !important;
-}
-
-/* line 284, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_time_box {
+  height: 100%;
   position: relative;
-  border: 1px solid #ccc;
 }
 
-/* line 288, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_scrollbar > .xdsoft_scroller {
-  background: #ccc !important;
-  height: 20px;
-  border-radius: 3px;
-}
-
-/* line 293, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_scrollbar {
+/* line 21, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-origin {
   position: absolute;
-  width: 7px;
-  width: 7px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
-  cursor: pointer;
+  right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
 }
 
-/* line 302, ../../bower_components/datetimepicker/jquery.datetimepicker.css */
-.xdsoft_scroller_box {
+/* line 28, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-handle {
   position: relative;
+  z-index: 1;
+}
+
+/* line 32, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-stacking .noUi-handle {
+  /* This class is applied to the lower origin when
+     its values is > 50%. */
+  z-index: 10;
+}
+
+/* line 37, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-stacking + .noUi-origin {
+  /* Fix stacking order in IE7, which incorrectly
+     creates a new context for the origins. */
+  *z-index: -1;
+}
+
+/* line 42, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-state-tap .noUi-origin {
+  -webkit-transition: left 0.3s, top 0.3s;
+  transition: left 0.3s, top 0.3s;
+}
+
+/* line 46, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-state-drag * {
+  cursor: inherit !important;
+}
+
+/* Slider size and handle placement;
+ */
+/* line 52, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-horizontal {
+  height: 18px;
+}
+
+/* line 55, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-horizontal .noUi-handle {
+  width: 34px;
+  height: 28px;
+  left: -17px;
+  top: -6px;
+}
+
+/* line 61, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-horizontal.noUi-extended {
+  padding: 0 15px;
+}
+
+/* line 64, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-horizontal.noUi-extended .noUi-origin {
+  right: -15px;
+}
+
+/* line 67, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-vertical {
+  width: 18px;
+}
+
+/* line 70, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-vertical .noUi-handle {
+  width: 28px;
+  height: 34px;
+  left: -6px;
+  top: -17px;
+}
+
+/* line 76, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-vertical.noUi-extended {
+  padding: 15px 0;
+}
+
+/* line 79, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-vertical.noUi-extended .noUi-origin {
+  bottom: -15px;
+}
+
+/* Styling;
+ */
+/* line 85, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-background {
+  background: #FAFAFA;
+  box-shadow: inset 0 1px 1px #f0f0f0;
+}
+
+/* line 89, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-connect {
+  background: #3FB8AF;
+  box-shadow: inset 0 0 3px rgba(51, 51, 51, 0.45);
+  -webkit-transition: background 450ms;
+  transition: background 450ms;
+}
+
+/* line 95, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-origin {
+  border-radius: 2px;
+}
+
+/* line 98, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-target {
+  border-radius: 4px;
+  border: 1px solid #D3D3D3;
+  box-shadow: inset 0 1px 1px #F0F0F0, 0 3px 6px -5px #BBB;
+}
+
+/* line 103, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-target.noUi-connect {
+  box-shadow: inset 0 0 3px rgba(51, 51, 51, 0.45), 0 3px 6px -5px #bbbbbb;
+}
+
+/* Handles and cursors;
+ */
+/* line 109, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-dragable {
+  cursor: w-resize;
+}
+
+/* line 112, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-vertical .noUi-dragable {
+  cursor: n-resize;
+}
+
+/* line 115, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-handle {
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  background: #FFF;
+  cursor: default;
+  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
+}
+
+/* line 124, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-active {
+  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB;
+}
+
+/* Handle stripes;
+ */
+/* line 133, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-handle:before,
+.noUi-handle:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 14px;
+  width: 1px;
+  background: #E8E7E6;
+  left: 14px;
+  top: 6px;
+}
+
+/* line 143, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-handle:after {
+  left: 17px;
+}
+
+/* line 147, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-vertical .noUi-handle:before,
+.noUi-vertical .noUi-handle:after {
+  width: 14px;
+  height: 1px;
+  left: 6px;
+  top: 14px;
+}
+
+/* line 153, ../../bower_components/nouislider/jquery.nouislider.css */
+.noUi-vertical .noUi-handle:after {
+  top: 17px;
+}
+
+/* Disabled state;
+ */
+/* line 160, ../../bower_components/nouislider/jquery.nouislider.css */
+[disabled].noUi-connect,
+[disabled] .noUi-connect {
+  background: #B8B8B8;
+}
+
+/* line 163, ../../bower_components/nouislider/jquery.nouislider.css */
+[disabled] .noUi-handle {
+  cursor: not-allowed;
+}
+
+/* Import Toggle switch CSS, not SCSS to avoid bourbon conflict issues */
+/*
+ * CSS TOGGLE SWITCHES
+ * Unlicense
+ *
+ * Ionuț Colceriu - ghinda.net
+ * https://github.com/ghinda/css-toggle-switch
+ *
+ */
+/* Toggle Switches
+ */
+/* Shared
+ */
+/* Checkbox
+ */
+/* Radio Switch
+ */
+/* Hide by default
+ */
+/* line 19, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+.switch-toggle a, .switch-light span span {
+  display: none;
+}
+
+/* We can't test for a specific feature,
+ * so we only target browsers with support for media queries.
+ */
+@media only screen {
+  /* Checkbox switch
+	 */
+  /* Radio switch
+	 */
+  /* Standalone Themes */
+  /* Candy Theme
+	 * Based on the "Sort Switches / Toggles (PSD)" by Ormal Clarck
+	 * http://www.premiumpixels.com/freebies/sort-switches-toggles-psd/
+	 */
+  /* Android Theme
+	 */
+  /* iOS Theme
+	 */
+  /* line 39, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light {
+    display: block;
+    height: 30px;
+    /* Outline the toggles when the inputs are focused
+	 */
+    position: relative;
+    overflow: visible;
+    padding: 0;
+    margin-left: 100px;
+    /* Position the label over all the elements, except the slide-button (<a>)
+	 * Clicking anywhere on the label will change the switch-state
+	 */
+    /* Don't hide the input from screen-readers and keyboard access
+	 */
+  }
+
+  /* line 53, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  /* line 57, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light a {
+    display: block;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+  }
+
+  /* line 62, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light label, .switch-light > span {
+    line-height: 30px;
+    vertical-align: middle;
+  }
+
+  /* line 65, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light input:focus ~ a, .switch-light input:focus + label {
+    outline: 1px dotted #888;
+  }
+
+  /* line 67, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light label {
+    position: relative;
+    z-index: 3;
+    display: block;
+    width: 100%;
+  }
+
+  /* line 72, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light input {
+    position: absolute;
+    opacity: 0;
+    z-index: 5;
+  }
+
+  /* line 76, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light input:checked ~ a {
+    right: 0%;
+  }
+
+  /* line 78, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light > span {
+    position: absolute;
+    left: -100px;
+    width: 100%;
+    margin: 0;
+    padding-right: 100px;
+    text-align: left;
+  }
+
+  /* line 85, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light > span span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    display: block;
+    width: 50%;
+    margin-left: 100px;
+    text-align: center;
+  }
+
+  /* line 94, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light > span span:last-child {
+    left: 50%;
+  }
+
+  /* line 96, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light a {
+    position: absolute;
+    right: 50%;
+    top: 0;
+    z-index: 4;
+    display: block;
+    width: 50%;
+    height: 100%;
+    padding: 0;
+  }
+
+  /* line 105, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle {
+    display: block;
+    height: 30px;
+    /* Outline the toggles when the inputs are focused
+	 */
+    position: relative;
+    /* For callout panels in foundation
+	 */
+    padding: 0 !important;
+    /* Generate styles for the multiple states */
+  }
+
+  /* line 115, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  /* line 119, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle a {
+    display: block;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+  }
+
+  /* line 124, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle label, .switch-toggle > span {
+    line-height: 30px;
+    vertical-align: middle;
+  }
+
+  /* line 127, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle input:focus ~ a, .switch-toggle input:focus + label {
+    outline: 1px dotted #888;
+  }
+
+  /* line 129, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  /* line 132, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle input + label {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 50%;
+    height: 100%;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* line 140, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    z-index: 1;
+    width: 50%;
+    height: 100%;
+  }
+
+  /* line 148, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle input:last-of-type:checked ~ a {
+    left: 50%;
+  }
+
+  /* line 150, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-3 label, .switch-toggle.switch-3 a {
+    width: 33.33333%;
+  }
+
+  /* line 152, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-3 input:checked:nth-of-type(2) ~ a {
+    left: 33.33333%;
+  }
+
+  /* line 154, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-3 input:checked:last-of-type ~ a {
+    left: 66.66667%;
+  }
+
+  /* line 156, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-4 label, .switch-toggle.switch-4 a {
+    width: 25%;
+  }
+
+  /* line 158, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-4 input:checked:nth-of-type(2) ~ a {
+    left: 25%;
+  }
+
+  /* line 160, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-4 input:checked:nth-of-type(3) ~ a {
+    left: 50%;
+  }
+
+  /* line 162, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-4 input:checked:last-of-type ~ a {
+    left: 75%;
+  }
+
+  /* line 164, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-5 label, .switch-toggle.switch-5 a {
+    width: 20%;
+  }
+
+  /* line 166, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-5 input:checked:nth-of-type(2) ~ a {
+    left: 20%;
+  }
+
+  /* line 168, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-5 input:checked:nth-of-type(3) ~ a {
+    left: 40%;
+  }
+
+  /* line 170, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-5 input:checked:nth-of-type(4) ~ a {
+    left: 60%;
+  }
+
+  /* line 172, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-toggle.switch-5 input:checked:last-of-type ~ a {
+    left: 80%;
+  }
+
+  /* line 174, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-candy {
+    background-color: #2d3035;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 1px 1px 1px #191b1e;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3), 0 1px 0px rgba(255, 255, 255, 0.2);
+  }
+
+  /* line 182, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-candy label {
+    color: #fff;
+    -webkit-transition: color 0.2s ease-out;
+    -moz-transition: color 0.2s ease-out;
+    transition: color 0.2s ease-out;
+  }
+
+  /* line 187, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-candy input:checked + label {
+    color: #333;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  /* line 190, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-candy a {
+    border: 1px solid #333;
+    background-color: #70c66b;
+    border-radius: 3px;
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+  }
+
+  /* line 197, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-candy > span {
+    color: #333;
+    text-shadow: none;
+  }
+
+  /* line 200, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-candy span {
+    color: #fff;
+  }
+
+  /* line 202, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-candy.switch-candy-blue a {
+    background-color: #38a3d4;
+  }
+
+  /* line 204, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-candy.switch-candy-yellow a {
+    background-color: #f5e560;
+  }
+
+  /* line 206, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android {
+    background-color: #464747;
+    border-radius: 1px;
+    color: #fff;
+    box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;
+    /* Selected ON switch-light
+		 */
+  }
+
+  /* line 213, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android label {
+    color: #fff;
+  }
+
+  /* line 215, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android > span span {
+    opacity: 0;
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    transition: all 0.1s;
+  }
+
+  /* line 220, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android > span span:first-of-type {
+    opacity: 1;
+  }
+
+  /* line 222, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android a {
+    background-color: #666;
+    border-radius: 1px;
+    box-shadow: inset rgba(255, 255, 255, 0.2) 0 1px 0, inset rgba(0, 0, 0, 0.3) 0 -1px 0;
+  }
+
+  /* line 226, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android.switch-light input:checked ~ a {
+    background-color: #0E88B1;
+  }
+
+  /* line 228, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android.switch-light input:checked ~ span span:first-of-type {
+    opacity: 0;
+  }
+
+  /* line 230, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android.switch-light input:checked ~ span span:last-of-type {
+    opacity: 1;
+  }
+
+  /* line 232, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-android.switch-toggle, .switch-android > span span {
+    font-size: 85%;
+    text-transform: uppercase;
+  }
+
+  /* line 235, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light {
+    color: #868686;
+  }
+
+  /* line 237, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light a {
+    left: 0;
+    width: 30px;
+    background-color: #fff;
+    border: 1px solid #d3d3d3;
+    border-radius: 100%;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    box-shadow: inset 0 -3px 3px rgba(0, 0, 0, 0.025), 0 1px 4px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* line 247, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light > span span {
+    width: 100%;
+    left: 0;
+    opacity: 0;
+  }
+
+  /* line 251, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light > span span:first-of-type {
+    opacity: 1;
+    padding-left: 30px;
+  }
+
+  /* line 254, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light > span span:last-of-type {
+    padding-right: 30px;
+  }
+
+  /* line 256, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light > span:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 100px;
+    top: 0;
+    background-color: #fafafa;
+    border: 1px solid #d3d3d3;
+    border-radius: 30px;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+    box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;
+  }
+
+  /* line 271, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light input:checked ~ a {
+    left: 100%;
+    margin-left: -30px;
+  }
+
+  /* line 274, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light input:checked ~ span:before {
+    border-color: #53d76a;
+    box-shadow: inset 0 0 0 30px #53d76a;
+  }
+
+  /* line 277, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light input:checked ~ span span:first-of-type {
+    opacity: 0;
+  }
+
+  /* line 279, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-light input:checked ~ span span:last-of-type {
+    opacity: 1;
+    color: #fff;
+  }
+
+  /* line 282, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-toggle {
+    background-color: #fafafa;
+    border: 1px solid #d3d3d3;
+    border-radius: 30px;
+    box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;
+  }
+
+  /* line 287, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-toggle a {
+    background-color: #53d76a;
+    border-radius: 25px;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+  }
+
+  /* line 293, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios.switch-toggle label {
+    color: #868686;
+  }
+
+  /* line 295, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-ios input:checked + label {
+    color: #3a3a3a;
+  }
+}
+/* Bugfix for older Webkit, including mobile Webkit. Adapted from
+ * http://css-tricks.com/webkit-sibling-bug/
+ */
+@media only screen and (-webkit-max-device-pixel-ratio: 2) and (max-device-width: 1280px) {
+  /* line 302, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  .switch-light, .switch-toggle {
+    -webkit-animation: webkitSiblingBugfix infinite 1s;
+  }
+}
+@-webkit-keyframes webkitSiblingBugfix {
+  /* line 306, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+
+  /* line 309, ../../bower_components/css-toggle-switch/dist/toggle-switch.css */
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
 }
 
 /*------------------------------------*\
@@ -15564,6 +15871,7 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 96, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-filter-sort--alt,
 .list-view-filter-sort {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -15572,6 +15880,7 @@ nav[role="sub-navigation"] li a {
 }
 @media only screen and (min-width: 30.063em) {
   /* line 96, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-sort--alt,
   .list-view-filter-sort {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -15581,6 +15890,7 @@ nav[role="sub-navigation"] li a {
 }
 @media only screen and (min-width: 64.063em) {
   /* line 96, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-sort--alt,
   .list-view-filter-sort {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -15590,6 +15900,7 @@ nav[role="sub-navigation"] li a {
 }
 @media only screen and (min-width: 64.063em) {
   /* line 96, ../../scss/modules/list-view/_list-view-filter.scss */
+  .list-view-filter-sort--alt,
   .list-view-filter-sort {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -15598,6 +15909,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 /* line 107, ../../scss/modules/list-view/_list-view-filter.scss */
+.list-view-filter-sort--alt .filter-sort,
 .list-view-filter-sort .filter-sort {
   margin-bottom: 0;
 }
@@ -15624,24 +15936,80 @@ nav[role="sub-navigation"] li a {
 @media only screen and (min-width: 64.063em) {
   /* line 21, ../../scss/modules/list-view/_list-view-filter--alt.scss */
   .list-view-filter-info--alt {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 50%;
+    float: left;
     border-bottom: 0;
   }
 }
 
+@media only screen and (min-width: 30.063em) {
+  /* line 30, ../../scss/modules/list-view/_list-view-filter--alt.scss */
+  .list-view-filter-count--alt {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 33.33333%;
+    float: left;
+  }
+}
 @media only screen and (min-width: 64.063em) {
-  /* line 29, ../../scss/modules/list-view/_list-view-filter--alt.scss */
+  /* line 30, ../../scss/modules/list-view/_list-view-filter--alt.scss */
   .list-view-filter-count--alt {
     border-right: 1px solid #475363;
   }
 }
+@media only screen and (min-width: 64.063em) {
+  /* line 30, ../../scss/modules/list-view/_list-view-filter--alt.scss */
+  .list-view-filter-count--alt {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 16.66667%;
+    float: left;
+  }
+}
 
-/*------------------------------------*\
-   $LIST VIEW FILTER SOURCE
-\*------------------------------------*/
+@media only screen and (min-width: 30.063em) {
+  /* line 43, ../../scss/modules/list-view/_list-view-filter--alt.scss */
+  .list-view-filter-source--alt {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 33.33333%;
+    float: left;
+  }
+}
 @media only screen and (min-width: 64.063em) {
   /* line 43, ../../scss/modules/list-view/_list-view-filter--alt.scss */
   .list-view-filter-source--alt {
     border-right: 1px solid #475363;
+  }
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 43, ../../scss/modules/list-view/_list-view-filter--alt.scss */
+  .list-view-filter-source--alt {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 16.66667%;
+    float: left;
+  }
+}
+
+@media only screen and (min-width: 30.063em) {
+  /* line 56, ../../scss/modules/list-view/_list-view-filter--alt.scss */
+  .list-view-filter-sort--alt {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 33.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 56, ../../scss/modules/list-view/_list-view-filter--alt.scss */
+  .list-view-filter-sort--alt {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 16.66667%;
+    float: left;
   }
 }
 
@@ -16385,6 +16753,19 @@ nav[role="sub-navigation"] li a {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
+/* line 58, ../../scss/modules/map/_search.scss */
+.tags-select .select2-container {
+  width: 100%;
+}
+/* line 60, ../../scss/modules/map/_search.scss */
+.tags-select .select2-container .select2-choices {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  height: 40px !important;
+}
 @media only screen and (min-width: 64.063em) {
   /* line 50, ../../scss/modules/map/_search.scss */
   .tags-select {
@@ -16395,7 +16776,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 63, ../../scss/modules/map/_search.scss */
+/* line 70, ../../scss/modules/map/_search.scss */
 .sets-select {
   display: none;
   /* TODO: remove once sets are active */
@@ -16405,7 +16786,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 30.063em) {
-  /* line 63, ../../scss/modules/map/_search.scss */
+  /* line 70, ../../scss/modules/map/_search.scss */
   .sets-select {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -16414,7 +16795,7 @@ nav[role="sub-navigation"] li a {
     clear: both;
   }
 }
-/* line 70, ../../scss/modules/map/_search.scss */
+/* line 77, ../../scss/modules/map/_search.scss */
 .sets-select select {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -16423,7 +16804,7 @@ nav[role="sub-navigation"] li a {
   border-radius: 3px;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 63, ../../scss/modules/map/_search.scss */
+  /* line 70, ../../scss/modules/map/_search.scss */
   .sets-select {
     padding-left: 0;
     padding-right: 0;
@@ -16433,7 +16814,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 79, ../../scss/modules/map/_search.scss */
+/* line 86, ../../scss/modules/map/_search.scss */
 .time-select {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -16441,7 +16822,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 30.063em) {
-  /* line 79, ../../scss/modules/map/_search.scss */
+  /* line 86, ../../scss/modules/map/_search.scss */
   .time-select {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -16450,7 +16831,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 79, ../../scss/modules/map/_search.scss */
+  /* line 86, ../../scss/modules/map/_search.scss */
   .time-select {
     padding-left: 0;
     padding-right: 0;
@@ -16458,7 +16839,7 @@ nav[role="sub-navigation"] li a {
     float: left;
   }
 }
-/* line 87, ../../scss/modules/map/_search.scss */
+/* line 94, ../../scss/modules/map/_search.scss */
 .time-select input[type="text"] {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -16468,7 +16849,7 @@ nav[role="sub-navigation"] li a {
   height: 40px;
   width: 50%;
 }
-/* line 91, ../../scss/modules/map/_search.scss */
+/* line 98, ../../scss/modules/map/_search.scss */
 .time-select input[type="text"].time-from {
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
@@ -16476,7 +16857,7 @@ nav[role="sub-navigation"] li a {
   -o-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
 }
-/* line 94, ../../scss/modules/map/_search.scss */
+/* line 101, ../../scss/modules/map/_search.scss */
 .time-select input[type="text"].time-to {
   border-left: 0;
   -webkit-border-radius: 0 3px 3px 0;
@@ -16486,7 +16867,7 @@ nav[role="sub-navigation"] li a {
   border-radius: 0 3px 3px 0;
 }
 
-/* line 102, ../../scss/modules/map/_search.scss */
+/* line 109, ../../scss/modules/map/_search.scss */
 .search-field-wrapper--filter--message, .search-field-wrapper--filter--role,
 .search-field-wrapper {
   padding-left: 0.9375rem;
@@ -16495,7 +16876,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 102, ../../scss/modules/map/_search.scss */
+  /* line 109, ../../scss/modules/map/_search.scss */
   .search-field-wrapper--filter--message, .search-field-wrapper--filter--role,
   .search-field-wrapper {
     padding-left: 0.9375rem;
@@ -16506,7 +16887,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 110, ../../scss/modules/map/_search.scss */
+/* line 117, ../../scss/modules/map/_search.scss */
 .search-field {
   padding-left: 0;
   padding-right: 0;
@@ -16514,7 +16895,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 110, ../../scss/modules/map/_search.scss */
+  /* line 117, ../../scss/modules/map/_search.scss */
   .search-field {
     padding-left: 0;
     padding-right: 0;
@@ -16523,7 +16904,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 110, ../../scss/modules/map/_search.scss */
+  /* line 117, ../../scss/modules/map/_search.scss */
   .search-field {
     padding-left: 0;
     padding-right: 0;
@@ -16532,7 +16913,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 120, ../../scss/modules/map/_search.scss */
+/* line 127, ../../scss/modules/map/_search.scss */
 .search-field input[type="search"] {
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
@@ -16542,7 +16923,7 @@ nav[role="sub-navigation"] li a {
   height: 40px;
 }
 
-/* line 125, ../../scss/modules/map/_search.scss */
+/* line 132, ../../scss/modules/map/_search.scss */
 .search-bar-button {
   padding-left: 0;
   padding-right: 0;
@@ -16550,7 +16931,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 125, ../../scss/modules/map/_search.scss */
+  /* line 132, ../../scss/modules/map/_search.scss */
   .search-bar-button {
     padding-left: 0;
     padding-right: 0;
@@ -16559,7 +16940,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 125, ../../scss/modules/map/_search.scss */
+  /* line 132, ../../scss/modules/map/_search.scss */
   .search-bar-button {
     padding-left: 0;
     padding-right: 0;
@@ -16567,7 +16948,7 @@ nav[role="sub-navigation"] li a {
     float: left;
   }
 }
-/* line 133, ../../scss/modules/map/_search.scss */
+/* line 140, ../../scss/modules/map/_search.scss */
 .search-bar-button button {
   border-style: solid;
   border-width: 1px;
@@ -16632,7 +17013,7 @@ nav[role="sub-navigation"] li a {
 .search-bar-button button:hover, .search-bar-button button:focus {
   color: white;
 }
-/* line 141, ../../scss/modules/map/_search.scss */
+/* line 148, ../../scss/modules/map/_search.scss */
 .search-bar-button button i {
   font-size: 1.2em;
   padding: 0;
@@ -18380,26 +18761,56 @@ nav[role="sub-navigation"] li a {
   padding-right: 0;
   width: 100%;
   float: left;
+  border-bottom: 1px solid #eff0f3;
+  margin-bottom: 20px;
 }
 
-/* line 29, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
+/* line 31, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
+.list-view-details--tag {
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  width: 66.66667%;
+  float: left;
+  margin-top: 5px;
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 31, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
+  .list-view-details--tag {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 83.33333%;
+    float: left;
+  }
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 31, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
+  .list-view-details--tag {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 91.66667%;
+    float: left;
+    width: 87.66667%;
+  }
+}
+
+/* line 43, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
 .list-view-header--tag {
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
   width: 100%;
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 29, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
+  /* line 43, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
   .list-view-header--tag {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
     width: 66.66667%;
     float: left;
   }
 }
 
-/* line 36, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
+/* line 50, ../../scss/modules/tools/manage-tags/modules/_tag-list.scss */
 .list-view-edit--tag {
   float: left;
 }
@@ -18505,6 +18916,259 @@ nav[role="sub-navigation"] li a {
 /* line 145, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
 .settings-button:hover, .settings-button:focus {
   color: white;
+}
+
+/*MAP SETTINGS*/
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * GENERAL...............modular styles for map settings page
+ * NOUISLIDER OVERRIDES..overrides for nouiSlider plugin
+ */
+/*------------------------------------*\
+    GENERAL
+\*------------------------------------*/
+/* line 14, ../../scss/modules/map-settings/_map-settings.scss */
+.error {
+  border-style: solid;
+  border-width: 1px;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1.25rem;
+  position: relative;
+  padding: 0.6875rem 1.3125rem 0.75rem 0.6875rem;
+  font-size: 0.875rem;
+  transition: opacity 300ms ease-out;
+  background-color: #c50813;
+  border-color: #e20916;
+  color: white;
+}
+
+/* line 18, ../../scss/modules/map-settings/_map-settings.scss */
+.map-settings-box {
+  margin-top: 50px;
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 18, ../../scss/modules/map-settings/_map-settings.scss */
+  .map-settings-box {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 100%;
+    float: left;
+    margin-left: auto;
+    margin-right: auto;
+    float: none !important;
+  }
+}
+
+/* line 25, ../../scss/modules/map-settings/_map-settings.scss */
+.map-settings-left-column {
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 25, ../../scss/modules/map-settings/_map-settings.scss */
+  .map-settings-left-column {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 33.33333%;
+    float: left;
+  }
+}
+
+/* line 32, ../../scss/modules/map-settings/_map-settings.scss */
+.map-settings-right-column {
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  width: 100%;
+  float: left;
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 32, ../../scss/modules/map-settings/_map-settings.scss */
+  .map-settings-right-column {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 66.66667%;
+    float: left;
+    border-left: 1px solid #eff0f3;
+  }
+}
+
+/* line 40, ../../scss/modules/map-settings/_map-settings.scss */
+.map-settings-block-wrapper, .map-settings-block-wrapper--no-border {
+  border-bottom: 1px solid #eff0f3;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+/* line 46, ../../scss/modules/map-settings/_map-settings.scss */
+.map-settings-switch {
+  margin-top: 20px;
+}
+
+/* line 50, ../../scss/modules/map-settings/_map-settings.scss */
+.map-settings-form-helper-text {
+  color: #a3a3a3;
+}
+
+@media only screen and (min-width: 64.063em) {
+  /* line 54, ../../scss/modules/map-settings/_map-settings.scss */
+  .map-settings-preview-map {
+    height: 350px;
+  }
+}
+
+/* line 60, ../../scss/modules/map-settings/_map-settings.scss */
+.default-zoom-slider {
+  background: #14d1cf;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+/* line 66, ../../scss/modules/map-settings/_map-settings.scss */
+.default-zoom-slider-tooltip {
+  display: block;
+  max-width: none;
+  width: 60px;
+  text-align: center;
+  left: -17px;
+  border-radius: 6px;
+  top: 36px;
+  background: rgba(0, 0, 0, 0.8);
+  font-weight: normal;
+  z-index: 3;
+}
+
+/* line 80, ../../scss/modules/map-settings/_map-settings.scss */
+.default-zoom-slider-tooltip > .nub {
+  left: 25px;
+}
+
+/* line 84, ../../scss/modules/map-settings/_map-settings.scss */
+.map-settings-block-wrapper--no-border {
+  border-bottom: 0;
+}
+
+@media only screen and (min-width: 64.063em) {
+  /* line 89, ../../scss/modules/map-settings/_map-settings.scss */
+  .color-preview-wrapper {
+    padding: 0;
+  }
+}
+
+/* line 95, ../../scss/modules/map-settings/_map-settings.scss */
+.map-settings-color-preview {
+  height: 41px;
+  background-color: #14b4d1;
+}
+
+/* line 100, ../../scss/modules/map-settings/_map-settings.scss */
+.icon-wrapper {
+  width: 41px;
+  height: 41px;
+  border: 1px solid #eff0f3;
+}
+
+/* line 106, ../../scss/modules/map-settings/_map-settings.scss */
+.upload-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: normal;
+  margin: 0 0 1.25rem;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  display: inline-block;
+  padding-top: 0.75rem;
+  padding-right: 1.5rem;
+  padding-bottom: 0.8125rem;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  background-color: #eff0f3;
+  border-color: #f1f1f4;
+  color: #333333;
+  border-radius: 3px;
+  font-weight: normal;
+}
+/* line 134, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
+.upload-button:hover, .upload-button:focus {
+  background-color: #f1f1f4;
+}
+/* line 140, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
+.upload-button:hover, .upload-button:focus {
+  color: #333333;
+}
+
+/* line 111, ../../scss/modules/map-settings/_map-settings.scss */
+.toggle-button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: normal;
+  margin: 0 0 1.25rem;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  display: inline-block;
+  padding-top: 0.75rem;
+  padding-right: 1.5rem;
+  padding-bottom: 0.8125rem;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  background-color: #3cb81c;
+  border-color: #44d220;
+  color: white;
+  border-radius: 3px;
+}
+/* line 134, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
+.toggle-button:hover, .toggle-button:focus {
+  background-color: #44d220;
+}
+/* line 145, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
+.toggle-button:hover, .toggle-button:focus {
+  color: white;
+}
+
+/*------------------------------------*\
+    NOUISLIDER OVERRIDES
+\*------------------------------------*/
+/* line 120, ../../scss/modules/map-settings/_map-settings.scss */
+.noUi-horizontal .noUi-handle {
+  width: 28px;
+  border-radius: 18px;
+  cursor: pointer;
+}
+
+/* line 126, ../../scss/modules/map-settings/_map-settings.scss */
+.noUi-handle:before {
+  left: 11px;
+}
+
+/* line 130, ../../scss/modules/map-settings/_map-settings.scss */
+.noUi-handle:after {
+  left: 14px;
+}
+
+/* line 134, ../../scss/modules/map-settings/_map-settings.scss */
+.noUi-target, .noUi-origin {
+  border-radius: 12px;
+}
+
+/* line 138, ../../scss/modules/map-settings/_map-settings.scss */
+.noUi-target.noUi-connect {
+  box-shadow: inset 0 0 3px rgba(51, 51, 51, 0.2), 0 3px 6px -5px #bbbbbb;
 }
 
 /*HOME*/
@@ -20387,16 +21051,35 @@ form.custom .custom.dropdown .selector {
 }
 
 /*------------------------------------*\
+		$INPUT FIELD
+\*------------------------------------*/
+/* line 141, ../../scss/modules/forms/_forms.scss */
+input[type="text"].has-prefix,
+input[type="email"].has-prefix,
+input[type="password"].has-prefix,
+input[type="search"].has-prefix,
+.row.collapse input[type="text"].has-prefix,
+.row.collapse input[type="email"].has-prefix,
+.row.collapse input[type="password"].has-prefix,
+.row.collapse input[type="search"].has-prefix {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  border-left: 0;
+}
+
+/*------------------------------------*\
 		$LIST VIEW FILTER
 \*------------------------------------*/
 @media only screen and (min-width: 64.063em) {
-  /* line 133, ../../scss/modules/forms/_forms.scss */
+  /* line 152, ../../scss/modules/forms/_forms.scss */
   .list-view-filter form.custom, .set-detail-post-list-filter form.custom {
     margin-bottom: 0;
   }
 }
 
-/* line 139, ../../scss/modules/forms/_forms.scss */
+/* line 158, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown .current {
   margin-left: 0.4em;
 }
@@ -20404,31 +21087,31 @@ form.custom .custom.dropdown .current {
 /*------------------------------------*\
 		$PSEUDO ELEMENTS
 \*------------------------------------*/
-/* line 150, ../../scss/modules/forms/_forms.scss */
+/* line 169, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li:hover {
   background-color: #323a45;
   color: #fcfcfc;
 }
 
-/* line 155, ../../scss/modules/forms/_forms.scss */
+/* line 174, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.dropdown ul li.selected:hover {
   background: #eff0f3;
   cursor: "none";
   color: #1f1f1f;
 }
 
-/* line 161, ../../scss/modules/forms/_forms.scss */
+/* line 180, ../../scss/modules/forms/_forms.scss */
 form.custom .custom.checkbox.checked:before {
   margin-top: 5px;
   font-size: 20px;
 }
 
-/* line 166, ../../scss/modules/forms/_forms.scss */
+/* line 185, ../../scss/modules/forms/_forms.scss */
 .simplepicker.icon {
   margin-bottom: 1em;
 }
 
-/* line 170, ../../scss/modules/forms/_forms.scss */
+/* line 189, ../../scss/modules/forms/_forms.scss */
 .simplepicker.icon.sp-block,
 .simplepicker span.sp-block {
   width: 1.6em;
@@ -20437,7 +21120,7 @@ form.custom .custom.checkbox.checked:before {
   text-align: center;
   vertical-align: middle;
 }
-/* line 176, ../../scss/modules/forms/_forms.scss */
+/* line 195, ../../scss/modules/forms/_forms.scss */
 .simplepicker.icon.sp-block i.fa, .simplepicker.icon.sp-block i.status-icon, .simplepicker.icon.sp-block .phone-number-list .phone-number-list__item i.phone-number, .phone-number-list .phone-number-list__item .simplepicker.icon.sp-block i.phone-number,
 .simplepicker span.sp-block i.fa,
 .simplepicker span.sp-block i.status-icon,
@@ -20449,11 +21132,33 @@ form.custom .custom.checkbox.checked:before {
 /*------------------------------------*\
 	$FIELDSETS
 \*------------------------------------*/
-/* line 185, ../../scss/modules/forms/_forms.scss */
+/* line 204, ../../scss/modules/forms/_forms.scss */
 fieldset {
   border: none;
   padding: 0;
   margin: 0;
+}
+
+/*------------------------------------*\
+	$PRE/POST-FIX
+\*------------------------------------*/
+/* line 215, ../../scss/modules/forms/_forms.scss */
+.prefix,
+.postfix {
+  height: 2.5625rem;
+  line-height: 2.5625rem;
+}
+
+/* line 220, ../../scss/modules/forms/_forms.scss */
+.prefix {
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+/* line 225, ../../scss/modules/forms/_forms.scss */
+.prefix > [class^="fa"],
+.prefix > [class*=" fa"] {
+  padding: 0;
 }
 
 /* the `modules/modals` folder must be called at bottom */
@@ -20495,7 +21200,15 @@ body.modal-active #modal {
   display: block;
 }
 
-/* line 30, ../../scss/modules/modals/_modal.scss */
+@media only screen and (min-width: 64.063em) {
+  /* line 31, ../../scss/modules/modals/_modal.scss */
+  .modal.medium {
+    margin-left: -25%;
+    width: 50%;
+  }
+}
+
+/* line 38, ../../scss/modules/modals/_modal.scss */
 #modal-bg {
   position: fixed;
   height: 100%;
@@ -20507,7 +21220,7 @@ body.modal-active #modal {
   top: 0;
   left: 0;
 }
-/* line 32, ../../scss/modules/modals/_modal.scss */
+/* line 40, ../../scss/modules/modals/_modal.scss */
 body.modal-active #modal-bg {
   display: block;
 }
@@ -20515,7 +21228,7 @@ body.modal-active #modal-bg {
 /*------------------------------------*\
 		$MODAL BODY
 \*------------------------------------*/
-/* line 41, ../../scss/modules/modals/_modal.scss */
+/* line 49, ../../scss/modules/modals/_modal.scss */
 .modal-header {
   width: 100%;
   margin-left: auto;
@@ -20537,14 +21250,14 @@ body.modal-active #modal-bg {
 .modal-header:after {
   clear: both;
 }
-/* line 47, ../../scss/modules/modals/_modal.scss */
+/* line 55, ../../scss/modules/modals/_modal.scss */
 .modal-header h4 {
   color: #fcfcfc;
   margin: 0;
   line-height: 1em;
 }
 
-/* line 54, ../../scss/modules/modals/_modal.scss */
+/* line 62, ../../scss/modules/modals/_modal.scss */
 .modal-wrapper {
   width: 100%;
   margin-left: auto;
@@ -20564,7 +21277,7 @@ body.modal-active #modal-bg {
   clear: both;
 }
 
-/* line 59, ../../scss/modules/modals/_modal.scss */
+/* line 67, ../../scss/modules/modals/_modal.scss */
 .modal-footer {
   width: 100%;
   margin-left: auto;
@@ -20585,7 +21298,7 @@ body.modal-active #modal-bg {
   clear: both;
 }
 
-/* line 65, ../../scss/modules/modals/_modal.scss */
+/* line 73, ../../scss/modules/modals/_modal.scss */
 .modal-submit {
   padding-left: 0;
   padding-right: 0;
@@ -20593,7 +21306,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 65, ../../scss/modules/modals/_modal.scss */
+  /* line 73, ../../scss/modules/modals/_modal.scss */
   .modal-submit {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -20603,7 +21316,7 @@ body.modal-active #modal-bg {
     float: right;
   }
 }
-/* line 72, ../../scss/modules/modals/_modal.scss */
+/* line 80, ../../scss/modules/modals/_modal.scss */
 .modal-submit button {
   border-style: solid;
   border-width: 1px;
@@ -21047,13 +21760,17 @@ body.modal-active #modal-bg {
 .post-form-wrapper form > fieldset.active {
   display: block;
 }
+/* line 53, ../../scss/modules/modals/_create-post-modal.scss */
+.post-form-wrapper .select2-container {
+  width: 100%;
+}
 
-/* line 54, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 58, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper textarea {
   height: 100px;
 }
 
-/* line 58, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 62, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-row {
   width: 100%;
   margin-left: auto;
@@ -21072,7 +21789,7 @@ body.modal-active #modal-bg {
   clear: both;
 }
 
-/* line 62, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 66, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-field {
   padding-left: 0;
   padding-right: 0;
@@ -21080,7 +21797,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 62, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 66, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-field {
     padding-left: 0;
     padding-right: 0;
@@ -21090,7 +21807,7 @@ body.modal-active #modal-bg {
   }
 }
 
-/* line 70, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 74, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-button {
   padding-left: 0;
   padding-right: 0;
@@ -21098,7 +21815,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 70, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 74, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-button {
     padding-left: 0;
     padding-right: 0;
@@ -21108,12 +21825,12 @@ body.modal-active #modal-bg {
   }
 }
 
-/* line 78, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 82, ../../scss/modules/modals/_create-post-modal.scss */
 .location-editor-map {
   height: 400px;
 }
 
-/* line 82, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 86, ../../scss/modules/modals/_create-post-modal.scss */
 .map-search-btn {
   border-style: solid;
   border-width: 1px;
