@@ -16,5 +16,7 @@ return array(
 	'sets_ui' => FALSE,
 	// Api Explorer
 	'api_explorer' => FALSE,
-	'data_provider_config' => FALSE
+	'data_provider_config' => FALSE,
+	// Map Settings UI
+	'map_settings' => FALSE
 );

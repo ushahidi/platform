@@ -28,7 +28,9 @@
     "node-geopoint": "https://github.com/davidwood/node-geopoint.git",
     "leaflet.markercluster": "~0.4.0",
     "datetimepicker": "~2.2.8",
-    "select2": "~3.4.8"
+    "select2": "~3.4.8",
+    "css-toggle-switch": "~2.1.5",
+    "nouislider": "~6.2.0"
   },
   "devDependencies": {}
 }

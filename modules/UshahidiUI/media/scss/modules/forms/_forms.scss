@@ -127,6 +127,25 @@ form.custom .custom.dropdown {
 
 
 /*------------------------------------*\
+		$INPUT FIELD
+\*------------------------------------*/
+
+
+input[type="text"].has-prefix,
+input[type="email"].has-prefix,
+input[type="password"].has-prefix,
+input[type="search"].has-prefix,
+.row.collapse input[type="text"].has-prefix,
+.row.collapse input[type="email"].has-prefix,
+.row.collapse input[type="password"].has-prefix,
+.row.collapse input[type="search"].has-prefix {
+	@include side-radius(left, 0);
+	@include side-radius(right, $global-radius);
+	border-left: 0;
+}
+
+
+/*------------------------------------*\
 		$LIST VIEW FILTER
 \*------------------------------------*/
 
@@ -186,4 +205,23 @@ fieldset {
 	border: none;
 	padding: 0;
 	margin: 0;
+}
+
+/*------------------------------------*\
+	$PRE/POST-FIX
+\*------------------------------------*/
+
+.prefix,
+.postfix {
+	height: ($input-font-size + ($form-spacing * 1.75) - rem-calc(1));
+	line-height: ($input-font-size + ($form-spacing * 1.75) - rem-calc(1));
+}
+
+.prefix {
+	@include side-radius(left, $global-radius);
+}
+
+.prefix > [class^="fa"],
+.prefix > [class*=" fa"] {
+	padding: 0;
 }

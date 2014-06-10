@@ -1,0 +1,148 @@
+<article class="body-wrapper">
+	<div class="row">
+
+		<section class="map-settings-box">
+			<div class="post-header">
+				<h5><i class="fa  fa-map-marker"></i> Map Settings</h5>
+			</div> <!-- end .post-header -->
+
+			<div class="post-body">
+				<form>
+
+					<section class="map-settings-left-column">
+
+						<div class="map-settings-block-wrapper">
+							<label for="default-Location">
+								<h6>Default Location</h6>
+							</label>
+
+							<div class="row collapse">
+							    <div class="small-2 large-2 columns">
+								<span class="prefix"><i class="fa fa-map-marker"></i></span>
+							    </div>
+							    <div class="small-10 large-10 columns">
+							      <input type="text" placeholder="Enter a default location" class="has-prefix">
+							    </div>
+							</div>
+						</div> <!-- end .map-settings-block-wrapper -->
+
+						<div class="map-settings-block-wrapper">
+							<label for="multiple-countries">
+								<h6>Does this Ushahidi deployment span multiple countries?</h6>
+							</label>
+								<div class="switch-toggle small-12 medium-6 medium-6 panel radius map-settings-switch">
+									<input id="multiple-countries-yes" name="multiple-countries" type="radio">
+									<label for="multiple-countries-yes" onclick="">Yes</label>
+
+									<input id="multiple-countries-no" name="multiple-countries" type="radio" checked>
+									<label for="multiple-countries-no" onclick="">No</label>
+
+									<a class="toggle-button"></a>
+								</div>
+
+						</div> <!-- end .map-settings-block-wrapper -->
+
+						<div class="map-settings-block-wrapper">
+							<label for="cluster-reports">
+								<h6>Cluster reports on map?</h6>
+							</label>
+							<p class="map-settings-form-helper-text">Bundle similar reports into a single dot on the map</p>
+
+							<div class="switch-toggle small-12 medium-6 panel radius map-settings-switch">
+									<input id="cluster-reports-yes" name="cluster-reports" type="radio">
+									<label for="cluster-reports-yes" onclick="">Yes</label>
+
+									<input id="cluster-reports-no" name="cluster-reports" type="radio" checked>
+									<label for="cluster-reports-no" onclick="">No</label>
+
+									<a class="toggle-button"></a>
+								</div>
+						</div> <!-- end .map-settings-block-wrapper -->
+
+						<div class="map-settings-block-wrapper">
+							<label for="map-provider">
+								<h6>Map Provider</h6>
+							</label>
+								<p class="map-settings-form-helper-text">Select the map provider for your deployment</p>
+								<select class="select-map-provider">
+									<option value="Google Maps" selected="">Google Maps (normal)</option>
+									<option value="email">Mapbox</option>
+									<option value="sms">OpenStreetMap</option>
+								</select>
+						</div> <!-- end .map-settings-block-wrapper -->
+
+					</section> <!-- end .map-settings-left-column -->
+
+					<section class="map-settings-right-column">
+						<div class="map-settings-block-wrapper--no-border">
+							<h6>Preview</h6>
+							<div class="map map-settings-preview-map"></div>
+						</div> <!-- end .map-settings-block-wrapper-no-border -->
+
+						<div class="map-settings-block-wrapper--no-border">
+							<h6>Default Zoom Level</h6>
+							<div class="row">
+								<div class="small-12 large-11 small-centered columns">
+									<div class="default-zoom-slider"></div>
+
+									<script>
+
+
+
+									</script>
+								</div>
+							</div> <!-- end .row -->
+						</div> <!-- end .map-settings-block-wrapper-no-border -->
+
+						<div class="map-settings-block-wrapper--no-border">
+							<label for="default-color">
+								<h6>Default Color for All Categories</h6>
+							</label>
+							<div class="row">
+								<div class="small-12 medium-8 large-6 columns">
+									<div class="row collapse">
+									    <div class="small-2 columns">
+										<span class="prefix"><i class="fa fa-tasks"></i></span>
+									    </div>
+									    <div class="small-10 columns">
+									      <input type="text" placeholder="#14b4d1" class="has-prefix">
+									    </div>
+									</div>
+								</div>
+								<div class="small-12 medium-2 large-1 columns end color-preview-wrapper">
+									<div class="map-settings-color-preview"></div>
+								</div>
+							</div>
+						</div> <!-- end .map-settings-block-wrapper-no-border -->
+
+						<div class="map-settings-block-wrapper--no-border">
+							<label for="default-icon">
+								<h6>Default Icon for All Categories</h6>
+							</label>
+							<p class="map-settings-form-helper-text">Maximum size: 32x32px</p>
+
+							<div class="row">
+								<div class="small-2 large-2 columns">
+									<div class="icon-wrapper"></div>
+								</div>
+								<div class="small-8 large-4 columns end">
+									<button type="submit" class="upload-button"><i class="fa  fa-cloud-upload  fa-lg"></i> Upload</button>
+								</div>
+							</div>
+
+						</div> <!-- end .map-settings-block-wrapper-no-border -->
+
+							<div class="settings-button-wrapper">
+								<button type="submit" class="settings-button"><i class="fa  fa-cloud-upload  fa-lg"></i> Save Settings</button>
+							</div>
+
+
+					</section> <!-- end .map-settings-right-column -->
+
+				</form>
+			</div> <!-- end .post-body -->
+
+		</section> <!-- end .settings-box -->
+
+	</div>
+</article>

@@ -16,6 +16,7 @@ define(['marionette', 'settings/SettingsView'],
 		SettingsRouter = Marionette.AppRouter.extend({
 			appRoutes: {
 				'settings/site' : 'showSiteSettings',
+				'settings/map' : 'showMapSettings',
 			}
 		}),
 
@@ -24,6 +25,22 @@ define(['marionette', 'settings/SettingsView'],
 			{
 				App.vent.trigger('page:change', 'settings');
 				App.layout.mainRegion.show(new SettingsView());
+			},
+			showMapSettings : function()
+			{
+				var that = this;
+
+				if (!App.feature('map_settings'))
+				{
+					App.appRouter.navigate('', { trigger : true });
+					return;
+				}
+
+				require(['settings/MapSettingsView'], function(MapSettingsView)
+				{
+					App.vent.trigger('page:change', 'mapSettings');
+					App.layout.mainRegion.show(new MapSettingsView());
+				});
 			},
 		};
 

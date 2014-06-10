@@ -1075,6 +1075,7 @@ $switch-bg: #fff;
 
 // Switch heights for our default classes
 
+$toggle-switch-height: 50px;
 $switch-height-tny: 22px;
 $switch-height-sml: 28px;
 $switch-height-med: 36px;
@@ -1252,3 +1253,7 @@ $topbar-divider-border-top: solid 1px darken($topbar-bg, 10%);
 // Sticky Class
 
 $topbar-sticky-class: ".sticky";
+
+// Slider
+
+$slider-color: adjust-hue($primary-color,  -10%);
