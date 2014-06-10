@@ -177,6 +177,10 @@ class Controller_User extends Controller_Layout {
 
 		// Store the auth code in a cookie for the JS app
 		Cookie::set('authtoken', $json->access_token);
+		if (!empty($json->refresh_token))
+		{
+			Cookie::set('authrefresh', $json->refresh_token);
+		}
 
 		// Flow is complete
 		$session->delete('oauth');
@@ -187,6 +191,7 @@ class Controller_User extends Controller_Layout {
 	public function action_logout()
 	{
 		Cookie::delete('authtoken');
+		Cookie::delete('authrefresh');
 		$this->auth->logout();
 		if ($from_url = $this->request->query('from_url')
 				AND in_array(parse_url($from_url, PHP_URL_PATH), $this->_redirect_whitelist)

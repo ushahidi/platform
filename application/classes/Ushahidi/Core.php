@@ -33,6 +33,7 @@ abstract class Ushahidi_Core {
 		$di->set('oauth.server.auth', function() use ($di) {
 			$server = $di->newInstance('League\OAuth2\Server\Authorization');
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\AuthCode'));
+			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\RefreshToken'));
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\Password'));
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\ClientCredentials'));
 			return $server;
