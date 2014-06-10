@@ -28,6 +28,14 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			return Boolean(features[name]);
 		};
 
+		App.Behaviors  = {
+			//PageableView : PageableView
+		};
+
+		Marionette.Behaviors.behaviorsLookup = function() {
+			return App.Behaviors;
+		};
+
 		//Organize Application into regions corresponding to DOM elements
 		//Regions can contain views, Layouts, or subregions nested as necessary
 		App.addRegions(

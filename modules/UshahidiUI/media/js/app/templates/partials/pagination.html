@@ -4,7 +4,7 @@
 			<li class="arrow {{#if disabled}}unavailable{{/if}} js-page-prev"><a {{#unless disabled}}href="#"{{/unless}}>&lsaquo;</a></li>
 		{{/paginate}}
 		{{#paginate pagination type="middle" limit="7"}}
-			<li class="{{#if active}}current{{/if}} js-page-change page-{{n}}"><a {{#unless active}}href="#"{{/unless}}>{{n}}</a></li>
+			<li class="{{#if active}}current{{/if}} js-page-change" data-page="{{n}}"><a {{#unless active}}href="#"{{/unless}}>{{n}}</a></li>
 		{{/paginate}}
 		{{#paginate pagination type="next"}}
 			<li class="arrow {{#if disabled}}unavailable{{/if}} js-page-next"><a {{#unless disabled}}href="#"{{/unless}}>&rsaquo;</a></li>

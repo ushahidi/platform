@@ -7,24 +7,21 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'views/messages/MessageListItemView',
-		'text!templates/messages/MessageList.html', 'text!templates/partials/pagination.html', 'text!templates/partials/list-info.html'],
-	function( App, Marionette, Handlebars, _, MessageListItemView,
-		template, paginationTemplate, listInfoTemplate)
+define(['App', 'marionette', 'handlebars','underscore',
+		'views/messages/MessageListItemView',
+		'text!templates/messages/MessageList.html',
+		'mixin/PageableViewBehavior'
+	],
+	function( App, Marionette, Handlebars, _,
+		MessageListItemView,
+		template,
+		PageableViewBehavior
+	)
 	{
-		Handlebars.registerPartial('pagination', paginationTemplate);
-		Handlebars.registerPartial('list-info', listInfoTemplate);
-
 		return Marionette.CompositeView.extend(
 		{
-			//Template HTML string
 			template: Handlebars.compile(template),
-			// Lets just store the partial templates somewhere useful
-			partialTemplates :
-			{
-				pagination : Handlebars.compile(paginationTemplate),
-				listInfo : Handlebars.compile(listInfoTemplate)
-			},
+			modelName: 'messages',
 			initialize: function()
 			{
 			},
@@ -37,13 +34,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/messages/MessageL
 			events:
 			{
 				'click .js-list-view-select' : 'showHideBulkActions',
-				'click .js-page-first' : 'showFirstPage',
-				'click .js-page-next' : 'showNextPage',
-				'click .js-page-prev' : 'showPreviousPage',
-				'click .js-page-last' : 'showLastPage',
-				'click .js-page-change' : 'showPage',
 				'change #filter-source' : 'updateMessageSource',
-				'change #filter-sort' : 'updatePostsSort',
 				'click .js-submit-search' : 'updateSearchTerm',
 				'click .js-message-filter-box' : 'filterByBoxType',
 				'click .js-message-reply' : 'toggleReply',
@@ -54,12 +45,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/messages/MessageL
 				'click .js-more-info-autofill' : 'autofillMoreInfo'
 			},
 
-			collectionEvents :
-			{
-				reset : 'updatePagination',
-				add : 'updatePagination',
-				remove : 'updatePagination',
-				sync : 'updatePagination'
+			behaviors: {
+				PageableViewBehavior: {
+					behaviorClass : PageableViewBehavior,
+					modelName: 'messages',
+				}
 			},
 
 			showHideBulkActions : function ()
@@ -85,96 +75,11 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/messages/MessageL
 					pagination: this.collection.state,
 					sortKeys: this.collection.sortKeys,
 					sourceTypes: this.collection.sourceTypes,
-					boxTypes: this.collection.boxTypes
+					boxTypes: this.collection.boxTypes,
+					modelName : this.modelName
 				});
 
 				return data;
-			},
-
-			showNextPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.lastPage <= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getNextPage();
-				this.updatePagination();
-			},
-			showPreviousPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.firstPage >= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getPreviousPage();
-				this.updatePagination();
-			},
-			showFirstPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.firstPage >= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getFirstPage();
-				this.updatePagination();
-			},
-			showLastPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.lastPage <= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getLastPage();
-				this.updatePagination();
-			},
-			showPage : function (e)
-			{
-				var $el = this.$(e.currentTarget),
-						num = 0;
-
-				e.preventDefault();
-
-				_.each(
-					$el.attr('class').split(' '),
-					function (v) {
-						if (v.indexOf('page-') === 0)
-						{
-							num = v.replace('page-', '');
-						}
-					}
-				);
-				this.collection.getPage(num -1);
-				this.updatePagination();
-			},
-
-			updatePagination: function ()
-			{
-				this.$('.js-pagination').replaceWith(
-					Handlebars.partials.pagination({
-						pagination: this.collection.state
-					})
-				);
-				this.$('.js-list-view-filter-info').replaceWith(
-					Handlebars.partials.listinfo({
-						pagination: this.collection.state,
-						modelName: this.modelName
-					})
-				);
-
-				// Update counter
-				this.$('li.active span.count-number').text(this.collection.state.totalRecords);
 			},
 			updateMessageSource : function (e)
 			{
@@ -193,13 +98,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'views/messages/MessageL
 				App.Collections.Messages.setFilterParams({
 						q : search
 					});
-			},
-			updatePostsSort : function (e)
-			{
-				e.preventDefault();
-				var orderby = this.$('#filter-sort').val();
-				this.collection.setSorting(orderby);
-				this.collection.getFirstPage();
 			},
 			filterByBoxType : function(e)
 			{

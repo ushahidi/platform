@@ -7,8 +7,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'underscore', 'alertify', 'views/tags/TagListItemView', 'views/EmptyView', 'text!templates/tags/TagList.html'],
-	function( App, Marionette, Handlebars, _, alertify, TagListItemView, EmptyView, template)
+define(['App', 'marionette', 'handlebars', 'underscore', 'alertify',
+		'views/tags/TagListItemView',
+		'views/EmptyView',
+		'text!templates/tags/TagList.html',
+		'mixin/PageableViewBehavior'
+	],
+	function( App, Marionette, Handlebars, _, alertify,
+		TagListItemView,
+		EmptyView,
+		template,
+		PageableViewBehavior
+	)
 	{
 		return Marionette.CompositeView.extend(
 		{
@@ -35,13 +45,6 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'alertify', 'views/tags
 
 			events:
 			{
-				'click .js-page-first' : 'showFirstPage',
-				'click .js-page-next' : 'showNextPage',
-				'click .js-page-prev' : 'showPreviousPage',
-				'click .js-page-last' : 'showLastPage',
-				'click .js-page-change' : 'showPage',
-				'change .js-filter-count' : 'updatePageSize',
-				'change .js-filter-sort' : 'updateSort',
 				'click .js-tag-create' : 'showCreateTag',
 				'click .js-tag-bulk-delete' : 'bulkDelete',
 				'click .js-select-all' : 'toggleSelectAll'
@@ -49,10 +52,15 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'alertify', 'views/tags
 
 			collectionEvents :
 			{
-				reset : 'updatePagination unselectAll',
-				add : 'updatePagination',
-				remove : 'updatePagination',
+				reset : 'unselectAll',
 				request : 'unselectAll',
+			},
+
+			behaviors: {
+				PageableViewBehavior: {
+					behaviorClass : PageableViewBehavior,
+					modelName : 'tags'
+				}
 			},
 
 			getSelected : function ()
@@ -81,114 +89,6 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'alertify', 'views/tags
 				return data;
 			},
 
-			showNextPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.lastPage <= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getNextPage();
-				this.updatePagination();
-			},
-			showPreviousPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.firstPage >= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getPreviousPage();
-				this.updatePagination();
-			},
-			showFirstPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.firstPage >= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getFirstPage();
-				this.updatePagination();
-			},
-			showLastPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.lastPage <= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getLastPage();
-				this.updatePagination();
-			},
-			showPage : function (e)
-			{
-				var $el = this.$(e.currentTarget),
-						num = 0;
-
-				e.preventDefault();
-
-				_.each(
-					$el.attr('class').split(' '),
-					function (v) {
-						if (v.indexOf('page-') === 0)
-						{
-							num = v.replace('page-', '');
-						}
-					}
-				);
-				this.collection.getPage(num -1);
-				this.updatePagination();
-			},
-
-			updatePagination: function ()
-			{
-				this.$('.js-pagination').replaceWith(
-					Handlebars.partials.pagination({
-						pagination: this.collection.state
-					})
-				);
-				this.$('.js-list-view-filter-info').replaceWith(
-					Handlebars.partials.listinfo({
-						pagination: this.collection.state,
-						modelName: this.modelName
-					})
-				);
-			},
-			updatePageSize : function (e)
-			{
-				e.preventDefault();
-				var size = parseInt(this.$('.js-filter-count').val(), 10);
-				if (typeof size === 'number' && size > 0)
-				{
-					this.collection.setPageSize(size, {
-						first: true
-					});
-				}
-			},
-			updateSort : function (e)
-			{
-				e.preventDefault();
-				var orderby = this.$('.js-filter-sort').val();
-				if (orderby === 'tag')
-				{
-					this.collection.setSorting(orderby, -1);
-				}
-				else
-				{
-					this.collection.setSorting(orderby);
-				}
-				this.collection.fullCollection.sort();
-				this.collection.getFirstPage();
-			},
 			showCreateTag : function (e)
 			{
 				e.preventDefault();

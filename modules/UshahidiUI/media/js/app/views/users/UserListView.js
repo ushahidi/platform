@@ -7,8 +7,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/users/UserListItemView', 'views/EmptyView', 'text!templates/users/UserList.html'],
-	function( App, Marionette, Handlebars, _, alertify, UserListItemView, EmptyView, template)
+define(['App', 'marionette', 'handlebars','underscore', 'alertify',
+		'views/users/UserListItemView',
+		'views/EmptyView',
+		'text!templates/users/UserList.html',
+		'mixin/PageableViewBehavior'
+	],
+	function( App, Marionette, Handlebars, _, alertify,
+		UserListItemView,
+		EmptyView,
+		template,
+		PageableViewBehavior
+	)
 	{
 		return Marionette.CompositeView.extend(
 		{
@@ -36,13 +46,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/users
 
 			events:
 			{
-				'click .js-page-first' : 'showFirstPage',
-				'click .js-page-next' : 'showNextPage',
-				'click .js-page-prev' : 'showPreviousPage',
-				'click .js-page-last' : 'showLastPage',
-				'click .js-page-change' : 'showPage',
-				'change .js-filter-count' : 'updatePageSize',
-				'change .js-filter-sort' : 'updateSort',
 				'click .js-user-create' : 'showCreateUser',
 				'click .js-user-bulk-delete' : 'bulkDelete',
 				'click .js-user-bulk-change-role' : 'bulkChangeRole',
@@ -53,11 +56,15 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/users
 
 			collectionEvents :
 			{
-				reset : 'updatePagination',
-				add : 'updatePagination',
-				remove : 'updatePagination',
 				request: 'showLoading unselectAll',
-				sync : 'hideLoading updatePagination'
+				sync : 'hideLoading'
+			},
+
+			behaviors: {
+				PageableViewBehavior: {
+					behaviorClass : PageableViewBehavior,
+					modelName : 'users'
+				}
 			},
 
 			/**
@@ -202,110 +209,6 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify', 'views/users
 					modelName : this.modelName
 				});
 				return data;
-			},
-
-			showNextPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.lastPage <= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getNextPage();
-				this.updatePagination();
-			},
-			showPreviousPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.firstPage >= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getPreviousPage();
-				this.updatePagination();
-			},
-			showFirstPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.firstPage >= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getFirstPage();
-				this.updatePagination();
-			},
-			showLastPage : function (e)
-			{
-				e.preventDefault();
-				// Already at last page, skip
-				if (this.collection.state.lastPage <= this.collection.state.currentPage)
-				{
-					return;
-				}
-
-				this.collection.getLastPage();
-				this.updatePagination();
-			},
-			showPage : function (e)
-			{
-				var $el = this.$(e.currentTarget),
-						num = 0;
-
-				e.preventDefault();
-
-				_.each(
-					$el.attr('class').split(' '),
-					function (v) {
-						if (v.indexOf('page-') === 0)
-						{
-							num = v.replace('page-', '');
-						}
-					}
-				);
-				this.collection.getPage(num -1);
-				this.updatePagination();
-			},
-
-			updatePagination: function ()
-			{
-				this.$('.js-pagination').replaceWith(
-					Handlebars.partials.pagination({
-						pagination: this.collection.state
-					})
-				);
-				this.$('.js-list-view-filter-info').replaceWith(
-					Handlebars.partials.listinfo({
-						pagination: this.collection.state,
-						modelName: this.modelName
-					})
-				);
-
-				// Update counter
-				this.$('li.active span.count-number').text(this.collection.state.totalRecords);
-			},
-			updatePageSize : function (e)
-			{
-				e.preventDefault();
-				var size = parseInt(this.$('.js-filter-count').val(), 10);
-				if (typeof size === 'number' && size > 0)
-				{
-					this.collection.setPageSize(size, {
-						first: true
-					});
-				}
-			},
-			updateSort : function (e)
-			{
-				e.preventDefault();
-				var orderby = this.$('.js-filter-sort').val();
-				this.collection.setSorting(orderby);
-				this.collection.getFirstPage();
 			},
 			showCreateUser : function (e)
 			{
