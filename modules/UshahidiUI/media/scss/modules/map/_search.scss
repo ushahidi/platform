@@ -49,6 +49,7 @@
 
 .tags-select {
 	@include grid-column(12);
+	margin: 0 0 1rem 0;
 	@media #{$mobile-up} {
 		@include grid-column(4);
 	}
@@ -59,7 +60,11 @@
 			width: 100%;
 			.select2-choices {
 				@include border-radius($global-radius);
-				height: 40px !important;
+				padding: 5px 5px;
+				[class*='fa-'] {
+					font-size: 15px;
+					padding: 0 0 0 5px;
+				}
 			}
 		}
 	@media #{$small} {
@@ -96,11 +101,19 @@
 			height: 40px;
 			width: 50%;
 			&.time-from {
+				@include grid-column(12);
 				@include border-radius($global-radius 0 0 $global-radius);
+				@media #{$mobile-up} {
+					@include grid-column(6);
+				}
 			}
 			&.time-to {
 				border-left: 0;
+				@include grid-column(12);
 				@include border-radius(0 $global-radius $global-radius 0);
+				@media #{$mobile-up} {
+					@include grid-column(6);
+				}
 			}
 		}
 }

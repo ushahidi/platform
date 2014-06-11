@@ -53,3 +53,14 @@ letter-spacing: .1em;
 .f-dropdown li a {
 	color: $body-font-color;
 }
+
+
+/*------------------------------------*\
+	$SELECT2 OVERRIDES
+\*------------------------------------*/
+
+.select2-container-multi .select2-choices .select2-search-field input {
+	margin: 0;
+	font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}

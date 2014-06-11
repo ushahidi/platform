@@ -4,14 +4,14 @@
 
 			<div class="location-field">
 				<label class="visually-hidden" for="location-field">Location</label>
-				<input type="text" id="location-field" class="location-field js-search-location" placeholder="Location" value="">
+				<input type="text" id="location-field" class="location-field  js-search-location" placeholder="Location" value="">
 			</div>
 
 			<!-- TODO: need to figure out best solution for tags, time etc... -->
 			<div class="tags-select">
 				<label class="visually-hidden" for="tags">Tags</label>
 				{{#if tags}}
-				<select class="search-tag-field js-search-tag" multiple placeholder="Tags">
+				<select class="search-tag-field  js-search-tag" multiple placeholder="Tags">
 					{{#each tags}}
 			        <option value="{{id}}">{{tag}}</option>
 					{{/each}}
@@ -30,15 +30,15 @@
 
 			<div class="time-select">
 				<label class="visually-hidden" for="time-from">From Time</label>
-					<input type="text" id="time-from" class="search-field time-from js-search-time-from" placeholder="From Time" value="">
+					<input type="text" id="time-from" class="search-field  time-from  js-search-time-from" placeholder="From Time" value="">
 				<label class="visually-hidden" for="time-to">Until Time</label>
-					<input type="text" id="time-to" class="search-field time-to js-search-time-to" placeholder="Until Time" value="">
+					<input type="text" id="time-to" class="search-field  time-to  js-search-time-to" placeholder="Until Time" value="">
 			</div>
 
 			<div class="search-field-wrapper">
 				<div class="search-field">
 					<label class="visually-hidden" for="search-field">Search</label>
-					<input type="search" id="q" class="search-field js-search-keyword" placeholder="Keyword" value="">
+					<input type="search" id="q" class="search-field  js-search-keyword" placeholder="Keyword" value="">
 				</div>
 
 				<div class="search-bar-button">
