@@ -121,7 +121,8 @@ define(['marionette', 'underscore', 'App', 'hbs!templates/SearchBar', 'hbs!templ
 						q : keyword,
 						tags : tag,
 						created_after: timeFrom,
-						created_before: timeTo
+						created_before: timeTo,
+						bbox: null,
 					});
 				}
 			}
