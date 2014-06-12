@@ -93,6 +93,18 @@ class Controller_Api_DataProviders extends Ushahidi_Api {
 
 	protected function _for_api( array $provider_data)
 	{
+		foreach ($provider_data['options'] as $name => $input)
+		{
+			if (isset($input['description']) AND $input['description'] instanceof Closure)
+			{
+				$provider_data['options'][$name]['description'] = $provider_data['options'][$name]['description']();
+			}
+
+			if (isset($input['label']) AND $input['label'] instanceof Closure)
+			{
+				$provider_data['options'][$name]['label'] = $provider_data['options'][$name]['label']();
+			}
+		}
 		// Append allowed methods to retrieved data providers
 		return $provider_data + array(
 			'allowed_methods' => $this->_allowed_methods()
