@@ -14,6 +14,15 @@ define(['backbone', 'App', 'modules/config', 'backbone-model-factory'],
 		{
 
 			urlRoot: config.get('apiurl') + '/users',
+
+			// Initialize `change_role` to true by default to allow users with role
+			// to add a new user to be able to set the new user's role
+			defaults : {
+				allowed_methods : {
+					change_role: true,
+				}
+			},
+
 			schema : function ()
 			{
 				var schema = {
@@ -44,7 +53,7 @@ define(['backbone', 'App', 'modules/config', 'backbone-model-factory'],
 					}
 				};
 
-				if (this.get('allowed_methods').change_role)
+				if (typeof this.get('allowed_methods') !== 'undefined' && this.get('allowed_methods').change_role)
 				{
 					schema.role = {
 						type: 'Select',
