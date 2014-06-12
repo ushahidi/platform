@@ -24,6 +24,7 @@ define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/Workspa
 			initialize : function ()
 			{
 				App.vent.on('page:change', this.selectMenuItem, this);
+				App.vent.on('config:change', this.render, this);
 			},
 			serializeData: function()
 			{

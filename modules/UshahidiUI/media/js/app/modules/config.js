@@ -12,10 +12,12 @@ define(['underscore', 'alertify', 'models/ConfigModel'],
 	{
 		function onSaveSuccess(model/*response, options*/)
 		{
-			// Update the config values from the model
-			configs[model.id] = _.clone(model.attributes);
+			var App = require('App'),
+				group = model.get(model.idAttribute);
 
-			var App = require('App');
+			// Update the config values from the model
+			configs[group] = _.clone(model.attributes);
+
 			App.vent.trigger('config:change', configs);
 			alertify.success('Settings saved.');
 		}
@@ -62,10 +64,10 @@ define(['underscore', 'alertify', 'models/ConfigModel'],
 					return null;
 				}
 
-				config_models[group]
-					.set(values).save()
-						.done(onSaveSuccess)
-						.fail(onSaveFailure);
+				config_models[group].save(values, {
+					success: onSaveSuccess,
+					error: onSaveFailure
+				});
 
 				return config_models[group];
 			}
