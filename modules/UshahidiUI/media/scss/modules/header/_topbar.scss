@@ -35,6 +35,22 @@
 	}
 }
 
+.left-list__item,
+.right-list__item {
+	[class*='fa'] {
+		padding: 0;
+		@media #{$medium} {
+			padding-right: 5px;
+		}
+	}
+	span {
+		display: none;
+		@media #{$medium} {
+			display: inline;
+		}
+	}
+}
+
 
 
 
@@ -42,34 +58,46 @@
 		$LEFT
 \*------------------------------------*/
 
-.logo-image {
+.site-logo {
 	background: image-url("logo.png") no-repeat;
 	@include image-2x("logo@2x.png", 29px, 29px);
 	background-size: 100%;
 	height: 29px;
 	width: 29px;
-	margin: 10px;
+	margin: 10px 10px 0;
 	float: left;
 }
 
 .top-bar .title-area {
 	position: relative;
 	float: left;
-	width: 318px;
-}
-
-.top-bar .name h1 a {
-	width: 100%;
-	padding: 0 20px;
-	@media #{$small} {
-		padding: 0 52px;
+	.name .site-title {
+		display: none;
+		padding: 0 20px 0 10px;
+		color: $body-font-color;
+		font-weight: bold;
+		font-size: rem-calc(20);
+		line-height: 45px;
+		@media #{$mobile-up} {
+			display: inline;
+		}
 	}
 }
 
-.views {
+.top-bar-section li:not(.has-form) a:not(.button),
+.top-bar-section li.active:not(.has-form) a:not(.button) {
+	&:active {
+		background: darken($accent-color, 10);
+	}
+}
+
+.left-list__item {
 	.fa-eye {
 		position: relative;
 		top: -1px;
+	}
+	.fa-th-large {
+		padding-right: 9px;
 	}
 }
 
@@ -101,39 +129,10 @@
 	}
 }
 
-.top-bar-section li.show-for-medium-down a {
-	&.workspace-panel-button,
-	&.create-post-button,
-	&.views,
-	&.sets {
-		padding: 0 20px;
-		i {
-			position: relative;
-			top: 3px;
-			font-size: 19px;
-			padding: 0;
-		}
-	}
-	&.workspace-panel-button {
-		padding: 0 18px;
-	}
-}
-
-
-
-
-/*------------------------------------*\
-		$MOBILE
-\*------------------------------------*/
-
-.name-small {
-	background-color: $lightGray;
-/*  margin-top: 45px;*/
-	h4 {
-		line-height: 2.688em;
-		margin: 0;
-		a {
-			color: $topbar-link-color;
-		}
+.right-list--item {
+	.create-post-button i {
+		position: relative;
+		top: 1px;
+		font-size: 20px;
 	}
 }

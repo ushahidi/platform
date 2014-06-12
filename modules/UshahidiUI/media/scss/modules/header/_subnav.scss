@@ -41,14 +41,20 @@ nav[role="sub-navigation"] ul.subnav {
 	opacity: 1;
 }*/
 
-nav[role="sub-navigation"] ul li.active>a {
-	background: $accent-color;
-	color: $white;
+nav[role="sub-navigation"] ul li {
+	&:hover > a,
+	&.active > a {
+		background: $accent-color;
+		color: $white;
+	}
+	&:active > a {
+		background: darken($accent-color, 10);
+	}
 }
 
 nav[role="sub-navigation"] li {
 	display: block;
-	@media #{$small} {
+	@media #{$mobile-up} {
 		float: left;
 		clear: none;
 	}
@@ -59,7 +65,7 @@ nav[role="sub-navigation"] li a {
 	padding: 20px 20px;
 	color: $accent-color;
 	border-bottom: 1px solid $secondary-color;
-	@media #{$small} {
+	@media #{$mobile-up} {
 		float: left;
 		padding: 20px 30px;
 		border-bottom: 0;

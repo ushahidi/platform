@@ -1216,13 +1216,15 @@ $topbar-dropdown-toggle-alpha: 0.5;
 // Set the link colors and styles for top-level nav
 
 $topbar-link-color: #565656;
-$topbar-link-color-hover: #565656;
-$topbar-link-color-active: #565656;
+$topbar-link-color-hover: $white;
+$topbar-link-color-active: $white;
 $topbar-link-weight: bold;
 $topbar-link-font-size: rem-calc(13px);
 $topbar-link-hover-lightness: -30%; // Darken by 30%
-$topbar-link-bg-hover: darken($topbar-bg, 3%);
-$topbar-link-bg-active: darken($topbar-bg, 3%);
+$topbar-link-bg-hover: $accent-color;
+$topbar-link-bg-active: $accent-color;
+$topbar-link-bg-active-hover: $accent-color;
+$topbar-link-padding: $topbar-height / 3;
 
 $topbar-dropdown-label-color: #555;
 $topbar-dropdown-label-text-transform: uppercase;
