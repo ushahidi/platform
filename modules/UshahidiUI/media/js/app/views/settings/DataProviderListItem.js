@@ -32,7 +32,7 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/settings/D
 			//Template HTML string
 			template: Handlebars.compile(template),
 			tagName: 'li',
-			className: 'list-view-data-provider  data-provider-card__list-item',
+			className: 'list-view-data-provider  card-list__item',
 
 			// Value to track if checkbox for this post has been selected
 			selected : false,
@@ -53,7 +53,7 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/settings/D
 			{
 				e.preventDefault();
 
-				var $el = this.$('.data-provider-card');
+				var $el = this.$('.card');
 
 				$el.toggleClass('disabled');
 

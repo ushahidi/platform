@@ -112,11 +112,9 @@ define(['underscore', 'handlebars', 'marionette', 'alertify', 'forms/UshahidiFor
 				var $form = this.form.$el;
 
 				// add a cancel button to the form
-				$form.append('<button class="js-cancel-edit">Cancel</button>');
-
-				// add a submit button to the form
-				// todo: use "submitButton: title" in Backbone.Form v0.15
-				$form.append('<button type="submit">Save</button>');
+                // add a submit button to the form
+                // todo: use "submitButton: title" in Backbone.Form v0.15
+				$form.append('<div class="form-edit-cancel"><button class="cancel-edit-button  js-cancel-edit">Cancel</button></div><div class="form-edit-save"><button class="save-edit-button" type="submit">Save</button></div>');
 
 				// hide the field editor form until activated
 				this.$('.js-form')

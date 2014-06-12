@@ -1,0 +1,34 @@
+/*------------------------------------*\
+CONTENTS
+\*------------------------------------*/
+/**
+* FORM WIZARD...............form wizard create/edit/config
+* FORM WIZARD SETTINGS...............form wizard settings
+*/
+
+
+
+
+/*------------------------------------*\
+	$FORM WIZARD
+\*------------------------------------*/
+
+.card-list--form-wizard {
+	@extend .card-list;
+}
+
+.card-hero-unit--form-wizard {
+	@extend %card-hero-unit;
+	background-color: $secondary-color;
+	padding: 20px 0;
+}
+
+.card-header--form-wizard {
+	@extend %card-header;
+	color: $body-font-color;
+}
+
+.form-type {
+	display: block;
+	text-align: center;
+}

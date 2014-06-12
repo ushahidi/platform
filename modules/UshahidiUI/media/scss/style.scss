@@ -165,6 +165,7 @@
 /*MESSAGES*/
 @import "modules/messages/listings/messages";
 @import "modules/messages/config/message-config";
+@import "modules/messages/card/card";
 
 /*TOOLS*/
 @import "modules/tools/manage-users/manage-users";
@@ -197,6 +198,10 @@
 
 /*API EXPLORER*/
 @import "modules/api-explorer/json-syntax-highlight";
+
+/*FORM WIZARD*/
+@import "modules/form-wizard/form-wizard";
+
 
 
 

@@ -26,18 +26,29 @@ input[type="radio"], select {
 	margin: 0 3px 1em 0;
 }
 
-label.checkbox {
-	width:100%;
-	cursor:pointer;
-	overflow: hidden;
-	margin: 0;
+label {
+	font-size: $h6-font-size;
+	font-family: $header-font-family;
+	font-weight: $header-font-weight;
+	font-style: $header-font-style;
+	color: $header-font-color;
+	text-rendering: $header-text-rendering;
+	margin-top: $header-top-margin;
+	margin-bottom: $header-bottom-margin;
+	line-height: $header-line-height - em-calc(3);
+	&.checkbox {
+		width:100%;
+		cursor:pointer;
+		overflow: hidden;
+		margin: 0;
 
-	input[type=checkbox] {
-		display:none; margin : 0;
-	}
+		input[type=checkbox] {
+			display:none; margin : 0;
+		}
 
-	i {
-		font-weight: bold;
+		i {
+			font-weight: bold;
+		}
 	}
 }
 

@@ -14,17 +14,6 @@
 
 .data-provider-config-form {
 	@include grid-column(12);
-	label {
-		font-size: $h6-font-size;
-		font-family: $header-font-family;
-		font-weight: $header-font-weight;
-		font-style: $header-font-style;
-		color: $header-font-color;
-		text-rendering: $header-text-rendering;
-		margin-top: $header-top-margin;
-		margin-bottom: $header-bottom-margin;
-		line-height: $header-line-height - em-calc(3);
-	}
 }
 
 [class*='field-'] {

@@ -1,3 +1,14 @@
-<article>
-	<a href="#settings/forms/{{id}}">{{name}}</a> <small><tt>type:</tt> {{type}}</small>
-</article>
+<div class="card {{#unless enabled}}disabled{{/unless}}">
+
+	<div class="card-hero-unit--form-wizard">
+		<h6 class="card-header--form-wizard">{{name}}</h6>
+	</div> <!-- end .card-hero-unit-form-wizard -->
+
+	<div class="card-body">
+		<div class="card-status-wrapper">
+			<a href="#settings/forms/{{id}}" class="card-configure">Edit</a>
+			<small class="form-type"><tt>type :</tt> {{type}}</small>
+		</div>
+	</div> <!-- end .card-body -->
+
+</div> <!-- end .card -->

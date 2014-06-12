@@ -13,7 +13,7 @@ define(['App', 'marionette', 'handlebars', 'underscore', 'views/settings/DataPro
 		return Marionette.CollectionView.extend(
 		{
 			tagName : 'ul',
-			className : 'data-provider-card__list',
+			className : 'card-list',
 
 			itemView: DataProviderListItem,
 

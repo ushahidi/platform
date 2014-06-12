@@ -2,19 +2,19 @@
    CONTENTS
 \*------------------------------------*/
  /**
- * CARD WRAPPER...............
- * CARD DETAILS...............card details/main content
- * CARD ACTIONS...............card actions
+ * MESSAGE CARD WRAPPER...............
+ * MESSAGE CARD DETAILS...............message card details/main content
+ * MESSAGE CARD ACTIONS...............message card actions
  */
 
 
 
 
 /*------------------------------------*\
-   $CARD WRAPPER
+   $MESSAGE CARD WRAPPER
 \*------------------------------------*/
 
-.card-wrapper {
+.message-card-wrapper {
 	@include grid-column(12, $collapse: true);
 	margin-bottom: 20px;
 	@media #{$medium} {
@@ -22,7 +22,7 @@
 	}
 }
 
-.card-wrapper--selected {
+.message-card-wrapper--selected {
   @include grid-column(12, $collapse: true);
   opacity: .7;
   box-shadow: 0 0 10px rgba($black, .6);
@@ -30,10 +30,10 @@
 }
 
 /*------------------------------------*\
-   $CARD DETAILS
+   $MESSAGE CARD DETAILS
 \*------------------------------------*/
 
-.card {
+.message-card {
 	@include grid-column(12, $collapse: true);
 	padding: 15px;
 	background-color: $secondary-color;
@@ -148,10 +148,10 @@
 
 
 /*------------------------------------*\
-   $CARD ACTIONS
+   $MESSAGE CARD ACTIONS
 \*------------------------------------*/
 
-.card-actions-wrapper {
+.message-card-actions-wrapper {
 	@include grid-column(12, $collapse: true);
 	background-color: $white;
 	border-right: 2px solid darken($secondary-color, 10);
@@ -177,9 +177,9 @@
   }
 }
 
-.card-actions-list {
+.message-card-actions-list {
 	@include block-grid($per-row: 4);
-	.card-actions-list__item {
+	.message-card-actions-list__item {
 		font-size: emCalc(13px);
 		text-align: center;
 		padding: emCalc(15px);

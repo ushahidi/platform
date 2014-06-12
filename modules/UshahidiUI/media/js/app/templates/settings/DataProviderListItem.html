@@ -1,16 +1,16 @@
-<div class="data-provider-card {{#unless enabled}}disabled{{/unless}}">
-	<div class="data-provider-hero-unit">
-		<h6 class="data-provider-header">{{ name }}</h6>
-		<div class="data-provider-icon">
+<div class="card {{#unless enabled}}disabled{{/unless}}">
+	<div class="card-hero-unit">
+		<h6 class="card-header">{{ name }}</h6>
+		<div class="card-icon">
 			<i class="sms-icon"></i>
-		</div> <!-- end .data-provider-icon -->
-	</div> <!-- end .data-provider-hero-unit -->
+		</div> <!-- end .card-icon -->
+	</div> <!-- end .card-hero-unit -->
 
-	<div class="data-provider-body">
-		<div class="data-provider-status-wrapper">
-			<a class="data-provider-status  js-provider-status">{{#if enabled}}Disable{{else}}Enable{{/if}}</a>
-			<a class="data-provider-configure" href="#messages/settings/{{id}}"><i class="fa fa-cogs"></i> Configure</a>
+	<div class="card-body">
+		<div class="card-status-wrapper">
+			<a class="card-status  js-provider-status">{{#if enabled}}Disable{{else}}Enable{{/if}}</a>
+			<a class="card-configure" href="#messages/settings/{{id}}"><i class="fa fa-cogs"></i> Configure</a>
 		</div>
-	</div> <!-- end .data-provider-body -->
+	</div> <!-- end .card-body -->
 
-</div> <!-- end .data-provider-card -->
+</div> <!-- end .card-card -->
