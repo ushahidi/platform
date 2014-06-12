@@ -14,7 +14,6 @@
 
 .pagination-wrapper {
   @include pagination-container(true);
-  margin-top: 20px;
   .pagination {
     @include pagination(true);
   }

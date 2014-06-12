@@ -12,10 +12,6 @@
 	$DATA PROVIDER FORMS
 \*------------------------------------*/
 
-.message-box {
-	@extend %message-box;
-}
-
 .data-provider-config-form {
 	@include grid-column(12);
 	label {
@@ -31,14 +27,34 @@
 	}
 }
 
+[class*='field-'] {
+	margin-bottom: 30px;
+}
+
+.data-editor {
+	ul li {
+		display: inline;
+	}
+	input {
+		margin-bottom: 7px;
+	}
+}
+
+.form-helper-text {
+	font-size: rem-calc(14px);
+	.field-intro_text & {
+		@extend %message-box;
+	}
+}
+
 .message-config-submit {
-	@include grid-column(12, $collapse: true);
+	@include grid-column(12);
 	@media #{$small} {
-		@include grid-column(3, $collapse: true);
+		@include grid-column(3);
 		float: right;
 	}
 	@media #{$medium-up} {
-		@include grid-column(2, $collapse: true);
+		@include grid-column(2);
 		float: right;
 	}
 	button {

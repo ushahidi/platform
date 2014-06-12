@@ -84,23 +84,23 @@
 }
 
 .data-provider-status-wrapper {
-	@include grid-column(4, $center: true);
+	@include grid-column(5, $center: true);
 	@media #{$mobile} {
 		@include grid-column(8, $center: true);
 	}
-	@media #{$medium} {
-		@include grid-column(6, $center: true);
+	@media #{$xlarge} {
+		@include grid-column(7    , $center: true);
 	}
 }
 
 .data-provider-status {
-	@include button($padding: $button-sml, $bg: $secondary-color, $disabled: true, $radius: true, $full-width: false);
+	@include button($padding: $button-sml, $bg: $secondary-color, $disabled: true, $radius: true, $full-width: true);
 	opacity: 1;
 	color: $accent-color;
 }
 
 .data-provider-configure {
-	@include button($padding: $button-sml, $bg: $secondary-color, $disabled: false, $radius: true, $full-width: false);
+	@include button($padding: $button-sml, $bg: $secondary-color, $disabled: false, $radius: true, $full-width: true);
 	opacity: 1;
 	color: $accent-color;
 }
