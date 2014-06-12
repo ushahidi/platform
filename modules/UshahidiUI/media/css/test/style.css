@@ -13644,7 +13644,7 @@ img.mfp-img {
 }
 
 /* line 28, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-header--message-config,
+.actions-bar-header--message-config, .actions-bar-header--form-editor,
 .actions-bar-header {
   padding-left: 0;
   padding-right: 0;
@@ -13653,7 +13653,7 @@ img.mfp-img {
 }
 @media only screen and (min-width: 64.063em) {
   /* line 28, ../../scss/partials/actions-bar/_actions-bar.scss */
-  .actions-bar-header--message-config,
+  .actions-bar-header--message-config, .actions-bar-header--form-editor,
   .actions-bar-header {
     padding-left: 0;
     padding-right: 0;
@@ -13662,7 +13662,7 @@ img.mfp-img {
   }
 }
 /* line 33, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-header--message-config h3,
+.actions-bar-header--message-config h3, .actions-bar-header--form-editor h3,
 .actions-bar-header h3 {
   color: #fcfcfc;
   margin-top: 10px;
@@ -15229,7 +15229,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 }
 
 /* line 28, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-header--message-config,
+.actions-bar-header--message-config, .actions-bar-header--form-editor,
 .actions-bar-header {
   padding-left: 0;
   padding-right: 0;
@@ -15238,7 +15238,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 }
 @media only screen and (min-width: 64.063em) {
   /* line 28, ../../scss/partials/actions-bar/_actions-bar.scss */
-  .actions-bar-header--message-config,
+  .actions-bar-header--message-config, .actions-bar-header--form-editor,
   .actions-bar-header {
     padding-left: 0;
     padding-right: 0;
@@ -15247,7 +15247,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
   }
 }
 /* line 33, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-header--message-config h3,
+.actions-bar-header--message-config h3, .actions-bar-header--form-editor h3,
 .actions-bar-header h3 {
   color: #fcfcfc;
   margin-top: 10px;
@@ -19719,6 +19719,45 @@ nav[role="sub-navigation"] li a {
 /* line 145, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
 .settings-button:hover, .settings-button:focus {
   color: white;
+}
+
+/* line 1, ../../scss/modules/settings/forms/_form-editor.scss */
+.actions-bar-header--form-editor {
+  padding-left: 0;
+  padding-right: 0;
+  width: 66.66667%;
+  float: left;
+}
+
+/* line 6, ../../scss/modules/settings/forms/_form-editor.scss */
+.available-attributes, .form-attributes {
+  background-color: #fcfcfc;
+}
+/* line 7, ../../scss/modules/settings/forms/_form-editor.scss */
+.available-attributes li, .form-attributes li {
+  border-bottom: 1px solid #eff0f3;
+}
+
+@media only screen and (min-width: 64.063em) {
+  /* line 13, ../../scss/modules/settings/forms/_form-editor.scss */
+  .available-attributes {
+    padding-left: 0;
+    padding-right: 0;
+    width: 25%;
+    float: left;
+    padding-right: 20px;
+  }
+}
+
+@media only screen and (min-width: 64.063em) {
+  /* line 21, ../../scss/modules/settings/forms/_form-editor.scss */
+  .form-attributes {
+    padding-left: 0;
+    padding-right: 0;
+    width: 75%;
+    float: left;
+    padding-right: 20px;
+  }
 }
 
 /*MAP SETTINGS*/
