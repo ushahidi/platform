@@ -20,41 +20,62 @@ Exceptions and Other Libraries
 This program uses and is distributed with several other libraries,
 each is available under its own license. These licenses are documented
 in the source code of the individual libraries. For convenience each
-library and its license is listed below:
+library is linked to its license below:
 
+## API and Web Server
 * Data Provider modules - some of this code is released under GPLv3
-* The Kohana Framework and code modules are distributed under theKohana License Agreement <http://kohanaframework.org/license>
-* gisconverter.php is available under Modified BSD License <https://github.com/arenevier/gisconverter.php/blob/master/copying.txt>
-* OAuth2-Server is available under the MIT License <https://github.com/thephpleague/oauth2-server/blob/develop/license.txt>
-* Kohana-Imagefly is available under the MIT License <https://github.com/Bodom78/kohana-imagefly/blob/master/LICENSE>
-* BackboneJS is available under the MIT License <https://github.com/jashkenas/backbone/blob/master/LICENSE>
-* MarionetteJS is available under the MIT License <http://mutedsolutions.mit-license.org/>
-* Backbone Pageable is available under the MIT License <https://github.com/wyuenho/backbone-pageable/blob/master/LICENSE-MIT>
-* Backbone validateAll is available under the MIT License <https://github.com/gfranko/Backbone.validateAll/blob/master/LICENSE-MIT>
-* RequireJS is released under two licenses: new BSD, and MIT. You may pick the license that best suits your development needs. The text of both licenses are provided below. <https://github.com/jrburke/requirejs/blob/master/LICENSE>
-* RequireJS-text is released under two licenses: new BSD, and MIT. <http://github.com/requirejs/text>
-* Almond is released under two licenses: new BSD, and MIT. <ttp://github.com/jrburke/almond>
-* Leaflet is available under the BSD 2-clause licnse <https://github.com/Leaflet/Leaflet/blob/master/LICENSE>
-* jQuery is available under the MIT License <https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt>
-* Foundation is available under the MIT License <https://github.com/zurb/foundation/blob/master/LICENSE>
-* Modernizr is available under the MIT License
-* Handlebars is available under the MIT License <https://github.com/wycats/handlebars.js/blob/master/LICENSE>
-* Alertify is licensed under the MIT License <http://www.opensource.org/licenses/MIT>
-* Lodash is available under MIT License <https://github.com/lodash/lodash/blob/master/LICENSE.txt>
-* Jasmine is available under MIT License <https://github.com/pivotal/jasmine/blob/master/MIT.LICENSE>
-* Moment JS is available under MIT License <https://github.com/moment/moment/blob/develop/LICENSE>
-* Backbone Deep Model is available under MIT License <https://github.com/powmedia/backbone-deep-model/blob/master/LICENSE>
-* Leaflet Locate Control is available under MIT License <https://github.com/domoritz/leaflet-locatecontrol>
-* Leaflet GeoSearch Control is available under BSD License <https://github.com/smeijer/L.GeoSearch/blob/master/LICENSE>
-* Backbone Validation is available under MIT License <http://thedersen.mit-license.org/>
-* Backbone Forms is available under MIT License <https://github.com/powmedia/backbone-forms/blob/master/LICENSE>
-* Swift Mailer is released under MIT License <https://github.com/swiftmailer/swiftmailer/blob/master/LICENSE>
-* KO3-Event module is released under MIT License
-* Twilio client libraries are released under MIT License <https://github.com/twilio/twilio-php/blob/master/LICENSE>
-* Nexmo client libraries are publicly released, but the license is unknown: <https://github.com/prawnsalad/Nexmo-PHP-lib> **To be removed in next release**
+* [The Kohana Framework](http://kohanaframework.org/license)
+* [Kohana-Imagefly](https://github.com/Bodom78/kohana-imagefly/blob/master/LICENSE)
+* [gisconverter.php](https://github.com/arenevier/gisconverter.php/blob/master/copying.txt)
+* [OAuth2-Server](https://github.com/thephpleague/oauth2-server/blob/develop/license.txt)
+* [Aura.DI](https://github.com/auraphp/Aura.Di/blob/develop-2/LICENSE)
+* [Swift Mailer](https://github.com/swiftmailer/swiftmailer/blob/master/LICENSE)
+* [KO3-Event](https://github.com/dkobia/KO3-Event/blob/master/README.md)
+* [Twilio](https://github.com/twilio/twilio-php/blob/master/LICENSE)
+* [Nexmo](https://github.com/prawnsalad/Nexmo-PHP-lib) **To be removed in next release**
+
+## UshahidiUI Web Client
+* [BackboneJS](https://github.com/jashkenas/backbone/blob/master/LICENSE)
+* [MarionetteJS](http://mutedsolutions.mit-license.org/)
+* [Backbone Paginator](https://github.com/backbone-paginator/backbone.paginator/blob/master/LICENSE-MIT)
+* [Backbone validateAll](https://github.com/gfranko/Backbone.validateAll/blob/master/LICENSE-MIT)
+* [Backbone Deep Model](https://github.com/powmedia/backbone-deep-model/blob/master/LICENSE)
+* [Backbone Model Factory](https://github.com/misteroneill/backbone-model-factory/blob/master/LICENSE)
+* [Backbone Validation](http://thedersen.mit-license.org/)
+* [Backbone Forms](https://github.com/powmedia/backbone-forms/blob/master/LICENSE)
+* [RequireJS](https://github.com/jrburke/requirejs/blob/master/LICENSE)
+* [RequireJS-text](http://github.com/requirejs/text)
+* [Almond](ttp://github.com/jrburke/almond)
+* [Leaflet](https://github.com/Leaflet/Leaflet/blob/master/LICENSE)
+* [Leaflet Locate Control](https://github.com/domoritz/leaflet-locatecontrol)
+* [Leaflet GeoSearch Control](https://github.com/smeijer/L.GeoSearch/blob/master/LICENSE)
+* [Leaflet Marker Cluster](https://github.com/Leaflet/Leaflet.markercluster/blob/master/MIT-LICENCE.txt)
+* [GeocoderJS](https://github.com/geocoder-php/geocoder-js/blob/master/LICENSE)
+* [GeoPoint](https://github.com/davidwood/node-geopoint/blob/master/LICENSE)
+* [jQuery](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt)
+* [jQuery UI](https://github.com/jquery/jquery-ui/blob/master/MIT-LICENSE.txt)
+* [jQuery.cookie](https://github.com/carhartl/jquery-cookie/blob/master/MIT-LICENSE.txt)
+* [jQuery.simplepicker](https://github.com/ushahidi/jquery-simplepicker/blob/master/README.md#copyright-and-license)
+* [DateTimePicker](https://github.com/xdan/datetimepicker/blob/master/MIT-LICENSE.txt)
+* [NoUiSlider](https://github.com/leongersen/noUiSlider/blob/master/README.md#nouislider)
+* [Select2](https://github.com/ivaynberg/select2/blob/master/LICENSE)
+* [CSS Toggle Switch](https://github.com/ghinda/css-toggle-switch/blob/gh-pages/LICENSE.txt)
+* [Dropzone](https://github.com/enyo/dropzone/blob/master/readme.md#license)
+* [Foundation](https://github.com/zurb/foundation/blob/master/LICENSE)
+* [Modernizr](http://modernizr.com/license/)
+* [Handlebars](https://github.com/wycats/handlebars.js/blob/master/LICENSE)
+* [Alertify](http://www.opensource.org/licenses/MIT)
+* [DDT](https://github.com/deviantART/ddt/blob/master/LICENSES.txt)
+* [Lodash](https://github.com/lodash/lodash/blob/master/LICENSE.txt)
+* [Jasmine](https://github.com/pivotal/jasmine/blob/master/MIT.LICENSE)
+* [Moment JS](https://github.com/moment/moment/blob/develop/LICENSE)
+* [SASS](http://sass-lang.com/documentation/file.MIT-LICENSE.html)
+* [Compass](https://github.com/chriseppstein/compass/blob/stable/LICENSE.markdown)
+* [Compass-CSSLint](https://github.com/Comcast/compass-csslint/blob/master/LICENSE)
+* [SASS CSS Importer](https://github.com/chriseppstein/sass-css-importer)
 
 Map Data
 ========
 
-The default map data used comes from OpenStreetMap - http://osm.org/copyright
-The default imagery comes from MapQuest and is subject to the following terms: http://developer.mapquest.com/web/info/terms-of-use and http://info.mapquest.com/terms-of-use/
+The default map data used comes from OpenStreetMap - <http://osm.org/copyright>
+The default imagery comes from MapQuest and is subject to the following terms: <http://developer.mapquest.com/web/info/terms-of-use> and <http://info.mapquest.com/terms-of-use/>
