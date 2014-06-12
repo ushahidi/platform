@@ -3,6 +3,8 @@ Ushahidi 3
 
 [![Build Status](https://travis-ci.org/ushahidi/Lamu.png)](https://travis-ci.org/ushahidi/Lamu)
 
+[Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+3.x+Downloads)
+
 ## What is Ushahidi 3.x?
 
 Ushahidi is an open source web application for information collection, visualization,
@@ -38,6 +40,7 @@ better helping out on [Ushahidi 2.x][ush2] right now.
 
 ## More info
 
+- [Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+3.x+Downloads)
 - [The Wiki](https://wiki.ushahidi.com/display/WIKI/Ushahidi,+v3.X)
 - [Ushahidi (the organisation)](http://ushahidi.com)
 - [Ushahidi Blog](http://blog.ushahidi.com)
