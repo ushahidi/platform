@@ -35,13 +35,11 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		render : function()
 		{
 			var that = this,
-					$editor = this.template(_.result(this, 'templateData')),
-					baseMaps,
-					map;
+				$editor = this.template(_.result(this, 'templateData')),
+				baseMaps,
+				map;
 
-			//this.setElement($editor);
 			this.$el.append($editor);
-			//this.setValue(this.value);
 
 			// Don't re-render the map
 			if (typeof this.map !== 'undefined')
@@ -51,6 +49,10 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 
 			baseMaps = _.result(this, 'baseMaps');
 			ddt.log('LocationEditor', 'baseMaps', baseMaps);
+
+			if (!this.value) {
+				this.value = {lat: 0, lon: 0};
+			}
 
 			// create a map in the 'map' div, set the view to a given place and zoom
 			map = this.map = L.map(this.$('.map')[0], {
@@ -138,12 +140,12 @@ define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!f
 		setValue: function(value)
 		{
 			// Handle LatLng object as value, make it match API value object.
-			if (value.lng)
+			if (value && value.lng)
 			{
 				value.lon = value.lng;
 			}
 
-			if (value.lat && value.lon)
+			if (value && typeof value.lat !== 'undefined' && typeof value.lon !== 'undefined')
 			{
 				if (this.marker === null)
 				{

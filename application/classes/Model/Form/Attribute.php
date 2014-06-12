@@ -20,7 +20,7 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 		'form_groups' => array('through' => 'form_groups_form_attributes'),
 		);
 
-	protected $_serialize_columns = array('options');
+	protected $_serialize_columns = array('options', 'default');
 
 	/**
 	 * Reserved attribute keys to avoid confusion with Posts table columns
@@ -70,6 +70,22 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 	}
 
 	/**
+	 * Filters for the Post model
+	 *
+	 * @return array Filters
+	 */
+	public function filters()
+	{
+		return array(
+			'key' => array(
+				array('trim'),
+				// Make sure we have a URL-safe title.
+				array('URL::title', array(':value', '_'))
+			),
+		);
+	}
+
+	/**
 	 * Rules for the form_attribute model
 	 *
 	 * @return array Rules
@@ -88,8 +104,8 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 				array('numeric'),
 			),
 			'key' => array(
-				array('not_empty'),
 				array('max_length', array(':value', 150)),
+				array('alpha_dash', array(':value', TRUE)),
 				array(array($this, 'unique'), array(':field', ':value')),
 				array(array($this, 'not_reserved'), array(':field', ':value'))
 			),
@@ -105,7 +121,10 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 					'select',
 					'radio',
 					'checkbox',
-					'file',
+					'checkboxes',
+					// todo: Backbone.Form doesn't have a File input, and this is done via media uploads.
+					//       Do we drop this entirely in favor of media uploads, or ... ?
+					// 'file',
 					'date',
 					'datetime',
 					'location',
@@ -143,6 +162,40 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 	public function not_reserved($field, $value)
 	{
 		return ! in_array($field, $this->_reserved_keys);
+	}
+
+	/**
+	 * Callback function to generate key if none set
+	 */
+	protected function _generate_key_if_empty()
+	{
+		if (empty($this->key))
+		{
+			$this->key = $this->label;
+
+			// FIXME horribly inefficient
+			// If the key exists add a count to the end
+			$i = 1;
+			while (! $this->unique('key', $this->key))
+			{
+				$this->key = $this->key." $i";
+				$i++;
+			}
+		}
+	}
+
+	/**
+	 * Updates or Creates the record depending on loaded()
+	 *
+	 * @chainable
+	 * @param  Validation $validation Validation object
+	 * @return ORM
+	 */
+	public function save(Validation $validation = NULL)
+	{
+		$this->_generate_key_if_empty();
+
+		return parent::save($validation);
 	}
 
 	/**

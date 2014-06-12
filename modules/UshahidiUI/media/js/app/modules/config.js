@@ -24,7 +24,7 @@ define(['underscore', 'alertify', 'models/ConfigModel'],
 		{
 			alertify.error('Unable to save settings, please try again.');
 			if (response.errors) {
-				ddt.log('debug', response.errors);
+				ddt.log('Config', response.errors);
 			}
 		}
 

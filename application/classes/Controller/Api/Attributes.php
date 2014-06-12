@@ -90,7 +90,7 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 
 		$attribute = ORM::factory('Form_Attribute');
 
-		$this->create_or_update($attribute, $post);
+		$this->create_or_update($attribute, $post, $group);
 	}
 
 	/**
@@ -163,9 +163,10 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 	 * Save Attribute
 	 *
 	 * @param Model_Form_Attribute $attribute
-	 * @param array $post POST data
+	 * @param array $post POST data,
+	 * @param Model_Form_Group $group
 	 */
-	protected function create_or_update($attribute, $post)
+	protected function create_or_update($attribute, $post, $group = FALSE)
 	{
 		// Load post values into group model
 		$attribute->values($post, array(
@@ -180,6 +181,12 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 
 			// Validates ... so save
 			$attribute->save();
+
+			// Add to group
+			if ($group)
+			{
+				$group->add('form_attributes', $attribute);
+			}
 
 			// Response is the complete form
 			$this->_response_payload = $attribute->for_api();

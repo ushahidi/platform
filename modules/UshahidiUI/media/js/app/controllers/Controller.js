@@ -403,6 +403,20 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 				});
 			},
 			/**
+			 * Shows a form listing
+			 */
+			forms : function ()
+			{
+				var that = this;
+				require(['views/settings/FormList'], function(FormList)
+				{
+					App.vent.trigger('page:change', 'forms');
+					that.layout.mainRegion.show(new FormList({
+						collection : App.Collections.Forms
+					}));
+				});
+			},
+			/**
 			 * Set up data provider layout
 			 * @todo refactor to better handle loading dplayout
 			 */
@@ -530,6 +544,95 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 							template: Handlebars.compile(template)
 						}));
 					});
+				});
+			},
+			/**
+			 * Show a post wizard for an editing a post form
+			 * @param  String form id
+			 */
+			formEdit : function(id)
+			{
+				var that = this;
+				require(['views/settings/FormEditor', 'views/settings/AvailableAttributeList', 'views/settings/FormAttributeList', 'collections/FormAttributeCollection'],
+					function(FormEditor, AvailableAttributeList, FormAttributeList, FormAttributeCollection)
+				{
+					App.vent.trigger('page:change', 'forms');
+					var form = App.Collections.Forms.get(id),
+						formEditor = new FormEditor({
+							model : form
+						}),
+						availableAttributes = new FormAttributeCollection([
+							{
+								label: 'Text',
+								input: 'Text',
+								type: 'varchar'
+							},
+							{
+								label: 'TextArea',
+								input: 'TextArea',
+								type: 'text'
+							},
+							{
+								label: 'Number (Decimal)',
+								input: 'Number',
+								type: 'decimal'
+							},
+							{
+								label: 'Number (Integer)',
+								input: 'Number',
+								type: 'integer'
+							},
+							{
+								label: 'Select',
+								input: 'Select',
+								type: 'varchar', // what about numeric selections?
+								options: []
+							},
+							{
+								label: 'Radio',
+								input: 'Radio',
+								type: 'varchar', // not totally sure about this
+								options: []
+							},
+							{
+								label: 'Checkbox',
+								input: 'Checkbox',
+								type: 'varchar' // not totally sure about this
+							},
+							{
+								label: 'Checkboxes',
+								input: 'Checkboxes',
+								type: 'varchar' // not totally sure about this
+							},
+							{
+								label: 'Date',
+								input: 'Date',
+								type: 'datetime'
+							},
+							{
+								label: 'DateTime',
+								input: 'DateTime',
+								type: 'datetime'
+							},
+							{
+								label: 'Location',
+								input: 'Location',
+								type: 'point'
+							}
+						]),
+						formAttributes = new FormAttributeCollection(_.values(form.formAttributes)),
+						formAttributeList = new FormAttributeList({
+							collection : formAttributes,
+							form_group_id : form.get('groups')[0].id // @todo check this exists
+						});
+
+					that.layout.mainRegion.show(formEditor);
+
+					formEditor.formAttributes.show(formAttributeList);
+					formEditor.availableAttributes.show(new AvailableAttributeList({
+						collection : availableAttributes,
+						sortableList : formAttributeList
+					}));
 				});
 			}
 	});

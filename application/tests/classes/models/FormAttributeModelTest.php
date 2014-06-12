@@ -58,18 +58,6 @@ class FormAttributeModelTest extends Unittest_TestCase {
 				array()
 			),
 			array(
-				// Invalid form data set 1 - Missing Key
-				array(
-					'label' => 'Sex',
-					'input' => 'select',
-					'type' => 'varchar',
-					'options' => array(
-						'm' => 'Male',
-						'f' => 'Female'
-						)
-				)
-			),
-			array(
 				// Invalid form data set 2 - Missing Label
 				array(
 					'key' => 'sex',

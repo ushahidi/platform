@@ -83,19 +83,10 @@
 					"cardinality":0
 				},
 				{
-					"key":"photo",
-					"label":"Photo",
-					"type":"link",
-					"input":"text",
-					"required":false,
-					"priority":1,
-					"cardinality":0
-				},
-				{
 					"key":"video",
 					"label":"Video",
-					"type":"varchar",
-					"input":"file",
+					"type":"link",
+					"input":"text",
 					"required":false,
 					"priority":2,
 					"cardinality":0

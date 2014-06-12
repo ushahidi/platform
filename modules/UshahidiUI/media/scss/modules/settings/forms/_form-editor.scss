@@ -1,0 +1,27 @@
+.actions-bar-header--form-editor {
+	@extend %actions-bar-header;
+	@include grid-column(8, $collapse: true);
+}
+
+%attribute-list {
+	li {
+		border-bottom: 1px solid $secondary-color;
+	}
+	background-color: $white;
+}
+
+.available-attributes {
+	@extend %attribute-list;
+	@media #{$medium-up} {
+		@include grid-column(3, $collapse: true);
+		padding-right: 20px;
+	}
+}
+
+.form-attributes {
+	@extend %attribute-list;
+	@media #{$medium-up} {
+		@include grid-column(9, $collapse: true);
+		padding-right: 20px;
+	}
+}

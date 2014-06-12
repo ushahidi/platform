@@ -18,5 +18,7 @@ return array(
 	'api_explorer' => FALSE,
 	'data_provider_config' => FALSE,
 	// Map Settings UI
-	'map_settings' => FALSE
+	'map_settings' => FALSE,
+	// T136: custom forms
+	'form_wizard' => FALSE,
 );

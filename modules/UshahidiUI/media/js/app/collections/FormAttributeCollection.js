@@ -1,7 +1,7 @@
 /**
- * Form Collection Module
+ * Form Attribute Collection Module
  *
- * @module     FormCollection
+ * @module     FormAttributeCollection
  * @author     Ushahidi Team <team@ushahidi.com>
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
@@ -12,30 +12,25 @@ define([
 		'backbone',
 		'modules/config',
 		'mixin/ResultsCollection',
-		'models/FormModel'
+		'models/FormAttributeModel'
 	],
 	function(
 		_,
 		Backbone,
 		config,
 		ResultsCollection,
-		FormModel
+		FormAttributeModel
 	) {
-		// Creates a new Backbone Collection class object
-		var FormCollection = Backbone.Collection.extend(
+		var FormAttributeCollection = Backbone.Collection.extend(
 			_.extend(
 			{
-				model : FormModel,
-				url: config.get('apiurl') +'/forms',
-				// The Ushahidi API returns models under 'results'.
-				parse: function(response)
-				{
-					return response.results;
-				}
+				model: FormAttributeModel,
+				url: config.get('apiuri') +'/attributes',
+				comparator: 'priority'
 			},
 			// Mixins must always be added last!
 			ResultsCollection
 		));
 
-		return FormCollection;
+		return FormAttributeCollection;
 	});
