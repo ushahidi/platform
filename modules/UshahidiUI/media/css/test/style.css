@@ -267,7 +267,7 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 }
 
 /* line 66, ../../scss/tools/_helpers.scss */
-.fa, .status-icon, .phone-number-list .phone-number-list__item .phone-number {
+.fa {
   display: inline-block;
   font-family: FontAwesome;
   font-style: normal;
@@ -8403,8 +8403,10 @@ div.logo {
   width: 100%;
   float: left;
 }
-/* line 74, ../../scss/tools/_mixins.scss */
-.message-box-wrapper .message-box {
+
+/* line 77, ../../scss/tools/_mixins.scss */
+.field-intro_text .form-helper-text,
+.message-box {
   border-style: solid;
   border-width: 1px;
   display: block;
@@ -8414,8 +8416,8 @@ div.logo {
   padding: 0.6875rem 1.3125rem 0.75rem 0.6875rem;
   font-size: 0.875rem;
   transition: opacity 300ms ease-out;
-  background-color: #eff0f3;
-  border-color: #f1f1f4;
+  background-color: #a0d3e8;
+  border-color: #a9d7ea;
   color: #4b5265;
   text-align: center;
   line-height: 1.5em;
@@ -9335,7 +9337,7 @@ img.mfp-img {
 }
 
 /* line 4, ../../scss/plugins/font-awesome/_core.scss */
-.fa, .status-icon, .phone-number-list .phone-number-list__item .phone-number {
+.fa {
   display: inline-block;
   font-family: FontAwesome;
   font-style: normal;
@@ -9421,11 +9423,11 @@ img.mfp-img {
 }
 
 /* line 14, ../../scss/plugins/font-awesome/_bordered-pulled.scss */
-.fa.pull-left, .pull-left.status-icon, .phone-number-list .phone-number-list__item .pull-left.phone-number {
+.fa.pull-left {
   margin-right: .3em;
 }
 /* line 15, ../../scss/plugins/font-awesome/_bordered-pulled.scss */
-.fa.pull-right, .pull-right.status-icon, .phone-number-list .phone-number-list__item .pull-right.phone-number {
+.fa.pull-right {
   margin-left: .3em;
 }
 
@@ -14772,7 +14774,6 @@ img.mfp-img {
 		$FILTER
 \*------------------------------------*/
 /* line 19, ../../scss/partials/filter/_filter.scss */
-.tab-nav,
 .filter {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -14783,7 +14784,6 @@ img.mfp-img {
 }
 
 /* line 26, ../../scss/partials/filter/_filter.scss */
-.tab-nav--message-config,
 .filter-categories {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -14793,7 +14793,6 @@ img.mfp-img {
 }
 @media only screen and (min-width: 64.063em) {
   /* line 26, ../../scss/partials/filter/_filter.scss */
-  .tab-nav--message-config,
   .filter-categories {
     padding-left: 0;
     padding-right: 0;
@@ -14803,7 +14802,6 @@ img.mfp-img {
   }
 }
 /* line 33, ../../scss/partials/filter/_filter.scss */
-.tab-nav--message-config .dropdown-button,
 .filter-categories .dropdown-button {
   border-style: solid;
   border-width: 1px;
@@ -14837,19 +14835,16 @@ img.mfp-img {
   margin-bottom: 0;
 }
 /* line 134, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.tab-nav--message-config .dropdown-button:hover, .tab-nav--message-config .dropdown-button:focus,
 .filter-categories .dropdown-button:hover,
 .filter-categories .dropdown-button:focus {
   background-color: #f1f1f4;
 }
 /* line 140, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.tab-nav--message-config .dropdown-button:hover, .tab-nav--message-config .dropdown-button:focus,
 .filter-categories .dropdown-button:hover,
 .filter-categories .dropdown-button:focus {
   color: #333333;
 }
 /* line 62, ../../bower_components/foundation/scss/foundation/components/_dropdown-buttons.scss */
-.tab-nav--message-config .dropdown-button:after,
 .filter-categories .dropdown-button:after {
   position: absolute;
   content: "";
@@ -14861,43 +14856,36 @@ img.mfp-img {
   top: 50%;
 }
 /* line 77, ../../bower_components/foundation/scss/foundation/components/_dropdown-buttons.scss */
-.tab-nav--message-config .dropdown-button:before,
 .filter-categories .dropdown-button:before {
   border-width: 0.4375rem;
   right: 1.125rem;
   margin-top: -0.15625rem;
 }
 /* line 116, ../../bower_components/foundation/scss/foundation/components/_dropdown-buttons.scss */
-.tab-nav--message-config .dropdown-button:after,
 .filter-categories .dropdown-button:after {
   border-color: white transparent transparent transparent;
 }
 /* line 37, ../../scss/partials/filter/_filter.scss */
-.tab-nav--message-config .dropdown-button:before,
 .filter-categories .dropdown-button:before {
   border-color: #323a45 transparent transparent transparent;
 }
 
 /* line 45, ../../scss/partials/filter/_filter.scss */
-.tab-nav-list--message-config:after,
 .filter-categories-list:after {
   content: none;
   display: table;
 }
 /* line 49, ../../scss/partials/filter/_filter.scss */
-.tab-nav-list--message-config .hide-for-small,
 .filter-categories-list .hide-for-small {
   display: none !important;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 49, ../../scss/partials/filter/_filter.scss */
-  .tab-nav-list--message-config .hide-for-small,
   .filter-categories-list .hide-for-small {
     display: inline-block !important;
   }
 }
 /* line 55, ../../scss/partials/filter/_filter.scss */
-.tab-nav-list--message-config li,
 .filter-categories-list li {
   float: left;
   width: 25%;
@@ -14911,36 +14899,30 @@ img.mfp-img {
 }
 @media only screen and (min-width: 64.063em) {
   /* line 55, ../../scss/partials/filter/_filter.scss */
-  .tab-nav-list--message-config li,
   .filter-categories-list li {
     padding: 10px 19px;
   }
 }
 /* line 68, ../../scss/partials/filter/_filter.scss */
-.tab-nav-list--message-config li a,
 .filter-categories-list li a {
   color: #1f1f1f;
   font-weight: bold;
 }
 /* line 72, ../../scss/partials/filter/_filter.scss */
-.tab-nav-list--message-config li.active,
 .filter-categories-list li.active {
   background-color: #fcfcfc;
   color: #1f1f1f;
   font-weight: bold;
 }
 /* line 77, ../../scss/partials/filter/_filter.scss */
-.tab-nav-list--message-config li:hover:not(.active),
 .filter-categories-list li:hover:not(.active) {
   background-color: #e9ebef;
 }
 /* line 80, ../../scss/partials/filter/_filter.scss */
-.tab-nav-list--message-config li:active:not(.active),
 .filter-categories-list li:active:not(.active) {
   background-color: #dee0e6;
 }
 /* line 84, ../../scss/partials/filter/_filter.scss */
-.tab-nav-list--message-config .count-number,
 .filter-categories-list .count-number {
   position: relative;
   top: 4px;
@@ -15122,9 +15104,8 @@ img.mfp-img {
 /* line 15, ../../scss/partials/pagination/_pagination.scss */
 .pagination-wrapper {
   text-align: center;
-  margin-top: 20px;
 }
-/* line 18, ../../scss/partials/pagination/_pagination.scss */
+/* line 17, ../../scss/partials/pagination/_pagination.scss */
 .pagination-wrapper .pagination {
   display: block;
   min-height: 1.5rem;
@@ -15175,7 +15156,7 @@ img.mfp-img {
   display: inline-block;
 }
 
-/* line 23, ../../scss/partials/pagination/_pagination.scss */
+/* line 22, ../../scss/partials/pagination/_pagination.scss */
 ul.pagination li.current a {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -15184,7 +15165,7 @@ ul.pagination li.current a {
   border-radius: 3px;
 }
 
-/* line 27, ../../scss/partials/pagination/_pagination.scss */
+/* line 26, ../../scss/partials/pagination/_pagination.scss */
 ul.pagination li:hover a, ul.pagination li a:focus {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -15421,7 +15402,6 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 	$INPUT
 \*------------------------------------*/
 /* line 16, ../../scss/partials/input-field/_input-field.scss */
-.input-wrapper--tel,
 .input-wrapper {
   padding-left: 0;
   padding-right: 0;
@@ -15430,7 +15410,6 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 }
 
 /* line 21, ../../scss/partials/input-field/_input-field.scss */
-.input--tel,
 .input {
   padding-left: 0;
   padding-right: 0;
@@ -15442,7 +15421,6 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 	$INPUT--TEL
 \*------------------------------------*/
 /* line 30, ../../scss/partials/input-field/_input-field.scss */
-.input-button--tel,
 .input-button {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -15451,7 +15429,6 @@ ul.pagination li:hover a, ul.pagination li a:focus {
   padding-right: 0;
 }
 /* line 33, ../../scss/partials/input-field/_input-field.scss */
-.input-button--tel button,
 .input-button button {
   border-style: solid;
   border-width: 1px;
@@ -15482,13 +15459,11 @@ ul.pagination li:hover a, ul.pagination li a:focus {
   border-radius: 3px;
 }
 /* line 134, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.input-button--tel button:hover, .input-button--tel button:focus,
 .input-button button:hover,
 .input-button button:focus {
   background-color: #18c9e9;
 }
 /* line 145, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.input-button--tel button:hover, .input-button--tel button:focus,
 .input-button button:hover,
 .input-button button:focus {
   color: white;
@@ -16322,7 +16297,7 @@ ul.pagination li:hover a, ul.pagination li a:focus {
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 61, ../../scss/modules/header/_topbar.scss */
   .site-logo {
-    background-image: url('../../images/logo@2x.png?1401910802');
+    background-image: url('../../images/logo@2x.png?1402669447');
     background-size: 29px 29px;
   }
 }
@@ -16813,6 +16788,7 @@ nav[role="sub-navigation"] li a {
   box-shadow: 0px 2px 4px -1px rgba(108, 108, 108, 0.5);
   background-color: #fcfcfc;
   color: #9a9797;
+  margin-bottom: 40px;
   padding-top: 30px;
   padding-bottom: 30px;
 }
@@ -16820,7 +16796,7 @@ nav[role="sub-navigation"] li a {
 /*-------------------------------------------------------------------*\
 		$LIST VIEW
 \*-------------------------------------------------------------------*/
-/* line 32, ../../scss/modules/list-view/_list-view.scss */
+/* line 33, ../../scss/modules/list-view/_list-view.scss */
 .list-view-message-list, .list-view-user-profile-list, .list-view-tag-list, .list-view-post-list {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -16829,7 +16805,7 @@ nav[role="sub-navigation"] li a {
   margin-left: 0;
 }
 
-/* line 37, ../../scss/modules/list-view/_list-view.scss */
+/* line 38, ../../scss/modules/list-view/_list-view.scss */
 .list-view-post, .set-detail-post {
   padding-left: 0;
   padding-right: 0;
@@ -16838,12 +16814,12 @@ nav[role="sub-navigation"] li a {
   border-bottom: 1px solid #eff0f3;
   margin-bottom: 20px;
 }
-/* line 41, ../../scss/modules/list-view/_list-view.scss */
+/* line 42, ../../scss/modules/list-view/_list-view.scss */
 .list-view-post:last-child, .set-detail-post:last-child {
   border-bottom: 0;
 }
 
-/* line 47, ../../scss/modules/list-view/_list-view.scss */
+/* line 48, ../../scss/modules/list-view/_list-view.scss */
 .list-view-image--user,
 .list-view-image {
   padding-left: 0.9375rem;
@@ -16852,7 +16828,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 47, ../../scss/modules/list-view/_list-view.scss */
+  /* line 48, ../../scss/modules/list-view/_list-view.scss */
   .list-view-image--user,
   .list-view-image {
     padding-left: 0.9375rem;
@@ -16862,7 +16838,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 47, ../../scss/modules/list-view/_list-view.scss */
+  /* line 48, ../../scss/modules/list-view/_list-view.scss */
   .list-view-image--user,
   .list-view-image {
     padding-left: 0.9375rem;
@@ -16873,7 +16849,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 59, ../../scss/modules/list-view/_list-view.scss */
+/* line 60, ../../scss/modules/list-view/_list-view.scss */
 .list-view-details--user, .list-view-details--post,
 .list-view-details {
   padding-left: 0;
@@ -16883,7 +16859,7 @@ nav[role="sub-navigation"] li a {
   margin-top: 5px;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 59, ../../scss/modules/list-view/_list-view.scss */
+  /* line 60, ../../scss/modules/list-view/_list-view.scss */
   .list-view-details--user, .list-view-details--post,
   .list-view-details {
     padding-left: 0;
@@ -16893,7 +16869,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 59, ../../scss/modules/list-view/_list-view.scss */
+  /* line 60, ../../scss/modules/list-view/_list-view.scss */
   .list-view-details--user, .list-view-details--post,
   .list-view-details {
     padding-left: 0;
@@ -16904,7 +16880,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 72, ../../scss/modules/list-view/_list-view.scss */
+/* line 73, ../../scss/modules/list-view/_list-view.scss */
 .list-view-header {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -16912,7 +16888,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 72, ../../scss/modules/list-view/_list-view.scss */
+  /* line 73, ../../scss/modules/list-view/_list-view.scss */
   .list-view-header {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -16921,7 +16897,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 79, ../../scss/modules/list-view/_list-view.scss */
+/* line 80, ../../scss/modules/list-view/_list-view.scss */
 .list-view-time {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -16929,25 +16905,25 @@ nav[role="sub-navigation"] li a {
   float: left;
   font-size: 15px;
 }
-/* line 82, ../../scss/modules/list-view/_list-view.scss */
+/* line 83, ../../scss/modules/list-view/_list-view.scss */
 .list-view-time p {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 79, ../../scss/modules/list-view/_list-view.scss */
+  /* line 80, ../../scss/modules/list-view/_list-view.scss */
   .list-view-time {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
     width: 33.33333%;
     float: left;
   }
-  /* line 87, ../../scss/modules/list-view/_list-view.scss */
+  /* line 88, ../../scss/modules/list-view/_list-view.scss */
   .list-view-time p {
     float: right;
   }
 }
 
-/* line 93, ../../scss/modules/list-view/_list-view.scss */
+/* line 94, ../../scss/modules/list-view/_list-view.scss */
 .list-view-body {
   padding-left: 0;
   padding-right: 0;
@@ -16955,7 +16931,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 93, ../../scss/modules/list-view/_list-view.scss */
+  /* line 94, ../../scss/modules/list-view/_list-view.scss */
   .list-view-body {
     padding-left: 0;
     padding-right: 0;
@@ -16965,7 +16941,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 100, ../../scss/modules/list-view/_list-view.scss */
+/* line 101, ../../scss/modules/list-view/_list-view.scss */
 .list-view-excerpt {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -16973,7 +16949,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 100, ../../scss/modules/list-view/_list-view.scss */
+  /* line 101, ../../scss/modules/list-view/_list-view.scss */
   .list-view-excerpt {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -16983,7 +16959,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 100, ../../scss/modules/list-view/_list-view.scss */
+  /* line 101, ../../scss/modules/list-view/_list-view.scss */
   .list-view-excerpt {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -16992,7 +16968,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 112, ../../scss/modules/list-view/_list-view.scss */
+/* line 113, ../../scss/modules/list-view/_list-view.scss */
 .list-view-admin,
 .set-detail-post-admin {
   padding-left: 0;
@@ -17002,27 +16978,27 @@ nav[role="sub-navigation"] li a {
   margin: 30px 0 20px 0;
 }
 
-/* line 118, ../../scss/modules/list-view/_list-view.scss */
+/* line 119, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories-wrapper, .set-detail-post-list-categories-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
   width: 100%;
   float: left;
 }
-/* line 120, ../../scss/modules/list-view/_list-view.scss */
+/* line 121, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-categories-wrapper .post-form-wrapper label, .post-form-wrapper .list-view-categories-wrapper label, .set-detail-post-list-categories-wrapper .post-form-wrapper label, .post-form-wrapper .set-detail-post-list-categories-wrapper label {
   margin: 0;
 }
-/* line 123, ../../scss/modules/list-view/_list-view.scss */
+/* line 124, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories-wrapper button, .set-detail-post-list-categories-wrapper button {
   margin-bottom: 0;
 }
-/* line 125, ../../scss/modules/list-view/_list-view.scss */
+/* line 126, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories-wrapper button i, .set-detail-post-list-categories-wrapper button i {
   padding-right: 5px;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 118, ../../scss/modules/list-view/_list-view.scss */
+  /* line 119, ../../scss/modules/list-view/_list-view.scss */
   .list-view-categories-wrapper, .set-detail-post-list-categories-wrapper {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -17031,26 +17007,26 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 134, ../../scss/modules/list-view/_list-view.scss */
+/* line 135, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories {
   margin: 0;
 }
-/* line 136, ../../scss/modules/list-view/_list-view.scss */
+/* line 137, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories a {
   color: #a3a3a3;
 }
-/* line 139, ../../scss/modules/list-view/_list-view.scss */
+/* line 140, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories li {
   display: inline;
   font-size: 70%;
   padding-right: 5px;
 }
-/* line 144, ../../scss/modules/list-view/_list-view.scss */
+/* line 145, ../../scss/modules/list-view/_list-view.scss */
 .list-view-categories .fa-circle {
   padding-right: 5px;
 }
 
-/* line 149, ../../scss/modules/list-view/_list-view.scss */
+/* line 150, ../../scss/modules/list-view/_list-view.scss */
 .list-view-description {
   padding-left: 0;
   padding-right: 0;
@@ -17059,7 +17035,7 @@ nav[role="sub-navigation"] li a {
   font-size: 0.875rem;
 }
 
-/* line 154, ../../scss/modules/list-view/_list-view.scss */
+/* line 155, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -17068,7 +17044,7 @@ nav[role="sub-navigation"] li a {
   margin-top: 20px;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 154, ../../scss/modules/list-view/_list-view.scss */
+  /* line 155, ../../scss/modules/list-view/_list-view.scss */
   .list-view-edit-wrapper, .post-actions-wrapper, .set-detail-post-edit-wrapper {
     padding-left: 0;
     padding-right: 0;
@@ -17079,7 +17055,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 165, ../../scss/modules/list-view/_list-view.scss */
+/* line 166, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit--tag,
 .list-view-edit,
 .post-actions {
@@ -17131,20 +17107,20 @@ nav[role="sub-navigation"] li a {
 .post-actions > li:nth-of-type(2n+1) {
   clear: both;
 }
-/* line 167, ../../scss/modules/list-view/_list-view.scss */
+/* line 168, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit--tag > li,
 .list-view-edit > li,
 .post-actions > li {
   float: left;
   padding: 0 10px 20px;
 }
-/* line 170, ../../scss/modules/list-view/_list-view.scss */
+/* line 171, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit--tag > li a,
 .list-view-edit > li a,
 .post-actions > li a {
   margin-bottom: 0;
 }
-/* line 174, ../../scss/modules/list-view/_list-view.scss */
+/* line 175, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit--tag button.expand, .list-view-edit--tag .button.expand,
 .list-view-edit button.expand,
 .post-actions button.expand,
@@ -17153,7 +17129,7 @@ nav[role="sub-navigation"] li a {
   padding-right: 1.125em;
   padding-left: 1.125em;
 }
-/* line 178, ../../scss/modules/list-view/_list-view.scss */
+/* line 179, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit--tag [class^="fa"], .list-view-edit--tag [class*=" fa"],
 .list-view-edit [class^="fa"],
 .post-actions [class^="fa"],
@@ -17162,7 +17138,7 @@ nav[role="sub-navigation"] li a {
   padding: 0;
 }
 @media only screen and (min-width: 30.063em) {
-  /* line 165, ../../scss/modules/list-view/_list-view.scss */
+  /* line 166, ../../scss/modules/list-view/_list-view.scss */
   .list-view-edit--tag,
   .list-view-edit,
   .post-actions {
@@ -17216,7 +17192,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 165, ../../scss/modules/list-view/_list-view.scss */
+  /* line 166, ../../scss/modules/list-view/_list-view.scss */
   .list-view-edit--tag,
   .list-view-edit,
   .post-actions {
@@ -17228,7 +17204,7 @@ nav[role="sub-navigation"] li a {
     float: right;
     padding-top: 13px;
   }
-  /* line 189, ../../scss/modules/list-view/_list-view.scss */
+  /* line 190, ../../scss/modules/list-view/_list-view.scss */
   .list-view-edit--tag li,
   .list-view-edit li,
   .post-actions li {
@@ -17236,7 +17212,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 165, ../../scss/modules/list-view/_list-view.scss */
+  /* line 166, ../../scss/modules/list-view/_list-view.scss */
   .list-view-edit--tag,
   .list-view-edit,
   .post-actions {
@@ -17248,7 +17224,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 199, ../../scss/modules/list-view/_list-view.scss */
+/* line 200, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit-button {
   border-style: solid;
   border-width: 1px;
@@ -17286,16 +17262,16 @@ nav[role="sub-navigation"] li a {
 .list-view-edit-button:hover, .list-view-edit-button:focus {
   color: #333333;
 }
-/* line 201, ../../scss/modules/list-view/_list-view.scss */
+/* line 202, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit-button.selected-button {
   background-color: #d2d5dd;
 }
-/* line 204, ../../scss/modules/list-view/_list-view.scss */
+/* line 205, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit-button.selected-button .select-icon:before {
   content: "\f14a";
   font-size: .9em;
 }
-/* line 210, ../../scss/modules/list-view/_list-view.scss */
+/* line 211, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit-button .select-icon {
   display: inline-block;
   font-family: FontAwesome;
@@ -17303,17 +17279,17 @@ nav[role="sub-navigation"] li a {
   font-weight: normal;
   line-height: 1;
 }
-/* line 216, ../../scss/modules/list-view/_list-view.scss */
+/* line 217, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit-button .select-icon:before {
   content: "\f096";
 }
-/* line 220, ../../scss/modules/list-view/_list-view.scss */
+/* line 221, ../../scss/modules/list-view/_list-view.scss */
 .list-view-edit-button .fa-edit:before {
   position: relative;
   top: 1px;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 199, ../../scss/modules/list-view/_list-view.scss */
+  /* line 200, ../../scss/modules/list-view/_list-view.scss */
   .list-view-edit-button {
     border-style: solid;
     border-width: 1px;
@@ -18156,7 +18132,7 @@ nav[role="sub-navigation"] li a {
   content: "\f077";
 }
 /* line 149, ../../scss/modules/workspace/_workspace-panel.scss */
-.workspace-menu i.fa, .workspace-menu i.status-icon, .workspace-menu .phone-number-list .phone-number-list__item i.phone-number, .phone-number-list .phone-number-list__item .workspace-menu i.phone-number {
+.workspace-menu i.fa {
   width: 32px;
 }
 
@@ -18401,132 +18377,6 @@ nav[role="sub-navigation"] li a {
    CONTENTS
 \*------------------------------------*/
 /**
-* MESSAGE CONFIG TAB NAV...............tab navigation in message config view
-*/
-/*------------------------------------*\
-   $MESSAGE CONFIG TAB NAV
-\*------------------------------------*/
-/* line 15, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.tab-nav {
-  margin-top: 20px;
-  background-color: #e9ebef;
-}
-
-/* line 21, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.tab-nav--message-config {
-  margin-top: 0;
-  padding: 0;
-  text-align: center;
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 21, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-  .tab-nav--message-config {
-    padding-left: 0;
-    padding-right: 0;
-    width: 100%;
-    float: left;
-  }
-}
-
-/* line 31, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.tab-nav-list--message-config {
-  display: block;
-  padding: 0;
-  margin: 0 -0.625rem;
-  margin: 0;
-}
-/* line 176, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.tab-nav-list--message-config:before, .tab-nav-list--message-config:after {
-  content: " ";
-  display: table;
-}
-/* line 177, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.tab-nav-list--message-config:after {
-  clear: both;
-}
-/* line 50, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-.tab-nav-list--message-config > li {
-  display: block;
-  height: auto;
-  float: left;
-  padding: 0 0.625rem 1.25rem;
-}
-/* line 61, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-.tab-nav-list--message-config > li {
-  width: 14.28571%;
-  padding: 0 0.625rem 1.25rem;
-  list-style: none;
-}
-/* line 68, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-.tab-nav-list--message-config > li:nth-of-type(1n) {
-  clear: none;
-}
-/* line 69, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-.tab-nav-list--message-config > li:nth-of-type(7n+1) {
-  clear: both;
-}
-/* line 35, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.tab-nav-list--message-config .tab-nav-list__list-item {
-  padding: 10px 0;
-}
-/* line 37, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.tab-nav-list--message-config .tab-nav-list__list-item:last-child {
-  border-right: 0;
-  text-align: center;
-}
-/* line 41, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.tab-nav-list--message-config .tab-nav-list__list-item a {
-  display: block;
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 35, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-  .tab-nav-list--message-config .tab-nav-list__list-item {
-    padding: 10px 19px;
-  }
-}
-
-/* line 50, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.data-provider-type .fa, .data-provider-type .status-icon, .data-provider-type .phone-number-list .phone-number-list__item .phone-number, .phone-number-list .phone-number-list__item .data-provider-type .phone-number {
-  font-size: 20px;
-  padding: 0;
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 50, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-  .data-provider-type .fa, .data-provider-type .status-icon, .data-provider-type .phone-number-list .phone-number-list__item .phone-number, .phone-number-list .phone-number-list__item .data-provider-type .phone-number {
-    font-size: inherit;
-  }
-}
-/* line 56, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.data-provider-type .fa.fa-mobile, .data-provider-type .fa-mobile.status-icon, .data-provider-type .phone-number-list .phone-number-list__item .fa-mobile.phone-number, .phone-number-list .phone-number-list__item .data-provider-type .fa-mobile.phone-number {
-  position: relative;
-  top: 2px;
-  font-size: 29px;
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 56, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-  .data-provider-type .fa.fa-mobile, .data-provider-type .fa-mobile.status-icon, .data-provider-type .phone-number-list .phone-number-list__item .fa-mobile.phone-number, .phone-number-list .phone-number-list__item .data-provider-type .fa-mobile.phone-number {
-    font-size: inherit;
-    top: 0;
-  }
-}
-/* line 65, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-.data-provider-type .fa.fa-twitter, .data-provider-type .fa-twitter.status-icon, .data-provider-type .phone-number-list .phone-number-list__item .fa-twitter.phone-number, .phone-number-list .phone-number-list__item .data-provider-type .fa-twitter.phone-number {
-  position: relative;
-  top: 2px;
-  font-size: 25px;
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 65, ../../scss/modules/messages/config/modules/_message-config-tab-nav.scss */
-  .data-provider-type .fa.fa-twitter, .data-provider-type .fa-twitter.status-icon, .data-provider-type .phone-number-list .phone-number-list__item .fa-twitter.phone-number, .phone-number-list .phone-number-list__item .data-provider-type .fa-twitter.phone-number {
-    font-size: inherit;
-    top: 0;
-  }
-}
-
-/*------------------------------------*\
-   CONTENTS
-\*------------------------------------*/
-/**
 * DATA PROVIDER CARD ENABLED...............enabled card styles
 * DATA PROVIDER CARD DISABLED...............disabled card styles
 */
@@ -18753,7 +18603,7 @@ nav[role="sub-navigation"] li a {
 .data-provider-status-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
-  width: 33.33333%;
+  width: 41.66667%;
   float: left;
   margin-left: auto;
   margin-right: auto;
@@ -18771,12 +18621,12 @@ nav[role="sub-navigation"] li a {
     float: none !important;
   }
 }
-@media only screen and (min-width: 64.063em) {
+@media only screen and (min-width: 90em) {
   /* line 86, ../../scss/modules/messages/config/modules/_data-provider-card.scss */
   .data-provider-status-wrapper {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
-    width: 50%;
+    width: 58.33333%;
     float: left;
     margin-left: auto;
     margin-right: auto;
@@ -18804,6 +18654,11 @@ nav[role="sub-navigation"] li a {
   padding-bottom: 0.625rem;
   padding-left: 1.125rem;
   font-size: 0.8125rem;
+  padding-top: 0.5625rem;
+  padding-bottom: 0.625rem;
+  padding-right: 0;
+  padding-left: 0;
+  width: 100%;
   background-color: #eff0f3;
   border-color: #f1f1f4;
   color: #333333;
@@ -18847,6 +18702,11 @@ nav[role="sub-navigation"] li a {
   padding-bottom: 0.625rem;
   padding-left: 1.125rem;
   font-size: 0.8125rem;
+  padding-top: 0.5625rem;
+  padding-bottom: 0.625rem;
+  padding-right: 0;
+  padding-left: 0;
+  width: 100%;
   background-color: #eff0f3;
   border-color: #f1f1f4;
   color: #333333;
@@ -18996,14 +18856,14 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 	$DATA PROVIDER FORMS
 \*------------------------------------*/
-/* line 19, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+/* line 15, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
 .data-provider-config-form {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
   width: 100%;
   float: left;
 }
-/* line 21, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+/* line 17, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
 .data-provider-config-form label {
   font-size: 1rem;
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
@@ -19016,34 +18876,53 @@ nav[role="sub-navigation"] li a {
   line-height: 1.2125rem;
 }
 
-/* line 34, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+/* line 30, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+[class*='field-'] {
+  margin-bottom: 30px;
+}
+
+/* line 35, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+.data-editor ul li {
+  display: inline;
+}
+/* line 38, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+.data-editor input {
+  margin-bottom: 7px;
+}
+
+/* line 43, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+.form-helper-text {
+  font-size: 0.875rem;
+}
+
+/* line 50, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
 .message-config-submit {
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
   width: 100%;
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 34, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+  /* line 50, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
   .message-config-submit {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
     width: 25%;
     float: left;
     float: right;
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 34, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+  /* line 50, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
   .message-config-submit {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
     width: 16.66667%;
     float: left;
     float: right;
   }
 }
-/* line 44, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
+/* line 60, ../../scss/modules/messages/config/modules/_data-provider-forms.scss */
 .message-config-submit button {
   border-style: solid;
   border-width: 1px;
@@ -19080,354 +18959,6 @@ nav[role="sub-navigation"] li a {
 /* line 145, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
 .message-config-submit button:hover, .message-config-submit button:focus {
   color: white;
-}
-
-/*------------------------------------*\
-	CONTENTS
-\*------------------------------------*/
-/*
-* TABS...............vertical tab styles
-* TAB-CONTENT...............tab content styles
-*/
-/*------------------------------------*\
-	$TABS
-\*------------------------------------*/
-/* Foundation overrides */
-/* line 19, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tabs dd > a {
-  padding-bottom: 0;
-  background: transparent;
-}
-/* line 22, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tabs dd > a:hover {
-  background: transparent;
-}
-/* line 26, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tabs dd.active a {
-  background: transparent;
-}
-
-/* line 30, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.all-tabs-wrapper {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-  width: 100%;
-  float: left;
-  margin-bottom: 20px;
-}
-
-/* line 35, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tab-wrapper {
-  background: #efefef;
-  border-bottom: 1px solid #d2d5dd;
-}
-/* line 38, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tab-wrapper.active {
-  background: #fcfcfc;
-}
-/* line 41, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tab-wrapper:hover:not(.active) {
-  background: #e9ebef;
-}
-
-@media only screen and (min-width: 64.063em) {
-  /* line 46, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-  .tabs.vertical {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
-    width: 25%;
-    float: left;
-  }
-}
-
-/* line 52, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tab-link {
-  font-weight: bold;
-}
-
-/* line 56, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.status-icon {
-  color: #3cb81c;
-  padding-left: 10px;
-}
-/* line 60, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.status-icon:before {
-  content: "\f058";
-}
-
-/* line 65, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.configured-status {
-  padding: 0 2rem 0.75rem;
-  color: #c50813;
-  font-size: 0.75rem;
-}
-/* line 69, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.configured-status.active {
-  color: #3cb81c;
-}
-/* line 72, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.configured-status .test-status {
-  color: #c50813;
-}
-/* line 74, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.configured-status .test-status.active {
-  color: #3cb81c;
-}
-
-/*------------------------------------*\
-	$TAB CONTENT
-\*------------------------------------*/
-/* line 86, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tabs-content.vertical {
-  padding-top: 20px;
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 86, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-  .tabs-content.vertical {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
-    width: 75%;
-    float: left;
-  }
-}
-/* line 91, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.tabs-content.vertical > .content {
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  float: left;
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 86, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-  .tabs-content.vertical {
-    padding-top: 0;
-    padding-left: 40px;
-  }
-}
-
-/* line 100, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.provider-title {
-  text-transform: uppercase;
-}
-
-/*------------------------------------*\
-	$INPUT--TEL
-\*------------------------------------*/
-@media only screen and (min-width: 64.063em) {
-  /* line 109, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-  .input-wrapper--tel {
-    padding-left: 0;
-    padding-right: 0;
-    width: 50%;
-    float: left;
-  }
-}
-
-/* line 122, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.input-button--tel button {
-  border-style: solid;
-  border-width: 1px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: bold;
-  line-height: normal;
-  margin: 0 0 1.25rem;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  -webkit-appearance: none;
-  -webkit-border-radius: 0;
-  display: inline-block;
-  padding-top: 0.75rem;
-  padding-right: 1.5rem;
-  padding-bottom: 0.8125rem;
-  padding-left: 1.5rem;
-  font-size: 1rem;
-  padding-top: 0.75rem;
-  padding-bottom: 0.8125rem;
-  padding-right: 0;
-  padding-left: 0;
-  width: 100%;
-  background-color: #14b4d1;
-  border-color: #18c9e9;
-  color: white;
-  border-radius: 3px;
-  line-height: 0.875rem;
-}
-/* line 134, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.input-button--tel button:hover, .input-button--tel button:focus {
-  background-color: #18c9e9;
-}
-/* line 145, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.input-button--tel button:hover, .input-button--tel button:focus {
-  color: white;
-}
-
-/* line 128, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.phone-number-list {
-  display: block;
-  padding: 0;
-  margin: 0 -0.625rem;
-}
-/* line 176, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.phone-number-list:before, .phone-number-list:after {
-  content: " ";
-  display: table;
-}
-/* line 177, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.phone-number-list:after {
-  clear: both;
-}
-/* line 50, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-.phone-number-list > li {
-  display: block;
-  height: auto;
-  float: left;
-  padding: 0 0.625rem 1.25rem;
-}
-/* line 61, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-.phone-number-list > li {
-  width: 50%;
-  padding: 0 0.625rem 1.25rem;
-  list-style: none;
-}
-/* line 68, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-.phone-number-list > li:nth-of-type(1n) {
-  clear: none;
-}
-/* line 69, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-.phone-number-list > li:nth-of-type(2n+1) {
-  clear: both;
-}
-/* line 130, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.phone-number-list .phone-number-list__item {
-  display: inline;
-  margin-bottom: 10px;
-}
-/* line 133, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.phone-number-list .phone-number-list__item .phone-number {
-  background: #eff0f3;
-  width: 100%;
-  padding: 15px;
-}
-/* line 138, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-.phone-number-list .phone-number-list__item .phone-number:after {
-  content: "\f057";
-  float: right;
-}
-@media only screen and (min-width: 30.063em) {
-  /* line 128, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-  .phone-number-list {
-    display: block;
-    padding: 0;
-    margin: 0 -0.625rem;
-  }
-  /* line 176, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-  .phone-number-list:before, .phone-number-list:after {
-    content: " ";
-    display: table;
-  }
-  /* line 177, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-  .phone-number-list:after {
-    clear: both;
-  }
-  /* line 50, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li {
-    display: block;
-    height: auto;
-    float: left;
-    padding: 0 0.625rem 1.25rem;
-  }
-  /* line 61, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li {
-    width: 33.33333%;
-    padding: 0 0.625rem 1.25rem;
-    list-style: none;
-  }
-  /* line 68, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li:nth-of-type(1n) {
-    clear: none;
-  }
-  /* line 69, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li:nth-of-type(3n+1) {
-    clear: both;
-  }
-}
-@media only screen and (min-width: 64.063em) {
-  /* line 128, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-  .phone-number-list {
-    display: block;
-    padding: 0;
-    margin: 0 -0.625rem;
-  }
-  /* line 176, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-  .phone-number-list:before, .phone-number-list:after {
-    content: " ";
-    display: table;
-  }
-  /* line 177, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-  .phone-number-list:after {
-    clear: both;
-  }
-  /* line 50, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li {
-    display: block;
-    height: auto;
-    float: left;
-    padding: 0 0.625rem 1.25rem;
-  }
-  /* line 61, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li {
-    width: 25%;
-    padding: 0 0.625rem 1.25rem;
-    list-style: none;
-  }
-  /* line 68, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li:nth-of-type(1n) {
-    clear: none;
-  }
-  /* line 69, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li:nth-of-type(4n+1) {
-    clear: both;
-  }
-}
-@media only screen and (min-width: 90em) {
-  /* line 128, ../../scss/modules/messages/config/modules/_data-provider-sms.scss */
-  .phone-number-list {
-    display: block;
-    padding: 0;
-    margin: 0 -0.625rem;
-  }
-  /* line 176, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-  .phone-number-list:before, .phone-number-list:after {
-    content: " ";
-    display: table;
-  }
-  /* line 177, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-  .phone-number-list:after {
-    clear: both;
-  }
-  /* line 50, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li {
-    display: block;
-    height: auto;
-    float: left;
-    padding: 0 0.625rem 1.25rem;
-  }
-  /* line 61, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li {
-    width: 20%;
-    padding: 0 0.625rem 1.25rem;
-    list-style: none;
-  }
-  /* line 68, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li:nth-of-type(1n) {
-    clear: none;
-  }
-  /* line 69, ../../bower_components/foundation/scss/foundation/components/_block-grid.scss */
-  .phone-number-list > li:nth-of-type(5n+1) {
-    clear: both;
-  }
 }
 
 /*TOOLS*/
@@ -21973,11 +21504,8 @@ form.custom .custom.checkbox.checked:before {
   vertical-align: middle;
 }
 /* line 195, ../../scss/modules/forms/_forms.scss */
-.simplepicker.icon.sp-block i.fa, .simplepicker.icon.sp-block i.status-icon, .simplepicker.icon.sp-block .phone-number-list .phone-number-list__item i.phone-number, .phone-number-list .phone-number-list__item .simplepicker.icon.sp-block i.phone-number,
-.simplepicker span.sp-block i.fa,
-.simplepicker span.sp-block i.status-icon,
-.simplepicker span.sp-block .phone-number-list .phone-number-list__item i.phone-number,
-.phone-number-list .phone-number-list__item .simplepicker span.sp-block i.phone-number {
+.simplepicker.icon.sp-block i.fa,
+.simplepicker span.sp-block i.fa {
   padding-right: 0;
 }
 
