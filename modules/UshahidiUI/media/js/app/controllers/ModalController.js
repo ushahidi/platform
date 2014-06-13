@@ -46,6 +46,7 @@ define(['App', 'marionette'],
 							that.modal.show(new CreatePostView({
 								model: post
 							}));
+							that.modal.currentView.on('close', that.modal.close, that.modal);
 						}
 					);
 
