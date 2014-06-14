@@ -100,9 +100,6 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Repository'] = [
 			'db' => $di->lazyGet('kohana.db'),
 			];
-		$di->params['Ushahidi_Repository_Collection'] = [
-			'auth' => $di->lazyGet('tool.authenticator'),
-			];
 
 		// User login dependencies
 		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));
