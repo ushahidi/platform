@@ -10,11 +10,16 @@ module.exports = function(grunt) {
 					// Deployment Files
 					'!application/cache/**',
 					'!application/logs/**',
+					'!application/media/uploads/**',
 					'!application/config/environments/**',
 					'!application/routes/**',
+					// Include the cache, log, upload and environments dirs
+					'application/cache/.gitignore',
+					'application/logs/.gitignore',
+					'application/media/uploads/.gitignore',
+					'application/config/environments/development/.gitignore',
 					// Include the default routes file
 					'application/routes/default.php',
-					'!application/media/uploads/**',
 					'!.htaccess',
 					// Build Files
 					'!build/**',
@@ -25,6 +30,9 @@ module.exports = function(grunt) {
 					'!.travis.yml',
 					'!.vagrant/**',
 					'!composer.*',
+					'!Gemfile*',
+					'!bower.json',
+					'!Gruntfile.js',
 					'!phpspec.yml.dist',
 					'!package.json',
 					'!.jshintrc',
