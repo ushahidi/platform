@@ -17,20 +17,12 @@
 		<!-- Mobile Viewport meta tags -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<!-- Leaflet CSS -->
-		<link rel="stylesheet" href="<?php echo Media::url('css/plugins/leaflet.css'); ?>" />
-		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.css'); ?>"/>
-		<!--[if lte IE 8]>
-		    <link rel="stylesheet" href="<?php echo Media::url('css/plugins/leaflet.ie.css'); ?>" />
-				<link rel="stylesheet" type="text/css" href="<?php echo Media::url('js/libs/leaflet-locatecontrol/src/L.Control.Locate.ie.css'); ?>"/>
-		<![endif]-->
 
-		<!-- Mobile viewport optimized: h5bp.com/viewport -->
-		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
-
-		<!--Change to app.min.css for production-->
+		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>
+		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>
+		<?php else: ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
-		<!--<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>-->
+		<?php endif; ?>
 
 		<!-- Custom Modernizr Build - add, subtract and rebuild at end of project -->
 		<script src="<?php echo Media::url('js/libs/custom.modernizr.js'); ?>"></script>

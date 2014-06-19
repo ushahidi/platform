@@ -27,7 +27,6 @@
 
 		<link rel="stylesheet" href="<?php echo Media::url('bower_components/select2/select2.css'); ?>" />
 
-		<!--Change to app.min.css for production-->
 		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>
 		<?php else: ?>
