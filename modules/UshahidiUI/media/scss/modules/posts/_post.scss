@@ -42,10 +42,6 @@
 			@media #{$medium} {
 				padding: 1em;
 			}
-	.post-actions-button {
-		@include button($padding: $button-sml, $bg: $secondary-color, $radius: true);
-		border: 0px;
-	}
 }
 
 /**
@@ -61,33 +57,95 @@
 	}
 }
 
-// @todo Reduce column's when category marker re-added
+// TODO Reduce column's when category marker re-added
 .post-title {
 	@include grid-column(12, $collapse: true);
 	margin-bottom: 20px;
-	@media #{$small} {
-		margin-bottom: 0px;
-	}
 }
 
-// @todo Reduce column's when category marker re-added
+// TODO Reduce column's when category marker re-added
+
+.post-actions-admin {
+	@extend %list-view-admin;
+	margin: 20px 0 5px 0;
+}
+
 .post-actions-wrapper {
-	@extend .list-view-edit-wrapper;
-	margin-top: 0;
-	@media #{$small} {
-		width: 100%;
-		float: left;
-	}
+	@include grid-column(12, $collapse:true);
+	margin: 0;
 }
 
 .post-actions {
-	@extend .list-view-edit;
 	margin: 0;
-	@media #{$small} {
+	float: left;
+	> li {
 		float: left;
-		margin: 20px 0 0 0;
+		padding: 0 5px;
+		&:nth-child(1) {
+			padding-left: 0;
+		}
+		a {
+			margin-bottom: 0;
+		}
+	}
+	[class^="fa"], [class*=" fa"] {
+		padding: 0;
+		position: relative;
+		top: -1px;
+	}
+	@media #{$small} {
 		li {
-			padding: 0 emCalc(16px) 0 0;
+			padding-bottom: 0;
+		}
+		[class^="fa"], [class*=" fa"] {
+			padding-right: 3px;
+			position: relative;
+			top: -1px;
+		}
+	}
+}
+
+.post-actions-button {
+	@include button($padding: $button-tny, $bg: $secondary-color, $radius: true);
+	.post-actions-button-text {
+		display: none;
+		@media #{$medium} {
+			display: inline;
+		}
+	}
+}
+
+.post-nav {
+	@include button-group-container();
+	float: right;
+	.post-nav-button {
+		@include button($padding: $button-tny, $bg: $secondary-color, $radius: true);
+		margin: 0;
+		[class*='fa'] {
+			position: relative;
+			top: -2px;
+		}
+		.fa-arrow-right,
+		.fa-arrow-left {
+			padding: 0;
+		}
+		@media #{$medium} {
+			.fa-arrow-left {
+				padding-right: 5px;
+			}
+			.fa-arrow-right {
+				padding-left: 5px;
+			}
+		}
+	}
+	& > li {
+		@include button-group-style();
+		padding-left: 10px;
+	}
+	.post-nav-button-text {
+		display: none;
+		@media #{$medium} {
+			display: inline;
 		}
 	}
 }

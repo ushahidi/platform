@@ -152,6 +152,7 @@
 	font-size: emCalc(14);
 }
 
+%list-view-edit-wrapper,
 .list-view-edit-wrapper {
 	@include grid-column(12);
 	margin-top: 20px;
@@ -180,7 +181,7 @@
 		padding: 0;
 	}
 	@media #{$mobile-up} {
-		@include block-grid(4);
+		@include block-grid(3);
 	}
 	@media #{$small} {
 		@include grid-column(12);
