@@ -1,0 +1,117 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * GENERAL...............styles for API Explorer
+ */
+
+
+/*------------------------------------*\
+    GENERAL
+\*------------------------------------*/
+
+.api-explorer-box {
+	margin-top: 50px;
+	@media #{$small} {
+		@include grid-column(12, $center: true);
+		margin-top: 10px;
+	}
+}
+
+.api-explorer-submit-button {
+	@include button($bg: $success-color, $radius: true);
+}
+
+.api-explorer-reset-button {
+	@include button($radius: true);
+}
+
+.api-explorer-submit-button,
+.api-explorer-reset-button {
+	margin-bottom: 0;
+}
+
+.api-explorer-sidebar {
+	@include grid-column(12, $collapse: true);
+	@media #{$small} {
+		@include grid-column(4);
+		border-right: 1px solid $secondary-color;
+		padding-right: 1.875rem;
+	}
+	.api-explorer-sidebar__label {
+		color: $blueGray;
+		font-size: 17px;
+		font-weight: 600;
+		margin-bottom: 0.5rem;
+	}
+	ul {
+		margin-left: 0;
+	}
+	.side-nav > li {
+		margin-bottom: 30px;
+	}
+	li a.js-api-endpoint {
+		color: lighten($blueGray, 20%);
+		background-color: lighten($lightGray, 4%);
+		border: 1px solid darken($lightGray, 10%);
+		@include radius($global-radius);
+		&:hover {
+			color: $white;
+			background-color: $success-color;
+			border: 1px solid $success-color;
+		}
+	}
+}
+
+.api-explorer-body {
+	@include grid-column(12, $collapse: true);
+	border-top: 1px solid $midGray;
+	padding-top: 30px;
+	@media #{$small} {
+		@include grid-column(8);
+		padding-left: 1.875rem;
+		border-top: 0;
+		padding-top: 0;
+	}
+}
+
+.api-explorer-request-authenticated {
+	font-size: 14px;
+	span {
+		font-weight: 600;
+	}
+}
+
+.api-explorer-query-header {
+	margin-top: 40px;
+	border: 1px solid darken($midGray, 10%);
+	padding: 1em;
+	background-color: $lightGray;
+	.api-explorer-add-data-wrapper {
+		text-align: right;
+	}
+	span {
+		font-weight: 600;
+	}
+}
+
+.api-explorer-query-wrapper {
+	@include grid-column(12, $collapse: true);
+	border-left: 1px solid $midGray;
+	border-right: 1px solid $midGray;
+	border-bottom: 1px solid $midGray;
+	padding: 1em;
+	.api-explorer-submit-wrapper {
+		text-align: right;
+	}
+}
+
+.response {
+	@include grid-column(12, $collapse: true);
+	@include radius($global-radius);
+	height: 430px;
+	overflow: auto;
+	border: 1px solid darken($lightGray, 10%);
+	background-color: lighten($lightGray, 3%);
+	margin-top: 1em;
+}

@@ -1,113 +1,95 @@
-<div class="row">
-	<div class="actions-bar">
-		<div class="list-view-filter-info--alt">
-			<h5>Simple REST API Explorer</h5>
-		</div>
-	</div> <!-- end .actions-bar -->
-	<form role="search" class="js-api-explorer-form" action="">
-		<div class="list-view-filter--alt">
-			<div class="row">
-				<div class="small-3 columns">
-					<div class="list-view-filter-info--alt">
-						<h5>Ushahidi API</h5>
-					</div> <!-- end .list-view-filter-info -->
-				</div>
-				<div class="small-2 columns">
-					<div >
-						<div class="filter-count-select">
-							<select name="request-method" class="js-request-method">
-								<option value="get">GET</option>
-								<option value="post">POST</option>
-								<option value="put">PUT</option>
-								<option value="delete">DELETE</option>
-							</select>
-						</div>
-					</div> <!-- end .list-view-filter-count -->
-				</div>
-				<div class="small-6 columns">
-					<div >
-						<div class="row collapse">
-							<div class="small-7 large-6 columns">
-								<span class="prefix radius">{{apiBaseUrl}}</span>
-							</div>
-							<div class="small-3 large-4 columns">
-								<input type="text" class="js-api-url" placeholder="Params" />
-							</div>
-							<div class="small-2 columns">
-								<div class="search-bar-button">
-									<button type="submit" class="postifx button js-send-button"><i class="fa  fa-search"></i></button>
-								</div> <!-- end .search-bar-button -->
-							</div>
-						</div>
-					</div> <!-- end .list-view-filter-sort -->
-				</div>
-			</div> <!-- end .row -->
-		</div> <!-- end .list-view-filter -->
-	</form>
+<article class="body-wrapper">
+	<div class="row">
+		<section class="api-explorer-box">
+			<div class="post-header">
+					<h5>API Explorer</h5>
+			</div> <!-- end .post-header -->
 
-	<div class="list-view-wrapper">
-		<div class="row">
-			<div class="small-3 columns">
-				<aside>
-					<ul class="side-nav">
-						<li><label><i class="fa  fa-files-o"></i> Posts</label>
-							<ul>
-								<li><a href="#" class="js-api-endpoint" data-endpoint="posts" data-method="get">GET /posts</a></li>
-								<li><a href="#" class="js-api-endpoint" data-endpoint="posts/1" data-method="get">GET /posts/{post_id}</a></li>
-								<li><a href="#" class="js-api-endpoint" data-endpoint="posts" data-method="post">POST /posts</a></li>
-								<li><a href="#" class="js-api-endpoint" data-endpoint="posts/1" data-method="put">UPDATE /posts/{post_id}</a></li>
-								<li><a href="#" class="js-api-endpoint" data-endpoint="posts/1" data-method="delete">DELETE /posts/{post_id}</a></li>
-							</ul>
-						</li>
-						<li class="divider"></li>
-						<li><label><i class="fa  fa-inbox"></i> Messages</label>
-							<ul>
-								<li>
-									<a href="#" class="js-api-endpoint" data-endpoint="messages">GET /messages</a>
-								</li>
-							</ul>
-						</li>
-						<li class="divider"></li>
-						<li><label><i class="fa  fa-tags"></i> Tags</label>
-							<ul>
-								<li data-page="tags">
-									<a href="#" class="js-api-endpoint" data-endpoint="tags" data-method="get"><p>GET /tags</a>
-								</li>
-							</ul>
-						</li>
-						<li class="divider"></li>
-						<li><label><i class="fa  fa-group"></i> Users</label>
-							<ul>
-								<li data-page="users">
-									<a href="#" class="js-api-endpoint" data-endpoint="users" data-method="get" >GET /users</a>
-								</li>
-							</ul>
-						</li>
-						<li class="divider"></li>
-						<li><label><i class="fa  fa-pencil-square-o"></i> Forms</label>
-							<ul>
-								<li data-page="forms">
-									<a href="#" class="js-api-endpoint" data-endpoint="forms" data-method="get">GET /forms</a>
-								</li>
-							</ul>
-						</li>
-						<li class="divider"></li>
-						<li><label><i class="fa  fa-cloud"></i> Data Providers</label>
-							<ul>
-								<li data-page="forms">
-									<a href="#" class="js-api-endpoint" data-endpoint="dataproviders" data-method="get">GET /dataproviders</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</aside>
-			</div>
-			<div class="small-9 columns">
-				<div class="response">
-					<i class="fa fa-spinner fa-spin visually-hidden js-loading"></i>
-					<pre class="js-response-code visually-hidden js-show-response"></pre>
+			<div class="post-body">
+					<div class="api-explorer-sidebar">
+						<ul class="side-nav">
+							<li><label class="api-explorer-sidebar__label">Posts</label>
+								<ul>
+									<li><a href="#" class="js-api-endpoint" data-endpoint="posts" data-method="get">GET /posts</a></li>
+									<li><a href="#" class="js-api-endpoint" data-endpoint="posts/1" data-method="get">GET /posts/{post_id}</a></li>
+									<li><a href="#" class="js-api-endpoint" data-endpoint="posts" data-method="post">POST /posts</a></li>
+									<li><a href="#" class="js-api-endpoint" data-endpoint="posts/1" data-method="put">UPDATE /posts/{post_id}</a></li>
+									<li><a href="#" class="js-api-endpoint" data-endpoint="posts/1" data-method="delete">DELETE /posts/{post_id}</a></li>
+								</ul>
+							</li>
+							<li><label class="api-explorer-sidebar__label">Messages</label>
+								<ul>
+									<li>
+										<a href="#" class="js-api-endpoint" data-endpoint="messages">GET /messages</a>
+									</li>
+								</ul>
+							</li>
+							<li><label class="api-explorer-sidebar__label">Tags</label>
+								<ul>
+									<li data-page="tags">
+										<a href="#" class="js-api-endpoint" data-endpoint="tags" data-method="get">GET /tags</a>
+									</li>
+								</ul>
+							</li>
+							<li><label class="api-explorer-sidebar__label">Users</label>
+								<ul>
+									<li data-page="users">
+										<a href="#" class="js-api-endpoint" data-endpoint="users" data-method="get" >GET /users</a>
+									</li>
+								</ul>
+							</li>
+							<li><label class="api-explorer-sidebar__label">Forms</label>
+								<ul>
+									<li data-page="forms">
+										<a href="#" class="js-api-endpoint" data-endpoint="forms" data-method="get">GET /forms</a>
+									</li>
+								</ul>
+							</li>
+							<li><label class="api-explorer-sidebar__label">Data Providers</label>
+								<ul>
+									<li data-page="forms">
+										<a href="#" class="js-api-endpoint" data-endpoint="dataproviders" data-method="get">GET /dataproviders</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="api-explorer-body">
+						<h4>POST /posts</h4>
+						<p>Create a post.</p>
+						<p class="api-explorer-request-authenticated"><span>AUTHENTICATED</span>: No</p>
+
+						<div class="api-explorer-query-header">
+							<div class="row">
+								<div class="small-6 columns">
+									<span>Make a Request:</span>
+								</div>
+								<div class="small-6 columns api-explorer-add-data-wrapper">
+									<a href="#" class="js-stub"><i class="fa fa-plus-circle"></i>Add sample data</a>
+								</div>
+							</div>
+						</div>
+						<div class="api-explorer-query-wrapper">
+							<form role="search" class="js-api-explorer-form" action="">
+								<h5>Query</h5>
+									<input type="text" class="js-api-url" value="{{apiBaseUrl}}" />
+									<div class="row">
+									<div class="small-6 columns">
+									<button type="submit" class="api-explorer-reset-button">Reset</button>
+									</div>
+									<div class="small-6 columns api-explorer-submit-wrapper">
+									<button type="submit" class="api-explorer-submit-button">Execute</button>
+									</div>
+									</div>
+							</form>
+							<div class="response">
+								<i class="fa fa-spinner fa-spin visually-hidden js-loading"></i>
+								<pre class="js-response-code visually-hidden js-show-response"></pre>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-	</div> <!-- end .list-view-wrapper -->
-</div> <!-- end .row -->
+			</div> <!-- end .post-body -->
+		</div> <!-- end .api-explorer-box -->
+	</div> <!-- end .row -->
+</article>
