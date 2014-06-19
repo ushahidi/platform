@@ -16,7 +16,7 @@
 	@include grid-column(12);
 }
 
-[class*='field-'] {
+.data-provider-config-form [class*='field-'] {
 	margin-bottom: 30px;
 }
 
