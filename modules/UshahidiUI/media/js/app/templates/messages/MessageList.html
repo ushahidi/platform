@@ -11,42 +11,43 @@
 					{{>listinfo}}
 				</div> <!-- end .list-view-filter-info-alt -->
 
-				<div class="list-view-filter-count--alt">
-					<div class="filter-count-select">
-						<label class="visually-hidden" for="filter-count">Number of posts shown</label>
-						<select id="filter-count" class="filter-count  js-filter-count">
-							<option selected>3</option>
-							<option>5</option>
-							<option>10</option>
-							<option>20</option>
-						</select>
-					</div>
+				<div class="list-view-filter-select-wrapper--alt">
+					<div class="list-view-filter-count--alt">
+						<div class="filter-count-select">
+							<label class="visually-hidden" for="filter-count">Number of posts shown</label>
+							<select id="filter-count" class="filter-count  js-filter-count">
+								<option selected>3</option>
+								<option>5</option>
+								<option>10</option>
+								<option>20</option>
+							</select>
+						</div>
 
-				</div> <!-- end .list-view-filter-count -->
+					</div> <!-- end .list-view-filter-count -->
 
-				<div class="list-view-filter-source--alt">
-					<div class="filter-source-select">
-						<label class="visually-hidden" for="filter-source">Message Source</label>
-						<select id="filter-source" class="filter-source" >
-							<option value selected>All Sources</option>
-							{{#each sourceTypes}}
-								<option value="{{@key}}">{{this}}</option>
-							{{/each}}
-						</select>
-					</div> <!-- end .filter-source-select -->
-				</div> <!-- end .list-view-filter-source-alt -->
+					<div class="list-view-filter-source--alt">
+						<div class="filter-source-select">
+							<label class="visually-hidden" for="filter-source">Message Source</label>
+							<select id="filter-source" class="filter-source" >
+								<option value selected>All Sources</option>
+								{{#each sourceTypes}}
+									<option value="{{@key}}">{{this}}</option>
+								{{/each}}
+							</select>
+						</div> <!-- end .filter-source-select -->
+					</div> <!-- end .list-view-filter-source-alt -->
 
-				<div class="list-view-filter-sort--alt">
-					<div class="filter-sort-select">
-						<label class="visually-hidden" for="filter-sort">Sort by</label>
-						<select id="filter-sort" class="filter-sort  js-filter-sort" >
-							{{#each sortKeys}}
-								<option value="{{@key}}">{{this}}</option>
-							{{/each}}
-						</select>
-					</div> <!-- end .filter-sort-select -->
-				</div> <!-- end .list-view-filter-sort -->
-
+					<div class="list-view-filter-sort--alt">
+						<div class="filter-sort-select">
+							<label class="visually-hidden" for="filter-sort">Sort by</label>
+							<select id="filter-sort" class="filter-sort  js-filter-sort" >
+								{{#each sortKeys}}
+									<option value="{{@key}}">{{this}}</option>
+								{{/each}}
+							</select>
+						</div> <!-- end .filter-sort-select -->
+					</div> <!-- end .list-view-filter-sort -->
+				</div><!-- end .list-view-filter-select-wrapper-alt -->
 			</div> <!-- end .row -->
 		</div> <!-- end .list-view-filter -->
 	</form>

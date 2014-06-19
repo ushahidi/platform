@@ -49,31 +49,32 @@
 
 				</div> <!-- end .list-view-filter-info -->
 
-				<div class="list-view-filter-count--alt">
-					<div class="filter-count-select">
-						<label class="visually-hidden" for="filter-count">Number of users shown</label>
-						<select id="filter-count" class="filter-count  js-filter-count">
-							<option selected>3</option>
-							<option>5</option>
-							<option>10</option>
-							<option>20</option>
-						</select>
-					</div>
+				<div class="list-view-filter-select-wrapper--alt">
+					<div class="list-view-filter-count--alt">
+						<div class="filter-count-select">
+							<label class="visually-hidden" for="filter-count">Number of users shown</label>
+							<select id="filter-count" class="filter-count  js-filter-count">
+								<option selected>3</option>
+								<option>5</option>
+								<option>10</option>
+								<option>20</option>
+							</select>
+						</div>
 
-				</div> <!-- end .list-view-filter-count -->
+					</div> <!-- end .list-view-filter-count -->
 
-				<div class="list-view-filter-sort">
-					<div class="filter-sort-select">
-						<label class="visually-hidden" for="filter-sort">Sort users by</label>
-						<select id="filter-sort" class="filter-sort  js-filter-sort">
-							{{#each sortKeys}}
-								<option value="{{@key}}">{{this}}</option>
-							{{/each}}
-						</select>
-					</div>
+					<div class="list-view-filter-sort--alt">
+						<div class="filter-sort-select">
+							<label class="visually-hidden" for="filter-sort">Sort users by</label>
+							<select id="filter-sort" class="filter-sort  js-filter-sort">
+								{{#each sortKeys}}
+									<option value="{{@key}}">{{this}}</option>
+								{{/each}}
+							</select>
+						</div>
 
-				</div> <!-- end .list-view-filter-sort -->
-
+					</div> <!-- end .list-view-filter-sort -->
+				</div><!-- end .list-view-filter-select-wrapper-alt -->
 			</div> <!-- end .row -->
 		</div> <!-- end .list-view-filter -->
 
