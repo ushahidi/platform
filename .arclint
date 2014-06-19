@@ -3,7 +3,9 @@
     "jshint" : {
       "type" : "jshint",
       "include" : "(\\.js$)",
-      "exclude" : "@/libs/.*\\.js$@"
+      "exclude" : "@/libs/.*\\.js$@",
+      "jshint.jshintrc" : ".jshintrc",
+      "jshint.jshintignore" : ".jshintignore"
     }
   }
 }
