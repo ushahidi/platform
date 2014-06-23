@@ -1,6 +1,5 @@
 # Compass config file
 require "sass-css-importer"
-
 add_import_path "media/bower_components/foundation/scss"
 
 # Set this to the root of your project when deployed:
@@ -10,16 +9,17 @@ css_dir = "media/css"
 sass_dir = "media/scss"
 images_dir = "media/images"
 javascripts_dir = "media/js"
-fonts_dir = "media/kohana/font"
+fonts_dir = "media/font"
 
 # Production
 output_style = :compressed
 
 relative_assets = true
-
+sourcemap = true
+color_output = false
+disable_warnings = true
 # To disable debugging comments that display the original location of your selectors. Uncomment:
 # line_comments = false
-color_output = false
 
 # enables Sass random() function
 module Sass::Script::Functions
