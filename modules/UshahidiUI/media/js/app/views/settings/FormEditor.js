@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'underscore', 'text!templates/settings/FormEditor.html'],
-	function(Marionette, Handlebars, _, template)
+define(['marionette', 'underscore', 'hbs!templates/settings/FormEditor'],
+	function(Marionette, _, template)
 	{
 		return Marionette.Layout.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			regions : {
 				availableAttributes : '.available-attributes',
 				formAttributes : '.form-attributes'

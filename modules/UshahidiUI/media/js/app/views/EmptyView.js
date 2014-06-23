@@ -7,14 +7,13 @@
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-define(['App','handlebars', 'marionette', 'underscore', 'text!templates/Empty.html'],
-	function(App,Handlebars, Marionette, _, template)
+define(['App', 'marionette', 'underscore', 'hbs!templates/Empty'],
+	function(App, Marionette, _, template)
 	{
 		return Marionette.ItemView.extend(
 		{
 			//TODO:: Figure out how to make use of this view as both loading indicator and to display message for an empty list.
-			// Template HTML string
-			template: Handlebars.compile(template),
+			template: template,
 			tagName: 'li',
 			className: 'list-view-empty',
 			selected: false,

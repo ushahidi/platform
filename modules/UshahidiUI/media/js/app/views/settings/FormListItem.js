@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App','handlebars', 'marionette', 'text!templates/settings/FormListItem.html'],
-	function(App,Handlebars, Marionette, template)
+define(['App', 'marionette', 'hbs!templates/settings/FormListItem'],
+	function(App, Marionette, template)
 	{
 		return Marionette.ItemView.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			tagName: 'li',
 			className: 'list-view-form',
 

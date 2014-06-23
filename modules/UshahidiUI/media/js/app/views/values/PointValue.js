@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'handlebars', 'views/values/Value', 'text!templates/values/PointValue.html'],
-	function(App, Handlebars, ValueView, template) {
+define(['App', 'views/values/Value', 'hbs!templates/values/PointValue'],
+	function(App, ValueView, template) {
 		return ValueView.extend(
 		{
 			className: 'post-value',
-			template : Handlebars.compile(template),
+			template : template,
 			events : {
 				'click .js-show-point-on-map' : 'showPoint'
 			},

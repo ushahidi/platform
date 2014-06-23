@@ -7,11 +7,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/EditPost.html', 'forms/UshahidiForms', 'backbone-validation', 'text!templates/partials/tag-with-icon.html', 'select2'],
-	function( App, Marionette, Handlebars, _, alertify, template, BackboneForm, BackboneValidation, tagWithIconTpl)
+define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/EditPost', 'forms/UshahidiForms', 'backbone-validation', 'hbs!templates/partials/tag-with-icon', 'select2'],
+	function( App, Marionette, _, alertify, template, BackboneForm, BackboneValidation, tagWithIcon)
 	{
-		var tagWithIcon = Handlebars.compile(tagWithIconTpl),
-		formatTagSelectChoice = function (tag)
+		var formatTagSelectChoice = function (tag)
 			{
 				if (! tag.id)
 				{
@@ -29,7 +28,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 			};
 
 		return Marionette.ItemView.extend( {
-			template: Handlebars.compile(template),
+			template: template,
 			className: 'edit-post',
 			initialize : function ()
 			{

@@ -3,72 +3,54 @@
  *
  * 'data-*' attributes control where elements are placed
  */
-define(['jquery', 'handlebars', 'backbone', 'backbone-forms'], function($, Handlebars, Backbone) {
-	var Form = Backbone.Form;
+define(['jquery', 'backbone', 'backbone-forms',
 
-
+		'hbs!forms/templates/Form',
+		'hbs!forms/templates/Fieldset',
+		'hbs!forms/templates/Field',
+		'hbs!forms/templates/NestedField',
+		'hbs!forms/templates/NestedForm',
+		'hbs!forms/templates/List',
+		'hbs!forms/templates/ListItem',
+		'hbs!forms/templates/ListObject'
+	],
+	function($, Backbone, BackboneForm,
+		Form,
+		Fieldset,
+		Field,
+		NestedField,
+		NestedForm,
+		List,
+		ListItem,
+		ListObject
+	)
+{
 	/**
 	 * Bootstrap templates for Backbone Forms
 	 */
-	Form.template = Handlebars.compile('<form data-fieldsets></form>');
+	BackboneForm.template = Form;
 
 
-	Form.Fieldset.template = Handlebars.compile(
-		'<fieldset id="fieldset-{{ name }}" class="fieldset-{{ name }} {{#if active}}active{{/if}}" data-fields>' +
-		'</fieldset>'
-	);
+	BackboneForm.Fieldset.template = Fieldset;
 
 
-	Form.Field.template = Handlebars.compile(
-		'<div class="field-{{ key }}">' +
-		'	<label for="{{ editorId }}">{{ title }}</label>' +
-		'	<div>' +
-		'		<div data-error></div>' +
-		'		<span class="data-editor" data-editor></span>' +
-		'		{{#if help}}<div class="form-helper-text">{{{ help }}}</div>{{/if}}' +
-		'	</div>' +
-		'</div>'
-	);
+	BackboneForm.Field.template = Field;
 
 
 	// @todo should this show title? (maybe in a title attr)
-	Form.NestedField.template = Handlebars.compile(
-		'<div class="NestedField field-{{ key }}">' +
-		'	<label for="{{ editorId }}">{{ title }}</label>' +
-		'	<div>' +
-		'		<div data-error></div>' +
-		'		<span data-editor></span>' +
-		'		{{#if help}}<div>{{ help }}</div>{{/if}}' +
-		'	</div>' +
-		'</div>'
-	);
+	BackboneForm.NestedField.template = NestedField;
 
-	Form.NestedForm.template = Handlebars.compile(
-		'<span class="NestedForm" data-fieldsets></span>'
-	);
+	BackboneForm.NestedForm.template = NestedForm;
 
-	if (Form.editors.List) {
+	if (BackboneForm.editors.List) {
 
-		Form.editors.List.template = Handlebars.compile(
-			'<div>' +
-			'	<ul data-items></ul>' +
-			'	<button type="button" data-action="add">Add</button>' +
-			'</div>'
-		);
+		BackboneForm.editors.List.template = List;
 
 
-		Form.editors.List.Item.template = Handlebars.compile(
-			'<li>' +
-			'	<span data-editor></span>' +
-			'	<button type="button" data-action="remove">&times;</button>' +
-			'</li>'
-		);
+		BackboneForm.editors.List.Item.template = ListItem;
 
-		Form.editors.List.Object.template = Form.editors.List.NestedModel.template = Handlebars.compile(
-			'<div>{{ summary }}</div>'
-		);
+		BackboneForm.editors.List.Object.template = BackboneForm.editors.List.NestedModel.template = ListObject;
 
 	}
-
 
 });

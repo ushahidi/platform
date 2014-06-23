@@ -7,14 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'handlebars', 'marionette', 'underscore', 'alertify', 'text!templates/users/UserListItem.html'],
-	function(App, Handlebars, Marionette, _, alertify, template)
+define(['App', 'marionette', 'underscore', 'alertify', 'hbs!templates/users/UserListItem'],
+	function(App, Marionette, _, alertify, template)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
 		{
-			//Template HTML string
-			template: Handlebars.compile(template),
+			template: template,
 			tagName: 'li',
 			className: 'list-view-user',
 			// Value to track if checkbox for this item has been selected

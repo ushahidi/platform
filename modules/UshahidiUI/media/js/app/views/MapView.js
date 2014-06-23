@@ -7,16 +7,16 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'underscore', 'App',
+define(['marionette', 'underscore', 'App',
 		'modules/config',
 		'leaflet',
-		'text!templates/Map.html',
-		'text!templates/Popup.html',
+		'hbs!templates/Map',
+		'hbs!templates/Popup',
 		'text!templates/MapAttribution.html',
 		'text!templates/MapAttributionHOT.html',
 		'l.markercluster'
 	],
-	function(Marionette, Handlebars, _, App,
+	function(Marionette, _, App,
 		config,
 		L,
 		template,
@@ -30,8 +30,8 @@ define(['marionette', 'handlebars', 'underscore', 'App',
 
 		return Marionette.ItemView.extend(
 		{
-			template : Handlebars.compile(template),
-			popupTemplate : Handlebars.compile(popupTemplate),
+			template : template,
+			popupTemplate : popupTemplate,
 			baseMaps : {
 				'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
 				'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),

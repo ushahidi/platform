@@ -7,14 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'jquery', 'App', 'handlebars', 'views/posts/PostItemView', 'text!templates/posts/PostDetail.html', 'text!templates/values/ValueContainer.html'],
-	function(_, $, App, Handlebars, PostItemView, template, valueContainerTemplate)
+define(['underscore', 'jquery', 'App', 'views/posts/PostItemView', 'hbs!templates/posts/PostDetail', 'hbs!templates/values/ValueContainer'],
+	function(_, $, App, PostItemView, template, valueContainerTemplate)
 	{
 		var PostDetailView = PostItemView.extend(
 		{
 			//Template HTML string
-			template: Handlebars.compile(template),
-			valueContainerTemplate : Handlebars.compile(valueContainerTemplate),
+			template: template,
 
 			modelEvents: {
 				'sync': 'render',
@@ -50,7 +49,7 @@ define(['underscore', 'jquery', 'App', 'handlebars', 'views/posts/PostItemView',
 
 				ddt.log('PostDetailView', 'renderField, attribute', attribute);
 
-				$fieldEl = $(this.valueContainerTemplate({
+				$fieldEl = $(valueContainerTemplate({
 					label : (typeof attribute.label !== 'undefined') ? attribute.label : key,
 					key : key
 				}));

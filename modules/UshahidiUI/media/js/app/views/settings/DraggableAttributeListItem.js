@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'views/settings/AttributeListItem', 'text!templates/settings/AvailableAttributeListItem.html', 'jqueryui/draggable'],
-	function(Handlebars, AttributeListItem, template)
+define(['views/settings/AttributeListItem', 'hbs!templates/settings/AvailableAttributeListItem', 'jqueryui/draggable'],
+	function(AttributeListItem, template)
 	{
 		return AttributeListItem.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			initialize: function (options)
 			{
 				AttributeListItem.prototype.initialize.call(this, options);

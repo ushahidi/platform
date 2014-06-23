@@ -7,10 +7,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'views/values/Value', 'text!templates/values/DateTimeValue.html'],
-	function(Handlebars, ValueView, template) {
+define(['views/values/Value', 'hbs!templates/values/DateTimeValue'],
+	function(ValueView, template) {
 		return ValueView.extend(
 		{
-			template : Handlebars.compile(template)
+			template : template
 		});
 	});

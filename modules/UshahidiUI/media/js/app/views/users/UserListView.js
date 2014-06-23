@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore', 'alertify',
+define(['App', 'marionette', 'underscore', 'alertify',
 		'views/users/UserListItemView',
 		'views/EmptyView',
-		'text!templates/users/UserList.html',
+		'hbs!templates/users/UserList',
 		'mixin/PageableViewBehavior'
 	],
-	function( App, Marionette, Handlebars, _, alertify,
+	function( App, Marionette, _, alertify,
 		UserListItemView,
 		EmptyView,
 		template,
@@ -22,7 +22,7 @@ define(['App', 'marionette', 'handlebars','underscore', 'alertify',
 	{
 		return Marionette.CompositeView.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			modelName: 'users',
 			selectAllValue: false,
 			initialize: function()

@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'text!templates/posts/PostDetailLayout.html'],
-	function(App, Marionette, Handlebars, template) {
+define(['App', 'marionette', 'hbs!templates/posts/PostDetailLayout'],
+	function(App, Marionette, template) {
 		return Marionette.Layout.extend(
 		{
 			className: 'layout-posts',
-			template : Handlebars.compile(template),
+			template : template,
 			regions : {
 				mapRegion : '#mapRegion',
 				postDetailRegion : '#post-details',

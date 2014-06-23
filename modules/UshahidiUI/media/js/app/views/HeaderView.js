@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'App', 'modules/config', 'jquery', 'text!templates/Header.html', 'text!templates/partials/views-dropdown-nav.html'],
+define(['marionette', 'handlebars', 'App', 'modules/config', 'jquery', 'hbs!templates/Header', 'hbs!templates/partials/views-dropdown-nav'],
 	function(Marionette, Handlebars, App, config, $, template, viewsDropdown)
 	{
 		// Hacky - make sure we register partials before we call compile
@@ -15,7 +15,7 @@ define(['marionette', 'handlebars', 'App', 'modules/config', 'jquery', 'text!tem
 
 		return Marionette.ItemView.extend(
 		{
-			template : Handlebars.compile(template),
+			template : template,
 			initialize: function() {
 				// @todo update this for real UI
 				//App.vent.on('page:change', this.updateActiveNav, this);

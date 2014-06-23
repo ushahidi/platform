@@ -31,7 +31,8 @@
     "select2": "~3.4.8",
     "css-toggle-switch": "~2.1.5",
     "nouislider": "~6.2.0",
-    "jquery.ui": "1.11.0-beta.2"
+    "jquery.ui": "1.11.0-beta.2",
+    "requirejs-hbs": "~0.1.0"
   },
   "devDependencies": {},
   "resolutions": {

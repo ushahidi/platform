@@ -7,14 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'marionette', 'text!templates/sets/SetListItem.html'],
-	function(Handlebars, Marionette, template)
+define(['marionette', 'hbs!templates/sets/SetListItem'],
+	function(Marionette, template)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
 		{
 			//Template HTML string
-			template: Handlebars.compile(template),
+			template: template,
 			tagName: 'li',
 			className: 'list-view-message'
 		});

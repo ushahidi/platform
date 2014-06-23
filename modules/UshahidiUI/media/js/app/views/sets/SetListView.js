@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore',
+define(['App', 'marionette', 'underscore',
 		'views/sets/SetListItemView',
-		'text!templates/sets/SetList.html',
+		'hbs!templates/sets/SetList',
 		'mixin/PageableViewBehavior'
 	],
-	function(App, Marionette, Handlebars, _,
+	function(App, Marionette, _,
 		SetListItemView,
 		template,
 		PageableViewBehavior
@@ -21,7 +21,7 @@ define(['App', 'marionette', 'handlebars','underscore',
 
 		return Marionette.CompositeView.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			modelName: 'sets',
 
 			initialize: function()

@@ -139,7 +139,17 @@ require.config(
 		'foundation/foundation.tab': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.tooltip': {deps: ['jquery', 'foundation/foundation'] },
 		'foundation/foundation.topbar': {deps: ['jquery', 'foundation/foundation'] }
-	}
+	},
+	hbs: {
+		templateExtension: '.html'
+	},
+	packages: [
+		{
+			name: 'hbs',
+			location: '../../bower_components/requirejs-hbs',
+			main: 'hbs'
+		}
+	]
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)

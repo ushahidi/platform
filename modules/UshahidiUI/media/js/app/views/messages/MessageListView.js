@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars','underscore',
+define(['App', 'marionette', 'underscore',
 		'views/messages/MessageListItemView',
-		'text!templates/messages/MessageList.html',
+		'hbs!templates/messages/MessageList',
 		'mixin/PageableViewBehavior'
 	],
-	function( App, Marionette, Handlebars, _,
+	function( App, Marionette, _,
 		MessageListItemView,
 		template,
 		PageableViewBehavior
@@ -20,7 +20,7 @@ define(['App', 'marionette', 'handlebars','underscore',
 	{
 		return Marionette.CompositeView.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			modelName: 'messages',
 			initialize: function()
 			{

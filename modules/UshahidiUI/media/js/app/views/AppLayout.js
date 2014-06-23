@@ -7,15 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'text!templates/AppLayout.html', 'text!templates/partials/modal.html', 'regions/ModalRegion'],
-	function(App, Marionette, Handlebars, template, modalTemplate, ModalRegion)
+define(['App', 'marionette', 'hbs!templates/AppLayout', 'regions/ModalRegion'],
+	function(App, Marionette, template, ModalRegion)
 	{
-		// Hacky - make sure we register partials before we call compile
-		Handlebars.registerPartial('modal', modalTemplate);
 		return Marionette.Layout.extend(
 		{
 			className: 'app-layout',
-			template : Handlebars.compile(template),
+			template : template,
 			regions : {
 				headerRegion : '#header-region',
 				mainRegion :   '#main-region',

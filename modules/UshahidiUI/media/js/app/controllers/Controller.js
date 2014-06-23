@@ -526,8 +526,8 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 					return;
 				}
 
-				require(['views/settings/DataProviderLayout', 'views/settings/DataProviderConfig', 'models/ConfigModel', 'text!templates/settings/DataProviderConfigSms.html', 'handlebars'],
-					function(DataProviderLayout, DataProviderConfigView, ConfigModel, template, Handlebars)
+				require(['views/settings/DataProviderLayout', 'views/settings/DataProviderConfig', 'models/ConfigModel', 'hbs!templates/settings/DataProviderConfigSms'],
+					function(DataProviderLayout, DataProviderConfigView, ConfigModel, template)
 				{
 					App.vent.trigger('page:change', 'messages/settings');
 
@@ -541,7 +541,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 						dpLayout.main.show(new DataProviderConfigView({
 							dataProviderModel : dpModel,
 							configModel : dpConfig,
-							template: Handlebars.compile(template)
+							template: template
 						}));
 					});
 				});

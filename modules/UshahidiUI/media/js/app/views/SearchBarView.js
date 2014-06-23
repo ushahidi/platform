@@ -7,15 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'underscore', 'App', 'text!templates/SearchBar.html', 'text!templates/partials/tag-with-icon.html', 'geocoder', 'geopoint', 'datetimepicker', 'select2'],
-	function(Marionette, Handlebars, _, App, template, tagWithIconTpl, GeocoderJS, GeoPoint)
+define(['marionette', 'underscore', 'App', 'hbs!templates/SearchBar', 'hbs!templates/partials/tag-with-icon', 'geocoder', 'geopoint', 'datetimepicker', 'select2'],
+	function(Marionette, _, App, template, tagWithIcon, GeocoderJS, GeoPoint)
 	{
-		var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap'),
-			tagWithIcon = Handlebars.compile(tagWithIconTpl);
+		var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap');
 
 		return Marionette.ItemView.extend(
 		{
-			template : Handlebars.compile(template),
+			template : template,
 			collectionEvents : {
 				'sync': 'render',
 			},

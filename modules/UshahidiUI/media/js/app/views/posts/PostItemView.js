@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'handlebars', 'alertify'],
-	function(App, Marionette, _, Handlebars, alertify)
+define(['App', 'marionette', 'underscore', 'alertify'],
+	function(App, Marionette, _, alertify)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(

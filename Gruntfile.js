@@ -108,7 +108,19 @@ module.exports = function(grunt) {
 					name : 'config/Init',
 					include : ['config/Init'],
 					out : uipath + 'media/js/app/config/Init.min.js',
-					generateSourceMaps : true
+					generateSourceMaps : true,
+					findNestedDependencies: true,
+					paths : {
+						'handlebars' : '../../bower_components/handlebars/handlebars.runtime',
+						'handlebars-compiler' : '../../bower_components/handlebars/handlebars'
+					},
+					shim : {
+						'handlebars-compiler' :
+						{
+							'exports' : 'Handlebars'
+						},
+					},
+					excludeShallow: ['handlebars-compiler']
 				}
 			}
 		},

@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'handlebars', 'marionette', 'alertify', 'forms/UshahidiForms', 'text!templates/settings/AttributeListItem.html'],
-	function(_, Handlebars, Marionette, alertify, BackboneForm, template)
+define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!templates/settings/AttributeListItem'],
+	function(_, Marionette, alertify, BackboneForm, template)
 	{
 		return Marionette.ItemView.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			tagName: 'li',
 			className: 'list-view-attribute',
 

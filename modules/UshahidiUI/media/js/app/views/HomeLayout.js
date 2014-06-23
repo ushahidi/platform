@@ -7,14 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'underscore', 'modules/config',
-'text!templates/HomeLayout.html', 'views/SearchBarView', 'views/MapView', 'views/posts/PostListView'],
-	function(App, Marionette, Handlebars, _, config, template, SearchBarView, MapView, PostListView)
+define(['App', 'marionette', 'underscore', 'modules/config',
+'hbs!templates/HomeLayout', 'views/SearchBarView', 'views/MapView', 'views/posts/PostListView'],
+	function(App, Marionette, _, config, template, SearchBarView, MapView, PostListView)
 	{
 		return Marionette.Layout.extend(
 		{
 			className: 'layout-home',
-			template : Handlebars.compile(template),
+			template : template,
 			regions : {
 				mapRegion : '#map-region',
 				searchRegion : '#search-bar',

@@ -1,10 +1,10 @@
-define(['underscore', 'handlebars', 'backbone', 'marionette', 'leaflet', 'text!forms/templates/LocationEditor.html', 'text!templates/MapAttribution.html',
+define(['underscore', 'backbone', 'marionette', 'leaflet', 'hbs!forms/templates/LocationEditor', 'text!templates/MapAttribution.html',
 	'backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap', 'leaflet-locatecontrol'],
-	function(_, Handlebars, Backbone, Marionette, L, template, mapAttributionTemplate)
+	function(_, Backbone, Marionette, L, template, mapAttributionTemplate)
 {
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
 		tagName : 'div',
-		template : Handlebars.compile(template),
+		template : template,
 		baseMaps : function () {
 			return {
 				'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),

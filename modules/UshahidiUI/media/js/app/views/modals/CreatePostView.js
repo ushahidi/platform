@@ -7,18 +7,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/CreatePost.html',
+define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/CreatePost',
 	'dropzone',
 	'util/App.oauth',
 	'models/MediaModel',
 	'collections/MediaCollection',
-	'backbone-validation', 'forms/UshahidiForms', 'text!templates/partials/tag-with-icon.html', 'select2'],
-	function( App, Marionette, Handlebars, _, alertify, template,
+	'backbone-validation', 'forms/UshahidiForms', 'hbs!templates/partials/tag-with-icon', 'select2'],
+	function( App, Marionette, _, alertify, template,
 		Dropzone,
 		OAuth,
 		MediaModel,
 		MediaCollection,
-		BackboneValidation, BackboneForm, tagWithIconTpl)
+		BackboneValidation, BackboneForm, tagWithIcon)
 	{
 
 		var postMedia = new MediaCollection(),
@@ -37,7 +37,6 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 				addRemoveLinks: true,
 				dictRemoveFileConfirmation: 'Are you sure you want to delete this file?'
 			},
-			tagWithIcon = Handlebars.compile(tagWithIconTpl),
 			formatTagSelectChoice = function (tag)
 			{
 				if (! tag.id)
@@ -60,7 +59,7 @@ define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!temp
 		Dropzone.autoDiscover = false;
 
 		return Marionette.ItemView.extend( {
-			template: Handlebars.compile(template),
+			template: template,
 			initialize : function ()
 			{
 				// Set up the form

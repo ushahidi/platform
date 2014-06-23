@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'text!templates/values/Value.html'],
-	function(Marionette, Handlebars, template) {
+define(['marionette', 'hbs!templates/values/Value'],
+	function(Marionette, template) {
 		return Marionette.ItemView.extend(
 		{
 			className: 'post-value',
-			template : Handlebars.compile(template),
+			template : template,
 			initialize : function (options)
 			{
 				this.label = options.label || options.attribute.label;

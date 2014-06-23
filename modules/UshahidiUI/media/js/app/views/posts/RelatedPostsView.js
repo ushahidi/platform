@@ -7,16 +7,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'underscore', 'views/posts/PostListItemView', 'text!templates/posts/RelatedPosts.html', 'text!templates/posts/RelatedPostItem.html'],
-	function( App, Marionette, Handlebars, _, PostListItemView, template, itemTemplate)
+define(['App', 'marionette', 'underscore', 'views/posts/PostListItemView', 'hbs!templates/posts/RelatedPosts', 'hbs!templates/posts/RelatedPostItem'],
+	function( App, Marionette, _, PostListItemView, template, itemTemplate)
 	{
-		var itemTemplateCpl = Handlebars.compile(itemTemplate);
 		return Marionette.CompositeView.extend( {
-			template: Handlebars.compile(template),
+			template: template,
 			itemView: PostListItemView,
 			itemViewContainer: '.related-posts-body',
 			itemViewOptions: {
-				template : itemTemplateCpl,
+				template : itemTemplate,
 				className: 'related-post-module-wrapper'
 			},
 

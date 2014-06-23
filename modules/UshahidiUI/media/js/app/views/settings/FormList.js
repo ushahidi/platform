@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'underscore', 'views/settings/FormListItem', 'views/EmptyView', 'text!templates/settings/FormList.html'],
-	function( App, Marionette, Handlebars, _, FormListItem, EmptyView, template)
+define(['App', 'marionette', 'underscore', 'views/settings/FormListItem', 'views/EmptyView', 'hbs!templates/settings/FormList'],
+	function( App, Marionette, _, FormListItem, EmptyView, template)
 	{
 		return Marionette.CompositeView.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 
 			itemView: FormListItem,
 

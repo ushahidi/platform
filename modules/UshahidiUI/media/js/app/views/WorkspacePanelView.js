@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'marionette', 'handlebars', 'App', 'text!templates/WorkspacePanel.html'],
-	function(_, Marionette, Handlebars, App, template)
+define(['underscore', 'marionette', 'App', 'hbs!templates/WorkspacePanel'],
+	function(_, Marionette, App, template)
 	{
 		return Marionette.ItemView.extend(
 		{
-			template : Handlebars.compile(template),
+			template : template,
 			modelEvents : {
 				'sync' : 'render'
 			},

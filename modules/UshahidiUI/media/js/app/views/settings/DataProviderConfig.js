@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/settings/DataProviderConfig.html', 'forms/UshahidiForms'],
-	function(App, Marionette, Handlebars, _, alertify, template, BackboneForm)
+define(['App', 'marionette', 'underscore', 'alertify', 'hbs!templates/settings/DataProviderConfig', 'forms/UshahidiForms'],
+	function(App, Marionette, _, alertify, template, BackboneForm)
 	{
 		return Marionette.CompositeView.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			events: {
 				'submit form' : 'formSubmitted'
 			},

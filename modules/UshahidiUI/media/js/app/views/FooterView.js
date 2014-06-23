@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'App', 'modules/config', 'text!templates/Footer.html'],
-	function(Marionette, Handlebars, App, config, template)
+define(['marionette', 'App', 'modules/config', 'hbs!templates/Footer'],
+	function(Marionette, App, config, template)
 	{
 		return Marionette.ItemView.extend(
 		{
-			template : Handlebars.compile(template),
+			template : template,
 			initialize: function() {
 				App.vent.on('config:change', this.render, this);
 			},

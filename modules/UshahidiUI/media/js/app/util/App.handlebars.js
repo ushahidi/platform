@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'moment', 'modules/config', 'underscore.string', 'handlebars-paginate', 'text!templates/partials/pagination.html', 'text!templates/partials/list-info.html', 'text!templates/partials/tag-with-icon.html'],
-	function(Handlebars, moment, config, _str, paginate, paginationTpl, listInfoTpl, tagWithIconTpl)
+define(['handlebars', 'underscore', 'moment', 'modules/config', 'underscore.string', 'handlebars-paginate', 'hbs!templates/partials/pagination', 'hbs!templates/partials/list-info', 'hbs!templates/partials/tag-with-icon'],
+	function(Handlebars, _, moment, config, _str, paginate, paginationTpl, listInfoTpl, tagWithIconTpl)
 	{
 		Handlebars.registerHelper('baseurl', function()
 		{
@@ -73,9 +73,9 @@ define(['handlebars', 'moment', 'modules/config', 'underscore.string', 'handleba
 			return App.feature(feature) ? options.fn(this) : '';
 		});
 
-		Handlebars.registerPartial('pagination', Handlebars.compile(paginationTpl));
-		Handlebars.registerPartial('listinfo', Handlebars.compile(listInfoTpl));
-		Handlebars.registerPartial('tag-with-icon', Handlebars.compile(tagWithIconTpl));
+		Handlebars.registerPartial('pagination', paginationTpl);
+		Handlebars.registerPartial('listinfo', listInfoTpl);
+		Handlebars.registerPartial('tag-with-icon', tagWithIconTpl);
 
 		return Handlebars;
 	});

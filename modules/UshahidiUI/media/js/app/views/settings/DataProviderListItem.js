@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App','handlebars', 'marionette', 'alertify', 'text!templates/settings/DataProviderListItem.html'],
-	function(App,Handlebars, Marionette, alertify, template)
+define(['App', 'marionette', 'alertify', 'hbs!templates/settings/DataProviderListItem'],
+	function(App, Marionette, alertify, template)
 	{
 		var updateConfig = function (configModel, providerModel)
 		{
@@ -30,7 +30,7 @@ define(['App','handlebars', 'marionette', 'alertify', 'text!templates/settings/D
 		return Marionette.ItemView.extend(
 		{
 			//Template HTML string
-			template: Handlebars.compile(template),
+			template: template,
 			tagName: 'li',
 			className: 'list-view-data-provider  card-list__item',
 

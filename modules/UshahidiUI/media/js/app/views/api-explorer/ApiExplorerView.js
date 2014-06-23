@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alertify', 'syntaxhighlightjson',
-	'text!templates/api-explorer/ApiExplorerView.html'],
-	function( App, config, Marionette, Handlebars, _, alertify, syntaxHighlightJson, template)
+define(['App', 'modules/config', 'marionette', 'underscore', 'alertify', 'syntaxhighlightjson',
+	'hbs!templates/api-explorer/ApiExplorerView'],
+	function( App, config, Marionette, _, alertify, syntaxHighlightJson, template)
 	{
 		return Marionette.ItemView.extend(
 		{
-			template: Handlebars.compile(template),
+			template: template,
 			apiBaseUrl : config.get('apiurl') +'/',
 
 			events:

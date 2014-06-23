@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'handlebars', 'underscore', 'alertify', 'text!templates/modals/EditUser.html',
+define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/EditUser',
 	'forms/UshahidiForms', 'backbone-validation'],
-	function( App, Marionette, Handlebars, _, alertify, template, BackboneForm, BackboneValidation)
+	function( App, Marionette, _, alertify, template, BackboneForm, BackboneValidation)
 	{
 		return Marionette.ItemView.extend( {
-			template: Handlebars.compile(template),
+			template: template,
 			initialize : function ()
 			{
 				// Set up the form
