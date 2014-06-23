@@ -175,6 +175,14 @@ class Controller_User extends Controller_Layout {
 		$response = $request->execute();
 		$json = json_decode($response->body());
 
+		if (empty($json->access_token))
+		{
+			throw HTTP_Exception::factory(500, ":error : :description", array(
+				":error" => $json->error,
+				":description" => $json->error_description
+			));
+		}
+
 		// Store the auth code in a cookie for the JS app
 		Cookie::set('authtoken', $json->access_token);
 		if (!empty($json->refresh_token))

@@ -219,11 +219,12 @@ class OAuth2_Storage_Session extends OAuth2_Storage implements SessionInterface
 		  JOIN oauth_session_redirects ON oauth_session_redirects.session_id = oauth_sessions.id
 		 WHERE oauth_sessions.client_id = :clientId
 		   AND oauth_session_authcodes.auth_code = :authCode
-		   AND oauth_session_authcodes.auth_code_expires >= UNIX_TIMESTAMP(NOW())
+		   AND oauth_session_authcodes.auth_code_expires >= :time
 		   AND oauth_session_redirects.redirect_uri = :redirectUri')
 			->param(':clientId', $clientId)
 			->param(':redirectUri', $redirectUri)
-			->param(':authCode', $authCode);
+			->param(':authCode', $authCode)
+			->param(':time', time());
 		return $this->select_one_result($query);
 	}
 
@@ -259,8 +260,9 @@ class OAuth2_Storage_Session extends OAuth2_Storage implements SessionInterface
 		  FROM oauth_session_access_tokens
 		  JOIN oauth_sessions ON oauth_sessions.id = session_id
 		 WHERE access_token = :accessToken
-		   AND access_token_expires >= UNIX_TIMESTAMP(NOW())')
-			->param(':accessToken', $accessToken);
+		   AND access_token_expires >= :time')
+			->param(':accessToken', $accessToken)
+			->param(':time', time());
 		return $this->select_one_result($query);
 	}
 
@@ -305,9 +307,10 @@ class OAuth2_Storage_Session extends OAuth2_Storage implements SessionInterface
 		  FROM oauth_session_refresh_tokens
 		 WHERE refresh_token = :refreshToken
 		   AND client_id = :clientId
-		   AND refresh_token_expires >= UNIX_TIMESTAMP(NOW())')
+		   AND refresh_token_expires >= :time')
 			->param(':refreshToken', $refreshToken)
-			->param(':clientId', $clientId);
+			->param(':clientId', $clientId)
+			->param(':time', time());
 		return $this->select_one_column($query, 'session_access_token_id');
 	}
 
