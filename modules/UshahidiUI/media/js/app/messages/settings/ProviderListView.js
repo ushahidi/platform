@@ -7,8 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'handlebars', 'underscore', 'views/settings/DataProviderListItem', 'views/EmptyView'],
-	function( App, Marionette, Handlebars, _, DataProviderListItem, EmptyView)
+define(['App', 'marionette', 'underscore',
+		'messages/settings/ProviderListItemView',
+		'views/EmptyView'
+	],
+	function( App, Marionette, _,
+		DataProviderListItem,
+		EmptyView
+	)
 	{
 		return Marionette.CollectionView.extend(
 		{

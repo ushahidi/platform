@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'alertify', 'hbs!templates/settings/DataProviderListItem'],
+define(['App', 'marionette', 'alertify', 'hbs!messages/settings/ProviderListItem'],
 	function(App, Marionette, alertify, template)
 	{
 		var updateConfig = function (configModel, providerModel)

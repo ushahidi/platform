@@ -7,8 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'alertify', 'underscore', 'models/PostModel', 'hbs!templates/messages/MessageListItem'],
-	function(App, Marionette, alertify, _, PostModel, template)
+define(['App', 'marionette', 'alertify', 'underscore',
+		'models/PostModel',
+		'hbs!messages/list/MessageListItem'
+	],
+	function(App, Marionette, alertify, _,
+		PostModel,
+		template
+	)
 	{
 		//ItemView provides some default rendering logic
 		return  Marionette.ItemView.extend(

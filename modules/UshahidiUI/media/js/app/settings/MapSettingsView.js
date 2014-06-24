@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'jquery', 'alertify', 'underscore', 'modules/config', 'hbs!settings/MapSettings', 'no-ui-slider'],
-	function( App, Marionette, $, alertify, _, config, template)
+define([ 'marionette', 'jquery', 'alertify', 'underscore', 'modules/config', 'hbs!settings/MapSettings', 'no-ui-slider'],
+	function( Marionette, $, alertify, _, config, template)
 	{
 		return Marionette.ItemView.extend( {
 			template: template,

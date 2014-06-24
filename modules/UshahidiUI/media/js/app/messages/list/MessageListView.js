@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore',
-		'views/messages/MessageListItemView',
-		'hbs!templates/messages/MessageList',
+define(['marionette', 'underscore',
+		'messages/list/MessageListItemView',
+		'hbs!messages/list/MessageList',
 		'mixin/PageableViewBehavior'
 	],
-	function( App, Marionette, _,
+	function( Marionette, _,
 		MessageListItemView,
 		template,
 		PageableViewBehavior
@@ -22,9 +22,6 @@ define(['App', 'marionette', 'underscore',
 		{
 			template: template,
 			modelName: 'messages',
-			initialize: function()
-			{
-			},
 
 			itemView: MessageListItemView,
 			itemViewOptions: {},
@@ -86,7 +83,7 @@ define(['App', 'marionette', 'underscore',
 				e.preventDefault();
 
 				var source = this.$('#filter-source').val();
-				App.Collections.Messages.setFilterParams({
+				this.collection.setFilterParams({
 						type : source
 					});
 			},
@@ -95,7 +92,7 @@ define(['App', 'marionette', 'underscore',
 				e.preventDefault();
 
 				var search = this.$('.js-message-search-input').val();
-				App.Collections.Messages.setFilterParams({
+				this.collection.setFilterParams({
 						q : search
 					});
 			},
@@ -105,7 +102,7 @@ define(['App', 'marionette', 'underscore',
 
 				var $el = this.$(e.currentTarget),
 					box = $el.attr('data-box-name'),
-					params = App.Collections.Messages.setFilterParams({
+					params = this.collection.setFilterParams({
 						box : box
 					});
 

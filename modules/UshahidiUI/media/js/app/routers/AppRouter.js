@@ -22,12 +22,6 @@ define(['marionette'],
 				'posts/unpublished' : 'postsUnpublished',
 				'posts/create' : 'postCreate',
 				'posts/:id' : 'postDetail',
-				'messages' : 'messages',
-				'messages/list/:view' : 'messages',
-				'messages/settings' : 'messageSettingsMain',
-				// FIXME: temp route for sms hard coding
-				'messages/settings/sms' : 'dataProvidersConfigSMS',
-				'messages/settings/:provider' : 'dataProvidersConfig',
 				'users' : 'users',
 				'tags' : 'tags',
 

@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'modules/config', 'marionette', 'underscore', 'hbs!settings/Settings'],
-	function( App, config, Marionette,  _, template)
+define([ 'modules/config', 'marionette', 'underscore', 'hbs!settings/Settings'],
+	function( config, Marionette, _, template)
 	{
 		return Marionette.ItemView.extend( {
 			template: template,

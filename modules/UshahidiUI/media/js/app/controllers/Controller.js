@@ -23,7 +23,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 	'collections/FormCollection',
 	'collections/RoleCollection',
 	'collections/UserCollection',
-	'collections/DataProviderCollection',
 
 	'models/UserModel'
 	],
@@ -43,7 +42,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 		FormCollection,
 		RoleCollection,
 		UserCollection,
-		DataProviderCollection,
 
 		UserModel
 		)
@@ -112,9 +110,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 
 				// Open the user collection, but do not fetch it until necessary
 				App.Collections.Users = new UserCollection();
-
-				App.Collections.DataProviders = new DataProviderCollection();
-				App.Collections.DataProviders.fetch();
 
 				// Grab tag collection, use client-side paging and fetch all tags from server at once
 				App.Collections.Tags = new TagCollection([], { mode: 'client' });
@@ -315,48 +310,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 
 				this.modalController.postCreate();
 			},
-			messages : function (view)
-			{
-				var that = this;
-				this.homeLayout.close();
-				require(['views/messages/MessageListView', 'collections/MessageCollection'], function(MessageListView, MessageCollection)
-				{
-					App.vent.trigger('page:change', view ? 'messages/' + view : 'messages');
 
-					App.Collections.Messages = new MessageCollection();
-					//App.Collections.Messages.fetch();
-
-					switch (view)
-					{
-						// Filter by type. Will also default to incoming + received status
-						case 'email':
-							App.Collections.Messages.fetch({data : {type : 'email'}});
-							break;
-						case 'sms':
-							App.Collections.Messages.fetch({data : {type : 'sms'}});
-							break;
-						case 'twitter':
-							App.Collections.Messages.fetch({data : {type : 'twitter'}});
-							break;
-						// Filter by archived status. Will also default to incoming only
-						case 'archived':
-							App.Collections.Messages.fetch({data : {status : 'archived'}});
-							break;
-						// Show all statuses. Will still default to incoming only
-						case 'all':
-							App.Collections.Messages.fetch({data : {status : 'all'}});
-							break;
-						// Grab default: incoming + received + all types
-						default:
-							App.Collections.Messages.fetch();
-							break;
-					}
-
-					that.layout.mainRegion.show(new MessageListView({
-						collection : App.Collections.Messages
-					}));
-				});
-			},
 			apiExplorer : function ()
 			{
 				// Api Explorer not enabled, show index page
@@ -390,136 +344,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 					that.layout.mainRegion.show(new FormList({
 						collection : App.Collections.Forms
 					}));
-				});
-			},
-			/**
-			 * Set up data provider layout
-			 * @todo refactor to better handle loading dplayout
-			 */
-			_setupDataProviderLayout : function (DataProviderLayout)
-			{
-				var that = this,
-					dpTypes,
-					dpLayout;
-
-				if (! this._dpLayout)
-				{
-					dpTypes = new Backbone.Collection([
-							{ id: 'sms', name: 'SMS', icon: 'mobile' },
-							{ id: 'email', name: 'Email', icon: 'envelope-o' },
-							{ id: 'twitter', name: 'Twitter', icon: 'twitter' },
-							{ id: 'rss', name: 'RSS', icon: 'rss' }
-						]);
-					dpLayout = new DataProviderLayout({
-						collection : dpTypes
-					});
-
-					this._dpLayout = dpLayout;
-				}
-
-				that.layout.mainRegion.show(this._dpLayout);
-				return this._dpLayout;
-			},
-			/**
-			 * Shows a data provider listing
-			 */
-			messageSettingsMain : function ()
-			{
-				var that = this;
-
-				if (!App.feature('data_provider_config'))
-				{
-					App.appRouter.navigate('', { trigger : true });
-					return;
-				}
-
-				require(['views/settings/DataProviderLayout', 'views/settings/DataProviderList', 'models/ConfigModel'],
-					function(DataProviderLayout, DataProviderList, ConfigModel)
-				{
-					App.vent.trigger('page:change', 'messages/settings');
-
-					var dpConfig = new ConfigModel({'@group': 'data-provider'}),
-						dpList = new DataProviderList({
-							collection : App.Collections.DataProviders,
-							configModel : dpConfig
-						}),
-						dpLayout = that._setupDataProviderLayout(DataProviderLayout);
-
-					// Grab data-provider config and bind 'enabled'
-					dpConfig.fetch().done(function ()
-					{
-						_.each(dpConfig.get('providers'), function (enabled, index)
-						{
-							App.Collections.DataProviders.get(index).set('enabled', enabled);
-						});
-					});
-
-					dpLayout.main.show(dpList);
-				});
-			},
-			/**
-			 * Show a config form for an individual data provider
-			 * @param  String provider id
-			 */
-			dataProvidersConfig : function(id)
-			{
-				var that = this;
-
-				if (!App.feature('data_provider_config'))
-				{
-					App.appRouter.navigate('', { trigger : true });
-					return;
-				}
-
-				require(['views/settings/DataProviderLayout', 'views/settings/DataProviderConfig', 'models/ConfigModel'],
-					function(DataProviderLayout, DataProviderConfigView, ConfigModel)
-				{
-					App.vent.trigger('page:change', 'messages/settings');
-
-					var
-						dpLayout = that._setupDataProviderLayout(DataProviderLayout),
-						dpModel = App.Collections.DataProviders.get(id),
-						dpConfig = new ConfigModel({'@group': 'data-provider'});
-
-					dpConfig.fetch().done(function ()
-					{
-						dpLayout.main.show(new DataProviderConfigView({
-							dataProviderModel : dpModel,
-							configModel : dpConfig
-						}));
-					});
-				});
-			},
-
-			// FIXME: temp controller for sms hard coding
-			dataProvidersConfigSMS : function(/*id*/)
-			{
-				var that = this;
-
-				if (!App.feature('data_provider_config'))
-				{
-					App.appRouter.navigate('', { trigger : true });
-					return;
-				}
-
-				require(['views/settings/DataProviderLayout', 'views/settings/DataProviderConfig', 'models/ConfigModel', 'hbs!templates/settings/DataProviderConfigSms'],
-					function(DataProviderLayout, DataProviderConfigView, ConfigModel, template)
-				{
-					App.vent.trigger('page:change', 'messages/settings');
-
-					var
-						dpLayout = that._setupDataProviderLayout(DataProviderLayout),
-						dpModel = App.Collections.DataProviders.get('smssync'),
-						dpConfig = new ConfigModel({'@group': 'data-provider'});
-
-					dpConfig.fetch().done(function ()
-					{
-						dpLayout.main.show(new DataProviderConfigView({
-							dataProviderModel : dpModel,
-							configModel : dpConfig,
-							template: template
-						}));
-					});
 				});
 			},
 			/**
