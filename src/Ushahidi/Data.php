@@ -74,7 +74,7 @@ abstract class Data
 	public function asArray()
 	{
 		// Get defined properties, flipping the list of keys into an associative array...
-		$defined = array_flip(self::$defined_input_keys[$this->getObjectId]);
+		$defined = array_flip(self::$defined_input_keys[$this->getObjectId()]);
 
 		// ... and use it to reduce the values to what was actually input.
 		$values = array_intersect_key($this->asArraySimple(), $defined);
