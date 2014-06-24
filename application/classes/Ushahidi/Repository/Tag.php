@@ -11,6 +11,7 @@
 
 use Ushahidi\Entity\Tag;
 use Ushahidi\Entity\TagRepository;
+use Ushahidi\Entity\TagSearchData;
 use Ushahidi\Usecase\Tag\CreateTagRepository;
 
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
@@ -30,6 +31,48 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function get($id)
 	{
 		return new Tag($this->selectOne(compact('id')));
+	}
+
+	// TagRepository
+	public function search(TagSearchData $search, Array $params = null)
+	{
+		$where = Arr::extract($search->asArray(), ['tag', 'type']);
+		if ($search->parent) {
+			$where['parent_id'] = $search->parent;
+		}
+
+		// Start the query, removing empty values
+		$query = $this->selectQuery(array_filter($where));
+
+		if ($search->q) {
+			// Tag text searching
+			$query->where('tag', 'LIKE', "%{$search->q}%");
+		}
+
+		if (!empty($params['orderby'])) {
+			$query->order_by($params['orderby'], Arr::get($params, 'order'));
+		}
+
+		if (!empty($params['offset'])) {
+			$query->offset($params['offset']);
+		}
+		if (!empty($params['limit'])) {
+			$query->limit($params['limit']);
+		}
+
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
+	private function getCollection(Array $results)
+	{
+		$collection = [];
+		foreach ($results as $row) {
+			$tag = new Tag($row);
+			$collection[$tag->id] = $tag;
+		}
+		return $collection;
 	}
 
 	// CreateTagRepository

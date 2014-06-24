@@ -79,6 +79,7 @@ abstract class Ushahidi_Core {
 
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
+		$di->set('formatter.entity.tag', $di->lazyNew('Ushahidi_Formatter_Tag'));
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
 
@@ -101,26 +102,28 @@ abstract class Ushahidi_Core {
 			'db' => $di->lazyGet('kohana.db'),
 			];
 
-		// User login dependencies
+		// Parsers
+		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
+		$di->set('parser.tag.search', $di->lazyNew('Ushahidi_Parser_Tag_Search'));
 		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));
-		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
-
-		// User registration dependencies
-		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
-		$di->params['Ushahidi_Validator_User_Register'] = [
-			'repo' => $di->lazyGet('repository.user'),
-			];
-
 		$di->set('parser.user.register', $di->lazyNew('Ushahidi_Parser_User_Register'));
+
+		// Dependencies of parsers
 		$di->params['Ushahidi_Parser_User_Register'] = [
 			'hasher' => $di->lazyGet('tool.hasher.password'),
 			];
 
-		// Tag dependendies 
-		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
+		// Validators
 		$di->set('validator.tag.create', $di->lazyNew('Ushahidi_Validator_Tag_Create'));
+		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
+		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
+
+		// Dependencies of validators
 		$di->params['Ushahidi_Validator_Tag_Create'] = [
 			'repo' => $di->lazyGet('repository.tag'),
+			];
+		$di->params['Ushahidi_Validator_User_Register'] = [
+			'repo' => $di->lazyGet('repository.user'),
 			];
 
 		/**

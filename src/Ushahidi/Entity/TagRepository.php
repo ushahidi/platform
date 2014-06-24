@@ -15,7 +15,14 @@ interface TagRepository
 {
 	/**
 	 * @param  int $id
-	 * @return \Ushahidi\Entity\Tag
+	 * @return Ushahidi\Entity\Tag
 	 */
 	public function get($id);
+
+	/**
+	 * @param  Ushahidi\Entity\TagSearchData $data
+	 * @param  Array $params [limit, offset, orderby, order]
+	 * @return [Ushahidi\Entity\Tag, ...]
+	 */
+	public function search(TagSearchData $data, Array $params = null);
 }

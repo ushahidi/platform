@@ -70,7 +70,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$format  = service('formatter.entity.api');
+		$format  = service('formatter.entity.tag');
 		$parser  = service('parser.tag.create');
 		$usecase = service('usecase.tag.create');
 
@@ -100,52 +100,33 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$results = array();
+		$repo   = service('repository.tag');
+		$parser = service('parser.tag.search');
+		$format = service('formatter.entity.tag');
 
+		$input = $parser($this->request->query());
+
+		// this probably belongs in the parser, or should just return the
+		// order/limit params as an array for the search call
 		$this->_prepare_order_limit_params();
 
-		$tags_query = ORM::factory('Tag')
-			->order_by($this->_record_orderby, $this->_record_order)
-			->offset($this->_record_offset)
-			->limit($this->_record_limit);
+		$tags = $repo->search($input, [
+			'orderby' => $this->_record_orderby,
+			'order' => $this->_record_order,
+			'offset' => $this->_record_offset,
+			'limit' => $this->_record_limit,
+			]);
+		$count = count($tags);
 
-		// Prepare search params
-		// @todo generalize this?
-		$q = $this->request->query('q');
-		if (! empty($q))
-		{
-			$tags_query->where('tag', 'LIKE', "%$q%");
-		}
-
-		$tag = $this->request->query('tag');
-		if (! empty($tag))
-		{
-			$tags_query->where('tag', '=', $tag);
-		}
-
-		$type = $this->request->query('type');
-		if (! empty($type))
-		{
-			$tags_query->where('type', '=', $type);
-		}
-
-		$type = $this->request->query('parent');
-		if (! empty($type))
-		{
-			$tags_query->where('parent_id', '=', $type);
-		}
-
-		$tags = $tags_query->find_all();
-
-		$count = $tags->count();
-
+		$results = [];
 		foreach ($tags as $tag)
 		{
 			// Check if user is allowed to access this tag
-			if ($this->acl->is_allowed($this->user, $tag, 'get') )
+			// todo: fix the ACL layer so that it can consume an Entity
+			if ($this->acl->is_allowed($this->user, $tag->getResource(), 'get') )
 			{
-				$result = $tag->for_api();
-				$result['allowed_methods'] = $this->_allowed_methods($tag);
+				$result = $format($tag);
+				$result['allowed_methods'] = $this->_allowed_methods($tag->getResource());
 				$results[] = $result;
 			}
 		}

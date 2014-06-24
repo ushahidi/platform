@@ -17,11 +17,6 @@ use Ushahidi\Exception\FormatterException;
 
 class Ushahidi_Formatter_API implements Formatter
 {
-	/**
-	 * @var array $timestamps fields to be treated as timestamps
-	 */
-	protected $timestamps = array('created', 'updated');
-
 	// Formatter
 	public function __invoke($entity)
 	{
@@ -47,22 +42,28 @@ class Ushahidi_Formatter_API implements Formatter
 
 		foreach ($fields as $field)
 		{
-			if (in_array($field, $this->timestamps))
+			$value = trim($entity->$field);
+			$method = 'format_' . $field;
+			if (method_exists($this, $method))
 			{
-				$data[$field] = date(DateTime::W3C, $entity->$field);
-			}
-			elseif ($field === 'color')
-			{
-				$data[$field] = '#' . ltrim($entity->$field);
+				$data[$field] = $this->$method($value);
 			}
 			else
 			{
-				$data[$field] = $entity->$field;
+				$data[$field] = $value;
 			}
 		}
 
 		return $data;
 	}
 
-}
+	protected function format_created($value)
+	{
+		return date(DateTime::W3C, $value);
+	}
 
+	protected function format_updated($value)
+	{
+		return $value ? $this->format_created($value) : NULL;
+	}
+}
