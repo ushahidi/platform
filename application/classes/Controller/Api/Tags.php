@@ -148,9 +148,19 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$tag = $this->resource();
+		$repo   = service('repository.tag');
+		$format = service('formatter.entity.api');
+		$tagid  = $this->request->param('id') ?: 0;
+		$tag    = $repo->get($tagid);
 
-		$this->_response_payload = $tag->for_api();
+		if (!$tag->id)
+		{
+			throw new HTTP_Exception_404('Tag :id does not exist', array(
+				':id' => $tagid,
+			));
+		}
+
+		$this->_response_payload = $format($tag);
 		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
