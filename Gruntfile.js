@@ -50,12 +50,12 @@ module.exports = function(grunt) {
 					'!**/.git/**',
 					'!**/.git*',
 				],
-				dest: 'Lamu/'
+				dest: 'platform/'
 			},
 		];
 
 	// Set default filename for compress tasks
-	grunt.option('filename', 'Lamu');
+	grunt.option('filename', 'Ushahidi-Platform');
 
 	grunt.initConfig(
 	{
@@ -264,7 +264,7 @@ module.exports = function(grunt) {
 				grunt.warn('Version number must be specified, like release:v3.2.4');
 			}
 
-			grunt.option('filename', 'Lamu-'+version);
+			grunt.option('filename', 'Ushahidi-Platform-'+version);
 			grunt.task.run('build', 'compress');
 
 			done();

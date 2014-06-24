@@ -1,7 +1,7 @@
 Ushahidi 3
 ============
 
-[![Build Status](https://travis-ci.org/ushahidi/Lamu.png)](https://travis-ci.org/ushahidi/Lamu)
+[![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform)
 
 [Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+3.x+Downloads)
 
@@ -70,8 +70,8 @@ Install [Vagrant](http://www.vagrantup.com/), then run `vagrant up` to get start
 
 ### Travis-CI
 
-Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/Lamu).
-See [.travis.yml](https://github.com/ushahidi/Lamu/blob/master/.travis.yml) for config details.
+Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/platform).
+See [.travis.yml](https://github.com/ushahidi/platform/blob/master/.travis.yml) for config details.
 
 ### Testing
 

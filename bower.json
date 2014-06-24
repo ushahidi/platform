@@ -1,5 +1,5 @@
 {
-  "name": "Ushahidi-Lamu",
+  "name": "Ushahidi-Platform",
   "version": "3.0.0-alpha.3",
   "dependencies": {
     "requirejs": "~2.1",

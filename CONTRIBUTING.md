@@ -5,7 +5,7 @@ This is the repository for Ushahidi 3.x
 * If you want to help out with development:
 	* Find the docs on the [wiki](https://wiki.ushahidi.com/display/WIKI/Ushahidi+Platform%2C+v3.X)
 	* Have a read through the [development process](https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x%2C+Development+process)
-	* Checkout the queue of features in [Github](https://github.com/ushahidi/Lamu/issues?labels=feature&page=1&state=open)
+	* Checkout the queue of features in [Github](https://github.com/ushahidi/platform/issues?labels=feature&page=1&state=open)
 	* Join the [developer mailing list](http://list.ushahidi.com) and tell us what you're working on
 	* Send pull requests!
 

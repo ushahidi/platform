@@ -16,7 +16,7 @@ return array
 		'type'       => 'MySQLi',
 		'connection' => array(
 			'hostname'   => 'localhost',
-			'database'   => 'lamu_test',
+			'database'   => 'platform_test',
 			'username'   => 'root',
 			'password'   => '',
 			'persistent' => FALSE,

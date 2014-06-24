@@ -1,18 +1,18 @@
 {
-  "name": "Ushahidi-Lamu-UI",
-  "title": "Ushahidi Lamu UI",
+  "name": "Ushahidi-Platform-UI",
+  "title": "Ushahidi Platform UI",
   "description": "",
   "version": "1.0.0",
-  "homepage": "https://github.com/ushahidi/Lamu",
+  "homepage": "https://github.com/ushahidi/platform",
   "author": {
     "name": "Ushahidi"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:ushahidi/Lamu.git"
+    "url": "git@github.com:ushahidi/platform.git"
   },
   "bugs": {
-    "url": "https://github.com/ushahidi/Lamu/issues"
+    "url": "https://github.com/ushahidi/platform/issues"
   },
   "dependencies": {},
   "devDependencies": {
@@ -35,6 +35,7 @@
   },
   "keywords": [
     "Ushahidi",
+    "Platform",
     "Lamu"
   ]
 }
