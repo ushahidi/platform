@@ -25,6 +25,11 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 				search : true,
 				list : true
 			},
+			initialize : function()
+			{
+				// Resize map after searchRegion renders
+				this.searchRegion.on('show', this.updateMap, this);
+			},
 			/**
 			 * Set which views should be shown
 			 * @param {Object} views Views to render. Set key to true to render.
@@ -49,13 +54,20 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 					this.mapRegion.show(new MapView({
 						collection : this.collection,
 						clustering : config.get('map').clustering,
-						defaultView : config.get('map').default_view
+						defaultView : config.get('map').default_view,
+						fullSizeMap : (! this.views.list)
 					}));
 				}
 				else if(! this.views.map)
 				{
 					ddt.log('HomeLayout', 'closingMap');
 					this.mapRegion.close();
+				}
+				// Map already visible
+				else
+				{
+					this.mapRegion.currentView.fullSizeMap = (! this.views.list);
+					this.mapRegion.currentView.resizeMap();
 				}
 
 				if (this.contentRegion.currentView instanceof PostListView === false && this.views.list)
@@ -92,6 +104,13 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 			onShow : function()
 			{
 				ddt.log('HomeLayout', 'onShow');
+			},
+			updateMap : function ()
+			{
+				if (this.mapRegion.currentView instanceof MapView)
+				{
+					this.mapRegion.currentView.resizeMap();
+				}
 			}
 
 		});

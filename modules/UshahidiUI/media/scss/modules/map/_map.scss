@@ -26,6 +26,7 @@
 	opacity: 1;
 	width: 100%;
 	height: 386px;
+	min-height: 300px;
 	@include transition (all .3s ease-in-out);
 	@media #{$small} {
 		height: 500px;
@@ -35,6 +36,7 @@
 .map-collapse {
 	opacity: .5;
 	height: 38px;
+	min-height: 0;
 	@include transition (all .3s ease-in-out);
 }
 

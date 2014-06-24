@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'underscore', 'App',
+define(['marionette', 'underscore', 'App', 'jquery',
 		'modules/config',
 		'leaflet',
 		'hbs!templates/Map',
@@ -16,7 +16,7 @@ define(['marionette', 'underscore', 'App',
 		'text!templates/MapAttributionHOT.html',
 		'l.markercluster'
 	],
-	function(Marionette, _, App,
+	function(Marionette, _, App, $,
 		config,
 		L,
 		template,
@@ -40,6 +40,7 @@ define(['marionette', 'underscore', 'App',
 			defaultMap : 'MapQuest',
 			collapsed : false,
 			clustering : false,
+			fullSizeMap : false,
 			defaultView : {
 				lat : -36.85,
 				lon : 174.78,
@@ -66,40 +67,28 @@ define(['marionette', 'underscore', 'App',
 			 *   <object>  collection - Collection to show location data for, used to populate dataUrl
 			 *   <boolean> clustering - Enable clustering of map points with leaflet.markercluster
 			 *   <object>  defaultView - Starting view for the map. Expects lat, lon, zoom options.
+			 *   <boolean> fullSizeMap - Expand map to fill viewport
 			 **/
 			initialize : function (options)
 			{
-				// ensure options is an object
-				options = _.extend({}, options);
+				_.extend(this, _.pick(options, 'collapsed', 'clustering', 'fullSizeMap'));
 
-				// Should the view start collapsed
-				this.collapsed = false;
-				if (options.collapsed)
-				{
-					this.collapsed = true;
-				}
-
-				// Cluster objects on the map?
-				this.clustering = false;
-				if (options.clustering)
-				{
-					this.clustering = options.clustering;
-				}
-
-				// Map start location
 				if (options.defaultView)
 				{
+					// Extend the default 'defaultView' to account for passing a partial defaultView (just lat/lon, etc)
 					_.extend(this.defaultView, options.defaultView);
 				}
 
-				// Save custom dataUrl to view object
-				if (typeof options.dataUrl !== 'undefined')
+				if (this.fullSizeMap)
 				{
-					this.dataUrl = options.dataUrl;
+					// If fullSizeMap is enabled, disable expand/collapse map button
+					this.collapsed = 'disabled';
 				}
 
-
 				App.vent.on('map:showValue', this.showPostValue, this);
+
+				_.bindAll(this, 'resizeMap');
+				$(window).on('resize.map', _.debounce(this.resizeMap, 150));
 			},
 
 			// Use onDomRefresh rather than render() because we need this.$el in the DOM first
@@ -181,6 +170,8 @@ define(['marionette', 'underscore', 'App',
 				// @TODO Maybe move this into the view html: set classes when we render
 				this.collapseMap(this.collapsed);
 
+				this.resizeMap();
+
 				// Fix any leaflet weirdness after map resizes
 				// @TODO check if this works in older browsers, add backup delayed call if not
 				this.$el.on('transitionend', function (e)
@@ -199,6 +190,7 @@ define(['marionette', 'underscore', 'App',
 			onClose : function()
 			{
 				ddt.log('MapView', 'MapView.onClose', this.map);
+
 				if (this.map)
 				{
 					// Manually remove layers, map.remove() doesn't do it for us.
@@ -213,6 +205,30 @@ define(['marionette', 'underscore', 'App',
 					this.map.remove();
 					delete this.map;
 				}
+
+				$(window).off('resize.map');
+			},
+
+			/**
+			 * Make the map full the screen
+			 */
+			resizeMap : function()
+			{
+				ddt.log('MapView', 'MapView.resizeMap fullSizeMap', this.fullSizeMap);
+
+				if (this.fullSizeMap)
+				{
+					var heightOffset = 0;
+					$('.js-show-with-full-map').each(function() {
+						heightOffset += $(this).outerHeight(true);
+					});
+
+					this.$('#map').height( $( window ).height() - heightOffset );
+				}
+				else
+				{
+					this.$('#map').height('');
+				}
 			},
 
 			/**
@@ -222,30 +238,25 @@ define(['marionette', 'underscore', 'App',
 			 **/
 			collapseMap : function (collapse)
 			{
-				if (collapse === true)
+				if (this.collapsed === 'disabled')
 				{
-					this.collapsed = true;
-					this.$('#map').addClass('map-collapse');
-					this.$('.js-collapse-tab').addClass('none');
-					this.$('.js-expand-tab').removeClass('none');
-					this.$('.leaflet-container .leaflet-control-zoom').hide();
+					this.$('.js-collapse-map').hide();
+					return;
 				}
-				else if (collapse === false)
+
+				if (typeof collapse === 'boolean')
 				{
-					this.collapsed = false;
-					this.$('#map').removeClass('map-collapse');
-					this.$('.js-collapse-tab').removeClass('none');
-					this.$('.js-expand-tab').addClass('none');
-					this.$('.leaflet-container .leaflet-control-zoom').show();
+					this.collapsed = collapse;
 				}
 				else
 				{
 					this.collapsed = this.collapsed ? false : true;
-					this.$('#map').toggleClass('map-collapse');
-					this.$('.js-collapse-tab').toggleClass('none');
-					this.$('.js-expand-tab').toggleClass('none');
-					this.$('.leaflet-container .leaflet-control-zoom').toggle();
 				}
+
+				this.$('#map').toggleClass('map-collapse', this.collapsed);
+				this.$('.js-collapse-tab').toggleClass('none', this.collapsed);
+				this.$('.js-expand-tab').toggleClass('none', ! this.collapsed);
+				this.$('.leaflet-container .leaflet-control-zoom').toggle(! this.collapsed);
 
 				return false;
 			},
