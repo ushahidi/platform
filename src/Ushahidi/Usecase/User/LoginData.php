@@ -15,8 +15,11 @@ use Ushahidi\Data;
 
 class LoginData extends Data
 {
-	public $csrf;
-	public $username;
-	public $password;
+	public function getAllowedKeys()
+	{
+		return [
+			'username',
+			'password',
+			];
+	}
 }
-

@@ -42,6 +42,6 @@ class Ushahidi_Parser_User_Login implements Parser
 		// hash is unique, even for the same password, so we cannot compare two
 		// hashes directly.
 
-		return new LoginData(Arr::extract($data, ['username', 'password']));
+		return new LoginData($data);
 	}
 }

@@ -59,6 +59,6 @@ class Ushahidi_Parser_User_Register implements Parser
 
 		$data['password'] = $this->hasher->hash($data['password']);
 
-		return new RegisterData(Arr::extract($data, ['email', 'username', 'password']));
+		return new RegisterData($data);
 	}
 }

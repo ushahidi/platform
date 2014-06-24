@@ -15,8 +15,12 @@ use Ushahidi\Data;
 
 class RegisterData extends Data
 {
-	public $username;
-	public $password;
-	public $email;
+	public function getAllowedKeys()
+	{
+		return [
+			'username',
+			'password',
+			'email',
+			];
+	}
 }
-

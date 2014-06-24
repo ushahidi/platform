@@ -15,11 +15,16 @@ use Ushahidi\Data;
 
 class TagData extends Data
 {
-	public $tag;
-	public $slug; // auto-filled
-	public $description;
-	public $type;
-	public $color;
-	public $icon;
-	public $priority;
+	protected function getAllowedKeys()
+	{
+		return [
+			'tag',
+			'slug',
+			'description',
+			'type',
+			'color',
+			'icon',
+			'priority',
+			];
+	}
 }

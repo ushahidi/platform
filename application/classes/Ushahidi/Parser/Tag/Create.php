@@ -42,6 +42,7 @@ class Ushahidi_Parser_Tag_Create implements Parser
 			throw new ParserException("Failed to parse tag create request", $valid->errors('tag'));
 		}
 
+		// Ensure that all properties of a Tag entity are defined by using Arr::extract
 		return new TagData(Arr::extract($data, ['tag', 'slug', 'description', 'type', 'color', 'icon', 'priority']));
 	}
 }
