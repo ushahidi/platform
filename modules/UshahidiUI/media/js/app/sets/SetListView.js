@@ -8,8 +8,8 @@
  */
 
 define(['App', 'marionette', 'underscore',
-		'views/sets/SetListItemView',
-		'hbs!templates/sets/SetList',
+		'sets/SetListItemView',
+		'hbs!sets/SetList',
 		'mixin/PageableViewBehavior'
 	],
 	function(App, Marionette, _,

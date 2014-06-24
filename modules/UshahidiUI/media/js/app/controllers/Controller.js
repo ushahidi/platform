@@ -21,7 +21,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 	'collections/PostCollection',
 	'collections/TagCollection',
 	'collections/FormCollection',
-	'collections/SetCollection',
 	'collections/RoleCollection',
 	'collections/UserCollection',
 	'collections/DataProviderCollection',
@@ -42,7 +41,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 		PostCollection,
 		TagCollection,
 		FormCollection,
-		SetCollection,
 		RoleCollection,
 		UserCollection,
 		DataProviderCollection,
@@ -92,8 +90,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 
 				App.Collections.Forms = new FormCollection();
 				App.Collections.Forms.fetch();
-				App.Collections.Sets = new SetCollection();
-				App.Collections.Sets.fetch();
 
 				// Fake roles collection
 				App.Collections.Roles = new RoleCollection([
@@ -278,27 +274,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 				});
 			},
 
-			sets : function ()
-			{
-				var that = this;
-				require(['views/sets/SetListView'], function(SetListView)
-				{
-					App.vent.trigger('page:change', 'sets');
-					that.layout.mainRegion.show(new SetListView({
-						collection : App.Collections.Sets
-					}));
-				});
-			},
 
-			setDetail : function(/* id */)
-			{
-				var that = this;
-				require(['views/sets/SetDetailView'], function(SetDetailView)
-				{
-					App.vent.trigger('page:change', 'sets/:id');
-					that.layout.mainRegion.show(new SetDetailView());
-				});
-			},
 
 			users : function()
 			{

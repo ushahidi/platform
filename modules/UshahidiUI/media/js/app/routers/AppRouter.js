@@ -28,8 +28,6 @@ define(['marionette'],
 				// FIXME: temp route for sms hard coding
 				'messages/settings/sms' : 'dataProvidersConfigSMS',
 				'messages/settings/:provider' : 'dataProvidersConfig',
-				'sets' : 'sets',
-				'sets/:id' : 'setDetail',
 				'users' : 'users',
 				'tags' : 'tags',
 

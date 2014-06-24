@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'hbs!templates/sets/SetDetail'],
+define([ 'App', 'marionette', 'hbs!sets/SetDetail'],
     function( App, Marionette, template)
 	{
 		return Marionette.ItemView.extend( {

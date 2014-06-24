@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'hbs!templates/sets/SetListItem'],
+define(['marionette', 'hbs!sets/SetListItem'],
 	function(Marionette, template)
 	{
 		//ItemView provides some default rendering logic

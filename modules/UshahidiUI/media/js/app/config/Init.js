@@ -153,7 +153,9 @@ require.config(
 });
 
 // Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt', 'settings/SettingsApp'],
+require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt', 'settings/SettingsApp',
+		'sets/SetsApp'
+	],
 	function(App, AppRouter, Controller, $)
 	{
 		App.appRouter = new AppRouter(
