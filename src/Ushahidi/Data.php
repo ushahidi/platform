@@ -37,7 +37,7 @@ abstract class Data
 	{
 		// Get the (empty) array that currently exists, this tells us what
 		// properties are allowed in this object.
-		$allowed = $this->asArray();
+		$allowed = $this->asArraySimple();
 
 		// Using the allowed properties, determine which of them are present
 		// in the given input data...
