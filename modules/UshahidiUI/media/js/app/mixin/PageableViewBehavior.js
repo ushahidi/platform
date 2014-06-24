@@ -110,14 +110,14 @@ define(['marionette', 'handlebars'], function (Marionette, Handlebars) {
 		updateSort : function (e)
 		{
 			e.preventDefault();
-			var orderby = this.ui.pageSort.val();
-			if (orderby === 'title')
+			var sortkey = this.ui.pageSort.val(),
+				order = (typeof this.view.collection.sortOrder[sortkey] !== 'undefined') ? this.view.collection.sortOrder[sortkey] : 1;
+
+			this.view.collection.setSorting(sortkey, order);
+
+			if (this.view.collection.mode === 'client')
 			{
-				this.view.collection.setSorting(orderby,-1);
-			}
-			else
-			{
-				this.view.collection.setSorting(orderby);
+				this.view.collection.fullCollection.sort();
 			}
 			this.view.collection.getFirstPage();
 		}

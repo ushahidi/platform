@@ -7,54 +7,42 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'models/TagModel', 'modules/config', 'backbone.paginator'],
-	function(Backbone, TagModel, config, PageableCollection)
+define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone.paginator', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
+	function(Backbone, _, TagModel, config, PageableCollection, ResultsCollection, FilteredCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var TagCollection = PageableCollection.extend(
-		{
-			model : TagModel,
-			url: config.get('apiurl') +'/tags',
-
-			// The Ushahidi API returns models under 'results'.
-			parseRecords: function(response)
+			_.extend(
 			{
-				return response.results;
-			},
-			parseState: function(response)
-			{
-				return {
-					totalRecords: response.total_count
-				};
-			},
-			// Set state params for `Backbone.PageableCollection#state`
-			state: {
-				firstPage: 0,
-				currentPage: 0,
-				pageSize: 4,
-				// Required under server-mode
-				totalRecords: 0,
-				sortKey: 'created',
-				order: 1 // 1 = desc
+				model : TagModel,
+				url: config.get('apiurl') +'/tags',
+
+				// Set state params for `Backbone.PageableCollection#state`
+				state: {
+					firstPage: 0,
+					currentPage: 0,
+					pageSize: 4,
+					// Required under server-mode
+					totalRecords: 0,
+					sortKey: 'created',
+					order: 1 // 1 = desc
+				},
+
+				sortKeys: {
+					created : 'Date/Time created',
+					id : 'ID',
+					tag : 'Tag Name'
+				},
+
+				sortOrder: {
+					tag : -1
+				}
 			},
 
-			// Mapping from a `Backbone.PageableCollection#state` key to the
-			// query string parameters accepted by the Ushahidi API.
-			queryParams: {
-				currentPage: null,
-				totalPages: null,
-				totalRecords: null,
-				pageSize: 'limit',
-				offset: function () { return this.state.currentPage * this.state.pageSize; },
-				sortKey: 'orderby'
-			},
-
-			sortKeys: {
-				'created' : 'Date/Time created',
-				'id' : 'ID',
-				'tag' : 'Tag Name'
-			}
-		});
+			// Mixins must always be added last!
+			ResultsCollection,
+			FilteredCollection
+		));
 
 		return TagCollection;
 	});

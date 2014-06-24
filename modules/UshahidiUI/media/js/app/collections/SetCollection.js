@@ -7,48 +7,31 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'models/SetModel', 'modules/config', 'backbone.paginator'],
-	function(Backbone, SetModel, config, PageableCollection)
+define(['backbone', 'underscore', 'models/SetModel', 'modules/config', 'backbone.paginator', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
+	function(Backbone, _, SetModel, config, PageableCollection, ResultsCollection, FilteredCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var SetCollection = PageableCollection.extend(
-		{
-			model : SetModel,
-			url: config.get('apiurl') + '/sets',
-			// The Ushahidi API returns models under 'results'.
-			parseRecords: function(response)
+		_.extend(
 			{
-				return response.results;
-			},
-			parseState: function(response)
-			{
-				return {
-					totalRecords: response.count
-				};
-			},
-			// Set state params for `Backbone.PageableCollection#state`
-			state: {
-				firstPage: 0,
-				currentPage: 0,
-				pageSize: 3,
-				// Required under server-mode
-				totalRecords: 3,
-				sortKey: 'created',
-				order: 1 // 1 = desc
+				model : SetModel,
+				url: config.get('apiurl') + '/sets',
+				// Set state params for `Backbone.PageableCollection#state`
+				state: {
+					firstPage: 0,
+					currentPage: 0,
+					pageSize: 3,
+					// Required under server-mode
+					totalRecords: 3,
+					sortKey: 'created',
+					order: 1 // 1 = desc
+				},
 			},
 
-			// Mapping from a `Backbone.PageableCollection#state` key to the
-			// query string parameters accepted by the Ushahidi API.
-			queryParams: {
-				currentPage: null,
-				totalPages: null,
-				totalRecords: null,
-				pageSize: 'limit',
-				offset: function () { return this.state.currentPage * this.state.pageSize; },
-				sortKey: 'orderby'
-			},
-
-		});
+			// Mixins must always be added last!
+			ResultsCollection,
+			FilteredCollection
+		));
 
 		return SetCollection;
 	});

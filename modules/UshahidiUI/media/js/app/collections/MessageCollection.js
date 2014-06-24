@@ -29,20 +29,20 @@ define(['underscore', 'backbone', 'models/MessageModel', 'modules/config', 'back
 				},
 
 				sortKeys: {
-					'created' : 'Date/Time created',
-					'id' : 'ID'
+					created : 'Date/Time created',
+					id : 'ID'
 				},
 
 				sourceTypes: {
-					'email' : 'Email',
-					'sms' : 'SMS',
-					'twitter' : 'Twitter'
+					email : 'Email',
+					sms : 'SMS',
+					twitter : 'Twitter'
 				},
 
 				boxTypes: {
-					'inbox' : 'Inbox',
-					'outbox' : 'Outbox',
-					'archived' : 'Archived'
+					inbox : 'Inbox',
+					outbox : 'Outbox',
+					archived : 'Archived'
 				}
 			},
 

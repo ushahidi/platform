@@ -193,6 +193,7 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
 					pagination: this.collection.state,
+					sortKeys: this.collection.sortKeys,
 					modelName : this.modelName
 				});
 

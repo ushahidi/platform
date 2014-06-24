@@ -11,7 +11,7 @@ define(['backbone'],
 	function()
 	{
 		// Customized response handling for parsing the Ushahidi API results.
-		// Has no real dependencies, but is meant to mixed with Backbone.Collection.
+		// Has no real dependencies, but is meant to mixed with Backbone.PageableCollection.
 
 		return {
 			// The Ushahidi API returns models under 'results'.

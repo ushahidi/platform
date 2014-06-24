@@ -26,6 +26,17 @@ define(['backbone', 'underscore', 'models/PostModel', 'modules/config', 'backbon
 					totalRecords: 0,
 					sortKey: 'updated',
 					order: 1 // 1 = desc
+				},
+
+				sortKeys: {
+					updated : 'Date/Time updated',
+					created : 'Date/Time created',
+					title : 'Title A-Z',
+					id : 'ID'
+				},
+
+				sortOrder: {
+					title : -1
 				}
 			},
 
