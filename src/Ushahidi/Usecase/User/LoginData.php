@@ -15,11 +15,6 @@ use Ushahidi\Data;
 
 class LoginData extends Data
 {
-	public function getAllowedKeys()
-	{
-		return [
-			'username',
-			'password',
-			];
-	}
+	public $username;
+	public $password;
 }
