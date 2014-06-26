@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'views/settings/DraggableAttributeListItem', 'views/EmptyView'],
-	function( Marionette, DraggableAttributeListItem, EmptyView)
+define(['App', 'marionette', 'views/settings/DraggableAttributeListItem', 'views/EmptyView'],
+	function(App, Marionette, DraggableAttributeListItem, EmptyView)
 	{
 		return Marionette.CollectionView.extend(
 		{

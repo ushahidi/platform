@@ -15,8 +15,8 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!temp
 			template: template,
 			tagName: 'li',
 			className: 'list-view-attribute',
-
 			form: null,
+
 			attributes : function ()
 			{
 				var attributes = {
@@ -40,23 +40,7 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!temp
 
 			events: {
 				'click .js-edit-field' : 'toggleEdit',
-				'click .js-cancel-edit' : 'toggleEdit',
-				'click .js-delete-field' : 'deleteField',
-				'submit form' : 'saveField'
-			},
-
-			initialize : function (/*options*/)
-			{
-				// BackboneValidation.bind(this, {
-				// 	valid: function(/* view, attr */)
-				// 	{
-				// 		// Do nothing, displaying errors is handled by backbone-forms
-				// 	},
-				// 	invalid: function(/* view, attr, error */)
-				// 	{
-				// 		// Do nothing, displaying errors is handled by backbone-forms
-				// 	}
-				// });
+				'click .js-delete-field' : 'deleteField'
 			},
 
 			serializeData: function ()
@@ -86,15 +70,15 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!temp
 			{
 				try {
 					this.form = new BackboneForm({
-						schema: this.model.schema(),
-						data: _.extend(this.model.toJSON(), {
+						schema: this.model.previewSchema(),
+						data: {
 							preview : this.model.get('default')
-						}),
+						},
 						idPrefix : 'attribute-',
 						className : 'attribute-form',
 					});
 				} catch (err) {
-					ddt.log('Forms', 'could not create form for attr', err);
+					ddt.log('FormEditor', 'could not create form for attr', err);
 				}
 			},
 
@@ -109,58 +93,15 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!temp
 				// Render the form and add it to the view
 				this.form.render();
 
-				var $form = this.form.$el;
-
-				// add a cancel button to the form
-                // add a submit button to the form
-                // todo: use "submitButton: title" in Backbone.Form v0.15
-				$form.append('<div class="form-edit-cancel"><button class="cancel-edit-button  js-cancel-edit">Cancel</button></div><div class="form-edit-save"><button class="save-edit-button" type="submit">Save</button></div>');
-
 				// hide the field editor form until activated
-				this.$('.js-form')
-					.empty()
-					.addClass('hide')
-					.append($form);
+				this.$('.js-form-input').empty().append(this.form.$el);
 			},
 
 			toggleEdit : function(e)
 			{
 				e.preventDefault();
 
-				// Reset the form data
-				this.form.setValue(_.extend(this.model.toJSON(), {
-					preview : this.model.get('default'),
-				}));
-				// Show/Hide the form
-				this.$('.js-form').toggleClass('hide');
-				this.form.trigger('dom:refresh');
-			},
-
-			saveField : function(e)
-			{
-				e.preventDefault();
-
-				var data = this.form.getValue();
-
-				ddt.log('Forms', 'form data', data);
-				// Split options apart since server expects an array
-				if (data.options)
-				{
-					data.options = data.options.split(',');
-				}
-
-				this.model.set(_.pick(data, 'label', 'options', 'default', 'format', 'required'));
-				this.model.save({
-						wait: true
-					})
-					.done(function ()
-					{
-						alertify.success('Field saved');
-					})
-					.fail(function ()
-					{
-						alertify.error('Unable to save field, please try again');
-					});
+				this.trigger('edit', this.model);
 			},
 
 			deleteField: function(e)

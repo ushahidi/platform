@@ -9,6 +9,24 @@
 
 define(['backbone', 'modules/config'],
 	function(Backbone, config) {
+		function getInput(input) {
+			if (!input) {
+				return null;
+			}
+
+			// todo: stop reformatting input types between server/client
+			if (input === 'textarea') {
+				input = 'TextArea';
+			} else if (input === 'datetime') {
+				input = 'DateTime';
+			} else {
+				// JS equivalent of PHP's ucfirst()
+				input = input.charAt(0).toUpperCase() + input.substr(1);
+			}
+
+			return input;
+		}
+
 		var FormAttributeModel = Backbone.Model.extend(
 		{
 			urlRoot: config.get('apiurl') + '/attributes',
@@ -24,7 +42,7 @@ define(['backbone', 'modules/config'],
 			schema : function ()
 			{
 				var that = this,
-					input = this.get('input'),
+					input = getInput(this.get('input')),
 					options = function(callback)
 					{
 						callback(that.get('options') || {});
@@ -41,16 +59,6 @@ define(['backbone', 'modules/config'],
 
 				if (! input) {
 					return ddt.trace('Forms', 'invalid form attribute');
-				}
-
-				// todo: stop reformatting input types between server/client
-				if (input === 'textarea') {
-					input = 'TextArea';
-				} else if (input === 'datetime') {
-					input = 'DateTime';
-				} else {
-					// JS equivalent of PHP's ucfirst()
-					input = input.charAt(0).toUpperCase() + input.substr(1);
 				}
 
 				// Default value should use same input as the current attribute
@@ -73,15 +81,21 @@ define(['backbone', 'modules/config'],
 					break;
 				}
 
-				// todo: the preview field should be disabled, but some Backbone.Form
-				// editors don't place nice with editorAttrs using `{disabled: "disabled}`
-				// (Date, DateTime, and Location editors, possibly others)
-				fields.preview = {
-					type: input,
-					options: options
-				};
-
 				return fields;
+			},
+			previewSchema : function ()
+			{
+				var that = this;
+				return {
+					preview: {
+						type: getInput(this.get('input')),
+						title: this.get('label'),
+						options: function(callback)
+						{
+							callback(that.get('options') || {});
+						}
+					}
+				};
 			}
 		});
 

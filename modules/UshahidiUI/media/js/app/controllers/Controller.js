@@ -365,59 +365,70 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 							{
 								label: 'Text',
 								input: 'Text',
-								type: 'varchar'
+								type: 'varchar',
+								icon: 'fa-font'
 							},
 							{
 								label: 'TextArea',
 								input: 'TextArea',
-								type: 'text'
+								type: 'text',
+								icon: 'fa-paragraph'
 							},
 							{
 								label: 'Number (Decimal)',
 								input: 'Number',
-								type: 'decimal'
+								type: 'decimal',
+								icon: 'fa-fax'
 							},
 							{
 								label: 'Number (Integer)',
 								input: 'Number',
-								type: 'integer'
+								type: 'integer',
+								icon: 'fa-fax'
 							},
 							{
 								label: 'Select',
 								input: 'Select',
 								type: 'varchar', // what about numeric selections?
-								options: []
+								options: [],
+								icon: 'fa-bars'
 							},
 							{
 								label: 'Radio',
 								input: 'Radio',
 								type: 'varchar', // not totally sure about this
-								options: []
+								options: [],
+								icon: 'fa-dot-circle-o'
 							},
 							{
 								label: 'Checkbox',
 								input: 'Checkbox',
-								type: 'varchar' // not totally sure about this
+								type: 'varchar', // not totally sure about this
+								icon: 'fa-check'
 							},
 							{
 								label: 'Checkboxes',
 								input: 'Checkboxes',
-								type: 'varchar' // not totally sure about this
+								type: 'varchar', // not totally sure about this
+								icon: 'fa-check'
 							},
 							{
 								label: 'Date',
 								input: 'Date',
-								type: 'datetime'
+								type: 'datetime',
+								icon: 'fa-calendar'
 							},
 							{
 								label: 'DateTime',
 								input: 'DateTime',
-								type: 'datetime'
+								type: 'datetime',
+								icon: 'fa-clock-o'
 							},
 							{
 								label: 'Location',
 								input: 'Location',
-								type: 'point'
+								type: 'point',
+								icon: 'fa-map-marker'
 							}
 						]),
 						formAttributes = new FormAttributeCollection(_.values(form.formAttributes)),
@@ -427,6 +438,10 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 						});
 
 					that.layout.mainRegion.show(formEditor);
+
+					formAttributeList.on('itemview:edit', function(childView, model) {
+						formEditor.showEditor(model);
+					});
 
 					formEditor.formAttributes.show(formAttributeList);
 					formEditor.availableAttributes.show(new AvailableAttributeList({

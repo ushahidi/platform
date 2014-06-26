@@ -38,7 +38,6 @@ define(['marionette', 'handlebars', 'underscore', 'jquery', 'views/settings/Attr
 
 				this.$el.sortable({
 					stop: function( event, ui ) {
-						//ddt.log('FormEditor', 'stop event', event);
 						ddt.log('FormEditor', 'stop ui', ui);
 						that.trigger('sortable:stop', event, ui);
 					}
@@ -47,7 +46,11 @@ define(['marionette', 'handlebars', 'underscore', 'jquery', 'views/settings/Attr
 
 			onClose : function ()
 			{
-				this.$el.sortable('destroy');
+				try {
+					this.$el.sortable('destroy');
+				} catch (err) {
+					ddt.trace('FormEditor', err.message);
+				}
 			},
 
 			handleSortableStop : function (event, ui)

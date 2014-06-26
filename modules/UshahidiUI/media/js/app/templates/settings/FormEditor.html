@@ -8,7 +8,18 @@
 	</div> <!-- end .actions-bar data-provider-list -->
 
 	<div class="list-view-wrapper">
-		<div class="available-attributes"></div>
+		<aside class="attribute-sidebar  js-attribute-wrapper">
+			<ul class="tabs">
+				<li class="tab-title active"><a href="javascript:void(0)" class="js-add-attr">Add Field</a></li>
+				<li class="tab-title"><a href="javascript:void(0)" class="js-edit-attr">Edit Field</a></li>
+			</ul>
+			<div class="tabs-content">
+				<div class="available-attributes content active"></div>
+				<div class="edit-attribute content">
+					<div class="js-edit-form"></div>
+				</div>
+			</div>
+		</aside>
 		<div class="form-attributes"></div>
 	</div>
 
