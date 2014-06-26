@@ -564,4 +564,17 @@ class RestContext extends BehatContext
 	{
 		$item = APPPATH.$item;
 	}
+
+	/**
+	 * @Given /^that I want to count all "([^"]*)"$/
+	 */
+	public function thatIWantToCountAll($objectType)
+	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+
+		$this->_restObjectType   = ucwords(strtolower($objectType));
+		$this->_restObjectMethod = 'get';
+	}
+
 }

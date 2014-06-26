@@ -71,17 +71,6 @@
 /*------------------------------------*\
 		$WORKSPACE STATS WRAPPER
 \*------------------------------------*/
-.post-stats {
-	@include panel($adjust: false);
-}
-
-.user-stats {
-	@include panel($adjust: false);
-}
-.views-stats {
-	@include panel($adjust: false);
-}
-
 .workspace-stats-wrapper {
 	@include grid-row;
 }
@@ -90,8 +79,8 @@
 	@include block-grid(3);
 	margin: 0;
 }
-
-.workspace-stats li {
+.stat-card {
+	@include panel($adjust: false);
 	padding: 12px 0 12px 12px;
 	margin: 0;
 }

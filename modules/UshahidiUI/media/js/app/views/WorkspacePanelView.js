@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'marionette', 'App', 'hbs!templates/WorkspacePanel'],
-	function(_, Marionette, App, template)
+define(['underscore', 'marionette', 'App', 'modules/config', 'modules/textifyNumber', 'hbs!templates/WorkspacePanel'],
+	function(_, Marionette, App, config, textifyNumber, template)
 	{
 		return Marionette.ItemView.extend(
 		{
@@ -21,14 +21,41 @@ define(['underscore', 'marionette', 'App', 'hbs!templates/WorkspacePanel'],
 				'click .js-logout' : 'confirmLogout',
 				'click .js-edit-profile' : 'editUser'
 			},
+
+			totals: {
+				stats: {},
+				posts: {}
+			},
+
 			initialize : function ()
 			{
 				App.vent.on('page:change', this.selectMenuItem, this);
 				App.vent.on('config:change', this.render, this);
+
+				var that = this;
+				App.oauth.ajax({
+						type: 'GET',
+						dataType: 'json',
+						url: config.get('apiurl') + '/stats',
+					})
+					.done(function(data) {
+						that.totals = data;
+						that.render();
+					});
 			},
 			serializeData: function()
 			{
-				var data = {};
+				var data = {
+						stats: {},
+						posts: {}
+					};
+
+				// Add loaded totals into data, with textification
+				_.each(this.totals, function(stats, group) {
+					_.each(stats, function(value, key) {
+						data[group][key] = textifyNumber(value);
+					});
+				});
 
 				// TODO: don't assume the user is loaded
 				data.user = this.model.toJSON();
@@ -36,19 +63,6 @@ define(['underscore', 'marionette', 'App', 'hbs!templates/WorkspacePanel'],
 				// TODO: add real info, probably need to fetch this data from
 				// somewhere else, or even break up this view.
 				// also note that formatting these values need to be i18n compatible.
-				data.stats = {
-					'posts' : _.random(0, 1000),
-					'users' : _.random(1, 1000),
-					'views' : _.random(100, 1000)
-				};
-				data.posts = {
-					'published'   : _.random(1,500),
-					'unpublished' : _.random(1,500),
-					'review'      : 0,
-					'total'       : 0
-				};
-				data.posts.total = data.posts.published + data.posts.unpublished;
-				data.posts.review = _.random(0, data.posts.total);
 				data.messages = {
 					'email'    : _.random(1, 1000),
 					'sms'      : _.random(1, 1000),

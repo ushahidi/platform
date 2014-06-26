@@ -68,6 +68,7 @@ return array(
 		'users'              => NULL,
 		'messages'           => NULL,
 		'dataproviders'      => NULL,
+		'stats'              => NULL,
 		// Pages
 		'login'              => NULL,
 		'register'           => NULL,

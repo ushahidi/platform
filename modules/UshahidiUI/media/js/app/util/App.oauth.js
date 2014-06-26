@@ -177,7 +177,7 @@ define(['backbone', 'jquery', 'underscore', 'alertify', 'ddt', 'util/App.storage
 			user_token = getUserToken(),
 			refresh_token = getUserToken(true),
 			required_scopes = ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users'],
-			all_scopes = required_scopes.concat(['config', 'messages', 'dataproviders']),
+			all_scopes = required_scopes.concat(['config', 'messages', 'dataproviders', 'stats']),
 			UshahidiAuth = {
 				initialize : function()
 				{

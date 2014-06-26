@@ -12,7 +12,8 @@ return array(
 		'media',
 		'config',
 		'messages',
-		'dataproviders'
+		'dataproviders',
+		'stats'
 	),
 	'www_realm'        => 'Ushahidi API',
 	'access_lifetime'  => 86400 // 1 day
