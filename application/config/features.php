@@ -20,8 +20,6 @@ return array(
 	'data_provider_config' => FALSE,
 	// Post Export
 	'post_export' => FALSE,
-	// Map Settings UI
-	'map_settings' => FALSE,
 	// T136: custom forms
 	'form_wizard' => FALSE,
 );

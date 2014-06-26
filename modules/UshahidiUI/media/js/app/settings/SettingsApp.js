@@ -29,13 +29,6 @@ define(['App', 'marionette', 'modules/config',
 			 */
 			showMapSettings : function()
 			{
-				if (!App.feature('map_settings'))
-				{
-					// @todo figure out what happens with multiple routers.
-					App.appRouter.navigate('', { trigger : true });
-					return;
-				}
-
 				var mapSettingsView = new MapSettingsView({
 					model : config.get('map'),
 					postCollection : App.Collections.Posts
