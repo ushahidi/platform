@@ -69,6 +69,7 @@ library is linked to its license below:
 * [Lodash](https://github.com/lodash/lodash/blob/master/LICENSE.txt)
 * [Jasmine](https://github.com/pivotal/jasmine/blob/master/MIT.LICENSE)
 * [Moment JS](https://github.com/moment/moment/blob/develop/LICENSE)
+* [URIjs](https://github.com/medialize/URI.js#license)
 * [SASS](http://sass-lang.com/documentation/file.MIT-LICENSE.html)
 * [Compass](https://github.com/chriseppstein/compass/blob/stable/LICENSE.markdown)
 * [Compass-CSSLint](https://github.com/Comcast/compass-csslint/blob/master/LICENSE)
