@@ -324,7 +324,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 				}
 
 				var that = this;
-				require(['views/api-explorer/ApiExplorerView','models/ApiExplorerModel',], function(ApiExplorerView, ApiExplorerModel)
+				require(['views/api-explorer/ApiExplorerView','models/ApiExplorerModel'], function(ApiExplorerView, ApiExplorerModel)
 				{
 					App.vent.trigger('page:change', 'apiexplorer');
 					that.layout.mainRegion.show(new ApiExplorerView({

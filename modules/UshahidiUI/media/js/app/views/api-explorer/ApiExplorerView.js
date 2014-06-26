@@ -15,7 +15,9 @@ define(['App', 'modules/config', 'marionette', 'underscore', 'alertify', 'syntax
 		{
 			template: template,
 			apiBaseUrl : config.get('apiurl') +'/',
-
+			requestMethod : '',
+			apiEndpoint : '',
+			addSampleData : false,
 			events:
 			{
 				'click .js-api-endpoint' : 'endpointClick',
@@ -35,6 +37,11 @@ define(['App', 'modules/config', 'marionette', 'underscore', 'alertify', 'syntax
 					endpoint = $el.data('endpoint'),
 					requestMethod = $el.data('method'),
 					extraData = $el.data('extradata') || {};
+
+				this.reqMethod = requestMethod ;
+				this.apiEndpoint = endpoint;
+
+				this.addSampleData = requestMethod === 'post' || requestMethod === 'put';
 
 				// Initialize the input field with the clicked endpoint
 				this.$('.js-api-url').val(endpoint);
@@ -75,7 +82,7 @@ define(['App', 'modules/config', 'marionette', 'underscore', 'alertify', 'syntax
 
 					that.showResponse();
 				}).fail(function(jqXHR) {
-					that.model.set('data',jqXHR.responseText ? JSON.parse(jqXHR.responseText) : {});
+					that.model.set('data',jqXHR.statusText ? 'HTTP Status Code: ' + jqXHR.status + ' – ' + jqXHR.statusText : {});
 					that.$('.js-response-code').syntaxHighlightJson(that.model.get('data'));
 					that.$('.js-api-url').val(apiUri);
 					that.showResponse();
@@ -111,7 +118,11 @@ define(['App', 'modules/config', 'marionette', 'underscore', 'alertify', 'syntax
 			serializeData : function ()
 			{
 				var data = {
-					apiBaseUrl : this.apiBaseUrl
+					apiBaseUrl : this.apiBaseUrl,
+					reqMethod : this.reqMethod,
+					apiEndpoint : this.apiEndpoint,
+					loggedIn : App.loggedin(),
+					addSampleData : this.addSampleData
 				};
 				return data;
 			}

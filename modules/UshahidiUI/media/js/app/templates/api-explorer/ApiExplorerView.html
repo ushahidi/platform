@@ -55,32 +55,43 @@
 						</ul>
 					</div>
 					<div class="api-explorer-body">
-						<h4>POST /posts</h4>
-						<p>Create a post.</p>
-						<p class="api-explorer-request-authenticated"><span>AUTHENTICATED</span>: No</p>
+						{{#if reqMethod}}
+							<h4>{{reqMethod}} {{apiEndpoint}}</h4>
+						{{/if}}
+						<p class="api-explorer-request-authenticated">
+							<span>AUTHENTICATED</span>: {{#if loggedIn}}<span class="success label">Yes</span> {{else}} <span class="alert label">No</span>{{/if}}
+						</p>
 
 						<div class="api-explorer-query-header">
 							<div class="row">
 								<div class="small-6 columns">
 									<span>Make a Request:</span>
 								</div>
+								{{#if addSampleData}}
 								<div class="small-6 columns api-explorer-add-data-wrapper">
 									<a href="#" class="js-stub"><i class="fa fa-plus-circle"></i>Add sample data</a>
 								</div>
+								{{/if}}
 							</div>
 						</div>
 						<div class="api-explorer-query-wrapper">
 							<form role="search" class="js-api-explorer-form" action="">
+								{{#if addSampleData}}
+								<h5>Request Body</h5>
+								<textarea class="js-add-sample-data">
+								</textarea>
+								{{/if}}
 								<h5>Query</h5>
-									<input type="text" class="js-api-url" value="{{apiBaseUrl}}" />
-									<div class="row">
-									<div class="small-6 columns">
-									<button type="submit" class="api-explorer-reset-button">Reset</button>
-									</div>
-									<div class="small-6 columns api-explorer-submit-wrapper">
-									<button type="submit" class="api-explorer-submit-button">Execute</button>
-									</div>
-									</div>
+								<span class="radius secondary label">{{apiBaseUrl}}</span>
+								<input type="text" class="js-api-url"/>
+								<div class="row">
+								<div class="small-6 columns">
+								<button type="submit" class="api-explorer-reset-button">Reset</button>
+								</div>
+								<div class="small-6 columns api-explorer-submit-wrapper">
+								<button type="submit" class="api-explorer-submit-button">Execute</button>
+								</div>
+								</div>
 							</form>
 							<div class="response">
 								<i class="fa fa-spinner fa-spin visually-hidden js-loading"></i>

@@ -28,7 +28,7 @@
 		});
 	};
 
-  $.fn.syntaxHighlightJson = function(jsonData) {
-      this.append(syntaxHighlight(jsonData));
-  };
+	$.fn.syntaxHighlightJson = function(jsonData) {
+		this.html(syntaxHighlight(jsonData));
+	};
 })(jQuery);
