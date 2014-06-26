@@ -38,6 +38,7 @@
 	h5, h6 {
 		color: $white;
 		margin: 5px 0;
+		line-height: 1.3em;
 	}
 			@media #{$medium} {
 				padding: 1em;
@@ -67,7 +68,7 @@
 
 .post-actions-admin {
 	@extend %list-view-admin;
-	margin: 20px 0 5px 0;
+	margin: 10px 0 5px 0;
 }
 
 .post-actions-wrapper {

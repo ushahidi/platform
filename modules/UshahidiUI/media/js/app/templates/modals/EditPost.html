@@ -37,12 +37,6 @@
 </strong></p>
 							</div> <!-- end .post-author -->
 
-							{{#if location}}
-							<div class="post-location-meta">
-								<p><i class="fa  fa-map-marker"></i><span class="post-location  underline" ><a href="">{{location.lat}}, {{location.lon}}</a></span></p>
-							</div> <!-- end .post-location-meta -->
-							{{/if}}
-
 							<div class="post-time-meta">
 								<p><i class="fa  fa-clock-o"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
 							</div> <!-- end .post-time-meta -->
@@ -57,20 +51,6 @@
 							</div> <!-- end .post-published-status -->
 						</div> <!-- end .post-details -->
 
-						{{#if tags}}
-						<div class="post-categories">
-							<h6>Categories <small class="add-a-category"><a href="#">add</a></small></h6>
-							<ul>
-								{{#each tags}}
-								<a href="#"><li {{#if title}}title="{{ description }}"{{/if}}>
-									<i class="fa  fa-circle"  {{#if color}}style="color: #{{color}}"{{/if}}></i>
-									{{tag}}
-									 <i class="fa  fa-times-circle"></i>
-								</li></a>
-								{{/each}}
-							</ul>
-						</div> <!-- end .post-categories -->
-						{{/if}}
 					</div> <!-- end .post-meta -->
 
 				</div> <!-- end .post-body -->
