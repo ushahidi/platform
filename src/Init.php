@@ -67,6 +67,12 @@ $di->params['\Ushahidi\Usecase\Tag\Create'] = [
 	// 'auth' => $di->lazyGet('tool.authenticator'),
 	];
 
+$di->set('usecase.tag.update', $di->lazyNew('\Ushahidi\Usecase\Tag\Update'));
+$di->params['\Ushahidi\Usecase\Tag\Update'] = [
+	'repo' => $di->lazyGet('repository.tag'),
+	'valid' => $di->lazyGet('validator.tag.update'),
+	];
+
 $di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
 $di->params['\Ushahidi\Usecase\User\Register'] = [
 	'repo' => $di->lazyGet('repository.user'),

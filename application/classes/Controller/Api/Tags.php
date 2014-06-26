@@ -173,11 +173,36 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$post = $this->_request_payload;
+		$format  = service('formatter.entity.api');
+		$parser  = service('parser.tag.update');
+		$usecase = service('usecase.tag.update');
 
-		$tag = $this->resource();
+		$tagid = $this->request->param('id');
+		$tag = service('repository.tag')->get($tagid);
 
-		$this->create_or_update_tag($tag, $post);
+		if (!$tag->id)
+		{
+			throw new HTTP_Exception_404('Tag :id does not exist', array(
+				':id' => $tagid,
+			));
+		}
+
+		try
+		{
+			$request = $parser($this->_request_payload);
+			$usecase->interact($tag, $request);
+		}
+		catch (Ushahidi\Exception\ValidatorException $e)
+		{
+			// Also handles ParserException
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
+		}
+
+		$this->_response_payload = $format($tag);
+		$this->_response_payload['updated_fields'] = $usecase->getUpdated();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**

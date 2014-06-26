@@ -10,54 +10,28 @@
  */
 
 use Ushahidi\Data;
-use Ushahidi\Usecase\Tag\CreateTagRepository;
 
 use Ushahidi\Tool\Validator;
 
-class Ushahidi_Validator_Tag_Create implements Validator
+class Ushahidi_Validator_Tag_Create extends Ushahidi_Validator_Tag_Update
 {
-	private $repo;
-	private $valid;
-
-	public function __construct(CreateTagRepository $repo)
-	{
-		$this->repo = $repo;
-	}
-
 	public function check(Data $input)
 	{
-		$this->valid = Validation::factory($input->asArray())
+		parent::check($input);
+
+		// Has the same requirements as update validation, but also requires
+		// some fields to be defined.
+		$this->valid
 			->rules('tag', array(
 					array('not_empty'),
 				))
 			->rules('slug', array(
 					array('not_empty'),
-					array('alpha_dash'),
-					array([$this->repo, 'isSlugAvailable'], array(':value')),
-				))
-			->rules('description', array(
-					// alphas, numbers, punctuation, and spaces
-					array('regex', array(':value', '/^[\pL\pN\pP ]++$/uD')),
 				))
 			->rules('type', array(
 					array('not_empty'),
-					array('in_array', array(':value', array('category', 'status'))),
-				))
-			->rules('color', array(
-					array('color'),
-				))
-			->rules('icon', array(
-					array('alpha_dash'),
-				))
-			->rules('priority', array(
-					array('digit'),
 				));
 
 		return $this->valid->check();
-	}
-
-	public function errors($from = 'tag')
-	{
-		return $this->valid->errors($from);
 	}
 }

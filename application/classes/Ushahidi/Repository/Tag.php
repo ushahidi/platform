@@ -13,10 +13,12 @@ use Ushahidi\Entity\Tag;
 use Ushahidi\Entity\TagRepository;
 use Ushahidi\Entity\TagSearchData;
 use Ushahidi\Usecase\Tag\CreateTagRepository;
+use Ushahidi\Usecase\Tag\UpdateTagRepository;
 
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	TagRepository,
-	CreateTagRepository
+	CreateTagRepository,
+	UpdateTagRepository
 {
 	private $created_id;
 	private $created_ts;
@@ -76,12 +78,6 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	}
 
 	// CreateTagRepository
-	public function isSlugAvailable($slug)
-	{
-		return $this->selectCount(compact('slug')) === 0;
-	}
-
-	// CreateTagRepository
 	public function createTag($tag, $slug, $description, $type, $color = null, $icon = null, $priority = 0)
 	{
 		$input = compact('tag', 'slug', 'description', 'type');
@@ -114,5 +110,20 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	{
 		return $this->get($this->created_id);
 	}
-}
 
+	// UpdateTagRepository
+	public function isSlugAvailable($slug)
+	{
+		return $this->selectCount(compact('slug')) === 0;
+	}
+
+	// UpdateTagRepository
+	public function updateTag($id, Array $update)
+	{
+		if ($id && $update)
+		{
+			$this->update(compact('id'), $update);
+		}
+		return $this->get($id);
+	}
+}

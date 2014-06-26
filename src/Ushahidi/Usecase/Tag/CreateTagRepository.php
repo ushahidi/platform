@@ -14,12 +14,6 @@ namespace Ushahidi\Usecase\Tag;
 interface CreateTagRepository
 {
 	/**
-	 * @param  string $slug
-	 * @return bool
-	 */
-	public function isSlugAvailable($slug);
-
-	/**
 	 * @param  String $tag
 	 * @param  String $slug
 	 * @param  String $description
