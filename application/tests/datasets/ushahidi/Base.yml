@@ -715,6 +715,10 @@ oauth_scopes:
     id: 10
     scope: dataproviders
     name: dataproviders
+  -
+    id: 11
+    scope: stats
+    name: stats
 oauth_session_token_scopes:
   # for testingtoken
   -
