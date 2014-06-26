@@ -47,20 +47,22 @@
 		<div id="panel1" class="active  content  js-content">
 			<ul>
 			<!-- TODO: this needs to be locked to moderators -->
-				<li id="workspace-menu-awaiting-review">
-					<a href="#workspace/review"><p><i class="fa  fa-star-o"></i> Awaiting Review <span class="awaiting-review-label">{{ posts.draft }}</span></p></a>
-				</li>
+				{{!-- TODO: Do something with awaiting review workspace --}}
+				{{!--<li id="workspace-menu-awaiting-review">
+					<a href="#workspace/review"><p><i class="fa  fa-star-o"></i> Awaiting Review <span class="awaiting-review-label">{{ posts.pending }}</span></p></a>
+				</li>--}}
 
 				<li id="workspace-menu-published" data-page="posts">
 					<a href="#posts"><p><i class="fa  fa-file-o"></i> Published <span class="published-label">{{ posts.published }}</span></p></a>
 				</li>
 
+				{{!-- TODO: highlight current menu item --}}
 				<li id="workspace-menu-unpublished" data-page="posts/unpublished">
-					<a href="#posts/unpublished"><p><i class="fa  fa-file"></i> Unpublished <span class="unpublished-label">{{ posts.pending }}</span></p></a>
+					<a href="#posts?status=unpublished"><p><i class="fa  fa-file"></i> Unpublished <span class="unpublished-label">{{ posts.draft }}</span></p></a>
 				</li>
 
 				<li id="workspace-menu-all-posts" data-page="posts/all">
-					<a href="#posts/all"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ stats.posts }}</span></p></a>
+					<a href="#posts?status=all"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ stats.posts }}</span></p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->

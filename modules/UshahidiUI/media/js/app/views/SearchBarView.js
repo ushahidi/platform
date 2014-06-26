@@ -7,18 +7,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'underscore', 'App', 'hbs!templates/SearchBar', 'hbs!templates/partials/tag-with-icon', 'geocoder', 'geopoint', 'datetimepicker', 'select2'],
-	function(Marionette, _, App, template, tagWithIcon, GeocoderJS, GeoPoint)
+define(['marionette', 'underscore', 'jquery', 'App', 'hbs!templates/SearchBar', 'hbs!templates/partials/tag-with-icon', 'geocoder', 'geopoint', 'URI', 'datetimepicker', 'select2'],
+	function(Marionette, _, $, App, template, tagWithIcon, GeocoderJS, GeoPoint, URI)
 	{
 		var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap');
 
 		return Marionette.ItemView.extend(
 		{
 			template : template,
-			collectionEvents : {
-				'sync': 'render',
-			},
-			events:{
+			events: {
 				'submit form': 'SearchPosts',
 			},
 			ui : {
@@ -30,17 +27,22 @@ define(['marionette', 'underscore', 'App', 'hbs!templates/SearchBar', 'hbs!templ
 				timeTo : '.js-search-time-to'
 			},
 
-			initialize : function ()
+			initialize : function (options)
 			{
 				_.bindAll(this, 'formatTagSelectChoice');
+
+				this.tags = options.tags;
+
+				this.listenTo(this.tags, 'sync', this.render);
+				this.listenTo(this.collection, 'filter:change', this.render);
 			},
 
 			serializeData: function()
 			{
 				var data = {
-					tags : this.collection.toJSON()
+					tags : this.tags.toJSON(),
+					state : this.collection.getFilterParams()
 				};
-
 				return data;
 			},
 
@@ -51,7 +53,7 @@ define(['marionette', 'underscore', 'App', 'hbs!templates/SearchBar', 'hbs!templ
 					return tag.text;
 				}
 
-				var model = this.collection.get(tag.id);
+				var model = this.tags.get(tag.id);
 
 				if (! model)
 				{
@@ -88,14 +90,15 @@ define(['marionette', 'underscore', 'App', 'hbs!templates/SearchBar', 'hbs!templ
 					tag = this.ui.tag.val(),
 					location = this.ui.location.val(),
 					timeFrom = this.ui.timeFrom.val(),
-					timeTo = this.ui.timeTo.val();
+					timeTo = this.ui.timeTo.val(),
+					dfd = $.Deferred(),
+					bbox = null;
 
 				if (location)
 				{
 					openStreetMapGeocoder.geocode(location, function(result) {
 						ddt.log('SearchBar', 'geocoder result', result);
 						var
-							bbox = null,
 							resultPoint,
 							bounds;
 
@@ -105,26 +108,32 @@ define(['marionette', 'underscore', 'App', 'hbs!templates/SearchBar', 'hbs!templ
 							bounds = resultPoint.boundingCoordinates(25, false, true); // Get 50km bounding box
 							bbox = [bounds[0].longitude(), bounds[0].latitude(), bounds[1].longitude(), bounds[1].latitude()].join(',');
 						}
-
-						App.Collections.Posts.setFilterParams({
-							q : keyword,
-							tags : tag,
-							bbox: bbox,
-							created_after: timeFrom,
-							created_before: timeTo
-						});
+						dfd.resolve();
 					});
 				}
 				else
 				{
+					dfd.resolve();
+				}
+
+				// Set filter params once any preprocessing is done
+				dfd.done(function () {
+					var uri = new URI('posts');
+
 					App.Collections.Posts.setFilterParams({
 						q : keyword,
 						tags : tag,
 						created_after: timeFrom,
 						created_before: timeTo,
-						bbox: null,
+						bbox: bbox,
 					});
-				}
+
+					uri
+						.search(App.Collections.Posts.getFilterParams())
+						.addSearch({ location: location });
+
+					App.appRouter.navigate(uri.toString());
+				});
 			}
 		});
 	});

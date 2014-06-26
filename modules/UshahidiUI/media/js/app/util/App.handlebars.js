@@ -73,6 +73,27 @@ define(['handlebars', 'underscore', 'moment', 'modules/config', 'underscore.stri
 			return App.feature(feature) ? options.fn(this) : '';
 		});
 
+		/**
+		 * Return an <option> tag with value, label and selected attribute
+		 */
+		Handlebars.registerHelper('option', function(value, label, selectedValue) {
+			var selectedProperty;
+			if (_.isArray(selectedValue))
+			{
+				selectedProperty = (_.indexOf(selectedValue, value) >= 0) ? 'selected="selected"' : '';
+			}
+			else
+			{
+				selectedProperty = (value === selectedValue) ? 'selected="selected"' : '';
+			}
+
+			return new Handlebars.SafeString(
+				'<option value="' + Handlebars.Utils.escapeExpression(value) + '"' + selectedProperty + '>' +
+				Handlebars.Utils.escapeExpression(label) +
+				'</option>'
+			);
+		});
+
 		Handlebars.registerPartial('pagination', paginationTpl);
 		Handlebars.registerPartial('listinfo', listInfoTpl);
 		Handlebars.registerPartial('tag-with-icon', tagWithIconTpl);

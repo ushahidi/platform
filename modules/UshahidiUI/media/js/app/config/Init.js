@@ -49,7 +49,12 @@ require.config(
 		'select2' : '../../bower_components/select2/select2',
 		'jquery.nouislider' : '../../bower_components/nouislider/jquery.nouislider',
 		'Link' : '../../bower_components/nouislider/Link',
-		'jqueryui' : '../../bower_components/jquery.ui/ui'
+		'jqueryui' : '../../bower_components/jquery.ui/ui',
+		'URI' : '../../bower_components/URIjs/src/URI',
+		// Deps for URI
+		'punycode' : '../../bower_components/URIjs/src/punycode',
+		'IPv6' : '../../bower_components/URIjs/src/IPv6',
+		'SecondLevelDomains' : '../../bower_components/URIjs/src/SecondLevelDomains'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :

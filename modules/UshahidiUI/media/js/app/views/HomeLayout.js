@@ -87,7 +87,8 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 				{
 					ddt.log('HomeLayout', 'showSearch');
 					this.searchRegion.show(new SearchBarView({
-						collection : App.Collections.Tags
+						collection : App.Collections.Posts,
+						tags : App.Collections.Tags
 					}));
 				}
 				else if(! this.views.search)

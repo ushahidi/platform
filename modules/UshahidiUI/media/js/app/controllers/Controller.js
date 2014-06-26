@@ -7,7 +7,7 @@
  * @license	https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
+define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'URI',
 	'controllers/ModalController',
 
 	'views/AppLayout',
@@ -26,7 +26,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 
 	'models/UserModel'
 	],
-	function($, App, Backbone, Marionette, _, alertify,
+	function($, App, Backbone, Marionette, _, alertify, URI,
 		ModalController,
 
 		AppLayout,
@@ -137,25 +137,14 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify',
 				App.Collections.Posts.setFilterParams({}, true);
 				this.showHomeLayout();
 			},
-			postsAll : function()
+			postsList : function(params)
 			{
-				App.vent.trigger('page:change', 'posts/all');
-				App.Collections.Posts.setFilterParams({
-					status : 'all'
-				}, true);
+				var qs = new URI('?'+params),
+					searchParams = qs.search(true);
+
+				App.vent.trigger('page:change', 'posts');
+				App.Collections.Posts.setFilterParams(searchParams, true);
 				this.showHomeLayout();
-			},
-			postsUnpublished : function()
-			{
-				App.vent.trigger('page:change', 'posts/unpublished');
-				App.Collections.Posts.setFilterParams({
-					status : 'draft'
-				}, true);
-				this.showHomeLayout();
-			},
-			postsPublished : function()
-			{
-				this.index();
 			},
 			viewsFull : function()
 			{
