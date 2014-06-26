@@ -5,6 +5,7 @@ define(['underscore', 'backbone', 'marionette', 'leaflet', 'hbs!forms/templates/
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
 		tagName : 'div',
 		template : template,
+		rendered : false,
 		baseMaps : function () {
 			return {
 				'MapQuest': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
@@ -36,18 +37,19 @@ define(['underscore', 'backbone', 'marionette', 'leaflet', 'hbs!forms/templates/
 		{
 			var that = this,
 				$editor = this.template(_.result(this, 'templateData')),
-				baseMaps,
+				baseMaps = _.result(this, 'baseMaps'),
 				map;
 
-			this.$el.append($editor);
-
-			// Don't re-render the map
-			if (typeof this.map !== 'undefined')
+			// If already rendered, destroy map, etc before rendering again.
+			if (this.rendered)
 			{
-				return this;
+				this.remove();
 			}
 
-			baseMaps = _.result(this, 'baseMaps');
+			this.$el
+				.empty()
+				.append($editor);
+
 			ddt.log('LocationEditor', 'baseMaps', baseMaps);
 
 			if (!this.value) {
@@ -92,6 +94,8 @@ define(['underscore', 'backbone', 'marionette', 'leaflet', 'hbs!forms/templates/
 				}
 			}).addTo(this.map);
 
+			this.rendered = true;
+
 			return this;
 		},
 
@@ -102,12 +106,17 @@ define(['underscore', 'backbone', 'marionette', 'leaflet', 'hbs!forms/templates/
 			ddt.log('LocationEditor', 'LocationEditor.remove', this.map);
 			if (this.map)
 			{
+				ddt.log('LocationEditor', 'removing map marker');
+				this.map.removeLayer(this.marker);
+				delete this.marker;
+
 				ddt.log('LocationEditor', 'Calling map.remove()');
 				this.map.remove();
 				delete this.map;
 			}
 
 			Backbone.Form.editors.Base.prototype.remove.call(this);
+			this.rendered = false;
 		},
 
 		/**
@@ -169,7 +178,7 @@ define(['underscore', 'backbone', 'marionette', 'leaflet', 'hbs!forms/templates/
 		{
 			if (typeof this.map !== 'undefined')
 			{
-				ddt.log('LocationEditor', 'Calling map.invalidateSize()', this.map);
+				ddt.log('LocationEditor', 'Calling map.invalidateSize()');
 				this.map.invalidateSize();
 			}
 		},
