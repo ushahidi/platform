@@ -16,7 +16,10 @@ return array(
 	'sets_ui' => FALSE,
 	// Api Explorer
 	'api_explorer' => FALSE,
+	//Data Provider Config UI
 	'data_provider_config' => FALSE,
+	// Post Export
+	'post_export' => FALSE,
 	// Map Settings UI
 	'map_settings' => FALSE,
 	// T136: custom forms

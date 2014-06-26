@@ -50,6 +50,16 @@ Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)',
 	));
 
 /**
+ * Export Posts API SubRoute
+ */
+Route::set('export', 'api/v2/posts/export')
+	->defaults(array(
+		'action'     => 'index',
+		'controller' => 'Export',
+		'directory'  => 'Api/Posts'
+	));
+
+/**
  * GeoJSON API SubRoute
  */
 Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)',

@@ -53,7 +53,11 @@
 	</div> <!-- end .list-view-filter -->
 
 	<div class="list-view-wrapper">
-
+		{{# feature 'post_export'}}
+				<span class="right">
+					<a href="#" class="js-post-bulk-export"><p><i class="fa fa-cloud-download"></i> Export</p></a>
+				</span>
+			{{/feature}}
 		<ul class="list-view-post-list">
 		</ul>
 

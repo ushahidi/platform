@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'alertify',
+define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alertify',
 		'views/posts/PostListItemView',
 		'hbs!templates/posts/PostList',
 		'views/EmptyView',
 		'mixin/PageableViewBehavior'
 	],
-	function( App, Marionette, _, alertify,
+	function( App, config, Marionette, Handlebars, _, alertify,
 		PostListItemView,
 		template,
 		EmptyView,
@@ -48,7 +48,8 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				'click .js-post-bulk-publish' : 'bulkPublish',
 				'click .js-post-bulk-unpublish' : 'bulkUnpublish',
 				'click .js-post-bulk-delete' : 'bulkDelete',
-				'change .js-select-all-input' : 'selectAll'
+				'change .js-select-all-input' : 'selectAll',
+				'click .js-post-bulk-export' : 'exportPostCsv'
 			},
 
 			behaviors: {
@@ -199,6 +200,24 @@ define(['App', 'marionette', 'underscore', 'alertify',
 
 				return data;
 			},
+			exportPostCsv : function(e) {
+				e.preventDefault();
+				App.oauth.ajax({
+					url : config.get('apiurl') +'/posts/export',
+					dataType : 'json'
+				}).done(function(data) {
+					if (data)
+					{
+						var download = data.total_count + ' posts exported: <a href="' + data.link + '" download> Click to download as CSV file</a>';
+						alertify.confirm( download);
+					}
+				}).fail(function()
+				{
+					alertify.error('Unable to export posts as CSV');
+				});
 
+				// Close workspace
+				App.vent.trigger('workspace:toggle', true);
+			}
 		});
 	});
