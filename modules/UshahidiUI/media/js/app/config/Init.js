@@ -47,7 +47,8 @@ require.config(
 		'geopoint' : '../../bower_components/node-geopoint/geopoint',
 		'datetimepicker' : '../../bower_components/datetimepicker/jquery.datetimepicker',
 		'select2' : '../../bower_components/select2/select2',
-		'no-ui-slider' : '../../bower_components/nouislider/jquery.nouislider.min',
+		'jquery.nouislider' : '../../bower_components/nouislider/jquery.nouislider',
+		'Link' : '../../bower_components/nouislider/Link',
 		'jqueryui' : '../../bower_components/jquery.ui/ui'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
@@ -120,6 +121,14 @@ require.config(
 
 		'select2' : {
 			deps: ['jquery'],
+		},
+
+		'Link' : {
+			deps: ['jquery']
+		},
+
+		'jquery.nouislider' : {
+			deps: ['jquery', 'Link']
 		},
 
 		'foundation/foundation' : {deps: ['jquery'], exports: 'Foundation'},

@@ -18,6 +18,7 @@ return array(
 		'lat' => -1.3048035,
 		'lon' => 36.8473969,
 		'zoom' => 2,
+		'baseLayer' => 'MapQuest',
 		// Fit map boundaries to current data rendered
 		'fitDataOnMap' => true
 	)

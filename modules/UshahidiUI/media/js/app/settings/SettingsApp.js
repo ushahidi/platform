@@ -7,8 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'settings/SettingsView'],
-	function(App, Marionette, SettingsView)
+define(['App', 'marionette', 'modules/config',
+		'settings/SettingsView',
+		'settings/MapSettingsView',
+	],
+	function(App, Marionette, config,
+		SettingsView,
+		MapSettingsView)
 	{
 		var SettingsAPI = {
 			/**
@@ -31,11 +36,13 @@ define(['App', 'marionette', 'settings/SettingsView'],
 					return;
 				}
 
-				require(['settings/MapSettingsView'], function(MapSettingsView)
-				{
-					App.vent.trigger('page:change', 'mapSettings');
-					App.layout.mainRegion.show(new MapSettingsView());
+				var mapSettingsView = new MapSettingsView({
+					model : config.get('map'),
+					postCollection : App.Collections.Posts
 				});
+
+				App.vent.trigger('page:change', 'mapSettings');
+				App.layout.mainRegion.show(mapSettingsView);
 			},
 		};
 

@@ -37,7 +37,6 @@ define(['marionette', 'underscore', 'App', 'jquery',
 				'MapQuest Aerial': L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {attribution: mapAttributionTemplate, subdomains: '1234'}),
 				'Humanitarian OSM': L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {attribution: mapAttributionHOTTemplate, subdomains: 'abcd'})
 			},
-			defaultMap : 'MapQuest',
 			collapsed : false,
 			clustering : false,
 			fullSizeMap : false,
@@ -45,7 +44,8 @@ define(['marionette', 'underscore', 'App', 'jquery',
 				lat : -36.85,
 				lon : 174.78,
 				zoom: 5,
-				fitDataOnMap: true
+				fitDataOnMap: true,
+				baseLayer : 'MapQuest',
 			},
 			className : 'map-view',
 			modelEvents : {
@@ -110,7 +110,7 @@ define(['marionette', 'underscore', 'App', 'jquery',
 				map = this.map = L.map(this.$('#map')[0], {
 					center : new L.LatLng(this.defaultView.lat, this.defaultView.lon),
 					zoom : this.defaultView.zoom,
-					layers : [this.baseMaps[this.defaultMap]],
+					layers : [this.baseMaps[this.defaultView.baseLayer]],
 					scrollWheelZoom : false
 				});
 				// Expose map for hacking / debugging
@@ -283,10 +283,7 @@ define(['marionette', 'underscore', 'App', 'jquery',
 				}
 				else
 				{
-					throw {
-						name:    'System Error',
-						message: 'Error detected. Could not get dataUrl for MapView'
-					};
+					return false;
 				}
 
 				return dataUrl;
@@ -300,10 +297,16 @@ define(['marionette', 'underscore', 'App', 'jquery',
 			{
 				var map = this.map,
 					posts = this.posts,
-					cluster = this.cluster;
+					cluster = this.cluster,
+					url = this.getDataUrl();
+
+				if (! url)
+				{
+					return;
+				}
 
 				App.oauth.ajax({
-					url : this.getDataUrl(),
+					url : url,
 					success: function (data) {
 						posts.clearLayers();
 						if (cluster)
