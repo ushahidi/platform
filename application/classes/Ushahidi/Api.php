@@ -410,6 +410,12 @@ class Ushahidi_Api extends Controller {
 			throw new HTTP_Exception_400('Number of records requested was too large: :record_limit.', array(
 				':record_limit' => $this->_record_limit
 			));
+
+		// Replace a negative offset with 0
+		if ($this->_record_offset !== FALSE AND $this->_record_offset < 0)
+		{
+			$this->_record_offset = 0;
+		}
 	}
 
 	/**
