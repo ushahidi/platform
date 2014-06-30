@@ -90,6 +90,8 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		$this->_prepare_order_limit_params();
 
 		$messages_query = ORM::factory('Message')
+			->join('contacts')
+			->on('contact_id', '=', 'contacts.id')
 			->order_by($this->_record_orderby, $this->_record_order)
 			->offset($this->_record_offset)
 			->limit($this->_record_limit);
@@ -136,7 +138,8 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		if (! empty($q))
 		{
 			$messages_query->and_where_open();
-			$messages_query->where('title', 'LIKE', "%$q%");
+			$messages_query->where('contacts.contact', 'LIKE', "%$q%");
+			$messages_query->or_where('title', 'LIKE', "%$q%");
 			$messages_query->or_where('message', 'LIKE', "%$q%");
 			$messages_query->and_where_close();
 		}
