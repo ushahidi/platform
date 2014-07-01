@@ -92,7 +92,7 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		$messages_query = ORM::factory('Message')
 			->join('contacts')
 			->on('contact_id', '=', 'contacts.id')
-			->order_by($this->_record_orderby, $this->_record_order)
+			->order_by('message.' . $this->_record_orderby, $this->_record_order)
 			->offset($this->_record_offset)
 			->limit($this->_record_limit);
 
@@ -147,7 +147,7 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		$type = $this->request->query('type');
 		if (! empty($type))
 		{
-			$messages_query->where('type', '=', $type);
+			$messages_query->where('message.type', '=', $type);
 		}
 
 		$type = $this->request->query('parent');
@@ -162,16 +162,10 @@ class Controller_Api_Messages extends Ushahidi_Api {
 			$messages_query->where('contact_id', '=', $contact);
 		}
 
-		$data_feed = $this->request->query('data_feed');
-		if (! empty($data_feed))
-		{
-			$messages_query->where('data_feed_id', '=', $data_feed);
-		}
-
 		$data_provider = $this->request->query('data_provider');
 		if (! empty($data_provider))
 		{
-			$messages_query->where('data_provider', '=', $data_provider);
+			$messages_query->where('message.data_provider', '=', $data_provider);
 		}
 
 		$post = $this->request->query('post');
