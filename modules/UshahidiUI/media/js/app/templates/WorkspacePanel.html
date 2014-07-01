@@ -24,21 +24,19 @@
 </div>
 {{/if}}
 
-{{#if stats}}
 <div class="workspace-stats-wrapper">
 	<ul class="workspace-stats">
 		<li id="posts-stats" class="stat-card">
-			<h5 id="posts-stats-value"><i class="fa  fa-calendar"></i> {{ stats.posts }} <span>posts</span></h5>
+			<h5 id="posts-stats-value"><i class="fa  fa-calendar"></i> {{ posts.all }} <span>posts</span></h5>
 		</li>
 		<li id="users-stats" class="stat-card">
-			<h5 id="users-stats-value"><i class="fa  fa-group"></i> {{ stats.users }} <span>users</span></h5>
+			<h5 id="users-stats-value"><i class="fa  fa-group"></i> {{ users.all }} <span>users</span></h5>
 		</li>
 		<li id="tags-stats" class="stat-card">
-			<h5 id="tags-stats-value"><i class="fa  fa-tag"></i> {{ stats.tags }} <span>tags</span></h5>
+			<h5 id="tags-stats-value"><i class="fa  fa-tag"></i> {{ tags.all }} <span>tags</span></h5>
 		</li>
 	</ul>
 </div>
-{{/if}}
 
 
 <dl class="workspace-menu  accordion">
@@ -62,7 +60,7 @@
 				</li>
 
 				<li id="workspace-menu-all-posts" data-page="posts/all">
-					<a href="#posts?status=all"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ stats.posts }}</span></p></a>
+					<a href="#posts?status=all"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ posts.all }}</span></p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->
@@ -73,28 +71,24 @@
 			{{#if messages}}
 		<div id="panel2" class="active  content  js-content">
 			<ul>
-			<!-- TODO: real stats for messages -->
-			<li>
-				<a><p><i class="fa fa-asterisk"></i> <em>These stats are randomly generated counts. Real stats are not available at this time.</em></p></a>
-			</li>
 			<li id="workspace-menu-messages-unread" data-page="messages">
-				<a href="#messages"><p><i class="fa  fa-file-o"></i> New <span class="messages-unread-label">{{ messages.unread }}*</span></p></a>
+				<a href="#messages"><p><i class="fa  fa-file-o"></i> New <span class="messages-unread-label">{{ messages.received }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-sms" data-page="messages/sms">
-				<a href="#messages/list/sms"><p><i class="fa  fa-phone"></i> SMS <span class="messages-sms-label">{{ messages.sms }}*</span></p></a>
+				<a href="#messages/list/sms"><p><i class="fa  fa-phone"></i> SMS <span class="messages-sms-label">{{ messages.sms }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-email" data-page="messages/email">
-				<a href="#messages/list/email"><p><i class="fa  fa-envelope-o"></i> Email <span class="messages-email-label">{{ messages.email }}*</span></p></a>
+				<a href="#messages/list/email"><p><i class="fa  fa-envelope-o"></i> Email <span class="messages-email-label">{{ messages.email }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-archived" data-page="messages/archived">
-				<a href="#messages/list/archived"><p><i class="fa  fa-file"></i> Archived <span class="messages-archived-label">{{ messages.archived }}*</span></p></a>
+				<a href="#messages/list/archived"><p><i class="fa  fa-file"></i> Archived <span class="messages-archived-label">{{ messages.archived }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-all" data-page="messages/all">
-				<a href="#messages/list/all"><p><i class="fa  fa-files-o"></i> All Messages <span class="messages-all-label">{{ messages.total }}*</span></p></a>
+				<a href="#messages/list/all"><p><i class="fa  fa-files-o"></i> All Messages <span class="messages-all-label">{{ messages.all }}</span></p></a>
 			</li>
 		{{#feature 'data_provider_config'}}
 			<li id="workspace-menu-messages-settings" data-page="messages/settings">

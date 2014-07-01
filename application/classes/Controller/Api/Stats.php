@@ -38,6 +38,8 @@ class Controller_Api_Stats extends Ushahidi_Api {
 
 	public function action_get_index_collection()
 	{
+		$counts = array();
+
 		// @todo all of these queries should be limited to only the things the
 		// user can see. but cycling over every id in the system is probably not
 		// a valid solution either.
@@ -54,22 +56,41 @@ class Controller_Api_Stats extends Ushahidi_Api {
 		$users = clone $base_query;
 		$users->from('users');
 
+		// @todo message totals should definitely only be available to admins...
+		$messages = clone $base_query;
+		$messages->from('messages')->where('direction', '=', 'incoming');
+
 		$stats = array();
-		foreach(compact('tags', 'posts', 'users') as $name => $query)
+		foreach(compact('tags', 'posts', 'users', 'messages') as $name => $query)
 		{
-			$stats[$name] = $query->execute()->get('total');
+			$total = $query->execute()->get('total');
+			$counts[$name]['all'] = $total;
 		}
 
+		// post stats
 		$status_query = clone $posts;
 		$status_query->select('status')->group_by('status');
 
-		$posts = $status_query->execute()->as_array('status', 'total');
+		// add post status totals
+		$counts['posts'] += $status_query->execute()->as_array('status', 'total');
 
-		// Respond with totals
-		$this->_response_payload = array(
-			'stats' => $stats,
-			'posts' => $posts,
-			);
+		// message stats
+		$type_query = clone $messages;
+		$type_query->select('type')->group_by('type')
+			->where('type', 'in', ['sms', 'email']);
+
+		// add message type totals
+		$counts['messages'] += $type_query->execute()->as_array('type', 'total');
+
+		$status_query = clone $messages;
+		$status_query->select('status')->group_by('status')
+			->where('status', 'in', ['received', 'archived']);
+
+		// add message status totals
+		$counts['messages'] += $status_query->execute()->as_array('status', 'total');
+
+		// Respond with counts
+		$this->_response_payload = $counts;
 	}
 
 }

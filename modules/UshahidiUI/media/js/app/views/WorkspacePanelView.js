@@ -22,9 +22,11 @@ define(['underscore', 'marionette', 'App', 'modules/config', 'modules/textifyNum
 				'click .js-edit-profile' : 'editUser'
 			},
 
-			totals: {
-				stats: {},
-				posts: {}
+			counts: {
+				messages: {},
+				posts: {},
+				tags: {},
+				users: {}
 			},
 
 			initialize : function ()
@@ -39,19 +41,18 @@ define(['underscore', 'marionette', 'App', 'modules/config', 'modules/textifyNum
 						url: config.get('apiurl') + '/stats',
 					})
 					.done(function(data) {
-						that.totals = data;
+						that.counts = data;
 						that.render();
 					});
 			},
 			serializeData: function()
 			{
-				var data = {
-						stats: {},
-						posts: {}
-					};
+				var data = _.clone(this.counts);
 
 				// Add loaded totals into data, with textification
-				_.each(this.totals, function(stats, group) {
+				_.each(data, function(stats, group) {
+					// this can probably be optimized in some way by using _.map
+					// or _.invoke, but not quite sure how...
 					_.each(stats, function(value, key) {
 						data[group][key] = textifyNumber(value);
 					});
@@ -59,20 +60,6 @@ define(['underscore', 'marionette', 'App', 'modules/config', 'modules/textifyNum
 
 				// TODO: don't assume the user is loaded
 				data.user = this.model.toJSON();
-
-				// TODO: add real info, probably need to fetch this data from
-				// somewhere else, or even break up this view.
-				// also note that formatting these values need to be i18n compatible.
-				data.messages = {
-					'email'    : _.random(1, 1000),
-					'sms'      : _.random(1, 1000),
-					'unread'   : 0,
-					'archived' : 0,
-					'total'    : 0
-				};
-				data.messages.total = data.messages.email + data.messages.sms;
-				data.messages.unread = _.random(0, data.messages.total);
-				data.messages.archived = data.messages.total - data.messages.unread;
 
 				return data;
 			},
