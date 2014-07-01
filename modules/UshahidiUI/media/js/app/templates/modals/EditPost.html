@@ -57,14 +57,14 @@
 
 				<div class="form-options-nav-wrapper">
 					{{#if fieldsets}}
-					<dl class="form-options-nav">
-						<dt>Options:</dt>
+					<h6>Options:</h6>
+					<ul class="form-options-nav">
 						{{#each fieldsets}}
-							<dd class="{{#if active}}active{{/if}}">
+							<li class="{{#if active}}active{{/if}}">
 								<a class="js-switch-fieldset" href="#fieldset-{{name}}" title="{{name}}">{{legend}}</a>
-							</dd>
+							</li>
 						{{/each}}
-					</dl>
+					</ul>
 					{{/if}}
 				</div>
 

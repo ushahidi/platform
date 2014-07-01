@@ -11,6 +11,7 @@ define(['marionette', 'hbs!templates/values/Value'],
 	function(Marionette, template) {
 		return Marionette.ItemView.extend(
 		{
+			tagName: 'dd',
 			className: 'post-value',
 			template : template,
 			initialize : function (options)

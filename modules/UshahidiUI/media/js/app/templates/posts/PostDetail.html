@@ -37,6 +37,7 @@
 	</div> <!-- end .post-header -->
 
 	<div class="post-body">
+
 		<div class="post-image">
 			{{#feature 'media_uploads'}}
 			<img src="{{ imageurl "mini-coop.jpg" }}" alt="">
@@ -66,37 +67,7 @@
 					</div> <!-- end .post-location-meta -->
 					{{/if}}
 
-					<div class="post-time-meta">
-						<p><i class="fa  fa-clock-o"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
-					</div> <!-- end .post-time-meta -->
-
-					<div class="post-published-status">
-						{{#if isPublished}}
-							<p><i class="fa  fa-file-o"></i><strong class="post-time" >Published</strong></p>
-						{{else}}
-							{{!-- @todo add ucfirst handler and format status --}}
-							<p><i class="fa  fa-file"></i><strong class="post-time" >{{status}}</strong></p>
-						{{/if}}
-					</div> <!-- end .post-published-status -->
-				</div> <!-- end .post-details -->
-
-				{{#if tags}}
-				<div class="post-categories">
-					<h6>Categories</h6>
-					<ul>
-						{{#each tags}}
-						<li>
-							{{>tag-with-icon}}
-						</li>
-						{{/each}}
-					</ul>
-				</div> <!-- end .post-categories -->
-				{{/if}}
-			</div> <!-- end .post-meta -->
-
-		</div> <!-- end .post-body -->
-
-		<div class="post-details">
+		<div class="post-detail-content">
 
 			<div class="post-excerpt">
 				{{!-- @todo replace with markdown formatting --}}
@@ -110,6 +81,7 @@
 			</div> <!-- end .post-values -->
 
 		</div> <!-- end .post-details -->
+
 		<hr>
 		{{#feature 'media_uploads'}}
 		<p class="click-to-zoom"><small><i class="fa  fa-search-plus"></i> click images to zoom</small></p>
