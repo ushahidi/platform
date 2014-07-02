@@ -97,7 +97,9 @@ define(['App', 'marionette', 'underscore', 'alertify'],
 					isPublished : this.model.isPublished(),
 					tags : this.model.getTags(),
 					user : this.model.user ? this.model.user.toJSON() : null,
-					location : this.model.getLocation()
+					location : this.model.getLocation(),
+					hasNext : this.model.hasNext(),
+					hasPrev : this.model.hasPrev()
 				});
 				return data;
 			},

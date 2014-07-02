@@ -37,6 +37,26 @@ define(['backbone', 'underscore', 'models/PostModel', 'modules/config', 'backbon
 
 				sortOrder: {
 					title : -1
+				},
+
+				/**
+				 * Get next model in collection
+				 * @return PostModel|false
+				 */
+				getNextModel : function(model)
+				{
+					var next = this.at(this.indexOf(model) + 1);
+					return (next || false);
+				},
+
+				/**
+				 * Get previous model in collection
+				 * @return PostModel|false
+				 */
+				getPrevModel : function(model)
+				{
+					var prev = this.at(this.indexOf(model) - 1);
+					return (prev || false);
 				}
 			},
 

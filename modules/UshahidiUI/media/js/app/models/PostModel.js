@@ -348,6 +348,74 @@ define(['jquery', 'backbone', 'App', 'underscore', 'modules/config', 'models/Use
 				data.values = values;
 
 				return data;
+			},
+
+			/**
+			 * Get next model in collection
+			 * @return PostModel|false
+			 */
+			getNext : function(collection)
+			{
+				collection = collection || this.collection;
+				if (collection)
+				{
+					return this.collection.getNextModel(this);
+				}
+				return false;
+			},
+
+			/**
+			 * Are there more models
+			 * @return {Boolean}
+			 */
+			hasNext : function(collection)
+			{
+				collection = collection || this.collection;
+
+				// Are there more pages?
+				if (collection && collection.hasNextPage())
+				{
+					return true;
+				}
+				// Is this the last model?
+				else
+				{
+					return _.isObject(this.getNext(collection));
+				}
+			},
+
+			/**
+			 * Get previous model in collection
+			 * @return PostModel|false
+			 */
+			getPrev : function(collection)
+			{
+				collection = collection || this.collection;
+				if (collection)
+				{
+					return this.collection.getPrevModel(this);
+				}
+				return false;
+			},
+
+			/**
+			 * Are the previous models?
+			 * @return {Boolean}
+			 */
+			hasPrev : function(collection)
+			{
+				collection = collection || this.collection;
+
+				// Are there more pages?
+				if (collection && collection.hasPreviousPage())
+				{
+					return true;
+				}
+				// Is this the first model?
+				else
+				{
+					return _.isObject(this.getPrev(collection));
+				}
 			}
 		});
 

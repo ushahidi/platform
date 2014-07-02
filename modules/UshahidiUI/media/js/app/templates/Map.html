@@ -1,7 +1,7 @@
-<div id="map" class="map"></div>
+<div id="map" class="map  {{#if collapsed}}map-collapse{{/if}}"></div>
 <div class="collapse-map-container  js-show-with-full-map">
 	<div class="collapse-map  js-collapse-map">
-		<p class="js-collapse-tab">collapse map</p>
-		<p class="js-expand-tab none">expand map</p>
+		<p class="js-collapse-tab {{#if collapsed}}none{{/if}}">collapse map</p>
+		<p class="js-expand-tab {{#unless collapsed}}none{{/unless}}">expand map</p>
 	</div>
 </div>

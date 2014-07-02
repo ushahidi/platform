@@ -28,8 +28,12 @@
 				</ul><!-- end .post-actions -->
 
 				<ul class="post-nav">
-					<li><a href="#" class="post-nav-button"><i class="fa  fa-lg  fa-arrow-left"></i> <span class="post-nav-button-text">Prev</span></a></li>
-					<li><a href="#" class="post-nav-button"><span class="post-nav-button-text">Next</span> <i class="fa  fa-lg  fa-arrow-right"></i></a></li>
+					{{#if hasPrev}}
+					<li><a class="post-nav-button  js-post-prev"><i class="fa  fa-lg  fa-arrow-left"></i> <span class="post-nav-button-text">Prev</span></a></li>
+					{{/if}}
+					{{#if hasNext}}
+					<li><a class="post-nav-button  js-post-next"><span class="post-nav-button-text">Next</span> <i class="fa  fa-lg  fa-arrow-right"></i></a></li>
+					{{/if}}
 				</ul><!-- end .post-nav -->
 			</div> <!-- end .post-actions-wrapper -->
 		</div> <!-- end .post-actions-admin -->

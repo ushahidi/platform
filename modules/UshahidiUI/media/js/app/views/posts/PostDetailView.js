@@ -20,6 +20,11 @@ define(['underscore', 'jquery', 'App', 'views/posts/PostItemView', 'hbs!template
 				'destroy' : 'handleDeleted'
 			},
 
+			events : _.extend(PostItemView.prototype.events, {
+				'click .js-post-next' : 'showNextPost',
+				'click .js-post-prev' : 'showPrevPost'
+			}),
+
 			handleDeleted : function()
 			{
 				// Redirect user to previous page (probably post list)
@@ -46,8 +51,6 @@ define(['underscore', 'jquery', 'App', 'views/posts/PostItemView', 'hbs!template
 					attribute = form.getAttribute(key),
 					i,
 					$fieldEl;
-
-				ddt.log('PostDetailView', 'renderField, attribute', attribute);
 
 				$fieldEl = $(valueContainerTemplate({
 					label : (typeof attribute.label !== 'undefined') ? attribute.label : key,
@@ -92,6 +95,66 @@ define(['underscore', 'jquery', 'App', 'views/posts/PostItemView', 'hbs!template
 					view.render();
 					$el.append(view.el);
 				});
+			},
+
+			showNextPost : function()
+			{
+				var collection = this.collection,
+					next = this.model.getNext(collection);
+
+				if (! collection)
+				{
+					ddt.log('PostDetailView', 'Post has no collection');
+					return false;
+				}
+
+				if (next)
+				{
+					App.appRouter.navigate('posts/' + next.id, { trigger: true });
+				}
+				else
+				{
+					collection.getNextPage()
+						.done(function()
+							{
+								ddt.log('PostDetailView', 'collection after next paging', collection);
+								next = collection.at(0);
+								if (next)
+								{
+									App.appRouter.navigate('posts/' + next.id, { trigger: true });
+								}
+							});
+				}
+			},
+
+			showPrevPost : function()
+			{
+				var collection = this.collection,
+					prev = this.model.getPrev(collection);
+
+				if (! collection)
+				{
+					ddt.log('PostDetailView', 'Post has no collection');
+					return false;
+				}
+
+				if (prev)
+				{
+					App.appRouter.navigate('posts/' + prev.id, { trigger: true });
+				}
+				else
+				{
+					collection.getPreviousPage()
+						.done(function()
+							{
+								ddt.log('PostDetailView', 'collection after prev paging', collection);
+								prev = collection.at(collection.length);
+								if (prev)
+								{
+									App.appRouter.navigate('posts/' + prev.id, { trigger: true });
+								}
+							});
+				}
 			}
 
 		});

@@ -91,6 +91,13 @@ define(['marionette', 'underscore', 'App', 'jquery',
 				$(window).on('resize.map', _.debounce(this.resizeMap, 150));
 			},
 
+			serializeData : function()
+			{
+				return {
+					collapsed : (this.collapsed !== 'disabled') ? this.collapsed : false
+				};
+			},
+
 			// Use onDomRefresh rather than render() because we need this.$el in the DOM first
 			onDomRefresh: function()
 			{

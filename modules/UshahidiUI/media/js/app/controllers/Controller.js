@@ -237,7 +237,8 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 					model.relationsCallback.done(function()
 					{
 						postDetailLayout.postDetailRegion.show(new PostDetailView({
-							model: model
+							model: model,
+							collection: App.Collections.Posts
 						}));
 
 						// If post has tags, show related posts
