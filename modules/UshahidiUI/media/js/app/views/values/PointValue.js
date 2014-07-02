@@ -11,7 +11,6 @@ define(['App', 'views/values/Value', 'hbs!templates/values/PointValue'],
 	function(App, ValueView, template) {
 		return ValueView.extend(
 		{
-			tagName: 'dd',
 			className: 'post-value',
 			template : template,
 			events : {

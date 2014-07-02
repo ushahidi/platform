@@ -3,12 +3,12 @@
 \*------------------------------------*/
 /**
 
-Extends _post-details.scss & _post-overlay.scss
+ Extends _post-details.scss & _post-overlay.scss
 
-* GLOBAL...............global styles
-* POST HEADER...............post header, title, categories and actions
-* POST BODY..................post images, excerpt and meta
-*/
+ * GLOBAL...............global styles
+ * POST HEADER...............post header, title, categories and actions
+ * POST BODY..................post images, excerpt and meta
+ */
 
 
 /*------------------------------------*\
@@ -31,7 +31,6 @@ Extends _post-details.scss & _post-overlay.scss
 
 .post-header {
 	@include grid-column(12);
-	clear: both;
 	background-color: $accent-color;
 	padding: 1em;
 	box-shadow: 0px 1px 2px rgba(lighten($darkGray, 30), 0.5);
@@ -47,8 +46,8 @@ Extends _post-details.scss & _post-overlay.scss
 }
 
 /**
-* 	Hidden for now, and probably not best handled with columns
-*/
+ * 	Hidden for now, and probably not best handled with columns
+ */
 .post-category-marker {
 	@include grid-column(2, $collapse: true);
 	background: image-url("category-icon.png") no-repeat;
@@ -170,73 +169,34 @@ Extends _post-details.scss & _post-overlay.scss
 }
 
 .post-image {
-	@include grid-column(4, $collapse:true);
-	padding-right: 10px;
+	@include grid-column(12, $collapse: true);
+	margin-bottom: 20px;
 	@media #{$small} {
-		@include grid-column(4);
+		@include grid-column(4, $collapse: true);
+		margin-bottom: 0;
+	}
+	img {
+		@include thumb;
 		margin-bottom: 20px;
 	}
 }
 
-.post-detail-content {
+.post-details {
 	@include grid-column(12, $collapse: true);
 	@media #{$small} {
 		@include grid-column(8);
-		float: right;
 	}
 }
 
 .post-excerpt {
 	@include grid-column(12, $collapse: true);
-	@extend .border-bottom;
 	@media #{$small} {
 		padding-right: 0;
 	}
 }
 
-//custom-form
-.post-values {
-	@include grid-column(12, $collapse:true);
-	margin: 20px 0;
-}
-
-.post-attr {
-	margin-bottom: 10px;
-
-	.post-attr-heading {
-		display: inline;
-	}
-	.post-value {
-		display: inline;
-		a {
-			margin: 0 10px 10px 0;
-			white-space: nowrap;
-		}
-	}
-}
-
-
-
 .post-meta {
-	@include grid-column(8);
-	@media #{$small} {
-		@include grid-column(4);
-		clear: left;
-	}
-	.post-meta-details {
-		@include grid-column(6, $collapse:true);
-		@media #{$small} {
-			@include grid-column(12, $collapse:true);
-		}
-	}
-
-	.post-categories {
-		@include grid-column(6, $collapse:true);
-		@media #{$small} {
-			@include grid-column(12, $collapse:true);
-		}
-	}
-
+	@include grid-column(12, $collapse: true);
 	p {
 		font-size: $small-font-size;
 		color: $subheader-font-color;
@@ -255,9 +215,10 @@ Extends _post-details.scss & _post-overlay.scss
 
 .post-location-meta {
 	@include grid-column(12, $collapse: true);
-	.fa-map-marker {
-		padding-left: 2px;
-	}
+}
+
+.post-location {
+	font-weight: bold;
 }
 
 .post-time-meta {
