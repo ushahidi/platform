@@ -8388,7 +8388,7 @@ div.logo {
 		$EXTENDS
 \*------------------------------------*/
 /* line 44, ../../scss/tools/_mixins.scss */
-.border-bottom, .related-post-module-wrapper, .set-tags {
+.border-bottom, .post-excerpt, .related-post-excerpt, .related-post-module-wrapper, .set-tags {
   border-bottom: 1px solid #eff0f3;
 }
 
@@ -19658,12 +19658,12 @@ nav[role="sub-navigation"] li a {
 \*------------------------------------*/
 /**
 
- Extends _post-details.scss & _post-overlay.scss
+Extends _post-details.scss & _post-overlay.scss
 
- * GLOBAL...............global styles
- * POST HEADER...............post header, title, categories and actions
- * POST BODY..................post images, excerpt and meta
- */
+* GLOBAL...............global styles
+* POST HEADER...............post header, title, categories and actions
+* POST BODY..................post images, excerpt and meta
+*/
 /*------------------------------------*\
 		$GLOBAL
 \*------------------------------------*/
@@ -19688,12 +19688,13 @@ nav[role="sub-navigation"] li a {
   padding-right: 0.9375rem;
   width: 100%;
   float: left;
+  clear: both;
   background-color: #323a45;
   padding: 1em;
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
   z-index: 1;
 }
-/* line 38, ../../scss/modules/posts/_post.scss */
+/* line 39, ../../scss/modules/posts/_post.scss */
 .post-header h5, .post-header h6, .post-header .post-form-wrapper label, .post-form-wrapper .post-header label {
   color: #fcfcfc;
   margin: 5px 0;
@@ -19707,25 +19708,25 @@ nav[role="sub-navigation"] li a {
 }
 
 /**
- * 	Hidden for now, and probably not best handled with columns
- */
-/* line 51, ../../scss/modules/posts/_post.scss */
+* 	Hidden for now, and probably not best handled with columns
+*/
+/* line 52, ../../scss/modules/posts/_post.scss */
 .post-category-marker {
   padding-left: 0;
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('../../images/category-icon.png?1402611490') no-repeat;
+  background: url('../../images/category-icon.png?1404205325') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
-  /* line 51, ../../scss/modules/posts/_post.scss */
+  /* line 52, ../../scss/modules/posts/_post.scss */
   .post-category-marker {
-    background-image: url('../../images/category-icon@2x.png?1402611490');
+    background-image: url('../../images/category-icon@2x.png?1404205325');
     background-size: 34px 34px;
   }
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 51, ../../scss/modules/posts/_post.scss */
+  /* line 52, ../../scss/modules/posts/_post.scss */
   .post-category-marker {
     padding-left: 0;
     padding-right: 0;
@@ -19734,7 +19735,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 62, ../../scss/modules/posts/_post.scss */
+/* line 63, ../../scss/modules/posts/_post.scss */
 .post-title {
   padding-left: 0;
   padding-right: 0;
@@ -19743,12 +19744,12 @@ nav[role="sub-navigation"] li a {
   margin-bottom: 20px;
 }
 
-/* line 69, ../../scss/modules/posts/_post.scss */
+/* line 70, ../../scss/modules/posts/_post.scss */
 .post-actions-admin {
   margin: 10px 0 5px 0;
 }
 
-/* line 74, ../../scss/modules/posts/_post.scss */
+/* line 75, ../../scss/modules/posts/_post.scss */
 .post-actions-wrapper {
   padding-left: 0;
   padding-right: 0;
@@ -19757,36 +19758,36 @@ nav[role="sub-navigation"] li a {
   margin: 0;
 }
 
-/* line 79, ../../scss/modules/posts/_post.scss */
+/* line 80, ../../scss/modules/posts/_post.scss */
 .post-actions {
   margin: 0;
   float: left;
 }
-/* line 82, ../../scss/modules/posts/_post.scss */
+/* line 83, ../../scss/modules/posts/_post.scss */
 .post-actions > li {
   float: left;
   padding: 0 5px;
 }
-/* line 85, ../../scss/modules/posts/_post.scss */
+/* line 86, ../../scss/modules/posts/_post.scss */
 .post-actions > li:nth-child(1) {
   padding-left: 0;
 }
-/* line 88, ../../scss/modules/posts/_post.scss */
+/* line 89, ../../scss/modules/posts/_post.scss */
 .post-actions > li a {
   margin-bottom: 0;
 }
-/* line 92, ../../scss/modules/posts/_post.scss */
+/* line 93, ../../scss/modules/posts/_post.scss */
 .post-actions [class^="fa"], .post-actions [class*=" fa"] {
   padding: 0;
   position: relative;
   top: -1px;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 98, ../../scss/modules/posts/_post.scss */
+  /* line 99, ../../scss/modules/posts/_post.scss */
   .post-actions li {
     padding-bottom: 0;
   }
-  /* line 101, ../../scss/modules/posts/_post.scss */
+  /* line 102, ../../scss/modules/posts/_post.scss */
   .post-actions [class^="fa"], .post-actions [class*=" fa"] {
     padding-right: 3px;
     position: relative;
@@ -19794,7 +19795,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 109, ../../scss/modules/posts/_post.scss */
+/* line 110, ../../scss/modules/posts/_post.scss */
 .post-actions-button {
   border-style: solid;
   border-width: 1px;
@@ -19827,18 +19828,18 @@ nav[role="sub-navigation"] li a {
 .post-actions-button:hover, .post-actions-button:focus {
   color: #333333;
 }
-/* line 111, ../../scss/modules/posts/_post.scss */
+/* line 112, ../../scss/modules/posts/_post.scss */
 .post-actions-button .post-actions-button-text {
   display: none;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 111, ../../scss/modules/posts/_post.scss */
+  /* line 112, ../../scss/modules/posts/_post.scss */
   .post-actions-button .post-actions-button-text {
     display: inline;
   }
 }
 
-/* line 119, ../../scss/modules/posts/_post.scss */
+/* line 120, ../../scss/modules/posts/_post.scss */
 .post-nav {
   list-style: none;
   margin: 0;
@@ -19854,7 +19855,7 @@ nav[role="sub-navigation"] li a {
 .post-nav:after {
   clear: both;
 }
-/* line 122, ../../scss/modules/posts/_post.scss */
+/* line 123, ../../scss/modules/posts/_post.scss */
 .post-nav .post-nav-button {
   border-style: solid;
   border-width: 1px;
@@ -19888,27 +19889,27 @@ nav[role="sub-navigation"] li a {
 .post-nav .post-nav-button:hover, .post-nav .post-nav-button:focus {
   color: #333333;
 }
-/* line 125, ../../scss/modules/posts/_post.scss */
+/* line 126, ../../scss/modules/posts/_post.scss */
 .post-nav .post-nav-button [class*='fa'] {
   position: relative;
   top: -2px;
 }
-/* line 129, ../../scss/modules/posts/_post.scss */
+/* line 130, ../../scss/modules/posts/_post.scss */
 .post-nav .post-nav-button .fa-arrow-right,
 .post-nav .post-nav-button .fa-arrow-left {
   padding: 0;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 134, ../../scss/modules/posts/_post.scss */
+  /* line 135, ../../scss/modules/posts/_post.scss */
   .post-nav .post-nav-button .fa-arrow-left {
     padding-right: 5px;
   }
-  /* line 137, ../../scss/modules/posts/_post.scss */
+  /* line 138, ../../scss/modules/posts/_post.scss */
   .post-nav .post-nav-button .fa-arrow-right {
     padding-left: 5px;
   }
 }
-/* line 142, ../../scss/modules/posts/_post.scss */
+/* line 143, ../../scss/modules/posts/_post.scss */
 .post-nav > li {
   margin: 0;
   float: left;
@@ -19927,12 +19928,12 @@ nav[role="sub-navigation"] li a {
 .post-nav > li:first-child {
   margin-left: 0;
 }
-/* line 146, ../../scss/modules/posts/_post.scss */
+/* line 147, ../../scss/modules/posts/_post.scss */
 .post-nav .post-nav-button-text {
   display: none;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 146, ../../scss/modules/posts/_post.scss */
+  /* line 147, ../../scss/modules/posts/_post.scss */
   .post-nav .post-nav-button-text {
     display: inline;
   }
@@ -19941,7 +19942,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
 		$POST BODY
 \*------------------------------------*/
-/* line 163, ../../scss/modules/posts/_post.scss */
+/* line 164, ../../scss/modules/posts/_post.scss */
 .post-body {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -19953,56 +19954,44 @@ nav[role="sub-navigation"] li a {
   box-shadow: 0px 1px 2px rgba(108, 108, 108, 0.5);
 }
 
-/* line 171, ../../scss/modules/posts/_post.scss */
+/* line 172, ../../scss/modules/posts/_post.scss */
 .post-image {
   padding-left: 0;
   padding-right: 0;
-  width: 100%;
+  width: 33.33333%;
   float: left;
-  margin-bottom: 20px;
+  padding-right: 10px;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 171, ../../scss/modules/posts/_post.scss */
+  /* line 172, ../../scss/modules/posts/_post.scss */
   .post-image {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
     width: 33.33333%;
     float: left;
-    margin-bottom: 0;
+    margin-bottom: 20px;
   }
 }
-/* line 178, ../../scss/modules/posts/_post.scss */
-.post-image img {
-  line-height: 0;
-  display: inline-block;
-  border: solid 4px white;
-  max-width: 100%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-}
-/* line 50, ../../bower_components/foundation/scss/foundation/components/_thumbs.scss */
-.post-image img:hover, .post-image img:focus {
-  box-shadow: 0 0 6px 1px rgba(20, 180, 209, 0.5);
-}
 
-/* line 184, ../../scss/modules/posts/_post.scss */
-.post-details {
+/* line 181, ../../scss/modules/posts/_post.scss */
+.post-detail-content {
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 184, ../../scss/modules/posts/_post.scss */
-  .post-details {
+  /* line 181, ../../scss/modules/posts/_post.scss */
+  .post-detail-content {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
     width: 66.66667%;
     float: left;
+    float: right;
   }
 }
 
-/* line 191, ../../scss/modules/posts/_post.scss */
+/* line 189, ../../scss/modules/posts/_post.scss */
 .post-excerpt, .related-post-excerpt {
   padding-left: 0;
   padding-right: 0;
@@ -20010,27 +19999,96 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 191, ../../scss/modules/posts/_post.scss */
+  /* line 189, ../../scss/modules/posts/_post.scss */
   .post-excerpt, .related-post-excerpt {
     padding-right: 0;
   }
 }
 
 /* line 198, ../../scss/modules/posts/_post.scss */
-.post-meta {
+.post-values {
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left;
+  margin: 20px 0;
 }
-/* line 200, ../../scss/modules/posts/_post.scss */
+
+/* line 203, ../../scss/modules/posts/_post.scss */
+.post-attr {
+  margin-bottom: 10px;
+}
+/* line 206, ../../scss/modules/posts/_post.scss */
+.post-attr .post-attr-heading {
+  display: inline;
+}
+/* line 209, ../../scss/modules/posts/_post.scss */
+.post-attr .post-value {
+  display: inline;
+}
+/* line 211, ../../scss/modules/posts/_post.scss */
+.post-attr .post-value a {
+  margin: 0 10px 10px 0;
+  white-space: nowrap;
+}
+
+/* line 220, ../../scss/modules/posts/_post.scss */
+.post-meta {
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  width: 66.66667%;
+  float: left;
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 220, ../../scss/modules/posts/_post.scss */
+  .post-meta {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 33.33333%;
+    float: left;
+    clear: left;
+  }
+}
+/* line 226, ../../scss/modules/posts/_post.scss */
+.post-meta .post-meta-details {
+  padding-left: 0;
+  padding-right: 0;
+  width: 50%;
+  float: left;
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 226, ../../scss/modules/posts/_post.scss */
+  .post-meta .post-meta-details {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    float: left;
+  }
+}
+/* line 233, ../../scss/modules/posts/_post.scss */
+.post-meta .post-categories {
+  padding-left: 0;
+  padding-right: 0;
+  width: 50%;
+  float: left;
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 233, ../../scss/modules/posts/_post.scss */
+  .post-meta .post-categories {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    float: left;
+  }
+}
+/* line 240, ../../scss/modules/posts/_post.scss */
 .post-meta p {
   font-size: 70%;
   color: #a3a3a3;
   margin-bottom: .7em;
 }
 
-/* line 207, ../../scss/modules/posts/_post.scss */
+/* line 247, ../../scss/modules/posts/_post.scss */
 .post-meta-details {
   margin-bottom: 20px;
 }
@@ -20044,7 +20102,7 @@ nav[role="sub-navigation"] li a {
   clear: both;
 }
 
-/* line 212, ../../scss/modules/posts/_post.scss */
+/* line 252, ../../scss/modules/posts/_post.scss */
 .post-author {
   padding-left: 0;
   padding-right: 0;
@@ -20052,20 +20110,19 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 216, ../../scss/modules/posts/_post.scss */
+/* line 256, ../../scss/modules/posts/_post.scss */
 .post-location-meta {
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left;
 }
-
-/* line 220, ../../scss/modules/posts/_post.scss */
-.post-location {
-  font-weight: bold;
+/* line 258, ../../scss/modules/posts/_post.scss */
+.post-location-meta .fa-map-marker {
+  padding-left: 2px;
 }
 
-/* line 224, ../../scss/modules/posts/_post.scss */
+/* line 263, ../../scss/modules/posts/_post.scss */
 .post-time-meta {
   padding-left: 0;
   padding-right: 0;
@@ -20073,7 +20130,7 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 228, ../../scss/modules/posts/_post.scss */
+/* line 267, ../../scss/modules/posts/_post.scss */
 .post-privacy-status {
   padding-left: 0;
   padding-right: 0;
@@ -20081,29 +20138,29 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 232, ../../scss/modules/posts/_post.scss */
+/* line 271, ../../scss/modules/posts/_post.scss */
 .post-categories {
   padding-left: 0;
   padding-right: 0;
   width: 50%;
   float: left;
 }
-/* line 234, ../../scss/modules/posts/_post.scss */
+/* line 273, ../../scss/modules/posts/_post.scss */
 .post-categories ul {
   margin: 0;
 }
-/* line 236, ../../scss/modules/posts/_post.scss */
+/* line 275, ../../scss/modules/posts/_post.scss */
 .post-categories ul a {
   color: #a3a3a3;
 }
-/* line 239, ../../scss/modules/posts/_post.scss */
+/* line 278, ../../scss/modules/posts/_post.scss */
 .post-categories ul li {
   font-size: 70%;
   padding-right: 5px;
   margin-bottom: .7em;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 232, ../../scss/modules/posts/_post.scss */
+  /* line 271, ../../scss/modules/posts/_post.scss */
   .post-categories {
     padding-left: 0;
     padding-right: 0;
@@ -20112,7 +20169,7 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 250, ../../scss/modules/posts/_post.scss */
+/* line 289, ../../scss/modules/posts/_post.scss */
 .post-details-button {
   padding-left: 0;
   padding-right: 0;
@@ -20121,12 +20178,12 @@ nav[role="sub-navigation"] li a {
   margin-top: 10px;
   float: right;
 }
-/* line 254, ../../scss/modules/posts/_post.scss */
+/* line 293, ../../scss/modules/posts/_post.scss */
 .post-details-button .button {
   float: right;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 250, ../../scss/modules/posts/_post.scss */
+  /* line 289, ../../scss/modules/posts/_post.scss */
   .post-details-button {
     padding-left: 0;
     padding-right: 0;
@@ -20134,7 +20191,7 @@ nav[role="sub-navigation"] li a {
     float: left;
     margin-top: 7px;
   }
-  /* line 260, ../../scss/modules/posts/_post.scss */
+  /* line 299, ../../scss/modules/posts/_post.scss */
   .post-details-button .button {
     float: right;
   }
@@ -22385,6 +22442,7 @@ body.modal-active #modal-bg {
   padding-top: 0.25rem;
   margin-right: 0;
   margin-left: -0.75rem;
+  margin-left: 0;
 }
 /* line 69, ../../bower_components/foundation/scss/foundation/components/_sub-nav.scss */
 .form-options-nav dt {
@@ -22438,7 +22496,7 @@ body.modal-active #modal-bg {
 /*-----------------------------------------------------------*\
 		$CREATE-POST-FORM
 \*-----------------------------------------------------------*/
-/* line 35, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 36, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -22447,29 +22505,29 @@ body.modal-active #modal-bg {
   margin-bottom: 40px;
   padding: 0;
 }
-/* line 39, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 40, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper input[type="text"], .post-form-wrapper textarea {
   margin-bottom: 2em;
 }
-/* line 42, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 43, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form > fieldset {
   display: none;
 }
-/* line 44, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 45, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form > fieldset.active {
   display: block;
 }
-/* line 53, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 54, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper .select2-container {
   width: 100%;
 }
 
-/* line 58, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 59, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper textarea {
   height: 100px;
 }
 
-/* line 62, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 63, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-row {
   width: 100%;
   margin-left: auto;
@@ -22488,7 +22546,7 @@ body.modal-active #modal-bg {
   clear: both;
 }
 
-/* line 66, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 67, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-field {
   padding-left: 0;
   padding-right: 0;
@@ -22496,7 +22554,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 66, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 67, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-field {
     padding-left: 0;
     padding-right: 0;
@@ -22506,7 +22564,7 @@ body.modal-active #modal-bg {
   }
 }
 
-/* line 74, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 75, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-button {
   padding-left: 0;
   padding-right: 0;
@@ -22514,7 +22572,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 74, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 75, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-button {
     padding-left: 0;
     padding-right: 0;
@@ -22524,12 +22582,12 @@ body.modal-active #modal-bg {
   }
 }
 
-/* line 82, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 83, ../../scss/modules/modals/_create-post-modal.scss */
 .location-editor-map {
   height: 400px;
 }
 
-/* line 86, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 87, ../../scss/modules/modals/_create-post-modal.scss */
 .map-search-btn {
   border-style: solid;
   border-width: 1px;
