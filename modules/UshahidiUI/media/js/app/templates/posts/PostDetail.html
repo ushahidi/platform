@@ -41,66 +41,8 @@
 	</div> <!-- end .post-header -->
 
 	<div class="post-body">
-		<div class="post-image">
-			{{#feature 'media_uploads'}}
-			<img src="{{ imageurl "mini-coop.jpg" }}" alt="">
-			{{/feature}}
 
-			<div class="post-meta">
-				<div class="post-meta-details">
-					<h6>Post Details</h6>
-					<div class="post-author">
-						<p><i class="fa  fa-user"></i><strong class="" >
-						{{#if user}}
-						<a href="#users/{{user.id}}">
-							{{#if user.realname}}
-								{{user.realname}}
-							{{else}}
-								{{user.username}}
-							{{/if}}</a>
-						{{else}}
-							Anonymous
-						{{/if}}
-						</strong></p>
-					</div> <!-- end .post-author -->
-
-					{{#if location}}
-					<div class="post-location-meta">
-						<p><i class="fa  fa-map-marker"></i><span class="post-location  underline" >{{location.lat}}, {{location.lon}}</span></p>
-					</div> <!-- end .post-location-meta -->
-					{{/if}}
-
-					<div class="post-time-meta">
-						<p><i class="fa  fa-clock-o"></i><strong class="post-time" >{{ datetime-fromNow created }}</strong></p>
-					</div> <!-- end .post-time-meta -->
-
-					<div class="post-published-status">
-						{{#if isPublished}}
-							<p><i class="fa  fa-file-o"></i><strong class="post-time" >Published</strong></p>
-						{{else}}
-							{{!-- @todo add ucfirst handler and format status --}}
-							<p><i class="fa  fa-file"></i><strong class="post-time" >{{status}}</strong></p>
-						{{/if}}
-					</div> <!-- end .post-published-status -->
-				</div> <!-- end .post-details -->
-
-				{{#if tags}}
-				<div class="post-categories">
-					<h6>Categories</h6>
-					<ul>
-						{{#each tags}}
-						<li>
-							{{>tag-with-icon}}
-						</li>
-						{{/each}}
-					</ul>
-				</div> <!-- end .post-categories -->
-				{{/if}}
-			</div> <!-- end .post-meta -->
-
-		</div> <!-- end .post-body -->
-
-		<div class="post-details">
+		<div class="post-detail-content">
 
 			<div class="post-excerpt">
 				{{!-- @todo replace with markdown formatting --}}
@@ -114,6 +56,61 @@
 			</div> <!-- end .post-values -->
 
 		</div> <!-- end .post-details -->
+
+		<div class="post-image">
+			{{#feature 'media_uploads'}}
+			<img src="{{ imageurl "mini-coop.jpg" }}" alt="">
+			{{/feature}}
+		</div> <!-- end .post-image -->
+
+		<div class="post-meta">
+			<div class="post-meta-details">
+				<h6>Post Details</h6>
+				<div class="post-author">
+					<p><i class="fa  fa-user"></i><span>
+					{{#if user}}
+					<a href="#users/{{user.id}}">
+						{{#if user.realname}}
+							{{user.realname}}
+						{{else}}
+							{{user.username}}
+						{{/if}}</a>
+					{{else}}
+						Anonymous
+					{{/if}}
+				</span></p>
+				</div> <!-- end .post-author -->
+
+				<div class="post-time-meta">
+					<p><i class="fa  fa-clock-o"></i><span class="post-time" >{{ datetime-fromNow created }}</span></p>
+				</div> <!-- end .post-time-meta -->
+
+				<div class="post-published-status">
+					{{#if isPublished}}
+						<p><i class="fa  fa-file-o"></i><span class="post-time" >Published</span></p>
+					{{else}}
+						{{!-- @todo add ucfirst handler and format status --}}
+						<p><i class="fa  fa-file"></i><span class="post-time" >{{status}}</span></p>
+					{{/if}}
+				</div> <!-- end .post-published-status -->
+			</div> <!-- end .post-details -->
+
+			{{#if tags}}
+			<div class="post-categories">
+				<h6>Categories</h6>
+				<ul>
+					{{#each tags}}
+					<li>
+						{{>tag-with-icon}}
+					</li>
+					{{/each}}
+				</ul>
+			</div> <!-- end .post-categories -->
+			{{/if}}
+
+		</div> <!-- end .post-meta -->
+
+
 		<hr>
 		{{#feature 'media_uploads'}}
 		<p class="click-to-zoom"><small><i class="fa  fa-search-plus"></i> click images to zoom</small></p>
