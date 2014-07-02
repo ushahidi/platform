@@ -20025,14 +20025,10 @@ Extends _post-details.scss & _post-overlay.scss
 /* line 209, ../../scss/modules/posts/_post.scss */
 .post-attr .post-value {
   display: inline;
-}
-/* line 211, ../../scss/modules/posts/_post.scss */
-.post-attr .post-value a {
-  margin: 0 10px 10px 0;
-  white-space: nowrap;
+  margin-bottom: 10px;
 }
 
-/* line 220, ../../scss/modules/posts/_post.scss */
+/* line 217, ../../scss/modules/posts/_post.scss */
 .post-meta {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -20040,7 +20036,7 @@ Extends _post-details.scss & _post-overlay.scss
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 220, ../../scss/modules/posts/_post.scss */
+  /* line 217, ../../scss/modules/posts/_post.scss */
   .post-meta {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -20049,7 +20045,7 @@ Extends _post-details.scss & _post-overlay.scss
     clear: left;
   }
 }
-/* line 226, ../../scss/modules/posts/_post.scss */
+/* line 223, ../../scss/modules/posts/_post.scss */
 .post-meta .post-meta-details {
   padding-left: 0;
   padding-right: 0;
@@ -20057,7 +20053,7 @@ Extends _post-details.scss & _post-overlay.scss
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 226, ../../scss/modules/posts/_post.scss */
+  /* line 223, ../../scss/modules/posts/_post.scss */
   .post-meta .post-meta-details {
     padding-left: 0;
     padding-right: 0;
@@ -20065,7 +20061,7 @@ Extends _post-details.scss & _post-overlay.scss
     float: left;
   }
 }
-/* line 233, ../../scss/modules/posts/_post.scss */
+/* line 230, ../../scss/modules/posts/_post.scss */
 .post-meta .post-categories {
   padding-left: 0;
   padding-right: 0;
@@ -20073,7 +20069,7 @@ Extends _post-details.scss & _post-overlay.scss
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 233, ../../scss/modules/posts/_post.scss */
+  /* line 230, ../../scss/modules/posts/_post.scss */
   .post-meta .post-categories {
     padding-left: 0;
     padding-right: 0;
@@ -20081,14 +20077,14 @@ Extends _post-details.scss & _post-overlay.scss
     float: left;
   }
 }
-/* line 240, ../../scss/modules/posts/_post.scss */
+/* line 237, ../../scss/modules/posts/_post.scss */
 .post-meta p {
   font-size: 70%;
   color: #a3a3a3;
   margin-bottom: .7em;
 }
 
-/* line 247, ../../scss/modules/posts/_post.scss */
+/* line 244, ../../scss/modules/posts/_post.scss */
 .post-meta-details {
   margin-bottom: 20px;
 }
@@ -20102,7 +20098,7 @@ Extends _post-details.scss & _post-overlay.scss
   clear: both;
 }
 
-/* line 252, ../../scss/modules/posts/_post.scss */
+/* line 249, ../../scss/modules/posts/_post.scss */
 .post-author {
   padding-left: 0;
   padding-right: 0;
@@ -20110,19 +20106,19 @@ Extends _post-details.scss & _post-overlay.scss
   float: left;
 }
 
-/* line 256, ../../scss/modules/posts/_post.scss */
+/* line 253, ../../scss/modules/posts/_post.scss */
 .post-location-meta {
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left;
 }
-/* line 258, ../../scss/modules/posts/_post.scss */
+/* line 255, ../../scss/modules/posts/_post.scss */
 .post-location-meta .fa-map-marker {
   padding-left: 2px;
 }
 
-/* line 263, ../../scss/modules/posts/_post.scss */
+/* line 260, ../../scss/modules/posts/_post.scss */
 .post-time-meta {
   padding-left: 0;
   padding-right: 0;
@@ -20130,7 +20126,7 @@ Extends _post-details.scss & _post-overlay.scss
   float: left;
 }
 
-/* line 267, ../../scss/modules/posts/_post.scss */
+/* line 264, ../../scss/modules/posts/_post.scss */
 .post-privacy-status {
   padding-left: 0;
   padding-right: 0;
@@ -20138,29 +20134,29 @@ Extends _post-details.scss & _post-overlay.scss
   float: left;
 }
 
-/* line 271, ../../scss/modules/posts/_post.scss */
+/* line 268, ../../scss/modules/posts/_post.scss */
 .post-categories {
   padding-left: 0;
   padding-right: 0;
   width: 50%;
   float: left;
 }
-/* line 273, ../../scss/modules/posts/_post.scss */
+/* line 270, ../../scss/modules/posts/_post.scss */
 .post-categories ul {
   margin: 0;
 }
-/* line 275, ../../scss/modules/posts/_post.scss */
+/* line 272, ../../scss/modules/posts/_post.scss */
 .post-categories ul a {
   color: #a3a3a3;
 }
-/* line 278, ../../scss/modules/posts/_post.scss */
+/* line 275, ../../scss/modules/posts/_post.scss */
 .post-categories ul li {
   font-size: 70%;
   padding-right: 5px;
   margin-bottom: .7em;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 271, ../../scss/modules/posts/_post.scss */
+  /* line 268, ../../scss/modules/posts/_post.scss */
   .post-categories {
     padding-left: 0;
     padding-right: 0;
@@ -20169,7 +20165,7 @@ Extends _post-details.scss & _post-overlay.scss
   }
 }
 
-/* line 289, ../../scss/modules/posts/_post.scss */
+/* line 286, ../../scss/modules/posts/_post.scss */
 .post-details-button {
   padding-left: 0;
   padding-right: 0;
@@ -20178,12 +20174,12 @@ Extends _post-details.scss & _post-overlay.scss
   margin-top: 10px;
   float: right;
 }
-/* line 293, ../../scss/modules/posts/_post.scss */
+/* line 290, ../../scss/modules/posts/_post.scss */
 .post-details-button .button {
   float: right;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 289, ../../scss/modules/posts/_post.scss */
+  /* line 286, ../../scss/modules/posts/_post.scss */
   .post-details-button {
     padding-left: 0;
     padding-right: 0;
@@ -20191,7 +20187,7 @@ Extends _post-details.scss & _post-overlay.scss
     float: left;
     margin-top: 7px;
   }
-  /* line 299, ../../scss/modules/posts/_post.scss */
+  /* line 296, ../../scss/modules/posts/_post.scss */
   .post-details-button .button {
     float: right;
   }
