@@ -46,9 +46,9 @@
 	}
 }
 
-.edit-post .post-categories {
+.edit-post .post-tags {
 	@include grid-column(12, $collapse: true);
-	.add-a-category a {
+	.add-a-tag a {
 		float: right;
 		margin-top: 6px;
 	}

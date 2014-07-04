@@ -235,7 +235,7 @@ define(['App', 'marionette', 'underscore', 'alertify',
 						role : role
 					});
 
-				$el.closest('.js-filter-categories-list')
+				$el.closest('.js-filter-tags-list')
 					.find('li')
 						.removeClass('active')
 						.find('.role-title > span').addClass('visually-hidden')

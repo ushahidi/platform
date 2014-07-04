@@ -22,8 +22,8 @@
 	box-shadow: 0px 1px 2px rgba(lighten($darkGray, 30), 0.5);
 }
 
-%filter-categories,
-.filter-categories {
+%filter-tags,
+.filter-tags {
 	@include grid-column(12);
 	margin-top: 15px;
 	@media #{$small} {
@@ -40,8 +40,8 @@
 	}
 }
 
-%filter-categories-list,
-.filter-categories-list {
+%filter-tags-list,
+.filter-tags-list {
 	&:after {
 		content: none;
 		display: table;
@@ -124,7 +124,7 @@ $color5: $primary-color;
 $colors: $color1, $color2, $color3, $color4, $color5;
 
 @for $i from 1 through length($colors) {
-	.filter-categories-list li:nth-child(#{length($colors)}n+#{$i}),
+	.filter-tags-list li:nth-child(#{length($colors)}n+#{$i}),
 	.tab-nav-list--message-config li:nth-child(#{length($colors)}n+#{$i}) {
 		[class*='-count-number'] {
 			background-color: (nth($colors, $i));

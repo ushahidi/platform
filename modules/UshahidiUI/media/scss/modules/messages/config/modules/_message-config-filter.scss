@@ -17,8 +17,8 @@
 	margin-top: 20px;
 }
 
-.filter-categories--message-config {
-	@extend %filter-categories;
+.filter-tags--message-config {
+	@extend %filter-tags;
 	@media #{$small} {
 		@include grid-column(12, $collapse: true);
 	}
@@ -27,11 +27,11 @@
 	}
 }
 
-.filter-categories-list--message-config {
-	@extend %filter-categories-list;
+.filter-tags-list--message-config {
+	@extend %filter-tags-list;
 	@include block-grid(7);
 	margin: 0;
-	.filter-categories-list__list-item {
+	.filter-tags-list__list-item {
 		padding: 10px 19px;
 		&:last-child {
 			border-right: 0;

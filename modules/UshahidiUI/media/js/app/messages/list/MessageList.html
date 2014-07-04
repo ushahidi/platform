@@ -53,8 +53,8 @@
 	</form>
 	<div class="filter">
 		<div class="row">
-			<div class="filter-categories">
-				<ul class="filter-categories-list  filter-categories-list--message  js-filter-categories-list  hide-for-small">
+			<div class="filter-tags">
+				<ul class="filter-tags-list  filter-tags-list--message  js-filter-tags-list  hide-for-small">
 					<li class="active  js-message-filter-box" data-box-name="">
 						<a href class="message-type">All
 							<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
@@ -71,7 +71,7 @@
 
 				<!-- Filter by box mobile UI -->
 				<a href="#" data-dropdown="drop-boxes" class="dropdown-button  show-for-small">filter by box</a><br>
-				<ul id="drop-boxes" data-dropdown-content class="dropdown-list  js-filter-categories-list  f-dropdown  show-for-small">
+				<ul id="drop-boxes" data-dropdown-content class="dropdown-list  js-filter-tags-list  f-dropdown  show-for-small">
 					<li class="dropdown-list__item js-message-filter-box  active" data-box-name="">All</li>
 					{{#each boxTypes}}
 					<li class="dropdown-list__item js-message-filter-box" data-box-name="{{@key}}">

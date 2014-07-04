@@ -19,7 +19,7 @@
 }
 
 .tab-nav--message-config {
-	@extend %filter-categories;
+	@extend %filter-tags;
 	margin-top: 0;
 	padding: 0;
 	text-align: center;
@@ -29,7 +29,7 @@
 }
 
 .tab-nav-list--message-config {
-	@extend %filter-categories-list;
+	@extend %filter-tags-list;
 	@include block-grid(7);
 	margin: 0;
 	.tab-nav-list__list-item {

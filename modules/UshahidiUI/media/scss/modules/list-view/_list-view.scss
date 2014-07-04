@@ -116,7 +116,7 @@
 	margin: 30px 0 20px 0;
 }
 
-.list-view-categories-wrapper {
+.list-view-tags-wrapper {
 	@include grid-column(12);
 	h6 {
 		margin: 0;
@@ -132,7 +132,7 @@
 	}
 }
 
-.list-view-categories {
+.list-view-tags {
 	margin: 0;
 	a {
 		color: $subheader-font-color

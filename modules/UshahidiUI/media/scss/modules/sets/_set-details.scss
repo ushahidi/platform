@@ -51,8 +51,8 @@
 	@extend .list-view-admin;
 }
 
-.set-detail-post-list-categories-wrapper {
-	@extend .list-view-categories-wrapper;
+.set-detail-post-list-tags-wrapper {
+	@extend .list-view-tags-wrapper;
 	padding-top: 5px;
 	margin-bottom: 20px;
 	@media #{$small} {

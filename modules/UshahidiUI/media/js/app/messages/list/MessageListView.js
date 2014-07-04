@@ -106,7 +106,7 @@ define(['marionette', 'underscore',
 						box : box
 					});
 
-				$el.closest('.js-filter-categories-list')
+				$el.closest('.js-filter-tags-list')
 					.find('li')
 						.removeClass('active')
 						.find('.message-type > span').addClass('visually-hidden')

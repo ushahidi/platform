@@ -6,7 +6,7 @@
 Extends _post-details.scss & _post-overlay.scss
 
 * GLOBAL...............global styles
-* POST HEADER...............post header, title, categories and actions
+* POST HEADER...............post header, title, tags and actions
 * POST BODY..................post images, excerpt and meta
 */
 
@@ -49,23 +49,23 @@ Extends _post-details.scss & _post-overlay.scss
 /**
 * 	Hidden for now, and probably not best handled with columns
 */
-.post-category-marker {
+.post-tag-marker {
 	@include grid-column(2, $collapse: true);
-	background: image-url("category-icon.png") no-repeat;
-	@include image-2x("category-icon@2x.png", 34px, 34px);
+	background: image-url("tag-icon.png") no-repeat;
+	@include image-2x("tag-icon@2x.png", 34px, 34px);
 
 	@media #{$small} {
 		@include grid-column(1, $collapse: true);
 	}
 }
 
-// TODO Reduce column's when category marker re-added
+// TODO Reduce column's when tag marker re-added
 .post-title {
 	@include grid-column(12, $collapse: true);
 	margin-bottom: 20px;
 }
 
-// TODO Reduce column's when category marker re-added
+// TODO Reduce column's when tag marker re-added
 
 .post-actions-admin {
 	@extend %list-view-admin;
@@ -265,7 +265,7 @@ Extends _post-details.scss & _post-overlay.scss
 	@include grid-column(12, $collapse: true);
 }
 
-.post-categories {
+.post-tags {
 	@include grid-column(6, $collapse: true);
 	ul {
 		margin: 0;
