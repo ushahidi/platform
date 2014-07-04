@@ -48,15 +48,6 @@
 		<script type="text/javascript" src="<?php echo Media::url('bower_components/requirejs/require.js'); ?>" data-main="<?php echo Media::url('js/app/config/Init.js'); ?>"></script>
 		<?php endif; ?>
 
-		<!-- Custom Modernizr Build - add, subtract and rebuild at end of project -->
-		<script src="<?php echo Media::url('js/libs/custom.modernizr.js'); ?>"></script>
-
-		<!-- cross browser CSS3 pseudo-classes and attribute selectors with Selectivizr -->
-		<!--[if (gte IE 6)&(lte IE 8)]>
-			<script type="text/javascript" src="js/vendor/selectivizr/selectivizr.js"></script>
-			<noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
-		<![endif]-->
-
 		<!-- Google Font -->
 		<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 		<link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
