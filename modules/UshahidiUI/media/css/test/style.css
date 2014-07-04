@@ -14339,7 +14339,7 @@ img.mfp-img {
 }
 
 /* line 25, ../../scss/partials/filter/_filter.scss */
-.filter-categories {
+.filter-tags {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
   width: 100%;
@@ -14348,7 +14348,7 @@ img.mfp-img {
 }
 @media only screen and (min-width: 64.063em) {
   /* line 25, ../../scss/partials/filter/_filter.scss */
-  .filter-categories {
+  .filter-tags {
     padding-left: 0;
     padding-right: 0;
     width: 75%;
@@ -14357,7 +14357,7 @@ img.mfp-img {
   }
 }
 /* line 33, ../../scss/partials/filter/_filter.scss */
-.filter-categories .dropdown-button {
+.filter-tags .dropdown-button {
   border-style: solid;
   border-width: 1px;
   cursor: pointer;
@@ -14390,17 +14390,17 @@ img.mfp-img {
   margin-bottom: 0;
 }
 /* line 133, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.filter-categories .dropdown-button:hover,
-.filter-categories .dropdown-button:focus {
+.filter-tags .dropdown-button:hover,
+.filter-tags .dropdown-button:focus {
   background-color: #f1f1f4;
 }
 /* line 139, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.filter-categories .dropdown-button:hover,
-.filter-categories .dropdown-button:focus {
+.filter-tags .dropdown-button:hover,
+.filter-tags .dropdown-button:focus {
   color: #333333;
 }
 /* line 62, ../../bower_components/foundation/scss/foundation/components/_dropdown-buttons.scss */
-.filter-categories .dropdown-button:after {
+.filter-tags .dropdown-button:after {
   position: absolute;
   content: "";
   width: 0;
@@ -14411,37 +14411,37 @@ img.mfp-img {
   top: 50%;
 }
 /* line 77, ../../bower_components/foundation/scss/foundation/components/_dropdown-buttons.scss */
-.filter-categories .dropdown-button:before {
+.filter-tags .dropdown-button:before {
   border-width: 0.4375rem;
   right: 1.125rem;
   margin-top: -0.15625rem;
 }
 /* line 116, ../../bower_components/foundation/scss/foundation/components/_dropdown-buttons.scss */
-.filter-categories .dropdown-button:after {
+.filter-tags .dropdown-button:after {
   border-color: white transparent transparent transparent;
 }
 /* line 37, ../../scss/partials/filter/_filter.scss */
-.filter-categories .dropdown-button:before {
+.filter-tags .dropdown-button:before {
   border-color: #323a45 transparent transparent transparent;
 }
 
 /* line 45, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list:after {
+.filter-tags-list:after {
   content: none;
   display: table;
 }
 /* line 49, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list .hide-for-small {
+.filter-tags-list .hide-for-small {
   display: none !important;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 49, ../../scss/partials/filter/_filter.scss */
-  .filter-categories-list .hide-for-small {
+  .filter-tags-list .hide-for-small {
     display: inline-block !important;
   }
 }
 /* line 55, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li {
+.filter-tags-list li {
   float: left;
   width: 25%;
   border-right: 1px solid #d2d5dd;
@@ -14454,31 +14454,31 @@ img.mfp-img {
 }
 @media only screen and (min-width: 64.063em) {
   /* line 55, ../../scss/partials/filter/_filter.scss */
-  .filter-categories-list li {
+  .filter-tags-list li {
     padding: 10px 19px;
   }
 }
 /* line 68, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li a {
+.filter-tags-list li a {
   color: #1f1f1f;
   font-weight: bold;
 }
 /* line 72, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li.active {
+.filter-tags-list li.active {
   background-color: #fcfcfc;
   color: #1f1f1f;
   font-weight: bold;
 }
 /* line 77, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:hover:not(.active) {
+.filter-tags-list li:hover:not(.active) {
   background-color: #e9ebef;
 }
 /* line 80, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:active:not(.active) {
+.filter-tags-list li:active:not(.active) {
   background-color: #dee0e6;
 }
 /* line 84, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list .count-number {
+.filter-tags-list .count-number {
   position: relative;
   top: 4px;
   font-size: 0.6875rem;
@@ -14511,81 +14511,81 @@ img.mfp-img {
 
 /*random color function for filter count-number background*/
 /* line 129, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+1) [class*='-count-number'],
+.filter-tags-list li:nth-child(5n+1) [class*='-count-number'],
 .tab-nav-list--message-config li:nth-child(5n+1) [class*='-count-number'] {
   background-color: #323a45;
 }
 /* line 132, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+1).active,
+.filter-tags-list li:nth-child(5n+1).active,
 .tab-nav-list--message-config li:nth-child(5n+1).active {
   border-top: 3px solid #323a45;
 }
 /* line 135, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+1):hover:not(.active),
+.filter-tags-list li:nth-child(5n+1):hover:not(.active),
 .tab-nav-list--message-config li:nth-child(5n+1):hover:not(.active) {
   border-top: 3px solid #323a45;
 }
 
 /* line 129, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+2) [class*='-count-number'],
+.filter-tags-list li:nth-child(5n+2) [class*='-count-number'],
 .tab-nav-list--message-config li:nth-child(5n+2) [class*='-count-number'] {
   background-color: #c50813;
 }
 /* line 132, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+2).active,
+.filter-tags-list li:nth-child(5n+2).active,
 .tab-nav-list--message-config li:nth-child(5n+2).active {
   border-top: 3px solid #c50813;
 }
 /* line 135, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+2):hover:not(.active),
+.filter-tags-list li:nth-child(5n+2):hover:not(.active),
 .tab-nav-list--message-config li:nth-child(5n+2):hover:not(.active) {
   border-top: 3px solid #c50813;
 }
 
 /* line 129, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+3) [class*='-count-number'],
+.filter-tags-list li:nth-child(5n+3) [class*='-count-number'],
 .tab-nav-list--message-config li:nth-child(5n+3) [class*='-count-number'] {
   background-color: #3cb81c;
 }
 /* line 132, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+3).active,
+.filter-tags-list li:nth-child(5n+3).active,
 .tab-nav-list--message-config li:nth-child(5n+3).active {
   border-top: 3px solid #3cb81c;
 }
 /* line 135, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+3):hover:not(.active),
+.filter-tags-list li:nth-child(5n+3):hover:not(.active),
 .tab-nav-list--message-config li:nth-child(5n+3):hover:not(.active) {
   border-top: 3px solid #3cb81c;
 }
 
 /* line 129, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+4) [class*='-count-number'],
+.filter-tags-list li:nth-child(5n+4) [class*='-count-number'],
 .tab-nav-list--message-config li:nth-child(5n+4) [class*='-count-number'] {
   background-color: #ffad19;
 }
 /* line 132, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+4).active,
+.filter-tags-list li:nth-child(5n+4).active,
 .tab-nav-list--message-config li:nth-child(5n+4).active {
   border-top: 3px solid #ffad19;
 }
 /* line 135, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+4):hover:not(.active),
+.filter-tags-list li:nth-child(5n+4):hover:not(.active),
 .tab-nav-list--message-config li:nth-child(5n+4):hover:not(.active) {
   border-top: 3px solid #ffad19;
 }
 
 /* line 129, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+5) [class*='-count-number'],
+.filter-tags-list li:nth-child(5n+5) [class*='-count-number'],
 .tab-nav-list--message-config li:nth-child(5n+5) [class*='-count-number'] {
   background-color: #14b4d1;
 }
 /* line 132, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+5).active,
+.filter-tags-list li:nth-child(5n+5).active,
 .tab-nav-list--message-config li:nth-child(5n+5).active {
   border-top: 3px solid #14b4d1;
 }
 /* line 135, ../../scss/partials/filter/_filter.scss */
-.filter-categories-list li:nth-child(5n+5):hover:not(.active),
+.filter-tags-list li:nth-child(5n+5):hover:not(.active),
 .tab-nav-list--message-config li:nth-child(5n+5):hover:not(.active) {
   border-top: 3px solid #14b4d1;
 }
@@ -16502,27 +16502,27 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 119, ../../scss/modules/list-view/_list-view.scss */
-.list-view-categories-wrapper, .set-detail-post-list-categories-wrapper {
+.list-view-tags-wrapper, .set-detail-post-list-tags-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
   width: 100%;
   float: left;
 }
 /* line 121, ../../scss/modules/list-view/_list-view.scss */
-.list-view-categories-wrapper h6, .set-detail-post-list-categories-wrapper h6, .list-view-categories-wrapper .post-form-wrapper label, .post-form-wrapper .list-view-categories-wrapper label, .set-detail-post-list-categories-wrapper .post-form-wrapper label, .post-form-wrapper .set-detail-post-list-categories-wrapper label {
+.list-view-tags-wrapper h6, .set-detail-post-list-tags-wrapper h6, .list-view-tags-wrapper .post-form-wrapper label, .post-form-wrapper .list-view-tags-wrapper label, .set-detail-post-list-tags-wrapper .post-form-wrapper label, .post-form-wrapper .set-detail-post-list-tags-wrapper label {
   margin: 0;
 }
 /* line 124, ../../scss/modules/list-view/_list-view.scss */
-.list-view-categories-wrapper button, .set-detail-post-list-categories-wrapper button {
+.list-view-tags-wrapper button, .set-detail-post-list-tags-wrapper button {
   margin-bottom: 0;
 }
 /* line 126, ../../scss/modules/list-view/_list-view.scss */
-.list-view-categories-wrapper button i, .set-detail-post-list-categories-wrapper button i {
+.list-view-tags-wrapper button i, .set-detail-post-list-tags-wrapper button i {
   padding-right: 5px;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 119, ../../scss/modules/list-view/_list-view.scss */
-  .list-view-categories-wrapper, .set-detail-post-list-categories-wrapper {
+  .list-view-tags-wrapper, .set-detail-post-list-tags-wrapper {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
     width: 33.33333%;
@@ -16531,21 +16531,21 @@ nav[role="sub-navigation"] li a {
 }
 
 /* line 135, ../../scss/modules/list-view/_list-view.scss */
-.list-view-categories {
+.list-view-tags {
   margin: 0;
 }
 /* line 137, ../../scss/modules/list-view/_list-view.scss */
-.list-view-categories a {
+.list-view-tags a {
   color: #a3a3a3;
 }
 /* line 140, ../../scss/modules/list-view/_list-view.scss */
-.list-view-categories li {
+.list-view-tags li {
   display: inline;
   font-size: 70%;
   padding-right: 5px;
 }
 /* line 145, ../../scss/modules/list-view/_list-view.scss */
-.list-view-categories .fa-circle {
+.list-view-tags .fa-circle {
   padding-right: 5px;
 }
 
@@ -17760,11 +17760,11 @@ nav[role="sub-navigation"] li a {
    $MESSAGE FILTER CATEGORY LIST
 \*------------------------------------*/
 /* line 16, ../../scss/modules/messages/listings/modules/_message-filter.scss */
-.filter-categories-list--message a {
+.filter-tags-list--message a {
   width: 25%;
 }
 /* line 19, ../../scss/modules/messages/listings/modules/_message-filter.scss */
-.filter-categories-list--message li {
+.filter-tags-list--message li {
   color: #1f1f1f;
 }
 
@@ -19661,7 +19661,7 @@ nav[role="sub-navigation"] li a {
 Extends _post-details.scss & _post-overlay.scss
 
 * GLOBAL...............global styles
-* POST HEADER...............post header, title, categories and actions
+* POST HEADER...............post header, title, tags and actions
 * POST BODY..................post images, excerpt and meta
 */
 /*------------------------------------*\
@@ -19711,23 +19711,23 @@ Extends _post-details.scss & _post-overlay.scss
 * 	Hidden for now, and probably not best handled with columns
 */
 /* line 52, ../../scss/modules/posts/_post.scss */
-.post-category-marker {
+.post-tag-marker {
   padding-left: 0;
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('../../images/category-icon.png?1404205325') no-repeat;
+  background: url('../../images/tag-icon.png?1404205325') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 52, ../../scss/modules/posts/_post.scss */
-  .post-category-marker {
-    background-image: url('../../images/category-icon@2x.png?1404205325');
+  .post-tag-marker {
+    background-image: url('../../images/tag-icon@2x.png?1404205325');
     background-size: 34px 34px;
   }
 }
 @media only screen and (min-width: 64.063em) {
   /* line 52, ../../scss/modules/posts/_post.scss */
-  .post-category-marker {
+  .post-tag-marker {
     padding-left: 0;
     padding-right: 0;
     width: 8.33333%;
@@ -20135,29 +20135,29 @@ Extends _post-details.scss & _post-overlay.scss
 }
 
 /* line 268, ../../scss/modules/posts/_post.scss */
-.post-categories {
+.post-tags {
   padding-left: 0;
   padding-right: 0;
   width: 50%;
   float: left;
 }
 /* line 270, ../../scss/modules/posts/_post.scss */
-.post-categories ul {
+.post-tags ul {
   margin: 0;
 }
 /* line 272, ../../scss/modules/posts/_post.scss */
-.post-categories ul a {
+.post-tags ul a {
   color: #a3a3a3;
 }
 /* line 275, ../../scss/modules/posts/_post.scss */
-.post-categories ul li {
+.post-tags ul li {
   font-size: 70%;
   padding-right: 5px;
   margin-bottom: .7em;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 268, ../../scss/modules/posts/_post.scss */
-  .post-categories {
+  .post-tags {
     padding-left: 0;
     padding-right: 0;
     width: 100%;
@@ -20307,19 +20307,19 @@ Extends _post-details.scss & _post-overlay.scss
 }
 
 /* line 40, ../../scss/modules/posts/_post-details.scss */
-.post-categories-wrapper {
+.post-tags-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
   width: 100%;
   float: left;
 }
 /* line 42, ../../scss/modules/posts/_post-details.scss */
-.post-categories-wrapper button {
+.post-tags-wrapper button {
   margin-bottom: 0;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 46, ../../scss/modules/posts/_post-details.scss */
-  .post-categories-wrapper button.expand, .post-categories-wrapper .button.expand {
+  .post-tags-wrapper button.expand, .post-tags-wrapper .button.expand {
     padding-right: 1.125em;
     padding-left: 1.125em;
     width: auto;
@@ -21239,13 +21239,13 @@ TODO: may need a notification mixin here
 }
 
 /* line 54, ../../scss/modules/sets/_set-details.scss */
-.set-detail-post-list-categories-wrapper {
+.set-detail-post-list-tags-wrapper {
   padding-top: 5px;
   margin-bottom: 20px;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 54, ../../scss/modules/sets/_set-details.scss */
-  .set-detail-post-list-categories-wrapper {
+  .set-detail-post-list-tags-wrapper {
     padding-left: 0;
     padding-right: 0;
     width: 100%;
@@ -21254,7 +21254,7 @@ TODO: may need a notification mixin here
 }
 @media only screen and (min-width: 64.063em) {
   /* line 54, ../../scss/modules/sets/_set-details.scss */
-  .set-detail-post-list-categories-wrapper {
+  .set-detail-post-list-tags-wrapper {
     padding-left: 0;
     padding-right: 0;
     width: 50%;
@@ -22637,7 +22637,7 @@ body.modal-active #modal-bg {
 }
 
 /* line 29, ../../scss/modules/modals/_add-to-set-modal.scss */
-.add-to-set-category-button {
+.add-to-set-tag-button {
   border-style: solid;
   border-width: 1px;
   cursor: pointer;
@@ -22667,11 +22667,11 @@ body.modal-active #modal-bg {
   border-radius: 3px;
 }
 /* line 133, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.add-to-set-category-button:hover, .add-to-set-category-button:focus {
+.add-to-set-tag-button:hover, .add-to-set-tag-button:focus {
   background-color: #f1f1f4;
 }
 /* line 139, ../../bower_components/foundation/scss/foundation/components/_buttons.scss */
-.add-to-set-category-button:hover, .add-to-set-category-button:focus {
+.add-to-set-tag-button:hover, .add-to-set-tag-button:focus {
   color: #333333;
 }
 
@@ -22797,19 +22797,19 @@ body.modal-active #modal-bg {
 }
 
 /* line 49, ../../scss/modules/modals/_edit-post-modal.scss */
-.edit-post .post-categories {
+.edit-post .post-tags {
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   float: left;
 }
 /* line 51, ../../scss/modules/modals/_edit-post-modal.scss */
-.edit-post .post-categories .add-a-category a {
+.edit-post .post-tags .add-a-tag a {
   float: right;
   margin-top: 6px;
 }
 /* line 55, ../../scss/modules/modals/_edit-post-modal.scss */
-.edit-post .post-categories .fa-times-circle {
+.edit-post .post-tags .fa-times-circle {
   color: #1f1f1f;
   float: right;
   font-size: 16px;
@@ -23091,7 +23091,7 @@ body.modal-active #modal-bg {
 }
 
 /* line 43, ../../scss/modules/modals/_create-set-modal.scss */
-.create-set-categories {
+.create-set-tags {
   margin-bottom: 2em;
 }
 
