@@ -1,5 +1,5 @@
 /**
- * Ushahidi RequireJS initialisation and config
+ * Ushahidi RequireJS Config
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @copyright  2013 Ushahidi
@@ -165,26 +165,3 @@ require.config(
 		}
 	]
 });
-
-// Includes Desktop Specific JavaScript files here (or inside of your Desktop router)
-require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'ddt',
-		'settings/SettingsApp',
-		'messages/MessagesApp',
-		'sets/SetsApp'
-	],
-	function(App, AppRouter, Controller, $)
-	{
-		App.appRouter = new AppRouter(
-		{
-			controller : new Controller()
-		});
-
-		App.start();
-		window.App = App;
-		$(document).on('click.app', '.js-stub', function(e)
-		{
-			e.preventDefault();
-			var alertify = require('alertify');
-			alertify.log('This action has not been implemented yet.');
-		});
-	});

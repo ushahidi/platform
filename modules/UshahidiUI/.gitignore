@@ -1,7 +1,7 @@
 .bundle/*
 config.codekit
-media/js/app/config/Init.min.js
-media/js/app/config/Init.min.js.map
+media/js/app/Main.min.js
+media/js/app/Main.min.js.map
 media/js/libs/*.min.js
 media/bower_components/*
 media/css/*.map
