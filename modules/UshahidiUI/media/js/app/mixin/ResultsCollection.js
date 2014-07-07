@@ -11,19 +11,13 @@ define(['backbone'],
 	function()
 	{
 		// Customized response handling for parsing the Ushahidi API results.
-		// Has no real dependencies, but is meant to mixed with Backbone.PageableCollection.
+		// Has no real dependencies, but is meant to mixed with Backbone.Collection.
 
 		return {
 			// The Ushahidi API returns models under 'results'.
-			parseRecords: function(response)
+			parse: function(response)
 			{
 				return response.results;
 			},
-			parseState: function(response)
-			{
-				return {
-					totalRecords: response.total_count
-				};
-			}
 		};
 	});

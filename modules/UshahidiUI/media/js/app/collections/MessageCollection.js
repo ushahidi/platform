@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'backbone', 'models/MessageModel', 'modules/config', 'backbone.paginator', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
-	function(_, Backbone, MessageModel, config, PageableCollection, ResultsCollection, FilteredCollection)
+define(['underscore', 'backbone', 'models/MessageModel', 'modules/config', 'backbone.paginator', 'mixin/FilteredCollection'],
+	function(_, Backbone, MessageModel, config, PageableCollection, FilteredCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var MessageCollection = PageableCollection.extend(
@@ -47,7 +47,6 @@ define(['underscore', 'backbone', 'models/MessageModel', 'modules/config', 'back
 			},
 
 			// Mixins must always be added last!
-			ResultsCollection,
 			FilteredCollection
 		));
 

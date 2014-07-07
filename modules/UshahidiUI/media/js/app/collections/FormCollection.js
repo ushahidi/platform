@@ -26,12 +26,7 @@ define([
 			_.extend(
 			{
 				model : FormModel,
-				url: config.get('apiurl') +'/forms',
-				// The Ushahidi API returns models under 'results'.
-				parse: function(response)
-				{
-					return response.results;
-				}
+				url: config.get('apiurl') +'/forms'
 			},
 			// Mixins must always be added last!
 			ResultsCollection

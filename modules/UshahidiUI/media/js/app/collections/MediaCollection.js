@@ -7,21 +7,19 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'modules/config', 'models/MediaModel'],
-	function(Backbone, config, MediaModel)
+define(['backbone', 'underscore', 'modules/config', 'models/MediaModel', 'mixin/ResultsCollection'],
+	function(Backbone, _, config, MediaModel, ResultsCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var MediaCollection = Backbone.Collection.extend(
-		{
-			model : MediaModel,
-			url: config.get('apiurl') +'/media',
-
-			// The Ushahidi API returns models under 'results'.
-			parse: function(response)
+			_.extend(
 			{
-				return response.results;
-			}
-		});
+				model : MediaModel,
+				url: config.get('apiurl') +'/media',
+			},
+			// Mixins must always be added last!
+			ResultsCollection
+		));
 
 		return MediaCollection;
 	});

@@ -7,19 +7,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'models/DataProviderModel', 'modules/config'],
-	function(Backbone, DataProviderModel, config)
+define(['backbone', 'underscore', 'models/DataProviderModel', 'modules/config', 'mixin/ResultsCollection'],
+	function(Backbone, _, DataProviderModel, config, ResultsCollection)
 	{
 		var DataProviderCollection = Backbone.Collection.extend(
-		{
-			model : DataProviderModel,
-			url: config.get('apiurl') + '/dataproviders',
-			// The Ushahidi API returns models under 'results'.
-			parse: function(response)
+			_.extend(
 			{
-				return response.results;
-			}
-		});
+				model : DataProviderModel,
+				url: config.get('apiurl') + '/dataproviders'
+			},
+			// Mixins must always be added last!
+			ResultsCollection
+		));
 
 		return DataProviderCollection;
 	});

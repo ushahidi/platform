@@ -92,6 +92,18 @@ define(['underscore', 'backbone.paginator'],
 				}
 
 				return newFilterParams;
+			},
+
+			// The Ushahidi API returns models under 'results'.
+			parseRecords: function(response)
+			{
+				return response.results;
+			},
+			parseState: function(response)
+			{
+				return {
+					totalRecords: response.total_count
+				};
 			}
 		};
 	});

@@ -29,7 +29,6 @@ define(['backbone', 'underscore', 'models/SetModel', 'modules/config', 'backbone
 			},
 
 			// Mixins must always be added last!
-			ResultsCollection,
 			FilteredCollection
 		));
 

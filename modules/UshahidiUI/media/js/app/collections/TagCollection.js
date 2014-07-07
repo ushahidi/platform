@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone.paginator', 'mixin/ResultsCollection', 'mixin/FilteredCollection'],
-	function(Backbone, _, TagModel, config, PageableCollection, ResultsCollection, FilteredCollection)
+define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone.paginator', 'mixin/FilteredCollection'],
+	function(Backbone, _, TagModel, config, PageableCollection, FilteredCollection)
 	{
 		// Creates a new Backbone Collection class object
 		var TagCollection = PageableCollection.extend(
@@ -16,6 +16,7 @@ define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone
 			{
 				model : TagModel,
 				url: config.get('apiurl') +'/tags',
+				mode: 'client',
 
 				// Set state params for `Backbone.PageableCollection#state`
 				state: {
@@ -40,7 +41,6 @@ define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone
 			},
 
 			// Mixins must always be added last!
-			ResultsCollection,
 			FilteredCollection
 		));
 

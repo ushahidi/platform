@@ -112,7 +112,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 				App.Collections.Users = new UserCollection();
 
 				// Grab tag collection, use client-side paging and fetch all tags from server at once
-				App.Collections.Tags = new TagCollection([], { mode: 'client' });
+				App.Collections.Tags = new TagCollection([]);
 				App.Collections.Tags.fetch();
 
 				this.homeLayout = new HomeLayout({

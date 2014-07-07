@@ -7,20 +7,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'models/RoleModel', 'modules/config'],
-	function(Backbone, RoleModel, config)
+define(['backbone', 'underscore', 'models/RoleModel', 'modules/config', 'mixin/ResultsCollection'],
+	function(Backbone, _, RoleModel, config, ResultsCollection)
 	{
-		// Creates a new Backbone Collection class object
 		var RoleCollection = Backbone.Collection.extend(
-		{
-			model : RoleModel,
-			url: config.get('apiurl') +'/roles',
-			// The Ushahidi API returns models under 'results'.
-			parse: function(response)
+			_.extend(
 			{
-				return response.results;
-			}
-		});
+				model : RoleModel,
+				url: config.get('apiurl') +'/roles',
+			},
+			// Mixins must always be added last!
+			ResultsCollection
+		));
 
 		return RoleCollection;
 	});
