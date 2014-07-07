@@ -907,6 +907,7 @@ media:
     o_filename: "9ze_1381815819_o.jpg"
     o_width: 600
     o_height: 700
+    o_size: 1024
     created: 1381815821
     updated: 1381815819
   -
@@ -916,6 +917,7 @@ media:
     o_filename: "9ze_1381815819_o.jpg"
     o_width: 500
     o_height: 600
+    o_size: 1024
     created: 1381815821
     updated: 1381815819
   -
@@ -925,6 +927,7 @@ media:
     o_filename: "9ze_1381815819_o.jpg"
     o_width: 400
     o_height: 500
+    o_size: 1024
     created: 1381815821
     updated: 1381815819
 config:

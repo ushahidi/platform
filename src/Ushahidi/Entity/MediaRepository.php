@@ -13,7 +13,6 @@ namespace Ushahidi\Entity;
 
 interface MediaRepository
 {
-	public function add(Media $media);
 	public function get($id);
-	public function getAllForUser(User $user);
+	public function getAllForUser($user_id);
 }

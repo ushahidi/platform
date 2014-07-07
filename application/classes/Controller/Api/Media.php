@@ -167,85 +167,35 @@ class Controller_Api_Media extends Ushahidi_Api
 	 */
 	public function action_post_index_collection()
 	{
-		// Validation object for additional validation (not in model)
-		$max_file_size = Kohana::$config->load('media.max_file_upload_size');
-		$media_data = Validation::factory(array_merge($_FILES,$this->request->post()))
-			->rule('file', 'not_empty')
-			->rule('file','Upload::valid')
-			->rule('file','Upload::type', array(':value', array('gif','jpg','jpeg','png')))
-			->rule('file','Upload::size', array(':value', $max_file_size));
+		$format  = service('formatter.entity.media');
+		$parser  = service('parser.media.create');
+		$usecase = service('usecase.media.create');
+
+		// Does not use `request_payload`, as uploads are not sent via the API,
+		// but rather as a "normal" web request.
+		$request = array_merge($_FILES, $this->request->post());
+
+		if ($this->user)
+		{
+			// Inject the user id into the request for association.
+			$request['user_id'] = $this->user->id;
+		}
+
 		try
 		{
-			// Validate base post data
-			if ($media_data->check() === FALSE)
-			{
-				throw new Validation_Exception($media_data, 'Failed to validate media');
-			}
-
-			$upload_dir = Kohana::$config->load('media.media_upload_dir');
-
-			// Make media/uploads/ directory if it doesn't exist
-			if ( ! file_exists($upload_dir))
-			{
-				// Make directory recursively
-				mkdir($upload_dir, 0755, TRUE);
-			}
-
-			// Upload the file
-			$file = upload::save($media_data['file'], NULL, $upload_dir);
-
-			$filename = strtolower(Text::random('alnum', 3))."_".time();
-
-			// Save original size
-			$o_image = Image::factory($file);
-
-			$o_image->save($upload_dir.$filename."_o.jpg");
-
-			if (file_exists($file))
-			{
-				// Remove the temporary file
-				Unlink($file);
-			}
-
-			// Save details to the database
-			$media = $this->resource();
-
-			// Link media with user
-			$media->user_id = $this->user->id;
-
-			// Set original details
-			$media->o_width = $o_image->width;
-			$media->o_height = $o_image->height;
-			$media->o_filename = $filename."_o.jpg";
-
-			// Set mime type
-			$media->mime = $o_image->mime;
-
-			// Set caption if it is set
-			if (isset($media_data['caption']))
-			{
-				$media->caption = $media_data['caption'];
-			}
-
-			// Save details to the database
-			$media->save();
-
-			// Return the newly created media
-			$this->_response_payload = $media->for_api();
-			$this->_response_payload['allowed_methods'] = $this->_allowed_methods($media);
+			$input = $parser($request);
+			$media = $usecase->interact($input);
 		}
-		catch (ORM_Validation_Exception $e)
+		catch (Ushahidi\Exception\ValidatorException $e)
 		{
+			// Also handles ParserException
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models')))
-				));
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
 		}
-		catch (Validation_Exception $e)
-		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->array->errors('api/posts')))
-				));
-		}
+
+		$this->_response_payload = $format($media);
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**

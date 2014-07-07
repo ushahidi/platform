@@ -60,6 +60,19 @@ function feature($name) {
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
+$di->set('tool.uploader', $di->lazyNew('Ushahidi\Tool\Uploader'));
+$di->params['Ushahidi\Tool\Uploader'] = [
+	'fs' => $di->lazyGet('tool.filesystem'),
+	];
+
+$di->set('usecase.media.create', $di->lazyNew('Ushahidi\Usecase\Media\Create'));
+$di->params['Ushahidi\Usecase\Media\Create'] = [
+	'repo' => $di->lazyGet('repository.media'),
+	'valid' => $di->lazyGet('validator.media.create'),
+	// not sure if this goes in the use case or the parser...
+	// 'upload' => $di->lazyGet('tool.uploader'),
+	];
+
 $di->set('usecase.tag.create', $di->lazyNew('\Ushahidi\Usecase\Tag\Create'));
 $di->params['\Ushahidi\Usecase\Tag\Create'] = [
 	'repo' => $di->lazyGet('repository.tag'),

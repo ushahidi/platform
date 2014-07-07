@@ -28,6 +28,9 @@ abstract class Ushahidi_Core {
 			// todo: is there some way to use different configs here?
 			return Database::instance();
 		});
+		$di->set('kohana.media.dir', function() use ($di) {
+			return Kohana::$config->load('media.media_upload_dir');
+		});
 
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
@@ -76,9 +79,20 @@ abstract class Ushahidi_Core {
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator', $di->lazyNew('Ushahidi_Authenticator'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
+		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+
+		// Handle filesystem using local paths for now... lots of other options:
+		// https://github.com/thephpleague/flysystem/tree/master/src/Adapter
+		$di->params['Ushahidi_Filesystem'] = [
+			'adapter' => $di->lazyNew('League\Flysystem\Adapter\Local')
+			];
+		$di->params['League\Flysystem\Adapter\Local'] = [
+			'root' => $di->lazyGet('kohana.media.dir'),
+			];
 
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
+		$di->set('formatter.entity.media', $di->lazyNew('Ushahidi_Formatter_Media'));
 		$di->set('formatter.entity.tag', $di->lazyNew('Ushahidi_Formatter_Tag'));
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
@@ -91,6 +105,7 @@ abstract class Ushahidi_Core {
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
+		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
@@ -101,8 +116,12 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Repository'] = [
 			'db' => $di->lazyGet('kohana.db'),
 			];
+		$di->params['Ushahidi_Repository_Media'] = [
+			'upload' => $di->lazyGet('tool.uploader'),
+			];
 
 		// Parsers
+		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
 		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
 		$di->set('parser.tag.search', $di->lazyNew('Ushahidi_Parser_Tag_Search'));
 		$di->set('parser.tag.update', $di->lazyNew('Ushahidi_Parser_Tag_Update'));
@@ -115,6 +134,7 @@ abstract class Ushahidi_Core {
 			];
 
 		// Validators
+		$di->set('validator.media.create', $di->lazyNew('Ushahidi_Validator_Media_Create'));
 		$di->set('validator.tag.create', $di->lazyNew('Ushahidi_Validator_Tag_Create'));
 		$di->set('validator.tag.update', $di->lazyNew('Ushahidi_Validator_Tag_Update'));
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));

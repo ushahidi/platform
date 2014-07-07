@@ -21,9 +21,10 @@ class Media extends Entity
 	public $created;
 	public $updated;
 	public $mime;
-	public $filename;
-	public $width;
-	public $height;
+	public $o_filename;
+	public $o_size;
+	public $o_width;
+	public $o_height;
 
 	public function getResource()
 	{

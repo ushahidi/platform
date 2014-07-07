@@ -13,7 +13,7 @@ Feature: Testing the Media API
         And the "caption" property equals "ihub"
         And the response has a "mime" property
         And the type of the "mime" property is "string"
-        And the "mime" property equals "image/jpeg"
+        And the "mime" property equals "image/png"
         And the response has a "original_file_url" property
         And the type of the "original_file_url" property is "string"
         And the "original_file_url" property contains "media/kohana/uploads/"

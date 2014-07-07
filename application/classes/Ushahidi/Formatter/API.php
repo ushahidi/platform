@@ -42,19 +42,27 @@ class Ushahidi_Formatter_API implements Formatter
 
 		foreach ($fields as $field)
 		{
+			$name = $this->get_field_name($field);
 			$value = trim($entity->$field);
+
 			$method = 'format_' . $field;
 			if (method_exists($this, $method))
 			{
-				$data[$field] = $this->$method($value);
+				$data[$name] = $this->$method($value);
 			}
 			else
 			{
-				$data[$field] = $value;
+				$data[$name] = $value;
 			}
 		}
 
 		return $data;
+	}
+
+	protected function get_field_name($field)
+	{
+		// can be overloaded to remap specific fields to different public names
+		return $field;
 	}
 
 	protected function format_created($value)
