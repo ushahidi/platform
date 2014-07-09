@@ -38,7 +38,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// TagRepository
 	public function get($id)
 	{
-		return new Tag($this->selectOne(compact('id')));
+		return $this->getEntity($this->selectOne(compact('id')));
 	}
 
 	// TagRepository
