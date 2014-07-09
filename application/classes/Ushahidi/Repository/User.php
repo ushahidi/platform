@@ -24,6 +24,12 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		return 'users';
 	}
 
+	// Ushahidi_Repository
+	protected function getEntity(Array $data = null)
+	{
+		return new User($data);
+	}
+
 	// UserRepository
 	public function get($id)
 	{

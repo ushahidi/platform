@@ -25,6 +25,13 @@ abstract class Ushahidi_Repository
 	abstract protected function getTable();
 
 	/**
+	 * Get the entity for this repository.
+	 * @param  Array  $data
+	 * @return String
+	 */
+	abstract protected function getEntity(Array $data = null);
+
+	/**
 	 * Cleans input, removing empty values, and dropping unwanted keys.
 	 * @param  Array $input     hash of input
 	 * @param  Array $drop_keys list of keys to drop
@@ -135,6 +142,16 @@ abstract class Ushahidi_Repository
 
 		$count = $query->execute($this->db);
 		return $count;
+	}
+
+	protected function getCollection(Array $results)
+	{
+		$collection = [];
+		foreach ($results as $row) {
+			$entity = $this->getEntity($row);
+			$collection[$entity->id] = $entity;
+		}
+		return $collection;
 	}
 }
 

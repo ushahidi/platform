@@ -37,6 +37,12 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 		return 'media';
 	}
 
+	// Ushahidi_Repository
+	protected function getEntity(Array $data = null)
+	{
+		return new Media($data);
+	}
+
 	// MediaRepository
 	public function get($id)
 	{
@@ -48,16 +54,6 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	{
 		$results = $this->selectQuery(compact('user_id'))->execute($this->db);
 		return $this->getCollection($results->as_array());
-	}
-
-	private function getCollection(Array $results)
-	{
-		$collection = [];
-		foreach ($results as $row) {
-			$media = new Media($row);
-			$collection[$media->id] = $media;
-		}
-		return $collection;
 	}
 
 	// CreateMediaRepository
