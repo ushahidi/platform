@@ -27,7 +27,7 @@ abstract class Ushahidi_Repository
 	/**
 	 * Get the entity for this repository.
 	 * @param  Array  $data
-	 * @return String
+	 * @return Ushahidi\Entity
 	 */
 	abstract protected function getEntity(Array $data = null);
 
