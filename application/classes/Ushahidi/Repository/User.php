@@ -33,22 +33,19 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	// UserRepository
 	public function get($id)
 	{
-		$result = $this->selectOne(compact('id'));
-		return new User($result);
+		return $this->getEntity($this->selectOne(compact('id')));
 	}
 
 	// UserRepository
 	public function getByUsername($username)
 	{
-		$result = $this->selectOne(compact('username'));
-		return new User($result);
+		return $this->getEntity($this->selectOne(compact('username')));
 	}
 
 	// UserRepository
 	public function getByEmail($email)
 	{
-		$result = $this->selectOne(compact('email'));
-		return new User($result);
+		return $this->getEntity($this->selectOne(compact('email')));
 	}
 
 	// RegisterRepository

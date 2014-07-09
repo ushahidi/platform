@@ -46,7 +46,7 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	// MediaRepository
 	public function get($id)
 	{
-		return new Media($this->selectOne(compact('id')));
+		return $this->getEntity($this->selectOne(compact('id')));
 	}
 
 	// MediaRepository
