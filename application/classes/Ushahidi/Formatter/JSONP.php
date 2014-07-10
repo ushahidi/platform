@@ -59,8 +59,9 @@ class Ushahidi_Formatter_JSONP extends Ushahidi_Formatter_JSON implements Format
 		// Format input as JSON
 		$json = parent::__invoke($input);
 
-		// ... and wrap it in the callback.
-		return "{$this->callback}({$json})";
+		// ... and wrap it in the callback, prepending /**/ to help prevent
+		// content sniffing, see T455.
+		return "/**/{$this->callback}({$json})";
 	}
 
 	// OutputFormatter

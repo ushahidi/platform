@@ -368,6 +368,13 @@ class Ushahidi_Api extends Controller {
 			$body = $format($this->_response_payload);
 			$mime = $format->getMimeType();
 
+			if ($type === 'jsonp')
+			{
+				// Prevent Opera and Chrome from executing the response as anything
+				// other than JSONP, see T455.
+				$this->response->headers('X-Content-Type-Options', 'nosniff');
+			}
+
 			$this->response->headers('Content-Type', $mime);
 			$this->response->body($body);
 		}
