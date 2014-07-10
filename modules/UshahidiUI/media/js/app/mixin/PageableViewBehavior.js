@@ -95,6 +95,9 @@ define(['marionette', 'handlebars'], function (Marionette, Handlebars) {
 					modelName: this.options.modelName
 				})
 			);
+
+			// Update counter
+			this.view.$('li.active span.js-tab-number-label').text(this.view.collection.state.totalRecords);
 		},
 		updatePageSize : function (e)
 		{

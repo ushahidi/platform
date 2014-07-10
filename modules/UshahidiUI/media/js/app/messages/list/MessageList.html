@@ -57,13 +57,13 @@
 				<ul class="filter-tags-list  filter-tags-list--message  js-filter-tags-list  hide-for-small">
 					<li class="active  js-message-filter-box" data-box-name="">
 						<a href class="message-type">All
-							<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
+							<span class="all-count-number  hide-for-small"><span class="count-number js-tab-number-label">{{pagination.totalRecords}}</span></span>
 						</a>
 					</li>
 					{{#each boxTypes}}
 						<li class="js-message-filter-box" data-box-name="{{@key}}">
 							<a href class="message-type">{{this}}
-								<span class="{{@key}}-count-number  hide-for-small visually-hidden"><span class="count-number">0</span></span>
+								<span class="{{@key}}-count-number  hide-for-small visually-hidden"><span class="count-number js-tab-number-label">{{../pagination.totalRecords}}</span></span>
 							</a>
 						</li>
 					{{/each}}
@@ -76,7 +76,7 @@
 					{{#each boxTypes}}
 					<li class="dropdown-list__item js-message-filter-box" data-box-name="{{@key}}">
 						<a href class="message-type">{{this}}
-							<span class="{{@key}}-count-number  hide-for-small  visually-hidden"><span class="count-number">0</span></span>
+							<span class="{{@key}}-count-number  hide-for-small  visually-hidden"><span class="count-number js-tab-number-label">{{pagination.totalRecords}}</span></span>
 						</a>
 					</li>
 					{{/each}}
