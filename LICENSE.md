@@ -28,6 +28,7 @@ library is linked to its license below:
 * [Kohana-Imagefly](https://github.com/Bodom78/kohana-imagefly/blob/master/LICENSE)
 * [gisconverter.php](https://github.com/arenevier/gisconverter.php/blob/master/copying.txt)
 * [OAuth2-Server](https://github.com/thephpleague/oauth2-server/blob/develop/license.txt)
+* [Flysystem](https://github.com/thephpleague/flysystem/blob/master/LICENSE)
 * [Aura.DI](https://github.com/auraphp/Aura.Di/blob/develop-2/LICENSE)
 * [Swift Mailer](https://github.com/swiftmailer/swiftmailer/blob/master/LICENSE)
 * [KO3-Event](https://github.com/dkobia/KO3-Event/blob/master/README.md)
