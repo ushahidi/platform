@@ -63,84 +63,43 @@ class Controller_Api_Media extends Ushahidi_Api
 	 */
 	public function action_get_index_collection()
 	{
-		$results = array();
+		$repo   = service('repository.media');
+		$parser = service('parser.media.search');
+		$format = service('formatter.entity.media');
 
+		$input = $parser($this->request->query());
+
+		// this probably belongs in the parser, or should just return the
+		// order/limit params as an array for the search call
 		$this->_prepare_order_limit_params();
 
-		// Query media table
-		$media_query = ORM::factory('Media')
-				->order_by($this->_record_orderby, $this->_record_order)
-				->offset($this->_record_offset)
-				->limit($this->_record_limit);
+		$media = $repo->search($input, [
+			'orderby' => $this->_record_orderby,
+			'order' => $this->_record_order,
+			'offset' => $this->_record_offset,
+			'limit' => $this->_record_limit,
+			]);
+		$count = count($media);
 
-		$user = $this->request->query('user');
-		if (! empty($user))
-		{
-			$media_query->where('user_id', '=', $user);
-		}
-
-		$orphans = $this->request->query('orphans');
-		if (! empty($orphans))
-		{
-			$media_query
-				->join('posts_media', 'left')
-					->on('posts_media.media_id', '=', 'media.id')
-				->where('posts_media.post_id', 'is', NULL);
-
-			if (! $user) {
-				$media_query->where('user_id', '=', $this->user->id);
-			}
-		}
-
-		$media = $media_query->find_all();
-
-		$count = $media->count();
-
-		foreach ($media as $m)
+		$results = [];
+		foreach ($media as $file)
 		{
 			// Check if user is allowed to access this tag
-			if ($this->acl->is_allowed($this->user, $m, 'get') )
+			// todo: fix the ACL layer so that it can consume an Entity
+			if ($this->acl->is_allowed($this->user, $file->getResource(), 'get') )
 			{
-				$result = $m->for_api();
-				$result['allowed_methods'] = $this->_allowed_methods($m);
+				$result = $format($file);
+				$result['allowed_methods'] = $this->_allowed_methods($file->getResource());
 				$results[] = $result;
 			}
 		}
 
-		// Current/Next/Prev urls
-		$params = array(
-				'limit' => $this->_record_limit,
-				'offset' => $this->_record_offset,
-		);
-
-		// Only add order/orderby if they're already set
-		if ($this->request->query('orderby') OR $this->request->query('order'))
-		{
-			$params['orderby'] = $this->_record_orderby;
-			$params['order'] = $this->_record_order;
-		}
-
-		$prev_params = $next_params = $params;
-		$next_params['offset'] = $params['offset'] + $params['limit'];
-		$prev_params['offset'] = $params['offset'] - $params['limit'];
-		$prev_params['offset'] = ($prev_params['offset'] > 0) ? $prev_params['offset'] : 0;
-
-		$curr = URL::site($this->request->uri().URL::query($params), $this->request);
-		$next = URL::site($this->request->uri().URL::query($next_params), $this->request);
-		$prev = URL::site($this->request->uri().URL::query($prev_params), $this->request);
-
-		// Respond with media details
+		// Respond with posts
 		$this->_response_payload = array(
-				'count' => $count,
-				'results' => $results,
-				'limit' => $this->_record_limit,
-				'offset' => $this->_record_offset,
-				'order' => $this->_record_order,
-				'orderby' => $this->_record_orderby,
-				'curr' => $curr,
-				'next' => $next,
-				'prev' => $prev,
-		);
+			'count' => $count,
+			'results' => $results,
+			)
+			+ $this->_get_paging_parameters();
 	}
 
 	/**
@@ -152,9 +111,19 @@ class Controller_Api_Media extends Ushahidi_Api
 	 */
 	public function action_get_index()
 	{
-		$media = $this->resource();
+		$format  = service('formatter.entity.media');
+		$repo    = service('repository.media');
+		$mediaid = $this->request->param('id') ?: 0;
+		$media   = $repo->get($mediaid);
 
-		$this->_response_payload = $media->for_api();
+		if (!$media->id)
+		{
+			throw new HTTP_Exception_404('Media :id does not exist', array(
+				':id' => $mediaid,
+			));
+		}
+
+		$this->_response_payload = $format($media);
 		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 

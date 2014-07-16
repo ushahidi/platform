@@ -122,6 +122,7 @@ abstract class Ushahidi_Core {
 
 		// Parsers
 		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
+		$di->set('parser.media.search', $di->lazyNew('Ushahidi_Parser_Media_Search'));
 		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
 		$di->set('parser.tag.search', $di->lazyNew('Ushahidi_Parser_Tag_Search'));
 		$di->set('parser.tag.update', $di->lazyNew('Ushahidi_Parser_Tag_Update'));

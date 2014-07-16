@@ -11,6 +11,7 @@
 
 use Ushahidi\Entity\Media;
 use Ushahidi\Entity\MediaRepository;
+use Ushahidi\Entity\MediaSearchData;
 use Ushahidi\Usecase\Media\CreateMediaRepository;
 use Ushahidi\Tool\Uploader;
 use Ushahidi\Tool\UploadData;
@@ -50,9 +51,36 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	}
 
 	// MediaRepository
-	public function getAllForUser($user_id)
+	public function search(MediaSearchData $data, Array $params = null)
 	{
-		$results = $this->selectQuery(compact('user_id'))->execute($this->db);
+		$where = [];
+		if ($data->user) {
+			$where['user_id'] = $data->user;
+		}
+
+		// Start the query, removing empty values
+		$query = $this->selectQuery(array_filter($where));
+
+		if (!empty($params['orderby'])) {
+			$query->order_by($params['orderby'], Arr::get($params, 'order'));
+		}
+
+		if (!empty($params['offset'])) {
+			$query->offset($params['offset']);
+		}
+		if (!empty($params['limit'])) {
+			$query->limit($params['limit']);
+		}
+
+		if ($data->orphans) {
+			$query
+				->join('posts_media', 'left')
+					->on('posts_media.media_id', '=', 'media.id')
+				->where('posts_media.post_id', 'is', NULL);
+		}
+
+		$results = $query->execute($this->db);
+
 		return $this->getCollection($results->as_array());
 	}
 

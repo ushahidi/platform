@@ -13,6 +13,16 @@ namespace Ushahidi\Entity;
 
 interface MediaRepository
 {
+	/**
+	 * @param  Interger $id
+	 * @return Ushahidi\Entity\Media
+	 */
 	public function get($id);
-	public function getAllForUser($user_id);
+
+	/**
+	 * @param  Ushahidi\Entity\MediaSearchData $data
+	 * @param  Array $params [limit, offset, orderby, order]
+	 * @return [Ushahidi\Entity\Media, ...]
+	 */
+	public function search(MediaSearchData $data, Array $params = null);
 }
