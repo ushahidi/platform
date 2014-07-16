@@ -128,4 +128,4 @@ Feature: Testing OAuth2 endpoints
         When I request "/posts"
         Then the response is JSON
         And the response has an "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 401

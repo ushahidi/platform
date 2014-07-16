@@ -149,11 +149,11 @@ define(['backbone', 'jquery', 'underscore', 'alertify', 'ddt', 'util/App.storage
 				var token = user_token || anonymous_token,
 					error,
 					idx;
-				if (xhr.status === 400 && xhr.responseJSON && $.isArray(xhr.responseJSON.errors)) {
+				if (xhr.status === 401 && xhr.responseJSON && $.isArray(xhr.responseJSON.errors)) {
 					// Kohana returns HTTP exceptions as an array of errors
 					for (idx in xhr.responseJSON.errors) {
 						error = xhr.responseJSON.errors[idx];
-						if (error && error.message === ACCESS_TOKEN_INVALID) {
+						if (error && error.message.match(ACCESS_TOKEN_INVALID)) {
 							ddt.log('OAuth', 'Clearing invalid token', token);
 							if (!settings.is_a_retry) {
 								// Attempt to refresh the token and try the request again, while also
@@ -171,7 +171,7 @@ define(['backbone', 'jquery', 'underscore', 'alertify', 'ddt', 'util/App.storage
 			};
 		}
 
-		var ACCESS_TOKEN_INVALID = 'Access token is not valid',
+		var ACCESS_TOKEN_INVALID = /access token provided is expired, revoked, malformed, or invalid/,
 			anonymous_storage = new Storage('Ushahidi', 'anonymous_access_token'),
 			anonymous_token = anonymous_storage.get(),
 			user_token = getUserToken(),

@@ -198,16 +198,36 @@ class Ushahidi_Api extends Controller {
 		{
 			$server->isValid($require_header);
 		}
-		catch (League\OAuth2\Server\Exception\InvalidAccessTokenException $e)
+		catch (League\OAuth2\Server\Exception\OAuth2Exception $e)
 		{
-			throw HTTP_Exception::factory('400', $e->getMessage());
-		}
 
-		if ($this->_scope_required AND !$server->hasScope($this->_scope_required))
-		{
-			throw HTTP_Exception::factory('403', 'Token does not have required scope: :scope', array(
-				':scope' => $this->_scope_required,
-				));
+			// Auth server returns an indexed array of headers, along with the server
+			// status as a header, which must be converted to use with Kohana.
+			$raw_headers = $server::getExceptionHttpHeaders($server::getExceptionType($e->getCode()));
+
+			$status = 400;
+			$headers = array();
+			foreach ($raw_headers as $header)
+			{
+				if (preg_match('#^HTTP/1.1 (\d{3})#', $header, $matches))
+				{
+					$status = (int) $matches[1];
+				}
+				else
+				{
+					list($name, $value) = explode(': ', $header);
+					$headers[$name] = $value;
+				}
+			}
+
+			$exception = HTTP_Exception::factory($status, $e->getMessage());
+			if ($status === 401)
+			{
+				// Pass through additional WWW-Authenticate headers, but only for
+				// HTTP 401 Unauthorized responses!
+				$exception->headers($headers);
+			}
+			throw $exception;
 		}
 
 		$this->user = ORM::factory('User', $server->getOwnerId());
