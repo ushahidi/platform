@@ -166,6 +166,16 @@ Route::set('dataproviders-api', 'api/v2/dataproviders(/<id>)',
 	));
 
 /**
+ * Post stats API route
+ */
+Route::set('post-stats-api', 'api/v2/stats/posts')
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api/Stats',
+		'controller' => 'Posts',
+	));
+
+/**
  * Base Ushahidi API Route
  */
 Route::set('api', 'api/v2(/<controller>(/<id>))',
