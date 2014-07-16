@@ -271,6 +271,7 @@ module.exports = function(grunt) {
 		});
 	});
 
+	grunt.registerTask('test:js', ['jshint']);
 	grunt.registerTask('test', ['jshint', 'phpspec']);
 	grunt.registerTask('build:js', ['requirejs', 'uglify']);
 	grunt.registerTask('build:css', ['compass', 'cmq']);
