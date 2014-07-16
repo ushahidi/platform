@@ -17,7 +17,7 @@ before_install:
 install:
 - npm install -g grunt-cli
 - composer self-update
-- composer install --no-interaction --prefer-source
+- composer install --no-interaction
 - npm install
 before_script:
 - chmod 0777 application/cache application/logs
