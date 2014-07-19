@@ -14,14 +14,18 @@ use Ushahidi\Entity\TagRepository;
 use Ushahidi\Entity\TagSearchData;
 use Ushahidi\Usecase\Tag\CreateTagRepository;
 use Ushahidi\Usecase\Tag\UpdateTagRepository;
+use Ushahidi\Usecase\Tag\DeleteTagRepository;
 
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	TagRepository,
 	CreateTagRepository,
-	UpdateTagRepository
+	UpdateTagRepository,
+	DeleteTagRepository
 {
 	private $created_id;
 	private $created_ts;
+
+	private $deleted_tag;
 
 	// Ushahidi_Repository
 	protected function getTable()
@@ -121,5 +125,19 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 			$this->update(compact('id'), $update);
 		}
 		return $this->get($id);
+	}
+
+	// DeleteTagRepository
+	public function deleteTag($id)
+	{
+		$this->deleted_tag = $this->get($id);
+
+		return $this->delete(compact('id'));
+	}
+
+	// DeleteTagRepository
+	public function getDeletedTag()
+	{
+		return $this->deleted_tag;
 	}
 }

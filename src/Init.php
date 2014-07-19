@@ -86,6 +86,12 @@ $di->params['\Ushahidi\Usecase\Tag\Update'] = [
 	'valid' => $di->lazyGet('validator.tag.update'),
 	];
 
+$di->set('usecase.tag.delete', $di->lazyNew('\Ushahidi\Usecase\Tag\Delete'));
+$di->params['\Ushahidi\Usecase\Tag\Delete'] = [
+	'repo' => $di->lazyGet('repository.tag'),
+	'valid' => $di->lazyGet('validator.tag.delete'),
+	];
+
 $di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
 $di->params['\Ushahidi\Usecase\User\Register'] = [
 	'repo' => $di->lazyGet('repository.user'),

@@ -126,6 +126,7 @@ abstract class Ushahidi_Core {
 		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
 		$di->set('parser.tag.search', $di->lazyNew('Ushahidi_Parser_Tag_Search'));
 		$di->set('parser.tag.update', $di->lazyNew('Ushahidi_Parser_Tag_Update'));
+		$di->set('parser.tag.delete', $di->lazyNew('Ushahidi_Parser_Tag_Delete'));
 		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));
 		$di->set('parser.user.register', $di->lazyNew('Ushahidi_Parser_User_Register'));
 
@@ -138,6 +139,7 @@ abstract class Ushahidi_Core {
 		$di->set('validator.media.create', $di->lazyNew('Ushahidi_Validator_Media_Create'));
 		$di->set('validator.tag.create', $di->lazyNew('Ushahidi_Validator_Tag_Create'));
 		$di->set('validator.tag.update', $di->lazyNew('Ushahidi_Validator_Tag_Update'));
+		$di->set('validator.tag.delete', $di->lazyNew('Ushahidi_Validator_Tag_Delete'));
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
 

@@ -42,8 +42,6 @@ class Controller_Api_Tags extends Ushahidi_Api {
 
 		$this->_resource = 'tags';
 
-		$this->_resource = ORM::factory('Tag');
-
 		// Get post
 		if ($tag_id = $this->request->param('id', 0))
 		{
@@ -215,72 +213,31 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$tag = $this->resource();
-		$this->_response_payload = array();
-		if ( $tag->loaded() )
-		{
-			// Return the form we just deleted (provides some confirmation)
-			$this->_response_payload = $tag->for_api();
-			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
-			$tag->delete();
-		}
-	}
+		$format  = service('formatter.entity.tag');
+		$parser  = service('parser.tag.delete');
+		$usecase = service('usecase.tag.delete');
 
-	/**
-	 * Save tags
-	 *
-	 * @param Tag_Model $tag
-	 * @param array $post POST data
-	 */
-	protected function create_or_update_tag($tag, $post)
-	{
-		// Check
-		if (isset($post['parent']))
+		if (!$this->user OR !$this->user->id)
 		{
-			// If we have a parent array with url/id
-			if (is_array($post['parent']) AND isset($post['parent']['id']))
-			{
-				$post['parent_id'] = $post['parent']['id'];
-			}
-			// If parent is numeric, assume its an id
-			elseif (Valid::numeric($post['parent']))
-			{
-				$post['parent_id'] = $post['parent'];
-			}
-			else
-			{
-				// Try to find parent by slug
-				$parent = ORM::factory('Tag', array('slug' => $post['parent']));
-				if ($parent->loaded())
-				{
-					$post['parent_id'] = $parent->id;
-				}
-			}
+			throw new HTTP_Exception_401('Cannot delete tag anonymously, please login');
 		}
 
-		$tag->values($post, array(
-			'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'icon', 'description'
-			));
+		$request = ['id' => $this->request->param('id')];
 
-		// Validation - cycle through nested models
-		// and perform in-model validation before
-		// saving
 		try
 		{
-			// Validate base form data
-			$tag->check();
-
-			$tag->save();
-
-			// Response is the complete form
-			$this->_response_payload = $tag->for_api();
-			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+			$input = $parser($request);
+			$tag   = $usecase->interact($input);
 		}
-		catch (ORM_Validation_Exception $e)
+		catch (Ushahidi\Exception\ValidatorException $e)
 		{
+			// Also handles ParserException
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
+
+		$this->_response_payload = $format($tag);
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 }
