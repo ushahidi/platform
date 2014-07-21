@@ -6,6 +6,12 @@ define('DOCROOT', realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 // Initialize the Kohana application
 require __DIR__ . '/../application/kohana.php';
 
+if (!empty($_GET['install']) && is_file(__DIR__ . '/install.php'))
+{
+	require __DIR__ . '/install.php';
+	exit(1);
+}
+
 if (PHP_SAPI == 'cli') // Try and load minion
 {
 	class_exists('Minion_Task') OR die('Please enable the Minion module for CLI support.');
