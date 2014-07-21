@@ -1,5 +1,14 @@
 #!/bin/bash
 
+which php >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+	php -r 'exit((int) version_compare(PHP_VERSION, "5.4", "<"));' >/dev/null 2>&1
+	if [ $? -gt 0 ]; then
+		echo "!!! Ushahidi Platform requires PHP 5.4 or newer, please upgrade!"
+		exit 1
+	fi
+fi
+
 echo ">>> Pulling source code"
 git pull
 git submodule sync
