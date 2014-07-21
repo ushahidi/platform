@@ -51,7 +51,7 @@ abstract class Ushahidi_Repository
 	 * @param  Array $where hash of conditions
 	 * @return Array
 	 */
-	final protected function selectOne(Array $where = [])
+	protected function selectOne(Array $where = [])
 	{
 		$result = $this->selectQuery($where)
 			->limit(1)
@@ -77,7 +77,7 @@ abstract class Ushahidi_Repository
 	 * @param  Array $where optional hash of conditions
 	 * @return Database_Query_Builder_Select
 	 */
-	final protected function selectQuery(Array $where = [])
+	protected function selectQuery(Array $where = [])
 	{
 		$query = DB::select()->from($this->getTable());
 		foreach ($where as $column => $value)
