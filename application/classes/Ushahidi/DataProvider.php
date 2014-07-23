@@ -71,6 +71,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 					'title' => $title,
 					'data_provider_message_id' => $data_provider_message_id,
 					'contact_id' => $contact->id,
+					'data_provider' => $this->provider_name(),
 					'status' => Message_Status::RECEIVED,
 					'direction' => Message_Direction::INCOMING,
 					'type' => $type

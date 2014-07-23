@@ -120,7 +120,9 @@ define(['marionette', 'underscore',
 			toggleReply : function(e)
 			{
 				e.preventDefault();
-				this.$(e.currentTarget).closest('.card-actions-wrapper').nextAll('.js-card-panel-reply').slideToggle(200);
+				this.$(e.currentTarget).closest('.message-card-actions-wrapper')
+					.nextAll('.js-message-card-panel-reply')
+					.slideToggle(200);
 			},
 			toggleMessageActivity : function(e)
 			{
@@ -136,13 +138,13 @@ define(['marionette', 'underscore',
 				var target = this.$(e.currentTarget).closest('.card__excerpt-wrapper');
 
 				if (target.hasClass('show')) {
-					target.find('.elipsis').hide();
-					target.find('.rest-of-message').delay(100).fadeIn(200);
+					target.find('.js-elipsis').hide();
+					target.find('.js-rest-of-message').delay(100).fadeIn(200);
 					target.parent('.card').prevAll('.js-card-panel-map').slideToggle(200);
 				}
 				else {
-					target.find('.elipsis').delay(300).show(0); //.show(0) is required for delay to work
-					target.find('.rest-of-message').fadeOut(200);
+					target.find('.js-elipsis').delay(300).show(0); //.show(0) is required for delay to work
+					target.find('.js-rest-of-message').fadeOut(200);
 					target.parent('.card').prevAll('.js-card-panel-map').slideToggle(200);
 				}
 			},
@@ -157,7 +159,7 @@ define(['marionette', 'underscore',
 				e.preventDefault();
 
 				this.$(e.currentTarget);
-				this.$('.textarea').val('Greensboro, NC');
+				this.$('.textarea').val('Thank you for the message. What is the closest town or city for your last message?');
 			},
 			autofillMoreInfo : function(e)
 			{

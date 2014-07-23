@@ -9,10 +9,12 @@
 
 define(['App', 'marionette', 'alertify', 'underscore',
 		'models/PostModel',
+		'models/MessageModel',
 		'hbs!messages/list/MessageListItem'
 	],
 	function(App, Marionette, alertify, _,
 		PostModel,
+		MessageModel,
 		template
 	)
 	{
@@ -28,7 +30,8 @@ define(['App', 'marionette', 'alertify', 'underscore',
 				'click .js-message-archive': 'archiveMessage',
 				'click .js-message-unarchive': 'unarchiveMessage',
 				'click .js-message-create-post' : 'createPost',
-				'click .js-message-view-post' : 'viewPost'
+				'click .js-message-view-post' : 'viewPost',
+				'submit .js-message-post-reply-form' : 'replyMessage'
 			},
 
 			modelEvents: {
@@ -95,6 +98,74 @@ define(['App', 'marionette', 'alertify', 'underscore',
 						window.location.hash = hash;
 					}
 				});
+			},
+
+			replyMessage : function(e)
+			{
+				e.preventDefault();
+
+				var that = this,
+					message = that.$('.textarea').val(),
+					outgoing = new MessageModel({
+						message: message,
+						parent_id : this.model.get('id'),
+						status : 'pending',
+						type : this.model.get('type'),
+						direction : 'outgoing',
+						data_provider : this.model.get('contact').data_provider,
+						contact_id : this.model.get('contact').id
+					});
+
+				//Disable fields upon saving
+				this.disableFields(that);
+
+				outgoing.save()
+					.done(function()
+					{
+						// Clear content of the textarea
+						that.$('.textarea').val('');
+
+						// Enable fields
+						that.enableFields(that);
+
+						alertify.success('Your message is queued to be sent.');
+					})
+					.fail(function()
+					{
+						// Enable fields
+						that.enableFields(that);
+						alertify.error('Unable to send message. Make sure you have entered a messages for the response. Please try again.');
+					});
+			},
+
+			enableFields : function(that)
+			{
+				// Enable textarea
+				that.$('.js-response-textarea').removeAttr('disabled');
+
+				// Enable autofill location info button
+				that.$('.js-location-autofill').removeAttr('disabled');
+
+				// Enable autofill more info button
+				that.$('.js-more-info-autofill').removeAttr('disabled');
+
+				// Enable send button
+				that.$('.js-message-post-reply').removeAttr('disabled');
+			},
+
+			disableFields : function(that)
+			{
+				// Disable textarea
+				that.$('.js-response-textarea').attr('disabled', 'disabled');
+
+				// Disable autofill location info button
+				that.$('.js-location-autofill').attr('disabled', 'disabled');
+
+				// Disable autofill more info button
+				that.$('.js-more-info-autofill').attr('disabled', 'disabled');
+
+				// Disable send button
+				that.$('.js-message-post-reply').attr('disabled', 'disabled');
 			},
 
 			serializeData: function()

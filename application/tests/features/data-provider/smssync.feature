@@ -46,21 +46,5 @@ Feature: Testing the SMSSync Data Provider
         And the response has a "payload.success" property
         And the response has a "payload.error" property
         And the "payload.success" property is false
-        And the "payload.error" property equals "Missing message"
-        Then the guzzle status code should be 403
-    Scenario: Submit a message to smssync controller with no message
-        Given that I want to make a new "Message"
-        And that the request "data" is:
-            """
-            secret=1234&from=123456789&sent_to=123
-            """
-        And that the request "Content-type" header is "application/x-www-form-urlencoded"
-        And that the api_url is ""
-        Then I request "smssync"
-        Then the response is JSON
-        And the response has a "payload" property
-        And the response has a "payload.success" property
-        And the response has a "payload.error" property
-        And the "payload.success" property is false
-        And the "payload.error" property equals "Missing message"
+        And the "payload.error" property equals "Empty message from SMSSync"
         Then the guzzle status code should be 403

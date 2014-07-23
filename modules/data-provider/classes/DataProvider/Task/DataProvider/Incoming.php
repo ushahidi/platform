@@ -29,7 +29,7 @@ abstract class DataProvider_Task_DataProvider_Incoming extends Minion_Task
 		}
 		else
 		{
-			$providers = DataProvider::get_available_providers();
+			$providers = DataProvider::get_enabled_providers();
 		}
 
 		foreach ($providers as $provider_name)

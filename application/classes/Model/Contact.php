@@ -67,7 +67,7 @@ class Model_Contact extends ORM implements Acl_Resource_Interface {
 				array(array($this, 'fk_exists'), array('User', ':field', ':value'))
 			),
 			'data_provider' => array(
-				array('in_array', array(':value', DataProvider::get_available_providers()) ),
+				array('array_key_exists', array(':value', DataProvider::get_providers()) ),
 			),
 			'type' => array(
 				array('not_empty'),
