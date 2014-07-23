@@ -9,11 +9,13 @@
 
 define(['marionette', 'underscore',
 		'messages/list/MessageListItemView',
+		'views/EmptyView',
 		'hbs!messages/list/MessageList',
 		'mixin/PageableViewBehavior'
 	],
 	function( Marionette, _,
 		MessageListItemView,
+		EmptyView,
 		template,
 		PageableViewBehavior
 	)
@@ -24,7 +26,13 @@ define(['marionette', 'underscore',
 			modelName: 'messages',
 
 			itemView: MessageListItemView,
-			itemViewOptions: {},
+
+			itemViewOptions:
+			{
+				emptyMessage: 'No messages.'
+			},
+
+			emptyView: EmptyView,
 
 			itemViewContainer: '.list-view-message-list',
 
