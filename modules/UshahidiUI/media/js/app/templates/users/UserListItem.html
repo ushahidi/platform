@@ -50,21 +50,21 @@
 							</label>
 						</li>
 						<li>
-							<a href="#" class="list-view-edit-button  js-user-edit" title="edit this post"><i class="fa  fa-edit"></i> edit</a>
+							<a class="list-view-edit-button  js-user-edit" title="edit this post"><i class="fa  fa-edit"></i> edit</a>
 						</li>
 						<li>
-							<a href="#" data-dropdown="drop-user-roles{{id}}" class="list-view-edit-button" title="change user role">
+							<a data-dropdown="drop-user-roles{{id}}" class="list-view-edit-button" title="change user role">
 								<i class="fa  fa-cogs"></i> change role</a>
 							<ul id="drop-user-roles{{id}}" class="f-dropdown" data-dropdown-content>
 								{{#each roles}}
-									<li><a href="#" class="js-user-change-role" data-role-name="{{name}}" >{{display_name}}</a></li>
+									<li><a class="js-user-change-role" data-role-name="{{name}}" >{{display_name}}</a></li>
 								{{/each}}
 							</ul>
 						</li>
 					{{/if}}
 
 					{{#if allowed_methods.delete}}
-						<li><a href="#" class="list-view-edit-button js-user-delete" title="delete this user"><i class="fa  fa-trash-o"></i> delete</a></li>
+						<li><a class="list-view-edit-button js-user-delete" title="delete this user"><i class="fa  fa-trash-o"></i> delete</a></li>
 					{{/if}}
 				</ul> <!-- end .list-view-post-edit -->
 			</div> <!-- end .list-view-post-edit-wrapper-->

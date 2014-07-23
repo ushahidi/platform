@@ -28,11 +28,15 @@ abstract class Ushahidi_Controller_Main extends Controller_Template {
 			'oauth'    => Kohana::$config->load('ushahidiui.oauth'),
 
 			// these are set dynamically
+			// 'baseurl' is used for oauth2 redirecturi so must be an absolute URL including domain
 			'baseurl'  => URL::base(TRUE, TRUE),
-			'apiurl'   => URL::base(TRUE, TRUE) . 'api/v2',
-			'imagedir' => Media::uri('/images/'),
-			'cssdir'   => Media::uri('/css/'),
-			'jsdir'    => Media::uri('/js/'),
+			// 'basepath' is used for Backbone.History root so shouldn't include domain, just path and index.php
+			'basepath'  => URL::base(FALSE, TRUE),
+			// Other urls are expected to include the baseurl too
+			'apiurl'   => URL::base(FALSE, TRUE) . 'api/v2',
+			'imagedir' => Media::url('/images/'),
+			'cssdir'   => Media::url('/css/'),
+			'jsdir'    => Media::url('/js/'),
 		);
 	}
 

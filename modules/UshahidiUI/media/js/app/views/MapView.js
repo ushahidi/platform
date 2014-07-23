@@ -26,7 +26,7 @@ define(['marionette', 'underscore', 'App', 'jquery',
 		)
 	{
 		// Hack to fix default image url
-		L.Icon.Default.imagePath = config.get('baseurl') + 'media/kohana/images';
+		L.Icon.Default.imagePath = config.get('imagedir');
 
 		return Marionette.ItemView.extend(
 		{

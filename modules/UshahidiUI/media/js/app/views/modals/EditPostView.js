@@ -122,7 +122,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 				var $el = this.$(e.currentTarget);
 				// Add active class to fieldset
 				this.$('fieldset').removeClass('active');
-				this.$($el.attr('href')).addClass('active');
+				this.$('#fieldset-' + $el.data('fieldset')).addClass('active');
 				// Add active class to nav
 				this.$('.form-options-nav dd').removeClass('active');
 				$el.parent().addClass('active');

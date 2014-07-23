@@ -8,7 +8,7 @@
 
 		<div class="list-view-details--post">
 			<div class="row">
-				<h4 class="list-view-header">{{!--<i class="fa  fa-lock"></i> --}}<a href="#posts/{{id}}">{{ title }}</a></h4>
+				<h4 class="list-view-header">{{!--<i class="fa  fa-lock"></i> --}}<a href="{{#url}}posts/{{id}}{{/url}}">{{ title }}</a></h4>
 				<div class="list-view-time">
 					<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 				</div> <!-- end .list-view-time -->
@@ -16,7 +16,7 @@
 		</div> <!-- end .list-view-details -->
 
 		<div class="list-view-excerpt">
-			<p>{{ prune content 100 }} <a href="#posts/{{id}}"><span class="read-more"> &nbsp;Read&nbsp;More</span></a></p>
+			<p>{{ prune content 100 }} <a href="{{#url}}posts/{{id}}{{/url}}"><span class="read-more"> &nbsp;Read&nbsp;More</span></a></p>
 		</div> <!-- end .list-view-excerpt -->
 
 		<div class="list-view-admin">
@@ -37,23 +37,23 @@
 			<div class="list-view-edit-wrapper">
 				<ul class="list-view-edit">
 					{{#if allowed_methods.put}}
-						<li><a href="#" class="list-view-edit-button  post-edit  js-post-edit"> <i class="fa  fa-check-square-o"></i> <span class="hide-for-medium-down">select</span></a></li>
+						<li><a class="list-view-edit-button  post-edit  js-post-edit"> <i class="fa  fa-check-square-o"></i> <span class="hide-for-medium-down">select</span></a></li>
 					{{/if}}
 					{{#if allowed_methods.put}}
-						<li><a href="#" class="list-view-edit-button  post-edit  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+						<li><a class="list-view-edit-button  post-edit  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
 					{{/if}}
-						{{!--<li><a href="#" class="list-view-edit-button  post-add-to-set  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>--}}
+						{{!--<li><a class="list-view-edit-button  post-add-to-set  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>--}}
 					{{#if allowed_methods.put}}
 					<li>
 						{{#if isPublished}}
-							<a href="#" class="list-view-edit-button  post-unpublish  js-post-unpublish"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
+							<a class="list-view-edit-button  post-unpublish  js-post-unpublish"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">unpublish</span></a>
 						{{else}}
-							<a href="#" class="list-view-edit-button  post-publish  js-post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
+							<a class="list-view-edit-button  post-publish  js-post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
 						{{/if}}
 					</li>
 					{{/if}}
 					{{#if allowed_methods.delete}}
-						<li><a href="#" class="list-view-edit-button  post-delete  js-post-delete"> <i class="fa  fa-trash-o"></i></a></li>
+						<li><a class="list-view-edit-button  post-delete  js-post-delete"> <i class="fa  fa-trash-o"></i></a></li>
 					{{/if}}
 				</ul> <!-- end .list-view-edit -->
 			</div> <!-- end .list-view-edit-wrapper -->

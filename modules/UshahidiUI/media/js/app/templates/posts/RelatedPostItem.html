@@ -10,13 +10,13 @@
 			<div class="related-post-details">
 				<div class="row">
 							<!-- NOTE: this title will break layout if more than -->
-					<h6 class="related-post-title"><a href="#posts/{{id}}">{{title}}</a></h6>
+					<h6 class="related-post-title"><a href="{{#url}}posts/{{id}}{{/url}}">{{title}}</a></h6>
 					<div class="related-post-time">
 						<small> <i class="fa  fa-clock-o"></i>{{ datetime-fromNow created }}</small>
 					</div> <!-- end .list-view-post-time -->
 				</div> <!-- end .row -->
 			</div> <!-- end .list-view-post-details -->
-		
+
 			<div class="related-post-excerpt">
-				<p>{{ prune content 100 }} <a href="#posts/{{id}}"><span class="read-more">&nbsp;Read&nbsp;More</span></a></p>
+				<p>{{ prune content 100 }} <a href="{{#url}}posts/{{id}}{{/url}}"><span class="read-more">&nbsp;Read&nbsp;More</span></a></p>
 			</div> <!-- end .list-view-post-excerpt -->

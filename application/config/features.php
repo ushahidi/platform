@@ -22,4 +22,6 @@ return array(
 	'post_export' => FALSE,
 	// T136: custom forms
 	'form_wizard' => FALSE,
+	// Push state support
+	'pushstate' => TRUE,
 );

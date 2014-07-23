@@ -25,7 +25,7 @@
 							<div class="post-author">
 								<p><i class="fa  fa-user"></i><strong class="" >
 								{{#if user}}
-								<a href="#users/{{user.id}}">
+								<a href="{{#url}}users/{{user.id}}{{/url}}">
 									{{#if user.realname}}
 										{{user.realname}}
 									{{else}}
@@ -61,7 +61,7 @@
 					<ul class="form-options-nav">
 						{{#each fieldsets}}
 							<li class="{{#if active}}active{{/if}}">
-								<a class="js-switch-fieldset" href="#fieldset-{{name}}" title="{{name}}">{{legend}}</a>
+								<a class="js-switch-fieldset" data-fieldset="{{name}}" title="{{name}}">{{legend}}</a>
 							</li>
 						{{/each}}
 					</ul>
@@ -79,13 +79,13 @@
 						<h6>Post History</h6>
 						<ul class="post-history-list">
 
-							<li class="post-history-list-item">edited by <span class="post-history-name"><a href="#">{User Name}</a></span></li>
+							<li class="post-history-list-item">edited by <span class="post-history-name"><a>{User Name}</a></span></li>
 							<div class="post-history-time"><span><i class="fa  fa-clock-o"></i> 3 hours ago</span></div>
 
-							<li class="post-history-list-item">published by <span class="post-history-name"><a href="#">{Admin Display Title}</a></span></li>
+							<li class="post-history-list-item">published by <span class="post-history-name"><a>{Admin Display Title}</a></span></li>
 							<div class="post-history-time"><span><i class="fa  fa-clock-o"></i> 6 hours ago</span></div>
 
-							<li class="post-history-list-item">created by <span class="post-history-name"><a href="#">{Anonymous}</a></span></li>
+							<li class="post-history-list-item">created by <span class="post-history-name"><a>{Anonymous}</a></span></li>
 							<div class="post-history-time"><span><i class="fa  fa-clock-o"></i> 14 hours ago</span></div>
 
 						</ul>

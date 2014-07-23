@@ -14,25 +14,25 @@
 				{{!--
 				<ul class="tab-nav-list  tab-nav-list--message-config  js-tab-nav-list">
 					<li class="active  tab-nav-list__list-item  js-message-config-tab" data-role-name="">
-						<a href="#settings/data-providers">
+						<a href="{{#url}}settings/data-providers{{/url}}">
 							<span class="data-provider-type">All</span>
 						</a>
 					</li>
 
 					{{#each items}}
 					<li class="tab-nav-list__list-item  js-message-config-tab" data-role-name="">
-						<a href="#settings/data-providers/{{id}}">
+						<a href="{{#url}}settings/data-providers/{{id}}{{/url}}">
 							<span class="data-provider-type">{{#if icon}}<i class="fa  fa-{{icon}}"></i> {{/if}}<span class="hide-for-medium-down">{{name}}</span></span>
 						</a>
 					</li>
 					{{/each}}
 
 					<li class="tab-nav-list__list-item  js-message-config-tab" data-role-name="">
-						<a href="#" data-dropdown="more-providers">+4</a>
+						<a data-dropdown="more-providers">+4</a>
 						<ul id="more-providers" class="f-dropdown" data-dropdown-content>
-							<li><a href="#">Source Name</a></li>
-							<li><a href="#">Another Source Name</a></li>
-							<li><a href="#">Last Source Name</a></li>
+							<li><a>Source Name</a></li>
+							<li><a>Another Source Name</a></li>
+							<li><a>Last Source Name</a></li>
 						</ul>
 					</li>
 				</ul>

@@ -45,9 +45,19 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 
 		App.on('initialize:after', function(/*options*/)
 		{
+			var config = require('modules/config');
+
+			if (App.feature('pushstate'))
+			{
+				require(['util/App.pushState'], function(pushStateInit) { pushStateInit(); });
+			}
+
 			if (Backbone.history)
 			{
-				Backbone.history.start();
+				Backbone.history.start({
+					pushState : App.feature('pushstate'),
+					root : config.get('basepath')
+				});
 			}
 
 			// Init foundation

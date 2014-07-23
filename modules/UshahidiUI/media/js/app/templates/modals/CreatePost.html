@@ -12,7 +12,7 @@
 				<dt>Options:</dt>
 				{{#each fieldsets}}
 					<dd class="{{#if active}}active{{/if}}">
-						<a class="js-switch-fieldset" href="#fieldset-{{name}}" title="{{name}}">{{legend}}</a>
+						<a class="js-switch-fieldset" data-fieldset="{{name}}" title="{{name}}">{{legend}}</a>
 					</dd>
 				{{/each}}
 			</dl>

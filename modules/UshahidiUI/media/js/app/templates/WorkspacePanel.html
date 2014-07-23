@@ -7,7 +7,7 @@
 	</div>
 	<div class="workspace-admin">
 		<h5 id="username" class="username">
-		<a href="#users/{{user.id}}">
+		<a href="{{#url}}users/{{user.id}}{{/url}}">
 		{{#if user.realname}}
 			{{user.realname}}
 		{{else}}
@@ -17,8 +17,8 @@
 		<p id="workspace-role" class="workspace-role" >{{ user.role }}</p>
 
 		<ul class="inline-list">
-			<li><a href="#" id="edit-profile" class="edit-profile js-edit-profile">Edit Profile</a></li>
-			<li><a href="user/logout" id="logout" class="logout  js-logout" >Logout</a></li>
+			<li><a id="edit-profile" class="edit-profile js-edit-profile">Edit Profile</a></li>
+			<li><a href="{{#url}}user/logout{{/url}}" id="logout" class="logout  js-logout" >Logout</a></li>
 		</ul>
 	</div>
 </div>
@@ -41,58 +41,58 @@
 
 <dl class="workspace-menu  accordion">
 	<dd>
-		<a href="#panel1" id="workspace-menu-posts" class="active  title  js-title" data-section-title><i class="fa  fa-files-o"></i> Posts</a>
+		<a id="workspace-menu-posts" class="active  title  js-title" data-section-title><i class="fa  fa-files-o"></i> Posts</a>
 		<div id="panel1" class="active  content  js-content">
 			<ul>
 			<!-- TODO: this needs to be locked to moderators -->
 				{{!-- TODO: Do something with awaiting review workspace --}}
 				{{!--<li id="workspace-menu-awaiting-review">
-					<a href="#workspace/review"><p><i class="fa  fa-star-o"></i> Awaiting Review <span class="awaiting-review-label">{{ posts.pending }}</span></p></a>
+					<a href="{{#url}}#workspace?status=pending{{/url}}"><p><i class="fa  fa-star-o"></i> Awaiting Review <span class="awaiting-review-label">{{ posts.pending }}</span></p></a>
 				</li>--}}
 
 				<li id="workspace-menu-published" data-page="posts">
-					<a href="#posts"><p><i class="fa  fa-file-o"></i> Published <span class="published-label">{{ posts.published }}</span></p></a>
+					<a href="{{#url}}posts{{/url}}"><p><i class="fa  fa-file-o"></i> Published <span class="published-label">{{ posts.published }}</span></p></a>
 				</li>
 
 				{{!-- TODO: highlight current menu item --}}
 				<li id="workspace-menu-unpublished" data-page="posts/unpublished">
-					<a href="#posts?status=draft"><p><i class="fa  fa-file"></i> Unpublished <span class="unpublished-label">{{ posts.draft }}</span></p></a>
+					<a href="{{#url}}posts?status=draft{{/url}}"><p><i class="fa  fa-file"></i> Unpublished <span class="unpublished-label">{{ posts.unpublished }}</span></p></a>
 				</li>
 
 				<li id="workspace-menu-all-posts" data-page="posts/all">
-					<a href="#posts?status=all"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ posts.all }}</span></p></a>
+					<a href="{{#url}}posts?status=all{{/url}}"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ posts.total }}</span></p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->
 	</dd>
 
 	<dd>
-		<a href="#panel2" id="workspace-menu-incoming-messages" class="active  title  js-title" data-section-title><i class="fa  fa-inbox"></i> Incoming Messages</a>
+		<a id="workspace-menu-incoming-messages" class="active  title  js-title" data-section-title><i class="fa  fa-inbox"></i> Incoming Messages</a>
 			{{#if messages}}
 		<div id="panel2" class="active  content  js-content">
 			<ul>
 			<li id="workspace-menu-messages-unread" data-page="messages">
-				<a href="#messages"><p><i class="fa  fa-file-o"></i> New <span class="messages-unread-label">{{ messages.received }}</span></p></a>
+				<a href="{{#url}}messages{{/url}}"><p><i class="fa  fa-file-o"></i> New <span class="messages-unread-label">{{ messages.received }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-sms" data-page="messages/sms">
-				<a href="#messages/list/sms"><p><i class="fa  fa-phone"></i> SMS <span class="messages-sms-label">{{ messages.sms }}</span></p></a>
+				<a href="{{#url}}messages/list/sms{{/url}}"><p><i class="fa  fa-phone"></i> SMS <span class="messages-sms-label">{{ messages.sms }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-email" data-page="messages/email">
-				<a href="#messages/list/email"><p><i class="fa  fa-envelope-o"></i> Email <span class="messages-email-label">{{ messages.email }}</span></p></a>
+				<a href="{{#url}}messages/list/email{{/url}}"><p><i class="fa  fa-envelope-o"></i> Email <span class="messages-email-label">{{ messages.email }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-archived" data-page="messages/archived">
-				<a href="#messages/list/archived"><p><i class="fa  fa-file"></i> Archived <span class="messages-archived-label">{{ messages.archived }}</span></p></a>
+				<a href="{{#url}}messages/list/archived{{/url}}"><p><i class="fa  fa-file"></i> Archived <span class="messages-archived-label">{{ messages.archived }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-all" data-page="messages/all">
-				<a href="#messages/list/all"><p><i class="fa  fa-files-o"></i> All Messages <span class="messages-all-label">{{ messages.all }}</span></p></a>
+				<a href="{{#url}}messages/list/all{{/url}}"><p><i class="fa  fa-files-o"></i> All Messages <span class="messages-all-label">{{ messages.all }}</span></p></a>
 			</li>
 		{{#feature 'data_provider_config'}}
 			<li id="workspace-menu-messages-settings" data-page="messages/settings">
-				<a href="#messages/settings"><p><i class="fa  fa-gear"></i> Messages Configurations</p></a>
+				<a href="{{#url}}messages/settings{{/url}}"><p><i class="fa  fa-gear"></i> Messages Configurations</p></a>
 			<li>
 		{{/feature}}
 			</ul>
@@ -101,93 +101,93 @@
 	</dd>
 
 	<!-- <dd>
-		<a href="#panel3" id="workspace-menu-tasks" class="active  title  js-title" data-section-title><i class="fa  fa-tasks"></i> Tasks</a>
+		<a href="{{#url}}panel3{{/url}}" id="workspace-menu-tasks" class="active  title  js-title" data-section-title><i class="fa  fa-tasks"></i> Tasks</a>
 		<div id="panel3" class="content  js-content">
 			<ul>
 				<li id="workspace-menu-my-tasks">
-					<a href="#"><p><i class="fa  fa-pencil"></i> My Tasks <span class="my-tasks-label">75</span></p></a>
+					<a><p><i class="fa  fa-pencil"></i> My Tasks <span class="my-tasks-label">75</span></p></a>
 				</li>
 
 				<li id="workspace-menu-todo">
-					<a href="#"><p><i class="fa  fa-square-o"></i> To Do <span class="todo-label">39</span></p></a>
+					<a><p><i class="fa  fa-square-o"></i> To Do <span class="todo-label">39</span></p></a>
 				</li>
 
 				<li id="workspace-menu-completed">
-					<a href="#"><p><i class="fa  fa-check-square-o"></i> Completed <span class="completed-label">36</span></p></a>
+					<a><p><i class="fa  fa-check-square-o"></i> Completed <span class="completed-label">36</span></p></a>
 				</li>
 			</ul>
 		</div>
 	</dd> -->
 
 	<dd>
-		<a href="#panel4" id="workspace-menu-tools" class="active  title  js-title" data-section-title><i class="fa  fa-cogs"></i> Tools</a>
+		<a id="workspace-menu-tools" class="active  title  js-title" data-section-title><i class="fa  fa-cogs"></i> Tools</a>
 		<div id="panel4" class="active  content  js-content">
 			<ul>
 				<li id="workspace-menu-users" data-page="users">
-					<a href="#users"><p><i class="fa fa-group"></i> Manage Users</p></a>
+					<a href="{{#url}}settings/users{{/url}}"><p><i class="fa fa-group"></i> Manage Users</p></a>
 				</li>
 				<li id="workspace-menu-tags" data-page="tags">
-					<a href="#tags"><p><i class="fa fa-tags"></i> Manage Tags</p></a>
+					<a href="{{#url}}settings/tags{{/url}}"><p><i class="fa fa-tags"></i> Manage Tags</p></a>
 				</li>
 
 				{{# feature 'api_explorer'}}
 					<li data-page="apiexplorer">
-						<a href="#apiexplorer"><p><i class="fa fa-terminal"></i> API Explorer</p></a>
+						<a href="{{#url}}apiexplorer{{/url}}"><p><i class="fa fa-terminal"></i> API Explorer</p></a>
 					</li>
 				{{/feature}}
 
 				{{# feature 'form_wizard'}}
 				<li id="workspace-menu-forms" data-page="forms">
-					<a href="#settings/forms"><p><i class="fa fa-pencil-square-o"></i> Manage Forms</p></a>
+					<a href="{{#url}}settings/forms{{/url}}"><p><i class="fa fa-pencil-square-o"></i> Manage Forms</p></a>
 				</li>
 				{{/feature}}
 				<li id="workspace-menu-site" data-page="settings">
-					<a href="#settings/site"><p><i class="fa  fa-wrench"></i> Site Settings</p></a>
+					<a href="{{#url}}settings/site{{/url}}"><p><i class="fa  fa-wrench"></i> Site Settings</p></a>
 				</li>
 				<li id="workspace-menu-map-settings" data-page="mapSettings">
-					<a href="#settings/map"><p><i class="fa  fa-map-marker"></i> Map Settings</p></a>
+					<a href="{{#url}}#settings/map{{/url}}"><p><i class="fa  fa-map-marker"></i> Map Settings</p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->
 	</dd>
 
 	<!-- <dd>
-		<a href="#panel5" id="workspace-menu-tutorials" class="active  title  js-title" data-section-title><i class="fa  fa-book"></i> Tutorials</a>
+		<a id="workspace-menu-tutorials" class="active  title  js-title" data-section-title><i class="fa  fa-book"></i> Tutorials</a>
 		<div id="panel5" class="content  js-content">
 			<ul>
 				<li>
-					<a href="#"><p><i class="fa  fa-wrench"></i> Getting Started</p></a>
+					<a><p><i class="fa  fa-wrench"></i> Getting Started</p></a>
 				</li>
 
 				<li>
-					<a href="#"><p><i class="fa  fa-rocket"></i> Create Your own Deployment</p></a>
+					<a><p><i class="fa  fa-rocket"></i> Create Your own Deployment</p></a>
 				</li>
 
 				<li>
-					<a href="#"><p><i class="fa  fa-lightbulb-o"></i> Understanding the Workspace</p></a>
+					<a><p><i class="fa  fa-lightbulb-o"></i> Understanding the Workspace</p></a>
 				</li>
 
 				<li>
-					<a href="#"><p><i class="fa  fa-star"></i>Basics 101</p></a>
+					<a><p><i class="fa  fa-star"></i>Basics 101</p></a>
 				</li>
 			</ul>
 		</div>
 	</dd> -->
 
 	<dd>
-		<a href="#panel6" id="workspace-menu-contact" class="active  title  js-title" data-section-title><i class="fa  fa-smile-o"></i> Contact Us</a>
+		<a id="workspace-menu-contact" class="active  title  js-title" data-section-title><i class="fa  fa-smile-o"></i> Contact Us</a>
 		<div id="panel6" class="active  content  js-content">
 			<ul>
 				<li data-page="support">
-					<a href="#"><p><i class="fa  fa-smile-o"></i> Support</p></a>
+					<a><p><i class="fa  fa-smile-o"></i> Support</p></a>
 				</li>
 
 				<li data-page="ushahidi">
-					<a href="#"><p><i class="fa  fa-globe"></i> Ushahidi</p></a>
+					<a><p><i class="fa  fa-globe"></i> Ushahidi</p></a>
 				</li>
 
 				<li data-page="community">
-					<a href="#"><p><i class="fa  fa-group"></i> Community Liason</p></a>
+					<a><p><i class="fa  fa-group"></i> Community Liason</p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->

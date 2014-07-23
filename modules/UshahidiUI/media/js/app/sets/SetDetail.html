@@ -9,7 +9,7 @@
 				</div> <!-- end .sets-search-bar-title -->
 
 				<div class="sets-search-bar-create-button">
-					<a href="#sets" class="js-create-set"> <i class="fa  fa-plus"></i>Create a Set</a>
+					<a href="{{#url}}sets{{/url}}" class="js-create-set"> <i class="fa  fa-plus"></i>Create a Set</a>
 				</div>
 
 				<div class="sets-search-bar-search-field">
@@ -33,7 +33,7 @@
 
 				<div class="set-body">
 					<div class="set-title">
-						<h3><a href="#sets/1">{{ name }}</a></h3>
+						<h3><a href="{{#url}}sets/1{{/url}}">{{ name }}</a></h3>
 					</div> <!-- end .set-title -->
 
 					<div class="set-time-meta">
@@ -45,21 +45,21 @@
 					</div> <!-- end .set-excerpt -->
 
 					<div class="set-view-posts">
-						<a href="#sets/1" class="set-view-posts-button" >view posts</a>
+						<a href="{{#url}}sets/1{{/url}}" class="set-view-posts-button" >view posts</a>
 					</div> <!-- end .set-view-posts -->
 
 					<div class="set-tags">
 						<small>
-							<a href="#">automobiles</a>, <a href="#">mozilla</a>, <a href="#">barbican</a>, <a href="#">leicester square</a>, <a href="#">hand & shears</a>
+							<a>automobiles</a>, <a>mozilla</a>, <a>barbican</a>, <a>leicester square</a>, <a>hand & shears</a>
 						</small>
 					</div> <!-- end .set-tags -->
 
 					<div class="set-actions">
 						<ul class="set-actions-list">
-							<li><small><a href="#"><i class="fa  fa-edit"></i> edit set</a></small></li>
-							<li><small><a href="#"><i class="fa  fa-trash-o"></i> delete set</a></small></li>
-							<li><small><a href="#"><i class="fa  fa-lock"></i></a></small></li>
-							<li><small><a href="#"><i class="fa  fa-eye"></i> 12547</a></small></li>
+							<li><small><a><i class="fa  fa-edit"></i> edit set</a></small></li>
+							<li><small><a><i class="fa  fa-trash-o"></i> delete set</a></small></li>
+							<li><small><a><i class="fa  fa-lock"></i></a></small></li>
+							<li><small><a><i class="fa  fa-eye"></i> 12547</a></small></li>
 						</ul> <!-- end .set-actions-list -->
 					</div> <!-- end .set-actions -->
 				</div> <!-- end .set-body -->
@@ -117,7 +117,7 @@
 
 						<div class="list-view-post-details">
 							<div class="row">
-								<h5 class="list-view-post-title"><i class="fa  fa-lock"></i> <a href="#posts/{{id}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
+								<h5 class="list-view-post-title"><i class="fa  fa-lock"></i> <a href="{{#url}}posts/{{id}}{{/url}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
 								<div class="list-view-post-time">
 									<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 								</div> <!-- end .list-view-post-time -->
@@ -125,7 +125,7 @@
 						</div> <!-- end .list-view-post-details -->
 
 						<div class="list-view-post-excerpt">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="#posts/{{id}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="{{#url}}posts/{{id}}{{/url}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
 						</div> <!-- end .list-view-post-excerpt -->
 					</article> <!-- end <article> -->
 
@@ -133,25 +133,25 @@
 						<div class="set-detail-post-list-tags-wrapper">
 							<h6>Tags</h6>
 							<ul class="list-view-post-tags">
-								<a href="#"><li><i class="fa  fa-circle" style="color: #C50813"></i>Automobiles</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #23699D;"></i>Transport</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #4fa425;"></i>London</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #baac29;"></i>Retro</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #C50813"></i>Automobiles</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #23699D;"></i>Transport</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #4fa425;"></i>London</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #baac29;"></i>Retro</li></a>
 							</ul>
 						</div> <!-- end .list-view-post-tags-wrapper -->
 
 						<div class="set-detail-post-edit-wrapper">
 							<ul class="list-view-post-edit">
-								<li><a href="#" class="list-view-post-edit-buttons  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
-								<li><a href="#" class="list-view-post-edit-buttons  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
+								<li><a class="list-view-post-edit-buttons  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+								<li><a class="list-view-post-edit-buttons  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
 								<li>
 									{{#if isPublished}}
-										<a href="#" class="list-view-post-edit-buttons  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
+										<a class="list-view-post-edit-buttons  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
 									{{else}}
-										<a href="#" class="list-view-post-edit-buttons  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
+										<a class="list-view-post-edit-buttons  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
 									{{/if}}
 								</li>
-								<li><a href="#" class="list-view-post-edit-buttons  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
+								<li><a class="list-view-post-edit-buttons  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
 							</ul> <!-- end .list-view-post-edit -->
 						</div> <!-- end .list-view-post-edit-wrapper -->
 					</div>
@@ -165,7 +165,7 @@
 
 						<div class="list-view-post-details">
 							<div class="row">
-								<h5 class="list-view-post-title"><i class="fa  fa-lock"></i> <a href="#posts/{{id}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
+								<h5 class="list-view-post-title"><i class="fa  fa-lock"></i> <a href="{{#url}}posts/{{id}}{{/url}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
 								<div class="list-view-post-time">
 									<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 								</div> <!-- end .list-view-post-time -->
@@ -173,7 +173,7 @@
 						</div> <!-- end .list-view-post-details -->
 
 						<div class="list-view-post-excerpt">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="#posts/{{id}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="{{#url}}posts/{{id}}{{/url}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
 						</div> <!-- end .list-view-post-excerpt -->
 					</article> <!-- end <article> -->
 
@@ -181,25 +181,25 @@
 						<div class="set-detail-post-list-tags-wrapper">
 							<h6>Tags</h6>
 							<ul class="list-view-post-tags">
-								<a href="#"><li><i class="fa  fa-circle" style="color: #C50813"></i>Automobiles</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #23699D;"></i>Transport</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #4fa425;"></i>London</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #baac29;"></i>Retro</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #C50813"></i>Automobiles</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #23699D;"></i>Transport</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #4fa425;"></i>London</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #baac29;"></i>Retro</li></a>
 							</ul>
 						</div> <!-- end .list-view-post-tags-wrapper -->
 
 						<div class="set-detail-post-edit-wrapper">
 							<ul class="list-view-post-edit">
-								<li><a href="#" class="list-view-post-edit-buttons  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
-								<li><a href="#" class="list-view-post-edit-buttons  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
+								<li><a class="list-view-post-edit-buttons  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+								<li><a class="list-view-post-edit-buttons  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
 								<li>
 									{{#if isPublished}}
-										<a href="#" class="list-view-post-edit-buttons  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
+										<a class="list-view-post-edit-buttons  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
 									{{else}}
-										<a href="#" class="list-view-post-edit-buttons  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
+										<a class="list-view-post-edit-buttons  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
 									{{/if}}
 								</li>
-								<li><a href="#" class="list-view-post-edit-buttons  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
+								<li><a class="list-view-post-edit-buttons  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
 							</ul> <!-- end .list-view-post-edit -->
 						</div> <!-- end .list-view-post-edit-wrapper -->
 					</div>
@@ -213,7 +213,7 @@
 
 						<div class="list-view-post-details">
 							<div class="row">
-								<h5 class="list-view-post-title"><i class="fa  fa-lock"></i> <a href="#posts/{{id}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
+								<h5 class="list-view-post-title"><i class="fa  fa-lock"></i> <a href="{{#url}}posts/{{id}}{{/url}}"><!-- {{ title }} --> Mini Cooper Spotted on the Streets of London.</a></h5>
 								<div class="list-view-post-time">
 									<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 								</div> <!-- end .list-view-post-time -->
@@ -221,33 +221,33 @@
 						</div> <!-- end .list-view-post-details -->
 
 						<div class="list-view-post-excerpt">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="#posts/{{id}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, voluptate, architecto distinctio debitis pariatur aliquid sit dignissimos dicta aliquam obcaecati expedita inventore reprehenderit voluptatem labore odit corporis voluptates magnam hic.<a href="{{#url}}posts/{{id}}{{/url}}"><span class="read-more"> ...&nbsp;Read&nbsp;More</span></a></p>
 						</div> <!-- end .list-view-post-excerpt -->
 					</article> <!-- end <article> -->
 
 					<div class="set-detail-post-admin">
-						<div class="set-detail-post-list-tags-wrapper">
-							<h6>Tags</h6>
-							<ul class="list-view-post-tags">
-								<a href="#"><li><i class="fa  fa-circle" style="color: #C50813"></i>Automobiles</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #23699D;"></i>Transport</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #4fa425;"></i>London</li></a>
-								<a href="#"><li><i class="fa  fa-circle" style="color: #baac29;"></i>Retro</li></a>
+						<div class="set-detail-post-list-categories-wrapper">
+							<h6>Categories</h6>
+							<ul class="list-view-post-categories">
+								<a><li><i class="fa  fa-circle" style="color: #C50813"></i>Automobiles</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #23699D;"></i>Transport</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #4fa425;"></i>London</li></a>
+								<a><li><i class="fa  fa-circle" style="color: #baac29;"></i>Retro</li></a>
 							</ul>
 						</div> <!-- end .list-view-post-tags-wrapper -->
 
 						<div class="set-detail-post-edit-wrapper">
 							<ul class="list-view-post-edit">
-								<li><a href="#" class="list-view-post-edit-buttons  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
-								<li><a href="#" class="list-view-post-edit-buttons  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
+								<li><a class="list-view-post-edit-buttons  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">edit</span></a></li>
+								<li><a class="list-view-post-edit-buttons  js-post-set"> <i class="fa  fa-plus-circle"></i> <span class="hide-for-medium-down">set</span></a></li>
 								<li>
 									{{#if isPublished}}
-										<a href="#" class="list-view-post-edit-buttons  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
+										<a class="list-view-post-edit-buttons  post-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">unpublish</span></a>
 									{{else}}
-										<a href="#" class="list-view-post-edit-buttons  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
+										<a class="list-view-post-edit-buttons  post-publish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">publish</span></a>
 									{{/if}}
 								</li>
-								<li><a href="#" class="list-view-post-edit-buttons  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
+								<li><a class="list-view-post-edit-buttons  post-delete"> <i class="fa  fa-trash-o"></i></a></li>
 							</ul> <!-- end .list-view-post-edit -->
 						</div> <!-- end .list-view-post-edit-wrapper -->
 					</div>

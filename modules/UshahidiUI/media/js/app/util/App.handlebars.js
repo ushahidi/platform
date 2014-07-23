@@ -10,19 +10,34 @@
 define(['handlebars', 'underscore', 'moment', 'modules/config', 'underscore.string', 'handlebars-paginate', 'hbs!templates/partials/pagination', 'hbs!templates/partials/list-info', 'hbs!templates/partials/tag-with-icon'],
 	function(Handlebars, _, moment, config, _str, paginate, paginationTpl, listInfoTpl, tagWithIconTpl)
 	{
-		Handlebars.registerHelper('baseurl', function()
+		Handlebars.registerHelper('url', function(options)
 		{
-			return config.get('baseurl');
-		});
+			var url,
+				App = require ('App'),
+				baseurl = config.get('basepath');
 
-		Handlebars.registerHelper('url', function(url)
-		{
-			return config.get('baseurl')  + url;
+			// Has this helper been used directly or as a block helper?
+			if (typeof options === 'string')
+			{
+				url = options;
+			}
+			else
+			{
+				url = options.fn(this);
+			}
+
+			// If pushstate is disabled, add #! to urls
+			if (! App.feature('pushstate'))
+			{
+				baseurl += '#';
+			}
+
+			return baseurl + url;
 		});
 
 		Handlebars.registerHelper('imageurl', function(url)
 		{
-			return config.get('baseurl') + config.get('imagedir') +  '/' + url;
+			return config.get('imagedir') +  '/' + url;
 		});
 
 		Handlebars.registerHelper('datetime-fromNow', function(timestamp)

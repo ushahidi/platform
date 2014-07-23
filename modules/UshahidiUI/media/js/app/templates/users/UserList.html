@@ -6,31 +6,31 @@
 		<div class="actions-bar-admin">
 			<ul class="actions-bar-admin-list  hide-for-small">
 				<li>
-					<a href="#" class="js-select-all">
+					<a class="js-select-all">
 						<span class="select-text">Select All</span>
 						<span class="unselect-text visually-hidden">Unselect All</span>
 					</a>
 				</li>
 				<li class="js-bulk-action disabled">
-					<a href="#" data-dropdown="drop-bulk-roles"><i class="fa  fa-cogs"></i>Change Role</a>
+					<a data-dropdown="drop-bulk-roles"><i class="fa  fa-cogs"></i>Change Role</a>
 					<ul id="drop-bulk-roles" class="dropdown-list" data-dropdown-content>
 						{{#each roles}}
-							<li><a href="#" class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
+							<li><a class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
 						{{/each}}
 					</ul>
 				</li>
-				<li><a href="#" class="js-user-create"><i class="fa  fa-user"></i>Add User</li>
-				<li class="js-bulk-action disabled"><a href="#" class="js-user-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
+				<li><a class="js-user-create"><i class="fa  fa-user"></i>Add User</li>
+				<li class="js-bulk-action disabled"><a class="js-user-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
 			</ul>
 
-			<a href="#" data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
+			<a data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
 			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-menu  dropdown-list  show-for-small">
 			<li>Select All</li>
 			<li class="js-bulk-action disabled">
-				<a href="#" data-dropdown="drop-bulk-roles-small"><i class="fa  fa-cogs"></i>Change Role</a>
+				<a data-dropdown="drop-bulk-roles-small"><i class="fa  fa-cogs"></i>Change Role</a>
 				<ul id="drop-bulk-roles-small" class="dropdown-list" data-dropdown-content>
 					{{#each roles}}
-						<li><a href="#" class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
+						<li><a class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
 					{{/each}}
 				</ul>
 			</li>

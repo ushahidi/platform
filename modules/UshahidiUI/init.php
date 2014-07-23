@@ -3,7 +3,10 @@
 /**
  * Ushahidi Frontend Routes
  */
-Route::set('index', '(/<action>)')
+Route::set('index', '(<misc>)',
+	array(
+		'misc' => '^(?!api|oauth|user|media).*',
+	))
 	->defaults(array(
 		'controller' => 'Main',
 		'action'     => 'index',
