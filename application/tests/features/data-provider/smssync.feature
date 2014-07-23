@@ -46,5 +46,5 @@ Feature: Testing the SMSSync Data Provider
         And the response has a "payload.success" property
         And the response has a "payload.error" property
         And the "payload.success" property is false
-        And the "payload.error" property equals "Empty message from SMSSync"
+        And the "payload.error" property equals "Missing message"
         Then the guzzle status code should be 403
