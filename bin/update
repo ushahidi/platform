@@ -16,6 +16,8 @@ git submodule update --init --recursive
 
 composer="composer"
 bower="bower"
+npm="npm"
+bundle="bundle"
 withdev=1
 
 which $composer >/dev/null 2>&1
@@ -33,16 +35,38 @@ if [ $? -gt 0 ]; then
 	exit 1
 fi
 
+which $npm >/dev/null 2>&1
+if [ $? -gt 0 ]; then
+	echo "!!! Missing the 'npm' command, please install it: https://www.npmjs.org/" 
+	exit 1
+fi
+
+which $bundle >/dev/null 2>&1
+if [ $? -gt 0 ]; then
+	echo "!!! Missing the 'bundle' command, please install it: https://www.bundler.io/" 
+	exit 1
+fi
+
 # Deployment mode, disable all developer dependencies :)
 if [ -n "$1" -a "$1" == "deploy" ]; then
-	nodev=true
+	withdev=0
 	composer="$composer --no-dev"
 	bower="$bower --production"
+	npm="$npm --production"
 fi
+
+#make npm run quietly
+npm="$npm --quiet"
 
 echo ">>> Updating server dependencies"
 [ -d vendor ] && $composer update || $composer install
 $composer dump-autoload
+
+echo ">>> Updating client side build tools"
+[ -d node_modules ] && $npm install || $npm update
+
+
+[ $withdev -gt 0 ] && $bundle install
 
 echo ">>> Updating client dependencies"
 [ -d modules/UshahidiUI/media/bower_components ] && $bower update || $bower install
