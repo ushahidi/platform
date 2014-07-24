@@ -67,9 +67,19 @@
 		<a data-dropdown="drop-message-card-actions" class="dropdown-button  show-for-small">actions</a><br>
 		<ul id="drop-message-card-actions" data-dropdown-content class="dropdown-list  f-dropdown  show-for-small">
 			<li class="dropdown-list__item"><a href="" class="js-message-card-action-activity js-stub"> <i class="fa  fa-list"></i>Activity</a></li>
-			<li class="dropdown-list__item"><a href="" class="js-message-card-action-reply js-stub"><i class="fa  fa-reply"></i>Reply</a></li>
-			<li class="dropdown-list__item"><a href="" class="js-message-card-action-create-post"> <i class="fa  fa-edit"></i>Create Post</a></li>
-			<li class="dropdown-list__item"><a href="" class="js-message-card-action-archive js-stub"> <i class="fa  fa-archive"></i>Archive</a></li>
+			<li class="dropdown-list__item"><a href="" class="js-message-reply"> <i class="fa  fa-reply"></i>Reply</a></li>
+				{{#if isIncoming}}
+					{{#if post}}
+					<li class="dropdown-list__item"><a href="#posts/{{post}}" class="js-message-view-post"> <i class="fa  fa-edit"></i>View Post</a></li>
+					{{else}}
+					<li class="dropdown-list__item"><a href="" class="js-message-create-post"> <i class="fa  fa-edit"></i>Create Post</a></li>
+					{{/if}}
+					{{#if isArchived}}
+					<li class="dropdown-list__item"><a href="" class="js-message-archive js-stub"> <i class="fa  fa-archive"></i>Move to Inbox</a></li>
+					{{else}}
+					<li class="message-card-actions-list__item"><a href="" class="js-message-archive"> <i class="fa  fa-archive"></i>Archive</a></li>
+					{{/if}}
+			{{/if}}
 		</ul> <!-- end .message-card-actions -->
 	</div> <!-- end .message-card-actions-wrapper .show-for-small -->
 
