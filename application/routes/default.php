@@ -194,6 +194,18 @@ Route::set('oauth', 'oauth(/<action>)',
 	));
 
 /**
+ * Ushahidi Frontend Routes
+ */
+Route::set('index', '(<misc>)',
+	array(
+		'misc' => '^(?!api|oauth|user|media).*',
+	))
+	->defaults(array(
+		'controller' => 'Main',
+		'action'     => 'index',
+	));
+
+/**
  * Default Route
  */
 Route::set('default', '(<controller>(/<action>(/<id>)))')
@@ -201,3 +213,4 @@ Route::set('default', '(<controller>(/<action>(/<id>)))')
 		'controller' => 'ushahidi',
 		'action'     => 'index',
 	));
+
