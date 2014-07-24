@@ -194,10 +194,10 @@ class Model_Tag extends ORM implements Acl_Resource_Interface {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/tags/'.$this->id, Request::current()),
+				'url' => Ushahidi_Api::url('tags', $this->id),
 				'parent' => empty($this->parent_id) ? NULL : array(
 					'id' => $this->parent_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/tags/'.$this->parent_id, Request::current())
+					'url' => Ushahidi_Api::url('tags', $this->parent_id)
 				),
 				'tag' => $this->tag,
 				'slug' => $this->slug,

@@ -89,7 +89,7 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->id, Request::current()),
+				'url' => Ushahidi_Api::url('forms/', $this->id),
 				'name' => $this->name,
 				'description' => $this->description,
 				'type' => $this->type,

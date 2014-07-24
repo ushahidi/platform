@@ -210,7 +210,7 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/attributes/'.$this->id, Request::current()),
+				'url' => Ushahidi_Api::url('attributes', $this->id),
 				'key' => $this->key,
 				'label' => $this->label,
 				'input' => $this->input,

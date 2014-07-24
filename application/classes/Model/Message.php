@@ -234,15 +234,15 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/messages/'.$this->id, Request::current()),
+				'url' => Ushahidi_Api::url('messages', $this->id),
 				'parent' => empty($this->parent_id) ? NULL : array(
 					'id' => $this->parent_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/messages/'.$this->parent_id, Request::current())
+					'url' => Ushahidi_Api::url('messages', $this->parent_id)
 				),
 				'contact' => empty($this->contact_id) ? NULL : $this->contact->for_api(),
 				'post' => empty($this->post_id) ? NULL : array(
 					'id' => $this->post_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->post_id, Request::current())
+					'url' => Ushahidi_Api::url('posts', $this->post_id)
 				),
 				'data_provider' => $this->data_provider,
 				'data_provider_message_id' => $this->data_provider_message_id,

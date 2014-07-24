@@ -288,15 +288,15 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 				'url' => $this->url(),
 				'parent' => empty($this->parent_id) ? NULL : array(
 					'id' => $this->parent_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id, Request::current())
+					'url' => Ushahidi_Api::url('posts', $this->parent_id)
 				),
 				'user' => empty($this->user_id) ? NULL : array(
 					'id' => $this->user_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
+					'url' => Ushahidi_Api::url('users', $this->user_id)
 				),
 				'form' => empty($this->form_id) ? NULL : array(
 					'id' => $this->form_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
+					'url' => Ushahidi_Api::url('forms', $this->form_id),
 				),
 				'title' => $this->title,
 				'content' => $this->content,
@@ -329,7 +329,7 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 				// @todo use $tag->for_api() once thats built
 				$response['tags'][] = array(
 					'id' => $tag->id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/tags/'.$tag->id, Request::current())
+					'url' => Ushahidi_Api::url('tags', $tag->id)
 				);
 			}
 		}
@@ -350,15 +350,15 @@ class Model_Post extends ORM implements Acl_Resource_Interface {
 		switch ($this->type)
 		{
 			case 'revision':
-				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/revisions/'.$this->id, Request::current());
+				return Ushahidi_Api::url('posts/'.$this->parent_id.'/revisions', $this->id);
 				break;
 			case 'translation':
-				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->parent_id.'/translations/'.$this->id, Request::current());
+				return Ushahidi_Api::url('posts/'.$this->parent_id.'/translations', $this->id);
 				break;
 			case 'report':
 			default:
 				// @todo maybe put 'updates' url as /post/:parent_id/updates/:id
-				return URL::site('api/v'.Ushahidi_Api::version().'/posts/'.$this->id, Request::current());
+				return Ushahidi_Api::url('posts', $this->id);
 				break;
 		}
 	}

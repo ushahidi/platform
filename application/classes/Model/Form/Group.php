@@ -66,9 +66,9 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id.'/groups/'.$this->id, Request::current()),
+				'url' => Ushahidi_Api::url('forms/'.$this->form_id.'/groups', $this->id),
 				'form' => empty($this->form_id) ? NULL : array(
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/forms/'.$this->form_id, Request::current()),
+					'url' => Ushahidi_Api::url('forms', $this->form_id),
 					'id' => $this->form_id
 				),
 				'label' => $this->label,

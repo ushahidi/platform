@@ -175,10 +175,10 @@ class Model_Contact extends ORM implements Acl_Resource_Interface {
 		{
 			$response = array(
 				'id' => $this->id,
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/contacts/'.$this->id, Request::current()),
+				'url' => Ushahidi_Api::url('contacts', $this->id),
 				'user' => empty($this->user_id) ? NULL : array(
 					'id' => $this->user_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
+					'url' => Ushahidi_Api::url('users', $this->user_id)
 				),
 				'contact' => $this->contact,
 				'type' => $this->type,

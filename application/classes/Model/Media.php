@@ -97,9 +97,9 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 				'id' => $this->id,
 				'user' => empty($this->user_id) ? NULL : array(
 					'id' => $this->user_id,
-					'url' => URL::site('api/v'.Ushahidi_Api::version().'/users/'.$this->user_id, Request::current())
+					'url' => Ushahidi_Api::url('users', $this->user_id)
 				),
-				'url' => URL::site('api/v'.Ushahidi_Api::version().'/media/'.$this->id, Request::current()),
+				'url' => Ushahidi_Api::url('media', $this->id),
 				'caption' => $this->caption,
 				'mime' => $this->mime,
 				'original_file_url' => URL::site(Media::uri($relative_path.$this->o_filename), Request::current()),
