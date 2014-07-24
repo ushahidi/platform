@@ -5,7 +5,6 @@ Exec {
 import "apache2.pp"
 import "mysql.pp"
 import "php.pp"
-import "phpunit.pp"
 
 group { "puppet":
   ensure => "present",
@@ -92,4 +91,3 @@ package {
 include base::apache2
 include base::mysql
 include base::php
-include base::phpunit
