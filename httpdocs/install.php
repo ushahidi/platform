@@ -8,8 +8,8 @@ $test_groups = array(
 	'Preflight' => array(
 		'PHP Version' => function( & $message)
 		{
-			$message = 'Ushahidi requires PHP 5.3.3 or newer, this is ' .  PHP_VERSION;
-			return version_compare(PHP_VERSION, '5.3.3', '>=');
+			$message = 'Ushahidi requires PHP 5.4 or newer, this is ' .  PHP_VERSION;
+			return version_compare(PHP_VERSION, '5.4', '>=');
 		},
 		'Security' => function( & $message)
 		{
@@ -161,6 +161,10 @@ foreach ($test_groups as $a) {
 			margin: 0 0 1.25rem 0;
 			text-rendering: optimizeLegibility;
 		}
+		
+		.hide {
+			display: none;
+		}
 
 		#powerTip {
 			cursor: default;
@@ -204,7 +208,7 @@ foreach ($test_groups as $a) {
 
 		#powerTip.se-alt:before {
 			left: auto;
-			right: 10px;
+			right: 32px;
 		}
 
 		.body-wrapper {
@@ -477,12 +481,12 @@ foreach ($test_groups as $a) {
 					<h3 class="header">Ushahidi is Ready</h3>
 				</div>
 			</div>
-			<div class="install-footer">
+			<div class="install-footer hide">
 				<button class="install-button">Install</button>
 			</div>
 		</footer> <!-- end .installer-pass -->
 
-		<footer class="none  installer-installing">
+		<footer class="installer-installing hide">
 			<div class="message-wrapper">
 				<aside class="footer-icon"><i class="fa  fa-rocket"></i></aside>
 				<div class="footer-message">
@@ -501,7 +505,7 @@ foreach ($test_groups as $a) {
 	<script type="text/javascript">
 	$(function() {
 		$('li[title]').powerTip({
-			placement: 'sw-alt',
+			placement: 'se-alt',
 			smartPlacement: true
 			});
 	});
