@@ -69,7 +69,7 @@ echo ">>> Updating client side build tools"
 [ $withdev -gt 0 ] && $bundle install
 
 echo ">>> Updating client dependencies"
-[ -d modules/UshahidiUI/media/bower_components ] && $bower update || $bower install
+[ -d web/media/bower_components ] && $bower update || $bower install
 
 echo ">>> Running migrations"
 ./minion --task=migrations:run --up

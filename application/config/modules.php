@@ -14,7 +14,7 @@ return array(
 	// 'acme' => MODPATH.'acme',
 
 	// Ushahidi modules
-	'ushahidiui' => MODPATH.'UshahidiUI',
+	'ushahidiui' => APPPATH.'../web',
 
 	// Submodules
 	'migrations' => MODPATH.'migrations',

@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
-	var uipath = 'modules/UshahidiUI/',
+	var uipath = 'web/',
 		releaseFiles = [
 			{
 				src: [
@@ -37,9 +37,9 @@ module.exports = function(grunt) {
 					'!package.json',
 					'!.jshintrc',
 					// IDE Files
-					'!modules/UshahidiUI/.sass-cache/**',
+					'!web/.sass-cache/**',
 					'!node_modules/**',
-					'!modules/UshahidiUI/node_modules/**',
+					'!web/node_modules/**',
 					'!.floo*',
 					'!.project',
 					'!.settings/**',
@@ -151,7 +151,7 @@ module.exports = function(grunt) {
 				options :
 				{
 					config : uipath + 'config-dev.rb',
-					basePath: 'modules/UshahidiUI',
+					basePath: 'web',
 					bundleExec: true
 				}
 			},
@@ -161,7 +161,7 @@ module.exports = function(grunt) {
 				options :
 				{
 					config : uipath + 'config.rb',
-					basePath: 'modules/UshahidiUI',
+					basePath: 'web',
 					bundleExec: true
 				}
 			}
