@@ -15,7 +15,7 @@ define(['backbone', 'underscore', 'modules/config', 'models/MediaModel', 'mixin/
 			_.extend(
 			{
 				model : MediaModel,
-				url: config.get('apiurl') +'/media',
+				url: config.get('apiurl') +'media',
 			},
 			// Mixins must always be added last!
 			ResultsCollection

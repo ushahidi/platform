@@ -12,7 +12,7 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 	{
 		var MediaModel = Backbone.ModelFactory(
 		{
-			urlRoot: config.get('apiurl') + '/media',
+			urlRoot: config.get('apiurl') + 'media',
 			validate : function(/*attrs, options*/) {
 				if (this.isNew()) {
 					// block validating of media models, require usage of ie Dropzone

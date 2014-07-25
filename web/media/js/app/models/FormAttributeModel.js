@@ -29,7 +29,7 @@ define(['backbone', 'modules/config'],
 
 		var FormAttributeModel = Backbone.Model.extend(
 		{
-			urlRoot: config.get('apiurl') + '/attributes',
+			urlRoot: config.get('apiurl') + 'attributes',
 			defaults : {
 				cardinality: 1,
 				required: false,

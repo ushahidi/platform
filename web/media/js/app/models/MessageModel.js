@@ -11,7 +11,7 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 	function(Backbone, config) {
 		var MessageModel = Backbone.ModelFactory(
 		{
-			urlRoot: config.get('apiurl') + '/messages',
+			urlRoot: config.get('apiurl') + 'messages',
 			toString : function ()
 			{
 				return this.get('message');

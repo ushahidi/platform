@@ -33,7 +33,7 @@ abstract class Ushahidi_Controller_Main extends Controller_Template {
 			// 'basepath' is used for Backbone.History root so shouldn't include domain, just path and index.php
 			'basepath'  => URL::base(FALSE, TRUE),
 			// Other urls are expected to include the baseurl too
-			'apiurl'   => URL::base(FALSE, TRUE) . 'api/v2',
+			'apiurl'   => URL::base(FALSE, TRUE) . 'api/v2/',
 			'imagedir' => Media::url('/images/'),
 			'cssdir'   => Media::url('/css/'),
 			'jsdir'    => Media::url('/js/'),

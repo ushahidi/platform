@@ -11,7 +11,7 @@ define(['jquery', 'backbone', 'App', 'underscore', 'modules/config', 'models/Use
 	function($, Backbone, App, _, config, UserModel, FormModel) {
 		var PostModel = Backbone.ModelFactory(
 		{
-			urlRoot: config.get('apiurl') + '/posts',
+			urlRoot: config.get('apiurl') + 'posts',
 			user : null,
 			form : null,
 			defaults : {

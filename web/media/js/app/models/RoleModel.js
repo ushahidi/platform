@@ -11,7 +11,7 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 	function(Backbone, config) {
 		var RoleModel = Backbone.ModelFactory(
 		{
-			urlRoot: config.get('apiurl') + '/roles',
+			urlRoot: config.get('apiurl') + 'roles',
 			idAttribute : 'name',
 			toString : function ()
 			{

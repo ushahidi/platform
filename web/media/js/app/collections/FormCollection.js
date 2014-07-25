@@ -26,7 +26,7 @@ define([
 			_.extend(
 			{
 				model : FormModel,
-				url: config.get('apiurl') +'/forms'
+				url: config.get('apiurl') +'forms'
 			},
 			// Mixins must always be added last!
 			ResultsCollection

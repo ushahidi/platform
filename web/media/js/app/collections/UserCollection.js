@@ -15,7 +15,7 @@ define(['backbone', 'underscore', 'modules/config', 'models/UserModel', 'backbon
 			_.extend(
 			{
 				model : UserModel,
-				url: config.get('apiurl') + '/users',
+				url: config.get('apiurl') + 'users',
 
 				// Set state params for `Backbone.PageableCollection#state`
 				state: {

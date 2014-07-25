@@ -25,7 +25,7 @@ define([
 			_.extend(
 			{
 				model: FormAttributeModel,
-				url: config.get('apiuri') +'/attributes',
+				url: config.get('apiuri') +'attributes',
 				comparator: 'priority'
 			},
 			// Mixins must always be added last!

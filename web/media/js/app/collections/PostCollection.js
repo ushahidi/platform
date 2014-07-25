@@ -15,7 +15,7 @@ define(['backbone', 'underscore', 'models/PostModel', 'modules/config', 'backbon
 			_.extend(
 			{
 				model : PostModel,
-				url: config.get('apiurl') +'/posts',
+				url: config.get('apiurl') +'posts',
 
 				// Set state params for `Backbone.PageableCollection#state`
 				state: {

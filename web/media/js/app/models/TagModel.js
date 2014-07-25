@@ -11,7 +11,7 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 	function(Backbone, config) {
 		var TagModel = Backbone.ModelFactory(
 		{
-			urlRoot: config.get('apiurl') +'/tags',
+			urlRoot: config.get('apiurl') +'tags',
 
 			// To prevent tag selector widget in the create post form from breaking
 			toString : function ()

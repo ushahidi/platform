@@ -15,7 +15,7 @@ define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone
 			_.extend(
 			{
 				model : TagModel,
-				url: config.get('apiurl') +'/tags',
+				url: config.get('apiurl') +'tags',
 				mode: 'client',
 
 				// Set state params for `Backbone.PageableCollection#state`

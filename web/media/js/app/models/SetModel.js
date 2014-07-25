@@ -11,7 +11,7 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 	function(Backbone, config) {
 		var SetModel = Backbone.ModelFactory(
 		{
-			urlRoot: config.get('apiurl') + '/sets'
+			urlRoot: config.get('apiurl') + 'sets'
 		});
 
 		return SetModel;

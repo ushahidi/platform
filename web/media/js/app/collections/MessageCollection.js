@@ -15,7 +15,7 @@ define(['underscore', 'backbone', 'models/MessageModel', 'modules/config', 'back
 			_.extend(
 			{
 				model : MessageModel,
-				url: config.get('apiurl') + '/messages',
+				url: config.get('apiurl') + 'messages',
 
 				// Set state params for `Backbone.PageableCollection#state`
 				state: {

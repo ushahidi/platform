@@ -13,7 +13,7 @@ define(['backbone', 'App', 'modules/config', 'backbone-model-factory'],
 		var UserModel = Backbone.ModelFactory(
 		{
 
-			urlRoot: config.get('apiurl') + '/users',
+			urlRoot: config.get('apiurl') + 'users',
 
 			// Initialize `change_role` to true by default to allow users with role
 			// to add a new user to be able to set the new user's role

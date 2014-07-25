@@ -15,7 +15,7 @@ define(['backbone', 'underscore', 'models/SetModel', 'modules/config', 'backbone
 		_.extend(
 			{
 				model : SetModel,
-				url: config.get('apiurl') + '/sets',
+				url: config.get('apiurl') + 'sets',
 				// Set state params for `Backbone.PageableCollection#state`
 				state: {
 					firstPage: 0,

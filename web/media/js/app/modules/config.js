@@ -32,7 +32,7 @@ define(['underscore', 'alertify', 'models/ConfigModel'],
 
 		var readonly_config = {
 				baseurl: '/',
-				apiuri: '/api/v2',
+				apiurl: '/api/v2/',
 				imagedir: '/media/images',
 				jsdir: '/media/js',
 				cssdir: '/media/css'

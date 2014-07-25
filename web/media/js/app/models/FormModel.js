@@ -27,7 +27,7 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 
 		FormModel = Backbone.ModelFactory(
 		{
-			urlRoot: config.get('apiurl') + '/forms',
+			urlRoot: config.get('apiurl') + 'forms',
 			initialize : function()
 			{
 				this.processForm();

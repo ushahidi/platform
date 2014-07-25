@@ -37,7 +37,7 @@ define(['handlebars', 'underscore', 'moment', 'modules/config', 'underscore.stri
 
 		Handlebars.registerHelper('imageurl', function(url)
 		{
-			return config.get('imagedir') +  '/' + url;
+			return config.get('imagedir') + url;
 		});
 
 		Handlebars.registerHelper('datetime-fromNow', function(timestamp)

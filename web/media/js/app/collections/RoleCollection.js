@@ -14,7 +14,7 @@ define(['backbone', 'underscore', 'models/RoleModel', 'modules/config', 'mixin/R
 			_.extend(
 			{
 				model : RoleModel,
-				url: config.get('apiurl') +'/roles',
+				url: config.get('apiurl') +'roles',
 			},
 			// Mixins must always be added last!
 			ResultsCollection

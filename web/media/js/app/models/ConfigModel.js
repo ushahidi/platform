@@ -14,7 +14,7 @@ define(['backbone', 'backbone-model-factory'],
 			urlRoot: function() {
 				// this has to be defined as a closure to prevent a circular dependency
 				var config = require('modules/config');
-				return config.get('apiurl') + '/config';
+				return config.get('apiurl') + 'config';
 			},
 			idAttribute : '@group'
 		});

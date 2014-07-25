@@ -14,7 +14,7 @@ define(['backbone', 'underscore', 'models/DataProviderModel', 'modules/config', 
 			_.extend(
 			{
 				model : DataProviderModel,
-				url: config.get('apiurl') + '/dataproviders'
+				url: config.get('apiurl') + 'dataproviders'
 			},
 			// Mixins must always be added last!
 			ResultsCollection
