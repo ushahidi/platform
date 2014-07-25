@@ -150,8 +150,7 @@ module.exports = function(grunt) {
 			{
 				options :
 				{
-					config : uipath + 'config-dev.rb',
-					basePath: 'web',
+					config : 'config-dev.rb',
 					bundleExec: true
 				}
 			},
@@ -160,8 +159,7 @@ module.exports = function(grunt) {
 			{
 				options :
 				{
-					config : uipath + 'config.rb',
-					basePath: 'web',
+					config : 'config.rb',
 					bundleExec: true
 				}
 			}

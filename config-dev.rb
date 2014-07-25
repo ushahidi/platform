@@ -1,16 +1,16 @@
 # Compass config file
 require "compass-csslint"
 require "sass-css-importer"
-add_import_path "media/bower_components/foundation/scss"
+add_import_path "web/media/bower_components/foundation/scss"
 
 # Set this to the root of your project when deployed:
 http_path = "/"
 http_images_dir = "media/images"
-css_dir = "media/css/test"
-sass_dir = "media/scss"
-images_dir = "media/images"
-javascripts_dir = "media/js"
-fonts_dir = "media/font"
+css_dir = "web/media/css/test"
+sass_dir = "web/media/scss"
+images_dir = "web/media/images"
+javascripts_dir = "web/media/js"
+fonts_dir = "web/media/font"
 
 # Development
 output_style = :expanded
