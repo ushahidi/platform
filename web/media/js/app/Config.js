@@ -167,5 +167,5 @@ require.config(
 // This has to be outside the first require.config() call otherwise it breaks optimized builds
 require.config({
 	// Set baseurl based on config
-	baseUrl : (window.config && window.config.jsdir) ? window.config.jsdir + '/app' : './media/kohana/js/app',
+	baseUrl : (window.config && window.config.jsdir) ? window.config.jsdir + '/app' : './media/js/app',
 });

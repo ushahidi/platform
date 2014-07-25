@@ -9,6 +9,18 @@
  */
 
 /**
+ * Custom media router.
+ */
+Route::set('media', 'media/(<uid>/)<filepath>', array(
+		'filepath' => '.*', // Pattern to match the file path
+		'uid' => '.*?',     // Match the unique string that is not part of the media file
+	))
+	->defaults(array(
+		'controller' => 'Media',
+		'action'     => 'serve',
+	));
+
+/**
  * Set Posts API SubRoute
  */
 Route::set('set-posts', 'api/v2/sets/<set_id>/posts(/<id>)',

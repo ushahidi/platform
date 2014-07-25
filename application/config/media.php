@@ -12,7 +12,7 @@
 return array(
 
 	// The public accessible directory where the file will be copied
-	'public_dir' => DOCROOT.'media/<uid>/kohana/<filepath>',
+	'public_dir' => DOCROOT.'media/<uid>/<filepath>',
 	// Write the files to the public directory when in production
 	'cache'      => FALSE, //Kohana::$environment === Kohana::PRODUCTION,
 	/**

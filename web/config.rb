@@ -4,7 +4,7 @@ add_import_path "media/bower_components/foundation/scss"
 
 # Set this to the root of your project when deployed:
 http_path = "/"
-http_images_dir = "media/kohana/images"
+http_images_dir = "media/images"
 css_dir = "media/css"
 sass_dir = "media/scss"
 images_dir = "media/images"

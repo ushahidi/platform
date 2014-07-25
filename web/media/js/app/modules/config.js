@@ -33,9 +33,9 @@ define(['underscore', 'alertify', 'models/ConfigModel'],
 		var readonly_config = {
 				baseurl: '/',
 				apiuri: '/api/v2',
-				imagedir: '/media/kohana/images',
-				jsdir: '/media/kohana/js',
-				cssdir: '/media/kohana/css'
+				imagedir: '/media/images',
+				jsdir: '/media/js',
+				cssdir: '/media/css'
 			},
 			configs = _.extend({}, readonly_config, window.config),
 			config_models = {};
