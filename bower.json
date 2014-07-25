@@ -1,6 +1,6 @@
 {
   "name": "Ushahidi-Platform",
-  "version": "3.0.0-alpha.3",
+  "version": "3.0.0-alpha.4",
   "dependencies": {
     "requirejs": "~2.1",
     "jquery": "~2.1",
