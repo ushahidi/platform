@@ -14,7 +14,6 @@ define(['App', 'modules/config', 'marionette', 'underscore', 'alertify', 'syntax
 		return Marionette.ItemView.extend(
 		{
 			template: template,
-			apiBaseUrl : config.get('apiurl') +'/',
 			requestMethod : '',
 			apiEndpoint : '',
 			addSampleData : false,
@@ -61,7 +60,7 @@ define(['App', 'modules/config', 'marionette', 'underscore', 'alertify', 'syntax
 				that.hideResponse();
 				// Mostly borrowed from the api-explorer main.js file
 				App.oauth.ajax({
-					url : this.apiBaseUrl + apiUri,
+					url : config.get('apiurl') + apiUri,
 					type: requestMethod,
 					dataType : 'json',
 					data : extraData
@@ -118,7 +117,7 @@ define(['App', 'modules/config', 'marionette', 'underscore', 'alertify', 'syntax
 			serializeData : function ()
 			{
 				var data = {
-					apiBaseUrl : this.apiBaseUrl,
+					apiBaseUrl : config.get('apiurl'),
 					reqMethod : this.reqMethod,
 					apiEndpoint : this.apiEndpoint,
 					loggedIn : App.loggedin(),

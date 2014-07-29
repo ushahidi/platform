@@ -203,7 +203,7 @@ define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alert
 			exportPostCsv : function(e) {
 				e.preventDefault();
 				App.oauth.ajax({
-					url : config.get('apiurl') +'/posts/export',
+					url : config.get('apiurl') + 'posts/export',
 					dataType : 'json'
 				}).done(function(data) {
 					if (data)

@@ -38,7 +38,7 @@ define(['underscore', 'marionette', 'App', 'modules/config', 'modules/textifyNum
 				App.oauth.ajax({
 						type: 'GET',
 						dataType: 'json',
-						url: config.get('apiurl') + '/stats',
+						url: config.get('apiurl') + 'stats',
 					})
 					.done(function(data) {
 						that.counts = data;

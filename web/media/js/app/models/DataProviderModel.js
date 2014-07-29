@@ -26,7 +26,7 @@ define(['underscore', 'backbone', 'modules/config'],
 
 		DataProviderModel = Backbone.Model.extend(
 		{
-			urlRoot: config.get('apiurl') + '/dataproviders',
+			urlRoot: config.get('apiurl') + 'dataproviders',
 			toString : function ()
 			{
 				return this.get('name');
