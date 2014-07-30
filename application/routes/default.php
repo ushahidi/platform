@@ -209,7 +209,7 @@ Route::set('oauth', 'oauth(/<action>)',
  */
 Route::set('index', '(<misc>)',
 	array(
-		'misc' => '^(?!api|oauth|user|media).*',
+		'misc' => '^(?!api/|oauth|user|media).*',
 	))
 	->defaults(array(
 		'controller' => 'Main',
