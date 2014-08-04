@@ -41,14 +41,24 @@ class CreateSpec extends ObjectBehavior
 		$input->color       = 'fff';
 		$input->icon        = 'bell';
 		$input->priority    = 99;
-		$input->role        = '"user","admin"';
+		$input->role        = ['user', 'admin'];
 
 		$valid->check($input)->willReturn(true);
 
 		// auth not needed right now, leaving it behind for later consideration
 		// $auth->isAllowed('tags', 'create')->willReturn(true);
 
-		$repo->createTag('Tests', 'tests', 'Testing for tags', 'category', 'fff', 'bell', 99, '"user","admin"')->shouldBeCalled();
+		$repo->createTag(
+			$input->tag,
+			$input->slug,
+			$input->description,
+			$input->type,
+			$input->color,
+			$input->icon,
+			$input->priority,
+			json_encode($input->role)
+			)->shouldBeCalled();
+
 		$repo->getCreatedTag()->willReturn(new Tag);
 
 		$this->interact($input)->shouldReturnAnInstanceOf('Ushahidi\Entity\Tag');
