@@ -7,6 +7,7 @@ composer.phar
 vendor/*
 bin/*
 node_modules*
+.bundle/*
 .vagrant/*
 .sass-cache*
 .floo
