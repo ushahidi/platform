@@ -88,7 +88,7 @@ define(['backbone', 'App', 'modules/config', 'backbone-model-factory',
 						]
 					},
 					role : {
-						type:'Checkboxes', 
+						type:'Checkboxes',
 						options: App.Collections.Roles
 					}
 				};
