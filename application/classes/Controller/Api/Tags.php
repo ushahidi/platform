@@ -223,13 +223,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 			throw new HTTP_Exception_401('Cannot delete tag anonymously, please login');
 		}
 
-<<<<<<< HEAD
 		$request = ['id' => $this->request->param('id')];
-=======
-		$tag->values($post, array(
-			'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'icon', 'description'
-			));
->>>>>>> Add ability to attach a role/permissions to a tag
 
 		try
 		{

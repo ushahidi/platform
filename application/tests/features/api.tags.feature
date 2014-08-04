@@ -14,7 +14,7 @@ Feature: Testing the Tags API
                 "color":"00ff00",
                 "role":
                     [
-                        "user",
+						"user",
 						"admin"
 					]
             }
