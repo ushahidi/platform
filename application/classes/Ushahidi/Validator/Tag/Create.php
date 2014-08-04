@@ -30,7 +30,10 @@ class Ushahidi_Validator_Tag_Create extends Ushahidi_Validator_Tag_Update
 				))
 			->rules('type', array(
 					array('not_empty'),
-				));
+				))
+			->rules('role', array(
+				array([$this->role, 'doRolesExist'], array(':value')),
+				));	
 
 		return $this->valid->check();
 	}

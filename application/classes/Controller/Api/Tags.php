@@ -103,7 +103,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		$format = service('formatter.entity.tag');
 
 		$input = $parser($this->request->query());
-
+		
 		// this probably belongs in the parser, or should just return the
 		// order/limit params as an array for the search call
 		$this->_prepare_order_limit_params();
@@ -114,6 +114,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 			'offset' => $this->_record_offset,
 			'limit' => $this->_record_limit,
 			]);
+
 		$count = count($tags);
 
 		$results = [];
@@ -222,7 +223,13 @@ class Controller_Api_Tags extends Ushahidi_Api {
 			throw new HTTP_Exception_401('Cannot delete tag anonymously, please login');
 		}
 
+<<<<<<< HEAD
 		$request = ['id' => $this->request->param('id')];
+=======
+		$tag->values($post, array(
+			'tag', 'slug', 'type', 'parent_id', 'priority', 'color', 'icon', 'description'
+			));
+>>>>>>> Add ability to attach a role/permissions to a tag
 
 		try
 		{

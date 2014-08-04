@@ -16,8 +16,7 @@ class Ushahidi_Parser_Tag_Search implements Parser
 {
 	public function __invoke(Array $data)
 	{
-		$data = Arr::extract($data, ['q', 'tag', 'type', 'parent']);
-
+		$data = Arr::extract($data, ['q', 'tag', 'type', 'parent', 'role']);
 		// remove any input with an empty value
 		$data = array_filter($data);
 

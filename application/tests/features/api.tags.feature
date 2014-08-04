@@ -11,7 +11,12 @@ Feature: Testing the Tags API
                 "description":"Is this a box? Awesome",
                 "type":"category",
                 "priority":1,
-                "color":"00ff00"
+                "color":"00ff00",
+                "role":
+                    [
+                        "user",
+						"admin"
+					]
             }
             """
         When I request "/tags"
@@ -23,6 +28,7 @@ Feature: Testing the Tags API
         And the "description" property equals "Is this a box? Awesome"
         And the "color" property equals "#00ff00"
         And the "priority" property equals "1"
+        And the response has a "role" property
         And the "type" property equals "category"
         Then the guzzle status code should be 200
 

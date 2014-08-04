@@ -30,7 +30,13 @@ class Update
 
 	public function interact(Tag $tag, TagData $input)
 	{
+		if ($input->role) 
+		{ 
+			$role = $input->role; 
+			$input->role = json_encode($role); 
+		}
 		// We only want to work with values that have been changed
+		
 		$update = $input->getDifferent($tag->asArray());
 
 		if (!$this->valid->check($update))

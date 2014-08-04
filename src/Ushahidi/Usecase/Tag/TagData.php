@@ -22,4 +22,5 @@ class TagData extends Data
 	public $color;
 	public $icon;
 	public $priority;
+	public $role;
 }

@@ -43,7 +43,8 @@ class Create
 			$input->type,
 			$input->color,
 			$input->icon,
-			$input->priority
+			$input->priority,
+			json_encode($input->role) //serialize roles array into json
 			);
 
 		return $this->repo->getCreatedTag();

@@ -73,17 +73,17 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		}
 
 		$results = $query->execute($this->db);
-
+		
 		return $this->getCollection($results->as_array());
 	}
 
 	// CreateTagRepository
-	public function createTag($tag, $slug, $description, $type, $color = null, $icon = null, $priority = 0)
+	public function createTag($tag, $slug, $description, $type, $color = null, $icon = null, $priority = 0, $role = null)
 	{
 		$input = compact('tag', 'slug', 'description', 'type');
 
 		// Add optional fields
-		$optional = array_filter(compact('color', 'icon', 'priority'));
+		$optional = array_filter(compact('color', 'icon', 'priority','role'));
 		if ($optional) {
 			$input += $optional;
 		}
@@ -140,4 +140,5 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	{
 		return $this->deleted_tag;
 	}
+
 }

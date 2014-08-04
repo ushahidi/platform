@@ -25,4 +25,5 @@ interface UpdateTagRepository
 	 * @return void
 	 */
 	public function updateTag($id, Array $update);
+	
 }

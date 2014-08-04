@@ -11,6 +11,7 @@
 
 use Ushahidi\Data;
 use Ushahidi\Usecase\Tag\UpdateTagRepository;
+use Ushahidi\Entity\RoleRepository;
 
 use Ushahidi\Tool\Validator;
 
@@ -18,10 +19,12 @@ class Ushahidi_Validator_Tag_Update implements Validator
 {
 	protected $repo;
 	protected $valid;
+	protected $role;
 
-	public function __construct(UpdateTagRepository $repo)
+	public function __construct(UpdateTagRepository $repo, RoleRepository $role)
 	{
 		$this->repo = $repo;
+		$this->role = $role;
 	}
 
 	public function check(Data $input)
@@ -52,7 +55,10 @@ class Ushahidi_Validator_Tag_Update implements Validator
 				))
 			->rules('priority', array(
 					array('digit'),
-				));
+				))
+			->rules('role', array(
+				array([$this->role, 'doRolesExist'], array(':value')),
+				));	
 
 		return $this->valid->check();
 	}

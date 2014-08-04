@@ -19,24 +19,12 @@ interface RoleRepository
 	 * @return \Ushahidi\Entity\Role
 	 */
 	public function get($name);
-
+	
 	/**
-	 * @param \Ushahidi\Entity\Role
-	 * @return boolean
+	 * @param string $name
+	 * @return \Ushahidi\Entity\Role
 	 */
-	public function add(Role $role);
-
-	/**
-	 * @param \Ushahidi\Entity\Role
-	 * @return boolean
-	 */
-	public function remove(Role $role);
-
-	/**
-	 * @param \Ushahidi\Entity\Role
-	 * @return boolean
-	 */
-	public function edit(Role $role);
+	public function doRolesExist($name);
 
 }
 

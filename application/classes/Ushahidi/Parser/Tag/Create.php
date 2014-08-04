@@ -43,7 +43,7 @@ class Ushahidi_Parser_Tag_Create implements Parser
 		}
 
 		// Ensure that all properties of a Tag entity are defined by using Arr::extract
-		return new TagData(Arr::extract($data, ['tag', 'slug', 'description', 'type', 'color', 'icon', 'priority']));
+		return new TagData(Arr::extract($data, ['tag', 'slug', 'description', 'type', 'color', 'icon', 'priority', 'role']));
 	}
 }
 

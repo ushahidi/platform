@@ -7,8 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'modules/config', 'backbone-model-factory'],
-	function(Backbone, config) {
+define(['backbone', 'App', 'modules/config', 'backbone-model-factory',
+'models/UserModel'],
+	function(Backbone, App, config) {
 		var TagModel = Backbone.ModelFactory(
 		{
 			urlRoot: config.get('apiurl') +'tags',
@@ -85,6 +86,10 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 							'truck',
 							'globe'
 						]
+					},
+					role : {
+						type:'Checkboxes', 
+						options: App.Collections.Roles
 					}
 				};
 				return schema;
@@ -110,7 +115,10 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 						required: false,
 						maxLength: 32,
 						pattern: '^[a-zA-Z0-9-]+$',
-					}
+					},
+					role : {
+						required: false
+				    },
 				};
 
 				return rules;

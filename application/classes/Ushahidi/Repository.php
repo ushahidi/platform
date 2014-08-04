@@ -82,7 +82,8 @@ abstract class Ushahidi_Repository
 		$query = DB::select()->from($this->getTable());
 		foreach ($where as $column => $value)
 		{
-			$query->where($column, '=', $value);
+			$predicate = is_array($value) ? 'IN' : '=';
+			$query->where($column, $predicate, $value);
 		}
 		return $query;
 	}

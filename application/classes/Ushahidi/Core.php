@@ -108,6 +108,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
+		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
@@ -149,6 +150,7 @@ abstract class Ushahidi_Core {
 			];
 		$di->params['Ushahidi_Validator_Tag_Update'] = [
 			'repo' => $di->lazyGet('repository.tag'),
+			'role' => $di->lazyGet('repository.role'),
 			];
 		$di->params['Ushahidi_Validator_User_Register'] = [
 			'repo' => $di->lazyGet('repository.user'),

@@ -19,6 +19,7 @@ class TagSpec extends ObjectBehavior
 			'description' => 'Bright red spec tests',
 			'priority'    => 10,
 			'created'     => strtotime('may 9, 2014'),
+			'role'        => 'user',
 			));
 	}
 
@@ -71,4 +72,10 @@ class TagSpec extends ObjectBehavior
 	{
 		$this->created->shouldBe(strtotime('may 9, 2014'));
 	}
+	
+	function it_has_a_role()
+	{
+		$this->role->shouldBe('user');
+	}
+
 }

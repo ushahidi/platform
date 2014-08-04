@@ -20,8 +20,9 @@ interface CreateTagRepository
 	 * @param  String $type  one of: category, status
 	 * @param  String $color
 	 * @param  String $icon
+	 * @param  String $role
 	 */
-	public function createTag($tag, $slug, $description, $type, $color = null, $icon = null);
+	public function createTag($tag, $slug, $description, $type, $color = null, $icon = null, $role = null);
 
 	/**
 	 * @return  int
