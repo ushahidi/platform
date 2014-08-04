@@ -108,7 +108,7 @@ class Ushahidi_Api extends Controller {
 		Kohana_Exception::$error_layout = FALSE;
 		HTTP_Exception_404::$error_view = 'error/api';
 
-		$this->acl  = A2::instance();
+		$this->acl  = service('acl');
 		$this->auth = $this->acl->auth();
 
 		$this->_parse_request();

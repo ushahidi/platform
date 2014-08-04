@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform ACL Authenticator
+ * Ushahidi Platform Authorizer Exception
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,11 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Tool;
+namespace Ushahidi\Exception;
 
-use Ushahidi\Entity;
-
-interface Authenticator
+class AuthorizerException extends \InvalidArgumentException
 {
-	public function isAllowed(Entity $entity, $privilege);
 }

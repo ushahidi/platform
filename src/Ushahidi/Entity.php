@@ -18,7 +18,7 @@ abstract class Entity
 	use ArrayExchange;
 
 	/**
-	 * Return the resource name for Authenticator.
+	 * Return the resource name for authorization.
 	 * @return string
 	 */
 	abstract public function getResource();
