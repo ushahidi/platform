@@ -67,12 +67,16 @@ class Controller_Sms_Smssync extends Controller {
 			throw new HTTP_Exception_403('Incorrect or missing secret key');
 		}
 
-		if( empty($this->request->post('from')))
+		$from = $this->request->post('from');
+
+		if( empty($from))
 		{
 			throw new HTTP_Exception_400('Missing from value');
 		}
 
-		if (empty($this->request->post('message')))
+		$message_text = $this->request->post('message');
+
+		if (empty($message_text))
 		{
 			throw new HTTP_Exception_400('Missing message');
 		}
@@ -80,9 +84,7 @@ class Controller_Sms_Smssync extends Controller {
 		// Remove Non-Numeric characters because that's what the DB has
 		$to = preg_replace("/[^0-9,.]/", "", $this->request->post('sent_to'));
 
-		$from = preg_replace("/[^0-9,.]/", "", $this->request->post('from'));
-
-		$message_text = $this->request->post('message');
+		$from = preg_replace("/[^0-9,.]/", "", $from);
 
 		$this->_provider->receive(Message_Type::SMS, $from, $message_text, $to);
 
@@ -106,6 +108,7 @@ class Controller_Sms_Smssync extends Controller {
 		}
 		// Do we have any tasks for SMSSync?
 		// Grab messages to send, 20 at a time.
+		//
 		// We don't know if the SMS from the phone itself work or not,
 		// but we'll update the messages status to 'unknown' so that
 		// its not picked up again
