@@ -3,16 +3,16 @@
 	url = git://github.com/kohana-minion/tasks-migrations.git
 [submodule "application/vendor/gisconverter"]
 	path = application/vendor/gisconverter
-	url = git://github.com/rjmackay/gisconverter.php.git
+	url = git://github.com/ushahidi/gisconverter.php.git
 [submodule "modules/imagefly"]
 	path = modules/imagefly
-	url = git://github.com/rjmackay/kohana-imagefly.git
+	url = git://github.com/ushahidi/kohana-imagefly.git
 [submodule "modules/ACL"]
 	path = modules/ACL
 	url = https://github.com/Wouterrr/ACL
 [submodule "modules/A1"]
 	path = modules/A1
-	url = https://github.com/rjmackay/A1
+	url = https://github.com/ushahidi/A1
 [submodule "modules/A2"]
 	path = modules/A2
 	url = https://github.com/Wouterrr/A2
