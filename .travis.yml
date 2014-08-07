@@ -24,7 +24,7 @@ before_script:
 - cp application/tests/behat.template application/tests/behat.yml
 - mysql -e "SET GLOBAL sql_mode = 'STRICT_ALL_TABLES'";
 - mysql -e 'create database platform_test;'
-- ./minion --task=migrations:run up
+- bin/phinx migrate -c application/phinx.php
 - mysql -e 'create database zombie2x;'
 - curl https://72c9192a7b87de5fc63a-f9fe2e6be12470a7bff22b7693bc7329.ssl.cf1.rackcdn.com/lamu-ci-zombie2x.sql
   | mysql zombie2x
