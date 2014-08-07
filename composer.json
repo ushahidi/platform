@@ -1,10 +1,4 @@
 {
-    "repositories" : [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ushahidi/gisconverter"
-        }
-    ],
     "require" : {
         "aura/di": "2.0.*@dev",
         "league/oauth2-server": "~3.2.3",
@@ -16,7 +10,7 @@
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
         "shadowhand/email": "3.3.*@dev",
-        "symm/gisconverter": "dev-simplify-getgeojson",
+        "symm/gisconverter": "~1.0.5",
         "zeelot/kohana-media": "1.3.*@dev"
     },
     "require-dev": {
