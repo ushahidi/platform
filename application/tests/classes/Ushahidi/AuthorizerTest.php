@@ -26,9 +26,9 @@ class AuthorizerTest extends Unittest_TestCase {
 	}
 
 	/**
-	 * Test get method
+	 * Test isAllowed method for success
 	 */
-	public function test_isAllowed_fail()
+	public function test_isAllowed_pass()
 	{
 		$entity = new Ushahidi\Entity\Post();
 		$user   = new Model_User();
@@ -42,11 +42,9 @@ class AuthorizerTest extends Unittest_TestCase {
 	}
 
 	/**
-	 * Test get method
-	 *
-	 * @expectedException Ushahidi\Exception\AuthorizerException
+	 * Test isAllowed method for failure
 	 */
-	public function test_isAllowed_pass()
+	public function test_isAllowed_fail()
 	{
 		$entity = new Ushahidi\Entity\Post();
 		$user   = new Model_User();

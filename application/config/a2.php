@@ -121,6 +121,12 @@ return array(
 				'privilege' => array('put', 'get', 'delete', 'get_full'),
 				'assertion' => array('Acl_Assert_Argument', array('id' => 'id'))
 			),
+			'UserCanEditOwnMedia' => array(
+				'role'      => 'user',
+				'resource'  => 'media',
+				'privilege' => array('put', 'delete'),
+				'assertion' => array('Acl_Assert_Argument', array('id' => 'id'))
+			),
 			// Guest
 			'GuestCanViewPublicPost' => array(
 				'role'      => 'guest',

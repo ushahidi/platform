@@ -13,7 +13,6 @@
 
 use Ushahidi\Entity;
 use Ushahidi\Tool\Authorizer;
-use Ushahidi\Exception\AuthorizerException;
 
 class Ushahidi_Authorizer implements Authorizer
 {
@@ -26,17 +25,20 @@ class Ushahidi_Authorizer implements Authorizer
 		$this->proxy_factory = $proxy_factory;
 	}
 
-	public function isAllowed(Entity $entity, $privilege, $user = FALSE)
+	public function isAllowed(Entity $entity, $privilege, $user = NULL)
 	{
 		$proxy_factory = $this->proxy_factory;
 		$resource = $proxy_factory($entity);
 
 		if ($user)
 		{
-			if (! $this->acl->is_allowed($user, $resource, $privilege, FALSE))
+			if (!is_object($user))
 			{
-				// @todo include entity id in error message
-				throw new AuthorizerException('Not allowed to "' . $privilege .'" on "' . $resource->get_resource_id() .'"');
+				$user = new Model_User($user);
+			}
+			if (!$this->acl->is_allowed($user, $resource, $privilege, FALSE))
+			{
+				return FALSE;
 			}
 		}
 		else
@@ -45,7 +47,7 @@ class Ushahidi_Authorizer implements Authorizer
 			// This only works if the user has a session cookie, not with an API token
 			if (!$this->acl->allowed($resource, $privilege, FALSE))
 			{
-				throw new AuthorizerException('Not allowed to "' . $privilege .'" on "' . $resource .'"');
+				return FALSE;
 			}
 		}
 

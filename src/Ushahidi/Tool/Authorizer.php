@@ -16,11 +16,11 @@ use Ushahidi\Entity;
 interface Authorizer
 {
 	/**
-	 * Check if access to entity is allowed
-	 * @param  Entity  $entity     Entity to check access to
-	 * @param  string  $privilege  Privilege type to check access for
-	 * @param  boolean $user       User requesting access
-	 * @return boolean
+	 * Check if access to an entity is allowed
+	 * @param  Entity  $entity     Entity being accessed
+	 * @param  String  $privilege  Privilege that is requested
+	 * @param  Integer $user       User id requesting access
+	 * @return Boolean
 	 */
-	public function isAllowed(Entity $entity, $privilege, $user = false);
+	public function isAllowed(Entity $entity, $privilege, $user = null);
 }

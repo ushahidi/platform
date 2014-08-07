@@ -902,6 +902,7 @@ oauth_session_authcode_scopes:
 media:
   -
     id: 3
+    user_id: 2
     caption: "ihub"
     mime: "image/jpeg"
     o_filename: "9ze_1381815819_o.jpg"
@@ -912,6 +913,7 @@ media:
     updated: 1381815819
   -
     id: 2
+    user_id:
     caption: "at sendai"
     mime: "image/jpeg"
     o_filename: "9ze_1381815819_o.jpg"
@@ -922,6 +924,7 @@ media:
     updated: 1381815819
   -
     id: 1
+    user_id: 1
     caption: "ihub"
     mime: "image/jpeg"
     o_filename: "9ze_1381815819_o.jpg"

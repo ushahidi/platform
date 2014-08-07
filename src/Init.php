@@ -69,8 +69,13 @@ $di->set('usecase.media.create', $di->lazyNew('Ushahidi\Usecase\Media\Create'));
 $di->params['Ushahidi\Usecase\Media\Create'] = [
 	'repo' => $di->lazyGet('repository.media'),
 	'valid' => $di->lazyGet('validator.media.create'),
-	// not sure if this goes in the use case or the parser...
-	// 'upload' => $di->lazyGet('tool.uploader'),
+	];
+
+$di->set('usecase.media.delete', $di->lazyNew('Ushahidi\Usecase\Media\Delete'));
+$di->params['Ushahidi\Usecase\Media\Delete'] = [
+	'repo' => $di->lazyGet('repository.media'),
+	'valid' => $di->lazyGet('validator.media.delete'),
+	'auth' => $di->lazyGet('tool.authorizer'),
 	];
 
 $di->set('usecase.tag.create', $di->lazyNew('\Ushahidi\Usecase\Tag\Create'));

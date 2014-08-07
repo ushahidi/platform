@@ -132,6 +132,7 @@ abstract class Ushahidi_Core {
 
 		// Parsers
 		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
+		$di->set('parser.media.delete', $di->lazyNew('Ushahidi_Parser_Media_Delete'));
 		$di->set('parser.media.search', $di->lazyNew('Ushahidi_Parser_Media_Search'));
 		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
 		$di->set('parser.tag.search', $di->lazyNew('Ushahidi_Parser_Tag_Search'));
@@ -147,6 +148,7 @@ abstract class Ushahidi_Core {
 
 		// Validators
 		$di->set('validator.media.create', $di->lazyNew('Ushahidi_Validator_Media_Create'));
+		$di->set('validator.media.delete', $di->lazyNew('Ushahidi_Validator_Media_Delete'));
 		$di->set('validator.tag.create', $di->lazyNew('Ushahidi_Validator_Tag_Create'));
 		$di->set('validator.tag.update', $di->lazyNew('Ushahidi_Validator_Tag_Update'));
 		$di->set('validator.tag.delete', $di->lazyNew('Ushahidi_Validator_Tag_Delete'));
@@ -154,6 +156,9 @@ abstract class Ushahidi_Core {
 		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
 
 		// Dependencies of validators
+		$di->params['Ushahidi_Validator_Media_Delete'] = [
+			'repo' => $di->lazyGet('repository.media'),
+			];
 		$di->params['Ushahidi_Validator_Tag_Create'] = [
 			'repo' => $di->lazyGet('repository.tag'),
 			];

@@ -176,18 +176,33 @@ class Controller_Api_Media extends Ushahidi_Api
 	 */
 	public function action_delete_index()
 	{
-		$media = $this->resource();
+		$format  = service('formatter.entity.media');
+		$parser  = service('parser.media.delete');
+		$usecase = service('usecase.media.delete');
 
-		$this->_response_payload = array();
+		$request = [
+			'id'      => $this->request->param('id'),
+			'user_id' => $this->user->id,
+			];
 
-		if ($media->loaded())
+		try
 		{
-			// Return the media that is about to be deleted
-			$this->_response_payload = $media->for_api();
-			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
-
-			// Delete the details from the db
-			$media->delete();
+			$input = $parser($request);
+			$media = $usecase->interact($input);
 		}
+		catch (Ushahidi\Exception\ValidatorException $e)
+		{
+			// Also handles ParserException
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
+		}
+		catch (Ushahidi\Exception\AuthorizerException $e)
+		{
+			throw new HTTP_Exception_403($e->getMessage());
+		}
+
+		$this->_response_payload = $format($media);
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 }

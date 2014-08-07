@@ -13,17 +13,21 @@ use Ushahidi\Entity\Media;
 use Ushahidi\Entity\MediaRepository;
 use Ushahidi\Entity\MediaSearchData;
 use Ushahidi\Usecase\Media\CreateMediaRepository;
+use Ushahidi\Usecase\Media\DeleteMediaRepository;
 use Ushahidi\Tool\Uploader;
 use Ushahidi\Tool\UploadData;
 
 class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	MediaRepository,
-	CreateMediaRepository
+	CreateMediaRepository,
+	DeleteMediaRepository
 {
 	private $upload;
 
 	private $created_id;
 	private $created_ts;
+
+	private $deleted_media;
 
 	public function __construct(Database $db, Uploader $upload)
 	{
@@ -127,5 +131,12 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	public function getCreatedMedia()
 	{
 		return $this->get($this->created_id);
+	}
+
+	// DeleteMediaRepository
+	public function deleteMedia($id, $user_id = null)
+	{
+		$where = array_filter(compact('id', 'user_id'));
+		return $this->delete($where);
 	}
 }
