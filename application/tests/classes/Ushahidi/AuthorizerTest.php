@@ -38,7 +38,7 @@ class AuthorizerTest extends Unittest_TestCase {
 			->with($this->identicalTo($user), $this->isInstanceOf('Ushahidi_EntityACLResourceProxy'), $this->equalTo('get'), $this->equalTo(FALSE))
 			->will($this->returnValue(TRUE));
 
-		$this->authorizer->isAllowed($entity, 'get', $user);
+		$this->assertTrue($this->authorizer->isAllowed($entity, 'get', $user));
 	}
 
 	/**
@@ -54,7 +54,7 @@ class AuthorizerTest extends Unittest_TestCase {
 			->with($this->identicalTo($user), $this->isInstanceOf('Ushahidi_EntityACLResourceProxy'), $this->equalTo('get'), $this->equalTo(FALSE))
 			->will($this->returnValue(FALSE));
 
-		$this->authorizer->isAllowed($entity, 'get', $user);
+		$this->assertFalse($this->authorizer->isAllowed($entity, 'get', $user));
 	}
 
 }
