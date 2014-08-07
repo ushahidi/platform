@@ -18,6 +18,8 @@ composer="composer"
 bower="bower"
 npm="npm"
 bundle="bundle"
+migrate="$(dirname "$0")/phinx"
+upgrade=1
 withdev=1
 
 which $composer >/dev/null 2>&1
@@ -47,6 +49,10 @@ if [ $? -gt 0 ]; then
 	exit 1
 fi
 
+if [ -n "$" -a "$1" == "migrate" ]; then
+	upgrade=0
+fi
+
 # Deployment mode, disable all developer dependencies :)
 if [ -n "$1" -a "$1" == "deploy" ]; then
 	withdev=0
@@ -55,21 +61,26 @@ if [ -n "$1" -a "$1" == "deploy" ]; then
 	npm="$npm --production"
 fi
 
+
 #make npm run quietly
 npm="$npm --quiet"
 
-echo ">>> Updating server dependencies"
-[ -d vendor ] && $composer update || $composer install
-$composer dump-autoload
+if [ $upgrade -gt 0 ]; then
+	echo ">>> Updating server dependencies"
+	[ -d vendor ] && $composer update || $composer install
+	$composer dump-autoload
 
-echo ">>> Updating client side build tools"
-[ -d node_modules ] && $npm install || $npm update
+	echo ">>> Updating client side build tools"
+	[ -d node_modules ] && $npm install || $npm update
+	[ $withdev -gt 0 ] && $bundle install
 
+	echo ">>> Updating client dependencies"
+	[ -d web/media/bower_components ] && $bower update || $bower install
+fi
 
-[ $withdev -gt 0 ] && $bundle install
-
-echo ">>> Updating client dependencies"
-[ -d web/media/bower_components ] && $bower update || $bower install
-
-echo ">>> Running migrations"
-./minion --task=migrations:run --up
+if [ -f "$migrate" ]; then
+	echo ">>> Running migrations"
+	$migrate migrate -c application/phinx.php
+else
+	echo "!!! Migration tool $migrate not installed, unable to run migrations"
+fi
