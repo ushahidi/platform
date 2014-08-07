@@ -61,12 +61,14 @@ define(['App', 'marionette', 'alertify', 'underscore',
 			archiveMessage : function(e)
 			{
 				e.preventDefault();
-
+				var that = this;
 				this.model.set('status', 'archived')
 					.save()
 					.done(function()
 					{
 						alertify.success('Message has been archived');
+
+						that.model.fetch();
 					}).fail(function ()
 					{
 						alertify.error('Unable to archive message, please try again');
@@ -77,11 +79,14 @@ define(['App', 'marionette', 'alertify', 'underscore',
 			{
 				e.preventDefault();
 
+				var that = this;
 				this.model.set('status', 'received')
 					.save()
 					.done(function()
 					{
 						alertify.success('Message has been restored');
+
+						that.model.fetch();
 					}).fail(function ()
 					{
 						alertify.error('Unable to restore message, please try again');
