@@ -35,7 +35,7 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	protected $_geom_attributes = FALSE;
 
 	/**
-	 * @var gisconverter\WKT WKT decoder
+	 * @var Symm\Gisconverter\Decoders\WKT
 	 */
 	protected $decoder;
 
@@ -55,7 +55,7 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 		}
 
 		// Geometry Decoder
-		$this->decoder = new gisconverter\WKT();
+		$this->decoder = new Symm\Gisconverter\Decoders\WKT();
 	}
 
 	public function action_get_index_collection()
@@ -266,7 +266,7 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 				$geometry = $this->decoder->geomFromText($value);
 				return $geometry->toGeoArray();
 			}
-			catch (gisconverter\InvalidText $itex) {
+			catch (Symm\Gisconverter\Exceptions\InvalidText $itex) {
 				// Invalid value, just skip it
 			}
 		}

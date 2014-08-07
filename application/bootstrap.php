@@ -113,11 +113,6 @@ Kohana::modules(Kohana::$config->load('modules')->as_array());
  */
 Cookie::$salt = 'ushahidi-insecure-please-change-me';
 
-// Load gisconverter
-$gisconverter = Kohana::find_file('vendor', 'gisconverter/gisconverter', 'php');
-if (! $gisconverter) throw new Kohana_Exception('Could not load gisconverter library. Have you checked out the gisconverter submodule?');
-include($gisconverter);
-
 /**
  * Initialize Ushahidi, setting the defaults
  * Note: We have to do this before routing kicks in, so that the 'default' route doesn't catch any custom plugin routes.

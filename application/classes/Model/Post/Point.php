@@ -50,13 +50,15 @@ class Model_Post_Point extends Model_Post_Geometry {
 				AND is_string($this->_object[$column])
 			)
 		{
-			$decoder = new gisconverter\WKT();
+			$decoder = new Symm\Gisconverter\Decoders\WKT();
 			try
 			{
 				$geometry = $decoder->geomFromText($this->_object[$column]);
-				if ($geometry instanceof gisconverter\Point) return array('lon' => $geometry->lon, 'lat' => $geometry->lat);
+				if ($geometry instanceof Symm\Gisconverter\Geometry\Point)
+					return array('lon' => $geometry->lon, 'lat' => $geometry->lat);
 			}
-			catch (gisconverter\InvalidText $itex) {
+			catch (Symm\Gisconverter\Exceptions\InvalidText $itex)
+			{
 				// noop - continue to return raw value
 			}
 

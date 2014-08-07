@@ -11,9 +11,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use gisconverter\Point,
-	gisconverter\Polygon,
-	gisconverter\LinearRing ;
+use Symm\Gisconverter\Geometry\Point;
+use Symm\Gisconverter\Geometry\Polygon;
+use Symm\Gisconverter\Geometry\LinearRing;
 
 /**
  * Bounding Box class

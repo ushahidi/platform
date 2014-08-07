@@ -46,12 +46,12 @@ class Model_Post_Geometry extends Model_Post_Value {
 
 		if (! is_string($value)) return FALSE;
 
-		$decoder = new gisconverter\WKT();
+		$decoder = new Symm\Gisconverter\Decoders\WKT();
 		try
 		{
 			$decoder->geomFromText($value);
 		}
-		catch (gisconverter\InvalidText $itex) {
+		catch (Symm\Gisconverter\Exceptions\InvalidText $itex) {
 			return FALSE;
 		}
 

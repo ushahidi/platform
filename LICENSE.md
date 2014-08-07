@@ -26,7 +26,7 @@ library is linked to its license below:
 * Data Provider modules - some of this code is released under GPLv3
 * [The Kohana Framework](http://kohanaframework.org/license)
 * [Kohana-Imagefly](https://github.com/Bodom78/kohana-imagefly/blob/master/LICENSE)
-* [gisconverter.php](https://github.com/arenevier/gisconverter.php/blob/master/copying.txt)
+* [gisconverter](https://github.com/symm/gisconverter/blob/master/LICENSE.txt)
 * [OAuth2-Server](https://github.com/thephpleague/oauth2-server/blob/develop/license.txt)
 * [Flysystem](https://github.com/thephpleague/flysystem/blob/master/LICENSE)
 * [Aura.DI](https://github.com/auraphp/Aura.Di/blob/develop-2/LICENSE)

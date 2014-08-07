@@ -1,9 +1,6 @@
 [submodule "modules/migrations"]
 	path = modules/migrations
 	url = git://github.com/kohana-minion/tasks-migrations.git
-[submodule "application/vendor/gisconverter"]
-	path = application/vendor/gisconverter
-	url = git://github.com/ushahidi/gisconverter.git
 [submodule "modules/imagefly"]
 	path = modules/imagefly
 	url = git://github.com/ushahidi/kohana-imagefly.git
