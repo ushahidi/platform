@@ -8,31 +8,51 @@
  */
 
 define(['App', 'marionette', 'alertify', 'underscore',
+		'views/EmptyView',
+		'messages/list/ReplyView',
 		'models/PostModel',
 		'models/MessageModel',
 		'hbs!messages/list/MessageListItem'
 	],
 	function(App, Marionette, alertify, _,
+		EmptyView,
+		ReplyView,
 		PostModel,
 		MessageModel,
 		template
 	)
 	{
 		//ItemView provides some default rendering logic
-		return  Marionette.ItemView.extend(
+		return  Marionette.CompositeView.extend(
 		{
 			//Template HTML string
 			template: template,
 			tagName: 'li',
 			className: 'list-view-message',
-
 			events: {
 				'click .js-message-archive': 'archiveMessage',
 				'click .js-message-unarchive': 'unarchiveMessage',
 				'click .js-message-create-post' : 'createPost',
 				'click .js-message-view-post' : 'viewPost',
+				'click .js-message-activity' : 'toggleMessageActivity',
 				'submit .js-message-post-reply-form' : 'replyMessage'
 			},
+
+			initialize: function()
+			{
+				this.collection = this.model.get('replies');
+			},
+
+			itemView: ReplyView,
+
+			itemViewOptions:
+			{
+				emptyMessage: 'No activity on this message.'
+			},
+
+			emptyView: EmptyView,
+
+			itemViewContainer: 'ul.list-view-reply-list',
 
 			modelEvents: {
 				'sync': 'render'
@@ -138,6 +158,16 @@ define(['App', 'marionette', 'alertify', 'underscore',
 					});
 			},
 
+			toggleMessageActivity : function(e)
+			{
+				e.preventDefault();
+				var $el = this.$(e.currentTarget);
+
+				$el.closest('.message-card-actions-wrapper')
+					.nextAll('.js-message-card-panel-activity')
+					.slideToggle(200);
+			},
+
 			enableFields : function(that)
 			{
 				// Enable textarea
@@ -172,9 +202,10 @@ define(['App', 'marionette', 'alertify', 'underscore',
 			{
 				var data = _.extend(this.model.toJSON(), {
 					isArchived : this.model.isArchived(),
-					isIncoming : this.model.isIncoming()
+					isIncoming : this.model.isIncoming(),
+					activities : this.model.post ? this.model.post.toJSON() : null,
 				});
 				return data;
-			}
+			},
 		});
 	});

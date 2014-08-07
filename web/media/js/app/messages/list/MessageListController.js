@@ -15,37 +15,50 @@ define(['App', 'messages/list/MessageListView', 'collections/MessageCollection']
 		{
 			App.vent.trigger('page:change', view ? 'messages/' + view : 'messages');
 
-			var messages = new MessageCollection();
+			var messages = new MessageCollection(),
+				replies,
+				promise;
 
 			switch (view)
 			{
 				// Filter by type. Will also default to incoming + received status
 				case 'email':
-					messages.fetch({data : {type : 'email'}});
+					promise = messages.fetch({data : {type : 'email'}});
 					break;
 				case 'sms':
-					messages.fetch({data : {type : 'sms'}});
+					promise = messages.fetch({data : {type : 'sms'}});
 					break;
 				case 'twitter':
-					messages.fetch({data : {type : 'twitter'}});
+					promise = messages.fetch({data : {type : 'twitter'}});
 					break;
 				// Filter by archived status. Will also default to incoming only
 				case 'archived':
-					messages.fetch({data : {status : 'archived'}});
+					promise = messages.fetch({data : {status : 'archived'}});
 					break;
 				// Show all statuses. Will still default to incoming only
 				case 'all':
-					messages.fetch({data : {status : 'all'}});
+					promise = messages.fetch({data : {status : 'all'}});
 					break;
 				// Grab default: incoming + received + all types
 				default:
-					messages.fetch();
+					promise = messages.fetch();
 					break;
 			}
 
-			App.layout.mainRegion.show(new MessageListView({
-				collection : messages
-			}));
+			promise.done(function(){
+				messages.each(function(model)
+				{
+
+					replies = new MessageCollection();
+					replies.fetch({data : {contact : model.get('contact').id}})
+						.done(function(){
+							model.set('replies', replies);
+							App.layout.mainRegion.show(new MessageListView({
+								collection : messages
+							}));
+					});
+				});
+			});
 		}
 	};
 

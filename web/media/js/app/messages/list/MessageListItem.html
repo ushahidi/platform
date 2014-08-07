@@ -3,7 +3,6 @@
 	<div class="message-card-panel-wrapper  message-card-panel-wrapper--map  js-message-card-panel-map">
 		<div class="message-card-panel  message-card-panel--map">
 			{{! TODO: add support for real map}}
-			<img src="{{imageurl "map2.jpg"}}" alt="" />
 		</div> <!-- end .message-card-panel-map -->
 	</div> <!-- end .message-card-panel-wrapper -->
 
@@ -46,7 +45,7 @@
 
 	<div class="message-card-actions-wrapper  hide-for-small">
 		<ul class="message-card-actions-list">
-			<li class="message-card-actions-list__item"><a href="" class="js-message-activity js-stub"> <i class="fa  fa-list"></i>Activity</a></li>
+			<li class="message-card-actions-list__item"><a href="" class="js-message-activity" data-id="{{post}}"> <i class="fa  fa-list"></i>Activity</a></li>
 			<li class="message-card-actions-list__item"><a href="" class="js-message-reply"> <i class="fa  fa-reply"></i>Reply</a></li>
 			{{#if isIncoming}}
 				{{#if post}}
@@ -85,59 +84,24 @@
 
 	<!-- TODO: These panels should be partials -->
 
-	{{! TODO: fill this with real content }}
-	<div class="message-card-panel-wrapper visually-hidden js-message-card-panel-activity">
-		<div class="message-card-panel">
-			<h6 class="message-card-panel__header">Message Activty<span class="subheader  reply-number">2 replies</span></h6>
-			<ul class="message-card-panel--activity-list">
-				<li class="message-card-panel--activity-list__item  js-activity-list__item--photo  has-post-image">
-
-					<div class="message-card-panel__post-image">
-						<img src="{{imageurl "car-tree.jpg"}}" alt="" />
-					</div> <!-- end .message-card-panel__post-image -->
-					<!-- TODO: generate class in js, based on whether or not we have a post image -->
-					<div class="message-card-panel__details">
-						<div class="subheader"><a class="username">Ushbot</a> shared a photo</div>
-						<div class="details">"Winter storm claims another vehicle."</div>
-					</div> <!-- end .message-card-panel__details -->
-					<!-- TODO: generate class in js, based on whether or not we have a post image -->
-					<div class="message-card-panel__meta">
-						<p class="underline  location"> <i class="fa  fa-map-marker"></i><a href="" class="js-message-card-action-location">California</a></p>
-						<p class="datetime"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
-					</div> <!-- end .message-card-panel__meta -->
-
-					<div class="view-post"><a>View Post</a></div>
-				</li>
-
-				<li class="message-card-panel--activity-list__item  js-activity-list__item--location">
-
-					<div class="message-card-panel__details">
-						<div class="subheader"><a class="username">Ushbot</a> added a location</div>
-						<div class="details">Lamu, Kenya</div>
-					</div> <!-- end .message-card-panel__details -->
-
-					<div class="message-card-panel__meta  message-card-panel__meta--location">
-						<p class="underline  location"> <i class="fa  fa-map-marker"></i><a href="" class="js-message-card-action-location">California</a></p>
-						<p class="datetime"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
-					</div> <!-- end .message-card-panel__meta -->
-
-					<div class="view-post"><a>View Post</a></div>
-				</li>
+	<div class="card-panel-wrapper hide js-message-card-panel-activity">
+		<div class="card-panel">
+			<h6 class="card-panel__header">Message Activty</h6>
+			<ul class="list-view-reply-list card-panel--activity-list">
 			</ul> <!-- end .message-card-panel-activity-list -->
-
 		</div> <!-- end .message-card-panel -->
 	</div> <!-- end .message-card-panel-wrapper -->
 
-	<div class="message-card-panel-wrapper js-message-card-panel-reply hide">
-		<div class="message-card-panel">
-			<h6 class="message-card-panel__header">Send a Response</h6>
+	<div class="card-panel-wrapper js-message-card-panel-reply hide">
+		<div class="card-panel">
+			<h6 class="card-panel__header">Send a Response</h6>
 			<form role="form" action="" class="js-message-post-reply-form">
 				<textarea class="textarea js-response-textarea" name="Name" rows="2" cols="40"></textarea>
-				<div class="message-card-panel__button-wrap">
-					<button type="submit" class="message-card-reply-autofill  js-location-autofill"><i class="fa  fa-reply"></i> location</button>
-					<button type="submit" class="message-card-reply-autofill  message-card-reply-autofill--more-info  js-more-info-autofill"><i class="fa  fa-reply"></i> more info</button>
+				<div class="card-panel__button-wrap">
+					<button type="submit" class="card-reply-autofill  js-location-autofill"><i class="fa  fa-reply"></i> location</button>
+					<button type="submit" class="card-reply-autofill  card-reply-autofill--more-info  js-more-info-autofill"><i class="fa  fa-reply"></i> more info</button>
 				</div>
-				<button type="submit" class="message-card-reply-send-button js-message-post-reply">Send</button>
+				<button type="submit" class="card-reply-send-button js-message-post-reply">Send</button>
 			</form>
 		</div> <!-- end .message-card-panel -->
 	</div> <!-- end .message-card-panel-wrapper -->

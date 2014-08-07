@@ -24,7 +24,6 @@ define(['marionette', 'underscore',
 		{
 			template: template,
 			modelName: 'messages',
-
 			itemView: MessageListItemView,
 
 			itemViewOptions:
@@ -43,7 +42,6 @@ define(['marionette', 'underscore',
 				'click .js-submit-search' : 'updateSearchTerm',
 				'click .js-message-filter-box' : 'filterByBoxType',
 				'click .js-message-reply' : 'toggleReply',
-				'click .js-message-activity' : 'toggleMessageActivity',
 				'click .excerpt, .show-rest-of-message' : 'showRestOfMessage',
 				'click .card-actions-list__item a' : 'toggleActiveClass',
 				'click .js-location-autofill' : 'autofillLocation',
@@ -131,11 +129,6 @@ define(['marionette', 'underscore',
 				this.$(e.currentTarget).closest('.message-card-actions-wrapper')
 					.nextAll('.js-message-card-panel-reply')
 					.slideToggle(200);
-			},
-			toggleMessageActivity : function(e)
-			{
-				e.preventDefault();
-				this.$(e.currentTarget).closest('.card-actions-wrapper').nextAll('.js-card-panel-activity').slideToggle(200);
 			},
 			showRestOfMessage : function(e)
 			{
