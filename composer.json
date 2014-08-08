@@ -1,4 +1,9 @@
 {
+    "name": "ushahidi/platform",
+    "description": "Ushahidi Platform core and API server",
+    "homepage": "http://ushahidi.com/",
+    "type": "project",
+    "license": "AGPL-3.0",
     "repositories": [
         {
             "type": "vcs",
@@ -34,7 +39,9 @@
     },
     "minimum-stability": "dev",
     "config": {
-        "bin-dir": "bin/"
+        "bin-dir": "bin/",
+        "github-protocols": ["https","http","git"],
+        "preferred-install": "dist"
     },
     "autoload": {
         "psr-0": {
