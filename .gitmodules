@@ -1,15 +1,6 @@
 [submodule "modules/imagefly"]
 	path = modules/imagefly
 	url = git://github.com/ushahidi/kohana-imagefly.git
-[submodule "modules/ACL"]
-	path = modules/ACL
-	url = https://github.com/Wouterrr/ACL
-[submodule "modules/A1"]
-	path = modules/A1
-	url = https://github.com/ushahidi/A1
-[submodule "modules/A2"]
-	path = modules/A2
-	url = https://github.com/Wouterrr/A2
 [submodule "plugins/twilio/vendor/twilio"]
 	path = plugins/twilio/vendor/twilio
 	url = https://github.com/twilio/twilio-php

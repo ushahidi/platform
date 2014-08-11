@@ -18,12 +18,12 @@ return array(
 
 	// Submodules
 	'imagefly'   => MODPATH.'imagefly', // Dynamic image generation
-	'ACL'        => MODPATH.'ACL', // Access control layer based on Zend_ACL
-	'A1'         => MODPATH.'A1', // Auth library using bcrypt
-	'A2'         => MODPATH.'A2', // Tying A1/Auth and ACL together
 	'data-provider'  => MODPATH.'data-provider',
 
 	// Vendor modules
+	'ACL'        => VENPATH.'wouter/acl', // Access control layer based on Zend_ACL
+	'A1'         => VENPATH.'wouter/a1', // Auth library using bcrypt
+	'A2'         => VENPATH.'wouter/a2', // Tying A1/Auth and ACL together
 	'email'      => VENPATH.'shadowhand/email',
 	'media'      => VENPATH.'zeelot/kohana-media',
 

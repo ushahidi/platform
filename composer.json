@@ -8,12 +8,49 @@
         {
             "type": "vcs",
             "url": "https://github.com/ushahidi/phinx"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "wouter/a1",
+                "version": "dev-3.3/develop",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/ushahidi/A1",
+                    "reference": "origin/3.3/feature-use-password-compat"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "wouter/a2",
+                "version": "dev-3.3/develop",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/Wouterrr/A2",
+                    "reference": "origin/3.3/develop"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "wouter/acl",
+                "version": "dev-3.3/develop",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/Wouterrr/ACL",
+                    "reference": "origin/3.3/develop"
+                }
+            }
         }
     ],
     "require" : {
         "aura/di": "2.0.*@dev",
         "league/oauth2-server": "~3.2.3",
         "league/flysystem": "0.4.*",
+        "ircmaxell/password-compat": "~1.0.3",
         "kohana/core" : "3.3.*@dev",
         "kohana/database" : "3.3.*@dev",
         "kohana/cache" : "3.3.*@dev",
@@ -23,6 +60,9 @@
         "robmorgan/phinx": "dev-geo-sql-types as 0.3.6",
         "shadowhand/email": "3.3.*@dev",
         "symm/gisconverter": "~1.0.5",
+        "wouter/a1": "dev-3.3/develop",
+        "wouter/a2": "dev-3.3/develop",
+        "wouter/acl": "dev-3.3/develop",
         "zeelot/kohana-media": "1.3.*@dev"
     },
     "require-dev": {
