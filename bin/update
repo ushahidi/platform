@@ -67,8 +67,7 @@ npm="$npm --quiet"
 
 if [ $upgrade -gt 0 ]; then
 	echo ">>> Updating server dependencies"
-	[ -d vendor ] && $composer update || $composer install
-	$composer dump-autoload
+	$composer install
 
 	echo ">>> Updating client side build tools"
 	[ -d node_modules ] && $npm install || $npm update
