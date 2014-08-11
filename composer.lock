@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "f2e3bf8af0918545bd606d4a698236a5",
+    "hash": "802069f1aaf176034e0838dd1a2d2b4c",
     "packages": [
         {
             "name": "aura/di",
@@ -56,6 +56,47 @@
                 "di container"
             ],
             "time": "2014-08-04 14:29:22"
+        },
+        {
+            "name": "bodom78/kohana-imagefly",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bodom78/kohana-imagefly.git",
+                "reference": "f8a96d5cb54226f4e4c14a19d164a5722eceb012"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bodom78/kohana-imagefly/zipball/f8a96d5cb54226f4e4c14a19d164a5722eceb012",
+                "reference": "f8a96d5cb54226f4e4c14a19d164a5722eceb012",
+                "shasum": ""
+            },
+            "require": {
+                "kohana/core": ">=3.2",
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fady Khalife",
+                    "homepage": "http://fkportfolio.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "Create resized / cropped images directly through url parameters.",
+            "homepage": "https://github.com/bodom78/kohana-imagefly",
+            "keywords": [
+                "crop",
+                "image",
+                "kohana",
+                "resize",
+                "watermark"
+            ],
+            "time": "2014-08-11 02:52:57"
         },
         {
             "name": "composer/installers",
@@ -148,6 +189,45 @@
             "time": "2014-07-22 17:04:15"
         },
         {
+            "name": "ircmaxell/password-compat",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/password_compat.git",
+                "reference": "1fc1521b5e9794ea77e4eca30717be9635f1d4f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/1fc1521b5e9794ea77e4eca30717be9635f1d4f4",
+                "reference": "1fc1521b5e9794ea77e4eca30717be9635f1d4f4",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/password.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@ircmaxell.com",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A compatibility library for the proposed simplified password hashing algorithm: https://wiki.php.net/rfc/password_hash",
+            "homepage": "https://github.com/ircmaxell/password_compat",
+            "keywords": [
+                "hashing",
+                "password"
+            ],
+            "time": "2013-04-30 19:58:08"
+        },
+        {
             "name": "kohana/cache",
             "version": "dev-3.3/develop",
             "source": {
@@ -200,12 +280,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/core.git",
-                "reference": "e9d912da372900c6904c5131a8ea6fb10365978e"
+                "reference": "6b519fb074b7f378615e50dee47504e98dc1735d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/core/zipball/e9d912da372900c6904c5131a8ea6fb10365978e",
-                "reference": "e9d912da372900c6904c5131a8ea6fb10365978e",
+                "url": "https://api.github.com/repos/kohana/core/zipball/6b519fb074b7f378615e50dee47504e98dc1735d",
+                "reference": "6b519fb074b7f378615e50dee47504e98dc1735d",
                 "shasum": ""
             },
             "require": {
@@ -231,8 +311,8 @@
                 {
                     "name": "Kohana Team",
                     "email": "team@kohanaframework.org",
-                    "homepage": "http://www.kohanaframework.org",
-                    "role": "Maintainer"
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
                 }
             ],
             "description": "Core system classes for the Kohana application framework",
@@ -241,7 +321,7 @@
                 "framework",
                 "kohana"
             ],
-            "time": "2014-06-14 22:33:24"
+            "time": "2014-08-10 06:19:57"
         },
         {
             "name": "kohana/database",
@@ -509,16 +589,16 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "3.2.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "2f14f6b3919029a14b2f09641fa757c1a566a2da"
+                "reference": "23303905a8ac4dd751c7ea1370587d8627a644e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/2f14f6b3919029a14b2f09641fa757c1a566a2da",
-                "reference": "2f14f6b3919029a14b2f09641fa757c1a566a2da",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/23303905a8ac4dd751c7ea1370587d8627a644e0",
+                "reference": "23303905a8ac4dd751c7ea1370587d8627a644e0",
                 "shasum": ""
             },
             "require": {
@@ -529,9 +609,14 @@
             },
             "require-dev": {
                 "league/phpunit-coverage-listener": "~1.0",
-                "mockery/mockery": ">=0.7.2"
+                "mockery/mockery": "~0.8"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "League\\OAuth2\\Server": "src/"
@@ -562,7 +647,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2014-07-23 15:13:50"
+            "time": "2014-08-10 10:15:18"
         },
         {
             "name": "robmorgan/phinx",
@@ -1007,6 +1092,39 @@
             ],
             "description": "A php library to convert vector geometries between different formats",
             "time": "2014-08-07 14:02:42"
+        },
+        {
+            "name": "wouter/a1",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ushahidi/A1",
+                "reference": "origin/3.3/feature-use-password-compat"
+            },
+            "type": "library",
+            "time": "2014-08-08 17:35:29"
+        },
+        {
+            "name": "wouter/a2",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Wouterrr/A2",
+                "reference": "origin/3.3/develop"
+            },
+            "type": "library",
+            "time": "2013-04-23 08:59:40"
+        },
+        {
+            "name": "wouter/acl",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Wouterrr/ACL",
+                "reference": "origin/3.3/develop"
+            },
+            "type": "library",
+            "time": "2012-06-08 23:12:00"
         },
         {
             "name": "zeelot/kohana-media",
@@ -1463,12 +1581,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "13e577cd52b836ebaf5e09c2938bdffb6b913d65"
+                "reference": "c3812dbe89a92c3ce544c60af2bd7adeef8bf995"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/13e577cd52b836ebaf5e09c2938bdffb6b913d65",
-                "reference": "13e577cd52b836ebaf5e09c2938bdffb6b913d65",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/c3812dbe89a92c3ce544c60af2bd7adeef8bf995",
+                "reference": "c3812dbe89a92c3ce544c60af2bd7adeef8bf995",
                 "shasum": ""
             },
             "require": {
@@ -1547,7 +1665,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-08-06 20:57:30"
+            "time": "2014-08-11 00:30:38"
         },
         {
             "name": "kohana/unittest",
@@ -1602,12 +1720,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "2281569ebc146c3844a9a1b4e31032aa512c2c78"
+                "reference": "38743b677965c48a637097b2746a281264ae2347"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/2281569ebc146c3844a9a1b4e31032aa512c2c78",
-                "reference": "2281569ebc146c3844a9a1b4e31032aa512c2c78",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/38743b677965c48a637097b2746a281264ae2347",
+                "reference": "38743b677965c48a637097b2746a281264ae2347",
                 "shasum": ""
             },
             "require": {
@@ -1643,7 +1761,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2014-07-19 06:49:33"
+            "time": "2014-08-09 10:27:07"
         },
         {
             "name": "phpspec/php-diff",
@@ -1758,12 +1876,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "f69ae6dc68bc3ef1dd29e195c6697d754a7e4259"
+                "reference": "5bc9c7cc229ae10d836cdf1ab593c3d8eb1e295a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/f69ae6dc68bc3ef1dd29e195c6697d754a7e4259",
-                "reference": "f69ae6dc68bc3ef1dd29e195c6697d754a7e4259",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/5bc9c7cc229ae10d836cdf1ab593c3d8eb1e295a",
+                "reference": "5bc9c7cc229ae10d836cdf1ab593c3d8eb1e295a",
                 "shasum": ""
             },
             "require": {
@@ -1808,7 +1926,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2014-08-04 12:20:16"
+            "time": "2014-08-10 15:53:29"
         },
         {
             "name": "phpunit/dbunit",
@@ -2676,6 +2794,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "aura/di": 20,
+        "bodom78/kohana-imagefly": 20,
         "kohana/core": 20,
         "kohana/database": 20,
         "kohana/cache": 20,
@@ -2684,6 +2803,9 @@
         "kohana/minion": 20,
         "robmorgan/phinx": 20,
         "shadowhand/email": 20,
+        "wouter/a1": 20,
+        "wouter/a2": 20,
+        "wouter/acl": 20,
         "zeelot/kohana-media": 20,
         "kohana/unittest": 20
     },
