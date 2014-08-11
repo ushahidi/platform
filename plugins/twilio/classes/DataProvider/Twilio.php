@@ -40,8 +40,6 @@ class DataProvider_Twilio extends DataProvider {
 	 */
 	public function send($to, $message, $title = "")
 	{
-		include_once Kohana::find_file('vendor', 'twilio/Services/Twilio');
-
 		if ( ! isset($this->_client))
 		{
 			$this->_client = new Services_Twilio($this->_options['account_sid'], $this->_options['auth_token']);

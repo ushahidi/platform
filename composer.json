@@ -64,6 +64,7 @@
         "wouter/a1": "dev-3.3/develop",
         "wouter/a2": "dev-3.3/develop",
         "wouter/acl": "dev-3.3/develop",
+        "twilio/sdk": "3.12.*",
         "zeelot/kohana-media": "1.3.*@dev"
     },
     "require-dev": {

@@ -60,17 +60,17 @@ DataProvider::register_provider('twilio', $plugin);
 /**
  * SMS Callback url
  */
-Route::set('twillio_sms_callback_url', 'sms/twillio(/<action>)')
+Route::set('twilio_sms_callback_url', 'sms/twilio(/<action>)')
 	->defaults(array(
 		'directory' => 'Sms',
-		'controller' => 'Twillio',
+		'controller' => 'Twilio',
 	));
 
 /**
  * Ivr Callback url
  */
-Route::set('twillio_ivr_callback_url', 'ivr/twillio(/<action>)')
+Route::set('twilio_ivr_callback_url', 'ivr/twilio(/<action>)')
 	->defaults(array(
 		'directory' => 'Ivr',
-		'controller' => 'Twillio',
+		'controller' => 'Twilio',
 	));
