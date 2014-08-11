@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "802069f1aaf176034e0838dd1a2d2b4c",
+    "hash": "53ded90cd00587585adcdb0b52eb138b",
     "packages": [
         {
             "name": "aura/di",
@@ -261,8 +262,8 @@
                 {
                     "name": "Kohana Team",
                     "email": "team@kohanaframework.org",
-                    "homepage": "http://www.kohanaframework.org",
-                    "role": "Maintainer"
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
                 }
             ],
             "description": "The official Kohana cache management module",
@@ -361,8 +362,8 @@
                 {
                     "name": "Kohana Team",
                     "email": "team@kohanaframework.org",
-                    "homepage": "http://www.kohanaframework.org",
-                    "role": "Maintainer"
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
                 }
             ],
             "description": "The official Kohana module for database interactions, building queries, and prepared statements",
@@ -411,8 +412,8 @@
                 {
                     "name": "Kohana Team",
                     "email": "team@kohanaframework.org",
-                    "homepage": "http://www.kohanaframework.org",
-                    "role": "Maintainer"
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
                 }
             ],
             "description": "The official Kohana module for manipulating images",
@@ -506,8 +507,8 @@
                 {
                     "name": "Kohana Team",
                     "email": "team@kohanaframework.org",
-                    "homepage": "http://www.kohanaframework.org",
-                    "role": "Maintainer"
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
                 }
             ],
             "description": "The official Kohana ORM module",
@@ -1094,6 +1095,56 @@
             "time": "2014-08-07 14:02:42"
         },
         {
+            "name": "twilio/sdk",
+            "version": "3.12.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "be6b2eec33ec665827cfd780f98f732a6e0e84eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/be6b2eec33ec665827cfd780f98f732a6e0e84eb",
+                "reference": "be6b2eec33ec665827cfd780f98f732a6e0e84eb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "mockery/mockery": ">=0.7.2",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Services_Twilio": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Burke",
+                    "email": "kevin@twilio.com"
+                },
+                {
+                    "name": "Kyle Conroy",
+                    "email": "kyle+pear@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "http://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "time": "2014-07-15 17:12:48"
+        },
+        {
             "name": "wouter/a1",
             "version": "dev-3.3/develop",
             "source": {
@@ -1581,12 +1632,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "c3812dbe89a92c3ce544c60af2bd7adeef8bf995"
+                "reference": "54991459675c1a2924122afbb0e5609ade581155"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/c3812dbe89a92c3ce544c60af2bd7adeef8bf995",
-                "reference": "c3812dbe89a92c3ce544c60af2bd7adeef8bf995",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/54991459675c1a2924122afbb0e5609ade581155",
+                "reference": "54991459675c1a2924122afbb0e5609ade581155",
                 "shasum": ""
             },
             "require": {
@@ -1665,7 +1716,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-08-11 00:30:38"
+            "time": "2014-08-11 04:32:36"
         },
         {
             "name": "kohana/unittest",
@@ -2809,6 +2860,10 @@
         "zeelot/kohana-media": 20,
         "kohana/unittest": 20
     },
-    "platform": [],
-    "platform-dev": []
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
 }
