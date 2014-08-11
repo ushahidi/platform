@@ -52,7 +52,7 @@ class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 
 	private function get_relative_path()
 	{
-		return str_replace(Kohana::$config->load('imagefly.media_dir'), '', Kohana::$config->load('media.media_upload_dir'));
+		return str_replace(Kohana::$config->load('imagefly.source_dir'), '', Kohana::$config->load('media.media_upload_dir'));
 	}
 
 	/**

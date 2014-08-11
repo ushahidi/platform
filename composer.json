@@ -48,6 +48,7 @@
     ],
     "require" : {
         "aura/di": "2.0.*@dev",
+        "bodom78/kohana-imagefly": "dev-master",
         "league/oauth2-server": "~3.2.3",
         "league/flysystem": "0.4.*",
         "ircmaxell/password-compat": "~1.0.3",

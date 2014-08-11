@@ -17,14 +17,14 @@ return array(
 	'ushahidiui' => APPPATH.'../web',
 
 	// Submodules
-	'imagefly'   => MODPATH.'imagefly', // Dynamic image generation
-	'data-provider'  => MODPATH.'data-provider',
+	'data-provider' => MODPATH.'data-provider',
 
 	// Vendor modules
 	'ACL'        => VENPATH.'wouter/acl', // Access control layer based on Zend_ACL
 	'A1'         => VENPATH.'wouter/a1', // Auth library using bcrypt
 	'A2'         => VENPATH.'wouter/a2', // Tying A1/Auth and ACL together
 	'email'      => VENPATH.'shadowhand/email',
+	'imagefly'   => VENPATH.'bodom78/kohana-imagefly', // Dynamic image generation
 	'media'      => VENPATH.'zeelot/kohana-media',
 
 	// Kohana modules

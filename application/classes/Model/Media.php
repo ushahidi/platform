@@ -89,7 +89,7 @@ class Model_Media extends ORM implements Acl_Resource_Interface {
 			$thumbnail_height = Kohana::$config->load('media.image_thumbnail_height');
 
 			$upload_path = Kohana::$config->load('media.media_upload_dir');
-			$relative_path = str_replace(Kohana::$config->load('imagefly.media_dir'),'',Kohana::$config->load('media.media_upload_dir'));
+			$relative_path = str_replace(Kohana::$config->load('imagefly.source_dir'),'',Kohana::$config->load('media.media_upload_dir'));
 
 			$original_file = $upload_path . $this->o_filename;
 
