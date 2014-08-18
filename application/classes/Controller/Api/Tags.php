@@ -101,6 +101,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		$repo   = service('repository.tag');
 		$parser = service('parser.tag.search');
 		$format = service('formatter.entity.tag');
+		$authorize = service('tool.authorizer');
 
 		$input = $parser($this->request->query());
 		
@@ -122,7 +123,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		{
 			// Check if user is allowed to access this tag
 			// todo: fix the ACL layer so that it can consume an Entity
-			if ($this->acl->is_allowed($this->user, $tag->getResource(), 'get') )
+			if($authorize->isAllowed($tag, 'get', $this->user))
 			{
 				$result = $format($tag);
 				$result['allowed_methods'] = $this->_allowed_methods($tag->getResource());
@@ -149,6 +150,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	{
 		$repo   = service('repository.tag');
 		$format = service('formatter.entity.api');
+		$authorize = service('tool.authorizer');
 		$tagid  = $this->request->param('id') ?: 0;
 		$tag    = $repo->get($tagid);
 
@@ -158,9 +160,12 @@ class Controller_Api_Tags extends Ushahidi_Api {
 				':id' => $tagid,
 			));
 		}
-
-		$this->_response_payload = $format($tag);
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+		
+		if($authorize->isAllowed($tag, 'get', $this->user))
+		{
+			$this->_response_payload = $format($tag);
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+		}
 	}
 
 	/**
