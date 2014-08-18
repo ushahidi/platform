@@ -29,9 +29,7 @@ return array(
 
 	// Kohana modules
 	'cache'      => MODPATH.'cache',      // Caching with multiple backends
-	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'minion'     => MODPATH.'minion',
-
 );

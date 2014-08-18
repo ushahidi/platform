@@ -29,9 +29,7 @@ application/media/uploads/*
 # Kohana modules installed composer
 system
 modules/cache
-modules/database
 modules/image
-modules/kohana-imagefly
 modules/unittest
 modules/minion
 modules/orm
