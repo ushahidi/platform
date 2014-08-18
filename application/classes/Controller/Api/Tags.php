@@ -161,11 +161,13 @@ class Controller_Api_Tags extends Ushahidi_Api {
 			));
 		}
 		
-		if($authorize->isAllowed($tag, 'get', $this->user))
-		{
+		if (!$authorize->isAllowed($tag, 'get', $this->user))
+			throw new AuthorizerException(sprintf('User %s is not allowed to access the tag  %s', 
+					$tag
+					));
+			
 			$this->_response_payload = $format($tag);
 			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
-		}
 	}
 
 	/**
