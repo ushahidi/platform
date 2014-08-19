@@ -40,7 +40,7 @@ Feature: Testing the Posts API
 		And the response has a "type" property
 		And the response has a "features" property
 		And the "features" property count is "0"
-		And the response has a "bbox" property
+		# And the response has a "bbox" property
 		And the "bbox.0" property equals "-180"
 		And the "bbox.1" property equals "85.051128779807"
 		And the "bbox.2" property equals "0"
@@ -65,7 +65,7 @@ Feature: Testing the Posts API
 		When I request "/posts/geojson"
 		Then the response is JSON
 		And the response has a "type" property
-		And the response has a "bbox" property
+		# And the response has a "bbox" property
 		And the response has a "features" property
 		And the "features" property count is "2"
 		Then the guzzle status code should be 200

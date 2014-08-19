@@ -52,6 +52,8 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 			$y !== FALSE)
 		{
 			$this->_boundingbox = Util_Tile::tileToBoundingBox($zoom, $x, $y);
+
+			$this->request->query('bbox', implode(',', $this->_boundingbox->as_array()));
 		}
 
 		// Geometry Decoder
