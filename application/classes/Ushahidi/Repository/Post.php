@@ -64,9 +64,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	}
 
 	// PostRepository
-	public function get($id)
+	public function get($id, $parent_id = NULL)
 	{
-		return $this->getEntity($this->selectOne(compact('id')));
+		return $this->getEntity($this->selectOne(compact('id', 'parent_id')));
+	}
+
+	// PostRepository
+	public function getByLocale($locale, $parent_id)
+	{
+		return $this->getEntity($this->selectOne(compact('locale', 'parent_id')));
 	}
 
 	// PostRepository

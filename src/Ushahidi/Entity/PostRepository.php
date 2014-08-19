@@ -16,9 +16,17 @@ interface PostRepository
 
 	/**
 	 * @param  int $id
+	 * @param  int $parent_id
 	 * @return \Ushahidi\Entity\Post
 	 */
-	public function get($id);
+	public function get($id, $parent_id = NULL);
+
+	/**
+	 * @param  string $locale
+	 * @param  int $parent_id
+	 * @return \Ushahidi\Entity\Post
+	 */
+	public function getByLocale($locale, $parent_id);
 
 	/**
 	 * @param  Ushahidi\Entity\PostSearchData $data
