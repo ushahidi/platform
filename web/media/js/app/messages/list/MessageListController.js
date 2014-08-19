@@ -15,7 +15,8 @@ define(['App', 'messages/list/MessageListView', 'collections/MessageCollection']
 		{
 			App.vent.trigger('page:change', view ? 'messages/' + view : 'messages');
 
-			var messages = new MessageCollection(),
+			App.Collections.Messages = new MessageCollection();
+			var messages = App.Collections.Messages,
 				replies,
 				promise;
 
@@ -52,7 +53,7 @@ define(['App', 'messages/list/MessageListView', 'collections/MessageCollection']
 					replies = new MessageCollection();
 					replies.fetch({data : {contact : model.get('contact').id}})
 						.done(function(){
-							model.set('replies', replies);
+							model.replies = replies;
 							App.layout.mainRegion.show(new MessageListView({
 								collection : messages
 							}));

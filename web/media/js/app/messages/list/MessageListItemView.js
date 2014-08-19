@@ -40,7 +40,7 @@ define(['App', 'marionette', 'alertify', 'underscore',
 
 			initialize: function()
 			{
-				this.collection = this.model.get('replies');
+				this.collection = this.model.replies;
 			},
 
 			itemView: ReplyView,
@@ -62,13 +62,15 @@ define(['App', 'marionette', 'alertify', 'underscore',
 			{
 				e.preventDefault();
 				var that = this;
+
 				this.model.set('status', 'archived')
 					.save()
 					.done(function()
 					{
 						alertify.success('Message has been archived');
 
-						that.model.fetch();
+						App.Collections.Messages.fetch();
+
 					}).fail(function ()
 					{
 						alertify.error('Unable to archive message, please try again');
@@ -80,13 +82,15 @@ define(['App', 'marionette', 'alertify', 'underscore',
 				e.preventDefault();
 
 				var that = this;
+
 				this.model.set('status', 'received')
 					.save()
 					.done(function()
 					{
 						alertify.success('Message has been restored');
 
-						that.model.fetch();
+						App.Collections.Messages.fetch();
+
 					}).fail(function ()
 					{
 						alertify.error('Unable to restore message, please try again');
@@ -207,8 +211,7 @@ define(['App', 'marionette', 'alertify', 'underscore',
 			{
 				var data = _.extend(this.model.toJSON(), {
 					isArchived : this.model.isArchived(),
-					isIncoming : this.model.isIncoming(),
-					activities : this.model.post ? this.model.post.toJSON() : null,
+					isIncoming : this.model.isIncoming()
 				});
 				return data;
 			},
