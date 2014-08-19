@@ -24,6 +24,7 @@ class PostValue extends Entity
 	// Attribute fields
 	public $key;
 	public $cardinality;
+	public $type;
 
 	public function getResource()
 	{

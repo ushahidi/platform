@@ -103,6 +103,8 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.media', $di->lazyNew('Ushahidi_Formatter_Media'));
 		$di->set('formatter.entity.post', $di->lazyNew('Ushahidi_Formatter_Post'));
+		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
+		$di->set('formatter.entity.post.point', $di->lazyNew('Ushahidi_Formatter_PostPoint'));
 		$di->set('formatter.entity.tag', $di->lazyNew('Ushahidi_Formatter_Tag'));
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
@@ -111,6 +113,17 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Formatter_JSONP']['setCallback'] = function() {
 			return Request::current()->query('callback');
 		};
+		$di->params['Ushahidi_Formatter_Post'] = [
+			'value_formatter' => $di->lazyGet('formatter.entity.post.value')
+		];
+		$di->params['Ushahidi_Formatter_PostPoint'] = [
+			'decoder' => $di->lazyNew('Symm\Gisconverter\Decoders\WKT')
+		];
+		$di->params['Ushahidi_Formatter_PostValue'] = [
+			'map' => [
+				'point' => $di->get('formatter.entity.post.point'),
+			]
+		];
 
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));

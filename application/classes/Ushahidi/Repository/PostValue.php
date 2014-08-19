@@ -31,7 +31,8 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 		$query->select(
 				$this->getTable().'.*',
 				'form_attributes.key',
-				'form_attributes.cardinality'
+				'form_attributes.cardinality',
+				'form_attributes.type'
 			)
 			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
 

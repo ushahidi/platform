@@ -189,7 +189,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 
 		if (!empty($params['type']))
 		{
-			$query->where('type', '=', $params['type']);
+			$query->where('posts.type', '=', $params['type']);
 		}
 
 		if (!empty($params['parent_id']))

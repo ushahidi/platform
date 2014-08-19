@@ -9,8 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Tool\Formatter;
+
 class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 {
+
+	public function __construct(Formatter $value_formatter)
+	{
+		$this->value_formatter = $value_formatter;
+	}
 
 	protected function get_field_name($field)
 	{
@@ -44,30 +51,26 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 	protected function format_values($values)
 	{
 		$output = [];
+		$value_formatter = $this->value_formatter;
 
-		// @todo custom formatting by type (ie. for points)
 		$values_with_keys = [];
 		foreach($values as $value)
 		{
-			$value = $value->asArray();
-
-			$key = $value['key'];
-			$cardinality = $value['cardinality'];
+			$key = $value->key;
+			$cardinality = $value->cardinality;
+			$formatted_value = $value_formatter($value);
 
 			if (! isset($values_with_keys[$key]))
 			{
 				$values_with_keys[$key] = [];
 			}
 			// Save value and id in multi-value format.
-			$values_with_keys[$key][] = [
-				'id' => $value['id'],
-				'value' => $value['value']
-			];
+			$values_with_keys[$key][] = $formatted_value;
 
 			// First or single value for attribute
 			if (! isset($output[$key]) AND $cardinality == 1)
 			{
-				$output[$key] = $value['value'];
+				$output[$key] = $formatted_value['value'];
 			}
 			// Multivalue - use array instead
 			else
