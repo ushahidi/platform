@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "de575cbaf8321fb3e0f4ea64e198b9af",
+    "hash": "5dd8761876847573f18603b1f31f74fe",
     "packages": [
         {
             "name": "aura/di",
@@ -104,12 +105,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "f22820dd0854a406f86e2fc29b81c1898d68e5fb"
+                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/f22820dd0854a406f86e2fc29b81c1898d68e5fb",
-                "reference": "f22820dd0854a406f86e2fc29b81c1898d68e5fb",
+                "url": "https://api.github.com/repos/composer/installers/zipball/74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
+                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
                 "shasum": ""
             },
             "replace": {
@@ -186,7 +187,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-08-17 18:19:30"
+            "time": "2014-08-18 20:00:12"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -411,8 +412,8 @@
                 {
                     "name": "Kohana Team",
                     "email": "team@kohanaframework.org",
-                    "homepage": "http://www.kohanaframework.org",
-                    "role": "Maintainer"
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
                 }
             ],
             "description": "The official Kohana module for manipulating images",
@@ -506,8 +507,8 @@
                 {
                     "name": "Kohana Team",
                     "email": "team@kohanaframework.org",
-                    "homepage": "http://www.kohanaframework.org",
-                    "role": "Maintainer"
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
                 }
             ],
             "description": "The official Kohana ORM module",
@@ -1419,12 +1420,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Mink.git",
-                "reference": "d4d1bc2bc10ced37aaa635ec0e342cfda23864f8"
+                "reference": "b1453c38f37dd98532086054a5a62e3ffb3f8c5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Mink/zipball/d4d1bc2bc10ced37aaa635ec0e342cfda23864f8",
-                "reference": "d4d1bc2bc10ced37aaa635ec0e342cfda23864f8",
+                "url": "https://api.github.com/repos/Behat/Mink/zipball/b1453c38f37dd98532086054a5a62e3ffb3f8c5e",
+                "reference": "b1453c38f37dd98532086054a5a62e3ffb3f8c5e",
                 "shasum": ""
             },
             "require": {
@@ -1466,7 +1467,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2014-08-13 21:41:21"
+            "time": "2014-08-19 01:30:10"
         },
         {
             "name": "behat/mink-browserkit-driver",
@@ -2466,6 +2467,81 @@
             "time": "2014-02-16 12:43:56"
         },
         {
+            "name": "squizlabs/php_codesniffer",
+            "version": "1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "4097e2c106e4a32bc234ae880e5585a19137e435"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4097e2c106e4a32bc234ae880e5585a19137e435",
+                "reference": "4097e2c106e4a32bc234ae880e5585a19137e435",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.1.2"
+            },
+            "suggest": {
+                "phpunit/php-timer": "dev-master"
+            },
+            "bin": [
+                "scripts/phpcs"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-phpcs-fixer": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "CodeSniffer.php",
+                    "CodeSniffer/CLI.php",
+                    "CodeSniffer/Exception.php",
+                    "CodeSniffer/File.php",
+                    "CodeSniffer/Report.php",
+                    "CodeSniffer/Reporting.php",
+                    "CodeSniffer/Sniff.php",
+                    "CodeSniffer/Tokens.php",
+                    "CodeSniffer/Reports/",
+                    "CodeSniffer/CommentParser/",
+                    "CodeSniffer/Tokenizers/",
+                    "CodeSniffer/DocGenerators/",
+                    "CodeSniffer/Standards/AbstractPatternSniff.php",
+                    "CodeSniffer/Standards/AbstractScopeSniff.php",
+                    "CodeSniffer/Standards/AbstractVariableSniff.php",
+                    "CodeSniffer/Standards/IncorrectPatternException.php",
+                    "CodeSniffer/Standards/Generic/Sniffs/",
+                    "CodeSniffer/Standards/MySource/Sniffs/",
+                    "CodeSniffer/Standards/PEAR/Sniffs/",
+                    "CodeSniffer/Standards/PSR1/Sniffs/",
+                    "CodeSniffer/Standards/PSR2/Sniffs/",
+                    "CodeSniffer/Standards/Squiz/Sniffs/",
+                    "CodeSniffer/Standards/Zend/Sniffs/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "lead"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenises PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "http://www.squizlabs.com/php-codesniffer",
+            "keywords": [
+                "phpcs",
+                "standards"
+            ],
+            "time": "2014-08-05 23:54:05"
+        },
+        {
             "name": "symfony/browser-kit",
             "version": "dev-master",
             "target-dir": "Symfony/Component/BrowserKit",
@@ -2913,6 +2989,10 @@
         "zeelot/kohana-media": 20,
         "kohana/unittest": 20
     },
-    "platform": [],
-    "platform-dev": []
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
 }

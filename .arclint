@@ -6,6 +6,11 @@
       "exclude" : "@/libs/.*\\.js$@",
       "jshint.jshintrc" : ".jshintrc",
       "jshint.jshintignore" : ".jshintignore"
+    },
+    "phpcs" : {
+      "type" : "phpcs",
+      "include" : "(\\.php$)",
+      "exclude" : "@^(application|modules|plugins)/.*@"
     }
   }
 }
