@@ -124,6 +124,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$repo   = service('repository.post');
 		$parser = service('parser.post.search');
 		$format = service('formatter.entity.post');
+		$authorizer = service('tool.authorizer.post');
 
 		$input = $parser($this->request->query());
 
@@ -139,21 +140,23 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			'type' => $this->_type,
 			'parent_id' => $this->_parent_id
 			]);
-		$count = count($posts);
 
 		$results = [];
 		foreach ($posts as $post)
 		{
-			// Check if user is allowed to access this tag
-			// todo: fix the ACL layer so that it can consume an Entity
-			// This breaks tests because it won't hide draft/pending posts
-			if ($this->acl->is_allowed($this->user, $post->getResource(), 'get') )
+			// Check if user is allowed to access this post
+			// @todo preload user entity, avoid multiple queries
+			if ( $authorizer->isAllowed($post, 'get', $this->user->id) )
 			{
 				$result = $format($post);
+				// @todo check with authorizer instead
 				$result['allowed_methods'] = $this->_allowed_methods($post->getResource());
 				$results[] = $result;
 			}
 		}
+
+		// Count actual results since they're filtered by access check
+		$count = count($results);
 
 		// Respond with posts
 		$this->_response_payload = array(
@@ -176,11 +179,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		$format = service('formatter.entity.post');
 		$id     = $this->request->param('id') ?: 0;
 		$post   = $repo->get($id);
+		$authorizer = service('tool.authorizer.post');
 
 		if (!$post->id)
 		{
 			throw new HTTP_Exception_404('Post :id does not exist', array(
 				':id' => $id,
+			));
+		}
+
+		if (! $authorizer->isAllowed($post, 'get', $this->user->id))
+		{
+			throw HTTP_Exception::factory('403', 'You do not have permission to access post :post', array(
+				':post' => $id
 			));
 		}
 

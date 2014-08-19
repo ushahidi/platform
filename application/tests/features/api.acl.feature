@@ -247,3 +247,31 @@ Feature: API Access Control Layer
         And that its "id" is "117"
         When I request "/posts/110/updates"
         Then the guzzle status code should be 403
+
+    Scenario: Anonymous users cannot edit public post
+	Given that I want to update a "Post"
+	And that the request "Authorization" header is "Bearer testanon"
+	And that the request "data" is:
+	    """
+	    {
+		"form":1,
+		"title":"Updated Test Post",
+		"type":"report",
+		"status":"published",
+		"locale":"en_US",
+		"values":
+		{
+		    "full_name":"David Kobia",
+		    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+		    "date_of_birth":null,
+		    "missing_date":"2012/09/25",
+		    "last_location":"atlanta",
+		    "last_location_point":"POINT(-85.39 33.755)",
+		    "missing_status":"believed_missing"
+		},
+		"tags":["missing","kenyan"]
+	    }
+	    """
+	And that its "id" is "110"
+	When I request "/posts"
+	Then the guzzle status code should be 403
