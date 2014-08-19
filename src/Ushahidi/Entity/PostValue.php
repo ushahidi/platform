@@ -21,6 +21,10 @@ class PostValue extends Entity
 	public $value;
 	public $created;
 
+	// Attribute fields
+	public $key;
+	public $cardinality;
+
 	public function getResource()
 	{
 		return 'post_values';

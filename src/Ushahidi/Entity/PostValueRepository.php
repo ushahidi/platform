@@ -21,9 +21,12 @@ interface PostValueRepository
 	public function get($id);
 
 	/**
-	 * @param  int $post_id
-	 * @return [Ushahidi\Entity\PostValue, ...]
+	 * Get a query to return matching values LIKE some value
+	 *
+	 * @param  int    $form_attribute_id
+	 * @param  string $match
+	 * @return Database_Query
 	 */
-	public function getAllForPost($post_id);
+	public function getValueQuery($form_attribute_id, $match);
 
 }

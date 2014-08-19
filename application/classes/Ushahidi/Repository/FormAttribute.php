@@ -33,6 +33,12 @@ class Ushahidi_Repository_FormAttribute extends Ushahidi_Repository implements F
 	}
 
 	// FormAttributeRepository
+	public function getByKey($key)
+	{
+		return new FormAttribute($this->selectOne(compact('key')));
+	}
+
+	// FormAttributeRepository
 	public function getAll()
 	{
 		$query = $this->selectQuery();

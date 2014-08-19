@@ -159,7 +159,7 @@ form_attributes:
     id: 11
     label: "Links"
     key: "links"
-    type: "link"
+    type: "varchar"
     input: "text"
     required: 0
     priority: 7

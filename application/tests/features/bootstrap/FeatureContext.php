@@ -45,8 +45,28 @@ class FeatureContext extends BehatContext
 		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
 		$fixtureContext->setUpDBTester('ushahidi/Base');
 
-		// Hack to insert spatial data
 		$pdo_connection = $fixtureContext->getConnection()->getConnection();
+		self::insertGeometryFixtures($pdo_connection);
+	}
+
+	/** @AfterFeature */
+	public static function featureTearDown(FeatureEvent $event)
+	{
+		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
+		$fixtureContext->tearDownDBTester('ushahidi/Base');
+	}
+
+	/** @BeforeScenario @resetFixture */
+	public function scenarioSetup()
+	{
+		$this->getSubcontext('PHPUnitFixtureContext')->setUpDBTester('ushahidi/Base');
+
+		$pdo_connection = $this->getSubcontext('PHPUnitFixtureContext')->getConnection()->getConnection();
+		self::insertGeometryFixtures($pdo_connection);
+	}
+
+	protected static function insertGeometryFixtures($pdo_connection)
+	{
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
 			VALUES (1, 1, 8, POINT(12.123, 21.213));");
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
@@ -67,25 +87,6 @@ class FeatureContext extends BehatContext
 				GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
 					((20 35, 45 20, 30 5, 10 10, 10 30, 20 35),
 					(30 20, 20 25, 20 15, 30 20)))'));");
-	}
-
-	/** @AfterFeature */
-	public static function featureTearDown(FeatureEvent $event)
-	{
-		$fixtureContext = new PHPUnitFixtureContext($event->getParameters());
-		$fixtureContext->tearDownDBTester('ushahidi/Base');
-	}
-
-	/** @BeforeScenario @resetFixture */
-	public function scenarioSetup()
-	{
-		$this->getSubcontext('PHPUnitFixtureContext')->setUpDBTester('ushahidi/Base');
-	}
-
-	/** @BeforeScenario @resetFixture */
-	public function scenarioTearDown()
-	{
-		$this->getSubcontext('PHPUnitFixtureContext')->tearDownDBTester('ushahidi/Base');
 	}
 
 	/**

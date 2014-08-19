@@ -33,17 +33,24 @@ class Ushahidi_Formatter_API implements Formatter
 
 		if (isset($fields['parent_id']))
 		{
-			$data['parent'] = !$entity->parent_id ? NULL : [
-				'id'  => $entity->parent_id,
-				'url' => URL::site(Ushahidi_Api::url($entity->getResource(), $entity->parent_id), Request::current()),
-			];
+			$data['parent'] = $this->get_relation($entity->getResource(), $entity->parent_id);
 			unset($fields['parent_id']);
+		}
+
+		if (isset($fields['user_id']))
+		{
+			$data['user'] = $this->get_relation('users', $entity->user_id);
+			unset($fields['user_id']);
 		}
 
 		foreach ($fields as $field)
 		{
 			$name = $this->get_field_name($field);
-			$value = trim($entity->$field);
+			$value = $entity->$field;
+			if (is_string($value))
+			{
+				$value = trim($value);
+			}
 
 			$method = 'format_' . $field;
 			if (method_exists($this, $method))
@@ -73,5 +80,19 @@ class Ushahidi_Formatter_API implements Formatter
 	protected function format_updated($value)
 	{
 		return $value ? $this->format_created($value) : NULL;
+	}
+
+	/**
+	 * Format relations into url/id arrays
+	 * @param  string $resource resource name as used in urls
+	 * @param  int    $id       resource id
+	 * @return array
+	 */
+	protected function get_relation($resource, $id)
+	{
+		return !$id ? NULL : [
+			'id'  => $id,
+			'url' => URL::site(Ushahidi_Api::url($resource, $id), Request::current()),
+		];
 	}
 }

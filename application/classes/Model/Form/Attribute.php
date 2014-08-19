@@ -54,7 +54,6 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 		'decimal',
 		'geometry',
 		'int',
-		'link',
 		'point',
 		'text',
 		'varchar'

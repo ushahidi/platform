@@ -21,34 +21,11 @@ interface PostRepository
 	public function get($id);
 
 	/**
-	 * @param $parent \Ushahidi\Entity\Post
-	 * @return [\Ushahidi\Entity\Post, ...]
+	 * @param  Ushahidi\Entity\PostSearchData $data
+	 * @param  Array $params [limit, offset, orderby, order, type]
+	 * @return [Ushahidi\Entity\Post, ...]
 	 */
-	public function getAllByParent(Post $parent);
-
-	/**
-	 * @param $user \Ushahidi\Entity\User
-	 * @return [\Ushahidi\Entity\Post, ...]
-	 */
-	public function getAllByUser(User $user);
-
-	/**
-	 * @param \Ushahidi\Entity\Post
-	 * @return boolean
-	 */
-	public function add(Post $role);
-
-	/**
-	 * @param \Ushahidi\Entity\Post
-	 * @return boolean
-	 */
-	public function remove(Post $role);
-
-	/**
-	 * @param \Ushahidi\Entity\Post
-	 * @return boolean
-	 */
-	public function edit(Post $role);
+	public function search(PostSearchData $data, Array $params = null);
 
 }
 

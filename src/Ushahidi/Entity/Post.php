@@ -28,6 +28,9 @@ class Post extends Entity
 	public $updated;
 	public $locale;
 
+	public $values = [];
+	public $tags = [];
+
 	public function getResource()
 	{
 		return 'posts';

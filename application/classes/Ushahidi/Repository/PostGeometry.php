@@ -23,19 +23,15 @@ class Ushahidi_Repository_PostGeometry extends Ushahidi_Repository_PostValue
 	// Override selectQuery to fetch 'value' from db as text
 	protected function selectQuery(Array $where = [])
 	{
-		$query = DB::select(
-				'id',
-				'post_id',
-				'form_attribute_id',
+		$query = parent::selectQuery($where);
+
+		// Get geometry value as text
+		$query->select(
+				$this->getTable().'.*',
 				// Fetch AsText(value) aliased to value
-				[DB::expr('AsText(value)'), 'value'],
-				'created'
-			)
-			->from($this->getTable());
-		foreach ($where as $column => $value)
-		{
-			$query->where($column, '=', $value);
-		}
+				[DB::expr('AsText(value)'), 'value']
+			);
+
 		return $query;
 	}
 

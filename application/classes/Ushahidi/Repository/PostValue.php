@@ -11,8 +11,9 @@
 
 use Ushahidi\Entity\PostValue;
 use Ushahidi\Entity\PostValueRepository;
+use Ushahidi\Entity\GetValuesForPostRepository;
 
-abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository implements PostValueRepository
+abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository implements PostValueRepository, GetValuesForPostRepository
 {
 
 	// Ushahidi_Repository
@@ -21,20 +22,43 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 		return new PostValue($data);
 	}
 
+	// Override selectQuery to fetch attribute 'key' too
+	protected function selectQuery(Array $where = [])
+	{
+		$query = parent::selectQuery($where);
+
+		// Select 'key' too
+		$query->select(
+				$this->getTable().'.*',
+				'form_attributes.key',
+				'form_attributes.cardinality'
+			)
+			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
+
+		return $query;
+	}
+
 	// PostValueRepository
 	public function get($id)
 	{
 		return new PostValue($this->selectOne(compact('id')));
 	}
 
-	// PostValueRepository
+	// GetValuesForPostRepository
 	public function getAllForPost($post_id)
 	{
-		$query = $this->selectQuery(compact($post_id));
+		$query = $this->selectQuery(compact('post_id'));
 
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	// PostValueRepository
+	public function getValueQuery($form_attribute_id, $match)
+	{
+		return $this->selectQuery(compact('form_attribute_id'))
+			->where('value', 'LIKE', "%$match%");
 	}
 
 }

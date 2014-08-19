@@ -121,274 +121,46 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$results = array();
+		$repo   = service('repository.post');
+		$parser = service('parser.post.search');
+		$format = service('formatter.entity.post');
 
+		$input = $parser($this->request->query());
+
+		// this probably belongs in the parser, or should just return the
+		// order/limit params as an array for the search call
 		$this->_prepare_order_limit_params();
 
-		$posts_query = ORM::factory('Post')
-			->distinct(TRUE)
-			->where('type', '=', $this->_type)
-			->order_by($this->_record_orderby, $this->_record_order);
+		$posts = $repo->search($input, [
+			'orderby' => $this->_record_orderby,
+			'order' => $this->_record_order,
+			'offset' => $this->_record_offset,
+			'limit' => $this->_record_limit,
+			'type' => $this->_type,
+			'parent_id' => $this->_parent_id
+			]);
+		$count = count($posts);
 
-		// set request
-		// set param is set
-		$set_id = $this->request->query('set');
-		if (! empty($set_id))
-		{
-			$posts_query->join('posts_sets', 'INNER')
-				->on('post.id', '=', 'posts_sets.post_id')
-				->where('posts_sets.set_id', '=', $set_id);
-		}
-
-		if ($this->_record_limit !== FALSE)
-		{
-			$posts_query
-				->limit($this->_record_limit)
-				->offset($this->_record_offset);
-		}
-
-		if ($this->_parent_id)
-		{
-			$posts_query->where('parent_id', '=', $this->_parent_id);
-		}
-
-		// Prepare search params
-		// @todo generalize this?
-		$q = $this->request->query('q');
-		if (! empty($q))
-		{
-			$posts_query->and_where_open();
-			$posts_query->where('title', 'LIKE', "%$q%");
-			$posts_query->or_where('content', 'LIKE', "%$q%");
-			$posts_query->and_where_close();
-		}
-
-		$type = $this->request->query('type');
-		if (! empty($type))
-		{
-			$posts_query->where('type', '=', $type);
-		}
-		$slug = $this->request->query('slug');
-		if (! empty($slug))
-		{
-			$posts_query->where('slug', '=', $slug);
-		}
-		$form = $this->request->query('form');
-		if (! empty($form))
-		{
-			$posts_query->where('form_id', '=', $form);
-		}
-		$user = $this->request->query('user');
-		if (! empty($user))
-		{
-			$posts_query->where('user_id', '=', $user);
-		}
-		$locale = $this->request->query('locale');
-		if (! empty($locale))
-		{
-			$posts_query->where('locale', '=', $locale);
-		}
-		// Filter on status, default status=published
-		$status = $this->request->query('status');
-		if (! empty($status))
-		{
-			if ($status != 'all')
-			{
-				$posts_query->where('status', '=', $status);
-			}
-		}
-		else
-		{
-			$posts_query->where('status', '=', 'published');
-		}
-
-		// date chcks
-		$created_after = $this->request->query('created_after');
-		if (! empty($created_after))
-		{
-			$created_after = date('U', strtotime($created_after));
-			$posts_query->where('created', '>=', $created_after);
-		}
-		$created_before = $this->request->query('created_before');
-		if (! empty($created_before))
-		{
-			$created_before = date('U', strtotime($created_before));
-			$posts_query->where('created', '<=', $created_before);
-		}
-		$updated_after = $this->request->query('updated_after');
-		if (! empty($updated_after))
-		{
-			$updated_after = date('U', strtotime($updated_after));
-			$posts_query->where('updated', '>=', $updated_after);
-		}
-		$updated_before = $this->request->query('updated_before');
-		if (! empty($updated_before))
-		{
-			$updated_before = date('U', strtotime($updated_before));
-			$posts_query->where('updated', '<=', $updated_before);
-		}
-
-		// Bounding box search
-		// @todo eventually move this to Post_Point class?
-		// Create geometry from bbox
-		$bbox = $this->request->query('bbox');
-		if (! empty($bbox))
-		{
-			$bbox = array_map('floatval', explode(',', $bbox));
-			$bb_west = $bbox[0];
-			$bb_north = $bbox[1];
-			$bb_east = $bbox[2];
-			$bb_south = $bbox[3];
-			$this->_boundingbox = new Util_BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
-		}
-
-		if ($this->_boundingbox)
-		{
-			$sub = DB::select('post_id')
-				->from('post_point')
-				->where(
-					DB::expr(
-						'CONTAINS(GeomFromText(:bounds), value)',
-						array(':bounds' => $this->_boundingbox->toWKT()) ),
-					'=',
-					1
-				);
-			$posts_query->join(array($sub, 'Filter_BBox'), 'INNER')->on('post.id', '=', 'Filter_BBox.post_id');
-		}
-
-		// Attributes
-		// @todo optimize this - maybe iterate over query params instead
-		$attributes = ORM::factory('Form_Attribute')->find_all();
-		foreach ($attributes as $attr)
-		{
-			$attr_filter = $this->request->query($attr->key);
-			if (! empty($attr_filter))
-			{
-				$table_name = ORM::factory('Post_'.ucfirst($attr->type))->table_name();
-				$sub = DB::select('post_id')
-					->from($table_name)
-					->where('form_attribute_id', '=', $attr->id)
-					->where('value', 'LIKE', "%$attr_filter%");
-				$posts_query->join(array($sub, 'Filter_'.ucfirst($attr->key)), 'INNER')->on('post.id', '=', 'Filter_'.ucfirst($attr->key).'.post_id');
-			}
-		}
-
-		// Filter by tag
-		$tags = $this->request->query('tags');
-		if (! empty($tags))
-		{
-			// Default to filtering to ANY of the tags.
-			// if tags isn't an array or doesn't have any/all keys set
-			if (! is_array($tags) OR (! isset($tags['any']) AND ! isset($tags['all'])))
-			{
-				$tags = array('any' => $tags);
-			}
-
-			if (isset($tags['any']))
-			{
-				if (! is_array($tags['any']))
-				{
-					$tags['any'] = explode(',', $tags['any']);
-				}
-				$posts_query
-					->join('posts_tags')->on('post.id', '=', 'posts_tags.post_id')
-					->where('tag_id', 'IN', $tags['any']);
-			}
-
-			if (isset($tags['all']))
-			{
-				if (! is_array($tags['all']))
-				{
-					$tags['all'] = explode(',', $tags['all']);
-				}
-				foreach ($tags['all'] as $tag)
-				{
-					$sub = DB::select('post_id')
-						->from('posts_tags')
-						->where('tag_id', '=', $tag);
-
-					$posts_query
-						->where('post.id', 'IN', $sub);
-				}
-			}
-		}
-
-		// Get the count of ALL records
-		$count_query = clone $posts_query;
-		$total_records = (int) $count_query
-			->select(array(DB::expr('COUNT(DISTINCT `post`.`id`)'), 'records_found'))
-			->limit(NULL)
-			->offset(NULL)
-			->find_all()
-			->get('records_found');
-		$count_query_sql = $count_query->last_query();
-
-		// Get posts
-		$posts = $posts_query->find_all();
-		$post_query_sql = $posts_query->last_query();
-
-		// Result count (for this request)
-		$count = $posts->count();
-
+		$results = [];
 		foreach ($posts as $post)
 		{
-			// Check if use is allowed to access this post
-			if ($this->acl->is_allowed($this->user, $post, 'get'))
+			// Check if user is allowed to access this tag
+			// todo: fix the ACL layer so that it can consume an Entity
+			// This breaks tests because it won't hide draft/pending posts
+			if ($this->acl->is_allowed($this->user, $post->getResource(), 'get') )
 			{
-				$result = $post->for_api();
-
-				// @todo move this to 'meta' info
-				$result['allowed_methods'] = $this->_allowed_methods($post);
-
+				$result = $format($post);
+				$result['allowed_methods'] = $this->_allowed_methods($post->getResource());
 				$results[] = $result;
 			}
 		}
 
-		// Count actual results since they're filtered by access check
-		$count = count($results);
-
-		// Current/Next/Prev urls
-		$params = array(
-			'limit' => $this->_record_limit,
-			'offset' => $this->_record_offset,
-		);
-		// Only add order/orderby if they're already set
-		if ($this->request->query('orderby') OR $this->request->query('order'))
-		{
-			$params['orderby'] = $this->_record_orderby;
-			$params['order'] = $this->_record_order;
-		}
-
-		$prev_params = $next_params = $params;
-		$next_params['offset'] = $params['offset'] + $params['limit'];
-		$prev_params['offset'] = $params['offset'] - $params['limit'];
-		$prev_params['offset'] = ($prev_params['offset'] > 0) ? $prev_params['offset'] : 0;
-
-		$curr = URL::site($this->request->uri().URL::query($params), $this->request);
-		$next = URL::site($this->request->uri().URL::query($next_params), $this->request);
-		$prev = URL::site($this->request->uri().URL::query($prev_params), $this->request);
-
 		// Respond with posts
 		$this->_response_payload = array(
 			'count' => $count,
-			'total_count' => $total_records,
 			'results' => $results,
-			'limit' => $this->_record_limit,
-			'offset' => $this->_record_offset,
-			'order' => $this->_record_order,
-			'orderby' => $this->_record_orderby,
-			'curr' => $curr,
-			'next' => $next,
-			'prev' => $prev,
-		);
-
-		// Add debug info if environment isn't production
-		if (Kohana::$environment !== Kohana::PRODUCTION)
-		{
-			$this->_response_payload['query'] = $post_query_sql;
-			$this->_response_payload['count_query'] = $count_query_sql;
-		}
-
+			)
+			+ $this->_get_paging_parameters();
 	}
 
 	/**
@@ -400,11 +172,19 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$post = $this->resource();
+		$repo   = service('repository.post');
+		$format = service('formatter.entity.post');
+		$id     = $this->request->param('id') ?: 0;
+		$post   = $repo->get($id);
 
-		$this->_response_payload = $post->for_api();
+		if (!$post->id)
+		{
+			throw new HTTP_Exception_404('Post :id does not exist', array(
+				':id' => $id,
+			));
+		}
 
-		// @todo move this to 'meta' info
+		$this->_response_payload = $format($post);
 		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 

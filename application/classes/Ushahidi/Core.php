@@ -102,6 +102,7 @@ abstract class Ushahidi_Core {
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.media', $di->lazyNew('Ushahidi_Formatter_Media'));
+		$di->set('formatter.entity.post', $di->lazyNew('Ushahidi_Formatter_Post'));
 		$di->set('formatter.entity.tag', $di->lazyNew('Ushahidi_Formatter_Tag'));
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
@@ -114,7 +115,9 @@ abstract class Ushahidi_Core {
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
+		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_FormAttribute'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
+		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
@@ -129,11 +132,40 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Repository_Media'] = [
 			'upload' => $di->lazyGet('tool.uploader'),
 			];
+		$di->params['Ushahidi_Repository_Post'] = [
+				'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
+				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
+				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
+			];
+
+		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_PostDatetime'));
+		$di->set('repository.post.decimal', $di->lazyNew('Ushahidi_Repository_PostDecimal'));
+		$di->set('repository.post.geometry', $di->lazyNew('Ushahidi_Repository_PostGeometry'));
+		$di->set('repository.post.int', $di->lazyNew('Ushahidi_Repository_PostInt'));
+		$di->set('repository.post.point', $di->lazyNew('Ushahidi_Repository_PostPoint'));
+		$di->set('repository.post.text', $di->lazyNew('Ushahidi_Repository_PostText'));
+		$di->set('repository.post.varchar', $di->lazyNew('Ushahidi_Repository_PostVarchar'));
+
+		// The post value repo factory
+		$di->set('repository.post_value_factory', $di->lazyNew('Ushahidi_Repository_PostValueFactory'));
+		$di->params['Ushahidi_Repository_PostValueFactory'] = [
+				// a map of attribute types to repositories
+				'map' => [
+					'datetime' => $di->lazyGet('repository.post.datetime'),
+					'decimal'  => $di->lazyGet('repository.post.decimal'),
+					'geometry' => $di->lazyGet('repository.post.geometry'),
+					'int'      => $di->lazyGet('repository.post.int'),
+					'point'    => $di->lazyGet('repository.post.point'),
+					'text'     => $di->lazyGet('repository.post.text'),
+					'varchar'  => $di->lazyGet('repository.post.varchar')
+				],
+			];
 
 		// Parsers
 		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
 		$di->set('parser.media.delete', $di->lazyNew('Ushahidi_Parser_Media_Delete'));
 		$di->set('parser.media.search', $di->lazyNew('Ushahidi_Parser_Media_Search'));
+		$di->set('parser.post.search', $di->lazyNew('Ushahidi_Parser_Post_Search'));
 		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
 		$di->set('parser.tag.search', $di->lazyNew('Ushahidi_Parser_Tag_Search'));
 		$di->set('parser.tag.update', $di->lazyNew('Ushahidi_Parser_Tag_Update'));
