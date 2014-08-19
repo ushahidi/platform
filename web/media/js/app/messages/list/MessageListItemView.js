@@ -61,7 +61,6 @@ define(['App', 'marionette', 'alertify', 'underscore',
 			archiveMessage : function(e)
 			{
 				e.preventDefault();
-				var that = this;
 
 				this.model.set('status', 'archived')
 					.save()
@@ -80,8 +79,6 @@ define(['App', 'marionette', 'alertify', 'underscore',
 			unarchiveMessage : function(e)
 			{
 				e.preventDefault();
-
-				var that = this;
 
 				this.model.set('status', 'received')
 					.save()
