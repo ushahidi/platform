@@ -40,7 +40,8 @@ $plugin = array(
 		'secret' => array(
 			'label' => 'Secret',
 			'input' => 'text',
-			'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message. You need to configure the same secret in the SMSSync App.'
+			'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message. You need to configure the same secret in the SMSSync App.',
+			'rules' => array('required')
 		)
 	),
 

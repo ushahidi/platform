@@ -33,18 +33,21 @@ $plugin = array(
 			'label' => 'Incoming Server Type',
 			'input' => 'radio',
 			'description' => '',
-			'options' => array('POP', 'IMAP')
+			'options' => array('POP', 'IMAP'),
+			'rules' => array('required', 'number')
 		),
 		'incoming_server' => array(
 			'label' => 'Incoming Server',
 			'input' => 'text',
 			'description' => '',
 			'description' => 'Examples: mail.yourwebsite.com, imap.gmail.com, pop.gmail.com',
+			'rules' => array('required')
 		),
 		'incoming_port' => array(
 			'label' => 'Incoming Server Port',
 			'input' => 'text',
-			'description' => 'Common ports: 110 (POP3), 143 (IMAP), 995 (POP3 with SSL), 993 (IMAP with SSL)'
+			'description' => 'Common ports: 110 (POP3), 143 (IMAP), 995 (POP3 with SSL), 993 (IMAP with SSL)',
+			'rules' => array('required','number')
 		),
 		'incoming_security' => array(
 			'label' => 'Incoming Server Security',
@@ -56,13 +59,15 @@ $plugin = array(
 			'label' => 'Incoming Username',
 			'input' => 'text',
 			'description' => '',
-			'placeholder' => 'Email account username'
+			'placeholder' => 'Email account username',
+			'rules' => array('required')
 		),
 		'incoming_password' => array(
 			'label' => 'Incoming Password',
 			'input' => 'text',
 			'description' => '',
-			'placeholder' => 'Email account password'
+			'placeholder' => 'Email account password',
+			'rules' => array('required')
 		),
 		'outgoing_type' => array(
 			'label' => 'Outgoing Server Type',
@@ -74,11 +79,13 @@ $plugin = array(
 			'label' => 'Outgoing Server',
 			'input' => 'text',
 			'description' => 'Examples: smtp.yourhost.com, smtp.gmail.com',
+			'rules' => array('required')
 		),
 		'outgoing_port' => array(
 			'label' => 'Outgoing Server Port',
 			'input' => 'text',
-			'description' => 'Common ports: 25 (SMTP default), 465 (SMTP with SSL)'
+			'description' => 'Common ports: 25 (SMTP default), 465 (SMTP with SSL)',
+			'rules' => array('required','number')
 		),
 		'outgoing_security' => array(
 			'label' => 'Outgoing Server Security',
@@ -90,18 +97,21 @@ $plugin = array(
 			'label' => 'Outgoing Username',
 			'input' => 'text',
 			'description' => '',
-			'placeholder' => 'Email account username'
+			'placeholder' => 'Email account username',
+			'rules' => array('required')
 		),
 		'outgoing_password' => array(
 			'label' => 'Outgoing Password',
 			'input' => 'text',
 			'description' => '',
-			'placeholder' => 'Email account password'
+			'placeholder' => 'Email account password',
+			'rules' => array('required')
 		),
 		'from_name' => array(
 			'label' => 'Email Sender Name',
 			'input' => 'text',
-			'description' => 'Appears in the \'from:\' field on outgoing emails'
+			'description' => 'Appears in the \'from:\' field on outgoing emails',
+			'rules' => array('required')
 		),
 	),
 

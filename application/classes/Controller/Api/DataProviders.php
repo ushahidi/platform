@@ -104,6 +104,11 @@ class Controller_Api_DataProviders extends Ushahidi_Api {
 			{
 				$provider_data['options'][$name]['label'] = $provider_data['options'][$name]['label']();
 			}
+
+			if (isset($input['rules']) AND $input['rules'] instanceof Closure)
+			{
+				$provider_data['options'][$name]['rules'] = $provider_data['options'][$name]['rules']();
+			}
 		}
 		// Append allowed methods to retrieved data providers
 		return $provider_data + array(

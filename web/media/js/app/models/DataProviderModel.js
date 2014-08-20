@@ -42,6 +42,7 @@ define(['underscore', 'backbone', 'modules/config'],
 						title : element.label,
 						options : element.options,
 						help : element.description,
+						validators: element.rules,
 						editorAttrs : {
 							placeholder : element.placeholder
 						}

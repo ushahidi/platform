@@ -26,22 +26,26 @@ $plugin = array(
 		'from' => array(
 			'label' => 'Phone Number',
 			'input' => 'text',
-			'description' => 'The from phone number. A Twilio phone number enabled for the type of message you wish to send. '
+			'description' => 'The from phone number. A Twilio phone number enabled for the type of message you wish to send. ',
+			'rules' => array('required')
 		),
 		'account_sid' => array(
 			'label' => 'Account SID',
 			'input' => 'text',
-			'description' => 'The unique id of the Account that sent this message.'
+			'description' => 'The unique id of the Account that sent this message.',
+			'rules' => array('required')
 		),
 		'auth_token' => array(
 			'label' => 'Auth Token',
 			'input' => 'text',
 			'description' => '',
+			'rules' => array('required')
 		),
 		'sms_auto_response' => array(
 			'label' => 'SMS Auto response',
 			'input' => 'text',
 			'description' => '',
+			'rules' => array('required')
 		)
 	),
 

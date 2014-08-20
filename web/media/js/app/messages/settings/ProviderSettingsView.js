@@ -25,7 +25,6 @@ define(['App', 'marionette', 'underscore', 'alertify',
 			{
 				this.configModel = options.configModel;
 				this.dataProviderModel = options.dataProviderModel;
-
 				// Set up the form
 				this.form = new BackboneForm({
 					schema: this.dataProviderModel.schema(),
@@ -46,36 +45,42 @@ define(['App', 'marionette', 'underscore', 'alertify',
 			},
 			formSubmitted : function (e)
 			{
-				var request;
+				var request,
+					errors;
 
 				e.preventDefault();
 
 				this.configModel.set(this.dataProviderModel.id, this.form.getValue());
 
-				request = this.configModel.save();
-				if (request)
+				errors = this.form.validate();
+
+				if (! errors)
 				{
-					request
-						.done(function (/*model, response, options*/)
-							{
-								alertify.success('Configuration saved.');
-								App.appRouter.navigate('messages/settings', { trigger : true });
-							})
-						.fail(function (response /*, xhr, options*/)
-							{
-								alertify.error('Unable to save configuration, please try again.');
-								// validation error
-								if (response.errors)
+					request = this.configModel.save();
+					if (request)
+					{
+						request
+							.done(function (/*model, response, options*/)
 								{
-									// @todo Display this error somehow
-									console.log(response.errors);
-								}
-							});
-				}
-				else
-				{
-					alertify.error('Unable to save configuration, please try again.');
-					console.log(this.configModel.validationError);
+									alertify.success('Configuration saved.');
+									App.appRouter.navigate('messages/settings', { trigger : true });
+								})
+							.fail(function (response /*, xhr, options*/)
+								{
+									alertify.error('Unable to save configuration, please try again.');
+									// validation error
+									if (response.errors)
+									{
+										// @todo Display this error somehow
+										console.log(response.errors);
+									}
+								});
+					}
+					else
+					{
+						alertify.error('Unable to save configuration, please try again.');
+						console.log(this.configModel.validationError);
+					}
 				}
 			},
 		});

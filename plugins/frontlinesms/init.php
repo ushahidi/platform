@@ -23,12 +23,14 @@ $plugin = array(
 		'key' => array(
 				'label' => 'Key',
 				'input' => 'text',
-				'description' => 'The API key'
+				'description' => 'The API key',
+				'rules' => array('required')
 		),
 		'frontlinecloud_api_url' => array(
 				'label' => 'Frontlinecloud API URL',
 				'input' => 'text',
-				'description' => 'The API URL provided by Frontlinecloud'
+				'description' => 'The API URL provided by Frontlinecloud',
+				'rules' => array('required')
 		),
 	),
 

@@ -26,22 +26,26 @@ $plugin = array(
 		'from' => array(
 			'label' => 'From',
 			'input' => 'text',
-			'description' => 'The from number'
+			'description' => 'The from number',
+			'rules' => array('required')
 		),
 		'secret' => array(
 			'label' => 'Secret',
 			'input' => 'text',
-			'description' => 'The secret value'
+			'description' => 'The secret value',
+			'rules' => array('required')
 		),
 		'api_key' => array(
 			'label' => 'API Key',
 			'input' => 'text',
-			'description' => 'The API key'
+			'description' => 'The API key',
+			'rules' => array('required')
 		),
 		'api_secret' => array(
 			'label' => 'API secret',
 			'input' => 'text',
-			'description' => 'The API secret'
+			'description' => 'The API secret',
+			'rules' => array('required')
 		)
 	),
 
