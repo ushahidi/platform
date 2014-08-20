@@ -402,6 +402,7 @@ class Controller_Api_Messages extends Ushahidi_Api {
 		$post_data = array(
 			'title' => $message->title,
 			'content' => $message->message,
+			'created' => $message->created,
 			'status' => 'draft',
 			'form' => 1,
 			'locale' => 'en_us'
