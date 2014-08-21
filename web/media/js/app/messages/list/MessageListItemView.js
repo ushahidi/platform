@@ -33,7 +33,6 @@ define(['App', 'marionette', 'alertify', 'underscore',
 				'click .js-message-archive': 'archiveMessage',
 				'click .js-message-unarchive': 'unarchiveMessage',
 				'click .js-message-create-post' : 'createPost',
-				'click .js-message-view-post' : 'viewPost',
 				'click .js-message-activity' : 'toggleMessageActivity',
 				'submit .js-message-post-reply-form' : 'replyMessage'
 			},
@@ -113,17 +112,6 @@ define(['App', 'marionette', 'alertify', 'underscore',
 					{
 						alertify.success('Unable to create post, please try again');
 					});
-			},
-
-			viewPost : function(e)
-			{
-				e.preventDefault();
-				alertify.confirm('View the post and lose any unsaved changes?', function(okay) {
-					if (okay) {
-						var hash = e.target.hash.substr(1);
-						window.location.hash = hash;
-					}
-				});
 			},
 
 			replyMessage : function(e)
