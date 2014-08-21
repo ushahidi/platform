@@ -57,7 +57,7 @@
         "kohana/orm" : "3.3.*@dev",
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
-        "ohanzee/database": "~0.1.0",
+        "ohanzee/database": "~0.1.2",
         "robmorgan/phinx": "dev-geo-sql-types as 0.3.6",
         "shadowhand/email": "3.3.*@dev",
         "symm/gisconverter": "~1.0.5",

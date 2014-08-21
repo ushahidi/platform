@@ -1,10 +1,9 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
-        "This file is @generated automatically"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "5dd8761876847573f18603b1f31f74fe",
+    "hash": "61f2d6767693a14c1b5fecc3d113ed51",
     "packages": [
         {
             "name": "aura/di",
@@ -325,57 +324,6 @@
             "time": "2014-08-12 12:14:44"
         },
         {
-            "name": "kohana/database",
-            "version": "dev-3.4/develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kohana/database.git",
-                "reference": "aa6356f5140b70a5452ee568bd86d9a58484ab99"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kohana/database/zipball/aa6356f5140b70a5452ee568bd86d9a58484ab99",
-                "reference": "aa6356f5140b70a5452ee568bd86d9a58484ab99",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "~1.0",
-                "kohana/core": ">=3.3",
-                "php": ">=5.3.3"
-            },
-            "suggest": {
-                "ext-mysql": "*",
-                "ext-pdo": "*"
-            },
-            "type": "kohana-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-3.3/develop": "3.3.x-dev",
-                    "dev-3.4/develop": "3.4.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kohana Team",
-                    "email": "team@kohanaframework.org",
-                    "homepage": "http://www.kohanaframework.org",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "The official Kohana module for database interactions, building queries, and prepared statements",
-            "homepage": "http://kohanaframework.org",
-            "keywords": [
-                "database",
-                "framework",
-                "kohana"
-            ],
-            "time": "2014-02-04 18:05:55"
-        },
-        {
             "name": "kohana/image",
             "version": "dev-3.3/develop",
             "source": {
@@ -652,21 +600,24 @@
         },
         {
             "name": "ohanzee/database",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/ohanzee-db.git",
-                "reference": "0b3e64cfb096d0fb26305bb9eae8ba578de6ffd5"
+                "reference": "26dc07ed3041551258a6d5d70a01bf454d28ab32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/ohanzee-db/zipball/0b3e64cfb096d0fb26305bb9eae8ba578de6ffd5",
-                "reference": "0b3e64cfb096d0fb26305bb9eae8ba578de6ffd5",
+                "url": "https://api.github.com/repos/kohana/ohanzee-db/zipball/26dc07ed3041551258a6d5d70a01bf454d28ab32",
+                "reference": "26dc07ed3041551258a6d5d70a01bf454d28ab32",
                 "shasum": ""
             },
             "require": {
                 "kohana/core": ">=3.3",
                 "php": ">=5.3.6"
+            },
+            "replace": {
+                "kohana/database": ">=3.3"
             },
             "suggest": {
                 "ext-mysql": "*",
@@ -706,7 +657,7 @@
                 "query builder",
                 "sql"
             ],
-            "time": "2014-08-16 04:05:55"
+            "time": "2014-08-21 16:41:35"
         },
         {
             "name": "robmorgan/phinx",
@@ -1420,12 +1371,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Mink.git",
-                "reference": "b1453c38f37dd98532086054a5a62e3ffb3f8c5e"
+                "reference": "63b8b26ff2aea40c0e7b6e15ea7ae7c09f623712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Mink/zipball/b1453c38f37dd98532086054a5a62e3ffb3f8c5e",
-                "reference": "b1453c38f37dd98532086054a5a62e3ffb3f8c5e",
+                "url": "https://api.github.com/repos/Behat/Mink/zipball/63b8b26ff2aea40c0e7b6e15ea7ae7c09f623712",
+                "reference": "63b8b26ff2aea40c0e7b6e15ea7ae7c09f623712",
                 "shasum": ""
             },
             "require": {
@@ -1467,7 +1418,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2014-08-19 01:30:10"
+            "time": "2014-08-19 12:42:01"
         },
         {
             "name": "behat/mink-browserkit-driver",
@@ -2989,10 +2940,6 @@
         "zeelot/kohana-media": 20,
         "kohana/unittest": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "platform": [],
+    "platform-dev": []
 }
