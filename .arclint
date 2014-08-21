@@ -10,7 +10,16 @@
     "phpcs" : {
       "type" : "phpcs",
       "include" : "(\\.php$)",
-      "exclude" : "@^(application|modules|plugins)/.*@"
+      "exclude" : "@^(application|modules|plugins|vendor)/.*@",
+      "severity.rules" : {
+        "(^PHPCS\\.E\\.)" : "warning",
+        "(^PHPCS\\.W\\.)" : "advice"
+      },
+      "bin" : ["/usr/local/bin/phpcs", "bin/phpcs"],
+      "flags" : [
+        "--standard=PSR2",
+        "--tab-width=4"
+      ]
     }
   }
 }

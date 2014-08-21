@@ -3,10 +3,5 @@
   "repository.callsign" : "USH",
   "unit.engine": "PhpunitTestEngine",
   "unit.phpunit.binary": "bin/phpunit",
-  "phpunit_config": "application/tests/phpunit.xml",
-  "lint.phpcs.bin": "bin/phpcs",
-  "lint.phpcs.standard" : "PSR2",
-  "lint.phpcs.options" : [
-  	"--tab-width=4"
-  ]
+  "phpunit_config": "application/tests/phpunit.xml"
 }
