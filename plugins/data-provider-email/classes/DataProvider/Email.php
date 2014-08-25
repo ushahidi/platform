@@ -9,6 +9,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
+use Shadowhand\Email;
+
 class DataProvider_Email extends DataProvider {
 
 	/**

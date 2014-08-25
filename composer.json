@@ -59,7 +59,7 @@
         "kohana/minion" : "3.3.*@dev",
         "ohanzee/database": "~0.1.2",
         "robmorgan/phinx": "dev-geo-sql-types as 0.3.6",
-        "shadowhand/email": "3.3.*@dev",
+        "shadowhand/email": "~2.0.1",
         "symm/gisconverter": "~1.0.5",
         "wouter/a1": "dev-3.3/develop",
         "wouter/a2": "dev-3.3/develop",
