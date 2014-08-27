@@ -14,9 +14,9 @@ Feature: Testing the Tags API
                 "color":"00ff00",
                 "role":
                     [
-						"user",
-						"admin"
-					]
+                        "user",
+                        "admin"
+                    ]
             }
             """
         When I request "/tags"
@@ -28,8 +28,9 @@ Feature: Testing the Tags API
         And the "description" property equals "Is this a box? Awesome"
         And the "color" property equals "#00ff00"
         And the "priority" property equals "1"
-        And the response has a "role" property
         And the "type" property equals "category"
+        And the response has a "role" property
+        And the type of the "role" property is "array"
         Then the guzzle status code should be 200
 
     Scenario: Creating a duplicate tag
@@ -144,7 +145,7 @@ Feature: Testing the Tags API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "6"
+        And the "count" property equals "7"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -169,7 +170,7 @@ Feature: Testing the Tags API
             """
         When I request "/tags"
         Then the response is JSON
-        And the "count" property equals "4"
+        And the "count" property equals "5"
         Then the guzzle status code should be 200
 
     @resetFixture

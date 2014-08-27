@@ -101,8 +101,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		$repo   = service('repository.tag');
 		$parser = service('parser.tag.search');
 		$format = service('formatter.entity.tag');
-		$authorize = service('tool.authorizer');
-
+		$authorize = service('tool.authorizer.tag');
 		$input = $parser($this->request->query());
 		
 		// this probably belongs in the parser, or should just return the
@@ -150,7 +149,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	{
 		$repo   = service('repository.tag');
 		$format = service('formatter.entity.api');
-		$authorize = service('tool.authorizer');
+		$authorize = service('tool.authorizer.tag');
 		$tagid  = $this->request->param('id') ?: 0;
 		$tag    = $repo->get($tagid);
 
@@ -160,14 +159,16 @@ class Controller_Api_Tags extends Ushahidi_Api {
 				':id' => $tagid,
 			));
 		}
-		
-		if (!$authorize->isAllowed($tag, 'get', $this->user))
-			throw new AuthorizerException(sprintf('User %s is not allowed to access the tag  %s', 
-					$tag
-					));
-			
-			$this->_response_payload = $format($tag);
-			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+
+		if (! $authorize->isAllowed($tag, 'get', $this->user))
+		{
+			throw new HTTP_Exception_403('You do not have permission to access tag :id', array(
+				':id' => $tagid,
+			));
+		}
+
+		$this->_response_payload = $format($tag);
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**

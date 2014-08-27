@@ -551,6 +551,14 @@ tags:
     slug: "done"
     priority: 0
     type: 'status'
+  -
+    id: 7
+    parent_id:
+    tag: "Role Control"
+    slug: "role-control"
+    priority: 0
+    type: "category"
+    role: '["admin"]'
 posts_tags:
   -
     post_id: 1

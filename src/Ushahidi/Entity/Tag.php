@@ -27,6 +27,11 @@ class Tag extends Entity
 	public $created;
 	public $role;
 
+	public function getRoleArray()
+	{
+		return $this->role ? json_decode($this->role) : [];
+	}
+
 	public function getResource()
 	{
 		return 'tags';

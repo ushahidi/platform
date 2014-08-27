@@ -249,29 +249,45 @@ Feature: API Access Control Layer
         Then the guzzle status code should be 403
 
     Scenario: Anonymous users cannot edit public post
-	Given that I want to update a "Post"
-	And that the request "Authorization" header is "Bearer testanon"
-	And that the request "data" is:
-	    """
-	    {
-		"form":1,
-		"title":"Updated Test Post",
-		"type":"report",
-		"status":"published",
-		"locale":"en_US",
-		"values":
-		{
-		    "full_name":"David Kobia",
-		    "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-		    "date_of_birth":null,
-		    "missing_date":"2012/09/25",
-		    "last_location":"atlanta",
-		    "last_location_point":"POINT(-85.39 33.755)",
-		    "missing_status":"believed_missing"
-		},
-		"tags":["missing","kenyan"]
-	    }
-	    """
-	And that its "id" is "110"
-	When I request "/posts"
-	Then the guzzle status code should be 403
+    Given that I want to update a "Post"
+    And that the request "Authorization" header is "Bearer testanon"
+    And that the request "data" is:
+        """
+        {
+        "form":1,
+        "title":"Updated Test Post",
+        "type":"report",
+        "status":"published",
+        "locale":"en_US",
+        "values":
+        {
+            "full_name":"David Kobia",
+            "description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
+            "date_of_birth":null,
+            "missing_date":"2012/09/25",
+            "last_location":"atlanta",
+            "last_location_point":"POINT(-85.39 33.755)",
+            "missing_status":"believed_missing"
+        },
+        "tags":["missing","kenyan"]
+        }
+        """
+    And that its "id" is "110"
+    When I request "/posts"
+    Then the guzzle status code should be 403
+
+    Scenario: Basic user cannot access admin-only tag
+        Given that I want to find a "Tag"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that its "id" is "7"
+        When I request "/tags"
+        Then the guzzle status code should be 403
+
+    Scenario: Admin user can access protected tag
+        Given that I want to find a "Tag"
+        And that the request "Authorization" header is "Bearer testadminuser"
+        And that its "id" is "7"
+        When I request "/tags"
+        Then the guzzle status code should be 200
+        And the response is JSON
+        And the response has an "id" property

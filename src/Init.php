@@ -71,6 +71,12 @@ $di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post')
 	];
 
+$di->set('tool.authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
+$di->params['Ushahidi\Tool\Authorizer\TagAuthorizer'] = [
+	'user_repo' => $di->lazyGet('repository.user'),
+	'tag_repo'  => $di->lazyGet('repository.tag')
+	];
+
 $di->set('usecase.media.create', $di->lazyNew('Ushahidi\Usecase\Media\Create'));
 $di->params['Ushahidi\Usecase\Media\Create'] = [
 	'repo' => $di->lazyGet('repository.media'),
