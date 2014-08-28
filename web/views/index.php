@@ -73,5 +73,8 @@
 	<span class="hide">Loading...</span>
 </div>
 <?php endif; ?>
+<script type="text/javascript">
+jQuery(function($) { $('html').removeClass('no-js').addClass('js'); });
+</script>
 </body>
 </html>
