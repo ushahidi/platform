@@ -58,6 +58,7 @@ return array(
 	'resources' => array
 	(
 		'api'                => NULL, // Not sure we really need this?
+		'config'             => NULL,
 		'posts'              => NULL,
 		'tags'               => NULL,
 		'sets'               => NULL,
@@ -181,6 +182,24 @@ return array(
 			'GuestCanRegister' => array(
 				'role'      => 'guest',
 				'resource'  => 'register'
+			),
+			'GuestCanViewFeatureConfig' => array(
+				'role'      => 'guest',
+				'resource'  => 'config',
+				'privilege' => array('get'),
+				'assertion' => array('Acl_Assert_Value', array('@group' => 'features')),
+			),
+			'GuestCanViewMapConfig' => array(
+				'role'      => 'guest',
+				'resource'  => 'config',
+				'privilege' => array('get'),
+				'assertion' => array('Acl_Assert_Value', array('@group' => 'map')),
+			),
+			'GuestCanViewSiteConfig' => array(
+				'role'      => 'guest',
+				'resource'  => 'config',
+				'privilege' => array('get'),
+				'assertion' => array('Acl_Assert_Value', array('@group' => 'site')),
 			),
 		),
 		'deny' => array

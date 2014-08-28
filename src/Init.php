@@ -65,6 +65,11 @@ $di->params['Ushahidi\Tool\Uploader'] = [
 	'fs' => $di->lazyGet('tool.filesystem'),
 	];
 
+$di->set('tool.authorizer.config', $di->lazyNew('Ushahidi\Tool\Authorizer\ConfigAuthorizer'));
+$di->params['Ushahidi\Tool\Authorizer\ConfigAuthorizer'] = [
+	'user_repo' => $di->lazyGet('repository.user')
+	];
+
 $di->set('tool.authorizer.post', $di->lazyNew('Ushahidi\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
 	'user_repo' => $di->lazyGet('repository.user'),

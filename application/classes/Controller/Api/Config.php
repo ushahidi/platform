@@ -64,6 +64,7 @@ class Controller_Api_Config extends Ushahidi_Api {
 		$groups = (array) $this->request->query('groups');
 
 		$repo = service('repository.config');
+		$authorizer = service('tool.authorizer.config');
 		try
 		{
 			$results = $repo->all($groups);
@@ -72,6 +73,12 @@ class Controller_Api_Config extends Ushahidi_Api {
 		{
 			throw HTTP_Exception::factory(404, $e->getMessage());
 		}
+
+		$user = $this->user;
+		$results = array_filter($results, function (\Ushahidi\Entity\Config $config) use ($authorizer, $user)
+		{
+			return $authorizer->isAllowed($config, 'get', $user);
+		});
 
 		$results = array_map(array($this, '_for_api'), $results);
 		$count = count($results);
@@ -97,6 +104,8 @@ class Controller_Api_Config extends Ushahidi_Api {
 		$group = $this->request->param('id');
 
 		$repo = service('repository.config');
+		$authorizer = service('tool.authorizer.config');
+
 		try
 		{
 			$config = $repo->get($group);
@@ -104,6 +113,13 @@ class Controller_Api_Config extends Ushahidi_Api {
 		catch (InvalidArgumentException $e)
 		{
 			throw HTTP_Exception::factory(404, $e->getMessage());
+		}
+
+		if (! $authorizer->isAllowed($config, 'get', $this->user))
+		{
+			throw HTTP_Exception::factory('403', 'You do not have permission to access config group :group', array(
+				':group' => $group
+				));
 		}
 
 		$this->_response_payload = $this->_for_api($config);
