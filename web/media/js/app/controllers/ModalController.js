@@ -27,6 +27,8 @@ define(['App', 'marionette'],
 				App.vent.on('user:create',this.userCreate, this);
 				App.vent.on('tag:edit', this.tagEdit, this);
 				App.vent.on('tag:create', this.tagCreate, this);
+				App.vent.on('customform:edit', this.customFormEdit, this);
+				App.vent.on('customform:create', this.customFormCreate, this);
 			},
 			postCreate : function ()
 			{
@@ -145,6 +147,34 @@ define(['App', 'marionette'],
 					var tag = new TagModel({});
 					that.modal.show(new EditTagView({
 						model : tag
+					}));
+					that.modal.currentView.on('close', that.modal.close, that.modal);
+				});
+			},
+			customFormEdit : function (form)
+			{
+				var that = this;
+
+				require(['views/modals/EditCustomFormView'],
+					function(EditCustomFormView)
+				{
+					that.modal.show(new EditCustomFormView({
+						model : form
+					}));
+					that.modal.currentView.on('close', that.modal.close, that.modal);
+				});
+			},
+			customFormCreate : function ()
+			{
+				var that = this;
+
+				require(['views/modals/EditCustomFormView', 'models/FormModel'],
+					function(EditCustomFormView, FormModel)
+				{
+					var form = new FormModel({});
+
+					that.modal.show(new EditCustomFormView({
+						model : form
 					}));
 					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});

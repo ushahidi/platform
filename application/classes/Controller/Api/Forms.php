@@ -137,13 +137,23 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	protected function create_or_update($form, $post)
 	{
 		$form->values($post, array(
-			'name', 'description', 'type'
+			'name', 'description'
 			));
 
-		// Unset groups if we're updating a post
-		if ( $form->loaded() AND isset($post['groups']) )
+		if ($form->loaded())
 		{
-			unset($post['groups']);
+			if (isset($post['groups']))
+			{
+				// Unset groups if we're updating a post
+				unset($post['groups']);
+			}
+		}
+		else if (!isset($post['groups']))
+		{
+			// Ensure a default group is created
+			$post['groups'] = array(
+				array('label' => 'Main'),
+			);
 		}
 
 		// Validation - cycle through nested models

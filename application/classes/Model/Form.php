@@ -61,7 +61,6 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 
 			// Form Types
 			'type' => array(
-				array('not_empty'),
 				array('in_array', array(':value', array(
 					'report',
 					'comment',

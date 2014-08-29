@@ -343,88 +343,30 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 			formEdit : function(id)
 			{
 				var that = this;
-				require(['views/settings/FormEditor', 'views/settings/AvailableAttributeList', 'views/settings/FormAttributeList', 'collections/FormAttributeCollection'],
-					function(FormEditor, AvailableAttributeList, FormAttributeList, FormAttributeCollection)
-				{
+				require([
+					'views/settings/FormEditor',
+					'views/settings/AvailableAttributeList',
+					'views/settings/FormAttributeList',
+					'collections/FormAttributeCollection',
+					'repo/defaultFormAttrs'
+				], function(
+					FormEditor,
+					AvailableAttributeList,
+					FormAttributeList,
+					FormAttributeCollection,
+					defaultFormAttrs
+				) {
 					App.vent.trigger('page:change', 'forms');
 					var form = App.Collections.Forms.get(id),
 						formEditor = new FormEditor({
 							model : form
 						}),
-						availableAttributes = new FormAttributeCollection([
-							{
-								label: 'Text',
-								input: 'Text',
-								type: 'varchar',
-								icon: 'fa-font'
-							},
-							{
-								label: 'TextArea',
-								input: 'TextArea',
-								type: 'text',
-								icon: 'fa-paragraph'
-							},
-							{
-								label: 'Number (Decimal)',
-								input: 'Number',
-								type: 'decimal',
-								icon: 'fa-fax'
-							},
-							{
-								label: 'Number (Integer)',
-								input: 'Number',
-								type: 'integer',
-								icon: 'fa-fax'
-							},
-							{
-								label: 'Select',
-								input: 'Select',
-								type: 'varchar', // what about numeric selections?
-								options: [],
-								icon: 'fa-bars'
-							},
-							{
-								label: 'Radio',
-								input: 'Radio',
-								type: 'varchar', // not totally sure about this
-								options: [],
-								icon: 'fa-dot-circle-o'
-							},
-							{
-								label: 'Checkbox',
-								input: 'Checkbox',
-								type: 'varchar', // not totally sure about this
-								icon: 'fa-check'
-							},
-							{
-								label: 'Checkboxes',
-								input: 'Checkboxes',
-								type: 'varchar', // not totally sure about this
-								icon: 'fa-check'
-							},
-							{
-								label: 'Date',
-								input: 'Date',
-								type: 'datetime',
-								icon: 'fa-calendar'
-							},
-							{
-								label: 'DateTime',
-								input: 'DateTime',
-								type: 'datetime',
-								icon: 'fa-clock-o'
-							},
-							{
-								label: 'Location',
-								input: 'Location',
-								type: 'point',
-								icon: 'fa-map-marker'
-							}
-						]),
+						availableAttributes = new FormAttributeCollection(defaultFormAttrs),
 						formAttributes = new FormAttributeCollection(_.values(form.formAttributes)),
+						formGroup = (form.get('groups')[0] || {}),
 						formAttributeList = new FormAttributeList({
 							collection : formAttributes,
-							form_group_id : form.get('groups')[0].id // @todo check this exists
+							form_group_id : formGroup.id
 						});
 
 					that.layout.mainRegion.show(formEditor);

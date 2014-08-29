@@ -35,12 +35,25 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!temp
 			},
 
 			modelEvents: {
-				'sync': 'render'
+				'sync': 'updateAndRender'
 			},
 
 			events: {
 				'click .js-edit-field' : 'toggleEdit',
 				'click .js-delete-field' : 'deleteField'
+			},
+
+			updateAndRender: function()
+			{
+				if (!this.model.isNew()) {
+					this.$el.removeAttr('data-attribute-new');
+				}
+
+				ddt.log('FormEditor', 'changing attributes', this.attributes());
+
+				this.$el.attr(this.attributes());
+				this.buildForm();
+				this.render();
 			},
 
 			serializeData: function ()

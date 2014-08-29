@@ -34,6 +34,47 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 				this.listenTo(this, 'change', this.processForm);
 			},
 
+			schema : function ()
+			{
+				var schema = {
+					name: {
+						type: 'Text',
+						title: 'Form Name',
+						editorAttrs : {
+							placeholder : 'Untitled Form'
+						}
+					},
+					description: {
+						type: 'TextArea',
+						title: 'Description',
+						editorAttrs : {
+							placeholder : 'Form for ...',
+							rows : 10
+						}
+					}
+				};
+
+				return schema;
+			},
+			validation : function ()
+			{
+				var rules = {
+					name : {
+						maxLength : 255,
+						required : true
+					},
+					description : {
+						maxLength : 500,
+						required: false
+					},
+					type : {
+						required: true
+					}
+				};
+
+				return rules;
+			},
+
 			postSchema : {},
 			postFieldsets : [],
 			postValidation : {},

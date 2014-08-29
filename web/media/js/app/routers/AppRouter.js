@@ -25,7 +25,6 @@ define(['marionette'],
 
 				'apiexplorer' : 'apiExplorer',
 				'settings/forms' : 'forms',
-				// 'settings/forms/new' : 'formNew',
 				'settings/forms/:provider' : 'formEdit',
 				//'login' : 'login',
 				//'register' : 'register',

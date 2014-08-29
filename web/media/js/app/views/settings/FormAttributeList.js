@@ -18,7 +18,7 @@ define(['marionette', 'handlebars', 'underscore', 'jquery', 'views/settings/Attr
 
 			itemViewOptions:
 			{
-				emptyMessage: 'No forms found.',
+				emptyMessage: 'This form is empty. Drag a field here to populate the form.',
 			},
 
 			emptyView: EmptyView,

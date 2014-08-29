@@ -21,9 +21,14 @@ define(['App', 'marionette', 'underscore', 'alertify', 'forms/UshahidiForms', 'h
 			},
 
 			events : {
+				'click .js-edit-custom-form' : 'showCustomFormEdit',
 				'click .js-edit-attr' : 'toggleEditor',
 				'click .js-add-attr' : 'toggleEditor',
 				'submit form' : 'saveField'
+			},
+
+			modelEvents : {
+				'sync' : 'render',
 			},
 
 			initialize : function()
@@ -41,6 +46,12 @@ define(['App', 'marionette', 'underscore', 'alertify', 'forms/UshahidiForms', 'h
 					.add(this.$('.edit-attribute'))
 					.add(this.$('.available-attributes'))
 					.toggleClass('active');
+			},
+
+			showCustomFormEdit : function(e)
+			{
+				e.preventDefault();
+				App.vent.trigger('customform:edit', this.model);
 			},
 
 			showEditor : function(model)

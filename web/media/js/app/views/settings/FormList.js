@@ -25,5 +25,14 @@ define(['App', 'marionette', 'underscore', 'views/settings/FormListItem', 'views
 
 			emptyView: EmptyView,
 
+			events : {
+				'click .js-custom-form-create' : 'showCustomFormCreate',
+			},
+
+			showCustomFormCreate : function(e)
+			{
+				e.preventDefault();
+				App.vent.trigger('customform:create');
+			}
 		});
 	});
