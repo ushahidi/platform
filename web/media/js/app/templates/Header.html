@@ -8,14 +8,14 @@
 		</ul> <!-- end .title-area -->
 
 		<section class="top-bar-section  {{#unless logged_in}}top-bar-section-login{{/unless}}">
-			<div class="visually-hidden">Main Navigation</div>
+			<div class="visually-hidden">{{ t "nav.main_navigation"}}</div>
 			<!-- Left Nav Section -->
 			<ul class="left  left-list">
 				<li class="divider"></li>
-				<li class="left-list__item  js-views-menu-link"><a><i class="fa  fa-eye  fa-lg"></i> <span>VIEWS</span></a></li>
+				<li class="left-list__item  js-views-menu-link"><a><i class="fa  fa-eye  fa-lg"></i> <span>{{t "nav.views"}}</span></a></li>
 				<li class="divider"></li>
 				{{#feature 'sets_ui'}}
-				<li class="left-list__item  js-sets-menu-link"><a href="{{#url}}sets{{/url}}"><i class="fa  fa-th-large  fa-lg"></i><span>SETS</span></a></li>
+				<li class="left-list__item  js-sets-menu-link"><a href="{{#url}}sets{{/url}}"><i class="fa  fa-th-large  fa-lg"></i><span>{{t "nav.sets"}}</span></a></li>
 				<li class="divider"></li>
 				{{/feature}}
 
@@ -23,11 +23,11 @@
 
 			<!-- Right Nav Section -->
 			<ul class="right  right-list">
-				<li class="right-list__item  create-post"><a id="create-post-button" class="create-post-button js-create-post" href="{{#url}}posts/create{{/url}}"><i class="fa  fa-plus  fa-lg"></i> <span>CREATE</span></a></li>
+				<li class="right-list__item  create-post"><a id="create-post-button" class="create-post-button js-create-post" href="{{#url}}posts/create{{/url}}"><i class="fa  fa-plus  fa-lg"></i> <span>{{t "nav.create"}}</span></a></li>
 				{{#if logged_in}}
-				<li class="right-list__item"><a class="workspace-panel-button  js-workspace-toggle"><i class="fa  fa-dashboard  fa-lg"></i> <span>WORKSPACE</span></a></li>
+				<li class="right-list__item"><a class="workspace-panel-button  js-workspace-toggle"><i class="fa  fa-dashboard  fa-lg"></i> <span>{{t "nav.workspace"}}</span></a></li>
 				{{else}}
-				<li class="right-list__item"><a class="inverse" href="{{login_url}}"><i class="fa  fa-user  fa-lg"></i> <span>LOGIN/REGISTER</span></a></li>
+				<li class="right-list__item"><a class="inverse" href="{{login_url}}"><i class="fa  fa-user  fa-lg"></i> <span>{{t "nav.login_register"}}</span></a></li>
 				{{/if}}
 			</ul> <!-- end .right -->
 		</section> <!-- end .top-bar-section -->

@@ -52,7 +52,9 @@ require.config(
 		// Deps for URI
 		'punycode' : '../../bower_components/URIjs/src/punycode',
 		'IPv6' : '../../bower_components/URIjs/src/IPv6',
-		'SecondLevelDomains' : '../../bower_components/URIjs/src/SecondLevelDomains'
+		'SecondLevelDomains' : '../../bower_components/URIjs/src/SecondLevelDomains',
+
+		'i18next' : '../../bower_components/i18next/i18next.amd.withJQuery.min'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :

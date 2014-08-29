@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['handlebars', 'underscore', 'moment', 'modules/config', 'underscore.string', 'handlebars-paginate', 'hbs!templates/partials/pagination', 'hbs!templates/partials/list-info', 'hbs!templates/partials/tag-with-icon'],
-	function(Handlebars, _, moment, config, _str, paginate, paginationTpl, listInfoTpl, tagWithIconTpl)
+define(['handlebars', 'underscore', 'moment', 'i18next', 'modules/config', 'underscore.string', 'handlebars-paginate', 'hbs!templates/partials/pagination', 'hbs!templates/partials/list-info', 'hbs!templates/partials/tag-with-icon'],
+	function(Handlebars, _, moment, i18n, config, _str, paginate, paginationTpl, listInfoTpl, tagWithIconTpl)
 	{
 		Handlebars.registerHelper('url', function(options)
 		{
@@ -107,6 +107,23 @@ define(['handlebars', 'underscore', 'moment', 'modules/config', 'underscore.stri
 				Handlebars.Utils.escapeExpression(label) +
 				'</option>'
 			);
+		});
+
+		Handlebars.registerHelper('t', function(i18n_key, options) {
+			var opts = i18n.functions.extend(options.hash, this);
+			var result = i18n.t(i18n_key, opts);
+			return new Handlebars.SafeString(result);
+		});
+		Handlebars.registerHelper('tr', function(i18n_key, options) {
+			var opts = i18n.functions.extend(options.hash, this);
+			if (options.fn)
+			{
+				opts.defaultValue = options.fn(this);
+			}
+
+			var result = i18n.t(i18n_key, opts);
+
+			return new Handlebars.SafeString(result);
 		});
 
 		Handlebars.registerPartial('pagination', paginationTpl);

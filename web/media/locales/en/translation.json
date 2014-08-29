@@ -1,0 +1,27 @@
+{
+	"app": {
+		"ushahidi" : "Ushahidi",
+		"main_section" : "Main Section",
+		"powered_by_ushahidi" : "Powered by Ushahidi.",
+		"copyright" : "&copy; Copyright __owner_name__, 2014."
+	},
+	"nav" : {
+		"main_navigation" : "Main Navigation",
+		"views" : "Views",
+		"sets" : "Sets",
+		"create" : "Create",
+		"workspace" : "Workspace",
+		"login_register" : "Login/Register",
+		"full" : "Full",
+		"map" : "Map",
+		"list" : "List",
+		"media" : "Media"
+	},
+	"map": {
+		"collapse_map": "collapse map",
+		"expand_map": "expand map"
+	},
+	"pagination": {
+		"showing_records" : "Showing __startRecord__ to  __endRecord__ from __totalRecords__ __modelName__"
+	}
+}
