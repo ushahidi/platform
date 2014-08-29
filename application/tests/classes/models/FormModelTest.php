@@ -59,13 +59,6 @@ class FormModelTest extends Unittest_TestCase {
 				)
 			),
 			array(
-				// Invalid form data set 3 - Missing Form Type
-				array(
-					'name' => 'Test Name',
-					'description' => 'Test Report Description',
-				)
-			),
-			array(
 				// Invalid form data set 4 - Invalid type
 				array(
 					'name' => 'Test Name',
