@@ -24,11 +24,9 @@ class InitialRelations extends AbstractMigration
         ['post_comments', 'post_id', 'posts', 'id'],
         ['post_datetime', 'post_id', 'posts', 'id'],
         ['post_decimal', 'post_id', 'posts', 'id'],
-        // phinx does not currently support OGC
-        // ['post_geometry', 'post_id', 'posts', 'id'],
+        ['post_geometry', 'post_id', 'posts', 'id'],
         ['post_int', 'post_id', 'posts', 'id'],
-        // phinx does not currently support OGC
-        // ['post_point', 'post_id', 'posts', 'id'],
+        ['post_point', 'post_id', 'posts', 'id'],
         ['post_text', 'post_id', 'posts', 'id'],
         ['post_varchar', 'post_id', 'posts', 'id'],
         ['sets', 'user_id', 'users', 'id'],
