@@ -46,7 +46,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	}
 
 	// TagRepository
-	public function search(TagSearchData $search, Array $params = null)
+	public function search(TagSearchData $search)
 	{
 		$where = Arr::extract($search->asArray(), ['tag', 'type']);
 		if ($search->parent) {
@@ -61,15 +61,15 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 			$query->where('tag', 'LIKE', "%{$search->q}%");
 		}
 
-		if (!empty($params['orderby'])) {
-			$query->order_by($params['orderby'], Arr::get($params, 'order'));
+		if ($search->orderby) {
+			$query->order_by($search->orderby, $search->order);
 		}
 
-		if (!empty($params['offset'])) {
-			$query->offset($params['offset']);
+		if ($search->offset) {
+			$query->offset($search->offset);
 		}
-		if (!empty($params['limit'])) {
-			$query->limit($params['limit']);
+		if ($search->limit) {
+			$query->limit($search->limit);
 		}
 
 		$results = $query->execute($this->db);

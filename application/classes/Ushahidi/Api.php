@@ -9,6 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\SearchData;
+
 class Ushahidi_Api extends Controller {
 
 	/**
@@ -477,6 +479,35 @@ class Ushahidi_Api extends Controller {
 			'offset'  => $this->_record_offset,
 			'order'   => $this->_record_order,
 			'orderby' => $this->_record_orderby,
+			'curr'    => $curr,
+			'next'    => $next,
+			'prev'    => $prev,
+		);
+	}
+
+	/**
+	 * Get the paging parameters for the current collection request from input data.
+	 * @param  Ushahidi\SearchData $input
+	 * @return Array  [limit, offset, order, orderby, curr, next, prev]
+	 */
+	protected function _get_paging_for_input(SearchData $input)
+	{
+		$params = $input->getSortingParams();
+
+		$prev_params = $next_params = $params;
+		$next_params['offset'] = $params['offset'] + $params['limit'];
+		$prev_params['offset'] = $params['offset'] - $params['limit'];
+		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
+
+		$curr = URL::site($this->request->uri() . URL::query($params),      $this->request);
+		$next = URL::site($this->request->uri() . URL::query($next_params), $this->request);
+		$prev = URL::site($this->request->uri() . URL::query($prev_params), $this->request);
+
+		return array(
+			'limit'   => $input->limit,
+			'offset'  => $input->offset,
+			'order'   => $input->order,
+			'orderby' => $input->orderby,
 			'curr'    => $curr,
 			'next'    => $next,
 			'prev'    => $prev,

@@ -11,16 +11,41 @@
 
 use Ushahidi\Tool\Parser;
 use Ushahidi\Entity\TagSearchData;
+use Ushahidi\Traits\Parser\SortingParser;
 
 class Ushahidi_Parser_Tag_Search implements Parser
 {
+	use SortingParser;
+
+	// SortingParser
+	private function getDefaultOrderby()
+	{
+		return 'priority';
+	}
+
+	// SortingParser
+	private function getAllowedOrderby()
+	{
+		return ['id', 'created', 'tag', 'slug', 'priority'];
+	}
+
+	// SortingParser
+	private function getDefaultOrder()
+	{
+		return 'asc';
+	}
+
 	public function __invoke(Array $data)
 	{
-		$data = Arr::extract($data, ['q', 'tag', 'type', 'parent', 'role']);
-		// remove any input with an empty value
-		$data = array_filter($data);
+		$input = Arr::extract($data, ['q', 'tag', 'type', 'parent', 'role']);
 
-		return new TagSearchData($data);
+		// remove any input with an empty value
+		$input = array_filter($input);
+
+		// append sorting data
+		$input += $this->getSorting($data);
+
+		return new TagSearchData($input);
 	}
 }
 

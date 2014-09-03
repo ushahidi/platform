@@ -12,9 +12,14 @@
 namespace Ushahidi\Entity;
 
 use Ushahidi\Data;
+use Ushahidi\SearchData;
+use Ushahidi\Traits\Data\SortableData;
 
-class TagSearchData extends Data
+class TagSearchData extends Data implements
+	SearchData
 {
+	use SortableData;
+
 	public $q; // LIKE tag
 	public $tag;
 	public $type;

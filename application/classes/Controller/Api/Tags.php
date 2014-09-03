@@ -103,19 +103,8 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		$format = service('formatter.entity.tag');
 		$authorize = service('tool.authorizer.tag');
 		$input = $parser($this->request->query());
-		
-		// this probably belongs in the parser, or should just return the
-		// order/limit params as an array for the search call
-		$this->_prepare_order_limit_params();
 
-		$tags = $repo->search($input, [
-			'orderby' => $this->_record_orderby,
-			'order' => $this->_record_order,
-			'offset' => $this->_record_offset,
-			'limit' => $this->_record_limit,
-			]);
-
-		$count = count($tags);
+		$tags = $repo->search($input);
 
 		$results = [];
 		foreach ($tags as $tag)
@@ -132,10 +121,10 @@ class Controller_Api_Tags extends Ushahidi_Api {
 
 		// Respond with posts
 		$this->_response_payload = array(
-			'count' => $count,
+			'count' => count($results),
 			'results' => $results,
 			)
-			+ $this->_get_paging_parameters();
+			+ $this->_get_paging_for_input($input);
 	}
 
 	/**
