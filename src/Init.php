@@ -43,7 +43,8 @@ function service($what = null)
 // feature() function that always responds boolean.
 //
 // **Features that do not exist will always return `false`.**
-function feature($name) {
+function feature($name)
+{
 	$config = service('repository.config');
 	try {
 		$conf = $config->get('features');
@@ -74,6 +75,11 @@ $di->set('tool.authorizer.post', $di->lazyNew('Ushahidi\Tool\Authorizer\PostAuth
 $di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
 	'user_repo' => $di->lazyGet('repository.user'),
 	'post_repo' => $di->lazyGet('repository.post')
+	];
+
+$di->set('tool.authorizer.layer', $di->lazyNew('Ushahidi\Tool\Authorizer\LayerAuthorizer'));
+$di->params['Ushahidi\Tool\Authorizer\LayerAuthorizer'] = [
+	'user_repo' => $di->lazyGet('repository.user')
 	];
 
 $di->set('tool.authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
@@ -126,4 +132,3 @@ $di->params['\Ushahidi\Usecase\User\Login'] = [
 	'valid' => $di->lazyGet('validator.user.login'),
 	'auth' => $di->lazyGet('tool.authenticator.password'),
 	];
-

@@ -171,7 +171,7 @@ define(['marionette', 'underscore', 'App', 'jquery',
 
 				overlayMaps = { 'Posts': markers };
 
-				L.control.layers(this.baseMaps, overlayMaps).addTo(this.map);
+				this.layerControl = L.control.layers(this.baseMaps, overlayMaps).addTo(this.map);
 
 				// Set initial collapsed state
 				// @TODO Maybe move this into the view html: set classes when we render
@@ -358,6 +358,55 @@ define(['marionette', 'underscore', 'App', 'jquery',
 			{
 				ddt.log('MapView', 'showing popup', layer);
 				layer.openPopup();
+			},
+
+			/**
+			 * Add an overlay to the map
+			 *
+			 * @param {string} name
+			 * @param {string} url
+			 * @param {string} type
+			 * @param {object} options
+			 */
+			addOverlay : function (name, url, type, options, showNow)
+			{
+				var that = this,
+					layer;
+
+				switch(type)
+				{
+					case 'geojson' :
+						layer = new L.geoJson([], options);
+
+						$.ajax({
+							url : url,
+							success: function (data) {
+								if (typeof data === 'string')
+								{
+									data = JSON.parse(data);
+								}
+								layer.addData(data);
+							}
+						});
+					break;
+					case 'wms' :
+						layer = L.tileLayer.wms(url, options);
+					break;
+					case 'tile' :
+						layer = L.tileLayer(url, options);
+					break;
+					default:
+						// fail or something
+					break;
+				}
+
+				if (showNow)
+				{
+					layer.addTo(that.map);
+				}
+				that.layerControl.addOverlay(layer, name);
+
+				return layer;
 			}
 		});
 	});

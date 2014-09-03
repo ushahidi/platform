@@ -101,6 +101,7 @@ abstract class Ushahidi_Core {
 
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
+		$di->set('formatter.entity.layer', $di->lazyNew('Ushahidi_Formatter_Layer'));
 		$di->set('formatter.entity.media', $di->lazyNew('Ushahidi_Formatter_Media'));
 		$di->set('formatter.entity.post', $di->lazyNew('Ushahidi_Formatter_Post'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
@@ -129,6 +130,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_FormAttribute'));
+		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
@@ -175,6 +177,7 @@ abstract class Ushahidi_Core {
 			];
 
 		// Parsers
+		$di->set('parser.layer.search', $di->lazyNew('Ushahidi_Parser_Layer_Search'));
 		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
 		$di->set('parser.media.delete', $di->lazyNew('Ushahidi_Parser_Media_Delete'));
 		$di->set('parser.media.search', $di->lazyNew('Ushahidi_Parser_Media_Search'));

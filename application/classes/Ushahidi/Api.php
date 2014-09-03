@@ -171,6 +171,12 @@ class Ushahidi_Api extends Controller {
 	}
 
 	/**
+	 * Enable or disable the global resource-acl check
+	 * @var boolean
+	 */
+	protected $resource_acl_check = TRUE;
+
+	/**
 	 * Get the request access method
 	 *
 	 * Allows controllers to customize how different methods are treated.
@@ -237,7 +243,7 @@ class Ushahidi_Api extends Controller {
 		$method     = $this->_get_access_method();
 
 		// Does the user have required role/permissions ?
-		if (! $this->acl->is_allowed($this->user, $resource, $method) )
+		if ($this->resource_acl_check AND ! $this->acl->is_allowed($this->user, $resource, $method) )
 		{
 			// @todo proper message
 			if (isset($resource->id))

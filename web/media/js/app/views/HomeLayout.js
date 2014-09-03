@@ -8,8 +8,8 @@
  */
 
 define(['App', 'marionette', 'underscore', 'modules/config',
-'hbs!templates/HomeLayout', 'views/SearchBarView', 'views/MapView', 'views/posts/PostListView'],
-	function(App, Marionette, _, config, template, SearchBarView, MapView, PostListView)
+'hbs!templates/HomeLayout', 'views/SearchBarView', 'views/MapView', 'views/posts/PostListView', 'collections/LayerCollection'],
+	function(App, Marionette, _, config, template, SearchBarView, MapView, PostListView, LayerCollection)
 	{
 		return Marionette.Layout.extend(
 		{
@@ -47,6 +47,7 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 			 */
 			showRegions : function()
 			{
+				var that = this;
 				ddt.log('HomeLayout', 'showRegions');
 				if (this.mapRegion.currentView instanceof MapView === false && this.views.map)
 				{
@@ -57,6 +58,17 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 						defaultView : config.get('map').default_view,
 						fullSizeMap : (! this.views.list)
 					}));
+
+					var layers = new LayerCollection();
+					layers.fetch().done(function () {
+						layers.each(function (model) {
+							if (model.get('active'))
+							{
+								that.mapRegion.currentView.addOverlay(model.get('name'), model.get('data_url'), model.get('type'), model.get('options'), model.get('visible_by_default'));
+							}
+						});
+					});
+
 				}
 				else if(! this.views.map)
 				{

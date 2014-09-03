@@ -176,7 +176,7 @@ define(['backbone', 'jquery', 'underscore', 'alertify', 'ddt', 'util/App.storage
 			anonymous_token = anonymous_storage.get(),
 			user_token = getUserToken(),
 			refresh_token = getUserToken(true),
-			required_scopes = ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'stats'],
+			required_scopes = ['posts', 'media', 'forms', 'api', 'tags', 'sets', 'users', 'stats', 'layers'],
 			all_scopes = required_scopes.concat(['config', 'messages', 'dataproviders']),
 			UshahidiAuth = {
 				initialize : function()
