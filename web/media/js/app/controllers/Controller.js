@@ -357,29 +357,33 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 					defaultFormAttrs
 				) {
 					App.vent.trigger('page:change', 'forms');
-					var form = App.Collections.Forms.get(id),
-						formEditor = new FormEditor({
-							model : form
-						}),
-						availableAttributes = new FormAttributeCollection(defaultFormAttrs),
-						formAttributes = new FormAttributeCollection(_.values(form.formAttributes)),
-						formGroup = (form.get('groups')[0] || {}),
-						formAttributeList = new FormAttributeList({
-							collection : formAttributes,
-							form_group_id : formGroup.id
+					var form = App.Collections.Forms.get(id);
+					// Force a refresh of the form, to make sure we have complete
+					// and updated groups/attributes. See T676.
+					form.fetch().done(function() {
+						var formEditor = new FormEditor({
+								model : form
+							}),
+							availableAttributes = new FormAttributeCollection(defaultFormAttrs),
+							formAttributes = new FormAttributeCollection(_.values(form.formAttributes)),
+							formGroup = (form.get('groups')[0] || {}),
+							formAttributeList = new FormAttributeList({
+								collection : formAttributes,
+								form_group_id : formGroup.id
+							});
+
+						that.layout.mainRegion.show(formEditor);
+
+						formAttributeList.on('itemview:edit', function(childView, model) {
+							formEditor.showEditor(model);
 						});
 
-					that.layout.mainRegion.show(formEditor);
-
-					formAttributeList.on('itemview:edit', function(childView, model) {
-						formEditor.showEditor(model);
+						formEditor.formAttributes.show(formAttributeList);
+						formEditor.availableAttributes.show(new AvailableAttributeList({
+							collection : availableAttributes,
+							sortableList : formAttributeList
+						}));
 					});
-
-					formEditor.formAttributes.show(formAttributeList);
-					formEditor.availableAttributes.show(new AvailableAttributeList({
-						collection : availableAttributes,
-						sortableList : formAttributeList
-					}));
 				});
 			}
 	});
