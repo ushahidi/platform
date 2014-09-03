@@ -47,7 +47,8 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 			 */
 			showRegions : function()
 			{
-				var that = this;
+				var that = this,
+					layers = new LayerCollection();
 				ddt.log('HomeLayout', 'showRegions');
 				if (this.mapRegion.currentView instanceof MapView === false && this.views.map)
 				{
@@ -59,7 +60,6 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 						fullSizeMap : (! this.views.list)
 					}));
 
-					var layers = new LayerCollection();
 					layers.fetch().done(function () {
 						layers.each(function (model) {
 							if (model.get('active'))
