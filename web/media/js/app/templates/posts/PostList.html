@@ -5,13 +5,13 @@
 			<li>
 				<label class="select-all" for="select-all">
 					<input class="show-for-medium-down js-select-all-input" type="checkbox" id="select-all" value="on">
-					<span class="hide-for-medium-down underline select-text">Select All</span>
-					<span class="hide-for-medium-down underline unselect-text visually-hidden">Unselect All</span>
+					<span class="hide-for-medium-down underline select-text">{{t "nav.select_all"}}</span>
+					<span class="hide-for-medium-down underline unselect-text visually-hidden">{{t "nav.unselect_all"}}</span>
 				</label>
 			</li>
-			<li><a class="js-post-bulk-publish"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">Publish</span></a></li>
-			<li><a class="js-post-bulk-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">Unpublish</span></a></li>
-			<li><a class="js-post-bulk-delete"> <i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">Delete</span></a></li>
+			<li><a class="js-post-bulk-publish"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">{{t "post.publish"}}</span></a></li>
+			<li><a class="js-post-bulk-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">{{t "post.unpublish"}}</span></a></li>
+			<li><a class="js-post-bulk-delete"> <i class="fa  fa-trash-o"></i> <span class="hide-for-medium-down">{{t "nav.delete"}}</span></a></li>
 		</ul> <!-- end .list-view-bulk-actions-list .hide-for-medium-down-->
 	</div> <!-- end .row -->
 </div> <!-- end .list-view-bulk-actions -->
@@ -26,7 +26,7 @@
 
 			<div class="list-view-filter-count">
 				<div class="filter-count-select">
-					<label class="visually-hidden" for="filter-count">Number of posts shown</label>
+					<label class="visually-hidden" for="filter-count">{{t "posts.number_of_posts_shown"}}</label>
 					<select id="filter-count" class="filter-count  js-filter-count">
 						<option selected>3</option>
 						<option>5</option>
@@ -39,7 +39,7 @@
 
 			<div class="list-view-filter-sort">
 				<div class="filter-sort-select">
-					<label class="visually-hidden" for="filter-sort">Sort posts by</label>
+					<label class="visually-hidden" for="filter-sort">{{t "post.sort_posts_by"}}</label>
 					<select id="filter-sort" class="filter-sort  js-filter-sort">
 					{{#each sortKeys}}
 						<option value="{{@key}}">{{this}}</option>
@@ -55,7 +55,7 @@
 	<div class="list-view-wrapper">
 		{{# feature 'post_export'}}
 				<span class="right">
-					<a href="#" class="js-post-bulk-export"><p><i class="fa fa-cloud-download"></i> Export</p></a>
+					<a href="#" class="js-post-bulk-export"><p><i class="fa fa-cloud-download"></i> {{t "post.export"}}</p></a>
 				</span>
 			{{/feature}}
 		<ul class="list-view-post-list">

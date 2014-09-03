@@ -1,6 +1,6 @@
 	<div class="modal-header">
-		<button class="js-back-button">Back</button>
-		<h4>Create Post</h4>
+		<button class="js-back-button">{{t "nav.back"}}</button>
+		<h4>{{t "post.create_post"}}</h4>
 		<a class="js-modal-close">&#215;</a>
 	</div> <!-- end modal-header -->
 
@@ -9,7 +9,7 @@
 		<div class="form-options-nav-wrapper">
 			{{#if fieldsets}}
 			<dl class="form-options-nav">
-				<dt>Options:</dt>
+				<dt>{{t "nav.options"}}</dt>
 				{{#each fieldsets}}
 					<dd class="{{#if active}}active{{/if}}">
 						<a class="js-switch-fieldset" data-fieldset="{{name}}" title="{{name}}">{{legend}}</a>
@@ -31,7 +31,7 @@
 
 	<section class="modal-footer">
 		<div class="modal-submit">
-			<button type="submit" form="create-post-form"><i class="fa  fa-plus  fa-lg"></i> Create Post</button>
+			<button type="submit" form="create-post-form"><i class="fa  fa-plus  fa-lg"></i> {{t "post.create_post"}}</button>
 		</div>
 	</section> <!-- end modal-footer -->
 

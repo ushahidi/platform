@@ -3,13 +3,13 @@
 		<div class="search-form-wrapper">
 
 			<div class="location-field">
-				<label class="visually-hidden" for="location-field">Location</label>
+				<label class="visually-hidden" for="location-field">{{t "nav.location"}}</label>
 				<input type="text" id="location-field" class="location-field  js-search-location" placeholder="Location" value="{{ state.location }}">
 			</div>
 
 			<!-- TODO: need to figure out best solution for tags, time etc... -->
 			<div class="tags-select">
-				<label class="visually-hidden" for="tags">Tags</label>
+				<label class="visually-hidden" for="tags">{{t "nav.tags"}}</label>
 				{{#if tags}}
 				<select class="search-tag-field  js-search-tag" multiple placeholder="Tags">
 					{{#each tags}}
@@ -20,7 +20,7 @@
 			</div>
 
 			<div class="sets-select">
-				<label class="visually-hidden" for="sets">Sets</label>
+				<label class="visually-hidden" for="sets">{{t "nav.sets"}}</label>
 				<select class="js-search-set" placeholder="Sets">
 					<option>SET #1</option>
 					<option>SET #2</option>
@@ -29,16 +29,16 @@
 			</div>
 
 			<div class="time-select">
-				<label class="visually-hidden" for="time-from">From Time</label>
-					<input type="text" id="time-from" class="search-field  time-from  js-search-time-from" placeholder="From Time" value="{{ state.created_after }}">
-				<label class="visually-hidden" for="time-to">Until Time</label>
-					<input type="text" id="time-to" class="search-field  time-to  js-search-time-to" placeholder="Until Time" value="{{ state.created_before }}">
+				<label class="visually-hidden" for="time-from">{{t "nav.from_time"}}</label>
+					<input type="text" id="time-from" class="search-field  time-from  js-search-time-from" placeholder="{{t 'nav.from_time'}}" value="{{ state.created_after }}">
+				<label class="visually-hidden" for="time-to">{{t "nav.until_time"}}</label>
+					<input type="text" id="time-to" class="search-field  time-to  js-search-time-to" placeholder="{{t 'nav.until_time'}}" value="{{ state.created_before }}">
 			</div>
 
 			<div class="search-field-wrapper">
 				<div class="search-field">
-					<label class="visually-hidden" for="search-field">Search</label>
-					<input type="search" id="q" class="search-field  js-search-keyword" placeholder="Keyword" value="{{ state.q }}">
+					<label class="visually-hidden" for="search-field">{{t "nav.search"}}</label>
+					<input type="search" id="q" class="search-field  js-search-keyword" placeholder="{{t 'nav.keyword'}}" value="{{ state.q }}">
 				</div>
 
 				<div class="search-bar-button">

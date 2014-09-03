@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4>{{#if isNew}}Create User{{else}}Edit User{{/if}}</h4>
+  <h4>{{#if isNew}}{{t "user.create_user"}}{{else}}{{t "user.edit_user"}}{{/if}}</h4>
   <a class="js-modal-close">&#215;</a>
 </div> <!-- end modal-header -->
 
@@ -10,6 +10,6 @@
 
 <section class="modal-footer">
   <div class="modal-submit">
-    <button type="submit" form="edit-user-form"><i class="fa  fa-plus  fa-lg"></i> {{#if isNew}}Create User{{else}}Update User{{/if}} </button>
+    <button type="submit" form="edit-user-form"><i class="fa  fa-plus  fa-lg"></i> {{#if isNew}}{{t "User.create_user"}}{{else}}{{t "user.update_user"}}{{/if}} </button>
   </div>
 </section> <!-- end modal-footer -->

@@ -2,13 +2,13 @@
 	<div class="row">
 		<section class="api-explorer-box">
 			<div class="post-header">
-					<h5>API Explorer</h5>
+					<h5>{{t "api.api_explorer"}}</h5>
 			</div> <!-- end .post-header -->
 
 			<div class="post-body">
 					<div class="api-explorer-sidebar">
 						<ul class="side-nav">
-							<li><label class="api-explorer-sidebar__label">Posts</label>
+							<li><label class="api-explorer-sidebar__label">{{t "api.posts"}}</label>
 								<ul>
 									<li><a class="js-api-endpoint" data-endpoint="posts" data-method="get">GET /posts</a></li>
 									<li><a class="js-api-endpoint" data-endpoint="posts/1" data-method="get">GET /posts/{post_id}</a></li>
@@ -17,35 +17,35 @@
 									<li><a class="js-api-endpoint" data-endpoint="posts/1" data-method="delete">DELETE /posts/{post_id}</a></li>
 								</ul>
 							</li>
-							<li><label class="api-explorer-sidebar__label">Messages</label>
+							<li><label class="api-explorer-sidebar__label">{{t "api.messages"}}</label>
 								<ul>
 									<li>
 										<a class="js-api-endpoint" data-endpoint="messages">GET /messages</a>
 									</li>
 								</ul>
 							</li>
-							<li><label class="api-explorer-sidebar__label">Tags</label>
+							<li><label class="api-explorer-sidebar__label">{{t "api.tags"}}</label>
 								<ul>
 									<li data-page="tags">
 										<a class="js-api-endpoint" data-endpoint="tags" data-method="get">GET /tags</a>
 									</li>
 								</ul>
 							</li>
-							<li><label class="api-explorer-sidebar__label">Users</label>
+							<li><label class="api-explorer-sidebar__label">{{t "api.users"}}</label>
 								<ul>
 									<li data-page="users">
 										<a class="js-api-endpoint" data-endpoint="users" data-method="get" >GET /users</a>
 									</li>
 								</ul>
 							</li>
-							<li><label class="api-explorer-sidebar__label">Forms</label>
+							<li><label class="api-explorer-sidebar__label">{{t "api.forms"}}</label>
 								<ul>
 									<li data-page="forms">
 										<a class="js-api-endpoint" data-endpoint="forms" data-method="get">GET /forms</a>
 									</li>
 								</ul>
 							</li>
-							<li><label class="api-explorer-sidebar__label">Data Providers</label>
+							<li><label class="api-explorer-sidebar__label">{{t "api.data_providers"}}</label>
 								<ul>
 									<li data-page="forms">
 										<a class="js-api-endpoint" data-endpoint="dataproviders" data-method="get">GET /dataproviders</a>
@@ -59,17 +59,17 @@
 							<h4>{{reqMethod}} {{apiEndpoint}}</h4>
 						{{/if}}
 						<p class="api-explorer-request-authenticated">
-							<span>AUTHENTICATED</span>: {{#if loggedIn}}<span class="success label">Yes</span> {{else}} <span class="alert label">No</span>{{/if}}
+							<span>{{t "api.authenticated"}}</span>: {{#if loggedIn}}<span class="success label">{{t "nav.yes"}}</span> {{else}} <span class="alert label">{{t "nav.no"}}</span>{{/if}}
 						</p>
 
 						<div class="api-explorer-query-header">
 							<div class="row">
 								<div class="small-6 columns">
-									<span>Make a Request:</span>
+									<span>{{t "api.make_a_request"}}:</span>
 								</div>
 								{{#if addSampleData}}
 								<div class="small-6 columns api-explorer-add-data-wrapper">
-									<a class="js-stub"><i class="fa fa-plus-circle"></i>Add sample data</a>
+									<a class="js-stub"><i class="fa fa-plus-circle"></i>{{t "api.add_sample_data"}}</a>
 								</div>
 								{{/if}}
 							</div>
@@ -77,19 +77,19 @@
 						<div class="api-explorer-query-wrapper">
 							<form role="search" class="js-api-explorer-form" action="">
 								{{#if addSampleData}}
-								<h5>Request Body</h5>
+								<h5>{{t "api.request_body"}}</h5>
 								<textarea class="js-add-sample-data">
 								</textarea>
 								{{/if}}
-								<h5>Query</h5>
+								<h5>{{t "api.query"}}</h5>
 								<span class="radius secondary label">{{apiBaseUrl}}</span>
 								<input type="text" class="js-api-url"/>
 								<div class="row">
 								<div class="small-6 columns">
-								<button type="submit" class="api-explorer-reset-button">Reset</button>
+								<button type="submit" class="api-explorer-reset-button">{{t "api.reset"}}</button>
 								</div>
 								<div class="small-6 columns api-explorer-submit-wrapper">
-								<button type="submit" class="api-explorer-submit-button">Execute</button>
+								<button type="submit" class="api-explorer-submit-button">{{t "api.execute"}}</button>
 								</div>
 								</div>
 							</form>

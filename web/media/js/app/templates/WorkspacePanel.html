@@ -1,4 +1,4 @@
-<h1 class="visually-hidden">Workspace</h1>
+<h1 class="visually-hidden">{{t "nav.workspace"}}</h1>
 
 {{#if user}}
 <div class="workspace-profile">
@@ -17,8 +17,8 @@
 		<p id="workspace-role" class="workspace-role" >{{ user.role }}</p>
 
 		<ul class="inline-list">
-			<li><a id="edit-profile" class="edit-profile js-edit-profile">Edit Profile</a></li>
-			<li><a href="{{#url}}user/logout{{/url}}" id="logout" class="logout  js-logout" >Logout</a></li>
+			<li><a id="edit-profile" class="edit-profile js-edit-profile">{{t "users.edit_profile"}}</a></li>
+			<li><a href="{{#url}}user/logout{{/url}}" id="logout" class="logout  js-logout" >{{t "user.logout"}}</a></li>
 		</ul>
 	</div>
 </div>
@@ -27,13 +27,13 @@
 <div class="workspace-stats-wrapper">
 	<ul class="workspace-stats">
 		<li id="posts-stats" class="stat-card">
-			<h5 id="posts-stats-value"><i class="fa  fa-calendar"></i> {{ posts.all }} <span>posts</span></h5>
+			<h5 id="posts-stats-value"><i class="fa  fa-calendar"></i> {{t "nav.count_posts" count=posts.all}}</h5>
 		</li>
 		<li id="users-stats" class="stat-card">
-			<h5 id="users-stats-value"><i class="fa  fa-group"></i> {{ users.all }} <span>users</span></h5>
+			<h5 id="users-stats-value"><i class="fa  fa-group"></i> {{t "nav.count_users" count=users.all}}</h5>
 		</li>
 		<li id="tags-stats" class="stat-card">
-			<h5 id="tags-stats-value"><i class="fa  fa-tag"></i> {{ tags.all }} <span>tags</span></h5>
+			<h5 id="tags-stats-value"><i class="fa  fa-tag"></i> {{t "nav.count_tags" count=tags.all}}</h5>
 		</li>
 	</ul>
 </div>
@@ -41,58 +41,58 @@
 
 <dl class="workspace-menu  accordion">
 	<dd>
-		<a id="workspace-menu-posts" class="active  title  js-title" data-section-title><i class="fa  fa-files-o"></i> Posts</a>
+		<a id="workspace-menu-posts" class="active  title  js-title" data-section-title><i class="fa  fa-files-o"></i> {{t "nav.posts"}}</a>
 		<div id="panel1" class="active  content  js-content">
 			<ul>
 			<!-- TODO: this needs to be locked to moderators -->
 				{{!-- TODO: Do something with awaiting review workspace --}}
 				{{!--<li id="workspace-menu-awaiting-review">
-					<a href="{{#url}}#workspace?status=pending{{/url}}"><p><i class="fa  fa-star-o"></i> Awaiting Review <span class="awaiting-review-label">{{ posts.pending }}</span></p></a>
+					<a href="{{#url}}#workspace?status=pending{{/url}}"><p><i class="fa  fa-star-o"></i> {{t "post.awaiting_review"}} <span class="awaiting-review-label">{{ posts.pending }}</span></p></a>
 				</li>--}}
 
 				<li id="workspace-menu-published" data-page="posts">
-					<a href="{{#url}}posts{{/url}}"><p><i class="fa  fa-file-o"></i> Published <span class="published-label">{{ posts.published }}</span></p></a>
+					<a href="{{#url}}posts{{/url}}"><p><i class="fa  fa-file-o"></i> {{t "post.published"}} <span class="published-label">{{ posts.published }}</span></p></a>
 				</li>
 
 				{{!-- TODO: highlight current menu item --}}
 				<li id="workspace-menu-unpublished" data-page="posts/unpublished">
-					<a href="{{#url}}posts?status=draft{{/url}}"><p><i class="fa  fa-file"></i> Unpublished <span class="unpublished-label">{{ posts.unpublished }}</span></p></a>
+					<a href="{{#url}}posts?status=draft{{/url}}"><p><i class="fa  fa-file"></i> {{t "post.unpublished"}} <span class="unpublished-label">{{ posts.unpublished }}</span></p></a>
 				</li>
 
 				<li id="workspace-menu-all-posts" data-page="posts/all">
-					<a href="{{#url}}posts?status=all{{/url}}"><p><i class="fa  fa-files-o"></i> All Posts <span class="all-posts-label">{{ posts.total }}</span></p></a>
+					<a href="{{#url}}posts?status=all{{/url}}"><p><i class="fa  fa-files-o"></i> {{t "post.all_posts"}} <span class="all-posts-label">{{ posts.total }}</span></p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->
 	</dd>
 
 	<dd>
-		<a id="workspace-menu-incoming-messages" class="active  title  js-title" data-section-title><i class="fa  fa-inbox"></i> Incoming Messages</a>
+		<a id="workspace-menu-incoming-messages" class="active  title  js-title" data-section-title><i class="fa  fa-inbox"></i> {{t "message.incoming_messages"}}</a>
 			{{#if messages}}
 		<div id="panel2" class="active  content  js-content">
 			<ul>
 			<li id="workspace-menu-messages-unread" data-page="messages">
-				<a href="{{#url}}messages{{/url}}"><p><i class="fa  fa-file-o"></i> New <span class="messages-unread-label">{{ messages.received }}</span></p></a>
+				<a href="{{#url}}messages{{/url}}"><p><i class="fa  fa-file-o"></i> {{t "nav.new"}} <span class="messages-unread-label">{{ messages.received }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-sms" data-page="messages/sms">
-				<a href="{{#url}}messages/list/sms{{/url}}"><p><i class="fa  fa-phone"></i> SMS <span class="messages-sms-label">{{ messages.sms }}</span></p></a>
+				<a href="{{#url}}messages/list/sms{{/url}}"><p><i class="fa  fa-phone"></i> {{t "message.sms"}} <span class="messages-sms-label">{{ messages.sms }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-email" data-page="messages/email">
-				<a href="{{#url}}messages/list/email{{/url}}"><p><i class="fa  fa-envelope-o"></i> Email <span class="messages-email-label">{{ messages.email }}</span></p></a>
+				<a href="{{#url}}messages/list/email{{/url}}"><p><i class="fa  fa-envelope-o"></i> {{t "message.email"}} <span class="messages-email-label">{{ messages.email }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-archived" data-page="messages/archived">
-				<a href="{{#url}}messages/list/archived{{/url}}"><p><i class="fa  fa-file"></i> Archived <span class="messages-archived-label">{{ messages.archived }}</span></p></a>
+				<a href="{{#url}}messages/list/archived{{/url}}"><p><i class="fa  fa-file"></i> {{t "message.archived"}} <span class="messages-archived-label">{{ messages.archived }}</span></p></a>
 			</li>
 
 			<li id="workspace-menu-messages-all" data-page="messages/all">
-				<a href="{{#url}}messages/list/all{{/url}}"><p><i class="fa  fa-files-o"></i> All Messages <span class="messages-all-label">{{ messages.all }}</span></p></a>
+				<a href="{{#url}}messages/list/all{{/url}}"><p><i class="fa  fa-files-o"></i> {{t "message.all_messages"}} <span class="messages-all-label">{{ messages.all }}</span></p></a>
 			</li>
 		{{#feature 'data_provider_config'}}
 			<li id="workspace-menu-messages-settings" data-page="messages/settings">
-				<a href="{{#url}}messages/settings{{/url}}"><p><i class="fa  fa-gear"></i> Messages Configurations</p></a>
+				<a href="{{#url}}messages/settings{{/url}}"><p><i class="fa  fa-gear"></i> {{t "message.messages_configurations"}}</p></a>
 			<li>
 		{{/feature}}
 			</ul>
@@ -120,32 +120,32 @@
 	</dd> -->
 
 	<dd>
-		<a id="workspace-menu-tools" class="active  title  js-title" data-section-title><i class="fa  fa-cogs"></i> Tools</a>
+		<a id="workspace-menu-tools" class="active  title  js-title" data-section-title><i class="fa  fa-cogs"></i> {{t "tool.tools"}}</a>
 		<div id="panel4" class="active  content  js-content">
 			<ul>
 				<li id="workspace-menu-users" data-page="users">
-					<a href="{{#url}}settings/users{{/url}}"><p><i class="fa fa-group"></i> Manage Users</p></a>
+					<a href="{{#url}}settings/users{{/url}}"><p><i class="fa fa-group"></i> {{t "tool.manage_users"}}</p></a>
 				</li>
 				<li id="workspace-menu-tags" data-page="tags">
-					<a href="{{#url}}settings/tags{{/url}}"><p><i class="fa fa-tags"></i> Manage Tags</p></a>
+					<a href="{{#url}}settings/tags{{/url}}"><p><i class="fa fa-tags"></i> {{t "tool.manage_tags"}}</p></a>
 				</li>
 
 				{{# feature 'api_explorer'}}
 					<li data-page="apiexplorer">
-						<a href="{{#url}}apiexplorer{{/url}}"><p><i class="fa fa-terminal"></i> API Explorer</p></a>
+						<a href="{{#url}}apiexplorer{{/url}}"><p><i class="fa fa-terminal"></i> {{t "api.api_explorer"}}</p></a>
 					</li>
 				{{/feature}}
 
 				{{# feature 'form_wizard'}}
 				<li id="workspace-menu-forms" data-page="forms">
-					<a href="{{#url}}settings/forms{{/url}}"><p><i class="fa fa-pencil-square-o"></i> Manage Forms</p></a>
+					<a href="{{#url}}settings/forms{{/url}}"><p><i class="fa fa-pencil-square-o"></i> {{t "tool.manage_forms"}}</p></a>
 				</li>
 				{{/feature}}
 				<li id="workspace-menu-site" data-page="settings">
-					<a href="{{#url}}settings/site{{/url}}"><p><i class="fa  fa-wrench"></i> Site Settings</p></a>
+					<a href="{{#url}}settings/site{{/url}}"><p><i class="fa  fa-wrench"></i> {{t "tool.site_settings"}}</p></a>
 				</li>
 				<li id="workspace-menu-map-settings" data-page="mapSettings">
-					<a href="{{#url}}#settings/map{{/url}}"><p><i class="fa  fa-map-marker"></i> Map Settings</p></a>
+					<a href="{{#url}}#settings/map{{/url}}"><p><i class="fa  fa-map-marker"></i> {{t "tool.map_settings"}}</p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->
@@ -175,11 +175,11 @@
 	</dd> -->
 
 	<dd>
-		<a id="workspace-menu-contact" class="active  title  js-title" data-section-title><i class="fa  fa-smile-o"></i> Contact Us</a>
+		<a id="workspace-menu-contact" class="active  title  js-title" data-section-title><i class="fa  fa-smile-o"></i> {{t "app.contact_us"}}</a>
 		<div id="panel6" class="active  content  js-content">
 			<ul>
 				<li data-page="support">
-					<a><p><i class="fa  fa-smile-o"></i> Support</p></a>
+					<a><p><i class="fa  fa-smile-o"></i> {{t "app.support"}}</p></a>
 				</li>
 
 				<li data-page="ushahidi">
@@ -187,7 +187,7 @@
 				</li>
 
 				<li data-page="community">
-					<a><p><i class="fa  fa-group"></i> Community Liason</p></a>
+					<a><p><i class="fa  fa-group"></i> {{t "app.community_liason"}}</p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->

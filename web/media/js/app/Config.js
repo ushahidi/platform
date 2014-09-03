@@ -54,7 +54,7 @@ require.config(
 		'IPv6' : '../../bower_components/URIjs/src/IPv6',
 		'SecondLevelDomains' : '../../bower_components/URIjs/src/SecondLevelDomains',
 
-		'i18next' : '../../bower_components/i18next/i18next.amd.withJQuery.min'
+		'i18next' : '../../bower_components/i18next/i18next.amd.min'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :

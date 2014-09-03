@@ -8,31 +8,31 @@
 			<div class="post-actions-wrapper">
 				<ul class="post-actions">
 					{{#if allowed_methods.put}}
-						<li><a class="post-actions-button  post-edit  js-post-edit"> <i class="fa  fa-lg  fa-edit"></i> <span class="post-actions-button-text">edit</span></a></li>
+						<li><a class="post-actions-button  post-edit  js-post-edit"> <i class="fa  fa-lg  fa-edit"></i> <span class="post-actions-button-text">{{t "nav.edit"}}</span></a></li>
 					{{/if}}
 					{{#feature 'sets_ui'}}
-						<li><a class="post-actions-button  post-add-to-set  js-post-set"> <i class="fa  fa-lg  fa-plus-circle"></i> <span class="post-actions-button-text">set</span></a></li>
+						<li><a class="post-actions-button  post-add-to-set  js-post-set"> <i class="fa  fa-lg  fa-plus-circle"></i> <span class="post-actions-button-text">{{t "nav.set"}}</span></a></li>
 					{{/feature}}
 					{{#if allowed_methods.put}}
 					<li>
 						{{#if isPublished}}
-							<a class="post-actions-button  post-unpublish  js-post-unpublish"> <i class="fa  fa-lg  fa-file"></i> <span class="post-actions-button-text">unpublish</span></a>
+							<a class="post-actions-button  post-unpublish  js-post-unpublish"> <i class="fa  fa-lg  fa-file"></i> <span class="post-actions-button-text">{{t "post.unpublish"}}</span></a>
 						{{else}}
-							<a class="post-actions-button  post-publish  js-post-publish"> <i class="fa  fa-lg  fa-file-o"></i> <span class="post-actions-button-text">publish</span></a>
+							<a class="post-actions-button  post-publish  js-post-publish"> <i class="fa  fa-lg  fa-file-o"></i> <span class="post-actions-button-text">{{t "post.publish"}}</span></a>
 						{{/if}}
 					</li>
 					{{/if}}
 					{{#if allowed_methods.delete}}
-						<li><a class="post-actions-button  post-delete  js-post-delete"> <i class="fa  fa-lg  fa-trash-o"></i> <span class="post-actions-button-text">delete</span></a></li>
+						<li><a class="post-actions-button  post-delete  js-post-delete"> <i class="fa  fa-lg  fa-trash-o"></i> <span class="post-actions-button-text">{{t "nav.delete"}}</span></a></li>
 					{{/if}}
 				</ul><!-- end .post-actions -->
 
 				<ul class="post-nav">
 					{{#if hasPrev}}
-					<li><a class="post-nav-button  js-post-prev"><i class="fa  fa-lg  fa-arrow-left"></i> <span class="post-nav-button-text">Prev</span></a></li>
+					<li><a class="post-nav-button  js-post-prev"><i class="fa  fa-lg  fa-arrow-left"></i> <span class="post-nav-button-text">{{t "nav.prev"}}</span></a></li>
 					{{/if}}
 					{{#if hasNext}}
-					<li><a class="post-nav-button  js-post-next"><span class="post-nav-button-text">Next</span> <i class="fa  fa-lg  fa-arrow-right"></i></a></li>
+					<li><a class="post-nav-button  js-post-next"><span class="post-nav-button-text">{{t "nav.next"}}</span> <i class="fa  fa-lg  fa-arrow-right"></i></a></li>
 					{{/if}}
 				</ul><!-- end .post-nav -->
 			</div> <!-- end .post-actions-wrapper -->
@@ -65,7 +65,7 @@
 
 		<div class="post-meta">
 			<div class="post-meta-details">
-				<h6>Post Details</h6>
+				<h6>{{t "post.post_details"}}</h6>
 				<div class="post-author">
 					<p><i class="fa  fa-user"></i><span>
 					{{#if user}}
@@ -76,7 +76,7 @@
 							{{user.username}}
 						{{/if}}</a>
 					{{else}}
-						Anonymous
+						{{t "post.anonymous"}}
 					{{/if}}
 				</span></p>
 				</div> <!-- end .post-author -->
@@ -87,7 +87,7 @@
 
 				<div class="post-published-status">
 					{{#if isPublished}}
-						<p><i class="fa  fa-file-o"></i><span class="post-time" >Published</span></p>
+						<p><i class="fa  fa-file-o"></i><span class="post-time" >{{t "post.published"}}</span></p>
 					{{else}}
 						{{!-- @todo add ucfirst handler and format status --}}
 						<p><i class="fa  fa-file"></i><span class="post-time" >{{status}}</span></p>
@@ -113,7 +113,7 @@
 
 		<hr>
 		{{#feature 'media_uploads'}}
-		<p class="click-to-zoom"><small><i class="fa  fa-search-plus"></i> click images to zoom</small></p>
+		<p class="click-to-zoom"><small><i class="fa  fa-search-plus"></i> {{t "nav.click_images_to_zoom"}}</small></p>
 		<div class="post-thumbnails-wrapper">
 			<ul class="post-thumbnails  js-lightbox-gallery">
 				<li><a href="{{ imageurl "mini-coop.jpg"}}"><img src="{{ imageurl "mini-coop.jpg"}}" alt=""></a></li>

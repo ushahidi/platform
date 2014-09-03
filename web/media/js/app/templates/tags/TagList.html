@@ -1,30 +1,30 @@
 <div class="row">
 	<div class="actions-bar">
 		<div class="actions-bar-header">
-			<h3>Tags</h3>
+			<h3>{{t "nav.tags"}}</h3>
 		</div>
 		<div class="actions-bar-admin">
 			<ul class="actions-bar-admin-list  hide-for-small">
 				<li>
 					<a class="js-select-all">
-						<span class="select-text">Select All</span>
-						<span class="unselect-text visually-hidden">Unselect All</span>
+						<span class="select-text">{{t "nav.select_all"}}</span>
+						<span class="unselect-text visually-hidden">{{t "nav.unselect_all"}}</span>
 					</a>
 				</li>
-				<li><a class="js-tag-create"><i class="fa  fa-tag"></i>Add Tag</li>
-				<li class="js-bulk-action disabled"><a class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
+				<li><a class="js-tag-create"><i class="fa  fa-tag"></i>{{t "tag.add_tag"}}</li>
+				<li class="js-bulk-action disabled"><a class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 
-			<a data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">actions</a><br>
+			<a data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">{{t "nav.actions"}}</a><br>
 			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-menu dropdown-list  show-for-small">
 				<li>
 					<a class="js-select-all">
-						<span class="select-text">Select All</span>
-						<span class="unselect-text visually-hidden">Unselect All</span>
+						<span class="select-text">{{t "nav.select_all"}}</span>
+						<span class="unselect-text visually-hidden">{{t "nav.unselect_all"}}</span>
 					</a>
 				</li>
-				<li><a class="js-tag-create"><i class="fa  fa-tag"></i>Add Tag</li>
-				<li class="js-bulk-action disabled"><a class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>Delete</a></li>
+				<li><a class="js-tag-create"><i class="fa  fa-tag"></i>{{t "tag.add_tag"}}</li>
+				<li class="js-bulk-action disabled"><a class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 		</div> <!-- end .actions-bar-admin tag-list -->
 	</div> <!-- end .actions-bar tag-list -->
@@ -41,7 +41,7 @@
 				<div class="list-view-filter-select-wrapper--alt">
 					<div class="list-view-filter-count--alt">
 						<div class="filter-count-select">
-							<label class="visually-hidden" for="filter-count">Number of tags shown</label>
+							<label class="visually-hidden" for="filter-count">{{t "tag.number_of_tags_shown"}}</label>
 							<select id="filter-count" class="filter-count  js-filter-count">
 								<option selected>4</option>
 								<option>10</option>
@@ -53,7 +53,7 @@
 
 					<div class="list-view-filter-sort--alt">
 						<div class="filter-sort-select">
-							<label class="visually-hidden" for="filter-sort">Sort tags by</label>
+							<label class="visually-hidden" for="filter-sort">{{t "tag.sort_tags_by"}}</label>
 							<select id="filter-sort" class="filter-sort  js-filter-sort">
 								{{#each sortKeys}}
 									<option value="{{@key}}">{{this}}</option>

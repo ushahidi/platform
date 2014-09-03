@@ -1,16 +1,16 @@
 <div class="row">
 	<div class="actions-bar">
 		<div class="actions-bar-header--form-editor">
-			<h3><i class="fa fa-magic"></i> Form Wizard</h3>
+			<h3><i class="fa fa-magic"></i> {{t "form.form_wizard"}}</h3>
 		</div>
 		<div class="actions-bar-admin">
 		</div> <!-- end .actions-bar-admin data-provider-list -->
 	</div> <!-- end .actions-bar data-provider-list -->
 
 	<div class="list-view-wrapper">
-		<p class="list-view-create-new">Do you want to
-			<a href="javascript:void(0)" class="js-custom-form-create">create a new form</a>
-			or edit a form?</p>
+		<p class="list-view-create-new">
+			{{t "form.create_or_edit" createPrefix="<a class='js-custom-form-create'>" createSuffix="</a>"}}
+		</p>
 		<ul class="list-view-form-list  card-list--form-wizard">
 		</ul>
 	</div> <!-- end .list-view-wrapper -->

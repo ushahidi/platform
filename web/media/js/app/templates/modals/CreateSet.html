@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4>Create Set</h4>
+  <h4>{{t "set.create_set"}}</h4>
   <a class="js-modal-close">&#215;</a>
 </div> <!-- end modal-header -->
 
@@ -7,27 +7,27 @@
   <section class="create-post-options">
     <form role="search" id="search-form" action="">
 
-      <h6>Name</h6>
-      <input type="text" placeholder="Enter your name">
+      <h6>{{t "set.name"}}</h6>
+      <input type="text" placeholder="{{t 'set.enter_your_name'}}">
 
       <div class="create-set-photo">
-        <h6>Photo</h6>
+        <h6>{{t "set.photo"}}</h6>
         <a href="" class="create-set-thumbnail">
           <img src="/media/kohana/images/placeholder.jpg">
         </a>
-        <button class="create-set-photo-button"><i class="fa  fa-camera-retro"></i> Add a Photo</button>
+        <button class="create-set-photo-button"><i class="fa  fa-camera-retro"></i> {{t "set.add_a_photo"}}</button>
       </div>
 
-      <h6>Description</h6>
-      <textarea name="post-description" id="post-description" class="post-description" placeholder="Enter a short description" cols="30" rows="30"></textarea>
+      <h6>{{t "set.description"}}</h6>
+      <textarea name="post-description" id="post-description" class="post-description" placeholder="{{t 'set.enter_a_short_description'}}" cols="30" rows="30"></textarea>
 
-      <h6>Keywords</h6>
-      <input type="text" placeholder="Separate tags with comma">
+      <h6>{{t "set.keywords"}}</h6>
+      <input type="text" placeholder="{{t 'set.separate_tags_with_comma'}}">
 
       <div class="create-set-tags">
-        <h6>Tags</h6>
+        <h6>{{t "nav.tags"}}</h6>
         <select>
-          <option selected DISABLED>Choose a tag</option>
+          <option selected DISABLED>{{t "set.choose_a_tag"}}</option>
           <option>Voting Issues</option>
           <option>Security</option>
           <option>Urgent</option>
@@ -35,10 +35,10 @@
       </div>
 
       <div class="visibility-select">
-        <h6>Visibility</h6>
-        <small class="visibility-meta-text">This set is <strong>Private</strong> by default. Click or tap button to change.</small>
-        <button class="visibility-select-private-button  js-visibility-private"> <i class="fa  fa-lock"></i>Private</button>
-        <button class="visibility-select-public-button  js-visibility-public  none"> <i class="fa  fa-unlock"></i>Public</button>
+        <h6>{{t "set.visibility"}}</h6>
+        <small class="visibility-meta-text">{{t "set.this_set_is_private_by_default"}}. {{t "set.click_or_tap_button_to_change"}}.</small>
+        <button class="visibility-select-private-button  js-visibility-private"> <i class="fa  fa-lock"></i>{{t "set.private"}}</button>
+        <button class="visibility-select-public-button  js-visibility-public  none"> <i class="fa  fa-unlock"></i>{{t "set.public"}}</button>
         <!-- <button class="radius  bluegray  expand  button"> <i class="fa  fa-unlock"></i>Public</button> -->
 <!--         <button class="radius  secondary  expand  button"> <i class="fa  fa-lock"></i>
         <label for="private">
@@ -62,7 +62,7 @@
 <section class="modal-footer">
 
   <div class="modal-submit">
-    <button type="submit" form="search-form"><i class="fa  fa-plus  fa-lg"></i> Create Set</button>
+    <button type="submit" form="search-form"><i class="fa  fa-plus  fa-lg"></i> {{t "set.create_set"}}</button>
   </div>
 
 </section> <!-- end modal-footer -->

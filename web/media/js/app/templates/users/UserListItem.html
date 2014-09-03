@@ -9,32 +9,32 @@
 			<div class="row">
 				<h4 class="list-view-header">{{ username }}</h4>
 					<div class="details-column-a">
-						<p class="user-list-role"><b>Role: </b>{{ role }}</p>
-						<p class="user-list-full-name"><b>Full Name: </b>
+						<p class="user-list-role"><b>{{t "user.role"}}: </b>{{ role }}</p>
+						<p class="user-list-full-name"><b>{{t "user.full_name"}}: </b>
 							{{#if realname}}
 								<span>{{ realname }}</span>
 							{{else}}
-								No full name
+								{{t "user.no_full_name"}}
 							{{/if}}
 						</p>
 					</div> <!-- end .details-column-a -->
 
 					<div class="details-column-b">
-						<p class="user-list-last-login"><b>Last Login: </b>
+						<p class="user-list-last-login"><b>{{t "user.last_login"}}: </b>
 							{{#if last_login}}
 								{{ datetime-fromNow last_login }}
 							{{else}}
-								Never
+								{{t "user.never"}}
 							{{/if}}
 						</p>
-						<p class="user-list-last-attempt"><b>Last Attempt: </b>
+						<p class="user-list-last-attempt"><b>{{t "user.last_attempt"}}: </b>
 							{{#if last_attempt}}
 								{{ datetime-fromNow last_attempt }}
 							{{else}}
-								Never
+								{{t "user.never"}}
 							{{/if}}
 						</p>
-						<p class="user-list-failed-attempt"><b>Failed Attempts: </b>{{ failed_attempts }}</p>
+						<p class="user-list-failed-attempt"><b>{{t "user.failed_attempts"}}: </b>{{ failed_attempts }}</p>
 					</div> <!-- end .details-column-b -->
 			</div> <!-- end .row -->
 		</div> <!-- end .list-view-details-user -->
@@ -46,15 +46,15 @@
 						<li>
 							<label class="checkbox  list-view-edit-button">
 								<input type="checkbox" name="select-post" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
-								<i class="select-icon"></i> <span>select</span>
+								<i class="select-icon"></i> <span>{{t "nav.select"}}</span>
 							</label>
 						</li>
 						<li>
-							<a class="list-view-edit-button  js-user-edit" title="edit this post"><i class="fa  fa-edit"></i> edit</a>
+							<a class="list-view-edit-button  js-user-edit" title="{{t 'user.edit_this_post'}}"><i class="fa  fa-edit"></i> {{t "nav.edit"}}</a>
 						</li>
 						<li>
-							<a data-dropdown="drop-user-roles{{id}}" class="list-view-edit-button" title="change user role">
-								<i class="fa  fa-cogs"></i> change role</a>
+							<a data-dropdown="drop-user-roles{{id}}" class="list-view-edit-button" title="{{t 'user.change_user_role'}}">
+								<i class="fa  fa-cogs"></i> {{t "user.change_role"}}</a>
 							<ul id="drop-user-roles{{id}}" class="f-dropdown" data-dropdown-content>
 								{{#each roles}}
 									<li><a class="js-user-change-role" data-role-name="{{name}}" >{{display_name}}</a></li>
@@ -64,7 +64,7 @@
 					{{/if}}
 
 					{{#if allowed_methods.delete}}
-						<li><a class="list-view-edit-button js-user-delete" title="delete this user"><i class="fa  fa-trash-o"></i> delete</a></li>
+						<li><a class="list-view-edit-button js-user-delete" title="{{t 'user.delete_this_user'}}"><i class="fa  fa-trash-o"></i> {{t "nav.delete"}}</a></li>
 					{{/if}}
 				</ul> <!-- end .list-view-post-edit -->
 			</div> <!-- end .list-view-post-edit-wrapper-->

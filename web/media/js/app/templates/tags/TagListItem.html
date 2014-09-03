@@ -12,7 +12,7 @@
 					{{#if description}}
 						{{ description }}
 					{{else}}
-						No description given
+						{{t "tag.no_description_given"}}
 					{{/if}}
 				</p>
 			</div> <!-- end .list-view-description -->
@@ -25,19 +25,19 @@
 						<li>
 							<label class="checkbox  list-view-edit-button">
 								<input type="checkbox" name="select-post" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
-								<i class="select-icon"></i> <span>select</span>
+								<i class="select-icon"></i> <span>{{t "nav.select"}}</span>
 							</label>
 						</li>
 						<li>
 							<a class="list-view-edit-button  js-tag-edit">
-								<i class="fa  fa-edit"></i> <span class="">edit</span>
+								<i class="fa  fa-edit"></i> <span class="">{{t "nav.edit"}}</span>
 							</a>
 						</li>
 					{{/if}}
 					{{#if allowed_methods.delete}}
 						<li>
 							<a class="list-view-edit-button  js-tag-delete">
-								<i class="fa  fa-trash-o"></i> <span class="">delete</span>
+								<i class="fa  fa-trash-o"></i> <span class="">{{t "nav.delete"}}</span>
 							</a>
 						</li>
 					{{/if}}

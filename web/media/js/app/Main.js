@@ -18,7 +18,8 @@ require(['Config'], function () {
 		window.App = App;
 		i18n.init({
 				fallbackLng: 'en',
-				resGetPath: window.config.baseurl + 'media/locales/__lng__/__ns__.json'
+				resGetPath: window.config.baseurl + 'media/locales/__lng__/__ns__.json',
+				escapeInterpolation: true
 			}, function ()
 			{
 				App.appRouter = new AppRouter(

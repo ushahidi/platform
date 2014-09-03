@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4>{{#if isNew}}Create Tag{{else}}Edit Tag{{/if}}</h4>
+  <h4>{{#if isNew}}{{t "tag.create_tag"}}{{else}}{{t "tag.edit_tag"}}{{/if}}</h4>
   <a class="js-modal-close">&#215;</a>
 </div> <!-- end modal-header -->
 
@@ -10,6 +10,6 @@
 
 <section class="modal-footer">
   <div class="modal-submit">
-    <button type="submit" form="edit-tag-form"><i class="fa  fa-plus  fa-lg"></i> {{#if isNew}}Create Tag{{else}}Update Tag{{/if}} </button>
+    <button type="submit" form="edit-tag-form"><i class="fa  fa-plus  fa-lg"></i> {{#if isNew}}{{t "tag.create_tag"}}{{else}}{{t "tag.update_tag"}}{{/if}} </button>
   </div>
 </section> <!-- end modal-footer -->
