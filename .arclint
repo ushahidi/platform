@@ -10,7 +10,7 @@
     "phpcs" : {
       "type" : "phpcs",
       "include" : "(\\.php$)",
-      "exclude" : "@^(application|modules|plugins|spec)/.*@",
+      "exclude" : "@^(application|modules|plugins|web|httpdocs|spec)/.*@",
       "severity.rules" : {
         "(^PHPCS\\.E\\.)" : "warning",
         "(^PHPCS\\.W\\.)" : "advice"
@@ -18,6 +18,19 @@
       "bin" : ["/usr/local/bin/phpcs", "bin/phpcs"],
       "flags" : [
         "--standard=PSR2",
+        "--tab-width=4"
+      ]
+    },
+    "phpcs-spec" : {
+      "type" : "phpcs",
+      "include" : "(spec/.*\\.php$)",
+      "severity.rules" : {
+        "(^PHPCS\\.E\\.)" : "warning",
+        "(^PHPCS\\.W\\.)" : "advice"
+      },
+      "bin" : ["/usr/local/bin/phpcs", "bin/phpcs"],
+      "flags" : [
+        "--standard=spec/ruleset.xml",
         "--tab-width=4"
       ]
     }
