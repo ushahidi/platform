@@ -10,7 +10,7 @@
     "phpcs" : {
       "type" : "phpcs",
       "include" : "(\\.php$)",
-      "exclude" : "@^(application|modules|plugins|vendor)/.*@",
+      "exclude" : "@^(application|modules|plugins|spec)/.*@",
       "severity.rules" : {
         "(^PHPCS\\.E\\.)" : "warning",
         "(^PHPCS\\.W\\.)" : "advice"
