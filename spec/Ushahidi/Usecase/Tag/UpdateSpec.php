@@ -47,4 +47,3 @@ class UpdateSpec extends ObjectBehavior
 		$this->interact($tag, $input)->shouldReturn($tag);
 	}
 }
-

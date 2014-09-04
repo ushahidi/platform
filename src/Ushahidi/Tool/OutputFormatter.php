@@ -21,4 +21,3 @@ interface OutputFormatter
 	 */
 	public function getMimeType();
 }
-

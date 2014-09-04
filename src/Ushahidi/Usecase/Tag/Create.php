@@ -28,8 +28,9 @@ class Create
 
 	public function interact(TagData $input)
 	{
-		if (!$this->valid->check($input))
+		if (!$this->valid->check($input)) {
 			throw new ValidatorException("Failed to validate tag", $this->valid->errors());
+		}
 
 		if ($input->color) {
 			// Colors are always stripped of their hash for consistency
@@ -45,9 +46,8 @@ class Create
 			$input->icon,
 			$input->priority,
 			json_encode($input->role) //serialize roles array into json
-			);
+		);
 
 		return $this->repo->getCreatedTag();
 	}
 }
-

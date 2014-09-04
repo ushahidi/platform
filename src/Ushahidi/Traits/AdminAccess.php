@@ -30,5 +30,4 @@ trait AdminAccess
 	{
 		return ($user->id && $user->role === 'admin');
 	}
-
 }

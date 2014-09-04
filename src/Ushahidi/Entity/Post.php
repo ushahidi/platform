@@ -36,4 +36,3 @@ class Post extends Entity
 		return 'posts';
 	}
 }
-

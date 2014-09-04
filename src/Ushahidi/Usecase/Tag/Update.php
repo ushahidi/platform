@@ -30,17 +30,17 @@ class Update
 
 	public function interact(Tag $tag, TagData $input)
 	{
-		if ($input->role) 
-		{ 
-			$role = $input->role; 
-			$input->role = json_encode($role); 
+		if ($input->role) {
+			$role = $input->role;
+			$input->role = json_encode($role);
 		}
 		// We only want to work with values that have been changed
-		
+
 		$update = $input->getDifferent($tag->asArray());
 
-		if (!$this->valid->check($update))
+		if (!$this->valid->check($update)) {
 			throw new ValidatorException("Failed to validate tag", $this->valid->errors());
+		}
 
 		// Determine what changes to make in the tag
 		$this->updated = $update->asArray();
@@ -58,4 +58,3 @@ class Update
 		return $this->updated;
 	}
 }
-

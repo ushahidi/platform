@@ -17,4 +17,3 @@ class DeleteTagData extends Data
 {
 	public $id;
 }
-

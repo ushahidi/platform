@@ -29,5 +29,4 @@ interface FormAttributeRepository
 	 * @return [Ushahidi\Entity\FormAttribute, ...]
 	 */
 	public function getAll();
-
 }

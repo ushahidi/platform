@@ -29,13 +29,15 @@ class Register
 
 	public function interact(RegisterData $input)
 	{
-		if (!$this->valid->check($input))
+		if (!$this->valid->check($input)) {
 			throw new ValidatorException("Failed to validate user registration", $this->valid->errors());
+		}
 
 		$userid = $this->repo->register(
 			$input->email,
 			$input->username,
-			$input->password);
+			$input->password
+		);
 		return $userid;
 	}
 }

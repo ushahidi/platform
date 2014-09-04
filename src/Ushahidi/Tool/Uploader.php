@@ -90,5 +90,4 @@ class Uploader
 	{
 		return (bool) preg_match('#^image/#', $type);
 	}
-
 }

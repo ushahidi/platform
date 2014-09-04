@@ -32,8 +32,9 @@ class Login
 
 	public function interact(LoginData $input)
 	{
-		if (!$this->valid->check($input))
+		if (!$this->valid->check($input)) {
 			throw new ValidatorException("Failed to validate login", $this->valid->errors());
+		}
 
 		// Attempt to load the user
 		$user = $this->repo->getByUsername($input->username);
@@ -44,5 +45,3 @@ class Login
 		return $user->id;
 	}
 }
-
-

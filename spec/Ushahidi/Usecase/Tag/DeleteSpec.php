@@ -43,4 +43,3 @@ class DeleteSpec extends ObjectBehavior
 		$this->interact($input)->shouldReturnAnInstanceOf('Ushahidi\Entity\Tag');
 	}
 }
-

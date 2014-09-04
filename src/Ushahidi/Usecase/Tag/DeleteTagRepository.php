@@ -23,4 +23,3 @@ interface DeleteTagRepository
 	 */
 	public function getDeletedTag();
 }
-

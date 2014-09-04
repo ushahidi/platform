@@ -37,6 +37,4 @@ interface ContactRepository
 	 * @return boolean
 	 */
 	public function edit(Contact $contact);
-
 }
-

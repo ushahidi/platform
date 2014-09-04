@@ -97,4 +97,3 @@ abstract class Data
 		return new static($delta);
 	}
 }
-

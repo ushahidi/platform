@@ -19,5 +19,4 @@ interface GetValuesForPostRepository
 	 * @return [Ushahidi\Entity\PostValue, ...]
 	 */
 	public function getAllForPost($post_id);
-
 }

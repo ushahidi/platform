@@ -54,5 +54,4 @@ trait ParentAccess
 	// Since this trait should only be used by `Authorizer` classes we require
 	// an isAllowed method with the same signature as the `Authorizer` interface
 	abstract public function isAllowed(Entity $entity, $privilege, $user = null);
-
 }

@@ -39,7 +39,7 @@ class CreateSpec extends ObjectBehavior
 			'size'     => 1024,
 			'tmp_name' => 't.png',
 			'error'    => UPLOAD_ERR_OK,
-			];
+		];
 
 		$input->file = $file;
 
@@ -79,4 +79,3 @@ class CreateSpec extends ObjectBehavior
 		$this->interact($input)->shouldReturnAnInstanceOf('Ushahidi\Entity\Media');
 	}
 }
-

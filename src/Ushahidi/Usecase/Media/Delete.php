@@ -31,20 +31,22 @@ class Delete
 
 	public function interact(MediaDeleteData $input)
 	{
-		if (!$this->valid->check($input))
+		if (!$this->valid->check($input)) {
 			throw new ValidatorException('Failed to validate media delete', $this->valid->errors());
+		}
 
 		$media = $this->repo->get($input->id);
 
-		if (!$this->auth->isAllowed($media, 'delete', $input->user_id))
-			throw new AuthorizerException(sprintf('User %s is not allowed to delete media file %s',
+		if (!$this->auth->isAllowed($media, 'delete', $input->user_id)) {
+			throw new AuthorizerException(sprintf(
+				'User %s is not allowed to delete media file %s',
 				$input->user_id,
 				$input->id
-				));
+			));
+		}
 
 		$this->repo->deleteMedia($input->id, $input->user_id);
 
 		return $media;
 	}
 }
-

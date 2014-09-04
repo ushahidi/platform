@@ -51,5 +51,4 @@ trait EnsureUserEntity
 
 		return $user;
 	}
-
 }

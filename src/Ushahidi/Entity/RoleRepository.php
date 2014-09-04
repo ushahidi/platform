@@ -19,13 +19,10 @@ interface RoleRepository
 	 * @return \Ushahidi\Entity\Role
 	 */
 	public function get($name);
-	
+
 	/**
 	 * @param string $name
 	 * @return \Ushahidi\Entity\Role
 	 */
 	public function doRolesExist($name);
-
 }
-
-

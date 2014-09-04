@@ -28,12 +28,12 @@ class Delete
 
 	public function interact(DeleteTagData $input)
 	{
-		if (!$this->valid->check($input))
+		if (!$this->valid->check($input)) {
 			throw new ValidatorException("Failed to validate tag delete", $this->valid->errors());
+		}
 
 		$this->repo->deleteTag($input->id);
 
 		return $this->repo->getDeletedTag();
 	}
 }
-

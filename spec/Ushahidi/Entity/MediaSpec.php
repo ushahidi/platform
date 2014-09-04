@@ -84,6 +84,4 @@ class MediaSpec extends ObjectBehavior
 		// ArrayExchange trait
 		$this->asArray()->shouldHaveKey('id');
 	}
-
-
 }

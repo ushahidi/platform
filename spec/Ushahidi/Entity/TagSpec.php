@@ -32,7 +32,7 @@ class TagSpec extends ObjectBehavior
 	{
 		$this->id->shouldBe(1);
 	}
-	
+
 	function it_has_a_parent_id()
 	{
 		$this->parent_id->shouldBe(0);
@@ -52,7 +52,7 @@ class TagSpec extends ObjectBehavior
 	{
 		$this->type->shouldBe('category');
 	}
-	
+
 	function it_has_a_color()
 	{
 		$this->color->shouldBe('#911');
@@ -72,10 +72,9 @@ class TagSpec extends ObjectBehavior
 	{
 		$this->created->shouldBe(strtotime('may 9, 2014'));
 	}
-	
+
 	function it_has_a_role()
 	{
 		$this->role->shouldBe('user');
 	}
-
 }

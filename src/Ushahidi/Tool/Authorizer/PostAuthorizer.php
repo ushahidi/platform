@@ -109,6 +109,4 @@ class PostAuthorizer implements Authorizer
 
 		return false;
 	}
-
-
 }

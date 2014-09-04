@@ -28,17 +28,16 @@ class Create
 
 	public function interact(MediaData $input)
 	{
-		if (!$this->valid->check($input))
+		if (!$this->valid->check($input)) {
 			throw new ValidatorException("Failed to validate media file", $this->valid->errors());
+		}
 
 		$this->repo->createMedia(
 			$input->file,
 			$input->caption,
 			$input->user_id
-			);
+		);
 
 		return $this->repo->getCreatedMedia();
 	}
 }
-
-

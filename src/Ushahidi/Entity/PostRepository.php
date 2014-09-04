@@ -19,7 +19,7 @@ interface PostRepository
 	 * @param  int $parent_id
 	 * @return \Ushahidi\Entity\Post
 	 */
-	public function get($id, $parent_id = NULL);
+	public function get($id, $parent_id = null);
 
 	/**
 	 * @param  string $locale
@@ -34,6 +34,4 @@ interface PostRepository
 	 * @return [Ushahidi\Entity\Post, ...]
 	 */
 	public function search(PostSearchData $data, Array $params = null);
-
 }
-

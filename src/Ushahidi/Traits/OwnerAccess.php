@@ -32,5 +32,4 @@ trait OwnerAccess
 	{
 		return ($user->id && $entity->user_id === $user->id);
 	}
-
 }

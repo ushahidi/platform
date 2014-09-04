@@ -43,6 +43,4 @@ interface MessageRepository
 	 * @return boolean
 	 */
 	public function edit(Message $contact);
-
 }
-

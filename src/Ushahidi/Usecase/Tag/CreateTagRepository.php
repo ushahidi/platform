@@ -39,4 +39,3 @@ interface CreateTagRepository
 	 */
 	public function getCreatedTag();
 }
-

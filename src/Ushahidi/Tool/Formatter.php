@@ -20,4 +20,3 @@ interface Formatter
 	 */
 	public function __invoke($input);
 }
-

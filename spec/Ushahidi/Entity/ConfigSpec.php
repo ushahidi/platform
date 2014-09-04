@@ -9,13 +9,14 @@ class ConfigSpec extends ObjectBehavior
 {
 	function let()
 	{
-		$this->beConstructedWith(array(
-			'fruit'  => 'banana',
-			'yogurt' => 'vanilla',
-			'pizza'  => 'pepperoni',
-			),
+		$this->beConstructedWith(
+			[
+				'fruit'  => 'banana',
+				'yogurt' => 'vanilla',
+				'pizza'  => 'pepperoni',
+			],
 			'testing'
-			);
+		);
 	}
 
 	function it_is_initializable()
@@ -53,5 +54,4 @@ class ConfigSpec extends ObjectBehavior
 		// But never contains the group key
 		$this->asArray()->shouldNotHaveKey('@group');
 	}
-
 }

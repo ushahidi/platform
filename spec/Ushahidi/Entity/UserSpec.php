@@ -73,5 +73,4 @@ class UserSpec extends ObjectBehavior
 		// ArrayExchange trait
 		$this->asArray()->shouldHaveKey('id');
 	}
-
 }

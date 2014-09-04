@@ -39,7 +39,8 @@ class Config extends Entity
 	 * @param string $group
 	 * @return $this
 	 */
-	public function setGroup($group) {
+	public function setGroup($group)
+	{
 		$this->{static::GROUP_KEY} = $group;
 		return $this;
 	}
@@ -47,7 +48,8 @@ class Config extends Entity
 	/**
 	 * @return string
 	 */
-	public function getGroup() {
+	public function getGroup()
+	{
 		return $this->{static::GROUP_KEY};
 	}
 

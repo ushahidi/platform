@@ -57,7 +57,7 @@ class CreateSpec extends ObjectBehavior
 			$input->icon,
 			$input->priority,
 			json_encode($input->role)
-			)->shouldBeCalled();
+		)->shouldBeCalled();
 
 		$repo->getCreatedTag()->willReturn(new Tag);
 

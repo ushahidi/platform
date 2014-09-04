@@ -35,5 +35,3 @@ interface CreateMediaRepository
 	 */
 	public function getCreatedMedia();
 }
-
-
