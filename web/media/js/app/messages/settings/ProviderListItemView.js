@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'alertify', 'hbs!messages/settings/ProviderListItem'],
-	function(App, Marionette, alertify, template)
+define(['underscore', 'App', 'marionette', 'alertify', 'hbs!messages/settings/ProviderListItem'],
+	function(_, App, Marionette, alertify, template)
 	{
 		var updateConfig = function (configModel, providerModel)
 		{
@@ -53,6 +53,12 @@ define(['App', 'marionette', 'alertify', 'hbs!messages/settings/ProviderListItem
 			{
 				e.preventDefault();
 
+				// Validate for required fields
+				if ( !this.areRequiredFieldsFilled()) {
+					alertify.error(this.model.get('name') + ' has not been configured yet');
+					return;
+				}
+
 				var $el = this.$('.card');
 
 				$el.toggleClass('disabled');
@@ -67,6 +73,28 @@ define(['App', 'marionette', 'alertify', 'hbs!messages/settings/ProviderListItem
 				}
 
 				updateConfig(this.configModel, this.model);
+			},
+
+			areRequiredFieldsFilled : function ()
+			{
+				var that = this,
+					filled = true,
+					fields = that.configModel.get(that.model.id);
+
+				// Loop through the options fields for any input field that is required
+				_.each(this.model.get('options'), function (element, index) {
+					if (element.rules ) {
+						if ( this.$.inArray('required',element.rules) === 0 ) {
+							// Check if value is empty
+							if ( !fields || !fields[index])
+							{
+								filled = false;
+								return filled;
+							}
+						}
+					}
+				});
+				return filled;
 			}
 		});
 	});
