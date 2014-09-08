@@ -107,7 +107,8 @@
 		"published_by" : "Published by",
 		"read_more" : "Read More",
 		"sort_posts_by" : "Sort posts by",
-		"unpublish" : "Unpublish"
+		"unpublish" : "Unpublish",
+		"unpublished" : "Unpublished"
 	},
 	"set": {
 		"add_a_photo" : "Add a photo",
