@@ -10,7 +10,7 @@
     "phpcs" : {
       "type" : "phpcs",
       "include" : "(\\.php$)",
-      "exclude" : "@^(application|modules|plugins|web|httpdocs|spec)/.*@",
+      "exclude" : "@^(application|modules|plugins|web|httpdocs|spec|migrations)/.*@",
       "severity.rules" : {
         "(^PHPCS\\.E\\.)" : "warning",
         "(^PHPCS\\.W\\.)" : "advice"
@@ -31,6 +31,19 @@
       "bin" : ["/usr/local/bin/phpcs", "bin/phpcs"],
       "flags" : [
         "--standard=spec/ruleset.xml",
+        "--tab-width=4"
+      ]
+    },
+    "phpcs-migrations" : {
+      "type" : "phpcs",
+      "include" : "(migrations/.*\\.php$)",
+      "severity.rules" : {
+        "(^PHPCS\\.E\\.)" : "warning",
+        "(^PHPCS\\.W\\.)" : "advice"
+      },
+      "bin" : ["/usr/local/bin/phpcs", "bin/phpcs"],
+      "flags" : [
+        "--standard=migrations/ruleset.xml",
         "--tab-width=4"
       ]
     }
