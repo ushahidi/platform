@@ -20,6 +20,7 @@ define(['App', 'backbone', 'marionette', 'underscore', 'jquery'],
 			{
 				var that = this,
 					$body = $('body'),
+					$modal = $('#modal'),
 					close = function(e)
 					{
 						e.preventDefault();
@@ -38,6 +39,9 @@ define(['App', 'backbone', 'marionette', 'underscore', 'jquery'],
 				}
 				else
 				{
+					// Keep the modal in viewport
+					$modal.css('margin-top', $(document).scrollTop());
+
 					$body
 						.addClass('modal-active')
 						.on('click.modal', '.js-modal-close', close)
