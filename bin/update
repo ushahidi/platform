@@ -9,19 +9,59 @@ if [ $? -eq 0 ]; then
 	fi
 fi
 
-echo ">>> Pulling source code"
-git pull
-git submodule sync
-git submodule update --init --recursive
+# Defaults
+production=false
+withgit=false
+# Parse options
+# Based on code from http://mywiki.wooledge.org/ComplexOptionParsing
+optspec=":h-:"
+while getopts "$optspec" opt; do
+while true; do
+	case "${opt}" in
+		-) #OPTARG is name-of-long-option or name-of-long-option=value
+			if [[ "${OPTARG}" =~ .*=.* ]] #with this --key=value format only one argument is possible
+			then
+				opt=${OPTARG/=*/}
+				OPTARG=${OPTARG#*=}
+			else #with this --key value1 value2 format multiple arguments are possible
+				opt="$OPTARG"
+			fi
+			continue #now that opt/OPTARG are set we can process them as if getopts would've given us long options
+			;;
+		git-update)
+			withgit=true
+				;;
+		production)
+			production=true
+				;;
+		h|help)
+			echo "usage: $0 [--git-update] [--production]" >&2
+			exit 2
+			;;
+	esac
+break; done
+done
+
+# Deployment mode, disable all developer dependencies :)
+if [ -n "$1" -a "$1" == "deploy" ]; then
+	production=true
+fi
+
+if [ "$withgit" = true ]; then
+	echo ">>> Pulling source code"
+	git pull
+else
+	echo ">>> Skipping git"
+fi
 
 composer="composer"
-bower="bower"
+bower="./node_modules/.bin/bower"
 npm="npm"
 bundle="bundle"
 migrate="$(dirname "$0")/phinx"
 upgrade=1
-withdev=1
 
+# Check required commands are available
 which $composer >/dev/null 2>&1
 if [ $? -gt 0 ]; then
 	composer="./composer.phar"
@@ -31,21 +71,15 @@ if [ $? -gt 0 ]; then
 	fi
 fi
 
-which $bower >/dev/null 2>&1
-if [ $? -gt 0 ]; then
-	echo "!!! Missing the 'bower' command, please install it: http://bower.io/"
-	exit 1
-fi
-
 which $npm >/dev/null 2>&1
 if [ $? -gt 0 ]; then
-	echo "!!! Missing the 'npm' command, please install it: https://www.npmjs.org/" 
+	echo "!!! Missing the 'npm' command, please install it: https://www.npmjs.org/"
 	exit 1
 fi
 
 which $bundle >/dev/null 2>&1
 if [ $? -gt 0 ]; then
-	echo "!!! Missing the 'bundle' command, please install it: https://www.bundler.io/" 
+	echo "!!! Missing the 'bundle' command, please install it: https://www.bundler.io/"
 	exit 1
 fi
 
@@ -54,15 +88,13 @@ if [ -n "$" -a "$1" == "migrate" ]; then
 fi
 
 # Deployment mode, disable all developer dependencies :)
-if [ -n "$1" -a "$1" == "deploy" ]; then
-	withdev=0
+if [ "$production" = true ]; then
+	echo ">>> Skipping dev dependencies"
 	composer="$composer --no-dev"
-	bower="$bower --production"
 	npm="$npm --production"
 fi
 
-
-#make npm run quietly
+# Make npm run quietly
 npm="$npm --quiet"
 
 if [ $upgrade -gt 0 ]; then
@@ -71,7 +103,21 @@ if [ $upgrade -gt 0 ]; then
 
 	echo ">>> Updating client side build tools"
 	[ -d node_modules ] && $npm install || $npm update
-	[ $withdev -gt 0 ] && $bundle install
+	[ "$production" = false ] && $bundle install
+
+	# Check for bower *after* npm installs it
+	if [ ! -f $bower ]; then
+		bower="bower"
+		which $bower >/dev/null 2>&1
+		if [ $? -gt 0 ]; then
+			echo "!!! Missing the 'bower' command, please install it: http://bower.io/"
+			exit 1
+		else
+			echo ">>> The 'bower' command was not installed by npm, falling back to globally installed bower"
+		fi
+	fi
+
+	[ "$production" = true ] && bower="$bower --production"
 
 	echo ">>> Updating client dependencies"
 	[ -d web/media/bower_components ] && $bower update || $bower install
