@@ -25,6 +25,16 @@ class Ushahidi_Authorizer implements Authorizer
 		$this->proxy_factory = $proxy_factory;
 	}
 
+	public function getUser()
+	{
+		return $this->acl->get_user();
+	}
+
+	public function getUserId()
+	{
+		return $this->getUser()->id;
+	}
+
 	public function isAllowed(Entity $entity, $privilege, $user = NULL)
 	{
 		$proxy_factory = $this->proxy_factory;
