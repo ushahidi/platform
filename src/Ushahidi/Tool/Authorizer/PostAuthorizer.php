@@ -17,15 +17,15 @@ use Ushahidi\Entity\UserRepository;
 use Ushahidi\Entity\PostRepository;
 use Ushahidi\Tool\Authorizer;
 use Ushahidi\Traits\AdminAccess;
-use Ushahidi\Traits\EnsureUserEntity;
 use Ushahidi\Traits\OwnerAccess;
 use Ushahidi\Traits\ParentAccess;
+use Ushahidi\Traits\UserContext;
 
 // The `PostAuthorizer` class is responsible for access checks on `Post` Entities
 class PostAuthorizer implements Authorizer
 {
-	// It uses the EnsureUserEntity trait to load users if needed
-	use EnsureUserEntity;
+	// The access checks are run under the context of a specific user
+	use UserContext;
 
 	// It uses methods from several traits to check access:
 	// - `OwnerAccess` to check if a user owns the post, the
@@ -40,17 +40,16 @@ class PostAuthorizer implements Authorizer
 	 * @param UserRepository $user_repo
 	 * @param PostRepository $post_repo
 	 */
-	public function __construct(UserRepository $user_repo, PostRepository $post_repo)
+	public function __construct(PostRepository $post_repo)
 	{
-		$this->user_repo = $user_repo;
 		$this->post_repo = $post_repo;
 	}
 
 	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege, $user = null)
+	public function isAllowed(Entity $entity, $privilege)
 	{
-		// First we check we've got a `User` Entity.
-		$this->ensureUserIsEntity($user);
+		// These checks are run within the user context.
+		$user = $this->getUser();
 
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)

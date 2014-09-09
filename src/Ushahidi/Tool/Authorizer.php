@@ -19,8 +19,19 @@ interface Authorizer
 	 * Check if access to an entity is allowed
 	 * @param  Entity  $entity     Entity being accessed
 	 * @param  String  $privilege  Privilege that is requested
-	 * @param  Integer $user       User id requesting access
 	 * @return Boolean
 	 */
-	public function isAllowed(Entity $entity, $privilege, $user = null);
+	public function isAllowed(Entity $entity, $privilege);
+
+	/**
+	 * Get the user for the current authorization context.
+	 * @return Ushahidi\Entity\User
+	 */
+	public function getUser();
+
+	/**
+	 * Get the userid for the current authorization context.
+	 * @return Integer
+	 */
+	public function getUserId();
 }

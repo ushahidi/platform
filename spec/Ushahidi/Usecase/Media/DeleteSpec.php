@@ -35,13 +35,13 @@ class DeleteSpec extends ObjectBehavior
 	function it_fails_when_not_allowed($valid, $repo, $auth, MediaDeleteData $input, Media $media)
 	{
 		$input->id = 1;
-		$input->user_id = 0;
 
 		$valid->check($input)->willReturn(true);
 
 		$repo->get($input->id)->willReturn($media);
 
-		$auth->isAllowed($media, 'delete', $input->user_id)->willReturn(false);
+		$auth->isAllowed($media, 'delete')->willReturn(false);
+		$auth->getUserId()->willReturn(1);
 
 		$this->shouldThrow('Ushahidi\Exception\AuthorizerException')->duringInteract($input);
 	}
@@ -49,15 +49,14 @@ class DeleteSpec extends ObjectBehavior
 	function it_can_delete_media_with_valid_input($valid, $repo, $auth, MediaDeleteData $input, Media $media)
 	{
 		$input->id = 1;
-		$input->user_id = 2;
 
 		$valid->check($input)->willReturn(true);
 
 		$repo->get($input->id)->willReturn($media);
 
-		$auth->isAllowed($media, 'delete', $input->user_id)->willReturn(true);
+		$auth->isAllowed($media, 'delete')->willReturn(true);
 
-		$repo->deleteMedia($input->id, $input->user_id)->willReturn(1);
+		$repo->deleteMedia($input->id)->willReturn(1);
 
 		$this->interact($input)->shouldReturnAnInstanceOf('Ushahidi\Entity\Media');
 	}

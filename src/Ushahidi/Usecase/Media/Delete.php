@@ -37,15 +37,15 @@ class Delete
 
 		$media = $this->repo->get($input->id);
 
-		if (!$this->auth->isAllowed($media, 'delete', $input->user_id)) {
+		if (!$this->auth->isAllowed($media, 'delete')) {
 			throw new AuthorizerException(sprintf(
 				'User %s is not allowed to delete media file %s',
-				$input->user_id,
+				$this->auth->getUserId(),
 				$input->id
 			));
 		}
 
-		$this->repo->deleteMedia($input->id, $input->user_id);
+		$this->repo->deleteMedia($input->id);
 
 		return $media;
 	}

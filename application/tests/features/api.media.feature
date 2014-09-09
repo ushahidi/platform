@@ -106,42 +106,6 @@ Feature: Testing the Media API
         And the "results.0.id" property equals "2"
         Then the guzzle status code should be 200
 
-    Scenario: Deleting a Media that I own
-        Given that I want to delete a "Media"
-        And that the request "Authorization" header is "Bearer testbasicuser"
-        And that its "id" is "1"
-        When I request "/media"
-        Then the response is JSON
-        And the response has a "id" property
-        Then the guzzle status code should be 200
-
-    Scenario: Fail to delete a Media that I do not own
-        Given that I want to delete a "Media"
-        And that the request "Authorization" header is "Bearer testbasicuser"
-        And that its "id" is "2"
-        When I request "/media"
-        Then the response is JSON
-        And the response has a "errors" property
-        Then the guzzle status code should be 403
-
-    Scenario: Fail to delete a Media that is anonymous
-        Given that I want to delete a "Media"
-        And that the request "Authorization" header is "Bearer testbasicuser"
-        And that its "id" is "2"
-        When I request "/media"
-        Then the response is JSON
-        And the response has a "errors" property
-        Then the guzzle status code should be 403
-
-    Scenario: Deleting an anonymous Media with admin
-        Given that I want to delete a "Media"
-        And that the request "Authorization" header is "Bearer testadminuser"
-        And that its "id" is "2"
-        When I request "/media"
-        Then the response is JSON
-        And the response has a "id" property
-        Then the guzzle status code should be 200
-
     Scenario: Fail to delete a non existent Media
         Given that I want to delete a "Media"
         And that its "id" is "10"

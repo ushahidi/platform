@@ -21,9 +21,6 @@ class Ushahidi_Parser_Media_Delete implements Parser
 			->rules('id', array(
 					array('not_empty'),
 					array('digit'),
-				))
-			->rules('user_id', array(
-					array('digit'),
 				));
 
 		if (!$valid->check())

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Tag Authorizer
+ * Ushahidi Media Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -13,32 +13,25 @@ namespace Ushahidi\Tool\Authorizer;
 
 use Ushahidi\Entity;
 use Ushahidi\Entity\User;
-use Ushahidi\Entity\Tag;
+use Ushahidi\Entity\Media;
 use Ushahidi\Tool\Authorizer;
 use Ushahidi\Traits\EnsureUserEntity;
 use Ushahidi\Traits\AdminAccess;
+use Ushahidi\Traits\GuestAccess;
+use Ushahidi\Traits\OwnerAccess;
 use Ushahidi\Traits\UserContext;
 
-// The `TagAuthorizer` class is responsible for access checks on `Tags`
-class TagAuthorizer implements Authorizer
+// The `MediaAuthorizer` class is responsible for access checks on `Medias`
+class MediaAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
 
+	// It uses methods from several traits to check access:
 	// - `AdminAccess` to check if the user has admin access
-	use AdminAccess;
-
-	protected function isUserOfRole(Tag $entity, $user)
-	{
-		$roles = $entity->getRoleArray();
-
-		if ($roles) {
-			return in_array($user->role, $roles);
-		}
-
-		// If no roles are selected, the Tag is considered completely public.
-		return true;
-	}
+	// - `GuestAccess` to check if a user owns the post, the
+	// - `OwnerAccess` to check if a user owns the post, the
+	use AdminAccess, GuestAccess, OwnerAccess;
 
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
@@ -52,8 +45,14 @@ class TagAuthorizer implements Authorizer
 			return true;
 		}
 
-		// Finally, we check if the Tag is only visible to specific roles.
-		if ($this->isUserOfRole($entity, $user)) {
+		// Anonymous guests are allowed to view and create new media files.
+		if ($this->isUserGuest($user) && in_array($privilege, ['get', 'post'])) {
+			return true;
+		}
+
+		// We check if a user is the owner of this media, if so they are allowed to
+		// edit and remove.
+		if ($this->isUserOwner($entity, $user) && in_array($privilege, ['put', 'delete'])) {
 			return true;
 		}
 

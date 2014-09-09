@@ -37,6 +37,18 @@ abstract class Ushahidi_Core {
 			return A2::instance();
 		});
 
+		$di->set('session.user', function() use ($di) {
+			// Using the OAuth resource server, get the userid (owner id) for this request
+			$server = $di->get('oauth.server.resource');
+			$userid = $server->getOwnerId();
+
+			// Using the user repository, load the user
+			$repo = $di->get('repository.user');
+			$user = $repo->get($userid);
+
+			return $user;
+		});
+
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
 			$server = $di->newInstance('League\OAuth2\Server\Authorization');

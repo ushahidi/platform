@@ -30,10 +30,6 @@ class Ushahidi_Validator_Media_Delete implements Validator
 			->rules('id', array(
 					array('not_empty'),
 					array('digit'),
-				))
-			->rules('user_id', array(
-					array('not_empty'),
-					array('digit'),
 				));
 
 		return $this->valid->check();

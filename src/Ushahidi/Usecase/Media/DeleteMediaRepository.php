@@ -21,7 +21,6 @@ interface DeleteMediaRepository
 
 	/**
 	 * @param  Integer $id
-	 * @param  String  $user_id (optional)
 	 */
-	public function deleteMedia($id, $user_id = null);
+	public function deleteMedia($id);
 }

@@ -316,7 +316,6 @@ Feature: API Access Control Layer
         And the "count" property equals "5"
         Then the guzzle status code should be 200
 
-    @resetFixture
     Scenario: Listing All Configs as anonymous user
         Given that I want to get all "Configs"
         And that the request "Authorization" header is "Bearer testanon"
@@ -325,6 +324,7 @@ Feature: API Access Control Layer
         And the "count" property equals "3"
         Then the guzzle status code should be 200
 
+    @resetFixture
     Scenario: Basic user cannot access admin-only tag
         Given that I want to find a "Tag"
         And that the request "Authorization" header is "Bearer testbasicuser"
@@ -340,3 +340,41 @@ Feature: API Access Control Layer
         Then the guzzle status code should be 200
         And the response is JSON
         And the response has an "id" property
+
+    @resetFixture
+    Scenario: Deleting a Media that I own
+        Given that I want to delete a "Media"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that its "id" is "1"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "id" property
+        Then the guzzle status code should be 200
+
+    Scenario: Fail to delete a Media that I do not own
+        Given that I want to delete a "Media"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that its "id" is "2"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 403
+
+    Scenario: Fail to delete a Media that is anonymous
+        Given that I want to delete a "Media"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that its "id" is "2"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 403
+
+    Scenario: Deleting an anonymous Media with admin
+        Given that I want to delete a "Media"
+        And that the request "Authorization" header is "Bearer testadminuser"
+        And that its "id" is "2"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "id" property
+        Then the guzzle status code should be 200
+

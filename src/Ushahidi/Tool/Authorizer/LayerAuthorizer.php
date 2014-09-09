@@ -16,30 +16,22 @@ use Ushahidi\Entity\User;
 use Ushahidi\Entity\UserRepository;
 use Ushahidi\Tool\Authorizer;
 use Ushahidi\Traits\AdminAccess;
-use Ushahidi\Traits\EnsureUserEntity;
+use Ushahidi\Traits\UserContext;
 
 // The `LayerAuthorizer` class is responsible for access checks on `Layer` Entities
 class LayerAuthorizer implements Authorizer
 {
-	// It uses the `EnsureUserEntity` trait to load users if needed
-	use EnsureUserEntity;
+	// The access checks are run under the context of a specific user
+	use UserContext;
 
 	// It uses `AdminAccess` to check if the user has admin access
 	use AdminAccess;
 
-	/**
-	 * @param UserRepository $user_repo
-	 */
-	public function __construct(UserRepository $user_repo)
-	{
-		$this->user_repo = $user_repo;
-	}
-
 	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege, $user = null)
+	public function isAllowed(Entity $entity, $privilege)
 	{
-		// First we check we've got a `User` Entity.
-		$this->ensureUserIsEntity($user);
+		// These checks are run within the user context.
+		$user = $this->getUser();
 
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)

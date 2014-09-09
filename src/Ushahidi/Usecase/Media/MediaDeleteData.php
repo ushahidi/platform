@@ -16,5 +16,4 @@ use Ushahidi\Data;
 class MediaDeleteData extends Data
 {
 	public $id;
-	public $user_id;
 }

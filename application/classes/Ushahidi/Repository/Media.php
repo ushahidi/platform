@@ -134,9 +134,9 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	}
 
 	// DeleteMediaRepository
-	public function deleteMedia($id, $user_id = null)
+	public function deleteMedia($id)
 	{
-		$where = array_filter(compact('id', 'user_id'));
+		$where = compact('id');
 		return $this->delete($where);
 	}
 }

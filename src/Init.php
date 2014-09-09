@@ -61,32 +61,22 @@ function feature($name)
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
+$di->setter['Ushahidi\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
+
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Tool\Uploader'));
 $di->params['Ushahidi\Tool\Uploader'] = [
 	'fs' => $di->lazyGet('tool.filesystem'),
 	];
 
 $di->set('tool.authorizer.config', $di->lazyNew('Ushahidi\Tool\Authorizer\ConfigAuthorizer'));
-$di->params['Ushahidi\Tool\Authorizer\ConfigAuthorizer'] = [
-	'user_repo' => $di->lazyGet('repository.user')
-	];
-
 $di->set('tool.authorizer.post', $di->lazyNew('Ushahidi\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
-	'user_repo' => $di->lazyGet('repository.user'),
 	'post_repo' => $di->lazyGet('repository.post')
 	];
 
 $di->set('tool.authorizer.layer', $di->lazyNew('Ushahidi\Tool\Authorizer\LayerAuthorizer'));
-$di->params['Ushahidi\Tool\Authorizer\LayerAuthorizer'] = [
-	'user_repo' => $di->lazyGet('repository.user')
-	];
-
 $di->set('tool.authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
-$di->params['Ushahidi\Tool\Authorizer\TagAuthorizer'] = [
-	'user_repo' => $di->lazyGet('repository.user'),
-	'tag_repo'  => $di->lazyGet('repository.tag')
-	];
+$di->set('tool.authorizer.media', $di->lazyNew('Ushahidi\Tool\Authorizer\MediaAuthorizer'));
 
 $di->set('usecase.media.create', $di->lazyNew('Ushahidi\Usecase\Media\Create'));
 $di->params['Ushahidi\Usecase\Media\Create'] = [
@@ -98,7 +88,7 @@ $di->set('usecase.media.delete', $di->lazyNew('Ushahidi\Usecase\Media\Delete'));
 $di->params['Ushahidi\Usecase\Media\Delete'] = [
 	'repo' => $di->lazyGet('repository.media'),
 	'valid' => $di->lazyGet('validator.media.delete'),
-	'auth' => $di->lazyGet('tool.authorizer'),
+	'auth' => $di->lazyGet('tool.authorizer.media'),
 	];
 
 $di->set('usecase.tag.create', $di->lazyNew('\Ushahidi\Usecase\Tag\Create'));
