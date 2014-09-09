@@ -16,7 +16,7 @@
 		"users" : "Users"
 	},
 	"app": {
-		"community liason" : "Community Liason",
+		"community_liason" : "Community Liason",
 		"contact_us" : "Contact Us",
 		"copyright" : "&copy; Copyright __owner_name__, 2014.",
 		"main_section" : "Main Section",
