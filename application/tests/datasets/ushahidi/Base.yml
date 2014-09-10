@@ -777,6 +777,8 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 11
+  - session_access_token_id: 2
+    scope_id: 12
 
   # for testbasicuser
   -
