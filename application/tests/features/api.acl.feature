@@ -378,3 +378,11 @@ Feature: API Access Control Layer
         And the response has a "id" property
         Then the guzzle status code should be 200
 
+    Scenario: Fail to access resources without corresponding scope
+        Given that I want to find a "User"
+        And that the request "Authorization" header is "Bearer testingtoken"
+        And that its "id" is "1"
+        When I request "/users"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
