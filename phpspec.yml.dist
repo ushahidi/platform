@@ -1,3 +1,4 @@
 formatter.name: pretty
 suites:
     ushahidi_suite: Ushahidi
+    ushahidi_api_suite: UshahidiApi

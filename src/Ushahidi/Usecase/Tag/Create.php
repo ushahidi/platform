@@ -11,11 +11,13 @@
 
 namespace Ushahidi\Usecase\Tag;
 
+use Ushahidi\Usecase;
+use Ushahidi\Data;
 use Ushahidi\Entity\Tag;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Exception\ValidatorException;
 
-class Create
+class Create implements Usecase
 {
 	private $repo;
 	private $valid;
@@ -26,7 +28,7 @@ class Create
 		$this->valid = $valid;
 	}
 
-	public function interact(TagData $input)
+	public function interact(Data $input)
 	{
 		if (!$this->valid->check($input)) {
 			throw new ValidatorException("Failed to validate tag", $this->valid->errors());

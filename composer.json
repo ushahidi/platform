@@ -92,7 +92,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Ushahidi\\": "src"
+            "": "src"
         }
     }
 }

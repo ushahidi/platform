@@ -27,6 +27,12 @@ class UpdateSpec extends ObjectBehavior
 		$raw_input  = ['tag' => 'After Update', 'icon' => 'bell'];
 		$raw_update = ['tag' => 'After Update'];
 
+		$tag->id = 1;
+		$tag->tag = 'Before Update';
+		$tag->icon = 'bell';
+
+		$repo->get($input->id)->willReturn($tag);
+
 		$tag->asArray()->willReturn($raw_tag);
 		$input->asArray()->willReturn($raw_input);
 		$update->asArray()->willReturn($raw_update);
@@ -44,6 +50,6 @@ class UpdateSpec extends ObjectBehavior
 		$tag->setData($raw_update)->shouldBeCalled();
 
 		// after being updated, the same tag will be returned
-		$this->interact($tag, $input)->shouldReturn($tag);
+		$this->interact($input)->shouldReturn($tag);
 	}
 }

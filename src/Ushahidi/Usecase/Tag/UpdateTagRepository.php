@@ -13,6 +13,9 @@ namespace Ushahidi\Usecase\Tag;
 
 interface UpdateTagRepository
 {
+	// TagRepository
+	public function get($id);
+
 	/**
 	 * @param  String $slug
 	 * @return Boolean

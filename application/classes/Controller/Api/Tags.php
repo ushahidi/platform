@@ -68,14 +68,11 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$format  = service('formatter.entity.tag');
-		$parser  = service('parser.tag.create');
-		$usecase = service('usecase.tag.create');
-
+		$endpoint = service('endpoint.tags.post.collection');
 		try
 		{
-			$request = $parser($this->_request_payload);
-			$tag = $usecase->interact($request);
+			$this->_response_payload = $endpoint->run($this->_request_payload);
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 		}
 		catch (Ushahidi\Exception\ValidatorException $e)
 		{
@@ -84,9 +81,6 @@ class Controller_Api_Tags extends Ushahidi_Api {
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
-
-		$this->_response_payload = $format($tag);
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**
@@ -169,24 +163,24 @@ class Controller_Api_Tags extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$format  = service('formatter.entity.api');
-		$parser  = service('parser.tag.update');
-		$usecase = service('usecase.tag.update');
+		$endpoint = service('endpoint.tags.put.index');
 
-		$tagid = $this->request->param('id');
-		$tag = service('repository.tag')->get($tagid);
-
-		if (!$tag->id)
-		{
-			throw new HTTP_Exception_404('Tag :id does not exist', array(
-				':id' => $tagid,
-			));
-		}
+		$request = $this->_request_payload;
+		$request['id'] = $this->request->param('id');
 
 		try
 		{
-			$request = $parser($this->_request_payload);
-			$usecase->interact($tag, $request);
+			$this->_response_payload = $endpoint->run($request);
+			$this->_response_payload['updated_fields'] = $endpoint->getUpdated();
+			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+		}
+		catch (Ushahidi\Exception\NotFoundException $e)
+		{
+			throw new HTTP_Exception_404($e->getMessage());
+		}
+		catch (Ushahidi\Exception\AuthorizerException $e)
+		{
+			throw new HTTP_Exception_403($e->getMessage());
 		}
 		catch (Ushahidi\Exception\ValidatorException $e)
 		{
@@ -195,10 +189,6 @@ class Controller_Api_Tags extends Ushahidi_Api {
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
-
-		$this->_response_payload = $format($tag);
-		$this->_response_payload['updated_fields'] = $usecase->getUpdated();
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**

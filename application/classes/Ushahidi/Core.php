@@ -111,6 +111,18 @@ abstract class Ushahidi_Core {
 			'root' => $di->lazyGet('kohana.media.dir'),
 			];
 
+		// Endpoints
+		$di->set('endpoint.tags.put.index', $di->lazyNew('UshahidiApi\Endpoint', [
+			'parser' => $di->lazyGet('parser.tag.update'),
+			'formatter' => $di->lazyGet('formatter.entity.tag'),
+			'usecase' => $di->lazyGet('usecase.tag.update'),
+		]));
+		$di->set('endpoint.tags.post.collection', $di->lazyNew('UshahidiApi\Endpoint', [
+			'parser' => $di->lazyGet('parser.tag.create'),
+			'formatter' => $di->lazyGet('formatter.entity.tag'),
+			'usecase' => $di->lazyGet('usecase.tag.create'),
+		]));
+
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.layer', $di->lazyNew('Ushahidi_Formatter_Layer'));
@@ -218,9 +230,6 @@ abstract class Ushahidi_Core {
 		// Dependencies of validators
 		$di->params['Ushahidi_Validator_Media_Delete'] = [
 			'repo' => $di->lazyGet('repository.media'),
-			];
-		$di->params['Ushahidi_Validator_Tag_Create'] = [
-			'repo' => $di->lazyGet('repository.tag'),
 			];
 		$di->params['Ushahidi_Validator_Tag_Update'] = [
 			'repo' => $di->lazyGet('repository.tag'),

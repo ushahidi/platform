@@ -11,11 +11,14 @@
 
 namespace Ushahidi\Usecase\Tag;
 
+use Ushahidi\Usecase;
+use Ushahidi\Data;
 use Ushahidi\Entity\Tag;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Exception\ValidatorException;
+use Ushahidi\Exception\NotFoundException;
 
-class Update
+class Update implements Usecase
 {
 	private $repo;
 	private $valid;
@@ -28,14 +31,23 @@ class Update
 		$this->valid = $valid;
 	}
 
-	public function interact(Tag $tag, TagData $input)
+	public function interact(Data $input)
 	{
 		if ($input->role) {
 			$role = $input->role;
 			$input->role = json_encode($role);
 		}
-		// We only want to work with values that have been changed
 
+		$tag = $this->repo->get($input->id);
+
+		if (!$tag->id) {
+			throw new NotFoundException(sprintf(
+				'Tag %d does not exist',
+				$input->id
+			));
+		}
+
+		// We only want to work with values that have been changed
 		$update = $input->getDifferent($tag->asArray());
 
 		if (!$this->valid->check($update)) {
