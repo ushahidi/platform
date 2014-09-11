@@ -170,6 +170,11 @@ return array(
 				'resource'  => array('sets'),
 				'privilege' => array('get')
 			),
+			'GuestCanViewStats' => array(
+				'role'      => 'guest',
+				'resource'  => array('stats'),
+				'privilege' => array('get'),
+			),
 			'GuestCanViewUsers' => array(
 				'role'      => 'guest',
 				'resource'  => array('users'),
