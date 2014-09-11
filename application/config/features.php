@@ -24,4 +24,6 @@ return array(
 	'form_wizard' => FALSE,
 	// Push state support
 	'pushstate' => TRUE,
+	// T49: Data visualizations view
+	'data_visualizations' => FALSE,
 );

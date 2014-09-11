@@ -147,6 +147,11 @@
 				<li id="workspace-menu-map-settings" data-page="mapSettings">
 					<a href="{{#url}}#settings/map{{/url}}"><p><i class="fa  fa-map-marker"></i> {{t "tool.map_settings"}}</p></a>
 				</li>
+				{{# feature 'data_visualizations'}}
+				<li id="workspace-menu-data-visualizations" data-page="data-visualizations">
+					<a href="{{#url}}#visualizations{{/url}}"><p><i class="fa  fa-bar-chart-o"></i> Data Visualizations</p></a>
+				</li>
+				{{/feature}}
 			</ul>
 		</div> <!-- end .content -->
 	</dd>

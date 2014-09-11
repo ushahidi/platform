@@ -322,6 +322,18 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 					}));
 				});
 			},
+
+			visualizations : function ()
+			{
+				var that = this;
+				require(['views/data-visualizations/DataVisualizations'], function(DataVisualizationsView)
+				{
+					App.vent.trigger('page:change', 'visualizations');
+					that.layout.mainRegion.show(new DataVisualizationsView({
+
+					}));
+				});
+			},
 			/**
 			 * Shows a form listing
 			 */

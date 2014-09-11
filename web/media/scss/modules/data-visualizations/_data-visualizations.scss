@@ -1,0 +1,19 @@
+/*------------------------------------*\
+		$CONTENTS
+\*------------------------------------*/
+/**
+ * GENERAL...............styles for API Explorer
+ */
+
+
+/*------------------------------------*\
+    GENERAL
+\*------------------------------------*/
+
+.data-vizualizations-box {
+	margin-top: 50px;
+	@media #{$small} {
+		@include grid-column(12, $center: true);
+		margin-top: 10px;
+	}
+}

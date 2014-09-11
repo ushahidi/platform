@@ -22,6 +22,7 @@ define(['marionette'],
 				'posts/:id' : 'postDetail',
 				'settings/users' : 'users',
 				'settings/tags' : 'tags',
+				'visualizations' : 'visualizations',
 
 				'apiexplorer' : 'apiExplorer',
 				'settings/forms' : 'forms',
