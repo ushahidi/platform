@@ -11,7 +11,8 @@ require(['Config'], function () {
 	require(['App', 'routers/AppRouter', 'controllers/Controller', 'jquery', 'i18next', 'ddt',
 		'settings/SettingsApp',
 		'messages/MessagesApp',
-		'sets/SetsApp'
+		'sets/SetsApp',
+		'form-manager/FormManagerApp'
 	],
 	function(App, AppRouter, Controller, $, i18n)
 	{

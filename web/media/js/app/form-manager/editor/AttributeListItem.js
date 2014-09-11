@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!templates/settings/AttributeListItem'],
+define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!form-manager/editor/AttributeListItem'],
 	function(_, Marionette, alertify, BackboneForm, template)
 	{
 		return Marionette.ItemView.extend(
@@ -17,25 +17,8 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!temp
 			className: 'list-view-attribute',
 			form: null,
 
-			attributes : function ()
-			{
-				var attributes = {
-					'data-attribute-type' : this.model.get('type'),
-					'data-attribute-input' : this.model.get('input'),
-					'data-attribute-label' : this.model.get('label'),
-				};
-
-				if (this.model.isNew()) {
-					attributes['data-attribute-new'] = true;
-				} else {
-					attributes['data-attribute-id'] = this.model.get('id');
-				}
-
-				return attributes;
-			},
-
 			modelEvents: {
-				'sync': 'updateAndRender'
+				'sync': 'render'
 			},
 
 			events: {
@@ -43,17 +26,15 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!temp
 				'click .js-delete-field' : 'deleteField'
 			},
 
-			updateAndRender: function()
+			onRender : function()
 			{
-				if (!this.model.isNew()) {
-					this.$el.removeAttr('data-attribute-new');
-				}
-
-				ddt.log('FormEditor', 'changing attributes', this.attributes());
-
-				this.$el.attr(this.attributes());
 				this.buildForm();
-				this.render();
+
+				// Render the form and add it to the view
+				this.form.render();
+
+				// hide the field editor form until activated
+				this.$('.js-form-input').empty().append(this.form.$el);
 			},
 
 			serializeData: function ()
@@ -93,21 +74,6 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!temp
 				} catch (err) {
 					ddt.log('FormEditor', 'could not create form for attr', err);
 				}
-			},
-
-			onDomRefresh : function()
-			{
-				// Create the form if we haven't yet
-				if (! this.form)
-				{
-					this.buildForm();
-				}
-
-				// Render the form and add it to the view
-				this.form.render();
-
-				// hide the field editor form until activated
-				this.$('.js-form-input').empty().append(this.form.$el);
 			},
 
 			toggleEdit : function(e)

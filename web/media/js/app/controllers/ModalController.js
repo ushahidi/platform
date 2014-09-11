@@ -155,7 +155,7 @@ define(['App', 'marionette'],
 			{
 				var that = this;
 
-				require(['views/modals/EditCustomFormView'],
+				require(['form-manager/EditCustomFormView'],
 					function(EditCustomFormView)
 				{
 					that.modal.show(new EditCustomFormView({
@@ -168,7 +168,7 @@ define(['App', 'marionette'],
 			{
 				var that = this;
 
-				require(['views/modals/EditCustomFormView', 'models/FormModel'],
+				require(['form-manager/EditCustomFormView', 'models/FormModel'],
 					function(EditCustomFormView, FormModel)
 				{
 					var form = new FormModel({});

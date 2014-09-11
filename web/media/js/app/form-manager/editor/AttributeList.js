@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'handlebars', 'underscore', 'jquery', 'views/settings/AttributeListItem', 'views/EmptyView', 'models/FormAttributeModel', 'jqueryui/sortable'],
-	function( Marionette, Handlebars, _, $, AttributeListItem, EmptyView, FormAttributeModel)
+define(['marionette', 'underscore', 'jquery', 'form-manager/editor/AttributeListItem', 'views/EmptyView', 'models/FormAttributeModel', 'jqueryui/sortable'],
+	function( Marionette, _, $, AttributeListItem, EmptyView, FormAttributeModel)
 	{
 		return Marionette.CollectionView.extend(
 		{
