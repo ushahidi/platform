@@ -146,7 +146,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		{
 			// Check if user is allowed to access this post
 			// @todo preload user entity, avoid multiple queries
-			if ( $authorizer->isAllowed($post, 'get', $this->user->id) )
+			if ( $authorizer->isAllowed($post, 'get') )
 			{
 				$result = $format($post);
 				// @todo check with authorizer instead
@@ -188,7 +188,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			));
 		}
 
-		if (! $authorizer->isAllowed($post, 'get', $this->user->id))
+		if (! $authorizer->isAllowed($post, 'get'))
 		{
 			throw HTTP_Exception::factory('403', 'You do not have permission to access post :post', array(
 				':post' => $id

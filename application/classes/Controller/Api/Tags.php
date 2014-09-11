@@ -105,7 +105,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 		{
 			// Check if user is allowed to access this tag
 			// todo: fix the ACL layer so that it can consume an Entity
-			if($authorize->isAllowed($tag, 'get', $this->user))
+			if($authorize->isAllowed($tag, 'get'))
 			{
 				$result = $format($tag);
 				$result['allowed_methods'] = $this->_allowed_methods($tag->getResource());
@@ -143,7 +143,7 @@ class Controller_Api_Tags extends Ushahidi_Api {
 			));
 		}
 
-		if (! $authorize->isAllowed($tag, 'get', $this->user))
+		if (! $authorize->isAllowed($tag, 'get'))
 		{
 			throw new HTTP_Exception_403('You do not have permission to access tag :id', array(
 				':id' => $tagid,

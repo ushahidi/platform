@@ -115,7 +115,7 @@ class Controller_Api_Config extends Ushahidi_Api {
 			throw HTTP_Exception::factory(404, $e->getMessage());
 		}
 
-		if (! $authorizer->isAllowed($config, 'get', $this->user))
+		if (! $authorizer->isAllowed($config, 'get'))
 		{
 			throw HTTP_Exception::factory('403', 'You do not have permission to access config group :group', array(
 				':group' => $group

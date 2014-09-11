@@ -54,12 +54,11 @@ class Controller_Api_Layers extends Ushahidi_Api {
 
 		$layers = $repo->search($input);
 
-
 		$results = [];
 		foreach ($layers as $layer)
 		{
 			// Check if user is allowed to access this layer
-			if($authorizer->isAllowed($layer, 'get', $this->user))
+			if($authorizer->isAllowed($layer, 'get'))
 			{
 				$result = $format($layer);
 				$result['allowed_methods'] = $this->_allowed_methods($layer->getResource());
@@ -97,12 +96,14 @@ class Controller_Api_Layers extends Ushahidi_Api {
 			));
 		}
 
-		if (!$authorize->isAllowed($layer, 'get', $this->user))
-			throw new AuthorizerException(sprintf('User %s is not allowed to access the layer  %s',
-					$layer
-					));
+		if (!$authorize->isAllowed($layer, 'get'))
+		{
+			throw new AuthorizerException(sprintf('User %s is not allowed to access the layer %s',
+				$layer->name
+			));
+		}
 
-			$this->_response_payload = $format($layer);
-			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+		$this->_response_payload = $format($layer);
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 }
