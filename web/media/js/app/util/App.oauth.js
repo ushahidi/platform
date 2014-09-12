@@ -38,6 +38,11 @@ define(['backbone', 'jquery', 'underscore', 'alertify', 'ddt', 'util/App.storage
 		// Function callback: called with the token once fetched
 		function getAnonymousToken(callback)
 		{
+			if (!window.config.oauth.client_secret) {
+				// Anonymous access is disabled, forward to login
+				window.location = window.config.baseurl + 'user';
+			}
+
 			var token_params = {
 					client_id: window.config.oauth.client,
 					client_secret: window.config.oauth.client_secret,
