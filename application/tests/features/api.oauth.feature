@@ -51,6 +51,7 @@ Feature: Testing OAuth2 endpoints
         Then I request "oauth/token"
         Then the response is JSON
         And the "error" property equals "invalid_request"
+        And the "error_description" property contains "credentials"
         Then the guzzle status code should be 400
 
     Scenario: Requesting access token with client credentials
