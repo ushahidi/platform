@@ -94,14 +94,9 @@ abstract class Ushahidi_Core {
 
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
-		$di->set('tool.authorizer', $di->lazyNew('Ushahidi_Authorizer'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
 		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
 
-		$di->params['Ushahidi_Authorizer'] = [
-			'acl' => $di->lazyGet('acl'),
-			'proxy_factory' => $di->newFactory('Ushahidi_EntityACLResourceProxy')
-			];
 		// Handle filesystem using local paths for now... lots of other options:
 		// https://github.com/thephpleague/flysystem/tree/master/src/Adapter
 		$di->params['Ushahidi_Filesystem'] = [
