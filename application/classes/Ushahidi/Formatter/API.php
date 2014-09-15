@@ -63,6 +63,24 @@ class Ushahidi_Formatter_API implements Formatter
 			}
 		}
 
+		$data = $this->add_metadata($data, $entity);
+
+		return $data;
+	}
+
+	/**
+	 * Method that can add any kind of additional metadata about the entity,
+	 * by overloading this method in an extended class.
+	 *
+	 * Must return the formatted data!
+	 *
+	 * @param  Array  $data   formatted data
+	 * @param  Entity $entity resource
+	 * @return Array
+	 */
+	protected function add_metadata(Array $data, Entity $entity)
+	{
+		// By default, noop
 		return $data;
 	}
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Admin Tag Delete Use Case
+ * Ushahidi Platform Admin Tag Read Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,30 +11,28 @@
 
 namespace Ushahidi\Usecase\Tag;
 
-use Ushahidi\Data;
 use Ushahidi\Usecase;
-use Ushahidi\Entity\Tag;
-use Ushahidi\Tool\Validator;
-use Ushahidi\Exception\ValidatorException;
+use Ushahidi\Data;
+use Ushahidi\Tool\Authorizer;
+use Ushahidi\Exception\AuthorizerException;
 use Ushahidi\Exception\NotFoundException;
 
-class Delete implements Usecase
+class Read implements Usecase
 {
 	private $repo;
 	private $valid;
+	private $auth;
 
-	public function __construct(DeleteTagRepository $repo, Validator $valid)
-	{
+	public function __construct(
+		ReadTagRepository $repo,
+		Authorizer $auth
+	) {
 		$this->repo  = $repo;
-		$this->valid = $valid;
+		$this->auth  = $auth;
 	}
 
 	public function interact(Data $input)
 	{
-		if (!$this->valid->check($input)) {
-			throw new ValidatorException("Failed to validate tag delete", $this->valid->errors());
-		}
-
 		$tag = $this->repo->get($input->id);
 
 		if (!$tag->id) {
@@ -44,7 +42,13 @@ class Delete implements Usecase
 			));
 		}
 
-		$this->repo->deleteTag($tag->id);
+		if (!$this->auth->isAllowed($tag, 'get')) {
+			throw new AuthorizerException(sprintf(
+				'User %s is not allowed to read tag %s',
+				$this->auth->getUserId(),
+				$input->id
+			));
+		}
 
 		return $tag;
 	}

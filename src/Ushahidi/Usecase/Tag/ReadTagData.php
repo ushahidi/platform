@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Admin Delete Tag Repository
+ * Ushahidi Platform Tag Data for Read
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,13 +11,9 @@
 
 namespace Ushahidi\Usecase\Tag;
 
-interface DeleteTagRepository
-{
-	// TagRepository
-	public function get($id);
+use Ushahidi\Data;
 
-	/**
-	 * @param  Integer $id
-	 */
-	public function deleteTag($id);
+class ReadTagData extends Data
+{
+	public $id;
 }

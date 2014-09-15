@@ -61,13 +61,16 @@ function feature($name)
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
+// Traits
 $di->setter['Ushahidi\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 
+// Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Tool\Uploader'));
 $di->params['Ushahidi\Tool\Uploader'] = [
 	'fs' => $di->lazyGet('tool.filesystem'),
 	];
 
+// Authorizers
 $di->set('tool.authorizer.config', $di->lazyNew('Ushahidi\Tool\Authorizer\ConfigAuthorizer'));
 $di->set('tool.authorizer.post', $di->lazyNew('Ushahidi\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
@@ -78,6 +81,7 @@ $di->set('tool.authorizer.layer', $di->lazyNew('Ushahidi\Tool\Authorizer\LayerAu
 $di->set('tool.authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
 $di->set('tool.authorizer.media', $di->lazyNew('Ushahidi\Tool\Authorizer\MediaAuthorizer'));
 
+// Use cases
 $di->set('usecase.media.create', $di->lazyNew('Ushahidi\Usecase\Media\Create'));
 $di->params['Ushahidi\Usecase\Media\Create'] = [
 	'repo' => $di->lazyGet('repository.media'),
@@ -96,6 +100,18 @@ $di->params['\Ushahidi\Usecase\Tag\Create'] = [
 	'repo' => $di->lazyGet('repository.tag'),
 	'valid' => $di->lazyGet('validator.tag.create'),
 	// 'auth' => $di->lazyGet('tool.authenticator'),
+	];
+
+$di->set('usecase.tag.read', $di->lazyNew('\Ushahidi\Usecase\Tag\Read'));
+$di->params['\Ushahidi\Usecase\Tag\Read'] = [
+	'repo' => $di->lazyGet('repository.tag'),
+	'auth' => $di->lazyGet('tool.authorizer.tag'),
+	];
+
+$di->set('usecase.tag.search', $di->lazyNew('\Ushahidi\Usecase\Tag\Search'));
+$di->params['\Ushahidi\Usecase\Tag\Search'] = [
+	'repo' => $di->lazyGet('repository.tag'),
+	'auth' => $di->lazyGet('tool.authorizer.tag'),
 	];
 
 $di->set('usecase.tag.update', $di->lazyNew('\Ushahidi\Usecase\Tag\Update'));
@@ -122,3 +138,30 @@ $di->params['\Ushahidi\Usecase\User\Login'] = [
 	'valid' => $di->lazyGet('validator.user.login'),
 	'auth' => $di->lazyGet('tool.authenticator.password'),
 	];
+
+// API Endpoints
+$di->set('endpoint.tags.post.collection', $di->lazyNew('UshahidiApi\Endpoint', [
+	'parser' => $di->lazyGet('parser.tag.create'),
+	'formatter' => $di->lazyGet('formatter.entity.tag'),
+	'usecase' => $di->lazyGet('usecase.tag.create'),
+]));
+$di->set('endpoint.tags.get.collection', $di->lazyNew('UshahidiApi\Endpoint', [
+	'parser' => $di->lazyGet('parser.tag.search'),
+	'formatter' => $di->lazyGet('formatter.collection.tag'),
+	'usecase' => $di->lazyGet('usecase.tag.search'),
+]));
+$di->set('endpoint.tags.get.index', $di->lazyNew('UshahidiApi\Endpoint', [
+	'parser' => $di->lazyGet('parser.tag.read'),
+	'formatter' => $di->lazyGet('formatter.entity.tag'),
+	'usecase' => $di->lazyGet('usecase.tag.read'),
+]));
+$di->set('endpoint.tags.put.index', $di->lazyNew('UshahidiApi\Endpoint', [
+	'parser' => $di->lazyGet('parser.tag.update'),
+	'formatter' => $di->lazyGet('formatter.entity.tag'),
+	'usecase' => $di->lazyGet('usecase.tag.update'),
+]));
+$di->set('endpoint.tags.delete.index', $di->lazyNew('UshahidiApi\Endpoint', [
+	'parser' => $di->lazyGet('parser.tag.delete'),
+	'formatter' => $di->lazyGet('formatter.entity.tag'),
+	'usecase' => $di->lazyGet('usecase.tag.delete'),
+]));

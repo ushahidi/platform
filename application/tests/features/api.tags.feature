@@ -119,8 +119,6 @@ Feature: Testing the Tags API
         And the "id" property equals "1"
         And the response has a "tag" property
         And the "tag" property equals "Updated"
-        And the response has a "updated_fields" property
-        And the type of the "updated_fields" property is "object"
         Then the guzzle status code should be 200
 
     Scenario: Updating a non-existent Tag

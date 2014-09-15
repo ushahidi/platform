@@ -10,7 +10,7 @@
  */
 
 use Ushahidi\Tool\Parser;
-use Ushahidi\Entity\TagSearchData;
+use Ushahidi\Usecase\Tag\SearchTagData;
 use Ushahidi\Traits\Parser\SortingParser;
 
 class Ushahidi_Parser_Tag_Search implements Parser
@@ -45,7 +45,7 @@ class Ushahidi_Parser_Tag_Search implements Parser
 		// append sorting data
 		$input += $this->getSorting($data);
 
-		return new TagSearchData($input);
+		return new SearchTagData($input);
 	}
 }
 

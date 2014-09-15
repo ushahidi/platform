@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Repository for Tags
+ * Ushahidi Platform Admin Read Tag Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,19 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Entity;
+namespace Ushahidi\Usecase\Tag;
 
-interface TagRepository
+interface ReadTagRepository
 {
 	/**
 	 * @param  int $id
 	 * @return Ushahidi\Entity\Tag
 	 */
 	public function get($id);
-
-	/**
-	 * @param  Ushahidi\Entity\TagSearchData $data
-	 * @return [Ushahidi\Entity\Tag, ...]
-	 */
-	public function search(TagSearchData $data);
 }

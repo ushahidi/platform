@@ -20,6 +20,7 @@ use Ushahidi\Traits\AdminAccess;
 use Ushahidi\Traits\GuestAccess;
 use Ushahidi\Traits\OwnerAccess;
 use Ushahidi\Traits\UserContext;
+use Ushahidi\Traits\PrivAccess;
 
 // The `MediaAuthorizer` class is responsible for access checks on `Medias`
 class MediaAuthorizer implements Authorizer
@@ -32,6 +33,9 @@ class MediaAuthorizer implements Authorizer
 	// - `GuestAccess` to check if a user owns the post, the
 	// - `OwnerAccess` to check if a user owns the post, the
 	use AdminAccess, GuestAccess, OwnerAccess;
+
+	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+	use PrivAccess;
 
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)

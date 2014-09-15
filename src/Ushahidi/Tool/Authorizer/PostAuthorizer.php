@@ -19,6 +19,7 @@ use Ushahidi\Tool\Authorizer;
 use Ushahidi\Traits\AdminAccess;
 use Ushahidi\Traits\OwnerAccess;
 use Ushahidi\Traits\ParentAccess;
+use Ushahidi\Traits\PrivAccess;
 use Ushahidi\Traits\UserContext;
 
 // The `PostAuthorizer` class is responsible for access checks on `Post` Entities
@@ -32,6 +33,9 @@ class PostAuthorizer implements Authorizer
 	// - `ParentAccess` to check if the user can access a parent post,
 	// - `AdminAccess` to check if the user has admin access
 	use AdminAccess, OwnerAccess, ParentAccess;
+
+	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+	use PrivAccess;
 
 	// It requires a `PostRepository` to load parent posts too.
 	protected $post_repo;

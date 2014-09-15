@@ -17,6 +17,10 @@ use Ushahidi\Usecase;
 
 class Endpoint
 {
+	protected $parser;
+	protected $formatter;
+	protected $usecase;
+
 	public function __construct(
 		Parser $parser,
 		Formatter $formatter,
@@ -27,19 +31,30 @@ class Endpoint
 		$this->usecase = $usecase;
 	}
 
+	/**
+	 * Runs the API endpoint input/output sequence:
+	 *
+	 * - convert raw request data into input data
+	 * - pass the input to the usecase to get a result
+	 * - format the result for the response output
+	 * - return the formatted result
+	 *
+	 * @param  Array $request raw input data
+	 * @return mixed
+	 */
 	public function run(Array $request)
 	{
-		$input = $this->parser->__invoke($request);
-
+		// todo: replace __invoke with a better method name
+		$input  = $this->parser->__invoke($request);
 		$result = $this->usecase->interact($input);
-
 		$output = $this->formatter->__invoke($result);
 
-		return $output;
-	}
+		if ($this->formatter instanceof CollectionFormatter) {
+			// Collections always have additional paging metadata, which are
+			// partially determined by the request input.
+			$output += $this->formatter->getPaging($input);
+		}
 
-	public function __call($method, Array $args = null)
-	{
-		return call_user_func_array([$this->usecase, $method], $args);
+		return $output;
 	}
 }

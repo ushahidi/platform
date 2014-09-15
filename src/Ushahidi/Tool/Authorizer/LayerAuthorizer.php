@@ -17,6 +17,7 @@ use Ushahidi\Entity\UserRepository;
 use Ushahidi\Tool\Authorizer;
 use Ushahidi\Traits\AdminAccess;
 use Ushahidi\Traits\UserContext;
+use Ushahidi\Traits\PrivAccess;
 
 // The `LayerAuthorizer` class is responsible for access checks on `Layer` Entities
 class LayerAuthorizer implements Authorizer
@@ -26,6 +27,9 @@ class LayerAuthorizer implements Authorizer
 
 	// It uses `AdminAccess` to check if the user has admin access
 	use AdminAccess;
+
+	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+	use PrivAccess;
 
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)

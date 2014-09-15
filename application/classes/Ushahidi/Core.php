@@ -111,18 +111,6 @@ abstract class Ushahidi_Core {
 			'root' => $di->lazyGet('kohana.media.dir'),
 			];
 
-		// Endpoints
-		$di->set('endpoint.tags.put.index', $di->lazyNew('UshahidiApi\Endpoint', [
-			'parser' => $di->lazyGet('parser.tag.update'),
-			'formatter' => $di->lazyGet('formatter.entity.tag'),
-			'usecase' => $di->lazyGet('usecase.tag.update'),
-		]));
-		$di->set('endpoint.tags.post.collection', $di->lazyNew('UshahidiApi\Endpoint', [
-			'parser' => $di->lazyGet('parser.tag.create'),
-			'formatter' => $di->lazyGet('formatter.entity.tag'),
-			'usecase' => $di->lazyGet('usecase.tag.create'),
-		]));
-
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.layer', $di->lazyNew('Ushahidi_Formatter_Layer'));
@@ -131,8 +119,14 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
 		$di->set('formatter.entity.post.point', $di->lazyNew('Ushahidi_Formatter_PostPoint'));
 		$di->set('formatter.entity.tag', $di->lazyNew('Ushahidi_Formatter_Tag'));
+
+		$di->set('formatter.collection.tag', $di->lazyNew('Ushahidi_Formatter_Collection', [
+			'formatter' => $di->lazyGet('formatter.entity.tag')
+		]));
+
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
+
 
 		// Formatter parameters
 		$di->setter['Ushahidi_Formatter_JSONP']['setCallback'] = function() {
@@ -148,6 +142,9 @@ abstract class Ushahidi_Core {
 			'map' => [
 				'point' => $di->get('formatter.entity.post.point'),
 			]
+		];
+		$di->params['Ushahidi_Formatter_Tag'] = [
+			'auth' => $di->lazyGet('tool.authorizer.tag'),
 		];
 
 		// Repositories
@@ -207,6 +204,7 @@ abstract class Ushahidi_Core {
 		$di->set('parser.media.search', $di->lazyNew('Ushahidi_Parser_Media_Search'));
 		$di->set('parser.post.search', $di->lazyNew('Ushahidi_Parser_Post_Search'));
 		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
+		$di->set('parser.tag.read', $di->lazyNew('Ushahidi_Parser_Tag_Read'));
 		$di->set('parser.tag.search', $di->lazyNew('Ushahidi_Parser_Tag_Search'));
 		$di->set('parser.tag.update', $di->lazyNew('Ushahidi_Parser_Tag_Update'));
 		$di->set('parser.tag.delete', $di->lazyNew('Ushahidi_Parser_Tag_Delete'));

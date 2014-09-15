@@ -31,15 +31,29 @@ class DeleteSpec extends ObjectBehavior
 		$this->shouldThrow('Ushahidi\Exception\ValidatorException')->duringInteract($input);
 	}
 
-	function it_can_delete_tag_with_valid_input($valid, $repo, DeleteTagData $input)
+	function it_fails_when_the_tag_does_not_exist($valid, $repo, DeleteTagData $input, Tag $tag)
 	{
-		$input->id = 1;
+		$input->id = 9999999;
+		$tag->id = 0;
 
 		$valid->check($input)->willReturn(true);
 
-		$repo->deleteTag($input->id)->willReturn(1);
-		$repo->getDeletedTag()->willReturn(new Tag);
+		$repo->get($input->id)->willReturn($tag);
 
-		$this->interact($input)->shouldReturnAnInstanceOf('Ushahidi\Entity\Tag');
+		$this->shouldThrow('Ushahidi\Exception\NotFoundException')->duringInteract($input);
+	}
+
+	function it_can_delete_tag_with_valid_input($valid, $repo, DeleteTagData $input, Tag $tag)
+	{
+		$input->id = 1;
+		$tag->id = 1;
+
+		$valid->check($input)->willReturn(true);
+
+		$repo->get($input->id)->willReturn($tag);
+
+		$repo->deleteTag($input->id)->willReturn(1);
+
+		$this->interact($input)->shouldReturn($tag);
 	}
 }

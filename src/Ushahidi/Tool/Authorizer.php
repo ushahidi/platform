@@ -16,7 +16,13 @@ use Ushahidi\Entity;
 interface Authorizer
 {
 	/**
-	 * Check if access to an entity is allowed
+	 * Get a list of the allowed privileges for a given entity.
+	 * @return Array
+	 */
+	public function getAllowedPrivs(Entity $entity);
+
+	/**
+	 * Check if access to an entity is allowed.
 	 * @param  Entity  $entity     Entity being accessed
 	 * @param  String  $privilege  Privilege that is requested
 	 * @return Boolean

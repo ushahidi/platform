@@ -18,6 +18,7 @@ use Ushahidi\Entity\UserRepository;
 use Ushahidi\Tool\Authorizer;
 use Ushahidi\Traits\AdminAccess;
 use Ushahidi\Traits\UserContext;
+use Ushahidi\Traits\PrivAccess;
 
 // The `ConfigAuthorizer` class is responsible for access checks on `Config` Entities
 class ConfigAuthorizer implements Authorizer
@@ -27,6 +28,9 @@ class ConfigAuthorizer implements Authorizer
 
 	// It uses `AdminAccess` to check if the user has admin access
 	use AdminAccess;
+
+	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+	use PrivAccess;
 
 	/**
 	 * Public config groups

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Admin Delete Tag Repository
+ * Repository for Searching Tags
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,13 +11,11 @@
 
 namespace Ushahidi\Usecase\Tag;
 
-interface DeleteTagRepository
+interface SearchTagRepository
 {
-	// TagRepository
-	public function get($id);
-
 	/**
-	 * @param  Integer $id
+	 * @param  Ushahidi\Usecase\Tag\SearchTagData $data
+	 * @return [Ushahidi\Entity\Tag, ...]
 	 */
-	public function deleteTag($id);
+	public function search(SearchTagData $data);
 }

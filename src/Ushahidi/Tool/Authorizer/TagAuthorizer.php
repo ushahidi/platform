@@ -15,9 +15,9 @@ use Ushahidi\Entity;
 use Ushahidi\Entity\User;
 use Ushahidi\Entity\Tag;
 use Ushahidi\Tool\Authorizer;
-use Ushahidi\Traits\EnsureUserEntity;
 use Ushahidi\Traits\AdminAccess;
 use Ushahidi\Traits\UserContext;
+use Ushahidi\Traits\PrivAccess;
 
 // The `TagAuthorizer` class is responsible for access checks on `Tags`
 class TagAuthorizer implements Authorizer
@@ -27,6 +27,9 @@ class TagAuthorizer implements Authorizer
 
 	// - `AdminAccess` to check if the user has admin access
 	use AdminAccess;
+
+	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+	use PrivAccess;
 
 	protected function isUserOfRole(Tag $entity, $user)
 	{
