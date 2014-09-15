@@ -29,9 +29,31 @@ interface PostRepository
 	public function getByLocale($locale, $parent_id);
 
 	/**
+	 * Set the conditions and parameters for a search.
+	 *
+	 * TODO: this can be generic and use SearchData::getSortingParams() instead
+	 * of a separate $params argument.
+	 *
 	 * @param  Ushahidi\Entity\PostSearchData $data
 	 * @param  Array $params [limit, offset, orderby, order, type]
 	 * @return [Ushahidi\Entity\Post, ...]
 	 */
-	public function search(PostSearchData $data, Array $params = null);
+	public function setSearchParams(PostSearchData $data, Array $params = null);
+
+	/**
+	 * Get the results for the current search parameters.
+	 * @return [Ushahidi\Entity\Post, ...]
+	 */
+	public function getSearchResults();
+
+	/**
+	 * Get the number of possible records for the current search parameters.
+	 *
+	 * NOTE: that this may not always match up with the number of records fetched
+	 * from a search, due to records being removed from the results because of
+	 * access controls.
+	 *
+	 * @return Integer
+	 */
+	public function getSearchTotal();
 }

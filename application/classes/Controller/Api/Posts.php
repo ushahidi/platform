@@ -132,14 +132,17 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		// order/limit params as an array for the search call
 		$this->_prepare_order_limit_params();
 
-		$posts = $repo->search($input, [
+		$repo->setSearchParams($input, [
 			'orderby' => $this->_record_orderby,
 			'order' => $this->_record_order,
 			'offset' => $this->_record_offset,
 			'limit' => $this->_record_limit,
 			'type' => $this->_type,
 			'parent_id' => $this->_parent_id
-			]);
+		]);
+
+		$posts = $repo->getSearchResults();
+		$total = $repo->getSearchTotal();
 
 		$results = [];
 		foreach ($posts as $post)
@@ -161,6 +164,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		// Respond with posts
 		$this->_response_payload = array(
 			'count' => $count,
+			'total_count' => $total,
 			'results' => $results,
 			)
 			+ $this->_get_paging_parameters();

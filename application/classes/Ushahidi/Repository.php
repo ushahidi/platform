@@ -12,6 +12,7 @@
 abstract class Ushahidi_Repository
 {
 	protected $db;
+	protected $search_query;
 
 	public function __construct(Database $db)
 	{
@@ -154,5 +155,57 @@ abstract class Ushahidi_Repository
 		}
 		return $collection;
 	}
-}
 
+	// todo: apply this to every repository
+	// abstract public function setSearchParams(SearchData $search, Array $params = null);
+
+	public function getSearchResults()
+	{
+		$query = $this->getSearchQuery();
+
+		$results = $query->distinct(TRUE)->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
+	public function getSearchTotal()
+	{
+		// Assume we can simply count the results to get a total
+		$query = $this->getSearchQuery(true)
+			->select([DB::expr('COUNT(*)'), 'total']);
+
+		// Fetch the result and...
+		$result = $query->execute($this->db);
+
+		// ... return the total.
+		return (int) $result->get('total', 0);
+	}
+
+	/**
+	 * Get a copy of the current search query, optionally removing the LIMIT,
+	 * OFFSET, and ORDER BY parameters (for query that can be COUNT'ed).
+	 * @throws RuntimeException if called before search parameters are set
+	 * @param  Boolean $countable  remove limit/offset/orderby
+	 * @return Database_Query_Select
+	 */
+	protected function getSearchQuery($countable = false)
+	{
+		if (!$this->search_query) {
+			throw new \RuntimeException('Cannot get search results until setSearchParams has been called');
+		}
+
+		// We always clone the query, because once search parameters have been set,
+		// the query cannot be modified until new parameters are applied.
+		$query = clone $this->search_query;
+
+		if ($countable) {
+			// Use Reflection to nullify parameters that prevent counting.
+			$q = \ReflectionObject($query);
+			foreach (['_limit', '_offset', '_orderby'] as $prop) {
+				$q->getProperty($prop)->setValue($query, null);
+			}
+		}
+
+		return $query;
+	}
+}

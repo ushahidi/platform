@@ -76,7 +76,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	}
 
 	// PostRepository
-	public function search(PostSearchData $search, Array $params = null)
+	public function setSearchParams(PostSearchData $search, Array $params = null)
 	{
 		$where = Arr::extract($search->asArray(), ['status', 'locale', 'slug']);
 		if ($search->user)
@@ -89,9 +89,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 		}
 
 		// Start the query, removing empty values
-		$query = $this
-			->selectQuery(array_filter($where))
-			->distinct(TRUE);
+		$query = $this->selectQuery(array_filter($where));
+
+		if (!empty($params['orderby'])) {
+			$query->order_by($this->getTable().'.'.$params['orderby'], Arr::get($params, 'order'));
+		}
+
+		if (!empty($params['offset'])) {
+			$query->offset($params['offset']);
+		}
+		if (!empty($params['limit'])) {
+			$query->limit($params['limit']);
+		}
 
 		if ($search->q)
 		{
@@ -197,20 +206,23 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 			$query->where('parent_id', '=', $params['parent_id']);
 		}
 
-		if (!empty($params['orderby'])) {
-			$query->order_by($this->getTable().'.'.$params['orderby'], Arr::get($params, 'order'));
-		}
+		$this->search_query = $query;
 
-		if (!empty($params['offset'])) {
-			$query->offset($params['offset']);
-		}
-		if (!empty($params['limit'])) {
-			$query->limit($params['limit']);
-		}
+		return $this;
+	}
 
-		$results = $query->execute($this->db);
+	// PostRepository
+	public function getSearchTotal()
+	{
+		// Assume we can simply count the results to get a total
+		$query = $this->getSearchQuery()
+			->select([DB::expr('COUNT(DISTINCT posts.id)'), 'total']);
 
-		return $this->getCollection($results->as_array());
+		// Fetch the result and...
+		$result = $query->execute($this->db);
+
+		// ... return the total.
+		return (int) $result->get('total', 0);
 	}
 
 	/**
