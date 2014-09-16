@@ -13,6 +13,7 @@ namespace UshahidiApi;
 
 use Ushahidi\Tool\Parser;
 use Ushahidi\Tool\Formatter;
+use Ushahidi\Tool\Formatter\CollectionFormatter;
 use Ushahidi\Usecase;
 
 class Endpoint
