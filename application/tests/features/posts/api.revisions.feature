@@ -111,37 +111,37 @@ Feature: Testing the Revisions API
         When I request "/posts/99/revisions"
         Then the guzzle status code should be 405
 
-    @resetFixture
-    Scenario: Updating a Post creates a new revision
-        Given that I want to update a "Post"
-        And that the request "data" is:
-            """
-            {
-                "form": 1,
-                "title": "Should be returned when Searching",
-                "content": "Some description",
-                "status": "published",
-                "type": "revision",
-                "email": null,
-                "author": null,
-                "slug": "should-be-returned-when-searching",
-                "locale":"en_US",
-                "values": {
-                    "test_varchar": "updated",
-                    "last_location": "blah"
-                },
-                "tags": []
-            }
-            """
-        And that its "id" is "99"
-        Then I request "/posts"
-        Then the response is JSON
-        Then the guzzle status code should be 200
-        # Start 2nd request
-        Given that I want to get all "Revisions"
-        When I request "/posts/99/revisions"
-        Then the response is JSON
-        And the response has a "count" property
-        And the type of the "count" property is "numeric"
-        And the "count" property equals "3"
-        Then the guzzle status code should be 200
+    # @resetFixture
+    # Scenario: Updating a Post creates a new revision
+    #     Given that I want to update a "Post"
+    #     And that the request "data" is:
+    #         """
+    #         {
+    #             "form": 1,
+    #             "title": "Should be returned when Searching",
+    #             "content": "Some description",
+    #             "status": "published",
+    #             "type": "revision",
+    #             "email": null,
+    #             "author": null,
+    #             "slug": "should-be-returned-when-searching",
+    #             "locale":"en_US",
+    #             "values": {
+    #                 "test_varchar": "updated",
+    #                 "last_location": "blah"
+    #             },
+    #             "tags": []
+    #         }
+    #         """
+    #     And that its "id" is "99"
+    #     Then I request "/posts"
+    #     Then the response is JSON
+    #     Then the guzzle status code should be 200
+    #     # Start 2nd request
+    #     Given that I want to get all "Revisions"
+    #     When I request "/posts/99/revisions"
+    #     Then the response is JSON
+    #     And the response has a "count" property
+    #     And the type of the "count" property is "numeric"
+    #     And the "count" property equals "3"
+    #     Then the guzzle status code should be 200
