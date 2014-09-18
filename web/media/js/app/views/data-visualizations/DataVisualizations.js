@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'marionette', 'jquery', 'underscore', 'highstock',
+define([ 'marionette', 'jquery', 'underscore',
 		'hbs!templates/data-visualizations/DataVisualizationsView'
 		],
 	function( Marionette, $, _,
