@@ -41,5 +41,8 @@ interface UpdatePostRepository
 	public function updatePost($id, Array $update);
 
 	// PostRepository
-	public function get($id, $parent_id = null);
+	public function get($id);
+
+	// PostRepository
+	public function getByIdAndParent($id, $parent_id);
 }

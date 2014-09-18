@@ -181,8 +181,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	{
 		$repo   = service('repository.post');
 		$format = service('formatter.entity.post');
-		$id     = $this->request->param('id') ?: 0;
-		$post   = $repo->get($id, $this->_parent_id);
+		$id     = $this->request->param('id', 0);
+		$post   = $repo->getByIdAndParent($id, $this->request->param('post_id'));
 		$authorizer = service('tool.authorizer.post');
 
 		if (!$post->id)
@@ -218,6 +218,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		$request = $this->_request_payload;
 		$request['id'] = $this->request->param('id');
+		$request['parent_id'] = $this->request->param('post_id');
 
 		try
 		{

@@ -34,7 +34,7 @@ class Update
 
 	public function interact(PostData $input)
 	{
-		$post = $this->repo->get($input->id);
+		$post = $this->repo->getByIdAndParent($input->id, $input->parent_id);
 
 		if (!$post->id) {
 			throw new NotFoundException(sprintf(
@@ -46,10 +46,9 @@ class Update
 		// We only want to work with values that have been changed
 		$update = $input->getDifferent($post->asArray());
 
-		// Include parent and type for use in validation
+		// Include type for use in validation
 		// These are never updated, but needed for some checks
 		// @todo figure out a better way to include these
-		$update->parent_id = $post->parent_id;
 		$update->type = $post->type;
 
 		if (!$this->valid->check($update)) {
