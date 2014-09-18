@@ -11,14 +11,19 @@
 
 use Ushahidi\Entity\Post;
 use Ushahidi\Entity\PostRepository;
+use Ushahidi\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Entity\FormAttributeRepository;
+use Ushahidi\Usecase\Post\UpdatePostTagRepository;
+use Ushahidi\Entity\UserRepository;
 use Ushahidi\Entity\PostSearchData;
 use Aura\DI\InstanceFactory;
 
-class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostRepository
+class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostRepository, UpdatePostRepository
 {
 	protected $form_attribute_repo;
 	protected $post_value_factory;
+	protected $bounding_box_factory;
+	protected $tag_repo;
 
 	/**
 	 * Construct
@@ -31,7 +36,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 			Database $db,
 			FormAttributeRepository $form_attribute_repo,
 			Ushahidi_Repository_PostValueFactory $post_value_factory,
-			InstanceFactory $bounding_box_factory
+			InstanceFactory $bounding_box_factory,
+			UpdatePostTagRepository $tag_repo
 		)
 	{
 		parent::__construct($db);
@@ -39,6 +45,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 		$this->form_attribute_repo = $form_attribute_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
+		$this->tag_repo = $tag_repo;
 	}
 
 	// Ushahidi_Repository
@@ -260,6 +267,160 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 			->where('post_id', '=', $id)
 			->execute($this->db);
 		return $result->as_array(NULL, 'tag_id');
+	}
+
+
+	// UpdatePostRepository
+	public function isSlugAvailable($slug)
+	{
+		return $this->selectCount(compact('slug')) === 0;
+	}
+
+
+	// UpdatePostRepository
+	public function doesFormExist($form_id)
+	{
+		$result = DB::select('id')->from('forms')
+			->where('id', '=', $form_id)
+			->limit(1)
+			->execute($this->db);
+
+		$form = $result->current();
+
+		return (boolean)$form;
+	}
+
+	// UpdatePostRepository
+	public function doesTranslationExist($locale, $parent_id, $type)
+	{
+		// If this isn't a translation of an existing post, skip
+		if ($type != 'translation')
+		{
+			return TRUE;
+		}
+
+		// Is locale the same as parent?
+		$parent = $this->get($parent_id);
+		if ($parent->locale === $locale)
+		{
+			return FALSE;
+		}
+
+		// Check for other translations
+		return $this->selectCount([
+			'type' => 'translation',
+			'parent_id' => $parent_id,
+			'locale' => $locale
+			]) === 0;
+	}
+
+	// UpdatePostRepository
+	public function updatePost($id, Array $update)
+	{
+		if ($id && $update)
+		{
+			$update['updated'] = time();
+
+			// Update the post entry if it changed
+			$post_update = $update;
+			unset($post_update['values'], $post_update['tags']);
+			if (! empty($post_update))
+			{
+				$this->update(compact('id'), $post_update);
+			}
+
+			// Update post-tags
+			$this->updatePostTags($id, $update['tags']);
+
+			// Update post-values
+			$this->updatePostValues($id, $update['values']);
+
+			// @todo Save revision
+			//$this->createRevision($id);
+		}
+		return $this->get($id);
+	}
+
+	protected function updatePostValues($post_id, $values)
+	{
+		$saved_value_ids = [];
+		foreach ($values as $key => $value)
+		{
+			$attribute = $this->form_attribute_repo->getByKey($key);
+			$repo = $this->post_value_factory
+					->getRepo($attribute->type);
+
+			foreach($value as $v)
+			{
+				if (! empty($v['id']))
+				{
+					$id = $v['id'];
+					$repo->updateValue($v['id'], $v['value'], $attribute->id, $post_id);
+				}
+				else
+				{
+					$id = $repo->createValue($v['value'], $attribute->id, $post_id);
+				}
+
+				$saved_value_ids[$attribute->type][] = $id;
+			}
+		}
+
+		// Delete any old values that weren't passed through
+		foreach($this->post_value_factory->getTypes() as $type)
+		{
+			$repo = $this->post_value_factory
+				->getRepo($type);
+
+			$ids = ! empty($saved_value_ids[$type]) ? $saved_value_ids[$type] : [0];
+
+			$repo->deleteNotIn($post_id, $ids);
+		}
+	}
+
+	protected function updatePostTags($post_id, $tags)
+	{
+		// Load existing tags
+		$existing = $this->getTagsForPost($post_id);
+
+		$insert = DB::insert('posts_tags', ['post_id', 'tag_id']);
+
+		$tag_ids = [];
+		$new_tags = FALSE;
+		foreach ($tags as $tag)
+		{
+			// Find the tag by id or name
+			// @todo this should happen before we even get here
+			$tag_entity = $this->tag_repo->getByTag($tag);
+			if (! $tag_entity->id)
+			{
+				$tag_entity = $this->tag_repo->get($tag);
+			}
+
+			// Does the post already have this tag?
+			if (! in_array($tag_entity->id, $existing))
+			{
+				// Add to insert query
+				$insert->values([$post_id, $tag_entity->id]);
+				$new_tags = TRUE;
+			}
+
+			$tag_ids[] = $tag_entity->id;
+		}
+
+		// Save
+		if ($new_tags)
+		{
+			$insert->execute($this->db);
+		}
+
+		// Remove any other tags
+		if (! empty($tag_ids))
+		{
+			DB::delete('posts_tags')
+				->where('tag_id', 'NOT IN', $tag_ids)
+				->execute($this->db);
+		}
 	}
 
 }

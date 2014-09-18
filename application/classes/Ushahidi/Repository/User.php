@@ -48,6 +48,12 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		return $this->getEntity($this->selectOne(compact('email')));
 	}
 
+	// UserRepository
+	public function doesUserExist($id)
+	{
+		return $this->selectCount(compact('id')) !== 0;
+	}
+
 	// RegisterRepository
 	public function isUniqueUsername($username)
 	{
@@ -63,6 +69,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	// RegisterRepository
 	public function register($email, $username, $password)
 	{
-		return $this->insert(compact('email', 'username', 'password'));
+		$created = time();
+		return $this->insert(compact('email', 'username', 'password', 'created'));
 	}
 }

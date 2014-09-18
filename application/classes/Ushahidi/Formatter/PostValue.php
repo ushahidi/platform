@@ -14,7 +14,7 @@ class Ushahidi_Formatter_PostValue extends Ushahidi_Formatter_API
 {
 	protected $map = [];
 
-	public function __construct($map)
+	public function __construct($map = [])
 	{
 		$this->map = $map;
 	}

@@ -21,12 +21,20 @@ interface FormAttributeRepository
 
 	/**
 	 * @param  string $key
+	 * @param  int    $form_id
 	 * @return Ushahidi\Entity\FormAttribute
 	 */
-	public function getByKey($key);
+	public function getByKey($key, $form_id = null);
 
 	/**
 	 * @return [Ushahidi\Entity\FormAttribute, ...]
 	 */
 	public function getAll();
+
+	/**
+	 * @param  int $form_id
+	 * @return [Ushahidi\Entity\FormAttribute, ...]
+	 */
+	public function getRequired($form_id);
+
 }

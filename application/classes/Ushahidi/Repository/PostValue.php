@@ -12,8 +12,12 @@
 use Ushahidi\Entity\PostValue;
 use Ushahidi\Entity\PostValueRepository;
 use Ushahidi\Entity\GetValuesForPostRepository;
+use Ushahidi\Usecase\Post\UpdatePostValueRepository;
 
-abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository implements PostValueRepository, GetValuesForPostRepository
+abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository implements
+	PostValueRepository,
+	GetValuesForPostRepository,
+	UpdatePostValueRepository
 {
 
 	// Ushahidi_Repository
@@ -40,9 +44,10 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 	}
 
 	// PostValueRepository
-	public function get($id)
+	public function get($id, $post_id = null, $form_attribute_id = null)
 	{
-		return new PostValue($this->selectOne(compact('id')));
+		$where = array_filter(compact('id', 'post_id', 'form_attribute_id'));
+		return $this->getEntity($this->selectOne($where));
 	}
 
 	// GetValuesForPostRepository
@@ -60,6 +65,34 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 	{
 		return $this->selectQuery(compact('form_attribute_id'))
 			->where('value', 'LIKE', "%$match%");
+	}
+
+	// UpdatePostValueRepository
+	public function createValue($value, $form_attribute_id, $post_id)
+	{
+		$input = compact('value', 'form_attribute_id', 'post_id');
+		$input['created'] = time();
+
+		return $this->insert($input);
+	}
+
+	// UpdatePostValueRepository
+	public function updateValue($id, $value)
+	{
+		$update = compact('value');
+		if ($id && $update)
+		{
+			$this->update(compact('id'), $update);
+		}
+	}
+
+	// UpdatePostValueRepository
+	public function deleteNotIn($post_id, Array $ids)
+	{
+		DB::delete($this->getTable())
+			->where('post_id', '=', $post_id)
+			->where('id', 'NOT IN', $ids)
+			->execute($this->db);
 	}
 
 }

@@ -30,4 +30,10 @@ interface UserRepository
 	 * @return \Ushahidi\Entity\User
 	 */
 	public function getByEmail($email);
+
+	/**
+	 * @param int $id
+	 * @return Boolean
+	 */
+	public function doesUserExist($id);
 }

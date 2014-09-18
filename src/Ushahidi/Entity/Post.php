@@ -23,6 +23,8 @@ class Post extends Entity
 	public $title;
 	public $slug;
 	public $content;
+	public $author_email;
+	public $author_realname;
 	public $status;
 	public $created;
 	public $updated;

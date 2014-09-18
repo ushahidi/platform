@@ -29,19 +29,47 @@ class Ushahidi_Repository_FormAttribute extends Ushahidi_Repository implements F
 	// FormAttributeRepository
 	public function get($id)
 	{
-		return new FormAttribute($this->selectOne(compact('id')));
+		return $this->getEntity($this->selectOne(compact('id')));
 	}
 
 	// FormAttributeRepository
-	public function getByKey($key)
+	public function getByKey($key, $form_id = null)
 	{
-		return new FormAttribute($this->selectOne(compact('key')));
+		$where = array_filter(compact('key', 'form_id'));
+
+		$result = $this->selectQuery($where)
+			->select('form_attributes.*')
+			->join('form_groups_form_attributes', 'INNER')
+				->on('form_attributes.id', '=', 'form_attribute_id')
+			->join('form_groups', 'INNER')
+				->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id')
+			->limit(1)
+			->execute($this->db);
+		return $this->getEntity($result->current());
 	}
 
 	// FormAttributeRepository
 	public function getAll()
 	{
 		$query = $this->selectQuery();
+
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
+	// FormAttributeRepository
+	public function getRequired($form_id)
+	{
+		$query = $this->selectQuery([
+				'form_id'  => $form_id,
+				'required' => true
+			])
+			->select('form_attributes.*')
+			->join('form_groups_form_attributes', 'INNER')
+				->on('form_attributes.id', '=', 'form_attribute_id')
+			->join('form_groups', 'INNER')
+				->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id');
 
 		$results = $query->execute($this->db);
 

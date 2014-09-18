@@ -95,6 +95,13 @@ $di->params['Ushahidi\Usecase\Media\Delete'] = [
 	'auth' => $di->lazyGet('tool.authorizer.media'),
 	];
 
+$di->set('usecase.post.update', $di->lazyNew('\Ushahidi\Usecase\Post\Update'));
+$di->params['\Ushahidi\Usecase\Post\Update'] = [
+	'repo' => $di->lazyGet('repository.post'),
+	'valid' => $di->lazyGet('validator.post.update'),
+	'auth' => $di->lazyGet('tool.authorizer.post'),
+	];
+
 $di->set('usecase.tag.create', $di->lazyNew('\Ushahidi\Usecase\Tag\Create'));
 $di->params['\Ushahidi\Usecase\Tag\Create'] = [
 	'repo' => $di->lazyGet('repository.tag'),

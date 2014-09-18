@@ -19,9 +19,23 @@ class Ushahidi_Repository_PostValueFactory
 		$this->map = $map;
 	}
 
+	/**
+	 * Get repository for post value `$type`
+	 * @param  string $type
+	 * @return Ushahidi\Entity\PostValueRepository
+	 */
 	public function getRepo($type)
 	{
 		return $this->map[$type]();
+	}
+
+	/**
+	 * Get an array of post value types (based on injected map)
+	 * @return array
+	 */
+	public function getTypes()
+	{
+		return array_keys($this->map);
 	}
 
 	public function proxy()

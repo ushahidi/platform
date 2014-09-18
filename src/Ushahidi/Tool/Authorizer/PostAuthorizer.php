@@ -68,8 +68,9 @@ class PostAuthorizer implements Authorizer
 			return false;
 		}
 
-		// We check if a user is the owner of this post, if so they have full access.
-		if ($this->isUserOwner($entity, $user)) {
+		// We check if a user is the owner of this post, if so they have get/create/update/delete access.
+		// Post owners don't have 'change_user' access
+		if ($this->isUserOwner($entity, $user) && in_array($privilege, ['get', 'create', 'update', 'delete'])) {
 			return true;
 		}
 

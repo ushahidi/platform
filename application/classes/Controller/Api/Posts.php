@@ -212,11 +212,37 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$post = $this->_request_payload;
+		$format  = service('formatter.entity.post');
+		$parser  = service('parser.post.update');
+		$usecase = service('usecase.post.update');
 
-		$_post = $this->resource();
+		$request = $this->_request_payload;
+		$request['id'] = $this->request->param('id');
 
-		$this->create_or_update_post($_post, $post);
+		try
+		{
+			$request = $parser($request);
+			$post = $usecase->interact($request);
+		}
+		catch (Ushahidi\Exception\NotFoundException $e)
+		{
+			throw new HTTP_Exception_404($e->getMessage());
+		}
+		catch (Ushahidi\Exception\ValidatorException $e)
+		{
+			// Also handles ParserException
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
+		}
+		catch (Ushahidi\Exception\AuthorizerException $e)
+		{
+			throw new HTTP_Exception_403($e->getMessage());
+		}
+
+		$this->_response_payload = $format($post);
+		$this->_response_payload['updated_fields'] = $usecase->getUpdated();
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 
 	/**

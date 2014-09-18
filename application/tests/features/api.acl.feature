@@ -121,6 +121,7 @@ Feature: API Access Control Layer
         """
         {
             "form_id": 1,
+            "type": "report",
             "title": "Test editing own post",
             "description": "testing post for oauth",
             "status": "published",

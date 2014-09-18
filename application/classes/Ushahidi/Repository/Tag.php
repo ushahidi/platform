@@ -16,13 +16,15 @@ use Ushahidi\Usecase\Tag\ReadTagRepository;
 use Ushahidi\Usecase\Tag\CreateTagRepository;
 use Ushahidi\Usecase\Tag\UpdateTagRepository;
 use Ushahidi\Usecase\Tag\DeleteTagRepository;
+use Ushahidi\Usecase\Post\UpdatePostTagRepository;
 
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	SearchTagRepository,
 	ReadTagRepository,
 	CreateTagRepository,
 	UpdateTagRepository,
-	DeleteTagRepository
+	DeleteTagRepository,
+	UpdatePostTagRepository
 {
 	private $created_id;
 	private $created_ts;
@@ -45,6 +47,12 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function get($id)
 	{
 		return $this->getEntity($this->selectOne(compact('id')));
+	}
+
+	// UpdatePostTagRepository
+	public function getByTag($tag)
+	{
+		return $this->getEntity($this->selectOne(compact('tag')));
 	}
 
 	// TagRepository
@@ -75,8 +83,20 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		}
 
 		$results = $query->execute($this->db);
-		
+
 		return $this->getCollection($results->as_array());
+	}
+
+	// UpdatePostTagRepository
+	public function doesTagExist($tag_or_id)
+	{
+		$query = $this->selectQuery()
+			->select([DB::expr('COUNT(*)'), 'total'])
+			->where('id', '=', $tag_or_id)
+			->or_where('tag', '=', $tag_or_id)
+			->execute($this->db);
+
+		return $query->get('total') > 0;
 	}
 
 	// CreateTagRepository
