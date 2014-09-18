@@ -32,15 +32,29 @@ class Update
 		$this->auth  = $auth;
 	}
 
-	public function interact(PostData $input)
+	public function interact(ReadPostData $read, UpdatePostData $input)
 	{
-		$post = $this->repo->getByIdAndParent($input->id, $input->parent_id);
+		if ($read->parent_id && $read->locale) {
+			$post = $this->repo->getByLocale($read->locale, $read->parent_id);
 
-		if (!$post->id) {
-			throw new NotFoundException(sprintf(
-				'Post %d does not exist',
-				$input->id
-			));
+			if (!$post->id) {
+				throw new NotFoundException(sprintf(
+					'Translation for %d does not exist for post %s',
+					$read->locale,
+					$read->parent_id
+				));
+			}
+		} else {
+			// Load post by id and parent id, because if its a revision or update
+			// we should only return revision for the particular parent post
+			$post = $this->repo->getByIdAndParent($read->id, $read->parent_id);
+
+			if (!$post->id) {
+				throw new NotFoundException(sprintf(
+					'Post %d does not exist',
+					$read->id
+				));
+			}
 		}
 
 		// We only want to work with values that have been changed
@@ -50,6 +64,7 @@ class Update
 		// These are never updated, but needed for some checks
 		// @todo figure out a better way to include these
 		$update->type = $post->type;
+		$update->parent_id = $post->parent_id;
 
 		if (!$this->valid->check($update)) {
 			throw new ValidatorException("Failed to validate post", $this->valid->errors());

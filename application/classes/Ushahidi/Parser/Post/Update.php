@@ -11,7 +11,7 @@
 
 use Ushahidi\Tool\Parser;
 use Ushahidi\Exception\ParserException;
-use Ushahidi\Usecase\Post\PostData;
+use Ushahidi\Usecase\Post\UpdatePostData;
 
 class Ushahidi_Parser_Post_Update implements Parser
 {
@@ -81,7 +81,7 @@ class Ushahidi_Parser_Post_Update implements Parser
 		}
 
 		// Ensure that all properties of a Post entity are defined by using Arr::extract
-		return new PostData(
+		return new UpdatePostData(
 				Arr::extract($data, ['id', 'form_id', 'parent_id', 'title', 'content', 'status', 'slug', 'locale', 'user_id', 'author_email', 'author_realname'])
 				+ Arr::extract($data, ['values', 'tags'], [])
 			);

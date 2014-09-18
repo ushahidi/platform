@@ -193,6 +193,7 @@ abstract class Ushahidi_Core {
 		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
 		$di->set('parser.media.delete', $di->lazyNew('Ushahidi_Parser_Media_Delete'));
 		$di->set('parser.media.search', $di->lazyNew('Ushahidi_Parser_Media_Search'));
+		$di->set('parser.post.read', $di->lazyNew('Ushahidi_Parser_Post_Read'));
 		$di->set('parser.post.search', $di->lazyNew('Ushahidi_Parser_Post_Search'));
 		$di->set('parser.post.update', $di->lazyNew('Ushahidi_Parser_Post_Update'));
 		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));

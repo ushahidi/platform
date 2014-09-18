@@ -45,4 +45,7 @@ interface UpdatePostRepository
 
 	// PostRepository
 	public function getByIdAndParent($id, $parent_id);
+
+	// PostRepository
+	public function getByLocale($locale, $parent_id);
 }

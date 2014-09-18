@@ -213,17 +213,22 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	public function action_put_index()
 	{
 		$format  = service('formatter.entity.post');
-		$parser  = service('parser.post.update');
+		$read_parser  = service('parser.post.read');
+		$write_parser  = service('parser.post.update');
 		$usecase = service('usecase.post.update');
 
 		$request = $this->_request_payload;
-		$request['id'] = $this->request->param('id');
-		$request['parent_id'] = $this->request->param('post_id');
+
+		$read = [];
+		$read['id'] = $this->request->param('id', NULL);
+		$read['parent_id'] = $this->request->param('post_id', NULL);
+		$read['locale'] = $this->request->param('locale', NULL);
 
 		try
 		{
-			$request = $parser($request);
-			$post = $usecase->interact($request);
+			$write_data = $write_parser($this->_request_payload);
+			$read_data = $read_parser($read);
+			$post = $usecase->interact($read_data, $write_data);
 		}
 		catch (Ushahidi\Exception\NotFoundException $e)
 		{

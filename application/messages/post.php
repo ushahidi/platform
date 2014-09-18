@@ -5,5 +5,7 @@ return [
 	'attributeDoesNotExist' => 'attribute ":key" does not exist',
 	'tooManyValues' => 'Too many values for :key (max: :cardinality)',
 	'valueDoesNotExist' => 'value id :id for field :key does not exist',
-	'attributeRequired' => 'attribute :key is required'
+	'attributeRequired' => 'attribute :key is required',
+	'emptyIdAndLocale' => 'Must have at least id or locale',
+	'emptyParentWithLocale' => 'Must have at parent id when passing locale',
 ];

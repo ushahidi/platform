@@ -98,7 +98,7 @@ Feature: Testing the Updates API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["update-test"]
+                "tags": ["disaster"]
             }
             """
         And that its "id" is "101"
