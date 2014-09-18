@@ -580,7 +580,7 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 							break;
 					}
 				}
-				
+
 				$body = json_encode(array(
 					"form" => $form_id,
 					"title" => substr($incident['incidenttitle'], 0, 150), // Make we don't exceed the max length.
@@ -759,13 +759,11 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					}
 				}
 
-				$author = NULL;
+				$user_id = $author_email = $author_realname = NULL;
 				// If report has user email
 				if (! empty($report['email']) AND isset($this->user_map[$report['email']]))
 				{
-					$author = array(
-						'id' => $this->user_map[$report['email']]
-					);
+					$user_id = $this->user_map[$report['email']];
 				}
 				// Source report has person info
 				elseif (! empty($report['person_email']) OR ! empty($report['person_first']) OR ! empty($report['person_last']))
@@ -773,25 +771,23 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 					// Already got this user
 					if (isset($this->user_map[$report['person_email']]))
 					{
-						$author = array(
-							'id' => $this->user_map[$report['person_email']]
-						);
+						$user_id = $this->user_map[$report['email']];
 					}
 					// New user
 					else
 					{
-						$author = array(
-							"realname" => $report['person_first'] . ' ' . $report['person_last'],
-							"email" => $report['person_email'],
-						);
+						$author_realname = $report['person_first'] . ' ' . $report['person_last'];
+						$author_email = $report['person_email'];
 					}
 				}
-				
+
 				$body = json_encode(array(
 					"form" => $form_id,
 					"title" => substr($report['incident_title'], 0, 150), // Make we don't exceed the max length.
 					"content" => $report['incident_description'],
-					"user" => $author,
+					"user_id" => $user_id,
+					"author_email" => $author_email,
+					"author_realname" => $author_realname,
 					"type" => "report",
 					"status" => $report['incident_active'] ? 'published' : 'draft',
 					"locale" => "en_US",
