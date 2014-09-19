@@ -199,11 +199,9 @@ abstract class Ushahidi_Repository
 		$query = clone $this->search_query;
 
 		if ($countable) {
-			// Use Reflection to nullify parameters that prevent counting.
-			$q = \ReflectionObject($query);
-			foreach (['_limit', '_offset', '_orderby'] as $prop) {
-				$q->getProperty($prop)->setValue($query, null);
-			}
+			$query
+				->limit(null)
+				->offset(null);
 		}
 
 		return $query;
