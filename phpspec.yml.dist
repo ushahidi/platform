@@ -1,4 +1,4 @@
-formatter.name: pretty
+formatter.name: dot
 suites:
     ushahidi_suite: Ushahidi
     ushahidi_api_suite: UshahidiApi
