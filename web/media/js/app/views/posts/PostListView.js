@@ -27,21 +27,21 @@ define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alert
 
 			initialize: function()
 			{
-				// Bind select/unselect events from itemviews
-				this.on('itemview:select', this.showHideBulkActions, this);
-				this.on('itemview:unselect', this.showHideBulkActions, this);
+				// Bind select/unselect events from childviews
+				this.on('childview:select', this.showHideBulkActions, this);
+				this.on('childview:unselect', this.showHideBulkActions, this);
 			},
 
-			itemView: PostListItemView,
+			childView: PostListItemView,
 
-			itemViewOptions:
+			emptyViewOptions:
 			{
 				emptyMessage: 'No posts found.',
 			},
 
 			emptyView: EmptyView,
 
-			itemViewContainer: '.list-view-post-list',
+			childViewContainer: '.list-view-post-list',
 
 			events:
 			{

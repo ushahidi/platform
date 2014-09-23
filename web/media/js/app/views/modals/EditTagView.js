@@ -83,7 +83,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 								{
 									alertify.success('Tag details saved.');
 
-									that.trigger('close');
+									that.trigger('destroy');
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
@@ -103,7 +103,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 					}
 				}
 			},
-			onClose : function ()
+			onDestroy : function ()
 			{
 				BackboneValidation.unbind(this);
 				App.Collections.Tags.fetch();
@@ -111,6 +111,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 
 			serializeData: function()
 			{
+				// @todo move to serializeModel
 				var data = _.extend(this.model.toJSON(),
 				{
 					isNew : this.model.isNew()

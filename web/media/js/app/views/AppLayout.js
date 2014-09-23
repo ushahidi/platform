@@ -10,7 +10,7 @@
 define(['App', 'marionette', 'hbs!templates/AppLayout', 'regions/ModalRegion'],
 	function(App, Marionette, template, ModalRegion)
 	{
-		return Marionette.Layout.extend(
+		return Marionette.LayoutView.extend(
 		{
 			className: 'app-layout',
 			template : template,
@@ -21,7 +21,7 @@ define(['App', 'marionette', 'hbs!templates/AppLayout', 'regions/ModalRegion'],
 				workspacePanel : '#workspace-panel',
 				modal : {
 					selector : '#modal',
-					regionType : ModalRegion
+					regionClass : ModalRegion
 				}
 			}
 		});

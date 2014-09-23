@@ -27,16 +27,16 @@ define(['App', 'marionette', 'underscore', 'alertify',
 
 			initialize: function ()
 			{
-				// Bind select/unselect events from itemviews
-				this.on('itemview:select', this.showHideBulkActions, this);
-				this.on('itemview:unselect', this.showHideBulkActions, this);
+				// Bind select/unselect events from childviews
+				this.on('childview:select', this.showHideBulkActions, this);
+				this.on('childview:unselect', this.showHideBulkActions, this);
 			},
 
-			itemView: TagListItemView,
+			childView: TagListItemView,
 
-			itemViewContainer: '.list-view-tag-list',
+			childViewContainer: '.list-view-tag-list',
 
-			itemViewOptions:
+			emptyViewOptions:
 			{
 				emptyMessage: 'No tags found.',
 			},
@@ -83,6 +83,7 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				data = _.extend(data, {
 					pagination: this.collection.state,
 					sortKeys: this.collection.sortKeys,
+					// @todo move to serializeModel
 					modelName : this.modelName
 				});
 

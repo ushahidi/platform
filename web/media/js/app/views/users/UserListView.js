@@ -27,20 +27,20 @@ define(['App', 'marionette', 'underscore', 'alertify',
 			selectAllValue: false,
 			initialize: function()
 			{
-				// Bind select/unselect events from itemviews
-				this.on('itemview:select', this.showHideBulkActions, this);
-				this.on('itemview:unselect', this.showHideBulkActions, this);
+				// Bind select/unselect events from childviews
+				this.on('childview:select', this.showHideBulkActions, this);
+				this.on('childview:unselect', this.showHideBulkActions, this);
 
 			},
 
-			itemView: UserListItemView,
+			childView: UserListItemView,
 
-			itemViewOptions:
+			emptyViewOptions:
 			{
 				emptyMessage: 'No users found.',
 			},
 
-			itemViewContainer: '.list-view-user-profile-list',
+			childViewContainer: '.list-view-user-profile-list',
 
 			emptyView: EmptyView,
 

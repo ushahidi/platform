@@ -14,9 +14,9 @@ define(['marionette', 'underscore', 'jquery', 'form-manager/editor/AttributeList
 		{
 			tagName: 'ul',
 
-			itemView: AttributeListItem,
+			childView: AttributeListItem,
 
-			itemViewOptions:
+			emptyViewOptions:
 			{
 				emptyMessage: 'This form is empty. Drag a field here to populate the form.',
 			},
@@ -44,7 +44,7 @@ define(['marionette', 'underscore', 'jquery', 'form-manager/editor/AttributeList
 				});
 			},
 
-			onClose : function ()
+			onDestroy : function ()
 			{
 				try {
 					this.$el.sortable('destroy');

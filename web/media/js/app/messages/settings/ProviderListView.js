@@ -21,14 +21,14 @@ define(['App', 'marionette', 'underscore',
 			tagName : 'ul',
 			className : 'card-list',
 
-			itemView: DataProviderListItem,
+			childView: DataProviderListItem,
+			childViewOptions: {},
 
-			itemViewOptions:
+			emptyView: EmptyView,
+			emptyViewOptions:
 			{
 				emptyMessage: 'No data providers found.',
 			},
-
-			emptyView: EmptyView,
 
 			events :
 			{
@@ -37,7 +37,7 @@ define(['App', 'marionette', 'underscore',
 
 			initialize : function (options)
 			{
-				this.itemViewOptions.configModel = options.configModel;
+				this.childViewOptions.configModel = options.configModel;
 			},
 
 			dataProviderActiveTab : function(e)

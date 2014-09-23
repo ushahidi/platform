@@ -49,7 +49,7 @@ define(['App', 'underscore', 'alertify',
 				sortableList : attributeList
 			});
 
-			attributeList.on('itemview:edit', this.showAttributeEditor, this);
+			attributeList.on('childview:edit', this.showAttributeEditor, this);
 
 			// Show the layout and attribute lists
 			App.layout.mainRegion.show(this.layout);

@@ -194,9 +194,9 @@ define(['marionette', 'underscore', 'App', 'jquery',
 				return this;
 			},
 
-			onClose : function()
+			onDestroy : function()
 			{
-				ddt.log('MapView', 'MapView.onClose', this.map);
+				ddt.log('MapView', 'MapView.onDestroy', this.map);
 
 				if (this.map)
 				{

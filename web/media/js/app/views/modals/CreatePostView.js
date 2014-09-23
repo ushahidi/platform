@@ -189,7 +189,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Cr
 								{
 									alertify.success('Post saved.');
 									App.appRouter.navigate('posts/' + model.id, { trigger : true });
-									that.trigger('close');
+									that.trigger('destroy');
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
@@ -225,7 +225,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Cr
 				e.preventDefault();
 				App.vent.trigger('post:create');
 			},
-			onClose : function ()
+			onDestroy : function ()
 			{
 				BackboneValidation.unbind(this);
 

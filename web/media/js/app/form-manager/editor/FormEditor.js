@@ -10,7 +10,7 @@
 define(['App', 'marionette', 'underscore', 'hbs!form-manager/editor/FormEditor', 'jqueryui/draggable'],
 	function(App, Marionette, _, template)
 	{
-		return Marionette.Layout.extend(
+		return Marionette.LayoutView.extend(
 		{
 			template: template,
 			form: null,
@@ -63,7 +63,7 @@ define(['App', 'marionette', 'underscore', 'hbs!form-manager/editor/FormEditor',
 				});
 			},
 
-			onClose : function ()
+			onDestroy : function ()
 			{
 				this.$('.available-attributes li').draggable('destroy');
 			},

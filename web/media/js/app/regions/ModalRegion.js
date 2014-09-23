@@ -24,9 +24,7 @@ define(['App', 'backbone', 'marionette', 'underscore', 'jquery'],
 					close = function(e)
 					{
 						e.preventDefault();
-						ddt.log('ModalRegion', 'sending modal:close to view');
-						view.trigger('modal:close', e);
-						that.close();
+						that.empty();
 					};
 
 				if (delayClose)
@@ -62,19 +60,33 @@ define(['App', 'backbone', 'marionette', 'underscore', 'jquery'],
 					{
 						ddt.log('ModalRegion', 'sending modal:open to view');
 						view.trigger('modal:open', {});
+						that.trigger('modal:open');
 					}
 				}, 100);
 			},
-			onClose : function()
+			onBeforeEmpty : function()
 			{
-				var $body = $('body');
+				// Workaround for marionette bug that triggers empty() twice
+				// https://github.com/marionettejs/backbone.marionette/issues/1920
+				this.currentView.off('destroy');
+			},
+
+			onEmpty : function(view)
+			{
+				var that = this,
+						$body = $('body');
 				if (!$body.hasClass('modal-active'))
 				{
-					return ddt.log('ModalRegion', 'onClose ignored, modal is not active');
+					return ddt.log('ModalRegion', 'onEmpty ignored, modal is not active');
 				}
 				// Do not immediately close the modal, this might be a view change.
 				delayClose = setTimeout(function()
 				{
+					ddt.log('ModalRegion', 'sending modal:close to view');
+					that.trigger('modal:close');
+					// View is already destroyed by this point so not sure this is useful
+					view.trigger('modal:close');
+
 					$body.off('.modal').removeClass('modal-active');
 					delayClose = null;
 				}, 50);

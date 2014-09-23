@@ -24,16 +24,16 @@ define(['marionette', 'underscore',
 		{
 			template: template,
 			modelName: 'messages',
-			itemView: MessageListItemView,
+			childView: MessageListItemView,
 
-			itemViewOptions:
+			emptyViewOptions:
 			{
 				emptyMessage: 'No messages.'
 			},
 
 			emptyView: EmptyView,
 
-			itemViewContainer: '.list-view-message-list',
+			childViewContainer: '.list-view-message-list',
 
 			events:
 			{

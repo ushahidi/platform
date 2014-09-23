@@ -12,9 +12,9 @@ define(['App', 'marionette', 'underscore', 'views/posts/PostListItemView', 'hbs!
 	{
 		return Marionette.CompositeView.extend( {
 			template: template,
-			itemView: PostListItemView,
-			itemViewContainer: '.related-posts-body',
-			itemViewOptions: {
+			childView: PostListItemView,
+			childViewContainer: '.related-posts-body',
+			childViewOptions: {
 				template : itemTemplate,
 				className: 'related-post-module-wrapper'
 			},

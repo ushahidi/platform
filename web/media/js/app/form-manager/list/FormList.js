@@ -14,11 +14,11 @@ define(['App', 'marionette', 'underscore', 'form-manager/list/FormListItem', 'vi
 		{
 			template: template,
 
-			itemView: FormListItem,
+			childView: FormListItem,
 
-			itemViewContainer: '.list-view-form-list',
+			childViewContainer: '.list-view-form-list',
 
-			itemViewOptions:
+			emptyViewOptions:
 			{
 				emptyMessage: 'No forms found.',
 			},

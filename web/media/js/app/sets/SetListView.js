@@ -28,18 +28,9 @@ define(['App', 'marionette', 'underscore',
 			{
 			},
 
-			itemView: SetListItemView,
-			itemViewOptions: {},
+			childView: SetListItemView,
 
-			itemViewContainer: '.sets-grid',
-
-			events:
-			{
-			},
-
-			collectionEvents :
-			{
-			},
+			childViewContainer: '.sets-grid',
 
 			behaviors: {
 				PageableViewBehavior: {

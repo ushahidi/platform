@@ -9,7 +9,7 @@
 
 define(['App', 'marionette', 'hbs!templates/posts/PostDetailLayout'],
 	function(App, Marionette, template) {
-		return Marionette.Layout.extend(
+		return Marionette.LayoutView.extend(
 		{
 			className: 'layout-posts',
 			template : template,

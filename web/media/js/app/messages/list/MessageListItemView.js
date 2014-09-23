@@ -42,16 +42,16 @@ define(['App', 'marionette', 'alertify', 'underscore',
 				this.collection = this.model.replies;
 			},
 
-			itemView: ReplyView,
+			childView: ReplyView,
 
-			itemViewOptions:
+			emptyViewOptions:
 			{
 				emptyMessage: 'No activity on this message.'
 			},
 
 			emptyView: EmptyView,
 
-			itemViewContainer: 'ul.list-view-reply-list',
+			childViewContainer: 'ul.list-view-reply-list',
 
 			modelEvents: {
 				'sync': 'render'
@@ -194,6 +194,7 @@ define(['App', 'marionette', 'alertify', 'underscore',
 
 			serializeData: function()
 			{
+				// @todo move to serializeModel?
 				var data = _.extend(this.model.toJSON(), {
 					isArchived : this.model.isArchived(),
 					isIncoming : this.model.isIncoming()

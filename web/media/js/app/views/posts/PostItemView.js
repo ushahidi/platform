@@ -93,6 +93,7 @@ define(['App', 'marionette', 'underscore', 'alertify'],
 
 			serializeData: function()
 			{
+				// @todo move to serializeModel
 				var data = _.extend(this.model.toJSON(), {
 					isPublished : this.model.isPublished(),
 					tags : this.model.getTags(),

@@ -28,7 +28,7 @@ define([ 'marionette', 'jquery', 'underscore',
 				'Humanitarian OSM'
 			];
 
-		return Marionette.Layout.extend( {
+		return Marionette.LayoutView.extend( {
 			template: template,
 			ui : {
 				'defaultZoomSlider' : '.default-zoom-slider',
@@ -94,6 +94,13 @@ define([ 'marionette', 'jquery', 'underscore',
 			showMap : function ()
 			{
 				var that = this;
+
+				if (this.map.hasView())
+				{
+					this.map.empty();
+					delete this.mapView;
+				}
+
 				// This view is tightly coupled to MapView so it makes sense to create it here
 				this.mapView = new MapView({
 					clustering : this.state.clustering,
@@ -113,7 +120,7 @@ define([ 'marionette', 'jquery', 'underscore',
 						that.state.default_view.lon = center.lng;
 					});
 			},
-			onClose : function ()
+			onDestroy : function ()
 			{
 				// Destroy slider
 				if (this.slider)
@@ -177,7 +184,6 @@ define([ 'marionette', 'jquery', 'underscore',
 
 				// Re-render the mapView
 				// @todo allow changing clustering without a full re-render
-				this.map.close();
 				this.showMap();
 			},
 
@@ -197,7 +203,6 @@ define([ 'marionette', 'jquery', 'underscore',
 				// Re-render the mapView
 				// @todo allow changing base layer without a full re-render
 				this.mapView.map.off('zoomend');
-				this.map.close();
 				this.showMap();
 			}
 

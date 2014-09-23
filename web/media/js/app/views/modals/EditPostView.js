@@ -97,7 +97,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 								{
 									alertify.success('Post saved.');
 									App.appRouter.navigate('posts/' + model.id, { trigger : true });
-									that.trigger('close');
+									that.trigger('destroy');
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
@@ -129,7 +129,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 
 				e.preventDefault();
 			},
-			onClose : function ()
+			onDestroy : function ()
 			{
 				BackboneValidation.unbind(this);
 
@@ -137,6 +137,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 			},
 			serializeData: function()
 			{
+				// @todo move to serializeModel
 				var data = _.extend(this.model.toJSON(), {
 					isPublished : this.model.isPublished(),
 					tags : this.model.getTags(),

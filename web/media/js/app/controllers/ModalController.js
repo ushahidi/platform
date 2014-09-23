@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette'],
-	function(App, Marionette)
+define(['App', 'marionette', 'backbone'],
+	function(App, Marionette, Backbone)
 	{
 		return Marionette.Controller.extend(
 		{
@@ -32,7 +32,10 @@ define(['App', 'marionette'],
 			},
 			postCreate : function ()
 			{
-				var that = this;
+				var that = this,
+					prevUrl = Backbone.history.getFragment();
+
+				Backbone.history.navigate('posts/create');
 
 				require(['views/modals/ChooseFormView', 'views/modals/CreatePostView', 'models/PostModel'],
 					function(ChooseFormView, CreatePostView, PostModel)
@@ -48,9 +51,12 @@ define(['App', 'marionette'],
 							that.modal.show(new CreatePostView({
 								model: post
 							}));
-							that.modal.currentView.on('close', that.modal.close, that.modal);
 						}
 					);
+
+					that.modal.once('modal:close', function () {
+						Backbone.history.navigate(prevUrl);
+					});
 
 					that.modal.show(chooseView);
 				});
@@ -67,7 +73,6 @@ define(['App', 'marionette'],
 						that.modal.show(new EditPostView({
 							model : post
 						}));
-						that.modal.currentView.on('close', that.modal.close, that.modal);
 					});
 					post.fetchRelations();
 				});
@@ -82,7 +87,6 @@ define(['App', 'marionette'],
 					that.modal.show(new AddToSetView({
 						model : post
 					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});
 			},
 			setCreate : function (post)
@@ -107,7 +111,6 @@ define(['App', 'marionette'],
 					that.modal.show(new EditUserView({
 						model : user
 					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});
 			},
 			userCreate : function ()
@@ -121,7 +124,6 @@ define(['App', 'marionette'],
 					that.modal.show(new EditUserView({
 						model : user
 					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});
 			},
 			tagEdit : function (tag)
@@ -134,7 +136,6 @@ define(['App', 'marionette'],
 					that.modal.show(new EditTagView({
 						model : tag
 					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});
 			},
 			tagCreate : function ()
@@ -148,7 +149,6 @@ define(['App', 'marionette'],
 					that.modal.show(new EditTagView({
 						model : tag
 					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});
 			},
 			customFormEdit : function (form)
@@ -161,7 +161,6 @@ define(['App', 'marionette'],
 					that.modal.show(new EditCustomFormView({
 						model : form
 					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});
 			},
 			customFormCreate : function ()
@@ -176,7 +175,6 @@ define(['App', 'marionette'],
 					that.modal.show(new EditCustomFormView({
 						model : form
 					}));
-					that.modal.currentView.on('close', that.modal.close, that.modal);
 				});
 			}
 		});

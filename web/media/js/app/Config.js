@@ -17,7 +17,7 @@ require.config(
 		'simplepicker' : '../../bower_components/jquery-simplepicker/jquery.simplepicker',
 		'underscore' : '../../bower_components/lodash/dist/lodash',
 		'backbone' : '../../bower_components/backbone/backbone',
-		'marionette' : '../../bower_components/backbone.marionette/lib/core/amd/backbone.marionette',
+		'marionette' : '../../bower_components/backbone.marionette/lib/core/backbone.marionette',
 		'backbone.babysitter' : '../../bower_components/backbone.babysitter/lib/backbone.babysitter',
 		'backbone.wreqr' : '../../bower_components/backbone.wreqr/lib/backbone.wreqr',
 		'handlebars' : '../../bower_components/handlebars/handlebars',

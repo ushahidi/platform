@@ -76,7 +76,7 @@ define(['marionette', 'underscore', 'jquery', 'App', 'hbs!templates/SearchBar', 
 				});
 			},
 
-			onClose : function ()
+			onDestroy : function ()
 			{
 				this.ui.tag.select2('destroy');
 				this.ui.timeTo.datetimepicker('destroy');

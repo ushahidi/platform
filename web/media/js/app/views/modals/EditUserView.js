@@ -67,7 +67,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 								{
 									alertify.success('User details saved.');
 
-									that.trigger('close');
+									that.trigger('destroy');
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
@@ -87,7 +87,7 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 					}
 				}
 			},
-			onClose : function ()
+			onDestroy : function ()
 			{
 				BackboneValidation.unbind(this);
 				App.Collections.Users.fetch();

@@ -11,7 +11,7 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 'hbs!templates/HomeLayout', 'views/SearchBarView', 'views/MapView', 'views/posts/PostListView', 'collections/LayerCollection'],
 	function(App, Marionette, _, config, template, SearchBarView, MapView, PostListView, LayerCollection)
 	{
-		return Marionette.Layout.extend(
+		return Marionette.LayoutView.extend(
 		{
 			className: 'layout-home',
 			template : template,
@@ -47,6 +47,7 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 			 */
 			showRegions : function()
 			{
+				// @todo update to use region.hasView()
 				var that = this,
 					layers = new LayerCollection();
 				ddt.log('HomeLayout', 'showRegions');
@@ -73,7 +74,7 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 				else if(! this.views.map)
 				{
 					ddt.log('HomeLayout', 'closingMap');
-					this.mapRegion.close();
+					this.mapRegion.empty();
 				}
 				// Map already visible
 				else
@@ -92,7 +93,7 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 				else if(! this.views.list)
 				{
 					ddt.log('HomeLayout', 'closeList');
-					this.contentRegion.close();
+					this.contentRegion.empty();
 				}
 
 				if (this.searchRegion.currentView instanceof SearchBarView === false && this.views.search)
@@ -106,13 +107,13 @@ define(['App', 'marionette', 'underscore', 'modules/config',
 				else if(! this.views.search)
 				{
 					ddt.log('HomeLayout', 'closeSearch');
-					this.searchRegion.close();
+					this.searchRegion.empty();
 				}
 				return this;
 			},
-			onClose : function()
+			onDestroy : function()
 			{
-				ddt.log('HomeLayout', 'onClose');
+				ddt.log('HomeLayout', 'onDestroy');
 			},
 			onShow : function()
 			{

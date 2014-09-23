@@ -7,7 +7,7 @@
     "jquery.cookie": "~1.4",
     "jquery-simplepicker": "~0.1",
     "backbone": "~1.1",
-    "backbone.marionette": "~1.8",
+    "backbone.marionette": "~2.1",
     "backbone-validation": "~0.9",
     "foundation": "~5.2",
     "handlebars": "~1.3",

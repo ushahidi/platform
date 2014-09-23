@@ -43,7 +43,7 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 			body : 'body'
 		});
 
-		App.on('initialize:after', function(/*options*/)
+		App.on('start', function(/*options*/)
 		{
 			var config = require('modules/config');
 
