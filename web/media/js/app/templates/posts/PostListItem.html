@@ -37,7 +37,12 @@
 			<div class="list-view-edit-wrapper">
 				<ul class="list-view-edit">
 					{{#if allowed_methods.put}}
-						<li><a class="list-view-edit-button  post-edit  js-post-edit"> <i class="fa  fa-check-square-o"></i> <span class="hide-for-medium-down">{{t "nav.select"}}</span></a></li>
+						<li>
+							<label class="checkbox  list-view-edit-button">
+								<input type="checkbox" name="select" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
+								<i class="select-icon"></i> <span>{{t "nav.select"}}</span>
+							</label>
+						</li>
 					{{/if}}
 					{{#if allowed_methods.put}}
 						<li><a class="list-view-edit-button  post-edit  js-post-edit"> <i class="fa  fa-edit"></i> <span class="hide-for-medium-down">{{t "nav.edit"}}</span></a></li>

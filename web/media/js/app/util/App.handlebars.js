@@ -129,6 +129,20 @@ define(['handlebars', 'underscore', 'moment', 'i18next', 'modules/config', 'unde
 			return new Handlebars.SafeString(result);
 		});
 
+		Handlebars.registerHelper('contains', function(list, value, options)
+		{
+			if (arguments.length !== 3) {
+				throw new Error('Handlebars Helper `contains` requires exactly two parameters');
+			}
+
+			if (typeof list !== 'object')
+			{
+				throw new Error('Handlebars Helper `contains` requires parameter one to be an object');
+			}
+
+			return (_.contains(list, value) ? options.fn(this) : options.inverse(this));
+		});
+
 		Handlebars.registerPartial('pagination', paginationTpl);
 		Handlebars.registerPartial('listinfo', listInfoTpl);
 		Handlebars.registerPartial('tag-with-icon', tagWithIconTpl);

@@ -68,7 +68,9 @@ define(['App', 'marionette', 'alertify', 'hbs!templates/tags/TagListItem'],
 			select : function ()
 			{
 				this.selected = true;
-				this.$('.js-select-input').prop('checked', true);
+				this.$('.js-select-input').prop('checked', true)
+					.parent()
+					.addClass('selected-button', this.selected);
 				this.trigger('select');
 			},
 
@@ -78,7 +80,9 @@ define(['App', 'marionette', 'alertify', 'hbs!templates/tags/TagListItem'],
 			unselect : function ()
 			{
 				this.selected = false;
-				this.$('.js-select-input').prop('checked', false);
+				this.$('.js-select-input').prop('checked', false)
+					.parent()
+					.removeClass('selected-button', this.selected);
 				this.trigger('unselect');
 			},
 

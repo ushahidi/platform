@@ -21,10 +21,10 @@
 		<div class="list-view-admin  list-view-admin--tag">
 			<div class="list-view-edit-wrapper">
 				<ul class="list-view-edit">
-					{{#if allowed_methods.put}}
+					{{#contains allowed_methods "put"}}
 						<li>
 							<label class="checkbox  list-view-edit-button">
-								<input type="checkbox" name="select-post" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
+								<input type="checkbox" name="select" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
 								<i class="select-icon"></i> <span>{{t "nav.select"}}</span>
 							</label>
 						</li>
@@ -33,14 +33,14 @@
 								<i class="fa  fa-edit"></i> <span class="">{{t "nav.edit"}}</span>
 							</a>
 						</li>
-					{{/if}}
-					{{#if allowed_methods.delete}}
+					{{/contains}}
+					{{#contains allowed_methods "delete"}}
 						<li>
 							<a class="list-view-edit-button  js-tag-delete">
 								<i class="fa  fa-trash-o"></i> <span class="">{{t "nav.delete"}}</span>
 							</a>
 						</li>
-					{{/if}}
+					{{/contains}}
 				</ul> <!-- end .list-view-edit -->
 			</div> <!-- end .list-view-edit-wrapper -->
 

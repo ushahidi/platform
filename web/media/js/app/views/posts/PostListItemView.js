@@ -18,7 +18,7 @@ define(['underscore', 'views/posts/PostItemView', 'hbs!templates/posts/PostListI
 			// Value to track if checkbox for this post has been selected
 			selected : false,
 			events : _.extend(PostItemView.prototype.events, {
-				'change .js-select-post-input' : 'updatedSelected'
+				'change .js-select-input' : 'updatedSelected'
 			}),
 			/**
 			 * Select this post (for bulk actions)
@@ -26,7 +26,9 @@ define(['underscore', 'views/posts/PostItemView', 'hbs!templates/posts/PostListI
 			select : function ()
 			{
 				this.selected = true;
-				this.$('.js-select-post-input').prop('checked', true);
+				this.$('.js-select-input').prop('checked', true)
+					.parent()
+					.addClass('selected-button', this.selected);
 				this.trigger('select');
 			},
 			/**
@@ -35,7 +37,9 @@ define(['underscore', 'views/posts/PostItemView', 'hbs!templates/posts/PostListI
 			unselect : function ()
 			{
 				this.selected = false;
-				this.$('.js-select-post-input').prop('checked', false);
+				this.$('.js-select-input').prop('checked', false)
+					.parent()
+					.removeClass('selected-button', this.selected);
 				this.trigger('unselect');
 			},
 			/**
@@ -46,6 +50,9 @@ define(['underscore', 'views/posts/PostItemView', 'hbs!templates/posts/PostListI
 				var $el = this.$(e.currentTarget);
 				this.selected = $el.is(':checked');
 				this.trigger(this.selected ? 'select' : 'unselect');
+
+				$el.parent()
+					.toggleClass('selected-button', this.selected);
 			},
 			// Override serializeData to include value of 'selected'
 			serializeData: function()
