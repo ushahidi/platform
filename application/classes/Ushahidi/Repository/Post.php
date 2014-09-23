@@ -224,6 +224,19 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 		return $this;
 	}
 
+	// PostRepository
+	public function getSearchTotal()
+	{
+		// Assume we can simply count the results to get a total
+		$query = $this->getSearchQuery(true)
+			->select([DB::expr('COUNT(DISTINCT posts.id)'), 'total']);
+
+		// Fetch the result and...
+		$result = $query->execute($this->db);
+
+		// ... return the total.
+		return (int) $result->get('total', 0);
+	}
 
 	/**
 	 * Get a subquery to return post_point entries within a bounding box
