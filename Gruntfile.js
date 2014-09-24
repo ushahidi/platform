@@ -184,7 +184,7 @@ module.exports = function(grunt) {
 			sass :
 			{
 				files : [uipath + 'media/scss/**/*.scss'],
-				tasks : ['compass:dev', 'compass:prod', 'cmq']
+				tasks : ['build:css']
 			},
 
 			css :
@@ -209,6 +209,21 @@ module.exports = function(grunt) {
 			{
 				files : ['spec/**/*.php'],
 				tasks : ['phpspec']
+			}
+		},
+
+		notify: {
+			css: {
+				options: {
+					title: '[Ushahidi] CSS',
+					message: 'Styles Compiled'
+				}
+			},
+			js: {
+				options: {
+					title: '[Ushahidi] JS',
+					message: 'Scripts Compiled'
+				}
 			}
 		},
 
@@ -271,8 +286,8 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('test:js', ['jshint']);
 	grunt.registerTask('test', ['jshint', 'phpspec']);
-	grunt.registerTask('build:js', ['requirejs', 'uglify']);
-	grunt.registerTask('build:css', ['compass', 'cmq']);
+	grunt.registerTask('build:js', ['requirejs', 'uglify', 'notify:js']);
+	grunt.registerTask('build:css', ['compass', 'cmq', 'notify:css']);
 	grunt.registerTask('build', ['build:js', 'build:css', 'imagemin']);
 	grunt.registerTask('default', ['build']);
 
