@@ -39,6 +39,8 @@ define(['marionette', 'App'],
 		};
 
 		App.addInitializer(function(){
+			if (App.user.get('role') !== 'admin') { return; }
+
 			new Marionette.AppRouter({
 				appRoutes: {
 					'settings/forms' : 'formList',

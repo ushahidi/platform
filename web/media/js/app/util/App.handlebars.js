@@ -129,6 +129,19 @@ define(['handlebars', 'underscore', 'moment', 'i18next', 'modules/config', 'unde
 			return new Handlebars.SafeString(result);
 		});
 
+		Handlebars.registerHelper('is', function(value_1, value_2, options)
+		{
+			if (arguments.length !== 3) {
+				throw new Error('Handlebars Helper `is` requires exactly two parameters');
+			}
+			return (value_1 === value_2 ? options.fn(this) : options.inverse(this));
+		});
+
+		Handlebars.registerHelper('log', function(/* args */) {
+			var args = Array.prototype.slice.call(arguments);
+			return ddt.log.apply(null, ['Handlebars'].concat(args));
+		});
+
 		Handlebars.registerHelper('contains', function(list, value, options)
 		{
 			if (arguments.length !== 3) {

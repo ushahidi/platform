@@ -137,9 +137,11 @@
 				{{/feature}}
 
 				{{# feature 'form_wizard'}}
+				{{# is user.role 'admin'}}
 				<li id="workspace-menu-forms" data-page="forms">
 					<a href="{{#url}}settings/forms{{/url}}"><p><i class="fa fa-pencil-square-o"></i> {{t "tool.manage_forms"}}</p></a>
 				</li>
+				{{/is}}
 				{{/feature}}
 				<li id="workspace-menu-site" data-page="settings">
 					<a href="{{#url}}settings/site{{/url}}"><p><i class="fa  fa-wrench"></i> {{t "tool.site_settings"}}</p></a>
