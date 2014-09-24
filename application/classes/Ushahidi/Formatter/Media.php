@@ -9,9 +9,19 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Entity;
+use Ushahidi\Tool\Authorizer;
+
 class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 {
-	public function __invoke($entity)
+	protected $auth;
+
+	public function __construct(Authorizer $auth)
+	{
+		$this->auth = $auth;
+	}
+
+	protected function add_metadata(Array $data, Entity $media)
 	{
 		// Set image dimensions from the config file
 		$medium_width     = Kohana::$config->load('media.image_medium_width');
@@ -19,14 +29,18 @@ class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 		$thumbnail_width  = Kohana::$config->load('media.image_thumbnail_width');
 		$thumbnail_height = Kohana::$config->load('media.image_thumbnail_height');
 
-		return parent::__invoke($entity) + [
-			'medium_file_url'    => $this->resized_url($medium_width, $medium_height, $entity->o_filename),
+		return $data + [
+			// Add additional URLs and sizes
+			'medium_file_url'    => $this->resized_url($medium_width, $medium_height, $media->o_filename),
 			'medium_width'       => $medium_width,
 			'medium_height'      => $medium_height,
-			'thumbnail_file_url' => $this->resized_url($thumbnail_width, $thumbnail_height, $entity->o_filename),
+			'thumbnail_file_url' => $this->resized_url($thumbnail_width, $thumbnail_height, $media->o_filename),
 			'thumbnail_width'    => $thumbnail_width,
 			'thumbnail_height'   => $thumbnail_height,
-			];
+
+			// Add the allowed HTTP methods (called privileges internally)
+			'allowed_methods' => $this->auth->getAllowedPrivs($media),
+		];
 	}
 
 	protected function get_field_name($field)

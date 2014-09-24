@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Admin Media Delete Use Case
+ * Ushahidi Platform Admin Media Read Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,31 +13,26 @@ namespace Ushahidi\Usecase\Media;
 
 use Ushahidi\Usecase;
 use Ushahidi\Data;
-use Ushahidi\Entity\Media;
 use Ushahidi\Tool\Authorizer;
-use Ushahidi\Tool\Validator;
 use Ushahidi\Exception\AuthorizerException;
 use Ushahidi\Exception\NotFoundException;
-use Ushahidi\Exception\ValidatorException;
 
-class Delete implements Usecase
+class Read implements Usecase
 {
 	private $repo;
 	private $valid;
+	private $auth;
 
-	public function __construct(DeleteMediaRepository $repo, Validator $valid, Authorizer $auth)
-	{
+	public function __construct(
+		ReadMediaRepository $repo,
+		Authorizer $auth
+	) {
 		$this->repo  = $repo;
-		$this->valid = $valid;
 		$this->auth  = $auth;
 	}
 
 	public function interact(Data $input)
 	{
-		if (!$this->valid->check($input)) {
-			throw new ValidatorException('Failed to validate media delete', $this->valid->errors());
-		}
-
 		$media = $this->repo->get($input->id);
 
 		if (!$media->id) {
@@ -47,15 +42,13 @@ class Delete implements Usecase
 			));
 		}
 
-		if (!$this->auth->isAllowed($media, 'delete')) {
+		if (!$this->auth->isAllowed($media, 'get')) {
 			throw new AuthorizerException(sprintf(
-				'User %s is not allowed to delete media file %s',
+				'User %s is not allowed to read media %s',
 				$this->auth->getUserId(),
 				$input->id
 			));
 		}
-
-		$this->repo->deleteMedia($input->id);
 
 		return $media;
 	}

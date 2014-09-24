@@ -32,23 +32,38 @@ class DeleteSpec extends ObjectBehavior
 		$this->shouldThrow('Ushahidi\Exception\ValidatorException')->duringInteract($input);
 	}
 
+	function it_fails_when_media_does_not_exist($valid, $repo, MediaDeleteData $input, Media $media)
+	{
+		$input->id = 99999;
+		$media->id = 0;
+
+		$valid->check($input)->willReturn(true);
+
+		$repo->get($input->id)->willReturn($media);
+
+		$this->shouldThrow('Ushahidi\Exception\NotFoundException')->duringInteract($input);
+	}
+
 	function it_fails_when_not_allowed($valid, $repo, $auth, MediaDeleteData $input, Media $media)
 	{
 		$input->id = 1;
+		$media->id = 1;
 
 		$valid->check($input)->willReturn(true);
 
 		$repo->get($input->id)->willReturn($media);
 
 		$auth->isAllowed($media, 'delete')->willReturn(false);
-		$auth->getUserId()->willReturn(1);
 
+		// Exception will contain the userid
+		$auth->getUserId()->willReturn(1);
 		$this->shouldThrow('Ushahidi\Exception\AuthorizerException')->duringInteract($input);
 	}
 
 	function it_can_delete_media_with_valid_input($valid, $repo, $auth, MediaDeleteData $input, Media $media)
 	{
 		$input->id = 1;
+		$media->id = 1;
 
 		$valid->check($input)->willReturn(true);
 

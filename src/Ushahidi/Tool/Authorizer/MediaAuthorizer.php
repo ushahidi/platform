@@ -30,9 +30,8 @@ class MediaAuthorizer implements Authorizer
 
 	// It uses methods from several traits to check access:
 	// - `AdminAccess` to check if the user has admin access
-	// - `GuestAccess` to check if a user owns the post, the
-	// - `OwnerAccess` to check if a user owns the post, the
-	use AdminAccess, GuestAccess, OwnerAccess;
+	// - `OwnerAccess` to check if a user owns the entity
+	use AdminAccess, OwnerAccess;
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
@@ -49,8 +48,8 @@ class MediaAuthorizer implements Authorizer
 			return true;
 		}
 
-		// Anonymous guests are allowed to view and create new media files.
-		if ($this->isUserGuest($user) && in_array($privilege, ['get', 'post'])) {
+		// All users are allowed to view and create new media files.
+		if (in_array($privilege, ['get', 'post'])) {
 			return true;
 		}
 

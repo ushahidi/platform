@@ -2,6 +2,7 @@
 
 namespace spec\Ushahidi\Usecase\Media;
 
+use Ushahidi\Tool\Authorizer;
 use Ushahidi\Tool\Validator;
 use Ushahidi\Entity\Media;
 use Ushahidi\Usecase\Media\CreateMediaRepository;
@@ -12,9 +13,9 @@ use Prophecy\Argument;
 
 class CreateSpec extends ObjectBehavior
 {
-	function let(CreateMediaRepository $repo, Validator $valid)
+	function let(CreateMediaRepository $repo, Validator $valid, Authorizer $auth)
 	{
-		$this->beConstructedWith($repo, $valid);
+		$this->beConstructedWith($repo, $valid, $auth);
 	}
 
 	function it_is_initializable()
@@ -22,7 +23,7 @@ class CreateSpec extends ObjectBehavior
 		$this->shouldHaveType('Ushahidi\Usecase\Media\Create');
 	}
 
-	function it_fails_with_invalid_input($req, $valid, MediaData $input)
+	function it_fails_with_invalid_input($valid, MediaData $input)
 	{
 		$input->file = null;
 
@@ -31,7 +32,7 @@ class CreateSpec extends ObjectBehavior
 		$this->shouldThrow('Ushahidi\Exception\ValidatorException')->duringInteract($input);
 	}
 
-	function it_can_create_a_media_with_valid_input($valid, $repo, MediaData $input)
+	function it_fails_when_not_allowed_to_create($valid, $auth, MediaData $input)
 	{
 		$file = [
 			'name'     => 'test.png',
@@ -45,16 +46,72 @@ class CreateSpec extends ObjectBehavior
 
 		$valid->check($input)->willReturn(true);
 
-		// auth not needed right now, leaving it behind for later consideration
-		// $auth->isAllowed('media', 'create')->willReturn(true);
+		$auth->isAllowed(new Media, 'post')->willReturn(false);
 
-		$repo->createMedia($file, Argument::cetera())->shouldBeCalled();
-		$repo->getCreatedMedia()->willReturn(new Media);
+		// Exception message will include the user id
+		$auth->getUserId()->shouldBeCalled();
+		$this->shouldThrow('Ushahidi\Exception\AuthorizerException')->duringInteract($input);
+	}
+
+	function it_fails_when_not_allowed_to_read($valid, $auth, $repo, MediaData $input)
+	{
+		$file = [
+			'name'     => 'test.png',
+			'type'     => 'image/png',
+			'size'     => 1024,
+			'tmp_name' => 't.png',
+			'error'    => UPLOAD_ERR_OK,
+		];
+
+		$media  = new Media;
+		$userid = null;
+
+		$input->file = $file;
+
+		$valid->check($input)->willReturn(true);
+
+		$auth->isAllowed(new Media, 'post')->willReturn(true);
+		$auth->getUserId()->willReturn($userid);
+
+		$repo->createMedia($input->file, $input->caption, $userid)->shouldBeCalled();
+		$repo->getCreatedMedia()->willReturn($media);
+
+		$auth->isAllowed($media, 'get')->willReturn(false);
+
+		// Exception message will include the user id
+		$auth->getUserId()->shouldBeCalled();
+		$this->shouldThrow('Ushahidi\Exception\AuthorizerException')->duringInteract($input);
+	}
+
+	function it_can_create_a_media_with_valid_input($valid, $auth, $repo, MediaData $input)
+	{
+		$file = [
+			'name'     => 'test.png',
+			'type'     => 'image/png',
+			'size'     => 1024,
+			'tmp_name' => 't.png',
+			'error'    => UPLOAD_ERR_OK,
+		];
+
+		$media  = new Media;
+		$userid = null;
+
+		$input->file = $file;
+
+		$valid->check($input)->willReturn(true);
+
+		$auth->isAllowed(new Media, 'post')->willReturn(true);
+		$auth->getUserId()->willReturn($userid);
+
+		$repo->createMedia($input->file, $input->caption, $userid)->shouldBeCalled();
+		$repo->getCreatedMedia()->willReturn($media);
+
+		$auth->isAllowed($media, 'get')->willReturn(true);
 
 		$this->interact($input)->shouldReturnAnInstanceOf('Ushahidi\Entity\Media');
 	}
 
-	function it_can_create_a_media_with_valid_input_and_optional_data($valid, $repo, MediaData $input)
+	function it_can_create_a_media_with_valid_input_and_optional_data($valid, $auth, $repo, MediaData $input)
 	{
 		$file = [
 			'name'     => 'test2.png',
@@ -64,17 +121,22 @@ class CreateSpec extends ObjectBehavior
 			'error'    => UPLOAD_ERR_OK,
 			];
 
+		$media  = new Media;
+		$userid = 1;
+
 		$input->file = $file;
 		$input->caption = 'hello, world!';
-		$input->user_id = 1;
 
 		$valid->check($input)->willReturn(true);
 
-		// auth not needed right now, leaving it behind for later consideration
-		// $auth->isAllowed('media', 'create')->willReturn(true);
 
-		$repo->createMedia($input->file, $input->caption, $input->user_id)->shouldBeCalled();
-		$repo->getCreatedMedia()->willReturn(new Media);
+		$auth->isAllowed(new Media, 'post')->willReturn(true);
+		$auth->getUserId()->willReturn($userid);
+
+		$repo->createMedia($input->file, $input->caption, $userid)->shouldBeCalled();
+		$repo->getCreatedMedia()->willReturn($media);
+
+		$auth->isAllowed($media, 'get')->willReturn(true);
 
 		$this->interact($input)->shouldReturnAnInstanceOf('Ushahidi\Entity\Media');
 	}

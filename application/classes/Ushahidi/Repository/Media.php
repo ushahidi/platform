@@ -10,16 +10,18 @@
  */
 
 use Ushahidi\Entity\Media;
-use Ushahidi\Entity\MediaRepository;
-use Ushahidi\Entity\MediaSearchData;
+use Ushahidi\Usecase\Media\SearchMediaData;
 use Ushahidi\Usecase\Media\CreateMediaRepository;
+use Ushahidi\Usecase\Media\ReadMediaRepository;
+use Ushahidi\Usecase\Media\SearchMediaRepository;
 use Ushahidi\Usecase\Media\DeleteMediaRepository;
 use Ushahidi\Tool\Uploader;
 use Ushahidi\Tool\UploadData;
 
 class Ushahidi_Repository_Media extends Ushahidi_Repository implements
-	MediaRepository,
 	CreateMediaRepository,
+	ReadMediaRepository,
+	SearchMediaRepository,
 	DeleteMediaRepository
 {
 	private $upload;
@@ -55,7 +57,7 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	}
 
 	// MediaRepository
-	public function search(MediaSearchData $data, Array $params = null)
+	public function setSearchParams(SearchMediaData $data, Array $params = null)
 	{
 		$where = [];
 		if ($data->user) {
@@ -83,9 +85,9 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 				->where('posts_media.post_id', 'is', NULL);
 		}
 
-		$results = $query->execute($this->db);
+		$this->search_query = $query;
 
-		return $this->getCollection($results->as_array());
+		return $this;
 	}
 
 	// CreateMediaRepository

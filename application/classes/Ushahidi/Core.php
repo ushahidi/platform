@@ -114,6 +114,9 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
 		$di->set('formatter.entity.tag', $di->lazyNew('Ushahidi_Formatter_Tag'));
 
+		$di->set('formatter.collection.media', $di->lazyNew('Ushahidi_Formatter_Collection', [
+			'formatter' => $di->lazyGet('formatter.entity.media')
+		]));
 		$di->set('formatter.collection.tag', $di->lazyNew('Ushahidi_Formatter_Collection', [
 			'formatter' => $di->lazyGet('formatter.entity.tag')
 		]));
@@ -128,6 +131,17 @@ abstract class Ushahidi_Core {
 		};
 		$di->params['Ushahidi_Formatter_Post'] = [
 			'value_formatter' => $di->lazyGet('formatter.entity.post.value')
+		];
+		$di->params['Ushahidi_Formatter_PostPoint'] = [
+			'decoder' => $di->lazyNew('Symm\Gisconverter\Decoders\WKT')
+		];
+		$di->params['Ushahidi_Formatter_PostValue'] = [
+			'map' => [
+				'point' => $di->get('formatter.entity.post.point'),
+			]
+		];
+		$di->params['Ushahidi_Formatter_Media'] = [
+			'auth' => $di->lazyGet('tool.authorizer.media'),
 		];
 		$di->params['Ushahidi_Formatter_Tag'] = [
 			'auth' => $di->lazyGet('tool.authorizer.tag'),
@@ -191,6 +205,7 @@ abstract class Ushahidi_Core {
 		// Parsers
 		$di->set('parser.layer.search', $di->lazyNew('Ushahidi_Parser_Layer_Search'));
 		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
+		$di->set('parser.media.read', $di->lazyNew('Ushahidi_Parser_Media_Read'));
 		$di->set('parser.media.delete', $di->lazyNew('Ushahidi_Parser_Media_Delete'));
 		$di->set('parser.media.search', $di->lazyNew('Ushahidi_Parser_Media_Search'));
 		$di->set('parser.post.read', $di->lazyNew('Ushahidi_Parser_Post_Read'));

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Read Tag Parser
+ * Ushahidi Read Media Parser
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -11,9 +11,9 @@
 
 use Ushahidi\Tool\Parser;
 use Ushahidi\Exception\ParserException;
-use Ushahidi\Usecase\Tag\ReadTagData;
+use Ushahidi\Usecase\Media\ReadMediaData;
 
-class Ushahidi_Parser_Tag_Read implements Parser
+class Ushahidi_Parser_Media_Read implements Parser
 {
 	public function __invoke(Array $data)
 	{
@@ -24,9 +24,9 @@ class Ushahidi_Parser_Tag_Read implements Parser
 
 		if (!$valid->check())
 		{
-			throw new ParserException("Failed to parse tag read request", $valid->errors('tag'));
+			throw new ParserException("Failed to parse media read request", $valid->errors('media'));
 		}
 
-		return new ReadTagData($data);
+		return new ReadMediaData($data);
 	}
 }

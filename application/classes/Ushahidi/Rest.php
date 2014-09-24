@@ -226,9 +226,16 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 	}
 
+	protected $json_errors = [
+		JSON_ERROR_DEPTH          => 'Maximum stack depth exceeded',
+		JSON_ERROR_STATE_MISMATCH => 'Underflow or the modes mismatch',
+		JSON_ERROR_CTRL_CHAR      => 'Unexpected control character found',
+		JSON_ERROR_SYNTAX         => 'Syntax error, malformed JSON',
+		JSON_ERROR_UTF8           => 'Malformed UTF-8 characters, possibly incorrectly encoded',
+	];
+
 	/**
-	 * Parse the request body
-	 * Decodes JSON request body into PHP array
+	 * If the request has a JSON body, parse it into native type.
 	 *
 	 * @todo Support more than just JSON
 	 * @throws HTTP_Exception_400
@@ -237,38 +244,13 @@ abstract class Ushahidi_Rest extends Controller {
 	{
 			$this->_request_payload = json_decode($this->request->body(), TRUE);
 
-			if ( $this->_request_payload === NULL )
+			$error = json_last_error();
+
+			if ($error AND $error !== JSON_ERROR_NONE)
 			{
-				// Get further error info
-				switch (json_last_error()) {
-					case JSON_ERROR_NONE:
-						$error = 'No errors';
-					break;
-					case JSON_ERROR_DEPTH:
-						$error = 'Maximum stack depth exceeded';
-					break;
-					case JSON_ERROR_STATE_MISMATCH:
-						$error = 'Underflow or the modes mismatch';
-					break;
-					case JSON_ERROR_CTRL_CHAR:
-						$error = 'Unexpected control character found';
-					break;
-					case JSON_ERROR_SYNTAX:
-						$error = 'Syntax error, malformed JSON';
-					break;
-					case JSON_ERROR_UTF8:
-						$error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
-					break;
-					default:
-						$error = 'Unknown error';
-					break;
-				}
-
-
-
 				throw new HTTP_Exception_400('Invalid json supplied. Error: \':error\'. \':json\'', array(
 					':json' => $this->request->body(),
-					':error' => $error,
+					':error' => Arr::get($this->json_errors, $error, 'Unknown error'),
 				));
 			}
 			// Ensure JSON object/array was supplied, not string etc
@@ -281,7 +263,10 @@ abstract class Ushahidi_Rest extends Controller {
 	}
 
 	/**
-	 * Prepare response headers and body
+	 * Prepare response headers and body, formatted based on user request.
+	 * @throws HTTP_Exception_400
+	 * @throws HTTP_Exception_500
+	 * @return void
 	 */
 	protected function _prepare_response()
 	{
@@ -313,18 +298,37 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (Aura\Di\Exception\ServiceNotFound $e)
 		{
-			throw new HTTP_Exception_400('Unknown response format: :format', array(':format' => $type));
+			throw new HTTP_Exception_400(
+				'Unknown response format: :format',
+				[':format' => $type]
+			);
 		}
 		catch (InvalidArgumentException $e)
 		{
-			throw new HTTP_Exception_400('Bad formatting parameters: :message', array(':message' => $e->getMessage()));
+			throw new HTTP_Exception_400(
+				'Bad formatting parameters: :message',
+				[':message' => $e->getMessage()]
+			);
 		}
 		catch (Ushahidi\Exception\FormatterException $e)
 		{
-			throw new HTTP_Exception_500('Error while formatting response: :message', array(':message' => $e->getMessage()));
+			throw new HTTP_Exception_500(
+				'Error while formatting response: :message',
+				[':message' => $e->getMessage()]
+			);
 		}
 	}
 
+	/**
+	 * Run an Endpoint request sequence and convert application exceptions into
+	 * Kohana HTTP exceptions.
+	 * @throws HTTP_Exception_400
+	 * @throws HTTP_Exception_403
+	 * @throws HTTP_Exception_404
+	 * @param  Ushahidi\Endpoint $endpoint
+	 * @param  Array $request
+	 * @return void
+	 */
 	protected function _restful(Endpoint $endpoint, Array $request)
 	{
 		try

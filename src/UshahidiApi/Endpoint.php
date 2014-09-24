@@ -50,7 +50,7 @@ class Endpoint
 		$result = $this->usecase->interact($input);
 		$output = $this->formatter->__invoke($result);
 
-		if ($this->formatter instanceof CollectionFormatter) {
+		if (method_exists($this->formatter, 'getPaging')) {
 			// Collections always have additional paging metadata, which are
 			// partially determined by the request input.
 			$output += $this->formatter->getPaging($input);

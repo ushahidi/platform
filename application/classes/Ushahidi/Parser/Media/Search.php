@@ -10,18 +10,29 @@
  */
 
 use Ushahidi\Tool\Parser;
-use Ushahidi\Entity\MediaSearchData;
+use Ushahidi\Usecase\Media\SearchMediaData;
+use Ushahidi\Traits\Parser\SortingParser;
 
 class Ushahidi_Parser_Media_Search implements Parser
 {
+	use SortingParser;
+
+	// SortingParser
+	private function getAllowedOrderby()
+	{
+		return ['id', 'created'];
+	}
+
 	public function __invoke(Array $data)
 	{
-		$data = Arr::extract($data, ['user', 'orphans']);
+		$input = Arr::extract($data, ['user', 'orphans']);
 
 		// remove any input with an empty value
-		$data = array_filter($data);
+		$input = array_filter($input);
 
-		return new MediaSearchData($data);
+		// append sorting data
+		$input += $this->getSorting($data);
+
+		return new SearchMediaData($input);
 	}
 }
-

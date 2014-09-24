@@ -11,33 +11,55 @@
 
 namespace Ushahidi\Usecase\Media;
 
+use Ushahidi\Usecase;
+use Ushahidi\Data;
 use Ushahidi\Entity\Media;
+use Ushahidi\Tool\Authorizer;
 use Ushahidi\Tool\Validator;
+use Ushahidi\Exception\AuthorizerException;
 use Ushahidi\Exception\ValidatorException;
 
-class Create
+class Create implements Usecase
 {
 	private $repo;
 	private $valid;
 
-	public function __construct(CreateMediaRepository $repo, Validator $valid)
+	public function __construct(CreateMediaRepository $repo, Validator $valid, Authorizer $auth)
 	{
 		$this->repo  = $repo;
 		$this->valid = $valid;
+		$this->auth  = $auth;
 	}
 
-	public function interact(MediaData $input)
+	public function interact(Data $input)
 	{
 		if (!$this->valid->check($input)) {
-			throw new ValidatorException("Failed to validate media file", $this->valid->errors());
+			throw new ValidatorException('Failed to validate media file', $this->valid->errors());
+		}
+
+		if (!$this->auth->isAllowed(new Media, 'post')) {
+			throw new AuthorizerException(sprintf(
+				'User %d is not allowed to create media',
+				$this->auth->getUserId()
+			));
 		}
 
 		$this->repo->createMedia(
 			$input->file,
 			$input->caption,
-			$input->user_id
+			$this->auth->getUserId()
 		);
 
-		return $this->repo->getCreatedMedia();
+		$media = $this->repo->getCreatedMedia();
+
+		if (!$this->auth->isAllowed($media, 'get')) {
+			throw new AuthorizerException(sprintf(
+				'User %d is not allowed to read media %d',
+				$this->auth->getUserId(),
+				$media->id
+			));
+		}
+
+		return $media;
 	}
 }
