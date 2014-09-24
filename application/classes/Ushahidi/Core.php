@@ -132,14 +132,6 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Formatter_Post'] = [
 			'value_formatter' => $di->lazyGet('formatter.entity.post.value')
 		];
-		$di->params['Ushahidi_Formatter_PostPoint'] = [
-			'decoder' => $di->lazyNew('Symm\Gisconverter\Decoders\WKT')
-		];
-		$di->params['Ushahidi_Formatter_PostValue'] = [
-			'map' => [
-				'point' => $di->get('formatter.entity.post.point'),
-			]
-		];
 		$di->params['Ushahidi_Formatter_Media'] = [
 			'auth' => $di->lazyGet('tool.authorizer.media'),
 		];
