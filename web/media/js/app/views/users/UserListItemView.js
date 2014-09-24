@@ -33,7 +33,8 @@ define(['App', 'marionette', 'underscore', 'alertify', 'hbs!templates/users/User
 			{
 				return _.extend(this.model.toJSON(), {
 					roles: App.Collections.Roles.toJSON(),
-					selected : this.selected
+					selected: this.selected,
+					loggedin_user: App.user.toJSON()
 				});
 			},
 

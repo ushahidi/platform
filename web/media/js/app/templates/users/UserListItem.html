@@ -19,6 +19,7 @@
 						</p>
 					</div> <!-- end .details-column-a -->
 
+					{{#is loggedin_user.role 'admin'}}
 					<div class="details-column-b">
 						<p class="user-list-last-login"><b>{{t "user.last_login"}}: </b>
 							{{#if last_login}}
@@ -36,6 +37,7 @@
 						</p>
 						<p class="user-list-failed-attempt"><b>{{t "user.failed_attempts"}}: </b>{{ failed_attempts }}</p>
 					</div> <!-- end .details-column-b -->
+					{{/is}}
 			</div> <!-- end .row -->
 		</div> <!-- end .list-view-details-user -->
 

@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'util/App.handlebars', 'foundation-loader'],
-	function($, Backbone, Marionette, _, OAuth)
+define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'models/UserModel', 'util/App.handlebars', 'foundation-loader'],
+	function($, Backbone, Marionette, _, OAuth, UserModel)
 	{
 		var App = new Backbone.Marionette.Application();
 
@@ -27,6 +27,12 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'uti
 				features = config.get('features');
 			return Boolean(features[name]);
 		};
+
+		// Global reference to the current user
+		App.user = new UserModel({ id: 'me' });
+		if (App.loggedin()) {
+			App.user.fetch();
+		}
 
 		App.Behaviors  = {
 			//PageableView : PageableView

@@ -23,8 +23,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 	'collections/FormCollection',
 	'collections/RoleCollection',
 	'collections/UserCollection',
-
-	'models/UserModel'
 	],
 	function($, App, Backbone, Marionette, _, alertify, URI,
 		ModalController,
@@ -41,28 +39,19 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 		TagCollection,
 		FormCollection,
 		RoleCollection,
-		UserCollection,
-
-		UserModel
+		UserCollection
 		)
 	{
 		return Backbone.Marionette.Controller.extend(
 		{
 			initialize : function()
 			{
-				var user = new UserModel({ id: 'me' });
-
-				if (App.loggedin()) {
-					// only fetch the user when logged in
-					user.fetch();
-				}
-
 				this.layout = App.layout = new AppLayout();
 				App.body.show(this.layout);
 
 				this.layout.headerRegion.show(new HeaderView());
 				this.layout.footerRegion.show(new FooterView());
-				this.layout.workspacePanel.show(new WorkspacePanelView({ model: user }));
+				this.layout.workspacePanel.show(new WorkspacePanelView({ model: App.user }));
 
 				App.vent.on('workspace:toggle', function (close)
 				{
