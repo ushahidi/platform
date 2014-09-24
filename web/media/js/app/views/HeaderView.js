@@ -23,7 +23,7 @@ define(['marionette', 'handlebars', 'App', 'modules/config', 'jquery', 'hbs!temp
 				App.vent.on('config:change', this.render, this);
 			},
 			events : {
-				'click .js-views-menu-link' : 'showViewsMenu',
+				'click .js-views-menu-link' : 'toggleViewsMenu',
 				'click .js-create-post' : 'showCreatePost',
 				'click .js-workspace-toggle' : 'triggerWorkspaceToggle',
 			},
@@ -56,10 +56,11 @@ define(['marionette', 'handlebars', 'App', 'modules/config', 'jquery', 'hbs!temp
 			{
 				this.$('.js-views-menu li').removeClass('active');
 				this.$('li[data-view="'+view+'"]').addClass('active');
+				this.toggleViewsMenu();
 			},
-			showViewsMenu : function(e)
+			toggleViewsMenu : function(e)
 			{
-				e.preventDefault();
+				e && e.preventDefault();
 				// Hide other menu
 				this.$('.js-sets-menu').removeClass('subnav');
 				this.$('.js-sets-menu-link').removeClass('active');
