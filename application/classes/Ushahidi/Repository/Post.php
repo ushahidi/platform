@@ -119,10 +119,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 		{
 			// title and content text searching
 			$query
-			->and_where_open()
-			->where('title', 'LIKE', "%$search->q%")
-			->or_where('content', 'LIKE', "%$search->q%")
-			->and_where_close();
+				->and_where_open()
+				->where('title', 'LIKE', "%$search->q%")
+				->or_where('content', 'LIKE', "%$search->q%");
+
+			if (ctype_digit($search->q)) {
+				// post id searching
+				$query->or_where('id', '=', $search->q);
+			}
+
+			$query->and_where_close();
 		}
 
 		// date chcks
