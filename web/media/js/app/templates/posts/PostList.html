@@ -28,9 +28,10 @@
 				<div class="filter-count-select">
 					<label class="visually-hidden" for="filter-count">{{t "posts.number_of_posts_shown"}}</label>
 					<select id="filter-count" class="filter-count  js-filter-count">
-					{{#each pageSizes}}
-						<option value="{{this}}"{{#if @first}} selected{{/if}}>{{this}}</option>
-					{{/each}}
+						<option selected>3</option>
+						<option>5</option>
+						<option>10</option>
+						<option>20</option>
 					</select>
 				</div>
 

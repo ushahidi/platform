@@ -22,14 +22,12 @@ define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone
 				state: {
 					firstPage: 0,
 					currentPage: 0,
-					pageSize: 20,
+					pageSize: 4,
 					// Required under server-mode
 					totalRecords: 0,
 					sortKey: 'created',
 					order: 1 // 1 = desc
 				},
-
-				pageSizes: [20, 50, 100],
 
 				sortKeys: {
 					created : 'Date/Time created',

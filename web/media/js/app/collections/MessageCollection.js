@@ -21,14 +21,12 @@ define(['underscore', 'backbone', 'models/MessageModel', 'modules/config', 'back
 				state: {
 					firstPage: 0,
 					currentPage: 0,
-					pageSize: 10,
+					pageSize: 4,
 					// Required under server-mode
 					totalRecords: 0,
 					sortKey: 'created',
 					order: 1 // 1 = desc
 				},
-
-				pageSizes: [10, 20, 50],
 
 				sortKeys: {
 					created : 'Date/Time created',
