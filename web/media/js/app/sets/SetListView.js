@@ -44,6 +44,7 @@ define(['App', 'marionette', 'underscore',
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
 					pagination: this.collection.state,
+					pageSizes: this.collection.pageSizes,
 					sortKeys: this.collection.sortKeys,
 					modelName : this.modelName
 				});

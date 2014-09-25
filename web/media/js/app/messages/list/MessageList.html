@@ -16,10 +16,9 @@
 						<div class="filter-count-select">
 							<label class="visually-hidden" for="filter-count">Number of posts shown</label>
 							<select id="filter-count" class="filter-count  js-filter-count">
-								<option selected>3</option>
-								<option>5</option>
-								<option>10</option>
-								<option>20</option>
+							{{#each pageSizes}}
+								<option value="{{this}}"{{#if @first}} selected{{/if}}>{{this}}</option>
+							{{/each}}
 							</select>
 						</div>
 

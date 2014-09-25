@@ -20,12 +20,14 @@ define(['backbone', 'underscore', 'models/SetModel', 'modules/config', 'backbone
 				state: {
 					firstPage: 0,
 					currentPage: 0,
-					pageSize: 3,
+					pageSize: 10,
 					// Required under server-mode
 					totalRecords: 3,
 					sortKey: 'created',
 					order: 1 // 1 = desc
 				},
+
+				pageSizes: [10, 20, 50]
 			},
 
 			// Mixins must always be added last!
