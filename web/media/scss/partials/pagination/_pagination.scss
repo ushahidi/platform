@@ -19,10 +19,17 @@
   }
 }
 
-ul.pagination li.current a {
-  @include border-radius(3px);
-}
+ul.pagination {
+  &[data-pagination-totalpages="1"] {
+    display: none;
+  }
 
-ul.pagination li:hover a, ul.pagination li a:focus {
-  @include border-radius(3px);
+  li.current a {
+    @include border-radius(3px);
+  }
+
+  li:hover a,
+  li a:focus {
+    @include border-radius(3px);
+  }
 }

@@ -1,4 +1,4 @@
-	<ul class="pagination  js-pagination">
+	<ul class="pagination js-pagination" data-pagination-totalpages="{{pagination.totalPages}}">
 		{{#paginate pagination type="previous"}}
 			<li class="arrow {{#if disabled}}unavailable{{/if}} js-page-first"><a>&laquo;</a></li>
 			<li class="arrow {{#if disabled}}unavailable{{/if}} js-page-prev"><a>&lsaquo;</a></li>
