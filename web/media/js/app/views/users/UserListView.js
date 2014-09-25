@@ -204,6 +204,7 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				var data = { items: this.collection.toJSON() };
 				data = _.extend(data, {
 					pagination: this.collection.state,
+					pageSizes: this.collection.pageSizes,
 					sortKeys: this.collection.sortKeys,
 					roles: App.Collections.Roles.toJSON(),
 					modelName : this.modelName

@@ -21,12 +21,14 @@ define(['backbone', 'underscore', 'models/PostModel', 'modules/config', 'backbon
 				state: {
 					firstPage: 0,
 					currentPage: 0,
-					pageSize: 3,
+					pageSize: 20,
 					// Required under server-mode
 					totalRecords: 0,
 					sortKey: 'updated',
 					order: 1 // 1 = desc
 				},
+
+				pageSizes: [20, 50, 100],
 
 				sortKeys: {
 					updated : 'Date/Time updated',
