@@ -123,25 +123,17 @@
 		<a id="workspace-menu-tools" class="active  title  js-title" data-section-title><i class="fa  fa-cogs"></i> {{t "tool.tools"}}</a>
 		<div id="panel4" class="active  content  js-content">
 			<ul>
+				{{# is user.role 'admin'}}
 				<li id="workspace-menu-users" data-page="users">
 					<a href="{{#url}}settings/users{{/url}}"><p><i class="fa fa-group"></i> {{t "tool.manage_users"}}</p></a>
 				</li>
 				<li id="workspace-menu-tags" data-page="tags">
 					<a href="{{#url}}settings/tags{{/url}}"><p><i class="fa fa-tags"></i> {{t "tool.manage_tags"}}</p></a>
 				</li>
-
-				{{# feature 'api_explorer'}}
-					<li data-page="apiexplorer">
-						<a href="{{#url}}apiexplorer{{/url}}"><p><i class="fa fa-terminal"></i> {{t "api.api_explorer"}}</p></a>
-					</li>
-				{{/feature}}
-
 				{{# feature 'form_wizard'}}
-				{{# is user.role 'admin'}}
 				<li id="workspace-menu-forms" data-page="forms">
 					<a href="{{#url}}settings/forms{{/url}}"><p><i class="fa fa-pencil-square-o"></i> {{t "tool.manage_forms"}}</p></a>
 				</li>
-				{{/is}}
 				{{/feature}}
 				<li id="workspace-menu-site" data-page="settings">
 					<a href="{{#url}}settings/site{{/url}}"><p><i class="fa  fa-wrench"></i> {{t "tool.site_settings"}}</p></a>
@@ -149,6 +141,12 @@
 				<li id="workspace-menu-map-settings" data-page="mapSettings">
 					<a href="{{#url}}#settings/map{{/url}}"><p><i class="fa  fa-map-marker"></i> {{t "tool.map_settings"}}</p></a>
 				</li>
+				{{/is}}
+				{{# feature 'api_explorer'}}
+					<li data-page="apiexplorer">
+						<a href="{{#url}}apiexplorer{{/url}}"><p><i class="fa fa-terminal"></i> {{t "api.api_explorer"}}</p></a>
+					</li>
+				{{/feature}}
 				{{# feature 'data_visualizations'}}
 				<li id="workspace-menu-data-visualizations" data-page="data-visualizations">
 					<a href="{{#url}}#visualizations{{/url}}"><p><i class="fa  fa-bar-chart-o"></i> Data Visualizations</p></a>

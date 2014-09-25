@@ -7,9 +7,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette'],
-	function(Marionette) {
-		return Marionette.AppRouter.extend(
+define(['marionette', 'App'],
+	function(Marionette, App) {
+		var router = Marionette.AppRouter.extend(
 		{
 			appRoutes :
 			{
@@ -20,10 +20,7 @@ define(['marionette'],
 				'posts?:params' : 'postsList',
 				'posts/create' : 'postCreate',
 				'posts/:id' : 'postDetail',
-				'settings/users' : 'users',
-				'settings/tags' : 'tags',
 				'visualizations' : 'visualizations',
-
 				'apiexplorer' : 'apiExplorer',
 				//'login' : 'login',
 				//'register' : 'register',
@@ -32,4 +29,11 @@ define(['marionette'],
 				'*path' : 'index'
 			}
 		});
+
+		if (App.user.get('role') === 'admin') {
+			router.appRoute('settings/users', 'users');
+			router.appRoute('settings/tags', 'tags');
+		}
+
+		return router;
 	});
