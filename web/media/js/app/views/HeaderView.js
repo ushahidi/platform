@@ -56,17 +56,17 @@ define(['marionette', 'handlebars', 'App', 'modules/config', 'jquery', 'hbs!temp
 			{
 				this.$('.js-views-menu li').removeClass('active');
 				this.$('li[data-view="'+view+'"]').addClass('active');
-				this.toggleViewsMenu();
+				this.toggleViewsMenu(null, false);
 			},
-			toggleViewsMenu : function(e)
+			toggleViewsMenu : function(e, showViewsMenu)
 			{
 				e && e.preventDefault();
 				// Hide other menu
 				this.$('.js-sets-menu').removeClass('subnav');
 				this.$('.js-sets-menu-link').removeClass('active');
 				// Toggle this menu
-				this.$('.js-views-menu').toggleClass('subnav');
-				this.$('.js-views-menu-link').toggleClass('active');
+				this.$('.js-views-menu').toggleClass('subnav', showViewsMenu);
+				this.$('.js-views-menu-link').toggleClass('active', showViewsMenu);
 			},
 			showCreatePost : function (e)
 			{
