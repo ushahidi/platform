@@ -28,7 +28,10 @@ require(['Config'], function () {
 					controller : new Controller()
 				});
 
-				App.start();
+				// Delay App.start till App.user is loaded or just continue if we're not logged in
+				$.when(App.user.loaded || true).done(function() {
+					App.start();
+				});
 			}
 		);
 

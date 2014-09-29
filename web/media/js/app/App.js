@@ -31,7 +31,7 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'mod
 		// Global reference to the current user
 		App.user = new UserModel({ id: 'me' });
 		if (App.loggedin()) {
-			App.user.fetch();
+			App.user.loaded = App.user.fetch();
 		}
 
 		App.Behaviors  = {
