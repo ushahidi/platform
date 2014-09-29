@@ -238,7 +238,8 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Cr
 					tags : this.model.getTags(),
 					user : this.model.user ? this.model.user.toJSON() : null,
 					fieldsets : _.result(this.model, 'fieldsets'),
-					enable_media_uploads : App.feature('media_uploads')
+					enable_media_uploads : App.feature('media_uploads'),
+					form_name : this.model.form.get('name')
 				});
 				return data;
 			}

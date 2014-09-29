@@ -93,6 +93,7 @@
 		"anonymous" : "Anonymous",
 		"awaiting_review" : "Awaiting review",
 		"create_post" : "Create Post",
+		"create_post_of_type" : "Create __form_name__",
 		"created_by" : "Created by",
 		"edit_post" : "Edit Post",
 		"edited_by" : "Edited by",
