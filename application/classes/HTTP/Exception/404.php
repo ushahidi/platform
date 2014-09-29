@@ -25,7 +25,7 @@ class HTTP_Exception_404 extends Kohana_HTTP_Exception_404 {
 	{
 		Kohana_Exception::$error_view = self::$error_view;
 
-		return Kohana_Exception::response($this);
+		return parent::get_response();
 	}
 
 }

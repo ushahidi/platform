@@ -12,6 +12,7 @@
 use Ushahidi\SearchData;
 
 class Ushahidi_Api extends Controller {
+	use Ushahidi_Corsheaders;
 
 	/**
 	 * @var Current API version
@@ -37,6 +38,7 @@ class Ushahidi_Api extends Controller {
 		Http_Request::GET    => 'get',
 		Http_Request::PUT    => 'put',    // Typically Update..
 		Http_Request::DELETE => 'delete',
+		Http_Request::OPTIONS=> 'options'
 	);
 
 	/**
@@ -197,6 +199,12 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected function _check_access()
 	{
+		// Don't require auth for OPTIONS method
+		if ($this->request->method() === Request::OPTIONS)
+		{
+			return TRUE;
+		}
+
 		$server = service('oauth.server.resource');
 
 		// Using an "Authorization: Bearer xyz" header is required, except for GET requests
@@ -381,6 +389,8 @@ class Ushahidi_Api extends Controller {
 	 */
 	protected function _prepare_response()
 	{
+		$this->add_cors_headers($this->response);
+
 		// Should we prevent this request from being cached?
 		if ( ! in_array($this->request->method(), $this->_cacheable_methods))
 		{
@@ -539,5 +549,10 @@ class Ushahidi_Api extends Controller {
 					'put' => $this->acl->is_allowed($this->user, $resource, 'put'),
 					'delete' => $this->acl->is_allowed($this->user, $resource, 'delete')
 				);
+	}
+
+	public function action_options_index_collection()
+	{
+		$this->response->status(200);
 	}
 }

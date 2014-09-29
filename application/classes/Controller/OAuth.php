@@ -3,6 +3,7 @@
 use League\OAuth2\Server\Exception\ClientException as OAuthClientException;
 
 class Controller_OAuth extends Controller_Layout {
+	use Ushahidi_Corsheaders;
 
 	public $template = 'oauth/authorize';
 
@@ -20,6 +21,13 @@ class Controller_OAuth extends Controller_Layout {
 
 	public function before()
 	{
+		$this->add_cors_headers($this->response);
+
+		if ($this->request->method() == HTTP_Request::OPTIONS)
+		{
+			$this->request->action('options');
+		}
+
 		$action = $this->request->action();
 		if ($action AND !in_array($action, array('index', 'authorize')))
 		{
@@ -37,6 +45,11 @@ class Controller_OAuth extends Controller_Layout {
 		{
 			$this->header->set('logged_in', $this->auth->logged_in());
 		}
+	}
+
+	public function action_options()
+	{
+		$this->response->status(200);
 	}
 
 	public function action_index()
@@ -110,7 +123,7 @@ class Controller_OAuth extends Controller_Layout {
 
 		try
 		{
-			$response = $server->issueAccessToken();
+			$response = $server->issueAccessToken(json_decode($this->request->body(), TRUE));
 		}
 		catch (OAuthClientException $e)
 		{

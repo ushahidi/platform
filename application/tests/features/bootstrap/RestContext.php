@@ -511,6 +511,27 @@ class RestContext extends BehatContext
 		}
 	}
 
+	/**
+	 * @Then /^the "([^"]*)" header should exist$/
+	 */
+	public function theRestHeaderShouldExist($header)
+	{
+		if (!$this->_response->hasHeader($header)) {
+			throw new \Exception('HTTP header does not exist '.$header );
+		}
+	}
+
+	/**
+	 * @Then /^the the ([^"]*)" header should be "([^"]*)"$/
+	 */
+	public function theRestHeaderShouldExistBe($header, $contents)
+	{
+		if ((string)$this->_response->getHeader($header) !== $contents) {
+			throw new \Exception('HTTP header ' . $header . ' does not match '.$contents.
+				' (actual: '.$this->_response->getHeader($header).')');
+		}
+	}
+
 
 	 /**
 	 * @Then /^echo last response$/

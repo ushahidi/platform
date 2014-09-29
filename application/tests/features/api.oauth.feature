@@ -130,4 +130,6 @@ Feature: Testing OAuth2 endpoints
         When I request "/posts"
         Then the response is JSON
         And the response has an "errors" property
+        And the "WWW-Authenticate" header should exist
         Then the guzzle status code should be 401
+

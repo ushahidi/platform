@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
- * HTTP 401 Exceptions
+ * HTTP Exception
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Exception
@@ -8,7 +8,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class HTTP_Exception_401 extends Kohana_HTTP_Exception_401 {
+class HTTP_Exception extends Kohana_HTTP_Exception {
+	use Ushahidi_Corsheaders;
+
 	/**
 	 * Generate a Response for the current Exception
 	 *
@@ -17,9 +19,10 @@ class HTTP_Exception_401 extends Kohana_HTTP_Exception_401 {
 	 */
 	public function get_response()
 	{
-		$this->check();
+		$response = parent::get_response();
+		$this->add_cors_headers($response);
 
-		return parent::get_response();
+		return $response;
 	}
 
 }
