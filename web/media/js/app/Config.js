@@ -55,8 +55,8 @@ require.config(
 		'SecondLevelDomains' : '../../bower_components/URIjs/src/SecondLevelDomains',
 		'i18next' : '../../bower_components/i18next/i18next.amd.min',
 		'tether-utils': '../../bower_components/tether/js/utils',
-		'tether': '../../bower_components/tether/tether',
-		'drop': '../../bower_components/drop/drop'
+		'tether': '../../bower_components/tether/js/tether',
+		'drop': '../../bower_components/drop/js/drop'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
