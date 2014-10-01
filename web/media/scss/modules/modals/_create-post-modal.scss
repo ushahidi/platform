@@ -40,7 +40,7 @@
 	input[type="text"], textarea {
 		margin-bottom: 2em;
 	}
-	form > fieldset {
+	form fieldset {
 		display:none;
 		&.active {
 			display: block;
