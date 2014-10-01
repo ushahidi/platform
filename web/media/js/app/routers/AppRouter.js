@@ -21,6 +21,8 @@ define(['marionette', 'App'],
 				'posts/create' : 'postCreate',
 				'posts/:id' : 'postDetail',
 				'visualizations' : 'visualizations',
+				'settings/users' : 'users',
+				'settings/tags'  : 'tags',
 				'apiexplorer' : 'apiExplorer',
 				//'login' : 'login',
 				//'register' : 'register',
@@ -29,11 +31,6 @@ define(['marionette', 'App'],
 				'*path' : 'index'
 			}
 		});
-
-		if (App.user.get('role') === 'admin') {
-			router.appRoute('settings/users', 'users');
-			router.appRoute('settings/tags', 'tags');
-		}
 
 		return router;
 	});

@@ -272,6 +272,15 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 			users : function()
 			{
 				var that = this;
+
+				if (App.user.get('role') !== 'admin') {
+					// Go to index page.
+					this.index();
+					App.appRouter.navigate('', { trigger : true });
+
+					return;
+				}
+
 				require(['views/users/UserListView'], function(UserListView)
 				{
 					App.Collections.Users.fetch();
@@ -287,6 +296,15 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 			tags : function()
 			{
 				var that = this;
+
+				if (App.user.get('role') !== 'admin') {
+					// Go to index page.
+					this.index();
+					App.appRouter.navigate('', { trigger : true });
+
+					return;
+				}
+
 				require(['views/tags/TagListView'], function(TagListView)
 				{
 					App.vent.trigger('page:change', 'tags');
