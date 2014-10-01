@@ -56,11 +56,11 @@
 
 				{{!-- TODO: highlight current menu item --}}
 				<li id="workspace-menu-unpublished" data-page="posts/unpublished">
-					<a href="{{#url}}posts?status=draft{{/url}}"><p><i class="fa  fa-file"></i> {{t "post.unpublished"}} <span class="unpublished-label">{{ posts.unpublished }}</span></p></a>
+					<a href="{{#url}}posts?status=draft{{/url}}"><p><i class="fa  fa-file"></i> {{t "post.unpublished"}} <span class="unpublished-label">{{ posts.draft }}</span></p></a>
 				</li>
 
 				<li id="workspace-menu-all-posts" data-page="posts/all">
-					<a href="{{#url}}posts?status=all{{/url}}"><p><i class="fa  fa-files-o"></i> {{t "post.all_posts"}} <span class="all-posts-label">{{ posts.total }}</span></p></a>
+					<a href="{{#url}}posts?status=all{{/url}}"><p><i class="fa  fa-files-o"></i> {{t "post.all_posts"}} <span class="all-posts-label">{{ posts.all }}</span></p></a>
 				</li>
 			</ul>
 		</div> <!-- end .content -->

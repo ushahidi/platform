@@ -50,7 +50,7 @@ class Controller_Api_Stats extends Ushahidi_Api {
 
 		// @todo this most important limitation is probably on post stats.
 		$posts = clone $base_query;
-		$posts->from('posts');
+		$posts->from('posts')->where('type', '=', 'report');
 
 		// @todo exposing the number of users may not be ideal either...
 		$users = clone $base_query;
