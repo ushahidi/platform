@@ -1,0 +1,11 @@
+.drop.drop-element {
+    z-index: 100;
+
+    .drop-content {
+        background-color: $secondary-color;
+
+        > ul {
+            margin: 0;
+        }
+    }
+}

@@ -35,7 +35,8 @@
     "requirejs-hbs": "~0.1.0",
     "backbone-forms": "https://github.com/rjmackay/backbone-forms.git#v0.14.0-ushahidi.2",
     "URIjs": "~1.13.2",
-    "i18next": "~1.7.4"
+    "i18next": "~1.7.4",
+    "drop": "~0.5.4"
   },
   "devDependencies": {},
   "resolutions": {

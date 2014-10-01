@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'alertify', 'hbs!templates/users/UserListItem'],
-	function(App, Marionette, _, alertify, template)
+define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop', 'hbs!templates/users/UserListItem'],
+	function(App, Marionette, _, $, alertify, Drop, template)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
@@ -27,6 +27,32 @@ define(['App', 'marionette', 'underscore', 'alertify', 'hbs!templates/users/User
 
 			modelEvents: {
 				'sync': 'render'
+			},
+
+			roleDrop: undefined,
+
+			onDomRefresh: function()
+			{
+				this.roleDrop = new window.Drop({
+					target: this.$('.js-user-change-role-drop')[0],
+					content: this.$('.js-user-change-role-drop-content')[0],
+					classes: 'drop-theme-arrows',
+					position: 'bottom center',
+					openOn: 'click',
+					remove: true
+				});
+
+				var that = this;
+				this.roleDrop.on('open', function() {
+					$(this.content).on('click', '.js-user-change-role', function(e) {
+						that.changeRole.call(that, e.originalEvent);
+					});
+				});
+			},
+
+			onDestroy: function()
+			{
+				this.roleDrop && this.roleDrop.destroy();
 			},
 
 			serializeData : function ()
@@ -70,7 +96,7 @@ define(['App', 'marionette', 'underscore', 'alertify', 'hbs!templates/users/User
 			{
 				e.preventDefault();
 				var that = this,
-					$el = that.$(e.currentTarget),
+					$el = $(e.target),
 					role = $el.attr('data-role-name'),
 					role_name = $el.text();
 

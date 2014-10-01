@@ -55,12 +55,11 @@
 							<a class="list-view-edit-button  js-user-edit" title="{{t 'user.edit_this_post'}}"><i class="fa  fa-edit"></i> {{t "nav.edit"}}</a>
 						</li>
 						<li>
-							<a data-dropdown="drop-user-roles{{id}}" class="list-view-edit-button" title="{{t 'user.change_user_role'}}">
-								<i class="fa  fa-cogs"></i> {{t "user.change_role"}}</a>
-							<ul id="drop-user-roles{{id}}" class="f-dropdown" data-dropdown-content>
-								{{#each roles}}
-									<li><a class="js-user-change-role" data-role-name="{{name}}" >{{display_name}}</a></li>
-								{{/each}}
+							<a class="list-view-edit-button js-user-change-role-drop" title="{{t 'user.change_user_role'}}"><i class="fa fa-cogs"></i> {{t "user.change_role"}}</a>
+							<ul class="js-user-change-role-drop-content">
+							{{#each roles}}
+								<li><a class="js-user-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
+							{{/each}}
 							</ul>
 						</li>
 					{{/if}}

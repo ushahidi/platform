@@ -53,8 +53,10 @@ require.config(
 		'punycode' : '../../bower_components/URIjs/src/punycode',
 		'IPv6' : '../../bower_components/URIjs/src/IPv6',
 		'SecondLevelDomains' : '../../bower_components/URIjs/src/SecondLevelDomains',
-
-		'i18next' : '../../bower_components/i18next/i18next.amd.min'
+		'i18next' : '../../bower_components/i18next/i18next.amd.min',
+		'tether-utils': '../../bower_components/tether/js/utils',
+		'tether': '../../bower_components/tether/tether',
+		'drop': '../../bower_components/drop/drop'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
@@ -134,6 +136,20 @@ require.config(
 
 		'jquery.nouislider' : {
 			deps: ['jquery', 'Link']
+		},
+
+		'tether-utils' : {
+			exports : 'Tether'
+		},
+
+		'tether' : {
+			deps: ['tether-utils'],
+			exports : 'Tether'
+		},
+
+		'drop' : {
+			deps: ['tether'],
+			exports : 'Drop'
 		},
 
 		'foundation/foundation' : {deps: ['jquery'], exports: 'Foundation'},
