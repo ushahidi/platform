@@ -7,9 +7,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone.paginator', 'mixin/FilteredCollection'],
-	function(Backbone, _, TagModel, config, PageableCollection, FilteredCollection)
+define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'util/App.storage', 'backbone.paginator', 'mixin/FilteredCollection'],
+	function(Backbone, _, TagModel, config, Storage, PageableCollection, FilteredCollection)
 	{
+		var page_size_storage = new Storage('Ushahidi', 'page_size_tags');
+
 		// Creates a new Backbone Collection class object
 		var TagCollection = PageableCollection.extend(
 			_.extend(
@@ -22,7 +24,7 @@ define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'backbone
 				state: {
 					firstPage: 0,
 					currentPage: 0,
-					pageSize: 20,
+					pageSize: parseInt(page_size_storage.get()) || 20,
 					// Required under server-mode
 					totalRecords: 0,
 					sortKey: 'created',

@@ -23,6 +23,8 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 	'collections/FormCollection',
 	'collections/RoleCollection',
 	'collections/UserCollection',
+
+	'util/App.storage'
 	],
 	function($, App, Backbone, Marionette, _, alertify, URI,
 		ModalController,
@@ -39,7 +41,9 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 		TagCollection,
 		FormCollection,
 		RoleCollection,
-		UserCollection
+		UserCollection,
+
+		Storage
 		)
 	{
 		return Backbone.Marionette.Controller.extend(
@@ -71,8 +75,14 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 					App.vent.trigger('workspace:toggle', true);
 				});
 
+
 				App.Collections = {};
+
+				var page_size_posts_storage = new Storage('Ushahidi', 'page_size_posts');
 				App.Collections.Posts = new PostCollection();
+				App.Collections.Posts.on('page:size', function(size) {
+					page_size_posts_storage.set(size);
+				});
 				App.Collections.Posts.fetch();
 
 				App.Collections.Forms = new FormCollection();
@@ -98,10 +108,18 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 				]);
 
 				// Open the user collection, but do not fetch it until necessary
+				var page_size_users_storage = new Storage('Ushahidi', 'page_size_users');
 				App.Collections.Users = new UserCollection();
+				App.Collections.Users.on('page:size', function(size) {
+					page_size_users_storage.set(size);
+				});
 
 				// Grab tag collection, use client-side paging and fetch all tags from server at once
+				var page_size_tags_storage = new Storage('Ushahidi', 'page_size_tags');
 				App.Collections.Tags = new TagCollection([]);
+				App.Collections.Tags.on('page:size', function(size) {
+					page_size_tags_storage.set(size);
+				});
 				App.Collections.Tags.fetch();
 
 				this.homeLayout = new HomeLayout({
