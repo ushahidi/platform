@@ -56,6 +56,30 @@
 								</select>
 						</div> <!-- end .map-settings-block-wrapper -->
 
+						<div class="map-settings-block-wrapper">
+							<label for="map-marker-icon">
+								<h6>Map Marker Icon</h6>
+							</label>
+								<p class="map-settings-form-helper-text">Select the default map marker icon</p>
+								<select name="mapMarkerIcon" class="select-map-marker-icon js-map-marker-icon">
+								{{#each AwesomeIcons}}
+									<option value="{{icon}}">{{icon}}</option>
+								{{/each}}
+								</select>
+						</div> <!-- end .map-settings-block-wrapper -->
+
+						<div class="map-settings-block-wrapper">
+							<label for="map-marker-color">
+								<h6>Map Marker Color</h6>
+							</label>
+								<p class="map-settings-form-helper-text">Select the default map marker color</p>
+								<select name="mapMarkerColor" class="select-map-marker-color js-map-marker-color">
+								{{#each AwesomeColors}}
+									<option value="{{@key}}"> {{this}}</option>
+								{{/each}}
+								</select>
+						</div> <!-- end .map-settings-block-wrapper -->
+
 					</section> <!-- end .map-settings-left-column -->
 
 					<section class="map-settings-right-column">

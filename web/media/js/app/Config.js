@@ -25,6 +25,7 @@ require.config(
 		'l.geosearch' : '../../bower_components/L.GeoSearch/src/js',
 		'leaflet-locatecontrol' : '../../bower_components/leaflet-locatecontrol/src/L.Control.Locate',
 		'l.markercluster' : '../../bower_components/leaflet.markercluster/dist/leaflet.markercluster',
+		'l.awesome-markers' : '../../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers',
 		'moment' : '../../bower_components/moment/moment',
 		'ddt' : '../../bower_components/ddt/ddt',
 		'underscore.string' : '../../bower_components/underscore.string/lib/underscore.string',
@@ -100,6 +101,11 @@ require.config(
 		},
 
 		'l.markercluster': {
+			deps: ['leaflet'],
+			exports: 'L'
+		},
+
+		'l.awesome-markers': {
 			deps: ['leaflet'],
 			exports: 'L'
 		},

@@ -20,6 +20,9 @@ return array(
 		'zoom' => 2,
 		'baseLayer' => 'MapQuest',
 		// Fit map boundaries to current data rendered
-		'fitDataOnMap' => true
+		'fitDataOnMap' => true,
+		// Fontawesome Markers
+		'icon' => 'map-marker',
+		'color' => 'blue',
 	)
 );

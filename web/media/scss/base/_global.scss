@@ -48,6 +48,11 @@ body > div.app-loading {
 	padding-right: emCalc(6px);
 }
 
+/*no padding on awesome marker icons*/
+.awesome-marker i.fa {
+	 padding-right: 0;
+}
+
 
 /*custom text selection*/
 ::-moz-selection {

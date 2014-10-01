@@ -24,14 +24,17 @@
 		<![endif]-->
 		<link rel="stylesheet" href="<?php echo Media::url('bower_components/leaflet.markercluster/dist/MarkerCluster.css'); ?>" />
 		<link rel="stylesheet" href="<?php echo Media::url('bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css'); ?>" />
-
 		<link rel="stylesheet" href="<?php echo Media::url('bower_components/select2/select2.css'); ?>" />
+
+		<!--Awesome markers css -->
+		<link rel="stylesheet" href="<?php echo Media::url('bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css'); ?>" />
 
 		<?php if (Kohana::$environment == Kohana::PRODUCTION): ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/style.css'); ?>"/>
 		<?php else: ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo Media::url('css/test/style.css'); ?>"/>
 		<?php endif; ?>
+
 
 		<!-- Global site config -->
 		<script type="text/javascript">

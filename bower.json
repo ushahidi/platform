@@ -22,7 +22,7 @@
     "ddt": "https://github.com/deviantART/ddt.git#~0.3.0",
     "dropzone": "~3.10.1",
     "L.GeoSearch": "https://github.com/smeijer/L.GeoSearch.git",
-    "leaflet-locatecontrol": "https://github.com/domoritz/leaflet-locatecontrol.git#~0.27.0",
+    "leaflet-locatecontrol": "https://github.com/domoritz/leaflet-locatecontrol.git#~0.32.0",
     "backbone.paginator": "~2.0.0",
     "geocoder-js": "https://github.com/ushahidi/geocoder-js.git#master",
     "node-geopoint": "https://github.com/davidwood/node-geopoint.git",
@@ -35,7 +35,8 @@
     "requirejs-hbs": "~0.1.0",
     "backbone-forms": "https://github.com/rjmackay/backbone-forms.git#v0.14.0-ushahidi.2",
     "URIjs": "~1.13.2",
-    "i18next": "~1.7.4",
+    "Leaflet.awesome-markers": "~2.0",
+    "i18next": "~1.7.4"
     "drop": "~0.5.4"
   },
   "devDependencies": {},

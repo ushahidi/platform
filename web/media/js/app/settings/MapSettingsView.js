@@ -7,26 +7,78 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'marionette', 'jquery', 'underscore',
+define([
+		'marionette',
+		'jquery',
+		'underscore',
 		'modules/config',
 		'hbs!settings/MapSettings',
 		'views/MapView',
 		'geocoder',
-		'jquery.nouislider'
-		],
-	function( Marionette, $, _,
+		'l.awesome-markers',
+		'jquery.nouislider',
+		'select2'
+	], function(
+		Marionette,
+		$,
+		_,
 		config,
 		template,
 		MapView,
-		GeocoderJS
-		)
-	{
+		GeocoderJS,
+		L
+	) {
 		var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap'),
 			mapBaseLayers = [
 				'MapQuest',
 				'MapQuest Aerial',
 				'Humanitarian OSM'
-			];
+			],
+
+			AwesomeIcons = [
+				{ icon : 'fa-map-marker' },
+				{ icon : 'fa-coffee' },
+				{ icon : 'fa-bell' },
+				{ icon : 'fa-suitcase' },
+				{ icon : 'fa-globe' },
+				{ icon : 'fa-beer' },
+				{ icon : 'fa-check' },
+				{ icon : 'fa-bomb' },
+				{ icon : 'fa-cloud' },
+				{ icon : 'fa-legal' },
+				{ icon : 'fa-flag' },
+				{ icon : 'fa-tags' },
+				{ icon : 'fa-university' },
+				{ icon : 'fa-taxi' },
+				{ icon : 'fa-user' },
+				{ icon : 'fa-star' },
+				{ icon : 'fa-home' },
+				{ icon : 'fa-anchor' },
+				{ icon : 'fa-send' },
+				{ icon : 'fa-mobile' },
+				{ icon : 'fa-image' }
+			],
+
+			AwesomeColors = {
+				// white: 'white', // white is disabled because the icons are white
+				red: 'red',
+				darkred: 'dark red',
+				lightred: 'light red',
+				orange: 'orange',
+				beige: 'beige',
+				green: 'green',
+				darkgreen: 'dark green',
+				blue: 'blue',
+				darkblue: 'dark blue',
+				lightblue: 'light blue',
+				purple: 'purple',
+				darkpurple: 'dark purple',
+				pink: 'pink',
+				cadetblue: 'cadet blue',
+				gray: 'gray',
+				lightgray: 'light gray',
+				black: 'black',
+			};
 
 		return Marionette.LayoutView.extend( {
 			template: template,
@@ -35,7 +87,9 @@ define([ 'marionette', 'jquery', 'underscore',
 				'defaultZoom' : '#default-zoom-level',
 				'defaultLocation' : '.js-default-location',
 				'clusterReportsInput' : '.js-cluster-reports-input',
-				'baseLayer' : '.js-base-layer'
+				'baseLayer' : '.js-base-layer',
+				'mapMarkerIcon' : '.js-map-marker-icon',
+				'mapMarkerColor': '.js-map-marker-color'
 			},
 			regions : {
 				'map' : '.js-map-region'
@@ -44,16 +98,22 @@ define([ 'marionette', 'jquery', 'underscore',
 				'submit form' : 'formSubmit',
 				'blur @ui.defaultLocation' : 'geocodeDefaultLocation',
 				'change @ui.clusterReportsInput' : 'updateClustering',
-				'change @ui.baseLayer' : 'updateBaseLayer'
+				'change @ui.baseLayer' : 'updateBaseLayer',
+				'change @ui.mapMarkerIcon' : 'updateMarkerIcon',
+				'change @ui.mapMarkerColor' : 'updateMarkerColor'
 			},
 			initialize: function(options) {
 				this.postCollection = options.postCollection;
-
 				// Clone model to avoid unsaved updates effecting rest of the UI
 				this.state = _.clone(this.model);
 				this.state.default_view = _.clone(this.state.default_view); // workaround shallow cloning
 				this.state.default_view.fitDataOnMap = false;
 			},
+
+			formatMarkers: function(icon) {
+				return '<i class="fa ' + $(icon.element).val() +'"></i>';
+			},
+
 			onDomRefresh: function() {
 				var that = this,
 					customToolTip = $.Link({
@@ -86,6 +146,18 @@ define([ 'marionette', 'jquery', 'underscore',
 				}).on('set', function () { that.updateZoom(); } );
 
 				this.ui.baseLayer.val(this.model.default_view.baseLayer);
+
+				this.ui.mapMarkerIcon.select2({
+					allowClear: true,
+					formatResult: this.formatMarkers,
+					formatSelection: this.formatMarkers,
+					escapeMarkup: function(m) { return m; }
+				});
+
+				this.ui.mapMarkerColor.select2({
+					allowClear: true,
+					escapeMarkup: function(m) { return m; }
+				});
 			},
 			onShow : function ()
 			{
@@ -93,7 +165,8 @@ define([ 'marionette', 'jquery', 'underscore',
 			},
 			showMap : function ()
 			{
-				var that = this;
+				var that = this,
+					icon;
 
 				if (this.map.hasView())
 				{
@@ -119,6 +192,17 @@ define([ 'marionette', 'jquery', 'underscore',
 						that.state.default_view.lat = center.lat;
 						that.state.default_view.lon = center.lng;
 					});
+
+				//icon
+				icon = L.AwesomeMarkers.icon({
+					icon: this.state.default_view.icon,
+					markerColor: this.state.default_view.color,
+					iconColor: 'white',
+					prefix: 'fa'
+				});
+
+				//add a marker with a selected icon
+				L.marker([that.state.default_view.lat, that.state.default_view.lon], { icon: icon }).addTo(this.mapView.map);
 			},
 			onDestroy : function ()
 			{
@@ -127,14 +211,29 @@ define([ 'marionette', 'jquery', 'underscore',
 				{
 					this.slider.each( function () { this.destroy(); });
 				}
+
+				//destroy select2
+				if (this.ui.mapMarker)
+				{
+					this.ui.mapMarker.select2('destroy');
+				}
+
+				if (this.ui.mapMarkerColor)
+				{
+					this.ui.mapMarkerColor.select2('destroy');
+				}
 			},
+
 			serializeData : function()
 			{
 				return {
 					map : this.model,
-					mapBaseLayers : mapBaseLayers
+					mapBaseLayers : mapBaseLayers,
+					AwesomeIcons : AwesomeIcons,
+					AwesomeColors : AwesomeColors
 				};
 			},
+
 			formSubmit : function(e)
 			{
 				e.preventDefault();
@@ -149,7 +248,9 @@ define([ 'marionette', 'jquery', 'underscore',
 					baseLayer : this.ui.baseLayer.val(),
 					zoom : parseInt(this.ui.defaultZoomSlider.val(), 10),
 					lat : center.lat,
-					lon : center.lng
+					lon : center.lng,
+					icon: this.ui.mapMarkerIcon.val(),
+					color: this.ui.mapMarkerColor.val()
 				};
 
 				ddt.log('MapSettings', 'update', group, hash);
@@ -204,7 +305,22 @@ define([ 'marionette', 'jquery', 'underscore',
 				// @todo allow changing base layer without a full re-render
 				this.mapView.map.off('zoomend');
 				this.showMap();
-			}
+			},
 
+			updateMarkerIcon : function ()
+			{
+				var icon = this.ui.mapMarkerIcon.val();
+				this.state.default_view.icon = icon;
+				this.map.close();
+				this.showMap();
+			},
+
+			updateMarkerColor : function ()
+			{
+				var color = this.ui.mapMarkerColor.val();
+				this.state.default_view.color = color;
+				this.map.close();
+				this.showMap();
+			}
 		});
 	});
