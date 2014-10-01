@@ -17,7 +17,7 @@
 							<label class="visually-hidden" for="filter-count">Number of posts shown</label>
 							<select id="filter-count" class="filter-count  js-filter-count">
 							{{#each pageSizes}}
-								<option value="{{this}}"{{#is this ../pagination.pageSize}} selected{{/is}}>{{this}}</option>
+								<option value="{{this}}"{{#if @first}} selected{{/if}}>{{this}}</option>
 							{{/each}}
 							</select>
 						</div>

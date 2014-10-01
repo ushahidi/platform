@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'messages/list/MessageListView', 'collections/MessageCollection', 'util/App.storage'],
-	function(App, MessageListView, MessageCollection, Storage)
+define(['App', 'messages/list/MessageListView', 'collections/MessageCollection'],
+	function(App, MessageListView, MessageCollection)
 {
 	var MessageListController = {
 		listMessages : function(view)
@@ -17,13 +17,8 @@ define(['App', 'messages/list/MessageListView', 'collections/MessageCollection',
 
 			App.Collections.Messages = new MessageCollection();
 			var messages = App.Collections.Messages,
-				page_size_storage = new Storage('Ushahidi', 'page_size_messages'),
 				replies,
 				promise;
-
-			messages.on('page:size', function(size) {
-				page_size_storage.set(size);
-			});
 
 			switch (view)
 			{

@@ -108,7 +108,6 @@ define(['marionette', 'handlebars'], function (Marionette, Handlebars) {
 				this.view.collection.setPageSize(size, {
 					first: true
 				});
-				this.view.collection.trigger('page:size', size);
 			}
 		},
 		updateSort : function (e)
