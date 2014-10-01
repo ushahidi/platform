@@ -1,5 +1,5 @@
 /**
- * Edit / Create Custom Form
+ * Edit / Create Custom Form Group
  *
  * @module     CustomForm
  * @author     Ushahidi Team <team@ushahidi.com>
@@ -7,7 +7,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!form-manager/EditCustomForm',
+define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!form-manager/EditFormGroup',
 	'forms/UshahidiForms', 'backbone-validation'],
 	function( App, Marionette, _, alertify, template, BackboneForm, BackboneValidation)
 	{
@@ -18,8 +18,8 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!form-manager/EditCu
 				// Set up the form
 				this.form = new BackboneForm({
 					model: this.model,
-					idPrefix : 'custom-form-',
-					className : 'edit-custom-form',
+					idPrefix : 'custom-form-group-',
+					className : 'edit-custom-form-group',
 					});
 				BackboneValidation.bind(this, {
 					valid: function(/* view, attr */)
@@ -43,13 +43,14 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!form-manager/EditCu
 				this.form.render();
 
 				// Set form id, backbone-forms doesn't do it.
-				this.form.$el.attr('id', 'edit-custom-form');
+				this.form.$el.attr('id', 'edit-custom-form-group');
 
-				this.$('.custom-form-wrapper').append(this.form.el);
+				this.$('.custom-form-group-wrapper').append(this.form.el);
 			},
 			formSubmitted : function (e)
 			{
 				var that = this,
+					isNew = this.model.isNew(),
 					errors,
 					request;
 
@@ -65,13 +66,16 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!form-manager/EditCu
 						request
 							.done(function ()
 								{
-									alertify.success('Form details saved.');
+									alertify.success('Group saved.');
+									if (isNew) {
+										that.collection.add(that.model);
+									}
 
 									that.trigger('destroy');
 								})
 							.fail(function (response /*, xhr, options*/)
 								{
-									alertify.error('Unable to save custom form details, please try again.');
+									alertify.error('Unable to save group, please try again.');
 									// validation error
 									if (response.errors)
 									{
@@ -90,7 +94,6 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!form-manager/EditCu
 			onDestroy : function ()
 			{
 				BackboneValidation.unbind(this);
-				App.Collections.Forms.fetch();
 			},
 
 			serializeData: function()

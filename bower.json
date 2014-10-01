@@ -31,7 +31,7 @@
     "select2": "~3.4.8",
     "css-toggle-switch": "~2.1.5",
     "nouislider": "~6.2.0",
-    "jquery.ui": "1.11.0-beta.2",
+    "jquery.ui": "1.11.1",
     "requirejs-hbs": "~0.1.0",
     "backbone-forms": "https://github.com/rjmackay/backbone-forms.git#v0.14.0-ushahidi.2",
     "URIjs": "~1.13.2",

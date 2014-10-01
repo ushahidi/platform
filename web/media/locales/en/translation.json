@@ -25,6 +25,9 @@
 	},
 	"form": {
 		"add_field" : "Add Field",
+		"add_group" : "Add Group",
+		"edit_group" : "Edit Group",
+		"delete_group" : "Delete Group",
 		"edit_field" : "Edit Field",
 		"form_wizard" : "Form Wizard",
 		"forms" : "Forms",

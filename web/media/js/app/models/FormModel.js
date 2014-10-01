@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'modules/config', 'backbone-model-factory'],
-	function(Backbone, config)
+define(['backbone', 'modules/config', 'collections/FormGroupCollection', 'backbone-model-factory'],
+	function(Backbone, config, FormGroupCollection)
 	{
 		var valueToString = function(item) { return item.value; },
 		// Map API 'input' to Backbone Forms Fields
@@ -186,6 +186,18 @@ define(['backbone', 'modules/config', 'backbone-model-factory'],
 			getAttribute : function (key)
 			{
 				return this.formAttributes[key];
+			},
+			getGroupCollection : function ()
+			{
+				return new FormGroupCollection(
+					{
+						results: this.get('groups')
+					},
+					{
+						form_id : this.id,
+						parse: true
+					}
+				);
 			}
 		});
 		return FormModel;

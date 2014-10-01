@@ -11,13 +11,13 @@
 		<aside class="attribute-sidebar  js-attribute-wrapper">
 			<ul class="tabs">
 				<li class="tab-title active"><a class="js-add-attr">{{t "form.add_field"}}</a></li>
-				<li class="tab-title"><a class="js-edit-attr">{{t "form.edit_field"}}</a></li>
+				<li class="tab-title visually-hidden"><a class="js-edit-attr">{{t "form.edit_field"}}</a></li>
 			</ul>
 			<div class="tabs-content">
 				<div class="available-attributes content active">
 					<ul>
 						{{#each availableAttributes}}
-						<li data-attribute-type="{{type}}" data-attribute-input="{{input}}" data-attribute-label="{{label}}">
+						<li data-type="{{type}}" data-input="{{input}}" data-label="{{label}}" data-is-new="bool">
 							<i class="fa {{#if icon}}{{icon}}{{else}}fa-plus-square{{/if}}"></i> {{label}}
 						</li>
 						{{/each}}
@@ -28,6 +28,7 @@
 				</div>
 			</div>
 		</aside>
+		<div class="form-actions"><a class="js-add-group"><i class="fa fa-plus-square"></i> {{t "form.add_group"}}</a></div>
 		<div class="form-attributes"></div>
 	</div>
 

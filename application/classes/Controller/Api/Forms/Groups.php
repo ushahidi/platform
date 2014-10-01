@@ -93,8 +93,6 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 			->where('form_id', '=', $form_id)
 			->find_all();
 
-		$count = $groups->count();
-
 		foreach ($groups as $group)
 		{
 			// Check if user is allowed to access this group
@@ -102,13 +100,13 @@ class Controller_API_Forms_Groups extends Ushahidi_Api {
 			{
 				$result = $group->for_api();
 				$result['allowed_methods'] = $this->_allowed_methods($group);
-				$results = $result;
+				$results[] = $result;
 			}
 		}
 
 		// Respond with groups
 		$this->_response_payload = array(
-			'count' => $count,
+			'count' => count($results),
 			'results' => $results
 			);
 	}

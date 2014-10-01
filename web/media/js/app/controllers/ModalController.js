@@ -29,6 +29,8 @@ define(['App', 'marionette', 'backbone'],
 				App.vent.on('tag:create', this.tagCreate, this);
 				App.vent.on('customform:edit', this.customFormEdit, this);
 				App.vent.on('customform:create', this.customFormCreate, this);
+				App.vent.on('formgroup:edit', this.formGroupEdit, this);
+				App.vent.on('formgroup:create', this.formGroupCreate, this);
 			},
 			postCreate : function ()
 			{
@@ -174,6 +176,35 @@ define(['App', 'marionette', 'backbone'],
 
 					that.modal.show(new EditCustomFormView({
 						model : form
+					}));
+				});
+			},
+			formGroupEdit : function (group)
+			{
+				var that = this;
+
+				require(['form-manager/EditFormGroupView'],
+					function(EditFormGroupView)
+				{
+					that.modal.show(new EditFormGroupView({
+						model : group
+					}));
+				});
+			},
+			formGroupCreate : function (form_id, groupCollection)
+			{
+				var that = this;
+
+				require(['form-manager/EditFormGroupView', 'models/FormGroupModel'],
+					function(EditFormGroupView, FormGroupModel)
+				{
+					var group = new FormGroupModel({
+						form_id : form_id
+					});
+
+					that.modal.show(new EditFormGroupView({
+						model : group,
+						collection: groupCollection
 					}));
 				});
 			}

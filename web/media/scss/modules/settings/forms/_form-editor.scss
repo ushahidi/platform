@@ -37,6 +37,21 @@
 	}
 }
 
+.form-actions {
+	padding: 0.4em;
+	margin-bottom: 0.4em;
+}
+
+.form-group-info {
+	@include clearfix;
+	h4 {
+		float: left;
+	}
+	.group-actions {
+		float: right;
+	}
+}
+
 .form-attributes {
 	@extend %attribute-list;
 	@media #{$medium-up} {
@@ -47,7 +62,7 @@
 		color: $alert-color;
 		padding-right: 0;
 	}
-	section {
+	li {
 		position: relative;
 	}
 	.actions {
