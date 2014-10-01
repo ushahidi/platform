@@ -123,11 +123,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 				});
 				App.Collections.Tags.fetch();
 
-				this.homeLayout = new HomeLayout({
-					collection : App.Collections.Posts
-				});
-				App.vent.trigger('views:change', 'full');
-
 				this.modalController = new ModalController({
 					modal : this.layout.modal
 				});
@@ -135,8 +130,7 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 			//gets mapped to in AppRouter's appRoutes
 			index : function()
 			{
-				App.vent.trigger('page:change', 'posts');
-				this.homeLayout.setViews({
+				this.showHomeLayout({
 					map: true,
 					search: true,
 					list: true
@@ -150,47 +144,52 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 				var qs = new URI('?'+params),
 					searchParams = qs.search(true);
 
-				App.vent.trigger('page:change', 'posts');
 				App.Collections.Posts.setFilterParams(searchParams, true);
 				this.showHomeLayout();
 			},
 			viewsFull : function()
 			{
 				App.vent.trigger('views:change', 'full');
-				this.homeLayout.setViews({
+				this.showHomeLayout({
 					map: true,
 					search: true,
 					list: true
 				});
-				this.showHomeLayout();
 			},
 			viewsList : function()
 			{
 				App.vent.trigger('views:change', 'list');
-				this.homeLayout.setViews({
+				this.showHomeLayout({
 					map: false,
 					search: true,
 					list: true
 				});
-				this.showHomeLayout();
 			},
 			viewsMap : function()
 			{
 				App.vent.trigger('views:change', 'map');
-				this.homeLayout.setViews({
+				this.showHomeLayout({
 					map: true,
 					search: true,
 					list: false
 				});
-				this.showHomeLayout();
 			},
-			showHomeLayout : function()
+			showHomeLayout : function(views)
 			{
-				if (this.layout.mainRegion.currentView instanceof HomeLayout === false)
+				var homeLayout = this.layout.mainRegion.currentView,
+					searchParams = App.Collections.Posts.getFilterParams();
+
+				if (homeLayout instanceof HomeLayout === false)
 				{
-					this.layout.mainRegion.show(this.homeLayout);
+					homeLayout = new HomeLayout({
+						collection : App.Collections.Posts
+					});
+					this.layout.mainRegion.show(homeLayout);
 				}
-				this.homeLayout.showRegions();
+				views && homeLayout.setViews(views);
+				homeLayout.showRegions();
+
+				App.vent.trigger('page:change', searchParams.status ? 'posts-' + searchParams.status : 'posts');
 			},
 			postDetail : function(id)
 			{
