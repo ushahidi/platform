@@ -55,7 +55,7 @@
 							<label class="visually-hidden" for="filter-count">{{t "user.number_of_users_shown"}}</label>
 							<select id="filter-count" class="filter-count  js-filter-count">
 							{{#each pageSizes}}
-								<option value="{{this}}"{{#if @first}} selected{{/if}}>{{this}}</option>
+								<option value="{{this}}"{{#is this ../pagination.pageSize}} selected{{/is}}>{{this}}</option>
 							{{/each}}
 							</select>
 						</div>
