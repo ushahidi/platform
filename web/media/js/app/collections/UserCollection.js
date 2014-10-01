@@ -10,10 +10,9 @@
 define(['backbone', 'underscore', 'modules/config', 'util/App.storage', 'models/UserModel', 'backbone.paginator', 'mixin/FilteredCollection'],
 	function(Backbone, _, config, Storage, UserModel, PageableCollection, FilteredCollection)
 	{
-		var page_size_storage = new Storage('Ushahidi', 'page_size_users');
-		
-		// Creates a new Backbone Collection class object
-		var UserCollection = PageableCollection.extend(
+		var page_size_storage = new Storage('Ushahidi', 'page_size_users'),
+			UserCollection = PageableCollection.extend(
+			// Creates a new Backbone Collection class object
 			_.extend(
 			{
 				model : UserModel,
@@ -23,7 +22,7 @@ define(['backbone', 'underscore', 'modules/config', 'util/App.storage', 'models/
 				state: {
 					firstPage: 0,
 					currentPage: 0,
-					pageSize: parseInt(page_size_storage.get()) || 20,
+					pageSize: parseInt(page_size_storage.get(), 10) || 20,
 					// Required under server-mode
 					totalRecords: 0,
 					sortKey: 'created',

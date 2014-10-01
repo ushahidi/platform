@@ -50,6 +50,10 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 		{
 			initialize : function()
 			{
+				var page_size_posts_storage = new Storage('Ushahidi', 'page_size_posts'),
+					page_size_users_storage = new Storage('Ushahidi', 'page_size_users'),
+					page_size_tags_storage = new Storage('Ushahidi', 'page_size_tags');
+
 				this.layout = App.layout = new AppLayout();
 				App.body.show(this.layout);
 
@@ -78,7 +82,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 
 				App.Collections = {};
 
-				var page_size_posts_storage = new Storage('Ushahidi', 'page_size_posts');
 				App.Collections.Posts = new PostCollection();
 				App.Collections.Posts.on('page:size', function(size) {
 					page_size_posts_storage.set(size);
@@ -108,14 +111,12 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 				]);
 
 				// Open the user collection, but do not fetch it until necessary
-				var page_size_users_storage = new Storage('Ushahidi', 'page_size_users');
 				App.Collections.Users = new UserCollection();
 				App.Collections.Users.on('page:size', function(size) {
 					page_size_users_storage.set(size);
 				});
 
 				// Grab tag collection, use client-side paging and fetch all tags from server at once
-				var page_size_tags_storage = new Storage('Ushahidi', 'page_size_tags');
 				App.Collections.Tags = new TagCollection([]);
 				App.Collections.Tags.on('page:size', function(size) {
 					page_size_tags_storage.set(size);

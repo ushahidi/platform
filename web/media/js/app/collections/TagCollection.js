@@ -10,10 +10,9 @@
 define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'util/App.storage', 'backbone.paginator', 'mixin/FilteredCollection'],
 	function(Backbone, _, TagModel, config, Storage, PageableCollection, FilteredCollection)
 	{
-		var page_size_storage = new Storage('Ushahidi', 'page_size_tags');
-
-		// Creates a new Backbone Collection class object
-		var TagCollection = PageableCollection.extend(
+		var page_size_storage = new Storage('Ushahidi', 'page_size_tags'),
+			TagCollection = PageableCollection.extend(
+			// Creates a new Backbone Collection class object
 			_.extend(
 			{
 				model : TagModel,
@@ -24,7 +23,7 @@ define(['backbone', 'underscore', 'models/TagModel', 'modules/config', 'util/App
 				state: {
 					firstPage: 0,
 					currentPage: 0,
-					pageSize: parseInt(page_size_storage.get()) || 20,
+					pageSize: parseInt(page_size_storage.get(), 10) || 20,
 					// Required under server-mode
 					totalRecords: 0,
 					sortKey: 'created',
