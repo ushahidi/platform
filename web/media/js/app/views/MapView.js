@@ -49,7 +49,7 @@ define(['marionette', 'underscore', 'App', 'jquery',
 			},
 			className : 'map-view',
 			modelEvents : {
-			  'sync': 'updateMarkers'
+				'change': 'updateMarkers'
 			},
 			collectionEvents : {
 				'filter:change' : 'updateMarkers'
