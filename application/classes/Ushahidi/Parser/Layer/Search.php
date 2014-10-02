@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity\LayerSearchData;
 use Ushahidi\Tool\Parser;
 use Ushahidi\Traits\Parser\SortingParser;
+use Ushahidi\Usecase\Layer\SearchLayerData;
 
 class Ushahidi_Parser_Layer_Search implements Parser
 {
@@ -45,10 +45,15 @@ class Ushahidi_Parser_Layer_Search implements Parser
 			unset($data['type']);
 		}
 
+		if ($data['active'] === NULL)
+		{
+			unset($data['active']);
+		}
+
 		// append sorting data
 		$data += $this->getSorting($data);
 
-		return new LayerSearchData($data);
+		return new SearchLayerData($data);
 	}
 }
 

@@ -114,6 +114,9 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
 		$di->set('formatter.entity.tag', $di->lazyNew('Ushahidi_Formatter_Tag'));
 
+		$di->set('formatter.collection.layer', $di->lazyNew('Ushahidi_Formatter_Collection', [
+			'formatter' => $di->lazyGet('formatter.entity.layer')
+		]));
 		$di->set('formatter.collection.media', $di->lazyNew('Ushahidi_Formatter_Collection', [
 			'formatter' => $di->lazyGet('formatter.entity.media')
 		]));
@@ -195,7 +198,10 @@ abstract class Ushahidi_Core {
 			];
 
 		// Parsers
+		$di->set('parser.layer.create', $di->lazyNew('Ushahidi_Parser_Layer_Create'));
+		$di->set('parser.layer.read', $di->lazyNew('Ushahidi_Parser_Layer_Read'));
 		$di->set('parser.layer.search', $di->lazyNew('Ushahidi_Parser_Layer_Search'));
+		$di->set('parser.layer.update', $di->lazyNew('Ushahidi_Parser_Layer_Update'));
 		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
 		$di->set('parser.media.read', $di->lazyNew('Ushahidi_Parser_Media_Read'));
 		$di->set('parser.media.delete', $di->lazyNew('Ushahidi_Parser_Media_Delete'));
@@ -217,6 +223,8 @@ abstract class Ushahidi_Core {
 			];
 
 		// Validators
+		$di->set('validator.layer.create', $di->lazyNew('Ushahidi_Validator_Layer_Create'));
+		$di->set('validator.layer.update', $di->lazyNew('Ushahidi_Validator_Layer_Update'));
 		$di->set('validator.media.create', $di->lazyNew('Ushahidi_Validator_Media_Create'));
 		$di->set('validator.media.delete', $di->lazyNew('Ushahidi_Validator_Media_Delete'));
 		$di->set('validator.post.update', $di->lazyNew('Ushahidi_Validator_Post_Update'));
@@ -227,6 +235,10 @@ abstract class Ushahidi_Core {
 		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
 
 		// Dependencies of validators
+		$di->params['Ushahidi_Validator_Layer_Update'] = [
+		 	'repo' => $di->lazyGet('repository.layer'),
+		 	'media' => $di->lazyGet('repository.media'),
+		];
 		$di->params['Ushahidi_Validator_Media_Delete'] = [
 			'repo' => $di->lazyGet('repository.media'),
 			];

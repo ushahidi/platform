@@ -9,13 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Entity;
+namespace Ushahidi\Usecase\Layer;
 
 use Ushahidi\Data;
 use Ushahidi\SearchData;
 use Ushahidi\Traits\Data\SortableData;
 
-class LayerSearchData extends Data implements SearchData
+class SearchLayerData extends Data implements SearchData
 {
 	use SortableData;
 

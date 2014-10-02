@@ -10,10 +10,15 @@
  */
 
 use Ushahidi\Entity\Layer;
-use Ushahidi\Entity\LayerRepository;
-use Ushahidi\Entity\LayerSearchData;
+use Ushahidi\Usecase\Layer\CreateLayerRepository;
+use Ushahidi\Usecase\Layer\DeleteLayerRepository;
+use Ushahidi\Usecase\Layer\ReadLayerRepository;
+use Ushahidi\Usecase\Layer\SearchLayerRepository;
+use Ushahidi\Usecase\Layer\UpdateLayerRepository;
+use Ushahidi\Usecase\Layer\SearchLayerData;
 
-class Ushahidi_Repository_Layer extends Ushahidi_Repository implements LayerRepository
+class Ushahidi_Repository_Layer extends Ushahidi_Repository implements
+	ReadLayerRepository, SearchLayerRepository, UpdateLayerRepository, DeleteLayerRepository, CreateLayerRepository
 {
 	// Ushahidi_Repository
 	protected function getTable()
@@ -37,7 +42,7 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository implements LayerRepo
 	}
 
 	// LayerRepository
-	public function search(LayerSearchData $search, Array $params = null)
+	public function search(SearchLayerData $search, Array $params = null)
 	{
 		$where = array_filter(Arr::extract($search->asArray(), ['active', 'type']));
 
@@ -62,6 +67,40 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository implements LayerRepo
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	// CreateLayerRepository
+	public function createLayer(Array $input)
+	{
+		$input['created'] = time();
+		$input['options'] = json_encode($input['options']);
+
+		$created_id = $this->insert($input);
+
+		return $this->get($created_id);
+	}
+
+	// UpdateLayerRepository
+	public function updateLayer($id, Array $update)
+	{
+		if ($id && $update)
+		{
+			$update['updated'] = time();
+
+			if (isset($update['options']))
+			{
+				$update['options'] = json_encode($update['options']);
+			}
+
+			$this->update(compact('id'), $update);
+		}
+		return $this->get($id);
+	}
+
+	// DeleteLayerRepository
+	public function deleteLayer($id)
+	{
+		return $this->delete(compact('id'));
 	}
 
 }

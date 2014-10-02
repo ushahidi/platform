@@ -15,6 +15,7 @@ use Ushahidi\Usecase\Media\CreateMediaRepository;
 use Ushahidi\Usecase\Media\ReadMediaRepository;
 use Ushahidi\Usecase\Media\SearchMediaRepository;
 use Ushahidi\Usecase\Media\DeleteMediaRepository;
+use Ushahidi\Usecase\Layer\LayerMediaRepository;
 use Ushahidi\Tool\Uploader;
 use Ushahidi\Tool\UploadData;
 
@@ -22,7 +23,8 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	CreateMediaRepository,
 	ReadMediaRepository,
 	SearchMediaRepository,
-	DeleteMediaRepository
+	DeleteMediaRepository,
+	LayerMediaRepository
 {
 	private $upload;
 
@@ -140,5 +142,11 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	{
 		$where = compact('id');
 		return $this->delete($where);
+	}
+
+	// LayerMediaRepository
+	public function doesMediaExist($id)
+	{
+		return $this->selectCount(compact('id')) !== 0;
 	}
 }
