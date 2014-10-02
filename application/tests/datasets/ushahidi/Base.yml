@@ -225,6 +225,7 @@ posts:
     content: "Testing post"
     status: "published"
     locale: "en_us"
+    created: 1364009953
   -
     id: 99
     form_id: 1
@@ -235,6 +236,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "en_us"
+    created: 1378018880
   -
     id: 9999
     form_id: 1
@@ -245,6 +247,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "en_us"
+    created: 1412007022
   -
     id: 95
     form_id: 1
@@ -255,6 +258,7 @@ posts:
     content: "Testing oauth posts api access"
     status: "published"
     locale: "en_us"
+    created: 1373838515
   -
     id: 97
     form_id: 1
@@ -265,6 +269,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "en_us"
+    created: 1354628171
   -
     id: 96
     form_id: 1
@@ -275,6 +280,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "fr_fr"
+    created: 1384762238
   -
     id: 101
     form_id: 1
@@ -285,6 +291,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "en_us"
+    created: 1362747895
   -
     id: 102
     form_id: 2
@@ -295,6 +302,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "en_us"
+    created: 1403169957
   -
     id: 103
     form_id: 1
@@ -305,6 +313,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "en_us"
+    created: 1363791760
   -
     id: 104
     form_id: 1
@@ -315,6 +324,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "en_us"
+    created: 1390417375
   -
     id: 105
     form_id: 1
@@ -325,6 +335,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "en_us"
+    created: 1373006165
   -
     id: 106
     form_id: 1
@@ -335,6 +346,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "fr_fr"
+    created: 1408165751
   -
     id: 107
     form_id: 1
@@ -345,6 +357,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "fr_fr"
+    created: 1367599079
   -
     id: 108
     form_id: 1
@@ -355,6 +368,7 @@ posts:
     content: "Some description"
     status: "published"
     locale: "ar_ar"
+    created: 1404089791
   -
     id: 110
     form_id: 1
@@ -365,6 +379,7 @@ posts:
     content: "Testing oauth posts api access"
     status: "published"
     locale: "en_us"
+    created: 1355743120
   -
     id: 111
     form_id: 1
@@ -375,6 +390,7 @@ posts:
     content: "Testing oauth posts api access"
     status: "draft"
     locale: "en_us"
+    created: 1398774435
   -
     id: 112
     form_id: 1
@@ -385,6 +401,7 @@ posts:
     content: "Testing draft"
     status: "draft"
     locale: "en_us"
+    created: 1408607443
   -
     id: 113
     form_id: 1
@@ -395,6 +412,7 @@ posts:
     content: "Testing draft 2"
     status: "pending"
     locale: "en_us"
+    created: 1404996921
   -
     id: 114
     form_id: 1
@@ -405,6 +423,7 @@ posts:
     content: "Update for draft"
     status: "published"
     locale: "en_us"
+    created: 1411884027
   -
     id: 115
     form_id: 1
@@ -415,6 +434,7 @@ posts:
     content: "Translation of draft"
     status: "published"
     locale: "fr_fr"
+    created: 1411907883
   -
     id: 116
     form_id: 1
@@ -425,6 +445,7 @@ posts:
     content: "Revision of draft"
     status: "published"
     locale: "en_us"
+    created: 1411911360
   -
     id: 117
     form_id: 1
@@ -435,6 +456,7 @@ posts:
     content: "Update for draft"
     status: "draft"
     locale: "en_us"
+    created: 1412005016
 post_datetime:
 post_decimal:
 post_geometry:

@@ -36,10 +36,11 @@ define([
 					success: function (data) {
 						_.each(data, function(counts, day) {
 							_.each(counts, function(total, type) {
-								that[type] = [day, total];
+								that[type].push([day * 1000, total]);
 							});
 						});
 						that.onDomRefresh();
+						ddt.log('Viz', 'raw posts data', data, that.published, that.pending, that.draft);
 					}
 				});
 			},

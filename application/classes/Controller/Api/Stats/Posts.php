@@ -47,7 +47,7 @@ class Controller_Api_Stats_Posts extends Ushahidi_Api {
 		foreach ($results as $result)
 		{
 			// standardize date, convert timestamp to ms for JS
-			$day = (string) strtotime('midnight', $result['created']) * 1000;
+			$day = (string) strtotime('midnight', $result['created']);
 
 			if (!isset($counts[$day]))
 			{
