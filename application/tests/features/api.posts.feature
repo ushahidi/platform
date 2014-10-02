@@ -688,7 +688,7 @@ Feature: Testing the Posts API
 		And the response has a "next" property
 		And the response has a "prev" property
 		And the response has a "curr" property
-		And the "results.0.id" property equals "9999"
+		And the "results.0.id" property equals "110"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
