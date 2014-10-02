@@ -57,7 +57,8 @@ require.config(
 		'i18next' : '../../bower_components/i18next/i18next.amd.min',
 		'tether-utils': '../../bower_components/tether/js/utils',
 		'tether': '../../bower_components/tether/js/tether',
-		'drop': '../../bower_components/drop/js/drop'
+		'drop': '../../bower_components/drop/js/drop',
+		'highstock' : '../../bower_components/highstock-release/highstock.src'
 	},
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
@@ -120,7 +121,7 @@ require.config(
 		},
 
 		'simplepicker' : {
-			deps: ['jquery'],
+			deps: ['jquery']
 		},
 
 		'geopoint' :

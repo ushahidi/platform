@@ -38,6 +38,31 @@ class Controller_Api_Stats_Posts extends Ushahidi_Api {
 
 	public function action_get_index_collection()
 	{
+		$results = DB::select('created', 'status')
+			->from('posts')
+			->execute()
+			->as_array();
+
+		$counts = [];
+		foreach ($results as $result)
+		{
+			// standardize date, convert timestamp to ms for JS
+			$day = (string) strtotime('midnight', $result['created']) * 1000;
+
+			if (!isset($counts[$day]))
+			{
+				$counts[$day] = [
+					'published' => 0,
+					'pending'   => 0,
+					'draft'     => 0,
+				];
+			}
+			$counts[$day][$result['status']]++;
+		}
+
+		$this->_response_payload = $counts;
+
+		return;
 		$counts = array();
 
 		# Base query
