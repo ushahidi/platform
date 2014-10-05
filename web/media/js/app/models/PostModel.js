@@ -190,40 +190,52 @@ define(['jquery', 'backbone', 'App', 'underscore', 'modules/config', 'models/Use
 			{
 				this.relationsCallback = $.Deferred();
 			},
-			fetchRelations : function ()
+			/**
+			 * Fetch related models
+			 *
+			 * @param  Boolean  refresh
+			 * @return Deferred
+			 */
+			fetchRelations : function (refresh)
 			{
-				//@TODO prevent multiple calls to this
 				var that = this,
-						requests = [],
-						user,
-						form;
+					requests = [],
+					user,
+					form;
 
-				if (this.get('user'))
+				if (this.relationsCallback.state() === 'pending' || refresh)
 				{
-					user = new UserModel({
-						id: this.get('user')
+					// Create a new deferred
+					this.relationsCallback = $.Deferred();
+
+					if (this.get('user'))
+					{
+						user = this.user || new UserModel({
+							id: this.get('user')
+						});
+						requests.push(user.fetch());
+					}
+
+					if (this.get('form'))
+					{
+						form = this.form || new FormModel({
+							id: this.get('form')
+						});
+						requests.push(form.fetch());
+					}
+
+					// @todo fetch tags too
+
+					// When requests have returned, make callback resolved and save models
+					$.when.apply($, requests).done(function ()
+					{
+						that.user = user;
+						that.form = form;
+						that.relationsCallback.resolve();
 					});
-					requests.push(user.fetch());
 				}
 
-				if (this.get('form'))
-				{
-					form = new FormModel({
-						id: this.get('form')
-					});
-					requests.push(form.fetch());
-				}
-
-				//@todo tags
-
-				// When requests have returned,
-				// make callback resolved and save models
-				$.when.apply($, requests).done(function ()
-				{
-					that.user = user;
-					that.form = form;
-					that.relationsCallback.resolve();
-				});
+				return this.relationsCallback;
 			},
 
 			/**

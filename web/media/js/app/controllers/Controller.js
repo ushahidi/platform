@@ -211,8 +211,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 					model = new PostModel({id: id});
 					model.fetch().done(function ()
 					{
-						model.fetchRelations();
-
 						// If post has tags, load related posts
 						if (model.get('tags').length > 0)
 						{
@@ -232,30 +230,30 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 									relatedPosts.remove(relatedPosts.at(3));
 								});
 						}
+
+						// Make sure we have loaded the form and user before we render the post details
+						model.fetchRelations().done(function()
+						{
+							postDetailLayout.postDetailRegion.show(new PostDetailView({
+								model: model,
+								collection: App.Collections.Posts
+							}));
+
+							// If post has tags, show related posts
+							if (model.get('tags').length > 0)
+							{
+								postDetailLayout.relatedPostsRegion.show(new RelatedPostsView({
+									collection : relatedPosts,
+									model : model
+								}));
+							}
+						});
 					})
 					// Couldn't load post - redirect to homepage
 					.fail(function ()
 					{
 						alertify.error('The post you requested could not be found.');
 						App.appRouter.navigate('', { trigger : true });
-					});
-
-					// Make sure we have loaded the form and user before we render the post details
-					model.relationsCallback.done(function()
-					{
-						postDetailLayout.postDetailRegion.show(new PostDetailView({
-							model: model,
-							collection: App.Collections.Posts
-						}));
-
-						// If post has tags, show related posts
-						if (model.get('tags').length > 0)
-						{
-							postDetailLayout.relatedPostsRegion.show(new RelatedPostsView({
-								collection : relatedPosts,
-								model : model
-							}));
-						}
 					});
 
 					postDetailLayout.mapRegion.show(new MapView({

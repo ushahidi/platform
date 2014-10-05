@@ -45,22 +45,26 @@ define(['App', 'marionette', 'backbone'],
 					var post = new PostModel({}),
 						chooseView;
 
-					chooseView = new ChooseFormView({
-						model: post,
-						forms: App.Collections.Forms
-					}).on('form:select', function ()
-						{
-							that.modal.show(new CreatePostView({
-								model: post
-							}));
-						}
-					);
+					// Reload forms before render
+					App.Collections.Forms.fetch()
+						.done(function () {
+							chooseView = new ChooseFormView({
+								model: post,
+								forms: App.Collections.Forms
+							}).on('form:select', function ()
+								{
+									that.modal.show(new CreatePostView({
+										model: post
+									}));
+								}
+							);
 
-					that.modal.once('modal:close', function () {
-						Backbone.history.navigate(prevUrl);
-					});
+							that.modal.once('modal:close', function () {
+								Backbone.history.navigate(prevUrl);
+							});
 
-					that.modal.show(chooseView);
+							that.modal.show(chooseView);
+						});
 				});
 			},
 			postEdit : function (post)
@@ -70,13 +74,12 @@ define(['App', 'marionette', 'backbone'],
 				require(['views/modals/EditPostView'],
 					function(EditPostView)
 				{
-					post.relationsCallback.done(function()
+					post.fetchRelations(true).done(function()
 					{
 						that.modal.show(new EditPostView({
 							model : post
 						}));
 					});
-					post.fetchRelations();
 				});
 			},
 			addToSet : function (post)
