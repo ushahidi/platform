@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['backbone', 'App', 'modules/config', 'backbone-model-factory'],
-	function(Backbone, App, config)
+define(['backbone', 'modules/config', 'require', 'backbone-model-factory'],
+	function(Backbone, config, require)
 	{
 		var UserModel = Backbone.ModelFactory(
 		{
@@ -58,7 +58,7 @@ define(['backbone', 'App', 'modules/config', 'backbone-model-factory'],
 					schema.role = {
 						type: 'Select',
 						title: 'Role',
-						options : App.Collections.Roles
+						options: require('App').Collections.Roles
 					};
 				}
 
