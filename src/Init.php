@@ -78,8 +78,9 @@ $di->set('factory.authorizer', $di->lazyNew('Ushahidi\Factory\AuthorizerFactory'
 
 // Authorizers are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
-	'tags'  => $di->lazyGet('authorizer.tag'),
-	'media' => $di->lazyGet('authorizer.media'),
+	'tags'   => $di->lazyGet('authorizer.tag'),
+	'media'  => $di->lazyGet('authorizer.media'),
+	'layers' => $di->lazyGet('authorizer.layer'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -87,8 +88,9 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
-	'tags'  => $di->lazyGet('repository.tag'),
-	'media' => $di->lazyGet('repository.media'),
+	'tags'   => $di->lazyGet('repository.tag'),
+	'media'  => $di->lazyGet('repository.media'),
+	'layers' => $di->lazyGet('repository.layer'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -177,8 +179,9 @@ $di->params['UshahidiApi\Factory\EndpointFactory']['factory'] = $di->newFactory(
 //     ['special' => true] /* adds "search" action */
 //
 $di->params['UshahidiApi\Factory\EndpointFactory']['endpoints'] = [
-	'tags'  => [],
-	'media' => ['update' => false], // disable update action, media can only be created and deleted
+	'tags'   => [],
+	'media'  => ['update' => false], // disable update action, media can only be created and deleted
+	'layers' => [],
 ];
 
 // Traits
@@ -197,43 +200,11 @@ $di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post')
 	];
 
-$di->set('tool.authorizer.layer', $di->lazyNew('Ushahidi\Tool\Authorizer\LayerAuthorizer'));
+$di->set('authorizer.layer', $di->lazyNew('Ushahidi\Tool\Authorizer\LayerAuthorizer'));
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Tool\Authorizer\MediaAuthorizer'));
 
 // Use cases
-$di->set('usecase.layer.create', $di->lazyNew('Ushahidi\Usecase\Layer\Create'));
-$di->params['Ushahidi\Usecase\Layer\Create'] = [
-	'repo'  => $di->lazyGet('repository.layer'),
-	'valid' => $di->lazyGet('validator.layer.create'),
-	'auth'  => $di->lazyGet('tool.authorizer.layer'),
-	];
-
-$di->set('usecase.layer.read', $di->lazyNew('\Ushahidi\Usecase\Layer\Read'));
-$di->params['\Ushahidi\Usecase\Layer\Read'] = [
-	'repo' => $di->lazyGet('repository.layer'),
-	'auth' => $di->lazyGet('tool.authorizer.layer'),
-	];
-
-$di->set('usecase.layer.search', $di->lazyNew('\Ushahidi\Usecase\Layer\Search'));
-$di->params['\Ushahidi\Usecase\Layer\Search'] = [
-	'repo' => $di->lazyGet('repository.layer'),
-	'auth' => $di->lazyGet('tool.authorizer.layer'),
-	];
-
-$di->set('usecase.layer.update', $di->lazyNew('\Ushahidi\Usecase\Layer\Update'));
-$di->params['\Ushahidi\Usecase\Layer\Update'] = [
-	'repo' => $di->lazyGet('repository.layer'),
-	'valid' => $di->lazyGet('validator.layer.update'),
-	'auth' => $di->lazyGet('tool.authorizer.layer'),
-	];
-
-$di->set('usecase.layer.delete', $di->lazyNew('Ushahidi\Usecase\Layer\Delete'));
-$di->params['Ushahidi\Usecase\Layer\Delete'] = [
-	'repo' => $di->lazyGet('repository.layer'),
-	'auth' => $di->lazyGet('tool.authorizer.layer'),
-	];
-
 $di->set('usecase.post.update', $di->lazyNew('\Ushahidi\Usecase\Post\Update'));
 $di->params['\Ushahidi\Usecase\Post\Update'] = [
 	'repo' => $di->lazyGet('repository.post'),
@@ -253,31 +224,3 @@ $di->params['\Ushahidi\Usecase\User\Login'] = [
 	'valid' => $di->lazyGet('validator.user.login'),
 	'auth' => $di->lazyGet('tool.authenticator.password'),
 	];
-
-// API Endpoints
-$di->set('endpoint.layers.post.collection', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.layer.create'),
-	'formatter' => $di->lazyGet('formatter.entity.layer'),
-	'usecase' => $di->lazyGet('usecase.layer.create'),
-]));
-$di->set('endpoint.layers.get.collection', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.layer.search'),
-	'formatter' => $di->lazyGet('formatter.collection.layer'),
-	'usecase' => $di->lazyGet('usecase.layer.search'),
-]));
-$di->set('endpoint.layers.get.index', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.layer.read'),
-	'formatter' => $di->lazyGet('formatter.entity.layer'),
-	'usecase' => $di->lazyGet('usecase.layer.read'),
-]));
-$di->set('endpoint.layers.put.index', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.layer.update'),
-	'formatter' => $di->lazyGet('formatter.entity.layer'),
-	'usecase' => $di->lazyGet('usecase.layer.update'),
-]));
-$di->set('endpoint.layers.delete.index', $di->lazyNew('UshahidiApi\Endpoint', [
-	// Reusing the Read parser for delete
-	'parser' => $di->lazyGet('parser.layer.read'),
-	'formatter' => $di->lazyGet('formatter.entity.layer'),
-	'usecase' => $di->lazyGet('usecase.layer.delete'),
-]));

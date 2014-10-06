@@ -99,6 +99,13 @@ abstract class Ushahidi_Core {
 			'delete' => $di->lazyNew('Ushahidi_Parser_Media_Delete'),
 			'search' => $di->lazyNew('Ushahidi_Parser_Media_Search'),
 		];
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['layers'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Layer_Create'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_Layer_Read'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Layer_Update'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Layer_Read'), /* reusing */
+			'search' => $di->lazyNew('Ushahidi_Parser_Layer_Search'),
+		];
 		$di->params['Ushahidi\Factory\ParserFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Parser_Tag_Create'),
 			'read'   => $di->lazyNew('Ushahidi_Parser_Tag_Read'),
@@ -117,17 +124,31 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Media_Create'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Media_Delete'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['layers'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Layer_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Layer_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Tag_Update'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Tag_Delete'),
 		];
 
+		// Validator parameters
+		$di->params['Ushahidi_Validator_Layer_Update'] = [
+		 	'repo' => $di->lazyGet('repository.layer'),
+		 	'media' => $di->lazyGet('repository.media'),
+		];
+		$di->params['Ushahidi_Validator_Media_Delete'] = [
+			'repo' => $di->lazyGet('repository.media'),
+			];
+
 		// Formatter mapping
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
-			'media' => $di->lazyNew('Ushahidi_Formatter_Media'),
-			'tags'  => $di->lazyNew('Ushahidi_Formatter_Tag'),
-			'posts' => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'media'  => $di->lazyNew('Ushahidi_Formatter_Media'),
+			'layers' => $di->lazyNew('Ushahidi_Formatter_Layer'),
+			'tags'   => $di->lazyNew('Ushahidi_Formatter_Tag'),
+			'posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 		];
 
 		// Formatter parameters
@@ -157,12 +178,7 @@ abstract class Ushahidi_Core {
 
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
-		$di->set('formatter.entity.layer', $di->lazyNew('Ushahidi_Formatter_Layer'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
-
-		$di->set('formatter.collection.layer', $di->lazyNew('Ushahidi_Formatter_Collection', [
-			'formatter' => $di->lazyGet('formatter.entity.layer')
-		]));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
@@ -232,10 +248,6 @@ abstract class Ushahidi_Core {
 			];
 
 		// Parsers
-		$di->set('parser.layer.create', $di->lazyNew('Ushahidi_Parser_Layer_Create'));
-		$di->set('parser.layer.read', $di->lazyNew('Ushahidi_Parser_Layer_Read'));
-		$di->set('parser.layer.search', $di->lazyNew('Ushahidi_Parser_Layer_Search'));
-		$di->set('parser.layer.update', $di->lazyNew('Ushahidi_Parser_Layer_Update'));
 		$di->set('parser.post.read', $di->lazyNew('Ushahidi_Parser_Post_Read'));
 		$di->set('parser.post.search', $di->lazyNew('Ushahidi_Parser_Post_Search'));
 		$di->set('parser.post.update', $di->lazyNew('Ushahidi_Parser_Post_Update'));
@@ -248,20 +260,11 @@ abstract class Ushahidi_Core {
 			];
 
 		// Validators
-		$di->set('validator.layer.create', $di->lazyNew('Ushahidi_Validator_Layer_Create'));
-		$di->set('validator.layer.update', $di->lazyNew('Ushahidi_Validator_Layer_Update'));
 		$di->set('validator.post.update', $di->lazyNew('Ushahidi_Validator_Post_Update'));
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
 
 		// Dependencies of validators
-		$di->params['Ushahidi_Validator_Layer_Update'] = [
-		 	'repo' => $di->lazyGet('repository.layer'),
-		 	'media' => $di->lazyGet('repository.media'),
-		];
-		$di->params['Ushahidi_Validator_Media_Delete'] = [
-			'repo' => $di->lazyGet('repository.media'),
-			];
 		$di->params['Ushahidi_Validator_Post_Update'] = [
 			'repo' => $di->lazyGet('repository.post'),
 			'attribute_repo' => $di->lazyGet('repository.form_attribute'),

@@ -25,7 +25,7 @@ class Controller_Api_Layers extends Ushahidi_Rest {
 	 */
 	public function action_post_index_collection()
 	{
-		$endpoint = service('endpoint.layers.post.collection');
+		$endpoint = service('factory.endpoint')->get('layers', 'create');
 
 		$this->_restful($endpoint, $this->_request_payload);
 	}
@@ -39,7 +39,7 @@ class Controller_Api_Layers extends Ushahidi_Rest {
 	 */
 	public function action_get_index_collection()
 	{
-		$endpoint = service('endpoint.layers.get.collection');
+		$endpoint = service('factory.endpoint')->get('layers', 'search');
 		$request = $this->request->query();
 
 		$this->_restful($endpoint, $request);
@@ -54,7 +54,7 @@ class Controller_Api_Layers extends Ushahidi_Rest {
 	 */
 	public function action_get_index()
 	{
-		$endpoint = service('endpoint.layers.get.index');
+		$endpoint = service('factory.endpoint')->get('layers', 'read');
 
 		$request = ['id' => $this->request->param('id')];
 
@@ -70,7 +70,7 @@ class Controller_Api_Layers extends Ushahidi_Rest {
 	 */
 	public function action_put_index()
 	{
-		$endpoint = service('endpoint.layers.put.index');
+		$endpoint = service('factory.endpoint')->get('layers', 'update');
 
 		$request = $this->_request_payload;
 		$request['id'] = $this->request->param('id');
@@ -88,7 +88,7 @@ class Controller_Api_Layers extends Ushahidi_Rest {
 	 */
 	public function action_delete_index()
 	{
-		$endpoint = service('endpoint.layers.delete.index');
+		$endpoint = service('factory.endpoint')->get('layers', 'delete');
 
 		$request = ['id' => $this->request->param('id')];
 

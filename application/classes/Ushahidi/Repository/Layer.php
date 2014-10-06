@@ -9,16 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Data;
+use Ushahidi\SearchData;
 use Ushahidi\Entity\Layer;
-use Ushahidi\Usecase\Layer\CreateLayerRepository;
-use Ushahidi\Usecase\Layer\DeleteLayerRepository;
-use Ushahidi\Usecase\Layer\ReadLayerRepository;
-use Ushahidi\Usecase\Layer\SearchLayerRepository;
-use Ushahidi\Usecase\Layer\UpdateLayerRepository;
-use Ushahidi\Usecase\Layer\SearchLayerData;
 
-class Ushahidi_Repository_Layer extends Ushahidi_Repository implements
-	ReadLayerRepository, SearchLayerRepository, UpdateLayerRepository, DeleteLayerRepository, CreateLayerRepository
+class Ushahidi_Repository_Layer extends Ushahidi_Repository
 {
 	// Ushahidi_Repository
 	protected function getTable()
@@ -35,72 +30,42 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository implements
 		return new Layer($data);
 	}
 
-	// LayerRepository
-	public function get($id)
+	// Ushahidi_Repository
+	protected function setSearchConditions(SearchData $search)
 	{
-		return $this->getEntity($this->selectOne(compact('id')));
+		$query = $this->search_query;
+
+		if ($search->active !== null) {
+			$query->where('active', '=', $search->active);
+		}
+
+		if ($search->type) {
+			$query->where('type', '=', $search->type);
+		}
 	}
 
-	// LayerRepository
-	public function search(SearchLayerData $search, Array $params = null)
+	// CreateRepository
+	public function create(Data $input)
 	{
-		$where = array_filter(Arr::extract($search->asArray(), ['active', 'type']));
+		$record = $input->asArray();
 
-		if ($search->active !== NULL)
+		$record['created'] = time();
+		$record['options'] = json_encode($record['options']);
+
+		return $this->executeInsert($record);
+	}
+
+	// UpdateRepository
+	public function update($id, Data $input)
+	{
+		$update = $input->asArray();
+
+		$update['updated'] = time();
+		if (isset($update['options']))
 		{
-			$where['active'] = $search->active;
+			$update['options'] = json_encode($update['options']);
 		}
 
-		// Start the query, removing empty values
-		$query = $this->selectQuery($where);
-
-		if (!empty($params['orderby'])) {
-			$query->order_by($params['orderby'], Arr::get($params, 'order'));
-		}
-		if (!empty($params['offset'])) {
-			$query->offset($params['offset']);
-		}
-		if (!empty($params['limit'])) {
-			$query->limit($params['limit']);
-		}
-
-		$results = $query->execute($this->db);
-
-		return $this->getCollection($results->as_array());
+		return $this->executeUpdate(compact('id'), $update);
 	}
-
-	// CreateLayerRepository
-	public function createLayer(Array $input)
-	{
-		$input['created'] = time();
-		$input['options'] = json_encode($input['options']);
-
-		$created_id = $this->insert($input);
-
-		return $this->get($created_id);
-	}
-
-	// UpdateLayerRepository
-	public function updateLayer($id, Array $update)
-	{
-		if ($id && $update)
-		{
-			$update['updated'] = time();
-
-			if (isset($update['options']))
-			{
-				$update['options'] = json_encode($update['options']);
-			}
-
-			$this->update(compact('id'), $update);
-		}
-		return $this->get($id);
-	}
-
-	// DeleteLayerRepository
-	public function deleteLayer($id)
-	{
-		return $this->delete(compact('id'));
-	}
-
 }

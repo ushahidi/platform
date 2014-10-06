@@ -17,12 +17,11 @@ use Ushahidi\Tool\Validator;
 
 class Ushahidi_Validator_Layer_Update implements Validator
 {
-	protected $repo;
 	protected $valid;
+	protected $media;
 
-	public function __construct(UpdateLayerRepository $repo, LayerMediaRepository $media)
+	public function __construct(LayerMediaRepository $media)
 	{
-		$this->repo = $repo;
 		$this->media = $media;
 	}
 
