@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Read Media Repository
+ * Ushahidi Platform Delete Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,13 +9,19 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Usecase\Media;
+namespace Ushahidi\Usecase;
 
-interface ReadMediaRepository
+interface DeleteRepository
 {
 	/**
 	 * @param  Integer $id
-	 * @return Ushahidi\Entity\Media
+	 * @return Entity
 	 */
 	public function get($id);
+
+	/**
+	 * @param  Integer $id
+	 * @return void
+	 */
+	public function delete($id);
 }

@@ -49,7 +49,7 @@ class Controller_Api_Posts_Translations extends Controller_Api_Posts {
 	public function action_get_index()
 	{
 		$repo   = service('repository.post');
-		$format = service('formatter.entity.post');
+		$format = service('factory.formatter')->get('posts', 'read');
 
 		if ($id = $this->request->param('id', FALSE))
 		{

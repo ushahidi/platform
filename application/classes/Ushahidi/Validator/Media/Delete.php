@@ -11,18 +11,10 @@
 
 use Ushahidi\Data;
 use Ushahidi\Tool\Validator;
-use Ushahidi\Usecase\Media\DeleteMediaRepository;
 
 class Ushahidi_Validator_Media_Delete implements Validator
 {
 	protected $valid;
-
-	private $repo;
-
-	public function __construct(DeleteMediaRepository $repo)
-	{
-		$this->repo = $repo;
-	}
 
 	public function check(Data $input)
 	{

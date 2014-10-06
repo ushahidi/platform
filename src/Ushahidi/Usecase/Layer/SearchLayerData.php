@@ -11,11 +11,10 @@
 
 namespace Ushahidi\Usecase\Layer;
 
-use Ushahidi\Data;
 use Ushahidi\SearchData;
 use Ushahidi\Traits\Data\SortableData;
 
-class SearchLayerData extends Data implements SearchData
+class SearchLayerData extends SearchData
 {
 	use SortableData;
 

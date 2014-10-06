@@ -15,8 +15,7 @@ use Ushahidi\Data;
 use Ushahidi\SearchData;
 use Ushahidi\Traits\Data\SortableData;
 
-class SearchTagData extends Data implements
-	SearchData
+class SearchTagData extends SearchData
 {
 	use SortableData;
 

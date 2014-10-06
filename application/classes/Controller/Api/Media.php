@@ -33,8 +33,8 @@ class Controller_Api_Media extends Ushahidi_Rest
 	 */
 	public function action_get_index_collection()
 	{
-		$endpoint = service('endpoint.media.get.collection');
-		$request = $this->request->query();
+		$endpoint = service('factory.endpoint')->get('media', 'search');
+		$request  = $this->request->query();
 
 		$this->_restful($endpoint, $request);
 	}
@@ -48,7 +48,7 @@ class Controller_Api_Media extends Ushahidi_Rest
 	 */
 	public function action_get_index()
 	{
-		$endpoint = service('endpoint.media.get.index');
+		$endpoint = service('factory.endpoint')->get('media', 'read');
 		$request = ['id' => $this->request->param('id')];
 
 		$this->_restful($endpoint, $request);
@@ -63,7 +63,7 @@ class Controller_Api_Media extends Ushahidi_Rest
 	 */
 	public function action_post_index_collection()
 	{
-		$endpoint = service('endpoint.media.post.collection');
+		$endpoint = service('factory.endpoint')->get('media', 'create');
 
 		// Does not use `request_payload`, as uploads are not sent via the API,
 		// but rather as a "normal" web request.
@@ -81,9 +81,8 @@ class Controller_Api_Media extends Ushahidi_Rest
 	 */
 	public function action_delete_index()
 	{
-		$endpoint = service('endpoint.media.delete.index');
-
-		$request = ['id' => $this->request->param('id')];
+		$endpoint = service('factory.endpoint')->get('media', 'delete');
+		$request  = ['id' => $this->request->param('id')];
 
 		$this->_restful($endpoint, $request);
 	}

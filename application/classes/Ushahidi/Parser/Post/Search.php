@@ -14,7 +14,6 @@ use Ushahidi\Entity\PostSearchData;
 
 class Ushahidi_Parser_Post_Search implements Parser
 {
-
 	public function __invoke(Array $data)
 	{
 		// Filter value search params to only true-ish values

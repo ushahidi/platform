@@ -9,6 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\SearchData;
 use Ushahidi\Entity\FormAttribute;
 use Ushahidi\Entity\FormAttributeRepository;
 
@@ -21,15 +22,9 @@ class Ushahidi_Repository_FormAttribute extends Ushahidi_Repository implements F
 	}
 
 	// Ushahidi_Repository
-	protected function getEntity(Array $data = null)
+	public function getEntity(Array $data = null)
 	{
 		return new FormAttribute($data);
-	}
-
-	// FormAttributeRepository
-	public function get($id)
-	{
-		return $this->getEntity($this->selectOne(compact('id')));
 	}
 
 	// FormAttributeRepository

@@ -70,12 +70,12 @@ class PostAuthorizer implements Authorizer
 
 		// We check if a user is the owner of this post, if so they have get/create/update/delete access.
 		// Post owners don't have 'change_user' access
-		if ($this->isUserOwner($entity, $user) && in_array($privilege, ['get', 'create', 'update', 'delete'])) {
+		if ($this->isUserOwner($entity, $user) && in_array($privilege, ['read', 'create', 'update', 'delete'])) {
 			return true;
 		}
 
 		// If a post is public then *anyone* can view it.
-		if ($privilege === 'get' && $this->isPostPublic($entity)) {
+		if ($privilege === 'read' && $this->isPostPublic($entity)) {
 			return true;
 		}
 

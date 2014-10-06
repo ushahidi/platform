@@ -35,13 +35,4 @@ class Ushahidi_Formatter_Tag extends Ushahidi_Formatter_API
 		$value = ltrim($value, '#');
 		return $value ? '#' . $value : null;
 	}
-
-	protected function format_role($value)
-	{
-		if (!empty($value))
-		{
-			$value = json_decode($value);
-			return $value;
-		}
-	}
 }

@@ -27,7 +27,7 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository implements
 	}
 
 	// Ushahidi_Repository
-	protected function getEntity(Array $data = null)
+	public function getEntity(Array $data = null)
 	{
 		// Decode options into an array
 		$data['options'] = json_decode($data['options'], TRUE);

@@ -11,12 +11,10 @@
 
 namespace Ushahidi\Usecase\Media;
 
-use Ushahidi\Data;
 use Ushahidi\SearchData;
 use Ushahidi\Traits\Data\SortableData;
 
-class SearchMediaData extends Data implements
-	SearchData
+class SearchMediaData extends SearchData
 {
 	use SortableData;
 

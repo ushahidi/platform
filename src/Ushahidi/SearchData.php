@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Ushahidi Platform Search Data Interface
+ * Ushahidi Platform Search Data
  *
- * Methods required for searching.
+ * Adds methods required for searching to Data.
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,13 +13,11 @@
 
 namespace Ushahidi;
 
-use Ushahidi\Traits\ArrayExchange;
-
-interface SearchData
+abstract class SearchData extends Data
 {
 	/**
 	 * Get an array of the sorting parameters and their values.
 	 * @return Array [orderby, order, limit, offset]
 	 */
-	public function getSortingParams();
+	abstract public function getSortingParams();
 }

@@ -21,7 +21,7 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 {
 
 	// Ushahidi_Repository
-	protected function getEntity(Array $data = null)
+	public function getEntity(Array $data = null)
 	{
 		return new PostValue($data);
 	}
@@ -73,7 +73,7 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 		$input = compact('value', 'form_attribute_id', 'post_id');
 		$input['created'] = time();
 
-		return $this->insert($input);
+		return $this->executeInsert($input);
 	}
 
 	// UpdatePostValueRepository
@@ -82,7 +82,7 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 		$update = compact('value');
 		if ($id && $update)
 		{
-			$this->update(compact('id'), $update);
+			$this->executeUpdate(compact('id'), $update);
 		}
 	}
 

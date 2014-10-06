@@ -9,6 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\SearchData;
 use Ushahidi\Entity\Post;
 use Ushahidi\Entity\PostRepository;
 use Ushahidi\Usecase\Post\UpdatePostRepository;
@@ -55,7 +56,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	}
 
 	// Ushahidi_Repository
-	protected function getEntity(Array $data = null)
+	public function getEntity(Array $data = null)
 	{
 		$post = new Post($data);
 
@@ -70,49 +71,35 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 		return $post;
 	}
 
-	// PostRepository
-	public function get($id)
+	// Ushahidi_Repository
+	protected function setSearchConditions(SearchData $search)
 	{
-		return $this->getEntity($this->selectOne(compact('id')));
-	}
+		$query = $this->search_query;
 
-	// PostRepository
-	public function getByIdAndParent($id, $parent_id)
-	{
-		return $this->getEntity($this->selectOne(compact('id', 'parent_id')));
-	}
-
-	// PostRepository
-	public function getByLocale($locale, $parent_id)
-	{
-		return $this->getEntity($this->selectOne(compact('locale', 'parent_id')));
-	}
-
-	// PostRepository
-	public function setSearchParams(PostSearchData $search, Array $params = null)
-	{
-		$where = Arr::extract($search->asArray(), ['status', 'locale', 'slug']);
+		if ($search->status) {
+			$query->where('status', '=', $search->status);
+		}
+		if ($search->type)
+		{
+			$query->where('posts.type', '=', $search->type);
+		}
+		if ($search->locale) {
+			$query->where('locale', '=', $search->locale);
+		}
+		if ($search->slug) {
+			$query->where('slug', '=', $search->slug);
+		}
 		if ($search->user)
 		{
-			$where['user_id'] = $search->user;
+			$query->where('user_id', '=', $search->user);
+		}
+		if ($search->parent)
+		{
+			$query->where('posts.parent_id', '=', $search->parent);
 		}
 		if ($search->form)
 		{
-			$where['form_id'] = $search->form;
-		}
-
-		// Start the query, removing empty values
-		$query = $this->selectQuery(array_filter($where));
-
-		if (!empty($params['orderby'])) {
-			$query->order_by($this->getTable().'.'.$params['orderby'], Arr::get($params, 'order'));
-		}
-
-		if (!empty($params['offset'])) {
-			$query->offset($params['offset']);
-		}
-		if (!empty($params['limit'])) {
-			$query->limit($params['limit']);
+			$query->where('form_id', '=', $search->form);
 		}
 
 		if ($search->q)
@@ -216,23 +203,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 					->on('posts.id', '=', 'Filter_'.ucfirst($key).'.post_id');
 			}
 		}
-
-		if (!empty($params['type']))
-		{
-			$query->where('posts.type', '=', $params['type']);
-		}
-
-		if (!empty($params['parent_id']))
-		{
-			$query->where('parent_id', '=', $params['parent_id']);
-		}
-
-		$this->search_query = $query;
-
-		return $this;
 	}
 
-	// PostRepository
+	// SearchRepository
 	public function getSearchTotal()
 	{
 		// Assume we can simply count the results to get a total
@@ -244,6 +217,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 
 		// ... return the total.
 		return (int) $result->get('total', 0);
+	}
+
+	// PostRepository
+	public function getByIdAndParent($id, $parent_id)
+	{
+		return $this->getEntity($this->selectOne(compact('id', 'parent_id')));
+	}
+
+	// PostRepository
+	public function getByLocale($locale, $parent_id)
+	{
+		return $this->getEntity($this->selectOne(compact('locale', 'parent_id')));
 	}
 
 	/**
@@ -340,7 +325,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 			unset($post_update['values'], $post_update['tags']);
 			if (! empty($post_update))
 			{
-				$this->update(compact('id'), $post_update);
+				$this->executeUpdate(compact('id'), $post_update);
 			}
 
 			// Update post-tags

@@ -11,13 +11,17 @@
 
 namespace Ushahidi\Entity;
 
-use Ushahidi\Data;
+use Ushahidi\SearchData;
+use Ushahidi\Traits\Data\SortableData;
 
-class PostSearchData extends Data
+class PostSearchData extends SearchData
 {
+	use SortableData;
+
 	public $q; // LIKE title OR content
 	public $slug;
 	public $parent;
+	public $type;
 	public $form;
 	public $user;
 	public $locale;

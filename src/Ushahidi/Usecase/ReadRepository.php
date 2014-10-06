@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Admin Delete Media Repository
+ * Ushahidi Platform Read Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,18 +9,20 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Usecase\Media;
+namespace Ushahidi\Usecase;
 
-interface DeleteMediaRepository
+interface ReadRepository
 {
 	/**
-	 * @param  Integer $id
-	 * @return Ushahidi\Entity\Media
+	 * Converts an array of entity data into an object.
+	 * @param  Array $data
+	 * @return Entity
 	 */
-	public function get($id);
+	public function getEntity(Array $data = null);
 
 	/**
 	 * @param  Integer $id
+	 * @return Entity
 	 */
-	public function deleteMedia($id);
+	public function get($id);
 }

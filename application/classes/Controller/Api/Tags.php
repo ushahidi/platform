@@ -25,7 +25,7 @@ class Controller_Api_Tags extends Ushahidi_Rest {
 	 */
 	public function action_post_index_collection()
 	{
-		$endpoint = service('endpoint.tags.post.collection');
+		$endpoint = service('factory.endpoint')->get('tags', 'create');
 
 		$this->_restful($endpoint, $this->_request_payload);
 	}
@@ -39,10 +39,9 @@ class Controller_Api_Tags extends Ushahidi_Rest {
 	 */
 	public function action_get_index_collection()
 	{
-		$endpoint = service('endpoint.tags.get.collection');
-		$request = $this->request->query();
+		$endpoint = service('factory.endpoint')->get('tags', 'search');
 
-		$this->_restful($endpoint, $request);
+		$this->_restful($endpoint, $this->request->query());
 	}
 
 	/**
@@ -54,7 +53,7 @@ class Controller_Api_Tags extends Ushahidi_Rest {
 	 */
 	public function action_get_index()
 	{
-		$endpoint = service('endpoint.tags.get.index');
+		$endpoint = service('factory.endpoint')->get('tags', 'read');
 
 		$request = ['id' => $this->request->param('id')];
 
@@ -70,7 +69,7 @@ class Controller_Api_Tags extends Ushahidi_Rest {
 	 */
 	public function action_put_index()
 	{
-		$endpoint = service('endpoint.tags.put.index');
+		$endpoint = service('factory.endpoint')->get('tags', 'update');
 
 		$request = $this->_request_payload;
 		$request['id'] = $this->request->param('id');
@@ -88,7 +87,7 @@ class Controller_Api_Tags extends Ushahidi_Rest {
 	 */
 	public function action_delete_index()
 	{
-		$endpoint = service('endpoint.tags.delete.index');
+		$endpoint = service('factory.endpoint')->get('tags', 'delete');
 
 		$request = ['id' => $this->request->param('id')];
 

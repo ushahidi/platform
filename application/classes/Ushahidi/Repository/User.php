@@ -11,6 +11,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\SearchData;
 use Ushahidi\Entity\User;
 use Ushahidi\Entity\UserRepository;
 use Ushahidi\Usecase\User\RegisterRepository;
@@ -19,21 +20,16 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	UserRepository,
 	RegisterRepository
 {
+	// Ushahidi_Repository
 	protected function getTable()
 	{
 		return 'users';
 	}
 
 	// Ushahidi_Repository
-	protected function getEntity(Array $data = null)
+	public function getEntity(Array $data = null)
 	{
 		return new User($data);
-	}
-
-	// UserRepository
-	public function get($id)
-	{
-		return $this->getEntity($this->selectOne(compact('id')));
 	}
 
 	// UserRepository
@@ -70,6 +66,6 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	public function register($email, $username, $password)
 	{
 		$created = time();
-		return $this->insert(compact('email', 'username', 'password', 'created'));
+		return $this->executeInsert(compact('email', 'username', 'password', 'created'));
 	}
 }

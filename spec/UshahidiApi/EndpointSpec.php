@@ -4,6 +4,8 @@ namespace spec\UshahidiApi;
 
 use Ushahidi\Usecase;
 use Ushahidi\Data;
+use Ushahidi\Entity;
+use Ushahidi\Tool\Authorizer;
 use Ushahidi\Tool\Parser;
 use Ushahidi\Tool\Formatter;
 
@@ -12,9 +14,20 @@ use Prophecy\Argument;
 
 class EndpointSpec extends ObjectBehavior
 {
-	function let(Parser $parser, Formatter $formatter, Usecase $usecase)
-	{
-		$this->beConstructedWith($parser, $formatter, $usecase);
+	function let(
+		Authorizer $auth,
+		Formatter $formatter,
+		Parser $parser,
+		Usecase $usecase,
+		Entity $resource
+	) {
+		$this->beConstructedWith(compact(
+			'auth',
+			'parser',
+			'formatter',
+			'usecase',
+			'resource'
+		));
 	}
 
 	function it_is_initializable()
@@ -22,11 +35,13 @@ class EndpointSpec extends ObjectBehavior
 		$this->shouldHaveType('UshahidiApi\Endpoint');
 	}
 
-	function it_does_run_the_parser_usecase_formatter_sequence(Data $input, $parser, $formatter, $usecase)
+	function it_does_run_the_parser_usecase_formatter_sequence(Data $input, $auth, $parser, $formatter, $usecase, $resource)
 	{
 		$request = ['input'];
 		$result  = ['entities'];
 		$output  = ['formatted'];
+
+		$auth->isAllowed($resource, 'read')->willReturn(true);
 
 		$parser->__invoke($request)->willReturn($input);
 

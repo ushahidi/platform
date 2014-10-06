@@ -9,7 +9,16 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-abstract class Ushahidi_Repository
+use Ushahidi\Data;
+use Ushahidi\SearchData;
+use Ushahidi\Usecase;
+
+abstract class Ushahidi_Repository implements
+	Usecase\CreateRepository,
+	Usecase\ReadRepository,
+	Usecase\UpdateRepository,
+	Usecase\DeleteRepository,
+	Usecase\SearchRepository
 {
 	protected $db;
 	protected $search_query;
@@ -20,145 +29,84 @@ abstract class Ushahidi_Repository
 	}
 
 	/**
+	 * Get the entity for this repository.
+	 * @param  Array  $data
+	 * @return Ushahidi\Entity
+	 */
+	abstract public function getEntity(Array $data = null);
+
+	/**
 	 * Get the table name for this repository.
 	 * @return String
 	 */
 	abstract protected function getTable();
 
 	/**
-	 * Get the entity for this repository.
-	 * @param  Array  $data
-	 * @return Ushahidi\Entity
+	 * Apply search conditions from input data.
+	 * Must be overloaded to enable searching.
+	 * @throws LogicException
+	 * @param  SearchData $search
+	 * @return void
 	 */
-	abstract protected function getEntity(Array $data = null);
-
-	/**
-	 * Cleans input, removing empty values, and dropping unwanted keys.
-	 * @param  Array $input     hash of input
-	 * @param  Array $drop_keys list of keys to drop
-	 * @return Array
-	 */
-	protected function cleanInput(Array $input, Array $drop_keys = Null)
+	protected function setSearchConditions(SearchData $search)
 	{
-		if ($drop)
-		{
-			$input = array_diff_key($input, array_flip($drop_keys));
-		}
-		return array_filter($input);
+		throw new \LogicException('Not implemented by this repository');
 	}
 
-	/**
-	 * Get a single record meeting some conditions.
-	 * @param  Array $where hash of conditions
-	 * @return Array
-	 */
-	protected function selectOne(Array $where = [])
+	// CreateRepository
+	// UpdateRepository
+	// DeleteRepository
+	public function get($id)
 	{
-		$result = $this->selectQuery($where)
-			->limit(1)
-			->execute($this->db);
-		return $result->current();
+		return $this->getEntity($this->selectOne(compact('id')));
 	}
 
-	/**
-	 * Get a count of records meeting some conditions.
-	 * @param  Array $where hash of conditions
-	 * @return Integer
-	 */
-	final protected function selectCount(Array $where = [])
+	// CreateRepository
+	public function create(Data $input)
 	{
-		$result = $this->selectQuery($where)
-			->select([DB::expr('COUNT(*)'), 'total'])
-			->execute($this->db);
-		return $result->get('total') ?: 0;
+		return $this->executeInsert($input->asArray());
 	}
 
-	/**
-	 * Return a SELECT query, optionally with preconditions.
-	 * @param  Array $where optional hash of conditions
-	 * @return Database_Query_Builder_Select
-	 */
-	protected function selectQuery(Array $where = [])
+	// UpdateRepository
+	public function update($id, Data $input)
 	{
-		$query = DB::select()->from($this->getTable());
-		foreach ($where as $column => $value)
-		{
-			$predicate = is_array($value) ? 'IN' : '=';
-			$query->where($column, $predicate, $value);
-		}
-		return $query;
+		return $this->executeUpdate(compact('id'), $input->asArray());
 	}
 
-	/**
-	 * Create a single record from input and return the created ID.
-	 * @param  Array $input hash of input
-	 * @return Integer
-	 */
-	final protected function insert(Array $input)
+	// DeleteRepository
+	public function delete($id)
 	{
-		$query = DB::insert($this->getTable())
-			->columns(array_keys($input))
-			->values(array_values($input))
-			;
-
-		list($id) = $query->execute($this->db);
-		return $id;
+		return $this->executeDelete(compact('id'));
 	}
 
-	/**
-	 * Update records from input with conditions and return the number affected.
-	 * @param  Array $where hash of conditions
-	 * @param  Array $input hash of input
-	 * @return Integer
-	 */
-	final protected function update(Array $where, Array $input)
+	// SearchRepository
+	public function setSearchParams(SearchData $search)
 	{
-		if (!$where)
-			throw new RuntimeException(sprintf('Cannot update every record in table "%s"', $table));
+		$this->search_query = $this->selectQuery();
 
-		$query = DB::update($this->getTable())->set($input);
-		foreach ($where as $column => $value)
-		{
-			$query->where($column, '=', $value);
+		// apply the sorting parameters
+		$sorting = $search->getSortingParams();
+
+		if (!empty($sorting['orderby'])) {
+			$this->search_query->order_by(
+				$this->getTable() . '.' . $sorting['orderby'],
+				Arr::get($sorting, 'order')
+			);
 		}
 
-		$count = $query->execute($this->db);
-		return $count;
-	}
-
-	/**
-	 * Delete records with conditions and return the number affected.
-	 * @param  Array $where hash of conditions
-	 * @return Integer
-	 */
-	final protected function delete(Array $where)
-	{
-		if (!$where)
-			throw new RuntimeException(sprintf('Cannot to delete every record in table "%s"', $table));
-
-		$query = DB::delete($this->getTable());
-		foreach ($where as $column => $value)
-		{
-			$query->where($column, '=', $value);
+		if (!empty($sorting['offset'])) {
+			$this->search_query->offset($sorting['offset']);
 		}
 
-		$count = $query->execute($this->db);
-		return $count;
-	}
-
-	protected function getCollection(Array $results)
-	{
-		$collection = [];
-		foreach ($results as $row) {
-			$entity = $this->getEntity($row);
-			$collection[$entity->id] = $entity;
+		if (!empty($sorting['limit'])) {
+			$this->search_query->limit($sorting['limit']);
 		}
-		return $collection;
+
+		// apply the unique conditions of the search
+		$this->setSearchConditions($search);
 	}
 
-	// todo: apply this to every repository
-	// abstract public function setSearchParams(SearchData $search, Array $params = null);
-
+	// SearchRepository
 	public function getSearchResults()
 	{
 		$query = $this->getSearchQuery();
@@ -168,6 +116,7 @@ abstract class Ushahidi_Repository
 		return $this->getCollection($results->as_array());
 	}
 
+	// SearchRepository
 	public function getSearchTotal()
 	{
 		// Assume we can simply count the results to get a total
@@ -205,5 +154,139 @@ abstract class Ushahidi_Repository
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Get a single record meeting some conditions.
+	 * @param  Array $where hash of conditions
+	 * @return Array
+	 */
+	protected function selectOne(Array $where = [])
+	{
+		$result = $this->selectQuery($where)
+			->limit(1)
+			->execute($this->db);
+		return $result->current();
+	}
+
+	/**
+	 * Get a count of records meeting some conditions.
+	 * @param  Array $where hash of conditions
+	 * @return Integer
+	 */
+	protected function selectCount(Array $where = [])
+	{
+		$result = $this->selectQuery($where)
+			->select([DB::expr('COUNT(*)'), 'total'])
+			->execute($this->db);
+		return $result->get('total') ?: 0;
+	}
+
+	/**
+	 * Return a SELECT query, optionally with preconditions.
+	 * @param  Array $where optional hash of conditions
+	 * @return Database_Query_Builder_Select
+	 */
+	protected function selectQuery(Array $where = [])
+	{
+		$query = DB::select()->from($this->getTable());
+		foreach ($where as $column => $value)
+		{
+			$predicate = is_array($value) ? 'IN' : '=';
+			$query->where($column, $predicate, $value);
+		}
+		return $query;
+	}
+
+	/**
+	 * Create a single record from input and return the created ID.
+	 * @param  Array $input hash of input
+	 * @return Integer
+	 */
+	protected function executeInsert(Array $input)
+	{
+		if (!$input) {
+			throw new RuntimeException(sprintf(
+				'Cannot create an empty record in table "%s"',
+				$this->getTable()
+			));
+		}
+
+		$query = DB::insert($this->getTable())
+			->columns(array_keys($input))
+			->values(array_values($input))
+			;
+
+		list($id) = $query->execute($this->db);
+		return $id;
+	}
+
+	/**
+	 * Update records from input with conditions and return the number affected.
+	 * @param  Array $where hash of conditions
+	 * @param  Array $input hash of input
+	 * @return Integer
+	 */
+	protected function executeUpdate(Array $where, Array $input)
+	{
+		if (!$where) {
+			throw new RuntimeException(sprintf(
+				'Cannot update every record in table "%s"',
+				$this->getTable()
+			));
+		}
+
+		if (!$input) {
+			return 0; // nothing would be updated, just ignore
+		}
+
+		$query = DB::update($this->getTable())->set($input);
+		foreach ($where as $column => $value)
+		{
+			$query->where($column, '=', $value);
+		}
+
+		$count = $query->execute($this->db);
+		return $count;
+	}
+
+	/**
+	 * Delete records with conditions and return the number affected.
+	 * @param  Array $where hash of conditions
+	 * @return Integer
+	 */
+	protected function executeDelete(Array $where)
+	{
+		if (!$where) {
+			throw new RuntimeException(sprintf(
+				'Cannot delete every record in table "%s"',
+				$this->getTable()
+			));
+		}
+
+		$query = DB::delete($this->getTable());
+		foreach ($where as $column => $value)
+		{
+			$query->where($column, '=', $value);
+		}
+
+		$count = $query->execute($this->db);
+		return $count;
+	}
+
+	/**
+	 * Converts an array of results into an array of entities,
+	 * indexed by the entity id.
+	 * @param  Array $results
+	 * @return Array
+	 */
+	protected function getCollection(Array $results)
+	{
+		$collection = [];
+		foreach ($results as $row) {
+			$entity = $this->getEntity($row);
+			$collection[$entity->id] = $entity;
+		}
+		return $collection;
 	}
 }

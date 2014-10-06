@@ -61,6 +61,126 @@ function feature($name)
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
+// Parsers are used to parse request data used for read operations.
+$di->set('factory.parser', $di->lazyNew('Ushahidi\Factory\ParserFactory'));
+
+// Implemented parsers will be mapped to resources and actions.
+$di->params['Ushahidi\Factory\ParserFactory']['map'] = [];
+
+// Validators are used to parse **and** verify input data used for write operations.
+$di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
+
+// Implemented validators will be mapped to resources and actions.
+$di->params['Ushahidi\Factory\ValidatorFactory']['map'] = [];
+
+// Authorizers are used to check if the accessing user has permission to use an action.
+$di->set('factory.authorizer', $di->lazyNew('Ushahidi\Factory\AuthorizerFactory'));
+
+// Authorizers are shared, so mapping is done with service names.
+$di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
+	'tags'  => $di->lazyGet('authorizer.tag'),
+	'media' => $di->lazyGet('authorizer.media'),
+];
+
+// Repositories are used for storage and retrieval of records.
+$di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'));
+
+// Repositories are shared, so mapping is done with service names.
+$di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
+	'tags'  => $di->lazyGet('repository.tag'),
+	'media' => $di->lazyGet('repository.media'),
+];
+
+// Formatters are used for to prepare the output of records. Actions that return
+// multiple results use collection formatters for recursion.
+$di->set('factory.formatter', $di->lazyNew('Ushahidi\Factory\FormatterFactory'));
+
+// Implemented collection formatter will register as the factory.
+$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = null;
+
+// Formatters used on collections of records are run recursively. This expectation
+// is mapped by actions that return collections.
+$di->params['Ushahidi\Factory\FormatterFactory']['collections'] = [
+	'search' => true,
+];
+
+// Use cases are used to join multiple collaborators together for a single interaction.
+$di->set('factory.usecase', $di->lazyNew('Ushahidi\Factory\UsecaseFactory'));
+$di->params['UshahidiApi\Factory\UsecaseFactory'] = [
+	'authorizers'  => $di->lazyGet('factory.authorizer'),
+	'parsers'      => $di->lazyGet('factory.parser'),
+	'validators'   => $di->lazyGet('factory.validator'),
+	'repositories' => $di->lazyGet('factory.repository'),
+];
+
+// Each of the actions follows a standard sequence of events and is simply constructed
+// with a unique set of collaborators that follow specific interfaces.
+$di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [
+	'create' => $di->newFactory('Ushahidi\Usecase\CreateUsecase'),
+	'read'   => $di->newFactory('Ushahidi\Usecase\ReadUsecase'),
+	'update' => $di->newFactory('Ushahidi\Usecase\UpdateUsecase'),
+	'delete' => $di->newFactory('Ushahidi\Usecase\DeleteUsecase'),
+	'search' => $di->newFactory('Ushahidi\Usecase\SearchUsecase'),
+];
+
+// Usecases also have slightly different interaction styles if they read, write,
+// or both. Additional actions should be defined here based on their style.
+$di->params['Ushahidi\Factory\UsecaseFactory']['read'] = [
+	'read'   => true,
+	'update' => true, // + write
+	'delete' => true,
+	'search' => true,
+];
+$di->params['Ushahidi\Factory\UsecaseFactory']['write'] = [
+	'create' => true,
+	'update' => true, // + read
+];
+
+// Endpoints are used to cross the boundary between the core application and the
+// delivery layer. The endpoint factory is a meta-factory that composes each use
+// case when it is required.
+$di->set('factory.endpoint', $di->lazyNew('UshahidiApi\Factory\EndpointFactory'));
+$di->params['UshahidiApi\Factory\EndpointFactory'] = [
+	'parsers'      => $di->lazyGet('factory.parser'),
+	'usecases'     => $di->lazyGet('factory.usecase'),
+	'authorizers'  => $di->lazyGet('factory.authorizer'),
+	'repositories' => $di->lazyGet('factory.repository'),
+	'formatters'   => $di->lazyGet('factory.formatter'),
+];
+
+// Parsing and formatting happen outside the usecase, in the Endpoint wrapper.
+$di->params['UshahidiApi\Factory\EndpointFactory']['factory'] = $di->newFactory('UshahidiApi\Endpoint');
+
+// Primary definition of the entire application architecture is here.
+// This maps out what services are used for which endpoint, through a very
+// strict convention. All services are dependency injected, to allow for
+// additional modification and extension.
+//
+// Each endpoint is defined as `'resource' => [/* list of actions */]`.
+// Using `[]` for actions will default to:
+//
+//     [
+//       'create' => true,
+//       'read'   => true,
+//       'update' => true,
+//       'delete' => true,
+//       'search' => true,
+//     ]
+//
+// Whatever actions are defined here will be merged with the defaults. This allows
+// disabling one or more actions very simple:
+//
+//     ['search' => false] /* will disable search */
+//
+// Or if you want to add a new custom action:
+//
+//     ['special' => true] /* adds "search" action */
+//
+$di->params['UshahidiApi\Factory\EndpointFactory']['endpoints'] = [
+	'tags'  => [],
+	'media' => ['update' => false], // disable update action, media can only be created and deleted
+];
+
 // Traits
 $di->setter['Ushahidi\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 
@@ -78,8 +198,8 @@ $di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
 	];
 
 $di->set('tool.authorizer.layer', $di->lazyNew('Ushahidi\Tool\Authorizer\LayerAuthorizer'));
-$di->set('tool.authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
-$di->set('tool.authorizer.media', $di->lazyNew('Ushahidi\Tool\Authorizer\MediaAuthorizer'));
+$di->set('authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
+$di->set('authorizer.media', $di->lazyNew('Ushahidi\Tool\Authorizer\MediaAuthorizer'));
 
 // Use cases
 $di->set('usecase.layer.create', $di->lazyNew('Ushahidi\Usecase\Layer\Create'));
@@ -114,67 +234,11 @@ $di->params['Ushahidi\Usecase\Layer\Delete'] = [
 	'auth' => $di->lazyGet('tool.authorizer.layer'),
 	];
 
-$di->set('usecase.media.create', $di->lazyNew('Ushahidi\Usecase\Media\Create'));
-$di->params['Ushahidi\Usecase\Media\Create'] = [
-	'repo'  => $di->lazyGet('repository.media'),
-	'valid' => $di->lazyGet('validator.media.create'),
-	'auth'  => $di->lazyGet('tool.authorizer.media'),
-	];
-
-$di->set('usecase.media.read', $di->lazyNew('\Ushahidi\Usecase\Media\Read'));
-$di->params['\Ushahidi\Usecase\Media\Read'] = [
-	'repo' => $di->lazyGet('repository.media'),
-	'auth' => $di->lazyGet('tool.authorizer.media'),
-	];
-
-$di->set('usecase.media.search', $di->lazyNew('\Ushahidi\Usecase\Media\Search'));
-$di->params['\Ushahidi\Usecase\Media\Search'] = [
-	'repo' => $di->lazyGet('repository.media'),
-	'auth' => $di->lazyGet('tool.authorizer.media'),
-	];
-
-$di->set('usecase.media.delete', $di->lazyNew('Ushahidi\Usecase\Media\Delete'));
-$di->params['Ushahidi\Usecase\Media\Delete'] = [
-	'repo' => $di->lazyGet('repository.media'),
-	'valid' => $di->lazyGet('validator.media.delete'),
-	'auth' => $di->lazyGet('tool.authorizer.media'),
-	];
-
 $di->set('usecase.post.update', $di->lazyNew('\Ushahidi\Usecase\Post\Update'));
 $di->params['\Ushahidi\Usecase\Post\Update'] = [
 	'repo' => $di->lazyGet('repository.post'),
 	'valid' => $di->lazyGet('validator.post.update'),
 	'auth' => $di->lazyGet('tool.authorizer.post'),
-	];
-
-$di->set('usecase.tag.create', $di->lazyNew('\Ushahidi\Usecase\Tag\Create'));
-$di->params['\Ushahidi\Usecase\Tag\Create'] = [
-	'repo' => $di->lazyGet('repository.tag'),
-	'valid' => $di->lazyGet('validator.tag.create'),
-	];
-
-$di->set('usecase.tag.read', $di->lazyNew('\Ushahidi\Usecase\Tag\Read'));
-$di->params['\Ushahidi\Usecase\Tag\Read'] = [
-	'repo' => $di->lazyGet('repository.tag'),
-	'auth' => $di->lazyGet('tool.authorizer.tag'),
-	];
-
-$di->set('usecase.tag.search', $di->lazyNew('\Ushahidi\Usecase\Tag\Search'));
-$di->params['\Ushahidi\Usecase\Tag\Search'] = [
-	'repo' => $di->lazyGet('repository.tag'),
-	'auth' => $di->lazyGet('tool.authorizer.tag'),
-	];
-
-$di->set('usecase.tag.update', $di->lazyNew('\Ushahidi\Usecase\Tag\Update'));
-$di->params['\Ushahidi\Usecase\Tag\Update'] = [
-	'repo' => $di->lazyGet('repository.tag'),
-	'valid' => $di->lazyGet('validator.tag.update'),
-	];
-
-$di->set('usecase.tag.delete', $di->lazyNew('\Ushahidi\Usecase\Tag\Delete'));
-$di->params['\Ushahidi\Usecase\Tag\Delete'] = [
-	'repo' => $di->lazyGet('repository.tag'),
-	'valid' => $di->lazyGet('validator.tag.delete'),
 	];
 
 $di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
@@ -216,49 +280,4 @@ $di->set('endpoint.layers.delete.index', $di->lazyNew('UshahidiApi\Endpoint', [
 	'parser' => $di->lazyGet('parser.layer.read'),
 	'formatter' => $di->lazyGet('formatter.entity.layer'),
 	'usecase' => $di->lazyGet('usecase.layer.delete'),
-]));
-$di->set('endpoint.media.post.collection', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.media.create'),
-	'formatter' => $di->lazyGet('formatter.entity.media'),
-	'usecase' => $di->lazyGet('usecase.media.create'),
-]));
-$di->set('endpoint.media.get.index', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.media.read'),
-	'formatter' => $di->lazyGet('formatter.entity.media'),
-	'usecase' => $di->lazyGet('usecase.media.read'),
-]));
-$di->set('endpoint.media.get.collection', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.media.search'),
-	'formatter' => $di->lazyGet('formatter.collection.media'),
-	'usecase' => $di->lazyGet('usecase.media.search'),
-]));
-$di->set('endpoint.tags.post.collection', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.tag.create'),
-	'formatter' => $di->lazyGet('formatter.entity.tag'),
-	'usecase' => $di->lazyGet('usecase.tag.create'),
-]));
-$di->set('endpoint.media.delete.index', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.media.delete'),
-	'formatter' => $di->lazyGet('formatter.entity.media'),
-	'usecase' => $di->lazyGet('usecase.media.delete'),
-]));
-$di->set('endpoint.tags.get.collection', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.tag.search'),
-	'formatter' => $di->lazyGet('formatter.collection.tag'),
-	'usecase' => $di->lazyGet('usecase.tag.search'),
-]));
-$di->set('endpoint.tags.get.index', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.tag.read'),
-	'formatter' => $di->lazyGet('formatter.entity.tag'),
-	'usecase' => $di->lazyGet('usecase.tag.read'),
-]));
-$di->set('endpoint.tags.put.index', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.tag.update'),
-	'formatter' => $di->lazyGet('formatter.entity.tag'),
-	'usecase' => $di->lazyGet('usecase.tag.update'),
-]));
-$di->set('endpoint.tags.delete.index', $di->lazyNew('UshahidiApi\Endpoint', [
-	'parser' => $di->lazyGet('parser.tag.delete'),
-	'formatter' => $di->lazyGet('formatter.entity.tag'),
-	'usecase' => $di->lazyGet('usecase.tag.delete'),
 ]));

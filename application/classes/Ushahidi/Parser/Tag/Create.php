@@ -26,6 +26,11 @@ class Ushahidi_Parser_Tag_Create implements Parser
 			$data['slug'] = URL::title($data['tag']);
 		}
 
+		if (!empty($data['color'])) {
+			// Colors are always stripped of their hash for consistency
+			$data['color'] = ltrim($data['color'], '#');
+		}
+
 		$valid = Validation::factory($data)
 			->rules('tag', array(
 					array('not_empty'),

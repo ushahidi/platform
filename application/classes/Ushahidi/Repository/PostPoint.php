@@ -32,7 +32,7 @@ class Ushahidi_Repository_PostPoint extends Ushahidi_Repository_PostValue
 	}
 
 	// Ushahidi_Repository
-	protected function getEntity(Array $data = null)
+	public function getEntity(Array $data = null)
 	{
 		try
 		{

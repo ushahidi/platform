@@ -92,6 +92,55 @@ abstract class Ushahidi_Core {
 			'db' => $di->lazyGet('kohana.db'),
 			];
 
+		// Parser mapping
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['media'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Media_Create'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_Media_Read'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Media_Delete'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Media_Search'),
+		];
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['tags'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Tag_Create'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_Tag_Read'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Tag_Update'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Tag_Delete'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Tag_Search'),
+		];
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['posts'] = [
+			'read'   => $di->lazyNew('Ushahidi_Parser_Post_Read'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Post_Update'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Post_Search'),
+		];
+
+		// Validator mapping
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['media'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Media_Create'),
+			'delete' => $di->lazyNew('Ushahidi_Validator_Media_Delete'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Tag_Update'),
+			'delete' => $di->lazyNew('Ushahidi_Validator_Tag_Delete'),
+		];
+
+		// Formatter mapping
+		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
+			'media' => $di->lazyNew('Ushahidi_Formatter_Media'),
+			'tags'  => $di->lazyNew('Ushahidi_Formatter_Tag'),
+			'posts' => $di->lazyNew('Ushahidi_Formatter_Post'),
+		];
+
+		// Formatter parameters
+		$di->params['Ushahidi_Formatter_Media'] = [
+			'auth' => $di->lazyGet('authorizer.media'),
+		];
+		$di->params['Ushahidi_Formatter_Tag'] = [
+			'auth' => $di->lazyGet('authorizer.tag'),
+		];
+
+		// Collection Formatter factory
+		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');
+
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
@@ -109,19 +158,10 @@ abstract class Ushahidi_Core {
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.layer', $di->lazyNew('Ushahidi_Formatter_Layer'));
-		$di->set('formatter.entity.media', $di->lazyNew('Ushahidi_Formatter_Media'));
-		$di->set('formatter.entity.post', $di->lazyNew('Ushahidi_Formatter_Post'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
-		$di->set('formatter.entity.tag', $di->lazyNew('Ushahidi_Formatter_Tag'));
 
 		$di->set('formatter.collection.layer', $di->lazyNew('Ushahidi_Formatter_Collection', [
 			'formatter' => $di->lazyGet('formatter.entity.layer')
-		]));
-		$di->set('formatter.collection.media', $di->lazyNew('Ushahidi_Formatter_Collection', [
-			'formatter' => $di->lazyGet('formatter.entity.media')
-		]));
-		$di->set('formatter.collection.tag', $di->lazyNew('Ushahidi_Formatter_Collection', [
-			'formatter' => $di->lazyGet('formatter.entity.tag')
 		]));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
@@ -134,12 +174,6 @@ abstract class Ushahidi_Core {
 		};
 		$di->params['Ushahidi_Formatter_Post'] = [
 			'value_formatter' => $di->lazyGet('formatter.entity.post.value')
-		];
-		$di->params['Ushahidi_Formatter_Media'] = [
-			'auth' => $di->lazyGet('tool.authorizer.media'),
-		];
-		$di->params['Ushahidi_Formatter_Tag'] = [
-			'auth' => $di->lazyGet('tool.authorizer.tag'),
 		];
 
 		// Repositories
@@ -202,18 +236,9 @@ abstract class Ushahidi_Core {
 		$di->set('parser.layer.read', $di->lazyNew('Ushahidi_Parser_Layer_Read'));
 		$di->set('parser.layer.search', $di->lazyNew('Ushahidi_Parser_Layer_Search'));
 		$di->set('parser.layer.update', $di->lazyNew('Ushahidi_Parser_Layer_Update'));
-		$di->set('parser.media.create', $di->lazyNew('Ushahidi_Parser_Media_Create'));
-		$di->set('parser.media.read', $di->lazyNew('Ushahidi_Parser_Media_Read'));
-		$di->set('parser.media.delete', $di->lazyNew('Ushahidi_Parser_Media_Delete'));
-		$di->set('parser.media.search', $di->lazyNew('Ushahidi_Parser_Media_Search'));
 		$di->set('parser.post.read', $di->lazyNew('Ushahidi_Parser_Post_Read'));
 		$di->set('parser.post.search', $di->lazyNew('Ushahidi_Parser_Post_Search'));
 		$di->set('parser.post.update', $di->lazyNew('Ushahidi_Parser_Post_Update'));
-		$di->set('parser.tag.create', $di->lazyNew('Ushahidi_Parser_Tag_Create'));
-		$di->set('parser.tag.read', $di->lazyNew('Ushahidi_Parser_Tag_Read'));
-		$di->set('parser.tag.search', $di->lazyNew('Ushahidi_Parser_Tag_Search'));
-		$di->set('parser.tag.update', $di->lazyNew('Ushahidi_Parser_Tag_Update'));
-		$di->set('parser.tag.delete', $di->lazyNew('Ushahidi_Parser_Tag_Delete'));
 		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));
 		$di->set('parser.user.register', $di->lazyNew('Ushahidi_Parser_User_Register'));
 
@@ -225,12 +250,7 @@ abstract class Ushahidi_Core {
 		// Validators
 		$di->set('validator.layer.create', $di->lazyNew('Ushahidi_Validator_Layer_Create'));
 		$di->set('validator.layer.update', $di->lazyNew('Ushahidi_Validator_Layer_Update'));
-		$di->set('validator.media.create', $di->lazyNew('Ushahidi_Validator_Media_Create'));
-		$di->set('validator.media.delete', $di->lazyNew('Ushahidi_Validator_Media_Delete'));
 		$di->set('validator.post.update', $di->lazyNew('Ushahidi_Validator_Post_Update'));
-		$di->set('validator.tag.create', $di->lazyNew('Ushahidi_Validator_Tag_Create'));
-		$di->set('validator.tag.update', $di->lazyNew('Ushahidi_Validator_Tag_Update'));
-		$di->set('validator.tag.delete', $di->lazyNew('Ushahidi_Validator_Tag_Delete'));
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
 

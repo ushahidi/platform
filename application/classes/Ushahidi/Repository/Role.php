@@ -9,25 +9,22 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\SearchData;
 use Ushahidi\Entity\Role;
 use Ushahidi\Entity\RoleRepository;
 
 class Ushahidi_Repository_Role extends Ushahidi_Repository implements RoleRepository
 {
-	//Ushahidi_Repository
+	// Ushahidi_Repository
 	protected function getTable()
 	{
 		return 'roles';
 	}
 
-	protected function getEntity(Array $data = null)
+	// Ushahidi_Repository
+	public function getEntity(Array $data = null)
 	{
 		return new Role($data);
-	}
-
-	public function get($name)
-	{
-		return $this->getEntity($this->selectOne(compact('name')));
 	}
 
 	// RoleRepository
@@ -36,7 +33,5 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements RoleReposi
 		$found = (int) $this->selectCount(compact('name'));
 		$count = count($name);
 		return $found === $count;
-		
 	}
-
 }

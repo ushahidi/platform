@@ -11,25 +11,73 @@
 
 namespace UshahidiApi;
 
-use Ushahidi\Tool\Parser;
-use Ushahidi\Tool\Formatter;
-use Ushahidi\Tool\Formatter\CollectionFormatter;
+use Ushahidi\Entity;
+use Ushahidi\Tool\AuthorizerTrait;
+use Ushahidi\Tool\ParserTrait;
+use Ushahidi\Tool\FormatterTrait;
 use Ushahidi\Usecase;
+
+use Ushahidi\Exception\AuthorizerException;
 
 class Endpoint
 {
-	protected $parser;
-	protected $formatter;
+	// Uses several traits to assign tools. Each of these traits provides a
+	// setter method for the tool. For example, the AuthorizerTrait provides
+	// a `setAuthorizer` method which only accepts `Authorizer` instances.
+	use AuthorizerTrait,
+		ParserTrait,
+		FormatterTrait;
+
+	/**
+	 * @var Ushahidi\Entity
+	 */
+	protected $resource;
+
+	/**
+	 * @var Ushahidi\Usecase
+	 */
 	protected $usecase;
 
-	public function __construct(
-		Parser $parser,
-		Formatter $formatter,
-		Usecase $usecase
-	) {
-		$this->parser = $parser;
-		$this->formatter = $formatter;
+	/**
+	 * Takes an array of tools assigns them by type.
+	 * @param  Array $tools
+	 */
+	public function __construct(Array $tools)
+	{
+		$this->setAuthorizer($tools['auth']);
+		$this->setFormatter($tools['formatter']);
+		$this->setParser($tools['parser']);
+		$this->setUsecase($tools['usecase']);
+		$this->setResource($tools['resource']);
+	}
+
+	/**
+	 * One of the CRUDS use cases.
+	 * @param  Ushahidi\Usecase $usecase
+	 * @return void
+	 */
+	private function setUsecase(Usecase $usecase)
+	{
 		$this->usecase = $usecase;
+	}
+
+	/**
+	 * An empty resource to be used as an early visibility check.
+	 * @param  Ushahidi\Entity $resource
+	 * @return void
+	 */
+	private function setResource(Entity $resource)
+	{
+		$this->resource = $resource;
+	}
+
+	/**
+	 * Get the minimum possible action required to access the endpoint.
+	 * @return String
+	 */
+	protected function getAccessAction()
+	{
+		return 'read';
 	}
 
 	/**
@@ -45,6 +93,14 @@ class Endpoint
 	 */
 	public function run(Array $request)
 	{
+		if (!$this->auth->isAllowed($this->resource, $this->getAccessAction())) {
+			throw new AuthorizerException(sprintf(
+				'User %d is not allowed to access the %s endpoint',
+				$auth->getUserId(),
+				$this->resource->getResource()
+			));
+		}
+
 		// todo: replace __invoke with a better method name
 		$input  = $this->parser->__invoke($request);
 		$result = $this->usecase->interact($input);

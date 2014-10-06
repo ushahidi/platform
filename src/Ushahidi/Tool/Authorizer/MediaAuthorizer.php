@@ -49,13 +49,12 @@ class MediaAuthorizer implements Authorizer
 		}
 
 		// All users are allowed to view and create new media files.
-		if (in_array($privilege, ['get', 'post'])) {
+		if (in_array($privilege, ['read', 'create'])) {
 			return true;
 		}
 
-		// We check if a user is the owner of this media, if so they are allowed to
-		// edit and remove.
-		if ($this->isUserOwner($entity, $user) && in_array($privilege, ['put', 'delete'])) {
+		// Owners can removed media they own.
+		if ($this->isUserOwner($entity, $user) && $privilege === 'delete') {
 			return true;
 		}
 

@@ -122,24 +122,25 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	public function action_get_index_collection()
 	{
 		$repo   = service('repository.post');
-		$parser = service('parser.post.search');
-		$format = service('formatter.entity.post');
+		$parser = service('factory.parser')->get('posts', 'search');
+		$format = service('factory.formatter')->get('posts', 'read');
 		$authorizer = service('tool.authorizer.post');
-
-		$input = $parser($this->request->query());
 
 		// this probably belongs in the parser, or should just return the
 		// order/limit params as an array for the search call
 		$this->_prepare_order_limit_params();
 
-		$repo->setSearchParams($input, [
+		$sorting = [
 			'orderby' => $this->_record_orderby,
 			'order' => $this->_record_order,
 			'offset' => $this->_record_offset,
 			'limit' => $this->_record_limit,
 			'type' => $this->_type,
-			'parent_id' => $this->_parent_id
-		]);
+			'parent' => $this->_parent_id
+		];
+		$input = $parser($sorting + $this->request->query());
+
+		$repo->setSearchParams($input);
 
 		$posts = $repo->getSearchResults();
 		$total = $repo->getSearchTotal();
@@ -149,7 +150,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		{
 			// Check if user is allowed to access this post
 			// @todo preload user entity, avoid multiple queries
-			if ( $authorizer->isAllowed($post, 'get') )
+			if ( $authorizer->isAllowed($post, 'read') )
 			{
 				$result = $format($post);
 				// @todo check with authorizer instead
@@ -180,7 +181,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	public function action_get_index()
 	{
 		$repo   = service('repository.post');
-		$format = service('formatter.entity.post');
+		$format = service('factory.formatter')->get('posts', 'read');
 		$id     = $this->request->param('id', 0);
 		$post   = $repo->getByIdAndParent($id, $this->request->param('post_id'));
 		$authorizer = service('tool.authorizer.post');
@@ -192,7 +193,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			));
 		}
 
-		if (! $authorizer->isAllowed($post, 'get'))
+		if (! $authorizer->isAllowed($post, 'read'))
 		{
 			throw HTTP_Exception::factory('403', 'You do not have permission to access post :post', array(
 				':post' => $id
@@ -212,9 +213,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$format  = service('formatter.entity.post');
-		$read_parser  = service('parser.post.read');
-		$write_parser  = service('parser.post.update');
+		$format = service('factory.formatter')->get('posts', 'update');
+		$read_parser = service('factory.parser')->get('posts', 'read');
+		$write_parser = service('factory.parser')->get('posts', 'update');
 		$usecase = service('usecase.post.update');
 
 		$request = $this->_request_payload;

@@ -33,10 +33,8 @@ class TagAuthorizer implements Authorizer
 
 	protected function isUserOfRole(Tag $entity, $user)
 	{
-		$roles = $entity->getRoleArray();
-
-		if ($roles) {
-			return in_array($user->role, $roles);
+		if ($entity->role) {
+			return in_array($user->role, $entity->role);
 		}
 
 		// If no roles are selected, the Tag is considered completely public.
