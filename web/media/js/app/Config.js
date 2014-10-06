@@ -36,7 +36,7 @@ require.config(
 		'handlebars-paginate' : '../libs/handlebars-paginate',
 		'backbone-forms' : '../../bower_components/backbone-forms/distribution.amd/backbone-forms',
 		'bf' : '../../bower_components/backbone-forms/distribution.amd/',
-		'backbone-validation' : '../../bower_components/backbone.validation/dist/backbone-validation-amd',
+		'backbone-validation' : '../../bower_components/backbone-validation/dist/backbone-validation-amd',
 		'backbone-model-factory' : '../../bower_components/backbone-model-factory/backbone-model-factory',
 		'alertify' : '../../bower_components/alertify/alertify',
 		'text' : '../../bower_components/requirejs-text/text',
@@ -46,8 +46,7 @@ require.config(
 		'geopoint' : '../../bower_components/node-geopoint/geopoint',
 		'datetimepicker' : '../../bower_components/datetimepicker/jquery.datetimepicker',
 		'select2' : '../../bower_components/select2/select2',
-		'jquery.nouislider' : '../../bower_components/nouislider/jquery.nouislider',
-		'Link' : '../../bower_components/nouislider/Link',
+		'jquery.nouislider' : '../../bower_components/nouislider/distribute/jquery.nouislider.all',
 		'jqueryui' : '../../bower_components/jquery.ui/ui',
 		'URI' : '../../bower_components/URIjs/src/URI',
 		// Deps for URI
@@ -63,11 +62,6 @@ require.config(
 	// Sets the configuration for your third party scripts that are not AMD compatible
 	shim :
 	{
-		'handlebars' :
-		{
-			'exports' : 'Handlebars'
-		},
-
 		'leaflet': {
 			deps: ['jquery'],
 			exports: 'L'
@@ -137,12 +131,8 @@ require.config(
 			deps: ['jquery'],
 		},
 
-		'Link' : {
-			deps: ['jquery']
-		},
-
 		'jquery.nouislider' : {
-			deps: ['jquery', 'Link']
+			deps: ['jquery']
 		},
 
 		'tether-utils' : {

@@ -114,12 +114,6 @@ module.exports = function(grunt) {
 						'handlebars' : '../../bower_components/handlebars/handlebars.runtime',
 						'handlebars-compiler' : '../../bower_components/handlebars/handlebars'
 					},
-					shim : {
-						'handlebars-compiler' :
-						{
-							'exports' : 'Handlebars'
-						},
-					},
 					excludeShallow: ['handlebars-compiler']
 				}
 			}
