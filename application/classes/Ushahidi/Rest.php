@@ -13,6 +13,7 @@ use Ushahidi\SearchData;
 use UshahidiApi\Endpoint;
 
 abstract class Ushahidi_Rest extends Controller {
+	use Ushahidi_Corsheaders;
 
 	/**
 	 * @var Current API version
@@ -34,10 +35,11 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	protected $_action_map = array
 	(
-		Http_Request::POST   => 'post',   // Typically Create..
-		Http_Request::GET    => 'get',
-		Http_Request::PUT    => 'put',    // Typically Update..
-		Http_Request::DELETE => 'delete',
+		Http_Request::POST    => 'post',   // Typically Create..
+		Http_Request::GET     => 'get',
+		Http_Request::PUT     => 'put',    // Typically Update..
+		Http_Request::DELETE  => 'delete',
+		Http_Request::OPTIONS => 'options'
 	);
 
 	/**
@@ -105,6 +107,18 @@ abstract class Ushahidi_Rest extends Controller {
 	}
 
 	/**
+	 * Get options for a resource.
+	 *
+	 * OPTIONS /api/foo
+	 *
+	 * @return void
+	 */
+	public function action_options_index_collection()
+	{
+		$this->response->status(200);
+	}
+
+	/**
 	 * Get the request access method
 	 *
 	 * Allows controllers to customize how different methods are treated.
@@ -125,6 +139,12 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	protected function _check_access()
 	{
+		// Don't require auth for OPTIONS method
+		if ($this->request->method() === Request::OPTIONS)
+		{
+			return TRUE;
+		}
+
 		$server = service('oauth.server.resource');
 
 		// Using an "Authorization: Bearer xyz" header is required, except for GET requests
@@ -270,6 +290,8 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	protected function _prepare_response()
 	{
+		$this->add_cors_headers($this->response);
+
 		// Should we prevent this request from being cached?
 		if ( ! in_array($this->request->method(), $this->_cacheable_methods))
 		{
