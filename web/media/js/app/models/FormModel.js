@@ -17,6 +17,7 @@ define(['backbone', 'modules/config', 'collections/FormGroupCollection', 'backbo
 			'textarea' : 'TextArea',
 			'radio' : 'Radio',
 			'checkbox' : 'Checkbox',
+			'checkboxes' : 'Checkboxes',
 			'date' : 'Date',
 			'datetime' : 'DateTime',
 			'select' : 'Select',

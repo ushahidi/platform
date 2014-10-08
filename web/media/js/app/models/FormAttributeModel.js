@@ -33,7 +33,7 @@ define(['backbone', 'modules/config'],
 			defaults : {
 				cardinality: 1,
 				required: false,
-				options: {}
+				options: []
 			},
 			toString : function ()
 			{

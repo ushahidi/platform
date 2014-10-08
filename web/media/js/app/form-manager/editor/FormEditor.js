@@ -132,6 +132,9 @@ define(['App', 'marionette', 'underscore', 'alertify',
 					submitButton : 'Save'
 				});
 
+				// Change options array to comma-separated
+				this.attributeForm.setValue('options', _.isArray(attribute.get('options')) ? attribute.get('options').join(',') : '');
+
 				this.attributeForm.on('submit', this.saveAttribute, this);
 
 				this.attributeEditor.show(this.attributeForm);
