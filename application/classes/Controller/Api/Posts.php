@@ -768,18 +768,36 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$post = $this->resource();
+		$format = service('factory.formatter')->get('posts', 'delete');
+		$read_parser = service('factory.parser')->get('posts', 'delete');
+		$usecase = service('usecase.post.delete');
 
-		$this->_response_payload = array();
-		if ($post->loaded())
+		$request = $this->_request_payload;
+
+		$read = $this->request->param();
+
+		try
 		{
-			// Return the post we just deleted (provides some confirmation)
-			$this->_response_payload = $post->for_api();
-
-			// @todo move this to 'meta' info
-			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
-
-			$post->delete();
+			$read_data = $read_parser($read);
+			$post = $usecase->interact($read_data);
 		}
+		catch (Ushahidi\Exception\NotFoundException $e)
+		{
+			throw new HTTP_Exception_404($e->getMessage());
+		}
+		catch (Ushahidi\Exception\ValidatorException $e)
+		{
+			// Also handles ParserException
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
+		}
+		catch (Ushahidi\Exception\AuthorizerException $e)
+		{
+			throw new HTTP_Exception_403($e->getMessage());
+		}
+
+		$this->_response_payload = $format($post);
+		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 }

@@ -44,7 +44,7 @@ class DeleteUsecase implements Usecase
 
 	public function interact(Data $input)
 	{
-		$entity = $this->repo->get($input->id);
+		$entity = $this->getEntity($input);
 
 		$this->verifyEntityLoaded($entity, $input->id);
 
@@ -60,5 +60,10 @@ class DeleteUsecase implements Usecase
 		$this->repo->delete($input->id);
 
 		return $entity;
+	}
+
+	protected function getEntity(Data $input)
+	{
+		return $this->repo->get($input->id);
 	}
 }

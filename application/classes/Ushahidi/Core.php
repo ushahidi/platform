@@ -117,6 +117,7 @@ abstract class Ushahidi_Core {
 			'read'   => $di->lazyNew('Ushahidi_Parser_Post_Read'),
 			'update' => $di->lazyNew('Ushahidi_Parser_Post_Update'),
 			'search' => $di->lazyNew('Ushahidi_Parser_Post_Search'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Post_Read'),
 		];
 
 		// Validator mapping

@@ -205,6 +205,14 @@ $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Tool\Authorizer\MediaAuthorizer'));
 
 // Use cases
+$di->set('usecase.post.delete', $di->lazyNew('\Ushahidi\Usecase\Post\DeletePost'));
+$di->params['\Ushahidi\Usecase\Post\DeletePost']['tools'] = $di->lazy(function () use ($di) {
+	return [
+		'repo' => $di->get('repository.post'),
+		'auth' => $di->get('tool.authorizer.post'),
+	];
+});
+
 $di->set('usecase.post.read', $di->lazyNew('\Ushahidi\Usecase\Post\ReadPost'));
 $di->params['\Ushahidi\Usecase\Post\ReadPost']['tools'] = $di->lazy(function () use ($di) {
 	return [
