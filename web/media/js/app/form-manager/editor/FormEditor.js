@@ -159,6 +159,7 @@ define(['App', 'marionette', 'underscore', 'alertify',
 					.done(function ()
 					{
 						alertify.success('Field saved');
+						App.Collections.Forms.fetch();
 					})
 					.fail(function ()
 					{
