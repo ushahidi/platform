@@ -83,7 +83,8 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Cr
 				// Trigger event when modal is fully opened, used to refresh map size
 				this.on('modal:open', function ()
 				{
-					this.form.trigger('dom:refresh');
+					// Refresh map
+					App.vent.trigger('location:refresh');
 				});
 
 				// Will be replaced with a Dropzone

@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!form-manager/editor/AttributeListItem'],
-	function(_, Marionette, alertify, BackboneForm, template)
+define(['underscore', 'marionette', 'App', 'alertify', 'forms/UshahidiForms', 'hbs!form-manager/editor/AttributeListItem'],
+	function(_, Marionette, App, alertify, BackboneForm, template)
 	{
 		return Marionette.ItemView.extend(
 		{
@@ -35,6 +35,9 @@ define(['underscore', 'marionette', 'alertify', 'forms/UshahidiForms', 'hbs!form
 
 				// hide the field editor form until activated
 				this.$('.js-form-input').empty().append(this.form.$el);
+
+				// Refresh map
+				App.vent.trigger('location:refresh');
 			},
 
 			serializeData: function ()

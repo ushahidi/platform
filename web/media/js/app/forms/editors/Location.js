@@ -1,6 +1,6 @@
-define(['underscore', 'backbone', 'marionette', 'leaflet', 'hbs!forms/templates/LocationEditor', 'text!templates/MapAttribution.html',
+define(['App', 'underscore', 'backbone', 'leaflet', 'hbs!forms/templates/LocationEditor', 'text!templates/MapAttribution.html',
 	'backbone-forms', 'l.geosearch/l.control.geosearch', 'l.geosearch/l.geosearch.provider.openstreetmap', 'leaflet-locatecontrol'],
-	function(_, Backbone, Marionette, L, template, mapAttributionTemplate)
+	function(App, _, Backbone, L, template, mapAttributionTemplate)
 {
 	var Location = Backbone.Form.editors.Location = Backbone.Form.editors.Base.extend({
 		tagName : 'div',
@@ -30,7 +30,7 @@ define(['underscore', 'backbone', 'marionette', 'leaflet', 'hbs!forms/templates/
 			// Call parent constructor
 			Backbone.Form.editors.Base.prototype.initialize.call(this, options);
 
-			this.form.on('dom:refresh', this.refreshMap, this);
+			App.vent.on('location:refresh', this.refreshMap, this);
 		},
 
 		render : function()

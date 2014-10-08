@@ -61,6 +61,15 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify',
 						//ddt.log('FormEditor', 'receive ui', that.form_group_id, ui.item[0], ui.sender);
 						that.trigger('sortable:receive', ui);
 					},
+					// Replace item being dragged with just its title
+					helper : function(event, el) {
+						var title = $('.field-preview > label', el).text(),
+							helper = $('<li class="list-view-attribute"></li>')
+								.append('<label></label>')
+								.text(title);
+						return helper;
+					},
+					placeholder : 'list-view-attribute placeholder',
 					connectWith: '.form-attributes .list-view-attribute-list'
 				});
 			},
@@ -143,7 +152,6 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify',
 							// alertify.error('Unable to delete field, please try again');
 						});
 				});
-
 			},
 
 			showFormGroupEdit : function(e)

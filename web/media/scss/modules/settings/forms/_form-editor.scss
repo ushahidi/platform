@@ -84,4 +84,11 @@
 	.cover:hover {
 		opacity: 0.5;
 	}
+	.placeholder {
+		background: darken($lightGray, 5%);
+		height: 3em;
+	}
+	.ui-sortable-helper {
+		opacity: 0.9;
+	}
 }

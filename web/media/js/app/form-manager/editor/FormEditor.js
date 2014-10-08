@@ -85,6 +85,11 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				});
 			},
 
+			onShow : function() {
+				// Once everything is visible, trigger an event so maps can update themselves
+				App.vent.trigger('location:refresh');
+			},
+
 			onDestroy : function ()
 			{
 				this.ui.availableAttributes.draggable('destroy');
