@@ -57,7 +57,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			->set('status', 'published');
 
 		// Get parent if we have one
-		if ($this->_parent_id = $this->request->param('post_id', NULL))
+		if ($this->_parent_id = $this->request->param('parent_id', NULL))
 		{
 			// Check parent post exists
 			$parent = ORM::factory('Post', $this->_parent_id);
@@ -229,10 +229,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 
 		$request = $this->_request_payload;
 
-		$read = [];
-		$read['id'] = $this->request->param('id', NULL);
-		$read['parent_id'] = $this->request->param('post_id', NULL);
-		$read['locale'] = $this->request->param('locale', NULL);
+		$read = $this->request->param();
 
 		try
 		{

@@ -104,9 +104,9 @@ Route::set('geojson-post-id', 'api/v2/posts/<id>/geojson',
 /**
  * Posts API SubRoute
  */
-Route::set('posts', 'api/v2/posts/<post_id>/<controller>(/<id>)',
+Route::set('posts', 'api/v2/posts/<parent_id>/<controller>(/<id>)',
 	array(
-		'post_id' => '\d+',
+		'parent_id' => '\d+',
 		'id' => '\d+'
 	))
 	->defaults(array(
@@ -190,9 +190,9 @@ Route::set('api', 'api/v2(/<controller>(/<id>))',
 /**
  * Translations API SubRoute
  */
-Route::set('translations', 'api/v2/posts/<post_id>/translations(/<locale>)',
+Route::set('translations', 'api/v2/posts/<parent_id>/translations(/<locale>)',
 	array(
-		'post_id' => '\d+',
+		'parent_id' => '\d+',
 		'locale' => '[a-zA-Z_]+'
 	))
 	->defaults(array(
