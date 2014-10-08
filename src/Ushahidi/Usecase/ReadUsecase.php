@@ -45,7 +45,7 @@ class ReadUsecase implements Usecase
 
 	public function interact(Data $input)
 	{
-		$entity = $this->repo->get($input->id);
+		$entity = $this->getEntity($input);
 
 		$this->verifyEntityLoaded($entity, $input->id);
 
@@ -59,5 +59,15 @@ class ReadUsecase implements Usecase
 		}
 
 		return $entity;
+	}
+
+	/**
+	 * Find entity based on read data
+	 * @param  Data    $input
+	 * @return Entity\Post
+	 */
+	protected function getEntity(Data $input)
+	{
+		return $this->repo->get($input->id);
 	}
 }

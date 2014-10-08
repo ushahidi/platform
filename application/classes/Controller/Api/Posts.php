@@ -180,24 +180,33 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$repo   = service('repository.post');
-		$format = service('factory.formatter')->get('posts', 'read');
-		$id     = $this->request->param('id', 0);
-		$post   = $repo->getByIdAndParent($id, $this->request->param('post_id'));
-		$authorizer = service('tool.authorizer.post');
+		$format = service('factory.formatter')->get('posts', 'update');
+		$read_parser = service('factory.parser')->get('posts', 'read');
+		$usecase = service('usecase.post.read');
 
-		if (!$post->id)
+		$request = $this->_request_payload;
+
+		$read = $this->request->param();
+
+		try
 		{
-			throw new HTTP_Exception_404('Post :id does not exist', array(
-				':id' => $id,
+			$read_data = $read_parser($read);
+			$post = $usecase->interact($read_data);
+		}
+		catch (Ushahidi\Exception\NotFoundException $e)
+		{
+			throw new HTTP_Exception_404($e->getMessage());
+		}
+		catch (Ushahidi\Exception\ValidatorException $e)
+		{
+			// Also handles ParserException
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
-
-		if (! $authorizer->isAllowed($post, 'read'))
+		catch (Ushahidi\Exception\AuthorizerException $e)
 		{
-			throw HTTP_Exception::factory('403', 'You do not have permission to access post :post', array(
-				':post' => $id
-			));
+			throw new HTTP_Exception_403($e->getMessage());
 		}
 
 		$this->_response_payload = $format($post);
