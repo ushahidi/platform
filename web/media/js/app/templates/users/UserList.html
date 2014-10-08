@@ -12,30 +12,35 @@
 					</a>
 				</li>
 				<li class="js-bulk-action disabled">
-					<a data-dropdown="drop-bulk-roles"><i class="fa  fa-cogs"></i>{{t "user.change_role"}}</a>
-					<ul id="drop-bulk-roles" class="dropdown-list" data-dropdown-content>
+					<a class="js-user-bulk-change-role-drop"><i class="fa fa-cogs"></i>{{t "user.change_role"}}</a>
+					<ul class="js-user-bulk-change-role-drop-content dropdown-list">
+					{{#each roles}}
+						<li><a class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
+					{{/each}}
+					</ul>
+				</li>
+				<li><a class="js-user-create"><i class="fa fa-user"></i>{{t "user.add_user"}}</li>
+				<li class="js-bulk-action disabled"><a class="js-user-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
+			</ul>
+
+			<a class="js-user-bulk-actions-drop dropdown-button show-for-small">{{t "nav.actions"}}</a><br>
+			<ul class="js-user-bulk-actions-drop-content dropdown-menu dropdown-list show-for-small">
+				<li>
+					<i class="fa fa-check-square-o"></i><a href="#" class="js-user-bulk-select-all">{{t "nav.select_all"}}</a>
+				</li>
+				<li class="none">
+					<i class="fa fa-square-o"></i><a href="#" class="js-user-bulk-unselect-all">{{t "nav.unselect_all"}}</a>
+				</li>
+				<li class="js-bulk-action disabled">
+					<a href="#" class="js-user-bulk-change-role-drop"><i class="fa fa-cogs"></i>{{t "user.change_role"}}</a>
+					<ul class="js-user-bulk-change-role-drop-content dropdown-list">
 						{{#each roles}}
 							<li><a class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
 						{{/each}}
 					</ul>
 				</li>
-				<li><a class="js-user-create"><i class="fa  fa-user"></i>{{t "user.add_user"}}</li>
-				<li class="js-bulk-action disabled"><a class="js-user-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
-			</ul>
-
-			<a data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">{{t "nav.actions"}}</a><br>
-			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-menu  dropdown-list  show-for-small">
-			<li>{{t "nav.select_all"}}</li>
-			<li class="js-bulk-action disabled">
-				<a data-dropdown="drop-bulk-roles-small"><i class="fa  fa-cogs"></i>{{t "user.change_role"}}</a>
-				<ul id="drop-bulk-roles-small" class="dropdown-list" data-dropdown-content>
-					{{#each roles}}
-						<li><a class="js-user-bulk-change-role" data-role-name="{{name}}">{{display_name}}</a></li>
-					{{/each}}
-				</ul>
-			</li>
-			<li class="disabled"><a href=""><i class="fa  fa-user"></i>{{t "user.add_user"}}</li>
-			<li class="js-bulk-action disabled"><a href=""><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
+				<li><a class="js-user-create" href=""><i class="fa fa-user"></i>{{t "user.add_user"}}</li>
+				<li class="js-bulk-action disabled"><a href="#" class="js-user-bulk-delete"><i class="fa fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 		</div>
 	</div> <!-- end .actions-bar -->
@@ -99,12 +104,12 @@
 					</ul>
 
 					<!-- Filter by role mobile UI -->
-					<a href="#/" data-dropdown="drop-roles" class="dropdown-button  show-for-small">{{t "user.filter_by_roles"}}</a><br>
-					<ul id="drop-roles" data-dropdown-content class="dropdown-menu js-filter-tags-list  filter-tags-list--dropdown  f-dropdown  show-for-small">
+					<a href="#" class="js-user-filter-role-drop dropdown-button show-for-small">{{t "user.filter_by_roles"}}</a>
+					<ul class="js-user-filter-role-drop-content dropdown-menu js-filter-tags-list filter-tags-list--dropdown show-for-small">
 						<li class="js-user-filter-role  active" data-role-name="">
-							<a href="">{{t "nav.all"}}</a>
+							<a href="#">{{t "nav.all"}}</a>
 						</li>
-							{{#each roles}}
+						{{#each roles}}
 						<li class="js-user-filter-role" data-role-name="{{name}}">
 							<a href="">
 								<span class="role-title">{{display_name}}

@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'alertify',
+define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop',
 		'views/users/UserListItemView',
 		'views/EmptyView',
 		'hbs!templates/users/UserList',
 		'mixin/PageableViewBehavior'
 	],
-	function( App, Marionette, _, alertify,
+	function( App, Marionette, _, $, alertify, Drop,
 		UserListItemView,
 		EmptyView,
 		template,
@@ -30,7 +30,94 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				// Bind select/unselect events from childviews
 				this.on('childview:select', this.showHideBulkActions, this);
 				this.on('childview:unselect', this.showHideBulkActions, this);
+			},
 
+			onDomRefresh: function()
+			{
+				var that = this;
+
+				this.$('.js-user-bulk-change-role-drop').each(function()
+				{
+					var bulkRoleDrop = new Drop({
+						target: $(this)[0],
+						content: $(this).siblings('.js-user-bulk-change-role-drop-content')[0],
+						classes: 'drop-theme-arrows',
+						position: 'left middle',
+						openOn: 'click',
+						remove: true
+					});
+
+					bulkRoleDrop.on('open', function()
+					{
+						$(this.content).off('.bulk-role-drop')
+							.on('click.bulk-role-drop', '.js-user-bulk-change-role', function(e)
+							{
+								that.bulkChangeRole.call(that, e.originalEvent);
+								that.bulkChangeRole.close();
+							})
+							;
+					});
+				});
+
+				this.actionsDrop = new Drop({
+					target: this.$('.js-user-bulk-actions-drop')[0],
+					content: this.$('.js-user-bulk-actions-drop-content')[0],
+					classes: 'drop-theme-arrows',
+					position: 'bottom right',
+					openOn: 'click',
+					remove: true
+				});
+
+				this.actionsDrop.on('open', function()
+				{
+					var $dropContent = $(this.content);
+					$dropContent.off('.actions-drop')
+						.on('click.actions-drop', '.js-user-bulk-select-all', function()
+						{
+							that.selectAll();
+							that.actionsDrop.close();
+							$(this).closest('li').addClass('none');
+							$dropContent.find('.js-user-bulk-unselect-all').closest('li').removeClass('none');
+						})
+						.on('click.actions-drop', '.js-user-bulk-unselect-all', function()
+						{
+							that.unselectAll();
+							that.actionsDrop.close();
+							$(this).closest('li').addClass('none');
+							$dropContent.find('.js-user-bulk-select-all').closest('li').removeClass('none');
+						})
+						.on('click.actions-drop', '.js-user-create', function(e)
+						{
+							that.actionsDrop.close();
+							that.showCreateUser.call(that, e);
+						})
+						.on('click.actions-drop', '.js-user-bulk-delete', function(e)
+						{
+							that.actionsDrop.close();
+							that.bulkDelete.call(that, e.originalEvent);
+						})
+						;
+				});
+
+				this.roleFilterDrop = new Drop({
+					target: this.$('.js-user-filter-role-drop')[0],
+					content: this.$('.js-user-filter-role-drop-content')[0],
+					classes: 'drop-theme-arrows',
+					position: 'bottom center',
+					openOn: 'click',
+					remove: true
+				});
+
+				this.roleFilterDrop.on('open', function()
+				{
+					$(this.content).off('.role-drop')
+						.on('click.role-drop', '.js-user-filter-role', function(e)
+						{
+							that.filterByRole.call(that, e);
+							that.roleFilterDrop.close();
+						})
+						;
+				});
 			},
 
 			childView: UserListItemView,
@@ -81,7 +168,10 @@ define(['App', 'marionette', 'underscore', 'alertify',
 			showHideBulkActions : function ()
 			{
 				var selected = this.getSelected();
-				this.$('.js-bulk-action').toggleClass('disabled', selected.length === 0);
+				$(this.actionsDrop.content).find('.js-bulk-action')
+					.toggleClass('disabled', selected.length === 0);
+				this.$('.js-bulk-action')
+					.toggleClass('disabled', selected.length === 0);
 			},
 
 			/**
@@ -133,7 +223,7 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				e.preventDefault();
 
 				var selected = this.getSelected(),
-					$el = this.$(e.currentTarget),
+					$el = $(e.target),
 					role,
 					role_name;
 
@@ -230,8 +320,8 @@ define(['App', 'marionette', 'underscore', 'alertify',
 			{
 				e.preventDefault();
 
-				var $el = this.$(e.currentTarget),
-					role = $el.attr('data-role-name'),
+				var $el = $(e.currentTarget),
+					role = $el.data('role-name'),
 					params = App.Collections.Users.setFilterParams({
 						role : role
 					});

@@ -7,14 +7,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'alertify', 'underscore',
+define(['App', 'marionette', 'alertify', 'underscore', 'jquery', 'drop',
 		'views/EmptyView',
 		'messages/list/ReplyView',
 		'models/PostModel',
 		'models/MessageModel',
 		'hbs!messages/list/MessageListItem'
 	],
-	function(App, Marionette, alertify, _,
+	function(App, Marionette, alertify, _, $, Drop,
 		EmptyView,
 		ReplyView,
 		PostModel,
@@ -55,6 +55,52 @@ define(['App', 'marionette', 'alertify', 'underscore',
 
 			modelEvents: {
 				'sync': 'render'
+			},
+
+			onDomRefresh: function()
+			{
+				var that = this;
+
+				this.actionsDrop = new Drop({
+					target: this.$('.js-message-card-actions-drop')[0],
+					content: this.$('.js-message-card-actions-drop-content')[0],
+					classes: 'drop-theme-arrows',
+					position: 'bottom center',
+					openOn: 'click',
+					remove: true
+				});
+
+				this.actionsDrop.on('open', function()
+				{
+					var $dropContent = $(this.content);
+					$dropContent.off('.filter-drop')
+						.on('click.filter-drop', '.js-message-card-action-activity', function(e)
+						{
+							that.actionsDrop.close();
+							that.toggleMessageActivity.call(that, e.originalEvent);
+						})
+						.on('click.filter-drop', '.js-message-reply', function(e)
+						{
+							that.actionsDrop.close();
+							that.toggleReply.call(that, e);
+						})
+						.on('click.filter-drop', '.js-message-create-post', function(e)
+						{
+							that.actionsDrop.close();
+							that.createPost.call(that, e);
+						})
+						.on('click.filter-drop', '.js-message-archive', function(e)
+						{
+							that.actionsDrop.close();
+							that.archiveMessage.call(that, e);
+						})
+						.on('click.filter-drop', '.js-message-unarchive', function(e)
+						{
+							that.actionsDrop.close();
+							that.unarchiveMessage.call(that, e);
+						})
+						;
+				});
 			},
 
 			archiveMessage : function(e)
@@ -114,6 +160,12 @@ define(['App', 'marionette', 'alertify', 'underscore',
 					});
 			},
 
+			toggleReply: function(e)
+			{
+				e.preventDefault();
+				this.$('.js-message-card-panel-reply').slideToggle(200);
+			},
+
 			replyMessage : function(e)
 			{
 				e.preventDefault();
@@ -155,11 +207,7 @@ define(['App', 'marionette', 'alertify', 'underscore',
 			toggleMessageActivity : function(e)
 			{
 				e.preventDefault();
-				var $el = this.$(e.currentTarget);
-
-				$el.closest('.message-card-actions-wrapper')
-					.nextAll('.js-message-card-panel-activity')
-					.slideToggle(200);
+				this.$('.js-message-card-panel-activity').slideToggle(200);
 			},
 
 			enableFields : function(that)

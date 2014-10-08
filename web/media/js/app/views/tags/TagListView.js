@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'alertify',
+define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop',
 		'views/tags/TagListItemView',
 		'views/EmptyView',
 		'hbs!templates/tags/TagList',
 		'mixin/PageableViewBehavior'
 	],
-	function( App, Marionette, _, alertify,
+	function( App, Marionette, _, $, alertify, Drop,
 		TagListItemView,
 		EmptyView,
 		template,
@@ -30,6 +30,51 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				// Bind select/unselect events from childviews
 				this.on('childview:select', this.showHideBulkActions, this);
 				this.on('childview:unselect', this.showHideBulkActions, this);
+			},
+
+			onDomRefresh: function()
+			{
+				var that = this;
+
+				this.actionsDrop = new Drop({
+					target: this.$('.js-tag-actions-drop')[0],
+					content: this.$('.js-tag-actions-drop-content')[0],
+					classes: 'drop-theme-arrows',
+					position: 'bottom right',
+					openOn: 'click',
+					remove: true
+				});
+
+				this.actionsDrop.on('open', function()
+				{
+					var $dropContent = $(this.content);
+					$dropContent.off('.actions-drop')
+						.on('click.actions-drop', '.js-select-all .select-text', function()
+						{
+							that.selectAll();
+							that.actionsDrop.close();
+							$dropContent.find('.select-text').addClass('visually-hidden');
+							$dropContent.find('.unselect-text').removeClass('visually-hidden');
+						})
+						.on('click.actions-drop', '.js-select-all .unselect-text', function()
+						{
+							that.unselectAll();
+							that.actionsDrop.close();
+							$dropContent.find('.select-text').removeClass('visually-hidden');
+							$dropContent.find('.unselect-text').addClass('visually-hidden');
+						})
+						.on('click.actions-drop', '.js-tag-create', function(e)
+						{
+							that.actionsDrop.close();
+							that.showCreateTag.call(that, e);
+						})
+						.on('click.actions-drop', '.js-tag-bulk-delete', function(e)
+						{
+							that.actionsDrop.close();
+							that.bulkDelete.call(that, e.originalEvent);
+						})
+						;
+				});
 			},
 
 			childView: TagListItemView,
@@ -74,7 +119,10 @@ define(['App', 'marionette', 'underscore', 'alertify',
 			showHideBulkActions : function ()
 			{
 				var selected = this.getSelected();
-				this.$('.js-bulk-action').toggleClass('disabled', selected.length === 0);
+				$(this.actionsDrop.content).find('.js-bulk-action')
+					.toggleClass('disabled', selected.length === 0);
+				this.$('.js-bulk-action')
+					.toggleClass('disabled', selected.length === 0);
 			},
 
 			serializeData : function ()

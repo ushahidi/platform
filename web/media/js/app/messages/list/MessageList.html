@@ -69,13 +69,13 @@
 				</ul>
 
 				<!-- Filter by box mobile UI -->
-				<a data-dropdown="drop-boxes" class="dropdown-button  show-for-small">filter by box</a><br>
-				<ul id="drop-boxes" data-dropdown-content class="dropdown-list  js-filter-tags-list  f-dropdown  show-for-small">
-					<li class="dropdown-list__item js-message-filter-box  active" data-box-name="">All</li>
+				<a class="js-filter-tags-list-drop dropdown-button show-for-small">filter by box</a><br>
+				<ul class="dropdown-list js-filter-tags-list js-filter-tags-list-drop-content show-for-small">
+					<li class="dropdown-list__item js-message-filter-box active" data-box-name=""><a href class="message-type">All</a></li>
 					{{#each boxTypes}}
 					<li class="dropdown-list__item js-message-filter-box" data-box-name="{{@key}}">
 						<a href class="message-type">{{this}}
-							<span class="{{@key}}-count-number  hide-for-small  visually-hidden"><span class="count-number js-tab-number-label">{{pagination.totalRecords}}</span></span>
+							<span class="{{@key}}-count-number  hide-for-small visually-hidden"><span class="count-number js-tab-number-label">{{pagination.totalRecords}}</span></span>
 						</a>
 					</li>
 					{{/each}}

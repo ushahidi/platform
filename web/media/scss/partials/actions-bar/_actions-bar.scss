@@ -50,11 +50,15 @@
   }
 	.dropdown-button {
 		@include button($padding: $button-tny, $bg: $secondary-color, $radius: true);
-		@include dropdown-button($padding: tiny);
+		@include dropdown-button($padding: tiny, $pip-color: $black);
 		float: right;
 		margin: 12px 0;
 		&:before {
 			border-color: $black transparent transparent transparent;
+		}
+		&:after {
+			right: 5px;
+			margin-top: -1px;
 		}
 		&.show-for-small {
 			display: inline-block !important;
@@ -86,4 +90,9 @@
 			}
 		}
 	}
+}
+
+.js-bulk-action.disabled {
+	opacity: 0.25;
+	pointer-events: none;
 }

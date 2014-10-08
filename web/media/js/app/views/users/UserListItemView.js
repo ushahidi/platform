@@ -33,7 +33,7 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop', 'hbs!te
 
 			onDomRefresh: function()
 			{
-				this.roleDrop = new window.Drop({
+				this.roleDrop = new Drop({
 					target: this.$('.js-user-change-role-drop')[0],
 					content: this.$('.js-user-change-role-drop-content')[0],
 					classes: 'drop-theme-arrows',

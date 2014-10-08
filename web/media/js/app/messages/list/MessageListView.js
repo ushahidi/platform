@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['marionette', 'underscore',
+define(['marionette', 'underscore', 'jquery', 'drop',
 		'messages/list/MessageListItemView',
 		'views/EmptyView',
 		'hbs!messages/list/MessageList',
 		'mixin/PageableViewBehavior'
 	],
-	function( Marionette, _,
+	function( Marionette, _, $, Drop,
 		MessageListItemView,
 		EmptyView,
 		template,
@@ -53,6 +53,32 @@ define(['marionette', 'underscore',
 					behaviorClass : PageableViewBehavior,
 					modelName: 'messages',
 				}
+			},
+
+			onDomRefresh: function()
+			{
+				var that = this;
+
+				this.filterDrop = new Drop({
+					target: this.$('.js-filter-tags-list-drop')[0],
+					content: this.$('.js-filter-tags-list-drop-content')[0],
+					classes: 'drop-theme-arrows',
+					position: 'bottom center',
+					openOn: 'click',
+					remove: true
+				});
+
+				this.filterDrop.on('open', function()
+				{
+					var $dropContent = $(this.content);
+					$dropContent.off('.filter-drop')
+						.on('click.filter-drop', '.js-message-filter-box', function(e)
+						{
+							that.filterDrop.close();
+							that.filterByBoxType.call(that, e);
+						})
+						;
+				});
 			},
 
 			showHideBulkActions : function ()
@@ -107,7 +133,7 @@ define(['marionette', 'underscore',
 			{
 				e.preventDefault();
 
-				var $el = this.$(e.currentTarget),
+				var $el = $(e.currentTarget),
 					box = $el.attr('data-box-name'),
 					params = this.collection.setFilterParams({
 						box : box

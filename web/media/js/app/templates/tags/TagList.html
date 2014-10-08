@@ -15,15 +15,15 @@
 				<li class="js-bulk-action disabled"><a class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 
-			<a data-dropdown="drop-bulk-actions" class="dropdown-button  show-for-small">{{t "nav.actions"}}</a><br>
-			<ul id="drop-bulk-actions" data-dropdown-content class="dropdown-menu dropdown-list  show-for-small">
+			<a class="js-tag-actions-drop dropdown-button show-for-small">{{t "nav.actions"}}</a><br>
+			<ul class="js-tag-actions-drop-content dropdown-menu dropdown-list show-for-small">
 				<li>
 					<a class="js-select-all">
-						<span class="select-text">{{t "nav.select_all"}}</span>
-						<span class="unselect-text visually-hidden">{{t "nav.unselect_all"}}</span>
+						<span class="select-text"><i class="fa fa-check-square-o"></i>{{t "nav.select_all"}}</span>
+						<span class="unselect-text visually-hidden"><i class="fa fa-square-o"></i>{{t "nav.unselect_all"}}</span>
 					</a>
 				</li>
-				<li><a class="js-tag-create"><i class="fa  fa-tag"></i>{{t "tag.add_tag"}}</li>
+				<li><a class="js-tag-create"><i class="fa fa-tag"></i>{{t "tag.add_tag"}}</li>
 				<li class="js-bulk-action disabled"><a class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 		</div> <!-- end .actions-bar-admin tag-list -->
