@@ -117,13 +117,17 @@ $di->params['UshahidiApi\Factory\UsecaseFactory'] = [
 
 // Each of the actions follows a standard sequence of events and is simply constructed
 // with a unique set of collaborators that follow specific interfaces.
-$di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [
+$di->params['Ushahidi\Factory\UsecaseFactory']['actions'] = [
 	'create' => $di->newFactory('Ushahidi\Usecase\CreateUsecase'),
 	'read'   => $di->newFactory('Ushahidi\Usecase\ReadUsecase'),
 	'update' => $di->newFactory('Ushahidi\Usecase\UpdateUsecase'),
 	'delete' => $di->newFactory('Ushahidi\Usecase\DeleteUsecase'),
 	'search' => $di->newFactory('Ushahidi\Usecase\SearchUsecase'),
 ];
+
+// It is also possible to overload usecases by setting a specific resource and action.
+// The same collaborator mapping will be applied by action as with default use cases.
+$di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [];
 
 // Usecases also have slightly different interaction styles if they read, write,
 // or both. Additional actions should be defined here based on their style.

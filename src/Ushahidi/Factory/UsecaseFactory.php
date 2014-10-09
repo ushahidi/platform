@@ -13,9 +13,9 @@ namespace Ushahidi\Factory;
 
 class UsecaseFactory
 {
-	// Array of use cases, mapped by action:
+	// Array of common use cases, mapped by action:
 	//
-	//     $map = [
+	//     $actions = [
 	//         'create' => $di->newFactory('Namespace\To\CreateUsecase'),
 	//         'search' => $di->newFactory('Namespace\To\SearchUsecase'),
 	//         ...
@@ -23,6 +23,13 @@ class UsecaseFactory
 	//
 	// Each action is reusable by any resource, but only if the endpoint
 	// definition allows it.
+	protected $actions = [];
+
+	// Array of specific use casess, mapped by resource and action:
+	//
+	//     $map['messsages']['create'] = $di->lazyNew('Namespace\To\OverloadedUsecase');
+	//
+	// Actions correspond with usecases, resources with entity types.
 	protected $map = [];
 
 	// Array of actions that require input to know which records to fetch:
@@ -43,7 +50,7 @@ class UsecaseFactory
 	//         'update' => true,
 	//     ];
 	//
-	// Read actions use a Parser to create input data.
+	// Write actions use a Parser to create input data.
 	protected $write = [];
 
 	/**
@@ -83,6 +90,7 @@ class UsecaseFactory
 		ParserFactory      $parsers,
 		RepositoryFactory  $repositories,
 		ValidatorFactory   $validators,
+		Array $actions,
 		Array $map,
 		Array $read,
 		Array $write
@@ -92,9 +100,10 @@ class UsecaseFactory
 		$this->repositories = $repositories;
 		$this->validators   = $validators;
 
-		$this->map   = $map;
-		$this->read  = $read;
-		$this->write = $write;
+		$this->actions = $actions;
+		$this->map     = $map;
+		$this->read    = $read;
+		$this->write   = $write;
 	}
 
 	/**
@@ -126,8 +135,14 @@ class UsecaseFactory
 	 */
 	public function get($resource, $action)
 	{
-		if (empty($this->map[$action])) {
-			throw new \Exception(sprintf('Usecase action %s is not defined', $action));
+		if (!empty($this->map[$resource][$action])) {
+			$factory = $this->map[$resource][$action];
+		} elseif (!empty($this->actions[$action])) {
+			$factory = $this->actions[$action];
+		}
+
+		if (empty($factory)) {
+			throw new \Exception(sprintf('Usecase %s.%s is not defined', $resource, $action));
 		}
 
 		$auth = $this->authorizers->get($resource);
@@ -137,9 +152,10 @@ class UsecaseFactory
 			$valid = $this->validators->get($resource, $action);
 		}
 
-		$factory = $this->map[$action];
-		$params  = compact('auth', 'repo', 'valid');
-
-		return $factory($params);
+		return $factory(compact(
+			'auth',
+			'repo',
+			'valid'
+		));
 	}
 }
