@@ -555,4 +555,9 @@ class Ushahidi_Api extends Controller {
 	{
 		$this->response->status(200);
 	}
+
+	public function action_options_index()
+	{
+		$this->response->status(200);
+	}
 }

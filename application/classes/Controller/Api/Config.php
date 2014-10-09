@@ -16,8 +16,9 @@ class Controller_Api_Config extends Ushahidi_Api {
 	 */
 	protected $_action_map = array
 	(
-		Http_Request::GET    => 'get',
-		Http_Request::PUT    => 'put',    // Typically Update..
+		Http_Request::GET     => 'get',
+		Http_Request::PUT     => 'put', // Typically Update..
+		Http_Request::OPTIONS => 'options',
 	);
 
 	/**
