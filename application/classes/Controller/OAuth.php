@@ -21,8 +21,6 @@ class Controller_OAuth extends Controller_Layout {
 
 	public function before()
 	{
-		$this->add_cors_headers($this->response);
-
 		if ($this->request->method() == HTTP_Request::OPTIONS)
 		{
 			$this->request->action('options');
@@ -45,6 +43,13 @@ class Controller_OAuth extends Controller_Layout {
 		{
 			$this->header->set('logged_in', $this->auth->logged_in());
 		}
+	}
+
+	public function after()
+	{
+		$this->add_cors_headers($this->response);
+
+		parent::after();
 	}
 
 	public function action_options()
