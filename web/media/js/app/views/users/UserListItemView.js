@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop', 'hbs!templates/users/UserListItem'],
-	function(App, Marionette, _, $, alertify, Drop, template)
+define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify', 'drop', 'hbs!templates/users/UserListItem'],
+	function(App, Marionette, _, $, alertify, notify, Drop, template)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
@@ -66,30 +66,8 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop', 'hbs!te
 
 			deleteUser: function(e)
 			{
-				var that = this;
 				e.preventDefault();
-				alertify.confirm('Are you sure you want to delete this user ?', function(e)
-				{
-					if (e)
-					{
-						that.model.destroy({
-							// Wait till server responds before destroying model
-							wait: true
-						}).done(function()
-						{
-							alertify.success('User has been deleted');
-							// Trigger a fetch. This is to remove the model from the listing and load another
-							App.Collections.Users.fetch();
-						}).fail(function ()
-						{
-							alertify.error('Unable to delete user, please try again');
-						});
-					}
-					else
-					{
-						alertify.log('Delete cancelled');
-					}
-				});
+				notify.destroy(this.model, 'user');
 			},
 
 			changeRole: function(e)

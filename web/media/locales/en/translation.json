@@ -175,5 +175,43 @@
 		"sort_users_by" : "Sort users by",
 		"update_user" : "Update User",
 		"username" : "Username"
+	},
+	"notify": {
+		"default" : {
+			"save_success" : "Saved resource",
+			"save_error" : "Unable to save resource, please try again",
+			"destroy_confirm" : "Are you sure you want to delete this resource?",
+			"destroy_success" : "Deleted resource",
+			"destroy_error" : "Unable to delete resource, please try again",
+			"destroy_cancelled" : "Delete cancelled",
+			"bulk_destroy_confirm" : "Are you sure you want to delete __count__ resources?",
+			"bulk_destroy_success" : "Deleted resource",
+			"bulk_destroy_error" : "Unable to delete resource, please try again",
+			"bulk_destroy_cancelled" : "Delete cancelled"
+		},
+		"post" : {
+			"save_success" : "Saved post",
+			"save_error" : "Unable to save post, please try again",
+			"publish_success" : "Post has been published",
+			"publish_error" : "Unable to publish post, please try again",
+			"unpublish_success" : "Post has been unpublished",
+			"unpublish_error" : "Unable to unpublish post, please try again",
+			"destroy_confirm" : "Are you sure you want to delete this post?",
+			"destroy_success" : "Post deleted",
+			"destroy_error" : "Unable to delete post, please try again",
+			"bulk_destroy_confirm" : "Are you sure you want to delete __count__ posts?"
+		},
+		"tag" : {
+			"destroy_confirm" : "Are you sure you want to delete this tag?",
+			"destroy_success" : "Tag deleted",
+			"destroy_error" : "Unable to delete tag, please try again",
+			"bulk_destroy_confirm" : "Are you sure you want to delete __count__ tags?"
+		},
+		"user" : {
+			"destroy_confirm" : "Are you sure you want to delete this user?",
+			"destroy_success" : "User deleted",
+			"destroy_error" : "Unable to delete user, please try again",
+			"bulk_destroy_confirm" : "Are you sure you want to delete __count__ users?"
+		}
 	}
 }

@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop',
+define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 'drop',
 		'views/tags/TagListItemView',
 		'views/EmptyView',
 		'hbs!templates/tags/TagList',
 		'mixin/PageableViewBehavior'
 	],
-	function( App, Marionette, _, $, alertify, Drop,
+	function( App, Marionette, _, $, notify, alertify, Drop,
 		TagListItemView,
 		EmptyView,
 		template,
@@ -156,31 +156,7 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop',
 					return;
 				}
 
-				alertify.confirm('Are you sure you want to delete ' + selected.length + ' tags?', function(e)
-				{
-					if (e)
-					{
-						_.each(selected, function(item) {
-						var model = item.model;
-						model
-								.destroy({wait : true})
-								.done(function()
-								{
-									alertify.success('Tag has been deleted');
-									// Trigger a fetch. This is to remove the model from the listing and load another
-									App.Collections.Tags.fetch();
-								})
-								.fail(function ()
-								{
-									alertify.error('Unable to delete tag, please try again');
-							});
-						} );
-					}
-					else
-					{
-						alertify.log('Delete cancelled');
-					}
-				});
+				notify.bulkDestroy(selected, 'tag');
 			},
 
 			/**

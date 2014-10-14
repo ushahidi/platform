@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'alertify'],
-	function(App, Marionette, _, alertify)
+define(['App', 'marionette', 'underscore', 'util/notify'],
+	function(App, Marionette, _, notify)
 	{
 		//ItemView provides some default rendering logic
 		return Marionette.ItemView.extend(
@@ -28,33 +28,8 @@ define(['App', 'marionette', 'underscore', 'alertify'],
 
 			deletePost: function(e)
 			{
-				var that = this;
 				e.preventDefault();
-				alertify.confirm('Are you sure you want to delete?', function(e)
-				{
-					if (e)
-					{
-						that.model
-							.destroy({
-								// Wait till server responds before destroying model
-								wait: true
-							})
-							.done(function()
-							{
-								alertify.success('Post has been deleted');
-								// Trigger a fetch. This is to remove the model from the listing and load another
-								App.Collections.Posts.fetch();
-							})
-							.fail(function ()
-							{
-								alertify.error('Unable to delete post, please try again');
-							});
-					}
-					else
-					{
-						alertify.log('Delete cancelled');
-					}
-				});
+				notify.destroy(this.model, 'post');
 			},
 
 			publishPost: function(e)
@@ -63,15 +38,7 @@ define(['App', 'marionette', 'underscore', 'alertify'],
 
 				this.model.set('status', 'published');
 
-				this.model.save()
-					.done(function()
-					{
-						alertify.success('Post has been published');
-					})
-					.fail(function ()
-					{
-						alertify.error('Unable to publish post, please try again');
-					});
+				notify.save(this.model, 'post', 'publish');
 			},
 
 			unpublishPost: function(e)
@@ -80,15 +47,7 @@ define(['App', 'marionette', 'underscore', 'alertify'],
 
 				this.model.set('status', 'draft');
 
-				this.model.save()
-					.done(function()
-					{
-						alertify.success('Post has been unpublished');
-					})
-					.fail(function ()
-					{
-						alertify.error('Unable to unpublish post, please try again');
-					});
+				notify.save(this.model, 'post', 'unpublish');
 			},
 
 			serializeData: function()

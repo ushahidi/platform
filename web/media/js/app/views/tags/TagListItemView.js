@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'alertify', 'hbs!templates/tags/TagListItem'],
-	function(App, Marionette, alertify, template)
+define(['App', 'marionette', 'util/notify', 'hbs!templates/tags/TagListItem'],
+	function(App, Marionette, notify, template)
 	{
 		return Marionette.ItemView.extend(
 		{
@@ -30,30 +30,8 @@ define(['App', 'marionette', 'alertify', 'hbs!templates/tags/TagListItem'],
 
 			deleteTag: function(e)
 			{
-				var that = this;
 				e.preventDefault();
-				alertify.confirm('Are you sure you want to delete this tag ?', function(e)
-				{
-					if (e)
-					{
-						that.model.destroy({
-							// Wait till server responds before destroying model
-							wait: true
-						}).done(function()
-						{
-							alertify.success('Tag has been deleted');
-							// Trigger a fetch. This is to remove the model from the listing and load another
-							App.Collections.Tags.fetch();
-						}).fail(function ()
-						{
-							alertify.error('Unable to delete tag, please try again');
-						});
-					}
-					else
-					{
-						alertify.log('Delete cancelled');
-					}
-				});
+				notify.destroy(this.model, 'tag');
 			},
 
 			showEditTag : function (e)

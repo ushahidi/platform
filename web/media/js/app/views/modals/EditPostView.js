@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/EditPost', 'forms/UshahidiForms', 'backbone-validation', 'hbs!templates/partials/tag-with-icon', 'select2'],
-	function( App, Marionette, _, alertify, template, BackboneForm, BackboneValidation, tagWithIcon)
+define([ 'App', 'marionette', 'underscore', 'util/notify', 'hbs!templates/modals/EditPost', 'forms/UshahidiForms', 'backbone-validation', 'hbs!templates/partials/tag-with-icon', 'select2'],
+	function( App, Marionette, _, notify, template, BackboneForm, BackboneValidation, tagWithIcon)
 	{
 		var formatTagSelectChoice = function (tag)
 			{
@@ -81,41 +81,20 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Ed
 			formSubmitted : function (e)
 			{
 				var that = this,
-					errors,
-					request;
+					errors;
 
 				e.preventDefault();
 
 				errors = this.form.commit({ validate: true });
 
-				if (! errors)
+				if (! errors && this.model.isValid())
 				{
-					request = this.model.save();
-					if (request)
-					{
-						request
-							.done(function (model /*, response, options*/)
-								{
-									alertify.success('Post saved.');
-									App.appRouter.navigate('posts/' + model.id, { trigger : true });
-									that.trigger('destroy');
-								})
-							.fail(function (response /*, xhr, options*/)
-								{
-									alertify.error('Unable to save post, please try again.');
-									// validation error
-									if (response.errors)
-									{
-										// @todo Display this error somehow
-										console.log(response.errors);
-									}
-								});
-					}
-					else
-					{
-						alertify.error('Unable to save post, please try again.');
-						console.log(this.model.validationError);
-					}
+					notify.save(this.model, 'post')
+						.done(function (model /*, response, options*/)
+						{
+							App.appRouter.navigate('posts/' + model.id, { trigger : true });
+							that.trigger('destroy');
+						});
 				}
 			},
 			switchFieldSet : function (e)

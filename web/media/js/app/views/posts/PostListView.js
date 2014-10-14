@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alertify',
+define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alertify', 'util/notify',
 		'views/posts/PostListItemView',
 		'hbs!templates/posts/PostList',
 		'views/EmptyView',
 		'mixin/PageableViewBehavior'
 	],
-	function( App, config, Marionette, Handlebars, _, alertify,
+	function( App, config, Marionette, Handlebars, _, alertify, notify,
 		PostListItemView,
 		template,
 		EmptyView,
@@ -97,14 +97,8 @@ define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alert
 
 				_.each(selected, function(item) {
 					var model = item.model;
-					model.set('status', 'published').save()
-						.done(function()
-						{
-							alertify.success('Post has been published');
-						}).fail(function ()
-						{
-							alertify.error('Unable to publish post, please try again');
-						});
+					model.set('status', 'published');
+					notify.save(model, 'post', 'publish');
 				} );
 			},
 
@@ -119,14 +113,8 @@ define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alert
 
 				_.each(selected, function(item) {
 					var model = item.model;
-					model.set('status', 'draft').save()
-						.done(function()
-						{
-							alertify.success('Post has been unpublished');
-						}).fail(function ()
-						{
-							alertify.error('Unable to unpublish post, please try again');
-						});
+					model.set('status', 'draft');
+					notify.save(model, 'post', 'unpublish');
 				} );
 			},
 
@@ -139,31 +127,7 @@ define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alert
 
 				var selected = this.getSelected();
 
-				alertify.confirm('Are you sure you want to delete ' + selected.length + ' posts?', function(e)
-				{
-					if (e)
-					{
-						_.each(selected, function(item) {
-							var model = item.model;
-							model
-								.destroy({wait : true})
-								.done(function()
-								{
-									alertify.success('Post has been deleted');
-									// Trigger a fetch. This is to remove the model from the listing and load another
-									App.Collections.Posts.fetch();
-								})
-								.fail(function ()
-								{
-									alertify.error('Unable to delete post, please try again');
-								});
-						} );
-					}
-					else
-					{
-						alertify.log('Delete cancelled');
-					}
-				});
+				notify.bulkDestroy(selected, 'post');
 			},
 
 			/**

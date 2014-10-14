@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/CreatePost',
+define([ 'App', 'marionette', 'underscore', 'util/notify', 'hbs!templates/modals/CreatePost',
 	'dropzone',
 	'util/App.oauth',
 	'models/MediaModel',
 	'collections/MediaCollection',
 	'backbone-validation', 'forms/UshahidiForms', 'hbs!templates/partials/tag-with-icon', 'select2'],
-	function( App, Marionette, _, alertify, template,
+	function( App, Marionette, _, notify, template,
 		Dropzone,
 		OAuth,
 		MediaModel,
@@ -173,41 +173,20 @@ define([ 'App', 'marionette', 'underscore', 'alertify', 'hbs!templates/modals/Cr
 			formSubmitted : function (e)
 			{
 				var that = this,
-					errors,
-					request;
+					errors;
 
 				e.preventDefault();
 
 				errors = this.form.commit({ validate: true });
 
-				if (! errors)
+				if (! errors && this.model.isValid())
 				{
-					request = this.model.save();
-					if (request)
-					{
-						request
-							.done(function (model /*, response, options*/)
-								{
-									alertify.success('Post saved.');
-									App.appRouter.navigate('posts/' + model.id, { trigger : true });
-									that.trigger('destroy');
-								})
-							.fail(function (response /*, xhr, options*/)
-								{
-									alertify.error('Unable to save post, please try again.');
-									// validation error
-									if (response.errors)
-									{
-										// @todo Display this error somehow
-										console.log(response.errors);
-									}
-								});
-					}
-					else
-					{
-						alertify.error('Unable to save post, please try again.');
-						console.log(this.model.validationError);
-					}
+					notify.save(this.model, 'post')
+						.done(function (model /*, response, options*/)
+						{
+							App.appRouter.navigate('posts/' + model.id, { trigger : true });
+							that.trigger('destroy');
+						});
 				}
 			},
 			switchFieldSet : function (e)
