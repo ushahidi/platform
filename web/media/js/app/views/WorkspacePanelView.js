@@ -58,6 +58,12 @@ define(['underscore', 'marionette', 'App', 'modules/config', 'modules/textifyNum
 					});
 				});
 
+				// T894: combine "pending" and "draft" as "unpublished"
+				data.posts.unpublished = textifyNumber(
+					parseInt(this.counts.posts.draft, 10) +
+					parseInt(this.counts.posts.pending, 10)
+				);
+
 				// TODO: don't assume the user is loaded
 				data.user = this.model.toJSON();
 
