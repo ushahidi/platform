@@ -52,6 +52,7 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 	protected static $_attribute_types = array(
 		'datetime',
 		'decimal',
+		'integer',
 		'geometry',
 		'int',
 		'point',
@@ -134,6 +135,7 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 				array('not_empty'),
 				array('in_array', array(':value', array(
 					'decimal',
+					'integer',
 					'int',
 					'geometry',
 					'text',
