@@ -123,7 +123,8 @@ define(['marionette', 'handlebars'], function (Marionette, Handlebars) {
 			{
 				this.view.collection.fullCollection.sort();
 			}
-			this.view.collection.getFirstPage();
+
+			this.view.collection.getFirstPage({ reset: true });
 		}
 	});
 
