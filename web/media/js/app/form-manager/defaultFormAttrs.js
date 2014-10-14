@@ -30,7 +30,7 @@ define([], function() {
 		{
 			label: 'Number (Integer)',
 			input: 'Number',
-			type: 'integer',
+			type: 'int',
 			icon: 'fa-fax'
 		},
 		{
