@@ -65,12 +65,12 @@ class OAuth2_Storage_Client extends OAuth2_Storage implements ClientInterface
 		if (!$clientSecret AND !$redirectUri)
 			return FALSE;
 
-		if ($redirectUri)
+		if ($redirectUri AND $clientId === $this->get_internal_client_id())
 		{
-			// We do not support mutli-domain redirects
+			// The internal client only supports local redirects, so we strip the
+			// domain information from the URI. This also prevents accidental redirect
+			// outside of the current domain.
 			$redirectUri = parse_url($redirectUri, PHP_URL_PATH);
-			// Replace base_url in redirectUri
-			$redirectUri = str_replace(URL::base(NULL, TRUE), '/', $redirectUri);
 		}
 
 		if ($clientSecret AND $redirectUri)
@@ -92,6 +92,11 @@ class OAuth2_Storage_Client extends OAuth2_Storage implements ClientInterface
 			->param(':redirectUri', $redirectUri);
 
 		return $this->select_one_result($query);
+	}
+
+	private function get_internal_client_id()
+	{
+		return Kohana::$config->load('ushahidiui.oauth.client');
 	}
 
 	private function query_secret_and_redirect_uri()

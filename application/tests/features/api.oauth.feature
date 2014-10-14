@@ -27,6 +27,14 @@ Feature: Testing OAuth2 endpoints
         Then I press "authorizeButton"
         Then I should have cookie "authtoken"
 
+    Scenario: Requesting access token with a complete redirect URI
+        Given I am on "oauth/authorize?response_type=code&client_id=ushahidiui&redirect_uri=http://ushahidi.dev/user/oauth&state=testing&scope=api" with redirection
+        When I fill in "login-username" with "robbie"
+        And I fill in "login-password" with "testing"
+        And I press "login-submit"
+        Then I press "authorizeButton"
+        Then I should have cookie "authtoken"
+
     Scenario: Requesting access token with password
         Given that I want to make a new "access_token"
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
