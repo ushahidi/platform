@@ -7,13 +7,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'App', 'marionette', 'underscore', 'util/notify', 'hbs!templates/modals/CreatePost',
+define([ 'App', 'marionette', 'underscore', 'util/notify', 'alertify', 'hbs!templates/modals/CreatePost',
 	'dropzone',
 	'util/App.oauth',
 	'models/MediaModel',
 	'collections/MediaCollection',
 	'backbone-validation', 'forms/UshahidiForms', 'hbs!templates/partials/tag-with-icon', 'select2'],
-	function( App, Marionette, _, notify, template,
+	function( App, Marionette, _, notify, alertify, template,
 		Dropzone,
 		OAuth,
 		MediaModel,
