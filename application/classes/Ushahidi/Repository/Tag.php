@@ -84,6 +84,20 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		return $this->executeInsert($record);
 	}
 
+	// UpdateRepository
+	public function update($id, Data $input)
+	{
+		$record = $input->asArray();
+
+		// Convert roles array to JSON. Using array_key_exists is necessary,
+		// to prevent errors when removing all role restrictions from a tag.
+		if (array_key_exists('role', $record)) {
+			$record['role'] = json_encode($record['role']);
+		}
+
+		return $this->executeUpdate(compact('id'), $record);
+	}
+
 	// UpdatePostTagRepository
 	public function getByTag($tag)
 	{

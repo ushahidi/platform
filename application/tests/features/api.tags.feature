@@ -139,6 +139,47 @@ Feature: Testing the Tags API
         Then the guzzle status code should be 404
 
     @resetFixture
+    Scenario: Updating Tag Role Restrictions
+        Given that I want to update a "Tag"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Change Role",
+                "slug":"change-role",
+                "type":"status",
+                "role":["user"]
+            }
+            """
+        And that its "id" is "1"
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "id" property
+        And the "id" property equals "1"
+        And the response has a "role" property
+        And the "role.0" property equals "user"
+        Then the guzzle status code should be 200
+
+    Scenario: Removing Tag Role Restrictions
+        Given that I want to update a "Tag"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Change Role",
+                "slug":"change-role",
+                "type":"status",
+                "role":[]
+            }
+            """
+        And that its "id" is "1"
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "id" property
+        And the "id" property equals "1"
+        And the response has a "role" property
+        And the "role" property is empty
+        Then the guzzle status code should be 200
+
+    @resetFixture
     Scenario: Listing All Tags
         Given that I want to get all "Tags"
         When I request "/tags"

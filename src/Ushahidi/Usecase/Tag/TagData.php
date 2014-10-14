@@ -24,4 +24,28 @@ class TagData extends Data
 	public $icon;
 	public $priority;
 	public $role;
+
+	// Data
+	public function getDifferent(Array $compare)
+	{
+		// Overload the default getDifferent method because array_diff* does not
+		// work with nested arrays. To work around it, convert roles to string
+		// before comparison.
+		$tagdata = $this->asArray();
+		if (isset($tagdata['role']) && is_array($tagdata['role'])) {
+			$tagdata['role'] = json_encode($tagdata['role']);
+		}
+		if (isset($compare['role']) && is_array($compare['role'])) {
+			$compare['role'] = json_encode($compare['role']);
+		}
+
+		$delta = array_diff_assoc($tagdata, $compare);
+
+		// And after comparison, we convert roles back again.
+		if (isset($delta['role'])) {
+			$delta['role'] = json_decode($delta['role']);
+		}
+
+		return new static($delta);
+	}
 }

@@ -501,6 +501,22 @@ class RestContext extends BehatContext
 	}
 
 	/**
+	 * @Then /^the "([^"]*)" property is empty$/
+	 */
+	public function thePropertyIsEmpty($propertyName)
+	{
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+
+		$this->theResponseIsJson();
+
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if (!empty($actualPropertyValue)) {
+			throw new Exception("Property '{$propertyName}' is not empty!\n");
+		}
+	}
+
+	/**
 	 * @Then /^the guzzle status code should be (\d+)$/
 	 */
 	public function theRestResponseStatusCodeShouldBe($httpStatus)

@@ -102,11 +102,6 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 						name : 'user',
 						display_name : 'Member',
 						description : 'Default logged in user role'
-					},
-					{
-						name : 'guest',
-						display_name : 'Guest',
-						description : 'Unprivileged role given to users who are not logged in'
 					}
 				]);
 

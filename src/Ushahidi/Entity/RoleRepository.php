@@ -15,14 +15,14 @@ interface RoleRepository
 {
 
 	/**
-	 * @param  string $name
-	 * @return \Ushahidi\Entity\Role
+	 * @param  String $name
+	 * @return Ushahidi\Entity\Role
 	 */
 	public function get($name);
 
 	/**
-	 * @param string $name
-	 * @return \Ushahidi\Entity\Role
+	 * @param  Array $roles
+	 * @return Boolean
 	 */
-	public function doRolesExist($name);
+	public function doRolesExist(Array $roles = null);
 }

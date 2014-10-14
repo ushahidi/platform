@@ -28,10 +28,15 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements RoleReposi
 	}
 
 	// RoleRepository
-	public function doRolesExist($name)
+	public function doRolesExist(Array $roles = null)
 	{
-		$found = (int) $this->selectCount(compact('name'));
-		$count = count($name);
-		return $found === $count;
+		if (!$roles)
+		{
+			// 0 === 0, all day every day
+			return true;
+		}
+
+		$found = (int) $this->selectCount(['name' => $roles]);
+		return count($roles) === $found;
 	}
 }
