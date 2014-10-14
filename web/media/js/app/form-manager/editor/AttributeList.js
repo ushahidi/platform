@@ -135,13 +135,8 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify',
 				// should already be in order
 				this.collection.sort({silent: true});
 
-				this.collection.each(function (model) {
-					// Skip new models when saving a reorder
-					if (model.isNew())
-					{
-						return;
-					}
-
+				this.collection.each(function (model)
+				{
 					model.save()
 						.done(function()
 						{
