@@ -37,7 +37,7 @@ trait VerifySearchData
 		//   abstract class Fail implements Thing {}
 		//   class Bar implments Foo {
 		//       function(Fail $arg);
-	    //   }
+		//   }
 		//
 		// in this scenario, the Bar class will cause type check warning. :(
 		return true;
