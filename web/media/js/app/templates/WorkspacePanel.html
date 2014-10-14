@@ -7,12 +7,13 @@
 	</div>
 	<div class="workspace-admin">
 		<h5 id="username" class="username">
-		<a href="{{#url}}users/{{user.id}}{{/url}}">
+		<!-- <a href="{{#url}}users/{{user.id}}{{/url}}"> -->
 		{{#if user.realname}}
 			{{user.realname}}
 		{{else}}
 			{{user.username}}
-		{{/if}}</a>
+		{{/if}}
+		<!-- </a> -->
 		</h5>
 		<p id="workspace-role" class="workspace-role" >{{ user.role }}</p>
 
