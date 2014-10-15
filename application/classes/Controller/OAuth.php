@@ -129,6 +129,9 @@ class Controller_OAuth extends Controller_Layout {
 		try
 		{
 			$response = $server->issueAccessToken(json_decode($this->request->body(), TRUE));
+			if (!empty($response['refresh_token'])) {
+				$response['refresh_token_expires_in'] = $server->getGrantType('refresh_token')->getRefreshTokenTTL();
+			}
 		}
 		catch (OAuthClientException $e)
 		{

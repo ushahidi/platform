@@ -96,7 +96,7 @@ class Endpoint
 		if (!$this->auth->isAllowed($this->resource, $this->getAccessAction())) {
 			throw new AuthorizerException(sprintf(
 				'User %d is not allowed to access the %s endpoint',
-				$auth->getUserId(),
+				$this->auth->getUserId(),
 				$this->resource->getResource()
 			));
 		}

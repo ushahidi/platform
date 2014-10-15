@@ -184,10 +184,10 @@ class Controller_User extends Controller_Layout {
 		}
 
 		// Store the auth code in a cookie for the JS app
-		Cookie::set('authtoken', $json->access_token);
+		Cookie::set('authtoken', $json->access_token, $json->expires_in);
 		if (!empty($json->refresh_token))
 		{
-			Cookie::set('authrefresh', $json->refresh_token);
+			Cookie::set('authrefresh', $json->refresh_token, $json->refresh_token_expires_in);
 		}
 
 		// Flow is complete
