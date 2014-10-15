@@ -119,6 +119,8 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify',
 
 			reorderAttributes : function (/*event, ui*/)
 			{
+				var models_saved = [];
+
 				ddt.log('FormEditor', 'reorder group', this.form_group_id);
 				this.children.each(function (view)
 				{
@@ -135,17 +137,23 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify',
 				// should already be in order
 				this.collection.sort({silent: true});
 
-				this.collection.each(function (model)
-				{
-					model.save()
-						.done(function()
-						{
-							// alertify.success('Order saved');
-						})
-						.fail(function ()
-						{
-							// alertify.error('Unable to delete field, please try again');
+				// save every model
+				this.collection.map(function(model) {
+					models_saved.push(model.save());
+				});
+
+				// display a success/failure message after the models are saved
+				$.when.apply($, models_saved).done(function() {
+					var args = Array.prototype.slice.call(arguments),
+						failures = _.filter(args, function(a) {
+							return (a[1] !== 'success');
 						});
+
+					if (failures.length) {
+						alertify.error('Unable to save some fields.<br>Please try again.');
+					} else {
+						alertify.success('Form saved');
+					}
 				});
 			},
 
