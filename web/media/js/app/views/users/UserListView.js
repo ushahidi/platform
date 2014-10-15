@@ -53,9 +53,8 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 							.on('click.bulk-role-drop', '.js-user-bulk-change-role', function(e)
 							{
 								that.bulkChangeRole.call(that, e.originalEvent);
-								that.bulkChangeRole.close();
-							})
-							;
+								bulkRoleDrop.close();
+							});
 					});
 				});
 
