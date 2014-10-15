@@ -62,6 +62,11 @@ class UpdatePost
 		// We only want to work with values that have been changed
 		$update = $input->getDifferent($entity->asArray());
 
+		// Include type for use in validation and to stop the be updated
+		// @todo figure out a better way to include these
+		$update->type = $entity->type;
+		$update->parent_id = $entity->parent_id;
+
 		// Access checks
 		$this->verifyUpdateAuth($entity, $update);
 

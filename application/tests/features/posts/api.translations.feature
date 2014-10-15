@@ -101,7 +101,7 @@ Feature: Testing the Translations API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["translation-test"]
+                "tags": ["disaster"]
             }
             """
         When I request "/posts/105/translations"
@@ -127,7 +127,7 @@ Feature: Testing the Translations API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["translation-test"]
+                "tags": ["disaster"]
             }
             """
         When I request "/posts/105/translations"
@@ -150,7 +150,7 @@ Feature: Testing the Translations API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["translation-test"]
+                "tags": ["disaster"]
             }
             """
         When I request "/posts/105/translations"
@@ -173,7 +173,7 @@ Feature: Testing the Translations API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["translation-test"]
+                "tags": ["disaster"]
             }
             """
         And that its "id" is "106"
@@ -200,7 +200,7 @@ Feature: Testing the Translations API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["translation-test"]
+                "tags": ["disaster"]
             }
             """
         And that its "id" is "fr_FR"
@@ -208,6 +208,7 @@ Feature: Testing the Translations API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the "parent.id" property equals "105"
         And the response has a "title" property
         And the "title" property equals "Test translation updated2"
         Then the guzzle status code should be 200
@@ -227,7 +228,7 @@ Feature: Testing the Translations API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["translation-test"]
+                "tags": ["disaster"]
             }
             """
         And that its "id" is "40"
@@ -251,7 +252,7 @@ Feature: Testing the Translations API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["translation-test"]
+                "tags": ["disaster"]
             }
             """
         And that its "id" is "106"
