@@ -10,14 +10,12 @@
 define(['marionette', 'underscore', 'jquery', 'drop',
 		'messages/list/MessageListItemView',
 		'views/EmptyView',
-		'hbs!messages/list/MessageList',
-		'mixin/PageableViewBehavior'
+		'hbs!messages/list/MessageList'
 	],
 	function( Marionette, _, $, Drop,
 		MessageListItemView,
 		EmptyView,
-		template,
-		PageableViewBehavior
+		template
 	)
 	{
 		return Marionette.CompositeView.extend(
@@ -37,7 +35,6 @@ define(['marionette', 'underscore', 'jquery', 'drop',
 
 			events:
 			{
-				'click .js-list-view-select' : 'showHideBulkActions',
 				'change #filter-source' : 'updateMessageSource',
 				'click .js-submit-search' : 'updateSearchTerm',
 				'click .js-message-filter-box' : 'filterByBoxType',
@@ -49,8 +46,7 @@ define(['marionette', 'underscore', 'jquery', 'drop',
 			},
 
 			behaviors: {
-				PageableViewBehavior: {
-					behaviorClass : PageableViewBehavior,
+				PageableView: {
 					modelName: 'messages',
 				}
 			},
@@ -79,22 +75,6 @@ define(['marionette', 'underscore', 'jquery', 'drop',
 						})
 						;
 				});
-			},
-
-			showHideBulkActions : function ()
-			{
-				var $checked = this.$('.js-list-view-select input[type="checkbox"]:checked');
-
-				if ($checked.length > 0)
-				{
-					this.$('.js-list-view-bulk-actions').removeClass('visually-hidden');
-					this.$('.js-list-view-bulk-actions').addClass('visible');
-				}
-				else
-				{
-					this.$('.js-list-view-bulk-actions').removeClass('visible');
-					this.$('.js-list-view-bulk-actions').addClass('visually-hidden');
-				}
 			},
 
 			serializeData : function ()

@@ -1,13 +1,16 @@
 <form role="form" action="">
-<div class="list-view-bulk-actions  js-list-view-bulk-actions  visually-hidden">
+<div class="list-view-bulk-actions  js-bulk-actions  disabled">
 	<div class="row">
 		<ul class="list-view-bulk-actions-list">
 			<li>
-				<label class="select-all" for="select-all">
-					<input class="show-for-medium-down js-select-all-input" type="checkbox" id="select-all" value="on">
-					<span class="hide-for-medium-down underline select-text">{{t "nav.select_all"}}</span>
-					<span class="hide-for-medium-down underline unselect-text visually-hidden">{{t "nav.unselect_all"}}</span>
-				</label>
+				<a class="js-select-all">
+					<span class="select-text">
+						<i class="fa fa-check-square-o show-for-medium-down"></i> <span class="hide-for-medium-down underline ">{{t "nav.select_all"}}</span>
+					</span>
+					<span class="unselect-text visually-hidden">
+						<i class="fa fa-square-o show-for-medium-down"></i> <span class="hide-for-medium-down underline ">{{t "nav.unselect_all"}}</span>
+					</span>
+				</a>
 			</li>
 			<li><a class="js-post-bulk-publish"> <i class="fa  fa-file"></i> <span class="hide-for-medium-down">{{t "post.publish"}}</span></a></li>
 			<li><a class="js-post-bulk-unpublish"> <i class="fa  fa-file-o"></i> <span class="hide-for-medium-down">{{t "post.unpublish"}}</span></a></li>

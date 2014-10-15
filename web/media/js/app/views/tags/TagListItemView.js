@@ -16,16 +16,17 @@ define(['App', 'marionette', 'util/notify', 'hbs!templates/tags/TagListItem'],
 			tagName: 'li',
 			className: 'list-view-tag',
 
-			// Value to track if checkbox for this post has been selected
-			selected : false,
 			events: {
 				'click .js-tag-delete': 'deleteTag',
-				'click .js-tag-edit' : 'showEditTag',
-				'change .js-select-input' : 'updatedSelected',
+				'click .js-tag-edit' : 'showEditTag'
 			},
 
 			modelEvents: {
 				'sync': 'render'
+			},
+
+			behaviors: {
+				SelectableListItem: {}
 			},
 
 			deleteTag: function(e)
@@ -38,40 +39,6 @@ define(['App', 'marionette', 'util/notify', 'hbs!templates/tags/TagListItem'],
 			{
 				e.preventDefault();
 				App.vent.trigger('tag:edit', this.model);
-			},
-
-			/**
-			 * Select this item (for bulk actions)
-			 */
-			select : function ()
-			{
-				this.selected = true;
-				this.$('.js-select-input').prop('checked', true)
-					.parent()
-					.addClass('selected-button', this.selected);
-				this.trigger('select');
-			},
-
-			/**
-			 * Unselect this item (for bulk actions)
-			 */
-			unselect : function ()
-			{
-				this.selected = false;
-				this.$('.js-select-input').prop('checked', false)
-					.parent()
-					.removeClass('selected-button', this.selected);
-				this.trigger('unselect');
-			},
-
-			updatedSelected : function (e)
-			{
-				var $el = this.$(e.currentTarget);
-				this.selected = $el.is(':checked');
-				this.trigger(this.selected ? 'select' : 'unselect');
-
-				$el.parent()
-					.toggleClass('selected-button', this.selected);
 			}
 		});
 	});

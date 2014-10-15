@@ -7,8 +7,22 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'models/UserModel', 'util/App.handlebars', 'foundation-loader'],
-	function($, Backbone, Marionette, _, OAuth, UserModel)
+define(['jquery', 'backbone', 'marionette', 'underscore',
+	'util/App.oauth',
+	'models/UserModel',
+	'mixin/PageableViewBehavior',
+	'mixin/SelectableListBehavior',
+	'mixin/SelectableListItemBehavior',
+	'util/App.handlebars',
+	'foundation-loader'
+	],
+	function($, Backbone, Marionette, _,
+		OAuth,
+		UserModel,
+		PageableViewBehavior,
+		SelectableListBehavior,
+		SelectableListItemBehavior
+		)
 	{
 		var App = new Backbone.Marionette.Application();
 
@@ -35,7 +49,9 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'util/App.oauth', 'mod
 		}
 
 		App.Behaviors  = {
-			//PageableView : PageableView
+			PageableView : PageableViewBehavior,
+			SelectableList : SelectableListBehavior,
+			SelectableListItem : SelectableListItemBehavior
 		};
 
 		Marionette.Behaviors.behaviorsLookup = function() {

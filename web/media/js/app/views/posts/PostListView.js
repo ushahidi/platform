@@ -10,27 +10,18 @@
 define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alertify', 'util/notify',
 		'views/posts/PostListItemView',
 		'hbs!templates/posts/PostList',
-		'views/EmptyView',
-		'mixin/PageableViewBehavior'
+		'views/EmptyView'
 	],
 	function( App, config, Marionette, Handlebars, _, alertify, notify,
 		PostListItemView,
 		template,
-		EmptyView,
-		PageableViewBehavior
+		EmptyView
 	)
 	{
 		return Marionette.CompositeView.extend(
 		{
 			template: template,
 			modelName: 'posts',
-
-			initialize: function()
-			{
-				// Bind select/unselect events from childviews
-				this.on('childview:select', this.showHideBulkActions, this);
-				this.on('childview:unselect', this.showHideBulkActions, this);
-			},
 
 			childView: PostListItemView,
 
@@ -48,42 +39,14 @@ define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alert
 				'click .js-post-bulk-publish' : 'bulkPublish',
 				'click .js-post-bulk-unpublish' : 'bulkUnpublish',
 				'click .js-post-bulk-delete' : 'bulkDelete',
-				'change .js-select-all-input' : 'selectAll',
 				'click .js-post-bulk-export' : 'exportPostCsv'
 			},
 
 			behaviors: {
-				PageableViewBehavior: {
-					behaviorClass : PageableViewBehavior,
+				PageableView: {
 					modelName: 'posts',
-				}
-			},
-
-			/**
-			 * Get select child views
-			 */
-			getSelected : function ()
-			{
-				return this.children.filter('selected');
-			},
-
-			/**
-			 * Show / Hide bulk actions toolbar when posts are selected
-			 */
-			showHideBulkActions : function ()
-			{
-				var selected = this.getSelected();
-
-				if (selected.length > 0)
-				{
-					this.$('.js-list-view-bulk-actions').removeClass('visually-hidden');
-					this.$('.js-list-view-bulk-actions').addClass('visible');
-				}
-				else
-				{
-					this.$('.js-list-view-bulk-actions').removeClass('visible');
-					this.$('.js-list-view-bulk-actions').addClass('visually-hidden');
-				}
+				},
+				SelectableList: {}
 			},
 
 			/**
@@ -128,29 +91,6 @@ define(['App', 'modules/config', 'marionette', 'handlebars','underscore', 'alert
 				var selected = this.getSelected();
 
 				notify.bulkDestroy(selected, 'post');
-			},
-
-			/**
-			 * Select all posts
-			 */
-			selectAll : function ()
-			{
-				//e.preventDefault();
-
-				var $el = this.$('.js-select-all-input');
-
-				if ($el.is(':checked'))
-				{
-					this.children.each(function (child) { child.select(); });
-					this.$('.select-text').addClass('visually-hidden');
-					this.$('.unselect-text').removeClass('visually-hidden');
-				}
-				else
-				{
-					this.children.each(function (child) { child.unselect(); });
-					this.$('.select-text').removeClass('visually-hidden');
-					this.$('.unselect-text').addClass('visually-hidden');
-				}
 			},
 
 			serializeData : function ()

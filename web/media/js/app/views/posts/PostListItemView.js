@@ -15,44 +15,9 @@ define(['underscore', 'views/posts/PostItemView', 'hbs!templates/posts/PostListI
 			template: template,
 			tagName: 'li',
 			className: 'list-view-post',
-			// Value to track if checkbox for this post has been selected
-			selected : false,
-			events : _.extend(PostItemView.prototype.events, {
-				'change .js-select-input' : 'updatedSelected'
-			}),
-			/**
-			 * Select this post (for bulk actions)
-			 */
-			select : function ()
-			{
-				this.selected = true;
-				this.$('.js-select-input').prop('checked', true)
-					.parent()
-					.addClass('selected-button', this.selected);
-				this.trigger('select');
-			},
-			/**
-			 * Unselect this post (for bulk actions)
-			 */
-			unselect : function ()
-			{
-				this.selected = false;
-				this.$('.js-select-input').prop('checked', false)
-					.parent()
-					.removeClass('selected-button', this.selected);
-				this.trigger('unselect');
-			},
-			/**
-			 * Updated 'selected' value from DOM
-			 */
-			updatedSelected : function (e)
-			{
-				var $el = this.$(e.currentTarget);
-				this.selected = $el.is(':checked');
-				this.trigger(this.selected ? 'select' : 'unselect');
 
-				$el.parent()
-					.toggleClass('selected-button', this.selected);
+			behaviors: {
+				SelectableListItem: {}
 			},
 			// Override serializeData to include value of 'selected'
 			serializeData: function()

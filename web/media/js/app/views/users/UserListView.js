@@ -10,27 +10,18 @@
 define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 'drop',
 		'views/users/UserListItemView',
 		'views/EmptyView',
-		'hbs!templates/users/UserList',
-		'mixin/PageableViewBehavior'
+		'hbs!templates/users/UserList'
 	],
 	function( App, Marionette, _, $, notify, alertify, Drop,
 		UserListItemView,
 		EmptyView,
-		template,
-		PageableViewBehavior
+		template
 	)
 	{
 		return Marionette.CompositeView.extend(
 		{
 			template: template,
 			modelName: 'users',
-			selectAllValue: false,
-			initialize: function()
-			{
-				// Bind select/unselect events from childviews
-				this.on('childview:select', this.showHideBulkActions, this);
-				this.on('childview:unselect', this.showHideBulkActions, this);
-			},
 
 			onDomRefresh: function()
 			{
@@ -135,42 +126,21 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 				'click .js-user-create' : 'showCreateUser',
 				'click .js-user-bulk-delete' : 'bulkDelete',
 				'click .js-user-bulk-change-role' : 'bulkChangeRole',
-				'click .js-select-all' : 'toggleSelectAll',
 				'submit .js-user-search-form' : 'searchUsers',
 				'click .js-user-filter-role' : 'filterByRole',
 			},
 
 			collectionEvents :
 			{
-				request: 'showLoading unselectAll',
+				request: 'showLoading',
 				sync : 'hideLoading'
 			},
 
 			behaviors: {
-				PageableViewBehavior: {
-					behaviorClass : PageableViewBehavior,
+				PageableView: {
 					modelName : 'users'
-				}
-			},
-
-			/**
-			 * Get select child views
-			 */
-			getSelected : function ()
-			{
-				return this.children.filter('selected');
-			},
-
-			/**
-			 * Show / Hide bulk actions toolbar when users are selected
-			 */
-			showHideBulkActions : function ()
-			{
-				var selected = this.getSelected();
-				$(this.actionsDrop.content).find('.js-bulk-action')
-					.toggleClass('disabled', selected.length === 0);
-				this.$('.js-bulk-action')
-					.toggleClass('disabled', selected.length === 0);
+				},
+				SelectableList: {}
 			},
 
 			/**
@@ -231,37 +201,6 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 						// cancelled
 					}
 				});
-			},
-
-			/**
-			 * Select all users
-			 */
-			toggleSelectAll : function (e, select)
-			{
-				_.result(e, 'preventDefault');
-
-				this.selectAllValue = (typeof select !== 'undefined') ? select : ! this.selectAllValue;
-
-				if (this.selectAllValue)
-				{
-					this.children.each(function (child) { _.result(child, 'select'); });
-				}
-				else
-				{
-					this.children.each(function (child) { _.result(child, 'unselect'); });
-				}
-				this.$('.select-text').toggleClass('visually-hidden', this.selectAllValue);
-				this.$('.unselect-text').toggleClass('visually-hidden', ! this.selectAllValue);
-			},
-
-			selectAll : function(e)
-			{
-				this.toggleSelectAll(e, true);
-			},
-
-			unselectAll : function (e)
-			{
-				this.toggleSelectAll(e, false);
 			},
 
 			serializeData : function ()

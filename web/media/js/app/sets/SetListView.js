@@ -9,13 +9,11 @@
 
 define(['App', 'marionette', 'underscore',
 		'sets/SetListItemView',
-		'hbs!sets/SetList',
-		'mixin/PageableViewBehavior'
+		'hbs!sets/SetList'
 	],
 	function(App, Marionette, _,
 		SetListItemView,
-		template,
-		PageableViewBehavior
+		template
 	)
 	{
 
@@ -33,8 +31,7 @@ define(['App', 'marionette', 'underscore',
 			childViewContainer: '.sets-grid',
 
 			behaviors: {
-				PageableViewBehavior: {
-					behaviorClass : PageableViewBehavior,
+				PageableView: {
 					modelName : 'sets'
 				}
 			},

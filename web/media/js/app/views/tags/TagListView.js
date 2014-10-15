@@ -7,30 +7,21 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 'drop',
+define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'drop',
 		'views/tags/TagListItemView',
 		'views/EmptyView',
-		'hbs!templates/tags/TagList',
-		'mixin/PageableViewBehavior'
+		'hbs!templates/tags/TagList'
 	],
 	function( App, Marionette, _, $, notify, alertify, Drop,
 		TagListItemView,
 		EmptyView,
-		template,
-		PageableViewBehavior
+		template
 	)
 	{
 		return Marionette.CompositeView.extend(
 		{
 			template: template,
 			modelName: 'tags',
-
-			initialize: function ()
-			{
-				// Bind select/unselect events from childviews
-				this.on('childview:select', this.showHideBulkActions, this);
-				this.on('childview:unselect', this.showHideBulkActions, this);
-			},
 
 			onDomRefresh: function()
 			{
@@ -91,38 +82,14 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 			events:
 			{
 				'click .js-tag-create' : 'showCreateTag',
-				'click .js-tag-bulk-delete' : 'bulkDelete',
-				'click .js-select-all' : 'toggleSelectAll'
-			},
-
-			collectionEvents :
-			{
-				reset : 'unselectAll',
-				request : 'unselectAll',
+				'click .js-tag-bulk-delete' : 'bulkDelete'
 			},
 
 			behaviors: {
-				PageableViewBehavior: {
-					behaviorClass : PageableViewBehavior,
+				PageableView: {
 					modelName : 'tags'
-				}
-			},
-
-			getSelected : function ()
-			{
-				return this.children.filter('selected');
-			},
-
-			/**
-			 * Show / Hide bulk actions toolbar when users are selected
-			 */
-			showHideBulkActions : function ()
-			{
-				var selected = this.getSelected();
-				$(this.actionsDrop.content).find('.js-bulk-action')
-					.toggleClass('disabled', selected.length === 0);
-				this.$('.js-bulk-action')
-					.toggleClass('disabled', selected.length === 0);
+				},
+				SelectableList: {}
 			},
 
 			serializeData : function ()
@@ -157,37 +124,6 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 				}
 
 				notify.bulkDestroy(selected, 'tag');
-			},
-
-			/**
-			 * Select all users
-			 */
-			toggleSelectAll : function (e, select)
-			{
-				_.result(e, 'preventDefault');
-
-				this.selectAllValue = (typeof select !== 'undefined') ? select : ! this.selectAllValue;
-
-				if (this.selectAllValue)
-				{
-					this.children.each(function (child) { _.result(child, 'select'); });
-				}
-				else
-				{
-					this.children.each(function (child) { _.result(child, 'unselect'); });
-				}
-				this.$('.select-text').toggleClass('visually-hidden', this.selectAllValue);
-				this.$('.unselect-text').toggleClass('visually-hidden', ! this.selectAllValue);
-			},
-
-			selectAll : function(e)
-			{
-				this.toggleSelectAll(e, true);
-			},
-
-			unselectAll : function (e)
-			{
-				this.toggleSelectAll(e, false);
-			},
+			}
 		});
 	});

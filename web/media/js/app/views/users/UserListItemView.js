@@ -16,10 +16,8 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify', 
 			template: template,
 			tagName: 'li',
 			className: 'list-view-user',
-			// Value to track if checkbox for this item has been selected
-			selected : false,
+
 			events : {
-				'change .js-select-input' : 'updatedSelected',
 				'click .js-user-delete': 'deleteUser',
 				'click .js-user-edit' : 'showEditUser',
 				'click .js-user-change-role' : 'changeRole'
@@ -27,6 +25,10 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify', 
 
 			modelEvents: {
 				'sync': 'render'
+			},
+
+			behaviors: {
+				SelectableListItem: {}
 			},
 
 			roleDrop: undefined,
@@ -102,40 +104,6 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify', 
 			{
 				e.preventDefault();
 				App.vent.trigger('user:edit', this.model);
-			},
-
-			/**
-			* Select this item (for bulk actions)
-			*/
-			select : function ()
-			{
-				this.selected = true;
-				this.$('.js-select-input').prop('checked', true)
-					.parent()
-					.addClass('selected-button', this.selected);
-				this.trigger('select');
-			},
-
-			/**
-			* Unselect this item (for bulk actions)
-			*/
-			unselect : function ()
-			{
-				this.selected = false;
-				this.$('.js-select-input').prop('checked', false)
-					.parent()
-					.removeClass('selected-button', this.selected);
-				this.trigger('unselect');
-			},
-
-			updatedSelected : function (e)
-			{
-				var $el = this.$(e.currentTarget);
-				this.selected = $el.is(':checked');
-				this.trigger(this.selected ? 'select' : 'unselect');
-
-				$el.parent()
-					.toggleClass('selected-button', this.selected);
 			}
 		});
 	});
