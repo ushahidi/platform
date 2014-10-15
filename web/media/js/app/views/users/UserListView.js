@@ -157,7 +157,10 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 					return;
 				}
 
-				notify.bulkDestroy(selected, 'user');
+				notify.bulkDestroy(selected, 'user').fail(_.bind(function()
+				{
+					this.collection.fetch();
+				}, this));
 			},
 
 			/**

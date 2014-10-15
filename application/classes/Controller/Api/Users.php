@@ -262,14 +262,24 @@ class Controller_Api_Users extends Ushahidi_Api {
 	{
 		$user = $this->resource();
 		$this->_response_payload = array();
-		if ( $user->loaded() )
+
+		if ($user->loaded())
 		{
-			// Return the user we just deleted (provides some confirmation)
-			$this->_response_payload = $this->view->render($user);
-			$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
-			$user->delete();
+			if ($user->id === $this->user->id)
+			{
+				throw new HTTP_Exception_400('Validation Error: \':error\'', array(
+					':error' => 'You may not delete yourself',
+				));
+			}
+			else
+			{
+				// Return the user we just deleted (provides some confirmation)
+				$this->_response_payload = $this->view->render($user);
+				$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+				$user->delete();
+			}
 		}
-		}
+	}
 
 
 	/**
@@ -326,7 +336,7 @@ class Controller_Api_Users extends Ushahidi_Api {
 		catch(ORM_Validation_Exception $e)
 		{
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-					':errors' => implode(', ', Arr::flatten($e->errors('models'))),
+				':errors' => implode(', ', Arr::flatten($e->errors('models'))),
 			));
 		}
 	}

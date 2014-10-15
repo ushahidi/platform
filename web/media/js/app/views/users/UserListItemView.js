@@ -69,7 +69,10 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify', 
 			deleteUser: function(e)
 			{
 				e.preventDefault();
-				notify.destroy(this.model, 'user');
+				notify.destroy(this.model, 'user').fail(_.bind(function()
+				{
+					this.model.collection.fetch();
+				}, this));
 			},
 
 			changeRole: function(e)

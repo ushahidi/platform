@@ -35,12 +35,6 @@ define(['alertify', 'jquery', 'i18next', 'underscore'],
 				.fail(function (xhr)
 				{
 					alertify.error(translate(type, action, 'error', 'save'));
-
-					// validation error
-					if (xhr.responseJson && xhr.responseJson.errors)
-					{
-						console.log(xhr.responseJson.errors);
-					}
 				});
 
 			return promise;
@@ -81,6 +75,7 @@ define(['alertify', 'jquery', 'i18next', 'underscore'],
 				else
 				{
 					alertify.log(translate(type, action, 'cancelled', 'destroy'));
+					dfd.reject();
 				}
 			});
 
@@ -105,17 +100,15 @@ define(['alertify', 'jquery', 'i18next', 'underscore'],
 
 						response.done(function()
 							{
-								dfd.resolve(arguments);
 								alertify.success(translate(type, action, 'success', 'destroy', { id : model.id }));
 							})
 							.fail(function ()
 							{
-								dfd.reject(arguments);
 								alertify.error(translate(type, action, 'error', 'destroy', { id : model.id }));
 							});
 
 						responses.push(response);
-					} );
+					});
 
 					// Reload the collection when all requests are done
 					$.when.apply($, responses).done(function () {
@@ -123,11 +116,19 @@ define(['alertify', 'jquery', 'i18next', 'underscore'],
 						{
 							collection.fetch();
 						}
+					}).always(function() {
+						var args = Array.prototype.slice.call(arguments),
+							failures = _.filter(args, function(a) {
+								return (a[1] !== 'success');
+							});
+
+						failures.length ? dfd.reject() : dfd.resolve();
 					});
 				}
 				else
 				{
 					alertify.log(translate(type, action, 'cancelled', 'destroy'));
+					dfd.reject();
 				}
 			});
 
