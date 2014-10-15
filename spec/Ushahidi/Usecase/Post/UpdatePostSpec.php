@@ -12,16 +12,16 @@ use Ushahidi\Usecase\Post\UpdatePostData;
 
 use PhpSpec\ObjectBehavior;
 
-class UpdateSpec extends ObjectBehavior
+class UpdatePostSpec extends ObjectBehavior
 {
 	function let(UpdatePostRepository $repo, Validator $valid, Authorizer $auth)
 	{
-		$this->beConstructedWith($repo, $valid, $auth);
+		$this->beConstructedWith(compact('repo', 'valid', 'auth'));
 	}
 
 	function it_is_initializable()
 	{
-		$this->shouldHaveType('Ushahidi\Usecase\Post\Update');
+		$this->shouldHaveType('Ushahidi\Usecase\Post\UpdatePost');
 	}
 
 	function it_can_update_a_post_with_valid_input($valid, $repo, $auth, Post $post, ReadPostData $read, UpdatePostData $input, UpdatePostData $update, Post $updated_post)
@@ -47,15 +47,15 @@ class UpdateSpec extends ObjectBehavior
 		// auth check
 		$auth->isAllowed($post, 'update')->willReturn(true);
 		$auth->isAllowed($post, 'change_user')->willReturn(true);
+		$auth->isAllowed($post, 'read')->willReturn(true);
 
 		// the repo will only receive changed values
-		$repo->updatePost($post->id, $raw_update)->shouldBeCalled();
-		$repo->updatePost($post->id, $raw_update)->willReturn($updated_post);
+		$repo->update($post->id, $update)->shouldBeCalled();
+		$repo->update($post->id, $update)->willReturn($updated_post);
 
-		// the persisted changes will be applied to the post
-		// @todo use setData instead of returning a new object
-		// then re-add this check
-		// $post->setData($raw_update)->shouldBeCalled();
+		// Loads updated posts and checks auth
+		$repo->get($post->id)->willReturn($updated_post);
+		$auth->isAllowed($updated_post, 'read')->willReturn(true);
 
 		// after being updated, the same post will be returned
 		$this->interact($read, $input)->shouldReturn($updated_post);
@@ -88,13 +88,11 @@ class UpdateSpec extends ObjectBehavior
 		$auth->isAllowed($post, 'change_user')->willReturn(true);
 
 		// the repo will only receive changed values
-		$repo->updatePost($post->id, $raw_update)->shouldBeCalled();
-		$repo->updatePost($post->id, $raw_update)->willReturn($updated_post);
+		$repo->update($post->id, $update)->shouldBeCalled();
 
-		// the persisted changes will be applied to the post
-		// @todo use setData instead of returning a new object
-		// then re-add this check
-		// $post->setData($raw_update)->shouldBeCalled();
+		// Loads updated posts and checks auth
+		$repo->get($post->id)->willReturn($updated_post);
+		$auth->isAllowed($updated_post, 'read')->willReturn(true);
 
 		// after being updated, the same post will be returned
 		$this->interact($read, $input)->shouldReturn($updated_post);

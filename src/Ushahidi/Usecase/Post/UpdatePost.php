@@ -9,17 +9,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Usecase;
+namespace Ushahidi\Usecase\Post;
 
-use Ushahidi\Usecase;
 use Ushahidi\Data;
+use Ushahidi\Entity;
 use Ushahidi\Tool\AuthorizerTrait;
 use Ushahidi\Tool\ValidatorTrait;
 use Ushahidi\Traits\VerifyEntityLoaded;
 use Ushahidi\Exception\ValidatorException;
 use Ushahidi\Exception\AuthorizerException;
 
-class UpdateUsecase implements Usecase
+// @todo implement Usecase interface once D387 lands
+class UpdatePost
 {
 	// Uses several traits to assign tools. Each of these traits provides a
 	// setter method for the tool. For example, the AuthorizerTrait provides
@@ -29,6 +30,11 @@ class UpdateUsecase implements Usecase
 
 	// - VerifyEntityLoaded for checking that an entity is found
 	use VerifyEntityLoaded;
+
+	// - FindPostEntity for loading the entity based on Read Data
+	// This replaces the default getEntity() logic to allow loading
+	// posts by locale, parent id and id.
+	use FindPostEntity;
 
 	// Ushahidi\Usecase\CreateRepository
 	protected $repo;
@@ -42,21 +48,22 @@ class UpdateUsecase implements Usecase
 		$this->setRepository($tools['repo']);
 	}
 
-	private function setRepository(UpdateRepository $repo)
+	private function setRepository(UpdatePostRepository $repo)
 	{
 		$this->repo = $repo;
 	}
 
-	public function interact(Data $input)
+	public function interact(ReadPostData $read, UpdatePostData $input)
 	{
-		$entity = $this->getEntity($input);
+		$entity = $this->getEntity($read);
 
-		$this->verifyEntityLoaded($entity, $input->id);
-
-		$this->verifyUpdateAuth($entity, $input);
+		$this->verifyEntityLoaded($entity, $read->id);
 
 		// We only want to work with values that have been changed
 		$update = $input->getDifferent($entity->asArray());
+
+		// Access checks
+		$this->verifyUpdateAuth($entity, $update);
 
 		if (!$this->valid->check($update)) {
 			throw new ValidatorException('Failed to validate data for update', $this->valid->errors());
@@ -81,12 +88,20 @@ class UpdateUsecase implements Usecase
 	}
 
 	/**
-	 * Find entity based on read data
+	 * Verifies the current user is allowed update access on $entity
+	 *
+	 * @param  Entity  $entity
 	 * @param  Data    $input
-	 * @return Entity
+	 * @return void
+	 * @throws AuthorizerException
 	 */
-	protected function getEntity(Data $input)
+	private function verifyUpdateAuth(Entity $entity, Data $input)
 	{
-		return $this->repo->get($input->id);
+		$this->verifyAuth($entity, 'update');
+
+		// if changing user id or author info
+		if (isset($input->user_id) || isset($input->author_email) || isset($input->author_realname)) {
+			$this->verifyAuth($entity, 'change_user');
+		}
 	}
 }

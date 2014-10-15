@@ -23,8 +23,8 @@ interface UpdateRepository
 
 	/**
 	 * @param  Integer $id
-	 * @param  Data    $update
+	 * @param  Data    $input
 	 * @return void
 	 */
-	public function update($id, Data $update);
+	public function update($id, Data $input);
 }

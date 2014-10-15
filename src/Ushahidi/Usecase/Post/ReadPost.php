@@ -13,7 +13,6 @@ namespace Ushahidi\Usecase\Post;
 
 use Ushahidi\Usecase\ReadUsecase;
 use Ushahidi\Data;
-use Ushahidi\Traits\FindPostEntity;
 
 class ReadPost extends ReadUsecase
 {

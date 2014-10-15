@@ -225,12 +225,14 @@ $di->params['\Ushahidi\Usecase\Post\ReadPost']['tools'] = $di->lazy(function () 
 	];
 });
 
-$di->set('usecase.post.update', $di->lazyNew('\Ushahidi\Usecase\Post\Update'));
-$di->params['\Ushahidi\Usecase\Post\Update'] = [
-	'repo' => $di->lazyGet('repository.post'),
-	'valid' => $di->lazyGet('validator.post.update'),
-	'auth' => $di->lazyGet('tool.authorizer.post'),
+$di->set('usecase.post.update', $di->lazyNew('\Ushahidi\Usecase\Post\UpdatePost'));
+$di->params['\Ushahidi\Usecase\Post\UpdatePost']['tools'] = $di->lazy(function () use ($di) {
+	return [
+	'repo' => $di->get('repository.post'),
+	'valid' => $di->get('validator.post.update'),
+	'auth' => $di->get('tool.authorizer.post'),
 	];
+});
 
 $di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
 $di->params['\Ushahidi\Usecase\User\Register'] = [

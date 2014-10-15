@@ -9,6 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Data;
 use Ushahidi\SearchData;
 use Ushahidi\Entity\Post;
 use Ushahidi\Entity\PostRepository;
@@ -313,31 +314,31 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 			]) === 0;
 	}
 
-	// UpdatePostRepository
-	public function updatePost($id, Array $update)
+
+	// UpdateRepository
+	public function update($id, Data $input)
 	{
-		if ($id && $update)
+		$update = $input->asArray();
+		$update['updated'] = time();
+
+		// Update the post entry if it changed
+		$post_update = $update;
+		unset($post_update['values'], $post_update['tags']);
+		if ($post_update)
 		{
-			$update['updated'] = time();
-
-			// Update the post entry if it changed
-			$post_update = $update;
-			unset($post_update['values'], $post_update['tags']);
-			if (! empty($post_update))
-			{
-				$this->executeUpdate(compact('id'), $post_update);
-			}
-
-			// Update post-tags
-			$this->updatePostTags($id, $update['tags']);
-
-			// Update post-values
-			$this->updatePostValues($id, $update['values']);
-
-			// @todo Save revision
-			//$this->createRevision($id);
+			$count = $this->executeUpdate(compact('id'), $post_update);
 		}
-		return $this->get($id);
+
+		// Update post-tags
+		$this->updatePostTags($id, $update['tags']);
+
+		// Update post-values
+		$this->updatePostValues($id, $update['values']);
+
+		// @todo Save revision
+		//$this->createRevision($id);
+
+		return $count;
 	}
 
 	protected function updatePostValues($post_id, $values)

@@ -62,6 +62,11 @@ class DeleteUsecase implements Usecase
 		return $entity;
 	}
 
+	/**
+	 * Find entity based on read data
+	 * @param  Data    $input
+	 * @return Entity
+	 */
 	protected function getEntity(Data $input)
 	{
 		return $this->repo->get($input->id);

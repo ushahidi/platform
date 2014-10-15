@@ -10,6 +10,7 @@
  */
 
 namespace Ushahidi\Usecase\Post;
+use Ushahidi\Data;
 
 interface UpdatePostRepository
 {
@@ -33,12 +34,8 @@ interface UpdatePostRepository
 	 */
 	public function doesTranslationExist($locale, $parent_id, $type);
 
-	/**
-	 * @param  Integer $id
-	 * @param  Array   $update
-	 * @return Post
-	 */
-	public function updatePost($id, Array $update);
+	// UpdateRepository
+	public function update($id, Data $input);
 
 	// PostRepository
 	public function get($id);

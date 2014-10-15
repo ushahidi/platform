@@ -64,7 +64,7 @@ class ReadUsecase implements Usecase
 	/**
 	 * Find entity based on read data
 	 * @param  Data    $input
-	 * @return Entity\Post
+	 * @return Entity
 	 */
 	protected function getEntity(Data $input)
 	{

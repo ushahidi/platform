@@ -3,7 +3,9 @@
 /**
  * Ushahidi Authorizer Tool Trait
  *
- * Gives objects a method for storing an authorizer instance.
+ * Gives objects:
+ * - a method for storing an authorizer instance.
+ * - a method for checking auth on an entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -12,6 +14,10 @@
  */
 
 namespace Ushahidi\Tool;
+
+use Ushahidi\Data;
+use Ushahidi\Entity;
+use Ushahidi\Exception\AuthorizerException;
 
 trait AuthorizerTrait
 {
@@ -27,5 +33,89 @@ trait AuthorizerTrait
 	private function setAuthorizer(Authorizer $auth)
 	{
 		$this->auth = $auth;
+	}
+
+	/**
+	 * Verifies the current user is allowed $privilege on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @param  String  $privilege
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifyAuth(Entity $entity, $privilege)
+	{
+		if (!$this->auth->isAllowed($entity, $privilege)) {
+			throw new AuthorizerException(sprintf(
+				'User %d is not allowed to %s resource %s #%d',
+				$this->auth->getUserId(),
+				$privilege,
+				$entity->getResource(),
+				$entity->id
+			));
+		}
+	}
+
+	/**
+	 * Verifies the current user is allowed search access on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @param  Data    $input
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifySearchAuth(Entity $entity, Data $input)
+	{
+		$this->verifyAuth($entity, 'search');
+	}
+
+	/**
+	 * Verifies the current user is allowed read access on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifyReadAuth(Entity $entity)
+	{
+		$this->verifyAuth($entity, 'read');
+	}
+
+	/**
+	 * Verifies the current user is allowed delete access on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifyDeleteAuth(Entity $entity)
+	{
+		$this->verifyAuth($entity, 'delete');
+	}
+
+	/**
+	 * Verifies the current user is allowed update access on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @param  Data    $input
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifyUpdateAuth(Entity $entity, Data $input)
+	{
+		$this->verifyAuth($entity, 'update');
+	}
+
+	/**
+	 * Verifies the current user is allowed create access on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @param  Data    $input
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifyCreateAuth(Entity $entity, Data $input)
+	{
+		$this->verifyAuth($entity, 'create');
 	}
 }
