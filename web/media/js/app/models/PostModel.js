@@ -131,8 +131,8 @@ define(['jquery', 'backbone', 'App', 'underscore', 'modules/config', 'models/Use
 				fieldsets[0] = mainFieldset;
 				fieldsets.push(
 					{
-						name : 'permissions',
-						legend : 'Permissions',
+						name : 'status',
+						legend : 'Status',
 						fields : ['status'],
 						icon : 'fa-lock'
 					}
