@@ -71,6 +71,10 @@ class OAuth2_Storage_Client extends OAuth2_Storage implements ClientInterface
 			// domain information from the URI. This also prevents accidental redirect
 			// outside of the current domain.
 			$redirectUri = parse_url($redirectUri, PHP_URL_PATH);
+
+			// We attempt to strip out the base URL, so that deployments work properly
+			// when installed to a sub-directory.
+			$redirectUri = str_replace(URL::base(NULL, TRUE), '/', $redirectUri);
 		}
 
 		if ($clientSecret AND $redirectUri)
