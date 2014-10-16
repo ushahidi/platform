@@ -32,7 +32,7 @@ define(['alertify', 'jquery', 'i18next', 'underscore'],
 				{
 					alertify.success(translate(type, action, 'success', 'save'));
 				})
-				.fail(function (xhr)
+				.fail(function (/* xhr */)
 				{
 					alertify.error(translate(type, action, 'error', 'save'));
 				});
