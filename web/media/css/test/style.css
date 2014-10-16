@@ -16228,7 +16228,7 @@ ul.pagination li a:focus {
 \*------------------------------------*/
 /* line 62, ../../scss/modules/header/_topbar.scss */
 .site-logo {
-  background: url('../../images/logo.png?1410376337') no-repeat;
+  background: url('../../images/logo.png?1413464552') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -16238,7 +16238,7 @@ ul.pagination li a:focus {
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 62, ../../scss/modules/header/_topbar.scss */
   .site-logo {
-    background-image: url('../../images/logo@2x.png?1410376337');
+    background-image: url('../../images/logo@2x.png?1413464399');
     background-size: 29px 29px;
   }
 }
@@ -17784,7 +17784,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 36, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1410376337') no-repeat;
+  background: url('../../images/avatar.png?1413464399') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -19614,22 +19614,9 @@ nav[role="sub-navigation"] li a {
 .form-group-info .group-actions {
   float: right;
 }
-/* line 53, ../../scss/modules/settings/forms/_form-editor.scss */
-.form-group-info .js-group-drag-handle {
-  float: right;
-  text-align: center;
-  padding: 0 5px 0 10px;
-  cursor: ns-resize;
-}
-/* line 59, ../../scss/modules/settings/forms/_form-editor.scss */
-.form-group-info .js-group-drag-handle > i.fa {
-  display: inline-block;
-  vertical-align: top;
-  padding: 2px 0 0;
-}
 
 @media only screen and (min-width: 64.063em) {
-  /* line 67, ../../scss/modules/settings/forms/_form-editor.scss */
+  /* line 55, ../../scss/modules/settings/forms/_form-editor.scss */
   .form-attributes {
     padding-left: 0;
     padding-right: 0;
@@ -19638,48 +19625,44 @@ nav[role="sub-navigation"] li a {
     padding-right: 20px;
   }
 }
-/* line 73, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 61, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes i.required {
   color: #c50813;
   padding-right: 0;
 }
-/* line 77, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 65, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes li {
   position: relative;
 }
-/* line 80, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 68, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .actions {
   position: absolute;
   right: 0;
   z-index: 101;
 }
-/* line 85, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 73, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .cover {
   opacity: 0;
   z-index: 100;
   background: #eff0f3;
 }
-/* line 90, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 78, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .cover span {
   margin: auto;
   height: 2em;
 }
-/* line 96, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 84, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .cover:hover {
   opacity: 0.5;
 }
-/* line 99, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 87, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .placeholder {
   background: #e0e2e8;
   height: 3em;
 }
-/* line 103, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 91, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .ui-sortable-helper {
   opacity: 0.9;
-}
-/* line 106, ../../scss/modules/settings/forms/_form-editor.scss */
-.form-attributes > ul.ui-sortable > li.ui-sortable-helper .list-view-attribute-list {
-  display: none;
 }
 
 /*MAP SETTINGS*/
@@ -20160,12 +20143,12 @@ Extends _post-details.scss & _post-overlay.scss
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('../../images/tag-icon.png?1412808257') no-repeat;
+  background: url('../../images/tag-icon.png?1413464399') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 52, ../../scss/modules/posts/_post.scss */
   .post-tag-marker {
-    background-image: url('../../images/tag-icon@2x.png?1412808257');
+    background-image: url('../../images/tag-icon@2x.png?1413464399');
     background-size: 34px 34px;
   }
 }
@@ -21754,30 +21737,27 @@ footer {
 }
 
 /* line 22, ../../scss/modules/footer/_footer.scss */
-.footer-copyright-wrapper {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-  max-width: 80rem;
-}
-/* line 176, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.footer-copyright-wrapper:before, .footer-copyright-wrapper:after {
-  content: " ";
-  display: table;
-}
-/* line 177, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.footer-copyright-wrapper:after {
-  clear: both;
-}
-
-/* line 26, ../../scss/modules/footer/_footer.scss */
-.footer-copyright {
+.footer-copyright-wrapper,
+.footer-links-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
-  width: 100%;
+  width: 50%;
   float: left;
+}
+
+/* line 27, ../../scss/modules/footer/_footer.scss */
+.footer-links {
+  text-align: right;
+}
+/* line 30, ../../scss/modules/footer/_footer.scss */
+.footer-links p {
+  display: block;
+  color: #e3e3e3;
+  font-size: .8em;
+}
+/* line 35, ../../scss/modules/footer/_footer.scss */
+.footer-links p a {
+  padding: 0 10px;
 }
 
 /*API EXPLORER*/

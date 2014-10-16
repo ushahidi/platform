@@ -16,12 +16,13 @@
 		"users" : "Users"
 	},
 	"app": {
-		"community_liason" : "Community Liason",
+		"community_liaison" : "Community Liaison",
 		"contact_us" : "Contact Us",
 		"copyright" : "&copy; Copyright __owner_name__, 2014.",
 		"main_section" : "Main Section",
 		"powered_by_ushahidi" : "Powered by Ushahidi.",
-		"support" : "Support"
+		"support" : "Support",
+		"documentation": "Documentation"
 	},
 	"form": {
 		"add_field" : "Add Field",

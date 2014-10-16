@@ -19,11 +19,21 @@ footer {
 	padding: 20px 0 40px 0;
 }
 
-.footer-copyright-wrapper {
-	@include grid-row();
+.footer-copyright-wrapper,
+.footer-links-wrapper {
+    @include grid-column(6);
 }
 
-.footer-copyright {
-	@include grid-column(12);
-}
+.footer-links {
+    text-align: right;
 
+    p {
+        display: block;
+        color: $midGray;
+        font-size: .8em;
+
+        a {
+            padding: 0 10px;
+        }
+    }
+}
