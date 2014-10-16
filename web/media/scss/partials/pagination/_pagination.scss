@@ -20,6 +20,7 @@
 }
 
 ul.pagination {
+  &[data-pagination-totalpages="0"],
   &[data-pagination-totalpages="1"] {
     display: none;
   }
