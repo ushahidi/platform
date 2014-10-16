@@ -20,19 +20,7 @@
 				{{/if}}
 				</a>
 			</h5>
-			<div class="card__meta">
-				{{#if status}}
-				<p> <i class="fa  fa-inbox"></i>{{status}}</p>
-				{{/if}}
-				{{#if data_provider}}
-				<p> <i class="fa  fa-bolt"></i>{{data_provider}}</p>
-				{{/if}}
-				{{#if location}}
-				{{! TODO: add support for locations}}
-				<p> <i class="fa  fa-map-marker"></i>{{location}}</p>
-				{{/if}}
-				<p> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
-			</div> <!-- end .message-card-meta -->
+			<p class="message-date-created"> <i class="fa  fa-clock-o"></i>{{ datetime-calendar created }}</p>
 		</div> <!-- end .message-card-details -->
 		<div class="card__excerpt-wrapper">
 			<div class="card__excerpt">
@@ -41,6 +29,18 @@
 				<span class="show-rest-of-message"><i class="expand"></i></span>
 			</div> <!-- end .message-card-excerpt -->
 		</div>
+		<div class="card__meta">
+			{{#if data_provider}}
+			<p> <i class="fa  fa-bolt"></i>{{data_provider}}</p>
+			{{/if}}
+			{{#if location}}
+			{{! TODO: add support for locations}}
+			<p> <i class="fa  fa-map-marker"></i>{{location}}</p>
+			{{/if}}
+			{{#if status}}
+			<p> <i class="fa  fa-inbox"></i>{{status}}</p>
+			{{/if}}
+		</div> <!-- end .message-card-meta -->
 	</article> <!-- end .message-card -->
 
 	<div class="message-card-actions-wrapper  hide-for-small">

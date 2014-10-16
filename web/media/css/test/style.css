@@ -18368,8 +18368,44 @@ nav[role="sub-navigation"] li a {
 .message-card.js-selected {
   background-color: #d2d5dd;
 }
+/* line 46, ../../scss/modules/messages/card/_card-global.scss */
+.message-card .message-date-created {
+  font-size: 100%;
+  float: right;
+}
+/* line 51, ../../scss/modules/messages/card/_card-global.scss */
+.message-card .card__details {
+  padding-right: 0;
+}
+/* line 55, ../../scss/modules/messages/card/_card-global.scss */
+.message-card .card__meta, .message-card .card-panel__meta {
+  float: right;
+  text-align: right;
+  padding-right: 0;
+}
+/* line 60, ../../scss/modules/messages/card/_card-global.scss */
+.message-card .card__meta p, .message-card .card-panel__meta p {
+  margin-bottom: 0;
+}
+@media all and (max-width: 1024px) {
+  /* line 66, ../../scss/modules/messages/card/_card-global.scss */
+  .message-card .card__header {
+    width: 50%;
+  }
+  /* line 70, ../../scss/modules/messages/card/_card-global.scss */
+  .message-card .message-date-created {
+    width: 50%;
+    text-align: right;
+  }
+}
+@media all and (max-width: 350px) {
+  /* line 77, ../../scss/modules/messages/card/_card-global.scss */
+  .message-card .message-date-created i.fa {
+    display: none;
+  }
+}
 
-/* line 48, ../../scss/modules/messages/card/_card-global.scss */
+/* line 84, ../../scss/modules/messages/card/_card-global.scss */
 .card__details {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -18377,19 +18413,19 @@ nav[role="sub-navigation"] li a {
   float: left;
 }
 
-/* line 52, ../../scss/modules/messages/card/_card-global.scss */
+/* line 88, ../../scss/modules/messages/card/_card-global.scss */
 .card__icon {
   position: absolute;
   font-size: 27px;
   line-height: 0;
   color: #323a45;
 }
-/* line 57, ../../scss/modules/messages/card/_card-global.scss */
+/* line 93, ../../scss/modules/messages/card/_card-global.scss */
 .card__icon [class^="fa"], .card__icon [class*=" fa"] {
   padding: 0;
 }
 
-/* line 62, ../../scss/modules/messages/card/_card-global.scss */
+/* line 98, ../../scss/modules/messages/card/_card-global.scss */
 .card__header {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -18401,7 +18437,7 @@ nav[role="sub-navigation"] li a {
   text-overflow: ellipsis;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 62, ../../scss/modules/messages/card/_card-global.scss */
+  /* line 98, ../../scss/modules/messages/card/_card-global.scss */
   .card__header {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
@@ -18410,16 +18446,16 @@ nav[role="sub-navigation"] li a {
     padding-left: 25px;
   }
 }
-/* line 72, ../../scss/modules/messages/card/_card-global.scss */
+/* line 108, ../../scss/modules/messages/card/_card-global.scss */
 .card__header a {
   color: #323a45;
 }
-/* line 74, ../../scss/modules/messages/card/_card-global.scss */
+/* line 110, ../../scss/modules/messages/card/_card-global.scss */
 .js-selected .card__header a {
   cursor: default;
 }
 
-/* line 80, ../../scss/modules/messages/card/_card-global.scss */
+/* line 116, ../../scss/modules/messages/card/_card-global.scss */
 .card__meta, .card-panel__meta, .has-post-image .card-panel__meta {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -18429,7 +18465,7 @@ nav[role="sub-navigation"] li a {
   line-height: 0;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 80, ../../scss/modules/messages/card/_card-global.scss */
+  /* line 116, ../../scss/modules/messages/card/_card-global.scss */
   .card__meta, .card-panel__meta, .has-post-image .card-panel__meta {
     padding-left: 0;
     padding-right: 0;
@@ -18438,32 +18474,32 @@ nav[role="sub-navigation"] li a {
     text-align: right;
   }
 }
-/* line 88, ../../scss/modules/messages/card/_card-global.scss */
+/* line 124, ../../scss/modules/messages/card/_card-global.scss */
 .card__meta p, .card-panel__meta p, .has-post-image .card-panel__meta p {
   font-size: 70%;
   display: inline-block;
   padding-left: 20px;
 }
-/* line 92, ../../scss/modules/messages/card/_card-global.scss */
+/* line 128, ../../scss/modules/messages/card/_card-global.scss */
 .card__meta p:nth-child(1), .card-panel__meta p:nth-child(1) {
   padding: 0;
 }
-/* line 97, ../../scss/modules/messages/card/_card-global.scss */
+/* line 133, ../../scss/modules/messages/card/_card-global.scss */
 .js-selected .card__meta a, .js-selected .card-panel__meta a {
   color: #9a9797;
   cursor: default;
 }
 
-/* line 104, ../../scss/modules/messages/card/_card-global.scss */
+/* line 140, ../../scss/modules/messages/card/_card-global.scss */
 .card__excerpt-wrapper {
   cursor: pointer;
 }
-/* line 106, ../../scss/modules/messages/card/_card-global.scss */
+/* line 142, ../../scss/modules/messages/card/_card-global.scss */
 .js-selected .card__excerpt-wrapper {
   cursor: default;
 }
 
-/* line 112, ../../scss/modules/messages/card/_card-global.scss */
+/* line 148, ../../scss/modules/messages/card/_card-global.scss */
 .card__excerpt-wrapper .expand {
   display: inline-block;
   font-family: FontAwesome;
@@ -18471,16 +18507,16 @@ nav[role="sub-navigation"] li a {
   font-weight: normal;
   line-height: 1;
 }
-/* line 118, ../../scss/modules/messages/card/_card-global.scss */
+/* line 154, ../../scss/modules/messages/card/_card-global.scss */
 .card__excerpt-wrapper .expand:before {
   content: "\f103";
 }
-/* line 123, ../../scss/modules/messages/card/_card-global.scss */
+/* line 159, ../../scss/modules/messages/card/_card-global.scss */
 .card__excerpt-wrapper.show .expand:before {
   content: "\f102";
 }
 
-/* line 129, ../../scss/modules/messages/card/_card-global.scss */
+/* line 165, ../../scss/modules/messages/card/_card-global.scss */
 .card__excerpt {
   padding-left: 0;
   padding-right: 0;
@@ -18489,18 +18525,18 @@ nav[role="sub-navigation"] li a {
   min-height: 48px;
   color: #1f1f1f;
 }
-/* line 133, ../../scss/modules/messages/card/_card-global.scss */
+/* line 169, ../../scss/modules/messages/card/_card-global.scss */
 .card__excerpt .rest-of-message {
   display: none;
 }
-/* line 136, ../../scss/modules/messages/card/_card-global.scss */
+/* line 172, ../../scss/modules/messages/card/_card-global.scss */
 .card__excerpt .show-rest-of-message {
   position: relative;
   bottom: -8px;
   font-size: 14px;
   float: right;
 }
-/* line 142, ../../scss/modules/messages/card/_card-global.scss */
+/* line 178, ../../scss/modules/messages/card/_card-global.scss */
 .card__excerpt.show {
   height: auto;
 }
@@ -18508,7 +18544,7 @@ nav[role="sub-navigation"] li a {
 /*------------------------------------*\
    $MESSAGE CARD ACTIONS
 \*------------------------------------*/
-/* line 154, ../../scss/modules/messages/card/_card-global.scss */
+/* line 190, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-wrapper {
   padding-left: 0;
   padding-right: 0;
@@ -18520,7 +18556,7 @@ nav[role="sub-navigation"] li a {
   border-left: 2px solid #d2d5dd;
   border-radius: 0 0 3px 3px;
 }
-/* line 161, ../../scss/modules/messages/card/_card-global.scss */
+/* line 197, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-wrapper .dropdown-button {
   border-style: solid;
   border-width: 1px;
@@ -18583,15 +18619,15 @@ nav[role="sub-navigation"] li a {
 .message-card-actions-wrapper .dropdown-button:after {
   border-color: white transparent transparent transparent;
 }
-/* line 167, ../../scss/modules/messages/card/_card-global.scss */
+/* line 203, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-wrapper .dropdown-button:before {
   border-color: black transparent transparent transparent;
 }
-/* line 171, ../../scss/modules/messages/card/_card-global.scss */
+/* line 207, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-wrapper.js-selected {
   background-color: #d2d5dd;
 }
-/* line 173, ../../scss/modules/messages/card/_card-global.scss */
+/* line 209, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-wrapper.js-selected .dropdown-button {
   border-style: solid;
   border-width: 1px;
@@ -18637,7 +18673,7 @@ nav[role="sub-navigation"] li a {
   background-color: #d2d5dd;
 }
 
-/* line 180, ../../scss/modules/messages/card/_card-global.scss */
+/* line 216, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-list {
   display: block;
   padding: 0;
@@ -18673,30 +18709,30 @@ nav[role="sub-navigation"] li a {
 .message-card-actions-list > li:nth-of-type(4n+1) {
   clear: both;
 }
-/* line 182, ../../scss/modules/messages/card/_card-global.scss */
+/* line 218, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-list .message-card-actions-list__item {
   font-size: 0.8125rem;
   text-align: center;
   padding: 0.9375rem;
 }
-/* line 186, ../../scss/modules/messages/card/_card-global.scss */
+/* line 222, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-list .message-card-actions-list__item a {
   color: #1f1f1f;
 }
-/* line 188, ../../scss/modules/messages/card/_card-global.scss */
+/* line 224, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-list .message-card-actions-list__item a:hover {
   color: #14b4d1;
 }
-/* line 191, ../../scss/modules/messages/card/_card-global.scss */
+/* line 227, ../../scss/modules/messages/card/_card-global.scss */
 .message-card-actions-list .message-card-actions-list__item a.active {
   color: #14b4d1;
 }
-/* line 196, ../../scss/modules/messages/card/_card-global.scss */
+/* line 232, ../../scss/modules/messages/card/_card-global.scss */
 .js-selected .message-card-actions-list .message-card-actions-list__item a:hover {
   color: #1f1f1f;
   cursor: default;
 }
-/* line 200, ../../scss/modules/messages/card/_card-global.scss */
+/* line 236, ../../scss/modules/messages/card/_card-global.scss */
 .js-selected .message-card-actions-list .message-card-actions-list__item a.active {
   border: none;
   color: #1f1f1f;
