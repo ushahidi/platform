@@ -133,12 +133,30 @@ define(['alertify', 'jquery', 'i18next', 'underscore'],
 			});
 
 			return dfd.promise();
+		},
+		whenXHRDone = function(promises, success, error) {
+			$.when.apply($, promises).done(function() {
+				var args = Array.prototype.slice.call(arguments),
+					failures = _.filter(args, function(a) {
+						return (a[1] !== 'success');
+					}),
+					response = (failures.length ? error : success);
+
+				if (_.isFunction(response)) {
+					response();
+				} else if (_.isString(response)) {
+					alertify[failures.length ? 'error' : 'success'](response);
+				} else {
+					console.warn('whenXHRDone expects a string or callback, argument given:', response);
+				}
+			});
 		};
 
 		return {
 			save : save,
 			destroy: destroy,
-			bulkDestroy : bulkDestroy
+			bulkDestroy : bulkDestroy,
+			whenXHRDone : whenXHRDone
 		};
 	}
 );

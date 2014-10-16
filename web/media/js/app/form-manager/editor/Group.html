@@ -1,9 +1,12 @@
 <div class="form-group-info">
 	<h4><a class="js-edit-form-group">{{#if icon}}<i class="fa {{icon}}"></i> {{/if}}{{label}}</a></h4>
-	<small class="group-actions">
-			<a class="js-edit-form-group">{{t "form.edit_group"}}</a>
-			&bull; <a class="js-delete-form-group">{{t "form.delete_group"}}</a>
-	</small>
+    <div class="js-group-drag-handle" title="{{t 'form.drag_group_title'}}">
+        <i class="fa fa-sort"></i>
+    </div>
+    <small class="group-actions">
+            <a class="js-edit-form-group">{{t "form.edit_group"}}</a>
+            &bull; <a class="js-delete-form-group">{{t "form.delete_group"}}</a>
+    </small>
 </div>
 <ul class="list-view-attribute-list">
 </ul>

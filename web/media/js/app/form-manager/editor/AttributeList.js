@@ -54,11 +54,9 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify',
 				this.$(this.childViewContainer).sortable({
 					cancel: '.list-view-empty',
 					update: function( event, ui ) {
-						//ddt.log('FormEditor', 'stop ui', that.form_group_id, ui.item[0], ui.sender);
 						that.trigger('sortable:update', ui);
 					},
 					receive: function(event, ui) {
-						//ddt.log('FormEditor', 'receive ui', that.form_group_id, ui.item[0], ui.sender);
 						that.trigger('sortable:receive', ui);
 					},
 					// Replace item being dragged with just its title
@@ -94,7 +92,7 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify',
 				}
 
 				// Reorder attributes
-				this.reorderAttributes();
+				App.vent.trigger('formeditor:reorder', this);
 			},
 
 			addAttribute : function ($el)
@@ -115,46 +113,6 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify',
 
 				// remove original element from DOM
 				$el.remove();
-			},
-
-			reorderAttributes : function (/*event, ui*/)
-			{
-				var models_saved = [];
-
-				ddt.log('FormEditor', 'reorder group', this.form_group_id);
-				this.children.each(function (view)
-				{
-					var position = view.$el.index(),
-						oldPosition = view.model.get('priority');
-
-					if (parseInt(oldPosition, 10) !== position)
-					{
-						view.model.set({'priority': position});
-					}
-				});
-
-				// Re-sort the collection, but don't trigger events because the DOM
-				// should already be in order
-				this.collection.sort({silent: true});
-
-				// save every model
-				this.collection.map(function(model) {
-					models_saved.push(model.save());
-				});
-
-				// display a success/failure message after the models are saved
-				$.when.apply($, models_saved).done(function() {
-					var args = Array.prototype.slice.call(arguments),
-						failures = _.filter(args, function(a) {
-							return (a[1] !== 'success');
-						});
-
-					if (failures.length) {
-						alertify.error('Unable to save some fields.<br>Please try again.');
-					} else {
-						alertify.success('Form saved');
-					}
-				});
 			},
 
 			showFormGroupEdit : function(e)

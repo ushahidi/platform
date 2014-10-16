@@ -7,12 +7,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'alertify',
+define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify',
 		'hbs!form-manager/editor/FormEditor',
 		'form-manager/editor/GroupList',
 		'forms/UshahidiForms',
 		'jqueryui/draggable'],
-	function(App, Marionette, _, alertify,
+	function(App, Marionette, _, $, alertify, notify,
 		template,
 		GroupList,
 		BackboneForm
@@ -50,6 +50,7 @@ define(['App', 'marionette', 'underscore', 'alertify',
 				this.availableAttributes = options.availableAttributes;
 
 				this.groupCollection = this.model.getGroupCollection();
+				App.vent.on('formeditor:reorder', this.handleReorderView);
 			},
 
 			serializeData : function()
@@ -83,6 +84,38 @@ define(['App', 'marionette', 'underscore', 'alertify',
 					// Connect to the attribute-sortables
 					connectToSortable: '.form-attributes .list-view-attribute-list'
 				});
+
+			},
+
+			handleReorderView : function (view)
+			{
+				var models_saved = [];
+
+				view.children.each(function (v)
+				{
+					var position    = v.$el.index(),
+						oldPosition = v.model.get('priority');
+
+					if (parseInt(oldPosition, 10) !== position)
+					{
+						v.model.set({ 'priority': position });
+					}
+				});
+
+				// Re-sort the collection, but don't trigger events
+				// because the DOM should already be in order
+				view.collection.sort({ silent: true });
+
+				// save every model
+				view.collection.map(function(model) {
+					models_saved.push(model.save());
+				});
+
+				// display a success/failure message after the models are saved
+				notify.whenXHRDone(models_saved,
+					'Form saved',
+					'Unable to save the form.<br>Please try again.'
+				);
 			},
 
 			onShow : function() {

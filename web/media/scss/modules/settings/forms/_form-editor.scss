@@ -63,6 +63,18 @@
 	.group-actions {
 		float: right;
 	}
+	.js-group-drag-handle {
+		float: right;
+		text-align: center;
+		padding: 0 5px 0 10px;
+		cursor: ns-resize;
+
+		> i.fa {
+			display: inline-block;
+			vertical-align: top;
+			padding: 2px 0 0;
+		}
+	}
 }
 
 .form-attributes {
@@ -103,5 +115,8 @@
 	}
 	.ui-sortable-helper {
 		opacity: 0.9;
+	}
+	> ul.ui-sortable > li.ui-sortable-helper .list-view-attribute-list {
+		display: none;
 	}
 }

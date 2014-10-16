@@ -45,8 +45,36 @@ define(['App', 'marionette', 'jquery', 'alertify',
 			initialize : function (options)
 			{
 				this.on('childview:sortable:receive', this.handleSortableReceive, this);
-
 				this.form_id = options.form_id;
+			},
+
+			onRender : function()
+			{
+				var that = this;
+
+				// Make form groups draggable
+				this.$el.sortable({
+					axis: 'y',
+					cursor: 'move',
+					distance: 3,
+					handle: '.js-group-drag-handle',
+					items: '> li',
+					opacity: 0.5,
+					placeholder: 'list-view-attribute placeholder',
+					helper: function(e, ui)
+					{
+						return ui.clone().remove('ul.list-view-attribute-list');
+					},
+					start: function(e, ui)
+					{
+						ui.helper.height(ui.helper.find('.form-group-info').height());
+						that.$el.sortable('refreshPositions');
+					},
+					update: function()
+					{
+						App.vent.trigger('formeditor:reorder', that);
+					},
+				});
 			},
 
 			handleSortableReceive : function (receiverView, ui)

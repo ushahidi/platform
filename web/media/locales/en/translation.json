@@ -33,6 +33,7 @@
 		"forms" : "Forms",
 		"type" : "type",
 		"create_or_edit" : "Do you want to __createPrefixHTML__create a new form__createSuffixHTML__ or edit a form?",
+		"drag_group_title": "Drag to move group",
 		"edit_details": "Edit Form Details"
 	},
 	"map": {
