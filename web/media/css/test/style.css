@@ -31,7 +31,7 @@
 /*------------------------------------*\
 		$COMPASS
 \*------------------------------------*/
-/* line 5, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 5, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, .post-form-wrapper label, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -53,55 +53,55 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
 
-/* line 10, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 10, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/layout/_sticky-footer.scss */
 html, body {
   height: 100%;
 }
 
-/* line 12, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 12, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper {
   clear: both;
   min-height: 100%;
@@ -109,12 +109,12 @@ html, body {
   height: 100%;
   margin-bottom: -72px;
 }
-/* line 18, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 18, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/layout/_sticky-footer.scss */
 .content-wrapper .sticky-footer-root {
   height: 72px;
 }
 
-/* line 20, ../../../../../../../../../Users/wgilk/.rvm/gems/ruby-2.0.0-p353/gems/compass-core-1.0.1/stylesheets/compass/layout/_sticky-footer.scss */
+/* line 20, ../../../../../../.rvm/gems/ruby-1.9.3-p429/gems/compass-core-1.0.1/stylesheets/compass/layout/_sticky-footer.scss */
 .footer {
   clear: both;
   position: relative;
@@ -9357,8 +9357,8 @@ img.mfp-img {
  * -------------------------- */
 @font-face {
   font-family: "FontAwesome";
-  src: url('../../font/fontawesome-webfont.eot?1408553347');
-  src: url('../../font/fontawesome-webfont.eot?&1408553347#iefix') format('embedded-opentype'), url('../../font/fontawesome-webfont.woff?1408553347') format('woff'), url('../../font/fontawesome-webfont.eot?1408553347') format('embedded-opentype'), url('../../font/fontawesome-webfont.ttf?1408553347') format('truetype'), url('../../font/fontawesome-webfont.svg?1408553347') format('svg');
+  src: url('../../font/fontawesome-webfont.eot?1410376337');
+  src: url('../../font/fontawesome-webfont.eot?&1410376337#iefix') format('embedded-opentype'), url('../../font/fontawesome-webfont.woff?1410376337') format('woff'), url('../../font/fontawesome-webfont.eot?1410376337') format('embedded-opentype'), url('../../font/fontawesome-webfont.ttf?1410376337') format('truetype'), url('../../font/fontawesome-webfont.svg?1410376337') format('svg');
   font-weight: "normal";
   font-style: "normal";
 }
@@ -16228,7 +16228,7 @@ ul.pagination li a:focus {
 \*------------------------------------*/
 /* line 62, ../../scss/modules/header/_topbar.scss */
 .site-logo {
-  background: url('../../images/logo.png?1408553347') no-repeat;
+  background: url('../../images/logo.png?1410376337') no-repeat;
   background-size: 100%;
   height: 29px;
   width: 29px;
@@ -16238,7 +16238,7 @@ ul.pagination li a:focus {
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 62, ../../scss/modules/header/_topbar.scss */
   .site-logo {
-    background-image: url('../../images/logo@2x.png?1408553347');
+    background-image: url('../../images/logo@2x.png?1410376337');
     background-size: 29px 29px;
   }
 }
@@ -17784,7 +17784,7 @@ nav[role="sub-navigation"] li a {
 
 /* line 36, ../../scss/modules/workspace/_workspace-panel.scss */
 .workspace-avatar {
-  background: url('../../images/avatar.png?1408553347') no-repeat;
+  background: url('../../images/avatar.png?1410376337') no-repeat;
   background-size: 100%;
   height: 58px;
   width: 58px;
@@ -19548,22 +19548,35 @@ nav[role="sub-navigation"] li a {
 .actions-bar-header--form-editor {
   padding-left: 0;
   padding-right: 0;
-  width: 66.66667%;
+  width: 100%;
   float: left;
 }
+/* line 5, ../../scss/modules/settings/forms/_form-editor.scss */
+.actions-bar-header--form-editor h3 {
+  float: left;
+}
+/* line 8, ../../scss/modules/settings/forms/_form-editor.scss */
+.actions-bar-header--form-editor h3 span {
+  color: #a3a3a3;
+}
+/* line 13, ../../scss/modules/settings/forms/_form-editor.scss */
+.actions-bar-header--form-editor .js-edit-custom-form {
+  float: right;
+  padding: 19px 0;
+}
 
-/* line 6, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 19, ../../scss/modules/settings/forms/_form-editor.scss */
 .available-attributes, .form-attributes {
   background-color: #fcfcfc;
 }
-/* line 7, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 20, ../../scss/modules/settings/forms/_form-editor.scss */
 .available-attributes li, .form-attributes li {
   padding: 0.4em;
   margin-bottom: 0.4em;
   background: #eff0f3;
 }
 
-/* line 15, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 28, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .cover, .form-attributes .cover span {
   position: absolute;
   top: 0;
@@ -19575,7 +19588,7 @@ nav[role="sub-navigation"] li a {
 }
 
 @media only screen and (min-width: 64.063em) {
-  /* line 25, ../../scss/modules/settings/forms/_form-editor.scss */
+  /* line 38, ../../scss/modules/settings/forms/_form-editor.scss */
   .attribute-sidebar {
     padding-left: 0;
     padding-right: 0;
@@ -19585,13 +19598,13 @@ nav[role="sub-navigation"] li a {
   }
 }
 
-/* line 34, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 47, ../../scss/modules/settings/forms/_form-editor.scss */
 .available-attributes i.fa {
   width: 24px;
   text-align: center;
 }
 
-/* line 40, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 53, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-actions {
   padding: 0.4em;
   margin-bottom: 0.4em;
@@ -19606,17 +19619,17 @@ nav[role="sub-navigation"] li a {
 .form-group-info:after {
   clear: both;
 }
-/* line 47, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 60, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-group-info h4 {
   float: left;
 }
-/* line 50, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 63, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-group-info .group-actions {
   float: right;
 }
 
 @media only screen and (min-width: 64.063em) {
-  /* line 55, ../../scss/modules/settings/forms/_form-editor.scss */
+  /* line 68, ../../scss/modules/settings/forms/_form-editor.scss */
   .form-attributes {
     padding-left: 0;
     padding-right: 0;
@@ -19625,42 +19638,42 @@ nav[role="sub-navigation"] li a {
     padding-right: 20px;
   }
 }
-/* line 61, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 74, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes i.required {
   color: #c50813;
   padding-right: 0;
 }
-/* line 65, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 78, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes li {
   position: relative;
 }
-/* line 68, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 81, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .actions {
   position: absolute;
   right: 0;
   z-index: 101;
 }
-/* line 73, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 86, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .cover {
   opacity: 0;
   z-index: 100;
   background: #eff0f3;
 }
-/* line 78, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 91, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .cover span {
   margin: auto;
   height: 2em;
 }
-/* line 84, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 97, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .cover:hover {
   opacity: 0.5;
 }
-/* line 87, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 100, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .placeholder {
   background: #e0e2e8;
   height: 3em;
 }
-/* line 91, ../../scss/modules/settings/forms/_form-editor.scss */
+/* line 104, ../../scss/modules/settings/forms/_form-editor.scss */
 .form-attributes .ui-sortable-helper {
   opacity: 0.9;
 }
@@ -20143,12 +20156,12 @@ Extends _post-details.scss & _post-overlay.scss
   padding-right: 0;
   width: 16.66667%;
   float: left;
-  background: url('../../images/tag-icon.png?1412443337') no-repeat;
+  background: url('../../images/tag-icon.png?1412808257') no-repeat;
 }
 @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
   /* line 52, ../../scss/modules/posts/_post.scss */
   .post-tag-marker {
-    background-image: url('../../images/tag-icon@2x.png?1412443337');
+    background-image: url('../../images/tag-icon@2x.png?1412808257');
     background-size: 34px 34px;
   }
 }
@@ -22166,7 +22179,7 @@ textarea {
 /* line 65, ../../scss/modules/forms/_forms.scss */
 select {
   -webkit-appearance: none !important;
-  background: #fcfcfc url('../../images/dropdown-arrow.svg?1408553347') no-repeat;
+  background: #fcfcfc url('../../images/dropdown-arrow.svg?1410376337') no-repeat;
   background-size: 9px;
   background-position-x: 97%;
   background-position-y: center;

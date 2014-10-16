@@ -1,6 +1,19 @@
 .actions-bar-header--form-editor {
 	@extend %actions-bar-header;
-	@include grid-column(8, $collapse: true);
+	@include grid-column(12, $collapse: true);
+
+	h3 {
+		float: left;
+
+		span {
+			color: #a3a3a3;
+		}
+	}
+
+	.js-edit-custom-form {
+		float: right;
+		padding: 19px 0;
+	}
 }
 
 %attribute-list {

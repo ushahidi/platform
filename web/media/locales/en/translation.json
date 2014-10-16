@@ -32,7 +32,8 @@
 		"form_wizard" : "Form Wizard",
 		"forms" : "Forms",
 		"type" : "type",
-		"create_or_edit" : "Do you want to __createPrefixHTML__create a new form__createSuffixHTML__ or edit a form?"
+		"create_or_edit" : "Do you want to __createPrefixHTML__create a new form__createSuffixHTML__ or edit a form?",
+		"edit_details": "Edit Form Details"
 	},
 	"map": {
 		"collapse_map" : "collapse map",
