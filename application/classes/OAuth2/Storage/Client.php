@@ -74,7 +74,8 @@ class OAuth2_Storage_Client extends OAuth2_Storage implements ClientInterface
 
 			// We attempt to strip out the base URL, so that deployments work properly
 			// when installed to a sub-directory.
-			$redirectUri = str_replace(URL::base(NULL, TRUE), '/', $redirectUri);
+			$baseUrl = preg_quote(URL::base(NULL, true), '~');
+			$redirectUri = preg_replace("~^{$baseUrl}~", '/', $redirectUri);
 		}
 
 		if ($clientSecret AND $redirectUri)
