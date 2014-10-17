@@ -7,8 +7,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'underscore', 'jquery', 'drop', 'views/ListItemView', 'hbs!templates/users/UserListItem'],
-	function(App, _, $, Drop, ListItemView, template)
+define(['App', 'underscore', 'jquery', 'alertify', 'drop', 'views/ListItemView', 'hbs!templates/users/UserListItem'],
+	function(App, _, $, alertify, Drop, ListItemView, template)
 	{
 		return ListItemView.extend(
 		{
