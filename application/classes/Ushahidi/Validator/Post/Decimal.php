@@ -9,13 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-// use Ushahidi\Data;
-
-// use Ushahidi\Tool\Validator;
-
-class Ushahidi_Validator_Post_Date /*implements Validator*/
+// Note: this doesn't actually implement Ushahidi\Tool\Validator
+// Tt accepts array, not Ushahidi\Data
+class Ushahidi_Validator_Post_Decimal
 {
-	public function check($input)
+	public function check(Array $input)
 	{
 		$this->valid = Validation::factory($input)
 			->rules('value', array(
