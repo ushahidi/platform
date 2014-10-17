@@ -11,20 +11,20 @@
 						<span class="unselect-text visually-hidden">{{t "nav.unselect_all"}}</span>
 					</a>
 				</li>
-				<li><a class="js-tag-create"><i class="fa  fa-tag"></i>{{t "tag.add_tag"}}</li>
-				<li class="js-bulk-action disabled"><a class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
+				<li><a class="js-create"><i class="fa  fa-tag"></i>{{t "tag.add_tag"}}</li>
+				<li class="js-bulk-action disabled"><a class="js-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 
-			<a class="js-tag-actions-drop dropdown-button show-for-small">{{t "nav.actions"}}</a><br>
-			<ul class="js-tag-actions-drop-content dropdown-menu dropdown-list show-for-small">
+			<a class="js-actions-drop dropdown-button show-for-small">{{t "nav.actions"}}</a><br>
+			<ul class="js-actions-drop-content dropdown-menu dropdown-list show-for-small">
 				<li>
 					<a class="js-select-all">
 						<span class="select-text"><i class="fa fa-check-square-o"></i>{{t "nav.select_all"}}</span>
 						<span class="unselect-text visually-hidden"><i class="fa fa-square-o"></i>{{t "nav.unselect_all"}}</span>
 					</a>
 				</li>
-				<li><a class="js-tag-create"><i class="fa fa-tag"></i>{{t "tag.add_tag"}}</li>
-				<li class="js-bulk-action disabled"><a class="js-tag-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
+				<li><a class="js-create"><i class="fa fa-tag"></i>{{t "tag.add_tag"}}</li>
+				<li class="js-bulk-action disabled"><a class="js-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 		</div> <!-- end .actions-bar-admin tag-list -->
 	</div> <!-- end .actions-bar tag-list -->
@@ -33,9 +33,7 @@
 		<div class="row">
 
 			<form role="form" action="">
-				<div class="list-view-filter-info--alt">
-					<!-- TODO: label list-info then add array to post list info-->
-					{{>listinfo}}
+				<div class="list-view-filter-info--alt js-list-view-filter-info">
 				</div> <!-- end .list-view-filter-info tags -->
 
 				<div class="list-view-filter-select-wrapper--alt">
@@ -69,12 +67,12 @@
 	</div> <!-- end .list-view-filter tags -->
 
 	<div class="list-view-wrapper">
-		<ul class="list-view-tag-list">
+		<p class="loading-message  visually-hidden  js-loading">{{t "nav.please_wait_loading"}}</p>
+		<ul class="list-view-tag-list js-list-view-list">
 		</ul>
 	</div> <!-- end .list-view-wrapper -->
 
 </div> <!-- end .row -->
 
-<div class="pagination-wrapper">
-	{{>pagination}}
+<div class="pagination-wrapper js-pagination">
 </div> <!-- end .pagination-wrapper -->

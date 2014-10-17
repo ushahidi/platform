@@ -7,21 +7,29 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 'drop',
+define(['App', 'underscore', 'jquery', 'drop', 'alertify',
+		'views/ListView',
 		'views/users/UserListItemView',
-		'views/EmptyView',
-		'hbs!templates/users/UserList'
+		'hbs!templates/users/UserList',
+		'mixin/PageableViewBehavior',
+		'mixin/SelectableListBehavior'
 	],
-	function( App, Marionette, _, $, notify, alertify, Drop,
+	function( App, _, $, Drop, alertify,
+		ListView,
 		UserListItemView,
-		EmptyView,
 		template
 	)
 	{
-		return Marionette.CompositeView.extend(
+		return ListView.extend(
 		{
 			template: template,
-			modelName: 'users',
+			modelName: 'user',
+
+			behaviors: {
+				PageableView: {
+					modelName: 'users'
+				}
+			},
 
 			onDomRefresh: function()
 			{
@@ -49,45 +57,7 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 					});
 				});
 
-				this.actionsDrop = new Drop({
-					target: this.$('.js-user-bulk-actions-drop')[0],
-					content: this.$('.js-user-bulk-actions-drop-content')[0],
-					classes: 'drop-theme-arrows',
-					position: 'bottom right',
-					openOn: 'click',
-					remove: true
-				});
-
-				this.actionsDrop.on('open', function()
-				{
-					var $dropContent = $(this.content);
-					$dropContent.off('.actions-drop')
-						.on('click.actions-drop', '.js-user-bulk-select-all', function()
-						{
-							that.selectAll();
-							that.actionsDrop.close();
-							$(this).closest('li').addClass('none');
-							$dropContent.find('.js-user-bulk-unselect-all').closest('li').removeClass('none');
-						})
-						.on('click.actions-drop', '.js-user-bulk-unselect-all', function()
-						{
-							that.unselectAll();
-							that.actionsDrop.close();
-							$(this).closest('li').addClass('none');
-							$dropContent.find('.js-user-bulk-select-all').closest('li').removeClass('none');
-						})
-						.on('click.actions-drop', '.js-user-create', function(e)
-						{
-							that.actionsDrop.close();
-							that.showCreateUser.call(that, e);
-						})
-						.on('click.actions-drop', '.js-user-bulk-delete', function(e)
-						{
-							that.actionsDrop.close();
-							that.bulkDelete.call(that, e.originalEvent);
-						})
-						;
-				});
+				ListView.prototype.onDomRefresh.call(this);
 
 				this.roleFilterDrop = new Drop({
 					target: this.$('.js-user-filter-role-drop')[0],
@@ -117,51 +87,11 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 				emptyMessage: 'No users found.',
 			},
 
-			childViewContainer: '.list-view-user-profile-list',
-
-			emptyView: EmptyView,
-
-			events:
-			{
-				'click .js-user-create' : 'showCreateUser',
-				'click .js-user-bulk-delete' : 'bulkDelete',
+			events: _.extend(ListView.prototype.events, {
 				'click .js-user-bulk-change-role' : 'bulkChangeRole',
 				'submit .js-user-search-form' : 'searchUsers',
 				'click .js-user-filter-role' : 'filterByRole',
-			},
-
-			collectionEvents :
-			{
-				request: 'showLoading',
-				sync : 'hideLoading'
-			},
-
-			behaviors: {
-				PageableView: {
-					modelName : 'users'
-				},
-				SelectableList: {}
-			},
-
-			/**
-			 * Bulk delete selected users
-			 */
-			bulkDelete : function (e)
-			{
-				e.preventDefault();
-
-				var selected = this.getSelected();
-
-				if (selected.length === 0)
-				{
-					return;
-				}
-
-				notify.bulkDestroy(selected, 'user').fail(_.bind(function()
-				{
-					this.collection.fetch();
-				}, this));
-			},
+			}),
 
 			/**
 			 * Bulk change role on selected users
@@ -208,20 +138,9 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 
 			serializeData : function ()
 			{
-				var data = { items: this.collection.toJSON() };
-				data = _.extend(data, {
-					pagination: this.collection.state,
-					pageSizes: this.collection.pageSizes,
-					sortKeys: this.collection.sortKeys,
-					roles: App.Collections.Roles.toJSON(),
-					modelName : this.modelName
+				return _.extend(ListView.prototype.serializeData.call(this), {
+					roles: App.Collections.Roles.toJSON()
 				});
-				return data;
-			},
-			showCreateUser : function (e)
-			{
-				e.preventDefault();
-				App.vent.trigger('user:create', this.model);
 			},
 			searchUsers : function(e)
 			{
@@ -253,24 +172,6 @@ define(['App', 'marionette', 'underscore', 'jquery', 'util/notify', 'alertify', 
 						.find('.role-title > span').removeClass('visually-hidden');
 
 				this.$('.js-user-search-input').val(params.q);
-			},
-
-			showLoading : function()
-			{
-				// Hide the ul li
-				this.$('.list-view-user-profile-list').addClass('visually-hidden');
-
-				// Show the loading text
-				this.$('.list-view-wrapper p.js-loading').removeClass('visually-hidden');
-			},
-
-			hideLoading : function()
-			{
-				// Hide the loading text
-				this.$('.list-view-wrapper p.js-loading').addClass('visually-hidden');
-
-				// Show the ul li
-				this.$('.list-view-user-profile-list').removeClass('visually-hidden');
 			}
 		});
 	});

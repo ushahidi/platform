@@ -23,10 +23,6 @@ define(['App', 'marionette', 'backbone'],
 				App.vent.on('post:edit', this.postEdit, this);
 				App.vent.on('post:set', this.addToSet, this);
 				App.vent.on('set:create', this.setCreate, this);
-				App.vent.on('user:edit', this.userEdit, this);
-				App.vent.on('user:create',this.userCreate, this);
-				App.vent.on('tag:edit', this.tagEdit, this);
-				App.vent.on('tag:create', this.tagCreate, this);
 				App.vent.on('customform:edit', this.customFormEdit, this);
 				App.vent.on('customform:create', this.customFormCreate, this);
 				App.vent.on('formgroup:edit', this.formGroupEdit, this);

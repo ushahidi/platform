@@ -216,5 +216,11 @@
 			"destroy_error" : "Unable to delete user, please try again",
 			"bulk_destroy_confirm" : "Are you sure you want to delete __count__ users?"
 		}
+	},
+	"empty": {
+		"default" : "No records found.",
+		"post" : "No posts found.",
+		"user" : "No users found.",
+		"tag" : "No tags found."
 	}
 }

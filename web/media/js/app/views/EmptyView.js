@@ -7,24 +7,34 @@
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-define(['App', 'marionette', 'underscore', 'hbs!templates/Empty'],
-	function(App, Marionette, _, template)
+define(['App', 'marionette', 'underscore', 'hbs!templates/Empty', 'i18next'],
+	function(App, Marionette, _, template, i18n)
 	{
 		return Marionette.ItemView.extend(
 		{
-			//TODO:: Figure out how to make use of this view as both loading indicator and to display message for an empty list.
 			template: template,
 			tagName: 'li',
 			className: 'list-view-empty',
 			selected: false,
 
+			/**
+			 * @param  {object} options View options
+			 *     modelName - model name index for looking up empty message in i18n
+			 *     emptyMessage - empty message to show (this overrides modelName)
+			 * @return View
+			 */
 			initialize: function(options)
 			{
-				var defaultOptions = {
-					emptyMessage : 'No records found.'
-				};
+				options = _.defaults(options, {
+					modelName : 'default'
+				});
 
-				options = _.defaults(options,defaultOptions);
+				// If emptyMessage isn't passed, get message from i18n
+				if (! options.emptyMessage)
+				{
+					options.emptyMessage = i18n.t(['empty.'+options.modelName, 'empty.default']);
+				}
+
 				this.emptyMessage = options.emptyMessage;
 			},
 			serializeData: function()

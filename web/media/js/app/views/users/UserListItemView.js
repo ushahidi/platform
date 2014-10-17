@@ -7,29 +7,17 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify', 'drop', 'hbs!templates/users/UserListItem'],
-	function(App, Marionette, _, $, alertify, notify, Drop, template)
+define(['App', 'underscore', 'jquery', 'drop', 'views/ListItemView', 'hbs!templates/users/UserListItem'],
+	function(App, _, $, Drop, ListItemView, template)
 	{
-		//ItemView provides some default rendering logic
-		return Marionette.ItemView.extend(
+		return ListItemView.extend(
 		{
 			template: template,
-			tagName: 'li',
 			className: 'list-view-user',
 
-			events : {
-				'click .js-user-delete': 'deleteUser',
-				'click .js-user-edit' : 'showEditUser',
+			events : _.extend(ListItemView.prototype.events, {
 				'click .js-user-change-role' : 'changeRole'
-			},
-
-			modelEvents: {
-				'sync': 'render'
-			},
-
-			behaviors: {
-				SelectableListItem: {}
-			},
+			}),
 
 			roleDrop: undefined,
 
@@ -66,15 +54,6 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify', 
 				});
 			},
 
-			deleteUser: function(e)
-			{
-				e.preventDefault();
-				notify.destroy(this.model, 'user').fail(_.bind(function()
-				{
-					this.model.collection.fetch();
-				}, this));
-			},
-
 			changeRole: function(e)
 			{
 				e.preventDefault();
@@ -101,12 +80,6 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify', 
 						alertify.log('Role change cancelled');
 					}
 				});
-			},
-
-			showEditUser : function (e)
-			{
-				e.preventDefault();
-				App.vent.trigger('user:edit', this.model);
 			}
 		});
 	});

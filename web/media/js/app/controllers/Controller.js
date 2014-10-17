@@ -279,9 +279,18 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 
 					App.vent.trigger('page:change', 'users');
 
-					that.layout.mainRegion.show(new UserListView({
+					var listView = new UserListView({
 						collection : App.Collections.Users
-					}));
+					});
+
+					listView.on('resource:edit', function(model) {
+						that.modalController.userEdit(model);
+					});
+					listView.on('resource:create', function() {
+						that.modalController.userCreate();
+					});
+
+					that.layout.mainRegion.show(listView);
 				});
 			},
 
@@ -302,9 +311,18 @@ define(['jquery', 'App', 'backbone', 'marionette', 'underscore', 'alertify', 'UR
 					App.vent.trigger('page:change', 'tags');
 					App.Collections.Tags.fetch();
 
-					that.layout.mainRegion.show(new TagListView({
+					var listView = new TagListView({
 						collection : App.Collections.Tags
-					}));
+					});
+
+					listView.on('resource:edit', function(model) {
+						that.modalController.tagEdit(model);
+					});
+					listView.on('resource:create', function() {
+						that.modalController.tagCreate();
+					});
+
+					that.layout.mainRegion.show(listView);
 				});
 			},
 

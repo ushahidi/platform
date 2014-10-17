@@ -19,17 +19,17 @@
 					{{/each}}
 					</ul>
 				</li>
-				<li><a class="js-user-create"><i class="fa fa-user"></i>{{t "user.add_user"}}</li>
-				<li class="js-bulk-action disabled"><a class="js-user-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
+				<li><a class="js-create"><i class="fa fa-user"></i>{{t "user.add_user"}}</li>
+				<li class="js-bulk-action disabled"><a class="js-bulk-delete"><i class="fa  fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 
-			<a class="js-user-bulk-actions-drop dropdown-button show-for-small">{{t "nav.actions"}}</a><br>
-			<ul class="js-user-bulk-actions-drop-content dropdown-menu dropdown-list show-for-small">
+			<a class="js-actions-drop dropdown-button show-for-small">{{t "nav.actions"}}</a><br>
+			<ul class="js-actions-drop-content dropdown-menu dropdown-list show-for-small">
 				<li>
-					<i class="fa fa-check-square-o"></i><a href="#" class="js-user-bulk-select-all">{{t "nav.select_all"}}</a>
+					<i class="fa fa-check-square-o"></i><a href="#" class="js-bulk-select-all">{{t "nav.select_all"}}</a>
 				</li>
 				<li class="none">
-					<i class="fa fa-square-o"></i><a href="#" class="js-user-bulk-unselect-all">{{t "nav.unselect_all"}}</a>
+					<i class="fa fa-square-o"></i><a href="#" class="js-bulk-unselect-all">{{t "nav.unselect_all"}}</a>
 				</li>
 				<li class="js-bulk-action disabled">
 					<a href="#" class="js-user-bulk-change-role-drop"><i class="fa fa-cogs"></i>{{t "user.change_role"}}</a>
@@ -39,8 +39,8 @@
 						{{/each}}
 					</ul>
 				</li>
-				<li><a class="js-user-create" href=""><i class="fa fa-user"></i>{{t "user.add_user"}}</li>
-				<li class="js-bulk-action disabled"><a href="#" class="js-user-bulk-delete"><i class="fa fa-trash-o"></i>{{t "nav.delete"}}</a></li>
+				<li><a class="js-create" href=""><i class="fa fa-user"></i>{{t "user.add_user"}}</li>
+				<li class="js-bulk-action disabled"><a href="#" class="js-bulk-delete"><i class="fa fa-trash-o"></i>{{t "nav.delete"}}</a></li>
 			</ul>
 		</div>
 	</div> <!-- end .actions-bar -->
@@ -48,10 +48,7 @@
 		<div class="list-view-filter--alt">
 			<div class="row">
 
-				<div class="list-view-filter-info--alt">
-					<!-- TODO: need a user-list-post -->
-					{{>listinfo}}
-
+				<div class="list-view-filter-info--alt js-list-view-filter-info">
 				</div> <!-- end .list-view-filter-info -->
 
 				<div class="list-view-filter-select-wrapper--alt">
@@ -88,7 +85,7 @@
 					<ul class="filter-tags-list  js-filter-tags-list  hide-for-small">
 						<li class="active  js-user-filter-role" data-role-name="">
 							<a href="">
-								<span class="role-title">{{t "nav.all"}}<span class="all-count-number  hide-for-small"><span class="count-number">{{pagination.totalRecords}}</span></span>
+								<span class="role-title">{{t "nav.all"}}<span class="all-count-number  hide-for-small"><span class="count-number  js-result-count">{{pagination.totalRecords}}</span></span>
 								</span>
 							</a>
 						</li>
@@ -96,7 +93,7 @@
 						<li class="js-user-filter-role" data-role-name="{{name}}">
 							<a href="">
 								<span class="role-title">{{display_name}}
-									<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number"><!-- TODO: {{total}} -->0</span></span>
+									<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number  js-result-count"><!-- TODO: {{total}} -->0</span></span>
 								</span>
 							</a>
 						</li>
@@ -113,7 +110,7 @@
 						<li class="js-user-filter-role" data-role-name="{{name}}">
 							<a href="">
 								<span class="role-title">{{display_name}}
-									<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number">{{../pagination.totalRecords}}</span></span>
+									<span class="{{name}}-count-number  hide-for-small  visually-hidden"><span class="count-number    js-result-count">{{../pagination.totalRecords}}</span></span>
 								</span>
 							</a>
 						</li>
@@ -139,11 +136,10 @@
 
 	<div class="list-view-wrapper">
 		<p class="loading-message  visually-hidden  js-loading">{{t "nav.please_wait_loading"}}</p>
-		<ul class="list-view-user-profile-list">
+		<ul class="list-view-user-profile-list  js-list-view-list">
 		</ul>
 	</div> <!-- end .list-view-wrapper -->
 </div> <!-- end .row -->
 
-<div class="pagination-wrapper">
-	{{>pagination}}
+<div class="pagination-wrapper js-pagination">
 </div> <!-- end .pagination-wrapper -->

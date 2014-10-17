@@ -22,11 +22,20 @@ define(['marionette', 'handlebars'], function (Marionette, Handlebars) {
 			'change @ui.pageSort' : 'updateSort'
 		},
 
+		defaults : {
+			modelName: 'resources'
+		},
+
 		collectionEvents :
 		{
 			reset : 'updatePagination',
 			add : 'updatePagination',
 			remove : 'updatePagination'
+		},
+
+		onRender : function()
+		{
+			this.updatePagination();
 		},
 
 		showNextPage : function (e)
@@ -82,14 +91,12 @@ define(['marionette', 'handlebars'], function (Marionette, Handlebars) {
 
 		updatePagination: function ()
 		{
-			// @todo replace with ui.pagination, but currently broken by .replaceWith()
-			this.view.$('.js-pagination').replaceWith(
+			this.ui.pagination.empty().append(
 				Handlebars.partials.pagination({
 					pagination: this.view.collection.state
 				})
 			);
-			// @todo replace with ui.listViewInfo, but currently broken by .replaceWith()
-			this.view.$('.js-list-view-filter-info').replaceWith(
+			this.ui.listViewInfo.empty().append(
 				Handlebars.partials.listinfo({
 					pagination: this.view.collection.state,
 					modelName: this.options.modelName
@@ -97,7 +104,7 @@ define(['marionette', 'handlebars'], function (Marionette, Handlebars) {
 			);
 
 			// Update counter
-			this.view.$('li.active span.js-tab-number-label').text(this.view.collection.state.totalRecords);
+			this.view.$('li.active .js-result-count').text(this.view.collection.state.totalRecords);
 		},
 		updatePageSize : function (e)
 		{
