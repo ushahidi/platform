@@ -72,8 +72,15 @@ class Config extends Entity
 		return $data;
 	}
 
+	// Entity
 	public function getResource()
 	{
 		return 'config';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->getGroup();
 	}
 }

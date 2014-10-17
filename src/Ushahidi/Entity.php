@@ -18,6 +18,15 @@ abstract class Entity
 	use ArrayExchange;
 
 	/**
+	 * Return the Unique ID for the entity
+	 * @var Mixed
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
 	 * Return the resource name for authorization.
 	 * @return string
 	 */

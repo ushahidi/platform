@@ -51,7 +51,7 @@ trait AuthorizerTrait
 				$this->auth->getUserId(),
 				$privilege,
 				$entity->getResource(),
-				$entity->id
+				$entity->getId()
 			));
 		}
 	}
