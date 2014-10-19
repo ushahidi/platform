@@ -51,7 +51,17 @@
 				{{#if post}}
 				<li class="message-card-actions-list__item"><a href="{{#url}}posts/{{post}}{{/url}}" class="js-message-view-post"> <i class="fa  fa-edit"></i>View Post</a></li>
 				{{else}}
-				<li class="message-card-actions-list__item"><a href="" class="js-message-create-post"> <i class="fa  fa-plus-circle"></i>Create Post</a></li>
+				<li class="message-card-actions-list__item">
+					<a class="js-message-create-post-forms"> <i class="fa  fa-plus-circle"></i>Create Post</a>
+					<div class="js-message-create-post-forms-drop">
+						<h6>Select Form</h6>
+						<ul>
+						{{#each forms}}
+							<li><a class="js-message-create-post-form" data-form-id="{{this.id}}">{{this.name}}</a></li>
+						{{/each}}
+						</ul>
+					</div>
+				</li>
 				{{/if}}
 				{{#if isArchived}}
 				<li class="message-card-actions-list__item"><a href="" class="js-message-unarchive"> <i class="fa  fa-archive"></i>Move to Inbox</a></li>
@@ -65,13 +75,23 @@
 	<div class="message-card-actions-wrapper  show-for-small">
 		<a class="js-message-card-actions-drop dropdown-button show-for-small">actions</a><br>
 		<ul class="js-message-card-actions-drop-content dropdown-list show-for-small">
-			<li><a href="#" class="js-message-card-action-activity"> <i class="fa  fa-list"></i>Activity</a></li>
-			<li><a href="#" class="js-message-reply"> <i class="fa  fa-reply"></i>Reply</a></li>
+			<li><a class="js-message-card-action-activity"> <i class="fa  fa-list"></i>Activity</a></li>
+			<li><a class="js-message-reply"> <i class="fa  fa-reply"></i>Reply</a></li>
 			{{#if isIncoming}}
 			{{#if post}}
 				<li><a href="/posts/{{post}}" class="js-message-view-post"> <i class="fa  fa-edit"></i>View Post</a></li>
 			{{else}}
-				<li><a href="#" class="js-message-create-post"> <i class="fa  fa-edit"></i>Create Post</a></li>
+				<li>
+					<a class="js-message-create-post-forms"> <i class="fa  fa-edit"></i>Create Post</a>
+					<div class="js-message-create-post-forms-drop"> 
+						<h6>Select Form</h6>
+						<ul>
+						{{#each forms}}
+							<li><a class="js-message-create-post-form" data-form-id="{{this.id}}">{{this.name}}</a></li>
+						{{/each}}
+						</ul>
+					</div>
+				</li>
 			{{/if}}
 			{{#if isArchived}}
 				<li><a href="#" class="js-message-unarchive"> <i class="fa  fa-archive"></i>Move to Inbox</a></li>
@@ -86,7 +106,7 @@
 
 	<div class="card-panel-wrapper hide js-message-card-panel-activity">
 		<div class="card-panel">
-			<h6 class="card-panel__header">Message Activty</h6>
+			<h6 class="card-panel__header">Message Activity</h6>
 			<ul class="list-view-reply-list card-panel--activity-list">
 			</ul> <!-- end .message-card-panel-activity-list -->
 		</div> <!-- end .message-card-panel -->

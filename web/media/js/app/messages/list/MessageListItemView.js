@@ -32,7 +32,6 @@ define(['App', 'marionette', 'alertify', 'underscore', 'jquery', 'drop',
 			events: {
 				'click .js-message-archive': 'archiveMessage',
 				'click .js-message-unarchive': 'unarchiveMessage',
-				'click .js-message-create-post' : 'createPost',
 				'click .js-message-activity' : 'toggleMessageActivity',
 				'submit .js-message-post-reply-form' : 'replyMessage'
 			},
@@ -61,6 +60,31 @@ define(['App', 'marionette', 'alertify', 'underscore', 'jquery', 'drop',
 			{
 				var that = this;
 
+				this.$('.js-message-create-post-forms').each(function()
+				{
+					var $this = $(this),
+						createPostFormsDrop = new Drop({
+							target: $this[0],
+							content: $this.next('.js-message-create-post-forms-drop')[0],
+							classes: 'drop-theme-arrows drop-message-create-post-forms',
+							position: 'right top',
+							openOn: 'click',
+							remove: true
+						});
+
+					createPostFormsDrop.on('open', function()
+					{
+						var $dropContent = $(this.content);
+						$dropContent.off('.create-post-drop')
+							.on('click.create-post-drop', '.js-message-create-post-form', function(e)
+							{
+								that.actionsDrop.close();
+								createPostFormsDrop.close();
+								that.createPost.call(that, e, $(this).data('form-id'));
+							});
+					});
+				});
+
 				this.actionsDrop = new Drop({
 					target: this.$('.js-message-card-actions-drop')[0],
 					content: this.$('.js-message-card-actions-drop-content')[0],
@@ -83,11 +107,6 @@ define(['App', 'marionette', 'alertify', 'underscore', 'jquery', 'drop',
 						{
 							that.actionsDrop.close();
 							that.toggleReply.call(that, e);
-						})
-						.on('click.filter-drop', '.js-message-create-post', function(e)
-						{
-							that.actionsDrop.close();
-							that.createPost.call(that, e);
 						})
 						.on('click.filter-drop', '.js-message-archive', function(e)
 						{
@@ -139,15 +158,18 @@ define(['App', 'marionette', 'alertify', 'underscore', 'jquery', 'drop',
 					});
 			},
 
-			createPost : function(e)
+			createPost : function(e, form_id)
 			{
 				e.preventDefault();
 
 				var that = this,
 					post;
 
+				form_id = form_id || 1;
+
 				post = new PostModel();
 				post.url = this.model.url() + '/post';
+				post.set('form', form_id);
 
 				post.save()
 					.done(function ()
@@ -156,7 +178,7 @@ define(['App', 'marionette', 'alertify', 'underscore', 'jquery', 'drop',
 						that.model.fetch();
 					}).fail(function ()
 					{
-						alertify.success('Unable to create post, please try again');
+						alertify.error('Unable to create post, please try again');
 					});
 			},
 
@@ -245,8 +267,10 @@ define(['App', 'marionette', 'alertify', 'underscore', 'jquery', 'drop',
 				// @todo move to serializeModel?
 				var data = _.extend(this.model.toJSON(), {
 					isArchived : this.model.isArchived(),
-					isIncoming : this.model.isIncoming()
+					isIncoming : this.model.isIncoming(),
+					forms : App.Collections.Forms.toJSON()
 				});
+
 				return data;
 			},
 		});

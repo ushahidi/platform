@@ -13996,21 +13996,11 @@ img.mfp-img {
 \*------------------------------------*/
 /* line 15, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar {
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
   width: 100%;
   float: left;
   background-color: #323a45;
-}
-/* line 176, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.actions-bar:before,
-.actions-bar:after {
-  content: " ";
-  display: table;
-}
-/* line 177, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.actions-bar:after {
-  clear: both;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 15, ../../scss/partials/actions-bar/_actions-bar.scss */
@@ -14025,48 +14015,48 @@ img.mfp-img {
   }
 }
 
-/* line 28, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 27, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-header--message-config, .actions-bar-header--form-editor,
 .actions-bar-header {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
+  padding-left: 0;
+  padding-right: 0;
   width: 50%;
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 28, ../../scss/partials/actions-bar/_actions-bar.scss */
+  /* line 27, ../../scss/partials/actions-bar/_actions-bar.scss */
   .actions-bar-header--message-config, .actions-bar-header--form-editor,
   .actions-bar-header {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0;
+    padding-right: 0;
     width: 16.66667%;
     float: left;
   }
 }
-/* line 34, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 33, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-header--message-config h3, .actions-bar-header--form-editor h3,
 .actions-bar-header h3 {
   color: #fcfcfc;
   margin-top: 10px;
 }
 
-/* line 40, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 39, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
+  padding-left: 0;
+  padding-right: 0;
   width: 50%;
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 40, ../../scss/partials/actions-bar/_actions-bar.scss */
+  /* line 39, ../../scss/partials/actions-bar/_actions-bar.scss */
   .actions-bar-admin {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0;
+    padding-right: 0;
     width: 83.33333%;
     float: left;
   }
 }
-/* line 46, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 45, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-list {
   position: absolute;
   left: -9999px;
@@ -14089,7 +14079,7 @@ img.mfp-img {
 .actions-bar-admin .dropdown-list > *:last-child {
   margin-bottom: 0;
 }
-/* line 48, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 47, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-list li {
   font-size: 0.875rem;
   cursor: pointer;
@@ -14107,7 +14097,7 @@ img.mfp-img {
   padding: 0.3125rem 0.625rem;
   color: #555555;
 }
-/* line 52, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 51, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-button {
   border-style: solid;
   border-width: 1px;
@@ -14167,31 +14157,31 @@ img.mfp-img {
 .actions-bar-admin .dropdown-button:after {
   border-color: black transparent transparent transparent;
 }
-/* line 57, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 56, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-button:before {
   border-color: black transparent transparent transparent;
 }
-/* line 60, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 59, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-button:after {
   right: 5px;
   margin-top: -1px;
 }
-/* line 64, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 63, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-button.show-for-small {
   display: inline-block !important;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 64, ../../scss/partials/actions-bar/_actions-bar.scss */
+  /* line 63, ../../scss/partials/actions-bar/_actions-bar.scss */
   .actions-bar-admin .dropdown-button.show-for-small {
     display: none !important;
   }
 }
-/* line 71, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 70, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list {
   margin-top: 20px;
   float: right;
 }
-/* line 74, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 73, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li {
   display: inline;
   float: left;
@@ -14199,46 +14189,24 @@ img.mfp-img {
   color: #fcfcfc;
   font-size: 0.875rem;
 }
-/* line 80, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 79, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li a {
   color: #fcfcfc;
 }
-/* line 83, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 82, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li [class*="fa-"] {
   padding-right: 10px;
 }
-/* line 86, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 85, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li.disabled {
   color: #9a9797;
 }
-/* line 88, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 87, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li.disabled a {
   color: #9a9797;
 }
 
-/* line 96, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-warning {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-  width: 100%;
-  float: left;
-  background: #841417;
-  color: #fff;
-  text-align: center;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
-}
-/* line 105, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-warning p {
-  margin-bottom: 0;
-}
-/* line 109, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-warning a {
-  color: #fff;
-  border-bottom: 1px dashed #fff;
-}
-
-/* line 115, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 95, ../../scss/partials/actions-bar/_actions-bar.scss */
 .js-bulk-action.disabled {
   opacity: 0.25;
   pointer-events: none;
@@ -15024,32 +14992,75 @@ img.mfp-img {
 \*------------------------------------*/
 /**
 * DROPDOWN BUTTON MENU...............dropdown button menu styles
+* DROP.JS DROPDOWNS..................dropdown styling for drop.js
+* MESSAGES PAGE DROPDOWNS............dropdown styling for /messages
 */
 /*------------------------------------*\
    $DROPDOWN BUTTON MENU
 \*------------------------------------*/
-/* line 16, ../../scss/partials/dropdown/_dropdown.scss */
+/* line 18, ../../scss/partials/dropdown/_dropdown.scss */
 .dropdown-list a {
   color: #1f1f1f;
 }
-/* line 19, ../../scss/partials/dropdown/_dropdown.scss */
+/* line 21, ../../scss/partials/dropdown/_dropdown.scss */
 .dropdown-list .dropdown-list__item {
   padding: 19px;
   width: 100%;
   text-align: center;
 }
-/* line 23, ../../scss/partials/dropdown/_dropdown.scss */
+/* line 25, ../../scss/partials/dropdown/_dropdown.scss */
 .dropdown-list .dropdown-list__item.active {
   background-color: #e9ebef;
   font-weight: bold;
 }
-/* line 27, ../../scss/partials/dropdown/_dropdown.scss */
+/* line 29, ../../scss/partials/dropdown/_dropdown.scss */
 .dropdown-list .dropdown-list__item:hover:not(.active) {
   background-color: #e9ebef;
 }
-/* line 30, ../../scss/partials/dropdown/_dropdown.scss */
+/* line 32, ../../scss/partials/dropdown/_dropdown.scss */
 .dropdown-list .dropdown-list__item:active:not(.active) {
   background-color: #dee0e6;
+}
+
+/*------------------------------------*\
+   $DROP.JS DROPDOWNS
+\*------------------------------------*/
+/* line 42, ../../scss/partials/dropdown/_dropdown.scss */
+.drop.drop-element {
+  z-index: 100;
+}
+/* line 45, ../../scss/partials/dropdown/_dropdown.scss */
+.drop.drop-element .drop-content {
+  background-color: #eff0f3;
+}
+/* line 48, ../../scss/partials/dropdown/_dropdown.scss */
+.drop.drop-element .drop-content > ul {
+  margin: 0;
+}
+
+/*------------------------------------*\
+   $MESSAGES PAGE DROPDOWNS
+\*------------------------------------*/
+/* line 59, ../../scss/partials/dropdown/_dropdown.scss */
+.drop-element.drop-message-create-post-forms .drop-content {
+  padding: 0;
+  margin-top: -10px;
+}
+/* line 63, ../../scss/partials/dropdown/_dropdown.scss */
+.drop-element.drop-message-create-post-forms .drop-content:before {
+  margin-top: -12px;
+}
+/* line 69, ../../scss/partials/dropdown/_dropdown.scss */
+.drop-element.drop-message-create-post-forms .js-message-create-post-forms-drop h6, .drop-element.drop-message-create-post-forms .js-message-create-post-forms-drop .post-form-wrapper label, .post-form-wrapper .drop-element.drop-message-create-post-forms .js-message-create-post-forms-drop label {
+  margin: 0;
+  padding: 0.5em 1em;
+  border-bottom: 1px solid #e3e3e3;
+}
+/* line 75, ../../scss/partials/dropdown/_dropdown.scss */
+.drop-element.drop-message-create-post-forms .js-message-create-post-forms-drop ul {
+  max-height: 250px;
+  overflow-y: scroll;
+  padding: 0.5em 1em;
 }
 
 /*PAGINATION*/
@@ -15147,21 +15158,11 @@ ul.pagination li a:focus {
 \*------------------------------------*/
 /* line 15, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar {
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
   width: 100%;
   float: left;
   background-color: #323a45;
-}
-/* line 176, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.actions-bar:before,
-.actions-bar:after {
-  content: " ";
-  display: table;
-}
-/* line 177, ../../bower_components/foundation/scss/foundation/components/_global.scss */
-.actions-bar:after {
-  clear: both;
 }
 @media only screen and (min-width: 64.063em) {
   /* line 15, ../../scss/partials/actions-bar/_actions-bar.scss */
@@ -15176,48 +15177,48 @@ ul.pagination li a:focus {
   }
 }
 
-/* line 28, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 27, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-header--message-config, .actions-bar-header--form-editor,
 .actions-bar-header {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
+  padding-left: 0;
+  padding-right: 0;
   width: 50%;
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 28, ../../scss/partials/actions-bar/_actions-bar.scss */
+  /* line 27, ../../scss/partials/actions-bar/_actions-bar.scss */
   .actions-bar-header--message-config, .actions-bar-header--form-editor,
   .actions-bar-header {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0;
+    padding-right: 0;
     width: 16.66667%;
     float: left;
   }
 }
-/* line 34, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 33, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-header--message-config h3, .actions-bar-header--form-editor h3,
 .actions-bar-header h3 {
   color: #fcfcfc;
   margin-top: 10px;
 }
 
-/* line 40, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 39, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
+  padding-left: 0;
+  padding-right: 0;
   width: 50%;
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 40, ../../scss/partials/actions-bar/_actions-bar.scss */
+  /* line 39, ../../scss/partials/actions-bar/_actions-bar.scss */
   .actions-bar-admin {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0;
+    padding-right: 0;
     width: 83.33333%;
     float: left;
   }
 }
-/* line 46, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 45, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-list {
   position: absolute;
   left: -9999px;
@@ -15240,7 +15241,7 @@ ul.pagination li a:focus {
 .actions-bar-admin .dropdown-list > *:last-child {
   margin-bottom: 0;
 }
-/* line 48, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 47, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-list li {
   font-size: 0.875rem;
   cursor: pointer;
@@ -15258,7 +15259,7 @@ ul.pagination li a:focus {
   padding: 0.3125rem 0.625rem;
   color: #555555;
 }
-/* line 52, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 51, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-button {
   border-style: solid;
   border-width: 1px;
@@ -15318,31 +15319,31 @@ ul.pagination li a:focus {
 .actions-bar-admin .dropdown-button:after {
   border-color: black transparent transparent transparent;
 }
-/* line 57, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 56, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-button:before {
   border-color: black transparent transparent transparent;
 }
-/* line 60, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 59, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-button:after {
   right: 5px;
   margin-top: -1px;
 }
-/* line 64, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 63, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .dropdown-button.show-for-small {
   display: inline-block !important;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 64, ../../scss/partials/actions-bar/_actions-bar.scss */
+  /* line 63, ../../scss/partials/actions-bar/_actions-bar.scss */
   .actions-bar-admin .dropdown-button.show-for-small {
     display: none !important;
   }
 }
-/* line 71, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 70, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list {
   margin-top: 20px;
   float: right;
 }
-/* line 74, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 73, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li {
   display: inline;
   float: left;
@@ -15350,46 +15351,24 @@ ul.pagination li a:focus {
   color: #fcfcfc;
   font-size: 0.875rem;
 }
-/* line 80, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 79, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li a {
   color: #fcfcfc;
 }
-/* line 83, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 82, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li [class*="fa-"] {
   padding-right: 10px;
 }
-/* line 86, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 85, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li.disabled {
   color: #9a9797;
 }
-/* line 88, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 87, ../../scss/partials/actions-bar/_actions-bar.scss */
 .actions-bar-admin .actions-bar-admin-list li.disabled a {
   color: #9a9797;
 }
 
-/* line 96, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-warning {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-  width: 100%;
-  float: left;
-  background: #841417;
-  color: #fff;
-  text-align: center;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
-}
-/* line 105, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-warning p {
-  margin-bottom: 0;
-}
-/* line 109, ../../scss/partials/actions-bar/_actions-bar.scss */
-.actions-bar-warning a {
-  color: #fff;
-  border-bottom: 1px dashed #fff;
-}
-
-/* line 115, ../../scss/partials/actions-bar/_actions-bar.scss */
+/* line 95, ../../scss/partials/actions-bar/_actions-bar.scss */
 .js-bulk-action.disabled {
   opacity: 0.25;
   pointer-events: none;
@@ -19646,8 +19625,8 @@ nav[role="sub-navigation"] li a {
 
 /* line 1, ../../scss/modules/settings/forms/_form-editor.scss */
 .actions-bar-header--form-editor {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
+  padding-left: 0;
+  padding-right: 0;
   width: 100%;
   float: left;
 }
@@ -22175,45 +22154,6 @@ CONTENTS
   text-align: center;
 }
 
-/* line 36, ../../scss/modules/form-wizard/modules/_card.scss */
-.list-view-form .card.disabled {
-  -moz-box-shadow: 0 0 1px 0 #841417;
-  -webkit-box-shadow: 0 0 1px 0 #841417;
-  box-shadow: 0 0 1px 0 #841417;
-}
-/* line 39, ../../scss/modules/form-wizard/modules/_card.scss */
-.list-view-form .card.disabled .card-hero-unit--form-wizard,
-.list-view-form .card.disabled .card-configure:not(.js-custom-form-undelete) {
-  opacity: 0.35;
-}
-/* line 44, ../../scss/modules/form-wizard/modules/_card.scss */
-.list-view-form .card.disabled .card-hero-unit--form-wizard,
-.list-view-form .card.disabled .card-configure {
-  background-color: #e3e3e3;
-}
-/* line 49, ../../scss/modules/form-wizard/modules/_card.scss */
-.list-view-form .card.disabled .card-body {
-  background-color: #eff0f3;
-}
-/* line 53, ../../scss/modules/form-wizard/modules/_card.scss */
-.list-view-form .card.disabled .js-custom-form-undelete {
-  color: #3cb81c;
-}
-
-/*DROPDOWNS*/
-/* line 1, ../../scss/modules/dropdowns/_dropdowns.scss */
-.drop.drop-element {
-  z-index: 100;
-}
-/* line 4, ../../scss/modules/dropdowns/_dropdowns.scss */
-.drop.drop-element .drop-content {
-  background-color: #eff0f3;
-}
-/* line 7, ../../scss/modules/dropdowns/_dropdowns.scss */
-.drop.drop-element .drop-content > ul {
-  margin: 0;
-}
-
 /*------------------------------------*\
 		$PARTIALS
 \*------------------------------------*/
@@ -23018,15 +22958,11 @@ body.modal-active #modal-bg {
   padding-left: 0;
 }
 /* line 19, ../../scss/modules/modals/_create-post-modal.scss */
-.form-options-nav-wrapper[data-fieldset-count="1"] {
-  display: none;
-}
-/* line 22, ../../scss/modules/modals/_create-post-modal.scss */
 .form-options-nav-wrapper ul {
   margin-left: 0;
 }
 
-/* line 27, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 24, ../../scss/modules/modals/_create-post-modal.scss */
 .form-options-nav {
   display: block;
   width: auto;
@@ -23089,7 +23025,7 @@ body.modal-active #modal-bg {
 /*-----------------------------------------------------------*\
 		$CREATE-POST-FORM
 \*-----------------------------------------------------------*/
-/* line 39, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 36, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -23098,29 +23034,29 @@ body.modal-active #modal-bg {
   margin-bottom: 40px;
   padding: 0;
 }
-/* line 43, ../../scss/modules/modals/_create-post-modal.scss */
-.post-form-wrapper input[type="text"], .post-form-wrapper textarea, .post-form-wrapper .select2-container, .post-form-wrapper #post-status {
+/* line 40, ../../scss/modules/modals/_create-post-modal.scss */
+.post-form-wrapper input[type="text"], .post-form-wrapper textarea {
   margin-bottom: 2em;
 }
-/* line 46, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 43, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form fieldset {
   display: none;
 }
-/* line 48, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 45, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form fieldset.active {
   display: block;
 }
-/* line 57, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 54, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper .select2-container {
   width: 100%;
 }
 
-/* line 62, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 59, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper textarea {
   height: 100px;
 }
 
-/* line 66, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 63, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-row {
   width: 100%;
   margin-left: auto;
@@ -23139,7 +23075,7 @@ body.modal-active #modal-bg {
   clear: both;
 }
 
-/* line 70, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 67, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-field {
   padding-left: 0;
   padding-right: 0;
@@ -23147,7 +23083,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 70, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 67, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-field {
     padding-left: 0;
     padding-right: 0;
@@ -23157,7 +23093,7 @@ body.modal-active #modal-bg {
   }
 }
 
-/* line 78, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 75, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-button {
   padding-left: 0;
   padding-right: 0;
@@ -23165,7 +23101,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 78, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 75, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-button {
     padding-left: 0;
     padding-right: 0;
@@ -23175,12 +23111,12 @@ body.modal-active #modal-bg {
   }
 }
 
-/* line 86, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 83, ../../scss/modules/modals/_create-post-modal.scss */
 .location-editor-map {
   height: 400px;
 }
 
-/* line 90, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 87, ../../scss/modules/modals/_create-post-modal.scss */
 .map-search-btn {
   border-style: solid;
   border-width: 1px;

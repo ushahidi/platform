@@ -399,12 +399,17 @@ class Controller_Api_Messages extends Ushahidi_Api {
 			'controller' => 'Posts'
 		));
 
+		$form_id = isset($this->_request_payload['form'])
+			? $this->_request_payload['form']
+			: 1
+			;
+
 		$post_data = array(
 			'title' => $message->title,
 			'content' => $message->message,
 			'created' => $message->created,
 			'status' => 'draft',
-			'form' => 1,
+			'form' => $form_id,
 			'locale' => 'en_us'
 		);
 
