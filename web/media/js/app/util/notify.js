@@ -135,8 +135,10 @@ define(['alertify', 'jquery', 'i18next', 'underscore'],
 			return dfd.promise();
 		},
 		whenXHRDone = function(promises, success, error) {
+			var single = promises.length === 1;
 			$.when.apply($, promises).done(function() {
-				var args = Array.prototype.slice.call(arguments),
+				var sliced_args = Array.prototype.slice.call(arguments),
+					args = single ? [sliced_args] : sliced_args,
 					failures = _.filter(args, function(a) {
 						return (a[1] !== 'success');
 					}),
