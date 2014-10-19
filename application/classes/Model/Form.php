@@ -9,7 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+
 class Model_Form extends ORM implements Acl_Resource_Interface {
+
+	use Ushahidi_SoftDelete;
+
 	/**
 	 * A form has many groups
 	 * A form has and belongs to many attributes
@@ -71,6 +75,10 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 		);
 	}
 
+	protected function _get_soft_delete_column() {
+		return 'disabled';
+	}
+
 	// Insert/Update Timestamps
 	protected $_created_column = array('column' => 'created', 'format' => TRUE);
 	protected $_updated_column = array('column' => 'updated', 'format' => TRUE);
@@ -92,6 +100,7 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 				'name' => $this->name,
 				'description' => $this->description,
 				'type' => $this->type,
+				'disabled' => (bool) $this->disabled,
 				'created' => ($created = DateTime::createFromFormat('U', $this->created))
 					? $created->format(DateTime::W3C)
 					: $this->created,

@@ -1,6 +1,6 @@
 .actions-bar-header--form-editor {
 	@extend %actions-bar-header;
-	@include grid-column(12, $collapse: true);
+	@include grid-column(12);
 
 	h3 {
 		float: left;

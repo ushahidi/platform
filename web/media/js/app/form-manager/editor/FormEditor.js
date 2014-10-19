@@ -33,7 +33,8 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify',
 				'click .js-edit-custom-form' : 'showCustomFormEdit',
 				'click .js-add-group' : 'showGroupCreate',
 				'click .js-edit-attr' : 'toggleEditor',
-				'click .js-add-attr' : 'toggleEditor'
+				'click .js-add-attr' : 'toggleEditor',
+				'click .js-custom-form-undelete' : 'enableForm'
 			},
 
 			ui : {
@@ -56,7 +57,8 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify',
 			serializeData : function()
 			{
 				return _.extend(this.model.toJSON(), {
-					availableAttributes : this.availableAttributes
+					availableAttributes : this.availableAttributes,
+					disabled : this.model.get('disabled')
 				});
 			},
 
@@ -204,5 +206,13 @@ define(['App', 'marionette', 'underscore', 'jquery', 'alertify', 'util/notify',
 						alertify.error('Unable to save field, please try again');
 					});
 			},
+			enableForm: function()
+			{
+				var that = this;
+				$('.actions-bar-warning').slideUp(function() {
+					$(this).remove();
+					that.model.enable();
+				});
+			}
 		});
 	});

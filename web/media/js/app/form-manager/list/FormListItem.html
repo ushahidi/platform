@@ -1,4 +1,4 @@
-<div class="card {{#unless enabled}}disabled{{/unless}}">
+<div class="card{{#if disabled}} disabled{{/if}}">
 
 	<div class="card-hero-unit--form-wizard">
 		<h6 class="card-header--form-wizard">{{name}}</h6>
@@ -7,7 +7,11 @@
 	<div class="card-body">
 		<div class="card-status-wrapper">
 			<a href="{{#url}}settings/forms/{{id}}{{/url}}" class="card-configure">{{t "nav.edit"}}</a>
-			<a href="javascript:void(0)" class="card-configure  js-custom-form-delete js-stub">{{t "nav.delete"}}</a>
+			{{#if disabled}}
+				<a class="card-configure js-custom-form-undelete">{{t "nav.enable"}}</a>
+			{{else}}
+				<a class="card-configure js-custom-form-delete">{{t "nav.disable"}}</a>
+			{{/if}}
 		</div>
 	</div> <!-- end .card-body -->
 

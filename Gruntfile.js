@@ -178,7 +178,10 @@ module.exports = function(grunt) {
 			sass :
 			{
 				files : [uipath + 'media/scss/**/*.scss'],
-				tasks : ['build:css']
+				tasks : ['build:css'],
+				options: {
+					interrupt: true,
+				}
 			},
 
 			css :

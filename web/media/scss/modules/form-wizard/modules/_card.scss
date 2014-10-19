@@ -32,3 +32,25 @@ CONTENTS
 	display: block;
 	text-align: center;
 }
+
+.list-view-form .card.disabled {
+    @include box-shadow(0 0 1px 0 #841417);
+
+    .card-hero-unit--form-wizard,
+    .card-configure:not(.js-custom-form-undelete) {
+        opacity: 0.35;
+    }
+
+    .card-hero-unit--form-wizard,
+    .card-configure {
+        background-color: $midGray;
+    }
+
+    .card-body {
+        background-color: $lightGray;
+    }
+
+    .js-custom-form-undelete {
+        color: $brandGreen;
+    }
+}

@@ -6,6 +6,11 @@
 		</div>
 		<div class="actions-bar-admin">
 		</div>
+		{{#if disabled}}
+		<div class="actions-bar-warning">
+			<p>{{t "form.currently_disabled"}} <a class="js-custom-form-undelete">{{t "nav.enable"}}</a></p>
+		</div>
+		{{/if}}
 	</div>
 
 	<div class="list-view-wrapper">

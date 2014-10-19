@@ -7,13 +7,16 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-define([ 'marionette', 'hbs!templates/modals/ChooseForm'],
-	function( Marionette, template)
+define(['marionette', 'collections/FormCollection', 'hbs!templates/modals/ChooseForm'],
+	function( Marionette, FormCollection, template)
 	{
 		return Marionette.ItemView.extend( {
 			template: template,
 			initialize: function(options) {
-				this.forms = options.forms;
+				var enabledForms = new FormCollection(
+					options.forms.where({ disabled: false })
+				);
+				this.forms = enabledForms;
 			},
 			events : {
 				'click .js-forms-grid li' : 'selectForm'

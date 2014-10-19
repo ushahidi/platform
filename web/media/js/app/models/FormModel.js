@@ -199,6 +199,14 @@ define(['backbone', 'modules/config', 'collections/FormGroupCollection', 'backbo
 						parse: true
 					}
 				);
+			},
+			disable : function() {
+				this.set('disabled', 1);
+				this.save();
+			},
+			enable : function() {
+				this.set('disabled', 0);
+				this.save();
 			}
 		});
 		return FormModel;

@@ -14,7 +14,8 @@
 
 %actions-bar,
 .actions-bar {
-	@include grid-column(12);
+	@include grid-column(12, $collapse:true);
+	@include clearfix;
 	background-color: $accent-color;
 	@media #{$small} {
 		margin: 20px 0 0 0;
@@ -26,9 +27,9 @@
 
 %actions-bar-header,
 .actions-bar-header {
-	@include grid-column(6, $collapse: true);
+	@include grid-column(6);
 	@media #{$small} {
-		@include grid-column(2, $collapse: true);
+		@include grid-column(2);
 	}
 	h3 {
 		color: $white;
@@ -38,9 +39,9 @@
 
 %actions-bar-admin,
 .actions-bar-admin {
-	@include grid-column(6, $collapse: true);
+	@include grid-column(6);
 	@media #{$small} {
-		@include grid-column(10, $collapse: true);
+		@include grid-column(10);
 	}
 	.dropdown-list {
 		@include dropdown-container($content: list, $triangle: true);
@@ -89,6 +90,25 @@
 				}
 			}
 		}
+	}
+}
+
+%actions-bar-warning,
+.actions-bar-warning {
+	@include grid-column(12);
+	background: $brandRed;
+	color: #fff;
+	text-align: center;
+	padding-top: 0.25em;
+	padding-bottom: 0.25em;
+
+	p {
+		margin-bottom: 0;
+	}
+
+	a {
+		color: #fff;
+		border-bottom: 1px dashed #fff;
 	}
 }
 

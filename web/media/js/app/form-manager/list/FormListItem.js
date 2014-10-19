@@ -16,9 +16,22 @@ define(['App', 'marionette', 'hbs!form-manager/list/FormListItem'],
 			tagName: 'li',
 			className: 'list-view-form',
 
+			events: {
+				'click .js-custom-form-delete': 'deleteForm',
+				'click .js-custom-form-undelete': 'undeleteForm'
+			},
+
 			modelEvents: {
 				'sync': 'render',
 				'change': 'render'
+			},
+
+			deleteForm: function() {
+				this.model.disable();
+			},
+
+			undeleteForm: function() {
+				this.model.enable();
 			}
 		});
 	});

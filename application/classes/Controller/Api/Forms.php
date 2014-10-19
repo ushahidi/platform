@@ -137,7 +137,7 @@ class Controller_Api_Forms extends Ushahidi_Api {
 	protected function create_or_update($form, $post)
 	{
 		$form->values($post, array(
-			'name', 'description'
+			'name', 'description', 'disabled'
 			));
 
 		if ($form->loaded())
