@@ -23018,11 +23018,15 @@ body.modal-active #modal-bg {
   padding-left: 0;
 }
 /* line 19, ../../scss/modules/modals/_create-post-modal.scss */
+.form-options-nav-wrapper[data-fieldset-count="1"] {
+  display: none;
+}
+/* line 22, ../../scss/modules/modals/_create-post-modal.scss */
 .form-options-nav-wrapper ul {
   margin-left: 0;
 }
 
-/* line 24, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 27, ../../scss/modules/modals/_create-post-modal.scss */
 .form-options-nav {
   display: block;
   width: auto;
@@ -23085,7 +23089,7 @@ body.modal-active #modal-bg {
 /*-----------------------------------------------------------*\
 		$CREATE-POST-FORM
 \*-----------------------------------------------------------*/
-/* line 36, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 39, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -23094,29 +23098,29 @@ body.modal-active #modal-bg {
   margin-bottom: 40px;
   padding: 0;
 }
-/* line 40, ../../scss/modules/modals/_create-post-modal.scss */
-.post-form-wrapper input[type="text"], .post-form-wrapper textarea {
+/* line 43, ../../scss/modules/modals/_create-post-modal.scss */
+.post-form-wrapper input[type="text"], .post-form-wrapper textarea, .post-form-wrapper .select2-container, .post-form-wrapper #post-status {
   margin-bottom: 2em;
 }
-/* line 43, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 46, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form fieldset {
   display: none;
 }
-/* line 45, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 48, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper form fieldset.active {
   display: block;
 }
-/* line 54, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 57, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper .select2-container {
   width: 100%;
 }
 
-/* line 59, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 62, ../../scss/modules/modals/_create-post-modal.scss */
 .post-form-wrapper textarea {
   height: 100px;
 }
 
-/* line 63, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 66, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-row {
   width: 100%;
   margin-left: auto;
@@ -23135,7 +23139,7 @@ body.modal-active #modal-bg {
   clear: both;
 }
 
-/* line 67, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 70, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-field {
   padding-left: 0;
   padding-right: 0;
@@ -23143,7 +23147,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 67, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 70, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-field {
     padding-left: 0;
     padding-right: 0;
@@ -23153,7 +23157,7 @@ body.modal-active #modal-bg {
   }
 }
 
-/* line 75, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 78, ../../scss/modules/modals/_create-post-modal.scss */
 .location-search-button {
   padding-left: 0;
   padding-right: 0;
@@ -23161,7 +23165,7 @@ body.modal-active #modal-bg {
   float: left;
 }
 @media only screen and (min-width: 64.063em) {
-  /* line 75, ../../scss/modules/modals/_create-post-modal.scss */
+  /* line 78, ../../scss/modules/modals/_create-post-modal.scss */
   .location-search-button {
     padding-left: 0;
     padding-right: 0;
@@ -23171,12 +23175,12 @@ body.modal-active #modal-bg {
   }
 }
 
-/* line 83, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 86, ../../scss/modules/modals/_create-post-modal.scss */
 .location-editor-map {
   height: 400px;
 }
 
-/* line 87, ../../scss/modules/modals/_create-post-modal.scss */
+/* line 90, ../../scss/modules/modals/_create-post-modal.scss */
 .map-search-btn {
   border-style: solid;
   border-width: 1px;

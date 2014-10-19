@@ -6,8 +6,8 @@
 
 	<div class="modal-wrapper">
 
-		<div class="form-options-nav-wrapper">
-			{{#if fieldsets}}
+		{{#if fieldsets}}
+		<div class="form-options-nav-wrapper" data-fieldset-count="{{fieldsets.length}}">
 			<dl class="form-options-nav">
 				<dt>{{t "nav.options"}}</dt>
 				{{#each fieldsets}}
@@ -16,8 +16,8 @@
 					</dd>
 				{{/each}}
 			</dl>
-			{{/if}}
 		</div>
+		{{/if}}
 
 		{{#if enable_media_uploads}}
 		<section class="post-media-wrapper" style="clear:both">

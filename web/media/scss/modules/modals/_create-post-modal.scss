@@ -16,6 +16,9 @@
 .form-options-nav-wrapper {
 	@include grid-column(12);
 	padding-left: 0;
+	&[data-fieldset-count="1"] {
+		display: none;
+	}
 	ul {
 		margin-left: 0;
 	}
@@ -37,7 +40,7 @@
 	@include grid-column(12);
 	margin-bottom: 40px;
 	padding: 0;
-	input[type="text"], textarea {
+	input[type="text"], textarea, .select2-container, #post-status {
 		margin-bottom: 2em;
 	}
 	form fieldset {

@@ -106,11 +106,11 @@ define(['jquery', 'backbone', 'App', 'underscore', 'modules/config', 'models/Use
 				// Only show user fields if not set yet
 				if (parseInt(this.get('user'), 10) > 0 || App.loggedin())
 				{
-					mainFields = ['title', 'content', 'tags', 'user'];
+					mainFields = ['title', 'content', 'tags', 'status', 'user'];
 				}
 				else
 				{
-					mainFields = ['title', 'content', 'tags', 'user.realname', 'user.email'];
+					mainFields = ['title', 'content', 'tags', 'status', 'user.realname', 'user.email'];
 				}
 
 				if (App.feature('media_uploads')) {
@@ -129,14 +129,6 @@ define(['jquery', 'backbone', 'App', 'underscore', 'modules/config', 'models/Use
 				}
 
 				fieldsets[0] = mainFieldset;
-				fieldsets.push(
-					{
-						name : 'status',
-						legend : 'Status',
-						fields : ['status'],
-						icon : 'fa-lock'
-					}
-				);
 
 				return fieldsets;
 			},
