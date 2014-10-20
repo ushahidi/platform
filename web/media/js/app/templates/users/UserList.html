@@ -26,10 +26,10 @@
 			<a class="js-actions-drop dropdown-button show-for-small">{{t "nav.actions"}}</a><br>
 			<ul class="js-actions-drop-content dropdown-menu dropdown-list show-for-small">
 				<li>
-					<i class="fa fa-check-square-o"></i><a href="#" class="js-bulk-select-all">{{t "nav.select_all"}}</a>
-				</li>
-				<li class="none">
-					<i class="fa fa-square-o"></i><a href="#" class="js-bulk-unselect-all">{{t "nav.unselect_all"}}</a>
+					<a class="js-select-all">
+						<span class="select-text"><i class="fa fa-check-square-o"></i> {{t "nav.select_all"}}</span>
+						<span class="unselect-text visually-hidden"><i class="fa fa-square-o"></i> {{t "nav.unselect_all"}}</span>
+					</a>
 				</li>
 				<li class="js-bulk-action disabled">
 					<a href="#" class="js-user-bulk-change-role-drop"><i class="fa fa-cogs"></i>{{t "user.change_role"}}</a>

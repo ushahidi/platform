@@ -2,7 +2,11 @@
 	<article>
 
 		<div class="list-view-image--user">
-			<img src="//www.gravatar.com/avatar/{{gravatar}}?s=400&amp;d=mm" alt="{{ username }}">
+			<label class="checkbox list-view-edit-button toggle-select">
+				<input type="checkbox" name="select" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}}>
+				<i class="unselected-state fa fa-fw fa-2x fa-square-o"></i>
+				<i class="selected-state fa fa-fw fa-2x fa-check-square-o"></i>
+			</label><img src="//www.gravatar.com/avatar/{{gravatar}}?s=400&amp;d=mm" alt="{{ username }}">
 		</div> <!-- end .list-view-image -->
 
 		<div class="list-view-details  list-view-details--user">
@@ -45,12 +49,6 @@
 			<div class="list-view-edit-wrapper">
 				<ul class="list-view-edit">
 					{{#if allowed_methods.put}}
-						<li>
-							<label class="checkbox  list-view-edit-button">
-								<input type="checkbox" name="select" class="js-select-input" value="{{id}}" {{#if selected}}checked="checked"{{/if}} />
-								<i class="select-icon"></i> <span>{{t "nav.select"}}</span>
-							</label>
-						</li>
 						<li>
 							<a class="list-view-edit-button  js-edit" title="{{t 'user.edit_this_post'}}"><i class="fa  fa-edit"></i> {{t "nav.edit"}}</a>
 						</li>

@@ -28,6 +28,9 @@ define(['App', 'underscore', 'jquery', 'drop', 'alertify',
 			behaviors: {
 				PageableView: {
 					modelName: 'users'
+				},
+				SelectableList: {
+					modelName: 'users'
 				}
 			},
 

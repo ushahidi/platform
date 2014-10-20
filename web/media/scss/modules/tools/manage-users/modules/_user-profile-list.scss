@@ -27,7 +27,25 @@
 
 .list-view-image--user {
 	@extend %list-view-image;
+	.list-view-edit-button {
+		display: inline-block;
+		vertical-align: middle;
+		width: 40px;
+		text-align: left;
+		background: transparent;
+		border: 0 none;
+		padding: 0;
+
+		&.selected-button i.fa-square-o::before {
+			content: '\f046';
+			margin-right: -3px;
+		}
+	}
 	img {
+		display: inline-block;
+		vertical-align: middle;
+		width: 85%;
+		width: calc(100% - 40px);
 		border-radius: 200px;
 		border: none;
 	}
