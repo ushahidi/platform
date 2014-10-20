@@ -24,7 +24,7 @@ Feature: Testing OAuth2 endpoints
         When I fill in "login-username" with "robbie"
         And I fill in "login-password" with "testing"
         And I press "login-submit"
-        Then I press "authorizeButton"
+        # Ushahidi UI client is auto-approved, no click to authorizeButton exists
         Then I should have cookie "authtoken"
 
     Scenario: Requesting access token with password
