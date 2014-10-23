@@ -14,10 +14,7 @@ class Controller_Sms_Frontlinesms extends Controller {
 	public function action_index()
 	{
 		// Set up custom error view
-		Kohana_Exception::$error_view_content_type = 'application/json';
-		Kohana_Exception::$error_view = 'error/frontlinesms';
-		Kohana_Exception::$error_layout = FALSE;
-		HTTP_Exception_404::$error_view = 'error/frontlinesms';
+		Kohana_Exception::$error_view = 'error/data-provider';
 
 		if ($this->request->method() != 'GET')
 		{

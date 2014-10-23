@@ -2,10 +2,8 @@
 
 use League\OAuth2\Server\Exception\ClientException as OAuthClientException;
 
-class Controller_OAuth extends Controller_Layout {
+class Controller_OAuth extends Controller {
 	use Ushahidi_Corsheaders;
-
-	public $template = 'oauth/authorize';
 
 	private $auth;
 	private $user;
@@ -71,55 +69,6 @@ class Controller_OAuth extends Controller_Layout {
 		}
 
 		$this->redirect('oauth/authorize' . URL::query(Arr::extract($params, $this->oauth_params)));
-	}
-
-	public function action_authorize()
-	{
-		if (!$this->user)
-		{
-			// Not possible to authorize until login is finished, go back to index
-			// to restart the flow.
-			return $this->action_index();
-		}
-
-		$server = service('oauth.server.auth');
-		$params = $this->session->get('oauth');
-
-		if ($this->request->post('approve') OR !empty($params['client_details']['auto_approve']))
-		{
-			// user id has not been injected into the parameters, do it now
-			$params['user_id'] = $this->user->id;
-
-			$code = $server->getGrantType('authorization_code')->newAuthoriseRequest('user', $params['user_id'], $params);
-
-			// Redirect the user back to the client with an authorization code
-			$this->redirect(
-				// todo: this needs to be injected, but it's static. X(
-				League\OAuth2\Server\Util\RedirectUri::make($params['redirect_uri'], array(
-						'code'  => $code,
-						'state' => Arr::get($params, 'state'),
-					))
-				);
-		}
-
-		if ($this->request->post('deny'))
-		{
-			// Redirect the user back to the client with an error
-			$this->redirect(
-				// todo: this needs to be injected, but it's static. X(
-				League\OAuth2\Server\Util\RedirectUri::make($params['redirect_uri'], array(
-					'error'         => 'access_denied',
-					'error_message' => $server->getExceptionMessage('access_denied'),
-					'state'         => Arr::get($params, 'state'),
-					))
-				);
-		}
-
-		// Load the content template
-		$this->template = $view = View::factory('oauth/authorize')
-			->set('scopes', Arr::pluck($params['scopes'], 'name'))
-			->set('client', $params['client_details']['name'])
-			;
 	}
 
 	public function action_token()

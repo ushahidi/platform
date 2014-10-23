@@ -10,14 +10,8 @@ services:
 - mysql
 env:
 - KOHANA_ENV=testing
-before_install:
-- sudo apt-get update
-- sudo apt-get install npm
 install:
-- npm install -g grunt-cli
-- composer self-update
 - composer install --no-interaction
-- npm install
 before_script:
 - chmod 0777 application/cache application/logs
 - cp application/tests/behat.template application/tests/behat.yml
@@ -33,4 +27,3 @@ script:
 - ./bin/phpspec run --format dot
 - ./bin/behat --config application/tests/behat.yml --format progress
 - ./bin/phpunit -c application/tests/phpunit.xml
-- grunt test:js

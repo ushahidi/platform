@@ -69,13 +69,6 @@ abstract class Ushahidi_Rest extends Controller {
 	{
 		parent::before();
 
-		// Set up custom error view
-		Kohana_Exception::$error_view_content_type = 'application/json';
-		Kohana_Exception::$error_view = 'error/api';
-		Kohana_Exception::$error_layout = FALSE;
-
-		HTTP_Exception_404::$error_view = 'error/api';
-
 		$this->_parse_request();
 		$this->_check_access();
 	}

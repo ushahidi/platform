@@ -1,32 +1,6 @@
 @oauth2
 Feature: Testing OAuth2 endpoints
 
-    Scenario: Requesting an Authorization code
-        Given I am on "oauth/authorize?response_type=code&client_id=demoapp&redirect_uri=/&state=testing&scope=api" with redirection
-        When I fill in "login-username" with "robbie"
-        And I fill in "login-password" with "testing"
-        And I press "login-submit"
-        Then I press "authorizeButton" without redirection
-        Then the response status code should be 302
-        Then the redirect location should match "\?code=.*&state=testing"
-
-    Scenario: Cancelled request for an Authorization code
-        Given I am on "oauth/authorize?response_type=code&client_id=demoapp&redirect_uri=/&state=testing&scope=api" with redirection
-        When I fill in "login-username" with "robbie"
-        And I fill in "login-password" with "testing"
-        And I press "login-submit"
-        And I press "cancelButton" without redirection
-        Then the response status code should be 302
-        Then the redirect location should match "\?error=access_denied&error_message=.*&state=testing"
-
-    Scenario: Requesting access token with authorization code
-        Given I am on "oauth/authorize?response_type=code&client_id=ushahidiui&redirect_uri=/user/oauth&state=testing&scope=api" with redirection
-        When I fill in "login-username" with "robbie"
-        And I fill in "login-password" with "testing"
-        And I press "login-submit"
-        # Ushahidi UI client is auto-approved, no click to authorizeButton exists
-        Then I should have cookie "authtoken"
-
     Scenario: Requesting access token with password
         Given that I want to make a new "access_token"
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"

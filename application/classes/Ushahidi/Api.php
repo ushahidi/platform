@@ -106,12 +106,6 @@ class Ushahidi_Api extends Controller {
 	{
 		parent::before();
 
-		// Set up custom error view
-		Kohana_Exception::$error_view_content_type = 'application/json';
-		Kohana_Exception::$error_view = 'error/api';
-		Kohana_Exception::$error_layout = FALSE;
-		HTTP_Exception_404::$error_view = 'error/api';
-
 		$this->acl  = service('acl');
 		$this->auth = $this->acl->auth();
 

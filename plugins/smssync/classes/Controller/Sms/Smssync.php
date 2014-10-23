@@ -19,12 +19,10 @@ class Controller_Sms_Smssync extends Controller {
 
 	public function action_index()
 	{
-		$methods_with_http_request = [ Http_Request::POST, Http_Request::GET];
 		// Set up custom error view
-		Kohana_Exception::$error_view_content_type = 'application/json';
-		Kohana_Exception::$error_view = 'error/smssync';
-		Kohana_Exception::$error_layout = FALSE;
-		HTTP_Exception_404::$error_view = 'error/smssync';
+		Kohana_Exception::$error_view = 'error/data-provider';
+
+		$methods_with_http_request = [Http_Request::POST, Http_Request::GET];
 
 		if ( !in_array($this->request->method(),$methods_with_http_request))
 		{

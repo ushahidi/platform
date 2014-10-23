@@ -13,9 +13,6 @@ return array(
 	// Custom modules
 	// 'acme' => MODPATH.'acme',
 
-	// Ushahidi modules
-	'ushahidiui' => APPPATH.'../web',
-
 	// Submodules
 	'data-provider' => MODPATH.'data-provider',
 

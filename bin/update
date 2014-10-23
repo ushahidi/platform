@@ -55,9 +55,6 @@ else
 fi
 
 composer="composer"
-bower="./node_modules/.bin/bower"
-npm="npm"
-bundle="bundle"
 migrate="$(dirname "$0")/phinx"
 upgrade=1
 
@@ -71,56 +68,20 @@ if [ $? -gt 0 ]; then
 	fi
 fi
 
-which $npm >/dev/null 2>&1
-if [ $? -gt 0 ]; then
-	echo "!!! Missing the 'npm' command, please install it: https://www.npmjs.org/"
-	exit 1
-fi
-
-which $bundle >/dev/null 2>&1
-if [ $? -gt 0 ]; then
-	echo "!!! Missing the 'bundle' command, please install it: https://www.bundler.io/"
-	exit 1
-fi
-
 if [ -n "$" -a "$1" == "migrate" ]; then
 	upgrade=0
 fi
 
 # Deployment mode, disable all developer dependencies :)
 if [ "$production" = true ]; then
-	echo ">>> Skipping dev dependencies"
+	echo ">>> Skipping development dependencies"
 	composer="$composer --no-dev"
 	npm="$npm --production"
 fi
 
-# Make npm run quietly
-npm="$npm --quiet"
-
 if [ $upgrade -gt 0 ]; then
-	echo ">>> Updating server dependencies"
+	echo ">>> Updating dependencies"
 	$composer install
-
-	echo ">>> Updating client side build tools"
-	[ -d node_modules ] && $npm install || $npm update
-	[ "$production" = false ] && $bundle install
-
-	# Check for bower *after* npm installs it
-	if [ ! -f $bower ]; then
-		bower="bower"
-		which $bower >/dev/null 2>&1
-		if [ $? -gt 0 ]; then
-			echo "!!! Missing the 'bower' command, please install it: http://bower.io/"
-			exit 1
-		else
-			echo ">>> The 'bower' command was not installed by npm, falling back to globally installed bower"
-		fi
-	fi
-
-	[ "$production" = true ] && bower="$bower --production"
-
-	echo ">>> Updating client dependencies"
-	[ -d web/media/bower_components ] && $bower update || $bower install
 fi
 
 if [ -f "$migrate" ]; then

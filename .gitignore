@@ -5,19 +5,14 @@
 composer.phar
 vendor/*
 bin/*
-node_modules*
-.bundle/*
 .vagrant/*
-.sass-cache*
 .floo
 .flooignore
 .sublime-project
 build/*
-Gemfile.lock
 puppet/modules
 Puppetfile.lock
 .tmp/*
-index.html
 
 # Kohana deployment specifics
 application/logs/*
