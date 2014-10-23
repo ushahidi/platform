@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ece325f84ec226f697dd3e33ea49f373",
+    "hash": "e874826d353fa07bab3d634670f2ec82",
     "packages": [
         {
             "name": "aura/di",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/auraphp/Aura.Di.git",
-                "reference": "1a63414ccf43b046433f8bfac837f738e1aca73c"
+                "reference": "65cc6553f174fabf373d8161129c47e09a8f31bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/auraphp/Aura.Di/zipball/1a63414ccf43b046433f8bfac837f738e1aca73c",
-                "reference": "1a63414ccf43b046433f8bfac837f738e1aca73c",
+                "url": "https://api.github.com/repos/auraphp/Aura.Di/zipball/65cc6553f174fabf373d8161129c47e09a8f31bc",
+                "reference": "65cc6553f174fabf373d8161129c47e09a8f31bc",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "di",
                 "di container"
             ],
-            "time": "2014-09-06 22:25:16"
+            "time": "2014-10-04 20:10:36"
         },
         {
             "name": "bodom78/kohana-imagefly",
@@ -105,12 +105,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067"
+                "reference": "09e2192a7cd08008e273355fddd38942d8de2992"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
-                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
+                "url": "https://api.github.com/repos/composer/installers/zipball/09e2192a7cd08008e273355fddd38942d8de2992",
+                "reference": "09e2192a7cd08008e273355fddd38942d8de2992",
                 "shasum": ""
             },
             "replace": {
@@ -152,6 +152,7 @@
                 "Hurad",
                 "MODX Evo",
                 "OXID",
+                "Thelia",
                 "WolfCMS",
                 "agl",
                 "annotatecms",
@@ -164,6 +165,7 @@
                 "drupal",
                 "elgg",
                 "fuelphp",
+                "grav",
                 "installer",
                 "joomla",
                 "kohana",
@@ -187,7 +189,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-08-18 20:00:12"
+            "time": "2014-10-15 03:40:33"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -234,12 +236,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/cache.git",
-                "reference": "98c4e5648b58b14cce6a005a06485944e2f31777"
+                "reference": "018be42cbfac60fc6686064680abea2045a643e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/cache/zipball/98c4e5648b58b14cce6a005a06485944e2f31777",
-                "reference": "98c4e5648b58b14cce6a005a06485944e2f31777",
+                "url": "https://api.github.com/repos/kohana/cache/zipball/018be42cbfac60fc6686064680abea2045a643e5",
+                "reference": "018be42cbfac60fc6686064680abea2045a643e5",
                 "shasum": ""
             },
             "require": {
@@ -247,11 +249,21 @@
                 "kohana/core": ">=3.3",
                 "php": ">=5.3.3"
             },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
             "type": "kohana-module",
             "extra": {
                 "branch-alias": {
                     "dev-3.3/develop": "3.3.x-dev",
                     "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -273,7 +285,7 @@
                 "framework",
                 "kohana"
             ],
-            "time": "2014-09-04 08:56:49"
+            "time": "2014-10-10 21:46:32"
         },
         {
             "name": "kohana/core",
@@ -281,16 +293,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/core.git",
-                "reference": "3df459a72ed087b5c837453022f27550a156825e"
+                "reference": "26e83a43674f4790a46ef59d18c3fb8766fc38b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/core/zipball/3df459a72ed087b5c837453022f27550a156825e",
-                "reference": "3df459a72ed087b5c837453022f27550a156825e",
+                "url": "https://api.github.com/repos/kohana/core/zipball/26e83a43674f4790a46ef59d18c3fb8766fc38b6",
+                "reference": "26e83a43674f4790a46ef59d18c3fb8766fc38b6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
             },
             "suggest": {
                 "ext-curl": "*",
@@ -299,6 +315,11 @@
             },
             "type": "library",
             "extra": {
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
+                },
                 "branch-alias": {
                     "dev-3.3/develop": "3.3.x-dev",
                     "dev-3.4/develop": "3.4.x-dev"
@@ -322,7 +343,7 @@
                 "framework",
                 "kohana"
             ],
-            "time": "2014-09-05 06:46:14"
+            "time": "2014-10-10 14:38:26"
         },
         {
             "name": "kohana/image",
@@ -330,18 +351,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/image.git",
-                "reference": "57acf4af58ed9d7f20d0cdd8502f54efefc138d0"
+                "reference": "34de104144abe25bf615c109de9167e08798ee0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/image/zipball/57acf4af58ed9d7f20d0cdd8502f54efefc138d0",
-                "reference": "57acf4af58ed9d7f20d0cdd8502f54efefc138d0",
+                "url": "https://api.github.com/repos/kohana/image/zipball/34de104144abe25bf615c109de9167e08798ee0f",
+                "reference": "34de104144abe25bf615c109de9167e08798ee0f",
                 "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0",
                 "kohana/core": ">=3.3",
                 "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
             },
             "suggest": {
                 "ext-gd": "*"
@@ -351,6 +377,11 @@
                 "branch-alias": {
                     "dev-3.3/develop": "3.3.x-dev",
                     "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -372,7 +403,7 @@
                 "image",
                 "kohana"
             ],
-            "time": "2013-08-26 02:09:02"
+            "time": "2014-10-20 10:32:34"
         },
         {
             "name": "kohana/minion",
@@ -380,12 +411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/minion.git",
-                "reference": "6ea498b728f8f094e05c3907ab018fca94aec16c"
+                "reference": "4d01cf708274a17aebee10e68400295188bdbec3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/minion/zipball/6ea498b728f8f094e05c3907ab018fca94aec16c",
-                "reference": "6ea498b728f8f094e05c3907ab018fca94aec16c",
+                "url": "https://api.github.com/repos/kohana/minion/zipball/4d01cf708274a17aebee10e68400295188bdbec3",
+                "reference": "4d01cf708274a17aebee10e68400295188bdbec3",
                 "shasum": ""
             },
             "require": {
@@ -393,11 +424,21 @@
                 "kohana/core": ">=3.3",
                 "php": ">=5.3.3"
             },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
             "type": "kohana-module",
             "extra": {
                 "branch-alias": {
                     "dev-3.3/develop": "3.3.x-dev",
                     "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -419,7 +460,7 @@
                 "kohana",
                 "task"
             ],
-            "time": "2014-07-22 11:55:09"
+            "time": "2014-10-10 14:38:27"
         },
         {
             "name": "kohana/orm",
@@ -427,12 +468,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/orm.git",
-                "reference": "f050f9d8e8b9500962158569b34f12c93438b601"
+                "reference": "c5ee33aa57f4dbda09e9d49a9d0993a078dd2066"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/orm/zipball/f050f9d8e8b9500962158569b34f12c93438b601",
-                "reference": "f050f9d8e8b9500962158569b34f12c93438b601",
+                "url": "https://api.github.com/repos/kohana/orm/zipball/c5ee33aa57f4dbda09e9d49a9d0993a078dd2066",
+                "reference": "c5ee33aa57f4dbda09e9d49a9d0993a078dd2066",
                 "shasum": ""
             },
             "require": {
@@ -441,11 +482,22 @@
                 "kohana/database": ">=3.3",
                 "php": ">=5.3.3"
             },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/database": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
             "type": "kohana-module",
             "extra": {
                 "branch-alias": {
                     "dev-3.3/develop": "3.3.x-dev",
                     "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -468,7 +520,7 @@
                 "kohana",
                 "orm"
             ],
-            "time": "2014-04-10 23:31:05"
+            "time": "2014-10-10 14:38:27"
         },
         {
             "name": "league/flysystem",
@@ -662,16 +714,16 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "dev-geo-sql-types",
+            "version": "v0.3.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ushahidi/phinx.git",
-                "reference": "7c33932ce6fc251def2d32e1c4df164558afd3b1"
+                "url": "https://github.com/robmorgan/phinx.git",
+                "reference": "589319c8bd7f819580bbab11a8987fb38853bfe7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/phinx/zipball/7c33932ce6fc251def2d32e1c4df164558afd3b1",
-                "reference": "7c33932ce6fc251def2d32e1c4df164558afd3b1",
+                "url": "https://api.github.com/repos/robmorgan/phinx/zipball/589319c8bd7f819580bbab11a8987fb38853bfe7",
+                "reference": "589319c8bd7f819580bbab11a8987fb38853bfe7",
                 "shasum": ""
             },
             "require": {
@@ -694,6 +746,7 @@
                     "Phinx": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -714,23 +767,20 @@
                 "migrations",
                 "phinx"
             ],
-            "support": {
-                "source": "https://github.com/ushahidi/phinx/tree/geo-sql-types"
-            },
-            "time": "2014-08-05 00:51:56"
+            "time": "2014-10-06 09:27:17"
         },
         {
             "name": "shadowhand/email",
-            "version": "2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shadowhand/email.git",
-                "reference": "219811172dcb8e0e5c910dec44bc5811f57be540"
+                "reference": "e2295fa2ddc23b1b2c206f7716128e51f0557008"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shadowhand/email/zipball/219811172dcb8e0e5c910dec44bc5811f57be540",
-                "reference": "219811172dcb8e0e5c910dec44bc5811f57be540",
+                "url": "https://api.github.com/repos/shadowhand/email/zipball/e2295fa2ddc23b1b2c206f7716128e51f0557008",
+                "reference": "e2295fa2ddc23b1b2c206f7716128e51f0557008",
                 "shasum": ""
             },
             "require": {
@@ -774,7 +824,7 @@
                 "ohanzee",
                 "swiftmailer"
             ],
-            "time": "2014-08-21 14:09:05"
+            "time": "2014-09-15 15:00:21"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -834,12 +884,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ClassLoader.git",
-                "reference": "bdf77ac00d4b6bf6e689981f5e7e5dbba9014f11"
+                "reference": "fe9ec2bf22e4279892ac3d83bc584e539a79fa41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/bdf77ac00d4b6bf6e689981f5e7e5dbba9014f11",
-                "reference": "bdf77ac00d4b6bf6e689981f5e7e5dbba9014f11",
+                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/fe9ec2bf22e4279892ac3d83bc584e539a79fa41",
+                "reference": "fe9ec2bf22e4279892ac3d83bc584e539a79fa41",
                 "shasum": ""
             },
             "require": {
@@ -875,7 +925,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-31 03:28:38"
+            "time": "2014-10-01 05:53:11"
         },
         {
             "name": "symfony/config",
@@ -884,12 +934,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "472b64a8343c26cd3ac1e80cd11f7653e3eb57f4"
+                "reference": "b9f7877e02682cb081585c58baf3b9760865b98e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/472b64a8343c26cd3ac1e80cd11f7653e3eb57f4",
-                "reference": "472b64a8343c26cd3ac1e80cd11f7653e3eb57f4",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/b9f7877e02682cb081585c58baf3b9760865b98e",
+                "reference": "b9f7877e02682cb081585c58baf3b9760865b98e",
                 "shasum": ""
             },
             "require": {
@@ -923,7 +973,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-31 03:28:38"
+            "time": "2014-09-25 18:11:49"
         },
         {
             "name": "symfony/console",
@@ -932,12 +982,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "6cdbe19f8f9025a84ccc45c3870e388e424bea5c"
+                "reference": "39dd1c85ffdfc3c5fb008019dd027af05f64ec36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/6cdbe19f8f9025a84ccc45c3870e388e424bea5c",
-                "reference": "6cdbe19f8f9025a84ccc45c3870e388e424bea5c",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/39dd1c85ffdfc3c5fb008019dd027af05f64ec36",
+                "reference": "39dd1c85ffdfc3c5fb008019dd027af05f64ec36",
                 "shasum": ""
             },
             "require": {
@@ -976,7 +1026,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-14 14:51:32"
+            "time": "2014-09-22 08:51:05"
         },
         {
             "name": "symfony/filesystem",
@@ -985,12 +1035,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "75f5f5c8ff1497a2071f9c77484390087e379406"
+                "reference": "7d97789ea01c3c76ecaa59b954d162777033cbd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/75f5f5c8ff1497a2071f9c77484390087e379406",
-                "reference": "75f5f5c8ff1497a2071f9c77484390087e379406",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/7d97789ea01c3c76ecaa59b954d162777033cbd4",
+                "reference": "7d97789ea01c3c76ecaa59b954d162777033cbd4",
                 "shasum": ""
             },
             "require": {
@@ -1023,7 +1073,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-04 21:09:17"
+            "time": "2014-09-22 15:54:44"
         },
         {
             "name": "symfony/yaml",
@@ -1032,12 +1082,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "b5922e0afc21531b84ddef806e66ba4f84f770b0"
+                "reference": "499f7d7aa96747ad97940089bd7a1fb24ad8182a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b5922e0afc21531b84ddef806e66ba4f84f770b0",
-                "reference": "b5922e0afc21531b84ddef806e66ba4f84f770b0",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/499f7d7aa96747ad97940089bd7a1fb24ad8182a",
+                "reference": "499f7d7aa96747ad97940089bd7a1fb24ad8182a",
                 "shasum": ""
             },
             "require": {
@@ -1070,7 +1120,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-31 03:28:38"
+            "time": "2014-10-05 13:53:50"
         },
         {
             "name": "symm/gisconverter",
@@ -1378,12 +1428,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Mink.git",
-                "reference": "63b8b26ff2aea40c0e7b6e15ea7ae7c09f623712"
+                "reference": "f09c06a2ff28743c8a4404913adc0cefcf448f9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Mink/zipball/63b8b26ff2aea40c0e7b6e15ea7ae7c09f623712",
-                "reference": "63b8b26ff2aea40c0e7b6e15ea7ae7c09f623712",
+                "url": "https://api.github.com/repos/Behat/Mink/zipball/f09c06a2ff28743c8a4404913adc0cefcf448f9f",
+                "reference": "f09c06a2ff28743c8a4404913adc0cefcf448f9f",
                 "shasum": ""
             },
             "require": {
@@ -1425,7 +1475,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2014-08-19 12:42:01"
+            "time": "2014-09-30 09:56:30"
         },
         {
             "name": "behat/mink-browserkit-driver",
@@ -1433,12 +1483,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/MinkBrowserKitDriver.git",
-                "reference": "357a67afdb15660af98420719f157095e80762de"
+                "reference": "aed8f4a596b79014a75254c3e337511c33e38cbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkBrowserKitDriver/zipball/357a67afdb15660af98420719f157095e80762de",
-                "reference": "357a67afdb15660af98420719f157095e80762de",
+                "url": "https://api.github.com/repos/Behat/MinkBrowserKitDriver/zipball/aed8f4a596b79014a75254c3e337511c33e38cbd",
+                "reference": "aed8f4a596b79014a75254c3e337511c33e38cbd",
                 "shasum": ""
             },
             "require": {
@@ -1480,7 +1530,7 @@
                 "browser",
                 "testing"
             ],
-            "time": "2014-08-13 21:47:29"
+            "time": "2014-09-26 11:35:19"
         },
         {
             "name": "behat/mink-extension",
@@ -1538,12 +1588,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/MinkGoutteDriver.git",
-                "reference": "20156bd0a87e59bce104b35c3ffc2c03e98474ed"
+                "reference": "2bf327b4166694ecaa8ae7f956cb6ae252ecf03e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkGoutteDriver/zipball/20156bd0a87e59bce104b35c3ffc2c03e98474ed",
-                "reference": "20156bd0a87e59bce104b35c3ffc2c03e98474ed",
+                "url": "https://api.github.com/repos/Behat/MinkGoutteDriver/zipball/2bf327b4166694ecaa8ae7f956cb6ae252ecf03e",
+                "reference": "2bf327b4166694ecaa8ae7f956cb6ae252ecf03e",
                 "shasum": ""
             },
             "require": {
@@ -1582,7 +1632,7 @@
                 "headless",
                 "testing"
             ],
-            "time": "2014-08-30 01:14:27"
+            "time": "2014-10-09 09:21:12"
         },
         {
             "name": "doctrine/instantiator",
@@ -1590,16 +1640,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "26404e0c90565b614ee76b988b9bc8790d77f590"
+                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/26404e0c90565b614ee76b988b9bc8790d77f590",
-                "reference": "26404e0c90565b614ee76b988b9bc8790d77f590",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119",
                 "shasum": ""
             },
             "require": {
-                "php": "~5.3"
+                "php": ">=5.3,<8.0-DEV"
             },
             "require-dev": {
                 "athletic/athletic": "~0.1.8",
@@ -1636,20 +1686,20 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2014-08-25 15:09:25"
+            "time": "2014-10-13 12:58:55"
         },
         {
             "name": "fabpot/goutte",
-            "version": "v1.0.6",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Goutte.git",
-                "reference": "06a5451288ffddd204b10fa6c6f9ab2b86dd515d"
+                "reference": "794b196e76bdd37b5155cdecbad311f0a3b07625"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Goutte/zipball/06a5451288ffddd204b10fa6c6f9ab2b86dd515d",
-                "reference": "06a5451288ffddd204b10fa6c6f9ab2b86dd515d",
+                "url": "https://api.github.com/repos/fabpot/Goutte/zipball/794b196e76bdd37b5155cdecbad311f0a3b07625",
+                "reference": "794b196e76bdd37b5155cdecbad311f0a3b07625",
                 "shasum": ""
             },
             "require": {
@@ -1684,9 +1734,7 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "A simple PHP Web Scraper",
@@ -1694,7 +1742,7 @@
             "keywords": [
                 "scraper"
             ],
-            "time": "2014-03-14 13:02:09"
+            "time": "2014-10-09 15:52:51"
         },
         {
             "name": "guzzle/guzzle",
@@ -1702,12 +1750,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "305592b667786335ce6f438ac4b352932be703d1"
+                "reference": "3c0ca2255751631f1dd64eb16bbe3b9440258297"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/305592b667786335ce6f438ac4b352932be703d1",
-                "reference": "305592b667786335ce6f438ac4b352932be703d1",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/3c0ca2255751631f1dd64eb16bbe3b9440258297",
+                "reference": "3c0ca2255751631f1dd64eb16bbe3b9440258297",
                 "shasum": ""
             },
             "require": {
@@ -1786,7 +1834,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-08-28 21:08:09"
+            "time": "2014-10-15 19:36:56"
         },
         {
             "name": "kohana/unittest",
@@ -1794,12 +1842,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kohana/unittest.git",
-                "reference": "45f215db4d6f0a9bebe502a0562ca189839102fb"
+                "reference": "5cc6000d8757d361eb7808f4aa4f3423b3582931"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/unittest/zipball/45f215db4d6f0a9bebe502a0562ca189839102fb",
-                "reference": "45f215db4d6f0a9bebe502a0562ca189839102fb",
+                "url": "https://api.github.com/repos/kohana/unittest/zipball/5cc6000d8757d361eb7808f4aa4f3423b3582931",
+                "reference": "5cc6000d8757d361eb7808f4aa4f3423b3582931",
                 "shasum": ""
             },
             "require": {
@@ -1808,11 +1856,20 @@
                 "php": ">=5.3.3",
                 "phpunit/phpunit": "3.7.*"
             },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev"
+            },
             "type": "kohana-module",
             "extra": {
                 "branch-alias": {
                     "dev-3.3/develop": "3.3.x-dev",
                     "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1833,7 +1890,7 @@
                 "framework",
                 "kohana"
             ],
-            "time": "2014-08-12 13:38:33"
+            "time": "2014-10-10 13:41:09"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1997,12 +2054,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "ae65b1a6c3a73d921670111807f8357e6fe20b21"
+                "reference": "2bbc78d0b4b1ce8049479395ba950d4b13f21d94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/ae65b1a6c3a73d921670111807f8357e6fe20b21",
-                "reference": "ae65b1a6c3a73d921670111807f8357e6fe20b21",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/2bbc78d0b4b1ce8049479395ba950d4b13f21d94",
+                "reference": "2bbc78d0b4b1ce8049479395ba950d4b13f21d94",
                 "shasum": ""
             },
             "require": {
@@ -2048,7 +2105,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2014-09-07 13:22:40"
+            "time": "2014-10-05 19:43:51"
         },
         {
             "name": "phpunit/dbunit",
@@ -2358,12 +2415,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ae6cefd7cc84586a5ef27e04bae11ee940ec63dc"
+                "reference": "38709dc22d519a3d1be46849868aa2ddf822bcf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ae6cefd7cc84586a5ef27e04bae11ee940ec63dc",
-                "reference": "ae6cefd7cc84586a5ef27e04bae11ee940ec63dc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/38709dc22d519a3d1be46849868aa2ddf822bcf6",
+                "reference": "38709dc22d519a3d1be46849868aa2ddf822bcf6",
                 "shasum": ""
             },
             "require": {
@@ -2423,7 +2480,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-04-30 12:24:19"
+            "time": "2014-10-17 09:04:17"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2484,16 +2541,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "1.5.4",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "4097e2c106e4a32bc234ae880e5585a19137e435"
+                "reference": "5d973e59cf58a0c847f298de84374c96b42b17b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4097e2c106e4a32bc234ae880e5585a19137e435",
-                "reference": "4097e2c106e4a32bc234ae880e5585a19137e435",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5d973e59cf58a0c847f298de84374c96b42b17b3",
+                "reference": "5d973e59cf58a0c847f298de84374c96b42b17b3",
                 "shasum": ""
             },
             "require": {
@@ -2555,7 +2612,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2014-08-05 23:54:05"
+            "time": "2014-09-25 03:33:46"
         },
         {
             "name": "symfony/browser-kit",
@@ -2564,12 +2621,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/BrowserKit.git",
-                "reference": "f19732c8ca491ff2cda72cb333d5696f1aa16d43"
+                "reference": "442ecf5f92616594e04c47749e4e024b1cfc2e19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/f19732c8ca491ff2cda72cb333d5696f1aa16d43",
-                "reference": "f19732c8ca491ff2cda72cb333d5696f1aa16d43",
+                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/442ecf5f92616594e04c47749e4e024b1cfc2e19",
+                "reference": "442ecf5f92616594e04c47749e4e024b1cfc2e19",
                 "shasum": ""
             },
             "require": {
@@ -2610,7 +2667,7 @@
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-14 16:37:29"
+            "time": "2014-09-22 11:59:59"
         },
         {
             "name": "symfony/css-selector",
@@ -2619,12 +2676,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "226aaa77cbe89865170aff420e23914152d3d77a"
+                "reference": "453e66dacf59674222d1b7f26054ae35296747c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/226aaa77cbe89865170aff420e23914152d3d77a",
-                "reference": "226aaa77cbe89865170aff420e23914152d3d77a",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/453e66dacf59674222d1b7f26054ae35296747c4",
+                "reference": "453e66dacf59674222d1b7f26054ae35296747c4",
                 "shasum": ""
             },
             "require": {
@@ -2661,7 +2718,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-31 03:28:38"
+            "time": "2014-10-09 16:00:19"
         },
         {
             "name": "symfony/dependency-injection",
@@ -2670,12 +2727,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "bd34ff017e782396ea3927fc458e50c2d497d244"
+                "reference": "7576847f43b25957de2e98f5ea60c05d5b868b43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/bd34ff017e782396ea3927fc458e50c2d497d244",
-                "reference": "bd34ff017e782396ea3927fc458e50c2d497d244",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/7576847f43b25957de2e98f5ea60c05d5b868b43",
+                "reference": "7576847f43b25957de2e98f5ea60c05d5b868b43",
                 "shasum": ""
             },
             "require": {
@@ -2718,7 +2775,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-31 03:28:38"
+            "time": "2014-10-01 21:48:53"
         },
         {
             "name": "symfony/dom-crawler",
@@ -2727,12 +2784,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "69a55873dd4078b6ba528575e1c3f9cd143a54f1"
+                "reference": "14adb9c3b16796097d8d48f9393099422fde5c59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/69a55873dd4078b6ba528575e1c3f9cd143a54f1",
-                "reference": "69a55873dd4078b6ba528575e1c3f9cd143a54f1",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/14adb9c3b16796097d8d48f9393099422fde5c59",
+                "reference": "14adb9c3b16796097d8d48f9393099422fde5c59",
                 "shasum": ""
             },
             "require": {
@@ -2771,7 +2828,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-26 14:16:42"
+            "time": "2014-10-01 05:53:11"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2780,12 +2837,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "68ab3c3f50eae2b152075da722204d4de67f596f"
+                "reference": "e133748fd9165e24f8e9498ef5862f8bd37004e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/68ab3c3f50eae2b152075da722204d4de67f596f",
-                "reference": "68ab3c3f50eae2b152075da722204d4de67f596f",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/e133748fd9165e24f8e9498ef5862f8bd37004e5",
+                "reference": "e133748fd9165e24f8e9498ef5862f8bd37004e5",
                 "shasum": ""
             },
             "require": {
@@ -2794,7 +2851,8 @@
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/config": "~2.0",
-                "symfony/dependency-injection": "~2.0",
+                "symfony/dependency-injection": "~2.6",
+                "symfony/expression-language": "~2.6",
                 "symfony/stopwatch": "~2.2"
             },
             "suggest": {
@@ -2828,7 +2886,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-28 13:20:53"
+            "time": "2014-10-04 06:08:58"
         },
         {
             "name": "symfony/finder",
@@ -2837,12 +2895,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "b7b98cf609a94ebc4cd299b736282901223a4b12"
+                "reference": "ceb2c693cffbe5255b623b2543456235a25672c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/b7b98cf609a94ebc4cd299b736282901223a4b12",
-                "reference": "b7b98cf609a94ebc4cd299b736282901223a4b12",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/ceb2c693cffbe5255b623b2543456235a25672c1",
+                "reference": "ceb2c693cffbe5255b623b2543456235a25672c1",
                 "shasum": ""
             },
             "require": {
@@ -2875,7 +2933,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-03 09:12:11"
+            "time": "2014-10-01 05:53:11"
         },
         {
             "name": "symfony/process",
@@ -2884,12 +2942,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "8f1f4e4329d3dc9fe08a7106417168145301e49f"
+                "reference": "2f0db541a7de08dbe5a4b55acfbaf8e3e6b029d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/8f1f4e4329d3dc9fe08a7106417168145301e49f",
-                "reference": "8f1f4e4329d3dc9fe08a7106417168145301e49f",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/2f0db541a7de08dbe5a4b55acfbaf8e3e6b029d9",
+                "reference": "2f0db541a7de08dbe5a4b55acfbaf8e3e6b029d9",
                 "shasum": ""
             },
             "require": {
@@ -2922,7 +2980,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-31 03:28:38"
+            "time": "2014-10-01 05:53:11"
         },
         {
             "name": "symfony/translation",
@@ -2931,22 +2989,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "79decb2f56d3277efe28dfe251077b56d088d937"
+                "reference": "adc92684c607801186cc9e3179314b738f0d62d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/79decb2f56d3277efe28dfe251077b56d088d937",
-                "reference": "79decb2f56d3277efe28dfe251077b56d088d937",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/adc92684c607801186cc9e3179314b738f0d62d7",
+                "reference": "adc92684c607801186cc9e3179314b738f0d62d7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
+                "psr/log": "~1.0",
                 "symfony/config": "~2.0",
+                "symfony/intl": "~2.3",
                 "symfony/yaml": "~2.2"
             },
             "suggest": {
+                "psr/log": "To use logging capability in translator",
                 "symfony/config": "",
                 "symfony/yaml": ""
             },
@@ -2977,17 +3038,10 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-05 11:44:55"
+            "time": "2014-10-01 05:53:11"
         }
     ],
-    "aliases": [
-        {
-            "alias": "0.3.6",
-            "alias_normalized": "0.3.6.0",
-            "version": "dev-geo-sql-types",
-            "package": "robmorgan/phinx"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "aura/di": 20,
@@ -2997,7 +3051,6 @@
         "kohana/orm": 20,
         "kohana/image": 20,
         "kohana/minion": 20,
-        "robmorgan/phinx": 20,
         "wouter/a1": 20,
         "wouter/a2": 20,
         "wouter/acl": 20,
