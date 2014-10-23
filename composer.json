@@ -6,10 +6,6 @@
     "license": "AGPL-3.0",
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/ushahidi/phinx"
-        },
-        {
             "type": "package",
             "package": {
                 "name": "wouter/a1",
@@ -58,7 +54,7 @@
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
         "ohanzee/database": "~0.1.2",
-        "robmorgan/phinx": "dev-geo-sql-types as 0.3.6",
+        "robmorgan/phinx": "~0.3.8",
         "shadowhand/email": "~2.0.1",
         "symm/gisconverter": "~1.0.5",
         "wouter/a1": "dev-3.3/develop",
