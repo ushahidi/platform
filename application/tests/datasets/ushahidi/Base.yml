@@ -9,7 +9,7 @@ users:
   -
     id: 2
     username: "admin"
-    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    password: "$2y$15$Ha7nHVZApHXfzhrD2HCukuUjjQhIUzPJ0JNWk7KooT6edQFTbeWr6"
     realname:
     email:
     role: "admin"
