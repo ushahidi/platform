@@ -8,17 +8,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-echo json_encode(
-	array(
-		'errors' => array(
-			array(
-				'message' => $message,
-				'code' => $code,
-				'class' => $class,
-				'file' => $file,
-				'line' => $line,
-				'trace' => $trace
-			)
-		)
-		)
-	);
+$error = compact('message', 'code', 'class', 'file', 'line', 'trace');
+$options = null;
+
+if (Kohana::$environment === Kohana::DEVELOPMENT) {
+	$options = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES;
+}
+
+echo json_encode(['errors' => [$error]], $options);
