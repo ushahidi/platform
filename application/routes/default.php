@@ -217,9 +217,10 @@ Route::set('oauth', 'oauth(/<action>)',
 /**
  * Default Route
  */
-Route::set('default', '(<controller>(/<action>(/<id>)))')
+Route::set('default', '(api/v2)')
 	->defaults(array(
-		'controller' => 'ushahidi',
+		'controller' => 'Index',
 		'action'     => 'index',
+		'directory'  => 'Api'
 	));
 

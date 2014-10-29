@@ -11,6 +11,8 @@
 
 use Ushahidi\SearchData;
 use UshahidiApi\Endpoint;
+use League\OAuth2\Server\Exception\OAuth2Exception;
+use League\OAuth2\Server\Exception\MissingAccessTokenException;
 
 abstract class Ushahidi_Rest extends Controller {
 	use Ushahidi_Corsheaders;
@@ -96,7 +98,11 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	public static function url($resource, $id = null)
 	{
-		return rtrim(sprintf('api/v%d/%s/%d', static::version(), $resource, $id), '/');
+		$template = 'api/v%d/%s';
+		if (!is_null($id)) {
+			$template .= '/%d';
+		}
+		return rtrim(sprintf($template, static::version(), $resource, $id), '/');
 	}
 
 	/**
@@ -124,6 +130,18 @@ abstract class Ushahidi_Rest extends Controller {
 	}
 
 	/**
+	 * Determines if this request can skip the authorization check.
+	 *
+	 * @return bool
+	 */
+	protected function _is_auth_required()
+	{
+		// Auth is not required for the OPTIONS method, because headers are
+		// not present in OPTIONS requests. ;)
+		return ($this->request->method() !== Request::OPTIONS);
+	}
+
+	/**
 	 * Check if access is allowed
 	 * Checks if oauth token and user permissions
 	 *
@@ -132,24 +150,27 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	protected function _check_access()
 	{
-		// Don't require auth for OPTIONS method
-		if ($this->request->method() === Request::OPTIONS)
-		{
-			return TRUE;
-		}
-
 		$server = service('oauth.server.resource');
 
 		// Using an "Authorization: Bearer xyz" header is required, except for GET requests
 		$require_header = $this->request->method() !== Request::GET;
+		$required_scope = $this->_scope();
 
 		try
 		{
 			$server->isValid($require_header);
-			$server->hasScope($this->_scope(), true);
+			if ($required_scope)
+			{
+				$server->hasScope($required_scope, true);
+			}
 		}
-		catch (League\OAuth2\Server\Exception\OAuth2Exception $e)
+		catch (OAuth2Exception $e)
 		{
+			if (!$this->_is_auth_required() AND $e instanceof MissingAccessTokenException)
+			{
+				// A token is not required, so a missing token is not a critical error.
+				return;
+			}
 
 			// Auth server returns an indexed array of headers, along with the server
 			// status as a header, which must be converted to use with Kohana.
