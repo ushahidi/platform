@@ -22,7 +22,8 @@ use Ushahidi\Exception\NotFoundException;
 trait VerifyEntityLoaded
 {
 	/**
-	 * Verifies that t
+	 * Verifies that a given entity has been loaded, by checking that the "id"
+	 * property is not empty.
 	 * @param  Entity  $entity
 	 * @param  Integer $lookup_id
 	 * @return void
