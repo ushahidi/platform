@@ -9,25 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity;
-use Ushahidi\Tool\Authorizer;
+use Ushahidi\Traits\FormatterAuthorizerMetadata;
 
 class Ushahidi_Formatter_Tag extends Ushahidi_Formatter_API
 {
-	protected $auth;
-
-	public function __construct(Authorizer $auth)
-	{
-		$this->auth = $auth;
-	}
-
-	protected function add_metadata(Array $data, Entity $tag)
-	{
-		return $data + [
-			// Add the allowed HTTP methods (called privileges internally)
-			'allowed_methods' => $this->auth->getAllowedPrivs($tag),
-		];
-	}
+	use FormatterAuthorizerMetadata;
 
 	protected function format_color($value)
 	{

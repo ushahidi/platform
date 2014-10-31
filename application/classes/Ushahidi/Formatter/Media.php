@@ -10,16 +10,11 @@
  */
 
 use Ushahidi\Entity;
-use Ushahidi\Tool\Authorizer;
+use Ushahidi\Traits\FormatterAuthorizerMetadata;
 
 class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 {
-	protected $auth;
-
-	public function __construct(Authorizer $auth)
-	{
-		$this->auth = $auth;
-	}
+	use FormatterAuthorizerMetadata;
 
 	protected function add_metadata(Array $data, Entity $media)
 	{
@@ -38,8 +33,8 @@ class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 			'thumbnail_width'    => $thumbnail_width,
 			'thumbnail_height'   => $thumbnail_height,
 
-			// Add the allowed HTTP methods (called privileges internally)
-			'allowed_methods' => $this->auth->getAllowedPrivs($media),
+			// Add the allowed HTTP methods
+			'allowed_methods' => $this->getAllowedMethods($media),
 		];
 	}
 

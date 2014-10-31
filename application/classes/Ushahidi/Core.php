@@ -158,12 +158,8 @@ abstract class Ushahidi_Core {
 		];
 
 		// Formatter parameters
-		$di->params['Ushahidi_Formatter_Media'] = [
-			'auth' => $di->lazyGet('authorizer.media'),
-		];
-		$di->params['Ushahidi_Formatter_Tag'] = [
-			'auth' => $di->lazyGet('authorizer.tag'),
-		];
+		$di->setter['Ushahidi_Formatter_Media']['setAuth'] = $di->lazyGet('authorizer.media');
+		$di->setter['Ushahidi_Formatter_Tag']['setAuth']   = $di->lazyGet('authorizer.tag');
 
 		// Collection Formatter factory
 		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');
