@@ -66,7 +66,7 @@ class ConfigAuthorizer implements Authorizer
 	 */
 	protected function isConfigPublic(Config $entity)
 	{
-		if (in_array($entity->getGroup(), $this->public_groups)) {
+		if (in_array($entity->getId(), $this->public_groups)) {
 			return true;
 		}
 

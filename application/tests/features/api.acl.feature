@@ -283,7 +283,8 @@ Feature: API Access Control Layer
         And that its "id" is "features"
         When I request "/config"
         Then the guzzle status code should be 200
-        And the response has an "@group" property
+        And the response has an "id" property
+        And the "id" property equals "features"
 
     Scenario: Anonymous users can view site config
         Given that I want to find a "Config"
@@ -291,7 +292,8 @@ Feature: API Access Control Layer
         And that its "id" is "site"
         When I request "/config"
         Then the guzzle status code should be 200
-        And the response has an "@group" property
+        And the response has an "id" property
+        And the "id" property equals "site"
 
     Scenario: Anonymous users can view map config
         Given that I want to find a "Config"
@@ -299,7 +301,8 @@ Feature: API Access Control Layer
         And that its "id" is "map"
         When I request "/config"
         Then the guzzle status code should be 200
-        And the response has an "@group" property
+        And the response has an "id" property
+        And the "id" property equals "map"
 
     Scenario: Anonymous user can not access data provider config
         Given that I want to find an "Update"

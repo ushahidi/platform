@@ -63,7 +63,7 @@ class Ushahidi_Repository_Config implements ConfigRepository
 		$result = array();
 		foreach ($groups as $group) {
 			$config = Kohana::$config->load($group)->as_array();
-			$result[] = new ConfigEntity($config, $group);
+			$result[] = new ConfigEntity(['id' => $group] + $config);
 		}
 
 		return $result;
@@ -75,20 +75,20 @@ class Ushahidi_Repository_Config implements ConfigRepository
 
 		$config = Kohana::$config->load($group)->as_array();
 
-		return new ConfigEntity($config, $group);
+		return new ConfigEntity(['id' => $group] + $config);
 	}
 
 	public function set($group, $key, $value)
 	{
 		$this->verifyGroup($group);
 
-		if ($key === ConfigEntity::GROUP_KEY) {
+		if ($key === 'id') {
 			return $group;
 		}
 
 		$config = Kohana::$config->load($group);
 		$config->set($key, $value);
 
-		return $this->get($group, $key);
+		return $this->get($group);
 	}
 }

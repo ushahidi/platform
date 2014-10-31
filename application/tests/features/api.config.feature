@@ -6,7 +6,7 @@ Feature: Testing the Config API
         And that the request "data" is:
             """
             {
-                "@group":"test",
+                "id":"test",
                 "test":"Test value"
             }
             """
@@ -23,7 +23,7 @@ Feature: Testing the Config API
             """
         When I request "/config/test"
         Then the response is JSON
-        And the "@group" property equals "test"
+        And the "id" property equals "test"
         And the "testkey" property equals "i am a teapot?"
         Then the guzzle status code should be 200
 
@@ -37,7 +37,7 @@ Feature: Testing the Config API
             """
         When I request "/config/test"
         Then the response is JSON
-        And the "@group" property equals "test"
+        And the "id" property equals "test"
         And the "nothing" property equals "new test value"
         Then the guzzle status code should be 200
 
@@ -57,15 +57,15 @@ Feature: Testing the Config API
         When I request "/config"
         Then the response is JSON
         And the "count" property equals "2"
-        And the "results.0.@group" property equals "test"
-        And the "results.1.@group" property equals "site"
+        And the "results.0.id" property equals "test"
+        And the "results.1.id" property equals "site"
         Then the guzzle status code should be 200
 
     Scenario: Finding a Config
         Given that I want to find a "Config"
         When I request "/config/test"
         Then the response is JSON
-        And the "@group" property equals "test"
+        And the "id" property equals "test"
         Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Config

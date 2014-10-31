@@ -16,43 +16,6 @@ use Ushahidi\Traits\ArrayExchange;
 
 class Config extends Entity
 {
-	use ArrayExchange {
-		// We modify the output of asArray, so we alias the implementation
-		// to a private method for clarity.
-		asArray as private asArraySimple;
-	}
-
-	// The @ symbol is not allowed in config keys. Conveniently, this makes it
-	// possible to use for setting a consistent, non-conflicting property.
-	const GROUP_KEY = '@group';
-
-	public function __construct($data = null, $group = null)
-	{
-		$this->setGroup($group);
-
-		if ($data) {
-			$this->setData($data);
-		}
-	}
-
-	/**
-	 * @param string $group
-	 * @return $this
-	 */
-	public function setGroup($group)
-	{
-		$this->{static::GROUP_KEY} = $group;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getGroup()
-	{
-		return $this->{static::GROUP_KEY};
-	}
-
 	public function setData($data)
 	{
 		// Config is one of the few entities that does not have a static set
@@ -64,23 +27,9 @@ class Config extends Entity
 		return $this;
 	}
 
-	public function asArray()
-	{
-		// Plain hash of config does not include the group name
-		$data = $this->asArraySimple();
-		unset($data[static::GROUP_KEY]);
-		return $data;
-	}
-
 	// Entity
 	public function getResource()
 	{
 		return 'config';
-	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->getGroup();
 	}
 }

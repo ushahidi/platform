@@ -203,19 +203,19 @@ return array(
 				'role'      => 'guest',
 				'resource'  => 'config',
 				'privilege' => array('get'),
-				'assertion' => array('Acl_Assert_Value', array('@group' => 'features')),
+				'assertion' => array('Acl_Assert_Value', array('id' => 'features')),
 			),
 			'GuestCanViewMapConfig' => array(
 				'role'      => 'guest',
 				'resource'  => 'config',
 				'privilege' => array('get'),
-				'assertion' => array('Acl_Assert_Value', array('@group' => 'map')),
+				'assertion' => array('Acl_Assert_Value', array('id' => 'map')),
 			),
 			'GuestCanViewSiteConfig' => array(
 				'role'      => 'guest',
 				'resource'  => 'config',
 				'privilege' => array('get'),
-				'assertion' => array('Acl_Assert_Value', array('@group' => 'site')),
+				'assertion' => array('Acl_Assert_Value', array('id' => 'site')),
 			),
 		),
 		'deny' => array
