@@ -26,8 +26,15 @@ class PostValue extends Entity
 	public $cardinality;
 	public $type;
 
+	// Entity
 	public function getResource()
 	{
 		return 'post_values';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
 	}
 }

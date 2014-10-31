@@ -6,9 +6,10 @@ use Ushahidi\Tool\Validator;
 use Ushahidi\Tool\Authorizer;
 use Ushahidi\Entity\Post;
 use Ushahidi\Exception\NotFoundException;
+use Ushahidi\Entity\PostRepository;
 use Ushahidi\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Usecase\Post\ReadPostData;
-use Ushahidi\Usecase\Post\UpdatePostData;
+use Ushahidi\Usecase\Post\PostData;
 
 use PhpSpec\ObjectBehavior;
 
@@ -16,6 +17,7 @@ class UpdatePostSpec extends ObjectBehavior
 {
 	function let(UpdatePostRepository $repo, Validator $valid, Authorizer $auth)
 	{
+		$repo->beADoubleOf('Ushahidi\Entity\PostRepository');
 		$this->beConstructedWith(compact('repo', 'valid', 'auth'));
 	}
 
@@ -24,7 +26,7 @@ class UpdatePostSpec extends ObjectBehavior
 		$this->shouldHaveType('Ushahidi\Usecase\Post\UpdatePost');
 	}
 
-	function it_can_update_a_post_with_valid_input($valid, $repo, $auth, Post $post, ReadPostData $read, UpdatePostData $input, UpdatePostData $update, Post $updated_post)
+	function it_can_update_a_post_with_valid_input($valid, $repo, $auth, Post $post, ReadPostData $read, PostData $input, PostData $update, Post $updated_post)
 	{
 		$raw_post   = ['title' => 'Before Update', 'content' => 'Some content'];
 		$raw_input  = ['title' => 'After Update', 'content' => 'Some content'];
@@ -61,7 +63,7 @@ class UpdatePostSpec extends ObjectBehavior
 		$this->interact($read, $input)->shouldReturn($updated_post);
 	}
 
-	function it_can_update_a_post_translation_with_valid_input($valid, $repo, $auth, Post $post, ReadPostData $read, UpdatePostData $input, UpdatePostData $update, Post $updated_post)
+	function it_can_update_a_post_translation_with_valid_input($valid, $repo, $auth, Post $post, ReadPostData $read, PostData $input, PostData $update, Post $updated_post)
 	{
 		$raw_post   = ['title' => 'Before Update', 'content' => 'Some content'];
 		$raw_input  = ['title' => 'After Update', 'content' => 'Some content'];
@@ -98,7 +100,7 @@ class UpdatePostSpec extends ObjectBehavior
 		$this->interact($read, $input)->shouldReturn($updated_post);
 	}
 
-	function it_fails_to_update_a_post_with_invalid_input($valid, $repo, $auth, Post $post, ReadPostData $read, UpdatePostData $input)
+	function it_fails_to_update_a_post_with_invalid_input($valid, $repo, $auth, Post $post, ReadPostData $read, PostData $input)
 	{
 		$post->id = 0;
 

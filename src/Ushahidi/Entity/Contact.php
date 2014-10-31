@@ -22,8 +22,15 @@ class Contact extends Entity
 	public $contact;
 	public $created;
 
+	// Entity
 	public function getResource()
 	{
 		return 'contacts';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
 	}
 }

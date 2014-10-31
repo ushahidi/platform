@@ -114,8 +114,9 @@ abstract class Ushahidi_Core {
 			'search' => $di->lazyNew('Ushahidi_Parser_Tag_Search'),
 		];
 		$di->params['Ushahidi\Factory\ParserFactory']['map']['posts'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Post_Write'),
 			'read'   => $di->lazyNew('Ushahidi_Parser_Post_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Post_Update'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Post_Write'),
 			'search' => $di->lazyNew('Ushahidi_Parser_Post_Search'),
 			'delete' => $di->lazyNew('Ushahidi_Parser_Post_Read'),
 		];
@@ -128,6 +129,10 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['layers'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Layer_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Layer_Update'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Post_Write'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Post_Write'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
@@ -261,12 +266,11 @@ abstract class Ushahidi_Core {
 			];
 
 		// Validators
-		$di->set('validator.post.update', $di->lazyNew('Ushahidi_Validator_Post_Update'));
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
 
 		// Dependencies of validators
-		$di->params['Ushahidi_Validator_Post_Update'] = [
+		$di->params['Ushahidi_Validator_Post_Write'] = [
 			'repo' => $di->lazyGet('repository.post'),
 			'attribute_repo' => $di->lazyGet('repository.form_attribute'),
 			'tag_repo' => $di->lazyGet('repository.tag'),

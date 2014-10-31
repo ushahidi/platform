@@ -143,7 +143,12 @@ Feature: API Access Control Layer
             "title": "Test creating anonymous post",
             "description": "testing post for oauth",
             "status": "published",
-            "locale": "en_us"
+            "locale": "en_us",
+            "values": {
+                "last_location" : [{
+                    "value": "Somewhere"
+                }]
+            }
         }
         """
         When I request "/posts"

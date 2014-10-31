@@ -53,7 +53,7 @@ class UpdatePost
 		$this->repo = $repo;
 	}
 
-	public function interact(ReadPostData $read, UpdatePostData $input)
+	public function interact(ReadPostData $read, PostData $input)
 	{
 		$entity = $this->getEntity($read);
 

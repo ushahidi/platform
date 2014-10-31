@@ -33,8 +33,15 @@ class Post extends Entity
 	public $values = [];
 	public $tags = [];
 
+	// Entity
 	public function getResource()
 	{
 		return 'posts';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
 	}
 }

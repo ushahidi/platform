@@ -26,8 +26,15 @@ class Media extends Entity
 	public $o_width;
 	public $o_height;
 
+	// Entity
 	public function getResource()
 	{
 		return 'media';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
 	}
 }

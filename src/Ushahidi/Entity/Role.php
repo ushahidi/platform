@@ -19,8 +19,15 @@ class Role extends Entity
 	public $display_name;
 	public $description;
 
+	// Entity
 	public function getResource()
 	{
 		return 'roles';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
 	}
 }

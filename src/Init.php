@@ -81,6 +81,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'tags'   => $di->lazyGet('authorizer.tag'),
 	'media'  => $di->lazyGet('authorizer.media'),
 	'layers' => $di->lazyGet('authorizer.layer'),
+	'posts'  => $di->lazyGet('authorizer.post'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -91,6 +92,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'tags'   => $di->lazyGet('repository.tag'),
 	'media'  => $di->lazyGet('repository.media'),
 	'layers' => $di->lazyGet('repository.layer'),
+	'posts'  => $di->lazyGet('repository.post'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -128,6 +130,14 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['actions'] = [
 // It is also possible to overload usecases by setting a specific resource and action.
 // The same collaborator mapping will be applied by action as with default use cases.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [];
+
+// Add custom usecases for posts
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
+	'create'  => $di->lazyNew('Ushahidi\Usecase\Post\CreatePost'),
+	'read'    => $di->lazyNew('Ushahidi\Usecase\Post\ReadPost'),
+	'update'  => $di->lazyNew('Ushahidi\Usecase\Post\UpdatePost'),
+	'delete'  => $di->lazyNew('Ushahidi\Usecase\Post\DeletePost'),
+];
 
 // Usecases also have slightly different interaction styles if they read, write,
 // or both. Additional actions should be defined here based on their style.
@@ -199,41 +209,17 @@ $di->params['Ushahidi\Tool\Uploader'] = [
 
 // Authorizers
 $di->set('tool.authorizer.config', $di->lazyNew('Ushahidi\Tool\Authorizer\ConfigAuthorizer'));
-$di->set('tool.authorizer.post', $di->lazyNew('Ushahidi\Tool\Authorizer\PostAuthorizer'));
-$di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
-	'post_repo' => $di->lazyGet('repository.post')
-	];
 
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Tool\Authorizer\LayerAuthorizer'));
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Tool\Authorizer\MediaAuthorizer'));
 
+$di->set('authorizer.post', $di->lazyNew('Ushahidi\Tool\Authorizer\PostAuthorizer'));
+$di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
+	'post_repo' => $di->lazyGet('repository.post')
+	];
+
 // Use cases
-$di->set('usecase.post.delete', $di->lazyNew('\Ushahidi\Usecase\Post\DeletePost'));
-$di->params['\Ushahidi\Usecase\Post\DeletePost']['tools'] = $di->lazy(function () use ($di) {
-	return [
-		'repo' => $di->get('repository.post'),
-		'auth' => $di->get('tool.authorizer.post'),
-	];
-});
-
-$di->set('usecase.post.read', $di->lazyNew('\Ushahidi\Usecase\Post\ReadPost'));
-$di->params['\Ushahidi\Usecase\Post\ReadPost']['tools'] = $di->lazy(function () use ($di) {
-	return [
-		'repo' => $di->get('repository.post'),
-		'auth' => $di->get('tool.authorizer.post'),
-	];
-});
-
-$di->set('usecase.post.update', $di->lazyNew('\Ushahidi\Usecase\Post\UpdatePost'));
-$di->params['\Ushahidi\Usecase\Post\UpdatePost']['tools'] = $di->lazy(function () use ($di) {
-	return [
-	'repo' => $di->get('repository.post'),
-	'valid' => $di->get('validator.post.update'),
-	'auth' => $di->get('tool.authorizer.post'),
-	];
-});
-
 $di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
 $di->params['\Ushahidi\Usecase\User\Register'] = [
 	'repo' => $di->lazyGet('repository.user'),

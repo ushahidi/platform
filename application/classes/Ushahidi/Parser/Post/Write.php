@@ -11,18 +11,12 @@
 
 use Ushahidi\Tool\Parser;
 use Ushahidi\Exception\ParserException;
-use Ushahidi\Usecase\Post\UpdatePostData;
+use Ushahidi\Usecase\Post\PostData;
 
-class Ushahidi_Parser_Post_Update implements Parser
+class Ushahidi_Parser_Post_Write implements Parser
 {
 	public function __invoke(Array $data)
 	{
-		// @todo should this be here? or only create?
-		if (empty($data['slug']) AND !empty($data['title']))
-		{
-			$data['slug'] = URL::title(trim($data['title']));
-		}
-
 		if (! empty($data['locale']))
 		{
 			$data['locale'] = UTF8::strtolower(trim($data['locale']));
@@ -64,9 +58,6 @@ class Ushahidi_Parser_Post_Update implements Parser
 		}
 
 		$valid = Validation::factory($data)
-			->rules('slug', array(
-					array('not_empty'),
-				))
 			->rules('locale', array(
 					array('not_empty'),
 				))
@@ -81,8 +72,8 @@ class Ushahidi_Parser_Post_Update implements Parser
 		}
 
 		// Ensure that all properties of a Post entity are defined by using Arr::extract
-		return new UpdatePostData(
-				Arr::extract($data, ['id', 'form_id', 'parent_id', 'title', 'content', 'status', 'slug', 'locale', 'user_id', 'author_email', 'author_realname'])
+		return new PostData(
+				Arr::extract($data, ['id', 'form_id', 'title', 'content', 'status', 'slug', 'locale', 'user_id', 'author_email', 'author_realname'])
 				+ Arr::extract($data, ['values', 'tags'], [])
 			);
 	}

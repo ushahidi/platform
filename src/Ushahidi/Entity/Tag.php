@@ -27,8 +27,15 @@ class Tag extends Entity
 	public $created;
 	public $role;
 
+	// Entity
 	public function getResource()
 	{
 		return 'tags';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
 	}
 }

@@ -17,7 +17,7 @@ use Ushahidi\Entity\UserRepository;
 
 use Ushahidi\Tool\Validator;
 
-class Ushahidi_Validator_Post_Update implements Validator
+class Ushahidi_Validator_Post_Write implements Validator
 {
 	protected $repo;
 	protected $valid;
@@ -91,6 +91,19 @@ class Ushahidi_Validator_Post_Update implements Validator
 				])
 			->rules('author_realname', [
 					['max_length', [':value', 150]],
+				])
+			->rules('status', [
+					['in_array', [':value', [
+						'draft',
+						'published'
+					]]]
+				])
+			->rules('type', [
+					['in_array', [':value', [
+						'report',
+						'revision',
+						'translation'
+					]]]
 				]);
 
 		return $this->valid->check();
@@ -102,20 +115,22 @@ class Ushahidi_Validator_Post_Update implements Validator
 		{
 			if (! $this->tag_repo->doesTagExist($tag))
 			{
-				$valid->error('tags', 'tagDoesNotExist', [':tag' => $tag]);
+				$valid->error('tags', 'tagDoesNotExist', [$tag]);
 			}
 		}
 	}
 
 	public function check_values(Validation $valid, $values, $data)
 	{
+		$post_id = ! empty($data['id']) ? $data['id'] : 0;
+
 		foreach ($values as $key => $value)
 		{
 			// Check attribute exists
 			$attribute = $this->attribute_repo->getByKey($key, $data['form_id']);
 			if (! $attribute->id)
 			{
-				$valid->error('values', 'attributeDoesNotExist', [':key' => $key]);
+				$valid->error('values', 'attributeDoesNotExist', [$key]);
 				return;
 			}
 
@@ -123,8 +138,8 @@ class Ushahidi_Validator_Post_Update implements Validator
 			if (count($value) > $attribute->cardinality AND $attribute->cardinality != 0)
 			{
 				$valid->error('values', 'tooManyValues', [
-					':key' => $key,
-					':cardinality' => $attribute->cardinality
+					$key,
+					$attribute->cardinality
 				]);
 			}
 
@@ -133,15 +148,23 @@ class Ushahidi_Validator_Post_Update implements Validator
 				// If id is specified, check post value entry exists
 				if (! empty($v['id']))
 				{
-					// Check that value with 'id' exists (and is for this post and attribute)
-					$value_entity = $this->post_value_factory
-						->getInstance($attribute->type)
-						->get($v['id'], $data['id'], $attribute->id);
-
-					// Add error if id specified by doesn't exist
-					if (! $value_entity)
+					// If this is a new post, values should never have 'id'
+					if (empty($data['id']))
 					{
-						$valid->error("values", 'valueDoesNotExist', [':key' => $key, ':id' => $v['id']]);
+						$valid->error('values', 'canNotUseExistingValueOnNewPost', [$key, $v['id']]);
+					}
+					else
+					{
+						// Check that value with 'id' exists (and is for this post and attribute)
+						$value_entity = $this->post_value_factory
+							->getRepo($attribute->type)
+							->get($v['id'], $data['id'], $attribute->id);
+
+						// Add error if id specified by doesn't exist
+						if (! $value_entity)
+						{
+							$valid->error('values', 'valueDoesNotExist', [$key, $v['id']]);
+						}
 					}
 				}
 
@@ -152,7 +175,7 @@ class Ushahidi_Validator_Post_Update implements Validator
 					{
 						foreach($validator->errors() as $error)
 						{
-							$valid->error("values", $error, [':key' => $key]);
+							$valid->error('values', $error, [$key]);
 						}
 					}
 				}
@@ -165,7 +188,7 @@ class Ushahidi_Validator_Post_Update implements Validator
 		{
 			if (! array_key_exists($attr->key, $values))
 			{
-				$this->error('values', 'attributeRequired', [':key' => $key]);
+				$valid->error('values', 'attributeRequired', [$attr->key]);
 			}
 		}
 	}

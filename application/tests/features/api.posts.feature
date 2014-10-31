@@ -42,7 +42,7 @@ Feature: Testing the Posts API
 		And the response has a "title" property
 		And the "title" property equals "Test post"
 		And the response has a "tags.0.id" property
-		And the "values.last_location_point.lat" property equals "33.755"
+		And the "values.last_location_point.0.value.lat" property equals "33.755"
 		And the "values.geometry_test" property equals "POLYGON((0 0,1 1,2 2,0 0))"
 		And the "values.links.0.value" property equals "http://google.com"
 		And the response has a "values.links.0.id" property
@@ -87,33 +87,6 @@ Feature: Testing the Posts API
 					"last_location":[
 						{"value":"atlanta"},
 						{"value":"auckland"}
-					]
-				},
-				"tags":["explosion"]
-			}
-			"""
-		When I request "/posts"
-		Then the response is JSON
-		And the response has a "errors" property
-		Then the guzzle status code should be 400
-
-	@create
-	Scenario: Creating a new Post with missing value for attribute returns an error
-		Given that I want to make a new "Post"
-		And that the request "data" is:
-			"""
-			{
-				"form":1,
-				"title":"Test post",
-				"type":"report",
-				"status":"draft",
-				"locale":"en_US",
-				"values":
-				{
-					"last_location":"atlanta",
-					"links":[
-						{"value":"http://google.com"},
-						{"junk":"atlanta"}
 					]
 				},
 				"tags":["explosion"]
@@ -265,7 +238,7 @@ Feature: Testing the Posts API
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the guzzle status code should be 400
+		Then the guzzle status code should be 403
 
 	@create
 	Scenario: Creating a Post with no user gets current uid

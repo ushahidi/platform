@@ -39,4 +39,10 @@ class Layer extends Entity
 	{
 		return 'layer';
 	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
+	}
 }

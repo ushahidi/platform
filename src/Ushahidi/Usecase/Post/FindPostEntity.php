@@ -12,6 +12,7 @@
 namespace Ushahidi\Usecase\Post;
 
 use Ushahidi\Data;
+use Ushahidi\Entity\PostRepository;
 
 trait FindPostEntity
 {
@@ -22,6 +23,8 @@ trait FindPostEntity
 	 */
 	protected function getEntity(Data $input)
 	{
+		$this->verifyPostRepo($this->repo);
+
 		if ($input->parent_id && $input->locale) {
 			return $this->repo->getByLocale($input->locale, $input->parent_id);
 		} else {
@@ -29,5 +32,15 @@ trait FindPostEntity
 			// we should only return revision for the particular parent post
 			return $this->repo->getByIdAndParent($input->id, $input->parent_id);
 		}
+	}
+
+	/**
+	 * Use type hinting to ensure that the argument is a PostRepository.
+	 * @param  PostRepository $repo
+	 * @return boolean
+	 */
+	protected function verifyPostRepo(PostRepository $repo)
+	{
+		return true;
 	}
 }

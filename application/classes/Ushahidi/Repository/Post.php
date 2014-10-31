@@ -314,6 +314,26 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 			]) === 0;
 	}
 
+	// UpdateRepository
+	public function create(Data $input)
+	{
+		$input = $input->asArray();
+		$input['updated'] = time();
+
+		// Update the post entry if it changed
+		$post_input = $input;
+		unset($post_input['values'], $post_input['tags']);
+
+		$id = $this->executeInsert($post_input);
+
+		// Update post-tags
+		$this->updatePostTags($id, $input['tags']);
+
+		// Update post-values
+		$this->updatePostValues($id, $input['values']);
+
+		return $id;
+	}
 
 	// UpdateRepository
 	public function update($id, Data $input)

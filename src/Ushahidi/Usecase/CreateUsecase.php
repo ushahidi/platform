@@ -18,7 +18,6 @@ use Ushahidi\Tool\AuthorizerTrait;
 use Ushahidi\Tool\ValidatorTrait;
 
 use Ushahidi\Exception\ValidatorException;
-use Ushahidi\Exception\AuthorizerException;
 
 class CreateUsecase implements Usecase
 {
@@ -58,26 +57,13 @@ class CreateUsecase implements Usecase
 		// Fetch an empty record
 		$entity = $this->repo->getEntity();
 
-		if (!$this->auth->isAllowed($entity, 'create')) {
-			throw new AuthorizerException(sprintf(
-				'User %d is not allowed to create a %s resource',
-				$this->auth->getUserId(),
-				$entity->getResource()
-			));
-		}
+		$this->verifyCreateAuth($entity, $input);
 
 		$entity = $this->repo->get(
 			$this->repo->create($input)
 		);
 
-		if (!$this->auth->isAllowed($entity, 'read')) {
-			throw new AuthorizerException(sprintf(
-				'User %d is not allowed to read resource %s with id %d',
-				$this->auth->getUserId(),
-				$entity->getResource(),
-				$entity->id
-			));
-		}
+		$this->verifyReadAuth($entity);
 
 		return $entity;
 	}

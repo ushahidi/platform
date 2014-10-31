@@ -27,8 +27,15 @@ class FormAttribute extends Entity
 	public $options = [];
 	public $cardinality;
 
+	// Entity
 	public function getResource()
 	{
 		return 'form_attributes';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
 	}
 }

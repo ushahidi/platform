@@ -32,7 +32,7 @@
 					"label":"Location Name",
 					"type":"varchar",
 					"input":"text",
-					"required":true,
+					"required":false,
 					"priority":1
 				},
 				{
@@ -40,7 +40,7 @@
 					"label":"Location",
 					"type":"point",
 					"input":"location",
-					"required":true,
+					"required":false,
 					"priority":2
 				},
 				{
@@ -76,7 +76,7 @@
 				{
 					"key":"news",
 					"label":"News",
-					"type":"link",
+					"type":"varchar",
 					"input":"text",
 					"required":false,
 					"priority":0,
@@ -85,7 +85,7 @@
 				{
 					"key":"video",
 					"label":"Video",
-					"type":"link",
+					"type":"varchar",
 					"input":"text",
 					"required":false,
 					"priority":2,

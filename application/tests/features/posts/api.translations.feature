@@ -95,7 +95,6 @@ Feature: Testing the Translations API
                 "title": "Test translation",
                 "content": "Some description",
                 "status": "published",
-                "type": "revision",
                 "locale":"de_DE",
                 "values": {
                     "test_varchar": "testing",
@@ -110,6 +109,7 @@ Feature: Testing the Translations API
         And the type of the "id" property is "numeric"
         And the response has a "title" property
         And the "title" property equals "Test translation"
+        And the "type" property equals "translation"
         Then the guzzle status code should be 200
 
     Scenario: Creating a new Translation with same lang as original
@@ -121,7 +121,6 @@ Feature: Testing the Translations API
                 "title": "Test translation",
                 "content": "Some description",
                 "status": "published",
-                "type": "revision",
                 "locale":"en_US",
                 "values": {
                     "test_varchar": "testing",
@@ -144,7 +143,6 @@ Feature: Testing the Translations API
                 "title": "Test translation",
                 "content": "Some description",
                 "status": "published",
-                "type": "revision",
                 "locale":"fr_FR",
                 "values": {
                     "test_varchar": "testing",
@@ -167,7 +165,6 @@ Feature: Testing the Translations API
                 "title": "Test translation updated",
                 "content": "Some description",
                 "status": "published",
-                "type": "revision",
                 "locale":"fr_FR",
                 "values": {
                     "test_varchar": "testing",
@@ -194,7 +191,6 @@ Feature: Testing the Translations API
                 "title": "Test translation updated2",
                 "content": "Some description",
                 "status": "published",
-                "type": "revision",
                 "locale":"fr_FR",
                 "values": {
                     "test_varchar": "testing",
@@ -222,7 +218,6 @@ Feature: Testing the Translations API
                 "title": "Test translation updated",
                 "content": "Some description",
                 "status": "published",
-                "type": "revision",
                 "locale":"de_DE",
                 "values": {
                     "test_varchar": "testing",
@@ -246,7 +241,6 @@ Feature: Testing the Translations API
                 "title": "Test translation updated",
                 "content": "Some description",
                 "status": "published",
-                "type": "revision",
                 "locale":"de_DE",
                 "values": {
                     "test_varchar": "testing",

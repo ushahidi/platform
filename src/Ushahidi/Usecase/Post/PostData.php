@@ -13,7 +13,7 @@ namespace Ushahidi\Usecase\Post;
 
 use Ushahidi\Data;
 
-class UpdatePostData extends Data
+class PostData extends Data
 {
 	public $form_id;
 	public $user_id;

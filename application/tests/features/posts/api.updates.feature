@@ -72,7 +72,7 @@ Feature: Testing the Updates API
                     "test_varchar": "testing",
                     "last_location": "blah"
                 },
-                "tags": ["update-test"]
+                "tags": ["disaster"]
             }
             """
         When I request "/posts/99/updates"

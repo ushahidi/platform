@@ -28,8 +28,15 @@ class User extends Entity
 	public $updated;
 	public $role = 'user';
 
+	// Entity
 	public function getResource()
 	{
 		return 'users';
+	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->id;
 	}
 }
