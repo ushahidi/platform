@@ -419,7 +419,7 @@ class Ushahidi_Api extends Controller {
 		{
 			throw new HTTP_Exception_400('Bad formatting parameters: :message', array(':message' => $e->getMessage()));
 		}
-		catch (Ushahidi\Exception\FormatterException $e)
+		catch (Ushahidi\Core\Exception\FormatterException $e)
 		{
 			throw new HTTP_Exception_500('Error while formatting response: :message', array(':message' => $e->getMessage()));
 		}
