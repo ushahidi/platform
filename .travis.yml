@@ -8,22 +8,9 @@ php:
 - '5.5'
 services:
 - mysql
-env:
-- KOHANA_ENV=testing
 install:
 - composer install --no-interaction
 before_script:
-- chmod 0777 application/cache application/logs
-- cp application/tests/behat.template application/tests/behat.yml
-- mysql -e "SET GLOBAL sql_mode = 'STRICT_ALL_TABLES'";
-- mysql -e 'create database platform_test;'
-- bin/phinx migrate -c application/phinx.php
-- mysql -e 'create database zombie2x;'
-- curl https://72c9192a7b87de5fc63a-f9fe2e6be12470a7bff22b7693bc7329.ssl.cf1.rackcdn.com/lamu-ci-zombie2x.sql
-  | mysql zombie2x
-- php -S localhost:8000 httpdocs/index.php &
-- sleep 3
+- ./bin/tests install
 script:
-- ./bin/phpspec run --format dot
-- ./bin/behat --config application/tests/behat.yml --format progress
-- ./bin/phpunit -c application/tests/phpunit.xml
+- ./bin/tests run --no-install

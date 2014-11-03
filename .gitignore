@@ -5,6 +5,7 @@
 composer.phar
 vendor/*
 bin/*
+!bin/tests
 .vagrant/*
 .floo
 .flooignore

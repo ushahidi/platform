@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e874826d353fa07bab3d634670f2ec82",
+    "hash": "66203893b3a4eda91e85c05e6ca938b6",
     "packages": [
         {
             "name": "aura/di",
@@ -977,32 +977,36 @@
         },
         {
             "name": "symfony/console",
-            "version": "2.4.x-dev",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "39dd1c85ffdfc3c5fb008019dd027af05f64ec36"
+                "reference": "be964e6c0c903fb209e0123ea63bcda5993cf6fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/39dd1c85ffdfc3c5fb008019dd027af05f64ec36",
-                "reference": "39dd1c85ffdfc3c5fb008019dd027af05f64ec36",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/be964e6c0c903fb209e0123ea63bcda5993cf6fe",
+                "reference": "be964e6c0c903fb209e0123ea63bcda5993cf6fe",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/event-dispatcher": "~2.1"
+                "psr/log": "~1.0",
+                "symfony/event-dispatcher": "~2.1",
+                "symfony/process": "~2.1"
             },
             "suggest": {
-                "symfony/event-dispatcher": ""
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/process": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -1026,7 +1030,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-22 08:51:05"
+            "time": "2014-10-26 07:46:28"
         },
         {
             "name": "symfony/filesystem",
@@ -3041,7 +3045,9 @@
             "time": "2014-10-26 07:46:28"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "aura/di": 20,
@@ -3058,6 +3064,10 @@
         "kohana/unittest": 20
     },
     "prefer-stable": false,
-    "platform": [],
-    "platform-dev": []
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
 }
