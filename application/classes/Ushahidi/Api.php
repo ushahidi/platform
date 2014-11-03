@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\SearchData;
+use Ushahidi\Core\SearchData;
 
 class Ushahidi_Api extends Controller {
 	use Ushahidi_Corsheaders;

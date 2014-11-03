@@ -11,9 +11,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity;
-use Ushahidi\Tool\Formatter;
-use Ushahidi\Exception\FormatterException;
+use Ushahidi\Core\Entity;
+use Ushahidi\Core\Tool\Formatter;
+use Ushahidi\Core\Exception\FormatterException;
 
 class Ushahidi_Formatter_API implements Formatter
 {

@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Formatter;
-use Ushahidi\Tool\OutputFormatter;
-use Ushahidi\Exception\FormatterException;
+use Ushahidi\Core\Tool\Formatter;
+use Ushahidi\Core\Tool\OutputFormatter;
+use Ushahidi\Core\Exception\FormatterException;
 
 class Ushahidi_Formatter_JSON implements Formatter, OutputFormatter
 {

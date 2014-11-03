@@ -9,12 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Data;
-use Ushahidi\SearchData;
-use Ushahidi\Entity\Media;
-use Ushahidi\Usecase\Layer\LayerMediaRepository;
-use Ushahidi\Tool\Uploader;
-use Ushahidi\Tool\UploadData;
+use Ushahidi\Core\Data;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\Media;
+use Ushahidi\Core\Usecase\Layer\LayerMediaRepository;
+use Ushahidi\Core\Tool\Uploader;
+use Ushahidi\Core\Tool\UploadData;
 
 class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 	LayerMediaRepository

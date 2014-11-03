@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity\PostValue;
-use Ushahidi\Entity\PostValueRepository;
+use Ushahidi\Core\Entity\PostValue;
+use Ushahidi\Core\Entity\PostValueRepository;
 
 class Ushahidi_Repository_PostGeometry extends Ushahidi_Repository_PostValue
 {

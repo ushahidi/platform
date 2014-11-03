@@ -110,7 +110,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['collections'] = [
 
 // Use cases are used to join multiple collaborators together for a single interaction.
 $di->set('factory.usecase', $di->lazyNew('Ushahidi\Factory\UsecaseFactory'));
-$di->params['UshahidiApi\Factory\UsecaseFactory'] = [
+$di->params['Ushahidi\Api\Factory\UsecaseFactory'] = [
 	'authorizers'  => $di->lazyGet('factory.authorizer'),
 	'parsers'      => $di->lazyGet('factory.parser'),
 	'validators'   => $di->lazyGet('factory.validator'),
@@ -120,11 +120,11 @@ $di->params['UshahidiApi\Factory\UsecaseFactory'] = [
 // Each of the actions follows a standard sequence of events and is simply constructed
 // with a unique set of collaborators that follow specific interfaces.
 $di->params['Ushahidi\Factory\UsecaseFactory']['actions'] = [
-	'create' => $di->newFactory('Ushahidi\Usecase\CreateUsecase'),
-	'read'   => $di->newFactory('Ushahidi\Usecase\ReadUsecase'),
-	'update' => $di->newFactory('Ushahidi\Usecase\UpdateUsecase'),
-	'delete' => $di->newFactory('Ushahidi\Usecase\DeleteUsecase'),
-	'search' => $di->newFactory('Ushahidi\Usecase\SearchUsecase'),
+	'create' => $di->newFactory('Ushahidi\Core\Usecase\CreateUsecase'),
+	'read'   => $di->newFactory('Ushahidi\Core\Usecase\ReadUsecase'),
+	'update' => $di->newFactory('Ushahidi\Core\Usecase\UpdateUsecase'),
+	'delete' => $di->newFactory('Ushahidi\Core\Usecase\DeleteUsecase'),
+	'search' => $di->newFactory('Ushahidi\Core\Usecase\SearchUsecase'),
 ];
 
 // It is also possible to overload usecases by setting a specific resource and action.
@@ -133,10 +133,10 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [];
 
 // Add custom usecases for posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
-	'create'  => $di->lazyNew('Ushahidi\Usecase\Post\CreatePost'),
-	'read'    => $di->lazyNew('Ushahidi\Usecase\Post\ReadPost'),
-	'update'  => $di->lazyNew('Ushahidi\Usecase\Post\UpdatePost'),
-	'delete'  => $di->lazyNew('Ushahidi\Usecase\Post\DeletePost'),
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePost'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPost'),
+	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
 ];
 
 // Usecases also have slightly different interaction styles if they read, write,
@@ -155,8 +155,8 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['write'] = [
 // Endpoints are used to cross the boundary between the core application and the
 // delivery layer. The endpoint factory is a meta-factory that composes each use
 // case when it is required.
-$di->set('factory.endpoint', $di->lazyNew('UshahidiApi\Factory\EndpointFactory'));
-$di->params['UshahidiApi\Factory\EndpointFactory'] = [
+$di->set('factory.endpoint', $di->lazyNew('Ushahidi\Api\Factory\EndpointFactory'));
+$di->params['Ushahidi\Api\Factory\EndpointFactory'] = [
 	'parsers'      => $di->lazyGet('factory.parser'),
 	'usecases'     => $di->lazyGet('factory.usecase'),
 	'authorizers'  => $di->lazyGet('factory.authorizer'),
@@ -165,7 +165,7 @@ $di->params['UshahidiApi\Factory\EndpointFactory'] = [
 ];
 
 // Parsing and formatting happen outside the usecase, in the Endpoint wrapper.
-$di->params['UshahidiApi\Factory\EndpointFactory']['factory'] = $di->newFactory('UshahidiApi\Endpoint');
+$di->params['Ushahidi\Api\Factory\EndpointFactory']['factory'] = $di->newFactory('Ushahidi\Api\Endpoint');
 
 // Primary definition of the entire application architecture is here.
 // This maps out what services are used for which endpoint, through a very
@@ -192,42 +192,42 @@ $di->params['UshahidiApi\Factory\EndpointFactory']['factory'] = $di->newFactory(
 //
 //     ['special' => true] /* adds "search" action */
 //
-$di->params['UshahidiApi\Factory\EndpointFactory']['endpoints'] = [
+$di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
 	'tags'   => [],
 	'media'  => ['update' => false], // disable update action, media can only be created and deleted
 	'layers' => [],
 ];
 
 // Traits
-$di->setter['Ushahidi\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
+$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 
 // Tools
-$di->set('tool.uploader', $di->lazyNew('Ushahidi\Tool\Uploader'));
-$di->params['Ushahidi\Tool\Uploader'] = [
+$di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
+$di->params['Ushahidi\Core\Tool\Uploader'] = [
 	'fs' => $di->lazyGet('tool.filesystem'),
 	];
 
 // Authorizers
-$di->set('tool.authorizer.config', $di->lazyNew('Ushahidi\Tool\Authorizer\ConfigAuthorizer'));
+$di->set('tool.authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));
 
-$di->set('authorizer.layer', $di->lazyNew('Ushahidi\Tool\Authorizer\LayerAuthorizer'));
-$di->set('authorizer.tag', $di->lazyNew('Ushahidi\Tool\Authorizer\TagAuthorizer'));
-$di->set('authorizer.media', $di->lazyNew('Ushahidi\Tool\Authorizer\MediaAuthorizer'));
+$di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
+$di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
+$di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
 
-$di->set('authorizer.post', $di->lazyNew('Ushahidi\Tool\Authorizer\PostAuthorizer'));
-$di->params['Ushahidi\Tool\Authorizer\PostAuthorizer'] = [
+$di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
+$di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post')
 	];
 
 // Use cases
-$di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Usecase\User\Register'));
-$di->params['\Ushahidi\Usecase\User\Register'] = [
+$di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Core\Usecase\User\Register'));
+$di->params['\Ushahidi\Core\Usecase\User\Register'] = [
 	'repo' => $di->lazyGet('repository.user'),
 	'valid' => $di->lazyGet('validator.user.register'),
 	];
 
-$di->set('usecase.user.login', $di->lazyNew('\Ushahidi\Usecase\User\Login'));
-$di->params['\Ushahidi\Usecase\User\Login'] = [
+$di->set('usecase.user.login', $di->lazyNew('\Ushahidi\Core\Usecase\User\Login'));
+$di->params['\Ushahidi\Core\Usecase\User\Login'] = [
 	'repo' => $di->lazyGet('repository.user'),
 	'valid' => $di->lazyGet('validator.user.login'),
 	'auth' => $di->lazyGet('tool.authenticator.password'),

@@ -9,13 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Data;
-use Ushahidi\Usecase\Post\UpdatePostRepository;
-use Ushahidi\Entity\FormAttributeRepository;
-use Ushahidi\Usecase\Post\UpdatePostTagRepository;
-use Ushahidi\Entity\UserRepository;
+use Ushahidi\Core\Data;
+use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
+use Ushahidi\Core\Entity\UserRepository;
 
-use Ushahidi\Tool\Validator;
+use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Post_Write implements Validator
 {

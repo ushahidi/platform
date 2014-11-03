@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Ushahidi_Formatter_Tag extends Ushahidi_Formatter_API
 {

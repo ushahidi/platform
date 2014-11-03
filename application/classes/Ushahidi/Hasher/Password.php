@@ -11,7 +11,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Hasher;
+use Ushahidi\Core\Tool\Hasher;
 
 class Ushahidi_Hasher_Password implements Hasher
 {

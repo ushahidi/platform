@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity\Config as ConfigEntity;
-use Ushahidi\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\Config as ConfigEntity;
+use Ushahidi\Core\Entity\ConfigRepository;
 
 class Ushahidi_Repository_Config implements ConfigRepository
 {

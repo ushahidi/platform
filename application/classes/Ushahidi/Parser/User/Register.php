@@ -11,11 +11,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Parser;
-use Ushahidi\Tool\Hasher;
-use Ushahidi\Exception\ParserException;
+use Ushahidi\Core\Tool\Parser;
+use Ushahidi\Core\Tool\Hasher;
+use Ushahidi\Core\Exception\ParserException;
 
-use Ushahidi\Usecase\User\RegisterData;
+use Ushahidi\Core\Usecase\User\RegisterData;
 
 class Ushahidi_Parser_User_Register implements Parser
 {

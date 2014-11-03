@@ -10,7 +10,7 @@
  */
 
 
-// Note: this doesn't actually implement Ushahidi\Tool\Validator
+// Note: this doesn't actually implement Ushahidi\Core\Tool\Validator
 // Tt accepts array, not Ushahidi\Data
 class Ushahidi_Validator_Post_Link
 {

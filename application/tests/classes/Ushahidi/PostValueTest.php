@@ -22,7 +22,7 @@ class PostValueRepositoryTest extends Unittest_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->postvalue = $this->getMock('Ushahidi\Entity\PostValue');
+		$this->postvalue = $this->getMock('Ushahidi\Core\Entity\PostValue');
 	}
 
 	/**
@@ -38,7 +38,7 @@ class PostValueRepositoryTest extends Unittest_TestCase {
 			]));
 
 		// Check that get() returns a PostValue Entity
-		$this->assertInstanceOf('Ushahidi\Entity\PostValue', $this->repository->get(1));
+		$this->assertInstanceOf('Ushahidi\Core\Entity\PostValue', $this->repository->get(1));
 
 		// Check entity returned by get() has expected values
 		$entity = $this->repository->get(1);
@@ -91,7 +91,7 @@ class PostValueRepositoryTest extends Unittest_TestCase {
 		// Check that getAllForPost() returns an array of PostValue's
 		$values = $this->repository->getAllForPost(1);
 		$this->assertCount(3, $values);
-		$this->assertInstanceOf('Ushahidi\Entity\PostValue', current($values));
+		$this->assertInstanceOf('Ushahidi\Core\Entity\PostValue', current($values));
 	}
 
 }

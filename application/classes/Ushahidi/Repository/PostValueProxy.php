@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity\GetValuesForPostRepository;
+use Ushahidi\Core\Entity\GetValuesForPostRepository;
 
 class Ushahidi_Repository_PostValueProxy implements GetValuesForPostRepository
 {

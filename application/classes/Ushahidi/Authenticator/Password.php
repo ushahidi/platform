@@ -11,8 +11,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\PasswordAuthenticator;
-use Ushahidi\Exception\AuthenticatorException;
+use Ushahidi\Core\Tool\PasswordAuthenticator;
+use Ushahidi\Core\Exception\AuthenticatorException;
 
 class Ushahidi_Authenticator_Password implements PasswordAuthenticator
 {

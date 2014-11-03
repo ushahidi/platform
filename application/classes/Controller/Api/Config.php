@@ -76,7 +76,7 @@ class Controller_Api_Config extends Ushahidi_Api {
 		}
 
 		$user = $this->user;
-		$results = array_filter($results, function (\Ushahidi\Entity\Config $config) use ($authorizer, $user)
+		$results = array_filter($results, function (\Ushahidi\Core\Entity\Config $config) use ($authorizer, $user)
 		{
 			return $authorizer->isAllowed($config, 'get', $user);
 		});
@@ -154,7 +154,7 @@ class Controller_Api_Config extends Ushahidi_Api {
 		return $this->action_get_index();
 	}
 
-	protected function _for_api(\Ushahidi\Entity\Config $config)
+	protected function _for_api(\Ushahidi\Core\Entity\Config $config)
 	{
 		return (array) $config + array(
 			'allowed_methods' => $this->_allowed_methods()

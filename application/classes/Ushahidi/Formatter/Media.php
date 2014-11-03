@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity;
-use Ushahidi\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Entity;
+use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 {

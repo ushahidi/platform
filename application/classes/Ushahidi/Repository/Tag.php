@@ -9,16 +9,16 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Data;
-use Ushahidi\SearchData;
-use Ushahidi\Entity\Tag;
-use Ushahidi\Usecase\CreateRepository;
-use Ushahidi\Usecase\ReadRepository;
-use Ushahidi\Usecase\DeleteRepository;
-use Ushahidi\Usecase\SearchRepository;
-use Ushahidi\Usecase\Tag\UpdateTagRepository;
-use Ushahidi\Usecase\Tag\DeleteTagRepository;
-use Ushahidi\Usecase\Post\UpdatePostTagRepository;
+use Ushahidi\Core\Data;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\Tag;
+use Ushahidi\Core\Usecase\CreateRepository;
+use Ushahidi\Core\Usecase\ReadRepository;
+use Ushahidi\Core\Usecase\DeleteRepository;
+use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
+use Ushahidi\Core\Usecase\Tag\DeleteTagRepository;
+use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	CreateRepository,

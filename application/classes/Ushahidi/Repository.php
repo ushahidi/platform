@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Data;
-use Ushahidi\SearchData;
-use Ushahidi\Usecase;
+use Ushahidi\Core\Data;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Usecase;
 
 abstract class Ushahidi_Repository implements
 	Usecase\CreateRepository,
@@ -31,7 +31,7 @@ abstract class Ushahidi_Repository implements
 	/**
 	 * Get the entity for this repository.
 	 * @param  Array  $data
-	 * @return Ushahidi\Entity
+	 * @return Ushahidi\Core\Entity
 	 */
 	abstract public function getEntity(Array $data = null);
 

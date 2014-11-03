@@ -68,7 +68,7 @@ abstract class Ushahidi_Core {
 		$di->setter['League\OAuth2\Server\Grant\Password']['setVerifyCredentialsCallback'] = function($username, $password) {
 			$usecase = service('usecase.user.login');
 			// todo: parse this? inject it?
-			$data    = new Ushahidi\Usecase\User\LoginData(compact('username', 'password'));
+			$data    = new Ushahidi\Core\Usecase\User\LoginData(compact('username', 'password'));
 			try
 			{
 				return $usecase->interact($data);

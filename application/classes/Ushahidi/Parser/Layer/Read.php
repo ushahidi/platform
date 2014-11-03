@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Parser;
-use Ushahidi\Exception\ParserException;
-use Ushahidi\Usecase\Layer\ReadLayerData;
+use Ushahidi\Core\Tool\Parser;
+use Ushahidi\Core\Exception\ParserException;
+use Ushahidi\Core\Usecase\Layer\ReadLayerData;
 
 class Ushahidi_Parser_Layer_Read implements Parser
 {

@@ -11,8 +11,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Formatter\CollectionFormatter;
-use Ushahidi\SearchData;
+use Ushahidi\Core\Tool\Formatter\CollectionFormatter;
+use Ushahidi\Core\SearchData;
 
 class Ushahidi_Formatter_Collection extends CollectionFormatter
 {

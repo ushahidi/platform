@@ -8,9 +8,9 @@
  * @license https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Parser;
-use Ushahidi\Exception\ParserException;
-use Ushahidi\Usecase\Post\ReadPostData;
+use Ushahidi\Core\Tool\Parser;
+use Ushahidi\Core\Exception\ParserException;
+use Ushahidi\Core\Usecase\Post\ReadPostData;
 
 class Ushahidi_Parser_Post_Read implements Parser
 {

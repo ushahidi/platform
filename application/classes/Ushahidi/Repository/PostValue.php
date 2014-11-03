@@ -9,10 +9,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity\PostValue;
-use Ushahidi\Entity\PostValueRepository;
-use Ushahidi\Entity\GetValuesForPostRepository;
-use Ushahidi\Usecase\Post\UpdatePostValueRepository;
+use Ushahidi\Core\Entity\PostValue;
+use Ushahidi\Core\Entity\PostValueRepository;
+use Ushahidi\Core\Entity\GetValuesForPostRepository;
+use Ushahidi\Core\Usecase\Post\UpdatePostValueRepository;
 
 abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository implements
 	PostValueRepository,

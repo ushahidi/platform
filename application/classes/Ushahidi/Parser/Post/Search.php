@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Parser;
-use Ushahidi\Entity\PostSearchData;
+use Ushahidi\Core\Tool\Parser;
+use Ushahidi\Core\Entity\PostSearchData;
 
 class Ushahidi_Parser_Post_Search implements Parser
 {

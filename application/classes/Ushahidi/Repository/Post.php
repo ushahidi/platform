@@ -9,15 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Data;
-use Ushahidi\SearchData;
-use Ushahidi\Entity\Post;
-use Ushahidi\Entity\PostRepository;
-use Ushahidi\Usecase\Post\UpdatePostRepository;
-use Ushahidi\Entity\FormAttributeRepository;
-use Ushahidi\Usecase\Post\UpdatePostTagRepository;
-use Ushahidi\Entity\UserRepository;
-use Ushahidi\Entity\PostSearchData;
+use Ushahidi\Core\Data;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
+use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\PostSearchData;
 use Aura\DI\InstanceFactory;
 
 class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostRepository, UpdatePostRepository

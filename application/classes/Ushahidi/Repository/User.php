@@ -11,10 +11,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\SearchData;
-use Ushahidi\Entity\User;
-use Ushahidi\Entity\UserRepository;
-use Ushahidi\Usecase\User\RegisterRepository;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Usecase\User\RegisterRepository;
 
 class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	UserRepository,

@@ -22,7 +22,7 @@ class Ushahidi_Repository_PostValueFactory
 	/**
 	 * Get repository for post value `$type`
 	 * @param  string $type
-	 * @return Ushahidi\Entity\PostValueRepository
+	 * @return Ushahidi\Core\Entity\PostValueRepository
 	 */
 	public function getRepo($type)
 	{

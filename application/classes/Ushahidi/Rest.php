@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\SearchData;
-use UshahidiApi\Endpoint;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Api\Endpoint;
 use League\OAuth2\Server\Exception\OAuth2Exception;
 use League\OAuth2\Server\Exception\MissingAccessTokenException;
 
@@ -346,7 +346,7 @@ abstract class Ushahidi_Rest extends Controller {
 				[':message' => $e->getMessage()]
 			);
 		}
-		catch (Ushahidi\Exception\FormatterException $e)
+		catch (Ushahidi\Core\Exception\FormatterException $e)
 		{
 			throw new HTTP_Exception_500(
 				'Error while formatting response: :message',
@@ -371,15 +371,15 @@ abstract class Ushahidi_Rest extends Controller {
 		{
 			$this->_response_payload = $endpoint->run($request);
 		}
-		catch (Ushahidi\Exception\NotFoundException $e)
+		catch (Ushahidi\Core\Exception\NotFoundException $e)
 		{
 			throw new HTTP_Exception_404($e->getMessage());
 		}
-		catch (Ushahidi\Exception\AuthorizerException $e)
+		catch (Ushahidi\Core\Exception\AuthorizerException $e)
 		{
 			throw new HTTP_Exception_403($e->getMessage());
 		}
-		catch (Ushahidi\Exception\ValidatorException $e)
+		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
 			// Also handles ParserException
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(

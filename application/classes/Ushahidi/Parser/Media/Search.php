@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Parser;
-use Ushahidi\Usecase\Media\SearchMediaData;
-use Ushahidi\Traits\Parser\SortingParser;
+use Ushahidi\Core\Tool\Parser;
+use Ushahidi\Core\Usecase\Media\SearchMediaData;
+use Ushahidi\Core\Traits\Parser\SortingParser;
 
 class Ushahidi_Parser_Media_Search implements Parser
 {

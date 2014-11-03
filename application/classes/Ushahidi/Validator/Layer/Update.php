@@ -9,11 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Data;
-use Ushahidi\Usecase\Layer\LayerMediaRepository;
-use Ushahidi\Usecase\Layer\UpdateLayerRepository;
+use Ushahidi\Core\Data;
+use Ushahidi\Core\Usecase\Layer\LayerMediaRepository;
+use Ushahidi\Core\Usecase\Layer\UpdateLayerRepository;
 
-use Ushahidi\Tool\Validator;
+use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Layer_Update implements Validator
 {

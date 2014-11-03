@@ -72,7 +72,7 @@
         "kohana/unittest": "3.3.*@dev",
         "phpunit/phpunit": "~3.7.37",
         "phpunit/dbunit": "~1.2.3",
-        "phpspec/phpspec": "~2.0.0",
+        "phpspec/phpspec": "~2.1.0",
         "symfony/console": "~2.5",
         "squizlabs/php_codesniffer": "1.5.*"
     },
@@ -87,8 +87,8 @@
         "preferred-install": "dist"
     },
     "autoload": {
-        "psr-0": {
-            "": "src"
+        "psr-4": {
+            "Ushahidi\\": "src/"
         }
     }
 }

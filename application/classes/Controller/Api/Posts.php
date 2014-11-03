@@ -119,18 +119,18 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$write_data = $write_parser($this->_request_payload);
 			$post = $usecase->interact($write_data);
 		}
-		catch (Ushahidi\Exception\NotFoundException $e)
+		catch (Ushahidi\Core\Exception\NotFoundException $e)
 		{
 			throw new HTTP_Exception_404($e->getMessage());
 		}
-		catch (Ushahidi\Exception\ValidatorException $e)
+		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
 			// Also handles ParserException
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
-		catch (Ushahidi\Exception\AuthorizerException $e)
+		catch (Ushahidi\Core\Exception\AuthorizerException $e)
 		{
 			throw new HTTP_Exception_403($e->getMessage());
 		}
@@ -220,18 +220,18 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$read_data = $read_parser($read);
 			$post = $usecase->interact($read_data);
 		}
-		catch (Ushahidi\Exception\NotFoundException $e)
+		catch (Ushahidi\Core\Exception\NotFoundException $e)
 		{
 			throw new HTTP_Exception_404($e->getMessage());
 		}
-		catch (Ushahidi\Exception\ValidatorException $e)
+		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
 			// Also handles ParserException
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
-		catch (Ushahidi\Exception\AuthorizerException $e)
+		catch (Ushahidi\Core\Exception\AuthorizerException $e)
 		{
 			throw new HTTP_Exception_403($e->getMessage());
 		}
@@ -264,18 +264,18 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$read_data = $read_parser($read);
 			$post = $usecase->interact($read_data, $write_data);
 		}
-		catch (Ushahidi\Exception\NotFoundException $e)
+		catch (Ushahidi\Core\Exception\NotFoundException $e)
 		{
 			throw new HTTP_Exception_404($e->getMessage());
 		}
-		catch (Ushahidi\Exception\ValidatorException $e)
+		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
 			// Also handles ParserException
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
-		catch (Ushahidi\Exception\AuthorizerException $e)
+		catch (Ushahidi\Core\Exception\AuthorizerException $e)
 		{
 			throw new HTTP_Exception_403($e->getMessage());
 		}
@@ -307,18 +307,18 @@ class Controller_Api_Posts extends Ushahidi_Api {
 			$read_data = $read_parser($read);
 			$post = $usecase->interact($read_data);
 		}
-		catch (Ushahidi\Exception\NotFoundException $e)
+		catch (Ushahidi\Core\Exception\NotFoundException $e)
 		{
 			throw new HTTP_Exception_404($e->getMessage());
 		}
-		catch (Ushahidi\Exception\ValidatorException $e)
+		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
 			// Also handles ParserException
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
-		catch (Ushahidi\Exception\AuthorizerException $e)
+		catch (Ushahidi\Core\Exception\AuthorizerException $e)
 		{
 			throw new HTTP_Exception_403($e->getMessage());
 		}

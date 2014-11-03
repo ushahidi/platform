@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Tool\Formatter;
+use Ushahidi\Core\Tool\Formatter;
 
 class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 {

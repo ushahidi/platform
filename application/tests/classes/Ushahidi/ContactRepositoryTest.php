@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Entity\Contact;
-use Ushahidi\Entity\ContactRepository;
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Entity\ContactRepository;
 
 class ContactRepositoryTest extends Unittest_TestCase {
 
@@ -21,10 +21,10 @@ class ContactRepositoryTest extends Unittest_TestCase {
 	{
 		parent::setUp();
 
-		$this->repository = $this->getMockForAbstractClass('Ushahidi\Entity\ContactRepository',
+		$this->repository = $this->getMockForAbstractClass('Ushahidi\Core\Entity\ContactRepository',
 			array('get', 'add', 'remove', 'edit'));
 
-		$this->contact = $this->getMock('Ushahidi\Entity\Contact');
+		$this->contact = $this->getMock('Ushahidi\Core\Entity\Contact');
 	}
 
 	public function test_get()

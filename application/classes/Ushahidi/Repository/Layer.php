@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Data;
-use Ushahidi\SearchData;
-use Ushahidi\Entity\Layer;
+use Ushahidi\Core\Data;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\Layer;
 
 class Ushahidi_Repository_Layer extends Ushahidi_Repository
 {

@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Data;
-use Ushahidi\Tool\Validator;
+use Ushahidi\Core\Data;
+use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Media_Create implements Validator
 {

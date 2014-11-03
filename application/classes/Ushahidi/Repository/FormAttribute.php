@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\SearchData;
-use Ushahidi\Entity\FormAttribute;
-use Ushahidi\Entity\FormAttributeRepository;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\FormAttribute;
+use Ushahidi\Core\Entity\FormAttributeRepository;
 
 class Ushahidi_Repository_FormAttribute extends Ushahidi_Repository implements FormAttributeRepository
 {

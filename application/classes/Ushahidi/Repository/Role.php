@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\SearchData;
-use Ushahidi\Entity\Role;
-use Ushahidi\Entity\RoleRepository;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\Role;
+use Ushahidi\Core\Entity\RoleRepository;
 
 class Ushahidi_Repository_Role extends Ushahidi_Repository implements RoleRepository
 {

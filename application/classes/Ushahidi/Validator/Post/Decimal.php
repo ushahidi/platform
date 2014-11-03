@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-// Note: this doesn't actually implement Ushahidi\Tool\Validator
+// Note: this doesn't actually implement Ushahidi\Core\Tool\Validator
 // Tt accepts array, not Ushahidi\Data
 class Ushahidi_Validator_Post_Decimal
 {

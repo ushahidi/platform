@@ -1,4 +1,5 @@
 formatter.name: dot
 suites:
-    ushahidi_suite: Ushahidi
-    ushahidi_api_suite: UshahidiApi
+    ushahidi_suite:
+        namespace: Ushahidi
+        psr4_prefix: Ushahidi
