@@ -19,7 +19,8 @@
  * - string   site_email    Site contact email
  */
 return array(
-	'site_name'  => 'Ushahidi V3',
-	'owner_name' => 'Ushahidi',
-	'site_email' => FALSE
+	'site_name'   => 'Ushahidi Platform',
+	'owner_name'  => 'Ushahidi Deployer',
+	'site_email'  => FALSE,
+	'date_format' => 'n/j/Y', // MM/DD/YYY, see http://php.net/datetime.createfromformat.php
 );
