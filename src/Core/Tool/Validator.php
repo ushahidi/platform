@@ -15,6 +15,9 @@ use Ushahidi\Core\Data;
 
 interface Validator
 {
+	// Regex that only allows letters, numbers, punctuation, and space.
+	const REGEX_STANDARD_TEXT = '/^[\pL\pN\pP ]++$/uD';
+
 	/**
 	 * @param  Ushahidi\Data to be checked
 	 * @return bool

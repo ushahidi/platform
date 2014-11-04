@@ -79,6 +79,8 @@ $di->set('factory.authorizer', $di->lazyNew('Ushahidi\Factory\AuthorizerFactory'
 // Authorizers are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'config' => $di->lazyGet('authorizer.config'),
+	'forms'  => $di->lazyGet('authorizer.form'),
+	'tags'   => $di->lazyGet('authorizer.tag'),
 	'layers' => $di->lazyGet('authorizer.layer'),
 	'media'  => $di->lazyGet('authorizer.media'),
 	'posts'  => $di->lazyGet('authorizer.post'),
@@ -91,6 +93,7 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config' => $di->lazyGet('repository.config'),
+	'forms'  => $di->lazyGet('repository.form'),
 	'layers' => $di->lazyGet('repository.layer'),
 	'media'  => $di->lazyGet('repository.media'),
 	'posts'  => $di->lazyGet('repository.post'),
@@ -201,6 +204,8 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory']['factory'] = $di->newFactory
 //
 $di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
 	'config' => ['delete' => false, 'post' => false], // config cannot be deleted or created, only updated
+	'forms'  => [],
+	'tags'   => [],
 	'layers' => [],
 	'media'  => ['update' => false], // disable update action, media can only be created and deleted
 	'tags'   => [],
@@ -217,6 +222,10 @@ $di->params['Ushahidi\Core\Tool\Uploader'] = [
 
 // Authorizers
 $di->set('authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));
+$di->set('authorizer.form', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAuthorizer'));
+$di->params['Ushahidi\Core\Tool\Authorizer\FormAuthorizer'] = [
+	'form_repo' => $di->lazyGet('repository.form')
+	];
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));

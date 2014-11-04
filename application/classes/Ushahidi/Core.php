@@ -98,6 +98,13 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Parser_Config_Update'),
 			'search' => $di->lazyNew('Ushahidi_Parser_Config_Search'),
 		];
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['forms'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Form_Write'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_Form_Read'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Form_Write'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Form_Read'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Form_Search'),
+		];
 		$di->params['Ushahidi\Factory\ParserFactory']['map']['layers'] = [
 			'create' => $di->lazyNew('Ushahidi_Parser_Layer_Create'),
 			'read'   => $di->lazyNew('Ushahidi_Parser_Layer_Read'),
@@ -130,13 +137,18 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['config'] = [
 			'update' => $di->lazyNew('Ushahidi_Validator_Config_Update'),
 		];
-		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['media'] = [
-			'create' => $di->lazyNew('Ushahidi_Validator_Media_Create'),
-			'delete' => $di->lazyNew('Ushahidi_Validator_Media_Delete'),
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['forms'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Form_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Form_Update'),
+			'delete' => $di->lazyNew('Ushahidi_Validator_Form_Delete'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['layers'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Layer_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Layer_Update'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['media'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Media_Create'),
+			'delete' => $di->lazyNew('Ushahidi_Validator_Media_Delete'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Write'),
@@ -160,6 +172,7 @@ abstract class Ushahidi_Core {
 		// Formatter mapping
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 			'config' => $di->lazyNew('Ushahidi_Formatter_Config'),
+			'forms'  => $di->lazyNew('Ushahidi_Formatter_Form'),
 			'layers' => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'  => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
@@ -168,6 +181,7 @@ abstract class Ushahidi_Core {
 
 		// Formatter parameters
 		$di->setter['Ushahidi_Formatter_Config']['setAuth'] = $di->lazyGet('authorizer.config');
+		$di->setter['Ushahidi_Formatter_Form']['setAuth']   = $di->lazyGet('authorizer.form');
 		$di->setter['Ushahidi_Formatter_Media']['setAuth']  = $di->lazyGet('authorizer.media');
 		$di->setter['Ushahidi_Formatter_Tag']['setAuth']    = $di->lazyGet('authorizer.tag');
 
@@ -207,6 +221,7 @@ abstract class Ushahidi_Core {
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
+		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_FormAttribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));

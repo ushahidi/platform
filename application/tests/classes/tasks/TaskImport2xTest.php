@@ -41,6 +41,10 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 	 */
 	public function test_db_import()
 	{
+		// @todo fix this!
+		$this->markTestSkipped("Cannot complete until all form endpoints on T846 are completed\n -- Single call form create disabled by D475");
+		return;
+
 		$config = Kohana::$config->load('database.TestImport2x');
 		
 		if (empty($config))

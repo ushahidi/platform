@@ -9,59 +9,14 @@ Feature: Testing the Forms API
                 "name":"Test Form",
                 "type":"report",
                 "description":"This is a test form from BDD testing",
-                "groups":[
-                    {
-                        "label":"First Group",
-                        "priority": 1,
-                        "attributes":[
-                            {
-                                "key":"test_full_name",
-                                "label":"Full Name",
-                                "type":"varchar",
-                                "input":"text",
-                                "required":true,
-                                "priority":1,
-                                "default":"",
-                                "options":{}
-                            },
-                            {
-                                "key":"test_last_name",
-                                "label":"Last Name",
-                                "type":"varchar",
-                                "input":"text",
-                                "required":false,
-                                "priority":11
-                            },
-                            {
-                                "key":"test_missing_status",
-                                "label":"Status",
-                                "type":"varchar",
-                                "input":"text",
-                                "required":false,
-                                "priority":2,
-                                "default":"Missing",
-                                "options":[
-                                    "Missing",
-                                    "Alive",
-                                    "Dead"
-                                ]
-                            },
-                            {
-                                "id":5
-                            }
-                        ]
-                    }
-                ]
+                "disabled":false
             }
             """
         When I request "/forms"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        And the "groups.0.attributes.0.key" property equals "date_of_birth"
-        And the "groups.0.attributes.2.priority" property equals "11"
-        And the "groups.0.attributes.3.default" property equals "Missing"
-        And the "groups.0.attributes.3.options.1" property equals "Alive"
+        And the "disabled" property is false
         Then the guzzle status code should be 200
 
     Scenario: Updating a Form
@@ -71,7 +26,8 @@ Feature: Testing the Forms API
             {
                 "name":"Updated Test Form",
                 "type":"report",
-                "description":"This is a test form updated by BDD testing"
+                "description":"This is a test form updated by BDD testing",
+                "disabled":true
             }
             """
         And that its "id" is "1"
@@ -82,6 +38,7 @@ Feature: Testing the Forms API
         And the "id" property equals "1"
         And the response has a "name" property
         And the "name" property equals "Updated Test Form"
+        And the "disabled" property is true
         Then the guzzle status code should be 200
 
     Scenario: Update a non-existent Form
@@ -91,7 +48,8 @@ Feature: Testing the Forms API
             {
                 "name":"Updated Test Form",
                 "type":"report",
-                "description":"This is a test form updated by BDD testing"
+                "description":"This is a test form updated by BDD testing",
+                "disabled":false
             }
             """
         And that its "id" is "40"
