@@ -26,15 +26,7 @@ interface ConfigRepository
 
 	/**
 	 * @param  string $group
-	 * @return \Ushahidi\Core\Entity\Config
+	 * @return Ushahidi\Core\Entity\Config
 	 */
 	public function get($group);
-
-	/**
-	 * @param  string $group
-	 * @param  string $key
-	 * @param  mixed  $value
-	 * @return \Ushahidi\Core\Entity\Config
-	 */
-	public function set($group, $key, $value);
 }

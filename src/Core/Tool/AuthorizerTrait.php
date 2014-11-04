@@ -30,7 +30,7 @@ trait AuthorizerTrait
 	 * @param  Ushahidi\Core\Tool\Authorizer $auth
 	 * @return void
 	 */
-	private function setAuthorizer(Authorizer $auth)
+	protected function setAuthorizer(Authorizer $auth)
 	{
 		$this->auth = $auth;
 	}

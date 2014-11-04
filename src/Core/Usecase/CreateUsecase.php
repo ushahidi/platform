@@ -43,7 +43,7 @@ class CreateUsecase implements Usecase
 	 * @param  Ushahidi\Core\Usecase\CreateRepository $repo
 	 * @return void
 	 */
-	private function setRepository(CreateRepository $repo)
+	protected function setRepository(CreateRepository $repo)
 	{
 		$this->repo = $repo;
 	}

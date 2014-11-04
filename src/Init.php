@@ -78,10 +78,11 @@ $di->set('factory.authorizer', $di->lazyNew('Ushahidi\Factory\AuthorizerFactory'
 
 // Authorizers are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
-	'tags'   => $di->lazyGet('authorizer.tag'),
-	'media'  => $di->lazyGet('authorizer.media'),
+	'config' => $di->lazyGet('authorizer.config'),
 	'layers' => $di->lazyGet('authorizer.layer'),
+	'media'  => $di->lazyGet('authorizer.media'),
 	'posts'  => $di->lazyGet('authorizer.post'),
+	'tags'   => $di->lazyGet('authorizer.tag'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -89,10 +90,11 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
-	'tags'   => $di->lazyGet('repository.tag'),
-	'media'  => $di->lazyGet('repository.media'),
+	'config' => $di->lazyGet('repository.config'),
 	'layers' => $di->lazyGet('repository.layer'),
+	'media'  => $di->lazyGet('repository.media'),
 	'posts'  => $di->lazyGet('repository.post'),
+	'tags'   => $di->lazyGet('repository.tag'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -130,6 +132,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['actions'] = [
 // It is also possible to overload usecases by setting a specific resource and action.
 // The same collaborator mapping will be applied by action as with default use cases.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [];
+
+// Config does not allow ordering or sorting, because of its simple key/value nature.
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['config'] = [
+	'search' => $di->newFactory('Ushahidi\Core\Usecase\Config\SearchConfig'),
+];
 
 // Add custom usecases for posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
@@ -193,9 +200,10 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory']['factory'] = $di->newFactory
 //     ['special' => true] /* adds "search" action */
 //
 $di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
-	'tags'   => [],
-	'media'  => ['update' => false], // disable update action, media can only be created and deleted
+	'config' => ['delete' => false, 'post' => false], // config cannot be deleted or created, only updated
 	'layers' => [],
+	'media'  => ['update' => false], // disable update action, media can only be created and deleted
+	'tags'   => [],
 ];
 
 // Traits
@@ -208,11 +216,10 @@ $di->params['Ushahidi\Core\Tool\Uploader'] = [
 	];
 
 // Authorizers
-$di->set('tool.authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));
-
+$di->set('authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
-$di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
+$di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
 
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [

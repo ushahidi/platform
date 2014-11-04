@@ -24,7 +24,7 @@ trait ValidatorTrait
 	 * @param  Ushahidi\Core\Tool\Validator $valid
 	 * @return void
 	 */
-	private function setValidator(Validator $valid)
+	protected function setValidator(Validator $valid)
 	{
 		$this->valid = $valid;
 	}

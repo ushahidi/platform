@@ -93,11 +93,10 @@ abstract class Ushahidi_Core {
 			];
 
 		// Parser mapping
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['media'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Media_Create'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Media_Read'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Media_Delete'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Media_Search'),
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['config'] = [
+			'read'   => $di->lazyNew('Ushahidi_Parser_Config_Read'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Config_Update'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Config_Search'),
 		];
 		$di->params['Ushahidi\Factory\ParserFactory']['map']['layers'] = [
 			'create' => $di->lazyNew('Ushahidi_Parser_Layer_Create'),
@@ -106,12 +105,11 @@ abstract class Ushahidi_Core {
 			'delete' => $di->lazyNew('Ushahidi_Parser_Layer_Read'), /* reusing */
 			'search' => $di->lazyNew('Ushahidi_Parser_Layer_Search'),
 		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['tags'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Tag_Create'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Tag_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Tag_Update'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Tag_Delete'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Tag_Search'),
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['media'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Media_Create'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_Media_Read'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Media_Delete'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Media_Search'),
 		];
 		$di->params['Ushahidi\Factory\ParserFactory']['map']['posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Parser_Post_Write'),
@@ -120,8 +118,18 @@ abstract class Ushahidi_Core {
 			'search' => $di->lazyNew('Ushahidi_Parser_Post_Search'),
 			'delete' => $di->lazyNew('Ushahidi_Parser_Post_Read'),
 		];
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['tags'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Tag_Create'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_Tag_Read'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Tag_Update'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Tag_Delete'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Tag_Search'),
+		];
 
 		// Validator mapping
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['config'] = [
+			'update' => $di->lazyNew('Ushahidi_Validator_Config_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['media'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Media_Create'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Media_Delete'),
@@ -151,15 +159,17 @@ abstract class Ushahidi_Core {
 
 		// Formatter mapping
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
-			'media'  => $di->lazyNew('Ushahidi_Formatter_Media'),
+			'config' => $di->lazyNew('Ushahidi_Formatter_Config'),
 			'layers' => $di->lazyNew('Ushahidi_Formatter_Layer'),
-			'tags'   => $di->lazyNew('Ushahidi_Formatter_Tag'),
+			'media'  => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'tags'   => $di->lazyNew('Ushahidi_Formatter_Tag'),
 		];
 
 		// Formatter parameters
-		$di->setter['Ushahidi_Formatter_Media']['setAuth'] = $di->lazyGet('authorizer.media');
-		$di->setter['Ushahidi_Formatter_Tag']['setAuth']   = $di->lazyGet('authorizer.tag');
+		$di->setter['Ushahidi_Formatter_Config']['setAuth'] = $di->lazyGet('authorizer.config');
+		$di->setter['Ushahidi_Formatter_Media']['setAuth']  = $di->lazyGet('authorizer.media');
+		$di->setter['Ushahidi_Formatter_Tag']['setAuth']    = $di->lazyGet('authorizer.tag');
 
 		// Collection Formatter factory
 		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');

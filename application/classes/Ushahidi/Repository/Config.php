@@ -9,20 +9,58 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity\Config as ConfigEntity;
 use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Usecase\ReadRepository;
+use Ushahidi\Core\Usecase\UpdateRepository;
+use Ushahidi\Core\Exception\NotFoundException;
 
-class Ushahidi_Repository_Config implements ConfigRepository
+class Ushahidi_Repository_Config implements
+	ReadRepository,
+	UpdateRepository,
+	ConfigRepository
 {
+
+	// ReadRepository
+	public function getEntity(Array $data = null)
+	{
+		return new ConfigEntity($data);
+	}
+
+	// ReadRepository
+	public function get($group)
+	{
+		$this->verifyGroup($group);
+
+		$config = \Kohana::$config->load($group)->as_array();
+
+		return new ConfigEntity(['id' => $group] + $config);
+	}
+
+	// UpdateRepository
+	public function update($group, Data $input)
+	{
+		$this->verifyGroup($group);
+
+		$config = \Kohana::$config->load($group);
+		$update = $input->asArray();
+
+		foreach ($update as $key => $val) {
+			$config->set($key, $val);
+		}
+	}
+
+	// ConfigRepository
 	public function groups()
 	{
-		return array(
+		return [
 			'site',
 			'test',
 			'features',
 			'data-provider',
 			'map'
-		);
+		];
 	}
 
 	/**
@@ -33,7 +71,7 @@ class Ushahidi_Repository_Config implements ConfigRepository
 	protected function verifyGroup($group)
 	{
 		if ($group && !in_array($group, $this->groups())) {
-			throw new \InvalidArgumentException("Requested group does not exist: " . $group);
+			throw new NotFoundException('Requested group does not exist: ' . $group);
 		}
 	}
 
@@ -42,17 +80,18 @@ class Ushahidi_Repository_Config implements ConfigRepository
 	 * @throws InvalidArgumentException when any group is invalid
 	 * @return void
 	 */
-	protected function verifyGroups(array $groups)
+	protected function verifyGroups(Array $groups)
 	{
 		$invalid = array_diff(array_values($groups), $this->groups());
 		if ($invalid) {
-			throw new \InvalidArgumentException(
-				"Requested groups do not exist: " . implode(', ', $invalid)
+			throw new NotFoundException(
+				'Requested groups do not exist: ' . implode(', ', $invalid)
 			);
 		}
 	}
 
-	public function all(array $groups = null)
+	// ConfigRepository
+	public function all(Array $groups = null)
 	{
 		if ($groups) {
 			$this->verifyGroups($groups);
@@ -62,33 +101,10 @@ class Ushahidi_Repository_Config implements ConfigRepository
 
 		$result = array();
 		foreach ($groups as $group) {
-			$config = Kohana::$config->load($group)->as_array();
+			$config = \Kohana::$config->load($group)->as_array();
 			$result[] = new ConfigEntity(['id' => $group] + $config);
 		}
 
 		return $result;
-	}
-
-	public function get($group)
-	{
-		$this->verifyGroup($group);
-
-		$config = Kohana::$config->load($group)->as_array();
-
-		return new ConfigEntity(['id' => $group] + $config);
-	}
-
-	public function set($group, $key, $value)
-	{
-		$this->verifyGroup($group);
-
-		if ($key === 'id') {
-			return $group;
-		}
-
-		$config = Kohana::$config->load($group);
-		$config->set($key, $value);
-
-		return $this->get($group);
 	}
 }

@@ -37,7 +37,7 @@ class DeleteUsecase implements Usecase
 		$this->setAuthorizer($tools['auth']);
 	}
 
-	private function setRepository(DeleteRepository $repo)
+	protected function setRepository(DeleteRepository $repo)
 	{
 		$this->repo = $repo;
 	}

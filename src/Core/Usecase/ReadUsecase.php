@@ -38,7 +38,7 @@ class ReadUsecase implements Usecase
 		$this->setAuthorizer($tools['auth']);
 	}
 
-	private function setRepository(ReadRepository $repo)
+	protected function setRepository(ReadRepository $repo)
 	{
 		$this->repo = $repo;
 	}

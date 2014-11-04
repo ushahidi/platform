@@ -42,7 +42,7 @@ class UpdateUsecase implements Usecase
 		$this->setRepository($tools['repo']);
 	}
 
-	private function setRepository(UpdateRepository $repo)
+	protected function setRepository(UpdateRepository $repo)
 	{
 		$this->repo = $repo;
 	}

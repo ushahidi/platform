@@ -48,7 +48,7 @@ class UpdatePost
 		$this->setRepository($tools['repo']);
 	}
 
-	private function setRepository(UpdatePostRepository $repo)
+	protected function setRepository(UpdatePostRepository $repo)
 	{
 		$this->repo = $repo;
 	}

@@ -21,6 +21,10 @@ class Ushahidi_Formatter_Collection extends CollectionFormatter
 	{
 		$params = $input->getSortingParams();
 
+		if (!$params) {
+			return []; // this collection does not appear to be paged
+		}
+
 		$prev_params = $next_params = $params;
 		$next_params['offset'] = $params['offset'] + $params['limit'];
 		$prev_params['offset'] = $params['offset'] - $params['limit'];

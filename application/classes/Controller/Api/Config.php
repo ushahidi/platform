@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Controller_Api_Config extends Ushahidi_Api {
+class Controller_Api_Config extends Ushahidi_Rest {
 
 	/**
 	 * @var array Map of HTTP methods -> actions
@@ -21,36 +21,20 @@ class Controller_Api_Config extends Ushahidi_Api {
 		Http_Request::OPTIONS => 'options',
 	);
 
-	/**
-	 * @var string Field to sort results by
-	 */
-	protected $_record_orderby = 'id';
-
-	/**
-	 * @var string Direct to sort results
-	 */
-	protected $_record_order = 'ASC';
-
-	/**
-	 * @var int Maximum number of results to return
-	 */
-	protected $_record_allowed_orderby = array('id', 'created', 'config_key');
-
-	/**
-	 * @var string oauth2 scope required for access
-	 */
-	protected $_scope_required = 'config';
-
-	/**
-	 * Load resource object
-	 *
-	 * @return void
-	 */
-	protected function _resource()
+	protected function _scope()
 	{
-		parent::_resource();
+		return 'config';
+	}
 
-		$this->_resource = 'config';
+	protected function _is_auth_required()
+	{
+		if (parent::_is_auth_required())
+		{
+			// Completely anonymous access is allowed for (some) GET requests.
+			// Further checks are made down the stack.
+			return ($this->request->method() !== Request::GET);
+		}
+		return FALSE;
 	}
 
 	/**
@@ -62,35 +46,9 @@ class Controller_Api_Config extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$groups = (array) $this->request->query('groups');
+		$endpoint = service('factory.endpoint')->get('config', 'search');
 
-		$repo = service('repository.config');
-		$authorizer = service('tool.authorizer.config');
-		try
-		{
-			$results = $repo->all($groups);
-		}
-		catch (InvalidArgumentException $e)
-		{
-			throw HTTP_Exception::factory(404, $e->getMessage());
-		}
-
-		$user = $this->user;
-		$results = array_filter($results, function (\Ushahidi\Core\Entity\Config $config) use ($authorizer, $user)
-		{
-			return $authorizer->isAllowed($config, 'get', $user);
-		});
-
-		$results = array_map(array($this, '_for_api'), $results);
-		$count = count($results);
-
-		// Respond with posts
-		$this->_response_payload = array(
-			'count' => $count,
-			'results' => $results
-		);
-
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+		$this->_restful($endpoint, $this->request->query());
 	}
 
 	/**
@@ -102,28 +60,11 @@ class Controller_Api_Config extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$group = $this->request->param('id');
+		$endpoint = service('factory.endpoint')->get('config', 'read');
 
-		$repo = service('repository.config');
-		$authorizer = service('tool.authorizer.config');
+		$request = ['id' => $this->request->param('id')];
 
-		try
-		{
-			$config = $repo->get($group);
-		}
-		catch (InvalidArgumentException $e)
-		{
-			throw HTTP_Exception::factory(404, $e->getMessage());
-		}
-
-		if (! $authorizer->isAllowed($config, 'get'))
-		{
-			throw HTTP_Exception::factory('403', 'You do not have permission to access config group :group', array(
-				':group' => $group
-				));
-		}
-
-		$this->_response_payload = $this->_for_api($config);
+		$this->_restful($endpoint, $request);
 	}
 
 	/**
@@ -135,30 +76,11 @@ class Controller_Api_Config extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$post = $this->_request_payload;
-		$group = $this->request->param('id');
+		$endpoint = service('factory.endpoint')->get('config', 'update');
 
-		$repo = service('repository.config');
-		try
-		{
-			foreach ($post as $key => $value)
-			{
-				$repo->set($group, $key, $value);
-			}
-		}
-		catch (InvalidArgumentException $e)
-		{
-			throw HTTP_Exception::factory(404, $e->getMessage());
-		}
+		$request = $this->_request_payload;
+		$request['id'] = $this->request->param('id');
 
-		return $this->action_get_index();
+		$this->_restful($endpoint, $request);
 	}
-
-	protected function _for_api(\Ushahidi\Core\Entity\Config $config)
-	{
-		return (array) $config + array(
-			'allowed_methods' => $this->_allowed_methods()
-		);
-	}
-
 }

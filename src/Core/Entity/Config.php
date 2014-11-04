@@ -16,6 +16,8 @@ use Ushahidi\Core\Traits\ArrayExchange;
 
 class Config extends Entity
 {
+	public $id;
+
 	public function setData($data)
 	{
 		// Config is one of the few entities that does not have a static set
