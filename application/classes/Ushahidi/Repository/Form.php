@@ -64,4 +64,10 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 
 		return $this->executeUpdate(compact('id'), $update);
 	}
+
+	// FormRepository
+	public function doesFormExist($id)
+	{
+		return (bool) $this->selectCount(compact('id'));
+	}
 }

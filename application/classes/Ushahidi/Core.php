@@ -105,6 +105,13 @@ abstract class Ushahidi_Core {
 			'delete' => $di->lazyNew('Ushahidi_Parser_Form_Read'),
 			'search' => $di->lazyNew('Ushahidi_Parser_Form_Search'),
 		];
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['form_groups'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Form_Group_Write'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_Form_Group_Read'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Form_Group_Write'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Form_Group_Read'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Form_Group_Search'),
+		];
 		$di->params['Ushahidi\Factory\ParserFactory']['map']['layers'] = [
 			'create' => $di->lazyNew('Ushahidi_Parser_Layer_Create'),
 			'read'   => $di->lazyNew('Ushahidi_Parser_Layer_Read'),
@@ -142,6 +149,11 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Update'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Form_Delete'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_groups'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Form_Group_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Form_Group_Update'),
+			'delete' => $di->lazyNew('Ushahidi_Validator_Form_Group_Delete'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['layers'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Layer_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Layer_Update'),
@@ -161,6 +173,9 @@ abstract class Ushahidi_Core {
 		];
 
 		// Validator parameters
+		$di->params['Ushahidi_Validator_Form_Group_Update'] = [
+			'form_repo' => $di->lazyGet('repository.form'),
+		];
 		$di->params['Ushahidi_Validator_Layer_Update'] = [
 		 	'repo' => $di->lazyGet('repository.layer'),
 		 	'media' => $di->lazyGet('repository.media'),
@@ -171,19 +186,27 @@ abstract class Ushahidi_Core {
 
 		// Formatter mapping
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
-			'config' => $di->lazyNew('Ushahidi_Formatter_Config'),
-			'forms'  => $di->lazyNew('Ushahidi_Formatter_Form'),
-			'layers' => $di->lazyNew('Ushahidi_Formatter_Layer'),
-			'media'  => $di->lazyNew('Ushahidi_Formatter_Media'),
-			'posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
-			'tags'   => $di->lazyNew('Ushahidi_Formatter_Tag'),
+			'config'      => $di->lazyNew('Ushahidi_Formatter_Config'),
+			'forms'       => $di->lazyNew('Ushahidi_Formatter_Form'),
+			'form_groups' => $di->lazyNew('Ushahidi_Formatter_Form_Group'),
+			'layers'      => $di->lazyNew('Ushahidi_Formatter_Layer'),
+			'media'       => $di->lazyNew('Ushahidi_Formatter_Media'),
+			'posts'       => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'tags'        => $di->lazyNew('Ushahidi_Formatter_Tag'),
 		];
 
 		// Formatter parameters
-		$di->setter['Ushahidi_Formatter_Config']['setAuth'] = $di->lazyGet('authorizer.config');
-		$di->setter['Ushahidi_Formatter_Form']['setAuth']   = $di->lazyGet('authorizer.form');
-		$di->setter['Ushahidi_Formatter_Media']['setAuth']  = $di->lazyGet('authorizer.media');
-		$di->setter['Ushahidi_Formatter_Tag']['setAuth']    = $di->lazyGet('authorizer.tag');
+		foreach ([
+			'config',
+			'form',
+			'form_group',
+			'media',
+			'tag',
+		] as $name)
+		{
+			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
+				$di->lazyGet("authorizer.$name");
+		}
 
 		// Collection Formatter factory
 		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');
@@ -222,6 +245,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
+		$di->set('repository.form_group', $di->lazyNew('Ushahidi_Repository_Form_Group'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_FormAttribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));

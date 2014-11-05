@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Repository for Form
+ * Ushahidi Form Group
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,17 +11,18 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface FormRepository
-{
-	/**
-	 * @param  Integer $id
-	 * @return Form
-	 */
-	public function get($id);
+use Ushahidi\Core\Entity;
 
-	/**
-	 * @param  Integer $id
-	 * @return Boolean
-	 */
-	public function doesFormExist($id);
+class FormGroup extends Entity
+{
+	public $id;
+	public $form_id;
+	public $label;
+	public $priority;
+	public $icon;
+
+	public function getResource()
+	{
+		return 'form_groups';
+	}
 }

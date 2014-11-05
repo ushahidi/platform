@@ -27,6 +27,7 @@ trait VerifyEntityLoaded
 	 * @param  Entity  $entity
 	 * @param  Integer $lookup_id
 	 * @return void
+	 * @throws NotFoundException
 	 */
 	private function verifyEntityLoaded(Entity $entity, $lookup_id)
 	{

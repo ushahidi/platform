@@ -78,13 +78,14 @@ $di->set('factory.authorizer', $di->lazyNew('Ushahidi\Factory\AuthorizerFactory'
 
 // Authorizers are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
-	'config' => $di->lazyGet('authorizer.config'),
-	'forms'  => $di->lazyGet('authorizer.form'),
-	'tags'   => $di->lazyGet('authorizer.tag'),
-	'layers' => $di->lazyGet('authorizer.layer'),
-	'media'  => $di->lazyGet('authorizer.media'),
-	'posts'  => $di->lazyGet('authorizer.post'),
-	'tags'   => $di->lazyGet('authorizer.tag'),
+	'config'      => $di->lazyGet('authorizer.config'),
+	'forms'       => $di->lazyGet('authorizer.form'),
+	'form_groups' => $di->lazyGet('authorizer.form_group'),
+	'tags'        => $di->lazyGet('authorizer.tag'),
+	'layers'      => $di->lazyGet('authorizer.layer'),
+	'media'       => $di->lazyGet('authorizer.media'),
+	'posts'       => $di->lazyGet('authorizer.post'),
+	'tags'        => $di->lazyGet('authorizer.tag'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -92,12 +93,13 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
-	'config' => $di->lazyGet('repository.config'),
-	'forms'  => $di->lazyGet('repository.form'),
-	'layers' => $di->lazyGet('repository.layer'),
-	'media'  => $di->lazyGet('repository.media'),
-	'posts'  => $di->lazyGet('repository.post'),
-	'tags'   => $di->lazyGet('repository.tag'),
+	'config'      => $di->lazyGet('repository.config'),
+	'forms'       => $di->lazyGet('repository.form'),
+	'form_groups' => $di->lazyGet('repository.form_group'),
+	'layers'      => $di->lazyGet('repository.layer'),
+	'media'       => $di->lazyGet('repository.media'),
+	'posts'       => $di->lazyGet('repository.post'),
+	'tags'        => $di->lazyGet('repository.tag'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -139,6 +141,15 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [];
 // Config does not allow ordering or sorting, because of its simple key/value nature.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['config'] = [
 	'search' => $di->newFactory('Ushahidi\Core\Usecase\Config\SearchConfig'),
+];
+
+// Form sub-endpoints must verify that the form exists before anything else.
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_groups'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormGroup'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormGroup'),
+	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormGroup'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormGroup'),
+	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormGroup'),
 ];
 
 // Add custom usecases for posts
@@ -203,16 +214,20 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory']['factory'] = $di->newFactory
 //     ['special' => true] /* adds "search" action */
 //
 $di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
-	'config' => ['delete' => false, 'post' => false], // config cannot be deleted or created, only updated
-	'forms'  => [],
-	'tags'   => [],
-	'layers' => [],
-	'media'  => ['update' => false], // disable update action, media can only be created and deleted
-	'tags'   => [],
+	// config cannot be deleted or created, only updated
+	'config'      => ['delete' => false, 'post' => false],
+	'forms'       => [],
+	'form_groups' => [],
+	'tags'        => [],
+	'layers'      => [],
+	// media cannot be updated, only created and deleted
+	'media'       => ['update' => false],
+	'tags'        => [],
 ];
 
 // Traits
 $di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
+$di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
@@ -224,15 +239,19 @@ $di->params['Ushahidi\Core\Tool\Uploader'] = [
 $di->set('authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));
 $di->set('authorizer.form', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\FormAuthorizer'] = [
-	'form_repo' => $di->lazyGet('repository.form')
+	'form_repo' => $di->lazyGet('repository.form'),
+	];
+$di->set('authorizer.form_group', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'));
+$di->params['Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'] = [
+	'form_repo' => $di->lazyGet('repository.form'),
+	'form_auth' => $di->lazyGet('authorizer.form'),
 	];
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
-
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
-	'post_repo' => $di->lazyGet('repository.post')
+	'post_repo' => $di->lazyGet('repository.post'),
 	];
 
 // Use cases
