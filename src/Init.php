@@ -177,14 +177,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['write'] = [
 // delivery layer. The endpoint factory is a meta-factory that composes each use
 // case when it is required.
 $di->set('factory.endpoint', $di->lazyNew('Ushahidi\Api\Factory\EndpointFactory'));
-$di->params['Ushahidi\Api\Factory\EndpointFactory'] = [
-	'parsers'      => $di->lazyGet('factory.parser'),
-	'usecases'     => $di->lazyGet('factory.usecase'),
-	'authorizers'  => $di->lazyGet('factory.authorizer'),
-	'repositories' => $di->lazyGet('factory.repository'),
-	'formatters'   => $di->lazyGet('factory.formatter'),
-];
-
+$di->params['Ushahidi\Api\Factory\EndpointFactory']['parsers'] = $di->lazyGet('factory.parser');
+$di->params['Ushahidi\Api\Factory\EndpointFactory']['usecases'] = $di->lazyGet('factory.usecase');
+$di->params['Ushahidi\Api\Factory\EndpointFactory']['authorizers']  = $di->lazyGet('factory.authorizer');
+$di->params['Ushahidi\Api\Factory\EndpointFactory']['repositories'] = $di->lazyGet('factory.repository');
+$di->params['Ushahidi\Api\Factory\EndpointFactory']['formatters'] = $di->lazyGet('factory.formatter');
 // Parsing and formatting happen outside the usecase, in the Endpoint wrapper.
 $di->params['Ushahidi\Api\Factory\EndpointFactory']['factory'] = $di->newFactory('Ushahidi\Api\Endpoint');
 
