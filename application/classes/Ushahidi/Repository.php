@@ -12,6 +12,7 @@
 use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase;
+use Ushahidi\Core\Traits\CollectionLoader;
 
 abstract class Ushahidi_Repository implements
 	Usecase\CreateRepository,
@@ -20,6 +21,9 @@ abstract class Ushahidi_Repository implements
 	Usecase\DeleteRepository,
 	Usecase\SearchRepository
 {
+
+	use CollectionLoader;
+
 	protected $db;
 	protected $search_query;
 
@@ -272,21 +276,5 @@ abstract class Ushahidi_Repository implements
 
 		$count = $query->execute($this->db);
 		return $count;
-	}
-
-	/**
-	 * Converts an array of results into an array of entities,
-	 * indexed by the entity id.
-	 * @param  Array $results
-	 * @return Array
-	 */
-	protected function getCollection(Array $results)
-	{
-		$collection = [];
-		foreach ($results as $row) {
-			$entity = $this->getEntity($row);
-			$collection[$entity->id] = $entity;
-		}
-		return $collection;
 	}
 }
