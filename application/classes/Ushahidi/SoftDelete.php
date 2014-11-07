@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Find Post Entity Trait
+ * Ushahidi SoftDelete Trait
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
