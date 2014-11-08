@@ -106,13 +106,25 @@ abstract class Ushahidi_Rest extends Controller {
 	}
 
 	/**
-	 * Get options for a resource.
+	 * Get options for a resource collection.
 	 *
 	 * OPTIONS /api/foo
 	 *
 	 * @return void
 	 */
 	public function action_options_index_collection()
+	{
+		$this->response->status(200);
+	}
+
+	/**
+	 * Get options for a resource.
+	 *
+	 * OPTIONS /api/foo
+	 *
+	 * @return void
+	 */
+	public function action_options_index()
 	{
 		$this->response->status(200);
 	}
