@@ -91,6 +91,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'tags'          => $di->lazyGet('authorizer.tag'),
 	'layers'        => $di->lazyGet('authorizer.layer'),
 	'media'         => $di->lazyGet('authorizer.media'),
+	'messages'      => $di->lazyGet('authorizer.message'),
 	'posts'         => $di->lazyGet('authorizer.post'),
 	'tags'          => $di->lazyGet('authorizer.tag'),
 ];
@@ -106,6 +107,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'form_groups'   => $di->lazyGet('repository.form_group'),
 	'layers'        => $di->lazyGet('repository.layer'),
 	'media'         => $di->lazyGet('repository.media'),
+	'messages'      => $di->lazyGet('repository.message'),
 	'posts'         => $di->lazyGet('repository.post'),
 	'tags'          => $di->lazyGet('repository.tag'),
 ];
@@ -158,6 +160,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_groups'] = [
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormGroup'),
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormGroup'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormGroup'),
+];
+
+// Message update requires extra validation of message direction+status.
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
+	'update' => $di->lazyNew('Ushahidi\Core\Usecase\Message\UpdateMessage'),
 ];
 
 // Add custom usecases for posts
@@ -232,6 +239,8 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
 	'layers'        => [],
 	// media cannot be updated, only created and deleted
 	'media'         => ['update' => false],
+	// messages cannot be deleted, only archived (via update)
+	'messages'      => ['delete' => false],
 	'tags'          => [],
 ];
 
@@ -259,6 +268,7 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'] = [
 	];
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
+$di->set('authorizer.message', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MessageAuthorizer'));
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [

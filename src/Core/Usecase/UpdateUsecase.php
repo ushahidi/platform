@@ -13,6 +13,7 @@ namespace Ushahidi\Core\Usecase;
 
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
 use Ushahidi\Core\Traits\VerifyEntityLoaded;
@@ -47,6 +48,18 @@ class UpdateUsecase implements Usecase
 		$this->repo = $repo;
 	}
 
+	/**
+	 * Before validation, allow additional binding of input/entity values to
+	 * the validator. Can be overloaded as necessary by specific use cases.
+	 * @param  Entity $entity
+	 * @param  Data   $input
+	 * @return void
+	 */
+	protected function beforeValidate(Entity $entity, Data $input)
+	{
+		// Nothing by default, overloaded uses cases can overload.
+	}
+
 	public function interact(Data $input)
 	{
 		$entity = $this->getEntity($input);
@@ -54,6 +67,9 @@ class UpdateUsecase implements Usecase
 		$this->verifyEntityLoaded($entity, $input->id);
 
 		$this->verifyUpdateAuth($entity, $input);
+
+		// Apply additional validation bindings *before* data diff.
+		$this->beforeValidate($entity, $input);
 
 		// We only want to work with values that have been changed
 		$update = $input->getDifferent($entity->asArray());

@@ -70,7 +70,7 @@ Feature: Testing the Messages API
         And the response has a "errors" property
         Then the guzzle status code should be 400
 
-    Scenario: Updating an outoing message
+    Scenario: Updating an outgoing message should only update status
         Given that I want to update a "Message"
         And that the request "data" is:
             """
@@ -114,7 +114,6 @@ Feature: Testing the Messages API
         And the "count" property equals "7"
         Then the guzzle status code should be 200
 
-    @resetFixture
     Scenario: Listing All Messages in the inbox
         Given that I want to get all "Messages"
         And that the request "query string" is:
@@ -128,7 +127,6 @@ Feature: Testing the Messages API
         And the "count" property equals "5"
         Then the guzzle status code should be 200
 
-    @resetFixture
     Scenario: Search All Messages
         Given that I want to get all "Messages"
         And that the request "query string" is:
@@ -140,7 +138,6 @@ Feature: Testing the Messages API
         And the "count" property equals "2"
         Then the guzzle status code should be 200
 
-    @resetFixture
     Scenario: Search All Messages by type
         Given that I want to get all "Messages"
         And that the request "query string" is:
@@ -153,7 +150,6 @@ Feature: Testing the Messages API
         And the "results.0.id" property equals "3"
         Then the guzzle status code should be 200
 
-    @resetFixture
     Scenario: Search All Messages by direction
         Given that I want to get all "Messages"
         And that the request "query string" is:
@@ -165,7 +161,6 @@ Feature: Testing the Messages API
         And the "count" property equals "2"
         Then the guzzle status code should be 200
 
-    @resetFixture
     Scenario: Search All Messages by status
         Given that I want to get all "Messages"
         And that the request "query string" is:
@@ -178,7 +173,6 @@ Feature: Testing the Messages API
         And the "results.0.id" property equals "7"
         Then the guzzle status code should be 200
 
-    @resetFixture
     Scenario: Get all messages regardless of status
         Given that I want to get all "Messages"
         And that the request "query string" is:
@@ -190,7 +184,6 @@ Feature: Testing the Messages API
         And the "count" property equals "8"
         Then the guzzle status code should be 200
 
-    @resetFixture
     Scenario: Search All Messages by provider
         Given that I want to get all "Messages"
         And that the request "query string" is:
@@ -231,3 +224,36 @@ Feature: Testing the Messages API
         And that its "id" is "35"
         When I request "/messages"
         Then the guzzle status code should be 405
+
+    @resetFixture @post
+    Scenario: Creating a new Post from a Message
+        Given that I want to make a new "Post"
+        And that the request "data" is:
+            """
+            {
+                "form": 2
+            }
+            """
+        When I request "/messages/1/post"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the response has a "title" property
+        And the "title" property equals "abc"
+        And the response has a "content" property
+        And the "content" property equals "A test message"
+        And the "form.id" property equals "2"
+        Then the guzzle status code should be 200
+
+    Scenario: Finding a Post from a Message
+        Given that I want to find a "Post"
+        When I request "/messages/1/post"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the response has a "title" property
+        And the "title" property equals "abc"
+        And the response has a "content" property
+        And the "content" property equals "A test message"
+        And the "form.id" property equals "2"
+        Then the guzzle status code should be 200

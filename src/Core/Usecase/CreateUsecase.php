@@ -48,8 +48,23 @@ class CreateUsecase implements Usecase
 		$this->repo = $repo;
 	}
 
+	/**
+	 * Before validation, allow additional binding of input/entity values to
+	 * the validator. Can be overloaded as necessary by specific use cases.
+	 * @param  Entity $entity
+	 * @param  Data   $input
+	 * @return void
+	 */
+	protected function beforeValidate(Data $input)
+	{
+		// Nothing by default, overloaded uses cases can overload.
+	}
+
 	public function interact(Data $input)
 	{
+		// Apply additional validation bindings.
+		$this->beforeValidate($input);
+
 		if (!$this->valid->check($input)) {
 			throw new ValidatorException('Failed to validate data for create', $this->valid->errors());
 		}
