@@ -76,7 +76,7 @@ class Ushahidi_Config_Database extends Config_Database
 	 */
 	protected function _decode($value)
 	{
-		return json_decode($value);
+		return json_decode($value, true);
 	}
 
 }

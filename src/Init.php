@@ -61,6 +61,12 @@ function feature($name)
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
+// Console application is used for command line tools.
+$di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
+
+// Any command can be registered with the console app.
+$di->params['Ushahidi\Console\Application']['injectCommands'] = [];
+
 // Parsers are used to parse request data used for read operations.
 $di->set('factory.parser', $di->lazyNew('Ushahidi\Factory\ParserFactory'));
 
