@@ -1,4 +1,4 @@
-@oauth2Skip
+@oauth2Skip @forms @form_attributes
 Feature: Testing the Form Attributes API
 
     Scenario: Creating a new Attribute
@@ -17,7 +17,7 @@ Feature: Testing the Form Attributes API
                 "options":{}
             }
             """
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -37,7 +37,26 @@ Feature: Testing the Form Attributes API
                 "priority":1
             }
             """
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
+    Scenario: Creating a new Attribute on a Group with the wrong Form ID
+        Given that I want to make a new "Attribute"
+        And that the request "data" is:
+            """
+            {
+                "form_group":1,
+                "key":"some_key",
+                "label":"Hey a Thing",
+                "type":"varchar",
+                "input":"text",
+                "required":true,
+                "priority":1
+            }
+            """
+        When I request "/forms/2/attributes"
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 400
@@ -61,7 +80,7 @@ Feature: Testing the Form Attributes API
                 ]
             }
             """
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         Then the response is JSON
         And the "key" property equals "value_test"
         And the "label" property equals "Value test"
@@ -87,7 +106,7 @@ Feature: Testing the Form Attributes API
             }
             """
         And that its "id" is "1"
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -110,14 +129,14 @@ Feature: Testing the Form Attributes API
             }
             """
         And that its "id" is "40"
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 404
 
     Scenario: Listing All Attributes
         Given that I want to get all "Attributes"
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
@@ -126,7 +145,7 @@ Feature: Testing the Form Attributes API
     Scenario: Finding a Attribute
         Given that I want to find a "Attribute"
         And that its "id" is "1"
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -135,7 +154,7 @@ Feature: Testing the Form Attributes API
     Scenario: Finding a non-existent Attribute
         Given that I want to find a "Attribute"
         And that its "id" is "35"
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 404
@@ -143,12 +162,12 @@ Feature: Testing the Form Attributes API
     Scenario: Deleting a Attribute
         Given that I want to delete a "Attribute"
         And that its "id" is "1"
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         Then the guzzle status code should be 200
 
     Scenario: Deleting a non-existent Attribute
         Given that I want to delete a "Attribute"
         And that its "id" is "35"
-        When I request "/attributes"
+        When I request "/forms/1/attributes"
         And the response has a "errors" property
         Then the guzzle status code should be 404

@@ -116,6 +116,13 @@ abstract class Ushahidi_Core {
 			'delete' => $di->lazyNew('Ushahidi_Parser_Form_Read'),
 			'search' => $di->lazyNew('Ushahidi_Parser_Form_Search'),
 		];
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['form_attributes'] = [
+			'create' => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Create'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Read'),
+			'update' => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Update'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Read'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Search'),
+		];
 		$di->params['Ushahidi\Factory\ParserFactory']['map']['form_groups'] = [
 			'create' => $di->lazyNew('Ushahidi_Parser_Form_Group_Write'),
 			'read'   => $di->lazyNew('Ushahidi_Parser_Form_Group_Read'),
@@ -166,6 +173,10 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Update'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Form_Delete'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_attributes'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Form_Attribute_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Form_Attribute_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_groups'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Group_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Group_Update'),
@@ -210,6 +221,7 @@ abstract class Ushahidi_Core {
 			'config'        => $di->lazyNew('Ushahidi_Formatter_Config'),
 			'dataproviders' => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
 			'forms'         => $di->lazyNew('Ushahidi_Formatter_Form'),
+			'form_attributes' => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
 			'form_groups'   => $di->lazyNew('Ushahidi_Formatter_Form_Group'),
 			'layers'        => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'         => $di->lazyNew('Ushahidi_Formatter_Media'),
@@ -223,6 +235,7 @@ abstract class Ushahidi_Core {
 			'config',
 			'dataprovider',
 			'form',
+			'form_attribute',
 			'form_group',
 			'media',
 			'message',
@@ -240,6 +253,7 @@ abstract class Ushahidi_Core {
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
 		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
 		// Handle filesystem using local paths for now... lots of other options:
 		// https://github.com/thephpleague/flysystem/tree/master/src/Adapter
@@ -272,7 +286,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_group', $di->lazyNew('Ushahidi_Repository_Form_Group'));
-		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_FormAttribute'));
+		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_Form_Attribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
@@ -283,6 +297,17 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
+
+		// Repository parameters
+		foreach ([
+			'form_attribute',
+			'layer',
+			'tag',
+		] as $name)
+		{
+			$di->setter['Ushahidi_Repository_' . Text::ucfirst($name, '_')]['setTranscoder'] =
+				$di->lazyGet('tool.jsontranscode');
+		}
 
 		// Abstract repository parameters
 		$di->params['Ushahidi_Repository'] = [

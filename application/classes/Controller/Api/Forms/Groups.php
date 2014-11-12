@@ -26,10 +26,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Rest {
 	public function action_post_index_collection()
 	{
 		$endpoint = service('factory.endpoint')->get('form_groups', 'create');
-
-		$request = ['form_id' => $this->request->param('form_id')] + $this->_request_payload;
-
-		$this->_restful($endpoint, $request);
+		$this->_restful($endpoint, $this->_request_payload + $this->request->param());
 	}
 
 	/**
@@ -42,22 +39,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Rest {
 	public function action_get_index_collection()
 	{
 		$endpoint = service('factory.endpoint')->get('form_groups', 'search');
-
-		$request = ['form_id' => $this->request->param('form_id')];
-
-		$this->_restful($endpoint, $request);
-	}
-
-	/**
-	 * Get the standard request parameters from the URL.
-	 * @return Array [form_id, id]
-	 */
-	private function _get_request_params()
-	{
-		return [
-			'form_id' => $this->request->param('form_id'),
-			'id'      => $this->request->param('id'),
-		];
+		$this->_restful($endpoint, $this->request->param());
 	}
 
 	/**
@@ -70,10 +52,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Rest {
 	public function action_get_index()
 	{
 		$endpoint = service('factory.endpoint')->get('form_groups', 'read');
-
-		$request = $this->_get_request_params();
-
-		$this->_restful($endpoint, $request);
+		$this->_restful($endpoint, $this->request->param());
 	}
 
 	/**
@@ -86,10 +65,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Rest {
 	public function action_put_index()
 	{
 		$endpoint = service('factory.endpoint')->get('form_groups', 'update');
-
-		$request = $this->_request_payload + $this->_get_request_params();
-
-		$this->_restful($endpoint, $request);
+		$this->_restful($endpoint, $this->_request_payload + $this->request->param());
 	}
 
 	/**
@@ -102,9 +78,6 @@ class Controller_API_Forms_Groups extends Ushahidi_Rest {
 	public function action_delete_index()
 	{
 		$endpoint = service('factory.endpoint')->get('form_groups', 'delete');
-
-		$request = $this->_get_request_params();
-
-		$this->_restful($endpoint, $request);
+		$this->_restful($endpoint, $this->request->param());
 	}
 }

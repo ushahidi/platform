@@ -23,30 +23,28 @@ class Ushahidi_Formatter_API implements Formatter
 		if (!($entity instanceof Entity))
 			throw new FormatterException("API formatter requries an Entity as input");
 
-		$fields = array_keys($entity->asArray());
-		$fields = array_combine($fields, $fields);
+		$fields = $entity->asArray();
 
 		$data = [
 			'id'  => $entity->id,
 			'url' => URL::site(Ushahidi_Api::url($entity->getResource(), $entity->id), Request::current()),
 			];
 
-		if (isset($fields['parent_id']))
+		if (array_key_exists('parent_id', $fields))
 		{
 			$data['parent'] = $this->get_relation($entity->getResource(), $entity->parent_id);
 			unset($fields['parent_id']);
 		}
 
-		if (isset($fields['user_id']))
+		if (array_key_exists('user_id', $fields))
 		{
 			$data['user'] = $this->get_relation('users', $entity->user_id);
 			unset($fields['user_id']);
 		}
 
-		foreach ($fields as $field)
+		foreach ($fields as $field => $value)
 		{
 			$name = $this->get_field_name($field);
-			$value = $entity->$field;
 			if (is_string($value))
 			{
 				$value = trim($value);

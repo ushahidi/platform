@@ -65,6 +65,7 @@ form_attributes:
     priority: 1
     options: ""
     cardinality: 1
+    form_group_id: 1
   -
     id: 2
     label: "Test point"
@@ -75,6 +76,7 @@ form_attributes:
     priority: 1
     options: ""
     cardinality: 1
+    form_group_id: 1
   -
     id: 3
     label: "Full Name"
@@ -85,6 +87,7 @@ form_attributes:
     priority: 1
     options: ""
     cardinality: 1
+    form_group_id: 1
   -
     id: 4
     label: "Description"
@@ -95,6 +98,7 @@ form_attributes:
     priority: 2
     options: ""
     cardinality: 1
+    form_group_id: 1
   -
     id: 5
     label: "Date of birth"
@@ -105,6 +109,7 @@ form_attributes:
     priority: 3
     options: ""
     cardinality: 1
+    form_group_id: 1
   -
     id: 6
     label: "Missing date"
@@ -115,6 +120,7 @@ form_attributes:
     priority: 4
     options: ""
     cardinality: 1
+    form_group_id: 1
   -
     id: 7
     label: "Last Location"
@@ -125,6 +131,7 @@ form_attributes:
     priority: 5
     options: ""
     cardinality: 1
+    form_group_id: 1
   -
     id: 8
     label: "Last Location (point)"
@@ -135,6 +142,7 @@ form_attributes:
     priority: 5
     options: ""
     cardinality: 0
+    form_group_id: 1
   -
     id: 9
     label: "Geometry test"
@@ -145,6 +153,7 @@ form_attributes:
     priority: 5
     options: ""
     cardinality: 1
+    form_group_id: 1
   -
     id: 10
     label: "Status"
@@ -155,6 +164,7 @@ form_attributes:
     options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
     priority: 5
     cardinality: 0
+    form_group_id: 1
   -
     id: 11
     label: "Links"
@@ -164,6 +174,7 @@ form_attributes:
     required: 0
     priority: 7
     cardinality: 0
+    form_group_id: 1
   -
     id: 12
     label: "Second Point"
@@ -174,46 +185,7 @@ form_attributes:
     priority: 5
     options: ""
     cardinality: 1
-form_groups_form_attributes:
-  -
     form_group_id: 1
-    form_attribute_id: 1
-  -
-    form_group_id: 1
-    form_attribute_id: 2
-  -
-    form_group_id: 1
-    form_attribute_id: 3
-  -
-    form_group_id: 1
-    form_attribute_id: 4
-  -
-    form_group_id: 1
-    form_attribute_id: 5
-  -
-    form_group_id: 1
-    form_attribute_id: 6
-  -
-    form_group_id: 1
-    form_attribute_id: 7
-  -
-    form_group_id: 1
-    form_attribute_id: 8
-  -
-    form_group_id: 1
-    form_attribute_id: 9
-  -
-    form_group_id: 1
-    form_attribute_id: 10
-  -
-    form_group_id: 1
-    form_attribute_id: 11
-  -
-    form_group_id: 2
-    form_attribute_id: 10
-  -
-    form_group_id: 1
-    form_attribute_id: 12
 posts:
   -
     id: 1
