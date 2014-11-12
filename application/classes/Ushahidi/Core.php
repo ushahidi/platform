@@ -98,6 +98,10 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Parser_Config_Update'),
 			'search' => $di->lazyNew('Ushahidi_Parser_Config_Search'),
 		];
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['dataproviders'] = [
+			'read'   => $di->lazyNew('Ushahidi_Parser_Dataprovider_Read'),
+			'search' => $di->lazyNew('Ushahidi_Parser_Dataprovider_Search'),
+		];
 		$di->params['Ushahidi\Factory\ParserFactory']['map']['forms'] = [
 			'create' => $di->lazyNew('Ushahidi_Parser_Form_Write'),
 			'read'   => $di->lazyNew('Ushahidi_Parser_Form_Read'),
@@ -186,18 +190,20 @@ abstract class Ushahidi_Core {
 
 		// Formatter mapping
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
-			'config'      => $di->lazyNew('Ushahidi_Formatter_Config'),
-			'forms'       => $di->lazyNew('Ushahidi_Formatter_Form'),
-			'form_groups' => $di->lazyNew('Ushahidi_Formatter_Form_Group'),
-			'layers'      => $di->lazyNew('Ushahidi_Formatter_Layer'),
-			'media'       => $di->lazyNew('Ushahidi_Formatter_Media'),
-			'posts'       => $di->lazyNew('Ushahidi_Formatter_Post'),
-			'tags'        => $di->lazyNew('Ushahidi_Formatter_Tag'),
+			'config'        => $di->lazyNew('Ushahidi_Formatter_Config'),
+			'dataproviders' => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
+			'forms'         => $di->lazyNew('Ushahidi_Formatter_Form'),
+			'form_groups'   => $di->lazyNew('Ushahidi_Formatter_Form_Group'),
+			'layers'        => $di->lazyNew('Ushahidi_Formatter_Layer'),
+			'media'         => $di->lazyNew('Ushahidi_Formatter_Media'),
+			'posts'         => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'tags'          => $di->lazyNew('Ushahidi_Formatter_Tag'),
 		];
 
 		// Formatter parameters
 		foreach ([
 			'config',
+			'dataprovider',
 			'form',
 			'form_group',
 			'media',
@@ -244,6 +250,7 @@ abstract class Ushahidi_Core {
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
+		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_group', $di->lazyNew('Ushahidi_Repository_Form_Group'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_FormAttribute'));
