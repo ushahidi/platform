@@ -2,7 +2,7 @@
 
 /**
  * Model for Form_Groups
- *
+ * 
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
  * @copyright  2013 Ushahidi
@@ -15,11 +15,9 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 	 *
 	 * @var array Relationships
 	 */
-	protected $_has_many = [
-		'form_attributes' => [
-			'model' => 'Form_Attribute',
-		]
-	];
+	protected $_has_many = array(
+		'form_attributes' => array('through' => 'form_groups_form_attributes'),
+		);
 
 	/**
 	 * A form_group belongs to a form
@@ -41,7 +39,7 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 			'id' => array(
 				array('numeric')
 			),
-
+			
 			'form_id' => array(
 				array('numeric'),
 				array(array($this, 'fk_exists'), array('Form', ':field', ':value'))
@@ -58,7 +56,7 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 
 	/**
 	 * Prepare group data for API
-	 *
+	 * 
 	 * @return array $response - array to be returned by API (as json)
 	 */
 	public function for_api()
@@ -78,7 +76,7 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 				'icon' => $this->icon,
 				'attributes' => array()
 				);
-
+			
 			foreach ($this->form_attributes->find_all() as $attribute)
 			{
 				$response['attributes'][] = $attribute->for_api();
@@ -95,7 +93,7 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 
 		return $response;
 	}
-
+	
 	/**
 	 * Returns the string identifier of the Resource
 	 *

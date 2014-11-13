@@ -19,7 +19,6 @@ use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
 use Ushahidi\Core\Usecase\Tag\DeleteTagRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
-use Ushahidi\Core\Tool\JsonTranscode;
 
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	CreateRepository,
@@ -35,14 +34,6 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 
 	private $deleted_tag;
 
-	protected $json_transcoder;
-	protected $json_properties = ['role'];
-
-	public function setTranscoder(JsonTranscode $transcoder)
-	{
-		$this->json_transcoder = $transcoder;
-	}
-
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -53,7 +44,9 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		$data = $this->json_transcoder->decode($data, $this->json_properties);
+		if ($data['role'] && is_string($data['role'])) {
+			$data['role'] = json_decode($data['role']);
+		}
 		return new Tag($data);
 	}
 
@@ -81,19 +74,27 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// CreateRepository
 	public function create(Data $data)
 	{
-		$record = array_filter($this->json_transcoder->encode(
-			$data, $this->json_properties
-		)->asArray());
+		$record = array_filter($data->asArray());
 		$record['created'] = time();
+
+		if ($data->role) {
+			$record['role'] = json_encode($record['role']);
+		}
+
 		return $this->executeInsert($record);
 	}
 
 	// UpdateRepository
 	public function update($id, Data $input)
 	{
-		$record = $this->json_transcoder->encode(
-			$input, $this->json_properties
-		)->asArray();
+		$record = $input->asArray();
+
+		// Convert roles array to JSON. Using array_key_exists is necessary,
+		// to prevent errors when removing all role restrictions from a tag.
+		if (array_key_exists('role', $record)) {
+			$record['role'] = json_encode($record['role']);
+		}
+
 		return $this->executeUpdate(compact('id'), $record);
 	}
 

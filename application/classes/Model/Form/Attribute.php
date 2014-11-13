@@ -11,13 +11,14 @@
 
 class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 	/**
-	 * An attribute belongs to one form_group
+	 * An attribute has and belongs to many forms
+	 * An attribute has and belongs to many form_groups
 	 *
 	 * @var array Relationships
 	 */
-	protected $_belongs_to = [
-		'form_group' => []
-	];
+	protected $_has_many = array(
+		'form_groups' => array('through' => 'form_groups_form_attributes'),
+		);
 
 	protected $_serialize_columns = array('options', 'default');
 
@@ -92,14 +93,14 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 	{
 		return array(
 			'id' => array(
-				array('digit')
+				array('numeric')
 			),
 
 			'form_id' => array(
-				array('digit'),
+				array('numeric'),
 			),
 			'form_group_id' => array(
-				array('digit'),
+				array('numeric'),
 			),
 			'key' => array(
 				array('max_length', array(':value', 150)),
@@ -146,10 +147,10 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 				array('in_array', array(':value', array(true,false)))
 			),
 			'priority' => array(
-				array('digit')
+				array('numeric')
 			),
 			'cardinality' => array(
-				array('digit')
+				array('numeric')
 			)
 		);
 	}

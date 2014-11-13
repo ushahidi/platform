@@ -12,18 +12,9 @@
 use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Layer;
-use Ushahidi\Core\Tool\JsonTranscode;
 
 class Ushahidi_Repository_Layer extends Ushahidi_Repository
 {
-	protected $json_transcoder;
-	protected $json_properties = ['options'];
-
-	public function setTranscoder(JsonTranscode $transcoder)
-	{
-		$this->json_transcoder = $transcoder;
-	}
-
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -33,7 +24,9 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
-		$data = $this->json_transcoder->decode($data, $this->json_properties);
+		// Decode options into an array
+		$data['options'] = json_decode($data['options'], TRUE);
+
 		return new Layer($data);
 	}
 
@@ -54,20 +47,25 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository
 	// CreateRepository
 	public function create(Data $input)
 	{
-		$record = $this->json_transcoder->encode(
-			$input, $this->json_properties
-		)->asArray();
+		$record = $input->asArray();
+
 		$record['created'] = time();
+		$record['options'] = json_encode($record['options']);
+
 		return $this->executeInsert($record);
 	}
 
 	// UpdateRepository
 	public function update($id, Data $input)
 	{
-		$update = $this->json_transcoder->encode(
-			$input, $this->json_properties
-		)->asArray();
+		$update = $input->asArray();
+
 		$update['updated'] = time();
+		if (isset($update['options']))
+		{
+			$update['options'] = json_encode($update['options']);
+		}
+
 		return $this->executeUpdate(compact('id'), $update);
 	}
 }
