@@ -164,7 +164,7 @@ form_attributes:
     options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
     priority: 5
     cardinality: 0
-    form_group_id: 1
+    form_group_id: 2
   -
     id: 11
     label: "Links"

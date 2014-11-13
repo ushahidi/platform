@@ -87,7 +87,8 @@ abstract class Ushahidi_Repository implements
 	// SearchRepository
 	public function setSearchParams(SearchData $search)
 	{
-		$this->search_query = $this->selectQuery();
+		$this->search_query = $this->selectQuery()
+			->select($this->getTable() . '.*');
 
 		// apply the sorting parameters
 		$sorting = $search->getSortingParams();

@@ -49,12 +49,14 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// SearchRepository
 	protected function setSearchConditions(SearchData $search)
 	{
-		$query = $this->search_query;
+		$query = $this->search_query
+			->join('form_groups')
+				->on('form_attributes.form_group_id', '=', 'form_groups.id');
 
 		foreach ([
-			'key', 'label', 'input', 'type'
+			'label', 'form_id',
 		] as $key) {
-			if (property_exists($search, $key)) {
+			if ($search->$key) {
 				$query->where($key, '=', $search->$key);
 			}
 		}

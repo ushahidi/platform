@@ -38,7 +38,7 @@ class Ushahidi_Parser_Form_Attribute_Search implements Parser
     public function __invoke(Array $data)
     {
         $input = Arr::extract($data, [
-            'id', 'created', 'label', 'priority', 'cardinality',
+            'id', 'form_id', 'created', 'label', 'priority', 'cardinality',
         ]);
 
         // remove any input with an empty value
