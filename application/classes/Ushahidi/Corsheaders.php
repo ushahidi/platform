@@ -18,7 +18,9 @@ trait Ushahidi_Corsheaders {
 
 		if (isset($this->_action_map))
 		{
-			$this->response->headers('Allow', implode(', ', array_keys($this->_action_map)) );
+			$allow_methods = implode(', ', array_keys($this->_action_map));
+			$this->response->headers('Allow', $allow_methods);
+			$this->response->headers('Access-Control-Allow-Methods', $allow_methods);
 		}
 
 		return $response;
