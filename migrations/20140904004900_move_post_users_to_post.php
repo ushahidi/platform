@@ -62,21 +62,9 @@ class MovePostUsersToPost extends AbstractMigration
 
         $pdo = $this->getAdapter()->getConnection();
 
-        $insert_users = $pdo->prepare("INSERT INTO users (email, realname) VALUES (:email, :realname)")
-            ->execute(
-                [
-                    ':email' => $row['author_email'],
-                    ':realname' => $row['author_realname']
-                ]
-            );
+        $insert_users = $pdo->prepare("INSERT INTO users (email, realname) VALUES (:email, :realname)");
 
-        $update_posts = $pdo->prepare("UPDATE posts SET user_id = :user_id WHERE id = :id")
-            ->execute(
-                [
-                    ':user_id' => $user_id,
-                    ':id' => $row['id']
-                ]
-            );
+        $update_posts = $pdo->prepare("UPDATE posts SET user_id = :user_id WHERE id = :id");
 
         foreach ($rows as $row) {
             // Create unregistered users for posts
