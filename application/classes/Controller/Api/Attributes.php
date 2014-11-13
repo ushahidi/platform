@@ -108,6 +108,27 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 			->order_by('id', 'ASC')
 			->find_all();
 
+		$attrs = DB::select(
+			['form_groups_form_attributes.form_attribute_id', 'attribute_id'],
+			['form_groups_form_attributes.form_group_id', 'group_id'],
+			['form_groups.form_id', 'form_id']
+			)
+			->from('form_groups_form_attributes')
+			->join('form_groups')
+				->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id')
+			->execute()
+			->as_array();
+
+		$forms_for_attribute = [];
+		foreach ($attrs as $row)
+		{
+			$id    = (int) $row['attribute_id'];
+			$form  = (int) $row['form_id'];
+			$group = (int) $row['group_id'];
+
+			$forms_for_attribute[$id][$form] = $group;
+		}
+
 		$count = $attributes->count();
 
 		foreach ($attributes as $attribute)
@@ -116,6 +137,13 @@ class Controller_Api_Attributes extends Ushahidi_Api {
 			if ($this->acl->is_allowed($this->user, $attribute, 'get') )
 			{
 				$result = $attribute->for_api();
+
+				if (empty($forms_for_attribute[$attribute->id])) {
+					$result['forms'] = new stdClass;
+				} else {
+					$result['forms'] = $forms_for_attribute[$attribute->id];
+				}
+
 				$result['allowed_methods'] = $this->_allowed_methods($attribute);
 				$results[] = $result;
 			}
