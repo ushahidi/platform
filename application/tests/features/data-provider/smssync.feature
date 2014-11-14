@@ -6,7 +6,7 @@ Feature: Testing the SMSSync Data Provider
             """
             secret=1234&message=Some+testing+message&from=123456789&sent_to=123
             """
-        And that the request "Content-type" header is "application/x-www-form-urlencoded"
+        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the api_url is ""
         Then I request "smssync"
         Then the response is JSON
@@ -21,7 +21,7 @@ Feature: Testing the SMSSync Data Provider
             """
             secret=wrong&message=Some+testing+message&from=123456789&sent_to=123
             """
-        And that the request "Content-type" header is "application/x-www-form-urlencoded"
+        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the api_url is ""
         Then I request "smssync"
         Then the response is JSON
@@ -38,7 +38,7 @@ Feature: Testing the SMSSync Data Provider
             """
             secret=1234&from=123456789&sent_to=123
             """
-        And that the request "Content-type" header is "application/x-www-form-urlencoded"
+        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the api_url is ""
         Then I request "smssync"
         Then the response is JSON
@@ -54,7 +54,7 @@ Feature: Testing the SMSSync Data Provider
             """
             secret=1234&sent_to=123
             """
-        And that the request "Content-type" header is "application/x-www-form-urlencoded"
+        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the api_url is ""
         Then I request "smssync"
         Then the response is JSON
