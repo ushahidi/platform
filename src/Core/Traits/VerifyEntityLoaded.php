@@ -33,7 +33,7 @@ trait VerifyEntityLoaded
 	{
 		if (!$entity->id) {
 			throw new NotFoundException(sprintf(
-				'Could not locate resource %s: %d',
+				'Could not locate resource %s: %s',
 				$entity->getResource(),
 				$lookup_id
 			));
