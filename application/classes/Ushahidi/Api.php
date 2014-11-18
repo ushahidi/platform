@@ -137,7 +137,7 @@ class Ushahidi_Api extends Controller {
 	 */
 	public static function url($resource, $id = null)
 	{
-		return rtrim(sprintf('api/v%d/%s/%d', static::version(), $resource, $id), '/');
+		return rtrim(sprintf('api/v%d/%s/%s', static::version(), $resource, $id), '/');
 	}
 
 	/**

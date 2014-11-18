@@ -100,7 +100,7 @@ abstract class Ushahidi_Rest extends Controller {
 	{
 		$template = 'api/v%d/%s';
 		if (!is_null($id)) {
-			$template .= '/%d';
+			$template .= '/%s';
 		}
 		return rtrim(sprintf($template, static::version(), $resource, $id), '/');
 	}
