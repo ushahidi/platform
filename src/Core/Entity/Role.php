@@ -24,10 +24,4 @@ class Role extends Entity
 	{
 		return 'roles';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }

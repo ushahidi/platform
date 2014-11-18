@@ -27,10 +27,4 @@ class Contact extends Entity
 	{
 		return 'contacts';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }

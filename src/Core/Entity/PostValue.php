@@ -31,10 +31,4 @@ class PostValue extends Entity
 	{
 		return 'post_values';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }

@@ -31,10 +31,4 @@ class Media extends Entity
 	{
 		return 'media';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }

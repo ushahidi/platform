@@ -38,10 +38,4 @@ class Post extends Entity
 	{
 		return 'posts';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }

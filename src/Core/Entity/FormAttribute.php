@@ -32,10 +32,4 @@ class FormAttribute extends Entity
 	{
 		return 'form_attributes';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }

@@ -33,10 +33,4 @@ class User extends Entity
 	{
 		return 'users';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }

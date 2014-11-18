@@ -34,10 +34,4 @@ class Config extends Entity
 	{
 		return 'config';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }

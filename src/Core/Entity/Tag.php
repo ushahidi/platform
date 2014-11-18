@@ -32,10 +32,4 @@ class Tag extends Entity
 	{
 		return 'tags';
 	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
 }
