@@ -253,7 +253,7 @@ abstract class Ushahidi_Core {
 			'media',
 			'message',
 			'tag',
-			'user'
+			'user',
 			'set',
 		] as $name)
 		{
