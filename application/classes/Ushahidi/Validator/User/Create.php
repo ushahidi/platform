@@ -36,7 +36,7 @@ class Ushahidi_Validator_User_Create implements Validator
 							]
 					)
 			->rules('realname', [
-									['regex', [':value', '/^[a-z0-9 .\-]+$/i']]
+									['max_length', [':value', 150]]
 								]
 					)
 			->rules('username', [

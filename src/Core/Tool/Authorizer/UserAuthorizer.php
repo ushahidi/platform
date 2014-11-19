@@ -62,6 +62,12 @@ class UserAuthorizer implements Authorizer
 			return true;
 		}
 
+		// Endpoint pre-flight check needs to pass, refs T854
+		// @todo fix this with D531
+		if (!$entity->id && 'read' === $privilege) {
+			return true;
+		}
+
 		// If no other access checks succeed, we default to denying access
 		return false;
 	}
