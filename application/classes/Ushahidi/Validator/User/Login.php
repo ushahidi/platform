@@ -21,12 +21,11 @@ class Ushahidi_Validator_User_Login implements Validator
 	{
 		$this->valid = Validation::factory($input->asArray())
 			->rules('username', array(
-					array('not_empty'),
-					array('max_length', array(':value', 255)),
-					array('regex', array(':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i')),
+					['not_empty'],
+					['max_length', [':value', 255]]
 				))
 			->rules('password', array(
-					array('not_empty'),
+					['not_empty'],
 					// No reason to validate length here, even though the password
 					// is plaintext, because we always want to run the hash check.
 				));

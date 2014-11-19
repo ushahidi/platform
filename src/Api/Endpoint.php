@@ -101,7 +101,7 @@ class Endpoint
 				$this->resource->getResource()
 			));
 		}
-
+		
 		// todo: replace __invoke with a better method name
 		$input  = $this->parser->__invoke($request);
 		$result = $this->usecase->interact($input);

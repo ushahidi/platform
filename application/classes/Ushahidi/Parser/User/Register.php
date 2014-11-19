@@ -29,28 +29,29 @@ class Ushahidi_Parser_User_Register implements Parser
 	public function __invoke(Array $data)
 	{
 		$valid = Validation::factory($data)
-			->rules('csrf', array(
-					array('not_empty'),
-					array('Security::check')
-				))
-			->rules('email', array(
-					array('not_empty'),
-				))
-			->rules('verify_email', array(
-					array('matches', array(':validation', ':field', 'email')),
-				))
-			->rules('username', array(
-					array('not_empty'),
-				))
-			->rules('password', array(
-					array('not_empty'),
+			->rules('csrf', [
+					['not_empty'],
+					['Security::check']
+				])
+			->rules('email', [
+					['not_empty'],
+					['email']
+				])
+			->rules('verify_email', [
+					['matches', [':validation', ':field', 'email']],
+				])
+			->rules('username', [
+					['not_empty'),
+				])
+			->rules('password', [
+					['not_empty'],
 					// NOTE: Password should allow ANY character at all. Do not limit to alpha numeric or alpha dash.
-					array('min_length', array(':value', 7)),
-					array('max_length', array(':value', 72)), // Bcrypt max length is 72
+					['min_length', [':value', 7]],
+					['max_length', [':value', 72]], // Bcrypt max length is 72
 					// todo: The statement that bcrypt has a max length is wrong. It will
 					// *truncate* passwords longer than 72 characters with *some* methods.
 					// But when it does truncate, the hash should still pass...
-				));
+				]);
 
 		if (!$valid->check())
 		{

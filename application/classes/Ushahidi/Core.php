@@ -164,6 +164,14 @@ abstract class Ushahidi_Core {
 			'delete' => $di->lazyNew('Ushahidi_Parser_Set_Read'),
 		];
 
+		$di->params['Ushahidi\Factory\ParserFactory']['map']['users'] = [
+			'search' => $di->lazyNew('Ushahidi_Parser_User_Search'),
+			'read'   => $di->lazyNew('Ushahidi_Parser_User_Read'),
+			'create' => $di->lazyNew('Ushahidi_Parser_User_Create'),
+			'delete' => $di->lazyNew('Ushahidi_Parser_User_Delete'),
+			'update' => $di->lazyNew('Ushahidi_Parser_User_Update'),
+		];
+
 		// Validator mapping
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['config'] = [
 			'update' => $di->lazyNew('Ushahidi_Validator_Config_Update'),
@@ -195,6 +203,11 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Tag_Update'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Tag_Delete'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_User_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_User_Update')
+		];
+
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Message_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Message_Update'),
@@ -228,6 +241,7 @@ abstract class Ushahidi_Core {
 			'posts'         => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'tags'          => $di->lazyNew('Ushahidi_Formatter_Tag'),
 			'sets'          => $di->lazyNew('Ushahidi_Formatter_Set'),
+			'users'         => $di->lazyNew('Ushahidi_Formatter_User'),
 		];
 
 		// Formatter parameters
@@ -239,6 +253,7 @@ abstract class Ushahidi_Core {
 			'media',
 			'message',
 			'tag',
+			'user'
 			'set',
 		] as $name)
 		{
@@ -297,6 +312,9 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
+
+		$di->setter['Ushahidi_Repository_User']['setHasher'] = 
+			$di->lazyGet('tool.hasher.password');
 
 		// Abstract repository parameters
 		$di->params['Ushahidi_Repository'] = [
@@ -371,6 +389,17 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_User_Register'] = [
 			'repo' => $di->lazyGet('repository.user'),
 			];
+
+		$di->params['Ushahidi_Validator_User_Create'] = [
+			'repo' => $di->lazyGet('repository.user'),
+			'role' => $di->lazyGet('repository.role'),
+			];
+		$di->params['Ushahidi_Validator_User_Update'] = [
+			'repo' => $di->lazyGet('repository.user'),
+			'user' => $di->lazyGet('session.user'),
+			'role' => $di->lazyGet('repository.role'),
+			];
+
 		$di->params['Ushahidi_Validator_Message_Update'] = [
 			'repo' => $di->lazyGet('repository.message'),
 		];

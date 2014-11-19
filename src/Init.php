@@ -95,6 +95,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'posts'         => $di->lazyGet('authorizer.post'),
 	'tags'          => $di->lazyGet('authorizer.tag'),
 	'sets'          => $di->lazyGet('authorizer.set'),
+	'users'           => $di->lazyGet('authorizer.user'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -112,6 +113,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'posts'         => $di->lazyGet('repository.post'),
 	'tags'          => $di->lazyGet('repository.tag'),
 	'sets'          => $di->lazyGet('repository.set'),
+	'users'			=> $di->lazyGet('repository.user'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -243,8 +245,8 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
 	'media'         => ['update' => false],
 	// messages cannot be deleted, only archived (via update)
 	'messages'      => ['delete' => false],
-	'tags'          => [],
 	'sets'          => [],
+	'users' 		=> [],
 ];
 
 // Traits
@@ -269,6 +271,8 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),
 	'form_auth' => $di->lazyGet('authorizer.form'),
 	];
+
+$di->set('authorizer.user', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\UserAuthorizer'));
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
 $di->set('authorizer.message', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MessageAuthorizer'));

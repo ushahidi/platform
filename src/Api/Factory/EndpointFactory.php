@@ -40,6 +40,7 @@ class EndpointFactory
 		$this->formatters   = $formatters;
 
 		$this->endpoint_factory = $factory;
+
 		foreach ($endpoints as $resource => $actions) {
 			$this->endpoints[$resource] = array_merge($this->getDefaultActions(), $actions);
 		}

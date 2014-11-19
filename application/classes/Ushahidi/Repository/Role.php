@@ -39,4 +39,16 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements RoleReposi
 		$found = (int) $this->selectCount(['name' => $roles]);
 		return count($roles) === $found;
 	}
+
+	public function doesRoleExist($role)
+	{
+		if (!$role)
+		{
+			return false;
+		}
+
+		$found = (int) $this->selectCount(['name' => $role]);
+
+		return (bool) $found;
+	}
 }
