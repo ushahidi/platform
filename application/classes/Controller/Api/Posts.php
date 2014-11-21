@@ -207,7 +207,7 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$format = service('factory.formatter')->get('posts', 'update');
+		$format = service('factory.formatter')->get('posts', 'read');
 		$read_parser = service('factory.parser')->get('posts', 'read');
 		$usecase = service('factory.usecase')->get('posts', 'read');
 
