@@ -21,6 +21,7 @@ application/cache/*
 application/config/environments/development/*.php
 
 # Kohana tests
+behat.yml
 application/tests/behat.yml
 
 # Kohana app uploads
