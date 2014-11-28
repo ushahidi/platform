@@ -9,6 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\DataProviderRepository;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,7 +18,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Ushahidi_Console_Dataprovider extends Ushahidi_Console_Command {
+class Ushahidi_Console_Dataprovider extends Command {
 
 	public function setRepo(DataProviderRepository $repo)
 	{
