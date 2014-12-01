@@ -34,7 +34,8 @@ class UserStep implements ImportStep
 	 * Set writer
 	 * @param Writer $writer
 	 */
-	public function setWriter(WriterInterface $writer) {
+	public function setWriter(WriterInterface $writer)
+	{
 		$this->writer = $writer;
 	}
 
@@ -43,7 +44,8 @@ class UserStep implements ImportStep
 	 *
 	 * @return mixed
 	 */
-	public function run(Array $options) {
+	public function run(Array $options)
+	{
 		$converter = new MappingItemConverter();
 		$converter->addMapping('name', 'realname');
 		$converter->addMapping('id', 'null');

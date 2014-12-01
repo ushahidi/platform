@@ -32,7 +32,9 @@ abstract class Command extends ConsoleCommand
 		// Reroute to the specific action.
 		$response = $this->$execute($input, $output);
 
-		if (empty($response)) return;
+		if (empty($response)) {
+			return;
+		}
 
 		if (is_array($response)) {
 			// Display arrays as tables.

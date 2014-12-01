@@ -18,7 +18,8 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 
-class Import extends Command {
+class Import extends Command
+{
 
 	/**
 	 * Data Importers
@@ -68,5 +69,4 @@ class Import extends Command {
 
 		return $result;
 	}
-
 }

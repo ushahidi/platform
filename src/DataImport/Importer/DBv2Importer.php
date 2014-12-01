@@ -27,7 +27,8 @@ class DBv2Importer implements Importer
 	 * Set import steps
 	 * @param [Ushahidi\DataImport\ImportStep, ..] $steps
 	 */
-	public function setImportSteps(Array $steps) {
+	public function setImportSteps(Array $steps)
+	{
 		$this->steps = $steps;
 	}
 
@@ -41,12 +42,14 @@ class DBv2Importer implements Importer
 	 * Set logger
 	 * @param LoggerInterface $logger
 	 */
-	public function setLogger(LoggerInterface $logger) {
+	public function setLogger(LoggerInterface $logger)
+	{
 		$this->logger = $logger;
 	}
 
 	// Importer
-	public function import(Array $options) {
+	public function import(Array $options)
+	{
 		$output = [];
 
 		$dsn = $options['dsn'];
@@ -58,8 +61,7 @@ class DBv2Importer implements Importer
 		$connection = new \PDO($dsn, $username, $password);
 
 		// Loop over steps
-		foreach ($this->steps as $key => $stepDI)
-		{
+		foreach ($this->steps as $key => $stepDI) {
 			// @todo avoid handling DI object here :/
 			$step = $stepDI();
 
