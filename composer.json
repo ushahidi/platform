@@ -44,6 +44,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/ushahidi/Aura.Di"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ushahidi/data-import"
         }
     ],
     "require": {
@@ -67,6 +71,8 @@
         "twilio/sdk": "3.12.*",
         "vlucas/phpdotenv": "~1.0@dev",
         "zeelot/kohana-media": "1.3.*@dev",
+        "ddeboer/data-import": "dev-add-pdo-reader",
+        "symfony/console": "2.6.*",
         "ext-curl": "*",
         "ext-gd": "*",
         "ext-json": "*",
@@ -83,7 +89,6 @@
         "phpunit/phpunit": "~3.7.37",
         "phpunit/dbunit": "~1.2.3",
         "phpspec/phpspec": "~2.1.0",
-        "symfony/console": "2.6.*",
         "squizlabs/php_codesniffer": "1.5.*",
         "heroku/heroku-buildpack-php": "dev-master"
     },

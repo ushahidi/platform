@@ -65,7 +65,8 @@ $di = service();
 $di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
 
 // Any command can be registered with the console app.
-$di->params['Ushahidi\Console\Application']['injectCommands'] = [];
+$di->setter['Ushahidi\Console\Application']['injectCommands'] = [];
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyGet('console.import');
 
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
@@ -276,4 +277,18 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	];
 
+// Importer
+$di->set('console.import', $di->lazyNew('Ushahidi\Console\Import'));
+$di->setter['Ushahidi\Console\Import']['setImporters'] = [
+	'dbv2' => $di->lazyNew('Ushahidi\DataImport\Importer\DBv2Importer')
+];
 
+$di->setter['Ushahidi\DataImport\Importer\DBv2Importer']['setImportSteps'] = [
+	'users' => $di->lazyNew('Ushahidi\DataImport\Importer\DBv2\UserStep')
+];
+
+//$di->set('importer.dbv2.userstep', $di->lazyNew('Ushahidi\DataImport\Importer\DBv2\UserStep'));
+$di->setter['Ushahidi\DataImport\Importer\DBv2\UserStep']['setWriter'] = $di->lazyNew('Ushahidi\DataImport\Writer\UserWriter');
+
+//$di->set('importer.writer.user', $di->lazyNew('Ushahidi\DataImport\Writer\UserWriter'));
+$di->params['Ushahidi\DataImport\Writer\UserWriter']['repo'] = $di->lazyGet('repository.user');
