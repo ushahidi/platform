@@ -11,21 +11,38 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class FormAttribute extends Entity
+class FormAttribute extends StaticEntity
 {
-	public $id;
-	public $key;
-	public $label;
-	public $input;
-	public $type;
-	public $required;
-	public $default;
+	protected $id;
+	protected $key;
+	protected $label;
+	protected $input;
+	protected $type;
+	protected $required;
+	protected $default;
 	// @todo move this. priority is really on a property of an attribute *in* a group
-	public $priority;
-	public $options = [];
-	public $cardinality;
+	protected $priority;
+	protected $options = [];
+	protected $cardinality;
+
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'          => 'int',
+			'key'         => 'string',
+			'label'       => 'string',
+			'input'       => 'string',
+			'type'        => 'string',
+			'required'    => 'bool',
+			'default'     => 'string',
+			'priority'    => 'int',
+			'options'     => 'array',
+			'cardinality' => 'int',
+		];
+	}
 
 	// Entity
 	public function getResource()

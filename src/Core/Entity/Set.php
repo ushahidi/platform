@@ -11,18 +11,33 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class Set extends Entity
+class Set extends StaticEntity
 {
-	public $id;
-	public $name;
-	public $url;
-	public $filter;
-	public $user_id;
-	public $created;
-	public $updated;
+	protected $id;
+	protected $user_id;
+	protected $name;
+	protected $url;
+	protected $filter;
+	protected $created;
+	protected $updated;
 
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'      => 'int',
+			'user_id' => 'int',
+			'name'    => 'string',
+			'url'     => '*url',
+			'filter'  => 'string',
+			'created' => 'int',
+			'updated' => 'int',
+		];
+	}
+
+	// Entity
 	public function getResource()
 	{
 		return 'sets';

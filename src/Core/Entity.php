@@ -11,24 +11,42 @@
 
 namespace Ushahidi\Core;
 
-use Ushahidi\Core\Traits\ArrayExchange;
-
-abstract class Entity
+interface Entity
 {
-	use ArrayExchange;
+	/**
+	 * Return the unique ID for the entity.
+	 *
+	 * @return Mixed
+	 */
+	public function getId();
 
 	/**
-	 * Return the Unique ID for the entity
-	 * @var Mixed
+	 * Return the resource name for this entity.
+	 *
+	 * @return String
 	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+	public function getResource();
 
 	/**
-	 * Return the resource name for authorization.
-	 * @return string
+	 * Get the current entity state as an associative array.
+	 *
+	 * @return Array
 	 */
-	abstract public function getResource();
+	public function asArray();
+
+	/**
+	 * Change the internal state of the entity, updating values and tracking any
+	 * changes that are made.
+	 *
+	 * @param  Array  $data
+	 * @return $this
+	 */
+	public function setState(Array $data);
+
+	/**
+	 * Get all values that have been changed since initial state was defined.
+	 *
+	 * @return Array
+	 */
+	public function getChanged();
 }

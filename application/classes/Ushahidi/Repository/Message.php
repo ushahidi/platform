@@ -35,43 +35,12 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		return new Message($data);
 	}
 
-	/**
-	 * Specify columns to be returned from messages table,
-	 * This method is needed as the query is going to be joined
-	 * with contacts table which leads to ambiguity in column names.
-	 * @param  Database_Query_Builder_Select
-	 * @return Database_Query_Builder_Select
-	 */
-	protected function fixForJoin($query)
-	{
-		$query->join('contacts')
-			->on('contact_id', '=', 'contacts.id');
-
-		$query->select(['messages.id','id'],
-				['messages.parent_id','parent_id'],
-				['messages.contact_id','contact_id'],
-				['messages.post_id', 'post_id'],
-				['messages.data_provider','data_provider'],
-				['messages.data_provider_message_id','data_provider_message_id'],
-				['messages.title','title'],
-				['messages.message','message'],
-				['messages.datetime','datetime'],
-				['messages.type','type'],
-				['messages.status','status'],
-				['messages.direction','direction'],
-				['messages.created','created'],
-				['contacts.user_id','user_id'],
-				['contacts.contact','contact'],
-				['contacts.updated','updated']);
-
-		return $query;
-	}
-
 	// Ushahidi_Repository
 	protected function setSearchConditions(SearchData $search)
 	{
-		$query = $this->search_query;
-		$query = $this->fixForJoin($query);
+		$query = $this->search_query
+			->join('contacts')
+				->on('contact_id', '=', 'contacts.id');
 
 		if ($search->box === 'outbox')
 		{

@@ -11,16 +11,29 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class Contact extends Entity
+class Contact extends StaticEntity
 {
-	public $id;
-	public $user_id;
-	public $data_provider;
-	public $type;
-	public $contact;
-	public $created;
+	protected $id;
+	protected $user_id;
+	protected $data_provider;
+	protected $type;
+	protected $contact;
+	protected $created;
+
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'            => 'int',
+			'user_id'       => 'int',
+			'data_provider' => 'string',
+			'type'          => 'string',
+			'contact'       => 'string',
+			'created'       => 'int',
+		];
+	}
 
 	// Entity
 	public function getResource()

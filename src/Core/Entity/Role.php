@@ -11,13 +11,23 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class Role extends Entity
+class Role extends StaticEntity
 {
-	public $name;
-	public $display_name;
-	public $description;
+	protected $name;
+	protected $display_name;
+	protected $description;
+
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'name'         => 'string',
+			'display_name' => 'string',
+			'description'  => 'string',
+		];
+	}
 
 	// Entity
 	public function getResource()

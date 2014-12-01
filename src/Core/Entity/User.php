@@ -11,22 +11,41 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class User extends Entity
+class User extends StaticEntity
 {
-	public $id;
-	public $email;
-	public $realname;
-	public $username;
-	public $password;
-	public $logins = 0;
-	public $failed_attempts = 0;
-	public $last_login;
-	public $last_attempt;
-	public $created;
-	public $updated;
-	public $role = 'user';
+	protected $id;
+	protected $email;
+	protected $realname;
+	protected $username;
+	protected $password;
+	protected $logins;
+	protected $failed_attempts;
+	protected $last_login;
+	protected $last_attempt;
+	protected $created;
+	protected $updated;
+	protected $role;
+
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'              => 'int',
+			'email'           => '*email',
+			'realname'        => 'string',
+			'username'        => 'string',
+			'password'        => 'string',
+			'logins'          => 'int',
+			'failed_attempts' => 'int',
+			'last_login'      => 'int',
+			'last_attempt'    => 'int',
+			'created'         => 'int',
+			'updated'         => 'int',
+			'role'            => 'string',
+		];
+	}
 
 	// Entity
 	public function getResource()

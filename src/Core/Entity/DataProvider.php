@@ -11,17 +11,29 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Traits\ArrayExchange;
+use Ushahidi\Core\StaticEntity;
 
-class DataProvider extends Entity
+class DataProvider extends StaticEntity
 {
-	public $id;
-	public $name;
-	public $version;
-	public $services;
-	public $links;
-	public $options;
+	protected $id;
+	protected $name;
+	protected $version;
+	protected $services;
+	protected $links;
+	protected $options;
+
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'       => 'string',
+			'name'     => 'string',
+			'version'  => 'float',
+			'services' => 'array',
+			'links'    => 'array',
+			'options'  => 'array',
+		];
+	}
 
 	// Entity
 	public function getResource()

@@ -11,18 +11,35 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class Form extends Entity
+class Form extends StaticEntity
 {
-	public $id;
-	public $parent_id;
-	public $name;
-	public $description;
-	public $disabled;
-	public $created;
-	public $updated;
+	protected $id;
+	protected $parent_id;
+	protected $name;
+	protected $description;
+	protected $type;
+	protected $disabled;
+	protected $created;
+	protected $updated;
 
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'          => 'int',
+			'parent_id'   => 'int',
+			'name'        => 'string',
+			'description' => 'string',
+			'type'        => 'string',
+			'disabled'    => 'bool',
+			'created'     => 'int',
+			'updated'     => 'int',
+		];
+	}
+
+	// Entity
 	public function getResource()
 	{
 		return 'forms';

@@ -11,20 +11,36 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class PostValue extends Entity
+class PostValue extends StaticEntity
 {
-	public $id;
-	public $post_id;
-	public $form_attribute_id;
-	public $value;
-	public $created;
+	protected $id;
+	protected $post_id;
+	protected $form_attribute_id;
+	protected $value;
+	protected $created;
 
 	// Attribute fields
-	public $key;
-	public $cardinality;
-	public $type;
+	protected $key;
+	protected $cardinality;
+	protected $type;
+
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'                => 'int',
+			'post_id'           => 'int',
+			'form_attribute_id' => 'int',
+			'value'             => null, /* @todo array or string? not sure */
+			'created'           => 'int',
+
+			'key'               => 'string',
+			'cardinality'       => 'int',
+			'type'              => 'string',
+		];
+	}
 
 	// Entity
 	public function getResource()

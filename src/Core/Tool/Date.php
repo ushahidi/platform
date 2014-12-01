@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Entity\Config;
 use Ushahidi\Core\Entity\ConfigRepository;
 
 class Date

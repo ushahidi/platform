@@ -3,7 +3,7 @@
 namespace spec\Ushahidi\Core\Tool;
 
 use Ushahidi\Core\Entity\ConfigRepository;
-use Ushahidi\Core\Entity\Config;
+use Ushahidi\Core\Entity;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -24,14 +24,14 @@ class DateSpec extends ObjectBehavior
 		$this->shouldHaveType('Ushahidi\Core\Tool\Date');
 	}
 
-	function it_fetches_the_date_format_from_site_settings($repo, Config $config)
+	function it_fetches_the_date_format_from_site_settings($repo, Entity $config)
 	{
 		$config->date_format = 'Y/m/d';
 		$repo->get('site')->willReturn($config);
 		$this->getDateFormat()->shouldReturn($config->date_format);
 	}
 
-	function it_converts_a_date_to_a_timestamp_with_defaults($repo, Config $config)
+	function it_converts_a_date_to_a_timestamp_with_defaults($repo, Entity $config)
 	{
 		$config->date_format = 'n/j/Y H:i'; // MM/DD/YYYY
 		$repo->get('site')->willReturn($config);

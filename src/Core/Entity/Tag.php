@@ -11,21 +11,52 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class Tag extends Entity
+class Tag extends StaticEntity
 {
-	public $id;
-	public $parent_id;
-	public $tag;
-	public $slug;
-	public $type;
-	public $color;
-	public $icon;
-	public $description;
-	public $priority;
-	public $created;
-	public $role;
+	protected $id;
+	protected $parent_id;
+	protected $tag;
+	protected $slug;
+	protected $type;
+	protected $color;
+	protected $icon;
+	protected $description;
+	protected $priority;
+	protected $created;
+	protected $role;
+
+	// StatefulData
+	protected function getDerived()
+	{
+		return [
+			'slug' => 'tag',
+		];
+	}
+
+	// DataTransformer
+	protected function getDefinition()
+	{
+		$typeColor = function ($color) {
+			if ($color) {
+				return ltrim($color, '#');
+			}
+		};
+		return [
+			'id'          => 'int',
+			'parent_id'   => 'int',
+			'tag'         => 'string',
+			'slug'        => '*slug',
+			'type'        => 'string',
+			'color'       => $typeColor,
+			'icon'        => 'string',
+			'description' => 'string',
+			'priority'    => 'int',
+			'created'     => 'int',
+			'role'        => '*json',
+		];
+	}
 
 	// Entity
 	public function getResource()

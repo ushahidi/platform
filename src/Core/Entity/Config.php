@@ -11,22 +11,14 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Traits\ArrayExchange;
+use Ushahidi\Core\DynamicEntity;
 
-class Config extends Entity
+class Config extends DynamicEntity
 {
-	public $id;
-
-	public function setData($data)
+	// DataTransformer
+	protected function getDefinition()
 	{
-		// Config is one of the few entities that does not have a static set
-		// of variables. As such, it does not require checking if properties
-		// exist before setting values.
-		foreach ($data as $key => $value) {
-			$this->$key = $value;
-		}
-		return $this;
+		return ['id' => 'string'];
 	}
 
 	// Entity

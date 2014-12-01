@@ -11,16 +11,29 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class FormGroup extends Entity
+class FormGroup extends StaticEntity
 {
-	public $id;
-	public $form_id;
-	public $label;
-	public $priority;
-	public $icon;
+	protected $id;
+	protected $form_id;
+	protected $label;
+	protected $priority;
+	protected $icon;
 
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'       => 'int',
+			'form_id'  => 'int',
+			'label'    => 'string',
+			'priority' => 'int',
+			'icon'     => 'string',
+		];
+	}
+
+	// Entity
 	public function getResource()
 	{
 		return 'form_groups';

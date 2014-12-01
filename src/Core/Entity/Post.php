@@ -11,27 +11,49 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class Post extends Entity
+class Post extends StaticEntity
 {
-	public $id;
-	public $parent_id;
-	public $form_id;
-	public $user_id;
-	public $type;
-	public $title;
-	public $slug;
-	public $content;
-	public $author_email;
-	public $author_realname;
-	public $status;
-	public $created;
-	public $updated;
-	public $locale;
+	protected $id;
+	protected $parent_id;
+	protected $form_id;
+	protected $user_id;
+	protected $type;
+	protected $title;
+	protected $slug;
+	protected $content;
+	protected $author_email;
+	protected $author_realname;
+	protected $status;
+	protected $created;
+	protected $updated;
+	protected $locale;
+	protected $values = [];
+	protected $tags = [];
 
-	public $values = [];
-	public $tags = [];
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'              => 'int',
+			'parent_id'       => 'int',
+			'form_id'         => 'int',
+			'user_id'         => 'int',
+			'type'            => 'string',
+			'title'           => 'string',
+			'slug'            => 'string',
+			'content'         => 'string',
+			'author_email'    => 'string', /* @todo email filter */
+			'author_realname' => 'string', /* @todo redundent with user record */
+			'status'          => 'string',
+			'created'         => 'int',
+			'updated'         => 'int',
+			'locale'          => 'string',
+			'values'          => 'array',
+			'tags'            => 'array',
+		];
+	}
 
 	// Entity
 	public function getResource()

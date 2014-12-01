@@ -11,20 +11,37 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
-class Media extends Entity
+class Media extends StaticEntity
 {
-	public $id;
-	public $user_id;
-	public $caption;
-	public $created;
-	public $updated;
-	public $mime;
-	public $o_filename;
-	public $o_size;
-	public $o_width;
-	public $o_height;
+	protected $id;
+	protected $user_id;
+	protected $caption;
+	protected $created;
+	protected $updated;
+	protected $mime;
+	protected $o_filename;
+	protected $o_size;
+	protected $o_width;
+	protected $o_height;
+
+	// DataTransformer
+	public function getDefinition()
+	{
+		return [
+			'id'         => 'int',
+			'user_id'    => 'int',
+			'caption'    => 'string',
+			'created'    => 'int',
+			'updated'    => 'int',
+			'mime'       => 'string',
+			'o_filename' => 'string',
+			'o_size'     => 'int',
+			'o_width'    => 'int',
+			'o_height'   => 'int',
+		];
+	}
 
 	// Entity
 	public function getResource()

@@ -193,7 +193,7 @@ abstract class Ushahidi_Repository implements
 	 */
 	protected function selectQuery(Array $where = [])
 	{
-		$query = DB::select()->from($this->getTable());
+		$query = DB::select($this->getTable() . '.*')->from($this->getTable());
 		foreach ($where as $column => $value)
 		{
 			$predicate = is_array($value) ? 'IN' : '=';

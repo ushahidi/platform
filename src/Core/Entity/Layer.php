@@ -11,30 +11,47 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\StaticEntity;
 
 // The layer entity is used to store map overlays
-class Layer extends Entity
+class Layer extends StaticEntity
 {
-	public $id;
+	protected $id;
 	// A layer needs a name so we can list it in the layer control
-	public $name;
+	protected $name;
 	// An overlay can be loaded from a remote URL..
-	public $data_url;
+	protected $data_url;
 	// Or uploaded via the media API
-	public $media_id;
+	protected $media_id;
 	// We support different layer types, such as GeoJSON, WMS, tile
-	public $type;
+	protected $type;
 	// Layer formats like WMS can accept an array of extra options
-	public $options;
+	protected $options;
 	// Only active layers are added to the map
-	public $active;
+	protected $active;
 	// Layers can visible on the map by default, or only shown when a user enables them
-	public $visible_by_default;
-	public $created;
-	public $updated;
+	protected $visible_by_default;
+	protected $created;
+	protected $updated;
 
-	/* Entity */
+	// DataTransformer
+	protected function getDefinition()
+	{
+		return [
+			'id'                 => 'int',
+			'media_id'           => 'int',
+			'name'               => 'string',
+			'data_url'           => 'string',
+			'type'               => 'string',
+			'options'            => 'array',
+			'active'             => 'bool',
+			'visible_by_default' => 'bool',
+			'created'            => 'int',
+			'updated'            => 'int',
+		];
+	}
+
+	// Entity
 	public function getResource()
 	{
 		return 'layer';
