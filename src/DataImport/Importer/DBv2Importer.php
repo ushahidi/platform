@@ -70,6 +70,7 @@ class DBv2Importer implements Importer
 			]);
 
 			$output[$key] = [
+				'step' => $key,
 				'processed' => $result->getTotalProcessedCount(),
 				'time' => $result->getElapsed()->format('%s seconds'),
 				'errors' => $result->getErrorCount(),
