@@ -46,6 +46,7 @@ class UserStep implements ImportStep
 	public function run(Array $options) {
 		$converter = new MappingItemConverter();
 		$converter->addMapping('name', 'realname');
+		$converter->addMapping('id', 'null');
 
 		$reader = new Reader\PdoReader($options['connection'], 'SELECT * FROM users ORDER BY id ASC');
 		$workflow = new Workflow($reader, $options['logger'], 'dbv2-users');
