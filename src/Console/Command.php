@@ -32,11 +32,13 @@ abstract class Command extends ConsoleCommand
 		// Reroute to the specific action.
 		$response = $this->$execute($input, $output);
 
+		if (empty($response)) return;
+
 		if (is_array($response)) {
 			// Display arrays as tables.
 			$table = $this->getHelperSet()->get('table');
 
-			$key = array_keys($response);
+			$keys = array_keys($response);
 
 			if (is_array(current($response))) {
 				// Assume that an array of arrays is a result list.
