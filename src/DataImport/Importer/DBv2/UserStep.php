@@ -12,14 +12,10 @@
 namespace Ushahidi\DataImport\Importer\DBv2;
 
 use Ushahidi\DataImport\ImportStep;
-use Ushahidi\DataImporter\Writer\UserWriter;
 
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader;
-//use Ddeboer\DataImport\Writer;
-//use Ddeboer\DataImport\Filter;
 use Ddeboer\DataImport\Writer\WriterInterface;
-// use Ddeboer\DataImport\ItemConverter\CallbackItemConverter;
 use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
 
 class UserStep implements ImportStep
