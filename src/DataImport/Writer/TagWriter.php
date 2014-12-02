@@ -10,9 +10,9 @@
  */
 
 namespace Ushahidi\DataImport\Writer;
-use Ushahidi\Core\Usecase\User\UserData;
+use Ushahidi\Core\Usecase\Tag\TagData;
 
-class UserWriter extends RepositoryWriter
+class TagWriter extends RepositoryWriter
 {
 
 	/**
@@ -22,7 +22,7 @@ class UserWriter extends RepositoryWriter
 	 */
 	protected function createDataObject(array $item)
 	{
-		return new UserData($item);
+		return new TagData($item);
 	}
 
 }

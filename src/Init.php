@@ -284,11 +284,12 @@ $di->setter['Ushahidi\Console\Import']['setImporters'] = [
 ];
 
 $di->setter['Ushahidi\DataImport\Importer\DBv2Importer']['setImportSteps'] = [
-	'users' => $di->lazyNew('Ushahidi\DataImport\Importer\DBv2\UserStep')
+	//'users' => $di->lazyNew('Ushahidi\DataImport\Importer\DBv2\UserStep'),
+	'tags' => $di->lazyNew('Ushahidi\DataImport\Importer\DBv2\TagStep')
 ];
 
-//$di->set('importer.dbv2.userstep', $di->lazyNew('Ushahidi\DataImport\Importer\DBv2\UserStep'));
 $di->setter['Ushahidi\DataImport\Importer\DBv2\UserStep']['setWriter'] = $di->lazyNew('Ushahidi\DataImport\Writer\UserWriter');
-
-//$di->set('importer.writer.user', $di->lazyNew('Ushahidi\DataImport\Writer\UserWriter'));
 $di->params['Ushahidi\DataImport\Writer\UserWriter']['repo'] = $di->lazyGet('repository.user');
+
+$di->setter['Ushahidi\DataImport\Importer\DBv2\TagStep']['setWriter'] = $di->lazyNew('Ushahidi\DataImport\Writer\TagWriter');
+$di->params['Ushahidi\DataImport\Writer\TagWriter']['repo'] = $di->lazyGet('repository.tag');
