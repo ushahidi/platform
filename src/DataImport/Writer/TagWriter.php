@@ -10,6 +10,7 @@
  */
 
 namespace Ushahidi\DataImport\Writer;
+
 use Ushahidi\Core\Usecase\Tag\TagData;
 
 class TagWriter extends RepositoryWriter
@@ -24,5 +25,4 @@ class TagWriter extends RepositoryWriter
 	{
 		return new TagData($item);
 	}
-
 }

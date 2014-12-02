@@ -80,5 +80,4 @@ abstract class RepositoryWriter implements WriterInterface
 	{
 		return $this;
 	}
-
 }

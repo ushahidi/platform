@@ -10,6 +10,7 @@
  */
 
 namespace Ushahidi\DataImport\Writer;
+
 use Ushahidi\Core\Usecase\User\UserData;
 
 class UserWriter extends RepositoryWriter
@@ -24,5 +25,4 @@ class UserWriter extends RepositoryWriter
 	{
 		return new UserData($item);
 	}
-
 }
