@@ -6,6 +6,7 @@ Feature: Testing the Tags API
         And that the request "data" is:
             """
             {
+                "parent_id":1,
                 "tag":"Boxes",
                 "slug":"boxes",
                 "description":"Is this a box? Awesome",
@@ -31,6 +32,7 @@ Feature: Testing the Tags API
         And the "type" property equals "category"
         And the response has a "role" property
         And the type of the "role" property is "array"
+        And the "parent.id" property equals "1"
         Then the guzzle status code should be 200
 
     Scenario: Creating a duplicate tag
@@ -99,6 +101,22 @@ Feature: Testing the Tags API
         And the type of the "id" property is "numeric"
         And the "color" property equals "#00ff00"
         Then the guzzle status code should be 200
+
+    Scenario: Creating a tag with non-existent parent fails
+        Given that I want to make a new "Tag"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Superduper tag",
+                "type":"category",
+                "priority":1,
+                "parent_id":10001
+            }
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
 
     Scenario: Updating a Tag
         Given that I want to update a "Tag"

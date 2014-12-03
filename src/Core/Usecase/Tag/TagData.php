@@ -16,6 +16,7 @@ use Ushahidi\Core\Data;
 class TagData extends Data
 {
 	public $id;
+	public $parent_id;
 	public $tag;
 	public $slug; // auto-filled
 	public $description;

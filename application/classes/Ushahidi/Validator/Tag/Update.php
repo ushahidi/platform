@@ -35,6 +35,9 @@ class Ushahidi_Validator_Tag_Update implements Validator
 					// alphas, numbers, punctuation, and spaces
 					array('regex', array(':value', '/^[\pL\pN\pP ]++$/uD')),
 				))
+			->rules('parent_id', array(
+					array([$this->repo, 'doesTagExist'], array(':value')),
+				))
 			->rules('slug', array(
 					array('min_length', array(':value', 2)),
 					array('alpha_dash'),
@@ -58,7 +61,7 @@ class Ushahidi_Validator_Tag_Update implements Validator
 				))
 			->rules('role', array(
 				array([$this->role, 'doRolesExist'], array(':value')),
-				));	
+				));
 
 		return $this->valid->check();
 	}
