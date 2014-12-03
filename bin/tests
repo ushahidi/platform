@@ -207,7 +207,7 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         // run phpspec
         chdir($this->dir); // phpspec won't find tests otherwise
         $output->writeln("\n<info> - Running Phpspec tests - </info>");
-        $phpspec_command = "{$this->dir}/bin/phpspec run --format dot --verbose";
+        $phpspec_command = "{$this->dir}/bin/phpspec run --format dot --no-code-generation";
         $tests_pass = $tests_pass && ($this->execEnv($phpspec_command, true) === 0);
 
         // run behat
