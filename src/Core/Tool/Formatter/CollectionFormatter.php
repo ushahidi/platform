@@ -49,7 +49,8 @@ abstract class CollectionFormatter implements Formatter
 	 * Collections are always paged, which requires paging metadata to be added
 	 * to the results.
 	 * @param  SearchData $input
+	 * @param  Int        $total_count
 	 * @return Array
 	 */
-	abstract public function getPaging(SearchData $input);
+	abstract public function getPaging(SearchData $input, $total_count);
 }

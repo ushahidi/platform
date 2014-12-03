@@ -79,6 +79,11 @@ class PostAuthorizer implements Authorizer
 			return true;
 		}
 
+		// If entity isn't loaded (ie. pre-flight check) then *anyone* can view it.
+		if ($privilege === 'read' && ! $entity->getId()) {
+			return true;
+		}
+
 		// All users are allowed to create posts.
 		if ($privilege === 'create') {
 			return true;

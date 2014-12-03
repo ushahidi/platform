@@ -57,4 +57,9 @@ class SearchUsecase implements Usecase
 
 		return $results;
 	}
+
+	public function getSearchTotal()
+	{
+		return $this->repo->getSearchTotal();
+	}
 }

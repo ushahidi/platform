@@ -9,6 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Api\Endpoint;
+
 class Controller_Api_Posts extends Ushahidi_Api {
 
 	/**
@@ -148,54 +150,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$repo   = service('factory.repository')->get('posts');
-		$parser = service('factory.parser')->get('posts', 'search');
-		$format = service('factory.formatter')->get('posts', 'read');
-		$authorizer = service('factory.authorizer')->get('posts');
+		$endpoint = service('factory.endpoint')->get('posts', 'search');
 
-		// this probably belongs in the parser, or should just return the
-		// order/limit params as an array for the search call
-		$this->_prepare_order_limit_params();
-
-		$sorting = [
-			'orderby' => $this->_record_orderby,
-			'order' => $this->_record_order,
-			'offset' => $this->_record_offset,
-			'limit' => $this->_record_limit,
+		$extra_params = [
 			'type' => $this->_type,
-			'parent' => $this->_parent_id
+			'parent' => $this->request->param('parent_id', NULL)
 		];
-		$input = $parser($sorting + $this->request->query());
 
-		$repo->setSearchParams($input);
-
-		$posts = $repo->getSearchResults();
-		$total = $repo->getSearchTotal();
-
-		$results = [];
-		foreach ($posts as $post)
-		{
-			// Check if user is allowed to access this post
-			// @todo preload user entity, avoid multiple queries
-			if ( $authorizer->isAllowed($post, 'read') )
-			{
-				$result = $format($post);
-				// @todo check with authorizer instead
-				$result['allowed_methods'] = $this->_allowed_methods($post->getResource());
-				$results[] = $result;
-			}
-		}
-
-		// Count actual results since they're filtered by access check
-		$count = count($results);
-
-		// Respond with posts
-		$this->_response_payload = array(
-			'count' => $count,
-			'total_count' => $total,
-			'results' => $results,
-			)
-			+ $this->_get_paging_parameters();
+		$this->_restful($endpoint, $extra_params +  $this->request->query());
 	}
 
 	/**
@@ -207,37 +169,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$format = service('factory.formatter')->get('posts', 'read');
-		$read_parser = service('factory.parser')->get('posts', 'read');
-		$usecase = service('factory.usecase')->get('posts', 'read');
+		$endpoint = service('factory.endpoint')->get('posts', 'read');
 
-		$request = $this->_request_payload;
-
-		$read = $this->request->param();
-
-		try
-		{
-			$read_data = $read_parser($read);
-			$post = $usecase->interact($read_data);
-		}
-		catch (Ushahidi\Core\Exception\NotFoundException $e)
-		{
-			throw new HTTP_Exception_404($e->getMessage());
-		}
-		catch (Ushahidi\Core\Exception\ValidatorException $e)
-		{
-			// Also handles ParserException
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->getErrors())),
-			));
-		}
-		catch (Ushahidi\Core\Exception\AuthorizerException $e)
-		{
-			throw new HTTP_Exception_403($e->getMessage());
-		}
-
-		$this->_response_payload = $format($post);
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+		$this->_restful($endpoint, $this->request->param());
 	}
 
 	/**
@@ -294,22 +228,34 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$format = service('factory.formatter')->get('posts', 'delete');
-		$read_parser = service('factory.parser')->get('posts', 'delete');
-		$usecase = service('factory.usecase')->get('posts', 'delete');
+		$endpoint = service('factory.endpoint')->get('posts', 'delete');
 
-		$request = $this->_request_payload;
+		$this->_restful($endpoint, $this->request->param());
+	}
 
-		$read = $this->request->param();
-
+	/**
+	 * Run an Endpoint request sequence and convert application exceptions into
+	 * Kohana HTTP exceptions.
+	 * @throws HTTP_Exception_400
+	 * @throws HTTP_Exception_403
+	 * @throws HTTP_Exception_404
+	 * @param  Ushahidi\Endpoint $endpoint
+	 * @param  Array $request
+	 * @return void
+	 */
+	protected function _restful(Endpoint $endpoint, Array $request)
+	{
 		try
 		{
-			$read_data = $read_parser($read);
-			$post = $usecase->interact($read_data);
+			$this->_response_payload = $endpoint->run($request);
 		}
 		catch (Ushahidi\Core\Exception\NotFoundException $e)
 		{
 			throw new HTTP_Exception_404($e->getMessage());
+		}
+		catch (Ushahidi\Core\Exception\AuthorizerException $e)
+		{
+			throw new HTTP_Exception_403($e->getMessage());
 		}
 		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
@@ -318,12 +264,5 @@ class Controller_Api_Posts extends Ushahidi_Api {
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
 		}
-		catch (Ushahidi\Core\Exception\AuthorizerException $e)
-		{
-			throw new HTTP_Exception_403($e->getMessage());
-		}
-
-		$this->_response_payload = $format($post);
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
 	}
 }

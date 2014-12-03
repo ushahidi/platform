@@ -17,7 +17,7 @@ use Ushahidi\Core\SearchData;
 class Ushahidi_Formatter_Collection extends CollectionFormatter
 {
 	// CollectionFormatter
-	public function getPaging(SearchData $input)
+	public function getPaging(SearchData $input, $total_count)
 	{
 		$params = $input->getSortingParams();
 
@@ -37,13 +37,14 @@ class Ushahidi_Formatter_Collection extends CollectionFormatter
 		$prev = URL::site($request->uri() . URL::query($prev_params), $request);
 
 		return array(
-			'limit'   => $input->limit,
-			'offset'  => $input->offset,
-			'order'   => $input->order,
-			'orderby' => $input->orderby,
-			'curr'    => $curr,
-			'next'    => $next,
-			'prev'    => $prev,
+			'limit'       => $input->limit,
+			'offset'      => $input->offset,
+			'order'       => $input->order,
+			'orderby'     => $input->orderby,
+			'curr'        => $curr,
+			'next'        => $next,
+			'prev'        => $prev,
+			'total_count' => $total_count
 		);
 	}
 }

@@ -11,9 +11,30 @@
 
 use Ushahidi\Core\Tool\Parser;
 use Ushahidi\Core\Entity\PostSearchData;
+use Ushahidi\Core\Traits\Parser\SortingParser;
 
 class Ushahidi_Parser_Post_Search implements Parser
 {
+	use SortingParser;
+
+	// SortingParser
+	private function getDefaultOrderby()
+	{
+		return 'created';
+	}
+
+	// SortingParser
+	private function getAllowedOrderby()
+	{
+		return ['id', 'created', 'tag', 'slug', 'priority'];
+	}
+
+	// SortingParser
+	private function getDefaultOrder()
+	{
+		return 'asc';
+	}
+
 	public function __invoke(Array $data)
 	{
 		// Filter value search params to only true-ish values
@@ -52,6 +73,9 @@ class Ushahidi_Parser_Post_Search implements Parser
 				$data['tags']['all'] = explode(',', $data['tags']['all']);
 			}
 		}
+
+		// append sorting data
+		$data += $this->getSorting($data);
 
 		return new PostSearchData($data);
 	}

@@ -95,7 +95,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'posts'         => $di->lazyGet('authorizer.post'),
 	'tags'          => $di->lazyGet('authorizer.tag'),
 	'sets'          => $di->lazyGet('authorizer.set'),
-	'users'           => $di->lazyGet('authorizer.user'),
+	'users'         => $di->lazyGet('authorizer.user'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -247,6 +247,7 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
 	'messages'      => ['delete' => false],
 	'sets'          => [],
 	'users' 		=> [],
+	'posts'         => [],
 ];
 
 // Traits

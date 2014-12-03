@@ -101,16 +101,22 @@ class Endpoint
 				$this->resource->getResource()
 			));
 		}
-		
+
 		// todo: replace __invoke with a better method name
 		$input  = $this->parser->__invoke($request);
 		$result = $this->usecase->interact($input);
 		$output = $this->formatter->__invoke($result);
 
 		if (method_exists($this->formatter, 'getPaging')) {
+
+			$search_total = null;
+			if (method_exists($this->usecase, 'getSearchTotal')) {
+				$search_total = $this->usecase->getSearchTotal();
+			}
+
 			// Collections always have additional paging metadata, which are
 			// partially determined by the request input.
-			$output += $this->formatter->getPaging($input);
+			$output += $this->formatter->getPaging($input, $search_total);
 		}
 
 		return $output;
