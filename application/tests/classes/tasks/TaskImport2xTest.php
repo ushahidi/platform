@@ -13,7 +13,7 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		
+
 		// Hack: Make sessions use mock session class to prevent weird exceptions
 		$this->getMockForAbstractClass('Session', array(), 'Session_Mock');
 		$config = Kohana::$config->load('a1');
@@ -29,11 +29,11 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 	 */
 	public function getDataSet()
 	{
-		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
+		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(file_get_contents(
 			Kohana::find_file('tests/datasets', 'ushahidi/Base', 'yml')
-		);
+		));
 	}
-	
+
 	/**
 	 * Test import from db
 	 *
@@ -46,12 +46,12 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 		return;
 
 		$config = Kohana::$config->load('database.TestImport2x');
-		
+
 		if (empty($config))
 		{
 			$this->markTestSkipped('Could not load "database.TestImport2x" config');
 		}
-		
+
 		try	{
 			$task = Minion_Task::factory(array(
 				'task' => 'ushahidi:import2x',
@@ -74,7 +74,7 @@ class TaskImport2xTest extends Unittest_Database_TestCase {
 			//$this->fail("Minion task ushahidi:import2x threw an exception");
 			throw $e;
 		}
-		
+
 		// Assert output
 		$this->expectOutputRegex("/.*
 Created 'Classic Report Form', ID: 1.
@@ -94,12 +94,12 @@ Imported 12 users./");
 		return $this->markTestSkipped('API import test disabled, it is too fragile');
 
 		$config = Kohana::$config->load('database.TestImport2x');
-		
+
 		if (empty($config))
 		{
 			$this->markTestSkipped('Could not load "database.TestImport2x" config');
 		}
-		
+
 		try	{
 			$task = Minion_Task::factory(array(
 				'task' => 'ushahidi:import2x',
@@ -120,7 +120,7 @@ Imported 12 users./");
 			//$this->fail("Minion task ushahidi:import2x threw an exception");
 			throw $e;
 		}
-		
+
 		// Assert output
 		$this->expectOutputRegex("/.*
 Created 'Classic Report Form', ID: 1.

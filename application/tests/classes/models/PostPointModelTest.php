@@ -28,9 +28,9 @@ class PostPointModelTest extends Unittest_Database_TestCase {
 	 */
 	public function getDataSet()
 	{
-		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
+		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(file_get_contents(
 			Kohana::find_file('tests/datasets', 'ushahidi/Base', 'yml')
-		);
+		));
 	}
 
 	/**
