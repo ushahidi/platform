@@ -28,6 +28,8 @@ class Ushahidi_Parser_User_Update implements Parser
 			throw new ParserException("Failed to parse user update request", $valid->errors('user'));
 		}
 
+		$data['id'] = (int)$data['id'];
+
 		return new UpdateUserData(Arr::extract($data, ['id', 'username', 'password', 'realname', 'email', 'role']));
 	}
 }
