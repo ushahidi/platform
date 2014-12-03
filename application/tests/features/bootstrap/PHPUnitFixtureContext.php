@@ -13,7 +13,7 @@ class PHPUnitFixtureContext extends BehatContext {
 	 * @var string
 	 */
 	protected $_database_connection = 'default';
-	
+
 	/**
 	 * Creates a connection to the unittesting database
 	 * Overriding to fix database type in DSN - must be lowercase
@@ -53,13 +53,13 @@ class PHPUnitFixtureContext extends BehatContext {
 	protected function getDataSet($dataset)
 	{
 		$file = Kohana::find_file('tests/datasets', $dataset , 'yml');
-		
+
 		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
-			$file
+			file_get_contents($file)
 		);
 	}
-	
-	
+
+
 
 	/** Call this in a BeforeScenario hook */
 	public function setUpDBTester($dataset)
@@ -136,7 +136,7 @@ class PHPUnitFixtureContext extends BehatContext {
 	{
 		return PHPUnit_Extensions_Database_Operation_Factory::NONE();
 	}
-	
+
 	/**
 	 * Creates a new DefaultDatabaseConnection using the given PDO connection
 	 * and database schema name.

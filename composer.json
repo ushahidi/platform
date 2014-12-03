@@ -9,7 +9,7 @@
             "type": "package",
             "package": {
                 "name": "wouter/a1",
-                "version": "dev-3.3/develop",
+                "version": "dev-master",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/ushahidi/A1",
@@ -21,11 +21,11 @@
             "type": "package",
             "package": {
                 "name": "wouter/a2",
-                "version": "dev-3.3/develop",
+                "version": "dev-master",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/Wouterrr/A2",
-                    "reference": "origin/3.3/develop"
+                    "reference": "origin/master"
                 }
             }
         },
@@ -33,11 +33,11 @@
             "type": "package",
             "package": {
                 "name": "wouter/acl",
-                "version": "dev-3.3/develop",
+                "version": "dev-master",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/Wouterrr/ACL",
-                    "reference": "origin/3.3/develop"
+                    "reference": "origin/master"
                 }
             }
         }
@@ -57,9 +57,9 @@
         "robmorgan/phinx": "~0.3.8",
         "shadowhand/email": "~2.0.1",
         "symm/gisconverter": "~1.0.5",
-        "wouter/a1": "dev-3.3/develop",
-        "wouter/a2": "dev-3.3/develop",
-        "wouter/acl": "dev-3.3/develop",
+        "wouter/a1": "dev-master",
+        "wouter/a2": "dev-master",
+        "wouter/acl": "dev-master",
         "twilio/sdk": "3.12.*",
         "zeelot/kohana-media": "1.3.*@dev"
     },
@@ -73,7 +73,7 @@
         "phpunit/phpunit": "~3.7.37",
         "phpunit/dbunit": "~1.2.3",
         "phpspec/phpspec": "~2.1.0",
-        "symfony/console": "~2.5",
+        "symfony/console": "2.6.*",
         "squizlabs/php_codesniffer": "1.5.*"
     },
     "minimum-stability": "dev",
