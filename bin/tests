@@ -209,7 +209,8 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         // run behat
         $output->writeln("\n<info> - Running Behat tests - </info>\n");
         $behat_command = "{$this->dir}/bin/behat"
-                       . " -c behat.yml.dist"
+                       . " --config {$this->dir}/behat.yml.dist"
+                       . " --profile ci"
                        . " --strict"
                        ;
         $tests_pass = ($this->execEnv($behat_command, true) === 0) && $tests_pass;
@@ -217,7 +218,7 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         // run phpunit
         $output->writeln("\n<info> - Running PHPUnit tests - </info>\n");
         $phpunit_command = "{$this->dir}/bin/phpunit"
-                         . " -c phpunit.xml.dist"
+                         . " -c {$this->dir}/phpunit.xml.dist"
                          . " --strict"
                          ;
         $tests_pass = ($this->execEnv($phpunit_command, true) === 0) && $tests_pass;

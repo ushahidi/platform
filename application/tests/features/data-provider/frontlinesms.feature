@@ -1,3 +1,4 @@
+@dataproviders
 Feature: Testing the FrontlineSms Data Provider
 
     Scenario: Submit a message to frontlinesms controller
@@ -45,6 +46,7 @@ Feature: Testing the FrontlineSms Data Provider
         And the "payload.success" property is false
         And the "payload.error" property equals "Missing message"
         Then the guzzle status code should be 403
+
     Scenario: Submit a message to frontlinesms controller with no message
         Given that I want to submit a new "Message"
         And that the request "query string" is:

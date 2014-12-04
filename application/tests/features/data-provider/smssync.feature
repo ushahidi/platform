@@ -1,3 +1,4 @@
+@dataproviders
 Feature: Testing the SMSSync Data Provider
 
     Scenario: Submit a message to smssync controller

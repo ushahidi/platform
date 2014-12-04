@@ -7,6 +7,8 @@ default:
     bootstrap: application/tests/features/bootstrap
   formatter:
     name: progress
+  filters:
+    tags:       "~@dataproviders"
   context:
     parameters:
       base_url: http://localhost:8000
@@ -19,3 +21,6 @@ default:
           curl.options:
              3 : 8000 #CURLOPT_PORT=3
 #            10004: localhost:8888 #CURLOPT_PROXY=10004
+ci:
+  filters:
+    tags:
