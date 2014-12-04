@@ -2,13 +2,18 @@
 ## Replace base_url values with the url of your dev site
 ##
 default:
+  paths:
+    features: application/tests/features
+    bootstrap: application/tests/features/bootstrap
+  formatter:
+    name: progress
   context:
     parameters:
       base_url: http://localhost:8000
 #      proxy_url: localhost:8888
   extensions:
     Behat\MinkExtension\Extension:
-      base_url:  'http://localhost:8000'
+      base_url:  http://localhost:8000
       goutte:
         guzzle_parameters:
           curl.options:
