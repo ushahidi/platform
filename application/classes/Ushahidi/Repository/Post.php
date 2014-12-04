@@ -27,6 +27,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	protected $bounding_box_factory;
 	protected $tag_repo;
 
+	protected $include_value_types = [];
+	protected $include_attributes = [];
+
 	/**
 	 * Construct
 	 * @param Database                              $db
@@ -61,8 +64,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	{
 		$post = new Post($data);
 
+		$types = [];
+
 		// Get custom form attribute values
-		$values = $this->post_value_factory->proxy()->getAllForPost($data['id']);
+		$values = $this->post_value_factory
+			->proxy($this->include_value_types)
+			->getAllForPost($data['id'], $this->include_attributes);
 		$post->setState(['values' => $values]);
 
 		// Get tags
@@ -75,6 +82,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	// Ushahidi_Repository
 	protected function setSearchConditions(SearchData $search)
 	{
+		if ($search->include_types)
+		{
+			$this->include_value_types = $search->include_types;
+		}
+
+		if ($search->include_attributes)
+		{
+			$this->include_attributes = $search->include_attributes;
+		}
+
 		$query = $this->search_query;
 
 		if ($search->status) {

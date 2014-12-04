@@ -60,37 +60,41 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 		$this->decoder = new Symm\Gisconverter\Decoders\WKT();
 	}
 
+
+	/**
+	 * Retrieve All Posts
+	 *
+	 * GET /api/posts
+	 *
+	 * @return void
+	 */
 	public function action_get_index_collection()
 	{
-		parent::action_get_index_collection();
+		$endpoint = service('factory.endpoint')->get('posts', 'search');
+		$endpoint->setFormatter(service('formatter.entity.post.geojsoncollection'));
 
-		$posts = $this->_response_payload['results'];
-		$this->_response_payload = array(
-			'type' => 'FeatureCollection'
-		);
+		$extra_params = [
+			'type' => $this->_type,
+			'parent' => $this->request->param('parent_id', NULL),
+			'include_types' => ['point', 'geojson']
+		];
 
-		// Add bounding box array if needed
-		if ($this->_boundingbox)
-		{
-			$this->_response_payload['bbox'] = $this->_boundingbox->as_array();
-		}
-
-		$this->_response_payload['features'] = array();
-		foreach($posts as $post)
-		{
-			if ($feature = $this->_post_to_feature($post))
-			{
-				$this->_response_payload['features'][] = $feature;
-			}
-		}
+		$this->_restful($endpoint, $extra_params +  $this->request->query());
 	}
 
+	/**
+	 * Retrieve A Post
+	 *
+	 * GET /api/posts/:id
+	 *
+	 * @return void
+	 */
 	public function action_get_index()
 	{
-		parent::action_get_index();
+		$endpoint = service('factory.endpoint')->get('posts', 'read');
+		$endpoint->setFormatter(service('formatter.entity.post.geojson'));
 
-		$post = $this->_response_payload;
-		$this->_response_payload = $this->_post_to_feature_collection($post);
+		$this->_restful($endpoint, $this->request->param());
 	}
 
 	/**
@@ -168,73 +172,6 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 				//'marker-color' => '',
 				//'resource' => $post
 			)
-		);
-	}
-
-	/**
-	 * Create a GeoJSON feature collection from Post JSON
-	 *
-	 * @param  array   $post          Post JSON Array
-	 * @return array
-	 */
-	protected function _post_to_feature_collection($post)
-	{
-		// Get possible point attributes
-		$point_attributes = $this->_location_attributes();
-
-		// loop over possible locations and add to features array
-		$features = array();
-		foreach($point_attributes as $attr)
-		{
-			$geometries = array();
-
-			// Does the post have this attribute?
-			if (array_key_exists($attr->key, $post['values']))
-			{
-				$geom_key = $attr->key;
-
-				// If only single value
-				if (
-					! is_array($post['values'][$geom_key]) OR
-					// Single point value will have a lat/lon array
-					($attr->type == 'point' AND isset($post['values'][$geom_key]['lat']) AND isset($post['values'][$geom_key]['lon']))
-				)
-				{
-					$post['values'][$geom_key] = array(
-						array(
-							'value' => $post['values'][$geom_key],
-							'id' => NULL
-						)
-					);
-				}
-
-				foreach($post['values'][$geom_key] as $value)
-				{
-					if ($geometry = $this->_value_to_geometry($value['value'], $attr->type))
-					{
-						$features[] = array(
-							'type' => 'Feature',
-							'geometry' => $geometry,
-							'properties' => array(
-								'title' => $attr->label,
-								'description' => '',
-								'attribute_key' => $attr->key,
-								'value_id' => $value['id']
-								// @todo add mark- attributes based on tag symbol+color
-								//'marker-size' => '',
-								//'marker-symbol' => '',
-								//'marker-color' => '',
-								//'resource' => $post
-							)
-						);
-					}
-				}
-			}
-		}
-
-		return array(
-			'type' => 'FeatureCollection',
-			'features' => $features
 		);
 	}
 

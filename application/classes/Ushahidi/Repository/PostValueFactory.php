@@ -38,14 +38,20 @@ class Ushahidi_Repository_PostValueFactory
 		return array_keys($this->map);
 	}
 
-	public function proxy()
+	public function proxy(Array $include_types = [])
 	{
-		return new Ushahidi_Repository_PostValueProxy($this);
+		return new Ushahidi_Repository_PostValueProxy($this, $include_types);
 	}
 
-	public function each($callback)
+	public function each($callback, Array $include_types = [])
 	{
-		foreach ($this->map as $type => $class)
+		$map = $this->map;
+		if ($include_types)
+		{
+			$map = array_intersect_key($this->map, array_fill_keys($include_types, TRUE));
+		}
+
+		foreach ($map as $type => $class)
 		{
 			$repo = $this->getRepo($type);
 			$callback($repo);

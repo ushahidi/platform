@@ -7,8 +7,7 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "type" property
 		And the response has a "features" property
-		And the "features.3.geometry.coordinates.0" property equals "11.123"
-		And the "features.3.geometry.coordinates.1" property equals "24.213"
+		And the "features" property count is "5"
 		Then the guzzle status code should be 200
 
 	Scenario: Find a Post as GeoJSON
@@ -17,10 +16,10 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "type" property
 		And the response has a "features" property
-		And the "features.0.properties.attribute_key" property equals "last_location_point"
-		And the "features.0.geometry.type" property equals "Point"
-		And the "features.2.properties.attribute_key" property equals "geometry_test"
-		And the "features.2.geometry.type" property equals "MultiPolygon"
+		And the "features.2.properties.attribute_key" property equals "last_location_point"
+		And the "features.2.geometry.type" property equals "Point"
+		And the "features.0.properties.attribute_key" property equals "geometry_test"
+		And the "features.0.geometry.type" property equals "MultiPolygon"
 		Then the guzzle status code should be 200
 
 	Scenario: Find a Post as GeoJSON
@@ -74,7 +73,7 @@ Feature: Testing the Posts API
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 		"""
-			geometry_attribute=second_point
+			include_attributes=second_point
 		"""
 		When I request "/posts/geojson"
 		Then the response is JSON

@@ -74,6 +74,16 @@ class Ushahidi_Parser_Post_Search implements Parser
 			}
 		}
 
+		if (isset($data['include_types']) AND ! is_array($data['include_types']))
+		{
+			$data['include_types'] = explode(',', $data['include_types']);
+		}
+
+		if (isset($data['include_attributes']) AND ! is_array($data['include_attributes']))
+		{
+			$data['include_attributes'] = explode(',', $data['include_attributes']);
+		}
+
 		// append sorting data
 		$data += $this->getSorting($data);
 

@@ -281,6 +281,8 @@ abstract class Ushahidi_Core {
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
+		$di->set('formatter.entity.post.geojson', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSON'));
+		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
@@ -293,6 +295,8 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Formatter_Post'] = [
 			'value_formatter' => $di->lazyGet('formatter.entity.post.value')
 		];
+		$di->setter['Ushahidi_Formatter_Post_GeoJSON']['setDecoder'] = $di->lazyNew('Symm\Gisconverter\Decoders\WKT');
+		$di->setter['Ushahidi_Formatter_Post_GeoJSONCollection']['setDecoder'] = $di->lazyNew('Symm\Gisconverter\Decoders\WKT');
 
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));

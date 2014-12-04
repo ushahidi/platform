@@ -24,7 +24,7 @@ trait FormatterTrait
 	 * @param  Ushahidi\Core\Tool\Formatter $formatter
 	 * @return void
 	 */
-	protected function setFormatter(Formatter $formatter)
+	public function setFormatter(Formatter $formatter)
 	{
 		$this->formatter = $formatter;
 	}

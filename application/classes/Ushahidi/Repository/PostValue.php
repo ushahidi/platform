@@ -51,9 +51,13 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 	}
 
 	// GetValuesForPostRepository
-	public function getAllForPost($post_id)
+	public function getAllForPost($post_id, Array $include_attributes = [])
 	{
 		$query = $this->selectQuery(compact('post_id'));
+
+		if ($include_attributes) {
+			$query->where('form_attributes.key', 'IN', $include_attributes);
+		}
 
 		$results = $query->execute($this->db);
 

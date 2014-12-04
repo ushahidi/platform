@@ -9,7 +9,6 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\SearchData;
 use Ushahidi\Api\Endpoint;
 use League\OAuth2\Server\Exception\OAuth2Exception;
 use League\OAuth2\Server\Exception\MissingAccessTokenException;

@@ -34,4 +34,7 @@ class PostSearchData extends SearchData
 	public $tags;
 	public $values;
 	public $set;
+
+	public $include_types;
+	public $include_attributes;
 }
