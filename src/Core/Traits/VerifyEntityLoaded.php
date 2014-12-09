@@ -31,7 +31,7 @@ trait VerifyEntityLoaded
 	 */
 	private function verifyEntityLoaded(Entity $entity, $lookup_id)
 	{
-		if (!$entity->id) {
+		if (!$entity->getId()) {
 			throw new NotFoundException(sprintf(
 				'Could not locate resource %s: %s',
 				$entity->getResource(),

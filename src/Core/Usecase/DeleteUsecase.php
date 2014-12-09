@@ -48,14 +48,7 @@ class DeleteUsecase implements Usecase
 
 		$this->verifyEntityLoaded($entity, $input->id);
 
-		if (!$this->auth->isAllowed($entity, 'delete')) {
-			throw new AuthorizerException(sprintf(
-				'User %d is not allowed to delete resource %s: %d',
-				$this->auth->getUserId(),
-				$entity->getResource(),
-				$entity->id
-			));
-		}
+		$this->verifyDeleteAuth($entity);
 
 		$this->repo->delete($input->id);
 

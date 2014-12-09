@@ -30,7 +30,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
 	{
 		// (set the entity id)
 		$input->id  = 9999;
-		$entity->id = 0;
+		$entity->getId()->willReturn(0);
 
 		// it fetches the record
 		$repo->get($input->id)->willReturn($entity);
@@ -43,12 +43,10 @@ class UpdateUsecaseSpec extends ObjectBehavior
 	function it_fails_when_authorization_is_denied($auth, $repo, Data $input, Entity $entity)
 	{
 		// (set some data of the entity in question)
-		$entity->id  = 1;
-		$entity->foo = 'dog';
-	
+		$entity->getId()->willReturn(1);
+
 		// (set the input values, with a change)
-		$input->id  = 1;
-		$input->foo = 'cat';
+		$input->id = 1;
 
 		// fetch the entity from the repository
 		$repo->get($input->id)->willReturn($entity);
@@ -61,15 +59,15 @@ class UpdateUsecaseSpec extends ObjectBehavior
 
 		// ... the exception requests the userid for the message
 		$auth->getUserId()->willReturn(1);
+		$entity->getResource()->shouldBeCalled();
 		$this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract($input);
 	}
 
 	function it_fails_when_validation_fails($valid, $auth, $repo, Data $input, Data $update, Entity $entity)
 	{
 		// (set some data of the entity in question)
-		$entity->id  = 1;
-		$entity->foo = 'dog';
-	
+		$entity->getId()->willReturn(1);
+
 		// (set the input values, with a change)
 		$input->id  = 1;
 		$input->foo = 'cat';
@@ -85,7 +83,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
 		// ... compare the entity data
-		$entity_array = ['id' => 11, 'foo' => 'dog'];
+		$entity_array = ['id' => 1, 'foo' => 'dog'];
 		$entity->asArray()->willReturn($entity_array);
 
 		// ... with the input to determine what has changed
@@ -103,8 +101,8 @@ class UpdateUsecaseSpec extends ObjectBehavior
 	{
 		// (set some data of the entity in question)
 		$entity->id  = 1;
-		$entity->foo = 'dog';
-	
+		$entity->getId()->willReturn(1);
+
 		// (set the input values, with a change)
 		$input->id  = 1;
 		$input->foo = 'cat';
@@ -120,7 +118,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
 		// ... compare the entity data
-		$entity_array = ['id' => 11, 'foo' => 'dog'];
+		$entity_array = ['id' => 1, 'foo' => 'dog'];
 		$entity->asArray()->willReturn($entity_array);
 
 		// ... with the input to determine what has changed

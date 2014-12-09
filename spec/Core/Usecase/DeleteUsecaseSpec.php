@@ -29,7 +29,7 @@ class DeleteUsecaseSpec extends ObjectBehavior
 	{
 		// (set the entity id)
 		$input->id  = 9999;
-		$entity->id = 0;
+		$entity->getId()->willReturn(0);
 
 		// it fetches the record
 		$repo->get($input->id)->willReturn($entity);
@@ -42,7 +42,8 @@ class DeleteUsecaseSpec extends ObjectBehavior
 	function it_fails_when_authorization_is_denied($auth, $repo, Data $input, Entity $entity)
 	{
 		// (set the entity id)
-		$input->id = $entity->id = 1;
+		$input->id = 1;
+		$entity->getId()->willReturn(1);
 
 		// it fetches the record
 		$repo->get($input->id)->willReturn($entity);
@@ -55,13 +56,15 @@ class DeleteUsecaseSpec extends ObjectBehavior
 
 		// ... the exception requests the userid for the message
 		$auth->getUserId()->willReturn(1);
+		$entity->getResource()->shouldBeCalled();
 		$this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract($input);
 	}
 
 	function it_deletes_a_record($auth, $repo, Data $input, Entity $entity)
 	{
 		// (set the entity id)
-		$input->id = $entity->id = 1;
+		$input->id = 1;
+		$entity->getId()->willReturn(1);
 
 		// it fetches the record
 		$repo->get($input->id)->willReturn($entity);

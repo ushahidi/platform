@@ -49,14 +49,7 @@ class ReadUsecase implements Usecase
 
 		$this->verifyEntityLoaded($entity, $input->id);
 
-		if (!$this->auth->isAllowed($entity, 'read')) {
-			throw new AuthorizerException(sprintf(
-				'User %d is not allowed to view resource %s: %d',
-				$this->auth->getUserId(),
-				$entity->getResource(),
-				$entity->id
-			));
-		}
+		$this->verifyReadAuth($entity);
 
 		return $entity;
 	}

@@ -32,7 +32,7 @@ class UpdatePostSpec extends ObjectBehavior
 		$raw_input  = ['title' => 'After Update', 'content' => 'Some content'];
 		$raw_update = ['title' => 'After Update'];
 
-		$post->id = 1;
+		$post->getId()->willReturn(1);
 
 		$repo->getByIdAndParent($read->id, $read->parent_id)->willReturn($post);
 
@@ -69,7 +69,7 @@ class UpdatePostSpec extends ObjectBehavior
 		$raw_input  = ['title' => 'After Update', 'content' => 'Some content'];
 		$raw_update = ['title' => 'After Update'];
 
-		$post->id = 2;
+		$post->getId()->willReturn(2);
 		$read->locale = "fr_FR";
 		$read->parent_id = 1;
 
@@ -102,7 +102,8 @@ class UpdatePostSpec extends ObjectBehavior
 
 	function it_fails_to_update_a_post_with_invalid_input($valid, $repo, $auth, Post $post, ReadPostData $read, PostData $input)
 	{
-		$post->id = 0;
+		$post->getId()->willReturn(0);
+		$post->getResource()->willReturn('posts');
 
 		$read->id = 1;
 		$read->parent_id = 0;
