@@ -33,7 +33,6 @@ package {
 
 # MySQL setup
 class { '::mysql::server':
-	root_password    => '',
 	package_name     => 'mysql-server-5.5',
 	override_options => {
 		'mysqld' => {
