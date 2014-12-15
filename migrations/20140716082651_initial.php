@@ -63,7 +63,7 @@ class Initial extends AbstractMigration
                'default' => 'varchar',
                'comment' => 'decimal, int, geometry, text, varchar, point',
                ])
-            ->addColumn('required', 'boolean', ['default' => true])
+            ->addColumn('required', 'boolean', ['default' => false])
             ->addColumn('default', 'string', [
                'limit' => 150,
                'null' => true,
