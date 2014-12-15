@@ -104,6 +104,18 @@ class Controller_Api_Users extends Ushahidi_Rest {
 	}
 
 	/**
+	 * Get the options for the "me" endpoint.
+	 *
+	 * OPTIONS /api/users/me
+	 *
+	 * @return void
+	 */
+	public function action_options_me()
+	{
+		$this->action_options_index();
+	}
+
+	/**
 	 * Get current user
 	 *
 	 * GET /api/users/me
