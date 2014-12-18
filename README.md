@@ -3,7 +3,7 @@ Ushahidi 3
 
 [![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform)
 
-[Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+3.x+Downloads)
+[Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x+Downloads)
 
 ## What is Ushahidi 3.x?
 
@@ -40,8 +40,8 @@ better helping out on [Ushahidi 2.x][ush2] right now.
 
 ## More info
 
-- [Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+3.x+Downloads)
-- [The Wiki](https://wiki.ushahidi.com/display/WIKI/Ushahidi,+v3.X)
+- [Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x+Downloads)
+- [The Wiki](https://wiki.ushahidi.com/display/WIKI/Ushahidi+Platform+v3.x)
 - [Ushahidi (the organisation)](http://ushahidi.com)
 - [Ushahidi Blog](http://blog.ushahidi.com)
 
