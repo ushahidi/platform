@@ -54,7 +54,7 @@
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
         "ohanzee/database": "~0.1.2",
-        "robmorgan/phinx": "~0.3.8",
+        "robmorgan/phinx": "~0.4.1",
         "shadowhand/email": "~2.0.1",
         "symm/gisconverter": "~1.0.5",
         "wouter/a1": "dev-master",
