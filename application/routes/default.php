@@ -34,20 +34,6 @@ Route::set('set-posts', 'api/v2/sets/<set_id>/posts(/<id>)',
 	));
 
 /**
- * Form Groups API SubRoute
- */
-Route::set('form-groups', 'api/v2/forms/<form_id>/groups/<group_id>/<controller>(/<id>)',
-	array(
-		'form_id' => '\d+',
-		'group_id' => '\d+',
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api/Forms/Groups'
-	));
-
-/**
  * Forms API SubRoute
  */
 Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)',

@@ -87,6 +87,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'config'        => $di->lazyGet('authorizer.config'),
 	'dataproviders' => $di->lazyGet('authorizer.dataprovider'),
 	'forms'         => $di->lazyGet('authorizer.form'),
+	'form_attributes' => $di->lazyGet('authorizer.form_attribute'),
 	'form_groups'   => $di->lazyGet('authorizer.form_group'),
 	'tags'          => $di->lazyGet('authorizer.tag'),
 	'layers'        => $di->lazyGet('authorizer.layer'),
@@ -106,6 +107,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config'        => $di->lazyGet('repository.config'),
 	'dataproviders' => $di->lazyGet('repository.dataprovider'),
 	'forms'         => $di->lazyGet('repository.form'),
+	'form_attributes' => $di->lazyGet('repository.form_attribute'),
 	'form_groups'   => $di->lazyGet('repository.form_group'),
 	'layers'        => $di->lazyGet('repository.layer'),
 	'media'         => $di->lazyGet('repository.media'),
@@ -202,10 +204,9 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory'] = [
 	'authorizers'  => $di->lazyGet('factory.authorizer'),
 	'repositories' => $di->lazyGet('factory.repository'),
 	'formatters'   => $di->lazyGet('factory.formatter'),
+	// Parsing and formatting happen outside the usecase, in the Endpoint wrapper.
+	'factory'      => $di->newFactory('Ushahidi\Api\Endpoint'),
 ];
-
-// Parsing and formatting happen outside the usecase, in the Endpoint wrapper.
-$di->params['Ushahidi\Api\Factory\EndpointFactory']['factory'] = $di->newFactory('Ushahidi\Api\Endpoint');
 
 // Primary definition of the entire application architecture is here.
 // This maps out what services are used for which endpoint, through a very
@@ -230,24 +231,25 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory']['factory'] = $di->newFactory
 //
 // Or if you want to add a new custom action:
 //
-//     ['special' => true] /* adds "search" action */
+//     ['special' => true] /* adds "special" action */
 //
 $di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
 	// config cannot be deleted or created, only updated
-	'config'        => ['delete' => false, 'post' => false],
+	'config'          => ['delete' => false, 'post'   => false],
 	// data providers cannot be written, only read
-	'dataproviders' => ['create' => false, 'update' => false, 'delete' => false],
-	'forms'         => [],
-	'form_groups'   => [],
-	'tags'          => [],
-	'layers'        => [],
+	'dataproviders'   => ['create' => false, 'update' => false, 'delete' => false],
+	'forms'           => [],
+	'form_attributes' => [],
+	'form_groups'     => [],
+	'layers'          => [],
 	// media cannot be updated, only created and deleted
-	'media'         => ['update' => false],
+	'media'           => ['update' => false],
 	// messages cannot be deleted, only archived (via update)
-	'messages'      => ['delete' => false],
-	'sets'          => [],
-	'users' 		=> [],
-	'posts'         => [],
+	'messages'        => ['delete' => false],
+	'posts'           => [],
+	'sets'            => [],
+	'tags'            => [],
+	'users'           => [],
 ];
 
 // Traits
@@ -267,6 +269,7 @@ $di->set('authorizer.form', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAuth
 $di->params['Ushahidi\Core\Tool\Authorizer\FormAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),
 	];
+$di->set('authorizer.form_attribute', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAttributeAuthorizer'));
 $di->set('authorizer.form_group', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),

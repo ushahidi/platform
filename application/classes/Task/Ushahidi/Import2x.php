@@ -419,7 +419,6 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_attributes")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups_form_attributes")->execute();
 		// Posts & field values
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE post_datetime")->execute();

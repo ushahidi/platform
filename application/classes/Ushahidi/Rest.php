@@ -24,7 +24,7 @@ abstract class Ushahidi_Rest extends Controller {
 	/**
 	 * @var Object Request Payload
 	 */
-	protected $_request_payload = NULL;
+	protected $_request_payload = [];
 
 	/**
 	 * @var Object Response Payload
@@ -245,8 +245,8 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 
 		// If we are acting on a collection, append _collection to the action name.
-		if ($this->request->param('id', FALSE) === FALSE AND
-			$this->request->param('locale', FALSE) === FALSE)
+		if ($this->request->param('id', FALSE) === FALSE
+			AND $this->request->param('locale', FALSE) === FALSE)
 		{
 			$action .= '_collection';
 		}
@@ -287,10 +287,10 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	protected function _parse_request_body()
 	{
-			$this->_request_payload = json_decode($this->request->body(), TRUE);
+			$payload = json_decode($this->request->body(), true);
 
+			// Ensure there were no JSON errors
 			$error = json_last_error();
-
 			if ($error AND $error !== JSON_ERROR_NONE)
 			{
 				throw new HTTP_Exception_400('Invalid json supplied. Error: \':error\'. \':json\'', array(
@@ -298,13 +298,16 @@ abstract class Ushahidi_Rest extends Controller {
 					':error' => Arr::get($this->json_errors, $error, 'Unknown error'),
 				));
 			}
+
 			// Ensure JSON object/array was supplied, not string etc
-			elseif ( ! is_array($this->_request_payload) AND ! is_object($this->_request_payload) )
+			if ( ! is_array($payload) AND ! is_object($payload) )
 			{
 				throw new HTTP_Exception_400('Invalid json supplied. Error: \'JSON must be array or object\'. \':json\'', array(
 					':json' => $this->request->body(),
 				));
 			}
+
+			$this->_request_payload = $payload;
 	}
 
 	/**

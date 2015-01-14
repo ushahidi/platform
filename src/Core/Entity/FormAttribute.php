@@ -26,21 +26,23 @@ class FormAttribute extends StaticEntity
 	protected $priority;
 	protected $options = [];
 	protected $cardinality;
+	protected $form_group_id;
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
-			'id'          => 'int',
-			'key'         => 'string',
-			'label'       => 'string',
-			'input'       => 'string',
-			'type'        => 'string',
-			'required'    => 'bool',
-			'default'     => 'string',
-			'priority'    => 'int',
-			'options'     => 'array',
-			'cardinality' => 'int',
+			'id'            => 'int',
+			'key'           => 'string',
+			'label'         => 'string',
+			'input'         => 'string',
+			'type'          => 'string',
+			'required'      => 'bool',
+			'default'       => 'string',
+			'priority'      => 'int',
+			'options'       => 'array',
+			'cardinality'   => 'int',
+			'form_group_id' => 'int',
 		];
 	}
 

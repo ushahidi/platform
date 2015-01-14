@@ -9,12 +9,57 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Tool\JsonTranscode;
 
-class Ushahidi_Repository_FormAttribute extends Ushahidi_Repository implements FormAttributeRepository
+class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
+	FormAttributeRepository
 {
+	protected $json_transcoder;
+	protected $json_properties = ['options'];
+
+	public function setTranscoder(JsonTranscode $transcoder)
+	{
+		$this->json_transcoder = $transcoder;
+	}
+
+	// CreateRepository
+	public function create(Data $input)
+	{
+		$record = $this->json_transcoder->encode(
+			$input, $this->json_properties
+		)->asArray();
+		unset($record['form_id']);
+		return $this->executeInsert($record);
+	}
+
+	// UpdateRepository
+	public function update($id, Data $input)
+	{
+		$record = $this->json_transcoder->encode(
+			$input, $this->json_properties
+		)->asArray();
+		unset($record['form_id']);
+		return $this->executeUpdate(compact('id'), $record);
+	}
+
+	// SearchRepository
+	protected function setSearchConditions(SearchData $search)
+	{
+		$query = $this->search_query;
+
+		foreach ([
+			'key', 'label', 'input', 'type'
+		] as $key) {
+			if (property_exists($search, $key)) {
+				$query->where($key, '=', $search->$key);
+			}
+		}
+	}
+
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -24,6 +69,7 @@ class Ushahidi_Repository_FormAttribute extends Ushahidi_Repository implements F
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
+		$data = $this->json_transcoder->decode($data, $this->json_properties);
 		return new FormAttribute($data);
 	}
 
@@ -34,10 +80,8 @@ class Ushahidi_Repository_FormAttribute extends Ushahidi_Repository implements F
 
 		$result = $this->selectQuery($where)
 			->select('form_attributes.*')
-			->join('form_groups_form_attributes', 'INNER')
-				->on('form_attributes.id', '=', 'form_attribute_id')
 			->join('form_groups', 'INNER')
-				->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id')
+				->on('form_groups.id', '=', 'form_attributes.form_group_id')
 			->limit(1)
 			->execute($this->db);
 		return $this->getEntity($result->current());
@@ -61,10 +105,8 @@ class Ushahidi_Repository_FormAttribute extends Ushahidi_Repository implements F
 				'required' => true
 			])
 			->select('form_attributes.*')
-			->join('form_groups_form_attributes', 'INNER')
-				->on('form_attributes.id', '=', 'form_attribute_id')
 			->join('form_groups', 'INNER')
-				->on('form_groups_form_attributes.form_group_id', '=', 'form_groups.id');
+				->on('form_groups.id', '=', 'form_attributes.form_group_id');
 
 		$results = $query->execute($this->db);
 

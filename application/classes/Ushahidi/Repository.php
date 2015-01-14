@@ -58,6 +58,7 @@ abstract class Ushahidi_Repository implements
 	}
 
 	// CreateRepository
+	// ReadRepository
 	// UpdateRepository
 	// DeleteRepository
 	public function get($id)
@@ -276,5 +277,15 @@ abstract class Ushahidi_Repository implements
 
 		$count = $query->execute($this->db);
 		return $count;
+	}
+
+	/**
+	 * Check if an entity with the given id exists
+	 * @param  int $id
+	 * @return bool
+	 */
+	public function exists($id)
+	{
+		return (bool) $this->selectCount(compact('id'));
 	}
 }

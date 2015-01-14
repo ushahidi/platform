@@ -90,9 +90,29 @@ abstract class Data
 	 */
 	public function getDifferent(Array $compare)
 	{
-		// Get the difference of current data and comparison. If not all properties
-		// were defined in input, this will contain false positive (empty) values.
-		$delta = array_diff_assoc($this->asArray(), $compare);
+		// Get the difference of current data and comparison.
+		// This will allow null values in $compare to be overridden,
+		// and new values not present in $compare to be added.
+
+		$delta = [];
+		foreach ($this->asArray() as $key => $value) {
+			$delta_value = $value;
+			$exists_in_compare = array_key_exists($key, $compare);
+
+			if ($delta_value === null && $exists_in_compare) {
+				$delta_value = $compare[$key];
+			}
+
+			if ($delta_value === null) {
+				continue;
+			}
+
+			if ($exists_in_compare && $compare[$key] == $delta_value) {
+				continue;
+			}
+
+			$delta[$key] = $delta_value;
+		}
 
 		return new static($delta);
 	}
