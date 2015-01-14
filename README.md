@@ -1,9 +1,21 @@
+[download]: https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x+Downloads
+[install]: https://wiki.ushahidi.com/display/WIKI/Installing+Ushahidi+3.x
+[wiki]: https://wiki.ushahidi.com/display/WIKI/Ushahidi+Platform+v3.x
+[getin]: https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x+-+Getting+Involved
+[ushphab]: https://phabricator.ushahidi.com/
+[helpphab]: https://phabricator.ushahidi.com/w/help/phabricator/
+[ush2]: https://github.com/ushahidi/Ushahidi_Web
+[ushahidi]: http://ushahidi.com
+[ushblog]: http://blog.ushahidi.com
+
 Ushahidi 3
 ============
 
 [![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform)
 
-[Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x+Downloads)
+[Download][download]
+
+[Installation Guide][install]
 
 ## What is Ushahidi 3.x?
 
@@ -12,50 +24,43 @@ and interactive mapping. It helps collect data from many sources, including: ema
 SMS text messaging, Twitter streams, and RSS feeds. The platform offers tools to
 help process that information, categorize it, geo-locate it and publish it on a map.
 
-Ushahidi 3.x is the next iteration of this tool, rebuilt from the ground up.
-Not only the code but the way in which we think about users interacting with mobile
-and social data. Crowdsourcing strategies have come a long way in the five years
-Ushahidi has been around and we've been fortunate enough to learn a lot from our
-global community.
+Ushahidi 3.x is the latest iteration of this tool, rebuilt from the ground up.
+Our codebase has been completely rethought, and so has the way we think about
+users interacting with mobile and social data.
+Crowdsourcing strategies have come a long way since Ushahidi began and we've
+been fortunate to learn so much from our dedicated global community.
 
 ### Should I use Ushahidi 3.x for my new project?
 
-We don't recommend it right now. The platform is not complete and there lots of bugs.
+We don't recommend it right now as the project is under active development.
+
+The platform is nearing completion as we focus on building the new frontend and fixing outstanding bugs.
 
 ### I'm a developer, should I contribute to Ushahidi 3.x?
 
-We would love your help, but the platform is in heavy development with a rapid rate
-of change. If you're keen to help build something awesome, and happy to get deep
-into the core workings... then yes! Read about [getting involved][getin] page.
-Most of our active development happens on the [Ushahidi Phabricator][ushphab].
+We would love your help! Understand the platform is in active development
+which means that parts of the codebase may change rapidly. If you're keen
+to help build something awesome and happy to get deep into the core workings,
+then please read about [getting involved][getin]!
+
+Most of our active development tasks are organized on the [Ushahidi Phabricator][ushphab].
 If you haven't used Phabricator before, read [Phab Help][helpphab] after you sign up.
 
-If you just want to fix a few bugs, or build a prototype on Ushahidi, you're probably
-better helping out on [Ushahidi 2.x][ush2] right now.
+## Using the Platform
 
-[getin]: https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x+-+Getting+Involved
-[ushphab]: https://phabricator.ushahidi.com/
-[helpphab]: https://phabricator.ushahidi.com/w/help/phabricator/
-[ush2]: https://github.com/ushahidi/Ushahidi_Web
+Please see our [Installation Guide][install] to get set up first!
 
-## More info
+### Logging in for the first time
 
-- [Download](https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x+Downloads)
-- [The Wiki](https://wiki.ushahidi.com/display/WIKI/Ushahidi+Platform+v3.x)
-- [Ushahidi (the organisation)](http://ushahidi.com)
-- [Ushahidi Blog](http://blog.ushahidi.com)
-
-### Logging in the first time
-
-The default install creates a user `demo` with password `testing`. This user has
-admin privileges. Once logged in this user can create further user accounts or
-give others admin permissions too.
+The default install creates the user `demo` with a password of `testing`.
+This user has admin privileges. Once logged in, this user can create more user
+accounts or give admin permissions to others as well.
 
 ### Configuration
 
-Base config files are in `application/config/`. You can add per-environment config
-overrides in `application/config/environments/`. The environment is switched based
-on the `KOHANA_ENV` environment variable.
+Base config files are located in `application/config/`.
+You can add per-environment config overrides in `application/config/environments/`.
+The environment is determined based on the `KOHANA_ENV` environment variable.
 
 Routes are configured in `application/routes/default.php`. Additional routes can
 be added in per-environment routing files ie. `application/routes/development.php`.
@@ -98,7 +103,6 @@ bin/phpunit -c application/tests/phpunit.xml
 Create your feature file in `application/tests/features/`, eg `foo.bar.feature`.
 You can run a single test with:
 
-
 ```bash
 bin/behat --config application/tests/behat.yml application/tests/features/foo.bar.feature --format progress
 ```
@@ -111,3 +115,15 @@ You can run a single test with:
 ```bash
 bin/phpunit -c application/tests/phpunit.xml application/tests/classes/Acme/FooBarTest.php
 ```
+
+## Useful Links
+
+- [Download][download]
+- [Installation Guide][install]
+- [Wiki][wiki]
+- [Get Involved][getin]
+- [Phabricator][ushphab]
+  - [Phabricator Help][helpphab]
+- [Ushahidi][ushahidi]
+  - [Ushahidi Blog][ushblog]
+- [Ushahidi Platform v2][ush2]
