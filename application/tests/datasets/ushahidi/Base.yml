@@ -188,14 +188,14 @@ form_attributes:
     form_group_id: 1
   -
     id: 13
-    label: "Third Point"
-    key: "third_point"
-    type: "point"
-    input: "location"
+    label: "Person Status"
+    key: "person_status"
+    type: "varchar"
+    input: "select"
     required: 0
-    priority: 8
-    options: ""
-    cardinality: 1
+    options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
+    priority: 5
+    cardinality: 0
     form_group_id: 2
 posts:
   -
@@ -465,7 +465,7 @@ post_varchar:
   -
     id: 3
     post_id: 102
-    form_attribute_id: 10
+    form_attribute_id: 13
     value: "believed_missing"
   -
     id: 4
