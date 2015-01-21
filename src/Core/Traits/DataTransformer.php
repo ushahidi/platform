@@ -67,11 +67,14 @@ trait DataTransformer
 	 */
 	protected static function transformSlug($value)
 	{
-		// Anything not a letter or number is replaced with a single space
-		$value = preg_replace('/[^\pL\pN-]++/', ' ', $value);
-
-		// ... make it lowercase
+		// Make it lowercase
 		$value = mb_strtolower($value, 'utf-8');
+
+		// .. anything not the separator, letters, numbers or whitespace is replaced
+		$value = preg_replace('/[^\pL\pN\-\s]+/u', '', $value);
+
+		// .. replace whitespace and multiple separator chars with a single separator
+		$value = preg_replace('/[\-\s]+/u', '-', $value);
 
 		// ... and replace spaces with hypens
 		return str_replace(' ', '-', $value);
@@ -99,6 +102,18 @@ trait DataTransformer
 	{
 		// Convert a date string to a timestamp
 		return strtotime($value);
+	}
+
+	/**
+	 * Transforms a string to a lowercase string.
+	 *
+	 * @param  String $value
+	 * @return Integer
+	 */
+	protected static function transformLowercasestring($value)
+	{
+		// Convert a string to lowercase
+		return mb_strtolower($value, 'utf-8');
 	}
 
 	/**

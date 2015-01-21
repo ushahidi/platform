@@ -25,7 +25,7 @@ Feature: Testing the Revisions API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        And the "values.test_varchar" property equals "previous_string"
+        And the "values.test_varchar" property contains "previous_string"
         Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Revision

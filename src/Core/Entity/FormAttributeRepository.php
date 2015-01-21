@@ -27,6 +27,12 @@ interface FormAttributeRepository
 	public function getByKey($key, $form_id = null);
 
 	/**
+	 * @param  int $form_id
+	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
+	 */
+	public function getByForm($form_id);
+
+	/**
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
 	 */
 	public function getAll();
@@ -36,5 +42,4 @@ interface FormAttributeRepository
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
 	 */
 	public function getRequired($form_id);
-
 }

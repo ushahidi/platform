@@ -69,8 +69,8 @@ Feature: Testing the Updates API
                 "type": "report",
                 "locale":"en_US",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }
@@ -95,8 +95,8 @@ Feature: Testing the Updates API
                 "type": "report",
                 "locale":"en_US",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }

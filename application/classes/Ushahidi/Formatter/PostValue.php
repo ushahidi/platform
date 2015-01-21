@@ -27,9 +27,6 @@ class Ushahidi_Formatter_PostValue extends Ushahidi_Formatter_API
 			return $formatter($entity);
 		}
 
-		return [
-			'id'    => $entity->id,
-			'value' => $entity->value
-		];
+		return $entity->value;
 	}
 }

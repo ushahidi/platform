@@ -16,20 +16,20 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
-					"last_location_point":{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"last_location_point":[{
 						"lat":33.755,
 						"lon":-84.39
-					},
-					"geometry_test":"POLYGON((0 0,1 1,2 2,0 0))",
-					"missing_status":"believed_missing",
+					}],
+					"geometry_test":["POLYGON((0 0,1 1,2 2,0 0))"],
+					"missing_status":["believed_missing"],
 					"links":[
-						{"value":"http://google.com"},
-						{"value":"http://facebook.com"}
+						"http://google.com",
+						"http://facebook.com"
 					]
 				},
 				"tags":["explosion"]
@@ -42,10 +42,9 @@ Feature: Testing the Posts API
 		And the response has a "title" property
 		And the "title" property equals "Test post"
 		And the response has a "tags.0.id" property
-		And the "values.last_location_point.0.value.lat" property equals "33.755"
-		And the "values.geometry_test" property equals "POLYGON((0 0,1 1,2 2,0 0))"
-		And the "values.links.0.value" property equals "http://google.com"
-		And the response has a "values.links.0.id" property
+		And the "values.last_location_point.0.lat" property equals "33.755"
+		And the "values.geometry_test" property contains "POLYGON((0 0,1 1,2 2,0 0))"
+		And the "values.links.0" property equals "http://google.com"
 		Then the guzzle status code should be 200
 
 	@create
@@ -61,8 +60,8 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"missing_field":"David Kobia",
-					"date_of_birth":"2012/33/33"
+					"missing_field":["David Kobia"],
+					"date_of_birth":["2012/33/33"]
 				}
 			}
 			"""
@@ -85,34 +84,8 @@ Feature: Testing the Posts API
 				"values":
 				{
 					"last_location":[
-						{"value":"atlanta"},
-						{"value":"auckland"}
-					]
-				},
-				"tags":["explosion"]
-			}
-			"""
-		When I request "/posts"
-		Then the response is JSON
-		And the response has a "errors" property
-		Then the guzzle status code should be 400
-
-	@create
-	Scenario: Creating a new Post with invalid value ID for attribute returns an error
-		Given that I want to make a new "Post"
-		And that the request "data" is:
-			"""
-			{
-				"form":1,
-				"title":"Test post",
-				"type":"report",
-				"status":"draft",
-				"locale":"en_US",
-				"values":
-				{
-					"last_location":"atlanta",
-					"links":[
-						{"id":7, "value":"http://google.com"}
+						"atlanta",
+						"auckland"
 					]
 				},
 				"tags":["explosion"]
@@ -136,11 +109,11 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"missing_status":"believed_missing"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"missing_status":["believed_missing"]
 				}
 			}
 			"""
@@ -164,12 +137,12 @@ Feature: Testing the Posts API
 				"author_email": "robbie@ushahidi.com",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"status":"believed_missing",
-					"last_location":"atlanta"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"status":["believed_missing"],
+					"last_location":["atlanta"]
 				}
 			}
 			"""
@@ -194,12 +167,12 @@ Feature: Testing the Posts API
 				},
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"missing_status":"believed_missing",
-					"last_location":"atlanta"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"missing_status":["believed_missing"],
+					"last_location":["atlanta"]
 				}
 			}
 			"""
@@ -226,12 +199,12 @@ Feature: Testing the Posts API
 				},
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"missing_status":"believed_missing",
-					"last_location":"atlanta"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"missing_status":["believed_missing"],
+					"last_location":["atlanta"]
 				}
 			}
 			"""
@@ -254,12 +227,12 @@ Feature: Testing the Posts API
 				"user":null,
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"missing_status":"believed_missing",
-					"last_location":"atlanta"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"missing_status":["believed_missing"],
+					"last_location":["atlanta"]
 				}
 			}
 			"""
@@ -283,12 +256,12 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"missing_status":"believed_missing",
-					"last_location":"atlanta"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"missing_status":["believed_missing"],
+					"last_location":["atlanta"]
 				}
 			}
 			"""
@@ -311,20 +284,18 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
 					"last_location_point":[
 						{
-							"value": {
-								"lat": 33.755,
-								"lon": -85.39
-							}
+							"lat": 33.755,
+							"lon": -85.39
 						}
 					],
-					"missing_status":"believed_missing"
+					"missing_status":["believed_missing"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -338,7 +309,7 @@ Feature: Testing the Posts API
 		And the response has a "tags.1.id" property
 		And the response has a "title" property
 		And the "title" property equals "Updated Test Post"
-		And the "values.last_location_point.0.value.lon" property equals "-85.39"
+		And the "values.last_location_point.0.lon" property equals "-85.39"
 		Then the guzzle status code should be 200
 
 	@update
@@ -354,12 +325,12 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
-					"missing_status":"believed_missing"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"missing_status":["believed_missing"],
+					"last_location":["atlanta"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -386,20 +357,18 @@ Feature: Testing the Posts API
 				},
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
 					"last_location_point":[
 						{
-							"value": {
-								"lat": 33.755,
-								"lon": -85.39
-							}
+							"lat": 33.755,
+							"lon": -85.39
 						}
 					],
-					"missing_status":"believed_missing"
+					"missing_status":["believed_missing"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -428,20 +397,18 @@ Feature: Testing the Posts API
 				"author_email": "someuser@ushahidi.com",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
 					"last_location_point":[
 						{
-							"value": {
-								"lat": 33.755,
-								"lon": -85.39
-							}
+							"lat": 33.755,
+							"lon": -85.39
 						}
 					],
-					"missing_status":"believed_missing"
+					"missing_status":["believed_missing"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -474,20 +441,18 @@ Feature: Testing the Posts API
 				"author_realname": "Some User",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
 					"last_location_point":[
 						{
-							"value": {
-								"lat": 33.755,
-								"lon": -85.39
-							}
+							"lat": 33.755,
+							"lon": -85.39
 						}
 					],
-					"missing_status":"believed_missing"
+					"missing_status":["believed_missing"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -513,20 +478,18 @@ Feature: Testing the Posts API
 				"author_realname": "Some User",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
 					"last_location_point":[
 						{
-							"value": {
-								"lat": 33.755,
-								"lon": -85.39
-							}
+							"lat": 33.755,
+							"lon": -85.39
 						}
 					],
-					"missing_status":"believed_missing"
+					"missing_status":["believed_missing"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -554,20 +517,18 @@ Feature: Testing the Posts API
 				},
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
 					"last_location_point":[
 						{
-							"value": {
-								"lat": 33.755,
-								"lon": -85.39
-							}
+							"lat": 33.755,
+							"lon": -85.39
 						}
 					],
-					"missing_status":"believed_missing"
+					"missing_status":["believed_missing"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -591,11 +552,11 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -619,12 +580,12 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
-					"missing_status":"believed_missing"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"missing_status":["believed_missing"]
 				},
 				"tags":["disaster","explosion"]
 			}
@@ -647,7 +608,7 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
-	Scenario: Listing All Posts with limit and offset
+	Scenario: Listing all posts with limit 1 and offset 1 should return 1 post
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
@@ -661,7 +622,15 @@ Feature: Testing the Posts API
 		And the response has a "next" property
 		And the response has a "prev" property
 		And the response has a "curr" property
-		And the "results.0.id" property equals "110"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Listing posts should default to sorting by created date (asc)
+		Given that I want to get all "Posts"
+		When I request "/posts"
+		Then the response is JSON
+		And the "order" property equals "asc"
+		And the "orderby" property equals "created"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
@@ -803,7 +772,7 @@ Feature: Testing the Posts API
 		And the "form.id" property equals "1"
 		And the response has a "tags" property
 		And the response has a "values" property
-		And the "values.geometry_test" property equals "MULTIPOLYGON(((40 40,20 45,45 30,40 40)),((20 35,45 20,30 5,10 10,10 30,20 35),(30 20,20 25,20 15,30 20)))"
+		And the "values.geometry_test" property contains "MULTIPOLYGON(((40 40,20 45,45 30,40 40)),((20 35,45 20,30 5,10 10,10 30,20 35),(30 20,20 25,20 15,30 20)))"
 		And the response has a "values.last_location_point" property
 		And the response has a "values.links" property
 		And the response has a "values.missing_status" property
@@ -849,12 +818,12 @@ Feature: Testing the Posts API
 				"locale":"en_US",
 				"values":
 				{
-					"full_name":"David Kobia",
-					"description":"Skinny, homeless Kenyan last seen in the vicinity of the greyhound station",
-					"date_of_birth":null,
-					"missing_date":"2012/09/25",
-					"last_location":"atlanta",
-					"missing_status":"believed_missing"
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"missing_status":["believed_missing"]
 				},
 				"tags":["explosion"]
 			}

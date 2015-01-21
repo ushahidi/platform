@@ -9,22 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-// Note: this doesn't actually implement Ushahidi\Core\Tool\Validator
-// Tt accepts array, not Ushahidi\Data
-class Ushahidi_Validator_Post_Int
+class Ushahidi_Validator_Post_Int extends Ushahidi_Validator_Post_ValueValidator
 {
-	public function check(Array $input)
+	protected function validate($value)
 	{
-		$this->valid = Validation::factory($input)
-			->rules('value', array(
-					array('numeric'),
-				));
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'post')
-	{
-		return $this->valid->errors($from);
+		if (!Valid::digit($value)) {
+			return 'digit';
+		}
 	}
 }

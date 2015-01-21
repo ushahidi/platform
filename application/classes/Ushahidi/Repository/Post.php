@@ -12,6 +12,7 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Entity\UserRepository;
@@ -63,25 +64,34 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
-		if (!empty($data['id'])) {
-			$values = $this->post_value_factory->proxy()->getAllForPost($data['id']);
-
-			$formatted_values = [];
-			foreach ($values as $value) {
-				// Sort values by key.
-				if (!isset($formatted_values[$value->key])) {
-					$formatted_values[$value->key] = [];
-				}
-				$formatted_values[$value->key][] = $value;
-			}
-
+		if (!empty($data['id']))
+		{
 			$data += [
-				// Get custom form attribute values and tags
-				'values' => $formatted_values,
+				'values' => $this->getPostValues($data['id']),
 				'tags'   => $this->getTagsForPost($data['id']),
 			];
 		}
+
 		return new Post($data);
+	}
+
+	protected function getPostValues($id)
+	{
+		// Get all the values for the post. These are the EAV values.
+		$values = $this->post_value_factory
+			->proxy($this->include_value_types)
+			->getAllForPost($id, $this->include_attributes);
+
+		$output = [];
+		foreach ($values as $value) {
+			if (empty($output[$value->key])) {
+				$output[$value->key] = [];
+			}
+			if ($value->value !== NULL) {
+				$output[$value->key][] = $value->value;
+			}
+		}
+		return $output;
 	}
 
 	// Ushahidi_Repository
@@ -93,6 +103,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 			'created_before', 'created_after',
 			'updated_before', 'updated_after',
 			'bbox', 'tags', 'values',
+			'include_types', 'include_attributes'
 		];
 	}
 
@@ -101,12 +112,26 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	{
 		if ($search->include_types)
 		{
-			$this->include_value_types = $search->include_types;
+			if (is_array($search->include_types))
+			{
+				$this->include_value_types = $search->include_types;
+			}
+			else
+			{
+				$this->include_value_types = explode(',', $search->include_types);
+			}
 		}
 
 		if ($search->include_attributes)
 		{
-			$this->include_attributes = $search->include_attributes;
+			if (is_array($search->include_attributes))
+			{
+				$this->include_attributes = $search->include_attributes;
+			}
+			else
+			{
+				$this->include_attributes = explode(',', $search->include_attributes);
+			}
 		}
 
 		$query = $this->search_query;
@@ -197,14 +222,23 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 		{
 			if (isset($search->tags['any']))
 			{
+				$tags = $search->tags['any'];
+				if (!is_array($tags)) {
+					$tags = explode(',', $tags);
+				}
+
 				$query
 					->join('posts_tags')->on('posts.id', '=', 'posts_tags.post_id')
-					->where('tag_id', 'IN', $search->tags['any']);
+					->where('tag_id', 'IN', $tags);
 			}
-
-			if (isset($search->tags['all']))
+			elseif (isset($search->tags['all']))
 			{
-				foreach ($search->tags['all'] as $tag)
+				$tags = $search->tags['all'];
+				if (!is_array($tags)) {
+					$tags = explode(',', $tags);
+				}
+
+				foreach ($tags as $tag)
 				{
 					$sub = DB::select('post_id')
 						->from('posts_tags')
@@ -213,6 +247,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 					$query
 						->where('posts.id', 'IN', $sub);
 				}
+			}
+			else
+			{
+				$tags = $search->tags;
+				if (!is_array($tags)) {
+					$tags = explode(',', $tags);
+				}
+
+				$query
+					->join('posts_tags')->on('posts.id', '=', 'posts_tags.post_id')
+					->where('tag_id', 'IN', $tags);
 			}
 		}
 
@@ -405,43 +450,19 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 		return $count;
 	}
 
-	protected function updatePostValues($post_id, $values)
+	protected function updatePostValues($post_id, $attributes)
 	{
-		$saved_value_ids = [];
-		foreach ($values as $key => $value)
+		$this->post_value_factory->proxy()->deleteAllForPost($post_id);
+
+		foreach ($attributes as $key => $values)
 		{
 			$attribute = $this->form_attribute_repo->getByKey($key);
-			$repo = $this->post_value_factory
-				->getRepo($attribute->type);
+			$repo = $this->post_value_factory->getRepo($attribute->type);
 
-			foreach($value as $v)
+			foreach ($values as $val)
 			{
-				if (is_object($v)) {
-					$v = $v->asArray();
-				}
-				if (! empty($v['id']))
-				{
-					$id = $v['id'];
-					$repo->updateValue($v['id'], $v['value'], $attribute->id, $post_id);
-				}
-				else
-				{
-					$id = $repo->createValue($v['value'], $attribute->id, $post_id);
-				}
-
-				$saved_value_ids[$attribute->type][] = $id;
+				$repo->createValue($val, $attribute->id, $post_id);
 			}
-		}
-
-		// Delete any old values that weren't passed through
-		foreach($this->post_value_factory->getTypes() as $type)
-		{
-			$repo = $this->post_value_factory
-				->getRepo($type);
-
-			$ids = ! empty($saved_value_ids[$type]) ? $saved_value_ids[$type] : [0];
-
-			$repo->deleteNotIn($post_id, $ids);
 		}
 	}
 

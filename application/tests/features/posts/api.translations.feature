@@ -97,8 +97,8 @@ Feature: Testing the Translations API
                 "status": "published",
                 "locale":"de_DE",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }
@@ -123,8 +123,8 @@ Feature: Testing the Translations API
                 "status": "published",
                 "locale":"en_US",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }
@@ -145,8 +145,8 @@ Feature: Testing the Translations API
                 "status": "published",
                 "locale":"fr_FR",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }
@@ -167,8 +167,8 @@ Feature: Testing the Translations API
                 "status": "published",
                 "locale":"fr_FR",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }
@@ -193,8 +193,8 @@ Feature: Testing the Translations API
                 "status": "published",
                 "locale":"fr_FR",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }
@@ -220,8 +220,8 @@ Feature: Testing the Translations API
                 "status": "published",
                 "locale":"de_DE",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }
@@ -243,8 +243,8 @@ Feature: Testing the Translations API
                 "status": "published",
                 "locale":"de_DE",
                 "values": {
-                    "test_varchar": "testing",
-                    "last_location": "blah"
+                    "test_varchar": ["testing"],
+                    "last_location": ["blah"]
                 },
                 "tags": ["disaster"]
             }

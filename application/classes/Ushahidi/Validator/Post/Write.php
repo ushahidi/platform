@@ -123,15 +123,15 @@ class Ushahidi_Validator_Post_Write implements Validator
 		}
 	}
 
-	public function check_values(Validation $valid, $values, $data)
+	public function check_values(Validation $valid, $attributes, $data)
 	{
-		if (!$values) {
+		if (!$attributes) {
 			return;
 		}
 
 		$post_id = ! empty($data['id']) ? $data['id'] : 0;
 
-		foreach ($values as $key => $value)
+		foreach ($attributes as $key => $values)
 		{
 			// Check attribute exists
 			$attribute = $this->attribute_repo->getByKey($key, $data['form_id']);
@@ -142,7 +142,7 @@ class Ushahidi_Validator_Post_Write implements Validator
 			}
 
 			// Are there multiple values? Are they greater than cardinality limit?
-			if (count($value) > $attribute->cardinality AND $attribute->cardinality != 0)
+			if (count($values) > $attribute->cardinality AND $attribute->cardinality != 0)
 			{
 				$valid->error('values', 'tooManyValues', [
 					$key,
@@ -150,41 +150,14 @@ class Ushahidi_Validator_Post_Write implements Validator
 				]);
 			}
 
-			foreach($value as $k => $v)
+			// Run checks on individual values type specific validation
+			if ($validator = $this->post_value_validator_factory->getValidator($attribute->type))
 			{
-				// If id is specified, check post value entry exists
-				if (! empty($v['id']))
-				{
-					// If this is a new post, values should never have 'id'
-					if (empty($data['id']))
-					{
-						$valid->error('values', 'canNotUseExistingValueOnNewPost', [$key, $v['id']]);
-					}
-					else
-					{
-						// Check that value with 'id' exists (and is for this post and attribute)
-						$value_entity = $this->post_value_factory
-							->getRepo($attribute->type)
-							->get($v['id'], $data['id'], $attribute->id);
-
-						// Add error if id specified by doesn't exist
-						if (! $value_entity)
-						{
-							$valid->error('values', 'valueDoesNotExist', [$key, $v['id']]);
-						}
-					}
+				if (!is_array($values)) {
+					$valid->error('values', 'notAnArray', [$key]);
 				}
-
-				// Run checks on individual values type specific validation
-				if ($validator = $this->post_value_validator_factory->getValidator($attribute->type))
-				{
-					if (! $validator->check($v))
-					{
-						foreach($validator->errors() as $error)
-						{
-							$valid->error('values', $error, [$key]);
-						}
-					}
+				elseif ($error = $validator->check($values)) {
+					$valid->error('values', $error, [$key]);
 				}
 			}
 		}
@@ -193,7 +166,7 @@ class Ushahidi_Validator_Post_Write implements Validator
 		$required_attributes = $this->attribute_repo->getRequired($data['form_id']);
 		foreach ($required_attributes as $attr)
 		{
-			if (! array_key_exists($attr->key, $values))
+			if (!array_key_exists($attr->key, $attributes))
 			{
 				$valid->error('values', 'attributeRequired', [$attr->key]);
 			}

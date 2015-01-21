@@ -11,12 +11,12 @@
 
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\Core\Entity\PostValueRepository;
-use Ushahidi\Core\Entity\GetValuesForPostRepository;
+use Ushahidi\Core\Usecase\Post\ValuesForPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostValueRepository;
 
 abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository implements
 	PostValueRepository,
-	GetValuesForPostRepository,
+	ValuesForPostRepository,
 	UpdatePostValueRepository
 {
 
@@ -40,9 +40,7 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 		// Select 'key' too
 		$query->select(
 				$this->getTable().'.*',
-				'form_attributes.key',
-				'form_attributes.cardinality',
-				'form_attributes.type'
+				'form_attributes.key'
 			)
 			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
 
@@ -56,7 +54,7 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 		return $this->getEntity($this->selectOne($where));
 	}
 
-	// GetValuesForPostRepository
+	// ValuesForPostRepository
 	public function getAllForPost($post_id, Array $include_attributes = [])
 	{
 		$query = $this->selectQuery(compact('post_id'));
@@ -68,6 +66,12 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	// ValuesForPostRepository
+	public function deleteAllForPost($post_id)
+	{
+		return $this->executeDelete(compact('post_id'));
 	}
 
 	// PostValueRepository

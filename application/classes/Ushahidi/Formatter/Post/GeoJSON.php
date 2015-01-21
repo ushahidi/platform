@@ -22,31 +22,28 @@ class Ushahidi_Formatter_Post_GeoJSON implements Formatter
 	public function __invoke($entity)
 	{
 		$features = array();
-		foreach($entity->values as $value)
+		foreach($entity->values as $attribute => $values)
 		{
-			if ($value->type !== 'point' AND $value->type !== 'geometry')
+			foreach($values as $value)
 			{
-				continue;
-			}
-
-			if ($geometry = $this->valueToGeometry($value->value, $value->type))
-			{
-				$features[] = [
-					'type' => 'Feature',
-					'geometry' => $geometry,
-					'properties' => [
-						'title' => $entity->title,
-						'description' => $entity->content,
-						'id' => $entity->id,
-						'attribute_key' => $value->key,
-						'value_id' => $value->id
-						// @todo add mark- attributes based on tag symbol+color
-						//'marker-size' => '',
-						//'marker-symbol' => '',
-						//'marker-color' => '',
-						//'resource' => $post
-					]
-				];
+				if ($geometry = $this->valueToGeometry($value))
+				{
+					$features[] = [
+						'type' => 'Feature',
+						'geometry' => $geometry,
+						'properties' => [
+							'title' => $entity->title,
+							'description' => $entity->content,
+							'id' => $entity->id,
+							'attribute_key' => $attribute
+							// @todo add mark- attributes based on tag symbol+color
+							//'marker-size' => '',
+							//'marker-symbol' => '',
+							//'marker-color' => '',
+							//'resource' => $post
+						]
+					];
+				}
 			}
 		}
 

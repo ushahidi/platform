@@ -13,7 +13,6 @@ namespace Ushahidi\Core\Entity;
 
 interface PostValueRepository
 {
-
 	/**
 	 * @param  int $id
 	 * @param  int $post_id

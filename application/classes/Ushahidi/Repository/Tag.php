@@ -76,8 +76,9 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function create(Entity $entity)
 	{
 		$record = array_filter($this->json_transcoder->encode(
-			$entity->asArray(), $this->json_properties
-		)->asArray());
+			$entity->asArray(),
+			$this->json_properties
+		));
 		$record['created'] = time();
 		return $this->executeInsert($this->removeNullValues($record));
 	}
@@ -86,8 +87,9 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function update(Entity $entity)
 	{
 		$record = $this->json_transcoder->encode(
-			$entity->getChanged(), $this->json_properties
-		)->asArray();
+			$entity->getChanged(),
+			$this->json_properties
+		);
 		return $this->executeUpdate(['id' => $entity->getId()], $record);
 	}
 

@@ -45,46 +45,6 @@ class Post extends StaticEntity
 	// DataTransformer
 	protected function getDefinition()
 	{
-		$isList = function (Array $array) {
-			return array_values($array) === $array;
-		};
-		$removeEmptyValues = function ($value) {
-			if (is_object($value)) {
-				return !empty($value->value);
-			}
-			if (is_array($value)) {
-				return !empty($value['value']);
-			}
-			return false;
-		};
-		$transformValues = function ($values) use ($isList, $removeEmptyValues) {
-			if (!is_array($values)) {
-				return [];
-			}
-			foreach ($values as $key => $value) {
-				if (is_array($value) && $isList($value)) {
-					// Clean out empty values in correct structure:
-					//
-					//     [
-					//         {hospital: 'Mercy General', id: 1},
-					//         {diagnosis: null, id: 2}
-					//     ]
-					//
-					$values[$key] = array_filter($value, $removeEmptyValues);
-				} elseif (is_object($value)) {
-					// Assume it is already a Value entity.
-					$values[$key] = [$value];
-				} else {
-					// Handle simple and complex values:
-					//
-					//     {current_age: 46}
-					//     {last_location: {lat: 33.53, lon: 112.91}}
-					//
-					$values[$key] = [['value' => $value]];
-				}
-			}
-			return $values;
-		};
 		return [
 			'id'              => 'int',
 			'parent_id'       => 'int',
@@ -101,8 +61,8 @@ class Post extends StaticEntity
 			'status'          => 'string',
 			'created'         => 'int',
 			'updated'         => 'int',
-			'locale'          => 'string',
-			'values'          => $transformValues,
+			'locale'          => '*lowercasestring',
+			'values'          => 'array',
 			'tags'            => 'array',
 		];
 	}

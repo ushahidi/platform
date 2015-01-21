@@ -105,10 +105,25 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	}
 
 	// FormAttributeRepository
+	public function getByForm($form_id)
+	{
+		$query = $this->selectQuery([
+				'form_groups.form_id' => $form_id,
+			])
+			->select('form_attributes.*')
+			->join('form_groups', 'INNER')
+				->on('form_groups.id', '=', 'form_attributes.form_group_id');
+
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
+	// FormAttributeRepository
 	public function getRequired($form_id)
 	{
 		$query = $this->selectQuery([
-				'form_id'  => $form_id,
+				'form_groups.form_id'  => $form_id,
 				'required' => true
 			])
 			->select('form_attributes.*')

@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Entity\GetValuesForPostRepository;
+use Ushahidi\Core\Usecase\Post\ValuesForPostRepository;
 
-class Ushahidi_Repository_PostValueProxy implements GetValuesForPostRepository
+class Ushahidi_Repository_PostValueProxy implements ValuesForPostRepository
 {
 	protected $factory;
 	protected $include_types;
@@ -34,4 +34,15 @@ class Ushahidi_Repository_PostValueProxy implements GetValuesForPostRepository
 		return $results;
 	}
 
+	// ValuesForPostRepository
+	public function deleteAllForPost($post_id)
+	{
+		$total = 0;
+
+		$this->factory->each(function ($repo) use ($post_id, &$total) {
+			$total += $repo->deleteAllForPost($post_id);
+		});
+
+		return $total;
+	}
 }

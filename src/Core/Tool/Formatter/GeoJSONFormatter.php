@@ -29,15 +29,17 @@ trait GeoJSONFormatter
 	 * @param  string       $type     Value Type (point or geometry)
 	 * @return array
 	 */
-	protected function valueToGeometry($value, $type)
+	protected function valueToGeometry($value)
 	{
-		if ($type === 'point') {
+		// Assume array value's are always lat/lon arrays
+		if (is_array($value)) {
 			return [
 				'type' => 'Point',
 				'coordinates' => [$value['lon'], $value['lat']]
 			];
 		}
 
+		// Otherwise assume value is WKT text
 		try {
 			$geometry = $this->decoder->geomFromText($value);
 			return $geometry->toGeoArray();

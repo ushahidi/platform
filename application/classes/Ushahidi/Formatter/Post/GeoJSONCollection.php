@@ -34,16 +34,14 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 		foreach ($entities as $entity)
 		{
 			$geometries = [];
-			foreach($entity->values as $value)
+			foreach($entity->values as $attribute => $values)
 			{
-				if ($value->type !== 'point' AND $value->type !== 'geometry')
+				foreach ($values as $value)
 				{
-					continue;
-				}
-
-				if ($geometry = $this->valueToGeometry($value->value, $value->type))
-				{
-					$geometries[] = $geometry;
+					if ($geometry = $this->valueToGeometry($value))
+					{
+						$geometries[] = $geometry;
+					}
 				}
 			}
 
@@ -70,29 +68,35 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 			}
 		}
 
-		return $output;
-	}
-
-	// CollectionFormatter
-	public function getPaging(SearchData $input, $total_count)
-	{
-		if ($input->bbox)
+		if ($this->search->bbox)
 		{
-			if (is_array($input->bbox))
+			if (is_array($this->search->bbox))
 			{
-				$bbox = $input->bbox;
+				$bbox = $this->search->bbox;
 			}
 			else
 			{
-				$bbox = explode(',', $input->bbox);
+				$bbox = explode(',', $this->search->bbox);
 			}
 
-			return [
-				'bbox' => $bbox
-			];
+			$output['bbox'] = $bbox;
 		}
 
-		return [];
+		return $output;
+	}
+
+	/**
+	 * Store paging parameters.
+	 *
+	 * @param  SearchData $search
+	 * @param  Integer    $total
+	 * @return $this
+	 */
+	public function setSearch(SearchData $search, $total = null)
+	{
+		$this->search = $search;
+		$this->total  = $total;
+		return $this;
 	}
 
 }

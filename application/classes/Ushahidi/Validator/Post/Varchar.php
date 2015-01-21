@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Post Date Validator
+ * Ushahidi Post Varchar Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,23 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-
-// Note: this doesn't actually implement Ushahidi\Core\Tool\Validator
-// Tt accepts array, not Ushahidi\Data
-class Ushahidi_Validator_Post_Varchar
+class Ushahidi_Validator_Post_Varchar extends Ushahidi_Validator_Post_ValueValidator
 {
-	public function check(Array $input)
+	protected function validate($value)
 	{
-		$this->valid = Validation::factory($input)
-			->rules('value', array(
-					array('max_length', array(':value', 255))
-				));
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'post')
-	{
-		return $this->valid->errors($from);
+		if (!is_scalar($value)) {
+			return 'scalar';
+		}
+		if (!Valid::max_length($value, 255)) {
+			return 'max_length';
+		}
 	}
 }

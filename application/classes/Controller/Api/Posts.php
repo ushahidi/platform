@@ -178,7 +178,8 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$usecase = service('factory.usecase')->get('posts', 'delete');
+		$usecase = service('factory.usecase')->get('posts', 'delete')
+			->setIdentifiers($this->request->param());
 
 		$this->_restful($usecase);
 	}

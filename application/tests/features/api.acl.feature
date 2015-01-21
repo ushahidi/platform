@@ -145,9 +145,7 @@ Feature: API Access Control Layer
             "status": "published",
             "locale": "en_us",
             "values": {
-                "last_location" : [{
-                    "value": "Somewhere"
-                }]
+                "last_location" : ["Somewhere"]
             }
         }
         """
