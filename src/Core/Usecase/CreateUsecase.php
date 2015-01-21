@@ -12,12 +12,10 @@
 namespace Ushahidi\Core\Usecase;
 
 use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Data;
-
 use Ushahidi\Core\Tool\AuthorizerTrait;
+use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
-
-use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Traits\ModifyRecords;
 
 class CreateUsecase implements Usecase
 {
@@ -25,61 +23,84 @@ class CreateUsecase implements Usecase
 	// setter method for the tool. For example, the AuthorizerTrait provides
 	// a `setAuthorizer` method which only accepts `Authorizer` instances.
 	use AuthorizerTrait,
+		FormatterTrait,
 		ValidatorTrait;
 
+	// - ModifyRecords for setting entity modification parameters
+	use ModifyRecords;
+
 	/**
-	 * @var Ushahidi\Core\Usecase\CreateRepository
+	 * @var CreateRepository
 	 */
 	protected $repo;
 
-	public function __construct(Array $tools)
-	{
-		$this->setValidator($tools['valid']);
-		$this->setAuthorizer($tools['auth']);
-		$this->setRepository($tools['repo']);
-	}
-
 	/**
-	 * @param  Ushahidi\Core\Usecase\CreateRepository $repo
-	 * @return void
+	 * Inject a repository that can create entities.
+	 *
+	 * @param  $repo CreateRepository
+	 * @return $this
 	 */
-	protected function setRepository(CreateRepository $repo)
+	public function setRepository(CreateRepository $repo)
 	{
 		$this->repo = $repo;
+		return $this;
+	}
+
+	// Usecase
+	public function isWrite()
+	{
+		return true;
+	}
+
+	// Usecase
+	public function isSearch()
+	{
+		return false;
+	}
+
+	// Usecase
+	public function interact()
+	{
+		// Fetch and hydrate the entity...
+		$entity = $this->getEntity();
+
+		// ... verify that the entity can be created by the current user
+		$this->verifyCreateAuth($entity);
+
+		// ... verify that the entity is in a valid state
+		$this->verifyValid($entity);
+
+		// ... persist the new entity
+		$id = $this->repo->create($entity);
+
+		// ... get the newly created entity
+		$entity = $this->getCreatedEntity($id);
+
+		// ... verify that the entity can be read by the current user
+		$this->verifyReadAuth($entity);
+
+		// ... and return the formatted entity
+		return $this->formatter->__invoke($entity);
 	}
 
 	/**
-	 * Before validation, allow additional binding of input/entity values to
-	 * the validator. Can be overloaded as necessary by specific use cases.
-	 * @param  Entity $entity
-	 * @param  Data   $input
-	 * @return void
+	 * Get an empty entity, apply the payload.
+	 *
+	 * @return Entity
 	 */
-	protected function beforeValidate(Data $input)
+	protected function getEntity()
 	{
-		// Nothing by default, overloaded uses cases can overload.
+		return $this->repo->getEntity()->setState($this->payload);
 	}
 
-	public function interact(Data $input)
+	/**
+	 * Get the created entity.
+	 *
+	 * @param  Mixed $id
+	 * @return Entity
+	 */
+	protected function getCreatedEntity($id)
 	{
-		// Apply additional validation bindings.
-		$this->beforeValidate($input);
-
-		if (!$this->valid->check($input)) {
-			throw new ValidatorException('Failed to validate data for create', $this->valid->errors());
-		}
-
-		// Fetch an empty record
-		$entity = $this->repo->getEntity();
-
-		$this->verifyCreateAuth($entity, $input);
-
-		$entity = $this->repo->get(
-			$this->repo->create($input)
-		);
-
-		$this->verifyReadAuth($entity);
-
-		return $entity;
+		return $this->repo->get($id);
 	}
 }

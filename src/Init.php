@@ -131,13 +131,22 @@ $di->params['Ushahidi\Factory\FormatterFactory']['collections'] = [
 	'search' => true,
 ];
 
+// Data transfer objects are used to carry complex search filters between collaborators.
+$di->set('factory.data', $di->lazyNew('Ushahidi\Factory\DataFactory'));
+
+// Usecases that perform searches are the most typical usage of data objects.
+$di->params['Ushahidi\Factory\DataFactory']['actions'] = [
+	'search' => $di->lazyNew('Ushahidi\Core\SearchData'),
+];
+
 // Use cases are used to join multiple collaborators together for a single interaction.
 $di->set('factory.usecase', $di->lazyNew('Ushahidi\Factory\UsecaseFactory'));
 $di->params['Ushahidi\Api\Factory\UsecaseFactory'] = [
 	'authorizers'  => $di->lazyGet('factory.authorizer'),
-	'parsers'      => $di->lazyGet('factory.parser'),
-	'validators'   => $di->lazyGet('factory.validator'),
 	'repositories' => $di->lazyGet('factory.repository'),
+	'formatters'   => $di->lazyGet('factory.formatters'),
+	'validators'   => $di->lazyGet('factory.validators'),
+	'data'         => $di->lazyGet('factory.data'),
 ];
 
 // Each of the actions follows a standard sequence of events and is simply constructed
@@ -179,19 +188,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPost'),
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
-];
-
-// Usecases also have slightly different interaction styles if they read, write,
-// or both. Additional actions should be defined here based on their style.
-$di->params['Ushahidi\Factory\UsecaseFactory']['read'] = [
-	'read'   => true,
-	'update' => true, // + write
-	'delete' => true,
-	'search' => true,
-];
-$di->params['Ushahidi\Factory\UsecaseFactory']['write'] = [
-	'create' => true,
-	'update' => true, // + read
 ];
 
 // Endpoints are used to cross the boundary between the core application and the

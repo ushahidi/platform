@@ -25,17 +25,27 @@ trait VerifyEntityLoaded
 	 * Verifies that a given entity has been loaded, by checking that the "id"
 	 * property is not empty.
 	 * @param  Entity  $entity
-	 * @param  Integer $lookup_id
+	 * @param  Mixed   $lookup
 	 * @return void
 	 * @throws NotFoundException
 	 */
-	private function verifyEntityLoaded(Entity $entity, $lookup_id)
+	private function verifyEntityLoaded(Entity $entity, $lookup)
 	{
 		if (!$entity->getId()) {
+			if (is_array($lookup)) {
+				$arr = [];
+				foreach ($lookup as $key => $val) {
+					$arr[] = "$key: $val";
+				}
+				$lookup_string = implode(', ', $arr);
+			} else {
+				$lookup_string = $lookup;
+			}
+
 			throw new NotFoundException(sprintf(
-				'Could not locate resource %s: %s',
+				'Could not locate any %s matching [%s]',
 				$entity->getResource(),
-				$lookup_id
+				$lookup_string
 			));
 		}
 	}

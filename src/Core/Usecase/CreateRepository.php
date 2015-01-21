@@ -11,16 +11,16 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 
 interface CreateRepository
 {
 	/**
-	 * Creates a new record and returns the new id.
-	 * @param  Data $data
-	 * @return Integer
+	 * Creates a new record and returns the created id.
+	 * @param  Entity $entity
+	 * @return Mixed
 	 */
-	public function create(Data $data);
+	public function create(Entity $entity);
 
 	/**
 	 * Fetches a record and returns the entity.

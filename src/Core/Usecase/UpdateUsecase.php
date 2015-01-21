@@ -12,13 +12,12 @@
 namespace Ushahidi\Core\Usecase;
 
 use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\AuthorizerTrait;
+use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Traits\IdentifyRecords;
+use Ushahidi\Core\Traits\ModifyRecords;
 use Ushahidi\Core\Traits\VerifyEntityLoaded;
-use Ushahidi\Core\Exception\ValidatorException;
-use Ushahidi\Core\Exception\AuthorizerException;
 
 class UpdateUsecase implements Usecase
 {
@@ -26,83 +25,82 @@ class UpdateUsecase implements Usecase
 	// setter method for the tool. For example, the AuthorizerTrait provides
 	// a `setAuthorizer` method which only accepts `Authorizer` instances.
 	use AuthorizerTrait,
+		FormatterTrait,
 		ValidatorTrait;
+
+	// - IdentifyRecords for setting entity lookup parameters
+	// - ModifyRecords for setting entity modification parameters
+	use IdentifyRecords,
+		ModifyRecords;
 
 	// - VerifyEntityLoaded for checking that an entity is found
 	use VerifyEntityLoaded;
 
-	// Ushahidi\Core\Usecase\CreateRepository
+	/**
+	 * @var UpdateRepository
+	 */
 	protected $repo;
 
-	private $updated = [];
-
-	public function __construct(Array $tools)
-	{
-		$this->setValidator($tools['valid']);
-		$this->setAuthorizer($tools['auth']);
-		$this->setRepository($tools['repo']);
-	}
-
-	protected function setRepository(UpdateRepository $repo)
+	/**
+	 * Inject a repository that can update entities.
+	 *
+	 * @param  UpdateRepository $repo
+	 * @return $this
+	 */
+	public function setRepository(UpdateRepository $repo)
 	{
 		$this->repo = $repo;
+		return $this;
 	}
 
-	/**
-	 * Before validation, allow additional binding of input/entity values to
-	 * the validator. Can be overloaded as necessary by specific use cases.
-	 * @param  Entity $entity
-	 * @param  Data   $input
-	 * @return void
-	 */
-	protected function beforeValidate(Entity $entity, Data $input)
+	// Usecase
+	public function isWrite()
 	{
-		// Nothing by default, overloaded uses cases can overload.
+		return true;
 	}
 
-	public function interact(Data $input)
+	// Usecase
+	public function isSearch()
 	{
-		$entity = $this->getEntity($input);
+		return false;
+	}
 
-		$this->verifyEntityLoaded($entity, $input->id);
+	// Usecase
+	public function interact()
+	{
+		// Fetch the entity with payload applied...
+		$entity = $this->getEntity();
 
-		$this->verifyUpdateAuth($entity, $input);
+		// ... verify that the entity can be updated by the current user
+		$this->verifyUpdateAuth($entity);
 
-		// Apply additional validation bindings *before* data diff.
-		$this->beforeValidate($entity, $input);
+		// ... verify that the entity is in a valid state
+		$this->verifyValid($entity);
 
-		// We only want to work with values that have been changed
-		$update = $input->getDifferent($entity->asArray());
+		// ... persist the changes
+		$this->repo->update($entity);
 
-		if (!$this->valid->check($update)) {
-			throw new ValidatorException('Failed to validate data for update', $this->valid->errors());
-		}
-
-		// Determine what changes to were made
-		$this->updated = $update->asArray();
-
-		$this->repo->update($entity->id, $update);
-
-		// Reload the entity to get the most recent data
-		$entity = $this->repo->get($entity->id);
-
+		// ... verify that the entity can be read by the current user
 		$this->verifyReadAuth($entity);
 
-		return $entity;
-	}
-
-	public function getUpdated()
-	{
-		return $this->updated;
+		// ... and return the formatted entity
+		return $this->formatter->__invoke($entity);
 	}
 
 	/**
-	 * Find entity based on read data
-	 * @param  Data    $input
+	 * Find entity based on identifying parameters, apply the payload.
+	 *
 	 * @return Entity
 	 */
-	protected function getEntity(Data $input)
+	protected function getEntity()
 	{
-		return $this->repo->get($input->id);
+		// Fetch the entity using the given identifiers
+		$entity = $this->repo->get($this->getIdentifier('id'));
+
+		// ... verify that the entity was actually loaded
+		$this->verifyEntityLoaded($entity, $this->identifiers);
+
+		// ... and update the entity with the payload
+		return $entity->setState($this->payload);
 	}
 }

@@ -14,13 +14,32 @@ namespace Ushahidi\Core;
 interface Usecase
 {
 	/**
-	 * Take user input and return a result based on that input.
+	 * Will this usecase write any data?
 	 *
-	 * Typically validates the data and performs one or more repository actions
-	 * to deliver the requested data.
-	 *
-	 * @param  Data $input  context specific input data
-	 * @return mixed
+	 * @return Boolean
 	 */
-	public function interact(Data $input);
+	public function isWrite();
+
+	/**
+	 * Will this usecase search for data?
+	 *
+	 * @return Boolean
+	 */
+	public function isSearch();
+
+	/**
+	 * Given user input, return a formatted Entity as the result.
+	 *
+	 * Interaction will typically consist of one or more of the following:
+	 *
+	 * - verifying user input
+	 * - checking user authorization
+	 * - creating a new entity
+	 * - reading one or more entities
+	 * - updating an entity
+	 * - deleting an entity
+	 *
+	 * @return Array
+	 */
+	public function interact();
 }

@@ -32,112 +32,70 @@ class UsecaseFactory
 	// Actions correspond with usecases, resources with entity types.
 	protected $map = [];
 
-	// Array of actions that require input to know which records to fetch:
-	//
-	//     $read = [
-	//         'read'   => true,
-	//         'search' => true,
-	//         'delete' => true,
-	//     ];
-	//
-	// Read actions use a Parser to create input data.
-	protected $read = [];
-
-	// Array of actions that require input used to modify a record:
-	//
-	//     $write = [
-	//         'create' => true,
-	//         'update' => true,
-	//     ];
-	//
-	// Write actions use a Parser to create input data.
-	protected $write = [];
-
 	/**
-	 * @param  Ushahidi\Factory\AuthorizerFactory
+	 * @param  AuthorizerFactory
 	 */
 	protected $authorizers;
 
 	/**
-	 * @param  Ushahidi\Factory\ParserFactory
+	 * @param  FormatterFactory
 	 */
-	protected $parsers;
+	protected $formatters;
 
 	/**
-	 * @param  Ushahidi\Factory\ValidatorFactory
-	 */
-	protected $validators;
-
-	/**
-	 * @param  Ushahidi\Factory\RepositoryFactory
+	 * @param  RepositoryFactory
 	 */
 	protected $repositories;
+
+	/**
+	 * @param  ValidatorFactory
+	 */
+	protected $validators;
 
 	/**
 	 * Uses collaborator factories to load use case interactors using
 	 * specific collaborators for the entity/resource type.
 	 *
-	 * @param  Ushahidi\Factory\AuthorizerFactory $authorizers
-	 * @param  Ushahidi\Factory\ParserFactory     $parsers
-	 * @param  Ushahidi\Factory\RepositoryFactory $repositories
-	 * @param  Ushahidi\Factory\ValidatorFactory  $validators
+	 * @param  AuthorizerFactory $authorizers
+	 * @param  RepositoryFactory $repositories
+	 * @param  FormatterFactory  $formatters
+	 * @param  Array $actions
 	 * @param  Array $map
-	 * @param  Array $read
-	 * @param  Array $write
 	 */
 	public function __construct(
-		AuthorizerFactory  $authorizers,
-		ParserFactory      $parsers,
-		RepositoryFactory  $repositories,
-		ValidatorFactory   $validators,
+		AuthorizerFactory $authorizers,
+		DataFactory       $data,
+		FormatterFactory  $formatters,
+		RepositoryFactory $repositories,
+		ValidatorFactory  $validators,
 		Array $actions,
-		Array $map,
-		Array $read,
-		Array $write
+		Array $map
 	) {
 		$this->authorizers  = $authorizers;
-		$this->parsers      = $parsers;
+		$this->data         = $data;
+		$this->formatters   = $formatters;
 		$this->repositories = $repositories;
 		$this->validators   = $validators;
 
 		$this->actions = $actions;
 		$this->map     = $map;
-		$this->read    = $read;
-		$this->write   = $write;
-	}
-
-	/**
-	 * Checks if a given action requires read input.
-	 * @param  String $action
-	 * @return Boolean
-	 */
-	public function isRead($action)
-	{
-		return !empty($this->read[$action]);
-	}
-
-	/**
-	 * Checks if a given action requires write input.
-	 * @param  String $action
-	 * @return Boolean
-	 */
-	public function isWrite($action)
-	{
-		return !empty($this->write[$action]);
 	}
 
 	/**
 	 * Gets a usecase from the map by action. Loads the tools for the usecase
 	 * from the factories by resource and action.
+	 *
+	 *     $read_post = $usecases->get('posts', 'read');
+	 *
 	 * @param  String $resource
 	 * @param  String $action
 	 * @return Ushahidi\Core\Usecase
 	 */
 	public function get($resource, $action)
 	{
-		if (!empty($this->map[$resource][$action])) {
+		if (isset($this->map[$resource][$action])) {
 			$factory = $this->map[$resource][$action];
-		} elseif (!empty($this->actions[$action])) {
+		} elseif (isset($this->actions[$action])) {
 			$factory = $this->actions[$action];
 		}
 
@@ -145,17 +103,20 @@ class UsecaseFactory
 			throw new \Exception(sprintf('Usecase %s.%s is not defined', $resource, $action));
 		}
 
-		$auth = $this->authorizers->get($resource);
-		$repo = $this->repositories->get($resource);
+		$usecase = $factory()
+			->setAuthorizer($this->authorizers->get($resource))
+			->setRepository($this->repositories->get($resource))
+			->setFormatter($this->formatters->get($resource, $action))
+			;
 
-		if ($this->isWrite($action)) {
-			$valid = $this->validators->get($resource, $action);
+		if ($usecase->isWrite()) {
+			$usecase->setValidator($this->validators->get($resource, $action));
 		}
 
-		return $factory(compact(
-			'auth',
-			'repo',
-			'valid'
-		));
+		if ($usecase->isSearch()) {
+			$usecase->setData($this->data->get($action));
+		}
+
+		return $usecase;
 	}
 }

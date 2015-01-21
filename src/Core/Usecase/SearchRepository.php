@@ -23,10 +23,16 @@ interface SearchRepository
 	public function getEntity(Array $data = null);
 
 	/**
-	 * @param  SearchData $data
+	 * Get fields that can be used for searches.
+	 * @return Array
+	 */
+	public function getSearchFields();
+
+	/**
+	 * @param  SearchData $search
 	 * @return $this
 	 */
-	public function setSearchParams(SearchData $data);
+	public function setSearchParams(SearchData $search);
 
 	/**
 	 * @return [Ushahidi\Core\Entity, ...]

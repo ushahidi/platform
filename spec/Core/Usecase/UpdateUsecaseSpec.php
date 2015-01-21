@@ -2,23 +2,23 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Usecase\UpdateRepository;
-
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
-
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Usecase\UpdateRepository;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class UpdateUsecaseSpec extends ObjectBehavior
 {
-	function let(Validator $valid, Authorizer $auth, UpdateRepository $repo)
+	function let(Authorizer $auth, Formatter $format, Validator $valid, UpdateRepository $repo)
 	{
-		// usecases are constructed with an array of named tools
-		$this->beConstructedWith(compact('valid', 'auth', 'repo'));
+		$this->setAuthorizer($auth);
+		$this->setFormatter($format);
+		$this->setValidator($valid);
+		$this->setRepository($repo);
 	}
 
 	function it_is_initializable()
@@ -26,123 +26,98 @@ class UpdateUsecaseSpec extends ObjectBehavior
 		$this->shouldHaveType('Ushahidi\Core\Usecase\UpdateUsecase');
 	}
 
-	function it_fails_when_the_entity_is_not_found($repo, Data $input, Entity $entity)
+	private function tryGetEntity($repo, $entity, $id)
 	{
-		// (set the entity id)
-		$input->id  = 9999;
-		$entity->getId()->willReturn(0);
+		$payload = ['update' => true];
 
-		// it fetches the record
-		$repo->get($input->id)->willReturn($entity);
+		// Set usecase parameters
+		$this->setIdentifiers(['id' => $id]);
+		$this->setPayload($payload);
+
+		// Called by UpdateUsecase::getEntity
+		$repo->get($id)->willReturn($entity);
+		$entity->setState($payload)->willReturn($entity);
+
+		// Called by UpdateUsecase::verifyEntityLoaded
+		$entity->getId()->willReturn($id);
+	}
+
+	function it_fails_when_the_entity_is_not_found($repo, Entity $entity)
+	{
+		$id = 0;
+
+		// ... fetch the entity
+		$this->tryGetEntity($repo, $entity, $id);
 
 		// ... or at least it tried to
-		$entity->getResource()->shouldBeCalled();
-		$this->shouldThrow('Ushahidi\Core\Exception\NotFoundException')->duringInteract($input);
+		$entity->getResource()->willReturn('widgets');
+		$this->shouldThrow('Ushahidi\Core\Exception\NotFoundException')->duringInteract();
 	}
 
-	function it_fails_when_authorization_is_denied($auth, $repo, Data $input, Entity $entity)
+	function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
 	{
-		// (set some data of the entity in question)
-		$entity->getId()->willReturn(1);
+		$id = 1;
 
-		// (set the input values, with a change)
-		$input->id = 1;
+		// ... fetch the entity
+		$this->tryGetEntity($repo, $entity, 1);
 
-		// fetch the entity from the repository
-		$repo->get($input->id)->willReturn($entity);
-
-		// ... run the authorization action
+		// ... if authorization fails
 		$action = 'update';
-
-		// ... and if it fails
 		$auth->isAllowed($entity, $action)->willReturn(false);
 
-		// ... the exception requests the userid for the message
+		// ... the exception requests data the message
+		$entity->getResource()->willReturn('widgets');
+		$entity->getId()->willReturn($id);
 		$auth->getUserId()->willReturn(1);
-		$entity->getResource()->shouldBeCalled();
-		$this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract($input);
+		$this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
 	}
 
-	function it_fails_when_validation_fails($valid, $auth, $repo, Data $input, Data $update, Entity $entity)
+	function it_fails_when_validation_fails($auth, $repo, $valid, Entity $entity)
 	{
-		// (set some data of the entity in question)
-		$entity->getId()->willReturn(1);
+		$id = 2;
 
-		// (set the input values, with a change)
-		$input->id  = 1;
-		$input->foo = 'cat';
+		// ... fetch the entity
+		$this->tryGetEntity($repo, $entity, $id);
 
-		// (set the change as the update)
-		$update->foo = $input->foo;
-
-		// ... fetch the entity from the repository
-		$repo->get($input->id)->willReturn($entity);
-
-		// ... run the authorization action
+		// ... if authorization passes
 		$action = 'update';
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
-		// ... compare the entity data
-		$entity_array = ['id' => 1, 'foo' => 'dog'];
-		$entity->asArray()->willReturn($entity_array);
-
-		// ... with the input to determine what has changed
-		$input->getDifferent($entity_array)->willReturn($update);
-
-		// ... when validation fails
-		$valid->check($update)->willReturn(false);
+		// ... but validation fails
+		$valid->check($entity)->willReturn(false);
 
 		// ... the exception requests the errors for the message
+		$entity->getResource()->willReturn('widgets');
 		$valid->errors()->willReturn([]);
-		$this->shouldThrow('Ushahidi\Core\Exception\ValidatorException')->duringInteract($input);
+		$this->shouldThrow('Ushahidi\Core\Exception\ValidatorException')->duringInteract();
 	}
 
-	function it_updates_a_record($valid, $auth, $repo, Data $input, Data $update, Entity $entity)
+	function it_updates_the_record($auth, $valid, $repo, $format, Entity $entity, Entity $updated)
 	{
-		// (set some data of the entity in question)
-		$entity->id  = 1;
-		$entity->getId()->willReturn(1);
+		$id = 3;
 
-		// (set the input values, with a change)
-		$input->id  = 1;
-		$input->foo = 'cat';
+		// ... fetch the entity
+		$this->tryGetEntity($repo, $entity, $id);
 
-		// (set the change as the update)
-		$update->foo = $input->foo;
-
-		// ... fetch the entity from the repository
-		$repo->get($input->id)->willReturn($entity);
-
-		// ... run the authorization action
+		// ... if authorization passes
 		$action = 'update';
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
-		// ... compare the entity data
-		$entity_array = ['id' => 1, 'foo' => 'dog'];
-		$entity->asArray()->willReturn($entity_array);
+		// ... and validation passes
+		$valid->check($entity)->willReturn(true);
 
-		// ... with the input to determine what has changed
-		$input->getDifferent($entity_array)->willReturn($update);
-
-		// ... if validation is successful...
-		$valid->check($update)->willReturn(true);
-
-		// ... those changes are stored
-		$changed = ['foo' => $update->foo];
-		$update->asArray()->willReturn($changed);
-
-		// ... then write the changes
-		$repo->update($entity->id, $update)->shouldBeCalled();
-
-		// ... fetch the updated entity from the repository
-		$entity->foo = $input->foo;
-		$repo->get($input->id)->willReturn($entity);
+		// ... store the changes
+		$repo->update($entity)->shouldBeCalled();
 
 		// ... and verify that the record can be read
 		$action = 'read';
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
-		// ... finally returning the updated record
-		$this->interact($input)->shouldReturn($entity);
+		// ... then format the record
+		$formatted = ['id' => $id];
+		$format->__invoke($entity)->willReturn($formatted);
+
+		// ... and returns it
+		$this->interact()->shouldReturn($formatted);
 	}
 }

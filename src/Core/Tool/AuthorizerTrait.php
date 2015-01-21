@@ -22,17 +22,18 @@ use Ushahidi\Core\Exception\AuthorizerException;
 trait AuthorizerTrait
 {
 	/**
-	 * @var Ushahidi\Core\Tool\Authorizer
+	 * @var Authorizer
 	 */
 	protected $auth;
 
 	/**
-	 * @param  Ushahidi\Core\Tool\Authorizer $auth
+	 * @param  Authorizer $auth
 	 * @return void
 	 */
-	protected function setAuthorizer(Authorizer $auth)
+	public function setAuthorizer(Authorizer $auth)
 	{
 		$this->auth = $auth;
+		return $this;
 	}
 
 	/**
@@ -60,11 +61,10 @@ trait AuthorizerTrait
 	 * Verifies the current user is allowed search access on $entity
 	 *
 	 * @param  Entity  $entity
-	 * @param  Data    $input
 	 * @return void
 	 * @throws AuthorizerException
 	 */
-	protected function verifySearchAuth(Entity $entity, Data $input)
+	protected function verifySearchAuth(Entity $entity)
 	{
 		$this->verifyAuth($entity, 'search');
 	}
@@ -101,7 +101,7 @@ trait AuthorizerTrait
 	 * @return void
 	 * @throws AuthorizerException
 	 */
-	protected function verifyUpdateAuth(Entity $entity, Data $input)
+	protected function verifyUpdateAuth(Entity $entity)
 	{
 		$this->verifyAuth($entity, 'update');
 	}
@@ -114,7 +114,7 @@ trait AuthorizerTrait
 	 * @return void
 	 * @throws AuthorizerException
 	 */
-	protected function verifyCreateAuth(Entity $entity, Data $input)
+	protected function verifyCreateAuth(Entity $entity)
 	{
 		$this->verifyAuth($entity, 'create');
 	}

@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 
 interface Validator
 {
@@ -19,10 +19,10 @@ interface Validator
 	const REGEX_STANDARD_TEXT = '/^[\pL\pN\pP ]++$/uD';
 
 	/**
-	 * @param  Ushahidi\Data to be checked
+	 * @param  Entity to be checked
 	 * @return bool
 	 */
-	public function check(Data $entity);
+	public function check(Entity $entity);
 
 	/**
 	 * @param  String  $source

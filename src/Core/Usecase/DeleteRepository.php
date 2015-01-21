@@ -11,6 +11,8 @@
 
 namespace Ushahidi\Core\Usecase;
 
+use Ushahidi\Core\Entity;
+
 interface DeleteRepository
 {
 	/**
@@ -20,8 +22,8 @@ interface DeleteRepository
 	public function get($id);
 
 	/**
-	 * @param  Integer $id
+	 * @param  Entity $entity
 	 * @return void
 	 */
-	public function delete($id);
+	public function delete(Entity $entity);
 }

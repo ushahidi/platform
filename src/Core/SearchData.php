@@ -3,7 +3,7 @@
 /**
  * Ushahidi Platform Search Data
  *
- * Adds methods required for searching to Data.
+ * Data transfer object for dynamic search parameters.
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,11 +13,64 @@
 
 namespace Ushahidi\Core;
 
-abstract class SearchData extends Data
+use Ushahidi\Core\Traits\FilterRecords;
+
+class SearchData
 {
+	use FilterRecords;
+
 	/**
-	 * Get an array of the sorting parameters and their values.
+	 * @var Array
+	 */
+	protected $sorting = [
+		'orderby',
+		'order',
+		'limit',
+		'offset',
+	];
+
+	/**
+	 * Stores the given filters for later access.
+	 *
+	 * @param  Array $filters
+	 */
+	public function __construct(Array $filters = null)
+	{
+		if ($filters) {
+			$this->setFilters($filters);
+		}
+	}
+
+	/**
+	 * Access search filters as if they are object properties.
+	 *
+	 * @param  String $key
+	 * @return Mixed
+	 */
+	public function __get($key)
+	{
+		return $this->getFilter($key);
+	}
+
+	/**
+	 * Change the filters used for sorting.
+	 *
+	 * @param  Array $sorting
+	 * @return $this
+	 */
+	public function setSorting(Array $sorting)
+	{
+		$this->sorting = $sorting;
+		return $this;
+	}
+
+	/**
+	 * Get an array of the sorting filters, with their values.
+	 *
 	 * @return Array [orderby, order, limit, offset]
 	 */
-	abstract public function getSortingParams();
+	public function getSorting($force = false)
+	{
+		return $this->getFilters($this->sorting, $force);
+	}
 }

@@ -2,22 +2,21 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Usecase\ReadRepository;
-
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
-
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Tool\Formatter;
+use Ushahidi\Core\Usecase\ReadRepository;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class ReadUsecaseSpec extends ObjectBehavior
 {
-	function let(Authorizer $auth, ReadRepository $repo)
+	function let(Authorizer $auth, Formatter $format, ReadRepository $repo)
 	{
-		// usecases are constructed with an array of named tools
-		$this->beConstructedWith(compact('auth', 'repo'));
+		$this->setAuthorizer($auth);
+		$this->setFormatter($format);
+		$this->setRepository($repo);
 	}
 
 	function it_is_initializable()
@@ -25,55 +24,67 @@ class ReadUsecaseSpec extends ObjectBehavior
 		$this->shouldHaveType('Ushahidi\Core\Usecase\ReadUsecase');
 	}
 
-	function it_fails_when_the_entity_is_not_found($repo, Data $input, Entity $entity)
+	function it_fails_when_no_identifer_exists()
 	{
-		// (set the entity id)
-		$input->id  = 9999;
-		$entity->getId()->willReturn(0);
-
-		// it fetches the record
-		$repo->get($input->id)->willReturn($entity);
-
-		// ... or at least it tried to
-		$entity->getResource()->shouldBeCalled();
-		$this->shouldThrow('Ushahidi\Core\Exception\NotFoundException')->duringInteract($input);
+		$this->shouldThrow('InvalidArgumentException')->duringInteract();
 	}
 
-	function it_fails_when_authorization_is_denied($auth, $repo, Data $input, Entity $entity)
+	private function tryGetEntity($repo, $entity, $id)
 	{
-		// (set the entity id)
-		$input->id = 1;
-		$entity->getId()->willReturn($input->id);
+		// Set usecase parameters
+		$this->setIdentifiers(['id' => $id]);
 
-		// it fetches the record
-		$repo->get($input->id)->willReturn($entity);
+		// Called by ReadUsecase::getEntity
+		$repo->get($id)->willReturn($entity);
 
-		// ... run the authorization action
+		// Called by NotFoundException and AuthorizerException
+		$entity->getId()->willReturn($id);
+		$entity->getResource()->willReturn('widgets');
+	}
+
+	function it_fails_when_the_entity_is_not_found($repo, Entity $entity)
+	{
+		$id = 0;
+
+		// ... fetch the entity
+		$this->tryGetEntity($repo, $entity, $id);
+
+		// ... or at least it tried to
+		$this->shouldThrow('Ushahidi\Core\Exception\NotFoundException')->duringInteract();
+	}
+
+	function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
+	{
+		$id = 1;
+
+		// ... fetch the entity
+		$this->tryGetEntity($repo, $entity, $id);
+
+		// ... if authorization fails
 		$action = 'read';
-
-		// ... and if it fails
 		$auth->isAllowed($entity, $action)->willReturn(false);
 
 		// ... the exception requests the userid for the message
 		$auth->getUserId()->willReturn(1);
-		$entity->getResource()->shouldBeCalled();
-		$this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract($input);
+		$this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
 	}
 
-	function it_reads_a_record($auth, $repo, Data $input, Entity $entity)
+	function it_reads_and_formats_a_record($auth, $repo, $format, Entity $entity)
 	{
-		// (set the entity id)
-		$input->id = 1;
-		$entity->getId()->willReturn($input->id);
+		$id = 2;
 
-		// it fetches the record
-		$repo->get($input->id)->willReturn($entity);
+		// ... fetch the entity
+		$this->tryGetEntity($repo, $entity, $id);
 
-		// ... run the authorization action
+		// ... if authorization passes
 		$action = 'read';
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
-		// ... finally returning the new record
-		$this->interact($input)->shouldReturn($entity);
+		// ... it formats the record
+		$formatted = ['id' => $id];
+		$format->__invoke($entity)->willReturn($formatted);
+
+		// ... and returns it
+		$this->interact()->shouldReturn($formatted);
 	}
 }

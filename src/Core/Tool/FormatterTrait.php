@@ -16,16 +16,17 @@ namespace Ushahidi\Core\Tool;
 trait FormatterTrait
 {
 	/**
-	 * @var Ushahidi\Core\Tool\Formatter
+	 * @var Formatter
 	 */
 	protected $formatter;
 
 	/**
-	 * @param  Ushahidi\Core\Tool\Formatter $formatter
+	 * @param  Formatter $formatter
 	 * @return void
 	 */
 	public function setFormatter(Formatter $formatter)
 	{
 		$this->formatter = $formatter;
+		return $this;
 	}
 }

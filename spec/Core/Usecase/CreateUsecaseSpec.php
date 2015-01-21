@@ -2,23 +2,23 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Usecase\CreateRepository;
-
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
-
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Usecase\CreateRepository;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class CreateUsecaseSpec extends ObjectBehavior
 {
-	function let(Validator $valid, Authorizer $auth, CreateRepository $repo)
+	function let(Authorizer $auth, Formatter $format, Validator $valid, CreateRepository $repo)
 	{
-		// usecases are constructed with an array of named tools
-		$this->beConstructedWith(compact('valid', 'auth', 'repo'));
+		$this->setAuthorizer($auth);
+		$this->setFormatter($format);
+		$this->setRepository($repo);
+		$this->setValidator($valid);
 	}
 
 	function it_is_initializable()
@@ -26,59 +26,79 @@ class CreateUsecaseSpec extends ObjectBehavior
 		$this->shouldHaveType('Ushahidi\Core\Usecase\CreateUsecase');
 	}
 
-	function it_fails_when_validation_fails($valid, Data $input)
+	private function tryGetEntity($repo, $entity)
 	{
-		// when validation fails...
-		$valid->check($input)->willReturn(false);
+		// Set usecase parameters
+		$payload = ['create' => true];
+		$this->setPayload($payload);
+
+		// Called by CreateUsecase::getEntity
+		$repo->getEntity()->willReturn($entity);
+		$entity->setState($payload)->willReturn($entity);
+	}
+
+	function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
+	{
+		// ... fetch a new entity
+		$this->tryGetEntity($repo, $entity);
+
+		// ... if authorization fails
+		$action = 'create';
+		$auth->isAllowed($entity, $action)->willReturn(false);
+
+		// ... the exception requests data for the error message
+		$entity->getResource()->willReturn('widgets');
+		$entity->getId()->willReturn(1);
+		$auth->getUserId()->willReturn(1);
+		$this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
+	}
+
+	function it_fails_when_validation_fails($auth, $repo, $valid, Entity $entity)
+	{
+		// ... fetch a new entity
+		$this->tryGetEntity($repo, $entity);
+
+		// ... if authorization passes
+		$action = 'create';
+		$auth->isAllowed($entity, $action)->willReturn(true);
+
+		// ... but validation fails
+		$valid->check($entity)->willReturn(false);
 
 		// ... the exception requests the errors for the message
+		$entity->getResource()->willReturn('widgets');
 		$valid->errors()->willReturn([]);
-		$this->shouldThrow('Ushahidi\Core\Exception\ValidatorException')->duringInteract($input);
+		$this->shouldThrow('Ushahidi\Core\Exception\ValidatorException')->duringInteract();
 	}
 
-	function it_fails_when_authorization_is_denied($valid, $auth, $repo, Data $input, Entity $resource)
+	function it_creates_a_new_record($auth, $repo, $valid, $format, Entity $entity, Entity $created)
 	{
-		// after validation is successful...
-		$valid->check($input)->willReturn(true);
+		// ... fetch a new entity
+		$this->tryGetEntity($repo, $entity);
 
-		// ... with an an empty resource / entity
-		$repo->getEntity()->willReturn($resource);
-
-		// ... run the authorization action
+		// ... if authorization passes
 		$action = 'create';
+		$auth->isAllowed($entity, $action)->willReturn(true);
 
-		// ... and if it fails
-		$auth->isAllowed($resource, $action)->willReturn(false);
+		// ... and validation passes
+		$valid->check($entity)->willReturn(true);
 
-		// ... the exception requests the userid for the message
-		$auth->getUserId()->willReturn(1);
-		$this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract($input);
-	}
+		// ... create a new record
+		$id = 1;
+		$repo->create($entity)->willReturn($id);
 
-	function it_creates_a_new_record($valid, $auth, $repo, Data $input, Entity $resource, Entity $created)
-	{
-		// after validation is successful...
-		$valid->check($input)->willReturn(true);
-
-		// ... with an an empty resource / entity
-		$repo->getEntity()->willReturn($resource);
-
-		// ... run the authorization action
-		$action = 'create';
-		$auth->isAllowed($resource, $action)->willReturn(true);
-
-		// ... use the input to create a new record
-		$newid  = 2;
-		$repo->create($input)->willReturn($newid);
-
-		// ... then fetch the created record
-		$repo->get($newid)->willReturn($created);
+		// ... fetch the record
+		$repo->get($id)->willReturn($created);
 
 		// ... and verify that the record can be read
 		$action = 'read';
 		$auth->isAllowed($created, $action)->willReturn(true);
 
-		// ... finally returning the new record
-		$this->interact($input)->shouldReturn($created);
+		// ... then format the record
+		$formatted = ['id' => 1];
+		$format->__invoke($created)->willReturn($formatted);
+
+		// ... and returns it
+		$this->interact()->shouldReturn($formatted);
 	}
 }

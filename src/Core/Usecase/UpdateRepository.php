@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 
 interface UpdateRepository
 {
@@ -22,9 +22,8 @@ interface UpdateRepository
 	public function get($id);
 
 	/**
-	 * @param  Integer $id
-	 * @param  Data    $input
+	 * @param  Entity $entity
 	 * @return void
 	 */
-	public function update($id, Data $input);
+	public function update(Entity $entity);
 }

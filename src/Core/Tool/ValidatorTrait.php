@@ -13,19 +13,40 @@
 
 namespace Ushahidi\Core\Tool;
 
+use Ushahidi\Core\Entity;
+use Ushahidi\Core\Exception\ValidatorException;
+
 trait ValidatorTrait
 {
 	/**
-	 * @var Ushahidi\Core\Tool\Validator
+	 * @var Validator
 	 */
 	protected $valid;
 
 	/**
-	 * @param  Ushahidi\Core\Tool\Validator $valid
+	 * @param  Validator $valid
 	 * @return void
 	 */
-	protected function setValidator(Validator $valid)
+	public function setValidator(Validator $valid)
 	{
 		$this->valid = $valid;
+		return $this;
+	}
+
+	/**
+	 * Verify that the given entity is valid.
+	 *
+	 * @param  Entity $entity
+	 * @return void
+	 * @throws ValidatorException
+	 */
+	protected function verifyValid(Entity $entity)
+	{
+		if (!$this->valid->check($entity)) {
+			throw new ValidatorException(sprintf(
+				'Failed to validate %s entity',
+				$entity->getResource()
+			), $this->valid->errors());
+		}
 	}
 }
