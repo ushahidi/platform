@@ -13,11 +13,11 @@ namespace Ushahidi\Factory;
 
 class ValidatorFactory
 {
-	// Array of parsers, mapped by resource and action:
+	// Array of validators, mapped by resource and action:
 	//
 	//     $map['widgets'] = [
-	//         'create' => $di->lazyNew('Namespace\To\Widget\CreateParser'),
-	//         'update' => $di->lazyNew('Namespace\To\Widget\UpdateParser'),
+	//         'create' => $di->lazyNew('Namespace\To\Widget\CreateValidator'),
+	//         'update' => $di->lazyNew('Namespace\To\Widget\UpdateValidator'),
 	//         ...
 	//     ]
 	//

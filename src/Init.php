@@ -67,12 +67,6 @@ $di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
 // Any command can be registered with the console app.
 $di->params['Ushahidi\Console\Application']['injectCommands'] = [];
 
-// Parsers are used to parse request data used for read operations.
-$di->set('factory.parser', $di->lazyNew('Ushahidi\Factory\ParserFactory'));
-
-// Implemented parsers will be mapped to resources and actions.
-$di->params['Ushahidi\Factory\ParserFactory']['map'] = [];
-
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
 
@@ -209,64 +203,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
 	'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),
 ];
 $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->lazyGet('tool.authenticator.password');
-
-// Endpoints are used to cross the boundary between the core application and the
-// delivery layer. The endpoint factory is a meta-factory that composes each use
-// case when it is required.
-$di->set('factory.endpoint', $di->lazyNew('Ushahidi\Api\Factory\EndpointFactory'));
-$di->params['Ushahidi\Api\Factory\EndpointFactory'] = [
-	'parsers'      => $di->lazyGet('factory.parser'),
-	'usecases'     => $di->lazyGet('factory.usecase'),
-	'authorizers'  => $di->lazyGet('factory.authorizer'),
-	'repositories' => $di->lazyGet('factory.repository'),
-	'formatters'   => $di->lazyGet('factory.formatter'),
-	// Parsing and formatting happen outside the usecase, in the Endpoint wrapper.
-	'factory'      => $di->newFactory('Ushahidi\Api\Endpoint'),
-];
-
-// Primary definition of the entire application architecture is here.
-// This maps out what services are used for which endpoint, through a very
-// strict convention. All services are dependency injected, to allow for
-// additional modification and extension.
-//
-// Each endpoint is defined as `'resource' => [/* list of actions */]`.
-// Using `[]` for actions will default to:
-//
-//     [
-//       'create' => true,
-//       'read'   => true,
-//       'update' => true,
-//       'delete' => true,
-//       'search' => true,
-//     ]
-//
-// Whatever actions are defined here will be merged with the defaults. This allows
-// disabling one or more actions very simple:
-//
-//     ['search' => false] /* will disable search */
-//
-// Or if you want to add a new custom action:
-//
-//     ['special' => true] /* adds "special" action */
-//
-$di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
-	// config cannot be deleted or created, only updated
-	'config'          => ['delete' => false, 'post'   => false],
-	// data providers cannot be written, only read
-	'dataproviders'   => ['create' => false, 'update' => false, 'delete' => false],
-	'forms'           => [],
-	'form_attributes' => [],
-	'form_groups'     => [],
-	'layers'          => [],
-	// media cannot be updated, only created and deleted
-	'media'           => ['update' => false],
-	// messages cannot be deleted, only archived (via update)
-	'messages'        => ['delete' => false],
-	'posts'           => [],
-	'sets'            => [],
-	'tags'            => [],
-	'users'           => [],
-];
 
 // Traits
 $di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');

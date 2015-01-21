@@ -209,7 +209,6 @@ class Controller_Api_Posts extends Ushahidi_Api {
 		}
 		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
-			// Also handles ParserException
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));

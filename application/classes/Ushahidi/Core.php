@@ -100,86 +100,6 @@ abstract class Ushahidi_Core {
 			'db' => $di->lazyGet('kohana.db'),
 			];
 
-		// Parser mapping
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['config'] = [
-			'read'   => $di->lazyNew('Ushahidi_Parser_Config_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Config_Update'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Config_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['dataproviders'] = [
-			'read'   => $di->lazyNew('Ushahidi_Parser_Dataprovider_Read'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Dataprovider_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['forms'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Form_Write'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Form_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Form_Write'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Form_Read'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Form_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['form_attributes'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Create'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Update'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Read'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Form_Attribute_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['form_groups'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Form_Group_Write'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Form_Group_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Form_Group_Write'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Form_Group_Read'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Form_Group_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['layers'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Layer_Create'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Layer_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Layer_Update'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Layer_Read'), /* reusing */
-			'search' => $di->lazyNew('Ushahidi_Parser_Layer_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['media'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Media_Create'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Media_Read'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Media_Delete'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Media_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['messages'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Message_Create'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Message_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Message_Update'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Message_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['posts'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Post_Write'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Post_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Post_Write'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Post_Search'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Post_Read'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['tags'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Tag_Create'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Tag_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Tag_Update'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Tag_Delete'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Tag_Search'),
-		];
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['sets'] = [
-			'create' => $di->lazyNew('Ushahidi_Parser_Set_Create'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_Set_Read'),
-			'update' => $di->lazyNew('Ushahidi_Parser_Set_Update'),
-			'search' => $di->lazyNew('Ushahidi_Parser_Set_Search'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_Set_Read'),
-		];
-
-		$di->params['Ushahidi\Factory\ParserFactory']['map']['users'] = [
-			'search' => $di->lazyNew('Ushahidi_Parser_User_Search'),
-			'read'   => $di->lazyNew('Ushahidi_Parser_User_Read'),
-			'create' => $di->lazyNew('Ushahidi_Parser_User_Create'),
-			'delete' => $di->lazyNew('Ushahidi_Parser_User_Delete'),
-			'update' => $di->lazyNew('Ushahidi_Parser_User_Update'),
-		];
-
 		// Validator mapping
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['config'] = [
 			'update' => $di->lazyNew('Ushahidi_Validator_Config_Update'),
@@ -302,7 +222,6 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
 
-
 		// Formatter parameters
 		$di->setter['Ushahidi_Formatter_JSONP']['setCallback'] = function() {
 			return Request::current()->query('callback');
@@ -386,12 +305,6 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Repository_PostPoint'] = [
 			'decoder' => $di->lazyNew('Symm\Gisconverter\Decoders\WKT')
 			];
-
-		// Parsers
-		$di->set('parser.post.read', $di->lazyNew('Ushahidi_Parser_Post_Read'));
-		$di->set('parser.post.search', $di->lazyNew('Ushahidi_Parser_Post_Search'));
-		$di->set('parser.post.update', $di->lazyNew('Ushahidi_Parser_Post_Update'));
-		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));
 
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
