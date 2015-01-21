@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Create Form Group Use Case
+ * Ushahidi Platform Create Form Attribute Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -15,10 +15,10 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Traits\IdentifyRecords;
 use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
-class CreateFormGroup extends CreateUsecase
+class CreateFormAttribute extends CreateUsecase
 {
-	// - VerifyFormLoaded for checking that the form exists
-	use VerifyFormLoaded;
+	// - VerifyGroupLoaded for checking that the group exists
+	use VerifyGroupLoaded;
 
 	// For form check:
 	// - IdentifyRecords
@@ -29,8 +29,8 @@ class CreateFormGroup extends CreateUsecase
 	// CreateUsecase
 	protected function getEntity()
 	{
-		return parent::getEntity()->setState([
-			'form_id' => $this->getRequiredIdentifier('form_id'),
-		]);
+		$entity = parent::getEntity();
+		$this->verifyGroupExists($entity);
+		return $entity;
 	}
 }

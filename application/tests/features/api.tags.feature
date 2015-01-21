@@ -237,7 +237,7 @@ Feature: Testing the Tags API
         Given that I want to get all "Tags"
         And that the request "query string" is:
             """
-            parent=3
+            parent_id=3
             """
         When I request "/tags"
         Then the response is JSON

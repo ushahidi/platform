@@ -17,13 +17,10 @@ use Ushahidi\Core\SearchData;
 class Ushahidi_Formatter_Collection extends CollectionFormatter
 {
 	// CollectionFormatter
-	public function getPaging(SearchData $input, $total_count)
+	public function getPaging()
 	{
-		$params = $input->getSortingParams();
-
-		if (!$params) {
-			return []; // this collection does not appear to be paged
-		}
+		// Get paging parameters, ensuring all values are set
+		$params = $this->search->getSorting(true);
 
 		$prev_params = $next_params = $params;
 		$next_params['offset'] = $params['offset'] + $params['limit'];
@@ -36,15 +33,15 @@ class Ushahidi_Formatter_Collection extends CollectionFormatter
 		$next = URL::site($request->uri() . URL::query($next_params), $request);
 		$prev = URL::site($request->uri() . URL::query($prev_params), $request);
 
-		return array(
-			'limit'       => $input->limit,
-			'offset'      => $input->offset,
-			'order'       => $input->order,
-			'orderby'     => $input->orderby,
+		return [
+			'limit'       => $params['limit'],
+			'offset'      => $params['offset'],
+			'order'       => $params['order'],
+			'orderby'     => $params['orderby'],
 			'curr'        => $curr,
 			'next'        => $next,
 			'prev'        => $prev,
-			'total_count' => $total_count
-		);
+			'total_count' => $this->total
+		];
 	}
 }

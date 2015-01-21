@@ -51,7 +51,7 @@ class ConfigAuthorizer implements Authorizer
 		}
 
 		// If a config group is public then *anyone* can view it.
-		if ($privilege === 'read' && $this->isConfigPublic($entity)) {
+		if (in_array($privilege, ['read', 'search']) && $this->isConfigPublic($entity)) {
 			return true;
 		}
 

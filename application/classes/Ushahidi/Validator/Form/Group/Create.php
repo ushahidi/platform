@@ -9,13 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 
 class Ushahidi_Validator_Form_Group_Create extends Ushahidi_Validator_Form_Group_Update
 {
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
-		parent::check($input);
+		parent::check($entity);
 
 		$this->valid
 			->rules('form_id', [

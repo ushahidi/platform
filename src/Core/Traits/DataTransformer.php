@@ -37,10 +37,25 @@ trait DataTransformer
 	 */
 	protected static function transformJson($value)
 	{
-		if (!is_string($value)) {
-			return $value;
+		if (is_string($value)) {
+			$value = json_decode($value, true);
 		}
-		return json_decode($value, true);
+
+		if (static::optionJsonAlwaysArray()) {
+			$value = (array) $value;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Requires that all `json` type fields are returned as arrays.
+	 *
+	 * @return Boolean
+	 */
+	protected static function optionJsonAlwaysArray()
+	{
+		return true;
 	}
 
 	/**
@@ -53,10 +68,10 @@ trait DataTransformer
 	protected static function transformSlug($value)
 	{
 		// Anything not a letter or number is replaced with a single space
-		$value = preg_replace('/[^\pL\PN-]++/', ' ', $value);
+		$value = preg_replace('/[^\pL\pN-]++/', ' ', $value);
 
 		// ... make it lowercase
-		$value = strtolower($value);
+		$value = mb_strtolower($value, 'utf-8');
 
 		// ... and replace spaces with hypens
 		return str_replace(' ', '-', $value);
@@ -129,6 +144,9 @@ trait DataTransformer
 			} elseif (is_array($val) && is_array($definition[$key])) {
 				// Arrays can be recursively transformed.
 				$data[$key] = $this->transform($data[$key], $definition[$key]);
+			} elseif ($definition[$key] === false) {
+				// Definition requires the value to be removed.
+				unset($data[$key]);
 			} elseif (null !== $val) {
 				if ($func = $this->getCustomTransformer($definition[$key])) {
 					// Use a custom transformer for this type.

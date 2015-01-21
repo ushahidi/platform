@@ -34,16 +34,4 @@ interface UpdatePostRepository
 	 * @return Boolean
 	 */
 	public function doesTranslationExist($locale, $parent_id, $type);
-
-	// UpdateRepository
-	public function update($id, Data $input);
-
-	// PostRepository
-	public function get($id);
-
-	// PostRepository
-	public function getByIdAndParent($id, $parent_id);
-
-	// PostRepository
-	public function getByLocale($locale, $parent_id);
 }

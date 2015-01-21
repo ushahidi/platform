@@ -20,16 +20,13 @@ use Ushahidi\Core\Exception\NotFoundException;
 
 trait VerifyFormLoaded
 {
-	// Traits in trait inception, giving access to the verifyEntityLoaded method.
-	use VerifyEntityLoaded;
-
 	/**
-	 * @var Ushahidi\Core\Entity\FormRepository
+	 * @var FormRepository
 	 */
 	protected $form_repo;
 
 	/**
-	 * @param  Ushahidi\Core\Entity\FormRepository $repo
+	 * @param  FormRepository $repo
 	 * @return void
 	 */
 	public function setFormRepository(FormRepository $repo)
@@ -42,18 +39,23 @@ trait VerifyFormLoaded
 	 * @param  Data $input
 	 * @return void
 	 */
-	protected function verifyFormExists(Data $input)
+	protected function verifyFormExists()
 	{
-		$form = $this->form_repo->get($input->form_id);
-		// Tie the form repository and the entity loaded trait together.
-		$this->verifyEntityLoaded($form, $input->form_id);
+		// Ensure that the form exists.
+		$form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
+		$this->verifyEntityLoaded($form, $this->identifiers);
 	}
 
 	// Usecase
-	public function interact(Data $input)
+	public function interact()
 	{
-		// Before running the rest of the use case, verify that the form exists.
-		$this->verifyFormExists($input);
-		return parent::interact($input);
+		$this->verifyFormExists();
+		return parent::interact();
 	}
+
+	// IdentifyRecords
+	abstract protected function getRequiredIdentifier($name);
+
+	// VerifyEntityLoaded
+	abstract protected function verifyEntityLoaded(Entity $entity, $lookup);
 }

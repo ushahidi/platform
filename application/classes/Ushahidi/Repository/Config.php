@@ -10,6 +10,7 @@
  */
 
 use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Config as ConfigEntity;
 use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Usecase\ReadRepository;
@@ -39,14 +40,15 @@ class Ushahidi_Repository_Config implements
 	}
 
 	// UpdateRepository
-	public function update($group, Data $input)
+	public function update(Entity $entity)
 	{
+		$group = $entity->getId();
+
 		$this->verifyGroup($group);
 
 		$config = \Kohana::$config->load($group);
-		$update = $input->asArray();
 
-		foreach ($update as $key => $val) {
+		foreach ($entity->getChanged() as $key => $val) {
 			$config->set($key, $val);
 		}
 	}

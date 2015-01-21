@@ -9,22 +9,16 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Form_Update implements Validator
 {
 	protected $valid;
 
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
-		$data = $input->asArray();
-
-		if (isset($data['disabled'])) {
-			$data['disabled'] = filter_var($data['disabled'], FILTER_VALIDATE_BOOLEAN);
-		}
-
-		$this->valid = Validation::factory($data)
+		$this->valid = Validation::factory($entity->getChanged())
 			->rules('name', [
 				['min_length', [':value', 2]],
 				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space

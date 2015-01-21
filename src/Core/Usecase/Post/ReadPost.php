@@ -12,7 +12,6 @@
 namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\ReadUsecase;
-use Ushahidi\Core\Data;
 
 class ReadPost extends ReadUsecase
 {

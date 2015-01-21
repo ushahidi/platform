@@ -37,22 +37,14 @@ trait IdentifyRecords
 	 */
 	public function setIdentifiers(Array $identifiers)
 	{
-		$this->identifiers = $identifiers;
+		$this->identifiers = array_replace($this->identifiers, $identifiers);
 		return $this;
 	}
 
 	/**
 	 * Get a parameter by name. A default value can be provided, which will be
-	 * returned if the parameter does not exist. If no default is provided, and the
-	 * parameter does not exist, an exception will be thrown.
+	 * returned if the parameter does not exist.
 	 *
-	 *     // Get a required parameter
-	 *     $id = $this->getIdentifier('id');
-	 *
-	 *     // Get an optional parameter, with a default
-	 *     $parent = $this->getIdentifier('parent_id', false);
-	 *
-	 * @throws InvalidArgumentException
 	 * @param  String $name
 	 * @param  Mixed  $default
 	 * @return Mixed
@@ -60,15 +52,29 @@ trait IdentifyRecords
 	protected function getIdentifier($name, $default = null)
 	{
 		if (!isset($this->identifiers[$name])) {
-			if (!isset($default)) {
-				throw new \InvalidArgumentException(sprintf(
-					'Identifier %s has not been declared, available options are: %s',
-					$name,
-					implode(', ', array_keys($this->identifiers))
-				));
-			}
 			return $default;
 		}
 		return $this->identifiers[$name];
+	}
+
+	/**
+	 * Get a required parameter by name. If the parameter does not exist,
+	 * an exception will be thrown.
+	 *
+	 * @throws InvalidArgumentException
+	 * @param  String $name
+	 * @return Mixed
+	 */
+	protected function getRequiredIdentifier($name)
+	{
+		if (!isset($this->identifiers[$name])) {
+			throw new \InvalidArgumentException(sprintf(
+				'Identifier %s has not been declared, available options are: %s',
+				$name,
+				implode(', ', array_keys($this->identifiers))
+			));
+		}
+
+		return $this->getIdentifier($name);
 	}
 }

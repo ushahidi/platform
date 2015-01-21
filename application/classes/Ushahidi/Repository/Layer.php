@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Layer;
+use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\JsonTranscode;
 
 class Ushahidi_Repository_Layer extends Ushahidi_Repository
@@ -33,8 +33,13 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
-		$data = $this->json_transcoder->decode($data, $this->json_properties);
 		return new Layer($data);
+	}
+
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return ['active', 'type'];
 	}
 
 	// Ushahidi_Repository
@@ -52,22 +57,24 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository
 	}
 
 	// CreateRepository
-	public function create(Data $input)
+	public function create(Entity $entity)
 	{
 		$record = $this->json_transcoder->encode(
-			$input, $this->json_properties
-		)->asArray();
+			$entity->asArray(), $this->json_properties
+		);
 		$record['created'] = time();
-		return $this->executeInsert($record);
+
+		return $this->executeInsert($this->removeNullValues($record));
 	}
 
 	// UpdateRepository
-	public function update($id, Data $input)
+	public function update(Entity $entity)
 	{
 		$update = $this->json_transcoder->encode(
-			$input, $this->json_properties
-		)->asArray();
+			$entity->getChanged(), $this->json_properties
+		);
 		$update['updated'] = time();
-		return $this->executeUpdate(compact('id'), $update);
+
+		return $this->executeUpdate(['id' => $entity->id], $update);
 	}
 }

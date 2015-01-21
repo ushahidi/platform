@@ -26,10 +26,10 @@ trait VerifyEntityLoaded
 	 * property is not empty.
 	 * @param  Entity  $entity
 	 * @param  Mixed   $lookup
-	 * @return void
+	 * @return Entity
 	 * @throws NotFoundException
 	 */
-	private function verifyEntityLoaded(Entity $entity, $lookup)
+	protected function verifyEntityLoaded(Entity $entity, $lookup)
 	{
 		if (!$entity->getId()) {
 			if (is_array($lookup)) {
@@ -48,5 +48,7 @@ trait VerifyEntityLoaded
 				$lookup_string
 			));
 		}
+
+		return $entity;
 	}
 }

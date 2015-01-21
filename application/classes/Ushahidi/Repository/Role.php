@@ -27,6 +27,12 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements RoleReposi
 		return new Role($data);
 	}
 
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return ['q', /* LIKE name */];
+	}
+
 	// RoleRepository
 	public function doRolesExist(Array $roles = null)
 	{

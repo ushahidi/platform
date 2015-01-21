@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Form_Group_Update implements Validator
@@ -24,9 +24,9 @@ class Ushahidi_Validator_Form_Group_Update implements Validator
 		$this->form_repo = $form_repo;
 	}
 
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
-		$this->valid = Validation::factory($input->asArray())
+		$this->valid = Validation::factory($entity->getChanged())
 			->rules('form_id', [
 				['digit'],
 				[[$this->form_repo, 'doesFormExist'], [':value']],

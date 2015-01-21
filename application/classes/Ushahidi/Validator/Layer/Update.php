@@ -9,11 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Usecase\Layer\LayerMediaRepository;
-use Ushahidi\Core\Usecase\Layer\UpdateLayerRepository;
-
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Usecase\Layer\LayerMediaRepository;
 
 class Ushahidi_Validator_Layer_Update implements Validator
 {
@@ -25,9 +23,9 @@ class Ushahidi_Validator_Layer_Update implements Validator
 		$this->media = $media;
 	}
 
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
-		$this->valid = Validation::factory($input->asArray())
+		$this->valid = Validation::factory($entity->getChanged())
 			->rules('name', array(
 					array('min_length', array(':value', 2)),
 					array('max_length', array(':value', 50)),
@@ -41,10 +39,10 @@ class Ushahidi_Validator_Layer_Update implements Validator
 					array('in_array', array(':value', array('geojson', 'wms', 'tile'))),
 				))
 			->rules('active', array(
-					array('in_array', [':value', [0, 1], TRUE]),
+					array('in_array', [':value', [TRUE, FALSE], TRUE]),
 				))
 			->rules('visible_by_default', array(
-					array('in_array', [':value', [0, 1], TRUE]),
+					array('in_array', [':value', [TRUE, FALSE], TRUE]),
 				))
 			->rules('media_id', array(
 					[[$this->media, 'doesMediaExist'], [':value']]

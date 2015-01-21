@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Search Form Group Use Case
+ * Ushahidi Platform Read Form Attribute Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,18 +11,10 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Core\Usecase\SearchUsecase;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
+use Ushahidi\Core\Usecase\ReadUsecase;
 
-class SearchFormGroup extends SearchUsecase
+class ReadFormAttribute extends ReadUsecase
 {
 	// - VerifyFormLoaded for checking that the form exists
 	use VerifyFormLoaded;
-
-	// For form check:
-	// - IdentifyRecords
-	// - VerifyEntityLoaded
-	use IdentifyRecords,
-		VerifyEntityLoaded;
 }

@@ -42,7 +42,7 @@ class UserAuthorizer implements Authorizer
 	}
 
 	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege) // pay attention when reviewing - might have missed something
+	public function isAllowed(Entity $entity, $privilege)
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
@@ -57,14 +57,13 @@ class UserAuthorizer implements Authorizer
 			return true;
 		}
 
-		// Regular user should be able to update and read only self
-		if ($this->isUserSelf($entity, $user) && in_array($privilege, ['read', 'update'])) {
-			return true;
+		// User cannot change their own role
+		if ('update' === $privilege && $this->isUserSelf($entity, $user) && $entity->hasChanged('role')) {
+			return false;
 		}
 
-		// Endpoint pre-flight check needs to pass, refs T854
-		// @todo fix this with D531
-		if (!$entity->id && 'read' === $privilege) {
+		// Regular user should be able to update and read only self
+		if ($this->isUserSelf($entity, $user) && in_array($privilege, ['read', 'update'])) {
 			return true;
 		}
 

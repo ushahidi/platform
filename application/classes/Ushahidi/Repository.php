@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Traits\CollectionLoader;
@@ -67,21 +67,21 @@ abstract class Ushahidi_Repository implements
 	}
 
 	// CreateRepository
-	public function create(Data $input)
+	public function create(Entity $entity)
 	{
-		return $this->executeInsert($input->asArray());
+		return $this->executeInsert($this->removeNullValues($entity->asArray()));
 	}
 
 	// UpdateRepository
-	public function update($id, Data $input)
+	public function update(Entity $entity)
 	{
-		return $this->executeUpdate(compact('id'), $input->asArray());
+		return $this->executeUpdate(['id' => $entity->id], $entity->getChanged());
 	}
 
 	// DeleteRepository
-	public function delete($id)
+	public function delete(Entity $entity)
 	{
-		return $this->executeDelete(compact('id'));
+		return $this->executeDelete(['id' => $entity->id]);
 	}
 
 	// SearchRepository
@@ -89,8 +89,7 @@ abstract class Ushahidi_Repository implements
 	{
 		$this->search_query = $this->selectQuery();
 
-		// apply the sorting parameters
-		$sorting = $search->getSortingParams();
+		$sorting = $search->getSorting();
 
 		if (!empty($sorting['orderby'])) {
 			$this->search_query->order_by(
@@ -133,6 +132,19 @@ abstract class Ushahidi_Repository implements
 
 		// ... return the total.
 		return (int) $result->get('total', 0);
+	}
+
+	/**
+	 * Remove all `null` values, to allow the database to set defaults.
+	 *
+	 * @param  Array $data
+	 * @return Array
+	 */
+	protected function removeNullValues(Array $data)
+	{
+		return array_filter($data, function ($val) {
+			return isset($val);
+		});
 	}
 
 	/**

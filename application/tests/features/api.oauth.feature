@@ -52,7 +52,7 @@ Feature: Testing OAuth2 endpoints
             "form_id": 1,
             "locale":"en_us",
             "title": "Test post",
-            "description": "testing post for oauth",
+            "content": "testing post for oauth",
             "status": "published"
         }
         """

@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Set;
+use Ushahidi\Core\SearchData;
 
 class Ushahidi_Repository_Set extends Ushahidi_Repository
 {
@@ -27,40 +27,35 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository
 		return new Set($data);
 	}
 
-	public function create(Data $data) {
-		$record = array_filter($data->asArray());
-		$record['created'] = time();
-
-		return $this->executeInsert($record);
+	// CreateRepository
+	public function create(Entity $entity) {
+		return parent::create($entity->setState(['created' => time()]));
 	}
 
-	public function update($id, Data $data) {
-		$record = array_filter($data->asArray());
-		$record['updated'] = time();
-
-		return $this->executeUpdate(compact('id'), $record);
+	// UpdateRepository
+	public function update(Entity $entity) {
+		return parent::update($entity->setState(['updated' => time()]));
 	}
+
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return ['user_id', 'q' /* LIKE name */];
+	}
+
 	// Ushahidi_Repository
 	protected function setSearchConditions(SearchData $search)
 	{
 		$sets_query = $this->search_query;
 
-		$q = $search->q;
-		if (! empty($q))
+		if ($search->q)
 		{
-			$sets_query->where('name', 'LIKE', "%$q%");
+			$sets_query->where('name', 'LIKE', "%{$search->q}%");
 		}
-		
-		$set = $search->name;
-		if (! empty($set))
+
+		if ($search->user_id)
 		{
-			$sets_query->where('name', '=', $set);
-		}
-		
-		$user = $search->user;
-		if(! empty($user))
-		{
-			$sets_query->where('user_id', '=', $user);
+			$sets_query->where('user_id', '=', $search->user_id);
 		}
 	}
 }

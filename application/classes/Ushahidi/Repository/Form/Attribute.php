@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
@@ -27,23 +27,24 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	}
 
 	// CreateRepository
-	public function create(Data $input)
+	public function create(Entity $entity)
 	{
 		$record = $this->json_transcoder->encode(
-			$input, $this->json_properties
-		)->asArray();
+			$entity->asArray(),
+			$this->json_properties
+		);
 		unset($record['form_id']);
-		return $this->executeInsert($record);
+		return $this->executeInsert($this->removeNullValues($record));
 	}
 
 	// UpdateRepository
-	public function update($id, Data $input)
+	public function update(Entity $entity)
 	{
 		$record = $this->json_transcoder->encode(
-			$input, $this->json_properties
-		)->asArray();
-		unset($record['form_id']);
-		return $this->executeUpdate(compact('id'), $record);
+			$entity->getChanged(),
+			$this->json_properties
+		);
+		return $this->executeUpdate(['id' => $entity->getId()], $record);
 	}
 
 	// SearchRepository
@@ -71,6 +72,12 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	{
 		$data = $this->json_transcoder->decode($data, $this->json_properties);
 		return new FormAttribute($data);
+	}
+
+	// Ushahidi_Repository
+	public function getSearchFields()
+	{
+		return [];
 	}
 
 	// FormAttributeRepository

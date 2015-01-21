@@ -30,6 +30,12 @@ class Ushahidi_Repository_Form_Group extends Ushahidi_Repository implements
 		return new FormGroup($data);
 	}
 
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return ['form_id', 'label'];
+	}
+
 	// Ushahidi_Repository
 	protected function setSearchConditions(SearchData $search)
 	{

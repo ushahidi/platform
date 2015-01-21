@@ -123,7 +123,7 @@ Feature: API Access Control Layer
             "form_id": 1,
             "type": "report",
             "title": "Test editing own post",
-            "description": "testing post for oauth",
+            "content": "testing post for oauth",
             "status": "published",
             "locale": "en_us"
         }
@@ -141,7 +141,7 @@ Feature: API Access Control Layer
         {
             "form_id": 1,
             "title": "Test creating anonymous post",
-            "description": "testing post for oauth",
+            "content": "testing post for oauth",
             "status": "published",
             "locale": "en_us",
             "values": {
@@ -165,7 +165,7 @@ Feature: API Access Control Layer
         {
             "form_id": 1,
             "title": "Test post",
-            "description": "testing post for oauth",
+            "content": "testing post for oauth",
             "status": "published"
         }
         """

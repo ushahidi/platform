@@ -84,19 +84,19 @@ $di->set('factory.authorizer', $di->lazyNew('Ushahidi\Factory\AuthorizerFactory'
 
 // Authorizers are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
-	'config'        => $di->lazyGet('authorizer.config'),
-	'dataproviders' => $di->lazyGet('authorizer.dataprovider'),
-	'forms'         => $di->lazyGet('authorizer.form'),
+	'config'          => $di->lazyGet('authorizer.config'),
+	'dataproviders'   => $di->lazyGet('authorizer.dataprovider'),
+	'forms'           => $di->lazyGet('authorizer.form'),
 	'form_attributes' => $di->lazyGet('authorizer.form_attribute'),
-	'form_groups'   => $di->lazyGet('authorizer.form_group'),
-	'tags'          => $di->lazyGet('authorizer.tag'),
-	'layers'        => $di->lazyGet('authorizer.layer'),
-	'media'         => $di->lazyGet('authorizer.media'),
-	'messages'      => $di->lazyGet('authorizer.message'),
-	'posts'         => $di->lazyGet('authorizer.post'),
-	'tags'          => $di->lazyGet('authorizer.tag'),
-	'sets'          => $di->lazyGet('authorizer.set'),
-	'users'         => $di->lazyGet('authorizer.user'),
+	'form_groups'     => $di->lazyGet('authorizer.form_group'),
+	'tags'            => $di->lazyGet('authorizer.tag'),
+	'layers'          => $di->lazyGet('authorizer.layer'),
+	'media'           => $di->lazyGet('authorizer.media'),
+	'messages'        => $di->lazyGet('authorizer.message'),
+	'posts'           => $di->lazyGet('authorizer.post'),
+	'tags'            => $di->lazyGet('authorizer.tag'),
+	'sets'            => $di->lazyGet('authorizer.set'),
+	'users'           => $di->lazyGet('authorizer.user'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -104,18 +104,18 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
-	'config'        => $di->lazyGet('repository.config'),
-	'dataproviders' => $di->lazyGet('repository.dataprovider'),
-	'forms'         => $di->lazyGet('repository.form'),
+	'config'          => $di->lazyGet('repository.config'),
+	'dataproviders'   => $di->lazyGet('repository.dataprovider'),
+	'forms'           => $di->lazyGet('repository.form'),
 	'form_attributes' => $di->lazyGet('repository.form_attribute'),
-	'form_groups'   => $di->lazyGet('repository.form_group'),
-	'layers'        => $di->lazyGet('repository.layer'),
-	'media'         => $di->lazyGet('repository.media'),
-	'messages'      => $di->lazyGet('repository.message'),
-	'posts'         => $di->lazyGet('repository.post'),
-	'tags'          => $di->lazyGet('repository.tag'),
-	'sets'          => $di->lazyGet('repository.set'),
-	'users'			=> $di->lazyGet('repository.user'),
+	'form_groups'     => $di->lazyGet('repository.form_group'),
+	'layers'          => $di->lazyGet('repository.layer'),
+	'media'           => $di->lazyGet('repository.media'),
+	'messages'        => $di->lazyGet('repository.message'),
+	'posts'           => $di->lazyGet('repository.post'),
+	'tags'            => $di->lazyGet('repository.tag'),
+	'sets'            => $di->lazyGet('repository.set'),
+	'users'           => $di->lazyGet('repository.user'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -169,6 +169,13 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['config'] = [
 ];
 
 // Form sub-endpoints must verify that the form exists before anything else.
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormAttribute'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormAttribute'),
+	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormAttribute'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormAttribute'),
+	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormAttribute'),
+];
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_groups'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormGroup'),
 	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormGroup'),
@@ -176,6 +183,13 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_groups'] = [
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormGroup'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormGroup'),
 ];
+
+// Media create requires file uploading as part of the payload.
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['media'] = [
+	'create' => $di->lazyNew('Ushahidi\Core\Usecase\Media\CreateMedia'),
+];
+$di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setUploader'] = $di->lazyGet('tool.uploader');
+$di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setFilesystem'] = $di->lazyGet('tool.filesystem');
 
 // Message update requires extra validation of message direction+status.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
@@ -189,6 +203,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
 ];
+
+// User login is a custom read the uses authentication.
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
+	'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),
+];
+$di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->lazyGet('tool.authenticator.password');
 
 // Endpoints are used to cross the boundary between the core application and the
 // delivery layer. The endpoint factory is a meta-factory that composes each use
@@ -251,6 +271,7 @@ $di->params['Ushahidi\Api\Factory\EndpointFactory']['endpoints'] = [
 // Traits
 $di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
+$di->setter['Ushahidi\Core\Usecase\Form\VerifyGroupLoaded']['setGroupRepository'] = $di->lazyGet('repository.form_group');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
@@ -282,18 +303,4 @@ $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthor
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
-	];
-
-// Use cases
-$di->set('usecase.user.register', $di->lazyNew('\Ushahidi\Core\Usecase\User\Register'));
-$di->params['\Ushahidi\Core\Usecase\User\Register'] = [
-	'repo' => $di->lazyGet('repository.user'),
-	'valid' => $di->lazyGet('validator.user.register'),
-	];
-
-$di->set('usecase.user.login', $di->lazyNew('\Ushahidi\Core\Usecase\User\Login'));
-$di->params['\Ushahidi\Core\Usecase\User\Login'] = [
-	'repo' => $di->lazyGet('repository.user'),
-	'valid' => $di->lazyGet('validator.user.login'),
-	'auth' => $di->lazyGet('tool.authenticator.password'),
 	];

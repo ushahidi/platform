@@ -65,4 +65,10 @@ abstract class DynamicEntity implements Entity
 	{
 		return $this->id;
 	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		return ['id'];
+	}
 }

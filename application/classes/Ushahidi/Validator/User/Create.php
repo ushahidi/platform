@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\RoleRepository;
@@ -25,10 +25,9 @@ class Ushahidi_Validator_User_Create implements Validator
 		$this->role = $role;
 	}
 
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
-		$this->valid = Validation::factory($input->asArray());
-		$this->valid
+		$this->valid = Validation::factory($entity->asArray())
 			->rules('email', [
 								['not_empty'], 
 								['email'],
@@ -48,7 +47,6 @@ class Ushahidi_Validator_User_Create implements Validator
 			->rules('password', [
 									['not_empty'],
 									['min_length', [':value', 7]],
-									['max_length', [':value', 72]]
 								]
 					)
 			->rules('role', [

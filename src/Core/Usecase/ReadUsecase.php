@@ -81,7 +81,7 @@ class ReadUsecase implements Usecase
 	protected function getEntity()
 	{
 		// Entity will be loaded using the provided id
-		$id = $this->getIdentifier('id');
+		$id = $this->getRequiredIdentifier('id');
 
 		// ... attempt to load the entity
 		$entity = $this->repo->get($id);

@@ -9,13 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttributeRepository;
-use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\Core\Entity\UserRepository;
-
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
+use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
 class Ushahidi_Validator_Post_Write implements Validator
 {
@@ -53,9 +52,9 @@ class Ushahidi_Validator_Post_Write implements Validator
 		$this->post_value_validator_factory = $post_value_validator_factory;
 	}
 
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
-		$this->valid = Validation::factory($input->asArray())
+		$this->valid = Validation::factory($entity->getChanged())
 			->rules('title', array(
 					array('max_length', array(':value', 150)),
 				))
@@ -69,7 +68,7 @@ class Ushahidi_Validator_Post_Write implements Validator
 					array('max_length', array(':value', 5)),
 					array('alpha_dash', array(':value', TRUE)),
 					// @todo check locale is valid
-					array(array($this->repo, 'doesTranslationExist'), array(':value', $input->parent_id, $input->type))
+					array(array($this->repo, 'doesTranslationExist'), array(':value', $entity->parent_id, $entity->type))
 				))
 			->rules('form_id', array(
 					array('numeric'),
@@ -111,6 +110,10 @@ class Ushahidi_Validator_Post_Write implements Validator
 
 	public function check_tags(Validation $valid, $tags)
 	{
+		if (!$tags) {
+			return;
+		}
+
 		foreach ($tags as $key => $tag)
 		{
 			if (! $this->tag_repo->doesTagExist($tag))
@@ -122,6 +125,10 @@ class Ushahidi_Validator_Post_Write implements Validator
 
 	public function check_values(Validation $valid, $values, $data)
 	{
+		if (!$values) {
+			return;
+		}
+
 		$post_id = ! empty($data['id']) ? $data['id'] : 0;
 
 		foreach ($values as $key => $value)

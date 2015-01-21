@@ -65,13 +65,11 @@ class Ushahidi_Repository_PostPoint extends Ushahidi_Repository_PostValue
 		return $query;
 	}
 
-	// Override createValue to save 'value' using GeomFromText
-	public function createValue($value, $form_attribute_id, $post_id)
+	private function normalizeValue($value)
 	{
 		if (is_array($value))
 		{
 			$value = array_map('floatval', $value);
-
 			$value = DB::expr("GeomFromText('POINT(lon lat)')")->parameters($value);
 		}
 		else
@@ -79,24 +77,19 @@ class Ushahidi_Repository_PostPoint extends Ushahidi_Repository_PostValue
 			$value = NULL;
 		}
 
-		return parent::createValue($value, $form_attribute_id, $post_id);
+		return $value;
+	}
+
+	// Override createValue to save 'value' using GeomFromText
+	public function createValue($value, $form_attribute_id, $post_id)
+	{
+		return parent::createValue($this->normalizeValue($value), $form_attribute_id, $post_id);
 	}
 
 	// Override updateValue to save 'value' using GeomFromText
 	public function updateValue($id, $value)
 	{
-		if (is_array($value))
-		{
-			$value = array_map('floatval', $value);
-
-			$value = DB::expr("GeomFromText('POINT(lon lat)')")->parameters($value);
-		}
-		else
-		{
-			$value = NULL;
-		}
-
-		return parent::updateValue($id, $value);
+		return parent::updateValue($id, $this->normalizeValue($value));
 	}
 
 }

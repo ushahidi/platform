@@ -9,7 +9,6 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\DataProvider as DataProviderEntity;
 use Ushahidi\Core\Entity\DataProviderRepository;
@@ -67,6 +66,12 @@ class Ushahidi_Repository_Dataprovider implements
 		}
 
 		return new DataProviderEntity($providers[$provider]);
+	}
+
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return ['type'];
 	}
 
 	// SearchRepository

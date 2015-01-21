@@ -15,68 +15,24 @@ class Controller_API_Forms_Attributes extends Ushahidi_Rest {
 		return 'forms';
 	}
 
-	/**
-	 * Create a new attribute
-	 *
-	 * POST /api/forms/:form_id/attributes
-	 *
-	 * @return void
-	 */
-	public function action_post_index_collection()
+	protected function _resource()
 	{
-		$endpoint = service('factory.endpoint')->get('form_attributes', 'create');
-		$this->_restful($endpoint, $this->_request_payload + $this->request->param());
+		return 'form_attributes';
 	}
 
-	/**
-	 * Update an attribute
-	 *
-	 * PUT /api/forms/:form_id/attributes/:id
-	 *
-	 * @return void
-	 */
-	public function action_put_index()
-	{
-		$endpoint = service('factory.endpoint')->get('form_attributes', 'update');
-		$this->_restful($endpoint, $this->_request_payload + $this->request->param());
-	}
-
-	/**
-	 * Retrieve form's attributes
-	 *
-	 * GET /api/forms/:form_id/attributes
-	 *
-	 * @return void
-	 */
+	// Ushahidi_Rest
 	public function action_get_index_collection()
 	{
-		$endpoint = service('factory.endpoint')->get('form_attributes', 'search');
-		$this->_restful($endpoint, $this->request->param() + $this->request->query());
+		parent::action_get_index_collection();
+
+		$this->_usecase->setIdentifiers($this->request->param());
 	}
 
-	/**
-	 * Retrieve an attribute
-	 *
-	 * GET /api/forms/:form_id/attributes/:id
-	 *
-	 * @return void
-	 */
-	public function action_get_index()
+	// Ushahidi_Rest
+	public function action_post_index_collection()
 	{
-		$endpoint = service('factory.endpoint')->get('form_attributes', 'read');
-		$this->_restful($endpoint, $this->request->param() + $this->request->query());
-	}
+		parent::action_post_index_collection();
 
-	/**
-	 * Delete an attribute
-	 *
-	 * DELETE /api/forms/:form_id/attributes/:id
-	 *
-	 * @return void
-	 */
-	public function action_delete_index()
-	{
-		$endpoint = service('factory.endpoint')->get('form_attributes', 'delete');
-		$this->_restful($endpoint, $this->request->param());
+		$this->_usecase->setIdentifiers($this->request->param());
 	}
 }

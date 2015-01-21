@@ -26,6 +26,12 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 		return new PostValue($data);
 	}
 
+	// Ushahidi_Repository
+	public function getSearchFields()
+	{
+		return [];
+	}
+
 	// Override selectQuery to fetch attribute 'key' too
 	protected function selectQuery(Array $where = [])
 	{

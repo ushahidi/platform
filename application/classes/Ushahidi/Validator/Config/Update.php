@@ -9,17 +9,16 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Config_Update implements Validator
 {
 	protected $valid;
 
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
-		$data = $input->asArray();
+		$data = $entity->getChanged();
 		$keys = array_keys($data);
 
 		$this->valid = Validation::factory($data);
@@ -41,4 +40,3 @@ class Ushahidi_Validator_Config_Update implements Validator
 		return $this->valid->errors($from);
 	}
 }
-

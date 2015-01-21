@@ -73,12 +73,13 @@ abstract class Ushahidi_Core {
 
 		// Custom password authenticator
 		$di->setter['League\OAuth2\Server\Grant\Password']['setVerifyCredentialsCallback'] = function($username, $password) {
-			$usecase = service('usecase.user.login');
-			// todo: parse this? inject it?
-			$data    = new Ushahidi\Core\Usecase\User\LoginData(compact('username', 'password'));
+			$usecase = service('factory.usecase')->get('users', 'login')
+				->setIdentifiers(compact('username', 'password'));
+
 			try
 			{
-				return $usecase->interact($data);
+				$data = $usecase->interact();
+				return $data['id'];
 			}
 			catch (Exception $e)
 			{
@@ -331,7 +332,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 
-		$di->setter['Ushahidi_Repository_User']['setHasher'] = 
+		$di->setter['Ushahidi_Repository_User']['setHasher'] =
 			$di->lazyGet('tool.hasher.password');
 
 		// Repository parameters
@@ -391,16 +392,9 @@ abstract class Ushahidi_Core {
 		$di->set('parser.post.search', $di->lazyNew('Ushahidi_Parser_Post_Search'));
 		$di->set('parser.post.update', $di->lazyNew('Ushahidi_Parser_Post_Update'));
 		$di->set('parser.user.login', $di->lazyNew('Ushahidi_Parser_User_Login'));
-		$di->set('parser.user.register', $di->lazyNew('Ushahidi_Parser_User_Register'));
-
-		// Dependencies of parsers
-		$di->params['Ushahidi_Parser_User_Register'] = [
-			'hasher' => $di->lazyGet('tool.hasher.password'),
-			];
 
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
-		$di->set('validator.user.register', $di->lazyNew('Ushahidi_Validator_User_Register'));
 
 		// Dependencies of validators
 		$di->params['Ushahidi_Validator_Post_Write'] = [
@@ -414,9 +408,6 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Tag_Update'] = [
 			'repo' => $di->lazyGet('repository.tag'),
 			'role' => $di->lazyGet('repository.role'),
-			];
-		$di->params['Ushahidi_Validator_User_Register'] = [
-			'repo' => $di->lazyGet('repository.user'),
 			];
 
 		$di->params['Ushahidi_Validator_User_Create'] = [

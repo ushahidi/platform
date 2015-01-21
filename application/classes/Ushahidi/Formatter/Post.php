@@ -54,28 +54,31 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 		$value_formatter = $this->value_formatter;
 
 		$values_with_keys = [];
-		foreach($values as $value)
+		foreach ($values as $value_list)
 		{
-			$key = $value->key;
-			$cardinality = $value->cardinality;
-			$formatted_value = $value_formatter($value);
+			foreach ($value_list as $value)
+			{
+				$key = $value->key;
+				$cardinality = $value->cardinality;
+				$formatted_value = $value_formatter($value);
 
-			if (! isset($values_with_keys[$key]))
-			{
-				$values_with_keys[$key] = [];
-			}
-			// Save value and id in multi-value format.
-			$values_with_keys[$key][] = $formatted_value;
+				if (! isset($values_with_keys[$key]))
+				{
+					$values_with_keys[$key] = [];
+				}
+				// Save value and id in multi-value format.
+				$values_with_keys[$key][] = $formatted_value;
 
-			// First or single value for attribute
-			if (! isset($output[$key]) AND $cardinality == 1)
-			{
-				$output[$key] = $formatted_value['value'];
-			}
-			// Multivalue - use array instead
-			else
-			{
-				$output[$key] = $values_with_keys[$key];
+				// First or single value for attribute
+				if (! isset($output[$key]) AND $cardinality == 1)
+				{
+					$output[$key] = $formatted_value['value'];
+				}
+				// Multivalue - use array instead
+				else
+				{
+					$output[$key] = $values_with_keys[$key];
+				}
 			}
 		}
 

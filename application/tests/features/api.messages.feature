@@ -36,7 +36,7 @@ Feature: Testing the Messages API
         And the response has a "errors" property
         Then the guzzle status code should be 400
 
-    Scenario: Updating a Message
+    Scenario: Updating an incoming message ignores changes
         Given that I want to update a "Message"
         And that the request "data" is:
             """

@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\UserRepository;
 
 use Ushahidi\Core\Tool\Validator;
@@ -24,9 +24,9 @@ class Ushahidi_Validator_Set_Create implements Validator
 		$this->user_repo = $repo;
 	}
 
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
-		$this->valid = Validation::factory($input->asArray())
+		$this->valid = Validation::factory($entity->asArray())
 			->rules('id',[
 					['numeric']
 			])

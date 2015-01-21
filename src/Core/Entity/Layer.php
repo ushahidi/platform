@@ -43,7 +43,7 @@ class Layer extends StaticEntity
 			'name'               => 'string',
 			'data_url'           => 'string',
 			'type'               => 'string',
-			'options'            => 'array',
+			'options'            => '*json',
 			'active'             => 'bool',
 			'visible_by_default' => 'bool',
 			'created'            => 'int',

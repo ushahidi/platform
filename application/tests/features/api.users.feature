@@ -60,8 +60,7 @@ Feature: Testing the Users API
 		When I request "/users"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the guzzle status code should be 400
-		# this 400 status code ^ should actually be a 403, see T854
+		Then the guzzle status code should be 403
 
 	Scenario: Updating a non-existent User
 		Given that I want to update a "user"

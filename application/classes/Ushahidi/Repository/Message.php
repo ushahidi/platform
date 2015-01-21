@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Message;
+use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 use Ushahidi\Core\Usecase\Message\DeleteMessageRepository;
@@ -33,6 +33,15 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 	public function getEntity(Array $data = null)
 	{
 		return new Message($data);
+	}
+
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return [
+			'box', 'status', 'contact', 'parent', 'post', 'type', 'data_provider',
+			'q' /* LIKE contact, title, message */
+		];
 	}
 
 	// Ushahidi_Repository
@@ -74,13 +83,12 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 			$query->where('status', '!=', 'archived');
 		}
 
-		if (! empty($search->q))
+		if ($search->q)
 		{
-			$q = $search->q;
 			$query->and_where_open();
-			$query->where('contacts.contact', 'LIKE', "%$q%");
-			$query->or_where('title', 'LIKE', "%$q%");
-			$query->or_where('message', 'LIKE', "%$q%");
+			$query->where('contacts.contact', 'LIKE', "%$search->q%");
+			$query->or_where('title', 'LIKE', "%$search->q%");
+			$query->or_where('message', 'LIKE', "%$search->q%");
 			$query->and_where_close();
 		}
 
@@ -109,30 +117,27 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 	}
 
 	// CreateRepository
-	public function create(Data $data)
+	public function create(Entity $entity)
 	{
-		$record = array_filter($data->asArray());
-
-		// New messages cannot have any other state
-		$record['status']    = \Message_Status::PENDING;
-		$record['direction'] = \Message_Direction::OUTGOING;
-		$record['created']   = time();
-
-		return $this->executeInsert($record);
+		return parent::create($entity->setState([
+			// New messages cannot have any other state
+			'status'    => \Message_Status::PENDING,
+			'direction' => \Message_Direction::OUTGOING,
+			'created'   => time(),
+		]));
 	}
 
 	// UpdateRepository
-	public function update($id, Data $input)
+	public function update(Entity $entity)
 	{
-		$message = $this->get($id);
-		if ($message->direction === \Message_Direction::INCOMING)
+		if ($entity->direction === \Message_Direction::INCOMING)
 		{
 			// For incoming messages, users can't actually edit a message, only
 			// archived/unarchive and associate with post. Strip everything else.
-			$update_data = Arr::extract($input->asArray(), ['status', 'post_id']);
+			$allowed = ['status', 'post_id'];
 		} else {
 			// For outgoing messages. Update most values, exclude direction and parent id.
-			$update_data = Arr::extract($input->asArray(), [
+			$allowed = [
 				'contact_id',
 				'data_provider',
 				'title',
@@ -140,10 +145,12 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 				'datetime',
 				'type',
 				'status',
-			]);
+			];
 		}
 
-		$this->executeUpdate(compact('id'), $update_data);
+		$update = array_intersect_key($entity->getChanged(), array_flip($allowed));
+
+		$this->executeUpdate(['id' => $entity->getId()], $update);
 	}
 
 	// UpdateMessageRepository

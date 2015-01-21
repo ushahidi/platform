@@ -9,10 +9,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Form;
 use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\SearchData;
 
 class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 	FormRepository
@@ -28,6 +28,12 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 	public function getEntity(Array $data = null)
 	{
 		return new Form($data);
+	}
+
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return ['parent', 'q' /* LIKE name */];
 	}
 
 	// Ushahidi_Repository
@@ -46,23 +52,16 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 	}
 
 	// CreateRepository
-	public function create(Data $data)
+	public function create(Entity $entity)
 	{
-		$record = array_filter($data->asArray());
-		$record['created'] = time();
-
 		// todo ensure default group is created
-
-		return $this->executeInsert($record);
+		return parent::create($entity->setState(['created' => time()]));
 	}
 
 	// UpdateRepository
-	public function update($id, Data $input)
+	public function update(Entity $entity)
 	{
-		$update = $input->asArray();
-		$update['updated'] = time();
-
-		return $this->executeUpdate(compact('id'), $update);
+		return parent::update($entity->setState(['updated' => time()]));
 	}
 
 	// FormRepository

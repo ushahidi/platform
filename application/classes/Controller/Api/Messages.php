@@ -11,66 +11,17 @@
 
 class Controller_Api_Messages extends Ushahidi_Rest {
 
+	protected $_action_map = array
+	(
+		Http_Request::POST    => 'post',   // Typically Create..
+		Http_Request::GET     => 'get',
+		Http_Request::PUT     => 'put',    // Typically Update..
+		Http_Request::OPTIONS => 'options'
+	);
+
 	protected function _scope()
 	{
 		return 'messages';
-	}
-
-	/**
-	 * Create A Message
-	 *
-	 * POST /api/messages
-	 *
-	 * @return void
-	 */
-	public function action_post_index_collection()
-	{
-		$endpoint = service('factory.endpoint')->get('messages', 'create');
-
-		$this->_restful($endpoint, $this->_request_payload);
-	}
-
-	/**
-	 * Retrieve All Messages
-	 *
-	 * GET /api/messages
-	 *
-	 * @return void
-	 */
-	public function action_get_index_collection()
-	{
-		$endpoint = service('factory.endpoint')->get('messages', 'search');
-
-		$this->_restful($endpoint, $this->request->query());
-	}
-
-	/**
-	 * Retrieve A Message
-	 *
-	 * GET /api/messages/:id
-	 *
-	 * @return void
-	 */
-	public function action_get_index()
-	{
-		$endpoint = service('factory.endpoint')->get('messages', 'read');
-
-		$this->_restful($endpoint, $this->request->param());
-
-	}
-
-	/**
-	 * Update A Message
-	 *
-	 * PUT /api/messages/:id
-	 *
-	 * @return void
-	 */
-	public function action_put_index()
-	{
-		$endpoint = service('factory.endpoint')->get('messages', 'update');
-
-		$this->_restful($endpoint, $this->_request_payload + $this->request->param());
 	}
 
 	/**
@@ -127,13 +78,11 @@ class Controller_Api_Messages extends Ushahidi_Rest {
 
 		if ($response->status() == 200)
 		{
-			// @todo this is ugly and horrible
-			$parser = service('factory.parser')->get('messages', 'update');
-			$data   = $parser([
+			// @todo still not pretty, but is it worth passing through usecase?
+			$message->setState([
 				'post_id' => $this->_response_payload['id'],
-				'status'  => $message->status, // required, fixme
 			]);
-			$repo->update($message->id, $data);
+			$repo->update($message);
 		}
 	}
 

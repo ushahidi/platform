@@ -111,9 +111,33 @@ trait StatefulData
 	public function setState(Array $data)
 	{
 		// Allow for data to be filled in by deriving from other values.
-		foreach ($this->getDerived() as $key => $from) {
-			if (!array_key_exists($key, $data) && array_key_exists($from, $data)) {
-				$data[$key] = $data[$from];
+		foreach ($this->getDerived() as $key => $possible) {
+			if (!array_key_exists($key, $data)) {
+				if (!is_array($possible)) {
+					// Always possible to derive data from more than one source.
+					$possible = [$possible];
+				}
+				foreach ($possible as $from) {
+					if (array_key_exists($from, $data)) {
+						// Derived value comes from a simple alias:
+						//
+						//     $data['foo'] = $data['bar'];
+						//
+						$data[$key] = $data[$from];
+					} elseif (strpos($from, '.')) {
+						// Derived value comes from a complex alias:
+						//
+						//     $data['foo'] = $data['relation']['bar'];
+						//
+						list($arr, $from) = explode('.', $from, 2);
+						if (array_key_exists($arr, $data)
+							&& is_array($data[$arr])
+							&& array_key_exists($from, $data[$arr])
+						) {
+							$data[$key] = $data[$arr][$from];
+						}
+					}
+				}
 			}
 		}
 
@@ -125,7 +149,15 @@ trait StatefulData
 		// tl;dr: it keeps the object properties clean and separated from state tracking.
 		$changed =& static::$changed[$this->getObjectId()];
 
+		// Get the immutable values. Once set, these cannot be changed.
+		$immutable = $this->getImmutable();
+
 		foreach ($this->transform($data) as $key => $value) {
+			if (in_array($key, $immutable) && $this->$key) {
+				// Value has already been set and cannot be changed.
+				continue;
+			}
+
 			if ($this->$key !== $value) {
 				// Update the value...
 				$this->setStateValue($key, $value);
@@ -183,6 +215,16 @@ trait StatefulData
 	 * @return Array
 	 */
 	protected function getDerived()
+	{
+		return [];
+	}
+
+	/**
+	 * Return the names of values that cannot be modified once set.
+	 *
+	 * @return Array
+	 */
+	protected function getImmutable()
 	{
 		return [];
 	}

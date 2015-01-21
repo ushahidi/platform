@@ -9,43 +9,27 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\RoleRepository;
-
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 
 class Ushahidi_Validator_Message_Update implements Validator
 {
 	protected $repo;
 	protected $valid;
-	protected $message_direction;
 
 	public function __construct(UpdateMessageRepository $repo)
 	{
 		$this->repo = $repo;
 	}
 
-	public function setDirection($direction)
+	public function check(Entity $entity)
 	{
-		$this->message_direction = $direction;
-	}
-
-	public function getDirection()
-	{
-		if (!$this->message_direction)
-		{
-			throw new \LogicException('Must call setDirection before calling getDirection for validation');
-		}
-
-		return $this->message_direction;
-	}
-
-	public function check(Data $input)
-	{
-		$this->valid = Validation::factory($input->asArray())
+		$this->valid = Validation::factory($entity->getChanged())
+			->bind(':direction', $entity->direction)
 			->rules('status', [
-				[[$this->repo, 'checkStatus'], [':value', $this->getDirection()]],
+				[[$this->repo, 'checkStatus'], [':value', ':direction']],
 			]);
 		return $this->valid->check();
 	}

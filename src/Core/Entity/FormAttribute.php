@@ -28,6 +28,14 @@ class FormAttribute extends StaticEntity
 	protected $cardinality;
 	protected $form_group_id;
 
+	// StatefulData
+	protected function getDerived()
+	{
+		return [
+			'form_group_id' => ['form_group', 'form_group.id'], /* alias */
+		];
+	}
+
 	// DataTransformer
 	protected function getDefinition()
 	{
@@ -42,6 +50,7 @@ class FormAttribute extends StaticEntity
 			'priority'      => 'int',
 			'options'       => 'array',
 			'cardinality'   => 'int',
+			'form_group'    => false, /* alias */
 			'form_group_id' => 'int',
 		];
 	}

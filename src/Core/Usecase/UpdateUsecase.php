@@ -95,7 +95,7 @@ class UpdateUsecase implements Usecase
 	protected function getEntity()
 	{
 		// Fetch the entity using the given identifiers
-		$entity = $this->repo->get($this->getIdentifier('id'));
+		$entity = $this->repo->get($this->getRequiredIdentifier('id'));
 
 		// ... verify that the entity was actually loaded
 		$this->verifyEntityLoaded($entity, $this->identifiers);

@@ -34,4 +34,16 @@ class Role extends StaticEntity
 	{
 		return 'roles';
 	}
+
+	// Entity
+	public function getId()
+	{
+		return $this->name;
+	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		return ['name'];
+	}
 }

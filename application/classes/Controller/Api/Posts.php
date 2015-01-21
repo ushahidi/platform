@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Api\Endpoint;
+use Ushahidi\Core\Usecase;
 
 class Controller_Api_Posts extends Ushahidi_Api {
 
@@ -107,38 +107,15 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_post_index_collection()
 	{
-		$format = service('factory.formatter')->get('posts', 'create');
-		$write_parser = service('factory.parser')->get('posts', 'create');
-		$usecase = service('factory.usecase')->get('posts', 'create');
+		$extra_params = [
+			'type'      => $this->_type,
+			'parent_id' => $this->_parent_id,
+		];
 
-		$usecase->setType($this->_type);
-		$usecase->setParent($this->request->param('parent_id', NULL));
+		$usecase = service('factory.usecase')->get('posts', 'create')
+			->setPayload($extra_params + $this->_request_payload);
 
-		$request = $this->_request_payload;
-
-		try
-		{
-			$write_data = $write_parser($this->_request_payload);
-			$post = $usecase->interact($write_data);
-		}
-		catch (Ushahidi\Core\Exception\NotFoundException $e)
-		{
-			throw new HTTP_Exception_404($e->getMessage());
-		}
-		catch (Ushahidi\Core\Exception\ValidatorException $e)
-		{
-			// Also handles ParserException
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->getErrors())),
-			));
-		}
-		catch (Ushahidi\Core\Exception\AuthorizerException $e)
-		{
-			throw new HTTP_Exception_403($e->getMessage());
-		}
-
-		$this->_response_payload = $format($post);
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+		$this->_restful($usecase);
 	}
 
 	/**
@@ -150,14 +127,15 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index_collection()
 	{
-		$endpoint = service('factory.endpoint')->get('posts', 'search');
-
 		$extra_params = [
-			'type' => $this->_type,
-			'parent' => $this->request->param('parent_id', NULL)
+			'type'   => $this->_type,
+			'parent' => $this->_parent_id,
 		];
 
-		$this->_restful($endpoint, $extra_params +  $this->request->query());
+		$usecase = service('factory.usecase')->get('posts', 'search')
+			->setFilters($extra_params + $this->request->query());
+
+		$this->_restful($usecase);
 	}
 
 	/**
@@ -169,9 +147,10 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_get_index()
 	{
-		$endpoint = service('factory.endpoint')->get('posts', 'read');
+		$usecase = service('factory.usecase')->get('posts', 'read')
+			->setIdentifiers($this->request->param());
 
-		$this->_restful($endpoint, $this->request->param());
+		$this->_restful($usecase);
 	}
 
 	/**
@@ -183,40 +162,11 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_put_index()
 	{
-		$format = service('factory.formatter')->get('posts', 'update');
-		$read_parser = service('factory.parser')->get('posts', 'read');
-		$write_parser = service('factory.parser')->get('posts', 'update');
-		$usecase = service('factory.usecase')->get('posts', 'update');
+		$usecase = service('factory.usecase')->get('posts', 'update')
+			->setIdentifiers($this->request->param())
+			->setPayload($this->_request_payload);
 
-		$request = $this->_request_payload;
-
-		$read = $this->request->param();
-
-		try
-		{
-			$write_data = $write_parser($this->_request_payload);
-			$read_data = $read_parser($read);
-			$post = $usecase->interact($read_data, $write_data);
-		}
-		catch (Ushahidi\Core\Exception\NotFoundException $e)
-		{
-			throw new HTTP_Exception_404($e->getMessage());
-		}
-		catch (Ushahidi\Core\Exception\ValidatorException $e)
-		{
-			// Also handles ParserException
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->getErrors())),
-			));
-		}
-		catch (Ushahidi\Core\Exception\AuthorizerException $e)
-		{
-			throw new HTTP_Exception_403($e->getMessage());
-		}
-
-		$this->_response_payload = $format($post);
-		$this->_response_payload['updated_fields'] = $usecase->getUpdated();
-		$this->_response_payload['allowed_methods'] = $this->_allowed_methods();
+		$this->_restful($usecase);
 	}
 
 	/**
@@ -228,9 +178,9 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 */
 	public function action_delete_index()
 	{
-		$endpoint = service('factory.endpoint')->get('posts', 'delete');
+		$usecase = service('factory.usecase')->get('posts', 'delete');
 
-		$this->_restful($endpoint, $this->request->param());
+		$this->_restful($usecase);
 	}
 
 	/**
@@ -239,15 +189,14 @@ class Controller_Api_Posts extends Ushahidi_Api {
 	 * @throws HTTP_Exception_400
 	 * @throws HTTP_Exception_403
 	 * @throws HTTP_Exception_404
-	 * @param  Ushahidi\Endpoint $endpoint
-	 * @param  Array $request
+	 * @param  Ushahidi\Endpoint $usecase
 	 * @return void
 	 */
-	protected function _restful(Endpoint $endpoint, Array $request)
+	protected function _restful(Usecase $usecase)
 	{
 		try
 		{
-			$this->_response_payload = $endpoint->run($request);
+			$this->_response_payload = $usecase->interact();
 		}
 		catch (Ushahidi\Core\Exception\NotFoundException $e)
 		{

@@ -68,9 +68,13 @@ class PostAuthorizer implements Authorizer
 			return false;
 		}
 
-		// We check if a user is the owner of this post, if so they have get/create/update/delete access.
-		// Post owners don't have 'change_user' access
-		if ($this->isUserOwner($entity, $user) && in_array($privilege, ['read', 'create', 'update', 'delete'])) {
+		// Non-admin users are not allowed to create posts for other users.
+		if ($privilege === 'create' && !$this->isUserOwner($entity, $user)) {
+			return false;
+		}
+
+		// All users are allowed to create and search posts.
+		if (in_array($privilege, ['create', 'search'])) {
 			return true;
 		}
 
@@ -84,8 +88,10 @@ class PostAuthorizer implements Authorizer
 			return true;
 		}
 
-		// All users are allowed to create posts.
-		if ($privilege === 'create') {
+		// We check if the user is the owner of this post. If so, they are allowed
+		// to do almost anything, **except** change ownership of the post, which
+		// only admins can do.
+		if ($this->isUserOwner($entity, $user) && !$entity->hasChanged('user_id')) {
 			return true;
 		}
 

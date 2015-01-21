@@ -11,9 +11,6 @@
 
 class Controller_Api_Config extends Ushahidi_Rest {
 
-	/**
-	 * @var array Map of HTTP methods -> actions
-	 */
 	protected $_action_map = array
 	(
 		Http_Request::GET     => 'get',
@@ -35,52 +32,5 @@ class Controller_Api_Config extends Ushahidi_Rest {
 			return ($this->request->method() !== Request::GET);
 		}
 		return FALSE;
-	}
-
-	/**
-	 * Retrieve All Configs
-	 *
-	 * GET /api/config
-	 *
-	 * @return void
-	 */
-	public function action_get_index_collection()
-	{
-		$endpoint = service('factory.endpoint')->get('config', 'search');
-
-		$this->_restful($endpoint, $this->request->query());
-	}
-
-	/**
-	 * Retrieve A Config
-	 *
-	 * GET /api/config/:group
-	 *
-	 * @return void
-	 */
-	public function action_get_index()
-	{
-		$endpoint = service('factory.endpoint')->get('config', 'read');
-
-		$request = ['id' => $this->request->param('id')];
-
-		$this->_restful($endpoint, $request);
-	}
-
-	/**
-	 * Update A Config
-	 *
-	 * PUT /api/config/:group
-	 *
-	 * @return void
-	 */
-	public function action_put_index()
-	{
-		$endpoint = service('factory.endpoint')->get('config', 'update');
-
-		$request = $this->_request_payload;
-		$request['id'] = $this->request->param('id');
-
-		$this->_restful($endpoint, $request);
 	}
 }

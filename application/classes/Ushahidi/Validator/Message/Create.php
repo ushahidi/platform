@@ -9,8 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
-
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 
@@ -24,10 +23,10 @@ class Ushahidi_Validator_Message_Create implements Validator
 		$this->repo = $repo;
 	}
 
-	public function check(Data $input)
+	public function check(Entity $entity)
 	{
 		// Users can only create outgoing messages.
-		$this->valid = Validation::factory($input->asArray())
+		$this->valid = Validation::factory($entity->asArray())
 			->rules('direction', [
 					['not_empty'],
 					['in_array', [':value', [\Message_Direction::OUTGOING]]],
@@ -50,14 +49,6 @@ class Ushahidi_Validator_Message_Create implements Validator
 			])
 			->rules('data_provider_message_id', [
 					['max_length', [':value', 511]],
-			])
-			->rules('status', [
-					['not_empty'],
-					['in_array', [':value', [
-						// @todo this should be shared via repo
-						\Message_Status::PENDING,
-						\Message_Status::PENDING_POLL,
-					]]],
 			])
 			->rules('parent_id', [
 					['numeric'],

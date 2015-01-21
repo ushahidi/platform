@@ -30,6 +30,6 @@ trait OwnerAccess
 	 */
 	protected function isUserOwner(Entity $entity, User $user)
 	{
-		return ($user->id && $entity->user_id === $user->id);
+		return ($entity->user_id === $user->id);
 	}
 }

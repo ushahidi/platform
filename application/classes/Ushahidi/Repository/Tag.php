@@ -9,23 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Tag;
-use Ushahidi\Core\Usecase\CreateRepository;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Usecase\DeleteRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
 use Ushahidi\Core\Usecase\Tag\DeleteTagRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\Core\Tool\JsonTranscode;
 
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
-	CreateRepository,
-	ReadRepository,
-	DeleteRepository,
-	SearchRepository,
 	UpdateTagRepository,
 	DeleteTagRepository,
 	UpdatePostTagRepository
@@ -53,8 +45,13 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		$data = $this->json_transcoder->decode($data, $this->json_properties);
 		return new Tag($data);
+	}
+
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return ['tag', 'type', 'parent_id', 'q', /* LIKE tag */];
 	}
 
 	// Ushahidi_Repository
@@ -62,14 +59,11 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	{
 		$query = $this->search_query;
 
-		if ($search->tag) {
-			$query->where('tag', '=', $search->tag);
-		}
-		if ($search->type) {
-			$query->where('type', '=', $search->type);
-		}
-		if ($search->parent) {
-			$query->where('parent_id', '=', $search->parent);
+		foreach (['tag', 'type', 'parent_id'] as $key)
+		{
+			if ($search->$key) {
+				$query->where($key, '=', $search->$key);
+			}
 		}
 
 		if ($search->q) {
@@ -79,22 +73,22 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	}
 
 	// CreateRepository
-	public function create(Data $data)
+	public function create(Entity $entity)
 	{
 		$record = array_filter($this->json_transcoder->encode(
-			$data, $this->json_properties
+			$entity->asArray(), $this->json_properties
 		)->asArray());
 		$record['created'] = time();
-		return $this->executeInsert($record);
+		return $this->executeInsert($this->removeNullValues($record));
 	}
 
 	// UpdateRepository
-	public function update($id, Data $input)
+	public function update(Entity $entity)
 	{
 		$record = $this->json_transcoder->encode(
-			$input, $this->json_properties
+			$entity->getChanged(), $this->json_properties
 		)->asArray();
-		return $this->executeUpdate(compact('id'), $record);
+		return $this->executeUpdate(['id' => $entity->getId()], $record);
 	}
 
 	// UpdatePostTagRepository

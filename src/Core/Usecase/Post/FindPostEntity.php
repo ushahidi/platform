@@ -11,27 +11,34 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\PostRepository;
 
 trait FindPostEntity
 {
 	/**
-	 * Find post entity based on read data
-	 * @param  Data    $input
+	 * Find post entity based on
 	 * @return Entity\Post
 	 */
-	protected function getEntity(Data $input)
+	protected function getEntity()
 	{
 		$this->verifyPostRepo($this->repo);
 
-		if ($input->parent_id && $input->locale) {
-			return $this->repo->getByLocale($input->locale, $input->parent_id);
+		$id     = $this->getIdentifier('id');
+		$parent = $this->getIdentifier('parent_id');
+		$locale = $this->getIdentifier('locale');
+
+		if ($parent && $locale) {
+			$entity = $this->repo->getByLocale($locale, $parent);
 		} else {
 			// Load post by id and parent id, because if its a revision or update
 			// we should only return revision for the particular parent post
-			return $this->repo->getByIdAndParent($input->id, $input->parent_id);
+			$entity = $this->repo->getByIdAndParent($id, $parent);
 		}
+
+		$this->verifyEntityLoaded($entity, compact('id', 'parent', 'locale'));
+
+		return $entity;
 	}
 
 	/**
@@ -43,4 +50,10 @@ trait FindPostEntity
 	{
 		return true;
 	}
+
+	// VerifyEntityLoaded
+	abstract protected function verifyEntityLoaded(Entity $entity, $lookup);
+
+	// IdentifyRecords
+	abstract protected function getIdentifier($name, $default = null);
 }

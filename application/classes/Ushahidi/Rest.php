@@ -22,16 +22,6 @@ abstract class Ushahidi_Rest extends Controller {
 	protected static $version = '2';
 
 	/**
-	 * @var Object Request Payload
-	 */
-	protected $_request_payload = [];
-
-	/**
-	 * @var Object Response Payload
-	 */
-	protected $_response_payload = NULL;
-
-	/**
 	 * @var array Map of HTTP methods -> actions
 	 */
 	protected $_action_map = array
@@ -61,10 +51,9 @@ abstract class Ushahidi_Rest extends Controller {
 	);
 
 	/**
-	 * Get the required scope for this endpoint.
-	 * @return string
+	 * @var Usecase
 	 */
-	abstract protected function _scope();
+	protected $_usecase;
 
 	public function before()
 	{
@@ -74,6 +63,7 @@ abstract class Ushahidi_Rest extends Controller {
 		$this->_check_access();
 	}
 
+	// Controller
 	public function after()
 	{
 		$this->_prepare_response();
@@ -126,6 +116,92 @@ abstract class Ushahidi_Rest extends Controller {
 	public function action_options_index()
 	{
 		$this->response->status(200);
+	}
+
+	/**
+	 * Create An Entity
+	 *
+	 * POST /api/foo
+	 *
+	 * @return void
+	 */
+	public function action_post_index_collection()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'create')
+			->setPayload($this->_request_payload);
+	}
+
+	/**
+	 * Retrieve All Entities
+	 *
+	 * GET /api/foo
+	 *
+	 * @return void
+	 */
+	public function action_get_index_collection()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'search')
+			->setFilters($this->request->query());
+	}
+
+	/**
+	 * Retrieve An Entity
+	 *
+	 * GET /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function action_get_index()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'read')
+			->setIdentifiers($this->request->param());
+	}
+
+	/**
+	 * Update An Entity
+	 *
+	 * PUT /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function action_put_index()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'update')
+			->setIdentifiers($this->request->param())
+			->setPayload($this->_request_payload);
+	}
+
+	/**
+	 * Delete An Entity
+	 *
+	 * DELETE /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function action_delete_index()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'delete')
+			->setIdentifiers($this->request->param());
+	}
+
+	/**
+	 * Get the required scope for this endpoint.
+	 * @return string
+	 */
+	abstract protected function _scope();
+
+	/**
+	 * Get the resource name for this endpoint. Defaults to the scope name.
+	 * @return string
+	 */
+	protected function _resource()
+	{
+		return $this->_scope();
 	}
 
 	/**
@@ -311,6 +387,42 @@ abstract class Ushahidi_Rest extends Controller {
 	}
 
 	/**
+	 * Execute the usecase that the controller prepared.
+	 * @throws HTTP_Exception_400
+	 * @throws HTTP_Exception_403
+	 * @throws HTTP_Exception_404
+	 * @return void
+	 */
+	protected function _execute_usecase()
+	{
+		try
+		{
+			// Attempt to execute the usecase to get the response
+			$this->_response_payload = $this->_usecase->interact();
+		}
+		catch (Ushahidi\Core\Exception\NotFoundException $e)
+		{
+			throw new HTTP_Exception_404($e->getMessage());
+		}
+		catch (Ushahidi\Core\Exception\AuthorizerException $e)
+		{
+			throw new HTTP_Exception_403($e->getMessage());
+		}
+		catch (Ushahidi\Core\Exception\ValidatorException $e)
+		{
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			throw new HTTP_Exception_400('Bad request: :error', array(
+				':error' => $e->getMessage(),
+			));
+		}
+	}
+
+	/**
 	 * Prepare response headers and body, formatted based on user request.
 	 * @throws HTTP_Exception_400
 	 * @throws HTTP_Exception_500
@@ -318,6 +430,13 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	protected function _prepare_response()
 	{
+		if ($this->_usecase)
+		{
+			// Run the usecase
+			$this->_execute_usecase();
+		}
+
+		// Add CORS headers to the response
 		$this->add_cors_headers($this->response);
 
 		// Should we prevent this request from being cached?
@@ -366,39 +485,6 @@ abstract class Ushahidi_Rest extends Controller {
 				'Error while formatting response: :message',
 				[':message' => $e->getMessage()]
 			);
-		}
-	}
-
-	/**
-	 * Run an Endpoint request sequence and convert application exceptions into
-	 * Kohana HTTP exceptions.
-	 * @throws HTTP_Exception_400
-	 * @throws HTTP_Exception_403
-	 * @throws HTTP_Exception_404
-	 * @param  Ushahidi\Endpoint $endpoint
-	 * @param  Array $request
-	 * @return void
-	 */
-	protected function _restful(Endpoint $endpoint, Array $request)
-	{
-		try
-		{
-			$this->_response_payload = $endpoint->run($request);
-		}
-		catch (Ushahidi\Core\Exception\NotFoundException $e)
-		{
-			throw new HTTP_Exception_404($e->getMessage());
-		}
-		catch (Ushahidi\Core\Exception\AuthorizerException $e)
-		{
-			throw new HTTP_Exception_403($e->getMessage());
-		}
-		catch (Ushahidi\Core\Exception\ValidatorException $e)
-		{
-			// Also handles ParserException
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->getErrors())),
-			));
 		}
 	}
 }

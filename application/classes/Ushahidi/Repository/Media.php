@@ -45,6 +45,12 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 		return new Media($data);
 	}
 
+	// SearchRepository
+	public function getSearchFields()
+	{
+		return ['user', 'orphans'];
+	}
+
 	// Ushahidi_Repository
 	protected function setSearchConditions(SearchData $search)
 	{
@@ -58,25 +64,6 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 					->on('posts_media.media_id', '=', 'media.id')
 				->where('posts_media.post_id', 'is', NULL);
 		}
-	}
-
-	// CreateRepository
-	public function create(Data $input)
-	{
-		// Upload the file and get the file reference
-		$file = $this->upload->upload(new UploadData($input->file));
-
-		$insert = [
-			'caption'    => $input->caption,
-			'user_id'    => $input->user_id,
-			'mime'       => $file->type,
-			'o_filename' => $file->file,
-			'o_size'     => $file->size,
-			'o_width'    => $file->width,
-			'o_height'   => $file->height,
-			];
-
-		return $this->executeInsert(array_filter($insert));
 	}
 
 	// LayerMediaRepository
