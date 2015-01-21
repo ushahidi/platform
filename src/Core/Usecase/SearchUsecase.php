@@ -117,13 +117,18 @@ class SearchUsecase implements Usecase
 	}
 
 	/**
-	 * Get filter parameters that are used for paging.
+	 * Get filter parameters and default values that are used for paging.
 	 *
 	 * @return Array
 	 */
 	protected function getPagingFields()
 	{
-		return ['orderby', 'order', 'limit', 'offset'];
+		return [
+			'orderby' => 'id',
+			'order'   => 'asc',
+			'limit'   => null,
+			'offset'  => 0
+		];
 	}
 
 	/**
@@ -136,10 +141,10 @@ class SearchUsecase implements Usecase
 		$fields = $this->repo->getSearchFields();
 		$paging = $this->getPagingFields();
 
-		$filters = $this->getFilters(array_merge($fields, $paging));
+		$filters = $this->getFilters(array_merge($fields, array_keys($paging)));
 
-		$this->search->setFilters($filters);
-		$this->search->setSorting($paging);
+		$this->search->setFilters(array_merge($paging, $filters));
+		$this->search->setSorting(array_keys($paging));
 
 		return $this->search;
 	}

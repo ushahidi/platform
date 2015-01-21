@@ -196,6 +196,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPost'),
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
+	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
 ];
 
 // User login is a custom read the uses authentication.
