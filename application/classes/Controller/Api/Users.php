@@ -33,6 +33,16 @@ class Controller_Api_Users extends Ushahidi_Rest {
 	}
 
 	/**
+	 * Get options for /users/me
+	 *
+	 * @return void
+	 */
+	public function action_options_me()
+	{
+		$this->response->status(200);
+	}
+
+	/**
 	 * Update current user
 	 *
 	 * PUT /api/users/me

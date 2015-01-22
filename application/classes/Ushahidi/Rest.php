@@ -22,6 +22,16 @@ abstract class Ushahidi_Rest extends Controller {
 	protected static $version = '2';
 
 	/**
+	 * @var Object Request Payload
+	 */
+	protected $_request_payload = NULL;
+
+	/**
+	 * @var Object Response Payload
+	 */
+	protected $_response_payload = NULL;
+
+	/**
 	 * @var array Map of HTTP methods -> actions
 	 */
 	protected $_action_map = array
