@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# if someone invokes this with bash
+set -e
+
+# build release tarball
+usage() {
+    echo usage: $0 VERSION
+    exit 2
+}
+
+test $# -eq 1 || usage
+VERSION=$1
+CWD=$(pwd)
+
+TMP_DIR=$(mktemp -d 2>/dev/null || mktemp -d -t platform-build)
+WORK_DIR=$TMP_DIR/ushahidi-platform
+mkdir $WORK_DIR
+
+echo "Copy to temp dir"
+cp -R ./ $WORK_DIR
+
+pushd $WORK_DIR
+
+echo "Clean out extra files"
+git clean -fdx
+
+echo "Running bin/update --production"
+bin/update --production --no-migrate
+
+popd
+pushd $TMP_DIR
+
+# Tar it up.
+echo "Building tarball"
+mkdir -p "${CWD}/build"
+TARFILE="${CWD}/build/Ushahidi-Platform-${VERSION}.tar"
+
+tar -cf $TARFILE \
+    --exclude 'application/cache' \
+    --exclude 'application/logs' \
+    --exclude 'application/media/uploads' \
+    --exclude 'application/config/environments' \
+    --exclude 'application/routes' \
+    --exclude '.htaccess' \
+    --exclude 'build' \
+    --exclude 'application/tests' \
+    --exclude 'spec' \
+    --exclude '.phpspec' \
+    --exclude '.travis.yml' \
+    --exclude '.librarian' \
+    --exclude '.vagrant' \
+    --exclude '.tmp' \
+    --exclude 'composer.*' \
+    --exclude 'phpspec.yml.dist' \
+    --exclude 'behat.yml.dist' \
+    --exclude 'phpunit.xml.dist' \
+    --exclude '.arc*' \
+    --exclude '.git' \
+    --exclude '.git*' \
+    ushahidi-platform/
+
+# Add extra file that would have been excluded otherwise
+tar -rf $TARFILE \
+    'ushahidi-platform/application/cache/.gitignore' \
+    'ushahidi-platform/application/logs/.gitignore' \
+    'ushahidi-platform/application/media/uploads/.gitignore' \
+    'ushahidi-platform/application/config/environments/development/.gitignore' \
+    'ushahidi-platform/application/routes/default.php'
+
+gzip -f $TARFILE
+echo "Release tarball: `pwd`/${TARFILE}.gz"
+
+popd
+
+rm -rf $TMP_DIR

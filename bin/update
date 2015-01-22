@@ -12,6 +12,9 @@ fi
 # Defaults
 production=false
 withgit=false
+installdeps=true
+migrate=true
+
 # Parse options
 # Based on code from http://mywiki.wooledge.org/ComplexOptionParsing
 optspec=":h-:"
@@ -34,8 +37,14 @@ while true; do
 		production)
 			production=true
 				;;
+		no-deps)
+			installdeps=false
+				;;
+		no-migrate)
+			migrate=false
+				;;
 		h|help)
-			echo "usage: $0 [--git-update] [--production]" >&2
+			echo "usage: $0 [--git-update] [--production] [--no-migrate] [--no-deps]" >&2
 			exit 2
 			;;
 	esac
@@ -55,8 +64,7 @@ else
 fi
 
 composer="composer"
-migrate="$(dirname "$0")/phinx"
-upgrade=1
+phinx="$(dirname "$0")/phinx"
 
 # Check required commands are available
 which $composer >/dev/null 2>&1
@@ -68,25 +76,26 @@ if [ $? -gt 0 ]; then
 	fi
 fi
 
-if [ -n "$" -a "$1" == "migrate" ]; then
-	upgrade=0
-fi
-
 # Deployment mode, disable all developer dependencies :)
 if [ "$production" = true ]; then
 	echo ">>> Skipping development dependencies"
 	composer="$composer --no-dev"
-	npm="$npm --production"
 fi
 
-if [ $upgrade -gt 0 ]; then
+if [ "$installdeps" = true ]; then
 	echo ">>> Updating dependencies"
 	$composer install
+else
+	echo ">>> Skipping installing all dependencies"
 fi
 
-if [ -f "$migrate" ]; then
-	echo ">>> Running migrations"
-	$migrate migrate -c application/phinx.php
+if [ "$migrate" = true ]; then
+	if [ -f "$phinx" ]; then
+		echo ">>> Running migrations"
+		$phinx migrate -c application/phinx.php
+	else
+		echo "!!! Migration tool $migrate not installed, unable to run migrations"
+	fi
 else
-	echo "!!! Migration tool $migrate not installed, unable to run migrations"
+	echo ">>> Skipping running migrations"
 fi
