@@ -24,4 +24,4 @@ deploy:
     release: ushahidi-platform-api-release
   on:
     repo: ushahidi/platform
-    branch: heroku-deploy
+    all_branches: true
