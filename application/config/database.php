@@ -2,7 +2,7 @@
 
 /**
  * Database Config
- * 
+ *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Config
  * @copyright  2013 Ushahidi
@@ -13,12 +13,12 @@ return array
 (
 	'default' => array
 	(
-		'type'       => 'MySQLi',
+		'type'       => getenv('DB_TYPE'),
 		'connection' => array(
-			'hostname'   => 'localhost',
-			'database'   => 'database',
-			'username'   => 'username',
-			'password'   => 'password',
+			'hostname'   => getenv('DB_HOST'),
+			'database'   => getenv('DB_NAME'),
+			'username'   => getenv('DB_USER'),
+			'password'   => getenv('DB_PASS'),
 			'persistent' => FALSE,
 		),
 		'table_prefix' => '',
