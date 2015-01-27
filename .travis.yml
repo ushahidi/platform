@@ -9,8 +9,19 @@ php:
 services:
 - mysql
 install:
-- composer install --no-interaction
+- composer self-update
+- composer install --no-interaction --no-scripts
 before_script:
-- ./bin/tests install
+- "./bin/tests install"
 script:
-- ./bin/tests run --no-install
+- "./bin/tests run --no-install"
+deploy:
+  provider: heroku
+  api_key:
+    secure: fkC2bEELMXojW0FFkWAlSayqR7GaB3bab/AwB+CW9vKyTd7qNs099mthWpV4iAaJXHQ64IYHvvfQ0IZ7VV/+JX3zsfzTKpcF70ArmQnERIW1cppV4ZtfxcRLHu70FP0Ab0Crenh/6wlj7NtmOfYVgi6L7lFQvNADqfPn2cYuXyk=
+  app:
+    master: ushahidi-platform-api-master
+    release: ushahidi-platform-api-release
+  on:
+    repo: ushahidi/platform
+    branch: heroku-deploy

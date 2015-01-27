@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a83601074120a6f76ec0d6946ac646d9",
+    "hash": "6e518750fe7fdc7912587a41a8e30e5e",
     "packages": [
         {
             "name": "aura/di",
@@ -1897,6 +1897,50 @@
             "time": "2014-12-18 23:26:35"
         },
         {
+            "name": "heroku/heroku-buildpack-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/heroku/heroku-buildpack-php.git",
+                "reference": "166ad317a307082d037a6d201ddb602f3295af9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/166ad317a307082d037a6d201ddb602f3295af9a",
+                "reference": "166ad317a307082d037a6d201ddb602f3295af9a",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/heroku-hhvm-apache2",
+                "bin/heroku-hhvm-nginx",
+                "bin/heroku-php-apache2",
+                "bin/heroku-php-nginx"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Zuelke",
+                    "email": "dz@heroku.com"
+                }
+            ],
+            "description": "Toolkit for starting a PHP application locally, with or without foreman, using the same config for PHP/HHVM and Apache2/Nginx as on Heroku",
+            "homepage": "http://github.com/heroku/heroku-buildpack-php",
+            "keywords": [
+                "apache",
+                "apache2",
+                "foreman",
+                "heroku",
+                "hhvm",
+                "nginx",
+                "php"
+            ],
+            "time": "2015-01-19 23:21:04"
+        },
+        {
             "name": "kohana/unittest",
             "version": "dev-3.3/develop",
             "source": {
@@ -3356,12 +3400,19 @@
         "wouter/a1": 20,
         "wouter/a2": 20,
         "wouter/acl": 20,
-        "zeelot/kohana-media": 20,
         "vlucas/phpdotenv": 20,
-        "kohana/unittest": 20
+        "zeelot/kohana-media": 20,
+        "kohana/unittest": 20,
+        "heroku/heroku-buildpack-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-mcrypt": "*"
+    },
     "platform-dev": []
 }

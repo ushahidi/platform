@@ -113,17 +113,6 @@ apache::vhost { 'ushahidi.dev':
 	require => File["/var/www/httpdocs"],
 }
 
-# NodeJS and NPM setup
-class { 'nodejs':
-  version => 'latest',
-}
-
-package { 'bower':
-  ensure   => present,
-  provider => npm,
-  require => Class['nodejs']
-}
-
 # Ushahidi directories and files
 file { '/var/www/application/cache':
 	ensure => directory,
@@ -164,11 +153,6 @@ file { "/var/www/index.html":
 	ensure  => "absent"
 }
 
-exec { "gem-bundler":
-	command => "gem install bundler",
-	onlyif  => "test ! `which bundle`"
-}
-
 exec { "bin-update":
 	path    => "/usr/local/node/node-default/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
 	environment => [
@@ -182,8 +166,6 @@ exec { "bin-update":
 			File["/var/www/application/config/environments/development/database.php"],
 			Package["php5-cli"],
 			Package["php5-mysqlnd"],
-			Package["bower"],
-			Class["composer"],
-			Exec["gem-bundler"]
+			Class["composer"]
 		]
 }
