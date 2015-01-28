@@ -568,6 +568,32 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@resetFixture @update
+	Scenario: Extra params passed when updating a post get ignored
+		Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"url":"http://ushv3.dev/api/v2/posts/1",
+				"title":"Updated Test Post",
+				"type":"report",
+				"status":"published",
+				"locale":"en_US",
+				"values":
+				{
+					"last_location":["atlanta"]
+				},
+				"tags":["disaster","explosion"],
+				"categories":["something"]
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/posts"
+		Then the response is JSON
+		And the response does not have a "values.missing_status" property
+		Then the guzzle status code should be 200
+
+	@resetFixture @update
 	Scenario: Updating a Post with non-existent Form
 		Given that I want to update a "Post"
 		And that the request "data" is:

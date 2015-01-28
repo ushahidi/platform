@@ -28,7 +28,9 @@ abstract class StaticEntity implements Entity
 	 */
 	public function __get($key)
 	{
-		return $this->$key;
+		if (property_exists($this, $key)) {
+			return $this->$key;
+		}
 	}
 
 	/**
