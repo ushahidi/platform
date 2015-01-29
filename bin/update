@@ -63,7 +63,7 @@ else
 	echo ">>> Skipping git"
 fi
 
-composer="composer"
+composer="composer --ignore-platform-reqs"
 phinx="$(dirname "$0")/phinx"
 
 # Check required commands are available
