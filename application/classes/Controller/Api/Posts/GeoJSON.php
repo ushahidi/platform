@@ -16,7 +16,8 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	 */
 	protected $_action_map = array
 	(
-		Http_Request::GET    => 'get',
+		Http_Request::GET     => 'get',
+		Http_Request::OPTIONS => 'options',
 	);
 
 	/**
