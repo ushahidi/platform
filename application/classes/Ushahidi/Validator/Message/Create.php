@@ -13,59 +13,60 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 
-class Ushahidi_Validator_Message_Create implements Validator
+class Ushahidi_Validator_Message_Create extends Validator
 {
 	protected $repo;
-	protected $valid;
+	protected $default_error_source = 'message';
 
 	public function __construct(CreateMessageRepository $repo)
 	{
 		$this->repo = $repo;
 	}
 
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		// Users can only create outgoing messages.
-		$this->valid = Validation::factory($entity->asArray())
-			->rules('direction', [
-					['not_empty'],
-					['in_array', [':value', [\Message_Direction::OUTGOING]]],
-				])
-			->rules('message', [
-					['not_empty']
-			])
-			->rules('datetime',[
-					['date'],
-			])
-			->rules('type', [
-					['not_empty'],
-					['max_length', [':value', 255]],
-					// @todo this should be shared via repo or other means
-					['in_array', [':value', ['sms', 'ivr', 'email', 'twitter']]],
-			])
-			->rules('data_provider', [
-					// @todo DataProvider should provide a list of available types
-					['in_array', [':value', array_keys(\DataProvider::get_providers())]],
-			])
-			->rules('data_provider_message_id', [
-					['max_length', [':value', 511]],
-			])
-			->rules('parent_id', [
-					['numeric'],
-					[[$this->repo, 'parentExists'], [':value']]
-			])
-			->rules('post_id', [
-					['numeric'],
-			])
-			->rules('contact_id', [
-					['numeric'],
-			]);
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'message')
-	{
-		return $this->valid->errors($from);
+		return [
+			'direction' => [
+				['not_empty'],
+				['in_array', [':value', [\Message_Direction::OUTGOING]]],
+			],
+			'message' => [
+				['not_empty'],
+			],
+			'datetime' => [
+				['date'],
+			],
+			'type' => [
+				['not_empty'],
+				['max_length', [':value', 255]],
+				// @todo this should be shared via repo or other means
+				['in_array', [':value', ['sms', 'ivr', 'email', 'twitter']]],
+			],
+			'data_provider' => [
+				// @todo DataProvider should provide a list of available types
+				['in_array', [':value', array_keys(\DataProvider::get_providers())]],
+			],
+			'data_provider_message_id' => [
+				['max_length', [':value', 511]],
+			],
+			'status' => [
+				['not_empty'],
+				['in_array', [':value', [
+					// @todo this should be shared via repo
+					\Message_Status::PENDING,
+					\Message_Status::PENDING_POLL,
+				]]],
+			],
+			'parent_id' => [
+				['numeric'],
+				[[$this->repo, 'parentExists'], [':value']],
+			],
+			'post_id' => [
+				['numeric'],
+			],
+			'contact_id' => [
+				['numeric'],
+			],
+		];
 	}
 }

@@ -191,7 +191,6 @@ Feature: Testing the Translations API
                 "title": "Test translation updated2",
                 "content": "Some description",
                 "status": "published",
-                "locale":"fr_FR",
                 "values": {
                     "test_varchar": ["testing"],
                     "last_location": ["blah"]

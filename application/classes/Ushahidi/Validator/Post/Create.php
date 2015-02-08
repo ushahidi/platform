@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Post Validator
+ * Ushahidi Post Create Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -16,15 +16,16 @@ use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
-class Ushahidi_Validator_Post_Write implements Validator
+class Ushahidi_Validator_Post_Create extends Validator
 {
 	protected $repo;
-	protected $valid;
-
 	protected $attribute_repo;
 	protected $tag_repo;
+	protected $user_repo;
 	protected $post_value_factory;
 	protected $post_value_validator_factory;
+
+	protected $default_error_source = 'post';
 
 	/**
 	 * Construct
@@ -37,12 +38,12 @@ class Ushahidi_Validator_Post_Write implements Validator
 	 * @param Ushahidi_Validator_Post_ValueFactory  $post_value_validator_factory
 	 */
 	public function __construct(
-			UpdatePostRepository $repo,
-			FormAttributeRepository $attribute_repo,
-			UpdatePostTagRepository $tag_repo,
-			UserRepository $user_repo,
-			Ushahidi_Repository_PostValueFactory $post_value_factory,
-			Ushahidi_Validator_Post_ValueFactory $post_value_validator_factory)
+		UpdatePostRepository $repo,
+		FormAttributeRepository $attribute_repo,
+		UpdatePostTagRepository $tag_repo,
+		UserRepository $user_repo,
+		Ushahidi_Repository_PostValueFactory $post_value_factory,
+		Ushahidi_Validator_Post_ValueFactory $post_value_validator_factory)
 	{
 		$this->repo = $repo;
 		$this->attribute_repo = $attribute_repo;
@@ -52,63 +53,70 @@ class Ushahidi_Validator_Post_Write implements Validator
 		$this->post_value_validator_factory = $post_value_validator_factory;
 	}
 
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($entity->getChanged())
-			->rules('title', array(
-					array('max_length', array(':value', 150)),
-				))
-			->rules('slug', array(
-					array('min_length', array(':value', 2)),
-					array('max_length', array(':value', 150)),
-					array('alpha_dash', array(':value', TRUE)),
-					array([$this->repo, 'isSlugAvailable'], array(':value')),
-				))
-			->rules('locale', array(
-					array('max_length', array(':value', 5)),
-					array('alpha_dash', array(':value', TRUE)),
-					// @todo check locale is valid
-					array(array($this->repo, 'doesTranslationExist'), array(':value', $entity->parent_id, $entity->type))
-				))
-			->rules('form_id', array(
-					array('numeric'),
-					array(array($this->repo, 'doesFormExist'), array(':value'))
-				))
-			->rules('values', [
-					[[$this, 'check_values'], [':validation', ':value', ':data']]
-				])
-			->rules('tags', [
-					[[$this, 'check_tags'], [':validation', ':value']]
-				])
-			->rules('user_id', [
-					[[$this->user_repo, 'doesUserExist'], [':value']],
-					[[$this, 'onlyAuthorOrUserSet'], [':value', ':data']]
-				])
-			->rules('author_email', [
-					['Valid::email'],
-					[[$this->user_repo, 'isUniqueEmail'], [':value']]
-				])
-			->rules('author_realname', [
-					['max_length', [':value', 150]],
-				])
-			->rules('status', [
-					['in_array', [':value', [
-						'draft',
-						'published'
-					]]]
-				])
-			->rules('type', [
-					['in_array', [':value', [
-						'report',
-						'revision',
-						'translation'
-					]]]
-				]);
+		$input = $this->validation_engine->getData();
+		$parent_id = isset($input['parent_id']) ? $input['parent_id'] : null;
+		$type = isset($input['type']) ? $input['type'] : null;
 
-		return $this->valid->check();
+		return [
+			'title' => [
+				['max_length', [':value', 150]],
+			],
+			'slug' => [
+				['min_length', [':value', 2]],
+				['max_length', [':value', 150]],
+				['alpha_dash', [':value', TRUE]],
+				[[$this->repo, 'isSlugAvailable'], [':value']],
+			],
+			'locale' => [
+				['max_length', [':value', 5]],
+				['alpha_dash', [':value', TRUE]],
+				// @todo check locale is valid
+				// @todo if the translation exists and we're performing an Update,
+				//       passing locale should not throw an error
+				[[$this->repo, 'doesTranslationExist'], [
+					':value', $parent_id, $type
+				]],
+			],
+			'form_id' => [
+				['numeric'],
+				[[$this->repo, 'doesFormExist'], [':value']],
+			],
+			'values' => [
+				[[$this, 'checkValues'], [':validation', ':value', ':data']],
+			],
+			'tags' => [
+				[[$this, 'checkTags'], [':validation', ':value']],
+			],
+			'user_id' => [
+				[[$this->user_repo, 'doesUserExist'], [':value']],
+				[[$this, 'onlyAuthorOrUserSet'], [':value', ':data']],
+			],
+			'author_email' => [
+				['Valid::email'],
+				[[$this->user_repo, 'isUniqueEmail'], [':value']],
+			],
+			'author_realname' => [
+				['max_length', [':value', 150]],
+			],
+			'status' => [
+				['in_array', [':value', [
+					'draft',
+					'published'
+				]]],
+			],
+			'type' => [
+				['in_array', [':value', [
+					'report',
+					'revision',
+					'translation'
+				]]],
+			],
+		];
 	}
 
-	public function check_tags(Validation $valid, $tags)
+	public function checkTags(Validation $validation, $tags)
 	{
 		if (!$tags) {
 			return;
@@ -118,12 +126,12 @@ class Ushahidi_Validator_Post_Write implements Validator
 		{
 			if (! $this->tag_repo->doesTagExist($tag))
 			{
-				$valid->error('tags', 'tagDoesNotExist', [$tag]);
+				$validation->error('tags', 'tagDoesNotExist', [$tag]);
 			}
 		}
 	}
 
-	public function check_values(Validation $valid, $attributes, $data)
+	public function checkValues(Validation $validation, $attributes, $data)
 	{
 		if (!$attributes) {
 			return;
@@ -137,14 +145,14 @@ class Ushahidi_Validator_Post_Write implements Validator
 			$attribute = $this->attribute_repo->getByKey($key, $data['form_id']);
 			if (! $attribute->id)
 			{
-				$valid->error('values', 'attributeDoesNotExist', [$key]);
+				$validation->error('values', 'attributeDoesNotExist', [$key]);
 				return;
 			}
 
 			// Are there multiple values? Are they greater than cardinality limit?
 			if (count($values) > $attribute->cardinality AND $attribute->cardinality != 0)
 			{
-				$valid->error('values', 'tooManyValues', [
+				$validation->error('values', 'tooManyValues', [
 					$key,
 					$attribute->cardinality
 				]);
@@ -154,21 +162,26 @@ class Ushahidi_Validator_Post_Write implements Validator
 			if ($validator = $this->post_value_validator_factory->getValidator($attribute->type))
 			{
 				if (!is_array($values)) {
-					$valid->error('values', 'notAnArray', [$key]);
+					$validation->error('values', 'notAnArray', [$key]);
 				}
 				elseif ($error = $validator->check($values)) {
-					$valid->error('values', $error, [$key]);
+					$validation->error('values', $error, [$key]);
 				}
 			}
 		}
 
 		// Validate required attributes
+		$this->checkRequiredAttributes($validation, $attributes, $data);
+	}
+
+	protected function checkRequiredAttributes(Validation $validation, $attributes, $data)
+	{
 		$required_attributes = $this->attribute_repo->getRequired($data['form_id']);
 		foreach ($required_attributes as $attr)
 		{
 			if (!array_key_exists($attr->key, $attributes))
 			{
-				$valid->error('values', 'attributeRequired', [$attr->key]);
+				$validation->error('values', 'attributeRequired', [$attr->key]);
 			}
 		}
 	}
@@ -182,10 +195,5 @@ class Ushahidi_Validator_Post_Write implements Validator
 	public function onlyAuthorOrUserSet($user_id, $data)
 	{
 		return (empty($user_id) OR (empty($data['author_email']) AND empty($data['author_realname'])) );
-	}
-
-	public function errors($from = 'post')
-	{
-		return $this->valid->errors($from);
 	}
 }

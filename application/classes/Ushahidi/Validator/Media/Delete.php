@@ -12,24 +12,18 @@
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Media_Delete implements Validator
+class Ushahidi_Validator_Media_Delete extends Validator
 {
-	protected $valid;
+	protected $default_error_source = 'media';
 
-	public function check(Data $input)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($input->asArray())
-			->rules('id', array(
-					array('not_empty'),
-					array('digit'),
-				));
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'media')
-	{
-		return $this->valid->errors($from);
+		return [
+			'id' => [
+				['not_empty'],
+				['digit'],
+			],
+		];
 	}
 }
 

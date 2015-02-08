@@ -30,17 +30,6 @@ class UserAuthorizer implements Authorizer
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
 
-	/**
-	 * Checks if currently logged in user is the same as passed entity
-	 * @param  User    $entity entity to check
-	 * @param  User    $user   currently logged in user
-	 * @return boolean
-	 */
-	protected function isUserSelf(User $entity, User $user)
-	{
-		return ($entity->id === $user->id);
-	}
-
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
@@ -48,7 +37,7 @@ class UserAuthorizer implements Authorizer
 		$user = $this->getUser();
 
 		// User should not be able to delete self
-		if ($privilege === 'delete' && $this->isUserSelf($entity, $user)) {
+		if ($privilege === 'delete' && $this->isUserSelf($entity)) {
 			return false;
 		}
 
@@ -58,12 +47,12 @@ class UserAuthorizer implements Authorizer
 		}
 
 		// User cannot change their own role
-		if ('update' === $privilege && $this->isUserSelf($entity, $user) && $entity->hasChanged('role')) {
+		if ('update' === $privilege && $this->isUserSelf($entity) && $entity->hasChanged('role')) {
 			return false;
 		}
 
 		// Regular user should be able to update and read only self
-		if ($this->isUserSelf($entity, $user) && in_array($privilege, ['read', 'update'])) {
+		if ($this->isUserSelf($entity) && in_array($privilege, ['read', 'update'])) {
 			return true;
 		}
 

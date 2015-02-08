@@ -11,6 +11,7 @@
 
 namespace Ushahidi\Core\Usecase;
 
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
@@ -81,6 +82,14 @@ class CreateUsecase implements Usecase
 
 		// ... and return the formatted entity
 		return $this->formatter->__invoke($entity);
+	}
+
+	// ValidatorTrait
+	protected function verifyValid(Entity $entity)
+	{
+		if (!$this->validator->check($entity->asArray())) {
+			$this->validatorError($entity);
+		}
 	}
 
 	/**

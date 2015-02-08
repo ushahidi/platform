@@ -20,10 +20,10 @@ interface UserRepository
 	public function get($id);
 
 	/**
-	 * @param string $email
+	 * @param string $username
 	 * @return \Ushahidi\Core\Entity\User
 	 */
-	public function getByUsername($email);
+	public function getByUsername($username);
 
 	/**
 	 * @param string $email

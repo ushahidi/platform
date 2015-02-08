@@ -12,23 +12,17 @@
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Set_Delete implements Validator
+class Ushahidi_Validator_Set_Delete extends Validator
 {
-	protected $valid;
+	protected $default_error_source = 'set';
 
-	public function check(Data $input)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($input->asArray())
-			->rules('id', [
-					['not_empty'],
-					['digit'],
-				]);
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'set')
-	{
-		return $this->valid->errors($from);
+		return [
+			'id' => [
+				['not_empty'],
+				['digit'],
+			],
+		];
 	}
 }

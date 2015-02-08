@@ -16,20 +16,21 @@ use Ushahidi\Core\StaticEntity;
 class Message extends StaticEntity
 {
 	// Valid boxes are defined as constants.
-	const INBOX = 'inbox';
-	const OUTBOX = 'sent';
-	const ARCHIVE = 'archive';
+	const INBOX          = 'inbox';
+	const OUTBOX         = 'sent';
+	const ARCHIVE        = 'archive';
 
 	// Valid directions are defined as constants.
-	const INCOMING = 'incoming';
-	const OUTGOING = 'outgoing';
+	const INCOMING       = 'incoming';
+	const OUTGOING       = 'outgoing';
 
 	// Valid status types are defined as constants.
-	const PENDING = 'pending';
-	const RECEIVED = 'received';
-	const EXPIRED = 'expired';
-	const CANCELLED = 'cancelled';
-	const FAILED = 'failed';
+	const PENDING        = 'pending';
+	const RECEIVED       = 'received';
+	const EXPIRED        = 'expired';
+	const CANCELLED      = 'cancelled';
+	const FAILED         = 'failed';
+	const DEFAULT_STATUS = 'pending';
 
 	protected $id;
 	protected $parent_id;
@@ -60,10 +61,16 @@ class Message extends StaticEntity
 			'status'     => 'string',
 			'direction'  => 'string',
 			'created'    => 'int',
-		] + [
 			// data provider relations
 			'data_provider'            => 'string',
 			'data_provider_message_id' => 'string',
+		];
+	}
+
+	protected function getDefaultData()
+	{
+		return [
+			'status' => $this::DEFAULT_STATUS,
 		];
 	}
 

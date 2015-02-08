@@ -13,40 +13,33 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Form_Group_Update implements Validator
+class Ushahidi_Validator_Form_Group_Update extends Validator
 {
 	protected $form_repo;
+	protected $default_error_source = 'form';
 
-	protected $valid;
-
-	public function __construct(FormRepository $form_repo)
+	public function setFormRepo($form_repo)
 	{
 		$this->form_repo = $form_repo;
 	}
 
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($entity->getChanged())
-			->rules('form_id', [
+		return [
+			'form_id' => [
 				['digit'],
 				[[$this->form_repo, 'doesFormExist'], [':value']],
-			])
-			->rules('label', [
+			],
+			'label' => [
 				['min_length', [':value', 2]],
 				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
-			])
-			->rules('priority', [
+			],
+			'priority' => [
 				['digit'],
-			])
-			->rules('icon', [
+			],
+			'icon' => [
 				['alpha'],
-			]);
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'form')
-	{
-		return $this->valid->errors($from);
+			],
+		];
 	}
 }

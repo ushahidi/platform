@@ -57,13 +57,15 @@ class CreateUsecaseSpec extends ObjectBehavior
 	{
 		// ... fetch a new entity
 		$this->tryGetEntity($repo, $entity);
+		$entity_array = ['entity' => 'as_array'];
+		$entity->asArray()->shouldBeCalled()->willReturn($entity_array);
 
 		// ... if authorization passes
 		$action = 'create';
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
 		// ... but validation fails
-		$valid->check($entity)->willReturn(false);
+		$valid->check($entity_array)->willReturn(false);
 
 		// ... the exception requests the errors for the message
 		$entity->getResource()->willReturn('widgets');
@@ -75,13 +77,15 @@ class CreateUsecaseSpec extends ObjectBehavior
 	{
 		// ... fetch a new entity
 		$this->tryGetEntity($repo, $entity);
+		$entity_array = ['entity' => 'as_array'];
+		$entity->asArray()->shouldBeCalled()->willReturn($entity_array);
 
 		// ... if authorization passes
 		$action = 'create';
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
 		// ... and validation passes
-		$valid->check($entity)->willReturn(true);
+		$valid->check($entity_array)->willReturn(true);
 
 		// ... create a new record
 		$id = 1;

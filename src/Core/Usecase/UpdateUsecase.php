@@ -11,6 +11,7 @@
 
 namespace Ushahidi\Core\Usecase;
 
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
@@ -68,8 +69,8 @@ class UpdateUsecase implements Usecase
 	// Usecase
 	public function interact()
 	{
-		// Fetch the entity with payload applied...
-		$entity = $this->getEntity();
+		// Fetch the entity and apply the payload...
+		$entity = $this->getEntity()->setState($this->payload);
 
 		// ... verify that the entity can be updated by the current user
 		$this->verifyUpdateAuth($entity);
@@ -83,8 +84,25 @@ class UpdateUsecase implements Usecase
 		// ... verify that the entity can be read by the current user
 		$this->verifyReadAuth($entity);
 
-		// ... and return the formatted entity
-		return $this->formatter->__invoke($entity);
+		// ... load the updated entity from the storage layer
+		$updated_entity = $this->getEntity();
+
+		// ... and return the updated, formatted entity
+		return $this->formatter->__invoke($updated_entity);
+	}
+
+	// ValidatorTrait
+	protected function verifyValid(Entity $entity)
+	{
+		$changed = $entity->getChanged();
+
+		if (isset($entity->id)) {
+			$changed['id'] = $entity->id;
+		}
+
+		if (!$this->validator->check($changed)) {
+			$this->validatorError($entity);
+		}
 	}
 
 	/**
@@ -100,7 +118,6 @@ class UpdateUsecase implements Usecase
 		// ... verify that the entity was actually loaded
 		$this->verifyEntityLoaded($entity, $this->identifiers);
 
-		// ... and update the entity with the payload
-		return $entity->setState($this->payload);
+		return $entity;
 	}
 }

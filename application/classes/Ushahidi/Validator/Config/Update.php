@@ -12,31 +12,16 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Config_Update implements Validator
+class Ushahidi_Validator_Config_Update extends Validator
 {
-	protected $valid;
+	protected $default_error_source = 'config';
 
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		$data = $entity->getChanged();
-		$keys = array_keys($data);
-
-		$this->valid = Validation::factory($data);
-
-		foreach ($keys as $key)
-		{
-			// The only restriction on config values is that they must fit within
-			// storage constraints, to prevent eg broken JSON strings.
-			$this->valid->rules($key, [
-				['max_length', [':value', 255]]
-			]);
-		}
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'config')
-	{
-		return $this->valid->errors($from);
+		// The only restriction on config values is that they must fit within
+		// storage constraints, to prevent eg broken JSON strings.
+		return array_fill_keys(array_keys($this->validation_engine->getData()), [
+			['max_length', [':value', 255]],
+		]);
 	}
 }

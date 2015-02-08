@@ -34,6 +34,13 @@ class CreatePost extends CreateUsecase
 		return $this->repo->getEntity()->setState($payload);
 	}
 
+	protected function verifyValid(Entity $entity)
+	{
+		if (!$this->validator->check($entity->getChanged())) {
+			$this->validatorError($entity);
+		}
+	}
+
 	protected function verifyReadAuth(Entity $entity)
 	{
 		// Throwing an error w/o read permissions breaks on anonymous users

@@ -13,49 +13,43 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Layer\LayerMediaRepository;
 
-class Ushahidi_Validator_Layer_Update implements Validator
+class Ushahidi_Validator_Layer_Update extends Validator
 {
-	protected $valid;
 	protected $media;
+	protected $default_error_source = 'layer';
 
-	public function __construct(LayerMediaRepository $media)
+	public function setMedia(LayerMediaRepository $media)
 	{
 		$this->media = $media;
 	}
 
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($entity->getChanged())
-			->rules('name', array(
-					array('min_length', array(':value', 2)),
-					array('max_length', array(':value', 50)),
-					// alphas, numbers, punctuation, and spaces
-					array('regex', array(':value', '/^[\pL\pN\pP ]++$/uD')),
-				))
-			->rules('data_url', array(
-					array('url')
-				))
-			->rules('type', array(
-					array('in_array', array(':value', array('geojson', 'wms', 'tile'))),
-				))
-			->rules('active', array(
-					array('in_array', [':value', [TRUE, FALSE], TRUE]),
-				))
-			->rules('visible_by_default', array(
-					array('in_array', [':value', [TRUE, FALSE], TRUE]),
-				))
-			->rules('media_id', array(
-					[[$this->media, 'doesMediaExist'], [':value']]
-				))
-			->rules('options', array(
-					['is_array', [':value']]
-				));
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'layer')
-	{
-		return $this->valid->errors($from);
+		return [
+			'name' => [
+				['min_length', [':value', 2]],
+				['max_length', [':value', 50]],
+				// alphas, numbers, punctuation, and spaces
+				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
+			],
+			'data_url' => [
+				['url']
+			],
+			'type' => [
+				['in_array', [':value', ['geojson', 'wms', 'tile']]],
+			],
+			'active' => [
+				['in_array', [':value', [0, 1, false, true], TRUE]],
+			],
+			'visible_by_default' => [
+				['in_array', [':value', [0, 1, false, true], TRUE]],
+			],
+			'media_id' => [
+				[[$this->media, 'doesMediaExist'], [':value']],
+			],
+			'options' => [
+				['is_array', [':value']],
+			],
+		];
 	}
 }

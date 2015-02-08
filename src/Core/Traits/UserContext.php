@@ -51,4 +51,15 @@ trait UserContext
 	{
 		return $this->user->id;
 	}
+
+	/**
+	 * Checks if currently logged in user is the same as passed entity/array
+	 * @param  User    $entity entity to check
+	 * @return boolean
+	 */
+	protected function isUserSelf($entity)
+	{
+		$entity = is_object($entity) ? $entity->asArray() : $entity;
+		return ((int) $entity['id'] === (int) $this->getUserId());
+	}
 }

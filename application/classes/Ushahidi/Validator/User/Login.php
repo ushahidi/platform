@@ -13,28 +13,22 @@ use Ushahidi\Core\Data;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\User\LoginRepository;
 
-class Ushahidi_Validator_User_Login implements Validator
+class Ushahidi_Validator_User_Login extends Validator
 {
-	private $valid;
+	protected $default_error_source = 'user';
 
-	public function check(Data $input)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($input->asArray())
-			->rules('username', array(
-					['not_empty'],
-					['max_length', [':value', 255]]
-				))
-			->rules('password', array(
-					['not_empty'],
-					// No reason to validate length here, even though the password
-					// is plaintext, because we always want to run the hash check.
-				));
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'user')
-	{
-		return $this->valid->errors($from);
+		return [
+			'username' => [
+				['not_empty'],
+				['max_length', [':value', 255]]
+			],
+			'password' => [
+				['not_empty'],
+				// No reason to validate length here, even though the password
+				// is plaintext, because we always want to run the hash check.
+			],
+		];
 	}
 }

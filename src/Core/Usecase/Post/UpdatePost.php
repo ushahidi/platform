@@ -25,7 +25,6 @@ class UpdatePost extends UpdateUsecase
 	// UpdateUsecase
 	protected function getEntity()
 	{
-		$entity = $this->getEntityWithoutPayload();
-		return $entity->setState($this->payload);
+		return $this->getEntityWithoutPayload();
 	}
 }

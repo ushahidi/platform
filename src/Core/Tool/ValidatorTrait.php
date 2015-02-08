@@ -21,15 +21,15 @@ trait ValidatorTrait
 	/**
 	 * @var Validator
 	 */
-	protected $valid;
+	protected $validator;
 
 	/**
 	 * @param  Validator $valid
 	 * @return void
 	 */
-	public function setValidator(Validator $valid)
+	public function setValidator(Validator $validator)
 	{
-		$this->valid = $valid;
+		$this->validator = $validator;
 		return $this;
 	}
 
@@ -38,15 +38,21 @@ trait ValidatorTrait
 	 *
 	 * @param  Entity $entity
 	 * @return void
+	 */
+	abstract protected function verifyValid(Entity $entity);
+
+	/**
+	 * Throw a ValidatorException
+	 *
+	 * @param  Entity $entity
+	 * @return null
 	 * @throws ValidatorException
 	 */
-	protected function verifyValid(Entity $entity)
+	protected function validatorError(Entity $entity)
 	{
-		if (!$this->valid->check($entity)) {
-			throw new ValidatorException(sprintf(
-				'Failed to validate %s entity',
-				$entity->getResource()
-			), $this->valid->errors());
-		}
+		throw new ValidatorException(sprintf(
+			'Failed to validate %s entity',
+			$entity->getResource()
+		), $this->validator->errors());
 	}
 }

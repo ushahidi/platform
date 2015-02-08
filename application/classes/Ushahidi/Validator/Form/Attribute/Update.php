@@ -12,7 +12,7 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Form_Attribute_Update implements Validator
+class Ushahidi_Validator_Form_Attribute_Update extends Validator
 {
     protected $valid;
     protected $form_group_repo;
@@ -20,29 +20,6 @@ class Ushahidi_Validator_Form_Attribute_Update implements Validator
     public function __construct(Ushahidi_Repository_Form_Group $form_group_repo)
     {
         $this->form_group_repo = $form_group_repo;
-    }
-
-    public function check(Entity $entity)
-    {
-        $this->valid = Validation::factory($entity->asArray());
-        $this->attachRules($this->getRules());
-        return $this->valid->check();
-    }
-
-    public function formGroupBelongsToForm($value)
-    {
-        // don't check against nonexistant data
-        if (!$value || !isset($this->valid['form_id'])) {
-            return true;
-        }
-
-        $group = $this->form_group_repo->get($value);
-        return ($group->form_id == $this->valid['form_id']);
-    }
-
-    public function errors($from = 'form')
-    {
-        return $this->valid->errors($from);
     }
 
     protected function getRules()
@@ -101,10 +78,14 @@ class Ushahidi_Validator_Form_Attribute_Update implements Validator
         ];
     }
 
-    protected function attachRules($rules = array()) {
-        foreach ($rules as $name => $ruleset)
-        {
-            $this->valid->rules($name, $ruleset);
+     public function formGroupBelongsToForm($value)
+    {
+        // don't check against nonexistant data
+        if (!$value || !isset($this->valid['form_id'])) {
+            return true;
         }
+
+        $group = $this->form_group_repo->get($value);
+        return ($group->form_id == $this->valid['form_id']);
     }
 }

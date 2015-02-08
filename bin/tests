@@ -159,7 +159,7 @@ abstract class UshahidiTestsCommand extends Command
         foreach ([ // custom output formatting
             'pass' => new OutputFormatterStyle('white', 'green', ['bold']),
             'fail' => new OutputFormatterStyle('white', 'red',   ['bold']),
-            'info' => new OutputFormatterStyle('white', 'cyan',  ['bold']),
+            'info' => new OutputFormatterStyle('white', 'blue',  ['bold']),
         ] as $tag => $style) {
             $this->output->getFormatter()->setStyle($tag, $style);
         }
@@ -187,7 +187,7 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         parent::execute($input, $output);
 
         $this->output->writeln(
-            "\n<pass> Ushahidi Platform Tests </pass>\n"
+            "\n<info> Ushahidi Platform Tests </info>\n"
         );
 
         $no_install = $input->getOption('no-install');
@@ -208,12 +208,16 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
 
         // run behat
         $output->writeln("\n<info> - Running Behat tests - </info>\n");
+        $behat_cache = '/tmp/behat.cache';
         $behat_command = "{$this->dir}/bin/behat"
                        . " --config {$this->dir}/behat.yml.dist"
+                       . " --cache $behat_cache"
+                       . " --format progress"
                        . " --profile ci"
                        . " --strict"
                        ;
         $tests_pass = ($this->execEnv($behat_command, true) === 0) && $tests_pass;
+        system('rm -rf ' . escapeshellarg($behat_cache)); // clear cache
 
         // run phpunit
         $output->writeln("\n<info> - Running PHPUnit tests - </info>\n");

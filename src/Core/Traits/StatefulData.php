@@ -35,6 +35,21 @@ trait StatefulData
 		// Initialize change tracking.
 		static::$changed[$this->getObjectId()] = [];
 
+		$data = $data ?: [];
+
+		// We can't define the method getDefaultData in this trait
+		// due to the way method overriding works with trait inheritance.
+		// The class using this trait can override the method,
+		// but a subclass of that class cannot.
+		if (method_exists($this, 'getDefaultData')) {
+			// fill in available defaults for any missing values
+			foreach ($this->getDefaultData() as $key => $default_value) {
+				if (!isset($data[$key])) {
+					$data[$key] = $default_value;
+				}
+			}
+		}
+
 		if ($data) {
 			// Define the initial state.
 			$this->setState($data);

@@ -40,10 +40,14 @@
                     "reference": "origin/master"
                 }
             }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ushahidi/Aura.Di"
         }
     ],
     "require": {
-        "aura/di": "~2.1.0",
+        "aura/di": "dev-develop-2",
         "bodom78/kohana-imagefly": "dev-master",
         "league/oauth2-server": "~3.2.4",
         "league/flysystem": "0.4.*",

@@ -13,23 +13,17 @@ use Ushahidi\Core\Entity;
 
 class Ushahidi_Validator_Form_Group_Create extends Ushahidi_Validator_Form_Group_Update
 {
-	public function check(Entity $entity)
+	protected $default_error_source = 'form_group';
+
+	protected function getRules()
 	{
-		parent::check($entity);
-
-		$this->valid
-			->rules('form_id', [
+		return [
+			'form_id' => [
 				['not_empty'],
-			])
-			->rules('label', [
+			],
+			'label' => [
 				['not_empty'],
-			]);
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'form_group')
-	{
-		return $this->valid->errors($from);
+			],
+		];
 	}
 }

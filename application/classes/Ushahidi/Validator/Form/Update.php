@@ -12,29 +12,23 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Form_Update implements Validator
+class Ushahidi_Validator_Form_Update extends Validator
 {
-	protected $valid;
+	protected $default_error_source = 'form';
 
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($entity->getChanged())
-			->rules('name', [
+		return [
+			'name' => [
 				['min_length', [':value', 2]],
 				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
-			])
-			->rules('description', [
+			],
+			'description' => [
 				['is_string'],
-			])
-			->rules('disabled', [
+			],
+			'disabled' => [
 				['in_array', [':value', [true, false]]]
-			]);
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'form')
-	{
-		return $this->valid->errors($from);
+			],
+		];
 	}
 }

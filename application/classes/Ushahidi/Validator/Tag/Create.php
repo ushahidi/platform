@@ -14,26 +14,21 @@ use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Tag_Create extends Ushahidi_Validator_Tag_Update
 {
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		parent::check($entity);
-
-		// Has the same requirements as update validation, but also requires
-		// some fields to be defined.
-		$this->valid
-			->rules('tag', array(
-					array('not_empty'),
-				))
-			->rules('slug', array(
-					array('not_empty'),
-				))
-			->rules('type', array(
-					array('not_empty'),
-				))
-			->rules('role', array(
-				array([$this->role, 'doRolesExist'], array(':value')),
-				));
-
-		return $this->valid->check();
+		return array_merge_recursive(parent::getRules(), [
+			'tag' => [
+				['not_empty'],
+			],
+			'slug' => [
+				['not_empty'],
+			],
+			'type' => [
+				['not_empty'],
+			],
+			'role' => [
+				[[$this->role, 'doRolesExist'], [':value']],
+			],
+		]);
 	}
 }

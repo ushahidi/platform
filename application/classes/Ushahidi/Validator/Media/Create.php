@@ -12,40 +12,56 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Media_Create implements Validator
+class Ushahidi_Validator_Media_Create extends Validator
 {
-	protected $valid;
+	protected $max_bytes = 0;
+	protected $default_error_source = 'media';
 
-	public function check(Entity $entity)
+	public function setMaxBytes($max_bytes)
 	{
-		// Not entirely thrilled with these changes, as it defers validation of the
-		// upload to **after** the file has already been created. Not sure how to get
-		// around it though, ends up being a chicken and egg problem. @fixme
-		$max_file_size = Num::bytes(Kohana::$config->load('media.max_file_upload_size'));
-		$allowed_types = array_map(['File', 'mime_by_ext'], ['gif','jpg','jpeg','png']);
-
-		$this->valid = Validation::factory($entity->asArray())
-			->rules('user_id', [
-				['digit'],
-			])
-			->rules('caption', [
-				// alphas, numbers, punctuation, and spaces
-				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
-			])
-			->rules('mime', [
-				['not_empty'],
-				['in_array', [':value', $allowed_types]]
-			])
-			->rules('o_size', [
-				['not_empty'],
-				['range', [':value', 1, $max_file_size]]
-			]);
-
-		return $this->valid->check();
+		$this->max_bytes = $max_bytes;
 	}
 
-	public function errors($from = 'media')
+	protected function getRules()
 	{
-		return $this->valid->errors($from);
+		return [
+			'user_id' => [
+				['digit'],
+			],
+			'caption' => [
+				// alphas, numbers, punctuation, and spaces
+				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
+			],
+			'mime' => [
+				['not_empty'],
+				[[$this, 'validateMime'], [':validation', ':value']],
+			],
+			'o_filename' => [
+				['not_empty']
+			],
+			'o_size' => [
+				['not_empty'],
+				['range', [':value', 0, $this->max_bytes]],
+			],
+			'o_width' => [
+				['numeric'],
+			],
+			'o_height' => [
+				['numeric'],
+			],
+		];
+	}
+
+	public function validateMime($validation, $mime)
+	{
+		$allowed_mime_types = [
+			'image/gif', 'image/jpg', 'image/jpeg', 'image/png'
+		];
+
+		if (!$mime) {
+			$validation->error('mime', 'not_empty');
+		} else if (!in_array($mime, $allowed_mime_types)) {
+			$validation->error('mime', 'mime_type_not_allowed');
+		}
 	}
 }

@@ -14,10 +14,12 @@ use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 
-class Ushahidi_Validator_User_Create implements Validator
-{	
+class Ushahidi_Validator_User_Create extends Validator
+{
 	protected $repo;
-	protected $valid;
+	protected $role;
+
+	protected $default_error_source = 'user';
 
 	public function __construct(UserRepository $repo, RoleRepository $role)
 	{
@@ -25,41 +27,30 @@ class Ushahidi_Validator_User_Create implements Validator
 		$this->role = $role;
 	}
 
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($entity->asArray())
-			->rules('email', [
-								['not_empty'], 
-								['email'],
-								[[$this->repo, 'isUniqueEmail'], [':value']]
-							]
-					)
-			->rules('realname', [
-									['max_length', [':value', 150]]
-								]
-					)
-			->rules('username', [
-								['not_empty'], 
-								[[$this->repo, 'isUniqueUsername'], [':value']],
-								['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
-							]
-					)
-			->rules('password', [
-									['not_empty'],
-									['min_length', [':value', 7]],
-								]
-					)
-			->rules('role', [
-								[[$this->role, 'doesRoleExist'], [':value']]
-							]
-					);	
-
-		return $this->valid->check();
-	}
-
-
-	public function errors($from = 'user')
-	{
-		return $this->valid->errors($from);
+		return [
+			'email' => [
+				['not_empty'],
+				['email'],
+				[[$this->repo, 'isUniqueEmail'], [':value']],
+			],
+			'realname' => [
+				['max_length', [':value', 150]]
+			],
+			'username' => [
+				['not_empty'],
+				[[$this->repo, 'isUniqueUsername'], [':value']],
+				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
+			],
+			'password' => [
+				['not_empty'],
+				['min_length', [':value', 7]],
+				['max_length', [':value', 72]]
+			],
+			'role' => [
+				[[$this->role, 'doesRoleExist'], [':value']]
+			],
+		];
 	}
 }

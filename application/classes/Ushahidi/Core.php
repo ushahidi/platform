@@ -127,8 +127,8 @@ abstract class Ushahidi_Core {
 			'delete' => $di->lazyNew('Ushahidi_Validator_Media_Delete'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
-			'create' => $di->lazyNew('Ushahidi_Validator_Post_Write'),
-			'update' => $di->lazyNew('Ushahidi_Validator_Post_Write'),
+			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
@@ -139,7 +139,6 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_User_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_User_Update')
 		];
-
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Message_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Message_Update'),
@@ -149,17 +148,21 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Set_Create'),
 		];
 
-		// Validator parameters
-		$di->params['Ushahidi_Validator_Form_Group_Update'] = [
-			'form_repo' => $di->lazyGet('repository.form'),
+		// Validator Setters
+		$di->setter['Ushahidi_Validator_Form_Group_Update'] = [
+			'setFormRepo' => $di->lazyGet('repository.form'),
 		];
-		$di->params['Ushahidi_Validator_Layer_Update'] = [
-		 	'repo' => $di->lazyGet('repository.layer'),
-		 	'media' => $di->lazyGet('repository.media'),
+		$di->setter['Ushahidi_Validator_Layer_Update'] = [
+			'setMedia' =>$di->lazyGet('repository.media'),
 		];
-		$di->params['Ushahidi_Validator_Media_Delete'] = [
-			'repo' => $di->lazyGet('repository.media'),
-			];
+		$di->setter['Ushahidi_Validator_Media_Create'] = [
+			'setMaxBytes' => $di->lazy(function() {
+				return \Kohana::$config->load('media.max_upload_bytes');
+			}),
+		];
+
+		// Validation Trait
+		$di->setter['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->newFactory('Ushahidi_ValidationEngine');
 
 		// Formatter mapping
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
@@ -202,6 +205,7 @@ abstract class Ushahidi_Core {
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
 		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
 		// Handle filesystem using local paths for now... lots of other options:
@@ -310,7 +314,7 @@ abstract class Ushahidi_Core {
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 
 		// Dependencies of validators
-		$di->params['Ushahidi_Validator_Post_Write'] = [
+		$di->params['Ushahidi_Validator_Post_Create'] = [
 			'repo' => $di->lazyGet('repository.post'),
 			'attribute_repo' => $di->lazyGet('repository.form_attribute'),
 			'tag_repo' => $di->lazyGet('repository.tag'),

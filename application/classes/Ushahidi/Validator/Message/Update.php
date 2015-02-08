@@ -14,28 +14,22 @@ use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 
-class Ushahidi_Validator_Message_Update implements Validator
+class Ushahidi_Validator_Message_Update extends Validator
 {
 	protected $repo;
-	protected $valid;
+	protected $default_error_source = 'message';
 
 	public function __construct(UpdateMessageRepository $repo)
 	{
 		$this->repo = $repo;
 	}
 
-	public function check(Entity $entity)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($entity->getChanged())
-			->bind(':direction', $entity->direction)
-			->rules('status', [
-				[[$this->repo, 'checkStatus'], [':value', ':direction']],
-			]);
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'message')
-	{
-		return $this->valid->errors($from);
+		return [
+			'status' => [
+				[[$this->repo, 'checkStatus'], [':value', $this->get('direction')]]
+			]
+		];
 	}
 }

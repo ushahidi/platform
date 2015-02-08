@@ -11,44 +11,36 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
 
-class Ushahidi_Validator_User_Register implements Validator
+class Ushahidi_Validator_User_Register extends Validator
 {
 	private $repo;
-	private $valid;
 
 	public function __construct(RegisterRepository $repo)
 	{
 		$this->repo = $repo;
 	}
 
-	public function check(Data $input)
+	protected function getRules()
 	{
-		$this->valid = Validation::factory($input->asArray())
-			->rules('email', array(
-					array('not_empty'),
-					array('email'),
-					array(array($this->repo, 'isUniqueEmail'), array(':value')),
-				))
-			->rules('username', array(
-					array('not_empty'),
-					array('max_length', array(':value', 255)),
-					array('regex', array(':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i')),
-					array(array($this->repo, 'isUniqueUsername'), array(':value')),
-				))
-			->rules('password', array(
-					array('not_empty'),
-					// Password is hashed at this point, there is no reason to validate length
-				));
-
-		return $this->valid->check();
-	}
-
-	public function errors($from = 'user')
-	{
-		return $this->valid->errors($from);
+		return [
+			'email' => [
+				['not_empty'],
+				['email'],
+				[[$this->repo, 'isUniqueEmail'], [':value']],
+			],
+			'username' => [
+				['not_empty'],
+				['max_length', [':value', 255]],
+				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
+				[[$this->repo, 'isUniqueUsername'], [':value']],
+			],
+			'password' => [
+				['not_empty'],
+				// Password is hashed at this point, there is no reason to validate length
+			],
+		];
 	}
 }

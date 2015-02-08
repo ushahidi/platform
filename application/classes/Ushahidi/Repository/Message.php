@@ -133,7 +133,7 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		if ($entity->direction === \Message_Direction::INCOMING)
 		{
 			// For incoming messages, users can't actually edit a message, only
-			// archived/unarchive and associate with post. Strip everything else.
+			// archive/unarchive and associate with post. Strip everything else.
 			$allowed = ['status', 'post_id'];
 		} else {
 			// For outgoing messages. Update most values, exclude direction and parent id.
@@ -149,8 +149,7 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		}
 
 		$update = array_intersect_key($entity->getChanged(), array_flip($allowed));
-
-		$this->executeUpdate(['id' => $entity->getId()], $update);
+		return $this->executeUpdate(['id' => $entity->getId()], $update);
 	}
 
 	// UpdateMessageRepository

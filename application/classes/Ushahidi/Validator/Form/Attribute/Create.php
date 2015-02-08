@@ -15,17 +15,18 @@ use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Form_Attribute_Create extends Ushahidi_Validator_Form_Attribute_Update
 {
-    public function check(Entity $entity)
+    public function getRules()
     {
-        $this->valid = Validation::factory($entity->asArray());
-
-        // same rules as update, plus several fields cannot be empty
-        $this->attachRules(array_merge_recursive($this->getRules(),
-            array_fill_keys([
-                'key', 'label', 'form_group_id',
-            ], [['not_empty']])
-        ));
-
-        return $this->valid->check();
+        return array_merge_recursive(parent::getRules(), [
+            'key' => [
+                ['not_empty'],
+            ],
+            'label' => [
+                ['not_empty'],
+            ],
+            'form_group_id' => [
+                ['not_empty'],
+            ],
+        ]);
     }
 }

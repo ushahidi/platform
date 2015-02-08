@@ -14,44 +14,37 @@ use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Layer_Create extends Ushahidi_Validator_Layer_Update
 {
-	public function check(Entity $entity)
+	protected $default_error_source = 'layer';
+
+	protected function getRules()
 	{
-		parent::check($entity);
-
-		// Has the same requirements as update validation, but also requires
-		// some fields to be defined.
-		$this->valid
-			->rules('name', array(
-					array('not_empty'),
-				))
-			->rules('type', array(
-					array('not_empty'),
-				))
-			->rules('active', array(
-					array('not_empty'),
-				))
-			->rules('visible_by_default', array(
-					array('not_empty'),
-				))
-			->rules('data_url', array(
-					[
-						function($validation, $data)
-						{
-							// At least 1 of data_url and media_id must be defined..
-							if (empty($data['data_url']) AND empty($data['media_id']))
-							{
-								$validation->error('data_url', 'dataUrlOrMediaRequired');
-							}
-							// .. but both can't be defined at the same time
-							if (! empty($data['data_url']) AND ! empty($data['media_id']))
-							{
-								$validation->error('data_url', 'dataUrlMediaConflict');
-							}
-						},
-						[':validation', ':data']
-					]
-				));
-
-		return $this->valid->check();
+		return array_merge_recursive(parent::getRules(), [
+			'name' => [
+				['not_empty'],
+			],
+			'type' => [
+				['not_empty'],
+			],
+			'active' => [
+				['not_empty'],
+			],
+			'visible_by_default' => [
+				['not_empty'],
+			],
+			'data_url' => [
+				[function($validation, $data) {
+					// At least 1 of data_url and media_id must be defined..
+					if (empty($data['data_url']) AND empty($data['media_id']))
+					{
+						$validation->error('data_url', 'dataUrlOrMediaRequired');
+					}
+					// .. but both can't be defined at the same time
+					if (! empty($data['data_url']) AND ! empty($data['media_id']))
+					{
+						$validation->error('data_url', 'dataUrlMediaConflict');
+					}
+				}, [':validation', ':data']]
+			],
+		]);
 	}
 }

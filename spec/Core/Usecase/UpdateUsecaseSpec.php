@@ -78,13 +78,15 @@ class UpdateUsecaseSpec extends ObjectBehavior
 
 		// ... fetch the entity
 		$this->tryGetEntity($repo, $entity, $id);
+		$entity_array = ['entity' => 'changed'];
+		$entity->getChanged()->shouldBeCalled()->willReturn($entity_array);
 
 		// ... if authorization passes
 		$action = 'update';
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
 		// ... but validation fails
-		$valid->check($entity)->willReturn(false);
+		$valid->check($entity_array)->willReturn(false);
 
 		// ... the exception requests the errors for the message
 		$entity->getResource()->willReturn('widgets');
@@ -98,13 +100,15 @@ class UpdateUsecaseSpec extends ObjectBehavior
 
 		// ... fetch the entity
 		$this->tryGetEntity($repo, $entity, $id);
+		$entity_array = ['entity' => 'changed'];
+		$entity->getChanged()->shouldBeCalled()->willReturn($entity_array);
 
 		// ... if authorization passes
 		$action = 'update';
 		$auth->isAllowed($entity, $action)->willReturn(true);
 
 		// ... and validation passes
-		$valid->check($entity)->willReturn(true);
+		$valid->check($entity_array)->willReturn(true);
 
 		// ... store the changes
 		$repo->update($entity)->shouldBeCalled();
