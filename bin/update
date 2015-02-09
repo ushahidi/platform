@@ -63,7 +63,7 @@ else
 	echo ">>> Skipping git"
 fi
 
-composer="composer --ignore-platform-reqs"
+composer="composer"
 phinx="$(dirname "$0")/phinx"
 
 # Check required commands are available
@@ -84,7 +84,7 @@ fi
 
 if [ "$installdeps" = true ]; then
 	echo ">>> Updating dependencies"
-	$composer install
+	$composer install --ignore-platform-reqs
 else
 	echo ">>> Skipping installing all dependencies"
 fi
