@@ -15,13 +15,27 @@ before_script:
 - "./bin/tests install"
 script:
 - "./bin/tests run --no-install"
+before_deploy:
+- bin/release ${TRAVIS_TAG:-$TRAVIS_COMMIT}
 deploy:
-  provider: heroku
-  api_key:
-    secure: fkC2bEELMXojW0FFkWAlSayqR7GaB3bab/AwB+CW9vKyTd7qNs099mthWpV4iAaJXHQ64IYHvvfQ0IZ7VV/+JX3zsfzTKpcF70ArmQnERIW1cppV4ZtfxcRLHu70FP0Ab0Crenh/6wlj7NtmOfYVgi6L7lFQvNADqfPn2cYuXyk=
-  app:
-    master: ushahidi-platform-api-master
-    release: ushahidi-platform-api-release
-  on:
-    repo: ushahidi/platform
-    all_branches: true
+  - provider: heroku
+    api_key:
+      secure: fkC2bEELMXojW0FFkWAlSayqR7GaB3bab/AwB+CW9vKyTd7qNs099mthWpV4iAaJXHQ64IYHvvfQ0IZ7VV/+JX3zsfzTKpcF70ArmQnERIW1cppV4ZtfxcRLHu70FP0Ab0Crenh/6wlj7NtmOfYVgi6L7lFQvNADqfPn2cYuXyk=
+    app:
+      master: ushahidi-platform-api-master
+      release: ushahidi-platform-api-release
+    on:
+      repo: ushahidi/platform
+      branch:
+        - master
+        - release
+  - provider: releases
+    api_key:
+      secure: C9dRB0X6/QWeKMIdDnuItGzzcJITf5oeGSd/Ry85//DawkC1nZn7yhjOFJuzOT1W8+lrmYgOtqVWaZdKuw36CEa4iooXCwDqn+6SWL1N/Q0JkJZH/pXkjSjtkfRV9iNlSRw3DF1yAcout1piqbD4BKDcAtrIf5apGQnXGzKjn/Q=
+    file: build/*
+    file_glob: true
+    skip_cleanup: true
+    on:
+      repo: ushahidi/platform
+      tags: true
+      all_branches: true
