@@ -36,12 +36,14 @@ class Ushahidi_Validator_User_Update extends Validator
 		return [
 			'email' => [
 				['email'],
+				['max_length', [':value', 150]],
 				[[$this->repo, 'isUniqueEmail'], [':value']],
 			],
 			'realname' => [
 				['max_length', [':value', 150]],
 			],
 			'username' => [
+				['max_length', [':value', 50]],
 				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
 				[[$this->repo, 'isUniqueUsername'], [':value']],
 			],

@@ -32,6 +32,7 @@ class Ushahidi_Validator_User_Create extends Validator
 		return [
 			'email' => [
 				['not_empty'],
+				['max_length', [':value', 150]],
 				['email'],
 				[[$this->repo, 'isUniqueEmail'], [':value']],
 			],
@@ -40,6 +41,7 @@ class Ushahidi_Validator_User_Create extends Validator
 			],
 			'username' => [
 				['not_empty'],
+				['max_length', [':value', 50]],
 				[[$this->repo, 'isUniqueUsername'], [':value']],
 				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
 			],
