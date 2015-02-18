@@ -27,6 +27,9 @@ class Controller_API_Forms_Groups extends Ushahidi_Rest {
 		parent::action_get_index_collection();
 
 		$this->_usecase->setIdentifiers($this->request->param());
+		$this->_usecase->setFilters($this->request->query() + [
+			'form_id' => $this->request->param('form_id')
+			]);
 	}
 
 	// Ushahidi_Rest

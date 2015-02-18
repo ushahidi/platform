@@ -53,6 +53,17 @@ class SearchData
 	}
 
 	/**
+	 * Check if search filter exists
+	 *
+	 * @param  String $key
+	 * @return boolean
+	 */
+	public function __isset($key)
+	{
+		return $this->getFilter($key) !== null;
+	}
+
+	/**
 	 * Change the filters used for sorting.
 	 *
 	 * @param  Array $sorting

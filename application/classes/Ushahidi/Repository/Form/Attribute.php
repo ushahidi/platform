@@ -55,9 +55,15 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		foreach ([
 			'key', 'label', 'input', 'type'
 		] as $key) {
-			if (property_exists($search, $key)) {
+			if (isset($search->$key)) {
 				$query->where($key, '=', $search->$key);
 			}
+		}
+
+		if ($search->form_id) {
+			$query
+				->join('form_groups', 'INNER')->on('form_groups.id', '=', 'form_attributes.form_group_id')
+				->where('form_groups.form_id', '=', $search->form_id);
 		}
 	}
 
@@ -77,7 +83,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	public function getSearchFields()
 	{
-		return [];
+		return ['form_id', 'type', 'label', 'key', 'input'];
 	}
 
 	// FormAttributeRepository
