@@ -10,9 +10,12 @@
  */
 
 use Ushahidi\Core\Tool\Formatter;
+use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 {
+	use FormatterAuthorizerMetadata;
+
 	protected function get_field_name($field)
 	{
 		$remap = [

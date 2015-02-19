@@ -109,6 +109,48 @@ Feature: Testing the Users API
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
+		And the "username" property equals "robbie"
+		Then the guzzle status code should be 200
+
+	Scenario: Finding a User as admin gives full details
+		Given that I want to find a "User"
+		And that its "id" is "3"
+		And that the request "Authorization" header is "Bearer defaulttoken"
+		When I request "/users"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the "username" property equals "test"
+		And the "email" property equals "test@v3.ushahidi.com"
+		Then the guzzle status code should be 200
+
+	Scenario: Loading own user gives full details
+		Given that I want to find a "User"
+		And that its "id" is "me"
+		And that the request "Authorization" header is "Bearer testbasicuser"
+		When I request "/users"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the "username" property equals "robbie"
+		And the "email" property equals "robbie@ushahidi.com"
+		Then the guzzle status code should be 200
+
+	Scenario: Finding a User as anonymous user gives partial details
+		Given that I want to find a "User"
+		And that its "id" is "1"
+		And that the request "Authorization" header is "Bearer testanon"
+		When I request "/users"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "realname" property
+		And the response has a "username" property
+		And the response does not have a "email" property
+		And the response does not have a "logins" property
+		And the response does not have a "failed_attempts" property
+		And the response does not have a "last_login" property
+		And the response does not have a "last_attempt" property
 		Then the guzzle status code should be 200
 
 	Scenario: Finding a non-existent user

@@ -17,13 +17,19 @@ class Ushahidi_Formatter_User extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
 
-	public function __invoke($user) 
+	public function __invoke($user)
 	{ // prefer doing it here untill we implement parent method for filtering results - mixing and matching with metadata is just plain ugly
 		$data = parent::__invoke($user);
 
 		if (isset($data['password']))
 		{
 			unset($data['password']);
+		}
+
+		if (!in_array('read_full', $data['allowed_privileges']))
+		{
+			// Remove sensitive fields
+			$data = array_intersect_key($data, array_fill_keys(['id', 'url', 'username', 'realname', 'allowed_privileges'], TRUE));
 		}
 
 		return $data;

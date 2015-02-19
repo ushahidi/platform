@@ -30,6 +30,16 @@ class UserAuthorizer implements Authorizer
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
 
+	/**
+	 * Get a list of all possible privilges.
+	 * By default, returns standard HTTP REST methods.
+	 * @return Array
+	 */
+	protected function getAllPrivs()
+	{
+		return ['read', 'create', 'update', 'delete', 'read_full'];
+	}
+
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
@@ -51,8 +61,13 @@ class UserAuthorizer implements Authorizer
 			return false;
 		}
 
-		// Regular user should be able to update and read only self
-		if ($this->isUserSelf($entity) && in_array($privilege, ['read', 'update'])) {
+		// Regular user should be able to update and read_full only self
+		if ($this->isUserSelf($entity) && in_array($privilege, ['update', 'read_full'])) {
+			return true;
+		}
+
+		// Regular user can always read
+		if ($privilege === 'read') {
 			return true;
 		}
 

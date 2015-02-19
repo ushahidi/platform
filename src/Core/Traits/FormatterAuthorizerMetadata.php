@@ -3,7 +3,7 @@
 /**
  * Ushahidi Formatter + Authorizer Trait
  *
- * Injects "allowed_methods" into formatted data using an Authorizer.
+ * Injects "allowed_privileges" into formatted data using an Authorizer.
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -26,7 +26,7 @@ trait FormatterAuthorizerMetadata
 		return $this;
 	}
 
-	protected function getAllowedMethods(Entity $entity)
+	protected function getAllowedPrivs(Entity $entity)
 	{
 		if (!$this->auth) {
 			throw new \LogicException('Authorizer must be defined by calling setAuth');
@@ -39,7 +39,7 @@ trait FormatterAuthorizerMetadata
 	protected function add_metadata(Array $data, Entity $entity)
 	{
 		return $data + [
-			'allowed_methods' => $this->getAllowedMethods($entity),
+			'allowed_privileges' => $this->getAllowedPrivs($entity),
 		];
 	}
 }
