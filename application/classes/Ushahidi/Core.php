@@ -351,6 +351,7 @@ abstract class Ushahidi_Core {
 
 		$di->set('validator.post.datetime', $di->lazyNew('Ushahidi_Validator_Post_Datetime'));
 		$di->set('validator.post.decimal', $di->lazyNew('Ushahidi_Validator_Post_Decimal'));
+		$di->set('validator.post.geometry', $di->lazyNew('Ushahidi_Validator_Post_Geometry'));
 		$di->set('validator.post.int', $di->lazyNew('Ushahidi_Validator_Post_Int'));
 		$di->set('validator.post.link', $di->lazyNew('Ushahidi_Validator_Post_Link'));
 		$di->set('validator.post.point', $di->lazyNew('Ushahidi_Validator_Post_Point'));
@@ -362,6 +363,7 @@ abstract class Ushahidi_Core {
 				'map' => [
 					'datetime' => $di->lazyGet('validator.post.datetime'),
 					'decimal'  => $di->lazyGet('validator.post.decimal'),
+					'geometry' => $di->lazyGet('validator.post.geometry'),
 					'int'      => $di->lazyGet('validator.post.int'),
 					'link'     => $di->lazyGet('validator.post.link'),
 					'point'    => $di->lazyGet('validator.post.point'),
