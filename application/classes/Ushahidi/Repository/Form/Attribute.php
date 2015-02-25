@@ -76,7 +76,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
-		$data = $this->json_transcoder->decode($data, $this->json_properties);
 		return new FormAttribute($data);
 	}
 

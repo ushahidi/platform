@@ -48,7 +48,7 @@ class FormAttribute extends StaticEntity
 			'required'      => 'bool',
 			'default'       => 'string',
 			'priority'      => 'int',
-			'options'       => 'array',
+			'options'       => '*json',
 			'cardinality'   => 'int',
 			'form_group'    => false, /* alias */
 			'form_group_id' => 'int',
