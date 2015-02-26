@@ -63,10 +63,4 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 	{
 		return parent::update($entity->setState(['updated' => time()]));
 	}
-
-	// FormRepository
-	public function doesFormExist($id)
-	{
-		return (bool) $this->selectCount(compact('id'));
-	}
 }

@@ -11,7 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface DataProviderRepository
+use Ushahidi\Core\Entity\Repository\EntityGet;
+
+interface DataProviderRepository extends
+	EntityGet
 {
 	/**
 	 * Get all data providers.
@@ -19,11 +22,4 @@ interface DataProviderRepository
 	 * @return Array [Ushahidi\Core\Entity\DataProvider, ...]
 	 */
 	public function all($enabled = false);
-
-	/**
-	 * Get a single data provider.
-	 * @param  String $provider
-	 * @return Ushahidi\Core\Entity\DataProvider
-	 */
-	public function get($provider);
 }

@@ -11,14 +11,13 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface UserRepository
-{
-	/**
-	 * @param  int $id
-	 * @return \Ushahidi\Core\Entity\User
-	 */
-	public function get($id);
+use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityExists;
 
+interface UserRepository extends
+	EntityGet,
+	EntityExists
+{
 	/**
 	 * @param string $username
 	 * @return \Ushahidi\Core\Entity\User
@@ -30,10 +29,4 @@ interface UserRepository
 	 * @return \Ushahidi\Core\Entity\User
 	 */
 	public function getByEmail($email);
-
-	/**
-	 * @param int $id
-	 * @return Boolean
-	 */
-	public function doesUserExist($id);
 }

@@ -17,14 +17,14 @@ use Ushahidi\Core\Entity\RoleRepository;
 class Ushahidi_Validator_User_Create extends Validator
 {
 	protected $repo;
-	protected $role;
+	protected $role_repo;
 
 	protected $default_error_source = 'user';
 
-	public function __construct(UserRepository $repo, RoleRepository $role)
+	public function __construct(UserRepository $repo, RoleRepository $role_repo)
 	{
 		$this->repo = $repo;
-		$this->role = $role;
+		$this->role_repo = $role_repo;
 	}
 
 	protected function getRules()
@@ -51,7 +51,7 @@ class Ushahidi_Validator_User_Create extends Validator
 				['max_length', [':value', 72]]
 			],
 			'role' => [
-				[[$this->role, 'doesRoleExist'], [':value']]
+				[[$this->role_repo, 'exists'], [':value']]
 			],
 		];
 	}

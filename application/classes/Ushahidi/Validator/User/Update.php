@@ -22,13 +22,13 @@ class Ushahidi_Validator_User_Update extends Validator
 	use UserContext;
 
 	protected $repo;
-	protected $role;
+	protected $role_repo;
 	protected $valid;
 
-	public function __construct(UserRepository $repo, RoleRepository $role)
+	public function __construct(UserRepository $repo, RoleRepository $role_repo)
 	{
 		$this->repo = $repo;
-		$this->role = $role;
+		$this->role_repo = $role_repo;
 	}
 
 	protected function getRules()
@@ -48,7 +48,7 @@ class Ushahidi_Validator_User_Update extends Validator
 				[[$this->repo, 'isUniqueUsername'], [':value']],
 			],
 			'role' => [
-				[[$this->role, 'doesRoleExist'], [':value']],
+				[[$this->role_repo, 'exists'], [':value']],
 			],
 			'password' => [
 				['min_length', [':value', 7]],

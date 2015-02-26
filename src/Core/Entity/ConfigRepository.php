@@ -11,7 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface ConfigRepository
+use Ushahidi\Core\Entity\Repository\EntityGet;
+
+interface ConfigRepository extends
+	EntityGet
 {
 	/**
 	 * @return array
@@ -23,10 +26,4 @@ interface ConfigRepository
 	 * @return array
 	 */
 	public function all(array $groups = null);
-
-	/**
-	 * @param  string $group
-	 * @return Ushahidi\Core\Entity\Config
-	 */
-	public function get($group);
 }

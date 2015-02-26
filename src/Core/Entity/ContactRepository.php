@@ -11,15 +11,11 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface ContactRepository
+use Ushahidi\Core\Entity\Repository\EntityGet;
+
+interface ContactRepository extends
+	EntityGet
 {
-
-	/**
-	 * @param  int $id
-	 * @return \Ushahidi\Core\Entity\Contact
-	 */
-	public function get($id);
-
 	/**
 	 * @param \Ushahidi\Core\Entity\Contact
 	 * @return boolean

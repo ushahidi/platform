@@ -30,7 +30,7 @@ class Ushahidi_Validator_Set_Create extends Validator
 			],
 			'user_id' => [
 				['numeric'],
-				[[$this->user_repo, 'doesUserExist'], [':value']],
+				[[$this->user_repo, 'exists'], [':value']],
 			],
 			'name' => [
 				['not_empty'],

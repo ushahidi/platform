@@ -12,6 +12,7 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
@@ -34,6 +35,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 * @param FormAttributeRepository               $form_attribute_repo
 	 * @param TagRepository                         $tag_repo
 	 * @param UserRepository                        $user_repo
+	 * @param FormRepository                        $form_repo
 	 * @param Ushahidi_Repository_PostValueFactory  $post_value_factory
 	 * @param Ushahidi_Validator_Post_ValueFactory  $post_value_validator_factory
 	 */
@@ -42,6 +44,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		FormAttributeRepository $attribute_repo,
 		UpdatePostTagRepository $tag_repo,
 		UserRepository $user_repo,
+		FormRepository $form_repo,
 		Ushahidi_Repository_PostValueFactory $post_value_factory,
 		Ushahidi_Validator_Post_ValueFactory $post_value_validator_factory)
 	{
@@ -49,6 +52,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		$this->attribute_repo = $attribute_repo;
 		$this->tag_repo = $tag_repo;
 		$this->user_repo = $user_repo;
+		$this->form_repo = $form_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->post_value_validator_factory = $post_value_validator_factory;
 	}
@@ -81,7 +85,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'form_id' => [
 				['numeric'],
-				[[$this->repo, 'doesFormExist'], [':value']],
+				[[$this->form_repo, 'exists'], [':value']],
 			],
 			'values' => [
 				[[$this, 'checkValues'], [':validation', ':value', ':data']],
@@ -90,7 +94,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 				[[$this, 'checkTags'], [':validation', ':value']],
 			],
 			'user_id' => [
-				[[$this->user_repo, 'doesUserExist'], [':value']],
+				[[$this->user_repo, 'exists'], [':value']],
 				[[$this, 'onlyAuthorOrUserSet'], [':value', ':data']],
 			],
 			'author_email' => [

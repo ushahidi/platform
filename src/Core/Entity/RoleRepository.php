@@ -11,15 +11,13 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface RoleRepository
+use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityExists;
+
+interface RoleRepository extends
+	EntityGet,
+	EntityExists
 {
-
-	/**
-	 * @param  String $name
-	 * @return Ushahidi\Core\Entity\Role
-	 */
-	public function get($name);
-
 	/**
 	 * @param  Array $roles
 	 * @return Boolean

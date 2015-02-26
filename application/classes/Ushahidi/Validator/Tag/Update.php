@@ -17,14 +17,14 @@ use Ushahidi\Core\Tool\Validator;
 class Ushahidi_Validator_Tag_Update extends Validator
 {
 	protected $repo;
-	protected $role;
+	protected $role_repo;
 
 	protected $default_error_source = 'tag';
 
-	public function __construct(UpdateTagRepository $repo, RoleRepository $role)
+	public function __construct(UpdateTagRepository $repo, RoleRepository $role_repo)
 	{
 		$this->repo = $repo;
-		$this->role = $role;
+		$this->role_repo = $role_repo;
 	}
 
 	protected function getRules()
@@ -60,7 +60,7 @@ class Ushahidi_Validator_Tag_Update extends Validator
 				['digit'],
 			],
 			'role' => [
-				[[$this->role, 'doRolesExist'], [':value']],
+				[[$this->role_repo, 'exists'], [':value']],
 			]
 		];
 	}

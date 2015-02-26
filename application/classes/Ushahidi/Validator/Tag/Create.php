@@ -26,9 +26,6 @@ class Ushahidi_Validator_Tag_Create extends Ushahidi_Validator_Tag_Update
 			'type' => [
 				['not_empty'],
 			],
-			'role' => [
-				[[$this->role, 'doRolesExist'], [':value']],
-			],
 		]);
 	}
 }

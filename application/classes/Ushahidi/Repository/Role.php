@@ -13,7 +13,8 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Role;
 use Ushahidi\Core\Entity\RoleRepository;
 
-class Ushahidi_Repository_Role extends Ushahidi_Repository implements RoleRepository
+class Ushahidi_Repository_Role extends Ushahidi_Repository implements
+	RoleRepository
 {
 	// Ushahidi_Repository
 	protected function getTable()
@@ -46,15 +47,10 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements RoleReposi
 		return count($roles) === $found;
 	}
 
-	public function doesRoleExist($role)
+	// Ushahidi_Repository
+	public function exists($role = '')
 	{
-		if (!$role)
-		{
-			return false;
-		}
-
-		$found = (int) $this->selectCount(['name' => $role]);
-
-		return (bool) $found;
+		if (!$role) { return false; }
+		return (bool) $this->selectCount(['name' => $role]);
 	}
 }

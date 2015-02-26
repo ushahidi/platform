@@ -57,6 +57,7 @@ class Ushahidi_Repository_Dataprovider implements
 	}
 
 	// ReadRepository
+	// DataProviderRepository
 	public function get($provider)
 	{
 		$providers = $this->getAllProviders();

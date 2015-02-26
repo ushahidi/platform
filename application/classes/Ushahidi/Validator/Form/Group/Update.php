@@ -28,7 +28,7 @@ class Ushahidi_Validator_Form_Group_Update extends Validator
 		return [
 			'form_id' => [
 				['digit'],
-				[[$this->form_repo, 'doesFormExist'], [':value']],
+				[[$this->form_repo, 'exists'], [':value']],
 			],
 			'label' => [
 				['min_length', [':value', 2]],

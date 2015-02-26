@@ -113,12 +113,6 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		return $this->getEntity($this->selectOne(compact('email')));
 	}
 
-	// UserRepository
-	public function doesUserExist($id)
-	{
-		return $this->selectCount(compact('id')) !== 0;
-	}
-
 	// RegisterRepository
 	public function isUniqueUsername($username)
 	{

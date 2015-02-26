@@ -359,19 +359,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 
 
 	// UpdatePostRepository
-	public function doesFormExist($form_id)
-	{
-		$result = DB::select('id')->from('forms')
-			->where('id', '=', $form_id)
-			->limit(1)
-			->execute($this->db);
-
-		$form = $result->current();
-
-		return (boolean)$form;
-	}
-
-	// UpdatePostRepository
 	public function doesTranslationExist($locale, $parent_id, $type)
 	{
 		// If this isn't a translation of an existing post, skip

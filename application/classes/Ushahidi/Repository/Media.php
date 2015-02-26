@@ -12,12 +12,12 @@
 use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Media;
-use Ushahidi\Core\Usecase\Layer\LayerMediaRepository;
+use Ushahidi\Core\Entity\MediaRepository;
 use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Tool\UploadData;
 
 class Ushahidi_Repository_Media extends Ushahidi_Repository implements
-	LayerMediaRepository
+	MediaRepository
 {
 	private $upload;
 
@@ -64,11 +64,5 @@ class Ushahidi_Repository_Media extends Ushahidi_Repository implements
 					->on('posts_media.media_id', '=', 'media.id')
 				->where('posts_media.post_id', 'is', NULL);
 		}
-	}
-
-	// LayerMediaRepository
-	public function doesMediaExist($id)
-	{
-		return $this->selectCount(compact('id')) !== 0;
 	}
 }

@@ -11,11 +11,12 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface FormGroupRepository
+use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityExists;
+
+interface FormGroupRepository extends
+    EntityGet,
+    EntityExists
 {
-	/**
-	 * @param  Integer $id
-	 * @return FormGroup
-	 */
-	public function get($id);
+
 }

@@ -30,6 +30,7 @@ class Ushahidi_Repository_Config implements
 	}
 
 	// ReadRepository
+	// ConfigRepository
 	public function get($group)
 	{
 		$this->verifyGroup($group);

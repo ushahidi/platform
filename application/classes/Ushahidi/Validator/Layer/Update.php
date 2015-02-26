@@ -11,16 +11,16 @@
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
-use Ushahidi\Core\Usecase\Layer\LayerMediaRepository;
+use Ushahidi\Core\Entity\MediaRepository;
 
 class Ushahidi_Validator_Layer_Update extends Validator
 {
-	protected $media;
+	protected $media_repo;
 	protected $default_error_source = 'layer';
 
-	public function setMedia(LayerMediaRepository $media)
+	public function __construct(MediaRepository $media_repo)
 	{
-		$this->media = $media;
+		$this->media_repo = $media_repo;
 	}
 
 	protected function getRules()
@@ -45,7 +45,7 @@ class Ushahidi_Validator_Layer_Update extends Validator
 				['in_array', [':value', [0, 1, false, true], TRUE]],
 			],
 			'media_id' => [
-				[[$this->media, 'doesMediaExist'], [':value']],
+				[[$this->media_repo, 'exists'], [':value']],
 			],
 			'options' => [
 				['is_array', [':value']],

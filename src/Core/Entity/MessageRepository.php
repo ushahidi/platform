@@ -11,15 +11,11 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface MessageRepository
+use Ushahidi\Core\Entity\Repository\EntityGet;
+
+interface MessageRepository extends
+	EntityGet
 {
-
-	/**
-	 * @param  int $id
-	 * @return \Ushahidi\Core\Entity\Message
-	 */
-	public function get($id);
-
 	/**
 	 * @param \Ushahidi\Core\Entity\Message
 	 * @return array of \Ushahidi\Core\Entity\Message

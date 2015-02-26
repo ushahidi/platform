@@ -11,15 +11,11 @@
 
 namespace Ushahidi\Core\Entity;
 
-interface PostRepository
+use Ushahidi\Core\Entity\Repository\EntityGet;
+
+interface PostRepository extends
+	EntityGet
 {
-
-	/**
-	 * @param  int $id
-	 * @return \Ushahidi\Core\Entity\Post
-	 */
-	public function get($id);
-
 	/**
 	 * @param  int $id
 	 * @param  int $parent_id
