@@ -17,6 +17,8 @@ Ushahidi 3
 
 [Installation Guide][install]
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## What is Ushahidi 3.x?
 
 Ushahidi is an open source web application for information collection, visualization,

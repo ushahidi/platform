@@ -1,0 +1,15 @@
+{
+  "name": "Ushahidi Platform API",
+  "description": "The API for the Ushahidi Platform.",
+  "keywords": [
+    "ushahidi",
+    "crowdmap"
+  ],
+  "website": "http://ushahidi.com",
+  "repository": "https://github.com/ushahidi/platform",
+  "logo": "http://www.ushahidi.com/assets/img/favicon.ico",
+  "success_url": "/",
+  "addons": [
+    "cleardb"
+  ]
+}
