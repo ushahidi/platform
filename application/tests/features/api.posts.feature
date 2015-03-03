@@ -860,7 +860,7 @@ Feature: Testing the Posts API
 		And the type of the "id" property is "numeric"
 		And the response has a "title" property
 		And the "title" property equals "SUMMARY REPORT (تقرير ملخص)"
-		And the "slug" property equals "summary-report-تقرير-ملخص"
+		And the "slug" property contains "summary-report-تقرير-ملخص"
 		And the response has a "tags.0.id" property
 		Then the guzzle status code should be 200
 

@@ -11,5 +11,6 @@ return [
 	'emptyParentWithLocale' => 'Must have at parent id when passing locale',
 	'notAnArray' => 'Post values for :param1 must be an array',
 	'scalar' => 'Post values for :param1 must be scalar',
-	'doesTranslationExist' => 'Translation :value for post :param2 already exists'
+	'doesTranslationExist' => 'Translation :value for post :param2 already exists',
+	'isSlugAvailable' => ':field :value is already in use',
 ];

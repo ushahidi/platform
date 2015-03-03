@@ -133,7 +133,17 @@ trait StatefulData
 					$possible = [$possible];
 				}
 				foreach ($possible as $from) {
-					if (array_key_exists($from, $data)) {
+					if (is_callable($from)) {
+						// Callable function which returns the derived value
+						//
+						// function ($data) {
+						//     return $data['foo'] . '-' . uniqid();
+						// }
+						//
+						if ($derivedValue = $from($data)) {
+							$data[$key] = $derivedValue;
+						}
+					} elseif (array_key_exists($from, $data)) {
 						// Derived value comes from a simple alias:
 						//
 						//     $data['foo'] = $data['bar'];

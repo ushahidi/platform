@@ -36,7 +36,12 @@ class Post extends StaticEntity
 	protected function getDerived()
 	{
 		return [
-			'slug'    => 'title',
+			'slug'    => function ($data) {
+				if (array_key_exists('title', $data)) {
+					return $data['title'] . ' ' . uniqid();
+				}
+				return false;
+			},
 			'form_id' => ['form', 'form.id'], /* alias */
 			'user_id' => ['user', 'user.id'], /* alias */
 		];
