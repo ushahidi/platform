@@ -56,6 +56,9 @@ abstract class UshahidiTestsCommand extends Command
         $this->mysqlCommand('CREATE DATABASE platform_test');
         $this->mysqlCommand('DROP DATABASE IF EXISTS zombie2x');
         $this->mysqlCommand('CREATE DATABASE zombie2x');
+
+        // apply database migrations
+        $this->output->writeln("Migrating databases...");
         $this->execEnv("{$this->dir}/bin/phinx migrate -c {$this->dir}/application/phinx.php");
 
         // if zombie2x.sql does not exist, download it
