@@ -64,7 +64,20 @@ Feature: Testing the Posts API
 		When I request "/posts/geojson"
 		Then the response is JSON
 		And the response has a "type" property
-		# And the response has a "bbox" property
+		And the response has a "bbox" property
+		And the response has a "features" property
+		And the "features" property count is "2"
+		Then the guzzle status code should be 200
+
+	Scenario: Get GeoJSON using center_point and within_km
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+		"""
+			center_point=1,1&within_km=1
+		"""
+		When I request "/posts/geojson"
+		Then the response is JSON
+		And the response has a "type" property
 		And the response has a "features" property
 		And the "features" property count is "2"
 		Then the guzzle status code should be 200

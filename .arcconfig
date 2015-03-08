@@ -2,6 +2,5 @@
   "phabricator.uri" : "https://phabricator.ushahidi.com/",
   "repository.callsign" : "USH",
   "unit.engine": "PhpunitTestEngine",
-  "unit.phpunit.binary": "bin/phpunit",
-  "phpunit_config": "application/tests/phpunit.xml"
+  "unit.phpunit.binary": "bin/phpunit"
 }

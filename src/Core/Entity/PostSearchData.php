@@ -35,6 +35,10 @@ class PostSearchData extends SearchData
 	public $values;
 	public $set;
 
+	// center_point & within_km are interdependent
+	public $center_point;
+	public $within_km;
+
 	public $include_types;
 	public $include_attributes;
 }

@@ -428,4 +428,18 @@ abstract class Ushahidi_Core {
 		}
 	}
 
+	/**
+	 * Useful for development. Only intended for temporary debugging.
+	 */
+	public static function log(/* anything */)
+	{
+		$message = '';
+		foreach (func_get_args() as $arg) {
+			$message .= (is_string($arg) ? $arg : var_export($arg, true)) . "\n";
+		}
+
+		$log = \Log::instance();
+		$log->add(Log::INFO, $message);
+	}
+
 }

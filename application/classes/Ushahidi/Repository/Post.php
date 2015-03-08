@@ -22,7 +22,9 @@ use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
 use Aura\DI\InstanceFactory;
 
-class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostRepository, UpdatePostRepository
+class Ushahidi_Repository_Post extends Ushahidi_Repository implements
+	PostRepository,
+	UpdatePostRepository
 {
 	protected $form_attribute_repo;
 	protected $post_value_factory;
@@ -103,6 +105,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 			'created_before', 'created_after',
 			'updated_before', 'updated_after',
 			'bbox', 'tags', 'values',
+			'center_point', 'within_km',
 			'include_types', 'include_attributes'
 		];
 	}
@@ -208,13 +211,23 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 		}
 
 		// Bounding box search
-		// Create geometry from bbox
-		if ($search->bbox)
-		{
-			$sub = $this->getBoundingBoxSubquery($search->bbox);
+		// Create geometry from bbox (or create bbox from center & radius)
+		$bounding_box = null;
+		if ($search->bbox) {
+			$bounding_box = $this->createBoundingBoxFromCSV($search->bbox);
+		} else if ($search->center_point && $search->within_km) {
+			$bounding_box = $this->createBoundingBoxFromCenter(
+				$search->center_point, $search->within_km
+			);
+		}
+
+		if ($bounding_box) {
 			$query
-				->join([$sub, 'Filter_BBox'], 'INNER')
-				->on('posts.id', '=', 'Filter_BBox.post_id');
+				->join([
+					$this->getBoundingBoxSubquery($bounding_box), 'Filter_BBox'
+				], 'INNER')
+				->on('posts.id', '=', 'Filter_BBox.post_id')
+				;
 		}
 
 		// Filter by tag
@@ -314,23 +327,54 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements PostReposi
 	}
 
 	/**
+	 * Return a Bounding Box given a CSV of west,north,east,south points
+	 *
+	 * @param  string $csv 'west,north,east,south'
+	 * @return Util_BoundingBox
+	 */
+	private function createBoundingBoxFromCSV($csv)
+	{
+		list($bb_west, $bb_north, $bb_east, $bb_south)
+				= array_map('floatval', explode(',', $csv))
+				;
+
+		$bounding_box_factory = $this->bounding_box_factory;
+		return $bounding_box_factory($bb_west, $bb_north, $bb_east, $bb_south);
+	}
+
+	private function createBoundingBoxFromCenter($center, $within_km = 0)
+	{
+		// if a $center point and $within_km distance was given,
+		// create a bounding box that matches those conditions.
+		$center_point = explode(',', $center);
+		$center_lat = $center_point[0];
+		$center_lon = $center_point[1];
+
+		$bounding_box_factory = $this->bounding_box_factory;
+		$bounding_box = $bounding_box_factory(
+			$center_lon, $center_lat, $center_lon, $center_lat
+		);
+
+		if ($within_km) {
+			$bounding_box->expandByKilometers($within_km);
+		}
+
+		return $bounding_box;
+	}
+
+	/**
 	 * Get a subquery to return post_point entries within a bounding box
 	 * @param  string $bbox Bounding box
 	 * @return Database_Query
 	 */
-	private function getBoundingBoxSubquery($bbox)
+	private function getBoundingBoxSubquery(Util_BoundingBox $bounding_box)
 	{
-		list($bb_west, $bb_north, $bb_east, $bb_south) = array_map('floatval', explode(',', $bbox));
-
-		$bounding_box_factory = $this->bounding_box_factory;
-		$boundingbox = $bounding_box_factory($bb_west, $bb_north, $bb_east, $bb_south);
-
 		return DB::select('post_id')
 			->from('post_point')
 			->where(
 				DB::expr(
 					'CONTAINS(GeomFromText(:bounds), value)',
-					[':bounds' => $boundingbox->toWKT()]
+					[':bounds' => $bounding_box->toWKT()]
 				),
 				'=',
 				1
