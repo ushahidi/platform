@@ -24,7 +24,7 @@ trait PrivAccess
 	 */
 	protected function getAllPrivs()
 	{
-		return ['read', 'create', 'update', 'delete'];
+		return ['read', 'create', 'update', 'delete', 'search'];
 	}
 
 	// Authorizer

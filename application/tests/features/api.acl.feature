@@ -142,7 +142,6 @@ Feature: API Access Control Layer
             "form_id": 1,
             "title": "Test creating anonymous post",
             "content": "testing post for oauth",
-            "status": "published",
             "locale": "en_us",
             "values": {
                 "last_location" : ["Somewhere"]

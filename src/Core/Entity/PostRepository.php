@@ -19,14 +19,16 @@ interface PostRepository extends
 	/**
 	 * @param  int $id
 	 * @param  int $parent_id
+	 * @param  string $type
 	 * @return \Ushahidi\Core\Entity\Post
 	 */
-	public function getByIdAndParent($id, $parent_id);
+	public function getByIdAndParent($id, $parent_id, $type);
 
 	/**
 	 * @param  string $locale
 	 * @param  int $parent_id
+	 * @param  string $type
 	 * @return \Ushahidi\Core\Entity\Post
 	 */
-	public function getByLocale($locale, $parent_id);
+	public function getByLocale($locale, $parent_id, $type);
 }

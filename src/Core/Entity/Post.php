@@ -42,8 +42,9 @@ class Post extends StaticEntity
 				}
 				return false;
 			},
-			'form_id' => ['form', 'form.id'], /* alias */
-			'user_id' => ['user', 'user.id'], /* alias */
+			'form_id'   => ['form', 'form.id'], /* alias */
+			'user_id'   => ['user', 'user.id'], /* alias */
+			'parent_id' => ['parent', 'parent.id'], /* alias */
 		];
 	}
 

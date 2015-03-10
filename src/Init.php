@@ -151,6 +151,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['actions'] = [
 	'update' => $di->newFactory('Ushahidi\Core\Usecase\UpdateUsecase'),
 	'delete' => $di->newFactory('Ushahidi\Core\Usecase\DeleteUsecase'),
 	'search' => $di->newFactory('Ushahidi\Core\Usecase\SearchUsecase'),
+	'options'=> $di->newFactory('Ushahidi\Core\Usecase\OptionsUsecase'),
 ];
 
 // It is also possible to overload usecases by setting a specific resource and action.

@@ -315,15 +315,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	}
 
 	// PostRepository
-	public function getByIdAndParent($id, $parent_id)
+	public function getByIdAndParent($id, $parent_id, $type)
 	{
-		return $this->getEntity($this->selectOne(compact('id', 'parent_id')));
+		return $this->getEntity($this->selectOne(compact('id', 'parent_id', 'type')));
 	}
 
 	// PostRepository
-	public function getByLocale($locale, $parent_id)
+	public function getByLocale($locale, $parent_id, $type)
 	{
-		return $this->getEntity($this->selectOne(compact('locale', 'parent_id')));
+		return $this->getEntity($this->selectOne(compact('locale', 'parent_id', 'type')));
 	}
 
 	/**

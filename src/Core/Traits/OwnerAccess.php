@@ -24,12 +24,25 @@ trait OwnerAccess
 
 	/**
 	 * Check if $user is the owner of $entity
+	 *
 	 * @param  Entity  $entity
 	 * @param  User    $user
 	 * @return boolean
 	 */
 	protected function isUserOwner(Entity $entity, User $user)
 	{
-		return ($entity->user_id === $user->id);
+		return ($user->getId() && $entity->user_id === $user->getId());
+	}
+
+	/**
+	 * Check if $user and owner of $entity are anonymous (user id 0)
+	 *
+	 * @param  Entity  $entity
+	 * @param  User    $user
+	 * @return boolean
+	 */
+	protected function isUserAndOwnerAnonymous(Entity $entity, User $user)
+	{
+		return (! $user->getId() && ! $entity->user_id);
 	}
 }

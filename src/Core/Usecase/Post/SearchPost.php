@@ -15,6 +15,8 @@ use Ushahidi\Core\Usecase\SearchUsecase;
 
 class SearchPost extends SearchUsecase
 {
+	// - VerifyParentLoaded for checking that the parent exists
+	use VerifyParentLoaded;
 
 	/**
 	 * Get filter parameters that are used for paging.

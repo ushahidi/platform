@@ -118,4 +118,14 @@ trait AuthorizerTrait
 	{
 		$this->verifyAuth($entity, 'create');
 	}
+
+	/**
+	 * Get all allowed privs on an Entity
+	 * @param  Entity $entity
+	 * @return Array
+	 */
+	protected function getAllowedPrivs(Entity $entity)
+	{
+		return $this->auth->getAllowedPrivs($entity);
+	}
 }

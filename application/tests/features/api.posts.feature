@@ -252,7 +252,6 @@ Feature: Testing the Posts API
 				"form":1,
 				"title":"Anonymous author",
 				"type":"report",
-				"status":"draft",
 				"locale":"en_US",
 				"values":
 				{

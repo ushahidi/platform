@@ -21,16 +21,6 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	);
 
 	/**
-	 * @var int Number of results to return
-	 */
-	protected $_record_limit = FALSE;
-
-	/**
-	 * @var int Maximum number of results to return
-	 */
-	protected $_record_limit_max = FALSE;
-
-	/**
 	 * @var Database_Result Collection of all Point/Geometry Attributes
 	 */
 	protected $_geom_attributes = FALSE;
@@ -53,6 +43,13 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 		}
 	}
 
+	// Ushahidi_Rest
+	protected function _filters()
+	{
+		return parent::_filters() + [
+			'include_types' => ['point', 'geometry']
+		];
+	}
 
 	/**
 	 * Retrieve All Posts
@@ -63,17 +60,10 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	 */
 	public function action_get_index_collection()
 	{
-		$extra_params = [
-			'type'   => $this->_type,
-			'parent' => $this->request->param('parent_id', NULL),
-			'include_types' => ['point', 'geojson']
-		];
+		parent::action_get_index_collection();
 
-		$usecase = service('factory.usecase')->get('posts', 'search')
-			->setFilters($extra_params + $this->request->query())
+		$this->_usecase
 			->setFormatter(service('formatter.entity.post.geojsoncollection'));
-
-		$this->_restful($usecase);
 	}
 
 	/**
@@ -85,10 +75,9 @@ class Controller_Api_Posts_GeoJSON extends Controller_Api_Posts {
 	 */
 	public function action_get_index()
 	{
-		$usecase = service('factory.usecase')->get('posts', 'read')
-			->setIdentifiers($this->request->param())
-			->setFormatter(service('formatter.entity.post.geojson'));
+		parent::action_get_index();
 
-		$this->_restful($usecase);
+		$this->_usecase
+			->setFormatter(service('formatter.entity.post.geojson'));
 	}
 }

@@ -37,7 +37,7 @@ class UserAuthorizer implements Authorizer
 	 */
 	protected function getAllPrivs()
 	{
-		return ['read', 'create', 'update', 'delete', 'read_full'];
+		return ['read', 'create', 'update', 'delete', 'search', 'read_full'];
 	}
 
 	/* Authorizer */

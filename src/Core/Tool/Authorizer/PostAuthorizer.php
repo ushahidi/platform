@@ -37,6 +37,16 @@ class PostAuthorizer implements Authorizer
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
 
+	/**
+	 * Get a list of all possible privilges.
+	 * By default, returns standard HTTP REST methods.
+	 * @return Array
+	 */
+	protected function getAllPrivs()
+	{
+		return ['read', 'create', 'update', 'delete', 'search', 'change_status'];
+	}
+
 	// It requires a `PostRepository` to load parent posts too.
 	protected $post_repo;
 
@@ -69,7 +79,13 @@ class PostAuthorizer implements Authorizer
 		}
 
 		// Non-admin users are not allowed to create posts for other users.
-		if ($privilege === 'create' && !$this->isUserOwner($entity, $user)) {
+		// Post must be created for owner, or if the user is anonymous post must have no owner.
+		if ($privilege === 'create' && !$this->isUserOwner($entity, $user) && !$this->isUserAndOwnerAnonymous($entity, $user)) {
+			return false;
+		}
+
+		// Non-admin users are not allowed to change post status
+		if (in_array($privilege, ['create', 'update']) && $entity->hasChanged('status')) {
 			return false;
 		}
 

@@ -16,6 +16,9 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreatePost extends CreateUsecase
 {
+	// - VerifyParentLoaded for checking that the parent exists
+	use VerifyParentLoaded;
+
 	protected function getEntity()
 	{
 		$payload = $this->payload;

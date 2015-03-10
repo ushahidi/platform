@@ -113,7 +113,8 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	public function action_options_index_collection()
 	{
-		$this->response->status(200);
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'options');
 	}
 
 	/**
@@ -125,7 +126,9 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	public function action_options_index()
 	{
-		$this->response->status(200);
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'options')
+			->setIdentifiers($this->_identifiers());
 	}
 
 	/**
@@ -139,7 +142,7 @@ abstract class Ushahidi_Rest extends Controller {
 	{
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'create')
-			->setPayload($this->_request_payload);
+			->setPayload($this->_payload());
 	}
 
 	/**
@@ -153,7 +156,7 @@ abstract class Ushahidi_Rest extends Controller {
 	{
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'search')
-			->setFilters($this->request->query());
+			->setFilters($this->_filters());
 	}
 
 	/**
@@ -167,7 +170,7 @@ abstract class Ushahidi_Rest extends Controller {
 	{
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'read')
-			->setIdentifiers($this->request->param());
+			->setIdentifiers($this->_identifiers());
 	}
 
 	/**
@@ -181,8 +184,8 @@ abstract class Ushahidi_Rest extends Controller {
 	{
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'update')
-			->setIdentifiers($this->request->param())
-			->setPayload($this->_request_payload);
+			->setIdentifiers($this->_identifiers())
+			->setPayload($this->_payload());
 	}
 
 	/**
@@ -196,7 +199,7 @@ abstract class Ushahidi_Rest extends Controller {
 	{
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'delete')
-			->setIdentifiers($this->request->param());
+			->setIdentifiers($this->_identifiers());
 	}
 
 	/**
@@ -355,6 +358,33 @@ abstract class Ushahidi_Rest extends Controller {
 		{
 			$this->_parse_request_body();
 		}
+	}
+
+	/**
+	 * Get the identifiers to pass to the usecase. Defaults to the request route params.
+	 * @return array
+	 */
+	protected function _identifiers()
+	{
+		return $this->request->param();
+	}
+
+	/**
+	 * Get the filters to pass to the usecase. Defaults to the request query params.
+	 * @return array
+	 */
+	protected function _filters()
+	{
+		return $this->request->query();
+	}
+
+	/**
+	 * Get the payload to pass to the usecase. Defaults to the request query params.
+	 * @return array
+	 */
+	protected function _payload()
+	{
+		return $this->_request_payload;
 	}
 
 	protected $json_errors = [
