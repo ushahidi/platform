@@ -163,7 +163,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			if ($search->$key)
 			{
-				$query->where("$table.{$key}_id", '=', $search->$key);
+				if (!is_array($search->$key)) {
+					$search->$key = explode(',', $search->$key);
+				}
+				$query->where("$table.{$key}_id", 'IN', $search->$key);
 			}
 		}
 
