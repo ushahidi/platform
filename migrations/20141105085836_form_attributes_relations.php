@@ -79,6 +79,7 @@ class FormAttributesRelations extends AbstractMigration
         $this->table('form_attributes')
             ->dropForeignKey('form_group_id')
             ->removeColumn('form_group_id')
+            ->update()
             ;
     }
 }
