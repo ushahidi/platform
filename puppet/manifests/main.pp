@@ -106,8 +106,7 @@ apache::vhost { 'ushahidi.dev':
 	docroot       => '/var/www/httpdocs',
 	directories   => [{ path => '/var/www/httpdocs',
 		allow_override => 'All',
-		allow          => 'from all',
-		order          => 'allow,deny',
+		auth_require   => 'all granted',
 		options        => ['Indexes', 'FollowSymLinks', 'MultiViews']
 	}],
 	require => File["/var/www/httpdocs"],
