@@ -81,6 +81,12 @@ abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository impleme
 			->where('value', 'LIKE', "%$match%");
 	}
 
+	// PostValueRepository
+	public function getValueTable()
+	{
+		return $this->getTable();
+	}
+
 	// UpdatePostValueRepository
 	public function createValue($value, $form_attribute_id, $post_id)
 	{

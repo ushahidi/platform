@@ -22,7 +22,7 @@ class Ushahidi_Repository_PostValueProxy implements ValuesForPostRepository
 		$this->include_types = $include_types;
 	}
 
-	// GetValuesForPostRepository
+	// ValuesForPostRepository
 	public function getAllForPost($post_id, Array $include_attributes = [])
 	{
 		$results = [];

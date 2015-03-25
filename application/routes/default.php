@@ -57,6 +57,16 @@ Route::set('export', 'api/v2/posts/export')
 	));
 
 /**
+ * Export Posts API SubRoute
+ */
+Route::set('post-stats', 'api/v2/posts/stats')
+	->defaults(array(
+		'action'     => 'stats',
+		'controller' => 'Posts',
+		'directory'  => 'Api'
+	));
+
+/**
  * GeoJSON API SubRoute
  */
 Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)',

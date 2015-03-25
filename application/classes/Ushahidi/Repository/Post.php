@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Usecase\Post\StatsPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
@@ -106,7 +107,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'updated_before', 'updated_after',
 			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
-			'include_types', 'include_attributes'
+			'include_types', 'include_attributes', // Specify values to include
+			'group_by', 'timeline_interval', 'timeline', 'attribute_key' // Group results
 		];
 	}
 
@@ -139,14 +141,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		$query = $this->search_query;
 
-		if (!$search->status)
+		$status = $search->getFilter('status', 'published');
+		if ($status !== 'all')
 		{
-			// Only show published by default
-			$query->where('status', '=', 'published');
-		}
-		elseif ($search->status !== 'all')
-		{
-			$query->where('status', '=', $search->status);
+			$query->where('status', '=', $status);
 		}
 
 		$table = $this->getTable();
@@ -315,6 +313,99 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// ... return the total.
 		return (int) $result->get('total', 0);
+	}
+
+	// StatsPostRepository
+	public function getGroupedTotals(SearchData $search)
+	{
+		// Create a new query to select posts count
+		$this->search_query = DB::select([DB::expr('COUNT(DISTINCT posts.id)'), 'total'])
+			->from($this->getTable());
+
+		// Quick hack to ensure all posts are available to
+		// group_by=status
+		if ($search->group_by === 'status' && ! $search->status) {
+			$search->status = 'all';
+		}
+
+		// Set filters
+		// Note: we're calling setSearchConditions, not setSearchParams
+		// because we don't want to set sorting params
+		$this->setSearchConditions($search);
+
+		// Group by time-intervals
+		if ($search->timeline)
+		{
+			$this->search_query
+				->select([
+					DB::expr('FLOOR(posts.created/:interval)*:interval', [':interval' => (int)$search->getFilter('timeline_interval', 900)]),
+					'time_label'
+				])
+				->group_by('time_label');
+		}
+
+		// Group by attribute
+		if ($search->group_by === 'attribute' AND $search->attribute_key)
+		{
+			$key = $search->attribute_key;
+			$attribute = $this->form_attribute_repo->getByKey($key);
+
+			$sub = $this->post_value_factory
+				->getRepo($attribute->type)
+				->getValueTable();
+
+			$this->search_query
+				->join([$sub, 'Filter_'.ucfirst($key)], 'INNER')
+				->on('form_attribute_id', '=', DB::expr($attribute->id))
+				->on('posts.id', '=', 'Filter_'.ucfirst($key).'.post_id')
+				->select(['Filter_'.ucfirst($key).'.value', 'label'])
+				->group_by('label')
+				->order_by('label');
+		}
+		// Group by status
+		elseif ($search->group_by === 'status')
+		{
+			$this->search_query
+				->select(['posts.status', 'label'])
+				->group_by('label')
+				->order_by('label');
+		}
+		// Group by form
+		elseif ($search->group_by === 'form')
+		{
+			$this->search_query
+				->join('forms')->on('posts.form_id', '=', 'forms.id')
+				->select(['forms.name', 'label'])
+				->group_by('posts.form_id')
+				->order_by('posts.form_id');
+		}
+		// Group by tags
+		elseif ($search->group_by === 'tags')
+		{
+			$this->search_query
+				->join('posts_tags')->on('posts.id', '=', 'posts_tags.post_id')
+				->join('tags')->on('posts_tags.tag_id', '=', 'tags.id')
+				->select(['tags.tag', 'label'])
+				->group_by('posts_tags.tag_id')
+				->order_by('posts_tags.tag_id');
+		}
+		// If no group_by just count all posts
+		else {
+			$this->search_query
+				->select([DB::expr('"all"'), 'label']);
+		}
+
+		// Add orderby time *after* order by groups
+		if ($search->timeline)
+		{
+			$this->search_query->order_by('time_label');
+		}
+
+		// Fetch the results and...
+		$results = $this->search_query->execute($this->db);
+
+		// ... return them as an array
+		return $results->as_array();
 	}
 
 	// PostRepository

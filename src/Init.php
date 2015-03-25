@@ -131,6 +131,7 @@ $di->set('factory.data', $di->lazyNew('Ushahidi\Factory\DataFactory'));
 // Usecases that perform searches are the most typical usage of data objects.
 $di->params['Ushahidi\Factory\DataFactory']['actions'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\SearchData'),
+	'stats'  => $di->lazyNew('Ushahidi\Core\SearchData'),
 ];
 
 // Use cases are used to join multiple collaborators together for a single interaction.
@@ -199,6 +200,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
+	'stats'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost')
 ];
 
 // User login is a custom read the uses authentication.

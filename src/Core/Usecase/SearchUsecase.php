@@ -144,7 +144,7 @@ class SearchUsecase implements Usecase
 		$filters = $this->getFilters(array_merge($fields, array_keys($paging)));
 
 		$this->search->setFilters(array_merge($paging, $filters));
-		$this->search->setSorting(array_keys($paging));
+		$this->search->setSortingKeys(array_keys($paging));
 
 		return $this->search;
 	}

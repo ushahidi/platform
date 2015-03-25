@@ -44,6 +44,21 @@ trait FilterRecords
 	}
 
 	/**
+	 * Set a parameters that can be used to identify **multiple** records
+	 *
+	 *     $this->setFilter('role', 'admin');
+	 *
+	 * @param  String $name
+	 * @param  Mixed  $value
+	 * @return $this
+	 */
+	public function setFilter($name, $value)
+	{
+		$this->filters[$name] = $value;
+		return $this;
+	}
+
+	/**
 	 * Gets a specific set of allowed parameters, returning any that are defined.
 	 * Optionally, can force all parameters to be defined.
 	 *
@@ -52,8 +67,8 @@ trait FilterRecords
 	 *
 	 * NOTE: Defaults cannot be provided when using this method!
 	 *
-	 * @param  Array $allowed
-	 * @param  Array $force
+	 * @param  Array $allowed  allowed parameters
+	 * @param  Array $force    force all parameters to be defined
 	 * @return Array
 	 */
 	public function getFilters(Array $allowed, $force = false)
@@ -79,7 +94,7 @@ trait FilterRecords
 	 * @param  Mixed  $default
 	 * @return Mixed
 	 */
-	protected function getFilter($name, $default = null)
+	public function getFilter($name, $default = null)
 	{
 		if (!isset($this->filters[$name])) {
 			return $default;

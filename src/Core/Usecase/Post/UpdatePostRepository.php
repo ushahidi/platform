@@ -11,8 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
-use Ushahidi\Core\Data;
-
 interface UpdatePostRepository
 {
 	/**

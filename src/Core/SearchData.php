@@ -53,6 +53,18 @@ class SearchData
 	}
 
 	/**
+	 * Set search filters as if they are object properties.
+	 *
+	 * @param  String $key
+	 * @param  Mixed  $value
+	 * @return Mixed
+	 */
+	public function __set($key, $value)
+	{
+		return $this->setFilter($key, $value);
+	}
+
+	/**
 	 * Check if search filter exists
 	 *
 	 * @param  String $key
@@ -69,7 +81,7 @@ class SearchData
 	 * @param  Array $sorting
 	 * @return $this
 	 */
-	public function setSorting(Array $sorting)
+	public function setSortingKeys(Array $sorting)
 	{
 		$this->sorting = $sorting;
 		return $this;

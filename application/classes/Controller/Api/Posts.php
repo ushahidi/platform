@@ -88,4 +88,18 @@ class Controller_Api_Posts extends Ushahidi_Rest {
 		$this->_usecase
 			->setIdentifiers($this->_identifiers());
 	}
+
+	public function action_get_stats_collection()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'stats')
+			// @todo allow injecting formatters based on resource + action
+			->setFormatter(service('formatter.entity.post.stats'))
+			->setFilters($this->_filters());
+	}
+
+	public function action_options_stats_collection()
+	{
+		$this->action_options_index_collection();
+	}
 }
