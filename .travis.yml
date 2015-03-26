@@ -28,6 +28,7 @@ deploy:
     on:
       repo: ushahidi/platform
       php: 5.5
+      strategy: git
       branch:
         - master
         - release
