@@ -209,6 +209,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1364009953
+    published_to:
   -
     id: 99
     form_id: 1
@@ -220,6 +221,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1378018880
+    published_to:
   -
     id: 9999
     form_id: 1
@@ -231,6 +233,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1412007022
+    published_to:
   -
     id: 95
     form_id: 1
@@ -242,6 +245,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1373838515
+    published_to:
   -
     id: 97
     form_id: 1
@@ -253,6 +257,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1354628171
+    published_to:
   -
     id: 96
     form_id: 1
@@ -264,6 +269,7 @@ posts:
     status: "published"
     locale: "fr_fr"
     created: 1384762238
+    published_to:
   -
     id: 101
     form_id: 1
@@ -275,6 +281,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1362747895
+    published_to:
   -
     id: 102
     form_id: 2
@@ -286,6 +293,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1403169957
+    published_to:
   -
     id: 103
     form_id: 1
@@ -297,6 +305,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1363791760
+    published_to:
   -
     id: 104
     form_id: 1
@@ -308,17 +317,19 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1390417375
+    published_to:
   -
     id: 105
     form_id: 1
     parent_id:
-    user_id:
+    user_id: 3
     title: "Original post"
     type: "report"
     content: "Some description"
     status: "published"
     locale: "en_us"
     created: 1373006165
+    published_to:
   -
     id: 106
     form_id: 1
@@ -330,6 +341,7 @@ posts:
     status: "published"
     locale: "fr_fr"
     created: 1408165751
+    published_to:
   -
     id: 107
     form_id: 1
@@ -341,6 +353,7 @@ posts:
     status: "published"
     locale: "fr_fr"
     created: 1367599079
+    published_to:
   -
     id: 108
     form_id: 1
@@ -352,6 +365,7 @@ posts:
     status: "published"
     locale: "ar_ar"
     created: 1404089791
+    published_to:
   -
     id: 110
     form_id: 1
@@ -363,6 +377,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1355743120
+    published_to:
   -
     id: 111
     form_id: 1
@@ -374,6 +389,7 @@ posts:
     status: "draft"
     locale: "en_us"
     created: 1398774435
+    published_to:
   -
     id: 112
     form_id: 1
@@ -385,6 +401,7 @@ posts:
     status: "draft"
     locale: "en_us"
     created: 1408607443
+    published_to:
   -
     id: 113
     form_id: 1
@@ -396,6 +413,7 @@ posts:
     status: "pending"
     locale: "en_us"
     created: 1404996921
+    published_to:
   -
     id: 114
     form_id: 1
@@ -407,6 +425,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1411884027
+    published_to:
   -
     id: 115
     form_id: 1
@@ -418,6 +437,7 @@ posts:
     status: "published"
     locale: "fr_fr"
     created: 1411907883
+    published_to:
   -
     id: 116
     form_id: 1
@@ -429,6 +449,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1411911360
+    published_to:
   -
     id: 117
     form_id: 1
@@ -440,6 +461,19 @@ posts:
     status: "draft"
     locale: "en_us"
     created: 1412005016
+    published_to:
+  -
+    id: 120
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
 post_datetime:
 post_decimal:
 post_geometry:

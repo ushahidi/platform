@@ -64,7 +64,7 @@ class PostAuthorizer implements Authorizer
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
-
+				
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)
 		if ($this->isUserAdmin($user)) {
@@ -94,8 +94,8 @@ class PostAuthorizer implements Authorizer
 			return true;
 		}
 
-		// If a post is public then *anyone* can view it.
-		if ($privilege === 'read' && $this->isPostPublic($entity)) {
+		// If a post is published, then anyone with the appropriate role can read it
+		if ($privilege === 'read' && $this->isPostPublishedToUser($entity, $user)) {
 			return true;
 		}
 
@@ -103,7 +103,7 @@ class PostAuthorizer implements Authorizer
 		if ($privilege === 'read' && ! $entity->getId()) {
 			return true;
 		}
-
+		
 		// We check if the user is the owner of this post. If so, they are allowed
 		// to do almost anything, **except** change ownership of the post, which
 		// only admins can do.
@@ -114,20 +114,23 @@ class PostAuthorizer implements Authorizer
 		// If no other access checks succeed, we default to denying access
 		return false;
 	}
-
-	/**
-	 * Check if a post is public
-	 * @param  Entity  $entity
-	 * @return boolean
-	 */
-	protected function isPostPublic(Entity $entity)
+	
+	protected function isPostPublishedToUser(Entity $entity, $user)
 	{
-		// To checking if a post is public we just check the post status is 'published'
-		if ($entity->status === 'published') {
+		if ($entity->status === 'published' && $this->isUserOfRole($entity, $user)) {
 			return true;
 		}
-
 		return false;
+	}
+
+	protected function isUserOfRole(Entity $entity, $user)
+	{
+		if ($entity->published_to) {
+			return in_array($user->role, $entity->published_to);
+		}
+
+		// If no visibility info, assume public
+		return true;
 	}
 
 	/* ParentAccess */

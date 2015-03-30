@@ -31,6 +31,7 @@ class Post extends StaticEntity
 	protected $locale;
 	protected $values;
 	protected $tags;
+	protected $published_to;
 
 	// StatefulData
 	protected function getDerived()
@@ -70,6 +71,7 @@ class Post extends StaticEntity
 			'locale'          => '*lowercasestring',
 			'values'          => 'array',
 			'tags'            => 'array',
+			'published_to'	=> '*json',
 		];
 	}
 

@@ -261,6 +261,7 @@ abstract class Ushahidi_Core {
 		// Repository parameters
 		foreach ([
 			'form_attribute',
+			'post',
 			'layer',
 			'tag',
 		] as $name)

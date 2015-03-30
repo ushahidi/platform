@@ -20,6 +20,7 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase\Post\StatsPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
+use Ushahidi\Core\Tool\JsonTranscode;
 
 use Aura\DI\InstanceFactory;
 
@@ -34,6 +35,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
+
+	protected $json_transcoder;
+	protected $json_properties = ['published_to'];
+
+	public function setTranscoder(JsonTranscode $transcoder)
+	{
+		$this->json_transcoder = $transcoder;
+	}
 
 	/**
 	 * Construct
@@ -74,7 +83,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'tags'   => $this->getTagsForPost($data['id']),
 			];
 		}
-
+					
 		return new Post($data);
 	}
 
@@ -523,7 +532,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// UpdateRepository
 	public function create(Entity $entity)
 	{
-		$post = $entity->setState(['created' => time()])->asArray();
+		
+		$post = array_filter($this->json_transcoder->encode(
+				$entity->asArray(),
+				$this->json_properties
+		));
+		$post['created'] = time();
 
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags']);
@@ -549,11 +563,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-		$post = $entity->setState(['updated' => time()])->getChanged();
+		$post = $this->json_transcoder->encode(
+			$entity->getChanged(),
+			$this->json_properties
+		);		
+		$post['updated'] = time();
 
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags']);
-
+		
 		// Update the post
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
@@ -568,9 +586,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// Update post-values
 			$this->updatePostValues($entity->id, $entity->values);
 		}
-
-		// @todo Save revision
-		//$this->createRevision($id);
 
 		return $count;
 	}

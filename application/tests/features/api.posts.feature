@@ -628,8 +628,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "11"
-		And the "total_count" property equals "11"
+		And the "count" property equals "12"
+		And the "total_count" property equals "12"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
@@ -876,3 +876,20 @@ Feature: Testing the Posts API
 		And the type of the "count" property is "numeric"
 		And the "count" property equals "1"
 		Then the guzzle status code should be 200
+
+    @update
+    Scenario: Users can assign roles to restrict publication of their posts
+        Given that I want to update a "Post"
+        And that its "id" is "105"
+        And that the request "Authorization" header is "Bearer testbasicuser2"
+        And that the request "data" is:
+        """
+        {
+            "published_to":["admin"]
+        }
+        """
+        When I request "/posts"
+        Then the guzzle status code should be 200
+        And the response is JSON
+        And the "published_to" property contains "admin"
+        And the response has an "id" property

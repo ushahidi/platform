@@ -66,7 +66,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "10"
+        And the "count" property equals "11"
 
     Scenario: User can view public and own private posts in collection
         Given that I want to get all "Posts"
@@ -75,7 +75,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "12"
+        And the "count" property equals "13"
 
     Scenario: Admin can view all posts in collection
         Given that I want to get all "Posts"
@@ -84,7 +84,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "15"
+        And the "count" property equals "16"
 
     Scenario: Admin user can view private posts
         Given that I want to find a "Post"
@@ -169,7 +169,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 403
 
-    Scenario: Anonymous users can not view private posts
+    Scenario: Anonymous users can not view draft posts
         Given that I want to find a "Post"
         And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "111"
@@ -392,3 +392,22 @@ Feature: API Access Control Layer
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 400
+
+    @resetFixture
+    Scenario: User can view post published to members
+        Given that I want to find a "Post"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that its "id" is "120"
+        When I request "/posts"
+        Then the guzzle status code should be 200
+        And the response is JSON
+        And the "id" property equals "120"
+
+    @resetFixture
+    Scenario: Anonymous can not view post published to members
+        Given that I want to find a "Post"
+        And that the request "Authorization" header is "Bearer testanon"
+        And that its "id" is "120"
+        When I request "/posts"
+        Then the guzzle status code should be 403
+        And the response is JSON
