@@ -1,7 +1,7 @@
 notifications:
   hipchat:
     rooms:
-      secure: Pz5CQX/NtKLkk8c6kjhxipMS6kdQTj5jaeN9LC2k1IzERsqCYnx/nD2EV0cG4YJO0W3sMK3vaVgL5lLE3xHpe7wsLB/LWmxLY8QV0NJaSGOqqXAC4S5Yo7MRFd2S5fPWN7MC05SPpqiDveEle1fK6Gz7oHXSZxAFMyYnLRcaX3M=
+      secure: fb2eYR4DVBestPl/DSG7lnUWT46Rmr9BfRsZFe4dhrS3ZetkZ1XZueF6SCtB4yukaJoDlA7y98FgQ7eGx6OGToc4ALnPpwd3BdfJ5RV/PK/6LG7u5Mp4+DfB4lG1q9IjuHF7dhBPSk2sRd8ewtwV5JR4SHKYfHxSR9Ekwmn1Xyo=
 language: php
 php:
 - '5.4'
