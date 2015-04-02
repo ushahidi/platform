@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform DBv2 Tag Import Step
+ * Ushahidi Platform DBv2 Post Import Step
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -22,7 +22,7 @@ use Ddeboer\DataImport\Writer\WriterInterface;
 use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
 use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 
-class TagStep implements ImportStep
+class PostStep implements ImportStep
 {
 	use WriterTrait, ResourceMapTrait;
 
@@ -35,30 +35,26 @@ class TagStep implements ImportStep
 	{
 		$converter = new MappingItemConverter();
 		$converter->addMapping('id', 'original_id')
-			->addMapping('category_title', 'tag')
-			->addMapping('category_description', 'description')
-			->addMapping('category_color', 'color');
+			->addMapping('incident_title', 'title')
+			->addMapping('incident_description', 'content');
 
-		// Load new parent id from writer
+		// Load new user id from map
 		$this->writer->setOriginalIdentifier('original_id');
-		$parentConverter = new CallbackValueConverter(function ($parent_id) {
-			if ($parent_id) {
-				return $this->writer->getMappedId($parent_id);
+		$userConverter = new CallbackValueConverter(function ($user_id) {
+			if ($user_id) {
+				return $this->resourceMap->getMappedId('user', $user_id);
 			}
 		});
 
-		$reader = new Reader\PdoReader($options['connection'], 'SELECT * FROM category ORDER BY parent_id ASC, id ASC');
-		$workflow = new Workflow($reader, $options['logger'], 'dbv2-users');
+		$reader = new Reader\PdoReader($options['connection'], 'SELECT * FROM incident ORDER BY id ASC');
+		$workflow = new Workflow($reader, $options['logger'], 'dbv2-incidents');
 		$result = $workflow
 			->addWriter($this->writer)
 			->addItemConverter($converter)
-			->addValueConverter('parent_id', $parentConverter)
+			->addValueConverter('user_id', $userConverter)
 			->setSkipItemOnFailure(true)
 			->process()
 		;
-
-		// Save the tag map for future steps
-		$this->resourceMap->set('tag', $this->writer->getMap());
 
 		return $result;
 	}

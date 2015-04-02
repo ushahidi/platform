@@ -13,6 +13,7 @@ namespace Ushahidi\DataImport\Importer\DBv2;
 
 use Ushahidi\DataImport\ImportStep;
 use Ushahidi\DataImport\WriterTrait;
+use Ushahidi\DataImport\ResourceMapTrait;
 
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader;
@@ -21,7 +22,7 @@ use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
 
 class UserStep implements ImportStep
 {
-	use WriterTrait;
+	use WriterTrait, ResourceMapTrait;
 
 	/**
 	 * Run a data import step
@@ -42,6 +43,9 @@ class UserStep implements ImportStep
 			->setSkipItemOnFailure(true)
 			->process()
 		;
+
+		// Save the tag map for future steps
+		$this->resourceMap->set('user', $this->writer->getMap());
 
 		return $result;
 	}
