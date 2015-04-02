@@ -11,18 +11,14 @@
 
 namespace Ushahidi\DataImport\Writer;
 
-use Ushahidi\Core\Usecase\User\UserData;
+use Ushahidi\Core\Entity\User;
 
 class UserWriter extends RepositoryWriter
 {
 
-	/**
-	 * Create a Data object from item
-	 * @param  Array $item
-	 * @return Data
-	 */
-	protected function createDataObject(array $item)
+	// RepositoryWriter
+	protected function createEntity(array $item)
 	{
-		return new UserData($item);
+		return new User($item);
 	}
 }

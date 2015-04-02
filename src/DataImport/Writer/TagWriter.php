@@ -11,18 +11,15 @@
 
 namespace Ushahidi\DataImport\Writer;
 
-use Ushahidi\Core\Usecase\Tag\TagData;
+use Ushahidi\Core\Entity\Tag;
 
 class TagWriter extends RepositoryWriter
 {
 
-	/**
-	 * Create a Data object from item
-	 * @param  Array $item
-	 * @return Data
-	 */
-	protected function createDataObject(array $item)
+	// RepositoryWriter
+	protected function createEntity(array $item)
 	{
-		return new TagData($item);
+		return new Tag($item);
 	}
+
 }

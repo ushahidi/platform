@@ -12,7 +12,6 @@
 namespace Ushahidi\DataImport\Writer;
 
 use Ddeboer\DataImport\Writer\WriterInterface;
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Usecase\CreateRepository;
 
 abstract class RepositoryWriter implements WriterInterface
@@ -42,11 +41,11 @@ abstract class RepositoryWriter implements WriterInterface
 	}
 
 	/**
-	 * Create a Data object from item
+	 * Create a Entity from item
 	 * @param  Array $item
-	 * @return Data
+	 * @return Entity
 	 */
-	abstract protected function createDataObject(array $item);
+	abstract protected function createEntity(array $item);
 
 	/**
 	 * {@inheritDoc}
@@ -64,7 +63,7 @@ abstract class RepositoryWriter implements WriterInterface
 	 */
 	public function writeItem(array $item)
 	{
-		$data = $this->createDataObject($item);
+		$data = $this->createEntity($item);
 		$newid = $this->repo->create($data);
 
 		// Add to map
