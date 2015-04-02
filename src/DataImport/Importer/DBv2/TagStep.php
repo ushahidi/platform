@@ -12,6 +12,7 @@
 namespace Ushahidi\DataImport\Importer\DBv2;
 
 use Ushahidi\DataImport\ImportStep;
+use Ushahidi\DataImport\WriterTrait;
 
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader;
@@ -22,20 +23,7 @@ use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 
 class TagStep implements ImportStep
 {
-	/**
-	 * Writer
-	 * @var Writer
-	 */
-	protected $writer;
-
-	/**
-	 * Set writer
-	 * @param Writer $writer
-	 */
-	public function setWriter(WriterInterface $writer)
-	{
-		$this->writer = $writer;
-	}
+	use WriterTrait;
 
 	/**
 	 * Run a data import step
