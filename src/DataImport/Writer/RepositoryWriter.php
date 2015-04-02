@@ -16,6 +16,8 @@ use Ushahidi\Core\Usecase\CreateRepository;
 
 abstract class RepositoryWriter implements WriterInterface
 {
+	// MappingWriterTrait records the new id against old id
+	use MappingWriterTrait;
 
 	protected $repo;
 
@@ -25,19 +27,6 @@ abstract class RepositoryWriter implements WriterInterface
 	public function __construct(CreateRepository $repo)
 	{
 		$this->repo = $repo;
-	}
-
-	protected $originalIdentifier;
-	protected $map;
-
-	public function setOriginalIdentifier($key)
-	{
-		$this->originalIdentifier = $key;
-	}
-
-	public function getMapped($value)
-	{
-		return isset($this->map[$value]) ? $this->map[$value] : false;
 	}
 
 	/**
@@ -67,9 +56,7 @@ abstract class RepositoryWriter implements WriterInterface
 		$newid = $this->repo->create($data);
 
 		// Add to map
-		if ($this->originalIdentifier && $item[$this->originalIdentifier]) {
-			$this->map[$item[$this->originalIdentifier]] = $newid;
-		}
+		$this->setMappedId($item, $newid);
 	}
 
 	/**

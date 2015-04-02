@@ -42,7 +42,7 @@ class TagStep implements ImportStep
 		$this->writer->setOriginalIdentifier('original_id');
 		$parentConverter = new CallbackValueConverter(function ($parent_id) {
 			if ($parent_id) {
-				return $this->writer->getMapped($parent_id);
+				return $this->writer->getMappedId($parent_id);
 			}
 		});
 
