@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
+use Psr\Log\LoggerInterface;
 
 class Import extends Command
 {
@@ -55,6 +56,7 @@ class Import extends Command
 
 	protected function execute_import(InputInterface $input, OutputInterface $output)
 	{
+		// @todo Inject the logger, just depend on interface
 		$logger = new ConsoleLogger($output);
 
 		// Invoke lazyNew to create the importer
