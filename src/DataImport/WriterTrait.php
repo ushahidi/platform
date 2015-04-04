@@ -11,6 +11,8 @@
 
 namespace Ushahidi\DataImport;
 
+use Ddeboer\DataImport\Writer\WriterInterface;
+
 trait WriterTrait {
 
 	/**

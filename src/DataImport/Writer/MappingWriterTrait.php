@@ -11,7 +11,7 @@
 
 namespace Ushahidi\DataImport\Writer;
 
-trait MappingWriter
+trait MappingWriterTrait
 {
 
 	protected $originalIdentifier;
@@ -43,7 +43,7 @@ trait MappingWriter
 	protected function setMappedId($item, $newId)
 	{
 		if ($this->originalIdentifier && $item[$this->originalIdentifier]) {
-			$this->map[$item[$this->originalIdentifier]] = $newid;
+			$this->map[$item[$this->originalIdentifier]] = $newId;
 		}
 	}
 }
