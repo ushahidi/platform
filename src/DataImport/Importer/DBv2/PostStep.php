@@ -38,11 +38,18 @@ class PostStep implements ImportStep
 			->addMapping('incident_title', 'title')
 			->addMapping('incident_description', 'content');
 
-		// Load new user id from map
 		$this->writer->setOriginalIdentifier('original_id');
+
+		// Load new user id from map
 		$userConverter = new CallbackValueConverter(function ($user_id) {
 			if ($user_id) {
 				return $this->resourceMap->getMappedId('user', $user_id);
+			}
+		});
+
+		$formConverter = new CallbackValueConverter(function ($form_id) {
+			if ($form_id) {
+				return $this->resourceMap->getMappedId('form', $form_id);
 			}
 		});
 
@@ -52,6 +59,7 @@ class PostStep implements ImportStep
 			->addWriter($this->writer)
 			->addItemConverter($converter)
 			->addValueConverter('user_id', $userConverter)
+			->addValueConverter('form_id', $formConverter)
 			->setSkipItemOnFailure(true)
 			->process()
 		;
