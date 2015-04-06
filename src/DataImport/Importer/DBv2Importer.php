@@ -56,6 +56,11 @@ class DBv2Importer implements Importer
 		$username = $options['username'];
 		$password = $options['password'];
 
+		// Ensure DSN includes charset
+		if (strpos($dsn, 'charset') === false) {
+			$dsn = $dsn . ';charset=utf8';
+		}
+
 		// Set up PDO connection
 		// @todo should this be injected somehow? a factory?
 		$connection = new \PDO($dsn, $username, $password);
