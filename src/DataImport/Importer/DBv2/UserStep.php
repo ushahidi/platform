@@ -44,7 +44,7 @@ class UserStep implements ImportStep
 			->process()
 		;
 
-		// Save the tag map for future steps
+		// Save the map for future steps
 		$this->resourceMap->set('user', $this->writer->getMap());
 
 		return $result;

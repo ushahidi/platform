@@ -57,7 +57,7 @@ class TagStep implements ImportStep
 			->process()
 		;
 
-		// Save the tag map for future steps
+		// Save the map for future steps
 		$this->resourceMap->set('tag', $this->writer->getMap());
 
 		return $result;
