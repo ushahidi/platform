@@ -25,7 +25,7 @@ class FormAttributeStep implements ImportStep
 {
 	use WriterTrait, ResourceMapTrait;
 
-	// field_type -> attribute.input map
+	// field_type -> attribute input map
 	const field_types = [
 		1 => 'text',
 		2 => 'textarea',
@@ -37,13 +37,52 @@ class FormAttributeStep implements ImportStep
 		9 => 'divider_end'
 	];
 
-	// datatype -> attribute.type map
-	const data_types = [
+	// field_datatype -> attribute type map
+	const field_datatypes = [
 		'text' => 'text',
 		'numeric' => 'decimal',
 		'email' => 'varchar',
 		'phonenumber' => 'varchar',
 	];
+
+	/**
+	 * Get post reader
+	 * @return Ddeboer\DataImport\Reader
+	 */
+	protected function getReader()
+	{
+		return
+	}
+
+	/**
+	 * Item transform callback
+	 * @param  Array  $item
+	 * @return Array
+	 */
+	public function transform($item)
+	{
+		$type = $item['field_datatype'] ? self::field_datatypes[$item['field_datatype']] : 'varchar';
+		$input = $item['field_type'] ? self::field_types[$item['field_type']] : 'text';
+
+		// Load new form id from map
+		// @todo form groups
+		// $formConverter = new CallbackValueConverter(function ($form_id) {
+		// 	if ($form_id) {
+		// 		return $this->resourceMap->getMappedId('form', $form_id);
+		// 	}
+		// });
+
+		return [
+			'original_id' => $item['id'],
+			'label' => $item['field_name'],
+			'required' => $item['field_required'],
+			'priority' => $item['field_position'],
+			'default' => $item['field_default'],
+			'type' => $type,
+			'input' => $input,
+			//'form_group_id'
+		];
+	}
 
 	/**
 	 * Run a data import step
@@ -52,68 +91,12 @@ class FormAttributeStep implements ImportStep
 	 */
 	public function run(Array $options)
 	{
-		$converter = new MappingItemConverter();
-		$converter
-			->addMapping('id',             'original_id')
-			->addMapping('field_name',     'label')
-			->addMapping('field_required', 'required')
-			->addMapping('field_position', 'priority')
-			->addMapping('field_default',  'default')
-			->addMapping('field_datatype', 'type')
-			->addMapping('field_type',     'input')
-			;
-
 		$this->writer->setOriginalIdentifier('original_id');
 
-		$reader = new Reader\PdoReader($options['connection'],
-			"SELECT form_field.*,
-				datatype.option_value AS field_datatype,
-				hidden.option_value AS field_hidden,
-				toggle.option_value AS field_toggle
-			FROM form_field
-			LEFT JOIN form_field_option datatype ON (
-				datatype.form_field_id = form_field.id
-				AND datatype.option_name = 'field_datatype'
-			)
-			LEFT JOIN form_field_option hidden ON (
-				hidden.form_field_id = form_field.id
-				AND hidden.option_name = 'field_hidden'
-			)
-			LEFT JOIN form_field_option toggle ON (
-				toggle.form_field_id = form_field.id
-				AND toggle.option_name = 'field_toggle'
-			)
-			ORDER BY id ASC"
-		);
-
-		// Load new form id from map
-		$formConverter = new CallbackValueConverter(function ($form_id) {
-			if ($form_id) {
-				return $this->resourceMap->getMappedId('form', $form_id);
-			}
-		});
-
-		$inputConverter = new CallbackValueConverter(function ($type) {
-			if ($type) {
-				return self::field_types[$type];
-			}
-			return 'text';
-		});
-
-		$typeConverter = new CallbackValueConverter(function ($datatype) {
-			if ($datatype) {
-				return self::data_types[$datatype];
-			}
-			return 'varchar';
-		});
-
-		$workflow = new Workflow($reader, $options['logger'], 'dbv2-forms');
+		$workflow = new Workflow($this->getReader(), $options['logger'], 'dbv2-incidents');
 		$result = $workflow
-			->addWriter($this->writer)
-			->addItemConverter($converter)
-			->addValueConverter('form_id', $formConverter)
-			->addValueConverter('input', $inputConverter)
-			->addValueConverter('type', $typeConverter)
+			->addWriter($this->getWriter())
+			->addItemConverter(new CallbackItemConverter([$this, 'transform']))
 			->setSkipItemOnFailure(true)
 			->process()
 		;

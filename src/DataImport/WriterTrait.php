@@ -30,4 +30,12 @@ trait WriterTrait {
 		$this->writer = $writer;
 	}
 
+	/**
+	 * Get writer
+	 */
+	public function getWriter()
+	{
+		return $this->writer;
+	}
+
 }

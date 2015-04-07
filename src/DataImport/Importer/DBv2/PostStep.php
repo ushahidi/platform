@@ -20,11 +20,67 @@ use Ddeboer\DataImport\Reader;
 use Ddeboer\DataImport\Writer\CallbackWriter;
 use Ddeboer\DataImport\Writer\WriterInterface;
 use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
+use Ddeboer\DataImport\ItemConverter\CallbackItemConverter;
 use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 
 class PostStep implements ImportStep
 {
 	use WriterTrait, ResourceMapTrait;
+
+	/**
+	 * Get post reader
+	 * @return Ddeboer\DataImport\Reader
+	 */
+	protected function getReader()
+	{
+		$incidentReader = new Reader\PdoReader($options['connection'],
+			"SELECT i.*,
+				location_name,
+				latitude,
+				longitude,
+				person_first,
+				person_last,
+				person_email
+			FROM incident i
+			LEFT JOIN incident_person p ON (i.id = p.incident_id)
+			LEFT JOIN location l ON (i.location_id = l.id)
+			"
+		);
+
+		$incidentMediaReader = new Reader\PdoReader($options['connection'],
+			"SELECT media.*,
+				location_name,
+				latitude,
+				longitude,
+				person_first,
+				person_last,
+				person_email
+			FROM media
+			WHERE incident_id IS NOT NULL
+			"
+		);
+
+		return new Reader\OneToManyReader($incidentReader, $incidentMediaReader, 'media', 'id', 'incident_id');
+
+	}
+
+	/**
+	 * Item transform callback
+	 * @param  Array  $item
+	 * @return Array
+	 */
+	public function transform($item)
+	{
+		return [
+			'original_id' => $item['id'],
+			'title' => $item['incident_title'],
+			'content' => $item['incident_description'],
+			'status' => $item['incident_active'] ? 'published' : 'draft',
+			'author_email' => $item['person_email'],
+			'form_id' => $this->resourceMap->getMappedId('form', $item['form_id']),
+			'user_id' => $this->resourceMap->getMappedId('user', $item['user_id']),
+		];
+	}
 
 	/**
 	 * Run a data import step
@@ -33,33 +89,10 @@ class PostStep implements ImportStep
 	 */
 	public function run(Array $options)
 	{
-		$converter = new MappingItemConverter();
-		$converter->addMapping('id', 'original_id')
-			->addMapping('incident_title', 'title')
-			->addMapping('incident_description', 'content');
-
-		$this->writer->setOriginalIdentifier('original_id');
-
-		// Load new user id from map
-		$userConverter = new CallbackValueConverter(function ($user_id) {
-			if ($user_id) {
-				return $this->resourceMap->getMappedId('user', $user_id);
-			}
-		});
-
-		$formConverter = new CallbackValueConverter(function ($form_id) {
-			if ($form_id) {
-				return $this->resourceMap->getMappedId('form', $form_id);
-			}
-		});
-
-		$reader = new Reader\PdoReader($options['connection'], 'SELECT * FROM incident ORDER BY id ASC');
-		$workflow = new Workflow($reader, $options['logger'], 'dbv2-incidents');
+		$workflow = new Workflow($this->getReader(), $options['logger'], 'dbv2-incidents');
 		$result = $workflow
-			->addWriter($this->writer)
-			->addItemConverter($converter)
-			->addValueConverter('user_id', $userConverter)
-			->addValueConverter('form_id', $formConverter)
+			->addWriter($this->getWriter())
+			->addItemConverter(new CallbackItemConverter([$this, 'transform']))
 			->setSkipItemOnFailure(true)
 			->process()
 		;
