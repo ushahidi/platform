@@ -43,6 +43,7 @@ abstract class RepositoryWriter implements WriterInterface
 	public function prepare()
 	{
 		// Clean out mapping array
+		// @todo move to MappingWriterTrait
 		$this->map = [];
 
 		return $this;
