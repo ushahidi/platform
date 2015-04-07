@@ -13,6 +13,7 @@ namespace Ushahidi\DataImport\Writer;
 
 use Ddeboer\DataImport\Writer\WriterInterface;
 use Ushahidi\Core\Usecase\CreateRepository;
+use \Ddeboer\DataImport\Exception\WriterException;
 
 abstract class RepositoryWriter implements WriterInterface
 {
@@ -53,10 +54,16 @@ abstract class RepositoryWriter implements WriterInterface
 	public function writeItem(array $item)
 	{
 		$data = $this->createEntity($item);
-		$newid = $this->repo->create($data);
 
-		// Add to map
-		$this->setMappedId($item, $newid);
+		try {
+			$newid = $this->repo->create($data);
+
+			// Add to map
+			$this->setMappedId($item, $newid);
+		} catch (\Exception $e) {
+			// Convert exception so the abstracton doesn't leak
+			throw new WriterException('Write failed ('.$e->getMessage().').', null, $e);
+		}
 	}
 
 	/**
