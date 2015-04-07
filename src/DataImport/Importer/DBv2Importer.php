@@ -72,7 +72,9 @@ class DBv2Importer implements Importer
 
 			// @todo ok to pass connection as a param?
 			$result = $step->run([
+				// todo inject with setter instead.
 				'connection' => $connection,
+				// @todo move logger to step
 				'logger'     => $this->logger
 			]);
 

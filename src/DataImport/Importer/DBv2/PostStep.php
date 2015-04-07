@@ -19,9 +19,7 @@ use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader;
 use Ddeboer\DataImport\Writer\CallbackWriter;
 use Ddeboer\DataImport\Writer\WriterInterface;
-use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
 use Ddeboer\DataImport\ItemConverter\CallbackItemConverter;
-use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 
 class PostStep implements ImportStep
 {
@@ -31,9 +29,9 @@ class PostStep implements ImportStep
 	 * Get post reader
 	 * @return Ddeboer\DataImport\Reader
 	 */
-	protected function getReader()
+	protected function getReader(\PDO $connection)
 	{
-		$incidentReader = new Reader\PdoReader($options['connection'],
+		$incidentReader = new Reader\PdoReader($connection,
 			"SELECT i.*,
 				location_name,
 				latitude,
@@ -47,7 +45,7 @@ class PostStep implements ImportStep
 			"
 		);
 
-		$incidentMediaReader = new Reader\PdoReader($options['connection'],
+		$incidentMediaReader = new Reader\PdoReader($connection,
 			"SELECT media.*,
 				location_name,
 				latitude,
@@ -89,7 +87,7 @@ class PostStep implements ImportStep
 	 */
 	public function run(Array $options)
 	{
-		$workflow = new Workflow($this->getReader(), $options['logger'], 'dbv2-incidents');
+		$workflow = new Workflow($this->getReader($options['connection']), $options['logger'], 'dbv2-incidents');
 		$result = $workflow
 			->addWriter($this->getWriter())
 			->addItemConverter(new CallbackItemConverter([$this, 'transform']))

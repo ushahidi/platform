@@ -18,8 +18,7 @@ use Ushahidi\DataImport\ResourceMapTrait;
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader;
 use Ddeboer\DataImport\Writer\WriterInterface;
-use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
-use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
+use Ddeboer\DataImport\ItemConverter\CallbackItemConverter;
 
 class FormStep implements ImportStep
 {
@@ -29,9 +28,9 @@ class FormStep implements ImportStep
 	 * Get post reader
 	 * @return Ddeboer\DataImport\Reader
 	 */
-	protected function getReader()
+	protected function getReader(\PDO $connection)
 	{
-		return new Reader\PdoReader($options['connection'], 'SELECT * FROM form ORDER BY id ASC');
+		return new Reader\PdoReader($connection, 'SELECT * FROM form ORDER BY id ASC');
 	}
 
 	/**
@@ -58,7 +57,7 @@ class FormStep implements ImportStep
 	{
 		$this->writer->setOriginalIdentifier('original_id');
 
-		$workflow = new Workflow($this->getReader(), $options['logger'], 'dbv2-incidents');
+		$workflow = new Workflow($this->getReader($options['connection']), $options['logger'], 'dbv2-incidents');
 		$result = $workflow
 			->addWriter($this->getWriter())
 			->addItemConverter(new CallbackItemConverter([$this, 'transform']))

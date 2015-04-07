@@ -18,8 +18,7 @@ use Ushahidi\DataImport\ResourceMapTrait;
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader;
 use Ddeboer\DataImport\Writer\WriterInterface;
-use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
-use Ddeboer\DataImport\ItemConverter\MappingItemConverter;
+use Ddeboer\DataImport\ItemConverter\CallbackItemConverter;
 
 class FormAttributeStep implements ImportStep
 {
@@ -49,9 +48,28 @@ class FormAttributeStep implements ImportStep
 	 * Get post reader
 	 * @return Ddeboer\DataImport\Reader
 	 */
-	protected function getReader()
+	protected function getReader(\PDO $connection)
 	{
-		return
+		return new Reader\PdoReader($connection,
+			"SELECT form_field.*,
+				datatype.option_value AS field_datatype,
+				hidden.option_value AS field_hidden,
+				toggle.option_value AS field_toggle
+			FROM form_field
+			LEFT JOIN form_field_option datatype ON (
+				datatype.form_field_id = form_field.id
+				AND datatype.option_name = 'field_datatype'
+			)
+			LEFT JOIN form_field_option hidden ON (
+				hidden.form_field_id = form_field.id
+				AND hidden.option_name = 'field_hidden'
+			)
+			LEFT JOIN form_field_option toggle ON (
+				toggle.form_field_id = form_field.id
+				AND toggle.option_name = 'field_toggle'
+			)
+			ORDER BY id ASC"
+		);
 	}
 
 	/**
@@ -77,7 +95,7 @@ class FormAttributeStep implements ImportStep
 			'label' => $item['field_name'],
 			'required' => $item['field_required'],
 			'priority' => $item['field_position'],
-			'default' => $item['field_default'],
+			'default' => $item['field_default'], // @todo validate this.. I think its also use for select options?
 			'type' => $type,
 			'input' => $input,
 			//'form_group_id'
@@ -93,7 +111,7 @@ class FormAttributeStep implements ImportStep
 	{
 		$this->writer->setOriginalIdentifier('original_id');
 
-		$workflow = new Workflow($this->getReader(), $options['logger'], 'dbv2-incidents');
+		$workflow = new Workflow($this->getReader($options['connection']), $options['logger'], 'dbv2-incidents');
 		$result = $workflow
 			->addWriter($this->getWriter())
 			->addItemConverter(new CallbackItemConverter([$this, 'transform']))
