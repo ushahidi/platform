@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "29ec053ba9dcc79be5b1d92671697182",
+    "hash": "215fef7c808f95f439952dbe01b9b15b",
     "packages": [
         {
             "name": "aura/di",
@@ -195,6 +195,78 @@
                 "zikula"
             ],
             "time": "2015-03-26 16:11:30"
+        },
+        {
+            "name": "ddeboer/data-import",
+            "version": "dev-add-pdo-reader",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ushahidi/data-import.git",
+                "reference": "694cf2198e31bc8825cd47a7ddef3663635e86ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ushahidi/data-import/zipball/694cf2198e31bc8825cd47a7ddef3663635e86ea",
+                "reference": "694cf2198e31bc8825cd47a7ddef3663635e86ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/log": "1.0.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "*",
+                "doctrine/orm": "*",
+                "ext-iconv": "*",
+                "ext-mbstring": "*",
+                "ext-sqlite3": "*",
+                "phpoffice/phpexcel": "*",
+                "symfony/console": "~2.5.0",
+                "symfony/property-access": "*",
+                "symfony/validator": "~2.3.0"
+            },
+            "suggest": {
+                "doctrine/dbal": "If you want to use the DbalReader",
+                "ext-iconv": "For the CharsetValueConverter",
+                "ext-mbstring": "For the CharsetValueConverter",
+                "phpoffice/phpexcel": "If you want to use the ExcelReader",
+                "symfony/console": "If you want to use the ConsoleProgressWriter",
+                "symfony/property-access": "If you want to use the ObjectConverter",
+                "symfony/validator": "to use the ValidatorFilter"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Ddeboer\\DataImport": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David de Boer",
+                    "email": "david@ddeboer.nl"
+                },
+                {
+                    "name": "The community",
+                    "homepage": "https://github.com/ddeboer/data-import/graphs/contributors"
+                }
+            ],
+            "description": "Import data from, and export data to, a range of file formats and media",
+            "keywords": [
+                "csv",
+                "data",
+                "doctrine",
+                "excel",
+                "export",
+                "import"
+            ],
+            "support": {
+                "issues": "https://github.com/ddeboer/data-import/issues",
+                "source": "https://github.com/ddeboer/data-import"
+            },
+            "time": "2015-01-20 19:01:10"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -721,6 +793,44 @@
             "time": "2014-08-21 16:41:35"
         },
         {
+            "name": "psr/log",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psr\\Log\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2012-12-21 11:40:51"
+        },
+        {
             "name": "robmorgan/phinx",
             "version": "v0.4.3",
             "source": {
@@ -897,12 +1007,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "1d865a833a85c535bff72832fc41940178dc5716"
+                "reference": "d91be01336605db8da21b79bc771e46a7276d1bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/1d865a833a85c535bff72832fc41940178dc5716",
-                "reference": "1d865a833a85c535bff72832fc41940178dc5716",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/d91be01336605db8da21b79bc771e46a7276d1bc",
+                "reference": "d91be01336605db8da21b79bc771e46a7276d1bc",
                 "shasum": ""
             },
             "require": {
@@ -939,7 +1049,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "http://symfony.com",
-            "time": "2015-04-08 05:30:27"
+            "time": "2015-03-30 15:54:10"
         },
         {
             "name": "symfony/console",
@@ -1056,12 +1166,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "6059e5c76321906186043c909a65f08aa7ad4397"
+                "reference": "174f009ed36379a801109955fc5a71a49fe62dd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/6059e5c76321906186043c909a65f08aa7ad4397",
-                "reference": "6059e5c76321906186043c909a65f08aa7ad4397",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/174f009ed36379a801109955fc5a71a49fe62dd4",
+                "reference": "174f009ed36379a801109955fc5a71a49fe62dd4",
                 "shasum": ""
             },
             "require": {
@@ -1097,7 +1207,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2015-04-08 05:30:27"
+            "time": "2015-03-30 15:54:10"
         },
         {
             "name": "symm/gisconverter",
@@ -3110,12 +3220,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "a4d52bbd4775d6891735c973cf39e38b27e0e677"
+                "reference": "99f51e20e4d16100c68a0cf214d4d72da7e3e954"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/a4d52bbd4775d6891735c973cf39e38b27e0e677",
-                "reference": "a4d52bbd4775d6891735c973cf39e38b27e0e677",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/99f51e20e4d16100c68a0cf214d4d72da7e3e954",
+                "reference": "99f51e20e4d16100c68a0cf214d4d72da7e3e954",
                 "shasum": ""
             },
             "require": {
@@ -3155,7 +3265,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com",
-            "time": "2015-04-08 05:37:48"
+            "time": "2015-03-30 15:55:07"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3323,12 +3433,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "bd939f05cdaca128f4ddbae1b447d6f0203b60af"
+                "reference": "9c40eff487ea48a19c0cded15b3717fbd3a520e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/bd939f05cdaca128f4ddbae1b447d6f0203b60af",
-                "reference": "bd939f05cdaca128f4ddbae1b447d6f0203b60af",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/9c40eff487ea48a19c0cded15b3717fbd3a520e5",
+                "reference": "9c40eff487ea48a19c0cded15b3717fbd3a520e5",
                 "shasum": ""
             },
             "require": {
@@ -3336,10 +3446,10 @@
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.3,>=2.3.12",
-                "symfony/intl": "~2.3",
-                "symfony/phpunit-bridge": "~2.7",
-                "symfony/yaml": "~2.2"
+                "symfony/config": "~2.3,>=2.3.12|~3.0.0",
+                "symfony/intl": "~2.3|~3.0.0",
+                "symfony/phpunit-bridge": "~2.7|~3.0.0",
+                "symfony/yaml": "~2.2|~3.0.0"
             },
             "suggest": {
                 "psr/log": "To use logging capability in translator",
@@ -3373,7 +3483,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
-            "time": "2015-03-30 15:54:10"
+            "time": "2015-04-06 15:49:58"
         }
     ],
     "aliases": [],
@@ -3391,6 +3501,7 @@
         "wouter/acl": 20,
         "vlucas/phpdotenv": 20,
         "zeelot/kohana-media": 20,
+        "ddeboer/data-import": 20,
         "kohana/unittest": 20,
         "heroku/heroku-buildpack-php": 20
     },
