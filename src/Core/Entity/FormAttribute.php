@@ -32,6 +32,12 @@ class FormAttribute extends StaticEntity
 	{
 		return [
 			'form_stage_id' => ['form_stage', 'form_stage.id'], /* alias */
+			'key'    => function ($data) {
+				if (array_key_exists('label', $data)) {
+					return $data['label'] . ' ' . uniqid();
+				}
+				return false;
+			},
 		];
 	}
 
@@ -40,7 +46,7 @@ class FormAttribute extends StaticEntity
 	{
 		return [
 			'id'            => 'int',
-			'key'           => 'string',
+			'key'           => '*slug',
 			'label'         => 'string',
 			'input'         => 'string',
 			'type'          => 'string',
