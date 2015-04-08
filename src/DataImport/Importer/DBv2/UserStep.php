@@ -33,7 +33,9 @@ class UserStep implements ImportStep
 	{
 		$converter = new MappingItemConverter();
 		$converter->addMapping('name', 'realname');
-		$converter->addMapping('id', 'null');
+		$converter->addMapping('id', 'original_id');
+
+		$this->writer->setOriginalIdentifier('original_id');
 
 		$reader = new Reader\PdoReader($options['connection'], 'SELECT * FROM users ORDER BY id ASC');
 		$workflow = new Workflow($reader, $options['logger'], 'dbv2-users');
