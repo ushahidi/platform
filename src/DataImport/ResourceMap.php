@@ -23,7 +23,7 @@ class ResourceMap
 	public function getMappedId($resource, $originalId)
 	{
 		$map = $this->get($resource, []);
-		return isset($map[$resource]) && isset($map[$resource][$originalId]) ? $map[$resource][$originalId] : false;
+		return isset($map[$originalId]) ? $map[$originalId] : false;
 	}
 
 }
