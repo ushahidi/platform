@@ -64,10 +64,12 @@ class PostStep implements ImportStep
 		);
 
 		// Note we have to sort by incident_id and incident.id in the other readers or OneToManyReader loses rows
-		return new Reader\OneToManyReader(
-			new Reader\OneToManyReader($incidentReader, $incidentCategoryReader, 'categories', 'incident_id'),
-			$incidentMediaReader, 'news', 'incident_id'
-		);
+		// return new Reader\OneToManyReader(
+		// 	new Reader\OneToManyReader($incidentReader, $incidentCategoryReader, 'categories', 'incident_id'),
+		// 	$incidentMediaReader, 'news', 'incident_id'
+		// );
+
+		return new Reader\OneToManyReader($incidentReader, $incidentCategoryReader, 'categories', 'incident_id');
 
 	}
 
