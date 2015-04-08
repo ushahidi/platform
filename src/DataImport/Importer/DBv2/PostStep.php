@@ -33,6 +33,7 @@ class PostStep implements ImportStep
 	{
 		$incidentReader = new Reader\PdoReader($connection,
 			"SELECT i.*,
+				i.id AS incident_id,
 				location_name,
 				latitude,
 				longitude,
@@ -42,23 +43,31 @@ class PostStep implements ImportStep
 			FROM incident i
 			LEFT JOIN incident_person p ON (i.id = p.incident_id)
 			LEFT JOIN location l ON (i.location_id = l.id)
+			ORDER BY i.id ASC
 			"
 		);
 
 		$incidentMediaReader = new Reader\PdoReader($connection,
-			"SELECT media.*,
-				location_name,
-				latitude,
-				longitude,
-				person_first,
-				person_last,
-				person_email
+			"SELECT media.*
 			FROM media
 			WHERE incident_id IS NOT NULL
+			AND media_type = 4
+			ORDER BY incident_id ASC
 			"
 		);
 
-		return new Reader\OneToManyReader($incidentReader, $incidentMediaReader, 'media', 'id', 'incident_id');
+		$incidentCategoryReader = new Reader\PdoReader($connection,
+			"SELECT incident_id, category_id
+			FROM incident_category
+			ORDER BY incident_id ASC
+			"
+		);
+
+		// Note we have to sort by incident_id and incident.id in the other readers or OneToManyReader loses rows
+		return new Reader\OneToManyReader(
+			new Reader\OneToManyReader($incidentReader, $incidentCategoryReader, 'categories', 'incident_id'),
+			$incidentMediaReader, 'news', 'incident_id'
+		);
 
 	}
 
@@ -69,6 +78,11 @@ class PostStep implements ImportStep
 	 */
 	public function transform($item)
 	{
+		$resourceMap = $this->resourceMap;
+		$tags = array_filter(array_map(function($category) use ($resourceMap) {
+			return $resourceMap->getMappedId('tag', $category['category_id']);
+		}, $item['categories']));
+
 		return [
 			'original_id' => $item['id'],
 			'title' => $item['incident_title'],
@@ -77,6 +91,8 @@ class PostStep implements ImportStep
 			'author_email' => $item['person_email'],
 			'form_id' => $this->resourceMap->getMappedId('form', $item['form_id']),
 			'user_id' => $this->resourceMap->getMappedId('user', $item['user_id']),
+			'tags' => $tags,
+			'values' => []
 		];
 	}
 
@@ -91,7 +107,7 @@ class PostStep implements ImportStep
 		$result = $workflow
 			->addWriter($this->getWriter())
 			->addItemConverter(new CallbackItemConverter([$this, 'transform']))
-			->setSkipItemOnFailure(true)
+			->setSkipItemOnFailure(false)
 			->process()
 		;
 
