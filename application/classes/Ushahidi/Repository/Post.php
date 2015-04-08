@@ -674,7 +674,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if ($entity->tags)
 		{
 			// Update post-tags
-			$this->updatePostTags($id, $entity->tags);
+			$this->updatePostTags($id, $this->removeNullValues($entity->tags));
 		}
 
 		if ($entity->values)
@@ -784,6 +784,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if (! empty($tag_ids))
 		{
 			DB::delete('posts_tags')
+				->where('post_id', '=', $post_id)
 				->where('tag_id', 'NOT IN', $tag_ids)
 				->execute($this->db);
 		}
