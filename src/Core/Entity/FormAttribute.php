@@ -41,12 +41,34 @@ class FormAttribute extends StaticEntity
 		];
 	}
 
+	/**
+	 * Transform a string to a slug, replacing non-alphanumeric characters
+	 * with dashes.
+	 *
+	 * @param  String $value
+	 * @return String
+	 */
+	protected static function transformKey($value)
+	{
+		// Make it lowercase
+		$value = mb_strtolower($value, 'utf-8');
+
+		// .. anything not the separator, letters, numbers or whitespace is replaced
+		$value = preg_replace('/[^\pL\pN_\-\s]+/u', '', $value);
+
+		// .. replace whitespace and multiple separator chars with a single separator
+		$value = preg_replace('/[_\-\s]+/u', '-', $value);
+
+		// ... and replace spaces with hypens
+		return str_replace(' ', '-', $value);
+	}
+
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
 			'id'            => 'int',
-			'key'           => '*slug',
+			'key'           => '*key',
 			'label'         => 'string',
 			'input'         => 'string',
 			'type'          => 'string',
