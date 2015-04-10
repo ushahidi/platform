@@ -228,6 +228,10 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),
 	];
 $di->set('authorizer.form_attribute', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAttributeAuthorizer'));
+$di->params['Ushahidi\Core\Tool\Authorizer\FormAttributeAuthorizer'] = [
+	'group_repo' => $di->lazyGet('repository.form_group'),
+	'group_auth' => $di->lazyGet('authorizer.form_group'),
+	];
 $di->set('authorizer.form_group', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),

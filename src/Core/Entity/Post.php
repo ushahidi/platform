@@ -80,4 +80,10 @@ class Post extends StaticEntity
 	{
 		return 'posts';
 	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		return ['id', 'type', 'form_id'];
+	}
 }

@@ -592,9 +592,9 @@ Feature: Testing the Posts API
 		And the response does not have a "values.missing_status" property
 		Then the guzzle status code should be 200
 
-	@resetFixture @update
-	Scenario: Updating a Post with non-existent Form
-		Given that I want to update a "Post"
+	@resetFixture @create
+	Scenario: Creating a Post with non-existent Form
+		Given that I want to make a new "Post"
 		And that the request "data" is:
 			"""
 			{

@@ -31,6 +31,7 @@ trait OwnerAccess
 	 */
 	protected function isUserOwner(Entity $entity, User $user)
 	{
+		// @todo ensure we always check the original user_id not the updated value!
 		return ($user->getId() && $entity->user_id === $user->getId());
 	}
 
@@ -43,6 +44,7 @@ trait OwnerAccess
 	 */
 	protected function isUserAndOwnerAnonymous(Entity $entity, User $user)
 	{
+		// @todo ensure we always check the original user_id not the updated value!
 		return (! $user->getId() && ! $entity->user_id);
 	}
 }

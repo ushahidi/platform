@@ -11,37 +11,12 @@
 
 namespace Ushahidi\Core\Tool\Authorizer;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\AdminOnlyAccess;
 
 // The `DataProviderAuthorizer` class is responsible for access checks on `DataProvider` Entities
 class DataProviderAuthorizer implements Authorizer
 {
-	// The access checks are run under the context of a specific user
-	use UserContext;
-
-	// It uses `AdminAccess` to check if the user has admin access
-	use AdminAccess;
-
-	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
-	use PrivAccess;
-
-	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege)
-	{
-		// These checks are run within the `User` context.
-		$user = $this->getUser();
-
-		// Then we check if a user has the 'admin' role. If they do they're
-		// allowed access to everything (all entities and all privileges)
-		if ($this->isUserAdmin($user)) {
-			return true;
-		}
-
-		// If no other access checks succeed, we default to denying access
-		return false;
-	}
+    // only admins are allowed to do anything with data providers
+    use AdminOnlyAccess;
 }

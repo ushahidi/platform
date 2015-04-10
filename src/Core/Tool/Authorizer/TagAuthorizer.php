@@ -54,7 +54,7 @@ class TagAuthorizer implements Authorizer
 		}
 
 		// Finally, we check if the Tag is only visible to specific roles.
-		if ($this->isUserOfRole($entity, $user)) {
+		if ($privilege === 'read' && $this->isUserOfRole($entity, $user)) {
 			return true;
 		}
 

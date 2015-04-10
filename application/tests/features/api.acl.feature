@@ -133,6 +133,27 @@ Feature: API Access Control Layer
         And the response is JSON
         And the response has an "id" property
 
+    Scenario: Users trying to update another post by change ownership to themselves should fail
+        Given that I want to update a "Post"
+        And that its "id" is "105"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the request "data" is:
+        """
+        {
+            "form_id": 1,
+            "type": "report",
+            "title": "Test hacking post",
+            "content": "testing hacking post",
+            "status": "published",
+            "locale": "en_us",
+            "user_id": 1
+        }
+        """
+        When I request "/posts"
+        Then the guzzle status code should be 403
+        And the response is JSON
+        And the response has an "errors" property
+
     Scenario: Anonymous users can create posts
         Given that I want to make a new "Post"
         And that the request "Authorization" header is "Bearer testanon"
