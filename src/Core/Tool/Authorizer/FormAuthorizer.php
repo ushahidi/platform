@@ -68,6 +68,11 @@ class FormAuthorizer implements Authorizer
 			return true;
 		}
 
+		// All users are allowed to search forms.
+		if ($privilege === 'search') {
+			return true;
+		}
+
 		// If no other access checks succeed, we default to denying access
 		return false;
 	}

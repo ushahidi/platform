@@ -58,6 +58,10 @@ class TagAuthorizer implements Authorizer
 			return true;
 		}
 
+		if ($privilege === 'search') {
+			return true;
+		}
+
 		// If no other access checks succeed, we default to denying access
 		return false;
 	}
