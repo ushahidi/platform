@@ -85,16 +85,30 @@ class PostStep implements ImportStep
 			return $resourceMap->getMappedId('tag', $category['category_id']);
 		}, $item['categories']));
 
+		$attributeMap = $resourceMap->getMappedId('form_attributes', $item['form_id']);
+
 		return [
 			'original_id' => $item['id'],
 			'title' => $item['incident_title'],
 			'content' => $item['incident_description'],
 			'status' => $item['incident_active'] ? 'published' : 'draft',
 			'author_email' => $item['person_email'],
+			'author_realname' => $item['person_first'] . ' ' . $item['person_last'],
 			'form_id' => $this->resourceMap->getMappedId('form', $item['form_id']),
 			'user_id' => $this->resourceMap->getMappedId('user', $item['user_id']),
 			'tags' => $tags,
-			'values' => []
+			'values' => [
+				$attributeMap['original_id'] => [$item['id']],
+				$attributeMap['date'] => [$item['incident_date']],
+				$attributeMap['location_name'] => [$item['location_name']],
+				$attributeMap['location'] => [[
+					'lat' => $item['latitude'],
+					'lon' => $item['longitude']
+				]],
+				$attributeMap['verified'] => [$item['incident_verified']],
+				// news
+				// source
+			]
 		];
 	}
 

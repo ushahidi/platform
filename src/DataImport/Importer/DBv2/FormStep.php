@@ -115,6 +115,7 @@ class FormStep implements ImportStep
 		$attributes = [
 			[
 			//	'key' => 'original_id',
+				'original_id' => 'original_id',
 				'label' => 'Original ID',
 				'required' => 0,
 				'priority' => 0,
@@ -125,6 +126,7 @@ class FormStep implements ImportStep
 			],
 			[
 			//	'key' => 'date',
+				'original_id' => 'date',
 				'label' => 'Date',
 				'required' => 0,
 				'priority' => 0,
@@ -135,6 +137,7 @@ class FormStep implements ImportStep
 			],
 			[
 			//	'key' => 'location_name',
+				'original_id' => 'location_name',
 				'label' => 'Location Name',
 				'required' => 0,
 				'priority' => 0,
@@ -145,6 +148,7 @@ class FormStep implements ImportStep
 			],
 			[
 			//	'key' => 'location',
+				'original_id' => 'location',
 				'label' => 'Location',
 				'required' => 0,
 				'priority' => 0,
@@ -155,6 +159,7 @@ class FormStep implements ImportStep
 			],
 			[
 			//	'key' => 'verified',
+				'original_id' => 'verified',
 				'label' => 'Verified',
 				'required' => 0,
 				'priority' => 0,
@@ -165,6 +170,7 @@ class FormStep implements ImportStep
 			],
 			[
 			//	'key' => 'source',
+				'original_id' => 'source',
 				'label' => 'Source',
 				'required' => 0,
 				'priority' => 0,
@@ -181,6 +187,7 @@ class FormStep implements ImportStep
 			],
 			[
 			//	'key' => 'news',
+				'original_id' => 'news',
 				'label' => 'News',
 				'required' => 0,
 				'priority' => 0,
@@ -231,6 +238,7 @@ class FormStep implements ImportStep
 		// to account for old pre-form deployments
 		$map[0] = $map[1];
 		$this->resourceMap->set('form', $map);
+		$this->resourceMap->set('form_attributes', $this->writer->getAttributeMap());
 
 		return $result;
 	}

@@ -22,6 +22,8 @@ class FormWriter extends RepositoryWriter
 	protected $groupRepo;
 	protected $attributeRepo;
 
+	protected $attributeMap;
+
 	/**
 	 * @param Repository $repo
 	 */
@@ -56,6 +58,18 @@ class FormWriter extends RepositoryWriter
 	/**
 	 * {@inheritDoc}
 	 */
+	public function prepare()
+	{
+		parent::prepare();
+		// Clean out mapping array
+		$this->attributeMap = [];
+
+		return $this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function writeItem(array $item)
 	{
 		$data = $this->createEntity($item);
@@ -69,10 +83,13 @@ class FormWriter extends RepositoryWriter
 			$form_group_id = $this->groupRepo->create($structureGroup);
 
 			// Create attributes
+			$this->attributeMap[$item['original_id']] = []; // init mapping array per form
 			foreach($item['attributes'] as $attr) {
-				$this->attributeRepo->create(
-					$this->createAttribute($attr + compact('form_group_id'))
+				$attrEntity = $this->createAttribute($attr + compact('form_group_id'));
+				$attrId = $this->attributeRepo->create(
+					$attrEntity
 				);
+				$this->attributeMap[$item['original_id']][$attr['original_id']] = $attrEntity->key;
 			}
 
 			// Add to map
@@ -81,6 +98,11 @@ class FormWriter extends RepositoryWriter
 			// Convert exception so the abstracton doesn't leak
 			throw new WriterException('Write failed ('.$e->getMessage().').', null, $e);
 		}
+	}
+
+	public function getAttributeMap()
+	{
+		return $this->attributeMap;
 	}
 
 }
