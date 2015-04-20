@@ -174,3 +174,23 @@ Feature: Testing the Users API
 		And the response has a "errors" property
 		Then the guzzle status code should be 404
 
+	Scenario: Registering a User
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"newuser@ushahidi.com",
+				"username":"newuser",
+				"password":"testing",
+				"role":"admin"
+			}
+			"""
+		When I request "/register"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "email" property
+		And the "email" property equals "newuser@ushahidi.com"
+		And the "role" property equals "user"
+		And the response does not have a "password" property
+		Then the guzzle status code should be 200

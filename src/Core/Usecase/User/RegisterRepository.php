@@ -13,9 +13,11 @@
 
 namespace Ushahidi\Core\Usecase\User;
 
+use Ushahidi\Core\Entity;
+
 interface RegisterRepository
 {
 	public function isUniqueUsername($username);
 	public function isUniqueEmail($email);
-	public function register($email, $username, $password);
+	public function register(Entity $entity);
 }

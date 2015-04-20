@@ -20,27 +20,30 @@ class Ushahidi_Validator_User_Register extends Validator
 
 	public function __construct(RegisterRepository $repo)
 	{
-		$this->repo = $repo;
+		$this->repo	= $repo;
 	}
 
 	protected function getRules()
 	{
+		
 		return [
 			'email' => [
 				['not_empty'],
+				['max_length', [':value', 150]],
 				['email'],
 				[[$this->repo, 'isUniqueEmail'], [':value']],
 			],
 			'username' => [
 				['not_empty'],
-				['max_length', [':value', 255]],
+				['max_length', [':value', 50]],
 				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
 				[[$this->repo, 'isUniqueUsername'], [':value']],
 			],
 			'password' => [
 				['not_empty'],
-				// Password is hashed at this point, there is no reason to validate length
-			],
+				['min_length', [':value', 7]],
+				['max_length', [':value', 72]]
+			]
 		];
 	}
 }

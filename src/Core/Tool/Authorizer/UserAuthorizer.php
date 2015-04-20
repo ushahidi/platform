@@ -37,7 +37,7 @@ class UserAuthorizer implements Authorizer
 	 */
 	protected function getAllPrivs()
 	{
-		return ['read', 'create', 'update', 'delete', 'search', 'read_full'];
+		return ['read', 'create', 'update', 'delete', 'search', 'read_full', 'register'];
 	}
 
 	/* Authorizer */
@@ -68,6 +68,11 @@ class UserAuthorizer implements Authorizer
 
 		// Regular user can always read
 		if (in_array($privilege, ['read', 'search'])) {
+			return true;
+		}
+
+		// Users should always be allowed to register
+		if ($privilege === 'register') {
 			return true;
 		}
 

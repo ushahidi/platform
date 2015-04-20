@@ -136,8 +136,9 @@ abstract class Ushahidi_Core {
 			'delete' => $di->lazyNew('Ushahidi_Validator_Tag_Delete'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
-			'create' => $di->lazyNew('Ushahidi_Validator_User_Create'),
-			'update' => $di->lazyNew('Ushahidi_Validator_User_Update')
+			'create'   => $di->lazyNew('Ushahidi_Validator_User_Create'),
+			'update'   => $di->lazyNew('Ushahidi_Validator_User_Update'),
+			'register' => $di->lazyNew('Ushahidi_Validator_User_Register')
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Message_Create'),
@@ -313,7 +314,7 @@ abstract class Ushahidi_Core {
 
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
-
+		
 		// Dependencies of validators
 		$di->params['Ushahidi_Validator_Post_Create'] = [
 			'repo' => $di->lazyGet('repository.post'),
@@ -337,6 +338,9 @@ abstract class Ushahidi_Core {
 			'repo' => $di->lazyGet('repository.user'),
 			'user' => $di->lazyGet('session.user'),
 			'role_repo' => $di->lazyGet('repository.role'),
+			];
+		$di->params['Ushahidi_Validator_User_Register'] = [
+			'repo'    => $di->lazyGet('repository.user')
 			];
 		$di->params['Ushahidi_Validator_Layer_Update'] = [
 			'media_repo' => $di->lazyGet('repository.media'),

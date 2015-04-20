@@ -206,6 +206,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 // User login is a custom read the uses authentication.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
 	'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),
+	'register' => $di->lazyNew('Ushahidi\Core\Usecase\User\RegisterUser'),
 ];
 $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->lazyGet('tool.authenticator.password');
 
