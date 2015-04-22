@@ -12,9 +12,18 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Set;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tool\JsonTranscode;
 
 class Ushahidi_Repository_Set extends Ushahidi_Repository
 {
+	protected $json_transcoder;
+	protected $json_properties = ['filter', 'view_options', 'visible_to'];
+
+	public function setTranscoder(JsonTranscode $transcoder)
+	{
+		$this->json_transcoder = $transcoder;
+	}
+
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -29,12 +38,18 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository
 
 	// CreateRepository
 	public function create(Entity $entity) {
-		return parent::create($entity->setState(['created' => time()]));
+		$record = array_filter($this->json_transcoder->encode(
+			$entity->asArray(),
+			$this->json_properties
+		));
+		$record['created'] = time();
+		return $this->executeInsert($this->removeNullValues($record));
+		
 	}
 
 	// UpdateRepository
 	public function update(Entity $entity) {
-		return parent::update($entity->setState(['updated' => time()]));
+		return parent::update($entity->setState(['updated' => time()]));		
 	}
 
 	// SearchRepository

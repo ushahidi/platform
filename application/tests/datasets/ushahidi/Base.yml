@@ -615,6 +615,11 @@ sets:
   -
     id: 2
     name: Explosion
+    user_id: 3
+  -
+    id: 3
+    name: Admin only set
+    visible_to: '["admin"]'
 posts_sets:
   -
     set_id: 1

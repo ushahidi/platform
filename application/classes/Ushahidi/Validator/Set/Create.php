@@ -11,15 +11,18 @@
 
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\RoleRepository;
 
 class Ushahidi_Validator_Set_Create extends Validator
 {
 	protected $user_repo;
+	protected $role_repo;
 	protected $default_error_source = 'set';
 
-	public function __construct(UserRepository $repo)
+	public function __construct(UserRepository $repo, RoleRepository $role_repo)
 	{
 		$this->user_repo = $repo;
+		$this->role_repo = $role_repo;
 	}
 
 	protected function getRules()
@@ -36,6 +39,13 @@ class Ushahidi_Validator_Set_Create extends Validator
 				['not_empty'],
 				['min_length', [':value', 3]],
 				['max_length', [':value', 255]],
+			],
+			'view' => [
+				// @todo stop hardcoding views
+				['in_array', [':value', ['map', 'list', 'graph', 'timeline']]]
+			],
+			'visible_to' => [
+				[[$this->role_repo, 'exists'], [':value']],
 			]
 		];
 	}

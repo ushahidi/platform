@@ -203,6 +203,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'stats'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost')
 ];
 
+
+// Add custom usecases for sets
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSet'),
+];
+
 // User login is a custom read the uses authentication.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
 	'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),

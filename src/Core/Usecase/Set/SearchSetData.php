@@ -22,4 +22,5 @@ class SearchSetData extends SearchData
 	public $q; // LIKE tag
 	public $name;
 	public $user;
+	public $featured;
 }

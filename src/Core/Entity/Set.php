@@ -18,8 +18,14 @@ class Set extends StaticEntity
 	protected $id;
 	protected $user_id;
 	protected $name;
+	protected $description;
 	protected $url;
 	protected $filter;
+	protected $view;
+	protected $view_options;
+	protected $visible_to;
+	protected $search;
+	protected $featured;
 	protected $created;
 	protected $updated;
 
@@ -27,13 +33,19 @@ class Set extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'      => 'int',
-			'user_id' => 'int',
-			'name'    => 'string',
-			'url'     => '*url',
-			'filter'  => 'string',
-			'created' => 'int',
-			'updated' => 'int',
+			'id'           => 'int',
+			'user_id'      => 'int',
+			'name'         => 'string',
+			'description'  => 'string',
+			'url'          => '*url',
+			'filter'       => '*json',
+			'view'         => 'string',
+			'view_options' => '*json',
+			'visible_to'   => '*json',
+			'search'       => 'boolean',
+			'featured'     => 'boolean',
+			'created'      => 'int',
+			'updated'      => 'int',
 		];
 	}
 
@@ -41,5 +53,19 @@ class Set extends StaticEntity
 	public function getResource()
 	{
 		return 'sets';
+	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		return array_merge(parent::getImmutable(), ['search', 'user_id']);
+	}
+
+	// StatefulData
+	protected function getDerived()
+	{
+		return [
+			'user_id'   => ['user', 'user.id'], /* alias */
+		];
 	}
 }

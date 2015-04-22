@@ -37,8 +37,12 @@ trait DataTransformer
 	 */
 	protected static function transformJson($value)
 	{
+		$originalVal = $value;
 		if (is_string($value)) {
 			$value = json_decode($value, true);
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				$value = $originalVal;
+			}
 		}
 
 		if (static::optionJsonAlwaysArray()) {

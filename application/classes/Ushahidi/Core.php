@@ -265,6 +265,7 @@ abstract class Ushahidi_Core {
 			'post',
 			'layer',
 			'tag',
+			'set',
 		] as $name)
 		{
 			$di->setter['Ushahidi_Repository_' . Text::ucfirst($name, '_')]['setTranscoder'] =
@@ -353,7 +354,8 @@ abstract class Ushahidi_Core {
 			'repo' => $di->lazyGet('repository.message'),
 		];
 		$di->params['Ushahidi_Validator_Set_Create'] = [
-				'repo' => $di->lazyGet('repository.user'),
+			'repo' => $di->lazyGet('repository.user'),
+			'role_repo' => $di->lazyGet('repository.role'),
 		];
 
 		$di->set('validator.post.datetime', $di->lazyNew('Ushahidi_Validator_Post_Datetime'));
