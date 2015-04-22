@@ -13,4 +13,7 @@ return [
 	'scalar' => 'Post values for :param1 must be scalar',
 	'doesTranslationExist' => 'Translation :value for post :param2 already exists',
 	'isSlugAvailable' => ':field :value is already in use',
+	'published_to' => [
+		'exists' => 'The role you are publishing to ":value" does not exist'
+	]
 ];

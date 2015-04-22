@@ -71,7 +71,7 @@ class Post extends StaticEntity
 			'locale'          => '*lowercasestring',
 			'values'          => 'array',
 			'tags'            => 'array',
-			'published_to'	=> '*json',
+			'published_to'    => '*json',
 		];
 	}
 

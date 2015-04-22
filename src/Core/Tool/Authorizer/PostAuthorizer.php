@@ -64,7 +64,7 @@ class PostAuthorizer implements Authorizer
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
-				
+
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)
 		if ($this->isUserAdmin($user)) {
@@ -103,7 +103,7 @@ class PostAuthorizer implements Authorizer
 		if ($privilege === 'read' && ! $entity->getId()) {
 			return true;
 		}
-		
+
 		// We check if the user is the owner of this post. If so, they are allowed
 		// to do almost anything, **except** change ownership of the post, which
 		// only admins can do.
@@ -114,7 +114,7 @@ class PostAuthorizer implements Authorizer
 		// If no other access checks succeed, we default to denying access
 		return false;
 	}
-	
+
 	protected function isPostPublishedToUser(Entity $entity, $user)
 	{
 		if ($entity->status === 'published' && $this->isUserOfRole($entity, $user)) {
