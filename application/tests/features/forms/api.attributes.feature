@@ -6,7 +6,7 @@ Feature: Testing the Form Attributes API
         And that the request "data" is:
             """
             {
-                "form_group":1,
+                "form_stage":1,
                 "key":"new",
                 "label":"Full Name",
                 "type":"varchar",
@@ -23,12 +23,12 @@ Feature: Testing the Form Attributes API
         And the type of the "id" property is "numeric"
         Then the guzzle status code should be 200
 
-    Scenario: Creating a new Attribute on a non-existent Group
+    Scenario: Creating a new Attribute on a non-existent Stage
         Given that I want to make a new "Attribute"
         And that the request "data" is:
             """
             {
-                "form_group":35,
+                "form_stage":35,
                 "key":"new",
                 "label":"Full Name",
                 "type":"varchar",
@@ -42,12 +42,12 @@ Feature: Testing the Form Attributes API
         And the response has a "errors" property
         Then the guzzle status code should be 404
 
-    Scenario: Creating a new Attribute on a Group with the wrong Form ID
+    Scenario: Creating a new Attribute on a Stage with the wrong Form ID
         Given that I want to make a new "Attribute"
         And that the request "data" is:
             """
             {
-                "form_group":1,
+                "form_stage":1,
                 "key":"some_key",
                 "label":"Hey a Thing",
                 "type":"varchar",
@@ -66,7 +66,7 @@ Feature: Testing the Form Attributes API
         And that the request "data" is:
             """
             {
-                "form_group":1,
+                "form_stage":1,
                 "key":"value_test",
                 "label":"Value test",
                 "type":"varchar",

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Verify Form Group Exists for Usecase
+ * Ushahidi Platform Verify Form Stage Exists for Usecase
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,25 +13,25 @@ namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormGroupRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
 use Ushahidi\Core\Exception\NotFoundException;
 
-trait VerifyGroupLoaded
+trait VerifyStageLoaded
 {
 	/**
 	 * @var FormRepository
 	 */
-	protected $form_group_repo;
+	protected $form_stage_repo;
 
 	/**
-	 * @param  FormGroupRepository $repo
+	 * @param  FormStageRepository $repo
 	 * @return void
 	 */
-	public function setGroupRepository(FormGroupRepository $repo)
+	public function setStageRepository(FormStageRepository $repo)
 	{
-		$this->form_group_repo = $repo;
+		$this->form_stage_repo = $repo;
 	}
 
 	/**
@@ -39,18 +39,18 @@ trait VerifyGroupLoaded
 	 * @param  Data $input
 	 * @return void
 	 */
-	protected function verifyGroupExists(FormAttribute $entity)
+	protected function verifyStageExists(FormAttribute $entity)
 	{
-		// Ensure that the group exists.
-		$group = $this->form_group_repo->get($entity->form_group_id);
-		$this->verifyEntityLoaded($group, ['form_group_id' => $entity->form_group_id]);
+		// Ensure that the stage exists.
+		$stage = $this->form_stage_repo->get($entity->form_stage_id);
+		$this->verifyEntityLoaded($stage, ['form_stage_id' => $entity->form_stage_id]);
 
 		$expected_form_id = (int) $this->getRequiredIdentifier('form_id');
 
-		if ($group->form_id !== $expected_form_id) {
+		if ($stage->form_id !== $expected_form_id) {
 			throw new \InvalidArgumentException(sprintf(
-				'Invalid form group used, group %d is not in form %d',
-				$entity->form_group_id,
+				'Invalid form stage used, stage %d is not in form %d',
+				$entity->form_stage_id,
 				$expected_form_id
 			));
 		}

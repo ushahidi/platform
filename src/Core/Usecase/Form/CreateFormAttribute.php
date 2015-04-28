@@ -17,8 +17,8 @@ use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
 class CreateFormAttribute extends CreateUsecase
 {
-	// - VerifyGroupLoaded for checking that the group exists
-	use VerifyGroupLoaded;
+	// - VerifyStageLoaded for checking that the stage exists
+	use VerifyStageLoaded;
 
 	// For form check:
 	// - IdentifyRecords
@@ -30,7 +30,7 @@ class CreateFormAttribute extends CreateUsecase
 	protected function getEntity()
 	{
 		$entity = parent::getEntity();
-		$this->verifyGroupExists($entity);
+		$this->verifyStageExists($entity);
 		return $entity;
 	}
 }

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API Formatter for Form Group
+ * Ushahidi API Formatter for Form Stage
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -11,7 +11,7 @@
 
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
-class Ushahidi_Formatter_Form_Group extends Ushahidi_Formatter_API
+class Ushahidi_Formatter_Form_Stage extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
 }

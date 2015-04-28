@@ -22,17 +22,16 @@ class FormAttribute extends StaticEntity
 	protected $type;
 	protected $required;
 	protected $default;
-	// @todo move this. priority is really on a property of an attribute *in* a group
 	protected $priority;
 	protected $options = [];
 	protected $cardinality;
-	protected $form_group_id;
+	protected $form_stage_id;
 
 	// StatefulData
 	protected function getDerived()
 	{
 		return [
-			'form_group_id' => ['form_group', 'form_group.id'], /* alias */
+			'form_stage_id' => ['form_stage', 'form_stage.id'], /* alias */
 		];
 	}
 
@@ -50,8 +49,8 @@ class FormAttribute extends StaticEntity
 			'priority'      => 'int',
 			'options'       => '*json',
 			'cardinality'   => 'int',
-			'form_group'    => false, /* alias */
-			'form_group_id' => 'int',
+			'form_stage'    => false, /* alias */
+			'form_stage_id' => 'int',
 		];
 	}
 

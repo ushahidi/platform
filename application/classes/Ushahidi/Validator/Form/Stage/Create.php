@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Form Group Validator
+ * Ushahidi Form Stage Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -11,9 +11,9 @@
 
 use Ushahidi\Core\Entity;
 
-class Ushahidi_Validator_Form_Group_Create extends Ushahidi_Validator_Form_Group_Update
+class Ushahidi_Validator_Form_Stage_Create extends Ushahidi_Validator_Form_Stage_Update
 {
-	protected $default_error_source = 'form_group';
+	protected $default_error_source = 'form_stage';
 
 	protected function getRules()
 	{

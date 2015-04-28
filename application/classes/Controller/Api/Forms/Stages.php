@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Controller_API_Forms_Groups extends Ushahidi_Rest {
+class Controller_API_Forms_Stages extends Ushahidi_Rest {
 
 	protected function _scope()
 	{
@@ -18,7 +18,7 @@ class Controller_API_Forms_Groups extends Ushahidi_Rest {
 
 	protected function _resource()
 	{
-		return 'form_groups';
+		return 'form_stages';
 	}
 
 	// Ushahidi_Rest

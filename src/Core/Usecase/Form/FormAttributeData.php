@@ -25,6 +25,6 @@ class FormAttributeData extends Data
 	public $priority;
 	public $options;
 	public $cardinality;
-	public $form_group_id;
+	public $form_stage_id;
 	public $form_id;
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Form Group
+ * Ushahidi Form Stage
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class FormGroup extends StaticEntity
+class FormStage extends StaticEntity
 {
 	protected $id;
 	protected $form_id;
@@ -36,6 +36,6 @@ class FormGroup extends StaticEntity
 	// Entity
 	public function getResource()
 	{
-		return 'form_groups';
+		return 'form_stages';
 	}
 }

@@ -62,8 +62,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 		if ($search->form_id) {
 			$query
-				->join('form_groups', 'INNER')->on('form_groups.id', '=', 'form_attributes.form_group_id')
-				->where('form_groups.form_id', '=', $search->form_id);
+				->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+				->where('form_stages.form_id', '=', $search->form_id);
 		}
 	}
 
@@ -92,8 +92,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 		$result = $this->selectQuery($where)
 			->select('form_attributes.*')
-			->join('form_groups', 'INNER')
-				->on('form_groups.id', '=', 'form_attributes.form_group_id')
+			->join('form_stages', 'INNER')
+				->on('form_stages.id', '=', 'form_attributes.form_stage_id')
 			->limit(1)
 			->execute($this->db);
 		return $this->getEntity($result->current());
@@ -113,11 +113,11 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	public function getByForm($form_id)
 	{
 		$query = $this->selectQuery([
-				'form_groups.form_id' => $form_id,
+				'form_stages.form_id' => $form_id,
 			])
 			->select('form_attributes.*')
-			->join('form_groups', 'INNER')
-				->on('form_groups.id', '=', 'form_attributes.form_group_id');
+			->join('form_stages', 'INNER')
+				->on('form_stages.id', '=', 'form_attributes.form_stage_id');
 
 		$results = $query->execute($this->db);
 
@@ -128,12 +128,12 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	public function getRequired($form_id)
 	{
 		$query = $this->selectQuery([
-				'form_groups.form_id'  => $form_id,
+				'form_stages.form_id'  => $form_id,
 				'required' => true
 			])
 			->select('form_attributes.*')
-			->join('form_groups', 'INNER')
-				->on('form_groups.id', '=', 'form_attributes.form_group_id');
+			->join('form_stages', 'INNER')
+				->on('form_stages.id', '=', 'form_attributes.form_stage_id');
 
 		$results = $query->execute($this->db);
 

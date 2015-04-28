@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Form Group Authorizer
+ * Ushahidi Form Stage Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -16,8 +16,8 @@ use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\UserContext;
 
-// The `FormGroupAuthorizer` class is responsible for access checks on `Forms`
-class FormGroupAuthorizer implements Authorizer
+// The `FormStageAuthorizer` class is responsible for access checks on `Forms`
+class FormStageAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -42,7 +42,7 @@ class FormGroupAuthorizer implements Authorizer
 	{
 		$form = $this->getForm($entity);
 
-		// All access is based on the form itself, not the group.
+		// All access is based on the form itself, not the stage.
 		return $this->form_auth->isAllowed($form, $privilege);
 	}
 
@@ -51,12 +51,12 @@ class FormGroupAuthorizer implements Authorizer
 	{
 		$form = $this->getForm($entity);
 
-		// All access is based on the form itself, not the group.
+		// All access is based on the form itself, not the stage.
 		return $this->form_auth->getAllowedPrivs($form);
 	}
 
 	/**
-	 * Get the form associated with this group.
+	 * Get the form associated with this stage.
 	 * @param  Entity $entity
 	 * @return Form
 	 */

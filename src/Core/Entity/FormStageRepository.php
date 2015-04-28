@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Read Form Group Use Case
+ * Repository for Form Stages
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,12 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Form;
+namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Usecase\ReadUsecase;
+use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityExists;
 
-class ReadFormGroup extends ReadUsecase
+interface FormStageRepository extends
+    EntityGet,
+    EntityExists
 {
-	// - VerifyFormLoaded for checking that the form exists
-	use VerifyFormLoaded;
+
 }

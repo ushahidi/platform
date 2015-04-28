@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Create Form Group Use Case
+ * Ushahidi Platform Search Form Stage Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,11 +11,11 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Core\Usecase\CreateUsecase;
+use Ushahidi\Core\Usecase\SearchUsecase;
 use Ushahidi\Core\Traits\IdentifyRecords;
 use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
-class CreateFormGroup extends CreateUsecase
+class SearchFormStage extends SearchUsecase
 {
 	// - VerifyFormLoaded for checking that the form exists
 	use VerifyFormLoaded;
@@ -25,12 +25,4 @@ class CreateFormGroup extends CreateUsecase
 	// - VerifyEntityLoaded
 	use IdentifyRecords,
 		VerifyEntityLoaded;
-
-	// CreateUsecase
-	protected function getEntity()
-	{
-		return parent::getEntity()->setState([
-			'form_id' => $this->getRequiredIdentifier('form_id'),
-		]);
-	}
 }

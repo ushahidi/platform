@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Form Group Search Data
+ * Ushahidi Platform Form Stage Search Data
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -15,7 +15,7 @@ use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\Data\SortableData;
 
-class SearchFormGroupData extends SearchData
+class SearchFormStageData extends SearchData
 {
 	use SortableData;
 

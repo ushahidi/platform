@@ -415,9 +415,9 @@ class Task_Ushahidi_Import2x extends Minion_Task {
 	protected function _clean_db($dest_username)
 	{
 		DB::query(Database::UPDATE, "SET FOREIGN_KEY_CHECKS=0;")->execute();
-		// Forms, Attributes, Groups
+		// Forms, Attributes, Stages
 		DB::query(Database::DELETE, "TRUNCATE TABLE forms")->execute();
-		DB::query(Database::DELETE, "TRUNCATE TABLE form_groups")->execute();
+		DB::query(Database::DELETE, "TRUNCATE TABLE form_stages")->execute();
 		DB::query(Database::DELETE, "TRUNCATE TABLE form_attributes")->execute();
 		// Posts & field values
 		DB::query(Database::DELETE, "TRUNCATE TABLE posts")->execute();

@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\FormGroupRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\UserContext;
 
@@ -23,48 +23,48 @@ class FormAttributeAuthorizer implements Authorizer
 	// The access checks are run under the context of a specific user
 	use UserContext;
 
-	// It requires a `FormGroupRepository` to load the owning form.
-	protected $group_repo;
+	// It requires a `FormStageRepository` to load the owning form.
+	protected $stage_repo;
 
-	// It requires a `FormGroupAuthorizer` to check privileges against the owning form.
-	protected $group_auth;
+	// It requires a `FormStageAuthorizer` to check privileges against the owning form.
+	protected $stage_auth;
 
 	/**
-	 * @param FormGroupRepository $group_repo
-	 * @param FormGroupAuthorizer $group_auth
+	 * @param FormstageRepository $stage_repo
+	 * @param FormstageAuthorizer $stage_auth
 	 */
-	public function __construct(FormGroupRepository $group_repo, FormGroupAuthorizer $group_auth)
+	public function __construct(FormStageRepository $stage_repo, FormStageAuthorizer $stage_auth)
 	{
-		$this->group_repo = $group_repo;
-		$this->group_auth = $group_auth;
+		$this->stage_repo = $stage_repo;
+		$this->stage_auth = $stage_auth;
 	}
 
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
-		$group = $this->getFormGroup($entity);
+		$stage = $this->getFormStage($entity);
 
-		// All access is based on the group, not the attribute
-		return $this->group_auth->isAllowed($group, $privilege);
+		// All access is based on the stage, not the attribute
+		return $this->stage_auth->isAllowed($stage, $privilege);
 	}
 
 	/* Authorizer */
 	public function getAllowedPrivs(Entity $entity)
 	{
-		$group = $this->getFormGroup($entity);
+		$stage = $this->getFormStage($entity);
 
-		// All access is based on the group, not the attribute
-		return $this->group_auth->getAllowedPrivs($group);
+		// All access is based on the stage, not the attribute
+		return $this->stage_auth->getAllowedPrivs($stage);
 	}
 
 	/**
-	 * Get the form associated with this group.
+	 * Get the form associated with this stage.
 	 * @param  Entity $entity
 	 * @return Form
 	 */
-	protected function getFormGroup(Entity $entity)
+	protected function getFormStage(Entity $entity)
 	{
-		return $this->group_repo->get($entity->form_group_id);
+		return $this->stage_repo->get($entity->form_stage_id);
 	}
 }
 

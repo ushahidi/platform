@@ -11,12 +11,12 @@
 
 class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 	/**
-	 * An attribute belongs to one form_group
+	 * An attribute belongs to one form_stage
 	 *
 	 * @var array Relationships
 	 */
 	protected $_belongs_to = [
-		'form_group' => []
+		'form_stage' => []
 	];
 
 	protected $_serialize_columns = array('options', 'default');
@@ -98,7 +98,7 @@ class Model_Form_Attribute extends ORM implements Acl_Resource_Interface {
 			'form_id' => array(
 				array('digit'),
 			),
-			'form_group_id' => array(
+			'form_stage_id' => array(
 				array('digit'),
 			),
 			'key' => array(

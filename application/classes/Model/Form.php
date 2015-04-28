@@ -15,14 +15,14 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 	use Ushahidi_SoftDelete;
 
 	/**
-	 * A form has many groups
+	 * A form has many stages
 	 * A form has and belongs to many attributes
 	 * A form has many [children] forms
 	 *
 	 * @var array Relationships
 	 */
 	protected $_has_many = array(
-		'form_groups' => array(),
+		'form_stages' => array(),
 		'posts' => array(),
 
 		'children' => array(
@@ -85,7 +85,7 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 
 	/**
 	 * Prepare form data for API, along with all its
-	 * groups and attributes
+	 * stages and attributes
 	 *
 	 * @return array $response - array to be returned by API (as json)
 	 */
@@ -110,9 +110,9 @@ class Model_Form extends ORM implements Acl_Resource_Interface {
 				'groups' => array()
 				);
 
-			foreach ($this->form_groups->find_all() as $group)
+			foreach ($this->form_stages->find_all() as $stages)
 			{
-				$response['groups'][] = $group->for_api();
+				$response['stages'][] = $stage->for_api();
 			}
 		}
 		else

@@ -65,7 +65,7 @@ return array(
 		'media'              => NULL,
 		'forms'              => NULL,
 		'form_attributes'    => NULL,
-		'form_groups'        => NULL,
+		'form_stages'        => NULL,
 		'users'              => NULL,
 		'messages'           => NULL,
 		'dataproviders'      => NULL,
@@ -154,9 +154,9 @@ return array(
 				'privilege' => array('get'),
 				'assertion' => array('Acl_Assert_RelationAllowed', array('parent'))
 			),
-			'GuestCanViewFormGroups' => array(
+			'GuestCanViewFormStages' => array(
 				'role'      => 'guest',
-				'resource'  => array('form_groups'),
+				'resource'  => array('form_stages'),
 				'privilege' => array('get'),
 				'assertion' => array('Acl_Assert_RelationAllowed', array('form'))
 			),

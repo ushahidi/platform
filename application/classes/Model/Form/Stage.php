@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Model for Form_Groups
+ * Model for Form_Stages
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Models
@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Model_Form_Group extends ORM implements Acl_Resource_Interface {
+class Model_Form_Stage extends ORM implements Acl_Resource_Interface {
 	/**
-	 * A form_group has and belongs to many attributes
+	 * A form_stage has and belongs to many attributes
 	 *
 	 * @var array Relationships
 	 */
@@ -22,7 +22,7 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 	];
 
 	/**
-	 * A form_group belongs to a form
+	 * A form_stage belongs to a form
 	 *
 	 * @var array Relationships
 	 */
@@ -103,6 +103,6 @@ class Model_Form_Group extends ORM implements Acl_Resource_Interface {
 	 */
 	public function get_resource_id()
 	{
-		return 'form_groups';
+		return 'form_stages';
 	}
 }

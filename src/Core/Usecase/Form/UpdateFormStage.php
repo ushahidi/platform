@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Update Form Group Use Case
+ * Ushahidi Platform Update Form Stage Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\UpdateUsecase;
 
-class UpdateFormGroup extends UpdateUsecase
+class UpdateFormStage extends UpdateUsecase
 {
 	// - VerifyFormLoaded for checking that the form exists
 	use VerifyFormLoaded;

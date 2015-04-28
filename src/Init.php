@@ -82,7 +82,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'dataproviders'   => $di->lazyGet('authorizer.dataprovider'),
 	'forms'           => $di->lazyGet('authorizer.form'),
 	'form_attributes' => $di->lazyGet('authorizer.form_attribute'),
-	'form_groups'     => $di->lazyGet('authorizer.form_group'),
+	'form_stages'     => $di->lazyGet('authorizer.form_stage'),
 	'tags'            => $di->lazyGet('authorizer.tag'),
 	'layers'          => $di->lazyGet('authorizer.layer'),
 	'media'           => $di->lazyGet('authorizer.media'),
@@ -102,7 +102,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'dataproviders'   => $di->lazyGet('repository.dataprovider'),
 	'forms'           => $di->lazyGet('repository.form'),
 	'form_attributes' => $di->lazyGet('repository.form_attribute'),
-	'form_groups'     => $di->lazyGet('repository.form_group'),
+	'form_stages'     => $di->lazyGet('repository.form_stage'),
 	'layers'          => $di->lazyGet('repository.layer'),
 	'media'           => $di->lazyGet('repository.media'),
 	'messages'        => $di->lazyGet('repository.message'),
@@ -172,12 +172,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormAttribute'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormAttribute'),
 ];
-$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_groups'] = [
-	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormGroup'),
-	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormGroup'),
-	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormGroup'),
-	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormGroup'),
-	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormGroup'),
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormStage'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormStage'),
+	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormStage'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormStage'),
+	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormStage'),
 ];
 
 // Media create requires file uploading as part of the payload.
@@ -219,7 +219,7 @@ $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->l
 // Traits
 $di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
-$di->setter['Ushahidi\Core\Usecase\Form\VerifyGroupLoaded']['setGroupRepository'] = $di->lazyGet('repository.form_group');
+$di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository'] = $di->lazyGet('repository.form_stage');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
@@ -236,11 +236,11 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormAuthorizer'] = [
 	];
 $di->set('authorizer.form_attribute', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAttributeAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\FormAttributeAuthorizer'] = [
-	'group_repo' => $di->lazyGet('repository.form_group'),
-	'group_auth' => $di->lazyGet('authorizer.form_group'),
+	'stage_repo' => $di->lazyGet('repository.form_stage'),
+	'stage_auth' => $di->lazyGet('authorizer.form_stage'),
 	];
-$di->set('authorizer.form_group', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'));
-$di->params['Ushahidi\Core\Tool\Authorizer\FormGroupAuthorizer'] = [
+$di->set('authorizer.form_stage', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'));
+$di->params['Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),
 	'form_auth' => $di->lazyGet('authorizer.form'),
 	];

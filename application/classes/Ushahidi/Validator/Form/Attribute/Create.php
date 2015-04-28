@@ -24,7 +24,7 @@ class Ushahidi_Validator_Form_Attribute_Create extends Ushahidi_Validator_Form_A
             'label' => [
                 ['not_empty'],
             ],
-            'form_group_id' => [
+            'form_stage_id' => [
                 ['not_empty'],
             ],
         ]);

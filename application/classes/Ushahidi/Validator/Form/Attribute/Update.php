@@ -15,11 +15,11 @@ use Ushahidi\Core\Tool\Validator;
 class Ushahidi_Validator_Form_Attribute_Update extends Validator
 {
     protected $valid;
-    protected $form_group_repo;
+    protected $form_stage_repo;
 
-    public function __construct(Ushahidi_Repository_Form_Group $form_group_repo)
+    public function __construct(Ushahidi_Repository_Form_Stage $form_stage_repo)
     {
-        $this->form_group_repo = $form_group_repo;
+        $this->form_stage_repo = $form_stage_repo;
     }
 
     protected function getRules()
@@ -67,10 +67,10 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
             'cardinality' => [
                 ['digit'],
             ],
-            'form_group_id' => [
+            'form_stage_id' => [
                 ['digit'],
-                [[$this->form_group_repo, 'exists'], [':value']],
-                [[$this, 'formGroupBelongsToForm'], [':value']],
+                [[$this->form_stage_repo, 'exists'], [':value']],
+                [[$this, 'formStageBelongsToForm'], [':value']],
             ],
             'form_id' => [
                 ['digit'],
@@ -78,14 +78,14 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
         ];
     }
 
-     public function formGroupBelongsToForm($value)
+     public function formStageBelongsToForm($value)
     {
         // don't check against nonexistant data
         if (!$value || !isset($this->valid['form_id'])) {
             return true;
         }
 
-        $group = $this->form_group_repo->get($value);
+        $group = $this->form_stage_repo->get($value);
         return ($group->form_id == $this->valid['form_id']);
     }
 }

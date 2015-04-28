@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Delete Form Group Use Case
+ * Ushahidi Platform Delete Form Stage Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\DeleteUsecase;
 
-class DeleteFormGroup extends DeleteUsecase
+class DeleteFormStage extends DeleteUsecase
 {
 	// - VerifyFormLoaded for checking that the form exists
 	use VerifyFormLoaded;

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Form Group Repository
+ * Ushahidi Form Stage Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -11,23 +11,23 @@
 
 use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\FormGroup;
-use Ushahidi\Core\Entity\FormGroupRepository;
+use Ushahidi\Core\Entity\FormStage;
+use Ushahidi\Core\Entity\FormStageRepository;
 
-class Ushahidi_Repository_Form_Group extends Ushahidi_Repository implements
-	FormGroupRepository
+class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
+	FormStageRepository
 {
 	// Ushahidi_Repository
 	protected function getTable()
 	{
-		return 'form_groups';
+		return 'form_stages';
 	}
 
 	// CreateRepository
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		return new FormGroup($data);
+		return new FormStage($data);
 	}
 
 	// SearchRepository
