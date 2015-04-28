@@ -129,7 +129,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	{
 		$query = $this->selectQuery([
 				'form_stages.form_id'  => $form_id,
-				'required' => true
+				'form_attributes.required' => true
 			])
 			->select('form_attributes.*')
 			->join('form_stages', 'INNER')
