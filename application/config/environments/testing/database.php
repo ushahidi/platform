@@ -15,7 +15,7 @@ return array
 	(
 		'type'       => 'MySQLi',
 		'connection' => array(
-			'hostname'   => 'localhost',
+			'hostname'   => '127.0.0.1',
 			'database'   => 'platform_test',
 			'username'   => 'root',
 			'password'   => '',
@@ -30,7 +30,7 @@ return array
 	(
 		'type'       => 'MySQLi',
 		'connection' => array(
-			'hostname'   => 'localhost',
+			'hostname'   => '127.0.0.1',
 			'database'   => 'zombie2x',
 			'username'   => 'root',
 			'password'   => '',
