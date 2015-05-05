@@ -32,6 +32,7 @@ class Post extends StaticEntity
 	protected $values;
 	protected $tags;
 	protected $published_to;
+	protected $completed_stages;
 
 	// StatefulData
 	protected function getDerived()
@@ -72,6 +73,7 @@ class Post extends StaticEntity
 			'values'          => 'array',
 			'tags'            => 'array',
 			'published_to'    => '*json',
+			'completed_stages'=> 'array',
 		];
 	}
 

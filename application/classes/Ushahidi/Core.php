@@ -281,6 +281,7 @@ abstract class Ushahidi_Core {
 			];
 		$di->params['Ushahidi_Repository_Post'] = [
 				'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
+				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox'),
 				'tag_repo' => $di->lazyGet('repository.tag')
@@ -315,11 +316,12 @@ abstract class Ushahidi_Core {
 
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
-		
+
 		// Dependencies of validators
 		$di->params['Ushahidi_Validator_Post_Create'] = [
 			'repo' => $di->lazyGet('repository.post'),
 			'attribute_repo' => $di->lazyGet('repository.form_attribute'),
+			'stage_repo' => $di->lazyGet('repository.form_stage'),
 			'tag_repo' => $di->lazyGet('repository.tag'),
 			'user_repo' => $di->lazyGet('repository.user'),
 			'form_repo' => $di->lazyGet('repository.form'),

@@ -125,15 +125,13 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	}
 
 	// FormAttributeRepository
-	public function getRequired($form_id)
+	public function getRequired($stage_id)
 	{
 		$query = $this->selectQuery([
-				'form_stages.form_id'  => $form_id,
+				'form_attributes.form_stage_id'  => $stage_id,
 				'form_attributes.required' => true
 			])
-			->select('form_attributes.*')
-			->join('form_stages', 'INNER')
-				->on('form_stages.id', '=', 'form_attributes.form_stage_id');
+			->select('form_attributes.*');
 
 		$results = $query->execute($this->db);
 

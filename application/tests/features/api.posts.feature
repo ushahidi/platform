@@ -32,7 +32,8 @@ Feature: Testing the Posts API
 						"http://facebook.com"
 					]
 				},
-				"tags":["explosion"]
+				"tags":["explosion"],
+				"completed_stages":[1]
 			}
 			"""
 		When I request "/posts"
@@ -45,6 +46,7 @@ Feature: Testing the Posts API
 		And the "values.last_location_point.0.lat" property equals "33.755"
 		And the "values.geometry_test" property contains "POLYGON((0 0,1 1,2 2,0 0))"
 		And the "values.links.0" property equals "http://google.com"
+		And the "completed_stages" property contains "1"
 		Then the guzzle status code should be 200
 
 	@create
@@ -114,7 +116,8 @@ Feature: Testing the Posts API
 					"date_of_birth":[],
 					"missing_date":["2012/09/25"],
 					"missing_status":["believed_missing"]
-				}
+				},
+				"completed_stages":[1]
 			}
 			"""
 		When I request "/posts"

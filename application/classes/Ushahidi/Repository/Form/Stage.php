@@ -50,4 +50,33 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 			$query->where('label', 'LIKE', "%{$search->q}%");
 		}
 	}
+
+	// FormStageRepository
+	public function getByForm($form_id)
+	{
+		$query = $this->selectQuery(compact($form_id));
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
+	// FormStageRepository
+	public function existsInForm($id, $form_id)
+	{
+		return (bool) $this->selectCount(compact('id', 'form_id'));
+	}
+
+	// FormStageRepository
+	public function getRequired($form_id)
+	{
+		$query = $this->selectQuery([
+				'form_stages.form_id'  => $form_id,
+				'form_stages.required' => true
+			])
+			->select('form_stages.*');
+
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
 }

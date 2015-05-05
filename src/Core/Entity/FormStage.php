@@ -20,6 +20,7 @@ class FormStage extends StaticEntity
 	protected $label;
 	protected $priority;
 	protected $icon;
+	protected $required;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -30,6 +31,7 @@ class FormStage extends StaticEntity
 			'label'    => 'string',
 			'priority' => 'int',
 			'icon'     => 'string',
+			'required' => 'boolean'
 		];
 	}
 

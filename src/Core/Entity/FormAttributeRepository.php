@@ -38,8 +38,8 @@ interface FormAttributeRepository extends
 	public function getAll();
 
 	/**
-	 * @param  int $form_id
+	 * @param  int $stage_id
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
 	 */
-	public function getRequired($form_id);
+	public function getRequired($stage_id);
 }

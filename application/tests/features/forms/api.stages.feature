@@ -7,13 +7,17 @@ Feature: Testing the Form Stages API
             """
             {
                 "label":"First Stage",
-                "priority": 1
+                "priority": 1,
+                "required": 1
             }
             """
         When I request "/forms/1/stages"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the "label" property equals "First Stage"
+        And the "priority" property equals "1"
+        And the "required" property equals "1"
         Then the guzzle status code should be 200
 
     Scenario: Creating a new Stage with a non-existent Form

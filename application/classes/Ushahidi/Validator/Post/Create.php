@@ -11,6 +11,7 @@
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\RoleRepository;
@@ -22,6 +23,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 {
 	protected $repo;
 	protected $attribute_repo;
+	protected $stage_repo;
 	protected $tag_repo;
 	protected $user_repo;
 	protected $post_value_factory;
@@ -44,6 +46,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	public function __construct(
 		UpdatePostRepository $repo,
 		FormAttributeRepository $attribute_repo,
+		FormStageRepository $stage_repo,
 		UpdatePostTagRepository $tag_repo,
 		UserRepository $user_repo,
 		FormRepository $form_repo,
@@ -53,6 +56,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	{
 		$this->repo = $repo;
 		$this->attribute_repo = $attribute_repo;
+		$this->stage_repo = $stage_repo;
 		$this->tag_repo = $tag_repo;
 		$this->user_repo = $user_repo;
 		$this->form_repo = $form_repo;
@@ -66,6 +70,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		$input = $this->validation_engine->getData();
 		$parent_id = isset($input['parent_id']) ? $input['parent_id'] : null;
 		$type = isset($input['type']) ? $input['type'] : null;
+		$form_id = isset($input['form_id']) ? $input['form_id'] : null;
 
 		return [
 			'title' => [
@@ -93,6 +98,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'values' => [
 				[[$this, 'checkValues'], [':validation', ':value', ':data']],
+				[[$this, 'checkRequiredAttributes'], [':validation', ':value', ':data']],
 			],
 			'tags' => [
 				[[$this, 'checkTags'], [':validation', ':value']],
@@ -123,6 +129,10 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'published_to' => [
 				[[$this->role_repo, 'exists'], [':value']],
+			],
+			'completed_stages' => [
+				[[$this, 'checkStageInForm'], [':validation', ':value', ':data']],
+				[[$this, 'checkRequiredStages'], [':validation', ':value', ':data']]
 			]
 		];
 	}
@@ -144,7 +154,8 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 	public function checkValues(Validation $validation, $attributes, $data)
 	{
-		if (!$attributes) {
+		if (!$attributes)
+		{
 			return;
 		}
 
@@ -172,27 +183,101 @@ class Ushahidi_Validator_Post_Create extends Validator
 			// Run checks on individual values type specific validation
 			if ($validator = $this->post_value_validator_factory->getValidator($attribute->type))
 			{
-				if (!is_array($values)) {
+				if (!is_array($values))
+				{
 					$validation->error('values', 'notAnArray', [$key]);
 				}
-				elseif ($error = $validator->check($values)) {
+				elseif ($error = $validator->check($values))
+				{
 					$validation->error('values', $error, [$key]);
 				}
 			}
 		}
-
-		// Validate required attributes
-		$this->checkRequiredAttributes($validation, $attributes, $data);
 	}
 
-	protected function checkRequiredAttributes(Validation $validation, $attributes, $data)
+	/**
+	 * Check completed stages actually exist in form
+	 *
+	 * @param  Validation $validation
+	 * @param  Array      $attributes
+	 * @param  Array      $data
+	 */
+	public function checkStageInForm(Validation $validation, $completed_stages, $data)
 	{
-		$required_attributes = $this->attribute_repo->getRequired($data['form_id']);
-		foreach ($required_attributes as $attr)
+		if (!$completed_stages)
 		{
-			if (!array_key_exists($attr->key, $attributes))
+			return;
+		}
+
+		foreach ($completed_stages as $stage_id)
+		{
+			// Check stage exists in form
+			if (! $this->stage_repo->existsInForm($stage_id, $data['form_id']))
 			{
-				$validation->error('values', 'attributeRequired', [$attr->key]);
+				$validation->error('completed_stages', 'stageDoesNotExist', [$stage_id]);
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Check required stages are completed before publishing
+	 *
+	 * @param  Validation $validation
+	 * @param  Array      $attributes
+	 * @param  Array      $data
+	 */
+	public function checkRequiredStages(Validation $validation, $completed_stages, $data)
+	{
+		$completed_stages = $completed_stages ? $completed_stages : [];
+
+		// If post is being published
+		if ($data['status'] === 'published')
+		{
+			// Load the required stages
+			$required_stages = $this->stage_repo->getRequired($data['form_id']);
+			foreach ($required_stages as $stage)
+			{
+				// Check the required stages have been completed
+				if (in_array($stage->id, $completed_stages))
+				{
+					// If its not completed, add a validation error
+					$validation->error('completed_stages', 'stageRequired', [$stage->label]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Check required attributes are completed before completing stages
+	 *
+	 * @param  Validation $validation
+	 * @param  Array      $attributes
+	 * @param  Array      $data
+	 */
+	public function checkRequiredAttributes(Validation $validation, $attributes, $data)
+	{
+		if (empty($data['completed_stages']))
+		{
+			return;
+		}
+
+		// If a stage is being marked completed
+		// Check if the required attribute have been completed
+		foreach ($data['completed_stages'] as $stage_id)
+		{
+			// Load the required attributes
+			$required_attributes = $this->attribute_repo->getRequired($stage_id);
+
+			// Check each attribute has been completed
+			foreach ($required_attributes as $attr)
+			{
+				if (!array_key_exists($attr->key, $attributes))
+				{
+					$stage = $this->stage_repo->get($stage_id);
+					// If a required attribute isn't completed, throw an error
+					$validation->error('values', 'attributeRequired', [$attr->key, $stage->label]);
+				}
 			}
 		}
 	}

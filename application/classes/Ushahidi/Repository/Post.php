@@ -11,6 +11,7 @@
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository;
@@ -29,6 +30,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	UpdatePostRepository
 {
 	protected $form_attribute_repo;
+	protected $form_stage_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	protected $tag_repo;
@@ -48,12 +50,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	 * Construct
 	 * @param Database                              $db
 	 * @param FormAttributeRepository               $form_attribute_repo
+	 * @param FormStageRepository                   $form_stage_repo
 	 * @param Ushahidi_Repository_PostValueFactory  $post_value_factory
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
 	public function __construct(
 			Database $db,
 			FormAttributeRepository $form_attribute_repo,
+			FormStageRepository $form_stage_repo,
 			Ushahidi_Repository_PostValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory,
 			UpdatePostTagRepository $tag_repo
@@ -62,6 +66,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		parent::__construct($db);
 
 		$this->form_attribute_repo = $form_attribute_repo;
+		$this->form_stage_repo = $form_stage_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
 		$this->tag_repo = $tag_repo;
@@ -81,9 +86,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$data += [
 				'values' => $this->getPostValues($data['id']),
 				'tags'   => $this->getTagsForPost($data['id']),
+				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
 		}
-					
+
 		return new Post($data);
 	}
 
@@ -104,6 +110,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			}
 		}
 		return $output;
+	}
+
+	protected function getCompletedStagesForPost($id)
+	{
+		$result = DB::select('form_stage_id', 'completed')
+			->from('form_stages_posts')
+			->where('post_id', '=', $id)
+			->where('completed', '=', 1)
+			->execute($this->db);
+
+		return $result->as_array(NULL, 'form_stage_id');
 	}
 
 	// Ushahidi_Repository
@@ -532,7 +549,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// UpdateRepository
 	public function create(Entity $entity)
 	{
-		
+
 		$post = array_filter($this->json_transcoder->encode(
 				$entity->asArray(),
 				$this->json_properties
@@ -540,7 +557,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags']);
+		unset($post['values'], $post['tags'], $post['completed_stages']);
 
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
@@ -557,6 +574,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->updatePostValues($id, $entity->values);
 		}
 
+		if ($entity->completed_stages)
+		{
+			// Update post-stages
+			$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
+		}
+
 		return $id;
 	}
 
@@ -566,12 +589,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post = $this->json_transcoder->encode(
 			$entity->getChanged(),
 			$this->json_properties
-		);		
+		);
 		$post['updated'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags']);
-		
+		unset($post['values'], $post['tags'], $post['completed_stages']);
+
 		// Update the post
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
@@ -585,6 +608,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			// Update post-values
 			$this->updatePostValues($entity->id, $entity->values);
+		}
+
+		if ($entity->completed_stages)
+		{
+			// Update post-stages
+			$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
 		}
 
 		return $count;
@@ -649,5 +678,30 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->where('tag_id', 'NOT IN', $tag_ids)
 				->execute($this->db);
 		}
+	}
+
+	protected function updatePostStages($post_id, $form_id, $completed_stages)
+	{
+		// Remove any existing entries
+		DB::delete('form_stages_posts')
+			->where('post_id', '=', $post_id)
+			->execute($this->db);
+
+		$insert = DB::insert('form_stages_posts', ['form_stage_id', 'post_id', 'completed']);
+
+		// Get all stages for form
+		$form_stages = $this->form_stage_repo->getByForm($form_id);
+
+		foreach ($form_stages as $stage)
+		{
+			$insert->values([
+				$stage->id,
+				$post_id,
+				in_array($stage->id, $completed_stages) ? 1 : 0
+			]);
+		}
+
+		// Execute the insert
+		$insert->execute($this->db);
 	}
 }

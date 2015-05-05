@@ -6,7 +6,7 @@ return [
 	'tooManyValues' => 'Too many values for :param1 (max: :param2)',
 	'valueDoesNotExist' => 'value id :param2 for field :param1 does not exist',
 	'canNotUseExistingValueOnNewPost' => 'Cannot use existing value :param2 for field :param1 on a new post',
-	'attributeRequired' => 'attribute :param1 is required',
+	'attributeRequired' => 'attribute :param1 is required before stage ":param2" can be completed',
 	'emptyIdAndLocale' => 'Must have at least id or locale',
 	'emptyParentWithLocale' => 'Must have at parent id when passing locale',
 	'notAnArray' => 'Post values for :param1 must be an array',
@@ -15,5 +15,7 @@ return [
 	'isSlugAvailable' => ':field :value is already in use',
 	'published_to' => [
 		'exists' => 'The role you are publishing to ":value" does not exist'
-	]
+	],
+	'stageDoesNotExist' => 'Stage ":param1" does not exist',
+	'stageRequired' => 'Stage ":param1" is required before publishing'
 ];
