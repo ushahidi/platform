@@ -13,7 +13,7 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 
-class Ushahidi_Validator_Message_Create extends Validator
+class Ushahidi_Validator_Message_Receive extends Validator
 {
 	protected $repo;
 	protected $default_error_source = 'message';
@@ -28,7 +28,7 @@ class Ushahidi_Validator_Message_Create extends Validator
 		return [
 			'direction' => [
 				['not_empty'],
-				['in_array', [':value', [\Message_Direction::OUTGOING]]],
+				['in_array', [':value', [\Message_Direction::INCOMING]]],
 			],
 			'message' => [
 				['not_empty'],
@@ -52,9 +52,7 @@ class Ushahidi_Validator_Message_Create extends Validator
 			'status' => [
 				['not_empty'],
 				['in_array', [':value', [
-					// @todo this should be shared via repo
-					\Message_Status::PENDING,
-					\Message_Status::PENDING_POLL,
+					\Message_Status::RECEIVED,
 				]]],
 			],
 			'parent_id' => [

@@ -38,17 +38,27 @@ class MessageAuthorizer implements Authorizer
 		// These checks are run within the user context.
 		$user = $this->getUser();
 
+		// Incoming messages cannot be updated
+		if ($privilege === 'update' && $this->isMessageIncoming($entity)) {
+			return false;
+		}
+
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)
 		if ($this->isUserAdmin($user)) {
 			return true;
 		}
 
-		if ($this->isUserOwner($entity, $user)) {
+		if ($privilege === 'receive') {
 			return true;
 		}
 
 		// If no other access checks succeed, we default to denying access
 		return false;
+	}
+
+	protected function isMessageIncoming(Entity $entity)
+	{
+		return $entity->direction === 'incoming';
 	}
 }

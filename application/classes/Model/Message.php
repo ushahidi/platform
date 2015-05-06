@@ -113,7 +113,6 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 				array('in_array', array(':value', array(
 						Message_Status::PENDING,
 						Message_Status::PENDING_POLL,
-						Message_Status::ARCHIVED,
 						Message_Status::RECEIVED,
 						Message_Status::EXPIRED,
 						Message_Status::CANCELLED,
@@ -171,8 +170,8 @@ class Model_Message extends ORM implements Acl_Resource_Interface {
 	{
 		if ($this->direction == Message_Direction::INCOMING)
 		{
-			// Incoming messages can only be: received, archived
-			return in_array($value, array(Message_Status::RECEIVED, Message_Status::ARCHIVED));
+			// Incoming messages can only be: received
+			return (Message_Status::RECEIVED === $value);
 		}
 
 		if ($this->direction == Message_Direction::OUTGOING)

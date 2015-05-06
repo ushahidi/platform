@@ -20,6 +20,7 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 	{
 		$remap = [
 			'form_id' => 'form',
+			'message_id' => 'message',
 			];
 
 		if (isset($remap[$field])) {
@@ -32,6 +33,11 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 	protected function format_form_id($form_id)
 	{
 		return $this->get_relation('forms', $form_id);
+	}
+
+	protected function format_message_id($form_id)
+	{
+		return $this->get_relation('messages', $form_id);
 	}
 
 	protected function format_tags($tags)

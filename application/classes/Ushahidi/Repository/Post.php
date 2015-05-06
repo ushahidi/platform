@@ -93,6 +93,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return new Post($data);
 	}
 
+	// Override selectQuery to fetch 'value' from db as text
+	protected function selectQuery(Array $where = [])
+	{
+		$query = parent::selectQuery($where);
+
+		// Join to messages and load message id
+		$query->join('messages', 'LEFT')->on('posts.id', '=', 'messages.post_id')
+			->select(['messages.id', 'message_id'], ['messages.type', 'source']);
+
+		return $query;
+	}
+
 	protected function getPostValues($id)
 	{
 		// Get all the values for the post. These are the EAV values.
@@ -166,14 +178,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		$query = $this->search_query;
+		$table = $this->getTable();
 
 		$status = $search->getFilter('status', 'published');
 		if ($status !== 'all')
 		{
-			$query->where('status', '=', $status);
+			$query->where("$table.status", '=', $status);
 		}
-
-		$table = $this->getTable();
 
 		foreach (['type', 'locale', 'slug'] as $key)
 		{
@@ -206,8 +217,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 			// or possible text searching in title / content
 			$query
-				->where('title', 'LIKE', "%$search->q%")
-				->or_where('content', 'LIKE', "%$search->q%");
+				->where("$table.title", 'LIKE', "%$search->q%")
+				->or_where("$table.content", 'LIKE', "%$search->q%");
 
 			$query->and_where_close();
 		}
@@ -216,25 +227,25 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if ($search->created_after)
 		{
 			$created_after = strtotime($search->created_after);
-			$query->where('created', '>=', $created_after);
+			$query->where("$table.created", '>=', $created_after);
 		}
 
 		if ($search->created_before)
 		{
 			$created_before = strtotime($search->created_before);
-			$query->where('created', '<=', $created_before);
+			$query->where("$table.created", '<=', $created_before);
 		}
 
 		if ($search->updated_after)
 		{
 			$updated_after = strtotime($search->updated_after);
-			$query->where('updated', '>=', $updated_after);
+			$query->where("$table.updated", '>=', $updated_after);
 		}
 
 		if ($search->updated_before)
 		{
 			$updated_before = strtotime($search->updated_before);
-			$query->where('updated', '<=', $updated_before);
+			$query->where("$table.updated", '<=', $updated_before);
 		}
 
 		// Bounding box search
@@ -437,13 +448,21 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// PostRepository
 	public function getByIdAndParent($id, $parent_id, $type)
 	{
-		return $this->getEntity($this->selectOne(compact('id', 'parent_id', 'type')));
+		return $this->getEntity($this->selectOne([
+			'posts.id' => $id,
+			'posts.parent_id' => $parent_id,
+			'posts.type' => $type
+		]));
 	}
 
 	// PostRepository
 	public function getByLocale($locale, $parent_id, $type)
 	{
-		return $this->getEntity($this->selectOne(compact('locale', 'parent_id', 'type')));
+		return $this->getEntity($this->selectOne([
+			'posts.locale' => $locale,
+			'posts.parent_id' => $parent_id,
+			'posts.type' => $type
+		]));
 	}
 
 	/**
@@ -540,9 +559,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Check for other translations
 		return $this->selectCount([
-			'type' => 'translation',
-			'parent_id' => $parent_id,
-			'locale' => $locale
+			'posts.type' => 'translation',
+			'posts.parent_id' => $parent_id,
+			'posts.locale' => $locale
 			]) === 0;
 	}
 

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Tag Repository
+ * Ushahidi Message Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -12,12 +12,14 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 use Ushahidi\Core\Usecase\Message\DeleteMessageRepository;
 use Ushahidi\Core\Usecase\Message\MessageData;
 
 class Ushahidi_Repository_Message extends Ushahidi_Repository implements
+	MessageRepository,
 	UpdateMessageRepository,
 	CreateMessageRepository
 {
@@ -116,6 +118,20 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		}
 	}
 
+	// MessageRepository
+	public function getPendingMessages($status, $data_provider, $limit)
+	{
+		$direction = Message::OUTGOING;
+		$query = $this->selectQuery(compact('status', 'direction', 'data_provider'))
+			->limit($limit)
+			->order_by('created', 'ASC');
+
+		// @todo load contact.contact in the same query
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
 	// CreateRepository
 	public function create(Entity $entity)
 	{
@@ -130,26 +146,11 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-		if ($entity->direction === \Message_Direction::INCOMING)
-		{
-			// For incoming messages, users can't actually edit a message, only
-			// archive/unarchive and associate with post. Strip everything else.
-			$allowed = ['status', 'post_id'];
-		} else {
-			// For outgoing messages. Update most values, exclude direction and parent id.
-			$allowed = [
-				'contact_id',
-				'data_provider',
-				'title',
-				'message',
-				'datetime',
-				'type',
-				'status',
-			];
-		}
+		$state = [
+			'updated'  => time(),
+		];
 
-		$update = array_intersect_key($entity->getChanged(), array_flip($allowed));
-		return $this->executeUpdate(['id' => $entity->getId()], $update);
+		return parent::update($entity->setState($state));
 	}
 
 	// UpdateMessageRepository
@@ -157,11 +158,8 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 	{
 		if ($direction === \Message_Direction::INCOMING)
 		{
-			// Incoming messages can only be: received, archived
-			return in_array($status, [
-				\Message_Status::RECEIVED,
-				\Message_Status::ARCHIVED,
-			]);
+
+			return ($status == \Message_Status::RECEIVED);
 		}
 
 		if ($direction === \Message_Direction::OUTGOING)

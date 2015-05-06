@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Repository for Messages
+ * Repository for Message
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Platform
+ * @package    Ushahidi\Core
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -12,31 +12,21 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityExists;
 
 interface MessageRepository extends
-	EntityGet
+    EntityGet,
+    EntityExists
 {
-	/**
-	 * @param \Ushahidi\Core\Entity\Message
-	 * @return array of \Ushahidi\Core\Entity\Message
-	 */
-	public function getAllByParent(Message $parent);
 
 	/**
-	 * @param \Ushahidi\Core\Entity\Message
-	 * @return boolean
+	 * Load pending message by data provider and status (pending or pending_poll)
+	 *
+	 * @param  String $status
+	 * @param  String $data_provider
+	 * @param  integer $limit
+	 * @return [Message, ...]
 	 */
-	public function add(Message $contact);
+	public function getPendingMessages($status, $data_provider, $limit);
 
-	/**
-	 * @param \Ushahidi\Core\Entity\Message
-	 * @return boolean
-	 */
-	public function remove(Message $contact);
-
-	/**
-	 * @param \Ushahidi\Core\Entity\Message
-	 * @return boolean
-	 */
-	public function edit(Message $contact);
 }

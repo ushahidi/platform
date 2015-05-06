@@ -9,59 +9,90 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Usecase\CreateRepository;
+use Ushahidi\Core\Usecase\UpdateRepository;
+use Ushahidi\Core\Usecase\SearchRepository;
 
-class Ushahidi_Repository_Contact implements ContactRepository
+class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
+	ContactRepository, CreateRepository, UpdateRepository, SearchRepository
 {
 
-	const TABLE = 'contacts';
-
-	public function get($id)
+	// Ushahidi_Repository
+	protected function getTable()
 	{
-		$query = DB::select('*')
-			->from(self::TABLE)
-			->where('id', '=', $id)
-			;
-		$result = $query->execute();
-		return new Contact($result->current());
+		return 'contacts';
 	}
 
-	public function add(Contact $contact)
+	// CreateRepository
+	// ReadRepository
+	public function getEntity(Array $data = null)
 	{
-		$data = array_filter($contact->asArray());
-		unset($data['id']); // always autoinc
-		$query = DB::insert(self::TABLE)
-			->columns(array_keys($data))
-			->values(array_values($data))
-			;
-		list($contact->id, $count) = $query->execute();
-		return (bool) $count;
+		return new Contact($data);
 	}
 
-	public function remove(Contact $contact)
+	// SearchRepository
+	public function getSearchFields()
 	{
-		if (!$contact->id)
+		return [
+			'contact', 'type', 'user', 'data_provider'
+		];
+	}
+
+	// Ushahidi_Repository
+	protected function setSearchConditions(SearchData $search)
+	{
+		$query = $this->search_query;
+
+		foreach ([
+			'user',
+		] as $fk)
 		{
-			throw new Exception("Contact does not have an id");
+			if ($search->$fk)
+			{
+				$query->where("contacts.{$fk}_id", '=', $search->$fk);
+			}
 		}
 
-		$query = DB::delete(self::TABLE)
-			->where('id', '=', $contact->id)
-			;
-		$count = $query->execute();
-		return (bool) $count;
+		foreach ([
+			'type',
+			'data_provider',
+			'contact'
+		] as $key)
+		{
+			if ($search->$key)
+			{
+				$query->where("contacts.{$key}", '=', $search->$key);
+			}
+		}
 	}
 
-	public function edit(Contact $contact)
+	// CreateRepository
+	public function create(Entity $entity)
 	{
-		$data = array_filter($contact->asArray());
-		unset($data['id']); // never update id
-		$query = DB::update(self::TABLE)
-			->set($data)
-			->where('id', '=', $contact->id)
-			;
-		$count = $query->execute();
-		return TRUE;
+		$state = [
+			'created'  => time(),
+		];
+
+		return parent::create($entity->setState($state));
+	}
+
+	// UpdateRepository
+	public function update(Entity $entity)
+	{
+		$state = [
+			'updated'  => time(),
+		];
+
+		return parent::update($entity->setState($state));
+	}
+
+	// ContactRepository
+	public function getByContact($contact, $type)
+	{
+		return $this->getEntity($this->selectOne(compact('contact', 'type')));
 	}
 }

@@ -19,7 +19,6 @@ interface DataProvider_Message_Status {
 
 	const SENT           = 'sent';
 	const RECEIVED       = 'received';
-	const ARCHIVED       = 'archived';
 
 	const EXPIRED        = 'expired';
 	const CANCELLED      = 'cancelled';

@@ -8,6 +8,11 @@
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
+
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Entity\Message;
+use Ushahidi\Core\Entity\Post;
+
 abstract class Ushahidi_DataProvider extends DataProvider_Core {
 
 	/**
@@ -32,60 +37,34 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	 */
 	public function receive($type, $from, $message, $to = NULL, $title = NULL, $data_provider_message_id = NULL)
 	{
-		// Is the sender of the message a registered contact?
-		$contact = Model_Contact::get_contact($from, $this->contact_type);
-		if ( ! $contact)
-		{
-			try
-			{
-				$contact = ORM::factory('Contact')
-					->set('contact', $from)
-					->set('type', $this->contact_type)
-					->set('data_provider', $this->provider_name())
-					->save();
-			}
-			catch (ORM_Validation_Exception $e)
-			{
-				throw new Kohana_Exception(
-					__("Failed to create contact. Errors: :error"),
-					array(
-						":error" => implode(',', Arr::flatten($e->errors('models')))
-					)
-				);
-			}
-		}
+		$data_provider = $this->provider_name();
+		$contact_type = $this->contact_type;
 
-		if ( ! trim($message))
-		{
-			// HALT
-			Kohana::$log->add(Log::ERROR, __("blank message received"));
-			return;
-		}
-
-		// Save the message
+		$usecase = service('factory.usecase')->get('messages', 'receive');
 		try
 		{
-			$message = ORM::factory('Message')
-				->values(array(
-					'message' => $message,
-					'title' => $title,
-					'data_provider_message_id' => $data_provider_message_id,
-					'contact_id' => $contact->id,
-					'data_provider' => $this->provider_name(),
-					'status' => Message_Status::RECEIVED,
-					'direction' => Message_Direction::INCOMING,
-					'type' => $type
-				))
-				->save();
+			$usecase->setPayload(compact(['type', 'from', 'message', 'to', 'title', 'data_provider_message_id', 'data_provider', 'contact_type']))
+				->interact();
 		}
-		catch (ORM_Validation_Exception $e)
+		catch (Ushahidi\Core\Exception\NotFoundException $e)
 		{
-			throw new Kohana_Exception(
-				__("Failed to create message. Errors: :error"),
-				array(
-					":error" => implode(',', Arr::flatten($e->errors('models')))
-				)
-			);
+			throw new HTTP_Exception_404($e->getMessage());
+		}
+		catch (Ushahidi\Core\Exception\AuthorizerException $e)
+		{
+			throw new HTTP_Exception_403($e->getMessage());
+		}
+		catch (Ushahidi\Core\Exception\ValidatorException $e)
+		{
+			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
+				':errors' => implode(', ', Arr::flatten($e->getErrors())),
+			));
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			throw new HTTP_Exception_400('Bad request: :error', array(
+				':error' => $e->getMessage(),
+			));
 		}
 	}
 
@@ -100,26 +79,19 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	 */
 	public function get_pending_messages($limit = FALSE, $current_status = Message_Status::PENDING_POLL, $new_status = Message_Status::UNKNOWN)
 	{
+		$message_repo = service('repository.message');
+		$contact_repo = service('repository.contact');
 		$messages = array();
 
 		// Get All "Sent" SMSSync messages
 		// Limit it to 20 MAX and FIFO
-		$pings = ORM::factory('Message')
-			->select('contacts.contact')
-			->select('message.message')
-			->join('contacts', 'INNER')
-				->on('contact_id', '=', 'contacts.id')
-			->where('status', '=', $current_status)
-			->where('direction', '=', Message_Direction::OUTGOING)
-			->where('message.data_provider', '=', $this->provider_name())
-			->order_by('created', 'ASC')
-			->limit($limit)
-			->find_all();
+		$pings = $message_repo->getPendingMessages($current_status, $provider, $limit);
 
 		foreach ($pings as $message)
 		{
+			$contact = $contact_repo->get($message->contact_id);
 			$messages[] = array(
-				'to' => $message->contact,
+				'to' => $contact->contact, // @todo load this in the message?
 				'message' => $message->message,
 				'message_id' => $message->id
 				);
@@ -128,7 +100,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			if ($new_status)
 			{
 				$message->status = $new_status;
-				$message->save();
+				$message_repo->update($message);
 			}
 		}
 
@@ -145,33 +117,22 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	 */
 	public static function process_pending_messages($limit = 20, $provider = FALSE)
 	{
+		$message_repo = service('repository.message');
 		$providers = array();
 		$count = 0;
 
 		// Grab latest messages
-		$ping_query = ORM::factory('Message')
-			->select('contacts.contact')
-			->select('message.message')
-			->join('contacts', 'INNER')
-				->on('contact_id', '=', 'contacts.id')
-			->where('status', '=', Message_Status::PENDING)
-			->where('direction', '=', Message_Direction::OUTGOING)
-			->order_by('created', 'ASC')
-			->limit($limit);
-
-		if ($provider)
-		{
-			$ping_query->where('message.data_provider', '=', $provider);
-		}
-
-		$pings = $ping_query->find_all();
+		$pings = $message_repo->getPendingMessages(Message_Status::PENDING, $provider, $limit);
 
 		foreach($pings as $message)
 		{
 			$provider = DataProvider::factory($message->data_provider, $message->type);
 
+			// Load contact
+			$contact = $contact_repo->get($message->contact_id);
+
 			// Send message and get new status/tracking id
-			list($new_status, $tracking_id) = $provider->send($message->contact, $message->message, $message->title);
+			list($new_status, $tracking_id) = $provider->send($contact->contact, $message->message, $message->title);
 
 			// Update message details
 			$message->status = $new_status;
@@ -181,16 +142,8 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 				$message->data_provider_message_id = $tracking_id;
 			}
 
-			try
-			{
-				$message->save();
-			}
-			catch(ORM_Validation_Exception $e)
-			{
-				Kohana::$log->add(Log::ERROR, 'Validation Error: \':errors\'', array(
-					':errors' => implode(', ', Arr::flatten($e->errors('models'))),
-				));
-			}
+			// @todo handle errors
+			$message_repo->update($message);
 
 			$count ++;
 		}

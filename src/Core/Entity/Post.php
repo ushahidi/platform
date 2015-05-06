@@ -19,6 +19,7 @@ class Post extends StaticEntity
 	protected $parent_id;
 	protected $form_id;
 	protected $user_id;
+	protected $message_id;
 	protected $type;
 	protected $title;
 	protected $slug;
@@ -33,6 +34,8 @@ class Post extends StaticEntity
 	protected $tags;
 	protected $published_to;
 	protected $completed_stages;
+	// Source when from external provider: SMS, Email, etc
+	protected $source;
 
 	// StatefulData
 	protected function getDerived()

@@ -191,7 +191,14 @@ $di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setFilesystem'] = $di->l
 // Message update requires extra validation of message direction+status.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
 	'update' => $di->lazyNew('Ushahidi\Core\Usecase\Message\UpdateMessage'),
+	'receive' => $di->newFactory('Ushahidi\Core\Usecase\Message\ReceiveMessage'),
 ];
+// Message receive requires extra repos
+$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactRepository']
+	= $di->lazyGet('repository.contact');
+$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setPostRepository'] = $di->lazyGet('repository.post');
+$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
+	= $di->lazyGet('validator.contact.create');
 
 // Add custom usecases for posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
@@ -219,7 +226,8 @@ $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->l
 // Traits
 $di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
-$di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository'] = $di->lazyGet('repository.form_stage');
+$di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
+	= $di->lazyGet('repository.form_stage');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
@@ -256,3 +264,5 @@ $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuth
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	];
+
+

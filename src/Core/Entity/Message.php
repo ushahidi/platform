@@ -18,7 +18,6 @@ class Message extends StaticEntity
 	// Valid boxes are defined as constants.
 	const INBOX          = 'inbox';
 	const OUTBOX         = 'sent';
-	const ARCHIVE        = 'archive';
 
 	// Valid directions are defined as constants.
 	const INCOMING       = 'incoming';
@@ -45,6 +44,7 @@ class Message extends StaticEntity
 	protected $status;
 	protected $direction;
 	protected $created;
+	protected $additional_data;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -64,6 +64,8 @@ class Message extends StaticEntity
 			// data provider relations
 			'data_provider'            => 'string',
 			'data_provider_message_id' => 'string',
+			// any additional message data
+			'additional_data' => '*json'
 		];
 	}
 
@@ -78,5 +80,11 @@ class Message extends StaticEntity
 	public function getResource()
 	{
 		return 'messages';
+	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		return ['id', 'direction', 'parent_id'];
 	}
 }

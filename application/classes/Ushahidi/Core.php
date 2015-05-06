@@ -143,6 +143,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Message_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Message_Update'),
+			'receive' => $di->lazyNew('Ushahidi_Validator_Message_Receive'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Create'),
@@ -316,6 +317,11 @@ abstract class Ushahidi_Core {
 
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
+		$di->set('validator.contact.create', $di->lazyNew('Ushahidi_Validator_Contact_Create'));
+		$di->params['Ushahidi_Validator_Contact_Create'] = [
+			'repo' => $di->lazyGet('repository.contact'),
+			'user_repo' => $di->lazyGet('repository.user'),
+		];
 
 		// Dependencies of validators
 		$di->params['Ushahidi_Validator_Post_Create'] = [
@@ -353,6 +359,9 @@ abstract class Ushahidi_Core {
 			'repo' => $di->lazyGet('repository.message'),
 		];
 		$di->params['Ushahidi_Validator_Message_Create'] = [
+			'repo' => $di->lazyGet('repository.message'),
+		];
+		$di->params['Ushahidi_Validator_Message_Receive'] = [
 			'repo' => $di->lazyGet('repository.message'),
 		];
 		$di->params['Ushahidi_Validator_Set_Create'] = [

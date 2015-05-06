@@ -12,25 +12,17 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityExists;
 
 interface ContactRepository extends
-	EntityGet
+	EntityGet,
+	EntityExists
 {
-	/**
-	 * @param \Ushahidi\Core\Entity\Contact
-	 * @return boolean
-	 */
-	public function add(Contact $contact);
 
 	/**
-	 * @param \Ushahidi\Core\Entity\Contact
+	 * @param string  $contact
+	 * @param string  $type
 	 * @return boolean
 	 */
-	public function remove(Contact $contact);
-
-	/**
-	 * @param \Ushahidi\Core\Entity\Contact
-	 * @return boolean
-	 */
-	public function edit(Contact $contact);
+	public function getByContact($contact, $type);
 }

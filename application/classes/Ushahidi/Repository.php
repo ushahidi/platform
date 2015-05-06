@@ -63,7 +63,9 @@ abstract class Ushahidi_Repository implements
 	// DeleteRepository
 	public function get($id)
 	{
-		return $this->getEntity($this->selectOne(compact('id')));
+		return $this->getEntity($this->selectOne([
+			$this->getTable().'.id' => $id
+		]));
 	}
 
 	// CreateRepository
