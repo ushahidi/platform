@@ -146,7 +146,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
 			'include_types', 'include_attributes', // Specify values to include
-			'group_by', 'timeline_interval', 'timeline', 'attribute_key' // Group results
+			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
+			'timeline', 'timeline_interval', 'timeline_attribute' // Timeline params
 		];
 	}
 
@@ -373,39 +374,71 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Group by time-intervals
 		if ($search->timeline)
 		{
+			// Default to posts created
+			$time_field = 'posts.created';
+
+			if ($search->timeline_attribute === 'created' || $search->timeline_attribute == 'updated')
+			{
+				// Assumed created / updated means the builtin posts created/updated times
+				$time_field = 'posts.' . $search->timeline_attribute;
+			}
+			elseif ($search->timeline_attribute)
+			{
+				// Find the attribute
+				$key = $search->timeline_attribute;
+				$attribute = $this->form_attribute_repo->getByKey($key);
+				if ($attribute)
+				{
+					// Get the post_TYPE table.
+					$sub = $this->post_value_factory
+						->getRepo($attribute->type)
+						->getValueTable();
+
+					// Join to attribute
+					$this->search_query
+						->join([$sub, 'Time_'.ucfirst($key)], 'INNER')
+							->on('form_attribute_id', '=', DB::expr($attribute->id))
+							->on('posts.id', '=', 'Time_'.ucfirst($key).'.post_id');
+
+					// Use the attribute `value` as our time
+					$time_field = 'Time_'.ucfirst($key).'.value';
+				}
+			}
+
 			$this->search_query
 				->select([
-					DB::expr('FLOOR(posts.created/:interval)*:interval', [':interval' => (int)$search->getFilter('timeline_interval', 900)]),
+					DB::expr('FLOOR('.$time_field.'/:interval)*:interval', [':interval' => (int)$search->getFilter('timeline_interval', 86400)]),
 					'time_label'
 				])
 				->group_by('time_label');
 		}
 
 		// Group by attribute
-		if ($search->group_by === 'attribute' AND $search->attribute_key)
+		if ($search->group_by === 'attribute' AND $search->group_by_attribute_key)
 		{
-			$key = $search->attribute_key;
+			$key = $search->group_by_attribute_key;
 			$attribute = $this->form_attribute_repo->getByKey($key);
 
-			$sub = $this->post_value_factory
-				->getRepo($attribute->type)
-				->getValueTable();
+			if ($attribute)
+			{
+				$sub = $this->post_value_factory
+					->getRepo($attribute->type)
+					->getValueTable();
 
-			$this->search_query
-				->join([$sub, 'Filter_'.ucfirst($key)], 'INNER')
-				->on('form_attribute_id', '=', DB::expr($attribute->id))
-				->on('posts.id', '=', 'Filter_'.ucfirst($key).'.post_id')
-				->select(['Filter_'.ucfirst($key).'.value', 'label'])
-				->group_by('label')
-				->order_by('label');
+				$this->search_query
+					->join([$sub, 'Group_'.ucfirst($key)], 'INNER')
+						->on('form_attribute_id', '=', DB::expr($attribute->id))
+						->on('posts.id', '=', 'Group_'.ucfirst($key).'.post_id')
+					->select(['Group_'.ucfirst($key).'.value', 'label'])
+					->group_by('label');
+			}
 		}
 		// Group by status
 		elseif ($search->group_by === 'status')
 		{
 			$this->search_query
 				->select(['posts.status', 'label'])
-				->group_by('label')
-				->order_by('label');
+				->group_by('label');
 		}
 		// Group by form
 		elseif ($search->group_by === 'form')
@@ -413,18 +446,40 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->search_query
 				->join('forms')->on('posts.form_id', '=', 'forms.id')
 				->select(['forms.name', 'label'])
-				->group_by('posts.form_id')
-				->order_by('posts.form_id');
+				->group_by('posts.form_id');
 		}
 		// Group by tags
 		elseif ($search->group_by === 'tags')
 		{
+			/**
+			 * The output query looks something like
+			 * SELECT
+			 * `parents`.`tag` AS `label`,
+			 * COUNT(DISTINCT posts.id) AS `total`
+			 * FROM `posts`
+			 * JOIN `posts_tags` ON (`posts`.`id` = `posts_tags`.`post_id`)
+			 * JOIN `tags` ON (`posts_tags`.`tag_id` = `tags`.`id`)
+			 * JOIN `tags` as `parents` ON (`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`)
+			 * WHERE `status` = 'published' AND `posts`.`type` = 'report'
+			 * AND `parents`.`parent_id` IS NULL
+			 * GROUP BY `parents`.`id`
+			 */
+
+			// Count by tag but also include child counts in the parent count
 			$this->search_query
 				->join('posts_tags')->on('posts.id', '=', 'posts_tags.post_id')
 				->join('tags')->on('posts_tags.tag_id', '=', 'tags.id')
-				->select(['tags.tag', 'label'])
-				->group_by('posts_tags.tag_id')
-				->order_by('posts_tags.tag_id');
+				->join(['tags', 'parents'])
+					// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
+					->on(DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"), '', DB::expr(""))
+				->select(['parents.tag', 'label'])
+				->group_by('parents.id');
+
+			// Limit tags to a top level, or a specific parent.
+			if ($search->group_by_tags !== 'all') {
+				$this->search_query
+					->where('parents.parent_id', '=', $search->getFilter('group_by_tags', null));
+			}
 		}
 		// If no group_by just count all posts
 		else {
@@ -432,10 +487,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->select([DB::expr('"all"'), 'label']);
 		}
 
-		// Add orderby time *after* order by groups
+		// .. Add orderby time *after* order by groups
 		if ($search->timeline)
 		{
+			// Order by label, then time
+			$this->search_query->order_by('label');
 			$this->search_query->order_by('time_label');
+		}
+		else {
+			// Order by count, then label
+			$this->search_query->order_by('total', 'DESC');
+			$this->search_query->order_by('label');
 		}
 
 		// Fetch the results and...
