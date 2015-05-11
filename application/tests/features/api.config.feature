@@ -45,6 +45,8 @@ Feature: Testing the Config API
         Then the response is JSON
         And the "id" property equals "test"
         And the "nothing" property equals "new test value"
+        And the "json_object_test.number" property equals "1234"
+        And the "json_object_test.array" property contains "a"
         Then the guzzle status code should be 200
 
     @resetFixture

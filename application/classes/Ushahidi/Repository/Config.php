@@ -34,18 +34,10 @@ class Ushahidi_Repository_Config implements
 	public function get($group)
 	{
 		$this->verifyGroup($group);
+
 		$config = \Kohana::$config->load($group)->as_array();
-		$response = [];
 
-		foreach ($config as $key => $val) {
-			if (is_array($val)) {
-				$response[$key] = $val;
-			} else {
-				$response[$key] = json_decode($val);
-			}
-		}
-
-		return new ConfigEntity(['id' => $group] + $response);
+		return new ConfigEntity(['id' => $group] + $config);
 	}
 
 	// UpdateRepository
@@ -56,12 +48,9 @@ class Ushahidi_Repository_Config implements
 		$this->verifyGroup($group);
 
 		$config = \Kohana::$config->load($group);
-		$immutable = $entity->getImmutable();
 
 		foreach ($entity->getChanged() as $key => $val) {
-			if (! in_array($key, $immutable)) {
-				$config->set($key, json_encode($val));
-			}
+			$config->set($key, $val);
 		}
 	}
 
@@ -115,17 +104,7 @@ class Ushahidi_Repository_Config implements
 		$result = array();
 		foreach ($groups as $group) {
 			$config = \Kohana::$config->load($group)->as_array();
-			$response = [];
-
-			foreach ($config as $key => $val) {
-				if (is_array($val)) {
-					$response[$key] = $val;
-				} else {
-					$response[$key] = json_decode($val);
-				}
-			}
-
-			$result[] = new ConfigEntity(['id' => $group] + $response);
+			$result[] = new ConfigEntity(['id' => $group] + $config);
 		}
 
 		return $result;

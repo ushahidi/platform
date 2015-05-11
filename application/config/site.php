@@ -23,7 +23,7 @@
  */
 return array(
 	'name'        => 'Ushahidi Platform',
-	'description' => '',
+	'description' => 'An Ushahidi deployment',
 	'email'       => '',
 	'timezone'    => 'UTC',
 	'language'    => 'en-US',
