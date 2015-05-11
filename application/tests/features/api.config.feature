@@ -32,7 +32,13 @@ Feature: Testing the Config API
         And that the request "data" is:
             """
             {
-                "nothing":"new test value"
+                "nothing": "new test value",
+                "json_object_test": {
+                    "boolean": true,
+                    "null": null,
+                    "array": ["a","b","c"],
+                    "number": 1234
+                }
             }
             """
         When I request "/config/test"
@@ -79,4 +85,3 @@ Feature: Testing the Config API
         Given that I want to delete a "Config"
         When I request "/config/test"
         Then the guzzle status code should be 405
-

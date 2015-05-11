@@ -14,13 +14,18 @@
  *
  * The following options are available:
  *
- * - string   site_name     Display name of the site
- * - string   owner_name    Display name for the owner of the site
- * - string   site_email    Site contact email
+ * - string   name          Display name of the site.
+ * - string   description   A brief description of the site.
+ * - string   email         Site contact email.
+ * - string   timezone      Default timezone for the site. See http://php.net/manual/en/timezones.php
+ * - string   language      Native language for the site in ISO 639-1 format. See http://en.wikipedia.org/wiki/ISO_639-1
+ * - string   date_format   Set format in which to return dates. See http://php.net/manual/en/datetime.createfromformat.php
  */
 return array(
-	'site_name'   => 'Ushahidi Platform',
-	'owner_name'  => 'Ushahidi Deployer',
-	'site_email'  => FALSE,
-	'date_format' => 'n/j/Y', // MM/DD/YYY, see http://php.net/datetime.createfromformat.php
+	'name'        => 'Ushahidi Platform',
+	'description' => '',
+	'email'       => '',
+	'timezone'    => 'UTC',
+	'language'    => 'en-US',
+	'date_format' => 'n/j/Y'
 );

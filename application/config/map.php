@@ -11,18 +11,16 @@
 
 return array(
 	// Enable marker clustering with leaflet.markercluster
-	'clustering' => FALSE,
-	'maxClusterRadius' => 50,
+	'clustering'     => FALSE,
+	'cluster_radius' => 50,
 	// Map start location
 	'default_view' => array(
-		'lat' => -1.3048035,
-		'lon' => 36.8473969,
-		'zoom' => 2,
-		'baseLayer' => 'MapQuest',
-		// Fit map boundaries to current data rendered
-		'fitDataOnMap' => true,
-		// Fontawesome Markers
-		'icon' => 'map-marker',
-		'color' => 'blue',
+		'lat'                => -1.3048035,
+		'lon'                => 36.8473969,
+		'zoom'               => 2,
+		'baselayer'          => 'MapQuest',
+		'fit_map_boundaries' => true, // Fit map boundaries to current data rendered
+		'icon'               => 'map-marker', // Fontawesome Markers
+		'color'              => 'blue'
 	)
 );

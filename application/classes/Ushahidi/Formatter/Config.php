@@ -14,4 +14,33 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 class Ushahidi_Formatter_Config extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
+
+	protected $config_group = null;
+
+	public function __invoke($entity)
+	{
+		if ($entity && isset($entity->id)) {
+			$this->config_group = $entity->id;
+		}
+
+		return parent::__invoke($entity);
+	}
+
+	protected function format_clustering($val)
+	{
+		if ($this->config_group == 'map') {
+			return (bool) $val;
+		}
+
+		return $val;
+	}
+
+	protected function format_cluster_radius($val)
+	{
+		if ($this->config_group == 'map') {
+			return (integer) $val;
+		}
+
+		return $val;
+	}
 }

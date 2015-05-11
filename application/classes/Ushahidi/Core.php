@@ -400,9 +400,6 @@ abstract class Ushahidi_Core {
 		 * Attach database config
 		 */
 		self::attached_db_config();
-
-		// Set site name in all view
-		View::set_global('site_name', service('repository.config')->get('site')->site_name);
 	}
 
 	public static function attached_db_config()

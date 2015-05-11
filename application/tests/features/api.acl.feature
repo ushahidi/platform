@@ -300,15 +300,6 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 403
 
-    Scenario: Anonymous users can view features config
-        Given that I want to find a "Config"
-        And that the request "Authorization" header is "Bearer testanon"
-        And that its "id" is "features"
-        When I request "/config"
-        Then the guzzle status code should be 200
-        And the response has an "id" property
-        And the "id" property equals "features"
-
     Scenario: Anonymous users can view site config
         Given that I want to find a "Config"
         And that the request "Authorization" header is "Bearer testanon"
@@ -340,7 +331,7 @@ Feature: API Access Control Layer
         And that the request "Authorization" header is "Bearer testadminuser"
         When I request "/config"
         Then the response is JSON
-        And the "count" property equals "5"
+        And the "count" property equals "4"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Configs as anonymous user
@@ -348,7 +339,7 @@ Feature: API Access Control Layer
         And that the request "Authorization" header is "Bearer testanon"
         When I request "/config"
         Then the response is JSON
-        And the "count" property equals "3"
+        And the "count" property equals "2"
         Then the guzzle status code should be 200
 
     @resetFixture
