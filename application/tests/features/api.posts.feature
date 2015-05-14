@@ -675,6 +675,37 @@ Feature: Testing the Posts API
 		And the "results.0.id" property equals "9999"
 		Then the guzzle status code should be 200
 
+	@resetFixture @search
+	Scenario: Listing All Posts owned by me
+		Given that I want to get all "Posts"
+        And that the request "Authorization" header is "Bearer testbasicuser2"
+		And that the request "query string" is:
+			"""
+			user=me
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "1"
+		And the "total_count" property equals "1"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Listing All Posts w/o form
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			form=
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "1"
+		And the "total_count" property equals "1"
+		Then the guzzle status code should be 200
+
 	# @todo improve this test to check more response data
 	@search
 	Scenario: Listing All Posts as JSONP

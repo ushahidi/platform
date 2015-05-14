@@ -22,6 +22,7 @@ use Ushahidi\Core\Usecase\Post\StatsPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\Core\Tool\JsonTranscode;
+use Ushahidi\Core\Traits\UserContext;
 
 use Aura\DI\InstanceFactory;
 
@@ -29,6 +30,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	PostRepository,
 	UpdatePostRepository
 {
+	use UserContext;
+
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
 	protected $post_value_factory;
@@ -195,14 +198,30 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			}
 		}
 
+		// If user = me, replace with current user id
+		if ($search->user === 'me')
+		{
+			$search->user = $this->getUserId();
+		}
+
 		foreach (['user', 'parent', 'form'] as $key)
 		{
-			if ($search->$key)
+			if (isset($search->$key))
 			{
-				if (!is_array($search->$key)) {
-					$search->$key = explode(',', $search->$key);
+				// Special case: empty search string looks for null
+				if (empty($search->$key))
+				{
+					$query->where("$table.{$key}_id", "IS", NULL);
 				}
-				$query->where("$table.{$key}_id", 'IN', $search->$key);
+				else
+				{
+					// Make sure we have an array
+					if (!is_array($search->$key)) {
+						$search->$key = explode(',', $search->$key);
+					}
+
+					$query->where("$table.{$key}_id", 'IN', $search->$key);
+				}
 			}
 		}
 

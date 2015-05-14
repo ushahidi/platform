@@ -224,7 +224,7 @@ posts:
     published_to:
   -
     id: 9999
-    form_id: 1
+    form_id:
     parent_id:
     user_id:
     title: "another report"
