@@ -1026,7 +1026,7 @@ config:
   -
     group_name: map
     config_key: clustering
-    config_value: '"false"'
+    config_value: 'false'
   -
     group_name: map
     config_key: cluster_radius

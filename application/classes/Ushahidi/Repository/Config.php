@@ -48,9 +48,12 @@ class Ushahidi_Repository_Config implements
 		$this->verifyGroup($group);
 
 		$config = \Kohana::$config->load($group);
+		$immutable = $entity->getImmutable();
 
 		foreach ($entity->getChanged() as $key => $val) {
-			$config->set($key, $val);
+			if (! in_array($key, $immutable)) {
+				$config->set($key, $val);
+			}
 		}
 	}
 
