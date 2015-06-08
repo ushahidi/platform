@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API Formatter for Sets
+ * Ushahidi Set Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,9 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
-
-class Ushahidi_Formatter_Set extends Ushahidi_Formatter_API
+class Ushahidi_Validator_SavedSearch_Create extends Ushahidi_Validator_SavedSearch_Update
 {
-	use FormatterAuthorizerMetadata;
+
+	protected function getRules()
+	{
+		return array_merge_recursive(parent::getRules(), [
+			'filter' => [
+				['not_empty'],
+			]
+		]);
+	}
 }

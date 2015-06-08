@@ -300,6 +300,8 @@ abstract class Ushahidi_Repository implements
 	 */
 	public function exists($id)
 	{
-		return (bool) $this->selectCount(compact('id'));
+		return (bool) $this->selectCount([
+			$this->getTable().'.id' => $id
+		]);
 	}
 }

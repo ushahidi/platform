@@ -38,6 +38,7 @@ class JsonTranscode
      */
     public function decode($input, $properties)
     {
+
         return $this->transcode($input, $properties, function ($property) {
             return json_decode($property, true);
         });

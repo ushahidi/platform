@@ -611,14 +611,34 @@ posts_tags:
 sets:
   -
     id: 1
-    name: Test set
+    name: Test collection
+    search: 0
   -
     id: 2
     name: Explosion
+    search: 0
     user_id: 3
   -
     id: 3
-    name: Admin only set
+    name: Admin only collection
+    search: 0
+    visible_to: '["admin"]'
+  -
+    id: 4
+    name: Test search
+    search: 1
+    filter: '{"q":"test"}'
+  -
+    id: 5
+    name: Explosion search
+    search: 1
+    filter: '{"q":"explosions"}'
+    user_id: 3
+  -
+    id: 6
+    name: Admin only search
+    search: 1
+    filter: '{"q":"junk"}'
     visible_to: '["admin"]'
 posts_sets:
   -
@@ -778,6 +798,10 @@ oauth_scopes:
     id: 12
     scope: layers
     name: layers
+  -
+    id: 13
+    scope: savedsearches
+    name: savedsearches
 oauth_session_token_scopes:
   # for testingtoken
   -
@@ -824,8 +848,12 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 11
-  - session_access_token_id: 2
+  -
+    session_access_token_id: 2
     scope_id: 12
+  -
+    session_access_token_id: 2
+    scope_id: 13
 
   # for testbasicuser
   -
@@ -858,6 +886,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 10
+  -
+    session_access_token_id: 3
+    scope_id: 13
   # for testadminuser
   -
     session_access_token_id: 4
@@ -892,6 +923,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 11
+  -
+    session_access_token_id: 4
+    scope_id: 13
 
   # for testbasicuser2
   -
@@ -924,6 +958,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 10
+  -
+    session_access_token_id: 5
+    scope_id: 13
   # for testanon
   -
     session_access_token_id: 6
@@ -955,6 +992,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 6
     scope_id: 10
+  -
+    session_access_token_id: 6
+    scope_id: 13
 # include other oauth tables to ensure a blank slate for test runs
 oauth_session_refresh_tokens:
 oauth_session_authcodes:

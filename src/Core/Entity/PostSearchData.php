@@ -19,6 +19,7 @@ class PostSearchData extends SearchData
 	use SortableData;
 
 	public $q; // LIKE title OR content
+	public $id;
 	public $slug;
 	public $parent;
 	public $type;

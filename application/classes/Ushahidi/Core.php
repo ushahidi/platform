@@ -145,10 +145,18 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Message_Update'),
 			'receive' => $di->lazyNew('Ushahidi_Validator_Message_Receive'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['savedsearches'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_SavedSearch_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_SavedSearch_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Set_Create'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets_posts'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Set_Post_Create'),
+		];
+
 
 		// Validator Setters
 		$di->setter['Ushahidi_Validator_Form_Stage_Update'] = [
@@ -165,18 +173,21 @@ abstract class Ushahidi_Core {
 
 		// Formatter mapping
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
-			'config'        => $di->lazyNew('Ushahidi_Formatter_Config'),
-			'dataproviders' => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
-			'forms'         => $di->lazyNew('Ushahidi_Formatter_Form'),
-			'form_attributes' => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
-			'form_stages'   => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
-			'layers'        => $di->lazyNew('Ushahidi_Formatter_Layer'),
-			'media'         => $di->lazyNew('Ushahidi_Formatter_Media'),
-			'messages'      => $di->lazyNew('Ushahidi_Formatter_Message'),
-			'posts'         => $di->lazyNew('Ushahidi_Formatter_Post'),
-			'tags'          => $di->lazyNew('Ushahidi_Formatter_Tag'),
-			'sets'          => $di->lazyNew('Ushahidi_Formatter_Set'),
-			'users'         => $di->lazyNew('Ushahidi_Formatter_User'),
+			'config'               => $di->lazyNew('Ushahidi_Formatter_Config'),
+			'dataproviders'        => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
+			'forms'                => $di->lazyNew('Ushahidi_Formatter_Form'),
+			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
+			'form_stages'          => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
+			'layers'               => $di->lazyNew('Ushahidi_Formatter_Layer'),
+			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
+			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
+			'posts'                => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'tags'                 => $di->lazyNew('Ushahidi_Formatter_Tag'),
+			'savedsearches'        => $di->lazyNew('Ushahidi_Formatter_Set'),
+			'sets'                 => $di->lazyNew('Ushahidi_Formatter_Set'),
+			'sets_posts'           => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 		];
 
 		// Formatter parameters
@@ -192,14 +203,17 @@ abstract class Ushahidi_Core {
 			'post',
 			'tag',
 			'user',
-			'set',
+			'savedsearch',
+			'set_post',
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
 				$di->lazyGet("authorizer.$name");
 		}
 
-		// Collection Formatter factory
+		$di->setter['Ushahidi_Formatter_Set']['setAuth'] = $di->lazyGet("authorizer.set");
+
+		// Set Formatter factory
 		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');
 
 		// Helpers, tools, etc
@@ -251,14 +265,20 @@ abstract class Ushahidi_Core {
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.set', $di->lazyNew('Ushahidi_Repository_Set'));
+		$di->set('repository.savedsearch', $di->lazyNew(
+			'Ushahidi_Repository_Set',
+			[],
+			[
+				'setSavedSearch' => true
+			]
+		));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 
-		$di->setter['Ushahidi_Repository_User']['setHasher'] =
-			$di->lazyGet('tool.hasher.password');
+		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
 		// Repository parameters
 		foreach ([
@@ -361,13 +381,28 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Message_Create'] = [
 			'repo' => $di->lazyGet('repository.message'),
 		];
+
 		$di->params['Ushahidi_Validator_Message_Receive'] = [
 			'repo' => $di->lazyGet('repository.message'),
 		];
+
 		$di->params['Ushahidi_Validator_Set_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
 			'role_repo' => $di->lazyGet('repository.role'),
 		];
+		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [
+			'repo' => $di->lazyGet('repository.user'),
+			'role_repo' => $di->lazyGet('repository.role'),
+		];
+		$di->params['Ushahidi_Validator_SavedSearch_Update'] = [
+			'repo' => $di->lazyGet('repository.user'),
+			'role_repo' => $di->lazyGet('repository.role'),
+		];
+
+		$di->params['Ushahidi_Validator_Set_Post_Create'] = [
+			'post_repo' => $di->lazyGet('repository.post')
+		];
+
 
 		$di->set('validator.post.datetime', $di->lazyNew('Ushahidi_Validator_Post_Datetime'));
 		$di->set('validator.post.decimal', $di->lazyNew('Ushahidi_Validator_Post_Decimal'));

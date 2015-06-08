@@ -9,12 +9,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Entity\PostRepository;
 
-class Ushahidi_Validator_Set_Delete extends Validator
+class Ushahidi_Validator_Set_Post_Create extends Validator
 {
+	protected $post_repo;
 	protected $default_error_source = 'set';
+
+	public function __construct(PostRepository $post_repo)
+	{
+		$this->post_repo = $post_repo;
+	}
 
 	protected function getRules()
 	{
@@ -22,6 +28,7 @@ class Ushahidi_Validator_Set_Delete extends Validator
 			'id' => [
 				['not_empty'],
 				['digit'],
+				[[$this->post_repo, 'exists'], [':value']],
 			],
 		];
 	}

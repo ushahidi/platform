@@ -9,10 +9,16 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Controller_Api_Sets extends Ushahidi_Rest {
+class Controller_Api_SavedSearches extends Ushahidi_Rest {
 
 	protected function _scope()
 	{
-		return 'sets';
+		return 'savedsearches';
 	}
+
+	protected function _resource()
+	{
+		return 'savedsearches';
+	}
+
 }

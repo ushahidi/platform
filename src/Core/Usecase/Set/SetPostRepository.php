@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Set Search Data
+ * Ushahidi Platform Set Post Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,16 +11,12 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Traits\Data\SortableData;
-
-class SearchSetData extends SearchData
+interface SetPostRepository
 {
-	use SortableData;
-
-	public $q; // LIKE tag
-	public $name;
-	public $user;
-	public $featured;
+	/**
+	 * @param  Int    $post_id
+	 * @param  Int    $set_id
+	 * @return Post
+	 */
+	public function getPostInSet($post_id, $set_id);
 }
