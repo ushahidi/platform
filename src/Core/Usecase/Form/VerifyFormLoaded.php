@@ -11,12 +11,8 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
-
-use Ushahidi\Core\Exception\NotFoundException;
 
 trait VerifyFormLoaded
 {

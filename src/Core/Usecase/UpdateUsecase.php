@@ -106,18 +106,22 @@ class UpdateUsecase implements Usecase
 	}
 
 	/**
-	 * Find entity based on identifying parameters, apply the payload.
+	 * Find entity based on identifying parameters.
 	 *
 	 * @return Entity
 	 */
 	protected function getEntity()
 	{
-		// Fetch the entity using the given identifiers
-		$entity = $this->repo->get($this->getRequiredIdentifier('id'));
+		// Entity will be loaded using the provided id
+		$id = $this->getRequiredIdentifier('id');
 
-		// ... verify that the entity was actually loaded
-		$this->verifyEntityLoaded($entity, $this->identifiers);
+		// ... attempt to load the entity
+		$entity = $this->repo->get($id);
 
+		// ... and verify that the entity was actually loaded
+		$this->verifyEntityLoaded($entity, compact('id'));
+
+		// ... then return it
 		return $entity;
 	}
 }

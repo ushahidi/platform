@@ -14,7 +14,6 @@ namespace Ushahidi\Core\Usecase\Form;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormStageRepository;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
 use Ushahidi\Core\Exception\NotFoundException;
 
