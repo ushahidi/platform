@@ -1,3 +1,10 @@
+roles:
+  -
+    name: "user"
+    display_name: "User"
+  -
+    name: "admin"
+    display_name: "Admin"
 users:
   -
     id: 1
@@ -659,7 +666,6 @@ posts_sets:
   -
     set_id: 1
     post_id: 112
-tasks:
 # OAuth Tables
 oauth_clients:
   -
@@ -1178,13 +1184,6 @@ messages:
     datetime:
     post_id:
     data_provider:
-roles:
-  -
-    name: "user"
-    display_name: "User"
-  -
-    name: "admin"
-    display_name: "Admin"
 layers:
   -
     id: 1
