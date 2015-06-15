@@ -40,6 +40,7 @@ class { '::mysql::server':
 			'bind_address'    => '0.0.0.0'
 		}
 	},
+	restart          => true
 }
 
 mysql::db { 'ushahidi':
@@ -148,7 +149,7 @@ file { "/var/www/httpdocs/.htaccess":
 	content => template("htaccess.erb")
 }
 
-file { "/var/www/index.html":
+file { "/var/www/html/index.html":
 	ensure  => "absent"
 }
 
