@@ -54,7 +54,7 @@ Please see our [Installation Guide][install] to get set up first!
 
 ### Logging in for the first time
 
-The default install creates the user `demo` with a password of `testing`.
+The default install creates the user `admin` with a password of `admin`.
 This user has admin privileges. Once logged in, this user can create more user
 accounts or give admin permissions to others as well.
 
@@ -79,44 +79,6 @@ Install [Vagrant](http://www.vagrantup.com/), then run `vagrant up` to get start
 
 Unit and functional tests are run automatically by [Travis-CI](https://travis-ci.org/ushahidi/platform).
 See [.travis.yml](https://github.com/ushahidi/platform/blob/master/.travis.yml) for config details.
-
-### Testing
-
-See the [3.x Testing](https://wiki.ushahidi.com/display/WIKI/3.x+Testing) page.
-
-We use PHPUnit for unit tests, and Behat and Mink for functional testing.
-You can install the Behat, Mink, PHPUnit and other required packages using
-[Composer](getcomposer.org). Just run:
-
-```bash
-composer install
-```
-
-Behat and PHPUnit will be installed to `bin/` at the root of the repository.
-Run the tests with:
-
-```bash
-bin/behat --config application/tests/behat.yml --format progress
-bin/phpunit -c application/tests/phpunit.xml
-```
-
-#### Creating feature tests
-
-Create your feature file in `application/tests/features/`, eg `foo.bar.feature`.
-You can run a single test with:
-
-```bash
-bin/behat --config application/tests/behat.yml application/tests/features/foo.bar.feature --format progress
-```
-
-#### Creating unit tests
-
-Create your test file in `application/tests/classes/Acme/`, eg `FooBarTest.php`.
-You can run a single test with:
-
-```bash
-bin/phpunit -c application/tests/phpunit.xml application/tests/classes/Acme/FooBarTest.php
-```
 
 ## Useful Links
 
