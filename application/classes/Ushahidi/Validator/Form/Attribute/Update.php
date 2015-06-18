@@ -14,6 +14,7 @@ use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Form_Attribute_Update extends Validator
 {
+    protected $default_error_source = 'form_attribute';
     protected $valid;
     protected $form_stage_repo;
 
