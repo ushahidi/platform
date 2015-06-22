@@ -12,15 +12,10 @@
 namespace Ushahidi\Core\Usecase;
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\Repository\EntityGet;
 
-interface UpdateRepository
+interface UpdateRepository extends EntityGet
 {
-	/**
-	 * @param  Integer $id
-	 * @return Entity
-	 */
-	public function get($id);
-
 	/**
 	 * @param  Entity $entity
 	 * @return void

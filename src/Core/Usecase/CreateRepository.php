@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Usecase;
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\Repository\EntityGet;
 
-interface CreateRepository
+interface CreateRepository extends EntityGet
 {
 	/**
 	 * Creates a new record and returns the created id.
@@ -21,12 +22,6 @@ interface CreateRepository
 	 * @return Mixed
 	 */
 	public function create(Entity $entity);
-
-	/**
-	 * Fetches a record and returns the entity.
-	 * @return Entity
-	 */
-	public function get($id);
 
 	/**
 	 * Converts an array of entity data into an object.

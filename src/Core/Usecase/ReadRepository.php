@@ -11,7 +11,9 @@
 
 namespace Ushahidi\Core\Usecase;
 
-interface ReadRepository
+use Ushahidi\Core\Entity\Repository\EntityGet;
+
+interface ReadRepository extends EntityGet
 {
 	/**
 	 * Converts an array of entity data into an object.
@@ -19,10 +21,4 @@ interface ReadRepository
 	 * @return Entity
 	 */
 	public function getEntity(Array $data = null);
-
-	/**
-	 * @param  Integer $id
-	 * @return Entity
-	 */
-	public function get($id);
 }
