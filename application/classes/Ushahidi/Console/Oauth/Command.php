@@ -11,10 +11,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Console\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
-abstract class Ushahidi_Console_Oauth_Command extends Ushahidi_Console_Command {
+abstract class Ushahidi_Console_Oauth_Command extends Command {
 
 	protected $server;
 
@@ -77,5 +78,54 @@ abstract class Ushahidi_Console_Oauth_Command extends Ushahidi_Console_Command {
 		}
 
 		return $scopes;
+	}
+
+	protected function get_user(InputInterface $input, OutputInterface $output = NULL)
+	{
+		// Username to user ID converter.
+		// TODO: use the repo!
+		$userid = function($username)
+		{
+			if (!$username)
+				return NULL;
+
+			return DB::select('id')
+				->from('users')
+				->where('username', '=', $username)
+				->execute()
+					->get('id')
+					;
+		};
+
+		$username = $input->getOption('user');
+		$user = NULL;
+
+		if ($username)
+		{
+			// Check that the given username exists.
+			$user = $userid($username);
+			if (!$user)
+				throw new RuntimeException('Unknown user "' . $username . '"');
+		}
+		elseif ($output)
+		{
+			// If required, `$output` will be passed and we can interactively
+			// request the user to provide a username.
+			$ask = function($username) use ($userid)
+			{
+				// And check that the given username exists.
+				$user = $userid($username);
+				if (!$user)
+					throw new RuntimeException('Unknown user "' . $user . '", please try again');
+
+				return $user;
+			};
+
+			$user = $this->getHelperSet()->get('dialog')
+				->askAndValidate($output, 'For which user? ', $ask)
+				;
+		}
+
+		return $user;
 	}
 }
