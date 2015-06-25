@@ -148,7 +148,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'parent', 'form', 'set', 'q', /* LIKE title, content */
 			'created_before', 'created_after',
 			'updated_before', 'updated_after',
-			'bbox', 'tags', 'values',
+			'bbox', 'tags', 'values', 'stages',
 			'center_point', 'within_km',
 			'include_types', 'include_attributes', // Specify values to include
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
@@ -296,6 +296,38 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->on('posts.id', '=', 'Filter_BBox.post_id')
 				;
 		}
+
+    if ($search->stages){
+      $stages = $search->stages;
+      if (!is_array($stages)) {
+        $stages = explode(',', $stages);
+      }
+      //Need form id
+
+      $stages_posts = DB::select('from_stage_id')
+        ->from('form_stages_posts')
+        ->where('post_id', '=', 'posts.id')
+        ->and_where('completed', '=', '1');
+
+      $forms_sub = DB::select('form_stages.form_id')
+        ->from('form_stages')
+        ->where('form_stages.id', 'IN', $stages);
+
+      $sub = DB::select('posts.id, form_stages.id, priority, forms.id')
+        ->from('posts')
+        ->join('forms')
+        ->on('forms.id', 'IN', $forms_sub)
+        ->join('form_stages')
+        ->on('form_stages.form_id', '=', 'forms.id')
+        ->on('form_stages.id', 'NOT IN', $stages_posts)
+        ->group_by('posts.id')
+        ->having('form_stages.id', 'IN', $stages)
+        ->order_by('priority');
+
+      $query
+        ->where('posts.id', 'IN', $sub);
+
+    }
 
 		// Filter by tag
 		if ($search->tags)
