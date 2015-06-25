@@ -326,7 +326,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
       $query
         ->where('posts.id', 'IN', $sub);
-
     }
 
 		// Filter by tag
