@@ -59,6 +59,14 @@ form_stages:
     label: "Main"
   -
     id: 2
+    form_id: 1
+    label: "2nd step"
+  -
+    id: 3
+    form_id: 1
+    label: "3rd step"
+  -
+    id: 4
     form_id: 2
     label: "Main"
 form_attributes:
@@ -615,6 +623,19 @@ posts_tags:
   -
     post_id: 99
     tag_id: 3
+form_stages_posts:
+  -
+    form_stage_id: 2
+    post_id: 95
+    completed: 1
+  -
+    form_stage_id: 1
+    post_id: 96
+    completed: 1
+  -
+    form_stage_id: 2
+    post_id: 96
+    completed: 1
 sets:
   -
     id: 1
