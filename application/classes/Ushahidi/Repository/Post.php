@@ -302,30 +302,32 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
       if (!is_array($stages)) {
         $stages = explode(',', $stages);
       }
-      //Need form id
 
-      $stages_posts = DB::select('from_stage_id')
+      $stages_posts = DB::select('form_stage_id')
         ->from('form_stages_posts')
-        ->where('post_id', '=', 'posts.id')
+        ->where('post_id', '=', DB::expr('posts.id'))
         ->and_where('completed', '=', '1');
 
       $forms_sub = DB::select('form_stages.form_id')
         ->from('form_stages')
         ->where('form_stages.id', 'IN', $stages);
 
-      $sub = DB::select('posts.id, form_stages.id, priority, forms.id')
+      $sub = DB::select(array('posts.id','p_id'), array('form_stages.id', 'fs_id'), 'priority', 'forms.id')
         ->from('posts')
         ->join('forms')
         ->on('forms.id', 'IN', $forms_sub)
         ->join('form_stages')
         ->on('form_stages.form_id', '=', 'forms.id')
         ->on('form_stages.id', 'NOT IN', $stages_posts)
-        ->group_by('posts.id')
+        ->group_by('p_id')
         ->having('form_stages.id', 'IN', $stages)
         ->order_by('priority');
 
+      $posts_sub = DB::select('p_id')
+        ->from(array($sub, 'sub'));
+
       $query
-        ->where('posts.id', 'IN', $sub);
+        ->where('posts.id', 'IN', $posts_sub);
     }
 
 		// Filter by tag
