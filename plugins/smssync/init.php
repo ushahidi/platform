@@ -26,8 +26,9 @@ $plugin = array(
 		'intro_step1' => array(
 			'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
 			'input' => 'read-only-text',
-			'description' => '
-				Scan this QR Code with your phone to download the app from the Android Market <img src="media/kohana/images/smssync.png" width="150"/>'
+			'description' => function() {
+				return 'Scan this QR Code with your phone to download the app from the Android Market <img src="'. URL::site('/media/images/smssync.png', TRUE) .'" width="150"/>';
+			}
 		),
 		// @todo figure out how to inject link and fix base url
 		'intro_step2' => array(
