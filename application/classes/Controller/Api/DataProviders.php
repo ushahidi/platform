@@ -13,7 +13,8 @@ class Controller_Api_DataProviders extends Ushahidi_Rest {
 
 	protected $_action_map = array
 	(
-		Http_Request::GET => 'get'
+		Http_Request::GET => 'get',
+		Http_Request::OPTIONS => 'options'
 	);
 
 	protected function _scope()
