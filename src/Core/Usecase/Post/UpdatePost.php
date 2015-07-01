@@ -11,6 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\UpdateUsecase;
 
 class UpdatePost extends UpdateUsecase
@@ -26,5 +27,24 @@ class UpdatePost extends UpdateUsecase
 	protected function getEntity()
 	{
 		return $this->getEntityWithoutPayload();
+	}
+
+	// UpdateUsecase
+	protected function verifyValid(Entity $entity)
+	{
+		$changed = $entity->getChanged();
+
+		if (isset($entity->id)) {
+			$changed['id'] = $entity->id;
+		}
+
+		// Always pass form_id to validation
+		if (isset($entity->form_id)) {
+			$changed['form_id'] = $entity->form_id;
+		}
+
+		if (!$this->validator->check($changed)) {
+			$this->validatorError($entity);
+		}
 	}
 }

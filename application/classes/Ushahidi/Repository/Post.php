@@ -722,7 +722,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if ($entity->completed_stages)
 		{
 			// Update post-stages
-			$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
+			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
 
 		return $count;

@@ -299,7 +299,8 @@ Feature: Testing the Posts API
 					],
 					"missing_status":["believed_missing"]
 				},
-				"tags":["disaster","explosion"]
+				"tags":["disaster","explosion"],
+				"completed_stages":[1]
 			}
 			"""
 		And that its "id" is "1"
