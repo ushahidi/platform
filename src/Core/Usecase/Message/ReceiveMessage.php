@@ -132,12 +132,12 @@ class ReceiveMessage extends CreateUsecase
 	protected function getContactEntity()
 	{
 		// Is the sender of the message a registered contact?
-		$contact = $this->contactRepo->getByContact($this->payload['from'], $this->payload['contact_type']);
+		$contact = $this->contactRepo->getByContact($this->getPayload('from'), $this->getPayload('contact_type'));
 		if (! $contact->getId()) {
 			$contact =  $this->contactRepo->getEntity()->setState([
-				'contact' => $this->payload['from'],
-				'type' => $this->payload['contact_type'],
-				'data_provider' => $this->payload['provider_name'],
+				'contact' => $this->getPayload('from'),
+				'type' => $this->getPayload('contact_type'),
+				'data_provider' => $this->getPayload('data_provider'),
 			]);
 		}
 
