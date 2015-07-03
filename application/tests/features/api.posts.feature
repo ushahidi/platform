@@ -818,11 +818,11 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
-	Scenario: Search All Posts by single stage
+	Scenario: Filter All Posts by single stage
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			stages=3
+			stage=3
 			"""
 		When I request "/posts"
 		Then the response is JSON
@@ -831,12 +831,12 @@ Feature: Testing the Posts API
 		And the "count" property equals "1"
 		Then the guzzle status code should be 200
 
-	@runonlythis @resetFixture @search
-	Scenario: Search All Posts by single stage
+	@resetFixture @search
+	Scenario: Filter All Posts by multiple stages
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			stages=1,3
+			stage=1,3
 			"""
 		When I request "/posts"
 		Then the response is JSON
