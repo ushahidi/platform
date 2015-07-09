@@ -307,7 +307,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
        * Here be dragons
        * The purpose of this query is to return the set of posts which
        * have current stage X. In this case, current stage X is actually the 
-       * the stage the post has NOT yet completed. 
+       * the stage the post has NOT yet completed - which is the stage with.
+       * the lowest priority.
        * For example:
        * If I have 3 stages for a given Post Type, I am on stage 1 if
        * I have completed no stages and I am on stage 3 if I have completed
@@ -341,18 +342,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
       $sub = DB::select(array('posts.id','p_id'), array('form_stages.id', 'fs_id'), 'priority', 'forms.id')
         ->from('posts')
         ->join('forms')
-        //Here we join to the forms table based on the set of stage ids we are filtering by
+        // Here we join to the forms table based on the set of stage ids we are filtering by
         ->on('forms.id', 'IN', $forms_sub)
         ->join('form_stages')
-        //Here we join to the form_stages table based on the form id
+        // Here we join to the form_stages table based on the form id
         ->on('form_stages.form_id', '=', 'forms.id')
-        //and a check that the current post has not already completed this stage
+        // and a check that the current post has not already completed this stage
         ->on('form_stages.id', 'NOT IN', $stages_posts)
-        //We group the results by post id
+        // We group the results by post id
         ->group_by('p_id')
-        //We reduce the list to ensure that only results missing the stages to filter by are returned
+        // We reduce the list to ensure that only results missing the stages to filter by are returned
         ->having('form_stages.id', 'IN', $stages)
-        //Finally we order the results by priority to ensure that if, for example,
+        // Finally we order the results by priority to ensure that if, for example,
         // a post is missing multiple stages we only consider the first uncompleted stage
         ->order_by('priority');
 
