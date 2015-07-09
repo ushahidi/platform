@@ -822,7 +822,7 @@ Feature: Testing the Posts API
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			stage=3
+			current_stage=3
 			"""
 		When I request "/posts"
 		Then the response is JSON
@@ -836,7 +836,7 @@ Feature: Testing the Posts API
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			stage=1,3
+			current_stage=1,3
 			"""
 		When I request "/posts"
 		Then the response is JSON
