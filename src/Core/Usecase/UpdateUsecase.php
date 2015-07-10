@@ -69,11 +69,6 @@ class UpdateUsecase implements Usecase
 	// Usecase
 	public function interact()
 	{
-    //remove created time stamp if present to prevent overwriting
-    if ($this->payload['created']) {
-        unset($this->payload['created']);
-    }
-
 		// Fetch the entity and apply the payload...
 		$entity = $this->getEntity()->setState($this->payload);
 		// ... verify that the entity can be updated by the current user
