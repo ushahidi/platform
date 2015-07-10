@@ -73,6 +73,10 @@ class Ushahidi_Repository_Layer extends Ushahidi_Repository
 		$update = $this->json_transcoder->encode(
 			$entity->getChanged(), $this->json_properties
 		);
+    
+    // Block api from updating created and updated timestamps
+    unset($update['created']);
+
 		$update['updated'] = time();
 
 		return $this->executeUpdate(['id' => $entity->id], $update);

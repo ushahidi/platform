@@ -44,6 +44,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			$entity->getChanged(),
 			$this->json_properties
 		);
+
 		return $this->executeUpdate(['id' => $entity->getId()], $record);
 	}
 
