@@ -77,12 +77,12 @@ abstract class Ushahidi_Repository implements
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-    // Ensure that timestamp for created is not overwritten
-    $updated = $entity->getChanged();
-    
-    if($updated['created']){
-      unset($updated['created']);
-    }
+		// Ensure that timestamp for created is not overwritten
+		$updated = $entity->getChanged();
+
+		if(array_key_exists('created', $updated)){
+			unset($updated['created']);
+		}
 
 		return $this->executeUpdate(['id' => $entity->id], $updated);
 	}
