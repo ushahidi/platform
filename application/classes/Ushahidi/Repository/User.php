@@ -67,7 +67,8 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			'updated'  => time(),
 		];
 
-    $state['created'] = $entity->created;
+		$state['created'] = $entity->created;
+
 		if ($entity->hasChanged('password')) {
 			$state['password'] = $this->hasher->hash($entity->password);
 		}
