@@ -701,10 +701,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		);
 		$post['updated'] = time();
 
-		// Remove attribute values and tags
-		// and block api from updating created
-		// and updated timestamps
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['created']);
+		unset($post['values'], $post['tags'], $post['completed_stages']);
 
 		// Update the post
 		$count = $this->executeUpdate(['id' => $entity->id], $post);

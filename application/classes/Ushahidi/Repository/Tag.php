@@ -91,9 +91,6 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 			$this->json_properties
 		);
 
-		// Block api from updating created and updated timestamps
-		unset($record['created'], $record['updated']);
-
 		return $this->executeUpdate(['id' => $entity->getId()], $record);
 	}
 
