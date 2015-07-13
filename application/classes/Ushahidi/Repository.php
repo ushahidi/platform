@@ -259,6 +259,10 @@ abstract class Ushahidi_Repository implements
 			return 0; // nothing would be updated, just ignore
 		}
 
+		if(array_key_exists('created', $input)){
+			unset($input['created']);
+		}
+
 		$query = DB::update($this->getTable())->set($input);
 		foreach ($where as $column => $value)
 		{
