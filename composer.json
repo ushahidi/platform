@@ -89,6 +89,7 @@
     },
     "minimum-stability": "dev",
     "config": {
+        "bin-dir": "bin/",
         "github-protocols": [
             "https",
             "http",
@@ -103,8 +104,7 @@
     },
     "scripts": {
         "post-install-cmd" : [
-            "ln -sf vendor/bin/* bin/",
-            "vendor/bin/phinx migrate -c application/phinx.php"
+            "bin/phinx migrate -c application/phinx.php"
         ]
     }
 }

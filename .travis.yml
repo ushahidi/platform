@@ -10,13 +10,11 @@ php:
 - '5.6'
 cache:
   directories:
-    - vendor
     - $HOME/.composer/cache
 services:
 - mysql
 install:
 - composer install --no-interaction --no-scripts
-- ln -sf vendor/bin/* bin/
 before_script:
 - "./bin/tests install"
 script:
