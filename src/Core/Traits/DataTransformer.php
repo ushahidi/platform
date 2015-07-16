@@ -121,20 +121,6 @@ trait DataTransformer
 	}
 
 	/**
-	 * Transforms an array to an array of integers.
-	 *
-	 * @param  Array $value
-	 * @return [Int, ..]
-	 */
-	protected static function transformArrayint($value)
-	{
-		// Cast value to array
-		settype($value, 'array');
-		// .. then make each element an int
-		return array_map('intval', $value);
-	}
-
-	/**
 	 * Get the custom transformer name for a type, if it exists.
 	 *
 	 * Custom transform types are denoted by prepending the type with a star:
