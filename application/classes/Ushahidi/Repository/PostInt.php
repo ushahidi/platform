@@ -20,4 +20,11 @@ class Ushahidi_Repository_PostInt extends Ushahidi_Repository_PostValue
 		return 'post_int';
 	}
 
+	// Ushahidi_Repository
+	public function getEntity(Array $data = null)
+	{
+		$data['value'] = intval($data['value']);
+		return new PostValue($data);
+	}
+
 }
