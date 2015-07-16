@@ -697,7 +697,7 @@ Feature: Testing the Posts API
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			form=
+			form=none
 			"""
 		When I request "/posts"
 		Then the response is JSON

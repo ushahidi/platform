@@ -210,18 +210,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			if (isset($search->$key))
 			{
-				// Special case: empty search string looks for null
-				if (empty($search->$key))
-				{
-					$query->where("$table.{$key}_id", "IS", NULL);
+				// Make sure we have an array
+				if (!is_array($search->$key)) {
+					$search->$key = explode(',', $search->$key);
 				}
-				else
-				{
-					// Make sure we have an array
-					if (!is_array($search->$key)) {
-						$search->$key = explode(',', $search->$key);
-					}
 
+				// Special case: 'none' looks for null
+				if (in_array('none', $search->$key)) {
+					$query->and_where_open()
+						->where("$table.{$key}_id", 'IS', NULL)
+						->or_where("$table.{$key}_id", 'IN', $search->$key)
+						->and_where_close();
+				} else {
 					$query->where("$table.{$key}_id", 'IN', $search->$key);
 				}
 			}
