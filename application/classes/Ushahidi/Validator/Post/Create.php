@@ -239,7 +239,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 			foreach ($required_stages as $stage)
 			{
 				// Check the required stages have been completed
-				if (in_array($stage->id, $completed_stages))
+				if (! in_array($stage->id, $completed_stages))
 				{
 					// If its not completed, add a validation error
 					$validation->error('completed_stages', 'stageRequired', [$stage->label]);
