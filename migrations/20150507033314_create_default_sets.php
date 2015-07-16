@@ -15,7 +15,7 @@ class CreateDefaultSets extends AbstractMigration
             VALUES
                 ( 'All posts', 'All posts', '{ \"status\": \"all\" }', 'list', '[]', 1, 1 ),
                 ( 'Published posts', 'All published posts', '{ \"status\": \"published\" }', 'list', '[\"admin\"]', 1, 1 ),
-                ( 'Unstructured posts', 'Unstructured posts', '{ \"status\": \"all\", \"type\": \"\" }', 'list', '[\"admin\"]', 1, 1 ),
+                ( 'Unstructured posts', 'Unstructured posts', '{ \"status\": \"all\", \"form\": \"none\" }', 'list', '[\"admin\"]', 1, 1 ),
                 ( 'My posts', 'Your posts', '{ \"user\": \"me\", \"status\": \"all\" }', 'list', '[\"admin\", \"member\"]', 1, 1 )
             "
         );
