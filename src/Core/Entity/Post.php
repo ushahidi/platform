@@ -74,9 +74,9 @@ class Post extends StaticEntity
 			'updated'         => 'int',
 			'locale'          => '*lowercasestring',
 			'values'          => 'array',
-			'tags'            => 'array',
+			'tags'            => '*arrayint',
 			'published_to'    => '*json',
-			'completed_stages'=> 'array',
+			'completed_stages'=> '*arrayint',
 		];
 	}
 
