@@ -775,19 +775,19 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Update the post
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
-		if ($entity->tags)
+		if ($entity->hasChanged('tags'))
 		{
 			// Update post-tags
 			$this->updatePostTags($entity->id, $entity->tags);
 		}
 
-		if ($entity->values)
+		if ($entity->hasChanged('values'))
 		{
 			// Update post-values
 			$this->updatePostValues($entity->id, $entity->values);
 		}
 
-		if ($entity->completed_stages)
+		if ($entity->hasChanged('completed_stages'))
 		{
 			// Update post-stages
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
@@ -860,10 +860,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function updatePostStages($post_id, $form_id, $completed_stages)
 	{
+		if (! is_array($completed_stages))
+		{
+			$completed_stages = [];
+		}
+
 		// Remove any existing entries
 		DB::delete('form_stages_posts')
 			->where('post_id', '=', $post_id)
 			->execute($this->db);
+
 		$insert = DB::insert('form_stages_posts', ['form_stage_id', 'post_id', 'completed']);
 		// Get all stages for form
 		$form_stages = $this->form_stage_repo->getByForm($form_id);
