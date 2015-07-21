@@ -42,4 +42,10 @@ interface FormAttributeRepository extends
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
 	 */
 	public function getRequired($stage_id);
+
+	/**
+	 * @param  string  $key
+	 * @return boolean
+	 */
+	public function isKeyAvailable($key);
 }

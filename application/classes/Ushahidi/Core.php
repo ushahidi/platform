@@ -157,17 +157,6 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Post_Create'),
 		];
 
-
-		// Validator Setters
-		$di->setter['Ushahidi_Validator_Form_Stage_Update'] = [
-			'setFormRepo' => $di->lazyGet('repository.form'),
-		];
-		$di->setter['Ushahidi_Validator_Media_Create'] = [
-			'setMaxBytes' => $di->lazy(function() {
-				return \Kohana::$config->load('media.max_upload_bytes');
-			}),
-		];
-
 		// Validation Trait
 		$di->setter['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->newFactory('Ushahidi_ValidationEngine');
 
@@ -355,23 +344,10 @@ abstract class Ushahidi_Core {
 			'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 			'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
 			];
-		$di->params['Ushahidi_Validator_Tag_Update'] = [
-			'repo' => $di->lazyGet('repository.tag'),
-			'role_repo' => $di->lazyGet('repository.role'),
-			];
-
-		$di->params['Ushahidi_Validator_User_Create'] = [
-			'repo' => $di->lazyGet('repository.user'),
-			'role_repo' => $di->lazyGet('repository.role'),
-			];
-		$di->params['Ushahidi_Validator_User_Update'] = [
-			'repo' => $di->lazyGet('repository.user'),
-			'user' => $di->lazyGet('session.user'),
-			'role_repo' => $di->lazyGet('repository.role'),
-			];
-		$di->params['Ushahidi_Validator_User_Register'] = [
-			'repo'    => $di->lazyGet('repository.user')
-			];
+		$di->param['Ushahidi_Validator_Form_Attribute_Update'] = [
+			'repo' => $di->lazyGet('repository.form_attribute'),
+			'form_stage_repo' => $di->lazyGet('repository.form_stage'),
+		];
 		$di->params['Ushahidi_Validator_Layer_Update'] = [
 			'media_repo' => $di->lazyGet('repository.media'),
 		];
@@ -401,6 +377,34 @@ abstract class Ushahidi_Core {
 
 		$di->params['Ushahidi_Validator_Set_Post_Create'] = [
 			'post_repo' => $di->lazyGet('repository.post')
+		];
+
+		$di->params['Ushahidi_Validator_Tag_Update'] = [
+			'repo' => $di->lazyGet('repository.tag'),
+			'role_repo' => $di->lazyGet('repository.role'),
+			];
+
+		$di->params['Ushahidi_Validator_User_Create'] = [
+			'repo' => $di->lazyGet('repository.user'),
+			'role_repo' => $di->lazyGet('repository.role'),
+			];
+		$di->params['Ushahidi_Validator_User_Update'] = [
+			'repo' => $di->lazyGet('repository.user'),
+			'user' => $di->lazyGet('session.user'),
+			'role_repo' => $di->lazyGet('repository.role'),
+			];
+		$di->params['Ushahidi_Validator_User_Register'] = [
+			'repo'    => $di->lazyGet('repository.user')
+			];
+
+		// Validator Setters
+		$di->setter['Ushahidi_Validator_Form_Stage_Update'] = [
+			'setFormRepo' => $di->lazyGet('repository.form'),
+		];
+		$di->setter['Ushahidi_Validator_Media_Create'] = [
+			'setMaxBytes' => $di->lazy(function() {
+				return \Kohana::$config->load('media.max_upload_bytes');
+			}),
 		];
 
 

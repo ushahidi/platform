@@ -42,6 +42,25 @@ Feature: Testing the Form Attributes API
         And the response has a "errors" property
         Then the guzzle status code should be 404
 
+    Scenario: Creating a new Attribute with a duplicate key
+        Given that I want to make a new "Attribute"
+        And that the request "data" is:
+            """
+            {
+                "form_stage":1,
+                "key":"test_varchar",
+                "label":"Hey a Thing",
+                "type":"varchar",
+                "input":"text",
+                "required":true,
+                "priority":1
+            }
+            """
+        When I request "/forms/1/attributes"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 400
+
     Scenario: Creating a new Attribute on a Stage with the wrong Form ID
         Given that I want to make a new "Attribute"
         And that the request "data" is:

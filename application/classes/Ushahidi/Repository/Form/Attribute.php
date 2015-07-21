@@ -137,4 +137,10 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 		return $this->getCollection($results->as_array());
 	}
+
+	// FormAttributeRepository
+	public function isKeyAvailable($key)
+	{
+		return $this->selectCount(compact('key')) === 0;
+	}
 }

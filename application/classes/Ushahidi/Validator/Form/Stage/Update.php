@@ -18,7 +18,7 @@ class Ushahidi_Validator_Form_Stage_Update extends Validator
 	protected $form_repo;
 	protected $default_error_source = 'form';
 
-	public function setFormRepo($form_repo)
+	public function setFormRepo(FormRepository $form_repo)
 	{
 		$this->form_repo = $form_repo;
 	}

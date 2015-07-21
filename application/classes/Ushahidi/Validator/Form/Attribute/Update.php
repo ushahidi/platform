@@ -11,15 +11,19 @@
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 
 class Ushahidi_Validator_Form_Attribute_Update extends Validator
 {
     protected $default_error_source = 'form_attribute';
     protected $valid;
+    protected $repo;
     protected $form_stage_repo;
 
-    public function __construct(Ushahidi_Repository_Form_Stage $form_stage_repo)
+    public function __construct(FormAttributeRepository $repo, FormStageRepository $form_stage_repo)
     {
+        $this->repo = $repo;
         $this->form_stage_repo = $form_stage_repo;
     }
 
@@ -29,6 +33,7 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
             'key' => [
                 ['max_length', [':value', 150]],
                 ['alpha_dash', [':value', TRUE]],
+                [[$this->repo, 'isKeyAvailable'], [':value']]
             ],
             'label' => [
                 ['max_length', [':value', 150]],
