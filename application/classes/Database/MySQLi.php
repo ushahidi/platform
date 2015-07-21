@@ -152,6 +152,17 @@ class Database_MySQLi extends Database {
 				Profiler::delete($benchmark);
 			}
 
+			// an attempt to duplicate an entry in a 'mapping' table - e.g; post_tags or post_sets
+			// will also cause a primary key violation because together the tag/set id and the post id form the primary key
+			// this is not an error condition in a mapping table, so instead we will return 200
+	//		if ($this->_connection->errno === '1062') // the duplicate key set error
+	//		{
+				if (strpos($this->_connection->error, 'posts_sets') === TRUE || strpos($this->_connection->error, 'posts_tags') === TRUE)
+				{
+					return 1;
+				}
+	//		}
+
 			throw new Database_Exception(':error [ :query ]', array(
 				':error' => $this->_connection->error,
 				':query' => $sql

@@ -44,8 +44,12 @@ class CreateSetPost extends CreateUsecase
 		// ... verify that the post is visible to the current user
 		$this->verifyReadAuth($post);
 
-		// .. add the post to the set
-		$this->setRepo->addPostToSet($set->id, $post->id);
+		// if the post has not already been added, then
+		if (!$this->setRepo->setPostExists($set->id, $post->id))
+		{
+			// .. add the post to the set
+			$this->setRepo->addPostToSet($set->id, $post->id);
+		}
 
 		// ... and return the formatted post
 		return $this->formatter->__invoke($post);
