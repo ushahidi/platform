@@ -573,8 +573,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 			// Limit tags to a top level, or a specific parent.
 			if ($search->group_by_tags !== 'all') {
-				$this->search_query
-					->where('parents.parent_id', '=', $search->getFilter('group_by_tags', null));
+				if ($search->group_by_tags) {
+					$this->search_query
+						->where('parents.parent_id', '=', $search->getFilter('group_by_tags', null));
+				} else {
+					// Special case: top level categories could have parent_id NULL or 0
+					// @todo try to ensure parent_id is always NULL and migrate 0 -> NULL
+					$this->search_query
+						->and_where_open()
+						->where('parents.parent_id', 'IS', NULL)
+						->or_where('parents.parent_id', '=', 0)
+						->and_where_close();
+				}
 			}
 		}
 		// If no group_by just count all posts
