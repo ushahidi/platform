@@ -853,6 +853,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			DB::delete('posts_tags')
 				->where('tag_id', 'NOT IN', $tag_ids)
+				->where('post_id', '=', '$post_id')
 				->execute($this->db);
 		}
 	}
