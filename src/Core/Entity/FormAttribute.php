@@ -18,6 +18,7 @@ class FormAttribute extends StaticEntity
 	protected $id;
 	protected $key;
 	protected $label;
+	protected $instructions;
 	protected $input;
 	protected $type;
 	protected $required;
@@ -25,6 +26,7 @@ class FormAttribute extends StaticEntity
 	protected $priority;
 	protected $options = [];
 	protected $cardinality;
+	protected $config = [];
 	protected $form_stage_id;
 
 	// StatefulData
@@ -42,6 +44,7 @@ class FormAttribute extends StaticEntity
 			'id'            => 'int',
 			'key'           => 'string',
 			'label'         => 'string',
+			'instructions'  => 'string',
 			'input'         => 'string',
 			'type'          => 'string',
 			'required'      => 'bool',
@@ -49,6 +52,7 @@ class FormAttribute extends StaticEntity
 			'priority'      => 'int',
 			'options'       => '*json',
 			'cardinality'   => 'int',
+			'config'        => '*json',
 			'form_stage'    => false, /* alias */
 			'form_stage_id' => 'int',
 		];

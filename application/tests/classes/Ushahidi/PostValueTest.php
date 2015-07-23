@@ -17,12 +17,12 @@ class PostValueRepositoryTest extends Unittest_TestCase {
 	{
 		parent::setUp();
 
-		$this->repository = $this->getMockBuilder('Ushahidi_Repository_PostValue')
+		$this->repository = $this->getMockBuilder('Ushahidi_Repository_Post_Value')
 			->setMethods(['selectOne', 'selectQuery', 'getTable'])
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->postvalue = $this->getMock('Ushahidi\Core\Entity\PostValue');
+		$this->postvalue = $this->getMock('Ushahidi\Core\Entity\Post_Value');
 	}
 
 	/**

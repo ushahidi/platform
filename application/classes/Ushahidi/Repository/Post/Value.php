@@ -14,7 +14,7 @@ use Ushahidi\Core\Entity\PostValueRepository;
 use Ushahidi\Core\Usecase\Post\ValuesForPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostValueRepository;
 
-abstract class Ushahidi_Repository_PostValue extends Ushahidi_Repository implements
+abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implements
 	PostValueRepository,
 	ValuesForPostRepository,
 	UpdatePostValueRepository

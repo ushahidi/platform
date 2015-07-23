@@ -56,14 +56,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	 * @param Database                              $db
 	 * @param FormAttributeRepository               $form_attribute_repo
 	 * @param FormStageRepository                   $form_stage_repo
-	 * @param Ushahidi_Repository_PostValueFactory  $post_value_factory
+	 * @param Ushahidi_Repository_Post_ValueFactory  $post_value_factory
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
 	public function __construct(
 			Database $db,
 			FormAttributeRepository $form_attribute_repo,
 			FormStageRepository $form_stage_repo,
-			Ushahidi_Repository_PostValueFactory $post_value_factory,
+			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory,
 			UpdatePostTagRepository $tag_repo
 		)

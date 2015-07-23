@@ -297,17 +297,18 @@ abstract class Ushahidi_Core {
 				'tag_repo' => $di->lazyGet('repository.tag')
 			];
 
-		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_PostDatetime'));
-		$di->set('repository.post.decimal', $di->lazyNew('Ushahidi_Repository_PostDecimal'));
-		$di->set('repository.post.geometry', $di->lazyNew('Ushahidi_Repository_PostGeometry'));
-		$di->set('repository.post.int', $di->lazyNew('Ushahidi_Repository_PostInt'));
-		$di->set('repository.post.point', $di->lazyNew('Ushahidi_Repository_PostPoint'));
-		$di->set('repository.post.text', $di->lazyNew('Ushahidi_Repository_PostText'));
-		$di->set('repository.post.varchar', $di->lazyNew('Ushahidi_Repository_PostVarchar'));
+		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_Post_Datetime'));
+		$di->set('repository.post.decimal', $di->lazyNew('Ushahidi_Repository_Post_Decimal'));
+		$di->set('repository.post.geometry', $di->lazyNew('Ushahidi_Repository_Post_Geometry'));
+		$di->set('repository.post.int', $di->lazyNew('Ushahidi_Repository_Post_Int'));
+		$di->set('repository.post.point', $di->lazyNew('Ushahidi_Repository_Post_Point'));
+		$di->set('repository.post.relation', $di->lazyNew('Ushahidi_Repository_Post_Relation'));
+		$di->set('repository.post.text', $di->lazyNew('Ushahidi_Repository_Post_Text'));
+		$di->set('repository.post.varchar', $di->lazyNew('Ushahidi_Repository_Post_Varchar'));
 
 		// The post value repo factory
-		$di->set('repository.post_value_factory', $di->lazyNew('Ushahidi_Repository_PostValueFactory'));
-		$di->params['Ushahidi_Repository_PostValueFactory'] = [
+		$di->set('repository.post_value_factory', $di->lazyNew('Ushahidi_Repository_Post_ValueFactory'));
+		$di->params['Ushahidi_Repository_Post_ValueFactory'] = [
 				// a map of attribute types to repositories
 				'map' => [
 					'datetime' => $di->lazyGet('repository.post.datetime'),
@@ -315,12 +316,13 @@ abstract class Ushahidi_Core {
 					'geometry' => $di->lazyGet('repository.post.geometry'),
 					'int'      => $di->lazyGet('repository.post.int'),
 					'point'    => $di->lazyGet('repository.post.point'),
+					'relation' => $di->lazyGet('repository.post.relation'),
 					'text'     => $di->lazyGet('repository.post.text'),
 					'varchar'  => $di->lazyGet('repository.post.varchar')
 				],
 			];
 
-		$di->params['Ushahidi_Repository_PostPoint'] = [
+		$di->params['Ushahidi_Repository_Post_Point'] = [
 			'decoder' => $di->lazyNew('Symm\Gisconverter\Decoders\WKT')
 			];
 
@@ -414,6 +416,7 @@ abstract class Ushahidi_Core {
 		$di->set('validator.post.int', $di->lazyNew('Ushahidi_Validator_Post_Int'));
 		$di->set('validator.post.link', $di->lazyNew('Ushahidi_Validator_Post_Link'));
 		$di->set('validator.post.point', $di->lazyNew('Ushahidi_Validator_Post_Point'));
+		$di->set('validator.post.relation', $di->lazyNew('Ushahidi_Validator_Post_Relation'));
 		$di->set('validator.post.varchar', $di->lazyNew('Ushahidi_Validator_Post_Varchar'));
 
 		$di->set('validator.post.value_factory', $di->lazyNew('Ushahidi_Validator_Post_ValueFactory'));
@@ -426,8 +429,13 @@ abstract class Ushahidi_Core {
 					'int'      => $di->lazyGet('validator.post.int'),
 					'link'     => $di->lazyGet('validator.post.link'),
 					'point'    => $di->lazyGet('validator.post.point'),
+					'relation' => $di->lazyGet('validator.post.relation'),
 					'varchar'  => $di->lazyGet('validator.post.varchar')
 				],
+			];
+
+		$di->params['Ushahidi_Validator_Post_Relation'] = [
+			'repo' => $di->lazyGet('repository.post')
 			];
 
 		/**

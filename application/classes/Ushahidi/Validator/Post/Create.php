@@ -40,7 +40,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 * @param UserRepository                        $user_repo
 	 * @param FormRepository                        $form_repo
 	 * @param RoleRepository                        $role_repo
-	 * @param Ushahidi_Repository_PostValueFactory  $post_value_factory
+	 * @param Ushahidi_Repository_Post_ValueFactory  $post_value_factory
 	 * @param Ushahidi_Validator_Post_ValueFactory  $post_value_validator_factory
 	 */
 	public function __construct(
@@ -51,7 +51,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		UserRepository $user_repo,
 		FormRepository $form_repo,
 		RoleRepository $role_repo,
-		Ushahidi_Repository_PostValueFactory $post_value_factory,
+		Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 		Ushahidi_Validator_Post_ValueFactory $post_value_validator_factory)
 	{
 		$this->repo = $repo;
@@ -183,6 +183,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 			// Run checks on individual values type specific validation
 			if ($validator = $this->post_value_validator_factory->getValidator($attribute->type))
 			{
+				// Pass attribute config to the validator
+				$validator->setConfig($attribute->config);
+
 				if (!is_array($values))
 				{
 					$validation->error('values', 'notAnArray', [$key]);

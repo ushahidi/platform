@@ -12,12 +12,12 @@
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\Core\Entity\PostValueRepository;
 
-class Ushahidi_Repository_PostDatetime extends Ushahidi_Repository_PostValue
+class Ushahidi_Repository_Post_Varchar extends Ushahidi_Repository_Post_Value
 {
 	// Ushahidi_Repository
 	protected function getTable()
 	{
-		return 'post_datetime';
+		return 'post_varchar';
 	}
 
 }
