@@ -81,14 +81,14 @@ class Ushahidi_Validator_Contact_Create extends Validator
 
 			if (strlen($number) < 9)
 			{
-				$validation->error($field, 'invalid_phone');
+				$validation->error('contact', 'invalid_phone');
 			}
 		}
 		else
 		{
-			if ( ! $validation[$field])
+			if ( ! $validation['contact'])
 			{
-				$validation->error($field, 'invalid_account');
+				$validation->error('contact', 'invalid_account');
 			}
 		}
 	}

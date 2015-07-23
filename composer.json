@@ -52,6 +52,7 @@
         "league/oauth2-server": "~3.2.4",
         "league/flysystem": "0.4.*",
         "ircmaxell/password-compat": "~1.0.3",
+        "abraham/twitteroauth": "^0.5.3",
         "kohana/core" : "3.3.*@dev",
         "kohana/cache" : "3.3.*@dev",
         "kohana/orm" : "3.3.*@dev",

@@ -72,11 +72,12 @@ class Ushahidi_Console_Dataprovider extends Command {
 		$limit = $input->getOption('limit');
 
 		$totals = [];
-		foreach ($providers as $id => $provider)
+
+		foreach ($providers as $provider)
 		{
 			$totals[] = [
 				'Provider' => $provider->name,
-				'Total'    => \DataProvider::factory($id)->fetch($limit),
+				'Total'    => \DataProvider::factory($provider->id)->fetch($limit),
 			];
 		}
 

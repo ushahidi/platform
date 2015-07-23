@@ -4,8 +4,62 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "29ec053ba9dcc79be5b1d92671697182",
+    "hash": "ebc9f73a34a93852daa4c241ecb180bd",
     "packages": [
+        {
+            "name": "abraham/twitteroauth",
+            "version": "0.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/abraham/twitteroauth.git",
+                "reference": "c72c778c043220e29b81edbc0b521a5dd553e891"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/c72c778c043220e29b81edbc0b521a5dd553e891",
+                "reference": "c72c778c043220e29b81edbc0b521a5dd553e891",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "2.*",
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Abraham\\TwitterOAuth\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abraham Williams",
+                    "email": "abraham@abrah.am",
+                    "homepage": "https://abrah.am",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The most popular PHP library for use with the Twitter OAuth REST API.",
+            "homepage": "https://twitteroauth.com",
+            "keywords": [
+                "Twitter API",
+                "Twitter oAuth",
+                "api",
+                "oauth",
+                "rest",
+                "social",
+                "twitter"
+            ],
+            "time": "2015-03-31 15:39:00"
+        },
         {
             "name": "aura/di",
             "version": "dev-develop-2",
@@ -1258,7 +1312,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2012-09-17 10:35:07"
+            "time": "2015-05-03 14:33:11"
         },
         {
             "name": "wouter/acl",
@@ -1269,7 +1323,7 @@
                 "reference": "origin/master"
             },
             "type": "library",
-            "time": "2011-07-15 16:16:27"
+            "time": "2015-05-03 14:01:47"
         },
         {
             "name": "zeelot/kohana-media",
