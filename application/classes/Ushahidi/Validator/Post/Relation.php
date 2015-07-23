@@ -31,7 +31,7 @@ class Ushahidi_Validator_Post_Relation extends Ushahidi_Validator_Post_ValueVali
 		}
 
 		$post = $this->repo->get($value);
-		if (is_int($this->config->input->form) && $post->form_id !== $this->config->input->form) {
+		if (is_int($this->config['input']['form']) && $post->form_id !== $this->config['input']['form']) {
 			return 'invalidForm';
 		}
 	}
