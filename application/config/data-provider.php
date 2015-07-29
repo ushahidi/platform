@@ -22,6 +22,7 @@ return array(
 		'email' => FALSE,
 		'twilio' => FALSE,
 		'nexmo' => FALSE,
+		'twitter' => FALSE,
 	)
 
 	// Config params for individual providers

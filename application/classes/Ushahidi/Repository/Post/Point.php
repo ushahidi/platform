@@ -15,7 +15,7 @@ use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Geometry\Point;
 use Symm\Gisconverter\Exceptions\InvalidText;
 
-class Ushahidi_Repository_PostPoint extends Ushahidi_Repository_PostValue
+class Ushahidi_Repository_Post_Point extends Ushahidi_Repository_Post_Value
 {
 	protected $decoder;
 

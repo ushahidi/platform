@@ -88,6 +88,7 @@ Feature: Testing the Form Attributes API
                 "form_stage":1,
                 "key":"value_test",
                 "label":"Value test",
+                "instructions":"Much longer boring instructions",
                 "type":"varchar",
                 "input":"text",
                 "required":true,
@@ -95,20 +96,36 @@ Feature: Testing the Form Attributes API
                 "default":"default val",
                 "options":[
                   "option1",
-                  "option2"
-                ]
+                  "option2",
+                  "option3",
+                  "option4",
+                  "option5",
+                  "option6",
+                  "option7",
+                  "option8",
+                  "option9",
+                  "option10",
+                  "option11",
+                  "option12",
+                  "option13"
+                ],
+                "config":{
+                  "magic-input":true
+                }
             }
             """
         When I request "/forms/1/attributes"
         Then the response is JSON
         And the "key" property equals "value_test"
         And the "label" property equals "Value test"
+        And the "instructions" property equals "Much longer boring instructions"
         And the "type" property equals "varchar"
         And the "input" property equals "text"
         And the "required" property equals "true"
         And the "priority" property equals "11"
         And the "default" property equals "default val"
-        And the "options.0" property equals "option1"
+        And the "options.12" property equals "option13"
+        And the "config.magic-input" property equals "true"
         Then the guzzle status code should be 200
 
     Scenario: Updating a Attribute

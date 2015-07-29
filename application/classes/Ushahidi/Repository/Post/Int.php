@@ -12,12 +12,19 @@
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\Core\Entity\PostValueRepository;
 
-class Ushahidi_Repository_PostDecimal extends Ushahidi_Repository_PostValue
+class Ushahidi_Repository_Post_Int extends Ushahidi_Repository_Post_Value
 {
 	// Ushahidi_Repository
 	protected function getTable()
 	{
-		return 'post_decimal';
+		return 'post_int';
+	}
+
+	// Ushahidi_Repository
+	public function getEntity(Array $data = null)
+	{
+		$data['value'] = intval($data['value']);
+		return new PostValue($data);
 	}
 
 }

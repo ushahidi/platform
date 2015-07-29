@@ -12,6 +12,13 @@
 // Note: this doesn't actually implement Ushahidi\Core\Tool\Validator
 abstract class Ushahidi_Validator_Post_ValueValidator
 {
+
+	protected $config;
+	public function setConfig(Array $config = null)
+	{
+		$this->config = $config;
+	}
+
 	public function check(Array $values)
 	{
 		foreach ($values as $value) {

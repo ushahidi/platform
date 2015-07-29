@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Ushahidi_Repository_PostValueFactory
+class Ushahidi_Repository_Post_ValueFactory
 {
 	// a map of value type to factory closures
 	protected $map = array();
@@ -40,7 +40,7 @@ class Ushahidi_Repository_PostValueFactory
 
 	public function proxy(Array $include_types = [])
 	{
-		return new Ushahidi_Repository_PostValueProxy($this, $include_types);
+		return new Ushahidi_Repository_Post_ValueProxy($this, $include_types);
 	}
 
 	public function each($callback, Array $include_types = [])

@@ -19,7 +19,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	FormAttributeRepository
 {
 	protected $json_transcoder;
-	protected $json_properties = ['options'];
+	protected $json_properties = ['options', 'config'];
 
 	public function setTranscoder(JsonTranscode $transcoder)
 	{

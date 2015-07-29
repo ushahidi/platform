@@ -11,12 +11,12 @@
 
 use Ushahidi\Core\Usecase\Post\ValuesForPostRepository;
 
-class Ushahidi_Repository_PostValueProxy implements ValuesForPostRepository
+class Ushahidi_Repository_Post_ValueProxy implements ValuesForPostRepository
 {
 	protected $factory;
 	protected $include_types;
 
-	public function __construct(Ushahidi_Repository_PostValueFactory $factory, Array $include_types = [])
+	public function __construct(Ushahidi_Repository_Post_ValueFactory $factory, Array $include_types = [])
 	{
 		$this->factory = $factory;
 		$this->include_types = $include_types;

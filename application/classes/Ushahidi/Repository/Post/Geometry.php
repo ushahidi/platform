@@ -12,7 +12,7 @@
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\Core\Entity\PostValueRepository;
 
-class Ushahidi_Repository_PostGeometry extends Ushahidi_Repository_PostValue
+class Ushahidi_Repository_Post_Geometry extends Ushahidi_Repository_Post_Value
 {
 	// Ushahidi_Repository
 	protected function getTable()

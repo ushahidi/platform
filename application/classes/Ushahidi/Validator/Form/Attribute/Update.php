@@ -49,7 +49,8 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'date',
                     'datetime',
                     'location',
-                    'number'
+                    'number',
+                    'relation'
                 ]]],
             ],
             'type' => [
@@ -61,7 +62,8 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'varchar',
                     'point',
                     'datetime',
-                    'link'
+                    'link',
+                    'relation'
                 ]]],
             ],
             'required' => [
