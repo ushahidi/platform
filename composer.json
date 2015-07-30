@@ -104,8 +104,8 @@
         }
     },
     "scripts": {
-        "post-install-cmd" : [
-            "bin/phinx migrate -c application/phinx.php"
+        "compile" : [
+            "phinx migrate -c application/phinx.php"
         ]
     }
 }
