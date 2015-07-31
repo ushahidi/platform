@@ -450,15 +450,17 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->getErrors())),
-			));
+			throw new HTTP_Exception_400(
+				'Validation Error: \':errors\'',
+				[':errors' => implode(', ', Arr::flatten($e->getErrors()))]
+			);
 		}
 		catch (\InvalidArgumentException $e)
 		{
-			throw new HTTP_Exception_400('Bad request: :error', array(
-				':error' => $e->getMessage(),
-			));
+			throw new HTTP_Exception_400(
+				'Bad request: :error',
+				[':error' => $e->getMessage()]
+			);
 		}
 	}
 
