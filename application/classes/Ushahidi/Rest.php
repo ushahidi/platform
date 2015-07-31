@@ -502,6 +502,13 @@ abstract class Ushahidi_Rest extends Controller {
 				$this->response->headers('X-Content-Type-Options', 'nosniff');
 			}
 
+			if (empty($this->_response_payload))
+			{
+				// If the payload is empty, return a 204
+				// https://tools.ietf.org/html/rfc7231#section-6.3.5
+				$this->response->status(204);
+			}
+
 			$this->response->headers('Content-Type', $mime);
 			$this->response->body($body);
 		}
