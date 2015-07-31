@@ -81,6 +81,10 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
+		$record = array_filter($this->json_transcoder->encode(
+			$entity->asArray(),
+			$this->json_properties
+		));
 		$record = $entity->getChanged();
 		$record['updated'] = time();
 
