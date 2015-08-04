@@ -30,7 +30,9 @@ class CreateFormAttribute extends CreateUsecase
 	protected function getEntity()
 	{
 		$entity = parent::getEntity();
+
 		$this->verifyStageExists($entity);
+
 		return $entity;
 	}
 }

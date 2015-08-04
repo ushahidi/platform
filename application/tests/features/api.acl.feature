@@ -109,6 +109,7 @@ Feature: API Access Control Layer
         """
         {
             "form_id": 1,
+            "status": "draft",
             "title": "Test creating anonymous post",
             "content": "testing post for oauth",
             "locale": "en_us",
@@ -118,9 +119,7 @@ Feature: API Access Control Layer
         }
         """
         When I request "/posts"
-        Then the guzzle status code should be 200
-        And the response is JSON
-        And the response has an "id" property
+        Then the guzzle status code should be 204
 
     Scenario: Anonymous users can not edit posts
         Given that I want to update a "Post"

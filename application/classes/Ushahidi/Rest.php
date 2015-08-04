@@ -504,15 +504,17 @@ abstract class Ushahidi_Rest extends Controller {
 				$this->response->headers('X-Content-Type-Options', 'nosniff');
 			}
 
+			$this->response->headers('Content-Type', $mime);
+
 			if (empty($this->_response_payload))
 			{
 				// If the payload is empty, return a 204
 				// https://tools.ietf.org/html/rfc7231#section-6.3.5
 				$this->response->status(204);
+			} else {
+				// If we have a payload set response body
+				$this->response->body($body);
 			}
-
-			$this->response->headers('Content-Type', $mime);
-			$this->response->body($body);
 		}
 		catch (Aura\Di\Exception\ServiceNotFound $e)
 		{
