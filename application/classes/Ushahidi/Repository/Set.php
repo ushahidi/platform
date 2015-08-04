@@ -68,12 +68,18 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 
 	// CreateRepository
 	public function create(Entity $entity) {
+		// Get record as an array
+		$record = $entity->asArray();
+		// .. then filter empty values and JSON encode properties
 		$record = array_filter($this->json_transcoder->encode(
-			$entity->asArray(),
+			$record,
 			$this->json_properties
 		));
+		// Set the created time
 		$record['created'] = time();
+		// And save if this is a saved search or collection
 		$record['search'] = (int)$this->savedSearch;
+		// Finally, save the record to the DB
 		return $this->executeInsert($this->removeNullValues($record));
 
 	}
@@ -81,17 +87,23 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-		$record = array_filter($this->json_transcoder->encode(
-			$entity->asArray(),
-			$this->json_properties
-		));
+		// Get changed values
 		$record = $entity->getChanged();
+
+		// .. then JSON encode json properties
+		$record = $this->json_transcoder->encode(
+			$record,
+			$this->json_properties
+		);
+
+		// Set the updated time
 		$record['updated'] = time();
 
+		// Finally, update the record in the DB
 		return $this->executeUpdate([
 			'id' => $entity->id,
 			'search' => (int)$this->savedSearch
-		], $entity->getChanged());
+		], $record);
 	}
 
 	// DeleteRepository

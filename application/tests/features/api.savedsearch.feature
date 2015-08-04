@@ -56,7 +56,10 @@ Feature: Testing the Sets API
 		And that the request "data" is:
 			"""
 			{
-				"name":"Updated Search One"
+				"name":"Updated Search One",
+				"filter":{
+					"q":"updated"
+				}
 			}
 			"""
 		And that its "id" is "4"
@@ -65,6 +68,7 @@ Feature: Testing the Sets API
 		And the "id" property equals "4"
 		And the response has a "name" property
 		And the "name" property equals "Updated Search One"
+		And the "filter.q" property equals "updated"
 		Then the guzzle status code should be 200
 
 	Scenario: Updating a non-existent SavedSearch
