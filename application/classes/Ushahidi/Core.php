@@ -270,25 +270,21 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
 		// Repository parameters
-		foreach ([
-			'form_attribute',
-			'post',
-			'layer',
-			'tag',
-			'set',
-		] as $name)
-		{
-			$di->setter['Ushahidi_Repository_' . Text::ucfirst($name, '_')]['setTranscoder'] =
-				$di->lazyGet('tool.jsontranscode');
-		}
 
 		// Abstract repository parameters
 		$di->params['Ushahidi_Repository'] = [
 			'db' => $di->lazyGet('kohana.db'),
 			];
+
+		// Set up Json Transcode Repository Trait
+		$di->setter['Ushahidi_JsonTranscodeRepository']['setTranscoder'] = $di->lazyGet('tool.jsontranscode');
+
+		// Media repository parameters
 		$di->params['Ushahidi_Repository_Media'] = [
 			'upload' => $di->lazyGet('tool.uploader'),
 			];
+
+		// Post repository parameters
 		$di->params['Ushahidi_Repository_Post'] = [
 				'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),

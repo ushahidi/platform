@@ -14,18 +14,11 @@ use Ushahidi\Core\Entity\Set;
 use Ushahidi\Core\Entity\SavedSearch;
 use Ushahidi\Core\Entity\SetRepository;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Tool\JsonTranscode;
 
 class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetRepository
 {
-	protected $post_repo;
-	protected $json_transcoder;
-	protected $json_properties = ['filter', 'view_options', 'visible_to'];
-
-	public function setTranscoder(JsonTranscode $transcoder)
-	{
-		$this->json_transcoder = $transcoder;
-	}
+	// Use the JSON transcoder to encode properties
+	use Ushahidi_JsonTranscodeRepository;
 
 	/**
 	 * @var  Boolean  Return SavedSearches (when true) or vanilla Sets
@@ -49,6 +42,12 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 		return $this->savedSearch ? new SavedSearch($data) : new Set($data);
 	}
 
+	// Ushahidi_JsonTranscodeRepository
+	protected function getJsonProperties()
+	{
+		return ['filter', 'view_options', 'visible_to'];
+	}
+
 	/**
 	 * Override selectQuery to enforce filtering by search=0/1
 	 */
@@ -68,17 +67,15 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 
 	// CreateRepository
 	public function create(Entity $entity) {
-		// Get record as an array
-		$record = $entity->asArray();
-		// .. then filter empty values and JSON encode properties
-		$record = array_filter($this->json_transcoder->encode(
-			$record,
-			$this->json_properties
-		));
+		// Get record and filter empty values
+		$record = array_filter($entity->asArray());
+
 		// Set the created time
 		$record['created'] = time();
+
 		// And save if this is a saved search or collection
 		$record['search'] = (int)$this->savedSearch;
+
 		// Finally, save the record to the DB
 		return $this->executeInsert($this->removeNullValues($record));
 
@@ -89,12 +86,6 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 	{
 		// Get changed values
 		$record = $entity->getChanged();
-
-		// .. then JSON encode json properties
-		$record = $this->json_transcoder->encode(
-			$record,
-			$this->json_properties
-		);
 
 		// Set the updated time
 		$record['updated'] = time();
