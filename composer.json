@@ -72,7 +72,10 @@
         "ext-gd": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-mcrypt": "*"
+        "ext-mcrypt": "*",
+        "league/csv": "~7.1@dev",
+        "ddeboer/data-import": "dev-master",
+        "symfony/property-access": "~2.5"
     },
     "require-dev": {
         "behat/behat": "~2.5.2",

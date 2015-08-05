@@ -129,6 +129,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+			'import' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
@@ -433,6 +434,9 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Post_Relation'] = [
 			'repo' => $di->lazyGet('repository.post')
 			];
+
+		$di->set('transformer.mapping', $di->lazyNew('Ushahidi_Transformer_MappingTransformer'));
+		$di->set('filereader.csv', $di->lazyNew('Ushahidi_FileReader_CSV'));
 
 		/**
 		 * 1. Load the plugins

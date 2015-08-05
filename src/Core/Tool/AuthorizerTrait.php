@@ -120,6 +120,19 @@ trait AuthorizerTrait
 	}
 
 	/**
+	 * Verifies the current user is allowed import access on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @param  Data    $input
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifyImportAuth(Entity $entity)
+	{
+		$this->verifyAuth($entity, 'import');
+	}
+
+	/**
 	 * Get all allowed privs on an Entity
 	 * @param  Entity $entity
 	 * @return Array

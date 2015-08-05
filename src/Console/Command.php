@@ -27,7 +27,7 @@ abstract class Command extends ConsoleCommand
 	{
 		// Enforce a default action of list.
 		$action  = $input->getArgument('action') ?: 'list';
-		$execute = 'execute_' . $action;
+		$execute = 'execute' . ucfirst($action);
 
 		// Reroute to the specific action.
 		$response = $this->$execute($input, $output);
@@ -36,7 +36,7 @@ abstract class Command extends ConsoleCommand
 			// Display arrays as tables.
 			$table = $this->getHelperSet()->get('table');
 
-			$key = array_keys($response);
+			$keys = array_keys($response);
 
 			if (is_array(current($response))) {
 				// Assume that an array of arrays is a result list.

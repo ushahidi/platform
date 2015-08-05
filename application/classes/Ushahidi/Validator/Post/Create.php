@@ -192,7 +192,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 				}
 				elseif ($error = $validator->check($values))
 				{
-					$validation->error('values', $error, [$key]);
+					$validation->error('values', $error, [$key, $values]);
 				}
 			}
 		}
