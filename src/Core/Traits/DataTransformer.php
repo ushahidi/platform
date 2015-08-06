@@ -3,8 +3,10 @@
 /**
  * Ushahidi Data Transformer Trait
  *
- * Gives objects a new `transform($data, $definition)` method, which can be
- * used to ensure data type consistency.
+ * Gives objects new `transform($data)` and `getDefinition()` methods,
+ * which can be used to ensure data type consistency.
+ *
+ * @todo       rename to differentiate from Transformer tools
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform

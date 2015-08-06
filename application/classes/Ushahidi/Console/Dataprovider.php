@@ -50,7 +50,7 @@ class Ushahidi_Console_Dataprovider extends Command {
 		return $providers;
 	}
 
-	protected function execute_list(InputInterface $input, OutputInterface $output)
+	protected function executeList(InputInterface $input, OutputInterface $output)
 	{
 		$providers = $this->get_providers($input, $output);
 
@@ -66,7 +66,7 @@ class Ushahidi_Console_Dataprovider extends Command {
 		return $list;
 	}
 
-	protected function execute_incoming(InputInterface $input, OutputInterface $output)
+	protected function executeIncoming(InputInterface $input, OutputInterface $output)
 	{
 		$providers = $this->get_providers($input, $output);
 		$limit = $input->getOption('limit');
@@ -84,7 +84,7 @@ class Ushahidi_Console_Dataprovider extends Command {
 		return $totals;
 	}
 
-	protected function execute_outgoing(InputInterface $input, OutputInterface $output)
+	protected function executeOutgoing(InputInterface $input, OutputInterface $output)
 	{
 		$providers = $this->get_providers($input, $output);
 		$limit = $input->getOption('limit');

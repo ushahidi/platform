@@ -17,6 +17,8 @@ class ValidatorException extends \InvalidArgumentException
 
 	public function __construct($message, Array $errors, Exception $previous = null)
 	{
+		$message = $message . ":\n" . implode("\n", $errors);
+
 		parent::__construct($message, 0, $previous);
 		$this->setErrors($errors);
 	}

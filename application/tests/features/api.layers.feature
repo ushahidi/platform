@@ -60,7 +60,10 @@ Feature: Testing the Layers API
                 "data_url":"http://ushahidi-platform.dev/media/test.geojson",
                 "type":"geojson",
                 "active":true,
-                "visible_by_default":true
+                "visible_by_default":true,
+                "options":{
+                    "noop": true
+                }
             }
             """
         When I request "/layers"

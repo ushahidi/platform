@@ -62,7 +62,7 @@ class CreateUsecase implements Usecase
 	// Usecase
 	public function interact()
 	{
-		// Fetch and hydrate the entity...
+		// Fetch a default entity and apply the payload...
 		$entity = $this->getEntity();
 
 		// ... verify that the entity can be created by the current user
@@ -77,11 +77,14 @@ class CreateUsecase implements Usecase
 		// ... get the newly created entity
 		$entity = $this->getCreatedEntity($id);
 
-		// ... verify that the entity can be read by the current user
-		$this->verifyReadAuth($entity);
-
-		// ... and return the formatted entity
-		return $this->formatter->__invoke($entity);
+		// ... check that the entity can be read by the current user
+		if ($this->auth->isAllowed($entity, 'read')) {
+			// ... and either return the formatted entity
+			return $this->formatter->__invoke($entity);
+		} else {
+			// ... or just return nothing
+			return;
+		}
 	}
 
 	// ValidatorTrait

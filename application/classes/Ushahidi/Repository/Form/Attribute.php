@@ -13,38 +13,25 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
-use Ushahidi\Core\Tool\JsonTranscode;
 
 class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	FormAttributeRepository
 {
-	protected $json_transcoder;
-	protected $json_properties = ['options', 'config'];
+	// Use the JSON transcoder to encode properties
+	use Ushahidi_JsonTranscodeRepository;
 
-	public function setTranscoder(JsonTranscode $transcoder)
+	// Ushahidi_JsonTranscodeRepository
+	protected function getJsonProperties()
 	{
-		$this->json_transcoder = $transcoder;
+		return ['options', 'config'];
 	}
 
 	// CreateRepository
 	public function create(Entity $entity)
 	{
-		$record = $this->json_transcoder->encode(
-			$entity->asArray(),
-			$this->json_properties
-		);
+		$record = $entity->asArray();
 		unset($record['form_id']);
 		return $this->executeInsert($this->removeNullValues($record));
-	}
-
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$record = $this->json_transcoder->encode(
-			$entity->getChanged(),
-			$this->json_properties
-		);
-		return $this->executeUpdate(['id' => $entity->getId()], $record);
 	}
 
 	// SearchRepository

@@ -129,6 +129,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+			'import' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
@@ -151,7 +152,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Create'),
-			'update' => $di->lazyNew('Ushahidi_Validator_Set_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Set_Update'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets_posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Post_Create'),
@@ -270,25 +271,21 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
 		// Repository parameters
-		foreach ([
-			'form_attribute',
-			'post',
-			'layer',
-			'tag',
-			'set',
-		] as $name)
-		{
-			$di->setter['Ushahidi_Repository_' . Text::ucfirst($name, '_')]['setTranscoder'] =
-				$di->lazyGet('tool.jsontranscode');
-		}
 
 		// Abstract repository parameters
 		$di->params['Ushahidi_Repository'] = [
 			'db' => $di->lazyGet('kohana.db'),
 			];
+
+		// Set up Json Transcode Repository Trait
+		$di->setter['Ushahidi_JsonTranscodeRepository']['setTranscoder'] = $di->lazyGet('tool.jsontranscode');
+
+		// Media repository parameters
 		$di->params['Ushahidi_Repository_Media'] = [
 			'upload' => $di->lazyGet('tool.uploader'),
 			];
+
+		// Post repository parameters
 		$di->params['Ushahidi_Repository_Post'] = [
 				'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
@@ -364,7 +361,7 @@ abstract class Ushahidi_Core {
 			'repo' => $di->lazyGet('repository.message'),
 		];
 
-		$di->params['Ushahidi_Validator_Set_Create'] = [
+		$di->params['Ushahidi_Validator_Set_Update'] = [
 			'repo' => $di->lazyGet('repository.user'),
 			'role_repo' => $di->lazyGet('repository.role'),
 		];
@@ -437,6 +434,9 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Post_Relation'] = [
 			'repo' => $di->lazyGet('repository.post')
 			];
+
+		$di->set('transformer.mapping', $di->lazyNew('Ushahidi_Transformer_MappingTransformer'));
+		$di->set('filereader.csv', $di->lazyNew('Ushahidi_FileReader_CSV'));
 
 		/**
 		 * 1. Load the plugins

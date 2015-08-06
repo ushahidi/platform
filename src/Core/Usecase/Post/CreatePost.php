@@ -21,20 +21,19 @@ class CreatePost extends CreateUsecase
 
 	protected function getEntity()
 	{
-		$payload = $this->payload;
+		$entity = parent::getEntity();
 
 		// If no user information is provided, default to the current session user.
 		if (
-			empty($payload['user']) &&
-			empty($payload['user_id']) &&
-			empty($payload['author_email']) &&
-			empty($payload['author_realname']) &&
+			empty($entity->user_id) &&
+			empty($entity->author_email) &&
+			empty($entity->author_realname) &&
 			$this->auth->getUserId()
 		) {
-			$payload['user_id'] = $this->auth->getUserId();
+			$entity->setState(['user_id' => $this->auth->getUserId()]);
 		}
 
-		return $this->repo->getEntity()->setState($payload);
+		return $entity;
 	}
 
 	protected function verifyValid(Entity $entity)
@@ -42,12 +41,5 @@ class CreatePost extends CreateUsecase
 		if (!$this->validator->check($entity->getChanged())) {
 			$this->validatorError($entity);
 		}
-	}
-
-	protected function verifyReadAuth(Entity $entity)
-	{
-		// Throwing an error w/o read permissions breaks on anonymous users
-		// Maybe should just return a 204 (No Content)? or 202 (Accepted)?
-		// $this->verifyAuth($entity, 'read');
 	}
 }

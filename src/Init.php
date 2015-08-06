@@ -66,6 +66,18 @@ $di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
 
 // Any command can be registered with the console app.
 $di->params['Ushahidi\Console\Application']['injectCommands'] = [];
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Import');
+
+// Set up Import command
+$di->setter['Ushahidi\Console\Import']['setReaderMap'] = [];
+$di->setter['Ushahidi\Console\Import']['setReaderMap']['csv'] = $di->lazyGet('filereader.csv');
+$di->setter['Ushahidi\Console\Import']['setTransformer'] = $di->lazyGet('transformer.mapping');
+$di->setter['Ushahidi\Console\Import']['setImportUsecase'] = $di->lazy(function () use ($di) {
+	return service('factory.usecase')
+			->get('posts', 'import')
+			// Override authorizer for console
+			->setAuthorizer($di->get('authorizer.console'));
+});
 
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
@@ -211,7 +223,8 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
-	'stats'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost')
+	'stats'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
+	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase')
 ];
 
 // Add custom usecases for sets_posts
@@ -276,4 +289,4 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	];
 
-
+$di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));

@@ -12,6 +12,8 @@
 // Note: this doesn't actually implement Ushahidi\Core\Tool\Validator
 abstract class Ushahidi_Validator_Post_ValueValidator
 {
+	protected $default_error_source = 'post';
+
 
 	protected $config;
 	public function setConfig(Array $config = null)

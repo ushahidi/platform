@@ -15,25 +15,19 @@ use Ushahidi\Core\Entity\Tag;
 use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
 use Ushahidi\Core\Usecase\Tag\DeleteTagRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
-use Ushahidi\Core\Tool\JsonTranscode;
 
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	UpdateTagRepository,
 	DeleteTagRepository,
 	UpdatePostTagRepository
 {
+	// Use the JSON transcoder to encode properties
+	use Ushahidi_JsonTranscodeRepository;
+
 	private $created_id;
 	private $created_ts;
 
 	private $deleted_tag;
-
-	protected $json_transcoder;
-	protected $json_properties = ['role'];
-
-	public function setTranscoder(JsonTranscode $transcoder)
-	{
-		$this->json_transcoder = $transcoder;
-	}
 
 	// Ushahidi_Repository
 	protected function getTable()
@@ -46,6 +40,12 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function getEntity(Array $data = null)
 	{
 		return new Tag($data);
+	}
+
+	// Ushahidi_JsonTranscodeRepository
+	protected function getJsonProperties()
+	{
+		return ['role'];
 	}
 
 	// SearchRepository
@@ -75,22 +75,9 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// CreateRepository
 	public function create(Entity $entity)
 	{
-		$record = array_filter($this->json_transcoder->encode(
-			$entity->asArray(),
-			$this->json_properties
-		));
+		$record = $entity->asArray();
 		$record['created'] = time();
 		return $this->executeInsert($this->removeNullValues($record));
-	}
-
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$record = $this->json_transcoder->encode(
-			$entity->getChanged(),
-			$this->json_properties
-		);
-		return $this->executeUpdate(['id' => $entity->getId()], $record);
 	}
 
 	// UpdatePostTagRepository

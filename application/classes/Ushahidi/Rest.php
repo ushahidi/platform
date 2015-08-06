@@ -450,15 +450,17 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
-			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
-				':errors' => implode(', ', Arr::flatten($e->getErrors())),
-			));
+			throw new HTTP_Exception_400(
+				'Validation Error: \':errors\'',
+				[':errors' => implode(', ', Arr::flatten($e->getErrors()))]
+			);
 		}
 		catch (\InvalidArgumentException $e)
 		{
-			throw new HTTP_Exception_400('Bad request: :error', array(
-				':error' => $e->getMessage(),
-			));
+			throw new HTTP_Exception_400(
+				'Bad request: :error',
+				[':error' => $e->getMessage()]
+			);
 		}
 	}
 
@@ -503,7 +505,16 @@ abstract class Ushahidi_Rest extends Controller {
 			}
 
 			$this->response->headers('Content-Type', $mime);
-			$this->response->body($body);
+
+			if (empty($this->_response_payload))
+			{
+				// If the payload is empty, return a 204
+				// https://tools.ietf.org/html/rfc7231#section-6.3.5
+				$this->response->status(204);
+			} else {
+				// If we have a payload set response body
+				$this->response->body($body);
+			}
 		}
 		catch (Aura\Di\Exception\ServiceNotFound $e)
 		{

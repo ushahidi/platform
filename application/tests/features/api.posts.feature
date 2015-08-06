@@ -245,34 +245,6 @@ Feature: Testing the Posts API
 		And the "user.id" property equals "2"
 		Then the guzzle status code should be 200
 
-	@create
-	Scenario: Creating a Post with no user and no current user
-		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testanon"
-		And that the request "data" is:
-			"""
-			{
-				"form":1,
-				"title":"Anonymous author",
-				"type":"report",
-				"locale":"en_US",
-				"values":
-				{
-					"full_name":["David Kobia"],
-					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
-					"date_of_birth":[],
-					"missing_date":["2012/09/25"],
-					"missing_status":["believed_missing"],
-					"last_location":["atlanta"]
-				}
-			}
-			"""
-		When I request "/posts"
-		Then the response is JSON
-		And the response has a "id" property
-		And the response does not have a "user" property
-		Then the guzzle status code should be 200
-
 	@update
 	Scenario: Updating a Post
 		Given that I want to update a "Post"

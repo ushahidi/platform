@@ -22,7 +22,6 @@ use Ushahidi\Core\Usecase\Post\StatsPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\Core\Usecase\Set\SetPostRepository;
-use Ushahidi\Core\Tool\JsonTranscode;
 use Ushahidi\Core\Traits\UserContext;
 
 use Aura\DI\InstanceFactory;
@@ -34,6 +33,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 {
 	use UserContext;
 
+	// Use the JSON transcoder to encode properties
+	use Ushahidi_JsonTranscodeRepository;
+
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
 	protected $post_value_factory;
@@ -42,14 +44,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
-
-	protected $json_transcoder;
-	protected $json_properties = ['published_to'];
-
-	public function setTranscoder(JsonTranscode $transcoder)
-	{
-		$this->json_transcoder = $transcoder;
-	}
 
 	/**
 	 * Construct
@@ -96,6 +90,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		return new Post($data);
+	}
+
+	// Ushahidi_JsonTranscodeRepository
+	protected function getJsonProperties()
+	{
+		return ['published_to'];
 	}
 
 	// Override selectQuery to fetch 'value' from db as text
@@ -737,10 +737,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	public function create(Entity $entity)
 	{
 
-		$post = array_filter($this->json_transcoder->encode(
-				$entity->asArray(),
-				$this->json_properties
-		));
+		$post = $entity->asArray();
 		$post['created'] = time();
 
 		// Remove attribute values and tags
@@ -773,10 +770,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-		$post = $this->json_transcoder->encode(
-			$entity->getChanged(),
-			$this->json_properties
-		);
+		$post = $entity->getChanged();
 		$post['updated'] = time();
 
 		// Remove attribute values and tags
