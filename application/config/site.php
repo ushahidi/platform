@@ -27,5 +27,6 @@ return array(
 	'email'       => '',
 	'timezone'    => 'UTC',
 	'language'    => 'en-US',
-	'date_format' => 'n/j/Y'
+	'date_format' => 'n/j/Y',
+	'client_url'  => false
 );

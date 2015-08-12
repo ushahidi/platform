@@ -17,10 +17,12 @@ use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\Hasher;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
+use Ushahidi\Core\Usecase\User\ResetPasswordRepository;
 
 class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	UserRepository,
-	RegisterRepository
+	RegisterRepository,
+	ResetPasswordRepository
 {
 	/**
 	 * @var Hasher
@@ -134,5 +136,68 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 				'password' => $this->hasher->hash($entity->password),
 				'created'  => time()
 			]);
+	}
+
+	// ResetPasswordRepository
+	public function getResetToken(Entity $entity) {
+		// Todo: replace with something more robust.
+		// This is predictable if we don't have the openssl mod
+		$token = Security::token(TRUE);
+
+		$input = [
+			'reset_token' => $token,
+			'user_id' => $entity->id,
+			'created' => time()
+		];
+
+		// Save the token
+		$query = DB::insert('user_reset_tokens')
+			->columns(array_keys($input))
+			->values(array_values($input))
+			->execute($this->db);
+
+		return $token;
+	}
+
+	// ResetPasswordRepository
+	public function isValidResetToken($token) {
+		$result = DB::select([DB::expr('COUNT(*)'), 'total'])
+			->from('user_reset_tokens')
+			->where('reset_token', '=', $token)
+			->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
+			->execute($this->db);
+
+		$count = $result->get('total') ?: 0;
+
+		return $count !== 0;
+	}
+
+	// ResetPasswordRepository
+	public function setPassword($token, $password) {
+		$sub = DB::select('user_id')
+			->from('user_reset_tokens')
+			->where('reset_token', '=', $token);
+
+		$this->executeUpdate(['id' => $sub], [
+			'password' => $this->hasher->hash($password)
+		]);
+	}
+
+	// ResetPasswordRepository
+	public function deleteResetToken($token) {
+		$result = DB::delete('user_reset_tokens')
+			->where('reset_token', '=', $token)
+			->execute($this->db);
+	}
+
+	// ResetPasswordRepository
+	public function getByUsernameOrEmail($identifier) {
+		$result = $this->selectQuery()
+			->where('email', '=', $identifier)
+			->or_where('username', '=', $identifier)
+			->limit(1)
+			->execute($this->db);
+
+		return $this->getEntity($result->current());
 	}
 }

@@ -122,6 +122,18 @@ Route::set('current-user', 'api/v2/users/me')
 	));
 
 /**
+ * Password Reset Route
+ */
+Route::set('passwordreset-api', 'api/v2/passwordreset(/<action>)', [
+		'action' => '(?:index|confirm)'
+	])
+	->defaults([
+			'action'     => 'index',
+			'directory'  => 'Api',
+			'controller' => 'PasswordReset',
+	]);
+
+/**
  * Config API Route
  */
 Route::set('config-api', 'api/v2/config(/<id>(/<key>))',

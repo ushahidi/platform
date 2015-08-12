@@ -243,8 +243,11 @@ $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di-
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
 	'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),
 	'register' => $di->lazyNew('Ushahidi\Core\Usecase\User\RegisterUser'),
+	'getresettoken' => $di->lazyNew('Ushahidi\Core\Usecase\User\GetResetToken'),
+	'passwordreset' => $di->lazyNew('Ushahidi\Core\Usecase\User\ResetUserPassword'),
 ];
 $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->lazyGet('tool.authenticator.password');
+$di->setter['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazyGet('tool.mailer');
 
 // Traits
 $di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
