@@ -84,7 +84,7 @@ class CreateMedia extends CreateUsecase
 		);
 
 		$payload = [
-			'caption'    => $this->getPayload('caption'),
+			'caption'    => $this->getPayload('caption', false) ?: null,
 			'user_id'    => $this->getPayload('user_id', false) ?: null,
 			'mime'       => $this->upload->type,
 			'o_filename' => $this->upload->file,
