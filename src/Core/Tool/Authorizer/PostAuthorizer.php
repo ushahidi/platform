@@ -105,9 +105,10 @@ class PostAuthorizer implements Authorizer
 		}
 
 		// We check if the user is the owner of this post. If so, they are allowed
-		// to do almost anything, **except** change ownership of the post, which
+		// to do almost anything, **except** change ownership and status of the post, which
 		// only admins can do.
-		if ($this->isUserOwner($entity, $user) && !$entity->hasChanged('user_id')) {
+		if ($this->isUserOwner($entity, $user) && !$entity->hasChanged('user_id')
+			&& $privilege !== 'change_status') {
 			return true;
 		}
 
