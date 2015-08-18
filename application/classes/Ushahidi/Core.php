@@ -49,6 +49,14 @@ abstract class Ushahidi_Core {
 			return $user;
 		});
 
+		$di->set('session.client', function() use ($di) {
+			// Using the OAuth resource server, get the client id for this request
+			$server = $di->get('oauth.server.resource');
+			$clientid = $server->getClientId();
+
+			return $clientid;
+		});
+
 		// Console commands (oauth is disabled, pending T305)
 		// $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Client');
 		// $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Token');
@@ -437,6 +445,8 @@ abstract class Ushahidi_Core {
 
 		$di->set('transformer.mapping', $di->lazyNew('Ushahidi_Transformer_MappingTransformer'));
 		$di->set('filereader.csv', $di->lazyNew('Ushahidi_FileReader_CSV'));
+
+		$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer'));
 
 		/**
 		 * 1. Load the plugins

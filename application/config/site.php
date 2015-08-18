@@ -21,11 +21,15 @@
  * - string   language      Native language for the site in ISO 639-1 format. See http://en.wikipedia.org/wiki/ISO_639-1
  * - string   date_format   Set format in which to return dates. See http://php.net/manual/en/datetime.createfromformat.php
  */
+
+$clientUrl = getenv('CLIENT_URL');
+
 return array(
 	'name'        => 'Ushahidi Platform',
 	'description' => 'An Ushahidi deployment',
 	'email'       => '',
 	'timezone'    => 'UTC',
 	'language'    => 'en-US',
-	'date_format' => 'n/j/Y'
+	'date_format' => 'n/j/Y',
+	'client_url'  => $clientUrl ?: false
 );

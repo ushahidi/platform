@@ -3,6 +3,10 @@ notifications:
   hipchat:
     rooms:
       secure: fb2eYR4DVBestPl/DSG7lnUWT46Rmr9BfRsZFe4dhrS3ZetkZ1XZueF6SCtB4yukaJoDlA7y98FgQ7eGx6OGToc4ALnPpwd3BdfJ5RV/PK/6LG7u5Mp4+DfB4lG1q9IjuHF7dhBPSk2sRd8ewtwV5JR4SHKYfHxSR9Ekwmn1Xyo=
+    template:
+      - '<a href="%{build_url}">%{repository}#%{build_number}</a> (%{branch} - <a href="%{compare_url}">%{commit}</a> : %{author}): %{message}'
+    format: html
+    notify: true
 language: php
 php:
 - '5.4'

@@ -18,25 +18,32 @@ class DataProvider_Twitter extends DataProvider {
 	 */
 	public $contact_type = Model_Contact::TWITTER;
 
+	const MAX_REQUESTS_PER_WINDOW = 180;
+	const REQUEST_WINDOW = 900; // Twitter request window in seconds
+
+	private $since_id; // highest id fetched
+	private $request_count; // track requests per window
+
 	public function fetch($limit = FALSE) {
-		$since_id = 0;
-		$max_allowed_count = 100;
+		// XXX: Store state in database config for now
+		$config = Kohana::$config;
+		$this->_initialize($config);
 
-		// XXX: Store id in a group called twitter for now
-		$twitter_config = Kohana::$config->load('twitter');
-
-		if ($twitter_config && isset($twitter_config['since_id']))
+		// check if we have reached our rate limit
+		if ( !$this->_can_make_request())
 		{
-			$since_id = $twitter_config['since_id'];
+			Kohana::$log->add(Log::WARNING, 'You have reached your rate limit for this window');
+			return 0;
 		}
 
 		$options = $this->options();
 
 		// Check we have the required config
 		if ( !isset($options['consumer_key']) ||
-			!isset($options['consumer_secret']) ||
-			!isset($options['oauth_access_token']) ||
-			!isset($options['oauth_access_token_secret'])
+			 !isset($options['consumer_secret']) ||
+			 !isset($options['oauth_access_token']) ||
+			 !isset($options['oauth_access_token_secret']) ||
+			 !isset($options['twitter_search_terms'])
 		)
 		{
 			Kohana::$log->add(Log::WARNING, 'Could not fetch messages from twitter, incomplete config');
@@ -57,19 +64,20 @@ class DataProvider_Twitter extends DataProvider {
 		{
 			$results = $connection->get("search/tweets", [
 				"q" => $this->_construct_get_query($options['twitter_search_terms']),
-				"since_id" => $since_id,
+				"since_id" => $this->since_id,
 				"count" => $limit,
 				"result_type" => 'recent'
 			]);
 
-			if (! $results->statuses)
+			if ( !$results->statuses)
 			{
 				return 0;
 			}
 
 			$statuses = $results->statuses;
 
-			$max_id = $statuses[0]->id;
+			// Store the highest id
+			$this->since_id = $statuses[0]->id;
 
 			$count = 0;
 
@@ -83,17 +91,15 @@ class DataProvider_Twitter extends DataProvider {
 				$this->receive(Message_Type::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id);
 
 				$count++;
-
 			}
 
-			// We shall save the highest id and use it to get messages more
-			// recent than this id.
-			$twitter_config->set("since_id", $max_id);
+			$this->request_count++; //Increment for successful request
 
+			$this->_update($config);
 		}
 		catch (TwitterOAuthException $toe)
 		{
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
+			Kohana::$log->add(Log::ERROR, $toe->getMessage());
 		}
 		catch(Exception $e)
 		{
@@ -106,5 +112,47 @@ class DataProvider_Twitter extends DataProvider {
 	private function _construct_get_query($search_terms)
 	{
 		return implode(" OR ", array_map('trim', explode(",", $search_terms)));
+	}
+
+	private function _can_make_request()
+	{
+		return  $this->request_count < self::MAX_REQUESTS_PER_WINDOW;
+	}
+
+	private function _initialize($config)
+	{
+		$twitter_config = $config->load('twitter');
+
+		$twitter_config && isset($twitter_config['since_id'])?
+							   $this->since_id = $twitter_config['since_id']:
+							   $this->since_id = 0;
+
+		$twitter_config && isset($twitter_config['request_count'])?
+							   $this->request_count = $twitter_config['request_count']:
+							   $this->request_count = 0;
+
+		if ($twitter_config && isset($twitter_config['window_timestamp']))
+		{
+			$window_has_expired = time() - $twitter_config['window_timestamp'] > self::REQUEST_WINDOW;
+
+			if ($window_has_expired)
+			{
+				// reset
+				$this->request_count = 0;
+				$twitter_config->set("window_timestamp", time());
+			}
+		}
+		else
+		{
+			// save window timestamp for the first time
+			$twitter_config->set("window_timestamp", time());
+		}
+	}
+
+	private function _update($config)
+	{
+		$twitter_config = $config->load('twitter');
+		$twitter_config->set("request_count", $this->request_count);
+		$twitter_config->set("since_id", $this->since_id);
 	}
 }

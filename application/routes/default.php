@@ -9,6 +9,12 @@
  */
 
 /**
+ * API version number
+ */
+$apiVersion = '3';
+$apiBase = 'api/v' . $apiVersion . '/';
+
+/**
  * Custom media router.
  */
 Route::set('media', 'media/<filepath>', array(
@@ -22,7 +28,7 @@ Route::set('media', 'media/<filepath>', array(
 /**
  * Set Posts API SubRoute
  */
-Route::set('collections-posts', 'api/v2/collections/<set_id>/posts(/<id>)',
+Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',
 	array(
 		'set_id' => '\d+',
 		'id' => '\d+'
@@ -36,7 +42,7 @@ Route::set('collections-posts', 'api/v2/collections/<set_id>/posts(/<id>)',
 /**
  * Forms API SubRoute
  */
-Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)',
+Route::set('forms', $apiBase . 'forms/<form_id>/<controller>(/<id>)',
 	array(
 		'form_id' => '\d+',
 		'id' => '\d+'
@@ -49,7 +55,7 @@ Route::set('forms', 'api/v2/forms/<form_id>/<controller>(/<id>)',
 /**
  * Export Posts API SubRoute
  */
-Route::set('export', 'api/v2/posts/export')
+Route::set('export', $apiBase . 'posts/export')
 	->defaults(array(
 		'action'     => 'index',
 		'controller' => 'Export',
@@ -59,7 +65,7 @@ Route::set('export', 'api/v2/posts/export')
 /**
  * Export Posts API SubRoute
  */
-Route::set('post-stats', 'api/v2/posts/stats')
+Route::set('post-stats', $apiBase . 'posts/stats')
 	->defaults(array(
 		'action'     => 'stats',
 		'controller' => 'Posts',
@@ -69,7 +75,7 @@ Route::set('post-stats', 'api/v2/posts/stats')
 /**
  * GeoJSON API SubRoute
  */
-Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)',
+Route::set('geojson', $apiBase . 'posts/geojson(/<zoom>/<x>/<y>)',
 	array(
 		'zoom' => '\d+',
 		'x' => '\d+',
@@ -84,7 +90,7 @@ Route::set('geojson', 'api/v2/posts/geojson(/<zoom>/<x>/<y>)',
 /**
  * GeoJSON API SubRoute
  */
-Route::set('geojson-post-id', 'api/v2/posts/<id>/geojson',
+Route::set('geojson-post-id', $apiBase . 'posts/<id>/geojson',
 	array(
 		'id' => '\d+',
 		'zoom' => '\d+',
@@ -100,7 +106,7 @@ Route::set('geojson-post-id', 'api/v2/posts/<id>/geojson',
 /**
  * Posts API SubRoute
  */
-Route::set('posts', 'api/v2/posts/<parent_id>/<controller>(/<id>)',
+Route::set('posts', $apiBase . 'posts/<parent_id>/<controller>(/<id>)',
 	array(
 		'parent_id' => '\d+',
 		'id' => '\d+'
@@ -113,7 +119,7 @@ Route::set('posts', 'api/v2/posts/<parent_id>/<controller>(/<id>)',
 /**
  * Base Ushahidi API Route
  */
-Route::set('current-user', 'api/v2/users/me')
+Route::set('current-user', $apiBase . 'users/me')
 	->defaults(array(
 		'action'     => 'me',
 		'directory'  => 'Api',
@@ -122,9 +128,21 @@ Route::set('current-user', 'api/v2/users/me')
 	));
 
 /**
+ * Password Reset Route
+ */
+Route::set('passwordreset-api', $apiBase . 'passwordreset(/<action>)', [
+		'action' => '(?:index|confirm)'
+	])
+	->defaults([
+			'action'     => 'index',
+			'directory'  => 'Api',
+			'controller' => 'PasswordReset',
+	]);
+
+/**
  * Config API Route
  */
-Route::set('config-api', 'api/v2/config(/<id>(/<key>))',
+Route::set('config-api', $apiBase . 'config(/<id>(/<key>))',
 	array(
 		'id' => '[a-zA-Z_-]+',
 		'key' => '[a-zA-Z_.-]+'
@@ -138,7 +156,7 @@ Route::set('config-api', 'api/v2/config(/<id>(/<key>))',
 /**
  * Messages API Route
  */
-Route::set('messages-api', 'api/v2/messages(/<id>(/<action>))',
+Route::set('messages-api', $apiBase . 'messages(/<id>(/<action>))',
 	array(
 		'id' => '\d+'
 	))
@@ -151,7 +169,7 @@ Route::set('messages-api', 'api/v2/messages(/<id>(/<action>))',
 /**
  * Dataproviders API Route
  */
-Route::set('dataproviders-api', 'api/v2/dataproviders(/<id>)',
+Route::set('dataproviders-api', $apiBase . 'dataproviders(/<id>)',
 	array(
 		'id' => '[a-zA-Z_-]+'
 	))
@@ -164,7 +182,7 @@ Route::set('dataproviders-api', 'api/v2/dataproviders(/<id>)',
 /**
  * SavedSearches API Route
  */
-Route::set('savedsearches-api', 'api/v2/savedsearches(/<id>)',
+Route::set('savedsearches-api', $apiBase . 'savedsearches(/<id>)',
 	array(
 		'id' => '\d+'
 	))
@@ -177,7 +195,7 @@ Route::set('savedsearches-api', 'api/v2/savedsearches(/<id>)',
 /**
  * Post stats API route
  */
-Route::set('post-stats-api', 'api/v2/stats/posts')
+Route::set('post-stats-api', $apiBase . 'stats/posts')
 	->defaults(array(
 		'action'     => 'index',
 		'directory'  => 'Api/Stats',
@@ -187,7 +205,7 @@ Route::set('post-stats-api', 'api/v2/stats/posts')
 /**
  * Base Ushahidi API Route
  */
-Route::set('api', 'api/v2(/<controller>(/<id>))',
+Route::set('api', $apiBase . '(<controller>(/<id>))',
 	array(
 		'id' => '\d+'
 	))
@@ -199,7 +217,7 @@ Route::set('api', 'api/v2(/<controller>(/<id>))',
 /**
  * Translations API SubRoute
  */
-Route::set('translations', 'api/v2/posts/<parent_id>/translations(/<locale>)',
+Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)',
 	array(
 		'parent_id' => '\d+',
 		'locale' => '[a-zA-Z_]+'
@@ -226,7 +244,7 @@ Route::set('oauth', 'oauth(/<action>)',
 /**
  * Default Route
  */
-Route::set('default', '(api/v2)')
+Route::set('default', '('.$apiBase.')')
 	->defaults(array(
 		'controller' => 'Index',
 		'action'     => 'index',

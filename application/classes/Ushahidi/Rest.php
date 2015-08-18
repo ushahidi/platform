@@ -19,7 +19,7 @@ abstract class Ushahidi_Rest extends Controller {
 	/**
 	 * @var Current API version
 	 */
-	protected static $version = '2';
+	protected static $version = '3';
 
 	/**
 	 * @var Object Request Payload
