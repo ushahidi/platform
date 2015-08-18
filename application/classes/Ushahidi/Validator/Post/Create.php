@@ -109,7 +109,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'author_email' => [
 				['Valid::email'],
-				[[$this->user_repo, 'isUniqueEmail'], [':value']],
 			],
 			'author_realname' => [
 				['max_length', [':value', 150]],
