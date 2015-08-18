@@ -437,44 +437,7 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "errors" property
 		Then the guzzle status code should be 400
-
-	@update @resetFixture
-	Scenario: Updating a post with an already registered author email should fail
-		Given that I want to update a "Post"
-		And that the request "data" is:
-			"""
-			{
-				"form":1,
-				"title":"Updated Test Post",
-				"type":"report",
-				"status":"published",
-				"locale":"en_US",
-				"author_email": "robbie@ushahidi.com",
-				"author_realname": "Some User",
-				"values":
-				{
-					"full_name":["David Kobia"],
-					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
-					"date_of_birth":[],
-					"missing_date":["2012/09/25"],
-					"last_location":["atlanta"],
-					"last_location_point":[
-						{
-							"lat": 33.755,
-							"lon": -85.39
-						}
-					],
-					"missing_status":["believed_missing"]
-				},
-				"tags":["disaster","explosion"]
-			}
-			"""
-		And that its "id" is "1"
-		When I request "/posts"
-		Then the response is JSON
-		And the response has a "errors" property
-		Then the guzzle status code should be 400
-
+	
 	@resetFixture @update
 	Scenario: A normal user updating a post with a new user id should get access denied
 		Given that I want to update a "Post"
