@@ -339,15 +339,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			 * This is the master query, it collects all the posts
 			 * missing stages that we are filtering by.
 			 */
-			$sub = DB::select(array('posts.id','p_id'), array('form_stages.id', 'fs_id'), 'priority', 'forms.id')
+			$sub = DB::select(array('posts.id','p_id'), array('form_stages.id', 'fs_id'), 'priority', 'posts.form_id', 'forms.id')
 				->from('posts')
 				->join('forms')
 				// Here we join to the forms table based on the set of stage ids we are filtering by
+				->on('posts.form_id', '=', 'forms.id')
 				->on('forms.id', 'IN', $forms_sub)
 				->join('form_stages')
 				// Here we join to the form_stages table based on the form id
-				->on('form_stages.form_id', '=', 'forms.id')
 				// and a check that the current post has not already completed this stage
+				->on('form_stages.form_id', 'IN', $forms_sub)
 				->on('form_stages.id', 'NOT IN', $stages_posts)
 				// We group the results by post id
 				->group_by('p_id')
