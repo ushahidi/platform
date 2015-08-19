@@ -413,9 +413,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Filter by set
 		if ($search->set)
 		{
+    	$set = $search->set;
+			if (!is_array($set)) {
+	    	$set = explode(',', $set);
+			}
+
 			$query
 				->join('posts_sets', 'INNER')->on('posts.id', '=', 'posts_sets.post_id')
-				->where('posts_sets.set_id', '=', $search->set);
+				->where('posts_sets.set_id', 'IN', $set);
 		}
 
 		// Attributes
