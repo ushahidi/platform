@@ -1089,7 +1089,7 @@ config:
   -
     group_name: map
     config_key: default_view
-    config_value: '{"lat":-1.3048035,"lon":36.8473969,"zoom":3,"baselayer":"MapQuest Aerial","fit_map_boundaries":true,"icon":"map-marker","color":"blue"}'
+    config_value: '{"lat":-1.3048035,"lon":36.8473969,"zoom":3,"baselayer":"MapQuestAerial","fit_map_boundaries":true,"icon":"map-marker","color":"blue"}'
   -
     group_name: map
     config_key: clustering
