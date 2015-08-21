@@ -442,6 +442,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					->on('posts.id', '=', 'Filter_'.ucfirst($key).'.post_id');
 			}
 		}
+
+		$user = $this->getUser();
+		// If there's no logged in user, or the user isn't admin
+		// restrict our search to make sure we still return SOME results
+		// they are allowed to see
+		if (!$user->id) {
+			$query->where("$table.status", '=', 'published');
+		} elseif ($user->role !== 'admin') {
+			$query
+				->and_where_open()
+				->where("$table.status", '=', 'published')
+				->or_where("$table.user_id", '=', $user->id)
+				->and_where_close();
+		}
 	}
 
 	// SearchRepository

@@ -66,7 +66,7 @@ class Ushahidi_Validator_Contact_Create extends Validator
 			$data['type'] == Contact::EMAIL AND
 			 ! Valid::email($contact) )
 		{
-			return $validation->error('contact', 'invalid_email');
+			return $validation->error('contact', 'invalid_email', [$contact]);
 		}
 
 		// Valid Phone?
@@ -79,9 +79,9 @@ class Ushahidi_Validator_Contact_Create extends Validator
 			// Remove all non-digit characters from the number
 			$number = preg_replace('/\D+/', '', $contact);
 
-			if (strlen($number) < 9)
+			if (strlen($number) < 0)
 			{
-				$validation->error('contact', 'invalid_phone');
+				$validation->error('contact', 'invalid_phone', [$contact]);
 			}
 		}
 		else
