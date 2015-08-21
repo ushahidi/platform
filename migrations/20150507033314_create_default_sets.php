@@ -10,6 +10,7 @@ class CreateDefaultSets extends AbstractMigration
      */
     public function up()
     {
+        // @codingStandardsIgnoreStart
         $this->execute(
             "INSERT INTO sets (name, description, filter, view, visible_to, featured, search)
             VALUES
@@ -19,6 +20,7 @@ class CreateDefaultSets extends AbstractMigration
                 ( 'My posts', 'Your posts', '{ \"user\": \"me\", \"status\": \"all\" }', 'list', '[\"admin\", \"member\"]', 1, 1 )
             "
         );
+        // @codingStandardsIgnoreEnd
     }
 
     /**

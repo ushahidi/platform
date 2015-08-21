@@ -38,5 +38,4 @@ class AddFkConstraintOnPostTags extends AbstractMigration
             ->update()
             ;
     }
-
 }

@@ -9,6 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+// @codingStandardsIgnoreFile
+// PHPCS doesn't like this file because it declares function AND executes logic
+
 // For dependency management and autoloading, we use [Composer][composer].
 //
 // **If you haven't already done so, you should run `composer install` now.**

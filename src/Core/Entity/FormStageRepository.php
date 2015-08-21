@@ -37,5 +37,4 @@ interface FormStageRepository extends
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
 	 */
 	public function getRequired($form_id);
-
 }

@@ -67,4 +67,3 @@ class FormAttributeAuthorizer implements Authorizer
 		return $this->stage_repo->get($entity->form_stage_id);
 	}
 }
-

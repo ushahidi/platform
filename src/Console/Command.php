@@ -60,9 +60,7 @@ abstract class Command extends ConsoleCommand
 			$table
 				->setLayout(TableHelper::LAYOUT_COMPACT)
 				->render($output);
-		}
-		else
-		{
+		} else {
 			// Otherwise, just write the response.
 			$output->writeln($response);
 		}

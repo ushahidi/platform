@@ -80,7 +80,10 @@ class PostAuthorizer implements Authorizer
 
 		// Non-admin users are not allowed to create posts for other users.
 		// Post must be created for owner, or if the user is anonymous post must have no owner.
-		if ($privilege === 'create' && !$this->isUserOwner($entity, $user) && !$this->isUserAndOwnerAnonymous($entity, $user)) {
+		if ($privilege === 'create'
+			&& !$this->isUserOwner($entity, $user)
+			&& !$this->isUserAndOwnerAnonymous($entity, $user)
+			) {
 			return false;
 		}
 
