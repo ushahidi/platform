@@ -23,6 +23,7 @@ before_script:
 - "./bin/tests install"
 script:
 - "./bin/tests run --no-install"
+- "composer lint"
 before_deploy:
 - bin/release ${TRAVIS_TAG:-$TRAVIS_COMMIT}
 deploy:
