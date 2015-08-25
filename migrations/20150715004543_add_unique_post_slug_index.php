@@ -13,5 +13,4 @@ class AddUniquePostSlugIndex extends AbstractMigration
             ->addIndex('slug', ['unique' => true])
             ->update();
     }
-
 }

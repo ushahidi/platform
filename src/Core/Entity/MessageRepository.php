@@ -28,5 +28,4 @@ interface MessageRepository extends
 	 * @return [Message, ...]
 	 */
 	public function getPendingMessages($status, $data_provider, $limit);
-
 }

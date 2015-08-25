@@ -339,27 +339,31 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			 * This is the master query, it collects all the posts
 			 * missing stages that we are filtering by.
 			 */
-			$sub = DB::select(array('posts.id','p_id'), array('form_stages.id', 'fs_id'), 'priority', 'forms.id')
+			$sub = DB::select(array('posts.id','p_id'), array('form_stages.id', 'fs_id'), 'priority', 'posts.form_id', 'forms.id')
 				->from('posts')
 				->join('forms')
 				// Here we join to the forms table based on the set of stage ids we are filtering by
+				->on('posts.form_id', '=', 'forms.id')
 				->on('forms.id', 'IN', $forms_sub)
 				->join('form_stages')
 				// Here we join to the form_stages table based on the form id
-				->on('form_stages.form_id', '=', 'forms.id')
 				// and a check that the current post has not already completed this stage
+				->on('form_stages.form_id', 'IN', $forms_sub)
 				->on('form_stages.id', 'NOT IN', $stages_posts)
+				// Finally we order the results by priority to ensure that if, for example,
+				// a post is missing multiple stages we only consider the first uncompleted stage
+				->order_by('priority', 'DESC');
+
+			//This step wraps the query and returns only the posts ids without the extra data such as form, stage or priority
+			$order_posts_sub = DB::select('p_id', 'fs_id')
+				->from(array($sub, 'sub'))
 				// We group the results by post id
 				->group_by('p_id')
 				// We reduce the list to ensure that only results missing the stages to filter by are returned
-				->having('form_stages.id', 'IN', $stages)
-				// Finally we order the results by priority to ensure that if, for example,
-				// a post is missing multiple stages we only consider the first uncompleted stage
-				->order_by('priority');
+				->having('fs_id', 'IN', $stages);
 
-			//This step wraps the query and returns only the posts ids without the extra data such as form, stage or priority
-			$posts_sub = DB::select('p_id')
-				->from(array($sub, 'sub'));
+      $posts_sub = DB::select('p_id')
+        ->from(array($order_posts_sub, 'order_posts_sub'));
 
 			$query
 				->where('posts.id', 'IN', $posts_sub);
@@ -412,9 +416,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Filter by set
 		if ($search->set)
 		{
+    	$set = $search->set;
+			if (!is_array($set)) {
+	    	$set = explode(',', $set);
+			}
+
 			$query
 				->join('posts_sets', 'INNER')->on('posts.id', '=', 'posts_sets.post_id')
-				->where('posts_sets.set_id', '=', $search->set);
+				->where('posts_sets.set_id', 'IN', $set);
 		}
 
 		// Attributes
@@ -432,6 +441,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					->join([$sub, 'Filter_'.ucfirst($key)], 'INNER')
 					->on('posts.id', '=', 'Filter_'.ucfirst($key).'.post_id');
 			}
+		}
+
+		$user = $this->getUser();
+		// If there's no logged in user, or the user isn't admin
+		// restrict our search to make sure we still return SOME results
+		// they are allowed to see
+		if (!$user->id) {
+			$query->where("$table.status", '=', 'published');
+		} elseif ($user->role !== 'admin') {
+			$query
+				->and_where_open()
+				->where("$table.status", '=', 'published')
+				->or_where("$table.user_id", '=', $user->id)
+				->and_where_close();
 		}
 	}
 
