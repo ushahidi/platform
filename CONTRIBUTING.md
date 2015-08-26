@@ -1,17 +1,10 @@
-This is the repository for Ushahidi 3.x
-
-* Its still a work-in-progress so don't file bugs just yet.
+This is the repository for the Ushahidi v3 API
 
 * If you want to help out with development:
-	* Find the docs on the [wiki](https://wiki.ushahidi.com/display/WIKI/Ushahidi+Platform%2C+v3.X)
-	* Have a read through the [development process](https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x%2C+Development+process)
-	* Checkout the queue of features in [Github](https://github.com/ushahidi/platform/issues?labels=feature&page=1&state=open)
-	* Join the [developer mailing list](http://list.ushahidi.com) and tell us what you're working on
-	* Send pull requests!
-
-* If you want to help out with design / ui:
-	* Have a read through the [design process](https://wiki.ushahidi.com/display/WIKI/Design+process) and the [development process](https://wiki.ushahidi.com/display/WIKI/Ushahidi+v3.x%2C+Development+process)
-	* Join the [developer mailing list](http://list.ushahidi.com) and tell us what you're working on
+	* Find the docs at [docs.ushahidi.com](http://docs.ushahidi.com)
+	* Have a read through the [developer guide](http://docs.ushahidi.org/developer-guide/index.html)
+	* Have a look at the [Community Tasks](https://github.com/ushahidi/platform/labels/Community%20Task) or other [open issues](https://github.com/ushahidi/platform/issues)
+	* Join one of the [developer chats](http://docs.ushahidi.com/get-involved.html) and tell us what you're working on
 	* Send pull requests!
 
 Thanks,
