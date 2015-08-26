@@ -1,7 +1,7 @@
 Exec {
 	path => "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
 }
-File { mode => 0644 }
+File { mode => "0644" }
 
 file { '/etc/motd':
 	content => "Welcome to your Ushahidi Platform virtual machine!
@@ -23,6 +23,15 @@ package {
 	"postfix",
 	"byobu",
 	"nfs-common",
+	"php5",
+	"libapache2-mod-php5",
+	"php5-cli",
+	"php5-curl",
+	"php5-gd",
+	"php5-imap",
+	"php5-json",
+	"php5-mcrypt",
+	"php5-mysqlnd"
 	]:
 	ensure  => installed,
 	require  => [
@@ -53,29 +62,22 @@ mysql::db { 'ushahidi':
 
 class { 'mysql::client': }
 
-class { 'php': }
-
 file { "/etc/php5/apache2/conf.d/99-ushahidi.ini":
 	ensure  => "present",
 	owner   => "root",
 	group   => "root",
-	mode    => 444,
-	content => template("php-defaults.erb"),
-	require => Package["php5"],
+	mode    => "444",
+	content => template("platform/php-defaults.erb"),
+	require => Package["libapache2-mod-php5"],
 }
 
-php::module {
-	['curl',
-	'gd',
-	'imap',
-	'json',
-	'mcrypt',
-	'mysqlnd'
-	]:
+exec { "php-modules":
+	command => "php5enmod mcrypt"
 }
 
 class { 'composer':
 	suhosin_enabled => false,
+	github_token => if ( $github_token and $github_token != '' ) { $github_token } else { undef }
 }
 
 # Apache setup
@@ -138,15 +140,14 @@ file { "/var/www/application/config/environments/development":
 	require => File["/var/www/application/config/environments"]
 }
 
-file { "/var/www/application/config/environments/development/database.php":
+file { "/var/www/.env":
 	ensure  => "present",
-	content => template("database.erb"),
-	require => File["/var/www/application/config/environments/development"]
+	content => template("platform/env.erb")
 }
 
 file { "/var/www/httpdocs/.htaccess":
 	ensure  => "present",
-	content => template("htaccess.erb")
+	content => template("platform/htaccess.erb")
 }
 
 file { "/var/www/html/index.html":
@@ -159,11 +160,11 @@ exec { "bin-update":
 			"HOME=/home/vagrant"
 		],
 	user    => "vagrant",
-	command => "/var/www/bin/update",
+	command => "/var/www/bin/update --no-interaction",
 	cwd     => "/var/www",
 	logoutput => true,
 	require =>  [ Mysql::Db["ushahidi"],
-			File["/var/www/application/config/environments/development/database.php"],
+			File["/var/www/.env"],
 			Package["php5-cli"],
 			Package["php5-mysqlnd"],
 			Class["composer"]
