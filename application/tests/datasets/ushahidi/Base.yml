@@ -57,22 +57,18 @@ form_stages:
     id: 1
     form_id: 1
     label: "Main"
-    priority: 99
   -
     id: 2
     form_id: 1
     label: "2nd step"
-    priority: 93
   -
     id: 3
     form_id: 1
     label: "3rd step"
-    priority: 96
   -
     id: 4
     form_id: 2
     label: "Main"
-    priority: 99
 form_attributes:
   -
     id: 1
@@ -637,7 +633,7 @@ form_stages_posts:
     post_id: 96
     completed: 1
   -
-    form_stage_id: 3
+    form_stage_id: 2
     post_id: 96
     completed: 1
 sets:

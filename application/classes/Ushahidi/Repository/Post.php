@@ -350,20 +350,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				// and a check that the current post has not already completed this stage
 				->on('form_stages.form_id', 'IN', $forms_sub)
 				->on('form_stages.id', 'NOT IN', $stages_posts)
+        // We group the results by post id
+        ->group_by('p_id')
+        // We reduce the list to ensure that only results missing the stages to filter by are returned
+        ->having('form_stages.id', 'IN', $stages)
 				// Finally we order the results by priority to ensure that if, for example,
 				// a post is missing multiple stages we only consider the first uncompleted stage
-				->order_by('priority', 'DESC');
+				->order_by('priority');
 
 			//This step wraps the query and returns only the posts ids without the extra data such as form, stage or priority
-			$order_posts_sub = DB::select('p_id', 'fs_id')
-				->from(array($sub, 'sub'))
-				// We group the results by post id
-				->group_by('p_id')
-				// We reduce the list to ensure that only results missing the stages to filter by are returned
-				->having('fs_id', 'IN', $stages);
-
       $posts_sub = DB::select('p_id')
-        ->from(array($order_posts_sub, 'order_posts_sub'));
+          ->from(array($sub, 'sub'));
 
 			$query
 				->where('posts.id', 'IN', $posts_sub);
