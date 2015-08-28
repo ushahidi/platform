@@ -22,6 +22,12 @@ if (getenv("CLEARDB_DATABASE_URL")) {
 	putenv("DB_TYPE=" . "MySQLi");
 }
 
+// Default to MySQLi db if not set
+// This at least results in a connect error if other vars aren't set
+if (! getenv('DB_TYPE')) {
+	putenv("DB_TYPE=MySQLi");
+}
+
 return array
 (
 	'default' => array
