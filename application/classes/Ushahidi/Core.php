@@ -63,11 +63,6 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Dataprovider');
 		$di->setter['Ushahidi_Console_Dataprovider']['setRepo'] = $di->lazyGet('repository.dataprovider');
 
-		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_User');
-		$di->setter['Ushahidi_Console_User']['setRepo'] = $di->lazyGet('repository.user');
-		$di->setter['Ushahidi_Console_User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
-
-
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
 			$server = $di->newInstance('League\OAuth2\Server\Authorization');
