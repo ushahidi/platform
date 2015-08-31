@@ -61,7 +61,6 @@ abstract class Ushahidi_Core {
 		// $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Client');
 		// $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Token');
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Dataprovider');
-
 		$di->setter['Ushahidi_Console_Dataprovider']['setRepo'] = $di->lazyGet('repository.dataprovider');
 
 		// OAuth servers
@@ -334,6 +333,7 @@ abstract class Ushahidi_Core {
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 		$di->set('validator.contact.create', $di->lazyNew('Ushahidi_Validator_Contact_Create'));
+
 		$di->params['Ushahidi_Validator_Contact_Create'] = [
 			'repo' => $di->lazyGet('repository.contact'),
 			'user_repo' => $di->lazyGet('repository.user'),
@@ -413,7 +413,6 @@ abstract class Ushahidi_Core {
 				return \Kohana::$config->load('media.max_upload_bytes');
 			}),
 		];
-
 
 		$di->set('validator.post.datetime', $di->lazyNew('Ushahidi_Validator_Post_Datetime'));
 		$di->set('validator.post.decimal', $di->lazyNew('Ushahidi_Validator_Post_Decimal'));
