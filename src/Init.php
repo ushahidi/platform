@@ -108,6 +108,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'sets_posts'           => $di->lazyGet('authorizer.post'),
 	'savedsearches'        => $di->lazyGet('authorizer.savedsearch'),
 	'users'                => $di->lazyGet('authorizer.user'),
+	'notifications'        => $di->lazyGet('authorizer.notification'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -129,6 +130,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'sets_posts'           => $di->lazyGet('repository.post'),
 	'savedsearches'        => $di->lazyGet('repository.savedsearch'),
 	'users'                => $di->lazyGet('repository.user'),
+	'notifications'        => $di->lazyGet('repository.notification'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -230,6 +232,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase')
 ];
 
+// Add custom usecases for notification notifications
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification'),
+	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\UpdateNotification'),
+];
+
 // Add custom usecases for sets_posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Set\SearchSetPost'),
@@ -289,6 +297,7 @@ $di->set('authorizer.message', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\Messa
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
 $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
+$di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [

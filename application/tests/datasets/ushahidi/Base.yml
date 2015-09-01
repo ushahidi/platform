@@ -833,6 +833,12 @@ oauth_scopes:
     id: 13
     scope: savedsearches
     name: savedsearches
+
+  -
+    id: 14
+    scope: notifications
+    name: notifications
+
 oauth_session_token_scopes:
   # for testingtoken
   -
@@ -885,6 +891,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 13
+  -
+    session_access_token_id: 2
+    scope_id: 14
 
   # for testbasicuser
   -
@@ -920,6 +929,10 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 13
+  -
+    session_access_token_id: 3
+    scope_id: 14
+
   # for testadminuser
   -
     session_access_token_id: 4
@@ -992,6 +1005,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 13
+  -
+    session_access_token_id: 5
+    scope_id: 14
   # for testanon
   -
     session_access_token_id: 6
@@ -1234,3 +1250,30 @@ layers:
     options: "{}"
     active: 0
     visible_by_default: 1
+# Notification subscriptions
+notifications:
+  -
+    id: 2
+    contact_id: 1
+    set_id: 2
+    is_subscribed: 1
+
+  -
+    id: 3
+    contact_id: 1
+    set_id: 3
+    is_subscribed: 0
+
+  -
+    id: 4
+    contact_id: 1
+    set_id: 4
+    is_subscribed: 1
+
+  -
+    id: 5
+    contact_id: 1
+    set_id: 4
+    is_subscribed: 1
+
+

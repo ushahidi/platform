@@ -215,6 +215,20 @@ Route::set('api', $apiBase . '(<controller>(/<id>))',
 	));
 
 /**
+ * Notification subscriptions API Route
+ */
+Route::set('notifications-api', $apiBase . 'notifications(/<id>)',
+	array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api',
+		'controller' => 'Notifications',
+	));
+
+
+/**
  * Translations API SubRoute
  */
 Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)',

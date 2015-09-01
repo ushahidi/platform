@@ -162,6 +162,10 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Set_Update'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['notifications'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Notification_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Notification_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets_posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Post_Create'),
 		];
@@ -186,6 +190,7 @@ abstract class Ushahidi_Core {
 			'sets_posts'           => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
+			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
 		];
 
 		// Formatter parameters
@@ -203,6 +208,7 @@ abstract class Ushahidi_Core {
 			'user',
 			'savedsearch',
 			'set_post',
+			'notification',
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
@@ -272,6 +278,7 @@ abstract class Ushahidi_Core {
 		));
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
+		$di->set('repository.notification', $di->lazyNew('Ushahidi_Repository_Notification'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
@@ -372,6 +379,13 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Set_Update'] = [
 			'repo' => $di->lazyGet('repository.user'),
 			'role_repo' => $di->lazyGet('repository.role'),
+		];
+		$di->params['Ushahidi_Validator_Notification_Create'] = [
+			'contact_repo' => $di->lazyGet('repository.contact'),
+			'set_repo' => $di->lazyGet('repository.set'),
+		];
+		$di->params['Ushahidi_Validator_Notification_Update'] = [
+			'repo' => $di->lazyGet('repository.notification'),
 		];
 		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
