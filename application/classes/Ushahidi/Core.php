@@ -32,6 +32,10 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('media.media_upload_dir');
 		});
 
+    $di->set('cdn.config', function() use ($di) {
+      return Kohana::$config->load('cdn');
+    });
+
 		// ACL
 		$di->set('acl', function () {
 			return A2::instance();
@@ -218,16 +222,18 @@ abstract class Ushahidi_Core {
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
 		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+		$di->set('tool.filesystem.adapter', $di->lazyNew('Ushahidi_Filesystem_Adapter'));
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
-		// Handle filesystem using local paths for now... lots of other options:
-		// https://github.com/thephpleague/flysystem/tree/master/src/Adapter
+		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
+    // cdn type based on the provided configuration
 		$di->params['Ushahidi_Filesystem'] = [
-			'adapter' => $di->lazyNew('League\Flysystem\Adapter\Local')
+			'adapter' => $di->lazyNew('Ushahidi_Filesystem_Adapter')
 			];
-		$di->params['League\Flysystem\Adapter\Local'] = [
-			'root' => $di->lazyGet('kohana.media.dir'),
+		$di->params['Ushahidi_Filesystem_Adapter'] = [
+			'media_dir' => $di->lazyGet('kohana.media.dir'),
+      'config' => $di->lazyGet('cdn.config')
 			];
 
 		// Formatters
