@@ -221,15 +221,21 @@ abstract class Ushahidi_Core {
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
-		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+		
+    $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
 		$di->set('tool.filesystem.adapter', $di->lazyNew('Ushahidi_Filesystem_Adapter'));
+		$di->set('tool.filesystem.adapter.local', $di->lazyNew('Ushahidi_Filesystem_Adapter_Local'));
+		$di->set('tool.filesystem.adapter.aws', $di->lazyNew('Ushahidi_Filesystem_Adapter_AWS'));
+		$di->set('tool.filesystem.adapter.rackspace', $di->lazyNew('Ushahidi_Filesystem_Adapter_Rackspace'));
+
+
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
 		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
     // cdn type based on the provided configuration
 		$di->params['Ushahidi_Filesystem'] = [
-			'adapter' => $di->lazyNew('Ushahidi_Filesystem_Adapter')
+			'adapter' => $di->lazyGet('tool.filesystem.adapter')['getAdapter']
 			];
 		$di->params['Ushahidi_Filesystem_Adapter'] = [
 			'media_dir' => $di->lazyGet('kohana.media.dir'),
