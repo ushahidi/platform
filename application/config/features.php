@@ -9,10 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-return array(
-	// determines which features are available in a deployment - in contrast
-	// to which features are enabled or not - i.e. a feature can only ever be
-	// enabled if it is also available, but may be available, but not enabled
+return [
+	// Determines which features are available in a deployment
 
 	// Post views
 	'views' => [
