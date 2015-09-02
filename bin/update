@@ -71,6 +71,7 @@ composer="composer"
 phinx="$(dirname "$0")/phinx"
 
 # Check required commands are available
+# Have to do this before any modifiers are added to commands
 which $composer >/dev/null 2>&1
 if [ $? -gt 0 ]; then
 	composer="./composer.phar"
@@ -79,7 +80,11 @@ if [ $? -gt 0 ]; then
 		exit 1
 	fi
 fi
-
+# Check phinx
+if [ -f "$phinx" && "$migrate" = true ]; then
+	echo "!!! Migration tool phinx not installed, unable to run migrations"
+	exit 1
+fi
 
 # Disable interactive questions
 if [ "$nointeraction" = true ]; then
@@ -102,12 +107,8 @@ else
 fi
 
 if [ "$migrate" = true ]; then
-	if [ -f "$phinx" ]; then
-		echo ">>> Running migrations"
-		$phinx migrate -c application/phinx.php
-	else
-		echo "!!! Migration tool phinx not installed, unable to run migrations"
-	fi
+	echo ">>> Running migrations"
+	$phinx migrate -c application/phinx.php
 else
 	echo ">>> Skipping running migrations"
 fi
