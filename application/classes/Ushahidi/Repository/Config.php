@@ -61,6 +61,7 @@ class Ushahidi_Repository_Config implements
 	public function groups()
 	{
 		return [
+			'features',
 			'site',
 			'test',
 			'data-provider',
