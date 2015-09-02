@@ -41,7 +41,11 @@ function service($what = null)
 
 // A special configuration group called "features" stores a list of feature
 // toggles. These switches are used to enable and disable specific aspects
-// of the platform. Often, features are used to to toggle beta or debugging
+// of the platform for varying levels of subscription to Ushahidi-managed
+// deployments.
+
+
+// In development, 'features' can be used to to toggle beta or debugging
 // code on and off. To make this as easy as possible, we define a global
 // feature() function that always responds boolean.
 //
@@ -186,6 +190,10 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [];
 // Config does not allow ordering or sorting, because of its simple key/value nature.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['config'] = [
 	'search' => $di->newFactory('Ushahidi\Core\Usecase\Config\SearchConfig'),
+];
+
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['data_provider'] = [
+	'update' => $di->newFactory('Ushahidi\Core\Usecase\DataProvider\UpdateDataProvider'),
 ];
 
 // Form sub-endpoints must verify that the form exists before anything else.
