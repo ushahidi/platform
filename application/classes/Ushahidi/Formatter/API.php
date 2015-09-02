@@ -27,7 +27,7 @@ class Ushahidi_Formatter_API implements Formatter
 
 		$data = [
 			'id'  => $entity->id,
-			'url' => URL::site(Ushahidi_Api::url($entity->getResource(), $entity->id), Request::current()),
+			'url' => URL::site(Ushahidi_Rest::url($entity->getResource(), $entity->id), Request::current()),
 			];
 
 		if (isset($fields['parent_id']))
@@ -108,7 +108,7 @@ class Ushahidi_Formatter_API implements Formatter
 	{
 		return !$id ? NULL : [
 			'id'  => $id,
-			'url' => URL::site(Ushahidi_Api::url($resource, $id), Request::current()),
+			'url' => URL::site(Ushahidi_Rest::url($resource, $id), Request::current()),
 		];
 	}
 }
