@@ -10,20 +10,20 @@
  */
 
 return array(
-	// T79: implement media uploads for posts
-	'media_uploads' => FALSE,
-	// Sets UI
-	'sets_ui' => FALSE,
-	// Api Explorer
-	'api_explorer' => FALSE,
-	//Data Provider Config UI
-	'data_provider_config' => FALSE,
-	// Post Export
-	'post_export' => FALSE,
-	// T136: custom forms
-	'form_wizard' => FALSE,
-	// Push state support
-	'pushstate' => TRUE,
-	// T49: Data visualizations view
-	'data_visualizations' => FALSE,
+	// determines which features are available in a deployment - in contrast
+	// to which features are enabled or not - i.e. a feature can only ever be
+	// enabled if it is also available, but may be available, but not enabled
+
+	// post data views
+	'post_view_map' => TRUE,
+	'post_view_list' => TRUE,
+	'post_view_chart' => FALSE,
+	'post_view_timeline' => FALSE,
+	// available data sources
+	'smssync' => FALSE,
+	'frontlinesms' => FALSE,
+	'email' => FALSE,
+	'twilio' => FALSE,
+	'nexmo' => FALSE,
+	'twitter' => FALSE,
 );
