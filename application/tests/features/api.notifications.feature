@@ -7,7 +7,8 @@ Feature: Testing the Notifications API
         And that the request "data" is:
             """
             {
-                "set_id":"1"
+                "set_id":"1",
+                "contact_id":"1"
             }
             """
         When I request "/notifications"
@@ -24,7 +25,8 @@ Feature: Testing the Notifications API
         And that the request "data" is:
             """
             {
-                "set_id":"2"
+                "set_id":"2",
+                "contact_id":"1"
             }
             """
         When I request "/notifications"
@@ -36,7 +38,8 @@ Feature: Testing the Notifications API
         And that the request "data" is:
             """
             {
-                "set_id":"2"
+                "set_id":"2",
+                "contact_id":"1"
             }
             """
         When I request "/notifications"
@@ -95,4 +98,14 @@ Feature: Testing the Notifications API
         And the type of the "id" property is "numeric"
         And the "id" property equals "3"
         And the "is_subscribed" property equals "1"
+        Then the guzzle status code should be 200
+
+    @resetFixture
+    Scenario: Listing Notifications for a user
+        Given that I want to get all "Notifications"
+        When I request "/notifications"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "4"
         Then the guzzle status code should be 200

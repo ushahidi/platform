@@ -10,29 +10,25 @@
  */
 
 use Ushahidi\Core\Entity;
-//use Ushahidi\Core\SearchData;
+use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Notification;
-//use Ushahidi\Core\Entity\ContactRepository;
-use Ushahidi\Core\Entity\NotificationRepository;
 use Ushahidi\Core\Traits\UserContext;
 
-class Ushahidi_Repository_Notification extends Ushahidi_Repository implements NotificationRepository
+class Ushahidi_Repository_Notification extends Ushahidi_Repository
 {
 	use UserContext;
 
-	protected $contact_repo;
-
-	private function notificationExists($contact_id, $set_id)
+	protected function notificationExists($entity)
 	{
 		$result = DB::select('id')
 			->from('notifications')
-			->where('contact_id', '=', $contact_id)
-			->and_where('set_id', '=', $set_id)
+			->where('contact_id', '=', $entity->contact_id)
+			->and_where('set_id', '=', $entity->set_id)
 			->execute($this->db);
 		return (bool) $result->get('id', 0);
 	}
 
-	private function subscriptionStatusChanged($entity)
+	protected function subscriptionStatusChanged($entity)
 	{
 		$result = DB::select('is_subscribed')
 			->from('notifications')
@@ -43,19 +39,36 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 		return $is_subscribed !== $entity->is_subscribed;
 	}
 
-	private function contactId($user_id)
-	{
-		$result = DB::select('id')
-			->from('contacts')
-			->where('user_id', '=', $user_id)
-			->execute($this->db);
-
-		return (int) $result->get('id', 0);
-	}
-
 	protected function getTable()
 	{
 		return 'notifications';
+	}
+
+	// Ushahidi_Repository
+	public function setSearchConditions(SearchData $search)
+	{
+		$query = $this->search_query;
+
+		foreach ([
+			'is_subscribed',
+		] as $key)
+		{
+			if ($search->$key)
+			{
+				$query->where("notifications.{$key}", '=', $search->$key);
+			}
+		}
+
+		foreach ([
+			'contact',
+			'set',
+		] as $fk)
+		{
+			if ($search->$fk)
+			{
+				$query->where("notifications.{$fk}_id", '=', $search->$fk);
+			}
+		}
 	}
 
 	public function getEntity(Array $data = null)
@@ -63,24 +76,16 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 		return new Notification($data);
 	}
 
-	// NotificationRepository
-	public function getNotifications($contact_id)
-	{
-		// Get a list of notifications for shis contact
-	}
-
 	// CreateRepository
 	public function create(Entity $entity)
 	{
-		$contact_id = $this->contactId($this->getUserId());
-
 		// Return a 204 since we won't be creating this subscription
-		if ($this->notificationExists($contact_id, $entity->set_id)) {
+		if ($this->notificationExists($entity)) {
 			return;
 		}
 
 		$state = [
-			'contact_id' => $contact_id,
+			'contact_id' => $entity->contact_id,
 			'created' => time(),
 			'is_subscribed' => 1,
 		];
@@ -91,6 +96,7 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
+		//var_dump($entity->hasChanged('is_subscribed'));
 		// Return a 204 since we won't be updating this subscription
 		if (! $this->subscriptionStatusChanged($entity)) {
 			return;
@@ -106,8 +112,9 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 	public function getSearchFields()
 	{
 		return [
-			'contact_id',
-			'set_id',
+			'contact',
+			'set',
+			'is_subscribed'
 		];
 	}
 }

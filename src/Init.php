@@ -299,6 +299,11 @@ $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\S
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 
+$di->params['Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'] = [
+	'contact_repo' => $di->lazyGet('repository.contact'),
+	'contact_auth' => $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'),
+	];
+
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),

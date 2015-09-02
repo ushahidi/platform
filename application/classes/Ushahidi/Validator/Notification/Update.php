@@ -10,15 +10,13 @@
  */
 
 use Ushahidi\Core\Tool\Validator;
-use Ushahidi\Core\Entity\NotificationRepository;
-use Ushahidi\Core\Entity\SetRepository;
 
 class Ushahidi_Validator_Notification_Update extends Validator
 {
 	protected $repo;
 	protected $default_error_source = 'notification';
 
-	public function __construct(NotificationRepository $repo)
+	public function __construct(Ushahidi_Repository_Notification $repo)
 	{
 		$this->repo = $repo;
 	}
