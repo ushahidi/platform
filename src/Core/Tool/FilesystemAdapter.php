@@ -16,7 +16,4 @@ namespace Ushahidi\Core\Tool;
 interface FilesystemAdapter
 {
   public function getAdapter();
-	public function localAdapter($media_dir);
-	public function rackspaceAdapter($config);
-	public function awsAdapter($config);
 }

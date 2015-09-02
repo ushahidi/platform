@@ -222,24 +222,46 @@ abstract class Ushahidi_Core {
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
 		
-    $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
-		$di->set('tool.filesystem.adapter', $di->lazyNew('Ushahidi_Filesystem_Adapter'));
-		$di->set('tool.filesystem.adapter.local', $di->lazyNew('Ushahidi_Filesystem_Adapter_Local'));
-		$di->set('tool.filesystem.adapter.aws', $di->lazyNew('Ushahidi_Filesystem_Adapter_AWS'));
-		$di->set('tool.filesystem.adapter.rackspace', $di->lazyNew('Ushahidi_Filesystem_Adapter_Rackspace'));
-
-
-		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
+  	$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
+    // Media Filesystem
 		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
     // cdn type based on the provided configuration
+    $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+
+
+    // Register filesystem adpater types
+    // Currently supported: Local filesysten, AWS S3 v3, Rackspace
+    // the naming scheme must match the cdn_type set in config/cdn
+    $di->params['Ushahidi\Factory\FilesystemAdapterFactory']['map'] = [
+          'local'      => $di->lazyNew(
+                                'Ushahidi_Filesystem_Adapter_Local', 
+                                [
+                                  'media_dir' => $di->lazyGet('kohana.media.dir')
+                                ]
+                           ),
+          'aws'        => $di->lazyNew(
+                                'Ushahidi_Filesystem_Adapter_AWS',
+                                [
+                                  'config' => $di->lazyGet('cdn.config')
+                                ]
+                          ),
+          'rackspace'  => $di->lazyNew(
+                                'Ushahidi_Filesystem_Adapter_Rackspace',
+                                [
+                                  'config' => $di->lazyGet('cdn.config')
+                                ]
+                          )
+        ];
+
+
 		$di->params['Ushahidi_Filesystem'] = [
-			'adapter' => $di->lazyGet('tool.filesystem.adapter')['getAdapter']
-			];
-		$di->params['Ushahidi_Filesystem_Adapter'] = [
-			'media_dir' => $di->lazyGet('kohana.media.dir'),
-      'config' => $di->lazyGet('cdn.config')
+			'adapter' => $di->lazy(function () use ($di) {
+                             $fsa = $di->lazyGet('Ushahidi\Factory\FilesystemAdapterFactory');
+                             $adpater_type = $di->lazyGet('kohana.media.dir')->cdn_type;
+                             return $fsa->get($adapter_type);
+                   })
 			];
 
 		// Formatters
