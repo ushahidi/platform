@@ -192,6 +192,10 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['config'] = [
 	'search' => $di->newFactory('Ushahidi\Core\Usecase\Config\SearchConfig'),
 ];
 
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['data_provider'] = [
+	'update' => $di->newFactory('Ushahidi\Core\Usecase\DataProvider\UpdateDataProvider'),
+];
+
 // Form sub-endpoints must verify that the form exists before anything else.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormAttribute'),
