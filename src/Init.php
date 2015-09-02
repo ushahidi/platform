@@ -44,9 +44,7 @@ function service($what = null)
 // of the platform for varying levels of subscription to Ushahidi-managed
 // deployments.
 
-
-// In development, 'features' can be used to to toggle beta or debugging
-// code on and off. To make this as easy as possible, we define a global
+// To make this as easy as possible, we define a global
 // feature() function that always responds boolean.
 //
 // **Features that do not exist will always return `false`.**
@@ -89,7 +87,7 @@ $di->setter['Ushahidi\Console\Import']['setImportUsecase'] = $di->lazy(function 
 // User command
 $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\User');
 $di->setter['Ushahidi\Console\User']['setRepo'] = $di->lazyGet('repository.user');
-$di->setter['Ushahidi\Console\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create'); 
+$di->setter['Ushahidi\Console\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
 
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
@@ -190,10 +188,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map'] = [];
 // Config does not allow ordering or sorting, because of its simple key/value nature.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['config'] = [
 	'search' => $di->newFactory('Ushahidi\Core\Usecase\Config\SearchConfig'),
-];
-
-$di->params['Ushahidi\Factory\UsecaseFactory']['map']['data_provider'] = [
-	'update' => $di->newFactory('Ushahidi\Core\Usecase\DataProvider\UpdateDataProvider'),
 ];
 
 // Form sub-endpoints must verify that the form exists before anything else.
