@@ -89,7 +89,7 @@ class ConfigAuthorizer implements Authorizer
 	}
 
 	/**
-	 * Check if a config group is writable
+	 * Check if a config group is read only
 	 * @param  Entity  $entity
 	 * @return boolean
 	 */
