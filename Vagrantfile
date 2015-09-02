@@ -23,9 +23,12 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.manifest_file  = "main.pp"
-    puppet.module_path = "puppet/modules"
-    puppet.options = ["--verbose", "--debug", "--templatedir", "/vagrant/puppet/templates"]
+    puppet.environment_path = "puppet/"
+    puppet.environment = "platform"
+    puppet.options = ["--verbose"]
+    puppet.facter = {
+        # Optionally pass in a github oauth token through an environment variable
+        "github_token" => ENV.fetch('github_token', '')
+    }
   end
 end
