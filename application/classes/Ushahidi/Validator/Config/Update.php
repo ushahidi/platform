@@ -67,7 +67,7 @@ class Ushahidi_Validator_Config_Update extends Validator
 				];
 				break;
 
-			case 'data-providers':
+			case 'data-provider':
 				$rules = [
 					'providers' => [
 						[[$this, 'isProviderAvailable'], [':value', ':validation']]
