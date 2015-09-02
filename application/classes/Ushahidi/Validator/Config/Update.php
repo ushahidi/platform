@@ -107,7 +107,7 @@ class Ushahidi_Validator_Config_Update extends Validator
 
 		$diff = array_diff_key($enabled_providers, $available_providers);
 		if ($diff) {
-			$validation->error('providers', 'providerNotAvailable', [$diff])
+			$validation->error('providers', 'providerNotAvailable', [$diff]);
 		}
 	}
 }
