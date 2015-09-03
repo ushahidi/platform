@@ -11,12 +11,14 @@
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
+use Ushahidi\Core\Entity\Contact;
+
 class DataProvider_Twitter extends DataProvider {
 
 	/**
 	 * Contact type user for this provider
 	 */
-	public $contact_type = Model_Contact::TWITTER;
+	public $contact_type = Contact::TWITTER;
 
 	const MAX_REQUESTS_PER_WINDOW = 180;
 	const REQUEST_WINDOW = 900; // Twitter request window in seconds

@@ -10,13 +10,14 @@
  */
 
 use Shadowhand\Email;
+use Ushahidi\Core\Entity\Contact;
 
 class DataProvider_Email extends DataProvider {
 
 	/**
 	 * Contact type user for this provider
 	 */
-	public $contact_type = Model_Contact::EMAIL;
+	public $contact_type = Contact::EMAIL;
 
 	/**
 	 * @return mixed

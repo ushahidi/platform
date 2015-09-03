@@ -54,11 +54,6 @@ abstract class Ushahidi_Core {
 			'db' => $di->lazyGet('kohana.db.multisite')
 		];
 
-		// ACL
-		$di->set('acl', function () {
-			return A2::instance();
-		});
-
 		$di->set('session.user', function() use ($di) {
 			// Using the OAuth resource server, get the userid (owner id) for this request
 			$server = $di->get('oauth.server.resource');
