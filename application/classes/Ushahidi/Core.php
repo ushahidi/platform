@@ -264,21 +264,21 @@ abstract class Ushahidi_Core {
     // Currently supported: Local filesysten, AWS S3 v3, Rackspace
     // the naming scheme must match the cdn_type set in config/cdn
     $di->set('adapter.local', $di->lazyNew(
-                                'Ushahidi_Filesystem_Adapter_Local', 
+                                'Ushahidi_FilesystemAdapter_Local', 
                                 [
                                   'media_dir' => $di->lazyGet('kohana.media.dir')
                                 ]
                            )
     );
     $di->set('adapter.aws', $di->lazyNew(
-                                'Ushahidi_Filesystem_Adapter_AWS', 
+                                'Ushahidi_FilesystemAdapter_AWS', 
                                 [
                                   'config' => $di->lazyGet('cdn.config')
                                 ]
                            )
     );
     $di->set('adapter.rackspace', $di->lazyNew(
-                                'Ushahidi_Filesystem_Adapter_Rackspace', 
+                                'Ushahidi_FilesystemAdapter_Rackspace', 
                                 [
                                   'config' => $di->lazyGet('cdn.config')
                                 ]
