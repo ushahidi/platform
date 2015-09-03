@@ -12,22 +12,26 @@
 return array(
 
 	// The default configuration using a local file system setup
-  'cdn_type' => 'local'
+  'type' => 'local'
   
   // AWS S3 v3 CDN config example
   /*
-  'cdn_type' => 'aws',
-  'key' => '',
-  'secret' => '',
-  'region' => '',
-  'version' => '',
-  'bucket_name' => '',
+  'type' => 'aws',
+  'aws' => [
+    'key' => '',
+    'secret' => '',
+    'region' => '',
+    'version' => '',
+    'bucket_name' => '',
+  ]
   */
 
   // Rackspace CDN config example
   /*
-  'cdn_type' => 'rackspace',
-  'username' => '',
-  'apiKey' => '',
+  'type' => 'rackspace',
+  'rackspace' => [
+    'username' => '',
+    'apiKey' => '',
+  ]
   */
 );

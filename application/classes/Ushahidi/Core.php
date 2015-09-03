@@ -33,7 +33,7 @@ abstract class Ushahidi_Core {
 		});
 
     $di->set('cdn.config', function() use ($di) {
-      return Kohana::$config->load('cdn');
+      return Kohana::$config->load('cdn')->as_array();
     });
 
 		// ACL
@@ -229,12 +229,23 @@ abstract class Ushahidi_Core {
 		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
     // cdn type based on the provided configuration
     $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+		$di->params['Ushahidi_Filesystem'] = [
+			'adapter' => $di->lazy(function () use ($di) {
+                             $fsa = $di->get('filesystem.adapter_factory');
+                             $adapter_type = $di->get('cdn.config');
+
+                             return $fsa->get($adapter_type->type);
+                   })
+			];
 
     // Register filesystem adpater types
     // Currently supported: Local filesysten, AWS S3 v3, Rackspace
     // the naming scheme must match the cdn_type set in config/cdn
     $di->set('adapter.local', $di->lazyNew(
-                                'Ushahidi_Filesystem_Adapter_Local' 
+                                'Ushahidi_Filesystem_Adapter_Local', 
+                                [
+                                  'media_dir' => $di->lazyGet('kohana.media.dir')
+                                ]
                            )
     );
     $di->set('adapter.aws', $di->lazyNew(
@@ -251,21 +262,13 @@ abstract class Ushahidi_Core {
                                 ]
                            )
     );
+
 		$di->set('filesystem.adapter_factory', $di->lazyNew('Ushahidi\Factory\FilesystemAdapterFactory'));
     $di->params['Ushahidi\Factory\FilesystemAdapterFactory']['map'] = [
           'local'      => $di->get('adapter.local'),
           'aws'        => $di->get('adapter.aws'),
           'rackspace'  => $di->get('adapter.rackspace')
         ];
-
-		$di->params['Ushahidi_Filesystem'] = [
-			'adapter' => $di->lazy(function () use ($di) {
-                             $fsa = $di->get('filesystem.adapter_factory');
-                             $adapter_type = $di->get('cdn.config');
-
-                             return $fsa->get($adapter_type->cdn_type);
-                   })
-			];
 
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));

@@ -11,15 +11,15 @@ default:
     tags:       "~@dataproviders"
   context:
     parameters:
-      base_url: http://192.168.33.110
-      #      proxy_url: localhost:8888
+      base_url: http://localhost:8000
+#      proxy_url: localhost:8888
   extensions:
     Behat\MinkExtension\Extension:
-      base_url:  http://192.168.33.110
+      base_url:  http://localhost:8000
       goutte:
         guzzle_parameters:
           curl.options:
-             3 : 8080 #CURLOPT_PORT=3
+             3 : 8000 #CURLOPT_PORT=3
 #            10004: localhost:8888 #CURLOPT_PROXY=10004
 ci:
   filters:

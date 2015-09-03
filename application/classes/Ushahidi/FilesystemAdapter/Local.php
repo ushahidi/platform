@@ -10,7 +10,7 @@
  */
 
 use League\Flysystem\Adapter\Local;
-use Ushahidi\Core\FilesystemAdapter;
+use Ushahidi\Core\Tool\FilesystemAdapter;
 
 class Ushahidi_Filesystem_Adapter_Local implements FilesystemAdapter
 {
