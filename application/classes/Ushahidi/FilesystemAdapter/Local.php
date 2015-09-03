@@ -15,7 +15,7 @@ use Ushahidi\Core\Tool\FilesystemAdapter;
 class Ushahidi_Filesystem_Adapter_Local implements FilesystemAdapter
 {
 
-  private $media_dir;
+  protected $media_dir;
 
   public function __construct($media_dir)
   {

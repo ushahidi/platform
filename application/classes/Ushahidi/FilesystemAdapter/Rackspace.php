@@ -18,7 +18,7 @@ use Ushahidi\Core\FilesystemAdapter;
 class Ushahidi_Filesystem_Adapter_Rackspace implements Filesystem_Adapter
 {
 
-  private $config;
+  protected $config;
 
   public function __construct($config)
   {

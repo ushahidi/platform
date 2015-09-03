@@ -17,7 +17,7 @@ use Ushahidi\Core\FilesystemAdapter;
 class Ushahidi_Filesystem_Adapter_AWS implements FilesystemAdapter
 {
 
-  private $config;
+  protected $config;
 
   public function __construct($config)
   {
