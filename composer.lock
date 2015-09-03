@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0c072a45fb730aea2003efcd735f5158",
+    "hash": "dbec72ff31ac0d5f5f49045a94495678",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -595,66 +595,6 @@
                 "task"
             ],
             "time": "2015-01-05 20:10:33"
-        },
-        {
-            "name": "kohana/orm",
-            "version": "dev-3.3/develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kohana/orm.git",
-                "reference": "c5ee33aa57f4dbda09e9d49a9d0993a078dd2066"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kohana/orm/zipball/c5ee33aa57f4dbda09e9d49a9d0993a078dd2066",
-                "reference": "c5ee33aa57f4dbda09e9d49a9d0993a078dd2066",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "~1.0",
-                "kohana/core": ">=3.3",
-                "kohana/database": ">=3.3",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "kohana/core": "3.3.*@dev",
-                "kohana/database": "3.3.*@dev",
-                "kohana/koharness": "*@dev",
-                "kohana/unittest": "3.3.*@dev"
-            },
-            "type": "kohana-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-3.3/develop": "3.3.x-dev",
-                    "dev-3.4/develop": "3.4.x-dev"
-                },
-                "installer-paths": {
-                    "vendor/{$vendor}/{$name}": [
-                        "type:kohana-module"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kohana Team",
-                    "email": "team@kohanaframework.org",
-                    "homepage": "http://kohanaframework.org/team",
-                    "role": "developer"
-                }
-            ],
-            "description": "The official Kohana ORM module",
-            "homepage": "http://kohanaframework.org",
-            "keywords": [
-                "database",
-                "framework",
-                "kohana",
-                "orm"
-            ],
-            "time": "2014-10-10 14:38:27"
         },
         {
             "name": "league/csv",
@@ -1625,39 +1565,6 @@
                 "environment"
             ],
             "time": "2015-02-19 20:37:05"
-        },
-        {
-            "name": "wouter/a1",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ushahidi/A1",
-                "reference": "origin/3.3/feature-use-password-compat"
-            },
-            "type": "library",
-            "time": "2014-08-08 17:35:29"
-        },
-        {
-            "name": "wouter/a2",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Wouterrr/A2",
-                "reference": "origin/master"
-            },
-            "type": "library",
-            "time": "2015-08-24 20:06:36"
-        },
-        {
-            "name": "wouter/acl",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Wouterrr/ACL",
-                "reference": "origin/master"
-            },
-            "type": "library",
-            "time": "2015-05-03 14:01:47"
         },
         {
             "name": "zeelot/kohana-media",
@@ -3761,12 +3668,8 @@
         "bodom78/kohana-imagefly": 20,
         "kohana/core": 20,
         "kohana/cache": 20,
-        "kohana/orm": 20,
         "kohana/image": 20,
         "kohana/minion": 20,
-        "wouter/a1": 20,
-        "wouter/a2": 20,
-        "wouter/acl": 20,
         "vlucas/phpdotenv": 20,
         "zeelot/kohana-media": 20,
         "league/csv": 20,
