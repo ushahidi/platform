@@ -18,7 +18,7 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository
 {
 	use UserContext;
 
-	protected function notificationExists($entity)
+	protected function notificationExists(Entity $entity)
 	{
 		$result = DB::select('id')
 			->from('notifications')
@@ -26,17 +26,6 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository
 			->and_where('set_id', '=', $entity->set_id)
 			->execute($this->db);
 		return (bool) $result->get('id', 0);
-	}
-
-	protected function subscriptionStatusChanged($entity)
-	{
-		$result = DB::select('is_subscribed')
-			->from('notifications')
-			->where('id', '=', $entity->id)
-			->execute($this->db);
-		$is_subscribed = (int) $result->get('is_subscribed', 0);
-
-		return $is_subscribed !== $entity->is_subscribed;
 	}
 
 	protected function getTable()
@@ -96,9 +85,8 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-		//var_dump($entity->hasChanged('is_subscribed'));
 		// Return a 204 since we won't be updating this subscription
-		if (! $this->subscriptionStatusChanged($entity)) {
+		if (! $entity->hasChanged('is_subscribed')) {
 			return;
 		}
 
