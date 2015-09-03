@@ -4,7 +4,7 @@ define('DOCROOT', realpath(__DIR__ . '/../httpdocs'));
 
 require __DIR__ . '/kohana.php';
 
-$db = Kohana::$config->load('database')->default;
+$db = service('db.config');
 
 return [
 	'paths' => [

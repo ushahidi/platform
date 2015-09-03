@@ -14,6 +14,7 @@ production=false
 withgit=false
 installdeps=true
 migrate=true
+nointeraction=false
 
 # Parse options
 # Based on code from http://mywiki.wooledge.org/ComplexOptionParsing
@@ -43,8 +44,11 @@ while true; do
 		no-migrate)
 			migrate=false
 				;;
+		no-interaction)
+			nointeraction=true
+				;;
 		h|help)
-			echo "usage: $0 [--git-update] [--production] [--no-migrate] [--no-deps]" >&2
+			echo "usage: $0 [--git-update] [--production] [--no-migrate] [--no-deps] [--no-interaction]" >&2
 			exit 2
 			;;
 	esac
@@ -67,6 +71,7 @@ composer="composer"
 phinx="$(dirname "$0")/phinx"
 
 # Check required commands are available
+# Have to do this before any modifiers are added to commands
 which $composer >/dev/null 2>&1
 if [ $? -gt 0 ]; then
 	composer="./composer.phar"
@@ -74,6 +79,18 @@ if [ $? -gt 0 ]; then
 		echo "!!! Missing the 'composer' command, please install it: https://getcomposer.org/"
 		exit 1
 	fi
+fi
+# Check phinx
+if [ -f "$phinx" && "$migrate" = true ]; then
+	echo "!!! Migration tool phinx not installed, unable to run migrations"
+	exit 1
+fi
+
+# Disable interactive questions
+if [ "$nointeraction" = true ]; then
+	echo ">>> Disable interactive questions"
+	composer="$composer --no-interaction"
+	phinx="$phinx --no-interaction"
 fi
 
 # Deployment mode, disable all developer dependencies :)
@@ -84,18 +101,14 @@ fi
 
 if [ "$installdeps" = true ]; then
 	echo ">>> Updating dependencies"
-	$composer install --ignore-platform-reqs
+	$composer install
 else
 	echo ">>> Skipping installing all dependencies"
 fi
 
 if [ "$migrate" = true ]; then
-	if [ -f "$phinx" ]; then
-		echo ">>> Running migrations"
-		$phinx migrate -c application/phinx.php
-	else
-		echo "!!! Migration tool $migrate not installed, unable to run migrations"
-	fi
+	echo ">>> Running migrations"
+	$phinx migrate -c application/phinx.php
 else
 	echo ">>> Skipping running migrations"
 fi

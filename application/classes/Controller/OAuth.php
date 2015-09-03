@@ -24,23 +24,7 @@ class Controller_OAuth extends Controller {
 			$this->request->action('options');
 		}
 
-		$action = $this->request->action();
-		if ($action AND !in_array($action, array('index', 'authorize')))
-		{
-			// Only apply templating to index and authorization actions
-			$this->auto_render = FALSE;
-		}
-
 		parent::before();
-
-		$this->auth    = A1::instance();
-		$this->user    = $this->auth->get_user();
-		$this->session = $this->auth->session();
-
-		if ($this->auto_render)
-		{
-			$this->header->set('logged_in', $this->auth->logged_in());
-		}
 	}
 
 	public function after()
@@ -57,6 +41,7 @@ class Controller_OAuth extends Controller {
 
 	public function action_index()
 	{
+		$this->response->status(200);
 		// todo: try/catch OAuthClientException
 		$server = service('oauth.server.auth');
 		$params = $server->getGrantType('authorization_code')->checkAuthoriseParams();

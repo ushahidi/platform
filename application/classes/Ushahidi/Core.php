@@ -24,10 +24,27 @@ abstract class Ushahidi_Core {
 		$di = service();
 
 		// Kohana injection
-		$di->set('kohana.db', function() use ($di) {
-			// todo: is there some way to use different configs here?
-			return Database::instance();
+		// DB config
+		$di->set('db.config', function() use ($di) {
+			$config = Kohana::$config->load('database')->default;
+
+			// Is this a multisite install?
+			$multisite = Kohana::$config->load('multisite.enabled');
+			if ($multisite) {
+				$config = $di->get('multisite')->getDbConfig();
+			}
+
+			return $config;
 		});
+		// Multisite db
+		$di->set('kohana.db.multisite', function () use ($di) {
+			return Database::instance('multisite');
+		});
+		// Deployment db
+		$di->set('kohana.db', function() use ($di) {
+			return Database::instance('default', $di->get('db.config'));
+		});
+		// Media dir
 		$di->set('kohana.media.dir', function() use ($di) {
 			return Kohana::$config->load('media.media_upload_dir');
 		});
@@ -40,6 +57,12 @@ abstract class Ushahidi_Core {
 		$di->set('acl', function () {
 			return A2::instance();
 		});
+
+		// Multisite utility class
+		$di->set('multisite', $di->lazyNew('Ushahidi_Multisite'));
+		$di->params['Ushahidi_Multisite'] = [
+			'db' => $di->lazyGet('kohana.db.multisite')
+		];
 
 		$di->set('session.user', function() use ($di) {
 			// Using the OAuth resource server, get the userid (owner id) for this request
@@ -65,7 +88,6 @@ abstract class Ushahidi_Core {
 		// $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Client');
 		// $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Token');
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Dataprovider');
-
 		$di->setter['Ushahidi_Console_Dataprovider']['setRepo'] = $di->lazyGet('repository.dataprovider');
 
 		// OAuth servers
@@ -374,6 +396,7 @@ abstract class Ushahidi_Core {
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 		$di->set('validator.contact.create', $di->lazyNew('Ushahidi_Validator_Contact_Create'));
+
 		$di->params['Ushahidi_Validator_Contact_Create'] = [
 			'repo' => $di->lazyGet('repository.contact'),
 			'user_repo' => $di->lazyGet('repository.user'),
@@ -453,7 +476,6 @@ abstract class Ushahidi_Core {
 				return \Kohana::$config->load('media.max_upload_bytes');
 			}),
 		];
-
 
 		$di->set('validator.post.datetime', $di->lazyNew('Ushahidi_Validator_Post_Datetime'));
 		$di->set('validator.post.decimal', $di->lazyNew('Ushahidi_Validator_Post_Decimal'));
