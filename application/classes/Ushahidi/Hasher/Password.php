@@ -3,8 +3,6 @@
 /**
  * Ushahidi Password Hasher
  *
- * Implemented using A1
- *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
  * @copyright  2014 Ushahidi
@@ -15,15 +13,8 @@ use Ushahidi\Core\Tool\Hasher;
 
 class Ushahidi_Hasher_Password implements Hasher
 {
-	private $a1;
-
-	public function __construct()
-	{
-		$this->a1 = A1::instance();
-	}
-
 	public function hash($password)
 	{
-		return $this->a1->hash($password);
+		return password_hash($password, PASSWORD_BCRYPT, ['cost' => 15]);
 	}
 }
