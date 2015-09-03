@@ -17,7 +17,14 @@ use Ushahidi\Core\FilesystemAdapter;
 class Ushahidi_Filesystem_Adapter_AWS implements FilesystemAdapter
 {
 
-  public function getAdapter($config, $media_dir)
+  private $config;
+
+  public function __construct($config)
+  {
+      $this->config = $config;
+  }
+
+  public function getAdapter()
   {
       $client = new S3Client([
           'credentials' => [
