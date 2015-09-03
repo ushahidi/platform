@@ -23,6 +23,4 @@ return array(
 	// Kohana modules
 	'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	'image'      => MODPATH.'image',      // Image manipulation
-	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-	'minion'     => MODPATH.'minion',
 );
