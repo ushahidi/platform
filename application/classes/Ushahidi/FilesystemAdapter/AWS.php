@@ -19,18 +19,23 @@ class Ushahidi_FilesystemAdapter_AWS implements FilesystemAdapter
 
   protected $config;
 
+  public function __construct($config) 
+  {
+      $this->config = $config['aws'];
+  }
+
   public function getAdapter()
   {
       $client = new S3Client([
           'credentials' => [
-              'key'    => $this->config->key,
-              'secret' => $this->config->secret
+              'key'    => $this->config['key'],
+              'secret' => $this->config['secret']
           ],
-          'region' =>  $this->config->region,
-          'version' => $this->config->version,
+          'region' =>  $this->config['region'],
+          'version' => $this->config['version'],
       ]);
 
-      $adapter = new AwsS3Adapter($client, $this->config->bucket_name);
+      $adapter = new AwsS3Adapter($client, $this->config['bucket_name']);
 
       return $adpater;
   }

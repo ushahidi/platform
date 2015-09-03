@@ -20,11 +20,16 @@ class Ushahidi_FilesystemAdapter_Rackspace implements FilesystemAdapter
 
   protected $config;
 
+  public function __construct($config) 
+  {
+      $this->config = $config['rackspace'];
+  }
+
   public function getAdapter()
   {
       $client = new Rackspace(Rackspace::UK_IDENTITY_ENDPOINT, array(
-          'username' => ':username',
-          'apiKey' => ':password',
+          'username' => $this->config['username'],
+          'apiKey' => $this->config['password'],
       ));
 
       $store = $client->objectStoreService('cloudFiles', 'LON');

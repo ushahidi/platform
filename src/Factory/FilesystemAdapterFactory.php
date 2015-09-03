@@ -36,7 +36,7 @@ class FilesystemAdapterFactory
 	 * @param  String $type
 	 * @return Ushahidi\Repository
 	 */
-	public function get($type)
+	public function getAdapter($type)
 	{
 		$adapter = $this->map[$type];
 

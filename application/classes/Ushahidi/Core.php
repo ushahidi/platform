@@ -247,22 +247,9 @@ abstract class Ushahidi_Core {
   	$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
-    // Media Filesystem
-		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
-    // cdn type based on the provided configuration
-    $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
-		$di->params['Ushahidi_Filesystem'] = [
-			'adapter' => $di->lazy(function () use ($di) {
-                             $fsa = $di->get('filesystem.adapter_factory');
-                             $adapter_type = $di->get('cdn.config');
-
-                             return $fsa->get($adapter_type->type);
-                   })
-			];
-
-    // Register filesystem adpater types
+   // Register filesystem adpater types
     // Currently supported: Local filesysten, AWS S3 v3, Rackspace
-    // the naming scheme must match the cdn_type set in config/cdn
+    // the naming scheme must match the cdn type set in config/cdn
     $di->set('adapter.local', $di->lazyNew(
                                 'Ushahidi_FilesystemAdapter_Local', 
                                 [
@@ -285,14 +272,21 @@ abstract class Ushahidi_Core {
                            )
     );
 
-		$di->set('filesystem.adapter_factory', $di->lazyNew('Ushahidi\Factory\FilesystemAdapterFactory'));
-    $di->params['Ushahidi\Factory\FilesystemAdapterFactory']['map'] = [
-          'local'      => $di->get('adapter.local'),
-          'aws'        => $di->get('adapter.aws'),
-          'rackspace'  => $di->get('adapter.rackspace')
-        ];
+    // Media Filesystem
+		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
+    // cdn type based on the provided configuration
 
-		// Formatters
+    $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+		$di->params['Ushahidi_Filesystem'] = [
+			'adapter' => $di->lazy(function () use ($di) {
+                             $adapter_type = $di->get('cdn.config');
+                             $fsa = $di->get('adapter.' . $adapter_type['type']);
+
+                             return $fsa->getAdapter();
+                   })
+			];
+
+ 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
 		$di->set('formatter.entity.post.geojson', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSON'));
