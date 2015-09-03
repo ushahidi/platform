@@ -18,14 +18,7 @@ use Ushahidi\Core\FilesystemAdapter;
 class Ushahidi_Filesystem_Adapter_Rackspace implements Filesystem_Adapter
 {
 
-  protected $config;
-
-  public function __construct($config)
-  {
-      $this->config = $config;
-  }
-
-  public function getAdapter()
+  public function getAdapter($config, $media_dir)
   {
       $client = new Rackspace(Rackspace::UK_IDENTITY_ENDPOINT, array(
           'username' => ':username',

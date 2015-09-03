@@ -15,5 +15,5 @@ namespace Ushahidi\Core\Tool;
 
 interface FilesystemAdapter
 {
-    public function getAdapter();
+    public function getAdapter($config, $media_dir);
 }
