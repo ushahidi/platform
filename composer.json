@@ -53,7 +53,7 @@
         "league/flysystem": "0.4.*",
         "ircmaxell/password-compat": "~1.0.3",
         "abraham/twitteroauth": "^0.5.3",
-        "kohana/core" : "3.3.*@dev",
+        "kohana/core" : "3.3.3.1@dev",
         "kohana/cache" : "3.3.*@dev",
         "kohana/orm" : "3.3.*@dev",
         "kohana/image" : "3.3.*@dev",
