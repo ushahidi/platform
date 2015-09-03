@@ -24,13 +24,35 @@ abstract class Ushahidi_Core {
 		$di = service();
 
 		// Kohana injection
-		$di->set('kohana.db', function() use ($di) {
-			// todo: is there some way to use different configs here?
-			return Database::instance();
+		// DB config
+		$di->set('db.config', function() use ($di) {
+			$config = Kohana::$config->load('database')->default;
+
+			// Is this a multisite install?
+			$multisite = Kohana::$config->load('multisite.enabled');
+			if ($multisite) {
+				$config = $di->get('multisite')->getDbConfig();
+			}
+
+			return $config;
 		});
+		// Multisite db
+		$di->set('kohana.db.multisite', function () use ($di) {
+			return Database::instance('multisite');
+		});
+		// Deployment db
+		$di->set('kohana.db', function() use ($di) {
+			return Database::instance('default', $di->get('db.config'));
+		});
+		// Media dir
 		$di->set('kohana.media.dir', function() use ($di) {
 			return Kohana::$config->load('media.media_upload_dir');
 		});
+		// Multisite utility class
+		$di->set('multisite', $di->lazyNew('Ushahidi_Multisite'));
+		$di->params['Ushahidi_Multisite'] = [
+			'db' => $di->lazyGet('kohana.db.multisite')
+		];
 
 		// ACL
 		$di->set('acl', function () {

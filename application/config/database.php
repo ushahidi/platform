@@ -22,21 +22,40 @@ if (getenv("CLEARDB_DATABASE_URL")) {
 	putenv("DB_TYPE=" . "MySQLi");
 }
 
-return array
-(
-	'default' => array
-	(
+// Default to MySQLi db if not set
+// This at least results in a connect error if other vars aren't set
+if (! getenv('DB_TYPE')) {
+	putenv("DB_TYPE=MySQLi");
+}
+
+return [
+	'default' => [
 		'type'       => getenv('DB_TYPE'),
-		'connection' => array(
+		'connection' => [
 			'hostname'   => getenv('DB_HOST'),
 			'database'   => getenv('DB_NAME'),
 			'username'   => getenv('DB_USER'),
 			'password'   => getenv('DB_PASS'),
 			'persistent' => FALSE,
-		),
+		],
 		'table_prefix' => '',
 		'charset'      => 'utf8',
 		'caching'      => TRUE,
 		'profiling'    => TRUE,
-	)
-);
+	],
+	// DB for multisite, see multisite config for schema
+	'multisite' => [
+		'type'       => getenv('DB_TYPE'),
+		'connection' => [
+			'hostname'   => getenv('DB_HOST'),
+			'database'   => getenv('DB_NAME'),
+			'username'   => getenv('DB_USER'),
+			'password'   => getenv('DB_PASS'),
+			'persistent' => FALSE,
+		],
+		'table_prefix' => '',
+		'charset'      => 'utf8',
+		'caching'      => TRUE,
+		'profiling'    => TRUE,
+	]
+];
