@@ -259,8 +259,8 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Filesystem'] = [
 			'adapter' => $di->lazy(function () use ($di) {
                              $fsa = $di->lazyGet('Ushahidi\Factory\FilesystemAdapterFactory');
-                             $adpater_type = $di->lazyGet('kohana.media.dir')->cdn_type;
-                             return $fsa->get($adapter_type);
+                             $adpater_type = $di->lazyGet('cdn.config');
+                             return $fsa->get($adapter_type->cdn_type);
                    })
 			];
 
