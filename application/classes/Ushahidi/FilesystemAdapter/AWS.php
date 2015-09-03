@@ -12,17 +12,12 @@
 use Aws\S3\S3Client;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Filesystem;
-use Ushahidi\Core\FilesystemAdapter;
+use Ushahidi\Core\Tool\FilesystemAdapter;
 
-class Ushahidi_Filesystem_Adapter_AWS implements FilesystemAdapter
+class Ushahidi_FilesystemAdapter_AWS implements FilesystemAdapter
 {
 
-  private $config;
-
-  public function __construct($config)
-  {
-      $this->config = $config;
-  }
+  protected $config;
 
   public function getAdapter()
   {
