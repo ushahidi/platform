@@ -2259,86 +2259,28 @@
             "time": "2015-05-25 11:17:08"
         },
         {
-            "name": "phpdocumentor/reflection-common",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/ReflectionCommon.git",
-                "reference": "8dfc66d8a72f6741ed9f5a39227f99f78ae8d9a5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/8dfc66d8a72f6741ed9f5a39227f99f78ae8d9a5",
-                "reference": "8dfc66d8a72f6741ed9f5a39227f99f78ae8d9a5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.6"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "phpDocumentor\\Reflection\\": [
-                        "src"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jaap van Otterdijk",
-                    "email": "opensource@ijaap.nl"
-                }
-            ],
-            "description": "Common reflection classes used by phpdocumentor to reflect the code structure",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "FQSEN",
-                "phpDocumentor",
-                "phpdoc",
-                "reflection",
-                "static analysis"
-            ],
-            "time": "2015-08-09 12:13:56"
-        },
-        {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "dev-master",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "d1da796ba5565789a623052eb9f2cf59d57fec60"
+                "reference": "d68dbdc53dc358a816f00b300704702b2eaff7b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/d1da796ba5565789a623052eb9f2cf59d57fec60",
-                "reference": "d1da796ba5565789a623052eb9f2cf59d57fec60",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/d68dbdc53dc358a816f00b300704702b2eaff7b8",
+                "reference": "d68dbdc53dc358a816f00b300704702b2eaff7b8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5",
-                "phpdocumentor/reflection-common": "^1.0@dev",
-                "phpdocumentor/type-resolver": "^0.1.2",
-                "webmozart/assert": "^1.0"
+                "php": ">=5.3.3"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
             },
             "suggest": {
                 "dflydev/markdown": "~1.0",
-                "erusev/parsedown": "~1.0",
-                "league/commonmark": "*"
+                "erusev/parsedown": "~1.0"
             },
             "type": "library",
             "extra": {
@@ -2363,54 +2305,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2015-02-27 09:28:18"
-        },
-        {
-            "name": "phpdocumentor/type-resolver",
-            "version": "0.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "14bb2da6387c6a58648b4a87ff02d4c971050309"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/14bb2da6387c6a58648b4a87ff02d4c971050309",
-                "reference": "14bb2da6387c6a58648b4a87ff02d4c971050309",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5",
-                "phpdocumentor/reflection-common": "^1.0@dev"
-            },
-            "require-dev": {
-                "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^4.6"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "phpDocumentor\\Reflection\\": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "me@mikevanriel.com"
-                }
-            ],
-            "time": "2015-07-02 17:28:34"
+            "time": "2015-02-03 12:10:50"
         },
         {
             "name": "phpspec/php-diff",
@@ -3757,55 +3652,6 @@
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
             "time": "2015-07-08 05:59:48"
-        },
-        {
-            "name": "webmozart/assert",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
-                "reference": "8c628bbc6f602e020b2bccd0883364923f301ad0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/8c628bbc6f602e020b2bccd0883364923f301ad0",
-                "reference": "8c628bbc6f602e020b2bccd0883364923f301ad0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.6"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webmozart\\Assert\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bernhard Schussek",
-                    "email": "bschussek@gmail.com"
-                }
-            ],
-            "description": "Assertions to validate method input/output with nice error messages.",
-            "keywords": [
-                "assert",
-                "check",
-                "validate"
-            ],
-            "time": "2015-08-24 13:29:36"
         }
     ],
     "aliases": [],
