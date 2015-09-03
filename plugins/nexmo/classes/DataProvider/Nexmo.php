@@ -9,12 +9,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
+use Ushahidi\Core\Entity\Contact;
+
 class DataProvider_Nexmo extends DataProvider {
 
 	/**
 	 * Contact type user for this provider
 	 */
-	public $contact_type = Model_Contact::PHONE;
+	public $contact_type = Contact::PHONE;
 
 	/**
 	 * Client to talk to the Nexmo API
