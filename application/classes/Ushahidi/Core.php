@@ -230,36 +230,39 @@ abstract class Ushahidi_Core {
     // cdn type based on the provided configuration
     $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
 
-
     // Register filesystem adpater types
     // Currently supported: Local filesysten, AWS S3 v3, Rackspace
     // the naming scheme must match the cdn_type set in config/cdn
+    $di->set('adapter.local', $di->lazyNew(
+                                'Ushahidi_Filesystem_Adapter_Local' 
+                           )
+    );
+    $di->set('adapter.aws', $di->lazyNew(
+                                'Ushahidi_Filesystem_Adapter_AWS', 
+                                [
+                                  'config' => $di->lazyGet('cdn.config')
+                                ]
+                           )
+    );
+    $di->set('adapter.rackspace', $di->lazyNew(
+                                'Ushahidi_Filesystem_Adapter_Rackspace', 
+                                [
+                                  'config' => $di->lazyGet('cdn.config')
+                                ]
+                           )
+    );
+		$di->set('filesystem.adapter_factory', $di->lazyNew('Ushahidi\Factory\FilesystemAdapterFactory'));
     $di->params['Ushahidi\Factory\FilesystemAdapterFactory']['map'] = [
-          'local'      => $di->lazyNew(
-                                'Ushahidi_Filesystem_Adapter_Local', 
-                                [
-                                  'media_dir' => $di->lazyGet('kohana.media.dir')
-                                ]
-                           ),
-          'aws'        => $di->lazyNew(
-                                'Ushahidi_Filesystem_Adapter_AWS',
-                                [
-                                  'config' => $di->lazyGet('cdn.config')
-                                ]
-                          ),
-          'rackspace'  => $di->lazyNew(
-                                'Ushahidi_Filesystem_Adapter_Rackspace',
-                                [
-                                  'config' => $di->lazyGet('cdn.config')
-                                ]
-                          )
+          'local'      => $di->get('adapter.local'),
+          'aws'        => $di->get('adapter.aws'),
+          'rackspace'  => $di->get('adapter.rackspace')
         ];
-
 
 		$di->params['Ushahidi_Filesystem'] = [
 			'adapter' => $di->lazy(function () use ($di) {
-                             $fsa = $di->lazyGet('Ushahidi\Factory\FilesystemAdapterFactory');
-                             $adpater_type = $di->lazyGet('cdn.config');
+                             $fsa = $di->get('filesystem.adapter_factory');
+                             $adapter_type = $di->get('cdn.config');
+
                              return $fsa->get($adapter_type->cdn_type);
                    })
 			];

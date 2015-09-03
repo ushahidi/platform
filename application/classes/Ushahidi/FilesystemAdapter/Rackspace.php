@@ -13,9 +13,17 @@ use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
+use Ushahidi\Core\FilesystemAdapter;
 
-abstract class Ushahidi_Filesystem_Adapter_Rackspace extends Ushahidi_Filesystem_Adapter
+class Ushahidi_Filesystem_Adapter_Rackspace implements Filesystem_Adapter
 {
+
+  private $config;
+
+  public function __construct($config)
+  {
+      $this->config = $config;
+  }
 
   public function getAdapter()
   {

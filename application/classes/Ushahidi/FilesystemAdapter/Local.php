@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi FilesystemAdapter Local
+ * Ushahidi Filesystem Adapter Local
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -10,9 +10,17 @@
  */
 
 use League\Flysystem\Adapter\Local;
+use Ushahidi\Core\FilesystemAdapter;
 
-abstract class Ushahidi_Filesystem_Adapter_Local extends Ushahidi_Filesystem_Adapter
+class Ushahidi_Filesystem_Adapter_Local implements FilesystemAdapter
 {
+
+  private $media_dir;
+
+  public function __construct($media_dir)
+  {
+      $this->media_dir = $media_dir;
+  }
 
   public function getAdapter()
   {
