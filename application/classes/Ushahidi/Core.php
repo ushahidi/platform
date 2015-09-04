@@ -44,11 +44,8 @@ abstract class Ushahidi_Core {
 		$di->set('kohana.db', function() use ($di) {
 			return Database::instance('default', $di->get('db.config'));
 		});
-		// Media dir
-		$di->set('kohana.media.dir', function() use ($di) {
-			return Kohana::$config->load('media.media_upload_dir');
-		});
 
+    // CDN Config settings
     $di->set('cdn.config', function() use ($di) {
       return Kohana::$config->load('cdn')->as_array();
     });
@@ -247,13 +244,13 @@ abstract class Ushahidi_Core {
   	$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
-   // Register filesystem adpater types
+    // Register filesystem adpater types
     // Currently supported: Local filesysten, AWS S3 v3, Rackspace
     // the naming scheme must match the cdn type set in config/cdn
     $di->set('adapter.local', $di->lazyNew(
                                 'Ushahidi_FilesystemAdapter_Local', 
                                 [
-                                  'media_dir' => $di->lazyGet('kohana.media.dir')
+                                  'config' => $di->lazyGet('cdn.config')
                                 ]
                            )
     );
@@ -275,7 +272,6 @@ abstract class Ushahidi_Core {
     // Media Filesystem
 		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
     // cdn type based on the provided configuration
-
     $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
 		$di->params['Ushahidi_Filesystem'] = [
 			'adapter' => $di->lazy(function () use ($di) {

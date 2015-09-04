@@ -27,12 +27,12 @@ class Ushahidi_FilesystemAdapter_Rackspace implements FilesystemAdapter
 
   public function getAdapter()
   {
-      $client = new Rackspace(Rackspace::UK_IDENTITY_ENDPOINT, array(
+      $client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
           'username' => $this->config['username'],
-          'apiKey' => $this->config['password'],
+          'apiKey' => $this->config['apiKey'],
       ));
 
-      $store = $client->objectStoreService('cloudFiles', 'LON');
+      $store = $client->objectStoreService('cloudFiles', $this->config['region']);
       $container = $store->getContainer('flysystem');
 
       return new Adapter($container);

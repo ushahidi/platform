@@ -15,16 +15,16 @@ use Ushahidi\Core\Tool\FilesystemAdapter;
 class Ushahidi_FilesystemAdapter_Local implements FilesystemAdapter
 {
 
-  protected $media_dir = '';
+  protected $config;
 
-  public function __construct($media_dir) 
+  public function __construct($config) 
   {
-      $this->media_dir = $media_dir;
+      $this->config = $config['local'];
   }
 
   public function getAdapter()
   {
-      return new Local($this->media_dir);
+      return new Local($this->config['media_upload_dir']);
   }
 }
 

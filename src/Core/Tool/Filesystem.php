@@ -15,7 +15,7 @@ namespace Ushahidi\Core\Tool;
 
 interface Filesystem
 {
-	public function putStream($path, $resource, $visibility = null);
+	public function putStream($path, $resource, array $config = []);
 	public function getSize($path);
 	public function getMimetype($path);
 }

@@ -12,8 +12,13 @@
 return array(
 
 	// The default configuration using a local file system setup
-  'type' => 'local'
-  
+  'type' => 'local',
+  'local' => [
+	// Where to upload media files eg. images. Take note of the trailing slash.
+	// This should be in the Document root.
+	  'media_upload_dir' => APPPATH.'media'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR,
+  ]
+
   // AWS S3 v3 CDN config example
   /*
   'type' => 'aws',
@@ -30,8 +35,9 @@ return array(
   /*
   'type' => 'rackspace',
   'rackspace' => [
-    'username' => '',
-    'apiKey' => '',
+    'username' => 'ushahidi',
+    'apiKey' => '16ac095719d3268bfd1932b9bc0979b3',
+    'region' => 'IAD'
   ]
   */
 );
