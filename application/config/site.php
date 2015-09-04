@@ -25,11 +25,12 @@
 $clientUrl = getenv('CLIENT_URL');
 
 return array(
-	'name'        => 'Ushahidi Platform',
-	'description' => 'An Ushahidi deployment',
+	'name'        => '',
+	'description' => '',
 	'email'       => '',
 	'timezone'    => 'UTC',
 	'language'    => 'en-US',
 	'date_format' => 'n/j/Y',
-	'client_url'  => $clientUrl ?: false
+	'client_url'  => $clientUrl ?: false,
+	'first_login' => true,
 );
