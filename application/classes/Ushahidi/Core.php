@@ -50,11 +50,6 @@ abstract class Ushahidi_Core {
       return Kohana::$config->load('cdn')->as_array();
     });
 
-		// ACL
-		$di->set('acl', function () {
-			return A2::instance();
-		});
-
 		// Multisite utility class
 		$di->set('multisite', $di->lazyNew('Ushahidi_Multisite'));
 		$di->params['Ushahidi_Multisite'] = [
