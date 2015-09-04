@@ -11,6 +11,7 @@
         }
     ],
     "require": {
+        "php": ">=5.4",
         "aura/di": "dev-develop-2",
         "bodom78/kohana-imagefly": "dev-master",
         "league/oauth2-server": "~3.2.4",
