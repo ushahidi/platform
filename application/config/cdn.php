@@ -35,9 +35,9 @@ return array(
   /*
   'type' => 'rackspace',
   'rackspace' => [
-    'username' => 'ushahidi',
-    'apiKey' => '16ac095719d3268bfd1932b9bc0979b3',
-    'region' => 'IAD'
+    'username' => '',
+    'apiKey' => '',
+    'region' => ''
   ]
   */
 );
