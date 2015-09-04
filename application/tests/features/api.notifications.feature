@@ -1,8 +1,7 @@
-@oauth2Skip
 Feature: Testing the Notifications API
 
     Scenario: Subscribe to a notification
-        Given that I want to make a new "Subscription"
+        Given that I want to make a new "Notification"
         And that the request "Authorization" header is "Bearer testbasicuser"
         And that the request "data" is:
             """
@@ -20,7 +19,7 @@ Feature: Testing the Notifications API
         Then the guzzle status code should be 200
 
     Scenario: Subscribing to the same notification twice does nothing
-        Given that I want to make a new "Subscription"
+        Given that I want to make a new "Notification"
         And that the request "Authorization" header is "Bearer testbasicuser"
         And that the request "data" is:
             """
@@ -33,7 +32,7 @@ Feature: Testing the Notifications API
         Then the guzzle status code should be 204
 
     Scenario: An anonymous user cannot subscribe to a notification
-        Given that I want to make a new "Subscription"
+        Given that I want to make a new "Notification"
         And that the request "Authorization" header is "Bearer testanon"
         And that the request "data" is:
             """
@@ -46,7 +45,7 @@ Feature: Testing the Notifications API
         Then the guzzle status code should be 400
 
     Scenario: Unsubscribe from a notification
-        Given that I want to update a "Subscription"
+        Given that I want to update a "Notification"
         And that the request "Authorization" header is "Bearer testbasicuser"
         And that the request "data" is:
             """
@@ -66,7 +65,7 @@ Feature: Testing the Notifications API
         Then the guzzle status code should be 200
 
     Scenario: Updating a subscription with the same subscription status does nothing
-        Given that I want to update a "Subscription"
+        Given that I want to update a "Notification"
         And that the request "Authorization" header is "Bearer testbasicuser"
         And that the request "data" is:
             """
@@ -81,7 +80,7 @@ Feature: Testing the Notifications API
         Then the guzzle status code should be 204
 
     Scenario: Subscribe to a previously unsubscribed notification
-        Given that I want to update a "Subscription"
+        Given that I want to update a "Notification"
         And that the request "Authorization" header is "Bearer testbasicuser"
         And that the request "data" is:
             """
@@ -103,6 +102,7 @@ Feature: Testing the Notifications API
     @resetFixture
     Scenario: Listing Notifications for a user
         Given that I want to get all "Notifications"
+        And that the request "Authorization" header is "Bearer testbasicuser"
         When I request "/notifications"
         Then the response is JSON
         And the response has a "count" property

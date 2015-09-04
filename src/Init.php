@@ -109,6 +109,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'savedsearches'        => $di->lazyGet('authorizer.savedsearch'),
 	'users'                => $di->lazyGet('authorizer.user'),
 	'notifications'        => $di->lazyGet('authorizer.notification'),
+	'contacts'             => $di->lazyGet('authorizer.contact'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -131,6 +132,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'savedsearches'        => $di->lazyGet('repository.savedsearch'),
 	'users'                => $di->lazyGet('repository.user'),
 	'notifications'        => $di->lazyGet('repository.notification'),
+	'contacts'             => $di->lazyGet('repository.contact'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -232,7 +234,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase')
 ];
 
-// Add custom usecases for notification notifications
+// Add custom usecases for notifications
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification'),
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\UpdateNotification'),
@@ -298,10 +300,11 @@ $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthor
 $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
+$di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
 
 $di->params['Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'] = [
 	'contact_repo' => $di->lazyGet('repository.contact'),
-	'contact_auth' => $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'),
+	'contact_auth' => $di->lazyGet('authorizer.contact'),
 	];
 
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));

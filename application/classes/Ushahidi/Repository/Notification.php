@@ -12,12 +12,9 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Notification;
-use Ushahidi\Core\Traits\UserContext;
 
 class Ushahidi_Repository_Notification extends Ushahidi_Repository
 {
-	use UserContext;
-
 	protected function notificationExists(Entity $entity)
 	{
 		$result = DB::select('id')
@@ -85,11 +82,6 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-		// Return a 204 since we won't be updating this subscription
-		if (! $entity->hasChanged('is_subscribed')) {
-			return;
-		}
-
 		$state = [
 			'updated'  => time(),
 		];

@@ -166,6 +166,10 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Notification_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Notification_Update'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['contacts'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Contact_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Contact_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets_posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Post_Create'),
 		];
@@ -191,6 +195,7 @@ abstract class Ushahidi_Core {
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
+			'contacts'             => $di->lazyNew('Ushahidi_Formatter_Contact'),
 		];
 
 		// Formatter parameters
@@ -209,6 +214,7 @@ abstract class Ushahidi_Core {
 			'savedsearch',
 			'set_post',
 			'notification',
+			'contact',
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
@@ -344,6 +350,10 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Contact_Create'] = [
 			'repo' => $di->lazyGet('repository.contact'),
 			'user_repo' => $di->lazyGet('repository.user'),
+		];
+
+		$di->params['Ushahidi_Validator_Contact_Update'] = [
+			'repo' => $di->lazyGet('repository.contact'),
 		];
 
 		// Dependencies of validators

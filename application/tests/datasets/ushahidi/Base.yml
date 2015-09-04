@@ -833,11 +833,14 @@ oauth_scopes:
     id: 13
     scope: savedsearches
     name: savedsearches
-
   -
     id: 14
     scope: notifications
     name: notifications
+  -
+    id: 15
+    scope: contacts
+    name: contacts
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -894,6 +897,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 14
+  -
+    session_access_token_id: 2
+    scope_id: 15
 
   # for testbasicuser
   -
@@ -932,6 +938,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 14
+  -
+    session_access_token_id: 3
+    scope_id: 15
 
   # for testadminuser
   -
@@ -1008,6 +1017,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 14
+  -
+    session_access_token_id: 5
+    scope_id: 15
   # for testanon
   -
     session_access_token_id: 6

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Set Authorizer
+ * Ushahidi Contact Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -43,8 +43,13 @@ class ContactAuthorizer implements Authorizer
 			return true;
 		}
 
-		// If the user is the owner of this set, they can do anything
+		// If the user is the owner of this contact, they can do anything
 		if ($this->isUserOwner($entity, $user)) {
+			return true;
+		}
+
+		// Logged in users can search contacts
+		if ($user->getId() and in_array($privilege, ['search'])) {
 			return true;
 		}
 

@@ -51,19 +51,19 @@ class NotificationAuthorizer implements Authorizer
 		if ($this->isUserAdmin($user)) {
 			return true;
 		}
-
+		
 		$contact = $this->getContact($entity);
 
 		// Check that the user also owns the contact
 		// but only allow read, update and search
 		if ($this->contact_auth->isAllowed($contact, $privilege)
-			and in_array($privilege, ['read', 'update', 'search'])) {
-
+			and in_array($privilege, ['read', 'update'])) {
+			
 			return true;
 		}
 
-		// Logged in users can subscribe to notifications
-		if ($user->getId() and $privilege === 'create') {
+		// Logged in users can subscribe to and search notifications
+		if ($user->getId() and in_array($privilege, ['create', 'search'])) {
 			return true;
 		}
 

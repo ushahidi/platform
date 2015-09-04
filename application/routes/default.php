@@ -227,6 +227,18 @@ Route::set('notifications-api', $apiBase . 'notifications(/<id>)',
 		'controller' => 'Notifications',
 	));
 
+/**
+ * Contacts API Route
+ */
+Route::set('contacts-api', $apiBase . 'contacts(/<id>)',
+	array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api',
+		'controller' => 'Contacts',
+	));
 
 /**
  * Translations API SubRoute

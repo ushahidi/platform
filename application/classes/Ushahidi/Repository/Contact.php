@@ -20,7 +20,6 @@ use Ushahidi\Core\Usecase\SearchRepository;
 class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	ContactRepository, CreateRepository, UpdateRepository, SearchRepository
 {
-
 	// Ushahidi_Repository
 	protected function getTable()
 	{
