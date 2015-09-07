@@ -18,15 +18,14 @@ return array(
 	// This should be in the Document root.
 	  'media_upload_dir' => APPPATH.'media'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR,
   ]
-
   // AWS S3 v3 CDN config example
   /*
   'type' => 'aws',
   'aws' => [
-    'key' => '',
-    'secret' => '',
-    'region' => '',
-    'version' => '',
+    'key'         => '',
+    'secret'      => '',
+    'region'      => '',
+    'version'     => '',
     'bucket_name' => '',
   ]
   */
@@ -35,9 +34,10 @@ return array(
   /*
   'type' => 'rackspace',
   'rackspace' => [
-    'username' => '',
-    'apiKey' => '',
-    'region' => ''
+    'username'  => '',
+    'apiKey'    => '',
+    'region'    => '',
+    'container' => ''
   ]
   */
 );

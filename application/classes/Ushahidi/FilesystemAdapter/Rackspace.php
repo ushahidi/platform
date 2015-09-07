@@ -32,8 +32,8 @@ class Ushahidi_FilesystemAdapter_Rackspace implements FilesystemAdapter
           'apiKey' => $this->config['apiKey'],
       ));
 
-      $store = $client->objectStoreService('cloudFiles', $this->config['region']);
-      $container = $store->getContainer('flysystem');
+      $store = $client->objectStoreService(null,$this->config['region']);
+      $container = $store->getContainer($this->config['container']);
 
       return new Adapter($container);
   }
