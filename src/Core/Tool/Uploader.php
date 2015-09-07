@@ -63,9 +63,9 @@ class Uploader
 		// Stream the temporary file into the filesystem, creating or overwriting.
 		$stream = fopen($file->tmp_name, 'r+');
 		$this->fs->putStream($filepath, $stream);
-    if (is_resource($stream)) {
-      fclose($stream);
-    }
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
 		// Get meta information about the file.
 		$size = $this->fs->getSize($filepath);
 		$type = $this->fs->getMimetype($filepath);
