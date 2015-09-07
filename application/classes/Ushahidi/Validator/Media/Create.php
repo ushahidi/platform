@@ -55,9 +55,10 @@ class Ushahidi_Validator_Media_Create extends Validator
 	public function validateMime($validation, $mime)
 	{
 		$allowed_mime_types = [
-			'image/gif', 'image/jpg', 'image/jpeg', 'image/png'
+			'image/gif', 'image/jpg', 'image/jpeg', 'image/png', 'application/octet-stream'
 		];
 
+     Kohana::$log->add(Log::WARNING,$mime);
 		if (!$mime) {
 			$validation->error('mime', 'not_empty');
 		} else if (!in_array($mime, $allowed_mime_types)) {

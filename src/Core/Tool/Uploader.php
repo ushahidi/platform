@@ -64,7 +64,7 @@ class Uploader
 		$stream = fopen($file->tmp_name, 'r+');
 		$this->fs->putStream($filepath, $stream);
     if (is_resource($stream)) {
-		  fclose($stream);
+      fclose($stream);
     }
 		// Get meta information about the file.
 		$size = $this->fs->getSize($filepath);
