@@ -37,7 +37,7 @@ class Ushahidi_FilesystemAdapter_AWS implements FilesystemAdapter
 
       $adapter = new AwsS3Adapter($client, $this->config['bucket_name']);
 
-      return $adpater;
+      return $adapter;
   }
 }
 
