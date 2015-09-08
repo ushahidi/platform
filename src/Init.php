@@ -85,7 +85,11 @@ $di->setter['Ushahidi\Console\Import']['setImportUsecase'] = $di->lazy(function 
 // User command
 $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\User');
 $di->setter['Ushahidi\Console\User']['setRepo'] = $di->lazyGet('repository.user');
-$di->setter['Ushahidi\Console\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create'); 
+$di->setter['Ushahidi\Console\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
+
+// Role Command
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Role');
+$di->setter['Ushahidi\Console\Role']['setRepo'] = $di->lazyGet('repository.role');
 
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
