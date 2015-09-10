@@ -22,6 +22,15 @@ class Controller_Sms_Smssync extends Controller {
 		// Set up custom error view
 		Kohana_Exception::$error_view = 'error/data-provider';
 
+    //Check if data provider is available
+    $providers_available = Kohana::$config->load('features.data-providers');
+
+    if ( !$providers_available['smssync'] ) 
+    {
+      throw HTTP_Exception::factory(403, 'The SMS Sync data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+    }
+
+
 		$methods_with_http_request = [Http_Request::POST, Http_Request::GET];
 
 		if ( !in_array($this->request->method(),$methods_with_http_request))

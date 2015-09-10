@@ -16,6 +16,14 @@ class Controller_Sms_Frontlinesms extends Controller {
 		// Set up custom error view
 		Kohana_Exception::$error_view = 'error/data-provider';
 
+    //Check if data provider is available
+    $providers_available = Kohana::$config->load('features.data-providers');
+
+    if ( !$providers_available['frontlinesms'] ) 
+    {
+      throw HTTP_Exception::factory(403, 'The Fontline SMS data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+    }
+
 		if ($this->request->method() != 'GET')
 		{
 			// Only GET is allowed as FrontlineSms does only GET request

@@ -26,7 +26,7 @@ class Ushahidi_Repository_Config implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		return new ConfigEntity($data);
+	  return new ConfigEntity($data);
 	}
 
 	// ReadRepository

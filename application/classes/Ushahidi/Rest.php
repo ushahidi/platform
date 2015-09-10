@@ -353,7 +353,7 @@ abstract class Ushahidi_Rest extends Controller {
 			->allowed(array_keys($this->_action_map));
 		}
 
-		// Are we be expecting body content as part of the request?
+		// Are we the expecting body content as part of the request?
 		if (in_array($this->request->method(), $this->_methods_with_body_content))
 		{
 			$this->_parse_request_body();
@@ -404,7 +404,6 @@ abstract class Ushahidi_Rest extends Controller {
 	protected function _parse_request_body()
 	{
 			$payload = json_decode($this->request->body(), true);
-
 			// Ensure there were no JSON errors
 			$error = json_last_error();
 			if ($error AND $error !== JSON_ERROR_NONE)

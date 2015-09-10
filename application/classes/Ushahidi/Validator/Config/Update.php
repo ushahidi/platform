@@ -102,14 +102,14 @@ class Ushahidi_Validator_Config_Update extends Validator
 
 	public function isProviderAvailable($enabled_providers, $validation)
 	{
-    if ($enabled_providers != null) {
-  		$enabled_providers = array_filter($enabled_providers);
-	  	$available_providers = array_filter(\Kohana::$config->load('features.data-providers')->as_array());
+		if ($enabled_providers != null) {
+			$enabled_providers = array_filter($enabled_providers);
+			$available_providers = array_filter(\Kohana::$config->load('features.data-providers')->as_array());
 
-		  $diff = array_diff_key($enabled_providers, $available_providers);
-		  if ($diff) {
-			  $validation->error('providers', 'providerNotAvailable', [$diff]);
-		  }
-    }
+			$diff = array_diff_key($enabled_providers, $available_providers);
+			if ($diff) {
+				$validation->error('providers', 'providerNotAvailable', [$diff]);
+			}
+		}
 	}
 }
