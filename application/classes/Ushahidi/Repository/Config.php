@@ -26,7 +26,7 @@ class Ushahidi_Repository_Config implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		return new ConfigEntity($data);
+	  return new ConfigEntity($data);
 	}
 
 	// ReadRepository
@@ -37,7 +37,9 @@ class Ushahidi_Repository_Config implements
 
 		$config = \Kohana::$config->load($group)->as_array();
 
-		return new ConfigEntity(['id' => $group] + $config);
+    $available_features = \Kohana::$config->load('features')->as_array();
+
+		return new ConfigEntity(['id' => $group] + $config + $available_features);
 	}
 
 	// UpdateRepository
