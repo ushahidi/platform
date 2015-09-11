@@ -112,6 +112,15 @@ class Controller_Sms_Nexmo extends Controller {
 	{
 		include_once Kohana::find_file('vendor', 'nexmo/NexmoMessage');
 
+    //Check if data provider is available
+    $providers_available = Kohana::$config->load('features.data-providers');
+
+    if ( !$providers_available['nexmo'] ) 
+    {
+      throw HTTP_Exception::factory(403, 'The Nexmo data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+    }
+
+
 		// Pong Sender
 		$ip_address = $_SERVER["REMOTE_ADDR"];
 		$continue = FALSE;
