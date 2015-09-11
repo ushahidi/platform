@@ -22,11 +22,11 @@ return [
 
 	// Data sources
 	'data-providers' => [
-		'SMSSync' => TRUE,
-		'Twitter' => TRUE,
-		'Frontlinesms' => FALSE,
-		'Email' => FALSE,
-		'Twilio' => FALSE,
-		'Nexmo' => FALSE,
+		'smssync' => TRUE,
+		'twitter' => TRUE,
+		'frontlinesms' => FALSE,
+		'email' => FALSE,
+		'twilio' => FALSE,
+		'nexmo' => FALSE,
 	],
 ];
