@@ -24,7 +24,7 @@ return [
 	'data-providers' => [
 		'smssync' => TRUE,
 		'twitter' => TRUE,
-		'frontlinesms' => FALSE,
+		'frontlinesms' => TRUE,
 		'email' => FALSE,
 		'twilio' => FALSE,
 		'nexmo' => FALSE,
