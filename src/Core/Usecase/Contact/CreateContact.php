@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Entity Notification Use Case
+ * Ushahidi Platform Entity Contact Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,12 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Notification;
+namespace Ushahidi\Core\Usecase\Contact;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
-class CreateNotification extends CreateUsecase
+class CreateContact extends CreateUsecase
 {
 	protected function getEntity()
 	{

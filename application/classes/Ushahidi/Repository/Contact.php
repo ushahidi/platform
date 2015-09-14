@@ -16,10 +16,15 @@ use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Usecase\CreateRepository;
 use Ushahidi\Core\Usecase\UpdateRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\AdminAccess;
 
 class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	ContactRepository, CreateRepository, UpdateRepository, SearchRepository
 {
+	use UserContext;
+	use AdminAccess;
+	
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -45,6 +50,13 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	protected function setSearchConditions(SearchData $search)
 	{
 		$query = $this->search_query;
+
+		$user = $this->getUser();
+
+		// Limit search to user's records unless they are admin
+		if (! $this->isUserAdmin($user)) {
+			$search->user = $user->getId();
+		}
 
 		foreach ([
 			'user',

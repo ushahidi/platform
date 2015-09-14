@@ -10,27 +10,27 @@
  */
 
 use Ushahidi\Core\Tool\Validator;
-use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\SetRepository;
 
 class Ushahidi_Validator_Notification_Create extends Validator
 {
-	protected $contact_repo;
+	protected $repo;
 	protected $set_repo;
 	protected $default_error_source = 'notification';
 
-	public function __construct(ContactRepository $contact_repo, SetRepository $set_repo)
+	public function __construct(UserRepository $repo, SetRepository $set_repo)
 	{
-		$this->contact_repo = $contact_repo;
+		$this->repo = $repo;
 		$this->set_repo = $set_repo;
 	}
 
 	protected function getRules()
 	{
 		return [
-			'contact_id' => [
+			'user_id' => [
 				['numeric'],
-				[[$this->contact_repo, 'exists'], [':value']],
+				[[$this->repo, 'exists'], [':value']],
 			],
 			'set_id' => [
 				['numeric'],

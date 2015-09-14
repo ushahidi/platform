@@ -24,7 +24,7 @@ class ContactAuthorizer implements Authorizer
 	use UserContext;
 
 	// It uses methods from several traits to check access:
-	// - `OwnerAccess` to check if a user owns the set
+	// - `OwnerAccess` to check if a user owns the contact
 	// - `AdminAccess` to check if the user has admin access
 	use AdminAccess, OwnerAccess;
 

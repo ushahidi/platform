@@ -10,15 +10,23 @@
  */
 
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Entity\NotificationRepository;
+use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\SetRepository;
 
 class Ushahidi_Validator_Notification_Update extends Validator
 {
 	protected $repo;
+	protected $user_repo;
+	protected $set_repo;
 	protected $default_error_source = 'notification';
 
-	public function __construct(Ushahidi_Repository_Notification $repo)
+	public function __construct(NotificationRepository $repo,
+								UserRepository $user_repo, SetRepository $set_repo)
 	{
 		$this->repo = $repo;
+		$this->user_repo = $user_repo;
+		$this->set_repo = $set_repo;
 	}
 
 	protected function getRules()
@@ -28,13 +36,13 @@ class Ushahidi_Validator_Notification_Update extends Validator
 				['numeric'],
 				[[$this->repo, 'exists'], [':value']],
 			],
-			'contact_id' => [
+			'user_id' => [
 				['numeric'],
-				[[$this->repo, 'exists'], [':value']],
+				[[$this->user_repo, 'exists'], [':value']],
 			],
 			'set_id' => [
 				['numeric'],
-				[[$this->repo, 'exists'], [':value']],
+				[[$this->set_repo, 'exists'], [':value']],
 			],
 			'is_subscribed' => [
 				['numeric'],

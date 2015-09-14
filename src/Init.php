@@ -234,10 +234,14 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase')
 ];
 
-// Add custom usecases for notifications
+// Add custom create usecase for notifications
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [
-	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification'),
-	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\UpdateNotification'),
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification')
+];
+
+// Add custom create usecase for contacts
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Contact\CreateContact')
 ];
 
 // Add custom usecases for sets_posts
@@ -301,11 +305,6 @@ $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\S
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
-
-$di->params['Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'] = [
-	'contact_repo' => $di->lazyGet('repository.contact'),
-	'contact_auth' => $di->lazyGet('authorizer.contact'),
-	];
 
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [

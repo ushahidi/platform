@@ -26,17 +26,31 @@ class Contact extends StaticEntity
 	protected $type;
 	protected $contact;
 	protected $created;
+	protected $updated;
+	protected $can_notify;
+
+	// StatefulData
+	protected function getDerived()
+	{
+		// Foreign key alias
+		return [
+			'user_id' => ['user', 'user.id']
+		];
+	}
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
 			'id'            => 'int',
+			'user'          => false, /* alias */
 			'user_id'       => 'int',
 			'data_provider' => 'string',
 			'type'          => 'string',
 			'contact'       => 'string',
 			'created'       => 'int',
+			'updated'       => 'int',
+			'can_notify'    => 'int',
 		];
 	}
 

@@ -14,4 +14,22 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 class Ushahidi_Formatter_Notification extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
+
+	protected function get_field_name($field)
+	{
+		$remap = [
+			'set_id' => 'set'
+			];
+
+		if (isset($remap[$field])) {
+			return $remap[$field];
+		}
+
+		return parent::get_field_name($field);
+	}
+	
+	protected function format_set_id($set_id)
+	{
+		return $this->get_relation('sets', $set_id);
+	}
 }

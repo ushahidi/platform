@@ -15,19 +15,31 @@ use Ushahidi\Core\StaticEntity;
 
 class Notification extends StaticEntity
 {
-
 	protected $id;
-	protected $contact_id;
+	protected $user_id;
 	protected $set_id;
 	protected $is_subscribed;
 	protected $created;
+	protected $updated;
+
+	// StatefulData
+	protected function getDerived()
+	{
+		// Foreign key alias
+		return [
+			'user_id' => ['user', 'user.id'],
+			'set_id'  => ['set', 'set.id']
+		];
+	}
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
 			'id'            => 'int',
-			'contact_id'    => 'int',
+			'user'          => false,
+			'user_id'       => 'int',
+			'set'           => false,
 			'set_id'        => 'int',
 			'is_subscribed' => 'int',
 			'created'       => 'int',
@@ -44,6 +56,6 @@ class Notification extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return ['id', 'contact_id', 'set_id', 'created'];
+		return ['id', 'user_id', 'set_id', 'created'];
 	}
 }

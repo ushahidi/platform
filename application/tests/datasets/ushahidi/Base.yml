@@ -1150,6 +1150,11 @@ contacts:
     user_id:
     contact: 773456789
     type: "phone"
+  -
+    id: 4
+    user_id: 1
+    contact: robbie@ushahidi.com
+    type: "email"
 messages:
   -
     id: 1
@@ -1266,26 +1271,30 @@ layers:
 notifications:
   -
     id: 2
-    contact_id: 1
+    user_id: 1
     set_id: 2
     is_subscribed: 1
 
   -
     id: 3
-    contact_id: 1
+    user_id: 1
     set_id: 3
     is_subscribed: 0
 
   -
     id: 4
-    contact_id: 1
+    user_id: 1
     set_id: 4
     is_subscribed: 1
 
   -
     id: 5
-    contact_id: 1
+    user_id: 1
     set_id: 4
     is_subscribed: 1
-
-
+  -
+    id: 6
+    user_id: 4
+    set_id: 4
+    is_subscribed: 1
+    

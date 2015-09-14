@@ -354,6 +354,7 @@ abstract class Ushahidi_Core {
 
 		$di->params['Ushahidi_Validator_Contact_Update'] = [
 			'repo' => $di->lazyGet('repository.contact'),
+			'user_repo' => $di->lazyGet('repository.user'),
 		];
 
 		// Dependencies of validators
@@ -391,11 +392,13 @@ abstract class Ushahidi_Core {
 			'role_repo' => $di->lazyGet('repository.role'),
 		];
 		$di->params['Ushahidi_Validator_Notification_Create'] = [
-			'contact_repo' => $di->lazyGet('repository.contact'),
+			'repo' => $di->lazyGet('repository.user'),
 			'set_repo' => $di->lazyGet('repository.set'),
 		];
 		$di->params['Ushahidi_Validator_Notification_Update'] = [
 			'repo' => $di->lazyGet('repository.notification'),
+			'user_repo' => $di->lazyGet('repository.user'),
+			'set_repo' => $di->lazyGet('repository.set'),
 		];
 		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),

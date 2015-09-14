@@ -12,17 +12,22 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Notification;
+use Ushahidi\Core\Entity\NotificationRepository;
+use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\AdminAccess;
 
-class Ushahidi_Repository_Notification extends Ushahidi_Repository
+class Ushahidi_Repository_Notification extends Ushahidi_Repository implements NotificationRepository
 {
-	protected function notificationExists(Entity $entity)
+	use UserContext;
+	use AdminAccess;
+
+	protected function getId(Entity $entity)
 	{
-		$result = DB::select('id')
-			->from('notifications')
-			->where('contact_id', '=', $entity->contact_id)
+		$result = $this->selectQuery()
+			->where('user_id', '=', $entity->user_id)
 			->and_where('set_id', '=', $entity->set_id)
 			->execute($this->db);
-		return (bool) $result->get('id', 0);
+		return $result->get('id', 0);
 	}
 
 	protected function getTable()
@@ -34,6 +39,13 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository
 	public function setSearchConditions(SearchData $search)
 	{
 		$query = $this->search_query;
+				
+		$user = $this->getUser();
+
+		// Limit search to user's records unless they are admin
+		if (! $this->isUserAdmin($user)) {
+			$search->user = $user->getId();
+		}
 
 		foreach ([
 			'is_subscribed',
@@ -46,7 +58,7 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository
 		}
 
 		foreach ([
-			'contact',
+			'user',
 			'set',
 		] as $fk)
 		{
@@ -65,14 +77,19 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository
 	// CreateRepository
 	public function create(Entity $entity)
 	{
-		// Return a 204 since we won't be creating this subscription
-		if ($this->notificationExists($entity)) {
-			return;
+		$id = $this->getId($entity);
+
+		if ($id) {
+			// No need to insert a new record.
+			// Instead return the id of the notification that exists
+			return $id;
 		}
 
 		$state = [
-			'contact_id' => $entity->contact_id,
+			'user_id' => $entity->user_id,
 			'created' => time(),
+			// We are creating a new subscription so set is_subsribed to 1.
+			// For unsubscribed users, this flag will be 0.
 			'is_subscribed' => 1,
 		];
 
@@ -92,7 +109,7 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository
 	public function getSearchFields()
 	{
 		return [
-			'contact',
+			'user',
 			'set',
 			'is_subscribed'
 		];

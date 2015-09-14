@@ -13,15 +13,18 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\UserRepository;
 
 class Ushahidi_Validator_Contact_Update extends Validator
 {
 	protected $repo;
+	protected $user_repo;
 	protected $default_error_source = 'contact';
 
-	public function __construct(ContactRepository $repo)
+	public function __construct(ContactRepository $repo, UserRepository $user_repo)
 	{
 		$this->repo = $repo;
+		$this->user_repo = $user_repo;
 	}
 
 	protected function getRules()
@@ -29,6 +32,9 @@ class Ushahidi_Validator_Contact_Update extends Validator
 		return [
 			'id' => [
 				[[$this->repo, 'exists'], [':value']],
+			],
+			'user_id' => [
+				[[$this->user_repo, 'exists'], [':value']],
 			],
 			'type' => [
 				['max_length', [':value', 255]],
@@ -77,13 +83,6 @@ class Ushahidi_Validator_Contact_Update extends Validator
 			if (strlen($number) < 0)
 			{
 				$validation->error('contact', 'invalid_phone', [$contact]);
-			}
-		}
-		else
-		{
-			if ( ! $validation['contact'])
-			{
-				$validation->error('contact', 'invalid_account');
 			}
 		}
 	}
