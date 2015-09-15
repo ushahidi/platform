@@ -36,7 +36,7 @@ class Ushahidi_Multisite
 		}
 
 		// If $domain is set and we're at a subdomain of $domain..
-		if ($domain AND substr_compare($host, $domain, strlen($domain) * -1) !== FALSE) {
+		if ($domain AND substr($host, strlen($domain) * -1) == $domain) {
 			// .. grab just the subdomain
 			$subdomain = substr($host, 0, (strlen($domain) * -1) -1);
 		} else {

@@ -35,6 +35,6 @@
  * - string   domain      parent domain for site ie. ushahidi.io
  */
 return [
-	'enabled' => getenv("MULTISITE_DOMAIN") !== FALSE,
+	'enabled' => !empty(getenv("MULTISITE_DOMAIN")),
 	'domain'  => getenv("MULTISITE_DOMAIN")
 ];

@@ -45,7 +45,7 @@ $config = [
 ];
 
 // If multisite is enabled
-if (getenv("MULTISITE_DOMAIN") !== FALSE) {
+if (!empty(getenv("MULTISITE_DOMAIN"))) {
 	// Use this config for the multisite db
 	return [
 		// Just define basics for default connection
