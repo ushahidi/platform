@@ -42,7 +42,7 @@ abstract class Ushahidi_Core {
 		});
 		// Deployment db
 		$di->set('kohana.db', function() use ($di) {
-			return Database::instance('default', $di->get('db.config'));
+			return Database::instance('deployment', $di->get('db.config'));
 		});
 		// Media dir
 		$di->set('kohana.media.dir', function() use ($di) {
@@ -480,16 +480,19 @@ abstract class Ushahidi_Core {
 		// allowed groups are stored with the config service.
 		$groups = service('repository.config')->groups();
 
+		$db = service('kohana.db');
+
 		/**
 		 * Attach database config to override some settings
 		 */
 		try
 		{
-			if (DB::query(Database::SELECT, 'SHOW TABLES LIKE \'config\'')->execute()->count() > 0)
+			if (DB::query(Database::SELECT, 'SHOW TABLES LIKE \'config\'')->execute($db)->count() > 0)
 			{
-				Kohana::$config->attach(new Ushahidi_Config(array(
-					'groups' => $groups
-				)));
+				Kohana::$config->attach(new Ushahidi_Config([
+					'groups' => $groups,
+					'instance' => $db
+				]));
 			}
 		}
 		catch (Exception $e)
