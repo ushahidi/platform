@@ -63,10 +63,10 @@ class Ushahidi_Multisite
 		// Set new database config
 		$config = Kohana::$config->load('database')->default;
 		$config['connection'] = [
-			'hostname'   => $deployment['dbhost'],
-			'database'   => $deployment['dbname'],
-			'username'   => $deployment['dbuser'],
-			'password'   => $deployment['dbpassword'],
+			'hostname'   => $deployment['db_host'],
+			'database'   => $deployment['db_name'],
+			'username'   => $deployment['db_username'],
+			'password'   => $deployment['db_password'],
 			'persistent' => $config['connection']['persistent'],
 		];
 
