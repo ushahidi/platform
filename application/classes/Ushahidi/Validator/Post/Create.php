@@ -144,12 +144,17 @@ class Ushahidi_Validator_Post_Create extends Validator
   public function checkPublishedLimit (Validation $validation, $status)
   {
     $config = \Kohana::$config->load('features.client-limits');
-    $search = new PostSearchData();
-    $search->status = 'published';
-    $search->group_by = 'status';
-    $total_published = $this->post_repo->getGroupedTotals($search); 
-    if ($status == 'published' && $total_published[0]['total'] >= $config['num_published_posts']) {
-      $validation->error('values', 'publishedPostsLimitReached');
+
+    if ($config['num_published_posts'] > 1 && $status == 'published') {
+
+      $search = new PostSearchData();
+      $search->status = 'published';
+      $search->group_by = 'status';
+      $total_published = $this->post_repo->getGroupedTotals($search); 
+
+      if ($total_published[0]['total'] >= $config['num_published_posts']) {
+        $validation->error('values', 'publishedPostsLimitReached');
+      }
     }
   }
 	public function checkTags(Validation $validation, $tags)
