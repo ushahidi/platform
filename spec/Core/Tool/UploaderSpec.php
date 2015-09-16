@@ -42,7 +42,7 @@ class UploaderSpec extends ObjectBehavior
 		$input->error    = UPLOAD_ERR_OK;
 
 		// ... which will be written from the stream
-		$fs->putStream($filepath, $stream)->shouldBeCalled();
+		$fs->putStream($filepath, $stream, ["mimetype" => "image/png"])->shouldBeCalled();
 
 		// ... and maintain the same size and mime type
 		$fs->getSize($filepath)->willReturn(1024);

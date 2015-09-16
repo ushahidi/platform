@@ -44,10 +44,12 @@ abstract class Ushahidi_Core {
 		$di->set('kohana.db', function() use ($di) {
 			return Database::instance('deployment', $di->get('db.config'));
 		});
-		// Media dir
-		$di->set('kohana.media.dir', function() use ($di) {
-			return Kohana::$config->load('media.media_upload_dir');
-		});
+
+    // CDN Config settings
+    $di->set('cdn.config', function() use ($di) {
+      return Kohana::$config->load('cdn')->as_array();
+    });
+
 		// Multisite utility class
 		$di->set('multisite', $di->lazyNew('Ushahidi_Multisite'));
 		$di->params['Ushahidi_Multisite'] = [
@@ -233,20 +235,49 @@ abstract class Ushahidi_Core {
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
-		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
-		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
+		
+  	$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
-		// Handle filesystem using local paths for now... lots of other options:
-		// https://github.com/thephpleague/flysystem/tree/master/src/Adapter
+    // Register filesystem adpater types
+    // Currently supported: Local filesysten, AWS S3 v3, Rackspace
+    // the naming scheme must match the cdn type set in config/cdn
+    $di->set('adapter.local', $di->lazyNew(
+                                'Ushahidi_FilesystemAdapter_Local', 
+                                [
+                                  'config' => $di->lazyGet('cdn.config')
+                                ]
+                           )
+    );
+    $di->set('adapter.aws', $di->lazyNew(
+                                'Ushahidi_FilesystemAdapter_AWS', 
+                                [
+                                  'config' => $di->lazyGet('cdn.config')
+                                ]
+                           )
+    );
+    $di->set('adapter.rackspace', $di->lazyNew(
+                                'Ushahidi_FilesystemAdapter_Rackspace', 
+                                [
+                                  'config' => $di->lazyGet('cdn.config')
+                                ]
+                           )
+    );
+
+    // Media Filesystem
+		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
+    // cdn type based on the provided configuration
+    $di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
 		$di->params['Ushahidi_Filesystem'] = [
-			'adapter' => $di->lazyNew('League\Flysystem\Adapter\Local')
-			];
-		$di->params['League\Flysystem\Adapter\Local'] = [
-			'root' => $di->lazyGet('kohana.media.dir'),
+			'adapter' => $di->lazy(function () use ($di) {
+                             $adapter_type = $di->get('cdn.config');
+                             $fsa = $di->get('adapter.' . $adapter_type['type']);
+
+                             return $fsa->getAdapter();
+                   })
 			];
 
-		// Formatters
+ 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
 		$di->set('formatter.entity.post.geojson', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSON'));
