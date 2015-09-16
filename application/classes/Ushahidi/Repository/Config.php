@@ -37,9 +37,7 @@ class Ushahidi_Repository_Config implements
 
 		$config = \Kohana::$config->load($group)->as_array();
 
-    $available_features = \Kohana::$config->load('features')->as_array();
-
-		return new ConfigEntity(['id' => $group] + $config + $available_features);
+		return new ConfigEntity(['id' => $group] + $config);
 	}
 
 	// UpdateRepository

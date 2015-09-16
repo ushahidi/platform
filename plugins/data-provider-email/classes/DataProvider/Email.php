@@ -26,7 +26,7 @@ class DataProvider_Email extends DataProvider {
 	{
 
     if (!$this->_is_provider_available()) {
-      Kohana::$log->add(Log::ERROR, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+       Kohana::$log->add(Log::ERROR, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
 			return array(Message_Status::FAILED, FALSE);
     }
 
