@@ -19,12 +19,6 @@ interface UserRepository extends
 	EntityExists
 {
 	/**
-	 * @param string $username
-	 * @return \Ushahidi\Core\Entity\User
-	 */
-	public function getByUsername($username);
-
-	/**
 	 * @param string $email
 	 * @return \Ushahidi\Core\Entity\User
 	 */

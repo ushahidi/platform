@@ -53,14 +53,14 @@ class LoginUser extends ReadUsecase
 		// Make sure the repository has then methods necessary.
 		$this->verifyUserRepository($this->repo);
 
-		// Entity will be loaded using the provided username
-		$username = $this->getRequiredIdentifier('username');
+		// Entity will be loaded using the provided email
+		$email = $this->getRequiredIdentifier('email');
 
 		// ... attempt to load the entity
-		$entity = $this->repo->getByUsername($username);
+		$entity = $this->repo->getByEmail($email);
 
 		// ... and verify that the entity was actually loaded
-		$this->verifyEntityLoaded($entity, compact('username'));
+		$this->verifyEntityLoaded($entity, compact('email'));
 
 		// ... then return it
 		return $entity;

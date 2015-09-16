@@ -77,7 +77,7 @@ class GetResetToken implements Usecase
 
 	public function interact()
 	{
-		// Fetch user by username or email
+		// Fetch user by email
 		$entity = $this->getEntity();
 
 		if ($entity->getId()) {
@@ -101,11 +101,11 @@ class GetResetToken implements Usecase
 
 	protected function getEntity()
 	{
-		// Entity will be loaded using the provided username
-		$identifier = $this->getPayload('user');
+		// Entity will be loaded using the provided email
+		$email = $this->getPayload('email');
 
-		// ... attempt to load the user by username
-		$entity = $this->repo->getByUsernameOrEmail($identifier);
+		// ... attempt to load the user by email
+		$entity = $this->repo->getByEmail($email);
 
 		// ... then return it
 		return $entity;

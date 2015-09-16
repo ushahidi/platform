@@ -12,12 +12,11 @@
 namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\UserRepository;
 
-interface ResetPasswordRepository
+interface ResetPasswordRepository extends UserRepository
 {
 	public function getResetToken(Entity $entity);
-
-	public function getByUsernameOrEmail($identifier);
 
 	public function isValidResetToken($token);
 

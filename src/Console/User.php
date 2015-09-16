@@ -39,7 +39,6 @@ class User extends Command
 			->setName('user')
 			->setDescription('Create user accounts')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, create', 'list')
-			->addOption('username', ['u'], InputOption::VALUE_REQUIRED, 'username')
 			->addOption('realname', null, InputOption::VALUE_OPTIONAL, 'realname')
 			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'email')
 			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
@@ -59,7 +58,6 @@ class User extends Command
 	protected function executeCreate(InputInterface $input, OutputInterface $output)
 	{
 		$state = [
-			'username' => $input->getOption('username'),
 			'realname' => $input->getOption('realname') ?: null,
 			'email' => $input->getOption('email'),
 			// Default to creating an admin user

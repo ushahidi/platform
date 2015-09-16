@@ -39,12 +39,6 @@ class Ushahidi_Validator_User_Create extends Validator
 			'realname' => [
 				['max_length', [':value', 150]]
 			],
-			'username' => [
-				['not_empty'],
-				['max_length', [':value', 50]],
-				[[$this->repo, 'isUniqueUsername'], [':value']],
-				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
-			],
 			'password' => [
 				['not_empty'],
 				['min_length', [':value', 7]],

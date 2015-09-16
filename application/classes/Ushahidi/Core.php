@@ -96,9 +96,9 @@ abstract class Ushahidi_Core {
 		$di->setter['League\OAuth2\Server\Authorization']['setRequest'] = $di->lazyNew('OAuth2_Request');
 
 		// Custom password authenticator
-		$di->setter['League\OAuth2\Server\Grant\Password']['setVerifyCredentialsCallback'] = function($username, $password) {
+		$di->setter['League\OAuth2\Server\Grant\Password']['setVerifyCredentialsCallback'] = function($email, $password) {
 			$usecase = service('factory.usecase')->get('users', 'login')
-				->setIdentifiers(compact('username', 'password'));
+				->setIdentifiers(compact('email', 'password'));
 
 			try
 			{

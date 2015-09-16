@@ -25,19 +25,13 @@ class Ushahidi_Validator_User_Register extends Validator
 
 	protected function getRules()
 	{
-		
+
 		return [
 			'email' => [
 				['not_empty'],
 				['max_length', [':value', 150]],
 				['email'],
 				[[$this->repo, 'isUniqueEmail'], [':value']],
-			],
-			'username' => [
-				['not_empty'],
-				['max_length', [':value', 50]],
-				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
-				[[$this->repo, 'isUniqueUsername'], [':value']],
 			],
 			'password' => [
 				['not_empty'],

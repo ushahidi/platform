@@ -39,7 +39,7 @@ class Controller_OAuth extends Controller {
 		$this->response->status(200);
 	}
 
-	public function action_index()
+	/* public function action_index()
 	{
 		$this->response->status(200);
 		// todo: try/catch OAuthClientException
@@ -54,7 +54,7 @@ class Controller_OAuth extends Controller {
 		}
 
 		$this->redirect('oauth/authorize' . URL::query(Arr::extract($params, $this->oauth_params)));
-	}
+	}*/
 
 	public function action_token()
 	{
