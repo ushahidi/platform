@@ -401,6 +401,10 @@ abstract class Ushahidi_Core {
 			'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 			'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
 			];
+		$di->params['Ushahidi_Validator_Form_Update'] = [
+			'form_repo' => $di->lazyGet('repository.form'),
+			];
+
 		$di->param['Ushahidi_Validator_Form_Attribute_Update'] = [
 			'repo' => $di->lazyGet('repository.form_attribute'),
 			'form_stage_repo' => $di->lazyGet('repository.form_stage'),

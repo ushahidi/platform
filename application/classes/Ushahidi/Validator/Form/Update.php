@@ -10,11 +10,25 @@
  */
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Tool\Validator;
 
 class Ushahidi_Validator_Form_Update extends Validator
 {
 	protected $default_error_source = 'form';
+
+	/**
+	 * Construct
+	 *
+	 * @param FormRepository  $form_repo
+	 */
+	public function __construct(
+		FormRepository $form_repo
+    )
+	{
+		$this->form_repo = $form_repo;
+	}
+
 
 	protected function getRules()
 	{
@@ -22,6 +36,7 @@ class Ushahidi_Validator_Form_Update extends Validator
 			'name' => [
 				['min_length', [':value', 2]],
 				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+				[[$this, 'checkPostTypeLimit'], [':validation']],
 			],
 			'description' => [
 				['is_string'],
@@ -31,4 +46,17 @@ class Ushahidi_Validator_Form_Update extends Validator
 			],
 		];
 	}
+
+  public function checkPostTypeLimit (Validation $validation)
+  {
+    $config = \Kohana::$config->load('features.client-limits');
+
+    if ($config['num_post_types'] > 1) {
+  
+      $total_post_types = $this->form_repo->countPostTypes(); 
+      if ($total_post_types >= $config['num_published_posts']) {
+        $validation->error('name', 'postTypeLimitReached');
+      }
+    }
+  }
 }

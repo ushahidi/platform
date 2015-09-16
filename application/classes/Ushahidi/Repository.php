@@ -309,4 +309,14 @@ abstract class Ushahidi_Repository implements
 			$this->getTable().'.id' => $id
 		]);
 	}
+
+	/**
+	 * Check if an entity with the given id exists
+	 * @param  int $id
+	 * @return bool
+	 */
+	public function countPostTypes()
+	{
+		return $this->selectCount();
+	}
 }

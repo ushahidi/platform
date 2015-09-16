@@ -41,6 +41,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 * @param TagRepository                         $tag_repo
 	 * @param UserRepository                        $user_repo
 	 * @param FormRepository                        $form_repo
+	 * @param PostRepository                        $post_repo
 	 * @param RoleRepository                        $role_repo
 	 * @param Ushahidi_Repository_Post_ValueFactory  $post_value_factory
 	 * @param Ushahidi_Validator_Post_ValueFactory  $post_value_validator_factory
@@ -153,10 +154,11 @@ class Ushahidi_Validator_Post_Create extends Validator
       $total_published = $this->post_repo->getGroupedTotals($search); 
 
       if ($total_published[0]['total'] >= $config['num_published_posts']) {
-        $validation->error('values', 'publishedPostsLimitReached');
+        $validation->error('status', 'publishedPostsLimitReached');
       }
     }
   }
+
 	public function checkTags(Validation $validation, $tags)
 	{
 		if (!$tags) {
