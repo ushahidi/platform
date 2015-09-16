@@ -53,8 +53,9 @@ class Ushahidi_Validator_Form_Update extends Validator
 
     if ($config['num_post_types'] > 1) {
   
-      $total_post_types = $this->form_repo->countPostTypes(); 
-      if ($total_post_types >= $config['num_published_posts']) {
+      $total_post_types = $this->form_repo->countEntities(); 
+
+      if ($total_post_types >= $config['num_post_types']) {
         $validation->error('name', 'postTypeLimitReached');
       }
     }
