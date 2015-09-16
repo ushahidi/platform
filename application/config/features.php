@@ -29,4 +29,14 @@ return [
 		'twilio' => TRUE,
 		'nexmo' => TRUE,
 	],
+
+	// Determines which features are available in a deployment
+
+  // Client limits
+  // Where TRUE is infinite and an integer defines a limit
+  'client-limits' => [
+    'num_published_posts' => TRUE,
+    'num_post_types' => TRUE,
+    'num_admin_users' => TRUE,
+  ],
 ];
