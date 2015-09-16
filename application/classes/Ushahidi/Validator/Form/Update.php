@@ -51,7 +51,7 @@ class Ushahidi_Validator_Form_Update extends Validator
   {
     $config = \Kohana::$config->load('features.client-limits');
 
-    if ($config['num_post_types'] > 0) {
+    if ($config['num_post_types'] > 1) {
   
       $total_post_types = $this->form_repo->countPostTypes(); 
       if ($total_post_types >= $config['num_published_posts']) {
