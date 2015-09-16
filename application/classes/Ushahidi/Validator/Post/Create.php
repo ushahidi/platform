@@ -118,6 +118,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 					'draft',
 					'published'
 				]]],
+				[[$this, 'checkPublishedLimit'], [':validation', ':value']]
 			],
 			'type' => [
 				['in_array', [':value', [
@@ -136,6 +137,14 @@ class Ushahidi_Validator_Post_Create extends Validator
 		];
 	}
 
+  public function checkPublishedLimit (Validation $validation, $status)
+  {
+    $config = \Kohana::$config->load('features.client-limits');
+    $total_published = 1; 
+    if ($status == 'published' && $total_published < $config['num_published_posts']) {
+      $validation->error('publishedPostsLimitReached');
+    }
+  }
 	public function checkTags(Validation $validation, $tags)
 	{
 		if (!$tags) {
