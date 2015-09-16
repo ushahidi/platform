@@ -14,7 +14,9 @@ use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
+use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
@@ -50,6 +52,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		UpdatePostTagRepository $tag_repo,
 		UserRepository $user_repo,
 		FormRepository $form_repo,
+		PostRepository $post_repo,
 		RoleRepository $role_repo,
 		Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 		Ushahidi_Validator_Post_ValueFactory $post_value_validator_factory)
@@ -60,6 +63,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		$this->tag_repo = $tag_repo;
 		$this->user_repo = $user_repo;
 		$this->form_repo = $form_repo;
+		$this->post_repo = $post_repo;
 		$this->role_repo = $role_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->post_value_validator_factory = $post_value_validator_factory;
@@ -140,9 +144,12 @@ class Ushahidi_Validator_Post_Create extends Validator
   public function checkPublishedLimit (Validation $validation, $status)
   {
     $config = \Kohana::$config->load('features.client-limits');
-    $total_published = 1; 
-    if ($status == 'published' && $total_published < $config['num_published_posts']) {
-      $validation->error('publishedPostsLimitReached');
+    $search = new PostSearchData();
+    $search->status = 'published';
+    $search->group_by = 'status';
+    $total_published = $this->post_repo->getGroupedTotals($search); 
+    if ($status == 'published' && $total_published[0]['total'] >= $config['num_published_posts']) {
+      $validation->error('values', 'publishedPostsLimitReached');
     }
   }
 	public function checkTags(Validation $validation, $tags)
