@@ -82,41 +82,41 @@ abstract class Ushahidi_Console_Oauth_Command extends Command {
 
 	protected function get_user(InputInterface $input, OutputInterface $output = NULL)
 	{
-		// Username to user ID converter.
+		// Email to user ID converter.
 		// TODO: use the repo!
-		$userid = function($username)
+		$userid = function($email)
 		{
-			if (!$username)
+			if (!$email)
 				return NULL;
 
 			return DB::select('id')
 				->from('users')
-				->where('username', '=', $username)
+				->where('email', '=', $email)
 				->execute()
 					->get('id')
 					;
 		};
 
-		$username = $input->getOption('user');
+		$email = $input->getOption('user');
 		$user = NULL;
 
-		if ($username)
+		if ($email)
 		{
-			// Check that the given username exists.
-			$user = $userid($username);
+			// Check that the given email exists.
+			$user = $userid($email);
 			if (!$user)
-				throw new RuntimeException('Unknown user "' . $username . '"');
+				throw new RuntimeException('Unknown user "' . $email . '"');
 		}
 		elseif ($output)
 		{
 			// If required, `$output` will be passed and we can interactively
-			// request the user to provide a username.
-			$ask = function($username) use ($userid)
+			// request the user to provide a email.
+			$ask = function($email) use ($userid)
 			{
-				// And check that the given username exists.
-				$user = $userid($username);
+				// And check that the given email exists.
+				$user = $userid($email);
 				if (!$user)
-					throw new RuntimeException('Unknown user "' . $user . '", please try again');
+					throw new RuntimeException('Unknown user "' . $email . '", please try again');
 
 				return $user;
 			};

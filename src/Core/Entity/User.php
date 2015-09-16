@@ -18,7 +18,6 @@ class User extends StaticEntity
 	protected $id;
 	protected $email;
 	protected $realname;
-	protected $username;
 	protected $password;
 	protected $logins;
 	protected $failed_attempts;
@@ -35,7 +34,6 @@ class User extends StaticEntity
 			'id'              => 'int',
 			'email'           => '*email',
 			'realname'        => 'string',
-			'username'        => 'string',
 			'password'        => 'string',
 			'logins'          => 'int',
 			'failed_attempts' => 'int',

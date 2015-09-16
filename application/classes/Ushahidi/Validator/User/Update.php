@@ -13,7 +13,6 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Usecase\User\UpdateUserData;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Traits\UserContext;
 
@@ -41,11 +40,6 @@ class Ushahidi_Validator_User_Update extends Validator
 			],
 			'realname' => [
 				['max_length', [':value', 150]],
-			],
-			'username' => [
-				['max_length', [':value', 50]],
-				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
-				[[$this->repo, 'isUniqueUsername'], [':value']],
 			],
 			'role' => [
 				[[$this->role_repo, 'exists'], [':value']],

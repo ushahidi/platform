@@ -67,7 +67,8 @@ class Controller_Api_Index extends Ushahidi_Rest {
 			'endpoints' => $endpoints,
 			'user'      => [
 				'id'       => $user->id,
-				'username' => $user->username,
+				'email'    => $user->email,
+				'realname' => $user->realname,
 			],
 		];
 	}

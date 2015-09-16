@@ -8,7 +8,6 @@ Feature: Testing the Users API
 			{
 				"email":"linda@ushahidi.com",
 				"realname":"Linda Kamau",
-				"username":"kamaulynder",
 				"password":"testing",
 				"role":"admin"
 			}
@@ -30,7 +29,6 @@ Feature: Testing the Users API
 			{
 				"email":"robbie@ushahidi.com",
 				"realname":"Robbie Mackay",
-				"username":"rjmackay",
 				"password":"testing",
 				"role":"admin"
 			}
@@ -69,7 +67,6 @@ Feature: Testing the Users API
 			{
 				"email":"tom@ushahidi.com",
 				"realname":"Tom Kamau",
-				"username":"tom",
 				"password":"tomkamau"
 			}
 			"""
@@ -99,7 +96,7 @@ Feature: Testing the Users API
 		When I request "/users"
 		Then the response is JSON
 		And the "count" property equals "1"
-		And the "results.0.username" property equals "robbie"
+		And the "results.0.realname" property equals "Robbie Mackay"
 		Then the guzzle status code should be 200
 
 	Scenario: Finding a User
@@ -109,7 +106,7 @@ Feature: Testing the Users API
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
-		And the "username" property equals "robbie"
+		And the "realname" property equals "Robbie Mackay"
 		Then the guzzle status code should be 200
 
 	Scenario: Finding a User as admin gives full details
@@ -120,7 +117,7 @@ Feature: Testing the Users API
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
-		And the "username" property equals "test"
+		And the "realname" property equals "Test User"
 		And the "email" property equals "test@v3.ushahidi.com"
 		Then the guzzle status code should be 200
 
@@ -132,7 +129,7 @@ Feature: Testing the Users API
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
-		And the "username" property equals "robbie"
+		And the "realname" property equals "Robbie Mackay"
 		And the "email" property equals "robbie@ushahidi.com"
 		Then the guzzle status code should be 200
 
@@ -145,7 +142,6 @@ Feature: Testing the Users API
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
 		And the response has a "realname" property
-		And the response has a "username" property
 		And the response does not have a "email" property
 		And the response does not have a "logins" property
 		And the response does not have a "failed_attempts" property
@@ -180,7 +176,6 @@ Feature: Testing the Users API
 			"""
 			{
 				"email":"newuser@ushahidi.com",
-				"username":"newuser",
 				"password":"testing",
 				"role":"admin"
 			}
