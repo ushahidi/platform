@@ -20,6 +20,7 @@ class Ushahidi_Validator_User_Update extends Validator
 {
 	use UserContext;
 
+	protected $default_error_source = 'user';
 	protected $repo;
 	protected $role_repo;
 	protected $valid;
@@ -43,6 +44,7 @@ class Ushahidi_Validator_User_Update extends Validator
 			],
 			'role' => [
 				[[$this->role_repo, 'exists'], [':value']],
+				[[$this, 'checkAdminRoleLimit'], [':validation', ':value']]
 			],
 			'password' => [
 				['min_length', [':value', 7]],
@@ -50,4 +52,19 @@ class Ushahidi_Validator_User_Update extends Validator
 			],
 		];
 	}
+
+  public function checkAdminRoleLimit (Validation $validation, $role)
+  {
+    $config = \Kohana::$config->load('features.client-limits');
+
+    if ($config['num_admin_users'] > 1 && $role == 'admin') {
+
+      $total = $this->repo->countEntities(['role' => 'admin']); 
+
+      if ($total >= $config['num_admin_users']) {
+        $validation->error('role', 'adminUserLimitReached');
+      }
+    }
+  }
+
 }

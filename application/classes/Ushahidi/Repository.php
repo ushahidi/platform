@@ -315,8 +315,8 @@ abstract class Ushahidi_Repository implements
 	 * @param  int $id
 	 * @return bool
 	 */
-	public function countPostTypes()
+	public function countEntities(Array $where = [])
 	{
-		return $this->selectCount();
+		return $this->selectCount($where);
 	}
 }
