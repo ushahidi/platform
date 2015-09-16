@@ -14,6 +14,7 @@ namespace Ushahidi\Core\Tool;
 use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Tool\FileData;
+use League\Flysystem\Util\MimeType;
 
 class Uploader
 {
@@ -62,8 +63,13 @@ class Uploader
 
 		// Stream the temporary file into the filesystem, creating or overwriting.
 		$stream = fopen($file->tmp_name, 'r+');
-		$this->fs->putStream($filepath, $stream);
-		fclose($stream);
+		$extension = pathinfo($filepath, PATHINFO_EXTENSION);
+		$mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
+		$config = ['mimetype' => $mimeType];
+		$this->fs->putStream($filepath, $stream, $config);
+		if (is_resource($stream)) {
+			fclose($stream);
+		}
 
 		// Get meta information about the file.
 		$size = $this->fs->getSize($filepath);
