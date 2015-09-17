@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Console;
+namespace Ushahidi\Console\Command;
 
 use SplFileObject;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,6 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Psr\Log\LoggerInterface;
 
+use Ushahidi\Console\Command;
 use League\Csv\Reader;
 use Ushahidi\Core\Tool\MappingTransformer;
 use Ushahidi\Core\Usecase\ImportUsecase;
