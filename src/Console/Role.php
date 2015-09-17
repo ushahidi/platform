@@ -31,7 +31,7 @@ class Role extends Command
 			->setName('role')
 			->setDescription('Create roles')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, create', 'list')
-			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
+			->addOption('role', ['r'], InputOption::VALUE_REQUIRED, 'role')
 			;
 	}
 
