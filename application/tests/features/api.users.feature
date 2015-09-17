@@ -44,6 +44,35 @@ Feature: Testing the Users API
 		And the "role" property equals "admin"
 		Then the guzzle status code should be 200
 
+	Scenario: Creating a User with Owner role should fail
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"joe@ushahidi.com",
+				"realname":"Joe",
+				"username":"joe",
+				"password":"testing",
+				"role":"owner"
+			}
+			"""
+		When I request "/users"
+		And the response has a "errors" property
+		Then the guzzle status code should be 403
+
+	Scenario: Updating a role to Owner should fail
+		Given that I want to update a "user"
+		And that the request "data" is:
+			"""
+			{
+				"role":"owner"
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/users"
+		And the response has a "errors" property
+		Then the guzzle status code should be 403
+
 	@resetFixture
 	Scenario: A normal user should not be able to change their own role
 		Given that I want to update a "user"

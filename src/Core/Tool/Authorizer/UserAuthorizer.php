@@ -43,6 +43,12 @@ class UserAuthorizer implements Authorizer
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
+		// Users cannot create 'owner' role
+		if (in_array($privilege, ['register', 'create', 'update'])
+			and $entity->role === 'owner') {
+			return false;
+		}
+		
 		// These checks are run within the user context.
 		$user = $this->getUser();
 
@@ -78,5 +84,16 @@ class UserAuthorizer implements Authorizer
 
 		// If no other access checks succeed, we default to denying access
 		return false;
+	}
+
+	/**
+	 * Checks if the entity has an 'owner' role
+	 * @param User $entity
+	 * @return boolean
+	 */
+	protected function userHasOwnerRole(User $entity)
+	{
+		$entity = is_object($entity) ? $entity->asArray() : $entity;
+		return $entity['role'] === 'owner';
 	}
 }

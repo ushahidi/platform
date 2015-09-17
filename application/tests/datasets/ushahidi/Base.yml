@@ -5,6 +5,10 @@ roles:
   -
     name: "admin"
     display_name: "Admin"
+  -
+    name: "owner"
+    display_name: "Owner"
+  
 users:
   -
     id: 1
