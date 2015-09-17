@@ -73,7 +73,11 @@ abstract class Ushahidi_Core {
 			$server = $di->get('oauth.server.resource');
 			$clientid = $server->getClientId();
 
-			return $clientid;
+			// Using the user repository, load the user
+			$repo = $di->get('repository.client');
+			$client = $repo->get($clientid);
+
+			return $client;
 		});
 
 		// Console commands (oauth is disabled, pending T305)
@@ -298,6 +302,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Formatter_Post_GeoJSONCollection']['setDecoder'] = $di->lazyNew('Symm\Gisconverter\Decoders\WKT');
 
 		// Repositories
+		$di->set('repository.client', $di->lazyNew('Ushahidi_Repository_Client'));
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));

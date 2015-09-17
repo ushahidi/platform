@@ -62,6 +62,7 @@ class Ushahidi_Console_OAuth_Client extends Command {
 			->addOption('client', ['c'], InputOption::VALUE_OPTIONAL, 'client id')
 			->addOption('name', [], InputOption::VALUE_OPTIONAL, 'client name')
 			->addOption('secret', ['s'], InputOption::VALUE_OPTIONAL, 'secret key')
+			->addOption('superpowers', [], InputOption::VALUE_NONE, 'has super powers?')
 			;
 	}
 
@@ -76,6 +77,7 @@ class Ushahidi_Console_OAuth_Client extends Command {
 		$client = $input->getOption('client');
 		$name   = $input->getOption('name');
 		$secret = $input->getOption('secret');
+		$superpowers = $input->hasOption('superpowers');
 
 		if (!$client)
 		{
@@ -101,10 +103,14 @@ class Ushahidi_Console_OAuth_Client extends Command {
 		if (!$secret)
 			$secret = Text::random('distinct', 24);
 
+		if (!$superpowers)
+			$superpowers = 0;
+
 		static::db_create([
 			'id'     => $client,
 			'secret' => $secret,
 			'name'   => $name,
+			'superpowers' => $superpowers,
 			]);
 
 		$input->setOption('client', $client);

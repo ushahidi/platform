@@ -19,6 +19,8 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\SuperpoweredAccess;
+use Ushahidi\Core\Traits\ClientContext;
 
 // The `ConfigAuthorizer` class is responsible for access checks on `Config` Entities
 class ConfigAuthorizer implements Authorizer
@@ -26,11 +28,17 @@ class ConfigAuthorizer implements Authorizer
 	// The access checks are run under the context of a specific user
 	use UserContext;
 
+	// Use client context for access checks run under the context of a specific client
+	use ClientContext;
+
 	// It uses `AdminAccess` to check if the user has admin access
 	use AdminAccess;
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// It uses `SuperpoweredAccess` to check if the client has superpowers
+	use SuperpoweredAccess;
 
 	/**
 	 * Public config groups
@@ -41,6 +49,14 @@ class ConfigAuthorizer implements Authorizer
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
+		// First we run check with a `Client` context
+		$client = $this->getClient();
+
+		// If the client has superpowers it can do anything
+		if ($this->hasSuperpowers($client)) {
+			return true;
+		}
+
 		// These checks are run within the `User` context.
 		$user = $this->getUser();
 
