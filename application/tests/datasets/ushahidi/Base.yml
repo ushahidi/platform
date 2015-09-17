@@ -689,16 +689,25 @@ oauth_clients:
     secret: "demopass"
     name: ""
     auto_approve: 0
+    superpowers: 0
   -
     id: "restricted_app"
     secret: "demopass"
     name: ""
     auto_approve: 0
+    superpowers: 0
   -
     id: "ushahidiui"
     secret: "35e7f0bca957836d05ca0492211b0ac707671261"
     name: ""
     auto_approve: 1
+    superpowers: 0
+  -
+    id: "supercow"
+    secret: "12345"
+    name: "Super Cow"
+    auto_approve: 1
+    superpowers: 1
 oauth_client_endpoints:
   -
     id: 1
@@ -733,6 +742,11 @@ oauth_sessions:
     client_id: "demoapp"
     owner_type: "user"
     owner_id: 3
+  -
+    id: 5
+    client_id: "supercow"
+    owner_type: "client"
+    owner_id: "supercow"
 oauth_session_redirects:
   -
     session_id: 1
@@ -770,6 +784,11 @@ oauth_session_access_tokens:
     id: 6
     session_id: 1
     access_token: "testanon"
+    access_token_expires: 1893477600
+  -
+    id: 7
+    session_id: 5
+    access_token: "supertoken"
     access_token_expires: 1893477600
 oauth_scopes:
   -
@@ -1017,6 +1036,10 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 6
     scope_id: 13
+# For supertoken
+  -
+    session_access_token_id: 7
+    scope_id: 8
 # include other oauth tables to ensure a blank slate for test runs
 oauth_session_refresh_tokens:
 oauth_session_authcodes:

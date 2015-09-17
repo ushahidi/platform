@@ -370,3 +370,25 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 403
         And the response is JSON
+
+    Scenario: Superpower client can access data provider config
+        Given that I want to find an "Update"
+        And that the request "Authorization" header is "Bearer supertoken"
+        And that its "id" is "data-provider"
+        When I request "/config"
+        Then the guzzle status code should be 200
+
+    Scenario: Superpowered client can update a Config
+        Given that I want to update a "Config"
+        And that the request "Authorization" header is "Bearer supertoken"
+        And that the request "data" is:
+            """
+            {
+                "testkey":"i am a teapot?"
+            }
+            """
+        When I request "/config/test"
+        Then the response is JSON
+        And the "id" property equals "test"
+        And the "testkey" property equals "i am a teapot?"
+        Then the guzzle status code should be 200
