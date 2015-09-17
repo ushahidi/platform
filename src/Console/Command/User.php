@@ -9,8 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Console;
+namespace Ushahidi\Console\Command;
 
+use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Exception\ValidatorException;
@@ -22,6 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class User extends Command
 {
+	protected $validator;
+	protected $repo;
 
 	public function setRepo(UserRepository $repo)
 	{

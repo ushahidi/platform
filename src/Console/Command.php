@@ -32,6 +32,12 @@ abstract class Command extends ConsoleCommand
 		// Reroute to the specific action.
 		$response = $this->$execute($input, $output);
 
+		// Format the response and output
+		$this->handleResponse($response, $output);
+	}
+
+	protected function handleResponse($response, OutputInterface $output)
+	{
 		if (is_array($response)) {
 			// Display arrays as tables.
 			$table = $this->getHelperSet()->get('table');

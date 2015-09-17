@@ -69,9 +69,9 @@ $di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
 
 // Any command can be registered with the console app.
 $di->params['Ushahidi\Console\Application']['injectCommands'] = [];
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Import');
 
 // Set up Import command
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\Import');
 $di->setter['Ushahidi\Console\Import']['setReaderMap'] = [];
 $di->setter['Ushahidi\Console\Import']['setReaderMap']['csv'] = $di->lazyGet('filereader.csv');
 $di->setter['Ushahidi\Console\Import']['setTransformer'] = $di->lazyGet('transformer.mapping');
@@ -83,9 +83,29 @@ $di->setter['Ushahidi\Console\Import']['setImportUsecase'] = $di->lazy(function 
 });
 
 // User command
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\User');
-$di->setter['Ushahidi\Console\User']['setRepo'] = $di->lazyGet('repository.user');
-$di->setter['Ushahidi\Console\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create'); 
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\User');
+$di->setter['Ushahidi\Console\Command\User']['setRepo'] = $di->lazyGet('repository.user');
+$di->setter['Ushahidi\Console\Command\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
+
+// Config commands
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ConfigGet');
+$di->setter['Ushahidi\Console\Command\ConfigGet']['setUsecase'] = $di->lazy(function () use ($di) {
+	return service('factory.usecase')
+			->get('config', 'read')
+			// Override authorizer for console
+			->setAuthorizer($di->get('authorizer.console'))
+			// Override formatter for console
+			->setFormatter($di->get('formatter.entity.console'));
+});
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ConfigSet');
+$di->setter['Ushahidi\Console\Command\ConfigSet']['setUsecase'] = $di->lazy(function () use ($di) {
+	return service('factory.usecase')
+			->get('config', 'update')
+			// Override authorizer for console
+			->setAuthorizer($di->get('authorizer.console'))
+			// Override formatter for console
+			->setFormatter($di->get('formatter.entity.console'));
+});
 
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
