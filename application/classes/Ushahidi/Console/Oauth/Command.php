@@ -33,31 +33,6 @@ abstract class Ushahidi_Console_Oauth_Command extends Command {
 		return Kohana::$config->load('koauth.supported_scopes');
 	}
 
-	protected function get_client(InputInterface $input, OutputInterface $output = NULL)
-	{
-		$client = $input->getOption('client');
-
-		if (!$client AND $output)
-		{
-			// If no client was given, and `$output` is passed, we can ask for
-			// the user interactively and validate it against the known clients.
-			$clients = Arr::pluck(Ushahidi_Console_OAuth_Client::db_list(), 'client_id');
-			$ask = function($client) use ($clients)
-			{
-				if (!in_array($client, $clients))
-					throw new RuntimeException('Unknown client "' . $client . '", valid options are: ' . implode(', ', $clients));
-
-				return $client;
-			};
-
-			$client = $this->getHelperSet()->get('dialog')
-				->askAndValidate($output, 'For which client? ', $ask, FALSE, NULL, $clients)
-				;
-		}
-
-		return $client;
-	}
-
 	protected function get_scopes(InputInterface $input)
 	{
 		$scopes = $input->getOption('scope'); // yes, singular!

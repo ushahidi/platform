@@ -9,13 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Symfony\Component\Console\Command\Command;
+use Ushahidi\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Ushahidi_Console_OAuth_Client extends Ushahidi_Console_Oauth_Command {
+class Ushahidi_Console_OAuth_Client extends Command {
 
 	// todo: put me in a repo!
 	public static function db_list($client = null)
@@ -25,7 +25,7 @@ class Ushahidi_Console_OAuth_Client extends Ushahidi_Console_Oauth_Command {
 
 		if ($client)
 		{
-			$query->where('client_id', '=', $client);
+			$query->where('id', '=', $client);
 		}
 
 		return $query->execute()->as_array();
@@ -48,7 +48,7 @@ class Ushahidi_Console_OAuth_Client extends Ushahidi_Console_Oauth_Command {
 	public static function db_delete($client)
 	{
 		$query = DB::delete('oauth_clients')
-			->where('client_id', '=', $client);
+			->where('id', '=', $client);
 
 		return $query->execute();
 	}
@@ -60,25 +60,28 @@ class Ushahidi_Console_OAuth_Client extends Ushahidi_Console_Oauth_Command {
 			->setDescription('List, create, and delete OAuth clients')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, create, or delete', 'list')
 			->addOption('client', ['c'], InputOption::VALUE_OPTIONAL, 'client id')
+			->addOption('name', [], InputOption::VALUE_OPTIONAL, 'client name')
 			->addOption('secret', ['s'], InputOption::VALUE_OPTIONAL, 'secret key')
-			->addOption('redirect', ['r'], InputOption::VALUE_OPTIONAL, 'redirect URI')
 			;
 	}
 
-	protected function execute_list(InputInterface $input, OutputInterface $output)
+	protected function executeList(InputInterface $input, OutputInterface $output)
 	{
 		$client = $input->getOption('client');
 		return static::db_list($client);
 	}
 
-	protected function execute_create(InputInterface $input, OutputInterface $output)
+	protected function executeCreate(InputInterface $input, OutputInterface $output)
 	{
 		$client = $input->getOption('client');
+		$name   = $input->getOption('name');
+		$secret = $input->getOption('secret');
+
 		if (!$client)
 		{
 			// We can't use the generic `get_client()` for **creation**,
 			// because we need to verify that the user does **not** exist.
-			$clients = Arr::pluck(Ushahidi_Console_OAuth_Client::db_list(), 'client_id');
+			$clients = Arr::pluck(self::db_list(), 'id');
 			$ask = function($client) use ($clients)
 			{
 				if (in_array($client, $clients))
@@ -88,33 +91,55 @@ class Ushahidi_Console_OAuth_Client extends Ushahidi_Console_Oauth_Command {
 			};
 
 			$client = $this->getHelperSet()->get('dialog')
-				->askAndValidate($output, 'Enter name of new client: ', $ask, FALSE)
+				->askAndValidate($output, 'Enter id of new client: ', $ask, FALSE)
 				;
 		}
 
-		$secret = $input->getOption('secret');
-		$redirect = $input->getOption('redirect');
+		if (!$name)
+			$name = $client;
 
 		if (!$secret)
 			$secret = Text::random('distinct', 24);
 
-		if (!$redirect)
-			$redirect = '/';
-
 		static::db_create([
-			'client_id'     => $client,
-			'client_secret' => $secret,
-			'redirect_uri'  => $redirect,
+			'id'     => $client,
+			'secret' => $secret,
+			'name'   => $name,
 			]);
 
 		$input->setOption('client', $client);
 
-		return $this->execute_list($input, $output);
+		return $this->executeList($input, $output);
 	}
 
-	protected function execute_delete(InputInterface $input, OutputInterface $output)
+	protected function getClient(InputInterface $input, OutputInterface $output = NULL)
 	{
-		$client = $this->get_client($input, $output);
+		$client = $input->getOption('client');
+
+		if (!$client AND $output)
+		{
+			// If no client was given, and `$output` is passed, we can ask for
+			// the user interactively and validate it against the known clients.
+			$clients = Arr::pluck(self::db_list(), 'id');
+			$ask = function($client) use ($clients)
+			{
+				if (!in_array($client, $clients))
+					throw new RuntimeException('Unknown client "' . $client . '", valid options are: ' . implode(', ', $clients));
+
+				return $client;
+			};
+
+			$client = $this->getHelperSet()->get('dialog')
+				->askAndValidate($output, 'For which client? ', $ask, FALSE, NULL, $clients)
+				;
+		}
+
+		return $client;
+	}
+
+	protected function executeDelete(InputInterface $input, OutputInterface $output)
+	{
+		$client = $this->getClient($input, $output);
 
 		if (static::db_delete($client))
 			return "Deleted <info>{$client}</info>";
