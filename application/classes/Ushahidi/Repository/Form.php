@@ -63,4 +63,14 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 	{
 		return parent::update($entity->setState(['updated' => time()]));
 	}
+
+	/**
+	 * Get total count of entities
+	 * @param  Array $where
+	 * @return int
+	 */
+	public function getTotalCount(Array $where = [])
+	{
+		return $this->selectCount($where);
+	}
 }

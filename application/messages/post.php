@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 return [
-  'publishedPostsLimitReached' => 'You have reached the limit for Pusblished Posts for your Ushahidi instance. To publish more posts it is necessary to upgrade to a higher tier Ushahidi instance.',
+  'publishedPostsLimitReached' => 'You have reached the limit for Published Posts for your Ushahidi instance. To publish more posts it is necessary to upgrade to a higher plan Ushahidi instance.',
 	'tagDoesNotExist' => 'tag :value does not exist',
 	'attributeDoesNotExist' => 'attribute ":param1" does not exist',
 	'tooManyValues' => 'Too many values for :param1 (max: :param2)',
