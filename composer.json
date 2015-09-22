@@ -52,7 +52,7 @@
         "phpunit/dbunit": "~1.2.3",
         "phpspec/phpspec": "~2.1.0",
         "symfony/console": "2.6.*",
-        "squizlabs/php_codesniffer": "1.5.*",
+        "squizlabs/php_codesniffer": "2.*",
         "heroku/heroku-buildpack-php": "dev-master"
     },
     "minimum-stability": "dev",
