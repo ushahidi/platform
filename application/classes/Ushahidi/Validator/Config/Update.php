@@ -66,6 +66,15 @@ class Ushahidi_Validator_Config_Update extends Validator
 					]
 				];
 				break;
+
+			case 'data-provider':
+				$rules = [
+					'providers' => [
+						[[$this, 'isProviderAvailable'], [':value', ':validation']]
+					]
+				];
+				break;
+
 			default:
 				$rules = [];
 				break;
@@ -89,5 +98,18 @@ class Ushahidi_Validator_Config_Update extends Validator
 		}
 
 		return false;
+	}
+
+	public function isProviderAvailable($enabled_providers, $validation)
+	{
+		if ($enabled_providers != null) {
+			$enabled_providers = array_filter($enabled_providers);
+			$available_providers = array_filter(\Kohana::$config->load('features.data-providers')->as_array());
+
+			$diff = array_diff_key($enabled_providers, $available_providers);
+			if ($diff) {
+				$validation->error('providers', 'providerNotAvailable', [$diff]);
+			}
+		}
 	}
 }

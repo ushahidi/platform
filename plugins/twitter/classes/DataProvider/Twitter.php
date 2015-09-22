@@ -31,6 +31,15 @@ class DataProvider_Twitter extends DataProvider {
 		$config = Kohana::$config;
 		$this->_initialize($config);
 
+    //Check if data provider is available
+    $providers_available = $config->load('features.data-providers');
+
+    if ( !$providers_available['twitter'] ) 
+    {
+      Kohana::$log->add(Log::WARNING, 'The twitter data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+      return 0;
+    }
+
 		// check if we have reached our rate limit
 		if ( !$this->_can_make_request())
 		{

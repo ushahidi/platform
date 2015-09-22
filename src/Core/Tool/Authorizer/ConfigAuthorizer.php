@@ -38,14 +38,24 @@ class ConfigAuthorizer implements Authorizer
 	 */
 	protected $public_groups = ['features', 'map', 'site'];
 
+	/**
+	 * Public config groups
+	 * @var [string, ...]
+	 */
+	protected $readonly_groups = ['features'];
+
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
 		// These checks are run within the `User` context.
 		$user = $this->getUser();
 
-		// Then we check if a user has the 'admin' role. If they do they're
-		// allowed access to everything (all entities and all privileges)
+		// If a config group is read only *no one* can edit it (not even admin)
+		if (in_array($privilege, ['create', 'update']) && $this->isConfigReadOnly($entity)) {
+			return false;
+		}
+
+		// If a user has the 'admin' role, they can do pretty much everything else
 		if ($this->isUserAdmin($user)) {
 			return true;
 		}
@@ -72,6 +82,25 @@ class ConfigAuthorizer implements Authorizer
 		}
 
 		if (in_array($entity->getId(), $this->public_groups)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if a config group is read only
+	 * @param  Entity  $entity
+	 * @return boolean
+	 */
+	protected function isConfigReadOnly(Config $entity)
+	{
+		// Config that is unloaded is treated as writable.
+		if (!$entity->getId()) {
+			return false;
+		}
+
+		if (in_array($entity->getId(), $this->readonly_groups)) {
 			return true;
 		}
 
