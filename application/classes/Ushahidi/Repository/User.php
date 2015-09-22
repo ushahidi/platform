@@ -175,4 +175,14 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			->where('reset_token', '=', $token)
 			->execute($this->db);
 	}
+
+	/**
+	 * Get total count of entities
+	 * @param  Array $where
+	 * @return int
+	 */
+	public function getTotalCount(Array $where = [])
+	{
+		return $this->selectCount($where);
+	}
 }

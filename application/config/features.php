@@ -29,4 +29,12 @@ return [
 		'twilio' => TRUE,
 		'nexmo' => TRUE,
 	],
+
+	// Client limits
+	// Where TRUE is infinite and an integer defines a limit
+	'limits' => [
+		'posts' => TRUE,
+		'forms' => TRUE,
+		'admin_users' => TRUE,
+	],
 ];
