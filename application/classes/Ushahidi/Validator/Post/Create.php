@@ -143,7 +143,7 @@ class Ushahidi_Validator_Post_Create extends Validator
   {
     $config = \Kohana::$config->load('features.limits');
 
-    if ($config['posts'] > 1 && $status == 'published') {
+    if ($config['posts'] !== TRUE && $status == 'published') {
 
       $search = new PostSearchData();
       $search->status = 'published';

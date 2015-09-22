@@ -52,7 +52,7 @@ class Ushahidi_Validator_Form_Update extends Validator
   {
     $config = \Kohana::$config->load('features.limits');
 
-    if ($config['forms'] > 1) {
+    if ($config['forms'] !== TRUE) {
   
       $total_forms = $this->repo->getTotalCount(); 
 

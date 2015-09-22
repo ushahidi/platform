@@ -206,7 +206,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	 * @param  Array $where
 	 * @return int
 	 */
-	public function countEntities(Array $where = [])
+	public function getTotalCount(Array $where = [])
 	{
 		return $this->selectCount($where);
 	}
