@@ -61,13 +61,13 @@ class Ushahidi_Validator_User_Update extends Validator
 
   public function checkAdminRoleLimit (Validation $validation, $role)
   {
-    $config = \Kohana::$config->load('features.client-limits');
+    $config = \Kohana::$config->load('features.limits');
 
-    if ($config['num_admin_users'] > 1 && $role == 'admin') {
+    if ($config['admin_users'] > 1 && $role == 'admin') {
 
-      $total = $this->repo->countEntities(['role' => 'admin']); 
+      $total = $this->repo->getTotalCount(['role' => 'admin']); 
 
-      if ($total >= $config['num_admin_users']) {
+      if ($total >= $config['admin_users']) {
         $validation->error('role', 'adminUserLimitReached');
       }
     }

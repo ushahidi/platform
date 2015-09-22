@@ -41,7 +41,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 * @param TagRepository                         $tag_repo
 	 * @param UserRepository                        $user_repo
 	 * @param FormRepository                        $form_repo
-	 * @param PostRepository                        $post_repo
 	 * @param RoleRepository                        $role_repo
 	 * @param Ushahidi_Repository_Post_ValueFactory  $post_value_factory
 	 * @param Ushahidi_Validator_Post_ValueFactory  $post_value_validator_factory
@@ -53,7 +52,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 		UpdatePostTagRepository $tag_repo,
 		UserRepository $user_repo,
 		FormRepository $form_repo,
-		PostRepository $post_repo,
 		RoleRepository $role_repo,
 		Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 		Ushahidi_Validator_Post_ValueFactory $post_value_validator_factory)
@@ -64,7 +62,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 		$this->tag_repo = $tag_repo;
 		$this->user_repo = $user_repo;
 		$this->form_repo = $form_repo;
-		$this->post_repo = $post_repo;
 		$this->role_repo = $role_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->post_value_validator_factory = $post_value_validator_factory;
@@ -144,16 +141,16 @@ class Ushahidi_Validator_Post_Create extends Validator
 
   public function checkPublishedLimit (Validation $validation, $status)
   {
-    $config = \Kohana::$config->load('features.client-limits');
+    $config = \Kohana::$config->load('features.limits');
 
-    if ($config['num_published_posts'] > 1 && $status == 'published') {
+    if ($config['posts'] > 1 && $status == 'published') {
 
       $search = new PostSearchData();
       $search->status = 'published';
       $search->group_by = 'status';
-      $total_published = $this->post_repo->getGroupedTotals($search); 
+      $total_published = $this->repo->getGroupedTotals($search); 
 
-      if ($total_published[0]['total'] >= $config['num_published_posts']) {
+      if ($total_published[0]['total'] >= $config['posts']) {
         $validation->error('status', 'publishedPostsLimitReached');
       }
     }

@@ -200,4 +200,14 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 
 		return $this->getEntity($result->current());
 	}
+
+	/**
+	 * Get total count of entities
+	 * @param  Array $where
+	 * @return int
+	 */
+	public function countEntities(Array $where = [])
+	{
+		return $this->selectCount($where);
+	}
 }

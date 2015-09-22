@@ -16,17 +16,18 @@ use Ushahidi\Core\Tool\Validator;
 class Ushahidi_Validator_Form_Update extends Validator
 {
 	protected $default_error_source = 'form';
+  protected $repo;
 
 	/**
 	 * Construct
 	 *
-	 * @param FormRepository  $form_repo
+	 * @param FormRepository  $repo
 	 */
 	public function __construct(
-		FormRepository $form_repo
+		FormRepository $repo
     )
 	{
-		$this->form_repo = $form_repo;
+		$this->repo = $repo;
 	}
 
 
@@ -49,13 +50,13 @@ class Ushahidi_Validator_Form_Update extends Validator
 
   public function checkPostTypeLimit (Validation $validation)
   {
-    $config = \Kohana::$config->load('features.client-limits');
+    $config = \Kohana::$config->load('features.limits');
 
-    if ($config['num_post_types'] > 1) {
+    if ($config['forms'] > 1) {
   
-      $total_post_types = $this->form_repo->countEntities(); 
+      $total_forms = $this->repo->getTotalCount(); 
 
-      if ($total_post_types >= $config['num_post_types']) {
+      if ($total_forms >= $config['forms']) {
         $validation->error('name', 'postTypeLimitReached');
       }
     }
