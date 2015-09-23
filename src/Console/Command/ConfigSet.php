@@ -71,4 +71,21 @@ class ConfigSet extends Command
 		// Format the response and output
 		$this->handleResponse($response, $output);
 	}
+
+	/**
+	 * Override response handler to flatten array
+	 */
+	protected function handleResponse($response, OutputInterface $output)
+	{
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
+		$result = [];
+		foreach ($iterator as $leafValue) {
+			$keys = [];
+			foreach (range(0, $iterator->getDepth()) as $depth) {
+				$keys[] = $iterator->getSubIterator($depth)->key();
+			}
+			$result[ join('.', $keys) ] = $leafValue;
+		}
+		return parent::handleResponse($result, $output);
+	}
 }
