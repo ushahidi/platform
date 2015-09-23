@@ -43,8 +43,11 @@ class ContactAuthorizer implements Authorizer
 			return true;
 		}
 
-		// If the user is the owner of this contact, they can do anything
-		if ($this->isUserOwner($entity, $user)) {
+		// Allow create, read and update if owner.
+		// Contacts should not be deleted.
+		if ($this->isUserOwner($entity, $user)
+			and in_array($privilege, ['create', 'read', 'update'])) {
+
 			return true;
 		}
 

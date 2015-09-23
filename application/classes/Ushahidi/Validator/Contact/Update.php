@@ -12,26 +12,24 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Tool\Validator;
-use Ushahidi\Core\Entity\ContactRepository;
+//use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\UserRepository;
 
 class Ushahidi_Validator_Contact_Update extends Validator
 {
-	protected $repo;
 	protected $user_repo;
 	protected $default_error_source = 'contact';
 
-	public function __construct(ContactRepository $repo, UserRepository $user_repo)
+	public function __construct(UserRepository $repo)
 	{
-		$this->repo = $repo;
-		$this->user_repo = $user_repo;
+		$this->user_repo = $repo;
 	}
 
 	protected function getRules()
 	{
 		return [
 			'id' => [
-				[[$this->repo, 'exists'], [':value']],
+				['numeric'],
 			],
 			'user_id' => [
 				[[$this->user_repo, 'exists'], [':value']],
@@ -72,15 +70,14 @@ class Ushahidi_Validator_Contact_Update extends Validator
 
 		// Valid Phone?
 		// ++TODO: There's no easy to validate international numbers
-		// so just look for numbers only. A valid international phone
-		// number should have atleast 9 digits
+		// so just look for numbers only.
 		else if ( isset($data['type']) AND
 			$data['type'] == Contact::PHONE )
 		{
 			// Remove all non-digit characters from the number
 			$number = preg_replace('/\D+/', '', $contact);
 
-			if (strlen($number) < 0)
+			if (strlen($number) == 0)
 			{
 				$validation->error('contact', 'invalid_phone', [$contact]);
 			}

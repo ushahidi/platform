@@ -24,6 +24,15 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 {
 	use UserContext;
 	use AdminAccess;
+
+	protected function getId(Entity $entity)
+	{
+		$result = $this->selectQuery()
+			->where('user_id', '=', $entity->user_id)
+			->and_where('contact', '=', $entity->contact)
+			->execute($this->db);
+		return $result->get('id', 0);
+	}
 	
 	// Ushahidi_Repository
 	protected function getTable()
@@ -84,6 +93,15 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	// CreateRepository
 	public function create(Entity $entity)
 	{
+		$id = $this->getId($entity);
+
+		// @todo perhaps allow fields for existing entity to be defined when an entity is being created
+		if ($id) {
+			// No need to insert a new record.
+			// Instead return the id of the contact that exists
+			return $id;
+		}
+		
 		$state = [
 			'created'  => time(),
 		];

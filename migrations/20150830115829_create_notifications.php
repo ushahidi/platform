@@ -17,13 +17,16 @@ class CreateNotifications extends AbstractMigration
         $this->table('notifications')
             ->addColumn('user_id', 'integer', ['null' => false])
             ->addColumn('set_id', 'integer', ['null' => false])
-			->addColumn('is_subscribed', 'integer', ['default' => 0])
             ->addColumn('created', 'integer', ['default' => 0])
-			->addColumn('updated', 'integer', ['default' => 0])
-            ->addForeignKey('user_id', 'users', 'id', [
+			->addForeignKey('user_id', 'users', 'id', [
                 'delete' => 'CASCADE',
                 'update' => 'CASCADE',
                 ])
-            ->create();
+			->addForeignKey('set_id', 'sets', 'id', [
+                'delete' => 'CASCADE',
+                'update' => 'CASCADE',
+                ])
+            ->create()
+			;
     }
 }

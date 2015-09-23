@@ -215,32 +215,6 @@ Route::set('api', $apiBase . '(<controller>(/<id>))',
 	));
 
 /**
- * Notification subscriptions API Route
- */
-Route::set('notifications-api', $apiBase . 'notifications(/<id>)',
-	array(
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api',
-		'controller' => 'Notifications',
-	));
-
-/**
- * Contacts API Route
- */
-Route::set('contacts-api', $apiBase . 'contacts(/<id>)',
-	array(
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api',
-		'controller' => 'Contacts',
-	));
-
-/**
  * Translations API SubRoute
  */
 Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)',
@@ -276,4 +250,3 @@ Route::set('default', '('.$apiBase.')')
 		'action'     => 'index',
 		'directory'  => 'Api'
 	));
-

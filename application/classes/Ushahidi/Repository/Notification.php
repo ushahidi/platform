@@ -48,16 +48,6 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 		}
 
 		foreach ([
-			'is_subscribed',
-		] as $key)
-		{
-			if ($search->$key)
-			{
-				$query->where("notifications.{$key}", '=', $search->$key);
-			}
-		}
-
-		foreach ([
 			'user',
 			'set',
 		] as $fk)
@@ -88,30 +78,16 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 		$state = [
 			'user_id' => $entity->user_id,
 			'created' => time(),
-			// We are creating a new subscription so set is_subsribed to 1.
-			// For unsubscribed users, this flag will be 0.
-			'is_subscribed' => 1,
 		];
 
 		return parent::create($entity->setState($state));
-	}
-
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$state = [
-			'updated'  => time(),
-		];
-
-		return parent::update($entity->setState($state));
 	}
 
 	public function getSearchFields()
 	{
 		return [
 			'user',
-			'set',
-			'is_subscribed'
+			'set'
 		];
 	}
 }

@@ -18,7 +18,7 @@ class Ushahidi_Formatter_Notification extends Ushahidi_Formatter_API
 	protected function get_field_name($field)
 	{
 		$remap = [
-			'set_id' => 'set'
+			'set_id'  => 'set'
 			];
 
 		if (isset($remap[$field])) {
@@ -27,7 +27,7 @@ class Ushahidi_Formatter_Notification extends Ushahidi_Formatter_API
 
 		return parent::get_field_name($field);
 	}
-	
+
 	protected function format_set_id($set_id)
 	{
 		return $this->get_relation('sets', $set_id);

@@ -11,10 +11,10 @@ class AddContactNotifyFlag extends AbstractMigration
     public function up()
     {
 		$this->table('contacts')
-            ->addColumn('can_notify', 'integer', [
+            ->addColumn('can_notify', 'boolean', [
                 'after' => 'updated',
                 'null' => false,
-				'default' => '0'
+				'default' => false
             ])
             ->update();
     }

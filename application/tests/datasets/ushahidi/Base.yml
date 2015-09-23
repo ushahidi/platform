@@ -1273,28 +1273,20 @@ notifications:
     id: 2
     user_id: 1
     set_id: 2
-    is_subscribed: 1
-
   -
     id: 3
     user_id: 1
     set_id: 3
-    is_subscribed: 0
-
   -
     id: 4
     user_id: 1
     set_id: 4
-    is_subscribed: 1
-
   -
     id: 5
     user_id: 1
     set_id: 4
-    is_subscribed: 1
   -
     id: 6
     user_id: 4
     set_id: 4
-    is_subscribed: 1
     

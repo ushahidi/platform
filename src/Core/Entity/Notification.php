@@ -18,7 +18,6 @@ class Notification extends StaticEntity
 	protected $id;
 	protected $user_id;
 	protected $set_id;
-	protected $is_subscribed;
 	protected $created;
 	protected $updated;
 
@@ -41,7 +40,6 @@ class Notification extends StaticEntity
 			'user_id'       => 'int',
 			'set'           => false,
 			'set_id'        => 'int',
-			'is_subscribed' => 'int',
 			'created'       => 'int',
 			'updated'       => 'int',
 		];

@@ -50,7 +50,7 @@ class Contact extends StaticEntity
 			'contact'       => 'string',
 			'created'       => 'int',
 			'updated'       => 'int',
-			'can_notify'    => 'int',
+			'can_notify'    => 'bool',
 		];
 	}
 
