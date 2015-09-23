@@ -58,6 +58,9 @@ class ConfigSet extends Command
 			];
 		} else {
 			$value = json_decode($value, true);
+			if (!is_array($value)) {
+				$value = [];
+			}
 		}
 
 		$this->usecase->setIdentifiers([ 'id' => $group ])
