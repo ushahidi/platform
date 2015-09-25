@@ -285,6 +285,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
 		$di->set('repository.notification', $di->lazyNew('Ushahidi_Repository_Notification'));
+		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
@@ -464,6 +465,14 @@ abstract class Ushahidi_Core {
 		$di->set('filereader.csv', $di->lazyNew('Ushahidi_FileReader_CSV'));
 
 		$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer'));
+
+		// Event listener for the Set repo
+		$di->setter['Ushahidi_Repository_Set']['setListener'] = 
+			$di->lazyNew('Ushahidi_Listener_PostSetListener');
+
+		// NotificationQueue repo for Set listener
+		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
+			$di->lazyGet('repository.notification.queue');
 
 		/**
 		 * 1. Load the plugins
