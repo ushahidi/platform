@@ -10,7 +10,6 @@
  */
 
 use Ushahidi\Core\Tool\Validator;
-use Ushahidi\Core\Entity\NotificationRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\SetRepository;
 
