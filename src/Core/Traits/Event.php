@@ -24,7 +24,7 @@ trait Event
 	{
 		$this->emitter = $emitter;
 	}
-	
+
 	/**
 	 * Trigger event
 	 * @param  string $event event name
@@ -53,8 +53,7 @@ trait Event
 	 * @param  int      $priority
 	 * @return object   $this
 	 */
-	protected function addListener($event, ListenerInterface $listener,
-								   $priority = EmitterInterface::P_NORMAL)
+	protected function addListener($event, ListenerInterface $listener, $priority = EmitterInterface::P_NORMAL)
 	{
 		$this->emitter->addListener($event, $listener, $priority);
 
