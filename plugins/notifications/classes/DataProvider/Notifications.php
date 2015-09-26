@@ -66,6 +66,7 @@ class DataProvider_Notifications extends DataProvider
 				->join('notifications')
 				->on('contacts.user_id', '=', 'notifications.user_id')
 				->where('set_id', '=', $notification->set_id)
+				->and_where('contacts.can_notify', '=', '1')
 				->execute($this->db)
 				->as_array();
 
