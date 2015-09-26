@@ -27,7 +27,6 @@ class Ushahidi_Listener_PostSetListener extends AbstractListener
 	
     public function handle(EventInterface $event, $set_id = null, $post_id = null)
     {
-		Log::instance()->add(Log::NOTICE, $event->getName().": Post id: $post_id, Set id: $set_id");
 		// Insert into Notification Queue
 		$state = [
 			'set'  => $set_id,
