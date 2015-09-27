@@ -11,6 +11,7 @@
 
 return [
 	// Determines which features are available in a deployment
+	'tier' => 'free',
 
 	// Post views
 	'views' => [
