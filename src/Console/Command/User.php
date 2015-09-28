@@ -15,6 +15,7 @@ use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Exception\NotFoundException;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,7 +42,7 @@ class User extends Command
 		$this
 			->setName('user')
 			->setDescription('Create user accounts')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, create', 'list')
+			->addArgument('action', InputArgument::OPTIONAL, 'list, create, delete', 'list')
 			->addOption('realname', null, InputOption::VALUE_OPTIONAL, 'realname')
 			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'email')
 			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
@@ -54,6 +55,9 @@ class User extends Command
 		return [
 			[
 				'Available actions' => 'create'
+			],
+			[
+				'Available actions' => 'delete'
 			]
 		];
 	}
@@ -80,6 +84,30 @@ class User extends Command
 			[
 				'Id' => $id,
 				'Message' => 'Account was created successfully'
+			]
+		];
+	}
+
+	protected function executeDelete(InputInterface $input, OutputInterface $output)
+	{
+		$email = $input->getOption('email');
+
+		$entity = $this->repo->getByEmail($email);
+
+		if (!$entity->getId()) {
+			throw new NotFoundException(sprintf(
+				'Could not locate any %s matching [%s]',
+				$entity->getResource(),
+				$email
+			));
+		}
+
+		$id = $this->repo->delete($entity);
+
+		return [
+			[
+				'Id' => $id,
+				'Message' => 'Account was deleted successfully'
 			]
 		];
 	}
