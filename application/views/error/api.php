@@ -34,6 +34,7 @@ if (method_exists($e, 'getErrors')) {
 		$errors[] = [
 			'status' => $code,
 			'title' => $value,
+			'message' => $value,
 			'source' => [
 				'pointer' => "/" . $key
 			]
