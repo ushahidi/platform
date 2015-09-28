@@ -33,4 +33,5 @@ return array(
 	'date_format' => 'n/j/Y',
 	'client_url'  => $clientUrl ?: false,
 	'first_login' => true,
+	'tier'        => 'free',
 );
