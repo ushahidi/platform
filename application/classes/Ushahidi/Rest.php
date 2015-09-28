@@ -449,9 +449,10 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
-			throw new HTTP_Exception_400(
-				'Validation Error: \':errors\'',
-				[':errors' => implode(', ', Arr::flatten($e->getErrors()))]
+			throw new HTTP_Exception_422(
+				'Validation Error',
+				NULL,
+				$e
 			);
 		}
 		catch (\InvalidArgumentException $e)
