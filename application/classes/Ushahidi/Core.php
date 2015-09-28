@@ -24,18 +24,37 @@ abstract class Ushahidi_Core {
 		$di = service();
 
 		// Kohana injection
-		$di->set('kohana.db', function() use ($di) {
-			// todo: is there some way to use different configs here?
-			return Database::instance();
+		// DB config
+		$di->set('db.config', function() use ($di) {
+			$config = Kohana::$config->load('database')->default;
+
+			// Is this a multisite install?
+			$multisite = Kohana::$config->load('multisite.enabled');
+			if ($multisite) {
+				$config = $di->get('multisite')->getDbConfig();
+			}
+
+			return $config;
 		});
-		$di->set('kohana.media.dir', function() use ($di) {
-			return Kohana::$config->load('media.media_upload_dir');
+		// Multisite db
+		$di->set('kohana.db.multisite', function () use ($di) {
+			return Database::instance('multisite');
+		});
+		// Deployment db
+		$di->set('kohana.db', function() use ($di) {
+			return Database::instance('deployment', $di->get('db.config'));
 		});
 
-		// ACL
-		$di->set('acl', function () {
-			return A2::instance();
+		// CDN Config settings
+		$di->set('cdn.config', function() use ($di) {
+			return Kohana::$config->load('cdn')->as_array();
 		});
+
+		// Multisite utility class
+		$di->set('multisite', $di->lazyNew('Ushahidi_Multisite'));
+		$di->params['Ushahidi_Multisite'] = [
+			'db' => $di->lazyGet('kohana.db.multisite')
+		];
 
 		$di->set('session.user', function() use ($di) {
 			// Using the OAuth resource server, get the userid (owner id) for this request
@@ -58,10 +77,8 @@ abstract class Ushahidi_Core {
 		});
 
 		// Console commands (oauth is disabled, pending T305)
-		// $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Client');
-		// $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Token');
+		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Oauth_Client');
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Dataprovider');
-
 		$di->setter['Ushahidi_Console_Dataprovider']['setRepo'] = $di->lazyGet('repository.dataprovider');
 
 		// Notification command
@@ -86,9 +103,9 @@ abstract class Ushahidi_Core {
 		$di->setter['League\OAuth2\Server\Authorization']['setRequest'] = $di->lazyNew('OAuth2_Request');
 
 		// Custom password authenticator
-		$di->setter['League\OAuth2\Server\Grant\Password']['setVerifyCredentialsCallback'] = function($username, $password) {
+		$di->setter['League\OAuth2\Server\Grant\Password']['setVerifyCredentialsCallback'] = function($email, $password) {
 			$usecase = service('factory.usecase')->get('users', 'login')
-				->setIdentifiers(compact('username', 'password'));
+				->setIdentifiers(compact('email', 'password'));
 
 			try
 			{
@@ -235,21 +252,51 @@ abstract class Ushahidi_Core {
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
-		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
+
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
-		// Handle filesystem using local paths for now... lots of other options:
-		// https://github.com/thephpleague/flysystem/tree/master/src/Adapter
+		// Register filesystem adpater types
+		// Currently supported: Local filesysten, AWS S3 v3, Rackspace
+		// the naming scheme must match the cdn type set in config/cdn
+		$di->set('adapter.local', $di->lazyNew(
+				'Ushahidi_FilesystemAdapter_Local',
+				[
+					'config' => $di->lazyGet('cdn.config')
+				]
+			)
+		);
+		$di->set('adapter.aws', $di->lazyNew(
+				'Ushahidi_FilesystemAdapter_AWS',
+				[
+					'config' => $di->lazyGet('cdn.config')
+				]
+			)
+		);
+		$di->set('adapter.rackspace', $di->lazyNew(
+				'Ushahidi_FilesystemAdapter_Rackspace',
+				[
+					'config' => $di->lazyGet('cdn.config')
+				]
+			)
+		);
+
+		// Media Filesystem
+		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
+		// cdn type based on the provided configuration
+		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
 		$di->params['Ushahidi_Filesystem'] = [
-			'adapter' => $di->lazyNew('League\Flysystem\Adapter\Local')
-			];
-		$di->params['League\Flysystem\Adapter\Local'] = [
-			'root' => $di->lazyGet('kohana.media.dir'),
+			'adapter' => $di->lazy(function () use ($di) {
+							 $adapter_type = $di->get('cdn.config');
+							 $fsa = $di->get('adapter.' . $adapter_type['type']);
+
+							 return $fsa->getAdapter();
+				   })
 			];
 
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
+		$di->set('formatter.entity.console', $di->lazyNew('Ushahidi_Formatter_Console'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
 		$di->set('formatter.entity.post.geojson', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSON'));
 		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
@@ -371,6 +418,10 @@ abstract class Ushahidi_Core {
 			'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 			'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
 			];
+		$di->params['Ushahidi_Validator_Form_Update'] = [
+			'repo' => $di->lazyGet('repository.form'),
+			];
+
 		$di->param['Ushahidi_Validator_Form_Attribute_Update'] = [
 			'repo' => $di->lazyGet('repository.form_attribute'),
 			'form_stage_repo' => $di->lazyGet('repository.form_stage'),
@@ -438,7 +489,6 @@ abstract class Ushahidi_Core {
 			}),
 		];
 
-
 		$di->set('validator.post.datetime', $di->lazyNew('Ushahidi_Validator_Post_Datetime'));
 		$di->set('validator.post.decimal', $di->lazyNew('Ushahidi_Validator_Post_Decimal'));
 		$di->set('validator.post.geometry', $di->lazyNew('Ushahidi_Validator_Post_Geometry'));
@@ -498,16 +548,19 @@ abstract class Ushahidi_Core {
 		// allowed groups are stored with the config service.
 		$groups = service('repository.config')->groups();
 
+		$db = service('kohana.db');
+
 		/**
 		 * Attach database config to override some settings
 		 */
 		try
 		{
-			if (DB::query(Database::SELECT, 'SHOW TABLES LIKE \'config\'')->execute()->count() > 0)
+			if (DB::query(Database::SELECT, 'SHOW TABLES LIKE \'config\'')->execute($db)->count() > 0)
 			{
-				Kohana::$config->attach(new Ushahidi_Config(array(
-					'groups' => $groups
-				)));
+				Kohana::$config->attach(new Ushahidi_Config([
+					'groups' => $groups,
+					'instance' => $db
+				]));
 			}
 		}
 		catch (Exception $e)

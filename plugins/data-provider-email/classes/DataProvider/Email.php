@@ -10,19 +10,26 @@
  */
 
 use Shadowhand\Email;
+use Ushahidi\Core\Entity\Contact;
 
 class DataProvider_Email extends DataProvider {
 
 	/**
 	 * Contact type user for this provider
 	 */
-	public $contact_type = Model_Contact::EMAIL;
+	public $contact_type = Contact::EMAIL;
 
 	/**
 	 * @return mixed
 	 */
 	public function send($to, $message, $title = "")
 	{
+
+    if (!$this->_is_provider_available()) {
+       Kohana::$log->add(Log::ERROR, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+			return array(Message_Status::FAILED, FALSE);
+    }
+
 		$provider_options = $this->options();
 
 		$driver = $provider_options['outgoing_type'];
@@ -80,6 +87,11 @@ class DataProvider_Email extends DataProvider {
 	 */
 	public function fetch($limit = FALSE)
 	{
+    if (!$this->_is_provider_available()) {
+      Kohana::$log->add(Log::WARNING, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+			return 0;
+    }
+
 		$count = 0;
 
 		$options = $this->options();
@@ -139,6 +151,18 @@ class DataProvider_Email extends DataProvider {
 
 		return $count;
 	}
+
+  /**
+   * Check if the email data provider is available
+   *
+   */
+  protected function _is_provider_available()
+  {
+    $config = Kohana::$config;
+    $providers_available = $config->load('features.data-providers');
+
+    return $providers_available['email']? true : false;
+  }
 
 	/**
 	 * Process individual incoming email

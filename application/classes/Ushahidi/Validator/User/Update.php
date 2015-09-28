@@ -13,7 +13,6 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Usecase\User\UpdateUserData;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Traits\UserContext;
 
@@ -21,6 +20,7 @@ class Ushahidi_Validator_User_Update extends Validator
 {
 	use UserContext;
 
+	protected $default_error_source = 'user';
 	protected $repo;
 	protected $role_repo;
 	protected $valid;
@@ -42,13 +42,9 @@ class Ushahidi_Validator_User_Update extends Validator
 			'realname' => [
 				['max_length', [':value', 150]],
 			],
-			'username' => [
-				['max_length', [':value', 50]],
-				['regex', [':value', '/^[a-z][a-z0-9._-]+[a-z0-9]$/i']],
-				[[$this->repo, 'isUniqueUsername'], [':value']],
-			],
 			'role' => [
 				[[$this->role_repo, 'exists'], [':value']],
+				[[$this, 'checkAdminRoleLimit'], [':validation', ':value']]
 			],
 			'password' => [
 				['min_length', [':value', 7]],
@@ -56,4 +52,19 @@ class Ushahidi_Validator_User_Update extends Validator
 			],
 		];
 	}
+
+	public function checkAdminRoleLimit (Validation $validation, $role)
+	{
+		$config = \Kohana::$config->load('features.limits');
+
+		if ($config['admin_users'] > 1 && $role == 'admin') {
+
+			$total = $this->repo->getTotalCount(['role' => 'admin']);
+
+			if ($total >= $config['admin_users']) {
+				$validation->error('role', 'adminUserLimitReached');
+			}
+		}
+	}
+
 }

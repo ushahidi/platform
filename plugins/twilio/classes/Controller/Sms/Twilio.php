@@ -16,6 +16,15 @@ class Controller_Sms_Twilio extends Controller {
 	 */
 	public function action_reply()
 	{
+    //Check if data provider is available
+    $providers_available = Kohana::$config->load('features.data-providers');
+
+    if ( !$providers_available['twilio'] ) 
+    {
+      throw HTTP_Exception::factory(403, 'The Twilio data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+    }
+
+
 		if ($this->request->method() != 'POST')
 		{
 			// Only POST is allowed

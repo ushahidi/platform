@@ -9,7 +9,6 @@ notifications:
     notify: true
 language: php
 php:
-- '5.4'
 - '5.5'
 - '5.6'
 cache:
@@ -18,7 +17,7 @@ cache:
 services:
 - mysql
 install:
-- composer install --no-interaction --no-scripts
+- composer install --no-interaction
 before_script:
 - "./bin/tests install"
 script:

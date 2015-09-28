@@ -55,12 +55,12 @@ Route::set('forms', $apiBase . 'forms/<form_id>/<controller>(/<id>)',
 /**
  * Export Posts API SubRoute
  */
-Route::set('export', $apiBase . 'posts/export')
-	->defaults(array(
-		'action'     => 'index',
-		'controller' => 'Export',
-		'directory'  => 'Api/Posts'
-	));
+// Route::set('export', $apiBase . 'posts/export')
+// 	->defaults(array(
+// 		'action'     => 'index',
+// 		'controller' => 'Export',
+// 		'directory'  => 'Api/Posts'
+// 	));
 
 /**
  * Export Posts API SubRoute
@@ -195,12 +195,12 @@ Route::set('savedsearches-api', $apiBase . 'savedsearches(/<id>)',
 /**
  * Post stats API route
  */
-Route::set('post-stats-api', $apiBase . 'stats/posts')
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api/Stats',
-		'controller' => 'Posts',
-	));
+// Route::set('post-stats-api', $apiBase . 'stats/posts')
+// 	->defaults(array(
+// 		'action'     => 'index',
+// 		'directory'  => 'Api/Stats',
+// 		'controller' => 'Posts',
+// 	));
 
 /**
  * Base Ushahidi API Route

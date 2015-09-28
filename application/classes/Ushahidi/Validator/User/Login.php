@@ -20,9 +20,8 @@ class Ushahidi_Validator_User_Login extends Validator
 	protected function getRules()
 	{
 		return [
-			'username' => [
+			'email' => [
 				['not_empty'],
-				['max_length', [':value', 255]]
 			],
 			'password' => [
 				['not_empty'],

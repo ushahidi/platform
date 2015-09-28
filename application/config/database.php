@@ -22,21 +22,46 @@ if (getenv("CLEARDB_DATABASE_URL")) {
 	putenv("DB_TYPE=" . "MySQLi");
 }
 
-return array
-(
-	'default' => array
-	(
-		'type'       => getenv('DB_TYPE'),
-		'connection' => array(
-			'hostname'   => getenv('DB_HOST'),
-			'database'   => getenv('DB_NAME'),
-			'username'   => getenv('DB_USER'),
-			'password'   => getenv('DB_PASS'),
-			'persistent' => FALSE,
-		),
-		'table_prefix' => '',
-		'charset'      => 'utf8',
-		'caching'      => TRUE,
-		'profiling'    => TRUE,
-	)
-);
+// Default to MySQLi db if not set
+// This at least results in a connect error if other vars aren't set
+if (! getenv('DB_TYPE')) {
+	putenv("DB_TYPE=MySQLi");
+}
+
+// DB config
+$config = [
+	'type'       => getenv('DB_TYPE'),
+	'connection' => [
+		'hostname'   => getenv('DB_HOST'),
+		'database'   => getenv('DB_NAME'),
+		'username'   => getenv('DB_USER'),
+		'password'   => getenv('DB_PASS'),
+		'persistent' => FALSE,
+	],
+	'table_prefix' => '',
+	'charset'      => 'utf8',
+	'caching'      => TRUE,
+	'profiling'    => TRUE,
+];
+
+// If multisite is enabled
+if (!empty(getenv("MULTISITE_DOMAIN"))) {
+	// Use this config for the multisite db
+	return [
+		// Just define basics for default connection
+		'default'   => [
+			'type'         => getenv('DB_TYPE'),
+			'connection'   => [ 'persistent' => FALSE, ],
+			'table_prefix' => '',
+			'charset'      => 'utf8',
+			'caching'      => TRUE,
+			'profiling'    => TRUE,
+		],
+		'multisite' => $config
+	];
+} else {
+	// Otherwise this is the platform DB config
+	return [
+		'default' => $config
+	];
+}

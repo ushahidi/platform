@@ -93,7 +93,7 @@ Feature: Testing the Layers API
         When I request "/layers"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Creating a new Layer with missing data fails
         Given that I want to make a new "Layer"
@@ -102,13 +102,13 @@ Feature: Testing the Layers API
             {
                 "name":"test",
                 "data_url":"http://ushahidi-platform.dev/media/test.geojson",
-                "type":"geojson",
+                "type":"geojson"
             }
             """
         When I request "/layers"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Creating a new Layer with no url or media fails
         Given that I want to make a new "Layer"
@@ -124,7 +124,7 @@ Feature: Testing the Layers API
         When I request "/layers"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Creating a new Layer invalid media fails
         Given that I want to make a new "Layer"
@@ -141,7 +141,7 @@ Feature: Testing the Layers API
         When I request "/layers"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Updating a Layer
         Given that I want to update a "Layer"

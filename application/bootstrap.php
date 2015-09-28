@@ -66,6 +66,11 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 I18n::lang('en-us');
 
 /**
+ * Add response message for HTTP 422
+ */
+Kohana_Response::$messages[422] = 'Unprocessable Entity';
+
+/**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
  *
  * Note: If you supply an invalid environment name 'development' will be used instead

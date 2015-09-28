@@ -41,8 +41,10 @@ function service($what = null)
 
 // A special configuration group called "features" stores a list of feature
 // toggles. These switches are used to enable and disable specific aspects
-// of the platform. Often, features are used to to toggle beta or debugging
-// code on and off. To make this as easy as possible, we define a global
+// of the platform for varying levels of subscription to Ushahidi-managed
+// deployments.
+
+// To make this as easy as possible, we define a global
 // feature() function that always responds boolean.
 //
 // **Features that do not exist will always return `false`.**
@@ -69,9 +71,9 @@ $di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
 
 // Any command can be registered with the console app.
 $di->params['Ushahidi\Console\Application']['injectCommands'] = [];
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Import');
 
 // Set up Import command
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\Import');
 $di->setter['Ushahidi\Console\Import']['setReaderMap'] = [];
 $di->setter['Ushahidi\Console\Import']['setReaderMap']['csv'] = $di->lazyGet('filereader.csv');
 $di->setter['Ushahidi\Console\Import']['setTransformer'] = $di->lazyGet('transformer.mapping');
@@ -80,6 +82,31 @@ $di->setter['Ushahidi\Console\Import']['setImportUsecase'] = $di->lazy(function 
 			->get('posts', 'import')
 			// Override authorizer for console
 			->setAuthorizer($di->get('authorizer.console'));
+});
+
+// User command
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\User');
+$di->setter['Ushahidi\Console\Command\User']['setRepo'] = $di->lazyGet('repository.user');
+$di->setter['Ushahidi\Console\Command\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
+
+// Config commands
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ConfigGet');
+$di->setter['Ushahidi\Console\Command\ConfigGet']['setUsecase'] = $di->lazy(function () use ($di) {
+	return service('factory.usecase')
+			->get('config', 'read')
+			// Override authorizer for console
+			->setAuthorizer($di->get('authorizer.console'))
+			// Override formatter for console
+			->setFormatter($di->get('formatter.entity.console'));
+});
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ConfigSet');
+$di->setter['Ushahidi\Console\Command\ConfigSet']['setUsecase'] = $di->lazy(function () use ($di) {
+	return service('factory.usecase')
+			->get('config', 'update')
+			// Override authorizer for console
+			->setAuthorizer($di->get('authorizer.console'))
+			// Override formatter for console
+			->setFormatter($di->get('formatter.entity.console'));
 });
 
 // Validators are used to parse **and** verify input data used for write operations.

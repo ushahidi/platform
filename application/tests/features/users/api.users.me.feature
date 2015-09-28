@@ -7,7 +7,7 @@ Feature: Testing the current user API
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
-		And the "username" property equals "admin"
+		And the "email" property equals "admin@ushahidi.com"
 		Then the guzzle status code should be 200
 
 	@oauth2Skip
@@ -17,8 +17,7 @@ Feature: Testing the current user API
 			"""
 			{
 				"email":"admin@v3.ushahidi.com",
-				"realname":"Admin User",
-				"username":"admin"
+				"realname":"Admin User"
 			}
 			"""
 		And that its "id" is "me"
@@ -46,8 +45,7 @@ Feature: Testing the current user API
 			"""
 			{
 				"email":"test2@v3.ushahidi.com",
-				"realname":"Test User, Jr",
-				"username":"test2"
+				"realname":"Test User, Jr"
 			}
 			"""
 		And that its "id" is "me"

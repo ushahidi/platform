@@ -70,7 +70,7 @@ Feature: Testing the Posts API
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the guzzle status code should be 400
+		Then the guzzle status code should be 422
 
 	@create
 	Scenario: Creating a new Post with too many values for attribute returns an error
@@ -96,7 +96,7 @@ Feature: Testing the Posts API
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the guzzle status code should be 400
+		Then the guzzle status code should be 422
 
 	@create
 	Scenario: Creating an Post without required fields returns an error
@@ -123,7 +123,7 @@ Feature: Testing the Posts API
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the guzzle status code should be 400
+		Then the guzzle status code should be 422
 
 	@create
 	Scenario: Creating an Post with existing user returns an error
@@ -152,7 +152,7 @@ Feature: Testing the Posts API
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the guzzle status code should be 400
+		Then the guzzle status code should be 422
 
 	@create
 	Scenario: Creating a Post with existing user by ID (authorized as admin user)
@@ -436,8 +436,8 @@ Feature: Testing the Posts API
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the guzzle status code should be 400
-	
+		Then the guzzle status code should be 422
+
 	@resetFixture @update
 	Scenario: A normal user updating a post with a new user id should get access denied
 		Given that I want to update a "Post"
@@ -558,7 +558,7 @@ Feature: Testing the Posts API
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "errors" property
-		Then the guzzle status code should be 400
+		Then the guzzle status code should be 422
 
 	@resetFixture @search
 	Scenario: Listing All Posts
@@ -753,12 +753,12 @@ Feature: Testing the Posts API
 		And the "count" property equals "2"
 		Then the guzzle status code should be 200
 
-	@resetFixture @search @runonly
+	@resetFixture @search
 	Scenario: Filter All Posts by single stage
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			current_stage=2
+			current_stage=3
 			"""
 		When I request "/posts"
 		Then the response is JSON
@@ -767,7 +767,7 @@ Feature: Testing the Posts API
 		And the "count" property equals "1"
 		Then the guzzle status code should be 200
 
-	@resetFixture @search @runonly
+	@resetFixture @search
 	Scenario: Filter All Posts by multiple stages
 		Given that I want to get all "Posts"
 		And that the request "query string" is:

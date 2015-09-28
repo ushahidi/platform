@@ -54,7 +54,8 @@ class Ushahidi_Validator_Tag_Update extends Validator
 				['color'],
 			],
 			'icon' => [
-				['alpha_dash'],
+				// alphas, dashes and spaces
+				['regex', [':value', '/^[\pL\s\_\-]++$/uD']],
 			],
 			'priority' => [
 				['digit'],

@@ -11,12 +11,14 @@
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
+use Ushahidi\Core\Entity\Contact;
+
 class DataProvider_Twitter extends DataProvider {
 
 	/**
 	 * Contact type user for this provider
 	 */
-	public $contact_type = Model_Contact::TWITTER;
+	public $contact_type = Contact::TWITTER;
 
 	const MAX_REQUESTS_PER_WINDOW = 180;
 	const REQUEST_WINDOW = 900; // Twitter request window in seconds
@@ -28,6 +30,15 @@ class DataProvider_Twitter extends DataProvider {
 		// XXX: Store state in database config for now
 		$config = Kohana::$config;
 		$this->_initialize($config);
+
+    //Check if data provider is available
+    $providers_available = $config->load('features.data-providers');
+
+    if ( !$providers_available['twitter'] ) 
+    {
+      Kohana::$log->add(Log::WARNING, 'The twitter data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+      return 0;
+    }
 
 		// check if we have reached our rate limit
 		if ( !$this->_can_make_request())

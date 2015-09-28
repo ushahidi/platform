@@ -23,7 +23,7 @@ return array(
 		'twilio' => FALSE,
 		'nexmo' => FALSE,
 		'twitter' => FALSE,
-		'notifications' => FALSE
+		'frontlinesms' => FALSE
 	)
 
 	// Config params for individual providers

@@ -27,7 +27,7 @@ Feature: Testing the Sets Posts API
         When I request "/collections/1/posts/"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     @resetFixture
     Scenario: Listing All Posts in a Collection
