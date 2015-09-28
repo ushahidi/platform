@@ -74,5 +74,4 @@ trait Event
 		
 		$this->addListener($this->event, $listener);
 	}
-
 }
