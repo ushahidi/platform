@@ -132,7 +132,7 @@ Feature: Testing the Translations API
         When I request "/posts/105/translations"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Creating a new Translation with same lang as existing Translation
         Given that I want to make a new "Translation"
@@ -154,7 +154,7 @@ Feature: Testing the Translations API
         When I request "/posts/105/translations"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Updating a Translation
         Given that I want to update a "Translation"

@@ -48,7 +48,7 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Creating a tag with a duplicate slug
         Given that I want to make a new "Tag"
@@ -64,7 +64,7 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Check slug is generated on new tag
         Given that I want to make a new "Tag"
@@ -116,7 +116,7 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Updating a Tag
         Given that I want to update a "Tag"

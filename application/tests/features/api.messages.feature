@@ -34,7 +34,7 @@ Feature: Testing the Messages API
         When I request "/messages"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Updating an incoming message fails
         Given that I want to update a "Message"
