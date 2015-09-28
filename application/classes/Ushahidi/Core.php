@@ -473,6 +473,8 @@ abstract class Ushahidi_Core {
 		$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer'));
 
 		// Event listener for the Set repo
+		$di->setter['Ushahidi_Repository_Set']['setEvent'] = 'PostSetEvent';
+		
 		$di->setter['Ushahidi_Repository_Set']['setListener'] = 
 			$di->lazyNew('Ushahidi_Listener_PostSetListener');
 

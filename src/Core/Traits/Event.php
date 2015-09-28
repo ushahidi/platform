@@ -19,6 +19,7 @@ use League\Event\ListenerInterface;
 trait Event
 {
 	protected $emitter;
+	protected $event;
 
 	public function setEmitter(EmitterInterface $emitter)
 	{
@@ -59,4 +60,19 @@ trait Event
 
 		return $this;
 	}
+
+	public function setEvent($event)
+	{
+		$this->event = $event;
+	}
+
+	public function setListener(ListenerInterface $listener)
+	{
+		if (! $this->event) {
+			throw new \LogicException('Cannot add a listener without an event');
+		}
+		
+		$this->addListener($this->event, $listener);
+	}
+
 }

@@ -38,11 +38,6 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 		$this->savedSearch = $savedSearch;
 	}
 
-	public function setListener(ListenerInterface $listener)
-	{
-		$this->listener = $listener;
-	}
-
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -242,10 +237,7 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 
 		// Fire event after post is added
 		// so that this is queued for the Notifications data provider
-		$event = 'PostSetEvent';
-
-		$this->addListener($event, $this->listener);
-		$this->emit($event, $set_id, $post_id);
+		$this->emit($this->event, $set_id, $post_id);
 	}
 
 }
