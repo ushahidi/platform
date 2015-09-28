@@ -14,7 +14,8 @@ $options = null;
 // Build initial error
 $error = [
 	'status' => $code,
-	'title' => $message
+	'title' => $message,
+	'message' => $message,
 ];
 
 // If we're in dev mode
