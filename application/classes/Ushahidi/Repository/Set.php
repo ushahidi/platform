@@ -15,15 +15,23 @@ use Ushahidi\Core\Entity\SavedSearch;
 use Ushahidi\Core\Entity\SetRepository;
 use Ushahidi\Core\SearchData;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetRepository
 {
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
 
+	// Use Event trait to trigger events
+	use Event;
+
 	/**
 	 * @var  Boolean  Return SavedSearches (when true) or vanilla Sets
 	 **/
 	protected $savedSearch = false;
+
+	protected $listener;
 
 	public function setSavedSearch($savedSearch)
 	{
@@ -226,6 +234,10 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 			->columns(['post_id', 'set_id'])
 			->values(array_values(compact('post_id', 'set_id')))
 			->execute($this->db);
+
+		// Fire event after post is added
+		// so that this is queued for the Notifications data provider
+		$this->emit($this->event, $set_id, $post_id);
 	}
 
 }

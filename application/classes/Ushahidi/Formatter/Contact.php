@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Contact Validator
+ * Ushahidi API Formatter for Contacts
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,17 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Ushahidi_Validator_Contact_Create extends Ushahidi_Validator_Contact_Update
+use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+
+class Ushahidi_Formatter_Contact extends Ushahidi_Formatter_API
 {
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'type' => [
-				['not_empty'],
-			],
-			'contact' => [
-				['not_empty'],
-			]
-		]);
-	}
+	use FormatterAuthorizerMetadata;
 }

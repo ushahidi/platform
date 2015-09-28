@@ -16,11 +16,24 @@ use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Usecase\CreateRepository;
 use Ushahidi\Core\Usecase\UpdateRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\AdminAccess;
 
 class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	ContactRepository, CreateRepository, UpdateRepository, SearchRepository
 {
+	use UserContext;
+	use AdminAccess;
 
+	protected function getId(Entity $entity)
+	{
+		$result = $this->selectQuery()
+			->where('user_id', '=', $entity->user_id)
+			->and_where('contact', '=', $entity->contact)
+			->execute($this->db);
+		return $result->get('id', 0);
+	}
+	
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -46,6 +59,13 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	protected function setSearchConditions(SearchData $search)
 	{
 		$query = $this->search_query;
+
+		$user = $this->getUser();
+
+		// Limit search to user's records unless they are admin
+		if (! $this->isUserAdmin($user)) {
+			$search->user = $user->getId();
+		}
 
 		foreach ([
 			'user',
@@ -73,6 +93,15 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	// CreateRepository
 	public function create(Entity $entity)
 	{
+		$id = $this->getId($entity);
+
+		// @todo perhaps allow fields for existing entity to be defined when an entity is being created
+		if ($id) {
+			// No need to insert a new record.
+			// Instead return the id of the contact that exists
+			return $id;
+		}
+		
 		$state = [
 			'created'  => time(),
 		];

@@ -250,4 +250,3 @@ Route::set('default', '('.$apiBase.')')
 		'action'     => 'index',
 		'directory'  => 'Api'
 	));
-

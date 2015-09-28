@@ -39,6 +39,7 @@
         "league/csv": "~7.1@dev",
         "ddeboer/data-import": "dev-master",
         "symfony/property-access": "~2.5",
+        "league/event": "^2.2@dev",
         "league/url": "~3.0"
     },
     "require-dev": {

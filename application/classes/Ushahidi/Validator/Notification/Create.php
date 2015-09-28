@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Contact Validator
+ * Ushahidi Notification Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,17 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Ushahidi_Validator_Contact_Create extends Ushahidi_Validator_Contact_Update
+class Ushahidi_Validator_Notification_Create extends Ushahidi_Validator_Notification_Update
 {
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'type' => [
-				['not_empty'],
-			],
-			'contact' => [
-				['not_empty'],
-			]
-		]);
-	}
+
 }

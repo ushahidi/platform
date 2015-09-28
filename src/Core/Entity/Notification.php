@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Contact Entity
+ * Ushahidi Notification Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,28 +13,21 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class Contact extends StaticEntity
+class Notification extends StaticEntity
 {
-	// Valid contact types
-	const EMAIL    = 'email';
-	const PHONE    = 'phone';
-	const TWITTER  = 'twitter';
-
 	protected $id;
 	protected $user_id;
-	protected $data_provider;
-	protected $type;
-	protected $contact;
+	protected $set_id;
 	protected $created;
 	protected $updated;
-	protected $can_notify;
 
 	// StatefulData
 	protected function getDerived()
 	{
 		// Foreign key alias
 		return [
-			'user_id' => ['user', 'user.id']
+			'user_id' => ['user', 'user.id'],
+			'set_id'  => ['set', 'set.id']
 		];
 	}
 
@@ -43,20 +36,24 @@ class Contact extends StaticEntity
 	{
 		return [
 			'id'            => 'int',
-			'user'          => false, /* alias */
+			'user'          => false,
 			'user_id'       => 'int',
-			'data_provider' => 'string',
-			'type'          => 'string',
-			'contact'       => 'string',
+			'set'           => false,
+			'set_id'        => 'int',
 			'created'       => 'int',
 			'updated'       => 'int',
-			'can_notify'    => 'bool',
 		];
 	}
 
 	// Entity
 	public function getResource()
 	{
-		return 'contacts';
+		return 'notifications';
+	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		return ['id', 'user_id', 'set_id', 'created'];
 	}
 }

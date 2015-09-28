@@ -824,6 +824,15 @@ oauth_scopes:
     id: 13
     scope: savedsearches
     name: savedsearches
+  -
+    id: 14
+    scope: notifications
+    name: notifications
+  -
+    id: 15
+    scope: contacts
+    name: contacts
+
 oauth_session_token_scopes:
   # for testingtoken
   -
@@ -876,6 +885,12 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 13
+  -
+    session_access_token_id: 2
+    scope_id: 14
+  -
+    session_access_token_id: 2
+    scope_id: 15
 
   # for testbasicuser
   -
@@ -911,6 +926,13 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 13
+  -
+    session_access_token_id: 3
+    scope_id: 14
+  -
+    session_access_token_id: 3
+    scope_id: 15
+
   # for testadminuser
   -
     session_access_token_id: 4
@@ -983,6 +1005,12 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 13
+  -
+    session_access_token_id: 5
+    scope_id: 14
+  -
+    session_access_token_id: 5
+    scope_id: 15
   # for testanon
   -
     session_access_token_id: 6
@@ -1113,6 +1141,11 @@ contacts:
     user_id:
     contact: 773456789
     type: "phone"
+  -
+    id: 4
+    user_id: 1
+    contact: robbie@ushahidi.com
+    type: "email"
 messages:
   -
     id: 1
@@ -1225,3 +1258,26 @@ layers:
     options: "{}"
     active: 0
     visible_by_default: 1
+# Notification subscriptions
+notifications:
+  -
+    id: 2
+    user_id: 1
+    set_id: 2
+  -
+    id: 3
+    user_id: 1
+    set_id: 3
+  -
+    id: 4
+    user_id: 1
+    set_id: 4
+  -
+    id: 5
+    user_id: 1
+    set_id: 4
+  -
+    id: 6
+    user_id: 4
+    set_id: 4
+    
