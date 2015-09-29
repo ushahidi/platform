@@ -50,6 +50,16 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('cdn')->as_array();
 		});
 
+		$di->set('tool.uploader.prefix', function() use ($di) {
+			// Is this a multisite install?
+			$multisite = Kohana::$config->load('multisite.enabled');
+			if ($multisite) {
+				return $di->get('multisite')->getCdnPrefix();
+			}
+
+			return '';
+		});
+
 		// Multisite utility class
 		$di->set('multisite', $di->lazyNew('Ushahidi_Multisite'));
 		$di->params['Ushahidi_Multisite'] = [
@@ -524,8 +534,8 @@ abstract class Ushahidi_Core {
 
 		// Event listener for the Set repo
 		$di->setter['Ushahidi_Repository_Set']['setEvent'] = 'PostSetEvent';
-		
-		$di->setter['Ushahidi_Repository_Set']['setListener'] = 
+
+		$di->setter['Ushahidi_Repository_Set']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_PostSetListener');
 
 		// NotificationQueue repo for Set listener
