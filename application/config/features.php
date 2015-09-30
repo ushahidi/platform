@@ -18,7 +18,7 @@ return [
 		'list' => TRUE,
 		'chart' => TRUE,
 		'timeline' => TRUE,
-		'activity' => FALSE,
+		'activity' => TRUE,
 	],
 
 	// Data sources
@@ -35,7 +35,7 @@ return [
 	// Where TRUE is infinite and an integer defines a limit
 	'limits' => [
 		'posts' => TRUE,
-		'forms' => 2,
+		'forms' => TRUE,
 		'admin_users' => TRUE,
 	],
 ];
