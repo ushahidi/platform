@@ -11,6 +11,8 @@
 
 return array(
 
+	'baseurl' => false,
+
 	// The default configuration using a local file system setup
 	'type' => 'local',
 	'local' => [

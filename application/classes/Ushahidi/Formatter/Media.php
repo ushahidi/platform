@@ -26,12 +26,12 @@ class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 
 		return $data + [
 			// Add additional URLs and sizes
-			'medium_file_url'    => $this->resized_url($medium_width, $medium_height, $media->o_filename),
-			'medium_width'       => $medium_width,
-			'medium_height'      => $medium_height,
-			'thumbnail_file_url' => $this->resized_url($thumbnail_width, $thumbnail_height, $media->o_filename),
-			'thumbnail_width'    => $thumbnail_width,
-			'thumbnail_height'   => $thumbnail_height,
+			// 'medium_file_url'    => $this->resized_url($medium_width, $medium_height, $media->o_filename),
+			// 'medium_width'       => $medium_width,
+			// 'medium_height'      => $medium_height,
+			// 'thumbnail_file_url' => $this->resized_url($thumbnail_width, $thumbnail_height, $media->o_filename),
+			// 'thumbnail_width'    => $thumbnail_width,
+			// 'thumbnail_height'   => $thumbnail_height,
 
 			// Add the allowed HTTP methods
 			'allowed_methods' => $this->getAllowedPrivs($media),
@@ -56,7 +56,11 @@ class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 
 	protected function format_o_filename($value)
 	{
-		return URL::site(Media::uri($this->get_relative_path() . $value), Request::current());
+		if ($cdnBaseUrl = Kohana::$config->load('cdn.baseurl')) {
+			return $cdnBaseUrl . $value;
+		} else {
+			return URL::site(Media::uri($this->get_relative_path() . $value), Request::current());
+		}
 	}
 
 	private function get_relative_path()
