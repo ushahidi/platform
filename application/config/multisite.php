@@ -33,8 +33,10 @@
  *
  * - boolean  enabled     enable switching site based on subdomain           FALSE
  * - string   domain      parent domain for site ie. ushahidi.io
+ * - string   email       from email for password resets, etc
  */
 return [
 	'enabled' => !empty(getenv("MULTISITE_DOMAIN")),
-	'domain'  => getenv("MULTISITE_DOMAIN")
+	'domain'  => getenv("MULTISITE_DOMAIN"),
+    'email'   => getenv("MULTISITE_EMAIL"),
 ];

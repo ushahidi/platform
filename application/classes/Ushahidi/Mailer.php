@@ -11,6 +11,7 @@
 
 use Ushahidi\Core\Tool\Mailer;
 use Shadowhand\Email;
+use League\Url\Url;
 
 class Ushahidi_Mailer implements Mailer
 {
@@ -29,28 +30,31 @@ class Ushahidi_Mailer implements Mailer
 	{
 		$site_name = Kohana::$config->load('site.name');
 		$site_email = Kohana::$config->load('site.email');
+		$multisite_email = Kohana::$config->load('multisite.email');
 		$client_url = Kohana::$config->load('site.client_url');
 
-		$site_email = $site_email ? $site_email : 'noreply@' . URL::base();
+		// @todo make this more robust
+		if ($multisite_email) {
+			$from_email = $multisite_email;
+		} elseif ($site_email) {
+			$from_email = $site_email;
+		} else {
+			$url = Url::createFromServer($_SERVER);
+			$host = $url->getHost()->toUnicode();
+			$from_email = 'noreply@' . $host;
+		}
+
+		$view = View::factory('email/forgot-password');
+		$view->site_name = $site_name;
+		$view->token = $params['token'];
+		$view->client_url = $client_url;
+		$message = $view->render();
 
 		$subject = $site_name . ': Password reset';
-		$message =
-'Hello,
 
-A request has been made to reset your account password. To reset your password, you will need to submit this token in order to verify that the request was legitimate.
-
-Your password reset token is ' . $params['token'] . "\n\n";
-
-if ($client_url) {
-	$message .= "Click on the URL below to enter the token and proceed with resetting your password.\n\n";
-	$message .= $client_url . '/forgotpassword/confirm/'.urlencode($params['token']);
-}
-
-$message .= 'Thank you.';
-
-		$email = Email::factory($subject, $message)
+		$email = Email::factory($subject, $message, 'text/html')
 	        ->to($to)
-	        ->from($site_email, $site_name)
+	        ->from($from_email, $site_name)
 	        ->send()
 	        ;
 	}
