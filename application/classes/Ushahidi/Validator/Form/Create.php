@@ -15,6 +15,21 @@ class Ushahidi_Validator_Form_Create extends Ushahidi_Validator_Form_Update
 	{
 		return array_merge_recursive(parent::getRules(), [
 			'name' => [['not_empty']],
+			[[$this, 'checkPostTypeLimit'], [':validation']],
 		]);
+	}
+
+	public function checkPostTypeLimit (Validation $validation)
+	{
+		$config = \Kohana::$config->load('features.limits');
+
+		if ($config['forms'] !== TRUE) {
+
+			$total_forms = $this->repo->getTotalCount();
+
+			if ($total_forms >= $config['forms']) {
+				$validation->error('name', 'postTypeLimitReached');
+			}
+		}
 	}
 }
