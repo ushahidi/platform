@@ -44,4 +44,18 @@ class Ushahidi_Validator_Form_Update extends Validator
 			],
 		];
 	}
+
+  public function checkPostTypeLimit (Validation $validation)
+	{
+		$config = \Kohana::$config->load('features.limits');
+
+		if ($config['forms'] !== TRUE) {
+
+			$total_forms = $this->repo->getTotalCount();
+
+			if ($total_forms >= $config['forms']) {
+				$validation->error('name', 'postTypeLimitReached');
+			}
+		}
+	}
 }
