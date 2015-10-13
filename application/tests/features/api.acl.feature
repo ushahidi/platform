@@ -278,7 +278,7 @@ Feature: API Access Control Layer
         And that the request "Authorization" header is "Bearer testadminuser"
         When I request "/config"
         Then the response is JSON
-        And the "count" property equals "5"
+        And the "count" property equals "6"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Configs as anonymous user
