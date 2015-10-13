@@ -25,4 +25,6 @@ interface ContactRepository extends
 	 * @return boolean
 	 */
 	public function getByContact($contact, $type);
+
+	public function getNotificationContacts($set_id = 0, $limit = false, $offset = 0);
 }

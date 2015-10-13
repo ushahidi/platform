@@ -124,4 +124,32 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	{
 		return $this->getEntity($this->selectOne(compact('contact', 'type')));
 	}
+
+	// ContactRepository
+	public function getNotificationContacts($set_id = 0, $limit = false, $offset = 0)
+	{
+		$query = DB::select('contacts.id', 'contacts.type', 'contacts.contact')
+			->distinct(TRUE)
+			->from('contacts')
+			->join('notifications')
+			->on('contacts.user_id', '=', 'notifications.user_id')
+			->where('contacts.can_notify', '=', '1');
+
+		if ($set_id) {
+			$query->and_where('set_id', '=', $set_id);
+		}
+
+		if ($limit) {
+			$query->limit($limit);
+		}
+
+		if ($offset) {
+			$query->offset($offset);
+		}
+
+		$results =  $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
 }
