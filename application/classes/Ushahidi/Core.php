@@ -91,18 +91,19 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Dataprovider');
 		$di->setter['Ushahidi_Console_Dataprovider']['setRepo'] = $di->lazyGet('repository.dataprovider');
 
-		// Notification command
-		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Notification');
-		$di->setter['Ushahidi_Console_Notification']['setPostRepo'] = $di->lazyGet('repository.post');
-		$di->setter['Ushahidi_Console_Notification']['setMessageRepo'] = $di->lazyGet('repository.message');
-		$di->setter['Ushahidi_Console_Notification']['setNotificationQueueRepo'] = $di->lazyGet('repository.notification.queue');
+		// Notification Collection command
+		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Notification_Collection');
+		$di->setter['Ushahidi_Console_Notification_Collection']['setPostRepo'] = $di->lazyGet('repository.post');
+		$di->setter['Ushahidi_Console_Notification_Collection']['setMessageRepo'] = $di->lazyGet('repository.message');
+		$di->setter['Ushahidi_Console_Notification_Collection']['setContactRepo'] = $di->lazyGet('repository.contact');
+		$di->setter['Ushahidi_Console_Notification_Collection']['setNotificationQueueRepo'] = $di->lazyGet('repository.notification.queue');
 
-		// SavedSearch command
-		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_SavedSearch');
-		$di->setter['Ushahidi_Console_SavedSearch']['setSetRepo'] = $di->lazyGet('repository.savedsearch');
-		$di->setter['Ushahidi_Console_SavedSearch']['setPostRepo'] = $di->lazyGet('repository.post');
-		$di->setter['Ushahidi_Console_SavedSearch']['setMessageRepo'] = $di->lazyGet('repository.message');
-		$di->setter['Ushahidi_Console_SavedSearch']['setNotificationQueueRepo'] = $di->lazyGet('repository.notification.queue');
+		// Notification SavedSearch command
+		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Notification_SavedSearch');
+		$di->setter['Ushahidi_Console_Notification_SavedSearch']['setSetRepo'] = $di->lazyGet('repository.savedsearch');
+		$di->setter['Ushahidi_Console_Notification_SavedSearch']['setPostRepo'] = $di->lazyGet('repository.post');
+		$di->setter['Ushahidi_Console_Notification_SavedSearch']['setMessageRepo'] = $di->lazyGet('repository.message');
+		$di->setter['Ushahidi_Console_Notification_SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
 
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {

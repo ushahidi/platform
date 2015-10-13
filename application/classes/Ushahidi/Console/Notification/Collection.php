@@ -14,18 +14,25 @@ use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\NotificationQueueRepository;
+use Ushahidi\Core\Entity\ContactRepository;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Ushahidi_Console_Notification extends Command
+class Ushahidi_Console_Notification_Collection extends Command
 {
 	private $db;
 	private $postRepository;
+	private $contactRepository;
 	private $messageRepository;
 	private $notificationQueueRepository;
+
+	public function setContactRepo(ContactRepository $repo)
+	{
+		$this->contactRepository = $repo;
+	}
 
 	public function setPostRepo(PostRepository $repo)
 	{
@@ -45,8 +52,8 @@ class Ushahidi_Console_Notification extends Command
 	protected function configure()
 	{
 		$this
-			->setName('notification')
-			->setDescription('Manage notifications')
+			->setName('notification:collection')
+			->setDescription('Manage notifications for Collections')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, queue', 'list')
 			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of notifications')
 			;
@@ -78,7 +85,7 @@ class Ushahidi_Console_Notification extends Command
 
 		foreach ($notifications as $notification) {
 			// Get contacts and generate messages from new notification
-			$count+=$this->_generate_messages($notification);
+			$count+=$this->generateMessages($notification);
 		}
 
 		// Finally commit changes
@@ -91,7 +98,7 @@ class Ushahidi_Console_Notification extends Command
 		];
 	}
 
-	private function _generate_messages($notification)
+	private function generateMessages($notification)
 	{
 		// Delete queued notification
 		$this->notificationQueueRepository->delete($notification);
@@ -106,26 +113,17 @@ class Ushahidi_Console_Notification extends Command
 
 		// Get contacts (max $limit at a time) and generate messages.
 		while (TRUE) {
-			$contacts = DB::select('contacts.id', 'contacts.type')
-				->distinct(TRUE)
-				->from('contacts')
-				->limit($limit)
-				->offset($offset)
-				->join('notifications')
-				->on('contacts.user_id', '=', 'notifications.user_id')
-				->where('set_id', '=', $notification->set_id)
-				->and_where('contacts.can_notify', '=', '1')
-				->execute($this->db)
-				->as_array();
-
+			$contacts = $this->contactRepository
+				->getNotificationContacts($notification->set_id, $limit, $offset);
+			
 			// Create outgoing messages
 			foreach ($contacts as $contact) {
 				$state = [
-					'contact_id' => $contact['id'],
+					'contact_id' => $contact->id,
 					'post_id' => $post->id,
 					'title' => $post->title,
 					'message' => $post->content,
-					'type' => $contact['type']
+					'type' => $contact->type
 				];
 
 				$entity = $this->messageRepository->getEntity();
