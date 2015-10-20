@@ -68,9 +68,17 @@ Feature: Testing the Form Stages API
         And the response has a "errors" property
         Then the guzzle status code should be 404
 
-    Scenario: Listing All Stages
+    Scenario: Listing All Stages for a form
         Given that I want to get all "Stages"
         When I request "/forms/1/stages"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        Then the guzzle status code should be 200
+
+    Scenario: Listing All Stages
+        Given that I want to get all "Stages"
+        When I request "/forms/stages"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"

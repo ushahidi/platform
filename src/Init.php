@@ -125,6 +125,8 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'forms'                => $di->lazyGet('authorizer.form'),
 	'form_attributes'      => $di->lazyGet('authorizer.form_attribute'),
 	'form_stages'          => $di->lazyGet('authorizer.form_stage'),
+	'formattributes'       => $di->lazyGet('authorizer.readonly'),
+	'formstages'           => $di->lazyGet('authorizer.readonly'),
 	'tags'                 => $di->lazyGet('authorizer.tag'),
 	'layers'               => $di->lazyGet('authorizer.layer'),
 	'media'                => $di->lazyGet('authorizer.media'),
@@ -148,7 +150,9 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
 	'forms'                => $di->lazyGet('repository.form'),
 	'form_attributes'      => $di->lazyGet('repository.form_attribute'),
+	'formattributes'       => $di->lazyGet('repository.form_attribute'),
 	'form_stages'          => $di->lazyGet('repository.form_stage'),
+	'formstages'           => $di->lazyGet('repository.form_stage'),
 	'layers'               => $di->lazyGet('repository.layer'),
 	'media'                => $di->lazyGet('repository.media'),
 	'messages'             => $di->lazyGet('repository.message'),
@@ -334,6 +338,8 @@ $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\S
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
+
+$di->set('authorizer.readonly', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ReadOnlyAuthorizer'));
 
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [

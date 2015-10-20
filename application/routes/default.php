@@ -26,6 +26,24 @@ Route::set('media', 'media/<filepath>', array(
 	));
 
 /**
+ * List all form stages and attributes
+ */
+Route::set('form-stages', $apiBase . 'forms/stages')
+	->defaults(array(
+		'action'     => 'index',
+		'controller' => 'FormStages',
+		//'directory'  => '/'
+	));
+
+Route::set('form-attributes', $apiBase . 'forms/attributes')
+	->defaults(array(
+		'action'     => 'index',
+		'controller' => 'FormAttributes',
+		//'directory'  => '/'
+	));
+
+
+/**
  * Set Posts API SubRoute
  */
 Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',
