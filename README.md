@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/ushahidi/platform.png?label=ready&title=Ready)](https://waffle.io/ushahidi/platform)
 [download]: https://github.com/ushahidi/platform/releases
 [install]: http://docs.ushahidi.org/install/index.html
 [docs]: http://docs.ushahidi.com/
