@@ -27,6 +27,9 @@ class Ushahidi_Validator_User_Register extends Validator
 	{
 
 		return [
+			'realname' => [
+				['max_length', [':value', 150]],
+			],
 			'email' => [
 				['not_empty'],
 				['max_length', [':value', 150]],
