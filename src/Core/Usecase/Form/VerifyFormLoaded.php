@@ -45,7 +45,10 @@ trait VerifyFormLoaded
 	// Usecase
 	public function interact()
 	{
-		$this->verifyFormExists();
+		if ($this->getRequiredIdentifier('form_id')) {
+			$this->verifyFormExists();
+		}
+		
 		return parent::interact();
 	}
 

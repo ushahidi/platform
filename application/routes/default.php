@@ -26,24 +26,6 @@ Route::set('media', 'media/<filepath>', array(
 	));
 
 /**
- * List all form stages and attributes
- */
-Route::set('form-stages', $apiBase . 'forms/stages')
-	->defaults(array(
-		'action'     => 'index',
-		'controller' => 'FormStages',
-		//'directory'  => '/'
-	));
-
-Route::set('form-attributes', $apiBase . 'forms/attributes')
-	->defaults(array(
-		'action'     => 'index',
-		'controller' => 'FormAttributes',
-		//'directory'  => '/'
-	));
-
-
-/**
  * Set Posts API SubRoute
  */
 Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',
@@ -57,18 +39,6 @@ Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',
 		'directory'  => 'Api/Collections'
 	));
 
-/**
- * Forms API SubRoute
- */
-Route::set('forms', $apiBase . 'forms/<form_id>/<controller>(/<id>)',
-	array(
-		'form_id' => '\d+',
-		'id' => '\d+'
-	))
-	->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api/Forms'
-	));
 
 /**
  * Export Posts API SubRoute
@@ -231,6 +201,20 @@ Route::set('api', $apiBase . '(<controller>(/<id>))',
 		'action'     => 'index',
 		'directory'  => 'Api'
 	));
+
+/**
+ * Forms API SubRoute
+ */
+Route::set('forms', $apiBase . 'forms(/<form_id>)/<controller>(/<id>)',
+	array(
+		'form_id' => '\d+',
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api/Forms'
+	));
+
 
 /**
  * Translations API SubRoute
