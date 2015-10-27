@@ -31,4 +31,10 @@ interface PostRepository extends
 	 * @return \Ushahidi\Core\Entity\Post
 	 */
 	public function getByLocale($locale, $parent_id, $type);
+
+	/**
+	 * Get total number of published posts
+	 * @return int
+	 */
+	public function getPublishedTotal();
 }

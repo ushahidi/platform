@@ -469,6 +469,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return (int) $result->get('total', 0);
 	}
 
+	// PostRepository
+	public function getPublishedTotal()
+	{
+		return (int) $this->selectCount(['posts.status' => 'published']);
+	}
+
 	// StatsPostRepository
 	public function getGroupedTotals(SearchData $search)
 	{
