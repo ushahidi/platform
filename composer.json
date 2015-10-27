@@ -33,6 +33,7 @@
         "zeelot/kohana-media": "1.3.*@dev",
         "ext-curl": "*",
         "ext-gd": "*",
+        "ext-imap": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
