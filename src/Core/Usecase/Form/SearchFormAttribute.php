@@ -25,4 +25,9 @@ class SearchFormAttribute extends SearchUsecase
 	// - VerifyEntityLoaded
 	use IdentifyRecords,
 		VerifyEntityLoaded;
+
+	protected function verifyFormExists()
+	{
+		//noop since a form is not required for searches
+	}
 }
