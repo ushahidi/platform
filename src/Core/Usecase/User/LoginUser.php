@@ -16,10 +16,8 @@ use Ushahidi\Core\Tool\PasswordAuthenticator;
 use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\ReadUsecase;
 
-use BehEh\Flaps\Flaps;
+use BehEh\Flaps\Flap;
 use BehEh\Flaps\Throttling\LeakyBucketStrategy;
-use BehEh\Flaps\Throttling\ViolateAlwaysStrategy;
-use BehEh\Flaps\Violation\ThrottlingViolationException;
 
 class LoginUser extends ReadUsecase
 {
@@ -51,10 +49,9 @@ class LoginUser extends ReadUsecase
 	/**
 	 * @param Flaps $rateLimiter
 	 */
-	public function setRateLimiter(Flaps $rateLimiter)
+	public function setRateLimiter(Flap $rateLimiter)
 	{
-		// Create new BehEh\Flaps\Flap called 'login'
-		$this->rateLimiter = $rateLimiter->__get('login');
+		$this->rateLimiter = $rateLimiter;
 	}
 
 	/**

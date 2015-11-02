@@ -542,25 +542,26 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
 			$di->lazyGet('repository.notification.queue');
 
-		// Rate limiter
-		$di->set('ratelimiter.flaps', $di->lazyNew('BehEh\Flaps\Flaps'));
+		// Login rate limiter
+		$di->set('ratelimiter.login', $di->lazyNew('BehEh\Flaps\Flap'));
 
-		$di->params['BehEh\Flaps\Flaps'] = [
-			'adapter' => $di->lazyGet('ratelimiter.flaps.storage')
+		$di->params['BehEh\Flaps\Flap'] = [
+			'storage' => $di->lazyGet('ratelimiter.storage'),
+			'name' => 'login'
 		];
 
 		// Rate limiter storage
-		$di->set('ratelimiter.flaps.storage', $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'));
+		$di->set('ratelimiter.storage', $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'));
 
 		$di->params['BehEh\Flaps\Storage\DoctrineCacheAdapter'] = [
 			'cache' => $di->lazyNew('Doctrine\Common\Cache\ApcCache')
 		];
 
 		// Rate limiter violation handler
-		$di->setter['BehEh\Flaps\Flaps']['setDefaultViolationHandler'] =
+		$di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 			$di->lazyNew('BehEh\Flaps\Violation\ExceptionViolationHandler');
 
-		$di->set('ratelimiter.flaps.throttling', $di->lazyNew('BehEh\Flaps\Throttling\LeakyBucketStrategy'));
+		$di->set('ratelimiter.login.strategy', $di->lazyNew('BehEh\Flaps\Throttling\LeakyBucketStrategy'));
 
 		// 3 requests every 1 minute by default
 		$di->params['BehEh\Flaps\Throttling\LeakyBucketStrategy'] = [
