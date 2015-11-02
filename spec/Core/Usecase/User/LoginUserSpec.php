@@ -16,10 +16,11 @@ use PhpSpec\ObjectBehavior;
 
 class LoginUserSpec extends ObjectBehavior
 {
-	function let(Authorizer $auth, Formatter $format, UserRepository $repo, PasswordAuthenticator $authenticator, Flap $rateLimiter, LeakyBucketStrategy $throttlingStrategy)
+	function let(Authorizer $auth, Formatter $format, UserRepository $repo,
+				 PasswordAuthenticator $authenticator, Flap $rateLimiter, LeakyBucketStrategy $throttlingStrategy)
 	{
 		$repo->beADoubleOf('Ushahidi\Core\Usecase\ReadRepository');
-	   
+
 		$this->setAuthorizer($auth);
 		$this->setFormatter($format);
 		$this->setRepository($repo);
