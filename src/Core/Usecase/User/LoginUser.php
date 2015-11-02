@@ -16,12 +16,27 @@ use Ushahidi\Core\Tool\PasswordAuthenticator;
 use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\ReadUsecase;
 
+use BehEh\Flaps\Flaps;
+use BehEh\Flaps\Throttling\LeakyBucketStrategy;
+use BehEh\Flaps\Throttling\ViolateAlwaysStrategy;
+use BehEh\Flaps\Violation\ThrottlingViolationException;
+
 class LoginUser extends ReadUsecase
 {
 	/**
 	 * @var Authenticator
 	 */
 	protected $authenticator;
+
+	/**
+	 * @var BehEh\Flaps\Flap
+	 */
+	protected $rateLimiter;
+
+	/**
+	 * @var BehEh\Flaps\Throttling\LeakyBucketStrategy
+	 */
+	protected $throttlingStrategy;
 
 	/**
 	 * @param  Authenticator $authenticator
@@ -33,11 +48,32 @@ class LoginUser extends ReadUsecase
 		return $this;
 	}
 
+	/**
+	 * @param Flaps $rateLimiter
+	 */
+	public function setRateLimiter(Flaps $rateLimiter)
+	{
+		// Create new BehEh\Flaps\Flap called 'login'
+		$this->rateLimiter = $rateLimiter->__get('login');
+	}
+
+	/**
+	 * @param LeakyBucketStrategy $throttlingStrategy
+	 */
+	public function setThrottlingStrategy(LeakyBucketStrategy $throttlingStrategy)
+	{
+		$this->throttlingStrategy = $throttlingStrategy;
+	}
+
 	// Usecase
 	public function interact()
 	{
 		// Fetch the entity, using provided identifiers...
 		$entity = $this->getEntity();
+
+		// Rate limit login attempts
+		$this->rateLimiter->pushThrottlingStrategy($this->throttlingStrategy);
+		$this->rateLimiter->limit($entity->email);
 
 		// ... verify that the password matches
 		// @todo: handle the other bits of A1, like rehashing and brute force checks

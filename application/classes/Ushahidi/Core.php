@@ -542,6 +542,32 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
 			$di->lazyGet('repository.notification.queue');
 
+		// Rate limiter
+		$di->set('ratelimiter.flaps', $di->lazyNew('BehEh\Flaps\Flaps'));
+
+		$di->params['BehEh\Flaps\Flaps'] = [
+			'adapter' => $di->lazyGet('ratelimiter.flaps.storage')
+		];
+
+		// Rate limiter storage
+		$di->set('ratelimiter.flaps.storage', $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'));
+
+		$di->params['BehEh\Flaps\Storage\DoctrineCacheAdapter'] = [
+			'cache' => $di->lazyNew('Doctrine\Common\Cache\ApcCache')
+		];
+
+		// Rate limiter violation handler
+		$di->setter['BehEh\Flaps\Flaps']['setDefaultViolationHandler'] =
+			$di->lazyNew('BehEh\Flaps\Violation\ExceptionViolationHandler');
+
+		$di->set('ratelimiter.flaps.throttling', $di->lazyNew('BehEh\Flaps\Throttling\LeakyBucketStrategy'));
+
+		// 3 requests every 1 minute by default
+		$di->params['BehEh\Flaps\Throttling\LeakyBucketStrategy'] = [
+			'requests' => 3,
+			'timeSpan' => '1m'
+		];
+
 		/**
 		 * 1. Load the plugins
 		 */
