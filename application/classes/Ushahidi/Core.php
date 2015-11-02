@@ -553,8 +553,9 @@ abstract class Ushahidi_Core {
 		// Rate limiter storage
 		$di->set('ratelimiter.storage', $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'));
 
+		// @todo should use persistent storage in production
 		$di->params['BehEh\Flaps\Storage\DoctrineCacheAdapter'] = [
-			'cache' => $di->lazyNew('Doctrine\Common\Cache\ApcCache')
+			'cache' => $di->lazyNew('Doctrine\Common\Cache\ArrayCache')
 		];
 
 		// Rate limiter violation handler
