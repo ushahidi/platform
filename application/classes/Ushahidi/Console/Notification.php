@@ -21,13 +21,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Ushahidi_Console_Notification_Collection extends Command
+class Ushahidi_Console_Notification extends Command
 {
 	private $db;
 	private $postRepository;
 	private $contactRepository;
 	private $messageRepository;
 	private $notificationQueueRepository;
+
+	public function setDatabase(Database $db)
+	{
+		$this->db = $db;
+	}
 
 	public function setContactRepo(ContactRepository $repo)
 	{
@@ -52,8 +57,8 @@ class Ushahidi_Console_Notification_Collection extends Command
 	protected function configure()
 	{
 		$this
-			->setName('notification:collection')
-			->setDescription('Manage notifications for Collections')
+			->setName('notification')
+			->setDescription('Manage notifications')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, queue', 'list')
 			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of notifications')
 			;
@@ -72,9 +77,6 @@ class Ushahidi_Console_Notification_Collection extends Command
 	{
 		$limit = $input->getOption('limit');
 		
-		// Get database and repos
-		$this->db = service('kohana.db');
-
 		$count = 0;
 
 		// Get Queued notifications
