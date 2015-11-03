@@ -66,7 +66,6 @@ class Ushahidi_Repository_Config implements
 			'test',
 			'data-provider',
 			'map',
-			'saved_search'
 		];
 	}
 
