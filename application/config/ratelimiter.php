@@ -11,7 +11,7 @@
 
 return [
 	// memcache, filesystem or FALSE
-	'cache' => 'memcache',
+	'cache' => FALSE,
 	'filesystem' => [
 		'directory' => '/tmp',
 	],
