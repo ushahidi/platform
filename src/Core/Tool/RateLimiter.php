@@ -22,4 +22,3 @@ interface RateLimiter
 	 */
 	public function limit(Entity $entity);
 }
-
