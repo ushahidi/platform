@@ -126,7 +126,7 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	}
 
 	// ContactRepository
-	public function getNotificationContacts($set_id = 0, $limit = false, $offset = 0)
+	public function getNotificationContacts($set_id, $limit = false, $offset = 0)
 	{
 		$query = DB::select('contacts.id', 'contacts.type', 'contacts.contact')
 			->distinct(TRUE)

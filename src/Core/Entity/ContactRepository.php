@@ -27,10 +27,10 @@ interface ContactRepository extends
 	public function getByContact($contact, $type);
 
 	/**
-	 * Get all contacts that can be notified and optionally filter by collection or saved search.
+	 * Get all contacts that can be notified and filter by collection or saved search.
 	 * @param int $set_id collection or saved search id to filter by
 	 * @param bool|int $limit false to fetch all contacts
 	 * @param int offset
 	 */
-	public function getNotificationContacts($set_id = 0, $limit = false, $offset = 0);
+	public function getNotificationContacts($set_id, $limit = false, $offset = 0);
 }
