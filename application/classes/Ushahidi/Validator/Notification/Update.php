@@ -16,13 +16,15 @@ use Ushahidi\Core\Entity\SetRepository;
 class Ushahidi_Validator_Notification_Update extends Validator
 {
 	protected $user_repo;
-	protected $set_repo;
+	protected $collection_repo;
+	protected $savedsearch_repo;
 	protected $default_error_source = 'notification';
 
-	public function __construct(UserRepository $user_repo, SetRepository $set_repo)
+	public function __construct(UserRepository $user_repo, SetRepository $collection_repo, SetRepository $savedsearch_repo)
 	{
 		$this->user_repo = $user_repo;
-		$this->set_repo = $set_repo;
+		$this->collection_repo = $collection_repo;
+		$this->savedsearch_repo = $savedsearch_repo;
 	}
 
 	protected function getRules()
@@ -37,8 +39,13 @@ class Ushahidi_Validator_Notification_Update extends Validator
 			],
 			'set_id' => [
 				['numeric'],
-				[[$this->set_repo, 'exists'], [':value']],
+				[[$this, 'exists'], [':value']],
 			]
 		];
+	}
+
+	public function exists($set_id)
+	{
+		return $this->collection_repo->exists($set_id) or $this->savedsearch_repo->exists($set_id);
 	}
 }

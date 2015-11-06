@@ -466,7 +466,8 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi_Validator_Notification_Update'] = [
 			'user_repo' => $di->lazyGet('repository.user'),
-			'set_repo' => $di->lazyGet('repository.set'),
+			'collection_repo' => $di->lazyGet('repository.set'),
+			'savedsearch_repo' => $di->lazyGet('repository.savedsearch'),
 		];
 		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
