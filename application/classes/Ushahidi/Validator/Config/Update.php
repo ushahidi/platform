@@ -104,7 +104,7 @@ class Ushahidi_Validator_Config_Update extends Validator
 	{
 		if ($enabled_providers != null) {
 			$enabled_providers = array_filter($enabled_providers);
-			$available_providers = array_filter(\Kohana::$config->load('features.data-providers')->as_array());
+			$available_providers = array_filter(\Kohana::$config->load('features.data-providers'));
 
 			$diff = array_diff_key($enabled_providers, $available_providers);
 			if ($diff) {

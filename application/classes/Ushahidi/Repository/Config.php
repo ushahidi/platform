@@ -66,6 +66,7 @@ class Ushahidi_Repository_Config implements
 			'test',
 			'data-provider',
 			'map',
+			'twitter'
 		];
 	}
 

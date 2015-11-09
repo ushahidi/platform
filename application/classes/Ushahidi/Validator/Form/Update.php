@@ -35,7 +35,6 @@ class Ushahidi_Validator_Form_Update extends Validator
 			'name' => [
 				['min_length', [':value', 2]],
 				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
-				[[$this, 'checkPostTypeLimit'], [':validation']],
 			],
 			'description' => [
 				['is_string'],
@@ -46,7 +45,7 @@ class Ushahidi_Validator_Form_Update extends Validator
 		];
 	}
 
-	public function checkPostTypeLimit (Validation $validation)
+  public function checkPostTypeLimit (Validation $validation)
 	{
 		$config = \Kohana::$config->load('features.limits');
 

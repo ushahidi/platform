@@ -33,7 +33,7 @@ class Ushahidi_Repository_Notification_Queue extends Ushahidi_Repository impleme
 		{
 			if ($search->$fk)
 			{
-				$query->where("notifications.{$fk}_id", '=', $search->$fk);
+				$query->where("notification_queue.{$fk}_id", '=', $search->$fk);
 			}
 		}
 	}

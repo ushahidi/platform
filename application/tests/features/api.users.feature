@@ -175,6 +175,7 @@ Feature: Testing the Users API
 		And that the request "data" is:
 			"""
 			{
+        "full_name":"New User",
 				"email":"newuser@ushahidi.com",
 				"password":"testing",
 				"role":"admin"

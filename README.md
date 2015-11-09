@@ -11,6 +11,7 @@ Ushahidi 3
 ============
 
 [![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform)
+[![Stories up next](https://badge.waffle.io/ushahidi/platform.png?label=2 - Up Next&title=Up Next)](https://waffle.io/ushahidi/platform)
 
 [Download][download]
 

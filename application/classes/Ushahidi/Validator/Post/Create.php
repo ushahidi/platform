@@ -144,13 +144,9 @@ class Ushahidi_Validator_Post_Create extends Validator
     $config = \Kohana::$config->load('features.limits');
 
     if ($config['posts'] !== TRUE && $status == 'published') {
+      $total_published = $this->repo->getPublishedTotal();
 
-      $search = new PostSearchData();
-      $search->status = 'published';
-      $search->group_by = 'status';
-      $total_published = $this->repo->getGroupedTotals($search); 
-
-      if ($total_published[0]['total'] >= $config['posts']) {
+      if ($total_published >= $config['posts']) {
         $validation->error('status', 'publishedPostsLimitReached');
       }
     }
