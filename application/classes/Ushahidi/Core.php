@@ -91,12 +91,22 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Dataprovider');
 		$di->setter['Ushahidi_Console_Dataprovider']['setRepo'] = $di->lazyGet('repository.dataprovider');
 
-		// Notification command
+		// Notification Collection command
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Notification');
+		$di->setter['Ushahidi_Console_Notification']['setDatabase'] = $di->lazyGet('kohana.db');
 		$di->setter['Ushahidi_Console_Notification']['setPostRepo'] = $di->lazyGet('repository.post');
 		$di->setter['Ushahidi_Console_Notification']['setMessageRepo'] = $di->lazyGet('repository.message');
+		$di->setter['Ushahidi_Console_Notification']['setContactRepo'] = $di->lazyGet('repository.contact');
 		$di->setter['Ushahidi_Console_Notification']['setNotificationQueueRepo'] = $di->lazyGet('repository.notification.queue');
 
+		// Notification SavedSearch command
+		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_SavedSearch');
+		$di->setter['Ushahidi_Console_SavedSearch']['setSetRepo'] = $di->lazyGet('repository.savedsearch');
+		$di->setter['Ushahidi_Console_SavedSearch']['setPostRepo'] = $di->lazyGet('repository.post');
+		$di->setter['Ushahidi_Console_SavedSearch']['setMessageRepo'] = $di->lazyGet('repository.message');
+		$di->setter['Ushahidi_Console_SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
+		$di->setter['Ushahidi_Console_SavedSearch']['setSearchData'] = $di->lazyNew('Ushahidi\Core\SearchData');
+ 
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
 			$server = $di->newInstance('League\OAuth2\Server\Authorization');
@@ -456,7 +466,8 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi_Validator_Notification_Update'] = [
 			'user_repo' => $di->lazyGet('repository.user'),
-			'set_repo' => $di->lazyGet('repository.set'),
+			'collection_repo' => $di->lazyGet('repository.set'),
+			'savedsearch_repo' => $di->lazyGet('repository.savedsearch'),
 		];
 		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
