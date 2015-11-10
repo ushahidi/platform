@@ -50,6 +50,13 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('cdn')->as_array();
 		});
 
+		// Ratelimiter config settings
+
+		$di->set('ratelimiter.config', function() use ($di) {
+			return Kohana::$config->load('ratelimiter')->as_array();
+		});
+
+
 		$di->set('tool.uploader.prefix', function() use ($di) {
 			// Is this a multisite install?
 			$multisite = Kohana::$config->load('multisite.enabled');
@@ -574,8 +581,8 @@ abstract class Ushahidi_Core {
 
 		// Rate limit storage cache
 		$di->set('ratelimiter.storage.cache', function() use ($di) {
-			$cache = Kohana::$config->load('ratelimiter.cache');
-			
+			$cache = $di->lazyGet('ratelimiter.config.cache');
+
 			if ($cache === 'memcache') {
 				$di->setter['Doctrine\Common\Cache\MemcachedCache']['setMemcached'] =
 					$di->LazyNew('\Memcached');
@@ -584,13 +591,13 @@ abstract class Ushahidi_Core {
 			}
 			elseif ($cache === 'filesystem') {
 				$di->params['Doctrine\Common\Cache\FilesystemCache'] = [
-					'directory' => Kohana::$config->load('ratelimiter.filesystem.directory'),
+					'directory' => $di->lazyGet('ratelimiter.config.filesystem.directory'),
 				];
 
 				return $di->newInstance('Doctrine\Common\Cache\FilesystemCache');
 			}
 
-			// Use in-memory cache if none is configured
+			// Fall back to using in-memory cache if none is configured
 			return $di->newInstance('Doctrine\Common\Cache\ArrayCache');
 		});
 
