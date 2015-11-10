@@ -57,7 +57,6 @@ class LoginUser extends ReadUsecase
 		$this->rateLimiter->limit($entity);
 
 		// ... verify that the password matches
-		// @todo: handle the other bits of A1, like rehashing
 		$this->authenticator->checkPassword($this->getRequiredIdentifier('password'), $entity->password);
 
 		// ... and return the formatted result.

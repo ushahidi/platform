@@ -10,7 +10,12 @@
  */
 
 return [
-	// memcache, filesystem or FALSE
+	/*  memcache, filesystem or FALSE
+	 *
+	 * When set to FALSE, in-memory cache will be used.
+	 * Please note that this only lasts the lifetime of the request.
+	 *
+	 */
 	'cache' => FALSE,
 	'filesystem' => [
 		'directory' => '/tmp',
