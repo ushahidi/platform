@@ -13,6 +13,7 @@ namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Tool\PasswordAuthenticator;
+use Ushahidi\Core\Tool\RateLimiter;
 use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\ReadUsecase;
 
@@ -24,6 +25,11 @@ class LoginUser extends ReadUsecase
 	protected $authenticator;
 
 	/**
+	 * @var RateLimiter
+	 */
+	protected $rateLimiter;
+
+	/**
 	 * @param  Authenticator $authenticator
 	 * @return void
 	 */
@@ -33,14 +39,24 @@ class LoginUser extends ReadUsecase
 		return $this;
 	}
 
+	/**
+	 * @param RateLimiter $rateLimiter
+	 */
+	public function setRateLimiter(RateLimiter $rateLimiter)
+	{
+		$this->rateLimiter = $rateLimiter;
+	}
+
 	// Usecase
 	public function interact()
 	{
 		// Fetch the entity, using provided identifiers...
 		$entity = $this->getEntity();
 
+		// Rate limit login attempts
+		$this->rateLimiter->limit($entity);
+
 		// ... verify that the password matches
-		// @todo: handle the other bits of A1, like rehashing and brute force checks
 		$this->authenticator->checkPassword($this->getRequiredIdentifier('password'), $entity->password);
 
 		// ... and return the formatted result.

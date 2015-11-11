@@ -50,6 +50,13 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('cdn')->as_array();
 		});
 
+		// Ratelimiter config settings
+
+		$di->set('ratelimiter.config', function() use ($di) {
+			return Kohana::$config->load('ratelimiter')->as_array();
+		});
+
+
 		$di->set('tool.uploader.prefix', function() use ($di) {
 			// Is this a multisite install?
 			$multisite = Kohana::$config->load('multisite.enabled');
@@ -552,6 +559,59 @@ abstract class Ushahidi_Core {
 		// NotificationQueue repo for Set listener
 		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
 			$di->lazyGet('repository.notification.queue');
+
+		// Set up login rate limiter
+		$di->set('ratelimiter.login.flap', $di->lazyNew('BehEh\Flaps\Flap'));
+
+		$di->params['BehEh\Flaps\Flap'] = [
+			'storage' => $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'),
+			'name' => 'login'
+		];
+
+		$di->set('ratelimiter.login.strategy', $di->lazyNew('BehEh\Flaps\Throttling\LeakyBucketStrategy'));
+
+		// 3 requests every 1 minute by default
+		$di->params['BehEh\Flaps\Throttling\LeakyBucketStrategy'] = [
+			'requests' => 3,
+			'timeSpan' => '1m'
+		];
+
+		$di->set('ratelimiter.login', $di->lazyNew('Ushahidi_RateLimiter'));
+
+		$di->params['Ushahidi_RateLimiter'] = [
+			'flap' => $di->lazyGet('ratelimiter.login.flap'),
+			'throttlingStrategy' => $di->lazyGet('ratelimiter.login.strategy'),
+		];
+
+		$di->params['BehEh\Flaps\Storage\DoctrineCacheAdapter'] = [
+			'cache' => $di->lazyGet('ratelimiter.cache')
+		];
+
+		// Rate limit storage cache
+		$di->set('ratelimiter.cache', function() use ($di) {
+			$cache = $di->lazyGet('ratelimiter.config.cache');
+
+			if ($cache === 'memcache') {
+				$di->setter['Doctrine\Common\Cache\MemcachedCache']['setMemcached'] =
+					$di->LazyNew('\Memcached');
+
+				return $di->newInstance('Doctrine\Common\Cache\MemcachedCache');
+			}
+			elseif ($cache === 'filesystem') {
+				$di->params['Doctrine\Common\Cache\FilesystemCache'] = [
+					'directory' => $di->lazyGet('ratelimiter.config.filesystem.directory'),
+				];
+
+				return $di->newInstance('Doctrine\Common\Cache\FilesystemCache');
+			}
+
+			// Fall back to using in-memory cache if none is configured
+			return $di->newInstance('Doctrine\Common\Cache\ArrayCache');
+		});
+
+		// Rate limiter violation handler
+		$di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
+			$di->lazyNew('Ushahidi_ThrottlingViolationHandler');
 
 		/**
 		 * 1. Load the plugins

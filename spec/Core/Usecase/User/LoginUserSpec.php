@@ -7,19 +7,26 @@ use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\PasswordAuthenticator;
+use Ushahidi\Core\Tool\RateLimiter;
 
 use PhpSpec\ObjectBehavior;
 
 class LoginUserSpec extends ObjectBehavior
 {
-	function let(Authorizer $auth, Formatter $format, UserRepository $repo, PasswordAuthenticator $authenticator)
-	{
+	function let(
+		Authorizer $auth,
+		Formatter $format,
+		UserRepository $repo,
+		PasswordAuthenticator $authenticator,
+		RateLimiter $rateLimiter
+	) {
 		$repo->beADoubleOf('Ushahidi\Core\Usecase\ReadRepository');
 
 		$this->setAuthorizer($auth);
 		$this->setFormatter($format);
 		$this->setRepository($repo);
 		$this->setAuthenticator($authenticator);
+		$this->setRateLimiter($rateLimiter);
 	}
 
 	function it_is_initializable()
