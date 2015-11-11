@@ -16,7 +16,7 @@ return [
 	 * Please note that this only lasts the lifetime of the request.
 	 *
 	 */
-	'cache' => FALSE,
+	'cache' => 'filesystem',
 	'filesystem' => [
 		'directory' => '/tmp',
 	],
