@@ -28,6 +28,9 @@ class SearchFormAttribute extends SearchUsecase
 
 	protected function verifyFormExists()
 	{
-		//noop since a form is not required for searches
+		if ($identifier = $this->getIdentifier('form_id')) {
+			$form = $this->form_repo->get($identifier);
+			$this->verifyEntityLoaded($form, $this->identifiers);
+		}
 	}
 }
