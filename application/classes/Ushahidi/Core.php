@@ -553,7 +553,7 @@ abstract class Ushahidi_Core {
 		$di->set('ratelimiter.login.flap', $di->lazyNew('BehEh\Flaps\Flap'));
 
 		$di->params['BehEh\Flaps\Flap'] = [
-			'storage' => $di->lazyGet('ratelimiter.storage'),
+			'storage' => $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'),
 			'name' => 'login'
 		];
 
@@ -572,15 +572,12 @@ abstract class Ushahidi_Core {
 			'throttlingStrategy' => $di->lazyGet('ratelimiter.login.strategy'),
 		];
 
-		// Rate limiter storage
-		$di->set('ratelimiter.storage', $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'));
-
 		$di->params['BehEh\Flaps\Storage\DoctrineCacheAdapter'] = [
-			'cache' => $di->lazyGet('ratelimiter.storage.cache')
+			'cache' => $di->lazyGet('ratelimiter.cache')
 		];
 
 		// Rate limit storage cache
-		$di->set('ratelimiter.storage.cache', function() use ($di) {
+		$di->set('ratelimiter.cache', function() use ($di) {
 			$cache = $di->lazyGet('ratelimiter.config.cache');
 
 			if ($cache === 'memcache') {
