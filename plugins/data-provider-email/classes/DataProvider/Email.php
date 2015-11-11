@@ -25,10 +25,10 @@ class DataProvider_Email extends DataProvider {
 	public function send($to, $message, $title = "")
 	{
 
-    if (!$this->_is_provider_available()) {
-       Kohana::$log->add(Log::ERROR, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+	if (!$this->_is_provider_available()) {
+	   Kohana::$log->add(Log::ERROR, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
 			return array(Message_Status::FAILED, FALSE);
-    }
+	}
 
 		$provider_options = $this->options();
 
@@ -87,10 +87,10 @@ class DataProvider_Email extends DataProvider {
 	 */
 	public function fetch($limit = FALSE)
 	{
-    if (!$this->_is_provider_available()) {
-      Kohana::$log->add(Log::WARNING, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+		if (!$this->_is_provider_available()) {
+			Kohana::$log->add(Log::WARNING, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
 			return 0;
-    }
+		}
 
 		$count = 0;
 
@@ -117,8 +117,8 @@ class DataProvider_Email extends DataProvider {
 				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
 				return 0;
 			}
-
 			$emails = imap_search($connection,'ALL');
+
 			if ($emails)
 			{
 				// reverse sort emails?
@@ -128,7 +128,7 @@ class DataProvider_Email extends DataProvider {
 				{
 					// Break out if we've hit our limit
 					// @todo revist and decide if this is worth doing when imap_search has grabbed everything anyway.
-					if ($limit AND $i >= $limit)
+					if ($limit AND $count >= $limit)
 						break;
 
 					$overview = imap_fetch_overview($connection, $email_number, 0);
@@ -158,10 +158,10 @@ class DataProvider_Email extends DataProvider {
    */
   protected function _is_provider_available()
   {
-    $config = Kohana::$config;
-    $providers_available = $config->load('features.data-providers');
+	$config = Kohana::$config;
+	$providers_available = $config->load('features.data-providers');
 
-    return $providers_available['email']? true : false;
+	return $providers_available['email']? true : false;
   }
 
 	/**
