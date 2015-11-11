@@ -11,18 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Core\Usecase\SearchUsecase;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
-
-class SearchFormStage extends SearchUsecase
+class SearchFormStage extends SearchFormAttribute
 {
-	// - VerifyFormLoaded for checking that the form exists
-	use VerifyFormLoaded;
-
-	// For form check:
-	// - IdentifyRecords
-	// - VerifyEntityLoaded
-	use IdentifyRecords,
-		VerifyEntityLoaded;
+	// Intentionally left blank
 }

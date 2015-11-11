@@ -25,4 +25,12 @@ class SearchFormAttribute extends SearchUsecase
 	// - VerifyEntityLoaded
 	use IdentifyRecords,
 		VerifyEntityLoaded;
+
+	protected function verifyFormExists()
+	{
+		if ($identifier = $this->getIdentifier('form_id')) {
+			$form = $this->form_repo->get($identifier);
+			$this->verifyEntityLoaded($form, $this->identifiers);
+		}
+	}
 }
