@@ -85,7 +85,7 @@ if [ $? -gt 0 ]; then
 	fi
 fi
 # Check phinx
-if [[ -f "$phinx" && "$migrate" = true ]]; then
+if [[ ! -f "$phinx" && "$migrate" = true ]]; then
 	echo "!!! Migration tool phinx not installed, unable to run migrations"
 	exit 1
 fi
