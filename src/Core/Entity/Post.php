@@ -34,6 +34,7 @@ class Post extends StaticEntity
 	protected $tags;
 	protected $published_to;
 	protected $completed_stages;
+	protected $sets;
 	// Source when from external provider: SMS, Email, etc
 	protected $source;
 
@@ -77,6 +78,7 @@ class Post extends StaticEntity
 			'tags'            => 'array',
 			'published_to'    => '*json',
 			'completed_stages'=> 'array',
+			'sets'            => 'array',
 		];
 	}
 

@@ -85,6 +85,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$data += [
 				'values' => $this->getPostValues($data['id']),
 				'tags'   => $this->getTagsForPost($data['id']),
+        'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
 		}
@@ -727,6 +728,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $result->as_array(NULL, 'tag_id');
 	}
 
+  /**
+	 * Get sets for a post
+	 * @param  int   $id  post id
+	 * @return array      set ids for post
+	 */
+	private function getSetsForPost($id)
+	{
+		$result = DB::select('set_id')->from('posts_sets')
+			->where('post_id', '=', $id)
+			->execute($this->db);
+		return $result->as_array(NULL, 'set_id');
+	}
 
 	// UpdatePostRepository
 	public function isSlugAvailable($slug)
