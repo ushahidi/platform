@@ -4,7 +4,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet" # vagrantcloud
   config.vm.hostname = "ushahidi-platform.dev"
   config.vm.network "private_network", ip: "192.168.33.110"
-  config.vm.synced_folder "./", "/var/www", id: "vagrant-root", :nfs => false
+  config.vm.synced_folder "./", "/var/www", id: "vagrant-root", :nfs => true
   config.vm.network "forwarded_port", guest: 22, host: 2210
   config.ssh.port = 2210
 
