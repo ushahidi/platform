@@ -21,6 +21,10 @@ class Ushahidi_Formatter_User extends Ushahidi_Formatter_API
 	{ // prefer doing it here untill we implement parent method for filtering results - mixing and matching with metadata is just plain ugly
 		$data = parent::__invoke($user);
 
+		// Generate hash for gravatar
+		$data['gravatar'] = !empty($data['email']) ? md5(strtolower(trim($data['email']))) : '00000000000000000000000000000000';
+
+		// Remove password
 		if (isset($data['password']))
 		{
 			unset($data['password']);
