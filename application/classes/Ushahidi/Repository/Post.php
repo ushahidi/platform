@@ -866,6 +866,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$new_tags = FALSE;
 		foreach ($tags as $tag)
 		{
+			if (is_array($tag)) {
+				$tag = $tag['id'];
+			}
+
 			// Find the tag by id or name
 			// @todo this should happen before we even get here
 			$tag_entity = $this->tag_repo->getByTag($tag);

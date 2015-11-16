@@ -160,6 +160,10 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 		foreach ($tags as $key => $tag)
 		{
+			if (is_array($tag)) {
+				$tag = $tag['id'];
+			}
+
 			if (! $this->tag_repo->doesTagExist($tag))
 			{
 				$validation->error('tags', 'tagDoesNotExist', [$tag]);
