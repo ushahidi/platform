@@ -15,6 +15,6 @@ class Ushahidi_Hasher_Password implements Hasher
 {
 	public function hash($password)
 	{
-		return password_hash($password, PASSWORD_BCRYPT, ['cost' => 15]);
+		return password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 	}
 }
