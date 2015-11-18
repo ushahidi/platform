@@ -113,7 +113,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_SavedSearch']['setMessageRepo'] = $di->lazyGet('repository.message');
 		$di->setter['Ushahidi_Console_SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
 		$di->setter['Ushahidi_Console_SavedSearch']['setSearchData'] = $di->lazyNew('Ushahidi\Core\SearchData');
- 
+
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
 			$server = $di->newInstance('League\OAuth2\Server\Authorization');
@@ -560,6 +560,16 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
 			$di->lazyGet('repository.notification.queue');
 
+		// Defined memcached
+		$di->set('memcached', $di->lazy(function () use ($di) {
+			$config = $di->get('ratelimiter.config');
+
+			$memcached = new Memcached();
+			$memcached->addServer($config['memcached']['host'], $config['memcached']['port']);
+
+			return $memcached;
+		}));
+
 		// Set up login rate limiter
 		$di->set('ratelimiter.login.flap', $di->lazyNew('BehEh\Flaps\Flap'));
 
@@ -589,17 +599,18 @@ abstract class Ushahidi_Core {
 
 		// Rate limit storage cache
 		$di->set('ratelimiter.cache', function() use ($di) {
-			$cache = $di->lazyGet('ratelimiter.config.cache');
+			$config = $di->get('ratelimiter.config');
+			$cache = $config['cache'];
 
-			if ($cache === 'memcache') {
+			if ($cache === 'memcached') {
 				$di->setter['Doctrine\Common\Cache\MemcachedCache']['setMemcached'] =
-					$di->LazyNew('\Memcached');
+					$di->lazyGet('memcached');
 
 				return $di->newInstance('Doctrine\Common\Cache\MemcachedCache');
 			}
 			elseif ($cache === 'filesystem') {
 				$di->params['Doctrine\Common\Cache\FilesystemCache'] = [
-					'directory' => $di->lazyGet('ratelimiter.config.filesystem.directory'),
+					'directory' => $config['filesystem']['directory'],
 				];
 
 				return $di->newInstance('Doctrine\Common\Cache\FilesystemCache');

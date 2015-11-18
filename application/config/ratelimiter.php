@@ -10,7 +10,7 @@
  */
 
 return [
-	/*  memcache, filesystem or FALSE
+	/*  memcached, filesystem or FALSE
 	 *
 	 * When set to FALSE, in-memory cache will be used.
 	 * Please note that this only lasts the lifetime of the request.
@@ -18,6 +18,10 @@ return [
 	 */
 	'cache' => 'filesystem',
 	'filesystem' => [
-		'directory' => '/tmp',
+		'directory' => '/tmp/ratelimitercache',
 	],
+	'memcached' => [
+		'host' => '127.0.0.1',
+		'port' => 11211
+	]
 ];
