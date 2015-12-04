@@ -26,6 +26,18 @@ Route::set('media', 'media/<filepath>', array(
 	));
 
 /**
+ * Path to CSV uploads.
+ */
+Route::set('csv', $apiBase . 'csv(/<id>)',  array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'controller' => 'CSV',
+		'action'     => 'index',
+		'directory'  => 'Api'
+	));
+
+/**
  * Set Posts API SubRoute
  */
 Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',
@@ -242,6 +254,7 @@ Route::set('oauth', 'oauth(/<action>)',
 			'controller' => 'OAuth',
 			'action'     => 'index',
 	));
+
 
 /**
  * Default Route

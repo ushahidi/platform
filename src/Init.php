@@ -137,6 +137,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'users'                => $di->lazyGet('authorizer.user'),
 	'notifications'        => $di->lazyGet('authorizer.notification'),
 	'contacts'             => $di->lazyGet('authorizer.contact'),
+	'csv'                  => $di->lazyGet('authorizer.csv'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -159,7 +160,8 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'savedsearches'        => $di->lazyGet('repository.savedsearch'),
 	'users'                => $di->lazyGet('repository.user'),
 	'notifications'        => $di->lazyGet('repository.notification'),
-	'contacts'             => $di->lazyGet('repository.contact'),
+	'contacts'             => $di->lazyGet('repository.contact'), 
+	'csv'                  => $di->lazyGet('repository.csv'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -237,6 +239,13 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['media'] = [
 $di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setUploader'] = $di->lazyGet('tool.uploader');
 $di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setFilesystem'] = $di->lazyGet('tool.filesystem');
 
+// CSV requires file upload
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['csv'] = [
+	'create' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\CreateCSV'),
+];
+$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSV']['setUploader'] = $di->lazyGet('tool.uploader');
+$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSV']['setReaderFactory'] = $di->lazyGet('csv.reader_factory');
+$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSV']['setFilesystem'] = $di->lazyGet('tool.filesystem');
 
 // Message update requires extra validation of message direction+status.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
@@ -335,6 +344,7 @@ $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\S
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
+$di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthorizer'));
 
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [

@@ -12,23 +12,32 @@
 use \ArrayIterator;
 use League\Csv\Reader;
 use Ushahidi\Core\Tool\FileReader;
+use Ushahidi\Core\Tool\ReaderFactory;
 
 class Ushahidi_FileReader_CSV implements FileReader
 {
 
 	protected $limit;
-	public function setLimit($limit) {
+	public function setLimit($limit)
+	{
 		$this->limit = $limit;
 	}
 
 	protected $offset;
-	public function setOffset($offset) {
+	public function setOffset($offset)
+	{
 		$this->offset = $offset;
 	}
 
-	public function process($filename) {
-		// @todo inject factory function to get Reader
-		$reader = Reader::createFromFileObject(new SplFileObject($filename));
+	protected $reader_factory;
+	public function setReaderFactory(ReaderFactory $reader_factory)
+	{
+		$this->reader_factory = $reader_factory;
+	}
+
+	public function process($file)
+	{
+		$reader = $this->reader_factory->createReader($file);
 
 		// Filter out empty rows
 		$nbColumns = count($reader->fetchOne());

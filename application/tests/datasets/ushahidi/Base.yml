@@ -832,6 +832,10 @@ oauth_scopes:
     id: 15
     scope: contacts
     name: contacts
+  -
+    id: 16
+    scope: csv
+    name: csv
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -891,6 +895,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 15
+  -
+    session_access_token_id: 2
+    scope_id: 16
 
   # for testbasicuser
   -
@@ -932,6 +939,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 15
+  -
+    session_access_token_id: 3
+    scope_id: 16
 
   # for testadminuser
   -
@@ -1011,6 +1021,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 15
+  -         
+    session_access_token_id: 5
+    scope_id: 16
   # for testanon
   -
     session_access_token_id: 6
@@ -1281,3 +1294,9 @@ notifications:
     user_id: 4
     set_id: 4
     
+csv:
+ -
+   id: 1
+   columns: '["name", "date", "location", "details"]'
+   filename: "5/6/566185e681d57-sample.csv"
+   form_id: 2
