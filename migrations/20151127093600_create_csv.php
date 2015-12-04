@@ -24,7 +24,7 @@ class CreateCsv extends AbstractMigration
             ->addColumn('form_id', 'integer', ['null' => false])
 			->addColumn('filename', 'string', ['null' => false])
 			->addColumn('size', 'integer' , ['default' => 0])
-			->addColumn('mime', 'string', ['limit' => 50])
+			->addColumn('mime', 'string', ['limit' => 50, 'null' => false])
 			->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['null' => true])
 			->addColumn('completed', 'boolean', ['default' => false])
