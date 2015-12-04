@@ -17,8 +17,6 @@ use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Ushahidi\Core\Tool\ReaderFactory;
 
-use Ushahidi\Core\Entity\NotificationQueueRepository;
-
 class Ushahidi_Listener_ImportListener extends AbstractListener
 {
 	protected $repo;
