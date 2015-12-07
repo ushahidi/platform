@@ -18,6 +18,7 @@ class CreateCsv extends AbstractMigration
         $this->table('csv')
 			->addColumn('columns', 'text', ['null' => false])
 			->addColumn('maps_to', 'text', ['null' => true])
+			->addColumn('unmapped', 'text', ['null' => true])
 			->addColumn('tags', 'text', ['null' => true])
 			->addColumn('status', 'string', ['limit' => 20, 'null' => true])
 			->addColumn('published_to', 'string', ['limit' => 150, 'null' => true])

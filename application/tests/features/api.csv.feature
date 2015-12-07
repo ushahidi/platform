@@ -2,12 +2,14 @@
 Feature: Testing the CSV API
     Scenario: Uploading a CSV file
         Given that I want to make a new "CSV"
-        And that the post field "form_id" is "1"
+        And that the post field "form_id" is "2"
         And that the post file "file" is "tests/datasets/ushahidi/sample.csv"
         When I request "/csv"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the response has a "columns" property
+        And the "columns.0" property equals "title"
         Then the guzzle status code should be 200
 
     Scenario: Update CSV mapping
@@ -15,7 +17,9 @@ Feature: Testing the CSV API
         And that the request "data" is:
         """
         {
-            "maps_to":["full_name", "missing_date", "last_location", null]
+            "columns":["title", "name", "date", "location", "details"],
+            "maps_to":["title", "full_name", null, "last_location", null],
+            "unmapped":["date_of_birth", "description"]
         }
         """
         And that its "id" is "1"
@@ -24,6 +28,7 @@ Feature: Testing the CSV API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the response has a "maps_to" property
+        And the "maps_to.0" property equals "title"
         Then the guzzle status code should be 200
 
     Scenario: Finish CSV import
@@ -31,6 +36,12 @@ Feature: Testing the CSV API
         And that the request "data" is:
         """
         {
+            "columns":["title", "name", "date", "location", "details"],
+            "maps_to":["title", "full_name", null, "last_location", null],
+            "unmapped":
+            {
+                "missing_status": ["believed_missing"]
+            },
             "tags":["explosion"],
             "status":"published",
             "published_to":["admin"],

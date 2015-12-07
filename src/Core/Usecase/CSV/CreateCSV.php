@@ -50,7 +50,6 @@ class CreateCSV extends CreateMedia
 		$file = new SplTempFileObject();
 		
 		$stream = fopen($upload_data->tmp_name, 'r+');
-		$contents = stream_get_contents($stream);
 		$file->fwrite(stream_get_contents($stream));
 
 		// Create a reader and fetch CSV columns
@@ -64,7 +63,7 @@ class CreateCSV extends CreateMedia
 			'mime'       => $this->upload->type,
 			'size'       => $this->upload->size,
 		];
-
+		
 		return $this->repo->getEntity()->setState($payload);
 	}
 }

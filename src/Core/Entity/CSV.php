@@ -18,6 +18,7 @@ class CSV extends StaticEntity
 	protected $id;
 	protected $columns;
 	protected $maps_to;
+	protected $unmapped;
 	protected $tags;
 	protected $status;
 	protected $published_to;
@@ -36,6 +37,7 @@ class CSV extends StaticEntity
 			'id'           => 'int',
 			'columns'      => '*json',
 			'maps_to'      => '*json',
+			'unmapped'     => '*json',
 			'tags'         => '*json',
 			'status'       => 'string',
 			'published_to' => '*json',

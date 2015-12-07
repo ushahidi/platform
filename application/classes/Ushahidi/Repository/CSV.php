@@ -31,7 +31,7 @@ class Ushahidi_Repository_CSV extends Ushahidi_Repository implements
 	// Ushahidi_JsonTranscodeRepository
 	protected function getJsonProperties()
 	{
-		return ['columns', 'maps_to', 'tags', 'published_to'];
+		return ['columns', 'maps_to', 'unmapped', 'tags', 'published_to'];
 	}
 
 	// Ushahidi_Repository

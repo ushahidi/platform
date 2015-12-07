@@ -588,15 +588,29 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_CSV']['setEvent'] = 'ImportEvent';
 
 		$di->setter['Ushahidi_Repository_CSV']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_ImportListener');
+			$di->lazyNew('Ushahidi_Listener_CSVImportListener');
 
 		// Filesystem for Import Listener
-		$di->setter['Ushahidi_Listener_ImportListener']['setFilesystem'] =
+		$di->setter['Ushahidi_Listener_CSVImportListener']['setFilesystem'] =
 			$di->lazyGet('tool.filesystem');
 
-		// Reader factory for Import Listener
-		$di->setter['Ushahidi_Listener_ImportListener']['setReader'] =
+		// Reader for Import Listener
+		$di->setter['Ushahidi_Listener_CSVImportListener']['setReader'] =
 			$di->lazyGet('filereader.csv');
+
+		// Post repo
+		$di->setter['Ushahidi_Listener_CSVImportListener']['setRepo'] =
+			$di->lazyGet('repository.post');
+
+		/*
+		$di->setter['Ushahidi_Listener_ImportListener']['setImportUsecase'] =
+			$di->lazy(function () use ($di) {
+				return service('factory.usecase')
+				->get('posts', 'import');
+				// Override authorizer for console
+				//->setAuthorizer($di->get('authorizer.console'));
+			});
+		*/
 
 		// Defined memcached
 		$di->set('memcached', $di->lazy(function () use ($di) {

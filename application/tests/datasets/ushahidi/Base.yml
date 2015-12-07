@@ -1293,10 +1293,4 @@ notifications:
     id: 6
     user_id: 4
     set_id: 4
-    
 csv:
- -
-   id: 1
-   columns: '["name", "date", "location", "details"]'
-   filename: "5/6/566185e681d57-sample.csv"
-   form_id: 2
