@@ -63,3 +63,14 @@ Feature: Testing the CSV API
         And the "completed" property is true
         Then the guzzle status code should be 200
 
+    Scenario: Deleting a CSV entry
+        Given that I want to delete a "CSV"
+        And that its "id" is "1"
+        When I request "/csv"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "id" property equals "1"
+        Then the guzzle status code should be 200
+
+
