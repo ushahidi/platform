@@ -14,7 +14,6 @@ namespace Ushahidi\Core\Usecase\CSV;
 use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Usecase\DeleteUsecase;
 
-
 class DeleteCSVUsecase extends DeleteUsecase
 {
 	protected $fs;
