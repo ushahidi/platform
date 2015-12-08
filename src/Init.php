@@ -241,11 +241,13 @@ $di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setFilesystem'] = $di->l
 
 // CSV requires file upload
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['csv'] = [
-	'create' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\CreateCSV'),
+	'create' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\CreateCSVUsecase'),
+	'delete' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase'),
 ];
-$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSV']['setUploader'] = $di->lazyGet('tool.uploader');
-$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSV']['setReaderFactory'] = $di->lazyGet('csv.reader_factory');
-$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSV']['setFilesystem'] = $di->lazyGet('tool.filesystem');
+
+$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
+$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setReaderFactory'] = $di->lazyGet('csv.reader_factory');
+$di->setter['Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase']['setFilesystem'] = $di->lazyGet('tool.filesystem');
 
 // Message update requires extra validation of message direction+status.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Media Create Use Case
+ * Ushahidi Platform CSV Create Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -17,7 +17,7 @@ use Ushahidi\Core\Usecase\Media\CreateMedia;
 use Ushahidi\Core\Tool\UploadData;
 use Ddeboer\DataImport\Step\MappingStep;
 
-class CreateCSV extends CreateMedia
+class CreateCSVUsecase extends CreateMedia
 {
 	/**
 	 * @var ReaderFactory
