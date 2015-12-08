@@ -242,3 +242,19 @@ Feature: Testing the Messages API
         Then the response is JSON
         And the "user.id" property equals "1"
         Then the guzzle status code should be 200
+
+    Scenario: Admin cant set user id to something invalid
+        Given that I want to make a new "Message"
+        And that the request "data" is:
+            """
+            {
+                "message":"Test creating outgoing",
+                "type":"sms",
+                "direction":"outgoing",
+                "contact_id":"1",
+                "user_id":57
+            }
+            """
+        When I request "/messages"
+        Then the response is JSON
+        Then the guzzle status code should be 422
