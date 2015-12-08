@@ -602,15 +602,9 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_CSVImportListener']['setRepo'] =
 			$di->lazyGet('repository.post');
 
-		/*
-		$di->setter['Ushahidi_Listener_ImportListener']['setImportUsecase'] =
-			$di->lazy(function () use ($di) {
-				return service('factory.usecase')
-				->get('posts', 'import');
-				// Override authorizer for console
-				//->setAuthorizer($di->get('authorizer.console'));
-			});
-		*/
+		// Validator
+		$di->setter['Ushahidi_Listener_CSVImportListener']['setValidator'] =
+			$di->lazyNew('Ushahidi_Validator_Post_Create');
 
 		// Defined memcached
 		$di->set('memcached', $di->lazy(function () use ($di) {

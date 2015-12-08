@@ -15,18 +15,19 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Filesystem;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
-use Ushahidi\Core\Tool\MappingTransformer;
 use Ushahidi\Core\Tool\FileReader;
 use Ushahidi\Core\Usecase\ImportUsecase;
+use Ushahidi\Core\Tool\ValidatorTrait;
 
 use Ushahidi\Core\Entity\PostRepository;
 
 class Ushahidi_Listener_CSVImportListener extends AbstractListener
 {
+	use ValidatorTrait;
+	
 	protected $repo;
 	protected $fs;
-	protected $reader;
-	protected $transformer;
+	protected $file_reader;
 	
 	public function setReader(FileReader $file_reader)
 	{
@@ -47,14 +48,25 @@ class Ushahidi_Listener_CSVImportListener extends AbstractListener
     {
 		$payload = $this->process($entity->filename);
 
-
 		foreach ($payload as $record) {
 			// remap columns
 			$record = $this->remap($entity->maps_to, $record);
 
 			$this->create($record, $entity);
 		}
+
+		// Delete the file here for now.
+		// @todo Check if the the whole file was processed here before deleting.
+		$this->fs->delete($entity->filename);
     }
+
+	// ValidatorTrait
+	protected function verifyValid(Entity $entity)
+	{
+		if (!$this->validator->check($entity->asArray())) {
+			$this->validatorError($entity);
+		}
+	}
 
 	private function process($filename)
 	{
@@ -62,7 +74,7 @@ class Ushahidi_Listener_CSVImportListener extends AbstractListener
 		$stream = $this->fs->readStream($filename);
 		$file->fwrite(stream_get_contents($stream));
 
-		// @todo Read upto a sensible offset and queue processing for the rest
+		// @todo Read up to a sensible offset and queue the rest for processing
 		return $this->file_reader->process($file);
 	}
 
@@ -100,6 +112,9 @@ class Ushahidi_Listener_CSVImportListener extends AbstractListener
 		$state = array_merge($post_fields, $form_values, $fixed);
 
 		$post_entity->setState($state);
+
+		$this->verifyValid($post_entity);
+
 		$this->repo->create($post_entity);
 	}
 	
