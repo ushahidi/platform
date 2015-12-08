@@ -39,7 +39,6 @@ class CSVAuthorizer implements Authorizer
 			return true;
 		}
 
-		// If no other access checks succeed, we default to denying access
 		return false;
 	}
 }
