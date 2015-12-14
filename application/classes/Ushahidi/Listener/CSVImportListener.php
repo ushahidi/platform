@@ -93,7 +93,10 @@ class Ushahidi_Listener_CSVImportListener extends AbstractListener
 		});
 
 		// Add left over values
-		$record = array_merge($record, $entity->unmapped);
+		if (!empty($entity->unmapped)) {
+			$record = array_merge($record, $entity->unmapped);
+		}
+
 		$form_values = ['values' => $record];
 
 		// Prepare fixed values
