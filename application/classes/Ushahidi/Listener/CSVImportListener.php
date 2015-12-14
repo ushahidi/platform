@@ -46,12 +46,11 @@ class Ushahidi_Listener_CSVImportListener extends AbstractListener
 	
     public function handle(EventInterface $event, Entity $entity = null)
     {
-		$payload = $this->process($entity->filename);
+		$records = $this->process($entity->filename);
 
-		foreach ($payload as $record) {
+		foreach ($records as $record) {
 			// remap columns
 			$record = $this->remap($entity->maps_to, $record);
-
 			$this->create($record, $entity);
 		}
 
