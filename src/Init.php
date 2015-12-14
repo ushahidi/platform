@@ -242,6 +242,7 @@ $di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setFilesystem'] = $di->l
 // CSV requires file upload
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['csv'] = [
 	'create' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\CreateCSVUsecase'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\ReadUsecase'),
 	'delete' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase'),
 ];
 
