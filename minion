@@ -1,4 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-include __DIR__.DIRECTORY_SEPARATOR.'httpdocs'.DIRECTORY_SEPARATOR.'index.php';
