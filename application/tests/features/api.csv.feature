@@ -37,7 +37,7 @@ Feature: Testing the CSV API
         """
         {
             "columns":["title", "name", "date", "location", "details"],
-            "maps_to":["title", "full_name", null, "last_location", null],
+            "maps_to":["title", "full_name", "missing_date", "last_location", null],
             "unmapped":
             {
                 "missing_status": ["believed_missing"]
