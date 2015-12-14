@@ -79,17 +79,13 @@ class Ushahidi_Listener_CSVImportListener extends AbstractListener
 
 	private function create($record, $entity)
 	{
-		$post_entity = $this->repo->getEntity();
+		// Assign title to post
+		$title = [
+			'title' => $record['title']
+		];
 
-		$post_fields = $post_entity->asArray();
-
-		// Filter post fields from the record
-		$post_fields = array_intersect_key($record, $post_fields);
-
-		// Remove post fields from the record and leave form values
-		foreach ($post_fields as $key => $val) {
-			unset($record[$key]);
-		}
+		// ... and remove it from the record
+		unset($record['title']);
 
 		// Put values in array
 		array_walk($record, function (&$val) {
@@ -108,7 +104,9 @@ class Ushahidi_Listener_CSVImportListener extends AbstractListener
 		];
 
 		// Set state
-		$state = array_merge($post_fields, $form_values, $fixed);
+		$state = array_merge($title, $form_values, $fixed);
+
+		$post_entity = $this->repo->getEntity();
 
 		$post_entity->setState($state);
 
