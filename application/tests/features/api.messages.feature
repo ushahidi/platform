@@ -18,6 +18,7 @@ Feature: Testing the Messages API
         And the type of the "id" property is "numeric"
         And the "message" property equals "Test creating outgoing"
         And the "status" property equals "pending"
+        And the "user.id" property equals "2"
         Then the guzzle status code should be 200
 
     Scenario: Creating an incoming message should fail
@@ -224,3 +225,36 @@ Feature: Testing the Messages API
         Then the response is JSON
         And the "id" property equals "110"
         Then the guzzle status code should be 200
+
+    Scenario: Admin can set user id when creating a message
+        Given that I want to make a new "Message"
+        And that the request "data" is:
+            """
+            {
+                "message":"Test creating outgoing",
+                "type":"sms",
+                "direction":"outgoing",
+                "contact_id":"1",
+                "user_id":1
+            }
+            """
+        When I request "/messages"
+        Then the response is JSON
+        And the "user.id" property equals "1"
+        Then the guzzle status code should be 200
+
+    Scenario: Admin cant set user id to something invalid
+        Given that I want to make a new "Message"
+        And that the request "data" is:
+            """
+            {
+                "message":"Test creating outgoing",
+                "type":"sms",
+                "direction":"outgoing",
+                "contact_id":"1",
+                "user_id":57
+            }
+            """
+        When I request "/messages"
+        Then the response is JSON
+        Then the guzzle status code should be 422

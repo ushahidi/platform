@@ -35,6 +35,7 @@ class Message extends StaticEntity
 	protected $parent_id;
 	protected $contact_id;
 	protected $post_id;
+	protected $user_id;
 	protected $data_provider;
 	protected $data_provider_message_id;
 	protected $title;
@@ -54,6 +55,7 @@ class Message extends StaticEntity
 			'parent_id'  => 'int',
 			'contact_id' => 'int',
 			'post_id'    => 'int',
+			'user_id'    => 'int',
 			'title'      => 'string',
 			'message'    => 'string',
 			'datetime'   => '*timestamp',
@@ -86,5 +88,13 @@ class Message extends StaticEntity
 	protected function getImmutable()
 	{
 		return ['id', 'direction', 'parent_id'];
+	}
+
+	// StatefulData
+	protected function getDerived()
+	{
+		return [
+			'user_id'   => ['user', 'user.id'], /* alias */
+		];
 	}
 }
