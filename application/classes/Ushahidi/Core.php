@@ -588,23 +588,30 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_CSV']['setEvent'] = 'ImportEvent';
 
 		$di->setter['Ushahidi_Repository_CSV']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_CSVImportListener');
+			$di->lazyNew('Ushahidi_Listener_CSVPostListener');
 
 		// Filesystem for Import Listener
-		$di->setter['Ushahidi_Listener_CSVImportListener']['setFilesystem'] =
+		$di->setter['Ushahidi_Listener_CSVPostListener']['setFilesystem'] =
 			$di->lazyGet('tool.filesystem');
 
 		// Reader for Import Listener
-		$di->setter['Ushahidi_Listener_CSVImportListener']['setReader'] =
+		$di->setter['Ushahidi_Listener_CSVPostListener']['setReader'] =
 			$di->lazyGet('filereader.csv');
 
-		// Post repo
-		$di->setter['Ushahidi_Listener_CSVImportListener']['setRepo'] =
-			$di->lazyGet('repository.post');
+		// Create usecase for Import Listener
+		$di->setter['Ushahidi_Listener_CSVPostListener']['setUsecase'] =
+		    $di->lazy(function () use ($di) {
+			   return service('factory.usecase')
+				   ->get('posts', 'create');
+				});
 
-		// Validator
-		$di->setter['Ushahidi_Listener_CSVImportListener']['setValidator'] =
-			$di->lazyNew('Ushahidi_Validator_Post_Create');
+		// Mapping Transformer
+		$di->setter['Ushahidi_Listener_CSVPostListener']['setTransformer'] =
+			$di->lazyNew('Ushahidi_Transformer_CSVPostTransformer');
+
+		// Post repo for mapping transformer
+		$di->setter['Ushahidi_Transformer_CSVPostTransformer']['setRepo'] =
+			$di->lazyGet('repository.post');
 
 		// Defined memcached
 		$di->set('memcached', $di->lazy(function () use ($di) {
