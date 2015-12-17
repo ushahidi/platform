@@ -63,10 +63,15 @@ class Ushahidi_Listener_CSVPostListener extends AbstractListener
 			'published_to' => $entity->published_to,
 			'status'       => $entity->status
 		]);
-		$this->transformer->setUnmapped($entity->unmapped);
 
 		foreach ($records as $record) {
 			$record = $this->transformer->interact($record);
+			
+			// Add left over values
+			if (!empty($entity->unmapped)) {
+				$record['values'] = array_merge($record['values'], $entity->unmapped);
+			}
+
 			$this->usecase->setPayload($record)->interact();
 		}
 

@@ -24,11 +24,6 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		$this->repo = $repo;
 	}
 
-	public function setUnmapped(Array $unmapped)
-	{
-		$this->unmapped = $unmapped;
-	}
-
 	// MappingTransformer
 	public function setMap(Array $map)
 	{
@@ -74,11 +69,6 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		array_walk($record, function (&$val) {
 				$val = [$val];
 		});
-
-		// Add left over values
-		if (!empty($this->unmapped)) {
-			$record = array_merge($record, $this->unmapped);
-		}
 
 		$form_values = ['values' => $record];
 
