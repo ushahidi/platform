@@ -21,7 +21,6 @@ use Ushahidi\Core\Tool\MappingTransformer;
 
 class Ushahidi_Listener_CSVPostListener extends AbstractListener
 {
-	protected $repo;
 	protected $fs;
 	protected $fileReader;
 	protected $createUsecase;
