@@ -34,4 +34,5 @@ return array(
 	'client_url'  => $clientUrl ?: false,
 	'first_login' => true,
 	'tier'        => 'free',
+	'private'     => false,
 );
