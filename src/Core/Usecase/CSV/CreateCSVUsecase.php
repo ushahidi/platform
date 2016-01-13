@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform CSV Create Use Case
+ * Ushahidi Platform CSV Create Usecase
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -58,7 +58,6 @@ class CreateCSVUsecase extends CreateMedia
 
 		$payload = [
 			'columns'    => $columns,
-			'form_id'    => $this->getPayload('form_id'),
 			'filename'   => $this->upload->file,
 			'mime'       => $this->upload->type,
 			'size'       => $this->upload->size,

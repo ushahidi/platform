@@ -38,6 +38,18 @@ Route::set('csv', $apiBase . 'csv(/<id>)',  array(
 	));
 
 /**
+ * Path to CSV imports.
+ */
+Route::set('csv-import', $apiBase . 'csv/<csv_id>/import',  array(
+		'csv_id' => '\d+'
+	))
+	->defaults(array(
+		'controller' => 'Import',
+		'action'     => 'import',
+		'directory'  => 'Api/CSV'
+	));
+
+/**
  * Set Posts API SubRoute
  */
 Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Delete Use Case
+ * Ushahidi Platform Delete Usecase
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform

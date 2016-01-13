@@ -19,7 +19,12 @@ Feature: Testing the CSV API
         {
             "columns":["title", "name", "date", "location", "details"],
             "maps_to":["title", "full_name", null, "last_location", null],
-            "unmapped":["date_of_birth", "description"]
+            "fixed":
+            {
+                "tags":["explosion"],
+                "status":"published",
+                "published_to":["admin"]
+            }
         }
         """
         And that its "id" is "1"
@@ -30,37 +35,19 @@ Feature: Testing the CSV API
         And the response has a "maps_to" property
         And the "maps_to.0" property equals "title"
         Then the guzzle status code should be 200
-
-    Scenario: Finish CSV import
-        Given that I want to update a "CSV"
+        
+    Scenario: Importing CSV
+        Given that I want to import a "CSV"
         And that the request "data" is:
         """
-        {
-            "columns":["title", "name", "date", "location", "details"],
-            "maps_to":["title", "full_name", "missing_date", "last_location", null],
-            "unmapped":
-            {
-                "missing_status": ["believed_missing"]
-            },
-            "tags":["explosion"],
-            "status":"published",
-            "published_to":["admin"],
-            "completed":true
-        }
+        {}
         """
-        And that its "id" is "1"
-        When I request "/csv"
+        When I request "/csv/1/import"
         Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
-        And the response has a "tags" property
-        And the "tags" property contains "explosion"
-        And the response has a "status" property
-        And the "status" property equals "published"
-        And the response has a "published_to" property
-        And the "published_to" property contains "admin"
-        And the response has a "completed" property
-        And the "completed" property is true
+        And the response has a "processed" property
+        And the type of the "processed" property is "numeric"
+        And the response has a "errors" property
+        And the type of the "errors" property is "numeric"
         Then the guzzle status code should be 200
 
     Scenario: Deleting a CSV entry
@@ -72,5 +59,3 @@ Feature: Testing the CSV API
         And the type of the "id" property is "numeric"
         And the "id" property equals "1"
         Then the guzzle status code should be 200
-
-

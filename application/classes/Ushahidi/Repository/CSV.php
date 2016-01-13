@@ -31,7 +31,7 @@ class Ushahidi_Repository_CSV extends Ushahidi_Repository implements
 	// Ushahidi_JsonTranscodeRepository
 	protected function getJsonProperties()
 	{
-		return ['columns', 'maps_to', 'unmapped', 'tags', 'published_to'];
+		return ['columns', 'maps_to', 'fixed'];
 	}
 
 	// Ushahidi_Repository
@@ -53,11 +53,6 @@ class Ushahidi_Repository_CSV extends Ushahidi_Repository implements
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-		if ($entity->completed) {
-			// Fire event to process CSV file
-			$this->emit($this->event, $entity);
-		}
-		
 		$state = [
 			'updated'  => time(),
 		];
@@ -74,7 +69,7 @@ class Ushahidi_Repository_CSV extends Ushahidi_Repository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['fields', 'form_id', 'filename'];
+		return ['columns', 'maps_to', 'fixed', 'filename'];
 	}
 
 }
