@@ -42,9 +42,5 @@ class Controller_API_CSV_Import extends Ushahidi_Rest {
 						->get($this->_scope(), 'import')
 						->setPayload($records)
 						->setTransformer($transformer);
-
-		// Delete the file here for now.
-		// @todo Check if the the whole file was processed here before deleting.
-		$fs->delete($csv->filename);
 	}
 }
