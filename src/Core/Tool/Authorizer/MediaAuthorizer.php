@@ -47,7 +47,7 @@ class MediaAuthorizer implements Authorizer
 		$user = $this->getUser();
 
 		// Only logged in users have access if the deployment is private
-		if ($this->isPrivate() and !$user->getId()) {
+		if (!$this->hasAccess()) {
 			return false;
 		}
 
