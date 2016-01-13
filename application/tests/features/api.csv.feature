@@ -2,7 +2,6 @@
 Feature: Testing the CSV API
     Scenario: Uploading a CSV file
         Given that I want to make a new "CSV"
-        And that the post field "form_id" is "1"
         And that the post file "file" is "tests/datasets/ushahidi/sample.csv"
         When I request "/csv"
         Then the response is JSON
