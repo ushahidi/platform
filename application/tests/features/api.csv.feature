@@ -20,6 +20,7 @@ Feature: Testing the CSV API
             "maps_to":["title", "full_name", null, "last_location", null],
             "fixed":
             {
+                "form":1,
                 "tags":["explosion"],
                 "status":"published",
                 "published_to":["admin"]
