@@ -65,6 +65,20 @@ class FeatureContext extends BehatContext
 		self::insertGeometryFixtures($pdo_connection);
 	}
 
+	/** @BeforeScenario @private */
+	public function makePrivate()
+	{
+		$config = Kohana::$config->load('site');
+		$config->set('private', true);
+	}
+
+	/** @AfterScenario @private */
+	public function makePublic()
+	{
+		$config = Kohana::$config->load('site');
+		$config->set('private', false);
+	}
+
 	protected static function insertGeometryFixtures($pdo_connection)
 	{
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
