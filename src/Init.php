@@ -252,6 +252,7 @@ $di->setter['Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase']['setFilesystem'] = $di
 
 // Message update requires extra validation of message direction+status.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
+	'create' => $di->lazyNew('Ushahidi\Core\Usecase\Message\CreateMessage'),
 	'update' => $di->lazyNew('Ushahidi\Core\Usecase\Message\UpdateMessage'),
 	'receive' => $di->newFactory('Ushahidi\Core\Usecase\Message\ReceiveMessage'),
 ];

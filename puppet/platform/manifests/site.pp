@@ -163,6 +163,7 @@ exec { "bin-update":
 	command => "/var/www/bin/update --no-interaction",
 	cwd     => "/var/www",
 	logoutput => true,
+	timeout => 0,
 	require =>  [ Mysql::Db["ushahidi"],
 			File["/var/www/.env"],
 			Package["php5-cli"],
