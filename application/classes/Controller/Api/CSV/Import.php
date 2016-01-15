@@ -11,12 +11,23 @@
 
 class Controller_API_CSV_Import extends Ushahidi_Rest {
 
+	protected $_action_map = array
+	(
+		Http_Request::POST    => 'post',   // Typically Create..
+		Http_Request::OPTIONS => 'options'
+	);
+
 	protected function _scope()
+	{
+		return 'csv';
+	}
+
+	protected function _resource()
 	{
 		return 'posts';
 	}
 
-	public function action_post_import_collection()
+	public function action_post_index_collection()
 	{
 		// Get payload from CSV repo
 		$csv = service('repository.csv')->get($this->request->param('csv_id'));
@@ -39,7 +50,7 @@ class Controller_API_CSV_Import extends Ushahidi_Rest {
 		$transformer->setFixedValues($csv->fixed);
 
 		$this->_usecase = service('factory.usecase')
-						->get($this->_scope(), 'import')
+						->get($this->_resource(), 'import')
 						->setPayload($records)
 						->setTransformer($transformer);
 	}

@@ -45,7 +45,7 @@ Route::set('csv-import', $apiBase . 'csv/<csv_id>/import',  array(
 	))
 	->defaults(array(
 		'controller' => 'Import',
-		'action'     => 'import',
+		'action'     => 'index',
 		'directory'  => 'Api/CSV'
 	));
 
