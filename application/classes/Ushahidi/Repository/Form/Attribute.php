@@ -31,7 +31,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	{
 		$record = $entity->asArray();
 		unset($record['form_id']);
-		return $this->executeInsert($this->removeNullValues($record));
+		return $this->executeInsertAttribute($this->removeNullValues($record));
 	}
 
 	// SearchRepository
