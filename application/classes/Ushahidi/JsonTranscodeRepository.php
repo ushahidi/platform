@@ -29,10 +29,24 @@ trait Ushahidi_JsonTranscodeRepository {
 		$this->json_transcoder = $transcoder;
 	}
 
+  // Temporary override function for attribute addition
+  public function executeInsertAttribute(Array $input)
+  {
+    // JSON Encode defined properties
+		$input = $this->json_transcoder->encode(
+			$input,
+			$this->getJsonProperties()
+		);
+
+		return parent::executeInsert($input);
+  }
+
 	// Ushahidi_Repository
 	public function executeInsert(Array $input)
 	{
 		// JSON Encode defined properties
+    // The use of array_filter causes issues with array items set as 0
+    // the items are removed. This code should ultimately be refactored.
 		$input = array_filter($this->json_transcoder->encode(
 			$input,
 			$this->getJsonProperties()
