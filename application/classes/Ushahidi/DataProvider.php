@@ -82,6 +82,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 		$message_repo = service('repository.message');
 		$contact_repo = service('repository.contact');
 		$messages = array();
+		$provider = $this->provider_name;
 
 		// Get All "Sent" SMSSync messages
 		// Limit it to 20 MAX and FIFO
