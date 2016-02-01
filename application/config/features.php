@@ -34,7 +34,7 @@ return [
 	// Client limits
 	// Where TRUE is infinite and an integer defines a limit
 	'limits' => [
-		'posts' => 100,
+		'posts' => TRUE,
 		'forms' => TRUE,
 		'admin_users' => TRUE,
 	],

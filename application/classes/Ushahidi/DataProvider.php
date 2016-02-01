@@ -118,6 +118,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	public static function process_pending_messages($limit = 20, $provider = FALSE)
 	{
 		$message_repo = service('repository.message');
+		$contact_repo = service('repository.contact');
 		$providers = array();
 		$count = 0;
 

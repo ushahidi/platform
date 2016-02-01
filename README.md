@@ -1,7 +1,7 @@
 [download]: https://github.com/ushahidi/platform/releases
 [install]: http://docs.ushahidi.org/install/index.html
 [docs]: http://docs.ushahidi.com/
-[getin]: http://docs.ushahidi.com/get-involved.html
+[getin]: https://www.ushahidi.com/support/get-involved
 [issues]: https://github.com/ushahidi/platform/issues
 [ush2]: https://github.com/ushahidi/Ushahidi_Web
 [ushahidi]: http://ushahidi.com
