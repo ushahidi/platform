@@ -123,16 +123,11 @@ class Controller_Sms_Smssync extends Controller {
 
 		if (count($messages) > 0)
 		{
-			// Send secret key if set
-			if ( isset($options['secret']))
-			{
-				$this->_json['payload']['secret'] = $options['secret'];
-			}
-
 			$this->_json['payload'] = [
 				'task' => "send",
 				'success' => TRUE,
-				'messages' => $messages
+				'messages' => $messages,
+				'secret' => $this->options['secret'] ?: null
 			];
 		}
 	}
