@@ -82,7 +82,7 @@ class DataProvider_Twitter extends DataProvider {
 				"result_type" => 'recent'
 			]);
 
-			if ( !$results->statuses)
+			if ( empty($results->statuses))
 			{
 				return 0;
 			}
