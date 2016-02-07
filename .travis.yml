@@ -23,6 +23,10 @@ before_script:
 script:
 - "./bin/tests run --no-install"
 - "composer lint"
+after_success:
+  # - travis_retry bin/coveralls
+  # or enable logging
+  - travis_retry bin/coveralls -v
 before_deploy:
 - bin/release ${TRAVIS_TAG:-$TRAVIS_COMMIT}
 deploy:

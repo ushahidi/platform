@@ -112,8 +112,8 @@ abstract class UshahidiTestsCommand extends Command
     {
         if ($state === 'up' && !$this->test_server_pid)
         {
-            $command = "php -S localhost:8000 -t {$this->dir}"
-                     . " {$this->dir}/httpdocs/index.php"
+            $command = "php -S localhost:8000 -t {$this->dir}/httpdocs"
+                     . " {$this->dir}/httpdocs/coverage.php"
                      . " > /dev/null 2>&1 & echo $!;"
                      ;
 
@@ -196,6 +196,9 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         $no_install = $input->getOption('no-install');
         if (!$no_install) { $this->install(); }
 
+        $coverage_dir = $this->dir . 'coverage';
+        system('rm -rf ' . escapeshellarg($coverage_dir) . '/*'); // clear coverage
+
         // start the local test server
         $this->testServer('up');
 
@@ -234,6 +237,8 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         $this->testServer('down');
 
         $elapsed_time = time() - $test_start_time;
+
+        system('rm -rf ' . escapeshellarg($coverage_dir) . '/*'); // clear coverage
 
         // output a single pass/fail message
         if ($tests_pass)
