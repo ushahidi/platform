@@ -11,6 +11,16 @@ language: php
 php:
 - '5.5'
 - '5.6'
+env:
+- coverage="--coverage"
+- coverage=""
+matrix:
+  exclude:
+  - php: '5.5'
+    env: coverage="--coverage"
+  allow_failures:
+    - env: coverage="--coverage"
+  fast_finish: true
 cache:
   directories:
     - $HOME/.composer/cache
@@ -21,12 +31,10 @@ install:
 before_script:
 - "./bin/tests install"
 script:
-- "./bin/tests run --no-install"
+- "./bin/tests run --no-install $coverage"
 - "composer lint"
 after_success:
-  # - travis_retry bin/coveralls
-  # or enable logging
-  - travis_retry bin/coveralls -v
+- if [ "${coverage}" != "" ]; then travis_retry bin/coveralls -v; fi
 before_deploy:
 - bin/release ${TRAVIS_TAG:-$TRAVIS_COMMIT}
 deploy:
