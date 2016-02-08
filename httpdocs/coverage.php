@@ -11,6 +11,6 @@ include __DIR__ . '/index.php';
 
 $coverage->stop();
 
-$file = tempnam(__DIR__ . '/../coverage/', 'behat-');
+$file = __DIR__ . '/../coverage/behat-' . uniqid() . '.xml';
 $writer = new PHP_CodeCoverage_Report_Clover;
 $writer->process($coverage, $file);
