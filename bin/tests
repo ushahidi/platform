@@ -108,12 +108,13 @@ abstract class UshahidiTestsCommand extends Command
         fclose($outfile);
     }
 
-    protected function testServer($state)
+    protected function testServer($state, $coverage = FALSE)
     {
         if ($state === 'up' && !$this->test_server_pid)
         {
+            $index = $coverage ? 'coverage' : 'index';
             $command = "php -S localhost:8000 -t {$this->dir}/httpdocs"
-                     . " {$this->dir}/httpdocs/coverage.php"
+                     . " {$this->dir}/httpdocs/{$index}.php"
                      . " > /dev/null 2>&1 & echo $!;"
                      ;
 
@@ -181,7 +182,13 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
                 null,
                 InputOption::VALUE_NONE,
                 'Don\'t install the prerequisites'
+            )->addOption(
+                'coverage',
+                null,
+                InputOption::VALUE_NONE,
+                'Enable code coverage'
             )
+
             ;
     }
 
@@ -196,11 +203,14 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         $no_install = $input->getOption('no-install');
         if (!$no_install) { $this->install(); }
 
-        $coverage_dir = $this->dir . 'coverage';
-        system('rm -rf ' . escapeshellarg($coverage_dir) . '/*'); // clear coverage
+        $coverage = $input->getOption('coverage');
+        if ($coverage) {
+            $coverage_dir = $this->dir . 'coverage';
+            system('rm -rf ' . escapeshellarg($coverage_dir) . '/*'); // clear coverage
+        }
 
         // start the local test server
-        $this->testServer('up');
+        $this->testServer('up', $coverage);
 
         // we're optimistic
         $tests_pass = true;
@@ -237,8 +247,6 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         $this->testServer('down');
 
         $elapsed_time = time() - $test_start_time;
-
-        system('rm -rf ' . escapeshellarg($coverage_dir) . '/*'); // clear coverage
 
         // output a single pass/fail message
         if ($tests_pass)
