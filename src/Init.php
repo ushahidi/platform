@@ -138,6 +138,8 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'notifications'        => $di->lazyGet('authorizer.notification'),
 	'contacts'             => $di->lazyGet('authorizer.contact'),
 	'csv'                  => $di->lazyGet('authorizer.csv'),
+	'roles'                => $di->lazyGet('authorizer.role'),
+	'permissions'          => $di->lazyGet('authorizer.permission'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -162,6 +164,8 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'notifications'        => $di->lazyGet('repository.notification'),
 	'contacts'             => $di->lazyGet('repository.contact'), 
 	'csv'                  => $di->lazyGet('repository.csv'),
+	'roles'                => $di->lazyGet('repository.role'),
+	'permissions'          => $di->lazyGet('repository.permission'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -349,6 +353,8 @@ $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthor
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
 $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthorizer'));
+$di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuthorizer'));
+$di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
 
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [

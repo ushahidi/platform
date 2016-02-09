@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Role
+ * Ushahidi Permission Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,41 +13,25 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class Role extends StaticEntity
+class Permission extends StaticEntity
 {
 	protected $id;
 	protected $name;
-	protected $display_name;
 	protected $description;
-	protected $permissions;
 
 	// DataTransformer
-	protected function getDefinition()
+	public function getDefinition()
 	{
 		return [
 			'id'           => 'int',
 			'name'         => 'string',
-			'display_name' => 'string',
 			'description'  => 'string',
-			'permissions'  => 'array',
 		];
 	}
 
 	// Entity
 	public function getResource()
 	{
-		return 'roles';
-	}
-
-	// Entity
-	public function getId()
-	{
-		return $this->name;
-	}
-
-	// StatefulData
-	protected function getImmutable()
-	{
-		return ['name'];
+		return 'permission';
 	}
 }

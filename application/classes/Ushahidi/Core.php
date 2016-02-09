@@ -227,7 +227,18 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_CSV_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_CSV_Update'),
 		];
-
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['csv'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_CSV_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_CSV_Update'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['roles'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Role_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Role_Update'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['permissions'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Permission_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Permission_Update'),
+		];
 
 		// Validation Trait
 		$di->setter['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->newFactory('Ushahidi_ValidationEngine');
@@ -251,7 +262,9 @@ abstract class Ushahidi_Core {
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
 			'contacts'             => $di->lazyNew('Ushahidi_Formatter_Contact'),
-			'csv'             => $di->lazyNew('Ushahidi_Formatter_CSV'),
+			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
+			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
+			'permissions'          => $di->lazyNew('Ushahidi_Formatter_Permission'),
 		];
 
 		// Formatter parameters
@@ -271,6 +284,8 @@ abstract class Ushahidi_Core {
 			'set_post',
 			'notification',
 			'contact',
+			'role',
+			'permission',
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
@@ -374,6 +389,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.notification', $di->lazyNew('Ushahidi_Repository_Notification'));
 		$di->set('repository.csv', $di->lazyNew('Ushahidi_Repository_CSV'));
 		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
+		$di->set('repository.permission', $di->lazyNew('Ushahidi_Repository_Permission'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
@@ -521,7 +537,9 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_CSV_Update'] = [
 			'form_repo' => $di->lazyGet('repository.form'),
 		];
-
+		$di->params['Ushahidi_Validator_Role_Update'] = [
+			'permission_repo' => $di->lazyGet('repository.permission'),
+		];
 
 		// Validator Setters
 		$di->setter['Ushahidi_Validator_Form_Stage_Update'] = [

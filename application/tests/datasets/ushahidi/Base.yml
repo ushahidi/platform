@@ -836,6 +836,14 @@ oauth_scopes:
     id: 16
     scope: csv
     name: csv
+  -
+    id: 17
+    scope: roles
+    name: roles
+  -
+    id: 18
+    scope: permissions
+    name: permissions
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -980,6 +988,12 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 13
+  -
+    session_access_token_id: 4
+    scope_id: 17
+  -
+    session_access_token_id: 4
+    scope_id: 18
 
   # for testbasicuser2
   -
@@ -1294,3 +1308,19 @@ notifications:
     user_id: 4
     set_id: 4
 csv:
+roles_permissions:
+permissions:
+  -
+    id: 1
+    name: Manage users
+    description: Manage users
+
+  -
+    id: 2
+    name: Manage settings
+    description: Manage general settings
+
+  -
+    id: 3
+    name: Manage posts
+    description: Manage posts
