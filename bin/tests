@@ -239,7 +239,7 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         $output->writeln("\n<info> - Running PHPUnit tests - </info>\n");
         $phpunit_command = "{$this->dir}/bin/phpunit"
                          . " -c {$this->dir}/phpunit.xml.dist"
-                         . " --strict"
+                         . ($coverage ? "" : " --no-coverage")
                          ;
         $tests_pass = ($this->execEnv($phpunit_command, true) === 0) && $tests_pass;
 
