@@ -6,7 +6,8 @@ Feature: Testing the Roles API
         And that the request "data" is:
             """
             {
-                "name":"manager"
+                "name":"manager",
+                "display_name":"Manager"
             }
             """
         When I request "/roles"
