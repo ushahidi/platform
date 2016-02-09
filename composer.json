@@ -18,7 +18,7 @@
         "league/flysystem-aws-s3-v3": "1.0.4",
         "league/flysystem-rackspace": "1.0.1",
         "league/flysystem": "1.1.*",
-        "ircmaxell/password-compat": "~1.0.3",
+        "ircmaxell/password-compat": "^1.0.4",
         "abraham/twitteroauth": "^0.5.3",
         "kohana/core" : "3.3.3.1@dev",
         "kohana/cache" : "3.3.*@dev",
@@ -43,7 +43,9 @@
         "league/event": "^2.2@dev",
         "league/url": "~3.0",
         "beheh/flaps": "dev-master",
-        "doctrine/cache": "^1.5@dev"
+        "doctrine/cache": "^1.5@dev",
+        "satooshi/php-coveralls": "^2.0@dev",
+        "henrikbjorn/phpspec-code-coverage": "~2.0"
     },
     "require-dev": {
         "behat/behat": "~2.5.2",
@@ -52,9 +54,9 @@
         "fabpot/goutte": "~1.0",
         "guzzle/guzzle": "~3.9.1",
         "kohana/unittest": "3.3.*@dev",
-        "phpunit/phpunit": "~3.7.37",
-        "phpunit/dbunit": "~1.2.3",
-        "phpspec/phpspec": "~2.1.0",
+        "phpunit/phpunit": "~4.8",
+        "phpunit/dbunit": "~1.4",
+        "phpspec/phpspec": "~2.4",
         "symfony/console": "2.6.*",
         "squizlabs/php_codesniffer": "1.5.*",
         "heroku/heroku-buildpack-php": "dev-master"
