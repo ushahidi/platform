@@ -34,4 +34,10 @@ class Permission extends StaticEntity
 	{
 		return 'permission';
 	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		return ['name'];
+	}
 }
