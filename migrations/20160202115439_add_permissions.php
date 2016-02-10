@@ -29,4 +29,3 @@ class AddPermissions extends AbstractMigration
 		
     }
 }
-
