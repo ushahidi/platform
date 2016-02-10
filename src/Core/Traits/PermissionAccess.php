@@ -14,7 +14,7 @@
 namespace Ushahidi\Core\Traits;
 
 use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Entity\RoleRepository
+use Ushahidi\Core\Entity\RoleRepository;
 
 trait PermissionAccess
 {
