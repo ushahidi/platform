@@ -22,13 +22,13 @@ trait PermissionAccess
 
 	public function setRepo(RoleRepository $repo)
 	{
-		$this->$repo = $repo;
+		$this->repo = $repo;
 	}
 	 
 	// Acl interface
-	protected function hasPermission(User $user, Array $permissions)
+	public function hasPermission(User $user, Array $permissions)
 	{
-		$role = $this->$repo->getByName($user->role);
+		$role = $this->repo->getByName($user->role);
 
 		// Does the user have all the permisions?
 		$found = array_intersect($permissions, $role->permissions);
