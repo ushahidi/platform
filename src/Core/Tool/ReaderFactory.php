@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Ushahidi Platform File Reader Tool
+ * Ushahidi Reader factory interface
+ *
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,17 +12,10 @@
 
 namespace Ushahidi\Core\Tool;
 
-interface FileReader
+interface ReaderFactory
 {
 	/**
-	 * Read a file and return a Traversable object
-	 *
-	 * @param  SplFileObject|string $file
-	 * @return Traversable
+	 * @param SplFileObject|string $file
 	 */
-	public function process($file);
-
-	public function setOffset($offset);
-
-	public function setLimit($limit);
+	public function createReader($file);
 }
