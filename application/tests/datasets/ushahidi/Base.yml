@@ -1309,18 +1309,3 @@ notifications:
     set_id: 4
 csv:
 roles_permissions:
-permissions:
-  -
-    id: 1
-    name: Manage users
-    description: Manage users
-
-  -
-    id: 2
-    name: Manage settings
-    description: Manage general settings
-
-  -
-    id: 3
-    name: Manage posts
-    description: Manage posts

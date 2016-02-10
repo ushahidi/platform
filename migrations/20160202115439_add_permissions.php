@@ -19,5 +19,14 @@ class AddPermissions extends AbstractMigration
 			->addIndex(['name'], ['unique' => true])
 			->create()
 			;
+
+		$this->execute("INSERT INTO permissions (name, description)
+                VALUES ('Manage Users', 'Manage users'),
+                       ('Manage Posts', 'Manage posts'),
+                       ('Manage Settings', 'Manage general settings'),
+                       ('Bulk Data Import', 'Import data from external sources')
+                ");
+		
     }
 }
+

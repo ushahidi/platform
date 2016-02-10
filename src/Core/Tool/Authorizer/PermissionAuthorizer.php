@@ -34,7 +34,8 @@ class PermissionAuthorizer implements Authorizer
 		$user = $this->getUser();
 		
 		// Only allow admin access
-		if ($this->isUserAdmin($user)) {
+		if ($this->isUserAdmin($user)
+			and in_array($privilege, ['search', 'read'])) {
 			return true;
 		}
 

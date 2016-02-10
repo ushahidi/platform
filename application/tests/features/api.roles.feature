@@ -24,7 +24,7 @@ Feature: Testing the Roles API
             {
                 "name":"supervisor",
                 "display_name":"Supervisor",
-                "permissions":["Manage users"]
+                "permissions":["Manage Users"]
             }
             """
         When I request "/roles"
@@ -32,7 +32,7 @@ Feature: Testing the Roles API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the response has a "permissions" property
-        And the "permissions.0" property equals "Manage users"
+        And the "permissions.0" property equals "Manage Users"
         Then the guzzle status code should be 200
 
     Scenario: Assign a permission to a role
@@ -41,14 +41,14 @@ Feature: Testing the Roles API
         And that the request "data" is:
             """
             {
-                "permissions":["Manage users", "Manage settings"]
+                "permissions":["Manage Users", "Manage Settings"]
             }
             """
         And that its "id" is "4"
         When I request "/roles"
         And the response has a "permissions" property
-        And the "permissions.0" property equals "Manage users"
-        And the "permissions.1" property equals "Manage settings"
+        And the "permissions.0" property equals "Manage Users"
+        And the "permissions.1" property equals "Manage Settings"
         Then the guzzle status code should be 200
 
      Scenario: Change permission of a role
@@ -57,13 +57,13 @@ Feature: Testing the Roles API
         And that the request "data" is:
             """
             {
-                "permissions":["Manage posts"]
+                "permissions":["Manage Posts"]
             }
             """
         And that its "id" is "4"
         When I request "/roles"
         And the response has a "permissions" property
-        And the "permissions.0" property equals "Manage posts"
+        And the "permissions.0" property equals "Manage Posts"
         Then the guzzle status code should be 200
 
      Scenario: Removing permissions from a role
