@@ -44,6 +44,18 @@ abstract class Ushahidi_Core {
 		$di->set('kohana.db', function() use ($di) {
 			return Database::instance('deployment', $di->get('db.config'));
 		});
+		// Multisite db
+		$di->set('site', function () use ($di) {
+			$site = '';
+
+			// Is this a multisite install?
+			$multisite = Kohana::$config->load('multisite.enabled');
+			if ($multisite) {
+				$site = $di->get('multisite')->getSite();
+			}
+
+			return $site;
+		});
 
 		// CDN Config settings
 		$di->set('cdn.config', function() use ($di) {
