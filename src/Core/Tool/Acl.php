@@ -11,15 +11,21 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Entity\User;
-
 interface Acl
 {
 	/**
-	 * Check if User has permission
-	 * @param Ushahidi|Core|Entity|User $user
+	 * Check if Role has permission
+	 *
+	 * @param String $role
 	 * @param Array $permissions A list of permissions to check for
 	 * @return Boolean
 	 */
-	public function hasPermission(User $user, Array $permissions);
+	public function hasPermission($role, Array $permissions);
+
+	/**
+	 * Get a list of required permissions
+	 *
+	 * @return Array
+	 */
+	public function getRequiredPermissions();
 }

@@ -5,6 +5,12 @@ roles:
   -
     name: "admin"
     display_name: "Admin"
+  -
+    name: "manager"
+    display_name: "Manager"
+  -
+    name: "importer"
+    display_name: "Importer"
 users:
   -
     id: 1
@@ -36,6 +42,18 @@ users:
     realname: Demo
     email: "demo@ushahidi.com"
     role: "admin"
+  -
+    id: 6
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Manager
+    email: "manager@ushahidi.com"
+    role: "manager"
+  -
+    id: 7
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Importer
+    email: "importer@ushahidi.com"
+    role: "importer"
 forms:
   -
     id: 1
@@ -733,6 +751,19 @@ oauth_sessions:
     client_id: "demoapp"
     owner_type: "user"
     owner_id: 3
+    
+# Test roles
+  -
+    id: 5
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 6
+  -
+    id: 6
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 7
+  
 oauth_session_redirects:
   -
     session_id: 1
@@ -771,6 +802,19 @@ oauth_session_access_tokens:
     session_id: 1
     access_token: "testanon"
     access_token_expires: 1893477600
+    
+# Test roles
+  -
+    id: 7
+    session_id: 5
+    access_token: "testmanager"
+    access_token_expires: 1893477600
+  -
+    id: 8
+    session_id: 6
+    access_token: "testimporter"
+    access_token_expires: 1893477600
+
 oauth_scopes:
   -
     id: 1
@@ -1072,6 +1116,99 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 6
     scope_id: 13
+
+# Test roles
+# for testmanager
+  -
+    session_access_token_id: 7
+    scope_id: 1
+  -
+    session_access_token_id: 7
+    scope_id: 2
+  -
+    session_access_token_id: 7
+    scope_id: 3
+  -
+    session_access_token_id: 7
+    scope_id: 4
+  -
+    session_access_token_id: 7
+    scope_id: 5
+  -
+    session_access_token_id: 7
+    scope_id: 6
+  -
+    session_access_token_id: 7
+    scope_id: 7
+  -
+    session_access_token_id: 7
+    scope_id: 8
+  -
+    session_access_token_id: 7
+    scope_id: 9
+  -
+    session_access_token_id: 7
+    scope_id: 10
+  -
+    session_access_token_id: 7
+    scope_id: 11
+  -
+    session_access_token_id: 7
+    scope_id: 13
+  -
+    session_access_token_id: 7
+    scope_id: 17
+  -
+    session_access_token_id: 7
+    scope_id: 18
+
+# for testimporter
+  -
+    session_access_token_id: 8
+    scope_id: 1
+  -
+    session_access_token_id: 8
+    scope_id: 2
+  -
+    session_access_token_id: 8
+    scope_id: 3
+  -
+    session_access_token_id: 8
+    scope_id: 4
+  -
+    session_access_token_id: 8
+    scope_id: 5
+  -
+    session_access_token_id: 8
+    scope_id: 6
+  -
+    session_access_token_id: 8
+    scope_id: 7
+  -
+    session_access_token_id: 8
+    scope_id: 8
+  -
+    session_access_token_id: 8
+    scope_id: 9
+  -
+    session_access_token_id: 8
+    scope_id: 10
+  -
+    session_access_token_id: 8
+    scope_id: 11
+  -
+    session_access_token_id: 8
+    scope_id: 13
+  -
+    session_access_token_id: 8
+    scope_id: 16
+  -
+    session_access_token_id: 8
+    scope_id: 17
+  -
+    session_access_token_id: 8
+    scope_id: 18
+
 # include other oauth tables to ensure a blank slate for test runs
 oauth_session_refresh_tokens:
 oauth_session_authcodes:
@@ -1309,3 +1446,15 @@ notifications:
     set_id: 4
 csv:
 roles_permissions:
+  -
+    role: Manager
+    permission: Manage Users
+  -
+    role: Manager
+    permission: Manage Posts
+  -
+    role: Manager
+    permission: Manage Settings
+  -
+    role: Importer
+    permission: Bulk Data Import

@@ -13,7 +13,6 @@
 
 namespace Ushahidi\Core\Traits;
 
-use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\RoleRepository;
 
 trait PermissionAccess
@@ -26,12 +25,12 @@ trait PermissionAccess
 	}
 	 
 	// Acl interface
-	public function hasPermission(User $user, Array $permissions)
+	public function hasPermission($role, Array $permissions)
 	{
-		$role = $this->repo->getByName($user->role);
+		$entity = $this->repo->getByName($role);
 
 		// Does the user have all the permisions?
-		$found = array_intersect($permissions, $role->permissions);
+		$found = array_intersect($permissions, $entity->permissions);
 
 		return $found === $permissions;
 	}
