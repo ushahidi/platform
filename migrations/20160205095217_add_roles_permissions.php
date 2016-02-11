@@ -14,13 +14,13 @@ class AddRolesPermissions extends AbstractMigration
     public function change()
     {
 		$this->table('roles_permissions')
-			->addColumn('role_id', 'integer', ['null' => false])
-			->addColumn('permission_name', 'string', ['limit' => 50, 'null' => false])
-			->addForeignKey('role_id', 'roles', 'id', [
+			->addColumn('role', 'string', ['limit' => 50, 'null' => false])
+			->addColumn('permission', 'string', ['limit' => 50, 'null' => false])
+			->addForeignKey('role', 'roles', 'name', [
                 'delete' => 'CASCADE',
                 'update' => 'CASCADE',
                 ])
-			->addForeignKey('permission_name', 'permissions', 'name', [
+			->addForeignKey('permission', 'permissions', 'name', [
                 'delete' => 'CASCADE',
                 'update' => 'CASCADE',
                 ])

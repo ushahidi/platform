@@ -23,25 +23,25 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 		return 'roles';
 	}
 
-	protected function getPermissions($id)
+	protected function getPermissions($role)
 	{
-		return DB::select('permission_name')->from('roles_permissions')
-				->where('role_id', '=', $id)
+		return DB::select('permission')->from('roles_permissions')
+				->where('role', '=', $role)
 				->execute($this->db)
-				->as_array(NULL, 'permission_name');
+				->as_array(NULL, 'permission');
 	}
 
-	protected function updatePermissions($role_id, $permissions)
+	protected function updatePermissions($role, $permissions)
 	{
-		$current_permissions = $this->getPermissions($role_id);
+		$current_permissions = $this->getPermissions($role);
 
-		$insert_query = DB::insert('roles_permissions', ['role_id', 'permission_name']);
+		$insert_query = DB::insert('roles_permissions', ['role', 'permission']);
 
 		$new_permissions = array_diff($permissions, $current_permissions);
 
 		foreach($new_permissions as $permission)
 		{
-			$insert_query->values([$role_id, $permission]);
+			$insert_query->values([$role, $permission]);
 		}
 
 		if ($new_permissions) {
@@ -53,8 +53,8 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 
 		if ($discarded_permissions) {
 			DB::delete('roles_permissions')
-				->where('permission_name', 'IN', $discarded_permissions)
-				->where('role_id', '=', $role_id)
+				->where('permission', 'IN', $discarded_permissions)
+				->where('role', '=', $role)
 				->execute($this->db);
 		}
 	}
@@ -65,7 +65,7 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 		if (!empty($data['id']))
 		{
 			$data += [
-				'permissions' => $this->getPermissions($data['id'])
+				'permissions' => $this->getPermissions($data['name'])
 			];
 		}
 
@@ -104,7 +104,7 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 		$id = $this->executeInsert($this->removeNullValues($role));
 
 		if ($entity->permissions) {
-			$this->updatePermissions($id, $entity->permissions);
+			$this->updatePermissions($entity->name, $entity->permissions);
 		}
 
 		return $id;
@@ -118,12 +118,12 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 		// Remove permissions
 		unset($role['permissions']);
 
-		// Update the post
+		// ... Update the post
 		$count = $this->executeUpdate(['id' => $entity->id], $role);
 
-		// Update permissions
+		// ... Update permissions
 		if ($entity->hasChanged('permissions')) {
-			$this->updatePermissions($entity->id, $entity->permissions);
+			$this->updatePermissions($entity->name, $entity->permissions);
 		}
 
 		return $count;
