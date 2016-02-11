@@ -21,7 +21,8 @@ abstract class Log_Writer extends Kohana_Log_Writer {
 	 */
 	public function format_message(array $message, $format = "time site --- level: body in file:line")
 	{
-		$message['site'] = service('site');
+		$dbconfig = service('db.config'); // hacky - use db name as fallback
+		$message['site'] = service('site') ?: $dbconfig['connection']['database'];
 
 		return parent::format_message(array_filter($message, 'is_scalar'), $format);
 	}
