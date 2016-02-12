@@ -75,7 +75,10 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['q', /* LIKE name */];
+		return [
+			'q', /* LIKE name */
+			'name',
+		];
 	}
 
 	// RoleRepository
