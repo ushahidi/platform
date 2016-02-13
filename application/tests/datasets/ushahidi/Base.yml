@@ -235,6 +235,7 @@ posts:
     type: "report"
     content: "Testing post"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1364009953
     published_to:
@@ -247,6 +248,7 @@ posts:
     type: "report"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1378018880
     published_to:
@@ -259,6 +261,7 @@ posts:
     type: "report"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1412007022
     published_to:
@@ -271,6 +274,7 @@ posts:
     type: "report"
     content: "Testing oauth posts api access"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1373838515
     published_to:
@@ -283,6 +287,7 @@ posts:
     type: "report"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1354628171
     published_to:
@@ -295,6 +300,7 @@ posts:
     type: "report"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "fr_fr"
     created: 1384762238
     published_to:
@@ -307,6 +313,7 @@ posts:
     type: "report"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1362747895
     published_to:
@@ -319,6 +326,7 @@ posts:
     type: "report"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1403169957
     published_to:
@@ -331,6 +339,7 @@ posts:
     type: "revision"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1363791760
     published_to:
@@ -343,6 +352,7 @@ posts:
     type: "revision"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1390417375
     published_to:
@@ -355,6 +365,7 @@ posts:
     type: "report"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1373006165
     published_to:
@@ -367,6 +378,7 @@ posts:
     type: "translation"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "fr_fr"
     created: 1408165751
     published_to:
@@ -379,6 +391,7 @@ posts:
     type: "revision"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "fr_fr"
     created: 1367599079
     published_to:
@@ -391,6 +404,7 @@ posts:
     type: "translation"
     content: "Some description"
     status: "published"
+    published_to: []
     locale: "ar_ar"
     created: 1404089791
     published_to:
@@ -403,6 +417,7 @@ posts:
     type: "report"
     content: "Testing oauth posts api access"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1355743120
     published_to:
@@ -415,6 +430,7 @@ posts:
     type: "report"
     content: "Testing oauth posts api access"
     status: "draft"
+    published_to: []
     locale: "en_us"
     created: 1398774435
     published_to:
@@ -427,6 +443,7 @@ posts:
     type: "report"
     content: "Testing draft"
     status: "draft"
+    published_to: []
     locale: "en_us"
     created: 1408607443
     published_to:
@@ -438,7 +455,8 @@ posts:
     title: "Draft 2"
     type: "report"
     content: "Testing draft 2"
-    status: "pending"
+    status: "draft"
+    published_to: []
     locale: "en_us"
     created: 1404996921
     published_to:
@@ -451,6 +469,7 @@ posts:
     type: "report"
     content: "Update for draft"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1411884027
     published_to:
@@ -463,6 +482,7 @@ posts:
     type: "translation"
     content: "Translation of draft"
     status: "published"
+    published_to: []
     locale: "fr_fr"
     created: 1411907883
     published_to:
@@ -475,6 +495,7 @@ posts:
     type: "revision"
     content: "Revision of draft"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1411911360
     published_to:
@@ -487,6 +508,7 @@ posts:
     type: "report"
     content: "Update for draft"
     status: "draft"
+    published_to: []
     locale: "en_us"
     created: 1412005016
     published_to:
@@ -499,6 +521,7 @@ posts:
     type: "report"
     content: "Post published to members"
     status: "published"
+    published_to: []
     locale: "en_us"
     created: 1412025016
     published_to: '["user"]'
