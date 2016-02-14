@@ -14,12 +14,12 @@ namespace Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\CSV;
 use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Acl;
+use Ushahidi\Core\Tool\Permissions\Acl;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\DataImport;
 
 class CSVAuthorizer implements Authorizer, Acl
 {
@@ -31,9 +31,6 @@ class CSVAuthorizer implements Authorizer, Acl
 	// Check if user has Admin access
 	use AdminAccess;
 
-	// Get required permissions
-	use DataImport;
-
 	// Check that the user has the necessary permissions
 	use PermissionAccess;
 
@@ -44,7 +41,8 @@ class CSVAuthorizer implements Authorizer, Acl
 		$user = $this->getUser();
 
 		// Allow role with the right permissions
-		if ($this->hasPermission($user->role, $this->getRequiredPermissions())) {
+		if ($entity instanceof Permissionable and
+			$this->hasPermission($user, $entity->getPermissions())) {
 			return true;
 		}
 		

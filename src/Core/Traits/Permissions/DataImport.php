@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Ushahidi DataImport Trait
+ * Ushahidi Permissions Trait
  *
- * Implements Acl::getRequiredPermissions()
+ * Implements Permissionable::getPermissions()
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -11,14 +11,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Traits;
+namespace Ushahidi\Core\Traits\Permissions;
 
 use Ushahidi\Core\Entity;
 
 trait DataImport
 {
-	// Acl Interface
-	protected function getRequiredPermissions()
+	// Permissionable Interface
+	public function getPermissions()
 	{
 		return ['Bulk Data Import'];
 	}

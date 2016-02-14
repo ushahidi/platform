@@ -14,20 +14,25 @@
 namespace Ushahidi\Core\Traits;
 
 use Ushahidi\Core\Entity\RoleRepository;
+use Ushahidi\Core\Entity\User;
 
 trait PermissionAccess
 {
-	protected $repo;
+	protected $role_repo;
 
-	public function setRepo(RoleRepository $repo)
+	public function setRoleRepo(RoleRepository $role_repo)
 	{
-		$this->repo = $repo;
+		$this->role_repo = $role_repo;
 	}
 	 
 	// Acl interface
-	public function hasPermission($role, Array $permissions)
+	public function hasPermission(User $user, Array $permissions)
 	{
-		$entity = $this->repo->getByName($role);
+		if (!$user->role) {
+			return false;
+		}
+		
+		$entity = $this->role_repo->getByName($user->role);
 
 		// Does the user have all the permisions?
 		$found = array_intersect($permissions, $entity->permissions);

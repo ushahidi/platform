@@ -12,9 +12,14 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\DynamicEntity;
+use Ushahidi\Core\Traits\Permissions\ManageSettings;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 
-class Config extends DynamicEntity
+class Config extends DynamicEntity implements Permissionable
 {
+	// Permissions
+	use ManageSettings;
+	
 	// DataTransformer
 	protected function getDefinition()
 	{

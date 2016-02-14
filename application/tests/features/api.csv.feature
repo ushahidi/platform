@@ -11,18 +11,6 @@ Feature: Testing the CSV API
         And the "columns.0" property equals "title"
         Then the guzzle status code should be 200
 
-    Scenario: Uploading a CSV file with the Importer role
-        Given that I want to make a new "CSV"
-        And that the request "Authorization" header is "Bearer testimporter"
-        And that the post file "file" is "tests/datasets/ushahidi/sample.csv"
-        When I request "/csv"
-        Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
-        And the response has a "columns" property
-        And the "columns.0" property equals "title"
-        Then the guzzle status code should be 200
-
     Scenario: Update CSV mapping
         Given that I want to update a "CSV"
         And that the request "data" is:

@@ -6,7 +6,7 @@ Feature: Testing the Roles API
         And that the request "data" is:
             """
             {
-                "name":"editor",
+                "name":"Editor",
                 "display_name":"Editor"
             }
             """
@@ -22,7 +22,7 @@ Feature: Testing the Roles API
         And that the request "data" is:
             """
             {
-                "name":"supervisor",
+                "name":"Supervisor",
                 "display_name":"Supervisor",
                 "permissions":["Manage Users"]
             }
@@ -79,5 +79,18 @@ Feature: Testing the Roles API
         When I request "/roles"
         And the response has a "permissions" property
         And the "permissions" property is empty
+        Then the guzzle status code should be 200
+
+     Scenario: Get role by name
+        Given that I want to find a "Role"
+        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the request "query string" is:
+            """
+            name=manager
+            """
+        When I request "/roles"
+        Then the response is JSON
+        And the "count" property equals "1"
+        And the "results.0.name" property equals "Manager"
         Then the guzzle status code should be 200
 

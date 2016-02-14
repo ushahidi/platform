@@ -9,23 +9,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tool;
+namespace Ushahidi\Core\Tool\Permissions;
+
+use Ushahidi\Core\Entity\User;
 
 interface Acl
 {
 	/**
-	 * Check if Role has permission
+	 * Check if user has permissions
 	 *
-	 * @param String $role
+	 * @param Ushahidi|Core|Entity|User $user
 	 * @param Array $permissions A list of permissions to check for
 	 * @return Boolean
 	 */
-	public function hasPermission($role, Array $permissions);
-
-	/**
-	 * Get a list of required permissions
-	 *
-	 * @return Array
-	 */
-	public function getRequiredPermissions();
+	public function hasPermission(User $user, Array $permissions);
 }
