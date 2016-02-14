@@ -1447,14 +1447,14 @@ notifications:
 csv:
 roles_permissions:
   -
-    role: manager
+    role: Manager
     permission: Manage Users
   -
-    role: manager
+    role: Manager
     permission: Manage Posts
   -
-    role: manager
+    role: Manager
     permission: Manage Settings
   -
-    role: importer
+    role: Importer
     permission: Bulk Data Import
