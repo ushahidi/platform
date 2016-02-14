@@ -1,15 +1,15 @@
 roles:
   -
-    name: "user"
+    name: "User"
     display_name: "User"
   -
-    name: "admin"
+    name: "Admin"
     display_name: "Admin"
   -
-    name: "manager"
+    name: "Manager"
     display_name: "Manager"
   -
-    name: "importer"
+    name: "Importer"
     display_name: "Importer"
 users:
   -
@@ -17,43 +17,43 @@ users:
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Robbie Mackay
     email: "robbie@ushahidi.com"
-    role: "user"
+    role: "User"
   -
     id: 2
     password: "$2y$15$Ha7nHVZApHXfzhrD2HCukuUjjQhIUzPJ0JNWk7KooT6edQFTbeWr6"
     realname: Admin
     email: "admin@ushahidi.com"
-    role: "admin"
+    role: "Admin"
   -
     id: 3
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Test User
     email: test@v3.ushahidi.com
-    role: "user"
+    role: "User"
   -
     id: 4
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Import admin
     email: "importadmin@ushahidi.com"
-    role: "admin"
+    role: "Admin"
   -
     id: 5
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Demo
     email: "demo@ushahidi.com"
-    role: "admin"
+    role: "Admin"
   -
     id: 6
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Manager
     email: "manager@ushahidi.com"
-    role: "manager"
+    role: "Manager"
   -
     id: 7
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Importer
     email: "importer@ushahidi.com"
-    role: "importer"
+    role: "Importer"
 forms:
   -
     id: 1
@@ -238,7 +238,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1364009953
-    published_to:
   -
     id: 99
     form_id: 1
@@ -251,7 +250,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1378018880
-    published_to:
   -
     id: 9999
     form_id:
@@ -264,7 +262,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1412007022
-    published_to:
   -
     id: 95
     form_id: 1
@@ -277,7 +274,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1373838515
-    published_to:
   -
     id: 97
     form_id: 1
@@ -290,7 +286,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1354628171
-    published_to:
   -
     id: 96
     form_id: 1
@@ -303,7 +298,6 @@ posts:
     published_to: "[]"
     locale: "fr_fr"
     created: 1384762238
-    published_to:
   -
     id: 101
     form_id: 1
@@ -316,7 +310,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1362747895
-    published_to:
   -
     id: 102
     form_id: 2
@@ -329,7 +322,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1403169957
-    published_to:
   -
     id: 103
     form_id: 1
@@ -342,7 +334,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1363791760
-    published_to:
   -
     id: 104
     form_id: 1
@@ -355,7 +346,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1390417375
-    published_to:
   -
     id: 105
     form_id: 1
@@ -368,7 +358,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1373006165
-    published_to:
   -
     id: 106
     form_id: 1
@@ -381,7 +370,6 @@ posts:
     published_to: "[]"
     locale: "fr_fr"
     created: 1408165751
-    published_to:
   -
     id: 107
     form_id: 1
@@ -394,7 +382,6 @@ posts:
     published_to: "[]"
     locale: "fr_fr"
     created: 1367599079
-    published_to:
   -
     id: 108
     form_id: 1
@@ -407,7 +394,6 @@ posts:
     published_to: "[]"
     locale: "ar_ar"
     created: 1404089791
-    published_to:
   -
     id: 110
     form_id: 1
@@ -420,7 +406,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1355743120
-    published_to:
   -
     id: 111
     form_id: 1
@@ -433,7 +418,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1398774435
-    published_to:
   -
     id: 112
     form_id: 1
@@ -446,7 +430,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1408607443
-    published_to:
   -
     id: 113
     form_id: 1
@@ -459,7 +442,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1404996921
-    published_to:
   -
     id: 114
     form_id: 1
@@ -472,7 +454,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1411884027
-    published_to:
   -
     id: 115
     form_id: 1
@@ -485,7 +466,6 @@ posts:
     published_to: "[]"
     locale: "fr_fr"
     created: 1411907883
-    published_to:
   -
     id: 116
     form_id: 1
@@ -498,7 +478,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1411911360
-    published_to:
   -
     id: 117
     form_id: 1
@@ -511,7 +490,6 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1412005016
-    published_to:
   -
     id: 120
     form_id: 1
@@ -523,7 +501,7 @@ posts:
     status: "published"
     locale: "en_us"
     created: 1412025016
-    published_to: '["user"]'
+    published_to: '["User"]'
 post_datetime:
 post_decimal:
 post_geometry:
@@ -647,7 +625,7 @@ tags:
     slug: "role-control"
     priority: 0
     type: "category"
-    role: '["admin"]'
+    role: '["Admin"]'
 posts_tags:
   -
     post_id: 1
@@ -685,7 +663,7 @@ sets:
     id: 3
     name: Admin only collection
     search: 0
-    visible_to: '["admin"]'
+    visible_to: '["Admin"]'
   -
     id: 4
     name: Test search
@@ -702,7 +680,7 @@ sets:
     name: Admin only search
     search: 1
     filter: '{"q":"junk"}'
-    visible_to: '["admin"]'
+    visible_to: '["Admin"]'
 posts_sets:
   -
     set_id: 1

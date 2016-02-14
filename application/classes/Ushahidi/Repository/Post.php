@@ -447,7 +447,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// they are allowed to see
 		if (!$user->id) {
 			$query->where("$table.status", '=', 'published');
-		} elseif ($user->role !== 'admin') {
+		} elseif ($user->role !== 'Admin') {
 			$query
 				->and_where_open()
 				->where("$table.status", '=', 'published')
