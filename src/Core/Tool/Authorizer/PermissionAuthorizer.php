@@ -39,14 +39,6 @@ class PermissionAuthorizer implements Authorizer
 			return true;
 		}
 
-    if ($privilege === 'read') {
-      return true;
-    }
-    // All users are allowed to search permissions.
-    if ($privilege === 'search') {
-      return true;
-    }
-
 		return false;
 	}
 }
