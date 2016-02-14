@@ -137,9 +137,13 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 	{
 		$query = $this->search_query;
 
+		if ($search->name) {
+			$query->where('name', '=', $search->name);
+		}
+
 		if ($search->q)
 		{
-			$query->where('name', 'LIKE', "%" .$search->q ."%");
+			$query->where('name', 'LIKE', "%" .$search->q. "%");
 		}
 
 		return $query;
