@@ -23,6 +23,7 @@ use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\PrivateDeployment;
 use Ushahidi\Core\Traits\PermissionAccess;
 
 // The `PostAuthorizer` class is responsible for access checks on `Post` Entities
@@ -39,6 +40,9 @@ class PostAuthorizer implements Authorizer, Acl
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// It uses `PrivateDeployment` to check whether a deployment is private
+	use PrivateDeployment;
 
 	// Check that the user has the necessary permissions
 	use PermissionAccess;
@@ -70,6 +74,11 @@ class PostAuthorizer implements Authorizer, Acl
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
+
+		// Only logged in users have access if the deployment is private
+		if (!$this->hasAccess()) {
+			return false;
+		}
 
 		// First check if user has right permissions
 		if ($entity instanceof Permissionable and

@@ -21,6 +21,7 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\PrivateDeployment;
 use Ushahidi\Core\Traits\PermissionAccess;
 
 // The `FormAuthorizer` class is responsible for access checks on `Forms`
@@ -36,6 +37,9 @@ class FormAuthorizer implements Authorizer, Acl
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// It uses `PrivateDeployment` to check whether a deployment is private
+	use PrivateDeployment;
 
 	// Check that the user has the necessary permissions
 	use PermissionAccess;
@@ -56,6 +60,11 @@ class FormAuthorizer implements Authorizer, Acl
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
+
+		// Only logged in users have access if the deployment is private
+		if (!$this->hasAccess()) {
+			return false;
+		}
 
 		// Allow role with the right permissions
 		if ($entity instanceof Permissionable and

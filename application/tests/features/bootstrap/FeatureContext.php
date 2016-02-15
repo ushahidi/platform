@@ -65,6 +65,26 @@ class FeatureContext extends BehatContext
 		self::insertGeometryFixtures($pdo_connection);
 	}
 
+	/** @BeforeScenario @private */
+	public function makePrivate()
+	{
+		$config = Kohana::$config->load('site');
+		$config->set('private', true);
+
+		$config = Kohana::$config->load('features');
+		$config->set('private.enabled', true);
+	}
+
+	/** @AfterScenario @private */
+	public function makePublic()
+	{
+		$config = Kohana::$config->load('site');
+		$config->set('private', false);
+
+		$config = Kohana::$config->load('features');
+		$config->set('private.enabled', false);
+	}
+
 	/** @BeforeScenario @rolesEnabled */
 	public function enableRoles()
 	{

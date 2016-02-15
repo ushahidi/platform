@@ -55,6 +55,12 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('ratelimiter')->as_array();
 		});
 
+		// Private deployment config settings
+		$di->set('site.private', function() use ($di) {
+			return Kohana::$config->load('site.private')
+				and Kohana::$config->load('features.private.enabled');
+		});
+
 		// Roles config settings
 		$di->set('roles.enabled', function() use ($di) {
 			return Kohana::$config->load('features.roles.enabled');
