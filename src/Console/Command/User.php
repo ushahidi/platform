@@ -68,7 +68,7 @@ class User extends Command
 			'realname' => $input->getOption('realname') ?: null,
 			'email' => $input->getOption('email'),
 			// Default to creating an admin user
-			'role' => $input->getOption('role') ?: 'admin',
+			'role' => $input->getOption('role') ?: 'Admin',
 			'password' => $input->getOption('password'),
 		];
 
