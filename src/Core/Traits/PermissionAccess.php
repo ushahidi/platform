@@ -19,7 +19,7 @@ use Ushahidi\Core\Entity\User;
 trait PermissionAccess
 {
 	protected $role_repo;
-	protected $roles_enabled = FALSE;
+	protected $roles_enabled = false;
 
 	public function setRoleRepo(RoleRepository $role_repo)
 	{
