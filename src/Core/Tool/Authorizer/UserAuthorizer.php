@@ -17,6 +17,7 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\PrivateDeployment;
 
 // The `UserAuthorizer` class is responsible for access checks on `Users`
 class UserAuthorizer implements Authorizer
@@ -29,6 +30,10 @@ class UserAuthorizer implements Authorizer
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// It uses `PrivateDeployment` to check whether a deployment is private
+	use PrivateDeployment;
+
 
 	/**
 	 * Get a list of all possible privilges.
@@ -45,6 +50,11 @@ class UserAuthorizer implements Authorizer
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
+
+		// Only logged in users have access if the deployment is private
+		if (!$this->hasAccess()) {
+			return false;
+		}
 
 		// User should not be able to delete self
 		if ($privilege === 'delete' && $this->isUserSelf($entity)) {

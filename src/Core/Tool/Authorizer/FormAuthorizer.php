@@ -19,6 +19,7 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\PrivateDeployment;
 
 // The `FormAuthorizer` class is responsible for access checks on `Forms`
 class FormAuthorizer implements Authorizer
@@ -33,6 +34,9 @@ class FormAuthorizer implements Authorizer
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// It uses `PrivateDeployment` to check whether a deployment is private
+	use PrivateDeployment;
 
 	// It requires a `FormRepository` to load parent posts too.
 	protected $form_repo;
@@ -50,6 +54,11 @@ class FormAuthorizer implements Authorizer
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
+
+		// Only logged in users have access if the deployment is private
+		if (!$this->hasAccess()) {
+			return false;
+		}
 
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)

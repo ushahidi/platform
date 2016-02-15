@@ -121,6 +121,8 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 204
 
+
+
     Scenario: Anonymous users can not edit posts
         Given that I want to update a "Post"
         And that the request "Authorization" header is "Bearer testanon"
@@ -151,7 +153,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response has an "id" property
-
+        
     Scenario: Anonymous user can not access updates with private parent post
         Given that I want to get all "Updates"
         And that the request "Authorization" header is "Bearer testanon"
@@ -370,3 +372,57 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 403
         And the response is JSON
+
+    @private
+    Scenario: Registering as a user when a deployment is private
+        Given that I want to make a new "user"
+        And that the request "Authorization" header is "Bearer testanon"
+        And that the request "data" is:
+        """
+        {
+            "email":"john@ushahidi.com",
+            "realname":"John Tae",
+            "password":"testing",
+            "role":"admin"
+        }
+        """
+        When I request "/users"
+        Then the response is JSON
+        Then the guzzle status code should be 403
+
+    @private
+    Scenario: Anonymous user cannot access public posts when deployment is private
+        Given that I want to get all "Posts"
+        And that the request "Authorization" header is "Bearer testanon"
+        When I request "/posts"
+        Then the guzzle status code should be 403
+
+    @private
+    Scenario: Anonymous users cannot create posts when a deployment is private
+        Given that I want to make a new "Post"
+        And that the request "Authorization" header is "Bearer testanon"
+        And that the request "data" is:
+        """
+        {
+            "form_id": 1,
+            "status": "draft",
+            "title": "Test creating anonymous post",
+            "content": "testing post for oauth",
+            "locale": "en_us",
+            "values": {
+                "last_location" : ["Somewhere"]
+            }
+        }
+        """
+        When I request "/posts"
+        Then the guzzle status code should be 403
+
+    @private
+    Scenario: Anonymous users cannot view public posts when a deployment is private
+        Given that I want to find a "Post"
+        And that the request "Authorization" header is "Bearer testanon"
+        And that its "id" is "110"
+        When I request "/posts"
+        Then the guzzle status code should be 403
+
+

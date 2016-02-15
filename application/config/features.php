@@ -38,4 +38,9 @@ return [
 		'forms' => TRUE,
 		'admin_users' => TRUE,
 	],
+
+	// Private deployments
+	'private' => [
+		'enabled' => TRUE,
+	],
 ];
