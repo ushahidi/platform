@@ -70,6 +70,9 @@ class FeatureContext extends BehatContext
 	{
 		$config = Kohana::$config->load('site');
 		$config->set('private', true);
+
+		$config = Kohana::$config->load('features');
+		$config->set('private.enabled', true);
 	}
 
 	/** @AfterScenario @private */
@@ -77,6 +80,9 @@ class FeatureContext extends BehatContext
 	{
 		$config = Kohana::$config->load('site');
 		$config->set('private', false);
+
+		$config = Kohana::$config->load('features');
+		$config->set('private.enabled', false);
 	}
 
 	protected static function insertGeometryFixtures($pdo_connection)

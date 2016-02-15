@@ -57,7 +57,8 @@ abstract class Ushahidi_Core {
 
 		// Private deployment config settings
 		$di->set('site.private', function() use ($di) {
-			return Kohana::$config->load('site.private');
+			return Kohana::$config->load('site.private')
+				and Kohana::$config->load('features.private.enabled');
 		});
 
 		$di->set('tool.uploader.prefix', function() use ($di) {
