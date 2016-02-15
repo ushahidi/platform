@@ -1,7 +1,7 @@
 [download]: https://github.com/ushahidi/platform/releases
 [install]: http://docs.ushahidi.org/install/index.html
 [docs]: http://docs.ushahidi.com/
-[getin]: http://docs.ushahidi.com/get-involved.html
+[getin]: https://www.ushahidi.com/support/get-involved
 [issues]: https://github.com/ushahidi/platform/issues
 [ush2]: https://github.com/ushahidi/Ushahidi_Web
 [ushahidi]: http://ushahidi.com
@@ -12,6 +12,7 @@ Ushahidi 3
 
 [![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform)
 [![Stories up next](https://badge.waffle.io/ushahidi/platform.png?label=2 - Up Next&title=Up Next)](https://waffle.io/ushahidi/platform)
+[![Coverage Status](https://coveralls.io/repos/github/ushahidi/platform/badge.svg)](https://coveralls.io/github/ushahidi/platform)
 
 [Download][download]
 

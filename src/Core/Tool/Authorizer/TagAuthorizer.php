@@ -15,13 +15,16 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Tag;
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Tool\Permissions\Acl;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
+use Ushahidi\Core\Traits\PermissionAccess;
 
 // The `TagAuthorizer` class is responsible for access checks on `Tags`
-class TagAuthorizer implements Authorizer
+class TagAuthorizer implements Authorizer, Acl
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -34,6 +37,9 @@ class TagAuthorizer implements Authorizer
 
 	// It uses `PrivateDeployment` to check whether a deployment is private
 	use PrivateDeployment;
+
+	// Check that the user has the necessary permissions
+	use PermissionAccess;
 
 	protected function isUserOfRole(Tag $entity, $user)
 	{
@@ -54,6 +60,12 @@ class TagAuthorizer implements Authorizer
 		// Only logged in users have access if the deployment is private
 		if (!$this->hasAccess()) {
 			return false;
+		}
+
+		// First check whether there is a role with the right permissions
+		if ($entity instanceof Permissionable and
+			$this->hasPermission($user, $entity->getPermissions())) {
+			return true;
 		}
 
 		// Then we check if a user has the 'admin' role. If they do they're

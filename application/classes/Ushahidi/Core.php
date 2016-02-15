@@ -61,6 +61,11 @@ abstract class Ushahidi_Core {
 				and Kohana::$config->load('features.private.enabled');
 		});
 
+		// Roles config settings
+		$di->set('roles.enabled', function() use ($di) {
+			return Kohana::$config->load('features.roles.enabled');
+		});
+
 		$di->set('tool.uploader.prefix', function() use ($di) {
 			// Is this a multisite install?
 			$multisite = Kohana::$config->load('multisite.enabled');
@@ -227,6 +232,22 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets_posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Set_Post_Create'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['csv'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_CSV_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_CSV_Update'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['csv'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_CSV_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_CSV_Update'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['roles'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Role_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Role_Update'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['permissions'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Permission_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Permission_Update'),
+		];
 
 		// Validation Trait
 		$di->setter['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->newFactory('Ushahidi_ValidationEngine');
@@ -250,6 +271,9 @@ abstract class Ushahidi_Core {
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
 			'contacts'             => $di->lazyNew('Ushahidi_Formatter_Contact'),
+			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
+			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
+			'permissions'          => $di->lazyNew('Ushahidi_Formatter_Permission'),
 		];
 
 		// Formatter parameters
@@ -269,6 +293,8 @@ abstract class Ushahidi_Core {
 			'set_post',
 			'notification',
 			'contact',
+			'role',
+			'permission',
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
@@ -276,6 +302,7 @@ abstract class Ushahidi_Core {
 		}
 
 		$di->setter['Ushahidi_Formatter_Set']['setAuth'] = $di->lazyGet("authorizer.set");
+		$di->setter['Ushahidi_Formatter_CSV']['setAuth'] = $di->lazyGet("authorizer.csv");
 
 		// Set Formatter factory
 		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');
@@ -286,6 +313,8 @@ abstract class Ushahidi_Core {
 
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
+		$di->set('tool.acl', $di->lazyNew('Ushahidi_Acl'));
+		$di->setter['Ushahidi_Acl']['setRoleRepo'] = $di->lazyGet('repository.role');
 
 		// Register filesystem adpater types
 		// Currently supported: Local filesysten, AWS S3 v3, Rackspace
@@ -369,7 +398,9 @@ abstract class Ushahidi_Core {
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
 		$di->set('repository.notification', $di->lazyNew('Ushahidi_Repository_Notification'));
+		$di->set('repository.csv', $di->lazyNew('Ushahidi_Repository_CSV'));
 		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
+		$di->set('repository.permission', $di->lazyNew('Ushahidi_Repository_Permission'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
@@ -399,6 +430,8 @@ abstract class Ushahidi_Core {
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox'),
 				'tag_repo' => $di->lazyGet('repository.tag')
 			];
+
+		$di->setter['Ushahidi_Repository_Post']['setAcl'] = $di->lazyGet('tool.acl');
 
 		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_Post_Datetime'));
 		$di->set('repository.post.decimal', $di->lazyNew('Ushahidi_Repository_Post_Decimal'));
@@ -497,20 +530,29 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Tag_Update'] = [
 			'repo' => $di->lazyGet('repository.tag'),
 			'role_repo' => $di->lazyGet('repository.role'),
-			];
+		];
 
 		$di->params['Ushahidi_Validator_User_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
 			'role_repo' => $di->lazyGet('repository.role'),
-			];
+		];
 		$di->params['Ushahidi_Validator_User_Update'] = [
 			'repo' => $di->lazyGet('repository.user'),
 			'user' => $di->lazyGet('session.user'),
 			'role_repo' => $di->lazyGet('repository.role'),
-			];
+		];
 		$di->params['Ushahidi_Validator_User_Register'] = [
 			'repo'    => $di->lazyGet('repository.user')
-			];
+		];
+		$di->params['Ushahidi_Validator_CSV_Create'] = [
+			'form_repo' => $di->lazyGet('repository.form'),
+		];
+		$di->params['Ushahidi_Validator_CSV_Update'] = [
+			'form_repo' => $di->lazyGet('repository.form'),
+		];
+		$di->params['Ushahidi_Validator_Role_Update'] = [
+			'permission_repo' => $di->lazyGet('repository.permission'),
+		];
 
 		// Validator Setters
 		$di->setter['Ushahidi_Validator_Form_Stage_Update'] = [
@@ -521,6 +563,11 @@ abstract class Ushahidi_Core {
 				return \Kohana::$config->load('media.max_upload_bytes');
 			}),
 		];
+		$di->setter['Ushahidi_Validator_CSV_Create'] = [
+			// @todo load from config
+			'setMaxBytes' => '2048',
+		];
+
 
 		$di->set('validator.post.datetime', $di->lazyNew('Ushahidi_Validator_Post_Datetime'));
 		$di->set('validator.post.decimal', $di->lazyNew('Ushahidi_Validator_Post_Decimal'));
@@ -551,7 +598,16 @@ abstract class Ushahidi_Core {
 			];
 
 		$di->set('transformer.mapping', $di->lazyNew('Ushahidi_Transformer_MappingTransformer'));
+		$di->set('transformer.csv', $di->lazyNew('Ushahidi_Transformer_CSVPostTransformer'));
+		// Post repo for mapping transformer
+		$di->setter['Ushahidi_Transformer_CSVPostTransformer']['setRepo'] =
+			$di->lazyGet('repository.post');
+
 		$di->set('filereader.csv', $di->lazyNew('Ushahidi_FileReader_CSV'));
+		$di->setter['Ushahidi_FileReader_CSV']['setReaderFactory'] =
+			$di->lazyGet('csv.reader_factory');
+
+		$di->set('csv.reader_factory', $di->lazyNew('Ushahidi_CSVReaderFactory'));
 
 		$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer'));
 

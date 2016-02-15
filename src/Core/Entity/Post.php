@@ -12,9 +12,14 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\Traits\Permissions\ManagePosts;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 
-class Post extends StaticEntity
+class Post extends StaticEntity implements Permissionable
 {
+	// Permissions
+	use ManagePosts;
+	
 	protected $id;
 	protected $parent_id;
 	protected $form_id;

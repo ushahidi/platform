@@ -39,8 +39,14 @@ return [
 		'admin_users' => TRUE,
 	],
 
+
 	// Private deployments
 	'private' => [
+		'enabled' => TRUE,
+	],
+	
+	// Roles
+	'roles' => [
 		'enabled' => TRUE,
 	],
 ];

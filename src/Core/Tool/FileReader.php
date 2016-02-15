@@ -16,10 +16,10 @@ interface FileReader
 	/**
 	 * Read a file and return a Traversable object
 	 *
-	 * @param  String $filename
+	 * @param  SplFileObject|string $file
 	 * @return Traversable
 	 */
-	public function process($filename);
+	public function process($file);
 
 	public function setOffset($offset);
 
