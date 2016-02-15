@@ -12,9 +12,14 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\Traits\Permissions\ManageSettings;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 
-class DataProvider extends StaticEntity
+class DataProvider extends StaticEntity implements Permissionable
 {
+	// Permissions
+	use ManageSettings;
+
 	protected $id;
 	protected $name;
 	protected $version;

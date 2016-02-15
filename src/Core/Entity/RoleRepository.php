@@ -23,4 +23,10 @@ interface RoleRepository extends
 	 * @return Boolean
 	 */
 	public function doRolesExist(Array $roles = null);
+
+	/**
+	 * @param String $name
+	 * @return \Ushahidi\Core\Entity\Role
+	 */
+	public function getByName($name);
 }

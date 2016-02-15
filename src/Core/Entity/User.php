@@ -12,9 +12,14 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\Traits\Permissions\ManageUsers;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 
-class User extends StaticEntity
+class User extends StaticEntity implements Permissionable
 {
+	// Permissions
+	use ManageUsers;
+
 	protected $id;
 	protected $email;
 	protected $realname;
@@ -26,6 +31,7 @@ class User extends StaticEntity
 	protected $created;
 	protected $updated;
 	protected $role;
+	protected $permissions;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -42,6 +48,7 @@ class User extends StaticEntity
 			'created'         => 'int',
 			'updated'         => 'int',
 			'role'            => 'string',
+			'permissions'     => 'array',
 		];
 	}
 
