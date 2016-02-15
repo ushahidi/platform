@@ -19,15 +19,34 @@ use Ushahidi\Core\Entity\User;
 trait PermissionAccess
 {
 	protected $role_repo;
+	protected $roles_enabled = FALSE;
 
 	public function setRoleRepo(RoleRepository $role_repo)
 	{
 		$this->role_repo = $role_repo;
 	}
-	 
+
+	public function setRolesEnabled($roles_enabled)
+	{
+		$this->roles_enabled = $roles_enabled;
+	}
+
+	/**
+	 * Check if custom roles are enabled for this deployment
+	 * @return boolean
+	 */
+	protected function hasRolesEnabled()
+	{
+		return (bool) $this->roles_enabled;
+	}
+ 
 	// Acl interface
 	public function hasPermission(User $user, Array $permissions)
 	{
+		if (!$this->hasRolesEnabled()) {
+			return false;
+		}
+		
 		if (!$user->role) {
 			return false;
 		}

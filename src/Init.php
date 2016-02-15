@@ -318,6 +318,7 @@ $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository'
 	= $di->lazyGet('repository.form_stage');
 $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
 $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRoleRepo'] = $di->lazyGet('repository.role');
+$di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRolesEnabled'] = $di->lazyGet('roles.enabled');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));

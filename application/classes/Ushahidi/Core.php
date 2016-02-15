@@ -51,11 +51,14 @@ abstract class Ushahidi_Core {
 		});
 
 		// Ratelimiter config settings
-
 		$di->set('ratelimiter.config', function() use ($di) {
 			return Kohana::$config->load('ratelimiter')->as_array();
 		});
 
+		// Roles config settings
+		$di->set('roles.enabled', function() use ($di) {
+			return Kohana::$config->load('features.roles.enabled');
+		});
 
 		$di->set('tool.uploader.prefix', function() use ($di) {
 			// Is this a multisite install?
