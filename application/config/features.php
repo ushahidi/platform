@@ -41,6 +41,6 @@ return [
 
 	// Private deployments
 	'private' => [
-		'enabled' => FALSE,
+		'enabled' => TRUE,
 	],
 ];
