@@ -55,7 +55,7 @@ class PHPUnitFixtureContext extends BehatContext {
 		$file = Kohana::find_file('tests/datasets', $dataset , 'yml');
 
 		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
-			file_get_contents($file)
+			$file
 		);
 	}
 
