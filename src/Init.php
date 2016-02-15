@@ -317,6 +317,7 @@ $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] 
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
 	= $di->lazyGet('repository.form_stage');
 $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
+$di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRoleRepo'] = $di->lazyGet('repository.role');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
@@ -327,14 +328,8 @@ $di->params['Ushahidi\Core\Tool\Uploader'] = [
 
 // Authorizers
 $di->set('authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));
-$di->setter['Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer']['setRoleRepo'] = $di->lazyGet('repository.role');
-
 $di->set('authorizer.dataprovider', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\DataProviderAuthorizer'));
-$di->setter['Ushahidi\Core\Tool\Authorizer\DataProviderAuthorizer']['setRoleRepo'] = $di->lazyGet('repository.role');
-
 $di->set('authorizer.form', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAuthorizer'));
-$di->setter['Ushahidi\Core\Tool\Authorizer\FormAuthorizer']['setRoleRepo'] = $di->lazyGet('repository.role');
-
 $di->params['Ushahidi\Core\Tool\Authorizer\FormAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),
 	];
@@ -350,28 +345,20 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'] = [
 	];
 
 $di->set('authorizer.user', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\UserAuthorizer'));
-$di->setter['Ushahidi\Core\Tool\Authorizer\UserAuthorizer']['setRoleRepo'] = $di->lazyGet('repository.role');
-
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
 $di->set('authorizer.message', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MessageAuthorizer'));
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
-$di->setter['Ushahidi\Core\Tool\Authorizer\TagAuthorizer']['setRoleRepo'] = $di->lazyGet('repository.role');
-
 $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
 $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthorizer'));
-$di->setter['Ushahidi\Core\Tool\Authorizer\CSVAuthorizer']['setRoleRepo'] = $di->lazyGet('repository.role');
-
 $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuthorizer'));
 $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
-
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	];
-$di->setter['Ushahidi\Core\Tool\Authorizer\PostAuthorizer']['setRoleRepo'] = $di->lazyGet('repository.role');
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
