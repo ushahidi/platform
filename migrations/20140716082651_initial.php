@@ -267,11 +267,14 @@ class Initial extends AbstractMigration
             ->addColumn('created', 'integer', ['default' => 0])
             ->create();
 
-        $this->table('roles')
+        $this->table('roles', [
+                'id' => false,
+                'primary_key' => 'name',
+                ])
             ->addColumn('name', 'string', ['limit' => 50])
             ->addColumn('display_name', 'string', ['limit' => 50])
             ->addColumn('description', 'string', ['null' => true])
-			->addIndex(['name'], ['unique' => true])
+            ->addColumn('permissions', 'string', ['null' => true])
             ->create();
 
         $this->table('sets')
