@@ -50,7 +50,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
-	protected $acl_manager;
+	protected $acl;
 
 	/**
 	 * Construct
@@ -79,9 +79,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	}
 
 	// AclManager setter
-	public function setAclManager($acl_manager)
+	public function setAcl($acl)
 	{
-		$this->acl_manager = $acl_manager;
+		$this->acl = $acl;
 	}
 
 	// Ushahidi_Repository
@@ -461,7 +461,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if (!$user->id) {
 			$query->where("$table.status", '=', 'published');
 		} elseif ($user->role !== 'Admin' and
-				  !$this->acl_manager->hasPermission($user, $this->getPermissions())) {
+				  !$this->acl->hasPermission($user, $this->getPermissions())) {
 			$query
 				->and_where_open()
 				->where("$table.status", '=', 'published')

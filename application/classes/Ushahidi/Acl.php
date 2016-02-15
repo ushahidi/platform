@@ -12,7 +12,7 @@
 use Ushahidi\Core\Tool\Permissions\Acl;
 use Ushahidi\Core\Traits\PermissionAccess;
 
-class Ushahidi_AclManager implements Acl
+class Ushahidi_Acl implements Acl
 {
 	use PermissionAccess;
 }

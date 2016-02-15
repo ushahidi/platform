@@ -304,8 +304,8 @@ abstract class Ushahidi_Core {
 
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
-		$di->set('tool.aclmanager', $di->lazyNew('Ushahidi_AclManager'));
-		$di->setter['Ushahidi_AclManager']['setRoleRepo'] = $di->lazyGet('repository.role');
+		$di->set('tool.acl', $di->lazyNew('Ushahidi_Acl'));
+		$di->setter['Ushahidi_Acl']['setRoleRepo'] = $di->lazyGet('repository.role');
 
 		// Register filesystem adpater types
 		// Currently supported: Local filesysten, AWS S3 v3, Rackspace
@@ -422,7 +422,7 @@ abstract class Ushahidi_Core {
 				'tag_repo' => $di->lazyGet('repository.tag')
 			];
 
-		$di->setter['Ushahidi_Repository_Post']['setAclManager'] = $di->lazyGet('tool.aclmanager');
+		$di->setter['Ushahidi_Repository_Post']['setAcl'] = $di->lazyGet('tool.acl');
 
 		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_Post_Datetime'));
 		$di->set('repository.post.decimal', $di->lazyNew('Ushahidi_Repository_Post_Decimal'));
