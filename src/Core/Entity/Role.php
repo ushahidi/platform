@@ -15,17 +15,21 @@ use Ushahidi\Core\StaticEntity;
 
 class Role extends StaticEntity
 {
+	protected $id;
 	protected $name;
 	protected $display_name;
 	protected $description;
+	protected $permissions;
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
+			'id'           => 'int',
 			'name'         => 'string',
 			'display_name' => 'string',
 			'description'  => 'string',
+			'permissions'  => 'array',
 		];
 	}
 

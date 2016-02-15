@@ -48,18 +48,39 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
-		return new User($data);
+    $user = new User($data);
+    if (!empty($user->role)) {
+          $user->setState(['permissions'  => $this->getPermissions($user->role)]);
+    }
+		return $user;
 	}
+
+  // Get associated permissions of user's role
+  public function getPermissions($role) {
+    return DB::select('permission')->from('roles_permissions')
+        ->where('role', '=', $role)
+        ->execute($this->db)
+        ->as_array(NULL, 'permission');
+  }
 
 	// CreateRepository
 	public function create(Entity $entity)
 	{
+
 		$state = [
 			'created'  => time(),
 			'password' => $this->hasher->hash($entity->password),
 		];
+    
+    $entity->setState($state);
+		$user = $entity->asArray();
 
-		return parent::create($entity->setState($state));
+    unset($user['permissions']);
+		
+    //Create User
+    $id = $this->executeInsert($this->removeNullValues($user));
+		
+    return $id;
 	}
 
 	// UpdateRepository
@@ -73,7 +94,13 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			$state['password'] = $this->hasher->hash($entity->password);
 		}
 
-		return parent::update($entity->setState($state));
+		$entity->setState($state);
+
+    $user = $entity->asArray();
+
+    unset($user['permissions']);
+
+    $count = $this->executeUpdate(['id' => $entity->id], $user);
 	}
 
 	// SearchRepository

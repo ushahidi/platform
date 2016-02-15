@@ -1,3 +1,4 @@
+@acl
 Feature: API Access Control Layer
     Scenario: Anonymous user can access public posts
         Given that I want to get all "Posts"
@@ -370,3 +371,117 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 403
         And the response is JSON
+
+    @rolesEnabled
+    Scenario: User with Manage Posts permission can view all posts in collection
+        Given that I want to get all "Posts"
+        And that the request "Authorization" header is "Bearer testmanager"
+        And that the request "query string" is "status=all"
+        When I request "/posts"
+        Then the guzzle status code should be 200
+        And the response is JSON
+        And the "count" property equals "16"
+    
+    @rolesEnabled
+    Scenario: User with Manage Posts permission can view private posts
+        Given that I want to find a "Post"
+        And that its "id" is "111"
+        And that the request "Authorization" header is "Bearer testmanager"
+        When I request "/posts"
+        Then the guzzle status code should be 200
+        And the response is JSON
+        And the response has an "id" property
+    
+    @rolesEnabled
+    Scenario: User with with Manage Settings permission can update a config
+        Given that I want to update a "Config"
+        And that the request "Authorization" header is "Bearer testmanager"
+        And that the request "data" is:
+            """
+            {
+                "testkey":"i am a teapot?"
+            }
+            """
+        When I request "/config/test"
+        Then the response is JSON
+        And the "id" property equals "test"
+        And the "testkey" property equals "i am a teapot?"
+        Then the guzzle status code should be 200
+
+    @rolesEnabled
+    Scenario: User with Manage Settings permissions can list Data Providers
+        Given that I want to get all "Dataproviders"
+        And that the request "Authorization" header is "Bearer testmanager"
+        When I request "/dataproviders"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "6"
+        Then the guzzle status code should be 200
+    
+    @rolesEnabled
+    Scenario: User with Manage Settings permissions can see all Tags
+        Given that I want to get all "Tags"
+        And that the request "Authorization" header is "Bearer testmanager"
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "7"
+        Then the guzzle status code should be 200
+
+    @rolesEnabled
+    Scenario: User with Manage Settings permission can create a new form
+        Given that I want to make a new "Form"
+        And that the request "Authorization" header is "Bearer testmanager"
+        And that the request "data" is:
+            """
+            {
+                "name":"Test Form",
+                "type":"report",
+                "description":"This is an ACL test form",
+                "disabled":false
+            }
+            """
+        When I request "/forms"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "disabled" property is false
+        Then the guzzle status code should be 200
+        
+    @rolesEnabled
+    Scenario: User with Manage Users permission can create a user
+        Given that I want to make a new "user"
+        And that the request "Authorization" header is "Bearer testmanager"
+        And that the request "data" is:
+        """
+        {
+            "email":"acluser@ushahidi.com",
+            "realname":"Acl User",
+            "password":"testing",
+            "role":"User"
+        }
+        """
+        When I request "/users"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the response has a "email" property
+        And the "email" property equals "acluser@ushahidi.com"
+        And the "role" property equals "User"
+        And the response does not have a "password" property
+        Then the guzzle status code should be 200
+    
+    @rolesEnabled
+    Scenario: Uploading a CSV file with the Importer role
+        Given that I want to make a new "CSV"
+        And that the request "Authorization" header is "Bearer testimporter"
+        And that the post file "file" is "tests/datasets/ushahidi/sample.csv"
+        When I request "/csv"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the response has a "columns" property
+        And the "columns.0" property equals "title"
+        Then the guzzle status code should be 200
