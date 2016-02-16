@@ -14,9 +14,9 @@ namespace Ushahidi\Core\Tool\Permissions;
 interface Permissionable
 {
 	/**
-	 * Get a list of required permissions
+	 * Get required permission
 	 *
-	 * @return Array
+	 * @return String
 	 */
-	public function getPermissions();
+	public function getPermission();
 }

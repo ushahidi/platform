@@ -24,6 +24,8 @@ use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\Core\Usecase\Set\SetPostRepository;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\Permissions\ManagePosts;
+use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
 
 use Aura\DI\InstanceFactory;
@@ -39,8 +41,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
 
-	// Permissions
+	// Provides `getPermission`
 	use ManagePosts;
+
+	// Provides `hasPermission`
+	use PermissionAccess;
+
+	// Checks if user is Admin
+	use AdminAccess;
 
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
@@ -50,7 +58,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
-	protected $acl;
 
 	/**
 	 * Construct
@@ -76,12 +83,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
 		$this->tag_repo = $tag_repo;
-	}
-
-	// AclManager setter
-	public function setAcl($acl)
-	{
-		$this->acl = $acl;
 	}
 
 	// Ushahidi_Repository
@@ -460,8 +461,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// they are allowed to see
 		if (!$user->id) {
 			$query->where("$table.status", '=', 'published');
-		} elseif ($user->role !== 'Admin' and
-				  !$this->acl->hasPermission($user, $this->getPermissions())) {
+		} elseif (!$this->isUserAdmin($user) and
+				  !$this->hasPermission($user, $this->getPermission())) {
 			$query
 				->and_where_open()
 				->where("$table.status", '=', 'published')

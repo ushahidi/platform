@@ -12,14 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
-use Ushahidi\Core\Traits\Permissions\ManageSettings;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
 
-class Tag extends StaticEntity implements Permissionable
+class Tag extends StaticEntity
 {
-	// Permissions
-	use ManageSettings;
-
 	protected $id;
 	protected $parent_id;
 	protected $tag;

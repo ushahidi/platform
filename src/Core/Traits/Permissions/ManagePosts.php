@@ -18,8 +18,8 @@ use Ushahidi\Core\Entity;
 trait ManagePosts
 {
 	// Permissionable Interface
-	public function getPermissions()
+	public function getPermission()
 	{
-		return ['Manage Posts'];
+		return 'Manage Posts';
 	}
 }

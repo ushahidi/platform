@@ -12,14 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
-use Ushahidi\Core\Traits\Permissions\ManageUsers;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
 
-class User extends StaticEntity implements Permissionable
+class User extends StaticEntity
 {
-	// Permissions
-	use ManageUsers;
-
 	protected $id;
 	protected $email;
 	protected $realname;

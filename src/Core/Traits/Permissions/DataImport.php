@@ -3,7 +3,7 @@
 /**
  * Ushahidi Permissions Trait
  *
- * Implements Permissionable::getPermissions()
+ * Implements Permissionable::getPermission()
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -18,8 +18,8 @@ use Ushahidi\Core\Entity;
 trait DataImport
 {
 	// Permissionable Interface
-	public function getPermissions()
+	public function getPermission()
 	{
-		return ['Bulk Data Import'];
+		return 'Bulk Data Import';
 	}
 }

@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access');
 
 /**
- * Ushahidi Acl Manager
+ * Ushahidi Acl
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -10,9 +10,28 @@
  */
 
 use Ushahidi\Core\Tool\Permissions\Acl;
-use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Entity\RoleRepository;
 
 class Ushahidi_Acl implements Acl
 {
-	use PermissionAccess;
+	protected $role_repo;
+
+	public function setRoleRepo(RoleRepository $role_repo)
+	{
+		$this->role_repo = $role_repo;
+	}
+
+	// Acl interface
+	public function hasPermission(User $user, $permission)
+	{
+		if (!$user->role) {
+			return false;
+		}
+		
+		$role = $this->role_repo->getByName($user->role);
+
+		// Does the user have the permission?
+		return in_array($permission, $role->permissions);
+	}
 }

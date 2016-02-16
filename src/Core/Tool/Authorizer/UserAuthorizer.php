@@ -20,9 +20,10 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\Permissions\ManageUsers;
 
 // The `UserAuthorizer` class is responsible for access checks on `Users`
-class UserAuthorizer implements Authorizer, Acl
+class UserAuthorizer implements Authorizer, Permissionable
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -35,6 +36,9 @@ class UserAuthorizer implements Authorizer, Acl
 
 	// Check that the user has the necessary permissions
 	use PermissionAccess;
+
+	// Provides `getPermission`
+	use ManageUsers;
 
 	/**
 	 * Get a list of all possible privilges.
@@ -58,8 +62,7 @@ class UserAuthorizer implements Authorizer, Acl
 		}
 
 		// Role with the Manage Users permission can manage all users
-		if ($entity instanceof Permissionable and
-			$this->hasPermission($user, $entity->getPermissions())) {
+		if ($this->hasPermission($user)) {
 			return true;
 		}
 

@@ -19,9 +19,10 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\Permissions\ManageSettings;
 
 // The `DataProviderAuthorizer` class is responsible for access checks on `DataProvider` Entities
-class DataProviderAuthorizer implements Authorizer, Acl
+class DataProviderAuthorizer implements Authorizer, Permissionable
 {
 	// The access checks are run under the context of a specific user
     use UserContext;
@@ -33,7 +34,11 @@ class DataProviderAuthorizer implements Authorizer, Acl
     use PrivAccess;
 
 	// Check that the user has the necessary permissions
+	// if roles are available for this deployment.
 	use PermissionAccess;
+
+	// Provides `getPermission`
+	use ManageSettings;
 
 	// Authorizer
     public function isAllowed(Entity $entity, $privilege)
@@ -42,8 +47,7 @@ class DataProviderAuthorizer implements Authorizer, Acl
 		$user = $this->getUser();
 		
 		// Allow role with the right permissions
-		if ($entity instanceof Permissionable and
-			$this->hasPermission($user, $entity->getPermissions())) {
+		if ($this->hasPermission($user)) {
 			return true;
 		}
 
