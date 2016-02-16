@@ -527,7 +527,7 @@ Feature: API Access Control Layer
         And the response does not have a "password" property
         Then the guzzle status code should be 200
     
-    @rolesEnabled
+    @rolesEnabled @dataImportEnabled
     Scenario: Uploading a CSV file with the Importer role
         Given that I want to make a new "CSV"
         And that the request "Authorization" header is "Bearer testimporter"

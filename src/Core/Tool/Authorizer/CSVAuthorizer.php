@@ -20,6 +20,7 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\DataImportAccess;
 
 class CSVAuthorizer implements Authorizer, Acl
 {
@@ -34,9 +35,17 @@ class CSVAuthorizer implements Authorizer, Acl
 	// Check that the user has the necessary permissions
 	use PermissionAccess;
 
+	// Check if the user can import data
+	use DataImportAccess;
+
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
+		// Check if the user can import data first
+		if (!$this->canImportData()) {
+			return false;
+		}
+		
 		// These checks are run within the user context.
 		$user = $this->getUser();
 

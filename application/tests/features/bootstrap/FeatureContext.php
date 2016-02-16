@@ -99,6 +99,20 @@ class FeatureContext extends BehatContext
 		$config->set('roles.enabled', false);
 	}
 
+	/** @BeforeScenario @dataImportEnabled */
+	public function enableDataImport()
+	{
+		$config = Kohana::$config->load('features');
+		$config->set('data-import.enabled', true);
+	}
+
+	/** @AfterScenario @dataImportEnabled */
+	public function disableDataImport()
+	{
+		$config = Kohana::$config->load('features');
+		$config->set('data-import.enabled', false);
+	}
+
 	protected static function insertGeometryFixtures($pdo_connection)
 	{
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)

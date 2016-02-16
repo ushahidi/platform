@@ -1,4 +1,4 @@
-@csv @oauth2Skip
+@csv @oauth2Skip @dataImportEnabled
 Feature: Testing the CSV API
     Scenario: Uploading a CSV file
         Given that I want to make a new "CSV"
