@@ -91,6 +91,6 @@ Feature: Testing the Roles API
         When I request "/roles"
         Then the response is JSON
         And the "count" property equals "1"
-        And the "results.0.name" property equals "Manager"
+        And the "results.0.name" property equals "manager"
         Then the guzzle status code should be 200
 
