@@ -72,7 +72,7 @@ file { "/etc/php5/apache2/conf.d/99-ushahidi.ini":
 }
 
 exec { "php-modules":
-	command => "php5enmod mcrypt"
+	command => "php5enmod mcrypt imap"
 }
 
 class { 'composer':
