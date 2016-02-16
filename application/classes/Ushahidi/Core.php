@@ -565,7 +565,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->setter['Ushahidi_Validator_CSV_Create'] = [
 			// @todo load from config
-			'setMaxBytes' => '2048',
+			'setMaxBytes' => '2048000',
 		];
 
 

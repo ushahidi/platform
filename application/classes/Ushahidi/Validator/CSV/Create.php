@@ -56,7 +56,7 @@ class Ushahidi_Validator_CSV_Create extends Validator
 		];
 
 		if (!in_array($mime, $allowed_mime_types)) {
-			$validation->error('mime', 'mime_type_not_allowed');
+			$validation->error('mime', 'mime_type');
 		}
 	}
 }
