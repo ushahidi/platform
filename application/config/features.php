@@ -39,20 +39,18 @@ return [
 		'admin_users' => TRUE,
 	],
 
-
 	// Private deployments
 	'private' => [
 		'enabled' => TRUE,
 	],
-	
+
 	// Roles
 	'roles' => [
 		'enabled' => TRUE,
-	],	
+	],
 
 	// Data import
 	'data-import' => [
-		'csv' => TRUE,
+		'enabled' => TRUE,
 	],
-
 ];

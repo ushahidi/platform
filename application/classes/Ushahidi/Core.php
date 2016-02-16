@@ -66,9 +66,9 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('features.roles.enabled');
 		});
 
-    // CSV config settings
-		$di->set('csv.enabled', function() use ($di) {
-			return Kohana::$config->load('features.data-import.csv.enabled');
+		// Data import config settings
+		$di->set('data-import.enabled', function() use ($di) {
+			return Kohana::$config->load('features.data-import.enabled');
 		});
 
 		$di->set('tool.uploader.prefix', function() use ($di) {
