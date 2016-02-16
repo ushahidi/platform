@@ -38,4 +38,9 @@ return [
 		'forms' => TRUE,
 		'admin_users' => TRUE,
 	],
+
+	// Roles
+	'roles' => [
+		'enabled' => TRUE,
+	],
 ];

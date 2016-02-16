@@ -15,12 +15,16 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Tag;
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Tool\Permissions\Acl;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\Permissions\ManageSettings;
 
 // The `TagAuthorizer` class is responsible for access checks on `Tags`
-class TagAuthorizer implements Authorizer
+class TagAuthorizer implements Authorizer, Permissionable
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -30,6 +34,13 @@ class TagAuthorizer implements Authorizer
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// Check that the user has the necessary permissions
+	// if roles are available for this deployment.
+	use PermissionAccess;
+
+	// Provides `getPermission`
+	use ManageSettings;
 
 	protected function isUserOfRole(Tag $entity, $user)
 	{
@@ -46,6 +57,11 @@ class TagAuthorizer implements Authorizer
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
+
+		// First check whether there is a role with the right permissions
+		if ($this->hasPermission($user)) {
+			return true;
+		}
 
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)

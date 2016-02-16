@@ -15,8 +15,8 @@ Feature: Testing the Tags API
                 "color":"00ff00",
                 "role":
                     [
-                        "user",
-                        "admin"
+                        "User",
+                        "Admin"
                     ]
             }
             """
@@ -165,7 +165,7 @@ Feature: Testing the Tags API
                 "tag":"Change Role",
                 "slug":"change-role",
                 "type":"status",
-                "role":["user"]
+                "role":["User"]
             }
             """
         And that its "id" is "1"
@@ -174,7 +174,7 @@ Feature: Testing the Tags API
         And the response has a "id" property
         And the "id" property equals "1"
         And the response has a "role" property
-        And the "role.0" property equals "user"
+        And the "role.0" property equals "User"
         Then the guzzle status code should be 200
 
     Scenario: Removing Tag Role Restrictions

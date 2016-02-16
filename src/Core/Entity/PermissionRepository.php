@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Repository for Roles
+ * Permissions Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -14,19 +14,9 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
-interface RoleRepository extends
-	EntityGet,
-	EntityExists
+interface PermissionRepository extends
+    EntityGet,
+    EntityExists
 {
-	/**
-	 * @param  Array $roles
-	 * @return Boolean
-	 */
-	public function doRolesExist(Array $roles = null);
 
-	/**
-	 * @param String $name
-	 * @return \Ushahidi\Core\Entity\Role
-	 */
-	public function getByName($name);
 }

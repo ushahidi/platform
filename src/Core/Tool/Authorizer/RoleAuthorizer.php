@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi CSV Authorizer
+ * Ushahidi Role Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -12,17 +12,12 @@
 namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\CSV;
 use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Permissions\Acl;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
-use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\Permissions\DataImport;
 
-class CSVAuthorizer implements Authorizer, Permissionable
+class RoleAuthorizer implements Authorizer
 {
 	use UserContext;
 
@@ -32,28 +27,24 @@ class CSVAuthorizer implements Authorizer, Permissionable
 	// Check if user has Admin access
 	use AdminAccess;
 
-	// Check that the user has the necessary permissions
-	// if roles are available for this deployment.
-	use PermissionAccess;
-
-	// Provides `getPermission`
-	use DataImport;
-
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
-
-		// Allow role with the right permissions
-		if ($this->hasPermission($user)) {
-			return true;
-		}
 		
-		// Allow admin access
+		// Only allow admin access
 		if ($this->isUserAdmin($user)) {
 			return true;
 		}
+
+        if ($privilege === 'read') {
+            return true;
+        }
+        // All users are allowed to search forms.
+        if ($privilege === 'search') {
+            return true;
+        }
 
 		return false;
 	}
