@@ -514,7 +514,7 @@ Feature: API Access Control Layer
             "email":"acluser@ushahidi.com",
             "realname":"Acl User",
             "password":"testing",
-            "role":"User"
+            "role":"user"
         }
         """
         When I request "/users"
@@ -523,7 +523,7 @@ Feature: API Access Control Layer
         And the type of the "id" property is "numeric"
         And the response has a "email" property
         And the "email" property equals "acluser@ushahidi.com"
-        And the "role" property equals "User"
+        And the "role" property equals "user"
         And the response does not have a "password" property
         Then the guzzle status code should be 200
     

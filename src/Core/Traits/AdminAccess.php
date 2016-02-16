@@ -28,6 +28,6 @@ trait AdminAccess
 	 */
 	protected function isUserAdmin(User $user)
 	{
-		return ($user->id && $user->role === 'Admin');
+		return ($user->id && $user->role === 'admin');
 	}
 }
