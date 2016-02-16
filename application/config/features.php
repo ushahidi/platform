@@ -48,5 +48,11 @@ return [
 	// Roles
 	'roles' => [
 		'enabled' => TRUE,
+	],	
+
+	// Data import
+	'data-import' => [
+		'csv' => TRUE,
 	],
+
 ];

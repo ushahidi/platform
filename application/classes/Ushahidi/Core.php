@@ -66,6 +66,11 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('features.roles.enabled');
 		});
 
+    // CSV config settings
+		$di->set('csv.enabled', function() use ($di) {
+			return Kohana::$config->load('features.data-import.csv.enabled');
+		});
+
 		$di->set('tool.uploader.prefix', function() use ($di) {
 			// Is this a multisite install?
 			$multisite = Kohana::$config->load('multisite.enabled');
