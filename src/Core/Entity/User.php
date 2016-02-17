@@ -26,7 +26,6 @@ class User extends StaticEntity
 	protected $created;
 	protected $updated;
 	protected $role;
-	protected $permissions;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -43,7 +42,6 @@ class User extends StaticEntity
 			'created'         => 'int',
 			'updated'         => 'int',
 			'role'            => 'string',
-			'permissions'     => 'array',
 		];
 	}
 
