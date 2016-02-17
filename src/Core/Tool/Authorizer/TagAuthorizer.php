@@ -22,9 +22,10 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
 use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\Permissions\ManageSettings;
 
 // The `TagAuthorizer` class is responsible for access checks on `Tags`
-class TagAuthorizer implements Authorizer, Acl
+class TagAuthorizer implements Authorizer, Permissionable
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -39,7 +40,11 @@ class TagAuthorizer implements Authorizer, Acl
 	use PrivateDeployment;
 
 	// Check that the user has the necessary permissions
+	// if roles are available for this deployment.
 	use PermissionAccess;
+
+	// Provides `getPermission`
+	use ManageSettings;
 
 	protected function isUserOfRole(Tag $entity, $user)
 	{
@@ -63,8 +68,7 @@ class TagAuthorizer implements Authorizer, Acl
 		}
 
 		// First check whether there is a role with the right permissions
-		if ($entity instanceof Permissionable and
-			$this->hasPermission($user, $entity->getPermissions())) {
+		if ($this->hasPermission($user)) {
 			return true;
 		}
 

@@ -436,8 +436,6 @@ abstract class Ushahidi_Core {
 				'tag_repo' => $di->lazyGet('repository.tag')
 			];
 
-		$di->setter['Ushahidi_Repository_Post']['setAcl'] = $di->lazyGet('tool.acl');
-
 		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_Post_Datetime'));
 		$di->set('repository.post.decimal', $di->lazyNew('Ushahidi_Repository_Post_Decimal'));
 		$di->set('repository.post.geometry', $di->lazyNew('Ushahidi_Repository_Post_Geometry'));

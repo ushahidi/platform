@@ -12,14 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
-use Ushahidi\Core\Traits\Permissions\DataImport;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
 
-class CSV extends StaticEntity implements Permissionable
+class CSV extends StaticEntity
 {
-	// Permissions
-	use DataImport;
-
 	protected $id;
 	protected $columns;
 	protected $maps_to;

@@ -19,8 +19,8 @@ interface Acl
 	 * Check if user has permissions
 	 *
 	 * @param Ushahidi|Core|Entity|User $user
-	 * @param Array $permissions A list of permissions to check for
+	 * @param String $permission The permission to check for
 	 * @return Boolean
 	 */
-	public function hasPermission(User $user, Array $permissions);
+	public function hasPermission(User $user, $permission);
 }

@@ -6,7 +6,7 @@ Feature: Testing the Roles API
         And that the request "data" is:
             """
             {
-                "name":"Editor",
+                "name":"editor",
                 "display_name":"Editor"
             }
             """
@@ -22,7 +22,7 @@ Feature: Testing the Roles API
         And that the request "data" is:
             """
             {
-                "name":"Supervisor",
+                "name":"supervisor",
                 "display_name":"Supervisor",
                 "permissions":["Manage Users"]
             }

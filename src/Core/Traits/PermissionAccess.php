@@ -13,22 +13,21 @@
 
 namespace Ushahidi\Core\Traits;
 
-use Ushahidi\Core\Entity\RoleRepository;
-use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Tool\Permissions\Acl;
 
 trait PermissionAccess
 {
-	protected $role_repo;
+	protected $acl;
 	protected $roles_enabled = false;
-
-	public function setRoleRepo(RoleRepository $role_repo)
-	{
-		$this->role_repo = $role_repo;
-	}
 
 	public function setRolesEnabled($roles_enabled)
 	{
 		$this->roles_enabled = $roles_enabled;
+	}
+
+	public function setAcl(Acl $acl)
+	{
+		$this->acl = $acl;
 	}
 
 	/**
@@ -39,23 +38,19 @@ trait PermissionAccess
 	{
 		return (bool) $this->roles_enabled;
 	}
- 
-	// Acl interface
-	public function hasPermission(User $user, Array $permissions)
+
+	/**
+	 * Check if the user has permission
+	 * @return boolean
+	 */
+	protected function hasPermission($user)
 	{
+		// Don't check for permissions if we don't have the
+		// roles feature enabled
 		if (!$this->hasRolesEnabled()) {
 			return false;
 		}
 		
-		if (!$user->role) {
-			return false;
-		}
-		
-		$entity = $this->role_repo->getByName($user->role);
-
-		// Does the user have all the permisions?
-		$found = array_intersect($permissions, $entity->permissions);
-
-		return $found === $permissions;
+		return $this->acl->hasPermission($user, $this->getPermission());
 	}
 }

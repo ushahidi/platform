@@ -18,8 +18,8 @@ use Ushahidi\Core\Entity;
 trait ManageUsers
 {
 	// Acl Interface
-	public function getPermissions()
+	public function getPermission()
 	{
-		return ['Manage Users'];
+		return 'Manage Users';
 	}
 }

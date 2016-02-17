@@ -18,8 +18,8 @@ use Ushahidi\Core\Entity;
 trait ManageSettings
 {
 	// Permissionable Interface
-	public function getPermissions()
+	public function getPermission()
 	{
-		return ['Manage Settings'];
+		return 'Manage Settings';
 	}
 }
