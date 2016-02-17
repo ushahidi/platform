@@ -15,14 +15,18 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Set;
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Tool\Permissions\Acl;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
+use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\Permissions\ManagePosts;
 
 // The `SetAuthorizer` class is responsible for access checks on `Sets`
-class SetAuthorizer implements Authorizer
+class SetAuthorizer implements Authorizer, Permissionable
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -37,6 +41,13 @@ class SetAuthorizer implements Authorizer
 
 	// It uses `PrivateDeployment` to check whether a deployment is private
 	use PrivateDeployment;
+
+	// Check that the user has the necessary permissions
+	// if roles are available for this deployment.
+	use PermissionAccess;
+
+	// Provides `getPermission`
+	use ManagePosts;
 
 	protected function isVisibleToUser(Set $entity, $user)
 	{
@@ -57,6 +68,11 @@ class SetAuthorizer implements Authorizer
 		// Only logged in users have access if the deployment is private
 		if (!$this->hasAccess()) {
 			return false;
+		}
+
+		// First check whether there is a role with the right permissions
+		if ($this->hasPermission($user)) {
+			return true;
 		}
 
 		// Then we check if a user has the 'admin' role. If they do they're
