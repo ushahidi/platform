@@ -23,6 +23,7 @@ use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\PrivateDeployment;
 use Ushahidi\Core\Traits\PermissionAccess;
 use Ushahidi\Core\Traits\Permissions\ManagePosts;
 
@@ -40,6 +41,9 @@ class PostAuthorizer implements Authorizer, Permissionable
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// It uses `PrivateDeployment` to check whether a deployment is private
+	use PrivateDeployment;
 
 	// Check that the user has the necessary permissions
 	// if roles are available for this deployment.
@@ -76,7 +80,12 @@ class PostAuthorizer implements Authorizer, Permissionable
 		// These checks are run within the user context.
 		$user = $this->getUser();
 
-		// First check if user has the right permissions
+		// Only logged in users have access if the deployment is private
+		if (!$this->hasAccess()) {
+			return false;
+		}
+
+		// First check whether there is a role with the right permissions
 		if ($this->hasPermission($user)) {
 			return true;
 		}

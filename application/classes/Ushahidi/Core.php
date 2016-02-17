@@ -55,9 +55,20 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('ratelimiter')->as_array();
 		});
 
+		// Private deployment config settings
+		$di->set('site.private', function() use ($di) {
+			return Kohana::$config->load('site.private')
+				and Kohana::$config->load('features.private.enabled');
+		});
+
 		// Roles config settings
 		$di->set('roles.enabled', function() use ($di) {
 			return Kohana::$config->load('features.roles.enabled');
+		});
+
+		// Data import config settings
+		$di->set('data-import.enabled', function() use ($di) {
+			return Kohana::$config->load('features.data-import.enabled');
 		});
 
 		$di->set('tool.uploader.prefix', function() use ($di) {
@@ -557,7 +568,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->setter['Ushahidi_Validator_CSV_Create'] = [
 			// @todo load from config
-			'setMaxBytes' => '2048',
+			'setMaxBytes' => '2048000',
 		];
 
 

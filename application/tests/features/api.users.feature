@@ -9,7 +9,7 @@ Feature: Testing the Users API
 				"email":"linda@ushahidi.com",
 				"realname":"Linda Kamau",
 				"password":"testing",
-				"role":"Admin"
+				"role":"admin"
 			}
 			"""
 		When I request "/users"
@@ -18,7 +18,7 @@ Feature: Testing the Users API
 		And the type of the "id" property is "numeric"
 		And the response has a "email" property
 		And the "email" property equals "linda@ushahidi.com"
-		And the "role" property equals "Admin"
+		And the "role" property equals "admin"
 		And the response does not have a "password" property
 		Then the guzzle status code should be 200
 
@@ -30,7 +30,7 @@ Feature: Testing the Users API
 				"email":"robbie@ushahidi.com",
 				"realname":"Robbie Mackay",
 				"password":"testing",
-				"role":"Admin"
+				"role":"admin"
 			}
 			"""
 		And that its "id" is "1"
@@ -41,7 +41,7 @@ Feature: Testing the Users API
 		And the "id" property equals "1"
 		And the response has a "email" property
 		And the "email" property equals "robbie@ushahidi.com"
-		And the "role" property equals "Admin"
+		And the "role" property equals "admin"
 		Then the guzzle status code should be 200
 
 	@resetFixture
@@ -51,7 +51,7 @@ Feature: Testing the Users API
 		And that the request "data" is:
 			"""
 			{
-				"role":"Admin"
+				"role":"admin"
 			}
 			"""
 		And that its "id" is "1"
@@ -178,7 +178,7 @@ Feature: Testing the Users API
         "full_name":"New User",
 				"email":"newuser@ushahidi.com",
 				"password":"testing",
-				"role":"Admin"
+				"role":"admin"
 			}
 			"""
 		When I request "/register"

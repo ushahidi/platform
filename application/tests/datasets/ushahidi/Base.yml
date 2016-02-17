@@ -663,7 +663,7 @@ sets:
     id: 3
     name: Admin only collection
     search: 0
-    visible_to: '["Admin"]'
+    visible_to: '["admin"]'
   -
     id: 4
     name: Test search
@@ -680,7 +680,7 @@ sets:
     name: Admin only search
     search: 1
     filter: '{"q":"junk"}'
-    visible_to: '["Admin"]'
+    visible_to: '["admin"]'
 posts_sets:
   -
     set_id: 1

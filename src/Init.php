@@ -316,9 +316,12 @@ $di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('sessi
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
 	= $di->lazyGet('repository.form_stage');
+
 $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
 $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setAcl'] = $di->lazyGet('tool.acl');
+$di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
 $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRolesEnabled'] = $di->lazyGet('roles.enabled');
+$di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
