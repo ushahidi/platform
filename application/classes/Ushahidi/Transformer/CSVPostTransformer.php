@@ -65,9 +65,15 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 			unset($record[$key]);
 		}
 
-		// Put values in array
+		// Decode json values if any and put values in array
 		array_walk($record, function (&$val) {
-				$val = [$val];
+			if ($json_val = json_decode($val, true)) {
+				$val = [$json_val];
+
+				return;
+			}
+			
+			$val = [$val];
 		});
 
 		$form_values = ['values' => $record];
