@@ -16,8 +16,8 @@ Feature: Testing the CSV API
         And that the request "data" is:
         """
         {
-            "columns":["title", "name", "date", "location", "details"],
-            "maps_to":["title", "full_name", null, "last_location", null],
+            "columns":["title", "name", "date", "location", "details", "lat", "lon"],
+            "maps_to":["title", "full_name", null, "last_location", null, "last_location_point.lat", "last_location_point.lon"],
             "fixed":
             {
                 "form":1,
