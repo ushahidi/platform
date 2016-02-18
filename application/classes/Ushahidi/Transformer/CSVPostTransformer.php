@@ -98,7 +98,7 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		foreach ($record as $column => $val)
 		{
 			// Look for latitude 'lat'
-			if (preg_match('/lat/i', $column)) {
+			if (preg_match('/lat$/', $column)) {
 				$location['lat'] = $val;
 
 				// Save location field name
@@ -109,7 +109,7 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 			}
 
 			// Look for longitude 'lon'
-			elseif (preg_match('/lon/i', $column)) {
+			elseif (preg_match('/lon$/', $column)) {
 				$location['lon'] = $val;
 				unset($record[$column]);
 			}
