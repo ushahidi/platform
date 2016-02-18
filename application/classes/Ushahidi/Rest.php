@@ -462,14 +462,6 @@ abstract class Ushahidi_Rest extends Controller {
 				[':error' => $e->getMessage()]
 			);
 		}
-		catch (\ErrorException $e)
-		{
-			// @todo create generic error message
-			throw new HTTP_Exception_500(
-				'Internal server error',
-				NULL
-			);
-		}
 	}
 
 	/**
