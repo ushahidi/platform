@@ -38,7 +38,6 @@ class Ushahidi_FileReader_CSV implements FileReader
 	public function process($file)
 	{
 		$reader = $this->reader_factory->createReader($file);
-		$reader->setEnclosure('\'');
 
 		// Filter out empty rows
 		$nbColumns = count($reader->fetchOne());
