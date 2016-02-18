@@ -82,6 +82,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 		$message_repo = service('repository.message');
 		$contact_repo = service('repository.contact');
 		$messages = array();
+		$provider = $this->provider_name;
 
 		// Get All "Sent" SMSSync messages
 		// Limit it to 20 MAX and FIFO
@@ -99,7 +100,9 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			// Update the message status
 			if ($new_status)
 			{
-				$message->status = $new_status;
+				$message->setState([
+						'status' => $new_status
+					]);
 				$message_repo->update($message);
 			}
 		}
@@ -136,12 +139,11 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 			list($new_status, $tracking_id) = $provider->send($contact->contact, $message->message, $message->title);
 
 			// Update message details
-			$message->status = $new_status;
-			$message->data_provider = $provider->provider_name();
-			if ($tracking_id)
-			{
-				$message->data_provider_message_id = $tracking_id;
-			}
+			$message->setState([
+					'status' => $new_status,
+					'data_provider' => $provider->provider_name(),
+					'data_provider_message_id' => $tracking_id ?: null
+				]);
 
 			// @todo handle errors
 			$message_repo->update($message);

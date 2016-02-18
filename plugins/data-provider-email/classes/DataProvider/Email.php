@@ -108,13 +108,12 @@ class DataProvider_Email extends DataProvider {
 		try
 		{
 			// Try to connect
-			// Use OP_SILENT to avoid errors when mailbox is empty.
-			$connection = imap_open('{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX', $username, $password, OP_SILENT);
+			$connection = imap_open('{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX', $username, $password);
 
 			// Return on connection error
 			if (! $connection)
 			{
-				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
+;				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
 				return 0;
 			}
 			$emails = imap_search($connection,'ALL');
@@ -143,10 +142,17 @@ class DataProvider_Email extends DataProvider {
 					$count++;
 				}
 			}
+
+			imap_errors();
+
+			imap_close($connection);
 		}
 		catch (Exception $e)
 		{
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
+			$errors = imap_errors();
+			$errors = is_array($errors) ? implode(', ', $errors) : "";
+			Kohana::$log->add(Log::ERROR, $e->getMessage() . ". Errors: :errors",
+				[':errors' => $errors]);
 		}
 
 		return $count;

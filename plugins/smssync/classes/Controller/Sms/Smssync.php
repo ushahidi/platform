@@ -121,20 +121,12 @@ class Controller_Sms_Smssync extends Controller {
 		// its not picked up again
 		$messages = $this->_provider->get_pending_messages(20, Message_Status::PENDING_POLL, Message_Status::UNKNOWN);
 
-		if (count($messages) > 0)
-		{
-			// Send secret key if set
-			if ( isset($options['secret']))
-			{
-				$this->_json['payload']['secret'] = $options['secret'];
-			}
-
-			$this->_json['payload'] = [
-				'task' => "send",
-				'success' => TRUE,
-				'messages' => $messages
-			];
-		}
+		$this->_json['payload'] = [
+			'task' => "send",
+			'success' => TRUE,
+			'messages' => $messages,
+			'secret' => $this->options['secret'] ?: null
+		];
 	}
 
 	// Set response message

@@ -92,4 +92,10 @@ class Ushahidi_Multisite
 
 		return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
 	}
+
+	public function getSite($host = NULL)
+	{
+		$this->parseHost($host);
+		return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
+	}
 }
