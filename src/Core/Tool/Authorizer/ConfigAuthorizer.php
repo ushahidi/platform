@@ -16,12 +16,16 @@ use Ushahidi\Core\Entity\Config;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Tool\Permissions\Acl;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\Permissions\ManageSettings;
 
 // The `ConfigAuthorizer` class is responsible for access checks on `Config` Entities
-class ConfigAuthorizer implements Authorizer
+class ConfigAuthorizer implements Authorizer, Permissionable
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -31,6 +35,13 @@ class ConfigAuthorizer implements Authorizer
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// Check that the user has the necessary permissions
+	// if roles are available for this deployment.
+	use PermissionAccess;
+
+	// Provides `getPermission`
+	use ManageSettings;
 
 	/**
 	 * Public config groups
@@ -53,6 +64,11 @@ class ConfigAuthorizer implements Authorizer
 		// If a config group is read only *no one* can edit it (not even admin)
 		if (in_array($privilege, ['create', 'update']) && $this->isConfigReadOnly($entity)) {
 			return false;
+		}
+
+		// Allow role with the right permissions to do everything else
+		if ($this->hasPermission($user)) {
+			return true;
 		}
 
 		// If a user has the 'admin' role, they can do pretty much everything else

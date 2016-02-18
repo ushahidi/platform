@@ -1,0 +1,2 @@
+coverage_clover: coverage/*
+json_path: coverage/coveralls.json

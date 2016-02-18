@@ -23,18 +23,32 @@ use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\Core\Usecase\Set\SetPostRepository;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\Permissions\ManagePosts;
+use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 
 use Aura\DI\InstanceFactory;
 
 class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	PostRepository,
 	UpdatePostRepository,
-	SetPostRepository
+	SetPostRepository,
+	Permissionable
 {
 	use UserContext;
 
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
+
+	// Provides `getPermission`
+	use ManagePosts;
+
+	// Provides `hasPermission`
+	use PermissionAccess;
+
+	// Checks if user is Admin
+	use AdminAccess;
 
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
@@ -85,7 +99,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$data += [
 				'values' => $this->getPostValues($data['id']),
 				'tags'   => $this->getTagsForPost($data['id']),
-        'sets' => $this->getSetsForPost($data['id']),
+				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
 		}
@@ -447,7 +461,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// they are allowed to see
 		if (!$user->id) {
 			$query->where("$table.status", '=', 'published');
-		} elseif ($user->role !== 'admin') {
+		} elseif (!$this->isUserAdmin($user) and
+				  !$this->hasPermission($user, $this->getPermission())) {
 			$query
 				->and_where_open()
 				->where("$table.status", '=', 'published')

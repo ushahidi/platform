@@ -83,7 +83,7 @@ Feature: Testing the Users API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "5"
+		And the "count" property equals "7"
 		Then the guzzle status code should be 200
 
 	@resetFixture
@@ -109,7 +109,7 @@ Feature: Testing the Users API
 		And the "realname" property equals "Robbie Mackay"
 		Then the guzzle status code should be 200
 
-	Scenario: Finding a User as admin gives full details
+	Scenario: Finding a User as Admin gives full details
 		Given that I want to find a "User"
 		And that its "id" is "3"
 		And that the request "Authorization" header is "Bearer defaulttoken"

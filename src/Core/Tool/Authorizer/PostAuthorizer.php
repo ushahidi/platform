@@ -16,14 +16,19 @@ use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Tool\Permissions\Acl;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\PrivateDeployment;
+use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\Permissions\ManagePosts;
 
 // The `PostAuthorizer` class is responsible for access checks on `Post` Entities
-class PostAuthorizer implements Authorizer
+class PostAuthorizer implements Authorizer, Permissionable
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -36,6 +41,16 @@ class PostAuthorizer implements Authorizer
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
+
+	// It uses `PrivateDeployment` to check whether a deployment is private
+	use PrivateDeployment;
+
+	// Check that the user has the necessary permissions
+	// if roles are available for this deployment.
+	use PermissionAccess;
+
+	// Provides `getPermission`
+	use ManagePosts;
 
 	/**
 	 * Get a list of all possible privilges.
@@ -64,6 +79,16 @@ class PostAuthorizer implements Authorizer
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
+
+		// Only logged in users have access if the deployment is private
+		if (!$this->hasAccess()) {
+			return false;
+		}
+
+		// First check whether there is a role with the right permissions
+		if ($this->hasPermission($user)) {
+			return true;
+		}
 
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)

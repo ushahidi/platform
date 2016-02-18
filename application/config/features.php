@@ -38,4 +38,19 @@ return [
 		'forms' => TRUE,
 		'admin_users' => TRUE,
 	],
+
+	// Private deployments
+	'private' => [
+		'enabled' => TRUE,
+	],
+
+	// Roles
+	'roles' => [
+		'enabled' => TRUE,
+	],
+
+	// Data import
+	'data-import' => [
+		'enabled' => TRUE,
+	],
 ];
