@@ -66,7 +66,7 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		}
 
 		// Generate location point if any
-		$record = $this->generateLocationPoint($record);
+		$record = $this->mergeLocationCoordinates($record);
 
 		// Put values in array
 		array_walk($record, function (&$val) {
@@ -81,7 +81,7 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 	}
 
 	/**
-	 * Generate location point in the record
+	 * Merge location coordinates in the record
 	 *
 	 * We expect that coordinates are mapped to column.lat
 	 * and column.lon for latitude and longitude respectively.
@@ -89,7 +89,7 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 	 * @param Array $record
 	 * @return Array
 	 */
-	private function generateLocationPoint($record)
+	private function mergeLocationCoordinates($record)
 	{
 		$location = [];
 		$location_field = '';
