@@ -91,34 +91,34 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 	 */
 	private function mergeLocationCoordinates($record)
 	{
-		$location = [];
+		$locations = [];
 		$location_field = '';
 
 		// Get location point
 		foreach ($record as $column => $val)
 		{
 			// Look for latitude 'lat'
-			if (preg_match('/lat$/', $column)) {
-				$location['lat'] = $val;
-
-				// Save location field name
+			if (preg_match('/.lat$/', $column)) {
+				// Get location field name
 				$location_field = explode('.', $column)[0];
+
+				$locations[$location_field]['lat'] = $val;
 
 				// Remove from record
 				unset($record[$column]);
 			}
 
 			// Look for longitude 'lon'
-			elseif (preg_match('/lon$/', $column)) {
-				$location['lon'] = $val;
+			elseif (preg_match('/.lon$/', $column)) {
+				// Get location field name
+				$location_field = explode('.', $column)[0];
+
+				$locations[$location_field]['lon'] = $val;
+
 				unset($record[$column]);
 			}
 		}
 
-		if (!empty($location)) {
-			$record = array_merge([$location_field => $location], $record);
-		}
-
-		return $record;
+		return array_merge($locations, $record);
 	}
 }
