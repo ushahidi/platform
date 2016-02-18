@@ -41,7 +41,7 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 	{
 		$record = array_values($record);
 		$columns = $this->map;
-		
+
 		// Don't import columns marked as NULL
 		foreach ($columns as $index => $column) {
 			if ($column === NULL) {
@@ -54,7 +54,7 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		$record = array_combine($columns, $record);
 
 		// Trim
-		$record = array_map("trim", $record);
+		$record = array_map('trim', $record);
 
 		// Filter post fields from the record
 		$post_entity = $this->repo->getEntity();
@@ -65,14 +65,11 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 			unset($record[$key]);
 		}
 
-		// Decode json values if any and put values in array
-		array_walk($record, function (&$val) {
-			if ($json_val = json_decode($val, true)) {
-				$val = [$json_val];
+		// Generate location point if any
+		$record = $this->generateLocationPoint($record);
 
-				return;
-			}
-			
+		// Put values in array
+		array_walk($record, function (&$val) {
 			$val = [$val];
 		});
 
@@ -81,5 +78,47 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		return array_merge($post_fields,
 						   $form_values,
 						   $this->fixedValues);
+	}
+
+	/**
+	 * Generate location point in the record
+	 *
+	 * We expect that coordinates are mapped to column.lat
+	 * and column.lon for latitude and longitude respectively.
+	 *
+	 * @param Array $record
+	 * @return Array
+	 */
+	private function generateLocationPoint($record)
+	{
+		$location = [];
+		$location_field = '';
+
+		// Get location point
+		foreach ($record as $column => $val)
+		{
+			// Look for latitude 'lat'
+			if (preg_match('/lat/i', $column)) {
+				$location['lat'] = $val;
+
+				// Save location field name
+				$location_field = explode('.', $column)[0];
+
+				// Remove from record
+				unset($record[$column]);
+			}
+
+			// Look for longitude 'lon'
+			elseif (preg_match('/lon/i', $column)) {
+				$location['lon'] = $val;
+				unset($record[$column]);
+			}
+		}
+
+		if (!empty($location)) {
+			$record = array_merge([$location_field => $location], $record);
+		}
+
+		return $record;
 	}
 }
