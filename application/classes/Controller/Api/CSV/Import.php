@@ -38,8 +38,8 @@ class Controller_API_CSV_Import extends Ushahidi_Rest {
 
 		// Read file
 		$file = new SplTempFileObject();
-		$stream = $fs->readStream($csv->filename);
-		$file->fwrite(stream_get_contents($stream));
+		$contents = $fs->read($csv->filename);
+		$file->fwrite($contents);
 
 		// Get records
 		// @todo read up to a sensible offset and process the rest later
