@@ -14,12 +14,10 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Notification;
 use Ushahidi\Core\Entity\NotificationRepository;
 use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\AdminAccess;
 
 class Ushahidi_Repository_Notification extends Ushahidi_Repository implements NotificationRepository
 {
 	use UserContext;
-	use AdminAccess;
 
 	protected function getId(Entity $entity)
 	{
@@ -39,13 +37,11 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 	public function setSearchConditions(SearchData $search)
 	{
 		$query = $this->search_query;
-				
+
 		$user = $this->getUser();
 
-		// Limit search to user's records unless they are admin
-		if (! $this->isUserAdmin($user)) {
-			$search->user = $user->getId();
-		}
+		// Limit search to user's records
+		$search->user = $user->getId();
 
 		foreach ([
 			'user',
