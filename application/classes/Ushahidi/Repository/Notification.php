@@ -39,12 +39,11 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 	public function setSearchConditions(SearchData $search)
 	{
 		$query = $this->search_query;
-				
-		$user = $this->getUser();
 
-		// Limit search to user's records unless they are admin
-		if (! $this->isUserAdmin($user)) {
-			$search->user = $user->getId();
+		// Replace 'me' with the user id
+		if ($search->user === 'me')
+		{
+			$search->user = $this->getUserId();
 		}
 
 		foreach ([
