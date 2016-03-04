@@ -1,3 +1,4 @@
+@notifications
 Feature: Testing the Notifications API
 
     Scenario: Subscribe to a notification
@@ -42,6 +43,10 @@ Feature: Testing the Notifications API
     Scenario: Listing Notifications for a user
         Given that I want to get all "Notifications"
         And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the request "query string" is:
+            """
+                user=me
+            """
         When I request "/notifications"
         Then the response is JSON
         And the response has a "count" property
