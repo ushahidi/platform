@@ -40,9 +40,11 @@ class Ushahidi_Repository_Notification extends Ushahidi_Repository implements No
 	{
 		$query = $this->search_query;
 
-		// Replace 'me' with the user id
-		if ($search->user === 'me')
-		{
+		$user = $this->getUser();
+
+		// Limit search to user's records unless they are admin
+		// or if we get user=me as a search param
+		if (! $this->isUserAdmin($user) || $search->user === 'me') {
 			$search->user = $this->getUserId();
 		}
 
