@@ -33,7 +33,7 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 			->execute($this->db);
 		return $result->get('id', 0);
 	}
-	
+
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -63,8 +63,9 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 		$user = $this->getUser();
 
 		// Limit search to user's records unless they are admin
-		if (! $this->isUserAdmin($user)) {
-			$search->user = $user->getId();
+		// or if we get user=me as a search param
+		if (! $this->isUserAdmin($user) || $search->user === 'me') {
+			$search->user = $this->getUserId();
 		}
 
 		foreach ([
@@ -101,7 +102,7 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 			// Instead return the id of the contact that exists
 			return $id;
 		}
-		
+
 		$state = [
 			'created'  => time(),
 		];
