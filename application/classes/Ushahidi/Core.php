@@ -138,7 +138,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_SavedSearch']['setPostRepo'] = $di->lazyGet('repository.post');
 		$di->setter['Ushahidi_Console_SavedSearch']['setMessageRepo'] = $di->lazyGet('repository.message');
 		$di->setter['Ushahidi_Console_SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
-		$di->setter['Ushahidi_Console_SavedSearch']['setSearchData'] = $di->lazyNew('Ushahidi\Core\SearchData');
+		$di->setter['Ushahidi_Console_SavedSearch']['setDataFactory'] = $di->lazyGet('factory.data');
 
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
