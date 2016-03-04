@@ -24,7 +24,7 @@ return array(
 		'nexmo' => FALSE,
 		'twitter' => FALSE,
 		'frontlinesms' => FALSE
-	)
+	),
 
 	// Config params for individual providers
 	// 'nexmo' => array(
@@ -45,7 +45,7 @@ return array(
 	// 	'secret' => '1234'
 	// ),
 
-	// 'email' => array(
+	'email' => array(
 	// 	'from' => '',
 	// 	'from_name' => '',
 
@@ -56,11 +56,11 @@ return array(
 	// 	'incoming_username' => '',
 	// 	'incoming_password' => '',
 
-	// 	'outgoing_type' => '',
-	// 	'outgoing_server' => '',
-	// 	'outgoing_port' => '',
-	// 	'outgoing_security' => '',
-	// 	'outgoing_username' => '',
-	// 	'outgoing_password' => ''
-	// )
+		'outgoing_type' => 'Native',
+		'outgoing_server' => '',
+		'outgoing_port' => '',
+		'outgoing_security' => '',
+		'outgoing_username' => '',
+		'outgoing_password' => ''
+	)
 );

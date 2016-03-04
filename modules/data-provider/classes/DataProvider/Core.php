@@ -159,15 +159,7 @@ abstract class DataProvider_Core {
 		// Grab default provider if none passed
 		if ( ! $provider_name)
 		{
-			$default_providers = $config->get('default_providers');
-			if ($default_providers[$type])
-			{
-				$provider_name = $default_providers[$type];
-			}
-			else
-			{
-				$provider_name = self::getProviderForType($type);
-			}
+			$provider_name = self::getProviderForType($type);
 		}
 
 		if ( ! $provider_name)
@@ -207,10 +199,16 @@ abstract class DataProvider_Core {
 	 * @param  string $type Message/Service Type
 	 * @return string       Provider name
 	 */
-	protected static function getProviderForType($type)
+	public static function getProviderForType($type)
 	{
 		$config = Kohana::$config->load('data-provider');
 		$plugin_config = Kohana::$config->load('_plugins');
+		$default_providers = $config->get('default_providers');
+
+		if ($default_providers[$type])
+		{
+			return $default_providers[$type];
+		}
 
 		$enabled_providers = $config->get('providers');
 		foreach ($enabled_providers as $provider)
