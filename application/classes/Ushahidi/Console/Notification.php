@@ -76,7 +76,7 @@ class Ushahidi_Console_Notification extends Command
 	protected function executeQueue(InputInterface $input, OutputInterface $output)
 	{
 		$limit = $input->getOption('limit');
-		
+
 		$count = 0;
 
 		// Get Queued notifications
@@ -113,19 +113,33 @@ class Ushahidi_Console_Notification extends Command
 		$offset = 0;
 		$limit = 1000;
 
+		$site_name = Kohana::$config->load('site.name') ?: 'Ushahidi';
+		$client_url = Kohana::$config->load('site.client_url');
+
 		// Get contacts (max $limit at a time) and generate messages.
 		while (TRUE) {
 			$contacts = $this->contactRepository
 				->getNotificationContacts($notification->set_id, $limit, $offset);
-			
+
 			// Create outgoing messages
 			foreach ($contacts as $contact) {
+				$subs = [
+					':sitename' => $site_name,
+					':title' => $post->title,
+					':content' => $post->content,
+					':url' => $client_url . '/posts/' . $post->id
+				];
+
+				$messageType = $this->mapContactToMessageType($contact->type);
+				$data_provider = $contact->data_provider ?: \DataProvider::getProviderForType($messageType);
+
 				$state = [
 					'contact_id' => $contact->id,
 					'post_id' => $post->id,
-					'title' => $post->title,
-					'message' => $post->content,
-					'type' => $contact->type
+					'title' => strtr(Kohana::message('notifications', $messageType . '.title', "New post: :title"), $subs),
+					'message' => strtr(Kohana::message('notifications',  $messageType . '.message', "New post: :title"), $subs),
+					'type' => $messageType,
+					'data_provider' => $data_provider,
 				];
 
 				$entity = $this->messageRepository->getEntity();
@@ -143,5 +157,17 @@ class Ushahidi_Console_Notification extends Command
 		}
 
 		return $count;
+	}
+
+
+	private $contactToMessageTypeMap = [
+		'phone' => 'sms',
+		'email' => 'email',
+		'twitter' => 'twitter',
+	];
+
+	private function mapContactToMessageType($contactType)
+	{
+		return isset($this->contactToMessageTypeMap[$contactType]) ? $this->contactToMessageTypeMap[$contactType] : $contactType;
 	}
 }
