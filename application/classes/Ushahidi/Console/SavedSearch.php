@@ -17,7 +17,7 @@ use Ushahidi\Core\Entity\SetRepository;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\MessageRepository;
 
-use Ushahidi\Core\SearchData;
+use Ushahidi\Factory\DataFactory;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,12 +30,12 @@ class Ushahidi_Console_SavedSearch extends Command
 	private $setRepository;
 	private $postRepository;
 	private $messageRepository;
-	private $searchData;
+	private $data;
 	private $postSearchData;
 
-	public function setSearchData(SearchData $searchData)
+	public function setDataFactory(DataFactory $data)
 	{
-		$this->searchData = $searchData;
+		$this->data = $data;
 	}
 
 	public function setContactRepo(ContactRepository $repo)
@@ -71,18 +71,21 @@ class Ushahidi_Console_SavedSearch extends Command
 		$count = 0;
 
 		// Get saved searches
-		$this->setRepository->setSearchParams($this->searchData);
+		$this->setRepository->setSearchParams($this->data->get('search'));
 
 		// @todo Might need to limit the number of saved searches retrieved at a time
 		$savedSearches = $this->setRepository->getSearchResults();
 
 		foreach ($savedSearches as $savedSearch) {
+			// Get fresh SearchData
+			$data = $this->data->get('search');
+
 			// Get posts with the search filter
-			foreach ($savedSearch->filter as $key=>$filter) {
-				$this->searchData->$key = $filter;
+			foreach ($savedSearch->filter as $key => $filter) {
+				$data->$key = $filter;
 			}
 
-			$this->postRepository->setSearchParams($this->searchData);
+			$this->postRepository->setSearchParams($data);
 			$posts = $this->postRepository->getSearchResults();
 
 			foreach ($posts as $post) {
@@ -98,7 +101,7 @@ class Ushahidi_Console_SavedSearch extends Command
 				'Message' => sprintf('%d posts were added', $count)
 			]
 		];
-		
+
 		$this->handleResponse($response, $output);
 	}
 }
