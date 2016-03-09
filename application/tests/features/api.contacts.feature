@@ -1,3 +1,4 @@
+@contacts
 Feature: Testing the Contacts API
     Scenario: Add a contact
         Given that I want to make a new "Contact"
@@ -56,6 +57,10 @@ Feature: Testing the Contacts API
     Scenario: Listing Contacts for a user
         Given that I want to get all "Contacts"
         And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the request "query string" is:
+            """
+                user=me
+            """
         When I request "/contacts"
         Then the response is JSON
         And the response has a "count" property
