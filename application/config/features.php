@@ -14,12 +14,12 @@ return [
 
 	// Post views
 	'views' => [
-		'map' => TRUE,
+		'map' => FALSE,
 		'list' => TRUE,
 		'chart' => TRUE,
 		'timeline' => TRUE,
 		'activity' => TRUE,
-    'plans' => FALSE,
+    'plan' => TRUE,
 	],
 
 	// Data sources
