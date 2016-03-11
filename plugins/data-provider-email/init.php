@@ -107,12 +107,6 @@ $plugin = array(
 			'placeholder' => 'Email account password',
 			'rules' => array('required')
 		),
-		'from' => array(
-			'label' => 'Email Address',
-			'input' => 'text',
-			'description' => 'This will be used to send outgoing emails',
-			'rules' => array('required')
-		),
 		'from_name' => array(
 			'label' => 'Email Sender Name',
 			'input' => 'text',
