@@ -14,7 +14,7 @@ return [
 
 	// Post views
 	'views' => [
-		'map' => FALSE,
+		'map' => TRUE,
 		'list' => TRUE,
 		'chart' => TRUE,
 		'timeline' => TRUE,
