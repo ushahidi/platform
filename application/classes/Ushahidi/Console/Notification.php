@@ -123,6 +123,10 @@ class Ushahidi_Console_Notification extends Command
 
 			// Create outgoing messages
 			foreach ($contacts as $contact) {
+				if ($this->messageRepository->notificationMessageExists($post->id, $contact->id)) {
+					continue;
+				}
+				
 				$subs = [
 					':sitename' => $site_name,
 					':title' => $post->title,
