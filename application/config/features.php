@@ -19,6 +19,7 @@ return [
 		'chart' => TRUE,
 		'timeline' => TRUE,
 		'activity' => TRUE,
+        'plan' => FALSE,
 	],
 
 	// Data sources

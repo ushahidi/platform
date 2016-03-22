@@ -113,7 +113,7 @@ class DataProvider_Email extends DataProvider {
 			// Return on connection error
 			if (! $connection)
 			{
-;				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
+				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
 				return 0;
 			}
 			$emails = imap_search($connection,'ALL');
@@ -131,10 +131,37 @@ class DataProvider_Email extends DataProvider {
 						break;
 
 					$overview = imap_fetch_overview($connection, $email_number, 0);
-					$message = imap_fetchbody($connection, $email_number, 2);
+
+					$structure = imap_fetchstructure($connection, $email_number);
+
+					// Get HTML message from multipart message
+					if (! empty($structure->parts))
+					{
+						$no_of_parts = count($structure->parts);
+
+						for ($i = 0; $i < $no_of_parts; $i++)
+						{
+							$part = $structure->parts[$i];
+
+							if ($part->subtype == 'HTML')
+							{
+								$message = imap_fetchbody($connection, $email_number, $i+1);
+							}
+						}
+					}
+					else
+					{
+						// or just fetch the body if not a multipart message
+						$message = imap_body($connection, $email_number);
+					}
+
+					$message = imap_qprint($message);
 
 					// Process the email
-					$this->_process_incoming($overview[0], $message);
+					if (! empty($message))
+					{
+						$this->_process_incoming($overview[0], $message);
+					}
 
 					// After processing, delete!
 					imap_delete($connection, $email_number);

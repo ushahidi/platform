@@ -184,4 +184,10 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 	{
 		return $this->selectCount(['id' => $parent_id]) > 0;
 	}
+
+	//MessageRepository
+	public function notificationMessageExists($post_id, $contact_id)
+	{
+		return $this->selectCount(['notification_post_id' => $post_id, 'contact_id' => $contact_id, 'direction' => 'outgoing']) > 0;
+	}
 }
