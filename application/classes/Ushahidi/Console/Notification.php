@@ -126,7 +126,7 @@ class Ushahidi_Console_Notification extends Command
 				if ($this->messageRepository->notificationMessageExists($post->id, $contact->id)) {
 					continue;
 				}
-				
+
 				$subs = [
 					':sitename' => $site_name,
 					':title' => $post->title,
@@ -139,7 +139,7 @@ class Ushahidi_Console_Notification extends Command
 
 				$state = [
 					'contact_id' => $contact->id,
-					'post_id' => $post->id,
+					'notification_post_id' => $post->id,
 					'title' => strtr(Kohana::message('notifications', $messageType . '.title', "New post: :title"), $subs),
 					'message' => strtr(Kohana::message('notifications',  $messageType . '.message', "New post: :title"), $subs),
 					'type' => $messageType,
