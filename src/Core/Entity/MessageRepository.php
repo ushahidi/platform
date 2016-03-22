@@ -28,4 +28,14 @@ interface MessageRepository extends
 	 * @return [Message, ...]
 	 */
 	public function getPendingMessages($status, $data_provider, $limit);
+
+
+	/**
+	 * Check whether a notification message has been sent to a contact
+	 *
+	 * @param int $post_id
+	 * @param int $contact_id
+	 * @return bool
+	 */
+	public function notificationMessageExists($post_id, $contact_id);
 }

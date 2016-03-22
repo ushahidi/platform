@@ -46,6 +46,7 @@ class Message extends StaticEntity
 	protected $direction;
 	protected $created;
 	protected $additional_data;
+	protected $notification_post_id;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -67,7 +68,8 @@ class Message extends StaticEntity
 			'data_provider'            => 'string',
 			'data_provider_message_id' => 'string',
 			// any additional message data
-			'additional_data' => '*json'
+			'additional_data' => '*json',
+			'notification_post_id' => 'int'
 		];
 	}
 
