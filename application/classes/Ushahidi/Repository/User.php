@@ -19,6 +19,8 @@ use Ushahidi\Core\Tool\Hasher;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
 use Ushahidi\Core\Usecase\User\ResetPasswordRepository;
 
+use PragmaRX\Google2FA\Google2FA;
+
 class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	UserRepository,
 	RegisterRepository,
@@ -176,6 +178,88 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			->where('reset_token', '=', $token)
 			->execute($this->db);
 	}
+
+  /**
+   * Verify User Google 2fa secret
+   * @param Entity User
+   * @param string secret
+   * @return bool
+   */
+  public function verifyGoogle2fa(Entity $entity, string $secret) {
+
+    $valid = false;
+
+    try
+    {
+      $google2fa = new Google2FA();
+      
+      $result = DB::select()
+			  ->from('user_google2fa_secrets')
+			  ->where('user_id', '=', $entity->id)
+			  ->execute($this->db);
+
+		  $google2fa_secret = $result->get('google2fa_secret') ?: '';
+
+      $valid = $google2fa->verifyKey($google2fa_secret, $secret);
+    }
+    catch (Exception $e)
+		{
+			// Throw an error when a non-library specific exception has been thrown
+			$response = array(
+				'error' =>  'undefined_error',
+				'error_description' => $e->getMessage()
+			);
+			$this->response->status(400);
+		}
+
+    return $valid;
+  }
+
+  /**
+   * Set Google 2fa secret
+   * @param Entity User
+   * @return string Google QR url
+   */
+  public function generateGoogle2fa(Entity $entity) {
+    try 
+    {
+      $google2fa = new Google2FA();
+      $google2fa_secret = $google2fa->generateSecretKey();
+      $google2fa_url = $google2fa->getQRCodeGoogleUrl(
+          'Ushahidi',
+          $entity->email,
+          $google2fa_secret
+      );
+    }
+    catch (Exception $e)
+		{
+			// Throw an error when a non-library specific exception has been thrown
+			$response = array(
+				'error' =>  'undefined_error',
+				'error_description' => $e->getMessage()
+			);
+			$this->response->status(400);
+		}
+
+    $input = [
+			'google2fa_secret' => $google2fa_secret,
+			'user_id' => $entity->id,
+			'created' => time()
+		];
+
+    // Set 2fa Enabled
+    $this->executeUpdate(['id' => $entity->id], [
+			'google2fa_enabled' => true
+		]);
+
+		// Save the secret
+		$query = DB::insert('user_google2fa_secrets')
+			->columns(array_keys($input))
+			->values(array_values($input))
+			->execute($this->db);
+
+    return $google2fa_url;
+  }
 
 	/**
 	 * Get total count of entities

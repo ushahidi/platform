@@ -25,6 +25,7 @@
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
         "ohanzee/database": "~0.1.2",
+        "pragmarx/google2fa": "~0.7.1",
         "robmorgan/phinx": "~0.4.1",
         "shadowhand/email": "~2.0.1",
         "symm/gisconverter": "~1.0.5",

@@ -89,6 +89,17 @@ class RestContext extends BehatContext
 		$this->_restObjectMethod = 'post';
 	}
 
+  /**
+	 * @Given /^that I want to enable a "([^"]*)"$/
+	 */
+	public function thatIWantToEnableA($objectType)
+	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+
+		$this->_restObjectType   = ucwords(strtolower($objectType));
+		$this->_restObjectMethod = 'post';
+	}
 
 	/**
 	 * @Given /^that I want to submit a new "([^"]*)"$/
@@ -269,7 +280,6 @@ class RestContext extends BehatContext
 	public function theResponseIsJson()
 	{
 		$data = json_decode($this->_response->getBody(TRUE), TRUE);
-
 		// Check for NULL not empty - since [] and {} will be empty but valid
 		if ($data === NULL) {
 
@@ -356,7 +366,6 @@ class RestContext extends BehatContext
 		$data = json_decode($this->_response->getBody(TRUE), TRUE);
 
 		$this->theResponseIsJson();
-
 		if (Arr::path($data, $propertyName) === NULL) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}

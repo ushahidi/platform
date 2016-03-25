@@ -26,22 +26,24 @@ class User extends StaticEntity
 	protected $created;
 	protected $updated;
 	protected $role;
+	protected $google2fa_enabled;
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
-			'id'              => 'int',
-			'email'           => '*email',
-			'realname'        => 'string',
-			'password'        => 'string',
-			'logins'          => 'int',
-			'failed_attempts' => 'int',
-			'last_login'      => 'int',
-			'last_attempt'    => 'int',
-			'created'         => 'int',
-			'updated'         => 'int',
-			'role'            => 'string',
+			'id'                 => 'int',
+			'email'              => '*email',
+			'realname'           => 'string',
+			'password'           => 'string',
+			'logins'             => 'int',
+			'failed_attempts'    => 'int',
+			'last_login'         => 'int',
+			'last_attempt'       => 'int',
+			'created'            => 'int',
+			'updated'            => 'int',
+			'role'               => 'string',
+			'google2fa_enabled'  => 'boolean',
 		];
 	}
 
