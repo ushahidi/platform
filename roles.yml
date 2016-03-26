@@ -1,0 +1,3 @@
+- src: git+https://github.com/zhalloran/ansible-platform-api-deploy.git
+  version: master
+  name: platform-api-code
