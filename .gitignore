@@ -35,3 +35,8 @@ modules/image
 modules/unittest
 modules/minion
 modules/orm
+
+# Docker Deployment Specifics
+*.aes
+deployment.env
+vault.txt

@@ -1,0 +1,6 @@
+- service: app
+  tag: staging
+  command: ansible-vault decrypt hosts/rackspace_staging --vault-password-file /opt/vault.txt
+- service: app
+  tag: staging
+  command: ansible-playbook playbooks/platform-api-code.yml -i hosts/rackspace_staging -vvvv --vault-password-file /opt/vault.txt

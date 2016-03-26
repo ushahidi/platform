@@ -1,0 +1,5 @@
+app:
+  build:
+    image: app
+    dockerfile_path: Dockerfile
+  encrypted_env_file: deployment.env.encrypted
