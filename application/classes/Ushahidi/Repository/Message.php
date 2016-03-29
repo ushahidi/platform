@@ -132,6 +132,12 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
+	public function getTotalMessagesFromContact($contact_id)
+	{
+		$direction = Message::INCOMING;
+		return (int) $this->selectCount(compact('contact_id', 'direction'));
+	}
+
 	// CreateRepository
 	public function create(Entity $entity)
 	{

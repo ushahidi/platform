@@ -1397,6 +1397,17 @@ messages:
     datetime:
     post_id:
     data_provider:
+  -
+    id: 9
+    title: ""
+    message: "SMS message that needs reply"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 3
+    datetime:
+    post_id: 9999
+    data_provider: "smssync"
 layers:
   -
     id: 1

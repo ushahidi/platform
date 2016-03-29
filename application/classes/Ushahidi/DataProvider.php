@@ -43,7 +43,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 		$usecase = service('factory.usecase')->get('messages', 'receive');
 		try
 		{
-			$usecase->setPayload(compact(['type', 'from', 'message', 'to', 'title', 'data_provider_message_id', 'data_provider', 'contact_type']))
+			$message_id = $usecase->setPayload(compact(['type', 'from', 'message', 'to', 'title', 'data_provider_message_id', 'data_provider', 'contact_type']))
 				->interact();
 		}
 		catch (Ushahidi\Core\Exception\NotFoundException $e)
@@ -66,6 +66,8 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 				':error' => $e->getMessage(),
 			));
 		}
+
+		return $message_id;
 	}
 
 	/**
