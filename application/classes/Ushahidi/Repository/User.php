@@ -198,7 +198,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			  ->where('user_id', '=', $entity->id)
 			  ->execute($this->db);
 
-		  $google2fa_secret = $result->get('google2fa_secret') ?: '';
+		  $google2fa_secret = $result->get('google2fa_secret');
 
       $valid = $google2fa->verifyKey($google2fa_secret, $secret);
     }

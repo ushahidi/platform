@@ -12,7 +12,7 @@ class Controller_Api_2fa extends Ushahidi_Rest {
 		return 'users';
 	}
 
-	public function action_post_index()
+	public function action_post_enable()
 	{
     if ($id = service('session.user')->getId()) {
       // Replace the "me" id with the actual id
@@ -24,4 +24,17 @@ class Controller_Api_2fa extends Ushahidi_Rest {
         ->setFormatter(service('formatter.output.json'));
 	  }
   } 
+
+  public function action_post_verify()
+	{
+    if ($id = service('session.user')->getId()) {
+      // Replace the "me" id with the actual id
+		  $this->_usecase = service('factory.usecase')
+			  ->get($this->_scope(), 'verifygoogle2fa')
+			  ->setPayload($this->_payload())
+        ->setIdentifiers($this->_identifiers())
+        ->setIdentifiers(['id' => $id])
+        ->setFormatter(service('formatter.output.json'));
+	  }
+  }
 }

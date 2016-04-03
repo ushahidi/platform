@@ -54,6 +54,14 @@ users:
     realname: Importer
     email: "importer@ushahidi.com"
     role: "importer"
+  -
+    id: 8
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: 2fa
+    email: "2fa@ushahidi.com"
+    role: "user"
+    google2fa_enabled: true
+
 forms:
   -
     id: 1

@@ -39,7 +39,7 @@ Feature: Testing OAuth2 endpoints
         Then I request "oauth/token"
         Then the response is JSON
         And the response has a "error" property
-        And the "error" property equals "google2fa_required"
+        And the "error" property equals "google2fa_secret_required"
         Then the guzzle status code should be 401
 
     Scenario: Requesting access token with password where 2fa required with authentication code
@@ -47,7 +47,7 @@ Feature: Testing OAuth2 endpoints
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
-          grant_type=password&client_id=demoapp&client_secret=demopass&username=2fa@ushahidi.com&password=testing&google2fa=123456
+          grant_type=password&client_id=demoapp&client_secret=demopass&username=2fa@ushahidi.com&password=testing&google2fa_secret=123456
         """
         And that the api_url is ""
         Then I request "oauth/token"

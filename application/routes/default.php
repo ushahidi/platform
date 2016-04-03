@@ -140,6 +140,18 @@ Route::set('2fa-enable', $apiBase . 'users/me/2fa')
 	));
 
 /**
+ * Path to 2fa verify.
+ */
+Route::set('2fa-verify', $apiBase . 'users/me/2fa/verify')
+	->defaults(array(
+		'action'     => 'verify',
+		'directory'  => 'Api',
+		'controller' => '2fa',
+		'id'         => 'me'
+	));
+
+
+/**
  * Base Ushahidi API Route
  */
 Route::set('current-user', $apiBase . 'users/me')
@@ -151,17 +163,6 @@ Route::set('current-user', $apiBase . 'users/me')
 	));
 
 
-/**
- * Path to 2fa verify.
-Route::set('2fa-verify', $apiBase . 'users/me/2fa/verify')
-	->defaults(array(
-		'controller' => 'Users',
-		'directory'  => 'Api',
-		'action'     => 'verify',
-		'id'         => 'me'
-	));
-
- */
 /**
  * Password Reset Route
  */
