@@ -28,7 +28,7 @@ Feature: Testing OAuth2 endpoints
         And the "error_description" property contains "credentials"
         Then the guzzle status code should be 400
 
-    Scenario: Requesting access token with password where 2fa required without authentication code
+    Scenario: Requesting access token with password where 2fa required without google 2fa secret
         Given that I want to make a new "access_token"
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
@@ -42,7 +42,7 @@ Feature: Testing OAuth2 endpoints
         And the "error" property equals "google2fa_secret_required"
         Then the guzzle status code should be 401
 
-    Scenario: Requesting access token with password where 2fa required with authentication code
+    Scenario: Requesting access token with password where 2fa required with google 2fa secret
         Given that I want to make a new "access_token"
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
