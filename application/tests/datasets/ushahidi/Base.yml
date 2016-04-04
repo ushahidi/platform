@@ -11,6 +11,7 @@ roles:
   -
     name: "importer"
     display_name: "Importer"
+
 users:
   -
     id: 1
@@ -54,6 +55,19 @@ users:
     realname: Importer
     email: "importer@ushahidi.com"
     role: "importer"
+  -
+    id: 8
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: twofa
+    email: "twofa@ushahidi.com"
+    role: "user"
+    google2fa_enabled: true
+
+user_google2fa_secrets:
+  -
+    user_id: 8
+    google2fa_secret: "ADUMJO5634NPDEKW"
+
 forms:
   -
     id: 1

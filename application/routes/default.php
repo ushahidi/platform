@@ -129,6 +129,29 @@ Route::set('posts', $apiBase . 'posts/<parent_id>/<controller>(/<id>)',
 	));
 
 /**
+ * Path to 2fa enable.
+ */
+Route::set('2fa-enable', $apiBase . 'users/me/2fa') 
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api',
+		'controller' => '2fa',
+    'id'         => 'me'
+	));
+
+/**
+ * Path to 2fa verify.
+ */
+Route::set('2fa-verify', $apiBase . 'users/me/2fa/verify')
+	->defaults(array(
+		'action'     => 'verify',
+		'directory'  => 'Api',
+		'controller' => '2fa',
+		'id'         => 'me'
+	));
+
+
+/**
  * Base Ushahidi API Route
  */
 Route::set('current-user', $apiBase . 'users/me')
@@ -138,6 +161,7 @@ Route::set('current-user', $apiBase . 'users/me')
 		'controller' => 'Users',
 		'id'         => 'me'
 	));
+
 
 /**
  * Password Reset Route
@@ -266,7 +290,6 @@ Route::set('oauth', 'oauth(/<action>)',
 			'controller' => 'OAuth',
 			'action'     => 'index',
 	));
-
 
 /**
  * Default Route
