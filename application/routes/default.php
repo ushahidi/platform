@@ -133,7 +133,7 @@ Route::set('posts', $apiBase . 'posts/<parent_id>/<controller>(/<id>)',
  */
 Route::set('2fa-enable', $apiBase . 'users/me/2fa') 
 	->defaults(array(
-		'action'     => 'index',
+		'action'     => 'enable',
 		'directory'  => 'Api',
 		'controller' => '2fa',
     'id'         => 'me'
