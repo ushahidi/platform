@@ -56,29 +56,11 @@ class Controller_OAuth extends Controller {
 		$this->redirect('oauth/authorize' . URL::query(Arr::extract($params, $this->oauth_params)));
 	}*/
 
-  public function check_google_2fa_enabled()
+  public function verify_google_2fa($user, $request_payload)
   {
-
-    $request_payload = json_decode($this->request->body(), TRUE);
-    $user_repo = service('repository.user');
-    $user = $user_repo->getByEmail($request_payload['username']);
-    $valid = false;
-    
-    // Check if user has enabled 2fa
-    if ($user->google2fa_enabled)
-    {
-      // Check if google2fa_secret is provided 
-      if (array_key_exists('google2fa_secret', $request_payload)) 
-      {
-        // Verify google2fa secret
-        $google2fa_secret = $request_payload['google2fa_secret'];
-        $valid = $user_repo->verifyGoogle2fa($user, $google2fa_secret);
-      }
-    }
-    else
-    {
-      $valid = true;
-    }
+    // Verify google2fa secret
+    $google2fa_secret = $request_payload['google2fa_secret'];
+    $valid = $user_repo->verifyGoogle2fa($user, $google2fa_secret);
     
     return $valid;
   }
@@ -89,21 +71,36 @@ class Controller_OAuth extends Controller {
  		$server = service('oauth.server.auth');
 		try
 		{
-      if (!$this->check_google_2fa_enabled())
-      {
-        $response = array(
-          'error' => 'google2fa_secret_required',
-          'error_description' => 'Google 2fa secret not provided'
-        );
-        $this->response->status(401);
+      $request_payload = json_decode($this->request->body(), TRUE);
+      $user_repo = service('repository.user');
+      $user = $user_repo->getByEmail($request_payload['username']);
+      
+      // Check if User has enabled 2fa
+      if ($user->google2fa_enabled) {
+        // Check if Google 2fa secret was provided in payload
+        if (!array_key_exists('google2fa_secret', $request_payload))
+        {
+          $response = array(
+            'error' => 'google2fa_secret_required',
+            'error_description' => 'Google 2fa secret not provided'
+          );
+          $this->response->status(401);
+        }
+        // Check if the Google 2fa secret is valid
+        elseif (!$this->verify_google_2fa($user, $request_payload))
+        {
+          $response = array(
+            'error' => 'google2fa_secret_invalid',
+            'error_description' => 'Google 2fa secret not invalid'
+          );
+          $this->response->status(400);
+        }
       }
-      else
-      {
-			  $response = $server->issueAccessToken(json_decode($this->request->body(), TRUE));
-			  if (!empty($response['refresh_token'])) {
-				  $response['refresh_token_expires_in'] = $server->getGrantType('refresh_token')->getRefreshTokenTTL();
-			  }
-		  }
+
+			$response = $server->issueAccessToken($request_payload);
+	    if (!empty($response['refresh_token'])) {
+		    $response['refresh_token_expires_in'] = $server->getGrantType('refresh_token')->getRefreshTokenTTL();
+      }
     }
 		catch (OAuthClientException $e)
 		{

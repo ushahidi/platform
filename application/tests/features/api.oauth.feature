@@ -60,7 +60,7 @@ Feature: Testing OAuth2 endpoints
         And the "error" property equals "google2fa_secret_required"
         Then the guzzle status code should be 401
 
-    Scenario: Requesting access token with password where 2fa required with google 2fa secret
+    Scenario: Requesting access token with password where 2fa required with invalid google 2fa secret
         Given that I want to make a new "access_token"
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
@@ -77,8 +77,29 @@ Feature: Testing OAuth2 endpoints
         And that the api_url is ""
         Then I request "oauth/token"
         Then the response is JSON
-        And the response has a "access_token" property
-        Then the guzzle status code should be 200
+        And the response has a "error" property
+        And the "error" property equals "google2fa_secret_invalid"
+        Then the guzzle status code should be 400
+
+#    Scenario: Requesting access token with password where 2fa required with google 2fa secret
+#        Given that I want to make a new "access_token"
+#        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
+#        And that the request "data" is:
+#        """
+#        {
+#          "grant_type": "password",
+#          "client_id": "demoapp",
+#          "client_secret": "demopass",
+#          "username": "twofa@ushahidi.com",
+#          "password": "testing",
+#          "google2fa_secret": "410272"
+#        }
+#        """
+#        And that the api_url is ""
+#        Then I request "oauth/token"
+#        Then the response is JSON
+#        And the response has a "access_token" property
+#        Then the guzzle status code should be 200
 
     Scenario: Requesting access token with client credentials
         Given that I want to make a new "access_token"
