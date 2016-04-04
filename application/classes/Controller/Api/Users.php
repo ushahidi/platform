@@ -58,21 +58,4 @@ class Controller_Api_Users extends Ushahidi_Rest {
 			$this->_usecase->setIdentifiers(['id' => $id]);
 		}
 	}
-
-	/**
-	 * Enable 2fa for current user
-	 *
-	 * PUT /api/users/me/2fa
-	 *
-	 * @return void
-	 */
-	public function action_post_2fa_me()
-	{
-		$this->action_put_index();
-
-		if ($id = service('session.user')->getId()) {
-			// Replace the "me" id with the actual id
-			$this->_usecase->setIdentifiers(['id' => $id]);
-		}
-	}
 }

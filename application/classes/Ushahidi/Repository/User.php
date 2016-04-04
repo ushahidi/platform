@@ -195,8 +195,6 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			->execute($this->db);
 
     $google2fa_secret = $result->get('google2fa_secret');
-Kohana::$log->add(Log::ERROR, print_r($google2fa_secret, TRUE));
-Kohana::$log->add(Log::ERROR, print_r($secret, TRUE));
     $valid = $google2fa->verifyKey($google2fa_secret, $secret);
 
     return $valid;
