@@ -11,7 +11,6 @@
 
 use Ushahidi\Core\Tool\PasswordAuthenticator;
 use Ushahidi\Core\Exception\AuthenticatorException;
-use Ushahidi\Core\Exception\Authenticator2faException;
 
 class Ushahidi_Authenticator_Password implements PasswordAuthenticator
 {

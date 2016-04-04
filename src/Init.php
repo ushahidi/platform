@@ -307,6 +307,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
 	'getresettoken' => $di->lazyNew('Ushahidi\Core\Usecase\User\GetResetToken'),
 	'passwordreset' => $di->lazyNew('Ushahidi\Core\Usecase\User\ResetUserPassword'),
 	'generategoogle2fa' => $di->lazyNew('Ushahidi\Core\Usecase\User\GenerateGoogle2fa'),
+	'verifygoogle2fa' => $di->lazyNew('Ushahidi\Core\Usecase\User\VerifyGoogle2fa'),
 ];
 $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->lazyGet('tool.authenticator.password');
 $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setRateLimiter'] = $di->lazyGet('ratelimiter.login');
