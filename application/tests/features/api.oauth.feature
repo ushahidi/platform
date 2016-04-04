@@ -6,7 +6,13 @@ Feature: Testing OAuth2 endpoints
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
-          grant_type=password&client_id=demoapp&client_secret=demopass&username=robbie@ushahidi.com&password=testing
+        {
+          "grant_type": "password",
+          "client_id": "demoapp",
+          "client_secret": "demopass",
+          "username": "robbie@ushahidi.com",
+          "password": "testing"
+        }
         """
         And that the api_url is ""
         Then I request "oauth/token"
@@ -19,7 +25,13 @@ Feature: Testing OAuth2 endpoints
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
-          grant_type=password&client_id=demoapp&client_secret=demopass&username=robbie@ushahidi.com&password=wrongpassword
+        {
+          "grant_type": "password",
+          "client_id": "demoapp",
+          "client_secret": "demopass",
+          "username": "robbie@ushahidi.com",
+          "password": "wrongpassword"
+        }
         """
         And that the api_url is ""
         Then I request "oauth/token"
@@ -33,7 +45,13 @@ Feature: Testing OAuth2 endpoints
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
-          grant_type=password&client_id=demoapp&client_secret=demopass&username=2fa@ushahidi.com&password=testing
+        {
+          "grant_type": "password",
+          "client_id": "demoapp",
+          "client_secret": "demopass",
+          "username": "twofa@ushahidi.com",
+          "password": "testing"
+        }
         """
         And that the api_url is ""
         Then I request "oauth/token"
@@ -47,7 +65,14 @@ Feature: Testing OAuth2 endpoints
         And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
-          grant_type=password&client_id=demoapp&client_secret=demopass&username=2fa@ushahidi.com&password=testing&google2fa_secret=123456
+        {
+          "grant_type": "password",
+          "client_id": "demoapp",
+          "client_secret": "demopass",
+          "username": "twofa@ushahidi.com",
+          "password": "testing",
+          "google2fa_secret": "410272"
+        }
         """
         And that the api_url is ""
         Then I request "oauth/token"

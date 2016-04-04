@@ -185,32 +185,19 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
    * @param string secret
    * @return bool
    */
-  public function verifyGoogle2fa(Entity $entity, string $secret) {
+  public function verifyGoogle2fa(Entity $entity, $secret) {
 
-    $valid = false;
-
-    try
-    {
-      $google2fa = new Google2FA();
+    $google2fa = new Google2FA();
       
-      $result = DB::select()
-			  ->from('user_google2fa_secrets')
-			  ->where('user_id', '=', $entity->id)
-			  ->execute($this->db);
+    $result = DB::select('google2fa_secret')
+      ->from('user_google2fa_secrets')
+			->where('user_id', '=', $entity->id)
+			->execute($this->db);
 
-		  $google2fa_secret = $result->get('google2fa_secret');
-
-      $valid = $google2fa->verifyKey($google2fa_secret, $secret);
-    }
-    catch (Exception $e)
-		{
-			// Throw an error when a non-library specific exception has been thrown
-			$response = array(
-				'error' =>  'undefined_error',
-				'error_description' => $e->getMessage()
-			);
-			$this->response->status(400);
-		}
+    $google2fa_secret = $result->get('google2fa_secret');
+Kohana::$log->add(Log::ERROR, print_r($google2fa_secret, TRUE));
+Kohana::$log->add(Log::ERROR, print_r($secret, TRUE));
+    $valid = $google2fa->verifyKey($google2fa_secret, $secret);
 
     return $valid;
   }
@@ -221,25 +208,13 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
    * @return string Google QR url
    */
   public function generateGoogle2fa(Entity $entity) {
-    try 
-    {
-      $google2fa = new Google2FA();
-      $google2fa_secret = $google2fa->generateSecretKey();
-      $google2fa_url = $google2fa->getQRCodeGoogleUrl(
-          'Ushahidi',
-          $entity->email,
-          $google2fa_secret
-      );
-    }
-    catch (Exception $e)
-		{
-			// Throw an error when a non-library specific exception has been thrown
-			$response = array(
-				'error' =>  'undefined_error',
-				'error_description' => $e->getMessage()
-			);
-			$this->response->status(400);
-		}
+    $google2fa = new Google2FA();
+    $google2fa_secret = $google2fa->generateSecretKey();
+    $google2fa_url = $google2fa->getQRCodeGoogleUrl(
+        'Ushahidi',
+        $entity->email,
+        $google2fa_secret
+    );
 
     $input = [
 			'google2fa_secret' => $google2fa_secret,
