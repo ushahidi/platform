@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
     puppet.options = ["--verbose"]
     puppet.facter = {
         # Optionally pass in a github oauth token through an environment variable
-        "github_token" => ENV.fetch('github_token', '2a42451963e0c8418795d2e7926c6b54284fe226')
+        "github_token" => ENV.fetch('github_token', '')
     }
   end
 end
