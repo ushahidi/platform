@@ -1,5 +1,9 @@
-app:
+deploy:
   build:
-    image: app
-    dockerfile_path: Dockerfile
+    image: deploy
+    dockerfile_path: deploy.Dockerfile
   encrypted_env_file: deployment.env.encrypted
+test:
+  build:
+    image: test
+    dockerfile_path: test.Dockerfile
