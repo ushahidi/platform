@@ -69,18 +69,8 @@ class Ushahidi_Validator_Contact_Update extends Validator
 		}
 
 		// Valid Phone?
-		// ++TODO: There's no easy to validate international numbers
-		// so just look for numbers only.
-		else if ( isset($data['type']) AND
-			$data['type'] == Contact::PHONE )
-		{
-			// Remove all non-digit characters from the number
-			$number = preg_replace('/\D+/', '', $contact);
-
-			if (strlen($number) == 0)
-			{
-				$validation->error('contact', 'invalid_phone', [$contact]);
-			}
-		}
+		// There's no easy to validate phone numbers. Even just accepting numbers
+		// fails when you get network messages from "Safaricom" etc
+		// else if ( isset($data['type']) AND $data['type'] == Contact::PHONE )
 	}
 }
