@@ -129,27 +129,17 @@ Route::set('posts', $apiBase . 'posts/<parent_id>/<controller>(/<id>)',
 	));
 
 /**
- * Path to 2fa enable.
+ * Path to 2fa enable | verify.
  */
-Route::set('2fa-enable', $apiBase . 'users/me/2fa') 
+Route::set('2fa-enable', $apiBase . 'users/me/2fa(/<action>)', [
+		'action' => '(?:enable|verify)'
+	]) 
 	->defaults(array(
 		'action'     => 'enable',
 		'directory'  => 'Api',
 		'controller' => '2fa',
     'id'         => 'me'
 	));
-
-/**
- * Path to 2fa verify.
- */
-Route::set('2fa-verify', $apiBase . 'users/me/2fa/verify')
-	->defaults(array(
-		'action'     => 'verify',
-		'directory'  => 'Api',
-		'controller' => '2fa',
-		'id'         => 'me'
-	));
-
 
 /**
  * Base Ushahidi API Route

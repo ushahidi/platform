@@ -3,7 +3,6 @@ Feature: Testing OAuth2 endpoints
 
     Scenario: Requesting access token with password
         Given that I want to make a new "access_token"
-        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
         {
@@ -22,7 +21,6 @@ Feature: Testing OAuth2 endpoints
 
     Scenario: Requesting access token with incorrect password fails
         Given that I want to make a new "access_token"
-        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
         {
@@ -42,7 +40,6 @@ Feature: Testing OAuth2 endpoints
 
     Scenario: Requesting access token with password where 2fa required without google 2fa secret
         Given that I want to make a new "access_token"
-        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
         {
@@ -62,7 +59,6 @@ Feature: Testing OAuth2 endpoints
 
     Scenario: Requesting access token with password where 2fa required with invalid google 2fa secret
         Given that I want to make a new "access_token"
-        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
         And that the request "data" is:
         """
         {
@@ -71,7 +67,7 @@ Feature: Testing OAuth2 endpoints
           "client_secret": "demopass",
           "username": "twofa@ushahidi.com",
           "password": "testing",
-          "google2fa_secret": "410272"
+          "google2fa_otp": "410272"
         }
         """
         And that the api_url is ""
@@ -83,7 +79,6 @@ Feature: Testing OAuth2 endpoints
 
 #    Scenario: Requesting access token with password where 2fa required with google 2fa secret
 #        Given that I want to make a new "access_token"
-#        And that the request "Content-Type" header is "application/x-www-form-urlencoded"
 #        And that the request "data" is:
 #        """
 #        {
@@ -92,7 +87,7 @@ Feature: Testing OAuth2 endpoints
 #          "client_secret": "demopass",
 #          "username": "twofa@ushahidi.com",
 #          "password": "testing",
-#          "google2fa_secret": "410272"
+#          "google2fa_otp": "410272"
 #        }
 #        """
 #        And that the api_url is ""

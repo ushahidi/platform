@@ -73,7 +73,6 @@ class GenerateGoogle2fa implements Usecase
 			// Generate a google 2fa secret
       // and retrieve google qr url
 			$google2fa_url = $this->repo->generateGoogle2fa($entity);
-
       return ['google2fa_url' => $google2fa_url];
 		}
     return;

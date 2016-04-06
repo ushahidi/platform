@@ -24,7 +24,6 @@ class AddToUserGoogle2faEnabled extends AbstractMigration
     {
         $this->table('users')
             ->addColumn('google2fa_enabled', 'boolean', [
-              'null' => true,
               'default' => false
             ])
             ->update();

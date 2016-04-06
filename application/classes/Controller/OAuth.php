@@ -59,8 +59,8 @@ class Controller_OAuth extends Controller {
   public function verify_google_2fa($user, $request_payload)
   {
     // Verify google2fa secret
-    $google2fa_secret = $request_payload['google2fa_secret'];
-    $valid = $user_repo->verifyGoogle2fa($user, $google2fa_secret);
+    $google2fa_otp = $request_payload['google2fa_otp'];
+    $valid = $user_repo->verifyGoogle2fa($user, $google2fa_otp);
     
     return $valid;
   }

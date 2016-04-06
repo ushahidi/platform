@@ -5,7 +5,6 @@ Feature: Testing 2fa Enable
         And that the request "data" is:
             """
             {
-                "email":"twofa@ushahidi.com"
             }
             """
         When I request "/users/me/2fa"
