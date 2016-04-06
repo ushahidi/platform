@@ -21,6 +21,8 @@ class CreateMessage extends CreateUsecase
 	{
 		$entity = parent::getEntity();
 
+		// Retrieve message type and data provider
+		// from incoming message when replying to a message
 		if (! empty($this->payload['parent_id'])) {
 			$parent = $this->repo->get($this->payload['parent_id']);
 			$entity->setState(['type' => $parent->type,
