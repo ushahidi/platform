@@ -98,7 +98,8 @@ class Controller_Sms_Smssync extends Controller {
 		// Remove Non-Numeric characters because that's what the DB has
 		$to = preg_replace("/[^0-9,.]/", "", $this->request->post('sent_to'));
 
-		$from = preg_replace("/[^0-9A-Za-z,.]/", "", $from);
+		// Allow for Alphanumeric sender
+		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
 
 		$this->_provider->receive(Message_Type::SMS, $from, $message_text, $to);
 
