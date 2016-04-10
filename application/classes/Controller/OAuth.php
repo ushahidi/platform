@@ -56,7 +56,7 @@ class Controller_OAuth extends Controller {
 		$this->redirect('oauth/authorize' . URL::query(Arr::extract($params, $this->oauth_params)));
 	}*/
 
-  public function verify_google_2fa($user, $request_payload)
+  public function verify_google_2fa($user, $user_repo, $request_payload)
   {
     // Verify google2fa secret
     $google2fa_otp = $request_payload['google2fa_otp'];
@@ -89,7 +89,7 @@ class Controller_OAuth extends Controller {
           $user2fa_validated = false;
         }
         // Check if the Google 2fa secret is valid
-        elseif (!$this->verify_google_2fa($user, $request_payload))
+        elseif (!$this->verify_google_2fa($user, $user_repo, $request_payload))
         {
           $response = array(
             'error' => 'google2fa_secret_invalid',
