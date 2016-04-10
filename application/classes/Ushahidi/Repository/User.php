@@ -188,6 +188,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
   public function verifyGoogle2fa(Entity $entity, $secret) {
 
     $google2fa = new Google2FA();
+    $valid = false;
       
     $result = DB::select('google2fa_secret')
       ->from('user_google2fa_secrets')
@@ -195,11 +196,20 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			->execute($this->db);
 
     $google2fa_secret = $result->get('google2fa_secret');
-    $valid = $google2fa->verifyKey($google2fa_secret, $secret);
+    $valid = $google2fa->verifyKey($google2fa_secret, $secret, 100);
 
     return $valid;
   }
 
+  /**
+   * Disable Google 2fa secret
+   * @param Entity User
+   */
+  public function disableGoogle2fa(Entity $entity) {
+    $result = DB::delete('user_google2fa_secrets')
+			->where('user_id', '=', $entity->id)
+			->execute($this->db);
+  }
   /**
    * Set Google 2fa secret
    * @param Entity User
@@ -220,16 +230,21 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			'created' => time()
 		];
 
-    // Set 2fa Enabled
-    $this->executeUpdate(['id' => $entity->id], [
-			'google2fa_enabled' => true
-		]);
-
 		// Save the secret
-		$query = DB::insert('user_google2fa_secrets')
-			->columns(array_keys($input))
-			->values(array_values($input))
-			->execute($this->db);
+    if (!$entity->google2fa_enabled)
+    {
+		  $query = DB::insert('user_google2fa_secrets')
+			  ->columns(array_keys($input))
+	  		->values(array_values($input))
+		  	->execute($this->db);
+    }
+    else
+    {
+      $query = DB::update('user_google2fa_secrets')
+			  ->set($input)
+        ->where('user_id', '=', $entity->id)
+		  	->execute($this->db);
+    }
 
     return $google2fa_url;
   }

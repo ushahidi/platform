@@ -17,6 +17,16 @@ class Controller_Api_2fa extends Ushahidi_Rest {
 		$this->response->status(200);
 	}
 
+  public function action_options_verify()
+	{
+		$this->response->status(200);
+	}
+
+  public function action_options_disable()
+	{
+		$this->response->status(200);
+	}
+
 	public function action_post_enable()
 	{
     if ($id = service('session.user')->getId()) {
@@ -36,6 +46,19 @@ class Controller_Api_2fa extends Ushahidi_Rest {
       // Replace the "me" id with the actual id
 		  $this->_usecase = service('factory.usecase')
 			  ->get($this->_scope(), 'verifygoogle2fa')
+			  ->setPayload($this->_payload())
+        ->setIdentifiers($this->_identifiers())
+        ->setIdentifiers(['id' => $id])
+        ->setFormatter(service('formatter.output.json'));
+	  }
+  }
+
+  public function action_post_disable()
+	{
+    if ($id = service('session.user')->getId()) {
+      // Replace the "me" id with the actual id
+		  $this->_usecase = service('factory.usecase')
+			  ->get($this->_scope(), 'disablegoogle2fa')
 			  ->setPayload($this->_payload())
         ->setIdentifiers($this->_identifiers())
         ->setIdentifiers(['id' => $id])

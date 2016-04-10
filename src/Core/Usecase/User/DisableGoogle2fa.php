@@ -19,7 +19,7 @@ use Ushahidi\Core\Traits\IdentifyRecords;
 use Ushahidi\Core\Traits\ModifyRecords;
 use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
-class VerifyGoogle2fa implements Usecase
+class DisableGoogle2fa implements Usecase
 {
 	// Uses several traits to assign tools. Each of these traits provides a
 	// setter method for the tool. For example, the AuthorizerTrait provides
@@ -70,12 +70,7 @@ class VerifyGoogle2fa implements Usecase
 		$entity = $this->getEntity();
 
 		if ($entity->getId()) {
-			// Generate a google 2fa secret
-      // and retrieve google qr url
-      $google2fa_otp = $this->getPayload('google2fa_otp');
-			$google2fa_valid = $this->repo->verifyGoogle2fa($entity, $google2fa_otp);
-
-      return ['google2fa_valid' => $google2fa_valid];
+			$this->repo->disableGoogle2fa($entity);
 		}
     return;
 	}

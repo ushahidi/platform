@@ -132,7 +132,7 @@ Route::set('posts', $apiBase . 'posts/<parent_id>/<controller>(/<id>)',
  * Path to 2fa enable | verify.
  */
 Route::set('2fa-enable', $apiBase . 'users/me/2fa(/<action>)', [
-		'action' => '(?:enable|verify)'
+		'action' => '(?:enable|verify|disable)'
 	]) 
 	->defaults(array(
 		'action'     => 'enable',
