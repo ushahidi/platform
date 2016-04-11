@@ -3,7 +3,7 @@
 /**
  * Ushahidi Platform User Verify Google 2fa Use Case
  *
- * @author     Ushahidi Team <team@ushahidi.com>
+ * @author	   Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
  * @copyright  2016 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
@@ -21,31 +21,31 @@ use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
 class VerifyGoogle2fa implements Usecase
 {
-	// Uses several traits to assign tools. Each of these traits provides a
-	// setter method for the tool. For example, the AuthorizerTrait provides
-	// a `setAuthorizer` method which only accepts `Authorizer` instances.
+  // Uses several traits to assign tools. Each of these traits provides a
+  // setter method for the tool. For example, the AuthorizerTrait provides
+  // a `setAuthorizer` method which only accepts `Authorizer` instances.
 	use AuthorizerTrait,
-		FormatterTrait;
+	FormatterTrait;
 
-	// - IdentifyRecords for setting entity lookup parameters
-	// - ModifyRecords for setting entity modification parameters
-  use IdentifyRecords,
-		ModifyRecords;
+  // - IdentifyRecords for setting entity lookup parameters
+  // - ModifyRecords for setting entity modification parameters
+	use IdentifyRecords,
+	ModifyRecords;
 
   // - VerifyEntityLoaded for checking that an entity is found
 	use VerifyEntityLoaded;
 
-	/**
-	 * @var ResetPasswordRepository
-	 */
+  /**
+   * @var ResetPasswordRepository
+   */
 	protected $repo;
 
-	/**
-	 * Inject a repository
-	 *
-	 * @param  $repo ResetPasswordRepository
-	 * @return $this
-	 */
+  /**
+   * Inject a repository
+   *
+   * @param  $repo ResetPasswordRepository
+   * @return $this
+   */
 	public function setRepository(ResetPasswordRepository $repo)
 	{
 		$this->repo = $repo;
@@ -70,21 +70,21 @@ class VerifyGoogle2fa implements Usecase
 		$entity = $this->getEntity();
 
 		if ($entity->getId()) {
-			// Generate a google 2fa secret
-      // and retrieve google qr url
-      $google2fa_otp = $this->getPayload('google2fa_otp');
+		// Generate a google 2fa secret
+		// and retrieve google qr url
+			$google2fa_otp = $this->getPayload('google2fa_otp');
 			$google2fa_valid = $this->repo->verifyGoogle2fa($entity, $google2fa_otp);
 
-      return ['google2fa_valid' => $google2fa_valid];
+			return ['google2fa_valid' => $google2fa_valid];
 		}
-    return;
+		return;
 	}
 
   /**
-	 * Find entity based on identifying parameters.
-	 *
-	 * @return Entity
-	 */
+   * Find entity based on identifying parameters.
+   *
+   * @return Entity
+   */
 	protected function getEntity()
 	{
 		// Entity will be loaded using the provided id

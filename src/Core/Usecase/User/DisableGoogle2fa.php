@@ -29,7 +29,7 @@ class DisableGoogle2fa implements Usecase
 
 	// - IdentifyRecords for setting entity lookup parameters
 	// - ModifyRecords for setting entity modification parameters
-  use IdentifyRecords,
+	use IdentifyRecords,
 		ModifyRecords;
 
   // - VerifyEntityLoaded for checking that an entity is found
@@ -72,7 +72,7 @@ class DisableGoogle2fa implements Usecase
 		if ($entity->getId()) {
 			$this->repo->disableGoogle2fa($entity);
 		}
-    return;
+		return;
 	}
 
   /**
