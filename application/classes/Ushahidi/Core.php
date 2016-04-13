@@ -83,6 +83,11 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('features.data-import.enabled');
 		});
 
+		// Data export config settings
+		$di->set('data-export.enabled', function() use ($di) {
+			return Kohana::$config->load('features.data-export.enabled');
+		});
+
 		$di->set('tool.uploader.prefix', function() use ($di) {
 			// Is this a multisite install?
 			$multisite = Kohana::$config->load('multisite.enabled');
@@ -291,6 +296,8 @@ abstract class Ushahidi_Core {
 			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
 			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
 			'permissions'          => $di->lazyNew('Ushahidi_Formatter_Permission'),
+			// Formatter for post exports. Defaults to CSV export
+			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
 		];
 
 		// Formatter parameters
@@ -381,6 +388,7 @@ abstract class Ushahidi_Core {
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
+		$di->set('formatter.output.csv', $di->lazyNew('Ushahidi_Formatter_Export_CSV'));
 
 		// Formatter parameters
 		$di->setter['Ushahidi_Formatter_JSONP']['setCallback'] = function() {

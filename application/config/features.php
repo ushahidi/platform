@@ -54,4 +54,9 @@ return [
 	'data-import' => [
 		'enabled' => TRUE,
 	],
+
+	// Data import
+	'data-export' => [
+		'enabled' => TRUE,
+	],
 ];

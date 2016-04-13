@@ -140,6 +140,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'csv'                  => $di->lazyGet('authorizer.csv'),
 	'roles'                => $di->lazyGet('authorizer.role'),
 	'permissions'          => $di->lazyGet('authorizer.permission'),
+	'posts_export'         => $di->lazyGet('authorizer.data_export'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -166,6 +167,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'csv'                  => $di->lazyGet('repository.csv'),
 	'roles'                => $di->lazyGet('repository.role'),
 	'permissions'          => $di->lazyGet('repository.permission'),
+	'posts_export'         => $di->lazyGet('repository.post'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -188,6 +190,7 @@ $di->set('factory.data', $di->lazyNew('Ushahidi\Factory\DataFactory'));
 $di->params['Ushahidi\Factory\DataFactory']['actions'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\SearchData'),
 	'stats'  => $di->lazyNew('Ushahidi\Core\SearchData'),
+	'export'  => $di->lazyNew('Ushahidi\Core\SearchData'),
 ];
 
 // Use cases are used to join multiple collaborators together for a single interaction.
@@ -275,7 +278,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
 	'stats'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
-	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase')
+	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
 ];
 
 // Add custom create usecase for notifications
@@ -294,6 +297,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'create' => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSetPost'),
 	'delete' => $di->lazyNew('Ushahidi\Core\Usecase\Set\DeleteSetPost'),
 	'read'   => $di->lazyNew('Ushahidi\Core\Usecase\Set\ReadSetPost'),
+];
+
+// Add usecase for posts_export
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
+	'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
 ];
 
 // Set up traits for SetsPosts Usecases
@@ -322,6 +330,7 @@ $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setAcl'] = $di->lazyGet('t
 $di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
 $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRolesEnabled'] = $di->lazyGet('roles.enabled');
 $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
+$di->setter['Ushahidi\Core\Traits\DataExportAccess']['setEnabled'] = $di->lazyGet('data-export.enabled');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
@@ -360,6 +369,7 @@ $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\Conta
 $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthorizer'));
 $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuthorizer'));
 $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
+$di->set('authorizer.data_export', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\DataExportAuthorizer'));
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),

@@ -494,6 +494,13 @@ abstract class Ushahidi_Rest extends Controller {
 		{
 			$format = service("formatter.output.$type");
 
+			if ($type === 'csv')
+			{
+				// Format for export
+				$format($this->_response_payload);
+				return;
+			}
+
 			$body = $format($this->_response_payload);
 			$mime = $format->getMimeType();
 
