@@ -494,11 +494,11 @@ abstract class Ushahidi_Rest extends Controller {
 		{
 			$format = service("formatter.output.$type");
 
+			// Is this a file download?
 			if ($type === 'csv')
 			{
-				// Format for export
+				// Format response for download
 				$format($this->_response_payload);
-				return;
 			}
 
 			$body = $format($this->_response_payload);

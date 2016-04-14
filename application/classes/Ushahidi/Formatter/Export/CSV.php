@@ -10,20 +10,31 @@
  */
 
 use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Tool\OutputFormatter;
 
-class Ushahidi_Formatter_Export_CSV implements Formatter, OutputFormatter
+class Ushahidi_Formatter_Export_CSV implements Formatter
 {
 	// Formatter
 	public function __invoke($input)
 	{
-		// CSV output
-	}
+		// Create filename from deployment name
+		$site_name = Kohana::$config->load('site.name');
+		$filename = $site_name.'.csv';
 
-	// OutputFormatter
-	public function getMimeType()
-	{
-		return 'application/csv';
+		// Send response as CSV download
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename='.$filename);
+		header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
+
+		$fp = fopen('php://output', 'w');
+		foreach ($input as $row)
+		{
+			fputcsv($fp, $row);
+		}
+
+		fclose($fp);
+
+		// No need for further processing after download
+		exit;
 	}
 }
 
