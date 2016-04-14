@@ -668,7 +668,6 @@ Feature: Testing the Posts API
 		And the "count" property equals "2"
 		Then the guzzle status code should be 200
 
-        # todo: Add steps to test export
         @resetFixture @csvexport
 	Scenario: Search All Posts and export the results
 		Given that I want to get all "Posts"
@@ -677,6 +676,7 @@ Feature: Testing the Posts API
 			q=Searching&format=csv
 			"""
 		When I request "/posts/export"
+                And that the response "Content-Type" header is "text/csv"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
