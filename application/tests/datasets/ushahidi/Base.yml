@@ -225,6 +225,18 @@ form_attributes:
     priority: 5
     cardinality: 0
     form_stage_id: 2
+  -
+    id: 14
+    label: "Possible actions"
+    key: "possible_actions"
+    type: "varchar"
+    input: "checkbox"
+    required: 0
+    options: '["ground_search","medical_evacuation"]'
+    priority: 5
+    cardinality: 0
+    config: '[]'
+    form_stage_id: 1
 posts:
   -
     id: 1

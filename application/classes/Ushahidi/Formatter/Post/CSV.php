@@ -22,12 +22,14 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	// Formatter
 	public function __invoke($records)
 	{
-		return $this->generateCSVRecords($records);
+		$this->generateCSVRecords($records);
 	}
 
 	/**
 	 * Generates records that are suitable to save in CSV format.
-	 * Records are padded with missing column headings as keys.
+	 *
+	 * Since search records will have mixed forms, rows that
+	 * do not have a matching form field will be padded.
 	 *
 	 * @param array $records
 	 *
@@ -35,16 +37,25 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	 */
 	protected function generateCSVRecords($records)
 	{
-		$csv_records = [];
-
 		// Get CSV heading
 		$heading = $this->getCSVHeading($records);
-		
+
 		// Sort the columns from the heading so that they match with the record keys
 		sort($heading);
 
+		// Create filename from deployment name
+		$site_name = Kohana::$config->load('site.name');
+		$filename = $site_name.'.csv';
+
+		// Send response as CSV download
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename='.$filename);
+		header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
+
+		$fp = fopen('php://output', 'w');
+
 		// Add heading
-		array_push($csv_records, $heading);
+		fputcsv($fp, $heading);
 
 		foreach ($records as $record)
 		{
@@ -52,57 +63,90 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 			foreach ($record as $key => $val)
 			{
-				// Are these form values?
-				if ($key === 'values')
+				// Assign form values
+				if ($key == 'values')
 				{
-					// Remove 'values' column
-					unset($record['values']);
+					unset($record[$key]);
 
 					foreach ($val as $key => $val)
 					{
-						// XXX: Is this always a single value array?
-						$val = $val[0];
-						
-						// Is it a location?
-						if ($this->isLocation($val))
-						{
-							// then create separate lat and lon fields
-							$record[$key.'.lat'] = $val['lat'];
-							$record[$key.'.lon'] = $val['lon'];
-						}
-
-						// else assign value as single string or csv string
-						else {
-							$record[$key] = $this->valueToString($val);
-						}
+						$this->assignRowValue($record, $key, $val[0]);
 					}
 				}
 
-				// If not form values then assign value as single string or CSV string
+				// Assign post values
 				else
 				{
-					$record[$key] = $this->valueToString($val);
+					unset($record[$key]);
+					$this->assignRowValue($record, $key, $val);
 				}
 			}
 
-			// Pad record with missing column headings as keys
+			// Pad record
 			$missing_keys = array_diff($heading, array_keys($record));
 			$record = array_merge($record, array_fill_keys($missing_keys, null));
 
 			// Sort the keys so that they match with columns from the CSV heading
 			ksort($record);
-			
-			array_push($csv_records, $record);
+
+			fputcsv($fp, $record);
 		}
 
-		return $csv_records;
+		fclose($fp);
+
+		// No need for further processing
+		exit;
+	}
+
+	private function assignRowValue(&$record, $key, $value)
+	{
+		if (is_array($value))
+		{
+			// Assign in multiple columns
+			foreach ($value as $sub_key => $sub_value)
+			{
+				$record[$key.'.'.$sub_key] = $sub_value;
+			}
+		}
+
+		// ... else assign value as single string
+		else
+		{
+			$record[$key] = $value;
+		}
+	}
+
+	private function assignColumnHeading(&$columns, $key, $value)
+	{
+		if (is_array($value))
+		{
+			// Assign in multiple columns
+			foreach ($value as $sub_key => $sub_value)
+			{
+				$multivalue_key = $key.'.'.$sub_key;
+
+				if (! in_array($multivalue_key, $columns))
+				{
+					$columns[] = $multivalue_key;
+				}
+			}
+		}
+
+		// ... else assign single key
+		else
+		{
+			if (! in_array($key, $columns))
+			{
+				$columns[] = $key;
+			}
+		}
 	}
 
 	/**
 	 * Extracts column names shared across posts to create a CSV heading
 	 *
 	 * @param array $records
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function getCSVHeading($records)
@@ -116,58 +160,24 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 			foreach ($record as $key => $val)
 			{
-				// Are these form values?
-				if ($key === 'values')
+				// Assign form keys
+				if ($key == 'values')
 				{
 					foreach ($val as $key => $val)
 					{
-						// Get value from single value array
-						$val = $val[0];
-						
-						// Is it a location?
-						if ($this->isLocation($val))
-						{
-							// then create separate lat and lon columns
-							array_push($columns, $key.'.lat', $key.'.lon');
-						}
-
-						// ...else add it as single column
-						else
-						{
-							array_push($columns, $key);
-						}
+						$this->assignColumnHeading($columns, $key, $val[0]);
 					}
 				}
 
-				// ...else add the key as is if not a form value key
+				// Assign post keys
 				else
 				{
-					array_push($columns, $key);
+					$this->assignColumnHeading($columns, $key, $val);
 				}
 			}
 		}
 
-		// Finally, return a list of unique column names found in all posts
-		return array_unique($columns);
-	}
-
-	/**
-	 * Converts post values to strings
-	 *
-	 * @param mixed $value
-	 *
-	 * @return string
-	 */
-
-	protected function valueToString($value)
-	{
-		// Convert array to csv string
-		if (is_array($value)) {
-			return implode(',', $value);
-		}
-
-		// or return value as string
-	    return (string) $value;
+		return $columns;
 	}
 
 	/**
