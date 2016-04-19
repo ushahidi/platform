@@ -83,11 +83,6 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('features.data-import.enabled');
 		});
 
-		// Data export config settings
-		$di->set('data-export.enabled', function() use ($di) {
-			return Kohana::$config->load('features.data-export.enabled');
-		});
-
 		$di->set('tool.uploader.prefix', function() use ($di) {
 			// Is this a multisite install?
 			$multisite = Kohana::$config->load('multisite.enabled');

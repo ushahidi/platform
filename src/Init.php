@@ -140,7 +140,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'csv'                  => $di->lazyGet('authorizer.csv'),
 	'roles'                => $di->lazyGet('authorizer.role'),
 	'permissions'          => $di->lazyGet('authorizer.permission'),
-	'posts_export'         => $di->lazyGet('authorizer.data_export'),
+	'posts_export'         => $di->lazyGet('authorizer.post'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -330,7 +330,6 @@ $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setAcl'] = $di->lazyGet('t
 $di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
 $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRolesEnabled'] = $di->lazyGet('roles.enabled');
 $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
-$di->setter['Ushahidi\Core\Traits\DataExportAccess']['setEnabled'] = $di->lazyGet('data-export.enabled');
 
 // Tools
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
@@ -369,7 +368,6 @@ $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\Conta
 $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthorizer'));
 $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuthorizer'));
 $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
-$di->set('authorizer.data_export', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\DataExportAuthorizer'));
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
