@@ -494,13 +494,6 @@ abstract class Ushahidi_Rest extends Controller {
 		{
 			$format = service("formatter.output.$type");
 
-			// Is this a file download?
-			if ($type === 'csv')
-			{
-				// Format response for download
-				$format($this->_response_payload);
-			}
-
 			$body = $format($this->_response_payload);
 			$mime = $format->getMimeType();
 

@@ -383,7 +383,6 @@ abstract class Ushahidi_Core {
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
-		$di->set('formatter.output.csv', $di->lazyNew('Ushahidi_Formatter_Export_CSV'));
 
 		// Formatter parameters
 		$di->setter['Ushahidi_Formatter_JSONP']['setCallback'] = function() {
