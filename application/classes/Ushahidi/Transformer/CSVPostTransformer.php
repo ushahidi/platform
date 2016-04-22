@@ -75,7 +75,8 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 
 		$form_values = ['values' => $record];
 
-		return array_merge($post_fields,
+
+		return array_merge_recursive($post_fields,
 						   $form_values,
 						   $this->fixedValues);
 	}
