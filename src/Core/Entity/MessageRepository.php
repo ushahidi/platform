@@ -15,8 +15,8 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
 interface MessageRepository extends
-    EntityGet,
-    EntityExists
+	EntityGet,
+	EntityExists
 {
 
 	/**
@@ -29,7 +29,6 @@ interface MessageRepository extends
 	 */
 	public function getPendingMessages($status, $data_provider, $limit);
 
-
 	/**
 	 * Check whether a notification message has been sent to a contact
 	 *
@@ -38,4 +37,10 @@ interface MessageRepository extends
 	 * @return bool
 	 */
 	public function notificationMessageExists($post_id, $contact_id);
+
+	/**
+	 * Get number of messages sent by the given contact
+	 * @return int
+	 */
+	public function getTotalMessagesFromContact($contact_id);
 }

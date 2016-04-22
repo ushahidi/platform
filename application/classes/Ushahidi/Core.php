@@ -480,6 +480,7 @@ abstract class Ushahidi_Core {
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 		$di->set('validator.contact.create', $di->lazyNew('Ushahidi_Validator_Contact_Create'));
+		$di->set('validator.contact.receive', $di->lazyNew('Ushahidi_Validator_Contact_Receive'));
 
 		$di->params['Ushahidi_Validator_Contact_Update'] = [
 			'repo' => $di->lazyGet('repository.user'),

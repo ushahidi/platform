@@ -120,7 +120,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Join to messages and load message id
 		$query->join('messages', 'LEFT')->on('posts.id', '=', 'messages.post_id')
-			->select(['messages.id', 'message_id'], ['messages.type', 'source']);
+			->select(['messages.id', 'message_id'], ['messages.type', 'source'], ['messages.contact_id', 'contact_id']);
 
 		return $query;
 	}
