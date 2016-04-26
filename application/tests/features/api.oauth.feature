@@ -75,7 +75,7 @@ Feature: Testing OAuth2 endpoints
         Then the response is JSON
         And the response has a "error" property
         And the "error" property equals "google2fa_secret_invalid"
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 401
 
 #    Scenario: Requesting access token with password where 2fa required with google 2fa secret
 #        Given that I want to make a new "access_token"
