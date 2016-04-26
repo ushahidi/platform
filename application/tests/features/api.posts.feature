@@ -875,6 +875,40 @@ Feature: Testing the Posts API
 		And the response has a "tags.0.id" property
 		Then the guzzle status code should be 200
 
+
+        @create @media
+	Scenario: Creating a Post with media
+		Given that I want to make a new "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Author id 1",
+				"type":"report",
+				"status":"draft",
+				"locale":"en_US",
+				"user":{
+					"id": 1
+				},
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"missing_status":["believed_missing"],
+					"last_location":["atlanta"],
+					"media_test":[2]
+				}
+			}
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the "values.media_test.0" property equals "2"
+		Then the guzzle status code should be 200
+
+
 	@resetFixture @search
 	Scenario: Search All Posts by link attribute
 		Given that I want to get all "Posts"
