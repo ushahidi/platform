@@ -92,7 +92,7 @@ class Controller_OAuth extends Controller {
 			}
 		}
 
-		return $user2f_validated;
+		return $user2fa_validated;
 	}
 
 	public function action_token()
