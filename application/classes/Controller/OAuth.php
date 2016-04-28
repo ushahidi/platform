@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 use League\OAuth2\Server\Exception\ClientException as OAuthClientException;
-use Ushahidi\Core\Exception\Google2fa\SecretMissingException as Google2faSecretMissingException;
-use Ushahidi\Core\Exception\Google2fa\SecretInvalidException as Google2faSecrectInvalidException;
+use Ushahidi\Core\Exception\Google2faSecretMissingException;
+use Ushahidi\Core\Exception\Google2faSecretInvalidException;
 
 class Controller_OAuth extends Controller {
 	use Ushahidi_Corsheaders;

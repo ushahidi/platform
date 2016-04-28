@@ -11,6 +11,6 @@
 
 namespace Ushahidi\Core\Exception;
 
-class SecretInvalidException extends \InvalidArgumentException
+class Google2faSecretMissingException extends \InvalidArgumentException
 {
 }
