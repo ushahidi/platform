@@ -69,16 +69,18 @@ class GenerateGoogle2fa implements Usecase
 		// Fetch user by email
 		$entity = $this->getEntity();
 
+		$this->verifyUpdateAuth($entity);
+
 		if ($entity->getId()) {
 			// Generate a google 2fa secret
-      // and retrieve google qr url
+			// and retrieve google qr url
 			$google2fa_url = $this->repo->generateGoogle2fa($entity);
 			return ['google2fa_url' => $google2fa_url];
 		}
 		return;
 	}
 
-  /**
+	/**
 	 * Find entity based on identifying parameters.
 	 *
 	 * @return Entity

@@ -69,6 +69,8 @@ class DisableGoogle2fa implements Usecase
 		// Fetch user by email
 		$entity = $this->getEntity();
 
+		$this->verifyUpdateAuth($entity);
+
 		if ($entity->getId()) {
 			$this->repo->disableGoogle2fa($entity);
 		}

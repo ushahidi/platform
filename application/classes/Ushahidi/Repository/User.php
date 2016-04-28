@@ -179,75 +179,74 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			->execute($this->db);
 	}
 
-  /**
-   * Verify User Google 2fa secret
-   * @param Entity User
-   * @param string secret
-   * @return bool
-   */
-  public function verifyGoogle2fa(Entity $entity, $secret) {
+	/**
+	 * Verify User Google 2fa secret
+	 * @param Entity User
+	 * @param string secret
+	 * @return bool
+	 */
+	public function verifyGoogle2fa(Entity $entity, $secret) {
 
-    $google2fa = new Google2FA();
-    $valid = false;
-      
-    $result = DB::select('google2fa_secret')
-      ->from('user_google2fa_secrets')
+		$google2fa = new Google2FA();
+		$valid = false;
+		$result = DB::select('google2fa_secret')
+			->from('user_google2fa_secrets')
 			->where('user_id', '=', $entity->id)
 			->execute($this->db);
+		$google2fa_secret = $result->get('google2fa_secret');
+		$valid = $google2fa->verifyKey($google2fa_secret, $secret, 100);
 
-    $google2fa_secret = $result->get('google2fa_secret');
-    $valid = $google2fa->verifyKey($google2fa_secret, $secret, 100);
+		return $valid;
+	}
 
-    return $valid;
-  }
-
-  /**
-   * Disable Google 2fa secret
-   * @param Entity User
-   */
-  public function disableGoogle2fa(Entity $entity) {
-    $result = DB::delete('user_google2fa_secrets')
+	/**
+	 * Disable Google 2fa secret
+	 * @param Entity User
+	 */
+	public function disableGoogle2fa(Entity $entity) {
+		$result = DB::delete('user_google2fa_secrets')
 			->where('user_id', '=', $entity->id)
 			->execute($this->db);
-  }
-  /**
-   * Set Google 2fa secret
-   * @param Entity User
-   * @return string Google QR url
-   */
-  public function generateGoogle2fa(Entity $entity) {
-    $google2fa = new Google2FA();
-    $google2fa_secret = $google2fa->generateSecretKey();
-    $google2fa_url = $google2fa->getQRCodeGoogleUrl(
-        'Ushahidi',
-        $entity->email,
-        $google2fa_secret
-    );
+	}
 
-    $input = [
+	/**
+	 * Set Google 2fa secret
+	 * @param Entity User
+	 * @return string Google QR url
+	 */
+	public function generateGoogle2fa(Entity $entity) {
+		$google2fa = new Google2FA();
+		$google2fa_secret = $google2fa->generateSecretKey();
+		$google2fa_url = $google2fa->getQRCodeGoogleUrl(
+			'Ushahidi',
+			$entity->email,
+			$google2fa_secret
+			);
+
+		$input = [
 			'google2fa_secret' => $google2fa_secret,
 			'user_id' => $entity->id,
 			'created' => time()
 		];
 
 		// Save the secret
-    if (!$entity->google2fa_enabled)
-    {
-		  $query = DB::insert('user_google2fa_secrets')
-			  ->columns(array_keys($input))
-	  		->values(array_values($input))
-		  	->execute($this->db);
-    }
-    else
-    {
-      $query = DB::update('user_google2fa_secrets')
-			  ->set($input)
-        ->where('user_id', '=', $entity->id)
-		  	->execute($this->db);
-    }
+		if (!$entity->google2fa_enabled)
+		{
+			$query = DB::insert('user_google2fa_secrets')
+				->columns(array_keys($input))
+				->values(array_values($input))
+				->execute($this->db);
+		}
+		else
+		{
+			$query = DB::update('user_google2fa_secrets')
+				->set($input)
+				->where('user_id', '=', $entity->id)
+				->execute($this->db);
+		}
 
-    return $google2fa_url;
-  }
+		return $google2fa_url;
+	}
 
 	/**
 	 * Get total count of entities

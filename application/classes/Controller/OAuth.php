@@ -1,6 +1,8 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 use League\OAuth2\Server\Exception\ClientException as OAuthClientException;
+use Ushahidi\Core\Exception\Google2fa\SecretMissingException as Google2faSecretMissingException;
+use Ushahidi\Core\Exception\Google2fa\SecretInvalidException as Google2faSecrectInvalidException;
 
 class Controller_OAuth extends Controller {
 	use Ushahidi_Corsheaders;
@@ -56,7 +58,7 @@ class Controller_OAuth extends Controller {
 		$this->redirect('oauth/authorize' . URL::query(Arr::extract($params, $this->oauth_params)));
 	}*/
 
-	public function verify_google_2fa($user, $user_repo, $request_payload)
+	public function verifyGoogle2fa($user, $user_repo, $request_payload)
 	{
 		// Verify google2fa secret
 		$google2fa_otp = $request_payload['google2fa_otp'];
@@ -64,43 +66,42 @@ class Controller_OAuth extends Controller {
 		return $valid;
 	}
 
+	public function validateGoogle2fa($request_payload)
+	{
+		$user2fa_validated = true;
+
+		if ($request_payload && array_key_exists('username', $request_payload))
+		{
+			$user_repo = service('repository.user');
+			$user = $request_payload['username'] ? $user_repo->getByEmail($request_payload['username']) : [];
+			// Check if User has enabled 2fa
+			if ($user->google2fa_enabled)
+			{
+				// Check if Google 2fa secret was provided in payload
+				if (!array_key_exists('google2fa_otp', $request_payload))
+				{
+					throw new Google2faSecretMissingException('Google 2fa secret not provided');
+					$user2fa_validated = false;
+				}
+				// Check if the Google 2fa secret is valid
+				elseif (!$this->verifyGoogle2fa($user, $user_repo, $request_payload))
+				{
+					throw new Google2faSecretInvalidException('Google 2fa secret not invalid');
+					$user2fa_validated = false;
+				}
+			}
+		}
+
+		return $user2f_validated;
+	}
+
 	public function action_token()
 	{
 		$server = service('oauth.server.auth');
 		try
 		{
-			$user2fa_validated = true;
 			$request_payload = json_decode($this->request->body(), TRUE);
-			if ($request_payload && array_key_exists('username', $request_payload))
-			{
-				$user_repo = service('repository.user');
-				$user = $request_payload['username'] ? $user_repo->getByEmail($request_payload['username']) : array();
-				// Check if User has enabled 2fa
-				if ($user->google2fa_enabled)
-				{
-					// Check if Google 2fa secret was provided in payload
-					if (!array_key_exists('google2fa_otp', $request_payload))
-					{
-						$response = array(
-						'error' => 'google2fa_secret_required',
-						'error_description' => 'Google 2fa secret not provided'
-						);
-						$this->response->status(401);
-						$user2fa_validated = false;
-					}
-					// Check if the Google 2fa secret is valid
-					elseif (!$this->verify_google_2fa($user, $user_repo, $request_payload))
-					{
-						$response = array(
-							'error' => 'google2fa_secret_invalid',
-							'error_description' => 'Google 2fa secret not invalid'
-						);
-						$this->response->status(401);
-						$user2fa_validated = false;
-					}
-				}
-			}
-			if ($user2fa_validated)
+			if (validateGoogle2fa($request_payload))
 			{
 				$response = $server->issueAccessToken($request_payload);
 				if (!empty($response['refresh_token']))
@@ -108,6 +109,22 @@ class Controller_OAuth extends Controller {
 					$response['refresh_token_expires_in'] = $server->getGrantType('refresh_token')->getRefreshTokenTTL();
 				}
 			}
+		}
+		catch (Google2faSecretMissingException $e)
+		{
+			$response = array(
+				'error' => 'google2fa_secret_required',
+				'error_description' => $e->getMessage()
+			);
+			$this->response->status(401);
+		}
+		catch (Google2faSecretInvalidException $e)
+		{
+			$response = array(
+				'error' => 'google2fa_secret_invalid',
+				'error_description' => $e->getMessage()
+			);
+			$this->response->status(401);
 		}
 		catch (OAuthClientException $e)
 		{

@@ -70,8 +70,8 @@ class VerifyGoogle2fa implements Usecase
 		$entity = $this->getEntity();
 
 		if ($entity->getId()) {
-		// Generate a google 2fa secret
-		// and retrieve google qr url
+			// Generate a google 2fa secret
+			// and retrieve google qr url
 			$google2fa_otp = $this->getPayload('google2fa_otp');
 			$google2fa_valid = $this->repo->verifyGoogle2fa($entity, $google2fa_otp);
 

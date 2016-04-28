@@ -138,7 +138,7 @@ Route::set('2fa-enable', $apiBase . 'users/me/2fa(/<action>)', [
 		'action'     => 'enable',
 		'directory'  => 'Api',
 		'controller' => '2fa',
-    'id'         => 'me'
+		'id'         => 'me'
 	));
 
 /**
