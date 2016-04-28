@@ -24,13 +24,13 @@ class VerifyGoogle2fa implements Usecase
   // Uses several traits to assign tools. Each of these traits provides a
   // setter method for the tool. For example, the AuthorizerTrait provides
   // a `setAuthorizer` method which only accepts `Authorizer` instances.
-	use AuthorizerTrait,
-	FormatterTrait;
+	//use AuthorizerTrait,
+	//FormatterTrait;
 
   // - IdentifyRecords for setting entity lookup parameters
   // - ModifyRecords for setting entity modification parameters
-	use IdentifyRecords,
-	ModifyRecords;
+	//use IdentifyRecords,
+	//ModifyRecords;
 
   // - VerifyEntityLoaded for checking that an entity is found
 	use VerifyEntityLoaded;
@@ -69,15 +69,12 @@ class VerifyGoogle2fa implements Usecase
 		// Fetch user by email
 		$entity = $this->getEntity();
 
-		if ($entity->getId()) {
-			// Generate a google 2fa secret
-			// and retrieve google qr url
-			$google2fa_otp = $this->getPayload('google2fa_otp');
-			$google2fa_valid = $this->repo->verifyGoogle2fa($entity, $google2fa_otp);
+		// Generate a google 2fa secret
+		// and retrieve google qr url
+		$google2fa_otp = $this->getPayload('google2fa_otp');
+		$google2fa_valid = $this->repo->verifyGoogle2fa($entity, $google2fa_otp);
 
-			return ['google2fa_valid' => $google2fa_valid];
-		}
-		return;
+		return ['google2fa_valid' => $google2fa_valid];
 	}
 
   /**
