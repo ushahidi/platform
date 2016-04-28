@@ -101,7 +101,7 @@ class Controller_OAuth extends Controller {
 		try
 		{
 			$request_payload = json_decode($this->request->body(), TRUE);
-			if (validateGoogle2fa($request_payload))
+			if ($this->validateGoogle2fa($request_payload))
 			{
 				$response = $server->issueAccessToken($request_payload);
 				if (!empty($response['refresh_token']))
