@@ -253,6 +253,16 @@ Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)
 		'controller' => 'Translations',
 		'directory'  => 'Api/Posts'
 	));
+	
+/**
+ * Migration Route
+ */
+Route::set('migrate', $apiBase . 'migrate')
+	->defaults(array(
+		'action'     => 'migrate',
+		'controller' => 'Migrate',
+		'directory'  => 'Api'
+	));	
 
 /**
  * OAuth Route
