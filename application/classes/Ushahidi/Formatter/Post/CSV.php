@@ -43,13 +43,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		// Sort the columns from the heading so that they match with the record keys
 		sort($heading);
 
-		// Create filename from deployment name
-		$site_name = Kohana::$config->load('site.name');
-		$filename = $site_name.'.csv';
-
 		// Send response as CSV download
+		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: text/csv; charset=utf-8');
-		header('Content-Disposition: attachment; filename='.$filename);
 		header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
 
 		$fp = fopen('php://output', 'w');
