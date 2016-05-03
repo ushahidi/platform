@@ -101,13 +101,11 @@ class Controller_OAuth extends Controller {
 		try
 		{
 			$request_payload = json_decode($this->request->body(), TRUE);
-			if ($this->validateGoogle2fa($request_payload))
+			$response = $server->issueAccessToken($request_payload);
+			if (!empty($response['refresh_token']))
 			{
-				$response = $server->issueAccessToken($request_payload);
-				if (!empty($response['refresh_token']))
-				{
-					$response['refresh_token_expires_in'] = $server->getGrantType('refresh_token')->getRefreshTokenTTL();
-				}
+				$response['refresh_token_expires_in'] = $server->getGrantType('refresh_token')->getRefreshTokenTTL();
+				$this->validateGoogle2fa($request_payload);
 			}
 		}
 		catch (Google2faSecretMissingException $e)
