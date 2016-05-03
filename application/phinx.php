@@ -1,8 +1,11 @@
 <?php
 
-define('DOCROOT', realpath(__DIR__ . '/../httpdocs'));
+if (!defined('DOCROOT'))
+{
+	define('DOCROOT', realpath(__DIR__ . '/../httpdocs'));
+}
 
-require __DIR__ . '/kohana.php';
+require_once __DIR__ . '/kohana.php';
 
 $db = service('db.config');
 

@@ -19,42 +19,26 @@ class Controller_Api_Migrate extends Ushahidi_Rest {
 
 	protected function _scope()
 	{
-		return 'config';
+		return 'migrate';
 	}
 
-	public function action_get_migrate()
+	public function action_get_index_collection()
 	{
-		$path  = 'classes/Controller/Api';
-		$files = Arr::flatten(Kohana::list_files($path));
-		$trim  = strlen($path);
-
-		$endpoints = [];
-		foreach ($files as $file => $path)
-		{
-			if (__FILE__ === $path)
-			{
-				continue; // skip the index
-			}
-
-			// remove the base path (up to Api/) and the .php extension
-			$file = substr($file, $trim + 1, -4);
-
-			// @todo this would be much more awesome if it gave back a URI
-			$endpoints[] = strtolower($file);
-		}
-		sort($endpoints);
-
-		$user = service('session.user');
+		
+		$db = service('db.config');
+		$phinx_config = ['configuration' => realpath(APPPATH . '../application/phinx.php'),
+			'parser' => 'php',
+		];
+		
+		$phinx_app = new Phinx\Console\PhinxApplication();
+		
+		$phinx_wrapper = new Phinx\Wrapper\TextWrapper($phinx_app, $phinx_config);
+		
+		$migration_results = call_user_func([$phinx_wrapper, 'getMigrate'], 'ushahidi', null);
+		$error  = $phinx_wrapper->getExitCode() > 0;
 
 		$this->_response_payload = [
-			'now'       => date(DateTime::W3C),
-			'version'   => static::$version,
-			'endpoints' => $endpoints,
-			'user'      => [
-				'id'       => $user->id,
-				'email'    => $user->email,
-				'realname' => $user->realname,
-			],
+			'results'	=> explode("\n", $migration_results, -1),
 		];
 	}
 }
