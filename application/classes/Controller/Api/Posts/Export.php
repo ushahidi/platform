@@ -31,7 +31,7 @@ class Controller_Api_Posts_Export extends Ushahidi_Rest
 		// ...or use a different one if requested
 		$format = strtolower($this->request->query('format'));
 
-		if ($format !== 'csv') {
+		if ($format) {
 			$this->_usecase->setFormatter(service("formatter.entity.post.$format"));
 		}
 	}
