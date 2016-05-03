@@ -291,6 +291,8 @@ abstract class Ushahidi_Core {
 			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
 			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
 			'permissions'          => $di->lazyNew('Ushahidi_Formatter_Permission'),
+			// Formatter for post exports. Defaults to CSV export
+			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
 		];
 
 		// Formatter parameters
@@ -378,6 +380,7 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.geojson', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSON'));
 		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
 		$di->set('formatter.entity.post.stats', $di->lazyNew('Ushahidi_Formatter_Post_Stats'));
+		$di->set('formatter.entity.post.csv', $di->lazyNew('Ushahidi_Formatter_Post_CSV'));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));

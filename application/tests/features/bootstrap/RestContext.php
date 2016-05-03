@@ -173,6 +173,14 @@ class RestContext extends BehatContext
 	}
 
 	/**
+     * @Given /^that the response "([^"]*)" header is "([^"]*)"$/
+     */
+    public function thatTheResponseHeaderIs($headerName, $headerValue)
+    {
+		$this->_headers[$headerName] = $headerValue;
+    }
+
+	/**
 	 * @Given /^that the post field "([^"]*)" is:$/
 	 * @Given /^that the post field "([^"]*)" is "([^"]*)"$/
 	 */
