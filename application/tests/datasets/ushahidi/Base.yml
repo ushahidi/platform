@@ -225,6 +225,16 @@ form_attributes:
     priority: 5
     cardinality: 0
     form_stage_id: 2
+  -
+    id: 14
+    label: "Media Test"
+    key: "media_test"
+    type: "media"
+    input: "upload"
+    required: 0
+    priority: 7
+    cardinality: 1
+    form_stage_id: 1
 posts:
   -
     id: 1
@@ -506,6 +516,7 @@ post_datetime:
 post_decimal:
 post_geometry:
 post_int:
+post_media:
 post_point:
 post_text:
 post_varchar:
