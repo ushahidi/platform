@@ -595,6 +595,10 @@ abstract class Ushahidi_Core {
 		$di->set('validator.post.relation', $di->lazyNew('Ushahidi_Validator_Post_Relation'));
 		$di->set('validator.post.varchar', $di->lazyNew('Ushahidi_Validator_Post_Varchar'));
 		$di->set('validator.post.media', $di->lazyNew('Ushahidi_Validator_Post_Media'));
+		$di->params['Ushahidi_Validator_Post_Media'] = [
+			'media_repo' => $di->lazyGet('repository.media')
+		];
+
 
 		$di->set('validator.post.value_factory', $di->lazyNew('Ushahidi_Validator_Post_ValueFactory'));
 		$di->params['Ushahidi_Validator_Post_ValueFactory'] = [
