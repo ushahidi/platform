@@ -39,6 +39,8 @@ class Post extends StaticEntity
 	protected $sets;
 	// Source when from external provider: SMS, Email, etc
 	protected $source;
+	// When originating in an SMS message
+	protected $contact_id;
 
 	// StatefulData
 	protected function getDerived()

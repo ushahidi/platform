@@ -47,6 +47,13 @@ class Controller_Sms_Smssync extends Controller {
 
 		$this->options = $this->_provider->options();
 
+		// Ensure we're always returning a payload..
+		// This will be overwritten later if incoming or task methods are run
+		$this->_json['payload'] = [
+			'success' => TRUE,
+			'error' => NULL
+		];
+
 		// Process incoming messages from SMSSync only if the request is POST
 		if ( $this->request->method() == 'POST')
 		{
@@ -91,7 +98,8 @@ class Controller_Sms_Smssync extends Controller {
 		// Remove Non-Numeric characters because that's what the DB has
 		$to = preg_replace("/[^0-9,.]/", "", $this->request->post('sent_to'));
 
-		$from = preg_replace("/[^0-9,.]/", "", $from);
+		// Allow for Alphanumeric sender
+		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
 
 		$this->_provider->receive(Message_Type::SMS, $from, $message_text, $to);
 

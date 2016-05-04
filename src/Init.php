@@ -265,7 +265,7 @@ $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactRepositor
 	= $di->lazyGet('repository.contact');
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setPostRepository'] = $di->lazyGet('repository.post');
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
-	= $di->lazyGet('validator.contact.create');
+	= $di->lazyGet('validator.contact.receive');
 
 // Add custom usecases for posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [

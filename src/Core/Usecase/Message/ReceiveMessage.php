@@ -134,6 +134,7 @@ class ReceiveMessage extends CreateUsecase
 		// Is the sender of the message a registered contact?
 		$contact = $this->contactRepo->getByContact($this->getPayload('from'), $this->getPayload('contact_type'));
 		if (! $contact->getId()) {
+			// this is the first time a message has been received by this number, so create contact
 			$contact =  $this->contactRepo->getEntity()->setState([
 				'contact' => $this->getPayload('from'),
 				'type' => $this->getPayload('contact_type'),

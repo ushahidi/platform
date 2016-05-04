@@ -456,6 +456,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.post.relation', $di->lazyNew('Ushahidi_Repository_Post_Relation'));
 		$di->set('repository.post.text', $di->lazyNew('Ushahidi_Repository_Post_Text'));
 		$di->set('repository.post.varchar', $di->lazyNew('Ushahidi_Repository_Post_Varchar'));
+		$di->set('repository.post.media', $di->lazyNew('Ushahidi_Repository_Post_Media'));
 
 		// The post value repo factory
 		$di->set('repository.post_value_factory', $di->lazyNew('Ushahidi_Repository_Post_ValueFactory'));
@@ -469,7 +470,8 @@ abstract class Ushahidi_Core {
 					'point'    => $di->lazyGet('repository.post.point'),
 					'relation' => $di->lazyGet('repository.post.relation'),
 					'text'     => $di->lazyGet('repository.post.text'),
-					'varchar'  => $di->lazyGet('repository.post.varchar')
+					'varchar'  => $di->lazyGet('repository.post.varchar'),
+					'media'    => $di->lazyGet('repository.post.media'),
 				],
 			];
 
@@ -480,6 +482,7 @@ abstract class Ushahidi_Core {
 		// Validators
 		$di->set('validator.user.login', $di->lazyNew('Ushahidi_Validator_User_Login'));
 		$di->set('validator.contact.create', $di->lazyNew('Ushahidi_Validator_Contact_Create'));
+		$di->set('validator.contact.receive', $di->lazyNew('Ushahidi_Validator_Contact_Receive'));
 
 		$di->params['Ushahidi_Validator_Contact_Update'] = [
 			'repo' => $di->lazyGet('repository.user'),
@@ -592,10 +595,15 @@ abstract class Ushahidi_Core {
 		$di->set('validator.post.point', $di->lazyNew('Ushahidi_Validator_Post_Point'));
 		$di->set('validator.post.relation', $di->lazyNew('Ushahidi_Validator_Post_Relation'));
 		$di->set('validator.post.varchar', $di->lazyNew('Ushahidi_Validator_Post_Varchar'));
+		$di->set('validator.post.media', $di->lazyNew('Ushahidi_Validator_Post_Media'));
+		$di->params['Ushahidi_Validator_Post_Media'] = [
+			'media_repo' => $di->lazyGet('repository.media')
+		];
+
 
 		$di->set('validator.post.value_factory', $di->lazyNew('Ushahidi_Validator_Post_ValueFactory'));
 		$di->params['Ushahidi_Validator_Post_ValueFactory'] = [
-				// a map of attribute types to repositories
+				// a map of attribute types to validators
 				'map' => [
 					'datetime' => $di->lazyGet('validator.post.datetime'),
 					'decimal'  => $di->lazyGet('validator.post.decimal'),
@@ -604,7 +612,8 @@ abstract class Ushahidi_Core {
 					'link'     => $di->lazyGet('validator.post.link'),
 					'point'    => $di->lazyGet('validator.post.point'),
 					'relation' => $di->lazyGet('validator.post.relation'),
-					'varchar'  => $di->lazyGet('validator.post.varchar')
+					'varchar'  => $di->lazyGet('validator.post.varchar'),
+					'media'    => $di->lazyGet('validator.post.media'),
 				],
 			];
 
