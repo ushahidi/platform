@@ -22,8 +22,20 @@ class Controller_Api_Migrate extends Ushahidi_Rest {
 		return 'migrate';
 	}
 
-	public function action_get_index_collection()
+	public function action_get_index_collection($command = 'status')
 	{
+		
+		$commands = [
+		    'status'   => 'getStatus',
+		    'migrate'  => 'getMigrate',
+		    'rollback' => 'getRollback',
+		    ];		
+		
+		// add return status if invalid command is selected
+		
+		if (!array_key_exists($command, $commands)) {
+			$command = 'status';
+		}
 		
 		$db = service('db.config');
 		$phinx_config = ['configuration' => realpath(APPPATH . '../application/phinx.php'),
@@ -34,11 +46,26 @@ class Controller_Api_Migrate extends Ushahidi_Rest {
 		
 		$phinx_wrapper = new Phinx\Wrapper\TextWrapper($phinx_app, $phinx_config);
 		
-		$migration_results = call_user_func([$phinx_wrapper, 'getMigrate'], 'ushahidi', null);
+		$migration_results = call_user_func([$phinx_wrapper, $commands[$command]], 'ushahidi', null);
 		$error  = $phinx_wrapper->getExitCode() > 0;
 
 		$this->_response_payload = [
 			'results'	=> explode("\n", $migration_results, -1),
 		];
+	}
+	
+	public function action_get_migrate_collection()
+	{
+		$this->action_get_index_collection('migrate');
+	}
+	
+	public function action_get_rollback_collection()
+	{
+		$this->action_get_index_collection('rollback');
+	}
+	
+	public function action_get_status_collection()
+	{
+		$this->action_get_index_collection('status');
 	}
 }

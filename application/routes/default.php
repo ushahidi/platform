@@ -257,7 +257,7 @@ Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)
 /**
  * Migration Route
  */
-Route::set('migrate', $apiBase . 'migrate')
+Route::set('migrate', $apiBase . 'migrate/<action>')
 	->defaults(array(
 		'action'     => 'migrate',
 		'controller' => 'Migrate',
