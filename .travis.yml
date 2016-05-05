@@ -4,9 +4,12 @@ notifications:
     rooms:
       secure: fb2eYR4DVBestPl/DSG7lnUWT46Rmr9BfRsZFe4dhrS3ZetkZ1XZueF6SCtB4yukaJoDlA7y98FgQ7eGx6OGToc4ALnPpwd3BdfJ5RV/PK/6LG7u5Mp4+DfB4lG1q9IjuHF7dhBPSk2sRd8ewtwV5JR4SHKYfHxSR9Ekwmn1Xyo=
     template:
-      - '<a href="%{build_url}">%{repository}#%{build_number}</a> (%{branch} - <a href="%{compare_url}">%{commit}</a> : %{author}): %{message}'
+    - '<a href="%{build_url}">%{repository}#%{build_number}</a> (%{branch} - <a href="%{compare_url}">%{commit}</a>
+      : %{author}): %{message}'
     format: html
     notify: true
+  slack:
+    secure: NxhzhKGYnZYZiWVZM4w1PlZpTy9bbmNlvbqjL+9d4PvK4hFzPwQU12CchhBPeXNGLWBHg/ti6Scn/t5XIS3YJrkk4ydWmJBht5UId8uFZ1A7GCUnNNPTt2RG55lbJJdZSj01rOGZjEQbE5RyckEjgRzhZjdZ+HsjoPaRzWIBrvE=
 language: php
 php:
 - '5.5'
@@ -19,11 +22,11 @@ matrix:
   - php: '5.5'
     env: coverage="--coverage"
   allow_failures:
-    - env: coverage="--coverage"
+  - env: coverage="--coverage"
   fast_finish: true
 cache:
   directories:
-    - $HOME/.composer/cache
+  - "$HOME/.composer/cache"
 services:
 - mysql
 install:
@@ -32,20 +35,20 @@ before_script:
 - "./bin/tests install"
 script:
 - "./bin/tests run --no-install $coverage"
-- "composer lint"
+- composer lint
 after_success:
 - if [ "${coverage}" != "" ]; then travis_retry bin/coveralls -v; fi
 before_deploy:
 - bin/release ${TRAVIS_TAG:-$TRAVIS_COMMIT}
 deploy:
-  - provider: releases
-    api_key:
-      secure: C9dRB0X6/QWeKMIdDnuItGzzcJITf5oeGSd/Ry85//DawkC1nZn7yhjOFJuzOT1W8+lrmYgOtqVWaZdKuw36CEa4iooXCwDqn+6SWL1N/Q0JkJZH/pXkjSjtkfRV9iNlSRw3DF1yAcout1piqbD4BKDcAtrIf5apGQnXGzKjn/Q=
-    file: build/*
-    file_glob: true
-    skip_cleanup: true
-    on:
-      repo: ushahidi/platform
-      php: 5.5
-      tags: true
-      all_branches: true
+- provider: releases
+  api_key:
+    secure: C9dRB0X6/QWeKMIdDnuItGzzcJITf5oeGSd/Ry85//DawkC1nZn7yhjOFJuzOT1W8+lrmYgOtqVWaZdKuw36CEa4iooXCwDqn+6SWL1N/Q0JkJZH/pXkjSjtkfRV9iNlSRw3DF1yAcout1piqbD4BKDcAtrIf5apGQnXGzKjn/Q=
+  file: build/*
+  file_glob: true
+  skip_cleanup: true
+  on:
+    repo: ushahidi/platform
+    php: 5.5
+    tags: true
+    all_branches: true
