@@ -68,8 +68,6 @@ class Controller_OAuth extends Controller {
 
 	public function validateGoogle2fa($request_payload)
 	{
-		$user2fa_validated = true;
-
 		if ($request_payload && array_key_exists('username', $request_payload))
 		{
 			$user_repo = service('repository.user');
@@ -81,18 +79,15 @@ class Controller_OAuth extends Controller {
 				if (!array_key_exists('google2fa_otp', $request_payload))
 				{
 					throw new Google2faSecretMissingException('Google 2fa secret not provided');
-					$user2fa_validated = false;
 				}
 				// Check if the Google 2fa secret is valid
 				elseif (!$this->verifyGoogle2fa($user, $user_repo, $request_payload))
 				{
 					throw new Google2faSecretInvalidException('Google 2fa secret not invalid');
-					$user2fa_validated = false;
 				}
 			}
 		}
-
-		return $user2fa_validated;
+		return true;
 	}
 
 	public function action_token()

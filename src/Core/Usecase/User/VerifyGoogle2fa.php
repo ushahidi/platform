@@ -24,13 +24,13 @@ class VerifyGoogle2fa implements Usecase
   // Uses several traits to assign tools. Each of these traits provides a
   // setter method for the tool. For example, the AuthorizerTrait provides
   // a `setAuthorizer` method which only accepts `Authorizer` instances.
-	//use AuthorizerTrait,
-	//FormatterTrait;
+	use AuthorizerTrait,
+	  FormatterTrait;
 
   // - IdentifyRecords for setting entity lookup parameters
   // - ModifyRecords for setting entity modification parameters
-	//use IdentifyRecords,
-	//ModifyRecords;
+	use IdentifyRecords,
+	  ModifyRecords;
 
   // - VerifyEntityLoaded for checking that an entity is found
 	use VerifyEntityLoaded;
