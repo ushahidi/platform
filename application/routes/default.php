@@ -67,15 +67,15 @@ Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',
 /**
  * Export Posts API SubRoute
  */
-// Route::set('export', $apiBase . 'posts/export')
-// 	->defaults(array(
-// 		'action'     => 'index',
-// 		'controller' => 'Export',
-// 		'directory'  => 'Api/Posts'
-// 	));
+ Route::set('export', $apiBase . 'posts/export')
+ 	->defaults(array(
+ 		'action'     => 'index',
+ 		'controller' => 'Export',
+ 		'directory'  => 'Api/Posts'
+ 	));
 
 /**
- * Export Posts API SubRoute
+ * Stats Posts API SubRoute
  */
 Route::set('post-stats', $apiBase . 'posts/stats')
 	->defaults(array(

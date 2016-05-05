@@ -11,7 +11,7 @@
 
 use Ushahidi\Core\Tool\MappingTransformer;
 use Ushahidi\Core\Entity\PostRepository;
-	
+
 class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 {
 	protected $map;
@@ -53,24 +53,38 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		// Remap record columns
 		$record = array_combine($columns, $record);
 
-		// Trim
-		$record = array_map('trim', $record);
+		// Trim and remove empty values
+		foreach ($record as $key => $val)
+		{
+			$record[$key] = trim($val);
+
+			if (empty($record[$key])) {
+				unset($record[$key]);
+			}
+		}
+
+		// Merge multi-value columns
+		$this->mergeMultiValueFields($record);
 
 		// Filter post fields from the record
 		$post_entity = $this->repo->getEntity();
 		$post_fields = array_intersect_key($record, $post_entity->asArray());
 
 		// Remove post fields from the record and leave form values
-		foreach ($post_fields as $key => $val) {
+		foreach ($post_fields as $key => $val)
+		{
 			unset($record[$key]);
 		}
 
-		// Generate location point if any
-		$record = $this->mergeLocationCoordinates($record);
-
 		// Put values in array
 		array_walk($record, function (&$val) {
-			$val = [$val];
+			if ($this->isLocation($val)) {
+				$val = [$val];
+			}
+
+			if (! is_array($val)) {
+				$val = [$val];
+			}
 		});
 
 		$form_values = ['values' => $record];
@@ -82,44 +96,38 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 	}
 
 	/**
-	 * Merge location coordinates in the record
+	 * Multi-value columns use dot notation to add sub-keys
+	 * e.g. 'location.lat' refers to a field called 'location'
+	 * and 'lat' is a sub-key of the field.
 	 *
-	 * We expect that coordinates are mapped to column.lat
-	 * and column.lon for latitude and longitude respectively.
-	 *
-	 * @param Array $record
-	 * @return Array
+	 * @param array &$record
 	 */
-	private function mergeLocationCoordinates($record)
+	private function mergeMultiValueFields(&$record)
 	{
-		$locations = [];
-		$location_field = '';
-
-		// Get location point
 		foreach ($record as $column => $val)
 		{
-			// Look for latitude 'lat'
-			if (preg_match('/\.lat$/', $column)) {
-				// Get location field name
-				$location_field = explode('.', $column)[0];
+			$keys = explode('.', $column);
 
-				$locations[$location_field]['lat'] = $val;
+			// Get column name
+			$column_name = array_shift($keys);
 
-				// Remove from record
+			// Assign sub-key to multi-value column
+			if (! empty($keys))
+			{
 				unset($record[$column]);
-			}
 
-			// Look for longitude 'lon'
-			elseif (preg_match('/\.lon$/', $column)) {
-				// Get location field name
-				$location_field = explode('.', $column)[0];
-
-				$locations[$location_field]['lon'] = $val;
-
-				unset($record[$column]);
+				foreach ($keys as $key)
+				{
+					$record[$column_name][$key] = $val;
+				}
 			}
 		}
+	}
 
-		return array_merge($locations, $record);
+	private function isLocation($value)
+	{
+		return is_array($value) &&
+			array_key_exists('lon', $value) &&
+			array_key_exists('lat', $value);
 	}
 }
