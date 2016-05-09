@@ -47,14 +47,18 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 
 			if (! empty($geometries))
 			{
-				$set_ids = $entity->sets;
-				$query = DB::select('sets.name')
-							->from('sets')
-							->where('id', 'IN', $set_ids);
-				$set_names = $query->execute();
 				$set_name = [];
-				foreach ($set_names as $tmp_set_name) {
-					$set_name[] = $tmp_set_name['name'];
+				$set_ids = $entity->sets;
+
+				if ($set_ids != null) {
+					$query = DB::select('sets.name')
+								->from('sets')
+								->where('id', 'IN', $set_ids);
+					$set_names = $query->execute();
+					
+					foreach ($set_names as $tmp_set_name) {
+						$set_name[] = $tmp_set_name['name'];
+					}
 				}
 
 				$output['features'][] = [
