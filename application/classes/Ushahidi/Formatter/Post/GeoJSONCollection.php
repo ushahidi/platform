@@ -50,7 +50,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 				$set_ids = $entity->sets;
 				$query = DB::select('sets.name')
 							->from('sets')
-							->where('id', 'IN', $setIds);
+							->where('id', 'IN', $set_ids);
 				$set_names = $query->execute();
 				$set_name = [];
 				foreach ($set_names as $tmp_set_name) {
