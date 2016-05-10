@@ -68,6 +68,8 @@ class DataProvider_Twitter extends DataProvider {
 			$options['oauth_access_token_secret']
 		);
 
+		$connection->setDecodeJsonAsArray(true);
+
 		// Increase curl timeout values
 		$connection->setTimeouts(100, 150);
 
@@ -82,24 +84,40 @@ class DataProvider_Twitter extends DataProvider {
 				"result_type" => 'recent'
 			]);
 
-			if ( empty($results->statuses))
+			if ( empty($results['statuses']))
 			{
 				return 0;
 			}
 
-			$statuses = $results->statuses;
+			$statuses = $results['statuses'];
 
 			// Store the highest id
-			$this->since_id = $statuses[0]->id;
+			$this->since_id = $statuses[0]['id'];
 
 			foreach ($statuses as $status) {
-				$id = $status->id;
-				$user = $status->user;
-				$screen_name = $user->screen_name;
-				$text = $status->text;
+				$id = $status['id'];
+				$user = $status['user'];
+				$screen_name = $user['screen_name'];
+				$text = $status['text'];
+
+				$additional_data = [];
+
+				if ($status['coordinates'] || $status['place']) {
+					$additional_data['location'] = [];
+					if ($status['coordinates']) {
+						$additional_data['location'][] = $status['coordinates'];
+					}
+
+					if ($status['place'] && $status['place']['bounding_box']) {
+						// Find center of bounding box.
+						// Add that to location
+						// Also save the original bounding box
+						$additional_data['location'][] = $status['place']['bounding_box'];
+					}
+				}
 
 				// @todo Check for similar messages in the database before saving
-				$this->receive(Message_Type::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id);
+				$this->receive(Message_Type::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id, $additional_data);
 
 				$count++;
 			}
@@ -113,7 +131,7 @@ class DataProvider_Twitter extends DataProvider {
 			Kohana::$log->add(Log::ERROR, $toe->getMessage());
 		}
 		catch(Exception $e)
-		{
+		{throw $e;
 			Kohana::$log->add(Log::ERROR, $e->getMessage());
 		}
 
