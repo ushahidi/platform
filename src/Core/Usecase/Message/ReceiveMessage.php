@@ -170,16 +170,18 @@ class ReceiveMessage extends CreateUsecase
 		$values = [];
 
 		// Pull locations from extra metadata
-		$values['message_location'] = [];
-		foreach ($message->additional_data['location'] as $location) {
-			if (!empty($location['type']) &&
-				!empty($location['coordinates']) &&
-				ucfirst($location['type']) == 'Point'
-				) {
-				$values['message_location'][] = [
-					'lon' => $location['coordinates'][0],
-					'lat' => $location['coordinates'][1]
-				];
+		if ($message->additional_data) {
+			$values['message_location'] = [];
+			foreach ($message->additional_data['location'] as $location) {
+				if (!empty($location['type']) &&
+					!empty($location['coordinates']) &&
+					ucfirst($location['type']) == 'Point'
+					) {
+					$values['message_location'][] = [
+						'lon' => $location['coordinates'][0],
+						'lat' => $location['coordinates'][1]
+					];
+				}
 			}
 		}
 
