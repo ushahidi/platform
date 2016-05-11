@@ -861,6 +861,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		foreach ($attributes as $key => $values)
 		{
 			$attribute = $this->form_attribute_repo->getByKey($key);
+			if (!$attribute->id) {
+				continue;
+			}
+
 			$repo = $this->post_value_factory->getRepo($attribute->type);
 
 			foreach ($values as $val)
