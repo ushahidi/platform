@@ -149,7 +149,7 @@ class DataProvider_Twitter extends DataProvider {
 			Kohana::$log->add(Log::ERROR, $toe->getMessage());
 		}
 		catch(Exception $e)
-		{throw $e;
+		{
 			Kohana::$log->add(Log::ERROR, $e->getMessage());
 		}
 
