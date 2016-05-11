@@ -47,17 +47,20 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 
 			if (! empty($geometries))
 			{
-				$set_name = [];
-				$set_ids = $entity->sets;
-
-				if ($set_ids != null) {
-					$query = DB::select('sets.name')
+				$collections = [];
+				$collection_ids = $entity->sets;
+				if ($collection_ids != null) {
+					$query = DB::select('sets.name','sets.id')
 								->from('sets')
-								->where('id', 'IN', $set_ids);
-					$set_names = $query->execute();
-					
-					foreach ($set_names as $tmp_set_name) {
-						$set_name[] = $tmp_set_name['name'];
+								->where('id', 'IN', $collection_ids)
+								->where('search', '=', 0);
+					$tmp_collections = $query->execute();
+					foreach ($tmp_collections as $tmp_collection) {
+						$collections [] = [
+							'id' => $tmp_collection['id'],
+							'name' => $tmp_collection['name'],
+							'url' => URL::site(Ushahidi_Rest::url('collections', $tmp_collection['id']), Request::current())
+						];
 					}
 				}
 
@@ -72,7 +75,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 						'description' => $entity->content,
 						'id' => $entity->id,
 						'url' => URL::site(Ushahidi_Rest::url($entity->getResource(), $entity->id), Request::current()),
-						'set_name' => $set_name,
+						'collections' => $collections,
 						// @todo add mark- attributes based on tag symbol+color
 						//'marker-size' => '',
 						//'marker-symbol' => '',
