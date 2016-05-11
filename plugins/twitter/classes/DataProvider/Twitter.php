@@ -10,6 +10,8 @@
  */
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use Symm\Gisconverter\Decoders\WKT;
+use Symm\Gisconverter\Decoders\GeoJSON;
 
 use Ushahidi\Core\Entity\Contact;
 
@@ -109,7 +111,23 @@ class DataProvider_Twitter extends DataProvider {
 					}
 
 					if ($status['place'] && $status['place']['bounding_box']) {
-						// Find center of bounding box.
+						// Make a valid linear ring
+						$status['place']['bounding_box']['coordinates'][0][] = $status['place']['bounding_box']['coordinates'][0][0];
+
+						// If we don't already have a location
+						if (empty($additional_data['location'])) {
+							// Find center of bounding box
+							$geom = GeoJSON::geomFromText(json_encode($status['place']['bounding_box']));
+							// Use mysql to run Centroid
+							$result = DB::select([
+							 	DB::expr('AsText(Centroid(GeomFromText(:poly)))')->param(':poly', $geom->toWKT()), 'center']
+							)->execute(service('kohana.db'));
+
+							$centerGeom = WKT::geomFromText($result->get('center', 0));
+							// Save center as location
+							$additional_data['location'][] = $centerGeom->toGeoArray();
+						}
+
 						// Add that to location
 						// Also save the original bounding box
 						$additional_data['location'][] = $status['place']['bounding_box'];
