@@ -253,16 +253,28 @@ Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)
 		'controller' => 'Translations',
 		'directory'  => 'Api/Posts'
 	));
-	
+
 /**
  * Migration Route
  */
-Route::set('migrate', $apiBase . 'migrate/<action>')
+Route::set('migration', $apiBase . 'migration/<action>',
+	array(
+		'action' => '(?:status|rollback)',
+	))
 	->defaults(array(
-		'action'     => 'migrate',
-		'controller' => 'Migrate',
+		'action'     => 'rollback',
+		'controller' => 'Migration',
 		'directory'  => 'Api'
-	));	
+	));
+
+/**
+ * Migration migrate Route
+ */
+Route::set('migration-migrate', $apiBase . 'migration/migrate')
+	->defaults(array(
+		'controller' => 'Migrate',
+		'directory'  => 'Api/Migration'
+	));
 
 /**
  * OAuth Route
