@@ -487,8 +487,14 @@ abstract class Ushahidi_Rest extends Controller {
 			$this->response->headers('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
 		}
 
-		// Get the requested response format, use JSON for default
-		$type = strtolower($this->request->query('format')) ?: 'json';
+		// Use JSON if the request method is OPTIONS
+		if ($this->request->method() === Request::OPTIONS)
+		{
+			$type = 'json';
+		} else {
+			//...Get the requested response format, use JSON for default
+			$type = strtolower($this->request->query('format')) ?: 'json';
+		}
 
 		try
 		{
