@@ -255,6 +255,27 @@ Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)
 	));
 
 /**
+ * Migration Route
+ */
+Route::set('migration', $apiBase . 'migration/<action>',
+	array(
+		'action' => '(?:status|rollback|migrate)',
+	))
+	->defaults(array(
+		'action'     => 'rollback',
+		'controller' => 'Migration',
+		'directory'  => 'Api'
+	));
+
+/**
+ * Migration migrate Route
+ */
+Route::set('migration-migrate', 'migrate')
+	->defaults(array(
+		'controller' => 'Migrate'
+	));
+
+/**
  * OAuth Route
  * Have to add this manually because the class is OAuth not Oauth
  */
