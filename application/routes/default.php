@@ -259,7 +259,7 @@ Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)
  */
 Route::set('migration', $apiBase . 'migration/<action>',
 	array(
-		'action' => '(?:status|rollback)',
+		'action' => '(?:status|rollback|migrate)',
 	))
 	->defaults(array(
 		'action'     => 'rollback',
@@ -270,10 +270,9 @@ Route::set('migration', $apiBase . 'migration/<action>',
 /**
  * Migration migrate Route
  */
-Route::set('migration-migrate', $apiBase . 'migration/migrate')
+Route::set('migration-migrate', 'migrate')
 	->defaults(array(
-		'controller' => 'Migrate',
-		'directory'  => 'Api/Migration'
+		'controller' => 'Migrate'
 	));
 
 /**

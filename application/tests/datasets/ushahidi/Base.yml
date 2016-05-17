@@ -751,7 +751,7 @@ oauth_sessions:
     client_id: "demoapp"
     owner_type: "user"
     owner_id: 3
-    
+
 # Test roles
   -
     id: 5
@@ -763,7 +763,7 @@ oauth_sessions:
     client_id: "demoapp"
     owner_type: "user"
     owner_id: 7
-  
+
 oauth_session_redirects:
   -
     session_id: 1
@@ -802,7 +802,7 @@ oauth_session_access_tokens:
     session_id: 1
     access_token: "testanon"
     access_token_expires: 1893477600
-    
+
 # Test roles
   -
     id: 7
@@ -888,6 +888,10 @@ oauth_scopes:
     id: 18
     scope: permissions
     name: permissions
+  -
+    id: 19
+    scope: migrate
+    name: migrate
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1038,6 +1042,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 18
+  -
+    session_access_token_id: 2
+    scope_id: 19
 
   # for testbasicuser2
   -
@@ -1079,7 +1086,7 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 15
-  -         
+  -
     session_access_token_id: 5
     scope_id: 16
   # for testanon

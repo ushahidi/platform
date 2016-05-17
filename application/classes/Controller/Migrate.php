@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Controller_Api_Migration_Migrate extends Ushahidi_Rest {
+class Controller_Migrate extends Ushahidi_Rest {
 
 	protected $_action_map = array
 	(
@@ -29,16 +29,16 @@ class Controller_Api_Migration_Migrate extends Ushahidi_Rest {
 
 	public function action_get_index_collection()
 	{
-		
+
 		$db = service('db.config');
 		$phinx_config = ['configuration' => realpath(APPPATH . '../application/phinx.php'),
 			'parser' => 'php',
 		];
-		
+
 		$phinx_app = new Phinx\Console\PhinxApplication();
-		
+
 		$phinx_wrapper = new Phinx\Wrapper\TextWrapper($phinx_app, $phinx_config);
-		
+
 		$migration_results = call_user_func([$phinx_wrapper, 'getMigrate'], 'ushahidi', null);
 		$error  = $phinx_wrapper->getExitCode() > 0;
 
