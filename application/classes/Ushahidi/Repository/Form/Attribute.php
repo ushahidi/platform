@@ -79,7 +79,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 		$result = $this->selectQuery($where)
 			->select('form_attributes.*')
-			->join('form_stages', 'INNER')
+			->join('form_stages', 'LEFT')
 				->on('form_stages.id', '=', 'form_attributes.form_stage_id')
 			->limit(1)
 			->execute($this->db);

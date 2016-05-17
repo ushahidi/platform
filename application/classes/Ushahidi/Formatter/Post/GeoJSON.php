@@ -8,8 +8,6 @@
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-use Symm\Gisconverter\Decoders\WKT;
-use Symm\Gisconverter\Exceptions\InvalidText;
 
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;

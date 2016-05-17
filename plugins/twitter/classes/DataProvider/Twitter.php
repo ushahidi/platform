@@ -10,6 +10,8 @@
  */
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use Symm\Gisconverter\Decoders\WKT;
+use Symm\Gisconverter\Decoders\GeoJSON;
 
 use Ushahidi\Core\Entity\Contact;
 
@@ -68,6 +70,8 @@ class DataProvider_Twitter extends DataProvider {
 			$options['oauth_access_token_secret']
 		);
 
+		$connection->setDecodeJsonAsArray(true);
+
 		// Increase curl timeout values
 		$connection->setTimeouts(100, 150);
 
@@ -82,24 +86,56 @@ class DataProvider_Twitter extends DataProvider {
 				"result_type" => 'recent'
 			]);
 
-			if ( empty($results->statuses))
+			if ( empty($results['statuses']))
 			{
 				return 0;
 			}
 
-			$statuses = $results->statuses;
+			$statuses = $results['statuses'];
 
 			// Store the highest id
-			$this->since_id = $statuses[0]->id;
+			$this->since_id = $statuses[0]['id'];
 
 			foreach ($statuses as $status) {
-				$id = $status->id;
-				$user = $status->user;
-				$screen_name = $user->screen_name;
-				$text = $status->text;
+				$id = $status['id'];
+				$user = $status['user'];
+				$screen_name = $user['screen_name'];
+				$text = $status['text'];
+
+				$additional_data = [];
+
+				if ($status['coordinates'] || $status['place']) {
+					$additional_data['location'] = [];
+					if ($status['coordinates']) {
+						$additional_data['location'][] = $status['coordinates'];
+					}
+
+					if ($status['place'] && $status['place']['bounding_box']) {
+						// Make a valid linear ring
+						$status['place']['bounding_box']['coordinates'][0][] = $status['place']['bounding_box']['coordinates'][0][0];
+
+						// If we don't already have a location
+						if (empty($additional_data['location'])) {
+							// Find center of bounding box
+							$geom = GeoJSON::geomFromText(json_encode($status['place']['bounding_box']));
+							// Use mysql to run Centroid
+							$result = DB::select([
+							 	DB::expr('AsText(Centroid(GeomFromText(:poly)))')->param(':poly', $geom->toWKT()), 'center']
+							)->execute(service('kohana.db'));
+
+							$centerGeom = WKT::geomFromText($result->get('center', 0));
+							// Save center as location
+							$additional_data['location'][] = $centerGeom->toGeoArray();
+						}
+
+						// Add that to location
+						// Also save the original bounding box
+						$additional_data['location'][] = $status['place']['bounding_box'];
+					}
+				}
 
 				// @todo Check for similar messages in the database before saving
-				$this->receive(Message_Type::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id);
+				$this->receive(Message_Type::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id, $additional_data);
 
 				$count++;
 			}
