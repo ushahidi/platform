@@ -167,10 +167,29 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	protected function createPost(Entity $message)
 	{
+		$values = [];
+
+		// Pull locations from extra metadata
+		if ($message->additional_data) {
+			$values['message_location'] = [];
+			foreach ($message->additional_data['location'] as $location) {
+				if (!empty($location['type']) &&
+					!empty($location['coordinates']) &&
+					ucfirst($location['type']) == 'Point'
+					) {
+					$values['message_location'][] = [
+						'lon' => $location['coordinates'][0],
+						'lat' => $location['coordinates'][1]
+					];
+				}
+			}
+		}
+
 		// First create a post
 		$post = $this->postRepo->getEntity()->setState([
 				'title' => $message->title,
-				'content' => $message->message
+				'content' => $message->message,
+				'values' => $values
 			]);
 
 		return $this->postRepo->create($post);
