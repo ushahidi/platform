@@ -79,7 +79,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['email', 'roles', 'q' /* LIKE realname, email */];
+		return ['email', 'role', 'q' /* LIKE realname, email */];
 	}
 
 	// SearchRepository
@@ -95,14 +95,14 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			$query->and_where_close();
 		}
 
-		if ($search->roles) {
-			$roles = $search->roles;
-			if (!is_array($search->roles))
+		if ($search->role) {
+			$role = $search->role;
+			if (!is_array($search->role))
 			{
-				$roles = explode(',', $search->roles);
+				$role = explode(',', $search->role);
 			}
 
-			$query->where('role', 'IN', $roles);
+			$query->where('role', 'IN', $role);
 		}
 
 		return $query;
