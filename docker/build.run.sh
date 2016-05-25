@@ -24,6 +24,7 @@ function sync {
     done
     echo "- .git"
     echo "- vendor"
+    echo "- tmp"
   } > /tmp/rsync_exclude
   rsync -arv --exclude-from=/tmp/rsync_exclude --delete-during /vols/src/ ./
 }

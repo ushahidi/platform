@@ -1,3 +1,12 @@
+build:
+  build:
+    image: build
+    dockerfile_path: docker/build.Dockerfile
+  volumes:
+    - .:/vols/src
+    - ./tmp/out:/vols/out
+release:
+  image: ubuntu:trusty
 deploy:
   build:
     image: deploy
