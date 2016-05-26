@@ -26,7 +26,7 @@ function sync {
     echo "- vendor"
     echo "- tmp"
   } > /tmp/rsync_exclude
-  rsync -arv --exclude-from=/tmp/rsync_exclude --delete-during /vols/src/ ./
+  rsync -ar --exclude-from=/tmp/rsync_exclude --delete-during /vols/src/ ./
 }
 
 function run_composer_install {
@@ -35,7 +35,9 @@ function run_composer_install {
 
 function bundle {
   check_vols_out
-  tar -cz -f /vols/out/platform-$(date -u +%Y%m%d-%H%M%S).tgz .
+  local version=${GITHUB_VERSION:-${CI_BRANCH:-v0.0.0}}
+  mkdir /tmp/ushahidi-platform-bundle-${version}; rsync -ar ./ /tmp/ushahidi-platform-bundle-${version}/
+  tar -C /tmp -cz -f /vols/out/ushahidi-platform-bundle-${version}.tgz ushahidi-platform-bundle-${version}
 }
 
 sync

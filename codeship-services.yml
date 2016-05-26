@@ -6,7 +6,12 @@ build:
     - .:/vols/src
     - ./tmp/out:/vols/out
 release:
-  image: ubuntu:trusty
+  build:
+    image: release
+    dockerfile_path: docker/release.Dockerfile
+  volumes:
+    - ./tmp/out:/release
+  encrypted_env_file: deployment.env.encrypted
 deploy:
   build:
     image: deploy

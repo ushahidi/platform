@@ -2,7 +2,7 @@
   command: build
 - service: release
   tag: '^v[0-9]\.[0-9]+.[0-9]+(-[a-zA-Z0-9\.]+)?$'
-  command: /bin/bash -c set
+  command: release
 - service: deploy
   tag: staging
   command: ansible-vault decrypt hosts/rackspace_staging --vault-password-file /opt/vault.txt
