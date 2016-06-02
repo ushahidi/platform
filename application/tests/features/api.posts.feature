@@ -846,7 +846,7 @@ Feature: Testing the Posts API
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			current_stage=3
+			current_stage=2
 			"""
 		When I request "/posts"
 		Then the response is JSON
