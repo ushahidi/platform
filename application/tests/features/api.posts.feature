@@ -50,6 +50,51 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@create
+	Scenario: Creating a new Post with JSON date format
+		Given that I want to make a new "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Test post",
+				"author_realname": "Robbie Mackay",
+				"author_email": "someotherrobbie@test.com",
+				"type":"report",
+				"status":"draft",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2016-05-31T00:00:00.000Z"],
+					"last_location":["atlanta"],
+					"last_location_point":[{
+						"lat":33.755,
+						"lon":-84.39
+					}],
+					"geometry_test":["POLYGON((0 0,1 1,2 2,0 0))"],
+					"missing_status":["believed_missing"],
+					"links":[
+						"http://google.com",
+						"http://facebook.com"
+					]
+				},
+				"tags":["explosion"],
+				"completed_stages":[1]
+			}
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "title" property
+		And the "title" property equals "Test post"
+		And the response has a "tags.0.id" property
+		And the "values.missing_date.0" property equals "2016-05-31 00:00:00"
+		Then the guzzle status code should be 200
+
+	@create
 	Scenario: Creating an Post with invalid data returns an error
 		Given that I want to make a new "Post"
 		And that the request "data" is:
@@ -284,6 +329,49 @@ Feature: Testing the Posts API
 		And the response has a "tags.1.id" property
 		And the response has a "title" property
 		And the "title" property equals "Updated Test Post"
+		And the "values.last_location_point.0.lon" property equals "-85.39"
+		Then the guzzle status code should be 200
+
+	@update
+	Scenario: Updating a Post using JSON date formate
+		Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Updated Test Post",
+				"type":"report",
+				"status":"published",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2016-05-31T00:00:00.000Z"],
+					"last_location":["atlanta"],
+					"last_location_point":[
+						{
+							"lat": 33.755,
+							"lon": -85.39
+						}
+					],
+					"missing_status":["believed_missing"]
+				},
+				"tags":["disaster","explosion"],
+				"completed_stages":[1]
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the "id" property equals "1"
+		And the response has a "tags.1.id" property
+		And the response has a "title" property
+		And the "title" property equals "Updated Test Post"
+		And the "values.missing_date.0" property equals "2016-05-31 00:00:00"
 		And the "values.last_location_point.0.lon" property equals "-85.39"
 		Then the guzzle status code should be 200
 
