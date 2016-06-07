@@ -165,6 +165,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'updated_before', 'updated_after',
 			'bbox', 'tags', 'values', 'current_stage',
 			'center_point', 'within_km',
+			'published_to',
 			'include_types', 'include_attributes', // Specify values to include
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
 			'timeline', 'timeline_interval', 'timeline_attribute' // Timeline params
@@ -309,6 +310,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					$this->getBoundingBoxSubquery($bounding_box), 'Filter_BBox'
 				], 'INNER')
 				->on('posts.id', '=', 'Filter_BBox.post_id')
+				;
+		}
+
+		// Published to
+		if ($search->published_to) {
+			$query
+				->where("$table.published_to", 'LIKE', "%'$search->published_to'%")
 				;
 		}
 
