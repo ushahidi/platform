@@ -93,7 +93,7 @@ class Ushahidi_Formatter_Post_Stats implements Formatter
 			$entry['values'][] = [
 				'label' => $record['label'],
 				'total' => (int)$record['total'],
-				'id' => isset($record) ? (int)$record['id'] : null
+				'id' => isset($record['id']) ? (int)$record['id'] : null
 			];
 		}
 
