@@ -16,6 +16,7 @@ use Ushahidi\Core\Usecase\User\RegisterRepository;
 
 class Ushahidi_Validator_User_Register extends Validator
 {
+	protected $default_error_source = 'user';
 	private $repo;
 
 	public function __construct(RegisterRepository $repo)
