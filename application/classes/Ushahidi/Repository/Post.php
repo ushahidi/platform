@@ -592,6 +592,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->search_query
 				->join('forms')->on('posts.form_id', '=', 'forms.id')
 				->select(['forms.name', 'label'])
+				->select(['forms.id', 'id'])
 				->group_by('posts.form_id');
 		}
 		// Group by tags
@@ -619,6 +620,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
 					->on(DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"), '', DB::expr(""))
 				->select(['parents.tag', 'label'])
+				->select(['parents.id', 'id'])
 				->group_by('parents.id');
 
 			// Limit tags to a top level, or a specific parent.
