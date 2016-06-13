@@ -13,8 +13,8 @@ class UpdateDefaultSavedSearches extends AbstractMigration
         $this->execute("DELETE FROM sets WHERE name = 'All posts' AND filter = '{ \"status\": \"all\" }'");
         $this->execute(
             "UPDATE sets SET
-                name = 'New messages',
-                description = 'Incoming posts without no assigned survey'
+                name = 'Unknown posts',
+                description = 'Posts with no assigned survey'
             WHERE name = 'Unstructured posts'"
         );
     }
@@ -34,7 +34,7 @@ class UpdateDefaultSavedSearches extends AbstractMigration
             "UPDATE sets SET
                 name = 'Unstructured posts',
                 description = 'Unstructured posts'
-            WHERE name = 'New messages'"
+            WHERE name = 'Unknown posts'"
         );
     }
 }
