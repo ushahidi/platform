@@ -231,6 +231,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					$search->$key = explode(',', $search->$key);
 				}
 
+				// If filter is empty, skip it
+				// This avoid where clauses like:
+				// `posts`.`form_id` IN ()
+				if (empty($search->$key)) {
+					continue;
+				}
+
 				// Special case: 'none' looks for null
 				if (in_array('none', $search->$key)) {
 					$query->and_where_open()
