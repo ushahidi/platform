@@ -132,6 +132,21 @@ class DataProvider_Twitter extends DataProvider {
 						// Also save the original bounding box
 						$additional_data['location'][] = $status['place']['bounding_box'];
 					}
+				} else if ($status['user'] && $status['user']['location']) {
+					# Search the provided location for matches in twitter's geocoder
+					$results = $connection->get("geo/search", [
+						"query" => $status['user']['location']
+					]);
+					# If there are results, get the centroid of the first one
+					if (!empty($results['result']['places'])) {
+						$geoloc = $results['result']['places'][0];
+						if ($geoloc['centroid']) {
+							$additional_data['location'][] = array(
+								'coordinates' => $geoloc['centroid'],
+								'type' => 'Point'
+							);
+						}							
+					}
 				}
 
 				// @todo Check for similar messages in the database before saving
