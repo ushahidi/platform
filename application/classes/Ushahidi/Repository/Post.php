@@ -224,18 +224,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		foreach (['user', 'parent', 'form'] as $key)
 		{
-			if (isset($search->$key))
+			if (!empty($search->$key))
 			{
 				// Make sure we have an array
 				if (!is_array($search->$key)) {
 					$search->$key = explode(',', $search->$key);
-				}
-
-				// If filter is empty, skip it
-				// This avoid where clauses like:
-				// `posts`.`form_id` IN ()
-				if (empty($search->$key)) {
-					continue;
 				}
 
 				// Special case: 'none' looks for null
@@ -380,24 +373,24 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				// and a check that the current post has not already completed this stage
 				->on('form_stages.form_id', 'IN', $forms_sub)
 				->on('form_stages.id', 'NOT IN', $stages_posts)
-        // We group the results by post id
-        ->group_by('p_id')
-        // We reduce the list to ensure that only results missing the stages to filter by are returned
-        ->having('form_stages.id', 'IN', $stages)
+		// We group the results by post id
+		->group_by('p_id')
+		// We reduce the list to ensure that only results missing the stages to filter by are returned
+		->having('form_stages.id', 'IN', $stages)
 				// Finally we order the results by priority to ensure that if, for example,
 				// a post is missing multiple stages we only consider the first uncompleted stage
 				->order_by('priority');
 
 			//This step wraps the query and returns only the posts ids without the extra data such as form, stage or priority
-      $posts_sub = DB::select('p_id')
-          ->from(array($sub, 'sub'));
+	  $posts_sub = DB::select('p_id')
+		  ->from(array($sub, 'sub'));
 
 			$query
 				->where('posts.id', 'IN', $posts_sub);
 		}
 
 		// Filter by tag
-		if ($search->tags)
+		if (!empty($search->tags))
 		{
 			if (isset($search->tags['any']))
 			{
@@ -441,11 +434,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		// Filter by set
-		if ($search->set)
+		if (!empty($search->set))
 		{
-    	$set = $search->set;
+			$set = $search->set;
 			if (!is_array($set)) {
-	    	$set = explode(',', $set);
+				$set = explode(',', $set);
 			}
 
 			$query
