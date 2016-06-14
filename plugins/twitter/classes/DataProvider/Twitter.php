@@ -145,7 +145,11 @@ class DataProvider_Twitter extends DataProvider {
 								'coordinates' => $geoloc['centroid'],
 								'type' => 'Point'
 							);
-						}							
+						}
+						# Add the bounding box too (if available)
+						if ($geoloc['bounding_box']) {
+							$additional_data['location'][] = $geoloc['bounding_box'];
+						}
 					}
 				}
 
