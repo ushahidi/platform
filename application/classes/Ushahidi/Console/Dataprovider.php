@@ -89,6 +89,11 @@ class Ushahidi_Console_Dataprovider extends Command {
 		$providers = $this->get_providers($input, $output);
 		$limit = $input->getOption('limit');
 
+		// Hack: always include email no matter what!
+		if (!isset($providers['email'])) {
+			$providers['email'] = $this->repo->get('email');
+		}
+
 		$totals = [];
 		foreach ($providers as $id => $provider)
 		{
