@@ -590,7 +590,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		elseif ($search->group_by === 'form')
 		{
 			$this->search_query
-				->join('forms')->on('posts.form_id', '=', 'forms.id')
+				->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
 				->select(['forms.name', 'label'])
 				->select(['forms.id', 'id'])
 				->group_by('posts.form_id');
