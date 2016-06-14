@@ -1,0 +1,8 @@
+- service: deploy
+  tag: ^(develop|staging)
+  command: ansible-vault decrypt hosts/rackspace_staging --vault-password-file /opt/vault.txt
+- service: deploy
+  tag: ^(develop|staging)
+  command: ansible-playbook playbooks/platform-api-code.yml -i hosts/rackspace_staging -vvvv --vault-password-file /opt/vault.txt
+- service: test
+  command: echo "Noop"

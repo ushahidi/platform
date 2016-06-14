@@ -9,10 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Tool\Validator;
-//use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\UserRepository;
 
 class Ushahidi_Validator_Contact_Update extends Validator
@@ -69,8 +67,7 @@ class Ushahidi_Validator_Contact_Update extends Validator
 		}
 
 		// Valid Phone?
-		// ++TODO: There's no easy to validate international numbers
-		// so just look for numbers only.
+		// @todo Look at using libphonenumber to validate international numbers
 		else if ( isset($data['type']) AND
 			$data['type'] == Contact::PHONE )
 		{

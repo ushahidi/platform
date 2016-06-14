@@ -15,6 +15,8 @@ puppet/modules
 Puppetfile.lock
 .tmp/*
 .env
+phpunit.xml
+phpspec.yml
 
 # Kohana deployment specifics
 application/logs/*
@@ -35,3 +37,8 @@ modules/image
 modules/unittest
 modules/minion
 modules/orm
+
+# Docker Deployment Specifics
+*.aes
+deployment.env
+vault.txt

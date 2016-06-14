@@ -51,13 +51,14 @@ class Ushahidi_Formatter_Post_Stats implements Formatter
 		// For timeline, group by category, then time
 		$totals = [];
 		$entry = [
-			'key' => $records[0]['label'],
+			'key' => $records[0]['label'] ? $records[0]['label'] : 'None',
 			'values' => []
 		];
 		$cumulative_total = 0;
 
 
 		foreach ($records as $record) {
+			$record['label'] = $record['label'] ? $record['label'] : 'None';
 			if ($record['label'] !== $entry['key'])
 			{
 				$totals[] = $entry;
@@ -91,8 +92,9 @@ class Ushahidi_Formatter_Post_Stats implements Formatter
 		];
 		foreach ($records as $record) {
 			$entry['values'][] = [
-				'label' => $record['label'],
-				'total' => (int)$record['total']
+				'label' => $record['label'] ? $record['label'] : 'None',
+				'total' => (int)$record['total'],
+				'id' => isset($record['id']) ? (int)$record['id'] : null
 			];
 		}
 

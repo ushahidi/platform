@@ -24,11 +24,11 @@ class DataProvider_Email extends DataProvider {
 	 */
 	public function send($to, $message, $title = "")
 	{
-
-	if (!$this->_is_provider_available()) {
-	   Kohana::$log->add(Log::ERROR, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
-			return array(Message_Status::FAILED, FALSE);
-	}
+		// Always try to send emails!
+		// if (!$this->_is_provider_available()) {
+		//    Kohana::$log->add(Log::ERROR, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+		// 		return array(Message_Status::FAILED, FALSE);
+		// }
 
 		$provider_options = $this->options();
 
@@ -56,6 +56,11 @@ class DataProvider_Email extends DataProvider {
 		$body->site_url = rtrim(URL::site(), '/');
 
 		$from = $this->from();
+
+		if (!$from) {
+			$from = Kohana::$config->load('site.email') ?: 'noreply@ushahididev.com';
+		}
+
 		$from_name = ! empty($provider_options['from_name']) ? $provider_options['from_name'] : $from;
 
 		try

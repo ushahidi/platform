@@ -23,6 +23,8 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 	UpdateMessageRepository,
 	CreateMessageRepository
 {
+	// Use the JSON transcoder to encode properties
+	use Ushahidi_JsonTranscodeRepository;
 
 	// Ushahidi_Repository
 	protected function getTable()
@@ -44,6 +46,12 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 			'box', 'status', 'contact', 'parent', 'post', 'type', 'data_provider',
 			'q' /* LIKE contact, title, message */
 		];
+	}
+
+	// Ushahidi_JsonTranscodeRepository
+	protected function getJsonProperties()
+	{
+		return ['additional_data'];
 	}
 
 	// Ushahidi_Repository
@@ -130,6 +138,12 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	public function getTotalMessagesFromContact($contact_id)
+	{
+		$direction = Message::INCOMING;
+		return (int) $this->selectCount(compact('contact_id', 'direction'));
 	}
 
 	// CreateRepository
