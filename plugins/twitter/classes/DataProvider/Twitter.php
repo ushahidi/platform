@@ -109,7 +109,7 @@ class DataProvider_Twitter extends DataProvider {
 				$additional_data = [];
 
 				// Skip retweets
-				if ($status['retweeted_status']) {
+				if (array_key_exists('retweeted_status', $status) && array_key_exists('text', $status['retweeted_status'])) {
 					continue;
 				}
 
