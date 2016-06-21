@@ -63,6 +63,10 @@ class DataProvider_Twitter extends DataProvider {
 			return 0;
 		}
 
+		if ($limit === FALSE) {
+			$limit = 50;
+		}
+
 		$connection = new TwitterOAuth(
 			$options['consumer_key'],
 			$options['consumer_secret'],
@@ -103,6 +107,11 @@ class DataProvider_Twitter extends DataProvider {
 				$text = $status['text'];
 
 				$additional_data = [];
+
+				// Skip retweets
+				if ($status['retweeted_status']) {
+					continue;
+				}
 
 				if ($status['coordinates'] || $status['place']) {
 					$additional_data['location'] = [];
