@@ -73,16 +73,23 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	}
 
 	// FormAttributeRepository
-	public function getByKey($key, $form_id = null)
+	public function getByKey($key, $form_id = null, $include_no_form = false)
 	{
 		$where = array_filter(compact('key', 'form_id'));
 
-		$result = $this->selectQuery($where)
+		$query = $this->selectQuery($where)
 			->select('form_attributes.*')
 			->join('form_stages', 'LEFT')
 				->on('form_stages.id', '=', 'form_attributes.form_stage_id')
-			->limit(1)
-			->execute($this->db);
+			->limit(1);
+
+		if ($include_no_form && $form_id) {
+			$query->or_where('form_id', 'IS', null);
+		} elseif ($include_no_form) {
+			$query->where('form_id', 'IS', null);
+		}
+
+		$result = $query->execute($this->db);
 		return $this->getEntity($result->current());
 	}
 

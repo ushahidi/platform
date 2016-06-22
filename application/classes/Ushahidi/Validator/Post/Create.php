@@ -183,7 +183,10 @@ class Ushahidi_Validator_Post_Create extends Validator
 		foreach ($attributes as $key => $values)
 		{
 			// Check attribute exists
-			$attribute = $this->attribute_repo->getByKey($key, $data['form_id']);
+			$attribute = $this->attribute_repo->getByKey($key, $data['form_id'], true);
+			if (! $attribute->id) {
+
+			}
 			if (! $attribute->id)
 			{
 				$validation->error('values', 'attributeDoesNotExist', [$key]);

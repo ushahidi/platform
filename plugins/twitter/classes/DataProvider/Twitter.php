@@ -63,6 +63,10 @@ class DataProvider_Twitter extends DataProvider {
 			return 0;
 		}
 
+		if ($limit === FALSE) {
+			$limit = 50;
+		}
+
 		$connection = new TwitterOAuth(
 			$options['consumer_key'],
 			$options['consumer_secret'],
@@ -104,6 +108,11 @@ class DataProvider_Twitter extends DataProvider {
 
 				$additional_data = [];
 
+				// Skip retweets
+				if (array_key_exists('retweeted_status', $status) && array_key_exists('text', $status['retweeted_status'])) {
+					continue;
+				}
+
 				if ($status['coordinates'] || $status['place']) {
 					$additional_data['location'] = [];
 					if ($status['coordinates']) {
@@ -131,6 +140,25 @@ class DataProvider_Twitter extends DataProvider {
 						// Add that to location
 						// Also save the original bounding box
 						$additional_data['location'][] = $status['place']['bounding_box'];
+					}
+				} else if ($status['user'] && $status['user']['location']) {
+					# Search the provided location for matches in twitter's geocoder
+					$results = $connection->get("geo/search", [
+						"query" => $status['user']['location']
+					]);
+					# If there are results, get the centroid of the first one
+					if (!empty($results['result']['places'])) {
+						$geoloc = $results['result']['places'][0];
+						if ($geoloc['centroid']) {
+							$additional_data['location'][] = array(
+								'coordinates' => $geoloc['centroid'],
+								'type' => 'Point'
+							);
+						}
+						# Add the bounding box too (if available)
+						if ($geoloc['bounding_box']) {
+							$additional_data['location'][] = $geoloc['bounding_box'];
+						}
 					}
 				}
 
