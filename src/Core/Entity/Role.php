@@ -20,6 +20,7 @@ class Role extends StaticEntity
 	protected $display_name;
 	protected $description;
 	protected $permissions;
+    protected $protected;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -30,6 +31,7 @@ class Role extends StaticEntity
 			'display_name' => 'string',
 			'description'  => 'string',
 			'permissions'  => 'array',
+			'protected'    => 'boolean',
 		];
 	}
 
@@ -48,6 +50,6 @@ class Role extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return ['name'];
+		return ['name','protected'];
 	}
 }
