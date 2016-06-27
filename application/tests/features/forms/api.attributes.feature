@@ -116,7 +116,6 @@ Feature: Testing the Form Attributes API
             """
         When I request "/forms/1/attributes"
         Then the response is JSON
-        And the "key" property equals "value_test"
         And the "label" property equals "Value test"
         And the "instructions" property equals "Much longer boring instructions"
         And the "type" property equals "varchar"

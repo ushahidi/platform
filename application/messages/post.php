@@ -22,7 +22,7 @@ return [
 
 	'values' => [
 		'date'          => ':field.:param1 must be a date, Given: :param2',
-		'decimal'       => ':field.:param1 must be a decimal with :param2 places, Given: :param2',
+		'decimal'       => ':field.:param1 must be a decimal with 2 places, Given: :param2',
 		'digit'         => ':field.:param1 must be a digit, Given: :param2',
 		'email'         => ':field.:param1 must be an email address, Given: :param2',
 		'exists'        => ':field.:param1 must be a valid post id, Post id: :param2',
