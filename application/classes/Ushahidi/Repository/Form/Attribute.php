@@ -14,6 +14,9 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+
 class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	FormAttributeRepository
 {
@@ -31,6 +34,12 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	{
 		$record = $entity->asArray();
 		unset($record['form_id']);
+		try {
+			$uuid = Uuid::uuid4();
+			$record['key'] = $uuid->toString();
+		} catch (UnsatisfiedDependencyException $e) {
+			Kohana::$log->add(Log::ERROR, $e->getMessage());
+		}
 		return $this->executeInsertAttribute($this->removeNullValues($record));
 	}
 
