@@ -16,6 +16,7 @@ use Ushahidi\Core\Entity\RoleRepository;
 
 class Ushahidi_Validator_User_Create extends Ushahidi_Validator_User_Update
 {
+	protected $default_error_source = 'user';
 
 	protected function getRules()
 	{

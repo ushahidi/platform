@@ -120,7 +120,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Join to messages and load message id
 		$query->join('messages', 'LEFT')->on('posts.id', '=', 'messages.post_id')
-			->select(['messages.id', 'message_id'], ['messages.type', 'source']);
+			->select(['messages.id', 'message_id'], ['messages.type', 'source'], ['messages.contact_id', 'contact_id']);
 
 		return $query;
 	}
@@ -165,6 +165,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'updated_before', 'updated_after',
 			'bbox', 'tags', 'values', 'current_stage',
 			'center_point', 'within_km',
+			'published_to',
 			'include_types', 'include_attributes', // Specify values to include
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
 			'timeline', 'timeline_interval', 'timeline_attribute' // Timeline params
@@ -223,7 +224,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		foreach (['user', 'parent', 'form'] as $key)
 		{
-			if (isset($search->$key))
+			if (!empty($search->$key))
 			{
 				// Make sure we have an array
 				if (!is_array($search->$key)) {
@@ -312,6 +313,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				;
 		}
 
+		// Published to
+		if ($search->published_to) {
+			$query
+				->where("$table.published_to", 'LIKE', "%'$search->published_to'%")
+				;
+		}
+
 		if ($search->current_stage) {
 			$stages = $search->current_stage;
 			if (!is_array($stages)) {
@@ -365,24 +373,24 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				// and a check that the current post has not already completed this stage
 				->on('form_stages.form_id', 'IN', $forms_sub)
 				->on('form_stages.id', 'NOT IN', $stages_posts)
-        // We group the results by post id
-        ->group_by('p_id')
-        // We reduce the list to ensure that only results missing the stages to filter by are returned
-        ->having('form_stages.id', 'IN', $stages)
+		// We group the results by post id
+		->group_by('p_id')
+		// We reduce the list to ensure that only results missing the stages to filter by are returned
+		->having('form_stages.id', 'IN', $stages)
 				// Finally we order the results by priority to ensure that if, for example,
 				// a post is missing multiple stages we only consider the first uncompleted stage
 				->order_by('priority');
 
 			//This step wraps the query and returns only the posts ids without the extra data such as form, stage or priority
-      $posts_sub = DB::select('p_id')
-          ->from(array($sub, 'sub'));
+	  $posts_sub = DB::select('p_id')
+		  ->from(array($sub, 'sub'));
 
 			$query
 				->where('posts.id', 'IN', $posts_sub);
 		}
 
 		// Filter by tag
-		if ($search->tags)
+		if (!empty($search->tags))
 		{
 			if (isset($search->tags['any']))
 			{
@@ -426,11 +434,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		// Filter by set
-		if ($search->set)
+		if (!empty($search->set))
 		{
-    	$set = $search->set;
+			$set = $search->set;
 			if (!is_array($set)) {
-	    	$set = explode(',', $set);
+				$set = explode(',', $set);
 			}
 
 			$query
@@ -582,8 +590,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		elseif ($search->group_by === 'form')
 		{
 			$this->search_query
-				->join('forms')->on('posts.form_id', '=', 'forms.id')
+				->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
 				->select(['forms.name', 'label'])
+				->select(['forms.id', 'id'])
 				->group_by('posts.form_id');
 		}
 		// Group by tags
@@ -611,6 +620,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
 					->on(DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"), '', DB::expr(""))
 				->select(['parents.tag', 'label'])
+				->select(['parents.id', 'id'])
 				->group_by('parents.id');
 
 			// Limit tags to a top level, or a specific parent.
@@ -795,7 +805,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets']);
 
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
@@ -828,7 +838,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['updated'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets']);
 
 		// Update the post
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
@@ -861,6 +871,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		foreach ($attributes as $key => $values)
 		{
 			$attribute = $this->form_attribute_repo->getByKey($key);
+			if (!$attribute->id) {
+				continue;
+			}
+
 			$repo = $this->post_value_factory->getRepo($attribute->type);
 
 			foreach ($values as $val)

@@ -60,6 +60,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 		// Make message have content
 		$entity->title = $payload['title'];
 		$entity->message = $payload['message'];
+		$entity->additional_data = null;
 
 		// Get a new message entity and set its state
 		$repo->getEntity()->willReturn($entity);
@@ -78,7 +79,9 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$post_id = 1;
 		// Get a new post entity and persist it
 		$postRepo->getEntity()->willReturn($post);
-		$post->setState(['title' => $payload['title'], 'content' => $payload['message']])->willReturn($post);
+		$post->setState(['title' => $payload['title'],
+			'content' => $payload['message'],
+			'values' => []])->willReturn($post);
 		//$postRepo->create($post)->willReturn($post_id);
  	}
 

@@ -11,13 +11,18 @@
 
 namespace Ushahidi\Core\Exception;
 
+use RecursiveIteratorIterator;
+use RecursiveArrayIterator;
+
 class ValidatorException extends \InvalidArgumentException
 {
 	private $errors;
 
 	public function __construct($message, Array $errors, Exception $previous = null)
 	{
-		$message = $message . ":\n" . implode("\n", $errors);
+		$flatErrors = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator($errors)), false);
+
+		$message = $message . ":\n" . implode("\n", $flatErrors);
 
 		parent::__construct($message, 0, $previous);
 		$this->setErrors($errors);

@@ -57,7 +57,7 @@ class Ushahidi_Validator_User_Update extends Validator
 	{
 		$config = \Kohana::$config->load('features.limits');
 
-		if ($config['admin_users'] > 1 && $role == 'admin') {
+		if ($config['admin_users'] !== TRUE && $role == 'admin') {
 
 			$total = $this->repo->getTotalCount(['role' => 'admin']);
 

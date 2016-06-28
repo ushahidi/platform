@@ -96,7 +96,13 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		}
 
 		if ($search->role) {
-			$query->where('role', '=', $search->role);
+			$role = $search->role;
+			if (!is_array($search->role))
+			{
+				$role = explode(',', $search->role);
+			}
+
+			$query->where('role', 'IN', $role);
 		}
 
 		return $query;

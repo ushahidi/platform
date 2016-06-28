@@ -134,6 +134,7 @@ class ReceiveMessage extends CreateUsecase
 		// Is the sender of the message a registered contact?
 		$contact = $this->contactRepo->getByContact($this->getPayload('from'), $this->getPayload('contact_type'));
 		if (! $contact->getId()) {
+			// this is the first time a message has been received by this number, so create contact
 			$contact =  $this->contactRepo->getEntity()->setState([
 				'contact' => $this->getPayload('from'),
 				'type' => $this->getPayload('contact_type'),
@@ -166,10 +167,29 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	protected function createPost(Entity $message)
 	{
+		$values = [];
+
+		// Pull locations from extra metadata
+		if ($message->additional_data) {
+			$values['message_location'] = [];
+			foreach ($message->additional_data['location'] as $location) {
+				if (!empty($location['type']) &&
+					!empty($location['coordinates']) &&
+					ucfirst($location['type']) == 'Point'
+					) {
+					$values['message_location'][] = [
+						'lon' => $location['coordinates'][0],
+						'lat' => $location['coordinates'][1]
+					];
+				}
+			}
+		}
+
 		// First create a post
 		$post = $this->postRepo->getEntity()->setState([
 				'title' => $message->title,
-				'content' => $message->message
+				'content' => $message->message,
+				'values' => $values
 			]);
 
 		return $this->postRepo->create($post);

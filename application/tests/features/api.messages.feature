@@ -21,6 +21,29 @@ Feature: Testing the Messages API
         And the "user.id" property equals "2"
         Then the guzzle status code should be 200
 
+    Scenario: Replying to a message
+        Given that I want to make a new "Message"
+        And that the request "data" is:
+            """
+            {
+                "message":"Test message reply",
+                "parent_id":"9",
+                "contact_id": "3",
+                "direction":"outgoing"
+            }
+            """
+        When I request "/messages"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "message" property equals "Test message reply"
+        And the "status" property equals "pending"
+        And the "type" property equals "sms"
+        And the "data_provider" property equals "smssync"
+        And the "contact_id" property equals "3"
+        And the "parent.id" property equals "9"
+        Then the guzzle status code should be 200
+
     Scenario: Creating an incoming message should fail
         Given that I want to make a new "Message"
         And that the request "data" is:
@@ -105,7 +128,7 @@ Feature: Testing the Messages API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "7"
+        And the "count" property equals "8"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Messages in the inbox
@@ -118,7 +141,7 @@ Feature: Testing the Messages API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "5"
+        And the "count" property equals "6"
         Then the guzzle status code should be 200
 
     Scenario: Search All Messages
@@ -175,7 +198,7 @@ Feature: Testing the Messages API
             """
         When I request "/messages"
         Then the response is JSON
-        And the "count" property equals "8"
+        And the "count" property equals "9"
         Then the guzzle status code should be 200
 
     Scenario: Search All Messages by provider
@@ -186,7 +209,7 @@ Feature: Testing the Messages API
             """
         When I request "/messages"
         Then the response is JSON
-        And the "count" property equals "1"
+        And the "count" property equals "2"
         And the "results.0.id" property equals "5"
         Then the guzzle status code should be 200
 
