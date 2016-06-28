@@ -428,6 +428,7 @@ abstract class Ushahidi_Rest extends Controller {
 	/**
 	 * Execute the usecase that the controller prepared.
 	 * @throws HTTP_Exception_400
+	 * @throws HTTP_Exception_401
 	 * @throws HTTP_Exception_403
 	 * @throws HTTP_Exception_404
 	 * @return void

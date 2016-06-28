@@ -19,6 +19,8 @@ use Ushahidi\Core\Tool\Hasher;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
 use Ushahidi\Core\Usecase\User\ResetPasswordRepository;
 
+use PragmaRX\Google2FA\Google2FA;
+
 class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	UserRepository,
 	RegisterRepository,
@@ -181,6 +183,75 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		$result = DB::delete('user_reset_tokens')
 			->where('reset_token', '=', $token)
 			->execute($this->db);
+	}
+
+	/**
+	 * Verify User Google 2fa secret
+	 * @param Entity User
+	 * @param string secret
+	 * @return bool
+	 */
+	public function verifyGoogle2fa(Entity $entity, $secret) {
+
+		$google2fa = new Google2FA();
+		$valid = false;
+		$result = DB::select('google2fa_secret')
+			->from('user_google2fa_secrets')
+			->where('user_id', '=', $entity->id)
+			->execute($this->db);
+		$google2fa_secret = $result->get('google2fa_secret');
+		$valid = $google2fa->verifyKey($google2fa_secret, $secret, 100);
+
+		return $valid;
+	}
+
+	/**
+	 * Disable Google 2fa secret
+	 * @param Entity User
+	 */
+	public function disableGoogle2fa(Entity $entity) {
+		$result = DB::delete('user_google2fa_secrets')
+			->where('user_id', '=', $entity->id)
+			->execute($this->db);
+	}
+
+	/**
+	 * Set Google 2fa secret
+	 * @param Entity User
+	 * @return string Google QR url
+	 */
+	public function generateGoogle2fa(Entity $entity) {
+		$google2fa = new Google2FA();
+		$google2fa_secret = $google2fa->generateSecretKey();
+		$google2fa_url = $google2fa->getQRCodeGoogleUrl(
+			'Ushahidi',
+			$entity->email,
+			$google2fa_secret
+			);
+
+		$input = [
+			'google2fa_secret' => $google2fa_secret,
+			'user_id' => $entity->id,
+			'created' => time()
+		];
+
+		// Save the secret
+		if (!$entity->google2fa_enabled)
+		{
+			$query = DB::insert('user_google2fa_secrets')
+				->columns(array_keys($input))
+				->values(array_values($input))
+				->execute($this->db);
+		}
+		else
+		{
+			$query = DB::update('user_google2fa_secrets')
+				->set($input)
+				->where('user_id', '=', $entity->id)
+				->execute($this->db);
+		}
+
+		return $google2fa_url;
 	}
 
 	/**

@@ -11,6 +11,7 @@ roles:
   -
     name: "importer"
     display_name: "Importer"
+
 users:
   -
     id: 1
@@ -18,42 +19,62 @@ users:
     realname: Robbie Mackay
     email: "robbie@ushahidi.com"
     role: "user"
+    google2fa_enabled: 0
   -
     id: 2
     password: "$2y$15$Ha7nHVZApHXfzhrD2HCukuUjjQhIUzPJ0JNWk7KooT6edQFTbeWr6"
     realname: Admin
     email: "admin@ushahidi.com"
     role: "admin"
+    google2fa_enabled: 0
   -
     id: 3
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Test User
     email: test@v3.ushahidi.com
     role: "user"
+    google2fa_enabled: 0
   -
     id: 4
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Import admin
     email: "importadmin@ushahidi.com"
     role: "admin"
+    google2fa_enabled: 0
   -
     id: 5
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Demo
     email: "demo@ushahidi.com"
     role: "admin"
+    google2fa_enabled: 0
   -
     id: 6
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Manager
     email: "manager@ushahidi.com"
     role: "manager"
+    google2fa_enabled: 0
   -
     id: 7
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Importer
     email: "importer@ushahidi.com"
     role: "importer"
+    google2fa_enabled: 0
+  -
+    id: 8
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: twofa
+    email: "twofa@ushahidi.com"
+    role: "user"
+    google2fa_enabled: 1
+
+user_google2fa_secrets:
+  -
+    user_id: 8
+    google2fa_secret: "ADUMJO5634NPDEKW"
+
 forms:
   -
     id: 1
