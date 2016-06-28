@@ -18,9 +18,6 @@ class Ushahidi_Validator_Form_Attribute_Create extends Ushahidi_Validator_Form_A
     public function getRules()
     {
         return array_merge_recursive(parent::getRules(), [
-            'key' => [
-                ['not_empty'],
-            ],
             'label' => [
                 ['not_empty'],
             ],
