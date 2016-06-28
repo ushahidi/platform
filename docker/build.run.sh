@@ -13,6 +13,7 @@ check_vols_out() {
   fi
 }
 
+# Bring in source files, taking care not to bring in useless files or overwriting useful ones
 function sync {
   check_vols_src
   {
@@ -36,8 +37,7 @@ function run_composer_install {
 function bundle {
   check_vols_out
   local version=${GITHUB_VERSION:-${CI_BRANCH:-v0.0.0}}
-  mkdir /tmp/ushahidi-platform-bundle-${version}; rsync -ar ./ /tmp/ushahidi-platform-bundle-${version}/
-  tar -C /tmp -cz -f /vols/out/ushahidi-platform-bundle-${version}.tgz ushahidi-platform-bundle-${version}
+  DEST_DIR=/vols/out ./bin/release $version
 }
 
 sync
