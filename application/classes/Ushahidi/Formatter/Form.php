@@ -15,8 +15,15 @@ class Ushahidi_Formatter_Form extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function format_disabled($value) 
+	protected function format_disabled($value)
 	{
 		return (bool) $value;
+	}
+
+	protected function format_color($value)
+	{
+		// enforce a leading hash on color, or null if unset
+		$value = ltrim($value, '#');
+		return $value ? '#' . $value : null;
 	}
 }
