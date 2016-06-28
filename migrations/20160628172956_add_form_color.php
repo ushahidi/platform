@@ -9,13 +9,12 @@ class AddFormColor extends AbstractMigration
      */
     public function up()
     {
-      $this->table('forms')
-          ->addColumn('color','string', [
+        $this->table('forms')
+          ->addColumn('color', 'string', [
               'limit' => 6,
               'null' => true,
               ])
           ->update();
-
     }
 
     /**
@@ -23,7 +22,7 @@ class AddFormColor extends AbstractMigration
      */
     public function down()
     {
-      $this->table('forms')
+        $this->table('forms')
           ->removeColumn('color')
           ->update();
     }
