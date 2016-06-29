@@ -54,6 +54,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 					'properties' => [
 						'title' => $entity->title,
 						'description' => $entity->content,
+						'color' => $entity->color,
 						'id' => $entity->id,
 						'url' => URL::site(Ushahidi_Rest::url($entity->getResource(), $entity->id), Request::current()),
 						// @todo add mark- attributes based on tag symbol+color

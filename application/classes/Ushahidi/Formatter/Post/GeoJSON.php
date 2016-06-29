@@ -32,6 +32,7 @@ class Ushahidi_Formatter_Post_GeoJSON implements Formatter
 						'properties' => [
 							'title' => $entity->title,
 							'description' => $entity->content,
+							'color' => $entity->color,
 							'id' => $entity->id,
 							'attribute_key' => $attribute
 							// @todo add mark- attributes based on tag symbol+color
