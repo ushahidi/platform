@@ -26,11 +26,8 @@ class Ushahidi_Formatter_Post_GeoJSON implements Formatter
 			{
 				if ($geometry = $this->valueToGeometry($value))
 				{
-					$typeColor = function ($entity->color) {
-						if ($color) {
-							return ltrim($color, '#');
-						}
-					};
+					$color = ltrim($entity->color, '#');
+					$color = $color ? '#' . $color : null;
 
 					$features[] = [
 						'type' => 'Feature',
@@ -38,13 +35,12 @@ class Ushahidi_Formatter_Post_GeoJSON implements Formatter
 						'properties' => [
 							'title' => $entity->title,
 							'description' => $entity->content,
-							'color' => $typeColor,
+							'marker-color' => $color,
 							'id' => $entity->id,
 							'attribute_key' => $attribute
 							// @todo add mark- attributes based on tag symbol+color
 							//'marker-size' => '',
 							//'marker-symbol' => '',
-							//'marker-color' => '',
 							//'resource' => $post
 						]
 					];
