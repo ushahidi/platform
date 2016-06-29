@@ -22,6 +22,7 @@ class Post extends StaticEntity
 	protected $form_id;
 	protected $user_id;
 	protected $message_id;
+	// Color is taken from the asscoiated form entity
 	protected $color;
 	protected $type;
 	protected $title;

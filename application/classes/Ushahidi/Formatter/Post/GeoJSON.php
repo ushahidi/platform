@@ -26,13 +26,19 @@ class Ushahidi_Formatter_Post_GeoJSON implements Formatter
 			{
 				if ($geometry = $this->valueToGeometry($value))
 				{
+					$typeColor = function ($entity->color) {
+						if ($color) {
+							return ltrim($color, '#');
+						}
+					};
+
 					$features[] = [
 						'type' => 'Feature',
 						'geometry' => $geometry,
 						'properties' => [
 							'title' => $entity->title,
 							'description' => $entity->content,
-							'color' => $entity->color,
+							'color' => $typeColor,
 							'id' => $entity->id,
 							'attribute_key' => $attribute
 							// @todo add mark- attributes based on tag symbol+color

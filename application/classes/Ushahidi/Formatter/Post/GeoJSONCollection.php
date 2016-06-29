@@ -45,6 +45,12 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 
 			if (! empty($geometries))
 			{
+				$typeColor = function ($entity->color) {
+					if ($color) {
+						return ltrim($color, '#');
+					}
+				};
+
 				$output['features'][] = [
 					'type' => 'Feature',
 					'geometry' => [
@@ -54,13 +60,12 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 					'properties' => [
 						'title' => $entity->title,
 						'description' => $entity->content,
-						'color' => $entity->color,
+						'marker-color' => $typeColor,
 						'id' => $entity->id,
 						'url' => URL::site(Ushahidi_Rest::url($entity->getResource(), $entity->id), Request::current()),
 						// @todo add mark- attributes based on tag symbol+color
 						//'marker-size' => '',
 						//'marker-symbol' => '',
-						//'marker-color' => '',
 						//'resource' => $entity
 					]
 				];
