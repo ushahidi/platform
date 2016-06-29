@@ -2,15 +2,19 @@ roles:
   -
     name: "user"
     display_name: "User"
+    protected: 1
   -
     name: "admin"
     display_name: "Admin"
+    protected: 1
   -
     name: "manager"
     display_name: "Manager"
+    protected: 0
   -
     name: "importer"
     display_name: "Importer"
+    protected: 0
 users:
   -
     id: 1

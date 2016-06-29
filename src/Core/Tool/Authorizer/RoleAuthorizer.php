@@ -33,6 +33,10 @@ class RoleAuthorizer implements Authorizer
 		// These checks are run within the user context.
 		$user = $this->getUser();
 		
+        if ($privilege === 'delete' && $entity->protected === true) {
+            return false;
+        }
+		
 		// Only allow admin access
 		if ($this->isUserAdmin($user)) {
 			return true;
