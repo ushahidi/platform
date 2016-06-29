@@ -194,7 +194,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 			if (count($values) > $attribute->cardinality AND $attribute->cardinality != 0)
 			{
 				$validation->error('values', 'tooManyValues', [
-					$key,
+					$attribute->label,
 					$attribute->cardinality
 				]);
 			}
@@ -207,11 +207,11 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 				if (!is_array($values))
 				{
-					$validation->error('values', 'notAnArray', [$key]);
+					$validation->error('values', 'notAnArray', [$attribute->label]);
 				}
 				elseif ($error = $validator->check($values))
 				{
-					$validation->error('values', $error, [$key, $values]);
+					$validation->error('values', $error, [$attribute->label, $values]);
 				}
 			}
 		}
@@ -298,7 +298,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 				{
 					$stage = $this->stage_repo->get($stage_id);
 					// If a required attribute isn't completed, throw an error
-					$validation->error('values', 'attributeRequired', [$attr->key, $stage->label]);
+					$validation->error('values', 'attributeRequired', [$attr->label, $stage->label]);
 				}
 			}
 		}
