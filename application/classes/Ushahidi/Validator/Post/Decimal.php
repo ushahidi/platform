@@ -13,7 +13,7 @@ class Ushahidi_Validator_Post_Decimal extends Ushahidi_Validator_Post_ValueValid
 {
 	protected function validate($value)
 	{
-		if (!Valid::decimal($value)) {
+		if (!Valid::numeric($value)) {
 			return 'decimal';
 		}
 	}
