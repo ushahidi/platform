@@ -3,6 +3,10 @@ suites:
     ushahidi_suite:
         namespace: Ushahidi
         psr4_prefix: Ushahidi
+    ushahidi_app_suite:
+        src_path: application/classes/
+        spec_path: application/tests/specs
+bootstrap: application/tests/bootstrap.php
 extensions:
     - PhpSpec\Extension\CodeCoverageExtension
 code_coverage:
