@@ -56,7 +56,6 @@ tar -cf $TARFILE \
     --exclude '.librarian' \
     --exclude '.vagrant' \
     --exclude '.tmp' \
-    --exclude 'composer.*' \
     --exclude 'phpspec.yml.dist' \
     --exclude 'behat.yml.dist' \
     --exclude 'phpunit.xml.dist' \
