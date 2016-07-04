@@ -63,11 +63,4 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 
 		return $output;
 	}
-
-	protected function format_color($value)
-	{
-		// enforce a leading hash on color, or null if unset
-		$value = ltrim($value, '#');
-		return $value ? '#' . $value : null;
-	}
 }
