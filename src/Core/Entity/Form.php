@@ -38,7 +38,7 @@ class Form extends StaticEntity
 			'parent_id'   => 'int',
 			'name'        => 'string',
 			'description' => 'string',
-			'color'				=> $typeColor,
+			'color'       => $typeColor,
 			'type'        => 'string',
 			'disabled'    => 'bool',
 			'created'     => 'int',
