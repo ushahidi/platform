@@ -39,6 +39,9 @@ class Ushahidi_Validator_Form_Update extends Validator
 			'description' => [
 				['is_string'],
 			],
+			'color' => [
+				['color'],
+			],
 			'disabled' => [
 				['in_array', [':value', [true, false]]]
 			],

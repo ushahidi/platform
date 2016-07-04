@@ -46,6 +46,13 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 		return $this->get_relation('contact', $contact_id);
 	}
 
+	protected function format_color($value)
+	{
+		// enforce a leading hash on color, or null if unset
+		$value = ltrim($value, '#');
+		return $value ? '#' . $value : null;
+	}
+
 	protected function format_tags($tags)
 	{
 		$output = [];
@@ -55,5 +62,12 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 		}
 
 		return $output;
+	}
+
+	protected function format_color($value)
+	{
+		// enforce a leading hash on color, or null if unset
+		$value = ltrim($value, '#');
+		return $value ? '#' . $value : null;
 	}
 }

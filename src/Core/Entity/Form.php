@@ -19,6 +19,7 @@ class Form extends StaticEntity
 	protected $parent_id;
 	protected $name;
 	protected $description;
+	protected $color;
 	protected $type;
 	protected $disabled;
 	protected $created;
@@ -27,11 +28,17 @@ class Form extends StaticEntity
 	// DataTransformer
 	protected function getDefinition()
 	{
+		$typeColor = function ($color) {
+			if ($color) {
+				return ltrim($color, '#');
+			}
+		};
 		return [
 			'id'          => 'int',
 			'parent_id'   => 'int',
 			'name'        => 'string',
 			'description' => 'string',
+			'color'       => $typeColor,
 			'type'        => 'string',
 			'disabled'    => 'bool',
 			'created'     => 'int',
