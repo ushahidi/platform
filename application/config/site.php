@@ -23,6 +23,14 @@
  */
 
 $clientUrl = getenv('CLIENT_URL');
+if (!empty(getenv("MULTISITE_DOMAIN"))) {
+	try {
+		$host = \League\Url\Url::createFromServer($_SERVER)->getHost()->toUnicode();
+		$clientUrl = str_replace(getenv("MULTISITE_DOMAIN"), getenv("MULTISITE_CLIENT_DOMAIN"), $host);
+	} catch (Exception $e) {
+
+	}
+}
 
 return array(
 	'name'        => '',
