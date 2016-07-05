@@ -1,3 +1,17 @@
+build:
+  build:
+    image: build
+    dockerfile_path: docker/build.Dockerfile
+  volumes:
+    - .:/vols/src
+    - ./tmp/out:/vols/out
+release:
+  build:
+    image: release
+    dockerfile_path: docker/release.Dockerfile
+  volumes:
+    - ./tmp/out:/release
+  encrypted_env_file: deployment.env.encrypted
 deploy:
   build:
     image: deploy

@@ -1,3 +1,10 @@
+- type: serial
+  tag: '^v[0-9]\.[0-9]+.[0-9]+(-[a-zA-Z0-9\.]+)?$'
+  steps:
+    - service: build
+      command: build
+    - service: release
+      command: release
 - service: deploy
   tag: ^(develop|staging)
   command: ansible-vault decrypt hosts/rackspace_staging --vault-password-file /opt/vault.txt

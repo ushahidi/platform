@@ -14,7 +14,7 @@ COPY ./ansible /opt
 RUN ["ansible-galaxy", "install", "-r", "roles.yml"]
 
 # ==> Add wrapper script
-COPY ./docker/docker_run.sh /docker_run.sh
+COPY ./docker/deploy.run.sh /deploy.run.sh
 
 # ==> Turn off host key checking for Ansible
 ENV ANSIBLE_HOST_KEY_CHECKING False
@@ -22,5 +22,5 @@ ENV ANSIBLE_HOST_KEY_CHECKING False
 # ==> Add deploy key to container
 RUN mkdir -m 700 -p "$HOME/.ssh"
 
-ENTRYPOINT [ "/bin/bash", "/docker_run.sh" ]
+ENTRYPOINT [ "/bin/bash", "/deploy.run.sh" ]
 
