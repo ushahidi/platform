@@ -49,12 +49,12 @@ return array(
 	// 	'from' => '',
 	// 	'from_name' => '',
 
-	// 	'incoming_type' => '',
-	// 	'incoming_server' => '',
-	// 	'incoming_port' => '',
-	// 	'incoming_security' => '',
-	// 	'incoming_username' => '',
-	// 	'incoming_password' => '',
+		'incoming_type' => '',
+		'incoming_server' => '',
+		'incoming_port' => '',
+		'incoming_security' => '',
+		'incoming_username' => '',
+		'incoming_password' => '',
 
 		'outgoing_type' => 'Native',
 		'outgoing_server' => '',
