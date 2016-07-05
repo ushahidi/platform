@@ -809,7 +809,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
@@ -842,7 +842,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['updated'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 
 		// Update the post
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
