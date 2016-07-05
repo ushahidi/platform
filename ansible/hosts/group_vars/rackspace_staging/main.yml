@@ -1,15 +1,15 @@
 ---
 platform_api_version: "develop"
-platform_api_base_path: "/var/www/platform",
+platform_api_base_path: "/var/www/platform"
 platform_cdn: true,
 platform_cdn_baseurl: "{{secret_platform_cdn_baseurl}}"
 platform_cdn_apikey: "{{secret_platform_cdn_apikey}}"
 platform_cdn_container: "platform-cloud-staging"
 platform_cdn_user: "ushahidi"
 platform_cdn_region: "ORD"
-platform_api_db_host: "{{secret_platform_api_db_host}}",
-platform_api_db_name: "{{secret_platform_api_db_name}}",
-platform_api_db_user: "{{secret_platform_api_db_user}}",
-platform_api_db_pass: "{{secret_platform_api_db_pass}}",
-platform_api_multisite_domain: "api.ushahididev.com",
+platform_api_db_host: "{{secret_platform_api_db_host}}"
+platform_api_db_name: "{{secret_platform_api_db_name}}"
+platform_api_db_user: "{{secret_platform_api_db_user}}"
+platform_api_db_pass: "{{secret_platform_api_db_pass}}"
+platform_api_multisite_domain: "api.ushahididev.com"
 platform_api_multisite_client_domain: "ushahididev.com"
