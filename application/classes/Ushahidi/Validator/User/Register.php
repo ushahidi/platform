@@ -34,7 +34,7 @@ class Ushahidi_Validator_User_Register extends Validator
 			'email' => [
 				['not_empty'],
 				['max_length', [':value', 150]],
-				['email'],
+				['email', [':value', TRUE]],
 				[[$this->repo, 'isUniqueEmail'], [':value']],
 			],
 			'password' => [
