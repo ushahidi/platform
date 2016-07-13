@@ -1,6 +1,0 @@
----
-- name: deploy platform-api code
-  hosts: platform
-
-  roles:
-    - platform-api-code

@@ -7,20 +7,17 @@ RUN apt-get update && apt-get install git -y
 # ==> Set workging directory to /opt
 WORKDIR /opt
 
-# ==> Copy ansible scripts into container
-COPY ./ansible /opt
+# ==> Create .ssh dir
+RUN mkdir -m 700 -p "$HOME/.ssh"
 
-# ==> Get latest deployment code from github
-RUN ["ansible-galaxy", "install", "-r", "roles.yml"]
+# ==> Add github host key to known hosts
+RUN ssh-keyscan github.com >> $HOME/.ssh/known_hosts
 
 # ==> Add wrapper script
 COPY ./docker/deploy.run.sh /deploy.run.sh
 
 # ==> Turn off host key checking for Ansible
 ENV ANSIBLE_HOST_KEY_CHECKING False
-
-# ==> Add deploy key to container
-RUN mkdir -m 700 -p "$HOME/.ssh"
 
 ENTRYPOINT [ "/bin/bash", "/deploy.run.sh" ]
 
