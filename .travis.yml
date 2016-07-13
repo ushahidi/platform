@@ -32,7 +32,7 @@ services:
 install:
 - composer install --no-interaction
 before_script:
-# - "./bin/tests install"
+- "./bin/tests install"
 - mysql -e 'SET @@GLOBAL.wait_timeout=1800'
 script:
 - "./bin/tests run --no-install $coverage"
