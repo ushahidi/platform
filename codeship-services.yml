@@ -31,7 +31,7 @@ test:
     - DB_DATABASE=ushahidi
     - DB_USERNAME=ushahidi
     - DB_PASSWORD=ushahidi
-    - KOHANA_ENV=codeship
+    - KOHANA_ENV=testing
   extra_hosts:
     - "ushahidi.dev:127.0.0.1"
 mysql:
