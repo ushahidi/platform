@@ -85,6 +85,23 @@
             "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,spec/*,migrations/*,bin/* --standard=PSR2 --tab-width=4 ./",
             "phpcs --standard=spec/ruleset.xml --tab-width=4 ./spec/",
             "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/"
+        ],
+        "pre-coverage" : [
+            "rm -rf coverage/",
+            "php -S localhost:8000 -t httpdocs httpdocs/coverage.php; echo $! > /tmp/platform.pid"
+        ],
+        "coverage" : [
+            "phpunit",
+            "phpspec run --no-code-generation",
+            "behat --strict --profile ci"
+        ],
+        "pre-test" : [
+            "php -S localhost:8000 -t httpdocs httpdocs/index.php &"
+        ],
+        "test" : [
+            "phpunit --no-coverage",
+            "phpspec run --no-code-generation",
+            "behat --strict --profile ci"
         ]
     }
 }
