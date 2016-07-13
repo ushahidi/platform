@@ -1,7 +1,6 @@
 - name: "Test"
   service: test
   command: composer test
-  tag: test
 - type: parallel
   steps:
   - name: "Bundle"
