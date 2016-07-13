@@ -21,3 +21,23 @@ test:
   build:
     image: test
     dockerfile_path: docker/test.Dockerfile
+  volumes:
+    - .:/vols/src
+  links:
+    - mysql
+  environment:
+    - DB_HOST=mysql
+    - DB_PORT=3306
+    - DB_DATABASE=ushahidi
+    - DB_USERNAME=ushahidi
+    - DB_PASSWORD=ushahidi
+    - KOHANA_ENV=testing
+  extra_hosts:
+    - "ushahidi.dev:127.0.0.1"
+mysql:
+  image: mysql:5.5
+  environment:
+    - MYSQL_DATABASE=ushahidi
+    - MYSQL_USER=ushahidi
+    - MYSQL_PASSWORD=ushahidi
+    - MYSQL_ROOT_PASSWORD=root

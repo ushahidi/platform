@@ -9,7 +9,6 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use \ArrayIterator;
 use League\Csv\Reader;
 use Ushahidi\Core\Tool\FileReader;
 use Ushahidi\Core\Tool\ReaderFactory;

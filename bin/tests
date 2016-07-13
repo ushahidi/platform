@@ -24,6 +24,11 @@ abstract class UshahidiTestsCommand extends Command
 
     private $env_variables = [
         'KOHANA_ENV' => 'testing',
+        'DB_TYPE'    => 'MySQLi',
+        'DB_HOST'    => '127.0.0.1',
+        'DB_NAME'    => 'platform_test',
+        'DB_PASS'    => '',
+        'DB_USER'    => 'root'
     ];
 
     public function __construct()
@@ -219,7 +224,8 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         // run phpspec
         chdir($this->dir); // phpspec won't find tests otherwise
         $output->writeln("\n<info> - Running Phpspec tests - </info>");
-        $phpspec_command = "{$this->dir}/bin/phpspec run --no-code-generation";
+        $phpspec_command = "{$this->dir}/bin/phpspec run --no-code-generation"
+                         . ($coverage ? " -c phpspec.yml.dist" : " -c phpspec.yml.coverage");
         $tests_pass = ($this->execEnv($phpspec_command, true) === 0) && $tests_pass;
 
         // run behat

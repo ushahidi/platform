@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 check_vols_src() {
   if [ ! -d /vols/src ]; then
@@ -6,14 +7,7 @@ check_vols_src() {
     exit 1
   fi
 }
-check_vols_out() {
-  if [ ! -d /vols/out ]; then
-    echo "No /vols/out for output!"
-    exit 1
-  fi
-}
 
-# Bring in source files, taking care not to bring in useless files or overwriting useful ones
 function sync {
   check_vols_src
   {
@@ -28,18 +22,25 @@ function sync {
     echo "- tmp"
   } > /tmp/rsync_exclude
   rsync -ar --exclude-from=/tmp/rsync_exclude --delete-during /vols/src/ ./
+  rm -f phpunit.xml behat.yml phpspec.yml
 }
 
 function run_composer_install {
   composer install --no-interaction
 }
 
-function bundle {
-  check_vols_out
-  local version=${GITHUB_VERSION:-${CI_BRANCH:-v0.0.0}}
-  DEST_DIR=/vols/out ./bin/release $version
+function wait_for_mysql {
+  until nc -z mysql 3306; do
+    >&2 echo "Mysql is unavailable - sleeping"
+    sleep 1
+  done
 }
 
 sync
 run_composer_install
-bundle
+cp .env.testing .env
+wait_for_mysql
+bin/phinx migrate -c application/phinx.php
+php -S localhost:8000 -t httpdocs httpdocs/index.php &
+
+exec $*

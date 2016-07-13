@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y \
       libcurl4-openssl-dev \
       unzip \
       rsync \
-      git && \
-    docker-php-ext-install curl json mcrypt && \
+      git \
+      netcat && \
+    docker-php-ext-install curl json mcrypt bcmath pdo pdo_mysql mysqli && \
     docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
     docker-php-ext-install imap && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \

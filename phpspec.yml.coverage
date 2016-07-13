@@ -1,0 +1,14 @@
+formatter.name: dot
+suites:
+    ushahidi_suite:
+        namespace: Ushahidi
+        psr4_prefix: Ushahidi
+extensions:
+    - PhpSpec\Extension\CodeCoverageExtension
+code_coverage:
+    blacklist:
+    - vendor/
+    format:
+    - clover
+    output:
+        clover: coverage/phpspec.xml
