@@ -220,7 +220,7 @@ class UshahidiTestsRunCommand extends UshahidiTestsCommand
         chdir($this->dir); // phpspec won't find tests otherwise
         $output->writeln("\n<info> - Running Phpspec tests - </info>");
         $phpspec_command = "{$this->dir}/bin/phpspec run --no-code-generation"
-                         . ($coverage ? "-c phpspec.yml.dist" : "-c phpspec.yml.coverage");
+                         . ($coverage ? " -c phpspec.yml.dist" : " -c phpspec.yml.coverage");
         $tests_pass = ($this->execEnv($phpspec_command, true) === 0) && $tests_pass;
 
         // run behat
