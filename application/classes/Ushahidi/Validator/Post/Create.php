@@ -117,8 +117,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'status' => [
 				['in_array', [':value', [
-					'draft',
-					'published'
+					'published',
+					'under_review',
+					'archived'
 				]]],
 				[[$this, 'checkPublishedLimit'], [':validation', ':value']]
 			],
