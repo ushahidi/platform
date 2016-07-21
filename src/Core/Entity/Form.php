@@ -24,6 +24,7 @@ class Form extends StaticEntity
 	protected $disabled;
 	protected $created;
 	protected $updated;
+	protected $require_approval;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -43,6 +44,7 @@ class Form extends StaticEntity
 			'disabled'    => 'bool',
 			'created'     => 'int',
 			'updated'     => 'int',
+			'require_approval'     => 'bool',
 		];
 	}
 
