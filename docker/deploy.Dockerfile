@@ -1,8 +1,15 @@
 # ==> Import latest ubuntu/ansible build
 FROM williamyeh/ansible:ubuntu14.04
 
-# ==> Install git
-RUN apt-get update && apt-get install git -y
+# ==> Install git and pip
+RUN apt-get update && apt-get install -y \
+	git \
+	python-pip && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# ==> Install prettytable (for Slack callback plugin)
+RUN pip install prettytable
 
 # ==> Set workging directory to /opt
 WORKDIR /opt
