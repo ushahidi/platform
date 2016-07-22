@@ -119,6 +119,19 @@ Kohana::modules(Kohana::$config->load('modules')->as_array());
 Cookie::$salt = 'ushahidi-insecure-please-change-me';
 
 /**
+ * If the RAVEN_URL is defined, set up raven error logging
+ */
+if (getenv("RAVEN_URL"))
+{
+	$client = new Raven_Client(getenv("RAVEN_URL"));
+
+	$error_handler = new Raven_ErrorHandler($client);
+	$error_handler->registerExceptionHandler();
+	$error_handler->registerErrorHandler();
+	$error_handler->registerShutdownFunction();
+}
+
+/**
  * Initialize Ushahidi, setting the defaults
  * Note: We have to do this before routing kicks in, so that the 'default' route doesn't catch any custom plugin routes.
  */
