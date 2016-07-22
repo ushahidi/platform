@@ -17,6 +17,7 @@ Feature: Testing the Forms API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the "disabled" property is false
+        And the "require_approval" property is true
         Then the guzzle status code should be 200
 
     Scenario: Updating a Form
@@ -27,7 +28,8 @@ Feature: Testing the Forms API
                 "name":"Updated Test Form",
                 "type":"report",
                 "description":"This is a test form updated by BDD testing",
-                "disabled":true
+                "disabled":true,
+                "require_approval":false
             }
             """
         And that its "id" is "1"
@@ -39,6 +41,7 @@ Feature: Testing the Forms API
         And the response has a "name" property
         And the "name" property equals "Updated Test Form"
         And the "disabled" property is true
+        And the "require_approval" property is false
         Then the guzzle status code should be 200
 
     Scenario: Update a non-existent Form

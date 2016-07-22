@@ -14,7 +14,7 @@ class AddRequireApprovalToForms extends AbstractMigration
             ->addColumn('require_approval', 'boolean', [
                 'after' => 'disabled',
                 'null' => false,
-				'default' => false
+				'default' => true
             ])
             ->update();
     }
