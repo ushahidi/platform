@@ -124,6 +124,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'dataproviders'        => $di->lazyGet('authorizer.dataprovider'),
 	'forms'                => $di->lazyGet('authorizer.form'),
 	'form_attributes'      => $di->lazyGet('authorizer.form_attribute'),
+	'form_roles'           => $di->lazyGet('authorizer.form_role'),
 	'form_stages'          => $di->lazyGet('authorizer.form_stage'),
 	'tags'                 => $di->lazyGet('authorizer.tag'),
 	'layers'               => $di->lazyGet('authorizer.layer'),
@@ -152,6 +153,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
 	'forms'                => $di->lazyGet('repository.form'),
 	'form_attributes'      => $di->lazyGet('repository.form_attribute'),
+	'form_roles'           => $di->lazyGet('repository.form_role'),
 	'form_stages'          => $di->lazyGet('repository.form_stage'),
 	'layers'               => $di->lazyGet('repository.layer'),
 	'media'                => $di->lazyGet('repository.media'),
@@ -230,6 +232,13 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormAttribute'),
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormAttribute'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormAttribute'),
+];
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_roles'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormRole'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormRole'),
+	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormRole'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormRole'),
+	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormRole'),
 ];
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormStage'),
@@ -350,6 +359,11 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormAttributeAuthorizer'] = [
 	'stage_repo' => $di->lazyGet('repository.form_stage'),
 	'stage_auth' => $di->lazyGet('authorizer.form_stage'),
 	];
+$di->set('authorizer.form_role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormRoleAuthorizer'));
+$di->params['Ushahidi\Core\Tool\Authorizer\FormRoleAuthorizer'] = [
+	'form_repo' => $di->lazyGet('repository.form'),
+	'form_auth' => $di->lazyGet('authorizer.form'),
+	];	
 $di->set('authorizer.form_stage', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),

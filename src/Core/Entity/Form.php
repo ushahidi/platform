@@ -25,6 +25,7 @@ class Form extends StaticEntity
 	protected $created;
 	protected $updated;
 	protected $require_approval;
+	protected $all_rolls;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -44,7 +45,8 @@ class Form extends StaticEntity
 			'disabled'    => 'bool',
 			'created'     => 'int',
 			'updated'     => 'int',
-			'require_approval'     => 'bool',
+			'require_approval'  => 'bool',
+			'all_rolls'   => 'bool',
 		];
 	}
 
