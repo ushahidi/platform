@@ -1,0 +1,111 @@
+FORMAT: 1A
+HOST: http://quakemap.api.ushahidi.io/api/v3
+-- HOST: http://dkiykvdirx.localtunnel.me/api/v3
+
+# Ushahidi Platform API
+
+Ushahidi is a tool to collect and manage citizen reports.
+
+## Posts Collection [/posts]
+
+### List All Posts [GET]
+
++ Response 200 (application/json)
+
+    + Attributes
+
+        + count: 20
+        + results (array[Post])
+        + limit: 20 (string) --number
+        + offset: 0 (string) --number
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://quakemap.api.ushahidi.io/api/v3/posts?offset=0&limit=20 (string)
+        + next: https://quakemap.api.ushahidi.io/api/v3/posts?offset=20&limit=20 (string)
+        + prev: https://quakemap.api.ushahidi.io/api/v3/posts?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Get a Post [GET /posts/:id]
+
++ Response 200
++ Response 404
+
+### Create a New Post [POST]
+
++ Request (application/json)
+
+    + Attributes (Post)
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Response 422
+
+### Update a Post [PUT /posts/:id]
+
++ Response 422
++ Response 200
++ Response 404
+
+### Delete a Post [DELETE /posts/:id]
+
++ Response 200
++ Response 404
+
+## Tags Collection [/tags]
+## Collection Collection [/collections]
+## Collection Posts Collection [/collections/:id/posts]
+## Saved Searches Collection [/savedsearches]
+## Config Collection [/config]
+## Data Providers Collection [/dataproviders]
+## Contacts Collection [/contacts]
+## Messages Collection [/messages]
+## Media Collection [/media]
+## Users Collection [/users]
+## Roles Collection [/roles]
+## Migrations Collection [/migration]
+## CSV Collection [/csv]
+
+# Forms Group
+
+## Forms Collection [/forms]
+## Form Attributes Collection [/forms/:id/attributes]
+## Form Stages Collection [/forms/:id/stages]
+
+## Data Structures
+
+### Post
++ id: 530 (number)
++ url: https://quakemap.api.ushahidi.io/api/v3/posts/530 (string)
++ parent_id: null (number)
++ title: Need help (required)
++ content: Asrang VDC of Gorkha hasn't received any help yet. Need relief efforts (required)
++ created: `2014-11-11T08:40:51+00:00`
++ updated: `2014-11-11T08:40:51+00:00`
++ form
+    + id: 1
+    + url: https://quakemap.api.ushahidi.io/api/v3/forms/1
++ user
+    + id: 1
+    + url: https://quakemap.api.ushahidi.io/api/v3/users/1
++ message
++ color: #2274B4 (string)
++ type: report (string)
++ slug: `chhokang-paro-village-upper-tsum-medical-ampamp-food-assistance-urgently-required-560b50a52fe02`
++ author_email: null
++ author_realname: null
++ status: published
++ locale: en_us
++ published_to (array)
++ completed_stages (array[number])
++ values (object)
++ tags (array)
+    + (object)
+      + id: 1 (number)
+      + url: https://quakemap.api.ushahidi.io/api/v3/tags/1 (string)
++ sets: 1, 2 (array[string])
++ source: SMS (string)
++ contact
++ allowed_privileges: read, create (array[string])
+
