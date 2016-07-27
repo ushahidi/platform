@@ -29,7 +29,7 @@ class Controller_Sms_Frontlinesms extends Controller {
       throw HTTP_Exception::factory(403, 'The Fontline SMS data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
     }
 
-		$methods_with_http_request = [Http_Request::POST, Http_Request::GET];
+		$methods_with_http_request = [Http_Request::POST];
 
 		if ( !in_array($this->request->method(),$methods_with_http_request))
 		{
