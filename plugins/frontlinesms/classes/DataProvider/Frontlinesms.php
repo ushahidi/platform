@@ -26,12 +26,14 @@ class DataProvider_FrontlineSms extends DataProvider {
 
 		// Prepare data to send to frontline cloud
 		$data = array(
-			"secret" => isset($this->_options['key']) ? $this->_options['key'] : '',
-			"message" => $message,
-			"recipients" => array(
-				array(
-					"type" => "address",
-					"value" => $to
+			"apiKey" => isset($this->_options['key']) ? $this->_options['key'] : '',
+			"payload" => array(
+				"message" => $message,
+				"recipients" => array(
+					array(
+						"type" => "address",
+						"value" => $to
+					)
 				)
 			)
 		);

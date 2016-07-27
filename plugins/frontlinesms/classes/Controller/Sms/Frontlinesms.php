@@ -10,6 +10,11 @@
  */
 
 class Controller_Sms_Frontlinesms extends Controller {
+	protected $_provider = NULL;
+
+	protected $_json = [];
+
+	protected $options = NULL;
 
 	public function action_index()
 	{
@@ -19,60 +24,72 @@ class Controller_Sms_Frontlinesms extends Controller {
     //Check if data provider is available
     $providers_available = Kohana::$config->load('features.data-providers');
 
-    if ( !$providers_available['frontlinesms'] ) 
+    if ( !$providers_available['frontlinesms'] )
     {
       throw HTTP_Exception::factory(403, 'The Fontline SMS data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
     }
 
-		if ($this->request->method() != 'GET')
+		$methods_with_http_request = [Http_Request::POST, Http_Request::GET];
+
+		if ( !in_array($this->request->method(),$methods_with_http_request))
 		{
-			// Only GET is allowed as FrontlineSms does only GET request
+			// Only POST or GET is allowed
 			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
 					':method'          => $this->request->method(),
-					':allowed_methods' => Http_Request::GET,
+					':allowed_methods' => implode(',',$methods_with_http_request)
 				))
-				->allowed(Http_Request::GET);
+				->allowed($methods_with_http_request);
 		}
 
-		$provider = DataProvider::factory('frontlinesms');
+		$this->_provider = DataProvider::factory('frontlinesms');
 
-		// Authenticate the request
-		$options = $provider->options();
+		$this->options = $this->_provider->options();
 
-		if( ! isset($options['key']) OR empty($options['key']))
+		// Ensure we're always returning a payload..
+		// This will be overwritten later if incoming or send methods are run
+		$this->_json['payload'] = [
+			'success' => TRUE,
+			'error' => NULL
+		];
+
+		// Process incoming messages from Frontlinecloud only if the request is POST
+		if ( $this->request->method() == 'POST')
 		{
-			throw HTTP_Exception::factory(403, 'Key value has not been configured');
+			$this->_incoming();
 		}
 
-		if ( ! $this->request->query('key') OR
-			$this->request->query('key') != $options['key'])
+		$this->_set_response();
+	}
+
+	private function _incoming()
+	{
+		if ( isset($this->options['secret']) AND $this->request->post('secret') != $this->options['secret'])
 		{
-			throw HTTP_Exception::factory(403, 'Incorrect or missing key');
+			throw new HTTP_Exception_403('Incorrect or missing secret key');
 		}
 
-		if ( ! $this->request->query('m'))
+		$from = $this->request->post('from');
+
+		if( empty($from))
 		{
-			throw HTTP_Exception::factory(403, 'Missing message');
+			throw new HTTP_Exception_400('Missing from value');
 		}
-		// Remove Non-Numeric characters because that's what the DB has
-		$from = preg_replace('/\D+/', "", $this->request->post('from'));
-		$message_text = $this->request->query('m');
 
-		// If receiving an SMS Message
-		if ($from AND $message_text)
+		$message_text = $this->request->post('message');
+
+		if (empty($message_text))
 		{
-			$provider->receive(Message_Type::SMS, $from, $message_text, $to);
+			throw new HTTP_Exception_400('Missing message');
 		}
 
-		$json = array(
-			'payload' => array(
-				'success' => TRUE,
-				'error' => NULL
-			)
-		);
+		// Allow for Alphanumeric sender
+		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
 
-		// Set the correct content-type header
-		$this->response->headers('Content-Type', 'application/json');
-		$this->response->body(json_encode($json));
+		$this->_provider->receive(Message_Type::SMS, $from, $message_text);
+
+		$this->_json['payload'] = [
+			'success' => TRUE,
+			'error' => NULL
+		];
 	}
 }
