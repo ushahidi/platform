@@ -36,8 +36,8 @@ $plugin = array(
 
 		// Links
 	'links' => array(
-		'overview' => 'http://www.frontlinesms.com/technologies/frontlinesms-overview/',
-		'download' => 'http://www.frontlinesms.com/technologies/download/'
+		'overview' => 'https://frontlinecloud.zendesk.com/hc/en-us/articles/208115563-Send-SMS-from-a-Web-Service-Activity-Triggering-outbound-SMS-using-API-requests',
+		'forward' => 'https://frontlinecloud.zendesk.com/hc/en-us/articles/208115553-Connecting-to-another-web-service-creating-a-Forward-to-URL-Activity'
 	)
 );
 

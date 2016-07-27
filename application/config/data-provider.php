@@ -27,6 +27,9 @@ return array(
 	),
 
 	// Config params for individual providers
+	'frontlinesms' => array (
+		api_url => 'https://cloud.frontlinesms.com/api/1/webhook'
+	),
 	// 'nexmo' => array(
 	// 	'from' => '',
 	// 	'api_key' => '',

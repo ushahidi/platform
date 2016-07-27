@@ -48,7 +48,9 @@ class DataProvider_FrontlineSms extends DataProvider {
 			return array(Message_Status::FAILED, FALSE);
 		}
 
-		$url = isset($this->_options['frontlinecloud_api_url']) ? $this->_options['frontlinecloud_api_url'] : '' ;
+		$frontlinesms_config = Kohana::$config->load('features.frontlinesms');
+
+		$url = isset($frontlinesms_config['api_url']) ? $frontlinesms_config['api_url'] : '' ;
 
 		// Make a POST request to send the data to frontline cloud
 		$request = Request::factory($url)
