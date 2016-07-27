@@ -19,10 +19,6 @@ $plugin = array(
 			Message_Type::SMS => TRUE
 	),
 
-
-	// FrontlineSms Cloud api url
-	'frontlinecloud_api_url' => 'https://cloud.frontlinesms.com/api/1/webhook',
-
 	'options' => array(
 		'key' => array(
 				'label' => 'Key',
