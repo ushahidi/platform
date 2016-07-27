@@ -12,6 +12,7 @@
 use Ushahidi\Core\Entity\Contact;
 
 class DataProvider_FrontlineSms extends DataProvider {
+	protected $_provider = NULL;
 
 	/**
 	 * Contact type user for this provider
@@ -23,7 +24,7 @@ class DataProvider_FrontlineSms extends DataProvider {
 	 */
 	public function send($to, $message, $title = "")
 	{
-
+		$this->_provider = DataProvider::factory('frontlinesms');
 		// Prepare data to send to frontline cloud
 		$data = array(
 			"apiKey" => isset($this->_options['key']) ? $this->_options['key'] : '',
@@ -38,8 +39,10 @@ class DataProvider_FrontlineSms extends DataProvider {
 			)
 		);
 
+		$api_url = $this->_provider->frontlinecloud_api_url;
+
 		// Get the frontlinecloud API URL
-		if( !isset($this->_options['frontlinecloud_api_url']) OR empty($this->_options['frontlinecloud_api_url']))
+		if( !$api_url OR empty($api_url))
 		{
 			//Log warning to log file.
 			$status = $response->status;
@@ -48,12 +51,8 @@ class DataProvider_FrontlineSms extends DataProvider {
 			return array(Message_Status::FAILED, FALSE);
 		}
 
-		$frontlinesms_config = Kohana::$config->load('features.frontlinesms');
-
-		$url = isset($frontlinesms_config['api_url']) ? $frontlinesms_config['api_url'] : '' ;
-
 		// Make a POST request to send the data to frontline cloud
-		$request = Request::factory($url)
+		$request = Request::factory($api_url)
 				->method(Request::POST)
 				->post($data)
 				->headers('Content-Type', 'application/json');
