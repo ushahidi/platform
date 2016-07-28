@@ -15,15 +15,4 @@ class Ushahidi_Validator_Form_Role_Create extends Ushahidi_Validator_Form_Role_U
 {
 	protected $default_error_source = 'form_role';
 
-	protected function getRules()
-	{
-		return [
-			'form_id' => [
-				['not_empty'],
-			],
-			'role_id' => [
-				['not_empty'],
-			],
-		];
-	}
 }

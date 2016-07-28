@@ -31,7 +31,7 @@ class CreateFormRole extends CreateUsecase
 	{
 		return parent::getEntity()->setState([
 			'form_id' => $this->getRequiredIdentifier('form_id'),
-			'role_id' => $this->getRequiredIdentifier('role_id'),
+			'roles' => $this->getPayload('roles'),
 		]);
 	}
 }

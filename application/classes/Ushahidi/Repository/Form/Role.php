@@ -10,6 +10,7 @@
  */
 
 use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormRole;
 use Ushahidi\Core\Entity\FormRoleRepository;
@@ -33,7 +34,7 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['form_id', 'role_id'];
+		return ['form_id', 'roles'];
 	}
 
 	// Ushahidi_Repository
@@ -45,10 +46,27 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 			$query->where('form_id', '=', $search->form_id);
 		}
 
-		if ($search->role_id) {
-			$query->where('role_id', '=', $search->roll_id);
+		if ($search->roles) {
+			$query->where('role_id', 'in', $search->roles);
 		}
 	}
+	
+	// CreateRepository
+	public function create(Entity $entity)
+	{
+		
+		foreach($entity->roles as $role_id)
+		{
+			$state = [
+				'form_id'  => $entity->form_id,
+				'role_id'  => $role_id,
+			];
+	
+			parent::create($entity->setState($state));
+		}
+		
+		return $entity->form_id;
+	}	
 
 	// FormRollRepository
 	public function getByForm($form_id)
@@ -60,9 +78,9 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 	}
 
 	// FormRollRepository
-	public function existsInForm($id, $form_id)
+	public function existsInFormRole($role_id, $form_id)
 	{
-		return (bool) $this->selectCount(compact('id', 'form_id'));
+		return (bool) $this->selectCount(compact('role_id', 'form_id'));
 	}
 
 }

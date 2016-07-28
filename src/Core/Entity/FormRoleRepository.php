@@ -26,10 +26,10 @@ interface FormRoleRepository extends
 	public function getByForm($form_id);
 
 	/**
-	 * @param  int $id
+	 * @param  int $role_id
 	 * @param  int $form_id
 	 * @return [Ushahidi\Core\Entity\FormRole, ...]
 	 */
-	public function existsInForm($role_id, $form_id);
+	public function existsInFormRole($role_id, $form_id);
 
 }

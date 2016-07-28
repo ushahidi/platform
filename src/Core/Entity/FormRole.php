@@ -18,6 +18,7 @@ class FormRole extends StaticEntity
 	protected $id;
 	protected $form_id;
 	protected $role_id;
+	protected $roles;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -26,6 +27,7 @@ class FormRole extends StaticEntity
 			'id'       => 'int',
 			'form_id'  => 'int',
 			'role_id'  => 'int',
+			'roles'    => 'array',
 		];
 	}
 

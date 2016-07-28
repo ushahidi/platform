@@ -25,7 +25,7 @@ class Controller_API_Forms_Roles extends Ushahidi_Rest {
 	protected function _identifiers()
 	{
 		return parent::_identifiers() + [
-			'role_id' => $this->roll_id
+			'roles' => $this->request->param('roles')
 		];
 	}
 
@@ -47,4 +47,13 @@ class Controller_API_Forms_Roles extends Ushahidi_Rest {
 
 		$this->_usecase->setIdentifiers($this->request->param());
 	}
+	
+	public function action_delete_index()
+	{
+		parent::action_delete_index();
+		
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'delete')
+			->setIdentifiers($this->_identifiers());
+	}	
 }

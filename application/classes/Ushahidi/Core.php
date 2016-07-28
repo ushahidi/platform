@@ -306,6 +306,7 @@ abstract class Ushahidi_Core {
 			'dataprovider',
 			'form',
 			'form_attribute',
+			'form_role',
 			'form_stage',
 			'layer',
 			'media',
@@ -585,6 +586,10 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Validator_Form_Stage_Update'] = [
 			'setFormRepo' => $di->lazyGet('repository.form'),
 		];
+		$di->setter['Ushahidi_Validator_Form_Role_Update'] = [
+			'setFormRepo' => $di->lazyGet('repository.form'),
+			'setRoleRepo' => $di->lazyGet('repository.role'),
+		];		
 		$di->setter['Ushahidi_Validator_Media_Create'] = [
 			'setMaxBytes' => $di->lazy(function() {
 				return \Kohana::$config->load('media.max_upload_bytes');
