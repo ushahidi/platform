@@ -3,9 +3,13 @@ Feature: Testing the FrontlineSms Data Provider
 
     Scenario: Submit a message to frontlinesms controller
         Given that I want to submit a new "Message"
-        And that the request "query string" is:
+        And that the request "data" is:
             """
-            key=1234&m=Some+testing+message&f=123456789
+            {
+                "key":1234,
+                "m":"test",
+                "f"=12345678
+            }
             """
         And that the api_url is ""
         When I request "frontlinesms"
@@ -17,9 +21,13 @@ Feature: Testing the FrontlineSms Data Provider
 
     Scenario: Submit a message to frontlinesms controller with wrong key
         Given that I want to submit a new "Message"
-        And that the request "query string" is:
+        And that the request "data" is:
             """
-            key=wrong&m=Some+testing+message&f=123456789
+            {
+                "key":"wrong",
+                "m":"test",
+                "f"=12345678
+            }
             """
         And that the api_url is ""
         When I request "frontlinesms"
@@ -33,9 +41,12 @@ Feature: Testing the FrontlineSms Data Provider
 
     Scenario: Submit a message to frontlinesms controller with no message
         Given that I want to submit a new "Message"
-        And that the request "query string" is:
+        And that the request "data" is:
             """
-            key=1234&f=123456789
+            {
+                "key":1234,
+                "f"=12345678
+            }
             """
         And that the api_url is ""
         When I request "frontlinesms"
@@ -49,9 +60,12 @@ Feature: Testing the FrontlineSms Data Provider
 
     Scenario: Submit a message to frontlinesms controller with no message
         Given that I want to submit a new "Message"
-        And that the request "query string" is:
+        And that the request "data" is:
             """
-            key=1234&f=123456789
+            {
+                "key":1234,
+                "f"=12345678
+            }
             """
         And that the api_url is ""
         When I request "frontlinesms"
