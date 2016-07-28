@@ -1,0 +1,30 @@
+# Group Migrations
+
+## Migrations [/api/v3/migration]
+
+### Get Migration Status [GET]
+
++ Response 200 (application/json)
+
+### Migrate [POST /api/v3/migration/migrate]
+
++ Response 200 (application/json)
+
+
+### Rollback [POST /api/v3/migration/rollback]
+
++ Response 200 (application/json)
+
+### Get Migration Status [GET /api/v3/migration/status]
+
++ Response 200 (application/json)
+
+## Run migrations unauthenticated [/migrate]
+
+### Run migrations [GET /migrate]
+
+This endpoint exists to help bootstrap Ushahidi before the
+tables are created and without command line access. It can be
+run without authentication
+
++ Response 200 (application/json)

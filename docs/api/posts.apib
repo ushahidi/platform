@@ -1,0 +1,176 @@
+# Group Posts
+
+### List All Posts [GET /api/v3/posts{?form,user,set}]
+
+List all posts matching search criteria as supplied in query parameters. Multiple parameters are treated as boolean AND ie. /posts?form=1&user=2 will return posts with form_id = 1 _and_ user_id = 2
+
++ Parameters
+
+    + q (string, optional) - Text search in title or content
+    + form (number, optional) - Filter to only posts with this Form
+    + user (number, optional) - Filter to only posts with this User
+    + parent (number, optional) - Filter to only posts with this Parent Post
+    + set (number, optional) - Filter to only posts
+    + tags (number, optional) -
+    + tags (array(number), optional) -
+    + type (enum[string], optional) -
+        + Members
+            + report
+            + revision
+            + translation
+    + status (enum[string], optional) -
+        + Members
+            + archived
+            + draft
+            + published
+    + locale (string, optional) -
+    + slug (string, optional) -
+    + created_before (string, optional) -
+    + created_after (string, optional) -
+    + updated_before (string, optional) -
+    + updated_after (string, optional) -
+    + bbox () -
+    + values () -
+    + current_stage (number) - (Experimental)
+    + center_point (string) -
+    + within_km (number) -
+    + published_to (array(string)) - Roles this post is published to (Deprecated)
+    + include_types () -
+    + include_attributes () -
+    + group_by () -
+    + group_by_tags () -
+    + group_by_attribute_key () -
+    + timeline () -
+    + timeline_interval () -
+    + timeline_attribute () -
+
++ Response 200 (application/json)
+
+    + Attributes
+
+        + count: 20
+        + results (array[Post])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://quakemap.api.ushahidi.io/api/v3/posts?offset=0&limit=20 (string)
+        + next: https://quakemap.api.ushahidi.io/api/v3/posts?offset=20&limit=20 (string)
+        + prev: https://quakemap.api.ushahidi.io/api/v3/posts?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+
+### Create a New Post [POST /api/v3/posts]
+
++ Request With permission to view created post (application/json)
+
+    + Attributes (Post)
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Request Without permission to view created post (application/json)
+
+    + Attributes (Post)
+
++ Response 204
+
++ Request With invalid post data (application/json)
+
+    + Attributes (Post)
+
++ Response 422 (application/json)
+    + Attributes (Validation error response)
+
+## Individual Post [/api/v3/posts/{id}]
+
+### Get a Post [GET]
+
++ Parameters
+
+    + id (number) - ID of the Post
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+### Update a Post [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Post
+
++ Request (application/json)
+
+    + Attributes (Post)
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+### Delete a Post [DELETE]
+
++ Parameters
+
+    + id (number) - ID of the Post
+
++ Request Delete a post
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Request Delete non existent post
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+## Data Structures
+
+### Post
++ id: 530 (number)
++ url: https://quakemap.api.ushahidi.io/api/v3/posts/530 (string)
++ parent_id: null (number)
++ title: Need help (required)
++ content: Asrang VDC of Gorkha hasn't received any help yet. Need relief efforts (required)
++ created: `2014-11-11T08:40:51+00:00`
++ updated: `2014-11-11T08:40:51+00:00`
++ form
+    + id: 1
+    + url: https://quakemap.api.ushahidi.io/api/v3/forms/1
++ user
+    + id: 1
+    + url: https://quakemap.api.ushahidi.io/api/v3/users/1
++ message
++ color: #2274B4 (string)
++ type: report (string)
++ slug: `chhokang-paro-village-upper-tsum-medical-ampamp-food-assistance-urgently-required-560b50a52fe02`
++ author_email: null
++ author_realname: null
++ status: published
++ locale: en_us
++ published_to (array)
++ completed_stages (array[number])
++ values (object)
++ tags (array)
+    + (object)
+      + id: 1 (number)
+      + url: https://quakemap.api.ushahidi.io/api/v3/tags/1 (string)
++ sets: 1, 2 (array[string])
++ source: SMS (string)
++ contact
++ allowed_privileges: read, create (array[string])
