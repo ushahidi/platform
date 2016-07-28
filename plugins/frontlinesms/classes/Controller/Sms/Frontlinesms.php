@@ -70,7 +70,7 @@ class Controller_Sms_Frontlinesms extends Controller {
 
 		$from = $this->request->post('from');
 
-		if( empty($from))
+		if(empty($from))
 		{
 			throw new HTTP_Exception_400('Missing from value');
 		}
@@ -86,10 +86,17 @@ class Controller_Sms_Frontlinesms extends Controller {
 		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
 
 		$this->_provider->receive(Message_Type::SMS, $from, $message_text);
-
+		
 		$this->_json['payload'] = [
 			'success' => TRUE,
 			'error' => NULL
 		];
+	}
+
+	// Set response message
+	private function _set_response()
+	{
+		$this->response->headers('Content-Type', 'application/json');
+		$this->response->body(json_encode($this->_json));
 	}
 }
