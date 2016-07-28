@@ -19,7 +19,7 @@ class DataProvider_FrontlineSms extends DataProvider {
 	public $contact_type = Contact::PHONE;
 
 	// FrontlineSms Cloud api url
-	public $api_url = 'https://cloud.frontlinesms.com/api/1/webhook';
+	protected $_api_url = 'https://cloud.frontlinesms.com/api/1/webhook';
 
 	/**
 	 * @return mixed
@@ -41,21 +41,23 @@ class DataProvider_FrontlineSms extends DataProvider {
 		);
 
 		// Make a POST request to send the data to frontline cloud
-		$request = Request::factory($api_url)
+		$request = Request::factory($this->_api_url)
 				->method(Request::POST)
-				->post($data)
+				->body(json_encode($data))
 				->headers('Content-Type', 'application/json');
+
 		try
 		{
 			$response = $request->execute();
 			// Successfully executed the request
-			if ($response->status === 200)
+
+			if ($response->status() === 200)
 			{
 				return array(Message_Status::SENT, $this->tracking_id(Message_Type::SMS));
 			}
 
 			// Log warning to log file.
-			$status = $response->status;
+			$status = $response->status();
 			Kohana::$log->add(Log::WARNING, 'Could not make a successful POST request: :message  status code: :code',
 				array(':message' => $response->messages[$status], ':code' => $status));
 		}
