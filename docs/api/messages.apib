@@ -52,14 +52,15 @@
 
     + Attributes (Message)
 
-### Get Current Message [GET /api/v3/messages/me]
+### Get a Post for Message [GET /api/v3/messages/{id}/post]
 
-This is a special case of `/api/v3/messages/{id}`. With `id=me` we load
-the message associated with the current oauth token.
++ Parameters
+
+    + id (number) - ID of the Contact
 
 + Response 200 (application/json)
 
-    + Attributes (Message)
+    + Attributes (Post)
 
 ### Update a Message [PUT]
 

@@ -87,14 +87,51 @@
 
 ## Collection Posts [/api/v3/collections/{id}/posts]
 
+### Get all Posts in a collection [GET]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Post])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/collections/1/posts?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/collections/1/posts?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/collections/1/posts?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
 ### Add a Post to a collection [POST]
 
-+ Response 200
++ Parameters
 
-### Get a Post in a collection [GET]
+    + id (number) - ID of the Collection
 
-+ Response 200
++ Request (application/json)
 
+    + Attributes
+        + id: 95 (number, required) - Post ID to add to collection
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
+### Remove a Post to from collection [DELETE /api/v3/collections/{id}/posts/{postid}]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+    + postid (number) - ID of post to remove from collection
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
 
 ## Data Structures
 
