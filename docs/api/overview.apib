@@ -2,6 +2,18 @@
 
 Version of the Ushahidi Platform API are designated in the url `/api/v3`.
 
+## Resource Names
+
+As resource names have changed over time some resource names in the API do not currently match the web interface.
+
+API Name | Frontend Name | Description
+--:| ---- | -----------
+Form | Survey  |
+Form Stage | Task  |
+Form Attribute | Field  |
+Tag | Category | Tags also have `type: category`, but this is the only type available at this moment
+Set | Collection | Now mostly eliminated from the API, but in some places it still use
+
 ## Schema
 
 All data is sent and received as JSON.
@@ -67,13 +79,25 @@ Many API methods take optional parameters. For GET requests, any parameters not 
 curl -i -H "Authorization: Bearer OAUTH-TOKEN" "https://demo.api.ushahidi.io/api/v3/forms/1/attributes?type=text"
 ```
 
-In this example, the `1` value is provided for the `:formid` parameter in the path while `:type` is passed in the query string.
+In this example, the `1` value is provided for the `formid` parameter in the path while `type` is passed in the query string.
+Multiple parameters are treated as boolean `AND` ie. /posts?form=1&user=2 will return posts with form_id = 1 _and_ user_id = 2
 
 For POST and PUT requests, parameters not included in the URL should be encoded as JSON with a Content-Type of 'application/json':
 
 ```bash
 curl -i -H "Authorization: Bearer OAUTH-TOKEN" -X POST -d '{"tag":"My tag"}' "https://demo.api.ushahidi.io/api/v3/tags"
 ```
+
+### Multivalue parameters
+
+Often it is useful to pass multiple values to a query parameter ie. to return Posts owned by one of several users. In this case we usually accept comma separate values, or PHP style array parameters. For example:
+
+```
+posts?user=1,2,3
+posts?user[]=1&user[]=2&user[]=3
+```
+
+Multi-value parameters will generally be evaluated as boolean `OR`.
 
 ## Error responses
 
