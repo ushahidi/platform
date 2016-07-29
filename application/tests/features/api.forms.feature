@@ -18,6 +18,7 @@ Feature: Testing the Forms API
         And the type of the "id" property is "numeric"
         And the "disabled" property is false
         And the "require_approval" property is true
+        And the "all_roles" property is true
         Then the guzzle status code should be 200
 
     Scenario: Updating a Form
@@ -29,7 +30,8 @@ Feature: Testing the Forms API
                 "type":"report",
                 "description":"This is a test form updated by BDD testing",
                 "disabled":true,
-                "require_approval":false
+                "require_approval":false,
+                "all_roles":false
             }
             """
         And that its "id" is "1"
@@ -42,6 +44,7 @@ Feature: Testing the Forms API
         And the "name" property equals "Updated Test Form"
         And the "disabled" property is true
         And the "require_approval" property is false
+        And the "all_roles" property is false
         Then the guzzle status code should be 200
 
     Scenario: Update a non-existent Form
@@ -100,4 +103,46 @@ Feature: Testing the Forms API
         When I request "/forms"
         Then the response is JSON
         And the response has a "errors" property
+        Then the guzzle status code should be 404
+
+    Scenario: Add 1 role to Form
+        Given that I want to make a new "FormRole"
+        And that the request "data" is:
+            """
+            {
+                "roles":[1],
+            }
+            """
+        When I request "/forms/1/roles"
+        Then the response is JSON
+        And the response has a "count" property
+        And the "count" property is "1"
+        Then the guzzle status code should be 200
+        
+    Scenario: Add roles to non-existent Form
+        Given that I want to make a new "FormRole"
+        And that the request "data" is:
+            """
+            {
+                "roles":[1],
+            }
+            """
+        When I request "/forms/26/roles"
+        Then the response is JSON
+        And the response has a "error" property
+        And the type of the "id" property is "array"
+        Then the guzzle status code should be 404
+        
+    Scenario: Add roles to non-existent Form
+        Given that I want to make a new "FormRole"
+        And that the request "data" is:
+            """
+            {
+                "roles":[1],
+            }
+            """
+        When I request "/forms/26/roles"
+        Then the response is JSON
+        And the response has a "error" property
+        And the type of the "id" property is "array"
         Then the guzzle status code should be 404

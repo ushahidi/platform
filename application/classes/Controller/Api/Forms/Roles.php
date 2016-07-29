@@ -47,13 +47,5 @@ class Controller_API_Forms_Roles extends Ushahidi_Rest {
 
 		$this->_usecase->setIdentifiers($this->request->param());
 	}
-	
-	public function action_delete_index()
-	{
-		parent::action_delete_index();
-		
-		$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'delete')
-			->setIdentifiers($this->_identifiers());
-	}	
+
 }

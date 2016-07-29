@@ -54,18 +54,23 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 	// CreateRepository
 	public function create(Entity $entity)
 	{
+		$form_id = $entity->form_id;
+		$form_role = new FormRole();
+		
+		$this->deleteAllForForm($form_id);
 		
 		foreach($entity->roles as $role_id)
 		{
 			$state = [
-				'form_id'  => $entity->form_id,
+				'form_id'  => $form_id,
 				'role_id'  => $role_id,
 			];
 	
-			parent::create($entity->setState($state));
+			parent::create($form_role->setState($state));
 		}
 		
-		return $entity->form_id;
+		// Need to modify this output to return all roles for the updated form i.e. should return the same as "GET /forms/:form_id/roles"
+		return $entity->id;
 	}	
 
 	// FormRollRepository
@@ -75,6 +80,12 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	// ValuesForFormRoleRepository
+	public function deleteAllForForm($form_id)
+	{
+		return $this->executeDelete(compact('form_id'));
 	}
 
 	// FormRollRepository

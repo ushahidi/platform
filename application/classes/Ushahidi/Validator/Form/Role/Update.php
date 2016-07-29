@@ -18,7 +18,7 @@ class Ushahidi_Validator_Form_Role_Update extends Validator
 {
 	protected $form_repo;
 	protected $role_repo;
-	protected $default_error_source = 'form';
+	protected $default_error_source = 'form_role';
 
 	public function setFormRepo(FormRepository $form_repo)
 	{
@@ -59,7 +59,7 @@ class Ushahidi_Validator_Form_Role_Update extends Validator
 		{
 			if (! $this->role_repo->idExists($role_id))
 			{
-				$validation->error('form_roles', 'rollDoesNotExist', [$role_id]);
+				$validation->error('roles', 'rollDoesNotExist', [$role_id]);
 			}
 		}
 	}
