@@ -3,26 +3,87 @@
 
 ## Collections [/api/v3/collections]
 
-### List All Collections [GET]
+### List All Collections [GET /api/v3/collections{?q}]
 
-+ Response 200
++ Parameters
 
-### Create a Collection [POST]
+    + q
 
-+ Response 200
++ Response 200 (application/json)
 
-### Get a Collection [GET /api/v3/collections/{id}]
+    + Attributes
+        + count: 20
+        + results (array[Collection])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/collections?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/collections?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/collections?offset=0&limit=20 (string)
+        + total_count: 100 (number)
 
-+ Response 200
+### Create a Collection [POST /api/v3/collections]
 
-### Update a Collection [PUT /api/v3/collections/{id}]
++ Request (application/json)
 
-+ Response 200
+    + Attributes (Collection)
 
-### Delete a Collection [DELETE /api/v3/collections/{id}]
++ Response 200 (application/json)
 
-+ Response 200
+    + Attributes (Collection)
 
++ Request With invalid data (application/json)
+
+    + Attributes (Collection)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Individual Collection [/api/v3/collections/{id}]
+
+### Get a Collection [GET]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Response 200 (application/json)
+
+    + Attributes (Collection)
+
+### Update a Collection [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Request (application/json)
+
+    + Attributes (Collection)
+
++ Response 200 (application/json)
+
+    + Attributes (Collection)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Collection)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Collection [DELETE]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Response 200 (application/json)
+
+    + Attributes (Collection)
 
 ## Collection Posts [/api/v3/collections/{id}/posts]
 
@@ -34,10 +95,11 @@
 
 + Response 200
 
-# Group Saved Searches
 
-## Saved Searches [/api/v3/savedsearches]
+## Data Structures
 
-### List All [GET]
-
-+ Response 200
+### Collection
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/collection/530 (string)
++ created: `2014-11-11T08:40:51+00:00`
++ Include AllowedPrivileges
