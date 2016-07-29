@@ -1,13 +1,18 @@
 
 # Group Media
 
-## Media [/api/v3/media]
+## Media [/api/v3/media{?user,orphans}]
 
 ### List All Media [GET]
 
++ Parameters
+
+    + user (number) - User ID
+    + orphans (boolean) - Only return orphaned Media which are not attached to a post
+
 + Response 200 (application/json)
 
-	+ Attributes
+    + Attributes
         + count: 20
         + results (array[Media])
         + limit: 20 (string) <!-- Actually a number, fix API -->
@@ -47,56 +52,64 @@ Media Uploads use the `multipart/form-data` content type, rather than `applicati
 
 + Response 200 (application/json)
 
-	+ Attributes (Media)
+    + Attributes (Media)
 
 ## Individual Media Upload [/api/v3/media/{id}]
 
 ### Get Media [GET]
 
++ Parameters
+
+    + id (number) - ID of Media resource
+
 + Response 200 (application/json)
 
-	+ Attributes (Media)
+    + Attributes (Media)
 
 ### Update Media [PUT]
 
+::: note
+Only the caption can be changed when updating Media resources. You cannot update
+the file upload. Instead you need to upload a new Media resource.
+:::
+
++ Parameters
+
+    + id (number) - ID of Media resource
+
++ Request
+
+    + Attributes
+        + caption: "A new caption" (string)
+
 + Response 200 (application/json)
 
-	+ Attributes (Media)
+    + Attributes (Media)
 
 ### Delete Media [DELETE]
 
++ Parameters
+
+    + id (number) - ID of Media resource
+
 + Response 200 (application/json)
 
-	+ Attributes (Media)
+    + Attributes (Media)
 
 ## Data Structures
 
 ### Media
 + id: 530 (number)
 + url: https://demo.api.ushahidi.io/api/v3/media/530 (string)
-+ user (object)
-	+ id (number)
-	+ url: https://demo.api.ushahidi.io/api/v3/users/530 (string)
++ user (object, nullable)
+    + id (number)
+    + url: https://demo.api.ushahidi.io/api/v3/users/530 (string)
 + caption: A sample image (string)
-+ created: 1970-01-01T00:00:00+00:00 (string)
-+ updated: 1970-01-01T00:00:00+00:00 (string)
++ created: `1970-01-01T00:00:00+00:00` (string)
++ updated: `1970-01-01T00:00:00+00:00` (string)
 + mime: image/png (string)
-+ original_file_url: http://demo.api.ushahidi.io/media/uploads/5/7/57998f5f0bae9-sample.png (string)
++ original_file_url: `http://demo.api.ushahidi.io/media/uploads/5/7/57998f5f0bae9-sample.png` (string)
 + original_file_size (number)
 + original_width (number)
 + original_height (number)
-+ allowed_methods (array)
-{
-	"id": 4,
-	"url": "http:\/\/ushv3.dev\/api\/v3\/media\/4",
-	"user_id": null,
-	"caption": "ihub",
-	"created": "1970-01-01T00:00:00+00:00",
-	"updated": null,
-	"mime": "image\/png",
-	"original_file_url": "http:\/\/ushv3.dev\/media\/uploads\/5\/7\/57998f5f0bae9-sample.png",
-	"original_file_size": 318442,
-	"original_width": 1438,
-	"original_height": 798,
-	"allowed_methods": ["read", "create", "update", "delete", "search"]
-}
++ Include AllowedPrivileges

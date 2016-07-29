@@ -6,43 +6,32 @@ List all posts matching search criteria as supplied in query parameters. Multipl
 
 + Parameters
 
-    + q (string, optional) - Text search in title or content
-    + form (number, optional) - Filter to only posts with this Form
-    + user (number, optional) - Filter to only posts with this User
-    + parent (number, optional) - Filter to only posts with this Parent Post
-    + set (number, optional) - Filter to only posts
-    + tags (number, optional) -
-    + tags (array(number), optional) -
-    + type (enum[string], optional) -
-        + Members
-            + report
-            + revision
-            + translation
-    + status (enum[string], optional) -
+    + q (string, optional) - Return posts containing `q` text in `title` or `content` properties
+    + form: 17,18 (number, optional) - Form ID. Accepts multiple values, ie: `?form=17,19,32`
+    + user: 32,33 (number, optional) - User ID. Accepts multiple values, ie: `?user=17,19,32`
+    + parent: 10,11 (number, optional) - Parent Post ID. Accepts multiple values.
+    + set: 1,2 (number, optional) - Collection ID. (Collections are represented as Sets in the database. This naming should change to be more consistent in future)
+    + tags: 1,2,3 (number, optional) - Tag ID. Return Posts matching any of these Tags (Boolean OR)
+    + `tags[any]`: 1,6,9 (number, optional) - Return posts matching *any* of these Tag IDs (Boolean OR)
+    + `tags[all]`: 1,7,10 (number, optional) - Return posts matching *all* of these Tag IDs (Boolean AND)
+    + status: draft (enum[string], optional) - Status of Posts to be returned
         + Members
             + archived
             + draft
             + published
-    + locale (string, optional) -
-    + slug (string, optional) -
-    + created_before (string, optional) -
-    + created_after (string, optional) -
-    + updated_before (string, optional) -
-    + updated_after (string, optional) -
-    + bbox () -
-    + values () -
-    + current_stage (number) - (Experimental)
-    + center_point (string) -
-    + within_km (number) -
-    + published_to (array(string)) - Roles this post is published to (Deprecated)
-    + include_types () -
-    + include_attributes () -
-    + group_by () -
-    + group_by_tags () -
-    + group_by_attribute_key () -
-    + timeline () -
-    + timeline_interval () -
-    + timeline_attribute () -
+    + locale: en_us (string, optional) -
+    + created_before: `1970-01-01T00:00:00+00:00` (string, optional)
+    + created_after: `1970-01-01T00:00:00+00:00` (string, optional)
+    + updated_before: `1970-01-01T00:00:00+00:00` (string, optional)
+    + updated_after: `1970-01-01T00:00:00+00:00` (string, optional)
+    + bbox (optional) -
+    + values (optional) -
+    + current_stage (number, optional) - (Experimental)
+    + center_point (string, optional) -
+    + within_km (number, optional) -
+    + published_to (array(string), optional) - Roles this post is published to (Deprecated)
+    + include_types (optional) -
+    + include_attributes (optional) -
 
 + Response 200 (application/json)
 
@@ -58,7 +47,6 @@ List all posts matching search criteria as supplied in query parameters. Multipl
         + next: https://quakemap.api.ushahidi.io/api/v3/posts?offset=20&limit=20 (string)
         + prev: https://quakemap.api.ushahidi.io/api/v3/posts?offset=0&limit=20 (string)
         + total_count: 100 (number)
-
 
 ### Create a New Post [POST /api/v3/posts]
 
@@ -125,9 +113,12 @@ List all posts matching search criteria as supplied in query parameters. Multipl
 
 + Parameters
 
-    + id (number) - ID of the Post
+    + id: 1 (number) - ID of the Post
 
 + Request Delete a post
+
+    + Parameters
+        + id: 123
 
 + Response 200 (application/json)
 
@@ -135,9 +126,45 @@ List all posts matching search criteria as supplied in query parameters. Multipl
 
 + Request Delete non existent post
 
+    + Parameters
+        + id: `non-existent`
+
 + Response 404 (application/json)
 
     + Attributes (Not Found error response)
+
+## Posts Statistics [/api/v3/posts/stats]
+
+### Get Posts Grouped Totals [GET /api/v3/posts/stats{?group_by,group_by_attribute_key,group_by_tags}]
+
++ Parameters
+    + group_by: status (string, optional) - Variable to group by
+        + Members:
+            + status
+            + form
+            + tags - Use with `group_by_tags`
+            + attribute - Use with `group_by_attribute_key`
+    + group_by_tags (number, optional) - Group by children of this Parent Tag ID
+    + group_by_attribute_key: region (string, optional) - Attribute key. Posts will be grouped by the value of this attribute.
+
++ Response 200 (application/json)
+
+### Get Post Totals Over Time [GET /api/v3/posts/stats?timeline=1&{?timeline,timeline_interval,timeline_attribute,group_by,group_by_tags,group_by_attribute_key}]
+
++ Parameters
+    + timeline: 1 (boolean, required) - Enable grouping by time
+    + timeline_interval: 86400 (string, optional) - Interval of time to group by, in seconds
+    + timeline_attribute: updated (string, optional) - Property of the post to use as the time variable
+    + group_by: status (string, optional) - Variable to group by
+        + Members:
+            + status
+            + form
+            + tags - Use with `group_by_tags`
+            + attribute - Use with `group_by_attribute_key`
+    + group_by_tags (number, optional) - Group by children of this Parent Tag ID
+    + group_by_attribute_key: region (string, optional) - Attribute key. Posts will be grouped by the value of this attribute.
+
++ Response 200 (application/json)
 
 ## Data Structures
 
@@ -165,12 +192,19 @@ List all posts matching search criteria as supplied in query parameters. Multipl
 + locale: en_us
 + published_to (array)
 + completed_stages (array[number])
-+ values (object)
++ values (object) - Custom field values. Object keys map to Form Attribute key field
+    + AttributeID1 (array[*])
+        + Value 1
+        + Value 2
+    + AttributeID2 (array[*])
+        + (object)
+            + lat: 2.456
+            + lon: 1.234
 + tags (array)
     + (object)
       + id: 1 (number)
       + url: https://quakemap.api.ushahidi.io/api/v3/tags/1 (string)
 + sets: 1, 2 (array[string])
-+ source: SMS (string)
-+ contact
-+ allowed_privileges: read, create (array[string])
++ source: SMS (string) - Original Message source ie. SMS, Twitter
++ contact: rjmackay (string) - Contact Identifier ie. SMS number, twitter handle
++ Include AllowedPrivileges
