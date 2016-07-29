@@ -26,18 +26,18 @@ $plugin = array(
 				'description' => 'The API key',
 				'rules' => array('required')
 		),
-		'frontlinecloud_api_url' => array(
-				'label' => 'Frontlinecloud API URL',
-				'input' => 'text',
-				'description' => 'The API URL provided by Frontlinecloud',
-				'rules' => array('required')
-		),
+		'secret' => array(
+			'label' => 'Secret',
+			'input' => 'text',
+			'description' => 'Set a secret so that only authorized FrontlineCloud accounts can send/recieve message. You need to configure the same secret in the FrontlineCloud Activity.',
+			'rules' => array('required')
+		)
 	),
 
 		// Links
 	'links' => array(
-		'overview' => 'http://www.frontlinesms.com/technologies/frontlinesms-overview/',
-		'download' => 'http://www.frontlinesms.com/technologies/download/'
+		'overview' => 'https://frontlinecloud.zendesk.com/hc/en-us/articles/208115563-Send-SMS-from-a-Web-Service-Activity-Triggering-outbound-SMS-using-API-requests',
+		'forward' => 'https://frontlinecloud.zendesk.com/hc/en-us/articles/208115553-Connecting-to-another-web-service-creating-a-Forward-to-URL-Activity'
 	)
 );
 
