@@ -86,7 +86,7 @@ class Controller_Sms_Frontlinesms extends Controller {
 		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
 
 		$this->_provider->receive(Message_Type::SMS, $from, $message_text);
-		
+
 		$this->_json['payload'] = [
 			'success' => TRUE,
 			'error' => NULL
