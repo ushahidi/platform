@@ -138,5 +138,20 @@
 ### Collection
 + id: 530 (number)
 + url: https://demo.api.ushahidi.io/api/v3/collection/530 (string)
-+ created: `2014-11-11T08:40:51+00:00`
++ name (string, required)
++ description (string)
++ user (object, nullable) - Owner of the collection
+    + id: 1 (number)
+    + url: https://quakemap.api.ushahidi.io/api/v3/users/1
++ view: map (enum[string])
+    + Members
+        + map
+        + list
++ view_options (array)
++ visible_to (array) - array of roles which can view this search
+    + admin
++ featured: false (boolean)
++ created: `2014-11-11T08:40:51+00:00` (string, required)
++ update: `2014-11-11T08:40:51+00:00` (string, optional)
 + Include AllowedPrivileges
+
