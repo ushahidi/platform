@@ -23,6 +23,7 @@ class FormStage extends StaticEntity
 	protected $type;
 	protected $required;
 	protected $description;
+	protected $is_public;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -35,7 +36,8 @@ class FormStage extends StaticEntity
 			'label'    => 'string',
 			'priority' => 'int',
 			'icon'     => 'string',
-			'required' => 'boolean'
+			'required' => 'boolean',
+			'is_public' => 'boolean'
 		];
 	}
 
