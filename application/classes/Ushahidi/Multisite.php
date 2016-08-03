@@ -83,6 +83,15 @@ class Ushahidi_Multisite
 			'persistent' => $config['connection']['persistent'],
 		];
 
+		// Check we can connect to the DB
+		try {
+			DB::select(DB::expr('1'))->from('users')
+				->execute(Database::instance('deployment', $config));
+		} catch (Exception $e) {
+			// If we can't connect, throw 503 Service Unavailable
+			throw new HTTP_Exception_503("Deployment not ready");
+		}
+
 		return $config;
 	}
 
