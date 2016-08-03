@@ -19,9 +19,17 @@ trait Ushahidi_Corsheaders {
 		if (isset($this->_action_map))
 		{
 			$allow_methods = implode(', ', array_keys($this->_action_map));
-			$this->response->headers('Allow', $allow_methods);
-			$this->response->headers('Access-Control-Allow-Methods', $allow_methods);
+			$response->headers('Allow', $allow_methods);
+			$response->headers('Access-Control-Allow-Methods', $allow_methods);
 		}
+
+		return $response;
+	}
+
+	protected static function static_add_cors_headers(HTTP_Response &$response)
+	{
+		$response->headers('Access-Control-Allow-Origin', '*');
+		$response->headers('Access-Control-Allow-Headers', 'Authorization, Content-type');
 
 		return $response;
 	}
