@@ -9,6 +9,7 @@
  */
 
 class Kohana_Exception extends Kohana_Kohana_Exception {
+	use Ushahidi_Corsheaders;
 
 	/**
 	 * @var  string  error rendering view
@@ -19,5 +20,13 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 	 * @var  string  error view content type
 	 */
 	public static $error_view_content_type = 'application/json';
+
+	public static function response(Exception $e)
+	{
+		$response = parent::response($e);
+		self::static_add_cors_headers($response);
+
+		return $response;
+	}
 
 }
