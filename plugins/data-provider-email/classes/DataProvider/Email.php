@@ -216,7 +216,7 @@ class DataProvider_Email extends DataProvider {
 	protected function _process_incoming($overview, $message)
 	{
 		$from = $this->_get_email($overview->from);
-		$to = $this->_get_email($overview->to);
+		$to = isset($overview->to) ? $this->_get_email($overview->to) : $this->from();
 		$title = isset($overview->subject) ? $overview->subject : NULL;
 		$message_id = isset($overview->message_id) ? $overview->message_id : NULL;
 
