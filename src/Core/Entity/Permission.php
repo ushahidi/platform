@@ -38,6 +38,6 @@ class Permission extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return ['name'];
+		return array_merge(parent::getImmutable(), ['name']);
 	}
 }
