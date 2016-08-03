@@ -86,35 +86,9 @@
 
 ### Delete a Message [DELETE]
 
-+ Parameters
-
-    + id (number) - ID of the Message
-
-+ Response 200 (application/json)
-
-    + Attributes (Message)
-
-## Contacts [/api/v3/contacts]
-
-### List All Contacts [GET /api/v3/contacts{?q}]
-
-+ Parameters
-
-    + q
-
-+ Response 200 (application/json)
-
-    + Attributes
-        + count: 20
-        + results (array[Contact])
-        + limit: 20 (string) <!-- Actually a number, fix API -->
-        + offset: 0 (string) <!-- Actually a number, fix API -->
-        + order: asc (string)
-        + orderby: created (string)
-        + curr: https://demo.api.ushahidi.io/api/v3/contacts?offset=0&limit=20 (string)
-        + next: https://demo.api.ushahidi.io/api/v3/contacts?offset=20&limit=20 (string)
-        + prev: https://demo.api.ushahidi.io/api/v3/contacts?offset=0&limit=20 (string)
-        + total_count: 100 (number)
+:::note
+Messages cannot be deleted
+:::
 
 ### Create a Contact [POST /api/v3/contacts]
 
