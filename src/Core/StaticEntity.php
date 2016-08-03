@@ -67,6 +67,6 @@ abstract class StaticEntity implements Entity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return ['id'];
+		return ['id', 'created'];
 	}
 }

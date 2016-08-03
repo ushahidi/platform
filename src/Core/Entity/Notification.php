@@ -54,6 +54,6 @@ class Notification extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return ['id', 'user_id', 'set_id', 'created'];
+		return array_merge(parent::getImmutable(), ['user_id', 'set_id']);
 	}
 }

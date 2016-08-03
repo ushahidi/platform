@@ -256,12 +256,14 @@ abstract class Ushahidi_Repository implements
 			));
 		}
 
-		if (!$input) {
-			return 0; // nothing would be updated, just ignore
-		}
-
+		// Prevent overwriting created timestamp
+		// Probably not needed if `created` is set immutable in Entity
 		if(array_key_exists('created', $input)){
 			unset($input['created']);
+		}
+
+		if (!$input) {
+			return 0; // nothing would be updated, just ignore
 		}
 
 		$query = DB::update($this->getTable())->set($input);

@@ -97,6 +97,6 @@ class Post extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return ['id', 'type', 'form_id'];
+		return array_merge(parent::getImmutable(), ['type', 'form_id']);
 	}
 }
