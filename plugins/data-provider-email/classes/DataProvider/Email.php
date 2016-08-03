@@ -135,6 +135,7 @@ class DataProvider_Email extends DataProvider {
 					if ($limit AND $count >= $limit)
 						break;
 
+					$message = $html_message = "";
 					$overview = imap_fetch_overview($connection, $email_number, 0);
 
 					$structure = imap_fetchstructure($connection, $email_number);
@@ -144,13 +145,13 @@ class DataProvider_Email extends DataProvider {
 					{
 						$no_of_parts = count($structure->parts);
 
-						for ($i = 0; $i < $no_of_parts; $i++)
+						foreach ($structure->parts as $part_number => $part)
 						{
-							$part = $structure->parts[$i];
-
 							if ($part->subtype == 'HTML')
 							{
-								$message = imap_fetchbody($connection, $email_number, $i+1);
+								$html_message .= imap_fetchbody($connection, $email_number, $part_number);
+							} elseif ($part->subtype == 'PLAIN') {
+								$message .= imap_fetchbody($connection, $email_number, $part_number);
 							}
 						}
 					}
@@ -160,11 +161,15 @@ class DataProvider_Email extends DataProvider {
 						$message = imap_body($connection, $email_number);
 					}
 
-					$message = imap_qprint($message);
 
 					// Process the email
-					if (! empty($message))
+					if (! empty($html_message)) {
+						$html_message = imap_qprint($html_message);
+						$this->_process_incoming($overview[0], $html_message);
+					}
+					elseif (! empty($message))
 					{
+						$message = imap_qprint($message);
 						$this->_process_incoming($overview[0], $message);
 					}
 
