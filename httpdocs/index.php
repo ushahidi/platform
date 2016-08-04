@@ -20,12 +20,21 @@ if (PHP_SAPI == 'cli') // Try and load minion
 	Minion_Task::factory(Minion_CLI::options())->execute();
 }
 else
-{
-	/**
-	 * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
-	 * If no source is specified, the URI will be automatically detected.
+{	
+	/* You may set SERVER_PATHINFO_VAR in your .env file with the name of the $_SERVER array
+	 * key, through which your host is passing the request URI to this script. For instance,
+	 * some hosters clear $_SERVER['PATH_INFO'] and set $_SERVER['ORIG_PATH_INFO'] instead.
+	 * By setting SERVER_PATHINFO_VAR to "ORIG_PATH_INFO" you would work around this.
 	 */
-	echo Request::factory(TRUE, array(), FALSE)
+	$server_path = TRUE;
+	if (array_key_exists('SERVER_PATHINFO_VAR', $_ENV)) {
+	  $server_path = $_SERVER[$_ENV['SERVER_PATHINFO_VAR']];
+	}
+	/**
+	 * Execute the main request. Use the URI passed in the first parameter, if not specified
+	 * (defaults to TRUE), we will try to automatically detect the URI.
+	 */
+	echo Request::factory($server_path, array(), FALSE)
 		->execute()
 		->send_headers(TRUE)
 		->body();
