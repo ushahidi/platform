@@ -13,6 +13,12 @@ namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Entity\Form;
+use Ushahidi\Core\Entity\Role;
+use Ushahidi\Core\Entity\FormRole;
+use Ushahidi\Core\Entity\RoleRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\FormRoleRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Tool\Authorizer;
@@ -64,14 +70,22 @@ class PostAuthorizer implements Authorizer, Permissionable
 
 	// It requires a `PostRepository` to load parent posts too.
 	protected $post_repo;
+	
+	// It requires a `FormRepository`, `RoleRepository` & `FormRoleRepository` to determine create access.
+	protected $form_repo;
+	protected $role_repo;
+	protected $form_role_repo;
 
 	/**
 	 * @param UserRepository $user_repo
 	 * @param PostRepository $post_repo
 	 */
-	public function __construct(PostRepository $post_repo)
+	public function __construct(PostRepository $post_repo, FormRepository $form_repo, RoleRepository $role_repo, FormRoleRepository $form_role_repo)
 	{
 		$this->post_repo = $post_repo;
+		$this->form_repo = $form_repo;
+		$this->role_repo = $role_repo;
+		$this->form_role_repo = $form_role_repo;
 	}
 
 	/* Authorizer */
@@ -108,6 +122,13 @@ class PostAuthorizer implements Authorizer, Permissionable
 		if ($privilege === 'create'
 			&& !$this->isUserOwner($entity, $user)
 			&& !$this->isUserAndOwnerAnonymous($entity, $user)
+			) {
+			return false;
+		}
+		
+		// Non-admin users are not allowed to create posts for forms that have restricted access.
+		if ($privilege === 'create'
+			&& $this->isFormRestricted($entity, $user)
 			) {
 			return false;
 		}
@@ -172,4 +193,20 @@ class PostAuthorizer implements Authorizer, Permissionable
 
 		return false;
 	}
+	
+	/* FormRole */
+	protected function isFormRestricted(Entity $entity, $user)
+	{
+		// If the $entity->form_id exists and the $form->all_roles is False
+		// we check to see if the Form & Role Join exists in the `FormRoleRepository`
+		if ($entity->form_id) {
+			$form = $this->form_repo->get($entity->form_id);
+			if (!$form->all_roles) {
+				$role = $this->role_repo->getByName($user->role);
+				return !$this->form_role_repo->existsInFormRole($role->id, $entity->form_id);
+			}
+		}
+
+		return false;
+	}	
 }

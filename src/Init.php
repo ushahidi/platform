@@ -382,6 +382,9 @@ $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\Pe
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
+	'form_repo' => $di->lazyGet('repository.form'),
+	'role_repo' => $di->lazyGet('repository.role'),
+	'form_role_repo' => $di->lazyGet('repository.form_role'),
 	];
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));

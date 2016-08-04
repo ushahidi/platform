@@ -95,6 +95,58 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@create
+	Scenario: Creating a Post with a restricted Form with an Admin User
+		Given that I want to make a new "Post"
+		And that the request "Authorization" header is "Bearer testadminuser"
+		And that the request "data" is:
+			"""
+			{
+				"form":2,
+				"title":"Test post",
+				"type":"report",
+				"status":"draft",
+				"locale":"en_US",
+				"values":
+				{
+
+				},
+				"tags":["explosion"],
+				"completed_stages":[]
+			}
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		Then the guzzle status code should be 200
+
+	@create
+	Scenario: Creating a Post with a restricted Form
+		Given that I want to make a new "Post"
+		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the request "data" is:
+			"""
+			{
+				"form":2,
+				"title":"Test post",
+				"type":"report",
+				"status":"draft",
+				"locale":"en_US",
+				"values":
+				{
+
+				},
+				"tags":["explosion"],
+				"completed_stages":[]
+			}
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		Then the guzzle status code should be 200
+
+	@create
 	Scenario: Creating an Post with invalid data returns an error
 		Given that I want to make a new "Post"
 		And that the request "data" is:
@@ -198,6 +250,31 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "errors" property
 		Then the guzzle status code should be 422
+
+	@create
+	Scenario: Creating a Post with a restricted Form returns an error
+		Given that I want to make a new "Post"
+		And that the request "Authorization" header is "Bearer testimporter"
+		And that the request "data" is:
+			"""
+			{
+				"form":2,
+				"title":"Test post",
+				"type":"report",
+				"status":"draft",
+				"locale":"en_US",
+				"values":
+				{
+
+				},
+				"tags":["explosion"],
+				"completed_stages":[]
+			}
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "errors" property
+		Then the guzzle status code should be 403
 
 	@create
 	Scenario: Creating a Post with existing user by ID (authorized as admin user)
