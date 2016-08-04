@@ -10,6 +10,13 @@
  */
 
 class Controller_API_Forms_Roles extends Ushahidi_Rest {
+	
+	protected $_action_map = array
+	(
+		Http_Request::GET     => 'get',
+		Http_Request::PUT     => 'put',    // Typically Update..
+		Http_Request::OPTIONS => 'options'
+	);
 
 	protected function _scope()
 	{
@@ -41,11 +48,12 @@ class Controller_API_Forms_Roles extends Ushahidi_Rest {
 	}
 
 	// Ushahidi_Rest
-	public function action_post_index_collection()
+	public function action_put_index_collection()
 	{	
-		parent::action_post_index_collection();
+		parent::action_put_index();
 
 		$this->_usecase->setIdentifiers($this->request->param());
+
 	}
 
 }

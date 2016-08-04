@@ -51,11 +51,12 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 		}
 	}
 	
-	// CreateRepository
-	public function create(Entity $entity)
+	// UpdateRepository
+	public function update(Entity $entity)
 	{
 		$form_id = $entity->form_id;
 		$form_role = new FormRole();
+		$entity_array = [];
 		
 		$this->deleteAllForForm($form_id);
 		
@@ -66,11 +67,18 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 				'role_id'  => $role_id,
 			];
 	
-			parent::create($form_role->setState($state));
+			$entity_id = parent::create($form_role->setState($state));
+			
+			$new_role = [
+				'id'       => $entity_id,
+				'form_id'  => $form_id,
+				'role_id'  => $role_id,				
+			];
+
+			array_push($entity_array, $new_role);
 		}
-		
-		// Need to modify this output to return all roles for the updated form i.e. should return the same as "GET /forms/:form_id/roles"
-		return $entity->id;
+
+		return $entity_array;
 	}	
 
 	// FormRollRepository

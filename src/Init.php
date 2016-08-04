@@ -234,8 +234,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormAttribute'),
 ];
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_roles'] = [
-	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormRole'),
-	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormRole'),
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormRole'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormRole'),
 ];
