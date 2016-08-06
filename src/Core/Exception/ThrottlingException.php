@@ -14,3 +14,5 @@ namespace Ushahidi\Core\Exception;
 class ThrottlingException extends \RuntimeException
 {
 }
+
+print "Hello"
