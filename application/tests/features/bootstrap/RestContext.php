@@ -99,7 +99,7 @@ class RestContext extends BehatContext
 		$this->_restObject = new stdClass();
 
 		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'get';
+		$this->_restObjectMethod = 'post';
 	}
 
 	/**
