@@ -9,11 +9,11 @@ class AddFormEveryoneCanCreate extends AbstractMigration
      */
     public function up()
     {
-		$this->table('forms')
+        $this->table('forms')
             ->addColumn('everyone_can_create', 'boolean', [
                 'after' => 'require_approval',
                 'null' => false,
-				'default' => true
+                'default' => true
             ])
             ->update();
     }
@@ -23,8 +23,8 @@ class AddFormEveryoneCanCreate extends AbstractMigration
      */
     public function down()
     {
-		$this->table('forms')
-			 ->removeColumn('everyone_can_create')
+        $this->table('forms')
+             ->removeColumn('everyone_can_create')
              ->update();
     }
 }

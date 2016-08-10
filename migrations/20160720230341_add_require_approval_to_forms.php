@@ -10,11 +10,11 @@ class AddRequireApprovalToForms extends AbstractMigration
      */
     public function up()
     {
-		$this->table('forms')
+        $this->table('forms')
             ->addColumn('require_approval', 'boolean', [
                 'after' => 'disabled',
                 'null' => false,
-				'default' => true
+                'default' => true
             ])
             ->update();
     }
@@ -24,8 +24,8 @@ class AddRequireApprovalToForms extends AbstractMigration
      */
     public function down()
     {
-		$this->table('forms')
-			 ->removeColumn('require_approval')
+        $this->table('forms')
+             ->removeColumn('require_approval')
             ->update();
     }
 }
