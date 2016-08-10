@@ -24,7 +24,7 @@ class AddTypeToStage extends AbstractMigration
     {
       $this->table('form_stages')
         ->addColumn('type', 'string', [
-            'null' => true,
+            'default' => 'task',
             ])
         ->update();
     }

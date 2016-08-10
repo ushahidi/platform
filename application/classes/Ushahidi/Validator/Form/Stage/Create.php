@@ -24,6 +24,12 @@ class Ushahidi_Validator_Form_Stage_Create extends Ushahidi_Validator_Form_Stage
 			'label' => [
 				['not_empty'],
 			],
+			'type' => [
+				['in_array', [':value', [
+					'post',
+					'task'
+				]]],
+			],
 		];
 	}
 }
