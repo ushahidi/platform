@@ -27,14 +27,6 @@ class Controller_API_Forms_Roles extends Ushahidi_Rest {
 	{
 		return 'form_roles';
 	}
-	
-	// Ushahidi_Rest
-	protected function _identifiers()
-	{
-		return parent::_identifiers() + [
-			'roles' => $this->request->param('roles')
-		];
-	}
 
 	// Ushahidi_Rest
 	public function action_get_index_collection()
