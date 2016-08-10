@@ -64,13 +64,13 @@ forms:
     name: "Test Form"
     type: "report"
     description: "Testing form"
-    all_roles: 1
+    everyone_can_create: 1
   -
     id: 2
     name: "Missing people"
     type: "report"
     description: "Missing persons"
-    all_roles: 0
+    everyone_can_create: 0
 form_roles:
   -
     id: 1

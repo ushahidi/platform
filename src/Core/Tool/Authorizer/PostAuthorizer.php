@@ -197,11 +197,11 @@ class PostAuthorizer implements Authorizer, Permissionable
 	/* FormRole */
 	protected function isFormRestricted(Entity $entity, $user)
 	{
-		// If the $entity->form_id exists and the $form->all_roles is False
+		// If the $entity->form_id exists and the $form->everyone_can_create is False
 		// we check to see if the Form & Role Join exists in the `FormRoleRepository`
 		if ($entity->form_id) {
 			$form = $this->form_repo->get($entity->form_id);
-			if (!$form->all_roles) {
+			if (!$form->everyone_can_create) {
 				$role = $this->role_repo->getByName($user->role);
 				return !$this->form_role_repo->existsInFormRole($role->id, $entity->form_id);
 			}

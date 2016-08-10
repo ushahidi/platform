@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class AddFormAllRoles extends AbstractMigration
+class AddFormEveryoneCanCreate extends AbstractMigration
 {
     /**
      * Migrate Up.
@@ -10,7 +10,7 @@ class AddFormAllRoles extends AbstractMigration
     public function up()
     {
 		$this->table('forms')
-            ->addColumn('all_roles', 'boolean', [
+            ->addColumn('everyone_can_create', 'boolean', [
                 'after' => 'require_approval',
                 'null' => false,
 				'default' => true
@@ -24,7 +24,7 @@ class AddFormAllRoles extends AbstractMigration
     public function down()
     {
 		$this->table('forms')
-			 ->removeColumn('all_roles')
+			 ->removeColumn('everyone_can_create')
              ->update();
     }
 }
