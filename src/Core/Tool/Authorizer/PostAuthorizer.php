@@ -191,15 +191,18 @@ class PostAuthorizer implements Authorizer, Permissionable
     {
         // If the $entity->form_id exists and the $form->everyone_can_create is False
         // we check to see if the Form & Role Join exists in the `FormRoleRepository`
-        $roles = $this->form_repo->getRolesThatCanCreatePosts($entity->form_id);
-        
-        if ($roles['everyone_can_create'] > 0) {
-            return false;
-        }
 
-        if (is_array($roles['roles']) && in_array($user->role, $roles['roles'])) {
-            return false;
-        }       
+        if ($entity->form_id) {
+            $roles = $this->form_repo->getRolesThatCanCreatePosts($entity->form_id);
+
+            if ($roles['everyone_can_create'] > 0) {
+                return false;
+            }
+    
+            if (is_array($roles['roles']) && in_array($user->role, $roles['roles'])) {
+                return false;
+            }
+        }
 
         return true;
     }   

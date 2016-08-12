@@ -91,8 +91,8 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             ->where('forms.id', '=', $form_id);
             
         $results =  $query->execute($this->db)->as_array();
-
-        $everyone_can_create = $results[0]['everyone_can_create'];
+		
+        $everyone_can_create = (count($results) == 0 ? 1 : $results[0]['everyone_can_create']);
 
         $roles = [];
 
