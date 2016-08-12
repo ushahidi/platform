@@ -22,11 +22,11 @@ class AddDescriptionToStage extends AbstractMigration
      */
     public function up()
     {
-      $this->table('form_stages')
-        ->addColumn('description', 'string', [
+        $this->table('form_stages')
+          ->addColumn('description', 'string', [
             'null' => true,
             ])
-        ->update();
+          ->update();
     }
 
     /**
@@ -34,8 +34,8 @@ class AddDescriptionToStage extends AbstractMigration
      */
     public function down()
     {
-      $this->table('form_stages')
-        ->removeColumn('description')
-        ->update();
+        $this->table('form_stages')
+          ->removeColumn('description')
+          ->update();
     }
 }

@@ -22,11 +22,11 @@ class AddTypeToStage extends AbstractMigration
      */
     public function up()
     {
-      $this->table('form_stages')
-        ->addColumn('type', 'string', [
+        $this->table('form_stages')
+          ->addColumn('type', 'string', [
             'default' => 'task',
             ])
-        ->update();
+          ->update();
     }
 
     /**
@@ -34,8 +34,8 @@ class AddTypeToStage extends AbstractMigration
      */
     public function down()
     {
-      $this->table('form_stages')
-        ->removeColumn('type')
-        ->update();
+        $this->table('form_stages')
+          ->removeColumn('type')
+          ->update();
     }
 }
