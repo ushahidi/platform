@@ -27,6 +27,13 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // ReadRepository
     public function getEntity(Array $data = null)
     {
+	    if (isset($data["id"])) {
+            $has_roles = $this->getRolesThatCanCreatePosts($data['id']);
+            $can_add = $has_roles['roles'];
+            $data = $data + [
+	            'can_add' => $can_add,
+            ];
+	    }
         return new Form($data);
     }
 
@@ -55,6 +62,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     public function create(Entity $entity)
     {
         // todo ensure default group is created
+        
         return parent::create($entity->setState(['created' => time()]));
     }
 
@@ -76,8 +84,8 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 
     /**
      * Get `everyone_can_create` and list of roles that have access to post to the form
-     * @param  Array $where
-     * @return int
+     * @param  $form_id
+     * @return Array
      */
     public function getRolesThatCanCreatePosts($form_id)
     {

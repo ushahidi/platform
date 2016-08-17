@@ -19,6 +19,10 @@ Feature: Testing the Forms API
         And the "disabled" property is false
         And the "require_approval" property is true
         And the "everyone_can_create" property is true
+        And the response has a "everyone_can_create" property
+        And the "everyone_can_create" property is true
+        And the response has a "can_add" property
+        And the "can_add" property is empty
         Then the guzzle status code should be 200
 
     Scenario: Updating a Form
@@ -135,6 +139,20 @@ Feature: Testing the Forms API
         Then the response is JSON
         And the response has a "count" property
         And the "count" property equals "2"
+        Then the guzzle status code should be 200
+
+    Scenario: Finding a Form after roles have been set.
+        Given that I want to find a "Form"
+        And that its "id" is "1"
+        When I request "/forms"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+		And the response has a "can_add" property
+		And the response has a "can_add.0" property
+		And the "can_add.0" property equals "user"
+		And the response has a "can_add.1" property
+		And the "can_add.1" property equals "admin"
         Then the guzzle status code should be 200
 
     Scenario: Remove roles from Form
