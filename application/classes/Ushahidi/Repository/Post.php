@@ -10,6 +10,7 @@
  */
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\Post;
@@ -52,6 +53,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
+	protected $form_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	protected $tag_repo;
@@ -71,6 +73,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			Database $db,
 			FormAttributeRepository $form_attribute_repo,
 			FormStageRepository $form_stage_repo,
+			FormRepository $form_repo,
 			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory,
 			UpdatePostTagRepository $tag_repo
@@ -80,6 +83,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		$this->form_attribute_repo = $form_attribute_repo;
 		$this->form_stage_repo = $form_stage_repo;
+		$this->form_repo = $form_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
 		$this->tag_repo = $tag_repo;
@@ -810,6 +814,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+
+		// Check if form_id is p
+		if ($entity->form_id && is_numeric($entity->form_id))
+		{
+			$form = $this->form_repo->get($entity->form_id);
+			if (!$form->require_approval)
+			{
+				$post['status'] = 'published';
+			}
+		}
 
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));

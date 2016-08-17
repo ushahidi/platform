@@ -92,6 +92,8 @@ Feature: Testing the Posts API
 		And the "title" property equals "Test post"
 		And the response has a "tags.0.id" property
 		And the "values.missing_date.0" property equals "2016-05-31 00:00:00"
+		And the response has a "status" property
+		And the "status" property equals "draft"
 		Then the guzzle status code should be 200
 
 	@create
@@ -147,7 +149,7 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@create
-	Scenario: Creating a Post with a restricted Form
+	Scenario: Creating a Post with a restricted that does not require approval
 		Given that I want to make a new "Post"
 		And that the request "Authorization" header is "Bearer testbasicuser"
 		And that the request "data" is:
@@ -170,6 +172,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
+		And the response has a "status" property
+		And the "status" property equals "published"
 		Then the guzzle status code should be 200
 
 	@create
