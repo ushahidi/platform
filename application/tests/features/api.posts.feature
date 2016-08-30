@@ -95,6 +95,90 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@create
+	Scenario: Creating a new Post with invalid location lat
+		Given that I want to make a new "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Test post",
+				"author_realname": "Robbie Mackay",
+				"author_email": "someotherrobbie@test.com",
+				"type":"report",
+				"status":"draft",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2016-05-31T00:00:00.000Z"],
+					"last_location":["atlanta"],
+					"last_location_point":[{
+						"lat":330.755,
+						"lon":-84.39
+					}],
+					"geometry_test":["POLYGON((0 0,1 1,2 2,0 0))"],
+					"missing_status":["believed_missing"],
+					"links":[
+						"http://google.com",
+						"http://facebook.com"
+					]
+				},
+				"tags":["explosion"],
+				"completed_stages":[1]
+			}
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has an "errors" property
+		And the response has an "errors.1.title" property
+		And the "errors.1.title" property equals "the field Last Location (point) must contain a valid latitude"
+		Then the guzzle status code should be 422
+
+	@create
+	Scenario: Creating a new Post with invalid location lon
+		Given that I want to make a new "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Test post",
+				"author_realname": "Robbie Mackay",
+				"author_email": "someotherrobbie@test.com",
+				"type":"report",
+				"status":"draft",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2016-05-31T00:00:00.000Z"],
+					"last_location":["atlanta"],
+					"last_location_point":[{
+						"lat":33.755,
+						"lon":-840.39
+					}],
+					"geometry_test":["POLYGON((0 0,1 1,2 2,0 0))"],
+					"missing_status":["believed_missing"],
+					"links":[
+						"http://google.com",
+						"http://facebook.com"
+					]
+				},
+				"tags":["explosion"],
+				"completed_stages":[1]
+			}
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has an "errors" property
+		And the response has an "errors.1.title" property
+		And the "errors.1.title" property equals "the field Last Location (point) must contain a valid longitude"
+		Then the guzzle status code should be 422
+
+	@create
 	Scenario: Creating an Post with invalid data returns an error
 		Given that I want to make a new "Post"
 		And that the request "data" is:
@@ -331,6 +415,82 @@ Feature: Testing the Posts API
 		And the "title" property equals "Updated Test Post"
 		And the "values.last_location_point.0.lon" property equals "-85.39"
 		Then the guzzle status code should be 200
+
+	@update
+	Scenario: Updating a Post with invalid latitude
+		Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Updated Test Post",
+				"type":"report",
+				"status":"published",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"last_location_point":[
+						{
+							"lat": 330.755,
+							"lon": -85.39
+						}
+					],
+					"missing_status":["believed_missing"]
+				},
+				"tags":["disaster","explosion"],
+				"completed_stages":[1]
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has an "errors" property
+		And the response has an "errors.1.title" property
+		And the "errors.1.title" property equals "the field Last Location (point) must contain a valid latitude"
+		Then the guzzle status code should be 422
+
+	@update
+	Scenario: Updating a Post with invalid longitude
+		Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Updated Test Post",
+				"type":"report",
+				"status":"published",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"last_location_point":[
+						{
+							"lat": 33.755,
+							"lon": -850.39
+						}
+					],
+					"missing_status":["believed_missing"]
+				},
+				"tags":["disaster","explosion"],
+				"completed_stages":[1]
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has an "errors" property
+		And the response has an "errors.1.title" property
+		And the "errors.1.title" property equals "the field Last Location (point) must contain a valid longitude"
+		Then the guzzle status code should be 422
 
 	@update
 	Scenario: Updating a Post using JSON date formate
