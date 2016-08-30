@@ -16,5 +16,37 @@ class Ushahidi_Validator_Post_Point extends Ushahidi_Validator_Post_ValueValidat
 		if (!(is_array($value) && array_key_exists('lat', $value) && array_key_exists('lon', $value))) {
 			return 'point';
 		}
+		if (!($this->checkLat($value['lat']))) {
+			return 'lat';
+		}
+		if (!($this->checkLon($value['lon']))) {
+			return 'lon';
+		}
 	}
+		
+    private function checkLon($lon)
+    {
+        if (!is_numeric($lon)) {
+            return false;
+        }
+
+        if ($lon < -180 || $lon > 180) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function checkLat($lat)
+    {
+        if (!is_numeric($lat)) {
+            return false;
+        }
+
+        if ($lat < -90 || $lat > 90) {
+            return false;
+        }
+
+        return true;
+    }
 }
