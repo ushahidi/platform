@@ -31,6 +31,8 @@ return [
 		'numeric'       => 'The field :param1 must be numeric, Given: :param2',
 		'scalar'        => 'The field :param1 must be scalar, Given: :param2',
 		'point'         => 'The field :param1 must be an array of lat and lon',
+		'lat'           => 'the field :param1 must contain a valid latitude',
+		'lon'           => 'the field :param1 must contain a valid longitude',
 		'url'           => 'The field :param1 must be a url, Given: :param2',
 	]
 ];
