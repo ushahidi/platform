@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 class AddRequireApprovalToForms extends AbstractMigration
 {
-    
+
     /**
      * Migrate Up.
      */
