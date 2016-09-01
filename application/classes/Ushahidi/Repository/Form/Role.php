@@ -50,38 +50,30 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 			$query->where('role_id', 'in', $search->roles);
 		}
 	}
-	
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$form_id = $entity->form_id;
-		$form_role = new FormRole();
-		$entity_array = [];
-		
-		$this->deleteAllForForm($form_id);
-		
-		foreach($entity->roles as $role_id)
-		{
-			$state = [
-				'form_id'  => $form_id,
-				'role_id'  => $role_id,
-			];
-	
-			$entity_id = parent::create($form_role->setState($state));
-			
-			$new_role = [
-				'id'       => $entity_id,
-				'form_id'  => $form_id,
-				'role_id'  => $role_id,				
-			];
 
-			array_push($entity_array, $new_role);
+	public function updateCollection(Array $entities)
+	{
+		if (empty($entities)) {
+			return;
 		}
 
-		return $entity_array;
-	}	
+		// Delete all existing form roles records
+		// Assuming all entites have the same form id
+		$this->deleteAllForForm(current($entities)->form_id);
 
-	// FormRollRepository
+		$query = DB::insert($this->getTable())
+			->columns(array_keys(current($entities)->asArray()));
+
+		foreach($entities as $entity) {
+			$query->values($entity->asArray());
+		}
+
+		$query->execute($this->db);
+
+		return $entities;
+	}
+
+	// FormRoleRepository
 	public function getByForm($form_id)
 	{
 		$query = $this->selectQuery(compact($form_id));
@@ -96,7 +88,7 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 		return $this->executeDelete(compact('form_id'));
 	}
 
-	// FormRollRepository
+	// FormRoleRepository
 	public function existsInFormRole($role_id, $form_id)
 	{
 		return (bool) $this->selectCount(compact('role_id', 'form_id'));

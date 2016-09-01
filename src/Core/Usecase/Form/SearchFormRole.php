@@ -13,5 +13,18 @@ namespace Ushahidi\Core\Usecase\Form;
 
 class SearchFormRole extends SearchFormAttribute
 {
-	// Intentionally left blank
+	/**
+	 * Get filter parameters and default values that are used for paging.
+	 *
+	 * @return Array
+	 */
+	protected function getPagingFields()
+	{
+		return [
+			'orderby' => 'role_id',
+			'order'   => 'asc',
+			'limit'   => null,
+			'offset'  => 0
+		];
+	}
 }

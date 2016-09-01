@@ -165,7 +165,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'savedsearches'        => $di->lazyGet('repository.savedsearch'),
 	'users'                => $di->lazyGet('repository.user'),
 	'notifications'        => $di->lazyGet('repository.notification'),
-	'contacts'             => $di->lazyGet('repository.contact'), 
+	'contacts'             => $di->lazyGet('repository.contact'),
 	'csv'                  => $di->lazyGet('repository.csv'),
 	'roles'                => $di->lazyGet('repository.role'),
 	'permissions'          => $di->lazyGet('repository.permission'),
@@ -183,6 +183,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['factory'] = null;
 // is mapped by actions that return collections.
 $di->params['Ushahidi\Factory\FormatterFactory']['collections'] = [
 	'search' => true,
+	'update_collection' => true
 ];
 
 // Data transfer objects are used to carry complex search filters between collaborators.
@@ -234,7 +235,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormAttribute'),
 ];
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_roles'] = [
-	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormRole'),
+	'update_collection'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormRole'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormRole'),
 ];
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
@@ -360,7 +361,7 @@ $di->set('authorizer.form_role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\For
 $di->params['Ushahidi\Core\Tool\Authorizer\FormRoleAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),
 	'form_auth' => $di->lazyGet('authorizer.form'),
-	];	
+	];
 $di->set('authorizer.form_stage', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),

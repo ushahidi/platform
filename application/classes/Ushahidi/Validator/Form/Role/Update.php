@@ -24,7 +24,7 @@ class Ushahidi_Validator_Form_Role_Update extends Validator
 	{
 		$this->form_repo = $form_repo;
 	}
-	
+
 	public function setRoleRepo(RoleRepository $role_repo)
 	{
 		$this->role_repo = $role_repo;
@@ -37,30 +37,9 @@ class Ushahidi_Validator_Form_Role_Update extends Validator
 				['digit'],
 				[[$this->form_repo, 'exists'], [':value']],
 			],
-			'roles' => [
-				[[$this, 'checkRoles'], [':validation',':value']],
+			'role_id' => [
+				[[$this->role_repo, 'idExists'], [':value']],
 			],
 		];
-	}
-
-	/**
-	 * Check roles exist
-	 *
-	 * @param  Validation $validation
-	 * @param  Array      $roles
-	 */	
-	public function checkRoles(Validation $validation, $roles)
-	{
-		if (!$roles) {
-			return;
-		}
-
-		foreach ($roles as $role_id)
-		{
-			if (! $this->role_repo->idExists($role_id))
-			{
-				$validation->error('roles', 'rollDoesNotExist', [$role_id]);
-			}
-		}
 	}
 }

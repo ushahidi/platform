@@ -27,46 +27,46 @@ class UpdateFormRole extends CreateUsecase
 	use IdentifyRecords,
 		VerifyEntityLoaded;
 
-	// CreateUsecase
+	/**
+	 * Get an empty entity.
+	 *
+	 * @return Entity
+	 */
 	protected function getEntity()
 	{
-		return parent::getEntity()->setState([
-			'form_id' => $this->getRequiredIdentifier('form_id'),
-			'roles' => $this->getPayload('roles'),
-		]);
+		return $this->repo->getEntity();
 	}
-	
+
 	// Usecase
 	public function interact()
 	{
-		// Fetch a default entity and apply the payload...
+		// First verify that the form even exists
+		$this->verifyFormExists();
+
+		// Fetch a default entity and ...
 		$entity = $this->getEntity();
 
-		// ... verify that the entity can be created by the current user
+		// ... verify the current user has have permissions
 		$this->verifyCreateAuth($entity);
 
-		// ... verify that the entity is in a valid state
-		$this->verifyFormExists($entity);
 
-		// ... verify that the entity is in a valid state
-		$this->verifyValid($entity);
-
-		// ... persist the new entity
-		$form_roles = $this->repo->update($entity);
-		
-		$results = [];
-		foreach ($form_roles as $form_role) {
-			$entity->setState($form_role);
-			$results[] = $this->formatter->__invoke($entity);
+		// Get each item in the collection
+		$entities = [];
+		$form_id = $this->getRequiredIdentifier('form_id');
+		foreach ($this->getPayload('roles') as $role_id) {
+			// .. generate an entity for the item
+			$entity = $this->repo->getEntity(compact('role_id', 'form_id'));
+			// ... verify that the entity is in a valid state
+			$this->verifyValid($entity);
+			// ... and save it for later
+			$entities[] = $entity;
 		}
 
-		$output = [
-			'count'   => count($results),
-			'results' => $results,
-		];
+		// ... persist the new collection
+		$this->repo->updateCollection($entities);
 
-		return $output;
-
+		// ... and finally format it for output
+		return $this->formatter->__invoke($entities);
 	}
-	
+
 }

@@ -199,7 +199,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_roles'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Role_Create'),
-			'update' => $di->lazyNew('Ushahidi_Validator_Form_Role_Update'),
+			'update_collection' => $di->lazyNew('Ushahidi_Validator_Form_Role_Update'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_stages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Create'),
@@ -590,7 +590,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Validator_Form_Role_Update'] = [
 			'setFormRepo' => $di->lazyGet('repository.form'),
 			'setRoleRepo' => $di->lazyGet('repository.role'),
-		];		
+		];
 		$di->setter['Ushahidi_Validator_Media_Create'] = [
 			'setMaxBytes' => $di->lazy(function() {
 				return \Kohana::$config->load('media.max_upload_bytes');

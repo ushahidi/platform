@@ -10,7 +10,7 @@
  */
 
 class Controller_API_Forms_Roles extends Ushahidi_Rest {
-	
+
 	protected $_action_map = array
 	(
 		Http_Request::GET     => 'get',
@@ -41,11 +41,11 @@ class Controller_API_Forms_Roles extends Ushahidi_Rest {
 
 	// Ushahidi_Rest
 	public function action_put_index_collection()
-	{	
-		parent::action_put_index();
-
-		$this->_usecase->setIdentifiers($this->request->param());
-
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'update_collection')
+			->setIdentifiers($this->_identifiers())
+			->setPayload($this->_payload());
 	}
 
 }
