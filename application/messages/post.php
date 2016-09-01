@@ -19,7 +19,8 @@ return [
 	],
 	'stageDoesNotExist' => 'Stage ":param1" does not exist',
 	'stageRequired' => 'Stage ":param1" is required before publishing',
-
+	'postNeedsApprovalBeforePublishing' => "Post needs approval by an administrator before it can be published",
+	'postCanOnlyBeUnpublishedByAdmin' => "Post can only be unpublished by an administrator",
 	'values' => [
 		'date'          => 'The field :param1 must be a date, Given: :param2',
 		'decimal'       => 'The field :param1 must be a decimal with 2 places, Given: :param2',

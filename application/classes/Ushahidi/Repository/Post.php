@@ -815,16 +815,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 
-		// Check if form_id is p
-		if ($entity->form_id && is_numeric($entity->form_id))
-		{
-			$form = $this->form_repo->get($entity->form_id);
-			if (!$form->require_approval)
-			{
-				$post['status'] = 'published';
-			}
-		}
-
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
 
@@ -992,5 +982,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->current();
 
 		return $this->getEntity($result);
+	}
+
+	// PostRepository
+	public function doesPostRequireApproval($formId)
+	{
+		if ($formId)
+		{
+			$form = $this->form_repo->get($formId);
+			return $form->require_approval;
+		}
+
+		return true;
 	}
 }

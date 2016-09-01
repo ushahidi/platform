@@ -18,11 +18,26 @@ use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Traits\Permissions\ManagePosts;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
 class Ushahidi_Validator_Post_Create extends Validator
 {
+	use UserContext;
+
+	// Provides `hasPermission`
+	use PermissionAccess;
+
+	// Checks if user is Admin
+	use AdminAccess;
+
+	// Provides `getPermission`
+	use ManagePosts;
+
 	protected $repo;
 	protected $attribute_repo;
 	protected $stage_repo;
@@ -118,8 +133,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 			'status' => [
 				['in_array', [':value', [
 					'draft',
-					'published'
+					'published',
 				]]],
+				[[$this, 'checkApprovalRequired'], [':validation', ':value', ':data']],
 				[[$this, 'checkPublishedLimit'], [':validation', ':value']]
 			],
 			'type' => [
@@ -139,18 +155,42 @@ class Ushahidi_Validator_Post_Create extends Validator
 		];
 	}
 
-  public function checkPublishedLimit (Validation $validation, $status)
-  {
-    $config = \Kohana::$config->load('features.limits');
+	public function checkPublishedLimit (Validation $validation, $status)
+	{
+		$config = \Kohana::$config->load('features.limits');
 
-    if ($config['posts'] !== TRUE && $status == 'published') {
-      $total_published = $this->repo->getPublishedTotal();
+		if ($config['posts'] !== TRUE && $status == 'published') {
+			$total_published = $this->repo->getPublishedTotal();
 
-      if ($total_published >= $config['posts']) {
-        $validation->error('status', 'publishedPostsLimitReached');
-      }
-    }
-  }
+			if ($total_published >= $config['posts']) {
+				$validation->error('status', 'publishedPostsLimitReached');
+			}
+		}
+	}
+
+	public function checkApprovalRequired (Validation $validation, $status, $data)
+	{
+		// Status hasn't changed, moving on
+		if (!$status) {
+			return;
+		}
+
+		$user = $this->getUser();
+		// Do we have permission to publish this post?
+		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->hasPermission($user));
+		// .. if yes, any status is ok.
+		if ($userCanChangeStatus) {
+			return;
+		}
+
+		// Are we trying to change publish a post that requires approval?
+		if ($this->repo->doesPostRequireApproval($data['form_id']) && $status !== 'draft') {
+			$validation->error('status', 'postNeedsApprovalBeforePublishing');
+		// Are we trying to unpublish or archive an auto-approved post?
+		} elseif (!$this->repo->doesPostRequireApproval($data['form_id']) && $status !== 'published') {
+			$validation->error('status', 'postCanOnlyBeUnpublishedByAdmin');
+		}
+	}
 
 	public function checkTags(Validation $validation, $tags)
 	{

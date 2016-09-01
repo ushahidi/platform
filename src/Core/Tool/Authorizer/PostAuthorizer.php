@@ -125,11 +125,6 @@ class PostAuthorizer implements Authorizer, Permissionable
             return false;
         }
 
-        // Non-admin users are not allowed to change post status
-        if (in_array($privilege, ['create', 'update']) && $entity->hasChanged('status')) {
-            return false;
-        }
-
         // All users are allowed to create and search posts.
         if (in_array($privilege, ['create', 'search'])) {
             return true;

@@ -33,6 +33,17 @@ class CreatePost extends CreateUsecase
 			$entity->setState(['user_id' => $this->auth->getUserId()]);
 		}
 
+		// If status is not set..
+		if (empty($entity->status)) {
+			// .. check if the post requires approval
+			// .. and set a default status
+			if ($this->repo->doesPostRequireApproval($entity->form_id)) {
+				$entity->setState(['status' => 'draft']);
+			} else {
+				$entity->setState(['status' => 'published']);
+			}
+		}
+
 		return $entity;
 	}
 
