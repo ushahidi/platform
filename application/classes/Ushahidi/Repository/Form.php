@@ -28,10 +28,9 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     public function getEntity(Array $data = null)
     {
 	    if (isset($data["id"])) {
-            $has_roles = $this->getRolesThatCanCreatePosts($data['id']);
-            $can_add = $has_roles['roles'];
+            $can_create = $this->getRolesThatCanCreatePosts($data['id']);
             $data = $data + [
-	            'can_add' => $can_add,
+	            'can_create' => $can_create['roles'],
             ];
 	    }
         return new Form($data);
@@ -62,7 +61,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     public function create(Entity $entity)
     {
         // todo ensure default group is created
-        
+
         return parent::create($entity->setState(['created' => time()]));
     }
 
@@ -97,9 +96,9 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             ->join('roles', 'LEFT')
             ->on('roles.id', '=', 'form_roles.role_id')
             ->where('forms.id', '=', $form_id);
-            
+
         $results =  $query->execute($this->db)->as_array();
-		
+
         $everyone_can_create = (count($results) == 0 ? 1 : $results[0]['everyone_can_create']);
 
         $roles = [];
