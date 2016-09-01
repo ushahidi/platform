@@ -51,6 +51,7 @@ class Ushahidi_Repository_Form_Role extends Ushahidi_Repository implements
 		}
 	}
 
+	// FormRoleRepository
 	public function updateCollection(Array $entities)
 	{
 		if (empty($entities)) {

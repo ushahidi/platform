@@ -32,4 +32,9 @@ interface FormRoleRepository extends
 	 */
 	public function existsInFormRole($role_id, $form_id);
 
+	/**
+	 * @param  [Ushahidi\Core\Entity\FormRole, ...]  $entities
+	 * @return [Ushahidi\Core\Entity\FormRole, ...]
+	 */
+	public function updateCollection(Array $entities);
 }
