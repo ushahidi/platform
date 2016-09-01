@@ -213,7 +213,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$status = $search->getFilter('status', 'published');
 		if ($status !== 'all')
 		{
-			$query->where("$table.status", '=', $status);
+			if (!is_array($status)) {
+				$status = explode(',', $status);
+			}
+
+			$query->where("$table.status", 'IN', $status);
 		}
 
 		foreach (['type', 'locale', 'slug'] as $key)

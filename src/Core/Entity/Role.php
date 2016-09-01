@@ -50,6 +50,6 @@ class Role extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return ['name','protected'];
+		return array_merge(parent::getImmutable(), ['name','protected']);
 	}
 }

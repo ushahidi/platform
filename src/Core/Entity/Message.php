@@ -89,7 +89,7 @@ class Message extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return ['id', 'direction', 'parent_id'];
+		return array_merge(parent::getImmutable(), ['direction', 'parent_id']);
 	}
 
 	// StatefulData

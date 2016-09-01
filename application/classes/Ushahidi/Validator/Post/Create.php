@@ -132,8 +132,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'status' => [
 				['in_array', [':value', [
-					'draft',
 					'published',
+					'draft',
+					'archived'
 				]]],
 				[[$this, 'checkApprovalRequired'], [':validation', ':value', ':data']],
 				[[$this, 'checkPublishedLimit'], [':validation', ':value']]

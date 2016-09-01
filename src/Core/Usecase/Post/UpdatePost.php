@@ -32,7 +32,12 @@ class UpdatePost extends UpdateUsecase
 	// UpdateUsecase
 	protected function verifyValid(Entity $entity)
 	{
+		// Force always checking of status
+		$entity_array = $entity->asArray();
+		$status = $entity_array['status'];
+
 		$changed = $entity->getChanged();
+		$changed['status'] = $status;
 
 		if (isset($entity->id)) {
 			$changed['id'] = $entity->id;
@@ -43,6 +48,7 @@ class UpdatePost extends UpdateUsecase
 			$changed['form_id'] = $entity->form_id;
 		}
 		// Always pass values to validation
+
 		if (isset($entity->values)) {
 			$changed['values'] = $entity->values;
 		}
