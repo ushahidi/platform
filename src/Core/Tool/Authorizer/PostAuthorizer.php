@@ -66,7 +66,7 @@ class PostAuthorizer implements Authorizer, Permissionable
 
     // It requires a `PostRepository` to load parent posts too.
     protected $post_repo;
-    
+
     // It requires a `FormRepository` to determine create access.
     protected $form_repo;
 
@@ -117,7 +117,7 @@ class PostAuthorizer implements Authorizer, Permissionable
             ) {
             return false;
         }
-        
+
         // Non-admin users are not allowed to create posts for forms that have restricted access.
         if (in_array($privilege, ['create', 'update'])
             && $this->isFormRestricted($entity, $user)
@@ -185,7 +185,7 @@ class PostAuthorizer implements Authorizer, Permissionable
 
         return false;
     }
-    
+
     /* FormRole */
     protected function isFormRestricted(Entity $entity, $user)
     {
@@ -198,12 +198,12 @@ class PostAuthorizer implements Authorizer, Permissionable
             if ($roles['everyone_can_create'] > 0) {
                 return false;
             }
-    
+
             if (is_array($roles['roles']) && in_array($user->role, $roles['roles'])) {
                 return false;
             }
         }
 
         return true;
-    }   
+    }
 }

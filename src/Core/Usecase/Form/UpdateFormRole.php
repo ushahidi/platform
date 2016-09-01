@@ -68,5 +68,4 @@ class UpdateFormRole extends CreateUsecase
 		// ... and finally format it for output
 		return $this->formatter->__invoke($entities);
 	}
-
 }
