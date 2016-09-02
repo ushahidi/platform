@@ -20,17 +20,13 @@ class FormStage extends StaticEntity
 	protected $label;
 	protected $priority;
 	protected $icon;
-	protected $type;
 	protected $required;
-	protected $description;
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
 			'id'       => 'int',
-			'description' => 'string',
-			'type'     => 'string',
 			'form_id'  => 'int',
 			'label'    => 'string',
 			'priority' => 'int',

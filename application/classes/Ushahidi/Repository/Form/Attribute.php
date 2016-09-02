@@ -52,7 +52,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			'key', 'label', 'input', 'type'
 		] as $key) {
 			if (isset($search->$key)) {
-				$query->where('form_attributes.'.$key, '=', $search->$key);
+				$query->where($key, '=', $search->$key);
 			}
 		}
 

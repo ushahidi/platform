@@ -197,10 +197,6 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Attribute_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Attribute_Update'),
 		];
-		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_roles'] = [
-			'create' => $di->lazyNew('Ushahidi_Validator_Form_Role_Create'),
-			'update_collection' => $di->lazyNew('Ushahidi_Validator_Form_Role_Update'),
-		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_stages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Update'),
@@ -279,7 +275,6 @@ abstract class Ushahidi_Core {
 			'dataproviders'        => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
 			'forms'                => $di->lazyNew('Ushahidi_Formatter_Form'),
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
-			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
 			'form_stages'          => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
 			'layers'               => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
@@ -306,7 +301,6 @@ abstract class Ushahidi_Core {
 			'dataprovider',
 			'form',
 			'form_attribute',
-			'form_role',
 			'form_stage',
 			'layer',
 			'media',
@@ -406,7 +400,6 @@ abstract class Ushahidi_Core {
 		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
-		$di->set('repository.form_role', $di->lazyNew('Ushahidi_Repository_Form_Role'));
 		$di->set('repository.form_stage', $di->lazyNew('Ushahidi_Repository_Form_Stage'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_Form_Attribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
@@ -453,7 +446,6 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Repository_Post'] = [
 				'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
-				'form_repo' => $di->lazyGet('repository.form'),
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox'),
 				'tag_repo' => $di->lazyGet('repository.tag')
@@ -586,10 +578,6 @@ abstract class Ushahidi_Core {
 		// Validator Setters
 		$di->setter['Ushahidi_Validator_Form_Stage_Update'] = [
 			'setFormRepo' => $di->lazyGet('repository.form'),
-		];
-		$di->setter['Ushahidi_Validator_Form_Role_Update'] = [
-			'setFormRepo' => $di->lazyGet('repository.form'),
-			'setRoleRepo' => $di->lazyGet('repository.role'),
 		];
 		$di->setter['Ushahidi_Validator_Media_Create'] = [
 			'setMaxBytes' => $di->lazy(function() {

@@ -29,20 +29,6 @@ interface ValidationEngine
     public function getData($key = null);
 
     /**
-     * Set or reset the full data array to be referenced for validation
-     *
-     * @param Array $data array of data in $key => $value format
-     */
-    public function setFullData(Array $data);
-
-    /**
-     * Get full data by its array key
-     * @param  string $key
-     * @return mixed
-     */
-    public function getFullData($key = null);
-
-    /**
      * Set rules that the validator will apply against the data
      *
      * @return null

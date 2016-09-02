@@ -97,7 +97,13 @@ class UpdateUsecase implements Usecase
 	// ValidatorTrait
 	protected function verifyValid(Entity $entity)
 	{
-		if (!$this->validator->check($entity->getChanged(), $entity->asArray())) {
+		$changed = $entity->getChanged();
+
+		if (isset($entity->id)) {
+			$changed['id'] = $entity->id;
+		}
+
+		if (!$this->validator->check($changed)) {
 			$this->validatorError($entity);
 		}
 	}

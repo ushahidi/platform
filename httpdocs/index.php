@@ -20,21 +20,12 @@ if (PHP_SAPI == 'cli') // Try and load minion
 	Minion_Task::factory(Minion_CLI::options())->execute();
 }
 else
-{	
+{
 	/**
-	 * Some hosters set $_SERVER['ORIG_PATH_INFO'] instead of the more standard
-	 * $_SERVER['PATH_INFO'], we check for that here. Otherwise, let Kohana try to
-	 * automatically detect the URI.
+	 * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
+	 * If no source is specified, the URI will be automatically detected.
 	 */
-	$server_path = TRUE;
-	if (array_key_exists('ORIG_PATH_INFO', $_SERVER)) {
-	  $server_path = $_SERVER['ORIG_PATH_INFO'];
-	}
-	/**
-	 * Execute the main request. Use the URI passed in the first parameter, if not specified
-	 * (defaults to TRUE), we will try to automatically detect the URI.
-	 */
-	echo Request::factory($server_path, array(), FALSE)
+	echo Request::factory(TRUE, array(), FALSE)
 		->execute()
 		->send_headers(TRUE)
 		->body();

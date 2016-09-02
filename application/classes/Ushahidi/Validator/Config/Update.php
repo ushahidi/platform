@@ -19,7 +19,8 @@ class Ushahidi_Validator_Config_Update extends Validator
 
 	protected function getRules()
 	{
-		$config_group = $this->validation_engine->getFullData('id');
+		$data = $this->validation_engine->getData();
+		$config_group = isset($data['id']) ? $data['id'] : false;
 
 		switch($config_group) {
 			case 'site':

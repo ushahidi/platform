@@ -92,112 +92,7 @@ Feature: Testing the Posts API
 		And the "title" property equals "Test post"
 		And the response has a "tags.0.id" property
 		And the "values.missing_date.0" property equals "2016-05-31 00:00:00"
-		And the response has a "status" property
-		And the "status" property equals "draft"
 		Then the guzzle status code should be 200
-
-	@create
-	Scenario: Creating a Post anonymously with no form
-		Given that I want to make a new "Post"
-		And that the request "data" is:
-			"""
-			{
-				"title":"Anonymous Post",
-				"type":"report",
-				"status":"draft",
-				"locale":"en_US",
-				"values":
-				{
-
-				},
-				"tags":["explosion"],
-				"completed_stages":[]
-			}
-			"""
-		When I request "/posts"
-		Then the response is JSON
-		And the response has a "id" property
-		And the type of the "id" property is "numeric"
-		And the response has a "title" property
-		And the "title" property equals "Anonymous Post"
-		Then the guzzle status code should be 200
-
-	@create
-	Scenario: Creating a Post with a restricted Form with an Admin User
-		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testadminuser"
-		And that the request "data" is:
-			"""
-			{
-				"form":2,
-				"title":"Test post",
-				"type":"report",
-				"status":"draft",
-				"locale":"en_US",
-				"values":
-				{
-
-				},
-				"tags":["explosion"],
-				"completed_stages":[]
-			}
-			"""
-		When I request "/posts"
-		Then the response is JSON
-		And the response has a "id" property
-		And the type of the "id" property is "numeric"
-		Then the guzzle status code should be 200
-
-	@create
-	Scenario: Creating a Post with a form that does not require approval
-		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testbasicuser"
-		And that the request "data" is:
-			"""
-			{
-				"form":2,
-				"title":"Test post",
-				"type":"report",
-				"locale":"en_US",
-				"values":
-				{
-
-				},
-				"tags":["explosion"],
-				"completed_stages":[]
-			}
-			"""
-		When I request "/posts"
-		Then the response is JSON
-		And the response has a "id" property
-		And the type of the "id" property is "numeric"
-		And the response has a "status" property
-		And the "status" property equals "published"
-		Then the guzzle status code should be 200
-
-	@create
-	Scenario: Creating a Post with a form that does not require approval but try to set status should fail
-		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testbasicuser"
-		And that the request "data" is:
-			"""
-			{
-				"form":2,
-				"title":"Test post",
-				"type":"report",
-				"status":"draft",
-				"locale":"en_US",
-				"values":
-				{
-
-				},
-				"tags":["explosion"],
-				"completed_stages":[]
-			}
-			"""
-		When I request "/posts"
-		Then the response is JSON
-		Then the guzzle status code should be 422
 
 	@create
 	Scenario: Creating an Post with invalid data returns an error
@@ -303,31 +198,6 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "errors" property
 		Then the guzzle status code should be 422
-
-	@create
-	Scenario: Creating a Post with a restricted Form returns an error
-		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testimporter"
-		And that the request "data" is:
-			"""
-			{
-				"form":2,
-				"title":"Test post",
-				"type":"report",
-				"status":"draft",
-				"locale":"en_US",
-				"values":
-				{
-
-				},
-				"tags":["explosion"],
-				"completed_stages":[]
-			}
-			"""
-		When I request "/posts"
-		Then the response is JSON
-		And the response has a "errors" property
-		Then the guzzle status code should be 403
 
 	@create
 	Scenario: Creating a Post with existing user by ID (authorized as admin user)

@@ -30,7 +30,7 @@ class Post extends StaticEntity
 	protected $content;
 	protected $author_email;
 	protected $author_realname;
-	protected $status;
+	protected $status = 'draft';
 	protected $created;
 	protected $updated;
 	protected $locale;

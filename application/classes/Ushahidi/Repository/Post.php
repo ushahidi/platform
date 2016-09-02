@@ -10,7 +10,6 @@
  */
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\Post;
@@ -53,7 +52,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
-	protected $form_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	protected $tag_repo;
@@ -73,7 +71,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			Database $db,
 			FormAttributeRepository $form_attribute_repo,
 			FormStageRepository $form_stage_repo,
-			FormRepository $form_repo,
 			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory,
 			UpdatePostTagRepository $tag_repo
@@ -83,7 +80,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		$this->form_attribute_repo = $form_attribute_repo;
 		$this->form_stage_repo = $form_stage_repo;
-		$this->form_repo = $form_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
 		$this->tag_repo = $tag_repo;
@@ -213,11 +209,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$status = $search->getFilter('status', 'published');
 		if ($status !== 'all')
 		{
-			if (!is_array($status)) {
-				$status = explode(',', $status);
-			}
-
-			$query->where("$table.status", 'IN', $status);
+			$query->where("$table.status", '=', $status);
 		}
 
 		foreach (['type', 'locale', 'slug'] as $key)
@@ -986,17 +978,5 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->current();
 
 		return $this->getEntity($result);
-	}
-
-	// PostRepository
-	public function doesPostRequireApproval($formId)
-	{
-		if ($formId)
-		{
-			$form = $this->form_repo->get($formId);
-			return $form->require_approval;
-		}
-
-		return true;
 	}
 }
