@@ -46,11 +46,4 @@ class CreatePost extends CreateUsecase
 
 		return $entity;
 	}
-
-	protected function verifyValid(Entity $entity)
-	{
-		if (!$this->validator->check($entity->getChanged())) {
-			$this->validatorError($entity);
-		}
-	}
 }

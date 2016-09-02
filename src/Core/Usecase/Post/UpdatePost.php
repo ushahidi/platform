@@ -32,28 +32,14 @@ class UpdatePost extends UpdateUsecase
 	// UpdateUsecase
 	protected function verifyValid(Entity $entity)
 	{
-		// Force always checking of status
-		$entity_array = $entity->asArray();
-		$status = $entity_array['status'];
-
 		$changed = $entity->getChanged();
-		$changed['status'] = $status;
 
-		if (isset($entity->id)) {
-			$changed['id'] = $entity->id;
-		}
-
-		// Always pass form_id to validation
-		if (isset($entity->form_id)) {
-			$changed['form_id'] = $entity->form_id;
-		}
 		// Always pass values to validation
-
 		if (isset($entity->values)) {
 			$changed['values'] = $entity->values;
 		}
 
-		if (!$this->validator->check($changed)) {
+		if (!$this->validator->check($changed, $entity->asArray())) {
 			$this->validatorError($entity);
 		}
 	}
