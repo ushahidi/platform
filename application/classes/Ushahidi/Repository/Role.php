@@ -156,6 +156,13 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 		if (!$role) { return false; }
 		return (bool) $this->selectCount(['name' => $role]);
 	}
+	
+	// Ushahidi_Repository
+	public function idExists($role_id = null)
+	{
+		if (!$role_id) { return false; }
+		return (bool) $this->selectCount(['id' => $role_id]);
+	}	
 
 	// RoleRepository
 	public function getByName($name)
