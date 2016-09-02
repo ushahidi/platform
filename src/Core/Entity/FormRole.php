@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Form Stage
+ * Ushahidi Form Role
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,35 +13,25 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class FormStage extends StaticEntity
+class FormRole extends StaticEntity
 {
 	protected $id;
 	protected $form_id;
-	protected $label;
-	protected $priority;
-	protected $icon;
-	protected $type;
-	protected $required;
-	protected $description;
+	protected $role_id;
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
 			'id'       => 'int',
-			'description' => 'string',
-			'type'     => 'string',
 			'form_id'  => 'int',
-			'label'    => 'string',
-			'priority' => 'int',
-			'icon'     => 'string',
-			'required' => 'boolean'
+			'role_id'  => 'int'
 		];
 	}
 
 	// Entity
 	public function getResource()
 	{
-		return 'form_stages';
+		return 'form_roles';
 	}
 }

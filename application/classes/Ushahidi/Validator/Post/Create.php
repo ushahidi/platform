@@ -18,11 +18,26 @@ use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Tool\Validator;
+use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Traits\Permissions\ManagePosts;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
 class Ushahidi_Validator_Post_Create extends Validator
 {
+	use UserContext;
+
+	// Provides `hasPermission`
+	use PermissionAccess;
+
+	// Checks if user is Admin
+	use AdminAccess;
+
+	// Provides `getPermission`
+	use ManagePosts;
+
 	protected $repo;
 	protected $attribute_repo;
 	protected $stage_repo;
@@ -69,10 +84,8 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 	protected function getRules()
 	{
-		$input = $this->validation_engine->getData();
-		$parent_id = isset($input['parent_id']) ? $input['parent_id'] : null;
-		$type = isset($input['type']) ? $input['type'] : null;
-		$form_id = isset($input['form_id']) ? $input['form_id'] : null;
+		$parent_id = $this->validation_engine->getFullData('parent_id');
+		$type = $this->validation_engine->getFullData('type');
 
 		return [
 			'title' => [
@@ -99,15 +112,15 @@ class Ushahidi_Validator_Post_Create extends Validator
 				[[$this->form_repo, 'exists'], [':value']],
 			],
 			'values' => [
-				[[$this, 'checkValues'], [':validation', ':value', ':data']],
-				[[$this, 'checkRequiredAttributes'], [':validation', ':value', ':data']],
+				[[$this, 'checkValues'], [':validation', ':value', ':fulldata']],
+				[[$this, 'checkRequiredAttributes'], [':validation', ':value', ':fulldata']],
 			],
 			'tags' => [
 				[[$this, 'checkTags'], [':validation', ':value']],
 			],
 			'user_id' => [
 				[[$this->user_repo, 'exists'], [':value']],
-				[[$this, 'onlyAuthorOrUserSet'], [':value', ':data']],
+				[[$this, 'onlyAuthorOrUserSet'], [':value', ':fulldata']],
 			],
 			'author_email' => [
 				['Valid::email'],
@@ -117,9 +130,11 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'status' => [
 				['in_array', [':value', [
+					'published',
 					'draft',
-					'published'
+					'archived'
 				]]],
+				[[$this, 'checkApprovalRequired'], [':validation', ':value', ':fulldata']],
 				[[$this, 'checkPublishedLimit'], [':validation', ':value']]
 			],
 			'type' => [
@@ -133,24 +148,50 @@ class Ushahidi_Validator_Post_Create extends Validator
 				[[$this->role_repo, 'exists'], [':value']],
 			],
 			'completed_stages' => [
-				[[$this, 'checkStageInForm'], [':validation', ':value', ':data']],
-				[[$this, 'checkRequiredStages'], [':validation', ':value', ':data']]
+				[[$this, 'checkStageInForm'], [':validation', ':value', ':fulldata']],
+				[[$this, 'checkRequiredStages'], [':validation', ':value', ':fulldata']]
 			]
 		];
 	}
 
-  public function checkPublishedLimit (Validation $validation, $status)
-  {
-    $config = \Kohana::$config->load('features.limits');
+	public function checkPublishedLimit (Validation $validation, $status)
+	{
+		$config = \Kohana::$config->load('features.limits');
 
-    if ($config['posts'] !== TRUE && $status == 'published') {
-      $total_published = $this->repo->getPublishedTotal();
+		if ($config['posts'] !== TRUE && $status == 'published') {
+			$total_published = $this->repo->getPublishedTotal();
 
-      if ($total_published >= $config['posts']) {
-        $validation->error('status', 'publishedPostsLimitReached');
-      }
-    }
-  }
+			if ($total_published >= $config['posts']) {
+				$validation->error('status', 'publishedPostsLimitReached');
+			}
+		}
+	}
+
+	public function checkApprovalRequired (Validation $validation, $status, $fullData)
+	{
+		// Status hasn't changed, moving on
+		if (!$status) {
+			return;
+		}
+
+		$user = $this->getUser();
+		// Do we have permission to publish this post?
+		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->hasPermission($user));
+		// .. if yes, any status is ok.
+		if ($userCanChangeStatus) {
+			return;
+		}
+
+		$requireApproval = $this->repo->doesPostRequireApproval($fullData['form_id']);
+
+		// Are we trying to change publish a post that requires approval?
+		if ($requireApproval && $status !== 'draft') {
+			$validation->error('status', 'postNeedsApprovalBeforePublishing');
+		// Are we trying to unpublish or archive an auto-approved post?
+		} elseif (!$requireApproval && $status !== 'published') {
+			$validation->error('status', 'postCanOnlyBeUnpublishedByAdmin');
+		}
+	}
 
 	public function checkTags(Validation $validation, $tags)
 	{
@@ -171,19 +212,19 @@ class Ushahidi_Validator_Post_Create extends Validator
 		}
 	}
 
-	public function checkValues(Validation $validation, $attributes, $data)
+	public function checkValues(Validation $validation, $attributes, $fullData)
 	{
 		if (!$attributes)
 		{
 			return;
 		}
 
-		$post_id = ! empty($data['id']) ? $data['id'] : 0;
+		$post_id = ! empty($fullData['id']) ? $fullData['id'] : 0;
 
 		foreach ($attributes as $key => $values)
 		{
 			// Check attribute exists
-			$attribute = $this->attribute_repo->getByKey($key, $data['form_id'], true);
+			$attribute = $this->attribute_repo->getByKey($key, $fullData['form_id'], true);
 			if (! $attribute->id)
 			{
 				$validation->error('values', 'attributeDoesNotExist', [$key]);
@@ -222,9 +263,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 *
 	 * @param  Validation $validation
 	 * @param  Array      $attributes
-	 * @param  Array      $data
+	 * @param  Array      $fullData
 	 */
-	public function checkStageInForm(Validation $validation, $completed_stages, $data)
+	public function checkStageInForm(Validation $validation, $completed_stages, $fullData)
 	{
 		if (!$completed_stages)
 		{
@@ -234,7 +275,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		foreach ($completed_stages as $stage_id)
 		{
 			// Check stage exists in form
-			if (! $this->stage_repo->existsInForm($stage_id, $data['form_id']))
+			if (! $this->stage_repo->existsInForm($stage_id, $fullData['form_id']))
 			{
 				$validation->error('completed_stages', 'stageDoesNotExist', [$stage_id]);
 				return;
@@ -247,17 +288,17 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 *
 	 * @param  Validation $validation
 	 * @param  Array      $attributes
-	 * @param  Array      $data
+	 * @param  Array      $fullData
 	 */
-	public function checkRequiredStages(Validation $validation, $completed_stages, $data)
+	public function checkRequiredStages(Validation $validation, $completed_stages, $fullData)
 	{
 		$completed_stages = $completed_stages ? $completed_stages : [];
 
 		// If post is being published
-		if ($data['status'] === 'published')
+		if ($fullData['status'] === 'published')
 		{
 			// Load the required stages
-			$required_stages = $this->stage_repo->getRequired($data['form_id']);
+			$required_stages = $this->stage_repo->getRequired($fullData['form_id']);
 			foreach ($required_stages as $stage)
 			{
 				// Check the required stages have been completed
@@ -275,18 +316,18 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 *
 	 * @param  Validation $validation
 	 * @param  Array      $attributes
-	 * @param  Array      $data
+	 * @param  Array      $fullData
 	 */
-	public function checkRequiredAttributes(Validation $validation, $attributes, $data)
+	public function checkRequiredAttributes(Validation $validation, $attributes, $fullData)
 	{
-		if (empty($data['completed_stages']))
+		if (empty($fullData['completed_stages']))
 		{
 			return;
 		}
 
 		// If a stage is being marked completed
 		// Check if the required attribute have been completed
-		foreach ($data['completed_stages'] as $stage_id)
+		foreach ($fullData['completed_stages'] as $stage_id)
 		{
 			// Load the required attributes
 			$required_attributes = $this->attribute_repo->getRequired($stage_id);
@@ -307,11 +348,11 @@ class Ushahidi_Validator_Post_Create extends Validator
 	/**
 	 * Check that only author or user info is set
 	 * @param  int $user_id
-	 * @param  array $data
+	 * @param  array $fullData
 	 * @return Boolean
 	 */
-	public function onlyAuthorOrUserSet($user_id, $data)
+	public function onlyAuthorOrUserSet($user_id, $fullData)
 	{
-		return (empty($user_id) OR (empty($data['author_email']) AND empty($data['author_realname'])) );
+		return (empty($user_id) OR (empty($fullData['author_email']) AND empty($fullData['author_realname'])) );
 	}
 }

@@ -154,7 +154,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response has an "id" property
-        
+
     Scenario: Anonymous user can not access updates with private parent post
         Given that I want to get all "Updates"
         And that the request "Authorization" header is "Bearer testanon"
@@ -435,7 +435,7 @@ Feature: API Access Control Layer
         Then the guzzle status code should be 200
         And the response is JSON
         And the "count" property equals "16"
-    
+
     @rolesEnabled
     Scenario: User with Manage Posts permission can view private posts
         Given that I want to find a "Post"
@@ -462,7 +462,7 @@ Feature: API Access Control Layer
         When I request "/savedsearches"
         Then the response is JSON
         Then the guzzle status code should be 200
-    
+
     @rolesEnabled
     Scenario: User with with Manage Settings permission can update a config
         Given that I want to update a "Config"
@@ -489,7 +489,7 @@ Feature: API Access Control Layer
         And the type of the "count" property is "numeric"
         And the "count" property equals "6"
         Then the guzzle status code should be 200
-    
+
     @rolesEnabled
     Scenario: User with Manage Settings permissions can see all Tags
         Given that I want to get all "Tags"
@@ -520,7 +520,7 @@ Feature: API Access Control Layer
         And the type of the "id" property is "numeric"
         And the "disabled" property is false
         Then the guzzle status code should be 200
-        
+
     @rolesEnabled
     Scenario: User with Manage Users permission can create a user
         Given that I want to make a new "user"
@@ -543,7 +543,7 @@ Feature: API Access Control Layer
         And the "role" property equals "user"
         And the response does not have a "password" property
         Then the guzzle status code should be 200
-    
+
     @rolesEnabled @dataImportEnabled
     Scenario: Uploading a CSV file with the Importer role
         Given that I want to make a new "CSV"
