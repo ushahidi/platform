@@ -59,7 +59,7 @@ class Ushahidi_Validator_Media_Create extends Validator
 		];
 
 		if (!$mime) {
-			$validation->error('mime', 'not_empty');
+			$validation->error('mime', 'mime_not_empty');
 		} else if (!in_array($mime, $allowed_mime_types)) {
 			$validation->error('mime', 'mime_type_not_allowed');
 		}
