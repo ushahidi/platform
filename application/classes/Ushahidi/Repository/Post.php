@@ -146,7 +146,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				$output[$value->key] = [];
 			}
 			if ($value->value !== NULL) {
-				$output[$value->key][] = $value->value;
+				$output[$value->key][] = $value->asArray();
 			}
 		}
 		return $output;

@@ -16,6 +16,13 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
 
+	protected $valueFormatter;
+
+	public function __construct(Formatter $valueFormatter)
+	{
+		$this->valueFormatter = $valueFormatter;
+	}
+
 	protected function get_field_name($field)
 	{
 		$remap = [
@@ -59,6 +66,20 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 		foreach ($tags as $tagid)
 		{
 			$output[] = $this->get_relation('tags', $tagid);
+		}
+
+		return $output;
+	}
+
+	protected function format_values($values)
+	{
+		$output = [];
+		$formatter = $this->valueFormatter;
+		foreach ($values as $key => $attr)
+		{
+			foreach ($attr as $value) {
+				$output[$key][] = $formatter($value);
+			}
 		}
 
 		return $output;

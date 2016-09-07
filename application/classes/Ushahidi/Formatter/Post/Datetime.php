@@ -10,23 +10,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Ushahidi_Formatter_PostValue extends Ushahidi_Formatter_API
+use Ushahidi\Core\Tool\Formatter;
+
+class Ushahidi_Formatter_Post_Datetime implements Formatter
 {
-	protected $map = [];
-
-	public function __construct($map = [])
+	public function __invoke($data)
 	{
-		$this->map = $map;
-	}
-
-	public function __invoke($entity)
-	{
-		if (isset($this->map[$entity->type]))
-		{
-			$formatter = $this->map[$entity->type];
-			return $formatter($entity);
+		if ($data['value']) {
+			return date(DateTime::W3C, strtotime($data['value']));
 		}
-
-		return $entity->value;
+		return null;
 	}
 }
