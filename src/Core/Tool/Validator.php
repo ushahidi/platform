@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Traits\GetSet;
 use Ushahidi\Core\Tool\Validation;
 use Ushahidi\Core\Tool\ValidationEngineTrait;
@@ -36,11 +36,18 @@ abstract class Validator
 	/**
 	 * Check the data against the rules returned by getRules()
 	 *
-	 * @param  Array $input an array of data to check in $key => $value format
+	 * @param  Array $data      an array of changed values to check in $key => $value format
+	 * @param  Array $fullData  an array of full entity data for reference during validation
 	 * @return bool
 	 */
-	public function check(Array $data)
+	public function check(Array $data, Array $fullData = [])
 	{
+		// If no full data is passed, fallback to changed values
+		if (!$fullData) {
+			$fullData = $data;
+		}
+
+		$this->validation_engine->setFullData($fullData);
 		$this->validation_engine->setData($data);
 		$this->attachRules($this->getRules());
 		return $this->validation_engine->check();

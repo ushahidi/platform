@@ -64,11 +64,20 @@ forms:
     name: "Test Form"
     type: "report"
     description: "Testing form"
+    require_approval: 1
+    everyone_can_create: 1
   -
     id: 2
     name: "Missing people"
     type: "report"
     description: "Missing persons"
+    require_approval: 0
+    everyone_can_create: 0
+form_roles:
+  -
+    id: 1
+    form_id: 2
+    role_id: 1
 form_stages:
   -
     id: 1

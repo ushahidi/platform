@@ -31,4 +31,22 @@ class Ushahidi_ValidationEngine extends \Validation implements ValidationEngine
 
         return null;
     }
+
+    public function setFullData(Array $fullData)
+    {
+        $this->bind(':fulldata', $fullData);
+    }
+
+    public function getFullData($key = null)
+    {
+        if ($key === null) {
+            return $this->_bound[':fulldata'];
+        }
+
+        if (array_key_exists($key, $this->_bound[':fulldata'])) {
+            return $this->_bound[':fulldata'][$key];
+        }
+
+        return null;
+    }
 }
