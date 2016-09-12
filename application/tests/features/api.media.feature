@@ -122,5 +122,5 @@ Feature: Testing the Media API
         Then the response is JSON
         And the response has a "errors" property
         Then the "errors.1.message" property equals "File type not supported. Please upload an image file."
-        Then the "errors.2.message" property equals "The file size should be less than 1048576 KB"
+        Then the "errors.2.message" property equals "The file size should be less than 1 MB"
         Then the guzzle status code should be 422
