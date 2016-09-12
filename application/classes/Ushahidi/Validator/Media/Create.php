@@ -41,7 +41,7 @@ class Ushahidi_Validator_Media_Create extends Validator
 			],
 			'o_size' => [
 				['not_empty'],
-				['range', [':value', 0, $this->max_bytes]],
+				[[$this, 'validateSize'], [':validation', ':value']],
 			],
 			'o_width' => [
 				['numeric'],
@@ -50,6 +50,15 @@ class Ushahidi_Validator_Media_Create extends Validator
 				['numeric'],
 			],
 		];
+	}
+
+	public function validateSize($validation, $value)
+	{
+		if ($value <= 0 || $value > $this->max_bytes)
+		{
+			$size_in_mb = ($this->max_bytes / 1024) / 1024;
+			$validation->error('o_size','size_error', [$size_in_mb]);
+		}
 	}
 
 	public function validateMime($validation, $mime)
