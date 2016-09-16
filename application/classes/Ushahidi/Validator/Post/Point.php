@@ -23,30 +23,30 @@ class Ushahidi_Validator_Post_Point extends Ushahidi_Validator_Post_ValueValidat
 			return 'lon';
 		}
 	}
-		
-    private function checkLon($lon)
-    {
-        if (!is_numeric($lon)) {
-            return false;
-        }
 
-        if ($lon < -180 || $lon > 180) {
-            return false;
-        }
+	private function checkLon($lon)
+	{
+		if (!is_numeric($lon)) {
+			return false;
+		}
 
-        return true;
-    }
+		if ($lon < -180 || $lon > 180) {
+			return false;
+		}
 
-    private function checkLat($lat)
-    {
-        if (!is_numeric($lat)) {
-            return false;
-        }
+		return true;
+	}
 
-        if ($lat < -90 || $lat > 90) {
-            return false;
-        }
+	private function checkLat($lat)
+	{
+		if (!is_numeric($lat)) {
+			return false;
+		}
 
-        return true;
-    }
+		if ($lat < -90 || $lat > 90) {
+			return false;
+		}
+
+		return true;
+	}
 }
