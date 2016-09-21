@@ -18,8 +18,8 @@ class Ushahidi_Validator_Form_Create extends Ushahidi_Validator_Form_Update
 	protected function getRules()
 	{
 		return array_merge_recursive(parent::getRules(), [
-			'name' => [['not_empty'],
-			[[$this, 'checkPostTypeLimit'], [':validation']],
+			'values' => [
+				[[$this, 'checkValues'], [':validation', ':value', ':fulldata']],
 		]]);
 	}
 }
