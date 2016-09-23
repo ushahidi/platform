@@ -512,18 +512,6 @@ abstract class Ushahidi_Core {
 			'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
 			];
 
-			$di->params['Ushahidi_Validator_Post_Import'] = [
-				'repo' => $di->lazyGet('repository.post'),
-				'attribute_repo' => $di->lazyGet('repository.form_attribute'),
-				'stage_repo' => $di->lazyGet('repository.form_stage'),
-				'tag_repo' => $di->lazyGet('repository.tag'),
-				'user_repo' => $di->lazyGet('repository.user'),
-				'form_repo' => $di->lazyGet('repository.form'),
-				'role_repo' => $di->lazyGet('repository.role'),
-				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-				'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
-				];
-
 		$di->params['Ushahidi_Validator_Form_Update'] = [
 			'repo' => $di->lazyGet('repository.form'),
 			];
