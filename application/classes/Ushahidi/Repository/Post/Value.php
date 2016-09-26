@@ -47,6 +47,21 @@ abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implem
 		return $query;
 	}
 
+	// Override selectQuery to fetch attribute 'label' too
+	protected function selectExportQuery(Array $where = [])
+	{
+		$query = parent::selectQuery($where);
+
+		// Select 'key' too
+		$query->select(
+				$this->getTable().'.*',
+				'form_attributes.label'
+			)
+			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
+
+		return $query;
+	}
+
 	// PostValueRepository
 	public function get($id, $post_id = null, $form_attribute_id = null)
 	{
@@ -58,6 +73,20 @@ abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implem
 	public function getAllForPost($post_id, Array $include_attributes = [])
 	{
 		$query = $this->selectQuery(compact('post_id'));
+
+		if ($include_attributes) {
+			$query->where('form_attributes.key', 'IN', $include_attributes);
+		}
+
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
+	// ValuesForPostsExportRepository
+	public function getAllForPossExport($post_id, Array $include_attributes = [])
+	{
+		$query = $this->selectExportQuery(compact('post_id'));
 
 		if ($include_attributes) {
 			$query->where('form_attributes.key', 'IN', $include_attributes);
