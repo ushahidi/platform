@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\SearchUsecase;
 
-class exportPost extends SearchUsecase
+class ExportPost extends SearchUsecase
 {
 	// - VerifyParentLoaded for checking that the parent exists
 	use VerifyParentLoaded;
@@ -31,5 +31,47 @@ class exportPost extends SearchUsecase
 			'limit'   => null,
 			'offset'  => 0
 		];
+	}
+
+	// Usecase
+	public function interact()
+	{
+		// Fetch an empty entity...
+		$entity = $this->getEntity();
+
+		// ... verify that the entity can be searched by the current user
+		$this->verifySearchAuth($entity);
+
+		// ... and get the search filters for this entity
+		$search = $this->getSearch();
+
+		// ... pass the search information to the repo
+		$this->repo->setSearchParams($search);
+
+		// ... get the results of the search
+		$results = $this->repo->getSearchResults();
+
+		// ... get the total count for the search
+		$total = $this->repo->getSearchTotal();
+
+		// ... remove any entities that cannot be seen
+		$priv = 'read';
+		foreach ($results as $idx => $entity) {
+			if (!$this->auth->isAllowed($entity, $priv)) {
+				unset($results[$idx]);
+			}
+
+			// Retrieved Attribute Labels for Entity's values
+			$data = $entity->asArray();
+      $data += ['attributes' => $this->repo->getFormAttributes($data['values'])];
+
+			$results[$idx] = $data;
+		}
+
+		// ... pass the search information to the formatter, for paging
+		$this->formatter->setSearch($search, $total);
+
+		// ... and return the formatted results.
+		return $this->formatter->__invoke($results);
 	}
 }
