@@ -63,7 +63,7 @@ class ExportPost extends SearchUsecase
 
 			// Retrieved Attribute Labels for Entity's values
 			$data = $entity->asArray();
-      $data += ['attributes' => $this->repo->getFormAttributes($data['values'])];
+			$data += ['attributes' => $this->repo->getFormAttributes($data['values'])];
 
 			$results[$idx] = $data;
 		}
