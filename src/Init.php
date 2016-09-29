@@ -308,7 +308,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 
 // Add usecase for posts_export
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
-	'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\ExportPost'),
+	'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\Export'),
 ];
 
 // Set up traits for SetsPosts Usecases

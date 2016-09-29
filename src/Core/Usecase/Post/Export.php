@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\SearchUsecase;
 
-class ExportPost extends SearchUsecase
+class Export extends SearchUsecase
 {
 	// - VerifyParentLoaded for checking that the parent exists
 	use VerifyParentLoaded;

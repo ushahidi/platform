@@ -66,7 +66,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 					foreach ($val as $key => $val)
 					{
-						$label = $attributes[$key].'.'.$key;
+						$label = $attributes[$key] ? $attributes[$key].'.'.$key : $key;
 						$this->assignRowValue($record, $label, $val[0]);
 					}
 				}
@@ -166,7 +166,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 					foreach ($val as $key => $val)
 					{
-						$label = $attributes[$key].'.'.$key;
+						$label = $attributes[$key] ? $attributes[$key].'.'.$key : $key;
 						$this->assignColumnHeading($columns, $label, $val[0]);
 					}
 				}
