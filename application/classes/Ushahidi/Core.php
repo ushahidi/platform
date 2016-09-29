@@ -431,6 +431,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
+		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 

@@ -39,7 +39,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	{
 		// Get CSV heading
 		$heading = $this->getCSVHeading($records);
-
 		// Sort the columns from the heading so that they match with the record keys
 		sort($heading);
 
@@ -55,7 +54,8 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 		foreach ($records as $record)
 		{
-			$record = $record->asArray();
+			$attributes = $record['attributes'];
+			unset($record['attributes']);
 
 			foreach ($record as $key => $val)
 			{
@@ -66,7 +66,8 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 					foreach ($val as $key => $val)
 					{
-						$this->assignRowValue($record, $key, $val[0]);
+						$label = $attributes[$key] ? $attributes[$key].'.'.$key : $key;
+						$this->assignRowValue($record, $label, $val[0]);
 					}
 				}
 
@@ -152,16 +153,21 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		// Collect all column headings
 		foreach ($records as $record)
 		{
-			$record = $record->asArray();
+			//$record = $record->asArray();
+
+			$attributes = $record['attributes'];
+			unset($record['attributes']);
 
 			foreach ($record as $key => $val)
 			{
 				// Assign form keys
 				if ($key == 'values')
 				{
+
 					foreach ($val as $key => $val)
 					{
-						$this->assignColumnHeading($columns, $key, $val[0]);
+						$label = $attributes[$key] ? $attributes[$key].'.'.$key : $key;
+						$this->assignColumnHeading($columns, $label, $val[0]);
 					}
 				}
 
