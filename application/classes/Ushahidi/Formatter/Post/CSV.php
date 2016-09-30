@@ -40,7 +40,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		// Get CSV heading
 		$heading = $this->getCSVHeading($records);
 		// Sort the columns from the heading so that they match with the record keys
-		sort($heading);
+		ksort($heading);
+
+		Kohana::$log->add(Log::ERROR, print_r($heading, true));
 
 		// Send response as CSV download
 		header('Access-Control-Allow-Origin: *');
@@ -54,7 +56,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 		foreach ($records as $record)
 		{
-			$attributes = $record['attributes'];
 			unset($record['attributes']);
 
 			foreach ($record as $key => $val)
@@ -66,8 +67,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 					foreach ($val as $key => $val)
 					{
-						$label = $attributes[$key] ? $attributes[$key].'.'.$key : $key;
-						$this->assignRowValue($record, $label, $val[0]);
+						$this->assignRowValue($record, $key, $val[0]);
 					}
 				}
 
@@ -80,11 +80,12 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			}
 
 			// Pad record
-			$missing_keys = array_diff($heading, array_keys($record));
+			$missing_keys = array_diff(array_keys($heading), array_keys($record));
 			$record = array_merge($record, array_fill_keys($missing_keys, null));
 
 			// Sort the keys so that they match with columns from the CSV heading
 			ksort($record);
+			Kohana::$log->add(Log::ERROR, print_r($record, true));
 
 			fputcsv($fp, $record);
 		}
@@ -113,7 +114,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		}
 	}
 
-	private function assignColumnHeading(&$columns, $key, $value)
+	private function assignColumnHeading(&$columns, $key, $label, $value)
 	{
 		if (is_array($value))
 		{
@@ -124,7 +125,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 				if (! in_array($multivalue_key, $columns))
 				{
-					$columns[] = $multivalue_key;
+					$columns[$multivalue_key] = $label.'.'.$sub_key;
 				}
 			}
 		}
@@ -134,7 +135,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		{
 			if (! in_array($key, $columns))
 			{
-				$columns[] = $key;
+				$columns[$key] = $label;
 			}
 		}
 	}
@@ -166,15 +167,15 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 					foreach ($val as $key => $val)
 					{
-						$label = $attributes[$key] ? $attributes[$key].'.'.$key : $key;
-						$this->assignColumnHeading($columns, $label, $val[0]);
+						$label = $attributes[$key];
+						$this->assignColumnHeading($columns, $key, $label, $val[0]);
 					}
 				}
 
 				// Assign post keys
 				else
 				{
-					$this->assignColumnHeading($columns, $key, $val);
+					$this->assignColumnHeading($columns, $key, $key, $val);
 				}
 			}
 		}
