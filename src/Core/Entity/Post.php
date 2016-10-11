@@ -50,7 +50,13 @@ class Post extends StaticEntity
 		return [
 			'slug'    => function ($data) {
 				if (array_key_exists('title', $data)) {
-					return $data['title'] . ' ' . uniqid();
+					// Truncate the title to 137 chars so that the
+					// 13 char uniqid will fit
+					$slug = $data['title'];
+					if (strlen($slug) >= 137) {
+						$slug = substr($slug, 0, 136);
+					}
+					return $slug . ' ' . uniqid();
 				}
 				return false;
 			},
