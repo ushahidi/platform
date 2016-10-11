@@ -898,51 +898,62 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function updatePostTags($post_id, $tags)
 	{
-		// Load existing tags
-		$existing = $this->getTagsForPost($post_id);
-
-		$insert = DB::insert('posts_tags', ['post_id', 'tag_id']);
-
-		$tag_ids = [];
-		$new_tags = FALSE;
-		foreach ($tags as $tag)
-		{
-			if (is_array($tag)) {
-				$tag = $tag['id'];
-			}
-
-			// Find the tag by id or name
-			// @todo this should happen before we even get here
-			$tag_entity = $this->tag_repo->getByTag($tag);
-			if (! $tag_entity->id)
-			{
-				$tag_entity = $this->tag_repo->get($tag);
-			}
-
-			// Does the post already have this tag?
-			if (! in_array($tag_entity->id, $existing))
-			{
-				// Add to insert query
-				$insert->values([$post_id, $tag_entity->id]);
-				$new_tags = TRUE;
-			}
-
-			$tag_ids[] = $tag_entity->id;
-		}
-
-		// Save
-		if ($new_tags)
-		{
-			$insert->execute($this->db);
-		}
-
-		// Remove any other tags
-		if (! empty($tag_ids))
+		// deletes all tags if $tags is empty
+		if (empty($tags))
 		{
 			DB::delete('posts_tags')
-				->where('tag_id', 'NOT IN', $tag_ids)
-				->where('post_id', '=', '$post_id')
+				->where('post_id', '=', $post_id)
 				->execute($this->db);
+		}
+		else 
+		{
+			// Load existing tags
+			$existing = $this->getTagsForPost($post_id);
+
+			$insert = DB::insert('posts_tags', ['post_id', 'tag_id']);
+
+			$tag_ids = [];
+			$new_tags = FALSE;
+
+			foreach ($tags as $tag)
+			{
+				if (is_array($tag)) {
+					$tag = $tag['id'];
+				}
+
+				// Find the tag by id or name
+				// @todo this should happen before we even get here
+				$tag_entity = $this->tag_repo->getByTag($tag);
+				if (! $tag_entity->id)
+				{
+					$tag_entity = $this->tag_repo->get($tag);
+				}
+
+				// Does the post already have this tag?
+				if (! in_array($tag_entity->id, $existing))
+				{
+					// Add to insert query
+					$insert->values([$post_id, $tag_entity->id]);
+					$new_tags = TRUE;
+				}
+
+				$tag_ids[] = $tag_entity->id;
+			}
+
+			// Save
+			if ($new_tags)
+			{
+				$insert->execute($this->db);
+			}
+
+			// Remove any other tags
+			if (! empty($tag_ids))
+			{
+				DB::delete('posts_tags')
+					->where('tag_id', 'NOT IN', $tag_ids)
+					->and_where('post_id', '=', $post_id)
+					->execute($this->db);
+			}
 		}
 	}
 
