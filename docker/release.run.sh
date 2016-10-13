@@ -23,10 +23,10 @@ ghr() {
 
 if ghr info --tag $GITHUB_VERSION ; then
   # release already exists
-  ghr edit --tag $GITHUB_VERSION --name $GITHUB_VERSION --pre-release
+  echo "Release already exists, leaving it alone"
 else
   # release has to be created
-  ghr release --tag $GITHUB_VERSION --name $GITHUB_VERSION --pre-release
+  ghr release --tag $GITHUB_VERSION --name $GITHUB_VERSION
 fi
 
 for f in $(find /release -type f); do

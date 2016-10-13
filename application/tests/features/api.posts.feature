@@ -463,6 +463,92 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@update
+	Scenario: Updating a Post to update tags
+		Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Updated Test Post",
+				"type":"report",
+				"status":"published",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"last_location_point":[
+						{
+							"lat": 33.755,
+							"lon": -85.39
+						}
+					],
+					"missing_status":["believed_missing"]
+				},
+				"tags":["disaster"],
+				"completed_stages":[1]
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the "id" property equals "1"
+		And the response has a "tags.0.id" property
+		And the response does not have a "tags.1.id" property
+		And the response has a "title" property
+		And the "title" property equals "Updated Test Post"
+		And the "values.last_location_point.0.lon" property equals "-85.39"
+		Then the guzzle status code should be 200
+
+	@update
+	Scenario: Updating a Post to remove all tags
+		Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Updated Test Post",
+				"type":"report",
+				"status":"published",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"last_location_point":[
+						{
+							"lat": 33.755,
+							"lon": -85.39
+						}
+					],
+					"missing_status":["believed_missing"]
+				},
+				"tags":[],
+				"completed_stages":[1]
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the "id" property equals "1"
+		And the response has a "tags" property
+		And the "tags" property is empty
+		And the response has a "title" property
+		And the "title" property equals "Updated Test Post"
+		And the "values.last_location_point.0.lon" property equals "-85.39"
+		Then the guzzle status code should be 200
+
+	@update
 	Scenario: Updating a Post using JSON date formate
 		Given that I want to update a "Post"
 		And that the request "data" is:
