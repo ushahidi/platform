@@ -819,7 +819,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 		// Convert post_date to mysql format
-		if($post['post_date']) {
+		if(array_key_exists('post_date', $post)) {
 				$post['post_date'] = date("Y-m-d H:i:s", strtotime($post['post_date']));
 		}
 
@@ -862,7 +862,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
 		// Convert post_date to mysql format
-		if($post['post_date']) {
+		if(array_key_exists('post_date', $post)) {
 				$post['post_date'] = date("Y-m-d H:i:s", strtotime($post['post_date']));
 		}
 
