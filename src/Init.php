@@ -169,7 +169,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'csv'                  => $di->lazyGet('repository.csv'),
 	'roles'                => $di->lazyGet('repository.role'),
 	'permissions'          => $di->lazyGet('repository.permission'),
-	'posts_export'         => $di->lazyGet('repository.post'),
+	'posts_export'         => $di->lazyGet('repository.posts_export'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -308,7 +308,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 
 // Add usecase for posts_export
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
-	'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
+	'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\Export'),
 ];
 
 // Set up traits for SetsPosts Usecases
