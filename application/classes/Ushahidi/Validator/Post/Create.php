@@ -115,6 +115,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 				[[$this, 'checkValues'], [':validation', ':value', ':fulldata']],
 				[[$this, 'checkRequiredAttributes'], [':validation', ':value', ':fulldata']],
 			],
+			'post_date' => [
+				['Valid::date'],
+			],
 			'tags' => [
 				[[$this, 'checkTags'], [':validation', ':value']],
 			],
