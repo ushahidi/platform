@@ -807,12 +807,12 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
-	Scenario: Listing posts should default to sorting by created date (asc)
+	Scenario: Listing posts should default to sorting by post date (asc)
 		Given that I want to get all "Posts"
 		When I request "/posts"
 		Then the response is JSON
-		And the "order" property equals "asc"
-		And the "orderby" property equals "created"
+		And the "order" property equals "desc"
+		And the "orderby" property equals "post_date"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
