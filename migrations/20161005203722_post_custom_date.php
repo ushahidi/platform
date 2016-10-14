@@ -14,6 +14,9 @@ class PostCustomDate extends AbstractMigration
               'null' => true,
               ])
           ->update();
+
+        // Set default values for post_date
+        $this->execute("UPDATE posts SET post_date = FROM_UNIXTIME(created);");
     }
 
     /**
