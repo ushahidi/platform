@@ -97,6 +97,24 @@ class Post extends StaticEntity
 	}
 
 	// StatefulData
+	protected function setStateValue($key, $value)
+	{
+		// Transform post date field
+		if ($key === 'post_date') {
+			$value = $this->transformPostDate($value);
+		}
+		parent::setStateValue($key, $value);
+	}
+
+	protected function transformPostDate($value)
+	{
+		// Convert post_date to mysql format
+		if($value) {
+				$value = date("Y-m-d H:i:s", strtotime($value));
+		}
+		return $value;
+	}
+	// StatefulData
 	protected function getImmutable()
 	{
 		return array_merge(parent::getImmutable(), ['type', 'form_id']);
