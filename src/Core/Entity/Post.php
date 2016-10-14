@@ -109,7 +109,7 @@ class Post extends StaticEntity
 	protected function transformPostDate($value)
 	{
 		// Convert post_date to mysql format
-		if($value) {
+		if ($value) {
 				$value = date("Y-m-d H:i:s", strtotime($value));
 		}
 		return $value;
