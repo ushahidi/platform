@@ -80,7 +80,7 @@ class Post extends StaticEntity
 			'status'          => 'string',
 			'created'         => 'int',
 			'updated'         => 'int',
-			'post_date'       => 'string',
+			'post_date'       => '*date',
 			'locale'          => '*lowercasestring',
 			'values'          => 'array',
 			'tags'            => 'array',
@@ -96,24 +96,6 @@ class Post extends StaticEntity
 		return 'posts';
 	}
 
-	// StatefulData
-	protected function setStateValue($key, $value)
-	{
-		// Transform post date field
-		if ($key === 'post_date') {
-			$value = $this->transformPostDate($value);
-		}
-		parent::setStateValue($key, $value);
-	}
-
-	protected function transformPostDate($value)
-	{
-		// Convert post_date to mysql format
-		if ($value) {
-				$value = date("Y-m-d H:i:s", strtotime($value));
-		}
-		return $value;
-	}
 	// StatefulData
 	protected function getImmutable()
 	{

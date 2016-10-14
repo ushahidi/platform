@@ -45,7 +45,7 @@ abstract class StaticEntity implements Entity
 	}
 
 	// StatefulData
-	protected function setStateValue($key, $value)
+	final protected function setStateValue($key, $value)
 	{
 		if (property_exists($this, $key)) {
 			$this->$key = $value;

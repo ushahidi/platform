@@ -116,7 +116,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 				[[$this, 'checkRequiredAttributes'], [':validation', ':value', ':fulldata']],
 			],
 			'post_date' => [
-				['Valid::date'],
+				[[$this, 'validDate'], [':value']],
 			],
 			'tags' => [
 				[[$this, 'checkTags'], [':validation', ':value']],
@@ -357,5 +357,13 @@ class Ushahidi_Validator_Post_Create extends Validator
 	public function onlyAuthorOrUserSet($user_id, $fullData)
 	{
 		return (empty($user_id) OR (empty($fullData['author_email']) AND empty($fullData['author_realname'])) );
+	}
+
+	public function validDate($str)
+	{
+		if ($str instanceof \DateTimeInterface) {
+			return true;
+		}
+		return (strtotime($str) !== FALSE);
 	}
 }
