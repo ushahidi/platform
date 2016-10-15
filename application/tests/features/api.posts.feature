@@ -14,6 +14,7 @@ Feature: Testing the Posts API
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
+				"post_date": "2016-10-15T12:18:27+13:00",
 				"values":
 				{
 					"full_name":["David Kobia"],
@@ -47,6 +48,7 @@ Feature: Testing the Posts API
 		And the "values.geometry_test" property contains "POLYGON((0 0,1 1,2 2,0 0))"
 		And the "values.links.0" property equals "http://google.com"
 		And the "completed_stages" property contains "1"
+		And the "post_date" property equals "2016-10-14T23:18:27+00:00"
 		Then the guzzle status code should be 200
 
 	@create
@@ -1327,4 +1329,4 @@ Feature: Testing the Posts API
 		And the response has an "errors" property
 		And the response has an "errors.1.title" property
 		And the "errors.1.title" property equals "the field Last Location (point) must contain a valid longitude"
-		Then the guzzle status code should be 422	
+		Then the guzzle status code should be 422
