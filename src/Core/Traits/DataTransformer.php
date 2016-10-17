@@ -110,6 +110,27 @@ trait DataTransformer
 		return strtotime($value);
 	}
 
+
+	/**
+	 * Transforms a date(time) string to a PHP Date
+	 *
+	 * @param  String|DateTimeInterface $value
+	 * @return DateTimeInterface
+	 */
+	protected function transformDate($value)
+	{
+		// If this is already a DateTime object clone it
+		if ($value instanceof \DateTimeInterface) {
+			$value = clone $value;
+		} else {
+			// Convert post_date to DateTime
+			$value = date_create($value, new \DateTimeZone('UTC'));
+		}
+		// Always use UTC
+		$value->setTimezone(new \DateTimeZone('UTC'));
+		return $value;
+	}
+
 	/**
 	 * Transforms a string to a lowercase string.
 	 *

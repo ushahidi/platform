@@ -819,6 +819,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 
+		// Set default value for post_date
+		if (empty($post['post_date'])) {
+			$post['post_date'] = date_create()->format("Y-m-d H:i:s");
+		// Convert post_date to mysql format
+		} else  {
+			$post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
+		}
+
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
 
@@ -852,7 +860,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 
-		// Update the post
+		// Convert post_date to mysql format
+		if(!empty($post['post_date'])) {
+			$post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
+		}
+
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
 		if ($entity->hasChanged('tags'))
