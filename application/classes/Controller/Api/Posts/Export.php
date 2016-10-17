@@ -33,7 +33,6 @@ class Controller_Api_Posts_Export extends Ushahidi_Rest
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'export')
 			->setFilters($this->_filters());
-
 		// ...or use a different one if requested
 		$format = strtolower($this->request->query('format'));
 

@@ -106,12 +106,17 @@ class ImportUsecase implements Usecase
 		// ... verify that the entity can be created by the current user
 		$this->verifyImportAuth($entity);
 
+	 	$created_entities = array();
 		// Fetch a record
 		foreach ($this->payload as $index => $record) {
 
 			// ... transform record
 			$entity = $this->transform($record);
 
+			// Ensure that under review is correctly mapped to draft
+			if (strcasecmp($entity->status, 'under review')== 0) {
+				$entity->setState(['status' => 'draft']);
+			}
 			// ... verify that the entity can be created by the current user
 			$this->verifyCreateAuth($entity);
 
@@ -120,12 +125,13 @@ class ImportUsecase implements Usecase
 
 			// ... persist the new entity
 			$id = $this->repo->create($entity);
-
+			$created_entities[] = $id;
 			$processed++;
 		}
 
 		// ... and return the formatted entity
 		return [
+			'created_ids' => $created_entities,
 			'processed' => $processed,
 			'errors' => $errors
 		];

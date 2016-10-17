@@ -63,4 +63,9 @@ class Ushahidi_Formatter_Post extends Ushahidi_Formatter_API
 
 		return $output;
 	}
+
+	protected function format_post_date($value)
+	{
+		return $value ? $value->format(DateTime::W3C) : NULL;
+	}
 }

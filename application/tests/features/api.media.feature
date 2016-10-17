@@ -113,3 +113,14 @@ Feature: Testing the Media API
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 404
+
+    Scenario: Fail to create a new Media with size greater than limit
+        Given that I want to make a new "Media"
+        And that the post field "caption" is "ihub"
+        And that the post file "file" is "tests/datasets/ushahidi/sample-large.png"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the "errors.1.message" property equals "File type not supported. Please upload an image file."
+        Then the "errors.2.message" property equals "The file size should be less than 1 MB"
+        Then the guzzle status code should be 422
