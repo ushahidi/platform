@@ -42,7 +42,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		// Sort the columns from the heading so that they match with the record keys
 		ksort($heading);
 
-		Kohana::$log->add(Log::ERROR, print_r($heading, true));
+		Kohana::$log->add(Log::INFO, print_r($heading, true));
 
 		// Send response as CSV download
 		header('Access-Control-Allow-Origin: *');
