@@ -58,6 +58,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		{
 			unset($record['attributes']);
 
+			// Transform post_date to a string
+			$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
+
 			foreach ($record as $key => $val)
 			{
 				// Assign form values
