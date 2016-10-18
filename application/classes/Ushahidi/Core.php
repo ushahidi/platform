@@ -212,6 +212,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['media'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Media_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Media_Update'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Media_Delete'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
