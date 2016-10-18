@@ -273,6 +273,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1364009953
+    post_date: "2013-03-22 20:39:13"
   -
     id: 99
     form_id: 1
@@ -285,6 +286,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1378018880
+    post_date: "2013-09-01 00:01:20"
   -
     id: 9999
     form_id:
@@ -297,6 +299,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1412007022
+    post_date: "2014-09-29 09:10:22"
   -
     id: 95
     form_id: 1
@@ -309,6 +312,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1373838515
+    post_date: "2013-07-14 14:48:35"
   -
     id: 97
     form_id: 1
@@ -321,6 +325,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1354628171
+    post_date: "2012-12-04 05:36:11"
   -
     id: 96
     form_id: 1
@@ -333,6 +338,7 @@ posts:
     published_to: "[]"
     locale: "fr_fr"
     created: 1384762238
+    post_date: null
   -
     id: 101
     form_id: 1
@@ -345,6 +351,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1362747895
+    post_date: "2013-03-08 05:04:55"
   -
     id: 102
     form_id: 2
@@ -357,6 +364,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1403169957
+    post_date: "2014-06-19 02:25:57"
   -
     id: 103
     form_id: 1
@@ -369,6 +377,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1363791760
+    post_date: "2013-03-20 08:02:40"
   -
     id: 104
     form_id: 1
@@ -381,6 +390,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1390417375
+    post_date: "2014-01-22 11:02:55"
   -
     id: 105
     form_id: 1
@@ -393,6 +403,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1373006165
+    post_date: "2013-07-04 23:36:05"
   -
     id: 106
     form_id: 1
@@ -405,6 +416,7 @@ posts:
     published_to: "[]"
     locale: "fr_fr"
     created: 1408165751
+    post_date: "2014-08-15 22:09:11"
   -
     id: 107
     form_id: 1
@@ -417,6 +429,7 @@ posts:
     published_to: "[]"
     locale: "fr_fr"
     created: 1367599079
+    post_date: "2013-05-03 09:37:59"
   -
     id: 108
     form_id: 1
@@ -429,6 +442,7 @@ posts:
     published_to: "[]"
     locale: "ar_ar"
     created: 1404089791
+    post_date: "2014-06-29 17:56:31"
   -
     id: 110
     form_id: 1
@@ -441,6 +455,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1355743120
+    post_date: "2012-12-17 03:18:40"
   -
     id: 111
     form_id: 1
@@ -453,6 +468,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1398774435
+    post_date: "2014-04-29 05:27:15"
   -
     id: 112
     form_id: 1
@@ -465,6 +481,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1408607443
+    post_date: "2014-08-21 00:50:43"
   -
     id: 113
     form_id: 1
@@ -477,6 +494,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1404996921
+    post_date: "2014-07-10 05:55:21"
   -
     id: 114
     form_id: 1
@@ -489,6 +507,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1411884027
+    post_date: "2014-09-27 23:00:27"
   -
     id: 115
     form_id: 1
@@ -501,6 +520,7 @@ posts:
     published_to: "[]"
     locale: "fr_fr"
     created: 1411907883
+    post_date: "2014-09-28 05:38:03"
   -
     id: 116
     form_id: 1
@@ -513,6 +533,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1411911360
+    post_date: "2014-04-29 05:27:15"
   -
     id: 117
     form_id: 1
@@ -525,6 +546,7 @@ posts:
     published_to: "[]"
     locale: "en_us"
     created: 1412005016
+    post_date: "2014-09-29 08:36:56"
   -
     id: 120
     form_id: 1
@@ -537,6 +559,7 @@ posts:
     locale: "en_us"
     created: 1412025016
     published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
 post_datetime:
 post_decimal:
 post_geometry:
