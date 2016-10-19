@@ -84,6 +84,14 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 	protected function getRules()
 	{
+		// Hack to avoid Kohana Validation trying to convert post_date into a string
+		$fullData = $this->validation_engine->getFullData();
+		if ($fullData['post_date']) {
+			$fullData['post_date'] = $fullData['post_date']->format('Y-m-d H:i:s');
+			$this->validation_engine->setFullData($fullData);
+		}
+		// End hack
+
 		$parent_id = $this->validation_engine->getFullData('parent_id');
 		$type = $this->validation_engine->getFullData('type');
 
