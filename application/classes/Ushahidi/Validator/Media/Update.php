@@ -23,7 +23,19 @@ class Ushahidi_Validator_Media_Update extends Validator
 			'caption' => [
 				// alphas, numbers, punctuation, and spaces
 				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
-			]
+			],
+			'mime' => [
+				[[$this, 'validateMime'], [':validation', ':value']],
+			],
+			'o_size' => [
+				[[$this, 'validateSize'], [':validation', ':value']],
+			],
+			'o_width' => [
+				['numeric'],
+			],
+			'o_height' => [
+				['numeric'],
+			],
 		];
 	}
 }
