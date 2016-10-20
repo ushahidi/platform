@@ -249,6 +249,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
 // Media create requires file uploading as part of the payload.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['media'] = [
 	'create' => $di->lazyNew('Ushahidi\Core\Usecase\Media\CreateMedia'),
+	'update' => $di->lazyNew('Ushahidi\Core\Usecase\UpdateUsecase'),
 ];
 $di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setUploader'] = $di->lazyGet('tool.uploader');
 $di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setFilesystem'] = $di->lazyGet('tool.filesystem');
