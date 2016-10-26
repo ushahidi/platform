@@ -635,4 +635,16 @@ class RestContext extends BehatContext
 		$this->_restObjectMethod = 'get';
 	}
 
+	/**
+	 * @Given /^that I want to bulk update "([^"]*)"$/
+	 */
+	public function thatIWantToBulkUpdate($objectType)
+	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+
+		$this->_restObjectType   = ucwords(strtolower($objectType));
+		$this->_restObjectMethod = 'post';
+	}
+
 }

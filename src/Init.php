@@ -131,6 +131,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'media'                => $di->lazyGet('authorizer.media'),
 	'messages'             => $di->lazyGet('authorizer.message'),
 	'posts'                => $di->lazyGet('authorizer.post'),
+	'posts_bulk'           => $di->lazyGet('authorizer.post_bulk'),
 	'tags'                 => $di->lazyGet('authorizer.tag'),
 	'sets'                 => $di->lazyGet('authorizer.set'),
 	'sets_posts'           => $di->lazyGet('authorizer.post'),
@@ -159,6 +160,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'media'                => $di->lazyGet('repository.media'),
 	'messages'             => $di->lazyGet('repository.message'),
 	'posts'                => $di->lazyGet('repository.post'),
+	'posts_bulk'           => $di->lazyGet('repository.post'),
 	'tags'                 => $di->lazyGet('repository.tag'),
 	'sets'                 => $di->lazyGet('repository.set'),
 	'sets_posts'           => $di->lazyGet('repository.post'),
@@ -288,6 +290,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
 ];
 
+// Add custom usecases for posts_bulk
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_bulk'] = [
+	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePostBulk'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
+];
+
 // Add custom create usecase for notifications
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification')
@@ -385,5 +393,7 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	'form_repo' => $di->lazyGet('repository.form'),
 	];
+
+$di->set('authorizer.post_bulk', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostBulkAuthorizer'));
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));

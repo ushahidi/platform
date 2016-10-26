@@ -285,6 +285,7 @@ abstract class Ushahidi_Core {
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
 			'posts'                => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'posts_bulk'           => $di->lazyNew('Ushahidi_Formatter_Post_Bulk'),
 			'tags'                 => $di->lazyNew('Ushahidi_Formatter_Tag'),
 			'savedsearches'        => $di->lazyNew('Ushahidi_Formatter_Set'),
 			'sets'                 => $di->lazyNew('Ushahidi_Formatter_Set'),

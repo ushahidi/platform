@@ -100,6 +100,19 @@ Route::set('geojson', $apiBase . 'posts/geojson(/<zoom>/<x>/<y>)',
 	));
 
 /**
+ * Posts Bulk API SubRoute
+ */
+Route::set('posts-bulk', $apiBase . 'posts/bulk/<action>',
+	array(
+		'action' => '(?:update|delete)',
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'controller' => 'Bulk',
+		'directory'  => 'Api/Posts'
+	));
+
+/**
  * GeoJSON API SubRoute
  */
 Route::set('geojson-post-id', $apiBase . 'posts/<id>/geojson',
