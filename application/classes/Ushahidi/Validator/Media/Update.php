@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+ <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * Ushahidi Media Validator
@@ -12,7 +12,7 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Media_Update extends Validator
+class Ushahidi_Validator_Media_Update extends Ushahidi_Validator_Media_Create
 {
 	protected function getRules()
 	{
@@ -23,19 +23,7 @@ class Ushahidi_Validator_Media_Update extends Validator
 			'caption' => [
 				// alphas, numbers, punctuation, and spaces
 				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
-			],
-			'mime' => [
-				[[$this, 'validateMime'], [':validation', ':value']],
-			],
-			'o_size' => [
-				[[$this, 'validateSize'], [':validation', ':value']],
-			],
-			'o_width' => [
-				['numeric'],
-			],
-			'o_height' => [
-				['numeric'],
-			],
+			]
 		];
 	}
 }
