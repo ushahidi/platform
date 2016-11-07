@@ -53,21 +53,17 @@ class Log_Raven extends Log_Writer {
             {
                 // Write each message into the log file
                 // Format: time --- level: body
-                $this->raven->getIdent(
-                    $this->raven->captureException($message['additional']['exception'])
-                );
+                $this->raven->captureException($message['additional']['exception']);
             } else {
                 // Write each message into the log file
                 // Format: time --- level: body
-                $this->raven->getIdent(
-                    $this->raven->captureMessage(
-                        $this->format_message($message),
-                        $message,
-                        [
-                            'level' => $this->mapRavenLevel($message['level'])
-                        ],
-                        $message['trace']
-                    )
+                $this->raven->captureMessage(
+                    $this->format_message($message),
+                    $message,
+                    [
+                        'level' => $this->mapRavenLevel($message['level'])
+                    ],
+                    $message['trace']
                 );
             }
         }
