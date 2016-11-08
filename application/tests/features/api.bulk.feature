@@ -8,11 +8,13 @@ Feature: Testing the Posts Bulk Action API
 		And that the request "data" is:
 			"""
 			{
-				"action": {
+				"actions": {
 					"status": "draft"
 				},
 				"filters": {
-					"tags[any]": [3,4]
+					"tags": {
+						"any": [3,4]
+					}
 				}
 
 			}
@@ -27,11 +29,13 @@ Feature: Testing the Posts Bulk Action API
 		And that the request "data" is:
 			"""
 			{
-				"action": {
+				"actions": {
 					"status": "draft"
 				},
 				"filters": {
-					"tags[any]": [3,4]
+					"tags": {
+						"all": [3,4]
+					}
 				}
 
 			}
@@ -40,7 +44,69 @@ Feature: Testing the Posts Bulk Action API
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
 		And the "count" property equals "1"
+		And the response has a "actions.status" property
+		And the "actions.status" property equals "draft"
 		Then the guzzle status code should be 200
+
+	@create
+	Scenario: Updating status of Posts with an invalid status
+		Given that I want to bulk update "Post"
+		And that the request "Authorization" header is "Bearer testmanager"
+		And that the request "data" is:
+			"""
+			{
+				"actions": {
+					"status": "dkflsk"
+				},
+				"filters": {
+					"tags": {
+						"all": [3,4]
+					}
+				}
+
+			}
+			"""
+		When I request "/posts/bulk/update"
+		Then the guzzle status code should be 400
+
+	@create
+	Scenario: Updating status of Posts with an invalid filter
+		Given that I want to bulk update "Post"
+		And that the request "Authorization" header is "Bearer testmanager"
+		And that the request "data" is:
+			"""
+			{
+				"actions": {
+					"status": "draft"
+				},
+				"filters": {
+					"maps_id": 4
+				}
+
+			}
+			"""
+		When I request "/posts/bulk/update"
+		Then the guzzle status code should be 400
+
+	@create
+	Scenario: Updating status of Posts with a malformed payload
+		Given that I want to bulk update "Post"
+		And that the request "Authorization" header is "Bearer testmanager"
+		And that the request "data" is:
+			"""
+			{
+				"actions": {
+					"status": "dkflsk"
+				},
+				"filter": {
+					"tags": {
+						"all": [3,4]
+					}
+
+			}
+			"""
+		When I request "/posts/bulk/update"
+		Then the guzzle status code should be 400
 
 	@search
 	Scenario: Check status of Posts after update
@@ -48,13 +114,13 @@ Feature: Testing the Posts Bulk Action API
 		And that the request "Authorization" header is "Bearer testadminuser"
 		And that the request "query string" is:
 			"""
-			tags[any]=3,4
+			tags[all]=3,4
 			"""
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "2"
+		And the "count" property equals "1"
 		And the response has a "results.0.id" property
 		And the "results.0.id" property equals "99"
 		And the response has a "results.0.status" property
@@ -72,11 +138,13 @@ Feature: Testing the Posts Bulk Action API
 		And that the request "data" is:
 			"""
 			{
-				"action": {
+				"actions": {
 					"status": "draft"
 				},
 				"filters": {
-					"tags[any]": [3,4]
+					"tags": {
+						"any": [3,4]
+					}
 				}
 
 			}

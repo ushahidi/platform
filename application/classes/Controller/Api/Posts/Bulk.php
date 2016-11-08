@@ -23,6 +23,11 @@ class Controller_Api_Posts_Bulk extends Ushahidi_Rest {
 	 */
 	protected $_type = 'report';
 
+	protected function _resource()
+	{
+		return 'posts_bulk';
+	}
+
 	// Ushahidi_Rest
 	protected function _scope()
 	{
@@ -38,20 +43,10 @@ class Controller_Api_Posts_Bulk extends Ushahidi_Rest {
 	}
 
 	// Ushahidi_Rest
-	protected function _filters()
-	{
-		return parent::_filters() + [
-			'type'      => $this->_type,
-			'parent'    => $this->request->param('parent_id', null),
-		];
-	}
-
-	// Ushahidi_Rest
 	protected function _payload()
 	{
 		return parent::_payload() + [
 			'type'      => $this->_type,
-			'parent_id' => $this->request->param('parent_id', null),
 		];
 	}
 
@@ -65,7 +60,8 @@ class Controller_Api_Posts_Bulk extends Ushahidi_Rest {
 	public function action_post_update_collection()
 	{
 		$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'update');
+			->get($this->_resource(), 'update')
+			->setPayload($this->_payload());
 	}
 
 	/**
@@ -78,7 +74,6 @@ class Controller_Api_Posts_Bulk extends Ushahidi_Rest {
 	public function action_post_delete_collection()
 	{
 		$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'delete')
-			->setFilters($this->_filters());
+			->get($this->_resource(), 'delete');
 	}
 }

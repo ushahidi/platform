@@ -11,17 +11,19 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
-use Ushahidi\Core\Usecase\SearchUsecase;
+use Ushahidi\Core\Usecase\BulkUsecase;
 
-class UpdatePostBulk extends SearchUsecase
+class UpdatePostBulk extends BulkUsecase
 {
-	// - VerifyParentLoaded for checking that the parent exists
-	use VerifyParentLoaded;
-
-	// Usecase
-	public function isSearch()
+	/**
+	 * Execute actions against the result set
+	 *
+	 * @return null
+	 */
+	protected function executeActions($results)
 	{
-		return false;
+		$actions = $this->getActions();
+		return $this->repo->bulkUpdate($results, $actions);
 	}
 
 }

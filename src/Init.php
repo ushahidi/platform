@@ -194,6 +194,8 @@ $di->set('factory.data', $di->lazyNew('Ushahidi\Factory\DataFactory'));
 // Usecases that perform searches are the most typical usage of data objects.
 $di->params['Ushahidi\Factory\DataFactory']['actions'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\SearchData'),
+	'update' => $di->lazyNew('Ushahidi\Core\SearchData'),
+	'delete' => $di->lazyNew('Ushahidi\Core\SearchData'),
 	'stats'  => $di->lazyNew('Ushahidi\Core\SearchData'),
 	'export'  => $di->lazyNew('Ushahidi\Core\SearchData'),
 ];
@@ -293,7 +295,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 // Add custom usecases for posts_bulk
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_bulk'] = [
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePostBulk'),
-	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePostBulk'),
 ];
 
 // Add custom create usecase for notifications
