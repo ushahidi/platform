@@ -1396,6 +1396,58 @@ Feature: Testing the Posts API
 		And the "errors.1.title" property equals "the field Last Location (point) must contain a valid longitude"
 		Then the guzzle status code should be 422
 
+		@create
+		Scenario: Creating a new Post with invalid video field type
+			Given that I want to make a new "Post"
+			And that the request "data" is:
+				"""
+				{
+					"form":3,
+					"title":"Test video post",
+					"author_realname": "Robbie Mackay",
+					"author_email": "someotherrobbie@test.com",
+					"type":"report",
+					"status":"draft",
+					"locale":"en_US",
+					"values":
+					{
+						"video_field":["https://www.yourtube.com/watch/12345"]
+					}
+				}
+				"""
+			When I request "/posts"
+			Then the response is JSON
+			And the response has an "errors" property
+			And the response has an "errors.1.title" property
+			And the "errors.1.title" property equals "The field Video must be either a youtube or vimeo url, Given: https://www.yourtube.com/watch/12345"
+			Then the guzzle status code should be 422
+
+		@create
+		Scenario: Creating a new Post with invalid video url
+			Given that I want to make a new "Post"
+			And that the request "data" is:
+				"""
+				{
+					"form":3,
+					"title":"Test video post",
+					"author_realname": "Robbie Mackay",
+					"author_email": "someotherrobbie@test.com",
+					"type":"report",
+					"status":"draft",
+					"locale":"en_US",
+					"values":
+					{
+						"video_field":["not a url"]
+					}
+				}
+				"""
+			When I request "/posts"
+			Then the response is JSON
+			And the response has an "errors" property
+			And the response has an "errors.1.title" property
+			And the "errors.1.title" property equals "The field Video must be a url, Given: not a url"
+			Then the guzzle status code should be 422
+
 	@update
 	Scenario: Updating a Post with invalid latitude
 		Given that I want to update a "Post"

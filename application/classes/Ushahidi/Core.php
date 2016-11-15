@@ -616,6 +616,7 @@ abstract class Ushahidi_Core {
 		$di->set('validator.post.point', $di->lazyNew('Ushahidi_Validator_Post_Point'));
 		$di->set('validator.post.relation', $di->lazyNew('Ushahidi_Validator_Post_Relation'));
 		$di->set('validator.post.varchar', $di->lazyNew('Ushahidi_Validator_Post_Varchar'));
+		$di->set('validator.post.video', $di->lazyNew('Ushahidi_Validator_Post_Video'));
 		$di->set('validator.post.title', $di->lazyNew('Ushahidi_Validator_Post_Title'));
 		$di->set('validator.post.media', $di->lazyNew('Ushahidi_Validator_Post_Media'));
 		$di->params['Ushahidi_Validator_Post_Media'] = [
@@ -637,6 +638,7 @@ abstract class Ushahidi_Core {
 					'varchar'  => $di->lazyGet('validator.post.varchar'),
 					'title'    => $di->lazyGet('validator.post.title'),
 					'media'    => $di->lazyGet('validator.post.media'),
+					'video'    => $di->lazyGet('validator.post.video'),
 				],
 			];
 

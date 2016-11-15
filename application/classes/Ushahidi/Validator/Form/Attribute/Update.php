@@ -51,7 +51,8 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'location',
                     'number',
                     'relation',
-                    'upload'
+                    'upload',
+                    'video'
                 ]]],
             ],
             'type' => [

@@ -14,14 +14,17 @@ use Ushahidi\Core\Entity\PostValueRepository;
 
 class Ushahidi_Repository_Post_Title extends Ushahidi_Repository_Post_Varchar
 {
-
+  public function getAllForPost($post_id, Array $include_attributes = [])
+	{
+    return [];
+  }
   public function createValue($value, $form_attribute_id, $post_id)
   {
-      return 0;
+    return 0;
   }
 
   public function updateValue($id, $value)
   {
-      return 0;
+    return 0;
   }
 }
