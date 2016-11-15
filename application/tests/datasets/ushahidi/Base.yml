@@ -283,8 +283,8 @@ form_attributes:
     cardinality: 0
     config: '[]'
     form_stage_id: 5
--
-  id: 17
+  -
+    id: 17
     label: "Title"
     key: "title"
     type: "title"
