@@ -635,7 +635,7 @@ abstract class Ushahidi_Core {
 					'point'    => $di->lazyGet('validator.post.point'),
 					'relation' => $di->lazyGet('validator.post.relation'),
 					'varchar'  => $di->lazyGet('validator.post.varchar'),
-					'title'  => $di->lazyGet('validator.post.title'),
+					'title'    => $di->lazyGet('validator.post.title'),
 					'media'    => $di->lazyGet('validator.post.media'),
 				],
 			];

@@ -133,10 +133,10 @@ form_attributes:
     id: 4
     label: "Description"
     key: "description"
-    type: "text"
+    type: "description"
     input: "textarea"
     required: 0
-    priority: 2
+    priority: 0
     options: ""
     cardinality: 1
     form_stage_id: 1
@@ -259,6 +259,17 @@ form_attributes:
     priority: 5
     cardinality: 0
     config: '[]'
+    form_stage_id: 1
+  -
+    id: 16
+    label: "Title"
+    key: "title"
+    type: "title"
+    input: "text"
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
     form_stage_id: 1
 posts:
   -
@@ -563,6 +574,7 @@ posts:
 post_datetime:
 post_decimal:
 post_geometry:
+post_video:
 post_int:
 post_media:
 post_point:
@@ -605,7 +617,7 @@ post_varchar:
     value: "some-string"
   -
     id: 7
-    post_id: 105
+    post_id: 106
     form_attribute_id: 1
     value: "some-string"
   -

@@ -15,4 +15,13 @@ use Ushahidi\Core\Entity\PostValueRepository;
 class Ushahidi_Repository_Post_Title extends Ushahidi_Repository_Post_Varchar
 {
 
+  public function createValue($value, $form_attribute_id, $post_id)
+  {
+      return 0;
+  }
+
+  public function updateValue($id, $value)
+  {
+      return 0;
+  }
 }

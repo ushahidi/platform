@@ -14,5 +14,15 @@ use Ushahidi\Core\Entity\PostValueRepository;
 
 class Ushahidi_Repository_Post_Description extends Ushahidi_Repository_Post_Text
 {
+  // DeleteRepository
+  // This value should be immutable and unchangeable
+  public function createValue($value, $form_attribute_id, $post_id)
+  {
+      return 0;
+  }
 
+  public function updateValue($id, $value)
+  {
+      return 0;
+  }
 }
