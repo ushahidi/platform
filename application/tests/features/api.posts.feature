@@ -422,6 +422,54 @@ Feature: Testing the Posts API
 		And the "user.id" property equals "2"
 		Then the guzzle status code should be 200
 
+	@create
+	Scenario: Creating a new Post with Title And Description values silently ignore them
+		Given that I want to make a new "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Test post",
+				"author_realname": "Robbie Mackay",
+				"author_email": "someotherrobbie@test.com",
+				"type":"report",
+				"status":"draft",
+				"locale":"en_US",
+				"values":
+				{
+					"title": ["test"],
+					"description": ["description"],
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2016-05-31T00:00:00.000Z"],
+					"last_location":["atlanta"],
+					"last_location_point":[{
+						"lat":33.755,
+						"lon":-84.39
+					}],
+					"geometry_test":["POLYGON((0 0,1 1,2 2,0 0))"],
+					"missing_status":["believed_missing"],
+					"links":[
+						"http://google.com",
+						"http://facebook.com"
+					]
+				},
+				"tags":["explosion"],
+				"completed_stages":[1]
+			}
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response does not have a "values.title" property
+		And the response does not have a "values.description" property
+		And the "title" property equals "Test post"
+		And the response has a "status" property
+		And the "status" property equals "draft"
+		Then the guzzle status code should be 200
+
 	@update
 	Scenario: Updating a Post
 		Given that I want to update a "Post"
@@ -1247,22 +1295,22 @@ Feature: Testing the Posts API
 		And the "count" property equals "1"
 		Then the guzzle status code should be 200
 
-    @update
-    Scenario: Users can assign roles to restrict publication of their posts
-        Given that I want to update a "Post"
-        And that its "id" is "105"
-        And that the request "Authorization" header is "Bearer testbasicuser2"
-        And that the request "data" is:
-        """
-        {
-            "published_to":["admin"]
-        }
-        """
-        When I request "/posts"
-        Then the guzzle status code should be 200
-        And the response is JSON
-        And the "published_to" property contains "admin"
-        And the response has an "id" property
+  @update
+  Scenario: Users can assign roles to restrict publication of their posts
+      Given that I want to update a "Post"
+      And that its "id" is "105"
+      And that the request "Authorization" header is "Bearer testbasicuser2"
+      And that the request "data" is:
+      """
+      {
+          "published_to":["admin"]
+      }
+      """
+      When I request "/posts"
+      Then the guzzle status code should be 200
+      And the response is JSON
+      And the "published_to" property contains "admin"
+      And the response has an "id" property
 
 	@create
 	Scenario: Creating a new Post with invalid location latitude

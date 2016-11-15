@@ -67,7 +67,9 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'link',
                     'relation',
                     'media',
-                    'video'
+                    'video',
+                    'title',
+                    'description'
                 ]]],
             ],
             'required' => [
