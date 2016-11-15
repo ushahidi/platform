@@ -574,7 +574,6 @@ posts:
 post_datetime:
 post_decimal:
 post_geometry:
-post_video:
 post_int:
 post_media:
 post_point:
