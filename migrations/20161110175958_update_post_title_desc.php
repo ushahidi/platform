@@ -16,43 +16,30 @@ class UpdatePostTitleDesc extends AbstractMigration
         $rows = $this->fetchAll(
             "SELECT id
                 FROM form_stages
-                WHERE priority = 0"
+                WHERE type = 'post'"
         );
 
-        $insert_title = $pdo->prepare(
+        $insert = $pdo->prepare(
             "INSERT into
                 form_attributes
                 (`label`, `type`, `required`, `priority`, `cardinality`, `input`, `key`, `form_stage_id`)
-              VALUES
-                ('Title', 'title', 1, 0, 0, 'varchar', :key, :form_stage_id)"
-        );
-
-        $insert_desc = $pdo->prepare(
-            "INSERT into
-                form_attributes
-                (`label`, `type`, `required`, `priority`, `cardinality`, `input`, `key`, `form_stage_id`)
-              VALUES
-                ('Description', 'description', 1, 0, 0, 'text', :key, :form_stage_id)"
+            VALUES
+                ('Title', 'title', 1, 0, 0, 'varchar', :title_key, :title_form_stage_id),
+                ('Description', 'description', 1, 0, 0, 'text', :desc_key, :desc_form_stage_id)"
         );
 
         foreach ($rows as $row) {
             $uuid = Uuid::uuid4();
             $title_key = $uuid->toString();
-
-            $insert_title->execute(
-                [
-                    ':form_stage_id' => $row['id'],
-                    ':key' => $title_key
-                ]
-            );
-
             $uuid = Uuid::uuid4();
             $desc_key = $uuid->toString();
 
-            $insert_desc->execute(
+            $insert->execute(
                 [
-                    ':form_stage_id' => $row['id'],
-                    ':key' => $desc_key
+                    ':title_form_stage_id' => $row['id'],
+                    ':desc_form_stage_id' => $row['id'],
+                    ':title_key' => $title_key,
+                    ':desc_key' => $desc_key
                 ]
             );
         }
