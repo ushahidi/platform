@@ -73,6 +73,13 @@ forms:
     description: "Missing persons"
     require_approval: 0
     everyone_can_create: 0
+  -
+    id: 3
+    name: "Video Embed"
+    type: "report"
+    description: "Test video embed"
+    require_approval: 0
+    everyone_can_create: 0
 form_roles:
   -
     id: 1
@@ -95,6 +102,10 @@ form_stages:
     id: 4
     form_id: 2
     label: "Main"
+  -
+    id: 5
+    form_id: 3
+    label: "Post"
 form_attributes:
   -
     id: 1
@@ -260,6 +271,18 @@ form_attributes:
     cardinality: 0
     config: '[]'
     form_stage_id: 1
+  -
+    id: 16
+    label: "Video"
+    key: "video_field"
+    type: "video"
+    input: "video"
+    required: 0
+    options: '[]'
+    priority: 5
+    cardinality: 0
+    config: '[]'
+    form_stage_id: 5
 posts:
   -
     id: 1
