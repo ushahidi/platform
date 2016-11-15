@@ -471,7 +471,6 @@ abstract class Ushahidi_Core {
 		$di->set('repository.post.varchar', $di->lazyNew('Ushahidi_Repository_Post_Varchar'));
 		$di->set('repository.post.title', $di->lazyNew('Ushahidi_Repository_Post_Title'));
 		$di->set('repository.post.media', $di->lazyNew('Ushahidi_Repository_Post_Media'));
-		$di->set('repository.post.video', $di->lazyNew('Ushahidi_Repository_Post_Varchar'));
 
 		// The post value repo factory
 		$di->set('repository.post_value_factory', $di->lazyNew('Ushahidi_Repository_Post_ValueFactory'));
@@ -489,7 +488,6 @@ abstract class Ushahidi_Core {
 					'varchar'  => $di->lazyGet('repository.post.varchar'),
 					'title'    => $di->lazyGet('repository.post.title'),
 					'media'    => $di->lazyGet('repository.post.media'),
-					'video'    => $di->lazyGet('repository.post.varchar'),
 				],
 			];
 
