@@ -145,10 +145,10 @@ class BulkUsecase implements Usecase
 	 */
 	protected function getSearch()
 	{
-		$fields = $this->repo->getSearchFields();
+		$fields = array_flip($this->repo->getSearchFields());
 		$paging = $this->getPagingFields();
-		
-		$filters = $this->getPayload('filters');
+
+		$filters = array_intersect_key($this->getPayload('filters'), $fields);
 
 		$this->search->setFilters($filters);
 

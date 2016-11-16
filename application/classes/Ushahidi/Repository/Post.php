@@ -181,6 +181,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	}
 
 	// Ushahidi_Repository
+	public function getBulkActions()
+	{
+		return [
+			'status' => [
+				'published',
+				'draft',
+				'archived'
+			],
+		];
+	}
+
+	// Ushahidi_Repository
 	protected function setSearchConditions(SearchData $search)
 	{
 		if ($search->include_types)
