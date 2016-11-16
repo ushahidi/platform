@@ -64,7 +64,6 @@ abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implem
 		}
 
 		$results = $query->execute($this->db);
-Kohana::$log->add(Log::ERROR, print_r($results, true));
 		return $this->getCollection($results->as_array());
 	}
 
