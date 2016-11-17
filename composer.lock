@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "023cd1767a81c7b7c94345c43132cc23",
-    "content-hash": "794fdfbb194b5bf89423e857c351fb61",
+    "hash": "32655a8026b42180ced79f5cd11e82ae",
+    "content-hash": "0d86c0e3da72c4f08bc4a6869b6e9686",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -3049,16 +3049,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "0.22.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "49d4c0c4f2c298c9f15a07416debb5352a209b79"
+                "reference": "2a92076ffc6c3f193f2736c9ce75d26705bb48b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/49d4c0c4f2c298c9f15a07416debb5352a209b79",
-                "reference": "49d4c0c4f2c298c9f15a07416debb5352a209b79",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/2a92076ffc6c3f193f2736c9ce75d26705bb48b7",
+                "reference": "2a92076ffc6c3f193f2736c9ce75d26705bb48b7",
                 "shasum": ""
             },
             "require": {
@@ -3071,7 +3071,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^1.8.0",
-                "phpunit/phpunit": "^4.6.6"
+                "phpunit/phpunit": "^4.8 || ^5.0"
             },
             "bin": [
                 "bin/sentry"
@@ -3079,7 +3079,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.22.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -3103,7 +3103,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2016-06-23 19:41:24"
+            "time": "2016-11-01 18:46:47"
         },
         {
             "name": "shadowhand/email",
