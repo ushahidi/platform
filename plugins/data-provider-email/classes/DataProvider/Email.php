@@ -121,14 +121,18 @@ class DataProvider_Email extends DataProvider {
 				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
 				return 0;
 			}
-			$emails = imap_search($connection,'ALL');
+
+			$last_uid = service('repository.message')->getLastUID('email');
+			$max_range = $last_uid + $limit;
+			$search_string = $last_uid ? $last_uid . ':' . $max_range : '1:' . $max_range;
+
+			$emails = imap_fetch_overview($connection, $search_string, FT_UID);
 
 			if ($emails)
 			{
 				// reverse sort emails?
 				//rsort($emails);
-
-				foreach($emails as $email_number)
+				foreach($emails as $email)
 				{
 					// Break out if we've hit our limit
 					// @todo revist and decide if this is worth doing when imap_search has grabbed everything anyway.
@@ -136,9 +140,8 @@ class DataProvider_Email extends DataProvider {
 						break;
 
 					$message = $html_message = "";
-					$overview = imap_fetch_overview($connection, $email_number, 0);
-
-					$structure = imap_fetchstructure($connection, $email_number);
+					$overview = imap_fetch_overview($connection, $email->uid, FT_UID);
+					$structure = imap_fetchstructure($connection, $email->uid, FT_UID);
 
 					// Get HTML message from multipart message
 					if (! empty($structure->parts))
@@ -149,32 +152,32 @@ class DataProvider_Email extends DataProvider {
 						{
 							if ($part->subtype == 'HTML')
 							{
-								$html_message .= imap_fetchbody($connection, $email_number, $part_number);
+								$html_message .= imap_fetchbody($connection, $email->uid, $part_number, FT_UID);
 							} elseif ($part->subtype == 'PLAIN') {
-								$message .= imap_fetchbody($connection, $email_number, $part_number);
+								$message .= imap_fetchbody($connection, $email->uid, $part_number, FT_UID);
 							}
 						}
 					}
 					else
 					{
 						// or just fetch the body if not a multipart message
-						$message = imap_body($connection, $email_number);
+						$message = imap_body($connection, $email->uid, FT_UID);
 					}
 
 
 					// Process the email
 					if (! empty($html_message)) {
 						$html_message = imap_qprint($html_message);
-						$this->_process_incoming($overview[0], $html_message);
+						$this->_process_incoming($email, $html_message);
 					}
 					elseif (! empty($message))
 					{
 						$message = imap_qprint($message);
-						$this->_process_incoming($overview[0], $message);
+						$this->_process_incoming($email, $message);
 					}
 
 					// After processing, delete!
-					imap_delete($connection, $email_number);
+					//imap_delete($connection, $email_number);
 
 					$count++;
 				}
@@ -218,16 +221,18 @@ class DataProvider_Email extends DataProvider {
 		$from = $this->_get_email($overview->from);
 		$to = isset($overview->to) ? $this->_get_email($overview->to) : $this->from();
 		$title = isset($overview->subject) ? $overview->subject : NULL;
-		$message_id = isset($overview->message_id) ? $overview->message_id : NULL;
-
+		$data_provider_message_id = isset($overview->uid) ? $overview->uid : NULL;
 		// @todo revist hard coded HTML stripping & decoding
 		// strip all html
+
 		$message = trim(strip_tags($message, ""));
 		// convert all HTML entities to their applicable characters
 		$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
-
-		// Save the message
-		$this->receive(Message_Type::EMAIL, $from, $message, $to, $title, $message_id);
+		if ($message)
+		{
+			// Save the message
+			$this->receive(Message_Type::EMAIL, $from, $message, $to, $title, $data_provider_message_id);
+		}
 
 		return;
 	}

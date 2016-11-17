@@ -189,6 +189,23 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		return false;
 	}
 
+	public function getLastUID($data_provider_type)
+	{
+		$last_uid = null;
+		$query = DB::select([DB::expr('ABS(' . $this->getTable() . '.' . 'data_provider_message_id' . ')'), 'uid'])
+			->from($this->getTable())
+			->where('data_provider', '=', $data_provider_type)
+			->order_by(
+				'uid',
+				'desc'
+			);
+		$result =	$query->execute($this->db);
+
+		$last_uid = $result->get('uid', 0) ? $result->get('uid', 0) : null;
+
+		return $last_uid;
+	}
+
 	/**
 	 * For CreateMessageRepository
 	 * @param  int $parent_id
