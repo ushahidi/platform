@@ -140,7 +140,6 @@ class DataProvider_Email extends DataProvider {
 						break;
 
 					$message = $html_message = "";
-					$overview = imap_fetch_overview($connection, $email->uid, FT_UID);
 					$structure = imap_fetchstructure($connection, $email->uid, FT_UID);
 
 					// Get HTML message from multipart message
