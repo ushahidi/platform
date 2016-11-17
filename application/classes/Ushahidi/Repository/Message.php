@@ -198,7 +198,8 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 			->order_by(
 				'uid',
 				'desc'
-			);
+			)
+			->limit(1);
 		$result =	$query->execute($this->db);
 
 		$last_uid = $result->get('uid', 0) ? $result->get('uid', 0) : null;

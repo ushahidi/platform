@@ -177,9 +177,6 @@ class DataProvider_Email extends DataProvider {
 						$this->_process_incoming($email, $message);
 					}
 
-					// After processing, delete!
-					//imap_delete($connection, $email_number);
-
 					$count++;
 				}
 			}
