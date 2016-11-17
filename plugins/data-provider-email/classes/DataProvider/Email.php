@@ -99,6 +99,8 @@ class DataProvider_Email extends DataProvider {
 
 		$count = 0;
 
+		$limit = 200;
+
 		$options = $this->options();
 		$type = $options['incoming_type'];
 		$server = $options['incoming_server'];
