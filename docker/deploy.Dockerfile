@@ -2,7 +2,7 @@
 FROM williamyeh/ansible:ubuntu14.04
 
 # ==> Install git
-RUN apt-get update && apt-get install git -y
+RUN apt-get update && apt-get install git gettext -y
 
 # ==> Set workging directory to /opt
 WORKDIR /opt
