@@ -1,8 +1,14 @@
-# ==> Import latest ubuntu/ansible build
-FROM williamyeh/ansible:ubuntu14.04
+FROM ubuntu:trusty
 
-# ==> Install git
-RUN apt-get update && apt-get install git gettext -y
+ENV ANSIBLE_VERSION 2.1.2.0
+
+RUN apt-get update && \
+    apt-get install -y python-dev python-pip git libffi6 libffi-dev libssl1.0.0 libssl-dev unzip wget gettext && \
+    pip install ansible==${ANSIBLE_VERSION} && \
+    apt-get remove -y python-dev libffi-dev libssl-dev && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # ==> Set workging directory to /opt
 WORKDIR /opt
