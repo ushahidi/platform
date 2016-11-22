@@ -14,10 +14,10 @@ if [ -n "${ANSIBLE_VAULT_PASSWORD}" ]; then
 fi
 
 # Append to ansible.cfg
-cat >> /opt/ansible.cfg << EOM
+envsubst >> /opt/ansible.cfg << EOM
 
 [ssh_connection]
-ssh_args=
+control_path=/dev/shm/ansible-ssh-${CI_BUILD_ID}-%%h-%%p-%%r
 EOM
 
 # ==> Get latest deployment code from github
