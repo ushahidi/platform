@@ -20,10 +20,21 @@ class UpdatePostBulk extends BulkUsecase
 	 *
 	 * @return null
 	 */
-	protected function executeActions($results)
+	protected function executeActions($results, $actions = [])
 	{
 		$actions = $this->getActions();
 		return $this->repo->bulkUpdate($results, $actions);
 	}
 
+	/**
+	 * Execute execute validations against the result set
+	 *
+	 * @return null
+	 */
+	protected function validateRecords($records)
+	{
+		$actions = $this->getActions();
+		$status = $actions['status'];
+		$this->validator->validateRecords($status, $records);
+	}
 }

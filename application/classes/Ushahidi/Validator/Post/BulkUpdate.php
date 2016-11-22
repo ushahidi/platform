@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Post Create Validator
+ * Ushahidi Post Bulk Update Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -19,7 +19,7 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\Permissions\ManagePosts;
 
 
-class Ushahidi_Validator_Post_Bulk_Update extends Validator
+class Ushahidi_Validator_Post_BulkUpdate extends Validator
 {
 	use UserContext;
 
@@ -41,8 +41,7 @@ class Ushahidi_Validator_Post_Bulk_Update extends Validator
 	 *
 	 * @param PostRepository                  $repo
 	 */
-	public function __construct(
-		PostRepository $repo,
+	public function __construct(PostRepository $repo)
 	{
 		$this->repo = $repo;
 	}
@@ -52,17 +51,25 @@ class Ushahidi_Validator_Post_Bulk_Update extends Validator
 
 		return [
 			'actions' => [
-				[$this, 'checkActions', [':value']],
+				[[$this, 'checkActions'], [':validation',':value']],
 			],
 			'filters' => [
-				[$this, 'checkFilters', [':value']],
+				[[$this, 'checkFilters'], [':validation',':value']],
 			],
 		];
 	}
+	
+	public function validateRecords($status, $posts)
+	{
+		$this->checkPublishedLimit($status, $posts);
+		$this->checkRequiredStages($status, $posts);
+	}
 
-	public function checkPublishedLimit (Validation $validation, $status. $posts)
+	protected function checkPublishedLimit($status, $posts)
 	{
 		$config = \Kohana::$config->load('features.limits');
+		
+		$validation = $this->validation_engine;
 
 		if ($config['posts'] !== TRUE && $status == 'published') {
 			$total_published = $this->repo->getPublishedTotal();
@@ -80,18 +87,19 @@ class Ushahidi_Validator_Post_Bulk_Update extends Validator
 	 * @param  Array      $status
 	 * @param  Array      $posts
 	 */
-	public function checkRequiredStages(Validation $validation, $status, $posts)
+	protected function checkRequiredStages($status, $posts)
 	{
-		$completed_stages = $completed_stages ? $completed_stages : [];
+		$validation = $this->validation_engine;
 
 		// If post is being published
 		if ($status === 'published')
 		{
 			//join query to check required stages
-			$stages = [];
+			$stages = $this->repo->getPostsIncompleteStages($posts);
+
 			foreach($stages as $stage)
 			{
-				$validation->error('completed_stages', 'stageRequired', [$stage->label]);
+				$validation->error('completed_stages', 'bulkStageRequired', [$stage->post_id, $stage->label]);
 			}
 		}
 	}
@@ -108,14 +116,12 @@ class Ushahidi_Validator_Post_Bulk_Update extends Validator
 		{
 			$fields = array_flip($this->repo->getSearchFields());
 			$check_filters = array_intersect_key($filters, $fields);
-			
-			if (sizeof($check_filters))
+
+			if (!sizeof($check_filters))
 			{
-				return;
+				$validation->error('filters', 'invalidFilters');
 			}
 		}
-
-		$validation->error('filters', 'invalidFilters');
 	}
 
 	/**
@@ -126,12 +132,11 @@ class Ushahidi_Validator_Post_Bulk_Update extends Validator
 	 */
 	public function checkActions(Validation $validation, $actions)
 	{
-		if (is_array($actions))
+		$status = ['published','draft','archived'];
+
+		if (!is_array($actions) || !isset($actions['status']) || !in_array($actions['status'], $status))
 		{
-			
-			return;
-			
+			$validation->error('actions', 'invalidActions');
 		}
-		$validation->error('actions', 'invalidActions');
 	}
 }

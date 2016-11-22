@@ -73,6 +73,13 @@ forms:
     description: "Missing persons"
     require_approval: 0
     everyone_can_create: 0
+  -
+    id: 3
+    name: "Testing Bulk Actions"
+    type: "report"
+    description: "A bunch of reports"
+    require_approval: 0
+    everyone_can_create: 0
 form_roles:
   -
     id: 1
@@ -95,6 +102,14 @@ form_stages:
     id: 4
     form_id: 2
     label: "Main"
+  -
+    id: 5
+    form_id: 3
+    label: "Don't care about this one"
+  -
+    id: 6
+    form_id: 3
+    label: "Must be completed"    
 form_attributes:
   -
     id: 1
@@ -559,6 +574,84 @@ posts:
     locale: "en_us"
     created: 1412025016
     published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 121
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 1"
+    type: "report"
+    content: "Archived Post 1"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 122
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 2"
+    type: "report"
+    content: "Archived Post 2"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 123
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 3"
+    type: "report"
+    content: "Archived Post 3"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 124
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 4"
+    type: "report"
+    content: "Archived Post 4"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 125
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 5"
+    type: "report"
+    content: "Archived Post 5"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 126
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 6"
+    type: "report"
+    content: "Archived Post 6"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
     post_date: "2014-09-29 14:10:16"
 post_datetime:
 post_decimal:
@@ -1368,6 +1461,10 @@ config:
     group_name: test
     config_key: testkey
     config_value: '"testval"'
+  -
+    group_name: features
+    config_key: limits
+    config_value: '{"forms":true,"admin_users":true,"posts":20}'
 contacts:
   -
     id: 1

@@ -15,6 +15,7 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Tool\ValidatorTrait;
 use Ushahidi\Core\Traits\FilterRecords;
 use Ushahidi\Core\Traits\IdentifyRecords;
 use Ushahidi\Core\Traits\ModifyRecords;
@@ -25,7 +26,8 @@ class BulkUsecase implements Usecase
 	// setter method for the tool. For example, the AuthorizerTrait provides
 	// a `setAuthorizer` method which only accepts `Authorizer` instances.
 	use AuthorizerTrait,
-		FormatterTrait;
+		FormatterTrait,
+		ValidatorTrait;
 
 	// - FilterRecords for setting search parameters
 	use FilterRecords;
@@ -68,7 +70,7 @@ class BulkUsecase implements Usecase
 	// Usecase
 	public function isWrite()
 	{
-		return false;
+		return true;
 	}
 
 	// Usecase
@@ -85,6 +87,8 @@ class BulkUsecase implements Usecase
 
 		// ... verify that the entity can be searched by the current user
 		$this->verifySearchAuth($entity);
+		
+		$this->verifyValid($entity);
 
 		// ... and get the search filters for this entity
 		$search = $this->getSearch();
@@ -96,6 +100,8 @@ class BulkUsecase implements Usecase
 		$results = $this->repo->getSearchResults();
 		
 		$records = array_keys($results);
+		
+		$this->validateRecords($records);
 
 		if (sizeof($records) > 0)
 		{
@@ -147,12 +153,41 @@ class BulkUsecase implements Usecase
 	{
 		$fields = array_flip($this->repo->getSearchFields());
 		$paging = $this->getPagingFields();
-
+		
 		$filters = array_intersect_key($this->getPayload('filters'), $fields);
-
+		
+		if (!isset($filters['status']))
+		{		
+			$actions = $this->getActions();
+			
+			$status_arr = ['published','draft','archived'];
+			
+			$statuses = isset($actions['status']) ? array_diff($status_arr, [$actions['status']]) : $status_arr;
+	
+			$filters += ['status' => $statuses];
+		}
+		
 		$this->search->setFilters($filters);
 
 		return $this->search;
+	}
+
+	// ValidatorTrait
+	protected function verifyValid($entity)
+	{
+		if (!$this->validator->check($this->payload)) {
+			$this->validatorError($entity);
+		}
+	}
+
+	/**
+	 * Execute execute validations against the result set
+	 *
+	 * @return null
+	 */
+	protected function validateRecords($records)
+	{
+		return;	
 	}
 
 	/**
