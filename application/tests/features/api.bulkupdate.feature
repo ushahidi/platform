@@ -1,5 +1,5 @@
 @post @oauth2Skip
-Feature: Testing the Posts Bulk Action API
+Feature: Testing the Posts Bulk Update API
 
 	@create
 	Scenario: Updating status of Posts with anonymous user
@@ -261,3 +261,62 @@ Feature: Testing the Posts Bulk Action API
 		And the response has a "results.1.id" property
 		And the "results.1.id" property equals "121"
 		Then the guzzle status code should be 200
+
+	@resetFixture @postLimitsEnabled @create
+	Scenario: Updating status of Posts filtering by status with post limit
+	Given that I want to bulk update "Post"
+	And that the request "Authorization" header is "Bearer testadminuser"
+		And that the request "data" is:
+			"""
+			{
+				"actions": {
+					"status": "published"
+				},
+				"filters": {
+					"status": "archived"
+				}
+
+			}
+			"""
+		When I request "/posts/bulk/update"
+		And the response has a "errors.1.title" property
+		And the "errors.1.title" property equals "limit::posts"
+		Then the guzzle status code should be 422
+
+	@search
+	Scenario: Check status of Posts after update from `archived` to `published`
+		Given that I want to get all "Posts"
+		And that the request "Authorization" header is "Bearer testmanager"
+		And that the request "query string" is:
+			"""
+			status=published
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "12"
+		And the "results.0.status" property equals "published"
+		And the response has a "results.0.id" property
+		And the "results.0.id" property equals "120"
+		Then the guzzle status code should be 200
+
+	@resetFixture @create
+	Scenario: Updating status of Posts filtering by status
+	Given that I want to bulk update "Post"
+	And that the request "Authorization" header is "Bearer testadminuser"
+		And that the request "data" is:
+			"""
+			{
+				"actions": {
+					"status": "published"
+				},
+				"filters": {
+					"set": "7"
+				}
+
+			}
+			"""
+		When I request "/posts/bulk/update"
+		And the response has a "errors.1.title" property
+		Then the guzzle status code should be 422

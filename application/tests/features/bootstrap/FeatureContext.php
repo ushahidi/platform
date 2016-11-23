@@ -113,6 +113,20 @@ class FeatureContext extends BehatContext
 		$config->set('data-import.enabled', false);
 	}
 
+	/** @BeforeScenario @postLimitsEnabled */
+	public function enablePostLimits()
+	{
+		$config = Kohana::$config->load('features');
+		$config->set('limits', ["posts" => 20]);
+	}
+
+	/** @AfterScenario @postLimitsEnabled */
+	public function disablePostLimits()
+	{
+		$config = Kohana::$config->load('features');
+		$config->set('limits', ["posts" => true]);
+	}
+
 	protected static function insertGeometryFixtures($pdo_connection)
 	{
 		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)

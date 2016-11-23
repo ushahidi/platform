@@ -63,6 +63,7 @@ class Ushahidi_Validator_Post_BulkUpdate extends Validator
 	{
 		$this->checkPublishedLimit($status, $posts);
 		$this->checkRequiredStages($status, $posts);
+		return sizeof($this->validation_engine->errors()) == 0;
 	}
 
 	protected function checkPublishedLimit($status, $posts)
@@ -73,8 +74,8 @@ class Ushahidi_Validator_Post_BulkUpdate extends Validator
 
 		if ($config['posts'] !== TRUE && $status == 'published') {
 			$total_published = $this->repo->getPublishedTotal();
-
 			if (($total_published + sizeof($posts)) >= $config['posts']) {
+				$validation->labels(['status'=>'status']);
 				$validation->error('status', 'publishedPostsLimitReached');
 			}
 		}
@@ -96,10 +97,10 @@ class Ushahidi_Validator_Post_BulkUpdate extends Validator
 		{
 			//join query to check required stages
 			$stages = $this->repo->getPostsIncompleteStages($posts);
-
+			$validation->labels(['completed_stages'=>'completed_stages']);
 			foreach($stages as $stage)
 			{
-				$validation->error('completed_stages', 'bulkStageRequired', [$stage->post_id, $stage->label]);
+				$validation->error('completed_stages', 'bulkStageRequired', [$stage['label'], $stage['post_id']]);
 			}
 		}
 	}

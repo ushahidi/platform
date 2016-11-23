@@ -20,10 +20,10 @@ class UpdatePostBulk extends BulkUsecase
 	 *
 	 * @return null
 	 */
-	protected function executeActions($results, $actions = [])
+	protected function executeActions($records, $actions = [])
 	{
 		$actions = $this->getActions();
-		return $this->repo->bulkUpdate($results, $actions);
+		return $this->repo->bulkUpdate($records, $actions);
 	}
 
 	/**
@@ -31,10 +31,13 @@ class UpdatePostBulk extends BulkUsecase
 	 *
 	 * @return null
 	 */
-	protected function validateRecords($records)
+	protected function validateRecords($entity, $records)
 	{
 		$actions = $this->getActions();
 		$status = $actions['status'];
-		$this->validator->validateRecords($status, $records);
+		if (!$this->validator->validateRecords($status, $records))
+		{
+			$this->validatorError($entity);
+		}
 	}
 }

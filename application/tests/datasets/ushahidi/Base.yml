@@ -90,26 +90,32 @@ form_stages:
     id: 1
     form_id: 1
     label: "Main"
+    required: 0
   -
     id: 2
     form_id: 1
     label: "2nd step"
+    required: 0
   -
     id: 3
     form_id: 1
     label: "3rd step"
+    required: 0
   -
     id: 4
     form_id: 2
     label: "Main"
+    required: 0
   -
     id: 5
     form_id: 3
     label: "Don't care about this one"
+    required: 0
   -
     id: 6
     form_id: 3
-    label: "Must be completed"    
+    label: "Must be completed"
+    required: 1
 form_attributes:
   -
     id: 1
@@ -653,6 +659,32 @@ posts:
     created: 1412025016
     published_to: "[]"
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 1000
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "incomplete post 1"
+    type: "report"
+    content: "Incomplete post 1"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1001
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "incomplete post 2"
+    type: "report"
+    content: "Incomplete post 2"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
 post_datetime:
 post_decimal:
 post_geometry:
@@ -801,6 +833,22 @@ form_stages_posts:
     form_stage_id: 2
     post_id: 96
     completed: 1
+  -
+    form_stage_id: 5
+    post_id: 1000
+    completed: 1
+  -
+    form_stage_id: 6
+    post_id: 1000
+    completed: 1
+  -
+    form_stage_id: 5
+    post_id: 1001
+    completed: 0
+  -
+    form_stage_id: 6
+    post_id: 1001
+    completed: 0
 sets:
   -
     id: 1
@@ -833,6 +881,10 @@ sets:
     search: 1
     filter: '{"q":"junk"}'
     visible_to: '["admin"]'
+  -
+    id: 7
+    name: Test stage completion requirement on bulk updates
+    search: 0
 posts_sets:
   -
     set_id: 1
@@ -852,6 +904,12 @@ posts_sets:
   -
     set_id: 1
     post_id: 112
+  -
+    set_id: 7
+    post_id: 1000
+  -
+    set_id: 7
+    post_id: 1001
 # OAuth Tables
 oauth_clients:
   -
@@ -1461,10 +1519,6 @@ config:
     group_name: test
     config_key: testkey
     config_value: '"testval"'
-  -
-    group_name: features
-    config_key: limits
-    config_value: '{"forms":true,"admin_users":true,"posts":20}'
 contacts:
   -
     id: 1

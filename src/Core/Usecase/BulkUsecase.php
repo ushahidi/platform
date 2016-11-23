@@ -101,7 +101,7 @@ class BulkUsecase implements Usecase
 		
 		$records = array_keys($results);
 		
-		$this->validateRecords($records);
+		$this->validateRecords($entity, $records);
 
 		if (sizeof($records) > 0)
 		{
@@ -185,7 +185,7 @@ class BulkUsecase implements Usecase
 	 *
 	 * @return null
 	 */
-	protected function validateRecords($records)
+	protected function validateRecords($entity, $records)
 	{
 		return;	
 	}
@@ -195,7 +195,7 @@ class BulkUsecase implements Usecase
 	 *
 	 * @return null
 	 */
-	protected function executeActions($results)
+	protected function executeActions($records)
 	{
 		return;	
 	}
