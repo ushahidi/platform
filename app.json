@@ -10,6 +10,7 @@
   "logo": "http://www.ushahidi.com/assets/img/favicon.ico",
   "success_url": "/",
   "addons": [
-    "cleardb"
+    "cleardb",
+    "scheduler"
   ]
 }

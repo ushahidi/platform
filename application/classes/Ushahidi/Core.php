@@ -472,7 +472,9 @@ abstract class Ushahidi_Core {
 		$di->set('repository.post.point', $di->lazyNew('Ushahidi_Repository_Post_Point'));
 		$di->set('repository.post.relation', $di->lazyNew('Ushahidi_Repository_Post_Relation'));
 		$di->set('repository.post.text', $di->lazyNew('Ushahidi_Repository_Post_Text'));
+		$di->set('repository.post.description', $di->lazyNew('Ushahidi_Repository_Post_Description'));
 		$di->set('repository.post.varchar', $di->lazyNew('Ushahidi_Repository_Post_Varchar'));
+		$di->set('repository.post.title', $di->lazyNew('Ushahidi_Repository_Post_Title'));
 		$di->set('repository.post.media', $di->lazyNew('Ushahidi_Repository_Post_Media'));
 
 		// The post value repo factory
@@ -487,7 +489,9 @@ abstract class Ushahidi_Core {
 					'point'    => $di->lazyGet('repository.post.point'),
 					'relation' => $di->lazyGet('repository.post.relation'),
 					'text'     => $di->lazyGet('repository.post.text'),
+					'description' => $di->lazyGet('repository.post.description'),
 					'varchar'  => $di->lazyGet('repository.post.varchar'),
+					'title'    => $di->lazyGet('repository.post.title'),
 					'media'    => $di->lazyGet('repository.post.media'),
 				],
 			];
@@ -626,6 +630,8 @@ abstract class Ushahidi_Core {
 		$di->set('validator.post.point', $di->lazyNew('Ushahidi_Validator_Post_Point'));
 		$di->set('validator.post.relation', $di->lazyNew('Ushahidi_Validator_Post_Relation'));
 		$di->set('validator.post.varchar', $di->lazyNew('Ushahidi_Validator_Post_Varchar'));
+		$di->set('validator.post.video', $di->lazyNew('Ushahidi_Validator_Post_Video'));
+		$di->set('validator.post.title', $di->lazyNew('Ushahidi_Validator_Post_Title'));
 		$di->set('validator.post.media', $di->lazyNew('Ushahidi_Validator_Post_Media'));
 		$di->params['Ushahidi_Validator_Post_Media'] = [
 			'media_repo' => $di->lazyGet('repository.media')
@@ -644,7 +650,9 @@ abstract class Ushahidi_Core {
 					'point'    => $di->lazyGet('validator.post.point'),
 					'relation' => $di->lazyGet('validator.post.relation'),
 					'varchar'  => $di->lazyGet('validator.post.varchar'),
+					'title'    => $di->lazyGet('validator.post.title'),
 					'media'    => $di->lazyGet('validator.post.media'),
+					'video'    => $di->lazyGet('validator.post.video'),
 				],
 			];
 

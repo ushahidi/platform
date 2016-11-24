@@ -38,5 +38,6 @@ return [
 		'lat'           => 'the field :param1 must contain a valid latitude',
 		'lon'           => 'the field :param1 must contain a valid longitude',
 		'url'           => 'The field :param1 must be a url, Given: :param2',
+    'video_type'    => 'The field :param1 must be either a youtube or vimeo url, Given: :param2',
 	]
 ];

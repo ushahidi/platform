@@ -75,9 +75,9 @@ forms:
     everyone_can_create: 0
   -
     id: 3
-    name: "Testing Bulk Actions"
+    name: "Video Embed"
     type: "report"
-    description: "A bunch of reports"
+    description: "Test video embed"
     require_approval: 0
     everyone_can_create: 0
 form_roles:
@@ -109,7 +109,7 @@ form_stages:
   -
     id: 5
     form_id: 3
-    label: "Don't care about this one"
+    label: "Post"
     required: 0
   -
     id: 6
@@ -154,10 +154,10 @@ form_attributes:
     id: 4
     label: "Description"
     key: "description"
-    type: "text"
+    type: "description"
     input: "textarea"
     required: 0
-    priority: 2
+    priority: 0
     options: ""
     cardinality: 1
     form_stage_id: 1
@@ -280,6 +280,29 @@ form_attributes:
     priority: 5
     cardinality: 0
     config: '[]'
+    form_stage_id: 1
+  -
+    id: 16
+    label: "Video"
+    key: "video_field"
+    type: "video"
+    input: "video"
+    required: 0
+    options: '[]'
+    priority: 5
+    cardinality: 0
+    config: '[]'
+    form_stage_id: 5
+  -
+    id: 17
+    label: "Title"
+    key: "title"
+    type: "title"
+    input: "text"
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
     form_stage_id: 1
 posts:
   -
@@ -730,7 +753,7 @@ post_varchar:
     value: "some-string"
   -
     id: 7
-    post_id: 105
+    post_id: 106
     form_attribute_id: 1
     value: "some-string"
   -
