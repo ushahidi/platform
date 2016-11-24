@@ -62,6 +62,29 @@ Feature: Testing the Posts Bulk Update API
 		When I request "/posts/bulk/update"
 		Then the guzzle status code should be 422
 
+	Scenario: Update Posts with an empty `actions` and `filter` values
+	Given that I want to bulk update "Post"
+	And that the request "Authorization" header is "Bearer testadminuser"
+		And that the request "data" is:
+			"""
+			{
+				"actions": {
+
+				},
+				"filters": {
+
+				}
+
+			}
+			"""
+		When I request "/posts/bulk/update"
+		And the response has a "errors.1.title" property
+		And the "errors.1.title" property equals "Invalid bulk actions"
+		And the response has a "errors.2.title" property
+		And the "errors.2.title" property equals "Must have valid filters"
+		Then the guzzle status code should be 422
+
+
 	@create
 	Scenario: Updating status of Posts with a malformed payload
 		Given that I want to bulk update "Post"
