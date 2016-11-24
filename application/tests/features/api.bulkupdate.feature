@@ -302,7 +302,7 @@ Feature: Testing the Posts Bulk Update API
 		Then the guzzle status code should be 200
 
 	@resetFixture @create
-	Scenario: Updating status of Posts filtering by status
+	Scenario: Updating status of Posts with incomplete required stages
 	Given that I want to bulk update "Post"
 	And that the request "Authorization" header is "Bearer testadminuser"
 		And that the request "data" is:
