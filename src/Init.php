@@ -295,7 +295,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 // Add custom usecases for posts_bulk
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_bulk'] = [
 	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePostBulk'),
-	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePostBulk'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePostBulk'),
 ];
 
 // Add custom create usecase for notifications

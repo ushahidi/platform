@@ -221,7 +221,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_bulk'] = [
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_BulkUpdate'),
-			'delete' => $di->lazyNew('Ushahidi_Validator_Post_BulkUpdate'),
+			'delete' => $di->lazyNew('Ushahidi_Validator_Post_BulkDelete'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
@@ -520,6 +520,10 @@ abstract class Ushahidi_Core {
 
 		// Dependencies of validators
 		$di->params['Ushahidi_Validator_Post_BulkUpdate'] = [
+			'repo' => $di->lazyGet('repository.post'),
+			];
+
+		$di->params['Ushahidi_Validator_Post_BulkDelete'] = [
 			'repo' => $di->lazyGet('repository.post'),
 			];
 

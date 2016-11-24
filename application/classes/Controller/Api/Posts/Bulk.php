@@ -74,6 +74,7 @@ class Controller_Api_Posts_Bulk extends Ushahidi_Rest {
 	public function action_post_delete_collection()
 	{
 		$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'delete');
+			->get($this->_resource(), 'delete')
+			->setPayload($this->_payload());
 	}
 }

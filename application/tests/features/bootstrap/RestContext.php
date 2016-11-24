@@ -647,4 +647,15 @@ class RestContext extends BehatContext
 		$this->_restObjectMethod = 'post';
 	}
 
+	/**
+	 * @Given /^that I want to bulk delete "([^"]*)"$/
+	 */
+	public function thatIWantToBulkDelete($objectType)
+	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+
+		$this->_restObjectType   = ucwords(strtolower($objectType));
+		$this->_restObjectMethod = 'post';
+	}
 }
