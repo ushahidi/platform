@@ -26,6 +26,7 @@ class Set extends StaticEntity
 	protected $featured;
 	protected $created;
 	protected $updated;
+	protected $source;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -42,6 +43,7 @@ class Set extends StaticEntity
 			'featured'     => 'boolean',
 			'created'      => 'int',
 			'updated'      => 'int',
+			'source'       => 'string',
 		];
 	}
 
