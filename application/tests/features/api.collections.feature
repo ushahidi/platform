@@ -10,7 +10,7 @@ Feature: Testing the Sets API
 				"featured": 1,
 				"view":"map",
 				"view_options":[],
-				"visible_to":[]
+				"role":[]
 			}
 			"""
 		When I request "/collections"
@@ -34,7 +34,7 @@ Feature: Testing the Sets API
 				"filter": {"q":"test"},
 				"view":"map",
 				"view_options":[],
-				"visible_to":[]
+				"role":[]
 			}
 			"""
 		When I request "/collections"
