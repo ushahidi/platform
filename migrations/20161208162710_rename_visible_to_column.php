@@ -3,15 +3,15 @@
 use Phinx\Migration\AbstractMigration;
 
 class RenameVisibleToColumn extends AbstractMigration
-{   
+{
     /**
      * Migrate Up.
      */
     public function up()
     {
         $this->table('sets')
-            ->renameColumn('visible_to', 'role')
-            ->update();
+        ->renameColumn('visible_to', 'role')
+        ->update();
     }
 
     /**
@@ -20,8 +20,8 @@ class RenameVisibleToColumn extends AbstractMigration
     public function down()
     {
         $this->table('sets')
-            ->renameColumn('role', 'visible_to')
-            ->update();
+        ->renameColumn('role', 'visible_to')
+        ->update();
 
     }
 }
