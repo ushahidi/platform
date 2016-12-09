@@ -43,7 +43,7 @@ class Ushahidi_Validator_Set_Update extends Validator
 				// @todo stop hardcoding views
 				['in_array', [':value', ['map', 'list', 'chart', 'timeline']]]
 			],
-			'visible_to' => [
+			'role' => [
 				[[$this->role_repo, 'exists'], [':value']],
 			]
 		];
