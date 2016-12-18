@@ -1,0 +1,105 @@
+# Group Tags
+
+### List All Tags [GET /api/v3/tags{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Tag])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/tags?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/tags?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/tags?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a Tag [POST /api/v3/tags]
+
++ Request (application/json)
+
+    + Attributes (Tag)
+
++ Response 200 (application/json)
+
+    + Attributes (Tag)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Tag)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Individual Tag [/api/v3/tags/{id}]
+
+### Get a Tag [GET]
+
++ Parameters
+
+    + id (number) - ID of the Tag
+
++ Response 200 (application/json)
+
+    + Attributes (Tag)
+
+### Update a Tag [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Tag
+
++ Request (application/json)
+
+    + Attributes (Tag)
+
++ Response 200 (application/json)
+
+    + Attributes (Tag)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Tag)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Tag [DELETE]
+
++ Parameters
+
+    + id (number) - ID of the Tag
+
++ Response 200 (application/json)
+
+    + Attributes (Tag)
+
+## Data Structures
+
+### Tag
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/tags/530 (string)
++ parent (object, nullable)
+    + id: 1
+    + url: https://demo.api.ushahidi.io/api/v3/tags/1
++ tag: Some Tag (string, required)
++ slug: `some-tag` (string)
++ type: category (enum[string])
+    + Members
+        + category
++ color: #00ff00 (string, nullable)
++ icon: marker (string, nullable)
++ description (string, nullable)
++ role (array[string])
+    + role1
+    + role2
++ created: `2014-11-11T08:40:51+00:00`
++ Include AllowedPrivileges

@@ -1,0 +1,107 @@
+# Group Saved Searches
+
+### List All Saved Searches [GET /api/v3/savedsearches{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Saved Search])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/savedsearches?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/savedsearches?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/savedsearches?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a Saved Search [POST /api/v3/savedsearches]
+
++ Request (application/json)
+
+    + Attributes (Saved Search)
+
++ Response 200 (application/json)
+
+    + Attributes (Saved Search)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Saved Search)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Individual Saved Search [/api/v3/savedsearches/{id}]
+
+### Get a Saved Search [GET]
+
++ Parameters
+
+    + id (number) - ID of the Saved Search
+
++ Response 200 (application/json)
+
+    + Attributes (Saved Search)
+
+### Update a Saved Search [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Saved Search
+
++ Request (application/json)
+
+    + Attributes (Saved Search)
+
++ Response 200 (application/json)
+
+    + Attributes (Saved Search)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Saved Search)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Saved Search [DELETE]
+
++ Parameters
+
+    + id (number) - ID of the Saved Search
+
++ Response 200 (application/json)
+
+    + Attributes (Saved Search)
+
+## Data Structures
+
+### Saved Search
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/savedsearches/530 (string) <!-- Todo fix this in API -->
++ name (string, required)
++ description (string)
++ user (object, nullable) - Owner of the saved search
+    + id: 1 (number)
+    + url: https://quakemap.api.ushahidi.io/api/v3/users/1
++ view: map (enum[string])
+    + Members
+        + map
+        + list
++ view_options (array)
++ visible_to (array) - array of roles which can view this search
+    + admin
++ featured: false (boolean)
++ filter (object) - search string
+    + q: test
++ created: `2014-11-11T08:40:51+00:00` (string)
++ updated: `2014-11-11T08:40:51+00:00` (string, optional)
++ Include AllowedPrivileges
