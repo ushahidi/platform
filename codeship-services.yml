@@ -49,3 +49,16 @@ mysql:
     - MYSQL_USER=ushahidi
     - MYSQL_PASSWORD=ushahidi
     - MYSQL_ROOT_PASSWORD=root
+aglio:
+  image: humangeo/aglio
+  volumes:
+    - .:/vols/src
+awscli:
+  build:
+    image: awscli
+    dockerfile_path: docker/awscli.Dockerfile
+  volumes:
+    - .:/vols/src
+  encrypted_env_file: deployment.env.encrypted
+  cached: true
+
