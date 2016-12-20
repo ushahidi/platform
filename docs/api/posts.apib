@@ -1,6 +1,6 @@
 # Group Posts
 
-### List All Posts [GET /api/v3/posts{?form,user,set}]
+### List All Posts [GET /api/v3/posts{?q,form,user,parent,set,tags}]
 
 List all posts matching search criteria as supplied in query parameters. Multiple parameters are treated as boolean AND ie. /posts?form=1&user=2 will return posts with form_id = 1 _and_ user_id = 2
 
@@ -12,8 +12,8 @@ List all posts matching search criteria as supplied in query parameters. Multipl
     + parent: 10,11 (number, optional) - Parent Post ID. Accepts multiple values.
     + set: 1,2 (number, optional) - Collection ID. (Collections are represented as Sets in the database. This naming should change to be more consistent in future)
     + tags: 1,2,3 (number, optional) - Tag ID. Return Posts matching any of these Tags (Boolean OR)
-    + `tags[any]`: 1,6,9 (number, optional) - Return posts matching *any* of these Tag IDs (Boolean OR)
-    + `tags[all]`: 1,7,10 (number, optional) - Return posts matching *all* of these Tag IDs (Boolean AND)
+    + tags[any]: 1,6,9 (number, optional) - Return posts matching *any* of these Tag IDs (Boolean OR)
+    + tags[all]: 1,7,10 (number, optional) - Return posts matching *all* of these Tag IDs (Boolean AND)
     + status: draft (enum[string], optional) - Status of Posts to be returned
         + Members
             + archived
@@ -149,7 +149,9 @@ List all posts matching search criteria as supplied in query parameters. Multipl
 
 + Response 200 (application/json)
 
-### Get Post Totals Over Time [GET /api/v3/posts/stats?timeline=1&{?timeline,timeline_interval,timeline_attribute,group_by,group_by_tags,group_by_attribute_key}]
+    + Attributes (PostStats)
+
+### Get Post Totals Over Time [GET /api/v3/posts/stats{?timeline,timeline_interval,timeline_attribute,group_by,group_by_tags,group_by_attribute_key}]
 
 + Parameters
     + timeline: 1 (boolean, required) - Enable grouping by time
@@ -165,6 +167,8 @@ List all posts matching search criteria as supplied in query parameters. Multipl
     + group_by_attribute_key: region (string, optional) - Attribute key. Posts will be grouped by the value of this attribute.
 
 + Response 200 (application/json)
+
+    + Attributes (PostStats)
 
 ## Data Structures
 
@@ -210,3 +214,16 @@ List all posts matching search criteria as supplied in query parameters. Multipl
 + source: SMS (string) - Original Message source ie. SMS, Twitter
 + contact: rjmackay (string) - Contact Identifier ie. SMS number, twitter handle
 + Include AllowedPrivileges
+
+### PostStats
++ totals (array[*])
+    + (object)
+        + key: tags (string)
+        + values (array[*])
+            + (object)
+                + label: Disaster (string)
+                + total: 2 (number)
+                + id: 3 (number)
++ group_by: tags (string)
++ group_by_attribute_key (string)
++ timeline_attributes (string)
