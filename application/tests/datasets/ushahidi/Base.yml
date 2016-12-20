@@ -1128,7 +1128,7 @@ oauth_scopes:
   -
     id: 20
     scope: posts_bulk
-    name: posts_bulk	
+    name: posts_bulk
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1191,6 +1191,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 16
+  -
+    session_access_token_id: 2
+    scope_id: 19
 
   # for testbasicuser
   -
