@@ -126,7 +126,7 @@ class DataProvider_Email extends DataProvider {
 
 			$last_uid = service('repository.message')->getLastUID('email');
 			$max_range = $last_uid + $limit;
-			$search_string = $last_uid ? $last_uid . ':' . $max_range : '1:' . $max_range;
+			$search_string = $last_uid ? $last_uid + 1 . ':' . $max_range : '1:' . $max_range;
 
 			$emails = imap_fetch_overview($connection, $search_string, FT_UID);
 
