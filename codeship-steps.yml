@@ -23,3 +23,12 @@
     command: >
       ansible-playbook -vv -i hosts/rackspace_prod platform-api-update.yml
         -e PLATFORM_CLIENT_VERSION="$CI_COMMIT_ID"
+  - type: serial
+    tag: develop
+    steps:
+    - name: "Docs (develop)"
+      service: aglio
+      command: aglio -i /vols/src/docs/api/index.apib -o /vols/src/docs/api/index.html
+    - name: "Deploy Docs (develop)"
+      service: awscli
+      command: aws s3 sync /vols/src/docs/ s3://preview.ushahidi.com/platform/develop --acl public-read

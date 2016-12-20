@@ -1,0 +1,218 @@
+
+# Group Config
+
+## Config [/api/v3/config]
+
+### List All Config Groups [GET]
+
++ Response 200
+
+        {
+            "count": 6,
+            "results": [{
+                "id": "features",
+                "url": "http://ushv3.dev/api/v3/config/features",
+                "views": {
+                    "map": true,
+                    "list": true,
+                    "chart": true,
+                    "timeline": true,
+                    "activity": true,
+                    "plan": false
+                },
+                "data-providers": {
+                    "smssync": true,
+                    "twitter": true,
+                    "frontlinesms": true,
+                    "email": true,
+                    "twilio": true,
+                    "nexmo": true
+                },
+                "limits": {
+                    "posts": true,
+                    "forms": true,
+                    "admin_users": true
+                },
+                "private": {
+                    "enabled": true
+                },
+                "roles": {
+                    "enabled": true
+                },
+                "data-import": {
+                    "enabled": true
+                },
+                "allowed_privileges": [
+                    "read",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "site",
+                "url": "http://ushv3.dev/api/v3/config/site",
+                "name": "Ushahidi",
+                "description": "This is my Ushahidi deployment. There are many like it, but this one is mine.",
+                "email": "someone@somewhere.somehow",
+                "timezone": "UTC",
+                "language": "en-US",
+                "date_format": "n/j/Y",
+                "client_url": false,
+                "first_login": true,
+                "tier": "free",
+                "private": false,
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "test",
+                "url": "http://ushv3.dev/api/v3/config/test",
+                "testkey": "testval",
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "data-provider",
+                "url": "http://ushv3.dev/api/v3/config/data-provider",
+                "default_providers": {
+                    "sms": "smssync",
+                    "ivr": false,
+                    "email": "email",
+                    "twitter": "twitter"
+                },
+                "providers": {
+                    "smssync": true,
+                    "email": false,
+                    "twilio": false,
+                    "nexmo": false,
+                    "twitter": false,
+                    "frontlinesms": true
+                },
+                "email": {
+                    "incoming_type": "imap",
+                    "incoming_server": "imap.gmail.com",
+                    "incoming_port": "993",
+                    "incoming_security": "SSL",
+                    "incoming_username": "afpakquake@gmail.com",
+                    "incoming_password": "pleasesendhelp1947",
+                    "outgoing_type": "native",
+                    "outgoing_server": "",
+                    "outgoing_port": "",
+                    "outgoing_security": "",
+                    "outgoing_username": "",
+                    "outgoing_password": ""
+                },
+                "nexmo": {
+                    "from": "",
+                    "api_key": "",
+                    "api_secret": ""
+                },
+                "smssync": {
+                    "from": "12345",
+                    "secret": "1234",
+                    "auto-reply-1": "thanks!"
+                },
+                "frontlinesms": {
+                    "f": "12345",
+                    "key": "1234",
+                    "frontlinecloud_api_url": "http://frontlinesms.com:8130/api/1/webconnection/11"
+                },
+                "twitter": {
+                    "consumer_key": "jxCshY5ye2VFvdcgATcpRg",
+                    "consumer_secret": "MMxCOjPnTVT2c9hIIb3G8rGaLDmgiie3mtV5I1q0Q",
+                    "oauth_access_token": "11151942-LLhknP8qghLYIwRzGT7xN0EYntgruPcRkRWBttoV4",
+                    "oauth_access_token_secret": "3GvYVid4Xmh0xE3m48qKcfjqiErj8mbF1qnK2xatws",
+                    "twitter_search_terms": "New Zealand"
+                },
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "map",
+                "url": "http://ushv3.dev/api/v3/config/map",
+                "clustering": false,
+                "cluster_radius": 50,
+                "default_view": {
+                    "lat": -1.3048035,
+                    "lon": 36.8473969,
+                    "zoom": 3,
+                    "baselayer": "MapQuestAerial",
+                    "fit_map_boundaries": true,
+                    "icon": "map-marker",
+                    "color": "blue"
+                },
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "twitter",
+                "url": "http://ushv3.dev/api/v3/config/twitter",
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }]
+        }
+
+### Get a Config Group [GET /api/v3/config/{id}]
+
++ Parameters
+    + id: site (string, required)
+
++ Response 200
+
+        {
+            "id": "site",
+            "url": "http://ushv3.dev/api/v3/config/site",
+            "name": "Ushahidi",
+            "description": "This is my Ushahidi deployment. There are many like it, but this one is mine.",
+            "email": "someone@somewhere.somehow",
+            "timezone": "UTC",
+            "language": "en-US",
+            "date_format": "n/j/Y",
+            "client_url": false,
+            "first_login": true,
+            "tier": "free",
+            "private": false,
+            "allowed_privileges": [
+                "read",
+                "search"]
+        }
+
+
+### Update a Config Group [PUT /api/v3/config/{id}]
+
++ Parameters
+    + id: test (string, required)
+
++ Request (application/json)
+
+        {
+            "testkey":"i am a teapot?"
+        }
+
++ Response 200
+
+        {
+            "id": "test",
+            "url": "http://ushv3.dev/api/v3/config/test",
+            "testkey": "i am a teapot?",
+            "allowed_privileges": [
+                "read",
+                "create",
+                "update",
+                "delete",
+                "search"]
+        }

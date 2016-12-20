@@ -1,0 +1,115 @@
+
+# Group Media
+
+## Media [/api/v3/media{?user,orphans}]
+
+### List All Media [GET]
+
++ Parameters
+
+    + user (number) - User ID
+    + orphans (boolean) - Only return orphaned Media which are not attached to a post
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Media])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/media?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/media?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/media?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Upload Media [POST]
+
+::: note
+Media Uploads use the `multipart/form-data` content type, rather than `application/json` as in other API calls.
+:::
+
++ Request (multipart/form-data;boundary=----FormBoundary8M3sSU13ul5lXSJm)
+
+    + Headers
+
+            Content-Length: 1234
+
+    + Body
+
+            ----FormBoundary8M3sSU13ul5lXSJm
+            content-disposition: form-data; name="caption"
+
+            A sample image
+            ----FormBoundary8M3sSU13ul5lXSJm
+            content-disposition: form-data; name="sample"; filename="sample.png"
+            Content-Type: Mime-Type
+            Content-Transfer-Encoding: binary
+
+            binarydata
+            ----FormBoundary8M3sSU13ul5lXSJm--
+
++ Response 200 (application/json)
+
+    + Attributes (Media)
+
+## Individual Media Upload [/api/v3/media/{id}]
+
+### Get Media [GET]
+
++ Parameters
+
+    + id (number) - ID of Media resource
+
++ Response 200 (application/json)
+
+    + Attributes (Media)
+
+### Update Media [PUT]
+
+::: note
+Only the caption can be changed when updating Media resources. You cannot update
+the file upload. Instead you need to upload a new Media resource.
+:::
+
++ Parameters
+
+    + id (number) - ID of Media resource
+
++ Request
+
+    + Attributes
+        + caption: "A new caption" (string)
+
++ Response 200 (application/json)
+
+    + Attributes (Media)
+
+### Delete Media [DELETE]
+
++ Parameters
+
+    + id (number) - ID of Media resource
+
++ Response 200 (application/json)
+
+    + Attributes (Media)
+
+## Data Structures
+
+### Media
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/media/530 (string)
++ user (object, nullable)
+    + id (number)
+    + url: https://demo.api.ushahidi.io/api/v3/users/530 (string)
++ caption: A sample image (string)
++ created: `1970-01-01T00:00:00+00:00` (string)
++ updated: `1970-01-01T00:00:00+00:00` (string)
++ mime: image/png (string)
++ original_file_url: `http://demo.api.ushahidi.io/media/uploads/5/7/57998f5f0bae9-sample.png` (string)
++ original_file_size (number)
++ original_width (number)
++ original_height (number)
++ Include AllowedPrivileges

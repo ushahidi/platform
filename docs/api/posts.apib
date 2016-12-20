@@ -1,0 +1,229 @@
+# Group Posts
+
+### List All Posts [GET /api/v3/posts{?q,form,user,parent,set,tags}]
+
+List all posts matching search criteria as supplied in query parameters. Multiple parameters are treated as boolean AND ie. /posts?form=1&user=2 will return posts with form_id = 1 _and_ user_id = 2
+
++ Parameters
+
+    + q (string, optional) - Return posts containing `q` text in `title` or `content` properties
+    + form: 17,18 (number, optional) - Form ID. Accepts multiple values, ie: `?form=17,19,32`
+    + user: 32,33 (number, optional) - User ID. Accepts multiple values, ie: `?user=17,19,32`
+    + parent: 10,11 (number, optional) - Parent Post ID. Accepts multiple values.
+    + set: 1,2 (number, optional) - Collection ID. (Collections are represented as Sets in the database. This naming should change to be more consistent in future)
+    + tags: 1,2,3 (number, optional) - Tag ID. Return Posts matching any of these Tags (Boolean OR)
+    + tags[any]: 1,6,9 (number, optional) - Return posts matching *any* of these Tag IDs (Boolean OR)
+    + tags[all]: 1,7,10 (number, optional) - Return posts matching *all* of these Tag IDs (Boolean AND)
+    + status: draft (enum[string], optional) - Status of Posts to be returned
+        + Members
+            + archived
+            + draft
+            + published
+    + locale: en_us (string, optional) -
+    + created_before: `1970-01-01T00:00:00+00:00` (string, optional)
+    + created_after: `1970-01-01T00:00:00+00:00` (string, optional)
+    + updated_before: `1970-01-01T00:00:00+00:00` (string, optional)
+    + updated_after: `1970-01-01T00:00:00+00:00` (string, optional)
+    + bbox (optional) -
+    + values (optional) -
+    + current_stage (number, optional) - (Experimental)
+    + center_point (string, optional) -
+    + within_km (number, optional) -
+    + published_to (array(string), optional) - Roles this post is published to (Deprecated)
+    + include_types (optional) -
+    + include_attributes (optional) -
+
++ Response 200 (application/json)
+
+    + Attributes
+
+        + count: 20
+        + results (array[Post])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://quakemap.api.ushahidi.io/api/v3/posts?offset=0&limit=20 (string)
+        + next: https://quakemap.api.ushahidi.io/api/v3/posts?offset=20&limit=20 (string)
+        + prev: https://quakemap.api.ushahidi.io/api/v3/posts?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a New Post [POST /api/v3/posts]
+
++ Request With permission to view created post (application/json)
+
+    + Attributes (Post)
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Request Without permission to view created post (application/json)
+
+    + Attributes (Post)
+
++ Response 204
+
++ Request With invalid post data (application/json)
+
+    + Attributes (Post)
+
++ Response 422 (application/json)
+    + Attributes (Validation error response)
+
+## Individual Post [/api/v3/posts/{id}]
+
+### Get a Post [GET]
+
++ Parameters
+
+    + id (number) - ID of the Post
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+### Update a Post [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Post
+
++ Request (application/json)
+
+    + Attributes (Post)
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+### Delete a Post [DELETE]
+
++ Parameters
+
+    + id: 1 (number) - ID of the Post
+
++ Request Delete a post
+
+    + Parameters
+        + id: 123
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Request Delete non existent post
+
+    + Parameters
+        + id: `non-existent`
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+## Posts Statistics [/api/v3/posts/stats]
+
+### Get Posts Grouped Totals [GET /api/v3/posts/stats{?group_by,group_by_attribute_key,group_by_tags}]
+
++ Parameters
+    + group_by: status (string, optional) - Variable to group by
+        + Members:
+            + status
+            + form
+            + tags - Use with `group_by_tags`
+            + attribute - Use with `group_by_attribute_key`
+    + group_by_tags (number, optional) - Group by children of this Parent Tag ID
+    + group_by_attribute_key: region (string, optional) - Attribute key. Posts will be grouped by the value of this attribute.
+
++ Response 200 (application/json)
+
+    + Attributes (PostStats)
+
+### Get Post Totals Over Time [GET /api/v3/posts/stats{?timeline,timeline_interval,timeline_attribute,group_by,group_by_tags,group_by_attribute_key}]
+
++ Parameters
+    + timeline: 1 (boolean, required) - Enable grouping by time
+    + timeline_interval: 86400 (string, optional) - Interval of time to group by, in seconds
+    + timeline_attribute: updated (string, optional) - Property of the post to use as the time variable
+    + group_by: status (string, optional) - Variable to group by
+        + Members:
+            + status
+            + form
+            + tags - Use with `group_by_tags`
+            + attribute - Use with `group_by_attribute_key`
+    + group_by_tags (number, optional) - Group by children of this Parent Tag ID
+    + group_by_attribute_key: region (string, optional) - Attribute key. Posts will be grouped by the value of this attribute.
+
++ Response 200 (application/json)
+
+    + Attributes (PostStats)
+
+## Data Structures
+
+### Post
++ id: 530 (number)
++ url: https://quakemap.api.ushahidi.io/api/v3/posts/530 (string)
++ parent (object, nullable)
+    + id: 1
+    + url: https://demo.api.ushahidi.io/api/v3/posts/1
++ title: Need help (required)
++ content: Asrang VDC of Gorkha hasn't received any help yet. Need relief efforts (required)
++ created: `2014-11-11T08:40:51+00:00`
++ updated: `2014-11-11T08:40:51+00:00`
++ form
+    + id: 1
+    + url: https://quakemap.api.ushahidi.io/api/v3/forms/1
++ user
+    + id: 1
+    + url: https://quakemap.api.ushahidi.io/api/v3/users/1
++ message
++ color: #2274B4 (string)
++ type: report (string)
++ slug: `chhokang-paro-village-upper-tsum-medical-ampamp-food-assistance-urgently-required-560b50a52fe02`
++ author_email: null
++ author_realname: null
++ status: published
++ locale: en_us
++ published_to (array)
++ completed_stages (array[number])
++ values (object) - Custom field values. Object keys map to Form Attribute key field
+    + AttributeID1 (array[*])
+        + Value 1
+        + Value 2
+    + AttributeID2 (array[*])
+        + (object)
+            + lat: 2.456
+            + lon: 1.234
++ tags (array)
+    + (object)
+      + id: 1 (number)
+      + url: https://quakemap.api.ushahidi.io/api/v3/tags/1 (string)
++ sets: 1, 2 (array[string])
++ source: SMS (string) - Original Message source ie. SMS, Twitter
++ contact: rjmackay (string) - Contact Identifier ie. SMS number, twitter handle
++ Include AllowedPrivileges
+
+### PostStats
++ totals (array[*])
+    + (object)
+        + key: tags (string)
+        + values (array[*])
+            + (object)
+                + label: Disaster (string)
+                + total: 2 (number)
+                + id: 3 (number)
++ group_by: tags (string)
++ group_by_attribute_key (string)
++ timeline_attributes (string)

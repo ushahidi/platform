@@ -1,0 +1,232 @@
+# Group Users & Roles
+
+## Users [/api/v3/users]
+
+### List All Users [GET /api/v3/users{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[User])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/users?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/users?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/users?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a User [POST /api/v3/users]
+
++ Request (application/json)
+
+    + Attributes (User)
+
++ Response 200 (application/json)
+
+    + Attributes (User)
+
++ Request With invalid data (application/json)
+
+    + Attributes (User)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Individual User [/api/v3/users/{id}]
+
+### Get a User [GET]
+
++ Parameters
+
+    + id (number) - ID of the User
+
++ Request with access to full user
+
+    + Headers
+
+            Authorization: Bearer someAdminToken
+
++ Response 200 (application/json)
+
+    + Attributes (User)
+
++ Request with access to partial user
+
+    + Headers
+
+            Authorization: Bearer someClientOnlyToken
+
++ Response 200 (application/json)
+
+    + Attributes (Partial User)
+
+### Get Current User [GET /api/v3/users/me]
+
+This is a special case of `/api/v3/users/{id}`. With `id=me` we load
+the user associated with the current oauth token.
+
++ Response 200 (application/json)
+
+    + Attributes (User)
+
+### Update a User [PUT]
+
++ Parameters
+
+    + id (number) - ID of the User
+
++ Request (application/json)
+
+    + Attributes (User)
+
++ Response 200 (application/json)
+
+    + Attributes (User)
+
++ Request With invalid data (application/json)
+
+    + Attributes (User)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a User [DELETE]
+
++ Parameters
+
+    + id (number) - ID of the User
+
++ Response 200 (application/json)
+
+    + Attributes (User)
+
+## Roles [/api/v3/roles]
+
+### List All Roles [GET /api/v3/roles{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Role])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/roles?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/roles?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/roles?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a Role [POST /api/v3/roles]
+
++ Request (application/json)
+
+    + Attributes (Role)
+
++ Response 200 (application/json)
+
+    + Attributes (Role)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Role)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Individual Role [/api/v3/roles/{id}]
+
+### Get a Role [GET]
+
++ Parameters
+
+    + id (number) - ID of the Role
+
++ Response 200 (application/json)
+
+    + Attributes (Role)
+
+### Update a Role [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Role
+
++ Request (application/json)
+
+    + Attributes (Role)
+
++ Response 200 (application/json)
+
+    + Attributes (Role)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Role)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Role [DELETE]
+
++ Parameters
+
+    + id (number) - ID of the Role
+
++ Response 200 (application/json)
+
+    + Attributes (Role)
+
+
+## Data Structures
+
+### User
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/users/530 (string)
++ created: `2014-11-11T08:40:51+00:00` (string)
++ updated: `2014-11-11T08:40:51+00:00` (string, nullable)
++ email: test@ushahidi.com (string)
++ realname: Test User (string)
++ logins: 2 (number)
++ failed_attempts: 3 (number)
++ last_login: `2014-11-11T08:40:51+00:00` (string, nullable)
++ last_attempt: `2014-11-11T08:40:51+00:00` (string, nullable)
++ role: user (string, default)
++ gravatar: 982d5f5e2b53f4843ca1fe521025b342 (string) - Gravatar Hash
++ Include AllowedPrivileges
+
+## Partial User
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/users/530 (string)
++ realname: Test User (string)
++ Include AllowedPrivileges
+
+### Role
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/roles/530 (string)
++ name
++ display_name
++ description (string, nullable)
++ permissions (array)
+    + Manage Users
+    + Manage Posts
+    + Manage Settings
+    + Bulk Data Import
++ protected: false (boolean, required) - Can this role be modified/deleted?
++ Include AllowedPrivileges

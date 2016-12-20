@@ -51,8 +51,8 @@ class SetAuthorizer implements Authorizer, Permissionable
 
 	protected function isVisibleToUser(Set $entity, $user)
 	{
-		if ($entity->visible_to) {
-			return in_array($user->role, $entity->visible_to);
+		if ($entity->role) {
+			return in_array($user->role, $entity->role);
 		}
 
 		// If no roles are selected, the Set is considered completely public.

@@ -1,0 +1,258 @@
+# Group Migrations
+
+## Migrations [/api/v3/migration]
+
+### Get Migration Status [GET]
+
++ Response 200 (application/json)
+
+        {
+            "results": [
+                "Phinx by Rob Morgan - https://phinx.org. version 0.4.3",
+                "",
+                "using config file ./var/www/application/phinx.php",
+                "using config parser php",
+                "using migration path /var/www/migrations",
+                "using environment ushahidi",
+                "",
+                " Status  Migration ID    Migration Name ",
+                "-----------------------------------------",
+                "     up  20140716082651  Initial",
+                "     up  20140716103608  InitialRelations",
+                "     up  20140716154343  InitialOauth",
+                "     up  20140716154431  InitialOauthRelations",
+                "     up  20140821024335  AddLayers",
+                "     up  20140827013047  PopulateOauthScopes",
+                "     up  20140828235719  AddLayersOauthScope",
+                "     up  20140829142629  DefaultAdminUser",
+                "     up  20140829151920  DefaultOauthClient",
+                "     up  20140904004829  AddPostUserFields",
+                "     up  20140904004900  MovePostUsersToPost",
+                "     up  20140904004941  RequireUsersUsername",
+                "     up  20141007125013  CreatedUpdatedIndexes",
+                "     up  20141015004705  AutoApproveDefaultOauthClient",
+                "     up  20141017022550  FormsSoftDelete",
+                "     up  20141105085836  FormAttributesRelations",
+                "     up  20141107032450  FormAttributePriorityIndex",
+                "     up  20150307031255  AddAdditionalInfoToMessages",
+                "     up  20150312174835  AddFkConstraintOnPostTags",
+                "     up  20150323031520  RenameGroupsToStages",
+                "     up  20150326152730  AddSetFields",
+                "     up  20150326163454  AddPublishedToColumnToPosts",
+                "     up  20150331022622  AddRequiredAndCompletedStages",
+                "     up  20150428080719  AllowNullPostTitle",
+                "     up  20150502143055  UpdateConfigValueType",
+                "     up  20150507033314  CreateDefaultSets",
+                "     up  20150608081940  AddSavedSearchesOauthScope",
+                "     up  20150612013637  RemoveTasks",
+                "     up  20150612014430  AddDefaultRoles",
+                "     up  20150612014440  AddUsersRoleForeignKey",
+                "     up  20150715004543  AddUniquePostSlugIndex",
+                "     up  20150716003751  FixUnstructuredPostSetFilter",
+                "     up  20150716034610  AddMissingPostValueToFormAttributeFk",
+                "     up  20150716034618  AddPostRelations",
+                "     up  20150716070739  AddFormAttributeConfig",
+                "     up  20150807043140  CreateUserResetTokens",
+                "     up  20150829193514  AddNotificationsOauthScope",
+                "     up  20150830115829  CreateNotifications",
+                "     up  20150904021011  AddDefaultPostType",
+                "     up  20150904083146  AddContactOauthScope",
+                "     up  20150911110021  AddContactNotifyFlag",
+                "     up  20150916032421  RemoveUsernameFromUsers",
+                "     up  20150924101337  CreateNotificationQueue",
+                "     up  20151028083458  MakeResetTokenFieldLargeEnough",
+                "     up  20151127093600  CreateCsv",
+                "     up  20151208024527  AddUserToMessages",
+                "     up  20151208172416  AddCsvOauthScope",
+                "     up  20160202115439  AddPermissions",
+                "     up  20160204093857  AddRolesOauthScope",
+                "     up  20160209093524  AddPermissionsOauthScope",
+                "     up  20160215174906  AddRoleId",
+                "     up  20160215185411  AddRolesPermissions",
+                "     up  20160215191344  RemovePermissionsFromRoles",
+                "     up  20160322013857  AddMessageNotificationPostId",
+                "     up  20160322020552  MoveMessagePostIdToNotificationPostId",
+                "     up  20160421185245  AddPostMedia",
+                "     up  20160503083146  AddMigrateOauthScope",
+                "     up  20160509232531  AddMessageLocationAttribute",
+                "     up  20160609222458  SetPostUserNullOnDelete",
+                "     up  20160612031458  RenameUserToMember",
+                "     up  20160612032112  UpdateDefaultSavedSearches",
+                "     up  20160623182730  AddProtectedRoles",
+                "     up  20160623184725  SetProtectedRoles",
+                "     up  20160628172956  AddFormColor",
+                "     up  20160720230341  AddRequireApprovalToForms",
+                "     up  20160722231016  CreateFormRolesTable",
+                "     up  20160726225434  AddFormEveryoneCanCreate",
+                "     up  20160803210356  AddTypeToStage",
+                "     up  20160803225359  AddDescriptionToStage",
+                "     up  20160809023850  ReturnPublishToPostsToReview",
+                "     up  20160902084943  MigrateFirstTaskToPostStage",
+                "     up  20161005203722  PostCustomDate",
+                "     up  20161110175958  UpdatePostTitleDesc",
+                "   down  20161208162710  RenameVisibleToColumn",
+                ""]
+        }
+
+### Migrate [POST /api/v3/migration/migrate]
+
++ Response 200 (application/json)
+
+        {
+            "results": [
+                "Phinx by Rob Morgan - https://phinx.org. version 0.4.3",
+                "",
+                "using config file ./var/www/application/phinx.php",
+                "using config parser php",
+                "using migration path /var/www/migrations",
+                "using environment ushahidi",
+                "using adapter mysql",
+                "using database ushahidi",
+                "",
+                " == 20161208162710 RenameVisibleToColumn: migrating",
+                " == 20161208162710 RenameVisibleToColumn: migrated 0.0081s",
+                "",
+                "All Done. Took 0.0182s"]
+        }
+
+
+### Rollback [POST /api/v3/migration/rollback]
+
++ Response 200 (application/json)
+
+        {
+            "results": [
+                "Phinx by Rob Morgan - https://phinx.org. version 0.4.3",
+                "",
+                "using config file ./var/www/application/phinx.php",
+                "using config parser php",
+                "using migration path /var/www/migrations",
+                "using environment ushahidi",
+                "using adapter mysql",
+                "using database ushahidi",
+                "",
+                " == 20161208162710 RenameVisibleToColumn: reverting",
+                " == 20161208162710 RenameVisibleToColumn: reverted 0.0093s",
+                "",
+                "All Done. Took 0.0140s"]
+        }
+
+### Get Migration Status [GET /api/v3/migration/status]
+
++ Response 200 (application/json)
+
+        {
+            "results": [
+                "Phinx by Rob Morgan - https://phinx.org. version 0.4.3",
+                "",
+                "using config file ./var/www/application/phinx.php",
+                "using config parser php",
+                "using migration path /var/www/migrations",
+                "using environment ushahidi",
+                "",
+                " Status  Migration ID    Migration Name ",
+                "-----------------------------------------",
+                "     up  20140716082651  Initial",
+                "     up  20140716103608  InitialRelations",
+                "     up  20140716154343  InitialOauth",
+                "     up  20140716154431  InitialOauthRelations",
+                "     up  20140821024335  AddLayers",
+                "     up  20140827013047  PopulateOauthScopes",
+                "     up  20140828235719  AddLayersOauthScope",
+                "     up  20140829142629  DefaultAdminUser",
+                "     up  20140829151920  DefaultOauthClient",
+                "     up  20140904004829  AddPostUserFields",
+                "     up  20140904004900  MovePostUsersToPost",
+                "     up  20140904004941  RequireUsersUsername",
+                "     up  20141007125013  CreatedUpdatedIndexes",
+                "     up  20141015004705  AutoApproveDefaultOauthClient",
+                "     up  20141017022550  FormsSoftDelete",
+                "     up  20141105085836  FormAttributesRelations",
+                "     up  20141107032450  FormAttributePriorityIndex",
+                "     up  20150307031255  AddAdditionalInfoToMessages",
+                "     up  20150312174835  AddFkConstraintOnPostTags",
+                "     up  20150323031520  RenameGroupsToStages",
+                "     up  20150326152730  AddSetFields",
+                "     up  20150326163454  AddPublishedToColumnToPosts",
+                "     up  20150331022622  AddRequiredAndCompletedStages",
+                "     up  20150428080719  AllowNullPostTitle",
+                "     up  20150502143055  UpdateConfigValueType",
+                "     up  20150507033314  CreateDefaultSets",
+                "     up  20150608081940  AddSavedSearchesOauthScope",
+                "     up  20150612013637  RemoveTasks",
+                "     up  20150612014430  AddDefaultRoles",
+                "     up  20150612014440  AddUsersRoleForeignKey",
+                "     up  20150715004543  AddUniquePostSlugIndex",
+                "     up  20150716003751  FixUnstructuredPostSetFilter",
+                "     up  20150716034610  AddMissingPostValueToFormAttributeFk",
+                "     up  20150716034618  AddPostRelations",
+                "     up  20150716070739  AddFormAttributeConfig",
+                "     up  20150807043140  CreateUserResetTokens",
+                "     up  20150829193514  AddNotificationsOauthScope",
+                "     up  20150830115829  CreateNotifications",
+                "     up  20150904021011  AddDefaultPostType",
+                "     up  20150904083146  AddContactOauthScope",
+                "     up  20150911110021  AddContactNotifyFlag",
+                "     up  20150916032421  RemoveUsernameFromUsers",
+                "     up  20150924101337  CreateNotificationQueue",
+                "     up  20151028083458  MakeResetTokenFieldLargeEnough",
+                "     up  20151127093600  CreateCsv",
+                "     up  20151208024527  AddUserToMessages",
+                "     up  20151208172416  AddCsvOauthScope",
+                "     up  20160202115439  AddPermissions",
+                "     up  20160204093857  AddRolesOauthScope",
+                "     up  20160209093524  AddPermissionsOauthScope",
+                "     up  20160215174906  AddRoleId",
+                "     up  20160215185411  AddRolesPermissions",
+                "     up  20160215191344  RemovePermissionsFromRoles",
+                "     up  20160322013857  AddMessageNotificationPostId",
+                "     up  20160322020552  MoveMessagePostIdToNotificationPostId",
+                "     up  20160421185245  AddPostMedia",
+                "     up  20160503083146  AddMigrateOauthScope",
+                "     up  20160509232531  AddMessageLocationAttribute",
+                "     up  20160609222458  SetPostUserNullOnDelete",
+                "     up  20160612031458  RenameUserToMember",
+                "     up  20160612032112  UpdateDefaultSavedSearches",
+                "     up  20160623182730  AddProtectedRoles",
+                "     up  20160623184725  SetProtectedRoles",
+                "     up  20160628172956  AddFormColor",
+                "     up  20160720230341  AddRequireApprovalToForms",
+                "     up  20160722231016  CreateFormRolesTable",
+                "     up  20160726225434  AddFormEveryoneCanCreate",
+                "     up  20160803210356  AddTypeToStage",
+                "     up  20160803225359  AddDescriptionToStage",
+                "     up  20160809023850  ReturnPublishToPostsToReview",
+                "     up  20160902084943  MigrateFirstTaskToPostStage",
+                "     up  20161005203722  PostCustomDate",
+                "     up  20161110175958  UpdatePostTitleDesc",
+                "   down  20161208162710  RenameVisibleToColumn",
+                ""]
+        }
+
+## Run migrations unauthenticated [/migrate]
+
+### Run migrations [GET /migrate]
+
+This endpoint exists to help bootstrap Ushahidi before the
+tables are created and without command line access. It can be
+run without authentication
+
++ Response 200 (application/json)
+
+        {
+            "results": [
+                "Phinx by Rob Morgan - https://phinx.org. version 0.4.3",
+                "",
+                "using config file ./var/www/application/phinx.php",
+                "using config parser php",
+                "using migration path /var/www/migrations",
+                "using environment ushahidi",
+                "using adapter mysql",
+                "using database ushahidi",
+                "",
+                " == 20161208162710 RenameVisibleToColumn: migrating",
+                " == 20161208162710 RenameVisibleToColumn: migrated 0.0081s",
+                "",
+                "All Done. Took 0.0182s"]
+        }
+

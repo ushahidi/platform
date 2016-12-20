@@ -1,0 +1,215 @@
+## Current Version
+
+Version of the Ushahidi Platform API are designated in the url `/api/v3`.
+
+## Resource Names
+
+As resource names have changed over time some resource names in the API do not currently match the web interface.
+
+API Name | Frontend Name | Description
+--:| ---- | -----------
+Form | Survey  |
+Form Stage | Task  |
+Form Attribute | Field  |
+Tag | Category | Tags also have `type: category`, but this is the only type available at this moment
+Set | Collection | Now mostly eliminated from the API, but in some places it still use
+
+## Schema
+
+All data is sent and received as JSON.
+
+All timestamps are returned in ISO 8601 format:
+
+    YYYY-MM-DDTHH:MM:SS+00:00
+
+## Individual Resouce Responses
+
+When you fetch an individual resource, the response includes all attributes for that resource. Authorization sometimes effects the amount of detail included in the response (ie. fields may be omitted if you do not have permission to access them).
+
+Individual resources always include URL and id properties
+
+```json
+{
+    "id": 1,
+    "url": "https://demo.api.ushahidi.io/api/v3/resources/1"
+}
+```
+
+## Collection Responses
+
+When you a fetch a collection of resources we return some metadata as well as a `results` array. The results array contains the full representation of the resource as decribed above.
+
+```json
+{
+    "count": "20",
+    "results": [
+        // Resources here
+    ],
+    "limit": "20",
+    "offset": "0",
+    "order": "asc",
+    "orderby": "created",
+    "curr": "https://demo.api.ushahidi.io/api/v3/resources?offset=0&limit=20",
+    "next": "https://demo.api.ushahidi.io/api/v3/resources?offset=20&limit=20",
+    "prev": "https://demo.api.ushahidi.io/api/v3/resources?offset=0&limit=20",
+    "total_count": 100
+}
+```
+
+## Relations
+
+When a resource has relations we return these as both a URL and id of the relation
+
+```json
+{
+    "relation": {
+        "id": 1,
+        "url": "https://demo.api.ushahidi.io/api/v3/resources/1"
+    }
+}
+```
+
+If a relation is empty it may be ommitted or `null`.
+
+## Parameters
+
+Many API methods take optional parameters. For GET requests, any parameters not specified as a segment in the path can be passed as an HTTP query string parameter:
+
+```bash
+curl -i -H "Authorization: Bearer OAUTH-TOKEN" "https://demo.api.ushahidi.io/api/v3/forms/1/attributes?type=text"
+```
+
+In this example, the `1` value is provided for the `formid` parameter in the path while `type` is passed in the query string.
+Multiple parameters are treated as boolean `AND` ie. /posts?form=1&user=2 will return posts with form_id = 1 _and_ user_id = 2
+
+For POST and PUT requests, parameters not included in the URL should be encoded as JSON with a Content-Type of 'application/json':
+
+```bash
+curl -i -H "Authorization: Bearer OAUTH-TOKEN" -X POST -d '{"tag":"My tag"}' "https://demo.api.ushahidi.io/api/v3/tags"
+```
+
+### Multivalue parameters
+
+Often it is useful to pass multiple values to a query parameter ie. to return Posts owned by one of several users. In this case we usually accept comma separate values, or PHP style array parameters. For example:
+
+```
+posts?user=1,2,3
+posts?user[]=1&user[]=2&user[]=3
+```
+
+Multi-value parameters will generally be evaluated as boolean `OR`.
+
+## Error responses
+
+All error responses include an `errors` array. Error objects include at least `status` and `title`
+
+```json
+{
+    "errors": [{
+        "status": 400,
+        "title": "Some error"
+    }]
+}
+```
+
+## Client Errors
+
+There are a few possible types of client errors on API calls:
+
+1. Sending invalid JSON will result in a `400 Bad Request` response.
+
+    ```HTTP
+    HTTP/1.1 400 Bad Request
+
+    {
+        "errors": [{
+            "status": 400,
+            "title": "Invalid json supplied. Error: 'Syntax error, malformed JSON'."
+        }]
+    }
+    ```
+
+2. Requesting unsupported response formats (with `?format=something`) will result in a `400 Bad Request` response.
+
+    ```
+    HTTP/1.1 400 Bad Request
+
+    {
+        "errors": [{
+            "status": 400,
+            "title": "Bad formatting parameters. ..."
+        }]
+    }
+    ```
+
+3. Sending invalid fields will result in a `422 Unprocessable Entity`
+   response.
+
+    ```
+    HTTP/1.1 422 Unprocessable Entity
+
+    {
+        "errors": [{
+            "status": 422,
+            "title": "Validation Error"
+        }, {
+            "status": 422,
+            "title": "Username is already taken",
+            "source": {
+                "pointer": "/username"
+            }
+        }]
+    }
+    ```
+
+Validation error objects have a source object so that your client
+can tell where the problem is. `pointer` is a JSONPath reference to
+the invalid field.
+
+## HTTP Verbs
+
+Where possible this API strives to use appropriate HTTP verbs for each
+action.
+
+Verb | Description
+-----|-----------
+`GET` | Used for retrieving resources.
+`POST` | Used for creating resources.
+`PUT` | Used for replacing (updating) resources or collections.
+`DELETE` | Used for deleting resources.
+`OPTIONS` | Can be issued against any resource to get meta data.
+
+## Authentication
+
+Most resources required an OAuth2 Token for authentication. See the [Authorization with OAuth 2](#authorization-with-oauth-2) section below.
+
+## Pagination
+
+Requests that return multiple items may be paginated by default. You can traverse further results with the ?offset parameter. You should also set a custom limit with the ?limit parameter.
+
+        curl 'https://demo.api.ushahidi.io/api/v3/posts?limit=50&offset=50'
+
+Note that offset numbering is 0-based and that omitting the ?offset parameter will default to ?offset=0.
+
+## Cross Origin Resource Sharing
+
+The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin.
+
+Here is what the CORS preflight request looks like
+
+```
+curl -i https://demo.api.ushahidi.io/api/v3/posts -H "Origin: http://example.com" -X OPTIONS
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Authorization, Content-type
+Allow: POST, GET, PUT, DELETE, OPTIONS
+Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS
+
+{
+    "allowed_privileges": [
+        "read",
+        "create",
+        "search"
+    ]
+}
+```
