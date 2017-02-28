@@ -28,6 +28,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 			'type' => 'FeatureCollection',
 			'features' => []
 		];
+		$unmapped = 0;
 
 		foreach ($entities as $entity)
 		{
@@ -67,7 +68,12 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 					]
 				];
 			}
+			if(empty($geometries))
+			{
+				$unmapped++;
+			}
 		}
+		$output['unmapped'] = $unmapped;
 
 		if ($this->search->bbox)
 		{
@@ -82,7 +88,6 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 
 			$output['bbox'] = $bbox;
 		}
-
 		return $output;
 	}
 
