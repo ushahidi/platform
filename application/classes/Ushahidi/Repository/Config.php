@@ -48,10 +48,18 @@ class Ushahidi_Repository_Config implements
 		$this->verifyGroup($group);
 
 		$config = \Kohana::$config->load($group);
-		$immutable = $entity->getImmutable();
 
-		foreach ($entity->getChanged() as $key => $val) {
-			if (! in_array($key, $immutable)) {
+		$immutable = $entity->getImmutable();
+		foreach ($entity->getChanged() as $key => $val) {	
+			if (! in_array($key, $immutable)) {				
+				if($key === 'twitter')
+				{	
+					if($val['twitter_search_terms'] !== $config['twitter']['twitter_search_terms'])
+					{						
+						$twitter_config = \Kohana::$config->load('twitter');
+						$twitter_config->set('since_id', 0);
+					}
+				}
 				$config->set($key, $val);
 			}
 		}
