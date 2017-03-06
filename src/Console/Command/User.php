@@ -47,6 +47,7 @@ class User extends Command
 			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'email')
 			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
 			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'password')
+			->addOption('with-hash', InputOption::OPTIONAL, 'hashed')
 			;
 	}
 
@@ -72,13 +73,15 @@ class User extends Command
 			'password' => $input->getOption('password'),
 		];
 
+		$passwordAlreadyHashed = $input->getOption('with-hash') ?: 'false';
+
 		if (!$this->validator->check($state)) {
 			throw new ValidatorException('Failed to validate user', $this->validator->errors());
 		}
 
 		$entity = $this->repo->getEntity();
 		$entity->setState($state);
-		$id = $this->repo->create($entity);
+		$id = $passwordAlreadyHashed ? $this->repo->create($entity) : $this->repo->createWithHash($entity);
 
 		return [
 			[
