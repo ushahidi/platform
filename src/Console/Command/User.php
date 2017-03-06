@@ -47,7 +47,7 @@ class User extends Command
 			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'email')
 			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
 			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'password')
-			->addOption('with-hash', InputOption::OPTIONAL, 'hashed')
+			->addOption('with-hash', InputOption::OPTIONAL, 'with-hash')
 			;
 	}
 
