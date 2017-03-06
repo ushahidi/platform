@@ -42,12 +42,12 @@ class User extends Command
 		$this
 			->setName('user')
 			->setDescription('Create user accounts')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, create, delete', 'list')
+			->addArgument('action', InputArgument::VALUE_OPTIONAL, 'list, create, delete', 'list')
 			->addOption('realname', null, InputOption::VALUE_OPTIONAL, 'realname')
 			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'email')
 			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
 			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'password')
-			->addOption('with-hash', InputOption::OPTIONAL, 'with-hash')
+			->addOption('with-hash', InputOption::VALUE_OPTIONAL, 'with-hash')
 			;
 	}
 
@@ -73,7 +73,7 @@ class User extends Command
 			'password' => $input->getOption('password'),
 		];
 
-		$passwordAlreadyHashed = $input->getOption('with-hash') ?: 'false';
+		$passwordAlreadyHashed = $input->hasOption('with-hash') ?: 'false';
 
 		if (!$this->validator->check($state)) {
 			throw new ValidatorException('Failed to validate user', $this->validator->errors());
