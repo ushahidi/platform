@@ -5,6 +5,8 @@ build:
   volumes:
     - .:/vols/src
     - ./tmp/out:/vols/out
+  cached: true
+  default_cache_branch: develop
 release:
   build:
     image: release
@@ -12,11 +14,15 @@ release:
   volumes:
     - ./tmp/out:/release
   encrypted_env_file: deployment.env.encrypted
+  cached: true
+  default_cache_branch: master
 deploy:
   build:
     image: deploy
     dockerfile_path: docker/deploy.Dockerfile
   encrypted_env_file: deployment.env.encrypted
+  cached: true
+  default_cache_branch: master
 test:
   build:
     image: test
@@ -34,6 +40,8 @@ test:
     - KOHANA_ENV=testing
   extra_hosts:
     - "ushahidi.dev:127.0.0.1"
+  cached: true
+  default_cache_branch: develop
 mysql:
   image: mysql:5.5
   environment:
@@ -41,3 +49,16 @@ mysql:
     - MYSQL_USER=ushahidi
     - MYSQL_PASSWORD=ushahidi
     - MYSQL_ROOT_PASSWORD=root
+aglio:
+  image: humangeo/aglio
+  volumes:
+    - .:/vols/src
+awscli:
+  build:
+    image: awscli
+    dockerfile_path: docker/awscli.Dockerfile
+  volumes:
+    - .:/vols/src
+  encrypted_env_file: deployment.env.encrypted
+  cached: true
+

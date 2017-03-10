@@ -34,7 +34,7 @@ class Ushahidi_Formatter_Media extends Ushahidi_Formatter_API
 			// 'thumbnail_height'   => $thumbnail_height,
 
 			// Add the allowed HTTP methods
-			'allowed_methods' => $this->getAllowedPrivs($media),
+			'allowed_privileges' => $this->getAllowedPrivs($media),
 		];
 	}
 

@@ -1,0 +1,157 @@
+
+# Group Collections
+
+## Collections [/api/v3/collections]
+
+### List All Collections [GET /api/v3/collections{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Collection])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/collections?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/collections?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/collections?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a Collection [POST /api/v3/collections]
+
++ Request (application/json)
+
+    + Attributes (Collection)
+
++ Response 200 (application/json)
+
+    + Attributes (Collection)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Collection)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Individual Collection [/api/v3/collections/{id}]
+
+### Get a Collection [GET]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Response 200 (application/json)
+
+    + Attributes (Collection)
+
+### Update a Collection [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Request (application/json)
+
+    + Attributes (Collection)
+
++ Response 200 (application/json)
+
+    + Attributes (Collection)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Collection)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Collection [DELETE]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Response 200 (application/json)
+
+    + Attributes (Collection)
+
+## Collection Posts [/api/v3/collections/{id}/posts]
+
+### Get all Posts in a collection [GET]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Post])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/collections/1/posts?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/collections/1/posts?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/collections/1/posts?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Add a Post to a collection [POST]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+
++ Request (application/json)
+
+    + Attributes
+        + id: 95 (number, required) - Post ID to add to collection
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
+### Remove a Post to from collection [DELETE /api/v3/collections/{id}/posts/{postid}]
+
++ Parameters
+
+    + id (number) - ID of the Collection
+    + postid (number) - ID of post to remove from collection
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
+## Data Structures
+
+### Collection
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/collection/530 (string)
++ name (string, required)
++ description (string)
++ user (object, nullable) - Owner of the collection
+    + id: 1 (number)
+    + url: https://quakemap.api.ushahidi.io/api/v3/users/1
++ view: map (enum[string])
+    + Members
+        + map
+        + list
++ view_options (array)
++ visible_to (array) - array of roles which can view this search
+    + admin
++ featured: false (boolean)
++ created: `2014-11-11T08:40:51+00:00` (string, required)
++ update: `2014-11-11T08:40:51+00:00` (string, optional)
++ Include AllowedPrivileges
+

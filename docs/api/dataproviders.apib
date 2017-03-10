@@ -1,0 +1,452 @@
+
+# Group Data Providers
+
+### List All Data Providers [GET /api/v3/dataproviders]
+
++ Response 200
+
+        {
+            "count": 6,
+            "results": [{
+                "id": "email",
+                "url": "http://ushv3.dev/api/v3/dataprovider/email",
+                "name": "Email",
+                "version": 0.1,
+                "services": {
+                    "sms": false,
+                    "ivr": false,
+                    "email": true,
+                    "twitter": false
+                },
+                "links": [
+
+                ],
+                "options": {
+                    "intro_text": {
+                        "label": "",
+                        "input": "read-only-text",
+                        "description": "In order to receive reports by email, please input your email account settings below"
+                    },
+                    "incoming_type": {
+                        "label": "Incoming Server Type",
+                        "input": "radio",
+                        "description": "",
+                        "options": [
+                            "POP",
+                            "IMAP"],
+                        "rules": [
+                            "required",
+                            "number"]
+                    },
+                    "incoming_server": {
+                        "label": "Incoming Server",
+                        "input": "text",
+                        "description": "Examples: mail.yourwebsite.com, imap.gmail.com, pop.gmail.com",
+                        "rules": [
+                            "required"]
+                    },
+                    "incoming_port": {
+                        "label": "Incoming Server Port",
+                        "input": "text",
+                        "description": "Common ports: 110 (POP3), 143 (IMAP), 995 (POP3 with SSL), 993 (IMAP with SSL)",
+                        "rules": [
+                            "required",
+                            "number"]
+                    },
+                    "incoming_security": {
+                        "label": "Incoming Server Security",
+                        "input": "radio",
+                        "description": "",
+                        "options": [
+                            "None",
+                            "SSL",
+                            "TLS"]
+                    },
+                    "incoming_username": {
+                        "label": "Incoming Username",
+                        "input": "text",
+                        "description": "",
+                        "placeholder": "Email account username",
+                        "rules": [
+                            "required"]
+                    },
+                    "incoming_password": {
+                        "label": "Incoming Password",
+                        "input": "text",
+                        "description": "",
+                        "placeholder": "Email account password",
+                        "rules": [
+                            "required"]
+                    },
+                    "outgoing_type": {
+                        "label": "Outgoing Server Type",
+                        "input": "radio",
+                        "description": "",
+                        "options": [
+                            "SMTP",
+                            "sendmail",
+                            "Native"]
+                    },
+                    "outgoing_server": {
+                        "label": "Outgoing Server",
+                        "input": "text",
+                        "description": "Examples: smtp.yourhost.com, smtp.gmail.com",
+                        "rules": [
+                            "required"]
+                    },
+                    "outgoing_port": {
+                        "label": "Outgoing Server Port",
+                        "input": "text",
+                        "description": "Common ports: 25 (SMTP default), 465 (SMTP with SSL)",
+                        "rules": [
+                            "required",
+                            "number"]
+                    },
+                    "outgoing_security": {
+                        "label": "Outgoing Server Security",
+                        "input": "radio",
+                        "description": "",
+                        "options": [
+                            "None",
+                            "SSL",
+                            "TLS"]
+                    },
+                    "outgoing_username": {
+                        "label": "Outgoing Username",
+                        "input": "text",
+                        "description": "",
+                        "placeholder": "Email account username",
+                        "rules": [
+                            "required"]
+                    },
+                    "outgoing_password": {
+                        "label": "Outgoing Password",
+                        "input": "text",
+                        "description": "",
+                        "placeholder": "Email account password",
+                        "rules": [
+                            "required"]
+                    },
+                    "from": {
+                        "label": "Email Address",
+                        "input": "text",
+                        "description": "This will be used to send outgoing emails",
+                        "rules": [
+                            "required"]
+                    },
+                    "from_name": {
+                        "label": "Email Sender Name",
+                        "input": "text",
+                        "description": "Appears in the 'from:' field on outgoing emails",
+                        "rules": [
+                            "required"]
+                    }
+                },
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "frontlinesms",
+                "url": "http://ushv3.dev/api/v3/dataprovider/frontlinesms",
+                "name": "FrontlineSMS",
+                "version": 0.1,
+                "services": {
+                    "sms": true
+                },
+                "links": {
+                    "overview": "https://frontlinecloud.zendesk.com/hc/en-us/articles/208115563-Send-SMS-from-a-Web-Service-Activity-Triggering-outbound-SMS-using-API-requests",
+                    "forward": "https://frontlinecloud.zendesk.com/hc/en-us/articles/208115553-Connecting-to-another-web-service-creating-a-Forward-to-URL-Activity"
+                },
+                "options": {
+                    "key": {
+                        "label": "Key",
+                        "input": "text",
+                        "description": "The API key",
+                        "rules": [
+                            "required"]
+                    },
+                    "secret": {
+                        "label": "Secret",
+                        "input": "text",
+                        "description": "Set a secret so that only authorized FrontlineCloud accounts can send/recieve message. You need to configure the same secret in the FrontlineCloud Activity.",
+                        "rules": [
+                            "required"]
+                    }
+                },
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "nexmo",
+                "url": "http://ushv3.dev/api/v3/dataprovider/nexmo",
+                "name": "Nexmo",
+                "version": 0.1,
+                "services": {
+                    "sms": true,
+                    "ivr": false,
+                    "email": false,
+                    "twitter": false
+                },
+                "links": {
+                    "developer": "https://www.nexmo.com/",
+                    "signup": "https://dashboard.nexmo.com/register"
+                },
+                "options": {
+                    "from": {
+                        "label": "From",
+                        "input": "text",
+                        "description": "The from number",
+                        "rules": [
+                            "required"]
+                    },
+                    "secret": {
+                        "label": "Secret",
+                        "input": "text",
+                        "description": "The secret value",
+                        "rules": [
+                            "required"]
+                    },
+                    "api_key": {
+                        "label": "API Key",
+                        "input": "text",
+                        "description": "The API key",
+                        "rules": [
+                            "required"]
+                    },
+                    "api_secret": {
+                        "label": "API secret",
+                        "input": "text",
+                        "description": "The API secret",
+                        "rules": [
+                            "required"]
+                    }
+                },
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "smssync",
+                "url": "http://ushv3.dev/api/v3/dataprovider/smssync",
+                "name": "SMSSync",
+                "version": 0.1,
+                "services": {
+                    "sms": true,
+                    "ivr": false,
+                    "email": false,
+                    "twitter": false
+                },
+                "links": {
+                    "developer": "http://smssync.ushahidi.com/",
+                    "signup": "http://smssync.ushahidi.com/"
+                },
+                "options": {
+                    "intro_step1": {
+                        "label": "Step 1: Download the \"SMSSync\" app from the Android Market.",
+                        "input": "read-only-text",
+                        "description": "Scan this QR Code with your phone to download the app from the Android Market <img src=\"http://ushv3.dev/media/images/smssync.png\" width=\"150\"/>"
+                    },
+                    "intro_step2": {
+                        "label": "Step 2: Android App Settings",
+                        "input": "read-only-text",
+                        "description": "Turn on SMSSync and use the following link as the Sync URL: http://ushv3.dev/smssync"
+                    },
+                    "secret": {
+                        "label": "Secret",
+                        "input": "text",
+                        "description": "Set a secret so that only authorized SMSSync devices can send/recieve message. You need to configure the same secret in the SMSSync App.",
+                        "rules": [
+                            "required"]
+                    }
+                },
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "twilio",
+                "url": "http://ushv3.dev/api/v3/dataprovider/twilio",
+                "name": "Twilio",
+                "version": 0.1,
+                "services": {
+                    "sms": true,
+                    "ivr": true,
+                    "email": false,
+                    "twitter": false
+                },
+                "links": {
+                    "developer": "https://www.twilio.com",
+                    "signup": "https://www.twilio.com/try-twilio"
+                },
+                "options": {
+                    "from": {
+                        "label": "Phone Number",
+                        "input": "text",
+                        "description": "The from phone number. A Twilio phone number enabled for the type of message you wish to send. ",
+                        "rules": [
+                            "required"]
+                    },
+                    "account_sid": {
+                        "label": "Account SID",
+                        "input": "text",
+                        "description": "The unique id of the Account that sent this message.",
+                        "rules": [
+                            "required"]
+                    },
+                    "auth_token": {
+                        "label": "Auth Token",
+                        "input": "text",
+                        "description": "",
+                        "rules": [
+                            "required"]
+                    },
+                    "sms_auto_response": {
+                        "label": "SMS Auto response",
+                        "input": "text",
+                        "description": "",
+                        "rules": [
+                            "required"]
+                    }
+                },
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }, {
+                "id": "twitter",
+                "url": "http://ushv3.dev/api/v3/dataprovider/twitter",
+                "name": "Twitter",
+                "version": 0.1,
+                "services": {
+                    "sms": false,
+                    "ivr": false,
+                    "email": false,
+                    "twitter": true
+                },
+                "links": {
+                    "developer": "https://apps.twitter.com/"
+                },
+                "options": {
+                    "intro_step1": {
+                        "label": "Step 1: Create a new Twitter application",
+                        "input": "read-only-text",
+                        "description": "Create a <a href=\"https://apps.twitter.com/app/new\">new twitter application</a>"
+                    },
+                    "intro_step2": {
+                        "label": "Step 2: Generate a consumer key and secret",
+                        "input": "read-only-text",
+                        "description": "Once you've created the application click on \"Keys and Access Tokens\".<br /> Then click \"Generate Consumer Key and Secret\".<br /> Copy keys, tokens and secrets into the fields below."
+                    },
+                    "consumer_key": {
+                        "label": "Consumer Key",
+                        "input": "text",
+                        "description": "Add the consumer key from your Twitter app. ",
+                        "rules": [
+                            "required"]
+                    },
+                    "consumer_secret": {
+                        "label": "Consumer Secret",
+                        "input": "text",
+                        "description": "Add the consumer secret from your Twitter app.",
+                        "rules": [
+                            "required"]
+                    },
+                    "oauth_access_token": {
+                        "label": "Access Token",
+                        "input": "text",
+                        "description": "Add the access token you generated for your Twitter app.",
+                        "rules": [
+                            "required"]
+                    },
+                    "oauth_access_token_secret": {
+                        "label": "Access Token Secret",
+                        "input": "text",
+                        "description": "Add the access secret that you generated for your Twitter app.",
+                        "rules": [
+                            "required"]
+                    },
+                    "twitter_search_terms": {
+                        "label": "Twitter search terms",
+                        "input": "text",
+                        "description": "Add search terms separated with commas",
+                        "rules": [
+                            "required"]
+                    }
+                },
+                "allowed_privileges": [
+                    "read",
+                    "create",
+                    "update",
+                    "delete",
+                    "search"]
+            }],
+            "limit": null,
+            "offset": 0,
+            "order": "asc",
+            "orderby": "id",
+            "curr": "http://ushv3.dev/api/v3/dataproviders?orderby=id&order=asc&offset=0",
+            "next": "http://ushv3.dev/api/v3/dataproviders?orderby=id&order=asc&offset=0",
+            "prev": "http://ushv3.dev/api/v3/dataproviders?orderby=id&order=asc&offset=0",
+            "total_count": 6
+        }
+
+### Get a Data Provider [GET /api/v3/dataproviders/{id}]
+
++ Parameters
+    + id: smssync (string, required)
+
++ Response 200
+
+        {
+            "id": "smssync",
+            "url": "http://ushv3.dev/api/v3/dataprovider/smssync",
+            "name": "SMSSync",
+            "version": 0.1,
+            "services": {
+                "sms": true,
+                "ivr": false,
+                "email": false,
+                "twitter": false
+            },
+            "links": {
+                "developer": "http://smssync.ushahidi.com/",
+                "signup": "http://smssync.ushahidi.com/"
+            },
+            "options": {
+                "intro_step1": {
+                    "label": "Step 1: Download the \"SMSSync\" app from the Android Market.",
+                    "input": "read-only-text",
+                    "description": "Scan this QR Code with your phone to download the app from the Android Market <img src=\"http://ushv3.dev/media/images/smssync.png\" width=\"150\"/>"
+                },
+                "intro_step2": {
+                    "label": "Step 2: Android App Settings",
+                    "input": "read-only-text",
+                    "description": "Turn on SMSSync and use the following link as the Sync URL: http://ushv3.dev/smssync"
+                },
+                "secret": {
+                    "label": "Secret",
+                    "input": "text",
+                    "description": "Set a secret so that only authorized SMSSync devices can send/recieve message. You need to configure the same secret in the SMSSync App.",
+                    "rules": [
+                        "required"]
+                }
+            },
+            "allowed_privileges": [
+                "read",
+                "create",
+                "update",
+                "delete",
+                "search"]
+        }

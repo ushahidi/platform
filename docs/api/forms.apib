@@ -1,0 +1,296 @@
+
+# Group Forms
+
+## Forms [/api/v3/forms]
+
+### List All Forms [GET /api/v3/forms{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Form])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/forms?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/forms?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/forms?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a Form [POST /api/v3/forms]
+
++ Request (application/json)
+
+    + Attributes (Form)
+
++ Response 200 (application/json)
+
+    + Attributes (Form)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Form)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Get a Form [GET /api/v3/forms/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form
+
++ Response 200 (application/json)
+
+    + Attributes (Form)
+
+### Update a Form [PUT /api/v3/forms/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form
+
++ Request (application/json)
+
+    + Attributes (Form)
+
++ Response 200 (application/json)
+
+    + Attributes (Form)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Form)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Form [DELETE /api/v3/forms/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form
+
++ Response 200 (application/json)
+
+    + Attributes (Form)
+
+## Form Stages [/api/v3/forms/{formid}/stages]
+
+### List All Stages in A Form [GET /api/v3/forms/{formid}/stages{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Form Stage])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/stages?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/stages?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/stages?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a Form Stage [POST /api/v3/forms/{formid}/stages]
+
++ Request (application/json)
+
+    + Attributes (Form Stage)
+
++ Response 200 (application/json)
+
+    + Attributes (Form Stage)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Form Stage)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Get a Form Stage [GET /api/v3/forms/{formid}/stages/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form Stage
+
++ Response 200 (application/json)
+
+    + Attributes (Form Stage)
+
+### Update a Form Stage [PUT /api/v3/forms/{formid}/stages/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form Stage
+
++ Request (application/json)
+
+    + Attributes (Form Stage)
+
++ Response 200 (application/json)
+
+    + Attributes (Form Stage)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Form Stage)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Form Stage [DELETE /api/v3/forms/{formid}/stages/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form Stage
+
++ Response 200 (application/json)
+
+    + Attributes (Form Stage)
+
+## Form Attributes [/api/v3/forms/{formid}/attributes]
+
+### List All Attributes In Form [GET /api/v3/forms/{formid}/attributes{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Form Attribute])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/attributes?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/attributes?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/attributes?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a Form Attribute [POST /api/v3/forms/{formid}/attributes]
+
++ Request (application/json)
+
+    + Attributes (Form Attribute)
+
++ Response 200 (application/json)
+
+    + Attributes (Form Attribute)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Form Attribute)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Get a Form Attribute [GET /api/v3/forms/{formid}/attributes/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form Attribute
+
++ Response 200 (application/json)
+
+    + Attributes (Form Attribute)
+
+### Update a Form Attribute [PUT /api/v3/forms/{formid}/attributes/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form Attribute
+
++ Request (application/json)
+
+    + Attributes (Form Attribute)
+
++ Response 200 (application/json)
+
+    + Attributes (Form Attribute)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Form Attribute)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Form Attribute [DELETE /api/v3/forms/{formid}/attributes/{id}]
+
++ Parameters
+
+    + id (number) - ID of the Form Attribute
+
++ Response 200 (application/json)
+
+    + Attributes (Form Attribute)
+
+
+## Data Structures
+
+### Form
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/forms/530 (string)
++ parent (object, nullable) - Parent Form **deprecated**
+    + id: https://demo.api.ushahidi.io/api/v3/forms/1
+    + url: https://demo.api.ushahidi.io/api/v3/forms/1
++ name: This is a Form (string, required)
++ description: This is a form description (string)
++ color: #ff00dd (string, optional)
++ type: "report" (enum[string])
+    + Members
+        + report
++ disable: false (boolean)
++ created: `2014-11-11T08:40:51+00:00` (string)
++ updated: `2014-11-11T08:40:51+00:00` (string, nullable)
++ Include AllowedPrivileges
+
+### Form Stage
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/forms/1/stages/12 (string)
++ form_id: 1 (number, required)
++ label: Step 2 (string, required)
++ priority: 1 (number)
++ icon (string) - Icon **deprecated**
++ required: false (boolean)
++ Include AllowedPrivileges
+
+### Form Attribute
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/forms/1/attributes/15 (string)
++ label: Some field (string, required)
++ instructions: Fill in the field (string, optional)
++ input: text (string, required)
++ type: varchar (string, required)
++ required: true (boolean)
++ default (string)
++ priority: 1 (number)
++ options (array)
++ cardinality: 1 (number, required)
++ config (array)
++ form_stage_id: 1 (number, required)
++ created: `2014-11-11T08:40:51+00:00` (string)
++ updated: `2014-11-11T08:40:51+00:00` (string, nullable)
++ Include AllowedPrivileges

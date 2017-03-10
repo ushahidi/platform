@@ -1,0 +1,217 @@
+# Group Messages & Contacts
+
+## Messages [/api/v3/messages]
+
+### List All Messages [GET /api/v3/messages{?q}]
+
++ Parameters
+
+    + q
+
++ Response 200 (application/json)
+
+    + Attributes
+        + count: 20
+        + results (array[Message])
+        + limit: 20 (string) <!-- Actually a number, fix API -->
+        + offset: 0 (string) <!-- Actually a number, fix API -->
+        + order: asc (string)
+        + orderby: created (string)
+        + curr: https://demo.api.ushahidi.io/api/v3/messages?offset=0&limit=20 (string)
+        + next: https://demo.api.ushahidi.io/api/v3/messages?offset=20&limit=20 (string)
+        + prev: https://demo.api.ushahidi.io/api/v3/messages?offset=0&limit=20 (string)
+        + total_count: 100 (number)
+
+### Create a Message [POST /api/v3/messages]
+
++ Request (application/json)
+
+    + Attributes (Message)
+
++ Response 200 (application/json)
+
+    + Attributes (Message)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Message)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Individual Message [/api/v3/messages/{id}]
+
+### Get a Message [GET]
+
++ Parameters
+
+    + id (number) - ID of the Message
+
++ Response 200 (application/json)
+
+    + Attributes (Message)
+
+### Get a Post for Message [GET /api/v3/messages/{id}/post]
+
++ Parameters
+
+    + id (number) - ID of the Contact
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
+### Update a Message [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Message
+
++ Request (application/json)
+
+    + Attributes (Message)
+
++ Response 200 (application/json)
+
+    + Attributes (Message)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Message)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Message [DELETE]
+
+:::note
+Messages cannot be deleted
+:::
+
++ Response 405 (application/json)
+
+## Contacts [/api/v3/contact]
+
+### Create a Contact [POST /api/v3/contacts]
+
++ Request (application/json)
+
+    + Attributes (Contact)
+
++ Response 200 (application/json)
+
+    + Attributes (Contact)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Contact)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Individual Contact [/api/v3/contacts/{id}]
+
+### Get a Contact [GET]
+
++ Parameters
+
+    + id (number) - ID of the Contact
+
++ Response 200 (application/json)
+
+    + Attributes (Contact)
+
+### Update a Contact [PUT]
+
++ Parameters
+
+    + id (number) - ID of the Contact
+
++ Request (application/json)
+
+    + Attributes (Contact)
+
++ Response 200 (application/json)
+
+    + Attributes (Contact)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Contact)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+### Delete a Contact [DELETE]
+
++ Parameters
+
+    + id (number) - ID of the Contact
+
++ Response 200 (application/json)
+
+    + Attributes (Contact)
+
+
+## Data Structures
+
+### Message
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/messages/530 (string)
++ parent (object, nullable)
+    + id: 1
+    + url: https://demo.api.ushahidi.io/api/v3/messages/1
++ contact_id: 1 (number)
++ user (object, nullable)
+    + id: 1 (number)
+    + url: https://quakemap.api.ushahidi.io/api/v3/users/1
++ post_id: 13 (number, nullable)
++ data_provider: smssync (string)
++ data_provider_message_id (string, nullable)
++ title (string)
++ message (string, required)
+<!-- + datetime -- unused -->
++ type: sms (enum[string])
+    + Members
+        + sms
+        + email
+        + twitter
+        + phone
++ status: pending (enum[string])
+    + Members
+        + pending
+        + received
+        + sent
+        + pending_poll
+        + unknown
++ direction: outgoing (enum[string])
+    + Members
+        + outgoing
+        + incoming
++ additional_data (object, nullable) - Additional data from source
++ notification_post_id (number, nullable) - When message is a notification, contains post_id we're notifying users about
++ created: `2014-11-11T08:40:51+00:00` (string)
++ Include AllowedPrivileges
+
+### Contact
++ id: 530 (number)
++ url: https://demo.api.ushahidi.io/api/v3/contact/530 (string)
++ user (object, nullable)
+    + id: 1 (number)
+    + url: https://quakemap.api.ushahidi.io/api/v3/users/1 (string)
++ data_provider (string, nullable)
++ type: phone (enum[string])
+    + Members
+        + email
+        + twitter
+        + phone
++ contact: 987654321 (string, required)
++ can_notify: false (boolean)
++ created: `2014-11-11T08:40:51+00:00` (string)
++ updated: `2014-11-11T08:40:51+00:00` (string, nullable)
++ Include AllowedPrivileges
+

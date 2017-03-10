@@ -1,0 +1,119 @@
+
+
+# Group Import
+
+## CSV [/api/v3/csv]
+
+### List All [GET]
+
++ Response 200 (application/json)
+
+### Upload a CSV [POST]
+
++ Request (multipart/form-data; boundary=------------------------8997f01b76fd4353)
+
+		--------------------------8997f01b76fd4353
+		Content-Disposition: form-data; name="file"; filename="sample.csv"
+		Content-Type: text/csv
+
+		title, name, date, location, details, lat, lon, actions.0, actions.1
+		Missing person, Joseph Pata, 2015-11-20, Maputo, Last seen in Central Market, 33.755, -84.39, ground_search, medical_evacuation
+		Missing person, Yusuf Hajj, 2015-08-20, Kampala, last seen in the mall, -1.2921, 36.8219, medical_evacuation,
+
+		--------------------------8997f01b76fd4353--
+
+
++ Response 200 (application/json)
+
+		{
+			"id": 1,
+			"url": "http://ushv3.dev/api/v3/csv/1",
+			"columns": [
+				"title",
+				" name",
+				" date",
+				" location",
+				" details",
+				" lat",
+				" lon",
+				" actions.0",
+				" actions.1"],
+			"maps_to": null,
+			"fixed": null,
+			"filename": "5/8/5858af124869f-sample.csv",
+			"mime": "text/plain",
+			"size": 307,
+			"created": "2016-12-20T04:09:54+00:00",
+			"updated": null,
+			"completed": null,
+			"allowed_privileges": [
+				"read",
+				"create",
+				"update",
+				"delete",
+				"search"]
+		}
+
+### Get CSV [GET /api/v3/csv/{id}]
+
++ Response 200 (application/json)
+
+		{
+			"id": 1,
+			"url": "http://ushv3.dev/api/v3/csv/1",
+			"columns": [
+				"title",
+				" name",
+				" date",
+				" location",
+				" details",
+				" lat",
+				" lon",
+				" actions.0",
+				" actions.1"],
+			"maps_to": null,
+			"fixed": null,
+			"filename": "5/8/5858af124869f-sample.csv",
+			"mime": "text/plain",
+			"size": 307,
+			"created": "2016-12-20T04:09:54+00:00",
+			"updated": null,
+			"completed": null,
+			"allowed_privileges": [
+				"read",
+				"create",
+				"update",
+				"delete",
+				"search"]
+		}
+
+### Update CSV [PUT /api/v3/csv/{id}]
+
++ Request (application/json)
+
+		{
+		    "columns":["title", "name", "date", "location", "details", "lat", "lon", "actions"],
+		    "maps_to":["title", "full_name", null, "last_location", null, "last_location_point.lat", "last_location_point.lon", "possible_actions.0", "possible_actions.1"],
+		    "fixed":
+		    {
+		        "form":1,
+		        "tags":["explosion"],
+		        "status":"published",
+		        "published_to":["admin"]
+		    }
+		}
+
++ Response 200 (application/json)
+
+### Delete CSV [DELETE /api/v3/csv/{id}]
+
++ Response 200 (application/json)
+
+### Import a CSV [POST /api/v3/csv/{id}/import]
+
++ Request (application/json)
+
+		{}
+
++ Response 200 (application/json)
+

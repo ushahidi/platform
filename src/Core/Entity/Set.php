@@ -22,7 +22,7 @@ class Set extends StaticEntity
 	protected $url;
 	protected $view;
 	protected $view_options;
-	protected $visible_to;
+	protected $role;
 	protected $featured;
 	protected $created;
 	protected $updated;
@@ -38,7 +38,7 @@ class Set extends StaticEntity
 			'url'          => '*url',
 			'view'         => 'string',
 			'view_options' => '*json',
-			'visible_to'   => '*json',
+			'role'   => '*json',
 			'featured'     => 'boolean',
 			'created'      => 'int',
 			'updated'      => 'int',
