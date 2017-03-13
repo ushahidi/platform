@@ -985,6 +985,10 @@ oauth_scopes:
     id: 19
     scope: migrate
     name: migrate
+  -
+    id: 20
+    scope: webhooks
+    name: webhooks
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1555,6 +1559,48 @@ notifications:
     id: 6
     user_id: 4
     set_id: 4
+# Webhooks
+webhooks:
+  -
+    id: 2
+    user_id: 1
+    post_id: 2
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type:"create"
+  -
+    id: 3
+    user_id: 1
+    post_id: 3
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type:"create"
+  -
+    id: 4
+    user_id: 1
+    post_id: 4
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type:"create"
+  -
+    id: 5
+    user_id: 1
+    post_id: 4
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type:"create"
+  -
+    id: 6
+    user_id: 4
+    post_id: 4
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type:"create"
 csv:
 roles_permissions:
   -
