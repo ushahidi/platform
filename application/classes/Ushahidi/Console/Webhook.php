@@ -63,8 +63,8 @@ class Ushahidi_Console_Webhook extends Command
 		$this
 			->setName('webhook')
 			->setDescription('Manage webhook requests')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, queue', 'list')
-			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of webhook requests')
+			->addArgument('action', InputArgument::OPTIONAL, 'list, send', 'list')
+			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of webhook requests to be sent')
 			;
 	}
 
@@ -72,12 +72,12 @@ class Ushahidi_Console_Webhook extends Command
 	{
 		return [
 			[
-				'Available actions' => 'queue'
+				'Available actions' => 'send'
 			]
 		];
 	}
 
-	protected function executeQueue(InputInterface $input, OutputInterface $output)
+	protected function executeSend(InputInterface $input, OutputInterface $output)
 	{
 
 		$this->client = new GuzzleHttp\Client();
