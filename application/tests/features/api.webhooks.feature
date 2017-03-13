@@ -1,4 +1,4 @@
-@notifications
+@webhooks
 Feature: Testing the Webhook API
 
     Scenario: Create to a webhook
