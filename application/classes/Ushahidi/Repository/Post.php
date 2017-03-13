@@ -31,6 +31,9 @@ use Ushahidi\Core\Tool\Permissions\Permissionable;
 
 use Aura\DI\InstanceFactory;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	PostRepository,
 	UpdatePostRepository,
@@ -38,6 +41,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	Permissionable
 {
 	use UserContext;
+
+	// Use Event trait to trigger events
+	use Event;
 
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
@@ -60,6 +66,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
+
+	protected $listener;
 
 	/**
 	 * Construct
@@ -866,6 +874,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// Update post-stages
 			$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
 		}
+
+		$this->emit($this->event, $post);
 
 		return $id;
 	}

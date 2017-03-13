@@ -140,6 +140,14 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
 		$di->setter['Ushahidi_Console_SavedSearch']['setDataFactory'] = $di->lazyGet('factory.data');
 
+		// Webhook command
+		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
+		$di->setter['Ushahidi_Console_Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
+		$di->setter['Ushahidi_Console_Webhook']['setPostRepo'] = $di->lazyGet('repository.post');
+		$di->setter['Ushahidi_Console_Webhook']['setSigner'] = $di->lazyGet('tool.signer.signature');
+		$di->setter['Ushahidi_Console_Webhook']['setWebhookRepo'] = $di->lazyGet('repository.message');
+		$di->setter['Ushahidi_Console_Webhook']['setWebhookQueueRepo'] = $di->lazyGet('repository.webhook.queue');
+
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
 			$server = $di->newInstance('League\OAuth2\Server\Authorization');
@@ -246,6 +254,10 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Notification_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Notification_Update'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['webhooks'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Webhook_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Webhook_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['contacts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Contact_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Contact_Update'),
@@ -292,6 +304,7 @@ abstract class Ushahidi_Core {
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
+			'webhook'              => $di->lazyNew('Ushahidi_Formatter_Webhook'),
 			'contacts'             => $di->lazyNew('Ushahidi_Formatter_Contact'),
 			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
 			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
@@ -317,6 +330,7 @@ abstract class Ushahidi_Core {
 			'savedsearch',
 			'set_post',
 			'notification',
+			'webhook',
 			'contact',
 			'role',
 			'permission',
@@ -334,6 +348,7 @@ abstract class Ushahidi_Core {
 
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
+		$di->set('tool.signer.signature', $di->lazyNew('Ushahidi_Signer_Signature'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
 
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
@@ -425,8 +440,10 @@ abstract class Ushahidi_Core {
 		$di->set('repository.user', $di->lazyNew('Ushahidi_Repository_User'));
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
 		$di->set('repository.notification', $di->lazyNew('Ushahidi_Repository_Notification'));
+		$di->set('repository.webhook', $di->lazyNew('Ushahidi_Repository_Webhook'));
 		$di->set('repository.csv', $di->lazyNew('Ushahidi_Repository_CSV'));
 		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
+		$di->set('repository.webhook.queue', $di->lazyNew('Ushahidi_Repository_Webhook_Queue'));
 		$di->set('repository.permission', $di->lazyNew('Ushahidi_Repository_Permission'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
@@ -548,6 +565,8 @@ abstract class Ushahidi_Core {
 			'user_repo' => $di->lazyGet('repository.user'),
 			'collection_repo' => $di->lazyGet('repository.set'),
 			'savedsearch_repo' => $di->lazyGet('repository.savedsearch'),
+		];$di->params['Ushahidi_Validator_Webhook_Update'] = [
+			'user_repo' => $di->lazyGet('repository.user'),
 		];
 		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
@@ -669,6 +688,15 @@ abstract class Ushahidi_Core {
 		// NotificationQueue repo for Set listener
 		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
 			$di->lazyGet('repository.notification.queue');
+
+		// Event listener for the Post repo
+		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostCreateEvent';
+		$di->setter['Ushahidi_Repository_Post']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_PostListener');
+
+		// WebhookQueue repo for Post listener
+		$di->setter['Ushahidi_Listener_PostListener']['setRepo'] =
+			$di->lazyGet('repository.webhook.queue');
 
 		// Defined memcached
 		$di->set('memcached', $di->lazy(function () use ($di) {
