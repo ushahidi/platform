@@ -40,7 +40,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 		$webhook = $this->webhook_repo->getByEventType($event_type);
 
 		$state = [
-			'post' => $post_id,
+			'post_id' => $post_id,
 			'webhook' => $webhook->id
 		];
 

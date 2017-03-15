@@ -11,7 +11,6 @@ class CreateWebhookQueue extends AbstractMigration
     public function up()
     {
       $this->table('webhook_queue')
-        ->addColumn('user_id', 'integer', ['null' => false])
 		    ->addColumn('post_id', 'integer', ['null' => false])
         ->addColumn('webhook_id', 'integer', ['null' => false])
   		  ->addColumn('created', 'integer', ['default' => 0])
