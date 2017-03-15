@@ -294,6 +294,17 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 1
+  -
+    id: 18
+    label: "Test markdown"
+    key: "markdown"
+    type: "markdown"
+    input: "text"
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
 posts:
   -
     id: 1
