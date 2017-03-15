@@ -15,22 +15,33 @@ use League\Event\AbstractListener;
 use League\Event\EventInterface;
 
 use Ushahidi\Core\Entity\WebhookQueueRepository;
+use Ushahidi\Core\Entity\WebhookRepository;
 
 class Ushahidi_Listener_PostListener extends AbstractListener
 {
 	protected $repo;
+
+	protected $webhook_repo;
 
 	public function setRepo(WebhookQueueRepository $repo)
 	{
 		$this->repo = $repo;
 	}
 
-  public function handle(EventInterface $event, $post_id, $webhook_id)
+	public function setWebhookRepo(WebhookRepository $webhook_repo)
+	{
+		$this->webhook_repo = $webhook_repo;
+	}
+
+  public function handle(EventInterface $event, $post_id = null, $event_type = null)
   {
 		// Insert into Notification Queue
+
+		$webhook = $this->webhook_repo->getByEventType($event_type);
+
 		$state = [
 			'post' => $post_id,
-			'webhook' => $webhook_id
+			'webhook' => $webhook->id
 		];
 
 		$entity = $this->repo->getEntity();

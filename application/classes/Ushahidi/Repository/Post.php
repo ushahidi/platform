@@ -875,7 +875,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
 		}
 
-		$this->emit($this->event, $post);
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $id, 'create');
 
 		return $id;
 	}

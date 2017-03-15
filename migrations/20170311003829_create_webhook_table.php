@@ -17,6 +17,10 @@ class CreateWebhookTable extends AbstractMigration
           ->addColumn('entity_type', 'string', ['null' => false])
           ->addColumn('created', 'integer', ['default' => 0])
           ->addColumn('updated', 'integer', ['default' => 0], ['null' => true])
+          ->addForeignKey('user_id', 'users', 'id', [
+                    'delete' => 'CASCADE',
+                    'update' => 'CASCADE',
+                    ])
           ->create();
 
     }

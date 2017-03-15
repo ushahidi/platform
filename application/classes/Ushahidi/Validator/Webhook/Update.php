@@ -11,7 +11,6 @@
 
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Entity\SetRepository;
 
 class Ushahidi_Validator_Webhook_Update extends Validator
 {
@@ -29,21 +28,19 @@ class Ushahidi_Validator_Webhook_Update extends Validator
 			'id' => [
 				['numeric'],
 			],
-			'user_id' => [
-				['numeric'],
-				[[$this->user_repo, 'exists'], [':value']],
-			],
 			'shared_secret' => [
-				['not_empty']
+				['min_length', [':value', 20]],
+				// alphas, numbers, punctuation, and spaces
+				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
 			],
 			'url' => [
-				['not_empty']
+				['url']
 			],
 			'event_type' => [
-				['not_empty']
+				['in_array', [':value', ['create', 'delete', 'update', 'search']]],
 			],
 			'entity_type' => [
-				['not_empty']
+				['in_array', [':value', ['post']]],
 			]
 		];
 	}

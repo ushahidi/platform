@@ -53,7 +53,7 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 		{
 			if ($search->$fk)
 			{
-				$query->where("Webhooks.{$fk}_id", '=', $search->$fk);
+				$query->where("webhooks.{$fk}_id", '=', $search->$fk);
 			}
 		}
 	}
@@ -61,6 +61,11 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 	public function getEntity(Array $data = null)
 	{
 		return new Webhook($data);
+	}
+
+	public function getByEventType($event_type= null)
+	{
+		return $this->getEntity($this->selectOne(compact('event_type')));
 	}
 
 	// CreateRepository

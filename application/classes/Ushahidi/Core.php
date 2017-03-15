@@ -145,7 +145,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
 		$di->setter['Ushahidi_Console_Webhook']['setPostRepo'] = $di->lazyGet('repository.post');
 		$di->setter['Ushahidi_Console_Webhook']['setSigner'] = $di->lazyGet('tool.signer.signature');
-		$di->setter['Ushahidi_Console_Webhook']['setWebhookRepo'] = $di->lazyGet('repository.message');
+		$di->setter['Ushahidi_Console_Webhook']['setWebhookRepo'] = $di->lazyGet('repository.webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookQueueRepo'] = $di->lazyGet('repository.webhook.queue');
 
 		// OAuth servers
@@ -304,7 +304,7 @@ abstract class Ushahidi_Core {
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
-			'webhook'              => $di->lazyNew('Ushahidi_Formatter_Webhook'),
+			'webhooks'              => $di->lazyNew('Ushahidi_Formatter_Webhook'),
 			'contacts'             => $di->lazyNew('Ushahidi_Formatter_Contact'),
 			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
 			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
@@ -697,6 +697,10 @@ abstract class Ushahidi_Core {
 		// WebhookQueue repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setRepo'] =
 			$di->lazyGet('repository.webhook.queue');
+
+		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
+			$di->lazyGet('repository.webhook');
 
 		// Defined memcached
 		$di->set('memcached', $di->lazy(function () use ($di) {

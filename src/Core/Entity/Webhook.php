@@ -26,8 +26,7 @@ class Webhook extends StaticEntity
 	{
 		// Foreign key alias
 		return [
-			'user_id' => ['user', 'user.id'],
-			'post_id'  => ['set', 'set.id']
+			'user_id' => ['user', 'user.id']
 		];
 	}
 
@@ -56,6 +55,6 @@ class Webhook extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return array_merge(parent::getImmutable(), ['user_id', 'post_id']);
+		return array_merge(parent::getImmutable(), ['user_id']);
 	}
 }

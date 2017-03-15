@@ -19,14 +19,14 @@ use Ushahidi\Core\Entity\NotificationQueueRepository;
 class Ushahidi_Listener_PostSetListener extends AbstractListener
 {
 	protected $repo;
-	
+
 	public function setRepo(NotificationQueueRepository $repo)
 	{
 		$this->repo = $repo;
 	}
-	
-    public function handle(EventInterface $event, $set_id = null, $post_id = null)
-    {
+
+  public function handle(EventInterface $event, $set_id = null, $post_id = null)
+  {
 		// Insert into Notification Queue
 		$state = [
 			'set'  => $set_id,
@@ -36,5 +36,5 @@ class Ushahidi_Listener_PostSetListener extends AbstractListener
 		$entity = $this->repo->getEntity();
 		$entity->setState($state);
 		$this->repo->create($entity);
-    }
+  }
 }

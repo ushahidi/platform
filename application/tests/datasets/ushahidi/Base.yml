@@ -1051,6 +1051,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 16
+  -
+    session_access_token_id: 2
+    scope_id: 20
 
   # for testbasicuser
   -
@@ -1095,6 +1098,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 16
+  -
+    session_access_token_id: 3
+    scope_id: 20
 
   # for testadminuser
   -
@@ -1186,6 +1192,10 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 16
+  -
+    session_access_token_id: 5
+    scope_id: 20
+
   # for testanon
   -
     session_access_token_id: 6
@@ -1564,43 +1574,31 @@ webhooks:
   -
     id: 2
     user_id: 1
-    post_id: 2
     shared_secret: "testestest"
     url: "https://test.test"
     entity_type: "post"
-    event_type:"create"
+    event_type: "create"
   -
     id: 3
     user_id: 1
-    post_id: 3
     shared_secret: "testestest"
     url: "https://test.test"
     entity_type: "post"
-    event_type:"create"
+    event_type: "update"
   -
     id: 4
     user_id: 1
-    post_id: 4
     shared_secret: "testestest"
     url: "https://test.test"
     entity_type: "post"
-    event_type:"create"
+    event_type: "delete"
   -
     id: 5
     user_id: 1
-    post_id: 4
     shared_secret: "testestest"
     url: "https://test.test"
     entity_type: "post"
-    event_type:"create"
-  -
-    id: 6
-    user_id: 4
-    post_id: 4
-    shared_secret: "testestest"
-    url: "https://test.test"
-    entity_type: "post"
-    event_type:"create"
+    event_type: "search"
 csv:
 roles_permissions:
   -

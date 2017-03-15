@@ -1,19 +1,18 @@
 @webhooks
 Feature: Testing the Webhook API
 
-    Scenario: Create to a webhook
+    Scenario: Create a webhook
         Given that I want to make a new "Webhook"
         And that the request "Authorization" header is "Bearer testbasicuser"
         And that the request "data" is:
-            """
-            {
-                "post":"1",
-                "entity_type":"post",
-                "event_type":"create",
-                "shared_secret":"f2416258639b0584c909dd9cdb33db347577435797471c6b995a8af382cd8cd6",
-                "url":"https://someplace.com/webhook/trigger"
-            }
-            """
+          """
+          {
+            "entity_type":"post",
+            "event_type":"create",
+            "shared_secret":"f2416258639b0584c909dd9cdb33db347577435797471c6b995a8af382cd8cd6",
+            "url":"https://someplace.com/webhook/trigger"
+          }
+          """
         When I request "/webhooks"
         Then the response is JSON
         And the response has a "id" property
@@ -26,7 +25,6 @@ Feature: Testing the Webhook API
         And that the request "data" is:
             """
             {
-                "post":"2",
                 "entity_type":"post",
                 "event_type":"create",
                 "shared_secret":"f2416258639b0584c909dd9cdb33db347577435797471c6b995a8af382cd8cd6",

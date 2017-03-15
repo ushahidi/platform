@@ -49,4 +49,10 @@ class WebhookQueue extends StaticEntity
 	{
 		return 'webhook_queue';
 	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		return array_merge(parent::getImmutable(), ['post_id', 'webhook_id']);
+	}
 }

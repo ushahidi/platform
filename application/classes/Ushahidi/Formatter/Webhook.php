@@ -18,7 +18,7 @@ class Ushahidi_Formatter_Webhook extends Ushahidi_Formatter_API
 	protected function get_field_name($field)
 	{
 		$remap = [
-			'set_id'  => 'set'
+			'user_id'  => 'user'
 			];
 
 		if (isset($remap[$field])) {
@@ -28,8 +28,8 @@ class Ushahidi_Formatter_Webhook extends Ushahidi_Formatter_API
 		return parent::get_field_name($field);
 	}
 
-	protected function format_set_id($set_id)
+	protected function format_user_id($user_id)
 	{
-		return $this->get_relation('sets', $set_id);
+		return $this->get_relation('users', $user_id);
 	}
 }
