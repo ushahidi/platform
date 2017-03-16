@@ -3,7 +3,7 @@ Feature: Testing the Webhook API
 
     Scenario: Create a webhook
         Given that I want to make a new "Webhook"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the request "Authorization" header is "Bearer testadminuser"
         And that the request "data" is:
           """
           {
@@ -36,7 +36,7 @@ Feature: Testing the Webhook API
 
     Scenario: Deleting a webhook
         Given that I want to delete a "Webhook"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the request "Authorization" header is "Bearer testadminuser"
         And that its "id" is "2"
         When I request "/webhooks"
         Then the response is JSON
@@ -48,10 +48,10 @@ Feature: Testing the Webhook API
     @resetFixture
     Scenario: Listing Webhooks for a user
         Given that I want to get all "Webhooks"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the request "Authorization" header is "Bearer testadminuser"
         And that the request "query string" is:
             """
-                user=me
+                user=0
             """
         When I request "/webhooks"
         Then the response is JSON

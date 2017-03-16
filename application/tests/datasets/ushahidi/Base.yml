@@ -1157,8 +1157,11 @@ oauth_session_token_scopes:
     session_access_token_id: 4
     scope_id: 18
   -
-    session_access_token_id: 2
+    session_access_token_id: 4
     scope_id: 19
+  -
+    session_access_token_id: 4
+    scope_id: 20
 
   # for testbasicuser2
   -
