@@ -11,10 +11,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Tool\Filesystem;
+namespace Ushahidi\App;
+
+use Ushahidi\Core\Tool\Filesystem as FilesystemInterface;
 use League\Flysystem\Filesystem as FlyFs;
 
-class Ushahidi_Filesystem extends FlyFs implements Filesystem
+class Filesystem extends FlyFs implements FilesystemInterface
 {
 	// Class exists only to fufill implementation requirements
 }

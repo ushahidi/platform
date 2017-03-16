@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php
 
 /**
  * Ushahidi CSV File Reader
@@ -9,11 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\FileReader;
+
 use League\Csv\Reader;
 use Ushahidi\Core\Tool\FileReader;
 use Ushahidi\Core\Tool\ReaderFactory;
 
-class Ushahidi_FileReader_CSV implements FileReader
+class CSV implements FileReader
 {
 
 	protected $limit;
@@ -51,6 +53,6 @@ class Ushahidi_FileReader_CSV implements FileReader
 			$reader->setLimit($this->limit);
 		}
 
-		return new ArrayIterator($reader->fetchAssoc());
+		return new \ArrayIterator($reader->fetchAssoc());
 	}
 }

@@ -9,11 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Tool\Permissions\Acl;
+namespace Ushahidi\App;
+
+use Ushahidi\Core\Tool\Permissions\Acl as AclInterface;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\RoleRepository;
 
-class Ushahidi_Acl implements Acl
+class Acl implements AclInterface
 {
 	protected $role_repo;
 
@@ -28,7 +30,7 @@ class Ushahidi_Acl implements Acl
 		if (!$user->role) {
 			return false;
 		}
-		
+
 		$role = $this->role_repo->getByName($user->role);
 
 		// Does the user have the permission?

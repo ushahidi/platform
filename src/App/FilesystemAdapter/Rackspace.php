@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi FilesystemAdapter
@@ -9,13 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\FilesystemAdapter;
+
 use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use Ushahidi\Core\Tool\FilesystemAdapter;
 
-class Ushahidi_FilesystemAdapter_Rackspace implements FilesystemAdapter
+class Rackspace implements FilesystemAdapter
 {
 
 	protected $config;

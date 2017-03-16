@@ -351,53 +351,8 @@ abstract class Ushahidi_Core {
 		// Set Formatter factory
 		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');
 
-		// Helpers, tools, etc
-		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
-		$di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
-		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
-
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
-		$di->set('tool.acl', $di->lazyNew('Ushahidi_Acl'));
-		$di->setter['Ushahidi_Acl']['setRoleRepo'] = $di->lazyGet('repository.role');
-
-		// Register filesystem adpater types
-		// Currently supported: Local filesysten, AWS S3 v3, Rackspace
-		// the naming scheme must match the cdn type set in config/cdn
-		$di->set('adapter.local', $di->lazyNew(
-				'Ushahidi_FilesystemAdapter_Local',
-				[
-					'config' => $di->lazyGet('cdn.config')
-				]
-			)
-		);
-		$di->set('adapter.aws', $di->lazyNew(
-				'Ushahidi_FilesystemAdapter_AWS',
-				[
-					'config' => $di->lazyGet('cdn.config')
-				]
-			)
-		);
-		$di->set('adapter.rackspace', $di->lazyNew(
-				'Ushahidi_FilesystemAdapter_Rackspace',
-				[
-					'config' => $di->lazyGet('cdn.config')
-				]
-			)
-		);
-
-		// Media Filesystem
-		// The Ushahidi filesystem adapter returns a flysystem adapter for a given
-		// cdn type based on the provided configuration
-		$di->set('tool.filesystem', $di->lazyNew('Ushahidi_Filesystem'));
-		$di->params['Ushahidi_Filesystem'] = [
-			'adapter' => $di->lazy(function () use ($di) {
-							 $adapter_type = $di->get('cdn.config');
-							 $fsa = $di->get('adapter.' . $adapter_type['type']);
-
-							 return $fsa->getAdapter();
-				   })
-			];
 
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
@@ -572,7 +527,8 @@ abstract class Ushahidi_Core {
 			'user_repo' => $di->lazyGet('repository.user'),
 			'collection_repo' => $di->lazyGet('repository.set'),
 			'savedsearch_repo' => $di->lazyGet('repository.savedsearch'),
-		];$di->params['Ushahidi_Validator_Webhook_Update'] = [
+		];
+		$di->params['Ushahidi_Validator_Webhook_Update'] = [
 			'user_repo' => $di->lazyGet('repository.user'),
 		];
 		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [
@@ -663,7 +619,7 @@ abstract class Ushahidi_Core {
 					'point'    => $di->lazyGet('validator.post.point'),
 					'relation' => $di->lazyGet('validator.post.relation'),
 					'varchar'  => $di->lazyGet('validator.post.varchar'),
-					'markdown'  => $di->lazyGet('validator.post.markdown'),
+					'markdown' => $di->lazyGet('validator.post.markdown'),
 					'title'    => $di->lazyGet('validator.post.title'),
 					'media'    => $di->lazyGet('validator.post.media'),
 					'video'    => $di->lazyGet('validator.post.video'),
@@ -679,12 +635,6 @@ abstract class Ushahidi_Core {
 		// Post repo for mapping transformer
 		$di->setter['Ushahidi_Transformer_CSVPostTransformer']['setRepo'] =
 			$di->lazyGet('repository.post');
-
-		$di->set('filereader.csv', $di->lazyNew('Ushahidi_FileReader_CSV'));
-		$di->setter['Ushahidi_FileReader_CSV']['setReaderFactory'] =
-			$di->lazyGet('csv.reader_factory');
-
-		$di->set('csv.reader_factory', $di->lazyNew('Ushahidi_CSVReaderFactory'));
 
 		$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer'));
 
@@ -710,70 +660,6 @@ abstract class Ushahidi_Core {
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
-
-		// Defined memcached
-		$di->set('memcached', $di->lazy(function () use ($di) {
-			$config = $di->get('ratelimiter.config');
-
-			$memcached = new Memcached();
-			$memcached->addServer($config['memcached']['host'], $config['memcached']['port']);
-
-			return $memcached;
-		}));
-
-		// Set up login rate limiter
-		$di->set('ratelimiter.login.flap', $di->lazyNew('BehEh\Flaps\Flap'));
-
-		$di->params['BehEh\Flaps\Flap'] = [
-			'storage' => $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'),
-			'name' => 'login'
-		];
-
-		$di->set('ratelimiter.login.strategy', $di->lazyNew('BehEh\Flaps\Throttling\LeakyBucketStrategy'));
-
-		// 3 requests every 1 minute by default
-		$di->params['BehEh\Flaps\Throttling\LeakyBucketStrategy'] = [
-			'requests' => 3,
-			'timeSpan' => '1m'
-		];
-
-		$di->set('ratelimiter.login', $di->lazyNew('Ushahidi_RateLimiter'));
-
-		$di->params['Ushahidi_RateLimiter'] = [
-			'flap' => $di->lazyGet('ratelimiter.login.flap'),
-			'throttlingStrategy' => $di->lazyGet('ratelimiter.login.strategy'),
-		];
-
-		$di->params['BehEh\Flaps\Storage\DoctrineCacheAdapter'] = [
-			'cache' => $di->lazyGet('ratelimiter.cache')
-		];
-
-		// Rate limit storage cache
-		$di->set('ratelimiter.cache', function() use ($di) {
-			$config = $di->get('ratelimiter.config');
-			$cache = $config['cache'];
-
-			if ($cache === 'memcached') {
-				$di->setter['Doctrine\Common\Cache\MemcachedCache']['setMemcached'] =
-					$di->lazyGet('memcached');
-
-				return $di->newInstance('Doctrine\Common\Cache\MemcachedCache');
-			}
-			elseif ($cache === 'filesystem') {
-				$di->params['Doctrine\Common\Cache\FilesystemCache'] = [
-					'directory' => $config['filesystem']['directory'],
-				];
-
-				return $di->newInstance('Doctrine\Common\Cache\FilesystemCache');
-			}
-
-			// Fall back to using in-memory cache if none is configured
-			return $di->newInstance('Doctrine\Common\Cache\ArrayCache');
-		});
-
-		// Rate limiter violation handler
-		$di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
-			$di->lazyNew('Ushahidi_ThrottlingViolationHandler');
 
 		/**
 		 * 1. Load the plugins

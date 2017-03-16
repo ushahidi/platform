@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi FilesystemAdapter AWS
@@ -9,12 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\FilesystemAdapter;
+
 use Aws\S3\S3Client;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Filesystem;
 use Ushahidi\Core\Tool\FilesystemAdapter;
 
-class Ushahidi_FilesystemAdapter_AWS implements FilesystemAdapter
+class AWS implements FilesystemAdapter
 {
 	protected $config;
 

@@ -9,14 +9,17 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Tool\ReaderFactory;
+namespace Ushahidi\App\FileReader;
 
-class Ushahidi_CSVReaderFactory implements ReaderFactory
+use Ushahidi\Core\Tool\ReaderFactory;
+use Ushahidi\App\Reader;
+
+class CSVReaderFactory implements ReaderFactory
 {
 	public function createReader($file)
 	{
 		return $file instanceof \SplFileObject
-			? Ushahidi_Reader::createFromFileObject($file)
-			: Ushahidi_Reader::createFromPath($file);
+			? Reader::createFromFileObject($file)
+			: Reader::createFromPath($file);
 	}
 }

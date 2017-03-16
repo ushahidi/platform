@@ -9,13 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Tool\RateLimiter;
+namespace Ushahidi\App;
+
+use Ushahidi\Core\Tool\RateLimiter as RateLimiterInterface;
 use Ushahidi\Core\Entity;
 
 use BehEh\Flaps\Flap;
 use BehEh\Flaps\ThrottlingStrategyInterface;
 
-class Ushahidi_RateLimiter implements RateLimiter
+class RateLimiter implements RateLimiterInterface
 {
 	/**
 	 * @var BehEh\Flaps\Flap

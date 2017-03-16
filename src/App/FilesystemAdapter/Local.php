@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Filesystem Adapter Local
@@ -9,10 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use League\Flysystem\Adapter\Local;
+namespace Ushahidi\App\FilesystemAdapter;
+
+use League\Flysystem\Adapter\Local as LocalAdapter;
 use Ushahidi\Core\Tool\FilesystemAdapter;
 
-class Ushahidi_FilesystemAdapter_Local implements FilesystemAdapter
+class Local implements FilesystemAdapter
 {
 
 	protected $config;
@@ -24,7 +26,7 @@ class Ushahidi_FilesystemAdapter_Local implements FilesystemAdapter
 
 	public function getAdapter()
 	{
-		return new Local($this->config['media_upload_dir']);
+		return new LocalAdapter($this->config['media_upload_dir']);
 	}
 }
 
