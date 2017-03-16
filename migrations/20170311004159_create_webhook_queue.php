@@ -10,15 +10,15 @@ class CreateWebhookQueue extends AbstractMigration
      */
     public function up()
     {
-      $this->table('webhook_queue')
-		    ->addColumn('post_id', 'integer', ['null' => false])
-        ->addColumn('webhook_id', 'integer', ['null' => false])
-  		  ->addColumn('created', 'integer', ['default' => 0])
-  		  ->addForeignKey('post_id', 'posts', 'id', [
-  				'delete' => 'CASCADE',
-  				'update' => 'CASCADE',
-  		  ])
-  			->create();
+        $this->table('webhook_queue')
+  		    ->addColumn('post_id', 'integer', ['null' => false])
+          ->addColumn('webhook_id', 'integer', ['null' => false])
+    		  ->addColumn('created', 'integer', ['default' => 0])
+    		  ->addForeignKey('post_id', 'posts', 'id', [
+    				'delete' => 'CASCADE',
+    				'update' => 'CASCADE',
+    		  ])
+    			->create();
     }
 
     /**
@@ -26,6 +26,6 @@ class CreateWebhookQueue extends AbstractMigration
      */
     public function down()
     {
-      $this->dropTable('webhook_queue');
+        $this->dropTable('webhook_queue');
     }
 }

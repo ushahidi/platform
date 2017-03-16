@@ -9,7 +9,7 @@ class CreateWebhookTable extends AbstractMigration
      */
     public function up()
     {
-      $this->table('webhooks')
+        $this->table('webhooks')
           ->addColumn('user_id', 'integer', ['null' => false])
           ->addColumn('url', 'string', ['null' => false])
           ->addColumn('shared_secret', 'string', ['null' => false])
@@ -30,6 +30,6 @@ class CreateWebhookTable extends AbstractMigration
      */
     public function down()
     {
-      $this->dropTable('webhooks');
+        $this->dropTable('webhooks');
     }
 }

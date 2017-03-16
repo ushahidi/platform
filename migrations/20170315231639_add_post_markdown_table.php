@@ -32,6 +32,6 @@ class AddPostMarkdownTable extends AbstractMigration
      */
      public function down()
      {
- 		    $this->dropTable('post_markdown');
+        $this->dropTable('post_markdown');
      }
 }
