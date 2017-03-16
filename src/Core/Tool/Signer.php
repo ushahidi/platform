@@ -16,7 +16,8 @@ class Signer
 
 	protected $authToken;
 
-	function __construct($authToken) {
+	public function __construct($authToken)
+	{
 		$this->authToken = $authToken;
 	}
 
@@ -31,8 +32,10 @@ class Signer
 		ksort($data);
 		// append them to the data string in order
 		// with no delimiters
-		foreach ($data as $key => $value)
-		    $url .= "$key$value";
+		foreach ($data as $key => $value) {
+			$url .= "$key$value";
+		}
+
 		// This function calculates the HMAC hash of the data with the key
 		// passed in
 		// Note: hash_hmac requires PHP 5 >= 5.1.2 or PECL hash:1.1-1.5
