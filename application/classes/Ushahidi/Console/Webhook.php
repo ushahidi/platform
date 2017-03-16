@@ -117,7 +117,7 @@ class Ushahidi_Console_Webhook extends Command
 		$post = $this->postRepository->get($webhook_request->post_id);
 
 		// Get webhook data
-		$webhook = $this->WebhookRepository->get($webhook_request->webhook_id);
+		$webhook = $this->WebhookRepository->getByEventType($webhook_request->event_type);
 
 		$this->signer = new Signer($webhook->shared_secret);
 

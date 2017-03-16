@@ -35,13 +35,9 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 
   public function handle(EventInterface $event, $post_id = null, $event_type = null)
   {
-		// Insert into Notification Queue
-
-		$webhook = $this->webhook_repo->getByEventType($event_type);
-
 		$state = [
 			'post_id' => $post_id,
-			'webhook' => $webhook->id
+			'event_type' => $event_type
 		];
 
 		$entity = $this->repo->getEntity();

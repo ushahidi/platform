@@ -17,7 +17,7 @@ class WebhookJob extends StaticEntity
 {
 	protected $id;
 	protected $post_id;
-	protected $webhook_id;
+	protected $event_type;
 	protected $created;
 
 	// StatefulData
@@ -25,8 +25,7 @@ class WebhookJob extends StaticEntity
 	{
 		// Foreign key alias
 		return [
-			'post_id' => ['post', 'post.id'],
-			'webhook_id'  => ['webhook', 'webhook.id']
+			'post_id' => ['post', 'post.id']
 		];
 	}
 
@@ -38,8 +37,7 @@ class WebhookJob extends StaticEntity
 			'id'       			=> 'int',
 			'post'     			=> false,
 			'post_id'  			=> 'int',
-			'webhook'      => false,
-			'webhook_id'	  => 'string',
+			'event_type'	  => 'string',
 			'created' 			=> 'int'
 		];
 	}
@@ -47,12 +45,12 @@ class WebhookJob extends StaticEntity
 	// Entity
 	public function getResource()
 	{
-		return 'webhook_queue';
+		return 'webhook_job';
 	}
 
 	// StatefulData
 	protected function getImmutable()
 	{
-		return array_merge(parent::getImmutable(), ['post_id', 'webhook_id']);
+		return array_merge(parent::getImmutable(), ['post_id']);
 	}
 }

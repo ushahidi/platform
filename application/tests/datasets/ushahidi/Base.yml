@@ -1109,9 +1109,6 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 16
-  -
-    session_access_token_id: 3
-    scope_id: 20
 
   # for testadminuser
   -
@@ -1206,9 +1203,6 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 16
-  -
-    session_access_token_id: 5
-    scope_id: 20
 
   # for testanon
   -
