@@ -87,7 +87,7 @@ class Ushahidi_Console_Webhook extends Command
 		$count = 0;
 
 		// Get Queued webhook requests
-		$webhook_requests = $this->webhookJobRepository->getWebhooks($limit);
+		$webhook_requests = $this->webhookJobRepository->getJobs($limit);
 
 		// Start transaction
 		$this->db->begin();

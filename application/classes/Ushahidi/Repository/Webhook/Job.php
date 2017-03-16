@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Webhook Queue Repository
+ * Ushahidi Webhook Job Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -14,11 +14,11 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\WebhookJob;
 use Ushahidi\Core\Entity\WebhookJobRepository;
 
-class Ushahidi_Repository_Webhook_Queue extends Ushahidi_Repository implements WebhookJobRepository
+class Ushahidi_Repository_Webhook_Job extends Ushahidi_Repository implements WebhookJobRepository
 {
 	protected function getTable()
 	{
-		return 'webhook_queue';
+		return 'webhook_job';
 	}
 
 	// Ushahidi_Repository
@@ -33,7 +33,7 @@ class Ushahidi_Repository_Webhook_Queue extends Ushahidi_Repository implements W
 		{
 			if ($search->$fk)
 			{
-				$query->where("webhook_queue.{$fk}_id", '=', $search->$fk);
+				$query->where("webhook_job.{$fk}_id", '=', $search->$fk);
 			}
 		}
 	}

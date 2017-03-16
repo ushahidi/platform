@@ -10,7 +10,7 @@ class CreateWebhookJob extends AbstractMigration
      */
     public function up()
     {
-        $this->table('webhook_queue')
+        $this->table('webhook_job')
   		    ->addColumn('post_id', 'integer', ['null' => false])
           ->addColumn('webhook_id', 'integer', ['null' => false])
     		  ->addColumn('created', 'integer', ['default' => 0])
@@ -26,6 +26,6 @@ class CreateWebhookJob extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('webhook_queue');
+        $this->dropTable('webhook_job');
     }
 }

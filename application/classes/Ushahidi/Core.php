@@ -146,7 +146,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_Webhook']['setPostRepo'] = $di->lazyGet('repository.post');
 		$di->setter['Ushahidi_Console_Webhook']['setSigner'] = $di->lazyGet('tool.signer.signature');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookRepo'] = $di->lazyGet('repository.webhook');
-		$di->setter['Ushahidi_Console_Webhook']['setWebhookJobRepo'] = $di->lazyGet('repository.webhook.queue');
+		$di->setter['Ushahidi_Console_Webhook']['setWebhookJobRepo'] = $di->lazyGet('repository.webhook.job');
 
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
@@ -443,7 +443,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.webhook', $di->lazyNew('Ushahidi_Repository_Webhook'));
 		$di->set('repository.csv', $di->lazyNew('Ushahidi_Repository_CSV'));
 		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
-		$di->set('repository.webhook.queue', $di->lazyNew('Ushahidi_Repository_Webhook_Queue'));
+		$di->set('repository.webhook.job', $di->lazyNew('Ushahidi_Repository_Webhook_Job'));
 		$di->set('repository.permission', $di->lazyNew('Ushahidi_Repository_Permission'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
