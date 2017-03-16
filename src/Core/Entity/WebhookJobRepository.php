@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Repository for queued webhooks
+ * Repository for webhooks jobs
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -14,7 +14,7 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
-interface WebhookQueueRepository extends
+interface WebhookJobRepository extends
     EntityGet,
     EntityExists
 {
@@ -24,5 +24,5 @@ interface WebhookQueueRepository extends
 	 * @param  int $limit
 	 * @return array
 	 */
-	public function getWebhooks($limit);
+	public function getJobs($limit);
 }

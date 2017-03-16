@@ -14,7 +14,7 @@
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 
-use Ushahidi\Core\Entity\WebhookQueueRepository;
+use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
 
 class Ushahidi_Listener_PostListener extends AbstractListener
@@ -23,7 +23,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 
 	protected $webhook_repo;
 
-	public function setRepo(WebhookQueueRepository $repo)
+	public function setRepo(WebhookJobRepository $repo)
 	{
 		$this->repo = $repo;
 	}

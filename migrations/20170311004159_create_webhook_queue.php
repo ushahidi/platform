@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class CreateWebhookQueue extends AbstractMigration
+class CreateWebhookJob extends AbstractMigration
 {
 
     /**

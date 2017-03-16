@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Webhook Queue
+ * Ushahidi Webhook Job
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class WebhookQueue extends StaticEntity
+class WebhookJob extends StaticEntity
 {
 	protected $id;
 	protected $post_id;

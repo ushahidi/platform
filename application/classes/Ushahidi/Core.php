@@ -146,7 +146,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_Webhook']['setPostRepo'] = $di->lazyGet('repository.post');
 		$di->setter['Ushahidi_Console_Webhook']['setSigner'] = $di->lazyGet('tool.signer.signature');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookRepo'] = $di->lazyGet('repository.webhook');
-		$di->setter['Ushahidi_Console_Webhook']['setWebhookQueueRepo'] = $di->lazyGet('repository.webhook.queue');
+		$di->setter['Ushahidi_Console_Webhook']['setWebhookJobRepo'] = $di->lazyGet('repository.webhook.queue');
 
 		// OAuth servers
 		$di->set('oauth.server.auth', function() use ($di) {
@@ -698,9 +698,9 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_Post']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_PostListener');
 
-		// WebhookQueue repo for Post listener
+		// WebhookJob repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setRepo'] =
-			$di->lazyGet('repository.webhook.queue');
+			$di->lazyGet('repository.webhook.job');
 
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =

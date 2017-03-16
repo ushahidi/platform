@@ -13,7 +13,7 @@ use Ushahidi\Console\Command;
 
 use Ushahidi\Core\Tool\Signer;
 use Ushahidi\Core\Entity\PostRepository;
-use Ushahidi\Core\Entity\WebhookQueueRepository;
+use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -29,7 +29,7 @@ class Ushahidi_Console_Webhook extends Command
 	private $db;
 	private $postRepository;
 	private $webhookRepository;
-	private $webhookQueueRepository;
+	private $webhookJobRepository;
 	private $signer;
 	private $client;
 
@@ -53,9 +53,9 @@ class Ushahidi_Console_Webhook extends Command
 		$this->signer = $signer;
 	}
 
-	public function setWebhookQueueRepo(WebhookQueueRepository $repo)
+	public function setWebhookJobRepo(WebhookJobRepository $repo)
 	{
-		$this->webhookQueueRepository = $repo;
+		$this->webhookJobRepository = $repo;
 	}
 
 	protected function configure()
@@ -87,15 +87,13 @@ class Ushahidi_Console_Webhook extends Command
 		$count = 0;
 
 		// Get Queued webhook requests
-		$webhook_requests = $this->webhookQueueRepository->getWebhooks($limit);
+		$webhook_requests = $this->webhookJobRepository->getWebhooks($limit);
 
 		// Start transaction
 		$this->db->begin();
 
 		foreach ($webhook_requests as $webhook_request) {
-			// Generate request
-			$request = $this->generateRequest($webhook_request);
-			$this->client->sendAsync($equest);
+			$this->generateRequest($webhook_request);
 
 			$count++;
 		}
@@ -113,7 +111,7 @@ class Ushahidi_Console_Webhook extends Command
 	private function generateRequest($webhook_request)
 	{
 		// Delete queued webhook request
-		$this->webhookQueueRepository->delete($webhook_request);
+		$this->webhookJobRepository->delete($webhook_request);
 
 		// Get post data
 		$post = $this->postRepository->get($webhook_request->post_id);
@@ -128,6 +126,8 @@ class Ushahidi_Console_Webhook extends Command
 		$headers = ['X-Platform-Signature' => $signature];
 
 		$request = new Request('POST', $webhook->url, $headers, $post);
+
+		$this->client->sendAsync($equest);
 
 		return $request;
 

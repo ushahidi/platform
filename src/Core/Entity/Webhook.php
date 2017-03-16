@@ -17,7 +17,6 @@ class Webhook extends StaticEntity
 {
 	protected $id;
 	protected $user_id;
-	protected $post_id;
 	protected $created;
 	protected $updated;
 

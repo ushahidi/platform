@@ -11,10 +11,10 @@
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\WebhookQueue;
-use Ushahidi\Core\Entity\WebhookQueueRepository;
+use Ushahidi\Core\Entity\WebhookJob;
+use Ushahidi\Core\Entity\WebhookJobRepository;
 
-class Ushahidi_Repository_Webhook_Queue extends Ushahidi_Repository implements WebhookQueueRepository
+class Ushahidi_Repository_Webhook_Queue extends Ushahidi_Repository implements WebhookJobRepository
 {
 	protected function getTable()
 	{
@@ -40,7 +40,7 @@ class Ushahidi_Repository_Webhook_Queue extends Ushahidi_Repository implements W
 
 	public function getEntity(Array $data = null)
 	{
-		return new WebhookQueue($data);
+		return new WebhookJob($data);
 	}
 
 	// CreateRepository
@@ -53,8 +53,8 @@ class Ushahidi_Repository_Webhook_Queue extends Ushahidi_Repository implements W
 		return parent::create($entity->setState($state));
 	}
 
-	// WebhookQueueRepository
-	public function getWebhooks($limit)
+	// WebhookJobRepository
+	public function getJobs($limit)
 	{
 		$query = $this->selectQuery()
 					  ->limit($limit)

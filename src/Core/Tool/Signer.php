@@ -13,7 +13,6 @@ namespace Ushahidi\Core\Tool;
 
 class Signer
 {
-
 	protected $authToken;
 
 	public function __construct($authToken)
