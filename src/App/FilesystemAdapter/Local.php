@@ -29,4 +29,3 @@ class Local implements FilesystemAdapter
 		return new LocalAdapter($this->config['media_upload_dir']);
 	}
 }
-

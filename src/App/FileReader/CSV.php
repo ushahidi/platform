@@ -42,7 +42,7 @@ class CSV implements FileReader
 
 		// Filter out empty rows
 		$nbColumns = count($reader->fetchOne());
-		$reader->addFilter(function($row) use ($nbColumns) {
+		$reader->addFilter(function ($row) use ($nbColumns) {
 		    return count($row) == $nbColumns;
 		});
 

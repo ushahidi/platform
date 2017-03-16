@@ -34,10 +34,9 @@ class Rackspace implements FilesystemAdapter
 			'apiKey' => $this->config['apiKey'],
 		));
 
-		$store = $client->objectStoreService(null,$this->config['region']);
+		$store = $client->objectStoreService(null, $this->config['region']);
 		$container = $store->getContainer($this->config['container']);
 
 		return new Adapter($container);
 	}
 }
-

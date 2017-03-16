@@ -24,26 +24,19 @@ $di->set('csv.reader_factory', $di->lazyNew('Ushahidi\App\FileReader\CSVReaderFa
 // Currently supported: Local filesysten, AWS S3 v3, Rackspace
 // the naming scheme must match the cdn type set in config/cdn
 $di->set('adapter.local', $di->lazyNew(
-		'Ushahidi\App\FilesystemAdapter\Local',
-		[
-			'config' => $di->lazyGet('cdn.config')
-		]
-	)
-);
+	'Ushahidi\App\FilesystemAdapter\Local',
+	['config' => $di->lazyGet('cdn.config')]
+));
+
 $di->set('adapter.aws', $di->lazyNew(
-		'Ushahidi\App\FilesystemAdapter\AWS',
-		[
-			'config' => $di->lazyGet('cdn.config')
-		]
-	)
-);
+	'Ushahidi\App\FilesystemAdapter\AWS',
+	['config' => $di->lazyGet('cdn.config')]
+));
+
 $di->set('adapter.rackspace', $di->lazyNew(
-		'Ushahidi\App\FilesystemAdapter\Rackspace',
-		[
-			'config' => $di->lazyGet('cdn.config')
-		]
-	)
-);
+	'Ushahidi\App\FilesystemAdapter\Rackspace',
+	['config' => $di->lazyGet('cdn.config')]
+));
 
 // Media Filesystem
 // The Ushahidi filesystem adapter returns a flysystem adapter for a given
@@ -51,12 +44,12 @@ $di->set('adapter.rackspace', $di->lazyNew(
 $di->set('tool.filesystem', $di->lazyNew('Ushahidi\App\Filesystem'));
 $di->params['Ushahidi\App\Filesystem'] = [
 	'adapter' => $di->lazy(function () use ($di) {
-					 $adapter_type = $di->get('cdn.config');
-					 $fsa = $di->get('adapter.' . $adapter_type['type']);
+			$adapter_type = $di->get('cdn.config');
+			$fsa = $di->get('adapter.' . $adapter_type['type']);
 
-					 return $fsa->getAdapter();
-		   })
-	];
+			return $fsa->getAdapter();
+	})
+];
 
 // Defined memcached
 $di->set('memcached', $di->lazy(function () use ($di) {
@@ -96,7 +89,7 @@ $di->params['BehEh\Flaps\Storage\DoctrineCacheAdapter'] = [
 ];
 
 // Rate limit storage cache
-$di->set('ratelimiter.cache', function() use ($di) {
+$di->set('ratelimiter.cache', function () use ($di) {
 	$config = $di->get('ratelimiter.config');
 	$cache = $config['cache'];
 
@@ -105,8 +98,7 @@ $di->set('ratelimiter.cache', function() use ($di) {
 			$di->lazyGet('memcached');
 
 		return $di->newInstance('Doctrine\Common\Cache\MemcachedCache');
-	}
-	elseif ($cache === 'filesystem') {
+	} elseif ($cache === 'filesystem') {
 		$di->params['Doctrine\Common\Cache\FilesystemCache'] = [
 			'directory' => $config['filesystem']['directory'],
 		];
