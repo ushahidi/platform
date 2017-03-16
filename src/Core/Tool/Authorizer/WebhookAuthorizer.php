@@ -53,6 +53,18 @@ class WebhookAuthorizer implements Authorizer
 			return true;
 		}
 
+		// Allow create, read, update and delete if owner.
+		if ($this->isUserOwner($entity, $user)
+			and in_array($privilege, ['create', 'read', 'update', 'delete'])) {
+
+			return true;
+		}
+
+		// Logged in users can subscribe to and search notifications
+		if ($user->getId() and in_array($privilege, ['search'])) {
+			return true;
+		}
+
 		// If no other access checks succeed, we default to denying access
 		return false;
 	}
