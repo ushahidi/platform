@@ -18,6 +18,7 @@ class Webhook extends StaticEntity
 	protected $id;
 	protected $user_id;
 	protected $url;
+	protected $name;
 	protected $shared_secret;
 	protected $event_type;
 	protected $entity_type;
@@ -38,6 +39,7 @@ class Webhook extends StaticEntity
 	{
 		return [
 			'id'            	=> 'int',
+			'name'					  => 'string',
 			'url'							=> 'string',
 			'shared_secret'		=> 'string',
 			'event_type'		  => 'string',

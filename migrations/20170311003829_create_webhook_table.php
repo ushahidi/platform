@@ -11,6 +11,7 @@ class CreateWebhookTable extends AbstractMigration
     {
         $this->table('webhooks')
           ->addColumn('user_id', 'integer', ['null' => false])
+          ->addColumn('name', 'string', ['null' => false])
           ->addColumn('url', 'string', ['null' => false])
           ->addColumn('shared_secret', 'string', ['null' => false])
           ->addColumn('event_type', 'string', ['null' => false])

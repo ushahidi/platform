@@ -7,6 +7,7 @@ Feature: Testing the Webhook API
         And that the request "data" is:
           """
           {
+            "name":"test",
             "entity_type":"post",
             "event_type":"create",
             "shared_secret":"f2416258639b0584c909dd9cdb33db347577435797471c6b995a8af382cd8cd6",
@@ -25,6 +26,7 @@ Feature: Testing the Webhook API
         And that the request "data" is:
             """
             {
+                "name":"test",
                 "entity_type":"post",
                 "event_type":"create",
                 "shared_secret":"f2416258639b0584c909dd9cdb33db347577435797471c6b995a8af382cd8cd6",

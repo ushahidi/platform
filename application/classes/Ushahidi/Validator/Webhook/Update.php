@@ -28,6 +28,10 @@ class Ushahidi_Validator_Webhook_Update extends Validator
 			'id' => [
 				['numeric'],
 			],
+			'name' => [
+				['max_length', [':value', 255]],
+				// alphas, numbers, punctuation, and spaces
+				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
 			'shared_secret' => [
 				['min_length', [':value', 20]],
 				// alphas, numbers, punctuation, and spaces
