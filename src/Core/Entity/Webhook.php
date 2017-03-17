@@ -17,6 +17,10 @@ class Webhook extends StaticEntity
 {
 	protected $id;
 	protected $user_id;
+	protected $url;
+	protected $shared_secret;
+	protected $event_type;
+	protected $entity_type;
 	protected $created;
 	protected $updated;
 

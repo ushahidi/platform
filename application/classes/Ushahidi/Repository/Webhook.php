@@ -73,6 +73,9 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 	{
 		$id = $this->getId($entity);
 
+		$log = \Log::instance();
+		$log->add(Log::INFO, print_r($entity, true));
+
 		if ($id) {
 			// No need to insert a new record.
 			// Instead return the id of the Webhook that exists
