@@ -121,7 +121,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 			$form_ids = [];
 			$new_forms = FALSE;
 			foreach($forms as $form) {
-				if($form['id']) {
+				if(isset($form['id'])) {
 					$id = $form['id'];
 				} else {
 					$id = $form;
