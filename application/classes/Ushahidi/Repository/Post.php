@@ -138,10 +138,19 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Get all the values for the post. These are the EAV values.
 		$values = $this->post_value_factory
 			->proxy($this->include_value_types)
-			->getAllForPost($id, $this->include_attributes);
-
+				->getAllForPost($id, $this->include_attributes);
+		
+		$messageLocation = 'message_location';
+        $found_location = false;
 		$output = [];
+
 		foreach ($values as $value) {
+			/*  check to see if there are other locations set than message_location */
+			if($this->checkForLocation($value, $messageLocation)) 
+			{
+				$found_location = true;
+			}
+
 			if (empty($output[$value->key])) {
 				$output[$value->key] = [];
 			}
@@ -149,7 +158,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				$output[$value->key][] = $value->value;
 			}
 		}
+ 		/* message_location is removed if other locations where found. This is to avoid duplicate posts after a twitter-post is edited */
+
+		if(!empty($output[$messageLocation]) && $found_location)
+		{
+		 	unset($output[$messageLocation]);
+		 }
 		return $output;
+	}
+
+	protected function checkForLocation($value, $key) {
+		 $attribute = $this->form_attribute_repo->getByKey($value->key)	;
+		if($attribute->input === 'location' && $value->key !== $key && $value->value !== NULL){
+                return true;
+            }
 	}
 
 	protected function getCompletedStagesForPost($id)
