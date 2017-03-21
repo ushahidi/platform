@@ -48,10 +48,19 @@ class Ushahidi_Repository_Config implements
 		$this->verifyGroup($group);
 
 		$config = \Kohana::$config->load($group);
-		$immutable = $entity->getImmutable();
 
-		foreach ($entity->getChanged() as $key => $val) {
-			if (! in_array($key, $immutable)) {
+		$immutable = $entity->getImmutable();
+		foreach ($entity->getChanged() as $key => $val) {	
+			if (! in_array($key, $immutable)) {				
+				
+				/* Below is to reset the twitter-since_id when the search-terms are updated. This should be revised when the data-source tech-debt is addressed*/
+
+				if($key === 'twitter' && $val['twitter_search_terms'] !== $config['twitter']['twitter_search_terms'])
+				{	
+					$twitter_config = \Kohana::$config->load('twitter');
+					$twitter_config->set('since_id', 0);
+				}
+				
 				$config->set($key, $val);
 			}
 		}
