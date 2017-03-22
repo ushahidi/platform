@@ -4760,63 +4760,6 @@
             "time": "2015-10-12 03:26:01"
         },
         {
-            "name": "shadowhand/email",
-            "version": "v2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/shadowhand/email.git",
-                "reference": "e2295fa2ddc23b1b2c206f7716128e51f0557008"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/shadowhand/email/zipball/e2295fa2ddc23b1b2c206f7716128e51f0557008",
-                "reference": "e2295fa2ddc23b1b2c206f7716128e51f0557008",
-                "shasum": ""
-            },
-            "require": {
-                "kohana/core": "3.3.*",
-                "php": ">=5.3.0",
-                "swiftmailer/swiftmailer": "~4.3.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Shadowhand\\": "src/"
-                },
-                "files": [
-                    "init.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Woody Gilk",
-                    "email": "woody.gilk@gmail.com",
-                    "role": "developer"
-                },
-                {
-                    "name": "Kohana Team",
-                    "email": "team@kohanaframework.org",
-                    "role": "creator"
-                }
-            ],
-            "description": "Email helper class, uses Swiftmailer",
-            "homepage": "http://github.com/shadowhand/email",
-            "keywords": [
-                "email",
-                "helper",
-                "kohana",
-                "library",
-                "module",
-                "ohanzee",
-                "swiftmailer"
-            ],
-            "time": "2014-09-15 15:00:21"
-        },
-        {
             "name": "squizlabs/php_codesniffer",
             "version": "1.5.x-dev",
             "source": {
