@@ -78,6 +78,11 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('features.roles.enabled');
 		});
 
+		// Webhooks config settings
+		$di->set('webhooks.enabled', function() use ($di) {
+			return Kohana::$config->load('features.webhooks.enabled');
+		});
+
 		// Data import config settings
 		$di->set('data-import.enabled', function() use ($di) {
 			return Kohana::$config->load('features.data-import.enabled');
