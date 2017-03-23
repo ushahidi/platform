@@ -80,6 +80,14 @@ forms:
     description: "Test video embed"
     require_approval: 0
     everyone_can_create: 0
+  -
+    id: 4
+    name: "Role Restriction"
+    type: "report"
+    description: "Test role restriction and private responses"
+    hide_author: true
+    require_approval: 0
+    everyone_can_create: 0
 form_roles:
   -
     id: 1
@@ -105,6 +113,10 @@ form_stages:
   -
     id: 5
     form_id: 3
+    label: "Post"
+  -
+    id: 5
+    form_id: 4
     label: "Post"
 form_attributes:
   -
@@ -294,6 +306,30 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 1
+  -
+    id: 18
+    label: "Title"
+    key: "title"
+    type: "title"
+    input: "text"
+    response_private: true
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 5
+  -
+    id: 19
+    label: "Description"
+    key: "desc"
+    type: "description"
+    input: "text"
+    response_private: false
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 5
 posts:
   -
     id: 1
@@ -594,6 +630,20 @@ posts:
     created: 1412025016
     published_to: '["user"]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 121
+    form_id: 5
+    parent_id:
+    user_id:
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+
 post_datetime:
 post_decimal:
 post_geometry:

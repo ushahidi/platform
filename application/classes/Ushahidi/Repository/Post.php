@@ -28,6 +28,7 @@ use Ushahidi\Core\Traits\Permissions\ManagePosts;
 use Ushahidi\Core\Traits\PermissionAccess;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
+use Ushahidi\Core\Tool\Authorizer\PostAuthorizer;
 
 use Aura\DI\InstanceFactory;
 
@@ -50,6 +51,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	// Checks if user is Admin
 	use AdminAccess;
+
+	// Provides restrictPostValues
+	use PostAuthorizer;
 
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
@@ -98,14 +102,35 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
+		// By default remove all private responses
+		$restricted = true;
+		// Ensure we are dealing with a structured Post
+		if ($data['form_id'])
+		{
+			$restricted = $this->restrictPostValues(new Post($data));
+		}
+
 		if (!empty($data['id']))
 		{
 			$data += [
-				'values' => $this->getPostValues($data['id']),
+				'values' => $this->getPostValues($data['id'], $restricted),
 				'tags'   => $this->getTagsForPost($data['id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
+		}
+
+		// NOTE: This and the restriction above belong somewhere else,
+		// ideally in their own step
+		//Check if author information should be returned
+		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
+		{
+			if ($this->restrictAuthor(new Post($data)))
+			{
+				unset $data['author_realname'];
+				unset $data['author_email'];
+				unset $data['user_id'];
+			}
 		}
 
 		return new Post($data);
@@ -133,20 +158,25 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $query;
 	}
 
-	protected function getPostValues($id)
+	protected function getPostValues($id, $restricted)
 	{
 		// Get all the values for the post. These are the EAV values.
+
 		$values = $this->post_value_factory
 			->proxy($this->include_value_types)
 			->getAllForPost($id, $this->include_attributes);
 
 		$output = [];
 		foreach ($values as $value) {
-			if (empty($output[$value->key])) {
-				$output[$value->key] = [];
-			}
-			if ($value->value !== NULL) {
-				$output[$value->key][] = $value->value;
+			// If restricted ignore post values whose attribute
+			// has response_private set to true
+			if (!$restricted) {
+				if (empty($output[$value->key])) {
+					$output[$value->key] = [];
+				}
+				if ($value->value !== NULL) {
+					$output[$value->key][] = $value->value;
+				}
 			}
 		}
 		return $output;

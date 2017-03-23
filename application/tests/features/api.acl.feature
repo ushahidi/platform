@@ -366,6 +366,16 @@ Feature: API Access Control Layer
         And the "id" property equals "120"
 
     @resetFixture
+    Scenario: Anonymous can not view private responses
+        Given that I want to find a "Post"
+        And that the request "Authorization" header is "Bearer testanon"
+        And that its "id" is "121"
+        When I request "/posts"
+        Then the guzzle status code should be 200
+        And the response is JSON
+        And the "id" property equals "121"
+
+    @resetFixture
     Scenario: Anonymous can not view post published to members
         Given that I want to find a "Post"
         And that the request "Authorization" header is "Bearer testanon"
@@ -556,4 +566,3 @@ Feature: API Access Control Layer
         And the response has a "columns" property
         And the "columns.0" property equals "title"
         Then the guzzle status code should be 200
-
