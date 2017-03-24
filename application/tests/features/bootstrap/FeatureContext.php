@@ -99,6 +99,20 @@ class FeatureContext extends BehatContext
 		$config->set('roles.enabled', false);
 	}
 
+	/** @BeforeScenario @webhooksEnabled */
+	public function enableWebhooks()
+	{
+		$config = Kohana::$config->load('features');
+		$config->set('webhooks.enabled', true);
+	}
+
+	/** @AfterScenario @webhooksEnabled */
+	public function disableWebhooks()
+	{
+		$config = Kohana::$config->load('features');
+		$config->set('webhooks.enabled', false);
+	}
+
 	/** @BeforeScenario @dataImportEnabled */
 	public function enableDataImport()
 	{

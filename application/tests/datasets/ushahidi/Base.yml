@@ -294,6 +294,17 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 1
+  -
+    id: 18
+    label: "Test markdown"
+    key: "markdown"
+    type: "markdown"
+    input: "text"
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
 posts:
   -
     id: 1
@@ -985,6 +996,10 @@ oauth_scopes:
     id: 19
     scope: migrate
     name: migrate
+  -
+    id: 20
+    scope: webhooks
+    name: webhooks
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1047,6 +1062,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 2
     scope_id: 16
+  -
+    session_access_token_id: 2
+    scope_id: 20
 
   # for testbasicuser
   -
@@ -1136,8 +1154,11 @@ oauth_session_token_scopes:
     session_access_token_id: 4
     scope_id: 18
   -
-    session_access_token_id: 2
+    session_access_token_id: 4
     scope_id: 19
+  -
+    session_access_token_id: 4
+    scope_id: 20
 
   # for testbasicuser2
   -
@@ -1182,6 +1203,7 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 16
+
   # for testanon
   -
     session_access_token_id: 6
@@ -1555,6 +1577,40 @@ notifications:
     id: 6
     user_id: 4
     set_id: 4
+# Webhooks
+webhooks:
+  -
+    id: 2
+    user_id: 1
+    name: "test"
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type: "create"
+  -
+    id: 3
+    user_id: 1
+    name: "test"
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type: "update"
+  -
+    id: 4
+    user_id: 1
+    name: "test"
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type: "delete"
+  -
+    id: 5
+    user_id: 1
+    name: "test"
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type: "search"
 csv:
 roles_permissions:
   -
