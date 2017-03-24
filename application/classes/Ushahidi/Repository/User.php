@@ -62,6 +62,16 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		return parent::create($entity->setState($state));
 	}
 
+	// CreateRepository
+	public function createWithHash(Entity $entity)
+	{
+		$state = [
+			'created'  => time()
+		];
+
+		return parent::create($entity->setState($state));
+	}
+
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
