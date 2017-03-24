@@ -1,0 +1,32 @@
+@startuml
+
+title Ushahidi Data Flow
+
+[Twitter]
+[SMS]
+[Email]
+
+node "Ushahidi" {
+    () Post
+    () "REST API" as RESTAPI
+    () "Notifications"
+    
+    [Ushahidi Core]
+}
+
+[Mobile App]
+[Web Interface]
+
+[Twitter]-right->Post
+[Email]-right->Post
+[SMS]-right->Post
+
+Post-right->[Ushahidi Core]
+
+RESTAPI<-left->[Ushahidi Core]
+
+[RESTAPI]<-right->[Web Interface]
+[RESTAPI]<->[Mobile App]
+[Ushahidi Core]-down->Notifications
+
+@enduml

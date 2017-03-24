@@ -1,0 +1,23 @@
+#title: Application Tiers
+
+[Presentation|
+    [AngularJS]
+    [Endpoints]
+]
+
+[Services|
+    [API]o->[Kohana] 
+    [API]o->[Ushahidi Core]
+    [Kohana]-->[PHP]
+    [Ushahidi Core]-->[PHP]   
+]
+
+[Data|
+    [MySQL]
+]
+
+[Presentation]<->[Services]
+[Services]<->[Data]
+
+
+#direction: right

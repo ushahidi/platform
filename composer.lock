@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "32655a8026b42180ced79f5cd11e82ae",
-    "content-hash": "0d86c0e3da72c4f08bc4a6869b6e9686",
+    "hash": "80f5f2a629f10179d208c5f39defbb63",
+    "content-hash": "e9a0d55e5c7248704ae10e2ea6c99774",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -3106,63 +3106,6 @@
             "time": "2016-11-01 18:46:47"
         },
         {
-            "name": "shadowhand/email",
-            "version": "v2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/shadowhand/email.git",
-                "reference": "e2295fa2ddc23b1b2c206f7716128e51f0557008"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/shadowhand/email/zipball/e2295fa2ddc23b1b2c206f7716128e51f0557008",
-                "reference": "e2295fa2ddc23b1b2c206f7716128e51f0557008",
-                "shasum": ""
-            },
-            "require": {
-                "kohana/core": "3.3.*",
-                "php": ">=5.3.0",
-                "swiftmailer/swiftmailer": "~4.3.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Shadowhand\\": "src/"
-                },
-                "files": [
-                    "init.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Woody Gilk",
-                    "email": "woody.gilk@gmail.com",
-                    "role": "developer"
-                },
-                {
-                    "name": "Kohana Team",
-                    "email": "team@kohanaframework.org",
-                    "role": "creator"
-                }
-            ],
-            "description": "Email helper class, uses Swiftmailer",
-            "homepage": "http://github.com/shadowhand/email",
-            "keywords": [
-                "email",
-                "helper",
-                "kohana",
-                "library",
-                "module",
-                "ohanzee",
-                "swiftmailer"
-            ],
-            "time": "2014-09-15 15:00:21"
-        },
-        {
             "name": "swiftmailer/swiftmailer",
             "version": "v4.3.1",
             "source": {
@@ -3821,6 +3764,63 @@
                 "twilio"
             ],
             "time": "2014-12-04 19:17:59"
+        },
+        {
+            "name": "ushahidi/shadowhand-email",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ushahidi/shadowhand-email.git",
+                "reference": "51274cdd899d0c619368c9580146bd05b461a03f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ushahidi/shadowhand-email/zipball/51274cdd899d0c619368c9580146bd05b461a03f",
+                "reference": "51274cdd899d0c619368c9580146bd05b461a03f",
+                "shasum": ""
+            },
+            "require": {
+                "kohana/core": "3.3.*",
+                "php": ">=5.3.0",
+                "swiftmailer/swiftmailer": "~4.3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Shadowhand\\": "src/"
+                },
+                "files": [
+                    "init.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kohana Team",
+                    "email": "team@kohanaframework.org",
+                    "role": "creator"
+                },
+                {
+                    "name": "Robbie Mackay",
+                    "email": "robbie@ushahidi.com",
+                    "role": "maintainer"
+                }
+            ],
+            "description": "Email helper class, uses Swiftmailer",
+            "homepage": "http://github.com/ushahidi/shadowhand-email",
+            "keywords": [
+                "email",
+                "helper",
+                "kohana",
+                "library",
+                "module",
+                "ohanzee",
+                "swiftmailer"
+            ],
+            "time": "2017-03-22 00:35:17"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5191,6 +5191,7 @@
         "kohana/cache": 20,
         "kohana/image": 20,
         "kohana/minion": 20,
+        "ushahidi/shadowhand-email": 20,
         "vlucas/phpdotenv": 20,
         "zeelot/kohana-media": 20,
         "league/csv": 20,
