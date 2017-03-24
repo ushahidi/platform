@@ -42,12 +42,12 @@ class User extends Command
 		$this
 			->setName('user')
 			->setDescription('Create user accounts')
-			->addArgument('action', InputArgument::VALUE_OPTIONAL, 'list, create, delete', 'list')
+			->addArgument('action', InputArgument::OPTIONAL, 'list, create, delete', 'list')
 			->addOption('realname', null, InputOption::VALUE_OPTIONAL, 'realname')
 			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'email')
 			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
 			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'password')
-			->addOption('with-hash', InputOption::VALUE_OPTIONAL, 'with-hash')
+			->addOption('with-hash', ['h'], InputOption::VALUE_OPTIONAL, 'with-hash')
 			;
 	}
 

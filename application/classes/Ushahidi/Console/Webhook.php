@@ -121,7 +121,7 @@ class Ushahidi_Console_Webhook extends Command
 
 		$this->signer = new Signer($webhook->shared_secret);
 
-		$signature  $this->signer->sign($webhook->url, $post->asArray();)
+		$signature = $this->signer->sign($webhook->url, $post->asArray());
 
 		$headers = ['X-Platform-Signature' => $signature];
 
