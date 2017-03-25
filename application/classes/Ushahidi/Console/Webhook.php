@@ -64,7 +64,7 @@ class Ushahidi_Console_Webhook extends Command
 			->setName('webhook')
 			->setDescription('Manage webhook requests')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, send', 'list')
-			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of webhook requests to be sent')
+			//->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of webhook requests to be sent')
 			;
 	}
 
@@ -115,20 +115,19 @@ class Ushahidi_Console_Webhook extends Command
 
 		// Get post data
 		$post = $this->postRepository->get($webhook_request->post_id);
+		$json = json_encode($post->asArray());
 
 		// Get webhook data
-		$webhook = $this->WebhookRepository->getByEventType($webhook_request->event_type);
+		$webhook = $this->webhookRepository->getByEventType($webhook_request->event_type);
 
 		$this->signer = new Signer($webhook->shared_secret);
 
-		$signature = $this->signer->sign($webhook->url, $post->asArray());
-
+		$signature = $this->signer->sign($webhook->url, $json);
 		$headers = ['X-Platform-Signature' => $signature];
 
-		$request = new Request('POST', $webhook->url, $headers, $post);
-
-		$this->client->sendAsync($equest);
-
+		$request = new Request('POST', $webhook->url, $headers, $json);
+	//	$this->client->sendAsync($request);
+		$this->client->send($request);
 		return $request;
 
 	}

@@ -149,7 +149,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
 		$di->setter['Ushahidi_Console_Webhook']['setPostRepo'] = $di->lazyGet('repository.post');
-		$di->setter['Ushahidi_Console_Webhook']['setSigner'] = $di->lazyGet('tool.signer.signature');
+		$di->setter['Ushahidi_Console_Webhook']['setSigner'] = $di->lazyGet('tool.signer');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookRepo'] = $di->lazyGet('repository.webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookJobRepo'] = $di->lazyGet('repository.webhook.job');
 
@@ -353,7 +353,7 @@ abstract class Ushahidi_Core {
 
 		// Helpers, tools, etc
 		$di->set('tool.hasher.password', $di->lazyNew('Ushahidi_Hasher_Password'));
-		$di->set('tool.signer.signature', $di->lazyNew('Ushahidi_Signer_Signature'));
+		$di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
 		$di->set('tool.authenticator.password', $di->lazyNew('Ushahidi_Authenticator_Password'));
 
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
