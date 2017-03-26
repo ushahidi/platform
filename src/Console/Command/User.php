@@ -43,11 +43,11 @@ class User extends Command
 			->setName('user')
 			->setDescription('Create user accounts')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, create, delete', 'list')
-			->addOption('realname', null, InputOption::VALUE_OPTIONAL, 'realname')
-			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'email')
-			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
-			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'password')
-			->addOption('with-hash', ['h'], InputOption::VALUE_OPTIONAL, 'with-hash')
+			->addOption('realname', null, InputOption::VALUE_OPTIONAL, 'Name')
+			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'Email')
+			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'Role: admin, user')
+			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'Password')
+			->addOption('with-hash', ['b'], InputOption::VALUE_OPTIONAL, 'password is already bcrypt hashed')
 			;
 	}
 
@@ -81,7 +81,7 @@ class User extends Command
 
 		$entity = $this->repo->getEntity();
 		$entity->setState($state);
-		$id = $passwordAlreadyHashed ? $this->repo->create($entity) : $this->repo->createWithHash($entity);
+		$id = $passwordAlreadyHashed ? $this->repo->createWithHash($entity) : $this->repo->create($entity);
 
 		return [
 			[
