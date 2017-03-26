@@ -64,7 +64,7 @@ class Ushahidi_Console_Webhook extends Command
 			->setName('webhook')
 			->setDescription('Manage webhook requests')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, send', 'list')
-			//->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of webhook requests to be sent')
+			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of webhook requests to be sent')
 			;
 	}
 
@@ -111,7 +111,7 @@ class Ushahidi_Console_Webhook extends Command
 	private function generateRequest($webhook_request)
 	{
 		// Delete queued webhook request
-		$this->webhookJobRepository->delete($webhook_request);
+		//$this->webhookJobRepository->delete($webhook_request);
 
 		// Get post data
 		$post = $this->postRepository->get($webhook_request->post_id);
@@ -123,12 +123,15 @@ class Ushahidi_Console_Webhook extends Command
 		$this->signer = new Signer($webhook->shared_secret);
 
 		$signature = $this->signer->sign($webhook->url, $json);
-		$headers = ['X-Platform-Signature' => $signature];
 
-		$request = new Request('POST', $webhook->url, $headers, $json);
-	//	$this->client->sendAsync($request);
-		$this->client->send($request);
-		return $request;
-
+		// This is an asynchronous request, we don't expect a result
+		// this can be extended to allow for handling of the returned promise
+		$promise = $this->client->requestAsync('POST', $webhook->url, [
+			'headers' => [
+				'X-Platform-Signature' => $signature,
+				'Accept'               => 'application/json'
+			],
+			'json' => $post->asArray()
+		]);
 	}
 }
