@@ -55,7 +55,7 @@ class Ushahidi_Repository_Config implements
 				
 				/* Below is to reset the twitter-since_id when the search-terms are updated. This should be revised when the data-source tech-debt is addressed*/
 
-				if($key === 'twitter' && $val['twitter_search_terms'] !== $config['twitter']['twitter_search_terms'])
+				if($key === 'twitter' && isset($config['twitter']) && $val['twitter_search_terms'] !== $config['twitter']['twitter_search_terms'])
 				{	
 					$twitter_config = \Kohana::$config->load('twitter');
 					$twitter_config->set('since_id', 0);
