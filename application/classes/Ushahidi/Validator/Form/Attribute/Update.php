@@ -52,7 +52,8 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'number',
                     'relation',
                     'upload',
-                    'video'
+                    'video',
+                    'markdown'
                 ]]],
             ],
             'type' => [
@@ -62,6 +63,7 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'geometry',
                     'text',
                     'varchar',
+                    'markdown',
                     'point',
                     'datetime',
                     'link',

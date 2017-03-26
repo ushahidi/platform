@@ -14,23 +14,30 @@
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 
-use Ushahidi\Core\Entity\NotificationQueueRepository;
+use Ushahidi\Core\Entity\WebhookJobRepository;
+use Ushahidi\Core\Entity\WebhookRepository;
 
-class Ushahidi_Listener_PostSetListener extends AbstractListener
+class Ushahidi_Listener_PostListener extends AbstractListener
 {
 	protected $repo;
 
-	public function setRepo(NotificationQueueRepository $repo)
+	protected $webhook_repo;
+
+	public function setRepo(WebhookJobRepository $repo)
 	{
 		$this->repo = $repo;
 	}
 
-  public function handle(EventInterface $event, $set_id = null, $post_id = null)
+	public function setWebhookRepo(WebhookRepository $webhook_repo)
+	{
+		$this->webhook_repo = $webhook_repo;
+	}
+
+  public function handle(EventInterface $event, $post_id = null, $event_type = null)
   {
-		// Insert into Notification Queue
 		$state = [
-			'set'  => $set_id,
-			'post' => $post_id
+			'post_id' => $post_id,
+			'event_type' => $event_type
 		];
 
 		$entity = $this->repo->getEntity();

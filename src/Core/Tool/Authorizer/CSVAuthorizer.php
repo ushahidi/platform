@@ -29,7 +29,7 @@ class CSVAuthorizer implements Authorizer, Permissionable
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
-	
+
 	// Check if user has Admin access
 	use AdminAccess;
 
@@ -50,7 +50,7 @@ class CSVAuthorizer implements Authorizer, Permissionable
 		if (!$this->canImportData()) {
 			return false;
 		}
-		
+
 		// These checks are run within the user context.
 		$user = $this->getUser();
 
@@ -58,7 +58,7 @@ class CSVAuthorizer implements Authorizer, Permissionable
 		if ($this->hasPermission($user)) {
 			return true;
 		}
-		
+
 		// Allow admin access
 		if ($this->isUserAdmin($user)) {
 			return true;

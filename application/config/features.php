@@ -50,6 +50,11 @@ return [
 		'enabled' => TRUE,
 	],
 
+	// Webhooks
+	'webhooks' => [
+		'enabled' => TRUE,
+	],
+
 	// Data import
 	'data-import' => [
 		'enabled' => TRUE,
