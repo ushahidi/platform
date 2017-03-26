@@ -81,7 +81,7 @@ class User extends Command
 
 		$entity = $this->repo->getEntity();
 		$entity->setState($state);
-		$id = $passwordAlreadyHashed ? $this->repo->create($entity) : $this->repo->createWithHash($entity);
+		$id = $passwordAlreadyHashed ? $this->repo->createWithHash($entity) : $this->repo->create($entity);
 
 		return [
 			[
