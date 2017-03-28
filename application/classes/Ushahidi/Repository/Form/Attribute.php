@@ -22,6 +22,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 {
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
+	use Ushahidi_FormsTagsTrait;
 
 	// Ushahidi_JsonTranscodeRepository
 	protected function getJsonProperties()
@@ -33,6 +34,10 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	public function create(Entity $entity)
 	{
 		$record = $entity->asArray();
+		if($record['type'] === 'labels') {
+			// updating FormsTags-table
+			$this->updateFormsTagsFromFormStage($record['form_stage_id'], $record['config']);
+		}
 		unset($record['form_id']);
 		try {
 			$uuid = Uuid::uuid4();
@@ -42,7 +47,20 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		}
 		return $this->executeInsertAttribute($this->removeNullValues($record));
 	}
+	// UpdateRepository
+	public function update(Entity $entity)
+	{
+		$attribute = $entity->getChanged();
+		$count = $this->executeUpdate(['id' => $entity->id], $attribute);
+		
+		// updating forms_tags-table
+		if(isset($attribute['config']['input']['tags']))
+		{
+			$this->updateFormsTags($entity->id, $entity->config);
+		}
 
+		return $count;
+	}
 	// SearchRepository
 	protected function setSearchConditions(SearchData $search)
 	{
