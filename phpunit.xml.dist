@@ -1,9 +1,10 @@
 <phpunit
-    colors="true"
-    bootstrap="./application/tests/bootstrap.php" >
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         >
         <testsuites>
             <testsuite name="Ushahidi Tests">
-                <directory>./application/tests/</directory>
+                <directory>./tests/</directory>
             </testsuite>
         </testsuites>
         <logging>

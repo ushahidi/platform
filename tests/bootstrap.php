@@ -1,7 +1,7 @@
 <?php
 
 // Initialize the Kohana application
-require __DIR__ . '/../kohana.php';
+require __DIR__ . '/../application/kohana.php';
 
 // when testing, docroot is the source root
 define('DOCROOT', realpath(APPPATH . '/../') . DIRECTORY_SEPARATOR);

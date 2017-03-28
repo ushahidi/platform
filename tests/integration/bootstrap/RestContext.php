@@ -620,7 +620,7 @@ class RestContext extends BehatContext
 	 */
 	private function _prefix_app_path(&$item)
 	{
-		$item = APPPATH.$item;
+		$item = DOCROOT.$item;
 	}
 
 	/**

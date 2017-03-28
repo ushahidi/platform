@@ -3,8 +3,8 @@
 ##
 default:
   paths:
-    features: application/tests/features
-    bootstrap: application/tests/features/bootstrap
+    features: tests/integration
+    bootstrap: tests/integration/bootstrap
   formatter:
     name: progress
   filters:
