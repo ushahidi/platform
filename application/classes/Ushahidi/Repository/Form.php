@@ -17,6 +17,8 @@ use Ushahidi\Core\SearchData;
 class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     FormRepository
 {
+    use Ushahidi_FormsTagsTrait;
+    
     // Ushahidi_Repository
     protected function getTable()
     {
@@ -32,6 +34,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             $data = $data + [
 	            'can_create' => $can_create['roles'],
             ];
+            $data['tags'] = $this->getTagsForForm($data['id']);
 	    }
         return new Form($data);
     }

@@ -27,6 +27,7 @@ class Form extends StaticEntity
 	protected $require_approval;
 	protected $everyone_can_create;
 	protected $can_create;
+	protected $tags;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -49,6 +50,7 @@ class Form extends StaticEntity
 			'require_approval'      => 'bool',
 			'everyone_can_create'   => 'bool',
 			'can_create'            => 'array',
+			'tags'        => 'array',
 		];
 	}
 
