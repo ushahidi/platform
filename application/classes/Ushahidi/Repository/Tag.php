@@ -56,32 +56,44 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['tag', 'type', 'parent_id', 'q', /* LIKE tag */];
+		return ['tag', 'type', 'parent_id', 'q', 'level', 'formId' /* LIKE tag */];
 	}
 
 	// Ushahidi_Repository
-	protected function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
+    protected function setSearchConditions(SearchData $search)
+    {
 
-		foreach (['tag', 'type', 'parent_id'] as $key)
-		{
-			if ($search->$key) {
-				$query->where($key, '=', $search->$key);
-			}
-		}
-
-		if ($search->q) {
-			// Tag text searching
-			$query->where('tag', 'LIKE', "%{$search->q}%");
-		}
-	}
+        $query = $this->search_query;
+        foreach (['tag', 'type', 'parent_id'] as $key)
+        {
+            if ($search->$key) {
+                 $query->where($key, '=', $search->$key);
+            }
+        }
+        if ($search->q) {
+            // Tag text searching
+            $query->where('tag', 'LIKE', "%{$search->q}%");
+        }
+        if($search->level) {
+            //searching for top-level-tags 
+            if($search->level === 'parent') {
+                $query->where('parent_id', '=', null);
+            }
+        }
+        if($search->formId){
+        	$query->join('forms_tags')->on('tags.id', '=', 'forms_tags.tag_id')
+        		->where('form_id','=', $search->formId);
+        }
+    } 
 	// SearchRepository
 	public function getSearchResults()
 	{
 		$query = $this->getSearchQuery();
 		$results = $query->distinct(TRUE)->execute($this->db);
-		return $this->getCollection($results->as_array());
+		$tags = $this->getCollection($results->as_array());
+		\Log::instance()->add(\Log::NOTICE, print_r($tags,true));
+		return $tags;
+		// return $this->getCollection($results->as_array());
 	}
 
 	// CreateRepository
