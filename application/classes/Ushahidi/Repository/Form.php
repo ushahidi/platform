@@ -63,9 +63,15 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // CreateRepository
     public function create(Entity $entity)
     {
+        $record = clone($entity);
+        unset($record->tags);
+        $id = parent::create($record->setState(['created' => time()]));
+        //updating forms_tags-table
+        if(isset($entity->tags) && $id !== null) {
+            $this->updateFormsTags($id, $entity->tags);
+        }
         // todo ensure default group is created
-
-        return parent::create($entity->setState(['created' => time()]));
+        return $id;
     }
 
     // UpdateRepository

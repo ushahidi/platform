@@ -27,7 +27,7 @@ class Form extends StaticEntity
 	protected $require_approval;
 	protected $everyone_can_create;
 	protected $can_create;
-	protected $tags;
+	public $tags;
 
 	// DataTransformer
 	protected function getDefinition()

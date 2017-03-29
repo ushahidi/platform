@@ -36,18 +36,18 @@ trait Ushahidi_FormsTagsTrait
         $this->updateFormsTags($form_id, $config);
     }
     // updating/adding tags to a form
-    private function updateFormsTags($form_id, $config) {
-        if(empty($config['input']['tags'])) {
+    private function updateFormsTags($form_id, $tags) {
+        if(!$tags) {
             DB::delete('forms_tags')
                 ->where('form_id', '=', $form_id)
                 ->execute($this->db);
         } else {
-            if(isset($config['input']['tags'])){
+            if($tags){
                 $existing = $this->getTagsForForm($form_id);
                 $insert = DB::insert('forms_tags', ['form_id', 'tag_id']);
                 $tag_ids = [];
                 $new_tags = FALSE;
-                foreach($config['input']['tags'] as $tag) {
+                foreach($tags as $tag) {
                     if(!in_array($tag, $existing)) {
                         $insert->values([$form_id, $tag]);
                         $new_tags = TRUE;
