@@ -259,6 +259,10 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Notification_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Notification_Update'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['apikeys'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_ApiKey_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_ApiKey_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['webhooks'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Webhook_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Webhook_Update'),
@@ -309,7 +313,8 @@ abstract class Ushahidi_Core {
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
-			'webhooks'              => $di->lazyNew('Ushahidi_Formatter_Webhook'),
+			'webhooks'             => $di->lazyNew('Ushahidi_Formatter_Webhook'),
+			'apikeys'              => $di->lazyNew('Ushahidi_Formatter_Apikey'),
 			'contacts'             => $di->lazyNew('Ushahidi_Formatter_Contact'),
 			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
 			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
@@ -336,6 +341,7 @@ abstract class Ushahidi_Core {
 			'set_post',
 			'notification',
 			'webhook',
+			'apikey',
 			'contact',
 			'role',
 			'permission',
@@ -446,6 +452,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
 		$di->set('repository.notification', $di->lazyNew('Ushahidi_Repository_Notification'));
 		$di->set('repository.webhook', $di->lazyNew('Ushahidi_Repository_Webhook'));
+		$di->set('repository.apikey', $di->lazyNew('Ushahidi_Repository_ApiKey'));
 		$di->set('repository.csv', $di->lazyNew('Ushahidi_Repository_CSV'));
 		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
 		$di->set('repository.webhook.job', $di->lazyNew('Ushahidi_Repository_Webhook_Job'));
@@ -572,7 +579,8 @@ abstract class Ushahidi_Core {
 			'user_repo' => $di->lazyGet('repository.user'),
 			'collection_repo' => $di->lazyGet('repository.set'),
 			'savedsearch_repo' => $di->lazyGet('repository.savedsearch'),
-		];$di->params['Ushahidi_Validator_Webhook_Update'] = [
+		];
+		$di->params['Ushahidi_Validator_Webhook_Update'] = [
 			'user_repo' => $di->lazyGet('repository.user'),
 		];
 		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [

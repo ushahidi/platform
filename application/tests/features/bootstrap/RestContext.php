@@ -406,6 +406,26 @@ class RestContext extends BehatContext
 	}
 
 	/**
+	 * @Then /^the "([^"]*)" property does not equal "([^"]*)"$/
+	 */
+	public function thePropertyNotEquals($propertyName, $propertyValue)
+	{
+		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+
+		$this->theResponseIsJson();
+
+		$actualPropertyValue = Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === NULL) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+		// Check the value - note this has to use != since $propertValue is always a string so strict comparison would fail.
+		if ($actualPropertyValue == $propertyValue) {
+			throw new \Exception('Property value mismatch on \''.$propertyName.'\'! (given: '.$propertyValue.', match: '.$actualPropertyValue.')');
+		}
+	}
+
+	/**
 	 * @Then /^the "([^"]*)" property is true$/
 	 */
 	public function thePropertyIsTrue($propertyName)
