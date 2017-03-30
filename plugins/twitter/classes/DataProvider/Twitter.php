@@ -28,7 +28,7 @@ class DataProvider_Twitter extends DataProvider {
 	private $since_id; // highest id fetched
 	private $request_count; // track requests per window
 
-	
+
 	public function fetch($limit = FALSE) {
 		// XXX: Store state in database config for now
 		$config = Kohana::$config;
@@ -131,6 +131,12 @@ class DataProvider_Twitter extends DataProvider {
 					}
 				}
 
+				// Check if a form id is already associated with this data provider
+				if (isset($options['form_id'])
+				{
+					$additional_data['form_id'] = $options['form_id'];
+				}
+
 				// @todo Check for similar messages in the database before saving
 				$this->receive(Message_Type::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id, $additional_data);
 
@@ -154,7 +160,7 @@ class DataProvider_Twitter extends DataProvider {
 	}
 
 	public function send($to, $message, $title='')
-	{		
+	{
 		$connection = $this->_connect();
 
 		try
@@ -164,7 +170,7 @@ class DataProvider_Twitter extends DataProvider {
 			]);
 
 			if (!$response->id) {
-				return array(Message_Status::FAILED, FALSE);	
+				return array(Message_Status::FAILED, FALSE);
 			}
 			return array(Message_Status::SENT, $response->id);
 		}

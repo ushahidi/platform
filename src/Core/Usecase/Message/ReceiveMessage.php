@@ -185,11 +185,14 @@ class ReceiveMessage extends CreateUsecase
 			}
 		}
 
+		$form_id = isset($message->additional_data['form_id']) ? $message->additional_data['form_id'] : NULL;
+
 		// First create a post
 		$post = $this->postRepo->getEntity()->setState([
-				'title' => $message->title,
-				'content' => $message->message,
-				'values' => $values
+				'title'    => $message->title,
+				'content'  => $message->message,
+				'values'   => $values,
+				'form_id'  => $form_id
 			]);
 
 		return $this->postRepo->create($post);
