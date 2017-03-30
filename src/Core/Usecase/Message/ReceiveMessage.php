@@ -169,8 +169,26 @@ class ReceiveMessage extends CreateUsecase
 	{
 		$values = [];
 
+		$content = $message->message;
+
 		// Pull locations from extra metadata
 		if ($message->additional_data) {
+
+			$form_id = NULL:
+
+			if (isset($message->additional_data['form_id']))
+			{
+					$form_id = $message->additional_data['form_id'];
+					// If there is a designated destination field
+					// set the associated Post value
+					$field_uuid = $message->additional_data['form_destination_field_uuid'];
+					$values[$field_uuid] = $message->message;
+					// Do not set description field otherwise data will be duplicated
+					$content = NULL:
+			}
+
+
+
 			$values['message_location'] = [];
 			foreach ($message->additional_data['location'] as $location) {
 				if (!empty($location['type']) &&
@@ -185,12 +203,12 @@ class ReceiveMessage extends CreateUsecase
 			}
 		}
 
-		$form_id = isset($message->additional_data['form_id']) ? $message->additional_data['form_id'] : NULL;
+
 
 		// First create a post
 		$post = $this->postRepo->getEntity()->setState([
 				'title'    => $message->title,
-				'content'  => $message->message,
+				'content'  => $content,
 				'values'   => $values,
 				'form_id'  => $form_id
 			]);

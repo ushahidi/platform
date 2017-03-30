@@ -135,6 +135,7 @@ class DataProvider_Twitter extends DataProvider {
 				if (isset($options['form_id'])
 				{
 					$additional_data['form_id'] = $options['form_id'];
+					$additional_data['form_destination_field_uuid'] = isset($options['form_destination_field_uuid']) ? $options['form_destination_field_uuid'] : NULL;
 				}
 
 				// @todo Check for similar messages in the database before saving
