@@ -289,6 +289,7 @@ abstract class Ushahidi_Core {
 
 		// Validation Trait
 		$di->setter['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->newFactory('Ushahidi_ValidationEngine');
+		$di->params['Ushahidi_ValidationEngine']['array'] = [];
 
 		// Formatter mapping
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
