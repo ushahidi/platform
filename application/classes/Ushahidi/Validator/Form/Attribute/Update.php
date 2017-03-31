@@ -54,7 +54,7 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'upload',
                     'video',
                     'markdown',
-                    'labels',
+                    'tags',
                 ]]],
             ],
             'type' => [
@@ -72,7 +72,7 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'media',
                     'title',
                     'description',
-                    'labels',
+                    'tags',
                 ]]],
             ],
             'required' => [
