@@ -37,5 +37,4 @@ class ApiKey extends StaticEntity
 	{
 		return 'apikey';
 	}
-
 }

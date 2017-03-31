@@ -176,8 +176,7 @@ class ReceiveMessage extends CreateUsecase
 
 			$form_id = NULL:
 
-			if (isset($message->additional_data['form_id']))
-			{
+			if (isset($message->additional_data['form_id'])) {
 					$form_id = $message->additional_data['form_id'];
 					// If there is a designated destination field
 					// set the associated Post value
