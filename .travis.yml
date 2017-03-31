@@ -4,30 +4,36 @@ sudo: false
 #    secure: NxhzhKGYnZYZiWVZM4w1PlZpTy9bbmNlvbqjL+9d4PvK4hFzPwQU12CchhBPeXNGLWBHg/ti6Scn/t5XIS3YJrkk4ydWmJBht5UId8uFZ1A7GCUnNNPTt2RG55lbJJdZSj01rOGZjEQbE5RyckEjgRzhZjdZ+HsjoPaRzWIBrvE=
 language: php
 php:
-- '5.5'
 - '5.6'
+- '7.0'
 env:
 - coverage="--coverage"
 - coverage=""
 matrix:
   exclude:
-  - php: '5.5'
+  - php: '7.0'
     env: coverage="--coverage"
   allow_failures:
   - env: coverage="--coverage"
+  - php: '7.0'
   fast_finish: true
 cache:
   directories:
   - "$HOME/.composer/cache"
 services:
 - mysql
+before_install:
+- mysql -e 'CREATE DATABASE ushahidi;'
+- cp .env.travis .env
 install:
 - composer install --no-interaction
 before_script:
-- "./bin/tests install"
+- composer pre-test
+- php -S localhost:8000 -t httpdocs httpdocs/index.php &
 - mysql -e 'SET @@GLOBAL.wait_timeout=1800'
 script:
-- "./bin/tests run --no-install $coverage"
+- if [ "${coverage}" == "" ]; then composer test; fi
+- if [ "${coverage}" != "" ]; then composer coverage; fi
 - composer lint
 after_success:
 - if [ "${coverage}" != "" ]; then travis_retry bin/coveralls -v; fi

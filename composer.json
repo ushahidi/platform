@@ -78,7 +78,7 @@
     "prefer-stable": true,
     "scripts": {
         "compile" : [
-            "phinx migrate -c application/phinx.php"
+            "@migrate"
         ],
         "lint" : [
             "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,spec/*,migrations/*,bin/* --standard=PSR2 --tab-width=4 ./",
@@ -94,8 +94,11 @@
             "phpspec run --no-code-generation",
             "behat --strict --profile ci"
         ],
+        "migrate" : [
+            "bin/phinx migrate -c application/phinx.php"
+        ],
         "pre-test" : [
-            "php -S localhost:8000 -t httpdocs httpdocs/index.php &"
+            "@migrate"
         ],
         "test" : [
             "phpunit --no-coverage",
