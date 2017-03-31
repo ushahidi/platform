@@ -267,6 +267,18 @@ Route::set('migration', $apiBase . 'migration/<action>',
 		'directory'  => 'Api'
 	));
 
+	/**
+	 * Dataproviders API Route
+	 */
+	Route::set('inbound-webhook-api', $apiBase . 'webhooks/<controller>/(<id>)',
+		array(
+			'id' => '\d+'
+		))
+		->defaults(array(
+			'action'     => 'index',
+			'directory'  => 'Api/Webhooks/'
+		));
+
 /**
  * Migration migrate Route
  */

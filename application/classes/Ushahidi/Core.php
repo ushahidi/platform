@@ -230,6 +230,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+			'webhook-update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'import' => $di->lazyNew('Ushahidi_Validator_Post_Import'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [

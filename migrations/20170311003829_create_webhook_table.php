@@ -14,6 +14,7 @@ class CreateWebhookTable extends AbstractMigration
           ->addColumn('name', 'string', ['null' => false])
           ->addColumn('url', 'string', ['null' => false])
           ->addColumn('shared_secret', 'string', ['null' => false])
+          ->addColumn('webhook_uuid', 'string', ['null' => false])
           ->addColumn('event_type', 'string', ['null' => false])
           ->addColumn('entity_type', 'string', ['null' => false])
           ->addColumn('created', 'integer', ['default' => 0])

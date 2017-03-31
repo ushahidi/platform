@@ -283,13 +283,14 @@ $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator
 
 // Add custom usecases for posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
-	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePost'),
-	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPost'),
-	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
-	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
-	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
-	'stats'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
-	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
+	'create'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePost'),
+	'read'            => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPost'),
+	'update'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
+	'webhook-update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\WebhookUpdatePost'),
+	'delete'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
+	'search'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
+	'stats'           => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
+	'import'          => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
 ];
 
 // Add custom create usecase for notifications

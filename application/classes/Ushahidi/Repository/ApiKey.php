@@ -75,6 +75,11 @@ class Ushahidi_Repository_ApiKey extends Ushahidi_Repository implements ApiKeyRe
 		return $this->executeUpdate(['id' => $entity->id], $record);
 	}
 
+	public function apiKeyExists($api_key)
+	{
+		return (bool) $this->selectCount(compact('api_key'));
+	}
+
 	public function getSearchFields()
 	{
 		return [

@@ -204,6 +204,19 @@ class RestContext extends BehatContext
 	public function iRequest($pageUrl)
 	{
 		$this->_requestUrl 	= $this->_apiUrl.$pageUrl;
+		$this->makeRequest();
+	}
+	/**
+	 * @When /^I request the specific URL "([^"]*)"$/
+	 */
+	public function nonApiRequest($pageUrl)
+  {
+		$this->_requestUrl 	= $pageUrl;
+		$this->makeRequest();
+	}
+
+	public function makeRequest()
+	{
 
 		switch (strtoupper($this->_restObjectMethod)) {
 			case 'GET':

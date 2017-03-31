@@ -18,6 +18,8 @@ class WebhookJob extends StaticEntity
 	protected $id;
 	protected $post_id;
 	protected $event_type;
+	protected $source_field;
+	protected $destination_field;
 	protected $created;
 
 	// StatefulData
@@ -38,6 +40,8 @@ class WebhookJob extends StaticEntity
 			'post'     			=> false,
 			'post_id'  			=> 'int',
 			'event_type'	  => 'string',
+			'source_field'	  => 'string',
+			'destination_field'	  => 'string',
 			'created' 			=> 'int'
 		];
 	}

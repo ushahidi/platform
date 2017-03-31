@@ -1593,6 +1593,7 @@ webhooks:
   -
     id: 2
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1601,6 +1602,7 @@ webhooks:
   -
     id: 3
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1609,6 +1611,7 @@ webhooks:
   -
     id: 4
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1617,6 +1620,7 @@ webhooks:
   -
     id: 5
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"

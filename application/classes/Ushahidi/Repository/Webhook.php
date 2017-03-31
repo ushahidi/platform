@@ -16,6 +16,9 @@ use Ushahidi\Core\Entity\WebhookRepository;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+
 class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements WebhookRepository
 {
 	use UserContext;
@@ -68,6 +71,11 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 		return $this->getEntity($this->selectOne(compact('event_type')));
 	}
 
+	public function getByUUID($webhook_uuid= null)
+	{
+		return $this->getEntity($this->selectOne(compact('webhook_uuid')));
+	}
+
 	// CreateRepository
 	public function create(Entity $entity)
 	{
@@ -79,8 +87,16 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 			return $id;
 		}
 
+		try {
+			$uuid = Uuid::uuid4();
+			$uuid = $uuid->toString();
+		} catch (UnsatisfiedDependencyException $e) {
+			Kohana::$log->add(Log::ERROR, $e->getMessage());
+		}
+
 		$state = [
 			'user_id' => $entity->user_id,
+			'webhook_uuid' => $uuid,
 			'created' => time(),
 		];
 
