@@ -183,7 +183,7 @@ class ReceiveMessage extends CreateUsecase
 					$field_uuid = $message->additional_data['form_destination_field_uuid'];
 					$values[$field_uuid] = $message->message;
 					// Do not set description field otherwise data will be duplicated
-					$content = NULL:
+					$content = NULL;
 			}
 
 
