@@ -1,5 +1,8 @@
 <?php
 
+// Bootstrap lumen
+require __DIR__ . '/../bootstrap/app.php';
+
 // Initialize the Kohana application
 require __DIR__ . '/../application/kohana.php';
 
