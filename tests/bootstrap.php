@@ -21,4 +21,4 @@ if (($ob_len = ob_get_length()) !== FALSE)
 }
 
 // Enable the unittest module
-Kohana::modules(Kohana::modules() + array('unittest' => MODPATH.'unittest'));
+// Kohana::modules(Kohana::modules() + array('unittest' => MODPATH.'unittest'));

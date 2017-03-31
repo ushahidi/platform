@@ -9,13 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Context;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Rest context.
  */
-class RestContext extends BehatContext
+class RestContext implements Context
 {
 
 	private $_restObject        = null;
@@ -35,34 +35,26 @@ class RestContext extends BehatContext
 	 * Initializes context.
 	 * Every scenario gets it's own context object.
 	 */
-	public function __construct(array $parameters)
+	public function __construct($baseUrl, $proxyUrl = FALSE)
 	{
 		$this->_restObject = new stdClass();
-		$this->_parameters = $parameters;
-
-		$base_url = $this->getParameter('base_url');
-		$proxy_url = $this->getParameter('proxy_url');
 
 		$options = array();
-		if($proxy_url)
+		if($proxyUrl)
 		{
-			$options['curl.options'] = array(CURLOPT_PROXY => $proxy_url);
+			$options['curl.options'] = array(CURLOPT_PROXY => $proxyUrl);
 		}
 
-		$this->_client = new Guzzle\Service\Client($base_url, $options);
+		$this->_client = new Guzzle\Service\Client($baseUrl, $options);
 	}
 
-	public function getParameter($name)
+	/**
+	 * Automatically set bearer token so you can forget about it
+	 * @BeforeScenario @oauth2Skip
+	 */
+	public function setDefaultBearerAuth()
 	{
-		if (count($this->_parameters) === 0) {
-
-
-			throw new \Exception('Parameters not loaded!');
-		} else {
-
-			$parameters = $this->_parameters;
-			return (isset($parameters[$name])) ? $parameters[$name] : null;
-		}
+		$this->thatTheRequestHeaderIs('Authorization', 'Bearer defaulttoken');
 	}
 
 	/**
@@ -575,7 +567,7 @@ class RestContext extends BehatContext
 	 */
 	public function echoLastResponse()
 	{
-		$this->printDebug(
+		var_dump(
 			$this->_requestUrl."\n\n".
 			$this->_response
 		);
@@ -592,10 +584,10 @@ class RestContext extends BehatContext
 	/**
 	 * @AfterScenario
 	 */
-	public function afterScenarioCheckError(Behat\Behat\Event\ScenarioEvent $event)
+	public function afterScenarioCheckError(Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
 	{
 		// If scenario failed, dump response
-		if ($event->getResult() == 4 AND $this->_response)
+		if (!$scope->getTestResult()->isPassed() AND $this->_response)
 		{
 			$this->echoLastResponse();
 		}

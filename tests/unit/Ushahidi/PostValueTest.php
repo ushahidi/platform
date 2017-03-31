@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class PostValueRepositoryTest extends Unittest_TestCase {
+class PostValueRepositoryTest extends PHPUnit\Framework\TestCase {
 
 	protected $repository;
 
@@ -17,12 +17,12 @@ class PostValueRepositoryTest extends Unittest_TestCase {
 	{
 		parent::setUp();
 
-		$this->repository = $this->getMockBuilder('Ushahidi_Repository_Post_Value')
+		$this->repository = $this->getMockBuilder(Ushahidi_Repository_Post_Value::class)
 			->setMethods(['selectOne', 'selectQuery', 'getTable'])
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->postvalue = $this->getMock('Ushahidi\Core\Entity\Post_Value');
+		$this->postvalue = $this->createMock(Ushahidi\Core\Entity\PostValue::class);
 	}
 
 	/**

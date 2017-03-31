@@ -4,20 +4,14 @@
     "homepage": "http://ushahidi.com/",
     "type": "project",
     "license": "AGPL-3.0",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ushahidi/Aura.Di"
-        }
-    ],
     "require": {
-        "php": ">=5.4",
-        "aura/di": "dev-develop-2",
+        "php": ">=5.6.4",
+        "aura/di": "2.2",
         "bodom78/kohana-imagefly": "dev-master",
         "league/oauth2-server": "~3.2.4",
-        "league/flysystem-aws-s3-v3": "1.0.4",
-        "league/flysystem-rackspace": "1.0.1",
-        "league/flysystem": "1.1.*",
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "league/flysystem-rackspace": "~1.0",
+        "league/flysystem": "~1.0",
         "ircmaxell/password-compat": "^1.0.4",
         "abraham/twitteroauth": "^0.5.3",
         "kohana/core" : "3.3.3.1@dev",
@@ -25,11 +19,11 @@
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
         "ohanzee/database": "~0.1.2",
-        "robmorgan/phinx": "~0.4.1",
+        "robmorgan/phinx": "~0.8.0",
         "ushahidi/shadowhand-email": "dev-master",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "3.12.*",
-        "vlucas/phpdotenv": "~1.0@dev",
+        "vlucas/phpdotenv": "~2.2",
         "zeelot/kohana-media": "1.3.*@dev",
         "ext-curl": "*",
         "ext-gd": "*",
@@ -44,26 +38,23 @@
         "league/url": "~3.0",
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.5@dev",
-        "satooshi/php-coveralls": "^2.0@dev",
-        "henrikbjorn/phpspec-code-coverage": "~2.0",
         "ramsey/uuid": "^3.4.1",
         "sentry/sentry": "~1.5"
     },
     "require-dev": {
-        "behat/behat": "~2.5.2",
-        "behat/mink-extension": "~1.3",
-        "behat/mink-goutte-driver": "~1.0",
-        "fabpot/goutte": "~1.0",
+        "fzaninotto/faker": "~1.4",
         "guzzle/guzzle": "~3.9.1",
-        "kohana/unittest": "3.3.*@dev",
-        "phpunit/phpunit": "~4.8",
+        "phpunit/phpunit": "^5.7",
         "phpunit/dbunit": "~1.4",
-        "phpspec/phpspec": "~2.4",
-        "symfony/console": "2.6.*",
+        "phpspec/phpspec": "~3.0",
         "squizlabs/php_codesniffer": "1.5.*",
-        "heroku/heroku-buildpack-php": "dev-master"
+        "heroku/heroku-buildpack-php": "dev-master",
+        "behat/behat": "^3.3",
+        "behat/mink-extension": "^2.2",
+        "behat/mink-goutte-driver": "^1.2",
+        "satooshi/php-coveralls": "^2.0@dev",
+        "leanphp/phpspec-code-coverage": "~3.1"
     },
-    "minimum-stability": "dev",
     "config": {
         "bin-dir": "bin/",
         "github-protocols": [
@@ -78,6 +69,13 @@
             "Ushahidi\\": "src/"
         }
     },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "compile" : [
             "phinx migrate -c application/phinx.php"

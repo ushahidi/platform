@@ -1,7 +1,8 @@
 <?php
-use Behat\Behat\Context\BehatContext;
 
-class PHPUnitFixtureContext extends BehatContext {
+use Behat\Behat\Context\Context;
+
+class PHPUnitFixtureContext implements Context {
 
 	/**
 	 * @var PHPUnit_Extensions_Database_ITester
@@ -13,6 +14,53 @@ class PHPUnitFixtureContext extends BehatContext {
 	 * @var string
 	 */
 	protected $_database_connection = 'default';
+
+	/** @BeforeFeature */
+	public static function featureSetup(Behat\Behat\Hook\Scope\BeforeFeatureScope $scope)
+	{
+		$fixtureContext = new static();
+		$fixtureContext->setUpDBTester('ushahidi/Base');
+		$fixtureContext->insertGeometryFixtures();
+	}
+
+	/** @AfterFeature */
+	public static function featureTearDown(Behat\Behat\Hook\Scope\AfterFeatureScope $scope)
+	{
+		$fixtureContext = new static();
+		$fixtureContext->tearDownDBTester('ushahidi/Base');
+	}
+
+	/** @BeforeScenario @resetFixture */
+	public function scenarioSetup()
+	{
+		$this->setUpDBTester('ushahidi/Base');
+		$this->insertGeometryFixtures();
+	}
+
+	protected function insertGeometryFixtures()
+	{
+		$pdo_connection = $this->getConnection()->getConnection();
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (1, 1, 8, POINT(12.123, 21.213));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (7, 1, 8, POINT(12.223, 21.313));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (2, 99, 8, POINT(11.123, 24.213));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (3, 9999, 8, POINT(10.123, 26.213));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (4, 95, 8, POINT(1, 1));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (5, 95, 12, POINT(1.2, 0.5));");
+		$pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (6, 97, 8, POINT(1, 1));");
+
+		$pdo_connection->query("INSERT INTO `post_geometry` (`id`, `post_id`, `form_attribute_id`, `value`)
+			VALUES (1, 1, 9,
+				GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
+					((20 35, 45 20, 30 5, 10 10, 10 30, 20 35),
+					(30 20, 20 25, 20 15, 30 20)))'));");
+	}
 
 	/**
 	 * Creates a connection to the unittesting database

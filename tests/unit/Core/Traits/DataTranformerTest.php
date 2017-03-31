@@ -24,7 +24,7 @@ class mockDataTransformer {
 	}
 }
 
-class DataTransformerTest extends Unittest_TestCase {
+class DataTransformerTest extends PHPUnit\Framework\TestCase {
 
 	/**
 	 * Test get method
