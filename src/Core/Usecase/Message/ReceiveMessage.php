@@ -174,7 +174,7 @@ class ReceiveMessage extends CreateUsecase
 		// Pull locations from extra metadata
 		if ($message->additional_data) {
 
-			$form_id = NULL:
+			$form_id = NULL;
 
 			if (isset($message->additional_data['form_id'])) {
 					$form_id = $message->additional_data['form_id'];
