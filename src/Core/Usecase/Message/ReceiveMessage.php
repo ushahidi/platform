@@ -168,13 +168,13 @@ class ReceiveMessage extends CreateUsecase
 	protected function createPost(Entity $message)
 	{
 		$values = [];
+		$form_id = null;
 
 		$content = $message->message;
 
 		// Pull locations from extra metadata
 		if ($message->additional_data) {
 
-			$form_id = NULL;
 
 			if (isset($message->additional_data['form_id'])) {
 					$form_id = $message->additional_data['form_id'];
@@ -183,7 +183,7 @@ class ReceiveMessage extends CreateUsecase
 					$field_uuid = $message->additional_data['form_destination_field_uuid'];
 					$values[$field_uuid] = $message->message;
 					// Do not set description field otherwise data will be duplicated
-					$content = NULL;
+					$content = null;
 			}
 
 
