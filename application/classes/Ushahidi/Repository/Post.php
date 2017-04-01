@@ -29,6 +29,7 @@ use Ushahidi\Core\Traits\PermissionAccess;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Tool\Authorizer\PostAuthorizer;
+use Ushahidi\Core\Traits\PostValueRestrictions;
 
 use Aura\DI\InstanceFactory;
 
@@ -52,8 +53,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Checks if user is Admin
 	use AdminAccess;
 
-	// Provides restrictPostValues
-	use PostAuthorizer;
+	// Check for value restrictions
+	// provides restrictPostValues
+	use PostValueRestrictions;
 
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
@@ -61,9 +63,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	protected $tag_repo;
+	// By default remove all private responses
+	protected $restricted = true;
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
+	protected $exclude_stages = [];
 
 	/**
 	 * Construct
@@ -102,34 +107,36 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
-		// By default remove all private responses
-		$restricted = true;
 		// Ensure we are dealing with a structured Post
 		if ($data['form_id'])
 		{
-			$restricted = $this->restrictPostValues(new Post($data));
+			$user = $this->getUser();
+			$this->restricted = $this->restrictPostValues(new Post($data), $user, $this->form_repo);
+			// Get Hidden Stage Ids to be excluded from results
+			$this->exclude_stages = $this->form_stage_repo->getHidenStageIds($data['form_id']);
 		}
 
 		if (!empty($data['id']))
 		{
 			$data += [
-				'values' => $this->getPostValues($data['id'], $restricted),
+				'values' => $this->getPostValues($data['id']),
 				'tags'   => $this->getTagsForPost($data['id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
 		}
-
+		Kohana::$log->add(Log::ERROR, print_r($data,true));
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
 		//Check if author information should be returned
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
 		{
-			if ($this->restrictAuthor(new Post($data)))
+
+			if ($this->restrictAuthor(new Post($data), $this->form_repo) && $this->restricted)
 			{
-				unset $data['author_realname'];
-				unset $data['author_email'];
-				unset $data['user_id'];
+				unset($data['author_realname']);
+				unset($data['author_email']);
+				unset($data['user_id']);
 			}
 		}
 
@@ -158,25 +165,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $query;
 	}
 
-	protected function getPostValues($id, $restricted)
+	protected function getPostValues($id)
 	{
 		// Get all the values for the post. These are the EAV values.
-
 		$values = $this->post_value_factory
 			->proxy($this->include_value_types)
-			->getAllForPost($id, $this->include_attributes);
+			->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
 
 		$output = [];
 		foreach ($values as $value) {
-			// If restricted ignore post values whose attribute
-			// has response_private set to true
-			if (!$restricted) {
-				if (empty($output[$value->key])) {
-					$output[$value->key] = [];
-				}
-				if ($value->value !== NULL) {
-					$output[$value->key][] = $value->value;
-				}
+			if (empty($output[$value->key])) {
+				$output[$value->key] = [];
+			}
+			if ($value->value !== NULL) {
+				$output[$value->key][] = $value->value;
 			}
 		}
 		return $output;
@@ -184,11 +186,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function getCompletedStagesForPost($id)
 	{
-		$result = DB::select('form_stage_id', 'completed')
+		$query = DB::select('form_stage_id', 'completed')
 			->from('form_stages_posts')
 			->where('post_id', '=', $id)
-			->where('completed', '=', 1)
-			->execute($this->db);
+			->where('completed', '=', 1);
+
+		if ($this->restricted) {
+			$query->where('form_stage_id', 'NOT IN', $this->exclude_stages);
+		}
+
+		$result = $query->execute($this->db);
 
 		return $result->as_array(NULL, 'form_stage_id');
 	}

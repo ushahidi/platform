@@ -160,25 +160,6 @@ class PostAuthorizer implements Authorizer, Permissionable
         return false;
     }
 
-    public function restrictAuthor(Entity $entity)
-    {
-        if ($entity->form_id) {
-            return $this->form_repo->getHideAuthor($entity->form_id);
-        }
-
-        return false;
-    }
-
-    public function restrictPostValues(Entity $entity)
-    {
-        $user = $this->getUser();
-        if (!$this->isFormRestricted($entity, $user) && $this->isPostPublishedToUser($entity, $user)))
-        {
-            return false;
-        }
-        return true;
-    }
-
     protected function isUserOfRole(Entity $entity, $user)
     {
         if ($entity->published_to) {

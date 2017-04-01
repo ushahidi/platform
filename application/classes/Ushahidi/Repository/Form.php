@@ -93,9 +93,9 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             ->from('forms')
             ->where('id', '=', $form_id);
 
-        $result = $query->execute($this->db)->as_array();
+        $results = $query->execute($this->db)->as_array();
 
-        return count($results) > 0 ? $result[0]['hide_author'] : false;
+        return count($results) > 0 ? $results[0]['hide_author'] : false;
     }
 
     /**

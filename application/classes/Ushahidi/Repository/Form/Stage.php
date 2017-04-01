@@ -60,6 +60,31 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
+
+
+	/**
+		* Retrieve Hidden Stage IDs for a given form
+		* if no form is found return false
+		* @param  $form_id
+		* @return Array
+		*/
+	public function getHidenStageIds($form_id)
+	{
+			$stages = [];
+
+			$query = DB::select('id')
+					->from('form_stages')
+					->where('show_when_published', '=', 0);
+
+			$results = $query->execute($this->db)->as_array();
+
+			foreach($results as $stage) {
+				array_push($stages, $stage['id']);
+			}
+
+			return $stages;
+	}
+
 	// FormStageRepository
 	public function existsInForm($id, $form_id)
 	{

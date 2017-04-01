@@ -19,7 +19,7 @@ interface ValuesForPostRepository
 	 * @param  Array $include_attributes
 	 * @return [Ushahidi\Core\Entity\PostValue, ...]
 	 */
-	public function getAllForPost($post_id, Array $include_attributes = []);
+	public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $restricted = false);
 
 	/**
 	 * @param  int $post_id

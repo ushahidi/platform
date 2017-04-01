@@ -30,6 +30,7 @@ class FormStage extends StaticEntity
 		return [
 			'id'       => 'int',
 			'description' => 'string',
+			'show_when_published' => 'int',
 			'type'     => 'string',
 			'form_id'  => 'int',
 			'label'    => 'string',
