@@ -580,7 +580,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "18"
+        And the "count" property equals "19"
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view private posts
