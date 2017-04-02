@@ -13,10 +13,18 @@ use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Traits\UserContext;
 
 class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	FormStageRepository
 {
+	use UserContext;
+
+	use PostValueRestrictions;
+
+	protected $form_id;
+
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -27,9 +35,14 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	protected function selectQuery(Array $where = [])
 	{
 		$query = parent::selectQuery($where);
+
+		$user = $this->getUser();
+		$restricted = $this->isFormRestricted($form_id, $user);
 		if ($restricted) {
 			$query->where('show_when_published', '=', '1');
 		}
+
+		return $query;
 	}
 
 	// CreateRepository
@@ -63,6 +76,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	// FormStageRepository
 	public function getByForm($form_id)
 	{
+		$this->$form_id = $form_id;
 		$query = $this->selectQuery(compact($form_id));
 		$results = $query->execute($this->db);
 
@@ -103,6 +117,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	// FormStageRepository
 	public function getRequired($form_id)
 	{
+		$this->$form_id = $form_id;
 		$query = $this->selectQuery([
 				'form_stages.form_id'  => $form_id,
 				'form_stages.required' => true
