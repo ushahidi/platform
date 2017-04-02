@@ -13,6 +13,8 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Traits\UserContext;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
@@ -20,13 +22,69 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	FormAttributeRepository
 {
+	use UserContext;
+
+	use PostValueRestrictions;
+
+	protected $form_id;
+
+	protected $form_stage_id;
+
+	protected $form_stage_repo;
+
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
+
+	public function __construct(
+			Database $db,
+			FormStageRepository $form_stage_repo,
+		)
+	{
+		parent::__construct($db);
+
+		$this->form_stage_repo = $form_stage_repo;
+
+	}
 
 	// Ushahidi_JsonTranscodeRepository
 	protected function getJsonProperties()
 	{
 		return ['options', 'config'];
+	}
+
+	protected function getFormId()
+	{
+		if (!$this->form_id && $this->form_stage_id) {
+			$form = $this->form_stage_repo->getFormByStageId($this->form_stage_id);
+			if ($form) {
+				$this->form_id = $form.id;
+			}
+		}
+	}
+
+	}
+	protected function isRestricted ()
+	{
+
+		$user = $this->getUser();
+		$this->getFormId();
+		if ($this->form_id) {
+			return $this->isFormRestricted($this->form_id, $user);
+		}
+
+		return false;
+	}
+
+	// Override selectQuery to fetch attribute 'key' too
+	protected function selectQuery(Array $where = [])
+	{
+		$query = parent::selectQuery($where);
+
+		if ($this->isRestricted()) {
+			$query->where('response_private', '=', '0');
+		}
+
+		return $query;
 	}
 
 	// CreateRepository
@@ -84,6 +142,10 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// FormAttributeRepository
 	public function getByKey($key, $form_id = null, $include_no_form = false)
 	{
+		if ($form_id) {
+			$this->form_id = $form_id;
+		}
+
 		$query = $this->selectQuery()
 			->select('form_attributes.*')
 			->join('form_stages', 'LEFT')
@@ -120,6 +182,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// FormAttributeRepository
 	public function getByForm($form_id)
 	{
+		$this->form_id = $form_id;
+
 		$query = $this->selectQuery([
 				'form_stages.form_id' => $form_id,
 			])
@@ -135,6 +199,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// FormAttributeRepository
 	public function getRequired($stage_id)
 	{
+		$this->form_stage_id = $stage_id;
+
 		$query = $this->selectQuery([
 				'form_attributes.form_stage_id'  => $stage_id,
 				'form_attributes.required' => true

@@ -31,14 +31,23 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		return 'form_stages';
 	}
 
+	protected function isRestricted ()
+	{
+
+		$user = $this->getUser();
+		if ($this->form_id) {
+			return $this->isFormRestricted($this->form_id, $user);
+		}
+
+		return false;
+	}
+
 	// Override selectQuery to fetch attribute 'key' too
 	protected function selectQuery(Array $where = [])
 	{
 		$query = parent::selectQuery($where);
 
-		$user = $this->getUser();
-		$restricted = $this->isFormRestricted($form_id, $user);
-		if ($restricted) {
+		if ($this->isRestricted()) {
 			$query->where('show_when_published', '=', '1');
 		}
 
@@ -73,6 +82,17 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		}
 	}
 
+	public function getFormByStageId($id)
+	{
+		$query = DB::select('form_id')
+				->from('form_stages')
+				->where('id', '=', $id);
+
+		$results = $query->execute($this->db);
+
+		return count($results) > 0 ? $results[0]['form_id'] : false;
+	}
+
 	// FormStageRepository
 	public function getByForm($form_id)
 	{
@@ -82,8 +102,6 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 
 		return $this->getCollection($results->as_array());
 	}
-
-
 
 	/**
 		* Retrieve Hidden Stage IDs for a given form

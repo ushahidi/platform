@@ -427,6 +427,11 @@ abstract class Ushahidi_Core {
 			'upload' => $di->lazyGet('tool.uploader'),
 			];
 
+		// Form Attribute repository parameters
+		$di->params['Ushahidi_Repository_Form_Attribute'] = [
+				'form_stage_repo' => $di->lazyGet('repository.form_stage')
+		];
+
 		// Post repository parameters
 		$di->params['Ushahidi_Repository_Post'] = [
 				'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
