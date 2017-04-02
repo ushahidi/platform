@@ -1,7 +1,7 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi Reader
+ * Ushahidi Webhook Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,10 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use League\Csv\Reader as CSVReader;
-use Ushahidi\Core\Tool\Reader;
-
-class Ushahidi_Reader extends CSVReader implements Reader
+class Ushahidi_Validator_Webhook_Create extends Ushahidi_Validator_Webhook_Update
 {
-	// intentionally left blank
+
 }

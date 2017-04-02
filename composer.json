@@ -26,7 +26,7 @@
         "kohana/minion" : "3.3.*@dev",
         "ohanzee/database": "~0.1.2",
         "robmorgan/phinx": "~0.4.1",
-        "shadowhand/email": "~2.0.1",
+        "ushahidi/shadowhand-email": "dev-master",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "3.12.*",
         "vlucas/phpdotenv": "~1.0@dev",

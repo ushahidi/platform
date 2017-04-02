@@ -33,6 +33,9 @@ use Ushahidi\Core\Traits\PostValueRestrictions;
 
 use Aura\DI\InstanceFactory;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	PostRepository,
 	UpdatePostRepository,
@@ -40,6 +43,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	Permissionable
 {
 	use UserContext;
+
+	// Use Event trait to trigger events
+	use Event;
 
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
@@ -69,6 +75,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected $include_value_types = [];
 	protected $include_attributes = [];
 	protected $exclude_stages = [];
+
+	protected $listener;
 
 	/**
 	 * Construct
@@ -171,6 +179,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->proxy($this->include_value_types)
 			->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
 
+
+
 		$output = [];
 		foreach ($values as $value) {
 			if (empty($output[$value->key])) {
@@ -215,7 +225,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'published_to',
 			'include_types', 'include_attributes', // Specify values to include
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
-			'timeline', 'timeline_interval', 'timeline_attribute' // Timeline params
+			'timeline', 'timeline_interval', 'timeline_attribute', // Timeline params
+			'has_location' //contains a location or not
 		];
 	}
 
@@ -387,6 +398,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$query
 				->where("$table.published_to", 'LIKE', "%'$search->published_to'%")
 				;
+		}
+
+		if($search->has_location === 'mapped') {
+
+			$query
+				->where("$table.id", 'IN', DB::select('post_id')
+				->from('post_point'));
+		} else if($search->has_location === 'unmapped') {
+			$query
+				->where("$table.id", 'NOT IN', DB::select('post_id')
+				->from('post_point'));
 		}
 
 		if ($search->current_stage) {
@@ -904,6 +926,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// Update post-stages
 			$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
 		}
+
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $id, 'create');
 
 		return $id;
 	}
