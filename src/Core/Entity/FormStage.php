@@ -22,6 +22,7 @@ class FormStage extends StaticEntity
 	protected $icon;
 	protected $type;
 	protected $required;
+	protected $show_when_published;
 	protected $description;
 
 	// DataTransformer
@@ -36,6 +37,7 @@ class FormStage extends StaticEntity
 			'label'    => 'string',
 			'priority' => 'int',
 			'icon'     => 'string',
+			'show_when_published' => 'boolean',
 			'required' => 'boolean'
 		];
 	}

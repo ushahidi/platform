@@ -24,6 +24,7 @@ class Form extends StaticEntity
 	protected $disabled;
 	protected $created;
 	protected $updated;
+	protected $hide_author;
 	protected $require_approval;
 	protected $everyone_can_create;
 	protected $can_create;
@@ -46,6 +47,7 @@ class Form extends StaticEntity
 			'disabled'    => 'bool',
 			'created'     => 'int',
 			'updated'     => 'int',
+			'hide_author'           => 'bool',
 			'require_approval'      => 'bool',
 			'everyone_can_create'   => 'bool',
 			'can_create'            => 'array',

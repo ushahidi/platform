@@ -28,6 +28,7 @@ class FormAttribute extends StaticEntity
 	protected $cardinality;
 	protected $config = [];
 	protected $form_stage_id;
+	protected $response_private;
 
 	// StatefulData
 	protected function getDerived()
@@ -55,6 +56,7 @@ class FormAttribute extends StaticEntity
 			'config'        => '*json',
 			'form_stage'    => false, /* alias */
 			'form_stage_id' => 'int',
+			'response_private' => 'bool',
 		];
 	}
 

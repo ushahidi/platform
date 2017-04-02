@@ -88,7 +88,6 @@ forms:
     name: "Role Restriction"
     type: "report"
     description: "Test role restriction and private responses"
-    hide_author: true
     require_approval: 1
     hide_author: 1
     everyone_can_create: 0

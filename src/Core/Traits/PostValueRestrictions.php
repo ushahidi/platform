@@ -31,10 +31,10 @@ trait PostValueRestrictions
 		return false;
 	}
 
-	protected function isUserOfRole(Post $post, $user)
+	protected function isUserOfRole($roles, $user)
 	{
-		if ($post->published_to) {
-			return in_array($user->role, $post->published_to);
+		if ($roles) {
+			return in_array($user->role, $roles);
 		}
 
 		// If no visibility info, assume public
@@ -48,7 +48,7 @@ trait PostValueRestrictions
 			return false;
 		}
 
-		if ($post->status === 'published' && $this->isUserOfRole($post, $user)) {
+		if ($post->status === 'published' && $this->isUserOfRole($post->published_to, $user)) {
 			return true;
 		}
 		return false;
@@ -82,7 +82,7 @@ trait PostValueRestrictions
 				return false;
 			}
 
-			if (is_array($roles['roles']) && in_array($user->role, $roles['roles'])) {
+			if ($this->isUserOfRole($roles, $user)) {
 				return false;
 			}
 		}
