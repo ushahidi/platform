@@ -186,7 +186,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "18"
+        And the "count" property equals "19"
 
     Scenario: Admin user can view private posts
         Given that I want to find a "Post"

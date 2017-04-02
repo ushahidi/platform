@@ -125,7 +125,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
 		}
-		Kohana::$log->add(Log::ERROR, print_r($data,true));
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
 		//Check if author information should be returned
@@ -192,7 +191,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->where('completed', '=', 1);
 
 		if ($this->restricted) {
-			$query->where('form_stage_id', 'NOT IN', $this->exclude_stages);
+			if ($this->exclude_stages) {
+				$query->where('form_stage_id', 'NOT IN', $this->exclude_stages);
+			}
 		}
 
 		$result = $query->execute($this->db);
