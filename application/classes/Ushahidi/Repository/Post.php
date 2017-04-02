@@ -28,7 +28,6 @@ use Ushahidi\Core\Traits\Permissions\ManagePosts;
 use Ushahidi\Core\Traits\PermissionAccess;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
-use Ushahidi\Core\Tool\Authorizer\PostAuthorizer;
 use Ushahidi\Core\Traits\PostValueRestrictions;
 
 use Aura\DI\InstanceFactory;
@@ -174,12 +173,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function getPostValues($id)
 	{
+
+		Kohana::$log->add(Log::ERROR, print_r($this->restricted,true));
 		// Get all the values for the post. These are the EAV values.
 		$values = $this->post_value_factory
 			->proxy($this->include_value_types)
 			->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
 
-
+Kohana::$log->add(Log::ERROR, print_r($values,true));
 
 		$output = [];
 		foreach ($values as $value) {

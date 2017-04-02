@@ -62,7 +62,7 @@ trait PostValueRestrictions
 	public function restrictPostValues(Post $post, $user, FormRepository $form_repo)
 	{
 		$this->form_repository = $form_repo;
-		if (!$this->isFormRestricted($post, $user) && $this->isPostPublishedToUser($post, $user))
+		if (!$this->isFormRestricted($post->form_id, $user) && $this->isPostPublishedToUser($post, $user))
 		{
 			return false;
 		}
@@ -70,13 +70,13 @@ trait PostValueRestrictions
 	}
 
 	/* FormRole */
-	protected function isFormRestricted(Post $post, $user)
+	protected function isFormRestricted($form_id, $user)
 	{
 		// If the $entity->form_id exists and the $form->everyone_can_create is False
 		// we check to see if the Form & Role Join exists in the `FormRoleRepository`
 
-		if ($post->form_id) {
-			$roles = $this->form_repository->getRolesThatCanCreatePosts($post->form_id);
+		if ($form_id) {
+			$roles = $this->form_repository->getRolesThatCanCreatePosts($form_id);
 
 			if ($roles['everyone_can_create'] > 0) {
 				return false;

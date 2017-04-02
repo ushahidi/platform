@@ -23,6 +23,15 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		return 'form_stages';
 	}
 
+	// Override selectQuery to fetch attribute 'key' too
+	protected function selectQuery(Array $where = [])
+	{
+		$query = parent::selectQuery($where);
+		if ($restricted) {
+			$query->where('show_when_published', '=', '1');
+		}
+	}
+
 	// CreateRepository
 	// ReadRepository
 	public function getEntity(Array $data = null)
