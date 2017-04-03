@@ -7,6 +7,13 @@
                 <directory>./tests/</directory>
             </testsuite>
         </testsuites>
+        <filter>
+            <whitelist processUncoveredFilesFromWhitelist="true">
+                <directory suffix=".php">./application/classes</directory>
+                <directory suffix=".php">./src</directory>
+                <directory suffix=".php">./plugins/*/classes</directory>
+            </whitelist>
+        </filter>
         <logging>
             <log type="coverage-clover" target="coverage/phpunit.xml"/>
         </logging>
