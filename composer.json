@@ -82,7 +82,7 @@
         ],
         "lint" : [
             "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/*,migrations/*,bin/* --standard=PSR2 --tab-width=4 ./",
-            "phpcs --standard=spec/ruleset.xml --tab-width=4 ./tests/spec/",
+            "phpcs --standard=tests/spec/ruleset.xml --tab-width=4 ./tests/spec/",
             "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/"
         ],
         "pre-coverage" : [
