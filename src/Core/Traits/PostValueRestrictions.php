@@ -20,15 +20,13 @@ use Ushahidi\Core\Entity\FormRepository;
 trait PostValueRestrictions
 {
 
-	protected $form_repository;
-
-	public function restrictAuthor(Post $post, FormRepository $form_repo)
+	public function canUserSeeAuthor(Post $post, FormRepository $form_repo)
 	{
 		if ($post->form_id) {
-			return $form_repo->getHideAuthor($post->form_id);
+			return !$form_repo->isAuthorHidden($post->form_id);
 		}
 
-		return false;
+		return true;
 	}
 
 	protected function isUserOfRole($roles, $user)
@@ -59,34 +57,34 @@ trait PostValueRestrictions
 	 * @param  Post $post
 	 * @return Boolean
 	 */
-	public function restrictPostValues(Post $post, $user, FormRepository $form_repo)
+	public function canUserReadPostsValues(Post $post, $user, FormRepository $form_repo)
 	{
-		$this->form_repository = $form_repo;
-		if (!$this->isFormRestricted($post->form_id, $user) && $this->isPostPublishedToUser($post, $user))
+		if ($this->canUserEditForm($post->form_id, $user, $form_repo) && $this->isPostPublishedToUser($post, $user))
 		{
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	/* FormRole */
-	protected function isFormRestricted($form_id, $user)
+	protected function canUserEditForm($form_id, $user, $form_repo)
 	{
 		// If the $entity->form_id exists and the $form->everyone_can_create is False
 		// we check to see if the Form & Role Join exists in the `FormRoleRepository`
-
+		\Log::instance()->add(\Log::NOTICE, "form: " . print_r($form_id,true));
 		if ($form_id) {
-			$roles = $this->form_repository->getRolesThatCanCreatePosts($form_id);
 
+			$roles = $form_repo->getRolesThatCanCreatePosts($form_id);
+			\Log::instance()->add(\Log::NOTICE, "User: " . print_r($user,true));
+			\Log::instance()->add(\Log::NOTICE, "roles: " . print_r($roles,true));
 			if ($roles['everyone_can_create'] > 0) {
-				return false;
+				return true;
 			}
-
-			if ($this->isUserOfRole($roles, $user)) {
-				return false;
+			if (is_array($roles['roles'])) {
+				return $this->isUserOfRole($roles['roles'], $user);
 			}
 		}
 
-		return true;
+		return false;
 	}
 }

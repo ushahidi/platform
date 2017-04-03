@@ -13,6 +13,7 @@ use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Traits\UserContext;
 
@@ -24,6 +25,23 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	use PostValueRestrictions;
 
 	protected $form_id;
+	protected $form_repo;
+
+		/**
+		 * Construct
+		 * @param Database                              $db
+		 * @param FormRepository                       $form_repo
+		 */
+		public function __construct(
+				Database $db,
+				FormRepository $form_repo
+			)
+		{
+			parent::__construct($db);
+
+			$this->form_repo = $form_repo;
+
+		}
 
 	// Ushahidi_Repository
 	protected function getTable()
@@ -31,23 +49,24 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		return 'form_stages';
 	}
 
-	protected function isRestricted ()
+	protected function isRestricted($form_id)
 	{
 
 		$user = $this->getUser();
-		if ($this->form_id) {
-			return $this->isFormRestricted($this->form_id, $user);
+		if ($form_id) {
+			return !$this->canUserEditForm($form_id, $user, $this->form_repo);
 		}
 
 		return false;
 	}
 
 	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(Array $where = [])
+	protected function selectQuery(Array $where = [], $form_id = null)
 	{
 		$query = parent::selectQuery($where);
 
-		if ($this->isRestricted()) {
+
+		if ($this->isRestricted($form_id)) {
 			$query->where('show_when_published', '=', '1');
 		}
 
@@ -65,6 +84,37 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	public function getSearchFields()
 	{
 		return ['form_id', 'label'];
+	}
+
+	// Override SearchRepository
+	public function setSearchParams(SearchData $search)
+	{
+		$form_id = null;
+		if ($search->form_id) {
+			$form_id = $search->form_id;
+		}
+
+		$this->search_query = $this->selectQuery([], $form_id);
+
+		$sorting = $search->getSorting();
+
+		if (!empty($sorting['orderby'])) {
+			$this->search_query->order_by(
+				$this->getTable() . '.' . $sorting['orderby'],
+				Arr::get($sorting, 'order')
+			);
+		}
+
+		if (!empty($sorting['offset'])) {
+			$this->search_query->offset($sorting['offset']);
+		}
+
+		if (!empty($sorting['limit'])) {
+			$this->search_query->limit($sorting['limit']);
+		}
+
+		// apply the unique conditions of the search
+		$this->setSearchConditions($search);
 	}
 
 	// Ushahidi_Repository
@@ -96,8 +146,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	// FormStageRepository
 	public function getByForm($form_id)
 	{
-		$this->$form_id = $form_id;
-		$query = $this->selectQuery(compact($form_id));
+		$query = $this->selectQuery(compact($form_id), $form_id);
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
@@ -109,7 +158,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		* @param  $form_id
 		* @return Array
 		*/
-	public function getHidenStageIds($form_id)
+	public function getHiddenStageIds($form_id)
 	{
 			$stages = [];
 
@@ -135,11 +184,10 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	// FormStageRepository
 	public function getRequired($form_id)
 	{
-		$this->$form_id = $form_id;
 		$query = $this->selectQuery([
 				'form_stages.form_id'  => $form_id,
 				'form_stages.required' => true
-			])
+			], $form_id)
 			->select('form_stages.*');
 
 		$results = $query->execute($this->db);

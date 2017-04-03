@@ -87,7 +87,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
       * @param  $form_id
       * @return Boolean
       */
-    public function getHideAuthor($form_id)
+    public function isAuthorHidden($form_id)
     {
         $query = DB::select('hide_author')
             ->from('forms')

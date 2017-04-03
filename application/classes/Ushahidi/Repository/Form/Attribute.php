@@ -13,6 +13,8 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Traits\UserContext;
 
@@ -32,17 +34,27 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 	protected $form_stage_repo;
 
+	protected $form_repo;
+
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
 
+	/**
+	 * Construct
+	 * @param Database                              $db
+	 * @param FormStageRepository                   $form_stage_repo
+	 * @param FormRepository                   $form_repo
+	 */
 	public function __construct(
 			Database $db,
 			FormStageRepository $form_stage_repo,
+			FormRepository $form_repo
 		)
 	{
 		parent::__construct($db);
 
 		$this->form_stage_repo = $form_stage_repo;
+		$this->form_repo = $form_repo;
 
 	}
 
@@ -62,14 +74,13 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		}
 	}
 
-	}
 	protected function isRestricted ()
 	{
 
 		$user = $this->getUser();
 		$this->getFormId();
 		if ($this->form_id) {
-			return $this->isFormRestricted($this->form_id, $user);
+			return !$this->canUserEditForm($this->form_id, $user, $this->form_repo);
 		}
 
 		return false;

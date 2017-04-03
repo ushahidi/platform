@@ -59,7 +59,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	use AdminAccess;
 
 	// Check for value restrictions
-	// provides restrictPostValues
+	// provides canUserReadPostsValues
 	use PostValueRestrictions;
 
 	protected $form_attribute_repo;
@@ -118,9 +118,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if ($data['form_id'])
 		{
 			$user = $this->getUser();
-			$this->restricted = $this->restrictPostValues(new Post($data), $user, $this->form_repo);
+			if ($this->canUserReadPostsValues(new Post($data), $user, $this->form_repo)) {
+				$this->restricted = false;
+				Kohana::$log->add(Log::ERROR, "here");
+			}
 			// Get Hidden Stage Ids to be excluded from results
-			$this->exclude_stages = $this->form_stage_repo->getHidenStageIds($data['form_id']);
+			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
 		}
 
 		if (!empty($data['id']))
@@ -138,7 +141,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
 		{
 
-			if ($this->restrictAuthor(new Post($data), $this->form_repo) && $this->restricted)
+			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo) && $this->restricted)
 			{
 				unset($data['author_realname']);
 				unset($data['author_email']);
@@ -174,13 +177,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected function getPostValues($id)
 	{
 
-		Kohana::$log->add(Log::ERROR, print_r($this->restricted,true));
 		// Get all the values for the post. These are the EAV values.
 		$values = $this->post_value_factory
 			->proxy($this->include_value_types)
 			->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
-
-Kohana::$log->add(Log::ERROR, print_r($values,true));
 
 		$output = [];
 		foreach ($values as $value) {

@@ -1,6 +1,25 @@
 @acl
 Feature: API Access Control Layer
 
+    Scenario: Anonymous users can create posts
+        Given that I want to make a new "Post"
+        And that the request "Authorization" header is "Bearer testanon"
+        And that the request "data" is:
+        """
+        {
+            "form_id": 1,
+            "status": "draft",
+            "title": "Test creating anonymous post",
+            "content": "testing post for oauth",
+            "locale": "en_us",
+            "values": {
+                "last_location" : ["Somewhere"]
+            }
+        }
+        """
+        When I request "/posts"
+        Then the guzzle status code should be 204
+
     Scenario: Anonymous user can not see restricted fields of public posts
         Given that I want to find a "Post"
         And that the request "Authorization" header is "Bearer testanon"
@@ -67,17 +86,6 @@ Feature: API Access Control Layer
         And the response does not have a "user" property
         Then the guzzle status code should be 200
 
-    Scenario: User can see hidden tasks of posts published when survey restricted to their role
-        Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testmanager"
-        And that its "id" is "121"
-        When I request "/posts"
-        Then the response is JSON
-        And the response has a "values" property
-        And the response has a "values.test_field_locking_visible_4" property
-        And the response has a "values.test_field_locking_visible_2" property
-        Then the guzzle status code should be 200
-
     Scenario: User can see restricted fields of posts published to their role when survey restricted to their role
         Given that I want to find a "Post"
         And that the request "Authorization" header is "Bearer testmanager"
@@ -133,25 +141,36 @@ Feature: API Access Control Layer
         And the response does not have a "user" property
         Then the guzzle status code should be 200
 
+    Scenario: Listing All Stages for a form with hidden stages
+        Given that I want to get all "Stages"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        When I request "/forms/4/stages"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        Then the guzzle status code should be 200
 
-    Scenario: Anonymous users can create posts
-        Given that I want to make a new "Post"
-        And that the request "Authorization" header is "Bearer testanon"
-        And that the request "data" is:
-        """
-        {
-            "form_id": 1,
-            "status": "draft",
-            "title": "Test creating anonymous post",
-            "content": "testing post for oauth",
-            "locale": "en_us",
-            "values": {
-                "last_location" : ["Somewhere"]
-            }
-        }
-        """
+    Scenario: Listing All Stages for a form with hidden stages with edit permission
+        Given that I want to get all "Stages"
+        And that the request "Authorization" header is "Bearer testmanager"
+        When I request "/forms/4/stages"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "2"
+        Then the guzzle status code should be 200
+
+    Scenario: User can see hidden tasks of posts published when survey restricted to their role
+        Given that I want to find a "Post"
+        And that the request "Authorization" header is "Bearer testmanager"
+        And that its "id" is "121"
         When I request "/posts"
-        Then the guzzle status code should be 204
+        Then the response is JSON
+        And the response has a "values" property
+        And the response has a "values.test_field_locking_visible_4" property
+        And the response has a "values.test_field_locking_visible_2" property
+        Then the guzzle status code should be 200
 
     Scenario: Anonymous user can access public posts
         Given that I want to get all "Posts"
@@ -255,10 +274,6 @@ Feature: API Access Control Layer
         Then the guzzle status code should be 403
         And the response is JSON
         And the response has an "errors" property
-
-
-
-
 
     Scenario: Anonymous users can not edit posts
         Given that I want to update a "Post"
@@ -580,7 +595,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "19"
+        And the "count" property equals "18"
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view private posts

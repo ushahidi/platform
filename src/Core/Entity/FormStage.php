@@ -31,13 +31,12 @@ class FormStage extends StaticEntity
 		return [
 			'id'       => 'int',
 			'description' => 'string',
-			'show_when_published' => 'int',
+			'show_when_published' => 'boolean',
 			'type'     => 'string',
 			'form_id'  => 'int',
 			'label'    => 'string',
 			'priority' => 'int',
 			'icon'     => 'string',
-			'show_when_published' => 'boolean',
 			'required' => 'boolean'
 		];
 	}
