@@ -34,10 +34,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	public function create(Entity $entity)
 	{
 		$record = $entity->asArray();
-		if($record['type'] === 'labels') {
-			// updating FormsTags-table
-			$this->updateFormsTagsFromFormStage($record['form_stage_id'], $record['config']);
-		}
 		unset($record['form_id']);
 		try {
 			$uuid = Uuid::uuid4();
@@ -53,12 +49,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		$attribute = $entity->getChanged();
 		$count = $this->executeUpdate(['id' => $entity->id], $attribute);
 		
-		// updating forms_tags-table
-		if(isset($attribute['config']['input']['tags']))
-		{
-			$this->updateFormsTags($entity->id, $entity->config);
-		}
-
 		return $count;
 	}
 	// SearchRepository

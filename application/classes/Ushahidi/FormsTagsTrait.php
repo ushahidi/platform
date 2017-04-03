@@ -26,15 +26,7 @@ trait Ushahidi_FormsTagsTrait
             ->execute($this->db);
         return $result->as_array(NULL, 'tag_id');
     }
-    // updating forms-tags-table based on form-stage-id
-    private function updateFormsTagsFromFormStage($form_stage_id, $config) {
-        $form_id = DB::select('form_id')
-            ->from('form_stages')
-            ->where('id', '=', $form_stage_id)
-            ->execute($this->db)
-            ->get('form_id');
-        $this->updateFormsTags($form_id, $config);
-    }
+    
     // updating/adding tags to a form
     private function updateFormsTags($form_id, $tags) {
         if(!$tags) {
