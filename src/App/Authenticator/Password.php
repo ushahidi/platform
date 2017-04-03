@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php
 
 /**
  * Ushahidi Password Authenticator
@@ -9,10 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Authenticator;
+
 use Ushahidi\Core\Tool\PasswordAuthenticator;
 use Ushahidi\Core\Exception\AuthenticatorException;
 
-class Ushahidi_Authenticator_Password implements PasswordAuthenticator
+class Password implements PasswordAuthenticator
 {
 	public function checkPassword($plaintext, $hash)
 	{
