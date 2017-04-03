@@ -149,7 +149,6 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
 		$di->setter['Ushahidi_Console_Webhook']['setPostRepo'] = $di->lazyGet('repository.post');
-		$di->setter['Ushahidi_Console_Webhook']['setSigner'] = $di->lazyGet('tool.signer');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookRepo'] = $di->lazyGet('repository.webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookJobRepo'] = $di->lazyGet('repository.webhook.job');
 

@@ -30,7 +30,6 @@ class Ushahidi_Console_Webhook extends Command
 	private $postRepository;
 	private $webhookRepository;
 	private $webhookJobRepository;
-	private $signer;
 	private $client;
 
 	public function setDatabase(Database $db)
@@ -46,11 +45,6 @@ class Ushahidi_Console_Webhook extends Command
 	public function setPostRepo(PostRepository $repo)
 	{
 		$this->postRepository = $repo;
-	}
-
-	public function setSigner(Signer $signer)
-	{
-		$this->signer = $signer;
 	}
 
 	public function setWebhookJobRepo(WebhookJobRepository $repo)
