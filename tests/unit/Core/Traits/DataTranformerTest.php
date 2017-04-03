@@ -24,6 +24,10 @@ class mockDataTransformer {
 	}
 }
 
+/**
+ * @backupGlobals disabled
+ * @preserveGlobalState disabled
+ */
 class DataTransformerTest extends PHPUnit\Framework\TestCase {
 
 	/**
