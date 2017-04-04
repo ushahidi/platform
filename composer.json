@@ -92,9 +92,9 @@
             "@migrate"
         ],
         "lint" : [
-            "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/*,migrations/*,bin/* --standard=PSR2 --tab-width=4 ./",
+            "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/*,migrations/*,bin/*,database/* --standard=PSR2 --tab-width=4 ./",
             "phpcs --standard=tests/spec/ruleset.xml --tab-width=4 ./tests/spec/",
-            "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/"
+            "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/ ./database"
         ],
         "pre-coverage" : [
             "rm -rf coverage/"
