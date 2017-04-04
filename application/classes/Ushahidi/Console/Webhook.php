@@ -111,7 +111,7 @@ class Ushahidi_Console_Webhook extends Command
 	private function generateRequest($webhook_request)
 	{
 		// Delete queued webhook request
-		//$this->webhookJobRepository->delete($webhook_request);
+		$this->webhookJobRepository->delete($webhook_request);
 
 		// Get post data
 		$post = $this->postRepository->get($webhook_request->post_id);

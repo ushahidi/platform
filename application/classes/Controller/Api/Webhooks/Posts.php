@@ -59,7 +59,6 @@ class Controller_Api_Webhooks_Posts extends Controller_Api_Posts {
 
 	public function action_put_index()
 	{
-			Kohana::$log->add(Log::ERROR, print_r($this->_payload(),true));
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'webhook-update')
 			->setIdentifiers($this->_identifiers())
