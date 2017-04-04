@@ -14,7 +14,7 @@ use Ushahidi\Core\Entity\PostValueRepository;
 
 class Ushahidi_Repository_Post_Title extends Ushahidi_Repository_Post_Varchar
 {
-  public function getAllForPost($post_id, Array $include_attributes = [])
+  public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $restricted = false)
 	{
     return [];
   }
