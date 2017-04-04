@@ -161,6 +161,26 @@ Feature: API Access Control Layer
         And the "count" property equals "2"
         Then the guzzle status code should be 200
 
+    Scenario: Listing All Attributes for a form with hidden stages
+        Given that I want to get all "Stages"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+        When I request "/forms/4/attributes"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "4"
+        Then the guzzle status code should be 200
+
+    Scenario: Listing All Attributes for a form with hidden stages with edit permission
+        Given that I want to get all "Stages"
+        And that the request "Authorization" header is "Bearer testmanager"
+        When I request "/forms/4/attributes"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "7"
+        Then the guzzle status code should be 200
+
     Scenario: User can see hidden tasks of posts published when survey restricted to their role
         Given that I want to find a "Post"
         And that the request "Authorization" header is "Bearer testmanager"

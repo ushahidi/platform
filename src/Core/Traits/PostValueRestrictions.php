@@ -52,6 +52,17 @@ trait PostValueRestrictions
 		return false;
 	}
 
+	public function isRestricted($form_id)
+	{
+
+		$user = $this->getUser();
+		if ($form_id) {
+			return !$this->canUserEditForm($form_id, $user, $this->form_repo);
+		}
+
+		return false;
+	}
+
 	/**
 	 * Test whether the post instance requires value restriction
 	 * @param  Post $post

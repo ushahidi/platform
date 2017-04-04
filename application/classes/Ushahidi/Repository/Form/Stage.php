@@ -49,22 +49,10 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		return 'form_stages';
 	}
 
-	protected function isRestricted($form_id)
-	{
-
-		$user = $this->getUser();
-		if ($form_id) {
-			return !$this->canUserEditForm($form_id, $user, $this->form_repo);
-		}
-
-		return false;
-	}
-
 	// Override selectQuery to fetch attribute 'key' too
 	protected function selectQuery(Array $where = [], $form_id = null)
 	{
 		$query = parent::selectQuery($where);
-
 
 		if ($this->isRestricted($form_id)) {
 			$query->where('show_when_published', '=', '1');
