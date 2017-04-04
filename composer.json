@@ -86,8 +86,7 @@
             "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/"
         ],
         "pre-coverage" : [
-            "rm -rf coverage/",
-            "php -S localhost:8000 -t httpdocs httpdocs/coverage.php; echo $! > /tmp/platform.pid"
+            "rm -rf coverage/"
         ],
         "coverage" : [
             "phpunit",

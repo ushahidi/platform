@@ -29,11 +29,12 @@ install:
 - composer install --no-interaction
 before_script:
 - composer pre-test
-- php -S localhost:8000 -t httpdocs httpdocs/index.php &
+- if [ "${coverage}" == "" ]; then php -S localhost:8000 -t httpdocs httpdocs/index.php & fi
+- if [ "${coverage}" != "" ]; then php -S localhost:8000 -t httpdocs httpdocs/coverage.php & fi
 - mysql -e 'SET @@GLOBAL.wait_timeout=1800'
 script:
 - if [ "${coverage}" == "" ]; then composer test; fi
-- if [ "${coverage}" != "" ]; then composer coverage; fi
+- if [ "${coverage}" != "" ]; then composer run coverage --timeout=0; fi
 - composer lint
 after_success:
 - if [ "${coverage}" != "" ]; then travis_retry bin/coveralls -v; fi
