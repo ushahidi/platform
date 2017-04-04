@@ -70,8 +70,7 @@ trait PostValueRestrictions
 	 */
 	public function canUserReadPostsValues(Post $post, $user, FormRepository $form_repo)
 	{
-		if ($this->canUserEditForm($post->form_id, $user, $form_repo) && $this->isPostPublishedToUser($post, $user))
-		{
+		if ($this->canUserEditForm($post->form_id, $user, $form_repo) && $this->isPostPublishedToUser($post, $user)) {
 			return true;
 		}
 		return false;
@@ -82,12 +81,8 @@ trait PostValueRestrictions
 	{
 		// If the $entity->form_id exists and the $form->everyone_can_create is False
 		// we check to see if the Form & Role Join exists in the `FormRoleRepository`
-		\Log::instance()->add(\Log::NOTICE, "form: " . print_r($form_id,true));
 		if ($form_id) {
-
 			$roles = $form_repo->getRolesThatCanCreatePosts($form_id);
-			\Log::instance()->add(\Log::NOTICE, "User: " . print_r($user,true));
-			\Log::instance()->add(\Log::NOTICE, "roles: " . print_r($roles,true));
 			if ($roles['everyone_can_create'] > 0) {
 				return true;
 			}
