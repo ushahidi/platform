@@ -64,9 +64,9 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 	protected function getFormId($form_stage_id)
 	{
-		$form = $this->form_stage_repo->getFormByStageId($this->form_stage_id);
-		if ($form) {
-			return $form.id;
+		$form_id = $this->form_stage_repo->getFormByStageId($form_stage_id);
+		if ($form_id) {
+			return $form_id;
 		}
 		return null;
 	}

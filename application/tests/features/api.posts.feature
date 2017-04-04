@@ -178,7 +178,7 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@create
-	Scenario: Creating a Post with a form that does not require approval but try to set status should fail
+	Scenario: Creating a Post with a form that does not require approval but try to set status should pass
 		Given that I want to make a new "Post"
 		And that the request "Authorization" header is "Bearer testbasicuser"
 		And that the request "data" is:
@@ -199,7 +199,7 @@ Feature: Testing the Posts API
 			"""
 		When I request "/posts"
 		Then the response is JSON
-		Then the guzzle status code should be 422
+		Then the guzzle status code should be 200
 
 	@create
 	Scenario: Creating an Post with invalid data returns an error
