@@ -3,7 +3,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 $coverage = new \SebastianBergmann\CodeCoverage\CodeCoverage;
-//$coverage->setAddUncoveredFilesFromWhitelist(true);
+$coverage->setAddUncoveredFilesFromWhitelist(true);
 $coverage->filter()->addDirectoryToWhitelist(__DIR__ . '/../application/');
 $coverage->filter()->addDirectoryToWhitelist(__DIR__ . '/../src/');
 $coverage->filter()->addDirectoryToWhitelist(__DIR__ . '/../plugins/*/classes/');
