@@ -39,7 +39,19 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
+		if (!empty($data['id'])) 
+		{
+			$data['forms'] = $this->getFormsForTag($data['id']);
+		}
+		
 		return new Tag($data);
+	}
+
+	private function getFormsForTag($id) {
+		$result = DB::select('form_id') ->from('forms_tags')
+			->where('tag_id', '=', $id)
+			->execute($this->db);
+		return $result->as_array(NULL, 'form_id');
 	}
 
 	// Ushahidi_JsonTranscodeRepository
@@ -71,13 +83,83 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 			$query->where('tag', 'LIKE', "%{$search->q}%");
 		}
 	}
+	
+	// SearchRepository
+	public function getSearchResults()
+	{
+		$query = $this->getSearchQuery();
+		$results = $query->distinct(TRUE)->execute($this->db);
+		return $this->getCollection($results->as_array());
+	}
 
 	// CreateRepository
 	public function create(Entity $entity)
 	{
 		$record = $entity->asArray();
 		$record['created'] = time();
-		return $this->executeInsert($this->removeNullValues($record));
+
+		unset($record['forms']);
+
+		$id = $this->executeInsert($this->removeNullValues($record));
+
+		if($entity->forms) {
+			$this->updateTagForms($id, $entity->forms);
+		}
+
+		return $id;
+	}
+
+	protected function updateTagForms($tag_id, $forms) {
+
+		if(empty($forms)) {
+			DB::delete('forms_tags')
+				->where('tag_id', '=', $tag_id)
+				->execute($this->db);
+		} else {
+			$existing = $this->getFormsForTag($tag_id);
+			$insert = DB::insert('forms_tags', ['form_id', 'tag_id']);
+			$form_ids = [];
+			$new_forms = FALSE;
+			foreach($forms as $form) {
+				if(isset($form['id'])) {
+					$id = $form['id'];
+				} else {
+					$id = $form;
+				}
+				if(!in_array($form, $existing)) {
+					$insert->values([$id, $tag_id]);
+					$new_forms = TRUE;
+				}
+				$form_ids[] = $id;
+			}
+			
+			if($new_forms)
+			{
+				$insert->execute($this->db);
+			}
+			
+			if(!empty($form_ids)) {
+			 	DB::delete('forms_tags')
+			 	->where('form_id', 'NOT IN', $form_ids)
+			 	->and_where('tag_id', '=', $tag_id)
+			 	->execute($this->db);
+			 }
+		}
+	}
+
+	public function update(Entity $entity)
+	{
+		$tag = $entity->getChanged();
+		unset($tag['forms']);
+
+		$count = $this->executeUpdate(['id' => $entity->id], $tag);
+		// updating forms_tags-table
+		if($entity->hasChanged('forms'))
+		{
+			$this->updateTagForms($entity->id, $entity->forms);
+		}
+
+		return $count;
 	}
 
 	// UpdatePostTagRepository
