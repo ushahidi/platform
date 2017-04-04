@@ -19,7 +19,7 @@ class Controller_Sms_Twilio extends Controller {
     //Check if data provider is available
     $providers_available = Kohana::$config->load('features.data-providers');
 
-    if ( !$providers_available['twilio'] ) 
+    if ( !$providers_available['twilio'] )
     {
       throw HTTP_Exception::factory(403, 'The Twilio data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
     }
@@ -53,7 +53,7 @@ class Controller_Sms_Twilio extends Controller {
 
 		// @todo use other info from twillio, ie: location, media
 
-		$provider->receive(Message_Type::SMS, $from, $message_text, $to, NULL, $message_sid);
+		$provider->receive(Message_Type::SMS, $from, $message_text, $to, $date = NULL, NULL, $message_sid);
 
 		// If we have an auto response configured, return the response messages
 		if (! empty($options['sms_auto_response']))

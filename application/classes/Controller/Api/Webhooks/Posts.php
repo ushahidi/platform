@@ -20,9 +20,9 @@ class Controller_Api_Webhooks_Posts extends Controller_Api_Posts {
 
 	public function checkApiKey($data)
 	{
+
 		if (isset($data['api_key'])) {
 			// Get api key and compare
-
 			return service('repository.apikey')->apiKeyExists($data['api_key']);
 		}
 
@@ -38,7 +38,7 @@ class Controller_Api_Webhooks_Posts extends Controller_Api_Posts {
 			// Get webhook and validate signature
 			$webhook = service('repository.webhook')->getByUUID($data['webhook_uuid']);
 			$signer = new Signer($webhook->shared_secret);
-			$fullURL = $this->request->url();
+			$fullURL = URL::site(Request::detect_uri(), TRUE) . URL::query();
 
 			return $signer->validate($signature, $fullURL, $data);
 		}
@@ -59,6 +59,7 @@ class Controller_Api_Webhooks_Posts extends Controller_Api_Posts {
 
 	public function action_put_index()
 	{
+			Kohana::$log->add(Log::ERROR, print_r($this->_payload(),true));
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'webhook-update')
 			->setIdentifiers($this->_identifiers())

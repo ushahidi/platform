@@ -229,7 +229,7 @@ class DataProvider_Email extends DataProvider {
 		if ($message)
 		{
 			// Save the message
-			$this->receive(Message_Type::EMAIL, $from, $message, $to, $title, $data_provider_message_id);
+			$this->receive(Message_Type::EMAIL, $from, $message, $to, $title, $date = NULL, $data_provider_message_id);
 		}
 
 		return;

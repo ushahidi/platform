@@ -25,16 +25,8 @@ class Ushahidi_Signer_Signature implements Signer
     return computeSignature($fullUrl, $data);
   }
 
-  public function computeSignature($url, $data = array())
-  {
-    // sort the array by keys
-    ksort($data);
-    // append them to the data string in order
-    // with no delimiters
-    foreach ($data as $key => $value) {
-      $url .= "$key$value";
-    }
-
+  public function computeSignature($url, $json) {
+    $url = $url . $json;
     // This function calculates the HMAC hash of the data with the key
     // passed in
     // Note: hash_hmac requires PHP 5 >= 5.1.2 or PECL hash:1.1-1.5
@@ -42,10 +34,9 @@ class Ushahidi_Signer_Signature implements Signer
     return base64_encode(hash_hmac("sha256", $url, $this->authToken, true));
   }
 
-  public function validate($expectedSignature, $url, $data = array())
-  {
+  public function validate($expectedSignature, $url, $json) {
     return self::compare(
-      $this->computeSignature($url, $data),
+      $this->computeSignature($url, $json),
       $expectedSignature
     );
   }

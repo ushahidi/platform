@@ -69,79 +69,83 @@ class DataProvider_Twitter extends DataProvider {
 			// Store the highest id
 			$this->since_id = $statuses[0]['id'];
 
-			foreach ($statuses as $status) {
-				$id = $status['id'];
-				$user = $status['user'];
-				$screen_name = $user['screen_name'];
-				$text = $status['text'];
+			if (is_array($statuses)) {
+				foreach ($statuses as $status) {
+					$id = $status['id'];
+					$user = $status['user'];
+					$screen_name = $user['screen_name'];
+					$text = $status['text'];
+					$date = $status['created_at'];
 
-				$additional_data = [];
+					$additional_data = [];
 
-				// Skip retweets
-				if (array_key_exists('retweeted_status', $status) && array_key_exists('text', $status['retweeted_status'])) {
-					continue;
-				}
-
-				if ($status['coordinates'] || $status['place']) {
-					$additional_data['location'] = [];
-					if ($status['coordinates']) {
-						$additional_data['location'][] = $status['coordinates'];
+					// Skip retweets
+					if (array_key_exists('retweeted_status', $status) && array_key_exists('text', $status['retweeted_status'])) {
+						continue;
 					}
 
-					if ($status['place'] && $status['place']['bounding_box']) {
-						// Make a valid linear ring
-						$status['place']['bounding_box']['coordinates'][0][] = $status['place']['bounding_box']['coordinates'][0][0];
-
-						// If we don't already have a location
-						if (empty($additional_data['location'])) {
-							// Find center of bounding box
-							$geom = GeoJSON::geomFromText(json_encode($status['place']['bounding_box']));
-							// Use mysql to run Centroid
-							$result = DB::select([
-							 	DB::expr('AsText(Centroid(GeomFromText(:poly)))')->param(':poly', $geom->toWKT()), 'center']
-							)->execute(service('kohana.db'));
-
-							$centerGeom = WKT::geomFromText($result->get('center', 0));
-							// Save center as location
-							$additional_data['location'][] = $centerGeom->toGeoArray();
+					if ($status['coordinates'] || $status['place']) {
+						$additional_data['location'] = [];
+						if ($status['coordinates']) {
+							$additional_data['location'][] = $status['coordinates'];
 						}
 
-						// Add that to location
-						// Also save the original bounding box
-						$additional_data['location'][] = $status['place']['bounding_box'];
+						if ($status['place'] && $status['place']['bounding_box']) {
+							// Make a valid linear ring
+							$status['place']['bounding_box']['coordinates'][0][] = $status['place']['bounding_box']['coordinates'][0][0];
+
+							// If we don't already have a location
+							if (empty($additional_data['location'])) {
+								// Find center of bounding box
+								$geom = GeoJSON::geomFromText(json_encode($status['place']['bounding_box']));
+								// Use mysql to run Centroid
+								$result = DB::select([
+								 	DB::expr('AsText(Centroid(GeomFromText(:poly)))')->param(':poly', $geom->toWKT()), 'center']
+								)->execute(service('kohana.db'));
+
+								$centerGeom = WKT::geomFromText($result->get('center', 0));
+								// Save center as location
+								$additional_data['location'][] = $centerGeom->toGeoArray();
+							}
+
+							// Add that to location
+							// Also save the original bounding box
+							$additional_data['location'][] = $status['place']['bounding_box'];
+						}
+					} else if ($status['user'] && $status['user']['location']) {
+						# Search the provided location for matches in twitter's geocoder
+						$results = $connection->get("geo/search", [
+							"query" => $status['user']['location']
+						]);
+						# If there are results, get the centroid of the first one
+						if (!empty($results['result']['places'])) {
+							$geoloc = $results['result']['places'][0];
+							if ($geoloc['centroid']) {
+								$additional_data['location'][] = array(
+									'coordinates' => $geoloc['centroid'],
+									'type' => 'Point'
+								);
+							}
+							# Add the bounding box too (if available)
+							if ($geoloc['bounding_box']) {
+								$additional_data['location'][] = $geoloc['bounding_box'];
+							}
+						}
 					}
-				} else if ($status['user'] && $status['user']['location']) {
-					# Search the provided location for matches in twitter's geocoder
-					$results = $connection->get("geo/search", [
-						"query" => $status['user']['location']
-					]);
-					# If there are results, get the centroid of the first one
-					if (!empty($results['result']['places'])) {
-						$geoloc = $results['result']['places'][0];
-						if ($geoloc['centroid']) {
-							$additional_data['location'][] = array(
-								'coordinates' => $geoloc['centroid'],
-								'type' => 'Point'
-							);
-						}
-						# Add the bounding box too (if available)
-						if ($geoloc['bounding_box']) {
-							$additional_data['location'][] = $geoloc['bounding_box'];
-						}
+
+					// Check if a form id is already associated with this data provider
+					if (isset($options['form_id'])) {
+						$additional_data['form_id'] = $options['form_id'];
+						$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
 					}
+
+					// @todo Check for similar messages in the database before saving
+					$title = "Twitter ID: " . $id;
+
+					$this->receive(Message_Type::TWITTER, $screen_name, $text, $to = NULL, $title, $date, $id, $additional_data);
+
+					$count++;
 				}
-
-				// Check if a form id is already associated with this data provider
-				if (isset($options['form_id'])
-				{
-					$additional_data['form_id'] = $options['form_id'];
-					$additional_data['form_destination_field_uuid'] = isset($options['form_destination_field_uuid']) ? $options['form_destination_field_uuid'] : NULL;
-				}
-
-				// @todo Check for similar messages in the database before saving
-				$this->receive(Message_Type::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id, $additional_data);
-
-				$count++;
 			}
 
 			$this->request_count++; //Increment for successful request

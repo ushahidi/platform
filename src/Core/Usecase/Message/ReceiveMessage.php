@@ -172,46 +172,67 @@ class ReceiveMessage extends CreateUsecase
 
 		$content = $message->message;
 
-		// Pull locations from extra metadata
 		if ($message->additional_data) {
-
-
 			if (isset($message->additional_data['form_id'])) {
 					$form_id = $message->additional_data['form_id'];
-					// If there is a designated destination field
-					// set the associated Post value
-					$field_uuid = $message->additional_data['form_destination_field_uuid'];
-					$values[$field_uuid] = $message->message;
-					// Do not set description field otherwise data will be duplicated
-					$content = null;
+					// Check provider fields for form attribute mapping
+					$inbound_fields = $message->additional_data['inbound_fields'];
+
+					if(isset($message->title) && isset($inbound_fields['Title'])) {
+						$values[$inbound_fields['Title']] = array($message->title);
+					}
+
+					if(isset($message->from) && isset($inbound_fields['From'])) {
+						$values[$inbound_fields['From']] = array($message->from);
+					}
+
+					if(isset($message->to) && isset($inbound_fields['To'])) {
+						$values[$inbound_fields['To']] = array($message->to);
+					}
+
+					if(isset($message->message) && isset($inbound_fields['Message'])) {
+						$values[$inbound_fields['Message']] = array($message->message);
+					}
+
+					if(isset($message->additional_data['location']) && isset($inbound_fields['Location'])) {
+
+						foreach ($message->additional_data['location'] as $location) {
+							if (!empty($location['type']) &&
+								!empty($location['coordinates']) &&
+								ucfirst($location['type']) == 'Point'
+								) {
+								$values[$inbound_fields['Location']][] = [
+									'lon' => $location['coordinates'][0],
+									'lat' => $location['coordinates'][1]
+								];
+							}
+						}
+					}
 			}
-
-
-
+			// Pull locations from extra metadata
 			$values['message_location'] = [];
-			foreach ($message->additional_data['location'] as $location) {
-				if (!empty($location['type']) &&
-					!empty($location['coordinates']) &&
-					ucfirst($location['type']) == 'Point'
-					) {
-					$values['message_location'][] = [
-						'lon' => $location['coordinates'][0],
-						'lat' => $location['coordinates'][1]
-					];
+			if(isset($message->additional_data['location'])){
+				foreach ($message->additional_data['location'] as $location) {
+					if (!empty($location['type']) &&
+						!empty($location['coordinates']) &&
+						ucfirst($location['type']) == 'Point'
+						) {
+						$values['message_location'][] = [
+							'lon' => $location['coordinates'][0],
+							'lat' => $location['coordinates'][1]
+						];
+					}
 				}
 			}
 		}
 
-
-
 		// First create a post
-		$post = $this->postRepo->getEntity()->setState([
-				'title'    => $message->title,
+		$post = new Post([
+				'title'    => 'test',//$message->title,
 				'content'  => $content,
 				'values'   => $values,
 				'form_id'  => $form_id
 			]);
-
 		return $this->postRepo->create($post);
 	}
 

@@ -79,6 +79,6 @@ class Controller_Ivr_Twilio extends Controller {
 			return;
 		}
 
-		$provider->receive(Message_Type::IVR, $from, $message_text, $to, NULL, $message_sid);
+		$provider->receive(Message_Type::IVR, $from, $message_text, $to, $date = NULL, NULL, $message_sid);
 	}
 }
