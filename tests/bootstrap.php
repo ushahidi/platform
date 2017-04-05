@@ -3,12 +3,6 @@
 // Bootstrap lumen
 require __DIR__ . '/../bootstrap/app.php';
 
-// Initialize the Kohana application
-require __DIR__ . '/../application/kohana.php';
-
-// when testing, docroot is the source root
-define('DOCROOT', realpath(APPPATH . '/../') . DIRECTORY_SEPARATOR);
-
 // Disable output buffering
 if (($ob_len = ob_get_length()) !== FALSE)
 {

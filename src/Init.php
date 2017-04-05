@@ -17,7 +17,7 @@
 // **If you haven't already done so, you should run `composer install` now.**
 //
 // [composer]: http://getcomposer.org/
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // The global [Dependency Injection][di] container lives inside of a global
 // `service()` function. This avoids the need to have a global variable, and

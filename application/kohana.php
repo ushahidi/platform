@@ -76,6 +76,8 @@ define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
 define('VENPATH', realpath($vendor).DIRECTORY_SEPARATOR);
+// Set the full path to the docroot
+define('DOCROOT', realpath(__DIR__ . '/../public') . DIRECTORY_SEPARATOR);
 
 // Clean up the configuration vars
 unset($application, $modules, $system);
