@@ -256,6 +256,9 @@ abstract class Ushahidi_Rest extends Controller {
 		$require_header = $this->request->method() !== Request::GET;
 		$required_scope = $this->_scope();
 
+		// Hack: Make sure request method is populated during testing
+		$_SERVER['REQUEST_METHOD'] = $this->request->method();
+
 		try
 		{
 			$server->isValid($require_header);
