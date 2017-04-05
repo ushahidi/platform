@@ -66,7 +66,7 @@ Feature: Testing the Webhook API
     Scenario: Update a post via inbound webhook
         Given that I want to update a "Post"
         And that its "id" is "1"
-        And that the request "X-Platform-Signature" header is "yJFurjavGwznvu+3UBzjTEGCgGN8SuRsYX618IaBq7c="
+        And that the request "X-Platform-Signature" header is "PqAl0200sE/hGYgGVyKis24c9p8RjYoLk9iMVxX3llk="
         And that the request "data" is:
           """
           {
