@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App;
+namespace Ushahidi\App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;

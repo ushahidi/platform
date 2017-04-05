@@ -2,7 +2,7 @@
 
 namespace Ushahidi\App\Providers;
 
-use Ushahidi\App\User;
+use Ushahidi\App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
