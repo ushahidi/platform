@@ -17,6 +17,13 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
+     * Indicates if facade aliases are enabled for the console.
+     *
+     * @var bool
+     */
+    protected $aliases = false;
+
+    /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule

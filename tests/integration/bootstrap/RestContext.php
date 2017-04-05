@@ -612,7 +612,7 @@ class RestContext implements Context
 	 */
 	private function _prefix_app_path(&$item)
 	{
-		$item = DOCROOT.$item;
+		$item = DOCROOT.'/../'.$item;
 	}
 
 	/**
