@@ -220,7 +220,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		$query = $this->search_query;
 		$table = $this->getTable();
-		
+
 		// Filter by status
 		$status = $search->getFilter('status', ['published']);
 		//
@@ -324,7 +324,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// Convert to UTC (needed in case date came with a tz)
 			$date_after->setTimezone(new DateTimeZone('UTC'));
 			$query->where("$table.post_date", '>=', $date_after->format('Y-m-d H:i:s'));
-		}	
+		}
 
 		if ($search->date_before)
 		{
@@ -528,7 +528,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->where("$table.status", '=', 'published')
 				->or_where("$table.user_id", '=', $user->id)
 				->and_where_close();
-		}				
+		}
 	}
 
 	// SearchRepository
@@ -930,7 +930,21 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
 
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $id, 'update');
+
 		return $count;
+	}
+
+	public function delete(Entity $entity)
+	{
+		parent::delete($entity);
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $id, 'delete');
 	}
 
 	protected function updatePostValues($post_id, $attributes)
