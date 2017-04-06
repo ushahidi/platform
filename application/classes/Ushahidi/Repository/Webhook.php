@@ -71,6 +71,12 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 		return $this->getEntity($this->selectOne(compact('event_type')));
 	}
 
+	public function getAllByEventType($event_type= null)
+	{
+		$query = $this->selectQuery(compact('event_type'));
+		return $query->execute($this->db);;
+	}
+
 	public function getByUUID($webhook_uuid= null)
 	{
 		return $this->getEntity($this->selectOne(compact('webhook_uuid')));
