@@ -121,31 +121,33 @@ class Ushahidi_Console_Webhook extends Command
 		$webhooks = $this->webhookRepository->getAllByEventType($webhook_request->event_type);
 
 		foreach ($webhooks as $webhook) {
-			$this->signer = new Signer($webhook->shared_secret);
+			if ($post->form_id === $webhook->form_id) {
+				$this->signer = new Signer($webhook->shared_secret);
 
-			$signature = $this->signer->sign($webhook->url, $json);
+				$signature = $this->signer->sign($webhook->url, $json);
 
-			$data = $post->asArray();
+				$data = $post->asArray();
 
-			// Attach Webhook Uuid so that service can subsequently identify itself
-			// when sending data to the Platform
-			$data['webhook_uuid'] = $webhook->webhook_uuid;
+				// Attach Webhook Uuid so that service can subsequently identify itself
+				// when sending data to the Platform
+				$data['webhook_uuid'] = $webhook->webhook_uuid;
 
-			// If set append the source and destination fields to the request
-			// These fields identify the UUIDs of the Post fields which the remot service should
-			// treat as the source of data and the destination for any data to be posted back to the Platform
-			$data['source_field_uuid'] = $webhook->source_field_uuid ?: null;
-			$data['destination_field_uuid'] = $webhook->destination_field_uuid ?: null;
+				// If set append the source and destination fields to the request
+				// These fields identify the UUIDs of the Post fields which the remot service should
+				// treat as the source of data and the destination for any data to be posted back to the Platform
+				$data['source_field_uuid'] = $webhook->source_field_uuid ?: null;
+				$data['destination_field_uuid'] = $webhook->destination_field_uuid ?: null;
 
-			// This is an asynchronous request, we don't expect a result
-			// this can be extended to allow for handling of the returned promise
-			$promise = $this->client->request('POST', $webhook->url, [
-				'headers' => [
-					'X-Platform-Signature' => $signature,
-					'Accept'               => 'application/json'
-				],
-				'json' => $post->asArray()
-			]);
+				// This is an asynchronous request, we don't expect a result
+				// this can be extended to allow for handling of the returned promise
+				$promise = $this->client->request('POST', $webhook->url, [
+					'headers' => [
+						'X-Platform-Signature' => $signature,
+						'Accept'               => 'application/json'
+					],
+					'json' => $post->asArray()
+				]);
+			}
 		}
 	}
 }

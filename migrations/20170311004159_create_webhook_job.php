@@ -12,8 +12,6 @@ class CreateWebhookJob extends AbstractMigration
     {
         $this->table('webhook_job')
   		    ->addColumn('post_id', 'integer', ['null' => false])
-          ->addColumn('source_field', 'string', ['null' => true])
-          ->addColumn('destination_field', 'string', ['null' => true])
           ->addColumn('event_type', 'string', ['null' => false])
     		  ->addColumn('created', 'integer', ['default' => 0])
     		  ->addForeignKey('post_id', 'posts', 'id', [

@@ -33,13 +33,11 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 		$this->webhook_repo = $webhook_repo;
 	}
 
-  public function handle(EventInterface $event, $post_id = null, $event_type = null, $source_field = null, $destination_field = null)
+  public function handle(EventInterface $event, $post_id = null, $event_type = null)
   {
 		$state = [
 			'post_id' => $post_id,
-			'event_type' => $event_type,
-			'source_field' => $source_field,
-			'destination_field' => $destination_field
+			'event_type' => $event_type
 		];
 
 		$entity = $this->repo->getEntity();
