@@ -23,7 +23,7 @@ class AddFormSourceDestinationToWebhookTable extends AbstractMigration
     public function down()
     {
         $this->table('webhooks')
-          ->dropForeignKey('form_id');
+          ->dropForeignKey('form_id')
           ->removeColumn('source_field_uuid')
           ->removeColumn('destination_field_uuid')
           ->update();
