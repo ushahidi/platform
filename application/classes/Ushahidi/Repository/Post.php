@@ -933,7 +933,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// TODO: Revist post-Kohana
 		// This might be better placed in the usecase but
 		// given Kohana's future I've put it here
-		$this->emit($this->event, $id, 'update');
+		$this->emit($this->event, $entity->id, 'update');
 
 		return $count;
 	}
@@ -944,7 +944,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// TODO: Revist post-Kohana
 		// This might be better placed in the usecase but
 		// given Kohana's future I've put it here
-		$this->emit($this->event, $id, 'delete');
+		$this->emit($this->event, $entity->id, 'delete');
 	}
 
 	protected function updatePostValues($post_id, $attributes)

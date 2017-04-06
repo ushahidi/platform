@@ -24,14 +24,6 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 	use UserContext;
 	use AdminAccess;
 
-	protected function getId(Entity $entity)
-	{
-		$result = $this->selectQuery()
-			->where('user_id', '=', $entity->user_id)
-			->execute($this->db);
-		return $result->get('id', 0);
-	}
-
 	protected function getTable()
 	{
 		return 'webhooks';
@@ -85,14 +77,6 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 	// CreateRepository
 	public function create(Entity $entity)
 	{
-		$id = $this->getId($entity);
-
-		if ($id) {
-			// No need to insert a new record.
-			// Instead return the id of the Webhook that exists
-			return $id;
-		}
-
 		try {
 			$uuid = Uuid::uuid4();
 			$uuid = $uuid->toString();

@@ -55,7 +55,7 @@ class Webhook extends StaticEntity
 			'user'          	        => false,
 			'user_id'       	        => 'int',
 			'form'                    => false, /* alias */
-			'form_id'                 => ' int',
+			'form_id'                 => 'int',
 			'created'       	        => 'int',
 			'updated'       	        => 'int',
 		];

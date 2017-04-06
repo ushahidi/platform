@@ -11,9 +11,9 @@ class AddFormSourceDestinationToWebhookTable extends AbstractMigration
     {
         $this->table('webhooks')
           ->addColumn('form_id', 'integer', ['null' => true])
-          ->addForeignKey('form_id', 'forms', 'id', ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
           ->addColumn('source_field_uuid', 'string', ['null' => true])
           ->addColumn('destination_field_uuid', 'string', ['null' => true])
+          ->addForeignKey('form_id', 'forms', 'id', ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
           ->update();
     }
 
