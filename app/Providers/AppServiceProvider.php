@@ -13,6 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(\Ushahidi\Factory\UsecaseFactory::class, function ($app) {
+            // Just return it from AuraDI
+            return service('factory.usecase');
+        });
     }
 }

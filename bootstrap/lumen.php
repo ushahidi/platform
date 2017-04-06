@@ -58,6 +58,9 @@ $app->singleton(
 // $app->routeMiddleware([
 //     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
 // ]);
+$app->routeMiddleware([
+	'cors'  => Ushahidi\App\Http\Middleware\CorsMiddleware::class
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +73,7 @@ $app->singleton(
 |
 */
 
-// $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
+$app->register(Ushahidi\App\Providers\AppServiceProvider::class);
 // $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
 // $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
 

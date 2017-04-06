@@ -27,7 +27,9 @@ class RestContext implements Context
 	private $_apiUrl            = 'api/v3';
 
 	private $_parameters        = array();
-	private $_headers           = array();
+	private $_headers           = [
+		'Accept' => 'application/json'
+	];
 	private $_postFields        = array();
 	private $_postFiles        = array();
 
