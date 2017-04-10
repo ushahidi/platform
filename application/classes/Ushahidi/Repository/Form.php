@@ -49,7 +49,6 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     protected function setSearchConditions(SearchData $search)
     {
         $query = $this->search_query;
-
         if ($search->parent) {
             $query->where('parent_id', '=', $search->parent);
         }
@@ -77,7 +76,15 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // UpdateRepository
     public function update(Entity $entity)
     {
-        return parent::update($entity->setState(['updated' => time()]));
+        $record = clone($entity);
+        unset($record->tags);
+            $id = parent::update($record->setState(['updated' => time()]));
+        // updating forms_tags-table
+        if(isset($entity->tags) && $id !== null) {
+            $this->updateFormsTags($id, $entity->tags);
+        }
+
+        return $id;
     }
 
     /**
