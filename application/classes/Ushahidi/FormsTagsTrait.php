@@ -13,7 +13,8 @@ trait Ushahidi_FormsTagsTrait
 {
     //returning forms for a specific Tag-id
     private function getFormsForTag($id) {
-        $result = DB::select('form_id') ->from('forms_tags')
+        $result = DB::select('form_id') 
+            ->from('forms_tags')
             ->where('tag_id', '=', $id)
             ->execute($this->db);
         return $result->as_array(NULL, 'form_id');
@@ -96,4 +97,24 @@ trait Ushahidi_FormsTagsTrait
              }
         }
     }
-} 
+
+    private function updateFormAttributes($id) {   
+        $attr = DB::select('id', 'options')
+        ->from('form_attributes')
+        ->where('input', '=' , 'tags')
+        ->execute($this->db)
+        ->as_array('id', 'options');
+        forEach($attr as $attr_id => $value) {
+          $value = json_decode($value);
+            if(in_array($id, $value)) {
+               $index = array_search($id, $value);    
+               array_splice($value, $index, 1);
+               $value = json_encode($value);
+                DB::update('form_attributes')
+                ->set(array('options' => $value))
+                ->where('id', '=', $attr_id)
+                ->execute($this->db);
+            }
+        } 
+    }
+}

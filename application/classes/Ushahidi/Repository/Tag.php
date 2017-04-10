@@ -62,7 +62,6 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// Ushahidi_Repository
     protected function setSearchConditions(SearchData $search)
     {
-
         $query = $this->search_query;
         foreach (['tag', 'type', 'parent_id'] as $key)
         {
@@ -81,7 +80,8 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
             }
         }
         if($search->formId){
-        	$query->join('forms_tags')->on('tags.id', '=', 'forms_tags.tag_id')
+        	$query->join('forms_tags')
+        		->on('tags.id', '=', 'forms_tags.tag_id')
         		->where('form_id','=', $search->formId);
         }
     } 
@@ -90,10 +90,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	{
 		$query = $this->getSearchQuery();
 		$results = $query->distinct(TRUE)->execute($this->db);
-		$tags = $this->getCollection($results->as_array());
-		\Log::instance()->add(\Log::NOTICE, print_r($tags,true));
-		return $tags;
-		// return $this->getCollection($results->as_array());
+		return $this->getCollection($results->as_array());
 	}
 
 	// CreateRepository
@@ -107,6 +104,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		$id = $this->executeInsert($this->removeNullValues($record));
 
 		if($entity->forms) {
+			//updating forms_tags-table
 			$this->updateTagForms($id, $entity->forms);
 		}
 
@@ -127,6 +125,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 
 		return $count;
 	}
+
 
 	// UpdatePostTagRepository
 	public function getByTag($tag)
@@ -151,6 +150,13 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	{
 		return $this->selectCount(compact('slug')) === 0;
 	}
+    public function delete(Entity $entity)
+    {
+        $this->updateFormAttributes($entity->id);
+        return $this->executeDelete([
+            'id' => $entity->id
+        ]);
+    }
 
 	// DeleteTagRepository
 	public function deleteTag($id)
