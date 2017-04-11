@@ -115,15 +115,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	public function getEntity(Array $data = null)
 	{
 		// Ensure we are dealing with a structured Post
+
+		$user = $this->getUser();
 		if ($data['form_id'])
 		{
-			$user = $this->getUser();
+
 			if ($this->canUserReadPostsValues(new Post($data), $user, $this->form_repo)) {
 				$this->restricted = false;
-				Kohana::$log->add(Log::ERROR, "here");
 			}
 			// Get Hidden Stage Ids to be excluded from results
 			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
+
 		}
 
 		if (!empty($data['id']))
@@ -141,7 +143,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
 		{
 
-			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo) && $this->restricted)
+
+			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user))
 			{
 				unset($data['author_realname']);
 				unset($data['author_email']);
