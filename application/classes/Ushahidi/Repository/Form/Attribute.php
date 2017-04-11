@@ -80,10 +80,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			$form_id = $this->getFormId();
 		}
 
-		if ($this->isRestricted($form_id)) {
-			$query->where('response_private', '=', '0');
-		}
-
 		return $query;
 	}
 

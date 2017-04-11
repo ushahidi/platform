@@ -199,9 +199,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 		$requireApproval = $this->repo->doesPostRequireApproval($fullData['form_id']);
 
-		Kohana::$log->add(Log::ERROR, print_r($requireApproval, true));
-		Kohana::$log->add(Log::ERROR, print_r($status, true));
-
 		// Are we trying to change publish a post that requires approval?
 		if ($requireApproval && $status !== 'draft') {
 			$validation->error('status', 'postNeedsApprovalBeforePublishing');

@@ -20,47 +20,19 @@ use Ushahidi\Core\Entity\FormRepository;
 trait PostValueRestrictions
 {
 
-	public function canUserSeeAuthor(Post $post, FormRepository $form_repo)
+	public function canUserSeeAuthor(Post $post, FormRepository $form_repo, $user)
 	{
+
 		if ($post->form_id) {
+
+			if ($this->canUserEditForm($post->form_id, $user)) {
+				return true;
+			}
+
 			return !$form_repo->isAuthorHidden($post->form_id);
 		}
 
 		return true;
-	}
-
-	protected function isUserOfRole($roles, $user)
-	{
-		if ($roles) {
-			return in_array($user->role, $roles);
-		}
-
-		// If no visibility info, assume public
-		return true;
-	}
-
-	protected function isPostPublishedToUser(Post $post, $user)
-	{
-		// Anon users can not see restricted fields
-		if (!$user->getId()) {
-			return false;
-		}
-
-		if ($post->status === 'published' && $this->isUserOfRole($post->published_to, $user)) {
-			return true;
-		}
-		return false;
-	}
-
-	public function isRestricted($form_id)
-	{
-
-		$user = $this->getUser();
-		if ($form_id) {
-			return !$this->canUserEditForm($form_id, $user, $this->form_repo);
-		}
-
-		return false;
 	}
 
 	/**
@@ -68,29 +40,14 @@ trait PostValueRestrictions
 	 * @param  Post $post
 	 * @return Boolean
 	 */
-	public function canUserReadPostsValues(Post $post, $user, FormRepository $form_repo)
+	public function canUserReadPostsValues(Post $post, $user)
 	{
-		if ($this->canUserEditForm($post->form_id, $user, $form_repo) && $this->isPostPublishedToUser($post, $user)) {
-			return true;
-		}
-		return false;
+		return $this->canUserEditForm($post->form_id, $user);
 	}
 
 	/* FormRole */
-	protected function canUserEditForm($form_id, $user, $form_repo)
+	protected function canUserEditForm($form_id, $user)
 	{
-		// If the $entity->form_id exists and the $form->everyone_can_create is False
-		// we check to see if the Form & Role Join exists in the `FormRoleRepository`
-		if ($form_id) {
-			$roles = $form_repo->getRolesThatCanCreatePosts($form_id);
-			if ($roles['everyone_can_create'] > 0) {
-				return true;
-			}
-			if (is_array($roles['roles'])) {
-				return $this->isUserOfRole($roles['roles'], $user);
-			}
-		}
-
-		return false;
+		return $this->isUserAdmin($user) || $this->hasPermission($user, $this->getPermission());
 	}
 }
