@@ -168,7 +168,7 @@ Feature: API Access Control Layer
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "4"
+        And the "count" property equals "7"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Attributes for a form with hidden stages with edit permission
