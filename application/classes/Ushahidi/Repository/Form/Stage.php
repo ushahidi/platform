@@ -16,6 +16,7 @@ use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Traits\UserContext;
+
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\PermissionAccess;
 use Ushahidi\Core\Traits\Permissions\ManagePosts;
@@ -165,10 +166,12 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 
 			$query = DB::select('id')
 					->from('form_stages')
+
 					->where('form_id', '=', $form_id)
 					->where('show_when_published', '=', 0);
 
 			$results = $query->execute($this->db)->as_array();
+
 			foreach($results as $stage) {
 				array_push($stages, $stage['id']);
 			}

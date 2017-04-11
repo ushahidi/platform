@@ -125,7 +125,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			}
 			// Get Hidden Stage Ids to be excluded from results
 			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
-			Kohana::$log->add(Log::ERROR, print_r($this->exclude_stages, true));
+
 		}
 
 		if (!empty($data['id']))
@@ -142,6 +142,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		//Check if author information should be returned
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
 		{
+
 
 			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user))
 			{

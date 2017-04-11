@@ -20,6 +20,7 @@ use Ushahidi\Core\Entity\FormRepository;
 trait PostValueRestrictions
 {
 
+
 	public function canUserSeeAuthor(Post $post, FormRepository $form_repo, $user)
 	{
 
@@ -34,6 +35,7 @@ trait PostValueRestrictions
 
 		return true;
 	}
+
 
 	/**
 	 * Test whether the post instance requires value restriction
