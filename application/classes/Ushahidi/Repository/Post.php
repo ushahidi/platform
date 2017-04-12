@@ -28,6 +28,7 @@ use Ushahidi\Core\Traits\Permissions\ManagePosts;
 use Ushahidi\Core\Traits\PermissionAccess;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
+use Ushahidi\Core\Traits\PostValueRestrictions;
 
 use Aura\DI\InstanceFactory;
 
@@ -57,15 +58,22 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Checks if user is Admin
 	use AdminAccess;
 
+	// Check for value restrictions
+	// provides canUserReadPostsValues
+	use PostValueRestrictions;
+
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
 	protected $form_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	protected $tag_repo;
+	// By default remove all private responses
+	protected $restricted = true;
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
+	protected $exclude_stages = [];
 
 	protected $listener;
 
@@ -106,6 +114,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
+		// Ensure we are dealing with a structured Post
+
+		$user = $this->getUser();
+		if ($data['form_id'])
+		{
+
+			if ($this->canUserReadPostsValues(new Post($data), $user, $this->form_repo)) {
+				$this->restricted = false;
+			}
+			// Get Hidden Stage Ids to be excluded from results
+			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
+
+		}
+
 		if (!empty($data['id']))
 		{
 			$data += [
@@ -115,6 +137,21 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
 		}
+		// NOTE: This and the restriction above belong somewhere else,
+		// ideally in their own step
+		//Check if author information should be returned
+		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
+		{
+
+
+			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user))
+			{
+				unset($data['author_realname']);
+				unset($data['author_email']);
+				unset($data['user_id']);
+			}
+		}
+
 		return new Post($data);
 	}
 
@@ -142,12 +179,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function getPostValues($id)
 	{
+
 		// Get all the values for the post. These are the EAV values.
 		$values = $this->post_value_factory
 			->proxy($this->include_value_types)
-			->getAllForPost($id, $this->include_attributes);
-
-
+			->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
 
 		$output = [];
 		foreach ($values as $value) {
@@ -163,11 +199,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function getCompletedStagesForPost($id)
 	{
-		$result = DB::select('form_stage_id', 'completed')
+		$query = DB::select('form_stage_id', 'completed')
 			->from('form_stages_posts')
 			->where('post_id', '=', $id)
-			->where('completed', '=', 1)
-			->execute($this->db);
+			->where('completed', '=', 1);
+
+		if ($this->restricted) {
+			if ($this->exclude_stages) {
+				$query->where('form_stage_id', 'NOT IN', $this->exclude_stages);
+			}
+		}
+
+		$result = $query->execute($this->db);
 
 		return $result->as_array(NULL, 'form_stage_id');
 	}
@@ -220,7 +263,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		$query = $this->search_query;
 		$table = $this->getTable();
-		
+
 		// Filter by status
 		$status = $search->getFilter('status', ['published']);
 		//
@@ -324,7 +367,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// Convert to UTC (needed in case date came with a tz)
 			$date_after->setTimezone(new DateTimeZone('UTC'));
 			$query->where("$table.post_date", '>=', $date_after->format('Y-m-d H:i:s'));
-		}	
+		}
 
 		if ($search->date_before)
 		{
@@ -528,7 +571,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->where("$table.status", '=', 'published')
 				->or_where("$table.user_id", '=', $user->id)
 				->and_where_close();
-		}				
+		}
 	}
 
 	// SearchRepository

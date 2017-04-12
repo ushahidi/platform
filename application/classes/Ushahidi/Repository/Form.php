@@ -98,6 +98,23 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     }
 
     /**
+      * Get value of Form property hide_author
+      * if no form is found return false
+      * @param  $form_id
+      * @return Boolean
+      */
+    public function isAuthorHidden($form_id)
+    {
+        $query = DB::select('hide_author')
+            ->from('forms')
+            ->where('id', '=', $form_id);
+
+        $results = $query->execute($this->db)->as_array();
+
+        return count($results) > 0 ? $results[0]['hide_author'] : false;
+    }
+
+    /**
      * Get `everyone_can_create` and list of roles that have access to post to the form
      * @param  $form_id
      * @return Array
