@@ -27,6 +27,7 @@ class Tag extends StaticEntity
 	protected $created;
 	protected $role;
 	protected $forms;
+	protected $children;
 
 	// StatefulData
 	protected function getDerived()
@@ -57,6 +58,7 @@ class Tag extends StaticEntity
 			'created'     => 'int',
 			'role'        => '*json',
 			'forms'		  => 'array',
+			'children'    =>'array',
 		];
 	}
 
