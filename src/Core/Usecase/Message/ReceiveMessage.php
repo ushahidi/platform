@@ -119,6 +119,7 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	protected function getEntity()
 	{
+	\Log::instance()->add(\Log::INFO, print_r($this->payload,true));
 		return $this->repo->getEntity()->setState($this->payload + [
 				'status' => Message::RECEIVED,
 				'direction' => Message::INCOMING
@@ -178,20 +179,25 @@ class ReceiveMessage extends CreateUsecase
 					// Check provider fields for form attribute mapping
 					$inbound_fields = $message->additional_data['inbound_fields'];
 
-					if(isset($message->title) && isset($inbound_fields['Title'])) {
-						$values[$inbound_fields['Title']] = array($message->title);
+					if(isset($this->payload['title']) && isset($inbound_fields['Title'])) {
+						$values[$inbound_fields['Title']] = array($this->payload['title']);
 					}
 
-					if(isset($message->from) && isset($inbound_fields['From'])) {
-						$values[$inbound_fields['From']] = array($message->from);
+					if(isset($this->payload['from']) && isset($inbound_fields['From'])) {
+						$values[$inbound_fields['From']] = array($this->payload['from']);
 					}
 
-					if(isset($message->to) && isset($inbound_fields['To'])) {
-						$values[$inbound_fields['To']] = array($message->to);
+					if(isset($this->payload['to']) && isset($inbound_fields['To'])) {
+						$values[$inbound_fields['To']] = array($this->payload['to']);
 					}
 
-					if(isset($message->message) && isset($inbound_fields['Message'])) {
-						$values[$inbound_fields['Message']] = array($message->message);
+					if(isset($this->payload['message']) && isset($inbound_fields['Message'])) {
+						$values[$inbound_fields['Message']] = array($this->payload['message']);
+					}
+
+					if(isset($this->payload['date']) && isset($inbound_fields['Date'])) {
+						$timestamp = date("Y-m-d H:i:s", strtotime($this->payload['date']));
+						$values[$inbound_fields['Date']] = array($timestamp);
 					}
 
 					if(isset($message->additional_data['location']) && isset($inbound_fields['Location'])) {
@@ -225,10 +231,9 @@ class ReceiveMessage extends CreateUsecase
 				}
 			}
 		}
-
 		// First create a post
 		$post = new Post([
-				'title'    => 'test',//$message->title,
+				'title'    => $message->title,
 				'content'  => $content,
 				'values'   => $values,
 				'form_id'  => $form_id

@@ -71,7 +71,6 @@ $plugin = array(
 	),
 	'inbound_fields' => array(
 		'From' => 'text',
-		'To' => 'text',
 		'Title' => 'text',
 		'Date' => 'datetime',
 		'Location' => 'location',
