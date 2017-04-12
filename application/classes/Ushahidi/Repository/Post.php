@@ -442,6 +442,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		// Filter by tag
+		if (!empty($search->tags))
+		{
 			if (isset($search->tags['any']))
 			{
 				$tags = $search->tags['any'];
@@ -481,7 +483,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					->join('posts_tags')->on('posts.id', '=', 'posts_tags.post_id')
 					->where('tag_id', 'IN', $tags);
 			}
-		
+		}
 
 		// Filter by set
 		if (!empty($search->set))
