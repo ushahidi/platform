@@ -31,7 +31,7 @@ class Controller_Api_Webhooks_Posts extends Controller_Api_Posts {
 
 	public function checkSignature($data)
 	{
-		$signature = $this->request->headers('X-Platform-Signature');
+		$signature = $this->request->headers('X-Ushahidi-Signature');
 
 		if (isset($data['webhook_uuid']) && $signature) {
 

@@ -119,7 +119,6 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	protected function getEntity()
 	{
-	\Log::instance()->add(\Log::INFO, print_r($this->payload,true));
 		return $this->repo->getEntity()->setState($this->payload + [
 				'status' => Message::RECEIVED,
 				'direction' => Message::INCOMING
