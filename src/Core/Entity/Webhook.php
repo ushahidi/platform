@@ -24,8 +24,8 @@ class Webhook extends StaticEntity
 	protected $webhook_uuid;
 	protected $event_type;
 	protected $entity_type;
-	protected $source_field_uuid;
-	protected $destination_field_uuid;
+	protected $source_field_key;
+	protected $destination_field_key;
 	protected $created;
 	protected $updated;
 
@@ -50,8 +50,8 @@ class Webhook extends StaticEntity
 			'webhook_uuid'		        => 'string',
 			'event_type'		          => 'string',
 			'entity_type'		          => 'string',
-			'source_field_uuid'	      => 'string',
-			'destination_field_uuid'  => 'string',
+			'source_field_key'	      => 'string',
+			'destination_field_key'  => 'string',
 			'user'          	        => false,
 			'user_id'       	        => 'int',
 			'form'                    => false, /* alias */

@@ -133,8 +133,8 @@ class Ushahidi_Console_Webhook extends Command
 				// If set append the source and destination fields to the request
 				// These fields identify the UUIDs of the Post fields which the remot service should
 				// treat as the source of data and the destination for any data to be posted back to the Platform
-				$data['source_field_uuid'] = $webhook['source_field_uuid'] ?: null;
-				$data['destination_field_uuid'] = $webhook['destination_field_uuid'] ?: null;
+				$data['source_field_key'] = $webhook['source_field_key'] ?: null;
+				$data['destination_field_key'] = $webhook['destination_field_key'] ?: null;
 
 				$json = json_encode($data);
 				$signature = $this->signer->sign($webhook['url'], $json);
