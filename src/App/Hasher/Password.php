@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php
 
 /**
  * Ushahidi Password Hasher
@@ -9,9 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Hasher;
+
 use Ushahidi\Core\Tool\Hasher;
 
-class Ushahidi_Hasher_Password implements Hasher
+class Password implements Hasher
 {
 	public function hash($password)
 	{

@@ -68,7 +68,8 @@ forms:
     name: "Test Form"
     type: "report"
     description: "Testing form"
-    require_approval: 1
+    require_approval: 0
+    hide_author: 0
     everyone_can_create: 1
   -
     id: 2
@@ -76,6 +77,7 @@ forms:
     type: "report"
     description: "Missing persons"
     require_approval: 0
+    hide_author: 0
     everyone_can_create: 0
   -
     id: 3
@@ -83,33 +85,65 @@ forms:
     type: "report"
     description: "Test video embed"
     require_approval: 0
+    hide_author: 0
+    everyone_can_create: 0
+  -
+    id: 4
+    name: "Role Restriction"
+    type: "report"
+    description: "Test role restriction and private responses"
+    require_approval: 1
+    hide_author: 1
     everyone_can_create: 0
 form_roles:
   -
     id: 1
     form_id: 2
     role_id: 1
+  -
+    id: 2
+    form_id: 4
+    role_id: 2
+  -
+    id: 3
+    form_id: 4
+    role_id: 3
 form_stages:
   -
     id: 1
     form_id: 1
     label: "Main"
+    show_when_published: 1
   -
     id: 2
     form_id: 1
     label: "2nd step"
+    show_when_published: 1
   -
     id: 3
     form_id: 1
     label: "3rd step"
+    show_when_published: 1
   -
     id: 4
     form_id: 2
     label: "Main"
+    show_when_published: 1
   -
     id: 5
     form_id: 3
     label: "Post"
+    show_when_published: 1
+  -
+    id: 6
+    form_id: 4
+    label: "restricted"
+    show_when_published: 0
+  -
+    id: 7
+    form_id: 4
+    label: "Post"
+    show_when_published: 1
 form_attributes:
   -
     id: 1
@@ -117,6 +151,7 @@ form_attributes:
     key: "test_varchar"
     type: "varchar"
     input: "text"
+    response_private: 0
     required: 0
     priority: 1
     options: ""
@@ -128,6 +163,7 @@ form_attributes:
     key: "test_point"
     type: "point"
     input: "location"
+    response_private: 0
     required: 0
     priority: 1
     options: ""
@@ -139,6 +175,7 @@ form_attributes:
     key: "full_name"
     type: "varchar"
     input: "text"
+    response_private: 0
     required: 0
     priority: 1
     options: ""
@@ -150,6 +187,7 @@ form_attributes:
     key: "description"
     type: "description"
     input: "textarea"
+    response_private: 0
     required: 0
     priority: 0
     options: ""
@@ -161,6 +199,7 @@ form_attributes:
     key: "date_of_birth"
     type: "datetime"
     input: "date"
+    response_private: 0
     required: 0
     priority: 3
     options: ""
@@ -172,6 +211,7 @@ form_attributes:
     key: "missing_date"
     type: "datetime"
     input: "date"
+    response_private: 0
     required: 0
     priority: 4
     options: ""
@@ -183,6 +223,7 @@ form_attributes:
     key: "last_location"
     type: "varchar"
     input: "text"
+    response_private: 0
     required: 1
     priority: 5
     options: ""
@@ -194,6 +235,7 @@ form_attributes:
     key: "last_location_point"
     type: "point"
     input: "location"
+    response_private: 0
     required: 0
     priority: 5
     options: ""
@@ -205,6 +247,7 @@ form_attributes:
     key: "geometry_test"
     type: "geometry"
     input: "text"
+    response_private: 0
     required: 0
     priority: 5
     options: ""
@@ -216,6 +259,7 @@ form_attributes:
     key: "missing_status"
     type: "varchar"
     input: "select"
+    response_private: 0
     required: 0
     options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
     priority: 5
@@ -227,6 +271,7 @@ form_attributes:
     key: "links"
     type: "varchar"
     input: "text"
+    response_private: 0
     required: 0
     priority: 7
     cardinality: 0
@@ -237,6 +282,7 @@ form_attributes:
     key: "second_point"
     type: "point"
     input: "location"
+    response_private: 0
     required: 0
     priority: 5
     options: ""
@@ -248,6 +294,7 @@ form_attributes:
     key: "person_status"
     type: "varchar"
     input: "select"
+    response_private: 0
     required: 0
     options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
     priority: 5
@@ -259,6 +306,7 @@ form_attributes:
     key: "media_test"
     type: "media"
     input: "upload"
+    response_private: 0
     required: 0
     priority: 7
     cardinality: 1
@@ -269,6 +317,7 @@ form_attributes:
     key: "possible_actions"
     type: "varchar"
     input: "checkbox"
+    response_private: 0
     required: 0
     options: '["ground_search","medical_evacuation"]'
     priority: 5
@@ -281,6 +330,7 @@ form_attributes:
     key: "video_field"
     type: "video"
     input: "video"
+    response_private: 0
     required: 0
     options: '[]'
     priority: 5
@@ -293,6 +343,7 @@ form_attributes:
     key: "title"
     type: "title"
     input: "text"
+    response_private: 0
     required: 0
     priority: 0
     options: ""
@@ -300,10 +351,95 @@ form_attributes:
     form_stage_id: 1
   -
     id: 18
+    label: "Test Field Level Locking 1"
+    key: "test_field_locking_hidden_1"
+    type: "text"
+    input: "text"
+    response_private: 1
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 19
+    label: "Test Field Level Locking 2"
+    key: "test_field_locking_visible_1"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 20
+    label: "Test Field Level Locking 3"
+    key: "test_field_locking_visible_2"
+    type: "title"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 21
+    label: "Test Field Level Locking 4"
+    key: "test_field_locking_hidden_2"
+    type: "text"
+    input: "text"
+    response_private: 1
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 22
+    label: "Test Field Level Locking 5"
+    key: "test_field_locking_visible_3"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 23
+    label: "Test Field Level Locking 6"
+    key: "test_field_locking_hidden_3"
+    type: "text"
+    input: "text"
+    response_private: 1
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 7
+  -
+    id: 24
+    label: "Test Field Level Locking 7"
+    key: "test_field_locking_visible_4"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 7
+  -
+    id: 25
     label: "Test markdown"
     key: "markdown"
     type: "markdown"
     input: "text"
+    response_private: 0
     required: 0
     priority: 0
     options: ""
@@ -609,6 +745,36 @@ posts:
     created: 1412025016
     published_to: '["user"]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 121
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 122
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
 post_datetime:
 post_decimal:
 post_geometry:
@@ -682,6 +848,56 @@ post_varchar:
     post_id: 1
     form_attribute_id: 11
     value: "http://ushahidi.com"
+  -
+    id: 13
+    post_id: 121
+    form_attribute_id: 20
+    value: "arabic string"
+  -
+    id: 14
+    post_id: 121
+    form_attribute_id: 21
+    value: "http://google.com"
+  -
+    id: 15
+    post_id: 121
+    form_attribute_id: 22
+    value: "http://ushahidi.com"
+  -
+    id: 16
+    post_id: 121
+    form_attribute_id: 23
+    value: "arabic string"
+  -
+    id: 17
+    post_id: 121
+    form_attribute_id: 24
+    value: "arabic string"
+  -
+    id: 18
+    post_id: 122
+    form_attribute_id: 20
+    value: "arabic string"
+  -
+    id: 19
+    post_id: 122
+    form_attribute_id: 21
+    value: "http://google.com"
+  -
+    id: 20
+    post_id: 122
+    form_attribute_id: 22
+    value: "http://ushahidi.com"
+  -
+    id: 21
+    post_id: 122
+    form_attribute_id: 23
+    value: "arabic string"
+  -
+    id: 22
+    post_id: 122
+    form_attribute_id: 24
+    value: "arabic string"
 post_comments:
 tags:
   -

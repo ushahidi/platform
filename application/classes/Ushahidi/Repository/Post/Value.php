@@ -40,7 +40,9 @@ abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implem
 		// Select 'key' too
 		$query->select(
 				$this->getTable().'.*',
-				'form_attributes.key'
+				'form_attributes.key',
+				'form_attributes.form_stage_id',
+				'form_attributes.response_private'
 			)
 			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
 
@@ -55,12 +57,19 @@ abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implem
 	}
 
 	// ValuesForPostRepository
-	public function getAllForPost($post_id, Array $include_attributes = [])
+	public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $restricted = false)
 	{
 		$query = $this->selectQuery(compact('post_id'));
 
 		if ($include_attributes) {
 			$query->where('form_attributes.key', 'IN', $include_attributes);
+		}
+
+		if ($restricted) {
+			$query->where('form_attributes.response_private', '!=', '1');
+			if ($exclude_stages) {
+				$query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages);
+			}
 		}
 
 		$results = $query->execute($this->db);

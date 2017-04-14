@@ -350,6 +350,7 @@ $di->setter['Ushahidi\Core\Traits\WebhookAccess']['setEnabled'] = $di->lazyGet('
 $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
 
 // Tools
+$di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
 $di->params['Ushahidi\Core\Tool\Uploader'] = [
 	'fs' => $di->lazyGet('tool.filesystem'),
@@ -400,3 +401,5 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	];
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
+
+require __DIR__ . '/App/Init.php';
