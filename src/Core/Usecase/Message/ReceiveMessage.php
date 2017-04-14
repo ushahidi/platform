@@ -231,7 +231,7 @@ class ReceiveMessage extends CreateUsecase
 			}
 		}
 		// First create a post
-		$post = new Post([
+		$post = $this->postRepo->getEntity()->setState([
 				'title'    => $message->title,
 				'content'  => $content,
 				'values'   => $values,

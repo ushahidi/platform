@@ -50,7 +50,6 @@ class Controller_Api_Webhooks_Posts extends Controller_Api_Posts {
 		parent::before();
 
 		$post = $this->_request_payload;
-		Kohana::$log->add(Log::ERROR, print_r($post,true));
 
 		if (!$this->checkApiKey($post) || !$this->checkSignature($post))
 		{

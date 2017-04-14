@@ -95,6 +95,15 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 		return parent::create($entity->setState($state));
 	}
 
+	// UpdateRepository
+	public function update(Entity $entity)
+	{
+
+		$record = $entity->asArray();
+		$record['updated'] = time();
+		return $this->executeUpdate(['id' => $entity->id], $record);
+	}
+
 	public function getSearchFields()
 	{
 		return [
