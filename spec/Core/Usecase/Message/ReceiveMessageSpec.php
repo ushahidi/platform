@@ -81,8 +81,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$postRepo->getEntity()->willReturn($post);
 		$post->setState(['title' => $payload['title'],
 			'content' => $payload['message'],
-			'values' => []],
-			'form_id' => null)->willReturn($post);
+			'values' => [],
+			'form_id' => null])->willReturn($post);
 		//$postRepo->create($post)->willReturn($post_id);
  	}
 
