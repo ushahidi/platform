@@ -3,7 +3,7 @@
 use Phinx\Migration\AbstractMigration;
 
 class AddLanguageToUser extends AbstractMigration
-{   
+{
     /**
      * Migrate Up.
      */
