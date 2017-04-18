@@ -15,20 +15,22 @@ class ConvertFormTagsToFormAttribute extends AbstractMigration
         $pdo = $this->getAdapter()->getConnection();
         $rows = $this->fetchAll(
             "SELECT id
-            FROM form_stages");
+            FROM form_stages"
+        );
         $tag_rows = $this->fetchAll(
             "SELECT id
-            FROM tags");
+            FROM tags"
+        );
         $insert = $pdo->prepare(
             "INSERT into form_attributes
             (`label`,`type`, `required`, `priority`, `cardinality`, `input`, `options`, `key`, `form_stage_id`)
             VALUES
             ('Categories', 'varchar', 0, 3, 0, 'tags', :tags, :key, :form_stage_id)"
-            );
+        );
 
         $tags = [];
 
-        foreach($tag_rows as $tag_row) {
+        foreach ($tag_rows as $tag_row) {
             array_push($tags, (int)$tag_row['id']);
         }
         $tags = json_encode($tags);
