@@ -36,6 +36,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
+	use Ushahidi_FormsTagsTrait;
 
 	/**
 	 * Construct
@@ -96,7 +97,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		}
 		return $this->executeInsertAttribute($this->removeNullValues($record));
 	}
-
+	
 	// Override SearchRepository
 	public function setSearchParams(SearchData $search)
 	{

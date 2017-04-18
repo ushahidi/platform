@@ -88,7 +88,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 			// Sort the keys so that they match with columns from the CSV heading
 			ksort($record);
-			Kohana::$log->add(Log::ERROR, print_r($record, true));
 
 			fputcsv($fp, $record);
 		}

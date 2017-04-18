@@ -53,7 +53,8 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'relation',
                     'upload',
                     'video',
-                    'markdown'
+                    'markdown',
+                    'tags',
                 ]]],
             ],
             'type' => [
@@ -70,7 +71,8 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'relation',
                     'media',
                     'title',
-                    'description'
+                    'description',
+                    'tags',
                 ]]],
             ],
             'required' => [

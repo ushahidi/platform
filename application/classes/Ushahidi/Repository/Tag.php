@@ -23,7 +23,8 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 {
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
-
+	// Use trait to for updating forms_tags-table
+	use Ushahidi_FormsTagsTrait;
 	private $created_id;
 	private $created_ts;
 
@@ -39,6 +40,21 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
+		if (!empty($data['id'])) 
+		{
+			$data['forms'] = $this->getFormsForTag($data['id']);
+	
+        if(empty($data['parent_id'])) {
+    
+            $data['children'] = 
+            DB::select('id')
+            ->from('tags')
+            ->where('parent_id','=',$data['id'])
+            ->execute($this->db)
+            ->as_array();
+    Kohana::$log->add(Log::ERROR, print_r($data, true));
+        }
+    }
 		return new Tag($data);
 	}
 
@@ -51,25 +67,41 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['tag', 'type', 'parent_id', 'q', /* LIKE tag */];
+		return ['tag', 'type', 'parent_id', 'q', 'level', 'formId' /* LIKE tag */];
 	}
 
 	// Ushahidi_Repository
-	protected function setSearchConditions(SearchData $search)
+    protected function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
+        foreach (['tag', 'type', 'parent_id'] as $key)
+        {
+            if ($search->$key) {
+                 $query->where($key, '=', $search->$key);
+            }
+        }
+        if ($search->q) {
+            // Tag text searching
+            $query->where('tag', 'LIKE', "%{$search->q}%");
+        }
+        if($search->level) {
+            //searching for top-level-tags 
+            if($search->level === 'parent') {
+                $query->where('parent_id', '=', null);
+            }
+        }
+        if($search->formId){
+        	$query->join('forms_tags')
+        		->on('tags.id', '=', 'forms_tags.tag_id')
+        		->where('form_id','=', $search->formId);
+        }
+    } 
+	// SearchRepository
+	public function getSearchResults()
 	{
-		$query = $this->search_query;
-
-		foreach (['tag', 'type', 'parent_id'] as $key)
-		{
-			if ($search->$key) {
-				$query->where($key, '=', $search->$key);
-			}
-		}
-
-		if ($search->q) {
-			// Tag text searching
-			$query->where('tag', 'LIKE', "%{$search->q}%");
-		}
+		$query = $this->getSearchQuery();
+		$results = $query->distinct(TRUE)->execute($this->db);
+		return $this->getCollection($results->as_array());
 	}
 
 	// CreateRepository
@@ -77,8 +109,34 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	{
 		$record = $entity->asArray();
 		$record['created'] = time();
-		return $this->executeInsert($this->removeNullValues($record));
+
+		unset($record['forms']);
+
+		$id = $this->executeInsert($this->removeNullValues($record));
+
+		if($entity->forms) {
+			//updating forms_tags-table
+			$this->updateTagForms($id, $entity->forms);
+		}
+
+		return $id;
 	}
+	
+	public function update(Entity $entity)
+	{
+		$tag = $entity->getChanged();
+		unset($tag['forms']);
+
+		$count = $this->executeUpdate(['id' => $entity->id], $tag);
+		// updating forms_tags-table
+		if($entity->hasChanged('forms'))
+		{
+			$this->updateTagForms($entity->id, $entity->forms);
+		}
+
+		return $count;
+	}
+
 
 	// UpdatePostTagRepository
 	public function getByTag($tag)
@@ -103,6 +161,13 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	{
 		return $this->selectCount(compact('slug')) === 0;
 	}
+    public function delete(Entity $entity)
+    {
+        $this->updateFormAttributes($entity->id);
+        return $this->executeDelete([
+            'id' => $entity->id
+        ]);
+    }
 
 	// DeleteTagRepository
 	public function deleteTag($id)

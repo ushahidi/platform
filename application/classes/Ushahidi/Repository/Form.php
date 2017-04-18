@@ -17,6 +17,8 @@ use Ushahidi\Core\SearchData;
 class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     FormRepository
 {
+    use Ushahidi_FormsTagsTrait;
+    
     // Ushahidi_Repository
     protected function getTable()
     {
@@ -32,6 +34,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             $data = $data + [
 	            'can_create' => $can_create['roles'],
             ];
+            $data['tags'] = $this->getTagsForForm($data['id']);
 	    }
         return new Form($data);
     }
@@ -46,7 +49,6 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     protected function setSearchConditions(SearchData $search)
     {
         $query = $this->search_query;
-
         if ($search->parent) {
             $query->where('parent_id', '=', $search->parent);
         }
@@ -60,15 +62,31 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // CreateRepository
     public function create(Entity $entity)
     {
+        $record = clone($entity);
+        unset($record->tags);
+        $id = parent::create($record->setState(['created' => time()]));
+        //updating forms_tags-table
+        if(isset($entity->tags) && $id !== null) {
+            $this->updateFormsTags($id, $entity->tags);
+        }
         // todo ensure default group is created
-
-        return parent::create($entity->setState(['created' => time()]));
+        return $id;
     }
 
     // UpdateRepository
     public function update(Entity $entity)
     {
-        return parent::update($entity->setState(['updated' => time()]));
+        $tags = $entity->tags;
+        unset($entity->tags);        
+        unset($entity->children);
+        $id = parent::update($entity->setState(['updated' => time()]));
+        // updating forms_tags-table
+        if($tags && $id !== null) {
+
+            $this->updateFormsTags($id, $tags);
+        }
+
+        return $id;
     }
 
     /**
