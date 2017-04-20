@@ -52,7 +52,6 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
             ->where('parent_id','=',$data['id'])
             ->execute($this->db)
             ->as_array();
-    Kohana::$log->add(Log::ERROR, print_r($data, true));
         }
     }
 		return new Tag($data);
@@ -74,7 +73,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
     protected function setSearchConditions(SearchData $search)
     {
         $query = $this->search_query;
-        foreach (['tag', 'type', 'parent_id'] as $key)
+        foreach (['tag', 'type', 'parent_id'] as $key) 
         {
             if ($search->$key) {
                  $query->where($key, '=', $search->$key);
@@ -172,6 +171,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// DeleteTagRepository
 	public function deleteTag($id)
 	{
+        $this->updateFormAttributes($entity->id);
 		return $this->delete(compact('id'));
 	}
 }
