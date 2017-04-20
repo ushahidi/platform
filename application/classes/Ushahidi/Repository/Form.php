@@ -35,7 +35,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             'can_create' => $can_create['roles'],
             ];
             $data['tags'] = $this->getTagsForForm($data['id']);
-        }
+	    }
         return new Form($data);
     }
 
@@ -62,6 +62,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // CreateRepository
     public function create(Entity $entity)
     {
+
         $tags = $entity->tags;
         unset($entity->tags);
         $id = parent::create($entity->setState(['created' => time()]));

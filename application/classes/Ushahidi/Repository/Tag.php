@@ -73,7 +73,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
     protected function setSearchConditions(SearchData $search)
     {
         $query = $this->search_query;
-        foreach (['tag', 'type', 'parent_id'] as $key) 
+        foreach (['tag', 'type', 'parent_id'] as $key)
         {
             if ($search->$key) {
                  $query->where($key, '=', $search->$key);
