@@ -52,7 +52,6 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
             ->where('parent_id','=',$data['id'])
             ->execute($this->db)
             ->as_array();
-    Kohana::$log->add(Log::ERROR, print_r($data, true));
         }
     }
 		return new Tag($data);
@@ -172,6 +171,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// DeleteTagRepository
 	public function deleteTag($id)
 	{
+        $this->updateFormAttributes($entity->id);
 		return $this->delete(compact('id'));
 	}
 }

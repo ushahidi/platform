@@ -29,10 +29,10 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // ReadRepository
     public function getEntity(Array $data = null)
     {
-	    if (isset($data["id"])) {
+        if (isset($data["id"])) {
             $can_create = $this->getRolesThatCanCreatePosts($data['id']);
             $data = $data + [
-	            'can_create' => $can_create['roles'],
+            'can_create' => $can_create['roles'],
             ];
             $data['tags'] = $this->getTagsForForm($data['id']);
 	    }
@@ -62,12 +62,13 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // CreateRepository
     public function create(Entity $entity)
     {
-        $record = clone($entity);
-        unset($record->tags);
-        $id = parent::create($record->setState(['created' => time()]));
+
+        $tags = $entity->tags;
+        unset($entity->tags);
+        $id = parent::create($entity->setState(['created' => time()]));
         //updating forms_tags-table
-        if(isset($entity->tags) && $id !== null) {
-            $this->updateFormsTags($id, $entity->tags);
+        if ($tags && $id !== null) {
+            $this->updateFormsTags($id, $tags);
         }
         // todo ensure default group is created
         return $id;
@@ -77,13 +78,12 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     public function update(Entity $entity)
     {
         $tags = $entity->tags;
-        unset($entity->tags);        
+        unset($entity->tags);
         unset($entity->children);
         $id = parent::update($entity->setState(['updated' => time()]));
         // updating forms_tags-table
-        if($tags && $id !== null) {
-
-            $this->updateFormsTags($id, $tags);
+        if ($tags && $entity->id !== null) {
+            $this->updateFormsTags($entity->id, $tags);
         }
 
         return $id;
@@ -138,7 +138,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 
         $roles = [];
 
-        foreach($results as $role) {
+        foreach ($results as $role) {
             if (!is_null($role['name'])) {
                 $roles[] = $role['name'];
             }
@@ -148,7 +148,5 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             'everyone_can_create' => $everyone_can_create,
             'roles' => $roles,
             ];
-
     }
-
 }
