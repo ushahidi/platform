@@ -45,7 +45,7 @@ Feature: Testing OAuth2 endpoints
     Scenario: Authorized Posts Request
         Given that I want to update a "Post"
         And that its "id" is "95"
-        And that the request "Authorization" header is "Bearer testingtoken"
+        And that the oauth token is "testingtoken"
         And that the request "data" is:
         """
         {
@@ -92,7 +92,7 @@ Feature: Testing OAuth2 endpoints
     Scenario: Unauthorized Posts Request (invalid token)
         Given that I want to update a "Post"
         And that its "id" is "95"
-        And that the request "Authorization" header is "Bearer missingtoken"
+        And that the oauth token is "missingtoken"
         And that the request "data" is:
         """
         {

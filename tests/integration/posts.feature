@@ -127,7 +127,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with a restricted Form with an Admin User
 		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testadminuser"
+		And that the oauth token is "testadminuser"
 		And that the request "data" is:
 			"""
 			{
@@ -153,7 +153,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with a form that does not require approval
 		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
 			{
@@ -180,7 +180,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with a form that does not require approval but try to set status should pass
 		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
 			{
@@ -309,7 +309,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with a restricted Form returns an error
 		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testimporter"
+		And that the oauth token is "testimporter"
 		And that the request "data" is:
 			"""
 			{
@@ -365,7 +365,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: A normal user creates a Post with different user as author, should get permission error
 		Given that I want to make a new "Post"
-		And that the request "Authorization" header is "Bearer testbasicuser2"
+		And that the oauth token is "testbasicuser2"
 		And that the request "data" is:
 			"""
 			{
@@ -795,7 +795,7 @@ Feature: Testing the Posts API
 	@resetFixture @update
 	Scenario: A normal user updating a post with a new user id should get access denied
 		Given that I want to update a "Post"
-		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
 			{
@@ -968,7 +968,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing All Posts owned by me
 		Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testbasicuser2"
+        And that the oauth token is "testbasicuser2"
 		And that the request "query string" is:
 			"""
 			user=me
@@ -1271,7 +1271,7 @@ Feature: Testing the Posts API
   Scenario: Users can assign roles to restrict publication of their posts
       Given that I want to update a "Post"
       And that its "id" is "105"
-      And that the request "Authorization" header is "Bearer testbasicuser2"
+      And that the oauth token is "testbasicuser2"
       And that the request "data" is:
       """
       {

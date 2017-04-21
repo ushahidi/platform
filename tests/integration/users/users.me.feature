@@ -32,7 +32,7 @@ Feature: Testing the current user API
 
 	Scenario: Get the current user fails if no user authenticated
 		Given that I want to find a "User"
-		And that the request "Authorization" header is "Bearer testanon"
+		And that the oauth token is "testanon"
 		And that its "id" is "me"
 		When I request "/users"
 		Then the response is JSON
@@ -40,7 +40,7 @@ Feature: Testing the current user API
 
 	Scenario: Non admin user can update their own profile
 		Given that I want to update a "user"
-		And that the request "Authorization" header is "Bearer testbasicuser2"
+		And that the oauth token is "testbasicuser2"
 		And that the request "data" is:
 			"""
 			{

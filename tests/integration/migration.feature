@@ -3,7 +3,7 @@ Feature: Testing the Migration API
 
     Scenario: Run migration
         Given that I want to make a new "Migration"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {}
@@ -14,7 +14,7 @@ Feature: Testing the Migration API
 
     Scenario: Run migration
         Given that I want to make a new "Rollback"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {}
@@ -25,21 +25,21 @@ Feature: Testing the Migration API
 
     Scenario: Get migration status
         Given that I want to get all "Status"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         When I request "/migration"
         Then the response is JSON
         Then the guzzle status code should be 200
 
     Scenario: Get migration status
         Given that I want to get all "Status"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         When I request "/migration/status"
         Then the response is JSON
         Then the guzzle status code should be 200
 
     Scenario: Run migration
         Given that I want to find a "Migration"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {}

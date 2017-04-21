@@ -47,7 +47,7 @@ Feature: Testing the Users API
 	@resetFixture
 	Scenario: A normal user should not be able to change their own role
 		Given that I want to update a "user"
-		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
 			{
@@ -112,7 +112,7 @@ Feature: Testing the Users API
 	Scenario: Finding a User as Admin gives full details
 		Given that I want to find a "User"
 		And that its "id" is "3"
-		And that the request "Authorization" header is "Bearer defaulttoken"
+		And that the oauth token is "defaulttoken"
 		When I request "/users"
 		Then the response is JSON
 		And the response has a "id" property
@@ -124,7 +124,7 @@ Feature: Testing the Users API
 	Scenario: Loading own user gives full details
 		Given that I want to find a "User"
 		And that its "id" is "me"
-		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the oauth token is "testbasicuser"
 		When I request "/users"
 		Then the response is JSON
 		And the response has a "id" property
@@ -136,7 +136,7 @@ Feature: Testing the Users API
 	Scenario: Finding a User as anonymous user gives partial details
 		Given that I want to find a "User"
 		And that its "id" is "1"
-		And that the request "Authorization" header is "Bearer testanon"
+		And that the oauth token is "testanon"
 		When I request "/users"
 		Then the response is JSON
 		And the response has a "id" property

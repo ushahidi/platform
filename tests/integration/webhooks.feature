@@ -3,7 +3,7 @@ Feature: Testing the Webhook API
 
     Scenario: Create a webhook
         Given that I want to make a new "Webhook"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
           """
           {
@@ -22,7 +22,7 @@ Feature: Testing the Webhook API
 
     Scenario: An anonymous user cannot create to a webhook
         Given that I want to make a new "Webhook"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         And that the request "data" is:
             """
             {
@@ -38,7 +38,7 @@ Feature: Testing the Webhook API
 
     Scenario: Deleting a webhook
         Given that I want to delete a "Webhook"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that its "id" is "2"
         When I request "/webhooks"
         Then the response is JSON
@@ -50,7 +50,7 @@ Feature: Testing the Webhook API
     @resetFixture
     Scenario: Listing Webhooks for a user
         Given that I want to get all "Webhooks"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "query string" is:
             """
                 user=0
