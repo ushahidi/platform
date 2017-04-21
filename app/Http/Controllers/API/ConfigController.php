@@ -23,7 +23,7 @@ class ConfigController extends RESTController
     //     Http_Request::OPTIONS => 'options',
     // );
 
-    protected function getScope()
+    protected function getResource()
     {
         return 'config';
     }

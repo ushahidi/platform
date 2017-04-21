@@ -209,95 +209,10 @@ abstract class RESTController extends Controller {
     }
 
     /**
-     * Get the required scope for this endpoint.
+     * Get the resource name for this endpoint.
      * @return string
      */
-    abstract protected function getScope();
-
-    /**
-     * Get the resource name for this endpoint. Defaults to the scope name.
-     * @return string
-     */
-    protected function getResource()
-    {
-        return $this->getScope();
-    }
-
-    /**
-     * Determines if this request can skip the authorization check.
-     *
-     * @return bool
-     */
-    protected function _is_auth_required(Request $request)
-    {
-        // Auth is not required for the OPTIONS method, because headers are
-        // not present in OPTIONS requests. ;)
-        return ($request->method() !== Request::METHOD_OPTIONS);
-    }
-
-    /**
-     * Check if access is allowed
-     * Checks if oauth token and user permissions
-     *
-     * @return bool
-     * @throws HTTP_Exception|OAuth_Exception
-     */
-    protected function _check_access()
-    {
-        $server = service('oauth.server.resource');
-
-        // Using an "Authorization: Bearer xyz" header is required, except for GET requests
-        $require_header = $this->request->method() !== Request::METHOD_GET;
-        $requiredgetScope = $this->getScope();
-
-        // Hack: Make sure request method is populated during testing
-        $_SERVER['REQUEST_METHOD'] = $this->request->method();
-
-        try
-        {
-            $server->isValid($require_header);
-            if ($requiredgetScope)
-            {
-                $server->hasScope($requiredgetScope, true);
-            }
-        }
-        catch (OAuth2Exception $e)
-        {
-            if (!$this->_is_auth_required() AND $e instanceof MissingAccessTokenException)
-            {
-                // A token is not required, so a missing token is not a critical error.
-                return;
-            }
-
-            // Auth server returns an indexed array of headers, along with the server
-            // status as a header, which must be converted to use with Kohana.
-            $raw_headers = $server::getExceptionHttpHeaders($server::getExceptionType($e->getCode()));
-
-            $status = 400;
-            $headers = array();
-            foreach ($raw_headers as $header)
-            {
-                if (preg_match('#^HTTP/1.1 (\d{3})#', $header, $matches))
-                {
-                    $status = (int) $matches[1];
-                }
-                else
-                {
-                    list($name, $value) = explode(': ', $header);
-                    $headers[$name] = $value;
-                }
-            }
-
-            $exception = HTTP_Exception::factory($status, $e->getMessage());
-            if ($status === 401)
-            {
-                // Pass through additional WWW-Authenticate headers, but only for
-                // HTTP 401 Unauthorized responses!
-                $exception->headers($headers);
-            }
-            throw $exception;
-        }
-    }
+    abstract protected function getResource();
 
     /**
      * Get the identifiers to pass to the usecase. Defaults to the request route params.

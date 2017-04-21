@@ -15,7 +15,7 @@ use Ushahidi\App\Http\Controllers\RESTController;
 
 class CollectionsController extends RESTController {
 
-	protected function getScope()
+	protected function getResource()
 	{
 		return 'sets';
 	}
