@@ -56,7 +56,7 @@ class RestContext implements Context
 	 */
 	public function setDefaultBearerAuth()
 	{
-		$this->thatTheRequestHeaderIs('Authorization', 'Bearer defaulttoken');
+		$this->thatTheOauthTokenIs('defaulttoken');
 	}
 
 	/**
@@ -627,6 +627,37 @@ class RestContext implements Context
 
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'get';
+	}
+
+	// Map tokens to users
+	// Needs ot match data in Base.yml
+	private $tokenUserMap = [
+		'testanon' => null,
+		'testingtoken' => 2,
+		'defaulttoken' => 2,
+		'testadminuser' => 2,
+		'testbasicuser' => 1,
+		'testbasicuser2' => 3,
+		'testmanager' => 6,
+		'testimporter' => 7
+	];
+
+	/**
+	 * @Given /^that the oauth token is "([^"]*)"$/
+	 */
+	public function thatTheOauthTokenIs($tokenId)
+	{
+		$key = new \League\OAuth2\Server\CryptKey("file://".\Laravel\Passport\Passport::keyPath('oauth-private.key'));
+		$scope = new \Laravel\Passport\Bridge\Scope('*');
+		$client = new \Laravel\Passport\Bridge\Client('demoapp', 'demoapp', '/');
+
+		$accessToken = new \Laravel\Passport\Bridge\AccessToken($this->tokenUserMap[$tokenId], [$scope]);
+		$accessToken->setIdentifier($tokenId);
+		$accessToken->setExpiryDateTime((new \DateTime())->add(new \DateInterval('PT1H')));
+		$accessToken->setClient($client);
+		$token = $accessToken->convertToJwt($key);
+
+		$this->_headers['Authorization'] = "Bearer $token";
 	}
 
 }

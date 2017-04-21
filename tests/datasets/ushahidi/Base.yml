@@ -1025,532 +1025,74 @@ oauth_clients:
   -
     id: "demoapp"
     secret: "demopass"
-    name: ""
-    auto_approve: 0
+    name: "demoapp"
+    password_client: 1
+    redirect: "/user/oauth"
   -
     id: "restricted_app"
     secret: "demopass"
-    name: ""
-    auto_approve: 0
+    name: "restricted"
+    password_client: 1
+    redirect: "/"
   -
     id: "ushahidiui"
     secret: "35e7f0bca957836d05ca0492211b0ac707671261"
-    name: ""
-    auto_approve: 1
-oauth_client_endpoints:
+    name: "Web client"
+    password_client: 1
+    redirect: "/"
+oauth_access_tokens:
   -
-    id: 1
-    client_id: "ushahidiui"
-    redirect_uri: "/user/oauth"
+    id: testanon
+    client_id: demoapp
+    user_id: null
+    scopes: '["*"]'
+    expires_at: 1893477600
   -
-    id: 2
-    client_id: "demoapp"
-    redirect_uri: "/"
+    id: testingtoken
+    client_id: demoapp
+    user_id: 2
+    scopes: '["*"]'
+    expires_at: 1893477600
   -
-    id: 3
-    client_id: "restricted_app"
-    redirect_uri: "/"
-oauth_sessions:
+    id: defaulttoken
+    client_id: demoapp
+    user_id: 2
+    scopes: '["*"]'
+    expires_at: 1893477600
   -
-    id: 1
-    client_id: "demoapp"
-    owner_type: "client"
-    owner_id: "demoapp"
+    id: testadminuser
+    client_id: demoapp
+    user_id: 2
+    scopes: '["*"]'
+    expires_at: 1893477600
   -
-    id: 2
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 2
+    id: testbasicuser
+    client_id: demoapp
+    user_id: 1
+    scopes: '["*"]'
+    expires_at: 1893477600
   -
-    id: 3
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 1
+    id: testbasicuser2
+    client_id: demoapp
+    user_id: 3
+    scopes: '["*"]'
+    expires_at: 1893477600
   -
-    id: 4
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 3
+    id: testmanager
+    client_id: demoapp
+    user_id: 6
+    scopes: '["*"]'
+    expires_at: 1893477600
+  -
+    id: testimporter
+    client_id: demoapp
+    user_id: 7
+    scopes: '["*"]'
+    expires_at: 1893477600
+oauth_refresh_tokens:
+oauth_personal_access_clients:
+oauth_auth_codes:
 
-# Test roles
-  -
-    id: 5
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 6
-  -
-    id: 6
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 7
-
-oauth_session_redirects:
-  -
-    session_id: 1
-    redirect_uri: "/"
-  -
-    session_id: 2
-    redirect_uri: "/"
-oauth_session_access_tokens:
-  -
-    id: 1
-    session_id: 2
-    access_token: "testingtoken"
-    access_token_expires: 1893477600
-  -
-    id: 2
-    session_id: 2
-    access_token: "defaulttoken"
-    access_token_expires: 1893477600
-  -
-    id: 3
-    session_id: 3
-    access_token: "testbasicuser"
-    access_token_expires: 1893477600
-  -
-    id: 4
-    session_id: 2
-    access_token: "testadminuser"
-    access_token_expires: 1893477600
-  -
-    id: 5
-    session_id: 4
-    access_token: "testbasicuser2"
-    access_token_expires: 1893477600
-  -
-    id: 6
-    session_id: 1
-    access_token: "testanon"
-    access_token_expires: 1893477600
-
-# Test roles
-  -
-    id: 7
-    session_id: 5
-    access_token: "testmanager"
-    access_token_expires: 1893477600
-  -
-    id: 8
-    session_id: 6
-    access_token: "testimporter"
-    access_token_expires: 1893477600
-
-oauth_scopes:
-  -
-    id: 1
-    scope: api
-    name: api
-  -
-    id: 2
-    scope: posts
-    name: posts
-  -
-    id: 3
-    scope: forms
-    name: forms
-  -
-    id: 4
-    scope: sets
-    name: set
-  -
-    id: 5
-    scope: tags
-    name: tags
-  -
-    id: 6
-    scope: users
-    name: users
-  -
-    id: 7
-    scope: media
-    name: media
-  -
-    id: 8
-    scope: config
-    name: config
-  -
-    id: 9
-    scope: messages
-    name: messages
-  -
-    id: 10
-    scope: dataproviders
-    name: dataproviders
-  -
-    id: 11
-    scope: stats
-    name: stats
-  -
-    id: 12
-    scope: layers
-    name: layers
-  -
-    id: 13
-    scope: savedsearches
-    name: savedsearches
-  -
-    id: 14
-    scope: notifications
-    name: notifications
-  -
-    id: 15
-    scope: contacts
-    name: contacts
-  -
-    id: 16
-    scope: csv
-    name: csv
-  -
-    id: 17
-    scope: roles
-    name: roles
-  -
-    id: 18
-    scope: permissions
-    name: permissions
-  -
-    id: 19
-    scope: migrate
-    name: migrate
-  -
-    id: 20
-    scope: webhooks
-    name: webhooks
-
-oauth_session_token_scopes:
-  # for testingtoken
-  -
-    session_access_token_id: 1
-    scope_id: 1
-  -
-    session_access_token_id: 1
-    scope_id: 2
-  -
-    session_access_token_id: 1
-    scope_id: 11
-
-  # for defaulttoken
-  -
-    session_access_token_id: 2
-    scope_id: 1
-  -
-    session_access_token_id: 2
-    scope_id: 2
-  -
-    session_access_token_id: 2
-    scope_id: 3
-  -
-    session_access_token_id: 2
-    scope_id: 4
-  -
-    session_access_token_id: 2
-    scope_id: 5
-  -
-    session_access_token_id: 2
-    scope_id: 6
-  -
-    session_access_token_id: 2
-    scope_id: 7
-  -
-    session_access_token_id: 2
-    scope_id: 8
-  -
-    session_access_token_id: 2
-    scope_id: 9
-  -
-    session_access_token_id: 2
-    scope_id: 10
-  -
-    session_access_token_id: 2
-    scope_id: 11
-  -
-    session_access_token_id: 2
-    scope_id: 12
-  -
-    session_access_token_id: 2
-    scope_id: 13
-  -
-    session_access_token_id: 2
-    scope_id: 14
-  -
-    session_access_token_id: 2
-    scope_id: 15
-  -
-    session_access_token_id: 2
-    scope_id: 16
-  -
-    session_access_token_id: 2
-    scope_id: 20
-
-  # for testbasicuser
-  -
-    session_access_token_id: 3
-    scope_id: 1
-  -
-    session_access_token_id: 3
-    scope_id: 2
-  -
-    session_access_token_id: 3
-    scope_id: 3
-  -
-    session_access_token_id: 3
-    scope_id: 4
-  -
-    session_access_token_id: 3
-    scope_id: 5
-  -
-    session_access_token_id: 3
-    scope_id: 6
-  -
-    session_access_token_id: 3
-    scope_id: 7
-  -
-    session_access_token_id: 3
-    scope_id: 8
-  -
-    session_access_token_id: 3
-    scope_id: 9
-  -
-    session_access_token_id: 3
-    scope_id: 10
-  -
-    session_access_token_id: 3
-    scope_id: 13
-  -
-    session_access_token_id: 3
-    scope_id: 14
-  -
-    session_access_token_id: 3
-    scope_id: 15
-  -
-    session_access_token_id: 3
-    scope_id: 16
-
-  # for testadminuser
-  -
-    session_access_token_id: 4
-    scope_id: 1
-  -
-    session_access_token_id: 4
-    scope_id: 2
-  -
-    session_access_token_id: 4
-    scope_id: 3
-  -
-    session_access_token_id: 4
-    scope_id: 4
-  -
-    session_access_token_id: 4
-    scope_id: 5
-  -
-    session_access_token_id: 4
-    scope_id: 6
-  -
-    session_access_token_id: 4
-    scope_id: 7
-  -
-    session_access_token_id: 4
-    scope_id: 8
-  -
-    session_access_token_id: 4
-    scope_id: 9
-  -
-    session_access_token_id: 4
-    scope_id: 10
-  -
-    session_access_token_id: 4
-    scope_id: 11
-  -
-    session_access_token_id: 4
-    scope_id: 13
-  -
-    session_access_token_id: 4
-    scope_id: 17
-  -
-    session_access_token_id: 4
-    scope_id: 18
-  -
-    session_access_token_id: 4
-    scope_id: 19
-  -
-    session_access_token_id: 4
-    scope_id: 20
-
-  # for testbasicuser2
-  -
-    session_access_token_id: 5
-    scope_id: 1
-  -
-    session_access_token_id: 5
-    scope_id: 2
-  -
-    session_access_token_id: 5
-    scope_id: 3
-  -
-    session_access_token_id: 5
-    scope_id: 4
-  -
-    session_access_token_id: 5
-    scope_id: 5
-  -
-    session_access_token_id: 5
-    scope_id: 6
-  -
-    session_access_token_id: 5
-    scope_id: 7
-  -
-    session_access_token_id: 5
-    scope_id: 8
-  -
-    session_access_token_id: 5
-    scope_id: 9
-  -
-    session_access_token_id: 5
-    scope_id: 10
-  -
-    session_access_token_id: 5
-    scope_id: 13
-  -
-    session_access_token_id: 5
-    scope_id: 14
-  -
-    session_access_token_id: 5
-    scope_id: 15
-  -
-    session_access_token_id: 5
-    scope_id: 16
-
-  # for testanon
-  -
-    session_access_token_id: 6
-    scope_id: 1
-  -
-    session_access_token_id: 6
-    scope_id: 2
-  -
-    session_access_token_id: 6
-    scope_id: 3
-  -
-    session_access_token_id: 6
-    scope_id: 4
-  -
-    session_access_token_id: 6
-    scope_id: 5
-  -
-    session_access_token_id: 6
-    scope_id: 6
-  -
-    session_access_token_id: 6
-    scope_id: 7
-  -
-    session_access_token_id: 6
-    scope_id: 8
-  -
-    session_access_token_id: 6
-    scope_id: 9
-  -
-    session_access_token_id: 6
-    scope_id: 10
-  -
-    session_access_token_id: 6
-    scope_id: 13
-
-# Test roles
-# for testmanager
-  -
-    session_access_token_id: 7
-    scope_id: 1
-  -
-    session_access_token_id: 7
-    scope_id: 2
-  -
-    session_access_token_id: 7
-    scope_id: 3
-  -
-    session_access_token_id: 7
-    scope_id: 4
-  -
-    session_access_token_id: 7
-    scope_id: 5
-  -
-    session_access_token_id: 7
-    scope_id: 6
-  -
-    session_access_token_id: 7
-    scope_id: 7
-  -
-    session_access_token_id: 7
-    scope_id: 8
-  -
-    session_access_token_id: 7
-    scope_id: 9
-  -
-    session_access_token_id: 7
-    scope_id: 10
-  -
-    session_access_token_id: 7
-    scope_id: 11
-  -
-    session_access_token_id: 7
-    scope_id: 13
-  -
-    session_access_token_id: 7
-    scope_id: 17
-  -
-    session_access_token_id: 7
-    scope_id: 18
-
-# for testimporter
-  -
-    session_access_token_id: 8
-    scope_id: 1
-  -
-    session_access_token_id: 8
-    scope_id: 2
-  -
-    session_access_token_id: 8
-    scope_id: 3
-  -
-    session_access_token_id: 8
-    scope_id: 4
-  -
-    session_access_token_id: 8
-    scope_id: 5
-  -
-    session_access_token_id: 8
-    scope_id: 6
-  -
-    session_access_token_id: 8
-    scope_id: 7
-  -
-    session_access_token_id: 8
-    scope_id: 8
-  -
-    session_access_token_id: 8
-    scope_id: 9
-  -
-    session_access_token_id: 8
-    scope_id: 10
-  -
-    session_access_token_id: 8
-    scope_id: 11
-  -
-    session_access_token_id: 8
-    scope_id: 13
-  -
-    session_access_token_id: 8
-    scope_id: 16
-  -
-    session_access_token_id: 8
-    scope_id: 17
-  -
-    session_access_token_id: 8
-    scope_id: 18
-
-# include other oauth tables to ensure a blank slate for test runs
-oauth_session_refresh_tokens:
-oauth_session_authcodes:
-oauth_session_authcode_scopes:
 # media
 media:
   -
