@@ -12,7 +12,7 @@ class AddPostMarkdownTable extends AbstractMigration
         $this->table('post_markdown')
           ->addColumn('post_id', 'integer')
           ->addColumn('form_attribute_id', 'integer')
-          ->addColumn('value', 'string', ['null' => true])
+          ->addColumn('value', 'text', ['null' => true])
           ->addColumn('created', 'integer', ['default' => 0])
           ->addColumn('updated', 'integer', ['null' => true])
           ->addForeignKey('form_attribute_id', 'form_attributes', 'id', [

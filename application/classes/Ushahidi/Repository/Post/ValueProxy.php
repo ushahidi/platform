@@ -23,12 +23,12 @@ class Ushahidi_Repository_Post_ValueProxy implements ValuesForPostRepository
 	}
 
 	// ValuesForPostRepository
-	public function getAllForPost($post_id, Array $include_attributes = [])
+	public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $restricted = false)
 	{
 		$results = [];
 
-		$this->factory->each(function ($repo) use ($post_id, $include_attributes, &$results) {
-			$results = array_merge($results, $repo->getAllForPost($post_id, $include_attributes));
+		$this->factory->each(function ($repo) use ($post_id, $include_attributes, &$results, $exclude_stages, $restricted) {
+			$results = array_merge($results, $repo->getAllForPost($post_id, $include_attributes, $exclude_stages, $restricted));
 		}, $this->include_types);
 
 		return $results;

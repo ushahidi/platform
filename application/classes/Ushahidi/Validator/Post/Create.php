@@ -185,6 +185,10 @@ class Ushahidi_Validator_Post_Create extends Validator
 			return;
 		}
 
+		if ($status === 'draft' && !isset($fullData['id'])) {
+			return;
+		}
+
 		$user = $this->getUser();
 		// Do we have permission to publish this post?
 		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->hasPermission($user));
@@ -194,6 +198,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 		}
 
 		$requireApproval = $this->repo->doesPostRequireApproval($fullData['form_id']);
+
+		Kohana::$log->add(Log::ERROR, print_r($requireApproval, true));
+		Kohana::$log->add(Log::ERROR, print_r($status, true));
 
 		// Are we trying to change publish a post that requires approval?
 		if ($requireApproval && $status !== 'draft') {

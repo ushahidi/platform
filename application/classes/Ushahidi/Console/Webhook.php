@@ -126,7 +126,7 @@ class Ushahidi_Console_Webhook extends Command
 
 		// This is an asynchronous request, we don't expect a result
 		// this can be extended to allow for handling of the returned promise
-		$promise = $this->client->requestAsync('POST', $webhook->url, [
+		$promise = $this->client->request('POST', $webhook->url, [
 			'headers' => [
 				'X-Platform-Signature' => $signature,
 				'Accept'               => 'application/json'
