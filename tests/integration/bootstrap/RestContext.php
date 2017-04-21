@@ -167,14 +167,6 @@ class RestContext implements Context
 	}
 
 	/**
-     * @Given /^that the response "([^"]*)" header is "([^"]*)"$/
-     */
-    public function thatTheResponseHeaderIs($headerName, $headerValue)
-    {
-		$this->_headers[$headerName] = $headerValue;
-    }
-
-	/**
 	 * @Given /^that the post field "([^"]*)" is:$/
 	 * @Given /^that the post field "([^"]*)" is "([^"]*)"$/
 	 */
@@ -553,9 +545,9 @@ class RestContext implements Context
 	}
 
 	/**
-	 * @Then /^the the ([^"]*)" header should be "([^"]*)"$/
+	 * @Then /^the ([^"]*)" header should be "([^"]*)"$/
 	 */
-	public function theRestHeaderShouldExistBe($header, $contents)
+	public function theRestHeaderShouldBe($header, $contents)
 	{
 		if ((string)$this->_response->getHeader($header) !== $contents) {
 			throw new \Exception('HTTP header ' . $header . ' does not match '.$contents.
