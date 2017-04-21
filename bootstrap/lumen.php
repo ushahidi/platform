@@ -17,7 +17,7 @@ $app = new Laravel\Lumen\Application(
 
 // $app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +59,10 @@ $app->singleton(
 //     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
 // ]);
 $app->routeMiddleware([
-	'cors'  => Ushahidi\App\Http\Middleware\CorsMiddleware::class
+    'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
+	'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
+    'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
+    'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
 ]);
 
 /*
@@ -74,8 +77,10 @@ $app->routeMiddleware([
 */
 
 $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
-// $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
+$app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
 // $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
+$app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
+$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

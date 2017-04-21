@@ -72,18 +72,6 @@ abstract class RESTController extends Controller {
         Request::METHOD_GET,
     );
 
-    public function before()
-    {
-        $this->_parse_request();
-        $this->_check_access();
-    }
-
-    // Controller
-    public function after()
-    {
-        $this->_prepare_response();
-    }
-
     /**
      * Get current api version
      */

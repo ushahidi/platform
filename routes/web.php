@@ -18,7 +18,6 @@ $app->get('/', function () use ($app) {
         ->body();
 });
 
-
 /**
  * API version number
  */
@@ -27,35 +26,35 @@ $apiBase = 'api/v' . $apiVersion;
 
 $app->group(['prefix' => $apiBase], function () use ($app) {
     $app->group(['prefix' => 'config/'], function () use ($app) {
-        $app->get('/', ['middleware' => 'oauth:config', 'uses' => 'API\ConfigController@index']);
+        $app->get('/', ['uses' => 'API\ConfigController@index']);
         // $app->post('/', ['middleware' => 'oauth:config', 'uses' => 'API\ConfigController@store']);
-        $app->get('/{id}', ['middleware' => 'oauth:config', 'uses' => 'API\ConfigController@show']);
-        $app->put('/{id}', ['middleware' => 'oauth:config', 'uses' => 'API\ConfigController@update']);
+        $app->get('/{id}', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'API\ConfigController@show']);
+        $app->put('/{id}', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'API\ConfigController@update']);
         // $app->delete('/{id}', ['middleware' => 'oauth:config', 'uses' => 'API\ConfigController@destroy']);
     });
 });
 
-$app->get('{anything:.*}', function ($path) use ($app) {
-    return \Request::factory($path, array(), false)
-        ->execute()
-        ->send_headers(true)
-        ->body();
-});
-$app->post('{anything:.*}', function ($path) use ($app) {
-    return \Request::factory($path, array(), false)
-        ->execute()
-        ->send_headers(true)
-        ->body();
-});
-$app->put('{anything:.*}', function ($path) use ($app) {
-    return \Request::factory($path, array(), false)
-        ->execute()
-        ->send_headers(true)
-        ->body();
-});
-$app->delete('{anything:.*}', function ($path) use ($app) {
-    return \Request::factory($path, array(), false)
-        ->execute()
-        ->send_headers(true)
-        ->body();
-});
+// $app->get('{anything:.*}', function ($path) use ($app) {
+//     return \Request::factory($path, array(), false)
+//         ->execute()
+//         ->send_headers(true)
+//         ->body();
+// });
+// $app->post('{anything:.*}', function ($path) use ($app) {
+//     return \Request::factory($path, array(), false)
+//         ->execute()
+//         ->send_headers(true)
+//         ->body();
+// });
+// $app->put('{anything:.*}', function ($path) use ($app) {
+//     return \Request::factory($path, array(), false)
+//         ->execute()
+//         ->send_headers(true)
+//         ->body();
+// });
+// $app->delete('{anything:.*}', function ($path) use ($app) {
+//     return \Request::factory($path, array(), false)
+//         ->execute()
+//         ->send_headers(true)
+//         ->body();
+// });
