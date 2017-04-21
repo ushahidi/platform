@@ -54,6 +54,11 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         });
     });
 
+    $app->group(['middleware' => ['auth:api', 'scope:dataproviders']], function () use ($app) {
+        $app->get('/dataproviders[/]', 'DataProvidersController@index');
+        $app->get('/dataproviders/{id}[/]', 'DataProvidersController@show');
+    });
+
     $app->group(['middleware' => ['auth:api', 'scope:tags']], function () use ($app) {
         $app->get('/tags[/]', 'TagsController@index');
         $app->post('/tags[/]', 'TagsController@store');
