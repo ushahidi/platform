@@ -27,11 +27,12 @@ class Ushahidi_Formatter_Collection extends CollectionFormatter
 		$prev_params['offset'] = $params['offset'] - $params['limit'];
 		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
 
-		$request = Request::current();
+		// @todo inject this
+		$request = app('request');
 
-		$curr = URL::site($request->uri() . URL::query($params),      $request);
-		$next = URL::site($request->uri() . URL::query($next_params), $request);
-		$prev = URL::site($request->uri() . URL::query($prev_params), $request);
+		$curr = url($request->path()) . '?' . http_build_query($params);
+		$next = url($request->path()) . '?' . http_build_query($next_params);
+		$prev = url($request->path()) . '?' . http_build_query($prev_params);
 
 		return [
 			'limit'       => $params['limit'],
