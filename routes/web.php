@@ -25,6 +25,15 @@ $apiVersion = '3';
 $apiBase = 'api/v' . $apiVersion;
 
 $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app) {
+    $app->group(['middleware' => ['auth:api', 'scope:collections']], function () use ($app) {
+        $app->get('/collections[/]', 'CollectionsController@index');
+        $app->post('/collections[/]', 'CollectionsController@store');
+        $app->group(['prefix' => 'collections/'], function () use ($app) {
+            $app->get('/{id}[/]', 'CollectionsController@show');
+            $app->put('/{id}[/]', 'CollectionsController@update');
+            $app->delete('/{id}[/]', 'CollectionsController@destroy');
+        });
+    });
 
     // Define /config outside the group otherwise prefix breaks optional trailing slash
     $app->get('/config[/]', ['uses' => 'ConfigController@index']);
@@ -33,6 +42,16 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         $app->get('/{id}[/]', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@show']);
         $app->put('/{id}[/]', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@update']);
         // $app->delete('/{id}[/]', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@destroy']);
+    });
+
+    $app->group(['middleware' => ['auth:api', 'scope:contacts']], function () use ($app) {
+        $app->get('/contacts[/]', 'ContactsController@index');
+        $app->post('/contacts[/]', 'ContactsController@store');
+        $app->group(['prefix' => 'contacts/'], function () use ($app) {
+            $app->get('/{id}[/]', 'ContactsController@show');
+            $app->put('/{id}[/]', 'ContactsController@update');
+            $app->delete('/{id}[/]', 'ContactsController@destroy');
+        });
     });
 
     $app->group(['middleware' => ['auth:api', 'scope:tags']], function () use ($app) {

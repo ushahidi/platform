@@ -97,7 +97,7 @@ Feature: Testing the Sets API
 
 	Scenario: Non admin user trying to make a collection featured fails
 		Given that I want to update a "collection"
-		And that the request "Authorization" header is "Bearer testbasicuser2"
+		And that the oauth token is "testbasicuser2"
 		And that the request "data" is:
 			"""
 			{
@@ -124,7 +124,7 @@ Feature: Testing the Sets API
 	@resetFixture
 	Scenario: Listing All Collections as a normal user doesn't return admin set
 		Given that I want to get all "Collections"
-		And that the request "Authorization" header is "Bearer testbasicuser2"
+		And that the oauth token is "testbasicuser2"
 		When I request "/collections"
 		Then the response is JSON
 		And the response has a "count" property

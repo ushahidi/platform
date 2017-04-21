@@ -2,7 +2,7 @@
 Feature: Testing the Contacts API
     Scenario: Add a contact
         Given that I want to make a new "Contact"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that the request "data" is:
             """
             {
@@ -19,7 +19,7 @@ Feature: Testing the Contacts API
 
     Scenario: Update a contact
         Given that I want to update a "Contact"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that the request "data" is:
             """
             {
@@ -37,7 +37,7 @@ Feature: Testing the Contacts API
 
     Scenario: Update a contact to receive notifications
         Given that I want to update a "Contact"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that the request "data" is:
             """
             {
@@ -56,7 +56,7 @@ Feature: Testing the Contacts API
     @resetFixture
     Scenario: Listing Contacts for a user
         Given that I want to get all "Contacts"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that the request "query string" is:
             """
                 user=me
