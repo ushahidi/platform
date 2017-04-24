@@ -25,6 +25,7 @@ $apiVersion = '3';
 $apiBase = 'api/v' . $apiVersion;
 
 $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app) {
+    // Collections
     $app->group(['middleware' => ['auth:api', 'scope:collections']], function () use ($app) {
         $app->get('/collections[/]', 'CollectionsController@index');
         $app->post('/collections[/]', 'CollectionsController@store');
@@ -35,6 +36,7 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         });
     });
 
+    // Config
     // Define /config outside the group otherwise prefix breaks optional trailing slash
     $app->get('/config[/]', ['uses' => 'ConfigController@index']);
     // $app->post('/config[/]', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@store']);
@@ -44,6 +46,7 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         // $app->delete('/{id}[/]', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@destroy']);
     });
 
+    // Contacts
     $app->group(['middleware' => ['auth:api', 'scope:contacts']], function () use ($app) {
         $app->get('/contacts[/]', 'ContactsController@index');
         $app->post('/contacts[/]', 'ContactsController@store');
@@ -54,11 +57,52 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         });
     });
 
+    // Data providers
     $app->group(['middleware' => ['auth:api', 'scope:dataproviders']], function () use ($app) {
         $app->get('/dataproviders[/]', 'DataProvidersController@index');
         $app->get('/dataproviders/{id}[/]', 'DataProvidersController@show');
     });
 
+    // Forms
+    $app->group(['middleware' => ['auth:api', 'scope:forms'], 'namespace' => 'Forms'], function () use ($app) {
+        $app->get('/forms[/]', 'FormsController@index');
+        $app->post('/forms[/]', 'FormsController@store');
+        $app->group(['prefix' => 'forms/'], function () use ($app) {
+            $app->get('/{id:[0-9]+}[/]', 'FormsController@show');
+            $app->put('/{id:[0-9]+}[/]', 'FormsController@update');
+            $app->delete('/{id:[0-9]+}[/]', 'FormsController@destroy');
+
+            $app->get('/attributes[/]', 'AttributesController@index');
+            $app->get('/stages[/]', 'StagesController@index');
+
+            // Sub-form routes
+            $app->group(['prefix' => '/{form_id:[0-9]+}'], function () use ($app) {
+                // Attributes
+                $app->get('/attributes[/]', 'AttributesController@index');
+                $app->post('/attributes[/]', 'AttributesController@store');
+                $app->group(['prefix' => 'attributes/'], function () use ($app) {
+                    $app->get('/{id}[/]', 'AttributesController@show');
+                    $app->put('/{id}[/]', 'AttributesController@update');
+                    $app->delete('/{id}[/]', 'AttributesController@destroy');
+                });
+
+                // Stages
+                $app->get('/stages[/]', 'StagesController@index');
+                $app->post('/stages[/]', 'StagesController@store');
+                $app->group(['prefix' => 'stages/'], function () use ($app) {
+                    $app->get('/{id}[/]', 'StagesController@show');
+                    $app->put('/{id}[/]', 'StagesController@update');
+                    $app->delete('/{id}[/]', 'StagesController@destroy');
+                });
+
+                // Roles
+                $app->get('/roles[/]', 'RolesController@index');
+                $app->put('/roles[/]', 'RolesController@replace');
+            });
+        });
+    });
+
+    // Tags
     $app->group(['middleware' => ['auth:api', 'scope:tags']], function () use ($app) {
         $app->get('/tags[/]', 'TagsController@index');
         $app->post('/tags[/]', 'TagsController@store');
