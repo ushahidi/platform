@@ -98,6 +98,37 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         });
     });
 
+    // Layers
+    $app->group(['middleware' => ['auth:api', 'scope:layers']], function () use ($app) {
+        $app->get('/layers[/]', 'LayersController@index');
+        $app->post('/layers[/]', 'LayersController@store');
+        $app->group(['prefix' => 'layers/'], function () use ($app) {
+            $app->get('/{id}[/]', 'LayersController@show');
+            $app->put('/{id}[/]', 'LayersController@update');
+            $app->delete('/{id}[/]', 'LayersController@destroy');
+        });
+    });
+
+    // Media
+    //
+    // Messages
+    //
+    // Migration
+    //
+    // Notifications
+    //
+    // Password Reset
+    //
+    // Permissions
+    //
+    // Posts
+    //
+    // Register
+    //
+    // Saved Searches
+    //
+    //
+
     // Tags
     $app->group(['middleware' => ['auth:api', 'scope:tags']], function () use ($app) {
         $app->get('/tags[/]', 'TagsController@index');
@@ -108,6 +139,10 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
             $app->delete('/{id}[/]', 'TagsController@destroy');
         });
     });
+
+    // Users
+    //
+    // Web hooks
 });
 
 // $app->get('{anything:.*}', function ($path) use ($app) {
