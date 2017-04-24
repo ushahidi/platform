@@ -110,7 +110,16 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     });
 
     // Media
-    //
+    $app->group(['middleware' => ['auth:api', 'scope:media']], function () use ($app) {
+        $app->get('/media[/]', 'MediaController@index');
+        $app->post('/media[/]', 'MediaController@store');
+        $app->group(['prefix' => 'media/'], function () use ($app) {
+            $app->get('/{id}[/]', 'MediaController@show');
+            $app->put('/{id}[/]', 'MediaController@update');
+            $app->delete('/{id}[/]', 'MediaController@destroy');
+        });
+    });
+
     // Messages
     //
     // Migration
