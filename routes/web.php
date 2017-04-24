@@ -11,20 +11,16 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return \Request::factory('/', array(), false)
-        ->execute()
-        ->send_headers(true)
-        ->body();
-});
-
 /**
  * API version number
  */
 $apiVersion = '3';
 $apiBase = 'api/v' . $apiVersion;
 
+$app->get('/', "API\IndexController@index");
+$app->get($apiBase . '[/]', "API\IndexController@index");
 $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app) {
+
     // Collections
     $app->group(['middleware' => ['auth:api', 'scope:collections']], function () use ($app) {
         $app->get('/collections[/]', 'CollectionsController@index');
