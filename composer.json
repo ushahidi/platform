@@ -108,6 +108,7 @@
             "bin/phinx migrate -c application/phinx.php"
         ],
         "pre-test" : [
+            "php artisan passport:keys",
             "@migrate"
         ],
         "test" : [
@@ -116,7 +117,8 @@
             "behat --strict --profile ci"
         ],
         "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\""
+            "php -r \"copy('.env.example', '.env');\"",
+            "php artisan passport:keys"
         ]
     }
 }
