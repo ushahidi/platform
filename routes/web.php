@@ -129,7 +129,11 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     // Password Reset
     //
     // Permissions
-    //
+    $app->group(['middleware' => ['auth:api', 'scope:permissions']], function () use ($app) {
+        $app->get('/permissions[/]', 'PermissionsController@index');
+        $app->get('/permissions/{id}[/]', 'PermissionsController@show');
+    });
+
     // Posts
     //
     // Register
