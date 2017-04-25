@@ -73,6 +73,11 @@ abstract class Ushahidi_Core {
 				and Kohana::$config->load('features.private.enabled');
 		});
 
+		// Intercom config settings
+		$di->set('site.intercomAppId', function() use ($di) {
+			return Kohana::$config->load('site.intercomAppId');
+		});
+
 		// Roles config settings
 		$di->set('roles.enabled', function() use ($di) {
 			return Kohana::$config->load('features.roles.enabled');
