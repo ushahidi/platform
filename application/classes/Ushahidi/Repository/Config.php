@@ -78,7 +78,7 @@ class Ushahidi_Repository_Config implements
 
 			// New User - set their deployment created date
 			if ($key === 'first_login') {
-				$intercom_data['deployment_created_date'] = service('site.creation_date');
+				$intercom_data['deployment_created_date'] = date("Y-m-d H:i:s");
 			}
 
 			if (! in_array($key, $immutable)) {
