@@ -17,11 +17,17 @@ use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\UpdateRepository;
 use Ushahidi\Core\Exception\NotFoundException;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class Ushahidi_Repository_Config implements
 	ReadRepository,
 	UpdateRepository,
 	ConfigRepository
 {
+
+	// Use Event trait to trigger events
+	use Event;
 
 	// ReadRepository
 	public function getEntity(Array $data = null)
@@ -49,20 +55,48 @@ class Ushahidi_Repository_Config implements
 
 		$config = \Kohana::$config->load($group);
 
+		// Intercom count datasources
+		if ($group === 'data-provider') {
+			$intercomData['num_data_sources'] = 0;
+			foreach ($entity->__get('providers') as $key => $value) {
+				$value === 'true' ? $intercomData['num_data_sources']++ : null;
+			}
+		}
+
 		$immutable = $entity->getImmutable();
-		foreach ($entity->getChanged() as $key => $val) {	
-			if (! in_array($key, $immutable)) {				
-				
+		$intercom_data = [];
+		foreach ($entity->getChanged() as $key => $val) {
+
+			// Emit Intercom Update events
+			if ($key === 'description') {
+				$intercom_data['has_description'] = true;
+			}
+
+			if ($key === 'image_header') {
+				$intercom_data['has_logo'] = true;
+			}
+
+			// New User - set their deployment created date
+			if ($key === 'first_login') {
+				$intercom_data['deployment_created_date'] = service('site.creation_date');
+			}
+
+			if (! in_array($key, $immutable)) {
+
 				/* Below is to reset the twitter-since_id when the search-terms are updated. This should be revised when the data-source tech-debt is addressed*/
 
 				if($key === 'twitter' && isset($config['twitter']) && $val['twitter_search_terms'] !== $config['twitter']['twitter_search_terms'])
-				{	
+				{
 					$twitter_config = \Kohana::$config->load('twitter');
 					$twitter_config->set('since_id', 0);
 				}
-				
+
 				$config->set($key, $val);
 			}
+		}
+		if ($intercom_data) {
+			$user = service('session.user');
+			$this->emit($this->event, $user->email, $intercom_data);
 		}
 	}
 

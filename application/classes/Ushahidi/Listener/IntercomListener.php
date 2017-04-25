@@ -20,19 +20,21 @@ use GuzzleHttp\Exception\ClientException;
 
 class Ushahidi_Listener_IntercomListener extends AbstractListener
 {
-  public function handle(EventInterface $event, $user_email, $data)
+  public function handle(EventInterface $event, $user_email = null, $data = null)
   {
-		$intercomAppId = service('stie.intercomAppId');
+		if ($user_email) {
+			$intercomAppId = service('stie.intercomAppId');
 
-		$client = new IntercomClient($intercomAppId, null);
-		try {
+			$client = new IntercomClient($intercomAppId, null);
+			try {
 
-			$client->users->update([
-				"email" => $user_email,
-				"custom_attributes" => $data
-			]);
-		} catch(ClientException $e) {
-			Kohana::$log->add(Log::ERROR, $e->getResponse());
+				$client->users->update([
+					"email" => $user_email,
+					"custom_attributes" => $data
+				]);
+			} catch(ClientException $e) {
+				Kohana::$log->add(Log::ERROR, $e->getResponse());
+			}
 		}
   }
 }
