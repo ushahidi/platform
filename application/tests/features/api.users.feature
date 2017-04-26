@@ -1,4 +1,4 @@
-@usersFixture @oauth2Skip
+@usersFixture @oauth2Skip @users
 Feature: Testing the Users API
 
 	Scenario: Creating a User

@@ -226,9 +226,9 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	protected function updateIntercomUserCount($offset)
 	{
 		$data = [
-			'total_users' => $this->getTotalCount() + $offset;
+			'total_users' => $this->getTotalCount() + $offset
 		];
 		$user = service('session.user');
-		$this->emit($this->event, $user->email, $data]);
+		$this->emit($this->event, $user->email, $data);
 	}
 }
