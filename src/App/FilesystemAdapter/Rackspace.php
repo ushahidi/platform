@@ -12,7 +12,7 @@
 namespace Ushahidi\App\FilesystemAdapter;
 
 use OpenCloud\OpenStack;
-use OpenCloud\Rackspace;
+use OpenCloud\Rackspace as OCRackspace;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use Ushahidi\Core\Tool\FilesystemAdapter;
@@ -29,7 +29,7 @@ class Rackspace implements FilesystemAdapter
 
 	public function getAdapter()
 	{
-		$client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
+		$client = new OCRackspace(OCRackspace::US_IDENTITY_ENDPOINT, array(
 			'username' => $this->config['username'],
 			'apiKey' => $this->config['apiKey'],
 		));
