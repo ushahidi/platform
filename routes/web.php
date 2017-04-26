@@ -135,7 +135,16 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     // Migration
     //
     // Notifications
-    //
+    $app->group(['middleware' => ['auth:api', 'scope:notifications']], function () use ($app) {
+        $app->get('/notifications[/]', 'NotificationsController@index');
+        $app->post('/notifications[/]', 'NotificationsController@store');
+        $app->group(['prefix' => 'notifications/'], function () use ($app) {
+            $app->get('/{id}[/]', 'NotificationsController@show');
+            $app->put('/{id}[/]', 'NotificationsController@update');
+            $app->delete('/{id}[/]', 'NotificationsController@destroy');
+        });
+    });
+
     // Password Reset
     //
     // Permissions

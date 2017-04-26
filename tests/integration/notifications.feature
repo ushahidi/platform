@@ -26,7 +26,7 @@ Feature: Testing the Notifications API
             }
             """
         When I request "/notifications"
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 403
 
     Scenario: Deleting a notification
         Given that I want to delete a "Notification"
