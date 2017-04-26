@@ -133,6 +133,14 @@ Feature: Testing the Users API
 		And the "email" property equals "robbie@ushahidi.com"
 		Then the guzzle status code should be 200
 
+	Scenario: Loading own user gives full details
+		Given that I want to find a "User"
+		And that its "id" is "me"
+		And that the oauth token is "testanon"
+		When I request "/users"
+		Then the response is JSON
+		Then the guzzle status code should be 404
+
 	Scenario: Finding a User as anonymous user gives partial details
 		Given that I want to find a "User"
 		And that its "id" is "1"
@@ -175,7 +183,7 @@ Feature: Testing the Users API
 		And that the request "data" is:
 			"""
 			{
-        "full_name":"New User",
+				"full_name":"New User",
 				"email":"newuser@ushahidi.com",
 				"password":"testing",
 				"role":"admin"

@@ -168,7 +168,8 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     });
 
     // Register
-    //
+    $app->post('/register[/]', 'RegisterController@store');
+
     // Saved Searches
     //
     //
@@ -185,7 +186,18 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     });
 
     // Users
-    //
+    $app->group(['middleware' => ['auth:api', 'scope:users']], function () use ($app) {
+        $app->get('/users[/]', 'UsersController@index');
+        $app->post('/users[/]', 'UsersController@store');
+        $app->group(['prefix' => 'users/'], function () use ($app) {
+            $app->get('/{id:[0-9]+}[/]', 'UsersController@show');
+            $app->put('/{id:[0-9]+}[/]', 'UsersController@update');
+            $app->delete('/{id:[0-9]+}[/]', 'UsersController@destroy');
+            $app->get('/me[/]', 'UsersController@showMe');
+            $app->put('/me[/]', 'UsersController@updateMe');
+        });
+    });
+
     // Web hooks
 });
 
