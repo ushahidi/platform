@@ -155,6 +155,18 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
 
     // Posts
     //
+
+    // Roles
+    $app->group(['middleware' => ['auth:api', 'scope:roles']], function () use ($app) {
+        $app->get('/roles[/]', 'RolesController@index');
+        $app->post('/roles[/]', 'RolesController@store');
+        $app->group(['prefix' => 'roles/'], function () use ($app) {
+            $app->get('/{id}[/]', 'RolesController@show');
+            $app->put('/{id}[/]', 'RolesController@update');
+            $app->delete('/{id}[/]', 'RolesController@destroy');
+        });
+    });
+
     // Register
     //
     // Saved Searches
