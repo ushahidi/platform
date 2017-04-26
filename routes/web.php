@@ -121,7 +121,17 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     });
 
     // Messages
-    //
+    $app->group(['middleware' => ['auth:api', 'scope:messages']], function () use ($app) {
+        $app->get('/messages[/]', 'MessagesController@index');
+        $app->post('/messages[/]', 'MessagesController@store');
+        $app->group(['prefix' => 'messages/'], function () use ($app) {
+            $app->get('/{id}[/]', 'MessagesController@show');
+            $app->get('/{id}/post[/]', 'MessagesController@showPost');
+            $app->put('/{id}[/]', 'MessagesController@update');
+            // $app->delete('/{id}[/]', 'MessagesController@destroy');
+        });
+    });
+
     // Migration
     //
     // Notifications
