@@ -1,7 +1,7 @@
 <?php
 
 // Initialize the Kohana application
-require __DIR__ . '/../kohana.php';
+require __DIR__ . '/../application/kohana.php';
 
 // when testing, docroot is the source root
 define('DOCROOT', realpath(APPPATH . '/../') . DIRECTORY_SEPARATOR);
@@ -21,4 +21,4 @@ if (($ob_len = ob_get_length()) !== FALSE)
 }
 
 // Enable the unittest module
-Kohana::modules(Kohana::modules() + array('unittest' => MODPATH.'unittest'));
+// Kohana::modules(Kohana::modules() + array('unittest' => MODPATH.'unittest'));

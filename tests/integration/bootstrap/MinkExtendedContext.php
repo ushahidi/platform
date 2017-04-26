@@ -43,7 +43,7 @@ class MinkExtendedContext extends MinkContext
 			);
 		}
 	}
-	
+
 	/**
 	 * @Given /^(.*) without redirection$/
 	 */
@@ -51,10 +51,10 @@ class MinkExtendedContext extends MinkContext
 	{
 		$this->canIntercept();
 		$this->getSession()->getDriver()->getClient()->followRedirects(false);
-	
+
 		return new Step\Given($step);
 	}
-	
+
 	/**
 	 * @Given /^(.*) with redirection$/
 	 */
@@ -62,10 +62,10 @@ class MinkExtendedContext extends MinkContext
 	{
 		$this->canIntercept();
 		$this->getSession()->getDriver()->getClient()->followRedirects(true);
-	
+
 		return new Step\Given($step);
 	}
-	
+
 	/**
 	 * @When /^I follow the redirection$/
 	 * @Then /^I should be redirected$/
@@ -77,7 +77,7 @@ class MinkExtendedContext extends MinkContext
 		$client->followRedirects(true);
 		$client->followRedirect();
 	}
-	
+
 	/**
 	 * @Then /^the redirect location should match (?P<pattern>"([^"]|\\")*")$/
 	 */
@@ -86,7 +86,7 @@ class MinkExtendedContext extends MinkContext
 		$this->canIntercept();
 		$client = $this->getSession()->getDriver()->getClient();
 		$actual = $client->getResponse()->getHeader('Location');
-		
+
 		$pattern = $this->fixStepArgument($pattern);
 
 		if (!preg_match($pattern, $actual))
