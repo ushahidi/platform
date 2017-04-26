@@ -171,8 +171,15 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     $app->post('/register[/]', 'RegisterController@store');
 
     // Saved Searches
-    //
-    //
+    $app->group(['middleware' => ['auth:api', 'scope:savedsearches']], function () use ($app) {
+        $app->get('/savedsearches[/]', 'SavedSearchesController@index');
+        $app->post('/savedsearches[/]', 'SavedSearchesController@store');
+        $app->group(['prefix' => 'savedsearches/'], function () use ($app) {
+            $app->get('/{id}[/]', 'SavedSearchesController@show');
+            $app->put('/{id}[/]', 'SavedSearchesController@update');
+            $app->delete('/{id}[/]', 'SavedSearchesController@destroy');
+        });
+    });
 
     // Tags
     $app->group(['middleware' => ['auth:api', 'scope:tags']], function () use ($app) {
