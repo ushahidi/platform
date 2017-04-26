@@ -36,6 +36,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
+	use Ushahidi_FormsTagsTrait;
 
 	/**
 	 * Construct
@@ -80,10 +81,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			$form_id = $this->getFormId();
 		}
 
-		if ($this->isRestricted($form_id)) {
-			$query->where('response_private', '=', '0');
-		}
-
 		return $query;
 	}
 
@@ -100,7 +97,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		}
 		return $this->executeInsertAttribute($this->removeNullValues($record));
 	}
-
+	
 	// Override SearchRepository
 	public function setSearchParams(SearchData $search)
 	{
