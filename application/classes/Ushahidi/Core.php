@@ -74,8 +74,8 @@ abstract class Ushahidi_Core {
 		});
 
 		// Intercom config settings
-		$di->set('site.intercomAppId', function() use ($di) {
-			return Kohana::$config->load('site.intercomAppId');
+		$di->set('site.intercomAppToken', function() use ($di) {
+			return Kohana::$config->load('site.intercomAppToken');
 		});
 
 		// Roles config settings

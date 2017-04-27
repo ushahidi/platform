@@ -22,7 +22,7 @@
  * - string   date_format   Set format in which to return dates. See http://php.net/manual/en/datetime.createfromformat.php
  */
 
-$intercomAppId = getenv('INTERCOM_APP_ID');
+$intercomAppToken = getenv('INTERCOM_APP_TOKEN');
 
 $clientUrl = getenv('CLIENT_URL');
 
@@ -46,5 +46,5 @@ return array(
 	'first_login'   => true,
 	'tier'          => 'free',
 	'private'       => false,
-	'intercomAppId' => $intercomAppId,
+	'intercomAppToken' => $intercomAppToken,
 );
