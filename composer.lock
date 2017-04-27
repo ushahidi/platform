@@ -4,7 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "55923c25a1c800856a86204168c2cd15",
+
+    "hash": "29975e1d33d3b234ab82df59ec542ae8",
+    "content-hash": "e351dd03a0ae6dc95e6c352a19ebca04",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -3538,6 +3540,56 @@
                 "php"
             ],
             "time": "2017-03-27T23:33:27+00:00"
+        },
+        {
+            "name": "laravel/homestead",
+            "version": "v5.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/homestead.git",
+                "reference": "77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb",
+                "reference": "77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "symfony/console": "~2.3|~3.0",
+                "symfony/process": "~2.3|~3.0",
+                "symfony/yaml": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 || ^6.0"
+            },
+            "bin": [
+                "bin/homestead"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Homestead\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "A virtual machine for web artisans.",
+            "time": "2017-04-26 15:43:12"
         },
         {
             "name": "leanphp/phpspec-code-coverage",
