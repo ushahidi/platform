@@ -579,6 +579,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	{
 		// Assume we can simply count the results to get a total
 		$query = $this->getSearchQuery(true)
+			->resetSelect()
 			->select([DB::expr('COUNT(DISTINCT posts.id)'), 'total']);
 
 		// Fetch the result and...

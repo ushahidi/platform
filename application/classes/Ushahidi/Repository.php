@@ -128,6 +128,7 @@ abstract class Ushahidi_Repository implements
 	{
 		// Assume we can simply count the results to get a total
 		$query = $this->getSearchQuery(true)
+			->resetSelect()
 			->select([DB::expr('COUNT(*)'), 'total']);
 
 		// Fetch the result and...
@@ -197,6 +198,7 @@ abstract class Ushahidi_Repository implements
 	protected function selectCount(Array $where = [])
 	{
 		$result = $this->selectQuery($where)
+			->resetSelect()
 			->select([DB::expr('COUNT(*)'), 'total'])
 			->execute($this->db);
 		return $result->get('total') ?: 0;
