@@ -224,7 +224,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'created_before', 'created_after',
 			'updated_before', 'updated_after',
 			'date_before', 'date_after',
-			'bbox', 'tags', 'values', 'current_stage',
+			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
 			'published_to',
 			'include_types', 'include_attributes', // Specify values to include
@@ -413,75 +413,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$query
 				->where("$table.id", 'NOT IN', DB::select('post_id')
 				->from('post_point'));
-		}
-
-		if ($search->current_stage) {
-			$stages = $search->current_stage;
-			if (!is_array($stages)) {
-				$stages = explode(',', $stages);
-			}
-
-			/**
-			 * Here be dragons
-			 * The purpose of this query is to return the set of posts which
-			 * have current stage X. In this case, current stage X is actually the
-			 * the stage the post has NOT yet completed - which is the stage with.
-			 * the lowest priority.
-			 * For example:
-			 * If I have 3 stages for a given Post Type, I am on stage 1 if
-			 * I have completed no stages and I am on stage 3 if I have completed
-			 * stages 1 and 2.
-			 * If I have completed stages 1 and 3, I am on stage 2 as stages are considered
-			 * to be sequential
-			 */
-
-			/**
-			 * This query is responsible for returning all the
-			 * stages for a given post id, where the stage has been completed.
-			 * This is used to check which stages the Post has not yet completed
-			 */
-
-			$stages_posts = DB::select('form_stage_id')
-				->from('form_stages_posts')
-				->where('post_id', '=', DB::expr('posts.id'))
-				->and_where('completed', '=', '1');
-
-			/**
-			 * This query returns the IDs for the stages that we are filtering by
-			 */
-			$forms_sub = DB::select('form_stages.form_id')
-				->from('form_stages')
-				->where('form_stages.id', 'IN', $stages);
-
-			/**
-			 * This is the master query, it collects all the posts
-			 * missing stages that we are filtering by.
-			 */
-			$sub = DB::select(array('posts.id','p_id'), array('form_stages.id', 'fs_id'), 'priority', 'posts.form_id', 'forms.id')
-				->from('posts')
-				->join('forms')
-				// Here we join to the forms table based on the set of stage ids we are filtering by
-				->on('posts.form_id', '=', 'forms.id')
-				->on('forms.id', 'IN', $forms_sub)
-				->join('form_stages')
-				// Here we join to the form_stages table based on the form id
-				// and a check that the current post has not already completed this stage
-				->on('form_stages.form_id', 'IN', $forms_sub)
-				->on('form_stages.id', 'NOT IN', $stages_posts)
-		// We group the results by post id
-		->group_by('p_id')
-		// We reduce the list to ensure that only results missing the stages to filter by are returned
-		->having('form_stages.id', 'IN', $stages)
-				// Finally we order the results by priority to ensure that if, for example,
-				// a post is missing multiple stages we only consider the first uncompleted stage
-				->order_by('priority');
-
-			//This step wraps the query and returns only the posts ids without the extra data such as form, stage or priority
-	  $posts_sub = DB::select('p_id')
-		  ->from(array($sub, 'sub'));
-
-			$query
-				->where('posts.id', 'IN', $posts_sub);
 		}
 
 		// Filter by tag
