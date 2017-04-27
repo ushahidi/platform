@@ -73,6 +73,11 @@ abstract class Ushahidi_Core {
 				and Kohana::$config->load('features.private.enabled');
 		});
 
+		// Intercom config settings
+		$di->set('site.intercomAppToken', function() use ($di) {
+			return Kohana::$config->load('site.intercomAppToken');
+		});
+
 		// Roles config settings
 		$di->set('roles.enabled', function() use ($di) {
 			return Kohana::$config->load('features.roles.enabled');
@@ -671,6 +676,22 @@ abstract class Ushahidi_Core {
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
+
+		// Add Intercom Listener to Config
+		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
+		$di->setter['Ushahidi_Repository_Config']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+
+		// Add Intercom Listener to Form
+		$di->setter['Ushahidi_Repository_Form']['setEvent'] = 'FormUpdateEvent';
+		$di->setter['Ushahidi_Repository_Form']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+
+		// Add Intercom Listener to User
+		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
+		$di->setter['Ushahidi_Repository_User']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+
 
 		/**
 		 * 1. Load the plugins

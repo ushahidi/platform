@@ -14,11 +14,17 @@ use Ushahidi\Core\Entity\Form;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\SearchData;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     FormRepository
 {
     use Ushahidi_FormsTagsTrait;
-    
+
+    // Use Event trait to trigger events
+    use Event;
+
     // Ushahidi_Repository
     protected function getTable()
     {
@@ -77,6 +83,15 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // UpdateRepository
     public function update(Entity $entity)
     {
+
+        // If orignal Form update Intercom if Name changed
+        if ($id === 1) {
+          foreach ($entity->getChanged() as $key => $val) {
+            $user = service('session.user');
+            $key === 'name' ? $this->emit($this->event, $user->email, ['primary_survey_name' => $value]) : null;
+          }
+        }
+
         $tags = $entity->tags;
         unset($entity->tags);
         unset($entity->children);

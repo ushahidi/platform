@@ -13,6 +13,7 @@
         "league/flysystem-rackspace": "~1.0",
         "league/flysystem": "~1.0",
         "ircmaxell/password-compat": "^1.0.4",
+        "intercom/intercom-php": "^v3.1.2",
         "abraham/twitteroauth": "^0.5.3",
         "kohana/core" : "3.3.3.1@dev",
         "kohana/cache" : "3.3.*@dev",
