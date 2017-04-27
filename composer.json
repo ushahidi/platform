@@ -53,7 +53,8 @@
         "behat/mink-extension": "^2.2",
         "behat/mink-goutte-driver": "^1.2",
         "satooshi/php-coveralls": "^2.0@dev",
-        "leanphp/phpspec-code-coverage": "~3.1"
+        "leanphp/phpspec-code-coverage": "~3.1",
+        "laravel/homestead": "^5.2"
     },
     "config": {
         "bin-dir": "bin/",
