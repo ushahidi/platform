@@ -171,7 +171,8 @@ abstract class Ushahidi_Repository implements
 		if ($countable) {
 			$query
 				->limit(null)
-				->offset(null);
+				->offset(null)
+				->resetOrderBy();
 		}
 
 		return $query;

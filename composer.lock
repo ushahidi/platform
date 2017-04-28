@@ -1573,12 +1573,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/ohanzee-db.git",
-                "reference": "14465ce09d8fc53503239f7d5eb26c70263dc263"
+                "reference": "279a566fee8724214b37ba66a5270cfa4dc2751b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/ohanzee-db/zipball/14465ce09d8fc53503239f7d5eb26c70263dc263",
-                "reference": "14465ce09d8fc53503239f7d5eb26c70263dc263",
+                "url": "https://api.github.com/repos/ushahidi/ohanzee-db/zipball/279a566fee8724214b37ba66a5270cfa4dc2751b",
+                "reference": "279a566fee8724214b37ba66a5270cfa4dc2751b",
                 "shasum": ""
             },
             "require": {
@@ -1631,7 +1631,7 @@
                 "forum": "http://discourse.kohanaframework.org/category/ohanzee-components",
                 "irc": "irc://irc.freenode.net/kohana"
             },
-            "time": "2017-04-27 22:52:17"
+            "time": "2017-04-28 00:10:09"
         },
         {
             "name": "paragonie/random_compat",
