@@ -618,9 +618,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			$this->search_query
 				->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
-				->select(['forms.name', 'label'])
+				->select([DB::expr('ANY_VALUE(forms.name)'), 'label'])
 				->select(['forms.id', 'id'])
-				->group_by('posts.form_id');
+				->group_by('forms.id');
 		}
 		// Group by tags
 		elseif ($search->group_by === 'tags')
@@ -646,7 +646,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->join(['tags', 'parents'])
 					// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
 					->on(DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"), '', DB::expr(""))
-				->select(['parents.tag', 'label'])
+				->select([DB::expr('ANY_VALUE(parents.tag)'), 'label'])
 				->select(['parents.id', 'id'])
 				->group_by('parents.id');
 
