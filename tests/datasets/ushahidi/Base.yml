@@ -58,6 +58,12 @@ users:
     realname: Importer
     email: "importer@ushahidi.com"
     role: "importer"
+user_reset_tokens:
+  -
+    id: 1
+    user_id: 5
+    reset_token: testresettoken
+    created: 1893477600
 forms:
   -
     id: 1

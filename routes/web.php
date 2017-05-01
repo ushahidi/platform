@@ -145,8 +145,10 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         });
     });
 
-    // Password Reset
-    //
+    // Password reset
+    $app->post('/passwordreset[/]', 'PasswordResetController@store');
+    $app->post('/passwordreset/confirm[/]', 'PasswordResetController@confirm');
+
     // Permissions
     $app->group(['middleware' => ['auth:api', 'scope:permissions']], function () use ($app) {
         $app->get('/permissions[/]', 'PermissionsController@index');
