@@ -18,7 +18,7 @@ class CreateOauthAccessTokensTable extends AbstractMigration
             ->addColumn('client_id', 'string', ['limit' => 100])
             ->addColumn('name', 'string', ['null' => true])
             ->addColumn('scopes', 'text', ['null' => true])
-            ->addColumn('revoked', 'boolean')
+            ->addColumn('revoked', 'boolean', ['default' => 0])
             ->addColumn('expires_at', 'datetime', ['null' => true])
             ->addColumn('created_at', 'timestamp', ['null' => true])
             ->addColumn('updated_at', 'timestamp', ['null' => true])

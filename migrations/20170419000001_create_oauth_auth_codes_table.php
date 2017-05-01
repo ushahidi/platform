@@ -17,7 +17,7 @@ class CreateOauthAuthCodesTable extends AbstractMigration
             ->addColumn('user_id', 'integer')
             ->addColumn('client_id', 'string', ['limit' => 100])
             ->addColumn('scopes', 'text', ['null' => true])
-            ->addColumn('revoked', 'boolean')
+            ->addColumn('revoked', 'boolean', ['default' => 0])
             ->addColumn('expires_at', 'datetime', ['null' => true])
             ->create();
     }

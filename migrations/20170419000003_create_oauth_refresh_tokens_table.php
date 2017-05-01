@@ -15,7 +15,7 @@ class CreateOauthRefreshTokensTable extends AbstractMigration
             ])
             ->addColumn('id', 'string', ['limit' => 100])
             ->addColumn('access_token_id', 'string', ['limit' => 100])
-            ->addColumn('revoked', 'boolean')
+            ->addColumn('revoked', 'boolean', ['default' => 0])
             ->addColumn('expires_at', 'datetime', ['null' => true])
             ->addIndex(['access_token_id'])
             ->create();
