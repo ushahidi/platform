@@ -39,7 +39,6 @@ Feature: Testing the Migration API
 
     Scenario: Run migration
         Given that I want to find a "Migration"
-        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {}

@@ -133,7 +133,13 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     });
 
     // Migration
-    //
+    $app->group(['middleware' => ['auth:api', 'scope:migrate']], function () use ($app) {
+        $app->get('/migration[/]', 'MigrationController@index');
+        $app->get('/migration/status[/]', 'MigrationController@status');
+        $app->post('/migration/rollback[/]', 'MigrationController@rollback');
+        $app->post('/migration/migrate[/]', 'MigrationController@migrate');
+    });
+
     // Notifications
     $app->group(['middleware' => ['auth:api', 'scope:notifications']], function () use ($app) {
         $app->get('/notifications[/]', 'NotificationsController@index');
@@ -218,6 +224,9 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         });
     });
 });
+
+// Migration
+$app->get('/migrate[/]', 'MigrateController@migrate');
 
 // $app->get('{anything:.*}', function ($path) use ($app) {
 //     return \Request::factory($path, array(), false)
