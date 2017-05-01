@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f79d969cb9128721c31945ce42eed633",
-    "content-hash": "a9d4680c69188a8c86cf3d58e4db033e",
+    "hash": "1986271af658ed65402813a01a5c1b2f",
+    "content-hash": "9a1bd95d142d72367d81fd19848ab737",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -1569,21 +1569,21 @@
         },
         {
             "name": "ohanzee/database",
-            "version": "0.1.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kohana/ohanzee-db.git",
-                "reference": "26dc07ed3041551258a6d5d70a01bf454d28ab32"
+                "url": "https://github.com/ushahidi/ohanzee-db.git",
+                "reference": "279a566fee8724214b37ba66a5270cfa4dc2751b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/ohanzee-db/zipball/26dc07ed3041551258a6d5d70a01bf454d28ab32",
-                "reference": "26dc07ed3041551258a6d5d70a01bf454d28ab32",
+                "url": "https://api.github.com/repos/ushahidi/ohanzee-db/zipball/279a566fee8724214b37ba66a5270cfa4dc2751b",
+                "reference": "279a566fee8724214b37ba66a5270cfa4dc2751b",
                 "shasum": ""
             },
             "require": {
                 "kohana/core": ">=3.3",
-                "php": ">=5.3.6"
+                "php": ">=5.4"
             },
             "replace": {
                 "kohana/database": ">=3.3"
@@ -1598,7 +1598,6 @@
                     "": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1615,7 +1614,7 @@
                     "role": "developer"
                 }
             ],
-            "description": "Official Ohanzee component for database SQL queries",
+            "description": "Ohanzee component for database SQL queries and query building",
             "homepage": "http://ohanzee.org/",
             "keywords": [
                 "component",
@@ -1626,7 +1625,13 @@
                 "query builder",
                 "sql"
             ],
-            "time": "2014-08-21 16:41:35"
+            "support": {
+                "source": "http://github.com/kohana/ohanzee-db",
+                "issues": "http://github.com/kohana/ohanzee-db/issues",
+                "forum": "http://discourse.kohanaframework.org/category/ohanzee-components",
+                "irc": "irc://irc.freenode.net/kohana"
+            },
+            "time": "2017-04-28 00:10:09"
         },
         {
             "name": "paragonie/random_compat",
@@ -3480,6 +3485,56 @@
                 "php"
             ],
             "time": "2017-03-27 23:33:27"
+        },
+        {
+            "name": "laravel/homestead",
+            "version": "v5.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/homestead.git",
+                "reference": "77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb",
+                "reference": "77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "symfony/console": "~2.3|~3.0",
+                "symfony/process": "~2.3|~3.0",
+                "symfony/yaml": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 || ^6.0"
+            },
+            "bin": [
+                "bin/homestead"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Homestead\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "A virtual machine for web artisans.",
+            "time": "2017-04-26 15:43:12"
         },
         {
             "name": "leanphp/phpspec-code-coverage",
@@ -5620,6 +5675,7 @@
         "kohana/cache": 20,
         "kohana/image": 20,
         "kohana/minion": 20,
+        "ohanzee/database": 20,
         "ushahidi/shadowhand-email": 20,
         "zeelot/kohana-media": 20,
         "league/csv": 20,
