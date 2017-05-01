@@ -1046,49 +1046,49 @@ oauth_access_tokens:
     client_id: demoapp
     user_id: null
     scopes: '["*"]'
-    expires_at: 1893477600
+    expires_at: "2031-01-01"
   -
     id: testingtoken
     client_id: demoapp
     user_id: 2
     scopes: '["*"]'
-    expires_at: 1893477600
+    expires_at: "2031-01-01"
   -
     id: defaulttoken
     client_id: demoapp
     user_id: 2
     scopes: '["*"]'
-    expires_at: 1893477600
+    expires_at: "2031-01-01"
   -
     id: testadminuser
     client_id: demoapp
     user_id: 2
     scopes: '["*"]'
-    expires_at: 1893477600
+    expires_at: "2031-01-01"
   -
     id: testbasicuser
     client_id: demoapp
     user_id: 1
     scopes: '["*"]'
-    expires_at: 1893477600
+    expires_at: "2031-01-01"
   -
     id: testbasicuser2
     client_id: demoapp
     user_id: 3
     scopes: '["*"]'
-    expires_at: 1893477600
+    expires_at: "2031-01-01"
   -
     id: testmanager
     client_id: demoapp
     user_id: 6
     scopes: '["*"]'
-    expires_at: 1893477600
+    expires_at: "2031-01-01"
   -
     id: testimporter
     client_id: demoapp
     user_id: 7
     scopes: '["*"]'
-    expires_at: 1893477600
+    expires_at: "2031-01-01"
 oauth_refresh_tokens:
 oauth_personal_access_clients:
 oauth_auth_codes:
