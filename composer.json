@@ -19,7 +19,7 @@
         "league/flysystem-rackspace": "~1.0",
         "league/flysystem": "~1.0",
         "ircmaxell/password-compat": "^1.0.4",
-        "intercom/intercom-php": "^v3.1.2",
+        "intercom/intercom-php": "^3.1.2",
         "abraham/twitteroauth": "^0.5.3",
         "kohana/core" : "3.3.3.1@dev",
         "kohana/cache" : "3.3.*@dev",
@@ -39,6 +39,7 @@
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
         "league/csv": "~7.1@dev",
+        "laravel/lumen-framework": "5.4.*",
         "ddeboer/data-import": "dev-master",
         "symfony/property-access": "~2.5",
         "league/event": "^2.2@dev",
@@ -74,12 +75,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Ushahidi\\": "src/"
+            "Ushahidi\\": "src/",
+            "Ushahidi\\App\\": "app/"
         }
     },
     "autoload-dev": {
         "classmap": [
-            "tests/"
+            "tests/",
+            "database/"
         ]
     },
     "minimum-stability": "dev",
@@ -111,6 +114,9 @@
             "phpunit --no-coverage",
             "phpspec run --no-code-generation",
             "behat --strict --profile ci"
+        ],
+        "post-root-package-install": [
+            "php -r \"copy('.env.example', '.env');\""
         ]
     }
 }
