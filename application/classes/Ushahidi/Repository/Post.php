@@ -618,7 +618,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			$this->search_query
 				->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
-				->select([DB::expr('ANY_VALUE(forms.name)'), 'label'])
+				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
+				->select([DB::expr('MAX(forms.name)'), 'label'])
 				->select(['forms.id', 'id'])
 				->group_by('forms.id');
 		}
@@ -646,7 +647,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->join(['tags', 'parents'])
 					// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
 					->on(DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"), '', DB::expr(""))
-				->select([DB::expr('ANY_VALUE(parents.tag)'), 'label'])
+				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
+				->select([DB::expr('MAX(parents.tag)'), 'label'])
 				->select(['parents.id', 'id'])
 				->group_by('parents.id');
 
