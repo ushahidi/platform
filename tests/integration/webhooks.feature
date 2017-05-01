@@ -34,7 +34,7 @@ Feature: Testing the Webhook API
             }
             """
         When I request "/webhooks"
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 403
 
     Scenario: Deleting a webhook
         Given that I want to delete a "Webhook"

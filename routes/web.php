@@ -206,6 +206,15 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     });
 
     // Web hooks
+    $app->group(['middleware' => ['auth:api', 'scope:webhooks']], function () use ($app) {
+        $app->get('/webhooks[/]', 'WebhooksController@index');
+        $app->post('/webhooks[/]', 'WebhooksController@store');
+        $app->group(['prefix' => 'webhooks/'], function () use ($app) {
+            $app->get('/{id:[0-9]+}[/]', 'WebhooksController@show');
+            $app->put('/{id:[0-9]+}[/]', 'WebhooksController@update');
+            $app->delete('/{id:[0-9]+}[/]', 'WebhooksController@destroy');
+        });
+    });
 });
 
 // $app->get('{anything:.*}', function ($path) use ($app) {
