@@ -483,7 +483,7 @@ Feature: API Access Control Layer
         When I request "/users"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 403
 
     @resetFixture
     Scenario: User can view post published to members

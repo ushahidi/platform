@@ -1057,7 +1057,7 @@ oauth_access_tokens:
     id: testingtoken
     client_id: demoapp
     user_id: 2
-    scopes: '["*"]'
+    scopes: '["posts","api"]'
     expires_at: "2031-01-01"
   -
     id: defaulttoken
