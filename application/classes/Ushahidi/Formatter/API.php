@@ -14,6 +14,7 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
+use Ushahidi\App\Http\Controllers\RESTController;
 
 class Ushahidi_Formatter_API implements Formatter
 {
@@ -27,7 +28,7 @@ class Ushahidi_Formatter_API implements Formatter
 
 		$data = [
 			'id'  => $entity->id,
-			'url' => URL::site(Ushahidi_Rest::url($entity->getResource(), $entity->id), Request::current()),
+			'url' => url(RESTController::url($entity->getResource(), $entity->id)),
 			];
 
 		if (isset($fields['parent_id']))
@@ -108,7 +109,7 @@ class Ushahidi_Formatter_API implements Formatter
 	{
 		return !$id ? NULL : [
 			'id'  => $id,
-			'url' => URL::site(Ushahidi_Rest::url($resource, $id), Request::current()),
+			'url' => url(RESTController::url($resource, $id)),
 		];
 	}
 }
