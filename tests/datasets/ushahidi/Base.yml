@@ -529,9 +529,9 @@ posts:
   -
     id: 101
     form_id: 1
-    parent_id: 99
+    parent_id:
     user_id:
-    title: "Child dummy report"
+    title: "Not a child report anymore"
     type: "report"
     content: "Some description"
     status: "published"
@@ -542,9 +542,9 @@ posts:
   -
     id: 102
     form_id: 2
-    parent_id: 99
+    parent_id:
     user_id:
-    title: "Child missing person report"
+    title: "Missing person report"
     type: "report"
     content: "Some description"
     status: "published"
@@ -685,9 +685,9 @@ posts:
   -
     id: 114
     form_id: 1
-    parent_id: 111
+    parent_id:
     user_id:
-    title: "Update for draft"
+    title: "Just another post now!"
     type: "report"
     content: "Update for draft"
     status: "published"
@@ -724,9 +724,9 @@ posts:
   -
     id: 117
     form_id: 1
-    parent_id: 110
+    parent_id:
     user_id:
-    title: "Update for draft"
+    title: "And another draft"
     type: "report"
     content: "Update for draft"
     status: "draft"
