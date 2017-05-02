@@ -1030,14 +1030,14 @@ Feature: Testing the Posts API
 			q=Searching&format=csv
 			"""
 		When I request "/posts/export"
-		Then the response "Content-Type" header should be "text/csv"
+		Then the "Content-Type" header should be "text/csv; charset=utf-8"
 		Then the guzzle status code should be 200
 
 	@resetFixture @csvexport
 	Scenario: Search All Posts and export the results
 		Given that I want to get all "Posts"
 		When I request "/posts/export"
-		Then the response "Content-Type" header should be "text/csv"
+		Then the "Content-Type" header should be "text/csv; charset=utf-8"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search

@@ -162,7 +162,44 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     });
 
     // Posts
-    //
+    $app->group(['middleware' => ['auth:api', 'scope:posts'], 'namespace' => 'Posts'], function () use ($app) {
+        $app->get('/posts[/]', 'PostsController@index');
+        $app->post('/posts[/]', 'PostsController@store');
+        $app->group(['prefix' => 'posts/'], function () use ($app) {
+            $app->get('/{id:[0-9]+}[/]', 'PostsController@show');
+            $app->put('/{id:[0-9]+}[/]', 'PostsController@update');
+            $app->delete('/{id:[0-9]+}[/]', 'PostsController@destroy');
+            // GeoJSON
+            $app->get('/geojson[/]', 'GeoJSONController@index');
+            $app->get('/geojson/{zoom}/{x}/{y}[/]', 'GeoJSONController@index');
+            $app->get('/{id:[0-9]+}/geojson[/]', 'GeoJSONController@show');
+
+            // Export
+            $app->get('/export[/]', 'ExportController@index');
+
+            // Sub-form routes
+            $app->group(['prefix' => '/{parent_id:[0-9]+}'], function () use ($app) {
+                // Revisions
+                $app->get('/revisions[/]', 'RevisionsController@index');
+                $app->group(['prefix' => 'revisions/'], function () use ($app) {
+                    $app->get('/{id}[/]', 'RevisionsController@show');
+                });
+
+                // Translations
+                $app->get('/translations[/]', 'TranslationsController@index');
+                $app->post('/translations[/]', 'TranslationsController@store');
+                $app->group(['prefix' => 'translations/'], function () use ($app) {
+                    $app->get('/{id:[0-9]+}[/]', 'TranslationsController@show');
+                    $app->put('/{id:[0-9]+}[/]', 'TranslationsController@update');
+                    $app->delete('/{id:[0-9]+}[/]', 'TranslationsController@destroy');
+                    $app->get('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@show');
+                    $app->put('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@update');
+                    $app->delete('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@destroy');
+                });
+            });
+
+        });
+    });
 
     // Roles
     $app->group(['middleware' => ['auth:api', 'scope:roles']], function () use ($app) {

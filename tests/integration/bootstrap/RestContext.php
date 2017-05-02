@@ -301,7 +301,7 @@ class RestContext implements Context
 	 */
 	public function theResponseIsJsonp()
 	{
-		$result = preg_match('/^.+\(({.+})\)$/', $this->_response->getBody(TRUE), $matches);
+		$result = preg_match('/.+\(({.+})\);?/s', $this->_response->getBody(TRUE), $matches);
 
 		if ($result != 1 OR empty($matches[1]))
 		{
@@ -545,7 +545,7 @@ class RestContext implements Context
 	}
 
 	/**
-	 * @Then /^the ([^"]*)" header should be "([^"]*)"$/
+	 * @Then /^the "([^"]*)" header should be "([^"]*)"$/
 	 */
 	public function theRestHeaderShouldBe($header, $contents)
 	{
