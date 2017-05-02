@@ -199,6 +199,9 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
             // Export
             $app->get('/export[/]', 'ExportController@index');
 
+            // Export
+            $app->get('/stats[/]', 'PostsController@stats');
+
             // Sub-form routes
             $app->group(['prefix' => '/{parent_id:[0-9]+}'], function () use ($app) {
                 // Revisions
@@ -286,28 +289,3 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
 
 // Migration
 $app->get('/migrate[/]', 'MigrateController@migrate');
-
-// $app->get('{anything:.*}', function ($path) use ($app) {
-//     return \Request::factory($path, array(), false)
-//         ->execute()
-//         ->send_headers(true)
-//         ->body();
-// });
-// $app->post('{anything:.*}', function ($path) use ($app) {
-//     return \Request::factory($path, array(), false)
-//         ->execute()
-//         ->send_headers(true)
-//         ->body();
-// });
-// $app->put('{anything:.*}', function ($path) use ($app) {
-//     return \Request::factory($path, array(), false)
-//         ->execute()
-//         ->send_headers(true)
-//         ->body();
-// });
-// $app->delete('{anything:.*}', function ($path) use ($app) {
-//     return \Request::factory($path, array(), false)
-//         ->execute()
-//         ->send_headers(true)
-//         ->body();
-// });

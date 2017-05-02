@@ -149,7 +149,7 @@ class PostsController extends RESTController {
 	 *
 	 * @return void
 	 */
-	public function action_get_stats_collection(Request $request)
+	public function stats(Request $request)
 	{
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'stats')
