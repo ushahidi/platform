@@ -46,6 +46,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        // First handle some special cases
+        if ($e instanceof HttpResponseException) {
+            // @todo check if we should still reformat this for json
+            return $e->getResponse();
+        } elseif ($e instanceof ModelNotFoundException) {
+            $e = new NotFoundHttpException($e->getMessage(), $e);
+        } elseif ($e instanceof AuthorizationException) {
+            $e = new HttpException(403, $e->getMessage());
+        } elseif ($e instanceof ValidationException && $e->getResponse()) {
+            // @todo check if we should still reformat this for json
+            return $e->getResponse();
+        }
+
         // If request asks for JSON then we return the error as JSON
         if ($request->ajax() || $request->wantsJson()) {
 
