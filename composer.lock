@@ -1626,13 +1626,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kohana/ohanzee-db.git",
-                "reference": "5d542a051dd06423169e8ff9c80073a9fed2c74f"
+                "url": "https://github.com/ushahidi/ohanzee-db.git",
+                "reference": "279a566fee8724214b37ba66a5270cfa4dc2751b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kohana/ohanzee-db/zipball/5d542a051dd06423169e8ff9c80073a9fed2c74f",
-                "reference": "5d542a051dd06423169e8ff9c80073a9fed2c74f",
+                "url": "https://api.github.com/repos/ushahidi/ohanzee-db/zipball/279a566fee8724214b37ba66a5270cfa4dc2751b",
+                "reference": "279a566fee8724214b37ba66a5270cfa4dc2751b",
                 "shasum": ""
             },
             "require": {
@@ -1652,7 +1652,6 @@
                     "": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1680,7 +1679,13 @@
                 "query builder",
                 "sql"
             ],
-            "time": "2014-11-08T18:15:50+00:00"
+            "support": {
+                "source": "http://github.com/kohana/ohanzee-db",
+                "issues": "http://github.com/kohana/ohanzee-db/issues",
+                "forum": "http://discourse.kohanaframework.org/category/ohanzee-components",
+                "irc": "irc://irc.freenode.net/kohana"
+            },
+            "time": "2017-04-28T00:10:09+00:00"
         },
         {
             "name": "paragonie/random_compat",
