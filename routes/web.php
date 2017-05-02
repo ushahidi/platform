@@ -22,13 +22,21 @@ $app->get($apiBase . '[/]', "API\IndexController@index");
 $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app) {
 
     // Collections
-    $app->group(['middleware' => ['auth:api', 'scope:collections']], function () use ($app) {
+    $app->group(['middleware' => ['auth:api', 'scope:collections,sets'], 'namespace' => 'Collections'], function () use ($app) {
         $app->get('/collections[/]', 'CollectionsController@index');
         $app->post('/collections[/]', 'CollectionsController@store');
         $app->group(['prefix' => 'collections/'], function () use ($app) {
             $app->get('/{id}[/]', 'CollectionsController@show');
             $app->put('/{id}[/]', 'CollectionsController@update');
             $app->delete('/{id}[/]', 'CollectionsController@destroy');
+
+            $app->get('/{set_id}/posts[/]', 'PostsController@index');
+            $app->post('/{set_id}/posts[/]', 'PostsController@store');
+            $app->group(['prefix' => '/{set_id:[0-9]+}/posts/'], function () use ($app) {
+                $app->get('/{id}[/]', 'PostsController@show');
+                //$app->put('/{id}[/]', 'PostsController@update');
+                $app->delete('/{id}[/]', 'PostsController@destroy');
+            });
         });
     });
 

@@ -137,7 +137,7 @@ Feature: Testing the Sets Posts API
         And the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "2"
+        And the "count" property equals "3"
 
     @resetFixture
     Scenario: Admin user can view all posts in a collection

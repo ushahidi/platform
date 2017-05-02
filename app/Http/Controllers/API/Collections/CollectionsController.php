@@ -1,8 +1,9 @@
 <?php
 
-namespace Ushahidi\App\Http\Controllers\API;
+namespace Ushahidi\App\Http\Controllers\API\Collections;
 
 use Ushahidi\App\Http\Controllers\RESTController;
+use Illuminate\Http\Request;
 
 /**
  * Ushahidi API Sets Controller
