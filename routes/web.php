@@ -61,6 +61,20 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         });
     });
 
+    // CSV + Import
+    $app->group(['middleware' => ['auth:api', 'scope:csv'], 'namespace' => 'CSV'], function () use ($app) {
+        $app->get('/csv[/]', 'CSVController@index');
+        $app->post('/csv[/]', 'CSVController@store');
+        $app->group(['prefix' => 'csv/'], function () use ($app) {
+            $app->get('/{id}[/]', 'CSVController@show');
+            $app->put('/{id}[/]', 'CSVController@update');
+            $app->delete('/{id}[/]', 'CSVController@destroy');
+
+            $app->post('/{id}/import[/]', 'CSVImportController@store');
+        });
+    });
+
+
     // Data providers
     $app->group(['middleware' => ['auth:api', 'scope:dataproviders']], function () use ($app) {
         $app->get('/dataproviders[/]', 'DataProvidersController@index');
