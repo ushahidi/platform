@@ -36,7 +36,11 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            // Throw a 401 error here so that its passed to the error handler and formatter
+            // Hard coding WWW-Authenticate because this isn't handle properly by passport
+            abort(401, "Unauthorized.", ['WWW-Authenticate' => 'Bearer realm="OAuth"']);
+
+            // return response('Unauthorized.', 401);
         }
 
         return $next($request);

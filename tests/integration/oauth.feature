@@ -24,9 +24,9 @@ Feature: Testing OAuth2 endpoints
         And that the api_url is ""
         Then I request "oauth/token"
         Then the response is JSON
-        And the "error" property equals "invalid_request"
-        And the "error_description" property contains "credentials"
-        Then the guzzle status code should be 400
+        And the "error" property equals "invalid_credentials"
+        And the "message" property contains "credentials"
+        Then the guzzle status code should be 401
 
     Scenario: Requesting access token with client credentials
         Given that I want to make a new "access_token"
@@ -61,18 +61,6 @@ Feature: Testing OAuth2 endpoints
         And the response has an "id" property
         Then the guzzle status code should be 200
 
-    Scenario: Authorized Posts Request (access_token in query string)
-        Given that I want to find a "Post"
-        And that its "id" is "95"
-        And that the request "query string" is:
-        """
-            access_token=testingtoken
-        """
-        When I request "/posts"
-        Then the response is JSON
-        And the response has an "id" property
-        Then the guzzle status code should be 200
-
     Scenario: Unauthorized Posts Request (no token)
         Given that I want to update a "Post"
         And that its "id" is "95"
@@ -87,7 +75,7 @@ Feature: Testing OAuth2 endpoints
         When I request "/posts"
         Then the response is JSON
         And the response has an "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 401
 
     Scenario: Unauthorized Posts Request (invalid token)
         Given that I want to update a "Post"

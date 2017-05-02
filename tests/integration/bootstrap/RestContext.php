@@ -631,7 +631,8 @@ class RestContext implements Context
 		'testbasicuser' => 1,
 		'testbasicuser2' => 3,
 		'testmanager' => 6,
-		'testimporter' => 7
+		'testimporter' => 7,
+		'missingtoken' => 99
 	];
 
 	/**

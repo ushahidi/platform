@@ -44,7 +44,7 @@ class UserRepository implements UserRepositoryInterface
             $data = $usecase->interact();
             return new User($data['id']);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             return false;
         }
