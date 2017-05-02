@@ -15,6 +15,7 @@ use Ushahidi\Factory\UsecaseFactory;
 use Illuminate\Http\Request;
 use League\OAuth2\Server\Exception\OAuth2Exception;
 use League\OAuth2\Server\Exception\MissingAccessTokenException;
+use Ushahidi\App\Exceptions\ValidationException;
 
 abstract class RESTController extends Controller {
 
@@ -250,13 +251,7 @@ abstract class RESTController extends Controller {
         }
         catch (\Ushahidi\Core\Exception\ValidatorException $e)
         {
-            // @todo Custom output view for validation exceptions
-            abort(422, $e->getMessage());
-            // throw new HTTP_Exception_422(
-            //  'Validation Error',
-            //  NULL,
-            //  $e
-            // );
+            throw new ValidationException($e->getMessage(), $e);
         }
         catch (\InvalidArgumentException $e)
         {

@@ -3,7 +3,7 @@
 namespace Ushahidi\App\Exceptions;
 
 use Exception;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\ValidationException as IlluminateValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
@@ -21,7 +21,7 @@ class Handler extends ExceptionHandler
         AuthorizationException::class,
         HttpException::class,
         ModelNotFoundException::class,
-        ValidationException::class,
+        IlluminateValidationException::class,
     ];
 
     /**
@@ -57,19 +57,35 @@ class Handler extends ExceptionHandler
                 $headers = $e->getHeaders();
             }
 
-            $error = [
+            $defaultError = [
                 'status' => $statusCode
             ];
 
             $message = $e->getMessage();
-            if (is_object($message)) { $message = $message->toArray(); }
-
             if ($message) {
-                $error['message'] = $message;
+                if (is_object($message)) {
+                    $message = $message->toArray();
+                }
+                $defaultError['message'] = $message;
+            }
+
+            $errors = [];
+            $errors[] = $defaultError;
+            if ($e instanceof ValidationException) {
+                foreach ($e->getErrors() as $key => $value) {
+                    $errors[] = [
+                        'status' => $statusCode,
+                        'title' => $value,
+                        'message' => $value,
+                        'source' => [
+                            'pointer' => "/" . $key
+                        ]
+                    ];
+                }
             }
 
             return response()->json([
-                'errors' => [$error]
+                'errors' => $errors
             ], $statusCode, $headers);
         }
 
