@@ -198,7 +198,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "11"
+        And the "count" property equals "12"
 
     Scenario: All users can view public posts
         Given that I want to get all "Posts"
@@ -207,7 +207,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "13"
+        And the "count" property equals "14"
 
     Scenario: User can view public and own private posts in collection
         Given that I want to get all "Posts"
@@ -326,33 +326,6 @@ Feature: API Access Control Layer
         Then the guzzle status code should be 200
         And the response has an "id" property
 
-    Scenario: Anonymous user can not access updates with private parent post
-        Given that I want to get all "Updates"
-        And that the oauth token is "testanon"
-        When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
-
-    Scenario: Anonymous user can not access update with private parent post
-        Given that I want to find an "Update"
-        And that the oauth token is "testanon"
-        And that its "id" is "114"
-        When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
-
-    Scenario: User user can access update to their own private parent post
-        Given that I want to find an "Update"
-        And that the oauth token is "testbasicuser"
-        And that its "id" is "114"
-        When I request "/posts/111/updates"
-        Then the guzzle status code should be 200
-
-    Scenario: User user can not access update with private parent post
-        Given that I want to find an "Update"
-        And that the oauth token is "testbasicuser2"
-        And that its "id" is "114"
-        When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
-
     Scenario: Anonymous user can not access translations with private parent post
         Given that I want to get all "Translations"
         And that the oauth token is "testanon"
@@ -377,20 +350,6 @@ Feature: API Access Control Layer
         And that the oauth token is "testanon"
         And that its "id" is "116"
         When I request "/posts/111/revisions"
-        Then the guzzle status code should be 403
-
-    Scenario: Anonymous user can not access private update in listing
-        Given that I want to get all "Updates"
-        And that the oauth token is "testanon"
-        When I request "/posts/110/updates"
-        Then the guzzle status code should be 200
-        And the "count" property equals "0"
-
-    Scenario: Anonymous user can not access private update
-        Given that I want to find an "Update"
-        And that the oauth token is "testanon"
-        And that its "id" is "117"
-        When I request "/posts/110/updates"
         Then the guzzle status code should be 403
 
     Scenario: Anonymous users cannot edit public post
