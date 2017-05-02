@@ -4,6 +4,12 @@
     "homepage": "http://ushahidi.com/",
     "type": "project",
     "license": "AGPL-3.0",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ushahidi/ohanzee-db"
+        }
+    ],
     "require": {
         "php": ">=5.6.4",
         "aura/di": "2.2",
@@ -19,7 +25,7 @@
         "kohana/cache" : "3.3.*@dev",
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
-        "ohanzee/database": "~0.1.2",
+        "ohanzee/database": "dev-master",
         "robmorgan/phinx": "~0.8.0",
         "ushahidi/shadowhand-email": "dev-master",
         "symm/gisconverter": "~1.0.5",
