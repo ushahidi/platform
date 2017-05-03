@@ -4,6 +4,7 @@ namespace Ushahidi\App\Http\Controllers\API\Posts;
 
 use Ushahidi\App\Http\Controllers\RESTController;
 use Illuminate\Http\Request;
+use Ushahidi\Core\Usecase;
 
 /**
  * Ushahidi API Posts Controller
@@ -14,14 +15,12 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Usecase;
-
-class PostsController extends RESTController {
-
+class PostsController extends RESTController
+{
 	/**
 	 * @var int Post Parent ID
 	 */
-	protected $parentId = NULL;
+	protected $parentId = null;
 
 	/**
 	 * @var string Post Type

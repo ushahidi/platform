@@ -198,5 +198,4 @@ class ClientRepository extends LaravelPassportClientRepository
 
         $client->forceFill(['revoked' => true])->save();
     }
-
 }

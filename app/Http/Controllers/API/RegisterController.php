@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
  * @copyright  2015 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-class RegisterController extends RESTController {
+class RegisterController extends RESTController
+{
 
 	protected function getResource()
 	{
@@ -35,5 +36,4 @@ class RegisterController extends RESTController {
 
         return $this->prepResponse($this->executeUsecase(), $request);
     }
-
 }

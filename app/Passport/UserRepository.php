@@ -31,21 +31,22 @@ class UserRepository implements UserRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserEntityByUserCredentials($username, $password, $grantType, ClientEntityInterface $clientEntity)
-    {
+    public function getUserEntityByUserCredentials(
+        $username,
+        $password,
+        $grantType,
+        ClientEntityInterface $clientEntity
+    ) {
         $usecase = $this->usecaseFactory->get('users', 'login')
             ->setIdentifiers([
                 'email' => $username,
                 'password' => $password
             ]);
 
-        try
-        {
+        try {
             $data = $usecase->interact();
             return new User($data['id']);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return false;
         }
     }

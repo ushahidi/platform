@@ -17,7 +17,8 @@ use League\OAuth2\Server\Exception\OAuth2Exception;
 use League\OAuth2\Server\Exception\MissingAccessTokenException;
 use Ushahidi\App\Exceptions\ValidationException;
 
-abstract class RESTController extends Controller {
+abstract class RESTController extends Controller
+{
 
     /**
      * @var Current API version
@@ -35,35 +36,14 @@ abstract class RESTController extends Controller {
      */
     protected $usecase;
 
-    public function __construct(UsecaseFactory $usecaseFactory) {
+    public function __construct(UsecaseFactory $usecaseFactory)
+    {
         $this->usecaseFactory = $usecaseFactory;
         // $this->middleware('oauth', ['scope:'.$this->getScope()]);
         $this->middleware('cors');
         // $this->middleware('rest', ['resource:'.$this->getResource()]);
         // @todo add 'Allow' header based on controller methods
     }
-
-    /**
-     * @var Object Request Payload
-     */
-    protected $_request_payload = NULL;
-
-    /**
-     * @var Object Response Payload
-     */
-    protected $_response_payload = NULL;
-
-    /**
-     * @var array Map of HTTP methods -> actions
-     */
-    // protected $_action_map = array
-    // (
-    //  Http_Request::POST    => 'post',   // Typically Create..
-    //  Http_Request::GET     => 'get',
-    //  Http_Request::PUT     => 'put',    // Typically Update..
-    //  Http_Request::DELETE  => 'delete',
-    //  Http_Request::OPTIONS => 'options'
-    // );
 
     /**
      * @var array List of HTTP methods which may be cached
@@ -234,27 +214,18 @@ abstract class RESTController extends Controller {
      */
     protected function executeUsecase()
     {
-        try
-        {
+        try {
             // Attempt to execute the usecase to get the response
             $responsePayload = $this->usecase->interact();
 
             return $responsePayload;
-        }
-        catch (\Ushahidi\Core\Exception\NotFoundException $e)
-        {
+        } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
             abort(404, $e->getMessage());
-        }
-        catch (\Ushahidi\Core\Exception\AuthorizerException $e)
-        {
+        } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
             abort(403, $e->getMessage());
-        }
-        catch (\Ushahidi\Core\Exception\ValidatorException $e)
-        {
+        } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
             throw new ValidationException($e->getMessage(), $e);
-        }
-        catch (\InvalidArgumentException $e)
-        {
+        } catch (\InvalidArgumentException $e) {
             abort(400, "Bad request: ". $e->getMessage());
         }
     }
@@ -271,8 +242,7 @@ abstract class RESTController extends Controller {
         // $this->add_cors_headers($this->response);
 
         // Use JSON if the request method is OPTIONS
-        if ($request->method() === Request::METHOD_OPTIONS)
-        {
+        if ($request->method() === Request::METHOD_OPTIONS) {
             $type = 'json';
         } else {
             //...Get the requested response format, use JSON for default
@@ -280,24 +250,26 @@ abstract class RESTController extends Controller {
             $type = strtolower($request->query('format')) ?: 'json';
         }
 
-        try
-        {
+        try {
             //$format = service("formatter.output.$type");
 
             // $body = $format($this->_response_payload);
             // $mime = $format->getMimeType();
             // $this->response->headers('Content-Type', $mime);
 
-            if (empty($responsePayload))
-            {
+            if (empty($responsePayload)) {
                 // If the payload is empty, return a 204
                 // https://tools.ietf.org/html/rfc7231#section-6.3.5
                 $response = response('', 204);
             } else {
-                $response = response()->json($responsePayload, 200, array(), env('APP_DEBUG', false) ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null);
+                $response = response()->json(
+                    $responsePayload,
+                    200,
+                    [],
+                    env('APP_DEBUG', false) ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null
+                );
 
-                if ($type === 'jsonp')
-                {
+                if ($type === 'jsonp') {
                     $response->withCallback($request->input('callback'));
                     // Prevent Opera and Chrome from executing the response as anything
                     // other than JSONP, see T455.
@@ -306,23 +278,16 @@ abstract class RESTController extends Controller {
             }
 
             // Should we prevent this request from being cached?
-            if ( ! in_array($request->method(), $this->cacheableMethods))
-            {
+            if (! in_array($request->method(), $this->cacheableMethods)) {
                 $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
             }
 
             return $response;
-        }
-        catch (\Aura\Di\Exception\ServiceNotFound $e)
-        {
+        } catch (\Aura\Di\Exception\ServiceNotFound $e) {
             abort(400, 'Unknown response format:' . $type);
-        }
-        catch (\InvalidArgumentException $e)
-        {
+        } catch (\InvalidArgumentException $e) {
             abort(400, 'Bad formatting parameters:' . $e->getMessage());
-        }
-        catch (\Ushahidi\Core\Exception\FormatterException $e)
-        {
+        } catch (\Ushahidi\Core\Exception\FormatterException $e) {
             abort(500, 'Error while formatting response:' . $e->getMessage());
         }
     }

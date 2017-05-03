@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class PasswordResetController extends RESTController {
+class PasswordResetController extends RESTController
+{
 
 	protected function getResource()
 	{

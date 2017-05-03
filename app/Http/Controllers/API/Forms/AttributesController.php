@@ -14,8 +14,8 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class AttributesController extends RESTController {
-
+class AttributesController extends RESTController
+{
     protected function getResource()
     {
         return 'form_attributes';
@@ -44,5 +44,4 @@ class AttributesController extends RESTController {
 
         return $this->prepResponse($this->executeUsecase(), $request);
     }
-
 }

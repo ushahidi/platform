@@ -11,8 +11,7 @@ namespace Ushahidi\App\Http\Controllers\API\Posts;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class TranslationsController extends PostsController {
-
+class TranslationsController extends PostsController
+{
 	protected $postType = 'translation';
-
 }

@@ -35,5 +35,4 @@ class ExportController extends PostsController
 
         return $this->prepResponse($this->executeUsecase(), $request);
     }
-
 }

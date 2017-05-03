@@ -15,10 +15,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 
 class ConfigController extends RESTController
 {
-
     protected function getResource()
     {
         return 'config';
     }
-
 }

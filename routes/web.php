@@ -22,7 +22,10 @@ $app->get($apiBase . '[/]', "API\IndexController@index");
 $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app) {
 
     // Collections
-    $app->group(['middleware' => ['auth:api', 'scope:collections,sets'], 'namespace' => 'Collections'], function () use ($app) {
+    $app->group([
+            'middleware' => ['auth:api', 'scope:collections,sets'],
+            'namespace' => 'Collections'
+    ], function () use ($app) {
         $app->get('/collections[/]', 'CollectionsController@index');
         $app->post('/collections[/]', 'CollectionsController@store');
         $app->group(['prefix' => 'collections/'], function () use ($app) {

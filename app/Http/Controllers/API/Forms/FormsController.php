@@ -14,8 +14,8 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class FormsController extends RESTController {
-
+class FormsController extends RESTController
+{
 	protected function getResource()
 	{
 		return 'forms';

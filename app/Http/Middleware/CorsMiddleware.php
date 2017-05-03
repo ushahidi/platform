@@ -15,8 +15,7 @@ class CorsMiddleware
     public function handle($request, \Closure $next)
     {
         // @todo move OPTIONS handling elsewhere
-        if ($request->isMethod('OPTIONS'))
-        {
+        if ($request->isMethod('OPTIONS')) {
             $response = response()->json(["method" => "OPTIONS"], 200);
         } else {
             $response = $next($request);

@@ -15,12 +15,14 @@ use Phinx\Wrapper\TextWrapper;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class MigrateController extends Controller {
+class MigrateController extends Controller
+{
 
 	public function migrate()
 	{
 		$db = service('db.config');
-		$phinx_config = ['configuration' => realpath(APPPATH . '../application/phinx.php'),
+		$phinx_config = [
+			'configuration' => realpath(APPPATH . '../application/phinx.php'),
 			'parser' => 'php',
 		];
 
@@ -35,5 +37,4 @@ class MigrateController extends Controller {
 			'results'	=> explode("\n", $migration_results, -1),
 		]);
 	}
-
 }

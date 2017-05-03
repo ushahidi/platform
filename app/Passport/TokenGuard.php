@@ -69,13 +69,14 @@ class TokenGuard //implements Guard
      * @param  Encrypter  $encrypter
      * @return void
      */
-    public function __construct(ResourceServer $server,
-                                //UserProvider $provider,
-                                UshahidiUserRepository $repo,
-                                TokenRepository $tokens,
-                                LaravelPassportClientRepository $clients,
-                                Encrypter $encrypter)
-    {
+    public function __construct(
+        ResourceServer $server,
+        //UserProvider $provider,
+        UshahidiUserRepository $repo,
+        TokenRepository $tokens,
+        LaravelPassportClientRepository $clients,
+        Encrypter $encrypter
+    ) {
         $this->server = $server;
         $this->tokens = $tokens;
         $this->clients = $clients;
@@ -151,7 +152,11 @@ class TokenGuard //implements Guard
 
             // Adding WWW-Authenticate ourselves because thephpleague/oauth2-server sucks
             // https://github.com/thephpleague/oauth2-server/issues/738
-            abort($e->getHttpStatusCode(), $e->getMessage(), $e->getHttpHeaders() + ['WWW-Authenticate' => 'Bearer realm="OAuth"']);
+            abort(
+                $e->getHttpStatusCode(),
+                $e->getMessage(),
+                $e->getHttpHeaders() + ['WWW-Authenticate' => 'Bearer realm="OAuth"']
+            );
         }
     }
 
@@ -199,7 +204,8 @@ class TokenGuard //implements Guard
     {
         return (array) JWT::decode(
             $this->encrypter->decrypt($request->cookie(Passport::cookie())),
-            $this->encrypter->getKey(), ['HS256']
+            $this->encrypter->getKey(),
+            ['HS256']
         );
     }
 
@@ -213,7 +219,8 @@ class TokenGuard //implements Guard
     protected function validCsrf($token, $request)
     {
         return isset($token['csrf']) && hash_equals(
-            $token['csrf'], (string) $request->header('X-CSRF-TOKEN')
+            $token['csrf'],
+            (string) $request->header('X-CSRF-TOKEN')
         );
     }
 }

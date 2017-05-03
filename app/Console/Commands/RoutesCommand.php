@@ -4,8 +4,8 @@ namespace Ushahidi\App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class RoutesCommand extends Command {
-
+class RoutesCommand extends Command
+{
     /**
      * The console command name.
      *
@@ -33,9 +33,9 @@ class RoutesCommand extends Command {
         $rows = array();
         $x = 0;
         foreach ($routeCollection as $route) {
-            if( !empty($route['action']['uses']) ) {
+            if (!empty($route['action']['uses'])) {
                 $data = $route['action']['uses'];
-                if (($pos = strpos($data, "@")) !== FALSE) {
+                if (($pos = strpos($data, "@")) !== false) {
                     $action = substr($data, $pos+1);
                 }
             } else {
@@ -50,5 +50,4 @@ class RoutesCommand extends Command {
         $headers = array( 'Verb', 'Path', 'Action' );
         $this->table($headers, $rows);
     }
-
 }

@@ -1,20 +1,14 @@
 <?php
 
-/*
- *
- */
-
 namespace Ushahidi\App\Exceptions;
+
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
- * UnprocessableEntityHttpException.
- *
- * @author Steve Hutchins <hutchinsteve@gmail.com>
+ * Validation Exception
  */
 class ValidationException extends UnprocessableEntityHttpException
 {
-
     protected $errors = [];
 
     /**
@@ -39,5 +33,4 @@ class ValidationException extends UnprocessableEntityHttpException
     {
         return $this->errors ?: [];
     }
-
 }

@@ -16,7 +16,8 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class MessagesController extends RESTController {
+class MessagesController extends RESTController
+{
 
     /**
      * @var Ushahidi\Factory\UsecaseFactory
@@ -28,7 +29,8 @@ class MessagesController extends RESTController {
      */
     protected $usecase;
 
-    public function __construct(UsecaseFactory $usecaseFactory, MessageRepository $messages) {
+    public function __construct(UsecaseFactory $usecaseFactory, MessageRepository $messages)
+    {
         parent::__construct($usecaseFactory);
 
         $this->messages = $messages;
@@ -49,8 +51,7 @@ class MessagesController extends RESTController {
         // @todo make this a proper use case
         $message = $this->messages->get($id);
 
-        if ($message->post_id === NULL)
-        {
+        if ($message->post_id === null) {
             throw abort(404, 'Post does not exist for this message');
         }
 
