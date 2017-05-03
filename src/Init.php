@@ -66,6 +66,9 @@ function feature($name)
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
+// Disable auto resolution (as recommended in AuraDI docs)
+$di->setAutoResolve(false);
+
 // Console application is used for command line tools.
 $di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
 
@@ -200,11 +203,11 @@ $di->params['Ushahidi\Factory\DataFactory']['actions'] = [
 
 // Use cases are used to join multiple collaborators together for a single interaction.
 $di->set('factory.usecase', $di->lazyNew('Ushahidi\Factory\UsecaseFactory'));
-$di->params['Ushahidi\Api\Factory\UsecaseFactory'] = [
+$di->params['Ushahidi\Factory\UsecaseFactory'] = [
 	'authorizers'  => $di->lazyGet('factory.authorizer'),
 	'repositories' => $di->lazyGet('factory.repository'),
-	'formatters'   => $di->lazyGet('factory.formatters'),
-	'validators'   => $di->lazyGet('factory.validators'),
+	'formatters'   => $di->lazyGet('factory.formatter'),
+	'validators'   => $di->lazyGet('factory.validator'),
 	'data'         => $di->lazyGet('factory.data'),
 ];
 

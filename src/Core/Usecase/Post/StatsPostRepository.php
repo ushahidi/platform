@@ -21,5 +21,5 @@ interface StatsPostRepository
 	 * @param  SearchData $search
 	 * @return Array
 	 */
-	public function getGroupedTotals(SearchData $search)
+	public function getGroupedTotals(SearchData $search);
 }

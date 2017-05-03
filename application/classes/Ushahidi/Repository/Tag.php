@@ -40,13 +40,13 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		if (!empty($data['id'])) 
+		if (!empty($data['id']))
 		{
 			$data['forms'] = $this->getFormsForTag($data['id']);
-	
+
         if(empty($data['parent_id'])) {
-    
-            $data['children'] = 
+
+            $data['children'] =
             DB::select('id')
             ->from('tags')
             ->where('parent_id','=',$data['id'])
@@ -84,7 +84,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
             $query->where('tag', 'LIKE', "%{$search->q}%");
         }
         if($search->level) {
-            //searching for top-level-tags 
+            //searching for top-level-tags
             if($search->level === 'parent') {
                 $query->where('parent_id', '=', null);
             }
@@ -94,7 +94,8 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
         		->on('tags.id', '=', 'forms_tags.tag_id')
         		->where('form_id','=', $search->formId);
         }
-    } 
+    }
+
 	// SearchRepository
 	public function getSearchResults()
 	{
@@ -120,7 +121,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 
 		return $id;
 	}
-	
+
 	public function update(Entity $entity)
 	{
 		$tag = $entity->getChanged();
@@ -147,6 +148,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function doesTagExist($tag_or_id)
 	{
 		$query = $this->selectQuery()
+			->resetSelect()
 			->select([DB::expr('COUNT(*)'), 'total'])
 			->where('id', '=', $tag_or_id)
 			->or_where('tag', '=', $tag_or_id)
