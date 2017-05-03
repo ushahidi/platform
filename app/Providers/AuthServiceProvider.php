@@ -40,10 +40,6 @@ class AuthServiceProvider extends ServiceProvider
         //     }
         // });
 
-        $this->app['auth']->provider('ushahidi', function ($app, array $config) {
-            return new UshahidiUserProvider(service('user.repo'));
-        });
-
         Passport::loadKeysFrom(storage_path('passport/'));
         // Define possible scopes
         // @todo simplify / improve these
