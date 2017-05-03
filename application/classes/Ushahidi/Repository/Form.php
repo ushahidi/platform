@@ -85,10 +85,10 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     {
 
         // If orignal Form update Intercom if Name changed
-        if ($id === 1) {
+        if ($entity->id === 1) {
           foreach ($entity->getChanged() as $key => $val) {
             $user = service('session.user');
-            $key === 'name' ? $this->emit($this->event, $user->email, ['primary_survey_name' => $value]) : null;
+            $key === 'name' ? $this->emit($this->event, $user->email, ['primary_survey_name' => $val]) : null;
           }
         }
 
