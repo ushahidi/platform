@@ -95,6 +95,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
         		->where('form_id','=', $search->formId);
         }
     }
+
 	// SearchRepository
 	public function getSearchResults()
 	{
