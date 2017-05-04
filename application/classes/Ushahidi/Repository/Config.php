@@ -49,6 +49,8 @@ class Ushahidi_Repository_Config implements
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
+
+		$intercom_data = [];
 		$group = $entity->getId();
 
 		$this->verifyGroup($group);
@@ -57,14 +59,13 @@ class Ushahidi_Repository_Config implements
 
 		// Intercom count datasources
 		if ($group === 'data-provider') {
-			$intercomData['num_data_sources'] = 0;
-			foreach ($entity->__get('providers') as $key => $value) {
-				$value === 'true' ? $intercomData['num_data_sources']++ : null;
+			$intercom_data['num_data_sources'] = 0;
+			foreach ($entity->providers as $key => $value) {
+				$value ? $intercom_data['num_data_sources']++ : null;
 			}
 		}
 
 		$immutable = $entity->getImmutable();
-		$intercom_data = [];
 		foreach ($entity->getChanged() as $key => $val) {
 
 			// Emit Intercom Update events
@@ -94,6 +95,7 @@ class Ushahidi_Repository_Config implements
 				$config->set($key, $val);
 			}
 		}
+
 		if ($intercom_data) {
 			$user = service('session.user');
 			$this->emit($this->event, $user->email, $intercom_data);
@@ -158,3 +160,4 @@ class Ushahidi_Repository_Config implements
 		return $result;
 	}
 }
+
