@@ -29,7 +29,11 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 			'features' => []
 		];
 		$unmapped = 0;
-
+	  // I get an error-message when using below code, but it works when i comment it out, not sure why?
+	  // if (Kohana::$profiling === TRUE)
+    // {
+		$benchmark = Profiler::start('GeoJSON', __FUNCTION__);
+	// }
 		foreach ($entities as $entity)
 		{
 			$geometries = [];
@@ -43,6 +47,13 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 					}
 				}
 			}
+
+ 		if (isset($benchmark))
+    	{
+        // Stop the benchmark
+        	Profiler::stop($benchmark);
+    	}
+
 
 			if (! empty($geometries))
 			{
