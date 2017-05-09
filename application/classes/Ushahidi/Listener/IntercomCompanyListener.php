@@ -30,7 +30,7 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
   public function handle(EventInterface $event, $data = null)
   {
 
-    $config = $this->config_repo->get('thirdparty');
+    $config = service('repository.config')->get('thirdparty');
     $company = [
       "company_id" => $config->intercomCompanyId
     ];
@@ -45,7 +45,7 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
           $company->name = Kohana::$config->load('site.name') ?: 'Ushahidi';
           $config->intercomCompanyId = Kohana::$config->load('site.client_url');
 
-          $this->config_repo->update($config);
+          service('repository.config')->update($config);
           $company->company_id = $config->intercomCompanyId;
 
           $data['created'] = date("Y-m-d H:i:s");

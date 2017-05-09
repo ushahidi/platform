@@ -21,17 +21,10 @@ use GuzzleHttp\Exception\ClientException;
 class Ushahidi_Listener_IntercomAdminListener extends AbstractListener
 {
 
-  protected $config_repo;
-
-  public function setConfigRepo(ConfigRepository $config_repo)
-  {
-  		$this->config_repo = $config_repo;
-  }
-
   public function handle(EventInterface $event, $user = null)
   {
 
-    $config = $this->config_repo->get('thirdparty');
+    $config = service('repository.config')->get('thirdparty');
     $domain = Kohana::$config->load('site.client_url');
 
 		$intercomAppToken = $config->intercomAppToken;
@@ -58,7 +51,7 @@ class Ushahidi_Listener_IntercomAdminListener extends AbstractListener
           ]);
 
           $config->intercomCompanyId = $company->id;
-          $this->config_repo->update($config);
+          service('repository.config')->update($config);
         }
 
 				$client->users->update([
