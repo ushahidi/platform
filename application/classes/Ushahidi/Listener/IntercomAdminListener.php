@@ -45,7 +45,7 @@ class Ushahidi_Listener_IntercomAdminListener extends AbstractListener
           $company = $client->companies->create([
             "company_id" => $domain,
             "name" => $site_name,
-            "custom_attributes" = [
+            "custom_attributes" => [
               "created" => $created
             ]
           ]);
