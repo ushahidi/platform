@@ -37,7 +37,7 @@ class Ushahidi_Listener_IntercomAdminListener extends AbstractListener
 		$intercomAppToken = $config->intercomAppToken;
     $company = [
       "id" => $config->intercomCompanyId
-    ]
+    ];
 
 		if ($user && $config->intercomAppToken) {
       $client = new IntercomClient($config->intercomAppToken, null);

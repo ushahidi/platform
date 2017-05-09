@@ -33,7 +33,7 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
     $config = $this->config_repo->get('thirdparty');
     $company = [
       "company_id" => $config->intercomCompanyId
-    ]
+    ];
 
 		if ($config->intercomAppToken) {
 
