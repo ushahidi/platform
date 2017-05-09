@@ -692,16 +692,6 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
 
-		// Config repo for Intercom Company listener
-		$di->setter['Ushahidi_Listener_IntercomCompanyListener']['setConfigRepo'] =
-			$di->lazyGet('repository.config');
-
-		// Config repo for Intercom Admin listener
-		$di->setter['Ushahidi_Listener_IntercomAdminListener']['setConfigRepo'] =
-			$di->lazyGet('repository.config');
-
-
-
 		/**
 		 * 1. Load the plugins
 		 */
