@@ -680,24 +680,24 @@ abstract class Ushahidi_Core {
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
 		$di->setter['Ushahidi_Repository_Config']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_Intercom_CompanyListener');
+			$di->lazyNew('Ushahidi_Listener_IntercomCompanyListener');
 
 		// Add Intercom Listener to Form
 		$di->setter['Ushahidi_Repository_Form']['setEvent'] = 'FormUpdateEvent';
 		$di->setter['Ushahidi_Repository_Form']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_Intercom_CompanyListener');
+			$di->lazyNew('Ushahidi_Listener_IntercomCompanyListener');
 
 		// Add Intercom Listener to User
 		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_Intercom_AdminListener');
+			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
 
 		// Config repo for Intercom Company listener
-		$di->setter['Ushahidi_Listener_Intercom_CompanyListener']['setConfigRepo'] =
+		$di->setter['Ushahidi_Listener_IntercomCompanyListener']['setConfigRepo'] =
 			$di->lazyGet('repository.config');
 
 		// Config repo for Intercom Admin listener
-		$di->setter['Ushahidi_Listener_Intercom_AdminListener']['setConfigRepo'] =
+		$di->setter['Ushahidi_Listener_IntercomAdminListener']['setConfigRepo'] =
 			$di->lazyGet('repository.config');
 
 

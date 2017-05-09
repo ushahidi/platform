@@ -18,7 +18,7 @@ use Intercom\IntercomClient;
 
 use GuzzleHttp\Exception\ClientException;
 
-class Ushahidi_Listener_Intercom_CompanyListener extends AbstractListener
+class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
 {
   protected $config_repo;
 
