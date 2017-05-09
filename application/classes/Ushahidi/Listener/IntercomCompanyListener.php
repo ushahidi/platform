@@ -43,8 +43,7 @@ class Ushahidi_Listener_Intercom_CompanyListener extends AbstractListener
         // Create company with current date if it does not already exist
         if (!$config->intercomCompanyId) {
           $company->name = Kohana::$config->load('site.name') ?: 'Ushahidi';
-          $url = Url::createFromServer($_SERVER);
-          $config->intercomCompanyId = $url->getHost()->toUnicode();
+          $config->intercomCompanyId = Kohana::$config->load('site.client_url');
 
           $this->config_repo->update($config);
           $company->company_id = $config->intercomCompanyId;

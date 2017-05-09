@@ -32,8 +32,7 @@ class Ushahidi_Listener_Intercom_AdminListener extends AbstractListener
   {
 
     $config = $this->config_repo->get('thirdparty');
-    $url = Url::createFromServer($_SERVER);
-    $domain = $url->getHost()->toUnicode();
+    $domain = Kohana::$config->load('site.client_url');
 
 		$intercomAppToken = $config->intercomAppToken;
     $company = [
