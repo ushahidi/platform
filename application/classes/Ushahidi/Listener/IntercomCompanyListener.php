@@ -35,6 +35,8 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
       "company_id" => $config->intercomCompanyId
     ];
 
+    Kohana::$log->add(Log::ERROR, print_r($config));
+
 		if ($config->intercomAppToken) {
 
       $client = new IntercomClient($config->intercomAppToken, null);
