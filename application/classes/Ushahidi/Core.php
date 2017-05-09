@@ -74,8 +74,8 @@ abstract class Ushahidi_Core {
 		});
 
 		// Intercom config settings
-		$di->set('site.intercomAppToken', function() use ($di) {
-			return Kohana::$config->load('site.intercomAppToken');
+		$di->set('thirdparty.intercomAppToken', function() use ($di) {
+			return Kohana::$config->load('thirdparty.intercomAppToken');
 		});
 
 		// Roles config settings
@@ -680,17 +680,26 @@ abstract class Ushahidi_Core {
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
 		$di->setter['Ushahidi_Repository_Config']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+			$di->lazyNew('Ushahidi_Listener_Intercom_CompanyListener');
 
 		// Add Intercom Listener to Form
 		$di->setter['Ushahidi_Repository_Form']['setEvent'] = 'FormUpdateEvent';
 		$di->setter['Ushahidi_Repository_Form']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+			$di->lazyNew('Ushahidi_Listener_Intercom_CompanyListener');
 
 		// Add Intercom Listener to User
 		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+			$di->lazyNew('Ushahidi_Listener_Intercom_AdminListener');
+
+		// Config repo for Intercom Company listener
+		$di->setter['Ushahidi_Listener_Intercom_CompanyListener']['setConfigRepo'] =
+			$di->lazyGet('repository.config');
+
+		// Config repo for Intercom Admin listener
+		$di->setter['Ushahidi_Listener_Intercom_AdminListener']['setConfigRepo'] =
+			$di->lazyGet('repository.config');
+
 
 
 		/**
