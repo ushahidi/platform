@@ -64,7 +64,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			'created'  => time(),
 			'password' => $this->hasher->hash($entity->password),
 		];
-		$entity->setState($state)
+		$entity->setState($state);
 		if ($entity->role === 'admin') {
 				$this->updateIntercomAdminUsers($entity);
 		}
@@ -77,7 +77,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		$state = [
 			'created'  => time()
 		];
-		$entity->setState($state)
+		$entity->setState($state);
 		if ($entity->role === 'admin') {
 				$this->updateIntercomAdminUsers($state);
 		}
