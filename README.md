@@ -11,7 +11,7 @@ Ushahidi 3
 ============
 
 [![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform)
-[![Stories up next](https://badge.waffle.io/ushahidi/platform.png?label=Stage: Backlog&title=Backlog)](https://waffle.io/ushahidi/platform)
+[![Stories up next](https://badge.waffle.io/ushahidi/platform.png?label=Stage:Backlog&title=Backlog)](https://waffle.io/ushahidi/platform)
 [![Coverage Status](https://coveralls.io/repos/github/ushahidi/platform/badge.svg)](https://coveralls.io/github/ushahidi/platform)
 
 [Download][download]
@@ -26,7 +26,7 @@ Ushahidi is an open source web application for information collection, visualiza
 
 ### I'm a developer, should I contribute to Ushahidi v3?
 
-Yes! Development moves pretty quickly but the tech stack is getting more and more stable. If you're keen to help build something awesome, [Jump on board..][getin]
+Yes! Development moves pretty quickly but the tech stack is getting more and more stable. If you're keen to help build something awesome, [jump on board..][getin]
 
 ## Using the Platform
 
