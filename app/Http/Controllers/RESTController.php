@@ -39,10 +39,6 @@ abstract class RESTController extends Controller
     public function __construct(UsecaseFactory $usecaseFactory)
     {
         $this->usecaseFactory = $usecaseFactory;
-        // $this->middleware('oauth', ['scope:'.$this->getScope()]);
-        $this->middleware('cors');
-        // $this->middleware('rest', ['resource:'.$this->getResource()]);
-        // @todo add 'Allow' header based on controller methods
     }
 
     /**

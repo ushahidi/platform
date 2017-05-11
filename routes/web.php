@@ -46,6 +46,8 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     // Config
     // Define /config outside the group otherwise prefix breaks optional trailing slash
     $app->get('/config[/]', ['uses' => 'ConfigController@index']);
+    // @todo stop using this in client, and remove?
+    $app->options('/config[/]', ['uses' => 'ConfigController@indexOptions']);
     // $app->post('/config[/]', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@store']);
     $app->group(['prefix' => 'config/'], function () use ($app) {
         $app->get('/{id}[/]', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@show']);
@@ -189,6 +191,8 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
     // Posts
     $app->group(['middleware' => ['auth:api', 'scope:posts'], 'namespace' => 'Posts'], function () use ($app) {
         $app->get('/posts[/]', 'PostsController@index');
+        // @todo stop using this in client, and remove?
+        $app->options('/posts[/]', ['uses' => 'PostsController@indexOptions']);
         $app->post('/posts[/]', 'PostsController@store');
         $app->group(['prefix' => 'posts/'], function () use ($app) {
             $app->get('/{id:[0-9]+}[/]', 'PostsController@show');

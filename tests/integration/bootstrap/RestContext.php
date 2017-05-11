@@ -148,6 +148,16 @@ class RestContext implements Context
 	}
 
 	/**
+	 * @Given /^that I want to make an OPTIONS request$/
+	 */
+	public function thatIWantToMakeAnOptionsRequest()
+	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+		$this->_restObjectMethod = 'options';
+	}
+
+	/**
 	 * @Given /^that the request "([^"]*)" is:$/
 	 * @Given /^that the request "([^"]*)" is "([^"]*)"$/
 	 * @Given /^that its "([^"]*)" is "([^"]*)"$/
@@ -235,6 +245,12 @@ class RestContext implements Context
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
 				$http_request = $this->_client
 					->delete($this->_requestUrl.'/'.$id);
+				break;
+			case 'OPTIONS':
+				$request = (array)$this->_restObject;
+				$id = ( isset($request['id']) ) ? $request['id'] : '';
+				$http_request = $this->_client
+					->options($this->_requestUrl.'/'.$id);
 				break;
 		}
 
