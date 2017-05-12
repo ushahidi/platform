@@ -48,7 +48,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 			{
 				$color = ltrim($entity->color, '#');
 				$color = $color ? '#' . $color : null;
-				
+
 				$output['features'][] = [
 					'type' => 'Feature',
 					'geometry' => [
@@ -88,6 +88,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 
 			$output['bbox'] = $bbox;
 		}
+		$output['total'] = $this->total;
 		return $output;
 	}
 
