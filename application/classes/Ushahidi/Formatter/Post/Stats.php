@@ -41,6 +41,10 @@ class Ushahidi_Formatter_Post_Stats implements Formatter
 			} else {
 				$data['totals'] = $this->formatTotals($records);
 			}
+
+			if ($records['unmapped']) {
+				$data['unmapped'] = $records['unmapped'];
+			}
 		}
 
 		return $data;

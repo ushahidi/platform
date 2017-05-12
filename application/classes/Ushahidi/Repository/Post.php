@@ -404,15 +404,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				;
 		}
 
+		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
 		if($search->has_location === 'mapped') {
-
-			$query
-				->where("$table.id", 'IN', DB::select('post_id')
-				->from('post_point'));
+			$query->where("$table.id", 'IN',
+				DB::query(Database::SELECT, $raw_union)
+			);
 		} else if($search->has_location === 'unmapped') {
-			$query
-				->where("$table.id", 'NOT IN', DB::select('post_id')
-				->from('post_point'));
+			$query->where("$table.id", 'NOT IN',
+				DB::query(Database::SELECT, $raw_union)
+			);
 		}
 
 		// Filter by tag
@@ -518,6 +518,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// ... return the total.
 		return (int) $result->get('total', 0);
+	}
+
+	public function getUnmappedTotal($total_posts)
+	{
+		$mapped = 0;
+		$raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
+		if ($total_posts > 0) {
+
+			$mapped = DB::query(Database::SELECT, $raw_sql)->execute();
+		}
+
+		return $total_posts - (int) $mapped->get('total', 0);
 	}
 
 	// PostRepository
@@ -689,9 +701,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Fetch the results and...
 		$results = $this->search_query->execute($this->db);
+		$results = $results->as_array();
+
+		// Append unmapped totals to
+		$results['unmapped'] = $this->getUnmappedTotal($this->getSearchTotal());
 
 		// ... return them as an array
-		return $results->as_array();
+		return $results;
 	}
 
 	// PostRepository
