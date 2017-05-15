@@ -27,7 +27,9 @@ class RestContext implements Context
 	private $_apiUrl            = 'api/v3';
 
 	private $_parameters        = array();
-	private $_headers           = array();
+	private $_headers           = [
+		'Accept' => 'application/json'
+	];
 	private $_postFields        = array();
 	private $_postFiles        = array();
 
@@ -54,7 +56,7 @@ class RestContext implements Context
 	 */
 	public function setDefaultBearerAuth()
 	{
-		$this->thatTheRequestHeaderIs('Authorization', 'Bearer defaulttoken');
+		$this->thatTheOauthTokenIs('defaulttoken');
 	}
 
 	/**
@@ -146,6 +148,16 @@ class RestContext implements Context
 	}
 
 	/**
+	 * @Given /^that I want to make an OPTIONS request$/
+	 */
+	public function thatIWantToMakeAnOptionsRequest()
+	{
+		// Reset _restObject
+		$this->_restObject = new stdClass();
+		$this->_restObjectMethod = 'options';
+	}
+
+	/**
 	 * @Given /^that the request "([^"]*)" is:$/
 	 * @Given /^that the request "([^"]*)" is "([^"]*)"$/
 	 * @Given /^that its "([^"]*)" is "([^"]*)"$/
@@ -163,14 +175,6 @@ class RestContext implements Context
 	{
 		$this->_headers[$headerName] = $headerValue;
 	}
-
-	/**
-     * @Given /^that the response "([^"]*)" header is "([^"]*)"$/
-     */
-    public function thatTheResponseHeaderIs($headerName, $headerValue)
-    {
-		$this->_headers[$headerName] = $headerValue;
-    }
 
 	/**
 	 * @Given /^that the post field "([^"]*)" is:$/
@@ -242,6 +246,12 @@ class RestContext implements Context
 				$http_request = $this->_client
 					->delete($this->_requestUrl.'/'.$id);
 				break;
+			case 'OPTIONS':
+				$request = (array)$this->_restObject;
+				$id = ( isset($request['id']) ) ? $request['id'] : '';
+				$http_request = $this->_client
+					->options($this->_requestUrl.'/'.$id);
+				break;
 		}
 
 		try {
@@ -307,7 +317,7 @@ class RestContext implements Context
 	 */
 	public function theResponseIsJsonp()
 	{
-		$result = preg_match('/^.+\(({.+})\)$/', $this->_response->getBody(TRUE), $matches);
+		$result = preg_match('/.+\(({.+})\);?/s', $this->_response->getBody(TRUE), $matches);
 
 		if ($result != 1 OR empty($matches[1]))
 		{
@@ -551,9 +561,9 @@ class RestContext implements Context
 	}
 
 	/**
-	 * @Then /^the the ([^"]*)" header should be "([^"]*)"$/
+	 * @Then /^the "([^"]*)" header should be "([^"]*)"$/
 	 */
-	public function theRestHeaderShouldExistBe($header, $contents)
+	public function theRestHeaderShouldBe($header, $contents)
 	{
 		if ((string)$this->_response->getHeader($header) !== $contents) {
 			throw new \Exception('HTTP header ' . $header . ' does not match '.$contents.
@@ -625,6 +635,38 @@ class RestContext implements Context
 
 		$this->_restObjectType   = ucwords(strtolower($objectType));
 		$this->_restObjectMethod = 'get';
+	}
+
+	// Map tokens to users
+	// Needs ot match data in Base.yml
+	private $tokenUserMap = [
+		'testanon' => null,
+		'testingtoken' => 2,
+		'defaulttoken' => 2,
+		'testadminuser' => 2,
+		'testbasicuser' => 1,
+		'testbasicuser2' => 3,
+		'testmanager' => 6,
+		'testimporter' => 7,
+		'missingtoken' => 99
+	];
+
+	/**
+	 * @Given /^that the oauth token is "([^"]*)"$/
+	 */
+	public function thatTheOauthTokenIs($tokenId)
+	{
+		$key = new \League\OAuth2\Server\CryptKey("file://".\Laravel\Passport\Passport::keyPath('oauth-private.key'));
+		$scope = new \Laravel\Passport\Bridge\Scope('*');
+		$client = new \Laravel\Passport\Bridge\Client('demoapp', 'demoapp', '/');
+
+		$accessToken = new \Laravel\Passport\Bridge\AccessToken($this->tokenUserMap[$tokenId], [$scope]);
+		$accessToken->setIdentifier($tokenId);
+		$accessToken->setExpiryDateTime((new \DateTime())->add(new \DateInterval('PT1H')));
+		$accessToken->setClient($client);
+		$token = $accessToken->convertToJwt($key);
+
+		$this->_headers['Authorization'] = "Bearer $token";
 	}
 
 }

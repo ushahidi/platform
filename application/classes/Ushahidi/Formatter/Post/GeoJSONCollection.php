@@ -12,6 +12,7 @@
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;
 use Ushahidi\Core\SearchData;
+use Ushahidi\App\Http\Controllers\RESTController;
 
 class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 {
@@ -48,7 +49,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 			{
 				$color = ltrim($entity->color, '#');
 				$color = $color ? '#' . $color : null;
-				
+
 				$output['features'][] = [
 					'type' => 'Feature',
 					'geometry' => [
@@ -60,7 +61,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 						'description' => $entity->content,
 						'marker-color' => $color,
 						'id' => $entity->id,
-						'url' => URL::site(Ushahidi_Rest::url($entity->getResource(), $entity->id), Request::current()),
+						'url' => url(RESTController::url($entity->getResource(), $entity->id)),
 						// @todo add mark- attributes based on tag symbol+color
 						//'marker-size' => '',
 						//'marker-symbol' => '',

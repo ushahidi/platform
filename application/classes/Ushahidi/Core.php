@@ -111,22 +111,15 @@ abstract class Ushahidi_Core {
 
 		$di->set('session.user', function() use ($di) {
 			// Using the OAuth resource server, get the userid (owner id) for this request
-			$server = $di->get('oauth.server.resource');
-			$userid = $server->getOwnerId();
+			// $server = $di->get('oauth.server.resource');
+			// $userid = $server->getOwnerId();
+			$genericUser = app('auth')->guard()->user();
 
 			// Using the user repository, load the user
 			$repo = $di->get('repository.user');
-			$user = $repo->get($userid);
+			$user = $repo->get($genericUser ? $genericUser->id : null);
 
 			return $user;
-		});
-
-		$di->set('session.client', function() use ($di) {
-			// Using the OAuth resource server, get the client id for this request
-			$server = $di->get('oauth.server.resource');
-			$clientid = $server->getClientId();
-
-			return $clientid;
 		});
 
 		// Console commands (oauth is disabled, pending T305)
@@ -156,50 +149,6 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_Webhook']['setPostRepo'] = $di->lazyGet('repository.post');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookRepo'] = $di->lazyGet('repository.webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setWebhookJobRepo'] = $di->lazyGet('repository.webhook.job');
-
-		// OAuth servers
-		$di->set('oauth.server.auth', function() use ($di) {
-			$server = $di->newInstance('League\OAuth2\Server\Authorization');
-			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\AuthCode'));
-			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\RefreshToken'));
-			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\Password'));
-			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\ClientCredentials'));
-			return $server;
-		});
-		$di->set('oauth.server.resource', $di->lazyNew('League\OAuth2\Server\Resource'));
-
-		// Use Kohana requests for OAuth server requests
-		$di->setter['League\OAuth2\Server\Resource']['setRequest'] = $di->lazyNew('OAuth2_Request');
-		$di->setter['League\OAuth2\Server\Authorization']['setRequest'] = $di->lazyNew('OAuth2_Request');
-
-		// Custom password authenticator
-		$di->setter['League\OAuth2\Server\Grant\Password']['setVerifyCredentialsCallback'] = function($email, $password) {
-			$usecase = service('factory.usecase')->get('users', 'login')
-				->setIdentifiers(compact('email', 'password'));
-
-			try
-			{
-				$data = $usecase->interact();
-				return $data['id'];
-			}
-			catch (Exception $e)
-			{
-				return false;
-			}
-		};
-
-		// Custom storage interfaces for OAuth servers
-		$di->params['League\OAuth2\Server\Authorization'] = [
-			'client'  => $di->lazyGet('repository.oauth.client'),
-			'session' => $di->lazyGet('repository.oauth.session'),
-			'scope'   => $di->lazyGet('repository.oauth.scope'),
-			];
-		$di->params['League\OAuth2\Server\Resource'] = [
-			'session' => $di->lazyNew('OAuth2_Storage_Session'),
-			];
-		$di->params['OAuth2_Storage'] = [
-			'db' => $di->lazyGet('kohana.db'),
-			];
 
 		// Validator mapping
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['config'] = [
@@ -410,9 +359,9 @@ abstract class Ushahidi_Core {
 		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
 		$di->set('repository.webhook.job', $di->lazyNew('Ushahidi_Repository_Webhook_Job'));
 		$di->set('repository.permission', $di->lazyNew('Ushahidi_Repository_Permission'));
-		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
-		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
-		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
+		// $di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
+		// $di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
+		// $di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');

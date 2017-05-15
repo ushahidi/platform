@@ -1,10 +1,5 @@
 <?php
 
-if (!defined('DOCROOT'))
-{
-	define('DOCROOT', realpath(__DIR__ . '/../httpdocs'));
-}
-
 require_once __DIR__ . '/kohana.php';
 
 $db = service('db.config');
