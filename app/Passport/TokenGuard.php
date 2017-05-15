@@ -146,9 +146,10 @@ class TokenGuard //implements Guard
 
             return $token ? $user->withAccessToken($token) : null;
         } catch (OAuthServerException $e) {
-            // return Container::getInstance()->make(
-            //     ExceptionHandler::class
-            // )->report($e);
+            // Log the error
+            Container::getInstance()->make(
+                ExceptionHandler::class
+            )->report($e);
 
             // Adding WWW-Authenticate ourselves because thephpleague/oauth2-server sucks
             // https://github.com/thephpleague/oauth2-server/issues/738
@@ -157,6 +158,8 @@ class TokenGuard //implements Guard
                 $e->getMessage(),
                 $e->getHttpHeaders() + ['WWW-Authenticate' => 'Bearer realm="OAuth"']
             );
+
+            return;
         }
     }
 
