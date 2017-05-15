@@ -668,7 +668,7 @@ class RestContext implements Context
 
 		$accessToken = new \Laravel\Passport\Bridge\AccessToken($this->tokenUserMap[$tokenId], [$scope]);
 		$accessToken->setIdentifier($tokenId);
-		$accessToken->setExpiryDateTime((new \DateTime())->add(new \DateInterval('PT1H')));
+		$accessToken->setExpiryDateTime((new \DateTime())->add(new \DateInterval('P1D')));
 		$accessToken->setClient($client);
 		$token = $accessToken->convertToJwt($key);
 
