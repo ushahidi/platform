@@ -596,6 +596,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					'time_label'
 				])
 				->group_by('time_label');
+
 		}
 
 		// Group by attribute
@@ -703,8 +704,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$results = $this->search_query->execute($this->db);
 		$results = $results->as_array();
 
-		// Append unmapped totals to
-		$results['unmapped'] = $this->getUnmappedTotal($this->getSearchTotal());
+		if ($search->has_location) {
+			// Append unmapped totals to stats
+			$results['unmapped'] = $this->getUnmappedTotal($this->getSearchTotal());
+		}
 
 		// ... return them as an array
 		return $results;
