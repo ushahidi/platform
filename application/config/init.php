@@ -29,6 +29,6 @@ return array(
 	'index_file'  => FALSE,
 	'charset'     => 'utf-8',
 	'errors'      => TRUE,
-	'profile'     => FALSE,
+	'profile'     => TRUE,
 	'caching'     => FALSE,
 );

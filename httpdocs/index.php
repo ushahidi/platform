@@ -6,6 +6,8 @@ define('DOCROOT', realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 // Initialize the Kohana application
 require __DIR__ . '/../application/kohana.php';
 
+// this is to get the stats when visiting http://192.168.33.110/. There is probably a better way to access the stats...
+// echo View::factory('profiler/stats');
 if (!empty($_GET['install']) && is_file(__DIR__ . '/install.php'))
 {
 	require __DIR__ . '/install.php';
