@@ -228,6 +228,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'center_point', 'within_km',
 			'published_to',
 			'include_types', 'include_attributes', // Specify values to include
+			'include_unmapped',
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
 			'timeline', 'timeline_interval', 'timeline_attribute', // Timeline params
 			'has_location' //contains a location or not
@@ -514,20 +515,28 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->select([DB::expr('COUNT(DISTINCT posts.id)'), 'total']);
 
 		// Fetch the result and...
-		$result = $query->execute($this->db);
-
+		$results = $query->execute($this->db);
+		Kohana::$log->add(Log::ERROR, print_r($results,true));
 		// ... return the total.
-		return (int) $result->get('total', 0);
+		$total = 0;
+		foreach ($results->as_array() as $result) {
+			$total += (int) $result['total'];
+		}
+
+		return $total;
 	}
 
 	public function getUnmappedTotal($total_posts)
 	{
+
+				Kohana::$log->add(Log::ERROR, print_r($total_posts,true));
 		$mapped = 0;
 		$raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
 		if ($total_posts > 0) {
 
 			$mapped = DB::query(Database::SELECT, $raw_sql)->execute();
 		}
+		Kohana::$log->add(Log::ERROR, print_r((int) $mapped->get('total', 0),true));
 
 		return $total_posts - (int) $mapped->get('total', 0);
 	}
@@ -704,11 +713,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$results = $this->search_query->execute($this->db);
 		$results = $results->as_array();
 
-		if ($search->has_location) {
+		if ($search->include_unmapped) {
 			// Append unmapped totals to stats
 			$results['unmapped'] = $this->getUnmappedTotal($this->getSearchTotal());
 		}
-
 		// ... return them as an array
 		return $results;
 	}
