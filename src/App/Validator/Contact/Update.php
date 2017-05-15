@@ -63,7 +63,7 @@ class Update extends Validator
 		// Valid Email?
 		if ( isset($data['type']) AND
 			$data['type'] == Contact::EMAIL AND
-			 ! Valid::email($contact) )
+			 ! \Valid::email($contact) )
 		{
 			return $validation->error('contact', 'invalid_email', [$contact]);
 		}

@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Formatter;
 
+use Kohana;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
@@ -61,7 +62,7 @@ class Media extends API
 		if ($cdnBaseUrl = Kohana::$config->load('cdn.baseurl')) {
 			return $cdnBaseUrl . $value;
 		} else {
-			return URL::site(Media::uri($this->get_relative_path() . $value), Request::current());
+			return \URL::site(\Media::uri($this->get_relative_path() . $value), \Request::current());
 		}
 	}
 
@@ -92,12 +93,12 @@ class Media extends API
 			$dimension = sprintf('w%s', $width);
 		}
 
-		return URL::site(
-			Route::get('imagefly')->uri(array(
+		return \URL::site(
+			\Route::get('imagefly')->uri(array(
 				'params'    => $dimension,
 				'imagepath' => $this->get_relative_path() . $filename,
 			)),
-			Request::current()
+			\Request::current()
 		);
 	}
 }

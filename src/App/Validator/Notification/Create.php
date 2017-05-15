@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Validator\Notification;
 
-class Update
+class Create extends Update
 {
 
 }

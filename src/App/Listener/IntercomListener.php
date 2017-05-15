@@ -36,7 +36,7 @@ class IntercomListener extends AbstractListener
 					"custom_attributes" => $data
 				]);
 			} catch(ClientException $e) {
-				Kohana::$log->add(Log::ERROR, print_r($e,true));
+				\Kohana::$log->add(Log::ERROR, print_r($e,true));
 			}
 		}
   }

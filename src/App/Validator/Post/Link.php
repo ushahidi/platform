@@ -15,7 +15,7 @@ class Link extends ValueValidator
 {
 	protected function validate($value)
 	{
-		if (!Valid::url($value)) {
+		if (!\Valid::url($value)) {
 			return 'url';
 		}
 	}

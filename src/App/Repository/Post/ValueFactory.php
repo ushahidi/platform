@@ -42,7 +42,7 @@ class ValueFactory
 
 	public function proxy(Array $include_types = [])
 	{
-		return new Post_ValueProxy($this, $include_types);
+		return new ValueProxy($this, $include_types);
 	}
 
 	public function each($callback, Array $include_types = [])

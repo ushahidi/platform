@@ -55,7 +55,7 @@ class Update extends Validator
 		];
 	}
 
-	public function checkAdminRoleLimit (Validation $validation, $role)
+	public function checkAdminRoleLimit (\Validation $validation, $role)
 	{
 		$config = \Kohana::$config->load('features.limits');
 

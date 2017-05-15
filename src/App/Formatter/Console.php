@@ -79,7 +79,7 @@ class Console implements Formatter
 
 	protected function format_created($value)
 	{
-		return date(DateTime::W3C, $value);
+		return date(\DateTime::W3C, $value);
 	}
 
 	protected function format_updated($value)

@@ -15,7 +15,7 @@
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Listener;
+namespace Ushahidi\App\Util;
 
 class Tile {
 
@@ -46,7 +46,7 @@ class Tile {
 		$bb_west = self::tileToLon($x, $zoom);
 		$bb_east = self::tileToLon($x + 1, $zoom);
 
-		return new Util_BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
+		return new BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
 	}
 
 	/**

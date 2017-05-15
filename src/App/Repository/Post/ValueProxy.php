@@ -18,7 +18,7 @@ class ValueProxy implements ValuesForPostRepository
 	protected $factory;
 	protected $include_types;
 
-	public function __construct(Post_ValueFactory $factory, Array $include_types = [])
+	public function __construct(ValueFactory $factory, Array $include_types = [])
 	{
 		$this->factory = $factory;
 		$this->include_types = $include_types;

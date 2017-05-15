@@ -18,7 +18,7 @@ class Markdown extends ValueValidator
 		if (!is_scalar($value)) {
 			return 'scalar';
 		}
-		if (!Valid::max_length($value, 255)) {
+		if (!\Valid::max_length($value, 255)) {
 			return 'max_length';
 		}
 	}

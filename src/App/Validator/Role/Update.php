@@ -36,7 +36,7 @@ class Update extends Validator
 		];
 	}
 
-	public function checkPermissions(Validation $validation, $permissions)
+	public function checkPermissions(\Validation $validation, $permissions)
 	{
 		if (!$permissions) {
 			return;

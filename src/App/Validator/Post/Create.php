@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Validator\Post;
 
+use Validation;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
@@ -26,6 +27,7 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\Permissions\ManagePosts;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
+use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 
 class Create extends Validator
 {
@@ -59,7 +61,7 @@ class Create extends Validator
 	 * @param UserRepository                        $user_repo
 	 * @param FormRepository                        $form_repo
 	 * @param RoleRepository                        $role_repo
-	 * @param Ushahidi_Repository_ValueFactory  $post_value_factory
+	 * @param PostValueFactory  $post_value_factory
 	 * @param ValueFactory  $post_value_validator_factory
 	 */
 	public function __construct(
@@ -70,7 +72,7 @@ class Create extends Validator
 		UserRepository $user_repo,
 		FormRepository $form_repo,
 		RoleRepository $role_repo,
-		Ushahidi_Repository_ValueFactory $post_value_factory,
+		PostValueFactory $post_value_factory,
 		ValueFactory $post_value_validator_factory)
 	{
 		$this->repo = $repo;

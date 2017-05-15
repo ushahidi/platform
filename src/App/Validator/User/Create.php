@@ -16,7 +16,7 @@ use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 
-class Update
+class Create extends Update
 {
 	protected $default_error_source = 'user';
 

@@ -68,6 +68,6 @@ class Post extends API
 
 	protected function format_post_date($value)
 	{
-		return $value ? $value->format(DateTime::W3C) : NULL;
+		return $value ? $value->format(\DateTime::W3C) : NULL;
 	}
 }

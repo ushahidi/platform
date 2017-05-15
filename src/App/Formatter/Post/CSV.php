@@ -14,7 +14,7 @@ namespace Ushahidi\App\Formatter\Post;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\Formatter;
 
-class Post_CSV implements Formatter
+class CSV implements Formatter
 {
 	/**
 	 * @var SearchData

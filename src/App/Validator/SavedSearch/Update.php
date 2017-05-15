@@ -11,7 +11,9 @@
 
 namespace Ushahidi\App\Validator\SavedSearch;
 
-class Update
+use Ushahidi\App\Validator\Set;
+
+class Update extends Set\Update
 {
 
 	protected function getRules()

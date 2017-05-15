@@ -14,15 +14,15 @@ class Video extends ValueValidator
 {
 	protected function validate($value)
 	{
-		if (!Valid::url($value)) {
+		if (!\Valid::url($value)) {
 			return 'url';
 		}
-    if (!$this->checkVideoTypes($value)) {
-      return 'video_type';
-    }
+		if (!$this->checkVideoTypes($value)) {
+		  return 'video_type';
+		}
 	}
 
   protected function checkVideoTypes($value) {
-      return (strpos($value, 'youtube') !== false || strpos($value, 'vimeo') !== false);
+	  return (strpos($value, 'youtube') !== false || strpos($value, 'vimeo') !== false);
   }
 }

@@ -11,6 +11,8 @@
 
 namespace Ushahidi\App\Repository;
 
+use DB;
+use Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase;
@@ -99,7 +101,7 @@ abstract class OhanzeeRepository implements
 		if (!empty($sorting['orderby'])) {
 			$this->search_query->order_by(
 				$this->getTable() . '.' . $sorting['orderby'],
-				Arr::get($sorting, 'order')
+			\Arr::get($sorting, 'order')
 			);
 		}
 

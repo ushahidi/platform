@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Validator\Set;
 
-class Update
+class Create extends Update
 {
 	protected function getRules()
 	{

@@ -24,7 +24,7 @@ class Relation extends ValueValidator
 
 	protected function validate($value)
 	{
-		if (!Valid::digit($value)) {
+		if (!\Valid::digit($value)) {
 			return 'digit';
 		}
 
