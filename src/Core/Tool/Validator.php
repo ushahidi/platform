@@ -40,7 +40,7 @@ abstract class Validator
 	 * @param  Array $fullData  an array of full entity data for reference during validation
 	 * @return bool
 	 */
-	public function check(Array $data, Array $fullData = [])
+	public function check(array $data, array $fullData = [])
 	{
 		// If no full data is passed, fallback to changed values
 		if (!$fullData) {

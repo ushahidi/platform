@@ -34,6 +34,5 @@ class AddMessageLocationAttribute extends AbstractMigration
                 WHERE " . $adapter->quoteColumnName('key') . " = 'message_location'
             "
         )->execute();
-
     }
 }

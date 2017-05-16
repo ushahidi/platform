@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Integration\Bootstrap;
+
 /**
  * Ushahidi Rest Context
  *
@@ -11,6 +13,7 @@
 
 use Behat\Behat\Context\Context;
 use Symfony\Component\Yaml\Yaml;
+use stdClass;
 
 /**
  * Rest context.
@@ -18,34 +21,33 @@ use Symfony\Component\Yaml\Yaml;
 class RestContext implements Context
 {
 
-	private $_restObject        = null;
-	private $_restObjectType    = null;
-	private $_restObjectMethod  = 'get';
-	private $_client            = null;
-	private $_response          = null;
-	private $_requestUrl        = null;
-	private $_apiUrl            = 'api/v3';
+	private $restObject        = null;
+	private $restObjectType    = null;
+	private $restObjectMethod  = 'get';
+	private $client            = null;
+	private $response          = null;
+	private $requestUrl        = null;
+	private $apiUrl            = 'api/v3';
 
-	private $_parameters        = array();
-	private $_headers           = array();
-	private $_postFields        = array();
-	private $_postFiles        = array();
+	private $parameters        = array();
+	private $headers           = array();
+	private $postFields        = array();
+	private $postFiles        = array();
 
 	/**
 	 * Initializes context.
 	 * Every scenario gets it's own context object.
 	 */
-	public function __construct($baseUrl, $proxyUrl = FALSE)
+	public function __construct($baseUrl, $proxyUrl = false)
 	{
-		$this->_restObject = new stdClass();
+		$this->restObject = new stdClass();
 
 		$options = array();
-		if($proxyUrl)
-		{
+		if ($proxyUrl) {
 			$options['curl.options'] = array(CURLOPT_PROXY => $proxyUrl);
 		}
 
-		$this->_client = new Guzzle\Service\Client($baseUrl, $options);
+		$this->client = new \Guzzle\Service\Client($baseUrl, $options);
 	}
 
 	/**
@@ -62,11 +64,11 @@ class RestContext implements Context
 	 */
 	public function thatIWantToMakeANew($objectType)
 	{
-		// Reset _restObject
-		$this->_restObject = new stdClass();
+		// Reset restObject
+		$this->restObject = new stdClass();
 
-		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'post';
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'post';
 	}
 
 	/**
@@ -74,11 +76,11 @@ class RestContext implements Context
 	 */
 	public function thatIWantToImportA($objectType)
 	{
-		// Reset _restObject
-		$this->_restObject = new stdClass();
+		// Reset restObject
+		$this->restObject = new stdClass();
 
-		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'post';
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'post';
 	}
 
 
@@ -87,11 +89,11 @@ class RestContext implements Context
 	 */
 	public function thatIWantToSubmitANew($objectType)
 	{
-		// Reset _restObject
-		$this->_restObject = new stdClass();
+		// Reset restObject
+		$this->restObject = new stdClass();
 
-		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'post';
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'post';
 	}
 
 	/**
@@ -100,11 +102,11 @@ class RestContext implements Context
 	 */
 	public function thatIWantToUpdateA($objectType)
 	{
-		// Reset _restObject
-		$this->_restObject = new stdClass();
+		// Reset restObject
+		$this->restObject = new stdClass();
 
-		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'put';
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'put';
 	}
 
 	/**
@@ -113,11 +115,11 @@ class RestContext implements Context
 	 */
 	public function thatIWantToFindA($objectType)
 	{
-		// Reset _restObject
-		$this->_restObject = new stdClass();
+		// Reset restObject
+		$this->restObject = new stdClass();
 
-		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'get';
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'get';
 	}
 
 	/**
@@ -125,11 +127,11 @@ class RestContext implements Context
 	 */
 	public function thatIWantToGetAll($objectType)
 	{
-		// Reset _restObject
-		$this->_restObject = new stdClass();
+		// Reset restObject
+		$this->restObject = new stdClass();
 
-		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'get';
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'get';
 	}
 
 	/**
@@ -138,11 +140,11 @@ class RestContext implements Context
 	 */
 	public function thatIWantToDeleteA($objectType)
 	{
-		// Reset _restObject
-		$this->_restObject = new stdClass();
+		// Reset restObject
+		$this->restObject = new stdClass();
 
-		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'delete';
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'delete';
 	}
 
 	/**
@@ -152,7 +154,7 @@ class RestContext implements Context
 	 */
 	public function thatTheRequestPropertyIs($propertyName, $propertyValue)
 	{
-		$this->_restObject->$propertyName = $propertyValue;
+		$this->restObject->$propertyName = $propertyValue;
 	}
 
 	/**
@@ -161,7 +163,7 @@ class RestContext implements Context
 	 */
 	public function thatTheRequestHeaderIs($headerName, $headerValue)
 	{
-		$this->_headers[$headerName] = $headerValue;
+		$this->headers[$headerName] = $headerValue;
 	}
 
 	/**
@@ -169,7 +171,7 @@ class RestContext implements Context
      */
     public function thatTheResponseHeaderIs($headerName, $headerValue)
     {
-		$this->_headers[$headerName] = $headerValue;
+		$this->headers[$headerName] = $headerValue;
     }
 
 	/**
@@ -178,7 +180,7 @@ class RestContext implements Context
 	 */
 	public function thatThePostFieldIs($fieldName, $fieldValue)
 	{
-		$this->_postFields[$fieldName] = $fieldValue;
+		$this->postFields[$fieldName] = $fieldValue;
 	}
 
 	/**
@@ -187,7 +189,7 @@ class RestContext implements Context
 	 */
 	public function thatThePostFileIs($fieldName, $fieldValue)
 	{
-		$this->_postFiles[$fieldName] = $fieldValue;
+		$this->postFiles[$fieldName] = $fieldValue;
 	}
 
 	/**
@@ -195,71 +197,66 @@ class RestContext implements Context
 	 */
 	public function iRequest($pageUrl)
 	{
-		$this->_requestUrl 	= $this->_apiUrl.$pageUrl;
+		$this->requestUrl 	= $this->apiUrl.$pageUrl;
 
-		switch (strtoupper($this->_restObjectMethod)) {
+		switch (strtoupper($this->restObjectMethod)) {
 			case 'GET':
-				$request = (array)$this->_restObject;
+				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->_client
-					->get($this->_requestUrl.'/'.$id);
+				$http_request = $this->client
+					->get($this->requestUrl.'/'.$id);
 
-				if (isset($request['query string']))
-				{
-					$url = $http_request->getUrl(TRUE);
+				if (isset($request['query string'])) {
+					$url = $http_request->getUrl(true);
 					$url->setQuery((string) trim($request['query string']));
 					$http_request->setUrl($url);
 				}
 				break;
 			case 'POST':
-				$request = (array)$this->_restObject;
+				$request = (array)$this->restObject;
 				// If post fields or files are set assume this is a 'normal' POST request
-				if ($this->_postFields OR $this->_postFiles)
-				{
-					$http_request = $this->_client
-						->post($this->_requestUrl)
-						->addPostFields($this->_postFields)
-						->addPostFiles($this->_preparePostFileData($this->_postFiles));
-				}
-				// Otherwise assume we have JSON
-				else
-				{
-					$http_request = $this->_client
-						->post($this->_requestUrl)
+				if ($this->postFields or $this->postFiles) {
+					$http_request = $this->client
+						->post($this->requestUrl)
+						->addPostFields($this->postFields)
+						->addPostFiles($this->preparePostFileData($this->postFiles));
+				} // Otherwise assume we have JSON
+				else {
+					$http_request = $this->client
+						->post($this->requestUrl)
 						->setBody($request['data']);
 				}
 				break;
 			case 'PUT':
-				$request = (array)$this->_restObject;
+				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->_client
-					->put($this->_requestUrl.'/'.$id)
+				$http_request = $this->client
+					->put($this->requestUrl.'/'.$id)
 					->setBody($request['data']);
 				break;
 			case 'DELETE':
-				$request = (array)$this->_restObject;
+				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->_client
-					->delete($this->_requestUrl.'/'.$id);
+				$http_request = $this->client
+					->delete($this->requestUrl.'/'.$id);
 				break;
 		}
 
 		try {
 			$http_request
-				->addHeaders($this->_headers)
+				->addHeaders($this->headers)
 				->send();
-		} catch (Guzzle\Http\Exception\BadResponseException $e) {
+		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
 			// Don't care.
 			// 4xx and 5xx statuses are valid error responses
 		}
 
 		// Get response object
-		$this->_response = $http_request->getResponse();
+		$this->response = $http_request->getResponse();
 
 		// Create fake response object if Guzzle doesn't give us one
-		if (! $this->_response instanceof Guzzle\Http\Message\Response)
-		{
-			$this->_response = new Guzzle\Http\Message\Response(null, null, null);
+		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
+			$this->response = new \Guzzle\Http\Message\Response(null, null, null);
 		}
 	}
 
@@ -268,37 +265,38 @@ class RestContext implements Context
 	 */
 	public function theResponseIsJson()
 	{
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		// Check for NULL not empty - since [] and {} will be empty but valid
-		if ($data === NULL) {
-
+		if ($data === null) {
 			// Get further error info
 			switch (json_last_error()) {
 				case JSON_ERROR_NONE:
 					$error = 'No errors';
-				break;
+				    break;
 				case JSON_ERROR_DEPTH:
 					$error = 'Maximum stack depth exceeded';
-				break;
+				    break;
 				case JSON_ERROR_STATE_MISMATCH:
 					$error = 'Underflow or the modes mismatch';
-				break;
+				    break;
 				case JSON_ERROR_CTRL_CHAR:
 					$error = 'Unexpected control character found';
-				break;
+				    break;
 				case JSON_ERROR_SYNTAX:
 					$error = 'Syntax error, malformed JSON';
-				break;
+				    break;
 				case JSON_ERROR_UTF8:
 					$error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
-				break;
+				    break;
 				default:
 					$error = 'Unknown error';
-				break;
+				    break;
 			}
 
-			throw new Exception("Response was not JSON\nBody:" . $this->_response->getBody(TRUE) . "\nError: " . $error );
+			throw new \Exception(
+				"Response was not JSON\nBody:" . $this->response->getBody(true) . "\nError: " . $error
+			);
 		}
 	}
 
@@ -307,43 +305,44 @@ class RestContext implements Context
 	 */
 	public function theResponseIsJsonp()
 	{
-		$result = preg_match('/^.+\(({.+})\)$/', $this->_response->getBody(TRUE), $matches);
+		$result = preg_match('/^.+\(({.+})\)$/', $this->response->getBody(true), $matches);
 
-		if ($result != 1 OR empty($matches[1]))
-		{
-			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(TRUE));
+		if ($result != 1 or empty($matches[1])) {
+			throw new \Exception("Response was not JSONP\nBody:" . $this->response->getBody(true));
 		}
 
 		$data = json_decode($matches[1]);
 
 		// Check for NULL not empty - since [] and {} will be empty but valid
-		if ($data === NULL) {
+		if ($data === null) {
 			// Get further error info
 			switch (json_last_error()) {
 				case JSON_ERROR_NONE:
 					$error = 'No errors';
-				break;
+				    break;
 				case JSON_ERROR_DEPTH:
 					$error = 'Maximum stack depth exceeded';
-				break;
+				    break;
 				case JSON_ERROR_STATE_MISMATCH:
 					$error = 'Underflow or the modes mismatch';
-				break;
+				    break;
 				case JSON_ERROR_CTRL_CHAR:
 					$error = 'Unexpected control character found';
-				break;
+				    break;
 				case JSON_ERROR_SYNTAX:
 					$error = 'Syntax error, malformed JSON';
-				break;
+				    break;
 				case JSON_ERROR_UTF8:
 					$error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
-				break;
+				    break;
 				default:
 					$error = 'Unknown error';
-				break;
+				    break;
 			}
 
-			throw new Exception("Response was not JSONP\nBody:" . $this->_response->getBody(TRUE) . "\nError: " . $error );
+			throw new \Exception(
+				"Response was not JSONP\nBody:" . $this->response->getBody(true) . "\nError: " . $error
+			);
 		}
 	}
 
@@ -353,12 +352,12 @@ class RestContext implements Context
 	 */
 	public function theResponseHasAProperty($propertyName)
 	{
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		if (Arr::path($data, $propertyName) === NULL) {
-			throw new Exception("Property '".$propertyName."' is not set!\n");
+		if (\Arr::path($data, $propertyName) === null) {
+			throw new \Exception("Property '".$propertyName."' is not set!\n");
 		}
 	}
 
@@ -368,12 +367,12 @@ class RestContext implements Context
 	 */
 	public function theResponseDoesNotHaveAProperty($propertyName)
 	{
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		if (Arr::path($data, $propertyName) !== NULL) {
-			throw new Exception("Property '".$propertyName."' is set but should not be!\n");
+		if (\Arr::path($data, $propertyName) !== null) {
+			throw new \Exception("Property '".$propertyName."' is set but should not be!\n");
 		}
 	}
 
@@ -382,18 +381,22 @@ class RestContext implements Context
 	 */
 	public function thePropertyEquals($propertyName, $propertyValue)
 	{
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = Arr::path($data, $propertyName);
+		$actualPropertyValue = \Arr::path($data, $propertyName);
 
-		if ($actualPropertyValue === NULL) {
-			throw new Exception("Property '".$propertyName."' is not set!\n");
+		if ($actualPropertyValue === null) {
+			throw new \Exception("Property '".$propertyName."' is not set!\n");
 		}
-		// Check the value - note this has to use != since $propertValue is always a string so strict comparison would fail.
+		// Check the value - note this has to use != since $propertValue
+		// is always a string so strict comparison would fail.
 		if ($actualPropertyValue != $propertyValue) {
-			throw new \Exception('Property value mismatch on \''.$propertyName.'\'! (given: '.$propertyValue.', match: '.$actualPropertyValue.')');
+			throw new \Exception(
+				"Property value mismatch on '" . $propertyName . "'! ".
+				"(given: " . $propertyValue . ", match: " . $actualPropertyValue . ")"
+			);
 		}
 	}
 
@@ -402,16 +405,16 @@ class RestContext implements Context
 	 */
 	public function thePropertyIsTrue($propertyName)
 	{
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = Arr::path($data, $propertyName);
+		$actualPropertyValue = \Arr::path($data, $propertyName);
 
-		if ($actualPropertyValue === NULL) {
-			throw new Exception("Property '".$propertyName."' is not set!\n");
+		if ($actualPropertyValue === null) {
+			throw new \Exception("Property '".$propertyName."' is not set!\n");
 		}
-		if ($actualPropertyValue !== TRUE) {
+		if ($actualPropertyValue !== true) {
 			throw new \Exception('Property \''.$propertyName.'\' is not true! (match: '.$actualPropertyValue.')');
 		}
 	}
@@ -421,16 +424,16 @@ class RestContext implements Context
 	 */
 	public function thePropertyIsFalse($propertyName)
 	{
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = Arr::path($data, $propertyName);
+		$actualPropertyValue = \Arr::path($data, $propertyName);
 
-		if ($actualPropertyValue === NULL) {
-			throw new Exception("Property '".$propertyName."' is not set!\n");
+		if ($actualPropertyValue === null) {
+			throw new \Exception("Property '".$propertyName."' is not set!\n");
 		}
-		if ($actualPropertyValue !== FALSE) {
+		if ($actualPropertyValue !== false) {
 			throw new \Exception('Property \''.$propertyName.'\' is not false! (match: '.$actualPropertyValue.')');
 		}
 	}
@@ -441,26 +444,30 @@ class RestContext implements Context
 	public function thePropertyContains($propertyName, $propertyContainsValue)
 	{
 
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = Arr::path($data, $propertyName);
+		$actualPropertyValue = \Arr::path($data, $propertyName);
 
-		if ($actualPropertyValue === NULL) {
+		if ($actualPropertyValue === null) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
 		}
 
-		if (is_array($actualPropertyValue) AND ! in_array($propertyContainsValue, $actualPropertyValue)) {
-			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.json_encode($actualPropertyValue).')');
-		}
-		elseif (is_string($actualPropertyValue) AND strpos($actualPropertyValue, $propertyContainsValue) === FALSE)
-		{
-			throw new \Exception('Property \''.$propertyName.'\' does not contain value! (given: '.$propertyContainsValue.', match: '.$actualPropertyValue.')');
-		}
-		elseif (!is_array($actualPropertyValue) AND !is_string($actualPropertyValue))
-		{
-			throw new \Exception("Property '".$propertyName."' could not be compared. Must be string or array.\n");
+		if (is_array($actualPropertyValue) and ! in_array($propertyContainsValue, $actualPropertyValue)) {
+			throw new \Exception(
+				'Property \''.$propertyName.'\' does not contain value!' .
+				'(given: '.$propertyContainsValue.', match: '.json_encode($actualPropertyValue).')'
+			);
+		} elseif (is_string($actualPropertyValue) and strpos($actualPropertyValue, $propertyContainsValue) === false) {
+			throw new \Exception(
+				'Property \''.$propertyName.'\' does not contain value!' .
+				'(given: '.$propertyContainsValue.', match: '.$actualPropertyValue.')'
+			);
+		} elseif (!is_array($actualPropertyValue) and !is_string($actualPropertyValue)) {
+			throw new \Exception(
+				"Property '".$propertyName."' could not be compared. Must be string or array.\n"
+			);
 		}
 	}
 
@@ -470,21 +477,22 @@ class RestContext implements Context
 	public function thePropertyCountIs($propertyName, $propertyCountValue)
 	{
 
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = Arr::path($data, $propertyName);
+		$actualPropertyValue = \Arr::path($data, $propertyName);
 
-		if ($actualPropertyValue === NULL) {
-			throw new Exception("Property '".$propertyName."' is not set!\n");
+		if ($actualPropertyValue === null) {
+			throw new \Exception("Property '".$propertyName."' is not set!\n");
 		}
 
-		if (is_array($actualPropertyValue) AND count($actualPropertyValue) != $propertyCountValue) {
-			throw new \Exception('Property \''.$propertyName.'\' count does not match! (given: '.$propertyCountValue.', match: '.count($actualPropertyValue).')');
-		}
-		elseif (!is_array($actualPropertyValue))
-		{
+		if (is_array($actualPropertyValue) and count($actualPropertyValue) != $propertyCountValue) {
+			throw new \Exception(
+				'Property \''.$propertyName.'\' count does not match!' .
+				'(given: '.$propertyCountValue.', match: '.count($actualPropertyValue).')'
+			);
+		} elseif (!is_array($actualPropertyValue)) {
 			throw new \Exception("Property '".$propertyName."' could not be compared. Must be an array.\n");
 		}
 	}
@@ -494,20 +502,20 @@ class RestContext implements Context
 	 */
 	public function theTypeOfThePropertyIs($propertyName, $typeString)
 	{
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = Arr::path($data, $propertyName);
+		$actualPropertyValue = \Arr::path($data, $propertyName);
 
-		if ($actualPropertyValue === NULL) {
-			throw new Exception("Property '".$propertyName."' is not set!\n");
+		if ($actualPropertyValue === null) {
+			throw new \Exception("Property '".$propertyName."' is not set!\n");
 		}
 		// check our type
 		switch (strtolower($typeString)) {
 			case 'numeric':
 				if (!is_numeric($actualPropertyValue)) {
-					throw new Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
+					throw new \Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
 				}
 				break;
 		}
@@ -518,14 +526,14 @@ class RestContext implements Context
 	 */
 	public function thePropertyIsEmpty($propertyName)
 	{
-		$data = json_decode($this->_response->getBody(TRUE), TRUE);
+		$data = json_decode($this->response->getBody(true), true);
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = Arr::path($data, $propertyName);
+		$actualPropertyValue = \Arr::path($data, $propertyName);
 
 		if (!empty($actualPropertyValue)) {
-			throw new Exception("Property '{$propertyName}' is not empty!\n");
+			throw new \Exception("Property '{$propertyName}' is not empty!\n");
 		}
 	}
 
@@ -534,9 +542,9 @@ class RestContext implements Context
 	 */
 	public function theRestResponseStatusCodeShouldBe($httpStatus)
 	{
-		if ((string)$this->_response->getStatusCode() !== $httpStatus) {
+		if ((string)$this->response->getStatusCode() !== $httpStatus) {
 			throw new \Exception('HTTP code does not match '.$httpStatus.
-				' (actual: '.$this->_response->getStatusCode().')');
+				' (actual: '.$this->response->getStatusCode().')');
 		}
 	}
 
@@ -545,8 +553,8 @@ class RestContext implements Context
 	 */
 	public function theRestHeaderShouldExist($header)
 	{
-		if (!$this->_response->hasHeader($header)) {
-			throw new \Exception('HTTP header does not exist '.$header );
+		if (!$this->response->hasHeader($header)) {
+			throw new \Exception('HTTP header does not exist '.$header);
 		}
 	}
 
@@ -555,9 +563,9 @@ class RestContext implements Context
 	 */
 	public function theRestHeaderShouldExistBe($header, $contents)
 	{
-		if ((string)$this->_response->getHeader($header) !== $contents) {
+		if ((string)$this->response->getHeader($header) !== $contents) {
 			throw new \Exception('HTTP header ' . $header . ' does not match '.$contents.
-				' (actual: '.$this->_response->getHeader($header).')');
+				' (actual: '.$this->response->getHeader($header).')');
 		}
 	}
 
@@ -568,8 +576,8 @@ class RestContext implements Context
 	public function echoLastResponse()
 	{
 		var_dump(
-			$this->_requestUrl."\n\n".
-			$this->_response
+			$this->requestUrl."\n\n".
+			$this->response
 		);
 	}
 
@@ -578,27 +586,25 @@ class RestContext implements Context
 	 */
 	public function thatTheApiUrlIs($api_url)
 	{
-		$this->_apiUrl = $api_url;
+		$this->apiUrl = $api_url;
 	}
 
 	/**
 	 * @AfterScenario
 	 */
-	public function afterScenarioCheckError(Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
+	public function afterScenarioCheckError(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
 	{
 		// If scenario failed, dump response
-		if (!$scope->getTestResult()->isPassed() AND $this->_response)
-		{
+		if (!$scope->getTestResult()->isPassed() and $this->response) {
 			$this->echoLastResponse();
 		}
 	}
 
-	private function _preparePostFileData($postFiles)
+	private function preparePostFileData($postFiles)
 	{
 		//Check if post files is not empty
-		if ( count($postFiles) > 0)
-		{
-			array_walk_recursive($postFiles, array($this, '_prefix_app_path'));
+		if (count($postFiles) > 0) {
+			array_walk_recursive($postFiles, array($this, 'prefixAppPath'));
 			return $postFiles;
 		}
 		return $postFiles;
@@ -610,7 +616,7 @@ class RestContext implements Context
 	 * @param  string $item the path to the file to be uploaded
 	 * @return string       path to application folder
 	 */
-	private function _prefix_app_path(&$item)
+	private function prefixAppPath(&$item)
 	{
 		$item = DOCROOT.$item;
 	}
@@ -620,11 +626,10 @@ class RestContext implements Context
 	 */
 	public function thatIWantToCountAll($objectType)
 	{
-		// Reset _restObject
-		$this->_restObject = new stdClass();
+		// Reset restObject
+		$this->restObject = new stdClass();
 
-		$this->_restObjectType   = ucwords(strtolower($objectType));
-		$this->_restObjectMethod = 'get';
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'get';
 	}
-
 }

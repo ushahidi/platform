@@ -109,7 +109,6 @@ class ImportUsecase implements Usecase
 	 	$created_entities = array();
 		// Fetch a record
 		foreach ($this->payload as $index => $record) {
-
 			// ... transform record
 			$entity = $this->transform($record);
 

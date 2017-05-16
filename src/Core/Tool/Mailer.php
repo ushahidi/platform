@@ -23,5 +23,5 @@ interface Mailer
 	 * @param  Array|null $params Params for populating the template
 	 * @return void
 	 */
-	public function send($to, $type, Array $params = null);
+	public function send($to, $type, array $params = null);
 }

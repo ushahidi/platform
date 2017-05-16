@@ -20,5 +20,5 @@ interface ReadRepository extends EntityGet
 	 * @param  Array $data
 	 * @return Entity
 	 */
-	public function getEntity(Array $data = null);
+	public function getEntity(array $data = null);
 }
