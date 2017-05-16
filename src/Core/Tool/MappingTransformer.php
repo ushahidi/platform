@@ -17,6 +17,6 @@ namespace Ushahidi\Core\Tool;
 
 interface MappingTransformer extends Transformer
 {
-	public function setMap(Array $map);
-	public function setFixedValues(Array $fixedValues);
+	public function setMap(array $map);
+	public function setFixedValues(array $fixedValues);
 }

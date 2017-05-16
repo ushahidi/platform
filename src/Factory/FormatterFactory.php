@@ -40,8 +40,8 @@ class FormatterFactory
 	 * @param  Closure $factory
 	 */
 	public function __construct(
-		Array $map,
-		Array $collections,
+		array $map,
+		array $collections,
 		$factory
 	) {
 		$this->map         = $map;
