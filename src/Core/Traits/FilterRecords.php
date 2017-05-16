@@ -37,7 +37,7 @@ trait FilterRecords
 	 * @param  Array $filters
 	 * @return $this
 	 */
-	public function setFilters(Array $filters)
+	public function setFilters(array $filters)
 	{
 		$this->filters = $filters;
 		return $this;
@@ -71,7 +71,7 @@ trait FilterRecords
 	 * @param  Array $force    force all parameters to be defined
 	 * @return Array
 	 */
-	public function getFilters(Array $allowed, $force = false)
+	public function getFilters(array $allowed, $force = false)
 	{
 		$filters = array_intersect_key($this->filters, array_flip($allowed));
 		if ($force) {

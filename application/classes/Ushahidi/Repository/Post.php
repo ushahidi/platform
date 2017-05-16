@@ -516,11 +516,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Fetch the result and...
 		$results = $query->execute($this->db);
-		Kohana::$log->add(Log::ERROR, print_r($results,true));
 		// ... return the total.
 		$total = 0;
+
 		foreach ($results->as_array() as $result) {
-			$total += (int) $result['total'];
+			$total += array_key_exists('total', $result) ? (int) $result['total'] : 0;
 		}
 
 		return $total;
@@ -529,16 +529,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	public function getUnmappedTotal($total_posts)
 	{
 
-				Kohana::$log->add(Log::ERROR, print_r($total_posts,true));
 		$mapped = 0;
 		$raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
 		if ($total_posts > 0) {
 
-			$mapped = DB::query(Database::SELECT, $raw_sql)->execute();
-		}
-		Kohana::$log->add(Log::ERROR, print_r((int) $mapped->get('total', 0),true));
+			$results = DB::query(Database::SELECT, $raw_sql)->execute();
 
-		return $total_posts - (int) $mapped->get('total', 0);
+			foreach($results->as_array() as $result) {
+				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
+			}
+		}
+
+		return $total_posts - $mapped;
 	}
 
 	// PostRepository
@@ -712,7 +714,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Fetch the results and...
 		$results = $this->search_query->execute($this->db);
 		$results = $results->as_array();
-
 		if ($search->include_unmapped) {
 			// Append unmapped totals to stats
 			$results['unmapped'] = $this->getUnmappedTotal($this->getSearchTotal());

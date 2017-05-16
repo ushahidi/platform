@@ -37,7 +37,7 @@ trait ModifyRecords
 	 * @param  Array $payload
 	 * @return $this
 	 */
-	public function setPayload(Array $payload)
+	public function setPayload(array $payload)
 	{
 		$this->payload = $payload;
 		return $this;

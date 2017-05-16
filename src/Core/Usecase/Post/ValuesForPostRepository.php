@@ -21,8 +21,8 @@ interface ValuesForPostRepository
 	 */
 	public function getAllForPost(
 		$post_id,
-		Array $include_attributes = [],
-		Array $exclude_stages = [],
+		array $include_attributes = [],
+		array $exclude_stages = [],
 		$restricted = false
 	);
 

@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access allowed.');
+<?php
 
 /**
  * Unit tests for the form model
@@ -9,18 +9,23 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Tests\Unit\Util;
+
+use Util_BoundingBox;
+
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class BoundingBoxTest extends PHPUnit\Framework\TestCase {
+class BoundingBoxTest extends \PHPUnit\Framework\TestCase
+{
 
 	/**
 	 * Test Bounding Box to WKT
 	 *
 	 * @return void
 	 */
-	public function test_toWKT()
+	public function testToWKT()
 	{
 		$bb = new Util_BoundingBox(-180, -90, 180, 90);
 		$this->assertEquals('POLYGON((-180 -90,180 -90,180 90,-180 90,-180 -90))', $bb->toWKT());
@@ -34,7 +39,7 @@ class BoundingBoxTest extends PHPUnit\Framework\TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_as_array()
+	public function testAsArray()
 	{
 		$bb = new Util_BoundingBox(-180, -90, 180, 90);
 		$this->assertEquals(array(-180, -90, 180, 90), $bb->as_array());
@@ -48,7 +53,7 @@ class BoundingBoxTest extends PHPUnit\Framework\TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_toGeometry()
+	public function testToGeometry()
 	{
 		$bb = new Util_BoundingBox(-180, -90, 180, 90);
 		$geom = $bb->toGeometry();
