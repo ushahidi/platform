@@ -78,9 +78,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -89,7 +89,7 @@
             "@migrate"
         ],
         "lint" : [
-            "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/*,migrations/*,bin/* --standard=src/ruleset.xml --tab-width=4 ./",
+            "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/spec/*,migrations/*,bin/* --standard=src/ruleset.xml --tab-width=4 ./",
             "phpcs --standard=tests/spec/ruleset.xml --tab-width=4 ./tests/spec/",
             "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/"
         ],

@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access allowed.');
+<?php
 
 /**
  * Unit tests for Ushahidi_Repository_PostValue
@@ -9,11 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Tests\Unit\Ushahidi;
+
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class PostValueRepositoryTest extends PHPUnit\Framework\TestCase {
+class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
+{
 
 	protected $repository;
 
@@ -21,18 +24,18 @@ class PostValueRepositoryTest extends PHPUnit\Framework\TestCase {
 	{
 		parent::setUp();
 
-		$this->repository = $this->getMockBuilder(Ushahidi_Repository_Post_Value::class)
+		$this->repository = $this->getMockBuilder(\Ushahidi_Repository_Post_Value::class)
 			->setMethods(['selectOne', 'selectQuery', 'getTable'])
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->postvalue = $this->createMock(Ushahidi\Core\Entity\PostValue::class);
+		$this->postvalue = $this->createMock(\Ushahidi\Core\Entity\PostValue::class);
 	}
 
 	/**
 	 * Test get method
 	 */
-	public function test_get()
+	public function testGet()
 	{
 		$this->repository->expects($this->any())
 			->method('selectOne')
@@ -53,7 +56,7 @@ class PostValueRepositoryTest extends PHPUnit\Framework\TestCase {
 	/**
 	 * Test get method
 	 */
-	public function test_getAllForPost()
+	public function testGetAllForPost()
 	{
 		// Create mocks
 		$mockQueryBuilder = $this->getMockBuilder('Database_Query_Builder_Select')
@@ -97,5 +100,4 @@ class PostValueRepositoryTest extends PHPUnit\Framework\TestCase {
 		$this->assertCount(3, $values);
 		$this->assertInstanceOf('Ushahidi\Core\Entity\PostValue', current($values));
 	}
-
 }
