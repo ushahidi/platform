@@ -516,7 +516,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Fetch the result and...
 		$results = $query->execute($this->db);
-		Kohana::$log->add(Log::ERROR, print_r($results,true));
 		// ... return the total.
 		$total = 0;
 		foreach ($results->as_array() as $result) {
@@ -529,14 +528,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	public function getUnmappedTotal($total_posts)
 	{
 
-				Kohana::$log->add(Log::ERROR, print_r($total_posts,true));
 		$mapped = 0;
 		$raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
 		if ($total_posts > 0) {
 
 			$mapped = DB::query(Database::SELECT, $raw_sql)->execute();
 		}
-		Kohana::$log->add(Log::ERROR, print_r((int) $mapped->get('total', 0),true));
 
 		return $total_posts - (int) $mapped->get('total', 0);
 	}
