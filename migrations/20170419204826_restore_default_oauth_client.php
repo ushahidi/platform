@@ -13,8 +13,9 @@ class RestoreDefaultOauthClient extends AbstractMigration
         // by endpoint, not the secret.
         $secret = sha1('ushahidiui');
         $this->execute(
-            "INSERT IGNORE INTO oauth_clients (id, secret, name, password_client, personal_access_client, revoked, created_at, updated_at, redirect)
-            VALUES (
+            "INSERT IGNORE INTO oauth_clients (
+                id, secret, name, password_client, personal_access_client, revoked, created_at, updated_at, redirect
+            ) VALUES (
                 'ushahidiui',
                 '$secret',
                 'Ushahidi Platform Web Client',
