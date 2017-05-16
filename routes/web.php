@@ -229,7 +229,6 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
                     $app->delete('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@destroy');
                 });
             });
-
         });
     });
 

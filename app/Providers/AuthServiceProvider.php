@@ -65,6 +65,5 @@ class AuthServiceProvider extends ServiceProvider
             'migrate' => 'Access migrate',
             'webhooks' => 'Access webhooks'
         ]);
-
     }
 }

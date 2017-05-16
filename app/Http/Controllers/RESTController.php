@@ -232,7 +232,7 @@ abstract class RESTController extends Controller
      * @throws HTTP_Exception_500
      * @return void
      */
-    protected function prepResponse(Array $responsePayload = null, Request $request)
+    protected function prepResponse(array $responsePayload = null, Request $request)
     {
         // Add CORS headers to the response
         // $this->add_cors_headers($this->response);

@@ -63,7 +63,6 @@ class Handler extends ExceptionHandler
 
         // If request asks for JSON then we return the error as JSON
         if ($request->ajax() || $request->wantsJson()) {
-
             $statusCode = 500;
             $headers = [];
 

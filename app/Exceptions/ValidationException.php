@@ -18,7 +18,7 @@ class ValidationException extends UnprocessableEntityHttpException
      * @param \Exception $previous The previous exception
      * @param int        $code     The internal exception code
      */
-    public function __construct($message = null, \Exception $previous = null, Array $errors = null)
+    public function __construct($message = null, \Exception $previous = null, array $errors = null)
     {
         $this->errors = $errors ?: [];
 
