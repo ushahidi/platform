@@ -44,10 +44,9 @@ abstract class RESTController extends Controller
     /**
      * @var array List of HTTP methods which may be cached
      */
-    protected $cacheableMethods = array
-    (
+    protected $cacheableMethods = [
         Request::METHOD_GET,
-    );
+    ];
 
     /**
      * Get current api version
