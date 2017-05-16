@@ -356,7 +356,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		if (Arr::path($data, $propertyName) === null) {
+		if (\Arr::path($data, $propertyName) === null) {
 			throw new \Exception("Property '".$propertyName."' is not set!\n");
 		}
 	}
@@ -371,7 +371,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		if (Arr::path($data, $propertyName) !== null) {
+		if (\Arr::path($data, $propertyName) !== null) {
 			throw new \Exception("Property '".$propertyName."' is set but should not be!\n");
 		}
 	}
@@ -448,7 +448,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = Arr::path($data, $propertyName);
+		$actualPropertyValue = \Arr::path($data, $propertyName);
 
 		if ($actualPropertyValue === null) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
