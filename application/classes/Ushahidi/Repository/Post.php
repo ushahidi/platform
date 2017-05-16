@@ -518,8 +518,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$results = $query->execute($this->db);
 		// ... return the total.
 		$total = 0;
+
 		foreach ($results->as_array() as $result) {
-			$total += (int) $result['total'];
+			$total += array_key_exists('total', $result) ? (int) $result['total'] : 0;
 		}
 
 		return $total;
@@ -532,10 +533,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
 		if ($total_posts > 0) {
 
-			$mapped = DB::query(Database::SELECT, $raw_sql)->execute();
+			$results = DB::query(Database::SELECT, $raw_sql)->execute();
+
+			foreach($results->as_array() as $result) {
+				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
+			}
 		}
 
-		return $total_posts - (int) $mapped->get('total', 0);
+		return $total_posts - $mapped;
 	}
 
 	// PostRepository
@@ -709,7 +714,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Fetch the results and...
 		$results = $this->search_query->execute($this->db);
 		$results = $results->as_array();
-
 		if ($search->include_unmapped) {
 			// Append unmapped totals to stats
 			$results['unmapped'] = $this->getUnmappedTotal($this->getSearchTotal());
