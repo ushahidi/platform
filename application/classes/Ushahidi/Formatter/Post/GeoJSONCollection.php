@@ -29,7 +29,6 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 			'type' => 'FeatureCollection',
 			'features' => []
 		];
-		$unmapped = 0;
 
 		foreach ($entities as $entity)
 		{
@@ -69,12 +68,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 					]
 				];
 			}
-			if(empty($geometries))
-			{
-				$unmapped++;
-			}
 		}
-		$output['unmapped'] = $unmapped;
 
 		if ($this->search->bbox)
 		{
@@ -89,6 +83,11 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 
 			$output['bbox'] = $bbox;
 		}
+
+		// Note: Appending total output despite it not being in the geojson Spec
+		// this field is used by the client so that it can determine how many requests to make
+		// in order to retrieve all the posts
+		$output['total'] = $this->total;
 		return $output;
 	}
 
