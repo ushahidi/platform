@@ -533,7 +533,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
 		if ($total_posts > 0) {
 
-			$results = DB::query(Database::SELECT, $raw_sql)->execute();
+			$results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
 
 			foreach($results->as_array() as $result) {
 				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
