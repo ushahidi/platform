@@ -30,7 +30,7 @@ trait StatefulData
 	 *
 	 * @param Array $data
 	 */
-	public function __construct(Array $data = null)
+	public function __construct(array $data = null)
 	{
 		// Initialize change tracking.
 		static::$changed[$this->getObjectId()] = [];
@@ -123,7 +123,7 @@ trait StatefulData
 	 * @param  Array  $data
 	 * @return $this
 	 */
-	public function setState(Array $data)
+	public function setState(array $data)
 	{
 		// Allow for data to be filled in by deriving from other values.
 		foreach ($this->getDerived() as $key => $possible) {

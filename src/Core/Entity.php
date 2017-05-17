@@ -41,7 +41,7 @@ interface Entity
 	 * @param  Array  $data
 	 * @return $this
 	 */
-	public function setState(Array $data);
+	public function setState(array $data);
 
 	/**
 	 * Get all values that have been changed since initial state was defined.

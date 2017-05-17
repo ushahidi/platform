@@ -30,8 +30,7 @@ class CreateMessage extends CreateUsecase
 		}
 
 		// If no user information is provided, default to the current session user.
-		if (
-			empty($entity->user_id) &&
+		if (empty($entity->user_id) &&
 			$this->auth->getUserId()
 		) {
 			$entity->setState(['user_id' => $this->auth->getUserId()]);

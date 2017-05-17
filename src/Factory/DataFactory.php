@@ -28,7 +28,7 @@ class DataFactory
 	/**
 	 * @param  Array $actions
 	 */
-	public function __construct(Array $actions)
+	public function __construct(array $actions)
 	{
 		$this->actions = $actions;
 	}
@@ -42,7 +42,7 @@ class DataFactory
 	 * @param  Array  $params
 	 * @return Ushahidi\Core\Data
 	 */
-	public function get($action, Array $params = null)
+	public function get($action, array $params = null)
 	{
 		if (empty($this->actions[$action])) {
 			throw new \InvalidArgumentException(sprintf(

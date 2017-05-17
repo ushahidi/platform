@@ -36,5 +36,5 @@ interface FormRoleRepository extends
 	 * @param  [Ushahidi\Core\Entity\FormRole, ...]  $entities
 	 * @return [Ushahidi\Core\Entity\FormRole, ...]
 	 */
-	public function updateCollection(Array $entities);
+	public function updateCollection(array $entities);
 }

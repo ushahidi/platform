@@ -15,5 +15,5 @@ namespace Ushahidi\Core\Tool;
 
 interface Transformer
 {
-	public function interact(Array $data);
+	public function interact(array $data);
 }

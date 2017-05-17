@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access allowed.');
+<?php
 
 /**
  * Unit tests for the form model
@@ -9,18 +9,23 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Tests\Unit\Util;
+
+use Util_Tile;
+
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class TileTest extends PHPUnit\Framework\TestCase {
+class TileTest extends \PHPUnit\Framework\TestCase
+{
 
 	/**
 	 * Test numTiles
 	 *
 	 * @return void
 	 */
-	public function test_numTiles()
+	public function testNumTiles()
 	{
 		$this->assertEquals(1, Util_Tile::numTiles(0));
 		$this->assertEquals(2, Util_Tile::numTiles(1));
@@ -33,7 +38,7 @@ class TileTest extends PHPUnit\Framework\TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_tileToBoundingBox()
+	public function testTileToBoundingBox()
 	{
 		$bb = Util_Tile::tileToBoundingBox(0, 0, 0);
 		$this->assertAttributeEquals(85.051100, 'north', $bb, '', 0.0002);
@@ -65,7 +70,7 @@ class TileTest extends PHPUnit\Framework\TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_tileToLon()
+	public function testTileToLon()
 	{
 		$this->assertEquals(-180, Util_Tile::tileToLon(0, 0), '', 0.0002);
 		$this->assertEquals(0, Util_Tile::tileToLon(1, 1), '', 0.0002);
@@ -78,7 +83,7 @@ class TileTest extends PHPUnit\Framework\TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_tileToLat()
+	public function testTileToLat()
 	{
 		$this->assertEquals(85.05112, Util_Tile::tileToLat(0, 0), '', 0.0002);
 		$this->assertEquals(0, Util_Tile::tileToLat(1, 1), '', 0.0002);

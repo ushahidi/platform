@@ -23,7 +23,6 @@ class CreateWebhookTable extends AbstractMigration
                     'update' => 'CASCADE',
                     ])
           ->create();
-
     }
 
     /**

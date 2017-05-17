@@ -56,7 +56,6 @@ class NotificationAuthorizer implements Authorizer
 		// Allow create, read, update and delete if owner.
 		if ($this->isUserOwner($entity, $user)
 			and in_array($privilege, ['create', 'read', 'update', 'delete'])) {
-
 			return true;
 		}
 

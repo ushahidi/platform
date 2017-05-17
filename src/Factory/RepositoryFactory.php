@@ -26,7 +26,7 @@ class RepositoryFactory
 	/**
 	 * @param  Array $map
 	 */
-	public function __construct(Array $map)
+	public function __construct(array $map)
 	{
 		$this->map = $map;
 	}

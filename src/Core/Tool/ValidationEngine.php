@@ -19,7 +19,7 @@ interface ValidationEngine
      *
      * @param Array $data array of data in $key => $value format
      */
-    public function setData(Array $data);
+    public function setData(array $data);
 
     /**
      * Get data by its array key
@@ -33,7 +33,7 @@ interface ValidationEngine
      *
      * @param Array $data array of data in $key => $value format
      */
-    public function setFullData(Array $data);
+    public function setFullData(array $data);
 
     /**
      * Get full data by its array key
@@ -47,7 +47,7 @@ interface ValidationEngine
      *
      * @return null
      */
-    public function rules($field, Array $rules);
+    public function rules($field, array $rules);
 
     /**
      * Check the data against the previously set rules

@@ -22,7 +22,7 @@ trait CollectionLoader
 	 * @param  Array  $data
 	 * @return Ushahidi\Core\Entity
 	 */
-	abstract public function getEntity(Array $data = null);
+	abstract public function getEntity(array $data = null);
 
 	/**
 	 * Converts an array of results into an array of entities,
@@ -30,7 +30,7 @@ trait CollectionLoader
 	 * @param  Array $results
 	 * @return Array
 	 */
-	protected function getCollection(Array $results)
+	protected function getCollection(array $results)
 	{
 		$collection = [];
 		foreach ($results as $row) {

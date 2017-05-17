@@ -33,7 +33,7 @@ abstract class Data
 	 * @param  Array  $data  raw input
 	 * @return void
 	 */
-	public function __construct(Array $data)
+	public function __construct(array $data)
 	{
 		// Get the (empty) array that currently exists, this tells us what
 		// properties are allowed in this object.
@@ -88,7 +88,7 @@ abstract class Data
 	 * @param  Array  $compare  existing data
 	 * @return Data
 	 */
-	public function getDifferent(Array $compare)
+	public function getDifferent(array $compare)
 	{
 		// Get the difference of current data and comparison.
 		// This will allow null values in $compare to be overridden,
