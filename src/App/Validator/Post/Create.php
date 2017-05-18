@@ -73,9 +73,10 @@ class Create extends Validator
 		FormRepository $form_repo,
 		RoleRepository $role_repo,
 		PostValueFactory $post_value_factory,
-		ValueFactory $post_value_validator_factory
+		ValueFactory $post_value_validator_factory,
+		array $limits
     ) {
-	
+
 		$this->repo = $repo;
 		$this->attribute_repo = $attribute_repo;
 		$this->stage_repo = $stage_repo;
@@ -85,6 +86,7 @@ class Create extends Validator
 		$this->role_repo = $role_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->post_value_validator_factory = $post_value_validator_factory;
+		$this->limits = $limits;
 	}
 
 	protected function getRules()
@@ -172,12 +174,10 @@ class Create extends Validator
 
 	public function checkPublishedLimit(Validation $validation, $status)
 	{
-		$config = \Kohana::$config->load('features.limits');
-
-		if ($config['posts'] !== true && $status == 'published') {
+		if ($this->limits['posts'] !== true && $status == 'published') {
 			$total_published = $this->repo->getPublishedTotal();
 
-			if ($total_published >= $config['posts']) {
+			if ($total_published >= $this->limits['posts']) {
 				$validation->error('status', 'publishedPostsLimitReached');
 			}
 		}

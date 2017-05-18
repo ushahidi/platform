@@ -19,15 +19,17 @@ class Update extends Validator
 {
 	protected $default_error_source = 'form';
 	protected $repo;
+	protected $limits;
 
 	/**
 	 * Construct
 	 *
 	 * @param FormRepository  $repo
 	 */
-	public function __construct(FormRepository $repo)
+	public function __construct(FormRepository $repo, array $limits)
 	{
 		$this->repo = $repo;
+		$this->limits = $limits;
 	}
 
 
@@ -52,12 +54,10 @@ class Update extends Validator
 
     public function checkPostTypeLimit(\Validation $validation)
     {
-		$config = \Kohana::$config->load('features.limits');
-
-		if ($config['forms'] !== true) {
+		if ($this->limits['forms'] !== true) {
 			$total_forms = $this->repo->getTotalCount();
 
-			if ($total_forms >= $config['forms']) {
+			if ($total_forms >= $this->limits['forms']) {
 				$validation->error('name', 'postTypeLimitReached');
 			}
         }
