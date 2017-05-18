@@ -22,7 +22,10 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
 
 class ContactRepository extends OhanzeeRepository implements
-	ContactRepositoryContract, CreateRepository, UpdateRepository, SearchRepository
+	ContactRepositoryContract,
+    CreateRepository,
+    UpdateRepository,
+    SearchRepository
 {
 	use UserContext;
 	use AdminAccess;
@@ -44,7 +47,7 @@ class ContactRepository extends OhanzeeRepository implements
 
 	// CreateRepository
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Contact($data);
 	}
@@ -72,10 +75,8 @@ class ContactRepository extends OhanzeeRepository implements
 
 		foreach ([
 			'user',
-		] as $fk)
-		{
-			if ($search->$fk)
-			{
+		] as $fk) {
+			if ($search->$fk) {
 				$query->where("contacts.{$fk}_id", '=', $search->$fk);
 			}
 		}
@@ -84,10 +85,8 @@ class ContactRepository extends OhanzeeRepository implements
 			'type',
 			'data_provider',
 			'contact'
-		] as $key)
-		{
-			if ($search->$key)
-			{
+		] as $key) {
+			if ($search->$key) {
 				$query->where("contacts.{$key}", '=', $search->$key);
 			}
 		}
@@ -132,7 +131,7 @@ class ContactRepository extends OhanzeeRepository implements
 	public function getNotificationContacts($set_id, $limit = false, $offset = 0)
 	{
 		$query = \DB::select('contacts.id', 'contacts.type', 'contacts.contact')
-			->distinct(TRUE)
+			->distinct(true)
 			->from('contacts')
 			->join('notifications')
 			->on('contacts.user_id', '=', 'notifications.user_id')

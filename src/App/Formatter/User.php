@@ -20,22 +20,27 @@ class User extends API
 	use FormatterAuthorizerMetadata;
 
 	public function __invoke($user)
-	{ // prefer doing it here untill we implement parent method for filtering results - mixing and matching with metadata is just plain ugly
+	{
+		// prefer doing it here until we implement parent method for filtering results
+		// - mixing and matching with metadata is just plain ugly
 		$data = parent::__invoke($user);
 
 		// Generate hash for gravatar
-		$data['gravatar'] = !empty($data['email']) ? md5(strtolower(trim($data['email']))) : '00000000000000000000000000000000';
+		$data['gravatar'] = !empty($data['email']) ?
+			md5(strtolower(trim($data['email']))) :
+			'00000000000000000000000000000000';
 
 		// Remove password
-		if (isset($data['password']))
-		{
+		if (isset($data['password'])) {
 			unset($data['password']);
 		}
 
-		if (!in_array('read_full', $data['allowed_privileges']))
-		{
+		if (!in_array('read_full', $data['allowed_privileges'])) {
 			// Remove sensitive fields
-			$data = array_intersect_key($data, array_fill_keys(['id', 'url', 'username', 'realname', 'allowed_privileges'], TRUE));
+			$data = array_intersect_key(
+				$data,
+				array_fill_keys(['id', 'url', 'username', 'realname', 'allowed_privileges'], true)
+			);
 		}
 
 		return $data;

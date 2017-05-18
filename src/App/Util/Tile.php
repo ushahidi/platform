@@ -17,7 +17,8 @@
 
 namespace Ushahidi\App\Util;
 
-class Tile {
+class Tile
+{
 
 	/**
 	 * Get number of tiles for whole map
@@ -73,5 +74,4 @@ class Tile {
 		$n = pi() * (1 - 2 * $y / self::numTiles($zoom));
 		return rad2deg(atan(sinh($n)));
 	}
-
 }

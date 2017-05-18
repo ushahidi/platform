@@ -50,17 +50,16 @@ class Update extends Validator
 		];
 	}
 
-  public function checkPostTypeLimit (\Validation $validation)
-	{
+    public function checkPostTypeLimit(\Validation $validation)
+    {
 		$config = \Kohana::$config->load('features.limits');
 
-		if ($config['forms'] !== TRUE) {
-
+		if ($config['forms'] !== true) {
 			$total_forms = $this->repo->getTotalCount();
 
 			if ($total_forms >= $config['forms']) {
 				$validation->error('name', 'postTypeLimitReached');
 			}
-		}
-	}
+        }
+    }
 }

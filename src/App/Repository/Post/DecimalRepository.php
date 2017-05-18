@@ -21,5 +21,4 @@ class DecimalRepository extends ValueRepository
 	{
 		return 'post_decimal';
 	}
-
 }

@@ -42,8 +42,7 @@ class Update extends Validator
 			return;
 		}
 
-		foreach ($permissions as $permission)
-		{
+		foreach ($permissions as $permission) {
 			if (!$this->permission_repo->exists($permission)) {
 				$validation->error('permissions', 'permissionDoesNotExist', [$permission]);
 				return;

@@ -32,22 +32,17 @@ class GeoJSONCollection implements Formatter
 			'features' => []
 		];
 
-		foreach ($entities as $entity)
-		{
+		foreach ($entities as $entity) {
 			$geometries = [];
-			foreach($entity->values as $attribute => $values)
-			{
-				foreach ($values as $value)
-				{
-					if ($geometry = $this->valueToGeometry($value))
-					{
+			foreach ($entity->values as $attribute => $values) {
+				foreach ($values as $value) {
+					if ($geometry = $this->valueToGeometry($value)) {
 						$geometries[] = $geometry;
 					}
 				}
 			}
 
-			if (! empty($geometries))
-			{
+			if (! empty($geometries)) {
 				$color = ltrim($entity->color, '#');
 				$color = $color ? '#' . $color : null;
 
@@ -72,14 +67,10 @@ class GeoJSONCollection implements Formatter
 			}
 		}
 
-		if ($this->search->bbox)
-		{
-			if (is_array($this->search->bbox))
-			{
+		if ($this->search->bbox) {
+			if (is_array($this->search->bbox)) {
 				$bbox = $this->search->bbox;
-			}
-			else
-			{
+			} else {
 				$bbox = explode(',', $this->search->bbox);
 			}
 
@@ -106,5 +97,4 @@ class GeoJSONCollection implements Formatter
 		$this->total  = $total;
 		return $this;
 	}
-
 }

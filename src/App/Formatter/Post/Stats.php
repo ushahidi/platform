@@ -64,8 +64,7 @@ class Stats implements Formatter
 
 		foreach ($records as $record) {
 			$record['label'] = $record['label'] ? $record['label'] : 'None';
-			if ($record['label'] !== $entry['key'])
-			{
+			if ($record['label'] !== $entry['key']) {
 				$totals[] = $entry;
 				$entry = [
 					'key' => $record['label'],

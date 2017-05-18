@@ -42,10 +42,10 @@ class BoundingBoxTest extends \PHPUnit\Framework\TestCase
 	public function testAsArray()
 	{
 		$bb = new BoundingBox(-180, -90, 180, 90);
-		$this->assertEquals(array(-180, -90, 180, 90), $bb->as_array());
+		$this->assertEquals(array(-180, -90, 180, 90), $bb->asArray());
 
 		$bb = new BoundingBox(-1, -1, 1, 1);
-		$this->assertEquals(array(-1, -1, 1, 1), $bb->as_array());
+		$this->assertEquals(array(-1, -1, 1, 1), $bb->asArray());
 	}
 
 	/**

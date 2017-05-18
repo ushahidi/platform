@@ -73,8 +73,9 @@ class Create extends Validator
 		FormRepository $form_repo,
 		RoleRepository $role_repo,
 		PostValueFactory $post_value_factory,
-		ValueFactory $post_value_validator_factory)
-	{
+		ValueFactory $post_value_validator_factory
+    ) {
+	
 		$this->repo = $repo;
 		$this->attribute_repo = $attribute_repo;
 		$this->stage_repo = $stage_repo;
@@ -106,12 +107,12 @@ class Create extends Validator
 			'slug' => [
 				['min_length', [':value', 2]],
 				['max_length', [':value', 150]],
-				['alpha_dash', [':value', TRUE]],
+				['alpha_dash', [':value', true]],
 				[[$this->repo, 'isSlugAvailable'], [':value']],
 			],
 			'locale' => [
 				['max_length', [':value', 5]],
-				['alpha_dash', [':value', TRUE]],
+				['alpha_dash', [':value', true]],
 				// @todo check locale is valid
 				// @todo if the translation exists and we're performing an Update,
 				//       passing locale should not throw an error
@@ -169,11 +170,11 @@ class Create extends Validator
 		];
 	}
 
-	public function checkPublishedLimit (Validation $validation, $status)
+	public function checkPublishedLimit(Validation $validation, $status)
 	{
 		$config = \Kohana::$config->load('features.limits');
 
-		if ($config['posts'] !== TRUE && $status == 'published') {
+		if ($config['posts'] !== true && $status == 'published') {
 			$total_published = $this->repo->getPublishedTotal();
 
 			if ($total_published >= $config['posts']) {
@@ -182,7 +183,7 @@ class Create extends Validator
 		}
 	}
 
-	public function checkApprovalRequired (Validation $validation, $status, $fullData)
+	public function checkApprovalRequired(Validation $validation, $status, $fullData)
 	{
 		// Status hasn't changed, moving on
 		if (!$status) {
@@ -218,14 +219,12 @@ class Create extends Validator
 			return;
 		}
 
-		foreach ($tags as $key => $tag)
-		{
+		foreach ($tags as $key => $tag) {
 			if (is_array($tag)) {
 				$tag = $tag['id'];
 			}
 
-			if (! $this->tag_repo->doesTagExist($tag))
-			{
+			if (! $this->tag_repo->doesTagExist($tag)) {
 				$validation->error('tags', 'tagDoesNotExist', [$tag]);
 			}
 		}
@@ -233,26 +232,22 @@ class Create extends Validator
 
 	public function checkValues(Validation $validation, $attributes, $fullData)
 	{
-		if (!$attributes)
-		{
+		if (!$attributes) {
 			return;
 		}
 
 		$post_id = ! empty($fullData['id']) ? $fullData['id'] : 0;
 
-		foreach ($attributes as $key => $values)
-		{
+		foreach ($attributes as $key => $values) {
 			// Check attribute exists
 			$attribute = $this->attribute_repo->getByKey($key, $fullData['form_id'], true);
-			if (! $attribute->id)
-			{
+			if (! $attribute->id) {
 				$validation->error('values', 'attributeDoesNotExist', [$key]);
 				return;
 			}
 
 			// Are there multiple values? Are they greater than cardinality limit?
-			if (count($values) > $attribute->cardinality AND $attribute->cardinality != 0)
-			{
+			if (count($values) > $attribute->cardinality and $attribute->cardinality != 0) {
 				$validation->error('values', 'tooManyValues', [
 					$attribute->label,
 					$attribute->cardinality
@@ -260,17 +255,13 @@ class Create extends Validator
 			}
 
 			// Run checks on individual values type specific validation
-			if ($validator = $this->post_value_validator_factory->getValidator($attribute->type))
-			{
+			if ($validator = $this->post_value_validator_factory->getValidator($attribute->type)) {
 				// Pass attribute config to the validator
 				$validator->setConfig($attribute->config);
 
-				if (!is_array($values))
-				{
+				if (!is_array($values)) {
 					$validation->error('values', 'notAnArray', [$attribute->label]);
-				}
-				elseif ($error = $validator->check($values))
-				{
+				} elseif ($error = $validator->check($values)) {
 					$validation->error('values', $error, [$attribute->label, $values]);
 				}
 			}
@@ -286,16 +277,13 @@ class Create extends Validator
 	 */
 	public function checkStageInForm(Validation $validation, $completed_stages, $fullData)
 	{
-		if (!$completed_stages)
-		{
+		if (!$completed_stages) {
 			return;
 		}
 
-		foreach ($completed_stages as $stage_id)
-		{
+		foreach ($completed_stages as $stage_id) {
 			// Check stage exists in form
-			if (! $this->stage_repo->existsInForm($stage_id, $fullData['form_id']))
-			{
+			if (! $this->stage_repo->existsInForm($stage_id, $fullData['form_id'])) {
 				$validation->error('completed_stages', 'stageDoesNotExist', [$stage_id]);
 				return;
 			}
@@ -314,15 +302,12 @@ class Create extends Validator
 		$completed_stages = $completed_stages ? $completed_stages : [];
 
 		// If post is being published
-		if ($fullData['status'] === 'published')
-		{
+		if ($fullData['status'] === 'published') {
 			// Load the required stages
 			$required_stages = $this->stage_repo->getRequired($fullData['form_id']);
-			foreach ($required_stages as $stage)
-			{
+			foreach ($required_stages as $stage) {
 				// Check the required stages have been completed
-				if (! in_array($stage->id, $completed_stages))
-				{
+				if (! in_array($stage->id, $completed_stages)) {
 					// If its not completed, add a validation error
 					$validation->error('completed_stages', 'stageRequired', [$stage->label]);
 				}
@@ -339,23 +324,19 @@ class Create extends Validator
 	 */
 	public function checkRequiredAttributes(Validation $validation, $attributes, $fullData)
 	{
-		if (empty($fullData['completed_stages']))
-		{
+		if (empty($fullData['completed_stages'])) {
 			return;
 		}
 
 		// If a stage is being marked completed
 		// Check if the required attribute have been completed
-		foreach ($fullData['completed_stages'] as $stage_id)
-		{
+		foreach ($fullData['completed_stages'] as $stage_id) {
 			// Load the required attributes
 			$required_attributes = $this->attribute_repo->getRequired($stage_id);
 
 			// Check each attribute has been completed
-			foreach ($required_attributes as $attr)
-			{
-				if (!array_key_exists($attr->key, $attributes))
-				{
+			foreach ($required_attributes as $attr) {
+				if (!array_key_exists($attr->key, $attributes)) {
 					$stage = $this->stage_repo->get($stage_id);
 					// If a required attribute isn't completed, throw an error
 					$validation->error('values', 'attributeRequired', [$attr->label, $stage->label]);
@@ -372,7 +353,7 @@ class Create extends Validator
 	 */
 	public function onlyAuthorOrUserSet($user_id, $fullData)
 	{
-		return (empty($user_id) OR (empty($fullData['author_email']) AND empty($fullData['author_realname'])) );
+		return (empty($user_id) or (empty($fullData['author_email']) and empty($fullData['author_realname'])) );
 	}
 
 	public function validDate($str)
@@ -380,6 +361,6 @@ class Create extends Validator
 		if ($str instanceof \DateTimeInterface) {
 			return true;
 		}
-		return (strtotime($str) !== FALSE);
+		return (strtotime($str) !== false);
 	}
 }

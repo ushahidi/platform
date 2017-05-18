@@ -47,7 +47,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return $this->savedSearch ? new SavedSearch($data) : new Set($data);
 	}
@@ -61,7 +61,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 	/**
 	 * Override selectQuery to enforce filtering by search=0/1
 	 */
-	protected function selectQuery(Array $where = [])
+	protected function selectQuery(array $where = [])
 	{
 		$query = parent::selectQuery($where);
 
@@ -76,7 +76,8 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 	 */
 
 	// CreateRepository
-	public function create(Entity $entity) {
+	public function create(Entity $entity)
+    {
 		// Get record and filter empty values
 		$record = array_filter($entity->asArray());
 
@@ -88,7 +89,6 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 
 		// Finally, save the record to the DB
 		return $this->executeInsert($this->removeNullValues($record));
-
 	}
 
 	// UpdateRepository
@@ -164,28 +164,23 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 	{
 		$sets_query = $this->search_query;
 
-		if ($search->q)
-		{
+		if ($search->q) {
 			$sets_query->where('name', 'LIKE', "%{$search->q}%");
 		}
 
-		if ($search->featured !== null)
-		{
+		if ($search->featured !== null) {
 			$sets_query->where('featured', '=', (int)$search->featured);
 		}
 
-		if ($search->user_id)
-		{
+		if ($search->user_id) {
 			$sets_query->where('user_id', '=', $search->user_id);
 		}
 
-		if (isset($search->search))
-		{
+		if (isset($search->search)) {
 			$sets_query->where('search', '=', (int)$search->search);
 		}
 
-		if ($search->id)
-		{
+		if ($search->id) {
 			$sets_query->where('id', '=', $search->id);
 		}
 	}

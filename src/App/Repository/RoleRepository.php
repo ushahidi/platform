@@ -30,7 +30,7 @@ class RoleRepository extends OhanzeeRepository implements
 		return \DB::select('permission')->from('roles_permissions')
 				->where('role', '=', $role)
 				->execute($this->db)
-				->as_array(NULL, 'permission');
+				->as_array(null, 'permission');
 	}
 
 	protected function updatePermissions($role, $permissions)
@@ -41,8 +41,7 @@ class RoleRepository extends OhanzeeRepository implements
 
 		$new_permissions = array_diff($permissions, $current_permissions);
 
-		foreach($new_permissions as $permission)
-		{
+		foreach ($new_permissions as $permission) {
 			$insert_query->values([$role, $permission]);
 		}
 
@@ -62,10 +61,9 @@ class RoleRepository extends OhanzeeRepository implements
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
-		if (!empty($data['id']))
-		{
+		if (!empty($data['id'])) {
 			$data += [
 				'permissions' => $this->getPermissions($data['name'])
 			];
@@ -84,10 +82,9 @@ class RoleRepository extends OhanzeeRepository implements
 	}
 
 	// RoleRepository
-	public function doRolesExist(Array $roles = null)
+	public function doRolesExist(array $roles = null)
 	{
-		if (!$roles)
-		{
+		if (!$roles) {
 			// 0 === 0, all day every day
 			return true;
 		}
@@ -143,8 +140,7 @@ class RoleRepository extends OhanzeeRepository implements
 			$query->where('name', '=', $search->name);
 		}
 
-		if ($search->q)
-		{
+		if ($search->q) {
 			$query->where('name', 'LIKE', "%" .$search->q. "%");
 		}
 
@@ -155,14 +151,18 @@ class RoleRepository extends OhanzeeRepository implements
 	// OhanzeeRepository
 	public function exists($role = '')
 	{
-		if (!$role) { return false; }
+		if (!$role) {
+            return false;
+        }
 		return (bool) $this->selectCount(['name' => $role]);
 	}
 
 	// OhanzeeRepository
 	public function idExists($role_id = null)
 	{
-		if (!$role_id) { return false; }
+		if (!$role_id) {
+            return false;
+        }
 		return (bool) $this->selectCount(['id' => $role_id]);
 	}
 

@@ -17,19 +17,18 @@ class Tag extends API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function format_color($value)
+	protected function formatColor($value)
 	{
 		// enforce a leading hash on color, or null if unset
 		$value = ltrim($value, '#');
 		return $value ? '#' . $value : null;
 	}
 
-     protected function format_forms($forms)
+    protected function formatForms($forms)
     {
         $output = [];
-        foreach ($forms as $formid)
-        {
-            $output[] = $this->get_relation('forms', $formid);
+        foreach ($forms as $formid) {
+            $output[] = $this->getRelation('forms', $formid);
         }
 
         return $output;

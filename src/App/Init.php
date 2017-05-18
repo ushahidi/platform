@@ -279,14 +279,15 @@ $di->set('formatter.output.json', $di->lazyNew(Ushahidi\App\Formatter\JSON::clas
 $di->set('formatter.output.jsonp', $di->lazyNew(Ushahidi\App\Formatter\JSONP::class));
 
 // Formatter parameters
-$di->setter[Ushahidi\App\Formatter\JSONP::class]['setCallback'] = function() {
+$di->setter[Ushahidi\App\Formatter\JSONP::class]['setCallback'] = function () {
 	return Request::current()->query('callback');
 };
 $di->params[Ushahidi\App\Formatter\Post::class] = [
 	'value_formatter' => $di->lazyGet('formatter.entity.post.value')
 ];
 $di->setter[Ushahidi\App\Formatter\Post\GeoJSON::class]['setDecoder'] = $di->lazyNew('Symm\Gisconverter\Decoders\WKT');
-$di->setter[Ushahidi\App\Formatter\Post\GeoJSONCollection::class]['setDecoder'] = $di->lazyNew('Symm\Gisconverter\Decoders\WKT');
+$di->setter[Ushahidi\App\Formatter\Post\GeoJSONCollection::class]['setDecoder'] =
+	$di->lazyNew('Symm\Gisconverter\Decoders\WKT');
 
 // Repositories
 $di->set('repository.config', $di->lazyNew(Ushahidi\App\Repository\ConfigRepository::class));
@@ -332,7 +333,8 @@ $di->params[Ushahidi\App\Repository\OhanzeeRepository::class] = [
 	];
 
 // Set up Json Transcode Repository Trait
-$di->setter[Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] = $di->lazyGet('tool.jsontranscode');
+$di->setter[Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] =
+	$di->lazyGet('tool.jsontranscode');
 
 // Media repository parameters
 $di->params[Ushahidi\App\Repository\MediaRepository::class] = [
@@ -503,7 +505,7 @@ $di->setter[Ushahidi\App\Validator\Form\Role\Update::class] = [
 	'setRoleRepo' => $di->lazyGet('repository.role'),
 ];
 $di->setter[Ushahidi\App\Validator\Media\Create::class] = [
-	'setMaxBytes' => $di->lazy(function() {
+	'setMaxBytes' => $di->lazy(function () {
 		return \Kohana::$config->load('media.max_upload_bytes');
 	}),
 ];
@@ -598,4 +600,3 @@ $di->setter[Ushahidi\App\Repository\FormRepository::class]['setListener'] =
 $di->setter[Ushahidi\App\Repository\UserRepository::class]['setEvent'] = 'UserGetAllEvent';
 $di->setter[Ushahidi\App\Repository\UserRepository::class]['setListener'] =
 	$di->lazyNew(Ushahidi\App\Listener\IntercomListener::class);
-

@@ -22,7 +22,8 @@ use Symm\Gisconverter\Geometry\LinearRing;
 /**
  * Bounding Box class
  */
-class BoundingBox {
+class BoundingBox
+{
 	public $north;
 	public $south;
 	public $east;
@@ -43,7 +44,9 @@ class BoundingBox {
 	 */
 	public function expandByKilometers($km = 0)
 	{
-		if (!$km) { return $this; }
+		if (!$km) {
+            return $this;
+        }
 
 		$origin = (object)[
 			'north' => $this->north,
@@ -83,7 +86,7 @@ class BoundingBox {
 	 * @param  float $angle    bearing in degrees, with 0 being North
 	 * @return Array           an array in [<lat>, <lon>] format
 	 */
-	protected function newPointByVector($lat ,$lon, $km, $angle)
+	protected function newPointByVector($lat, $lon, $km, $angle)
 	{
 		// convert units to radians
 		$lat = deg2rad($lat);
@@ -93,7 +96,7 @@ class BoundingBox {
 		$earth_radius_km = 6371;
 		$d = $km / $earth_radius_km;
 
-		$mod = function($y, $x) {
+		$mod = function ($y, $x) {
 			return $y - $x * floor($y / $x);
 		};
 
@@ -103,7 +106,7 @@ class BoundingBox {
 
 		if (cos($new_lat) === 0) {
 			$new_lon = $lon; // endpoint a pole
-		} else  {
+		} else {
 			$new_lon = $mod(
 				$lon - asin(sin($true_course) * sin($d) / cos($new_lat)) + M_PI,
 				2 * M_PI
@@ -111,7 +114,7 @@ class BoundingBox {
 		}
 
 		return [rad2deg($new_lat), rad2deg($new_lon)];
-	 }
+    }
 
 	public function toGeometry()
 	{
@@ -136,7 +139,7 @@ class BoundingBox {
 		));
 	}
 
-	public function as_array()
+	public function asArray()
 	{
 		return array($this->west, $this->north, $this->east, $this->south);
 	}

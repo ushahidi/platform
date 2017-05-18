@@ -63,7 +63,7 @@ class CSVRepository extends OhanzeeRepository implements
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new CSV($data);
 	}
@@ -73,5 +73,4 @@ class CSVRepository extends OhanzeeRepository implements
 	{
 		return ['columns', 'maps_to', 'fixed', 'filename'];
 	}
-
 }

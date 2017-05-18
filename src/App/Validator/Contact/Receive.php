@@ -15,24 +15,19 @@ use Ushahidi\Core\Entity\Contact;
 
 class Receive extends Create
 {
-	public function valid_contact($contact, $data, $validation)
+	public function validContact($contact, $data, $validation)
 	{
 		// Valid Email?
-		if ( isset($data['type']) AND
-			$data['type'] == Contact::EMAIL AND
-			 ! \Valid::email($contact) )
-		{
+		if (isset($data['type']) and
+			$data['type'] == Contact::EMAIL and
+			 ! \Valid::email($contact) ) {
 			return $validation->error('contact', 'invalid_email', [$contact]);
-		}
-
-		else if ( isset($data['type']) AND
-			$data['type'] == Contact::PHONE )
-		{
+		} elseif (isset($data['type']) and
+			$data['type'] == Contact::PHONE ) {
 			// Allow for alphanumeric sender
 			$number = preg_replace('/[^a-zA-Z0-9 ]/', '', $contact);
 
-			if (strlen($number) == 0)
-			{
+			if (strlen($number) == 0) {
 				$validation->error('contact', 'invalid_phone', [$contact]);
 			}
 		}

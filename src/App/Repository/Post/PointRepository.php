@@ -34,18 +34,14 @@ class PointRepository extends ValueRepository
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
-		try
-		{
+		try {
 			$geometry = $this->decoder->geomFromText($data['value']);
-			if ($geometry instanceof Point)
-			{
+			if ($geometry instanceof Point) {
 				$data['value'] = ['lon' => $geometry->lon, 'lat' => $geometry->lat];
 			}
-		}
-		catch (InvalidText $e)
-		{
+		} catch (InvalidText $e) {
 			$data['value'] = ['lon' => null, 'lat' => null];
 		}
 
@@ -53,7 +49,7 @@ class PointRepository extends ValueRepository
 	}
 
 	// Override selectQuery to fetch 'value' from db as text
-	protected function selectQuery(Array $where = [])
+	protected function selectQuery(array $where = [])
 	{
 		$query = parent::selectQuery($where);
 
@@ -69,14 +65,11 @@ class PointRepository extends ValueRepository
 
 	private function normalizeValue($value)
 	{
-		if (is_array($value))
-		{
+		if (is_array($value)) {
 			$value = array_map('floatval', $value);
 			$value = \DB::expr("GeomFromText('POINT(lon lat)')")->parameters($value);
-		}
-		else
-		{
-			$value = NULL;
+		} else {
+			$value = null;
 		}
 
 		return $value;
@@ -93,5 +86,4 @@ class PointRepository extends ValueRepository
 	{
 		return parent::updateValue($id, $this->normalizeValue($value));
 	}
-
 }

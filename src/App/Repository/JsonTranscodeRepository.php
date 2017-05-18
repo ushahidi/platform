@@ -16,7 +16,8 @@ namespace Ushahidi\App\Repository;
 
 use Ushahidi\Core\Tool\JsonTranscode;
 
-trait JsonTranscodeRepository {
+trait JsonTranscodeRepository
+{
 
     protected $json_transcoder;
 
@@ -32,7 +33,7 @@ trait JsonTranscodeRepository {
     }
 
     // Temporary override function for attribute addition
-    public function executeInsertAttribute(Array $input)
+    public function executeInsertAttribute(array $input)
     {
         // JSON Encode defined properties
         $input = $this->json_transcoder->encode(
@@ -44,7 +45,7 @@ trait JsonTranscodeRepository {
     }
 
     // OhanzeeRepository
-    public function executeInsert(Array $input)
+    public function executeInsert(array $input)
     {
         // JSON Encode defined properties
         // The use of array_filter causes issues with array items set as 0
@@ -58,7 +59,7 @@ trait JsonTranscodeRepository {
     }
 
     // OhanzeeRepository
-    public function executeUpdate(Array $where, Array $input)
+    public function executeUpdate(array $where, array $input)
     {
         // JSON Encode defined properties
         $input = $this->json_transcoder->encode(
@@ -68,5 +69,4 @@ trait JsonTranscodeRepository {
 
         return parent::executeUpdate($where, $input);
     }
-
 }

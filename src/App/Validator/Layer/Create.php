@@ -34,15 +34,13 @@ class Create extends Update
 				['not_empty'],
 			],
 			'data_url' => [
-				[function($validation, $data) {
+				[function ($validation, $data) {
 					// At least 1 of data_url and media_id must be defined..
-					if (empty($data['data_url']) AND empty($data['media_id']))
-					{
+					if (empty($data['data_url']) and empty($data['media_id'])) {
 						$validation->error('data_url', 'dataUrlOrMediaRequired');
 					}
 					// .. but both can't be defined at the same time
-					if (! empty($data['data_url']) AND ! empty($data['media_id']))
-					{
+					if (! empty($data['data_url']) and ! empty($data['media_id'])) {
 						$validation->error('data_url', 'dataUrlMediaConflict');
 					}
 				}, [':validation', ':data']]

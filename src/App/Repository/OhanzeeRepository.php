@@ -42,7 +42,7 @@ abstract class OhanzeeRepository implements
 	 * @param  Array  $data
 	 * @return Ushahidi\Core\Entity
 	 */
-	abstract public function getEntity(Array $data = null);
+	abstract public function getEntity(array $data = null);
 
 	/**
 	 * Get the table name for this repository.
@@ -122,7 +122,7 @@ abstract class OhanzeeRepository implements
 	{
 		$query = $this->getSearchQuery();
 
-		$results = $query->distinct(TRUE)->execute($this->db);
+		$results = $query->distinct(true)->execute($this->db);
 
 		return $this->getCollection($results->as_array());
 	}
@@ -148,7 +148,7 @@ abstract class OhanzeeRepository implements
 	 * @param  Array $data
 	 * @return Array
 	 */
-	protected function removeNullValues(Array $data)
+	protected function removeNullValues(array $data)
 	{
 		return array_filter($data, function ($val) {
 			return isset($val);
@@ -187,7 +187,7 @@ abstract class OhanzeeRepository implements
 	 * @param  Array $where hash of conditions
 	 * @return Array
 	 */
-	protected function selectOne(Array $where = [])
+	protected function selectOne(array $where = [])
 	{
 		$result = $this->selectQuery($where)
 			->limit(1)
@@ -200,7 +200,7 @@ abstract class OhanzeeRepository implements
 	 * @param  Array $where hash of conditions
 	 * @return Integer
 	 */
-	protected function selectCount(Array $where = [])
+	protected function selectCount(array $where = [])
 	{
 		$result = $this->selectQuery($where)
 			->resetSelect()
@@ -214,11 +214,10 @@ abstract class OhanzeeRepository implements
 	 * @param  Array $where optional hash of conditions
 	 * @return Database_Query_Builder_Select
 	 */
-	protected function selectQuery(Array $where = [])
+	protected function selectQuery(array $where = [])
 	{
 		$query = DB::select($this->getTable() . '.*')->from($this->getTable());
-		foreach ($where as $column => $value)
-		{
+		foreach ($where as $column => $value) {
 			$predicate = is_array($value) ? 'IN' : '=';
 			$query->where($column, $predicate, $value);
 		}
@@ -230,7 +229,7 @@ abstract class OhanzeeRepository implements
 	 * @param  Array $input hash of input
 	 * @return Integer
 	 */
-	protected function executeInsert(Array $input)
+	protected function executeInsert(array $input)
 	{
 		if (!$input) {
 			throw new RuntimeException(sprintf(
@@ -254,7 +253,7 @@ abstract class OhanzeeRepository implements
 	 * @param  Array $input hash of input
 	 * @return Integer
 	 */
-	protected function executeUpdate(Array $where, Array $input)
+	protected function executeUpdate(array $where, array $input)
 	{
 		if (!$where) {
 			throw new RuntimeException(sprintf(
@@ -265,7 +264,7 @@ abstract class OhanzeeRepository implements
 
 		// Prevent overwriting created timestamp
 		// Probably not needed if `created` is set immutable in Entity
-		if(array_key_exists('created', $input)){
+		if (array_key_exists('created', $input)) {
 			unset($input['created']);
 		}
 
@@ -274,8 +273,7 @@ abstract class OhanzeeRepository implements
 		}
 
 		$query = DB::update($this->getTable())->set($input);
-		foreach ($where as $column => $value)
-		{
+		foreach ($where as $column => $value) {
 			$query->where($column, '=', $value);
 		}
 
@@ -288,7 +286,7 @@ abstract class OhanzeeRepository implements
 	 * @param  Array $where hash of conditions
 	 * @return Integer
 	 */
-	protected function executeDelete(Array $where)
+	protected function executeDelete(array $where)
 	{
 		if (!$where) {
 			throw new RuntimeException(sprintf(
@@ -298,8 +296,7 @@ abstract class OhanzeeRepository implements
 		}
 
 		$query = DB::delete($this->getTable());
-		foreach ($where as $column => $value)
-		{
+		foreach ($where as $column => $value) {
 			$query->where($column, '=', $value);
 		}
 

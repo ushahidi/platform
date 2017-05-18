@@ -18,5 +18,4 @@ class RelationRepository extends ValueRepository
 	{
 		return 'post_relation';
 	}
-
 }

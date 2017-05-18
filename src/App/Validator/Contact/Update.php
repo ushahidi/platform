@@ -45,7 +45,7 @@ class Update extends Validator
 			],
 			'contact' => [
 				['max_length', [':value', 255]],
-				[[$this, 'valid_contact'], [':value', ':data', ':validation']],
+				[[$this, 'validContact'], [':value', ':data', ':validation']],
 			]
 		];
 	}
@@ -58,26 +58,21 @@ class Update extends Validator
 	 * @param [type] [varname] [description]
 	 * @return void
 	 */
-	public function valid_contact($contact, $data, $validation)
+	public function validContact($contact, $data, $validation)
 	{
 		// Valid Email?
-		if ( isset($data['type']) AND
-			$data['type'] == Contact::EMAIL AND
-			 ! \Valid::email($contact) )
-		{
+		if (isset($data['type']) and
+			$data['type'] == Contact::EMAIL and
+			 ! \Valid::email($contact) ) {
 			return $validation->error('contact', 'invalid_email', [$contact]);
-		}
-
-		// Valid Phone?
+		} // Valid Phone?
 		// @todo Look at using libphonenumber to validate international numbers
-		else if ( isset($data['type']) AND
-			$data['type'] == Contact::PHONE )
-		{
+		elseif (isset($data['type']) and
+			$data['type'] == Contact::PHONE ) {
 			// Remove all non-digit characters from the number
 			$number = preg_replace('/\D+/', '', $contact);
 
-			if (strlen($number) == 0)
-			{
+			if (strlen($number) == 0) {
 				$validation->error('contact', 'invalid_phone', [$contact]);
 			}
 		}

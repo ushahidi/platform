@@ -82,6 +82,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Tests\\": "tests",
             "Tests\\Unit\\": "tests/unit",
             "Tests\\Integration\\Bootstrap\\": "tests/integration/bootstrap"
         },

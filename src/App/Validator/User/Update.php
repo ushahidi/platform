@@ -37,7 +37,7 @@ class Update extends Validator
 	{
 		return [
 			'email' => [
-				['email', [':value', TRUE]],
+				['email', [':value', true]],
 				['max_length', [':value', 150]],
 				[[$this->repo, 'isUniqueEmail'], [':value']],
 			],
@@ -55,12 +55,11 @@ class Update extends Validator
 		];
 	}
 
-	public function checkAdminRoleLimit (\Validation $validation, $role)
+	public function checkAdminRoleLimit(\Validation $validation, $role)
 	{
 		$config = \Kohana::$config->load('features.limits');
 
-		if ($config['admin_users'] !== TRUE && $role == 'admin') {
-
+		if ($config['admin_users'] !== true && $role == 'admin') {
 			$total = $this->repo->getTotalCount(['role' => 'admin']);
 
 			if ($total >= $config['admin_users']) {
@@ -68,5 +67,4 @@ class Update extends Validator
 			}
 		}
 	}
-
 }

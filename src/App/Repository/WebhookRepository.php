@@ -51,21 +51,19 @@ class WebhookRepository extends OhanzeeRepository implements WebhookRepositoryCo
 
 		foreach ([
 			'user'
-		] as $fk)
-		{
-			if ($search->$fk)
-			{
+		] as $fk) {
+			if ($search->$fk) {
 				$query->where("webhooks.{$fk}_id", '=', $search->$fk);
 			}
 		}
 	}
 
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Webhook($data);
 	}
 
-	public function getByEventType($event_type= null)
+	public function getByEventType($event_type = null)
 	{
 		return $this->getEntity($this->selectOne(compact('event_type')));
 	}

@@ -27,7 +27,7 @@ class Role extends API
 			'role_id' => $entity->role_id,
 			];
 
-		$data = $this->add_metadata($data, $entity);
+		$data = $this->addMetadata($data, $entity);
 
 		return $data;
 	}

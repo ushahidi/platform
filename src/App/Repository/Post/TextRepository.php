@@ -21,5 +21,4 @@ class TextRepository extends ValueRepository
 	{
 		return 'post_text';
 	}
-
 }

@@ -27,26 +27,26 @@ class CSVPostTransformer implements MappingTransformer
 	}
 
 	// MappingTransformer
-	public function setMap(Array $map)
+	public function setMap(array $map)
 	{
 		$this->map = $map;
 	}
 
 	// MappingTransformer
-	public function setFixedValues(Array $fixedValues)
+	public function setFixedValues(array $fixedValues)
 	{
 		$this->fixedValues = $fixedValues;
 	}
 
 	// Transformer
-	public function interact(Array $record)
+	public function interact(array $record)
 	{
 		$record = array_values($record);
 		$columns = $this->map;
 
 		// Don't import columns marked as NULL
 		foreach ($columns as $index => $column) {
-			if ($column === NULL) {
+			if ($column === null) {
 				unset($columns[$index]);
 				unset($record[$index]);
 			}
@@ -56,8 +56,7 @@ class CSVPostTransformer implements MappingTransformer
 		$record = array_combine($columns, $record);
 
 		// Trim and remove empty values
-		foreach ($record as $key => $val)
-		{
+		foreach ($record as $key => $val) {
 			$record[$key] = trim($val);
 
 			if (empty($record[$key])) {
@@ -73,8 +72,7 @@ class CSVPostTransformer implements MappingTransformer
 		$post_fields = array_intersect_key($record, $post_entity->asArray());
 
 		// Remove post fields from the record and leave form values
-		foreach ($post_fields as $key => $val)
-		{
+		foreach ($post_fields as $key => $val) {
 			unset($record[$key]);
 		}
 
@@ -106,20 +104,17 @@ class CSVPostTransformer implements MappingTransformer
 	 */
 	private function mergeMultiValueFields(&$record)
 	{
-		foreach ($record as $column => $val)
-		{
+		foreach ($record as $column => $val) {
 			$keys = explode('.', $column);
 
 			// Get column name
 			$column_name = array_shift($keys);
 
 			// Assign sub-key to multi-value column
-			if (! empty($keys))
-			{
+			if (! empty($keys)) {
 				unset($record[$column]);
 
-				foreach ($keys as $key)
-				{
+				foreach ($keys as $key) {
 					$record[$column_name][$key] = $val;
 				}
 			}

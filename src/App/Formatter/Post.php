@@ -18,7 +18,7 @@ class Post extends API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function get_field_name($field)
+	protected function getFieldName($field)
 	{
 		$remap = [
 			'form_id' => 'form',
@@ -30,44 +30,43 @@ class Post extends API
 			return $remap[$field];
 		}
 
-		return parent::get_field_name($field);
+		return parent::getFieldName($field);
 	}
 
-	protected function format_form_id($form_id)
+	protected function formatFormId($form_id)
 	{
-		return $this->get_relation('forms', $form_id);
+		return $this->getRelation('forms', $form_id);
 	}
 
-	protected function format_message_id($form_id)
+	protected function formatMessageId($form_id)
 	{
-		return $this->get_relation('messages', $form_id);
+		return $this->getRelation('messages', $form_id);
 	}
 
-	protected function format_contact_id($contact_id)
+	protected function formatContactId($contact_id)
 	{
-		return $this->get_relation('contact', $contact_id);
+		return $this->getRelation('contact', $contact_id);
 	}
 
-	protected function format_color($value)
+	protected function formatColor($value)
 	{
 		// enforce a leading hash on color, or null if unset
 		$value = ltrim($value, '#');
 		return $value ? '#' . $value : null;
 	}
 
-	protected function format_tags($tags)
+	protected function formatTags($tags)
 	{
 		$output = [];
-		foreach ($tags as $tagid)
-		{
-			$output[] = $this->get_relation('tags', $tagid);
+		foreach ($tags as $tagid) {
+			$output[] = $this->getRelation('tags', $tagid);
 		}
 
 		return $output;
 	}
 
-	protected function format_post_date($value)
+	protected function formatPostDate($value)
 	{
-		return $value ? $value->format(\DateTime::W3C) : NULL;
+		return $value ? $value->format(\DateTime::W3C) : null;
 	}
 }

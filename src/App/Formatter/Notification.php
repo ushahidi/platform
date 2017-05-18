@@ -17,7 +17,7 @@ class Notification extends API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function get_field_name($field)
+	protected function getFieldName($field)
 	{
 		$remap = [
 			'set_id'  => 'set'
@@ -27,11 +27,11 @@ class Notification extends API
 			return $remap[$field];
 		}
 
-		return parent::get_field_name($field);
+		return parent::getFieldName($field);
 	}
 
-	protected function format_set_id($set_id)
+	protected function formatSetId($set_id)
 	{
-		return $this->get_relation('sets', $set_id);
+		return $this->getRelation('sets', $set_id);
 	}
 }

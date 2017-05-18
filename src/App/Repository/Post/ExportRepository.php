@@ -17,13 +17,13 @@ use Ushahidi\App\Repository\PostRepository;
 
 class ExportRepository extends PostRepository
 {
-  public function getFormAttributes($values) {
-    $attributes = [];
-		foreach ($values as $key => $val)
+    public function getFormAttributes($values)
     {
-      $attribute = $this->form_attribute_repo->getByKey($key);
-      $attributes[$key] = $attribute->label;
+        $attributes = [];
+		foreach ($values as $key => $val) {
+            $attribute = $this->form_attribute_repo->getByKey($key);
+            $attributes[$key] = $attribute->label;
+        }
+        return $attributes;
     }
-    return $attributes;
-  }
 }

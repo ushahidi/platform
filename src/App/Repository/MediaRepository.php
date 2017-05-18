@@ -42,7 +42,7 @@ class MediaRepository extends OhanzeeRepository implements
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Media($data);
 	}
@@ -64,7 +64,7 @@ class MediaRepository extends OhanzeeRepository implements
 			$this->search_query
 				->join('posts_media', 'left')
 					->on('posts_media.media_id', '=', 'media.id')
-				->where('posts_media.post_id', 'is', NULL);
+				->where('posts_media.post_id', 'is', null);
 		}
 	}
 }

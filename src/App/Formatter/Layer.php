@@ -17,7 +17,7 @@ class Layer extends API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function get_field_name($field)
+	protected function getFieldName($field)
 	{
 		$remap = [
 			'media_id' => 'media',
@@ -27,11 +27,11 @@ class Layer extends API
 			return $remap[$field];
 		}
 
-		return parent::get_field_name($field);
+		return parent::getFieldName($field);
 	}
 
-	protected function format_media_id($media_id)
+	protected function formatMediaId($media_id)
 	{
-		return $this->get_relation('media', $media_id);
+		return $this->getRelation('media', $media_id);
 	}
 }

@@ -19,7 +19,7 @@ class Create extends Set\Create
 	protected function getRules()
 	{
 		return array_merge_recursive(parent::getRules(), [
-	  'name' => [
+        'name' => [
 				['not_empty'],
 		],
 		'filter' => [

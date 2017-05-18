@@ -25,7 +25,7 @@ class PermissionRepository extends OhanzeeRepository implements
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Permission($data);
 	}
@@ -40,8 +40,7 @@ class PermissionRepository extends OhanzeeRepository implements
 	{
 		$query = $this->search_query;
 
-		if ($search->q)
-		{
+		if ($search->q) {
 			$query->where('name', 'LIKE', "%" .$search->q ."%");
 		}
 
@@ -53,5 +52,4 @@ class PermissionRepository extends OhanzeeRepository implements
 	{
 		return (bool) $this->selectCount(['name' => $permission]);
 	}
-
 }

@@ -22,7 +22,8 @@ class DatetimeRepository extends ValueRepository
 		return 'post_datetime';
 	}
 
-	private function convertToMysqlFormat($value) {
+	private function convertToMysqlFormat($value)
+    {
 		$value = date("Y-m-d H:i:s", strtotime($value));
 		return $value;
 	}

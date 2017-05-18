@@ -17,7 +17,7 @@ class Webhook extends API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function get_field_name($field)
+	protected function getFieldName($field)
 	{
 		$remap = [
 			'user_id'  => 'user'
@@ -27,11 +27,11 @@ class Webhook extends API
 			return $remap[$field];
 		}
 
-		return parent::get_field_name($field);
+		return parent::getFieldName($field);
 	}
 
-	protected function format_user_id($user_id)
+	protected function formatUserId($user_id)
 	{
-		return $this->get_relation('users', $user_id);
+		return $this->getRelation('users', $user_id);
 	}
 }

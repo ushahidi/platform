@@ -23,7 +23,7 @@ class GeometryRepository extends ValueRepository
 	}
 
 	// Override selectQuery to fetch 'value' from db as text
-	protected function selectQuery(Array $where = [])
+	protected function selectQuery(array $where = [])
 	{
 		$query = parent::selectQuery($where);
 
@@ -52,5 +52,4 @@ class GeometryRepository extends ValueRepository
 
 		return parent::updateValue($id, $value);
 	}
-
 }

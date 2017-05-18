@@ -40,21 +40,19 @@ class ValueFactory
 		return array_keys($this->map);
 	}
 
-	public function proxy(Array $include_types = [])
+	public function proxy(array $include_types = [])
 	{
 		return new ValueProxy($this, $include_types);
 	}
 
-	public function each($callback, Array $include_types = [])
+	public function each($callback, array $include_types = [])
 	{
 		$map = $this->map;
-		if ($include_types)
-		{
-			$map = array_intersect_key($this->map, array_fill_keys($include_types, TRUE));
+		if ($include_types) {
+			$map = array_intersect_key($this->map, array_fill_keys($include_types, true));
 		}
 
-		foreach ($map as $type => $class)
-		{
+		foreach ($map as $type => $class) {
 			$repo = $this->getRepo($type);
 			$callback($repo);
 		}

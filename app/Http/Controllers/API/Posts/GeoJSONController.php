@@ -32,7 +32,7 @@ class GeoJSONController extends PostsController
 			$y !== false) {
 			$boundingBox = Tile::tileToBoundingBox($zoom, $x, $y);
 
-			$request->merge(['bbox' => implode(',', $boundingBox->as_array())]);
+			$request->merge(['bbox' => implode(',', $boundingBox->asArray())]);
 		}
 	}
 

@@ -41,10 +41,10 @@ class Update extends Validator
 				['in_array', [':value', ['geojson', 'wms', 'tile']]],
 			],
 			'active' => [
-				['in_array', [':value', [0, 1, false, true], TRUE]],
+				['in_array', [':value', [0, 1, false, true], true]],
 			],
 			'visible_by_default' => [
-				['in_array', [':value', [0, 1, false, true], TRUE]],
+				['in_array', [':value', [0, 1, false, true], true]],
 			],
 			'media_id' => [
 				[[$this->media_repo, 'exists'], [':value']],

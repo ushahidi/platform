@@ -28,7 +28,7 @@ class DataProviderRepository implements
 	use CollectionLoader;
 
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new DataProviderEntity($data);
 	}
@@ -39,13 +39,10 @@ class DataProviderRepository implements
 	 */
 	protected function getAllProviders($enabled = false)
 	{
-		if ($enabled)
-		{
+		if ($enabled) {
 			// Returns all *enabled* providers.
 			return \DataProvider::get_enabled_providers();
-		}
-		else
-		{
+		} else {
 			// Returns all providers, even if they are disabled.
 			return \DataProvider::get_providers();
 		}

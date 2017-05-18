@@ -22,22 +22,20 @@ use GuzzleHttp\Exception\ClientException;
 
 class IntercomListener extends AbstractListener
 {
-  public function handle(EventInterface $event, $user_email = null, $data = null)
-  {
+    public function handle(EventInterface $event, $user_email = null, $data = null)
+    {
 		$intercomAppToken = service('site.intercomAppToken');
 
 		if ($user_email && $intercomAppToken) {
-
 			$client = new IntercomClient($intercomAppToken, null);
 			try {
-
 				$client->users->update([
 					"email" => $user_email,
 					"custom_attributes" => $data
 				]);
-			} catch(ClientException $e) {
-				\Kohana::$log->add(Log::ERROR, print_r($e,true));
+			} catch (ClientException $e) {
+				\Kohana::$log->add(Log::ERROR, print_r($e, true));
 			}
-		}
-  }
+        }
+    }
 }

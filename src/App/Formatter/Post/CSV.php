@@ -54,8 +54,7 @@ class CSV implements Formatter
 		// Add heading
 		fputcsv($fp, $heading);
 
-		foreach ($records as $record)
-		{
+		foreach ($records as $record) {
 			unset($record['attributes']);
 
 			// Transform post_date to a string
@@ -63,22 +62,16 @@ class CSV implements Formatter
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
 			}
 
-			foreach ($record as $key => $val)
-			{
+			foreach ($record as $key => $val) {
 				// Assign form values
-				if ($key == 'values')
-				{
+				if ($key == 'values') {
 					unset($record[$key]);
 
-					foreach ($val as $key => $val)
-					{
+					foreach ($val as $key => $val) {
 						$this->assignRowValue($record, $key, $val[0]);
 					}
-				}
-
-				// Assign post values
-				else
-				{
+				} // Assign post values
+				else {
 					unset($record[$key]);
 					$this->assignRowValue($record, $key, $val);
 				}
@@ -102,43 +95,31 @@ class CSV implements Formatter
 
 	private function assignRowValue(&$record, $key, $value)
 	{
-		if (is_array($value))
-		{
+		if (is_array($value)) {
 			// Assign in multiple columns
-			foreach ($value as $sub_key => $sub_value)
-			{
+			foreach ($value as $sub_key => $sub_value) {
 				$record[$key.'.'.$sub_key] = $sub_value;
 			}
-		}
-
-		// ... else assign value as single string
-		else
-		{
+		} // ... else assign value as single string
+		else {
 			$record[$key] = $value;
 		}
 	}
 
 	private function assignColumnHeading(&$columns, $key, $label, $value)
 	{
-		if (is_array($value))
-		{
+		if (is_array($value)) {
 			// Assign in multiple columns
-			foreach ($value as $sub_key => $sub_value)
-			{
+			foreach ($value as $sub_key => $sub_value) {
 				$multivalue_key = $key.'.'.$sub_key;
 
-				if (! in_array($multivalue_key, $columns))
-				{
+				if (! in_array($multivalue_key, $columns)) {
 					$columns[$multivalue_key] = $label.'.'.$sub_key;
 				}
 			}
-		}
-
-		// ... else assign single key
-		else
-		{
-			if (! in_array($key, $columns))
-			{
+		} // ... else assign single key
+		else {
+			if (! in_array($key, $columns)) {
 				$columns[$key] = $label;
 			}
 		}
@@ -156,29 +137,21 @@ class CSV implements Formatter
 		$columns = [];
 
 		// Collect all column headings
-		foreach ($records as $record)
-		{
+		foreach ($records as $record) {
 			//$record = $record->asArray();
 
 			$attributes = $record['attributes'];
 			unset($record['attributes']);
 
-			foreach ($record as $key => $val)
-			{
+			foreach ($record as $key => $val) {
 				// Assign form keys
-				if ($key == 'values')
-				{
-
-					foreach ($val as $key => $val)
-					{
+				if ($key == 'values') {
+					foreach ($val as $key => $val) {
 						$label = $attributes[$key];
 						$this->assignColumnHeading($columns, $key, $label, $val[0]);
 					}
-				}
-
-				// Assign post keys
-				else
-				{
+				} // Assign post keys
+				else {
 					$this->assignColumnHeading($columns, $key, $key, $val);
 				}
 			}

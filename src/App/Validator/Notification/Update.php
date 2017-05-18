@@ -22,8 +22,11 @@ class Update extends Validator
 	protected $savedsearch_repo;
 	protected $default_error_source = 'notification';
 
-	public function __construct(UserRepository $user_repo, SetRepository $collection_repo, SetRepository $savedsearch_repo)
-	{
+	public function __construct(
+		UserRepository $user_repo,
+		SetRepository $collection_repo,
+		SetRepository $savedsearch_repo
+	) {
 		$this->user_repo = $user_repo;
 		$this->collection_repo = $collection_repo;
 		$this->savedsearch_repo = $savedsearch_repo;

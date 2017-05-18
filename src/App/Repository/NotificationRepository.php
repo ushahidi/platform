@@ -53,16 +53,14 @@ class NotificationRepository extends OhanzeeRepository implements NotificationRe
 		foreach ([
 			'user',
 			'set',
-		] as $fk)
-		{
-			if ($search->$fk)
-			{
+		] as $fk) {
+			if ($search->$fk) {
 				$query->where("notifications.{$fk}_id", '=', $search->$fk);
 			}
 		}
 	}
 
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Notification($data);
 	}

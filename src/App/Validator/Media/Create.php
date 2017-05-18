@@ -56,10 +56,9 @@ class Create extends Validator
 
 	public function validateSize($validation, $value)
 	{
-		if ($value <= 0 || $value > $this->max_bytes)
-		{
+		if ($value <= 0 || $value > $this->max_bytes) {
 			$size_in_mb = ($this->max_bytes / 1024) / 1024;
-			$validation->error('o_size','size_error', [$size_in_mb]);
+			$validation->error('o_size', 'size_error', [$size_in_mb]);
 		}
 	}
 
@@ -71,7 +70,7 @@ class Create extends Validator
 
 		if (!$mime) {
 			$validation->error('mime', 'mime_not_empty');
-		} else if (!in_array($mime, $allowed_mime_types)) {
+		} elseif (!in_array($mime, $allowed_mime_types)) {
 			$validation->error('mime', 'mime_type_not_allowed');
 		}
 	}

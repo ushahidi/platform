@@ -25,20 +25,20 @@ class MappingTransformer implements MappingTransformerInterface
 {
 	protected $map;
 	// MappingTransformer
-	public function setMap(Array $map)
+	public function setMap(array $map)
 	{
 		$this->map = new MappingStep($map);
 	}
 
 	protected $fixedValues;
 	// MappingTransformer
-	public function setFixedValues(Array $fixedValues)
+	public function setFixedValues(array $fixedValues)
 	{
 		$this->fixedValues = $fixedValues;
 	}
 
 	// Tranformer
-	public function interact(Array $data)
+	public function interact(array $data)
 	{
 		$this->map->process($data);
 

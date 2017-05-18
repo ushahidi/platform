@@ -21,5 +21,4 @@ class VarcharRepository extends ValueRepository
 	{
 		return 'post_varchar';
 	}
-
 }

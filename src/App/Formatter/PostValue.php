@@ -23,8 +23,7 @@ class PostValue extends API
 
 	public function __invoke($entity)
 	{
-		if (isset($this->map[$entity->type]))
-		{
+		if (isset($this->map[$entity->type])) {
 			$formatter = $this->map[$entity->type];
 			return $formatter($entity);
 		}

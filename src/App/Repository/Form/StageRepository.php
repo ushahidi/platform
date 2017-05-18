@@ -50,16 +50,15 @@ class StageRepository extends OhanzeeRepository implements
 		 * @param Database                              $db
 		 * @param FormRepository                       $form_repo
 		 */
-		public function __construct(
-				\Database $db,
-				FormRepositoryContract $form_repo
-			)
-		{
-			parent::__construct($db);
+    public function __construct(
+        \Database $db,
+        FormRepositoryContract $form_repo
+    ) {
+		
+        parent::__construct($db);
 
-			$this->form_repo = $form_repo;
-
-		}
+        $this->form_repo = $form_repo;
+    }
 
 	// OhanzeeRepository
 	protected function getTable()
@@ -68,7 +67,7 @@ class StageRepository extends OhanzeeRepository implements
 	}
 
 	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(Array $where = [], $form_id = null)
+	protected function selectQuery(array $where = [], $form_id = null)
 	{
 		$query = parent::selectQuery($where);
 
@@ -82,7 +81,7 @@ class StageRepository extends OhanzeeRepository implements
 
 	// CreateRepository
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new FormStage($data);
 	}
@@ -177,9 +176,9 @@ class StageRepository extends OhanzeeRepository implements
 
 			$results = $query->execute($this->db)->as_array();
 
-			foreach($results as $stage) {
-				array_push($stages, $stage['id']);
-			}
+        foreach ($results as $stage) {
+            array_push($stages, $stage['id']);
+        }
 
 			return $stages;
 	}

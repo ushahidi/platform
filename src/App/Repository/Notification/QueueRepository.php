@@ -32,16 +32,14 @@ class QueueRepository extends OhanzeeRepository implements NotificationQueueRepo
 		foreach ([
 			'post',
 			'set',
-		] as $fk)
-		{
-			if ($search->$fk)
-			{
+		] as $fk) {
+			if ($search->$fk) {
 				$query->where("notification_queue.{$fk}_id", '=', $search->$fk);
 			}
 		}
 	}
 
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new NotificationQueue($data);
 	}

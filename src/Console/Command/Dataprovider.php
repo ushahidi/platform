@@ -20,7 +20,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Dataprovider extends Command {
+class Dataprovider extends Command
+{
 
 	public function setRepo(DataProviderRepository $repo)
 	{
@@ -39,14 +40,11 @@ class Dataprovider extends Command {
 			;
 	}
 
-	protected function get_providers(InputInterface $input, OutputInterface $output = NULL)
+	protected function getProviders(InputInterface $input, OutputInterface $output = null)
 	{
-		if ($provider = $input->getOption('provider'))
-		{
+		if ($provider = $input->getOption('provider')) {
 			$providers = [$this->repo->get($provider)];
-		}
-		else
-		{
+		} else {
 			$providers = $this->repo->all(!$input->getOption('all'));
 		}
 		return $providers;
@@ -54,11 +52,10 @@ class Dataprovider extends Command {
 
 	protected function executeList(InputInterface $input, OutputInterface $output)
 	{
-		$providers = $this->get_providers($input, $output);
+		$providers = $this->getProviders($input, $output);
 
 		$list = [];
-		foreach ($providers as $id => $provider)
-		{
+		foreach ($providers as $id => $provider) {
 			$list[] = [
 				'Name'        => $provider->name,
 				'Version'      => $provider->version,
@@ -70,13 +67,12 @@ class Dataprovider extends Command {
 
 	protected function executeIncoming(InputInterface $input, OutputInterface $output)
 	{
-		$providers = $this->get_providers($input, $output);
+		$providers = $this->getProviders($input, $output);
 		$limit = $input->getOption('limit');
 
 		$totals = [];
 
-		foreach ($providers as $provider)
-		{
+		foreach ($providers as $provider) {
 			$totals[] = [
 				'Provider' => $provider->name,
 				'Total'    => \DataProvider::factory($provider->id)->fetch($limit),
@@ -88,7 +84,7 @@ class Dataprovider extends Command {
 
 	protected function executeOutgoing(InputInterface $input, OutputInterface $output)
 	{
-		$providers = $this->get_providers($input, $output);
+		$providers = $this->getProviders($input, $output);
 		$limit = $input->getOption('limit');
 
 		// Hack: always include email no matter what!
@@ -97,8 +93,7 @@ class Dataprovider extends Command {
 		}
 
 		$totals = [];
-		foreach ($providers as $id => $provider)
-		{
+		foreach ($providers as $id => $provider) {
 			$totals[] = [
 				'Provider' => $provider->name,
 				'Total'    => \DataProvider::process_pending_messages($limit, $id)

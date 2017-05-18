@@ -20,7 +20,7 @@ trait FormsTagsTrait
             ->from('forms_tags')
             ->where('tag_id', '=', $id)
             ->execute($this->db);
-        return $result->as_array(NULL, 'form_id');
+        return $result->as_array(null, 'form_id');
     }
     //returning tags for a specific Form-id
     private function getTagsForForm($id)
@@ -29,7 +29,7 @@ trait FormsTagsTrait
             ->from('forms_tags')
             ->where('form_id', '=', $id)
             ->execute($this->db);
-        return $result->as_array(NULL, 'tag_id');
+        return $result->as_array(null, 'tag_id');
     }
 
     // updating/adding tags to a form
@@ -39,15 +39,15 @@ trait FormsTagsTrait
             \DB::delete('forms_tags')
                 ->where('form_id', '=', $form_id)
                 ->execute($this->db);
-        } else if ($tags) {
+        } elseif ($tags) {
                 $existing = $this->getTagsForForm($form_id);
                 $insert = \DB::insert('forms_tags', ['form_id', 'tag_id']);
                 $tag_ids = [];
-                $new_tags = FALSE;
+                $new_tags = false;
             foreach ($tags as $tag) {
                 if (!in_array($tag, $existing)) {
                     $insert->values([$form_id, $tag]);
-                    $new_tags = TRUE;
+                    $new_tags = true;
                 }
                     $tag_ids[] = $tag;
             }
@@ -74,7 +74,7 @@ trait FormsTagsTrait
             $existing = $this->getFormsForTag($tag_id);
             $insert = \DB::insert('forms_tags', ['form_id', 'tag_id']);
             $form_ids = [];
-            $new_forms = FALSE;
+            $new_forms = false;
             foreach ($forms as $form) {
                 if (isset($form['id'])) {
                     $id = $form['id'];
@@ -83,7 +83,7 @@ trait FormsTagsTrait
                 }
                 if (!in_array($form, $existing)) {
                     $insert->values([$id, $tag_id]);
-                    $new_forms = TRUE;
+                    $new_forms = true;
                 }
                 $form_ids[] = $id;
             }

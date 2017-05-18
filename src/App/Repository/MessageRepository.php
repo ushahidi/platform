@@ -36,7 +36,7 @@ class MessageRepository extends OhanzeeRepository implements
 
 	// CreateRepository
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Message($data);
 	}
@@ -63,13 +63,10 @@ class MessageRepository extends OhanzeeRepository implements
 			->join('contacts')
 				->on('contact_id', '=', 'contacts.id');
 
-		if ($search->box === 'outbox')
-		{
+		if ($search->box === 'outbox') {
 			// Outbox only shows outgoing messages
 			$query->where('direction', '=', 'outgoing');
-		}
-		elseif ($search->box === 'inbox')
-		{
+		} elseif ($search->box === 'inbox') {
 			// Inbox only shows incoming messages
 			$query->where('direction', '=', 'incoming');
 		}
@@ -77,26 +74,20 @@ class MessageRepository extends OhanzeeRepository implements
 		// Get the requested status, which is secondary to box
 		$status = $search->status;
 
-		if ($search->box === 'archived')
-		{
+		if ($search->box === 'archived') {
 			// Archive only shows archived messages
 			$query->where('status', '=', 'archived');
-		}
-		else if ($status)
-		{
+		} elseif ($status) {
 			if ($status !== 'all') {
 				// Search for a specific status
 				$query->where('status', '=', $status);
 			}
-		}
-		else
-		{
+		} else {
 			// Other boxes do not display archived
 			$query->where('status', '!=', 'archived');
 		}
 
-		if ($search->q)
-		{
+		if ($search->q) {
 			$query->and_where_open();
 			$query->where('contacts.contact', 'LIKE', "%$search->q%");
 			$query->or_where('title', 'LIKE', "%$search->q%");
@@ -108,10 +99,8 @@ class MessageRepository extends OhanzeeRepository implements
 			'contact',
 			'parent',
 			'post',
-		] as $fk)
-		{
-			if ($search->$fk)
-			{
+		] as $fk) {
+			if ($search->$fk) {
 				$query->where("messages.{$fk}_id", '=', $search->$fk);
 			}
 		}
@@ -119,10 +108,8 @@ class MessageRepository extends OhanzeeRepository implements
 		foreach ([
 			'type',
 			'data_provider',
-		] as $key)
-		{
-			if ($search->$key)
-			{
+		] as $key) {
+			if ($search->$key) {
 				$query->where("messages.{$key}", '=', $search->$key);
 			}
 		}
@@ -172,14 +159,11 @@ class MessageRepository extends OhanzeeRepository implements
 	// UpdateMessageRepository
 	public function checkStatus($status, $direction)
 	{
-		if ($direction === \Message_Direction::INCOMING)
-		{
-
+		if ($direction === \Message_Direction::INCOMING) {
 			return ($status == \Message_Status::RECEIVED);
 		}
 
-		if ($direction === \Message_Direction::OUTGOING)
-		{
+		if ($direction === \Message_Direction::OUTGOING) {
 			// Outgoing messages can only be: pending, cancelled, failed, unknown, sent
 			return in_array($status, [
 				\Message_Status::PENDING,
@@ -222,6 +206,8 @@ class MessageRepository extends OhanzeeRepository implements
 	//MessageRepository
 	public function notificationMessageExists($post_id, $contact_id)
 	{
-		return $this->selectCount(['notification_post_id' => $post_id, 'contact_id' => $contact_id, 'direction' => 'outgoing']) > 0;
+		return $this->selectCount(
+			['notification_post_id' => $post_id, 'contact_id' => $contact_id, 'direction' => 'outgoing']
+		) > 0;
 	}
 }

@@ -30,7 +30,7 @@ class RoleRepository extends OhanzeeRepository implements
 
 	// CreateRepository
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new FormRole($data);
 	}
@@ -56,7 +56,7 @@ class RoleRepository extends OhanzeeRepository implements
 	}
 
 	// FormRoleRepository
-	public function updateCollection(Array $entities)
+	public function updateCollection(array $entities)
 	{
 		if (empty($entities)) {
 			return;
@@ -69,7 +69,7 @@ class RoleRepository extends OhanzeeRepository implements
 		$query = \DB::insert($this->getTable())
 			->columns(array_keys(current($entities)->asArray()));
 
-		foreach($entities as $entity) {
+		foreach ($entities as $entity) {
 			$query->values($entity->asArray());
 		}
 
@@ -98,5 +98,4 @@ class RoleRepository extends OhanzeeRepository implements
 	{
 		return (bool) $this->selectCount(compact('role_id', 'form_id'));
 	}
-
 }

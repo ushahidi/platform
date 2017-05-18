@@ -37,19 +37,20 @@ class JSONP extends JSON implements Formatter, OutputFormatter
 	 */
 	public function setCallback($callback)
 	{
-		if (is_callable($callback))
-		{
+		if (is_callable($callback)) {
 			// Support using closures that return the callback names.
 			$callback = $callback();
 		}
 
-		if (empty($callback))
+		if (empty($callback)) {
 			throw new InvalidArgumentException('JSONP callback must not be empty');
+        }
 
 		// Callback can be any of: foo, Foo.bar, foo.b123, f123.b123
 		// But cannot be: 123, 1.23, foo-bar, or anything else weird
-		if (!preg_match('/^(?:[a-z_][a-z0-9_]*\.)?[a-z_][a-z0-9_]*$/i', $callback))
+		if (!preg_match('/^(?:[a-z_][a-z0-9_]*\.)?[a-z_][a-z0-9_]*$/i', $callback)) {
 			throw new InvalidArgumentException('JSONP callback is not valid: ' . $callback);
+        }
 
 		$this->callback = $callback;
 		return $this;
@@ -72,4 +73,3 @@ class JSONP extends JSON implements Formatter, OutputFormatter
 		return 'application/javascript';
 	}
 }
-

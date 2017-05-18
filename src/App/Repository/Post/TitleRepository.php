@@ -16,17 +16,21 @@ use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
 class TitleRepository extends VarcharRepository
 {
-  public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $restricted = false)
-	{
-    return [];
-  }
-  public function createValue($value, $form_attribute_id, $post_id)
-  {
-    return 0;
-  }
+    public function getAllForPost(
+        $post_id,
+        array $include_attributes = [],
+        array $exclude_stages = [],
+        $restricted = false
+    ) {
+        return [];
+    }
+    public function createValue($value, $form_attribute_id, $post_id)
+    {
+        return 0;
+    }
 
-  public function updateValue($id, $value)
-  {
-    return 0;
-  }
+    public function updateValue($id, $value)
+    {
+        return 0;
+    }
 }

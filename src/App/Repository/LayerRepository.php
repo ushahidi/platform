@@ -27,7 +27,7 @@ class LayerRepository extends OhanzeeRepository
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Layer($data);
 	}

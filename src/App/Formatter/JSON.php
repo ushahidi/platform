@@ -31,8 +31,9 @@ class JSON implements Formatter, OutputFormatter
 		$opts = $this->getOptions();
 		$json = json_encode($input, $opts);
 
-		if ($json === FALSE)
+		if ($json === false) {
 			throw new FormatterException('Unable to format data as JSON: ' . json_last_error());
+        }
 
 		return $json;
 	}
@@ -43,4 +44,3 @@ class JSON implements Formatter, OutputFormatter
 		return 'application/json';
 	}
 }
-

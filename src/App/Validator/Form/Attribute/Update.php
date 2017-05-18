@@ -34,7 +34,7 @@ class Update extends Validator
         return [
             'key' => [
                 ['max_length', [':value', 150]],
-                ['alpha_dash', [':value', TRUE]],
+                ['alpha_dash', [':value', true]],
                 [[$this->repo, 'isKeyAvailable'], [':value']]
             ],
             'label' => [
@@ -97,7 +97,7 @@ class Update extends Validator
         ];
     }
 
-     public function formStageBelongsToForm($value)
+    public function formStageBelongsToForm($value)
     {
         // don't check against nonexistant data
         if (!$value || !isset($this->valid['form_id'])) {

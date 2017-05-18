@@ -23,10 +23,9 @@ class IntRepository extends ValueRepository
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		$data['value'] = intval($data['value']);
 		return new PostValue($data);
 	}
-
 }

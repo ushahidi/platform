@@ -119,7 +119,7 @@ class Notification extends Command
 		$client_url = Kohana::$config->load('site.client_url');
 
 		// Get contacts (max $limit at a time) and generate messages.
-		while (TRUE) {
+		while (true) {
 			$contacts = $this->contactRepository
 				->getNotificationContacts($notification->set_id, $limit, $offset);
 
@@ -142,8 +142,12 @@ class Notification extends Command
 				$state = [
 					'contact_id' => $contact->id,
 					'notification_post_id' => $post->id,
-					'title' => strtr(Kohana::message('notifications', $messageType . '.title', "New post: :title"), $subs),
-					'message' => strtr(Kohana::message('notifications',  $messageType . '.message', "New post: :title"), $subs),
+					'title' => strtr(Kohana::message(
+							'notifications', $messageType . '.title', "New post: :title"
+						), $subs),
+					'message' => strtr(Kohana::message(
+							'notifications', $messageType . '.message', "New post: :title"
+						), $subs),
 					'type' => $messageType,
 					'data_provider' => $data_provider,
 				];
@@ -174,6 +178,7 @@ class Notification extends Command
 
 	private function mapContactToMessageType($contactType)
 	{
-		return isset($this->contactToMessageTypeMap[$contactType]) ? $this->contactToMessageTypeMap[$contactType] : $contactType;
+		return isset($this->contactToMessageTypeMap[$contactType])
+			? $this->contactToMessageTypeMap[$contactType] : $contactType;
 	}
 }

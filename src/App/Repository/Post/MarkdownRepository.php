@@ -21,5 +21,4 @@ class MarkdownRepository extends ValueRepository
 	{
 		return 'post_markdown';
 	}
-
 }

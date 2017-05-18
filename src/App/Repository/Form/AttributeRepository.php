@@ -50,16 +50,15 @@ class AttributeRepository extends OhanzeeRepository implements
 	 * @param FormRepository                   $form_repo
 	 */
 	public function __construct(
-			\Database $db,
-			FormStageRepositoryContract $form_stage_repo,
-			FormRepositoryContract $form_repo
-		)
-	{
+        \Database $db,
+        FormStageRepositoryContract $form_stage_repo,
+        FormRepositoryContract $form_repo
+    ) {
+	
 		parent::__construct($db);
 
 		$this->form_stage_repo = $form_stage_repo;
 		$this->form_repo = $form_repo;
-
 	}
 
 	// JsonTranscodeRepository
@@ -78,7 +77,7 @@ class AttributeRepository extends OhanzeeRepository implements
 	}
 
 	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(Array $where = [], $form_id = null, $form_stage_id = null)
+	protected function selectQuery(array $where = [], $form_id = null, $form_stage_id = null)
 	{
 		$query = parent::selectQuery($where);
 
@@ -161,7 +160,7 @@ class AttributeRepository extends OhanzeeRepository implements
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new FormAttribute($data);
 	}
@@ -227,7 +226,7 @@ class AttributeRepository extends OhanzeeRepository implements
 	// FormAttributeRepository
 	public function getRequired($stage_id)
 	{
-	 $form_id = $this->getFormId($stage_id);
+        $form_id = $this->getFormId($stage_id);
 
 		$query = $this->selectQuery([
 				'form_attributes.form_stage_id'  => $stage_id,

@@ -17,12 +17,12 @@ class Form extends API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function format_disabled($value)
+	protected function formatDisabled($value)
 	{
 		return (bool) $value;
 	}
 
-	protected function format_color($value)
+	protected function formatColor($value)
 	{
 		// enforce a leading hash on color, or null if unset
 		$value = ltrim($value, '#');

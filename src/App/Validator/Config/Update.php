@@ -23,7 +23,7 @@ class Update extends Validator
 	{
 		$config_group = $this->validation_engine->getFullData('id');
 
-		switch($config_group) {
+		switch ($config_group) {
 			case 'site':
 				$rules = [
 					'name' => [
@@ -60,7 +60,7 @@ class Update extends Validator
 						['digit', [':value']]
 					],
 					'clustering' => [
-						['in_array', [':value', [0, 1, false, true], TRUE]]
+						['in_array', [':value', [0, 1, false, true], true]]
 					],
 					'default_view' => [
 						['is_array', [':value']]

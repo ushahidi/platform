@@ -22,12 +22,9 @@ class GeoJSON implements Formatter
 	public function __invoke($entity)
 	{
 		$features = array();
-		foreach($entity->values as $attribute => $values)
-		{
-			foreach($values as $value)
-			{
-				if ($geometry = $this->valueToGeometry($value))
-				{
+		foreach ($entity->values as $attribute => $values) {
+			foreach ($values as $value) {
+				if ($geometry = $this->valueToGeometry($value)) {
 					$color = ltrim($entity->color, '#');
 					$color = $color ? '#' . $color : null;
 
@@ -56,5 +53,4 @@ class GeoJSON implements Formatter
 			// @todo include bbox
 		];
 	}
-
 }

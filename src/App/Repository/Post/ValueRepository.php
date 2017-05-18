@@ -24,7 +24,7 @@ abstract class ValueRepository extends OhanzeeRepository implements
 {
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new PostValue($data);
 	}
@@ -36,7 +36,7 @@ abstract class ValueRepository extends OhanzeeRepository implements
 	}
 
 	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(Array $where = [])
+	protected function selectQuery(array $where = [])
 	{
 		$query = parent::selectQuery($where);
 
@@ -60,8 +60,12 @@ abstract class ValueRepository extends OhanzeeRepository implements
 	}
 
 	// ValuesForPostRepository
-	public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $restricted = false)
-	{
+	public function getAllForPost(
+		$post_id,
+		array $include_attributes = [],
+		array $exclude_stages = [],
+		$restricted = false
+	) {
 		$query = $this->selectQuery(compact('post_id'));
 
 		if ($include_attributes) {
@@ -111,19 +115,17 @@ abstract class ValueRepository extends OhanzeeRepository implements
 	public function updateValue($id, $value)
 	{
 		$update = compact('value');
-		if ($id && $update)
-		{
+		if ($id && $update) {
 			$this->executeUpdate(compact('id'), $update);
 		}
 	}
 
 	// UpdatePostValueRepository
-	public function deleteNotIn($post_id, Array $ids)
+	public function deleteNotIn($post_id, array $ids)
 	{
 		\DB::delete($this->getTable())
 			->where('post_id', '=', $post_id)
 			->where('id', 'NOT IN', $ids)
 			->execute($this->db);
 	}
-
 }

@@ -31,9 +31,9 @@ class ConfigRepository implements
 	use Event;
 
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
-	  return new ConfigEntity($data);
+        return new ConfigEntity($data);
 	}
 
 	// ReadRepository
@@ -68,7 +68,6 @@ class ConfigRepository implements
 
 		$immutable = $entity->getImmutable();
 		foreach ($entity->getChanged() as $key => $val) {
-
 			// Emit Intercom Update events
 			if ($key === 'description') {
 				$intercom_data['has_description'] = true;
@@ -84,11 +83,13 @@ class ConfigRepository implements
 			}
 
 			if (! in_array($key, $immutable)) {
+				// Below is to reset the twitter-since_id when the search-terms are updated.
+				// This should be revised when the data-source tech-debt is addressed
 
-				/* Below is to reset the twitter-since_id when the search-terms are updated. This should be revised when the data-source tech-debt is addressed*/
-
-				if($key === 'twitter' && isset($config['twitter']) && $val['twitter_search_terms'] !== $config['twitter']['twitter_search_terms'])
-				{
+				if ($key === 'twitter' &&
+					isset($config['twitter']) &&
+					$val['twitter_search_terms'] !== $config['twitter']['twitter_search_terms']
+				) {
 					$twitter_config = \Kohana::$config->load('twitter');
 					$twitter_config->set('since_id', 0);
 				}
@@ -133,7 +134,7 @@ class ConfigRepository implements
 	 * @throws InvalidArgumentException when any group is invalid
 	 * @return void
 	 */
-	protected function verifyGroups(Array $groups)
+	protected function verifyGroups(array $groups)
 	{
 		$invalid = array_diff(array_values($groups), $this->groups());
 		if ($invalid) {
@@ -144,7 +145,7 @@ class ConfigRepository implements
 	}
 
 	// ConfigRepository
-	public function all(Array $groups = null)
+	public function all(array $groups = null)
 	{
 		if ($groups) {
 			$this->verifyGroups($groups);
@@ -161,4 +162,3 @@ class ConfigRepository implements
 		return $result;
 	}
 }
-

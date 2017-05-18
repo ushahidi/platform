@@ -23,6 +23,6 @@ class ValueFactory
 
 	public function getValidator($type)
 	{
-		return isset($this->map[$type]) ? $this->map[$type]() : FALSE;
+		return isset($this->map[$type]) ? $this->map[$type]() : false;
 	}
 }

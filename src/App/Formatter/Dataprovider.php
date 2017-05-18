@@ -17,22 +17,18 @@ class Dataprovider extends API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function format_options(Array $options)
+	protected function formatOptions(array $options)
 	{
-		foreach ($options as $name => $input)
-		{
-			if (isset($input['description']) AND $input['description'] instanceof \Closure)
-			{
+		foreach ($options as $name => $input) {
+			if (isset($input['description']) and $input['description'] instanceof \Closure) {
 				$options[$name]['description'] = $options[$name]['description']();
 			}
 
-			if (isset($input['label']) AND $input['label'] instanceof \Closure)
-			{
+			if (isset($input['label']) and $input['label'] instanceof \Closure) {
 				$options[$name]['label'] = $options[$name]['label']();
 			}
 
-			if (isset($input['rules']) AND $input['rules'] instanceof \Closure)
-			{
+			if (isset($input['rules']) and $input['rules'] instanceof \Closure) {
 				$options[$name]['rules'] = $options[$name]['rules']();
 			}
 		}

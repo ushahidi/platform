@@ -27,8 +27,8 @@ class PostSetListener extends AbstractListener
 		$this->repo = $repo;
 	}
 
-  public function handle(EventInterface $event, $set_id = null, $post_id = null)
-  {
+    public function handle(EventInterface $event, $set_id = null, $post_id = null)
+    {
 		// Insert into Notification Queue
 		$state = [
 			'set'  => $set_id,
@@ -38,5 +38,5 @@ class PostSetListener extends AbstractListener
 		$entity = $this->repo->getEntity();
 		$entity->setState($state);
 		$this->repo->create($entity);
-  }
+    }
 }

@@ -36,7 +36,7 @@ class FormRepository extends OhanzeeRepository implements
 
     // CreateRepository
     // ReadRepository
-    public function getEntity(Array $data = null)
+    public function getEntity(array $data = null)
     {
         if (isset($data["id"])) {
             $can_create = $this->getRolesThatCanCreatePosts($data['id']);
@@ -89,10 +89,10 @@ class FormRepository extends OhanzeeRepository implements
 
         // If orignal Form update Intercom if Name changed
         if ($entity->id === 1) {
-          foreach ($entity->getChanged() as $key => $val) {
-            $user = service('session.user');
-            $key === 'name' ? $this->emit($this->event, $user->email, ['primary_survey_name' => $val]) : null;
-          }
+            foreach ($entity->getChanged() as $key => $val) {
+                $user = service('session.user');
+                $key === 'name' ? $this->emit($this->event, $user->email, ['primary_survey_name' => $val]) : null;
+            }
         }
 
         $tags = $entity->tags;
@@ -112,7 +112,7 @@ class FormRepository extends OhanzeeRepository implements
      * @param  Array $where
      * @return int
      */
-    public function getTotalCount(Array $where = [])
+    public function getTotalCount(array $where = [])
     {
         return $this->selectCount($where);
     }
@@ -142,7 +142,7 @@ class FormRepository extends OhanzeeRepository implements
     public function getRolesThatCanCreatePosts($form_id)
     {
         $query = \DB::select('forms.everyone_can_create', 'roles.name')
-            ->distinct(TRUE)
+            ->distinct(true)
             ->from('forms')
             ->join('form_roles', 'LEFT')
             ->on('forms.id', '=', 'form_roles.form_id')

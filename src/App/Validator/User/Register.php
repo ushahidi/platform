@@ -36,7 +36,7 @@ class Register extends Validator
 			'email' => [
 				['not_empty'],
 				['max_length', [':value', 150]],
-				['email', [':value', TRUE]],
+				['email', [':value', true]],
 				[[$this->repo, 'isUniqueEmail'], [':value']],
 			],
 			'password' => [

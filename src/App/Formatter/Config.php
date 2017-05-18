@@ -28,7 +28,7 @@ class Config extends API
 		return parent::__invoke($entity);
 	}
 
-	protected function format_clustering($val)
+	protected function formatClustering($val)
 	{
 		if ($this->config_group == 'map') {
 			return (bool) $val;
@@ -37,7 +37,7 @@ class Config extends API
 		return $val;
 	}
 
-	protected function format_cluster_radius($val)
+	protected function formatClusterRadius($val)
 	{
 		if ($this->config_group == 'map') {
 			return (integer) $val;

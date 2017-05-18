@@ -15,7 +15,7 @@ class Create extends Update
 {
 	protected function getRules()
 	{
-		return array_merge_recursive(parent::getRules(),  [
+		return array_merge_recursive(parent::getRules(), [
 			'name' => [['not_empty']],
 		]);
 	}

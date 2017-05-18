@@ -54,7 +54,7 @@ class UserRepository extends OhanzeeRepository implements
 	}
 
 	// OhanzeeRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new User($data);
 	}
@@ -104,8 +104,7 @@ class UserRepository extends OhanzeeRepository implements
 	{
 		$query = $this->search_query;
 
-		if ($search->q)
-		{
+		if ($search->q) {
 			$query->and_where_open();
 			$query->where('email', 'LIKE', "%" . $search->q . "%");
 			$query->or_where('realname', 'LIKE', "%" . $search->q . "%");
@@ -114,8 +113,7 @@ class UserRepository extends OhanzeeRepository implements
 
 		if ($search->role) {
 			$role = $search->role;
-			if (!is_array($search->role))
-			{
+			if (!is_array($search->role)) {
 				$role = explode(',', $search->role);
 			}
 
@@ -152,10 +150,11 @@ class UserRepository extends OhanzeeRepository implements
 	}
 
 	// ResetPasswordRepository
-	public function getResetToken(Entity $entity) {
+	public function getResetToken(Entity $entity)
+    {
 		// Todo: replace with something more robust.
 		// This is predictable if we don't have the openssl mod
-		$token = Security::token(TRUE);
+		$token = Security::token(true);
 
 		$input = [
 			'reset_token' => $token,
@@ -173,7 +172,8 @@ class UserRepository extends OhanzeeRepository implements
 	}
 
 	// ResetPasswordRepository
-	public function isValidResetToken($token) {
+	public function isValidResetToken($token)
+    {
 		$result = \DB::select([\DB::expr('COUNT(*)'), 'total'])
 			->from('user_reset_tokens')
 			->where('reset_token', '=', $token)
@@ -186,7 +186,8 @@ class UserRepository extends OhanzeeRepository implements
 	}
 
 	// ResetPasswordRepository
-	public function setPassword($token, $password) {
+	public function setPassword($token, $password)
+    {
 		$sub = \DB::select('user_id')
 			->from('user_reset_tokens')
 			->where('reset_token', '=', $token);
@@ -197,7 +198,8 @@ class UserRepository extends OhanzeeRepository implements
 	}
 
 	// ResetPasswordRepository
-	public function deleteResetToken($token) {
+	public function deleteResetToken($token)
+    {
 		$result = \DB::delete('user_reset_tokens')
 			->where('reset_token', '=', $token)
 			->execute($this->db);
@@ -208,13 +210,14 @@ class UserRepository extends OhanzeeRepository implements
 	 * @param  Array $where
 	 * @return int
 	 */
-	public function getTotalCount(Array $where = [])
+	public function getTotalCount(array $where = [])
 	{
 		return $this->selectCount($where);
 	}
 
 	// DeleteRepository
-	public function delete(Entity $entity) {
+	public function delete(Entity $entity)
+    {
 		$this->updateIntercomUserCount(-1);
 		return parent::delete($entity);
 	}

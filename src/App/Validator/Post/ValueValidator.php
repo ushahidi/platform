@@ -18,12 +18,12 @@ abstract class ValueValidator
 
 
 	protected $config;
-	public function setConfig(Array $config = null)
+	public function setConfig(array $config = null)
 	{
 		$this->config = $config;
 	}
 
-	public function check(Array $values)
+	public function check(array $values)
 	{
 		foreach ($values as $value) {
 			if ($error = $this->validate($value)) {

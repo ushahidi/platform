@@ -32,16 +32,14 @@ class JobRepository extends OhanzeeRepository implements WebhookJobRepositoryCon
 		foreach ([
 			'post',
 			'webhook',
-		] as $fk)
-		{
-			if ($search->$fk)
-			{
+		] as $fk) {
+			if ($search->$fk) {
 				$query->where("webhook_job.{$fk}_id", '=', $search->$fk);
 			}
 		}
 	}
 
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new WebhookJob($data);
 	}

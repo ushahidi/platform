@@ -16,14 +16,16 @@ namespace Ushahidi\App\Formatter;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
+use Illuminate\Support\Str;
 
 class Console implements Formatter
 {
 	// Formatter
 	public function __invoke($entity)
 	{
-		if (!($entity instanceof Entity))
+		if (!($entity instanceof Entity)) {
 			throw new FormatterException("Console formatter requries an Entity as input");
+        }
 
 		$fields = $entity->asArray();
 
@@ -31,26 +33,21 @@ class Console implements Formatter
 			'id'  => $entity->id,
 			];
 
-		foreach ($fields as $field => $value)
-		{
-			$name = $this->get_field_name($field);
-			if (is_string($value))
-			{
+		foreach ($fields as $field => $value) {
+			$name = $this->getFieldName($field);
+			if (is_string($value)) {
 				$value = trim($value);
 			}
 
-			$method = 'format_' . $field;
-			if (method_exists($this, $method))
-			{
+			$method = 'format' . Str::studly($field);
+			if (method_exists($this, $method)) {
 				$data[$name] = $this->$method($value);
-			}
-			else
-			{
+			} else {
 				$data[$name] = $value;
 			}
 		}
 
-		$data = $this->add_metadata($data, $entity);
+		$data = $this->addMetadata($data, $entity);
 
 		return $data;
 	}
@@ -65,25 +62,25 @@ class Console implements Formatter
 	 * @param  Entity $entity resource
 	 * @return Array
 	 */
-	protected function add_metadata(Array $data, Entity $entity)
+	protected function addMetadata(array $data, Entity $entity)
 	{
 		// By default, noop
 		return $data;
 	}
 
-	protected function get_field_name($field)
+	protected function getFieldName($field)
 	{
 		// can be overloaded to remap specific fields to different public names
 		return $field;
 	}
 
-	protected function format_created($value)
+	protected function formatCreated($value)
 	{
 		return date(\DateTime::W3C, $value);
 	}
 
-	protected function format_updated($value)
+	protected function formatUpdated($value)
 	{
-		return $value ? $this->format_created($value) : NULL;
+		return $value ? $this->formatCreated($value) : null;
 	}
 }

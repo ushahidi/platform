@@ -19,7 +19,7 @@ class Media extends API
 {
 	use FormatterAuthorizerMetadata;
 
-	protected function add_metadata(Array $data, Entity $media)
+	protected function addMetadata(array $data, Entity $media)
 	{
 		// Set image dimensions from the config file
 		$medium_width     = Kohana::$config->load('media.image_medium_width');
@@ -29,10 +29,10 @@ class Media extends API
 
 		return $data + [
 			// Add additional URLs and sizes
-			// 'medium_file_url'    => $this->resized_url($medium_width, $medium_height, $media->o_filename),
+			// 'medium_file_url'    => $this->resizedUrl($medium_width, $medium_height, $media->o_filename),
 			// 'medium_width'       => $medium_width,
 			// 'medium_height'      => $medium_height,
-			// 'thumbnail_file_url' => $this->resized_url($thumbnail_width, $thumbnail_height, $media->o_filename),
+			// 'thumbnail_file_url' => $this->resizedUrl($thumbnail_width, $thumbnail_height, $media->o_filename),
 			// 'thumbnail_width'    => $thumbnail_width,
 			// 'thumbnail_height'   => $thumbnail_height,
 
@@ -41,7 +41,7 @@ class Media extends API
 		];
 	}
 
-	protected function get_field_name($field)
+	protected function getFieldName($field)
 	{
 		$remap = [
 			'o_filename' => 'original_file_url',
@@ -54,21 +54,25 @@ class Media extends API
 			return $remap[$field];
 		}
 
-		return parent::get_field_name($field);
+		return parent::getFieldName($field);
 	}
 
-	protected function format_o_filename($value)
+	protected function formatOFilename($value)
 	{
 		if ($cdnBaseUrl = Kohana::$config->load('cdn.baseurl')) {
 			return $cdnBaseUrl . $value;
 		} else {
-			return \URL::site(\Media::uri($this->get_relative_path() . $value), \Request::current());
+			return \URL::site(\Media::uri($this->getRelativePath() . $value), \Request::current());
 		}
 	}
 
-	private function get_relative_path()
+	private function getRelativePath()
 	{
-		return str_replace(Kohana::$config->load('imagefly.source_dir'), '', Kohana::$config->load('media.media_upload_dir'));
+		return str_replace(
+			Kohana::$config->load('imagefly.source_dir'),
+			'',
+			Kohana::$config->load('media.media_upload_dir')
+		);
 	}
 
 	/**
@@ -79,16 +83,13 @@ class Media extends API
 	 * @param  string $filename  The file name of the image
 	 * @return string           URL to the resized image
 	 */
-	private function resized_url($width, $height, $filename)
+	private function resizedUrl($width, $height, $filename)
 	{
 		// Format demensions appropriately depending on the value of the height
-		if ($height != NULL)
-		{
+		if ($height != null) {
 			// Image height has been set
 			$dimension = sprintf('w%s-h%s', $width, $height);
-		}
-		else
-		{
+		} else {
 			// No image height set.
 			$dimension = sprintf('w%s', $width);
 		}
@@ -96,7 +97,7 @@ class Media extends API
 		return \URL::site(
 			\Route::get('imagefly')->uri(array(
 				'params'    => $dimension,
-				'imagepath' => $this->get_relative_path() . $filename,
+				'imagepath' => $this->getRelativePath() . $filename,
 			)),
 			\Request::current()
 		);
