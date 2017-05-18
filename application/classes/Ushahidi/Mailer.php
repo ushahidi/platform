@@ -15,6 +15,11 @@ use League\Url\Url;
 
 class Ushahidi_Mailer implements Mailer
 {
+	public function __construct($siteConfig)
+	{
+		$this->siteConfig = $siteConfig;
+	}
+
 	public function send($to, $type, Array $params = null)
 	{
 		$method = "send_".$type;
@@ -28,10 +33,10 @@ class Ushahidi_Mailer implements Mailer
 
 	protected function send_resetpassword($to, $params)
 	{
-		$site_name = Kohana::$config->load('site.name');
-		$site_email = Kohana::$config->load('site.email');
+		$site_name = $this->siteConfig['name'];
+		$site_email = $this->siteConfig['email'];
 		$multisite_email = Kohana::$config->load('multisite.email');
-		$client_url = Kohana::$config->load('site.client_url');
+		$client_url = $this->siteConfig['client_url'];
 
 		// @todo make this more robust
 		if ($multisite_email) {

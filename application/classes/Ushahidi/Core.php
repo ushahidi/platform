@@ -78,6 +78,11 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('site.intercomAppToken');
 		});
 
+		// Site config
+		$di->set('site.config', function() use ($di) {
+			return Kohana::$config->load('site');
+		});
+
 		// Roles config settings
 		$di->set('roles.enabled', function() use ($di) {
 			return Kohana::$config->load('features.roles.enabled');
@@ -91,6 +96,15 @@ abstract class Ushahidi_Core {
 		// Data import config settings
 		$di->set('data-import.enabled', function() use ($di) {
 			return Kohana::$config->load('features.data-import.enabled');
+		});
+
+		$di->set('features.data-providers', function() {
+			return array_filter(\Kohana::$config->load('features.data-providers'));
+		});
+
+		// Site config
+		$di->set('features.limits', function() use ($di) {
+			return Kohana::$config->load('features.limits');
 		});
 
 		$di->set('tool.uploader.prefix', function() use ($di) {
@@ -124,6 +138,10 @@ abstract class Ushahidi_Core {
 		});
 
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
+
+		$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer', [
+			'siteConfig' => $di->lazyGet('site.config')
+		]));
 
 		/**
 		 * 1. Load the plugins

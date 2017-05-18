@@ -59,6 +59,7 @@ $di->setter['Ushahidi\Console\Command\Notification']['setMessageRepo'] = $di->la
 $di->setter['Ushahidi\Console\Command\Notification']['setContactRepo'] = $di->lazyGet('repository.contact');
 $di->setter['Ushahidi\Console\Command\Notification']['setNotificationQueueRepo'] =
 	$di->lazyGet('repository.notification.queue');
+$di->setter['Ushahidi\Console\Command\Notification']['setSiteConfig'] = $di->lazyGet('site.config');
 
 // Notification SavedSearch command
 $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\SavedSearch');
