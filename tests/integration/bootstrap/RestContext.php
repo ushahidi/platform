@@ -155,8 +155,8 @@ class RestContext implements Context
 	public function thatIWantToMakeAnOptionsRequest()
 	{
 		// Reset _restObject
-		$this->_restObject = new stdClass();
-		$this->_restObjectMethod = 'options';
+		$this->restObject = new stdClass();
+		$this->restObjectMethod = 'options';
 	}
 
 	/**
@@ -245,10 +245,10 @@ class RestContext implements Context
 					->delete($this->requestUrl.'/'.$id);
 				break;
 			case 'OPTIONS':
-				$request = (array)$this->_restObject;
+				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->_client
-					->options($this->_requestUrl.'/'.$id);
+				$http_request = $this->client
+					->options($this->requestUrl.'/'.$id);
 				break;
 		}
 
