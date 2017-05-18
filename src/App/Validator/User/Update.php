@@ -27,10 +27,11 @@ class Update extends Validator
 	protected $role_repo;
 	protected $valid;
 
-	public function __construct(UserRepository $repo, RoleRepository $role_repo)
+	public function __construct(UserRepository $repo, RoleRepository $role_repo, array $limits)
 	{
 		$this->repo = $repo;
 		$this->role_repo = $role_repo;
+		$this->limits = $limits;
 	}
 
 	protected function getRules()
@@ -57,12 +58,10 @@ class Update extends Validator
 
 	public function checkAdminRoleLimit(\Validation $validation, $role)
 	{
-		$config = \Kohana::$config->load('features.limits');
-
-		if ($config['admin_users'] !== true && $role == 'admin') {
+		if ($this->limits['admin_users'] !== true && $role == 'admin') {
 			$total = $this->repo->getTotalCount(['role' => 'admin']);
 
-			if ($total >= $config['admin_users']) {
+			if ($total >= $this->limits['admin_users']) {
 				$validation->error('role', 'adminUserLimitReached');
 			}
 		}

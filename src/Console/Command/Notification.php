@@ -56,6 +56,11 @@ class Notification extends Command
 		$this->notificationQueueRepository = $repo;
 	}
 
+	public funciton setSiteConfig($config)
+	{
+		$this->siteConfig = $config;
+	}
+
 	protected function configure()
 	{
 		$this
@@ -115,8 +120,8 @@ class Notification extends Command
 		$offset = 0;
 		$limit = 1000;
 
-		$site_name = Kohana::$config->load('site.name') ?: 'Ushahidi';
-		$client_url = Kohana::$config->load('site.client_url');
+		$site_name = $siteConfig['site.name'] ?: 'Ushahidi';
+		$client_url = $siteConfig['site.client_url'];
 
 		// Get contacts (max $limit at a time) and generate messages.
 		while (true) {
