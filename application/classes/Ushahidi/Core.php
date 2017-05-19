@@ -168,7 +168,7 @@ abstract class Ushahidi_Core {
 		/**
 		 * Attach database config
 		 */
-		self::attached_db_config();
+		// self::attached_db_config();
 	}
 
 	public static function attached_db_config()
