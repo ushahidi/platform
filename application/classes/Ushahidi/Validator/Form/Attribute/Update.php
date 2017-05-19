@@ -29,6 +29,8 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
 
     protected function getRules()
     {
+        $input = $this->validation_engine->getFullData('tags');
+
         return [
             'key' => [
                 ['max_length', [':value', 150]],
@@ -76,7 +78,7 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                 ]]],
             ],
             'required' => [
-                ['in_array', [':value', [true,false]]],
+                ['in_array', [':value', [true, false]]],
             ],
             'priority' => [
                 ['digit'],
@@ -92,10 +94,13 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
             'form_id' => [
                 ['digit'],
             ],
+            'response_private' => [
+                [[$this, 'canMakePrivate'], [':value', $input]]
+            ]
         ];
     }
 
-     public function formStageBelongsToForm($value)
+    public function formStageBelongsToForm($value)
     {
         // don't check against nonexistant data
         if (!$value || !isset($this->valid['form_id'])) {
@@ -104,5 +109,15 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
 
         $group = $this->form_stage_repo->get($value);
         return ($group->form_id == $this->valid['form_id']);
+    }
+
+    public function canMakePrivate($value, $input)
+    {
+        // If input type is tags, then attribute cannot be private
+        if ($input === 'tags' && $value !== false) {
+            return false;
+        }
+
+        return true;
     }
 }
