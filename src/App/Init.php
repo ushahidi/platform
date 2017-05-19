@@ -332,6 +332,11 @@ $di->params[Ushahidi\App\Repository\OhanzeeRepository::class] = [
 	'db' => $di->lazyGet('kohana.db'),
 	];
 
+// Config
+$di->params[Ushahidi\App\Repository\ConfigRepository::class] = [
+	'db' => $di->lazyGet('kohana.db'),
+	];
+
 // Set up Json Transcode Repository Trait
 $di->setter[Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] =
 	$di->lazyGet('tool.jsontranscode');
