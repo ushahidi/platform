@@ -6,7 +6,7 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class ConvertFormTagsToFormAttribute extends AbstractMigration
 {
-    
+
     /**
      * Migrate Up.
      */
@@ -15,7 +15,8 @@ class ConvertFormTagsToFormAttribute extends AbstractMigration
         $pdo = $this->getAdapter()->getConnection();
         $rows = $this->fetchAll(
             "SELECT id
-            FROM form_stages"
+            FROM form_stages
+            WHERE `type` = 'post'"
         );
         $tag_rows = $this->fetchAll(
             "SELECT id
