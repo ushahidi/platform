@@ -69,8 +69,10 @@ abstract class Ushahidi_Core {
 
 		// Private deployment config settings
 		$di->set('site.private', function() use ($di) {
-			return Kohana::$config->load('site.private')
-				and Kohana::$config->load('features.private.enabled');
+			$site = $di->get('site.config');
+			$features = $di->get('features');
+			return $config['private']
+				and $features['private']['enabled'];
 		});
 
 		// Intercom config settings
@@ -80,31 +82,46 @@ abstract class Ushahidi_Core {
 
 		// Site config
 		$di->set('site.config', function() use ($di) {
-			return Kohana::$config->load('site');
+			return $di->get('repository.config')->get('site')->asArray();
+		});
+
+		// Feature config
+		$di->set('features', function() use ($di) {
+			return $di->get('repository.config')->get('features')->asArray();
 		});
 
 		// Roles config settings
 		$di->set('roles.enabled', function() use ($di) {
-			return Kohana::$config->load('features.roles.enabled');
+			$config = $di->get('features');
+
+			return $config['roles']['enabled'];
 		});
 
 		// Webhooks config settings
 		$di->set('webhooks.enabled', function() use ($di) {
-			return Kohana::$config->load('features.webhooks.enabled');
+			$config = $di->get('features');
+
+			return $config['webhooks']['enabled'];
 		});
 
 		// Data import config settings
 		$di->set('data-import.enabled', function() use ($di) {
-			return Kohana::$config->load('features.data-import.enabled');
+			$config = $di->get('features');
+
+			return $config['data-import']['enabled'];
 		});
 
 		$di->set('features.data-providers', function() {
-			return array_filter(\Kohana::$config->load('features.data-providers'));
+			$config = $di->get('features');
+
+			return array_filter($config['data-providers']);
 		});
 
 		// Site config
 		$di->set('features.limits', function() use ($di) {
-			return Kohana::$config->load('features.limits');
+			$config = $di->get('features');
+
+			return $config['limits'];
 		});
 
 		$di->set('tool.uploader.prefix', function() use ($di) {
