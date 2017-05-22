@@ -11,7 +11,6 @@ class AddApiKeyToOauthTable extends AbstractMigration
     public function up()
     {
 		    $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('apikeys', 'apikeys')");
-
     }
 
     /**
