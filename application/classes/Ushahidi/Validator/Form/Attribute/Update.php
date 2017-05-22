@@ -114,7 +114,7 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
     public function canMakePrivate($value, $input)
     {
         // If input type is tags, then attribute cannot be private
-        if ($input === 'tags' && $value !== false) {
+        if ($type === 'tags' && $value !== false) {
             return false;
         }
 

@@ -54,6 +54,6 @@ class ConvertFormTagsToFormAttribute extends AbstractMigration
      */
     public function down()
     {
-         $this->execute("DELETE from form_attributes where input = 'tags'");
+         $this->execute("DELETE from form_attributes where type = 'varchar' AND input = 'tags'");
     }
 }
