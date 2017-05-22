@@ -25,7 +25,6 @@ trait PostValueRestrictions
 	{
 
 		if ($post->form_id) {
-
 			if ($this->canUserEditForm($post->form_id, $user)) {
 				return true;
 			}

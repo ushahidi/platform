@@ -68,7 +68,7 @@ class Date
 	 * @param  String $format non-default format
 	 * @return Array
 	 */
-	public function addTimestampToResults(Array $results, $key = 'date', $add = 'ts', $format = null)
+	public function addTimestampToResults(array $results, $key = 'date', $add = 'ts', $format = null)
 	{
 		if (!$format) {
 			$format = $this->getDateFormat();

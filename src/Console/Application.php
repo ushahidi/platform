@@ -23,7 +23,7 @@ class Application extends ConsoleApplication
 	 * @param  Array $commands
 	 * @return void
 	 */
-	public function injectCommands(Array $commands)
+	public function injectCommands(array $commands)
 	{
 		foreach ($commands as $command) {
 			$this->add($command());

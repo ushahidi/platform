@@ -56,7 +56,6 @@ class ContactAuthorizer implements Authorizer
 		// Contacts should not be deleted.
 		if ($this->isUserOwner($entity, $user)
 			and in_array($privilege, ['create', 'read', 'update'])) {
-
 			return true;
 		}
 

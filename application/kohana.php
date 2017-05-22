@@ -101,7 +101,11 @@ require APPPATH.'../src/Init'.EXT;
 
 // Load dotenv
 if (is_file(APPPATH.'../.env')) {
-	Dotenv::load(APPPATH.'../');
+	try {
+	    (new Dotenv\Dotenv(APPPATH.'/../'))->load();
+	} catch (Dotenv\Exception\InvalidPathException $e) {
+	    //
+	}
 }
 
 // Bootstrap the application

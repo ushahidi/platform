@@ -1,34 +1,44 @@
-# Basic apache dev box complete with phpunit
-# ready to go for ushahidi dev
-Vagrant.configure("2") do |config|
-  config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet" # vagrantcloud
-  config.vm.hostname = "ushahidi-platform.dev"
-  config.vm.network "private_network", ip: "192.168.33.110"
-  config.vm.synced_folder "./", "/var/www", id: "vagrant-root", :nfs => true
-  config.vm.network "forwarded_port", guest: 22, host: 2210
-  config.ssh.port = 2210
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
-  config.vm.provider :virtualbox do |virtualbox|
-    virtualbox.customize ["modifyvm", :id, "--name", "ushahidi-platform"]
-    virtualbox.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    virtualbox.customize ["modifyvm", :id, "--memory", "512"]
-    virtualbox.customize ["setextradata", :id, "--VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
-  end
+require 'json'
+require 'yaml'
 
-  config.vm.provision :shell do |shell|
-    # upgrade all packages (including puppet) before using the puppet provisioner.
-    # this excludes grub-pc since the hard drive id changes between VMs and will cause
-    # an interactive prompt to appear and then error out, breaking the provisioning step.
-    shell.inline = "DEBIAN_FRONTEND=noninteractive apt-mark hold grub-pc && apt-get update -y && apt-get upgrade -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
-  end
+VAGRANTFILE_API_VERSION ||= "2"
+confDir = $confDir ||= File.expand_path("vendor/laravel/homestead", File.dirname(__FILE__))
 
-  config.vm.provision :puppet do |puppet|
-    puppet.environment_path = "puppet/"
-    puppet.environment = "platform"
-    puppet.options = ["--verbose"]
-    puppet.facter = {
-        # Optionally pass in a github oauth token through an environment variable
-        "github_token" => ENV.fetch('github_token', '')
-    }
-  end
+homesteadYamlPath = File.expand_path("Homestead.yaml", File.dirname(__FILE__))
+homesteadJsonPath = File.expand_path("Homestead.json", File.dirname(__FILE__))
+afterScriptPath = "after.sh"
+aliasesPath = "aliases"
+
+require File.expand_path(confDir + '/scripts/homestead.rb')
+
+Vagrant.require_version '>= 1.9.0'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    if File.exist? aliasesPath then
+        config.vm.provision "file", source: aliasesPath, destination: "/tmp/bash_aliases"
+        config.vm.provision "shell" do |s|
+            s.inline = "awk '{ sub(\"\r$\", \"\"); print }' /tmp/bash_aliases > /home/vagrant/.bash_aliases"
+        end
+    end
+
+    if File.exist? homesteadYamlPath then
+        settings = YAML::load(File.read(homesteadYamlPath))
+    elsif File.exist? homesteadJsonPath then
+        settings = JSON.parse(File.read(homesteadJsonPath))
+    else
+        abort "Homestead settings file not found in #{confDir}"
+    end
+
+    Homestead.configure(config, settings)
+
+    if File.exist? afterScriptPath then
+        config.vm.provision "shell", path: afterScriptPath, privileged: false
+    end
+
+    if defined? VagrantPlugins::HostsUpdater
+        config.hostsupdater.aliases = settings['sites'].map { |site| site['map'] }
+    end
 end

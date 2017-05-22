@@ -35,7 +35,7 @@ trait IdentifyRecords
 	 * @param  Array $identifiers
 	 * @return $this
 	 */
-	public function setIdentifiers(Array $identifiers)
+	public function setIdentifiers(array $identifiers)
 	{
 		$this->identifiers = array_replace($this->identifiers, $identifiers);
 		return $this;
