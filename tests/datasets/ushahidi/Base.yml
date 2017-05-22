@@ -441,6 +441,18 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 1
+  -
+    id: 26
+    label: "Categories"
+    key: "tags"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: ""
+    cardinality: 0
+    form_stage_id: 1
 posts:
   -
     id: 1
@@ -950,12 +962,15 @@ posts_tags:
   -
     post_id: 1
     tag_id: 4
+    form_attribute_id: 26
   -
     post_id: 1
     tag_id: 3
+    form_attribute_id: 26
   -
     post_id: 99
     tag_id: 3
+    form_attribute_id: 26
 form_stages_posts:
   -
     form_stage_id: 1
