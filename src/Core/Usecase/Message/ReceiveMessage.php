@@ -200,7 +200,6 @@ class ReceiveMessage extends CreateUsecase
 				}
 
 				if (isset($message->additional_data['location']) && isset($inbound_fields['Location'])) {
-
 					foreach ($message->additional_data['location'] as $location) {
 						if (!empty($location['type']) &&
 							!empty($location['coordinates']) &&

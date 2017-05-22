@@ -220,8 +220,8 @@ class RestContext implements Context
 						->post($this->requestUrl)
 						->addPostFields($this->postFields)
 						->addPostFiles($this->preparePostFileData($this->postFiles));
-				} // Otherwise assume we have JSON
-				else {
+				} else {
+					// Otherwise assume we have JSON
 					$http_request = $this->client
 						->post($this->requestUrl)
 						->setBody($request['data']);
