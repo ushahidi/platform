@@ -163,6 +163,6 @@ class Controller_Sms_Nexmo extends Controller {
 			$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
 		}
 
-		$provider->receive(Message_Type::SMS, $from, $sms->text, $to, $date = NULL, NULL, $sms->message_id);
+		$provider->receive(Message_Type::SMS, $from, $sms->text, $to, $date = NULL, NULL, $sms->message_id, $additional_data);
 	}
 }

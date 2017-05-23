@@ -58,7 +58,7 @@ class Controller_Sms_Twilio extends Controller {
 		}
 
 		// @todo use other info from twillio, ie: location, media
-		$provider->receive(Message_Type::SMS, $from, $message_text, $to, $date = NULL, NULL, $message_sid);
+		$provider->receive(Message_Type::SMS, $from, $message_text, $to, $date = NULL, NULL, $message_sid, $additional_data);
 
 		// If we have an auto response configured, return the response messages
 		if (! empty($options['sms_auto_response']))

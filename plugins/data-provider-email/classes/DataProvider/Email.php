@@ -234,7 +234,7 @@ class DataProvider_Email extends DataProvider {
 				$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
 			}
 			// Save the message
-			$this->receive(Message_Type::EMAIL, $from, $message, $to, $title, $date = NULL, $data_provider_message_id);
+			$this->receive(Message_Type::EMAIL, $from, $message, $to, $title, $date = NULL, $data_provider_message_id, $additional_data);
 		}
 
 		return;

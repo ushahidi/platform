@@ -93,7 +93,7 @@ class Controller_Sms_Frontlinesms extends Controller {
 			$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
 		}
 
-		$this->_provider->receive(Message_Type::SMS, $from, $message_text);
+		$this->_provider->receive(Message_Type::SMS, $from, $message_text, $additional_data);
 
 		$this->_json['payload'] = [
 			'success' => TRUE,
