@@ -513,6 +513,79 @@ Feature: Testing the Posts API
 		Then the guzzle status code should be 200
 
 	@update
+	Scenario: Updating a post and remove some values
+		Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Update 1",
+				"type":"report",
+				"status":"published",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"last_location_point":[
+						{
+							"lat": 33.755,
+							"lon": -85.39
+						}
+					],
+					"missing_status":["believed_missing"],
+					"links":[
+						"abc123",
+						"def456"
+					]
+				}
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		# Update 2
+		Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"form":1,
+				"title":"Update 2",
+				"type":"report",
+				"status":"published",
+				"locale":"en_US",
+				"values":
+				{
+					"full_name":["David Kobia"],
+					"description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+					"date_of_birth":[],
+					"missing_date":["2012/09/25"],
+					"last_location":["atlanta"],
+					"last_location_point":[
+						{
+							"lat": 33.755,
+							"lon": -85.39
+						}
+					],
+					"missing_status":["believed_missing"],
+					"links":[
+						"def456"
+					]
+				}
+			}
+			"""
+		And that its "id" is "1"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the "values.links" property count is "1"
+		Then the guzzle status code should be 200
+
+	@update
 	Scenario: Updating a Post to update tags
 		Given that I want to update a "Post"
 		And that the request "data" is:
