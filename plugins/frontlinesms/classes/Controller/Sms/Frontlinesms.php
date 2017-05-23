@@ -87,6 +87,7 @@ class Controller_Sms_Frontlinesms extends Controller {
 
 		$options = $this->_provider->options();
 
+		$additional_data = [];
 		// Check if a form id is already associated with this data provider
 		if (isset($options['form_id'])) {
 			$additional_data['form_id'] = $options['form_id'];

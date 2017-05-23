@@ -52,6 +52,7 @@ class Controller_Sms_Twilio extends Controller {
 		$message_sid  = $this->request->post('MessageSid');
 
 		// Check if a form id is already associated with this data provider
+		$additional_data = [];
 		if (isset($options['form_id'])) {
 			$additional_data['form_id'] = $options['form_id'];
 			$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
