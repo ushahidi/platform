@@ -51,8 +51,13 @@ class Controller_Sms_Twilio extends Controller {
 		$message_text = $this->request->post('Body');
 		$message_sid  = $this->request->post('MessageSid');
 
-		// @todo use other info from twillio, ie: location, media
+		// Check if a form id is already associated with this data provider
+		if (isset($options['form_id'])) {
+			$additional_data['form_id'] = $options['form_id'];
+			$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
+		}
 
+		// @todo use other info from twillio, ie: location, media
 		$provider->receive(Message_Type::SMS, $from, $message_text, $to, $date = NULL, NULL, $message_sid);
 
 		// If we have an auto response configured, return the response messages

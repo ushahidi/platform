@@ -85,6 +85,14 @@ class Controller_Sms_Frontlinesms extends Controller {
 		// Allow for Alphanumeric sender
 		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
 
+		$this->options = $this->_provider->options();
+
+		// Check if a form id is already associated with this data provider
+		if (isset($options['form_id'])) {
+			$additional_data['form_id'] = $options['form_id'];
+			$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
+		}
+
 		$this->_provider->receive(Message_Type::SMS, $from, $message_text);
 
 		$this->_json['payload'] = [
