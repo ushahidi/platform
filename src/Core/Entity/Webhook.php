@@ -51,7 +51,7 @@ class Webhook extends StaticEntity
 			'event_type'		          => 'string',
 			'entity_type'		          => 'string',
 			'source_field_key'	      => 'string',
-			'destination_field_key'  => 'string',
+			'destination_field_key'   => 'string',
 			'user'          	        => false,
 			'user_id'       	        => 'int',
 			'form'                    => false, /* alias */
@@ -70,6 +70,6 @@ class Webhook extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return array_merge(parent::getImmutable(), ['user_id', 'form_id']);
+		return array_merge(parent::getImmutable(), ['user_id']);
 	}
 }
