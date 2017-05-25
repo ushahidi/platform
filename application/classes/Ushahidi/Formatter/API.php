@@ -107,7 +107,7 @@ class Ushahidi_Formatter_API implements Formatter
 	protected function get_relation($resource, $id)
 	{
 		return !$id ? NULL : [
-			'id'  => $id,
+			'id'  => intval($id),
 			'url' => URL::site(Ushahidi_Rest::url($resource, $id), Request::current()),
 		];
 	}

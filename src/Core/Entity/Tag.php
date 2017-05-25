@@ -26,7 +26,6 @@ class Tag extends StaticEntity
 	protected $priority;
 	protected $created;
 	protected $role;
-	protected $forms;
 	protected $children;
 
 	// StatefulData
@@ -57,8 +56,7 @@ class Tag extends StaticEntity
 			'priority'    => 'int',
 			'created'     => 'int',
 			'role'        => '*json',
-			'forms'		  => 'array',
-			'children'    =>'array',
+			'children'    => 'array',
 		];
 	}
 

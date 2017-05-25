@@ -2,7 +2,7 @@
 
 return [
   'publishedPostsLimitReached' => 'limit::posts',
-	'tagDoesNotExist' => 'tag :value does not exist',
+	'tagDoesNotExist' => 'category :value does not exist',
 	'attributeDoesNotExist' => 'attribute ":param1" does not exist',
 	'tooManyValues' => 'Too many values for :param1 (max: :param2)',
 	'valueDoesNotExist' => 'value id :param2 for field :param1 does not exist',
