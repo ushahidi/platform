@@ -625,7 +625,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->set('validator.post.tags', $di->lazyNew('Ushahidi_Validator_Post_Tags'));
 		$di->params['Ushahidi_Validator_Post_Tags'] = [
-			'tags_repo' => $di->lazyGet('repository.tags')
+			'tags_repo' => $di->lazyGet('repository.tag')
 		];
 
 
