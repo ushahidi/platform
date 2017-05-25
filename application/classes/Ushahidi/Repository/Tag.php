@@ -49,7 +49,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 					->from('tags')
 					->where('parent_id','=',$data['id'])
 					->execute($this->db)
-					->as_array();
+					->as_array(null, 'id');
 			}
 		}
 
