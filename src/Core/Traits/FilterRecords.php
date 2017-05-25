@@ -99,6 +99,14 @@ trait FilterRecords
 		if (!isset($this->filters[$name])) {
 			return $default;
 		}
-		return $this->filters[$name];
+
+		$filter = $this->filters[$name];
+
+		if (empty($filter) && !is_null($default)) {
+			// An empty filter reverts to the default
+			return $default;
+		}
+
+		return $filter;
 	}
 }
