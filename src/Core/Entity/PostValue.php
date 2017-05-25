@@ -35,7 +35,6 @@ class PostValue extends StaticEntity
 			'form_attribute_id' => 'int',
 			'value'             => null, /* @todo array or string? not sure */
 			'created'           => 'int',
-
 			'key'               => 'string',
 			'cardinality'       => 'int',
 			'type'              => 'string',

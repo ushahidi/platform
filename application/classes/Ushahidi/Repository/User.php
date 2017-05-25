@@ -19,6 +19,9 @@ use Ushahidi\Core\Tool\Hasher;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
 use Ushahidi\Core\Usecase\User\ResetPasswordRepository;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	UserRepository,
 	RegisterRepository,
@@ -28,6 +31,9 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	 * @var Hasher
 	 */
 	protected $hasher;
+
+	// Use Event trait to trigger events
+	use Event;
 
 	/**
 	 * @param  Hasher $hasher
@@ -57,6 +63,15 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		$state = [
 			'created'  => time(),
 			'password' => $this->hasher->hash($entity->password),
+		];
+		return parent::create($entity->setState($state));
+	}
+
+	// CreateRepository
+	public function createWithHash(Entity $entity)
+	{
+		$state = [
+			'created'  => time()
 		];
 
 		return parent::create($entity->setState($state));
@@ -123,6 +138,9 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	// RegisterRepository
 	public function register(Entity $entity)
 	{
+
+		$this->updateIntercomUserCount(1);
+
 		return $this->executeInsert([
 			'realname' => $entity->realname,
 			'email'    => $entity->email,
@@ -191,5 +209,26 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	public function getTotalCount(Array $where = [])
 	{
 		return $this->selectCount($where);
+	}
+
+	// DeleteRepository
+	public function delete(Entity $entity) {
+		$this->updateIntercomUserCount(-1);
+		return parent::delete($entity);
+	}
+
+	/**
+	 * Pass User count to Intercom
+	 * takes a postive/negative offset by which to increase/decrease count for create/delete
+	 * @param Integer $offset
+	 * @return void
+	 */
+	protected function updateIntercomUserCount($offset)
+	{
+		$data = [
+			'total_users' => $this->getTotalCount() + $offset
+		];
+		$user = service('session.user');
+		$this->emit($this->event, $user->email, $data);
 	}
 }

@@ -2,25 +2,34 @@
 ## Replace base_url values with the url of your dev site
 ##
 default:
-  paths:
-    features: application/tests/features
-    bootstrap: application/tests/features/bootstrap
-  formatter:
-    name: progress
-  filters:
-    tags:       "~@dataproviders"
-  context:
-    parameters:
-      base_url: http://localhost:8000
-#      proxy_url: localhost:8888
-  extensions:
-    Behat\MinkExtension\Extension:
-      base_url:  http://localhost:8000
-      goutte:
-        guzzle_parameters:
-          curl.options:
-             3 : 8000 #CURLOPT_PORT=3
-#            10004: localhost:8888 #CURLOPT_PROXY=10004
+    formatters:
+        progress: true
+    suites:
+        default:
+            paths:
+                - %paths.base%/tests/integration
+            contexts:
+                - Tests\Integration\Bootstrap\KohanaContext
+                - Tests\Integration\Bootstrap\FeatureContext
+                - Tests\Integration\Bootstrap\RestContext:
+                    baseUrl: http://localhost:8000
+                    # proxyUrl: localhost:8888
+                - Tests\Integration\Bootstrap\PHPUnitFixtureContext
+                - Tests\Integration\Bootstrap\MinkExtendedContext
+            filters:
+                tags: ~@dataproviders
+            extensions:
+                Behat\MinkExtension:
+                    base_url:  http://localhost:8000
+                    sessions:
+                        default:
+                            goutte: ~
+                    goutte:
+                        guzzle_parameters:
+                            curl.options:
+                                3 : 8000 #CURLOPT_PORT=3
+                                # 10004: localhost:8888 #CURLOPT_PROXY=10004
 ci:
-  filters:
-    tags:
+    suites:
+        default:
+            filters: ~

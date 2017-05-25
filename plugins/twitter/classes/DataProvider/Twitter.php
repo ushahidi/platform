@@ -28,36 +28,15 @@ class DataProvider_Twitter extends DataProvider {
 	private $since_id; // highest id fetched
 	private $request_count; // track requests per window
 
+	
 	public function fetch($limit = FALSE) {
 		// XXX: Store state in database config for now
 		$config = Kohana::$config;
 		$this->_initialize($config);
-
-		//Check if data provider is available
-		$providers_available = $config->load('features.data-providers');
-
-		if ( !$providers_available['twitter'] )
-		{
-		  Kohana::$log->add(Log::WARNING, 'The twitter data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
-		  return 0;
-		}
-
-		// check if we have reached our rate limit
-		if ( !$this->_can_make_request())
-		{
-			Kohana::$log->add(Log::WARNING, 'You have reached your rate limit for this window');
-			return 0;
-		}
-
 		$options = $this->options();
 
 		// Check we have the required config
-		if ( !isset($options['consumer_key']) ||
-			 !isset($options['consumer_secret']) ||
-			 !isset($options['oauth_access_token']) ||
-			 !isset($options['oauth_access_token_secret']) ||
-			 !isset($options['twitter_search_terms'])
-		)
+		if (!isset($options['twitter_search_terms']))
 		{
 			Kohana::$log->add(Log::WARNING, 'Could not fetch messages from twitter, incomplete config');
 			return 0;
@@ -67,18 +46,13 @@ class DataProvider_Twitter extends DataProvider {
 			$limit = 50;
 		}
 
-		$connection = new TwitterOAuth(
-			$options['consumer_key'],
-			$options['consumer_secret'],
-			$options['oauth_access_token'],
-			$options['oauth_access_token_secret']
-		);
-
+		$connection = $this->_connect();
+		if (is_int($connection) && $connection == 0) {
+			// The connection didn't succeed, but this is not fatal to the application flow
+			// Just return 0 messages fetched
+			return 0;
+		}
 		$connection->setDecodeJsonAsArray(true);
-
-		// Increase curl timeout values
-		$connection->setTimeouts(100, 150);
-
 		$count = 0;
 
 		try
@@ -90,7 +64,7 @@ class DataProvider_Twitter extends DataProvider {
 				"result_type" => 'recent'
 			]);
 
-			if ( empty($results['statuses']))
+			if (empty($results['statuses']))
 			{
 				return 0;
 			}
@@ -184,6 +158,32 @@ class DataProvider_Twitter extends DataProvider {
 		return $count;
 	}
 
+	public function send($to, $message, $title='')
+	{		
+		$connection = $this->_connect();
+
+		try
+		{
+			$response = $connection->post("statuses/update", [
+				"status" => '@' . $to . ' ' . $message
+			]);
+
+			if (!$response->id) {
+				return array(Message_Status::FAILED, FALSE);	
+			}
+			return array(Message_Status::SENT, $response->id);
+		}
+		catch (TwitterOAuthException $toe)
+		{
+			return array(Message_Status::FAILED, FALSE);
+		}
+		catch(Exception $e)
+		{
+			return array(Message_Status::FAILED, FALSE);
+		}
+	}
+
+
 	private function _construct_get_query($search_terms)
 	{
 		return implode(" OR ", array_map('trim', explode(",", $search_terms)));
@@ -230,4 +230,46 @@ class DataProvider_Twitter extends DataProvider {
 		$twitter_config->set("request_count", $this->request_count);
 		$twitter_config->set("since_id", $this->since_id);
 	}
+
+	private function _connect() {
+		$config = Kohana::$config;
+		$options = $this->options();
+
+		//Check if data provider is available
+		$providers_available = $config->load('features.data-providers');
+
+		if ( !$providers_available['twitter'] )
+		{
+		  Kohana::$log->add(Log::WARNING, 'The twitter data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+		  return 0;
+		}
+		// check if we have reached our rate limit
+		if ( !$this->_can_make_request())
+		{
+			Kohana::$log->add(Log::WARNING, 'You have reached your rate limit for this window');
+			return 0;
+		}
+			// Check we have the required config
+		if ( !isset($options['consumer_key']) ||
+			 !isset($options['consumer_secret']) ||
+			 !isset($options['oauth_access_token']) ||
+			 !isset($options['oauth_access_token_secret'])
+		)
+		{
+			Kohana::$log->add(Log::WARNING, 'Could not connect to twitter, incomplete config');
+			return 0;
+		}
+
+		$connection = new TwitterOAuth(
+			$options['consumer_key'],
+			$options['consumer_secret'],
+			$options['oauth_access_token'],
+			$options['oauth_access_token_secret']
+		);
+
+		// Increase curl timeout values
+		$connection->setTimeouts(100, 150);
+		return $connection;
+	}
+
 }

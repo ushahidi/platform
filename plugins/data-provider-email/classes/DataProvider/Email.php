@@ -110,7 +110,7 @@ class DataProvider_Email extends DataProvider {
 		$password = $options['incoming_password'];
 
 		// Encryption type
-		$encryption = ($encryption != 'none') ? '/'.$encryption : '';
+		$encryption = (strcasecmp($encryption, 'none') != 0) ? '/'.$encryption : '';
 
 		try
 		{

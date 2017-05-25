@@ -11,7 +11,6 @@ class AddNotificationsOauthScope extends AbstractMigration
     public function up()
     {
 		$this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('notifications', 'notifications')");
-
     }
 
     /**

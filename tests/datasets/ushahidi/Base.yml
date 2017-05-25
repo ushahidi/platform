@@ -1,0 +1,2032 @@
+roles:
+  -
+    name: "user"
+    display_name: "User"
+    protected: 1
+  -
+    name: "admin"
+    display_name: "Admin"
+    protected: 1
+  -
+    name: "manager"
+    display_name: "Manager"
+    protected: 0
+  -
+    name: "importer"
+    display_name: "Importer"
+    protected: 0
+users:
+  -
+    id: 1
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Robbie Mackay
+    email: "robbie@ushahidi.com"
+    role: "user"
+  -
+    id: 2
+    password: "$2y$15$Ha7nHVZApHXfzhrD2HCukuUjjQhIUzPJ0JNWk7KooT6edQFTbeWr6"
+    realname: Admin
+    email: "admin@ushahidi.com"
+    role: "admin"
+  -
+    id: 3
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Test User
+    email: test@v3.ushahidi.com
+    role: "user"
+  -
+    id: 4
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Import admin
+    email: "importadmin@ushahidi.com"
+    role: "admin"
+  -
+    id: 5
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Demo
+    email: "demo@ushahidi.com"
+    role: "admin"
+  -
+    id: 6
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Manager
+    email: "manager@ushahidi.com"
+    role: "manager"
+  -
+    id: 7
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Importer
+    email: "importer@ushahidi.com"
+    role: "importer"
+forms:
+  -
+    id: 1
+    name: "Test Form"
+    type: "report"
+    description: "Testing form"
+    require_approval: 0
+    hide_author: 0
+    everyone_can_create: 1
+  -
+    id: 2
+    name: "Missing people"
+    type: "report"
+    description: "Missing persons"
+    require_approval: 0
+    hide_author: 0
+    everyone_can_create: 0
+  -
+    id: 3
+    name: "Video Embed"
+    type: "report"
+    description: "Test video embed"
+    require_approval: 0
+    hide_author: 0
+    everyone_can_create: 0
+  -
+    id: 4
+    name: "Role Restriction"
+    type: "report"
+    description: "Test role restriction and private responses"
+    require_approval: 1
+    hide_author: 1
+    everyone_can_create: 0
+form_roles:
+  -
+    id: 1
+    form_id: 2
+    role_id: 1
+  -
+    id: 2
+    form_id: 4
+    role_id: 2
+  -
+    id: 3
+    form_id: 4
+    role_id: 3
+form_stages:
+  -
+    id: 1
+    form_id: 1
+    label: "Main"
+    required: 0
+    show_when_published: 1
+    type: "post"
+  -
+    id: 2
+    form_id: 1
+    label: "2nd step"
+    required: 0
+    show_when_published: 1
+    type: "task"
+  -
+    id: 3
+    form_id: 1
+    label: "3rd step"
+    required: 0
+    show_when_published: 1
+    type: "task"
+  -
+    id: 4
+    form_id: 2
+    label: "Main"
+    required: 0
+    show_when_published: 1
+    type: "post"
+  -
+    id: 5
+    form_id: 3
+    label: "Post"
+    required: 0
+    show_when_published: 1
+    type: "post"
+  -
+    id: 6
+    form_id: 4
+    label: "restricted"
+    required: 0
+    show_when_published: 0
+    type: "task"
+  -
+    id: 7
+    form_id: 4
+    label: "Post"
+    required: 0
+    show_when_published: 1
+    type: "post"
+  -
+    id: 8
+    form_id: 3
+    label: "Must be completed"
+    required: 1
+    show_when_published: 1
+    type: "task"
+form_attributes:
+  -
+    id: 1
+    label: "Test varchar"
+    key: "test_varchar"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 2
+    label: "Test point"
+    key: "test_point"
+    type: "point"
+    input: "location"
+    response_private: 0
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 3
+    label: "Full Name"
+    key: "full_name"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 4
+    label: "Description"
+    key: "description"
+    type: "description"
+    input: "textarea"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 5
+    label: "Date of birth"
+    key: "date_of_birth"
+    type: "datetime"
+    input: "date"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 6
+    label: "Missing date"
+    key: "missing_date"
+    type: "datetime"
+    input: "date"
+    response_private: 0
+    required: 0
+    priority: 4
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 7
+    label: "Last Location"
+    key: "last_location"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 1
+    priority: 5
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 8
+    label: "Last Location (point)"
+    key: "last_location_point"
+    type: "point"
+    input: "location"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 0
+    form_stage_id: 1
+  -
+    id: 9
+    label: "Geometry test"
+    key: "geometry_test"
+    type: "geometry"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 10
+    label: "Status"
+    key: "missing_status"
+    type: "varchar"
+    input: "select"
+    response_private: 0
+    required: 0
+    options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
+    priority: 5
+    cardinality: 0
+    form_stage_id: 1
+  -
+    id: 11
+    label: "Links"
+    key: "links"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 7
+    cardinality: 0
+    form_stage_id: 1
+  -
+    id: 12
+    label: "Second Point"
+    key: "second_point"
+    type: "point"
+    input: "location"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 13
+    label: "Person Status"
+    key: "person_status"
+    type: "varchar"
+    input: "select"
+    response_private: 0
+    required: 0
+    options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
+    priority: 5
+    cardinality: 0
+    form_stage_id: 2
+  -
+    id: 14
+    label: "Media Test"
+    key: "media_test"
+    type: "media"
+    input: "upload"
+    response_private: 0
+    required: 0
+    priority: 7
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 15
+    label: "Possible actions"
+    key: "possible_actions"
+    type: "varchar"
+    input: "checkbox"
+    response_private: 0
+    required: 0
+    options: '["ground_search","medical_evacuation"]'
+    priority: 5
+    cardinality: 0
+    config: '[]'
+    form_stage_id: 1
+  -
+    id: 16
+    label: "Video"
+    key: "video_field"
+    type: "video"
+    input: "video"
+    response_private: 0
+    required: 0
+    options: '[]'
+    priority: 5
+    cardinality: 0
+    config: '[]'
+    form_stage_id: 5
+  -
+    id: 17
+    label: "Title"
+    key: "title"
+    type: "title"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 18
+    label: "Test Field Level Locking 1"
+    key: "test_field_locking_hidden_1"
+    type: "text"
+    input: "text"
+    response_private: 1
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 19
+    label: "Test Field Level Locking 2"
+    key: "test_field_locking_visible_1"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 20
+    label: "Test Field Level Locking 3"
+    key: "test_field_locking_visible_2"
+    type: "title"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 21
+    label: "Test Field Level Locking 4"
+    key: "test_field_locking_hidden_2"
+    type: "text"
+    input: "text"
+    response_private: 1
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 22
+    label: "Test Field Level Locking 5"
+    key: "test_field_locking_visible_3"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 6
+  -
+    id: 23
+    label: "Test Field Level Locking 6"
+    key: "test_field_locking_hidden_3"
+    type: "text"
+    input: "text"
+    response_private: 1
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 7
+  -
+    id: 24
+    label: "Test Field Level Locking 7"
+    key: "test_field_locking_visible_4"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 7
+  -
+    id: 25
+    label: "Test markdown"
+    key: "markdown"
+    type: "markdown"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 1
+  -
+    id: 26
+    label: "Categories"
+    key: "tags1"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["1","2","3","4","5","6","7"]'
+    cardinality: 0
+    form_stage_id: 1
+  -
+    id: 27
+    label: "Categories"
+    key: "tags2"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["1","2","3","5"]'
+    cardinality: 0
+    form_stage_id: 4
+  -
+    id: 28
+    label: "Categories"
+    key: "tags3"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["1","2","3","5","6","7"]'
+    cardinality: 0
+    form_stage_id: 5
+  -
+    id: 29
+    label: "Categories"
+    key: "tags4"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["1","2","3","4","5","6","7"]'
+    cardinality: 0
+    form_stage_id: 7
+posts:
+  -
+    id: 1
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "Test post"
+    type: "report"
+    content: "Testing post"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1364009953
+    post_date: "2013-03-22 20:39:13"
+  -
+    id: 99
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "Should be returned when Searching"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1378018880
+    post_date: "2013-09-01 00:01:20"
+  -
+    id: 9999
+    form_id:
+    parent_id:
+    user_id:
+    title: "another report"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1412007022
+    post_date: "2014-09-29 09:10:22"
+  -
+    id: 95
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "OAuth test post"
+    type: "report"
+    content: "Testing oauth posts api access"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1373838515
+    post_date: "2013-07-14 14:48:35"
+  -
+    id: 97
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "search by attribute"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1354628171
+    post_date: "2012-12-04 05:36:11"
+  -
+    id: 96
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "French post to test Searching"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "fr_fr"
+    created: 1384762238
+    post_date: null
+  -
+    id: 101
+    form_id: 1
+    parent_id: 99
+    user_id:
+    title: "Child dummy report"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1362747895
+    post_date: "2013-03-08 05:04:55"
+  -
+    id: 102
+    form_id: 2
+    parent_id: 99
+    user_id:
+    title: "Child missing person report"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1403169957
+    post_date: "2014-06-19 02:25:57"
+  -
+    id: 103
+    form_id: 1
+    parent_id: 99
+    user_id:
+    title: "Should be returned when Searching"
+    type: "revision"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1363791760
+    post_date: "2013-03-20 08:02:40"
+  -
+    id: 104
+    form_id: 1
+    parent_id: 99
+    user_id:
+    title: "Should be returned when Searching"
+    type: "revision"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1390417375
+    post_date: "2014-01-22 11:02:55"
+  -
+    id: 105
+    form_id: 1
+    parent_id:
+    user_id: 3
+    title: "Original post"
+    type: "report"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1373006165
+    post_date: "2013-07-04 23:36:05"
+  -
+    id: 106
+    form_id: 1
+    parent_id: 105
+    user_id:
+    title: "French post"
+    type: "translation"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "fr_fr"
+    created: 1408165751
+    post_date: "2014-08-15 22:09:11"
+  -
+    id: 107
+    form_id: 1
+    parent_id: 106
+    user_id:
+    title: "French post"
+    type: "revision"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "fr_fr"
+    created: 1367599079
+    post_date: "2013-05-03 09:37:59"
+  -
+    id: 108
+    form_id: 1
+    parent_id: 105
+    user_id:
+    title: "Arabic post"
+    type: "translation"
+    content: "Some description"
+    status: "published"
+    published_to: "[]"
+    locale: "ar_ar"
+    created: 1404089791
+    post_date: "2014-06-29 17:56:31"
+  -
+    id: 110
+    form_id: 1
+    parent_id:
+    user_id: 1
+    title: "ACL test post"
+    type: "report"
+    content: "Testing oauth posts api access"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1355743120
+    post_date: "2012-12-17 03:18:40"
+  -
+    id: 111
+    form_id: 1
+    parent_id:
+    user_id: 1
+    title: "ACL private post"
+    type: "report"
+    content: "Testing oauth posts api access"
+    status: "draft"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1398774435
+    post_date: "2014-04-29 05:27:15"
+  -
+    id: 112
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "Draft 1"
+    type: "report"
+    content: "Testing draft"
+    status: "draft"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1408607443
+    post_date: "2014-08-21 00:50:43"
+  -
+    id: 113
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "Draft 2"
+    type: "report"
+    content: "Testing draft 2"
+    status: "draft"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1404996921
+    post_date: "2014-07-10 05:55:21"
+  -
+    id: 114
+    form_id: 1
+    parent_id: 111
+    user_id:
+    title: "Update for draft"
+    type: "report"
+    content: "Update for draft"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1411884027
+    post_date: "2014-09-27 23:00:27"
+  -
+    id: 115
+    form_id: 1
+    parent_id: 111
+    user_id:
+    title: "Translation of draft"
+    type: "translation"
+    content: "Translation of draft"
+    status: "published"
+    published_to: "[]"
+    locale: "fr_fr"
+    created: 1411907883
+    post_date: "2014-09-28 05:38:03"
+  -
+    id: 116
+    form_id: 1
+    parent_id: 111
+    user_id:
+    title: "Revision of draft"
+    type: "revision"
+    content: "Revision of draft"
+    status: "published"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1411911360
+    post_date: "2014-04-29 05:27:15"
+  -
+    id: 117
+    form_id: 1
+    parent_id: 110
+    user_id:
+    title: "Update for draft"
+    type: "report"
+    content: "Update for draft"
+    status: "draft"
+    published_to: "[]"
+    locale: "en_us"
+    created: 1412005016
+    post_date: "2014-09-29 08:36:56"
+  -
+    id: 120
+    form_id: 1
+    parent_id:
+    user_id:
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 121
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 122
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 123
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 2"
+    type: "report"
+    content: "Archived Post 2"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 124
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 3"
+    type: "report"
+    content: "Archived Post 3"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 125
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 4"
+    type: "report"
+    content: "Archived Post 4"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 126
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 5"
+    type: "report"
+    content: "Archived Post 5"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 127
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 6"
+    type: "report"
+    content: "Archived Post 6"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1000
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "incomplete post 1"
+    type: "report"
+    content: "Incomplete post 1"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1001
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "incomplete post 2"
+    type: "report"
+    content: "Incomplete post 2"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+post_datetime:
+post_decimal:
+post_geometry:
+post_int:
+post_media:
+post_point:
+post_text:
+post_varchar:
+  -
+    id: 50
+    post_id: 97
+    form_attribute_id: 1
+    value: "special-string"
+  -
+    id: 1
+    post_id: 1
+    form_attribute_id: 10
+    value: "believed_missing"
+  -
+    id: 2
+    post_id: 101
+    form_attribute_id: 1
+    value: "dummy string"
+  -
+    id: 3
+    post_id: 102
+    form_attribute_id: 13
+    value: "believed_missing"
+  -
+    id: 4
+    post_id: 99
+    form_attribute_id: 1
+    value: "some-string"
+  -
+    id: 5
+    post_id: 103
+    form_attribute_id: 1
+    value: "previous_string"
+  -
+    id: 6
+    post_id: 104
+    form_attribute_id: 1
+    value: "some-string"
+  -
+    id: 7
+    post_id: 106
+    form_attribute_id: 1
+    value: "some-string"
+  -
+    id: 8
+    post_id: 106
+    form_attribute_id: 1
+    value: "french string"
+  -
+    id: 9
+    post_id: 107
+    form_attribute_id: 1
+    value: "french string"
+  -
+    id: 10
+    post_id: 108
+    form_attribute_id: 1
+    value: "arabic string"
+  -
+    id: 11
+    post_id: 1
+    form_attribute_id: 11
+    value: "http://google.com"
+  -
+    id: 12
+    post_id: 1
+    form_attribute_id: 11
+    value: "http://ushahidi.com"
+  -
+    id: 13
+    post_id: 121
+    form_attribute_id: 20
+    value: "arabic string"
+  -
+    id: 14
+    post_id: 121
+    form_attribute_id: 21
+    value: "http://google.com"
+  -
+    id: 15
+    post_id: 121
+    form_attribute_id: 22
+    value: "http://ushahidi.com"
+  -
+    id: 16
+    post_id: 121
+    form_attribute_id: 23
+    value: "arabic string"
+  -
+    id: 17
+    post_id: 121
+    form_attribute_id: 24
+    value: "arabic string"
+  -
+    id: 18
+    post_id: 122
+    form_attribute_id: 20
+    value: "arabic string"
+  -
+    id: 19
+    post_id: 122
+    form_attribute_id: 21
+    value: "http://google.com"
+  -
+    id: 20
+    post_id: 122
+    form_attribute_id: 22
+    value: "http://ushahidi.com"
+  -
+    id: 21
+    post_id: 122
+    form_attribute_id: 23
+    value: "arabic string"
+  -
+    id: 22
+    post_id: 122
+    form_attribute_id: 24
+    value: "arabic string"
+post_comments:
+tags:
+  -
+    id: 1
+    parent_id:
+    tag: "Test tag"
+    slug: "test-tag"
+    priority: 0
+    type: 'category'
+  -
+    id: 2
+    parent_id:
+    tag: "Duplicate"
+    slug: "duplicate"
+    priority: 0
+    type: 'category'
+  -
+    id: 3
+    parent_id:
+    tag: "Disaster"
+    slug: "disaster"
+    priority: 0
+    type: 'category'
+  -
+    id: 4
+    parent_id: 3
+    tag: "Explosion"
+    slug: "explosion"
+    priority: 0
+    type: 'category'
+  -
+    id: 5
+    parent_id:
+    tag: "Todo"
+    slug: "todo"
+    priority: 0
+    type: 'status'
+  -
+    id: 6
+    parent_id:
+    tag: "Done"
+    slug: "done"
+    priority: 0
+    type: 'status'
+  -
+    id: 7
+    parent_id:
+    tag: "Role Control"
+    slug: "role-control"
+    priority: 0
+    type: "category"
+    role: '["admin"]'
+posts_tags:
+  -
+    post_id: 1
+    tag_id: 4
+    form_attribute_id: 26
+  -
+    post_id: 1
+    tag_id: 3
+    form_attribute_id: 26
+  -
+    post_id: 99
+    tag_id: 3
+    form_attribute_id: 26
+form_stages_posts:
+  -
+    form_stage_id: 1
+    post_id: 97
+    completed: 1
+  -
+    form_stage_id: 1
+    post_id: 96
+    completed: 1
+  -
+    form_stage_id: 2
+    post_id: 96
+    completed: 1
+  -
+    form_stage_id: 5
+    post_id: 1000
+    completed: 1
+  -
+    form_stage_id: 6
+    post_id: 1000
+    completed: 1
+  -
+    form_stage_id: 5
+    post_id: 1001
+    completed: 0
+  -
+    form_stage_id: 6
+    post_id: 1001
+    completed: 0
+sets:
+  -
+    id: 1
+    name: Test collection
+    search: 0
+  -
+    id: 2
+    name: Explosion
+    search: 0
+    user_id: 3
+  -
+    id: 3
+    name: Admin only collection
+    search: 0
+    role: '["admin"]'
+  -
+    id: 4
+    name: Test search
+    search: 1
+    filter: '{"q":"test"}'
+  -
+    id: 5
+    name: Explosion search
+    search: 1
+    filter: '{"q":"explosions"}'
+    user_id: 3
+  -
+    id: 6
+    name: Admin only search
+    search: 1
+    filter: '{"q":"junk"}'
+    role: '["admin"]'
+  -
+    id: 7
+    name: Test stage completion requirement on bulk updates
+    search: 0
+posts_sets:
+  -
+    set_id: 1
+    post_id: 1
+  -
+    set_id: 1
+    post_id: 9999
+  -
+    set_id: 1
+    post_id: 114
+  -
+    set_id: 1
+    post_id: 111
+  -
+    set_id: 1
+    post_id: 113
+  -
+    set_id: 1
+    post_id: 112
+  -
+    set_id: 7
+    post_id: 1000
+  -
+    set_id: 7
+    post_id: 1001
+# OAuth Tables
+oauth_clients:
+  -
+    id: "demoapp"
+    secret: "demopass"
+    name: ""
+    auto_approve: 0
+  -
+    id: "restricted_app"
+    secret: "demopass"
+    name: ""
+    auto_approve: 0
+  -
+    id: "ushahidiui"
+    secret: "35e7f0bca957836d05ca0492211b0ac707671261"
+    name: ""
+    auto_approve: 1
+oauth_client_endpoints:
+  -
+    id: 1
+    client_id: "ushahidiui"
+    redirect_uri: "/user/oauth"
+  -
+    id: 2
+    client_id: "demoapp"
+    redirect_uri: "/"
+  -
+    id: 3
+    client_id: "restricted_app"
+    redirect_uri: "/"
+oauth_sessions:
+  -
+    id: 1
+    client_id: "demoapp"
+    owner_type: "client"
+    owner_id: "demoapp"
+  -
+    id: 2
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 2
+  -
+    id: 3
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 1
+  -
+    id: 4
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 3
+
+# Test roles
+  -
+    id: 5
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 6
+  -
+    id: 6
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 7
+
+oauth_session_redirects:
+  -
+    session_id: 1
+    redirect_uri: "/"
+  -
+    session_id: 2
+    redirect_uri: "/"
+oauth_session_access_tokens:
+  -
+    id: 1
+    session_id: 2
+    access_token: "testingtoken"
+    access_token_expires: 1893477600
+  -
+    id: 2
+    session_id: 2
+    access_token: "defaulttoken"
+    access_token_expires: 1893477600
+  -
+    id: 3
+    session_id: 3
+    access_token: "testbasicuser"
+    access_token_expires: 1893477600
+  -
+    id: 4
+    session_id: 2
+    access_token: "testadminuser"
+    access_token_expires: 1893477600
+  -
+    id: 5
+    session_id: 4
+    access_token: "testbasicuser2"
+    access_token_expires: 1893477600
+  -
+    id: 6
+    session_id: 1
+    access_token: "testanon"
+    access_token_expires: 1893477600
+
+# Test roles
+  -
+    id: 7
+    session_id: 5
+    access_token: "testmanager"
+    access_token_expires: 1893477600
+  -
+    id: 8
+    session_id: 6
+    access_token: "testimporter"
+    access_token_expires: 1893477600
+
+oauth_scopes:
+  -
+    id: 1
+    scope: api
+    name: api
+  -
+    id: 2
+    scope: posts
+    name: posts
+  -
+    id: 3
+    scope: forms
+    name: forms
+  -
+    id: 4
+    scope: sets
+    name: set
+  -
+    id: 5
+    scope: tags
+    name: tags
+  -
+    id: 6
+    scope: users
+    name: users
+  -
+    id: 7
+    scope: media
+    name: media
+  -
+    id: 8
+    scope: config
+    name: config
+  -
+    id: 9
+    scope: messages
+    name: messages
+  -
+    id: 10
+    scope: dataproviders
+    name: dataproviders
+  -
+    id: 11
+    scope: stats
+    name: stats
+  -
+    id: 12
+    scope: layers
+    name: layers
+  -
+    id: 13
+    scope: savedsearches
+    name: savedsearches
+  -
+    id: 14
+    scope: notifications
+    name: notifications
+  -
+    id: 15
+    scope: contacts
+    name: contacts
+  -
+    id: 16
+    scope: csv
+    name: csv
+  -
+    id: 17
+    scope: roles
+    name: roles
+  -
+    id: 18
+    scope: permissions
+    name: permissions
+  -
+    id: 19
+    scope: migrate
+    name: migrate
+  -
+    id: 20
+    scope: webhooks
+    name: webhooks
+
+oauth_session_token_scopes:
+  # for testingtoken
+  -
+    session_access_token_id: 1
+    scope_id: 1
+  -
+    session_access_token_id: 1
+    scope_id: 2
+  -
+    session_access_token_id: 1
+    scope_id: 11
+
+  # for defaulttoken
+  -
+    session_access_token_id: 2
+    scope_id: 1
+  -
+    session_access_token_id: 2
+    scope_id: 2
+  -
+    session_access_token_id: 2
+    scope_id: 3
+  -
+    session_access_token_id: 2
+    scope_id: 4
+  -
+    session_access_token_id: 2
+    scope_id: 5
+  -
+    session_access_token_id: 2
+    scope_id: 6
+  -
+    session_access_token_id: 2
+    scope_id: 7
+  -
+    session_access_token_id: 2
+    scope_id: 8
+  -
+    session_access_token_id: 2
+    scope_id: 9
+  -
+    session_access_token_id: 2
+    scope_id: 10
+  -
+    session_access_token_id: 2
+    scope_id: 11
+  -
+    session_access_token_id: 2
+    scope_id: 12
+  -
+    session_access_token_id: 2
+    scope_id: 13
+  -
+    session_access_token_id: 2
+    scope_id: 14
+  -
+    session_access_token_id: 2
+    scope_id: 15
+  -
+    session_access_token_id: 2
+    scope_id: 16
+  -
+    session_access_token_id: 2
+    scope_id: 20
+
+  # for testbasicuser
+  -
+    session_access_token_id: 3
+    scope_id: 1
+  -
+    session_access_token_id: 3
+    scope_id: 2
+  -
+    session_access_token_id: 3
+    scope_id: 3
+  -
+    session_access_token_id: 3
+    scope_id: 4
+  -
+    session_access_token_id: 3
+    scope_id: 5
+  -
+    session_access_token_id: 3
+    scope_id: 6
+  -
+    session_access_token_id: 3
+    scope_id: 7
+  -
+    session_access_token_id: 3
+    scope_id: 8
+  -
+    session_access_token_id: 3
+    scope_id: 9
+  -
+    session_access_token_id: 3
+    scope_id: 10
+  -
+    session_access_token_id: 3
+    scope_id: 13
+  -
+    session_access_token_id: 3
+    scope_id: 14
+  -
+    session_access_token_id: 3
+    scope_id: 15
+  -
+    session_access_token_id: 3
+    scope_id: 16
+
+  # for testadminuser
+  -
+    session_access_token_id: 4
+    scope_id: 1
+  -
+    session_access_token_id: 4
+    scope_id: 2
+  -
+    session_access_token_id: 4
+    scope_id: 3
+  -
+    session_access_token_id: 4
+    scope_id: 4
+  -
+    session_access_token_id: 4
+    scope_id: 5
+  -
+    session_access_token_id: 4
+    scope_id: 6
+  -
+    session_access_token_id: 4
+    scope_id: 7
+  -
+    session_access_token_id: 4
+    scope_id: 8
+  -
+    session_access_token_id: 4
+    scope_id: 9
+  -
+    session_access_token_id: 4
+    scope_id: 10
+  -
+    session_access_token_id: 4
+    scope_id: 11
+  -
+    session_access_token_id: 4
+    scope_id: 13
+  -
+    session_access_token_id: 4
+    scope_id: 17
+  -
+    session_access_token_id: 4
+    scope_id: 18
+  -
+    session_access_token_id: 4
+    scope_id: 19
+  -
+    session_access_token_id: 4
+    scope_id: 20
+
+  # for testbasicuser2
+  -
+    session_access_token_id: 5
+    scope_id: 1
+  -
+    session_access_token_id: 5
+    scope_id: 2
+  -
+    session_access_token_id: 5
+    scope_id: 3
+  -
+    session_access_token_id: 5
+    scope_id: 4
+  -
+    session_access_token_id: 5
+    scope_id: 5
+  -
+    session_access_token_id: 5
+    scope_id: 6
+  -
+    session_access_token_id: 5
+    scope_id: 7
+  -
+    session_access_token_id: 5
+    scope_id: 8
+  -
+    session_access_token_id: 5
+    scope_id: 9
+  -
+    session_access_token_id: 5
+    scope_id: 10
+  -
+    session_access_token_id: 5
+    scope_id: 13
+  -
+    session_access_token_id: 5
+    scope_id: 14
+  -
+    session_access_token_id: 5
+    scope_id: 15
+  -
+    session_access_token_id: 5
+    scope_id: 16
+
+  # for testanon
+  -
+    session_access_token_id: 6
+    scope_id: 1
+  -
+    session_access_token_id: 6
+    scope_id: 2
+  -
+    session_access_token_id: 6
+    scope_id: 3
+  -
+    session_access_token_id: 6
+    scope_id: 4
+  -
+    session_access_token_id: 6
+    scope_id: 5
+  -
+    session_access_token_id: 6
+    scope_id: 6
+  -
+    session_access_token_id: 6
+    scope_id: 7
+  -
+    session_access_token_id: 6
+    scope_id: 8
+  -
+    session_access_token_id: 6
+    scope_id: 9
+  -
+    session_access_token_id: 6
+    scope_id: 10
+  -
+    session_access_token_id: 6
+    scope_id: 13
+
+# Test roles
+# for testmanager
+  -
+    session_access_token_id: 7
+    scope_id: 1
+  -
+    session_access_token_id: 7
+    scope_id: 2
+  -
+    session_access_token_id: 7
+    scope_id: 3
+  -
+    session_access_token_id: 7
+    scope_id: 4
+  -
+    session_access_token_id: 7
+    scope_id: 5
+  -
+    session_access_token_id: 7
+    scope_id: 6
+  -
+    session_access_token_id: 7
+    scope_id: 7
+  -
+    session_access_token_id: 7
+    scope_id: 8
+  -
+    session_access_token_id: 7
+    scope_id: 9
+  -
+    session_access_token_id: 7
+    scope_id: 10
+  -
+    session_access_token_id: 7
+    scope_id: 11
+  -
+    session_access_token_id: 7
+    scope_id: 13
+  -
+    session_access_token_id: 7
+    scope_id: 17
+  -
+    session_access_token_id: 7
+    scope_id: 18
+
+# for testimporter
+  -
+    session_access_token_id: 8
+    scope_id: 1
+  -
+    session_access_token_id: 8
+    scope_id: 2
+  -
+    session_access_token_id: 8
+    scope_id: 3
+  -
+    session_access_token_id: 8
+    scope_id: 4
+  -
+    session_access_token_id: 8
+    scope_id: 5
+  -
+    session_access_token_id: 8
+    scope_id: 6
+  -
+    session_access_token_id: 8
+    scope_id: 7
+  -
+    session_access_token_id: 8
+    scope_id: 8
+  -
+    session_access_token_id: 8
+    scope_id: 9
+  -
+    session_access_token_id: 8
+    scope_id: 10
+  -
+    session_access_token_id: 8
+    scope_id: 11
+  -
+    session_access_token_id: 8
+    scope_id: 13
+  -
+    session_access_token_id: 8
+    scope_id: 16
+  -
+    session_access_token_id: 8
+    scope_id: 17
+  -
+    session_access_token_id: 8
+    scope_id: 18
+
+# include other oauth tables to ensure a blank slate for test runs
+oauth_session_refresh_tokens:
+oauth_session_authcodes:
+oauth_session_authcode_scopes:
+# media
+media:
+  -
+    id: 3
+    user_id: 2
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 600
+    o_height: 700
+    o_size: 1024
+    created: 1381815821
+    updated: 1381815819
+  -
+    id: 2
+    user_id:
+    caption: "at sendai"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 500
+    o_height: 600
+    o_size: 1024
+    created: 1381815821
+    updated: 1381815819
+  -
+    id: 1
+    user_id: 1
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "9ze_1381815819_o.jpg"
+    o_width: 400
+    o_height: 500
+    o_size: 1024
+    created: 1381815821
+    updated: 1381815819
+config:
+  -
+    group_name: site
+    config_key: name
+    config_value: '"Ushahidi"'
+  -
+    group_name: site
+    config_key: description
+    config_value: '"This is my Ushahidi deployment. There are many like it, but this one is mine."'
+  -
+    group_name: site
+    config_key: email
+    config_value: '"someone@somewhere.somehow"'
+  -
+    group_name: site
+    config_key: language
+    config_value: '"en-US"'
+  -
+    group_name: site
+    config_key: timezone
+    config_value: '"UTC"'
+  -
+    group_name: site
+    config_key: date_format
+    config_value: '"n/j/Y"'
+  -
+    group_name: map
+    config_key: default_view
+    config_value: '{"lat":-1.3048035,"lon":36.8473969,"zoom":3,"baselayer":"MapQuestAerial","fit_map_boundaries":true,"icon":"map-marker","color":"blue"}'
+  -
+    group_name: map
+    config_key: clustering
+    config_value: 'false'
+  -
+    group_name: map
+    config_key: cluster_radius
+    config_value: '50'
+  -
+    group_name: test
+    config_key: testkey
+    config_value: '"testval"'
+contacts:
+  -
+    id: 1
+    user_id: 1
+    contact: 123456789
+    type: "phone"
+  -
+    id: 2
+    user_id:
+    contact: somejunkemail@v3.ushahidi.com
+    type: "email"
+  -
+    id: 3
+    user_id:
+    contact: 773456789
+    type: "phone"
+  -
+    id: 4
+    user_id: 1
+    contact: robbie@ushahidi.com
+    type: "email"
+messages:
+  -
+    id: 1
+    title: "abc"
+    message: "A test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    datetime:
+    data_provider:
+  -
+    id: 2
+    title: ""
+    message: "Another test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 3
+    datetime:
+    post_id:
+    data_provider:
+  -
+    id: 3
+    title: "Test email"
+    message: "test email body abc"
+    type: "email"
+    direction: "incoming"
+    status: "received"
+    contact_id: 2
+    datetime: "2013-01-02 07:07"
+    post_id:
+    data_provider:
+  -
+    id: 4
+    title: ""
+    message: "Another message with a post"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 3
+    datetime:
+    post_id: 110
+    data_provider:
+  -
+    id: 5
+    title: ""
+    message: "A test message with provider"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    datetime:
+    data_provider: "smssync"
+  -
+    id: 6
+    title: ""
+    message: "Archived message"
+    type: "sms"
+    direction: "incoming"
+    status: "archived"
+    contact_id: 3
+    datetime:
+    post_id:
+    data_provider:
+  -
+    id: 7
+    title: ""
+    message: "Pending outgoing message"
+    type: "sms"
+    direction: "outgoing"
+    status: "pending"
+    contact_id: 3
+    datetime:
+    post_id:
+    data_provider:
+  -
+    id: 8
+    title: ""
+    message: "Outgoing message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 3
+    datetime:
+    post_id:
+    data_provider:
+  -
+    id: 9
+    title: ""
+    message: "SMS message that needs reply"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 3
+    datetime:
+    post_id: 9999
+    data_provider: "smssync"
+layers:
+  -
+    id: 1
+    name: "test"
+    type: "geojson"
+    data_url: "/media/test.geojson"
+    options: "{}"
+    active: 1
+    visible_by_default: 1
+  -
+    id: 2
+    name: "Weather"
+    type: "wms"
+    data_url: "http://services.nationalmap.gov/ArcGIS/services/NEXRAD_Weather/MapServer/WMSServer"
+    options: "{\"layers\":\"0\",\"format\":\"image/png\",\"transparent\":true}"
+    active: 1
+    visible_by_default: 1
+  -
+    id: 3
+    name: "junk"
+    type: "geojson"
+    data_url: "/media/junk.geojson"
+    options: "{}"
+    active: 0
+    visible_by_default: 1
+# Notification subscriptions
+notifications:
+  -
+    id: 2
+    user_id: 1
+    set_id: 2
+  -
+    id: 3
+    user_id: 1
+    set_id: 3
+  -
+    id: 4
+    user_id: 1
+    set_id: 4
+  -
+    id: 5
+    user_id: 1
+    set_id: 4
+  -
+    id: 6
+    user_id: 4
+    set_id: 4
+# Webhooks
+webhooks:
+  -
+    id: 2
+    user_id: 1
+    name: "test"
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type: "create"
+  -
+    id: 3
+    user_id: 1
+    name: "test"
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type: "update"
+  -
+    id: 4
+    user_id: 1
+    name: "test"
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type: "delete"
+  -
+    id: 5
+    user_id: 1
+    name: "test"
+    shared_secret: "testestest"
+    url: "https://test.test"
+    entity_type: "post"
+    event_type: "search"
+csv:
+roles_permissions:
+  -
+    role: manager
+    permission: Manage Users
+  -
+    role: manager
+    permission: Manage Posts
+  -
+    role: manager
+    permission: Manage Settings
+  -
+    role: importer
+    permission: Bulk Data Import

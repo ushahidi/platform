@@ -7,7 +7,7 @@ class AddPublishedToColumnToPosts extends AbstractMigration
     /**
 	* Adding role-specific visibility functionality to posts
 	* By default, all published posts are public, but post owners
-	* or administrators can specify which roles are able to view 
+	* or administrators can specify which roles are able to view
 	* a given post if desired.  Admins still have access to all.
      */
 	
@@ -20,6 +20,5 @@ class AddPublishedToColumnToPosts extends AbstractMigration
 				'null' => true
 			])
 			->update();
-	
 	}
 }

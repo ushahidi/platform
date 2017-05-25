@@ -1,41 +1,45 @@
 sudo: false
-notifications:
-  hipchat:
-    rooms:
-      secure: fb2eYR4DVBestPl/DSG7lnUWT46Rmr9BfRsZFe4dhrS3ZetkZ1XZueF6SCtB4yukaJoDlA7y98FgQ7eGx6OGToc4ALnPpwd3BdfJ5RV/PK/6LG7u5Mp4+DfB4lG1q9IjuHF7dhBPSk2sRd8ewtwV5JR4SHKYfHxSR9Ekwmn1Xyo=
-    template:
-    - '<a href="%{build_url}">%{repository}#%{build_number}</a> (%{branch} - <a href="%{compare_url}">%{commit}</a>
-      : %{author}): %{message}'
-    format: html
-    notify: true
-  slack:
-    secure: NxhzhKGYnZYZiWVZM4w1PlZpTy9bbmNlvbqjL+9d4PvK4hFzPwQU12CchhBPeXNGLWBHg/ti6Scn/t5XIS3YJrkk4ydWmJBht5UId8uFZ1A7GCUnNNPTt2RG55lbJJdZSj01rOGZjEQbE5RyckEjgRzhZjdZ+HsjoPaRzWIBrvE=
+#notifications:
+#  slack:
+#    secure: NxhzhKGYnZYZiWVZM4w1PlZpTy9bbmNlvbqjL+9d4PvK4hFzPwQU12CchhBPeXNGLWBHg/ti6Scn/t5XIS3YJrkk4ydWmJBht5UId8uFZ1A7GCUnNNPTt2RG55lbJJdZSj01rOGZjEQbE5RyckEjgRzhZjdZ+HsjoPaRzWIBrvE=
 language: php
 php:
-- '5.5'
 - '5.6'
+- '7.0'
+- '7.1'
 env:
 - coverage="--coverage"
 - coverage=""
 matrix:
   exclude:
-  - php: '5.5'
+  - php: '7.0'
+    env: coverage="--coverage"
+  - php: '7.1'
     env: coverage="--coverage"
   allow_failures:
   - env: coverage="--coverage"
+  - php: '7.1'
   fast_finish: true
 cache:
   directories:
   - "$HOME/.composer/cache"
 services:
 - mysql
+before_install:
+- mysql -e 'CREATE DATABASE ushahidi;'
+- mysql -e "select version();"
+- mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"
+- cp .env.travis .env
 install:
 - composer install --no-interaction
 before_script:
-- "./bin/tests install"
+- composer pre-test
+- if [ "${coverage}" == "" ]; then php -S localhost:8000 -t httpdocs httpdocs/index.php & fi
+- if [ "${coverage}" != "" ]; then php -S localhost:8000 -t httpdocs httpdocs/coverage.php & fi
 - mysql -e 'SET @@GLOBAL.wait_timeout=1800'
 script:
-- "./bin/tests run --no-install $coverage"
+- if [ "${coverage}" == "" ]; then composer test; fi
+- if [ "${coverage}" != "" ]; then composer run coverage --timeout=0; fi
 - composer lint
 after_success:
 - if [ "${coverage}" != "" ]; then travis_retry bin/coveralls -v; fi

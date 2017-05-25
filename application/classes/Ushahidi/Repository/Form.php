@@ -14,9 +14,17 @@ use Ushahidi\Core\Entity\Form;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\SearchData;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     FormRepository
 {
+    use Ushahidi_FormsTagsTrait;
+
+    // Use Event trait to trigger events
+    use Event;
+
     // Ushahidi_Repository
     protected function getTable()
     {
@@ -27,12 +35,13 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // ReadRepository
     public function getEntity(Array $data = null)
     {
-	    if (isset($data["id"])) {
+        if (isset($data["id"])) {
             $can_create = $this->getRolesThatCanCreatePosts($data['id']);
             $data = $data + [
-	            'can_create' => $can_create['roles'],
+                'can_create' => $can_create['roles'],
+                'tags' => $this->getTagsForForm($data['id'])
             ];
-	    }
+        }
         return new Form($data);
     }
 
@@ -46,7 +55,6 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     protected function setSearchConditions(SearchData $search)
     {
         $query = $this->search_query;
-
         if ($search->parent) {
             $query->where('parent_id', '=', $search->parent);
         }
@@ -60,15 +68,29 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // CreateRepository
     public function create(Entity $entity)
     {
+        $id = parent::create($entity->setState(['created' => time()]));
         // todo ensure default group is created
-
-        return parent::create($entity->setState(['created' => time()]));
+        return $id;
     }
 
     // UpdateRepository
     public function update(Entity $entity)
     {
-        return parent::update($entity->setState(['updated' => time()]));
+        // If orignal Form update Intercom if Name changed
+        if ($entity->id === 1) {
+          foreach ($entity->getChanged() as $key => $val) {
+            $user = service('session.user');
+            $key === 'name' ? $this->emit($this->event, $user->email, ['primary_survey_name' => $val]) : null;
+          }
+        }
+
+        // Remove children before saving
+        unset($entity->children);
+
+        // Finally save the form
+        $id = parent::update($entity->setState(['updated' => time()]));
+
+        return $id;
     }
 
     /**
@@ -79,6 +101,23 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     public function getTotalCount(Array $where = [])
     {
         return $this->selectCount($where);
+    }
+
+    /**
+      * Get value of Form property hide_author
+      * if no form is found return false
+      * @param  $form_id
+      * @return Boolean
+      */
+    public function isAuthorHidden($form_id)
+    {
+        $query = DB::select('hide_author')
+            ->from('forms')
+            ->where('id', '=', $form_id);
+
+        $results = $query->execute($this->db)->as_array();
+
+        return count($results) > 0 ? $results[0]['hide_author'] : false;
     }
 
     /**
@@ -103,7 +142,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
 
         $roles = [];
 
-        foreach($results as $role) {
+        foreach ($results as $role) {
             if (!is_null($role['name'])) {
                 $roles[] = $role['name'];
             }
@@ -113,7 +152,5 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             'everyone_can_create' => $everyone_can_create,
             'roles' => $roles,
             ];
-
     }
-
 }

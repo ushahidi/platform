@@ -43,10 +43,11 @@ class User extends Command
 			->setName('user')
 			->setDescription('Create user accounts')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, create, delete', 'list')
-			->addOption('realname', null, InputOption::VALUE_OPTIONAL, 'realname')
-			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'email')
-			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'role')
-			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'password')
+			->addOption('realname', null, InputOption::VALUE_OPTIONAL, 'Name')
+			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'Email')
+			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'Role: admin, user')
+			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'Password')
+			->addOption('with-hash', ['b'], InputOption::VALUE_OPTIONAL, 'password is already bcrypt hashed')
 			;
 	}
 
@@ -72,13 +73,15 @@ class User extends Command
 			'password' => $input->getOption('password'),
 		];
 
+		$passwordAlreadyHashed = $input->hasOption('with-hash') ?: 'false';
+
 		if (!$this->validator->check($state)) {
 			throw new ValidatorException('Failed to validate user', $this->validator->errors());
 		}
 
 		$entity = $this->repo->getEntity();
 		$entity->setState($state);
-		$id = $this->repo->create($entity);
+		$id = $passwordAlreadyHashed ? $this->repo->createWithHash($entity) : $this->repo->create($entity);
 
 		return [
 			[

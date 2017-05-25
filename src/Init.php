@@ -66,6 +66,9 @@ function feature($name)
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
 
+// Disable auto resolution (as recommended in AuraDI docs)
+$di->setAutoResolve(false);
+
 // Console application is used for command line tools.
 $di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
 
@@ -137,6 +140,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'savedsearches'        => $di->lazyGet('authorizer.savedsearch'),
 	'users'                => $di->lazyGet('authorizer.user'),
 	'notifications'        => $di->lazyGet('authorizer.notification'),
+	'webhooks'             => $di->lazyGet('authorizer.webhook'),
 	'contacts'             => $di->lazyGet('authorizer.contact'),
 	'csv'                  => $di->lazyGet('authorizer.csv'),
 	'roles'                => $di->lazyGet('authorizer.role'),
@@ -165,6 +169,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'savedsearches'        => $di->lazyGet('repository.savedsearch'),
 	'users'                => $di->lazyGet('repository.user'),
 	'notifications'        => $di->lazyGet('repository.notification'),
+	'webhooks'             => $di->lazyGet('repository.webhook'),
 	'contacts'             => $di->lazyGet('repository.contact'),
 	'csv'                  => $di->lazyGet('repository.csv'),
 	'roles'                => $di->lazyGet('repository.role'),
@@ -202,11 +207,11 @@ $di->params['Ushahidi\Factory\DataFactory']['actions'] = [
 
 // Use cases are used to join multiple collaborators together for a single interaction.
 $di->set('factory.usecase', $di->lazyNew('Ushahidi\Factory\UsecaseFactory'));
-$di->params['Ushahidi\Api\Factory\UsecaseFactory'] = [
+$di->params['Ushahidi\Factory\UsecaseFactory'] = [
 	'authorizers'  => $di->lazyGet('factory.authorizer'),
 	'repositories' => $di->lazyGet('factory.repository'),
-	'formatters'   => $di->lazyGet('factory.formatters'),
-	'validators'   => $di->lazyGet('factory.validators'),
+	'formatters'   => $di->lazyGet('factory.formatter'),
+	'validators'   => $di->lazyGet('factory.validator'),
 	'data'         => $di->lazyGet('factory.data'),
 ];
 
@@ -299,6 +304,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification')
 ];
 
+// Add custom create usecase for webhooks
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['webhooks'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Webhook\CreateWebhook')
+];
+
 // Add custom create usecase for contacts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Contact\CreateContact')
@@ -342,9 +352,11 @@ $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\E
 $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setAcl'] = $di->lazyGet('tool.acl');
 $di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
 $di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRolesEnabled'] = $di->lazyGet('roles.enabled');
+$di->setter['Ushahidi\Core\Traits\WebhookAccess']['setEnabled'] = $di->lazyGet('webhooks.enabled');
 $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
 
 // Tools
+$di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
 $di->params['Ushahidi\Core\Tool\Uploader'] = [
 	'fs' => $di->lazyGet('tool.filesystem'),
@@ -382,6 +394,7 @@ $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthor
 $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
+$di->set('authorizer.webhook', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\WebhookAuthorizer'));
 $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
 $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthorizer'));
 $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuthorizer'));
@@ -394,3 +407,5 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
+
+require __DIR__ . '/App/Init.php';

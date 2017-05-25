@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\Set;
 
 use Ushahidi\Core\Entity;
 
-trait verifySetExists
+trait VerifySetExists
 {
 
 	/**

@@ -28,8 +28,12 @@ use Ushahidi\Core\Traits\Permissions\ManagePosts;
 use Ushahidi\Core\Traits\PermissionAccess;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
+use Ushahidi\Core\Traits\PostValueRestrictions;
 
 use Aura\DI\InstanceFactory;
+
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
 
 class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	PostRepository,
@@ -38,6 +42,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	Permissionable
 {
 	use UserContext;
+
+	// Use Event trait to trigger events
+	use Event;
 
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
@@ -51,15 +58,24 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Checks if user is Admin
 	use AdminAccess;
 
+	// Check for value restrictions
+	// provides canUserReadPostsValues
+	use PostValueRestrictions;
+
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
 	protected $form_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	protected $tag_repo;
+	// By default remove all private responses
+	protected $restricted = true;
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
+	protected $exclude_stages = [];
+
+	protected $listener;
 
 	/**
 	 * Construct
@@ -98,14 +114,43 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
+		// Ensure we are dealing with a structured Post
+
+		$user = $this->getUser();
+		if ($data['form_id'])
+		{
+
+			if ($this->canUserReadPostsValues(new Post($data), $user, $this->form_repo)) {
+				$this->restricted = false;
+			}
+			// Get Hidden Stage Ids to be excluded from results
+			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
+
+		}
+
 		if (!empty($data['id']))
 		{
 			$data += [
 				'values' => $this->getPostValues($data['id']),
-				'tags'   => $this->getTagsForPost($data['id']),
+				// Continued for legacy
+				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
+		}
+		// NOTE: This and the restriction above belong somewhere else,
+		// ideally in their own step
+		//Check if author information should be returned
+		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
+		{
+
+
+			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user))
+			{
+				unset($data['author_realname']);
+				unset($data['author_email']);
+				unset($data['user_id']);
+			}
 		}
 
 		return new Post($data);
@@ -135,10 +180,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function getPostValues($id)
 	{
+
 		// Get all the values for the post. These are the EAV values.
 		$values = $this->post_value_factory
 			->proxy($this->include_value_types)
-			->getAllForPost($id, $this->include_attributes);
+			->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
 
 		$output = [];
 		foreach ($values as $value) {
@@ -154,11 +200,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function getCompletedStagesForPost($id)
 	{
-		$result = DB::select('form_stage_id', 'completed')
+		$query = DB::select('form_stage_id', 'completed')
 			->from('form_stages_posts')
 			->where('post_id', '=', $id)
-			->where('completed', '=', 1)
-			->execute($this->db);
+			->where('completed', '=', 1);
+
+		if ($this->restricted) {
+			if ($this->exclude_stages) {
+				$query->where('form_stage_id', 'NOT IN', $this->exclude_stages);
+			}
+		}
+
+		$result = $query->execute($this->db);
 
 		return $result->as_array(NULL, 'form_stage_id');
 	}
@@ -172,12 +225,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'created_before', 'created_after',
 			'updated_before', 'updated_after',
 			'date_before', 'date_after',
-			'bbox', 'tags', 'values', 'current_stage',
+			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
 			'published_to',
 			'include_types', 'include_attributes', // Specify values to include
+			'include_unmapped',
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
-			'timeline', 'timeline_interval', 'timeline_attribute' // Timeline params
+			'timeline', 'timeline_interval', 'timeline_attribute', // Timeline params
+			'has_location' //contains a location or not
 		];
 	}
 
@@ -363,76 +418,19 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				;
 		}
 
-		if ($search->current_stage) {
-			$stages = $search->current_stage;
-			if (!is_array($stages)) {
-				$stages = explode(',', $stages);
-			}
-
-			/**
-			 * Here be dragons
-			 * The purpose of this query is to return the set of posts which
-			 * have current stage X. In this case, current stage X is actually the
-			 * the stage the post has NOT yet completed - which is the stage with.
-			 * the lowest priority.
-			 * For example:
-			 * If I have 3 stages for a given Post Type, I am on stage 1 if
-			 * I have completed no stages and I am on stage 3 if I have completed
-			 * stages 1 and 2.
-			 * If I have completed stages 1 and 3, I am on stage 2 as stages are considered
-			 * to be sequential
-			 */
-
-			/**
-			 * This query is responsible for returning all the
-			 * stages for a given post id, where the stage has been completed.
-			 * This is used to check which stages the Post has not yet completed
-			 */
-
-			$stages_posts = DB::select('form_stage_id')
-				->from('form_stages_posts')
-				->where('post_id', '=', DB::expr('posts.id'))
-				->and_where('completed', '=', '1');
-
-			/**
-			 * This query returns the IDs for the stages that we are filtering by
-			 */
-			$forms_sub = DB::select('form_stages.form_id')
-				->from('form_stages')
-				->where('form_stages.id', 'IN', $stages);
-
-			/**
-			 * This is the master query, it collects all the posts
-			 * missing stages that we are filtering by.
-			 */
-			$sub = DB::select(array('posts.id','p_id'), array('form_stages.id', 'fs_id'), 'priority', 'posts.form_id', 'forms.id')
-				->from('posts')
-				->join('forms')
-				// Here we join to the forms table based on the set of stage ids we are filtering by
-				->on('posts.form_id', '=', 'forms.id')
-				->on('forms.id', 'IN', $forms_sub)
-				->join('form_stages')
-				// Here we join to the form_stages table based on the form id
-				// and a check that the current post has not already completed this stage
-				->on('form_stages.form_id', 'IN', $forms_sub)
-				->on('form_stages.id', 'NOT IN', $stages_posts)
-		// We group the results by post id
-		->group_by('p_id')
-		// We reduce the list to ensure that only results missing the stages to filter by are returned
-		->having('form_stages.id', 'IN', $stages)
-				// Finally we order the results by priority to ensure that if, for example,
-				// a post is missing multiple stages we only consider the first uncompleted stage
-				->order_by('priority');
-
-			//This step wraps the query and returns only the posts ids without the extra data such as form, stage or priority
-	  $posts_sub = DB::select('p_id')
-		  ->from(array($sub, 'sub'));
-
-			$query
-				->where('posts.id', 'IN', $posts_sub);
+		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
+		if($search->has_location === 'mapped') {
+			$query->where("$table.id", 'IN',
+				DB::query(Database::SELECT, $raw_union)
+			);
+		} else if($search->has_location === 'unmapped') {
+			$query->where("$table.id", 'NOT IN',
+				DB::query(Database::SELECT, $raw_union)
+			);
 		}
 
 		// Filter by tag
+		// @todo add filter by specific tag attribute?
 		if (!empty($search->tags))
 		{
 			if (isset($search->tags['any']))
@@ -527,13 +525,36 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	{
 		// Assume we can simply count the results to get a total
 		$query = $this->getSearchQuery(true)
+			->resetSelect()
 			->select([DB::expr('COUNT(DISTINCT posts.id)'), 'total']);
 
 		// Fetch the result and...
-		$result = $query->execute($this->db);
-
+		$results = $query->execute($this->db);
 		// ... return the total.
-		return (int) $result->get('total', 0);
+		$total = 0;
+
+		foreach ($results->as_array() as $result) {
+			$total += array_key_exists('total', $result) ? (int) $result['total'] : 0;
+		}
+
+		return $total;
+	}
+
+	public function getUnmappedTotal($total_posts)
+	{
+
+		$mapped = 0;
+		$raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
+		if ($total_posts > 0) {
+
+			$results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
+
+			foreach($results->as_array() as $result) {
+				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
+			}
+		}
+
+		return $total_posts - $mapped;
 	}
 
 	// PostRepository
@@ -600,6 +621,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					'time_label'
 				])
 				->group_by('time_label');
+
 		}
 
 		// Group by attribute
@@ -634,9 +656,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			$this->search_query
 				->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
-				->select(['forms.name', 'label'])
+				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
+				->select([DB::expr('MAX(forms.name)'), 'label'])
 				->select(['forms.id', 'id'])
-				->group_by('posts.form_id');
+				->group_by('forms.id');
 		}
 		// Group by tags
 		elseif ($search->group_by === 'tags')
@@ -662,7 +685,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->join(['tags', 'parents'])
 					// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
 					->on(DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"), '', DB::expr(""))
-				->select(['parents.tag', 'label'])
+				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
+				->select([DB::expr('MAX(parents.tag)'), 'label'])
 				->select(['parents.id', 'id'])
 				->group_by('parents.id');
 
@@ -703,9 +727,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Fetch the results and...
 		$results = $this->search_query->execute($this->db);
-
+		$results = $results->as_array();
+		if ($search->include_unmapped) {
+			// Append unmapped totals to stats
+			$results['unmapped'] = $this->getUnmappedTotal($this->getSearchTotal());
+		}
 		// ... return them as an array
-		return $results->as_array();
+		return $results;
 	}
 
 	// PostRepository
@@ -788,10 +816,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	 * @param  int   $id  post id
 	 * @return array      tag ids for post
 	 */
-	private function getTagsForPost($id)
+	private function getTagsForPost($id, $form_id)
 	{
+		list($attr_id, $attr_key) = $this->getFirstTagAttr($form_id);
+
 		$result = DB::select('tag_id')->from('posts_tags')
 			->where('post_id', '=', $id)
+			->where('form_attribute_id', '=', $attr_id)
 			->execute($this->db);
 		return $result->as_array(NULL, 'tag_id');
 	}
@@ -861,16 +892,24 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
 
+		$values = $entity->values;
+		// Handle legacy post.tags attribute
 		if ($entity->tags)
 		{
-			// Update post-tags
-			$this->updatePostTags($id, $entity->tags);
+			// Find first tag attribute
+			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+
+			// If we don't have tags in the values, use the post.tags value
+			if ($attr_key && !isset($values[$attr_key])) {
+				$tags = $this->parseTags($entity->tags);
+				$values[$attr_key] = $tags;
+			}
 		}
 
 		if ($entity->values)
 		{
 			// Update post-values
-			$this->updatePostValues($id, $entity->values);
+			$this->updatePostValues($id, $values);
 		}
 
 		if ($entity->completed_stages)
@@ -878,6 +917,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// Update post-stages
 			$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
 		}
+
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $id, 'create');
 
 		return $id;
 	}
@@ -898,16 +942,24 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
+		$values = $entity->values;
+		// Handle legacy post.tags attribute
 		if ($entity->hasChanged('tags'))
 		{
-			// Update post-tags
-			$this->updatePostTags($entity->id, $entity->tags);
+			// Find first tag attribute
+			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+
+			// If we don't have tags in the values, use the post.tags value
+			if ($attr_key && !isset($values[$attr_key])) {
+				$tags = $this->parseTags($entity->tags);
+				$values[$attr_key] = $tags;
+			}
 		}
 
 		if ($entity->hasChanged('values'))
 		{
 			// Update post-values
-			$this->updatePostValues($entity->id, $entity->values);
+			$this->updatePostValues($entity->id, $values);
 		}
 
 		if ($entity->hasChanged('completed_stages'))
@@ -939,25 +991,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 	}
 
-	protected function updatePostTags($post_id, $tags)
+	protected function parseTags($tags)
 	{
-		// deletes all tags if $tags is empty
-		if (empty($tags))
-		{
-			DB::delete('posts_tags')
-				->where('post_id', '=', $post_id)
-				->execute($this->db);
-		}
-		else
-		{
-			// Load existing tags
-			$existing = $this->getTagsForPost($post_id);
-
-			$insert = DB::insert('posts_tags', ['post_id', 'tag_id']);
-
-			$tag_ids = [];
-			$new_tags = FALSE;
-
+		$tag_ids = [];
+		if (!empty($tags)) {
 			foreach ($tags as $tag)
 			{
 				if (is_array($tag)) {
@@ -972,32 +1009,25 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					$tag_entity = $this->tag_repo->get($tag);
 				}
 
-				// Does the post already have this tag?
-				if (! in_array($tag_entity->id, $existing))
-				{
-					// Add to insert query
-					$insert->values([$post_id, $tag_entity->id]);
-					$new_tags = TRUE;
-				}
-
 				$tag_ids[] = $tag_entity->id;
 			}
-
-			// Save
-			if ($new_tags)
-			{
-				$insert->execute($this->db);
-			}
-
-			// Remove any other tags
-			if (! empty($tag_ids))
-			{
-				DB::delete('posts_tags')
-					->where('tag_id', 'NOT IN', $tag_ids)
-					->and_where('post_id', '=', $post_id)
-					->execute($this->db);
-			}
 		}
+
+		return $tag_ids;
+	}
+
+	public function getFirstTagAttr($form_id)
+	{
+		$result = DB::select('form_attributes.id', 'form_attributes.key')
+			->from('form_attributes')
+			->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+			->where('form_stages.form_id', '=', $form_id)
+			->where('form_attributes.type', '=', 'tags')
+			->order_by('form_attributes.priority', 'ASC')
+			->limit(1)
+			->execute($this->db);
+
+		return [$result->get('id'), $result->get('key')];
 	}
 
 
