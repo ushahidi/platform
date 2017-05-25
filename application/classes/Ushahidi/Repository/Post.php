@@ -228,7 +228,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$status = explode(',', $status);
 		}
 		// If array contains 'all' don't bother filtering
-		if (!in_array('all', $status)) {
+		if (!in_array('all', $status) && count($status)) {
 			$query->where("$table.status", 'IN', $status);
 		}
 		// End filter by status
