@@ -61,4 +61,11 @@ class Form extends StaticEntity
 	{
 		return 'forms';
 	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		// Hack: Add computed properties to immutable list
+		return array_merge(parent::getImmutable(), ['tags', 'can_create']);
+	}
 }

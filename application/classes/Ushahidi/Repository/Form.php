@@ -84,9 +84,6 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
           }
         }
 
-        // Remove children before saving
-        unset($entity->children);
-
         // Finally save the form
         $id = parent::update($entity->setState(['updated' => time()]));
 
