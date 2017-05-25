@@ -12,6 +12,7 @@
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Tag;
+use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
 use Ushahidi\Core\Usecase\Tag\DeleteTagRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
@@ -19,7 +20,8 @@ use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	UpdateTagRepository,
 	DeleteTagRepository,
-	UpdatePostTagRepository
+	UpdatePostTagRepository,
+	TagRepository
 {
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;

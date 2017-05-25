@@ -31,9 +31,9 @@ Feature: Testing the Posts API
 					"links":[
 						"http://google.com",
 						"http://facebook.com"
-					]
+					],
+					"tags1": [1]
 				},
-				"tags":["explosion"],
 				"completed_stages":[1]
 			}
 			"""

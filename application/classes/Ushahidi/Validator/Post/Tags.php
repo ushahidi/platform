@@ -9,13 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Entity\TagsRepository;
+use Ushahidi\Core\Entity\TagRepository;
 
 class Ushahidi_Validator_Post_Tags extends Ushahidi_Validator_Post_ValueValidator
 {
 	protected $media_repo;
 
-	public function __construct(TagsRepository $tags_repo)
+	public function __construct(TagRepository $tags_repo)
 	{
 		$this->repo = $tags_repo;
 	}
