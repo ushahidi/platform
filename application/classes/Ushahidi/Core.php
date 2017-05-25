@@ -218,10 +218,8 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'import' => $di->lazyNew('Ushahidi_Validator_Post_Import'),
-		];
-		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_bulk'] = [
-			'update' => $di->lazyNew('Ushahidi_Validator_Post_BulkUpdate'),
-			'delete' => $di->lazyNew('Ushahidi_Validator_Post_BulkDelete'),
+			'bulk_update' => $di->lazyNew('Ushahidi_Validator_Post_BulkUpdate'),
+			'bulk_delete' => $di->lazyNew('Ushahidi_Validator_Post_BulkDelete'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
@@ -289,7 +287,6 @@ abstract class Ushahidi_Core {
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
 			'posts'                => $di->lazyNew('Ushahidi_Formatter_Post'),
-			'posts_bulk'           => $di->lazyNew('Ushahidi_Formatter_Post_Bulk'),
 			'tags'                 => $di->lazyNew('Ushahidi_Formatter_Tag'),
 			'savedsearches'        => $di->lazyNew('Ushahidi_Formatter_Set'),
 			'sets'                 => $di->lazyNew('Ushahidi_Formatter_Set'),
@@ -392,6 +389,7 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
 		$di->set('formatter.entity.post.stats', $di->lazyNew('Ushahidi_Formatter_Post_Stats'));
 		$di->set('formatter.entity.post.csv', $di->lazyNew('Ushahidi_Formatter_Post_CSV'));
+		$di->set('formatter.entity.post.bulk', $di->lazyNew('Ushahidi_Formatter_Post_Bulk'));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));

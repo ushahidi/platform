@@ -25,13 +25,13 @@ class Controller_Api_Posts_Bulk extends Ushahidi_Rest {
 
 	protected function _resource()
 	{
-		return 'posts_bulk';
+		return 'posts';
 	}
 
 	// Ushahidi_Rest
 	protected function _scope()
 	{
-		return 'posts_bulk';
+		return 'posts';
 	}
 
 	// Ushahidi_Rest
@@ -60,7 +60,9 @@ class Controller_Api_Posts_Bulk extends Ushahidi_Rest {
 	public function action_post_update_collection()
 	{
 		$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'update')
+			->get($this->_resource(), 'bulk_update')
+			// @todo allow injecting formatters based on resource + action
+			->setFormatter(service('formatter.entity.post.bulk'))
 			->setPayload($this->_payload());
 	}
 
@@ -74,7 +76,9 @@ class Controller_Api_Posts_Bulk extends Ushahidi_Rest {
 	public function action_post_delete_collection()
 	{
 		$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'delete')
+			->get($this->_resource(), 'bulk_delete')
+			// @todo allow injecting formatters based on resource + action
+			->setFormatter(service('formatter.entity.post.bulk'))
 			->setPayload($this->_payload());
 	}
 }

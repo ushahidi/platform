@@ -11,6 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\BulkUsecase;
 
 class UpdatePostBulk extends BulkUsecase
@@ -39,5 +40,18 @@ class UpdatePostBulk extends BulkUsecase
 		{
 			$this->validatorError($entity);
 		}
+	}
+
+	/**
+	 * Verifies the current user is allowed import access on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @param  Data    $input
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifyBulkAuth(Entity $entity)
+	{
+		$this->verifyAuth($entity, 'bulk_update');
 	}
 }

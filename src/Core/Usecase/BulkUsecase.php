@@ -86,8 +86,8 @@ class BulkUsecase implements Usecase
 		$entity = $this->getEntity();
 
 		// ... verify that the entity can be searched by the current user
-		$this->verifySearchAuth($entity);
-		
+		$this->verifyBulkAuth($entity);
+
 		$this->verifyValid($entity);
 
 		// ... and get the search filters for this entity
@@ -98,9 +98,9 @@ class BulkUsecase implements Usecase
 
 		// ... get the results of the search
 		$results = $this->repo->getSearchResults();
-		
+
 		$records = array_keys($results);
-		
+
 		$this->validateRecords($entity, $records);
 
 		if (sizeof($records) > 0)
@@ -112,9 +112,9 @@ class BulkUsecase implements Usecase
 		{
 			$total = 0;
 		}
-		
+
 		$actions = $this->getActions();
-		
+
 		// ... and return the formatted results.
 		return $this->formatter->__invoke([$total, $actions]);
 	}
@@ -153,20 +153,20 @@ class BulkUsecase implements Usecase
 	{
 		$fields = array_flip($this->repo->getSearchFields());
 		$paging = $this->getPagingFields();
-		
+
 		$filters = array_intersect_key($this->getPayload('filters'), $fields);
-		
+
 		if (!isset($filters['status']))
-		{		
+		{
 			$actions = $this->getActions();
-			
+
 			$status_arr = ['published','draft','archived'];
-			
+
 			$statuses = isset($actions['status']) ? array_diff($status_arr, [$actions['status']]) : $status_arr;
-	
+
 			$filters += ['status' => $statuses];
 		}
-		
+
 		$this->search->setFilters($filters);
 
 		return $this->search;
@@ -187,7 +187,7 @@ class BulkUsecase implements Usecase
 	 */
 	protected function validateRecords($entity, $records)
 	{
-		return;	
+		return;
 	}
 
 	/**
@@ -197,7 +197,7 @@ class BulkUsecase implements Usecase
 	 */
 	protected function executeActions($records)
 	{
-		return;	
+		return;
 	}
 
 	/**

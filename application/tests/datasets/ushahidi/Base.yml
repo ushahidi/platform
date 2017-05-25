@@ -1125,10 +1125,6 @@ oauth_scopes:
     id: 19
     scope: migrate
     name: migrate
-  -
-    id: 20
-    scope: posts_bulk
-    name: posts_bulk
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1285,9 +1281,6 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 19
-  -
-    session_access_token_id: 4
-    scope_id: 20
 
   # for testbasicuser2
   -
@@ -1366,9 +1359,6 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 6
     scope_id: 13
-  -
-    session_access_token_id: 6
-    scope_id: 20
 
 # Test roles
 # for testmanager
@@ -1414,9 +1404,6 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 7
     scope_id: 18
-  -
-    session_access_token_id: 7
-    scope_id: 20
 
 # for testimporter
   -

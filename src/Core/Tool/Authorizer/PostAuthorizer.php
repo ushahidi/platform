@@ -109,46 +109,120 @@ class PostAuthorizer implements Authorizer, Permissionable
             return false;
         }
 
-        // Non-admin users are not allowed to create posts for other users.
-        // Post must be created for owner, or if the user is anonymous post must have no owner.
-        if ($privilege === 'create'
-            && !$this->isUserOwner($entity, $user)
-            && !$this->isUserAndOwnerAnonymous($entity, $user)
-            ) {
-            return false;
+        switch ($privilege) {
+            case 'read':
+                return $this->isAllowedToRead($entity, $user);
+                break;
+            case 'create':
+                return $this->isAllowedToCreate($entity, $user);
+                break;
+            case 'update':
+                return $this->isAllowedToUpdate($entity, $user);
+                break;
+            case 'delete':
+                return $this->isAllowedToDelete($entity, $user);
+                break;
+            case 'search':
+                return true;
+                break;
+            case 'change_status':
+                return $this->isAllowedToChangeStatus($entity, $user);
+                break;
+            case 'bulk_update':
+                // Only admin can do bulk actions
+                return false;
+                break;
+            case 'bulk_delete':
+                // Only admin can do bulk actions
+                return false;
+                break;
         }
 
-        // Non-admin users are not allowed to create posts for forms that have restricted access.
-        if (in_array($privilege, ['create', 'update'])
-            && $this->isFormRestricted($entity, $user)
-            ) {
-            return false;
-        }
+        // If no other access checks succeed, we default to denying access
+        return false;
+    }
 
-        // All users are allowed to create and search posts.
-        if (in_array($privilege, ['create', 'search'])) {
+    protected function isAllowedToRead(Entity $entity, $user)
+    {
+        // We check if the user is the owner of this post. If so, they are allowed
+        // to do almost anything, **except** change ownership which
+        // only admins can do.
+        if ($this->isUserOwner($entity, $user)) {
             return true;
         }
 
         // If a post is published, then anyone with the appropriate role can read it
-        if ($privilege === 'read' && $this->isPostPublishedToUser($entity, $user)) {
+        if ($this->isPostPublishedToUser($entity, $user)) {
             return true;
         }
 
         // If entity isn't loaded (ie. pre-flight check) then *anyone* can view it.
-        if ($privilege === 'read' && ! $entity->getId()) {
-            return true;
-        }
-
-        // We check if the user is the owner of this post. If so, they are allowed
-        // to do almost anything, **except** change ownership and status of the post, which
-        // only admins can do.
-        if ($this->isUserOwner($entity, $user) && !$entity->hasChanged('user_id')
-            && $privilege !== 'change_status') {
+        if (! $entity->getId()) {
             return true;
         }
 
         // If no other access checks succeed, we default to denying access
+        return false;
+    }
+
+    protected function isAllowedToUpdate(Entity $entity, $user)
+    {
+        // We check if the user is the owner of this post. If so, they are allowed
+        // to do almost anything, **except** change ownership which
+        // only admins can do.
+        if ($this->isUserOwner($entity, $user) && !$entity->hasChanged('user_id')) {
+            return true;
+        }
+
+        // Non-admin users are not allowed to create posts for forms that have restricted access.
+        if ($this->isFormRestricted($entity, $user)) {
+            return false;
+        }
+
+        // Otherwise all users are allowed to create posts.
+        return false;
+    }
+
+    protected function isAllowedToDelete(Entity $entity, $user)
+    {
+        // We check if the user is the owner of this post. If so, they are allowed
+        // to do almost anything, **except** change ownership which
+        // only admins can do.
+        if ($this->isUserOwner($entity, $user) && !$entity->hasChanged('user_id')) {
+            return true;
+        }
+
+        // Otherwise all users are allowed to create posts.
+        return false;
+    }
+
+    protected function isAllowedToCreate(Entity $entity, $user)
+    {
+        // We check if the user is the owner of this post. If so, they are allowed
+        // to do almost anything, **except** change ownership which
+        // only admins can do.
+        if ($this->isUserOwner($entity, $user) && !$entity->hasChanged('user_id')) {
+            return true;
+        }
+
+        // Non-admin users are not allowed to create posts for other users.
+        // Post must be created for owner, or if the user is anonymous post must have no owner.
+        if (!$this->isUserOwner($entity, $user) && !$this->isUserAndOwnerAnonymous($entity, $user)) {
+            return false;
+        }
+
+        // Non-admin users are not allowed to create posts for forms that have restricted access.
+        if ($this->isFormRestricted($entity, $user)) {
+            return false;
+        }
+
+        // Otherwise all users are allowed to create posts.
+        return true;
+    }
+
+    protected function isAllowedToChangeStatus(Entity $entity, $user)
+    {
+        // Only admins can change post status
         return false;
     }
 
