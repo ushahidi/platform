@@ -65,7 +65,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['tag', 'type', 'parent_id', 'q', 'level', 'formId' /* LIKE tag */];
+		return ['tag', 'type', 'parent_id', 'q', 'level' /* LIKE tag */];
 	}
 
 	// Ushahidi_Repository
@@ -78,20 +78,17 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 				 $query->where($key, '=', $search->$key);
 			}
 		}
+
 		if ($search->q) {
 			// Tag text searching
 			$query->where('tag', 'LIKE', "%{$search->q}%");
 		}
+
 		if($search->level) {
 			//searching for top-level-tags
 			if($search->level === 'parent') {
 				$query->where('parent_id', '=', null);
 			}
-		}
-		if($search->formId){
-			$query->join('forms_tags')
-				->on('tags.id', '=', 'forms_tags.tag_id')
-				->where('form_id','=', $search->formId);
 		}
 	}
 
