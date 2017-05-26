@@ -80,9 +80,9 @@ Feature: Testing the Posts API
 					"links":[
 						"http://google.com",
 						"http://facebook.com"
-					]
+					],
+					"tags1": ["explosion"]
 				},
-				"tags":["explosion"],
 				"completed_stages":[1]
 			}
 			"""

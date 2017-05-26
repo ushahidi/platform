@@ -13,7 +13,7 @@ use Ushahidi\Core\Entity\TagRepository;
 
 class Ushahidi_Validator_Post_Tags extends Ushahidi_Validator_Post_ValueValidator
 {
-	protected $media_repo;
+	protected $repo;
 
 	public function __construct(TagRepository $tags_repo)
 	{
@@ -22,11 +22,11 @@ class Ushahidi_Validator_Post_Tags extends Ushahidi_Validator_Post_ValueValidato
 
 	protected function validate($value)
 	{
-		if (!Valid::digit($value)) {
-			return 'digit';
+		if (is_array($value)) {
+			$value = $value['id'];
 		}
 
-		if (! $this->repo->exists($value)) {
+		if (!$this->repo->doesTagExist($value)) {
 			return 'exists';
 		}
 	}

@@ -9,8 +9,26 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
+
 class Ushahidi_Repository_Post_Tags extends Ushahidi_Repository_Post_Value
 {
+	protected $tag_repo;
+
+	/**
+	 * Construct
+	 * @param Database              $db
+	 * @param TagRepo               $tag_repo
+	 */
+	public function __construct(
+			Database $db,
+			UpdatePostTagRepository $tag_repo
+		)
+	{
+		parent::__construct($db);
+		$this->tag_repo = $tag_repo;
+	}
+
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -40,7 +58,7 @@ class Ushahidi_Repository_Post_Tags extends Ushahidi_Repository_Post_Value
 	// UpdatePostValueRepository
 	public function createValue($value, $form_attribute_id, $post_id)
 	{
-		$tag_id = $value;
+		$tag_id = $this->parseTag($value);
 		$input = compact('tag_id', 'form_attribute_id', 'post_id');
 		$input['created'] = time();
 
@@ -50,11 +68,29 @@ class Ushahidi_Repository_Post_Tags extends Ushahidi_Repository_Post_Value
 	// UpdatePostValueRepository
 	public function updateValue($id, $value)
 	{
-		$update = ['tag_id' => $value];
+		$tag_id = $this->parseTag($value);
+		$update = compact($tag_id);
 		if ($id && $update)
 		{
 			$this->executeUpdate(compact('id'), $update);
 		}
+	}
+
+	protected function parseTag($tag)
+	{
+		if (is_array($tag)) {
+			$tag = $tag['id'];
+		}
+
+		// Find the tag by id or name
+		// @todo this should happen before we even get here
+		$tag_entity = $this->tag_repo->getByTag($tag);
+		if (! $tag_entity->id)
+		{
+			$tag_entity = $this->tag_repo->get($tag);
+		}
+
+		return $tag_entity->id;
 	}
 
 }
