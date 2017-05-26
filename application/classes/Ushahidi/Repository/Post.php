@@ -21,7 +21,6 @@ use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase\Post\StatsPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
-use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\Core\Usecase\Set\SetPostRepository;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\Permissions\ManagePosts;
@@ -67,7 +66,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected $form_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
-	protected $tag_repo;
 	// By default remove all private responses
 	protected $restricted = true;
 
@@ -91,8 +89,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			FormStageRepository $form_stage_repo,
 			FormRepository $form_repo,
 			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
-			InstanceFactory $bounding_box_factory,
-			UpdatePostTagRepository $tag_repo
+			InstanceFactory $bounding_box_factory
 		)
 	{
 		parent::__construct($db);
@@ -102,7 +99,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$this->form_repo = $form_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
-		$this->tag_repo = $tag_repo;
 	}
 
 	// Ushahidi_Repository
@@ -889,8 +885,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 			// If we don't have tags in the values, use the post.tags value
 			if ($attr_key && !isset($values[$attr_key])) {
-				$tags = $this->parseTags($entity->tags);
-				$values[$attr_key] = $tags;
+				$values[$attr_key] = $entity->tags;
 			}
 		}
 
@@ -939,8 +934,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 			// If we don't have tags in the values, use the post.tags value
 			if ($attr_key && !isset($values[$attr_key])) {
-				$tags = $this->parseTags($entity->tags);
-				$values[$attr_key] = $tags;
+				$values[$attr_key] = $entity->tags;
 			}
 		}
 
@@ -977,31 +971,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				$repo->createValue($val, $attribute->id, $post_id);
 			}
 		}
-	}
-
-	protected function parseTags($tags)
-	{
-		$tag_ids = [];
-		if (!empty($tags)) {
-			foreach ($tags as $tag)
-			{
-				if (is_array($tag)) {
-					$tag = $tag['id'];
-				}
-
-				// Find the tag by id or name
-				// @todo this should happen before we even get here
-				$tag_entity = $this->tag_repo->getByTag($tag);
-				if (! $tag_entity->id)
-				{
-					$tag_entity = $this->tag_repo->get($tag);
-				}
-
-				$tag_ids[] = $tag_entity->id;
-			}
-		}
-
-		return $tag_ids;
 	}
 
 	public function getFirstTagAttr($form_id)

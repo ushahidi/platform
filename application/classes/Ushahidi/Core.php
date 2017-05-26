@@ -449,8 +449,7 @@ abstract class Ushahidi_Core {
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 				'form_repo' => $di->lazyGet('repository.form'),
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-				'bounding_box_factory' => $di->newFactory('Util_BoundingBox'),
-				'tag_repo' => $di->lazyGet('repository.tag')
+				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 			];
 
 		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_Post_Datetime'));
@@ -466,6 +465,10 @@ abstract class Ushahidi_Core {
 		$di->set('repository.post.title', $di->lazyNew('Ushahidi_Repository_Post_Title'));
 		$di->set('repository.post.media', $di->lazyNew('Ushahidi_Repository_Post_Media'));
 		$di->set('repository.post.tags', $di->lazyNew('Ushahidi_Repository_Post_Tags'));
+
+		$di->params['Ushahidi_Repository_Post_Tags'] = [
+				'tag_repo' => $di->lazyGet('repository.tag')
+		];
 
 		// The post value repo factory
 		$di->set('repository.post_value_factory', $di->lazyNew('Ushahidi_Repository_Post_ValueFactory'));
