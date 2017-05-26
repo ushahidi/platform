@@ -35,7 +35,8 @@ Feature: Testing the Forms API
                 "description":"This is a test form updated by BDD testing",
                 "disabled":true,
                 "require_approval":false,
-                "everyone_can_create":false
+                "everyone_can_create":false,
+                "tags": [1,2,3,"junk"]
             }
             """
         And that its "id" is "1"
