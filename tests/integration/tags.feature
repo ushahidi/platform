@@ -267,6 +267,7 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the guzzle status code should be 200
 
+    @resetFixture
     Scenario: Deleting a tag removes it from attribute options
         Given that I want to delete a "Tag"
         And that its "id" is "1"
