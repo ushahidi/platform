@@ -27,7 +27,7 @@ class Ushahidi_Validator_Post_Tags extends Ushahidi_Validator_Post_ValueValidato
 		}
 
 		if (!$this->repo->doesTagExist($value)) {
-			return 'exists';
+			return 'tagExists';
 		}
 	}
 }

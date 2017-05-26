@@ -27,6 +27,7 @@ return [
 		'digit'         => 'The field :param1 must be a digit, Given: :param2',
 		'email'         => 'The field :param1 must be an email address, Given: :param2',
 		'exists'        => 'The field :param1 must be a valid post id, Post id: :param2',
+    'tagExists'     => 'The field :param1 must be a valid category id, Category id: :param2',
 		'max_length'    => 'The field :param1 must not exceed :param2 characters long, Given: :param2',
 		'invalidForm'   => 'The field :param1 has the wrong post type, Post id: :param2',
 		'numeric'       => 'The field :param1 must be numeric, Given: :param2',
