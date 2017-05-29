@@ -116,7 +116,8 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function update(Entity $entity)
 	{
 		$tag = $entity->getChanged();
-
+		// removing children before saving tag
+		unset($tag['children']);
 		$count = $this->executeUpdate(['id' => $entity->id], $tag);
 
 		return $count;

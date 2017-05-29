@@ -83,9 +83,12 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             $key === 'name' ? $this->emit($this->event, $user->email, ['primary_survey_name' => $val]) : null;
           }
         }
-
+        $form = $entity->getChanged();
+        $form['updated'] = time();
+        // removing tags from form before saving
+        unset($form['tags']);
         // Finally save the form
-        $id = parent::update($entity->setState(['updated' => time()]));
+        $id = $this->executeUpdate(['id'=>$entity->id], $form);
 
         return $id;
     }
