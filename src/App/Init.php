@@ -358,8 +358,7 @@ $di->params[Ushahidi\App\Repository\PostRepository::class] = [
 		'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 		'form_repo' => $di->lazyGet('repository.form'),
 		'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-		'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class),
-		'tag_repo' => $di->lazyGet('repository.tag')
+		'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class)
 	];
 
 $di->set('repository.post.datetime', $di->lazyNew(Ushahidi\App\Repository\Post\DatetimeRepository::class));
@@ -374,6 +373,11 @@ $di->set('repository.post.varchar', $di->lazyNew(Ushahidi\App\Repository\Post\Va
 $di->set('repository.post.markdown', $di->lazyNew(Ushahidi\App\Repository\Post\MarkdownRepository::class));
 $di->set('repository.post.title', $di->lazyNew(Ushahidi\App\Repository\Post\TitleRepository::class));
 $di->set('repository.post.media', $di->lazyNew(Ushahidi\App\Repository\Post\MediaRepository::class));
+$di->set('repository.post.tags', $di->lazyNew(Ushahidi\App\Repository\Post\TagsRepository::class));
+
+$di->params[Ushahidi\App\Repository\Post\TagsRepository::class] = [
+    'tag_repo' => $di->lazyGet('repository.tag')
+];
 
 // The post value repo factory
 $di->set('repository.post_value_factory', $di->lazyNew(Ushahidi\App\Repository\Post\ValueFactory::class));
@@ -392,6 +396,7 @@ $di->params[Ushahidi\App\Repository\Post\ValueFactory::class] = [
 			'markdown'  => $di->lazyGet('repository.post.markdown'),
 			'title'    => $di->lazyGet('repository.post.title'),
 			'media'    => $di->lazyGet('repository.post.media'),
+			'tags'     => $di->lazyGet('repository.post.tags'),
 		],
 	];
 
@@ -530,6 +535,10 @@ $di->set('validator.post.media', $di->lazyNew(Ushahidi\App\Validator\Post\Media:
 $di->params[Ushahidi\App\Validator\Post\Media::class] = [
 	'media_repo' => $di->lazyGet('repository.media')
 ];
+$di->set('validator.post.tags', $di->lazyNew(Ushahidi\App\Validator\Post\Tags::class));
+$di->params[Ushahidi\App\Validator\Post\Tags::class] = [
+    'tags_repo' => $di->lazyGet('repository.tag')
+];
 
 
 $di->set('validator.post.value_factory', $di->lazyNew(Ushahidi\App\Validator\Post\ValueFactory::class));
@@ -548,6 +557,7 @@ $di->params[Ushahidi\App\Validator\Post\ValueFactory::class] = [
 			'title'    => $di->lazyGet('validator.post.title'),
 			'media'    => $di->lazyGet('validator.post.media'),
 			'video'    => $di->lazyGet('validator.post.video'),
+            'tags'     => $di->lazyGet('validator.post.tags'),
 		],
 	];
 

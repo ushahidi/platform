@@ -26,7 +26,6 @@ class Tag extends StaticEntity
 	protected $priority;
 	protected $created;
 	protected $role;
-	protected $forms;
 	protected $children;
 
 	// StatefulData
@@ -57,8 +56,7 @@ class Tag extends StaticEntity
 			'priority'    => 'int',
 			'created'     => 'int',
 			'role'        => '*json',
-			'forms'		  => 'array',
-			'children'    =>'array',
+			'children'    => 'array',
 		];
 	}
 
@@ -66,5 +64,10 @@ class Tag extends StaticEntity
 	public function getResource()
 	{
 		return 'tags';
+	}
+	protected function getImmutable()
+	{
+		// Hack: Add computed properties to immutable list
+		return array_merge(parent::getImmutable(), ['children']);
 	}
 }

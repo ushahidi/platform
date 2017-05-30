@@ -31,6 +31,8 @@ class Update extends Validator
 
     protected function getRules()
     {
+        $type = $this->validation_engine->getFullData('type');
+
         return [
             'key' => [
                 ['max_length', [':value', 150]],
@@ -78,7 +80,7 @@ class Update extends Validator
                 ]]],
             ],
             'required' => [
-                ['in_array', [':value', [true,false]]],
+                ['in_array', [':value', [true, false]]],
             ],
             'priority' => [
                 ['digit'],
@@ -94,6 +96,9 @@ class Update extends Validator
             'form_id' => [
                 ['digit'],
             ],
+            'response_private' => [
+                [[$this, 'canMakePrivate'], [':value', $type]]
+            ]
         ];
     }
 
@@ -106,5 +111,15 @@ class Update extends Validator
 
         $group = $this->form_stage_repo->get($value);
         return ($group->form_id == $this->valid['form_id']);
+    }
+
+    public function canMakePrivate($value, $type)
+    {
+        // If input type is tags, then attribute cannot be private
+        if ($type === 'tags' && $value !== false) {
+            return false;
+        }
+
+        return true;
     }
 }

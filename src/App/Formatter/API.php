@@ -105,7 +105,7 @@ class API implements Formatter
 	protected function getRelation($resource, $id)
 	{
 		return !$id ? null : [
-			'id'  => $id,
+			'id'  => intval($id),
 			'url' => url(RESTController::url($resource, $id)),
 		];
 	}

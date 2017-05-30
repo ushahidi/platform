@@ -24,11 +24,15 @@ class Tag extends API
 		return $value ? '#' . $value : null;
 	}
 
-    protected function formatForms($forms)
+    protected function formatChildren($tags)
     {
         $output = [];
-        foreach ($forms as $formid) {
-            $output[] = $this->getRelation('forms', $formid);
+
+        if (is_array($tags)) {
+            foreach ($tags as $tagid) {
+                $output[] = $this->getRelation('tags', $tagid);
+                //$output[] = intval($tagid);
+            }
         }
 
         return $output;

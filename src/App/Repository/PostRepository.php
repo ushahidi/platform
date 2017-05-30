@@ -24,7 +24,6 @@ use Ushahidi\Core\Entity\UserRepository as UserRepositoryContract;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase\Post\StatsPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
-use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\Core\Usecase\Set\SetPostRepository;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\Permissions\ManagePosts;
@@ -72,7 +71,6 @@ class PostRepository extends OhanzeeRepository implements
 	protected $form_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
-	protected $tag_repo;
 	// By default remove all private responses
 	protected $restricted = true;
 
@@ -92,13 +90,13 @@ class PostRepository extends OhanzeeRepository implements
 	 */
 	public function __construct(
         \Database $db,
-        FormAttributeRepositoryContract $form_attribute_repo,
-        FormStageRepositoryContract $form_stage_repo,
-        FormRepositoryContract $form_repo,
-        PostValueFactory $post_value_factory,
-        InstanceFactory $bounding_box_factory,
-        UpdatePostTagRepository $tag_repo
+        FormAttributeRepository $form_attribute_repo,
+        FormStageRepository $form_stage_repo,
+        FormRepository $form_repo,
+        Ushahidi_Repository_Post_ValueFactory $post_value_factory,
+        InstanceFactory $bounding_box_factory
     ) {
+	
 		parent::__construct($db);
 
 		$this->form_attribute_repo = $form_attribute_repo;
@@ -106,7 +104,6 @@ class PostRepository extends OhanzeeRepository implements
 		$this->form_repo = $form_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
-		$this->tag_repo = $tag_repo;
 	}
 
 	// OhanzeeRepository
@@ -132,7 +129,8 @@ class PostRepository extends OhanzeeRepository implements
 		if (!empty($data['id'])) {
 			$data += [
 				'values' => $this->getPostValues($data['id']),
-				'tags'   => $this->getTagsForPost($data['id']),
+				// Continued for legacy
+				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
@@ -397,6 +395,7 @@ class PostRepository extends OhanzeeRepository implements
 		}
 
 		// Filter by tag
+		// @todo add filter by specific tag attribute?
 		if (!empty($search->tags)) {
 			if (isset($search->tags['any'])) {
 				$tags = $search->tags['any'];
@@ -504,7 +503,7 @@ class PostRepository extends OhanzeeRepository implements
 			union
 			select post_point.post_id from post_point) as sub;";
 		if ($total_posts > 0) {
-			$results = DB::query(Database::SELECT, $raw_sql)->execute();
+			$results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
 
 			foreach ($results->as_array() as $result) {
 				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
@@ -764,10 +763,13 @@ class PostRepository extends OhanzeeRepository implements
 	 * @param  int   $id  post id
 	 * @return array      tag ids for post
 	 */
-	private function getTagsForPost($id)
+	private function getTagsForPost($id, $form_id)
 	{
+		list($attr_id, $attr_key) = $this->getFirstTagAttr($form_id);
+
 		$result = DB::select('tag_id')->from('posts_tags')
 			->where('post_id', '=', $id)
+			->where('form_attribute_id', '=', $attr_id)
 			->execute($this->db);
 		return $result->as_array(null, 'tag_id');
 	}
@@ -842,14 +844,21 @@ class PostRepository extends OhanzeeRepository implements
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
 
+		$values = $entity->values;
+		// Handle legacy post.tags attribute
 		if ($entity->tags) {
-			// Update post-tags
-			$this->updatePostTags($id, $entity->tags);
+			// Find first tag attribute
+			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+
+			// If we don't have tags in the values, use the post.tags value
+			if ($attr_key && !isset($values[$attr_key])) {
+				$values[$attr_key] = $entity->tags;
+			}
 		}
 
 		if ($entity->values) {
 			// Update post-values
-			$this->updatePostValues($id, $entity->values);
+			$this->updatePostValues($id, $values);
 		}
 
 		if ($entity->completed_stages) {
@@ -888,14 +897,21 @@ class PostRepository extends OhanzeeRepository implements
 
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
+		$values = $entity->values;
+		// Handle legacy post.tags attribute
 		if ($entity->hasChanged('tags')) {
-			// Update post-tags
-			$this->updatePostTags($entity->id, $entity->tags);
+			// Find first tag attribute
+			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+
+			// If we don't have tags in the values, use the post.tags value
+			if ($attr_key && !isset($values[$attr_key])) {
+				$values[$attr_key] = $entity->tags;
+			}
 		}
 
 		if ($entity->hasChanged('values')) {
 			// Update post-values
-			$this->updatePostValues($entity->id, $entity->values);
+			$this->updatePostValues($entity->id, $values);
 		}
 
 		if ($entity->hasChanged('completed_stages')) {
@@ -924,57 +940,18 @@ class PostRepository extends OhanzeeRepository implements
 		}
 	}
 
-	protected function updatePostTags($post_id, $tags)
+	public function getFirstTagAttr($form_id)
 	{
-		// deletes all tags if $tags is empty
-		if (empty($tags)) {
-			DB::delete('posts_tags')
-				->where('post_id', '=', $post_id)
-				->execute($this->db);
-		} else {
-			// Load existing tags
-			$existing = $this->getTagsForPost($post_id);
+		$result = DB::select('form_attributes.id', 'form_attributes.key')
+			->from('form_attributes')
+			->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+			->where('form_stages.form_id', '=', $form_id)
+			->where('form_attributes.type', '=', 'tags')
+			->order_by('form_attributes.priority', 'ASC')
+			->limit(1)
+			->execute($this->db);
 
-			$insert = DB::insert('posts_tags', ['post_id', 'tag_id']);
-
-			$tag_ids = [];
-			$new_tags = false;
-
-			foreach ($tags as $tag) {
-				if (is_array($tag)) {
-					$tag = $tag['id'];
-				}
-
-				// Find the tag by id or name
-				// @todo this should happen before we even get here
-				$tag_entity = $this->tag_repo->getByTag($tag);
-				if (! $tag_entity->id) {
-					$tag_entity = $this->tag_repo->get($tag);
-				}
-
-				// Does the post already have this tag?
-				if (! in_array($tag_entity->id, $existing)) {
-					// Add to insert query
-					$insert->values([$post_id, $tag_entity->id]);
-					$new_tags = true;
-				}
-
-				$tag_ids[] = $tag_entity->id;
-			}
-
-			// Save
-			if ($new_tags) {
-				$insert->execute($this->db);
-			}
-
-			// Remove any other tags
-			if (! empty($tag_ids)) {
-				DB::delete('posts_tags')
-					->where('tag_id', 'NOT IN', $tag_ids)
-					->and_where('post_id', '=', $post_id)
-					->execute($this->db);
-			}
-		}
+		return [$result->get('id'), $result->get('key')];
 	}
 
 

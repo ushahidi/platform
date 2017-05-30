@@ -169,13 +169,14 @@ Feature: Testing the Form Attributes API
         And the response has a "errors" property
         Then the guzzle status code should be 404
 
+    @resetFixture
     Scenario: Listing All Attributes for a form
         Given that I want to get all "Attributes"
         When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "19"
+        And the "count" property equals "18"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -185,7 +186,7 @@ Feature: Testing the Form Attributes API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "25"
+        And the "count" property equals "29"
         Then the guzzle status code should be 200
 
     Scenario: Search for point attributes

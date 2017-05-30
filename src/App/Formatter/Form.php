@@ -28,4 +28,14 @@ class Form extends API
 		$value = ltrim($value, '#');
 		return $value ? '#' . $value : null;
 	}
+
+	protected function formatTags($tags)
+	{
+		$output = [];
+		foreach ($tags as $tagid) {
+			$output[] = $this->getRelation('tags', $tagid);
+		}
+
+		return $output;
+	}
 }

@@ -482,6 +482,39 @@ class RestContext implements Context
 	}
 
 	/**
+	 * @Given /^the "([^"]*)" property does not contain "([^"]*)"$/
+	 */
+	public function thePropertyDoesNotContains($propertyName, $propertyContainsValue)
+	{
+
+		$data = json_decode($this->response->getBody(true), true);
+
+		$this->theResponseIsJson();
+
+		$actualPropertyValue = \Arr::path($data, $propertyName);
+
+		if ($actualPropertyValue === null) {
+			throw new Exception("Property '".$propertyName."' is not set!\n");
+		}
+
+		if (is_array($actualPropertyValue) and in_array($propertyContainsValue, $actualPropertyValue)) {
+			throw new \Exception(
+				'Property \''.$propertyName.'\' contains value!' .
+				'(given: '.$propertyContainsValue.', match: '.json_encode($actualPropertyValue).')'
+			);
+		} elseif (is_string($actualPropertyValue) and strpos($actualPropertyValue, $propertyContainsValue) !== false) {
+			throw new \Exception(
+				'Property \''.$propertyName.'\' does not contain value!' .
+				'(given: '.$propertyContainsValue.', match: '.$actualPropertyValue.')'
+			);
+		} elseif (!is_array($actualPropertyValue) and !is_string($actualPropertyValue)) {
+			throw new \Exception(
+				"Property '".$propertyName."' could not be compared. Must be string or array.\n"
+			);
+		}
+	}
+
+	/**
 	 * @Given /^the "([^"]*)" property count is "([^"]*)"$/
 	 */
 	public function thePropertyCountIs($propertyName, $propertyCountValue)

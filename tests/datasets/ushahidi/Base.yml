@@ -116,36 +116,43 @@ form_stages:
     form_id: 1
     label: "Main"
     show_when_published: 1
+    type: "post"
   -
     id: 2
     form_id: 1
     label: "2nd step"
     show_when_published: 1
+    type: "task"
   -
     id: 3
     form_id: 1
     label: "3rd step"
     show_when_published: 1
+    type: "task"
   -
     id: 4
     form_id: 2
     label: "Main"
     show_when_published: 1
+    type: "post"
   -
     id: 5
     form_id: 3
     label: "Post"
     show_when_published: 1
+    type: "post"
   -
     id: 6
     form_id: 4
     label: "restricted"
     show_when_published: 0
+    type: "task"
   -
     id: 7
     form_id: 4
     label: "Post"
     show_when_published: 1
+    type: "post"
 form_attributes:
   -
     id: 1
@@ -447,6 +454,54 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 1
+  -
+    id: 26
+    label: "Categories"
+    key: "tags1"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["1","2","3","4","5","6","7"]'
+    cardinality: 0
+    form_stage_id: 1
+  -
+    id: 27
+    label: "Categories"
+    key: "tags2"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["1","2","3","5"]'
+    cardinality: 0
+    form_stage_id: 4
+  -
+    id: 28
+    label: "Categories"
+    key: "tags3"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["1","2","3","5","6","7"]'
+    cardinality: 0
+    form_stage_id: 5
+  -
+    id: 29
+    label: "Categories"
+    key: "tags4"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["1","2","3","4","5","6","7"]'
+    cardinality: 0
+    form_stage_id: 7
 posts:
   -
     id: 1
@@ -956,12 +1011,15 @@ posts_tags:
   -
     post_id: 1
     tag_id: 4
+    form_attribute_id: 26
   -
     post_id: 1
     tag_id: 3
+    form_attribute_id: 26
   -
     post_id: 99
     tag_id: 3
+    form_attribute_id: 26
 form_stages_posts:
   -
     form_stage_id: 1
