@@ -23,7 +23,7 @@ class DatetimeRepository extends ValueRepository
 	}
 
 	private function convertToMysqlFormat($value)
-    {
+	{
 		$value = date("Y-m-d H:i:s", strtotime($value));
 		return $value;
 	}
