@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Unit tests for Ushahidi_Repository_PostValue
+ * Unit tests for Ushahidi\App\Repository\Post\ValueRepository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Tests
@@ -24,7 +24,7 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 
-		$this->repository = $this->getMockBuilder(\Ushahidi_Repository_Post_Value::class)
+		$this->repository = $this->getMockBuilder(\Ushahidi\App\Repository\Post\ValueRepository::class)
 			->setMethods(['selectOne', 'selectQuery', 'getTable'])
 			->disableOriginalConstructor()
 			->getMock();

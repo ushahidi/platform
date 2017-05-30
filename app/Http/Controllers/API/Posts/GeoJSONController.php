@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\App\Util\Tile;
+use Ushahidi\App\Util\BoundingBox;
+
 class GeoJSONController extends PostsController
 {
 
@@ -27,9 +30,9 @@ class GeoJSONController extends PostsController
 		if ($zoom !== false and
 			$x !== false and
 			$y !== false) {
-			$boundingBox = \Util_Tile::tileToBoundingBox($zoom, $x, $y);
+			$boundingBox = Tile::tileToBoundingBox($zoom, $x, $y);
 
-			$request->merge(['bbox' => implode(',', $boundingBox->as_array())]);
+			$request->merge(['bbox' => implode(',', $boundingBox->asArray())]);
 		}
 	}
 

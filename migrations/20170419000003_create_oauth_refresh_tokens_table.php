@@ -19,6 +19,5 @@ class CreateOauthRefreshTokensTable extends AbstractMigration
             ->addColumn('expires_at', 'datetime', ['null' => true])
             ->addIndex(['access_token_id'])
             ->create();
-
     }
 }

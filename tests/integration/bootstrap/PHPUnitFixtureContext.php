@@ -169,7 +169,7 @@ class PHPUnitFixtureContext implements Context
 		//return PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
 		$cascadeTruncates = true;
 		return new \PHPUnit_Extensions_Database_Operation_Composite(array(
-			new \Unittest_Database_Operation_MySQL55Truncate($cascadeTruncates),
+			new \Tests\Support\MySQL55Truncate($cascadeTruncates),
 			\PHPUnit_Extensions_Database_Operation_Factory::INSERT()
 		));
 	}
