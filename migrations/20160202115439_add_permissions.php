@@ -26,6 +26,5 @@ class AddPermissions extends AbstractMigration
                        ('Manage Settings', 'Manage general settings'),
                        ('Bulk Data Import', 'Import data from external sources')
                 ");
-		
     }
 }

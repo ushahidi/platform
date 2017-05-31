@@ -1,4 +1,7 @@
 <?php
+
+namespace Tests\Integration\Bootstrap;
+
 use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Context\Step;
 use Symfony\Component\Yaml\Yaml;
@@ -20,8 +23,7 @@ class MinkExtendedContext extends MinkContext
 
 		$actual = $this->getSession()->getCurrentUrl();
 
-		if (!preg_match($pattern, $actual))
-		{
+		if (!preg_match($pattern, $actual)) {
 			$message = sprintf('Current page "%s" does not match the regex "%s".', $actual, $pattern);
 			throw new Exception($message);
 		}
@@ -33,13 +35,13 @@ class MinkExtendedContext extends MinkContext
 	public function canIntercept()
 	{
 		$driver = $this->getSession()->getDriver();
-		if (!$driver instanceof GoutteDriver)
-		{
+		if (!$driver instanceof GoutteDriver) {
 			throw new UnsupportedDriverActionException(
 				'You need to tag the scenario with ' .
 				'"@mink:goutte" or "@mink:symfony". ' .
 				'Intercepting the redirections is not ' .
-				'supported by %s', $driver
+				'supported by %s',
+                $driver
 			);
 		}
 	}
@@ -89,8 +91,7 @@ class MinkExtendedContext extends MinkContext
 
 		$pattern = $this->fixStepArgument($pattern);
 
-		if (!preg_match($pattern, $actual))
-		{
+		if (!preg_match($pattern, $actual)) {
 			$message = sprintf('Redirect location "%s" does not match the regex "%s".', $actual, $pattern);
 			throw new Exception($message);
 		}
@@ -103,5 +104,4 @@ class MinkExtendedContext extends MinkContext
 	{
 		$this->assertSession()->cookieExists($cookie);
 	}
-
 }

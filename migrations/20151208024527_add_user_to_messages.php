@@ -21,7 +21,6 @@ class AddUserToMessages extends AbstractMigration
                 'update' => 'CASCADE',
                 ])
 			->update();
-
 	}
 
 	/**

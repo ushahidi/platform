@@ -12,7 +12,7 @@ class AddShowWhenPublishedToFormStage extends AbstractMigration
         $this->table('form_stages')
           ->addColumn('show_when_published', 'boolean', [
               'null' => false,
-              'default' => false
+              'default' => true
               ])
           ->update();
     }

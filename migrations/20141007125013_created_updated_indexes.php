@@ -98,6 +98,5 @@ class CreatedUpdatedIndexes extends AbstractMigration
             ->addIndex(['created'])
             ->addIndex(['updated'])
             ->update();
-
     }
 }

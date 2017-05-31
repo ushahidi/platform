@@ -68,8 +68,8 @@ class UsecaseFactory
 		FormatterFactory  $formatters,
 		RepositoryFactory $repositories,
 		ValidatorFactory  $validators,
-		Array $actions,
-		Array $map
+		array $actions,
+		array $map
 	) {
 		$this->authorizers  = $authorizers;
 		$this->data         = $data;

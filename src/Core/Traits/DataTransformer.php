@@ -171,7 +171,7 @@ trait DataTransformer
 	 * @param  Array $data
 	 * @return Array
 	 */
-	protected function transform(Array $data)
+	protected function transform(array $data)
 	{
 		$definition = $this->getDefinition();
 

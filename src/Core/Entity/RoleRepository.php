@@ -22,7 +22,7 @@ interface RoleRepository extends
 	 * @param  Array $roles
 	 * @return Boolean
 	 */
-	public function doRolesExist(Array $roles = null);
+	public function doRolesExist(array $roles = null);
 
 	/**
 	 * @param String $name

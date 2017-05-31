@@ -23,6 +23,5 @@ class FixUnstructuredPostSetFilter extends AbstractMigration
      */
     public function down()
     {
-
     }
 }

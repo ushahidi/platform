@@ -73,6 +73,11 @@ abstract class Ushahidi_Core {
 				and Kohana::$config->load('features.private.enabled');
 		});
 
+		// Intercom config settings
+		$di->set('site.intercomAppToken', function() use ($di) {
+			return Kohana::$config->load('site.intercomAppToken');
+		});
+
 		// Roles config settings
 		$di->set('roles.enabled', function() use ($di) {
 			return Kohana::$config->load('features.roles.enabled');
@@ -444,8 +449,7 @@ abstract class Ushahidi_Core {
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 				'form_repo' => $di->lazyGet('repository.form'),
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-				'bounding_box_factory' => $di->newFactory('Util_BoundingBox'),
-				'tag_repo' => $di->lazyGet('repository.tag')
+				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 			];
 
 		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_Post_Datetime'));
@@ -460,6 +464,11 @@ abstract class Ushahidi_Core {
 		$di->set('repository.post.markdown', $di->lazyNew('Ushahidi_Repository_Post_Markdown'));
 		$di->set('repository.post.title', $di->lazyNew('Ushahidi_Repository_Post_Title'));
 		$di->set('repository.post.media', $di->lazyNew('Ushahidi_Repository_Post_Media'));
+		$di->set('repository.post.tags', $di->lazyNew('Ushahidi_Repository_Post_Tags'));
+
+		$di->params['Ushahidi_Repository_Post_Tags'] = [
+				'tag_repo' => $di->lazyGet('repository.tag')
+		];
 
 		// The post value repo factory
 		$di->set('repository.post_value_factory', $di->lazyNew('Ushahidi_Repository_Post_ValueFactory'));
@@ -478,6 +487,7 @@ abstract class Ushahidi_Core {
 					'markdown'  => $di->lazyGet('repository.post.markdown'),
 					'title'    => $di->lazyGet('repository.post.title'),
 					'media'    => $di->lazyGet('repository.post.media'),
+					'tags'     => $di->lazyGet('repository.post.tags'),
 				],
 			];
 
@@ -616,6 +626,10 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Post_Media'] = [
 			'media_repo' => $di->lazyGet('repository.media')
 		];
+		$di->set('validator.post.tags', $di->lazyNew('Ushahidi_Validator_Post_Tags'));
+		$di->params['Ushahidi_Validator_Post_Tags'] = [
+			'tags_repo' => $di->lazyGet('repository.tag')
+		];
 
 
 		$di->set('validator.post.value_factory', $di->lazyNew('Ushahidi_Validator_Post_ValueFactory'));
@@ -634,6 +648,7 @@ abstract class Ushahidi_Core {
 					'title'    => $di->lazyGet('validator.post.title'),
 					'media'    => $di->lazyGet('validator.post.media'),
 					'video'    => $di->lazyGet('validator.post.video'),
+					'tags'     => $di->lazyGet('validator.post.tags'),
 				],
 			];
 
@@ -671,6 +686,22 @@ abstract class Ushahidi_Core {
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
+
+		// Add Intercom Listener to Config
+		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
+		$di->setter['Ushahidi_Repository_Config']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+
+		// Add Intercom Listener to Form
+		$di->setter['Ushahidi_Repository_Form']['setEvent'] = 'FormUpdateEvent';
+		$di->setter['Ushahidi_Repository_Form']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+
+		// Add Intercom Listener to User
+		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
+		$di->setter['Ushahidi_Repository_User']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+
 
 		/**
 		 * 1. Load the plugins

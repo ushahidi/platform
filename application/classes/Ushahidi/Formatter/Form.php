@@ -26,4 +26,15 @@ class Ushahidi_Formatter_Form extends Ushahidi_Formatter_API
 		$value = ltrim($value, '#');
 		return $value ? '#' . $value : null;
 	}
+
+	protected function format_tags($tags)
+	{
+		$output = [];
+		foreach ($tags as $tagid)
+		{
+			$output[] = $this->get_relation('tags', $tagid);
+		}
+
+		return $output;
+	}
 }

@@ -13,7 +13,8 @@ class AddFormsTagsTable extends AbstractMigration
      * Uncomment this method if you would like to use it.
      */
     public function change()
-    {     $this->table('forms_tags', [
+    {
+        $this->table('forms_tags', [
                 'id' => false,
                 'primary_key' => ['form_id', 'tag_id'],
                 ])
@@ -28,25 +29,5 @@ class AddFormsTagsTable extends AbstractMigration
                 'update' => 'CASCADE'
                 ])
             ->create();
-
-    }
-    
-    /**
-     * Migrate Up.
-     */
-    public function up()
-    {
-
-
-    }
-
-    /**
-     * Migrate Down.
-     */
-    public function down()
-    {
-
-
-
     }
 }
