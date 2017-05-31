@@ -35,5 +35,5 @@ interface UpdatePostValueRepository
 	 * @param  Integer $post_id
 	 * @param  Array   $ids
 	 */
-	public function deleteNotIn($post_id, Array $ids);
+	public function deleteNotIn($post_id, array $ids);
 }

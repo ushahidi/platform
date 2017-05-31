@@ -185,6 +185,10 @@ class Ushahidi_Validator_Post_Create extends Validator
 			return;
 		}
 
+		if ($status === 'draft' && !isset($fullData['id'])) {
+			return;
+		}
+
 		$user = $this->getUser();
 		// Do we have permission to publish this post?
 		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->hasPermission($user));

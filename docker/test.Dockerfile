@@ -1,4 +1,4 @@
-FROM php:5.5.35-fpm
+FROM php:5.6.30-fpm
 
 RUN apt-get update && apt-get install -y \
       libfreetype6-dev \
@@ -26,7 +26,7 @@ RUN curl -sS https://getcomposer.org/installer | \
 WORKDIR /var/www
 COPY composer.json ./
 COPY composer.lock ./
-RUN composer install
+RUN composer install --no-autoloader
 
 COPY docker/test.run.sh /test.run.sh
 

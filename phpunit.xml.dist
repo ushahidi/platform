@@ -1,11 +1,19 @@
 <phpunit
-    colors="true"
-    bootstrap="./application/tests/bootstrap.php" >
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         >
         <testsuites>
             <testsuite name="Ushahidi Tests">
-                <directory>./application/tests/</directory>
+                <directory>./tests/</directory>
             </testsuite>
         </testsuites>
+        <filter>
+            <whitelist processUncoveredFilesFromWhitelist="true">
+                <directory suffix=".php">./application/classes</directory>
+                <directory suffix=".php">./src</directory>
+                <directory suffix=".php">./plugins/*/classes</directory>
+            </whitelist>
+        </filter>
         <logging>
             <log type="coverage-clover" target="coverage/phpunit.xml"/>
         </logging>

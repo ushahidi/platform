@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+  <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * Kohana Site Config
@@ -22,7 +22,10 @@
  * - string   date_format   Set format in which to return dates. See http://php.net/manual/en/datetime.createfromformat.php
  */
 
+$intercomAppToken = getenv('INTERCOM_APP_TOKEN');
+
 $clientUrl = getenv('CLIENT_URL');
+
 if (!empty(getenv("MULTISITE_DOMAIN"))) {
 	try {
 		$host = \League\Url\Url::createFromServer($_SERVER)->getHost()->toUnicode();
@@ -33,14 +36,15 @@ if (!empty(getenv("MULTISITE_DOMAIN"))) {
 }
 
 return array(
-	'name'        => '',
-	'description' => '',
-	'email'       => '',
-	'timezone'    => 'UTC',
-	'language'    => 'en-US',
-	'date_format' => 'n/j/Y',
-	'client_url'  => $clientUrl ?: false,
-	'first_login' => true,
-	'tier'        => 'free',
-	'private'     => false,
+	'name'          => '',
+	'description'   => '',
+	'email'         => '',
+	'timezone'      => 'UTC',
+	'language'      => 'en-US',
+	'date_format'   => 'n/j/Y',
+	'client_url'    => $clientUrl ?: false,
+	'first_login'   => true,
+	'tier'          => 'free',
+	'private'       => false,
+	'intercomAppToken' => $intercomAppToken,
 );

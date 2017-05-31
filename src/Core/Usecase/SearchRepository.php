@@ -20,7 +20,7 @@ interface SearchRepository
 	 * @param  Array $data
 	 * @return Entity
 	 */
-	public function getEntity(Array $data = null);
+	public function getEntity(array $data = null);
 
 	/**
 	 * Get fields that can be used for searches.

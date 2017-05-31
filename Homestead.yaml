@@ -1,0 +1,27 @@
+ip: 192.168.33.110
+memory: 1024
+cpus: 1
+provider: virtualbox
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+folders:
+    -
+        map: "./"
+        to: /vagrant
+        type: "nfs"
+    -
+        map: "./"
+        to: /home/vagrant/Code/platform-api
+        type: "nfs"
+sites:
+    -
+        map: api.ushahidi.app
+        to: /home/vagrant/Code/platform-api/httpdocs
+    -
+        map: ushv3.dev
+        to: /home/vagrant/Code/platform-api/httpdocs
+databases:
+    - ushahidi
+name: platform-api
+hostname: platform-api

@@ -17,7 +17,7 @@ namespace Ushahidi\Console;
 use Symfony\Component\Console\Command\Command as ConsoleCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Helper\TableHelper;
+use Symfony\Component\Console\Helper\Table;
 
 abstract class Command extends ConsoleCommand
 {
@@ -40,7 +40,7 @@ abstract class Command extends ConsoleCommand
 	{
 		if (is_array($response)) {
 			// Display arrays as tables.
-			$table = $this->getHelperSet()->get('table');
+			$table = new Table($output);
 
 			$keys = array_keys($response);
 
@@ -64,7 +64,6 @@ abstract class Command extends ConsoleCommand
 
 			// Display the table using compact layout.
 			$table
-				->setLayout(TableHelper::LAYOUT_COMPACT)
 				->render($output);
 		} else {
 			// Otherwise, just write the response.

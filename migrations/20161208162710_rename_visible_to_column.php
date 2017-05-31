@@ -22,6 +22,5 @@ class RenameVisibleToColumn extends AbstractMigration
         $this->table('sets')
         ->renameColumn('role', 'visible_to')
         ->update();
-
     }
 }

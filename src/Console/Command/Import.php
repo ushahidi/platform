@@ -38,7 +38,7 @@ class Import extends Command
 	 * Set Data Importers
 	 * @param [Ushahidi\DataImport\Importer, ..] $importers
 	 */
-	public function setImporters(Array $importers)
+	public function setImporters(array $importers)
 	{
 		$this->importers = $importers;
 	}
