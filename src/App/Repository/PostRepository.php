@@ -90,13 +90,13 @@ class PostRepository extends OhanzeeRepository implements
 	 */
 	public function __construct(
         \Database $db,
-        FormAttributeRepository $form_attribute_repo,
-        FormStageRepository $form_stage_repo,
-        FormRepository $form_repo,
-        Ushahidi_Repository_Post_ValueFactory $post_value_factory,
+        FormAttributeRepositoryContract $form_attribute_repo,
+        FormStageRepositoryContract $form_stage_repo,
+        FormRepositoryContract $form_repo,
+        PostValueFactory $post_value_factory,
         InstanceFactory $bounding_box_factory
     ) {
-	
+
 		parent::__construct($db);
 
 		$this->form_attribute_repo = $form_attribute_repo;
