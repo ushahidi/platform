@@ -56,9 +56,14 @@ class Notification extends Command
 		$this->notificationQueueRepository = $repo;
 	}
 
-	public funciton setSiteConfig($config)
+	public function setSiteConfig($config)
 	{
 		$this->siteConfig = $config;
+	}
+
+	public function setClientUrl($clientUrl)
+	{
+		$this->clientUrl = $clientUrl;
 	}
 
 	protected function configure()
@@ -120,8 +125,8 @@ class Notification extends Command
 		$offset = 0;
 		$limit = 1000;
 
-		$site_name = $siteConfig['site.name'] ?: 'Ushahidi';
-		$client_url = $siteConfig['site.client_url'];
+		$site_name = $this->siteConfig['site.name'] ?: 'Ushahidi';
+		$client_url = $this->clientUrl;
 
 		// Get contacts (max $limit at a time) and generate messages.
 		while (true) {
