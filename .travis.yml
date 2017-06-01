@@ -7,6 +7,7 @@ php:
 - '5.6'
 - '7.0'
 - '7.1'
+- 'nightly'
 env:
 - coverage="--coverage"
 - coverage=""
@@ -18,7 +19,7 @@ matrix:
     env: coverage="--coverage"
   allow_failures:
   - env: coverage="--coverage"
-  - php: '7.1'
+  - php: 'nightly'
   fast_finish: true
 cache:
   directories:
