@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/kohana.php';
+require_once __DIR__ . '/bootstrap/app.php';
 
 $db = service('db.config');
 
