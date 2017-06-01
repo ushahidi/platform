@@ -129,17 +129,17 @@ class ConfigRepository implements
 	{
 		$value = json_encode($value);
 
-		try {
-			DB::insert('config', array('group_name', 'config_key', 'config_value'))
-				->values(array($group, $key, $value))
-				->execute($this->db);
-		} catch (\Database_Exception $e) {
-			DB::update('config')
-				->set(array('config_value' => $value))
-				->where('group_name', '=', $group)
-				->where('config_key', '=', $key)
-				->execute($this->db);
-		}
+		DB::query(Database::INSERT, "
+			INSERT INTO `config`
+			(`group_name`, `config_key`, `config_value`) VALUES (:group, :key, :value)
+			ON DUPLICATE KEY UPDATE `config_value` = :value;
+		")
+		->parameters([
+			':group' => $group,
+			':key' => $key,
+			':value' => $value
+		])
+		->execute($this->db);
 	}
 
 	// ConfigRepository
