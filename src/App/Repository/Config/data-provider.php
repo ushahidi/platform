@@ -12,18 +12,18 @@
 return array(
 	'default_providers' => array(
 		Message_Type::SMS => 'smssync',
-		Message_Type::IVR => FALSE,
+		Message_Type::IVR => false,
 		Message_Type::EMAIL => 'email',
 		Message_Type::TWITTER => 'twitter'
 	),
 	'providers' => array(
 		// List of data providers key=provider value=enabled
-		'smssync' => FALSE,
-		'email' => FALSE,
-		'twilio' => FALSE,
-		'nexmo' => FALSE,
-		'twitter' => FALSE,
-		'frontlinesms' => FALSE
+		'smssync' => false,
+		'email' => false,
+		'twilio' => false,
+		'nexmo' => false,
+		'twitter' => false,
+		'frontlinesms' => false
 	),
 
 	// Config params for individual providers

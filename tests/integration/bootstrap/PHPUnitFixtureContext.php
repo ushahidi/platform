@@ -73,7 +73,6 @@ class PHPUnitFixtureContext implements Context
 		  (`group_name`, `config_key`, `config_value`) VALUES ('$group', '$key', '$value')
 		  ON DUPLICATE KEY UPDATE `config_value` = '$value';
 		");
-
 	}
 
 	/** @BeforeScenario @private */

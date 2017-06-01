@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Site config
-        $di->set('site.config', function() use ($di) {
+        $di->set('site.config', function () use ($di) {
             return $di->get('repository.config')->get('site')->asArray();
         });
 
@@ -59,64 +59,64 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Feature config
-        $di->set('features', function() use ($di) {
+        $di->set('features', function () use ($di) {
             return $di->get('repository.config')->get('features')->asArray();
         });
 
         // Roles config settings
-        $di->set('roles.enabled', function() use ($di) {
+        $di->set('roles.enabled', function () use ($di) {
             $config = $di->get('features');
 
             return $config['roles']['enabled'];
         });
 
         // Feature config
-        $di->set('features.limits', function() use ($di) {
+        $di->set('features.limits', function () use ($di) {
             $config = $di->get('features');
 
             return $config['limits'];
         });
 
         // Webhooks config settings
-        $di->set('webhooks.enabled', function() use ($di) {
+        $di->set('webhooks.enabled', function () use ($di) {
             $config = $di->get('features');
 
             return $config['webhooks']['enabled'];
         });
 
         // Data import config settings
-        $di->set('data-import.enabled', function() use ($di) {
+        $di->set('data-import.enabled', function () use ($di) {
             $config = $di->get('features');
 
             return $config['data-import']['enabled'];
         });
 
-        $di->set('features.data-providers', function() use ($di) {
+        $di->set('features.data-providers', function () use ($di) {
             $config = $di->get('features');
 
             return array_filter($config['data-providers']);
         });
 
         // CDN Config settings
-        $di->set('cdn.config', function() use ($di) {
+        $di->set('cdn.config', function () use ($di) {
             return config('cdn');
         });
 
         // Ratelimiter config settings
-        $di->set('ratelimiter.config', function() use ($di) {
+        $di->set('ratelimiter.config', function () use ($di) {
             return config('ratelimiter');
         });
 
         // Private deployment config settings
         // @todo move to repo
-        $di->set('site.private', function() use ($di) {
+        $di->set('site.private', function () use ($di) {
             $site = $di->get('site.config');
             $features = $di->get('features');
             return $site['private']
                 and $features['private']['enabled'];
         });
 
-        $di->set('tool.uploader.prefix', function() use ($di) {
+        $di->set('tool.uploader.prefix', function () use ($di) {
             // Is this a multisite install?
             $multisite = config('multisite.enabled');
             if ($multisite) {
@@ -133,7 +133,7 @@ class AppServiceProvider extends ServiceProvider
         ];
 
         // @todo move to auth provider?
-        $di->set('session.user', function() use ($di) {
+        $di->set('session.user', function () use ($di) {
             // Using the OAuth resource server, get the userid (owner id) for this request
             // $server = $di->get('oauth.server.resource');
             // $userid = $server->getOwnerId();
@@ -156,7 +156,6 @@ class AppServiceProvider extends ServiceProvider
                 $host = \League\Url\Url::createFromServer($_SERVER)->getHost()->toUnicode();
                 $clientUrl = str_replace(env("MULTISITE_DOMAIN"), env("MULTISITE_CLIENT_DOMAIN"), $host);
             } catch (Exception $e) {
-
             }
         }
 

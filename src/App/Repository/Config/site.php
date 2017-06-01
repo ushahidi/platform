@@ -18,11 +18,13 @@
  * - string   description   A brief description of the site.
  * - string   email         Site contact email.
  * - string   timezone      Default timezone for the site. See http://php.net/manual/en/timezones.php
- * - string   language      Native language for the site in ISO 639-1 format. See http://en.wikipedia.org/wiki/ISO_639-1
- * - string   date_format   Set format in which to return dates. See http://php.net/manual/en/datetime.createfromformat.php
+ * - string   language      Native language for the site in ISO 639-1 format.
+ *                          See http://en.wikipedia.org/wiki/ISO_639-1
+ * - string   date_format   Set format in which to return dates.
+ *                          See http://php.net/manual/en/datetime.createfromformat.php
  */
 
-return array(
+  return array(
 	'name'          => '',
 	'description'   => '',
 	'email'         => '',
@@ -34,4 +36,4 @@ return array(
 	'tier'          => 'free',
 	'private'       => false,
 	'intercomAppToken' => getenv('INTERCOM_APP_TOKEN'),
-);
+  );

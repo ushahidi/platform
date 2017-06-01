@@ -14,49 +14,49 @@ return [
 
 	// Post views
 	'views' => [
-		'map' => TRUE,
-		'list' => TRUE,
-		'chart' => TRUE,
-		'timeline' => TRUE,
-		'activity' => TRUE,
-        'plan' => FALSE,
+		'map' => true,
+		'list' => true,
+		'chart' => true,
+		'timeline' => true,
+		'activity' => true,
+        'plan' => false,
 	],
 
 	// Data sources
 	'data-providers' => [
-		'smssync' => TRUE,
-		'twitter' => TRUE,
-		'frontlinesms' => TRUE,
-		'email' => TRUE,
-		'twilio' => TRUE,
-		'nexmo' => TRUE,
+		'smssync' => true,
+		'twitter' => true,
+		'frontlinesms' => true,
+		'email' => true,
+		'twilio' => true,
+		'nexmo' => true,
 	],
 
 	// Client limits
 	// Where TRUE is infinite and an integer defines a limit
 	'limits' => [
-		'posts' => TRUE,
-		'forms' => TRUE,
-		'admin_users' => TRUE,
+		'posts' => true,
+		'forms' => true,
+		'admin_users' => true,
 	],
 
 	// Private deployments
 	'private' => [
-		'enabled' => TRUE,
+		'enabled' => true,
 	],
 
 	// Roles
 	'roles' => [
-		'enabled' => TRUE,
+		'enabled' => true,
 	],
 
 	// Webhooks
 	'webhooks' => [
-		'enabled' => TRUE,
+		'enabled' => true,
 	],
 
 	// Data import
 	'data-import' => [
-		'enabled' => TRUE,
+		'enabled' => true,
 	],
 ];

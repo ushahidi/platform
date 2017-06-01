@@ -71,8 +71,7 @@ class ConfigRepository implements
 			->execute($this->db);
 
 		$config = [];
-		if (count($query))
-		{
+		if (count($query)) {
 			$config = $query->as_array('config_key', 'config_value');
 			$config = array_map(function ($config_value) {
 				return json_decode($config_value, true);
