@@ -45,6 +45,11 @@ class ConfigRepository implements
 
 	protected function getDefaults($group)
 	{
+		// Just in case we find some other path here
+		// We absolutely have to validate the group
+		// since we're now using it as a file name
+		$this->verifyGroup($group);
+
 		// @todo replace with separate entities
 		$file = __DIR__ . '/Config/' . $group . '.php';
 		if (file_exists($file)) {
