@@ -267,6 +267,20 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the guzzle status code should be 200
 
+    @resetFixture
+    Scenario: Deleting a tag removes it from attribute options
+        Given that I want to delete a "Tag"
+        And that its "id" is "1"
+        When I request "/tags"
+        Then the guzzle status code should be 200
+        Given that I want to find a "Attribute"
+        And that its "id" is "26"
+        When I request "/forms/1/attributes"
+        Then the response is JSON
+        And the response has an "options" property
+        And the "options" property does not contain "1"
+        Then the guzzle status code should be 200
+
     Scenario: Deleting a non-existent Tag
         Given that I want to delete a "Tag"
         And that its "id" is "35"

@@ -38,10 +38,10 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
         if (isset($data["id"])) {
             $can_create = $this->getRolesThatCanCreatePosts($data['id']);
             $data = $data + [
-            'can_create' => $can_create['roles'],
+                'can_create' => $can_create['roles'],
+                'tags' => $this->getTagsForForm($data['id'])
             ];
-            $data['tags'] = $this->getTagsForForm($data['id']);
-	    }
+        }
         return new Form($data);
     }
 
@@ -68,14 +68,7 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // CreateRepository
     public function create(Entity $entity)
     {
-
-        $tags = $entity->tags;
-        unset($entity->tags);
         $id = parent::create($entity->setState(['created' => time()]));
-        //updating forms_tags-table
-        if ($tags && $id !== null) {
-            $this->updateFormsTags($id, $tags);
-        }
         // todo ensure default group is created
         return $id;
     }
@@ -83,7 +76,6 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     // UpdateRepository
     public function update(Entity $entity)
     {
-
         // If orignal Form update Intercom if Name changed
         if ($entity->id === 1) {
           foreach ($entity->getChanged() as $key => $val) {
@@ -91,15 +83,12 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
             $key === 'name' ? $this->emit($this->event, $user->email, ['primary_survey_name' => $val]) : null;
           }
         }
-
-        $tags = $entity->tags;
-        unset($entity->tags);
-        unset($entity->children);
-        $id = parent::update($entity->setState(['updated' => time()]));
-        // updating forms_tags-table
-        if ($tags && $entity->id !== null) {
-            $this->updateFormsTags($entity->id, $tags);
-        }
+        $form = $entity->getChanged();
+        $form['updated'] = time();
+        // removing tags from form before saving
+        unset($form['tags']);
+        // Finally save the form
+        $id = $this->executeUpdate(['id'=>$entity->id], $form);
 
         return $id;
     }
