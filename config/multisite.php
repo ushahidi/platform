@@ -1,12 +1,7 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Multi Site Config
- *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Config
- * @copyright  2014 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 
@@ -36,7 +31,7 @@
  * - string   email       from email for password resets, etc
  */
 return [
-	'enabled' => !empty(getenv("MULTISITE_DOMAIN")),
-	'domain'  => getenv("MULTISITE_DOMAIN"),
-    'email'   => getenv("MULTISITE_EMAIL"),
+	'enabled' => !empty(env("MULTISITE_DOMAIN")),
+	'domain'  => env("MULTISITE_DOMAIN"),
+    'email'   => env("MULTISITE_EMAIL"),
 ];

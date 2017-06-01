@@ -332,6 +332,11 @@ $di->params[Ushahidi\App\Repository\OhanzeeRepository::class] = [
 	'db' => $di->lazyGet('kohana.db'),
 	];
 
+// Config
+$di->params[Ushahidi\App\Repository\ConfigRepository::class] = [
+	'db' => $di->lazyGet('kohana.db'),
+	];
+
 // Set up Json Transcode Repository Trait
 $di->setter[Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] =
 	$di->lazyGet('tool.jsontranscode');
@@ -413,6 +418,10 @@ $di->params[Ushahidi\App\Validator\Contact\Update::class] = [
 	'repo' => $di->lazyGet('repository.user'),
 ];
 
+$di->params[Ushahidi\App\Validator\Config\Update::class] = [
+	'available_providers' => $di->lazyGet('features.data-providers'),
+];
+
 // Dependencies of validators
 $di->params[Ushahidi\App\Validator\Post\Create::class] = [
 	'repo' => $di->lazyGet('repository.post'),
@@ -424,10 +433,12 @@ $di->params[Ushahidi\App\Validator\Post\Create::class] = [
 	'role_repo' => $di->lazyGet('repository.role'),
 	'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 	'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
+	'limits' => $di->lazyGet('features.limits'),
 	];
 
 $di->params[Ushahidi\App\Validator\Form\Update::class] = [
 	'repo' => $di->lazyGet('repository.form'),
+	'limits' => $di->lazyGet('features.limits'),
 	];
 
 $di->param[Ushahidi\App\Validator\Form\Attribute\Update::class] = [
@@ -479,14 +490,10 @@ $di->params[Ushahidi\App\Validator\Tag\Update::class] = [
 	'role_repo' => $di->lazyGet('repository.role'),
 ];
 
-$di->params[Ushahidi\App\Validator\User\Create::class] = [
-	'repo' => $di->lazyGet('repository.user'),
-	'role_repo' => $di->lazyGet('repository.role'),
-];
 $di->params[Ushahidi\App\Validator\User\Update::class] = [
 	'repo' => $di->lazyGet('repository.user'),
-	'user' => $di->lazyGet('session.user'),
 	'role_repo' => $di->lazyGet('repository.role'),
+	'limits' => $di->lazyGet('features.limits'),
 ];
 $di->params[Ushahidi\App\Validator\User\Register::class] = [
 	'repo'    => $di->lazyGet('repository.user')
@@ -570,8 +577,6 @@ $di->set('transformer.csv', $di->lazyNew(Ushahidi\App\Transformer\CSVPostTransfo
 // Post repo for mapping transformer
 $di->setter[Ushahidi\App\Transformer\CSVPostTransformer::class]['setRepo'] =
 	$di->lazyGet('repository.post');
-
-$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer'));
 
 // Event listener for the Set repo
 $di->setter[Ushahidi\App\Repository\SetRepository::class]['setEvent'] = 'PostSetEvent';

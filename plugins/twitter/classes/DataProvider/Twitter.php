@@ -27,13 +27,14 @@ class DataProvider_Twitter extends DataProvider {
 
 	private $since_id; // highest id fetched
 	private $request_count; // track requests per window
+	private $search_terms;
 
-	
+
 	public function fetch($limit = FALSE) {
 		// XXX: Store state in database config for now
 		$config = Kohana::$config;
-		$this->_initialize($config);
 		$options = $this->options();
+		$this->_initialize($config, $options);
 
 		// Check we have the required config
 		if (!isset($options['twitter_search_terms']))
@@ -58,7 +59,7 @@ class DataProvider_Twitter extends DataProvider {
 		try
 		{
 			$results = $connection->get("search/tweets", [
-				"q" => $this->_construct_get_query($options['twitter_search_terms']),
+				"q" => $this->_construct_get_query($this->search_terms),
 				"since_id" => $this->since_id,
 				"count" => $limit,
 				"result_type" => 'recent'
@@ -159,7 +160,7 @@ class DataProvider_Twitter extends DataProvider {
 	}
 
 	public function send($to, $message, $title='')
-	{		
+	{
 		$connection = $this->_connect();
 
 		try
@@ -169,7 +170,7 @@ class DataProvider_Twitter extends DataProvider {
 			]);
 
 			if (!$response->id) {
-				return array(Message_Status::FAILED, FALSE);	
+				return array(Message_Status::FAILED, FALSE);
 			}
 			return array(Message_Status::SENT, $response->id);
 		}
@@ -194,13 +195,20 @@ class DataProvider_Twitter extends DataProvider {
 		return  $this->request_count < self::MAX_REQUESTS_PER_WINDOW;
 	}
 
-	private function _initialize($config)
+	private function _initialize($config, $options)
 	{
 		$twitter_config = $config->load('twitter');
 
 		$twitter_config && isset($twitter_config['since_id'])?
 							   $this->since_id = $twitter_config['since_id']:
 							   $this->since_id = 0;
+
+		$this->search_terms = $options['twitter_search_terms'];
+
+		// If search terms have changed, reset since_id
+		if ($options['twitter_search_terms'] !== $twitter_config['search_terms']) {
+			$this->since_id = 0;
+		}
 
 		$twitter_config && isset($twitter_config['request_count'])?
 							   $this->request_count = $twitter_config['request_count']:
@@ -229,6 +237,7 @@ class DataProvider_Twitter extends DataProvider {
 		$twitter_config = $config->load('twitter');
 		$twitter_config->set("request_count", $this->request_count);
 		$twitter_config->set("since_id", $this->since_id);
+		$twitter_config->set("search_terms", $this->search_terms);
 	}
 
 	private function _connect() {

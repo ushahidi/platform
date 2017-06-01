@@ -16,8 +16,6 @@ default:
                     # proxyUrl: localhost:8888
                 - Tests\Integration\Bootstrap\PHPUnitFixtureContext
                 - Tests\Integration\Bootstrap\MinkExtendedContext
-            filters:
-                tags: ~@dataproviders
             extensions:
                 Behat\MinkExtension:
                     base_url:  http://localhost:8000

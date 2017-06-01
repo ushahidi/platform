@@ -65,6 +65,67 @@ class PHPUnitFixtureContext implements Context
 					(30 20, 20 25, 20 15, 30 20)))'));");
 	}
 
+	protected function setConfig($group, $key, $value)
+	{
+		$pdo_connection = $this->getConnection()->getConnection();
+		$pdo_connection->query("
+		  INSERT INTO `config`
+		  (`group_name`, `config_key`, `config_value`) VALUES ('$group', '$key', '$value')
+		  ON DUPLICATE KEY UPDATE `config_value` = '$value';
+		");
+
+	}
+
+	/** @BeforeScenario @private */
+	public function makePrivate()
+	{
+		$this->setConfig('site', 'private', 'true');
+		$this->setConfig('feature', 'private', '{"enabled":true}');
+	}
+
+	/** @AfterScenario @private */
+	public function makePublic()
+	{
+		$this->setConfig('site', 'private', 'false');
+		$this->setConfig('feature', 'private', '{"enabled":false}');
+	}
+
+	/** @BeforeScenario @rolesEnabled */
+	public function enableRoles()
+	{
+		$this->setConfig('feature', 'roles', '{"enabled":true}');
+	}
+
+	/** @AfterScenario @rolesEnabled */
+	public function disableRoles()
+	{
+		$this->setConfig('feature', 'private', '{"enabled":false}');
+	}
+
+	/** @BeforeScenario @webhooksEnabled */
+	public function enableWebhooks()
+	{
+		$this->setConfig('feature', 'webhooks', '{"enabled":true}');
+	}
+
+	/** @AfterScenario @webhooksEnabled */
+	public function disableWebhooks()
+	{
+		$this->setConfig('feature', 'webhooks', '{"enabled":false}');
+	}
+
+	/** @BeforeScenario @dataImportEnabled */
+	public function enableDataImport()
+	{
+		$this->setConfig('feature', 'data-import', '{"enabled":true}');
+	}
+
+	/** @AfterScenario @dataImportEnabled */
+	public function disableDataImport()
+	{
+		$this->setConfig('feature', 'data-import', '{"enabled":false}');
+	}
+
 	/**
 	 * Creates a connection to the unittesting database
 	 * Overriding to fix database type in DSN - must be lowercase

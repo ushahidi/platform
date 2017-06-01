@@ -19,6 +19,11 @@ class Update extends Validator
 {
 	protected $default_error_source = 'config';
 
+	public function __construct(array $available_providers)
+	{
+		$this->available_providers = $available_providers;
+	}
+
 	protected function getRules()
 	{
 		$config_group = $this->validation_engine->getFullData('id');
@@ -105,9 +110,8 @@ class Update extends Validator
 	{
 		if ($enabled_providers != null) {
 			$enabled_providers = array_filter($enabled_providers);
-			$available_providers = array_filter(\Kohana::$config->load('features.data-providers'));
 
-			$diff = array_diff_key($enabled_providers, $available_providers);
+			$diff = array_diff_key($enabled_providers, $this->available_providers);
 			if ($diff) {
 				$validation->error('providers', 'providerNotAvailable', [$diff]);
 			}

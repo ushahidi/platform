@@ -15,6 +15,12 @@ use League\Url\Url;
 
 class Ushahidi_Mailer implements Mailer
 {
+	public function __construct($siteConfig, $clientUrl)
+	{
+		$this->siteConfig = $siteConfig;
+		$this->clientUrl = $clientUrl;
+	}
+
 	public function send($to, $type, Array $params = null)
 	{
 		$method = "send_".$type;
@@ -28,10 +34,9 @@ class Ushahidi_Mailer implements Mailer
 
 	protected function send_resetpassword($to, $params)
 	{
-		$site_name = Kohana::$config->load('site.name');
-		$site_email = Kohana::$config->load('site.email');
+		$site_name = $this->siteConfig['name'];
+		$site_email = $this->siteConfig['email'];
 		$multisite_email = Kohana::$config->load('multisite.email');
-		$client_url = Kohana::$config->load('site.client_url');
 
 		// @todo make this more robust
 		if ($multisite_email) {
@@ -47,7 +52,7 @@ class Ushahidi_Mailer implements Mailer
 		$view = View::factory('email/forgot-password');
 		$view->site_name = $site_name;
 		$view->token = $params['token'];
-		$view->client_url = $client_url;
+		$view->client_url = $this->clientUrl;
 		$message = $view->render();
 
 		$subject = $site_name . ': Password reset';

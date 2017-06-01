@@ -1,6 +1,6 @@
 <?php
 /**
- * Ushahidi Config Repository, using Kohana::$config
+ * Ushahidi Config Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -20,6 +20,8 @@ use Ushahidi\Core\Exception\NotFoundException;
 
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
+use DB;
+use Database;
 
 class ConfigRepository implements
 	ReadRepository,
@@ -30,10 +32,31 @@ class ConfigRepository implements
 	// Use Event trait to trigger events
 	use Event;
 
+	public function __construct(Database $db)
+	{
+		$this->db = $db;
+	}
+
 	// ReadRepository
 	public function getEntity(array $data = null)
 	{
         return new ConfigEntity($data);
+	}
+
+	protected function getDefaults($group)
+	{
+		// Just in case we find some other path here
+		// We absolutely have to validate the group
+		// since we're now using it as a file name
+		$this->verifyGroup($group);
+
+		// @todo replace with separate entities
+		$file = __DIR__ . '/Config/' . $group . '.php';
+		if (file_exists($file)) {
+			return require $file;
+		}
+
+		return [];
 	}
 
 	// ReadRepository
@@ -42,21 +65,35 @@ class ConfigRepository implements
 	{
 		$this->verifyGroup($group);
 
-		$config = \Kohana::$config->load($group)->as_array();
+		$query = DB::select('config.*')
+			->from('config')
+			->where('group_name', '=', $group)
+			->execute($this->db);
 
-		return new ConfigEntity(['id' => $group] + $config);
+		$config = [];
+		if (count($query))
+		{
+			$config = $query->as_array('config_key', 'config_value');
+			$config = array_map(function ($config_value) {
+				return json_decode($config_value, true);
+			}, $config);
+		}
+
+		// Merge defaults
+		$defaults = $this->getDefaults($group);
+
+		$config = array_merge_recursive($defaults, $config);
+
+		return $this->getEntity(['id' => $group] + $config);
 	}
 
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-
 		$intercom_data = [];
 		$group = $entity->getId();
 
 		$this->verifyGroup($group);
-
-		$config = \Kohana::$config->load($group);
 
 		// Intercom count datasources
 		if ($group === 'data-provider') {
@@ -83,18 +120,7 @@ class ConfigRepository implements
 			}
 
 			if (! in_array($key, $immutable)) {
-				// Below is to reset the twitter-since_id when the search-terms are updated.
-				// This should be revised when the data-source tech-debt is addressed
-
-				if ($key === 'twitter' &&
-					isset($config['twitter']) &&
-					$val['twitter_search_terms'] !== $config['twitter']['twitter_search_terms']
-				) {
-					$twitter_config = \Kohana::$config->load('twitter');
-					$twitter_config->set('since_id', 0);
-				}
-
-				$config->set($key, $val);
+				$this->insertOrUpdate($group, $key, $val);
 			}
 		}
 
@@ -102,6 +128,23 @@ class ConfigRepository implements
 			$user = service('session.user');
 			$this->emit($this->event, $user->email, $intercom_data);
 		}
+	}
+
+	private function insertOrUpdate($group, $key, $value)
+	{
+		$value = json_encode($value);
+
+		DB::query(Database::INSERT, "
+			INSERT INTO `config`
+			(`group_name`, `config_key`, `config_value`) VALUES (:group, :key, :value)
+			ON DUPLICATE KEY UPDATE `config_value` = :value;
+		")
+		->parameters([
+			':group' => $group,
+			':key' => $key,
+			':value' => $value
+		])
+		->execute($this->db);
 	}
 
 	// ConfigRepository
@@ -155,8 +198,7 @@ class ConfigRepository implements
 
 		$result = array();
 		foreach ($groups as $group) {
-			$config = \Kohana::$config->load($group)->as_array();
-			$result[] = new ConfigEntity(['id' => $group] + $config);
+			$result[] = $this->get($group);
 		}
 
 		return $result;

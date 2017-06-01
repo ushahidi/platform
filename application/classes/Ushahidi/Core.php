@@ -29,7 +29,7 @@ abstract class Ushahidi_Core {
 			$config = Kohana::$config->load('database')->default;
 
 			// Is this a multisite install?
-			$multisite = Kohana::$config->load('multisite.enabled');
+			$multisite = config('multisite.enabled');
 			if ($multisite) {
 				$config = $di->get('multisite')->getDbConfig();
 			}
@@ -44,86 +44,18 @@ abstract class Ushahidi_Core {
 		$di->set('kohana.db', function() use ($di) {
 			return Database::instance('deployment', $di->get('db.config'));
 		});
-		// Multisite db
-		$di->set('site', function () use ($di) {
-			$site = '';
-
-			// Is this a multisite install?
-			$multisite = Kohana::$config->load('multisite.enabled');
-			if ($multisite) {
-				$site = $di->get('multisite')->getSite();
-			}
-
-			return $site;
-		});
-
-		// CDN Config settings
-		$di->set('cdn.config', function() use ($di) {
-			return Kohana::$config->load('cdn')->as_array();
-		});
-
-		// Ratelimiter config settings
-		$di->set('ratelimiter.config', function() use ($di) {
-			return Kohana::$config->load('ratelimiter')->as_array();
-		});
-
-		// Private deployment config settings
-		$di->set('site.private', function() use ($di) {
-			return Kohana::$config->load('site.private')
-				and Kohana::$config->load('features.private.enabled');
-		});
 
 		// Intercom config settings
 		$di->set('site.intercomAppToken', function() use ($di) {
 			return Kohana::$config->load('site.intercomAppToken');
 		});
 
-		// Roles config settings
-		$di->set('roles.enabled', function() use ($di) {
-			return Kohana::$config->load('features.roles.enabled');
-		});
-
-		// Webhooks config settings
-		$di->set('webhooks.enabled', function() use ($di) {
-			return Kohana::$config->load('features.webhooks.enabled');
-		});
-
-		// Data import config settings
-		$di->set('data-import.enabled', function() use ($di) {
-			return Kohana::$config->load('features.data-import.enabled');
-		});
-
-		$di->set('tool.uploader.prefix', function() use ($di) {
-			// Is this a multisite install?
-			$multisite = Kohana::$config->load('multisite.enabled');
-			if ($multisite) {
-				return $di->get('multisite')->getCdnPrefix();
-			}
-
-			return '';
-		});
-
-		// Multisite utility class
-		$di->set('multisite', $di->lazyNew('Ushahidi_Multisite'));
-		$di->params['Ushahidi_Multisite'] = [
-			'db' => $di->lazyGet('kohana.db.multisite')
-		];
-
-		// @todo move into lumen service provider
-		$di->set('session.user', function() use ($di) {
-			// Using the OAuth resource server, get the userid (owner id) for this request
-			// $server = $di->get('oauth.server.resource');
-			// $userid = $server->getOwnerId();
-			$genericUser = app('auth')->guard()->user();
-
-			// Using the user repository, load the user
-			$repo = $di->get('repository.user');
-			$user = $repo->get($genericUser ? $genericUser->id : null);
-
-			return $user;
-		});
-
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));
+
+		$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer', [
+			'siteConfig' => $di->lazyGet('site.config'),
+			'clientUrl' => $di->lazyGet('clienturl')
+		]));
 
 		/**
 		 * 1. Load the plugins
@@ -133,7 +65,7 @@ abstract class Ushahidi_Core {
 		/**
 		 * Attach database config
 		 */
-		self::attached_db_config();
+		// self::attached_db_config();
 	}
 
 	public static function attached_db_config()

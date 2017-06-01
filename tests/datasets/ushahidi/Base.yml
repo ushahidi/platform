@@ -1233,6 +1233,30 @@ config:
     group_name: test
     config_key: testkey
     config_value: '"testval"'
+  -
+    group_name: "data-provider"
+    config_key: default_providers
+    config_value: '{"sms":"smssync","ivr":false,"email":"email","twitter":"twitter"}'
+  -
+    group_name: "data-provider"
+    config_key: providers
+    config_value: '{"smssync":true,"frontlinesms":true,"nexmo":false,"email":false}'
+  -
+    group_name: "data-provider"
+    config_key: nexmo
+    config_value: '{"from":"","api_key":"","api_secret":""}'
+  -
+    group_name: "data-provider"
+    config_key: smssync
+    config_value: '{"from":"12345","secret":"1234"}'
+  -
+    group_name: "data-provider"
+    config_key: email
+    config_value: '{"incoming_type":"","incoming_server":"","incoming_port":"","incoming_security":"","incoming_username":"","incoming_password":""}'
+  -
+    group_name: "data-provider"
+    config_key: frontlinesms
+    config_value: '{"f":"12345","key":"1234","frontlinecloud_api_url":"http:\/\/frontlinesms.com:8130\/api\/1\/webconnection\/11"}'
 contacts:
   -
     id: 1
