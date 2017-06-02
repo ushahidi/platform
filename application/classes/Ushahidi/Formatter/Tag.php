@@ -22,14 +22,18 @@ class Ushahidi_Formatter_Tag extends Ushahidi_Formatter_API
 		return $value ? '#' . $value : null;
 	}
 
-     protected function format_forms($forms)
+    protected function format_children($tags)
     {
         $output = [];
-        foreach ($forms as $formid)
-        {
-            $output[] = $this->get_relation('forms', $formid);
+
+        if (is_array($tags)) {
+            foreach ($tags as $tagid)
+            {
+                $output[] = $this->get_relation('tags', $tagid);
+                //$output[] = intval($tagid);
+            }
         }
-        
+
         return $output;
     }
 }

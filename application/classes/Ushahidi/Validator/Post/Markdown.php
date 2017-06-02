@@ -16,8 +16,5 @@ class Ushahidi_Validator_Post_Markdown extends Ushahidi_Validator_Post_ValueVali
 		if (!is_scalar($value)) {
 			return 'scalar';
 		}
-		if (!Valid::max_length($value, 255)) {
-			return 'max_length';
-		}
 	}
 }

@@ -11,7 +11,7 @@
 
 return array(
 	// Enable marker clustering with leaflet.markercluster
-	'clustering'     => FALSE,
+	'clustering'     => TRUE,
 	'cluster_radius' => 50,
 	// Map start location
 	'default_view' => array(

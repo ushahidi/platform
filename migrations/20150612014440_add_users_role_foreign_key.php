@@ -28,7 +28,6 @@ class AddUsersRoleForeignKey extends AbstractMigration
                 ])
             ->update()
             ;
-
     }
 
     /**

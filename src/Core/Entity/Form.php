@@ -28,7 +28,7 @@ class Form extends StaticEntity
 	protected $require_approval;
 	protected $everyone_can_create;
 	protected $can_create;
-	public $tags;
+	protected $tags;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -60,5 +60,12 @@ class Form extends StaticEntity
 	public function getResource()
 	{
 		return 'forms';
+	}
+
+	// StatefulData
+	protected function getImmutable()
+	{
+		// Hack: Add computed properties to immutable list
+		return array_merge(parent::getImmutable(), ['tags', 'can_create']);
 	}
 }

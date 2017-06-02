@@ -47,6 +47,11 @@ class DataProvider_Twitter extends DataProvider {
 		}
 
 		$connection = $this->_connect();
+		if (is_int($connection) && $connection == 0) {
+			// The connection didn't succeed, but this is not fatal to the application flow
+			// Just return 0 messages fetched
+			return 0;
+		}
 		$connection->setDecodeJsonAsArray(true);
 		$count = 0;
 

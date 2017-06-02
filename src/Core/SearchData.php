@@ -34,7 +34,7 @@ class SearchData
 	 *
 	 * @param  Array $filters
 	 */
-	public function __construct(Array $filters = null)
+	public function __construct(array $filters = null)
 	{
 		if ($filters) {
 			$this->setFilters($filters);
@@ -81,7 +81,7 @@ class SearchData
 	 * @param  Array $sorting
 	 * @return $this
 	 */
-	public function setSortingKeys(Array $sorting)
+	public function setSortingKeys(array $sorting)
 	{
 		$this->sorting = $sorting;
 		return $this;

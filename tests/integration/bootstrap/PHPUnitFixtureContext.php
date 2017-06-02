@@ -1,22 +1,25 @@
 <?php
 
+namespace Tests\Integration\Bootstrap;
+
 use Behat\Behat\Context\Context;
 
-class PHPUnitFixtureContext implements Context {
+class PHPUnitFixtureContext implements Context
+{
 
 	/**
 	 * @var PHPUnit_Extensions_Database_ITester
 	 */
-	private $_databaseTester;
+	private $databaseTester;
 
 	/**
 	 * The kohana database connection that PHPUnit should use for this test
 	 * @var string
 	 */
-	protected $_database_connection = 'default';
+	protected $database_connection = 'default';
 
 	/** @BeforeFeature */
-	public static function featureSetup(Behat\Behat\Hook\Scope\BeforeFeatureScope $scope)
+	public static function featureSetup(\Behat\Behat\Hook\Scope\BeforeFeatureScope $scope)
 	{
 		$fixtureContext = new static();
 		$fixtureContext->setUpDBTester('ushahidi/Base');
@@ -24,7 +27,7 @@ class PHPUnitFixtureContext implements Context {
 	}
 
 	/** @AfterFeature */
-	public static function featureTearDown(Behat\Behat\Hook\Scope\AfterFeatureScope $scope)
+	public static function featureTearDown(\Behat\Behat\Hook\Scope\AfterFeatureScope $scope)
 	{
 		$fixtureContext = new static();
 		$fixtureContext->tearDownDBTester('ushahidi/Base');
@@ -71,10 +74,9 @@ class PHPUnitFixtureContext implements Context {
 	public function getConnection()
 	{
 		// Get the unittesting db connection
-		$config = Kohana::$config->load('database.'.$this->_database_connection);
+		$config = \Kohana::$config->load('database.'.$this->database_connection);
 
-		if($config['type'] !== 'pdo')
-		{
+		if ($config['type'] !== 'pdo') {
 			// Replace MySQLi with MySQL since MySQLi isn't valid for a DSN
 			$type = $config['type'] === 'MySQLi' ? 'MySQL' : $config['type'];
 
@@ -83,7 +85,7 @@ class PHPUnitFixtureContext implements Context {
 			'dbname='.$config['connection']['database'];
 		}
 
-		$pdo = new PDO(
+		$pdo = new \PDO(
 			$config['connection']['dsn'],
 			$config['connection']['username'],
 			$config['connection']['password']
@@ -100,7 +102,7 @@ class PHPUnitFixtureContext implements Context {
 	 */
 	protected function getDataSet($dataset)
 	{
-		return new PHPUnit_Extensions_Database_DataSet_YamlDataSet(
+		return new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(
 			__DIR__ . '/../../datasets/' . $dataset . '.yml'
 		);
 	}
@@ -110,7 +112,7 @@ class PHPUnitFixtureContext implements Context {
 	/** Call this in a BeforeScenario hook */
 	public function setUpDBTester($dataset)
 	{
-		$this->_databaseTester = NULL;
+		$this->databaseTester = null;
 
 		$this->getDatabaseTester()->setSetUpOperation($this->getSetUpOperation());
 		$this->getDatabaseTester()->setDataSet($this->getDataSet($dataset));
@@ -128,7 +130,7 @@ class PHPUnitFixtureContext implements Context {
 		 * Destroy the tester after the test is run to keep DB connections
 		 * from piling up.
 		 */
-		$this->_databaseTester = NULL;
+		$this->databaseTester = null;
 	}
 
 	/**
@@ -140,11 +142,10 @@ class PHPUnitFixtureContext implements Context {
 	 */
 	protected function getDatabaseTester()
 	{
-		if (empty($this->_databaseTester))
-		{
-			$this->_databaseTester = $this->newDatabaseTester();
+		if (empty($this->databaseTester)) {
+			$this->databaseTester = $this->newDatabaseTester();
 		}
-		return $this->_databaseTester;
+		return $this->databaseTester;
 	}
 
 	/**
@@ -154,7 +155,7 @@ class PHPUnitFixtureContext implements Context {
 	 */
 	protected function newDatabaseTester()
 	{
-		return new PHPUnit_Extensions_Database_DefaultTester($this->getConnection());
+		return new \PHPUnit_Extensions_Database_DefaultTester($this->getConnection());
 	}
 
 	/**
@@ -166,10 +167,10 @@ class PHPUnitFixtureContext implements Context {
 	protected function getSetUpOperation()
 	{
 		//return PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
-		$cascadeTruncates = TRUE;
-		return new PHPUnit_Extensions_Database_Operation_Composite(array(
-			new Unittest_Database_Operation_MySQL55Truncate($cascadeTruncates),
-			PHPUnit_Extensions_Database_Operation_Factory::INSERT()
+		$cascadeTruncates = true;
+		return new \PHPUnit_Extensions_Database_Operation_Composite(array(
+			new \Unittest_Database_Operation_MySQL55Truncate($cascadeTruncates),
+			\PHPUnit_Extensions_Database_Operation_Factory::INSERT()
 		));
 	}
 
@@ -180,7 +181,7 @@ class PHPUnitFixtureContext implements Context {
 	 */
 	protected function getTearDownOperation()
 	{
-		return PHPUnit_Extensions_Database_Operation_Factory::NONE();
+		return \PHPUnit_Extensions_Database_Operation_Factory::NONE();
 	}
 
 	/**
@@ -191,9 +192,8 @@ class PHPUnitFixtureContext implements Context {
 	 * @param string $schema
 	 * @return PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
 	 */
-	protected function createDefaultDBConnection(PDO $connection, $schema = '')
+	protected function createDefaultDBConnection(\PDO $connection, $schema = '')
 	{
-		return new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection($connection, $schema);
+		return new \PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection($connection, $schema);
 	}
-
 }

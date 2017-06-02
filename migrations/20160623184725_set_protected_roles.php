@@ -38,6 +38,5 @@ class SetProtectedRoles extends AbstractMigration
      */
     public function down()
     {
-
     }
 }

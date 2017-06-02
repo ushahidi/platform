@@ -35,7 +35,8 @@ Feature: Testing the Forms API
                 "description":"This is a test form updated by BDD testing",
                 "disabled":true,
                 "require_approval":false,
-                "everyone_can_create":false
+                "everyone_can_create":false,
+                "tags": [1,2,3,"junk"]
             }
             """
         And that its "id" is "1"
@@ -142,6 +143,15 @@ Feature: Testing the Forms API
         Then the guzzle status code should be 200
 
     Scenario: Finding a Form after roles have been set.
+        Given that I want to update a "FormRole"
+        And that the request "data" is:
+            """
+            {
+                "roles": [1,2]
+            }
+            """
+        When I request "/forms/1/roles"
+        Then the response is JSON
         Given that I want to find a "Form"
         And that its "id" is "1"
         When I request "/forms"

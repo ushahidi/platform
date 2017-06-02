@@ -19,7 +19,6 @@ class AddRoleId extends AbstractMigration
             ->update();
         $this->execute("ALTER TABLE roles DROP PRIMARY KEY;");
         $this->execute("ALTER TABLE roles MODIFY id INT AUTO_INCREMENT PRIMARY KEY;");
-
     }
 
     /**

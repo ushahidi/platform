@@ -20,7 +20,6 @@ class RenameGroupsToStages extends AbstractMigration
                 'delete' => 'CASCADE',
             ])
             ->update();
-
     }
 
     public function down()

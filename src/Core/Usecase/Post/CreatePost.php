@@ -24,8 +24,7 @@ class CreatePost extends CreateUsecase
 		$entity = parent::getEntity();
 
 		// If no user information is provided, default to the current session user.
-		if (
-			empty($entity->user_id) &&
+		if (empty($entity->user_id) &&
 			empty($entity->author_email) &&
 			empty($entity->author_realname) &&
 			$this->auth->getUserId()

@@ -9,12 +9,13 @@ default:
             paths:
                 - %paths.base%/tests/integration
             contexts:
-                - FeatureContext
-                - RestContext:
+                - Tests\Integration\Bootstrap\KohanaContext
+                - Tests\Integration\Bootstrap\FeatureContext
+                - Tests\Integration\Bootstrap\RestContext:
                     baseUrl: http://localhost:8000
                     # proxyUrl: localhost:8888
-                - PHPUnitFixtureContext
-                - MinkExtendedContext
+                - Tests\Integration\Bootstrap\PHPUnitFixtureContext
+                - Tests\Integration\Bootstrap\MinkExtendedContext
             filters:
                 tags: ~@dataproviders
             extensions:
