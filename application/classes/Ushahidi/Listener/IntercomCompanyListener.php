@@ -36,7 +36,7 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
 
 			try {
         $company = [
-          "company_id" => service('site');
+          "company_id" => service('site')
         ];
 
         $company->custom_attributes = $data;
