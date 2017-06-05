@@ -23,52 +23,33 @@ class Ushahidi_Listener_IntercomAdminListener extends AbstractListener
 
   public function handle(EventInterface $event, $user = null)
   {
+    if($user && $user->role === 'admin') {
+      $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
+      $domain = service('site');
+      $company = [
+        "id" => $domain
+      ];
 
-    $config = service('repository.config')->get('thirdparty');
-    $domain = Kohana::$config->load('site.client_url');
+  		if ($intercomAppToken) {
+        $client = new IntercomClient($intercomAppToken, null);
 
-		$intercomAppToken = $config->intercomAppToken;
-    $company = [
-      "id" => $config->intercomCompanyId
-    ];
-
-		if ($user && $config->intercomAppToken) {
-      $client = new IntercomClient($config->intercomAppToken, null);
-
-			try {
-        // Get Company if it already exists, if not create it
-        if (!$config->intercomCompanyId) {
-
-          $site_name = Kohana::$config->load('site.name') ?: 'Ushahidi';
-          $created = date("Y-m-d H:i:s");
-
-          $company = $client->companies->create([
-            "company_id" => $domain,
-            "name" => $site_name,
-            "custom_attributes" => [
-              "created" => $created
+  			try {
+          $client->users->update([
+            "email" => $user->email,
+            "created_at" => $user->created,
+            "user_id" => $domain . '_' . $user->id,
+            "realname" => $user->realname,
+            "last_login" => $user->last_login,
+            "role" => $user->role,
+            "language" => $user->language,
+            "companies" => [
+              $company
             ]
           ]);
-
-          $config->intercomCompanyId = $company->id;
-          service('repository.config')->update($config);
+        } catch(ClientException $e) {
+          Kohana::$log->add(Log::ERROR, print_r($e,true));
         }
-
-				$client->users->update([
-					"email" => $user->email,
-          "created_at" => $user->created,
-          "user_id" => $domain . '_' . $user->id,
-          "realname" => $user->realname,
-          "last_login" => $user->last_login,
-          "role" => $user->role,
-          "language" => $user->language,
-          "companies" => [
-            $company
-          ]
-				]);
-			} catch(ClientException $e) {
-				Kohana::$log->add(Log::ERROR, print_r($e,true));
-			}
-		}
+      }
+    }
   }
 }

@@ -75,7 +75,7 @@ abstract class Ushahidi_Core {
 
 		// Intercom config settings
 		$di->set('thirdparty.intercomAppToken', function() use ($di) {
-			return Kohana::$config->load('thirdparty.intercomAppToken');
+			return getenv('INTERCOM_APP_TOKEN');
 		});
 
 		// Roles config settings

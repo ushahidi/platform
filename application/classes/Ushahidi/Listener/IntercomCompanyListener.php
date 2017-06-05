@@ -29,29 +29,15 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
 
   public function handle(EventInterface $event, $data = null)
   {
+    $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
+		if ($intercomAppToken) {
 
-    $config = service('repository.config')->get('thirdparty');
-    $company = [
-      "company_id" => $config->intercomCompanyId
-    ];
-
-    Kohana::$log->add(Log::ERROR, print_r($config));
-
-		if ($config->intercomAppToken) {
-
-      $client = new IntercomClient($config->intercomAppToken, null);
+      $client = new IntercomClient($intercomAppToken, null);
 
 			try {
-        // Create company with current date if it does not already exist
-        if (!$config->intercomCompanyId) {
-          $company->name = Kohana::$config->load('site.name') ?: 'Ushahidi';
-          $config->intercomCompanyId = Kohana::$config->load('site.client_url');
-
-          service('repository.config')->update($config);
-          $company->company_id = $config->intercomCompanyId;
-
-          $data['created'] = date("Y-m-d H:i:s");
-        }
+        $company = [
+          "company_id" => service('site');
+        ];
 
         $company->custom_attributes = $data;
         // Update company
