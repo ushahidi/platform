@@ -30,10 +30,10 @@ class Ushahidi_Listener_IntercomAdminListener extends AbstractListener
         "id" => $domain
       ];
 
-  		if ($intercomAppToken) {
+      if ($intercomAppToken) {
         $client = new IntercomClient($intercomAppToken, null);
 
-  			try {
+        try {
           $client->users->update([
             "email" => $user->email,
             "created_at" => $user->created,

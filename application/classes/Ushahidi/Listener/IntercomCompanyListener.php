@@ -20,12 +20,6 @@ use GuzzleHttp\Exception\ClientException;
 
 class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
 {
-  protected $config_repo;
-
-  public function setConfigRepo(ConfigRepository $config_repo)
-  {
-  		$this->config_repo = $config_repo;
-  }
 
   public function handle(EventInterface $event, $data = null)
   {
