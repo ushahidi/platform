@@ -15,7 +15,7 @@ class Datetime extends ValueValidator
 {
 	protected function validate($value)
 	{
-		if (!\Valid::date($value)) {
+		if (!\Kohana\Validation\Valid::date($value)) {
 			return 'date';
 		}
 	}

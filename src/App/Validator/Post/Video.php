@@ -14,7 +14,7 @@ class Video extends ValueValidator
 {
 	protected function validate($value)
 	{
-		if (!\Valid::url($value)) {
+		if (!\Kohana\Validation\Valid::url($value)) {
 			return 'url';
 		}
 		if (!$this->checkVideoTypes($value)) {

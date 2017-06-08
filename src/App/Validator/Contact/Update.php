@@ -63,7 +63,7 @@ class Update extends Validator
 		// Valid Email?
 		if (isset($data['type']) and
 			$data['type'] == Contact::EMAIL and
-			 ! \Valid::email($contact) ) {
+			 ! \Kohana\Validation\Valid::email($contact) ) {
 			return $validation->error('contact', 'invalid_email', [$contact]);
 		} // Valid Phone?
 		// @todo Look at using libphonenumber to validate international numbers

@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 
 return [
     'size_error' => 'The file size should be less than :param1 MB',

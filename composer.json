@@ -8,6 +8,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/ushahidi/ohanzee-db"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ushahidi/kohana-validation"
         }
     ],
     "require": {
@@ -48,7 +52,8 @@
         "ramsey/uuid": "^3.4.1",
         "sentry/sentry": "~1.5",
         "dusterio/lumen-passport": "^0.1.9",
-        "barryvdh/laravel-cors": "^0.9.2"
+        "barryvdh/laravel-cors": "^0.9.2",
+        "ushahidi/kohana-validation": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
