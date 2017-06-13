@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
+use Ohanzee\DB;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Contact;
@@ -130,7 +131,7 @@ class ContactRepository extends OhanzeeRepository implements
 	// ContactRepository
 	public function getNotificationContacts($set_id, $limit = false, $offset = 0)
 	{
-		$query = \DB::select('contacts.id', 'contacts.type', 'contacts.contact')
+		$query = DB::select('contacts.id', 'contacts.type', 'contacts.contact')
 			->distinct(true)
 			->from('contacts')
 			->join('notifications')

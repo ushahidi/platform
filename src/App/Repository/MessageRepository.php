@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
+use Ohanzee\DB;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\SearchData;
@@ -178,7 +179,7 @@ class MessageRepository extends OhanzeeRepository implements
 	public function getLastUID($data_provider_type)
 	{
 		$last_uid = null;
-		$query = \DB::select([\DB::expr('ABS(' . $this->getTable() . '.' . 'data_provider_message_id' . ')'), 'uid'])
+		$query = DB::select([DB::expr('ABS(' . $this->getTable() . '.' . 'data_provider_message_id' . ')'), 'uid'])
 			->from($this->getTable())
 			->where('data_provider', '=', $data_provider_type)
 			->order_by(

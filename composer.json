@@ -24,7 +24,7 @@
         "kohana/cache" : "3.3.*@dev",
         "kohana/image" : "3.3.*@dev",
         "kohana/minion" : "3.3.*@dev",
-        "ohanzee/database": "dev-master",
+        "ohanzee/database": "dev-namespaces",
         "robmorgan/phinx": "~0.8.0",
         "ushahidi/shadowhand-email": "dev-master",
         "symm/gisconverter": "~1.0.5",

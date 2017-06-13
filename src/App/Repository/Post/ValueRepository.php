@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Post;
 
+use Ohanzee\DB;
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 use Ushahidi\Core\Usecase\Post\ValuesForPostRepository;
@@ -123,7 +124,7 @@ abstract class ValueRepository extends OhanzeeRepository implements
 	// UpdatePostValueRepository
 	public function deleteNotIn($post_id, array $ids)
 	{
-		\DB::delete($this->getTable())
+		DB::delete($this->getTable())
 			->where('post_id', '=', $post_id)
 			->where('id', 'NOT IN', $ids)
 			->execute($this->db);

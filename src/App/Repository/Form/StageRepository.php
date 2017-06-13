@@ -11,6 +11,8 @@
 
 namespace Ushahidi\App\Repository\Form;
 
+use Ohanzee\DB;
+use Ohanzee\Database;
 use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormStage;
@@ -51,10 +53,10 @@ class StageRepository extends OhanzeeRepository implements
 		 * @param FormRepository                       $form_repo
 		 */
     public function __construct(
-        \Database $db,
+        Database $db,
         FormRepositoryContract $form_repo
     ) {
-		
+
         parent::__construct($db);
 
         $this->form_repo = $form_repo;
@@ -140,7 +142,7 @@ class StageRepository extends OhanzeeRepository implements
 
 	public function getFormByStageId($id)
 	{
-		$query = \DB::select('form_id')
+		$query = DB::select('form_id')
 				->from('form_stages')
 				->where('id', '=', $id);
 
@@ -168,7 +170,7 @@ class StageRepository extends OhanzeeRepository implements
 	{
 			$stages = [];
 
-			$query = \DB::select('id')
+			$query = DB::select('id')
 					->from('form_stages')
 
 					->where('form_id', '=', $form_id)

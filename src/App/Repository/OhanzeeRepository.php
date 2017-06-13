@@ -11,8 +11,8 @@
 
 namespace Ushahidi\App\Repository;
 
-use DB;
-use Database;
+use Ohanzee\DB;
+use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase;

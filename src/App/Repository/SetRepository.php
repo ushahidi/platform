@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
+use Ohanzee\DB;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Set;
 use Ushahidi\Core\Entity\SavedSearch;
@@ -188,7 +189,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 	// SetRepository
 	public function deleteSetPost($set_id, $post_id)
 	{
-		\DB::delete('posts_sets')
+		DB::delete('posts_sets')
 			->where('post_id', '=', $post_id)
 			->where('set_id', '=', $set_id)
 			->execute($this->db);
@@ -197,7 +198,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 	// SetRepository
 	public function setPostExists($set_id, $post_id)
 	{
-		$result = \DB::select('posts_sets.*')
+		$result = DB::select('posts_sets.*')
 			->from('posts_sets')
 			->where('post_id', '=', $post_id)
 			->where('set_id', '=', $set_id)
@@ -215,7 +216,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 		$post_id = (int)$post_id;
 		$set_id = (int)$set_id;
 
-		\DB::insert('posts_sets')
+		DB::insert('posts_sets')
 			->columns(['post_id', 'set_id'])
 			->values(array_values(compact('post_id', 'set_id')))
 			->execute($this->db);
