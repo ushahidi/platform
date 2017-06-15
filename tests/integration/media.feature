@@ -85,7 +85,7 @@ Feature: Testing the Media API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "3"
+        And the "count" property equals "4"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -124,3 +124,14 @@ Feature: Testing the Media API
         #Then the "errors.1.message" property equals "File type not supported. Please upload an image file."
         Then the "errors.1.message" property equals "The file size should be less than 1 MB"
         Then the guzzle status code should be 422
+
+    @cdnEnabled
+    Scenario: Media URLs are encoded correctly
+        Given that I want to find a "Media"
+        And that its "id" is "4"
+        When I request "/media"
+        Then the response is JSON
+        And the response has a "original_file_url" property
+        And the type of the "original_file_url" property is "string"
+        And the "original_file_url" property contains "/some%20junk%20name.jpg"
+        Then the guzzle status code should be 200
