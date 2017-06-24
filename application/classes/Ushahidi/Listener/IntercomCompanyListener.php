@@ -24,18 +24,21 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
   public function handle(EventInterface $event, $data = null)
   {
     $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
-    if ($intercomAppToken) {
+    $domain = service('site');
+    
+    if ($intercomAppToken && empty($domain)) {
+
       try {
         $client = new IntercomClient($intercomAppToken, null);
-        $domain = service('site') ? service('site') : $_SERVER['HOST'];
+        
 
         $company = [
           "company_id" => $domain,
           "custom_attributes" => $data
         ];
         // Update company
-        $client->companies->create($company);
-
+        $thing = $client->companies->create($company);
+        
       } catch(ClientException $e) {
         Kohana::$log->add(Log::ERROR, print_r($e,true));
       }

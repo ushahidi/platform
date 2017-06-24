@@ -30,7 +30,8 @@ class Ushahidi_Listener_IntercomAdminListener extends AbstractListener
         "id" => $domain
       ];
 
-      if ($intercomAppToken) {
+      if ($intercomAppToken && empty($domain)) {
+
         $client = new IntercomClient($intercomAppToken, null);
 
         try {
