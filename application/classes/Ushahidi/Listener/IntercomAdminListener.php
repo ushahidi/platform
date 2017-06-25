@@ -27,28 +27,35 @@ class Ushahidi_Listener_IntercomAdminListener extends AbstractListener
       $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
       $domain = service('site');
       $company = [
-        "id" => $domain
+        "company_id" => $domain
       ];
 
-      if ($intercomAppToken && empty($domain)) {
+      if ($intercomAppToken && !empty($domain)) {
 
         $client = new IntercomClient($intercomAppToken, null);
 
         try {
-          $client->users->update([
+          $intercom_user = [
             "email" => $user->email,
             "created_at" => $user->created,
             "user_id" => $domain . '_' . $user->id,
-            "realname" => $user->realname,
-            "last_login" => $user->last_login,
-            "role" => $user->role,
-            "language" => $user->language,
+            "name" => $user->realname,
             "companies" => [
               $company
+            ],
+            "custom_attributes" => [
+              "last_login" => $user->last_login,
+              "logins" => $user->logins,
+              "role" => $user->role,
+              "language" => $user->language,
             ]
-          ]);
+          ];
+         
+          $client->users->update($intercom_user);
+          
         } catch(ClientException $e) {
-          Kohana::$log->add(Log::ERROR, print_r($e,true));
+          $message = $e->getMessage();
+          Kohana::$log->add(Log::ERROR, print_r($message,true));
         }
       }
     }

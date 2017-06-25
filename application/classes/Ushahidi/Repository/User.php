@@ -79,7 +79,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 		];
 		$entity->setState($state);
 		if ($entity->role === 'admin') {
-				$this->updateIntercomAdminUsers($state);
+				$this->updateIntercomAdminUsers($entity);
 		}
 
 		return parent::create($entity);
@@ -96,7 +96,12 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			$state['password'] = $this->hasher->hash($entity->password);
 		}
 
-		return parent::update($entity->setState($state));
+		$entity->setState($state);
+		if ($entity->role === 'admin') {
+			$this->updateIntercomAdminUsers($entity);
+		}
+
+		return parent::update($entity);
 	}
 
 	// SearchRepository

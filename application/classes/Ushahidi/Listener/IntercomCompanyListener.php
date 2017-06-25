@@ -26,7 +26,7 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
     $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
     $domain = service('site');
     
-    if ($intercomAppToken && empty($domain)) {
+    if ($intercomAppToken && !empty($domain)) {
 
       try {
         $client = new IntercomClient($intercomAppToken, null);
@@ -37,7 +37,7 @@ class Ushahidi_Listener_IntercomCompanyListener extends AbstractListener
           "custom_attributes" => $data
         ];
         // Update company
-        $thing = $client->companies->create($company);
+        $client->companies->create($company);
         
       } catch(ClientException $e) {
         Kohana::$log->add(Log::ERROR, print_r($e,true));
