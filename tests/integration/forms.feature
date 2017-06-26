@@ -52,6 +52,24 @@ Feature: Testing the Forms API
         And the "everyone_can_create" property is false
         Then the guzzle status code should be 200
 
+    Scenario: Updating a Form to clear name should fail
+        Given that I want to update a "Form"
+        And that the request "data" is:
+            """
+            {
+                "name":"",
+                "type":"report",
+                "description":"This is a test form updated by BDD testing",
+                "disabled":true,
+                "require_approval":false,
+                "everyone_can_create":false
+            }
+            """
+        And that its "id" is "1"
+        When I request "/forms"
+        Then the response is JSON
+        Then the guzzle status code should be 422
+
     Scenario: Update a non-existent Form
         Given that I want to update a "Form"
         And that the request "data" is:
