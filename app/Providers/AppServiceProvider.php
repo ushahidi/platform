@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->configure('cdn');
         $this->app->configure('ratelimiter');
         $this->app->configure('multisite');
+        $this->app->configure('ohanzee-db');
 
         // Add filesystem
         $this->app->singleton('filesystem', function ($app) {
@@ -181,6 +182,37 @@ class AppServiceProvider extends ServiceProvider
         $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\LumenSession::class, [
             'userRepo' => $di->lazyGet('repository.user')
         ]));
+
+        // Kohana injection
+        // DB config
+        $di->set('db.config', function() use ($di) {
+            $config = config('ohanzee-db');
+            $config = $config['default'];
+
+            // Is this a multisite install?
+            $multisite = config('multisite.enabled');
+            if ($multisite) {
+                $config = $di->get('multisite')->getDbConfig();
+            }
+
+            return $config;
+        });
+        // Multisite db
+        $di->set('kohana.db.multisite', function () use ($di) {
+            $config = config('ohanzee-db');
+
+            return \Ohanzee\Database::instance('multisite', $config['default']);
+        });
+        // Deployment db
+        $di->set('kohana.db', function() use ($di) {
+            return \Ohanzee\Database::instance('deployment', $di->get('db.config'));
+        });
+
+        // Intercom config settings
+        $di->set('site.intercomAppToken', function() use ($di) {
+            // FIXME
+            return false;
+        });
     }
 
     protected function getClientUrl($config)

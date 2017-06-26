@@ -17,10 +17,10 @@ return array(
 	// 'data-provider' => MODPATH.'data-provider',
 
 	// Vendor modules
-	'imagefly'   => VENPATH.'bodom78/kohana-imagefly', // Dynamic image generation
-	'media'      => VENPATH.'zeelot/kohana-media',
+	// 'imagefly'   => VENPATH.'bodom78/kohana-imagefly', // Dynamic image generation
+	// 'media'      => VENPATH.'zeelot/kohana-media',
 
 	// Kohana modules
-	'cache'      => MODPATH.'cache',      // Caching with multiple backends
-	'image'      => MODPATH.'image',      // Image manipulation
+	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
+	// 'image'      => MODPATH.'image',      // Image manipulation
 );

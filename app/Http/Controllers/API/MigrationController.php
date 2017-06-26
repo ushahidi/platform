@@ -39,7 +39,7 @@ class MigrationController extends Controller
 		}
 
 		$db = service('db.config');
-		$phinx_config = ['configuration' => realpath(APPPATH . '../phinx.php'),
+		$phinx_config = ['configuration' => base_path('phinx.php'),
 			'parser' => 'php',
 		];
 

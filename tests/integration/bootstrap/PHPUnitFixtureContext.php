@@ -138,7 +138,7 @@ class PHPUnitFixtureContext implements Context
 	public function getConnection()
 	{
 		// Get the unittesting db connection
-		$config = \Kohana::$config->load('database.'.$this->database_connection);
+		$config = config('ohanzee-db.'.$this->database_connection);
 
 		if ($config['type'] !== 'pdo') {
 			// Replace MySQLi with MySQL since MySQLi isn't valid for a DSN

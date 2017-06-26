@@ -13,7 +13,7 @@ return array(
 	'local' => [
 		// Where to upload media files eg. images. Take note of the trailing slash.
 		// This should be in the Document root.
-		'media_upload_dir' => APPPATH.'media'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR,
+		'media_upload_dir' => 'media/uploads' // app_path('media/uploads/'),
 	]
 	// AWS S3 v3 CDN config example
 	/*

@@ -18,47 +18,7 @@ abstract class Ushahidi_Core {
 	 */
 	public static function init()
 	{
-		/**
-		 * 0. Register depenendencies for injection.
-		 */
-		$di = service();
 
-		// Kohana injection
-		// DB config
-		$di->set('db.config', function() use ($di) {
-			$config = Kohana::$config->load('database')->default;
-
-			// Is this a multisite install?
-			$multisite = config('multisite.enabled');
-			if ($multisite) {
-				$config = $di->get('multisite')->getDbConfig();
-			}
-
-			return $config;
-		});
-		// Multisite db
-		$di->set('kohana.db.multisite', function () use ($di) {
-			return Ohanzee\Database::instance('multisite', Kohana::$config->load('database')->default);
-		});
-		// Deployment db
-		$di->set('kohana.db', function() use ($di) {
-			return Ohanzee\Database::instance('deployment', $di->get('db.config'));
-		});
-
-		// Intercom config settings
-		$di->set('thirdparty.intercomAppToken', function() use ($di) {
-			return getenv('INTERCOM_APP_TOKEN');
-		});
-
-		/**
-		 * 1. Load the plugins
-		 */
-		self::load();
-
-		/**
-		 * Attach database config
-		 */
-		// self::attached_db_config();
 	}
 
 	public static function attached_db_config()
