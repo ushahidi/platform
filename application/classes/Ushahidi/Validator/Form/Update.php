@@ -33,10 +33,12 @@ class Ushahidi_Validator_Form_Update extends Validator
 	{
 		return [
 			'name' => [
+				['not_empty'],
 				['min_length', [':value', 2]],
 				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
 			],
 			'description' => [
+				['not_empty'],
 				['is_string'],
 			],
 			'color' => [
