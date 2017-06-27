@@ -97,8 +97,7 @@ class Ushahidi_Repository_Config implements
 		}
 
 		if ($intercom_data) {
-			$user = service('session.user');
-			$this->emit($this->event, $user->email, $intercom_data);
+			$this->emit($this->event, $intercom_data);
 		}
 	}
 
@@ -160,4 +159,3 @@ class Ushahidi_Repository_Config implements
 		return $result;
 	}
 }
-
