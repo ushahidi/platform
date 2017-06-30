@@ -1644,6 +1644,17 @@ media:
     o_size: 1024
     created: 1381815821
     updated: 1381815819
+  -
+    id: 4
+    user_id: 1
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "some junk name.jpg"
+    o_width: 400
+    o_height: 500
+    o_size: 1024
+    created: 1381815821
+    updated: 1381815819
 config:
   -
     group_name: site
