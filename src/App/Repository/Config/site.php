@@ -35,5 +35,4 @@
 	'first_login'   => true,
 	'tier'          => 'free',
 	'private'       => false,
-	'intercomAppToken' => getenv('INTERCOM_APP_TOKEN'),
   );

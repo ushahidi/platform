@@ -66,7 +66,11 @@ class UserRepository extends OhanzeeRepository implements
 			'created'  => time(),
 			'password' => $this->hasher->hash($entity->password),
 		];
-		return parent::create($entity->setState($state));
+		$entity->setState($state);
+		if ($entity->role === 'admin') {
+				$this->updateIntercomAdminUsers($entity);
+		}
+		return parent::create($entity);
 	}
 
 	// CreateRepository
@@ -75,8 +79,12 @@ class UserRepository extends OhanzeeRepository implements
 		$state = [
 			'created'  => time()
 		];
+		$entity->setState($state);
+		if ($entity->role === 'admin') {
+				$this->updateIntercomAdminUsers($entity);
+		}
 
-		return parent::create($entity->setState($state));
+		return parent::create($entity);
 	}
 
 	// UpdateRepository
@@ -90,7 +98,12 @@ class UserRepository extends OhanzeeRepository implements
 			$state['password'] = $this->hasher->hash($entity->password);
 		}
 
-		return parent::update($entity->setState($state));
+		$entity->setState($state);
+		if ($entity->role === 'admin') {
+			$this->updateIntercomAdminUsers($entity);
+		}
+
+		return parent::update($entity);
 	}
 
 	// SearchRepository
@@ -138,8 +151,6 @@ class UserRepository extends OhanzeeRepository implements
 	// RegisterRepository
 	public function register(Entity $entity)
 	{
-
-		$this->updateIntercomUserCount(1);
 
 		return $this->executeInsert([
 			'realname' => $entity->realname,
@@ -218,7 +229,9 @@ class UserRepository extends OhanzeeRepository implements
 	// DeleteRepository
 	public function delete(Entity $entity)
     {
-		$this->updateIntercomUserCount(-1);
+		if ($entity->role === 'admin') {
+				$this->updateIntercomAdminUsers($entity);
+		}
 		return parent::delete($entity);
 	}
 
@@ -228,12 +241,8 @@ class UserRepository extends OhanzeeRepository implements
 	 * @param Integer $offset
 	 * @return void
 	 */
-	protected function updateIntercomUserCount($offset)
+	protected function updateIntercomAdminUsers($user)
 	{
-		$data = [
-			'total_users' => $this->getTotalCount() + $offset
-		];
-		$user = service('session.user');
-		$this->emit($this->event, $user->email, $data);
+		$this->emit($this->event, $user);
 	}
 }

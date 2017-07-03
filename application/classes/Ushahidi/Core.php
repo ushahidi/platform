@@ -46,8 +46,8 @@ abstract class Ushahidi_Core {
 		});
 
 		// Intercom config settings
-		$di->set('site.intercomAppToken', function() use ($di) {
-			return Kohana::$config->load('site.intercomAppToken');
+		$di->set('thirdparty.intercomAppToken', function() use ($di) {
+			return getenv('INTERCOM_APP_TOKEN');
 		});
 
 		$di->set('tool.validation', $di->lazyNew('Ushahidi_ValidationEngine'));

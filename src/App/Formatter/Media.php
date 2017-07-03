@@ -43,6 +43,7 @@ class Media extends API
 
 	protected function getFieldName($field)
 	{
+
 		$remap = [
 			'o_filename' => 'original_file_url',
 			'o_size'     => 'original_file_size',
@@ -60,8 +61,13 @@ class Media extends API
 	protected function formatOFilename($value)
 	{
 		if ($cdnBaseUrl = Kohana::$config->load('cdn.baseurl')) {
-			return $cdnBaseUrl . $value;
+			//removes path from image file name, encodes the filename, and joins the path and filename together
+			$url_path = explode("/", $value);
+			$filename = rawurlencode(array_pop($url_path));
+			array_push($url_path, $filename);
+			return $cdnBaseUrl . implode("/", $url_path);
 		} else {
+            // URL::site or Media::uri already encodes the path properly, skip the path wrangling seen above
 			return \URL::site(\Media::uri($this->getRelativePath() . $value), \Request::current());
 		}
 	}
@@ -85,6 +91,7 @@ class Media extends API
 	 */
 	private function resizedUrl($width, $height, $filename)
 	{
+
 		// Format demensions appropriately depending on the value of the height
 		if ($height != null) {
 			// Image height has been set

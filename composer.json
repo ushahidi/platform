@@ -115,7 +115,7 @@
             "behat --strict --profile ci"
         ],
         "migrate" : [
-            "bin/phinx migrate -c phinx.php"
+            "phinx migrate -c phinx.php"
         ],
         "pre-test" : [
             "php artisan passport:keys",

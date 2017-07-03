@@ -604,14 +604,14 @@ $di->setter[Ushahidi\App\Listener\PostListener::class]['setWebhookRepo'] =
 // Add Intercom Listener to Config
 $di->setter[Ushahidi\App\Repository\ConfigRepository::class]['setEvent'] = 'ConfigUpdateEvent';
 $di->setter[Ushahidi\App\Repository\ConfigRepository::class]['setListener'] =
-	$di->lazyNew(Ushahidi\App\Listener\IntercomListener::class);
+	$di->lazyNew(Ushahidi\App\Listener\IntercomCompanyListener::class);
 
 // Add Intercom Listener to Form
 $di->setter[Ushahidi\App\Repository\FormRepository::class]['setEvent'] = 'FormUpdateEvent';
 $di->setter[Ushahidi\App\Repository\FormRepository::class]['setListener'] =
-	$di->lazyNew(Ushahidi\App\Listener\IntercomListener::class);
+	$di->lazyNew(Ushahidi\App\Listener\IntercomCompanyListener::class);
 
 // Add Intercom Listener to User
 $di->setter[Ushahidi\App\Repository\UserRepository::class]['setEvent'] = 'UserGetAllEvent';
 $di->setter[Ushahidi\App\Repository\UserRepository::class]['setListener'] =
-	$di->lazyNew(Ushahidi\App\Listener\IntercomListener::class);
+	$di->lazyNew(Ushahidi\App\Listener\IntercomAdminListener::class);

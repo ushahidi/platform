@@ -9,11 +9,9 @@ folders:
     -
         map: "./"
         to: /vagrant
-        type: "nfs"
     -
         map: "./"
         to: /home/vagrant/Code/platform-api
-        type: "nfs"
 sites:
     -
         map: api.ushahidi.app
