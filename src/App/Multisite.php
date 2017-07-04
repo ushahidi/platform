@@ -80,7 +80,7 @@ class Multisite
 
 		// Set new database config
 		$config = Repository\OhanzeeRepository::getDefaultConfig();
-		Kohana::$config->load('database')->default;
+
 		$config['connection'] = [
 			'hostname'   => $deployment['db_host'],
 			'database'   => $deployment['db_name'],
