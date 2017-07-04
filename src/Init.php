@@ -71,6 +71,8 @@ $di->setAutoResolve(false);
 
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
+// Validation Trait
+$di->setter['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->lazyGet('tool.validation');
 
 // Implemented validators will be mapped to resources and actions.
 $di->params['Ushahidi\Factory\ValidatorFactory']['map'] = [];

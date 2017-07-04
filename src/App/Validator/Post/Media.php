@@ -24,7 +24,7 @@ class Media extends ValueValidator
 
 	protected function validate($value)
 	{
-		if (!\Valid::digit($value)) {
+		if (!\Kohana\Validation\Valid::digit($value)) {
 			return 'digit';
 		}
 

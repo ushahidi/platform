@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "780fa6fa9364c02ee6b6809aa87e2bd8",
-    "content-hash": "3a140e6364227b6b2747018f5ffe9e40",
+    "hash": "8d5f25d4009577dcde3ca5cb41ddf947",
+    "content-hash": "950871ae369a464d039434cdcc2af2f2",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -3799,12 +3799,12 @@
             "version": "v0.8.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/robmorgan/phinx.git",
+                "url": "https://github.com/cakephp/phinx.git",
                 "reference": "15e43d10dd99ac818c8d65735c50191bcbeafdbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robmorgan/phinx/zipball/15e43d10dd99ac818c8d65735c50191bcbeafdbc",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/15e43d10dd99ac818c8d65735c50191bcbeafdbc",
                 "reference": "15e43d10dd99ac818c8d65735c50191bcbeafdbc",
                 "shasum": ""
             },
@@ -4921,6 +4921,41 @@
                 "twilio"
             ],
             "time": "2014-12-04 19:17:59"
+        },
+        {
+            "name": "ushahidi/kohana-validation",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ushahidi/kohana-validation.git",
+                "reference": "bddd07f6cdd98f69632777da7178c663c2c097f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ushahidi/kohana-validation/zipball/bddd07f6cdd98f69632777da7178c663c2c097f5",
+                "reference": "bddd07f6cdd98f69632777da7178c663c2c097f5",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kohana\\Validation\\": "src/"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Robbie Mackay",
+                    "email": "robbie@ushahidi.com"
+                }
+            ],
+            "description": "Legacy Kohana Validation Classes extract into a PSR4 package",
+            "support": {
+                "source": "https://github.com/ushahidi/kohana-validation/tree/master"
+            },
+            "time": "2017-07-03 04:30:13"
         },
         {
             "name": "ushahidi/shadowhand-email",
@@ -7787,6 +7822,7 @@
         "league/event": 20,
         "beheh/flaps": 20,
         "doctrine/cache": 20,
+        "ushahidi/kohana-validation": 20,
         "heroku/heroku-buildpack-php": 20,
         "satooshi/php-coveralls": 20
     },

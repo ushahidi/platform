@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 
 return array(
 	'dataUrlOrMediaRequired' => 'One of data_url or media_id is required',

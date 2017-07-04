@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Validator\Post;
 
-use Validation;
+use Kohana\Validation\Validation;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
@@ -141,7 +141,7 @@ class Create extends Validator
 				[[$this, 'onlyAuthorOrUserSet'], [':value', ':fulldata']],
 			],
 			'author_email' => [
-				['Valid::email'],
+				['Kohana\Validation\Valid::email'],
 			],
 			'author_realname' => [
 				['max_length', [':value', 150]],

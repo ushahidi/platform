@@ -57,6 +57,14 @@ $di->params[Ushahidi\App\Filesystem::class] = [
 	})
 ];
 
+// ValidationEngine
+$di->set('tool.validation', $di->lazyNew(Ushahidi\App\Validator\KohanaValidationEngine::class, [
+	// Inject laravel translator
+	'translator' => $di->lazy(function () {
+		return app('translator');
+	})
+]));
+
 // Defined memcached
 $di->set('memcached', $di->lazy(function () use ($di) {
 	$config = $di->get('ratelimiter.config');
@@ -210,10 +218,6 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['permissions'] = [
 	'create' => $di->lazyNew(Ushahidi\App\Validator\Permission\Create::class),
 	'update' => $di->lazyNew(Ushahidi\App\Validator\Permission\Update::class),
 ];
-
-// Validation Trait
-$di->setter['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->newFactory('Ushahidi_ValidationEngine');
-$di->params['Ushahidi_ValidationEngine']['array'] = [];
 
 // Formatter mapping
 $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [

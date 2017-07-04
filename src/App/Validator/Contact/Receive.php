@@ -20,7 +20,7 @@ class Receive extends Create
 		// Valid Email?
 		if (isset($data['type']) and
 			$data['type'] == Contact::EMAIL and
-			 ! \Valid::email($contact) ) {
+			 ! \Kohana\Validation\Valid::email($contact) ) {
 			return $validation->error('contact', 'invalid_email', [$contact]);
 		} elseif (isset($data['type']) and
 			$data['type'] == Contact::PHONE ) {

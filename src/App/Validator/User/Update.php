@@ -56,7 +56,7 @@ class Update extends Validator
 		];
 	}
 
-	public function checkAdminRoleLimit(\Validation $validation, $role)
+	public function checkAdminRoleLimit(\Kohana\Validation\Validation $validation, $role)
 	{
 		if ($this->limits['admin_users'] !== true && $role == 'admin') {
 			$total = $this->repo->getTotalCount(['role' => 'admin']);

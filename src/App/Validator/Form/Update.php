@@ -52,7 +52,7 @@ class Update extends Validator
 		];
 	}
 
-    public function checkPostTypeLimit(\Validation $validation)
+    public function checkPostTypeLimit(\Kohana\Validation\Validation $validation)
     {
 		if ($this->limits['forms'] !== true) {
 			$total_forms = $this->repo->getTotalCount();

@@ -15,7 +15,7 @@ class Decimal extends ValueValidator
 {
 	protected function validate($value)
 	{
-		if (!\Valid::numeric($value)) {
+		if (!\Kohana\Validation\Valid::numeric($value)) {
 			return 'decimal';
 		}
 	}

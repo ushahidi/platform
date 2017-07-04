@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 
 return array(
 	'isUniqueEmail'    => ':field is already in use',

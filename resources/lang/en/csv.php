@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 
 return [
     'range' => 'The file size should be less than :param3 KB',
