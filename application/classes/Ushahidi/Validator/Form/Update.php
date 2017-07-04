@@ -38,9 +38,6 @@ class Ushahidi_Validator_Form_Update extends Validator
 			if ($fullData['name']) {
 				$data['name'] = $fullData['name'];
 			}
-			if ($fullData['description']) {
-				$data['description'] = $fullData['description'];
-			}
 			$this->validation_engine->setData($data);
 			// End
 
@@ -51,7 +48,6 @@ class Ushahidi_Validator_Form_Update extends Validator
 				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
 			],
 			'description' => [
-				['not_empty'],
 				['is_string'],
 			],
 			'color' => [
