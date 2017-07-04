@@ -76,6 +76,7 @@ $app->routeMiddleware([
 |
 */
 
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
 // $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
