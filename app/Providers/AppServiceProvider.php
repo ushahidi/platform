@@ -126,11 +126,6 @@ class AppServiceProvider extends ServiceProvider
             return '';
         });
 
-        // Multisite utility class
-        $di->set('multisite', $di->lazyNew('Ushahidi\App\Multisite'));
-        $di->params['Ushahidi\App\Multisite'] = [
-            'db' => $di->lazyGet('kohana.db.multisite')
-        ];
 
         // @todo move to auth provider?
         $di->set('session.user', function () use ($di) {

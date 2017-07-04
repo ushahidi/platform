@@ -38,6 +38,12 @@ $di->set('adapter.rackspace', $di->lazyNew(
 	['config' => $di->lazyGet('cdn.config')]
 ));
 
+// Multisite utility class
+$di->set('multisite', $di->lazyNew('Ushahidi\App\Multisite'));
+$di->params['Ushahidi\App\Multisite'] = [
+    'db' => $di->lazyGet('kohana.db.multisite')
+];
+
 // Media Filesystem
 // The Ushahidi filesystem adapter returns a flysystem adapter for a given
 // cdn type based on the provided configuration
