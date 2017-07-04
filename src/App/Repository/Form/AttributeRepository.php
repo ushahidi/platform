@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Form;
 
+use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
@@ -50,11 +51,11 @@ class AttributeRepository extends OhanzeeRepository implements
 	 * @param FormRepository                   $form_repo
 	 */
 	public function __construct(
-        \Database $db,
+        Database $db,
         FormStageRepositoryContract $form_stage_repo,
         FormRepositoryContract $form_repo
     ) {
-	
+
 		parent::__construct($db);
 
 		$this->form_stage_repo = $form_stage_repo;

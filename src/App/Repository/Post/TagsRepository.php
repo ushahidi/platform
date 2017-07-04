@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Post;
 
+use Ohanzee\Database;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
 class TagsRepository extends ValueRepository
@@ -23,7 +24,7 @@ class TagsRepository extends ValueRepository
 	 * @param TagRepo               $tag_repo
 	 */
 	public function __construct(
-        \Database $db,
+        Database $db,
         UpdatePostTagRepository $tag_repo
     ) {
 		parent::__construct($db);

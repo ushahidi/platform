@@ -20,8 +20,8 @@ use Ushahidi\Core\Exception\NotFoundException;
 
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
-use DB;
-use Database;
+use Ohanzee\DB;
+use Ohanzee\Database;
 
 class ConfigRepository implements
 	ReadRepository,

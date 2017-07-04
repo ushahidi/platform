@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "49a5efb6ec019308bef45d7f29681f0b",
-    "content-hash": "ca544c1ab449c9a5c5ab7cdcd5f61a15",
+    "hash": "780fa6fa9364c02ee6b6809aa87e2bd8",
+    "content-hash": "3a140e6364227b6b2747018f5ffe9e40",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -3342,24 +3342,26 @@
         },
         {
             "name": "ohanzee/database",
-            "version": "dev-master",
+            "version": "dev-namespaces",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/ohanzee-db.git",
-                "reference": "279a566fee8724214b37ba66a5270cfa4dc2751b"
+                "reference": "50a712fe8a3319dea2b24cb67e737ddd5b7242bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/ohanzee-db/zipball/279a566fee8724214b37ba66a5270cfa4dc2751b",
-                "reference": "279a566fee8724214b37ba66a5270cfa4dc2751b",
+                "url": "https://api.github.com/repos/ushahidi/ohanzee-db/zipball/50a712fe8a3319dea2b24cb67e737ddd5b7242bc",
+                "reference": "50a712fe8a3319dea2b24cb67e737ddd5b7242bc",
                 "shasum": ""
             },
             "require": {
-                "kohana/core": ">=3.3",
                 "php": ">=5.4"
             },
             "replace": {
                 "kohana/database": ">=3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.3"
             },
             "suggest": {
                 "ext-mysql": "*",
@@ -3367,9 +3369,19 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "": "src/"
+                "psr-4": {
+                    "Ohanzee\\": "src/"
                 }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
             },
             "license": [
                 "BSD-3-Clause"
@@ -3404,7 +3416,7 @@
                 "forum": "http://discourse.kohanaframework.org/category/ohanzee-components",
                 "irc": "irc://irc.freenode.net/kohana"
             },
-            "time": "2017-04-28 00:10:09"
+            "time": "2017-06-13 04:20:51"
         },
         {
             "name": "paragonie/random_compat",

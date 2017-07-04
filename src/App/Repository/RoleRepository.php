@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
+use Ohanzee\DB;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Role;
@@ -27,7 +28,7 @@ class RoleRepository extends OhanzeeRepository implements
 
 	protected function getPermissions($role)
 	{
-		return \DB::select('permission')->from('roles_permissions')
+		return DB::select('permission')->from('roles_permissions')
 				->where('role', '=', $role)
 				->execute($this->db)
 				->as_array(null, 'permission');
@@ -37,7 +38,7 @@ class RoleRepository extends OhanzeeRepository implements
 	{
 		$current_permissions = $this->getPermissions($role);
 
-		$insert_query = \DB::insert('roles_permissions', ['role', 'permission']);
+		$insert_query = DB::insert('roles_permissions', ['role', 'permission']);
 
 		$new_permissions = array_diff($permissions, $current_permissions);
 
@@ -53,7 +54,7 @@ class RoleRepository extends OhanzeeRepository implements
 		$discarded_permissions = array_diff($current_permissions, $permissions);
 
 		if ($discarded_permissions) {
-			\DB::delete('roles_permissions')
+			DB::delete('roles_permissions')
 				->where('permission', 'IN', $discarded_permissions)
 				->where('role', '=', $role)
 				->execute($this->db);

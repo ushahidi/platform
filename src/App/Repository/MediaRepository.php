@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
+use Ohanzee\Database;
 use Ushahidi\Core\Data;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Media;
@@ -28,7 +29,7 @@ class MediaRepository extends OhanzeeRepository implements
 
 	private $deleted_media;
 
-	public function __construct(\Database $db, Uploader $upload)
+	public function __construct(Database $db, Uploader $upload)
 	{
 		parent::__construct($db);
 

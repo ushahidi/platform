@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Form;
 
+use Ohanzee\DB;
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
@@ -66,7 +67,7 @@ class RoleRepository extends OhanzeeRepository implements
 		// Assuming all entites have the same form id
 		$this->deleteAllForForm(current($entities)->form_id);
 
-		$query = \DB::insert($this->getTable())
+		$query = DB::insert($this->getTable())
 			->columns(array_keys(current($entities)->asArray()));
 
 		foreach ($entities as $entity) {

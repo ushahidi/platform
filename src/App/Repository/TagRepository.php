@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
+use Ohanzee\DB;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Tag;
@@ -48,7 +49,7 @@ class TagRepository extends OhanzeeRepository implements
 			// If this is a top level category
 			if (empty($data['parent_id'])) {
 				// Load children
-				$data['children'] = \DB::select('id')
+				$data['children'] = DB::select('id')
 					->from('tags')
 					->where('parent_id', '=', $data['id'])
 					->execute($this->db)
@@ -135,7 +136,7 @@ class TagRepository extends OhanzeeRepository implements
 	{
 		$query = $this->selectQuery()
 			->resetSelect()
-			->select([\DB::expr('COUNT(*)'), 'total'])
+			->select([DB::expr('COUNT(*)'), 'total'])
 			->where('id', '=', $tag_or_id)
 			->or_where('tag', '=', $tag_or_id)
 			->execute($this->db);

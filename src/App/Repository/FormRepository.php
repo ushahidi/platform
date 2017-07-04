@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
-use DB;
+use Ohanzee\DB;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Form;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
@@ -113,7 +113,7 @@ class FormRepository extends OhanzeeRepository implements
       */
     public function isAuthorHidden($form_id)
     {
-        $query = \DB::select('hide_author')
+        $query = DB::select('hide_author')
             ->from('forms')
             ->where('id', '=', $form_id);
 
@@ -129,7 +129,7 @@ class FormRepository extends OhanzeeRepository implements
      */
     public function getRolesThatCanCreatePosts($form_id)
     {
-        $query = \DB::select('forms.everyone_can_create', 'roles.name')
+        $query = DB::select('forms.everyone_can_create', 'roles.name')
             ->distinct(true)
             ->from('forms')
             ->join('form_roles', 'LEFT')

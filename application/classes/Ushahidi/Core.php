@@ -38,11 +38,11 @@ abstract class Ushahidi_Core {
 		});
 		// Multisite db
 		$di->set('kohana.db.multisite', function () use ($di) {
-			return Database::instance('multisite');
+			return Ohanzee\Database::instance('multisite', Kohana::$config->load('database')->default);
 		});
 		// Deployment db
 		$di->set('kohana.db', function() use ($di) {
-			return Database::instance('deployment', $di->get('db.config'));
+			return Ohanzee\Database::instance('deployment', $di->get('db.config'));
 		});
 
 		// Intercom config settings
