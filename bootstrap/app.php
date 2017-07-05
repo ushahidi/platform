@@ -9,7 +9,7 @@ try {
 }
 
 // Initialize the Kohana application
-require __DIR__ . '/../application/kohana.php';
+require_once __DIR__ . '/../application/kohana.php';
 
 $app = require __DIR__.'/lumen.php';
 

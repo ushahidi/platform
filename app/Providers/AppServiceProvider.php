@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->configure('cdn');
         $this->app->configure('ratelimiter');
         $this->app->configure('multisite');
+        $this->app->configure('mail');
 
         $this->configureAuraDI();
     }
@@ -126,6 +127,12 @@ class AppServiceProvider extends ServiceProvider
             return '';
         });
 
+        // Configure mailer
+        $di->set('tool.mailer', $di->lazyNew('Ushahidi\App\Tools\LumenMailer', [
+            'mailer' => app('mailer'),
+            'siteConfig' => $di->lazyGet('site.config'),
+            'clientUrl' => $di->lazyGet('clienturl')
+        ]));
 
         // @todo move to auth provider?
         $di->set('session.user', function () use ($di) {

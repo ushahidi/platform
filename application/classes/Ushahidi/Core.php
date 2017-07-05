@@ -50,11 +50,6 @@ abstract class Ushahidi_Core {
 			return getenv('INTERCOM_APP_TOKEN');
 		});
 
-		$di->set('tool.mailer', $di->lazyNew('Ushahidi_Mailer', [
-			'siteConfig' => $di->lazyGet('site.config'),
-			'clientUrl' => $di->lazyGet('clienturl')
-		]));
-
 		/**
 		 * 1. Load the plugins
 		 */

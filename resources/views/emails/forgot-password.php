@@ -187,7 +187,7 @@
                             <tr>
                                 <td align="center">
                                     <!-- BULLETPROOF BUTTON -->
-                                    <?php if ($client_url): ?>
+                                    <?php if ($client_url) : ?>
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
                                         <tr>
                                             <td align="center" style="padding: 25px 0 0 0;" class="padding-copy">

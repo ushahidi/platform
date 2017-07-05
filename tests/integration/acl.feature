@@ -218,6 +218,7 @@ Feature: API Access Control Layer
         And the response is JSON
         And the "count" property equals "15"
 
+    @resetFixture
     Scenario: Admin can view all posts in collection
         Given that I want to get all "Posts"
         And that the oauth token is "testadminuser"
@@ -225,7 +226,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "19"
+        And the "count" property equals "18"
 
     Scenario: Admin user can view private posts
         Given that I want to find a "Post"

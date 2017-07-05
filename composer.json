@@ -30,7 +30,6 @@
         "kohana/minion" : "3.3.*@dev",
         "ohanzee/database": "dev-namespaces",
         "robmorgan/phinx": "~0.8.0",
-        "ushahidi/shadowhand-email": "dev-master",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "3.12.*",
         "vlucas/phpdotenv": "~2.2",
@@ -53,7 +52,9 @@
         "sentry/sentry": "~1.5",
         "dusterio/lumen-passport": "^0.1.9",
         "barryvdh/laravel-cors": "^0.9.2",
-        "ushahidi/kohana-validation": "dev-master"
+        "ushahidi/kohana-validation": "dev-master",
+        "illuminate/mail": "5.4.*",
+        "mockery/mockery": "^0.9.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -102,7 +103,7 @@
             "@migrate"
         ],
         "lint" : [
-            "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/spec/*,migrations/*,bin/*,database/* --standard=src/ruleset.xml --tab-width=4 ./",
+            "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/spec/*,migrations/*,bin/*,database/*,resources/views/* --standard=src/ruleset.xml --tab-width=4 ./",
             "phpcs --standard=tests/spec/ruleset.xml --tab-width=4 ./tests/spec/",
             "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/ ./database"
         ],
