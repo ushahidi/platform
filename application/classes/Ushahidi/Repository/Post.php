@@ -478,6 +478,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			{
 				$attribute = $this->form_attribute_repo->getByKey($key);
 
+				if (!is_array($value)) {
+					$value = explode(',', $value);
+				}
+
 				$sub = $this->post_value_factory
 					->getRepo($attribute->type)
 					->getValueQuery($attribute->id, $value);
