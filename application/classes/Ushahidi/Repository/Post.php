@@ -13,6 +13,7 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository;
@@ -37,8 +38,7 @@ use Ushahidi\Core\Traits\Event;
 class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	PostRepository,
 	UpdatePostRepository,
-	SetPostRepository,
-	Permissionable
+	SetPostRepository
 {
 	use UserContext;
 
@@ -47,9 +47,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
-
-	// Provides `getPermission`
-	use ManagePosts;
 
 	// Provides `hasPermission`
 	use PermissionAccess;
@@ -495,7 +492,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if (!$user->id) {
 			$query->where("$table.status", '=', 'published');
 		} elseif (!$this->isUserAdmin($user) and
-				  !$this->hasPermission($user, $this->getPermission())) {
+				  !$this->hasPermission($user, Permission::MANAGE_POSTS)) {
 			$query
 				->and_where_open()
 				->where("$table.status", '=', 'published')

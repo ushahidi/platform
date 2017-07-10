@@ -14,6 +14,7 @@ use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Entity\PostSearchData;
@@ -34,9 +35,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 	// Checks if user is Admin
 	use AdminAccess;
-
-	// Provides `getPermission`
-	use ManagePosts;
 
 	protected $repo;
 	protected $attribute_repo;
@@ -191,7 +189,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 		$user = $this->getUser();
 		// Do we have permission to publish this post?
-		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->hasPermission($user));
+		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->hasPermission($user, Permission::MANAGE_POSTS));
 		// .. if yes, any status is ok.
 		if ($userCanChangeStatus) {
 			return;

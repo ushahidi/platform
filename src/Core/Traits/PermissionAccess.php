@@ -14,6 +14,7 @@
 namespace Ushahidi\Core\Traits;
 
 use Ushahidi\Core\Tool\Permissions\Acl;
+use Ushahidi\Core\Entity\User;
 
 trait PermissionAccess
 {
@@ -43,14 +44,14 @@ trait PermissionAccess
 	 * Check if the user has permission
 	 * @return boolean
 	 */
-	protected function hasPermission($user)
+	protected function hasPermission(User $user, $permission)
 	{
 		// Don't check for permissions if we don't have the
 		// roles feature enabled
 		if (!$this->hasRolesEnabled()) {
 			return false;
 		}
-		
-		return $this->acl->hasPermission($user, $this->getPermission());
+
+		return $this->acl->hasPermission($user, $permission);
 	}
 }
