@@ -42,10 +42,10 @@ class LayerAuthorizer implements Authorizer
 		$user = $this->getUser();
 
 		// Only logged in users have access if the deployment is private
-		if (!$this->hasAccess()) {
+		if (!$this->canAccessDeployment($user)) {
 			return false;
 		}
-		
+
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)
 		if ($this->isUserAdmin($user)) {
