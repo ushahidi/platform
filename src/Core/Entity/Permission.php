@@ -23,7 +23,8 @@ class Permission extends StaticEntity
 	const DATA_IMPORT      = 'Bulk Data Import';
 	const MANAGE_POSTS     = 'Manage Posts';
 	const MANAGE_SETTINGS  = 'Manage Settings';
-	const MANAGE_USERS     = 'Manage Users';
+    const MANAGE_USERS     = 'Manage Users';
+    const EDIT_OWN_POSTS   = 'Edit their own posts';
 
 	// DataTransformer
 	public function getDefinition()

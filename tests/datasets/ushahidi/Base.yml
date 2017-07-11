@@ -1899,3 +1899,12 @@ roles_permissions:
   -
     role: importer
     permission: Bulk Data Import
+  -
+    role: user
+    permission: Edit their own posts
+  -
+    role: manager
+    permission: Edit their own posts
+  -
+    role: importer
+    permission: Edit their own posts
