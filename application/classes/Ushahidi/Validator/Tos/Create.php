@@ -13,7 +13,7 @@ use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 
 
-class Ushahidi_Validator_Tos_Update extends Validator
+class Ushahidi_Validator_Tos_Create extends Validator
 {
     protected $form_repo;
     protected $default_error_source = 'tos';
