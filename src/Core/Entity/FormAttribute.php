@@ -29,6 +29,7 @@ class FormAttribute extends StaticEntity
 	protected $config = [];
 	protected $form_stage_id;
 	protected $response_private;
+	protected $use_geolocation;
 
 	// StatefulData
 	protected function getDerived()
@@ -57,6 +58,7 @@ class FormAttribute extends StaticEntity
 			'form_stage'    => false, /* alias */
 			'form_stage_id' => 'int',
 			'response_private' => 'bool',
+			'use_geolocation' => 'bool',
 		];
 	}
 
