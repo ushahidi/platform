@@ -35,6 +35,7 @@ class Ushahidi_Formatter_Post_GeoJSON implements Formatter
 						'properties' => [
 							'title' => $entity->title,
 							'description' => $entity->content,
+							'use_geolocation' => $entity->use_geolocation,
 							'marker-color' => $color,
 							'id' => $entity->id,
 							'attribute_key' => $attribute

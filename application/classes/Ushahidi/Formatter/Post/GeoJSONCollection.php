@@ -57,6 +57,7 @@ class Ushahidi_Formatter_Post_GeoJSONCollection implements Formatter
 					'properties' => [
 						'title' => $entity->title,
 						'description' => $entity->content,
+						'use_geolocation' => $entity->use_geolocation,
 						'marker-color' => $color,
 						'id' => $entity->id,
 						'url' => URL::site(Ushahidi_Rest::url($entity->getResource(), $entity->id), Request::current()),
