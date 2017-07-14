@@ -11,8 +11,8 @@ class AddTosTable extends AbstractMigration
     {
         $this->table('tos')
           ->addColumn('user_id', 'integer', ['null' => false])
-          ->addColumn('agreement_date', 'datetime', ['null' => false])
-          ->addColumn('tos_version_date', 'datetime', ['null' => false])
+          ->addColumn('agreement_date', 'integer', ['null' => false])
+          ->addColumn('tos_version_date', 'integer', ['null' => false])
           ->addForeignKey('user_id', 'users', 'id', [
                     'delete' => 'CASCADE',
                     'update' => 'CASCADE',

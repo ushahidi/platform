@@ -1274,6 +1274,10 @@ oauth_scopes:
     id: 20
     scope: webhooks
     name: webhooks
+  -
+    id: 21
+    scope: tos
+    name: tos
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1383,6 +1387,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 16
+  -
+    session_access_token_id: 3
+    scope_id: 21
 
   # for testadminuser
   -
@@ -1512,6 +1519,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 6
     scope_id: 13
+  -
+    session_access_token_id: 6
+    scope_id: 21
 
 # Test roles
 # for testmanager

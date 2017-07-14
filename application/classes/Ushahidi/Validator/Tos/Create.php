@@ -15,15 +15,15 @@ use Ushahidi\Core\Entity\UserRepository;
 
 class Ushahidi_Validator_Tos_Create extends Validator
 {
-    protected $form_repo;
+    protected $user_repo;
     protected $default_error_source = 'tos';
 
-    public function __construct(UserRepository $repo)
+    public function __construct(UserRepository $user_repo)
     {
-        $this->user_repo = $repo;
+        $this->user_repo = $user_repo;
     }
 
-    protected function validate($value)
+    public function validDate($value)
     {
         if (!Valid::date($value)) {
             return 'date';

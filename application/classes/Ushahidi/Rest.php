@@ -404,6 +404,7 @@ abstract class Ushahidi_Rest extends Controller {
 	protected function _parse_request_body()
 	{
 			$payload = json_decode($this->request->body(), true);
+
 			// Ensure there were no JSON errors
 			$error = json_last_error();
 			if ($error AND $error !== JSON_ERROR_NONE)

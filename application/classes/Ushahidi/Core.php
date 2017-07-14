@@ -241,6 +241,11 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Tag_Update'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Tag_Delete'),
 		];
+
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tos'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Tos_Create'),
+		];
+
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
 			'create'   => $di->lazyNew('Ushahidi_Validator_User_Create'),
 			'update'   => $di->lazyNew('Ushahidi_Validator_User_Update'),
@@ -321,6 +326,7 @@ abstract class Ushahidi_Core {
 			'permissions'          => $di->lazyNew('Ushahidi_Formatter_Permission'),
 			// Formatter for post exports. Defaults to CSV export
 			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
+			'tos'				   => $di->lazyNew('Ushahidi_Formatter_Tos')
 		];
 
 		// Formatter parameters
@@ -344,6 +350,7 @@ abstract class Ushahidi_Core {
 			'contact',
 			'role',
 			'permission',
+			'tos',
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
@@ -414,6 +421,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
+		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
@@ -569,6 +577,10 @@ abstract class Ushahidi_Core {
 			'repo' => $di->lazyGet('repository.tag'),
 			'role_repo' => $di->lazyGet('repository.role'),
 		];
+
+		$di->params['Ushahidi_Validator_Tos_Create'] = [
+            'user_repo' => $di->lazyGet('repository.user')
+        ];
 
 		$di->params['Ushahidi_Validator_User_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
