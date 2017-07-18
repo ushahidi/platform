@@ -33,7 +33,7 @@ class DataProvider_FrontlineSms extends DataProvider {
 				"message" => $message,
 				"recipients" => array(
 					array(
-						"type" => "address",
+						"type" => "mobile",
 						"value" => $to
 					)
 				)
