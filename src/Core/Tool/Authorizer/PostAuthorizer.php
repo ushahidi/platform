@@ -61,7 +61,7 @@ class PostAuthorizer implements Authorizer, Permissionable
      */
     protected function getAllPrivs()
     {
-        return ['read', 'create', 'update', 'delete', 'search', 'change_status'];
+        return ['read', 'create', 'update', 'delete', 'search', 'change_status', 'read_full'];
     }
 
     // It requires a `PostRepository` to load parent posts too.
