@@ -18,15 +18,15 @@ use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Traits\UserContext;
 
 use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	FormStageRepository
 {
 	use UserContext;
 
-	// Provides `hasPermission`
-	use PermissionAccess;
+	// Provides `acl`
+	use AclTrait;
 
 	use PostValueRestrictions;
 

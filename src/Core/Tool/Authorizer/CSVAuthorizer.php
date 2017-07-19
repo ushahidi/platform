@@ -18,7 +18,7 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
-use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 use Ushahidi\Core\Traits\DataImportAccess;
 
 class CSVAuthorizer implements Authorizer
@@ -33,7 +33,7 @@ class CSVAuthorizer implements Authorizer
 
 	// Check that the user has the necessary permissions
 	// if roles are available for this deployment.
-	use PermissionAccess;
+	use AclTrait;
 
 	// Check if the user can import data
 	use DataImportAccess;
@@ -50,7 +50,7 @@ class CSVAuthorizer implements Authorizer
 		$user = $this->getUser();
 
 		// Allow role with the right permissions
-		if ($this->hasPermission($user, Permission::DATA_IMPORT)) {
+		if ($this->acl->hasPermission($user, Permission::DATA_IMPORT)) {
 			return true;
 		}
 

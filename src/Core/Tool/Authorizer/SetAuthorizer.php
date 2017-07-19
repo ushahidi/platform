@@ -21,7 +21,7 @@ use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `SetAuthorizer` class is responsible for access checks on `Sets`
 class SetAuthorizer implements Authorizer
@@ -42,7 +42,7 @@ class SetAuthorizer implements Authorizer
 
 	// Check that the user has the necessary permissions
 	// if roles are available for this deployment.
-	use PermissionAccess;
+	use AclTrait;
 
 	protected function isVisibleToUser(Set $entity, $user)
 	{
@@ -66,7 +66,7 @@ class SetAuthorizer implements Authorizer
 		}
 
 		// First check whether there is a role with the right permissions
-		if ($this->hasPermission($user, Permission::MANAGE_POSTS)) {
+		if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
 			return true;
 		}
 

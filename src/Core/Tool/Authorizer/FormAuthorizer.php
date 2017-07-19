@@ -21,7 +21,7 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `FormAuthorizer` class is responsible for access checks on `Forms`
 class FormAuthorizer implements Authorizer
@@ -41,7 +41,7 @@ class FormAuthorizer implements Authorizer
 	use PrivateDeployment;
 
 	// Check that the user has the necessary permissions
-	use PermissionAccess;
+	use AclTrait;
 
 	// It requires a `FormRepository` to load parent posts too.
 	protected $form_repo;
@@ -66,7 +66,7 @@ class FormAuthorizer implements Authorizer
 		}
 
 		// Allow role with the right permissions
-		if ($this->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+		if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
 			return true;
 		}
 

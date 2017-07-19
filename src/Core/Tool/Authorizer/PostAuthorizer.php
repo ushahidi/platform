@@ -25,7 +25,7 @@ use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `PostAuthorizer` class is responsible for access checks on `Post` Entities
 class PostAuthorizer implements Authorizer
@@ -47,7 +47,7 @@ class PostAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use PermissionAccess;
+    use AclTrait;
 
     /**
      * Get a list of all possible privilges.
@@ -87,7 +87,7 @@ class PostAuthorizer implements Authorizer
         }
 
         // First check whether there is a role with the right permissions
-        if ($this->hasPermission($user, Permission::MANAGE_POSTS)) {
+        if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
             return true;
         }
 
@@ -150,7 +150,7 @@ class PostAuthorizer implements Authorizer
         // ownership but those are already checked above
         if ($this->isUserOwner($entity, $user)
             && in_array($privilege, ['update', 'delete'])
-            && $this->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
+            && $this->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
             return true;
         }
 

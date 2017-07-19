@@ -47,6 +47,6 @@ trait PostValueRestrictions
 	/* FormRole */
 	protected function canUserEditForm($form_id, $user)
 	{
-		return $this->isUserAdmin($user) || $this->hasPermission($user, Permission::MANAGE_POSTS);
+		return $this->isUserAdmin($user) || $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
 	}
 }

@@ -19,7 +19,7 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `UserAuthorizer` class is responsible for access checks on `Users`
 class UserAuthorizer implements Authorizer
@@ -37,7 +37,7 @@ class UserAuthorizer implements Authorizer
 	use PrivateDeployment;
 
 	// Check that the user has the necessary permissions
-	use PermissionAccess;
+	use AclTrait;
 
 	/**
 	 * Get a list of all possible privilges.
@@ -66,7 +66,7 @@ class UserAuthorizer implements Authorizer
 		}
 
 		// Role with the Manage Users permission can manage all users
-		if ($this->hasPermission($user, Permission::MANAGE_USERS)) {
+		if ($this->acl->hasPermission($user, Permission::MANAGE_USERS)) {
 			return true;
 		}
 
