@@ -62,10 +62,11 @@ class ReadUsecase implements Usecase
 
 	// Usecase
 	public function interact()
-	{
+	{	
 		// Fetch the entity, using provided identifiers...
 		$entity = $this->getEntity();
 
+			\Log::instance()->add(\Log::ERROR, "ENTITY" . print_r($entity, true));
 		// ... verify that the entity can be read by the current user
 		$this->verifyReadAuth($entity);
 

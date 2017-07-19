@@ -73,8 +73,10 @@ class SearchUsecase implements Usecase
 	// Usecase
 	public function interact()
 	{
+		\Log::instance()->add(\Log::ERROR, print_r("in the interact of SearchUsecase", true));	
 		// Fetch an empty entity...
 		$entity = $this->getEntity();
+		\Log::instance()->add(\Log::ERROR, "GetEntity" . print_r("entity", true));	
 
 		// ... verify that the entity can be searched by the current user
 		$this->verifySearchAuth($entity);

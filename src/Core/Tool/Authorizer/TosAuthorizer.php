@@ -48,9 +48,18 @@ class TosAuthorizer implements Authorizer
             return false;
         }
 
-        if ($privilege !== 'create') {
-            return false;
+        if ($privilege === 'create') {
+            return true;
         }
+
+        if ($privilege === 'search') {
+            return true;
+        }
+
+        if ($privilege === 'read') {
+            return true;
+        }
+
 
         // If no other access checks succeed, we default to denying access
         return true;
