@@ -503,6 +503,8 @@ abstract class Ushahidi_Rest extends Controller {
 			$body = $format($this->_response_payload);
 			$mime = $format->getMimeType();
 
+			Kohana::$log->add(Log::ERROR, "RESPONSE BODY ____________: " . print_r($body, true));
+
 			if ($type === 'jsonp')
 			{
 				// Prevent Opera and Chrome from executing the response as anything
