@@ -15,7 +15,6 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Traits\FilterRecords;
 
 class SearchUsecase implements Usecase
 {
@@ -26,7 +25,7 @@ class SearchUsecase implements Usecase
 		FormatterTrait;
 
 	// - FilterRecords for setting search parameters
-	use FilterRecords;
+	use Concerns\FilterRecords;
 
 	/**
 	 * @var SearchData

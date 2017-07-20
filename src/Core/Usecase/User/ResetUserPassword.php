@@ -16,7 +16,7 @@ use Ushahidi\Core\Tool\Mailer;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Traits\ModifyRecords;
+use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
 use Ushahidi\Core\Exception\ValidatorException;
 
 class ResetUserPassword implements Usecase
