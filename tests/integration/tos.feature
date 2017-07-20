@@ -1,4 +1,4 @@
-@resetFixture @tos
+@resetFixture @tos 
 Feature: Testing the Tos API
 
     Scenario: Create a ToS entry
@@ -16,11 +16,10 @@ Feature: Testing the Tos API
         And the type of the "id" property is "numeric"
         Then the guzzle status code should be 200
 
-@resetFixture
+    @resetFixture
     Scenario: Getting a ToS entry
         Given that I want to find a "Tos"
         And that the request "Authorization" header is "testbasicuser"
-        And that its "user_id" is "1"
         When I request "/tos"
         Then the response is JSON
         And the response has a "id" property

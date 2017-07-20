@@ -1440,6 +1440,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 20
+  -
+    session_access_token_id: 4
+    scope_id: 21
 
   # for testbasicuser2
   -
@@ -1484,6 +1487,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 16
+  -
+    session_access_token_id: 5
+    scope_id: 21
 
   # for testanon
   -
@@ -1567,6 +1573,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 7
     scope_id: 18
+  -
+    session_access_token_id: 7
+    scope_id: 21
 
 # for testimporter
   -
@@ -1614,6 +1623,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 8
     scope_id: 18
+  -
+    session_access_token_id: 8
+    scope_id: 21
 
 # include other oauth tables to ensure a blank slate for test runs
 oauth_session_refresh_tokens:

@@ -480,8 +480,7 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 
 		// Add CORS headers to the response
-		$this->add_cors_headers($this->response['_cookies']);
-
+		$this->add_cors_headers($this->response);
 		// Should we prevent this request from being cached?
 		if ( ! in_array($this->request->method(), $this->_cacheable_methods))
 		{

@@ -13,11 +13,15 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Tos;
 use Ushahidi\Core\Entity\TosRepository;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Traits\UserContext;
+
 
 
 class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
     TosRepository
 {
+    use UserContext;
+
 
     // Ushahidi_Repository
     protected function getTable()
@@ -25,39 +29,6 @@ class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
         return 'tos';
     }
 
-    // SearchRepository
-    public function getSearchFields()
-    {
-        return [
-            'user_id'
-        ];
-    }
-
-    public function getEntity(Array $data = null)
-    {
-
-        return new Tos($data);
-    }
-
-
-    protected function setSearchConditions(SearchData $search)
-    {
-
-        $query = $this->search_query;
-        foreach (['user_id'] as $key)
-        {
-            if ($search->$key) {
-                 $query->where($key, '=', $search->$key);
-            }
-        }
-    }
-
-    public function getSearchResults()
-    {
-        $query = $this->getSearchQuery();
-        $results = $query->distinct(TRUE)->execute($this->db);
-        return $this->getCollection($results->as_array());
-    }
 
     // CreateRepository
     public function create(Entity $entity)
@@ -74,6 +45,32 @@ class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
         ];
 
         return parent::create($entity->setState($state));
+    }
+
+    public function getEntity(Array $data = null)
+    {
+        return new Tos($data);
+    }
+
+    // SearchRepository
+    public function getSearchFields()
+    {
+        return [];
+    }
+
+    protected function setSearchConditions(SearchData $search)
+    {
+
+        $query = $this->search_query;
+        
+        $query->where('user_id', '=', $this->getUserId());
+    }
+
+    public function getSearchResults()
+    {
+        $query = $this->getSearchQuery();
+        $results = $query->distinct(TRUE)->execute($this->db);
+        return $this->getCollection($results->as_array());
     }
 
 }

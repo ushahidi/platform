@@ -64,19 +64,15 @@ class CreateUsecase implements Usecase
 	{
 		// Fetch a default entity and apply the payload...
 		$entity = $this->getEntity();
-
 		// ... verify that the entity can be created by the current user
 		$this->verifyCreateAuth($entity);
 
 		// ... verify that the entity is in a valid state
 		$this->verifyValid($entity);
-
 		// ... persist the new entity
 		$id = $this->repo->create($entity);
-
 		// ... get the newly created entity
 		$entity = $this->getCreatedEntity($id);
-
 		// ... check that the entity can be read by the current user
 		if ($this->auth->isAllowed($entity, 'read')) {
 			// ... and either return the formatted entity
