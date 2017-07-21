@@ -235,6 +235,8 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'import' => $di->lazyNew('Ushahidi_Validator_Post_Import'),
+			'bulk_update' => $di->lazyNew('Ushahidi_Validator_Post_BulkUpdate'),
+			'bulk_delete' => $di->lazyNew('Ushahidi_Validator_Post_BulkDelete'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
@@ -367,6 +369,7 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
 		$di->set('formatter.entity.post.stats', $di->lazyNew('Ushahidi_Formatter_Post_Stats'));
 		$di->set('formatter.entity.post.csv', $di->lazyNew('Ushahidi_Formatter_Post_CSV'));
+		$di->set('formatter.entity.post.bulk', $di->lazyNew('Ushahidi_Formatter_Post_Bulk'));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
@@ -515,6 +518,15 @@ abstract class Ushahidi_Core {
 			'role_repo' => $di->lazyGet('repository.role'),
 			'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 			'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
+			];
+
+		// Dependencies of validators
+		$di->params['Ushahidi_Validator_Post_BulkUpdate'] = [
+			'repo' => $di->lazyGet('repository.post'),
+			];
+
+		$di->params['Ushahidi_Validator_Post_BulkDelete'] = [
+			'repo' => $di->lazyGet('repository.post'),
 			];
 
 		$di->params['Ushahidi_Validator_Form_Update'] = [

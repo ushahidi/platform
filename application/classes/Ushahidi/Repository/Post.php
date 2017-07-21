@@ -233,6 +233,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	}
 
 	// Ushahidi_Repository
+	public function getBulkActions()
+	{
+		return [
+			'status' => [
+				'published',
+				'draft',
+				'archived'
+			],
+		];
+	}
+
+	// Ushahidi_Repository
 	protected function setSearchConditions(SearchData $search)
 	{
 		if ($search->include_types)
@@ -1031,6 +1043,21 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->current();
 
 		return $this->getEntity($result);
+	}
+
+	// SetPostRepository
+	public function getPostsIncompleteStages(Array $post_ids)
+	{
+		$result = DB::select('form_stages_posts.post_id')
+			->select('form_stages.label')
+			->from('form_stages_posts')
+			->join('form_stages', 'INNER')->on('form_stages_posts.form_stage_id', '=', 'form_stages.id')
+			->where('form_stages_posts.post_id', 'IN', $post_ids)
+			->where('form_stages.required', '=', 1)
+			->where('form_stages_posts.completed', '=', 0)
+			->execute($this->db);
+
+		return $result;
 	}
 
 	// PostRepository

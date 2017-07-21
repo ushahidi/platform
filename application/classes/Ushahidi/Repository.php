@@ -80,6 +80,18 @@ abstract class Ushahidi_Repository implements
 	{
 		return $this->executeUpdate(['id' => $entity->id], $entity->getChanged());
 	}
+	
+	// UpdateRepository
+	public function bulkUpdate(Array $records, Array $input)
+	{
+		return $this->executeBulkUpdate($records, $input);
+	}
+	
+	// DeleteRepository
+	public function bulkDelete(Array $records)
+	{
+		return $this->executeBulkDelete($records);
+	}
 
 	// DeleteRepository
 	public function delete(Entity $entity)
@@ -280,6 +292,38 @@ abstract class Ushahidi_Repository implements
 	}
 
 	/**
+	 * Update the records passed with the input and return the number affected.
+	 * @param  Array $records hash of record ids
+	 * @param  Array $input hash of input
+	 * @return Integer
+	 */
+	protected function executeBulkUpdate(Array $records, Array $input)
+	{
+		if (!$records) {
+			throw new RuntimeException(sprintf(
+				'Cannot update every record in table "%s"',
+				$this->getTable()
+			));
+		}
+
+		// Prevent overwriting created timestamp
+		// Probably not needed if `created` is set immutable in Entity
+		if(array_key_exists('created', $input)){
+			unset($input['created']);
+		}
+
+		if (!$input) {
+			return 0; // nothing would be updated, just ignore
+		}
+
+		$query = DB::update($this->getTable())->set($input);
+		$query->where('id', 'in', $records);
+
+		$count = $query->execute($this->db);
+		return $count;
+	}
+
+	/**
 	 * Delete records with conditions and return the number affected.
 	 * @param  Array $where hash of conditions
 	 * @return Integer
@@ -298,6 +342,27 @@ abstract class Ushahidi_Repository implements
 		{
 			$query->where($column, '=', $value);
 		}
+
+		$count = $query->execute($this->db);
+		return $count;
+	}
+
+	/**
+	 * Delete the records passed and return the number affected.
+	 * @param  Array $records hash of record ids
+	 * @return Integer
+	 */
+	protected function executeBulkDelete(Array $records)
+	{
+		if (!$records) {
+			throw new RuntimeException(sprintf(
+				'Cannot update every record in table "%s"',
+				$this->getTable()
+			));
+		}
+
+		$query = DB::delete($this->getTable());
+		$query->where('id', 'in', $records);
 
 		$count = $query->execute($this->db);
 		return $count;

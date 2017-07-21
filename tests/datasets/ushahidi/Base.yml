@@ -109,44 +109,58 @@ form_stages:
     id: 1
     form_id: 1
     label: "Main"
+    required: 0
     show_when_published: 1
     type: "post"
   -
     id: 2
     form_id: 1
     label: "2nd step"
+    required: 0
     show_when_published: 1
     type: "task"
   -
     id: 3
     form_id: 1
     label: "3rd step"
+    required: 0
     show_when_published: 1
     type: "task"
   -
     id: 4
     form_id: 2
     label: "Main"
+    required: 0
     show_when_published: 1
     type: "post"
   -
     id: 5
     form_id: 3
     label: "Post"
+    required: 0
     show_when_published: 1
     type: "post"
   -
     id: 6
     form_id: 4
     label: "restricted"
+    required: 0
     show_when_published: 0
     type: "task"
   -
     id: 7
     form_id: 4
     label: "Post"
+    required: 0
     show_when_published: 1
     type: "post"
+  -
+    id: 8
+    form_id: 3
+    label: "Must be completed"
+    required: 1
+    show_when_published: 1
+    type: "task"
 form_attributes:
   -
     id: 1
@@ -826,6 +840,97 @@ posts:
     created: 1412025016
     published_to: '["user"]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 123
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 2"
+    type: "report"
+    content: "Archived Post 2"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 124
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 3"
+    type: "report"
+    content: "Archived Post 3"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 125
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 4"
+    type: "report"
+    content: "Archived Post 4"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 126
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 5"
+    type: "report"
+    content: "Archived Post 5"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 127
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "Archived Post 6"
+    type: "report"
+    content: "Archived Post 6"
+    status: "archived"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1000
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "incomplete post 1"
+    type: "report"
+    content: "Incomplete post 1"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1001
+    form_id: 3
+    parent_id:
+    user_id:
+    title: "incomplete post 2"
+    type: "report"
+    content: "Incomplete post 2"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: "[]"
+    post_date: "2014-09-29 14:10:16"
 post_datetime:
 post_decimal:
 post_geometry:
@@ -1027,6 +1132,22 @@ form_stages_posts:
     form_stage_id: 2
     post_id: 96
     completed: 1
+  -
+    form_stage_id: 5
+    post_id: 1000
+    completed: 1
+  -
+    form_stage_id: 6
+    post_id: 1000
+    completed: 1
+  -
+    form_stage_id: 5
+    post_id: 1001
+    completed: 0
+  -
+    form_stage_id: 6
+    post_id: 1001
+    completed: 0
 sets:
   -
     id: 1
@@ -1059,6 +1180,10 @@ sets:
     search: 1
     filter: '{"q":"junk"}'
     role: '["admin"]'
+  -
+    id: 7
+    name: Test stage completion requirement on bulk updates
+    search: 0
 posts_sets:
   -
     set_id: 1
@@ -1078,6 +1203,12 @@ posts_sets:
   -
     set_id: 1
     post_id: 112
+  -
+    set_id: 7
+    post_id: 1000
+  -
+    set_id: 7
+    post_id: 1001
 # OAuth Tables
 oauth_clients:
   -

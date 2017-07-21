@@ -197,8 +197,12 @@ $di->set('factory.data', $di->lazyNew('Ushahidi\Factory\DataFactory'));
 // Usecases that perform searches are the most typical usage of data objects.
 $di->params['Ushahidi\Factory\DataFactory']['actions'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\SearchData'),
+	'update' => $di->lazyNew('Ushahidi\Core\SearchData'),
+	'delete' => $di->lazyNew('Ushahidi\Core\SearchData'),
 	'stats'  => $di->lazyNew('Ushahidi\Core\SearchData'),
 	'export'  => $di->lazyNew('Ushahidi\Core\SearchData'),
+	'bulk_update'  => $di->lazyNew('Ushahidi\Core\SearchData'),
+	'bulk_delete'  => $di->lazyNew('Ushahidi\Core\SearchData'),
 ];
 
 // Use cases are used to join multiple collaborators together for a single interaction.
@@ -291,6 +295,8 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
 	'stats'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
 	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
+	'bulk_update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePostBulk'),
+	'bulk_delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePostBulk'),
 ];
 
 // Add custom create usecase for notifications
@@ -398,6 +404,7 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	'form_repo' => $di->lazyGet('repository.form'),
 	];
+
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
 
