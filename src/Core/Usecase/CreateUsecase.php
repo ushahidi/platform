@@ -29,6 +29,8 @@ class CreateUsecase implements Usecase
 	// - ModifyRecords for setting entity modification parameters
 	use Concerns\ModifyRecords;
 
+	use Concerns\SavesTranslations;
+
 	/**
 	 * @var CreateRepository
 	 */
@@ -75,6 +77,9 @@ class CreateUsecase implements Usecase
 
 		// ... get the newly created entity
 		$entity = $this->getCreatedEntity($id);
+
+		// ... save translations (if any)
+		$this->saveTranslations($entity);
 
 		// ... check that the entity can be read by the current user
 		if ($this->auth->isAllowed($entity, 'read')) {

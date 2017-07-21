@@ -65,9 +65,15 @@ class Tag extends StaticEntity
 	{
 		return 'tags';
 	}
+
 	protected function getImmutable()
 	{
 		// Hack: Add computed properties to immutable list
 		return array_merge(parent::getImmutable(), ['children']);
+	}
+
+	public function getTranslatable()
+	{
+		return ['tag', 'description'];
 	}
 }

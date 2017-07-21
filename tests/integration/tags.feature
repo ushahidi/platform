@@ -287,3 +287,30 @@ Feature: Testing the Tags API
         When I request "/tags"
         And the response has a "errors" property
         Then the guzzle status code should be 404
+
+    Scenario: Creating a new Tag with translations
+        Given that I want to make a new "Tag"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":null,
+                "tag":"Boxes",
+                "slug":"boxes",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role":[],
+                "translations":{
+                    "ar": {
+                        "tag": "Boxes in arabic"
+                    }
+                }
+            }
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "translations.ar.tag" property equals "Boxes in arabic"
+        Then the guzzle status code should be 200

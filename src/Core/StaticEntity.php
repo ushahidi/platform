@@ -69,4 +69,10 @@ abstract class StaticEntity implements Entity
 	{
 		return ['id', 'created'];
 	}
+
+	// Nowhere yet!
+	public function getTranslatable()
+	{
+		return [];
+	}
 }

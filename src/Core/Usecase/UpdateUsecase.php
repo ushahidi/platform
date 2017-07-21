@@ -34,6 +34,8 @@ class UpdateUsecase implements Usecase
 	// - VerifyEntityLoaded for checking that an entity is found
 	use Concerns\VerifyEntityLoaded;
 
+	use Concerns\SavesTranslations;
+
 	/**
 	 * @var UpdateRepository
 	 */
@@ -77,6 +79,9 @@ class UpdateUsecase implements Usecase
 
 		// ... persist the changes
 		$this->repo->update($entity);
+
+		// ... save translations (if any)
+		$this->saveTranslations($entity);
 
 		// ... check that the entity can be read by the current user
 		if ($this->auth->isAllowed($entity, 'read')) {

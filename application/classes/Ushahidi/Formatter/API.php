@@ -15,8 +15,12 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 
+use Ushahidi\Core\Traits\TranslatedEntityFormatter;
+
 class Ushahidi_Formatter_API implements Formatter
 {
+	use TranslatedEntityFormatter;
+
 	// Formatter
 	public function __invoke($entity)
 	{
@@ -62,6 +66,8 @@ class Ushahidi_Formatter_API implements Formatter
 		}
 
 		$data = $this->add_metadata($data, $entity);
+
+		$data['translations'] = $this->getEntityTranslations($entity);
 
 		return $data;
 	}
