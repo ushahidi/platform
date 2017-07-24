@@ -22,7 +22,6 @@ Feature: Testing the Tos API
         And that the request "Authorization" header is "testbasicuser"
         When I request "/tos"
         Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
-        And the "tos_version_date" property equals "1500059540"
+        And the response has a "results" property
+        And the type of the "results" property is "array"
         Then the guzzle status code should be 200

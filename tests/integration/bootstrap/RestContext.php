@@ -254,8 +254,6 @@ class RestContext implements Context
 		// Get response object
 		$this->response = $http_request->getResponse();
 	
-		throw new \Exception(print_r($this->response->getBody(true), true));
-
 		// Create fake response object if Guzzle doesn't give us one
 		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
 			$this->response = new \Guzzle\Http\Message\Response(null, null, null);
