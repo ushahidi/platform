@@ -35,7 +35,7 @@ class NotificationAuthorizer implements Authorizer
 
 	// It uses `PrivateDeployment` to check whether a deployment is private
 	use PrivateDeployment;
-	
+
 
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
@@ -44,7 +44,7 @@ class NotificationAuthorizer implements Authorizer
 		$user = $this->getUser();
 
 		// Only logged in users have access if the deployment is private
-		if (!$this->hasAccess()) {
+		if (!$this->canAccessDeployment($user)) {
 			return false;
 		}
 
@@ -52,7 +52,7 @@ class NotificationAuthorizer implements Authorizer
 		if ($this->isUserAdmin($user)) {
 			return true;
 		}
-		
+
 		// Allow create, read, update and delete if owner.
 		if ($this->isUserOwner($entity, $user)
 			and in_array($privilege, ['create', 'read', 'update', 'delete'])) {

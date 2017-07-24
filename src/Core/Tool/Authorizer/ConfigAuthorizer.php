@@ -15,17 +15,15 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Config;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Permissions\Acl;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
-use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\Permissions\ManageSettings;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `ConfigAuthorizer` class is responsible for access checks on `Config` Entities
-class ConfigAuthorizer implements Authorizer, Permissionable
+class ConfigAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -38,10 +36,7 @@ class ConfigAuthorizer implements Authorizer, Permissionable
 
 	// Check that the user has the necessary permissions
 	// if roles are available for this deployment.
-	use PermissionAccess;
-
-	// Provides `getPermission`
-	use ManageSettings;
+	use AclTrait;
 
 	/**
 	 * Public config groups
@@ -67,7 +62,7 @@ class ConfigAuthorizer implements Authorizer, Permissionable
 		}
 
 		// Allow role with the right permissions to do everything else
-		if ($this->hasPermission($user)) {
+		if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
 			return true;
 		}
 
