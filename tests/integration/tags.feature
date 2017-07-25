@@ -304,6 +304,9 @@ Feature: Testing the Tags API
                 "translations":{
                     "ar": {
                         "tag": "مربعات"
+                    },
+                    "en": {
+                        "tag": "Boxes"
                     }
                 }
             }
@@ -313,4 +316,5 @@ Feature: Testing the Tags API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the "translations.ar.tag" property equals "مربعات"
+        And the "translations.en.tag" property equals "Boxes"
         Then the guzzle status code should be 200
