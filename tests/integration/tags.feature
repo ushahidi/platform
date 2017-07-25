@@ -303,7 +303,7 @@ Feature: Testing the Tags API
                 "role":[],
                 "translations":{
                     "ar": {
-                        "tag": "Boxes in arabic"
+                        "tag": "مربعات"
                     }
                 }
             }
@@ -312,5 +312,5 @@ Feature: Testing the Tags API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
-        And the "translations.ar.tag" property equals "Boxes in arabic"
+        And the "translations.ar.tag" property equals "مربعات"
         Then the guzzle status code should be 200
