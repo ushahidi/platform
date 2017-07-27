@@ -27,7 +27,7 @@ trait SavesTranslations
 			foreach ($translations as $locale => $values) {
 				foreach ($properties as $property) {
 					if (isset($values[$property])) {
-						$this->translationRepo->saveTranslation($entity->getResource(), $entity->getId(), $property, $values[$property], $entity->$property, $locale);
+						$this->translationRepo->saveTranslation($entity->getResource(), $entity->getId(), $property, $values[$property], (string)$entity->$property, $locale);
 					}
 				}
 			}
