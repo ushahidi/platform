@@ -1,0 +1,19 @@
+version: "2"
+services:
+  mysql:
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ushahidi
+      MYSQL_USER: ushahidi
+      MYSQL_PASSWORD: ushahidi
+  platform:
+    build: .
+    environment:
+      DB_NAME: ushahidi
+      DB_HOST: mysql
+      DB_USER: ushahidi
+      DB_PASS: ushahidi
+    command: supervisord --nodaemon
+    ports:
+      - "80:80"
