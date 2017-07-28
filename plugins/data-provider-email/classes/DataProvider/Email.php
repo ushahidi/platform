@@ -169,12 +169,12 @@ class DataProvider_Email extends DataProvider {
 					// Process the email
 					if (! empty($html_message)) {
 						$html_message = imap_qprint($html_message);
-						$this->_process_incoming($email, $html_message);
+						$this->_process_incoming($email, $html_message, $options);
 					}
 					elseif (! empty($message))
 					{
 						$message = imap_qprint($message);
-						$this->_process_incoming($email, $message);
+						$this->_process_incoming($email, $message, $options);
 					}
 
 					$count++;
@@ -214,7 +214,7 @@ class DataProvider_Email extends DataProvider {
 	 * @param object $overview
 	 * @param string message - the email message
 	 */
-	protected function _process_incoming($overview, $message)
+	protected function _process_incoming($overview, $message, $options)
 	{
 		$from = $this->_get_email($overview->from);
 		$to = isset($overview->to) ? $this->_get_email($overview->to) : $this->from();
@@ -228,8 +228,14 @@ class DataProvider_Email extends DataProvider {
 		$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
 		if ($message)
 		{
+			// Check if a form id is already associated with this data provider
+			$additional_data = [];
+			if (isset($options['form_id'])) {
+				$additional_data['form_id'] = $options['form_id'];
+				$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
+			}
 			// Save the message
-			$this->receive(Message_Type::EMAIL, $from, $message, $to, $title, $data_provider_message_id);
+			$this->receive(Message_Type::EMAIL, $from, $message, $to, $title, $date = NULL, $data_provider_message_id, $additional_data);
 		}
 
 		return;

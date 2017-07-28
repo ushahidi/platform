@@ -125,6 +125,7 @@ trait StatefulData
 	 */
 	public function setState(array $data)
 	{
+
 		// Allow for data to be filled in by deriving from other values.
 		foreach ($this->getDerived() as $key => $possible) {
 			if (!array_key_exists($key, $data)) {
@@ -183,14 +184,42 @@ trait StatefulData
 				continue;
 			}
 
-			if ($this->$key !== $value) {
+			if (is_array($value)){
+				$current_key = is_array($this->$key) ? $this->$key : [];
+
+				// Check for multi level recursion
+				$diff = array_merge(
+					$this->arrayRecursiveDiff($value, $current_key),
+					$this->arrayRecursiveDiff($current_key, $value)
+				);
+				// If arrays differ, *or* if this is the first time
+				// we're setting this key
+				if (!empty($diff) || !isset($this->$key)) {
+					// This is considered as a full update
+					// in the Repository update the array field will be overwritten
+					// with the new data
+					$this->setStateValue($key, $value);
+					// Track changes for changed array keys
+					$changed[$key] = array_keys($diff);
+				}
+			// Compare DateTime Objects
+			} else if ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
+				$current_key = $this->$key;
+				$interval = $value->diff($current_key);
+
+				if ($interval->format('F') > 0) {
+					// Update the value...
+					$this->setStateValue($key, $value);
+					// ... and track the change.
+					$changed[$key] = $key;
+				}
+			} else if ($this->$key !== $value) {
 				// Update the value...
 				$this->setStateValue($key, $value);
 				// ... and track the change.
 				$changed[$key] = $key;
 			}
 		}
-
 		return $this;
 	}
 
@@ -210,11 +239,22 @@ trait StatefulData
 	 * Check if a property has been changed.
 	 *
 	 * @param  String $key
+	 * @param  String $array_key the sub key we want to check, presently we
+	 *         only go one level deep within nested arrays
 	 * @return Boolean
 	 */
-	public function hasChanged($key)
+	public function hasChanged($key, $array_key=null)
 	{
-		return !empty(static::$changed[$this->getObjectId()][$key]);
+		// Check if key exists in changed array
+		$result = !empty(static::$changed[$this->getObjectId()][$key]);
+
+		// If value to be checked is an array
+		if ($result) {
+			if (is_array(static::$changed[$this->getObjectId()][$key]) && $array_key) {
+				return in_array($array_key, static::$changed[$this->getObjectId()][$key]);
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -224,6 +264,7 @@ trait StatefulData
 	 */
 	public function getChanged()
 	{
+		// Array comparison
 		return array_intersect_key($this->asArray(), static::$changed[$this->getObjectId()]);
 	}
 

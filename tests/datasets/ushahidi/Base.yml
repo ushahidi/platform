@@ -1,3 +1,7 @@
+apikeys:
+  -
+    id: 2
+    api_key: "thisisatestapikeystring"
 roles:
   -
     name: "user"
@@ -1309,6 +1313,10 @@ oauth_scopes:
     id: 20
     scope: webhooks
     name: webhooks
+  -
+    id: 21
+    scope: apikeys
+    name: apikeys
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1465,6 +1473,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 19
+  -
+    session_access_token_id: 4
+    scope_id: 21
   -
     session_access_token_id: 4
     scope_id: 20
@@ -1913,6 +1924,7 @@ webhooks:
   -
     id: 2
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1921,6 +1933,7 @@ webhooks:
   -
     id: 3
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1929,6 +1942,7 @@ webhooks:
   -
     id: 4
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1937,6 +1951,7 @@ webhooks:
   -
     id: 5
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"

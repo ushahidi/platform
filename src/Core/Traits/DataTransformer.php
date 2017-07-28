@@ -122,6 +122,8 @@ trait DataTransformer
 		// If this is already a DateTime object clone it
 		if ($value instanceof \DateTimeInterface) {
 			$value = clone $value;
+		} elseif (is_array($value)) {
+			$value = new \DateTime($value['date'], new \DateTimeZone($value['timezone']));
 		} else {
 			// Convert post_date to DateTime
 			$value = date_create($value, new \DateTimeZone('UTC'));
