@@ -312,7 +312,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [
 
 // Add custom create usecase for terms of service
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['tos'] = [
-	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Tos\CreateTos'),
 	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\SearchTos'),
 
 ];
