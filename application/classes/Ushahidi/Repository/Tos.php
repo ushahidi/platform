@@ -33,12 +33,11 @@ class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
     // CreateRepository
     public function create(Entity $entity)
     {
-        //get the user ID
+        // Get the user ID
         $user = service('session.user');
         $user_id = $user->id;
 
-        //save the agreement date to the current time 
-        //and the user ID
+        // Save the agreement date to the current time and the user ID
         $state = [
             'agreement_date'  => time(),
             'user_id'         => $user_id,
