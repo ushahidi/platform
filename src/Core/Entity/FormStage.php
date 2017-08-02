@@ -46,4 +46,9 @@ class FormStage extends StaticEntity
 	{
 		return 'form_stages';
 	}
+
+	public function getTranslatable()
+	{
+		return ['label', 'description'];
+	}
 }

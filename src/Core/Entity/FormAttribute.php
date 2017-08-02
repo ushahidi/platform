@@ -65,4 +65,9 @@ class FormAttribute extends StaticEntity
 	{
 		return 'form_attributes';
 	}
+
+	public function getTranslatable()
+	{
+		return ['label', 'instructions'];
+	}
 }

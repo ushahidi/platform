@@ -68,4 +68,9 @@ class Form extends StaticEntity
 		// Hack: Add computed properties to immutable list
 		return array_merge(parent::getImmutable(), ['tags', 'can_create']);
 	}
+
+	public function getTranslatable()
+	{
+		return ['name', 'description'];
+	}
 }
