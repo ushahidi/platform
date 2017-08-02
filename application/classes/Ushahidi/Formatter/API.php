@@ -66,8 +66,7 @@ class Ushahidi_Formatter_API implements Formatter
 		}
 
 		$data = $this->add_metadata($data, $entity);
-
-		$data['translations'] = $this->getEntityTranslations($entity);
+		$data = $this->add_translations($data, $entity);
 
 		return $data;
 	}
@@ -116,5 +115,11 @@ class Ushahidi_Formatter_API implements Formatter
 			'id'  => intval($id),
 			'url' => URL::site(Ushahidi_Rest::url($resource, $id), Request::current()),
 		];
+	}
+
+	protected function add_translations(Array $data, Entity $entity)
+	{
+		$data['translations'] = $this->getEntityTranslations($entity);
+		return $data;
 	}
 }

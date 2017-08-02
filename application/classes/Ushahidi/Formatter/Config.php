@@ -10,6 +10,7 @@
  */
 
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Entity;
 
 class Ushahidi_Formatter_Config extends Ushahidi_Formatter_API
 {
@@ -42,5 +43,11 @@ class Ushahidi_Formatter_Config extends Ushahidi_Formatter_API
 		}
 
 		return $val;
+	}
+
+	protected function add_translations(Array $data, Entity $entity)
+	{
+		// noop
+		return $data;
 	}
 }

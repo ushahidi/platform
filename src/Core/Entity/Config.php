@@ -32,4 +32,10 @@ class Config extends DynamicEntity
 	{
 		return array_merge(parent::getImmutable(), ['allowed_privileges']);
 	}
+
+	// Nowhere yet!
+	public function getTranslatable()
+	{
+		return [/*'name', 'description'*/];
+	}
 }
