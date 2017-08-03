@@ -66,6 +66,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		$user = $this->getUser();
 		if (!$this->canUserEditForm($form_id, $user)) {
 			$query->where('show_when_published', '=', "1");
+			$query->where('task_is_internal_only', '=', "0");
 		}
 
 		return $query;
@@ -164,6 +165,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 					->from('form_stages')
 
 					->where('form_id', '=', $form_id)
+					->where('task_is_internal_only', '=', 1)
 					->where('show_when_published', '=', 0);
 
 			$results = $query->execute($this->db)->as_array();
