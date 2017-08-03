@@ -119,42 +119,49 @@ form_stages:
     id: 1
     form_id: 1
     label: "Main"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "post"
   -
     id: 2
     form_id: 1
     label: "2nd step"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "task"
   -
     id: 3
     form_id: 1
     label: "3rd step"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "task"
   -
     id: 4
     form_id: 2
     label: "Main"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "post"
   -
     id: 5
     form_id: 3
     label: "Post"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "post"
   -
     id: 6
     form_id: 4
     label: "restricted"
+    task_is_internal_only: 0
     show_when_published: 0
     type: "task"
   -
     id: 7
     form_id: 4
     label: "Post"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "post"
 form_attributes:
