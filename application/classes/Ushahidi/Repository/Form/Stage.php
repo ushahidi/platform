@@ -59,14 +59,19 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	}
 
 	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(Array $where = [], $form_id = null)
+	protected function selectQuery(Array $where = [], $form_id = null, $post_status = null)
 	{
 		$query = parent::selectQuery($where);
 
 		$user = $this->getUser();
 		if (!$this->canUserEditForm($form_id, $user)) {
+
 			$query->where('show_when_published', '=', "1");
-			$query->where('task_is_internal_only', '=', "0");
+
+			if ($post_status !== 'published')
+			{
+				$query->where('task_is_internal_only', '=', "0");
+			}
 		}
 
 		return $query;
@@ -82,7 +87,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['form_id', 'label'];
+		return ['form_id', 'label', 'postStatus'];
 	}
 
 	// Override SearchRepository
@@ -93,7 +98,9 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 			$form_id = $search->form_id;
 		}
 
-		$this->search_query = $this->selectQuery([], $form_id);
+		$post_status = $search->postStatus ? $search->postStatus : '';
+
+		$this->search_query = $this->selectQuery([], $form_id, $post_status);
 
 		$sorting = $search->getSorting();
 
@@ -155,19 +162,26 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		* Retrieve Hidden Stage IDs for a given form
 		* if no form is found return false
 		* @param  $form_id
+		* @param $post_status
 		* @return Array
 		*/
-	public function getHiddenStageIds($form_id)
+	public function getHiddenStageIds($form_id, $post_status)
 	{
 			$stages = [];
 
 			$query = DB::select('id')
 					->from('form_stages')
-					->where('form_id', '=', $form_id)
-					->and_where_open()
+					->where('form_id', '=', $form_id);
+
+			if ($post_status === 'published')
+			{
+				$query->where('show_when_published', '=', 0);
+			} else {
+				$query->and_where_open()
 					->where('show_when_published', '=', 0)
 					->or_where('task_is_internal_only', '=', 1)
 					->and_where_close();
+			}
 
 			$results = $query->execute($this->db)->as_array();
 
