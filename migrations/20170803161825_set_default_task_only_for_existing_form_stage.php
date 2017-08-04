@@ -30,4 +30,3 @@ class SetDefaultTaskOnlyForExistingFormStage extends AbstractMigration
         }
     }
 }
-
