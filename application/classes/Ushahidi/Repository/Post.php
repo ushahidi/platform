@@ -118,7 +118,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				$this->restricted = false;
 			}
 			// Get Hidden Stage Ids to be excluded from results
-			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
+			$status = $data['status'] ? $data['status'] : '';
+			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id'], $status);
 
 		}
 
