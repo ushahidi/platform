@@ -311,6 +311,7 @@ abstract class Ushahidi_Core {
 			'savedsearches'        => $di->lazyNew('Ushahidi_Formatter_Set'),
 			'sets'                 => $di->lazyNew('Ushahidi_Formatter_Set'),
 			'sets_posts'           => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'posts_lock'           => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
@@ -367,6 +368,10 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
 		$di->set('formatter.entity.post.stats', $di->lazyNew('Ushahidi_Formatter_Post_Stats'));
 		$di->set('formatter.entity.post.csv', $di->lazyNew('Ushahidi_Formatter_Post_CSV'));
+
+		$di->set('formatter.entity.post.check.lock', $di->lazyNew('Ushahidi_Formatter_Post_CheckLock'));
+		$di->set('formatter.entity.post.get.lock', $di->lazyNew('Ushahidi_Formatter_Post_GetLock'));
+		$di->set('formatter.entity.post.break.lock', $di->lazyNew('Ushahidi_Formatter_Post_BreakLock'));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));

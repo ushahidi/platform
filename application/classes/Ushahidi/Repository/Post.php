@@ -15,6 +15,7 @@ use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\PostLocks;
 use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostSearchData;
@@ -133,7 +134,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
-		//Check if author information should be returned
+		// Check if author information should be returned
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
 		{
 
@@ -856,6 +857,67 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			]) === 0;
 	}
 
+	public function getLock(Entity $entity)
+	{
+		if(!$this->checkLock($entity))
+		{
+			$expires = strtotime("+2 hours");
+			$user = $this->getUser();
+
+			$lock = [
+				'user_id' => $user->id,
+				'post_id' => $entity->id,
+				'expires' => $expires
+			];
+
+			$query = DB::insert('post_locks')
+				->columns(array_keys($lock))
+				->values(array_values($lock));
+
+			list($id) = $query->execute($this->db);
+
+			return $id;
+		}
+
+		return null;
+	}
+
+	public function releaseLock(Entity $entity)
+	{
+		$query = DB::delete('post_locks')
+			->where('post_id', '=', $entity->id);
+
+		return $query->execute();
+	}
+
+
+	public function checkLock(Entity $entity)
+	{
+		$result = DB::select('expires')
+			->from('post_locks')
+			->where('post_id', '=', $entity->id)
+			->limit(1)
+			->execute($this->db);
+
+		if ($result->get('expires'))
+		{
+			$time = $result->get('expires');
+			$curtime = time();
+
+			// Check if the lock has expired
+			// Locks are active for a maximum of 2 hours
+			if(($curtime - $time) > 7200)
+			{
+				$release = $this->releaseLock($entity);
+				return false;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	// UpdateRepository
 	public function create(Entity $entity)
 	{
@@ -935,11 +997,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
 		// Uchaguzi Basic Change tracking
+		$user = $this->getUser();
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Id: " . print_r($user->id, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Email: " . print_r($user->realname, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Email: " . print_r($user->email, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Id: " . print_r($post['id'], true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Title: " . print_r($post['title'], true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Id: " . print_r($entity->id, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Title: " . print_r($entity->title, true));
 
 		$values = $entity->values;
 		// Handle legacy post.tags attribute
@@ -964,6 +1027,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			// Update post-stages
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
+		}
+
+		if ($this->checkLock($entity)) {
+			$this->releaseLock($entity);
 		}
 
 		return $count;
@@ -1048,11 +1115,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	public function delete(Entity $entity)
 	{
 		// Uchaguzi Basic Change tracking
+		$user = $this->getUser();
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Id: " . print_r($user->id, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Email: " . print_r($user->realname, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Email: " . print_r($user->email, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Id: " . print_r($post['id'], true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Title: " . print_r($post['title'], true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Id: " . print_r($entity->id, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Title: " . print_r($entity->title, true));
 
 		parent::delete($entity);
 	}
