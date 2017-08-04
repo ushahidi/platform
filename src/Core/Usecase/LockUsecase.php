@@ -123,5 +123,4 @@ class LockUsecase implements Usecase
 		// ... then return it
 		return $entity;
 	}
-
 }

@@ -57,7 +57,7 @@ class PostsLockAuthorizer implements Authorizer
         $user = $this->getUser();
 
         // Only logged in users have access if the deployment is private
-        if (!$this->hasAccess()) {
+        if (!$this->canAccessDeployment($user)) {
             return false;
         }
 
