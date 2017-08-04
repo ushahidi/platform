@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Webhook Entity
+ * Ushahidi Post Locks Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,24 +13,20 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class Webhook extends StaticEntity
+class PostLocks extends StaticEntity
 {
 	protected $id;
 	protected $user_id;
-	protected $url;
-	protected $name;
-	protected $shared_secret;
-	protected $event_type;
-	protected $entity_type;
-	protected $created;
-	protected $updated;
+	protected $post_id;
+	protected $expires;
 
 	// StatefulData
 	protected function getDerived()
 	{
 		// Foreign key alias
 		return [
-			'user_id' => ['user', 'user.id']
+			'user_id' => ['user', 'user.id'],
+            'post_id' => ['post', 'post.id'],
 		];
 	}
 
@@ -39,27 +35,23 @@ class Webhook extends StaticEntity
 	{
 		return [
 			'id'            	=> 'int',
-			'name'				=> 'string',
-			'url'				=> 'string',
-			'shared_secret'		=> 'string',
-			'event_type'		=> 'string',
-			'entity_type'		=> 'string',
 			'user'          	=> false,
 			'user_id'       	=> 'int',
-			'created'       	=> 'int',
-			'updated'       	=> 'int',
+            'post'          	=> false,
+			'post_id'       	=> 'int',
+			'expires'       	=> 'int',
 		];
 	}
 
 	// Entity
 	public function getResource()
 	{
-		return 'webhooks';
+		return 'post_locks';
 	}
 
 	// StatefulData
 	protected function getImmutable()
 	{
-		return array_merge(parent::getImmutable(), ['user_id']);
+		return array_merge(parent::getImmutable(), ['user_id', 'post_id']);
 	}
 }

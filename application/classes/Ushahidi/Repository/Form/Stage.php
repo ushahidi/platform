@@ -163,10 +163,11 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 
 			$query = DB::select('id')
 					->from('form_stages')
-
 					->where('form_id', '=', $form_id)
-					->where('task_is_internal_only', '=', 1)
-					->where('show_when_published', '=', 0);
+					->and_where_open()
+					->where('show_when_published', '=', 0)
+					->or_where('task_is_internal_only', '=', 1)
+					->and_where_close();
 
 			$results = $query->execute($this->db)->as_array();
 
