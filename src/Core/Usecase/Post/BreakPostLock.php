@@ -22,7 +22,7 @@ class BreakPostLock extends LockUsecase
 
         //$this->verifyLockAuth($entity);
 
-        $result = $this->repo->releaseLock($entity);
+        $result = $this->repo->releaseLock($entity->id);
 
         return $this->formatter->__invoke($result);
     }

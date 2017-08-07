@@ -24,7 +24,7 @@ class CheckPostLock extends LockUsecase
 
         //$this->verifyLockAuth($entity);
 
-        $result = $this->repo->checkLock($entity);
+        $result = $this->repo->checkLock($entity->id);
 
         return $this->formatter->__invoke($result);
     }

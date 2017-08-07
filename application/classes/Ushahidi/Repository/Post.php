@@ -126,6 +126,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if (!empty($data['id']))
 		{
 			$data += [
+				'is_locked' => $this->checkLock($data['id']),
 				'values' => $this->getPostValues($data['id']),
 				// Continued for legacy
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
@@ -877,7 +878,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	public function getLock(Entity $entity)
 	{
-		if(!$this->checkLock($entity))
+		if(!$this->checkLock($entity->id))
 		{
 			$expires = strtotime("+2 hours");
 			$user = $this->getUser();
@@ -900,20 +901,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return null;
 	}
 
-	public function releaseLock(Entity $entity)
+	public function releaseLock($entity_id)
 	{
 		$query = DB::delete('post_locks')
-			->where('post_id', '=', $entity->id);
+			->where('post_id', '=', $entity_id);
 
 		return $query->execute();
 	}
 
 
-	public function checkLock(Entity $entity)
+	public function checkLock($entity_id)
 	{
 		$result = DB::select('expires')
 			->from('post_locks')
-			->where('post_id', '=', $entity->id)
+			->where('post_id', '=', $entity_id)
 			->limit(1)
 			->execute($this->db);
 
@@ -926,7 +927,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// Locks are active for a maximum of 2 hours
 			if(($curtime - $time) > 7200)
 			{
-				$release = $this->releaseLock($entity);
+				$release = $this->releaseLock($entity_id);
 				return false;
 			}
 
@@ -1047,8 +1048,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
 
-		if ($this->checkLock($entity)) {
-			$this->releaseLock($entity);
+		if ($this->checkLock($entity->id)) {
+			$this->releaseLock($entity->id);
 		}
 
 		return $count;
