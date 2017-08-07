@@ -169,7 +169,7 @@ class PostAuthorizer implements Authorizer
         }
 
         // If user has Delete Posts, they can delete the post
-        if ($privilege === 'delete' && $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS)) {
+        if ($privilege === 'delete' && $this->acl->hasPermission($user, Permission::DELETE_POSTS)) {
             return true;
         }
 
