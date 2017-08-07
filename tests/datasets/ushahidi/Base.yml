@@ -1125,6 +1125,7 @@ sets:
     name: Admin only collection
     search: 0
     role: '["admin"]'
+    edit_role: '["admin"]'
   -
     id: 4
     name: Test search

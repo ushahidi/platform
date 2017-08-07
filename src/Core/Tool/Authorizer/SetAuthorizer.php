@@ -91,12 +91,6 @@ class SetAuthorizer implements Authorizer
 			return false;
 		}
 
-		// User who are not of the set's designated edit role can not edit
-		if ($this->userHasEditRole($entity, $user) and $privilege === 'update')
-		{
-			return true;
-		}
-
 		// If the user is the owner of this set, they can do anything
 		if ($this->isUserOwner($entity, $user)) {
 			return true;
@@ -104,6 +98,12 @@ class SetAuthorizer implements Authorizer
 
 		// Check if the Set is only visible to specific roles.
 		if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
+			return true;
+		}
+
+		// User who are not of the set's designated edit role can not edit
+		if ($this->userHasEditRole($entity, $user) and $privilege === 'update')
+		{
 			return true;
 		}
 
