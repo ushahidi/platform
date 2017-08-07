@@ -399,6 +399,25 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				;
 		}
 
+
+
+		if ($sources = $search->source)
+		{
+			if (!is_array($sources)) {
+				$sources = explode(',', $sources);
+			}
+
+			// Special case: 'web' looks for null
+			if (in_array('web', $sources)) {
+				$query->and_where_open()
+					->where("messages.type", 'IS', NULL)
+					->or_where("messages.type", 'IN', $sources)
+					->and_where_close();
+			} else {
+				$query->where("messages.type", 'IN', $sources);
+			}
+		}
+
 		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
 		if($search->has_location === 'mapped') {
 			$query->where("$table.id", 'IN',
