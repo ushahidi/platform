@@ -12,6 +12,7 @@
 namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\OwnerAccess;
