@@ -550,7 +550,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			if (!$user->id) {
 				$query->where("$table.status", '=', 'published');
 			} elseif (!$this->isUserAdmin($user) and
-					!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+                      !$this->acl->hasPermission($user, Permission::MANAGE_POSTS) and
+                      !$this->acl->hasPermission($user, Permission::VIEW_ANY_POSTS) {
 				$query
 					->and_where_open()
 					->where("$table.status", '=', 'published')
