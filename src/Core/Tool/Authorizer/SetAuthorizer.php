@@ -61,7 +61,7 @@ class SetAuthorizer implements Authorizer
 		}
 
 		// If no roles are selected, the Set is considered completely public.
-		return true;		
+		return true;
 	}
 
 	/* Authorizer */
@@ -102,8 +102,7 @@ class SetAuthorizer implements Authorizer
 		}
 
 		// User who are not of the set's designated edit role can not edit
-		if ($this->userHasEditRole($entity, $user) and $privilege === 'update')
-		{
+		if ($this->userHasEditRole($entity, $user) and $privilege === 'update') {
 			return true;
 		}
 
