@@ -54,6 +54,16 @@ class SetAuthorizer implements Authorizer
 		return true;
 	}
 
+	protected function userHasEditRole(set $entity, $user)
+	{
+		if ($entity->edit_role) {
+			return in_array($user->role, $entity->edit_role);
+		}
+
+		// If no roles are selected, the Set is considered completely public.
+		return true;		
+	}
+
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
@@ -79,6 +89,12 @@ class SetAuthorizer implements Authorizer
 		// Non-admin users are not allowed to make sets featured
 		if (in_array($privilege, ['create', 'update']) and $entity->hasChanged('featured')) {
 			return false;
+		}
+
+		// User who are not of the set's designated edit role can not edit
+		if ($this->userHasEditRole($entity, $user) and $privilege === 'update')
+		{
+			return true;
 		}
 
 		// If the user is the owner of this set, they can do anything
