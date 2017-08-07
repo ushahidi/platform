@@ -945,7 +945,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['is_locked']);
 
 		// Set default value for post_date
 		if (empty($post['post_date'])) {
@@ -961,7 +961,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Uchaguzi Basic Change tracking
 		$user = $this->getUser();
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Id: " . print_r($user->id, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Email: " . print_r($user->realname, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Name: " . print_r($user->realname, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Email: " . print_r($user->email, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: Post Id: " . print_r($post['id'], true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: Post Title: " . print_r($post['title'], true));
@@ -1006,7 +1006,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['updated'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['is_locked']);
 
 		// Convert post_date to mysql format
 		if(!empty($post['post_date'])) {
@@ -1018,7 +1018,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Uchaguzi Basic Change tracking
 		$user = $this->getUser();
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Id: " . print_r($user->id, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Email: " . print_r($user->realname, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Name: " . print_r($user->realname, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Email: " . print_r($user->email, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Id: " . print_r($entity->id, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Title: " . print_r($entity->title, true));
@@ -1136,7 +1136,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Uchaguzi Basic Change tracking
 		$user = $this->getUser();
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Id: " . print_r($user->id, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Email: " . print_r($user->realname, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Name: " . print_r($user->realname, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Email: " . print_r($user->email, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Id: " . print_r($entity->id, true));
 		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Title: " . print_r($entity->title, true));
