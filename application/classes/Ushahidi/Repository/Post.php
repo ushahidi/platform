@@ -399,12 +399,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				;
 		}
 
-		if ($search->source)
+		if ($sources = $search->source)
 		{
-			if ($search->source === 'web') {
-				$query->where('messages.type', 'IS', null);
+			if (!is_array($sources)) {
+				$sources = explode(',', $sources);
+			}
+
+			// Special case: 'web' looks for null
+			if (in_array('web', $sources)) {
+				$query->and_where_open()
+					->where("messages.type", 'IS', NULL)
+					->or_where("messages.type", 'IN', $sources)
+					->and_where_close();
 			} else {
-				$query->where('messages.type', '=', $search->source);
+				$query->where("messages.type", 'IN', $sources);
 			}
 		}
 
