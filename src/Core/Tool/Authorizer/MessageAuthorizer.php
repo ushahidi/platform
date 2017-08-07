@@ -52,19 +52,12 @@ class MessageAuthorizer implements Authorizer
 			return false;
 		}
 
-		// First check whether there is a role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::MANAGE_MESSAGES)) {
-            return true;
-        }
-
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)
-		/*
 		if ($this->isUserAdmin($user)) {
 			return true;
 		}
-		*/
-		
+
 		if ($privilege === 'receive') {
 			return true;
 		}
