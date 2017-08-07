@@ -266,7 +266,9 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (OAuth2Exception $e)
 		{
-			if (!$this->_is_auth_required() AND $e instanceof MissingAccessTokenException)
+			if (!$this->_is_auth_required() AND (
+				$e instanceof MissingAccessTokenException OR
+				$e instanceof InvalidAccessTokenException))
 			{
 				// A token is not required, so a missing token is not a critical error.
 				return;
@@ -291,7 +293,9 @@ abstract class Ushahidi_Rest extends Controller {
 				}
 			}
 
-			$exception = HTTP_Exception::factory($status, $e->getMessage());
+			$message = "_is_auth_required(): " . $this->_is_auth_required() . ", " . $e->getMessage();
+
+			$exception = HTTP_Exception::factory($status, $message);
 			if ($status === 401)
 			{
 				// Pass through additional WWW-Authenticate headers, but only for

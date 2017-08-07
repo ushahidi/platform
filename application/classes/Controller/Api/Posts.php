@@ -29,6 +29,17 @@ class Controller_Api_Posts extends Ushahidi_Rest {
 		return 'posts';
 	}
 
+	protected function _is_auth_required()
+	{
+		if (parent::_is_auth_required())
+		{
+			// Completely anonymous access is allowed for (some) GET requests.
+			// Further checks are made down the stack.
+			return ($this->request->method() !== Request::GET);
+		}
+		return FALSE;
+	}
+
 	protected $_boundingbox = FALSE;
 
 	// Ushahidi_Rest

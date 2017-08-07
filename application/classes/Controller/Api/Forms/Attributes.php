@@ -20,6 +20,17 @@ class Controller_API_Forms_Attributes extends Ushahidi_Rest {
 		return 'form_attributes';
 	}
 
+	protected function _is_auth_required()
+	{
+		if (parent::_is_auth_required())
+		{
+			// Completely anonymous access is allowed for (some) GET requests.
+			// Further checks are made down the stack.
+			return ($this->request->method() !== Request::GET);
+		}
+		return FALSE;
+	}
+
 	// Ushahidi_Rest
 	public function action_get_index_collection()
 	{
