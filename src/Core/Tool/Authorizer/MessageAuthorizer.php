@@ -18,6 +18,7 @@ use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `MessageAuthorizer` class is responsible for access checks on `Message`
 class MessageAuthorizer implements Authorizer
@@ -35,6 +36,10 @@ class MessageAuthorizer implements Authorizer
 
 	// It uses `PrivateDeployment` to check whether a deployment is private
 	use PrivateDeployment;
+
+	// Check that the user has the necessary permissions
+    // if roles are available for this deployment.
+    use AclTrait;
 
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
