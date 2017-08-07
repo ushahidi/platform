@@ -220,7 +220,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'date_before', 'date_after',
 			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
-			'published_to',
+			'published_to', 'source',
 			'include_types', 'include_attributes', // Specify values to include
 			'include_unmapped',
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
@@ -397,6 +397,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$query
 				->where("$table.published_to", 'LIKE', "%'$search->published_to'%")
 				;
+		}
+
+		if ($search->source)
+		{
+			if ($search->source === 'web') {
+				$query->where('messages.type', 'IS', null);
+			} else {
+				$query->where('messages.type', '=', $search->source);
+			}
 		}
 
 		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
