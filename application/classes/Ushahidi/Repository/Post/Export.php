@@ -11,6 +11,9 @@
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostRepository;
 
+use Geocoder\Query\GeocodeQuery;
+use Geocoder\Query\ReverseQuery;
+
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 {
 
@@ -23,9 +26,15 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
       $attribute = $this->form_attribute_repo->getByKey($key);
       $attributes[$key] = $attribute->label;
 
-      // Set attribute names
+      // Set tags names
       if ($attribute->type === 'tags') {
         $data['values'][$key] = $this->retrieveTagNames($val);
+      }
+
+
+      // Reverse geocode lat, lon
+      if ($attribute->type === 'point') {
+        $data['values'][$key][0]['address'] = $this->getLocation($val);
       }
     }
 
@@ -51,8 +60,30 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
       $data['tags'] = $this->retrieveTagNames($data['tags']);
     }
     
+    Kohana::$log->add(Log::ERROR, print_r($data,true));
     return $data;
 
+  }
+
+  public function getLocation($location) {
+    $address = '';
+
+    // This should all be injected
+    $adapter = new \Ivory\HttpAdapter\CurlHttpAdapter();
+    $formatter = new \Geocoder\Formatter\StringFormatter();
+    $geocoder = new \Geocoder\Provider\GoogleMaps(
+      $adapter,
+      '',
+      '',
+      true,
+      'AIzaSyD17TYfvP8wiB2_95plTApzIOkWgQdjeM4'
+      );
+    $address = $geocoder->reverse($location[0]['lat'], $location[0]['lon'])->first();
+
+
+    $address = $formatter->format($address, '%S %n, %z %L %C');
+
+    return $address;
   }
 
   public function retrieveTagNames($tag_ids) {
