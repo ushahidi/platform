@@ -53,7 +53,7 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 	// Ushahidi_JsonTranscodeRepository
 	protected function getJsonProperties()
 	{
-		return ['filter', 'view_options', 'role'];
+		return ['filter', 'view_options', 'role', 'edit_role'];
 	}
 
 	/**

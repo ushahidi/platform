@@ -23,9 +23,11 @@ class Set extends StaticEntity
 	protected $view;
 	protected $view_options;
 	protected $role;
+	protected $edit_role;
 	protected $featured;
 	protected $created;
 	protected $updated;
+	
 
 	// DataTransformer
 	protected function getDefinition()
@@ -39,6 +41,7 @@ class Set extends StaticEntity
 			'view'         => 'string',
 			'view_options' => '*json',
 			'role'   => '*json',
+			'edit_role' => '*json',
 			'featured'     => 'boolean',
 			'created'      => 'int',
 			'updated'      => 'int',

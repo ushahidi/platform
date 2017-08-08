@@ -189,7 +189,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 		$user = $this->getUser();
 		// Do we have permission to publish this post?
-		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->acl->hasPermission($user, Permission::MANAGE_POSTS));
+		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->acl->hasPermission($user, Permission::MANAGE_POSTS) or $this->acl->hasPermission($user, Permission::PUBLISH_POSTS));
 		// .. if yes, any status is ok.
 		if ($userCanChangeStatus) {
 			return;
@@ -227,6 +227,8 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 	public function checkValues(Validation $validation, $attributes, $fullData)
 	{
+
+		$attributes = !empty($fullData['values']) ? $fullData['values'] : [];
 		if (!$attributes)
 		{
 			return;
@@ -280,6 +282,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 */
 	public function checkStageInForm(Validation $validation, $completed_stages, $fullData)
 	{
+		$completed_stages = !empty($fullData['completed_stages']) ? $fullData['completed_stages'] : [];
 		if (!$completed_stages)
 		{
 			return;
@@ -305,7 +308,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 */
 	public function checkRequiredStages(Validation $validation, $completed_stages, $fullData)
 	{
-		$completed_stages = $completed_stages ? $completed_stages : [];
+		$completed_stages = !empty($fullData['completed_stages']) ? $fullData['completed_stages'] : [];
 
 		// If post is being published
 		if ($fullData['status'] === 'published')

@@ -54,6 +54,16 @@ class SetAuthorizer implements Authorizer
 		return true;
 	}
 
+	protected function userHasEditRole(set $entity, $user)
+	{
+		if ($entity->edit_role) {
+			return in_array($user->role, $entity->edit_role);
+		}
+
+		// If no roles are selected, the Set is considered completely public.
+		return true;
+	}
+
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
@@ -88,6 +98,11 @@ class SetAuthorizer implements Authorizer
 
 		// Check if the Set is only visible to specific roles.
 		if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
+			return true;
+		}
+
+		// User who are not of the set's designated edit role can not edit
+		if ($this->userHasEditRole($entity, $user) and $privilege === 'update') {
 			return true;
 		}
 
