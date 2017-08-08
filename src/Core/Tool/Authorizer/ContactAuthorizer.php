@@ -12,12 +12,14 @@
 namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 class ContactAuthorizer implements Authorizer
 {
@@ -35,6 +37,10 @@ class ContactAuthorizer implements Authorizer
 	// It uses `PrivateDeployment` to check whether a deployment is private
 	use PrivateDeployment;
 
+	// Check that the user has the necessary permissions
+    // if roles are available for this deployment.
+    use AclTrait;
+
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
@@ -42,9 +48,14 @@ class ContactAuthorizer implements Authorizer
 		$user = $this->getUser();
 
 		// Only logged in users have access if the deployment is private
-		if (!$this->hasAccess()) {
+		if (!$this->canAccessDeployment($user)) {
 			return false;
 		}
+
+		// First check whether there is a role with the right permissions
+        if ($this->acl->hasPermission($user, Permission::MANAGE_MESSAGES)) {
+            return true;
+        }
 
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)

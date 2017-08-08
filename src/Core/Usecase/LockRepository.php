@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Permissionable interface
+ * Ushahidi Platform Create Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,14 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tool\Permissions;
+namespace Ushahidi\Core\Usecase;
 
-interface Permissionable
+use Ushahidi\Core\Entity;
+
+interface LockRepository extends CreateRepository, UpdateRepository
 {
-	/**
-	 * Get required permission
-	 *
-	 * @return String
-	 */
-	public function getPermission();
+
 }

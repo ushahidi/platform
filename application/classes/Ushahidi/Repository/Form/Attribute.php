@@ -15,7 +15,6 @@ use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\FormRepository;
-use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Traits\UserContext;
 
 use Ramsey\Uuid\Uuid;
@@ -25,8 +24,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	FormAttributeRepository
 {
 	use UserContext;
-
-	use PostValueRestrictions;
 
 	protected $form_stage_repo;
 
@@ -97,7 +94,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		}
 		return $this->executeInsertAttribute($this->removeNullValues($record));
 	}
-	
+
 	// Override SearchRepository
 	public function setSearchParams(SearchData $search)
 	{

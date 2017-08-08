@@ -15,6 +15,10 @@ roles:
     name: "importer"
     display_name: "Importer"
     protected: 0
+  -
+    name: "noedit"
+    display_name: "User cant edit posts"
+    protected: 0
 users:
   -
     id: 1
@@ -58,6 +62,12 @@ users:
     realname: Importer
     email: "importer@ushahidi.com"
     role: "importer"
+  -
+    id: 8
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: CannotEditor
+    email: "cannoteditor@ushahidi.com"
+    role: "noedit"
 forms:
   -
     id: 1
@@ -109,42 +119,49 @@ form_stages:
     id: 1
     form_id: 1
     label: "Main"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "post"
   -
     id: 2
     form_id: 1
     label: "2nd step"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "task"
   -
     id: 3
     form_id: 1
     label: "3rd step"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "task"
   -
     id: 4
     form_id: 2
     label: "Main"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "post"
   -
     id: 5
     form_id: 3
     label: "Post"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "post"
   -
     id: 6
     form_id: 4
     label: "restricted"
+    task_is_internal_only: 0
     show_when_published: 0
     type: "task"
   -
     id: 7
     form_id: 4
     label: "Post"
+    task_is_internal_only: 0
     show_when_published: 1
     type: "post"
 form_attributes:
@@ -826,6 +843,72 @@ posts:
     created: 1412025016
     published_to: '["user"]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 200
+    form_id: 4
+    parent_id:
+    user_id: 8
+    author_email:
+    author_realname:
+    title: "A post"
+    type: "report"
+    content: "A post"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1690
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1691
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1692
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+post_locks:
+  -
+    id: 1
+    post_id: 1692
+    expires: 1412007022
+    user_id: 1 
 post_datetime:
 post_decimal:
 post_geometry:
@@ -1042,6 +1125,7 @@ sets:
     name: Admin only collection
     search: 0
     role: '["admin"]'
+    edit_role: '["admin"]'
   -
     id: 4
     name: Test search
@@ -1141,6 +1225,11 @@ oauth_sessions:
     client_id: "demoapp"
     owner_type: "user"
     owner_id: 7
+  -
+    id: 7
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 8
 
 oauth_session_redirects:
   -
@@ -1191,6 +1280,11 @@ oauth_session_access_tokens:
     id: 8
     session_id: 6
     access_token: "testimporter"
+    access_token_expires: 1893477600
+  -
+    id: 9
+    session_id: 7
+    access_token: "testnoedit"
     access_token_expires: 1893477600
 
 oauth_scopes:
@@ -1604,6 +1698,13 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 8
     scope_id: 18
+# testnoedit scopes
+  -
+    session_access_token_id: 9
+    scope_id: 2
+  -
+    session_access_token_id: 9
+    scope_id: 1
 
 # include other oauth tables to ensure a blank slate for test runs
 oauth_session_refresh_tokens:
@@ -1639,6 +1740,17 @@ media:
     caption: "ihub"
     mime: "image/jpeg"
     o_filename: "9ze_1381815819_o.jpg"
+    o_width: 400
+    o_height: 500
+    o_size: 1024
+    created: 1381815821
+    updated: 1381815819
+  -
+    id: 4
+    user_id: 1
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "some junk name.jpg"
     o_width: 400
     o_height: 500
     o_size: 1024
@@ -1685,6 +1797,10 @@ config:
     group_name: test
     config_key: testkey
     config_value: '"testval"'
+  -
+    group_name: features
+    config_key: roles
+    config_value: '{"enabled":true}'
 contacts:
   -
     id: 1
@@ -1899,3 +2015,12 @@ roles_permissions:
   -
     role: importer
     permission: Bulk Data Import
+  -
+    role: user
+    permission: Edit their own posts
+  -
+    role: manager
+    permission: Edit their own posts
+  -
+    role: importer
+    permission: Edit their own posts

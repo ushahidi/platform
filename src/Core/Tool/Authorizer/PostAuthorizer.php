@@ -17,20 +17,18 @@ use Ushahidi\Core\Entity\Form;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Permissions\Acl;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\Permissions\ManagePosts;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `PostAuthorizer` class is responsible for access checks on `Post` Entities
-class PostAuthorizer implements Authorizer, Permissionable
+class PostAuthorizer implements Authorizer
 {
     // The access checks are run under the context of a specific user
     use UserContext;
@@ -49,10 +47,7 @@ class PostAuthorizer implements Authorizer, Permissionable
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use PermissionAccess;
-
-    // Provides `getPermission`
-    use ManagePosts;
+    use AclTrait;
 
     /**
      * Get a list of all possible privilges.
@@ -87,12 +82,12 @@ class PostAuthorizer implements Authorizer, Permissionable
         $user = $this->getUser();
 
         // Only logged in users have access if the deployment is private
-        if (!$this->hasAccess()) {
+        if (!$this->canAccessDeployment($user)) {
             return false;
         }
 
         // First check whether there is a role with the right permissions
-        if ($this->hasPermission($user)) {
+        if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
             return true;
         }
 
@@ -119,7 +114,7 @@ class PostAuthorizer implements Authorizer, Permissionable
         }
 
         // Non-admin users are not allowed to create posts for forms that have restricted access.
-        if (in_array($privilege, ['create', 'update'])
+        if ($privilege === 'create'
             && $this->isFormRestricted($entity, $user)
             ) {
             return false;
@@ -135,16 +130,52 @@ class PostAuthorizer implements Authorizer, Permissionable
             return true;
         }
 
+        // If the user has View Any Posts permission, they can read it
+        if ($privilege === 'read' && $this->acl->hasPermission($user, Permission::VIEW_ANY_POSTS)) {
+            return true;
+        }
+
         // If entity isn't loaded (ie. pre-flight check) then *anyone* can view it.
         if ($privilege === 'read' && ! $entity->getId()) {
             return true;
         }
 
-        // We check if the user is the owner of this post. If so, they are allowed
-        // to do almost anything, **except** change ownership and status of the post, which
-        // only admins can do.
-        if ($this->isUserOwner($entity, $user) && !$entity->hasChanged('user_id')
-            && $privilege !== 'change_status') {
+        // Only admins or users with 'Manage Posts' or 'Publish Posts' permission can change status
+        if ($privilege === 'change_status') {
+            if ($this->acl->hasPermission($user, Permission::PUBLISH_POSTS)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // Only admins or users with 'Manage Posts' permission can change the ownership of a post
+        if ($entity->hasChanged('user_id')) {
+            return false;
+        }
+
+        // If the user is the owner of this post & they have edit own posts permission
+        // they are allowed to edit or delete the post. They can't change the post status or
+        // ownership but those are already checked above
+        if ($this->isUserOwner($entity, $user)
+            && in_array($privilege, ['update', 'delete'])
+            && $this->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
+            return true;
+        }
+
+        // If user has Edit Any Posts, they can update the post
+        if ($privilege === 'update' && $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS)) {
+            return true;
+        }
+
+        // If user has Delete Posts, they can delete the post
+        if ($privilege === 'delete' && $this->acl->hasPermission($user, Permission::DELETE_POSTS)) {
+            return true;
+        }
+
+        // If the user is the owner of this post they can always view the post
+        if ($this->isUserOwner($entity, $user)
+            && in_array($privilege, ['read'])) {
             return true;
         }
 

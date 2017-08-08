@@ -74,8 +74,8 @@ abstract class Ushahidi_Core {
 		});
 
 		// Intercom config settings
-		$di->set('site.intercomAppToken', function() use ($di) {
-			return Kohana::$config->load('site.intercomAppToken');
+		$di->set('thirdparty.intercomAppToken', function() use ($di) {
+			return getenv('INTERCOM_APP_TOKEN');
 		});
 
 		// Roles config settings
@@ -164,6 +164,7 @@ abstract class Ushahidi_Core {
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\RefreshToken'));
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\Password'));
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\ClientCredentials'));
+			$server->setAccessTokenTTL(60*60*24); // Increase token TTL to 1 day
 			return $server;
 		});
 		$di->set('oauth.server.resource', $di->lazyNew('League\OAuth2\Server\Resource'));
@@ -311,6 +312,7 @@ abstract class Ushahidi_Core {
 			'savedsearches'        => $di->lazyNew('Ushahidi_Formatter_Set'),
 			'sets'                 => $di->lazyNew('Ushahidi_Formatter_Set'),
 			'sets_posts'           => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'posts_lock'           => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
@@ -367,6 +369,10 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
 		$di->set('formatter.entity.post.stats', $di->lazyNew('Ushahidi_Formatter_Post_Stats'));
 		$di->set('formatter.entity.post.csv', $di->lazyNew('Ushahidi_Formatter_Post_CSV'));
+
+		$di->set('formatter.entity.post.check.lock', $di->lazyNew('Ushahidi_Formatter_Post_CheckLock'));
+		$di->set('formatter.entity.post.get.lock', $di->lazyNew('Ushahidi_Formatter_Post_GetLock'));
+		$di->set('formatter.entity.post.break.lock', $di->lazyNew('Ushahidi_Formatter_Post_BreakLock'));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
@@ -690,18 +696,17 @@ abstract class Ushahidi_Core {
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
 		$di->setter['Ushahidi_Repository_Config']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+			$di->lazyNew('Ushahidi_Listener_IntercomCompanyListener');
 
 		// Add Intercom Listener to Form
 		$di->setter['Ushahidi_Repository_Form']['setEvent'] = 'FormUpdateEvent';
 		$di->setter['Ushahidi_Repository_Form']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+			$di->lazyNew('Ushahidi_Listener_IntercomCompanyListener');
 
 		// Add Intercom Listener to User
 		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
-
+			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
 
 		/**
 		 * 1. Load the plugins

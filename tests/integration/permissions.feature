@@ -7,7 +7,6 @@ Feature: Testing the Permissions API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "4"
         Then the guzzle status code should be 200
 
     Scenario: Admin cannot create new permission
@@ -22,4 +21,4 @@ Feature: Testing the Permissions API
         When I request "/permissions"
         Then the guzzle status code should be 403
 
-     
+

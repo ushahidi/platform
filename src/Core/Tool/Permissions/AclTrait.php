@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Ushahidi Permissions Trait
+ * Ushahidi Acl Trait
  *
- * Implements Permissionable::getPermissions()
+ * Gives objects a method for storing an ACL instance.
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -11,15 +11,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Traits\Permissions;
+namespace Ushahidi\Core\Tool\Permissions;
 
-use Ushahidi\Core\Entity;
-
-trait ManageUsers
+trait AclTrait
 {
-	// Acl Interface
-	public function getPermission()
+	protected $acl;
+
+	public function setAcl(Acl $acl)
 	{
-		return 'Manage Users';
+		$this->acl = $acl;
 	}
 }

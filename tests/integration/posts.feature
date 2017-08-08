@@ -994,8 +994,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "14"
-		And the "total_count" property equals "14"
+		And the "count" property equals "18"
+		And the "total_count" property equals "18"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
@@ -1050,8 +1050,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "3"
-		And the "total_count" property equals "3"
+		And the "count" property equals "6"
+		And the "total_count" property equals "6"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
@@ -1067,6 +1067,30 @@ Feature: Testing the Posts API
 		And the type of the "count" property is "numeric"
 		And the "count" property equals "1"
 		And the "total_count" property equals "1"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Listing All Posts by sms
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			source=sms
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the "results.0.source" property equals "sms"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Listing All Posts from web
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			source=web
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the "results.0.source" property is empty
 		Then the guzzle status code should be 200
 
 	# @todo improve this test to check more response data
@@ -1148,6 +1172,20 @@ Feature: Testing the Posts API
 		And that the request "query string" is:
 			"""
 			values[test_varchar]=special
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "1"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Search All Posts by attribute
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			values[test_varchar][]=special&values[test_varchar][]=things
 			"""
 		When I request "/posts"
 		Then the response is JSON

@@ -39,11 +39,11 @@ class Webhook extends StaticEntity
 	{
 		return [
 			'id'            	=> 'int',
-			'name'					  => 'string',
-			'url'							=> 'string',
+			'name'				=> 'string',
+			'url'				=> 'string',
 			'shared_secret'		=> 'string',
-			'event_type'		  => 'string',
-			'entity_type'		  => 'string',
+			'event_type'		=> 'string',
+			'entity_type'		=> 'string',
 			'user'          	=> false,
 			'user_id'       	=> 'int',
 			'created'       	=> 'int',

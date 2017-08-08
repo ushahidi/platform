@@ -14,19 +14,17 @@ namespace Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Set;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Permissions\Acl;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\Permissions\ManagePosts;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `SetAuthorizer` class is responsible for access checks on `Sets`
-class SetAuthorizer implements Authorizer, Permissionable
+class SetAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -44,15 +42,22 @@ class SetAuthorizer implements Authorizer, Permissionable
 
 	// Check that the user has the necessary permissions
 	// if roles are available for this deployment.
-	use PermissionAccess;
-
-	// Provides `getPermission`
-	use ManagePosts;
+	use AclTrait;
 
 	protected function isVisibleToUser(Set $entity, $user)
 	{
 		if ($entity->role) {
 			return in_array($user->role, $entity->role);
+		}
+
+		// If no roles are selected, the Set is considered completely public.
+		return true;
+	}
+
+	protected function userHasEditRole(set $entity, $user)
+	{
+		if ($entity->edit_role) {
+			return in_array($user->role, $entity->edit_role);
 		}
 
 		// If no roles are selected, the Set is considered completely public.
@@ -66,12 +71,12 @@ class SetAuthorizer implements Authorizer, Permissionable
 		$user = $this->getUser();
 
 		// Only logged in users have access if the deployment is private
-		if (!$this->hasAccess()) {
+		if (!$this->canAccessDeployment($user)) {
 			return false;
 		}
 
 		// First check whether there is a role with the right permissions
-		if ($this->hasPermission($user)) {
+		if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
 			return true;
 		}
 
@@ -93,6 +98,11 @@ class SetAuthorizer implements Authorizer, Permissionable
 
 		// Check if the Set is only visible to specific roles.
 		if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
+			return true;
+		}
+
+		// User who are not of the set's designated edit role can not edit
+		if ($this->userHasEditRole($entity, $user) and $privilege === 'update') {
 			return true;
 		}
 

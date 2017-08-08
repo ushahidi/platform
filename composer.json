@@ -103,7 +103,7 @@
             "behat --strict --profile ci"
         ],
         "migrate" : [
-            "bin/phinx migrate -c application/phinx.php"
+            "phinx migrate -c application/phinx.php"
         ],
         "pre-test" : [
             "@migrate"
