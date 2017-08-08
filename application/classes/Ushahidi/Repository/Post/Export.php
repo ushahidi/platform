@@ -76,7 +76,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
       '',
       '',
       true,
-      'AIzaSyD17TYfvP8wiB2_95plTApzIOkWgQdjeM4'
+      '<real_key>'
       );
     $address = $geocoder->reverse($location[0]['lat'], $location[0]['lon'])->first();
 
