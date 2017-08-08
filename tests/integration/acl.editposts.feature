@@ -67,7 +67,6 @@ Feature: Access Control when modifying posts
     @rolesEnabled
     Scenario: Anonymous users can not edit posts
         Given that I want to update a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "110"
         And that the request "data" is:
         """
