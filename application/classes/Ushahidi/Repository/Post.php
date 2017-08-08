@@ -863,7 +863,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	{
 		if(!$this->checkLock($entity->id))
 		{
-			$expires = strtotime("+2 hours");
+			$expires = strtotime("+10 minutes");
 			$user = $this->getUser();
 
 			$lock = [
@@ -892,6 +892,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $query->execute();
 	}
 
+	public function releaseLockByLockId($lock_id)
+	{
+		$query = DB::delete('post_locks')
+			->where('id', '=', $lock_id);
+
+		return $query->execute();
+	}
 
 	public function checkLock($entity_id)
 	{
@@ -907,8 +914,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$curtime = time();
 
 			// Check if the lock has expired
-			// Locks are active for a maximum of 2 hours
-			if(($curtime - $time) > 7200)
+			// Locks are active for a maximum of 10 minutes
+			if(($curtime - $time) > 600)
 			{
 				$release = $this->releaseLock($entity_id);
 				return false;
