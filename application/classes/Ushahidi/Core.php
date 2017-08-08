@@ -164,6 +164,7 @@ abstract class Ushahidi_Core {
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\RefreshToken'));
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\Password'));
 			$server->addGrantType($di->newInstance('League\OAuth2\Server\Grant\ClientCredentials'));
+			$server->setAccessTokenTTL(60*60*24); // Increase token TTL to 1 day
 			return $server;
 		});
 		$di->set('oauth.server.resource', $di->lazyNew('League\OAuth2\Server\Resource'));
