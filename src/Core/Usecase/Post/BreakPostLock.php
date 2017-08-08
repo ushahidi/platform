@@ -18,11 +18,16 @@ class BreakPostLock extends LockUsecase
     // Usecase
 	public function interact()
 	{
-        $entity = $this->getEntity();
-
+        $result = [];
+        if ($this->getIdentifier('lock_id')) {
+            $result = $this->repo->releaseLockByLockId($this->getIdentifier('lock_id'));
+        } else {
+            $entity = $this->getEntity();
+            $result = $this->repo->releaseLock($entity->id);
+        }
         //$this->verifyLockAuth($entity);
 
-        $result = $this->repo->releaseLock($entity->id);
+        
 
         return $this->formatter->__invoke($result);
     }
