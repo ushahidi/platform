@@ -295,9 +295,7 @@ abstract class Ushahidi_Rest extends Controller {
 				}
 			}
 
-			$message = "_is_auth_required(): " . $this->_is_auth_required() . ", " . $e->getMessage();
-
-			$exception = HTTP_Exception::factory($status, $message);
+			$exception = HTTP_Exception::factory($status, $e->getMessage());
 			if ($status === 401)
 			{
 				// Pass through additional WWW-Authenticate headers, but only for
