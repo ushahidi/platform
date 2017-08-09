@@ -46,7 +46,11 @@
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.5@dev",
         "ramsey/uuid": "^3.4.1",
-        "sentry/sentry": "~1.5"
+        "sentry/sentry": "~1.5",
+        "willdurand/geocoder": "^3.2.6",
+        "php-http/guzzle6-adapter": "^1.1.1",
+        "php-http/message": "1.6.0"
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
