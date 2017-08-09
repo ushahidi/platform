@@ -22,15 +22,4 @@ class Controller_Api_Config extends Ushahidi_Rest {
 	{
 		return 'config';
 	}
-
-	protected function _is_auth_required()
-	{
-		if (parent::_is_auth_required())
-		{
-			// Completely anonymous access is allowed for (some) GET requests.
-			// Further checks are made down the stack.
-			return ($this->request->method() !== Request::GET);
-		}
-		return FALSE;
-	}
 }

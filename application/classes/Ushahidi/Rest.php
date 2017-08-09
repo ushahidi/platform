@@ -236,9 +236,11 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	protected function _is_auth_required()
 	{
-		// Auth is not required for the OPTIONS method, because headers are
-		// not present in OPTIONS requests. ;)
-		return ($this->request->method() !== Request::OPTIONS);
+		// Auth is not required for the OPTIONS method, because auth headers are
+		// not present in OPTIONS requests.
+		// We don't require them for GET either, since Authorizer will reject
+		// requests where anonymous users don't have access
+		return (!in_array($this->request->method(), [Request::OPTIONS, Request::GET]));
 	}
 
 	/**
