@@ -255,7 +255,7 @@ Feature: API Access Control Layer
         Given that I want to find a "Post"
         And that its "id" is "111"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous users can view public post
         Given that I want to find a "Post"
@@ -267,13 +267,13 @@ Feature: API Access Control Layer
     Scenario: Anonymous user can not access updates with private parent post
         Given that I want to get all "Updates"
         When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access update with private parent post
         Given that I want to find an "Update"
         And that its "id" is "114"
         When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: User user can access update to their own private parent post
         Given that I want to find an "Update"
@@ -292,24 +292,24 @@ Feature: API Access Control Layer
     Scenario: Anonymous user can not access translations with private parent post
         Given that I want to get all "Translations"
         When I request "/posts/111/translations"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access translation with private parent post
         Given that I want to find a "Translation"
         And that its "id" is "115"
         When I request "/posts/111/translations"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access revisions with private parent post
         Given that I want to get all "Revisions"
         When I request "/posts/111/revisions"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access revision with private parent post
         Given that I want to find a "Revision"
         And that its "id" is "116"
         When I request "/posts/111/revisions"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access private update in listing
         Given that I want to get all "Updates"
@@ -321,10 +321,11 @@ Feature: API Access Control Layer
         Given that I want to find an "Update"
         And that its "id" is "117"
         When I request "/posts/110/updates"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous users cannot edit public post
         Given that I want to update a "Post"
+        And that the request "Authorization" header is "Bearer testanon"
         And that the request "data" is:
             """
             {
@@ -370,7 +371,7 @@ Feature: API Access Control Layer
         Given that I want to find an "Update"
         And that its "id" is "data-provider"
         When I request "/config"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @resetFixture
     Scenario: Listing All Configs as admin
@@ -475,12 +476,13 @@ Feature: API Access Control Layer
         Given that I want to find a "Post"
         And that its "id" is "120"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
         And the response is JSON
 
     @private
     Scenario: Registering as a user when a deployment is private
         Given that I want to make a new "user"
+        And that the request "Authorization" header is "Bearer testanon"
         And that the request "data" is:
         """
         {
@@ -498,7 +500,7 @@ Feature: API Access Control Layer
     Scenario: Anonymous user cannot access public posts when deployment is private
         Given that I want to get all "Posts"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @private
     Scenario: Anonymous users cannot create posts when a deployment is private
@@ -525,7 +527,7 @@ Feature: API Access Control Layer
         Given that I want to find a "Post"
         And that its "id" is "110"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view all posts in collection

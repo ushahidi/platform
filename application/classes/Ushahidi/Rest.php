@@ -449,7 +449,13 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (Ushahidi\Core\Exception\AuthorizerException $e)
 		{
-			throw new HTTP_Exception_403($e->getMessage());
+			// If we don't have an Authorization header, return 401
+			if (!$this->request->headers('Authorization')) {
+				throw HTTP_Exception::factory(401, 'The request is missing an access token in either the Authorization header or the access_token request parameter.')->headers(['www-authenticate' => 'Bearer realm=""']);
+			} else {
+				// Otherwise throw a 403
+				throw new HTTP_Exception_403($e->getMessage());
+			}
 		}
 		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
