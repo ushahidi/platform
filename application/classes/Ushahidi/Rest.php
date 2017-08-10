@@ -268,9 +268,8 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (OAuth2Exception $e)
 		{
-			if (!$this->_is_auth_required() AND (
-				$e instanceof MissingAccessTokenException OR
-				$e instanceof InvalidAccessTokenException))
+			if (!$this->_is_auth_required() AND
+				$e instanceof MissingAccessTokenException)
 			{
 				// A token is not required, so a missing token is not a critical error.
 				return;
