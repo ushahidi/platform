@@ -22,8 +22,7 @@ use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Traits\UserContext;
 
 use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\Permissions\ManagePosts;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
@@ -33,16 +32,13 @@ class StageRepository extends OhanzeeRepository implements
 {
 	use UserContext;
 
+	// Provides `acl`
+	use AclTrait;
+
 	use PostValueRestrictions;
 
 	// Checks if user is Admin
 	use AdminAccess;
-
-	// Provides `hasPermission`
-	use PermissionAccess;
-
-	// Provides `getPermission`
-	use ManagePosts;
 
 	protected $form_id;
 	protected $form_repo;

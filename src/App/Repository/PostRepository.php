@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
 use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository as PostRepositoryContract;
@@ -28,7 +29,7 @@ use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Set\SetPostRepository;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\Permissions\ManagePosts;
-use Ushahidi\Core\Traits\PermissionAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\PostValueRestrictions;
@@ -43,8 +44,7 @@ use Ushahidi\Core\Traits\Event;
 class PostRepository extends OhanzeeRepository implements
 	PostRepositoryContract,
 	UpdatePostRepository,
-	SetPostRepository,
-	Permissionable
+	SetPostRepository
 {
 	use UserContext;
 
@@ -54,11 +54,8 @@ class PostRepository extends OhanzeeRepository implements
 	// Use the JSON transcoder to encode properties
 	use JsonTranscodeRepository;
 
-	// Provides `getPermission`
-	use ManagePosts;
-
-	// Provides `hasPermission`
-	use PermissionAccess;
+	// Provides `acl`
+	use AclTrait;
 
 	// Checks if user is Admin
 	use AdminAccess;
@@ -450,6 +447,10 @@ class PostRepository extends OhanzeeRepository implements
 			foreach ($search->values as $key => $value) {
 				$attribute = $this->form_attribute_repo->getByKey($key);
 
+				if (!is_array($value)) {
+					$value = explode(',', $value);
+				}
+
 				$sub = $this->post_value_factory
 					->getRepo($attribute->type)
 					->getValueQuery($attribute->id, $value);
@@ -467,7 +468,7 @@ class PostRepository extends OhanzeeRepository implements
 		if (!$user->id) {
 			$query->where("$table.status", '=', 'published');
 		} elseif (!$this->isUserAdmin($user) and
-				  !$this->hasPermission($user, $this->getPermission())) {
+				  !$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
 			$query
 				->and_where_open()
 				->where("$table.status", '=', 'published')

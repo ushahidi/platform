@@ -91,10 +91,18 @@ abstract class ValueRepository extends OhanzeeRepository implements
 	}
 
 	// PostValueRepository
-	public function getValueQuery($form_attribute_id, $match)
+	public function getValueQuery($form_attribute_id, array $matches)
 	{
-		return $this->selectQuery(compact('form_attribute_id'))
-			->where('value', 'LIKE', "%$match%");
+		$query = $this->selectQuery(compact('form_attribute_id'))
+			->and_where_open();
+
+		foreach ($matches as $match) {
+			$query->or_where('value', 'LIKE', "%$match%");
+		}
+
+		$query->and_where_close();
+
+		return $query;
 	}
 
 	// PostValueRepository

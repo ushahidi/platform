@@ -1,6 +1,6 @@
-FROM golang:1.5.3
+FROM golang:1.7.6
 
-RUN go get github.com/aktau/github-release
+RUN go get github.com/ushahidi/github-release
 
 COPY docker/release.run.sh /release.run.sh
 

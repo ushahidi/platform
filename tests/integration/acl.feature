@@ -42,6 +42,7 @@ Feature: API Access Control Layer
         And the response does not have a "values.test_field_locking_visible_2" property
         Then the guzzle status code should be 200
 
+    #FIXME
     Scenario: Anonymous user can not see hidden author field of public posts
         Given that I want to find a "Post"
         And that the oauth token is "testanon"
@@ -75,6 +76,7 @@ Feature: API Access Control Layer
         And the response does not have a "values.test_field_locking_hidden_3" property
         Then the guzzle status code should be 200
 
+    #FIXME
     Scenario: User can not see hidden author field of public posts
         Given that I want to find a "Post"
         And that the oauth token is "testanon"
@@ -198,7 +200,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "12"
+        And the "count" property equals "13"
 
     Scenario: All users can view public posts
         Given that I want to get all "Posts"
@@ -207,7 +209,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "14"
+        And the "count" property equals "15"
 
     Scenario: User can view public and own private posts in collection
         Given that I want to get all "Posts"
@@ -216,7 +218,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "15"
+        And the "count" property equals "16"
 
     @resetFixture
     Scenario: Admin can view all posts in collection
@@ -226,7 +228,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "18"
+        And the "count" property equals "19"
 
     Scenario: Admin user can view private posts
         Given that I want to find a "Post"
@@ -254,63 +256,6 @@ Feature: API Access Control Layer
         Then the guzzle status code should be 403
         And the response is JSON
         And the response has an "errors" property
-
-    Scenario: Users can edit their own posts
-        Given that I want to update a "Post"
-        And that its "id" is "110"
-        And that the oauth token is "testbasicuser"
-        And that the request "data" is:
-        """
-        {
-            "form_id": 1,
-            "type": "report",
-            "title": "Test editing own post",
-            "content": "testing post for oauth",
-            "status": "published",
-            "locale": "en_us"
-        }
-        """
-        When I request "/posts"
-        Then the guzzle status code should be 200
-        And the response is JSON
-        And the response has an "id" property
-
-    Scenario: Users trying to update another post by change ownership to themselves should fail
-        Given that I want to update a "Post"
-        And that its "id" is "105"
-        And that the oauth token is "testbasicuser"
-        And that the request "data" is:
-        """
-        {
-            "form_id": 1,
-            "type": "report",
-            "title": "Test hacking post",
-            "content": "testing hacking post",
-            "status": "published",
-            "locale": "en_us",
-            "user_id": 1
-        }
-        """
-        When I request "/posts"
-        Then the guzzle status code should be 403
-        And the response is JSON
-        And the response has an "errors" property
-
-    Scenario: Anonymous users can not edit posts
-        Given that I want to update a "Post"
-        And that the oauth token is "testanon"
-        And that its "id" is "110"
-        And that the request "data" is:
-        """
-        {
-            "form_id": 1,
-            "title": "Test post",
-            "content": "testing post for oauth",
-            "status": "published"
-        }
-        """
-        When I request "/posts"
-        Then the guzzle status code should be 403
 
     Scenario: Anonymous users can not view draft posts
         Given that I want to find a "Post"
@@ -575,7 +520,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "18"
+        And the "count" property equals "19"
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view private posts

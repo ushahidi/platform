@@ -89,13 +89,17 @@ class PHPUnitFixtureContext implements Context
 		$this->setConfig('feature', 'private', '{"enabled":false}');
 	}
 
-	/** @BeforeScenario @rolesEnabled */
+	/**
+	 * @BeforeScenario @rolesEnabled
+	 **/
 	public function enableRoles()
 	{
 		$this->setConfig('feature', 'roles', '{"enabled":true}');
 	}
 
-	/** @AfterScenario @rolesEnabled */
+	/**
+	 * @BeforeScenario @rolesDisabled
+	 **/
 	public function disableRoles()
 	{
 		$this->setConfig('feature', 'private', '{"enabled":false}');

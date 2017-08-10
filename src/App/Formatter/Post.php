@@ -18,6 +18,21 @@ class Post extends API
 {
 	use FormatterAuthorizerMetadata;
 
+	public function __invoke($post)
+	{
+		// prefer doing it here until we implement parent method for filtering results
+		// mixing and matching with metadata is just plain ugly
+		$data = parent::__invoke($post);
+
+		if (!in_array('read_full', $data['allowed_privileges'])) {
+			// Remove sensitive fields
+			unset($data['author_realname']);
+			unset($data['author_email']);
+		}
+
+		return $data;
+	}
+
 	protected function getFieldName($field)
 	{
 		$remap = [

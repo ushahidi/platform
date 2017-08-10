@@ -18,7 +18,6 @@ use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
 use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
@@ -31,8 +30,6 @@ class AttributeRepository extends OhanzeeRepository implements
 	FormAttributeRepositoryContract
 {
 	use UserContext;
-
-	use PostValueRestrictions;
 
 	protected $form_stage_repo;
 

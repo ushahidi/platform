@@ -51,10 +51,18 @@ class TagsRepository extends ValueRepository
 	}
 
 	// PostValueRepository
-	public function getValueQuery($form_attribute_id, $match)
+	public function getValueQuery($form_attribute_id, array $matches)
 	{
-		return $this->selectQuery(compact('form_attribute_id'))
-			->where('tag_id', 'LIKE', "%$match%");
+		$query = $this->selectQuery(compact('form_attribute_id'))
+			->and_where_open();
+
+		foreach ($matches as $match) {
+			$query->or_where('tag_id', 'LIKE', "%$match%");
+		}
+
+		$query->and_where_close();
+
+		return $query;
 	}
 
 	// UpdatePostValueRepository
