@@ -39,12 +39,13 @@ class DataProviderRepository implements
 	 */
 	protected function getAllProviders($enabled = false)
 	{
+		$datasources = app('datasources');
 		if ($enabled) {
 			// Returns all *enabled* providers.
-			return \DataProvider::get_enabled_providers();
+			return $datasources->getEnabledSources();
 		} else {
 			// Returns all providers, even if they are disabled.
-			return \DataProvider::get_providers();
+			return $datasources->getSources();
 		}
 	}
 
