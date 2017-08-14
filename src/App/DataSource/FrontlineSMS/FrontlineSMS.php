@@ -112,4 +112,19 @@ class FrontlineSMS implements DataSource {
 
 		return array(DataSource\Message\Status::FAILED, FALSE);
 	}
+
+	// DataSource
+	public function fetch($limit = false) {
+		return false;
+	}
+
+	// DataSource
+	public function receive($request) {
+		return false;
+	}
+
+	// DataSource
+	public function format($messages) {
+		return false;
+	}
 }

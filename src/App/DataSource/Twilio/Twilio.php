@@ -73,22 +73,22 @@ class Twilio implements DataSource {
 	 *
 	 * @var Services_Twilio
 	 */
-	private $_client;
+	private $client;
 
 	/**
 	 * @return mixed
 	 */
 	public function send($to, $message, $title = "")
 	{
-		if ( ! isset($this->_client))
+		if ( ! isset($this->client))
 		{
-			$this->_client = new Services_Twilio($this->_options['account_sid'], $this->_options['auth_token']);
+			$this->client = new Services_Twilio($this->_options['account_sid'], $this->_options['auth_token']);
 		}
 
 		// Send!
 		try
 		{
-			$message = $this->_client->account->messages->sendMessage($this->config['from'], '+'.$to, $message);
+			$message = $this->client->account->messages->sendMessage($this->config['from'], '+'.$to, $message);
 			return array(DataSource\Message\Status::SENT, $message->sid);
 		}
 		catch (Services_Twilio_RestException $e)
@@ -97,6 +97,21 @@ class Twilio implements DataSource {
 		}
 
 		return array(DataSource\Message\Status::FAILED, FALSE);
+	}
+
+	// DataSource
+	public function fetch($limit = false) {
+		return false;
+	}
+
+	// DataSource
+	public function receive($request) {
+		return false;
+	}
+
+	// DataSource
+	public function format($messages) {
+		return false;
 	}
 
 }

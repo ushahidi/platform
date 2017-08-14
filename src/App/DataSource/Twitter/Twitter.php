@@ -103,7 +103,7 @@ class Twitter implements DataSource {
 		];
 	}
 
-
+	// DataSource
 	public function fetch($limit = FALSE) {
 		$this->initialize();
 
@@ -230,6 +230,7 @@ class Twitter implements DataSource {
 		return $count;
 	}
 
+	// DataSource
 	public function send($to, $message, $title='')
 	{
 		$connection = $this->connect();
@@ -255,6 +256,15 @@ class Twitter implements DataSource {
 		}
 	}
 
+	// DataSource
+	public function receive($request) {
+		return false;
+	}
+
+	// DataSource
+	public function format($messages) {
+		return false;
+	}
 
 	private function constructGetQuery($search_terms)
 	{

@@ -345,4 +345,14 @@ class Email implements DataSource {
 		return NULL;
 	}
 
+	// DataSource
+	public function receive($request) {
+		return false;
+	}
+
+	// DataSource
+	public function format($request) {
+		return false;
+	}
+
 }

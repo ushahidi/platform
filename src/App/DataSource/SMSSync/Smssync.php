@@ -78,4 +78,19 @@ class SMSSync implements DataSource {
 		return array(DataSource\Message\Status::PENDING_POLL, $this->tracking_id(DataSource\Message\Type::SMS));
 	}
 
+	// DataSource
+	public function fetch($limit = false) {
+		return false;
+	}
+
+	// DataSource
+	public function receive($request) {
+		return false;
+	}
+
+	// DataSource
+	public function format($messages) {
+		return false;
+	}
+
 }
