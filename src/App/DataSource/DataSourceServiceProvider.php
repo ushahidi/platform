@@ -14,7 +14,6 @@ class DataSourceServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerManager();
-        $this->registerDataSources();
         $this->registerRoutes();
     }
 
@@ -26,18 +25,34 @@ class DataSourceServiceProvider extends ServiceProvider
     protected function registerManager()
     {
         $this->app->singleton('datasources', function () {
-            return new DataSourceManager($this->app);
+            $dataSourceManager = new DataSourceManager($this->app);
+
+            $configRepo = service('repository.config');
+            $dataProviderConfig = $configRepo->get('data-provider')->asArray();
+
+            $dataSourceManager->setEnabledSources($dataProviderConfig['providers']);
+            $dataSourceManager->setAvailableSources(service('features.data-providers'));
+
+            // @todo not sure I really need to tap() this?? Copying from queue provider
+            return tap($dataSourceManager, function ($manager) {
+                return $this->registerDataSources($manager);
+            });
         });
     }
 
-    protected function registerDataSources()
+    protected function registerDataSources($manager)
     {
-        DataSourceManager::addSource('email', new Email\Email);
-        DataSourceManager::addSource('frontlinesms', new FrontlineSMS\FrontlineSMS);
-        DataSourceManager::addSource('nexmo', new Nexmo\Nexmo);
-        DataSourceManager::addSource('smssync', new SMSSync\SMSSync);
-        DataSourceManager::addSource('twilio', new Twilio\Twilio);
-        DataSourceManager::addSource('twitter', new Twitter\Twitter);
+        $configRepo = service('repository.config');
+        $dataProviderConfig = $configRepo->get('data-provider')->asArray();
+
+        $manager->addSource('email', new Email\Email($dataProviderConfig['email']));
+        $manager->addSource('frontlinesms', new FrontlineSMS\FrontlineSMS($dataProviderConfig['frontlinesms']));
+        $manager->addSource('nexmo', new Nexmo\Nexmo($dataProviderConfig['nexmo']));
+        $manager->addSource('smssync', new SMSSync\SMSSync($dataProviderConfig['smssync']));
+        $manager->addSource('twilio', new Twilio\Twilio($dataProviderConfig['twilio']));
+        $manager->addSource('twitter', new Twitter\Twitter($dataProviderConfig['twitter']));
+
+        return $manager;
     }
 
     protected function registerRoutes()

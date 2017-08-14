@@ -12,10 +12,48 @@ namespace Ushahidi\App\DataSource\FrontlineSMS;
  */
 
 use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
-class FrontlineSMS extends DataSource {
+class FrontlineSMS implements DataSource {
+
+	protected $config;
+
+	/**
+	 * Constructor function for DataSource
+	 */
+	public function __construct(array $config)
+	{
+		$this->config = $config;
+	}
+
+	public function getName() {
+		return 'FrontlineSMS';
+	}
+
+	public function getServices()
+	{
+		return [MessageType::SMS];
+	}
+
+	public function getOptions()
+	{
+		return array(
+			'key' => array(
+					'label' => 'Key',
+					'input' => 'text',
+					'description' => 'The API key',
+					'rules' => array('required')
+			),
+			'secret' => array(
+				'label' => 'Secret',
+				'input' => 'text',
+				'description' => 'Set a secret so that only authorized FrontlineCloud accounts can send/recieve message. You need to configure the same secret in the FrontlineCloud Activity.',
+				'rules' => array('required')
+			)
+		);
+	}
 
 	/**
 	 * Contact type user for this provider
@@ -23,7 +61,7 @@ class FrontlineSMS extends DataSource {
 	public $contact_type = Contact::PHONE;
 
 	// FrontlineSms Cloud api url
-	protected $_api_url = 'https://cloud.frontlinesms.com/api/1/webhook';
+	protected $apiUrl = 'https://cloud.frontlinesms.com/api/1/webhook';
 
 	/**
 	 * @return mixed
@@ -45,7 +83,7 @@ class FrontlineSMS extends DataSource {
 		);
 
 		// Make a POST request to send the data to frontline cloud
-		$request = Request::factory($this->_api_url)
+		$request = Request::factory($this->apiUrl)
 				->method(Request::POST)
 				->body(json_encode($data))
 				->headers('Content-Type', 'application/json');

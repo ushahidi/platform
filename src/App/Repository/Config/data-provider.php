@@ -11,10 +11,10 @@
 
 return array(
 	'default_providers' => array(
-		Message_Type::SMS => 'smssync',
-		Message_Type::IVR => false,
-		Message_Type::EMAIL => 'email',
-		Message_Type::TWITTER => 'twitter'
+		Ushahidi\App\DataSource\Message\Type::SMS => 'smssync',
+		Ushahidi\App\DataSource\Message\Type::IVR => false,
+		Ushahidi\App\DataSource\Message\Type::EMAIL => 'email',
+		Ushahidi\App\DataSource\Message\Type::TWITTER => 'twitter'
 	),
 	'providers' => array(
 		// List of data providers key=provider value=enabled
@@ -55,12 +55,11 @@ return array(
 		'incoming_security' => '',
 		'incoming_username' => '',
 		'incoming_password' => '',
+	),
 
-		'outgoing_type' => 'Native',
-		'outgoing_server' => '',
-		'outgoing_port' => '',
-		'outgoing_security' => '',
-		'outgoing_username' => '',
-		'outgoing_password' => ''
-	)
+	'twilio'       => [],
+	'smssync'      => [],
+	'twitter'      => [],
+	'nexmo'        => [],
+	'frontlinesms' => [],
 );

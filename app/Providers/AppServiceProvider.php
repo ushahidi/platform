@@ -46,6 +46,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
+        $this->app->singleton('datasources', function () {
+            return $this->app->loadComponent('datasources', \Ushahidi\App\DataSource\DataSourceServiceProvider::class, 'datasources');
+        });
+
         $this->configureAuraDI();
     }
 

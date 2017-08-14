@@ -14,9 +14,8 @@ Feature: Testing the DataProviders API
 		Given that I want to get all "Dataprovider"
 		When I request "/dataproviders/smssync"
 		Then the response is JSON
+		And the "id" property equals "smssync"
 		And the "name" property equals "SMSSync"
-		And the response has a "links" property
-		And the response has a "version" property
 		And the "options.secret.label" property equals "Secret"
 		And the response has a "options.secret" property
 		And the "options.secret.label" property equals "Secret"

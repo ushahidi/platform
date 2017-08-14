@@ -12,9 +12,56 @@ namespace Ushahidi\App\DataSource\SMSSync;
  */
 
 use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 
-class SMSSync extends DataSource {
+class SMSSync implements DataSource {
+
+	protected $config;
+
+	/**
+	 * Constructor function for DataSource
+	 */
+	public function __construct(array $config)
+	{
+		$this->config = $config;
+	}
+
+	public function getName() {
+		return 'SMSSync';
+	}
+
+	public function getServices()
+	{
+		return [MessageType::SMS];
+	}
+
+	public function getOptions()
+	{
+		return array(
+			'intro_step1' => array(
+				'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
+				'input' => 'read-only-text',
+				'description' => function() {
+					return 'Scan this QR Code with your phone to download the app from the Android Market <img src="'. url('/media/images/smssync.png') .'" width="150"/>';
+				}
+			),
+			// @todo figure out how to inject link and fix base url
+			'intro_step2' => array(
+				'label' => 'Step 2: Android App Settings',
+				'input' => 'read-only-text',
+				'description' => function() {
+					return 'Turn on SMSSync and use the following link as the Sync URL: ' . url('smssync');
+				}
+			),
+			'secret' => array(
+				'label' => 'Secret',
+				'input' => 'text',
+				'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message. You need to configure the same secret in the SMSSync App.',
+				'rules' => array('required')
+			)
+		);
+	}
 
 	/**
 	 * Contact type user for this provider

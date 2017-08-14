@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Repository;
 
 use Ushahidi\Core\SearchData;
+use Ushahidi\App\DataSource\DataSource;
 use Ushahidi\Core\Entity\DataProvider as DataProviderEntity;
 use Ushahidi\Core\Entity\DataProviderRepository as DataProviderRepositoryContract;
 use Ushahidi\Core\Usecase\ReadRepository;
@@ -25,7 +26,32 @@ class DataProviderRepository implements
 	DataProviderRepositoryContract
 {
 
-	use CollectionLoader;
+	public function __construct()
+	{
+		$this->datasources = app('datasources');
+	}
+
+	// use CollectionLoader;
+
+	/**
+	 * Converts an array of results into an array of entities,
+	 * indexed by the entity id.
+	 * @param  Array $results
+	 * @return Array
+	 */
+	protected function getCollection(array $results)
+	{
+		$collection = [];
+		foreach ($results as $id => $row) {
+			$entity = $this->getEntity([
+				'id' => $id,
+				'name' => $row->getName(),
+				'options' => $row->getOptions()
+			]);
+			$collection[$entity->getId()] = $entity;
+		}
+		return $collection;
+	}
 
 	// ReadRepository
 	public function getEntity(array $data = null)
@@ -39,13 +65,12 @@ class DataProviderRepository implements
 	 */
 	protected function getAllProviders($enabled = false)
 	{
-		$datasources = app('datasources');
 		if ($enabled) {
 			// Returns all *enabled* providers.
-			return $datasources->getEnabledSources();
+			return $this->datasources->getEnabledSources();
 		} else {
 			// Returns all providers, even if they are disabled.
-			return $datasources->getSources();
+			return $this->datasources->getSource();
 		}
 	}
 
@@ -60,13 +85,17 @@ class DataProviderRepository implements
 	// DataProviderRepository
 	public function get($provider)
 	{
-		$providers = $this->getAllProviders();
+		$source = $this->datasources->getSource($provider);
 
-		if (!isset($providers[$provider])) {
-			return new DataProviderEntity([]);
+		if (!$source) {
+			return $this->getEntity([]);
 		}
 
-		return new DataProviderEntity($providers[$provider]);
+		return $this->getEntity([
+			'id' => $provider,
+			'name' => $source->getName(),
+			'options' => $source->getOptions()
+		]);
 	}
 
 	// SearchRepository
@@ -86,9 +115,9 @@ class DataProviderRepository implements
 	{
 		$providers = $this->getAllProviders();
 
-		foreach ($providers as $name => $info) {
+		foreach ($providers as $name => $source) {
 			if ($this->search_params->type) {
-				if (empty($info['services'][$this->search_params->type])) {
+				if (!in_array($this->search_params->type, $source->getServices())) {
 					// Provider does not offer this type of service, skip it.
 					unset($providers[$name]);
 				}

@@ -12,10 +12,93 @@ namespace Ushahidi\App\DataSource\Email;
  */
 
 use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Shadowhand\Email as ShadowhandEmail;
 use Ushahidi\Core\Entity\Contact;
 
-class Email extends DataSource {
+class Email implements DataSource {
+
+	protected $config;
+
+	/**
+	 * Constructor function for DataSource
+	 */
+	public function __construct(array $config)
+	{
+		$this->config = $config;
+	}
+
+	public function getName() {
+		return 'Email';
+	}
+
+	public function getServices()
+	{
+		return [MessageType::EMAIL];
+	}
+
+	public function getOptions()
+	{
+		return array(
+			'intro_text' => array(
+				'label' => '',
+				'input' => 'read-only-text',
+				'description' => 'In order to receive reports by email, please input your email account settings below'
+			),
+			'incoming_type' => array(
+				'label' => 'Incoming Server Type',
+				'input' => 'radio',
+				'description' => '',
+				'options' => array('POP', 'IMAP'),
+				'rules' => array('required', 'number')
+			),
+			'incoming_server' => array(
+				'label' => 'Incoming Server',
+				'input' => 'text',
+				'description' => '',
+				'description' => 'Examples: mail.yourwebsite.com, imap.gmail.com, pop.gmail.com',
+				'rules' => array('required')
+			),
+			'incoming_port' => array(
+				'label' => 'Incoming Server Port',
+				'input' => 'text',
+				'description' => 'Common ports: 110 (POP3), 143 (IMAP), 995 (POP3 with SSL), 993 (IMAP with SSL)',
+				'rules' => array('required','number')
+			),
+			'incoming_security' => array(
+				'label' => 'Incoming Server Security',
+				'input' => 'radio',
+				'description' => '',
+				'options' => array('None', 'SSL', 'TLS')
+			),
+			'incoming_username' => array(
+				'label' => 'Incoming Username',
+				'input' => 'text',
+				'description' => '',
+				'placeholder' => 'Email account username',
+				'rules' => array('required')
+			),
+			'incoming_password' => array(
+				'label' => 'Incoming Password',
+				'input' => 'text',
+				'description' => '',
+				'placeholder' => 'Email account password',
+				'rules' => array('required')
+			),
+			// 'from' => array(
+			// 	'label' => 'Email Address',
+			// 	'input' => 'text',
+			// 	'description' => 'This will be used to send outgoing emails',
+			// 	'rules' => array('required')
+			// ),
+			// 'from_name' => array(
+			// 	'label' => 'Email Sender Name',
+			// 	'input' => 'text',
+			// 	'description' => 'Appears in the \'from:\' field on outgoing emails',
+			// 	'rules' => array('required')
+			// ),
+		);
+	}
 
 	/**
 	 * Contact type user for this provider

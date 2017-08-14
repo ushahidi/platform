@@ -14,7 +14,7 @@ return array(
 	// 'acme' => MODPATH.'acme',
 
 	// Submodules
-	'data-provider' => MODPATH.'data-provider',
+	// 'data-provider' => MODPATH.'data-provider',
 
 	// Vendor modules
 	'imagefly'   => VENPATH.'bodom78/kohana-imagefly', // Dynamic image generation

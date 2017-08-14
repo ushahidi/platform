@@ -12,10 +12,60 @@ namespace Ushahidi\App\DataSource\Nexmo;
  */
 
 use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
-class Nexmo extends DataSource {
+class Nexmo implements DataSource {
+
+	protected $config;
+
+	/**
+	 * Constructor function for DataSource
+	 */
+	public function __construct(array $config)
+	{
+		$this->config = $config;
+	}
+
+	public function getName() {
+		return 'Nexmo';
+	}
+
+	public function getServices()
+	{
+		return [MessageType::SMS];
+	}
+
+	public function getOptions()
+	{
+		return array(
+			'from' => array(
+				'label' => 'From',
+				'input' => 'text',
+				'description' => 'The from number',
+				'rules' => array('required')
+			),
+			'secret' => array(
+				'label' => 'Secret',
+				'input' => 'text',
+				'description' => 'The secret value',
+				'rules' => array('required')
+			),
+			'api_key' => array(
+				'label' => 'API Key',
+				'input' => 'text',
+				'description' => 'The API key',
+				'rules' => array('required')
+			),
+			'api_secret' => array(
+				'label' => 'API secret',
+				'input' => 'text',
+				'description' => 'The API secret',
+				'rules' => array('required')
+			)
+		);
+	}
 
 	/**
 	 * Contact type user for this provider
@@ -46,7 +96,7 @@ class Nexmo extends DataSource {
 	 */
 	public function send($to, $message, $title = "")
 	{
-		include_once __DIR__ . '/nexmo/NexmoMessage');
+		include_once __DIR__ . '/nexmo/NexmoMessage';
 
 		if ( ! isset($this->_client))
 		{

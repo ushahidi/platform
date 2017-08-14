@@ -15,28 +15,11 @@ interface DataSource {
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config = NULL);
+	public function __construct(array $config);
 
 	public function getName();
 	public function getServices();
-	public function getVersion();
-	public function getLinks();
 	public function getOptions();
-	// abstract public function getConfig()
-
-	/**
-	 * Sets the FROM parameter for the provider
-	 *
-	 * @return int
-	 */
-	public function from();
-
-	/**
-	 * Sets the authentication parameters for the provider
-	 *
-	 * @return array
-	 */
-	public function options();
 
 	/**
 	 * @param  string  to Phone number to receive the message
@@ -56,5 +39,21 @@ interface DataSource {
 	 * @return int              number of messages fetched
 	 */
 	public function fetch($limit = FALSE);
+
+	/**
+	 * Transforming incoming webhooks requests into Messages
+	 *
+	 * @param  [type] $request [description]
+	 * @return [type]          [description]
+	 */
+	public function receive($request);
+
+	/**
+	 * Format output messages for polled sending
+	 *
+	 * @param  [type] $messages [description]
+	 * @return [type]           [description]
+	 */
+	public function format($messages);
 
 }

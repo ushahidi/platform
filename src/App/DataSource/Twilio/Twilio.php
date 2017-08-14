@@ -12,27 +12,60 @@ namespace Ushahidi\App\DataSource\Twilio;
  */
 
 use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 use Services_Twilio, Services_Twilio_RestException;
 use Log;
 
-class Twilio extends DataSource {
+class Twilio implements DataSource {
+
+	protected $config;
 
 	/**
-	 * Contact type user for this provider
+	 * Constructor function for DataSource
 	 */
-	public $contact_type = Contact::PHONE;
-
-	/**
-	 * Sets the FROM parameter for the provider
-	 *
-	 * @return int
-	 */
-	public function from()
+	public function __construct(array $config)
 	{
-		// Get provider phone (FROM)
-		// Replace non-numeric
-		return preg_replace("/[^0-9,.]/", "", parent::from());
+		$this->config = $config;
+	}
+
+	public function getName() {
+		return 'Twilio';
+	}
+
+	public function getServices()
+	{
+		return [MessageType::SMS, MessageType::IVR];
+	}
+
+	public function getOptions()
+	{
+		return array(
+			'from' => array(
+				'label' => 'Phone Number',
+				'input' => 'text',
+				'description' => 'The from phone number. A Twilio phone number enabled for the type of message you wish to send. ',
+				'rules' => array('required')
+			),
+			'account_sid' => array(
+				'label' => 'Account SID',
+				'input' => 'text',
+				'description' => 'The unique id of the Account that sent this message.',
+				'rules' => array('required')
+			),
+			'auth_token' => array(
+				'label' => 'Auth Token',
+				'input' => 'text',
+				'description' => '',
+				'rules' => array('required')
+			),
+			'sms_auto_response' => array(
+				'label' => 'SMS Auto response',
+				'input' => 'text',
+				'description' => '',
+				'rules' => array('required')
+			)
+		);
 	}
 
 	/**
@@ -55,7 +88,7 @@ class Twilio extends DataSource {
 		// Send!
 		try
 		{
-			$message = $this->_client->account->messages->sendMessage($this->from(), '+'.$to, $message);
+			$message = $this->_client->account->messages->sendMessage($this->config['from'], '+'.$to, $message);
 			return array(DataSource\Message\Status::SENT, $message->sid);
 		}
 		catch (Services_Twilio_RestException $e)

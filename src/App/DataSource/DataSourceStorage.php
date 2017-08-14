@@ -28,11 +28,8 @@ class DataSourceStorage {
 	 * @param  string data_provider_message_id Message ID
 	 * @return void
 	 */
-	public function receive($type, $from, $message, $to = NULL, $title = NULL, $data_provider_message_id = NULL, Array $additional_data = NULL)
+	public function receive($data_provider, $type, $contact_type, $from, $message, $to = NULL, $title = NULL, $data_provider_message_id = NULL, Array $additional_data = NULL)
 	{
-		$data_provider = $this->provider_name();
-		$contact_type = $this->contact_type;
-
 		$usecase = service('factory.usecase')->get('messages', 'receive');
 		try
 		{

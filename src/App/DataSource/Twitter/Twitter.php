@@ -12,37 +12,105 @@ namespace Ushahidi\App\DataSource\Twitter;
  */
 
 use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Decoders\GeoJSON;
+use Log;
 
 use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Entity\ConfigRepository;
 
-class Twitter extends DataSource {
-
-	/**
-	 * Contact type user for this provider
-	 */
-	public $contact_type = Contact::TWITTER;
+class Twitter implements DataSource {
 
 	const MAX_REQUESTS_PER_WINDOW = 180;
 	const REQUEST_WINDOW = 900; // Twitter request window in seconds
 
-	private $since_id; // highest id fetched
-	private $request_count; // track requests per window
-	private $search_terms;
+	protected $since_id; // highest id fetched
+	protected $request_count; // track requests per window
+	protected $search_terms;
+	protected $window_timestamp;
+
+	protected $config;
+	protected $configRepo;
+
+	/**
+	 * Constructor function for DataSource
+	 */
+	public function __construct(array $config, ConfigRepository $configRepo = null)
+	{
+		$this->config = $config;
+		$this->configRepo = $configRepo;
+	}
+
+	public function getName() {
+		return 'Twitter';
+	}
+
+	public function getServices()
+	{
+		return [MessageType::TWITTER];
+	}
+
+	public function getOptions()
+	{
+		return [
+			'intro_step1' => array(
+				'label' => 'Step 1: Create a new Twitter application',
+				'input' => 'read-only-text',
+				'description' => function() {
+					return 'Create a <a href="https://apps.twitter.com/app/new">new twitter application</a>';
+				}
+			),
+			// @todo figure out how to inject link and fix base url
+			'intro_step2' => array(
+				'label' => 'Step 2: Generate a consumer key and secret',
+				'input' => 'read-only-text',
+				'description' => function() {
+					return 'Once you\'ve created the application click on "Keys and Access Tokens".<br /> Then click "Generate Consumer Key and Secret".<br /> Copy keys, tokens and secrets into the fields below.';
+				}
+			),
+			'consumer_key' => array(
+				'label' => 'Consumer Key',
+				'input' => 'text',
+				'description' => 'Add the consumer key from your Twitter app. ',
+				'rules' => array('required')
+			),
+			'consumer_secret' => array(
+				'label' => 'Consumer Secret',
+				'input' => 'text',
+				'description' => 'Add the consumer secret from your Twitter app.',
+				'rules' => array('required')
+			),
+			'oauth_access_token' => array(
+				'label' => 'Access Token',
+				'input' => 'text',
+				'description' => 'Add the access token you generated for your Twitter app.',
+				'rules' => array('required')
+			),
+			'oauth_access_token_secret' => array(
+				'label' => 'Access Token Secret',
+				'input' => 'text',
+				'description' => 'Add the access secret that you generated for your Twitter app.',
+				'rules' => array('required')
+			),
+			'twitter_search_terms' => array(
+				'label' => 'Twitter search terms',
+				'input' => 'text',
+				'description' => 'Add search terms separated with commas',
+				'rules' => array('required')
+			)
+		];
+	}
 
 
 	public function fetch($limit = FALSE) {
-		// XXX: Store state in database config for now
-		$config = Kohana::$config;
-		$options = $this->options();
-		$this->_initialize($config, $options);
+		$this->initialize();
 
 		// Check we have the required config
-		if (!isset($options['twitter_search_terms']))
+		if (!isset($config['twitter_search_terms']))
 		{
-			Kohana::$log->add(Log::WARNING, 'Could not fetch messages from twitter, incomplete config');
+			Log::warning('Could not fetch messages from twitter, incomplete config');
 			return 0;
 		}
 
@@ -50,7 +118,7 @@ class Twitter extends DataSource {
 			$limit = 50;
 		}
 
-		$connection = $this->_connect();
+		$connection = $this->connect();
 		if (is_int($connection) && $connection == 0) {
 			// The connection didn't succeed, but this is not fatal to the application flow
 			// Just return 0 messages fetched
@@ -62,7 +130,7 @@ class Twitter extends DataSource {
 		try
 		{
 			$results = $connection->get("search/tweets", [
-				"q" => $this->_construct_get_query($this->search_terms),
+				"q" => $this->constructGetQuery($this->search_terms),
 				"since_id" => $this->since_id,
 				"count" => $limit,
 				"result_type" => 'recent'
@@ -141,22 +209,22 @@ class Twitter extends DataSource {
 				}
 
 				// @todo Check for similar messages in the database before saving
-				$this->receive(DataSource\Message\Type::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id, $additional_data);
+				$this->receive('twitter', DataSource\Message\Type::TWITTER, Contact::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id, $additional_data);
 
 				$count++;
 			}
 
 			$this->request_count++; //Increment for successful request
 
-			$this->_update($config);
+			$this->update($config);
 		}
-		catch (TwitterOAuthException $toe)
+		catch (\TwitterOAuthException $toe)
 		{
-			Kohana::$log->add(Log::ERROR, $toe->getMessage());
+			Log::error($toe->getMessage());
 		}
 		catch(Exception $e)
 		{
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
+			Log::error($e->getMessage());
 		}
 
 		return $count;
@@ -164,7 +232,7 @@ class Twitter extends DataSource {
 
 	public function send($to, $message, $title='')
 	{
-		$connection = $this->_connect();
+		$connection = $this->connect();
 
 		try
 		{
@@ -188,95 +256,92 @@ class Twitter extends DataSource {
 	}
 
 
-	private function _construct_get_query($search_terms)
+	private function constructGetQuery($search_terms)
 	{
 		return implode(" OR ", array_map('trim', explode(",", $search_terms)));
 	}
 
-	private function _can_make_request()
+	private function canMakeRequest()
 	{
 		return  $this->request_count < self::MAX_REQUESTS_PER_WINDOW;
 	}
 
-	private function _initialize($config, $options)
+	private function initialize($config)
 	{
-		$twitter_config = $config->load('twitter');
+		$twitterConfig = $configRepo->get('twitter');
 
-		$twitter_config && isset($twitter_config['since_id'])?
-							   $this->since_id = $twitter_config['since_id']:
+		isset($twitterConfig->since_id) ?
+							   $this->since_id = $twitterConfig->since_id:
 							   $this->since_id = 0;
 
-		$this->search_terms = $options['twitter_search_terms'];
+		$this->search_terms = $this->config['twitter_search_terms'];
 
 		// If search terms have changed, reset since_id
-		if ($options['twitter_search_terms'] !== $twitter_config['search_terms']) {
+		if ($this->config['twitter_search_terms'] !== $twitterConfig->search_terms) {
 			$this->since_id = 0;
 		}
 
-		$twitter_config && isset($twitter_config['request_count'])?
-							   $this->request_count = $twitter_config['request_count']:
+		$twitter_config && isset($twitterConfig->request_count)?
+							   $this->request_count = $twitterConfig->request_count:
 							   $this->request_count = 0;
 
-		if ($twitter_config && isset($twitter_config['window_timestamp']))
+		if (isset($twitterConfig->window_timestamp))
 		{
-			$window_has_expired = time() - $twitter_config['window_timestamp'] > self::REQUEST_WINDOW;
+			$this->window_timestamp = $twitterConfig->window_timestamp;
+			$window_has_expired = time() - $twitterConfig->window_timestamp > self::REQUEST_WINDOW;
 
 			if ($window_has_expired)
 			{
 				// reset
 				$this->request_count = 0;
-				$twitter_config->set("window_timestamp", time());
+				$this->window_timestamp = time();
 			}
 		}
 		else
 		{
 			// save window timestamp for the first time
-			$twitter_config->set("window_timestamp", time());
+			$this->window_timestamp = time();
 		}
 	}
 
-	private function _update($config)
+	private function update($config)
 	{
-		$twitter_config = $config->load('twitter');
-		$twitter_config->set("request_count", $this->request_count);
-		$twitter_config->set("since_id", $this->since_id);
-		$twitter_config->set("search_terms", $this->search_terms);
+		// XXX: Store state in database config for now
+		$twitterConfig = $this->configRepo->get('twitter');
+
+		$twitterConfig->setState([
+			'request_count' => $this->request_count,
+			'since_id' => $this->since_id,
+			'search_terms' => $this->search_terms,
+			'window_timestamp' => $this->window_timestamp
+		]);
+
+		$this->configRepo->update($twitterConfig);
 	}
 
-	private function _connect() {
-		$config = Kohana::$config;
-		$options = $this->options();
-
-		//Check if data provider is available
-		$providers_available = $config->load('features.data-providers');
-
-		if ( !$providers_available['twitter'] )
-		{
-		  Kohana::$log->add(Log::WARNING, 'The twitter data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
-		  return 0;
-		}
+	private function connect() {
 		// check if we have reached our rate limit
-		if ( !$this->_can_make_request())
+		if ( !$this->canMakeRequest())
 		{
-			Kohana::$log->add(Log::WARNING, 'You have reached your rate limit for this window');
+			Log::warning('You have reached your rate limit for this window');
 			return 0;
 		}
 			// Check we have the required config
-		if ( !isset($options['consumer_key']) ||
-			 !isset($options['consumer_secret']) ||
-			 !isset($options['oauth_access_token']) ||
-			 !isset($options['oauth_access_token_secret'])
+		if ( !isset($this->config['consumer_key']) ||
+			 !isset($this->config['consumer_secret']) ||
+			 !isset($this->config['oauth_access_token']) ||
+			 !isset($this->config['oauth_access_token_secret'])
 		)
 		{
-			Kohana::$log->add(Log::WARNING, 'Could not connect to twitter, incomplete config');
+			Log::warning('Could not connect to twitter, incomplete config');
 			return 0;
 		}
 
 		$connection = new TwitterOAuth(
-			$options['consumer_key'],
-			$options['consumer_secret'],
-			$options['oauth_access_token'],
-			$options['oauth_access_token_secret']
+			$this->config['consumer_key'],
+			$this->config['consumer_secret'],
+			$this->config['oauth_access_token'],
+			$this->config['oauth_access_token_secret']
 		);
 
 		// Increase curl timeout values
