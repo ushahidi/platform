@@ -26,7 +26,25 @@ class AppServiceProvider extends ServiceProvider
         $this->app->configure('cdn');
         $this->app->configure('ratelimiter');
         $this->app->configure('multisite');
-        $this->app->configure('mail');
+
+        // Add filesystem
+        $this->app->singleton('filesystem', function ($app) {
+            return $app->loadComponent(
+                'filesystems',
+                \Illuminate\Filesystem\FilesystemServiceProvider::class,
+                'filesystem'
+            );
+        });
+
+        // Add mailer
+        $this->app->singleton('mailer', function ($app) {
+            return $app->loadComponent(
+                'mail',
+                \Illuminate\Mail\MailServiceProvider::class,
+                'mailer'
+            );
+        });
+
 
         $this->configureAuraDI();
     }
