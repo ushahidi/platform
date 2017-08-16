@@ -14,6 +14,7 @@ namespace Ushahidi\App\DataSource\SMSSync;
 use Ushahidi\App\DataSource\DataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
+use Illuminate\Http\Request;
 
 class SMSSync implements DataSource
 {
@@ -89,7 +90,7 @@ class SMSSync implements DataSource
 	}
 
 	// DataSource
-	public function receive($request)
+	public function receive(Request $request)
     {
 		return false;
 	}

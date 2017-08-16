@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity\Contact;
 use Services_Twilio;
 use Services_Twilio_RestException;
 use Log;
+use Illuminate\Http\Request;
 
 class Twilio implements DataSource
 {
@@ -106,7 +107,7 @@ class Twilio implements DataSource
 	}
 
 	// DataSource
-	public function receive($request)
+	public function receive(Request $request)
     {
 		return false;
 	}

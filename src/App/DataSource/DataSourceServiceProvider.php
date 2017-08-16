@@ -14,6 +14,7 @@ class DataSourceServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerManager();
+        $this->registerRoutes();
     }
 
     /**
@@ -33,7 +34,7 @@ class DataSourceServiceProvider extends ServiceProvider
             $manager->setAvailableSources(service('features.data-providers'));
 
             $this->registerDataSources($manager);
-            $manager->registerRoutes();
+            //$manager->registerRoutes();
 
             return $manager;
         });
@@ -52,5 +53,11 @@ class DataSourceServiceProvider extends ServiceProvider
         $manager->addSource('twitter', new Twitter\Twitter($dataProviderConfig['twitter']));
 
         return $manager;
+    }
+
+    public function registerRoutes()
+    {
+        $this->app->post('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
+        $this->app->get('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
     }
 }

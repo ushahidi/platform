@@ -17,6 +17,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Decoders\GeoJSON;
 use Log;
+use Illuminate\Http\Request;
 
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\ConfigRepository;
@@ -264,7 +265,7 @@ class Twitter implements DataSource
 	}
 
 	// DataSource
-	public function receive($request)
+	public function receive(Request $request)
     {
 		return false;
 	}

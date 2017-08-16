@@ -15,6 +15,7 @@ use Ushahidi\App\DataSource\DataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Shadowhand\Email as ShadowhandEmail;
 use Ushahidi\Core\Entity\Contact;
+use Illuminate\Http\Request;
 
 class Email implements DataSource
 {
@@ -305,7 +306,7 @@ class Email implements DataSource
 	}
 
 	// DataSource
-	public function receive($request)
+	public function receive(Request $request)
     {
 		return false;
 	}

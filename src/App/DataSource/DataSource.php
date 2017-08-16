@@ -2,6 +2,8 @@
 
 namespace Ushahidi\App\DataSource;
 
+use Illuminate\Http\Request;
+
 /**
  * Base class for all Data Providers
  *
@@ -44,10 +46,10 @@ interface DataSource
 	/**
 	 * Transforming incoming webhooks requests into Messages
 	 *
-	 * @param  [type] $request [description]
-	 * @return [type]          [description]
+	 * @param  $request
+	 * @return array Message received
 	 */
-	public function receive($request);
+	public function receive(Request $request);
 
 	/**
 	 * Format output messages for polled sending

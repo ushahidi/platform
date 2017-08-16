@@ -15,6 +15,7 @@ use Ushahidi\App\DataSource\DataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 use Log;
+use Illuminate\Http\Request;
 
 class FrontlineSMS implements DataSource
 {
@@ -119,7 +120,7 @@ class FrontlineSMS implements DataSource
 	}
 
 	// DataSource
-	public function receive($request)
+	public function receive(Request $request)
     {
 		return false;
 	}
