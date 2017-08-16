@@ -46,7 +46,8 @@ class DataProviderRepository implements
 			$entity = $this->getEntity([
 				'id' => $id,
 				'name' => $row->getName(),
-				'options' => $row->getOptions()
+				'options' => $row->getOptions(),
+				'services' => $row->getServices(),
 			]);
 			$collection[$entity->getId()] = $entity;
 		}
@@ -94,7 +95,8 @@ class DataProviderRepository implements
 		return $this->getEntity([
 			'id' => $provider,
 			'name' => $source->getName(),
-			'options' => $source->getOptions()
+			'options' => $source->getOptions(),
+			'services' => $source->getServices(),
 		]);
 	}
 
