@@ -24,18 +24,18 @@ class DataSourceServiceProvider extends ServiceProvider
     protected function registerManager()
     {
         $this->app->singleton('datasources', function () {
-            $dataSourceManager = new DataSourceManager($this->app);
+            $manager = new DataSourceManager($this->app);
 
             $configRepo = service('repository.config');
             $dataProviderConfig = $configRepo->get('data-provider')->asArray();
 
-            $dataSourceManager->setEnabledSources($dataProviderConfig['providers']);
-            $dataSourceManager->setAvailableSources(service('features.data-providers'));
+            $manager->setEnabledSources($dataProviderConfig['providers']);
+            $manager->setAvailableSources(service('features.data-providers'));
 
-            // @todo not sure I really need to tap() this?? Copying from queue provider
-            return tap($dataSourceManager, function ($manager) {
-                return $this->registerDataSources($manager);
-            });
+            $this->registerDataSources($manager);
+            $manager->registerRoutes();
+
+            return $manager;
         });
     }
 

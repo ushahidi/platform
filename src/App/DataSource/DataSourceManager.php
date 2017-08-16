@@ -49,8 +49,6 @@ class DataSourceManager
     public function addSource($name, DataSource $source)
     {
         $this->sources[$name] = $source;
-
-        $source->registerRoutes($this->app);
     }
 
     public function getSource($name = false)
@@ -100,6 +98,13 @@ class DataSourceManager
         }
 
         return false;
+    }
+
+    public function registerRoutes()
+    {
+        foreach($this->getEnabledSources() as $source) {
+            $source->registerRoutes($this->app);
+        }
     }
 
     /**
