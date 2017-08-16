@@ -58,13 +58,13 @@ $di->params[Ushahidi\App\Filesystem::class] = [
 	})
 ];
 
-// ValidationEngine
-$di->set('tool.validation', $di->lazyNew(Ushahidi\App\Validator\KohanaValidationEngine::class, [
-	// Inject laravel translator
-	'translator' => $di->lazy(function () {
-		return app('translator');
-	})
-]));
+// Validation Trait
+// We're injecting via lazy so that we get a separate ValidationEngine for every validator
+// Rather than a shared engine as we would if we used lazyNew->set->lazyGet->
+$di->setter['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->lazy(function () {
+	// Create a new ValidationEngine
+	return new Ushahidi\App\Validator\KohanaValidationEngine(app('translator'));
+});
 
 // Defined memcached
 $di->set('memcached', $di->lazy(function () use ($di) {
@@ -433,6 +433,9 @@ $di->set('validator.contact.create', $di->lazyNew(Ushahidi\App\Validator\Contact
 $di->set('validator.contact.receive', $di->lazyNew(Ushahidi\App\Validator\Contact\Receive::class));
 
 $di->params[Ushahidi\App\Validator\Contact\Update::class] = [
+	'repo' => $di->lazyGet('repository.user'),
+];
+$di->params[Ushahidi\App\Validator\Contact\Receive::class] = [
 	'repo' => $di->lazyGet('repository.user'),
 ];
 
