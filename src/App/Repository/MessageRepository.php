@@ -20,6 +20,9 @@ use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 use Ushahidi\Core\Usecase\Message\DeleteMessageRepository;
 use Ushahidi\Core\Usecase\Message\MessageData;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 
 class MessageRepository extends OhanzeeRepository implements
 	MessageRepositoryContract,
@@ -141,8 +144,8 @@ class MessageRepository extends OhanzeeRepository implements
 	{
 		return parent::create($entity->setState([
 			// New messages cannot have any other state
-			'status'    => \Message_Status::PENDING,
-			'direction' => \Message_Direction::OUTGOING,
+			'status'    => MessageStatus::PENDING,
+			'direction' => MessageDirection::OUTGOING,
 			'created'   => time(),
 		]));
 	}
@@ -160,16 +163,16 @@ class MessageRepository extends OhanzeeRepository implements
 	// UpdateMessageRepository
 	public function checkStatus($status, $direction)
 	{
-		if ($direction === \Message_Direction::INCOMING) {
-			return ($status == \Message_Status::RECEIVED);
+		if ($direction === MessageDirection::INCOMING) {
+			return ($status == MessageStatus::RECEIVED);
 		}
 
-		if ($direction === \Message_Direction::OUTGOING) {
+		if ($direction === MessageDirection::OUTGOING) {
 			// Outgoing messages can only be: pending, cancelled, failed, unknown, sent
 			return in_array($status, [
-				\Message_Status::PENDING,
-				\Message_Status::EXPIRED,
-				\Message_Status::CANCELLED,
+				MessageStatus::PENDING,
+				MessageStatus::EXPIRED,
+				MessageStatus::CANCELLED,
 			]);
 		}
 

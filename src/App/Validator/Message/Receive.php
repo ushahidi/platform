@@ -14,6 +14,10 @@ namespace Ushahidi\App\Validator\Message;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\App\DataSource\DataSourceManager;
 
 class Receive extends Validator
 {
@@ -27,10 +31,13 @@ class Receive extends Validator
 
 	protected function getRules()
 	{
+		// @todo inject
+		$sources = app('datasources');
+
 		return [
 			'direction' => [
 				['not_empty'],
-				['in_array', [':value', [\Message_Direction::INCOMING]]],
+				['in_array', [':value', [MessageDirection::INCOMING]]],
 			],
 			'message' => [
 				['not_empty'],
@@ -45,8 +52,7 @@ class Receive extends Validator
 				['in_array', [':value', ['sms', 'ivr', 'email', 'twitter']]],
 			],
 			'data_provider' => [
-				// @todo DataProvider should provide a list of available types
-				['in_array', [':value', array_keys(\DataProvider::get_providers())]],
+				['in_array', [':value', array_keys($sources->getEnabledSources())]],
 			],
 			'data_provider_message_id' => [
 				['max_length', [':value', 511]],
@@ -54,7 +60,7 @@ class Receive extends Validator
 			'status' => [
 				['not_empty'],
 				['in_array', [':value', [
-					\Message_Status::RECEIVED,
+					MessageStatus::RECEIVED,
 				]]],
 			],
 			'parent_id' => [

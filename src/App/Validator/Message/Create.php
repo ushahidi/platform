@@ -15,6 +15,9 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 
 class Create extends Validator
 {
@@ -29,10 +32,13 @@ class Create extends Validator
 
 	protected function getRules()
 	{
+		// @todo inject
+		$sources = app('datasources');
+
 		return [
 			'direction' => [
 				['not_empty'],
-				['in_array', [':value', [\Message_Direction::OUTGOING]]],
+				['in_array', [':value', [MessageDirection::OUTGOING]]],
 			],
 			'message' => [
 				['not_empty'],
@@ -47,8 +53,7 @@ class Create extends Validator
 				['in_array', [':value', ['sms', 'ivr', 'email', 'twitter']]],
 			],
 			'data_provider' => [
-				// @todo DataProvider should provide a list of available types
-				['in_array', [':value', array_keys(\DataProvider::get_providers())]],
+				['in_array', [':value', array_keys($sources->getEnabledSources())]],
 			],
 			'data_provider_message_id' => [
 				['max_length', [':value', 511]],
@@ -57,8 +62,8 @@ class Create extends Validator
 				['not_empty'],
 				['in_array', [':value', [
 					// @todo this should be shared via repo
-					\Message_Status::PENDING,
-					\Message_Status::PENDING_POLL,
+					MessageStatus::PENDING,
+					MessageStatus::PENDING_POLL,
 				]]],
 			],
 			'parent_id' => [
