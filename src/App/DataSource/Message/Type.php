@@ -11,11 +11,11 @@ namespace Ushahidi\App\DataSource\Message;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  *
  */
-interface Type {
+interface Type
+{
 
 	const SMS = 'sms';
 	const TWITTER = 'twitter';
 	const IVR = 'ivr';
 	const EMAIL = 'email';
-
 }

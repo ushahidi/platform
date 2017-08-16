@@ -11,9 +11,9 @@ namespace Ushahidi\App\DataSource\Message;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  *
  */
-interface Direction {
+interface Direction
+{
 
 	const INCOMING = 'incoming';
 	const OUTGOING = 'outgoing';
-
 }

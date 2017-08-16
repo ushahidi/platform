@@ -16,7 +16,8 @@ use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
-class FrontlineSMS implements DataSource {
+class FrontlineSMS implements DataSource
+{
 
 	protected $config;
 
@@ -28,7 +29,8 @@ class FrontlineSMS implements DataSource {
 		$this->config = $config;
 	}
 
-	public function getName() {
+	public function getName()
+    {
 		return 'FrontlineSMS';
 	}
 
@@ -88,13 +90,11 @@ class FrontlineSMS implements DataSource {
 				->body(json_encode($data))
 				->headers('Content-Type', 'application/json');
 
-		try
-		{
+		try {
 			$response = $request->execute();
 			// Successfully executed the request
 
-			if ($response->status() === 200)
-			{
+			if ($response->status() === 200) {
 				return array(DataSource\Message\Status::SENT, $this->tracking_id(DataSource\Message\Type::SMS));
 			}
 
@@ -102,29 +102,45 @@ class FrontlineSMS implements DataSource {
 			$status = $response->status();
 			Log::warning('Could not make a successful POST request',
 				array('message' => $response->messages[$status], 'status' => $status));
-		}
-		catch(Request_Exception $e)
-		{
+		} catch (Request_Exception $e) {
 			// Log warning to log file.
 			Log::warning('Could not make a successful POST request',
 				array('message' => $e->getMessage()));
 		}
 
-		return array(DataSource\Message\Status::FAILED, FALSE);
+		return array(DataSource\Message\Status::FAILED, false);
 	}
 
 	// DataSource
-	public function fetch($limit = false) {
+	public function fetch($limit = false)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function receive($request) {
+	public function receive($request)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function format($messages) {
+	public function format($messages)
+    {
+		return false;
+	}
+
+	public function registerRoutes($app)
+	{
+		$app->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\Controller\FrontlineSMS@index');
+		$app->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\Controller\FrontlineSMS@index');
+	}
+
+	public function verifySecret($secret)
+	{
+		if (isset($this->config['secret']) and $secret === $this->config['secret']) {
+			return true;
+		}
+
 		return false;
 	}
 }

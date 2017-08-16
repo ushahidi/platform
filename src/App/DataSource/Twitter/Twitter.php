@@ -21,7 +21,8 @@ use Log;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\ConfigRepository;
 
-class Twitter implements DataSource {
+class Twitter implements DataSource
+{
 
 	const MAX_REQUESTS_PER_WINDOW = 180;
 	const REQUEST_WINDOW = 900; // Twitter request window in seconds
@@ -43,7 +44,8 @@ class Twitter implements DataSource {
 		$this->configRepo = $configRepo;
 	}
 
-	public function getName() {
+	public function getName()
+    {
 		return 'Twitter';
 	}
 
@@ -58,7 +60,7 @@ class Twitter implements DataSource {
 			'intro_step1' => array(
 				'label' => 'Step 1: Create a new Twitter application',
 				'input' => 'read-only-text',
-				'description' => function() {
+				'description' => function () {
 					return 'Create a <a href="https://apps.twitter.com/app/new">new twitter application</a>';
 				}
 			),
@@ -66,7 +68,7 @@ class Twitter implements DataSource {
 			'intro_step2' => array(
 				'label' => 'Step 2: Generate a consumer key and secret',
 				'input' => 'read-only-text',
-				'description' => function() {
+				'description' => function () {
 					return 'Once you\'ve created the application click on "Keys and Access Tokens".<br /> Then click "Generate Consumer Key and Secret".<br /> Copy keys, tokens and secrets into the fields below.';
 				}
 			),
@@ -104,17 +106,17 @@ class Twitter implements DataSource {
 	}
 
 	// DataSource
-	public function fetch($limit = FALSE) {
+	public function fetch($limit = false)
+    {
 		$this->initialize();
 
 		// Check we have the required config
-		if (!isset($config['twitter_search_terms']))
-		{
+		if (!isset($config['twitter_search_terms'])) {
 			Log::warning('Could not fetch messages from twitter, incomplete config');
 			return 0;
 		}
 
-		if ($limit === FALSE) {
+		if ($limit === false) {
 			$limit = 50;
 		}
 
@@ -127,8 +129,7 @@ class Twitter implements DataSource {
 		$connection->setDecodeJsonAsArray(true);
 		$count = 0;
 
-		try
-		{
+		try {
 			$results = $connection->get("search/tweets", [
 				"q" => $this->constructGetQuery($this->search_terms),
 				"since_id" => $this->since_id,
@@ -136,8 +137,7 @@ class Twitter implements DataSource {
 				"result_type" => 'recent'
 			]);
 
-			if (empty($results['statuses']))
-			{
+			if (empty($results['statuses'])) {
 				return 0;
 			}
 
@@ -187,7 +187,7 @@ class Twitter implements DataSource {
 						// Also save the original bounding box
 						$additional_data['location'][] = $status['place']['bounding_box'];
 					}
-				} else if ($status['user'] && $status['user']['location']) {
+				} elseif ($status['user'] && $status['user']['location']) {
 					# Search the provided location for matches in twitter's geocoder
 					$results = $connection->get("geo/search", [
 						"query" => $status['user']['location']
@@ -209,7 +209,7 @@ class Twitter implements DataSource {
 				}
 
 				// @todo Check for similar messages in the database before saving
-				$this->receive('twitter', DataSource\Message\Type::TWITTER, Contact::TWITTER, $screen_name, $text, $to = NULL, $title = NULL, $id, $additional_data);
+				$this->receive('twitter', DataSource\Message\Type::TWITTER, Contact::TWITTER, $screen_name, $text, $to = null, $title = null, $id, $additional_data);
 
 				$count++;
 			}
@@ -217,13 +217,9 @@ class Twitter implements DataSource {
 			$this->request_count++; //Increment for successful request
 
 			$this->update($config);
-		}
-		catch (\TwitterOAuthException $toe)
-		{
+		} catch (\TwitterOAuthException $toe) {
 			Log::error($toe->getMessage());
-		}
-		catch(Exception $e)
-		{
+		} catch (Exception $e) {
 			Log::error($e->getMessage());
 		}
 
@@ -231,38 +227,35 @@ class Twitter implements DataSource {
 	}
 
 	// DataSource
-	public function send($to, $message, $title='')
+	public function send($to, $message, $title = '')
 	{
 		$connection = $this->connect();
 
-		try
-		{
+		try {
 			$response = $connection->post("statuses/update", [
 				"status" => '@' . $to . ' ' . $message
 			]);
 
 			if (!$response->id) {
-				return array(DataSource\Message\Status::FAILED, FALSE);
+				return array(DataSource\Message\Status::FAILED, false);
 			}
 			return array(DataSource\Message\Status::SENT, $response->id);
-		}
-		catch (TwitterOAuthException $toe)
-		{
-			return array(DataSource\Message\Status::FAILED, FALSE);
-		}
-		catch(Exception $e)
-		{
-			return array(DataSource\Message\Status::FAILED, FALSE);
+		} catch (TwitterOAuthException $toe) {
+			return array(DataSource\Message\Status::FAILED, false);
+		} catch (Exception $e) {
+			return array(DataSource\Message\Status::FAILED, false);
 		}
 	}
 
 	// DataSource
-	public function receive($request) {
+	public function receive($request)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function format($messages) {
+	public function format($messages)
+    {
 		return false;
 	}
 
@@ -295,20 +288,16 @@ class Twitter implements DataSource {
 							   $this->request_count = $twitterConfig->request_count:
 							   $this->request_count = 0;
 
-		if (isset($twitterConfig->window_timestamp))
-		{
+		if (isset($twitterConfig->window_timestamp)) {
 			$this->window_timestamp = $twitterConfig->window_timestamp;
 			$window_has_expired = time() - $twitterConfig->window_timestamp > self::REQUEST_WINDOW;
 
-			if ($window_has_expired)
-			{
+			if ($window_has_expired) {
 				// reset
 				$this->request_count = 0;
 				$this->window_timestamp = time();
 			}
-		}
-		else
-		{
+		} else {
 			// save window timestamp for the first time
 			$this->window_timestamp = time();
 		}
@@ -329,20 +318,19 @@ class Twitter implements DataSource {
 		$this->configRepo->update($twitterConfig);
 	}
 
-	private function connect() {
+	private function connect()
+    {
 		// check if we have reached our rate limit
-		if ( !$this->canMakeRequest())
-		{
+		if (!$this->canMakeRequest()) {
 			Log::warning('You have reached your rate limit for this window');
 			return 0;
 		}
 			// Check we have the required config
-		if ( !isset($this->config['consumer_key']) ||
+		if (!isset($this->config['consumer_key']) ||
 			 !isset($this->config['consumer_secret']) ||
 			 !isset($this->config['oauth_access_token']) ||
 			 !isset($this->config['oauth_access_token_secret'])
-		)
-		{
+		) {
 			Log::warning('Could not connect to twitter, incomplete config');
 			return 0;
 		}
@@ -359,4 +347,7 @@ class Twitter implements DataSource {
 		return $connection;
 	}
 
+	public function registerRoutes($app)
+	{
+	}
 }

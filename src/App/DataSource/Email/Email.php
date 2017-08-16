@@ -16,7 +16,8 @@ use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Shadowhand\Email as ShadowhandEmail;
 use Ushahidi\Core\Entity\Contact;
 
-class Email implements DataSource {
+class Email implements DataSource
+{
 
 	protected $config;
 
@@ -28,7 +29,8 @@ class Email implements DataSource {
 		$this->config = $config;
 	}
 
-	public function getName() {
+	public function getName()
+    {
 		return 'Email';
 	}
 
@@ -149,22 +151,18 @@ class Email implements DataSource {
 
 		$from_name = ! empty($provider_options['from_name']) ? $provider_options['from_name'] : $from;
 
-		try
-		{
+		try {
 			$result = ShadowhandEmail::factory($title, $body->render(), 'text/html')
 				->to($to)
 				->from($from, $from_name)
 				->send();
 
 			return array(DataSource\Message\Status::SENT, $tracking_id);
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			Kohana::$log->add(Log::ERROR, $e->getMessage());
 			// Failed
-			return array(DataSource\Message\Status::FAILED, FALSE);
+			return array(DataSource\Message\Status::FAILED, false);
 		}
-
 	}
 
 	/**
@@ -176,7 +174,7 @@ class Email implements DataSource {
 	 * @param  boolean $limit   maximum number of messages to fetch at a time
 	 * @return int              number of messages fetched
 	 */
-	public function fetch($limit = FALSE)
+	public function fetch($limit = false)
 	{
 		if (!$this->_is_provider_available()) {
 			Kohana::$log->add(Log::WARNING, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
@@ -198,14 +196,12 @@ class Email implements DataSource {
 		// Encryption type
 		$encryption = (strcasecmp($encryption, 'none') != 0) ? '/'.$encryption : '';
 
-		try
-		{
+		try {
 			// Try to connect
 			$connection = imap_open('{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX', $username, $password);
 
 			// Return on connection error
-			if (! $connection)
-			{
+			if (! $connection) {
 				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
 				return 0;
 			}
@@ -216,37 +212,31 @@ class Email implements DataSource {
 
 			$emails = imap_fetch_overview($connection, $search_string, FT_UID);
 
-			if ($emails)
-			{
+			if ($emails) {
 				// reverse sort emails?
 				//rsort($emails);
-				foreach($emails as $email)
-				{
+				foreach ($emails as $email) {
 					// Break out if we've hit our limit
 					// @todo revist and decide if this is worth doing when imap_search has grabbed everything anyway.
-					if ($limit AND $count >= $limit)
+					if ($limit and $count >= $limit) {
 						break;
+                    }
 
 					$message = $html_message = "";
 					$structure = imap_fetchstructure($connection, $email->uid, FT_UID);
 
 					// Get HTML message from multipart message
-					if (! empty($structure->parts))
-					{
+					if (! empty($structure->parts)) {
 						$no_of_parts = count($structure->parts);
 
-						foreach ($structure->parts as $part_number => $part)
-						{
-							if ($part->subtype == 'HTML')
-							{
+						foreach ($structure->parts as $part_number => $part) {
+							if ($part->subtype == 'HTML') {
 								$html_message .= imap_fetchbody($connection, $email->uid, $part_number, FT_UID);
 							} elseif ($part->subtype == 'PLAIN') {
 								$message .= imap_fetchbody($connection, $email->uid, $part_number, FT_UID);
 							}
 						}
-					}
-					else
-					{
+					} else {
 						// or just fetch the body if not a multipart message
 						$message = imap_body($connection, $email->uid, FT_UID);
 					}
@@ -256,9 +246,7 @@ class Email implements DataSource {
 					if (! empty($html_message)) {
 						$html_message = imap_qprint($html_message);
 						$this->_process_incoming($email, $html_message);
-					}
-					elseif (! empty($message))
-					{
+					} elseif (! empty($message)) {
 						$message = imap_qprint($message);
 						$this->_process_incoming($email, $message);
 					}
@@ -270,9 +258,7 @@ class Email implements DataSource {
 			imap_errors();
 
 			imap_close($connection);
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			$errors = imap_errors();
 			$errors = is_array($errors) ? implode(', ', $errors) : "";
 			Kohana::$log->add(Log::ERROR, $e->getMessage() . ". Errors: :errors",
@@ -286,13 +272,13 @@ class Email implements DataSource {
    * Check if the email data provider is available
    *
    */
-  protected function _is_provider_available()
-  {
-	$config = Kohana::$config;
-	$providers_available = $config->load('features.data-providers');
+    protected function _is_provider_available()
+    {
+        $config = Kohana::$config;
+        $providers_available = $config->load('features.data-providers');
 
-	return $providers_available['email']? true : false;
-  }
+        return $providers_available['email']? true : false;
+    }
 
 	/**
 	 * Process individual incoming email
@@ -304,16 +290,15 @@ class Email implements DataSource {
 	{
 		$from = $this->_get_email($overview->from);
 		$to = isset($overview->to) ? $this->_get_email($overview->to) : $this->from();
-		$title = isset($overview->subject) ? $overview->subject : NULL;
-		$data_provider_message_id = isset($overview->uid) ? $overview->uid : NULL;
+		$title = isset($overview->subject) ? $overview->subject : null;
+		$data_provider_message_id = isset($overview->uid) ? $overview->uid : null;
 		// @todo revist hard coded HTML stripping & decoding
 		// strip all html
 
 		$message = trim(strip_tags($message, ""));
 		// convert all HTML entities to their applicable characters
 		$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
-		if ($message)
-		{
+		if ($message) {
 			// Save the message
 			$this->receive(DataSource\Message\Type::EMAIL, $from, $message, $to, $title, $data_provider_message_id);
 		}
@@ -331,28 +316,30 @@ class Email implements DataSource {
 	{
 		$pattern = '/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i';
 
-		if ( preg_match_all($pattern, $from, $emails) )
-		{
-			foreach ($emails as $key => $value)
-			{
-				if (isset($value[0]))
-				{
+		if (preg_match_all($pattern, $from, $emails)) {
+			foreach ($emails as $key => $value) {
+				if (isset($value[0])) {
 					return $value[0];
 				}
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
 	// DataSource
-	public function receive($request) {
+	public function receive($request)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function format($request) {
+	public function format($request)
+    {
 		return false;
 	}
 
+	public function registerRoutes($app)
+	{
+	}
 }

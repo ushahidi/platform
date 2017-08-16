@@ -1328,7 +1328,7 @@ config:
   -
     group_name: "data-provider"
     config_key: frontlinesms
-    config_value: '{"f":"12345","key":"1234","frontlinecloud_api_url":"http:\/\/frontlinesms.com:8130\/api\/1\/webconnection\/11"}'
+    config_value: '{"f":"12345","key":"1234","frontlinecloud_api_url":"http:\/\/frontlinesms.com:8130\/api\/1\/webconnection\/11","secret":"abc123"}'
 contacts:
   -
     id: 1

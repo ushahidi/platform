@@ -51,6 +51,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->configureAuraDI();
+
+        // Hack, must construct it to register route :/
+        $this->app->make('datasources');
     }
 
     // @todo move most of this elsewhere

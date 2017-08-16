@@ -14,10 +14,12 @@ namespace Ushahidi\App\DataSource\Twilio;
 use Ushahidi\App\DataSource\DataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
-use Services_Twilio, Services_Twilio_RestException;
+use Services_Twilio;
+use Services_Twilio_RestException;
 use Log;
 
-class Twilio implements DataSource {
+class Twilio implements DataSource
+{
 
 	protected $config;
 
@@ -29,7 +31,8 @@ class Twilio implements DataSource {
 		$this->config = $config;
 	}
 
-	public function getName() {
+	public function getName()
+    {
 		return 'Twilio';
 	}
 
@@ -80,38 +83,53 @@ class Twilio implements DataSource {
 	 */
 	public function send($to, $message, $title = "")
 	{
-		if ( ! isset($this->client))
-		{
+		if (! isset($this->client)) {
 			$this->client = new Services_Twilio($this->_options['account_sid'], $this->_options['auth_token']);
 		}
 
 		// Send!
-		try
-		{
+		try {
 			$message = $this->client->account->messages->sendMessage($this->config['from'], '+'.$to, $message);
 			return array(DataSource\Message\Status::SENT, $message->sid);
-		}
-		catch (Services_Twilio_RestException $e)
-		{
+		} catch (Services_Twilio_RestException $e) {
 			Log::error($e->getMessage());
 		}
 
-		return array(DataSource\Message\Status::FAILED, FALSE);
+		return array(DataSource\Message\Status::FAILED, false);
 	}
 
 	// DataSource
-	public function fetch($limit = false) {
+	public function fetch($limit = false)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function receive($request) {
+	public function receive($request)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function format($messages) {
+	public function format($messages)
+    {
 		return false;
 	}
 
+	public function registerRoutes($app)
+	{
+		$app->post('sms/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioSMS@index');
+		$app->get('ivr/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioIVR@index');
+		$app->post('ivr/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioIVR@index');
+		$app->post('ivr/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioIVR@gather');
+	}
+
+	public function verifySid($sid)
+	{
+        if ($sid === $this->config['account_sid']) {
+            return true;
+        }
+
+        return false;
+	}
 }

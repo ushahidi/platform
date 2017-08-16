@@ -1,4 +1,6 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php
+
+namespace Ushahidi\App\DataSource\Nexmo\Controller;
 
 /**
  * Nexmo SMS Callback Controller
@@ -9,7 +11,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_Sms_Nexmo extends Controller {
+use Ushahidi\App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class Nexmo extends Controller
+{
 
 	// Nexmo Subnets
 	// To Restrict Inbound Callback
@@ -47,25 +53,23 @@ class Controller_Sms_Nexmo extends Controller {
 	 **/
 	private function _ip_in_range($ip, $range)
 	{
-		if (strpos($range, '/') !== false)
-		{
+		if (strpos($range, '/') !== false) {
 			// $range is in IP/NETMASK format
 			list($range, $netmask) = explode('/', $range, 2);
-			if (strpos($netmask, '.') !== false)
-			{
+			if (strpos($netmask, '.') !== false) {
 				// $netmask is a 255.255.0.0 format
 				$netmask = str_replace('*', '0', $netmask);
 				$netmask_dec = ip2long($netmask);
 				return ( (ip2long($ip) & $netmask_dec) == (ip2long($range) & $netmask_dec) );
-			}
-			else
-			{
+			} else {
 				// $netmask is a CIDR size block
 				// fix the range argument
 				$x = explode('.', $range);
-				while(count($x)<4) $x[] = '0';
+				while (count($x)<4) {
+                    $x[] = '0';
+                }
 				list($a,$b,$c,$d) = $x;
-				$range = sprintf("%u.%u.%u.%u", empty($a)?'0':$a, empty($b)?'0':$b,empty($c)?'0':$c,empty($d)?'0':$d);
+				$range = sprintf("%u.%u.%u.%u", empty($a)?'0':$a, empty($b)?'0':$b, empty($c)?'0':$c, empty($d)?'0':$d);
 				$range_dec = ip2long($range);
 				$ip_dec = ip2long($ip);
 
@@ -78,24 +82,20 @@ class Controller_Sms_Nexmo extends Controller {
 
 				return (($ip_dec & $netmask_dec) == ($range_dec & $netmask_dec));
 			}
-		}
-		else
-		{
+		} else {
 			// range might be 255.255.*.* or 1.2.3.0-1.2.3.255
-			if (strpos($range, '*') !==false)
-			{ // a.b.*.* format
+			if (strpos($range, '*') !==false) { // a.b.*.* format
 				// Just convert to A-B format by setting * to 0 for A and 255 for B
 				$lower = str_replace('*', '0', $range);
 				$upper = str_replace('*', '255', $range);
 				$range = "$lower-$upper";
 			}
 
-			if (strpos($range, '-')!==false)
-			{ // A-B format
+			if (strpos($range, '-')!==false) { // A-B format
 				list($lower, $upper) = explode('-', $range, 2);
-				$lower_dec = (float)sprintf("%u",ip2long($lower));
-				$upper_dec = (float)sprintf("%u",ip2long($upper));
-				$ip_dec = (float)sprintf("%u",ip2long($ip));
+				$lower_dec = (float)sprintf("%u", ip2long($lower));
+				$upper_dec = (float)sprintf("%u", ip2long($upper));
+				$ip_dec = (float)sprintf("%u", ip2long($ip));
 				return ( ($ip_dec>=$lower_dec) && ($ip_dec<=$upper_dec) );
 			}
 
@@ -108,26 +108,23 @@ class Controller_Sms_Nexmo extends Controller {
 	/**
 	 * Handle SMS from Nexmo
 	 */
-	public function action_reply()
+	public function reply(Request $request)
 	{
 		include_once Kohana::find_file('vendor', 'nexmo/NexmoMessage');
 
     //Check if data provider is available
-    $providers_available = Kohana::$config->load('features.data-providers');
+        $providers_available = Kohana::$config->load('features.data-providers');
 
-    if ( !$providers_available['nexmo'] )
-    {
-      throw HTTP_Exception::factory(403, 'The Nexmo data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
-    }
+        if (!$providers_available['nexmo']) {
+              throw HTTP_Exception::factory(403, 'The Nexmo data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+        }
 
 
 		// Pong Sender
 		$ip_address = $_SERVER["REMOTE_ADDR"];
-		$continue = FALSE;
-		foreach ($this->subnets as $subnet)
-		{
-			if ( ($this->_ip_in_range($ip_address, $subnet)) )
-			{
+		$continue = false;
+		foreach ($this->subnets as $subnet) {
+			if (($this->_ip_in_range($ip_address, $subnet))) {
 				throw HTTP_Exception::factory(403, 'IP Address not in allowed range');
 				break;
 			};
@@ -136,20 +133,17 @@ class Controller_Sms_Nexmo extends Controller {
 		$provider = DataSource::factory('nexmo');
 		$options = $provider->options();
 
-		if( ! isset($options['api_key']))
-		{
+		if (! isset($options['api_key'])) {
 			throw HTTP_Exception::factory(403, 'Missing API key');
 		}
 
-		if ( ! isset($options['api_secret']))
-		{
+		if (! isset($options['api_secret'])) {
 			throw HTTP_Exception::factory(403, 'Missing API secret');
 		}
 
 		$sms = new NexmoMessage($options['api_key'], $options['api_secret']);
 
-		if ( ! $sms->inboundText())
-		{
+		if (! $sms->inboundText()) {
 			throw HTTP_Exception::factory(400, "Invalid message");
 		}
 
@@ -157,6 +151,6 @@ class Controller_Sms_Nexmo extends Controller {
 		$to = preg_replace("/[^0-9,.]/", "", $sms->to);
 		$from  = preg_replace("/[^0-9,.]/", "", $sms->from);
 
-		$provider->receive(DataSource\Message\Type::SMS, $from, $sms->text, $to, NULL, $sms->message_id);
+		$provider->receive(DataSource\Message\Type::SMS, $from, $sms->text, $to, null, $sms->message_id);
 	}
 }

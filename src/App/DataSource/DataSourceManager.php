@@ -2,7 +2,8 @@
 
 namespace Ushahidi\App\DataSource;
 
-class DataSourceManager {
+class DataSourceManager
+{
 
     /**
      * The application instance.
@@ -48,12 +49,13 @@ class DataSourceManager {
     public function addSource($name, DataSource $source)
     {
         $this->sources[$name] = $source;
+
+        $source->registerRoutes($this->app);
     }
 
     public function getSource($name = false)
     {
-        if ($name)
-        {
+        if ($name) {
             return isset($this->sources[$name]) ? $this->sources[$name] : false;
         }
 
@@ -71,25 +73,28 @@ class DataSourceManager {
         $this->availableSources = array_keys(array_filter($sources));
     }
 
-    public function getEnabledSources()
+    public function getEnabledSources($name = false)
     {
-        return array_intersect_key($this->sources, array_combine($this->enabledSources, $this->enabledSources), array_combine($this->availableSources, $this->availableSources));
+        $sources = array_intersect_key($this->sources, array_combine($this->enabledSources, $this->enabledSources), array_combine($this->availableSources, $this->availableSources));
+
+        if ($name) {
+            return isset($sources[$name]) ? $sources[$name] : false;
+        }
+
+        return $sources;
     }
 
     public function getProviderForType($type)
     {
         // If a default source is defined, use that
-        if ($this->defaultSources[$type])
-        {
+        if ($this->defaultSources[$type]) {
             return $this->sources[$this->defaultSources[$type]];
         }
 
         // Otherwise, grab the first enabled source that
         // provides that service
-        foreach ($this->getEnabledSources() as $source)
-        {
-            if (in_array($type, $source->getServices()))
-            {
+        foreach ($this->getEnabledSources() as $source) {
+            if (in_array($type, $source->getServices())) {
                 return $source;
             }
         }
@@ -106,7 +111,7 @@ class DataSourceManager {
      * @param  boolean $limit   maximum number of messages to send at a time
      * @todo   move to help class??
      */
-    public static function processPendingMessages($limit = 20, $provider = FALSE)
+    public static function processPendingMessages($limit = 20, $provider = false)
     {
         $message_repo = service('repository.message');
         $contact_repo = service('repository.contact');
@@ -116,8 +121,7 @@ class DataSourceManager {
         // Grab latest messages
         $pings = $message_repo->getPendingMessages(Message\Status::PENDING, $provider, $limit);
 
-        foreach($pings as $message)
-        {
+        foreach ($pings as $message) {
             $provider = DataSource::factory($message->data_provider, $message->type);
 
             // Load contact
@@ -151,7 +155,7 @@ class DataSourceManager {
      *                          Each element in the array should have 'to' and 'message' fields
      * @todo   move to help class??
      */
-    public function getPendingMessages($limit = FALSE, $current_status = Message\Status::PENDING_POLL, $new_status = Message\Status::UNKNOWN)
+    public function getPendingMessages($limit = false, $current_status = Message\Status::PENDING_POLL, $new_status = Message\Status::UNKNOWN)
     {
         $message_repo = service('repository.message');
         $contact_repo = service('repository.contact');
@@ -162,8 +166,7 @@ class DataSourceManager {
         // Limit it to 20 MAX and FIFO
         $pings = $message_repo->getPendingMessages($current_status, $provider, $limit);
 
-        foreach ($pings as $message)
-        {
+        foreach ($pings as $message) {
             $contact = $contact_repo->get($message->contact_id);
             $messages[] = array(
                 'to' => $contact->contact, // @todo load this in the message?
@@ -172,8 +175,7 @@ class DataSourceManager {
                 );
 
             // Update the message status
-            if ($new_status)
-            {
+            if ($new_status) {
                 $message->setState([
                         'status' => $new_status
                     ]);
@@ -183,5 +185,4 @@ class DataSourceManager {
 
         return $messages;
     }
-
 }

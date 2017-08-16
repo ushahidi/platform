@@ -1,4 +1,6 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php
+
+namespace Ushahidi\App\DataSource\SMSSync\Controller;
 
 /**
  * SMS Sync Callback controller
@@ -9,138 +11,107 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-class Controller_Sms_Smssync extends Controller {
+use Ushahidi\App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 
-	protected $_provider = NULL;
+class SMSSync extends Controller
+{
 
-	protected $_json = [];
+    protected $source = null;
 
-	protected $options = NULL;
-
-	public function action_index()
-	{
-		// Set up custom error view
-		Kohana_Exception::$error_view = 'error/data-provider';
-
-    //Check if data provider is available
-    $providers_available = Kohana::$config->load('features.data-providers');
-
-    if ( !$providers_available['smssync'] )
+    public function index(Request $request)
     {
-      throw HTTP_Exception::factory(403, 'The SMS Sync data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+        $this->source = app('datasources')->getEnabledSources('smssync');
+        if (!$this->source) {
+            response(['payload' => [
+                    'success' => false,
+                    'error' => 'SMSSync is not enabled'
+                ]], 403);
+        }
+
+        // Authenticate the request
+        if (!$this->source->verifySecret($request->input('secret'))) {
+            return response(['payload' => [
+                    'success' => false,
+                    'error' => 'Incorrect or missing secret key'
+                ]], 403);
+        }
+
+        // Process incoming messages from SMSSync only if the request is POST
+        if ($request->method() == 'POST') {
+            return $this->incoming($request);
+        }
+
+        // Attempt Task if request is GET and task type is 'send'
+        if ($request->method() == 'GET' and $request->input('task') == 'send') {
+            return $this->task($request);
+        }
+
+        // Set the response
+        return ['payload' => [
+            'success' => true,
+            'error' => null
+        ]];
     }
 
+    /**
+     * Process messages received from SMSSync
+     */
+    private function incoming($request)
+    {
+        $from = $request->input('from');
 
-		$methods_with_http_request = [Http_Request::POST, Http_Request::GET];
+        if (empty($from)) {
+            return response(['payload' => [
+                        'success' => false,
+                        'error' => 'Missing from value'
+                    ]], 400);
+        }
 
-		if ( !in_array($this->request->method(),$methods_with_http_request))
-		{
-			// Only POST or GET is allowed
-			throw HTTP_Exception::factory(405, 'The :method method is not supported. Supported methods are :allowed_methods', array(
-					':method'          => $this->request->method(),
-					':allowed_methods' => implode(',',$methods_with_http_request)
-				))
-				->allowed($methods_with_http_request);
-		}
+        $message_text = $request->input('message');
 
-		$this->_provider = DataSource::factory('smssync');
+        if (empty($message_text)) {
+            return response(['payload' => [
+                    'success' => false,
+                    'error' => 'Missing message'
+                ]], 400);
+        }
 
-		$this->options = $this->_provider->options();
+        // Remove Non-Numeric characters because that's what the DB has
+        $to = preg_replace("/[^0-9,.]/", "", $request->input('sent_to'));
 
-		// Ensure we're always returning a payload..
-		// This will be overwritten later if incoming or task methods are run
-		$this->_json['payload'] = [
-			'success' => TRUE,
-			'error' => NULL
-		];
+        // Allow for Alphanumeric sender
+        $from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
 
-		// Process incoming messages from SMSSync only if the request is POST
-		if ( $this->request->method() == 'POST')
-		{
-			$this->_incoming();
-		}
+        $this->source->receive(MessageType::SMS, $from, $message_text, $to);
 
-		// Attempt Task if request is GET and task type is 'send'
-		if ( $this->request->method() == 'GET' AND $this->request->query('task') == 'send')
-		{
-			$this->_task();
-		}
+        return ['payload' => [
+            'success' => true,
+            'error' => null
+        ]];
+    }
 
-		// Set the response
-		$this->_set_response();
-	}
+    /**
+     * Implement SMSSync task feature to allow SMSSync to send messages as SMS
+     * to users.
+     */
+    private function task($request)
+    {
+        // Do we have any tasks for SMSSync?
+        // Grab messages to send, 20 at a time.
+        //
+        // We don't know if the SMS from the phone itself work or not,
+        // but we'll update the messages status to 'unknown' so that
+        // its not picked up again
+        $messages = $this->source->get_pending_messages(20, MessageStatus::PENDING_POLL, MessageStatus::UNKNOWN);
 
-	/**
-	 * Process messages received from SMSSync
-	 */
-	private function _incoming()
-	{
-
-		if ( isset($this->options['secret']) AND $this->request->post('secret') != $this->options['secret'])
-		{
-			throw new HTTP_Exception_403('Incorrect or missing secret key');
-		}
-
-		$from = $this->request->post('from');
-
-		if( empty($from))
-		{
-			throw new HTTP_Exception_400('Missing from value');
-		}
-
-		$message_text = $this->request->post('message');
-
-		if (empty($message_text))
-		{
-			throw new HTTP_Exception_400('Missing message');
-		}
-
-		// Remove Non-Numeric characters because that's what the DB has
-		$to = preg_replace("/[^0-9,.]/", "", $this->request->post('sent_to'));
-
-		// Allow for Alphanumeric sender
-		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
-
-		$this->_provider->receive(DataSource\Message\Type::SMS, $from, $message_text, $to);
-
-		$this->_json['payload'] = [
-			'success' => TRUE,
-			'error' => NULL
-		];
-	}
-
-	/**
-	 * Implement SMSSync task feature to allow SMSSync to send messages as SMS
-	 * to users.
-	 */
-	private function _task()
-	{
-
-		// Validate secret key if set
-		if ( isset($this->options['secret']) AND $this->request->query('secret') != $this->options['secret'])
-		{
-			throw new HTTP_Exception_403('Incorrect or missing secret key');
-		}
-		// Do we have any tasks for SMSSync?
-		// Grab messages to send, 20 at a time.
-		//
-		// We don't know if the SMS from the phone itself work or not,
-		// but we'll update the messages status to 'unknown' so that
-		// its not picked up again
-		$messages = $this->_provider->get_pending_messages(20, DataSource\Message\Status::PENDING_POLL, DataSource\Message\Status::UNKNOWN);
-
-		$this->_json['payload'] = [
-			'task' => "send",
-			'success' => TRUE,
-			'messages' => $messages,
-			'secret' => $this->options['secret'] ?: null
-		];
-	}
-
-	// Set response message
-	private function _set_response()
-	{
-		$this->response->headers('Content-Type', 'application/json');
-		$this->response->body(json_encode($this->_json));
-	}
+        return ['payload' => [
+            'task' => "send",
+            'success' => true,
+            'messages' => $messages,
+            //'secret' => $this->options['secret'] ?: null
+        ]];
+    }
 }

@@ -16,7 +16,8 @@ use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
-class Nexmo implements DataSource {
+class Nexmo implements DataSource
+{
 
 	protected $config;
 
@@ -28,7 +29,8 @@ class Nexmo implements DataSource {
 		$this->config = $config;
 	}
 
-	public function getName() {
+	public function getName()
+    {
 		return 'Nexmo';
 	}
 
@@ -98,47 +100,50 @@ class Nexmo implements DataSource {
 	{
 		include_once __DIR__ . '/nexmo/NexmoMessage';
 
-		if ( ! isset($this->_client))
-		{
+		if (! isset($this->_client)) {
 			$this->_client = new \NexmoMessage($this->_options['api_key'], $this->_options['api_secret']);
 		}
 
 		// Send!
-		try
-		{
+		try {
 			$info = $this->_client->sendText('+'.$to, '+'.preg_replace("/[^0-9,.]/", "", $this->from()), $message);
-			foreach ( $info->messages as $message )
-			{
-				if ( $message->status != 0)
-				{
+			foreach ($info->messages as $message) {
+				if ($message->status != 0) {
 					Log::warning('Nexmo: '.$message->errortext);
-					return array(DataSource\Message\Status::FAILED, FALSE);
+					return array(DataSource\Message\Status::FAILED, false);
 				}
 
 				return array(DataSource\Message\Status::SENT, $message->messageid);
 			}
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			Log::warning($e->getMessage());
 		}
 
-		return array(DataSource\Message\Status::FAILED, FALSE);
+		return array(DataSource\Message\Status::FAILED, false);
 	}
 
 	// DataSource
-	public function fetch($limit = false) {
+	public function fetch($limit = false)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function receive($request) {
+	public function receive($request)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function format($messages) {
+	public function format($messages)
+    {
 		return false;
 	}
 
+	public function registerRoutes($app)
+	{
+		$app->post('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\Controller\Nexmo@reply');
+		$app->post('sms/nexmo/reply', 'Ushahidi\App\DataSource\Nexmo\Controller\Nexmo@reply');
+		$app->post('nexmo', 'Ushahidi\App\DataSource\Nexmo\Controller\Nexmo@reply');
+	}
 }

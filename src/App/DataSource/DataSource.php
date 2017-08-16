@@ -10,7 +10,8 @@ namespace Ushahidi\App\DataSource;
  * @copyright  2013 Ushahidi
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
-interface DataSource {
+interface DataSource
+{
 
 	/**
 	 * Constructor function for DataSource
@@ -38,7 +39,7 @@ interface DataSource {
 	 * @param  boolean $limit   maximum number of messages to fetch at a time
 	 * @return int              number of messages fetched
 	 */
-	public function fetch($limit = FALSE);
+	public function fetch($limit = false);
 
 	/**
 	 * Transforming incoming webhooks requests into Messages
@@ -55,5 +56,7 @@ interface DataSource {
 	 * @return [type]           [description]
 	 */
 	public function format($messages);
+
+	public function registerRoutes($app);
 
 }

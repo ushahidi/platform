@@ -15,7 +15,8 @@ use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\Post;
 
-class DataSourceStorage {
+class DataSourceStorage
+{
 
 	/**
 	 * Receive Messages From data provider
@@ -28,30 +29,21 @@ class DataSourceStorage {
 	 * @param  string data_provider_message_id Message ID
 	 * @return void
 	 */
-	public function receive($data_provider, $type, $contact_type, $from, $message, $to = NULL, $title = NULL, $data_provider_message_id = NULL, Array $additional_data = NULL)
+	public function receive($data_provider, $type, $contact_type, $from, $message, $to = null, $title = null, $data_provider_message_id = null, array $additional_data = null)
 	{
 		$usecase = service('factory.usecase')->get('messages', 'receive');
-		try
-		{
+		try {
 			$usecase->setPayload(compact(['type', 'from', 'message', 'to', 'title', 'data_provider_message_id', 'data_provider', 'contact_type', 'additional_data']))
 				->interact();
-		}
-		catch (Ushahidi\Core\Exception\NotFoundException $e)
-		{
+		} catch (Ushahidi\Core\Exception\NotFoundException $e) {
 			throw new HTTP_Exception_404($e->getMessage());
-		}
-		catch (Ushahidi\Core\Exception\AuthorizerException $e)
-		{
+		} catch (Ushahidi\Core\Exception\AuthorizerException $e) {
 			throw new HTTP_Exception_403($e->getMessage());
-		}
-		catch (Ushahidi\Core\Exception\ValidatorException $e)
-		{
+		} catch (Ushahidi\Core\Exception\ValidatorException $e) {
 			throw new HTTP_Exception_400('Validation Error: \':errors\'', array(
 				':errors' => implode(', ', Arr::flatten($e->getErrors())),
 			));
-		}
-		catch (\InvalidArgumentException $e)
-		{
+		} catch (\InvalidArgumentException $e) {
 			throw new HTTP_Exception_400('Bad request: :error', array(
 				':error' => $e->getMessage(),
 			));
@@ -68,5 +60,4 @@ class DataSourceStorage {
 	{
 		return uniqid($type . php_uname('n'));
 	}
-
 }

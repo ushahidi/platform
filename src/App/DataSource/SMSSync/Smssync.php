@@ -15,7 +15,8 @@ use Ushahidi\App\DataSource\DataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 
-class SMSSync implements DataSource {
+class SMSSync implements DataSource
+{
 
 	protected $config;
 
@@ -27,7 +28,8 @@ class SMSSync implements DataSource {
 		$this->config = $config;
 	}
 
-	public function getName() {
+	public function getName()
+    {
 		return 'SMSSync';
 	}
 
@@ -42,7 +44,7 @@ class SMSSync implements DataSource {
 			'intro_step1' => array(
 				'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
 				'input' => 'read-only-text',
-				'description' => function() {
+				'description' => function () {
 					return 'Scan this QR Code with your phone to download the app from the Android Market <img src="'. url('/media/images/smssync.png') .'" width="150"/>';
 				}
 			),
@@ -50,7 +52,7 @@ class SMSSync implements DataSource {
 			'intro_step2' => array(
 				'label' => 'Step 2: Android App Settings',
 				'input' => 'read-only-text',
-				'description' => function() {
+				'description' => function () {
 					return 'Turn on SMSSync and use the following link as the Sync URL: ' . url('smssync');
 				}
 			),
@@ -79,18 +81,37 @@ class SMSSync implements DataSource {
 	}
 
 	// DataSource
-	public function fetch($limit = false) {
+	public function fetch($limit = false)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function receive($request) {
+	public function receive($request)
+    {
 		return false;
 	}
 
 	// DataSource
-	public function format($messages) {
+	public function format($messages)
+    {
 		return false;
 	}
 
+	public function registerRoutes($app)
+	{
+		$app->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSync@index');
+		$app->post('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSync@index');
+		$app->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSync@index');
+		$app->get('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSync@index');
+	}
+
+	public function verifySecret($secret)
+	{
+		if (isset($this->config['secret']) and $secret === $this->config['secret']) {
+			return true;
+		}
+
+		return false;
+	}
 }
