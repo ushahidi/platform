@@ -124,8 +124,8 @@
             "phinx migrate -c phinx.php"
         ],
         "pre-test" : [
-            "php artisan passport:keys",
-            "@migrate"
+            "@migrate",
+            "php artisan passport:keys"
         ],
         "test" : [
             "phpunit --no-coverage",
