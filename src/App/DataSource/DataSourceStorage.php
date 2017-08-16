@@ -29,11 +29,30 @@ class DataSourceStorage
 	 * @param  string data_provider_message_id Message ID
 	 * @return void
 	 */
-	public function receive($data_provider, $type, $contact_type, $from, $message, $to = null, $title = null, $data_provider_message_id = null, array $additional_data = null)
-	{
+	public function receive(
+		$data_provider,
+		$type,
+		$contact_type,
+		$from,
+		$message,
+		$to = null,
+		$title = null,
+		$data_provider_message_id = null,
+		array $additional_data = null
+	) {
 		$usecase = service('factory.usecase')->get('messages', 'receive');
 		try {
-			$usecase->setPayload(compact(['type', 'from', 'message', 'to', 'title', 'data_provider_message_id', 'data_provider', 'contact_type', 'additional_data']))
+			$usecase->setPayload(compact([
+					'type',
+					'from',
+					'message',
+					'to',
+					'title',
+					'data_provider_message_id',
+					'data_provider',
+					'contact_type',
+					'additional_data'
+				]))
 				->interact();
 		} catch (Ushahidi\Core\Exception\NotFoundException $e) {
 			throw new HTTP_Exception_404($e->getMessage());
@@ -56,7 +75,7 @@ class DataSourceStorage
 	 * @param string $type - type of tracking_id
 	 * @return string tracking id
 	 */
-	public static function tracking_id($type = 'email')
+	public static function trackingId($type = 'email')
 	{
 		return uniqid($type . php_uname('n'));
 	}

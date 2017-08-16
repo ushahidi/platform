@@ -73,7 +73,11 @@ class DataSourceManager
 
     public function getEnabledSources($name = false)
     {
-        $sources = array_intersect_key($this->sources, array_combine($this->enabledSources, $this->enabledSources), array_combine($this->availableSources, $this->availableSources));
+        $sources = array_intersect_key(
+            $this->sources,
+            array_combine($this->enabledSources, $this->enabledSources),
+            array_combine($this->availableSources, $this->availableSources)
+        );
 
         if ($name) {
             return isset($sources[$name]) ? $sources[$name] : false;
@@ -102,7 +106,7 @@ class DataSourceManager
 
     public function registerRoutes()
     {
-        foreach($this->getEnabledSources() as $source) {
+        foreach ($this->getEnabledSources() as $source) {
             $source->registerRoutes($this->app);
         }
     }
@@ -160,8 +164,11 @@ class DataSourceManager
      *                          Each element in the array should have 'to' and 'message' fields
      * @todo   move to help class??
      */
-    public function getPendingMessages($limit = false, $current_status = Message\Status::PENDING_POLL, $new_status = Message\Status::UNKNOWN)
-    {
+    public function getPendingMessages(
+        $limit = false,
+        $current_status = Message\Status::PENDING_POLL,
+        $new_status = Message\Status::UNKNOWN
+    ) {
         $message_repo = service('repository.message');
         $contact_repo = service('repository.contact');
         $messages = array();

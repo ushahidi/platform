@@ -19,7 +19,13 @@ class Nexmo extends Controller
 
 	// Nexmo Subnets
 	// To Restrict Inbound Callback
-	private $subnets = array('174.37.245.32/29', '174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28');
+	private $subnets = [
+		'174.37.245.32/29',
+		'174.37.245.32/29',
+		'174.36.197.192/28',
+		'173.193.199.16/28',
+		'119.81.44.0/28'
+	];
 
 	/**
 	 * ip_in_range
@@ -51,7 +57,7 @@ class Nexmo extends Controller
 	 * @param string $ip - the ip address
 	 * @param string $range - the range we're comparing against
 	 **/
-	private function _ip_in_range($ip, $range)
+	private function ipInRange($ip, $range)
 	{
 		if (strpos($range, '/') !== false) {
 			// $range is in IP/NETMASK format
@@ -99,7 +105,10 @@ class Nexmo extends Controller
 				return ( ($ip_dec>=$lower_dec) && ($ip_dec<=$upper_dec) );
 			}
 
-			Kohana::$log->add(Log::ERROR, 'IP Address Range argument is not in 1.2.3.4/24 or 1.2.3.4/255.255.255.0 format');
+			Kohana::$log->add(
+				Log::ERROR,
+				'IP Address Range argument is not in 1.2.3.4/24 or 1.2.3.4/255.255.255.0 format'
+			);
 
 			return false;
 		}
@@ -116,7 +125,10 @@ class Nexmo extends Controller
         $providers_available = Kohana::$config->load('features.data-providers');
 
         if (!$providers_available['nexmo']) {
-              throw HTTP_Exception::factory(403, 'The Nexmo data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+              throw HTTP_Exception::factory(
+              	403,
+              	'The Nexmo data source is not currently available.
+              	It can be accessed by upgrading to a higher Ushahidi tier.');
         }
 
 
@@ -124,7 +136,7 @@ class Nexmo extends Controller
 		$ip_address = $_SERVER["REMOTE_ADDR"];
 		$continue = false;
 		foreach ($this->subnets as $subnet) {
-			if (($this->_ip_in_range($ip_address, $subnet))) {
+			if (($this->ipInRange($ip_address, $subnet))) {
 				throw HTTP_Exception::factory(403, 'IP Address not in allowed range');
 				break;
 			};

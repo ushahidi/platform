@@ -69,7 +69,9 @@ class Twitter implements DataSource
 				'label' => 'Step 2: Generate a consumer key and secret',
 				'input' => 'read-only-text',
 				'description' => function () {
-					return 'Once you\'ve created the application click on "Keys and Access Tokens".<br /> Then click "Generate Consumer Key and Secret".<br /> Copy keys, tokens and secrets into the fields below.';
+					return 'Once you\'ve created the application click on "Keys and Access Tokens".<br />
+						Then click "Generate Consumer Key and Secret".<br />
+						Copy keys, tokens and secrets into the fields below.';
 				}
 			),
 			'consumer_key' => array(
@@ -155,7 +157,9 @@ class Twitter implements DataSource
 				$additional_data = [];
 
 				// Skip retweets
-				if (array_key_exists('retweeted_status', $status) && array_key_exists('text', $status['retweeted_status'])) {
+				if (array_key_exists('retweeted_status', $status) &&
+					array_key_exists('text', $status['retweeted_status'])
+				) {
 					continue;
 				}
 
@@ -167,7 +171,8 @@ class Twitter implements DataSource
 
 					if ($status['place'] && $status['place']['bounding_box']) {
 						// Make a valid linear ring
-						$status['place']['bounding_box']['coordinates'][0][] = $status['place']['bounding_box']['coordinates'][0][0];
+						$status['place']['bounding_box']['coordinates'][0][] =
+							$status['place']['bounding_box']['coordinates'][0][0];
 
 						// If we don't already have a location
 						if (empty($additional_data['location'])) {
@@ -175,7 +180,8 @@ class Twitter implements DataSource
 							$geom = GeoJSON::geomFromText(json_encode($status['place']['bounding_box']));
 							// Use mysql to run Centroid
 							$result = DB::select([
-							 	DB::expr('AsText(Centroid(GeomFromText(:poly)))')->param(':poly', $geom->toWKT()), 'center']
+							 	DB::expr('AsText(Centroid(GeomFromText(:poly)))')
+							 		->param(':poly', $geom->toWKT()), 'center']
 							)->execute(service('kohana.db'));
 
 							$centerGeom = WKT::geomFromText($result->get('center', 0));
@@ -209,7 +215,17 @@ class Twitter implements DataSource
 				}
 
 				// @todo Check for similar messages in the database before saving
-				$this->receive('twitter', DataSource\Message\Type::TWITTER, Contact::TWITTER, $screen_name, $text, $to = null, $title = null, $id, $additional_data);
+				$this->receive(
+					'twitter',
+					DataSource\Message\Type::TWITTER,
+					Contact::TWITTER,
+					$screen_name,
+					$text,
+					$to = null,
+					$title = null,
+					$id,
+					$additional_data
+				);
 
 				$count++;
 			}

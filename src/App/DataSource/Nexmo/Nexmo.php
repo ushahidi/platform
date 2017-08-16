@@ -79,7 +79,7 @@ class Nexmo implements DataSource
 	 *
 	 * @var NexmoMessage
 	 */
-	private $_client;
+	private $client;
 
 	/**
 	 * Sets the FROM parameter for the provider
@@ -100,13 +100,13 @@ class Nexmo implements DataSource
 	{
 		include_once __DIR__ . '/nexmo/NexmoMessage';
 
-		if (! isset($this->_client)) {
-			$this->_client = new \NexmoMessage($this->_options['api_key'], $this->_options['api_secret']);
+		if (! isset($this->client)) {
+			$this->client = new \NexmoMessage($this->_options['api_key'], $this->_options['api_secret']);
 		}
 
 		// Send!
 		try {
-			$info = $this->_client->sendText('+'.$to, '+'.preg_replace("/[^0-9,.]/", "", $this->from()), $message);
+			$info = $this->client->sendText('+'.$to, '+'.preg_replace("/[^0-9,.]/", "", $this->from()), $message);
 			foreach ($info->messages as $message) {
 				if ($message->status != 0) {
 					Log::warning('Nexmo: '.$message->errortext);

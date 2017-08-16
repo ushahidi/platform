@@ -112,12 +112,6 @@ class Email implements DataSource
 	 */
 	public function send($to, $message, $title = "")
 	{
-		// Always try to send emails!
-		// if (!$this->_is_provider_available()) {
-		//    Kohana::$log->add(Log::ERROR, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
-		// 		return array(DataSource\Message\Status::FAILED, FALSE);
-		// }
-
 		$provider_options = $this->options();
 
 		$driver = $provider_options['outgoing_type'];
@@ -176,11 +170,6 @@ class Email implements DataSource
 	 */
 	public function fetch($limit = false)
 	{
-		if (!$this->_is_provider_available()) {
-			Kohana::$log->add(Log::WARNING, 'The email data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
-			return 0;
-		}
-
 		$count = 0;
 
 		$limit = 200;
@@ -245,10 +234,10 @@ class Email implements DataSource
 					// Process the email
 					if (! empty($html_message)) {
 						$html_message = imap_qprint($html_message);
-						$this->_process_incoming($email, $html_message);
+						$this->processIncoming($email, $html_message);
 					} elseif (! empty($message)) {
 						$message = imap_qprint($message);
-						$this->_process_incoming($email, $message);
+						$this->processIncoming($email, $message);
 					}
 
 					$count++;
@@ -268,28 +257,16 @@ class Email implements DataSource
 		return $count;
 	}
 
-  /**
-   * Check if the email data provider is available
-   *
-   */
-    protected function _is_provider_available()
-    {
-        $config = Kohana::$config;
-        $providers_available = $config->load('features.data-providers');
-
-        return $providers_available['email']? true : false;
-    }
-
 	/**
 	 * Process individual incoming email
 	 *
 	 * @param object $overview
 	 * @param string message - the email message
 	 */
-	protected function _process_incoming($overview, $message)
+	protected function processIncoming($overview, $message)
 	{
-		$from = $this->_get_email($overview->from);
-		$to = isset($overview->to) ? $this->_get_email($overview->to) : $this->from();
+		$from = $this->getEmail($overview->from);
+		$to = isset($overview->to) ? $this->getEmail($overview->to) : $this->from();
 		$title = isset($overview->subject) ? $overview->subject : null;
 		$data_provider_message_id = isset($overview->uid) ? $overview->uid : null;
 		// @todo revist hard coded HTML stripping & decoding
@@ -312,7 +289,7 @@ class Email implements DataSource
 	 * @param string $from - from address string from email
 	 * @return string email address or NULL
 	 */
-	protected function _get_email($from)
+	protected function getEmail($from)
 	{
 		$pattern = '/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i';
 

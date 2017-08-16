@@ -51,7 +51,8 @@ class FrontlineSMS implements DataSource
 			'secret' => array(
 				'label' => 'Secret',
 				'input' => 'text',
-				'description' => 'Set a secret so that only authorized FrontlineCloud accounts can send/recieve message. You need to configure the same secret in the FrontlineCloud Activity.',
+				'description' => 'Set a secret so that only authorized FrontlineCloud accounts can send/recieve message.
+					You need to configure the same secret in the FrontlineCloud Activity.',
 				'rules' => array('required')
 			)
 		);

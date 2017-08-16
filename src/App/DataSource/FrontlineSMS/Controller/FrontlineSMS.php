@@ -18,11 +18,6 @@ use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 
 class FrontlineSMS extends Controller
 {
-	protected $_provider = null;
-
-	protected $_json = [];
-
-	protected $options = null;
 
 	public function index(Request $request)
 	{

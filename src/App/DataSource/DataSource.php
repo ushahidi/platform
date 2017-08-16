@@ -58,5 +58,4 @@ interface DataSource
 	public function format($messages);
 
 	public function registerRoutes($app);
-
 }

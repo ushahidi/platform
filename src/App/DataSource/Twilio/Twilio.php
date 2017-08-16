@@ -47,7 +47,8 @@ class Twilio implements DataSource
 			'from' => array(
 				'label' => 'Phone Number',
 				'input' => 'text',
-				'description' => 'The from phone number. A Twilio phone number enabled for the type of message you wish to send. ',
+				'description' => 'The from phone number.
+					A Twilio phone number enabled for the type of message you wish to send. ',
 				'rules' => array('required')
 			),
 			'account_sid' => array(

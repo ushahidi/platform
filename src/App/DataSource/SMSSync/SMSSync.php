@@ -45,7 +45,8 @@ class SMSSync implements DataSource
 				'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
 				'input' => 'read-only-text',
 				'description' => function () {
-					return 'Scan this QR Code with your phone to download the app from the Android Market <img src="'. url('/media/images/smssync.png') .'" width="150"/>';
+					return 'Scan this QR Code with your phone to download the app from the Android Market
+						<img src="'. url('/media/images/smssync.png') .'" width="150"/>';
 				}
 			),
 			// @todo figure out how to inject link and fix base url
@@ -59,7 +60,8 @@ class SMSSync implements DataSource
 			'secret' => array(
 				'label' => 'Secret',
 				'input' => 'text',
-				'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message. You need to configure the same secret in the SMSSync App.',
+				'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message.
+					You need to configure the same secret in the SMSSync App.',
 				'rules' => array('required')
 			)
 		);
