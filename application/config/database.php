@@ -14,28 +14,19 @@ if (getenv("CLEARDB_DATABASE_URL")) {
 	$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 	// Push url parts into env
 	putenv("DB_HOST=" . $url["host"]);
-	putenv("DB_USER=" . $url["user"]);
-	putenv("DB_PASS=" . $url["pass"]);
-	putenv("DB_NAME=" . substr($url["path"], 1));
-	// Assuming ClearDB is always MySQLi
-	// @todo parse $url['scheme'] instead
-	putenv("DB_TYPE=" . "MySQLi");
-}
-
-// Default to MySQLi db if not set
-// This at least results in a connect error if other vars aren't set
-if (! getenv('DB_TYPE')) {
-	putenv("DB_TYPE=MySQLi");
+	putenv("DB_USERNAME=" . $url["user"]);
+	putenv("DB_PASSWORD=" . $url["pass"]);
+	putenv("DB_DATABASE=" . substr($url["path"], 1));
 }
 
 // DB config
 $config = [
-	'type'       => getenv('DB_TYPE'),
+	'type'       => 'MySQLi',
 	'connection' => [
 		'hostname'   => getenv('DB_HOST'),
-		'database'   => getenv('DB_NAME'),
-		'username'   => getenv('DB_USER'),
-		'password'   => getenv('DB_PASS'),
+		'database'   => getenv('DB_DATABASE'),
+		'username'   => getenv('DB_USERNAME'),
+		'password'   => getenv('DB_PASSWORD'),
 		'persistent' => FALSE,
 	],
 	'table_prefix' => '',
@@ -50,7 +41,7 @@ if (!empty(getenv("MULTISITE_DOMAIN"))) {
 	return [
 		// Just define basics for default connection
 		'default'   => [
-			'type'         => getenv('DB_TYPE'),
+			'type'         => 'MySQLi',
 			'connection'   => [ 'persistent' => FALSE, ],
 			'table_prefix' => '',
 			'charset'      => 'utf8',
