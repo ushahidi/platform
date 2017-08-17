@@ -39,7 +39,7 @@ class Twilio implements DataSource
 
 	public function getServices()
 	{
-		return [MessageType::SMS, MessageType::IVR];
+		return [MessageType::SMS];
 	}
 
 	public function getOptions()
@@ -121,9 +121,6 @@ class Twilio implements DataSource
 	public function registerRoutes($app)
 	{
 		$app->post('sms/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioSMS@index');
-		$app->get('ivr/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioIVR@index');
-		$app->post('ivr/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioIVR@index');
-		$app->post('ivr/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioIVR@gather');
 	}
 
 	public function verifySid($sid)
