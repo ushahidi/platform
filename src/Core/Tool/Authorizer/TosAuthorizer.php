@@ -39,14 +39,9 @@ class TosAuthorizer implements Authorizer
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
-    {   
-        // Get the current user ID
-        $current_user = service('session.user');
-        $current_user_id = $current_user->id;
-
+    {
         // These checks are run within the user context.
         $user = $this->getUser();
-        $user_id = $user->id;
 
         // Only logged in users have access if the deployment is private
         if (!$this->hasAccess()) {
@@ -61,7 +56,7 @@ class TosAuthorizer implements Authorizer
             return true;
         }
 
-        if ($privilege === 'read' && $user_id === $current_user_id) {
+        if ($privilege === 'read' && $entity->user_id === $user->id) {
             return true;
         }
 

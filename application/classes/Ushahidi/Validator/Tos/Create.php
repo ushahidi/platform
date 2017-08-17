@@ -23,13 +23,6 @@ class Ushahidi_Validator_Tos_Create extends Validator
         $this->user_repo = $user_repo;
     }
 
-    public function validDate($value)
-    {
-        if (!Valid::date($value)) {
-            return 'date';
-        }
-    }
-    
     protected function getRules()
     {
         return [
@@ -46,7 +39,15 @@ class Ushahidi_Validator_Tos_Create extends Validator
             'tos_version_date' => [
                 [[$this, 'validDate'], [':value']],
             ],
-            
+
         ];
+    }
+
+    public function validDate($str)
+    {
+        if ($str instanceof \DateTimeInterface) {
+            return true;
+        }
+        return (strtotime($str) !== FALSE);
     }
 }

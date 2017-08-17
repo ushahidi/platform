@@ -1,4 +1,4 @@
-@resetFixture @tos 
+@resetFixture @tos
 Feature: Testing the Tos API
 
     Scenario: Create a ToS entry
@@ -7,7 +7,7 @@ Feature: Testing the Tos API
         And that the request "data" is:
             """
             {
-                "tos_version_date":"1500059540"
+                "tos_version_date":"2017-07-14T19:12:20+00:00"
             }
             """
         When I request "/tos"
@@ -23,5 +23,5 @@ Feature: Testing the Tos API
         When I request "/tos"
         Then the response is JSON
         And the response has a "results" property
-        And the type of the "results" property is "array"
+        And the "results.0.tos_version_date" property equals "2017-07-14T19:12:20+00:00"
         Then the guzzle status code should be 200

@@ -14,4 +14,15 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 class Ushahidi_Formatter_Tos extends Ushahidi_Formatter_API
 {
     use FormatterAuthorizerMetadata;
+
+	protected function format_agreement_date($value)
+	{
+		return $value ? $value->format(DateTime::W3C) : NULL;
+	}
+
+	protected function format_tos_version_date($value)
+	{
+		return $value ? $value->format(DateTime::W3C) : NULL;
+	}
+
 }

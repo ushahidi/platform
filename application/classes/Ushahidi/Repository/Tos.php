@@ -33,17 +33,15 @@ class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
     // CreateRepository
     public function create(Entity $entity)
     {
-        // Get the user ID
-        $user = service('session.user');
-        $user_id = $user->id;
+        $data = $entity->asArray();
 
         // Save the agreement date to the current time and the user ID
-        $state = [
-            'agreement_date'  => time(),
-            'user_id'         => $user_id,
-        ];
+        $data['agreement_date']  = time();
+        $data['user_id'] = $this->getUserId();
+        // Convert tos_version_date to timestamp
+        $data['tos_version_date'] = $data['tos_version_date']->format("U");
 
-        return parent::create($entity->setState($state));
+        return $this->executeInsert($this->removeNullValues($data));
     }
 
     public function getEntity(Array $data = null)
@@ -61,7 +59,7 @@ class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
     {
 
         $query = $this->search_query;
-        
+
         $query->where('user_id', '=', $this->getUserId());
     }
 

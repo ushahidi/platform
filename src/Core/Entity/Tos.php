@@ -33,8 +33,8 @@ class Tos extends StaticEntity
         return [
             'id'              => 'int',
             'user_id'         => 'int',
-            'agreement_date'  => 'int',
-            'tos_version_date' => 'int',
+            'agreement_date'  => '*date',
+            'tos_version_date' => '*date',
         ];
     }
 
