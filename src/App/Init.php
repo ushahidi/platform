@@ -10,6 +10,7 @@ $di = service();
 // Helpers, tools, etc
 $di->set('tool.acl', $di->lazyNew('Ushahidi\App\Acl'));
 $di->setter['Ushahidi\App\Acl']['setRoleRepo'] = $di->lazyGet('repository.role');
+$di->setter['Ushahidi\App\Acl']['setRolesEnabled'] = $di->lazyGet('roles.enabled');
 
 $di->set('tool.hasher.password', $di->lazyNew('Ushahidi\App\Hasher\Password'));
 $di->set('tool.authenticator.password', $di->lazyNew('Ushahidi\App\Authenticator\Password'));

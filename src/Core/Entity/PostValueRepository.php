@@ -28,7 +28,7 @@ interface PostValueRepository
 	 * @param  string $match
 	 * @return Database_Query
 	 */
-	public function getValueQuery($form_attribute_id, $match);
+	public function getValueQuery($form_attribute_id, array $matches);
 
 	/**
 	 * Get the table name for use in joins

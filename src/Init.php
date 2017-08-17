@@ -351,11 +351,12 @@ $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository'
 	= $di->lazyGet('repository.form_stage');
 
 $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
-$di->setter['Ushahidi\Core\Traits\PermissionAccess']['setAcl'] = $di->lazyGet('tool.acl');
 $di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
-$di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRolesEnabled'] = $di->lazyGet('roles.enabled');
 $di->setter['Ushahidi\Core\Traits\WebhookAccess']['setEnabled'] = $di->lazyGet('webhooks.enabled');
 $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
+
+// Set ACL for ACL Trait
+$di->setter['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
 
 // Tools
 $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
