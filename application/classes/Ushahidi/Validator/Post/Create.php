@@ -158,7 +158,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'completed_stages' => [
 				[[$this, 'checkStageInForm'], [':validation', ':value', ':fulldata']],
-				[[$this, 'checkRequiredStages'], [':validation', ':value', ':fulldata']]
+				[[$this, 'checkRequiredStages'], [':validation', ':fulldata']]
 			]
 		];
 	}
@@ -282,7 +282,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 */
 	public function checkStageInForm(Validation $validation, $completed_stages, $fullData)
 	{
-		$completed_stages = !empty($fullData['completed_stages']) ? $fullData['completed_stages'] : [];
 		if (!$completed_stages)
 		{
 			return;
@@ -306,7 +305,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 * @param  Array      $attributes
 	 * @param  Array      $fullData
 	 */
-	public function checkRequiredStages(Validation $validation, $completed_stages, $fullData)
+	public function checkRequiredStages(Validation $validation, $fullData)
 	{
 		$completed_stages = !empty($fullData['completed_stages']) ? $fullData['completed_stages'] : [];
 
