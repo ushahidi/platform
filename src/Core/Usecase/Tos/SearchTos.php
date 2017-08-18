@@ -30,5 +30,3 @@ class SearchTos extends SearchUsecase
         ];
     }
 }
-
-
