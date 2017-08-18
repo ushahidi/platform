@@ -974,6 +974,11 @@ post_varchar:
     post_id: 122
     form_attribute_id: 24
     value: "arabic string"
+  -
+    id: 23
+    post_id: 105
+    form_attribute_id: 7
+    value: "Atlantis"
 post_comments:
 tags:
   -

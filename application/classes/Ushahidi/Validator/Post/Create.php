@@ -119,7 +119,8 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'values' => [
 				[[$this, 'checkValues'], [':validation', ':value', ':fulldata']],
-				[[$this, 'checkRequiredAttributes'], [':validation', ':value', ':fulldata']],
+				[[$this, 'checkRequiredPostAttributes'], [':validation', ':value', ':fulldata']],
+				[[$this, 'checkRequiredTaskAttributes'], [':validation', ':value', ':fulldata']],
 			],
 			'post_date' => [
 				[[$this, 'validDate'], [':value']],
@@ -333,7 +334,33 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 * @param  Array      $attributes
 	 * @param  Array      $fullData
 	 */
-	public function checkRequiredAttributes(Validation $validation, $attributes, $fullData)
+	public function checkRequiredPostAttributes(Validation $validation, $attributes, $fullData)
+	{
+		// Get the post stage
+		$stage = $this->stage_repo->getPostStage($fullData['form_id']);
+
+		// Load the required attributes
+		$required_attributes = $this->attribute_repo->getRequired($stage->id);
+
+		// Check each attribute has been completed
+		foreach ($required_attributes as $attr)
+		{
+			if (!array_key_exists($attr->key, $attributes))
+			{
+				// If a required attribute isn't completed, throw an error
+				$validation->error('values', 'postAttributeRequired', [$attr->label, $stage->label]);
+			}
+		}
+	}
+
+	/**
+	 * Check required attributes are completed before completing stages
+	 *
+	 * @param  Validation $validation
+	 * @param  Array      $attributes
+	 * @param  Array      $fullData
+	 */
+	public function checkRequiredTaskAttributes(Validation $validation, $attributes, $fullData)
 	{
 		if (empty($fullData['completed_stages']))
 		{
@@ -354,7 +381,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 				{
 					$stage = $this->stage_repo->get($stage_id);
 					// If a required attribute isn't completed, throw an error
-					$validation->error('values', 'attributeRequired', [$attr->label, $stage->label]);
+					$validation->error('values', 'taskAttributeRequired', [$attr->label, $stage->label]);
 				}
 			}
 		}
