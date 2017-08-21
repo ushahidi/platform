@@ -14,7 +14,7 @@ use Ushahidi\Core\Entity\PostRepository;
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 {
 
-  public function transformData($data) {
+  public function retrieveColumnNameData($data) {
 
     // Set attribute keys
     $attributes = [];
