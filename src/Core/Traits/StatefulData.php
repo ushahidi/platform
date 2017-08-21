@@ -17,6 +17,8 @@ trait StatefulData
 	// when comparing, for example, a string with a number (`'5' === 5`).
 	use DataTransformer;
 
+	use RecursiveArrayDiff;
+
 	/**
 	 * Tracks which properties have been changed, separately from internal object
 	 * properties, organized by the unique object id.
