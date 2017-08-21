@@ -194,4 +194,13 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 
 		return $this->getCollection($results->as_array());
 	}
+
+	// FormStageRepository
+	public function getPostStage($form_id)
+	{
+		return $this->getEntity($this->selectOne([
+				'form_stages.form_id'  => $form_id,
+				'form_stages.type' => 'post'
+			]));
+	}
 }

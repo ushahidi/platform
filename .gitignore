@@ -17,6 +17,7 @@ Puppetfile.lock
 .env
 phpunit.xml
 phpspec.yml
+phinx.yml
 
 # Kohana deployment specifics
 application/logs/*

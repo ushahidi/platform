@@ -91,7 +91,7 @@ class Post extends StaticEntity
 			'values'          => 'array',
 			'tags'            => 'array',
 			'published_to'    => '*json',
-			'completed_stages'=> 'array',
+			'completed_stages'=> '*arrayInt',
 			'sets'            => 'array',
 		];
 	}

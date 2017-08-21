@@ -47,6 +47,7 @@ Feature: Testing the Posts API
 		And the "values.last_location_point.0.lat" property equals "33.755"
 		And the "values.geometry_test" property contains "POLYGON((0 0,1 1,2 2,0 0))"
 		And the "values.links.0" property equals "http://google.com"
+		And the type of the "completed_stages.0" property is "int"
 		And the "completed_stages" property contains "1"
 		And the "post_date" property equals "2016-10-14T23:18:27+00:00"
 		Then the guzzle status code should be 200

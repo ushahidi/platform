@@ -551,6 +551,11 @@ class RestContext implements Context
 					throw new \Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
 				}
 				break;
+			case 'int':
+				if (!is_int($actualPropertyValue)) {
+					throw new \Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
+				}
+				break;
 		}
 	}
 
