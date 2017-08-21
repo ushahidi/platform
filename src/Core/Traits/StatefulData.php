@@ -186,7 +186,7 @@ trait StatefulData
 				continue;
 			}
 
-			if (is_array($value)){
+			if (is_array($value)) {
 				$current_key = is_array($this->$key) ? $this->$key : [];
 
 				// Check for multi level recursion
@@ -205,7 +205,7 @@ trait StatefulData
 					$changed[$key] = array_keys($diff);
 				}
 			// Compare DateTime Objects
-			} else if ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
+			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
 				$current_key = $this->$key;
 				$interval = $value->diff($current_key);
 
@@ -215,7 +215,7 @@ trait StatefulData
 					// ... and track the change.
 					$changed[$key] = $key;
 				}
-			} else if ($this->$key !== $value) {
+			} elseif ($this->$key !== $value) {
 				// Update the value...
 				$this->setStateValue($key, $value);
 				// ... and track the change.
@@ -245,7 +245,7 @@ trait StatefulData
 	 *         only go one level deep within nested arrays
 	 * @return Boolean
 	 */
-	public function hasChanged($key, $array_key=null)
+	public function hasChanged($key, $array_key = null)
 	{
 		// Check if key exists in changed array
 		$result = !empty(static::$changed[$this->getObjectId()][$key]);

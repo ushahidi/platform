@@ -2,8 +2,6 @@
 
 namespace Tests\Unit\Core\Traits;
 
-
-
 class MockPostData
 {
 	use \Ushahidi\Core\Traits\StatefulData;
@@ -36,7 +34,7 @@ class MockPostData
 	// When originating in an SMS message
 	protected $contact_id;
 
-    public function __get($key) 
+    public function __get($key)
     {
         if (property_exists($this, $key)) {
 			return $this->$key;

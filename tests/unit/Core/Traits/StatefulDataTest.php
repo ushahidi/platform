@@ -10,6 +10,7 @@
  */
 
 namespace Tests\Unit\Core\Traits;
+
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
@@ -45,39 +46,39 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
     {
         $this->test_post_data_current = array (
             'id' => '110',
-            'parent_id' => NULL,
+            'parent_id' => null,
             'form_id' => '1',
             'user_id' => '1',
             'type' => 'report',
             'title' => 'ACL test post',
-            'slug' => NULL,
+            'slug' => null,
             'content' => 'Testing oauth posts api access',
-            'author_email' => NULL,
-            'author_realname' => NULL,
+            'author_email' => null,
+            'author_realname' => null,
             'status' => 'published',
             'published_to' => '[]',
             'locale' => 'en_us',
             'created' => '1355743120',
-            'updated' => NULL,
+            'updated' => null,
             'post_date' => '2012-12-17 03:18:40',
             'message_id' => '4',
             'source' => 'sms',
             'contact_id' => '3',
-            'color' => NULL,
+            'color' => null,
             'completed_stages' => [1]
         ) ;
 
         $this->test_post_data_new = array (
             'id' => '110',
-            'parent_id' => NULL,
+            'parent_id' => null,
             'form_id' => '1',
             'user_id' => '4',
             'type' => 'report',
             'title' => 'Updated Test Post',
             'slug' => 'updated-test-post-596fe1a454e54',
             'content' => 'Testing oauth posts api access',
-            'author_email' => NULL,
-            'author_realname' => NULL,
+            'author_email' => null,
+            'author_realname' => null,
             'status' => 'published',
             'published_to' => '[]',
             'locale' => 'en_us',
@@ -86,7 +87,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'message_id' => '4',
             'source' => 'sms',
             'contact_id' => '3',
-            'color' => NULL,
+            'color' => null,
             'values' =>
             array (
                 'missing_date' => array (
@@ -159,7 +160,6 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'completed_stages' =>array (
             )
         );
-
     }
 
     protected function getPostDefinition()
