@@ -96,10 +96,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 		return [
 			'title' => [
 				['max_length', [':value', 150]],
-				['not_empty'],
-			],
-			'content' => [
-				['not_empty'],
 			],
 			'slug' => [
 				['min_length', [':value', 2]],
