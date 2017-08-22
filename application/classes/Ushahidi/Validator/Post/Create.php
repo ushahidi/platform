@@ -96,6 +96,10 @@ class Ushahidi_Validator_Post_Create extends Validator
 		return [
 			'title' => [
 				['max_length', [':value', 150]],
+				['not_empty'],
+			],
+			'content' => [
+				['not_empty'],
 			],
 			'slug' => [
 				['min_length', [':value', 2]],
@@ -342,10 +346,13 @@ class Ushahidi_Validator_Post_Create extends Validator
 		// Load the required attributes
 		$required_attributes = $this->attribute_repo->getRequired($stage->id);
 
-		// Check each attribute has been completed
 		foreach ($required_attributes as $attr)
 		{
-			if (!array_key_exists($attr->key, $attributes))
+			// Post has two special required attributes Title and Desription
+			// these are checked separately and skipped here.
+			// TODO: Refactor Title and Description to be handled as Post Values
+			Kohana::$log->add(Log::ERROR, print_r($required_attributes, true));
+			if (!in_array($attr->type, ['title', 'description']) && !array_key_exists($attr->key, $attributes))
 			{
 				// If a required attribute isn't completed, throw an error
 				$validation->error('values', 'postAttributeRequired', [$attr->label, $stage->label]);
