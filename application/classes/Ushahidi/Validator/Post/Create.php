@@ -347,7 +347,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 			// Post has two special required attributes Title and Desription
 			// these are checked separately and skipped here.
 			// TODO: Refactor Title and Description to be handled as Post Values
-			Kohana::$log->add(Log::ERROR, print_r($required_attributes, true));
 			if (!in_array($attr->type, ['title', 'description']) && !array_key_exists($attr->key, $attributes))
 			{
 				// If a required attribute isn't completed, throw an error
