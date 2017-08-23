@@ -877,14 +877,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
 
-		// Uchaguzi Basic Change tracking
-		$user = $this->getUser();
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Id: " . print_r($user->id, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Email: " . print_r($user->realname, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Email: " . print_r($user->email, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: Post Id: " . print_r($post['id'], true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: Post Title: " . print_r($post['title'], true));
-
 		$values = $entity->values;
 		// Handle legacy post.tags attribute
 		if ($entity->tags)
@@ -933,13 +925,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
-
-		// Uchaguzi Basic Change tracking
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Id: " . print_r($user->id, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Email: " . print_r($user->realname, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Email: " . print_r($user->email, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Id: " . print_r($post['id'], true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Title: " . print_r($post['title'], true));
 
 		$values = $entity->values;
 		// Handle legacy post.tags attribute
@@ -1047,13 +1032,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	public function delete(Entity $entity)
 	{
-		// Uchaguzi Basic Change tracking
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Id: " . print_r($user->id, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Email: " . print_r($user->realname, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Email: " . print_r($user->email, true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Id: " . print_r($post['id'], true));
-		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Title: " . print_r($post['title'], true));
-
 		parent::delete($entity);
 	}
 
