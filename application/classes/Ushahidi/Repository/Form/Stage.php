@@ -18,24 +18,20 @@ use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Traits\UserContext;
 
 use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\Permissions\ManagePosts;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	FormStageRepository
 {
 	use UserContext;
 
+	// Provides `acl`
+	use AclTrait;
+
 	use PostValueRestrictions;
 
 	// Checks if user is Admin
 	use AdminAccess;
-
-	// Provides `hasPermission`
-	use PermissionAccess;
-
-	// Provides `getPermission`
-	use ManagePosts;
 
 	protected $form_id;
 	protected $form_repo;
@@ -197,5 +193,14 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	// FormStageRepository
+	public function getPostStage($form_id)
+	{
+		return $this->getEntity($this->selectOne([
+				'form_stages.form_id'  => $form_id,
+				'form_stages.type' => 'post'
+			]));
 	}
 }

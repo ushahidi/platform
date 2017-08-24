@@ -13,16 +13,14 @@ namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Permissions\Acl;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\PrivAccess;
-use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\Permissions\ManageSettings;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `DataProviderAuthorizer` class is responsible for access checks on `DataProvider` Entities
-class DataProviderAuthorizer implements Authorizer, Permissionable
+class DataProviderAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
     use UserContext;
@@ -35,19 +33,16 @@ class DataProviderAuthorizer implements Authorizer, Permissionable
 
 	// Check that the user has the necessary permissions
 	// if roles are available for this deployment.
-	use PermissionAccess;
-
-	// Provides `getPermission`
-	use ManageSettings;
+	use AclTrait;
 
 	// Authorizer
     public function isAllowed(Entity $entity, $privilege)
     {
 		// These checks are run within the user context.
 		$user = $this->getUser();
-		
+
 		// Allow role with the right permissions
-		if ($this->hasPermission($user)) {
+		if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
 			return true;
 		}
 

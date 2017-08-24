@@ -14,19 +14,17 @@ namespace Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Form;
 use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Permissions\Acl;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\ParentAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\PermissionAccess;
-use Ushahidi\Core\Traits\Permissions\ManageSettings;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 // The `FormAuthorizer` class is responsible for access checks on `Forms`
-class FormAuthorizer implements Authorizer, Permissionable
+class FormAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
@@ -43,10 +41,7 @@ class FormAuthorizer implements Authorizer, Permissionable
 	use PrivateDeployment;
 
 	// Check that the user has the necessary permissions
-	use PermissionAccess;
-
-	// Provides `getPermission`
-	use ManageSettings;
+	use AclTrait;
 
 	// It requires a `FormRepository` to load parent posts too.
 	protected $form_repo;
@@ -66,12 +61,12 @@ class FormAuthorizer implements Authorizer, Permissionable
 		$user = $this->getUser();
 
 		// Only logged in users have access if the deployment is private
-		if (!$this->hasAccess()) {
+		if (!$this->canAccessDeployment($user)) {
 			return false;
 		}
 
 		// Allow role with the right permissions
-		if ($this->hasPermission($user)) {
+		if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
 			return true;
 		}
 

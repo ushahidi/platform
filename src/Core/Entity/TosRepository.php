@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Permissionable interface
+ * Repository for CSV
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,14 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tool\Permissions;
+namespace Ushahidi\Core\Entity;
 
-interface Permissionable
+use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityExists;
+
+interface TosRepository extends
+    EntityGet,
+    EntityExists
 {
-	/**
-	 * Get required permission
-	 *
-	 * @return String
-	 */
-	public function getPermission();
+
 }
