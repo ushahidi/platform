@@ -3,7 +3,7 @@ Feature: Testing the Tos API
 
     Scenario: Create a ToS entry
         Given that I want to make a new "tos"
-        And that the request "Authorization" header is "testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that the request "data" is:
             """
             {
@@ -19,7 +19,7 @@ Feature: Testing the Tos API
     @resetFixture
     Scenario: Getting a ToS entry
         Given that I want to find a "Tos"
-        And that the request "Authorization" header is "testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/tos"
         Then the response is JSON
         And the response has a "results" property

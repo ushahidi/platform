@@ -1,4 +1,9 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
+
+namespace Ushahidi\App\Http\Controllers\API;
+
+use Ushahidi\App\Http\Controllers\RESTController;
+use Illuminate\Http\Request;
 
 /**
  * Ushahidi API Tos Controller
@@ -9,10 +14,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Controller_Api_Tos extends Ushahidi_Rest {
-
-    protected function _scope()
-    {
-        return 'tos';
-    }
+class TosController extends RESTController
+{
+	protected function getResource()
+	{
+		return 'tos';
+	}
 }

@@ -219,6 +219,9 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['permissions'] = [
 	'create' => $di->lazyNew(Ushahidi\App\Validator\Permission\Create::class),
 	'update' => $di->lazyNew(Ushahidi\App\Validator\Permission\Update::class),
 ];
+$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tos'] = [
+    'create' => $di->lazyNew(Ushahidi\App\Validator\Tos\Create::class),
+];
 
 // Formatter mapping
 $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
@@ -246,6 +249,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 	'permissions'          => $di->lazyNew(Ushahidi\App\Formatter\Permission::class),
 	// Formatter for post exports. Defaults to CSV export
 	'posts_export'         => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
+	'tos'                  => $di->lazyNew(Ushahidi\App\Formatter\Tos::class),
 ];
 
 // Formatter parameters
@@ -261,6 +265,7 @@ $di->setter[Ushahidi\App\Formatter\Media::class]['setAuth'] = $di->lazyGet("auth
 $di->setter[Ushahidi\App\Formatter\Message::class]['setAuth'] = $di->lazyGet("authorizer.message");
 $di->setter[Ushahidi\App\Formatter\Post::class]['setAuth'] = $di->lazyGet("authorizer.post");
 $di->setter[Ushahidi\App\Formatter\Tag::class]['setAuth'] = $di->lazyGet("authorizer.tag");
+$di->setter[Ushahidi\App\Formatter\Tos::class]['setAuth'] = $di->lazyGet("authorizer.tos");
 $di->setter[Ushahidi\App\Formatter\User::class]['setAuth'] = $di->lazyGet("authorizer.user");
 $di->setter[Ushahidi\App\Formatter\Savedsearch::class]['setAuth'] = $di->lazyGet("authorizer.savedsearch");
 $di->setter[Ushahidi\App\Formatter\Set::class]['setAuth'] = $di->lazyGet("authorizer.set");
@@ -333,6 +338,8 @@ $di->set('repository.permission', $di->lazyNew(Ushahidi\App\Repository\Permissio
 // $di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 // $di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 $di->set('repository.posts_export', $di->lazyNew(Ushahidi\App\Repository\Post\ExportRepository::class));
+$di->set('repository.tos', $di->lazyNew(Ushahidi\App\Repository\TosRepository::class));
+
 
 $di->setter[Ushahidi\App\Repository\UserRepository::class]['setHasher'] = $di->lazyGet('tool.hasher.password');
 
@@ -431,6 +438,10 @@ $di->params[Ushahidi\App\Validator\Contact\Update::class] = [
 
 $di->params[Ushahidi\App\Validator\Config\Update::class] = [
 	'available_providers' => $di->lazyGet('features.data-providers'),
+];
+
+$di->params[Ushahidi\App\Validator\Tos\Create::class] = [
+    'user_repo' => $di->lazyGet('repository.user')
 ];
 
 // Dependencies of validators

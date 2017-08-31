@@ -49,6 +49,7 @@ class AuthServiceProvider extends ServiceProvider
             'forms' => 'Access forms',
             'sets' => 'Access sets',
             'tags' => 'Access tags',
+            'tos' => 'Access TOS',
             'users' => 'Access users',
             'media' => 'Access media',
             'config' => 'Access config',

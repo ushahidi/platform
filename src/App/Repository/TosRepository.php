@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Tos Repository
@@ -9,16 +9,17 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Repository;
+
+use Ohanzee\DB;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Tos;
-use Ushahidi\Core\Entity\TosRepository;
+use Ushahidi\Core\Entity\TosRepository as TosRepositoryContract;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
 
-
-
-class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
-    TosRepository
+class TosRepository extends OhanzeeRepository implements
+    TosRepositoryContract
 {
     use UserContext;
 
@@ -44,7 +45,7 @@ class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
         return $this->executeInsert($this->removeNullValues($data));
     }
 
-    public function getEntity(Array $data = null)
+    public function getEntity(array $data = null)
     {
         return new Tos($data);
     }
@@ -66,8 +67,7 @@ class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
     public function getSearchResults()
     {
         $query = $this->getSearchQuery();
-        $results = $query->distinct(TRUE)->execute($this->db);
+        $results = $query->distinct(true)->execute($this->db);
         return $this->getCollection($results->as_array());
     }
-
 }

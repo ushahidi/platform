@@ -1,5 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
-
+<?php
 /**
  * Ushahidi CSV Validator
  *
@@ -9,11 +8,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Validator\TOS;
+
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 
-
-class Ushahidi_Validator_Tos_Create extends Validator
+class Create extends Validator
 {
     protected $user_repo;
     protected $default_error_source = 'tos';
@@ -48,6 +48,6 @@ class Ushahidi_Validator_Tos_Create extends Validator
         if ($str instanceof \DateTimeInterface) {
             return true;
         }
-        return (strtotime($str) !== FALSE);
+        return (strtotime($str) !== false);
     }
 }

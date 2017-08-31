@@ -268,6 +268,17 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
         });
     });
 
+    // TOS
+    $app->group(['middleware' => ['auth:api', 'scope:tos']], function () use ($app) {
+        $app->get('/tos[/]', 'TosController@index');
+        $app->post('/tos[/]', 'TosController@store');
+        $app->group(['prefix' => 'tos/'], function () use ($app) {
+            $app->get('/{id}[/]', 'TosController@show');
+            //$app->put('/{id}[/]', 'TosController@update');
+            //$app->delete('/{id}[/]', 'TosController@destroy');
+        });
+    });
+
     // Users
     $app->group(['middleware' => ['auth:api', 'scope:users']], function () use ($app) {
         $app->get('/users[/]', 'UsersController@index');
