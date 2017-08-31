@@ -124,7 +124,6 @@ class TagRepository extends OhanzeeRepository implements
 		return $count;
 	}
 
-
 	// UpdatePostTagRepository
 	public function getByTag($tag)
 	{

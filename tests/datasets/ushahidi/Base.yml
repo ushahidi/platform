@@ -980,6 +980,31 @@ post_varchar:
     post_id: 122
     form_attribute_id: 24
     value: "arabic string"
+  -
+    id: 23
+    post_id: 105
+    form_attribute_id: 7
+    value: "Atlantis"
+  -
+    id: 24
+    post_id: 110
+    form_attribute_id: 7
+    value: "Trisolaris"
+  -
+    id: 25
+    post_id: 200
+    form_attribute_id: 7
+    value: "Auckland"
+  -
+    id: 26
+    post_id: 111
+    form_attribute_id: 7
+    value: "Hamilton"
+  -
+    id: 27
+    post_id: 95
+    form_attribute_id: 7
+    value: "Wellington"
 post_comments:
 tags:
   -

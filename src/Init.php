@@ -105,6 +105,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'roles'                => $di->lazyGet('authorizer.role'),
 	'permissions'          => $di->lazyGet('authorizer.permission'),
 	'posts_export'         => $di->lazyGet('authorizer.post'),
+	'tos'				   => $di->lazyGet('authorizer.tos'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -134,6 +135,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'roles'                => $di->lazyGet('repository.role'),
 	'permissions'          => $di->lazyGet('repository.permission'),
 	'posts_export'         => $di->lazyGet('repository.posts_export'),
+	'tos'				   => $di->lazyGet('repository.tos'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -267,6 +269,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Contact\CreateContact')
 ];
 
+// Add custom create usecase for terms of service
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['tos'] = [
+	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\SearchTos'),
+
+];
+
 // Add custom usecases for sets_posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Set\SearchSetPost'),
@@ -354,6 +362,7 @@ $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthor
 $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuthorizer'));
 $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
+$di->set('authorizer.tos', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TosAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	'form_repo' => $di->lazyGet('repository.form'),

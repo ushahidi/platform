@@ -18,6 +18,7 @@ Puppetfile.lock
 .env
 phpunit.xml
 phpspec.yml
+phinx.yml
 
 # Homestead / Laravel files
 Homestead.json
