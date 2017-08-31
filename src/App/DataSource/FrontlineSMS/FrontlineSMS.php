@@ -119,22 +119,10 @@ class FrontlineSMS implements DataSource
 		return false;
 	}
 
-	// DataSource
-	public function receive(Request $request)
-    {
-		return false;
-	}
-
-	// DataSource
-	public function format($messages)
-    {
-		return false;
-	}
-
 	public function registerRoutes($app)
 	{
-		$app->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\Controller\FrontlineSMS@index');
-		$app->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\Controller\FrontlineSMS@index');
+		$app->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
+		$app->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
 	}
 
 	public function verifySecret($secret)

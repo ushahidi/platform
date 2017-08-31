@@ -229,6 +229,10 @@ class RestContext implements Context
 					$http_request = $this->client
 						->post($this->requestUrl)
 						->setBody($request['data']);
+
+					if (empty($this->headers['Content-Type'])) {
+						$this->headers['Content-Type'] = 'application/json';
+					}
 				}
 				break;
 			case 'PUT':
@@ -263,7 +267,7 @@ class RestContext implements Context
 
 		// Get response object
 		$this->response = $http_request->getResponse();
-	
+
 		// Create fake response object if Guzzle doesn't give us one
 		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
 			$this->response = new \Guzzle\Http\Message\Response(null, null, null);

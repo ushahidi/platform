@@ -305,18 +305,6 @@ class Email implements DataSource
 		return null;
 	}
 
-	// DataSource
-	public function receive(Request $request)
-    {
-		return false;
-	}
-
-	// DataSource
-	public function format($request)
-    {
-		return false;
-	}
-
 	public function registerRoutes($app)
 	{
 	}

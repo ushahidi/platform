@@ -11,25 +11,24 @@ namespace Ushahidi\App\DataSource\Twilio;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
+use Ushahidi\App\DataSource\DataSourceController;
 use Ushahidi\App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\Core\Entity\Contact;
 
-class TwilioSMS extends Controller
+class TwilioController extends DataSourceController
 {
+
+    protected $source = 'twilio';
 
     /**
      * Handle incoming SMS from Twilio
      */
-    public function reply(Request $request)
+    public function handleRequest(Request $request)
     {
-        $source = app('datasources')->getEnabledSources('twilio');
-        if (!$source) {
-            abort(403, 'The Twilio data source is not currently available.');
-        }
-
         // Authenticate the request
-        if (!$source->verifySid($request->input('AccountSid'))) {
+        if (!$this->source->verifySid($request->input('AccountSid'))) {
             abort(403, 'Incorrect or missing AccountSid');
         }
 
@@ -42,12 +41,26 @@ class TwilioSMS extends Controller
 
         // @todo use other info from twillio, ie: location, media
 
-        $provider->receive(MessageType::SMS, $from, $message_text, $to, null, $message_sid);
+        $this->save([
+            'type' => MessageType::SMS,
+            'from' => $from,
+            'to' => $to,
+            'contact_type' => Contact::PHONE,
+            'message' => $message_text,
+            'title' => null,
+            'data_provider_message_id' => $message_sid,
+            'data_provider' => 'frontlinesms'
+        ]);
 
         // If we have an auto response configured, return the response messages
-        if (! empty($options['sms_auto_response'])) {
+        if ($this->source->getSmsAutoResponse()) {
             return response(
-                    view(__DIR__ . '/../views/sms_response', ['response' => $config['sms_auto_response']])
+                    <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+<Message>{$this->source->getSmsAutoResponse()}</Message>
+</Response>
+XML
                 )
                 ->header('Content-Type', 'text/xml');
         }

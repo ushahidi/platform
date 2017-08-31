@@ -15,14 +15,14 @@ class DataSourceManager
     /**
      * The array of data sources.
      *
-     * @var array
+     * @var [Ushahidi\App\DataSource\DataSource, ...]
      */
     protected $sources = [];
 
     /**
      * The array of enabled data sources (by name)
      *
-     * @var array
+     * @var [string, ...]
      */
     protected $enabledSources = [];
 
@@ -31,9 +31,15 @@ class DataSourceManager
      *
      * Availability is defined by feature toggles
      *
-     * @var array
+     * @var [string, ...]
      */
     protected $availableSources = [];
+
+    /**
+     * Data Source Storage
+     * @var
+     */
+    protected $storage;
 
     /**
      * Create a new datasource manager instance.
@@ -111,6 +117,16 @@ class DataSourceManager
         }
     }
 
+    public function setStorage($storage)
+    {
+        $this->storage = $storage;
+    }
+
+    public function getStorage()
+    {
+        return $this->storage;
+    }
+
     /**
      * Process pending messages for provider
      *
@@ -131,18 +147,18 @@ class DataSourceManager
         $pings = $message_repo->getPendingMessages(Message\Status::PENDING, $provider, $limit);
 
         foreach ($pings as $message) {
-            $provider = DataSource::factory($message->data_provider, $message->type);
+            $source = $this->getSource($message->data_provider);
 
             // Load contact
             $contact = $contact_repo->get($message->contact_id);
 
             // Send message and get new status/tracking id
-            list($new_status, $tracking_id) = $provider->send($contact->contact, $message->message, $message->title);
+            list($new_status, $tracking_id) = $source->send($contact->contact, $message->message, $message->title);
 
             // Update message details
             $message->setState([
                     'status' => $new_status,
-                    'data_provider' => $provider->provider_name(),
+                    'data_provider' => $source->getName(),
                     'data_provider_message_id' => $tracking_id ?: null
                 ]);
 
@@ -153,48 +169,5 @@ class DataSourceManager
         }
 
         return $count;
-    }
-    /**
-     * Get queued outgoing messages
-     *
-     * @param  boolean $limit   maximum number of messages to return
-     * @param  mixed   $current_status  Current status of messages
-     * @param  mixed   $new_status  New status to save for message, FALSE to leave status as is
-     * @return array            array of messages to be sent.
-     *                          Each element in the array should have 'to' and 'message' fields
-     * @todo   move to help class??
-     */
-    public function getPendingMessages(
-        $limit = false,
-        $current_status = Message\Status::PENDING_POLL,
-        $new_status = Message\Status::UNKNOWN
-    ) {
-        $message_repo = service('repository.message');
-        $contact_repo = service('repository.contact');
-        $messages = array();
-        $provider = $this->provider_name;
-
-        // Get All "Sent" SMSSync messages
-        // Limit it to 20 MAX and FIFO
-        $pings = $message_repo->getPendingMessages($current_status, $provider, $limit);
-
-        foreach ($pings as $message) {
-            $contact = $contact_repo->get($message->contact_id);
-            $messages[] = array(
-                'to' => $contact->contact, // @todo load this in the message?
-                'message' => $message->message,
-                'message_id' => $message->id
-                );
-
-            // Update the message status
-            if ($new_status) {
-                $message->setState([
-                        'status' => $new_status
-                    ]);
-                $message_repo->update($message);
-            }
-        }
-
-        return $messages;
     }
 }

@@ -33,8 +33,10 @@ class DataSourceServiceProvider extends ServiceProvider
             $manager->setEnabledSources($dataProviderConfig['providers']);
             $manager->setAvailableSources(service('features.data-providers'));
 
+            $manager->setStorage($this->makeStorage());
+
             $this->registerDataSources($manager);
-            //$manager->registerRoutes();
+            $manager->registerRoutes();
 
             return $manager;
         });
@@ -55,9 +57,14 @@ class DataSourceServiceProvider extends ServiceProvider
         return $manager;
     }
 
+    protected function makeStorage()
+    {
+        return new DataSourceStorage();
+    }
+
     public function registerRoutes()
     {
-        $this->app->post('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
-        $this->app->get('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
+        // $this->app->post('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
+        // $this->app->get('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
     }
 }

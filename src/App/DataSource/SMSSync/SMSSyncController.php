@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\DataSource\SMSSync\Controller;
+namespace Ushahidi\App\DataSource\SMSSync;
 
 /**
  * SMS Sync Callback controller
@@ -11,26 +11,19 @@ namespace Ushahidi\App\DataSource\SMSSync\Controller;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\Http\Controllers\Controller;
+use Ushahidi\App\DataSource\DataSourceController;
 use Illuminate\Http\Request;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\Core\Entity\Contact;
 
-class SMSSync extends Controller
+class SMSSyncController extends DataSourceController
 {
 
-    protected $source = null;
+    protected $source = 'smssync';
 
-    public function index(Request $request)
+    public function handleRequest(Request $request)
     {
-        $this->source = app('datasources')->getEnabledSources('smssync');
-        if (!$this->source) {
-            response(['payload' => [
-                    'success' => false,
-                    'error' => 'SMSSync is not enabled'
-                ]], 403);
-        }
-
         // Authenticate the request
         if (!$this->source->verifySecret($request->input('secret'))) {
             return response(['payload' => [
@@ -85,7 +78,14 @@ class SMSSync extends Controller
         // Allow for Alphanumeric sender
         $from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
 
-        $this->source->receive(MessageType::SMS, $from, $message_text, $to);
+        $this->save([
+            'type' => MessageType::SMS,
+            'from' => $from,
+            'contact_type' => Contact::PHONE,
+            'message' => $message_text,
+            'title' => null,
+            'data_provider' => 'smssync'
+        ]);
 
         return ['payload' => [
             'success' => true,
@@ -105,7 +105,9 @@ class SMSSync extends Controller
         // We don't know if the SMS from the phone itself work or not,
         // but we'll update the messages status to 'unknown' so that
         // its not picked up again
-        $messages = $this->source->get_pending_messages(20, MessageStatus::PENDING_POLL, MessageStatus::UNKNOWN);
+        $messages = app('datasources')
+            ->getStorage()
+            ->getPendingMessages(20, MessageStatus::PENDING_POLL, MessageStatus::UNKNOWN);
 
         return ['payload' => [
             'task' => "send",

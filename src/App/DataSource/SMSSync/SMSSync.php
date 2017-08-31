@@ -89,24 +89,12 @@ class SMSSync implements DataSource
 		return false;
 	}
 
-	// DataSource
-	public function receive(Request $request)
-    {
-		return false;
-	}
-
-	// DataSource
-	public function format($messages)
-    {
-		return false;
-	}
-
 	public function registerRoutes($app)
 	{
-		$app->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSync@index');
-		$app->post('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSync@index');
-		$app->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSync@index');
-		$app->get('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSync@index');
+		$app->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$app->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$app->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$app->get('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSyncController@handleRequest');
 	}
 
 	public function verifySecret($secret)

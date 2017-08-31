@@ -43,21 +43,5 @@ interface DataSource
 	 */
 	public function fetch($limit = false);
 
-	/**
-	 * Transforming incoming webhooks requests into Messages
-	 *
-	 * @param  $request
-	 * @return array Message received
-	 */
-	public function receive(Request $request);
-
-	/**
-	 * Format output messages for polled sending
-	 *
-	 * @param  [type] $messages [description]
-	 * @return [type]           [description]
-	 */
-	public function format($messages);
-
 	public function registerRoutes($app);
 }

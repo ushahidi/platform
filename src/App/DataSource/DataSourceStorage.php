@@ -69,14 +69,46 @@ class DataSourceStorage
 		}
 	}
 
-	/**
-	 * Generate A Tracking ID for messages
-	 *
-	 * @param string $type - type of tracking_id
-	 * @return string tracking id
-	 */
-	public static function trackingId($type = 'email')
-	{
-		return uniqid($type . php_uname('n'));
-	}
+    /**
+     * Get queued outgoing messages
+     *
+     * @param  boolean $limit   maximum number of messages to return
+     * @param  mixed   $current_status  Current status of messages
+     * @param  mixed   $new_status  New status to save for message, FALSE to leave status as is
+     * @return array            array of messages to be sent.
+     *                          Each element in the array should have 'to' and 'message' fields
+     */
+    public function getPendingMessages(
+        $limit = false,
+        $current_status = Message\Status::PENDING_POLL,
+        $new_status = Message\Status::UNKNOWN
+    ) {
+        $message_repo = service('repository.message');
+        $contact_repo = service('repository.contact');
+        $messages = array();
+        $provider = $this->provider_name;
+
+        // Get All "Sent" SMSSync messages
+        // Limit it to 20 MAX and FIFO
+        $pings = $message_repo->getPendingMessages($current_status, $provider, $limit);
+
+        foreach ($pings as $message) {
+            $contact = $contact_repo->get($message->contact_id);
+            $messages[] = array(
+                'to' => $contact->contact, // @todo load this in the message?
+                'message' => $message->message,
+                'message_id' => $message->id
+                );
+
+            // Update the message status
+            if ($new_status) {
+                $message->setState([
+                        'status' => $new_status
+                    ]);
+                $message_repo->update($message);
+            }
+        }
+
+        return $messages;
+    }
 }

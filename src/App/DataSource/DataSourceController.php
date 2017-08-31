@@ -17,10 +17,18 @@ use Ushahidi\Core\Entity\Post;
 use Ushahidi\App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DataSourceController extends Controller
+abstract class DataSourceController extends Controller
 {
 
-	public function handleRequest(Request $request, $source) {
+	protected $source;
+
+	public function __construct()
+    {
+		$this->source = app('datasources')->getSource($this->source);
+	}
+
+	abstract public function handleRequest(Request $request);
+	/*public function handleRequest(Request $request, $source) {
 		// Get the datasource
         $source = app('datasources')->getEnabledSources($source);
         if (!$source) {
@@ -37,7 +45,7 @@ class DataSourceController extends Controller
 		return [
 			'success' => true
 		];
-	}
+	}*/
 
 	/**
 	 * Receive Messages From data provider
@@ -51,13 +59,8 @@ class DataSourceController extends Controller
 	 *     - string data_provider_message_id Message ID
 	 * @return void
 	 */
-	protected function save($payload) {
-		// @todo double check if we needed this
-		// Generate a tracking id if we don't have one
-		// if (empty($data_provider_message_id)) {
-		// 	$payload['data_provider_message_id'] = $this->trackingId($payload['type']);
-		// }
-
+	protected function save($payload)
+    {
 		$usecase = service('factory.usecase')->get('messages', 'receive');
 		try {
 			return $usecase->setPayload($payload)
@@ -67,20 +70,9 @@ class DataSourceController extends Controller
 		} catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
 			abort(403, $e->getMessage());
 		} catch (\Ushahidi\Core\Exception\ValidatorException $e) {
-			abort(422, 'Validation Error: ' . $e->getMessage() . '; ' .  implode(', ',$e->getErrors()));
+			abort(422, 'Validation Error: ' . $e->getMessage() . '; ' .  implode(', ', $e->getErrors()));
 		} catch (\InvalidArgumentException $e) {
-			abort(400, 'Bad request: ' . $e->getMessage() . '; ' . implode(', ',$e->getErrors()));
+			abort(400, 'Bad request: ' . $e->getMessage() . '; ' . implode(', ', $e->getErrors()));
 		}
-	}
-
-	/**
-	 * Generate A Tracking ID for messages
-	 *
-	 * @param string $type - type of tracking_id
-	 * @return string tracking id
-	 */
-	protected static function trackingId($type = 'email')
-	{
-		return uniqid($type . php_uname('n'));
 	}
 }

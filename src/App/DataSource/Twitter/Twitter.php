@@ -216,7 +216,7 @@ class Twitter implements DataSource
 				}
 
 				// @todo Check for similar messages in the database before saving
-				$this->receive(
+				$this->storage->receive(
 					'twitter',
 					DataSource\Message\Type::TWITTER,
 					Contact::TWITTER,
@@ -262,18 +262,6 @@ class Twitter implements DataSource
 		} catch (Exception $e) {
 			return array(DataSource\Message\Status::FAILED, false);
 		}
-	}
-
-	// DataSource
-	public function receive(Request $request)
-    {
-		return false;
-	}
-
-	// DataSource
-	public function format($messages)
-    {
-		return false;
 	}
 
 	private function constructGetQuery($search_terms)

@@ -86,7 +86,7 @@ class Twilio implements DataSource
 	public function send($to, $message, $title = "")
 	{
 		if (! isset($this->client)) {
-			$this->client = new Services_Twilio($this->_options['account_sid'], $this->_options['auth_token']);
+			$this->client = new Services_Twilio($this->config['account_sid'], $this->config['auth_token']);
 		}
 
 		// Send!
@@ -106,29 +106,22 @@ class Twilio implements DataSource
 		return false;
 	}
 
-	// DataSource
-	public function receive(Request $request)
-    {
-		return false;
-	}
-
-	// DataSource
-	public function format($messages)
-    {
-		return false;
-	}
-
 	public function registerRoutes($app)
 	{
-		$app->post('sms/smssync', 'Ushahidi\App\DataSource\Twilio\Controller\TwilioSMS@index');
+		$app->post('sms/twilio[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
 	}
 
 	public function verifySid($sid)
 	{
-        if ($sid === $this->config['account_sid']) {
+        if (isset($this->config['account_sid']) and $sid === $this->config['account_sid']) {
             return true;
         }
 
         return false;
+	}
+
+	public function getSmsAutoResponse()
+	{
+		return isset($this->config['sms_auto_response']) ? $this->config['sms_auto_response'] : false;
 	}
 }

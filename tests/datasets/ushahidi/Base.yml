@@ -1312,7 +1312,7 @@ config:
   -
     group_name: "data-provider"
     config_key: providers
-    config_value: '{"smssync":true,"frontlinesms":true,"nexmo":false,"email":false}'
+    config_value: '{"smssync":true,"frontlinesms":true,"nexmo":false,"email":false,"twilio":true}'
   -
     group_name: "data-provider"
     config_key: nexmo
@@ -1321,6 +1321,10 @@ config:
     group_name: "data-provider"
     config_key: smssync
     config_value: '{"from":"12345","secret":"1234"}'
+  -
+    group_name: "data-provider"
+    config_key: twilio
+    config_value: '{"account_sid":"1234", "sms_auto_response": "Thanks!"}'
   -
     group_name: "data-provider"
     config_key: email
