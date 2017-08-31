@@ -332,13 +332,11 @@ class Create extends Validator
 		// Load the required attributes
 		$required_attributes = $this->attribute_repo->getRequired($stage->id);
 
-		foreach ($required_attributes as $attr)
-		{
+		foreach ($required_attributes as $attr) {
 			// Post has two special required attributes Title and Desription
 			// these are checked separately and skipped here.
 			// TODO: Refactor Title and Description to be handled as Post Values
-			if (!in_array($attr->type, ['title', 'description']) && !array_key_exists($attr->key, $attributes))
-			{
+			if (!in_array($attr->type, ['title', 'description']) && !array_key_exists($attr->key, $attributes)) {
 				// If a required attribute isn't completed, throw an error
 				$validation->error('values', 'postAttributeRequired', [$attr->label, $stage->label]);
 			}
