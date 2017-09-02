@@ -1,4 +1,4 @@
-FROM ushahidi/php-fpm-nginx:5.6
+FROM ushahidi/php-fpm-nginx:php-5.6
 
 WORKDIR /var/www
 COPY composer.json ./
@@ -14,5 +14,7 @@ RUN rm /etc/nginx/sites-enabled/default && \
 
 COPY docker/common.sh /common.sh
 COPY docker/run.run.sh /run.run.sh
+
+EXPOSE 80
 
 ENTRYPOINT [ "/bin/bash", "/run.run.sh" ]
