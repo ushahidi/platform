@@ -14,6 +14,6 @@ services:
       DB_HOST: mysql
       DB_USER: ushahidi
       DB_PASS: ushahidi
-    command: supervisord --nodaemon
+    command: init.sh start
     ports:
-      - "80:80"
+      - "80:8080"
