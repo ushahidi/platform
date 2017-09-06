@@ -27,13 +27,15 @@ class AddHasCaptionConfigOptionInFormAttributes extends AbstractMigration
      */
     public function up()
     {
-    	$sql = "UPDATE form_attributes SET config='{\"hasCaption\":true}' WHERE (config IS NULL or config='[]') and type='media'";
+		$config = json_encode(array("hasCaption"=> true));
+    	$sql = "UPDATE form_attributes SET config='$config' WHERE (config IS NULL or config='[]') and type='media'";
     	$this->execute($sql);
 	}
 
 	public function down()
 	{
-		$sql = "UPDATE form_attributes SET config='[]' WHERE (config='{\"hasCaption\":true}') and type='media';";
+		$config = json_encode(array("hasCaption"=> true));
+		$sql = "UPDATE form_attributes SET config='[]' WHERE config='$config' and type='media';";
 		$this->execute($sql);
 	}
 }
