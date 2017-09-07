@@ -20,18 +20,25 @@ trait SavesTranslations
 {
 	use TranslationRepositoryTrait;
 
-	protected function saveTranslations(Entity $entity) {
+	protected function saveTranslations(Entity $entity)
+	{
 		if (($translations = $this->getPayload('translations', false)) &&
 		    ($properties = $entity->getTranslatable())
 		) {
 			foreach ($translations as $locale => $values) {
 				foreach ($properties as $property) {
 					if (isset($values[$property])) {
-						$this->translationRepo->saveTranslation($entity->getResource(), $entity->getId(), $property, $values[$property], (string)$entity->$property, $locale);
+						$this->translationRepo->saveTranslation(
+							$entity->getResource(),
+							$entity->getId(),
+							$property,
+							$values[$property],
+							(string)$entity->$property,
+							$locale
+						);
 					}
 				}
 			}
 		}
 	}
-
 }

@@ -31,5 +31,4 @@ trait TranslationRepositoryTrait
 
 		return $this;
 	}
-
 }
