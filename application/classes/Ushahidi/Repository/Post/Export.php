@@ -14,21 +14,32 @@ use Ushahidi\Core\Entity\PostRepository;
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 {
 
+	/**
+	 * @param $data
+	 * @return array
+	 */
   public function retrieveColumnNameData($data) {
 
     // Set attribute keys
     $attributes = [];
-		foreach ($data['values'] as $key => $val)
+	foreach ($data['values'] as $key => $val)
     {
       $attribute = $this->form_attribute_repo->getByKey($key);
-      $attributes[$key] = $attribute->label;
-
+	/**
+	 * @DEVNOTE form_stage_id can be NULL. Why is that? solve that scenario and get back here.
+	 */
+	 $attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id];
+	/**
+	 * @DEVNOTE what happens when we export tags ? check/debug that scenario a bit more
+	 */
       // Set attribute names
       if ($attribute->type === 'tags') {
         $data['values'][$key] = $this->retrieveTagNames($val);
       }
     }
-
+	/**
+	 * @DEVNOTE Why are we doing this in this specific way? 100% easier if we just go for $a[x]
+	 */
     $data += ['attributes' => $attributes];
 
     // Set Set names

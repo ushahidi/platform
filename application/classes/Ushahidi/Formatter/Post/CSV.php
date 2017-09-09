@@ -40,8 +40,10 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		// Get CSV heading
 		$heading = $this->getCSVHeading($records);
 		// Sort the columns from the heading so that they match with the record keys
-		ksort($heading);
-
+		/**
+		 * @DEVNOTE this is the key to solving #2028
+		 */
+		$heading = $this->createSortedHeading($heading, []);
 		// Send response as CSV download
 		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: text/csv; charset=utf-8');
@@ -50,7 +52,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		$fp = fopen('php://output', 'w');
 
 		// Add heading
-		fputcsv($fp, $heading);
+		fputcsv($fp, array_values($heading));
 
 		foreach ($records as $record)
 		{
@@ -85,7 +87,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			// Pad record
 			$missing_keys = array_diff(array_keys($heading), array_keys($record));
 			$record = array_merge($record, array_fill_keys($missing_keys, null));
-
+			/**
+			 * @DEVNOTE this is the key to solving #2028
+			 */
 			// Sort the keys so that they match with columns from the CSV heading
 			ksort($record);
 
@@ -98,6 +102,48 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		exit;
 	}
 
+	/**
+	 * @DEVNOTE
+	 * @param $fields: an array with the form: ["uuid": (value)] where value can be anything that the user chose.
+	 * 								Uuid matches the ones from the $attributeSortingArray.
+	 * @param $fieldsWithPriorityValue: an associative array with the form ["uuid"=>[label: string, priority: number, stage: number],"uuid"=>[label: string, priority: number, stage: number]]
+	 */
+	private function createSortedHeading($fields){
+		$headingResult = [];
+		$fieldsWithPriorityValue = [];
+		foreach ($fields as $fieldKey => $fieldAttr){
+			if (!is_array($fieldAttr)){
+				$headingResult[$fieldKey] = $fieldAttr;
+			} else {
+				$fieldsWithPriorityValue[$fieldKey] = $fieldAttr;
+			}
+		}
+		$sortedFields = [];
+		/**
+		 * sorting the multidimensional array of properties
+		 */
+
+		$attributeKeysWithStage = [];
+		foreach ($fieldsWithPriorityValue as $attributeKey => $attribute){
+			if (!array_key_exists("".$attribute["stage"], $attributeKeysWithStage)){
+				$attributeKeysWithStage["".$attribute["stage"]] = [];
+			}
+			$attributeKeysWithStage["".$attribute["stage"]][$attributeKey] = $attribute;
+		}
+
+		$attributeKeysWithStageFlat = [];
+		foreach ($attributeKeysWithStage as $stageKey => $attributeKeys){
+			uasort($attributeKeys, function ($item1, $item2) {
+				if ($item1['priority'] == $item2['priority']) return 0;
+				return $item1['priority'] < $item2['priority'] ? -1 : 1;
+			});
+			foreach ($attributeKeys as $attributeKey => $attribute){
+				$attributeKeysWithStageFlat[$attributeKey] = $attribute['label'];
+			}
+		}
+		$headingResult += $attributeKeysWithStageFlat;
+		return $headingResult;
+	}
 	private function assignRowValue(&$record, $key, $value)
 	{
 		if (is_array($value))
@@ -116,8 +162,18 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		}
 	}
 
+	/**
+	 * @DEVNOTE : think about possibility of dropping the reference based param. It's way too easy to mess things up with that ref
+	 * @param $columns by reference .
+	 * @param $key
+	 * @param $label
+	 * @param $value
+	 */
 	private function assignColumnHeading(&$columns, $key, $label, $value)
 	{
+		/**
+		 * @DEVNOTE check multivalue fields (ie: lists/checkboxes I think)
+		 */
 		if (is_array($value))
 		{
 			// Assign in multiple columns
@@ -143,8 +199,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	}
 
 	/**
-	 * Extracts column names shared across posts to create a CSV heading
-	 *
+	 * Extracts column names shared across posts to create a CSV heading, sorts them with the following criteria:
+	 * - Survey "native" fields such as title from the post table go first. These are sorted alphabetically.
+	 * - Form_attributes are grouped by survey, then task, and sorted in ASC order by priority
 	 * @param array $records
 	 *
 	 * @return array
@@ -156,8 +213,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		// Collect all column headings
 		foreach ($records as $record)
 		{
-			//$record = $record->asArray();
-
 			$attributes = $record['attributes'];
 			unset($record['attributes']);
 
@@ -169,8 +224,8 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 					foreach ($val as $key => $val)
 					{
-						$label = $attributes[$key];
-						$this->assignColumnHeading($columns, $key, $label, $val[0]);
+						$label = $attributes[$key]['label'];// @DEVNOTE refactoring the attributes in retrieveColumnNameData required this change
+						$this->assignColumnHeading($columns, $key, $attributes[$key], $val[0]);
 					}
 				}
 
