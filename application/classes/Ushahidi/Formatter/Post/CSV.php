@@ -37,13 +37,12 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	 */
 	protected function generateCSVRecords($records)
 	{
-		// Get CSV heading
-		$heading = $this->getCSVHeading($records);
-		// Sort the columns from the heading so that they match with the record keys
+
 		/**
+		 * Sort the columns from the heading so that they match with the record keys
 		 * @DEVNOTE this is the key to solving #2028
 		 */
-		$heading = $this->createSortedHeading($heading, []);
+		$heading = $this->getCSVHeading($records);
 		// Send response as CSV download
 		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: text/csv; charset=utf-8');
@@ -62,38 +61,20 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
 			}
-
-			foreach ($record as $key => $val)
-			{
-				// Assign form values
-				if ($key == 'values')
-				{
-					unset($record[$key]);
-
-					foreach ($val as $key => $val)
-					{
-						$this->assignRowValue($record, $key, $val[0]);
-					}
+			$values = [];
+			foreach ($heading as $key => $value) {
+				$setValue = '';
+				if (isset($record[$key])){
+					$setValue = $record[$key];
+				} else if (isset($record['values'][$key])) {
+					$setValue = array_pop($record['values'][$key]);
+				} else {
+					$setValue = '';
 				}
-
-				// Assign post values
-				else
-				{
-					unset($record[$key]);
-					$this->assignRowValue($record, $key, $val);
-				}
+				$setValue = is_array($setValue) ? json_encode($setValue) : $setValue;
+				$values[] = $setValue;
 			}
-
-			// Pad record
-			$missing_keys = array_diff(array_keys($heading), array_keys($record));
-			$record = array_merge($record, array_fill_keys($missing_keys, null));
-			/**
-			 * @DEVNOTE this is the key to solving #2028
-			 */
-			// Sort the keys so that they match with columns from the CSV heading
-			ksort($record);
-
-			fputcsv($fp, $record);
+			fputcsv($fp, $values);
 		}
 
 		fclose($fp);
@@ -237,7 +218,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			}
 		}
 
-		return $columns;
+		return $this->createSortedHeading($columns);
 	}
 
 	/**
