@@ -92,6 +92,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	private function createSortedHeading($fields){
 		$headingResult = [];
 		$fieldsWithPriorityValue = [];
+		/**
+		 * Separate by fields that have custom priority and fields that do not have custom priority assigned
+		 */
 		foreach ($fields as $fieldKey => $fieldAttr){
 			if (!is_array($fieldAttr)){
 				$headingResult[$fieldKey] = $fieldAttr;
@@ -99,11 +102,16 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 				$fieldsWithPriorityValue[$fieldKey] = $fieldAttr;
 			}
 		}
-		$sortedFields = [];
+		/**
+		 * Sort the non custom priority fields alphabetically, ASC (default)
+		 */
+		ksort($headingResult);
 		/**
 		 * sorting the multidimensional array of properties
 		 */
-
+		/**
+		 * First, group fields by stage
+		 */
 		$attributeKeysWithStage = [];
 		foreach ($fieldsWithPriorityValue as $attributeKey => $attribute){
 			if (!array_key_exists("".$attribute["stage"], $attributeKeysWithStage)){
@@ -111,17 +119,25 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			}
 			$attributeKeysWithStage["".$attribute["stage"]][$attributeKey] = $attribute;
 		}
-
+		/**
+		 * After we have stage groups, we can proceed to sort each field by priority inside the stage
+		 */
 		$attributeKeysWithStageFlat = [];
 		foreach ($attributeKeysWithStage as $stageKey => $attributeKeys){
 			uasort($attributeKeys, function ($item1, $item2) {
 				if ($item1['priority'] == $item2['priority']) return 0;
 				return $item1['priority'] < $item2['priority'] ? -1 : 1;
 			});
+			/**
+			 * Finally, we can flatten the array, and set the fields (key->labels) with the user-selected order.
+			 */
 			foreach ($attributeKeys as $attributeKey => $attribute){
 				$attributeKeysWithStageFlat[$attributeKey] = $attribute['label'];
 			}
 		}
+		/**
+		 * Add the custom priority fields to the heading array and return it, as is.
+		 */
 		$headingResult += $attributeKeysWithStageFlat;
 		return $headingResult;
 	}
@@ -182,7 +198,8 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	/**
 	 * Extracts column names shared across posts to create a CSV heading, sorts them with the following criteria:
 	 * - Survey "native" fields such as title from the post table go first. These are sorted alphabetically.
-	 * - Form_attributes are grouped by survey, then task, and sorted in ASC order by priority
+	 * - Form_attributes are grouped by stage, and sorted in ASC order by priority
+	 *
 	 * @param array $records
 	 *
 	 * @return array
