@@ -64,13 +64,17 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			$values = [];
 			foreach ($heading as $key => $value) {
 				$setValue = '';
-				$keySet = explode('.', $key); //contains key + index of the key, if any
+				$keySet = explode('::', $key); //contains key + index of the key, if any
 				$headingKey = $keySet[0];
 				if (isset($record[$headingKey]) && $headingKey !== 'values'){
 					$setValue = $record[$headingKey];
 				} else if (isset($record['values'][$headingKey])) {
 					if (count($keySet) > 1){
-						$setValue = $record['values'][$headingKey][$keySet[1]];
+						/**
+						 * we work with multiple posts which means our actual count($record[$key])
+						 * value might not exist in all of the posts we are posting in the CSV
+						 */
+						$setValue = isset($record['values'][$headingKey][$keySet[1]])? ($record['values'][$headingKey][$keySet[1]]): '';
 					}else{
 						$setValue = $record['values'][$headingKey];
 					}
@@ -140,10 +144,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			foreach ($attributeKeys as $attributeKey => $attribute){
 				if (is_array($attribute) && isset($attribute['count'])){
 					for ($i = 0 ; $i<$attribute['count']; $i++){
-						$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
+						$attributeKeysWithStageFlat[$attributeKey.'::'.$i] = $attribute['label'].'::'.$i;
 					}
 				}
-
 			}
 		}
 		/**
