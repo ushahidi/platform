@@ -64,10 +64,16 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			$values = [];
 			foreach ($heading as $key => $value) {
 				$setValue = '';
-				if (isset($record[$key])){
-					$setValue = $record[$key];
-				} else if (isset($record['values'][$key])) {
-					$setValue = array_pop($record['values'][$key]);
+				$keySet = explode('.', $key); //contains key + index of the key, if any
+				$headingKey = $keySet[0];
+				if (isset($record[$headingKey]) && $headingKey !== 'values'){
+					$setValue = $record[$headingKey];
+				} else if (isset($record['values'][$headingKey])) {
+					if (count($keySet) > 1){
+						$setValue = $record['values'][$headingKey][$keySet[1]];
+					}else{
+						$setValue = $record['values'][$headingKey];
+					}
 				} else {
 					$setValue = '';
 				}
@@ -132,7 +138,12 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			 * Finally, we can flatten the array, and set the fields (key->labels) with the user-selected order.
 			 */
 			foreach ($attributeKeys as $attributeKey => $attribute){
-				$attributeKeysWithStageFlat[$attributeKey] = $attribute['label'];
+				if (is_array($attribute) && isset($attribute['count'])){
+					for ($i = 0 ; $i<$attribute['count']; $i++){
+						$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
+					}
+				}
+
 			}
 		}
 		/**
@@ -171,28 +182,10 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		/**
 		 * @DEVNOTE check multivalue fields (ie: lists/checkboxes I think)
 		 */
-		if (is_array($value))
-		{
-			// Assign in multiple columns
-			foreach ($value as $sub_key => $sub_value)
-			{
-				$multivalue_key = $key.'.'.$sub_key;
-
-				if (! in_array($multivalue_key, $columns))
-				{
-					$columns[$multivalue_key] = $label.'.'.$sub_key;
-				}
-			}
+		if (is_array($value) && is_array($label)){
+			$label['count'] = count($value);
 		}
-
-		// ... else assign single key
-		else
-		{
-			if (! in_array($key, $columns))
-			{
-				$columns[$key] = $label;
-			}
-		}
+		$columns[$key] = $label;
 	}
 
 	/**
@@ -222,8 +215,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 					foreach ($val as $key => $val)
 					{
-						$label = $attributes[$key]['label'];// @DEVNOTE refactoring the attributes in retrieveColumnNameData required this change
-						$this->assignColumnHeading($columns, $key, $attributes[$key], $val[0]);
+						$this->assignColumnHeading($columns, $key, $attributes[$key], $val);
 					}
 				}
 
