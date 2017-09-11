@@ -29,18 +29,14 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 	 * @DEVNOTE form_stage_id can be NULL. Why is that? solve that scenario and get back here.
 	 */
 	 $attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type];
-	/**
-	 * @DEVNOTE what happens when we export tags ? check/debug that scenario a bit more
-	 */
-      // Set attribute names
-      if ($attribute->type === 'tags') {
-        $data['values'][$key] = $this->retrieveTagNames($val);
-      }
     }
-	/**
-	 * @DEVNOTE Why are we doing this in this specific way? 100% easier if we just go for $a[x]
-	 */
+
     $data += ['attributes' => $attributes];
+
+	// Set attribute names
+	if ($attribute->type === 'tags') {
+	  $data['values'][$key] = $this->retrieveTagNames($val);
+    }
 
     // Set Set names
     if (!empty($data['sets'])) {
@@ -57,13 +53,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
       $form = $this->form_repo->get($data['form_id']);
       $data['form_name'] = $form->name;
     }
-
-    if (!empty($data['tags'])) {
-      $data['tags'] = $this->retrieveTagNames($data['tags']);
-    }
-    
     return $data;
-
   }
 
   public function retrieveTagNames($tag_ids) {

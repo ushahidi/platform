@@ -54,8 +54,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 		foreach ($records as $record)
 		{
-			unset($record['attributes']);
-
 			// Transform post_date to a string
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
@@ -66,29 +64,26 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 				$setValue = '';
 				$keySet = explode('.', $key); //contains key + index of the key, if any
 				$headingKey = $keySet[0];
-				if (isset($record[$headingKey]) && $headingKey !== 'values'){
-					$setValue = $record[$headingKey];
-				} else if (isset($record['values'][$headingKey])) {
-					if (count($keySet) > 1){
-						if($keySet[1] === 'lat' || $keySet[1] === 'lon'){
-							/*
-							 * Lat/Lon are never multivalue fields so we can get the first index  only
-							 */
-							$setValue = isset($record['values'][$headingKey][0][$keySet[1]])? ($record['values'][$headingKey][0][$keySet[1]]): '';
-						} else {
-							/**
-							 * we work with multiple posts which means our actual count($record[$key])
-							 * value might not exist in all of the posts we are posting in the CSV
-							 */
-							$setValue = isset($record['values'][$headingKey][$keySet[1]])? ($record['values'][$headingKey][$keySet[1]]): '';
-						}
-					} else{
-						$setValue = $record['values'][$headingKey];
+				$recordVal = isset ($record['attributes']) && isset($record['attributes'][$headingKey])? $record['values']: $record;
+				if (count($keySet) > 1){
+					if($keySet[1] === 'lat' || $keySet[1] === 'lon'){
+						/*
+						 * Lat/Lon are never multivalue fields so we can get the first index  only
+						 */
+						$setValue = isset($recordVal[$headingKey][0][$keySet[1]])? ($recordVal[$headingKey][0][$keySet[1]]): '';
+					} else {
+						/**
+						 * we work with multiple posts which means our actual count($record[$key])
+						 * value might not exist in all of the posts we are posting in the CSV
+						 */
+						$setValue = isset($recordVal[$headingKey][$keySet[1]])? ($recordVal[$headingKey][$keySet[1]]): '';
 					}
-				} else {
-					$setValue = '';
+				} else{
+					if (is_array($record[$headingKey]) && empty($record[$headingKey])) {
+						$record[$headingKey] = '';
+					}
+					$setValue = isset($record[$headingKey]) ? $record[$headingKey] : '';
 				}
-				$setValue = is_array($setValue) ? json_encode($setValue) : $setValue;
 				$values[] = $setValue;
 			}
 			fputcsv($fp, $values);
@@ -112,9 +107,16 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		/**
 		 * Separate by fields that have custom priority and fields that do not have custom priority assigned
 		 */
-		foreach ($fields as $fieldKey => $fieldAttr){
-			if (!is_array($fieldAttr)){
+		foreach ($fields as $fieldKey => $fieldAttr) {
+			if (!is_array($fieldAttr)) {
 				$headingResult[$fieldKey] = $fieldAttr;
+			} else if (is_array($fieldAttr) && isset($fieldAttr['nativeField'])){
+				if ($fieldAttr['count'] === 0) {
+					$headingResult[$fieldKey] = $fieldAttr['label'];
+				}
+				for ($i = 0 ; $i < $fieldAttr['count']; $i++){
+					$headingResult[$fieldKey.'.'.$i] = $fieldAttr['label'].'.'.$i;
+				}
 			} else {
 				$fieldsWithPriorityValue[$fieldKey] = $fieldAttr;
 			}
@@ -164,10 +166,10 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 					 * If the attribute has a count key, it means we want to show that as key.index in the header.
 					 * This is to make sure we don't miss values in multi-value fields
 					 */
-					for ($i = 0 ; $i<$attribute['count']; $i++){
+					for ($i = 0 ; $i < $attribute['count']; $i++){
 						$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
 					}
-				} else if ($attribute['type'] === 'point'){
+				} else if (isset($attribute['type']) && $attribute['type'] === 'point'){
 					$attributeKeysWithStageFlat[$attributeKey.'.lat'] = $attribute['label'].'.lat';
 					$attributeKeysWithStageFlat[$attributeKey.'.lon'] = $attribute['label'].'.lon';
 				}
@@ -194,7 +196,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 
 	/**
-	 * @DEVNOTE : think about possibility of dropping the reference based param. It's way too easy to mess things up with that ref
 	 * @param $columns by reference .
 	 * @param $key
 	 * @param $label
@@ -202,12 +203,17 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	 */
 	private function assignColumnHeading(&$columns, $key, $labelObject, $value)
 	{
+		$prevColumnValue = isset($columns[$key]) ? $columns[$key]: ['count' => 0];
 		/**
 		 * If $value is an array, then that might mean it has multiple values.
 		 * We want to count the values to make sure we use the right key format and can return all results in the CSV
 		 */
-		if (is_array($value) && is_array($labelObject)){
-			$labelObject['count'] = count($value);
+		if (is_array($value)){
+			$headingCount = $prevColumnValue['count'] < count($value)?  count($value) : $prevColumnValue['count'] ;
+			if (!is_array($labelObject)){
+				$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => null, 'nativeField' => true ];
+			}
+			$labelObject['count'] = $headingCount;
 		}
 		$columns[$key] = $labelObject;
 	}
