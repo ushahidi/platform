@@ -80,7 +80,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 							 * we work with multiple posts which means our actual count($record[$key])
 							 * value might not exist in all of the posts we are posting in the CSV
 							 */
-							$setValue = isset($record['values'][$headingKey][0][$keySet[1]])? ($record['values'][$headingKey][$keySet[1]]): '';
+							$setValue = isset($record['values'][$headingKey][$keySet[1]])? ($record['values'][$headingKey][$keySet[1]]): '';
 						}
 					} else{
 						$setValue = $record['values'][$headingKey];
