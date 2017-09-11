@@ -24,19 +24,20 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
     $attributes = [];
 	foreach ($data['values'] as $key => $val)
     {
-      $attribute = $this->form_attribute_repo->getByKey($key);
-	/**
-	 * @DEVNOTE form_stage_id can be NULL. Why is that? solve that scenario and get back here.
-	 */
-	 $attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type];
+        $attribute = $this->form_attribute_repo->getByKey($key);
+		/**
+		 * @DEVNOTE form_stage_id can be NULL. Why is that? solve that scenario and get back here.
+		 */
+	 	$attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type];
+
+		// Set attribute names
+		if ($attribute->type === 'tags') {
+			$data['values'][$key] = $this->retrieveTagNames($val);
+		}
     }
 
     $data += ['attributes' => $attributes];
 
-	// Set attribute names
-	if ($attribute->type === 'tags') {
-	  $data['values'][$key] = $this->retrieveTagNames($val);
-    }
 
     // Set Set names
     if (!empty($data['sets'])) {

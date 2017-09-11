@@ -79,10 +79,11 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 						$setValue = isset($recordVal[$headingKey][$keySet[1]])? ($recordVal[$headingKey][$keySet[1]]): '';
 					}
 				} else{
-					if (is_array($record[$headingKey]) && empty($record[$headingKey])) {
-						$record[$headingKey] = '';
+					if ( !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]))) {
+						$setValue = '';
+					} else {
+						$setValue = $record[$headingKey];
 					}
-					$setValue = isset($record[$headingKey]) ? $record[$headingKey] : '';
 				}
 				$values[] = $setValue;
 			}
