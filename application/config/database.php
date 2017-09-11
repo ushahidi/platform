@@ -43,7 +43,6 @@ $config = [
 	'caching'      => TRUE,
 	'profiling'    => TRUE,
 ];
-
 // If multisite is enabled
 if (!empty(getenv("MULTISITE_DOMAIN"))) {
 	// Use this config for the multisite db
