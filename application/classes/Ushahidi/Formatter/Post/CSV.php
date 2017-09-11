@@ -60,6 +60,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
 			}
+
 			$values = [];
 			foreach ($heading as $key => $value) {
 				$setValue = '';
@@ -69,12 +70,19 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 					$setValue = $record[$headingKey];
 				} else if (isset($record['values'][$headingKey])) {
 					if (count($keySet) > 1){
-						/**
-						 * we work with multiple posts which means our actual count($record[$key])
-						 * value might not exist in all of the posts we are posting in the CSV
-						 */
-						$setValue = isset($record['values'][$headingKey][$keySet[1]])? ($record['values'][$headingKey][$keySet[1]]): '';
-					}else{
+						if($keySet[1] === 'lat' || $keySet[1] === 'lon'){
+							/*
+							 * Lat/Lon are never multivalue fields so we can get the first index  only
+							 */
+							$setValue = isset($record['values'][$headingKey][0][$keySet[1]])? ($record['values'][$headingKey][0][$keySet[1]]): '';
+						} else {
+							/**
+							 * we work with multiple posts which means our actual count($record[$key])
+							 * value might not exist in all of the posts we are posting in the CSV
+							 */
+							$setValue = isset($record['values'][$headingKey][0][$keySet[1]])? ($record['values'][$headingKey][$keySet[1]]): '';
+						}
+					} else{
 						$setValue = $record['values'][$headingKey];
 					}
 				} else {
@@ -151,7 +159,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			 * Finally, we can flatten the array, and set the fields (key->labels) with the user-selected order.
 			 */
 			foreach ($attributeKeys as $attributeKey => $attribute){
-				if (is_array($attribute) && isset($attribute['count'])){
+				if (is_array($attribute) && isset($attribute['count']) && $attribute['type'] !== 'point'){
 					/**
 					 * If the attribute has a count key, it means we want to show that as key.index in the header.
 					 * This is to make sure we don't miss values in multi-value fields
@@ -159,6 +167,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 					for ($i = 0 ; $i<$attribute['count']; $i++){
 						$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
 					}
+				} else if ($attribute['type'] === 'point'){
+					$attributeKeysWithStageFlat[$attributeKey.'.lat'] = $attribute['label'].'.lat';
+					$attributeKeysWithStageFlat[$attributeKey.'.lon'] = $attribute['label'].'.lon';
 				}
 			}
 		}

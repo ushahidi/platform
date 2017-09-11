@@ -28,7 +28,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 	/**
 	 * @DEVNOTE form_stage_id can be NULL. Why is that? solve that scenario and get back here.
 	 */
-	 $attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id];
+	 $attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type];
 	/**
 	 * @DEVNOTE what happens when we export tags ? check/debug that scenario a bit more
 	 */
