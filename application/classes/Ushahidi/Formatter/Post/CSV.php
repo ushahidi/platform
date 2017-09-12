@@ -98,12 +98,11 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 	/**
 	 * @param $fields: an array with the form: ["key": (value)] where value can be anything that the user chose.
-	 * 								Uuid matches the ones from the $attributeSortingArray.
-	 * @param $fieldsWithPriorityValue: an associative array with the form ["uuid"=>[label: string, priority: number, stage: number],"uuid"=>[label: string, priority: number, stage: number]]
 	 * @return array of sorted fields with a zero based index. Multivalue keys have the format keyxyz.index index being an arbitrary count of the amount of fields.
 	 */
 	private function createSortedHeading($fields){
 		$headingResult = [];
+		// fieldsWithPriorityValue: an associative array with the form ["uuid"=>[label: string, priority: number, stage: number],"uuid"=>[label: string, priority: number, stage: number]]
 		$fieldsWithPriorityValue = [];
 		/**
 		 * Separate by fields that have custom priority and fields that do not have custom priority assigned
