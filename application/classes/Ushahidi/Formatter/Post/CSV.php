@@ -112,13 +112,8 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		foreach ($fields as $fieldKey => $fieldAttr) {
 			if (!is_array($fieldAttr)) {
 				$headingResult[$fieldKey] = $fieldAttr;
-			} else if (is_array($fieldAttr) && isset($fieldAttr['nativeField'])){
-				if ($fieldAttr['count'] === 0) {
-					$headingResult[$fieldKey] = $fieldAttr['label'];
-				}
-				for ($i = 0 ; $i < $fieldAttr['count']; $i++){
-					$headingResult[$fieldKey.'.'.$i] = $fieldAttr['label'].'.'.$i;
-				}
+			} else if (isset($fieldAttr['nativeField'])){
+				$headingResult = $this->addNativeFieldToHeading($headingResult, $fieldAttr, $fieldKey);
 			} else {
 				$fieldsWithPriorityValue[$fieldKey] = $fieldAttr;
 			}
@@ -148,6 +143,21 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	}
 
 	/**
+	 * @param $heading: the CSV heading field.
+	 * @param $attr: the field itself to get the new heading item's label and total count (max usage in a single post).
+	 * @param $key the heading key. $heading will use this key or a variation for multi value keys (key.index) depending on the count property of $attr
+	 * @return $heading: the csv heading field, with a new key in it (single or multi value key)
+	 */
+	private function addNativeFieldToHeading($heading, $attr, $key) {
+		if ($attr['count'] === 0) {
+			$heading[$key] = $attr['label'];
+		}
+		for ($i = 0 ; $i < $attr['count']; $i++){
+			$heading[$key.'.'.$i] = $attr['label'].'.'.$i;
+		}
+		return $heading;
+	}
+	/**
 	 * @param $groupedFields is an associative array with fields grouped in arrays by their stage
 	 * @return array . Flat, associative. Example => ['keyxyz'=>'label for key', 'keyxyz2'=>'label for key2']
 	 */
@@ -158,7 +168,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			 * uasort is used here to preserve the associative array keys when they are sorted
 			 */
 			uasort($attributeKeys, function ($item1, $item2) {
-				if ($item1['priority'] == $item2['priority']){
+				if ($item1['priority'] === $item2['priority']){
 					/**
 					 * if they are the same in priority, then that maeans we will fall back to alphabetical priority for them
 					 */
