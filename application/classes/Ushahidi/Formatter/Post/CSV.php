@@ -133,7 +133,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		 * sorting the multidimensional array of properties
 		 */
 		/**
-		 * First, group fields by stage
+		 * First, group fields by stage and survey id
 		 */
 		$attributeKeysWithStage = $this->groupFieldsByStage($fieldsWithPriorityValue);
 		/**
@@ -194,15 +194,18 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	 */
 	private function groupFieldsByStage($fields) {
 		$attributeKeysWithStage = [];
-		foreach ($fields as $attributeKey => $attribute){
-			if (!array_key_exists("".$attribute["stage"], $attributeKeysWithStage)){
-				$attributeKeysWithStage["".$attribute["stage"]] = [];
-			}
-			$attributeKeysWithStage["".$attribute["stage"]][$attributeKey] = $attribute;
-		}
-		return $attributeKeysWithStage;
-	}
 
+		foreach ($fields as $attributeKey => $attribute){
+			$key = $attribute["form_id"]."".$attribute["stage"];
+			if (!array_key_exists($key, $attributeKeysWithStage)){
+				$attributeKeysWithStage[$key] = [];
+			}
+			$attributeKeysWithStage[$key][$attributeKey] = $attribute;
+		}
+		ksort($attributeKeysWithStage);
+		return $attributeKeysWithStage;
+
+	}
 
 	/**
 	 * @param $columns by reference .
@@ -220,7 +223,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		if (is_array($value)){
 			$headingCount = $prevColumnValue['count'] < count($value)?  count($value) : $prevColumnValue['count'] ;
 			if (!is_array($labelObject)){
-				$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => null, 'nativeField' => true ];
+				$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => null, 'nativeField' => true];
 			}
 			$labelObject['count'] = $headingCount;
 		}
@@ -257,7 +260,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 						$this->assignColumnHeading($columns, $key, $attributes[$key], $val);
 					}
 				}
-
 				// Assign post keys
 				else
 				{
