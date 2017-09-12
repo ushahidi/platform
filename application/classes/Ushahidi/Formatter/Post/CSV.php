@@ -61,31 +61,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 			$values = [];
 			foreach ($heading as $key => $value) {
-				$setValue = '';
-				$keySet = explode('.', $key); //contains key + index of the key, if any
-				$headingKey = $keySet[0];
-				$recordVal = isset ($record['attributes']) && isset($record['attributes'][$headingKey])? $record['values']: $record;
-				if (count($keySet) > 1){
-					if($keySet[1] === 'lat' || $keySet[1] === 'lon'){
-						/*
-						 * Lat/Lon are never multivalue fields so we can get the first index  only
-						 */
-						$setValue = isset($recordVal[$headingKey][0][$keySet[1]])? ($recordVal[$headingKey][0][$keySet[1]]): '';
-					} else {
-						/**
-						 * we work with multiple posts which means our actual count($record[$key])
-						 * value might not exist in all of the posts we are posting in the CSV
-						 */
-						$setValue = isset($recordVal[$headingKey][$keySet[1]])? ($recordVal[$headingKey][$keySet[1]]): '';
-					}
-				} else{
-					if ( !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]))) {
-						$setValue = '';
-					} else {
-						$setValue = $record[$headingKey];
-					}
-				}
-				$values[] = $setValue;
+				$values[] = $this->getValueFromRecord($heading, $record, $key);
 			}
 			fputcsv($fp, $values);
 		}
@@ -94,6 +70,35 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 		// No need for further processing
 		exit;
+	}
+
+	private function getValueFromRecord($record, $keyParam){
+		$return = '';
+		$keySet = explode('.', $keyParam); //contains key + index of the key, if any
+		$headingKey = $keySet[0];
+		$key = isset($keySet[1]) ? $keySet[1] : null;
+		$recordValue = isset ($record['attributes']) && isset($record['attributes'][$headingKey])? $record['values']: $record;
+		if (count($keySet) > 1){
+			if($key === 'lat' || $key === 'lon'){
+				/*
+				 * Lat/Lon are never multivalue fields so we can get the first index  only
+				 */
+				$return = isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
+			} else {
+				/**
+				 * we work with multiple posts which means our actual count($record[$key])
+				 * value might not exist in all of the posts we are posting in the CSV
+				 */
+				$return = isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
+			}
+		} else{
+			if ( !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]))) {
+				$return = '';
+			} else {
+				$return = $record[$headingKey];
+			}
+		}
+		return $return;
 	}
 
 	/**
