@@ -58,10 +58,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
 			}
-
 			$values = [];
 			foreach ($heading as $key => $value) {
-				$values[] = $this->getValueFromRecord($heading, $record, $key);
+				$values[] = $this->getValueFromRecord($record, $key);
 			}
 			fputcsv($fp, $values);
 		}
