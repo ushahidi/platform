@@ -126,7 +126,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		/**
 		 * Sort the non custom priority fields alphabetically, ASC (default)
 		 */
-		ksort($headingResult);
+		uasort($headingResult, function($item1, $item2){
+			return strcmp($item1, $item2);
+		});
 		/**
 		 * sorting the multidimensional array of properties
 		 */
@@ -156,7 +158,12 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			 * uasort is used here to preserve the associative array keys when they are sorted
 			 */
 			uasort($attributeKeys, function ($item1, $item2) {
-				if ($item1['priority'] == $item2['priority']) return 0;
+				if ($item1['priority'] == $item2['priority']){
+					/**
+					 * if they are the same in priority, then that maeans we will fall back to alphabetical priority for them
+					 */
+					return $item1['label'] < $item2['label'] ? -1 : 1;
+				}
 				return $item1['priority'] < $item2['priority'] ? -1 : 1;
 			});
 			/**
