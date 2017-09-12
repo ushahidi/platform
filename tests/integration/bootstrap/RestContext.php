@@ -268,10 +268,9 @@ class RestContext implements Context
 	{
 		$data = $this->response->getBody(true);
 		$data = explode("\n", $data);
-		if (!$data[0] || $data[0] !== $string->getRaw()){
+		if (!$data[0] || $data[0] !== $string->getRaw()) {
 			throw new \Exception("Response did not match $string");
 		}
-
 	}
 
 	/**
