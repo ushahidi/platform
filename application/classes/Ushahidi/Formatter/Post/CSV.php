@@ -107,17 +107,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		// fieldsWithPriorityValue: an associative array with the form ["uuid"=>[label: string, priority: number, stage: number],"uuid"=>[label: string, priority: number, stage: number]]
 		$fieldsWithPriorityValue = [];
 		/**
-		 * Separate by fields that have custom priority and fields that do not have custom priority assigned
+		 * Assign $heading and $fieldsWithpriorityValue.
 		 */
-		foreach ($fields as $fieldKey => $fieldAttr) {
-			if (!is_array($fieldAttr)) {
-				$headingResult[$fieldKey] = $fieldAttr;
-			} else if (isset($fieldAttr['nativeField'])){
-				$headingResult = $this->addNativeFieldToHeading($headingResult, $fieldAttr, $fieldKey);
-			} else {
-				$fieldsWithPriorityValue[$fieldKey] = $fieldAttr;
-			}
-		}
+		$this->setPriorityAndNativeFieldArrays($headingResult, $fieldsWithPriorityValue, $fields);
 		/**
 		 * Sort the non custom priority fields alphabetically, ASC (default)
 		 */
@@ -140,6 +132,24 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		 */
 		$headingResult += $attributeKeysWithStageFlat;
 		return $headingResult;
+	}
+
+	/**
+	 * Separate by fields that have custom priority and fields that do not have custom priority assigned
+	 * @param $headingResult by reference. => used for regular post fields (native)
+	 * @param $fieldsWithPriorityValue by reference. => used for fields that have a priority value
+	 * @param $fields
+	 */
+	private function setPriorityAndNativeFieldArrays(&$headingResult, &$fieldsWithPriorityValue, $fields){
+		foreach ($fields as $fieldKey => $fieldAttr) {
+			if (!is_array($fieldAttr)) {
+				$headingResult[$fieldKey] = $fieldAttr;
+			} else if (isset($fieldAttr['nativeField'])){
+				$headingResult = $this->addNativeFieldToHeading($headingResult, $fieldAttr, $fieldKey);
+			} else {
+				$fieldsWithPriorityValue[$fieldKey] = $fieldAttr;
+			}
+		}
 	}
 
 	/**
