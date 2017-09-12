@@ -274,6 +274,20 @@ class RestContext implements Context
 	}
 
 	/**
+	 * @Then the csv response body should have :arg1 columns in row :arg2
+	 */
+	public function theCsvResponseBodyShouldHaveColumnsInRow($arg1, $arg2)
+	{
+		$data = $this->response->getBody(true);
+		$rows = explode("\n", $data);
+		$columnCount = count(explode(",", $rows[$arg2]));
+		if ($columnCount !== intval($arg1)){
+			throw new \Exception("Row $arg2 should have $arg1 columns. Found $columnCount");
+		}
+	}
+
+
+	/**
 	 * @Then /^the response is JSON$/
 	 */
 	public function theResponseIsJson()
