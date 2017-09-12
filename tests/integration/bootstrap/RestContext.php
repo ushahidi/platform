@@ -281,7 +281,7 @@ class RestContext implements Context
 		$data = $this->response->getBody(true);
 		$rows = explode("\n", $data);
 		$columnCount = count(explode(",", $rows[$arg2]));
-		if ($columnCount !== intval($arg1)){
+		if ($columnCount !== intval($arg1)) {
 			throw new \Exception("Row $arg2 should have $arg1 columns. Found $columnCount");
 		}
 	}
