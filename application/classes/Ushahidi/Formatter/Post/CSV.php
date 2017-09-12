@@ -48,6 +48,10 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
 
 		$fp = fopen('php://output', 'w');
+		/**
+		 * Before doing anything, clean the ouput buffer and avoid garbage like unnecessary space paddings in our csv export
+		 */
+		ob_clean();
 
 		// Add heading
 		fputcsv($fp, array_values($heading));
@@ -64,7 +68,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			}
 			fputcsv($fp, $values);
 		}
-
 		fclose($fp);
 
 		// No need for further processing

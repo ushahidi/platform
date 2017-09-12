@@ -12,6 +12,7 @@ namespace Tests\Integration\Bootstrap;
  */
 
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
 use Symfony\Component\Yaml\Yaml;
 use stdClass;
 
@@ -258,6 +259,19 @@ class RestContext implements Context
 		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
 			$this->response = new \Guzzle\Http\Message\Response(null, null, null);
 		}
+	}
+
+	/**
+	 * @Then the csv response body should have heading:
+	 */
+	public function theCsvResponseBodyShouldHaveHeading(PyStringNode $string)
+	{
+		$data = $this->response->getBody(true);
+		$data = explode("\n", $data);
+		if (!$data[0] || $data[0] !== $string->getRaw()){
+			throw new \Exception("Response did not match $string");
+		}
+
 	}
 
 	/**
