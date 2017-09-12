@@ -77,25 +77,20 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		$headingKey = $keySet[0];
 		$key = isset($keySet[1]) ? $keySet[1] : null;
 		$recordValue = isset ($record['attributes']) && isset($record['attributes'][$headingKey])? $record['values']: $record;
-		if (count($keySet) > 1){
-			if($key === 'lat' || $key === 'lon'){
-				/*
-				 * Lat/Lon are never multivalue fields so we can get the first index  only
-				 */
-				$return = isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
-			} else {
-				/**
-				 * we work with multiple posts which means our actual count($record[$key])
-				 * value might not exist in all of the posts we are posting in the CSV
-				 */
-				$return = isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
-			}
+		if($key === 'lat' || $key === 'lon'){
+			/*
+			 * Lat/Lon are never multivalue fields so we can get the first index  only
+			 */
+			$return = isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
+		} else if ($key !== null) {
+			/**
+			 * we work with multiple posts which means our actual count($record[$key])
+			 * value might not exist in all of the posts we are posting in the CSV
+			 */
+			$return = isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
 		} else{
-			if ( !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]))) {
-				$return = '';
-			} else {
-				$return = $record[$headingKey];
-			}
+			$emptyRecord = !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]));
+			$return = $emptyRecord ? '' : $record[$headingKey];
 		}
 		return $return;
 	}
