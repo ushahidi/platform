@@ -15,7 +15,6 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Traits\FilterRecords;
 
 class SearchUsecase implements Usecase
 {
@@ -26,7 +25,7 @@ class SearchUsecase implements Usecase
 		FormatterTrait;
 
 	// - FilterRecords for setting search parameters
-	use FilterRecords;
+	use Concerns\FilterRecords;
 
 	/**
 	 * @var SearchData
@@ -138,12 +137,18 @@ class SearchUsecase implements Usecase
 	 */
 	protected function getSearch()
 	{
+		// Get possible search fields from the repo
 		$fields = $this->repo->getSearchFields();
+		// Get possible fields for paging
 		$paging = $this->getPagingFields();
 
+		// Get filter values for both paging and search fields
 		$filters = $this->getFilters(array_merge($fields, array_keys($paging)));
 
+		// Merge default paging values, and user input
+		// and save that to search data
 		$this->search->setFilters(array_merge($paging, $filters));
+		// Flag sorting values in search data
 		$this->search->setSortingKeys(array_keys($paging));
 
 		return $this->search;
