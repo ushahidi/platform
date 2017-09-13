@@ -19,7 +19,9 @@ Feature: Testing the CSV API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the response has a "columns" property
-        And the "columns.0" property equals "title"
+        And the "columns.8" property equals " actions.1"
+        And the response has a "columns.1" property
+        And the response does not have a "columns.9" property
         Then the guzzle status code should be 200
 
     Scenario: Update CSV mapping
