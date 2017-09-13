@@ -13,8 +13,8 @@ namespace Ushahidi\Core\Usecase\Set;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\SetRepository;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateSetPost extends CreateUsecase
