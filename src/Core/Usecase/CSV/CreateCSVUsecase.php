@@ -43,7 +43,8 @@ class CreateCSVUsecase extends CreateMedia
 	{
 		/**
 		 * Step one of import (map columns)
-		 * Support all line endings without manually specifying it (primarily added because of OS9 line endings which do not work by default )
+		 * Support all line endings without manually specifying it
+		 * (primarily added because of OS9 line endings which do not work by default )
 		 */
 		ini_set('auto_detect_line_endings', 1);
 
