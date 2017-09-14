@@ -12,7 +12,6 @@ namespace Tests\Integration\Bootstrap;
  */
 
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
 use Symfony\Component\Yaml\Yaml;
 use stdClass;
 
@@ -260,32 +259,6 @@ class RestContext implements Context
 			$this->response = new \Guzzle\Http\Message\Response(null, null, null);
 		}
 	}
-
-	/**
-	 * @Then the csv response body should have heading:
-	 */
-	public function theCsvResponseBodyShouldHaveHeading(PyStringNode $string)
-	{
-		$data = $this->response->getBody(true);
-		$data = explode("\n", $data);
-		if (!$data[0] || $data[0] !== $string->getRaw()) {
-			throw new \Exception("Response {{$data[0]}} \n did not match \n{{$string->getRaw()}}");
-		}
-	}
-
-	/**
-	 * @Then the csv response body should have :arg1 columns in row :arg2
-	 */
-	public function theCsvResponseBodyShouldHaveColumnsInRow($arg1, $arg2)
-	{
-		$data = $this->response->getBody(true);
-		$rows = explode("\n", $data);
-		$columnCount = count(explode(",", $rows[$arg2]));
-		if ($columnCount !== intval($arg1)) {
-			throw new \Exception("Row $arg2 should have $arg1 columns. Found $columnCount");
-		}
-	}
-
 
 	/**
 	 * @Then /^the response is JSON$/
