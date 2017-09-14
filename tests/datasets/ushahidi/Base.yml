@@ -436,7 +436,7 @@ form_attributes:
     form_stage_id: 7
   -
     id: 24
-    label: "Test Field Level Locking 7"
+    label: "A Test Field Level Locking 7"
     key: "test_field_locking_visible_4"
     type: "varchar"
     input: "text"
