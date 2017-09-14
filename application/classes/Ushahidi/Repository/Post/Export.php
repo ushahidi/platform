@@ -14,22 +14,27 @@ use Ushahidi\Core\Entity\PostRepository;
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 {
 
+	/**
+	 * @param $data
+	 * @return array
+	 */
   public function retrieveColumnNameData($data) {
 
     // Set attribute keys
     $attributes = [];
-		foreach ($data['values'] as $key => $val)
+	foreach ($data['values'] as $key => $val)
     {
-      $attribute = $this->form_attribute_repo->getByKey($key);
-      $attributes[$key] = $attribute->label;
+        $attribute = $this->form_attribute_repo->getByKey($key);
+	 	$attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type, 'form_id'=> $data['form_id']];
 
-      // Set attribute names
-      if ($attribute->type === 'tags') {
-        $data['values'][$key] = $this->retrieveTagNames($val);
-      }
+		// Set attribute names
+		if ($attribute->type === 'tags') {
+			$data['values'][$key] = $this->retrieveTagNames($val);
+		}
     }
 
     $data += ['attributes' => $attributes];
+
 
     // Set Set names
     if (!empty($data['sets'])) {
@@ -46,13 +51,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
       $form = $this->form_repo->get($data['form_id']);
       $data['form_name'] = $form->name;
     }
-
-    if (!empty($data['tags'])) {
-      $data['tags'] = $this->retrieveTagNames($data['tags']);
-    }
-    
     return $data;
-
   }
 
   public function retrieveTagNames($tag_ids) {
