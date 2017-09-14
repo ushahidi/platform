@@ -41,7 +41,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		/**
 		 * Get the columns from the heading, already sorted to match the key's stage & priority.
 		 */
-		$heading = $this->getCSVHeading($records);
+		$headingColumns = $this->getCSVHeading($records);
+		$heading = $this->createSortedHeading($headingColumns);
+
 		// Send response as CSV download
 		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: text/csv; charset=utf-8');
@@ -85,12 +87,14 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
 			$return = isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
-		} else if ($key !== null) {
+		} else if ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey])) {
 			/**
 			 * we work with multiple posts which means our actual count($record[$key])
 			 * value might not exist in all of the posts we are posting in the CSV
 			 */
 			$return = isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
+		} else if ($key !== null) {
+			$return = isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
 		} else{
 			$emptyRecord = !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]));
 			$return = $emptyRecord ? '' : $record[$headingKey];
@@ -142,9 +146,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	 */
 	private function setPriorityAndNativeFieldArrays(&$headingResult, &$fieldsWithPriorityValue, $fields){
 		foreach ($fields as $fieldKey => $fieldAttr) {
-			if (!is_array($fieldAttr)) {
-				$headingResult[$fieldKey] = $fieldAttr;
-			} else if (isset($fieldAttr['nativeField'])){
+			if (isset($fieldAttr['nativeField'])){
 				$headingResult = $this->addNativeFieldToHeading($headingResult, $fieldAttr, $fieldKey);
 			} else {
 				$fieldsWithPriorityValue[$fieldKey] = $fieldAttr;
@@ -159,11 +161,12 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	 * @return $heading: the csv heading field, with a new key in it (single or multi value key)
 	 */
 	private function addNativeFieldToHeading($heading, $attr, $key) {
-		if ($attr['count'] === 0) {
-			$heading[$key] = $attr['label'];
-		}
-		for ($i = 0 ; $i < $attr['count']; $i++){
-			$heading[$key.'.'.$i] = $attr['label'].'.'.$i;
+		if ($attr['count'] > 1){
+			for ($i = 0 ; $i < $attr['count']; $i++){
+				$heading[$key.'.'.$i] = $attr['label'].'.'.$i;
+			}
+		} else {
+			$heading[$key.'.0'] = $attr['label'];
 		}
 		return $heading;
 	}
@@ -195,9 +198,14 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 					 * If the attribute has a count key, it means we want to show that as key.index in the header.
 					 * This is to make sure we don't miss values in multi-value fields
 					 */
-					for ($i = 0 ; $i < $attribute['count']; $i++){
-						$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
+					if ($attribute['count'] > 1){
+						for ($i = 0 ; $i < $attribute['count']; $i++){
+							$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
+						}
+					} else {
+						$attributeKeysWithStageFlat[$attributeKey.'.0'] = $attribute['label'];
 					}
+
 				} else if (isset($attribute['type']) && $attribute['type'] === 'point'){
 					$attributeKeysWithStageFlat[$attributeKey.'.lat'] = $attribute['label'].'.lat';
 					$attributeKeysWithStageFlat[$attributeKey.'.lon'] = $attribute['label'].'.lon';
@@ -232,21 +240,16 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	 * @param $key
 	 * @param $label
 	 * @param $value
+	 * @param $nativeField
 	 */
-	private function assignColumnHeading(&$columns, $key, $labelObject, $value)
+	private function assignColumnHeading(&$columns, $key, $labelObject, $value, $nativeField = true)
 	{
 		$prevColumnValue = isset($columns[$key]) ? $columns[$key]: ['count' => 0];
-		/**
-		 * If $value is an array, then that might mean it has multiple values.
-		 * We want to count the values to make sure we use the right key format and can return all results in the CSV
-		 */
-		if (is_array($value)){
-			$headingCount = $prevColumnValue['count'] < count($value)?  count($value) : $prevColumnValue['count'] ;
-			if (!is_array($labelObject)){
-				$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => null, 'nativeField' => true];
-			}
-			$labelObject['count'] = $headingCount;
+		$headingCount = $prevColumnValue['count'] < count($value)?  count($value) : $prevColumnValue['count'] ;
+		if (!is_array($labelObject)){
+			$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => null, 'nativeField' => $nativeField];
 		}
+		$labelObject['count'] = $headingCount;
 		$columns[$key] = $labelObject;
 	}
 
@@ -277,7 +280,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 					foreach ($val as $key => $val)
 					{
-						$this->assignColumnHeading($columns, $key, $attributes[$key], $val);
+						$this->assignColumnHeading($columns, $key, $attributes[$key], $val, false);
 					}
 				}
 				// Assign post keys
@@ -287,8 +290,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 				}
 			}
 		}
-
-		return $this->createSortedHeading($columns);
+		return $columns;
 	}
 
 	/**
