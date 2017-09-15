@@ -107,69 +107,20 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	 * @return array of sorted fields with a zero based index. Multivalue keys have the format keyxyz.index index being an arbitrary count of the amount of fields.
 	 */
 	private function createSortedHeading($fields){
-		$headingResult = [];
-		// fieldsWithPriorityValue: an associative array with the form ["uuid"=>[label: string, priority: number, stage: number],"uuid"=>[label: string, priority: number, stage: number]]
-		$fieldsWithPriorityValue = [];
-		/**
-		 * Assign $heading and $fieldsWithpriorityValue.
-		 */
-		$this->setPriorityAndNativeFieldArrays($headingResult, $fieldsWithPriorityValue, $fields);
-		/**
-		 * Sort the non custom priority fields alphabetically, ASC (default)
-		 */
-		uasort($headingResult, function($item1, $item2){
-			return strcmp($item1, $item2);
-		});
 		/**
 		 * sorting the multidimensional array of properties
 		 */
 		/**
 		 * First, group fields by stage and survey id
 		 */
-		$attributeKeysWithStage = $this->groupFieldsByStage($fieldsWithPriorityValue);
+		$attributeKeysWithStage = $this->groupFieldsByStage($fields);
 		/**
 		 * After we have group by stage , we can proceed to sort each field by priority inside the stage
 		 */
-		$attributeKeysWithStageFlat = $this->sortGroupedFieldsByPriority($attributeKeysWithStage);
-		/**
-		 * Add the custom priority fields to the heading array and return it, as is.
-		 */
-		$headingResult += $attributeKeysWithStageFlat;
+		$headingResult = $this->sortGroupedFieldsByPriority($attributeKeysWithStage);
 		return $headingResult;
 	}
 
-	/**
-	 * Separate by fields that have custom priority and fields that do not have custom priority assigned
-	 * @param $headingResult by reference. => used for regular post fields (native)
-	 * @param $fieldsWithPriorityValue by reference. => used for fields that have a priority value
-	 * @param $fields
-	 */
-	private function setPriorityAndNativeFieldArrays(&$headingResult, &$fieldsWithPriorityValue, $fields){
-		foreach ($fields as $fieldKey => $fieldAttr) {
-			if (isset($fieldAttr['nativeField'])){
-				$headingResult = $this->addNativeFieldToHeading($headingResult, $fieldAttr, $fieldKey);
-			} else {
-				$fieldsWithPriorityValue[$fieldKey] = $fieldAttr;
-			}
-		}
-	}
-
-	/**
-	 * @param $heading: the CSV heading field.
-	 * @param $attr: the field itself to get the new heading item's label and total count (max usage in a single post).
-	 * @param $key the heading key. $heading will use this key or a variation for multi value keys (key.index) depending on the count property of $attr
-	 * @return $heading: the csv heading field, with a new key in it (single or multi value key)
-	 */
-	private function addNativeFieldToHeading($heading, $attr, $key) {
-		if ($attr['count'] > 1){
-			for ($i = 0 ; $i < $attr['count']; $i++){
-				$heading[$key.'.'.$i] = $attr['label'].'.'.$i;
-			}
-		} else {
-			$heading[$key.'.0'] = $attr['label'];
-		}
-		return $heading;
-	}
 	/**
 	 * @param $groupedFields is an associative array with fields grouped in arrays by their stage
 	 * @return array . Flat, associative. Example => ['keyxyz'=>'label for key', 'keyxyz2'=>'label for key2']
@@ -247,7 +198,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		$prevColumnValue = isset($columns[$key]) ? $columns[$key]: ['count' => 0];
 		$headingCount = $prevColumnValue['count'] < count($value)?  count($value) : $prevColumnValue['count'] ;
 		if (!is_array($labelObject)){
-			$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => null, 'nativeField' => $nativeField];
+			$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => null, 'nativeField' => $nativeField, 'priority' => -1, 'form_id' => -1, 'stage' => -1];
 		}
 		$labelObject['count'] = $headingCount;
 		$columns[$key] = $labelObject;
