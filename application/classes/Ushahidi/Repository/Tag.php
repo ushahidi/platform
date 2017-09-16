@@ -123,7 +123,6 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		return $count;
 	}
 
-
 	// UpdatePostTagRepository
 	public function getByTag($tag)
 	{

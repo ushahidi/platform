@@ -13,7 +13,7 @@
 
 namespace Ushahidi\Core;
 
-use Ushahidi\Core\Traits\FilterRecords;
+use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 
 class SearchData
 {
