@@ -20,6 +20,10 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 	 */
   public function retrieveColumnNameData($data) {
 
+    /**
+     * Tags (native) should not be shown in the CSV Export
+    */
+	unset($data['tags']);
     // Set attribute keys
     $attributes = [];
 	foreach ($data['values'] as $key => $val)
@@ -27,7 +31,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
         $attribute = $this->form_attribute_repo->getByKey($key);
 	 	$attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type, 'form_id'=> $data['form_id']];
 
-		// Set attribute names
+		// Set attribute names. This is for categories (custom field) to show their label and not the ids
 		if ($attribute->type === 'tags') {
 			$data['values'][$key] = $this->retrieveTagNames($val);
 		}
