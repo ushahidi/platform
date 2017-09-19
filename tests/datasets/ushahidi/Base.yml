@@ -1342,7 +1342,7 @@ oauth_scopes:
     id: 21
     scope: tos
     name: tos
--
+  -
     id: 22
     scope: apikeys
     name: apikeys
@@ -1505,9 +1505,6 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 19
-  -
-    session_access_token_id: 4
-    scope_id: 21
   -
     session_access_token_id: 4
     scope_id: 20
