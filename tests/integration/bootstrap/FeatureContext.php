@@ -39,18 +39,22 @@ class FeatureContext implements SnippetAcceptingContext
 		$config->set('private.enabled', false);
 	}
 
-	/** @BeforeScenario @rolesEnabled */
+	/**
+	 * @BeforeScenario @rolesEnabled
+	 **/
 	public function enableRoles()
 	{
 		$config = \Kohana::$config->load('features');
-		$config->set('roles.enabled', true);
+		$config->set('roles', ['enabled' => true]);
 	}
 
-	/** @AfterScenario @rolesEnabled */
+	/**
+	 * @BeforeScenario @rolesDisabled
+	 **/
 	public function disableRoles()
 	{
 		$config = \Kohana::$config->load('features');
-		$config->set('roles.enabled', false);
+		$config->set('roles', ['enabled' => false]);
 	}
 
 	/** @BeforeScenario @webhooksEnabled */

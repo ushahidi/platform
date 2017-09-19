@@ -40,6 +40,7 @@ class ValidatorFactory
 	 */
 	public function get($resource, $action)
 	{
+
 		if (empty($this->map[$resource][$action])) {
 			throw new \Exception(sprintf('Validator %s.%s is not defined', $resource, $action));
 		}

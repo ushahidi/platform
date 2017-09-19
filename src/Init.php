@@ -147,6 +147,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'roles'                => $di->lazyGet('authorizer.role'),
 	'permissions'          => $di->lazyGet('authorizer.permission'),
 	'posts_export'         => $di->lazyGet('authorizer.post'),
+	'tos'				   => $di->lazyGet('authorizer.tos'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -177,6 +178,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'roles'                => $di->lazyGet('repository.role'),
 	'permissions'          => $di->lazyGet('repository.permission'),
 	'posts_export'         => $di->lazyGet('repository.posts_export'),
+	'tos'				   => $di->lazyGet('repository.tos'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -311,6 +313,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Contact\CreateContact')
 ];
 
+// Add custom create usecase for terms of service
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['tos'] = [
+	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\SearchTos'),
+
+];
+
 // Add custom usecases for sets_posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Set\SearchSetPost'),
@@ -346,11 +354,12 @@ $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository'
 	= $di->lazyGet('repository.form_stage');
 
 $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
-$di->setter['Ushahidi\Core\Traits\PermissionAccess']['setAcl'] = $di->lazyGet('tool.acl');
 $di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
-$di->setter['Ushahidi\Core\Traits\PermissionAccess']['setRolesEnabled'] = $di->lazyGet('roles.enabled');
 $di->setter['Ushahidi\Core\Traits\WebhookAccess']['setEnabled'] = $di->lazyGet('webhooks.enabled');
 $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
+
+// Set ACL for ACL Trait
+$di->setter['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
 
 // Tools
 $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
@@ -398,6 +407,7 @@ $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthor
 $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuthorizer'));
 $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
+$di->set('authorizer.tos', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TosAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	'form_repo' => $di->lazyGet('repository.form'),

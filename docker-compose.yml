@@ -1,0 +1,35 @@
+version: "2"
+services:
+  mysql:
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ushahidi
+      MYSQL_USER: ushahidi
+      MYSQL_PASSWORD: ushahidi
+  platform:
+    build: .
+    environment:
+      ENABLE_NGINX: "true"
+      ENABLE_PHPFPM: "true"
+      ENABLE_PLATFORM_TASKS: "false"
+      RUN_PLATFORM_MIGRATIONS: "true"
+      DB_NAME: ushahidi
+      DB_HOST: mysql
+      DB_USER: ushahidi
+      DB_PASS: ushahidi
+    command: init.sh start
+    ports:
+      - "80:8080"
+  platform_tasks:
+    build: .
+    environment:
+      ENABLE_NGINX: "false"
+      ENABLE_PHPFPM: "false"
+      ENABLE_PLATFORM_TASKS: "true"
+      RUN_PLATFORM_MIGRATIONS: "false"
+      DB_NAME: ushahidi
+      DB_HOST: mysql
+      DB_USER: ushahidi
+      DB_PASS: ushahidi
+    command: init.sh start

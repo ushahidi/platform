@@ -74,8 +74,8 @@ abstract class Ushahidi_Core {
 		});
 
 		// Intercom config settings
-		$di->set('site.intercomAppToken', function() use ($di) {
-			return Kohana::$config->load('site.intercomAppToken');
+		$di->set('thirdparty.intercomAppToken', function() use ($di) {
+			return getenv('INTERCOM_APP_TOKEN');
 		});
 
 		// Roles config settings
@@ -242,6 +242,11 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Tag_Update'),
 			'delete' => $di->lazyNew('Ushahidi_Validator_Tag_Delete'),
 		];
+
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tos'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Tos_Create'),
+		];
+
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
 			'create'   => $di->lazyNew('Ushahidi_Validator_User_Create'),
 			'update'   => $di->lazyNew('Ushahidi_Validator_User_Update'),
@@ -327,6 +332,7 @@ abstract class Ushahidi_Core {
 			'permissions'          => $di->lazyNew('Ushahidi_Formatter_Permission'),
 			// Formatter for post exports. Defaults to CSV export
 			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
+			'tos'				   => $di->lazyNew('Ushahidi_Formatter_Tos')
 		];
 
 		// Formatter parameters
@@ -351,6 +357,7 @@ abstract class Ushahidi_Core {
 			'contact',
 			'role',
 			'permission',
+			'tos',
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
@@ -422,6 +429,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
+		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
@@ -578,6 +586,10 @@ abstract class Ushahidi_Core {
 			'role_repo' => $di->lazyGet('repository.role'),
 		];
 
+		$di->params['Ushahidi_Validator_Tos_Create'] = [
+            'user_repo' => $di->lazyGet('repository.user')
+        ];
+
 		$di->params['Ushahidi_Validator_User_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
 			'role_repo' => $di->lazyGet('repository.role'),
@@ -698,18 +710,17 @@ abstract class Ushahidi_Core {
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
 		$di->setter['Ushahidi_Repository_Config']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+			$di->lazyNew('Ushahidi_Listener_IntercomCompanyListener');
 
 		// Add Intercom Listener to Form
 		$di->setter['Ushahidi_Repository_Form']['setEvent'] = 'FormUpdateEvent';
 		$di->setter['Ushahidi_Repository_Form']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
+			$di->lazyNew('Ushahidi_Listener_IntercomCompanyListener');
 
 		// Add Intercom Listener to User
 		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_IntercomListener');
-
+			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
 
 		/**
 		 * 1. Load the plugins

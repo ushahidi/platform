@@ -13,6 +13,8 @@
 
 namespace Ushahidi\Core\Traits;
 
+use Ushahidi\Core\Entity\User;
+
 trait PrivateDeployment
 {
 	protected $private;
@@ -35,10 +37,10 @@ trait PrivateDeployment
 	 * Check if user can access deployment
 	 * @return boolean
 	 */
-	public function hasAccess()
+	public function canAccessDeployment(User $user)
 	{
 		// Only logged in users have access if the deployment is private
-		if ($this->isPrivate() and !$this->getUserId()) {
+		if ($this->isPrivate() and !$this->user->id) {
 			return false;
 		}
 

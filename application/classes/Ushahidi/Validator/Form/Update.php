@@ -31,8 +31,18 @@ class Ushahidi_Validator_Form_Update extends Validator
 
 	protected function getRules()
 	{
+		// Always check validation for name
+		$name = $this->validation_engine->getFullData('name');
+		if ($name) {
+			$data = $this->validation_engine->getData();
+			$data['name'] = $name;
+			$this->validation_engine->setData($data);
+		}
+		// End
+
 		return [
 			'name' => [
+				['not_empty'],
 				['min_length', [':value', 2]],
 				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
 			],

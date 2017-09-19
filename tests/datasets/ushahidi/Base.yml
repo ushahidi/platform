@@ -19,6 +19,10 @@ roles:
     name: "importer"
     display_name: "Importer"
     protected: 0
+  -
+    name: "noedit"
+    display_name: "User cant edit posts"
+    protected: 0
 users:
   -
     id: 1
@@ -62,6 +66,12 @@ users:
     realname: Importer
     email: "importer@ushahidi.com"
     role: "importer"
+  -
+    id: 8
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: CannotEditor
+    email: "cannoteditor@ushahidi.com"
+    role: "noedit"
 forms:
   -
     id: 1
@@ -430,7 +440,7 @@ form_attributes:
     form_stage_id: 7
   -
     id: 24
-    label: "Test Field Level Locking 7"
+    label: "A Test Field Level Locking 7"
     key: "test_field_locking_visible_4"
     type: "varchar"
     input: "text"
@@ -830,6 +840,21 @@ posts:
     created: 1412025016
     published_to: '["user"]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 200
+    form_id: 4
+    parent_id:
+    user_id: 8
+    author_email:
+    author_realname:
+    title: "A post"
+    type: "report"
+    content: "A post"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
 post_datetime:
 post_decimal:
 post_geometry:
@@ -953,6 +978,31 @@ post_varchar:
     post_id: 122
     form_attribute_id: 24
     value: "arabic string"
+  -
+    id: 23
+    post_id: 105
+    form_attribute_id: 7
+    value: "Atlantis"
+  -
+    id: 24
+    post_id: 110
+    form_attribute_id: 7
+    value: "Trisolaris"
+  -
+    id: 25
+    post_id: 200
+    form_attribute_id: 7
+    value: "Auckland"
+  -
+    id: 26
+    post_id: 111
+    form_attribute_id: 7
+    value: "Hamilton"
+  -
+    id: 27
+    post_id: 95
+    form_attribute_id: 7
+    value: "Wellington"
 post_comments:
 tags:
   -
@@ -1145,6 +1195,11 @@ oauth_sessions:
     client_id: "demoapp"
     owner_type: "user"
     owner_id: 7
+  -
+    id: 7
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 8
 
 oauth_session_redirects:
   -
@@ -1195,6 +1250,11 @@ oauth_session_access_tokens:
     id: 8
     session_id: 6
     access_token: "testimporter"
+    access_token_expires: 1893477600
+  -
+    id: 9
+    session_id: 7
+    access_token: "testnoedit"
     access_token_expires: 1893477600
 
 oauth_scopes:
@@ -1280,6 +1340,10 @@ oauth_scopes:
     name: webhooks
   -
     id: 21
+    scope: tos
+    name: tos
+-
+    id: 22
     scope: apikeys
     name: apikeys
 
@@ -1391,6 +1455,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 16
+  -
+    session_access_token_id: 3
+    scope_id: 21
 
   # for testadminuser
   -
@@ -1444,6 +1511,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 20
+  -
+    session_access_token_id: 4
+    scope_id: 21
 
   # for testbasicuser2
   -
@@ -1488,6 +1558,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 5
     scope_id: 16
+  -
+    session_access_token_id: 5
+    scope_id: 21
 
   # for testanon
   -
@@ -1523,6 +1596,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 6
     scope_id: 13
+  -
+    session_access_token_id: 6
+    scope_id: 21
 
 # Test roles
 # for testmanager
@@ -1568,6 +1644,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 7
     scope_id: 18
+  -
+    session_access_token_id: 7
+    scope_id: 21
 
 # for testimporter
   -
@@ -1615,6 +1694,17 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 8
     scope_id: 18
+  -
+    session_access_token_id: 8
+    scope_id: 21
+# testnoedit scopes
+  -
+    session_access_token_id: 9
+    scope_id: 2
+  -
+    session_access_token_id: 9
+    scope_id: 1
+
 
 # include other oauth tables to ensure a blank slate for test runs
 oauth_session_refresh_tokens:
@@ -1650,6 +1740,17 @@ media:
     caption: "ihub"
     mime: "image/jpeg"
     o_filename: "9ze_1381815819_o.jpg"
+    o_width: 400
+    o_height: 500
+    o_size: 1024
+    created: 1381815821
+    updated: 1381815819
+  -
+    id: 4
+    user_id: 1
+    caption: "ihub"
+    mime: "image/jpeg"
+    o_filename: "some junk name.jpg"
     o_width: 400
     o_height: 500
     o_size: 1024
@@ -1696,6 +1797,10 @@ config:
     group_name: test
     config_key: testkey
     config_value: '"testval"'
+  -
+    group_name: features
+    config_key: roles
+    config_value: '{"enabled":true}'
 contacts:
   -
     id: 1
@@ -1914,3 +2019,12 @@ roles_permissions:
   -
     role: importer
     permission: Bulk Data Import
+  -
+    role: user
+    permission: Edit their own posts
+  -
+    role: manager
+    permission: Edit their own posts
+  -
+    role: importer
+    permission: Edit their own posts
