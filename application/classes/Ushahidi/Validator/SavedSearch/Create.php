@@ -18,6 +18,9 @@ class Ushahidi_Validator_SavedSearch_Create extends Ushahidi_Validator_SavedSear
 	  'name' => [
 				['not_empty'],
 		],
+		'user_id' => [
+			['not_empty'],
+		],
 		'filter' => [
 				['not_empty'],
 			]
