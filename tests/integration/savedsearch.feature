@@ -13,7 +13,8 @@ Feature: Testing the Sets API
 				"featured": 1,
 				"view":"map",
 				"view_options":[],
-				"role":[]
+				"role":[],
+				"user_id": 2
 			}
 			"""
 		When I request "/savedsearches"
@@ -28,7 +29,7 @@ Feature: Testing the Sets API
 		Then the guzzle status code should be 200
 
 	Scenario: Creating a SavedSearch with search=0 is ignored
-		Given that I want to make a new "collection"
+		Given that I want to make a new "SavedSearch"
 		And that the request "data" is:
 			"""
 			{
@@ -40,7 +41,8 @@ Feature: Testing the Sets API
 				},
 				"view":"map",
 				"view_options":[],
-				"role":[]
+				"role":[],
+				"user_id": 2
 			}
 			"""
 		When I request "/savedsearches"
@@ -50,6 +52,25 @@ Feature: Testing the Sets API
 		And the response has a "name" property
 		And the response does not have a "search" property
 		Then the guzzle status code should be 200
+
+	Scenario: Creating a SavedSearch without a user_id fails
+		Given that I want to make a new "SavedSearch"
+		And that the request "data" is:
+			"""
+			{
+				"name":"Search One",
+				"filter": {
+					"q":"zombie"
+				},
+				"featured": 1,
+				"view":"map",
+				"view_options":[],
+				"role":[]
+			}
+			"""
+		When I request "/savedsearches"
+		Then the response is JSON
+		Then the guzzle status code should be 422
 
 	Scenario: Updating a SavedSearch
 		Given that I want to update a "SavedSearch"
