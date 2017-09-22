@@ -8,10 +8,11 @@
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
+use Ushahidi\Core\Traits\UserContext;
 
 class Ushahidi_Validator_SavedSearch_Create extends Ushahidi_Validator_SavedSearch_Update
 {
-
+	use UserContext;
 	protected function getRules()
 	{
 		return array_merge_recursive(parent::getRules(), [
@@ -20,10 +21,13 @@ class Ushahidi_Validator_SavedSearch_Create extends Ushahidi_Validator_SavedSear
 		],
         'user_id' => [
             [[$this->user_repo, 'exists'], [':value']],
+            [[$this, 'isUserSelf'], [':fulldata']],
+
         ],
 		'filter' => [
 				['not_empty'],
 			]
 		]);
 	}
+
 }

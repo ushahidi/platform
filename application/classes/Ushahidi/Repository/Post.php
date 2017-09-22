@@ -96,6 +96,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$this->form_repo = $form_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
+		$this->public_statuses = explode(',', getenv('PUBLIC_STATUSES'));
+		$this->internal_statuses = explode(',', getenv('INTERNAL_STATUSES'));
 	}
 
 	// Ushahidi_Repository
@@ -130,23 +132,43 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 			];
-		}
-		// NOTE: This and the restriction above belong somewhere else,
-		// ideally in their own step
-		//Check if author information should be returned
-		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
-		{
 
-
-			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user))
-			{
-				unset($data['author_realname']);
-				unset($data['author_email']);
-				unset($data['user_id']);
-			}
+			/**
+			 * Hide PII when role is not Admin or another role with form edit privileges over this post.
+			 */
+			$isUserAdmin = $this->isUserAdmin($user);
+			$data = $this->cleanPIIForUnauthorizedUsers($data, $user, $isUserAdmin);
+			$data = $this->cleanPrivateFieldsForUnauthorizedUsers($data, $isUserAdmin);
 		}
 
 		return new Post($data);
+	}
+
+	/**
+	 * @param $data
+	 * @param $user
+	 * @param $isUserAdmin
+	 * @return mixed
+	 */
+	private function cleanPIIForUnauthorizedUsers($data, $user, $isUserAdmin) {
+		if (!$isUserAdmin || !$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user)) {
+			unset($data['author_realname']);
+			unset($data['author_email']);
+			unset($data['user_id']);
+		}
+		return $data;
+	}
+
+	private function cleanPrivateFieldsForUnauthorizedUsers($data, $isUserAdmin) {
+		if (!$isUserAdmin && isset($data['values'])){
+			foreach ($data['values'] as $key => $value) {
+				$keyAttribute = $this->form_attribute_repo->getByKey($key);
+				if ($keyAttribute->response_private == true) {
+					unset($data['values'][$key]);
+				}
+			}
+		}
+		return $data;
 	}
 
 	// Ushahidi_JsonTranscodeRepository
@@ -232,6 +254,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	protected function setSearchConditions(SearchData $search)
 	{
+
 		if ($search->include_types)
 		{
 			if (is_array($search->include_types))
@@ -260,8 +283,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$table = $this->getTable();
 
 		// Filter by status
-		$status = $search->getFilter('status', ['published']);
-		//
+		$status = $search->getFilter('status', array_merge($this->public_statuses, $this->internal_statuses));
 		if (!is_array($status)) {
 			$status = explode(',', $status);
 		}
@@ -293,7 +315,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				if (!is_array($search->$key)) {
 					$search->$key = explode(',', $search->$key);
 				}
-
 				// Special case: 'none' looks for null
 				if (in_array('none', $search->$key)) {
 					$query->and_where_open()
@@ -389,14 +410,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					$this->getBoundingBoxSubquery($bounding_box), 'Filter_BBox'
 				], 'INNER')
 				->on('posts.id', '=', 'Filter_BBox.post_id')
-				;
+			;
 		}
 
 		// Published to
 		if ($search->published_to) {
 			$query
 				->where("$table.published_to", 'LIKE', "%'$search->published_to'%")
-				;
+			;
 		}
 
 		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
@@ -489,20 +510,21 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			}
 		}
 
+
 		$user = $this->getUser();
 		// If there's no logged in user, or the user isn't admin
 		// restrict our search to make sure we still return SOME results
 		// they are allowed to see
 		if (!$user->id) {
-			$query->where("$table.status", '=', 'published');
+			$query->where("$table.status", 'IN', $this->public_statuses);
 		} elseif (!$this->isUserAdmin($user) and
-				  !$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-			$query
-				->and_where_open()
-				->where("$table.status", '=', 'published')
+			!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			$query->and_where_open()
+				->where("$table.status", 'IN', $this->public_statuses)
 				->or_where("$table.user_id", '=', $user->id)
 				->and_where_close();
 		}
+
 	}
 
 	// SearchRepository
@@ -592,8 +614,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					// Join to attribute
 					$this->search_query
 						->join([$sub, 'Time_'.ucfirst($key)], 'INNER')
-							->on('form_attribute_id', '=', DB::expr($attribute->id))
-							->on('posts.id', '=', 'Time_'.ucfirst($key).'.post_id');
+						->on('form_attribute_id', '=', DB::expr($attribute->id))
+						->on('posts.id', '=', 'Time_'.ucfirst($key).'.post_id');
 
 					// Use the attribute `value` as our time
 					$time_field = 'Time_'.ucfirst($key).'.value';
@@ -623,8 +645,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 				$this->search_query
 					->join([$sub, 'Group_'.ucfirst($key)], 'INNER')
-						->on('form_attribute_id', '=', DB::expr($attribute->id))
-						->on('posts.id', '=', 'Group_'.ucfirst($key).'.post_id')
+					->on('form_attribute_id', '=', DB::expr($attribute->id))
+					->on('posts.id', '=', 'Group_'.ucfirst($key).'.post_id')
 					->select(['Group_'.ucfirst($key).'.value', 'label'])
 					->group_by('label');
 			}
@@ -668,8 +690,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				->join('posts_tags')->on('posts.id', '=', 'posts_tags.post_id')
 				->join('tags')->on('posts_tags.tag_id', '=', 'tags.id')
 				->join(['tags', 'parents'])
-					// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
-					->on(DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"), '', DB::expr(""))
+				// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
+				->on(DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"), '', DB::expr(""))
 				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
 				->select([DB::expr('MAX(parents.tag)'), 'label'])
 				->select(['parents.id', 'id'])
@@ -750,8 +772,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	private function createBoundingBoxFromCSV($csv)
 	{
 		list($bb_west, $bb_north, $bb_east, $bb_south)
-				= array_map('floatval', explode(',', $csv))
-				;
+			= array_map('floatval', explode(',', $csv))
+		;
 
 		$bounding_box_factory = $this->bounding_box_factory;
 		return $bounding_box_factory($bb_west, $bb_north, $bb_east, $bb_south);
@@ -812,7 +834,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $result->as_array(NULL, 'tag_id');
 	}
 
-  /**
+	/**
 	 * Get sets for a post
 	 * @param  int   $id  post id
 	 * @return array      set ids for post
@@ -869,7 +891,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Set default value for post_date
 		if (empty($post['post_date'])) {
 			$post['post_date'] = date_create()->format("Y-m-d H:i:s");
-		// Convert post_date to mysql format
+			// Convert post_date to mysql format
 		} else  {
 			$post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
 		}

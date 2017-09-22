@@ -17,7 +17,7 @@ use Ushahidi\Core\SearchData;
 
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
-
+use Ushahidi\Core\Traits\UserContext;
 class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetRepository
 {
 	// Use the JSON transcoder to encode properties
@@ -25,6 +25,8 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 
 	// Use Event trait to trigger events
 	use Event;
+
+	use UserContext;
 
 	/**
 	 * @var  Boolean  Return SavedSearches (when true) or vanilla Sets
