@@ -14,8 +14,6 @@ namespace Ushahidi\Core\Usecase;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
 class DeleteUsecase implements Usecase
 {
@@ -26,10 +24,10 @@ class DeleteUsecase implements Usecase
 		FormatterTrait;
 
 	// - IdentifyRecords for setting entity lookup parameters
-	use IdentifyRecords;
+	use Concerns\IdentifyRecords;
 
 	// - VerifyEntityLoaded for checking that an entity is found
-	use VerifyEntityLoaded;
+	use Concerns\VerifyEntityLoaded;
 
 	/**
 	 * @var DeleteRepository
