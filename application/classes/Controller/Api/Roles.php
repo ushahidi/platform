@@ -15,4 +15,5 @@ class Controller_Api_Roles extends Ushahidi_Rest {
 	{
 		return 'roles';
 	}
+
 }
