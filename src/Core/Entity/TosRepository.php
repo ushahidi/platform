@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Form Attribute Data for Read
+ * Repository for CSV
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,11 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Form;
+namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityExists;
 
-class ReadFormAttributeData extends Data
+interface TosRepository extends
+    EntityGet,
+    EntityExists
 {
-	public $id;
+
 }

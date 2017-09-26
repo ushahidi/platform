@@ -30,7 +30,7 @@ The Frontend is a javascript application, built on AngularJS. It loads all data 
 
 ### Data Layer (Mysql)
 
-The database layer is a standard MySQL server. You can see a schema here [svg](schema.svg) [png](schema.svg)
+The database layer is a standard MySQL server. You can see a schema here [svg](schema.svg) [png](schema.png)
 
 ## Internal API Architecture
 

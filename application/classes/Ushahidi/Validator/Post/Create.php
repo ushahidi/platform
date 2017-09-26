@@ -119,7 +119,8 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'values' => [
 				[[$this, 'checkValues'], [':validation', ':value', ':fulldata']],
-				[[$this, 'checkRequiredAttributes'], [':validation', ':value', ':fulldata']],
+				[[$this, 'checkRequiredPostAttributes'], [':validation', ':value', ':fulldata']],
+				[[$this, 'checkRequiredTaskAttributes'], [':validation', ':value', ':fulldata']],
 			],
 			'post_date' => [
 				[[$this, 'validDate'], [':value']],
@@ -158,7 +159,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 			],
 			'completed_stages' => [
 				[[$this, 'checkStageInForm'], [':validation', ':value', ':fulldata']],
-				[[$this, 'checkRequiredStages'], [':validation', ':value', ':fulldata']]
+				[[$this, 'checkRequiredStages'], [':validation', ':fulldata']]
 			]
 		];
 	}
@@ -227,6 +228,8 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 	public function checkValues(Validation $validation, $attributes, $fullData)
 	{
+
+		$attributes = !empty($fullData['values']) ? $fullData['values'] : [];
 		if (!$attributes)
 		{
 			return;
@@ -303,9 +306,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 * @param  Array      $attributes
 	 * @param  Array      $fullData
 	 */
-	public function checkRequiredStages(Validation $validation, $completed_stages, $fullData)
+	public function checkRequiredStages(Validation $validation, $fullData)
 	{
-		$completed_stages = $completed_stages ? $completed_stages : [];
+		$completed_stages = !empty($fullData['completed_stages']) ? $fullData['completed_stages'] : [];
 
 		// If post is being published
 		if ($fullData['status'] === 'published')
@@ -331,7 +334,35 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 * @param  Array      $attributes
 	 * @param  Array      $fullData
 	 */
-	public function checkRequiredAttributes(Validation $validation, $attributes, $fullData)
+	public function checkRequiredPostAttributes(Validation $validation, $attributes, $fullData)
+	{
+		// Get the post stage
+		$stage = $this->stage_repo->getPostStage($fullData['form_id']);
+
+		// Load the required attributes
+		$required_attributes = $this->attribute_repo->getRequired($stage->id);
+
+		foreach ($required_attributes as $attr)
+		{
+			// Post has two special required attributes Title and Desription
+			// these are checked separately and skipped here.
+			// TODO: Refactor Title and Description to be handled as Post Values
+			if (!in_array($attr->type, ['title', 'description']) && !array_key_exists($attr->key, $attributes))
+			{
+				// If a required attribute isn't completed, throw an error
+				$validation->error('values', 'postAttributeRequired', [$attr->label, $stage->label]);
+			}
+		}
+	}
+
+	/**
+	 * Check required attributes are completed before completing stages
+	 *
+	 * @param  Validation $validation
+	 * @param  Array      $attributes
+	 * @param  Array      $fullData
+	 */
+	public function checkRequiredTaskAttributes(Validation $validation, $attributes, $fullData)
 	{
 		if (empty($fullData['completed_stages']))
 		{
@@ -352,7 +383,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 				{
 					$stage = $this->stage_repo->get($stage_id);
 					// If a required attribute isn't completed, throw an error
-					$validation->error('values', 'attributeRequired', [$attr->label, $stage->label]);
+					$validation->error('values', 'taskAttributeRequired', [$attr->label, $stage->label]);
 				}
 			}
 		}
