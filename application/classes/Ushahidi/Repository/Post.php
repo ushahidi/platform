@@ -318,7 +318,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 			if (is_numeric($search->q)) {
 				// if `q` is numeric, could be searching for a specific id
-				$query->or_where('id', '=', $search->q);
+				$query->or_where("$table.id", '=', $search->q);
 			}
 
 			$query->and_where_close();
