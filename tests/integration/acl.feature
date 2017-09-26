@@ -22,7 +22,6 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not see restricted fields of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -33,7 +32,6 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not see hidden tasks of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -45,7 +43,6 @@ Feature: API Access Control Layer
     #FIXME
     Scenario: Anonymous user can not see hidden author field of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -79,7 +76,6 @@ Feature: API Access Control Layer
     #FIXME
     Scenario: User can not see hidden author field of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -196,7 +192,6 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can access public posts
         Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
@@ -258,14 +253,12 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous users can not view draft posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "111"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous users can view public post
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "110"
         When I request "/posts"
         Then the guzzle status code should be 200
@@ -273,16 +266,14 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not access updates with private parent post
         Given that I want to get all "Updates"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access update with private parent post
         Given that I want to find an "Update"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "114"
         When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: User user can access update to their own private parent post
         Given that I want to find an "Update"
@@ -300,43 +291,37 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not access translations with private parent post
         Given that I want to get all "Translations"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts/111/translations"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access translation with private parent post
         Given that I want to find a "Translation"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "115"
         When I request "/posts/111/translations"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access revisions with private parent post
         Given that I want to get all "Revisions"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts/111/revisions"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access revision with private parent post
         Given that I want to find a "Revision"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "116"
         When I request "/posts/111/revisions"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access private update in listing
         Given that I want to get all "Updates"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts/110/updates"
         Then the guzzle status code should be 200
         And the "count" property equals "0"
 
     Scenario: Anonymous user can not access private update
         Given that I want to find an "Update"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "117"
         When I request "/posts/110/updates"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous users cannot edit public post
         Given that I want to update a "Post"
@@ -368,7 +353,6 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous users can view site config
         Given that I want to find a "Config"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "site"
         When I request "/config"
         Then the guzzle status code should be 200
@@ -377,7 +361,6 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous users can view map config
         Given that I want to find a "Config"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "map"
         When I request "/config"
         Then the guzzle status code should be 200
@@ -386,10 +369,9 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not access data provider config
         Given that I want to find an "Update"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "data-provider"
         When I request "/config"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @resetFixture
     Scenario: Listing All Configs as admin
@@ -402,7 +384,6 @@ Feature: API Access Control Layer
 
     Scenario: Listing All Configs as anonymous user
         Given that I want to get all "Configs"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/config"
         Then the response is JSON
         And the "count" property equals "3"
@@ -484,7 +465,6 @@ Feature: API Access Control Layer
     @resetFixture
     Scenario: Anonymous can not view private responses
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the guzzle status code should be 200
@@ -494,10 +474,9 @@ Feature: API Access Control Layer
     @resetFixture
     Scenario: Anonymous can not view post published to members
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "120"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
         And the response is JSON
 
     @private
@@ -520,9 +499,8 @@ Feature: API Access Control Layer
     @private
     Scenario: Anonymous user cannot access public posts when deployment is private
         Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @private
     Scenario: Anonymous users cannot create posts when a deployment is private
@@ -547,10 +525,9 @@ Feature: API Access Control Layer
     @private
     Scenario: Anonymous users cannot view public posts when a deployment is private
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "110"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view all posts in collection
