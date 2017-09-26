@@ -41,6 +41,13 @@ class CreateCSVUsecase extends CreateMedia
 	 */
 	protected function getEntity()
 	{
+		/**
+		 * Step one of import (map columns)
+		 * Support all line endings without manually specifying it
+		 * (primarily added because of OS9 line endings which do not work by default )
+		 */
+		ini_set('auto_detect_line_endings', 1);
+
 		$upload_data = new UploadData($this->getPayload('file'));
 		
 		// Upload the file and get the file reference
