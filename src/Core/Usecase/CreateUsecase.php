@@ -16,7 +16,6 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
-use Ushahidi\Core\Traits\ModifyRecords;
 
 class CreateUsecase implements Usecase
 {
@@ -28,7 +27,7 @@ class CreateUsecase implements Usecase
 		ValidatorTrait;
 
 	// - ModifyRecords for setting entity modification parameters
-	use ModifyRecords;
+	use Concerns\ModifyRecords;
 
 	/**
 	 * @var CreateRepository
