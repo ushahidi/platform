@@ -11,12 +11,12 @@
 
 class Ushahidi_Validator_SavedSearch_Create extends Ushahidi_Validator_SavedSearch_Update
 {
-
 	protected function getRules()
 	{
-		return array_merge_recursive(parent::getRules(), [
-	  'name' => [
-				['not_empty'],
+		$rules = parent::getRules();
+		return array_merge_recursive($rules, [
+	    'name' => [
+			['not_empty'],
 		],
 		'filter' => [
 				['not_empty'],
