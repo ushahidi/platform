@@ -11,6 +11,19 @@ Feature: Testing the CSV API
         And the "columns.0" property equals "title"
         Then the guzzle status code should be 200
 
+    Scenario: Uploading a CSV file with OS9 line endings
+        Given that I want to make a new "CSV"
+        And that the post file "file" is "tests/datasets/ushahidi/sample_os9.csv"
+        When I request "/csv"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the response has a "columns" property
+        And the "columns.8" property equals " actions.1"
+        And the response has a "columns.1" property
+        And the response does not have a "columns.9" property
+        Then the guzzle status code should be 200
+
     Scenario: Update CSV mapping
         Given that I want to update a "CSV"
         And that the request "data" is:
