@@ -527,19 +527,38 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	public function getUnmappedTotal($total_posts)
 	{
+		// Assume we can simply count the results to get a total
+		$query = $this->getSearchQuery(true)
+			->resetSelect()
+			->select([DB::expr('COUNT(DISTINCT posts.id)'), 'total'])
+			->where('posts.id', 'NOT IN', 
+				DB::query(Database::SELECT, 'SELECT post_geometry.post_id from post_geometry union select post_point.post_id from post_point'));
+		// Fetch the result and
+		$results = $query->execute($this->db);
+		\Log::instance()->add(\Log::NOTICE, $this->db->last_query);
+		// ... return the total.
+		$total = 0;
 
-		$mapped = 0;
-		$raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
-		if ($total_posts > 0) {
-
-			$results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
-
-			foreach($results->as_array() as $result) {
-				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
-			}
+		foreach ($results->as_array() as $result) {
+			$total += array_key_exists('total', $result) ? (int) $result['total'] : 0;
 		}
 
-		return $total_posts - $mapped;
+		return $total;
+
+
+
+		// $mapped = 0;
+		// $raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry union select post_point.post_id from post_point) as sub;";
+		// if ($total_posts > 0) {
+
+		// 	$results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
+
+		// 	foreach($results->as_array() as $result) {
+		// 		$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
+		// 	}
+		// }
+
+		// return $total_posts - $mapped;
 	}
 
 	// PostRepository
