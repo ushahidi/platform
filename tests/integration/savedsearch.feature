@@ -1,59 +1,6 @@
 @setsFixture @oauth2Skip
 Feature: Testing the Sets API
-
 	Scenario: Creating a SavedSearch
-		Given that I want to make a new "SavedSearch"
-		And that the request "data" is:
-			"""
-			{
-				"name":"Search One",
-				"filter": {
-					"q":"zombie"
-				},
-				"featured": 1,
-				"view":"map",
-				"view_options":[],
-				"role":[],
-				"user_id": 2
-			}
-			"""
-		When I request "/savedsearches"
-		Then the response is JSON
-		And the response has a "id" property
-		And the type of the "id" property is "numeric"
-		And the response has a "name" property
-		And the "name" property equals "Search One"
-		And the "featured" property equals "1"
-		And the "view" property equals "map"
-		And the "filter.q" property equals "zombie"
-		Then the guzzle status code should be 200
-
-	Scenario: Creating a SavedSearch with search=0 is ignored
-		Given that I want to make a new "SavedSearch"
-		And that the request "data" is:
-			"""
-			{
-				"name":"Set One",
-				"featured": 1,
-				"search":"0",
-				"filter":{
-					"q":"zombie"
-				},
-				"view":"map",
-				"view_options":[],
-				"role":[],
-				"user_id": 2
-			}
-			"""
-		When I request "/savedsearches"
-		Then the response is JSON
-		And the response has a "id" property
-		And the type of the "id" property is "numeric"
-		And the response has a "name" property
-		And the response does not have a "search" property
-		Then the guzzle status code should be 200
-
-	Scenario: Creating a SavedSearch without a user_id fails
 		Given that I want to make a new "SavedSearch"
 		And that the request "data" is:
 			"""
@@ -70,7 +17,39 @@ Feature: Testing the Sets API
 			"""
 		When I request "/savedsearches"
 		Then the response is JSON
-		Then the guzzle status code should be 422
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "name" property
+		And the "name" property equals "Search One"
+		And the "featured" property equals "1"
+		And the "view" property equals "map"
+		And the "user.id" property equals "2"
+		And the "filter.q" property equals "zombie"
+		Then the guzzle status code should be 200
+
+	Scenario: Creating a SavedSearch with search=0 is ignored
+		Given that I want to make a new "SavedSearch"
+		And that the request "data" is:
+			"""
+			{
+				"name":"Set One",
+				"featured": 1,
+				"search":"0",
+				"filter":{
+					"q":"zombie"
+				},
+				"view":"map",
+				"view_options":[],
+				"role":[]
+			}
+			"""
+		When I request "/savedsearches"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "name" property
+		And the response does not have a "search" property
+		Then the guzzle status code should be 200
 
 	Scenario: Updating a SavedSearch
 		Given that I want to update a "SavedSearch"

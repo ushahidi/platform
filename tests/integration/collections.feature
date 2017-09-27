@@ -6,7 +6,6 @@ Feature: Testing the Sets API
 		And that the request "data" is:
 			"""
 			{
-				"user_id": 2,
 				"name":"Set One",
 				"featured": 1,
 				"view":"map",
@@ -21,6 +20,7 @@ Feature: Testing the Sets API
 		And the response has a "name" property
 		And the "name" property equals "Set One"
 		And the "featured" property equals "1"
+		And the "user.id" property equals "2"
 		And the "view" property equals "map"
 		Then the guzzle status code should be 200
 
@@ -29,7 +29,6 @@ Feature: Testing the Sets API
 		And that the request "data" is:
 			"""
 			{
-				"user_id": 2,
 				"name":"Set One",
 				"featured": 1,
 				"search": 1,
@@ -47,22 +46,6 @@ Feature: Testing the Sets API
 		And the response does not have a "search" property
 		And the response does not have a "filter" property
 		Then the guzzle status code should be 200
-
-	Scenario: Creating a Collection  without a user_id fails
-		Given that I want to make a new "collection"
-		And that the request "data" is:
-			"""
-			{
-				"name":"Set One",
-				"featured": 1,
-				"view":"map",
-				"view_options":[],
-				"role":[]
-			}
-			"""
-		When I request "/collections"
-		Then the response is JSON
-		Then the guzzle status code should be 422
 
 	Scenario: Updating a Collection
 		Given that I want to update a "collection"

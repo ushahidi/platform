@@ -324,6 +324,16 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'read'   => $di->lazyNew('Ushahidi\Core\Usecase\Set\ReadSetPost'),
 ];
 
+// Add custom usecases for sets_posts
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['savedsearches'] = [
+    'create' => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSet'),
+];
+
+// Add custom usecases for sets_posts
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets'] = [
+    'create' => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSet'),
+];
+
 // Add usecase for posts_export
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
 	'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\Export'),
