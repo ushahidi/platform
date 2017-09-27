@@ -550,7 +550,7 @@ Feature: API Access Control Layer
         And the response has an "id" property
 
     @rolesEnabled
-    Scenario: User with Manage Posts permission is not allowed to make a SavedSearch featured
+    Scenario: User with Manage Posts permission can make a SavedSearch featured
         Given that I want to update a "SavedSearch"
         And that the request "Authorization" header is "Bearer testmanager"
         And that the request "data" is:
@@ -564,7 +564,7 @@ Feature: API Access Control Layer
         And that its "id" is "5"
         When I request "/savedsearches"
         Then the response is JSON
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 200
 
     @rolesEnabled
     Scenario: User with with Manage Settings permission can update a config
