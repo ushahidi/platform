@@ -6,8 +6,9 @@
 
 
 ##### Where
-- [ ] Local setup with Vagrant
-- [ ] Local setup with platform-release 
-- [ ] Ushahidi.io / SaaS solution
+- [ ] [Local setup with Vagrant ](https://www.ushahidi.com/support/install-ushahidi#installing-for-development)
+- [ ] [Local setup from platform-release ](https://www.ushahidi.com/support/install-ushahidi#installing-the-latest-release)
+- [ ] Ushahidi.io / SaaS solution 
 - [ ] Ushahidi's QA environment
-- [ ] Other: 
+- [ ] Other (explain): 
+
