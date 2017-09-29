@@ -289,6 +289,21 @@ Route::set('oauth', 'oauth(/<action>)',
 	));
 
 
+
+	/**
+	 * Posts Log Route
+	 */
+	 Route::set('postschangelog', $apiBase . 'postschangelog(/<id>)',
+	 	array(
+	 		'id' => '\d+'
+	 	))
+	 	->defaults(array(
+	 		'action'     => 'index',
+	 		'directory'  => 'Api',
+	 		'controller' => 'PostsChangeLog',
+	 	));
+
+
 /**
  * Default Route
  */

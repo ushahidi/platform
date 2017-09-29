@@ -28,6 +28,7 @@ trait FormatterAuthorizerMetadata
 
 	protected function getAllowedPrivs(Entity $entity)
 	{
+
 		if (!$this->auth) {
 			throw new \LogicException('Authorizer must be defined by calling setAuth');
 		}

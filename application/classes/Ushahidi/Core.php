@@ -326,7 +326,8 @@ abstract class Ushahidi_Core {
 			'permissions'          => $di->lazyNew('Ushahidi_Formatter_Permission'),
 			// Formatter for post exports. Defaults to CSV export
 			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
-			'tos'				   => $di->lazyNew('Ushahidi_Formatter_Tos')
+			'tos'				  				 => $di->lazyNew('Ushahidi_Formatter_Tos'),
+			'postschangelog'			 => $di->lazyNew('Ushahidi_Formatter_PostsChangeLog')
 		];
 
 		// Formatter parameters
@@ -351,6 +352,7 @@ abstract class Ushahidi_Core {
 			'role',
 			'permission',
 			'tos',
+			'postschangelog'
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
@@ -422,6 +424,8 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
 		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
+		$di->set('repository.postschangelog', $di->lazyNew('Ushahidi_Repository_PostsChangeLog'));
+
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 

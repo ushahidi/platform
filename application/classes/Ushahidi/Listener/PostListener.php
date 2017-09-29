@@ -33,15 +33,46 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 		$this->webhook_repo = $webhook_repo;
 	}
 
-  public function handle(EventInterface $event, $post_id = null, $event_type = null)
-  {
-		$state = [
-			'post_id' => $post_id,
-			'event_type' => $event_type
-		];
+	public function setChangeLogRepo(ChangeLogRepo $changelog_repo)
+	{
+		$this->changelog_repo = changelog_repo;
+	}
 
-		$entity = $this->repo->getEntity();
-		$entity->setState($state);
-		$this->repo->create($entity);
+  public function handle(EventInterface $event, $postEntity = null, $event_type = null)
+  {
+
+		//there's just one event handler, so here we handle specific event types...
+		if($event_type == 'update')
+		{
+						//send event info off to webhook
+						$state = [
+							'post_id' => $postEntity->id,
+							'event_type' => $event_type
+						];
+
+						$entity = $this->repo->getEntity();
+						$entity->setState($state);
+						$this->repo->create($entity);
+
+				Kohana::$log->add(Log::INFO, 'Can we get just the changes?'.print_r($postEntity->getChanged(), true));
+
+		}else if($event_type == 'create')
+		{
+						//send event info off to webhook
+						$state = [
+							'post_id' => $postEntity->id,
+							'event_type' => $event_type
+						];
+
+						$entity = $this->repo->getEntity();
+						$entity->setState($state);
+						$this->repo->create($entity);
+		}else
+		{
+				Kohana::$log->add(Log::DEBUG, 'What kind of event just happened? '.$event_type.'!');
+		}
+
+
+
   }
 }

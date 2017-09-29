@@ -938,6 +938,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post = $entity->getChanged();
 		$post['updated'] = time();
 
+		\Log::instance()->add(\Log::INFO, print_r($entity, true));
+
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 
@@ -972,6 +974,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// Update post-stages
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
+
+		$this->emit($this->event, $entity, 'update');
+
 
 		return $count;
 	}
