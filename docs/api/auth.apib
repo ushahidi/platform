@@ -28,13 +28,13 @@ Supported grant types:
 
 ## Accessing a protected resource [/api/v3/protected]
 
-Now we have an `access_token` we add that to the `Authentication` header on all resource requests.
+Now we have an `access_token` we add that to the `Authorization` header on all resource requests.
 
 ### Accessing a protected resource [GET]
 + Request With Valid token
     + Headers
 
-            Authentication: Bearer accesstoken
+            Authorization: Bearer accesstoken
 
 + Response 200 (application/json)
     + Attributes (Server response)
@@ -43,7 +43,7 @@ Now we have an `access_token` we add that to the `Authentication` header on all 
 + Request With Invalid or Expired token
     + Headers
 
-            Authentication: Bearer invalidOrExpireToken
+            Authorization: Bearer invalidOrExpireToken
 
 + Response 401 (application/json)
     + Attributes (Server error response)
@@ -51,7 +51,7 @@ Now we have an `access_token` we add that to the `Authentication` header on all 
 + Request With insufficient permissions
     + Headers
 
-            Authentication: Bearer accesstoken
+            Authorization: Bearer accesstoken
 
 + Response 403 (application/json)
     + Attributes (Server error response)
