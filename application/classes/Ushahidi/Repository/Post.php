@@ -228,7 +228,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'date_before', 'date_after',
 			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
-			'published_to',
+			'published_to', 'source',
 			'include_types', 'include_attributes', // Specify values to include
 			'include_unmapped',
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
@@ -407,6 +407,23 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				;
 		}
 
+		if ($sources = $search->source)
+		{
+			if (!is_array($sources)) {
+				$sources = explode(',', $sources);
+			}
+
+			// Special case: 'web' looks for null
+			if (in_array('web', $sources)) {
+				$query->and_where_open()
+					->where("messages.type", 'IS', NULL)
+					->or_where("messages.type", 'IN', $sources)
+					->and_where_close();
+			} else {
+				$query->where("messages.type", 'IN', $sources);
+			}
+		}
+
 		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
 		if($search->has_location === 'mapped') {
 			$query->where("$table.id", 'IN',
@@ -546,7 +563,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
 			}
 		}
-
 		return $total_posts - $mapped;
 	}
 
@@ -561,7 +577,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	{
 		// Create a new query to select posts count
 		$this->search_query = DB::select([DB::expr('COUNT(DISTINCT posts.id)'), 'total'])
-			->from($this->getTable());
+				->from('posts')
+				->JOIN('messages', 'LEFT')
+				->ON('posts.id', '=', 'messages.post_id');
 
 		// Quick hack to ensure all posts are available to
 		// group_by=status
@@ -614,7 +632,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					'time_label'
 				])
 				->group_by('time_label');
-
 		}
 
 		// Group by attribute
@@ -649,10 +666,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			$this->search_query
 				->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
+				// Select Datasource
+				->select(['messages.type', 'type'])
 				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
 				->select([DB::expr('MAX(forms.name)'), 'label'])
 				->select(['forms.id', 'id'])
-				->group_by('forms.id');
+				// First group by form...
+				->group_by('forms.id')
+				// ...and then by datasource
+				->group_by('messages.type');
 		}
 		// Group by tags
 		elseif ($search->group_by === 'tags')

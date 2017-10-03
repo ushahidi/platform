@@ -335,6 +335,16 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_lock'] = [
 
 $di->setter['Ushahidi\Core\Usecase\Post\PostLockTrait']['setPostRepository'] = $di->lazyGet('repository.post');
 
+// Add custom usecases for sets_posts
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['savedsearches'] = [
+    'create' => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSet'),
+];
+
+// Add custom usecases for sets_posts
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets'] = [
+    'create' => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSet'),
+];
+
 // Add usecase for posts_export
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
 	'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\Export'),

@@ -1070,6 +1070,30 @@ Feature: Testing the Posts API
 		And the "total_count" property equals "1"
 		Then the guzzle status code should be 200
 
+	@resetFixture @search
+	Scenario: Listing All Posts by sms
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			source=sms
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the "results.0.source" property equals "sms"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Listing All Posts from web
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			source=web
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the "results.0.source" property is empty
+		Then the guzzle status code should be 200
+
 	# @todo improve this test to check more response data
 	@search
 	Scenario: Listing All Posts as JSONP
