@@ -23,5 +23,4 @@ interface PostLockRepository extends
     public function checkLock($entity_id);
 
     public function getPostLock($entity_id);
-
 }

@@ -9,6 +9,7 @@
  */
 
 namespace Ushahidi\Core\Usecase;
+
 use Ushahidi\Core\Entity;
 
 interface LockRepository extends CreateRepository, UpdateRepository
