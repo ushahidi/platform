@@ -59,4 +59,9 @@ return [
 	'data-import' => [
 		'enabled' => TRUE,
 	],
+
+	// Post locking
+	'post-locking' => [
+		'enabled' => TRUE,
+	],
 ];

@@ -236,6 +236,10 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'import' => $di->lazyNew('Ushahidi_Validator_Post_Import'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Tag_Update'),
@@ -312,6 +316,7 @@ abstract class Ushahidi_Core {
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
 			'posts'                => $di->lazyNew('Ushahidi_Formatter_Post'),
+			'posts_lock'           => $di->lazyNew('Ushahidi_Formatter_Post_Lock'),
 			'tags'                 => $di->lazyNew('Ushahidi_Formatter_Tag'),
 			'savedsearches'        => $di->lazyNew('Ushahidi_Formatter_Set'),
 			'sets'                 => $di->lazyNew('Ushahidi_Formatter_Set'),
@@ -341,6 +346,7 @@ abstract class Ushahidi_Core {
 			'media',
 			'message',
 			'post',
+			'post_lock',
 			'tag',
 			'user',
 			'savedsearch',
@@ -370,6 +376,7 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.console', $di->lazyNew('Ushahidi_Formatter_Console'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
+		$di->set('formatter.entity.post.lock', $di->lazyNew('Ushahidi_Formatter_Post_Lock'));
 		$di->set('formatter.entity.post.geojson', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSON'));
 		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
 		$di->set('formatter.entity.post.stats', $di->lazyNew('Ushahidi_Formatter_Post_Stats'));
@@ -400,6 +407,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
+		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.set', $di->lazyNew('Ushahidi_Repository_Set'));
 		$di->set('repository.savedsearch', $di->lazyNew(
@@ -456,6 +464,7 @@ abstract class Ushahidi_Core {
 				'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 				'form_repo' => $di->lazyGet('repository.form'),
+				'post_lock_repo' => $di->lazyGet('repository.post_lock'),
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 			];
@@ -576,6 +585,10 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Tag_Update'] = [
 			'repo' => $di->lazyGet('repository.tag'),
 			'role_repo' => $di->lazyGet('repository.role'),
+		];
+
+		$di->params['Ushahidi_Validator_Post_Lock_Update'] = [
+			'post_repo' => $di->lazyGet('repository.post_lock'),
 		];
 
 		$di->params['Ushahidi_Validator_Tos_Create'] = [

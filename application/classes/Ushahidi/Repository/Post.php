@@ -15,6 +15,8 @@ use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\PostLock;
+use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostSearchData;
@@ -77,7 +79,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	 * @param Database                              $db
 	 * @param FormAttributeRepository               $form_attribute_repo
 	 * @param FormStageRepository                   $form_stage_repo
-	 * @param Ushahidi_Repository_Post_ValueFactory  $post_value_factory
+	 * @param PostLockRepository                    $post_lock_repo
+	 * @param Ushahidi_Repository_Post_ValueFactory $post_value_factory
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
 	public function __construct(
@@ -85,6 +88,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			FormAttributeRepository $form_attribute_repo,
 			FormStageRepository $form_stage_repo,
 			FormRepository $form_repo,
+			PostLockRepository $post_lock_repo,
 			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory
 		)
@@ -94,6 +98,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$this->form_attribute_repo = $form_attribute_repo;
 		$this->form_stage_repo = $form_stage_repo;
 		$this->form_repo = $form_repo;
+		$this->post_lock_repo = $post_lock_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
 	}
@@ -129,7 +134,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
+				'lock' => [],
 			];
+
+			$data['lock'] = $this->canUserSeePostLock(new Post($data), $user) ? $this->post_lock_repo->getPostLock($data['id']) : [];
 		}
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
@@ -864,7 +872,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['lock']);
 
 		// Set default value for post_date
 		if (empty($post['post_date'])) {
@@ -917,7 +925,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['updated'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['lock']);
 
 		// Convert post_date to mysql format
 		if(!empty($post['post_date'])) {
@@ -1040,5 +1048,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		return true;
+	}
+
+	// UpdatePostTagRepository
+	public function doesPostExist($post_id)
+	{
+		$query = $this->selectQuery()
+			->resetSelect()
+			->select([DB::expr('COUNT(*)'), 'total'])
+			->where('id', '=', $post_id)
+			->execute($this->db);
+
+		return $query->get('total') > 0;
 	}
 }
