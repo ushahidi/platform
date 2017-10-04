@@ -84,6 +84,18 @@ class RestContext implements Context
 		$this->restObjectMethod = 'post';
 	}
 
+	/**
+	 * @Given /^that I want to check a "([^"]*)"$/
+	 */
+	public function thatIWantToChecktA($objectType)
+	{
+		// Reset restObject
+		$this->restObject = new stdClass();
+
+		$this->restObjectType   = ucwords(strtolower($objectType));
+		$this->restObjectMethod = 'get';
+	}
+
 
 	/**
 	 * @Given /^that I want to submit a new "([^"]*)"$/

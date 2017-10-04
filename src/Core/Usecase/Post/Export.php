@@ -63,7 +63,9 @@ class Export extends SearchUsecase
 
 			// Retrieved Attribute Labels for Entity's values
 			$data = $entity->asArray();
+
 			$data = $this->repo->retrieveColumnNameData($data);
+
 
 			$results[$idx] = $data;
 		}

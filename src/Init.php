@@ -137,6 +137,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'tags'                 => $di->lazyGet('authorizer.tag'),
 	'sets'                 => $di->lazyGet('authorizer.set'),
 	'sets_posts'           => $di->lazyGet('authorizer.post'),
+	'posts_lock'           => $di->lazyGet('authorizer.posts_lock'),
 	'savedsearches'        => $di->lazyGet('authorizer.savedsearch'),
 	'users'                => $di->lazyGet('authorizer.user'),
 	'notifications'        => $di->lazyGet('authorizer.notification'),
@@ -167,6 +168,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'tags'                 => $di->lazyGet('repository.tag'),
 	'sets'                 => $di->lazyGet('repository.set'),
 	'sets_posts'           => $di->lazyGet('repository.post'),
+	'posts_lock'           => $di->lazyGet('repository.post'),
 	'savedsearches'        => $di->lazyGet('repository.savedsearch'),
 	'users'                => $di->lazyGet('repository.user'),
 	'notifications'        => $di->lazyGet('repository.notification'),
@@ -339,6 +341,13 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
 	'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\Export'),
 ];
 
+// Add usecase for posts_lock
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_lock'] = [
+	'checkLock' => $di->lazyNew('Ushahidi\Core\Usecase\Post\CheckPostLock'),
+	'getLock'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\GetPostLock'),
+	'breakLock' => $di->lazyNew('Ushahidi\Core\Usecase\Post\BreakPostLock'),
+];
+
 // Set up traits for SetsPosts Usecases
 $di->setter['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository'] = $di->lazyGet('repository.set');
 $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di->lazyGet('authorizer.set');
@@ -414,6 +423,7 @@ $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuth
 $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->set('authorizer.tos', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TosAuthorizer'));
+
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	'form_repo' => $di->lazyGet('repository.form'),

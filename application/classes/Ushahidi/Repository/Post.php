@@ -15,6 +15,7 @@ use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\PostLocks;
 use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostSearchData;
@@ -117,13 +118,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				$this->restricted = false;
 			}
 			// Get Hidden Stage Ids to be excluded from results
-			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
+			$status = $data['status'] ? $data['status'] : '';
+			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id'], $status);
 
 		}
 
 		if (!empty($data['id']))
 		{
 			$data += [
+				'is_locked' => $this->checkLock($data['id']),
 				'values' => $this->getPostValues($data['id']),
 				// Continued for legacy
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
@@ -133,7 +136,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
-		//Check if author information should be returned
+		// Check if author information should be returned
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
 		{
 
@@ -513,7 +516,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if (!$user->id) {
 			$query->where("$table.status", '=', 'published');
 		} elseif (!$this->isUserAdmin($user) and
-				  !$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+				  !$this->acl->hasPermission($user, Permission::MANAGE_POSTS) and
+				  !$this->acl->hasPermission($user, Permission::VIEW_ANY_POSTS)) {
 			$query
 				->and_where_open()
 				->where("$table.status", '=', 'published')
@@ -878,6 +882,74 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			]) === 0;
 	}
 
+	public function getLock(Entity $entity)
+	{
+		if(!$this->checkLock($entity->id))
+		{
+			$expires = strtotime("+10 minutes");
+			$user = $this->getUser();
+
+			$lock = [
+				'user_id' => $user->id,
+				'post_id' => $entity->id,
+				'expires' => $expires
+			];
+
+			$query = DB::insert('post_locks')
+				->columns(array_keys($lock))
+				->values(array_values($lock));
+
+			list($id) = $query->execute($this->db);
+
+			return $id;
+		}
+
+		return null;
+	}
+
+	public function releaseLock($entity_id)
+	{
+		$query = DB::delete('post_locks')
+			->where('post_id', '=', $entity_id);
+
+		return $query->execute();
+	}
+
+	public function releaseLockByLockId($lock_id)
+	{
+		$query = DB::delete('post_locks')
+			->where('id', '=', $lock_id);
+
+		return $query->execute();
+	}
+
+	public function checkLock($entity_id)
+	{
+		$result = DB::select('expires')
+			->from('post_locks')
+			->where('post_id', '=', $entity_id)
+			->limit(1)
+			->execute($this->db);
+
+		if ($result->get('expires'))
+		{
+			$time = $result->get('expires');
+			$curtime = time();
+
+			// Check if the lock has expired
+			// Locks are active for a maximum of 10 minutes
+			if(($curtime - $time) > 600)
+			{
+				$release = $this->releaseLock($entity_id);
+				return false;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	// UpdateRepository
 	public function create(Entity $entity)
 	{
@@ -886,7 +958,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['is_locked']);
 
 		// Set default value for post_date
 		if (empty($post['post_date'])) {
@@ -898,6 +970,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		// Create the post
 		$id = $this->executeInsert($this->removeNullValues($post));
+
+		// Uchaguzi Basic Change tracking
+		$user = $this->getUser();
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Id: " . print_r($user->id, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Name: " . print_r($user->realname, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: User Email: " . print_r($user->email, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: Post Id: " . print_r($post['id'], true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Create]: Post Title: " . print_r($post['title'], true));
 
 		$values = $entity->values;
 		// Handle legacy post.tags attribute
@@ -939,7 +1019,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['updated'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['is_locked']);
 
 		// Convert post_date to mysql format
 		if(!empty($post['post_date'])) {
@@ -947,6 +1027,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
+
+		// Uchaguzi Basic Change tracking
+		$user = $this->getUser();
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Id: " . print_r($user->id, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Name: " . print_r($user->realname, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: User Email: " . print_r($user->email, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Id: " . print_r($entity->id, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Update]: Post Title: " . print_r($entity->title, true));
 
 		$values = $entity->values;
 		// Handle legacy post.tags attribute
@@ -971,6 +1059,10 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			// Update post-stages
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
+		}
+
+		if ($this->checkLock($entity->id)) {
+			$this->releaseLock($entity->id);
 		}
 
 		return $count;
@@ -1050,6 +1142,19 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->current();
 
 		return $this->getEntity($result);
+	}
+
+	public function delete(Entity $entity)
+	{
+		// Uchaguzi Basic Change tracking
+		$user = $this->getUser();
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Id: " . print_r($user->id, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Name: " . print_r($user->realname, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: User Email: " . print_r($user->email, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Id: " . print_r($entity->id, true));
+		Kohana::$log->add(Log::INFO, "[Uchaguzi Change Tracking][Post][Delete]: Post Title: " . print_r($entity->title, true));
+
+		parent::delete($entity);
 	}
 
 	// PostRepository

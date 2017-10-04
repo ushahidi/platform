@@ -53,6 +53,9 @@ class Ushahidi_Validator_Set_Update extends Validator
 			],
 			'role' => [
 				[[$this->role_repo, 'exists'], [':value']],
+			],
+			'edit_role' => [
+				[[$this->role_repo, 'exists'], [':value']],
 			]
 		];
 	}
