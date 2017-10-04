@@ -20,7 +20,7 @@ interface PostLockRepository extends
 
     public function releaseLockByLockId($lock_id);
 
-    public function checkLock($entity_id);
+    public function isActive($entity_id);
 
     public function getPostLock($entity_id);
 }

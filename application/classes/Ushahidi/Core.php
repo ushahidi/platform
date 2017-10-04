@@ -238,7 +238,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
-			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Tag_Create'),

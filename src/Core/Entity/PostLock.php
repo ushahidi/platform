@@ -34,7 +34,7 @@ class PostLock extends StaticEntity
 			'id'            	=> 'int',
 			'user'          	=> false,
 			'user_id'       	=> 'int',
-            'post'          	=> false,
+			'post'          	=> false,
 			'post_id'       	=> 'int',
 			'expires'       	=> 'int',
 		];

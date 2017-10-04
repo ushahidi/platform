@@ -54,7 +54,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		return $query->execute();
 	}
 
-	public function checkLock($entity_id)
+	public function isActive($entity_id)
 	{
 		$result = DB::select('expires')
 			->from('post_locks')
@@ -80,7 +80,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 
 	public function getLock(Entity $entity)
 	{
-		if(!$this->checkLock($entity->id))
+		if(!$this->isActive($entity->id))
 		{
 			$expires = strtotime("+10 minutes");
 			$user = $this->getUser();

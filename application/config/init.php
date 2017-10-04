@@ -28,7 +28,7 @@ return array(
 	'base_url'    => '/',
 	'index_file'  => FALSE,
 	'charset'     => 'utf-8',
-	'errors'      => false,
+	'errors'      => TRUE,
 	'profile'     => FALSE,
 	'caching'     => FALSE,
 );
