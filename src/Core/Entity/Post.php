@@ -38,7 +38,6 @@ class Post extends StaticEntity
 	protected $post_date;
 	protected $tags;
 	protected $published_to;
-	protected $is_locked;
 	protected $completed_stages;
 	protected $sets;
 	// Source when from external provider: SMS, Email, etc
@@ -94,7 +93,6 @@ class Post extends StaticEntity
 			'published_to'    => '*json',
 			'completed_stages'=> '*arrayInt',
 			'sets'            => 'array',
-			'is_locked'		  => 'boolean',
 		];
 	}
 

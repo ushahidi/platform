@@ -14,7 +14,6 @@ use Ushahidi\Core\Entity\PostRepository;
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 {
 
-
 	/**
 	 * @param $data
 	 * @return array
@@ -39,6 +38,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
     }
 
     $data += ['attributes' => $attributes];
+
 
     // Set Set names
     if (!empty($data['sets'])) {

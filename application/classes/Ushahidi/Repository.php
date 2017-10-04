@@ -20,8 +20,7 @@ abstract class Ushahidi_Repository implements
 	Usecase\UpdateRepository,
 	Usecase\DeleteRepository,
 	Usecase\SearchRepository,
-	Usecase\ImportRepository,
-	Usecase\LockRepository
+	Usecase\ImportRepository
 {
 
 	use CollectionLoader;

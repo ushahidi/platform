@@ -190,7 +190,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 		$user = $this->getUser();
 		// Do we have permission to publish this post?
-		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->acl->hasPermission($user, Permission::MANAGE_POSTS) or $this->acl->hasPermission($user, Permission::PUBLISH_POSTS));
+		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->acl->hasPermission($user, Permission::MANAGE_POSTS));
 		// .. if yes, any status is ok.
 		if ($userCanChangeStatus) {
 			return;
@@ -283,7 +283,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 */
 	public function checkStageInForm(Validation $validation, $completed_stages, $fullData)
 	{
-		$completed_stages = !empty($fullData['completed_stages']) ? $fullData['completed_stages'] : [];
 		if (!$completed_stages)
 		{
 			return;

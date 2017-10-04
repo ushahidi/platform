@@ -23,7 +23,6 @@ class FormStage extends StaticEntity
 	protected $type;
 	protected $required;
 	protected $show_when_published;
-	protected $task_is_internal_only;
 	protected $description;
 
 	// DataTransformer
@@ -33,7 +32,6 @@ class FormStage extends StaticEntity
 			'id'       => 'int',
 			'description' => 'string',
 			'show_when_published' => 'boolean',
-			'task_is_internal_only' => 'boolean',
 			'type'     => 'string',
 			'form_id'  => 'int',
 			'label'    => 'string',
