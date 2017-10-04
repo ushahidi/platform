@@ -33,8 +33,18 @@ interface FormStageRepository extends
 	public function existsInForm($id, $form_id);
 
 	/**
+	 * Get required stages for form
+	 *
 	 * @param  int $form_id
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
 	 */
 	public function getRequired($form_id);
+
+	/**
+	 * Get 'post' type stage for form
+	 *
+	 * @param  int $form_id
+	 * @return Ushahidi\Core\Entity\FormAttribute
+	 */
+	public function getPostStage($form_id);
 }

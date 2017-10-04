@@ -16,9 +16,6 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\ModifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
 
 class UpdateUsecase implements Usecase
 {
@@ -31,11 +28,11 @@ class UpdateUsecase implements Usecase
 
 	// - IdentifyRecords for setting entity lookup parameters
 	// - ModifyRecords for setting entity modification parameters
-	use IdentifyRecords,
-		ModifyRecords;
+	use Concerns\IdentifyRecords,
+		Concerns\ModifyRecords;
 
 	// - VerifyEntityLoaded for checking that an entity is found
-	use VerifyEntityLoaded;
+	use Concerns\VerifyEntityLoaded;
 
 	/**
 	 * @var UpdateRepository

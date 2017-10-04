@@ -321,7 +321,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 			if (is_numeric($search->q)) {
 				// if `q` is numeric, could be searching for a specific id
-				$query->or_where('id', '=', $search->q);
+				$query->or_where("$table.id", '=', $search->q);
 			}
 
 			$query->and_where_close();
@@ -559,7 +559,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
 			}
 		}
-
 		return $total_posts - $mapped;
 	}
 
@@ -574,7 +573,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	{
 		// Create a new query to select posts count
 		$this->search_query = DB::select([DB::expr('COUNT(DISTINCT posts.id)'), 'total'])
-			->from($this->getTable());
+				->from('posts')
+				->JOIN('messages', 'LEFT')
+				->ON('posts.id', '=', 'messages.post_id');
 
 		// Quick hack to ensure all posts are available to
 		// group_by=status
@@ -627,7 +628,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 					'time_label'
 				])
 				->group_by('time_label');
-
 		}
 
 		// Group by attribute
@@ -662,10 +662,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		{
 			$this->search_query
 				->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
+				// Select Datasource
+				->select(['messages.type', 'type'])
 				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
 				->select([DB::expr('MAX(forms.name)'), 'label'])
 				->select(['forms.id', 'id'])
-				->group_by('forms.id');
+				// First group by form...
+				->group_by('forms.id')
+				// ...and then by datasource
+				->group_by('messages.type');
 		}
 		// Group by tags
 		elseif ($search->group_by === 'tags')

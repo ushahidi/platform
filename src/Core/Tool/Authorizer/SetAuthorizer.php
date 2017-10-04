@@ -75,11 +75,6 @@ class SetAuthorizer implements Authorizer
 			return false;
 		}
 
-		// First check whether there is a role with the right permissions
-		if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-			return true;
-		}
-
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)
 		if ($this->isUserAdmin($user)) {

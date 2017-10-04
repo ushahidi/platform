@@ -236,9 +236,11 @@ abstract class Ushahidi_Rest extends Controller {
 	 */
 	protected function _is_auth_required()
 	{
-		// Auth is not required for the OPTIONS method, because headers are
-		// not present in OPTIONS requests. ;)
-		return ($this->request->method() !== Request::OPTIONS);
+		// Auth is not required for the OPTIONS method, because auth headers are
+		// not present in OPTIONS requests.
+		// We don't require them for GET either, since Authorizer will reject
+		// requests where anonymous users don't have access
+		return (!in_array($this->request->method(), [Request::OPTIONS, Request::GET]));
 	}
 
 	/**
@@ -266,7 +268,8 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (OAuth2Exception $e)
 		{
-			if (!$this->_is_auth_required() AND $e instanceof MissingAccessTokenException)
+			if (!$this->_is_auth_required() AND
+				$e instanceof MissingAccessTokenException)
 			{
 				// A token is not required, so a missing token is not a critical error.
 				return;
@@ -404,6 +407,7 @@ abstract class Ushahidi_Rest extends Controller {
 	protected function _parse_request_body()
 	{
 			$payload = json_decode($this->request->body(), true);
+
 			// Ensure there were no JSON errors
 			$error = json_last_error();
 			if ($error AND $error !== JSON_ERROR_NONE)
@@ -445,7 +449,13 @@ abstract class Ushahidi_Rest extends Controller {
 		}
 		catch (Ushahidi\Core\Exception\AuthorizerException $e)
 		{
-			throw new HTTP_Exception_403($e->getMessage());
+			// If we don't have an Authorization header, return 401
+			if (!$this->request->headers('Authorization')) {
+				throw HTTP_Exception::factory(401, 'The request is missing an access token in either the Authorization header or the access_token request parameter.')->headers(['www-authenticate' => 'Bearer realm=""']);
+			} else {
+				// Otherwise throw a 403
+				throw new HTTP_Exception_403($e->getMessage());
+			}
 		}
 		catch (Ushahidi\Core\Exception\ValidatorException $e)
 		{
@@ -480,7 +490,6 @@ abstract class Ushahidi_Rest extends Controller {
 
 		// Add CORS headers to the response
 		$this->add_cors_headers($this->response);
-
 		// Should we prevent this request from being cached?
 		if ( ! in_array($this->request->method(), $this->_cacheable_methods))
 		{
