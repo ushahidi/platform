@@ -727,6 +727,10 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
 
+		// Add Lock Listener
+		$di->setter['Ushahidi_Repository_Post_Lock']['setEvent'] = 'LockBroken';
+		$di->setter['Ushahidi_Repository_Post_Lock']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_Lock');
 		/**
 		 * 1. Load the plugins
 		 */

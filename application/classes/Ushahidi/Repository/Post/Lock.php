@@ -14,10 +14,16 @@ use Ushahidi\Core\Entity\PostLock;
 use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Traits\UserContext;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostLockRepository
 {
 	// Provides getUser()
 	use UserContext;
+
+	// Use Event trait to trigger events
+	use Event;
 
 	// Ushahidi_Repository
 	protected function getTable()
@@ -40,18 +46,35 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		return new PostLock($data);
 	}
 
-	public function releaseLock($entity_id)
+	public function releaseLock($post_id)
 	{
-		$query = DB::delete('post_locks')
-			->where('post_id', '=', $entity_id);
-		return $query->execute();
+		$query = DB::select('user_id')->from('post_locks')
+			->where('post_id', '=', $lock_id)
+			->limit(1);
+		$result = $query->execute();
+
+		$this->warnUserLockBroken($result->get('user_id'));
+
+		$this->delete($lock);
 	}
 
 	public function releaseLockByLockId($lock_id)
 	{
-		$query = DB::delete('post_locks')
-			->where('id', '=', $lock_id);
-		return $query->execute();
+		$lock = $this->get($lock_id);
+
+		$this->warnUserLockBroken($lock->user_id);
+		
+		$this->delete($entity);
+	}
+
+	public function warnUserLockBroken($user_id) {
+		$user = $this->getUser();
+
+		if ($user_id !== $user->id) {
+			$this->emit($this->event, $user_id);
+		}
+
+		return;
 	}
 
 	public function isActive($entity_id)
