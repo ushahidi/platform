@@ -16,6 +16,8 @@ trait RecursiveArrayDiff
         $aReturn = array();
 
         foreach ($aArray1 as $mKey => $mValue) {
+            // Ensure comparison array is actually an array
+            $aArray2 = is_array($aArray2) ? $aArray2 : [$aArray2];
             if (array_key_exists($mKey, $aArray2)) {
                 if (is_array($mValue)) {
                     $aRecursiveDiff = $this->arrayRecursiveDiff($mValue, $aArray2[$mKey]);

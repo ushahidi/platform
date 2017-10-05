@@ -187,7 +187,7 @@ trait StatefulData
 			}
 
 			if (is_array($value)) {
-				$current_key = is_array($this->$key) ? $this->$key : [];
+				$current_key = is_array($this->$key) ? $this->$key : [$this->$key];
 
 				// Check for multi level recursion
 				$diff = array_merge(
