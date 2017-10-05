@@ -16,6 +16,8 @@ trait RecursiveArrayDiff
         $aReturn = array();
 
         foreach ($aArray1 as $mKey => $mValue) {
+            // TODO: revisit this from the perspective of ensuring Entities are
+            // properly adherrent to the types their properties should be
             // Ensure comparison array is actually an array
             $aArray2 = is_array($aArray2) ? $aArray2 : [$aArray2];
             if (array_key_exists($mKey, $aArray2)) {
