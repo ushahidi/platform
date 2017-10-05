@@ -24,6 +24,9 @@ class Controller_Api_Users extends Ushahidi_Rest {
 	 */
 	public function action_get_me()
 	{
+
+		$user = service('session.user');
+		Kohana::$log->add(Log::INFO, 'Here is the User id: '.print_r($user->getId() , true));
 		$this->action_get_index();
 
 		if ($id = service('session.user')->getId()) {

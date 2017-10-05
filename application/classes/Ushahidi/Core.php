@@ -246,6 +246,10 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Tos_Create'),
 		];
 
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['postschangelog'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_PostsChangeLog_Create'),
+		];
+
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
 			'create'   => $di->lazyNew('Ushahidi_Validator_User_Create'),
 			'update'   => $di->lazyNew('Ushahidi_Validator_User_Update'),
@@ -327,7 +331,8 @@ abstract class Ushahidi_Core {
 			// Formatter for post exports. Defaults to CSV export
 			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
 			'tos'				  				 => $di->lazyNew('Ushahidi_Formatter_Tos'),
-			'postschangelog'			 => $di->lazyNew('Ushahidi_Formatter_PostsChangeLog')
+			'postschangelog'			 => $di->lazyNew('Ushahidi_Formatter_PostsChangeLog'),
+			'posts_changelog'			 => $di->lazyNew('Ushahidi_Formatter_PostsChangeLog')
 		];
 
 		// Formatter parameters
@@ -425,6 +430,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
 		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
 		$di->set('repository.postschangelog', $di->lazyNew('Ushahidi_Repository_PostsChangeLog'));
+		$di->set('repository.posts_changelog', $di->lazyNew('Ushahidi_Repository_PostsChangeLog'));
 
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
@@ -584,7 +590,11 @@ abstract class Ushahidi_Core {
 
 		$di->params['Ushahidi_Validator_Tos_Create'] = [
             'user_repo' => $di->lazyGet('repository.user')
-        ];
+    ];
+
+		$di->params['Ushahidi_Validator_PostsChangeLog_Create'] = [
+		            'user_repo' => $di->lazyGet('repository.user')
+		];
 
 		$di->params['Ushahidi_Validator_User_Create'] = [
 			'repo' => $di->lazyGet('repository.user'),
@@ -690,6 +700,10 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
 			$di->lazyGet('repository.notification.queue');
 
+		// PostsChangeLog repo for Set listener
+		$di->setter['Ushahidi_Listener_PostSetListener']['setChangeLogRepo']
+					=  $di->lazyGet('repository.postschangelog');
+
 		// Event listener for the Post repo
 		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostCreateEvent';
 		$di->setter['Ushahidi_Repository_Post']['setListener'] =
@@ -702,6 +716,11 @@ abstract class Ushahidi_Core {
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
+
+		// ChangeLog repo for Post listener
+			$di->setter['Ushahidi_Listener_PostListener']['setChangeLogRepo']
+					=  $di->lazyGet('repository.postschangelog');
+
 
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';

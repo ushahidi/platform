@@ -10,18 +10,14 @@
  */
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\PostsChangeLog;
 use Ushahidi\Core\Entity\PostsChangeLogRepository;
-use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
 
-
-
-class Ushahidi_Repository_PostsChangeLog extends Ushahidi_Repository implements
-    PostsChangeLogRepository
+class Ushahidi_Repository_PostsChangeLog extends Ushahidi_Repository implements PostsChangeLogRepository
 {
     use UserContext;
-
 
     // Ushahidi_Repository
     protected function getTable()
@@ -29,16 +25,20 @@ class Ushahidi_Repository_PostsChangeLog extends Ushahidi_Repository implements
         return 'postschangelog';
     }
 
+    public function getSearchFields()
+  	{
+      return ['post_id', 'entry_id'];
+    }
 
     // CreateRepository
     public function create(Entity $entity)
     {
-        $data = $entity->asArray();
+      \Log::instance()->add(\Log::INFO, 'Creating a PostsChangeLog'.print_r($entity, true));
 
-        // Save the agreement date to the current time and the user ID
-        $data['changelog_ts']  = time();
-        $data['changed_by_user_id'] = $this->getUserId();
-        // Convert tos_version_date to timestamp
+        $data = $entity->asArray();
+        $data['created']  = time();
+        $data['user_id'] = $this->getUserId();
+        \Log::instance()->add(\Log::INFO, 'New PostsChangeLog data: '.print_r($data, true));
 
         return $this->executeInsert($this->removeNullValues($data));
     }
@@ -48,23 +48,38 @@ class Ushahidi_Repository_PostsChangeLog extends Ushahidi_Repository implements
         return new PostsChangeLog($data);
     }
 
-    // SearchRepository
-    public function getSearchFields()
+    // Overriding so we can alter sorting logic
+    // @todo make it easier to override just sorting
+    public function setSearchParams(SearchData $search)
     {
-        return [];
+      $this->search_query = $this->selectQuery();
+
+      $sorting = $search->getSorting();
+
+      $this->search_query->order_by('created', 'DESC');
+
+      //QUESTION -- these are just reassembling the existing pieces back to sorting??
+      if (!empty($sorting['orderby'])) {
+        $this->search_query->order_by(
+          $this->getTable() . '.' . $sorting['orderby'],
+          Arr::get($sorting, 'order')
+        );
+      }
+
+      if (!empty($sorting['offset'])) {
+        $this->search_query->offset($sorting['offset']);
+      }
+
+      if (!empty($sorting['limit'])) {
+        $this->search_query->limit($sorting['limit']);
+      }
     }
 
-    protected function setSearchConditions(SearchData $search)
-    {
-
-        $query = $this->search_query;
-
-        $query->where('user_id', '=', $this->getUserId());
-    }
 
     public function getSearchResults()
     {
         $query = $this->getSearchQuery();
+
         $results = $query->distinct(TRUE)->execute($this->db);
         return $this->getCollection($results->as_array());
     }

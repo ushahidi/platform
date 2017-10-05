@@ -195,6 +195,8 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 			->where('post_id', '=', $post_id)
 			->where('set_id', '=', $set_id)
 			->execute($this->db);
+
+			$this->emit($this->event, $set_id, $post_id, 'remove');
 	}
 
 	// SetRepository
@@ -225,6 +227,6 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 
 		// Fire event after post is added
 		// so that this is queued for the Notifications data provider
-		$this->emit($this->event, $set_id, $post_id);
+		$this->emit($this->event, $set_id, $post_id, 'add');
 	}
 }

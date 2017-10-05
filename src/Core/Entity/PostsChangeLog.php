@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Saved Search
+ * Ushahidi Tag
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,15 +11,40 @@
 
 namespace Ushahidi\Core\Entity;
 
-class PostsChangeLog extends Set
-{
-	protected $filter;
+use Ushahidi\Core\StaticEntity;
 
+class PostsChangeLog extends StaticEntity
+{
+	protected $id;
+	protected $user_id;
+	protected $created;
+	protected $post_id;
+	protected $change_type;
+	protected $item_changed;
+	protected $new_status;
+	protected $entry_type;
+
+	protected function getDerived()
+	 {
+	 	// Foreign key alias
+	 		return [
+	 						 'user_id' => ['user', 'user.id'],
+	             'post_id' => ['post', 'post.id'],
+	 		];
+	 	}
 	// DataTransformer
 	protected function getDefinition()
 	{
-		return parent::getDefinition() + [
-			'filter'       => '*json',
+
+		return [
+			'id'         => 'int',
+			'user_id'    => 'int',
+			'created'    => 'int',
+			'post_id'		 => 'int',
+			'change_type' =>	'string',
+			'item_changed' =>	'string',
+			'entry_type' =>	'string',
+			'new_status' =>	'string',
 		];
 	}
 
@@ -28,4 +53,6 @@ class PostsChangeLog extends Set
 	{
 		return 'postschangelog';
 	}
+
+
 }
