@@ -117,6 +117,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				$this->restricted = false;
 			}
 			// Get Hidden Stage Ids to be excluded from results
+			$status = $data['status'] ? $data['status'] : '';
 			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
 
 		}
@@ -133,7 +134,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
-		//Check if author information should be returned
+		// Check if author information should be returned
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
 		{
 
