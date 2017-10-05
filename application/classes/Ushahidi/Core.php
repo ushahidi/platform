@@ -88,6 +88,16 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('features.webhooks.enabled');
 		});
 
+		// Post Locking config settings
+		$di->set('post-locking.enabled', function() use ($di) {
+			return Kohana::$config->load('features.post-locking.enabled');
+		});
+
+		// Redis config settings
+		$di->set('redis.enabled', function() use ($di) {
+			return Kohana::$config->load('features.redis.enabled');
+		});
+
 		// Data import config settings
 		$di->set('data-import.enabled', function() use ($di) {
 			return Kohana::$config->load('features.data-import.enabled');

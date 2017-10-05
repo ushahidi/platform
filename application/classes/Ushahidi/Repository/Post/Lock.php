@@ -43,34 +43,43 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
     // Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
+		
 		return new PostLock($data);
 	}
 
 	public function releaseLock($post_id)
 	{
-		$query = DB::select('user_id')->from('post_locks')
-			->where('post_id', '=', $lock_id)
-			->limit(1);
-		$result = $query->execute();
+		$result = DB::select()->from('post_locks')
+			->where('post_id', '=', $post_id)
+			->limit(1)
+			->execute();
 
 		$this->warnUserLockBroken($result->get('user_id'));
 
-		$this->delete($lock);
+		$lock = $this->get($result->get('id'));
+
+		$this->executeDelete(['id' => $result->get('id')]);
+
+		return $lock;
 	}
 
 	public function releaseLockByLockId($lock_id)
 	{
+
 		$lock = $this->get($lock_id);
 
 		$this->warnUserLockBroken($lock->user_id);
 		
-		$this->delete($entity);
+		$this->delete($lock);
+
+		return $lock;
 	}
 
 	public function warnUserLockBroken($user_id) {
 		$user = $this->getUser();
 
 		if ($user_id !== $user->id) {
+			Kohana::$log->add(Log::ERROR, print_r('warn', true));
 			$this->emit($this->event, $user_id);
 		}
 

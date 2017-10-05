@@ -374,6 +374,8 @@ $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository'
 $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
 $di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
 $di->setter['Ushahidi\Core\Traits\WebhookAccess']['setEnabled'] = $di->lazyGet('webhooks.enabled');
+$di->setter['Ushahidi\Core\Traits\PostLockingFeature']['setEnabled'] = $di->lazyGet('post-locking.enabled');
+$di->setter['Ushahidi\Core\Traits\RedisFeature']['setEnabled'] = $di->lazyGet('redis.enabled');
 $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
 
 // Set ACL for ACL Trait

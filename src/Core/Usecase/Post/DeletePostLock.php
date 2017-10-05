@@ -13,6 +13,7 @@ namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\DeleteUsecase;
 use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity\PostLock;
 
 class DeletePostLock extends DeleteUsecase
 {
@@ -22,17 +23,15 @@ class DeletePostLock extends DeleteUsecase
 	{
 		// Fetch a default entity and apply the payload...
 		$post = $this->getPostEntity();
-
+        $lock = new PostLock();
 		// ... verify that the entity can be created by the current user
 		$this->verifyLockAuth($post);
 
 		if ($this->getIdentifier('lock_id')) {
-            $id = $this->repo->releaseLockByLockId($this->getIdentifier('lock_id'));
+            $lock = $this->repo->releaseLockByLockId($this->getIdentifier('lock_id'));
         } else {
-            $id = $this->repo->releaseLock($post->id);
+            $lock = $this->repo->releaseLock($post->id);
         }
-
-        $lock = $this->getLockEntity($id);
 
         return $this->formatter->__invoke($lock);
 	}

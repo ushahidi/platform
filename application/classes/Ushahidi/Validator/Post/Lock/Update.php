@@ -27,7 +27,7 @@ class Ushahidi_Validator_Post_Lock_Update extends Validator
 	{
 		return [
 			'post_id' => [
-				[[$this->post_repo, 'doesPostExist'], [':value']],
+				[[$this->post_repo, 'exists'], [':value']],
 			],
 		];
 	}

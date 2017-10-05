@@ -1071,16 +1071,4 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		return true;
 	}
-
-	// UpdatePostTagRepository
-	public function doesPostExist($post_id)
-	{
-		$query = $this->selectQuery()
-			->resetSelect()
-			->select([DB::expr('COUNT(*)'), 'total'])
-			->where('id', '=', $post_id)
-			->execute($this->db);
-
-		return $query->get('total') > 0;
-	}
 }
