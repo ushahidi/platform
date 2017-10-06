@@ -15,7 +15,7 @@ use Ushahidi\Core\Entity\UserRepository;
 class Ushahidi_Validator_PostsChangeLog_Create extends Validator
 {
     protected $user_repo;
-    protected $default_error_source = 'postschangelog';
+    protected $default_error_source = 'posts_changelog';
 
     public function __construct(UserRepository $user_repo)
     {
