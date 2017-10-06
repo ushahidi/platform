@@ -51,7 +51,7 @@ class PostsChangeLog extends StaticEntity
 	// Entity
 	public function getResource()
 	{
-		return 'postschangelog';
+		return 'posts_changelog';
 	}
 
 

@@ -22,7 +22,7 @@ class Ushahidi_Repository_PostsChangeLog extends Ushahidi_Repository implements 
     // Ushahidi_Repository
     protected function getTable()
     {
-        return 'postschangelog';
+        return 'posts_changelog';
     }
 
     public function getSearchFields()

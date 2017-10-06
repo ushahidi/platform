@@ -14,12 +14,12 @@ class Controller_Api_PostsChangeLog extends Ushahidi_Rest {
 
 	protected function _scope()
 	{
-		return 'postschangelog';
+		return 'posts_changelog';
 	}
 
 	protected function _resource()
 	{
-		return 'postschangelog';
+		return 'posts_changelog';
 	}
 
 	public function action_post_index_collection()
@@ -33,25 +33,6 @@ class Controller_Api_PostsChangeLog extends Ushahidi_Rest {
 			$this->_usecase->setIdentifiers($this->request->param());
 	}
 
-	public function action_get_index_collection()
-	{
-		parent::action_get_index_collection();
-
-		$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'read')
-			//->setFilters($this->_filters())
-			->setIdentifiers($this->_identifiers());
-
-		/*$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'search')
-			//->setFilters($this->_filters())
-			->setIdentifiers($this->_identifiers());*/
-
-		/*
-		// Ensure identifiers are set for parent checks
-		 */
-	}
-
 
 
 	//TODO: REMOVE! overriding this method for debugging purposes...
@@ -62,6 +43,7 @@ class Controller_Api_PostsChangeLog extends Ushahidi_Rest {
 		 * @return bool
 		 * @throws HTTP_Exception|OAuth_Exception
 		 */
+
 		protected function _check_access()
 		{
 

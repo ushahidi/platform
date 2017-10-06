@@ -246,7 +246,7 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Tos_Create'),
 		];
 
-		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['postschangelog'] = [
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_changelog'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_PostsChangeLog_Create'),
 		];
 
@@ -331,7 +331,6 @@ abstract class Ushahidi_Core {
 			// Formatter for post exports. Defaults to CSV export
 			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
 			'tos'				  				 => $di->lazyNew('Ushahidi_Formatter_Tos'),
-			'postschangelog'			 => $di->lazyNew('Ushahidi_Formatter_PostsChangeLog'),
 			'posts_changelog'			 => $di->lazyNew('Ushahidi_Formatter_PostsChangeLog')
 		];
 
@@ -357,7 +356,7 @@ abstract class Ushahidi_Core {
 			'role',
 			'permission',
 			'tos',
-			'postschangelog'
+			'posts_changelog'
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
@@ -429,7 +428,6 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
 		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
-		$di->set('repository.postschangelog', $di->lazyNew('Ushahidi_Repository_PostsChangeLog'));
 		$di->set('repository.posts_changelog', $di->lazyNew('Ushahidi_Repository_PostsChangeLog'));
 
 
@@ -702,7 +700,7 @@ abstract class Ushahidi_Core {
 
 		// PostsChangeLog repo for Set listener
 		$di->setter['Ushahidi_Listener_PostSetListener']['setChangeLogRepo']
-					=  $di->lazyGet('repository.postschangelog');
+					=  $di->lazyGet('repository.posts_changelog');
 
 		// Event listener for the Post repo
 		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostCreateEvent';
@@ -719,7 +717,7 @@ abstract class Ushahidi_Core {
 
 		// ChangeLog repo for Post listener
 			$di->setter['Ushahidi_Listener_PostListener']['setChangeLogRepo']
-					=  $di->lazyGet('repository.postschangelog');
+					=  $di->lazyGet('repository.posts_changelog');
 
 
 		// Add Intercom Listener to Config
