@@ -32,10 +32,11 @@ class Controller_API_Posts_ChangeLog extends Ushahidi_Rest {
 
   	public function action_post_index_collection()
   	{
-  		Kohana::$log->add(Log::INFO, 'Adding a log entry manually from the posts/changelog controller...');
+  		Kohana::$log->add(Log::INFO, 'Adding a log entry manually from the posts/changelog controller...with payload:'.print_r($this->_payload(), true) );
+
 			$this->_usecase = service('factory.usecase')
   			->get($this->_resource(), 'create')
-  			->setPayload($this->_payload);
+  			->setPayload($this->_payload());
   	}
 
 
