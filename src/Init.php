@@ -147,7 +147,6 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'permissions'          => $di->lazyGet('authorizer.permission'),
 	'posts_export'         => $di->lazyGet('authorizer.post'),
 	'tos'				   				=> $di->lazyGet('authorizer.tos'),
-	//'postschangelog'      => $di->lazyGet('authorizer.postschangelog'),
 	'posts_changelog'      => $di->lazyGet('authorizer.posts_changelog'),
 
 ];
@@ -167,7 +166,6 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'media'                => $di->lazyGet('repository.media'),
 	'messages'             => $di->lazyGet('repository.message'),
 	'posts'                => $di->lazyGet('repository.post'),
-	//'postschangelog'       => $di->lazyGet('repository.postschangelog'),
 	'posts_changelog'      => $di->lazyGet('repository.posts_changelog'),
 	'tags'                 => $di->lazyGet('repository.tag'),
 	'sets'                 => $di->lazyGet('repository.set'),
@@ -419,7 +417,6 @@ $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuth
 $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->set('authorizer.tos', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TosAuthorizer'));
-//$di->set('authorizer.postschangelog', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostsChangeLogAuthorizer'));
 $di->set('authorizer.posts_changelog', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostsChangeLogAuthorizer'));
 
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
