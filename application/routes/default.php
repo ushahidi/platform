@@ -16,7 +16,7 @@ $apiBase = 'api/v' . $apiVersion . '/';
 
 /**
 	* test route
-
+*/
 Route::set('posts_changelog', $apiBase . 'posts/<post_id>/changelog(/<entry_id>)',
 		array('post_id' => '\d+',
 		'entry_id' => '\d+'
@@ -25,7 +25,7 @@ Route::set('posts_changelog', $apiBase . 'posts/<post_id>/changelog(/<entry_id>)
 		'directory'  => 'Api',
 		'controller' => 'PostsChangeLog',
 ));
-*/
+
 
 
 /**

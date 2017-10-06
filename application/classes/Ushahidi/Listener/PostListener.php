@@ -64,7 +64,6 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 							Kohana::$log->add(Log::INFO, 'Field changed: '.print_r($changed_field, true) );
 
 							//TODO: intercept tasks, values, or completed_stages and break them into component pieces with labels
-
 							if (is_array($new_val) || $changed_field == 'tags' ||
 														$changed_field == 'completed_stages' || $changed_field == 'values')
 							{

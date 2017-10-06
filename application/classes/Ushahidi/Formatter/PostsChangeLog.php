@@ -12,6 +12,6 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Ushahidi_Formatter_PostsChangeLog extends Ushahidi_Formatter_API
 {
-	//use FormatterAuthorizerMetadata;
+	use FormatterAuthorizerMetadata;
 
 }

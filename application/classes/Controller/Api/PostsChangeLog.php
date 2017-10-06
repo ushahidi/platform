@@ -24,36 +24,29 @@ class Controller_Api_PostsChangeLog extends Ushahidi_Rest {
 
 	public function action_post_index_collection()
 	{
-		Kohana::$log->add(Log::INFO, 'Adding a log entry manually...');
-
-		//TODO: QUESTION? should we append the current user here?
-		$edited_payload = $this->_payload();
-
-			/* Append user data in the Repo, not here. follow other patterns   ===  $user = $this->getUser();  */
-		$user = service('session.user');
-		Kohana::$log->add(Log::INFO, 'Current user:'.print_r($user->getId(), true));
-		
-		$edited_payload['user_id'] = $user->getId();
+		Kohana::$log->add(Log::INFO, 'Adding a log entry manually...with params:'.print_r($this->request->param(), true));
+		//parent::action_post_index_collection();
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'create')
-			->setPayload($edited_payload);
-	}
+			->setPayload($this->_payload());
 
+			$this->_usecase->setIdentifiers($this->request->param());
+	}
 
 	public function action_get_index_collection()
 	{
+		parent::action_get_index_collection();
 
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'read')
+			//->setFilters($this->_filters())
 			->setIdentifiers($this->_identifiers());
-
 
 		/*$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'search')
 			//->setFilters($this->_filters())
 			->setIdentifiers($this->_identifiers());*/
 
-		parent::action_get_index_collection();
 		/*
 		// Ensure identifiers are set for parent checks
 		 */
@@ -71,13 +64,15 @@ class Controller_Api_PostsChangeLog extends Ushahidi_Rest {
 		 */
 		protected function _check_access()
 		{
-			return; // this is a glorious security override...
 
 			$server = service('oauth.server.resource');
 
 			// Using an "Authorization: Bearer xyz" header is required, except for GET requests
 			$require_header = $this->request->method() !== Request::GET;
 			$required_scope = $this->_scope();
+
+			//TODO: DEFINITELY REMOVE THIS
+			return true;
 
 			try
 			{

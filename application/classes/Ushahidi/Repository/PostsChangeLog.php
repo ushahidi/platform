@@ -10,9 +10,9 @@
  */
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\PostsChangeLog;
 use Ushahidi\Core\Entity\PostsChangeLogRepository;
+use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
 
 class Ushahidi_Repository_PostsChangeLog extends Ushahidi_Repository implements PostsChangeLogRepository
@@ -33,11 +33,17 @@ class Ushahidi_Repository_PostsChangeLog extends Ushahidi_Repository implements 
     // CreateRepository
     public function create(Entity $entity)
     {
-      \Log::instance()->add(\Log::INFO, 'Creating a PostsChangeLog'.print_r($entity, true));
+      $user = $this->getUser();
+      \Log::instance()->add(\Log::INFO, 'Here is the gotten user:'.print_r($user->getId(), true));
 
         $data = $entity->asArray();
+
+        \Log::instance()->add(\Log::INFO, 'Here is the data as array:'.print_r($entity->asArray(), true));
+
+
         $data['created']  = time();
         $data['user_id'] = $this->getUserId();
+
         \Log::instance()->add(\Log::INFO, 'New PostsChangeLog data: '.print_r($data, true));
 
         return $this->executeInsert($this->removeNullValues($data));
@@ -52,6 +58,7 @@ class Ushahidi_Repository_PostsChangeLog extends Ushahidi_Repository implements 
     // @todo make it easier to override just sorting
     public function setSearchParams(SearchData $search)
     {
+
       $this->search_query = $this->selectQuery();
 
       $sorting = $search->getSorting();
