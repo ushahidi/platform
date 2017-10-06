@@ -194,6 +194,7 @@ trait StatefulData
 					$this->arrayRecursiveDiff($value, $current_key),
 					$this->arrayRecursiveDiff($current_key, $value)
 				);
+
 				// If arrays differ, *or* if this is the first time
 				// we're setting this key
 				if (!empty($diff) || !isset($this->$key)) {
@@ -222,6 +223,7 @@ trait StatefulData
 				$changed[$key] = $key;
 			}
 		}
+
 		return $this;
 	}
 

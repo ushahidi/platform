@@ -15,15 +15,15 @@ $apiVersion = '3';
 $apiBase = 'api/v' . $apiVersion . '/';
 
 /**
-	* test route
+	*
 */
 Route::set('posts_changelog', $apiBase . 'posts/<post_id>/changelog(/<entry_id>)',
 		array('post_id' => '\d+',
 		'entry_id' => '\d+'
 	))->defaults(array(
 		'action'     => 'index',
-		'directory'  => 'Api',
-		'controller' => 'PostsChangeLog',
+		'directory'  => 'Api/Posts',
+		'controller' => 'ChangeLog',
 ));
 
 
@@ -301,35 +301,6 @@ Route::set('oauth', 'oauth(/<action>)',
 			'controller' => 'OAuth',
 			'action'     => 'index',
 	));
-
-
-/**
-	* Posts Log Route
-	*/
-Route::set('posts_changelog', $apiBase . 'posts/<post_id>/changelog(/<logentry_id>)',
-	 	array(
-	 		'post_id' => '\d+',
-			'logentry_id' => '\d+',
-	 	))
-	 	->defaults(array(
-	 		'action'     => 'index',
-	 		'directory'  => 'Api/Posts',
-	 		'controller' => 'ChangeLog',
-	));
-
-
-/**
- * Posts Log Route
-*/
- Route::set('postschangelog', $apiBase . 'postschangelog(/<id>)',
- 	array(
- 		'id' => '\d+'
- 	))
- 	->defaults(array(
- 		'action'     => 'index',
- 		'directory'  => 'Api',
- 		'controller' => 'PostsChangeLog',
-));
 
 
 /**
