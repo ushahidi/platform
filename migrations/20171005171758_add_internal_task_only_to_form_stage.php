@@ -27,5 +27,4 @@ class AddInternalTaskOnlyToFormStage extends AbstractMigration
           ->removeColumn('task_is_internal_only')
           ->update();
     }
-
 }
