@@ -21,7 +21,7 @@ class PostsChangeLog extends StaticEntity
 	protected $post_id;
 	protected $change_type;
 	protected $item_changed;
-	protected $new_status;
+	protected $content;
 	protected $entry_type;
 
 	protected function getDerived()
@@ -44,7 +44,7 @@ class PostsChangeLog extends StaticEntity
 			'change_type' =>	'string',
 			'item_changed' =>	'string',
 			'entry_type' =>	'string',
-			'new_status' =>	'string',
+			'$content' =>	'string',
 		];
 	}
 

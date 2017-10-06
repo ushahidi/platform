@@ -49,7 +49,7 @@ class Ushahidi_Listener_PostSetListener extends AbstractListener
 				'post_id'=> $post_id,
 				'change_type' => 'Changed collection',
 				'item_changed' => 'Collections',
-				'new_status'=> $set_id,
+				'content'=> $set_id,
 				'entry_type'=> 'a',
 		];
 
