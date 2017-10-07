@@ -19,6 +19,7 @@ services:
       DB_USER: ushahidi
       DB_PASS: ushahidi
     command: init.sh start
+    user: "10001:0"
     ports:
       - "80:8080"
   platform_tasks:
@@ -33,3 +34,4 @@ services:
       DB_USER: ushahidi
       DB_PASS: ushahidi
     command: init.sh start
+    user: "10001:0"
