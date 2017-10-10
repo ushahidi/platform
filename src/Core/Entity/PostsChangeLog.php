@@ -44,7 +44,7 @@ class PostsChangeLog extends StaticEntity
 			'change_type' =>	'string',
 			'item_changed' =>	'string',
 			'entry_type' =>	'string',
-			'$content' =>	'string',
+			'content' =>	'string',
 		];
 	}
 
