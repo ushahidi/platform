@@ -56,23 +56,24 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 				traverseChangedArray($postEntity, $changed_fields_q, $flat_changeset);
 				Kohana::$log->add(Log::DEBUG, 'Here is the flat_changeset: '.print_r($flat_changeset, true) );
 
-				//TOASK: should we skip these fields??
-				foreach($flat_changeset as $new_item => $new_value)
+				//TODO:RECONSIDER: currently concatenating all the changes into one long string
+				if (count($flat_changeset) > 0)
 				{
-					$human_friendly_log = 'Changed '.$new_item.' to '.$new_value;
-					//TOASK: should this data mapping happen HERE, or in/via the Entity?
-						$changelog_state = [
-							'post_id' => $postEntity->id,
-							'item_changed' => $new_item,
-							'content' => $human_friendly_log,
-							'entry_type' => 'a',
-						];
-
-						$changelog_entity = $this->changelog_repo->getEntity();
-						$changelog_entity->setState($changelog_state);
-						$this->changelog_repo->create($changelog_entity);
+					$human_friendly_log = '- Updated fields.<br/>';
+					foreach($flat_changeset as $new_item => $new_value)
+					{
+						$human_friendly_log .= '- Changed '.$new_item.' to "'.$new_value.'"</br>';
+					}
+					$changelog_state = [
+						'post_id' => $postEntity->id,
+						'item_changed' => '',
+						'content' => $human_friendly_log,
+						'entry_type' => 'a',
+					];
+					$changelog_entity = $this->changelog_repo->getEntity();
+					$changelog_entity->setState($changelog_state);
+					$this->changelog_repo->create($changelog_entity);
 				}
-
 
 		}else if($event_type == 'create')
 		{
@@ -134,7 +135,7 @@ function traverseChangedArray($postEntity, $changed_items, &$flat_changeset)
 			}else { // not array
 				Kohana::$log->add(Log::INFO, 'Key changed: '.print_r($changed_key, true) );
 				Kohana::$log->add(Log::INFO, 'Changed value: '.print_r($changed_value, true) );
-				$addme = [$changed_key => $changed_key ];
+				$addme = [$changed_key => $changed_value ];
 				$flat_changeset = array_merge($flat_changeset, $addme);
 
 				//return $changed_key;
