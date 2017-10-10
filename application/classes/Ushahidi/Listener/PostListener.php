@@ -113,7 +113,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 							$flat_changeset = array_merge($flat_changeset, $addme);
 						}
 					}
-					//TODO: NOTE we can't recurse here, because this isn't the same datatype, so getting changed key won't work
+					//TODO: NOTE we can't recurse here, because this isn't the same data structure, so getting changed key won't work
 					//traverseChangedArray($postEntity, $postEntity->getAllChangedFor($changed_key), $flat_changeset);
 				}else { // not array
 					$addme = [$changed_key => $changed_value ];

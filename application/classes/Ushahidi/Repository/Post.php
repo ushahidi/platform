@@ -125,6 +125,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		if (!empty($data['id']))
 		{
+			\Log::instance()->add(\Log::INFO, 'Data for id is not empty...:'.print_r($data['id'], true));
+
+			
 			$data += [
 				'values' => $this->getPostValues($data['id']),
 				// Continued for legacy
@@ -852,6 +855,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	private function getChangelogForPost($id)
 	{
+
+		\Log::instance()->add(\Log::INFO, 'Getting changelog with:'.print_r($id, true));
+
 		$result = DB::select('id','content')->from('posts_changelog')
 			->where('post_id', '=', $id)
 			->execute($this->db);
