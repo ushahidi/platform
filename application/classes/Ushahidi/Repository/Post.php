@@ -77,6 +77,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	 * @param Database                              $db
 	 * @param FormAttributeRepository               $form_attribute_repo
 	 * @param FormStageRepository                   $form_stage_repo
+	 * @param ChangelogRepository                   #changelog_repo
 	 * @param Ushahidi_Repository_Post_ValueFactory  $post_value_factory
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
@@ -85,6 +86,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			FormAttributeRepository $form_attribute_repo,
 			FormStageRepository $form_stage_repo,
 			FormRepository $form_repo,
+			Ushahidi_Repository_Post_ChangeLog $changelog_repo,
 			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory
 		)
@@ -129,6 +131,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
+				'changelog' => $this->getChangelogForPost($data['id']),
 			];
 		}
 		// NOTE: This and the restriction above belong somewhere else,
@@ -847,6 +850,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $result->as_array(NULL, 'set_id');
 	}
 
+	private function getChangelogForPost($id)
+	{
+		$result = DB::select('id','content')->from('posts_changelog')
+			->where('post_id', '=', $id)
+			->execute($this->db);
+		return $result->as_array(NULL, 'id');
+	}
+
+
 	// UpdatePostRepository
 	public function isSlugAvailable($slug)
 	{
@@ -886,7 +898,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['changelog']);
 
 		// Set default value for post_date
 		if (empty($post['post_date'])) {
@@ -938,7 +950,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post = $entity->getChanged();
 		$post['updated'] = time();
 
-		\Log::instance()->add(\Log::INFO, print_r($entity, true));
+		\Log::instance()->add(\Log::INFO, 'Everything that has changed: '.print_r($post, true));
 
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
@@ -983,6 +995,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function updatePostValues($post_id, $attributes)
 	{
+		//TODO: inspect static::$changed ?? for specific changes?
+
 		$this->post_value_factory->proxy()->deleteAllForPost($post_id);
 
 		foreach ($attributes as $key => $values)

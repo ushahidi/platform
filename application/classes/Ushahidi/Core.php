@@ -331,7 +331,7 @@ abstract class Ushahidi_Core {
 			// Formatter for post exports. Defaults to CSV export
 			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
 			'tos'				  				 => $di->lazyNew('Ushahidi_Formatter_Tos'),
-			'posts_changelog'			 => $di->lazyNew('Ushahidi_Formatter_PostsChangeLog')
+			'posts_changelog'			 => $di->lazyNew('Ushahidi_Formatter_Post_ChangeLog')
 		];
 
 		// Formatter parameters
@@ -380,6 +380,7 @@ abstract class Ushahidi_Core {
 		$di->set('formatter.entity.post.geojsoncollection', $di->lazyNew('Ushahidi_Formatter_Post_GeoJSONCollection'));
 		$di->set('formatter.entity.post.stats', $di->lazyNew('Ushahidi_Formatter_Post_Stats'));
 		$di->set('formatter.entity.post.csv', $di->lazyNew('Ushahidi_Formatter_Post_CSV'));
+		$di->set('formatter.entity.post.changelog', $di->lazyNew('Ushahidi_Formatter_Post_ChangeLog'));
 
 		$di->set('formatter.output.json', $di->lazyNew('Ushahidi_Formatter_JSON'));
 		$di->set('formatter.output.jsonp', $di->lazyNew('Ushahidi_Formatter_JSONP'));
@@ -428,7 +429,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
 		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
-		$di->set('repository.posts_changelog', $di->lazyNew('Ushahidi_Repository_PostsChangeLog'));
+		$di->set('repository.posts_changelog', $di->lazyNew('Ushahidi_Repository_Post_ChangeLog'));
 
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
@@ -464,6 +465,7 @@ abstract class Ushahidi_Core {
 				'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 				'form_repo' => $di->lazyGet('repository.form'),
+				'changelog_repo' => $di->lazyGet('repository.posts_changelog'),
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 			];

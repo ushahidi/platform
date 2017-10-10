@@ -181,13 +181,26 @@ trait StatefulData
 		$immutable = $this->getImmutable();
 
 		foreach ($this->transform($data) as $key => $value) {
+
+
 			if (in_array($key, $immutable) && $this->$key) {
 				// Value has already been set and cannot be changed.
 				continue;
 			}
 
 			if (is_array($value)) {
+
+//				\Log::instance()->add(\Log::INFO, 'Here is current key: '.print_r($this->$key, true));
 				$current_key = is_array($this->$key) ? $this->$key : [$this->$key];
+				if ($key == 'values')
+				{
+					/*
+					\Log::instance()->add(\Log::INFO, 'This is this: '.print_r($this, true));
+					\Log::instance()->add(\Log::INFO, 'Here is the diff: '.print_r($value, true));
+					\Log::instance()->add(\Log::INFO, 'Here is first RecursiveArrayDiff '.print_r($this->arrayRecursiveDiff($value, $current_key), true));
+					\Log::instance()->add(\Log::INFO, 'Here is second RecursiveArrayDiff '.print_r($this->arrayRecursiveDiff($current_key, $value), true));
+					*/
+				}
 
 				// Check for multi level recursion
 				$diff = array_merge(
@@ -260,6 +273,26 @@ trait StatefulData
 		}
 		return $result;
 	}
+
+	public function getAllChangedFor($key) {
+	    $result = !empty(static::$changed[$this->getObjectId()][$key]);
+
+			if ($result) {
+	        if (is_array(static::$changed[$this->getObjectId()][$key])) {
+	           \Log::instance()->add(\Log::ERROR, 'This is from getAllChangedFor'.print_r(static::$changed[$this->getObjectId()][$key],true));
+	        }
+	    }
+			return static::$changed[$this->getObjectId()][$key];
+	}
+
+
+	public function getAllChangedKeys()
+	{
+		$keysChangedQueue = [];
+
+
+	}
+
 
 	/**
 	 * Get all values that have been changed since initial state was defined.

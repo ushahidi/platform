@@ -65,7 +65,31 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'source' => 'sms',
             'contact_id' => '3',
             'color' => null,
-            'completed_stages' => [1]
+            'completed_stages' => [1],
+            'values' => array (
+                'missing_date' => array (
+                    0 => '2012-09-25 00:00:00',
+                ),
+                'last_location_point' => array (
+                0 => array (
+                        'lon' => -85.39,
+                        'lat' => 33.755,
+                    ),
+                ),
+                'full_name' => array (
+                    0 => 'Bruce Kobia',
+                ),
+                'last_location' => array (
+                        0 => 'atlanta',
+                ),
+                'missing_status' => array (
+                    0 => 'believed_missing',
+                ),
+                'tags1' => array (
+                    0 => '3',
+                    1 => '4',
+                ),
+            ),
         ) ;
 
         $this->test_post_data_new = array (
@@ -88,10 +112,9 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'source' => 'sms',
             'contact_id' => '3',
             'color' => null,
-            'values' =>
-            array (
+            'values' => array (
                 'missing_date' => array (
-                    0 => '2012-09-25 00:00:00',
+                    0 => '2012-09-15 00:00:00',
                 ),
                 'last_location_point' => array (
                 0 => array (
@@ -129,7 +152,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'slug' => 'updated-test-post-596fe1a454e54',
             'values' => array (
                 'missing_date' => array (
-                    0 => '2012-09-25 00:00:00',
+                    0 => '2012-09-15 00:00:00',
                 ),
                 'last_location_point' => array (
                     0 => array (

@@ -18,7 +18,8 @@ $apiBase = 'api/v' . $apiVersion . '/';
 	*
 */
 Route::set('posts_changelog', $apiBase . 'posts/<post_id>/changelog(/<entry_id>)',
-		array('post_id' => '\d+',
+		array(
+		'post_id' => '\d+',
 		'entry_id' => '\d+'
 	))->defaults(array(
 		'action'     => 'index',

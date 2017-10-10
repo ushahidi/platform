@@ -319,6 +319,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['tos'] = [
 
 ];
 
+// Add custom create usecase for terms of service
+/*$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_changelog'] = [
+	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Changelog\SearchChangeLog'),
+
+];*/
+
 // Add custom usecases for sets_posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Set\SearchSetPost'),
@@ -326,6 +332,13 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'delete' => $di->lazyNew('Ushahidi\Core\Usecase\Set\DeleteSetPost'),
 	'read'   => $di->lazyNew('Ushahidi\Core\Usecase\Set\ReadSetPost'),
 ];
+
+// Add custom usecases for sets_changelog
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_changelog'] = [
+	'read'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPostChangeLog'),
+];
+$di->setter['Ushahidi\Core\Usecase\Post\ReadPostChangeLog']['setPostRepository']
+	= $di->lazyGet('repository.post');
 
 // Add custom usecases for sets_posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['savedsearches'] = [

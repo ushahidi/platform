@@ -49,6 +49,9 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 		{
 				try {
 							$changed_fields = $postEntity->getChanged();
+
+
+							$changed_fields = getAllChangedFor();
 							Kohana::$log->add(Log::INFO, 'All changes: '.print_r($changed_fields, true) );
 
 						//NOTE...we should create a log entry for EVERY SINGLE CHANGE....
@@ -79,6 +82,8 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 										$this->changelog_repo->create($changelog_entity);
 								}
 						}
+
+
 					}catch (Exception $e)
 					{
 							Kohana::$log->add(Log::ERROR, 'Error happened on CHANGE! '.print_r($e, true) );

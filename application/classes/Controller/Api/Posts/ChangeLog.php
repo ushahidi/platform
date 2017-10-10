@@ -8,6 +8,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 class Controller_API_Posts_ChangeLog extends Ushahidi_Rest {
+
 	protected $_action_map = array
 	(
 		Http_Request::GET   => 'get',
@@ -23,21 +24,25 @@ class Controller_API_Posts_ChangeLog extends Ushahidi_Rest {
 		return 'posts_changelog';
 	}
 
-	public function action_get_index_collection()
+	public function action_post_index_collection()
 	{
-		Kohana::$log->add(Log::INFO, 'Calling this from the posts/changelog controller.');
-		parent::action_get_index_collection();
+		Kohana::$log->add(Log::INFO, 'You have posted to changelog.');
+
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'create')
+			->setPayload($this->_payload());
 	}
 
+	public function action_get_index_collection()
+	{
+		//Kohana::$log->add(Log::INFO, 'You have reached the changelog collection...: ');
 
-  	public function action_post_index_collection()
-  	{
-  		Kohana::$log->add(Log::INFO, 'Adding a log entry manually from the posts/changelog controller...with payload:'.print_r($this->_payload(), true) );
+		$this->_usecase = service('factory.usecase')
+ 		->get($this->_resource(), 'read');
 
-			$this->_usecase = service('factory.usecase')
-  			->get($this->_resource(), 'create')
-  			->setPayload($this->_payload());
-  	}
+		$this->_usecase->setIdentifiers($this->request->param());
+	}
+
 
 
 }
