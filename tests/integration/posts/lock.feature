@@ -53,12 +53,33 @@ Feature: Testing Post Lock
         And the type of the "id" property is "numeric"
         Then the guzzle status code should be 200
 
-    Scenario: Break a lock for a given lock
-        Given that I want to delete a "PostLock"
-        When I request "/posts/1691/lock/1"
-        Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
+     Scenario: Updating locked Post breaks lock
+        Given that I want to find a "Post"
+	    And that its "id" is "1692"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+        And the response has a "lock" property
+        And the response has a "lock.0.user_id" property
+        And the type of the "lock.0.user_id" property is "numeric"
+        And the response has a "lock.0.user_id" property
+        And the "lock.0.post_id" property equals "1692"
+        Then the guzzle status code should be 200
+        Given that I want to update a "Post"
+		And that the request "data" is:
+			"""
+			{
+				"title":"Updated Test Post"
+			}
+			"""
+		And that its "id" is "1692"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+        And the response has a "lock" property
+        And the "lock" property is empty
         Then the guzzle status code should be 200
 
 
