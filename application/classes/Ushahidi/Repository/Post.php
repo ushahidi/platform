@@ -134,10 +134,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
-				'lock' => [],
+				'lock' => NULL,
 			];
 
-			$data['lock'] = $this->canUserSeePostLock(new Post($data), $user) ? $this->post_lock_repo->getPostLock($data['id']) : [];
+			if ($this->canUserSeePostLock(new Post($data), $user)) {
+				$data['lock'] = $this->post_lock_repo->getPostLock($data['id']);
+			}
 		}
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
