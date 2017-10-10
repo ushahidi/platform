@@ -47,47 +47,32 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 
 		if($event_type == 'update')
 		{
-				try {
-							$changed_fields = $postEntity->getChanged();
+				$changed_fields_q = $postEntity->getChanged();
+				$flat_changeset = [];
 
+				//fields to ignore
+				$ignore_fields = ['post_date', 'updated'];
 
-							$changed_fields = getAllChangedFor();
-							Kohana::$log->add(Log::INFO, 'All changes: '.print_r($changed_fields, true) );
+				traverseChangedArray($postEntity, $changed_fields_q, $flat_changeset);
+				Kohana::$log->add(Log::DEBUG, 'Here is the flat_changeset: '.print_r($flat_changeset, true) );
 
-						//NOTE...we should create a log entry for EVERY SINGLE CHANGE....
-						foreach ($changed_fields as $changed_field => $new_val)
-						{
-							//TODO: intercept tasks, values, or completed_stages and break them into component pieces with labels
-							if (is_array($new_val))
-							{
-								Kohana::$log->add(Log::INFO, $changed_field.' val is an array.'.print_r($new_val, true) );
-								$new_val = implode('; ',flatten_array($new_val));
-							}
+				//TOASK: should we skip these fields??
+				foreach($flat_changeset as $new_item => $new_value)
+				{
+					$human_friendly_log = 'Changed '.$new_item.' to '.$new_value;
+					//TOASK: should this data mapping happen HERE, or in/via the Entity?
+						$changelog_state = [
+							'post_id' => $postEntity->id,
+							'item_changed' => $new_item,
+							'content' => $human_friendly_log,
+							'entry_type' => 'a',
+						];
 
-							Kohana::$log->add(Log::INFO, 'Changed field ['.$changed_field."] to new value [".print_r($new_val, true)."]" );
+						$changelog_entity = $this->changelog_repo->getEntity();
+						$changelog_entity->setState($changelog_state);
+						$this->changelog_repo->create($changelog_entity);
+				}
 
-								//TOASK: should we skip these fields??
-								if ($changed_field != 'post_date' && $changed_field != 'updated')
-								{
-									//TOASK: should this data mapping happen HERE, or in/via the Entity?
-										$changelog_state = [
-											'post_id' => $postEntity->id,
-											'item_changed' => $changed_field,
-											'content' => $new_val,
-											'entry_type' => 'a',
-										];
-
-										$changelog_entity = $this->changelog_repo->getEntity();
-										$changelog_entity->setState($changelog_state);
-										$this->changelog_repo->create($changelog_entity);
-								}
-						}
-
-
-					}catch (Exception $e)
-					{
-							Kohana::$log->add(Log::ERROR, 'Error happened on CHANGE! '.print_r($e, true) );
-					}
 
 		}else if($event_type == 'create')
 		{
@@ -111,9 +96,65 @@ class Ushahidi_Listener_PostListener extends AbstractListener
   }
 }
 
-//TODO: replace this with a common function somwhere?
-function flatten_array(array $array) {
-    $flattened_array = array();
-    array_walk_recursive($array, function($a) use (&$flattened_array) { $flattened_array[] = $a; });
-    return $flattened_array;
+
+
+function traverseChangedArray($postEntity, $changed_items, &$flat_changeset)
+{
+		Kohana::$log->add(Log::DEBUG, '\n\nCalled Traverse function: here is the array now: '.print_r($changed_items, true) );
+		Kohana::$log->add(Log::DEBUG, 'Here is the flat_changeset: '.print_r($flat_changeset, true) );
+
+		foreach($changed_items as $changed_key => $changed_value)
+		{
+			if (is_array($changed_value))
+			{
+				//reassemble key and value for all changed keys, then pass that along...
+				foreach($postEntity->getAllChangedFor($changed_key) as $newkey => $newval)
+				{
+					Kohana::$log->add(Log::INFO, 'NewVal: '.print_r($newval, true) );
+					Kohana::$log->add(Log::INFO, 'Value is now: '.print_r($changed_value[$newval], true) );
+					if (is_array($changed_value[$newval]))
+					{
+						//TODO: do recursive implode
+						//just implode it ... but not if it's got arrays inside...
+						$newcontent = recursiveImplode(" ", $changed_value[$newval]);
+						Kohana::$log->add(Log::INFO, 'Imploded content: '.print_r($newcontent, true) );
+						$addme = [$newval => $newcontent ];
+						$flat_changeset = array_merge($flat_changeset, $addme);
+					}else {
+						$addme = [$newval => $changed_value[$newval] ];
+						$flat_changeset = array_merge($flat_changeset, $addme);
+					}
+
+				}
+				Kohana::$log->add(Log::INFO, 'Changed array: '.print_r($changed_value, true) );
+
+				//TODO: we can't recurse here, because this isn't the same datatype.
+				//traverse_changed_array($postEntity, $postEntity->getAllChangedFor($changed_key), $flat_changeset);
+
+			}else { // not array
+				Kohana::$log->add(Log::INFO, 'Key changed: '.print_r($changed_key, true) );
+				Kohana::$log->add(Log::INFO, 'Changed value: '.print_r($changed_value, true) );
+				$addme = [$changed_key => $changed_key ];
+				$flat_changeset = array_merge($flat_changeset, $addme);
+
+				//return $changed_key;
+			}
+		}
+}
+
+
+function recursiveImplode($sep, $givenArray)
+{
+	Kohana::$log->add(Log::INFO, 'Called recursiveImplode with '.print_r($givenArray, true) );
+	$concat_str = "";
+	foreach($givenArray as $item)
+	{
+		if (is_array($item))
+		{
+				return recursiveImplode($sep, $item).$sep;
+		}else{
+				$concat_str .= $item.$sep;
+		}
+	}
+	return $concat_str;
 }

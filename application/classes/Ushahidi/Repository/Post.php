@@ -950,6 +950,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post = $entity->getChanged();
 		$post['updated'] = time();
 
+		$flat_changes_array = $post;
+
 		\Log::instance()->add(\Log::INFO, 'Everything that has changed: '.print_r($post, true));
 
 		// Remove attribute values and tags
@@ -966,9 +968,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Handle legacy post.tags attribute
 		if ($entity->hasChanged('tags'))
 		{
+			$flat_changes_array = array_merge($flat_changes_array, $entity->getAllChangedFor('tags'));
 			// Find first tag attribute
 			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
-
 			// If we don't have tags in the values, use the post.tags value
 			if ($attr_key && !isset($values[$attr_key])) {
 				$values[$attr_key] = $entity->tags;
@@ -977,18 +979,21 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		if ($entity->hasChanged('values'))
 		{
+			$flat_changes_array = array_merge($flat_changes_array, $entity->getAllChangedFor('values'));
 			// Update post-values
 			$this->updatePostValues($entity->id, $values);
 		}
 
 		if ($entity->hasChanged('completed_stages'))
 		{
+			$flat_changes_array = array_merge($flat_changes_array, $entity->getAllChangedFor('completed_stages'));
 			// Update post-stages
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
 
+		\Log::instance()->add(\Log::INFO, 'Flat changes array: '.print_r($flat_changes_array, true));
+		//$entity->changelist = $flat_changes_array;
 		$this->emit($this->event, $entity, 'update');
-
 
 		return $count;
 	}
