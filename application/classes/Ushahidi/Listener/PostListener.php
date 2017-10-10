@@ -44,7 +44,6 @@ class Ushahidi_Listener_PostListener extends AbstractListener
   public function handle(EventInterface $event, $postEntity = null, $event_type = null)
   {
 
-
 		if($event_type == 'update')
 		{
 				$changed_fields_q = $postEntity->getChanged();
@@ -53,7 +52,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 				//fields to ignore
 				$ignore_fields = ['post_date', 'updated'];
 
-				traverseChangedArray($postEntity, $changed_fields_q, $flat_changeset);
+				$this->traverseChangedArray($postEntity, $changed_fields_q, $flat_changeset);
 				Kohana::$log->add(Log::DEBUG, 'Here is the flat_changeset: '.print_r($flat_changeset, true) );
 
 				//TODO:RECONSIDER: currently concatenating all the changes into one long string
@@ -78,7 +77,6 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 		}else if($event_type == 'create')
 		{
 						Kohana::$log->add(Log::INFO, 'Entity grabbed? '.print_r($postEntity, true) );
-
 						//send event info off to webhook
 						$state = [
 							'post_id' => $postEntity,  // note, this is not really an entity, just an id
@@ -95,53 +93,39 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 		}
 
   }
-}
 
-
-
-function traverseChangedArray($postEntity, $changed_items, &$flat_changeset)
-{
-		Kohana::$log->add(Log::DEBUG, '\n\nCalled Traverse function: here is the array now: '.print_r($changed_items, true) );
-		Kohana::$log->add(Log::DEBUG, 'Here is the flat_changeset: '.print_r($flat_changeset, true) );
-
-		foreach($changed_items as $changed_key => $changed_value)
-		{
-			if (is_array($changed_value))
+	protected function traverseChangedArray($postEntity, $changed_items, &$flat_changeset)
+	{
+			foreach($changed_items as $changed_key => $changed_value)
 			{
-				//reassemble key and value for all changed keys, then pass that along...
-				foreach($postEntity->getAllChangedFor($changed_key) as $newkey => $newval)
+				if (is_array($changed_value))
 				{
-					Kohana::$log->add(Log::INFO, 'NewVal: '.print_r($newval, true) );
-					Kohana::$log->add(Log::INFO, 'Value is now: '.print_r($changed_value[$newval], true) );
-					if (is_array($changed_value[$newval]))
+					foreach($postEntity->getAllChangedFor($changed_key) as $newkey => $newval)
 					{
-						//TODO: do recursive implode
-						//just implode it ... but not if it's got arrays inside...
-						$newcontent = recursiveImplode(" ", $changed_value[$newval]);
-						Kohana::$log->add(Log::INFO, 'Imploded content: '.print_r($newcontent, true) );
-						$addme = [$newval => $newcontent ];
-						$flat_changeset = array_merge($flat_changeset, $addme);
-					}else {
-						$addme = [$newval => $changed_value[$newval] ];
-						$flat_changeset = array_merge($flat_changeset, $addme);
+						if (is_array($changed_value[$newval]))
+						{
+							//just implode this, because we're already down to the individual field
+							$newcontent = recursiveImplode(" ", $changed_value[$newval]);
+							$addme = [$newval => $newcontent ];
+							$flat_changeset = array_merge($flat_changeset, $addme);
+						}else {
+							$addme = [$newval => $changed_value[$newval] ];
+							$flat_changeset = array_merge($flat_changeset, $addme);
+						}
 					}
-
+					//TODO: NOTE we can't recurse here, because this isn't the same datatype, so getting changed key won't work
+					//traverseChangedArray($postEntity, $postEntity->getAllChangedFor($changed_key), $flat_changeset);
+				}else { // not array
+					$addme = [$changed_key => $changed_value ];
+					$flat_changeset = array_merge($flat_changeset, $addme);
 				}
-				Kohana::$log->add(Log::INFO, 'Changed array: '.print_r($changed_value, true) );
-
-				//TODO: we can't recurse here, because this isn't the same datatype.
-				//traverse_changed_array($postEntity, $postEntity->getAllChangedFor($changed_key), $flat_changeset);
-
-			}else { // not array
-				Kohana::$log->add(Log::INFO, 'Key changed: '.print_r($changed_key, true) );
-				Kohana::$log->add(Log::INFO, 'Changed value: '.print_r($changed_value, true) );
-				$addme = [$changed_key => $changed_value ];
-				$flat_changeset = array_merge($flat_changeset, $addme);
-
-				//return $changed_key;
 			}
-		}
+	}
+
 }
+
+
+
 
 
 function recursiveImplode($sep, $givenArray)

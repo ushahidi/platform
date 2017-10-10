@@ -192,15 +192,6 @@ trait StatefulData
 
 //				\Log::instance()->add(\Log::INFO, 'Here is current key: '.print_r($this->$key, true));
 				$current_key = is_array($this->$key) ? $this->$key : [$this->$key];
-				if ($key == 'values')
-				{
-					/*
-					\Log::instance()->add(\Log::INFO, 'This is this: '.print_r($this, true));
-					\Log::instance()->add(\Log::INFO, 'Here is the diff: '.print_r($value, true));
-					\Log::instance()->add(\Log::INFO, 'Here is first RecursiveArrayDiff '.print_r($this->arrayRecursiveDiff($value, $current_key), true));
-					\Log::instance()->add(\Log::INFO, 'Here is second RecursiveArrayDiff '.print_r($this->arrayRecursiveDiff($current_key, $value), true));
-					*/
-				}
 
 				// Check for multi level recursion
 				$diff = array_merge(
@@ -222,12 +213,14 @@ trait StatefulData
 			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
 				$current_key = $this->$key;
 				$interval = $value->diff($current_key);
+				\Log::instance()->add(\Log::INFO, 'Here is the date difference for '.print_r($value,true).": ".print_r($interval,true));
 
 				if ($interval->format('F') > 0) {
 					// Update the value...
 					$this->setStateValue($key, $value);
 					// ... and track the change.
 					$changed[$key] = $key;
+					\Log::instance()->add(\Log::INFO, 'Date has changed because the interval is > 0');
 				}
 			} elseif ($this->$key !== $value) {
 				// Update the value...
