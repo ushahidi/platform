@@ -181,16 +181,12 @@ trait StatefulData
 		$immutable = $this->getImmutable();
 
 		foreach ($this->transform($data) as $key => $value) {
-
-
 			if (in_array($key, $immutable) && $this->$key) {
 				// Value has already been set and cannot be changed.
 				continue;
 			}
 
 			if (is_array($value)) {
-
-//				\Log::instance()->add(\Log::INFO, 'Here is current key: '.print_r($this->$key, true));
 				$current_key = is_array($this->$key) ? $this->$key : [$this->$key];
 
 				// Check for multi level recursion
@@ -198,7 +194,6 @@ trait StatefulData
 					$this->arrayRecursiveDiff($value, $current_key),
 					$this->arrayRecursiveDiff($current_key, $value)
 				);
-
 				// If arrays differ, *or* if this is the first time
 				// we're setting this key
 				if (!empty($diff) || !isset($this->$key)) {
@@ -213,14 +208,12 @@ trait StatefulData
 			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
 				$current_key = $this->$key;
 				$interval = $value->diff($current_key);
-				\Log::instance()->add(\Log::INFO, 'Here is the date difference for '.print_r($value,true).": ".print_r($interval,true));
-
 				if ($interval->format('F') > 0) {
 					// Update the value...
 					$this->setStateValue($key, $value);
 					// ... and track the change.
 					$changed[$key] = $key;
-					\Log::instance()->add(\Log::INFO, 'Date has changed because the interval is > 0');
+				//	\Log::instance()->add(\Log::INFO, 'Date has changed because the interval is > 0');
 				}
 			} elseif ($this->$key !== $value) {
 				// Update the value...
@@ -229,7 +222,6 @@ trait StatefulData
 				$changed[$key] = $key;
 			}
 		}
-
 		return $this;
 	}
 
@@ -277,15 +269,6 @@ trait StatefulData
 	    }
 			return static::$changed[$this->getObjectId()][$key];
 	}
-
-
-	public function getAllChangedKeys()
-	{
-		$keysChangedQueue = [];
-
-
-	}
-
 
 	/**
 	 * Get all values that have been changed since initial state was defined.

@@ -41,8 +41,6 @@ class Post extends StaticEntity
 	protected $completed_stages;
 	protected $sets;
 
-	protected $changelog;
-
 	// Source when from external provider: SMS, Email, etc
 	protected $source;
 	// When originating in an SMS message
@@ -96,7 +94,6 @@ class Post extends StaticEntity
 			'published_to'    => '*json',
 			'completed_stages'=> '*arrayInt',
 			'sets'            => 'array',
-			'changelog'       => 'array',
 		];
 	}
 

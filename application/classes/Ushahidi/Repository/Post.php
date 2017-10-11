@@ -77,7 +77,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	 * @param Database                              $db
 	 * @param FormAttributeRepository               $form_attribute_repo
 	 * @param FormStageRepository                   $form_stage_repo
-	 * @param ChangelogRepository                   $changelog_repo
 	 * @param Ushahidi_Repository_Post_ValueFactory $post_value_factory
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
@@ -86,7 +85,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			FormAttributeRepository $form_attribute_repo,
 			FormStageRepository $form_stage_repo,
 			FormRepository $form_repo,
-			Ushahidi_Repository_Post_ChangeLog $changelog_repo,
 			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory
 		)
@@ -131,7 +129,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
-				//'changelog' => $this->getChangelogForPost($data['id']),
 			];
 		}
 		// NOTE: This and the restriction above belong somewhere else,
@@ -850,18 +847,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $result->as_array(NULL, 'set_id');
 	}
 
-	private function getChangelogForPost($id)
-	{
-
-		\Log::instance()->add(\Log::INFO, 'Getting changelog with:'.print_r($id, true));
-
-		$result = DB::select('id','content')->from('posts_changelog')
-			->where('post_id', '=', $id)
-			->execute($this->db);
-		return $result->as_array(NULL, 'id');
-	}
-
-
 	// UpdatePostRepository
 	public function isSlugAvailable($slug)
 	{
@@ -953,10 +938,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post = $entity->getChanged();
 		$post['updated'] = time();
 
-		$flat_changes_array = $post;
-
-		\Log::instance()->add(\Log::INFO, 'Everything that has changed: '.print_r($post, true));
-
 		// Remove attribute values and tags
 		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 
@@ -971,7 +952,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Handle legacy post.tags attribute
 		if ($entity->hasChanged('tags'))
 		{
-			$flat_changes_array = array_merge($flat_changes_array, $entity->getAllChangedFor('tags'));
 			// Find first tag attribute
 			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
 			// If we don't have tags in the values, use the post.tags value
@@ -982,20 +962,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		if ($entity->hasChanged('values'))
 		{
-			$flat_changes_array = array_merge($flat_changes_array, $entity->getAllChangedFor('values'));
 			// Update post-values
 			$this->updatePostValues($entity->id, $values);
 		}
 
 		if ($entity->hasChanged('completed_stages'))
 		{
-			$flat_changes_array = array_merge($flat_changes_array, $entity->getAllChangedFor('completed_stages'));
 			// Update post-stages
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
 
-		\Log::instance()->add(\Log::INFO, 'Flat changes array: '.print_r($flat_changes_array, true));
-		//$entity->changelist = $flat_changes_array;
 		$this->emit($this->event, $entity, 'update');
 
 		return $count;
@@ -1003,8 +979,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 	protected function updatePostValues($post_id, $attributes)
 	{
-		//TODO: inspect static::$changed ?? for specific changes?
-
 		$this->post_value_factory->proxy()->deleteAllForPost($post_id);
 
 		foreach ($attributes as $key => $values)

@@ -15,6 +15,6 @@ use Ushahidi\Core\Usecase\ReadUsecase;
 
 class ReadPostChangelog extends ReadUsecase
 {
-	// - VerifyPostLoaded for checking that the form exists
+	// - VerifyPostLoaded for checking that the post exists
 	use VerifyPostLoaded;
 }
