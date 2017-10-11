@@ -14,6 +14,7 @@ return [
 
 	// Post views
 	'views' => [
+		'data' => TRUE,
 		'map' => TRUE,
 		'list' => TRUE,
 		'chart' => TRUE,
