@@ -858,6 +858,7 @@ posts_changelog:
     post_id: 99
     user_id: 1
     change_type: "Nothing"
+    created: "1507759434"
     item_changed: "blah"
     entry_type: "m"
     content: "Here is some content"
@@ -865,6 +866,7 @@ posts_changelog:
     id: 2
     post_id: 99
     user_id: 1
+    created: "1507759434"
     change_type: "Nothing"
     item_changed: "blah"
     entry_type: "m"
@@ -873,6 +875,7 @@ posts_changelog:
     id: 3
     post_id: 99
     user_id: 1
+    created: "1507759434"
     change_type: "Nothing"
     item_changed: "blah"
     entry_type: "m"

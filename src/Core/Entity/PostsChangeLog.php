@@ -24,17 +24,6 @@ class PostsChangeLog extends StaticEntity
 	protected $content;
 	protected $entry_type;
 
-	/*
-	protected function getDerived()
-	 {
-	 	// Foreign key alias
-	 		return [
-	 						 'user_id' => ['user', 'user.id'],
-	             'post_id' => ['post', 'post.id'],
-	 		];
-	 	}
-		*/
-
 	// DataTransformer
 	protected function getDefinition()
 	{
