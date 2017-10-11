@@ -53,8 +53,6 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 				$ignore_fields = ['post_date', 'updated'];
 
 				$this->traverseChangedArray($postEntity, $changed_fields_q, $flat_changeset);
-				Kohana::$log->add(Log::DEBUG, 'Here is the flat_changeset: '.print_r($flat_changeset, true) );
-
 				//TODO:RECONSIDER: currently concatenating all the changes into one long string
 				if (count($flat_changeset) > 0)
 				{
@@ -76,7 +74,6 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 
 		}else if($event_type == 'create')
 		{
-						Kohana::$log->add(Log::INFO, 'Entity grabbed? '.print_r($postEntity, true) );
 						//send event info off to webhook
 						$state = [
 							'post_id' => $postEntity,  // note, this is not really an entity, just an id
@@ -94,23 +91,47 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 
   }
 
+	//TODO: move this!
+	private function recursiveImplode($sep, $givenArray)
+  {
+    \Log::instance()->add(\Log::INFO, 'Called recursiveImplode'.print_r($givenArray, true) );
+
+    $concat_str = "";
+    foreach($givenArray as $item)
+    {
+      if (is_array($item))
+      {
+          return $this->recursiveImplode($sep, $item).$sep;
+      }else{
+          $concat_str .= $item.$sep;
+      }
+    }
+    return $concat_str;
+  }
+
+	//TODO: WIP
 	protected function traverseChangedArray($postEntity, $changed_items, &$flat_changeset)
 	{
+		try {
 			foreach($changed_items as $changed_key => $changed_value)
 			{
 				if (is_array($changed_value))
 				{
 					foreach($postEntity->getAllChangedFor($changed_key) as $newkey => $newval)
 					{
-						if (is_array($changed_value[$newval]))
+						if (array_key_exists($newval, $changed_value) )
 						{
-							//just implode this, because we're already down to the individual field
-							$newcontent = recursiveImplode(" ", $changed_value[$newval]);
-							$addme = [$newval => $newcontent ];
-							$flat_changeset = array_merge($flat_changeset, $addme);
-						}else {
-							$addme = [$newval => $changed_value[$newval] ];
-							$flat_changeset = array_merge($flat_changeset, $addme);
+								if (is_array($changed_value[$newval]))
+							{
+								//just implode this, because we're already down to the individual field
+								$newcontent = $this->recursiveImplode(" ", $changed_value[$newval]);
+								$addme = [$newval => $newcontent ];
+								$flat_changeset = array_merge($flat_changeset, $addme);
+							}else {
+
+									$addme = [$newval => $changed_value[$newval] ];
+									$flat_changeset = array_merge($flat_changeset, $addme);
+							}
 						}
 					}
 					//TODO: NOTE we can't recurse here, because this isn't the same data structure, so getting changed key won't work
@@ -120,26 +141,10 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 					$flat_changeset = array_merge($flat_changeset, $addme);
 				}
 			}
+			}catch(Exception $e)
+			{
+						Kohana::$log->add(Log::ERROR, 'Error trying to log a change: '.print_r($e,true));
+			}
 	}
 
-}
-
-
-
-
-
-function recursiveImplode($sep, $givenArray)
-{
-	Kohana::$log->add(Log::INFO, 'Called recursiveImplode with '.print_r($givenArray, true) );
-	$concat_str = "";
-	foreach($givenArray as $item)
-	{
-		if (is_array($item))
-		{
-				return recursiveImplode($sep, $item).$sep;
-		}else{
-				$concat_str .= $item.$sep;
-		}
-	}
-	return $concat_str;
 }

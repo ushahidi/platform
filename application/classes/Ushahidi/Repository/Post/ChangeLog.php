@@ -49,7 +49,6 @@ implements PostsChangeLogRepository
         $data['created']  = time();
         $data['user_id'] = $this->getUserId();
         //$data['entry_type']  = 'm'; // m for manual
-        Kohana::$log->add(Log::INFO, print_r('Adding a new record to changelog', true));
 
         return $this->executeInsert($this->removeNullValues($data));
     }

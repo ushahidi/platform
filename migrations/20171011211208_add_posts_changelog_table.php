@@ -17,7 +17,7 @@ class AddPostsChangelogTable extends AbstractMigration
          ->addColumn('post_id', 'integer', ['null' => false])
          ->addColumn('change_type', 'string', ['null' => true, 'limit' => 50])
          ->addColumn('item_changed', 'string', ['null' => true, 'limit' => 50])
-         ->addColumn('content', 'string', ['null' => true])
+         ->addColumn('content', 'text', ['null' => true])
          ->addColumn('entry_type', 'string', ['null' => true, 'limit' => 1])
          ->addForeignKey('user_id', 'users', 'id', [
                      'delete' => 'CASCADE',
