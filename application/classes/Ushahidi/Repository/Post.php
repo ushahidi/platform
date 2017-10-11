@@ -1052,6 +1052,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $this->getEntity($result);
 	}
 
+	public function delete(Entity $entity)
+	{
+		parent::delete($entity);
+	}
+
 	// PostRepository
 	public function doesPostRequireApproval($formId)
 	{
