@@ -261,12 +261,6 @@ trait StatefulData
 
 	public function getAllChangedFor($key) {
 	    $result = !empty(static::$changed[$this->getObjectId()][$key]);
-
-			if ($result) {
-	        if (is_array(static::$changed[$this->getObjectId()][$key])) {
-	           \Log::instance()->add(\Log::ERROR, 'This is from getAllChangedFor'.print_r(static::$changed[$this->getObjectId()][$key],true));
-	        }
-	    }
 			return static::$changed[$this->getObjectId()][$key];
 	}
 
