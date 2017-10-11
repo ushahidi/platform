@@ -362,7 +362,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$date_after = date_create($search->date_after, new DateTimeZone('UTC'));
 			// Convert to UTC (needed in case date came with a tz)
 			$date_after->setTimezone(new DateTimeZone('UTC'));
-			$query->where("$table.post_date", '>=', $date_after->format('Y-m-d H:i:s'));
+			$query->where("$table.post_date", '>', $date_after->format('Y-m-d H:i:s'));
 		}
 
 		if ($search->date_before)
