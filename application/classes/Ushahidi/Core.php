@@ -243,7 +243,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
-			'update' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
 			'import' => $di->lazyNew('Ushahidi_Validator_Post_Import'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
@@ -539,6 +539,7 @@ abstract class Ushahidi_Core {
 			'tag_repo' => $di->lazyGet('repository.tag'),
 			'user_repo' => $di->lazyGet('repository.user'),
 			'form_repo' => $di->lazyGet('repository.form'),
+			'post_lock_repo' => $di->lazyGet('repository.post_lock'),
 			'role_repo' => $di->lazyGet('repository.role'),
 			'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 			'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),

@@ -98,8 +98,8 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 			$time = $result->get('expires');
 			$curtime = time();
 			// Check if the lock has expired
-			// Locks are active for a maximum of 10 minutes
-			if(($curtime - $time) > 600)
+			// Locks are active for a maximum of 5 minutes
+			if(($curtime - $time) > 300)
 			{
 				$release = $this->releaseLock($entity_id);
 				return false;
@@ -107,6 +107,22 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 			return true;
 		}
 		return false;
+	}
+
+	public function postIsLocked($entity_id)
+	{
+		$user = $this->getUser();	
+		$lock = $this->getPostLock($entity_id);
+
+		if (!$lock) {
+			return false;
+		} elseif ($user->id === $lock['user_id']) {
+			return false;
+		} elseif (!$this->isActive($entity_id)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public function getLock(Entity $entity)
