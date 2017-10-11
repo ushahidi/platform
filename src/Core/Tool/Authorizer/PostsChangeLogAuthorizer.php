@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi PostsChangeLog Authorizer
+ * Ushahidi Post Changelog Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -12,65 +12,56 @@
 namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Entity\PostsChangeLog;
+use Ushahidi\Core\Entity\PostRepository;  // ?
 use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Traits\EnsureUserEntity;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\GuestAccess;
-use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\PrivAccess;
-use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
 
-// The `FormAttributeAuthorizer` class is responsible
-// for access checks on Form Attributes
+// The `PostsChangeLogAuthorizer` class is responsible for access checks on `Post Changelog`
 class PostsChangeLogAuthorizer implements Authorizer
 {
-  // The access checks are run under the context of a specific user
+	// The access checks are run under the context of a specific user
 	use UserContext;
 
-  // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
-	use PrivAccess;
+	// It requires a `PostRepository` to load the owning post.
+	protected $post_repo;
 
-  // Check that the user has the necessary permissions
-  // if roles are available for this deployment.
-  use AclTrait;
+	// It requires a `PostAuthorizer` to check privileges against the owning post.
+	protected $post_auth;
 
+	/**
+	 * @param PostRepository $post_repo
+	 */
+	public function __construct(PostRepository $post_repo, PostAuthorizer $post_auth)
+	{
+		$this->post_repo = $post_repo;
+		$this->post_auth = $post_auth;
+	}
 
+	/* Authorizer */
+	public function isAllowed(Entity $entity, $privilege)
+	{
+		$post = $this->getPost($entity);
 
-	// - `AdminAccess` to check if the user has admin access
-	use AdminAccess;
+		// All access is based on the post itself, not the changelog.
+		return $this->post_auth->isAllowed($post, $privilege);
+	}
 
+	/* Authorizer */
+	public function getAllowedPrivs(Entity $entity)
+	{
+		$post = $this->getPost($entity);
 
+		// All access is based on the post itself, not the changelog.
+		return $this->post_auth->getAllowedPrivs($post);
+	}
 
-	// It uses `PrivateDeployment` to check whether a deployment is private
-	use PrivateDeployment;
-
-
-  /* Authorizer */
-  public function isAllowed(Entity $entity, $privilege)
-  {
-    // These checks are run within the user context.
-    $user = $this->getUser();
-
-    // Allow role with the right permissions
-    if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-      return true;
-    }
-
-
-    // Allow admin access
-    if ($this->isUserAdmin($user)) {
-      return true;
-    }
-    //return false;
-    //TODO: URGENT: CHANGE THIS TO FALSE!
-      return true;
-
-  }
-
-
+	/**
+	 * Get the post associated with this changelog.
+	 * @param  Entity $entity
+	 * @return Post
+	 */
+	protected function getPost(Entity $entity)
+	{
+		return $this->post_repo->get($entity->post_id);
+	}
 }

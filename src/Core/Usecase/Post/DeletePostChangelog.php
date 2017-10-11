@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Read Post Changelog Use Case
+ * Ushahidi Platform Delete Post Changelog Use Case
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
-use Ushahidi\Core\Usecase\ReadUsecase;
+use Ushahidi\Core\Usecase\DeleteUsecase;
 
-class ReadPostChangelog extends ReadUsecase
+class DeletePostChangelog extends DeleteUsecase
 {
 	// - VerifyPostLoaded for checking that the form exists
 	use VerifyPostLoaded;

@@ -247,7 +247,7 @@ abstract class Ushahidi_Core {
 		];
 
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_changelog'] = [
-			'create' => $di->lazyNew('Ushahidi_Validator_PostsChangeLog_Create'),
+			'create' => $di->lazyNew('Ushahidi_Validator_Post_Changelog_Create'),
 		];
 
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
@@ -331,7 +331,7 @@ abstract class Ushahidi_Core {
 			// Formatter for post exports. Defaults to CSV export
 			'posts_export'         => $di->lazyNew('Ushahidi_Formatter_Post_CSV'),
 			'tos'				  				 => $di->lazyNew('Ushahidi_Formatter_Tos'),
-			'posts_changelog'			 => $di->lazyNew('Ushahidi_Formatter_Post_ChangeLog')
+			'posts_changelog'			 => $di->lazyNew('Ushahidi_Formatter_Post_Changelog')
 		];
 
 		// Formatter parameters
@@ -356,12 +356,13 @@ abstract class Ushahidi_Core {
 			'role',
 			'permission',
 			'tos',
-			'posts_changelog'
 		] as $name)
 		{
 			$di->setter['Ushahidi_Formatter_' . Text::ucfirst($name, '_')]['setAuth'] =
 				$di->lazyGet("authorizer.$name");
 		}
+
+		$di->setter['Ushahidi_Formatter_Post_Changelog']['setAuth'] = $di->lazyGet("authorizer.posts_changelog");
 
 		$di->setter['Ushahidi_Formatter_Set']['setAuth'] = $di->lazyGet("authorizer.set");
 		$di->setter['Ushahidi_Formatter_CSV']['setAuth'] = $di->lazyGet("authorizer.csv");
@@ -534,6 +535,10 @@ abstract class Ushahidi_Core {
 			'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 			'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
 			];
+
+		$di->params['Ushahidi_Validator_Post_Changelog_Create'] = [
+			'user_repo' => $di->lazyGet('repository.user'),
+		];
 
 		$di->params['Ushahidi_Validator_Form_Update'] = [
 			'repo' => $di->lazyGet('repository.form'),

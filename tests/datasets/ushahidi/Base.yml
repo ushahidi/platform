@@ -851,6 +851,34 @@ posts:
     created: 1412025016
     published_to: '[]'
     post_date: "2014-09-29 14:10:16"
+
+posts_changelog:
+  -
+    id: 1
+    post_id: 99
+    user_id: 1
+    change_type: "Nothing"
+    item_changed: "blah"
+    entry_type: "m"
+    content: "Here is some content"
+  -
+    id: 2
+    post_id: 99
+    user_id: 1
+    change_type: "Nothing"
+    item_changed: "blah"
+    entry_type: "m"
+    content: "Here is some content"
+  -
+    id: 3
+    post_id: 99
+    user_id: 1
+    change_type: "Nothing"
+    item_changed: "blah"
+    entry_type: "m"
+    content: "Here is some content"
+
+
 post_datetime:
 post_decimal:
 post_geometry:

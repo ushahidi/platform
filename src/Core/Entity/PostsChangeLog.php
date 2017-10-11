@@ -5,7 +5,7 @@
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
- * @copyright  2014 Ushahidi
+ * @copyright  2017 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
@@ -24,6 +24,7 @@ class PostsChangeLog extends StaticEntity
 	protected $content;
 	protected $entry_type;
 
+	/*
 	protected function getDerived()
 	 {
 	 	// Foreign key alias
@@ -32,6 +33,8 @@ class PostsChangeLog extends StaticEntity
 	             'post_id' => ['post', 'post.id'],
 	 		];
 	 	}
+		*/
+
 	// DataTransformer
 	protected function getDefinition()
 	{

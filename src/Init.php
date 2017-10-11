@@ -146,7 +146,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'roles'                => $di->lazyGet('authorizer.role'),
 	'permissions'          => $di->lazyGet('authorizer.permission'),
 	'posts_export'         => $di->lazyGet('authorizer.post'),
-	'tos'				   				=> $di->lazyGet('authorizer.tos'),
+	'tos'				   				 => $di->lazyGet('authorizer.tos'),
 	'posts_changelog'      => $di->lazyGet('authorizer.posts_changelog'),
 
 ];
@@ -166,7 +166,6 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'media'                => $di->lazyGet('repository.media'),
 	'messages'             => $di->lazyGet('repository.message'),
 	'posts'                => $di->lazyGet('repository.post'),
-	'posts_changelog'      => $di->lazyGet('repository.posts_changelog'),
 	'tags'                 => $di->lazyGet('repository.tag'),
 	'sets'                 => $di->lazyGet('repository.set'),
 	'sets_posts'           => $di->lazyGet('repository.post'),
@@ -179,7 +178,8 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'roles'                => $di->lazyGet('repository.role'),
 	'permissions'          => $di->lazyGet('repository.permission'),
 	'posts_export'         => $di->lazyGet('repository.posts_export'),
-	'tos'				   => $di->lazyGet('repository.tos'),
+	'tos'				   				 => $di->lazyGet('repository.tos'),
+	'posts_changelog'      => $di->lazyGet('repository.posts_changelog'),
 ];
 
 // Formatters are used for to prepare the output of records. Actions that return
@@ -255,6 +255,13 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
 	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormStage'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormStage'),
 ];
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_changelog'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePostChangelog'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPostChangelog'),
+	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePostChangelog'),
+	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePostChangelog'),
+	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPostChangelog'),
+];
 
 // Media create requires file uploading as part of the payload.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['media'] = [
@@ -319,12 +326,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['tos'] = [
 
 ];
 
-// Add custom create usecase for terms of service
-/*$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_changelog'] = [
-	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Changelog\SearchChangeLog'),
-
-];*/
-
 // Add custom usecases for sets_posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Set\SearchSetPost'),
@@ -332,13 +333,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 	'delete' => $di->lazyNew('Ushahidi\Core\Usecase\Set\DeleteSetPost'),
 	'read'   => $di->lazyNew('Ushahidi\Core\Usecase\Set\ReadSetPost'),
 ];
-
-// Add custom usecases for sets_changelog
-$di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_changelog'] = [
-	'read'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPostChangeLog'),
-];
-$di->setter['Ushahidi\Core\Usecase\Post\ReadPostChangeLog']['setPostRepository']
-	= $di->lazyGet('repository.post');
 
 // Add custom usecases for sets_posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['savedsearches'] = [
@@ -375,6 +369,8 @@ $di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('sessi
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
 	= $di->lazyGet('repository.form_stage');
+
+$di->setter['Ushahidi\Core\Usecase\Post\VerifyPostLoaded']['setPostRepository'] = $di->lazyGet('repository.post');
 
 $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
 $di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
@@ -414,6 +410,11 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),
 	'form_auth' => $di->lazyGet('authorizer.form'),
 	];
+$di->set('authorizer.posts_changelog', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostsChangeLogAuthorizer'));
+$di->params['Ushahidi\Core\Tool\Authorizer\PostsChangeLogAuthorizer'] = [
+	'post_repo' => $di->lazyGet('repository.post'),
+	'post_auth' => $di->lazyGet('authorizer.post'),
+	];
 
 $di->set('authorizer.user', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\UserAuthorizer'));
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
@@ -430,7 +431,6 @@ $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuth
 $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PermissionAuthorizer'));
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->set('authorizer.tos', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TosAuthorizer'));
-$di->set('authorizer.posts_changelog', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostsChangeLogAuthorizer'));
 
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),

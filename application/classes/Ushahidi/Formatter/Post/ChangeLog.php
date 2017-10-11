@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API Formatter for PostsChangeLog
+ * Ushahidi API Formatter for PostsChangelog
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -12,7 +12,7 @@
  use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
-class Ushahidi_Formatter_Post_ChangeLog extends Ushahidi_Formatter_API
+class Ushahidi_Formatter_Post_Changelog extends Ushahidi_Formatter_API
 {
-  //  use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 }

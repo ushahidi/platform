@@ -9,14 +9,17 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Core\Data;
+use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\PostsChangeLog;
 use Ushahidi\Core\Entity\PostsChangeLogRepository;
-//use Ushahidi\Core\SearchData;
-//use Ushahidi\Core\ReadData;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
-class Ushahidi_Repository_Post_ChangeLog extends Ushahidi_Repository implements PostsChangeLogRepository
+class Ushahidi_Repository_Post_ChangeLog extends Ushahidi_Repository
+implements PostsChangeLogRepository
 {
     use UserContext;
 
@@ -26,15 +29,16 @@ class Ushahidi_Repository_Post_ChangeLog extends Ushahidi_Repository implements 
         return 'posts_changelog';
     }
 
-    public function getSearchFields()
-  	{
-      return ['post_id', 'entry_id'];
-    }
-
     public function getEntity(Array $data = null)
     {
         return new PostsChangeLog($data);
     }
+
+    public function getSearchFields()
+  	{
+      return ['post_id', 'id'];
+    }
+
 
     // CreateRepository
     public function create(Entity $entity)
@@ -51,23 +55,48 @@ class Ushahidi_Repository_Post_ChangeLog extends Ushahidi_Repository implements 
     }
 
 
-    //TODO: this is probably not the way to do this, plus we should
-    // eventually handle limits, offsets somehow
+	// Ushahidi_Repository
+	protected function setSearchConditions(SearchData $search)
+	{
+		$query = $this->search_query;
 
-    // See: Tags
-    public function getPostChangelogs($entity_id)
-    {
-       return DB::select('posts_changelog.id', 'post_id', 'user_id', 'realname',
-          'entry_type', 'posts_changelog.created', 'change_type', 'item_changed',
-           'content')
-          ->from('posts_changelog')
-          ->where('post_id', '=', $entity_id)
+		if ($search->post_id) {
+			$query->where('post_id', '=', $search->post_id);
+		}
 
-          ->join('users')->on('posts_changelog.user_id', '=', 'users.id')
-          ->order_by('posts_changelog.created','desc')
+	}
 
-          ->execute($this->db)
-          ->as_array();
-    	}
+  // Override SearchRepository
+	public function setSearchParams(SearchData $search)
+	{
+
+		$post_id = null;
+		if ($search->post_id) {
+			$post_id = $search->post_id;
+		}
+
+		$this->search_query = $this->selectQuery([], $post_id);
+
+		$sorting = $search->getSorting();
+
+		if (!empty($sorting['orderby'])) {
+			$this->search_query->order_by(
+				$this->getTable() . '.' . $sorting['orderby'],
+				Arr::get($sorting, 'order')
+			);
+		}
+
+		if (!empty($sorting['offset'])) {
+			$this->search_query->offset($sorting['offset']);
+		}
+
+		if (!empty($sorting['limit'])) {
+			$this->search_query->limit($sorting['limit']);
+		}
+
+		// apply the unique conditions of the search
+		$this->setSearchConditions($search);
+	}
+
 
 }

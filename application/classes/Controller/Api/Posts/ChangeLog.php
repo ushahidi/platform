@@ -9,12 +9,6 @@
  */
 class Controller_API_Posts_ChangeLog extends Ushahidi_Rest {
 
-	protected $_action_map = array
-	(
-		Http_Request::GET   => 'get',
-		Http_Request::POST  => 'post',
-		Http_Request::OPTIONS => 'options'
-	);
 	protected function _scope()
 	{
 		return 'posts';
@@ -24,25 +18,25 @@ class Controller_API_Posts_ChangeLog extends Ushahidi_Rest {
 		return 'posts_changelog';
 	}
 
+	// Ushahidi_Rest
 	public function action_post_index_collection()
 	{
-		Kohana::$log->add(Log::INFO, 'You have posted to changelog.');
-
-		$this->_usecase = service('factory.usecase')
-			->get($this->_resource(), 'create')
-			->setPayload($this->_payload());
-	}
-
-	public function action_get_index_collection()
-	{
-		//Kohana::$log->add(Log::INFO, 'You have reached the changelog collection...: ');
-
-		$this->_usecase = service('factory.usecase')
- 		->get($this->_resource(), 'read');
+		parent::action_post_index_collection();
 
 		$this->_usecase->setIdentifiers($this->request->param());
 	}
 
+
+	// Ushahidi_Rest
+	public function action_get_index_collection()
+	{
+		parent::action_get_index_collection();
+
+		$this->_usecase->setIdentifiers($this->request->param());
+		$this->_usecase->setFilters($this->request->query() + [
+			'post_id' => $this->request->param('post_id')
+			]);
+	}
 
 
 }

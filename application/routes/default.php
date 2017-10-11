@@ -14,20 +14,6 @@
 $apiVersion = '3';
 $apiBase = 'api/v' . $apiVersion . '/';
 
-/**
-	*
-*/
-Route::set('posts_changelog', $apiBase . 'posts/<post_id>/changelog(/<entry_id>)',
-		array(
-		'post_id' => '\d+',
-		'entry_id' => '\d+'
-	))->defaults(array(
-		'action'     => 'index',
-		'directory'  => 'Api/Posts',
-		'controller' => 'ChangeLog',
-));
-
-
 
 /**
  * Custom media router.
@@ -129,6 +115,21 @@ Route::set('geojson-post-id', $apiBase . 'posts/<id>/geojson',
 		'controller' => 'GeoJSON',
 		'directory'  => 'Api/Posts'
 	));
+
+
+
+/**
+	* Posts Changelog API Route
+*/
+Route::set('posts_changelog', $apiBase . 'posts/(<post_id>/)changelog(/<entry_id>)',
+		array(
+		'post_id' => '\d+',
+		'entry_id' => '\d+'
+	))->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api/Posts',
+		'controller' => 'ChangeLog',
+));
 
 /**
  * Posts API SubRoute

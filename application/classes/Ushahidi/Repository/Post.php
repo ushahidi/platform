@@ -77,8 +77,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	 * @param Database                              $db
 	 * @param FormAttributeRepository               $form_attribute_repo
 	 * @param FormStageRepository                   $form_stage_repo
-	 * @param ChangelogRepository                   #changelog_repo
-	 * @param Ushahidi_Repository_Post_ValueFactory  $post_value_factory
+	 * @param ChangelogRepository                   $changelog_repo
+	 * @param Ushahidi_Repository_Post_ValueFactory $post_value_factory
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
 	public function __construct(
@@ -125,16 +125,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		if (!empty($data['id']))
 		{
-			\Log::instance()->add(\Log::INFO, 'Data for id is not empty...:'.print_r($data['id'], true));
-
-			
 			$data += [
 				'values' => $this->getPostValues($data['id']),
 				// Continued for legacy
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
-				'changelog' => $this->getChangelogForPost($data['id']),
+				//'changelog' => $this->getChangelogForPost($data['id']),
 			];
 		}
 		// NOTE: This and the restriction above belong somewhere else,
@@ -904,7 +901,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['changelog']);
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
 
 		// Set default value for post_date
 		if (empty($post['post_date'])) {
