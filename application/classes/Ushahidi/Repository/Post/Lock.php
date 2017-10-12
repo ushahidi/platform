@@ -85,11 +85,11 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		return;
 	}
 
-	public function isActive($entity_id)
+	public function isActive($post_id)
 	{
 		$result = DB::select('expires')
 			->from('post_locks')
-			->where('post_id', '=', $entity_id)
+			->where('post_id', '=', $post_id)
 			->limit(1)
 			->execute($this->db);
 
@@ -101,7 +101,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 			// Locks are active for a maximum of 5 minutes
 			if(($curtime - $time) > 300)
 			{
-				$release = $this->releaseLock($entity_id);
+				$release = $this->releaseLock($post_id);
 				return false;
 			}
 			return true;
@@ -109,16 +109,16 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		return false;
 	}
 
-	public function postIsLocked($entity_id)
+	public function postIsLocked($post_id)
 	{
 		$user = $this->getUser();	
-		$lock = $this->getPostLock($entity_id);
+		$lock = $this->getPostLock($post_id);
 
-		if (!$lock) {
+		if (empty($lock)) {
 			return false;
-		} elseif ($user->id === $lock['user_id']) {
+		} elseif ($user->id === (int)$lock['user_id']) {
 			return false;
-		} elseif (!$this->isActive($entity_id)) {
+		} elseif (!$this->isActive($post_id)) {
 			return false;
 		}
 
@@ -127,23 +127,42 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 
 	public function getLock(Entity $entity)
 	{
-		
-		if(!$this->isActive($entity->id))
+		// If the lock is inactive simply create a new
+		// lock
+		// If the user already owns a lock that is active
+		// return that lock id
+		// Otherwise we return null
+		if (!$this->isActive($entity->id))
 		{
-			$expires = strtotime("+10 minutes");
+			$expires = strtotime("+5 minutes");
 			$user = $this->getUser();
 			$lock = [
 				'user_id' => $user->id,
 				'post_id' => $entity->id,
 				'expires' => $expires
 			];
+
 			$query = DB::insert('post_locks')
 				->columns(array_keys($lock))
 				->values(array_values($lock));
+
 			list($id) = $query->execute($this->db);
+
 			return $id;
+		} elseif ($this->userOwnsLock($entity->id)) {
+			$lock = $this->getPostLock($entity->id);
+			return $lock['id'];
 		}
 		return null;
+	}
+
+	// TODO: Most of these functions can besimplified with a proper ORM
+	public function userOwnsLock($post_id)
+	{
+		$user = $this->getUser();
+		$lock = $this->getPostLock($post_id);
+
+		return $lock ? $user->id === $lock['user_id'] : false;
 	}
 
 	public function getPostLock($entity_id)

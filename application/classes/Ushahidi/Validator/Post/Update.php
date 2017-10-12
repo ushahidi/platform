@@ -36,10 +36,10 @@ class Ushahidi_Validator_Post_Update extends Ushahidi_Validator_Post_Create
 	 */
 	public function checkLock(Validation $validation, $fullData)
 	{
-        // Check stage exists in form
+        // Check if Post is locked
         if ($this->post_lock_repo->postIsLocked($fullData['id']))
         {
-            $validation->error('lock', 'alreadyLockedByDifferentUser', [$user->realname]);
+            $validation->error('title', 'alreadyLockedByDifferentUser');
             return;
         }
 	}

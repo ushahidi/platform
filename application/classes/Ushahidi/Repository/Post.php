@@ -138,9 +138,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'lock' => NULL,
 			];
 
-			if ($this->canUserSeePostLock(new Post($data), $user)) {
-				$data['lock'] = $this->post_lock_repo->getPostLock($data['id']);
-			}
+			// ATTENTION: For now all users can see Post Locks but only those 
+			// with Manage::Post permission or Admin status can unlock
+			// if ($this->canUserSeePostLock(new Post($data), $user)) {
+			$data['lock'] = $this->post_lock_repo->getPostLock($data['id']);
+			//}
 		}
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
