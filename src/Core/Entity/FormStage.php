@@ -23,8 +23,8 @@ class FormStage extends StaticEntity
 	protected $type;
 	protected $required;
 	protected $show_when_published;
-	protected $task_is_internal_only;
 	protected $description;
+	protected $task_is_internal_only;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -33,13 +33,13 @@ class FormStage extends StaticEntity
 			'id'       => 'int',
 			'description' => 'string',
 			'show_when_published' => 'boolean',
-			'task_is_internal_only' => 'boolean',
 			'type'     => 'string',
 			'form_id'  => 'int',
 			'label'    => 'string',
 			'priority' => 'int',
 			'icon'     => 'string',
-			'required' => 'boolean'
+			'required' => 'boolean',
+			'task_is_internal_only' => 'boolean'
 		];
 	}
 

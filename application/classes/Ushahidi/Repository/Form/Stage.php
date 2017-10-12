@@ -65,11 +65,9 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 
 		$user = $this->getUser();
 		if (!$this->canUserEditForm($form_id, $user)) {
-
 			$query->where('show_when_published', '=', "1");
 
-			if ($post_status !== 'published')
-			{
+			if ($post_status !== 'published') {
 				$query->where('task_is_internal_only', '=', "0");
 			}
 		}
@@ -162,7 +160,6 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		* Retrieve Hidden Stage IDs for a given form
 		* if no form is found return false
 		* @param  $form_id
-		* @param $post_status
 		* @return Array
 		*/
 	public function getHiddenStageIds($form_id, $post_status)
@@ -173,8 +170,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 					->from('form_stages')
 					->where('form_id', '=', $form_id);
 
-			if ($post_status === 'published')
-			{
+			if ($post_status === 'published') {
 				$query->where('show_when_published', '=', 0);
 			} else {
 				$query->and_where_open()

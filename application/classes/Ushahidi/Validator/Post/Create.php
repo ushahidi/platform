@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
+use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Traits\UserContext;
@@ -40,6 +41,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	protected $attribute_repo;
 	protected $stage_repo;
 	protected $tag_repo;
+	protected $post_lock_repo;
 	protected $user_repo;
 	protected $post_value_factory;
 	protected $post_value_validator_factory;
@@ -66,6 +68,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		UserRepository $user_repo,
 		FormRepository $form_repo,
 		RoleRepository $role_repo,
+		PostLockRepository $post_lock_repo,
 		Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 		Ushahidi_Validator_Post_ValueFactory $post_value_validator_factory)
 	{
@@ -76,6 +79,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		$this->user_repo = $user_repo;
 		$this->form_repo = $form_repo;
 		$this->role_repo = $role_repo;
+		$this->post_lock_repo = $post_lock_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->post_value_validator_factory = $post_value_validator_factory;
 	}
@@ -190,7 +194,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 
 		$user = $this->getUser();
 		// Do we have permission to publish this post?
-		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->acl->hasPermission($user, Permission::MANAGE_POSTS) or $this->acl->hasPermission($user, Permission::PUBLISH_POSTS));
+		$userCanChangeStatus = ($this->isUserAdmin($user) or $this->acl->hasPermission($user, Permission::MANAGE_POSTS));
 		// .. if yes, any status is ok.
 		if ($userCanChangeStatus) {
 			return;
@@ -283,7 +287,6 @@ class Ushahidi_Validator_Post_Create extends Validator
 	 */
 	public function checkStageInForm(Validation $validation, $completed_stages, $fullData)
 	{
-		$completed_stages = !empty($fullData['completed_stages']) ? $fullData['completed_stages'] : [];
 		if (!$completed_stages)
 		{
 			return;

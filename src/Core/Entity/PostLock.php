@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Ushahidi Post Locks Entity
  *
@@ -13,13 +12,12 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class PostLocks extends StaticEntity
+class PostLock extends StaticEntity
 {
 	protected $id;
 	protected $user_id;
 	protected $post_id;
 	protected $expires;
-
 	// StatefulData
 	protected function getDerived()
 	{
@@ -29,7 +27,6 @@ class PostLocks extends StaticEntity
             'post_id' => ['post', 'post.id'],
 		];
 	}
-
 	// DataTransformer
 	protected function getDefinition()
 	{
@@ -37,18 +34,16 @@ class PostLocks extends StaticEntity
 			'id'            	=> 'int',
 			'user'          	=> false,
 			'user_id'       	=> 'int',
-            'post'          	=> false,
+			'post'          	=> false,
 			'post_id'       	=> 'int',
 			'expires'       	=> 'int',
 		];
 	}
-
 	// Entity
 	public function getResource()
 	{
 		return 'post_locks';
 	}
-
 	// StatefulData
 	protected function getImmutable()
 	{

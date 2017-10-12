@@ -1,8 +1,7 @@
 <?php
-
 use Phinx\Migration\AbstractMigration;
 
-class PostLockTable extends AbstractMigration
+class AddPostLockTable extends AbstractMigration
 {
     /**
      * Migrate Up.
@@ -24,7 +23,6 @@ class PostLockTable extends AbstractMigration
           ->create()
           ;
     }
-
     /**
      * Migrate Down.
      */

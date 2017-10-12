@@ -4,6 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 class AddInternalTaskOnlyToFormStage extends AbstractMigration
 {
+
     /**
      * Migrate Up.
      */

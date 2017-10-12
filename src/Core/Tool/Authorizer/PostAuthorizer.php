@@ -114,7 +114,7 @@ class PostAuthorizer implements Authorizer
         }
 
         // Non-admin users are not allowed to create posts for forms that have restricted access.
-        if ($privilege === 'create'
+        if (in_array($privilege, ['create', 'update', 'lock'])
             && $this->isFormRestricted($entity, $user)
             ) {
             return false;
@@ -130,23 +130,14 @@ class PostAuthorizer implements Authorizer
             return true;
         }
 
-        // If the user has View Any Posts permission, they can read it
-        if ($privilege === 'read' && $this->acl->hasPermission($user, Permission::VIEW_ANY_POSTS)) {
-            return true;
-        }
-
         // If entity isn't loaded (ie. pre-flight check) then *anyone* can view it.
         if ($privilege === 'read' && ! $entity->getId()) {
             return true;
         }
 
-        // Only admins or users with 'Manage Posts' or 'Publish Posts' permission can change status
+        // Only admins or users with 'Manage Posts' permission can change status
         if ($privilege === 'change_status') {
-            if ($this->acl->hasPermission($user, Permission::PUBLISH_POSTS)) {
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
 
         // Only admins or users with 'Manage Posts' permission can change the ownership of a post
@@ -158,18 +149,8 @@ class PostAuthorizer implements Authorizer
         // they are allowed to edit or delete the post. They can't change the post status or
         // ownership but those are already checked above
         if ($this->isUserOwner($entity, $user)
-            && in_array($privilege, ['update', 'delete'])
+            && in_array($privilege, ['update', 'delete', 'lock'])
             && $this->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
-            return true;
-        }
-
-        // If user has Edit Any Posts, they can update the post
-        if ($privilege === 'update' && $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS)) {
-            return true;
-        }
-
-        // If user has Delete Posts, they can delete the post
-        if ($privilege === 'delete' && $this->acl->hasPermission($user, Permission::DELETE_POSTS)) {
             return true;
         }
 

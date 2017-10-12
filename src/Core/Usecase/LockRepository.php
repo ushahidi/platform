@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Ushahidi Platform Create Repository
  *

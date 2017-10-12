@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API Formatter Break Lock
+ * Ushahidi Post Lock Create Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,15 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Tool\Formatter;
-
-class Ushahidi_Formatter_Post_BreakLock implements Formatter
+class Ushahidi_Validator_Post_Lock_Create extends Ushahidi_Validator_Post_Lock_Update
 {
-
-	public function __invoke($lock_id)
-	{ 
-		return [
-            'id' => $lock_id
-        ];
+	protected function getRules()
+	{
+		return array_merge_recursive(parent::getRules(), [
+			'post_id' => [
+				['not_empty'],
+			],
+		]);
 	}
 }

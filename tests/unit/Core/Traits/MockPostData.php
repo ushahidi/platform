@@ -1,23 +1,12 @@
 <?php
 
-/**
- * Ushahidi Post
- *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Platform
- * @copyright  2014 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
- */
+namespace Tests\Unit\Core\Traits;
 
-namespace Ushahidi\Core\Entity;
-
-use Ushahidi\Core\StaticEntity;
-use Ushahidi\Core\Traits\Permissions\ManagePosts;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
-
-class Post extends StaticEntity
+class MockPostData
 {
-	protected $id;
+	use \Ushahidi\Core\Traits\StatefulData;
+    
+    protected $id;
 	protected $parent_id;
 	protected $form_id;
 	protected $user_id;
@@ -40,36 +29,36 @@ class Post extends StaticEntity
 	protected $published_to;
 	protected $completed_stages;
 	protected $sets;
-	protected $lock;
 	// Source when from external provider: SMS, Email, etc
 	protected $source;
 	// When originating in an SMS message
 	protected $contact_id;
 
-	// StatefulData
-	protected function getDerived()
+    public function __get($key)
+    {
+        if (property_exists($this, $key)) {
+			return $this->$key;
+		}
+    }
+
+    public function __isset($key)
 	{
-		return [
-			'slug'    => function ($data) {
-				if (array_key_exists('title', $data)) {
-					// Truncate the title to 137 chars so that the
-					// 13 char uniqid will fit
-					$slug = $data['title'];
-					if (strlen($slug) >= 137) {
-						$slug = substr($slug, 0, 136);
-					}
-					return $slug . ' ' . uniqid();
-				}
-				return false;
-			},
-			'form_id'   => ['form', 'form.id'], /* alias */
-			'user_id'   => ['user', 'user.id'], /* alias */
-			'parent_id' => ['parent', 'parent.id'], /* alias */
-		];
+		return property_exists($this, $key);
 	}
 
-	// DataTransformer
-	protected function getDefinition()
+	public function asArray()
+	{
+		return get_object_vars($this);
+	}
+
+	protected function setStateValue($key, $value)
+	{
+		if (property_exists($this, $key)) {
+			$this->$key = $value;
+		}
+	}
+
+    protected function getDefinition()
 	{
 		return [
 			'id'              => 'int',
@@ -92,21 +81,29 @@ class Post extends StaticEntity
 			'values'          => 'array',
 			'tags'            => 'array',
 			'published_to'    => '*json',
-			'completed_stages'=> '*arrayInt',
+			'completed_stages'=> 'array',
 			'sets'            => 'array',
-			'lock'            => 'array',
 		];
 	}
 
-	// Entity
-	public function getResource()
+    protected function getDerived()
 	{
-		return 'posts';
-	}
-
-	// StatefulData
-	protected function getImmutable()
-	{
-		return array_merge(parent::getImmutable(), ['type', 'form_id']);
+		return [
+			'slug'    => function ($data) {
+				if (array_key_exists('title', $data)) {
+					// Truncate the title to 137 chars so that the
+					// 13 char uniqid will fit
+					$slug = $data['title'];
+					if (strlen($slug) >= 137) {
+						$slug = substr($slug, 0, 136);
+					}
+					return $slug . ' ' . uniqid();
+				}
+				return false;
+			},
+			'form_id'   => ['form', 'form.id'], /* alias */
+			'user_id'   => ['user', 'user.id'], /* alias */
+			'parent_id' => ['parent', 'parent.id'], /* alias */
+		];
 	}
 }

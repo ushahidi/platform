@@ -14,6 +14,7 @@ return [
 
 	// Post views
 	'views' => [
+		'data' => TRUE,
 		'map' => TRUE,
 		'list' => TRUE,
 		'chart' => TRUE,
@@ -60,8 +61,16 @@ return [
 		'enabled' => TRUE,
 	],
 
-	// Post locks
+	// Post locking
 	'post-locking' => [
 		'enabled' => TRUE,
+	],
+
+	// Post locking
+	// Defaults to False, tests will fail if set to TRUE 
+	// without complete Redis setup
+	// see TODO <docs link>
+	'redis' => [
+		'enabled' => FALSE,
 	],
 ];

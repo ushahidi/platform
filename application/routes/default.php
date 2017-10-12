@@ -85,7 +85,7 @@ Route::set('post-stats', $apiBase . 'posts/stats')
 	));
 
 /**
- * Lock Post API SubRoute
+ * Lock Posts API SubRoute
  */
 Route::set('post-lock', $apiBase . 'posts(/<post_id>)/lock(/<lock_id>)',
 	array(		
@@ -96,7 +96,8 @@ Route::set('post-lock', $apiBase . 'posts(/<post_id>)/lock(/<lock_id>)',
 		'action'     => 'index',
 		'controller' => 'Lock',
 		'directory'  => 'Api/Posts'
-	));		
+	));	
+	
 
 /**
  * GeoJSON API SubRoute
