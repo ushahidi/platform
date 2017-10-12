@@ -858,7 +858,57 @@ posts:
     created: 1412025016
     published_to: '[]'
     post_date: "2014-09-29 14:10:16"
-
+  -
+    id: 1690
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1691
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1692
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post locking test"
+    type: "report"
+    content: "Post to test locking"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+post_locks:
+  -
+    id: 1
+    post_id: 1692
+    expires: 1412007022
+    user_id: 1 
 posts_changelog:
   -
     id: 1
@@ -887,8 +937,6 @@ posts_changelog:
     item_changed: "blah"
     entry_type: "m"
     content: "Here is some content"
-
-
 post_datetime:
 post_decimal:
 post_geometry:

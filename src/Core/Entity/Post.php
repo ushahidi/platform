@@ -40,6 +40,7 @@ class Post extends StaticEntity
 	protected $published_to;
 	protected $completed_stages;
 	protected $sets;
+	protected $lock;
 
 	// Source when from external provider: SMS, Email, etc
 	protected $source;
@@ -94,6 +95,7 @@ class Post extends StaticEntity
 			'published_to'    => '*json',
 			'completed_stages'=> '*arrayInt',
 			'sets'            => 'array',
+			'lock'            => 'array',
 		];
 	}
 
