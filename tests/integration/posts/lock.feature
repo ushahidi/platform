@@ -38,9 +38,9 @@ Feature: Testing Post Lock
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
         And the response has a "lock" property
-        And the response has a "lock.user_id" property
-        And the type of the "lock.user_id" property is "numeric"
-        And the response has a "lock.user_id" property
+        And the response has a "lock.user" property
+        And the response has a "lock.user.id" property
+        And the type of the "lock.user.id" property is "numeric"
         And the "lock.post_id" property equals "1691"
         Then the guzzle status code should be 200
     
@@ -60,9 +60,9 @@ Feature: Testing Post Lock
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
         And the response has a "lock" property
-        And the response has a "lock.user_id" property
-        And the type of the "lock.user_id" property is "numeric"
-        And the response has a "lock.user_id" property
+        And the response has a "lock.user" property
+        And the response has a "lock.user.id" property
+        And the type of the "lock.user.id" property is "numeric"
         And the "lock.post_id" property equals "1692"
         Then the guzzle status code should be 200
         Given that I want to update a "Post"

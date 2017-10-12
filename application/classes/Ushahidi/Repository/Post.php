@@ -141,7 +141,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			// ATTENTION: For now all users can see Post Locks but only those 
 			// with Manage::Post permission or Admin status can unlock
 			// if ($this->canUserSeePostLock(new Post($data), $user)) {
-			$data['lock'] = $this->post_lock_repo->getPostLock($data['id']);
+			$data['lock'] = $this->getHydratedLock($data['id']);
 			//}
 		}
 		// NOTE: This and the restriction above belong somewhere else,
@@ -161,6 +161,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		return new Post($data);
 	}
+
+	protected function getHydratedLock($post_id)
+	{
+		$lock_array = $this->post_lock_repo->getPostLock($post_id);
+		
+		return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : NULL;
+	}
+
 
 	// Ushahidi_JsonTranscodeRepository
 	protected function getJsonProperties()
