@@ -20,7 +20,8 @@ abstract class Ushahidi_Repository implements
 	Usecase\UpdateRepository,
 	Usecase\DeleteRepository,
 	Usecase\SearchRepository,
-	Usecase\ImportRepository
+	Usecase\ImportRepository,
+	Usecase\LockRepository
 {
 
 	use CollectionLoader;
@@ -286,6 +287,7 @@ abstract class Ushahidi_Repository implements
 	 */
 	protected function executeDelete(Array $where)
 	{
+		
 		if (!$where) {
 			throw new RuntimeException(sprintf(
 				'Cannot delete every record in table "%s"',
@@ -300,6 +302,7 @@ abstract class Ushahidi_Repository implements
 		}
 
 		$count = $query->execute($this->db);
+
 		return $count;
 	}
 

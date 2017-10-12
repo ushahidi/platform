@@ -20,6 +20,12 @@ use Ushahidi\Core\Entity\FormRepository;
 
 trait PostValueRestrictions
 {
+
+	public function canUserSeePostLock(Post $post, $user)
+	{
+		return $this->canUserEditForm($post->form_id, $user);
+	}
+
 	public function canUserSeeAuthor(Post $post, FormRepository $form_repo, $user)
 	{
 
