@@ -111,6 +111,7 @@
         "test" : [
             "phpunit --no-coverage",
             "phpspec run --no-code-generation",
+            "behat --strict --profile ci --tags postchangelog --format pretty",
             "behat --strict --profile ci"
         ]
     }
