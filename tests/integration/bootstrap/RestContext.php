@@ -250,8 +250,6 @@ class RestContext implements Context
 		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
 			// Don't care.
 			// 4xx and 5xx statuses are valid error responses
-			$respbody = substr($http_request->getResponse()->getBody(true), true), 0,1000);
-			\Log::instance()->add(\Log::ERROR, 'Response'.print_r($respbody, true));
 		}
 
 		// Get response object
