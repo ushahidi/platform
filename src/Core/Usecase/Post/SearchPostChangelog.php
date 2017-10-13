@@ -26,14 +26,13 @@ class SearchPostChangelog extends SearchUsecase
 	use IdentifyRecords,
 		VerifyEntityLoaded;
 
-			protected function verifyPostExists()
-			{
-				\Log::instance()->add(\Log::INFO, 'In Verify ');
+	protected function verifyPostExists()
+	{
+		\Log::instance()->add(\Log::INFO, 'In Verify ');
 
-				if ($identifier = $this->getIdentifier('post_id')) {
-					$post = $this->post_repo->get($identifier);
-					$this->verifyEntityLoaded($post, $this->identifiers);
-				}
-			}
-
+		if ($identifier = $this->getIdentifier('post_id')) {
+			$post = $this->post_repo->get($identifier);
+			$this->verifyEntityLoaded($post, $this->identifiers);
+		}
+	}
 }

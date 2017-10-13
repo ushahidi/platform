@@ -45,6 +45,4 @@ class PostsChangeLog extends StaticEntity
 	{
 		return 'posts_changelog';
 	}
-
-
 }

@@ -8,8 +8,8 @@ class AddPostsChangelogTable extends AbstractMigration
      /**
       * Migrate Up.
       */
-     public function up()
-     {
+    public function up()
+    {
          $this->table('posts_changelog')
          //string = Text
          ->addColumn('created', 'string', ['limit' => 11])
@@ -28,13 +28,13 @@ class AddPostsChangelogTable extends AbstractMigration
                      'update' => 'CASCADE',
                      ])
            ->create();
-     }
+    }
 
      /**
       * Migrate Down.
       */
-     public function down()
-     {
+    public function down()
+    {
          $this->dropTable('posts_changelog');
-     }
+    }
 }

@@ -259,7 +259,8 @@ trait StatefulData
 		return $result;
 	}
 
-	public function getAllChangedFor($key) {
+	public function getAllChangedFor($key)
+	{
 	    $result = !empty(static::$changed[$this->getObjectId()][$key]);
 			return static::$changed[$this->getObjectId()][$key];
 	}
