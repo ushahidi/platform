@@ -250,11 +250,13 @@ class RestContext implements Context
 		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
 			// Don't care.
 			// 4xx and 5xx statuses are valid error responses
+			\Log::instance()->add(\Log::ERROR, 'Response'.substr(print_r($http_request->getResponse()->getBody(true), true),0,1000));
+
 		}
 
 		// Get response object
 		$this->response = $http_request->getResponse();
-	
+
 		// Create fake response object if Guzzle doesn't give us one
 		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
 			$this->response = new \Guzzle\Http\Message\Response(null, null, null);

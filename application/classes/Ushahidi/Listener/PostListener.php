@@ -36,7 +36,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 
 	public function setChangeLogRepo(PostsChangeLogRepository $changelog_repo)
 	{
-			$this->changelog_repo = $changelog_repo;
+		$this->changelog_repo = $changelog_repo;
 	}
 
 //TODO: this is ugly, because we're only receiving the ID here.

@@ -44,23 +44,22 @@ class Ushahidi_Listener_PostSetListener extends AbstractListener
   {
 		Kohana::$log->add(Log::INFO, 'This post: '.$post_id.' was '.$event_type.' this set: '.print_r($set_id, true) );
 
-	try {
-		$changelog_state = [
-				'post_id'=> $post_id,
-				'change_type' => 'Changed collection',
-				'item_changed' => 'Collections',
-				'content'=> $set_id,
-				'entry_type'=> 'a',
+		try {
+			$changelog_state = [
+			'post_id'=> $post_id,
+			'change_type' => 'Changed collection',
+			'item_changed' => 'Collections',
+			'content'=> $set_id,
+			'entry_type'=> 'a',
 		];
-
-		//handle changes to collections
-		$changelog_entity = $this->changelog_repo->getEntity();
-		$changelog_entity->setState($changelog_state);
-		$this->changelog_repo->create($changelog_entity);
-	}catch (Exception $e)
-	{
-		Kohana::$log->add(Log::INFO, 'trying to handle a collection change event.' );
-	}
+			//handle changes to collections
+			$changelog_entity = $this->changelog_repo->getEntity();
+			$changelog_entity->setState($changelog_state);
+			$this->changelog_repo->create($changelog_entity);
+		}catch (Exception $e)
+		{
+			Kohana::$log->add(Log::INFO, 'trying to handle a collection change event.' );
+		}
 
 		// Insert into Notification Queue
 		$state = [
