@@ -120,32 +120,3 @@ Feature: Testing the Post Changelog API
         And the "content" property equals "Here is a post from Behat"
         And the "post_id" property equals "99"
         Then the guzzle status code should be 200
-
-    Scenario: Updating title of Post should create a Changelog entry
-
-    Scenario: Updating description of Post should create a Changelog entry
-
-    Scenario: Updating a survey field in Post should create a Changelog entry
-
-@updatingpostsforchangelog
-    Scenario: Adding a post to collections creates an entry in Changelog
-        Given that I want to make a new "Post"
-        And that the request "data" is:
-            """
-            {
-                "id":1692
-            }
-            """
-        When I request "/collections/1/posts/"
-        Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
-        And the "id" property equals "1692"
-        Then the guzzle status code should be 200
-        Given that I want to get all "Changelogs"
-        When I request "/posts/1692/changelog"
-        Then the response is JSON
-        And the response has a "post_id" property
-        And the type of the "post_id" property is "numeric"
-        And the "post_id" property equals "1692"
-        Then the guzzle status code should be 200
