@@ -28,8 +28,6 @@ class SearchPostChangelog extends SearchUsecase
 
 	protected function verifyPostExists()
 	{
-		\Log::instance()->add(\Log::INFO, 'In Verify ');
-
 		if ($identifier = $this->getIdentifier('post_id')) {
 			$post = $this->post_repo->get($identifier);
 			$this->verifyEntityLoaded($post, $this->identifiers);
