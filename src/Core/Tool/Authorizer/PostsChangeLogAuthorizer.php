@@ -28,10 +28,10 @@ class PostsChangeLogAuthorizer implements Authorizer
 	// The access checks are run under the context of a specific user
 	use UserContext;
 
-  // It uses methods from several traits to check access:
-  // - `OwnerAccess` to check if a user owns the post, the
-  // - `AdminAccess` to check if the user has admin access
-  use AdminAccess, OwnerAccess;
+	// It uses methods from several traits to check access:
+	// - `OwnerAccess` to check if a user owns the post, the
+	// - `AdminAccess` to check if the user has admin access
+	use AdminAccess, OwnerAccess;
 
 	// Check that the user has the necessary permissions
 	// if roles are available for this deployment.

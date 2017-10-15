@@ -72,7 +72,6 @@ class RecursiveImplodeTest extends \PHPUnit\Framework\TestCase
     public function testRecursiveImplode()
     {
         $mock = new MockMultidimensionalArray();
-        $isthishere = new \RecursiveIteratorIterator();
         $original_array1 = ['key0_level0'=>'val0_level0', 'key1_level0'=>'val1_level0',
         'keytoarray0_level0'=>[
             'key0_level1'=>'val0_level1',
