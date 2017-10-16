@@ -23,6 +23,7 @@ trait PostValueRestrictions
 
 	public function canUserSeePostLock(Post $post, $user)
 	{
+		// At present only logged in users with Manage Post Permission can see that a Post is locked
 		return $this->canUserEditForm($post->form_id, $user);
 	}
 
