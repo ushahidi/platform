@@ -14,23 +14,37 @@ namespace Ushahidi\Core\Usecase\Post;
 use Ushahidi\Core\Usecase\DeleteUsecase;
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity\PostLock;
+use Ushahidi\Core\Traits\UserContext;
 
 class DeletePostLock extends DeleteUsecase
 {
+    // Provides getUser()
+	use UserContext;
+
     use PostLockTrait;
+
     // Usecase
 	public function interact()
 	{
 		// Fetch a default entity and apply the payload...
 		$post = $this->getPostEntity();
         $lock = new PostLock();
-		// ... verify that the entity can be created by the current user
+
+		// ... verify that the entity can be locked by the current user
 		$this->verifyLockAuth($post);
 
+        // We have 3 mechanisms by which a lock(s) can be release
+        // by lock id, by post id or by user id
+        // In the case of user id we release all locks owned by this user
 		if ($this->getIdentifier('lock_id')) {
             $lock = $this->repo->releaseLockByLockId($this->getIdentifier('lock_id'));
-        } else {
+        } elseif ($this->getIdentifier('post_id')) {
             $lock = $this->repo->releaseLock($post->id);
+        } else {
+            $user = $this->getUser();
+            if ($user->id) {
+                $this->repo->releaseLocksByUserId($user->id);
+            }
         }
 
         return $this->formatter->__invoke($lock);
