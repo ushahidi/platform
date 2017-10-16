@@ -22,6 +22,14 @@ deploy:
   image: ushahidi/engineering-deployer:latest
   encrypted_env_file: deployment.env.encrypted
 
+director:
+  image: ushahidi/engineering-deployer:latest
+  encrypted_env_file: deployment.env.encrypted
+  environment:
+    DEPLOYMENT_RULES_REPO: deployment-rules
+    DEPLOYMENT_RULES_REPO_VERSION: master
+    DEPLOYMENT_RULES_FILE: platform.yml
+
 test:
   build:
     image: test

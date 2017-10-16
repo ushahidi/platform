@@ -41,3 +41,8 @@
     - name: "Deploy Docs (develop)"
       service: awscli
       command: aws s3 sync /vols/src/docs/ s3://preview.ushahidi.com/platform/develop --acl public-read
+
+
+- name: "deployment-director"
+  service: director
+  command: ush-deployment-director.sh
