@@ -146,7 +146,7 @@ Feature: Testing the Post Changelog API
         And the "results.0.content" property equals "Added post to collection."
         Then the guzzle status code should be 200
 
-@updatingtitleforchangelog
+@updatingpostsforchangelog
 
     Scenario: Updating a Post title create a Changelog entry
       Given that I want to update a "Post"
