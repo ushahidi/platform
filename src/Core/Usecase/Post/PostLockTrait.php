@@ -57,8 +57,7 @@ trait PostLockTrait
 
 		$entity = $post_repo->getEntity();
 
-		if ($id = $this->getIdentifier('post_id'))
-		{
+		if ($id = $this->getIdentifier('post_id')) {
 			// ... attempt to load the entity
 			$entity = $post_repo->get($id);
 			// ... and verify that the entity was actually loaded
