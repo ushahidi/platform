@@ -378,7 +378,14 @@ abstract class Ushahidi_Core {
 				$di->lazyGet("authorizer.$name");
 		}
 
+
+
 		$di->setter['Ushahidi_Formatter_Post_Changelog']['setAuth'] = $di->lazyGet("authorizer.posts_changelog");
+
+		// Set user repo for formatter TODO: ?! 
+		$di->setter['Ushahidi_Formatter_Post_Changelog']['setUserRepo'] =
+			$di->lazyGet('repository.user');
+
 
 		$di->setter['Ushahidi_Formatter_Set']['setAuth'] = $di->lazyGet("authorizer.set");
 		$di->setter['Ushahidi_Formatter_CSV']['setAuth'] = $di->lazyGet("authorizer.csv");

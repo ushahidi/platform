@@ -11,30 +11,17 @@
 
 use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Entity\UserRepository;
 
 class Ushahidi_Formatter_Post_Changelog extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
 
-	/**
-	 * Method that can add any kind of additional metadata about the entity,
-	 * by overloading this method in an extended class.
-	 *
-	 * Must return the formatted data!
-	 *
-	 * @param  Array  $data   formatted data
-	 * @param  Entity $entity resource
-	 * @return Array
-	 */
-	protected function add_metadata(Array $data, Entity $entity)
-	{
-		//extending the given data with hydrated values to be included in the GET changelog data
-		return $data;
-	}
+	protected $user_repo;
 
-	protected function hydrateUserData()
+	public function setUserRepo(UserRepository $user_repo)
 	{
-
+		$this->user_repo = $user_repo;
 	}
 
 	/**
@@ -45,7 +32,16 @@ class Ushahidi_Formatter_Post_Changelog extends Ushahidi_Formatter_API
 	 */
 	protected function get_relation($resource, $id)
 	{
-		Kohana::$log->add(Log::INFO, 'Getting relation for id:'.print_r($id, true).' of resource: '.print_r($resource, true));
+
+		if ($resource == 'users')
+		{
+			$user_obj = $this->user_repo->get(['id'=> $id ])->asArray();
+			return !$id ? NULL : [
+				'id'  => intval($id),
+				'realname'  => $user_obj['realname'],
+				'url' => URL::site(Ushahidi_Rest::url($resource, $id), Request::current()),
+			];
+		}
 
 		return !$id ? NULL : [
 			'id'  => intval($id),
