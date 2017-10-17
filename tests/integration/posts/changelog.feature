@@ -147,7 +147,6 @@ Feature: Testing the Post Changelog API
         Then the guzzle status code should be 200
 
 @updatingpostsforchangelog
-
     Scenario: Updating a Post title create a Changelog entry
       Given that I want to update a "Post"
       And that the request "data" is:
@@ -212,16 +211,104 @@ Feature: Testing the Post Changelog API
     And the response has a "id" property
     Given that I want to get all "Changelogs"
     When I request "/posts/1/changelog"
+    And that the request "query string" is:
+      """
+      orderby=created&order=desc
+      """
     Then the response is JSON
     And the response has a "results" property
-    And the response has a "results.1.post_id" property
-    And the type of the "results.1.post_id" property is "numeric"
+    And the response has a "results.0.post_id" property
+    And the type of the "results.0.post_id" property is "numeric"
     And the "results.0.post_id" property equals "1"
-    And the response has a "results.1.content" property
+    And the response has a "results.0.content" property
     # TODO: for the moment, these are all being concatenated into one text blob. Worth reconsidering?
-    And the "results.1.content" property contains "Changed title to"
-    And the "results.1.content" property contains "Updated Test Post"
-    And the "results.1.content" property contains "description"
-    And the "results.1.content" property contains "last-location"
-    And the "results.1.content" property contains "full-name"
+    And the "results.0.content" property contains "Changed title to"
+    And the "results.0.content" property contains "Updated Test Post"
+    And the "results.0.content" property contains "description"
+    And the "results.0.content" property contains "last-location"
+    And the "results.0.content" property contains "full-name"
+    Then the guzzle status code should be 200
+
+@updatingpostvalueswithdates
+  Scenario: Updating missing_date and date_of_birth should log a change for those fields
+    Given that I want to update a "Post"
+    And that the request "data" is:
+      """
+      {
+        "form":1,
+        "title":"Updated Test Post",
+        "type":"report",
+        "status":"published",
+        "locale":"en_US",
+        "values":
+        {
+          "date_of_birth":["2005/10/10"],
+          "missing_date":["2006/10/10"]
+        },
+        "tags":["disaster","explosion"],
+        "completed_stages":[1]
+      }
+      """
+    And that the request "query string" is:
+      """
+      orderby=id&order=desc
+      """
+    And that its "id" is "120"
+    When I request "/posts"
+    Then the response is JSON
+    And the response has a "id" property
+    Given that I want to get all "Changelogs"
+    When I request "/posts/120/changelog"
+    And that the request "query string" is:
+      """
+      orderby=created&order=desc
+      """
+    Then the response is JSON
+    And the response has a "results" property
+    And the response has a "results.0.post_id" property
+    And the "results.0.content" property contains "birth"
+    And the "results.0.content" property contains "missing-date"
+    Then the guzzle status code should be 200
+
+@updatingpostvalueswithoutdates
+  Scenario: Updating a Post without missing_date or date-of-birth values should not log those dates as changed
+    Given that I want to update a "Post"
+    And that the request "data" is:
+      """
+      {
+        "form":1,
+        "title":"Updated Test Post",
+        "type":"report",
+        "status":"published",
+        "locale":"en_US",
+        "values":
+        {
+          "last_location":["Chicago"],
+          "full_name":["David Kobia"],
+          "description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+          "missing_status":["believed_missing"]
+        },
+        "tags":["disaster","explosion"],
+        "completed_stages":[1]
+      }
+      """
+     And that the request "query string" is:
+      """
+      orderby=id&order=desc
+      """
+    And that its "id" is "99"
+    When I request "/posts"
+    Then the response is JSON
+    And the response has a "id" property
+    Given that I want to get all "Changelogs"
+    When I request "/posts/99/changelog"
+    And that the request "query string" is:
+      """
+      orderby=created&order=desc
+      """
+    Then the response is JSON
+    And the response has a "results" property
+    And the response has a "results.0.post_id" property
+    And the "results.0.content" property does not contain "birth"
+    And the "results.0.content" property does not contain "missing-date"
     Then the guzzle status code should be 200
