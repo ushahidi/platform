@@ -15,8 +15,8 @@ use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Ushahidi\Core\Entity\PostsChangeLogRepository;
 use Ushahidi\Core\Entity\UserRepository;
-//use Ushahidi\Core\Entity\PostRepository; // can't include here
-//use Ushahidi\Core\Entity\SetRepository; // can't include here
+//use Ushahidi\Core\Entity\PostRepository; // redirection issue! - can't include here
+//use Ushahidi\Core\Entity\SetRepository; // redirection issue! - can't include here
 use Ushahidi\Core\Traits\RecursiveImplode;
 
 class Ushahidi_Listener_ChangelogListener extends AbstractListener
@@ -45,8 +45,8 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
     public function handle(EventInterface $event, $postEntity = null, $event_type = null)
     {
         Kohana::$log->add(Log::INFO, 'Changelog listener has intercepted an event! '.print_r($event_type, true).'!');
-        Kohana::$log->add(Log::INFO, 'Entire postentity attached?: '.print_r($postEntity, true).'!');
-        
+        Kohana::$log->add(Log::INFO, 'What object is this?: '.print_r($postEntity, true));
+
         if ($event_type == 'update') {
             $changes_array = $postEntity->getChanged();
             $flat_changeset = [];
@@ -104,7 +104,8 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
             foreach ($changed_items as $changed_key => $changed_value) {
                 if (is_array($changed_value)) {
                     if ($changed_key == 'values') {
-                        //go one level into this.
+                        //go only one level into this array, but then just concat the changes as text, since we're
+                        // presumably already at the individual field level
                         foreach ($changed_value as $values_key => $values_val) {
                             $imploded_str = $this->recursiveArrayImplode(" ", $values_val);
                             $flat_changeset = array_merge($flat_changeset, [$values_key => $imploded_str ]);
