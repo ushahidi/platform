@@ -54,12 +54,15 @@ trait PostLockTrait
 	protected function getPostEntity()
 	{
 		$post_repo = $this->getPostRepository();
-		// Entity will be loaded using the provided id
-		$id = $this->getRequiredIdentifier('post_id');
-		// ... attempt to load the entity
-		$entity = $post_repo->get($id);
-		// ... and verify that the entity was actually loaded
-		$this->verifyEntityLoaded($entity, compact('id'));
+
+		$entity = $post_repo->getEntity();
+
+		if ($id = $this->getIdentifier('post_id')) {
+			// ... attempt to load the entity
+			$entity = $post_repo->get($id);
+			// ... and verify that the entity was actually loaded
+			$this->verifyEntityLoaded($entity, compact('id'));
+		}
 		// ... then return it
 		return $entity;
 	}

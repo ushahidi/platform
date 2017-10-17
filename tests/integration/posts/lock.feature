@@ -80,4 +80,3 @@ Feature: Testing Post Lock
         And the response does not have a "lock" property
         Then the guzzle status code should be 200
 
-

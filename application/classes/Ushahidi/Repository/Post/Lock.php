@@ -75,6 +75,23 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		return $lock;
 	}
 
+	public function releaseLocksByUserId($user_id)
+	{
+		$results = DB::select()->from('post_locks')
+			->where('user_id', '=', $user_id)
+			->execute();
+		
+		$locks = $this->getCollection($results->as_array());
+
+		foreach($locks as $lock) {
+			$this->warnUserLockBroken($lock->user_id);
+
+			$this->delete($lock);
+		}
+
+		return;
+	}
+
 	public function warnUserLockBroken($user_id) {
 		$user = $this->getUser();
 
