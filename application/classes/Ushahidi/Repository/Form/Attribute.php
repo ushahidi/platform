@@ -16,6 +16,9 @@ use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
@@ -24,16 +27,23 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	FormAttributeRepository
 {
 	use UserContext;
+	// Checks if user is Admin
+	use AdminAccess;
+
+	// Provides `acl`
+	use AclTrait;
+
+	use PostValueRestrictions;
+
+	// Use the JSON transcoder to encode properties
+	use Ushahidi_JsonTranscodeRepository;
+	use Ushahidi_FormsTagsTrait;
 
 	protected $form_stage_repo;
 
 	protected $form_repo;
 
 	protected $form_id;
-
-	// Use the JSON transcoder to encode properties
-	use Ushahidi_JsonTranscodeRepository;
-	use Ushahidi_FormsTagsTrait;
 
 	/**
 	 * Construct
@@ -76,6 +86,13 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 		if (!$form_id && $form_stage_id) {
 			$form_id = $this->getFormId();
+		}
+
+		// Restrict returned attributes based on User rights
+		$user = $this->getUser();
+		if (!$this->canUserEditForm($form_id, $user)) {
+			$exclude_stages = $this->form_stage_repo->getHiddenStageIds($form_id);
+			$query->where('form_stage_id', 'NOT IN', $exclude_stages);
 		}
 
 		return $query;
@@ -140,6 +157,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		}
 
 		if ($search->form_id) {
+
 			$query
 				->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
 				->where('form_stages.form_id', '=', $search->form_id);

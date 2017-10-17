@@ -162,7 +162,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		* @param  $form_id
 		* @return Array
 		*/
-	public function getHiddenStageIds($form_id, $post_status)
+	public function getHiddenStageIds($form_id, $post_status = null)
 	{
 			$stages = [];
 
