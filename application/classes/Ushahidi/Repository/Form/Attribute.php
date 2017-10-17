@@ -91,8 +91,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		// Restrict returned attributes based on User rights
 		$user = $this->getUser();
 		if (!$this->canUserEditForm($form_id, $user)) {
-			$exclude_stages = $this->form_stage_repo->getHiddenStageIds($form_id);
-			$query->where('form_stage_id', 'NOT IN', $exclude_stages);
+			$exclude_stages =  $this->form_stage_repo->getHiddenStageIds($form_id);
+			$exclude_stages ? $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages) : null;
 		}
 
 		return $query;
