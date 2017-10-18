@@ -1,4 +1,4 @@
-FROM ushahidi/php-fpm-nginx:php-5.6
+FROM ushahidi/php-fpm-nginx:php-5.6-stretch
 
 WORKDIR /var/www
 COPY composer.json ./
@@ -7,12 +7,12 @@ RUN composer install --no-autoloader
 
 COPY . .
 RUN chgrp -R 0 . && chmod -R g+rwX . && \
-	usermod -g 0 www-data && \
-	chmod 777 application/cache application/media/uploads application/logs
+    usermod -g 0 www-data && \
+    chmod 777 application/cache application/media/uploads application/logs
 
 COPY docker/run.nginx.conf /etc/nginx/sites-available/platform
 RUN sed -i 's/$HTTP_PORT/'$HTTP_PORT'/' /etc/nginx/sites-available/platform && \
-	rm /etc/nginx/sites-enabled/default && \
+    rm /etc/nginx/sites-enabled/default && \
     ln -s /etc/nginx/sites-available/platform /etc/nginx/sites-enabled/default
 
 COPY docker/common.sh /common.sh
