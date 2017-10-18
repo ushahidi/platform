@@ -17,9 +17,9 @@ interface StatsPostRepository
 {
 
 	/**
-	 * Get Column Names for given Post Data
-	 * @param  Post Data array $data
+	 * Get grouped totals for stats
+	 * @param  SearchData $search
 	 * @return Array
 	 */
-	public function retrieveColumnNameData($data);
+	public function getGroupedTotals(SearchData $search);
 }
