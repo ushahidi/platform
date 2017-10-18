@@ -1,19 +1,17 @@
 <?php
 
 /**
- * Ushahidi Platform Stats Post Repository
+ * Ushahidi Platform Post Export Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
- * @copyright  2014 Ushahidi
+ * @copyright  2017 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Post;
+namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\SearchData;
-
-interface StatsPostRepository
+interface PostExportRepository
 {
 
 	/**
@@ -22,4 +20,10 @@ interface StatsPostRepository
 	 * @return Array
 	 */
 	public function retrieveColumnNameData($data);
+
+    public function retrieveTagNames($tag_ids);
+
+    public function retrieveSetNames($set_ids);
+
+    public function retrieveCompletedStageNames($stage_ids);
 }
