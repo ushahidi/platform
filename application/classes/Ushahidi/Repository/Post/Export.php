@@ -9,10 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\PostRepository;
 
-class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post implements PostExportRepository
+class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 {
 
 	/**
