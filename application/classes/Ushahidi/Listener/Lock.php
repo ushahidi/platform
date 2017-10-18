@@ -34,11 +34,11 @@ class Ushahidi_Listener_Lock extends AbstractListener
 
         if ($user_id) {
             
-            $url = getenv('REDIS_URL');
+            $host = getenv('REDIS_HOST');
             $port = getenv('REDIS_PORT');
             $redis_channel = getenv('REDIS_CHANNEL');
 
-            if ($url && $port) {
+            if ($host && $port) {
                 $redis = new Redis();
 
                 $event = json_encode([
@@ -46,7 +46,7 @@ class Ushahidi_Listener_Lock extends AbstractListener
                     "message" => 'lock_broken'
                 ]);
                 
-                $redis->connect($url, $port);
+                $redis->connect($host, $port);
 
                 $redis->publish($redis_channel, $event);
                 
