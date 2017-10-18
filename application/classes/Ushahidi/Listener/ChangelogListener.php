@@ -15,6 +15,7 @@ use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Ushahidi\Core\Entity\PostsChangeLogRepository;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 //use Ushahidi\Core\Entity\PostRepository; // redirection issue! - can't include here
 //use Ushahidi\Core\Entity\SetRepository; // redirection issue! - can't include here
 use Ushahidi\Core\Traits\RecursiveImplode;
@@ -24,6 +25,7 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
     protected $changelog_repo;
     protected $user_repo;
     protected $set_repo;
+    protected $formstages_repo;
 
     use RecursiveImplode;
 
@@ -42,15 +44,45 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
         $this->set_repo = $set_repo;
     }
 
-    public function handle(EventInterface $event, $postEntity = null, $event_type = null)
+    public function setFormStagesRepo(FormStageRepository $formstages_repo)
     {
-        Kohana::$log->add(Log::INFO, 'Changelog listener has intercepted an event! '.print_r($event_type, true).'!');
-        Kohana::$log->add(Log::INFO, 'What object is this?: '.print_r($postEntity, true));
+        $this->formstages_repo = $formstages_repo;
+    }
 
-        if ($event_type == 'update') {
-            $changes_array = $postEntity->getChanged();
+    public function handle(EventInterface $event, $eventEntity = null, $post_id = null, $event_detail = null)
+    {
+        if(!is_object($eventEntity))
+        {
+            return;
+        }
+        Kohana::$log->add(Log::INFO, 'Changelog listener has intercepted some kind of event!: '.print_r($event->getName(), true).'!');
+        Kohana::$log->add(Log::INFO, 'Passed entity is: '.print_r(get_class($eventEntity), true).'!');
+
+        if ($event->getName() == 'LoggablePostSetEvent' && get_class($eventEntity) == "Ushahidi\Core\Entity\Set")
+        {
+            Kohana::$log->add(Log::INFO, 'Handling a LoggablePostSetEvent...');
+            try {
+                $changelog_state = [
+                'post_id'=> $post_id,
+                'change_type' => 'Changed collection',
+                'item_changed' => 'Collections',
+                'content'=> 'Added post to collection: '.print_r($eventEntity->name, true),
+                'entry_type'=> 'a',
+                ];
+
+                //send this event to the changelog
+                $changelog_entity = $this->changelog_repo->getEntity();
+                $changelog_entity->setState($changelog_state);
+                $this->changelog_repo->create($changelog_entity);
+            } catch (Exception $e) {
+                Kohana::$log->add(Log::INFO, 'trying to send a post/collection change to changelog.'.print_r($e, true));
+            }
+
+        }else if($event->getName() == 'LoggablePostUpdateEvent' && get_class($eventEntity) == "Ushahidi\Core\Entity\Post") {
+
+            $changes_array = $eventEntity->getChanged();
             $flat_changeset = [];
-            $flat_changeset = $this->getIsolatedChangesForPost($postEntity, $changes_array);
+            $flat_changeset = $this->getIsolatedChangesForPost($eventEntity, $changes_array);
 
             if (count($flat_changeset) > 0) {
                 //TODO: RECONSIDER: currently concatenating all the changes into one long string
@@ -62,8 +94,9 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
                     //TODO: are these values already sanitized for HTML display?
                     $human_friendly_log .= '- Changed '.str_replace("_", "-", $new_item).' to "'.$new_value.'"</br>';
                 }
+                Kohana::$log->add(Log::DEBUG, 'Human-readable log: '.print_r($human_friendly_log, true).'!');
                 $changelog_state = [
-                        'post_id' => $postEntity->id,
+                        'post_id' => $eventEntity->id,
                         'item_changed' => '',
                         'content' => $human_friendly_log,
                         'entry_type' => 'a',
@@ -72,19 +105,20 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
                 $changelog_entity->setState($changelog_state);
                 $this->changelog_repo->create($changelog_entity);
             }
-        } elseif ($event_type == 'create') {
-
-            Kohana::$log->add(Log::DEBUG, 'Post creation event just happened '.$event_type.'!');
-
         } else {
-            Kohana::$log->add(Log::DEBUG, 'What kind of event just happened? '.$event_type.'!');
+            Kohana::$log->add(Log::DEBUG, 'Uknown event just happened? '.print_r($event->getName(), true).'!');
         }
     }
 
-    protected function getUserInfoFromUserId($id)
+    protected function getLabelForCompletedStageId($id)
     {
-        //lookup user from repo
-        return $user_obj;
+        $formstage_label = "";
+        $formstage_entity = $this->formstages_repo->get($id);
+        if(is_object($formstage_entity))
+        {
+            $formstage_label = $formstage_entity->label;
+        }
+        return $formstage_label;
     }
 
     protected function getPostInfoFromPostId($id)
@@ -110,21 +144,35 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
                             $imploded_str = $this->recursiveArrayImplode(" ", $values_val);
                             $flat_changeset = array_merge($flat_changeset, [$values_key => $imploded_str ]);
                         }
-                    } elseif ($changed_key == 'tags' || $changed_key == 'sets' || $changed_key == 'completed_stages') {
-                        $imploded_str = $this->recursiveArrayImplode(" ", $values_val);
+
+                    } elseif ($changed_key == 'completed_stages')
+                    {
+                        Kohana::$log->add(Log::ERROR, 'Changed stages: '.print_r($changed_items[$changed_key], true));
+                        if(is_array($changed_items[$changed_key]))
+                        {
+                            foreach($changed_items[$changed_key] as $stagekey => $stageval)
+                            $stage_label = $this->getLabelForCompletedStageId($stageval);
+                            Kohana::$log->add(Log::ERROR, 'Stage completed: '.print_r($stage_label, true));
+                            $flat_changeset = array_merge($flat_changeset, ['Task: '.$stage_label  => 'complete']);
+                        }
+
+                    }  elseif ($changed_key == 'tags' || $changed_key == 'sets') {
+                        Kohana::$log->add(Log::ERROR, 'Tags where changed: '.print_r($changed_items[$changed_key], true));
+
+                        $imploded_str = $this->recursiveArrayImplode(" ", $changed_value);
                         $flat_changeset = array_merge($flat_changeset, [$values_key => $imploded_str ]);
                     }
                 } else { // not an array
-                    if (!in_array($changed_key, $ignored_fields)) {
-                        $flat_changeset = array_merge($flat_changeset, [$changed_key => $changed_value ]);
-                    }
+                        if (!in_array($changed_key, $ignored_fields)) {
+                            $flat_changeset = array_merge($flat_changeset, [$changed_key => $changed_value ]);
+                        }
                 }
             }
         } catch (Exception $e) {
             Kohana::$log->add(Log::ERROR, 'Error trying to log a change: '.print_r($e, true));
         }
 
-        Kohana::$log->add(Log::ERROR, 'Here is the full changeset: '.print_r($flat_changeset, true));
+        Kohana::$log->add(Log::INFO, 'Here is the full changeset: '.print_r($flat_changeset, true));
         return $flat_changeset;
     }
 

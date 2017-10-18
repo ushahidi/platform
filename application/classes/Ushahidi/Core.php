@@ -382,7 +382,7 @@ abstract class Ushahidi_Core {
 
 		$di->setter['Ushahidi_Formatter_Post_Changelog']['setAuth'] = $di->lazyGet("authorizer.posts_changelog");
 
-		// Set user repo for formatter TODO: ?! 
+		// Set user repo for formatter TODO: ?!
 		$di->setter['Ushahidi_Formatter_Post_Changelog']['setUserRepo'] =
 			$di->lazyGet('repository.user');
 
@@ -727,11 +727,10 @@ abstract class Ushahidi_Core {
 
 		// Event listener for the Set repo
 		$di->setter['Ushahidi_Repository_Set']['setEvent'] = 'PostSetEvent';
-		$di->setter['Ushahidi_Repository_Set']['setEvent'] = 'LoggablePostSetEvent';
-
 		$di->setter['Ushahidi_Repository_Set']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_PostSetListener');
 
+		$di->setter['Ushahidi_Repository_Set']['setEvent'] = 'LoggablePostSetEvent';
 		$di->setter['Ushahidi_Repository_Set']['setListener'] =
 				$di->lazyNew('Ushahidi_Listener_ChangelogListener');
 
@@ -743,6 +742,9 @@ abstract class Ushahidi_Core {
 		// 		setting User repo for Changelog listener
 		$di->setter['Ushahidi_Listener_ChangelogListener']['setUserRepo'] =
 			$di->lazyGet('repository.user');
+
+		$di->setter['Ushahidi_Listener_ChangelogListener']['setFormStagesRepo'] =
+				$di->lazyGet('repository.form_stage');
 
 		/* too many levels of redirection
 		//		setting Set repo for Changelog listener
@@ -756,15 +758,13 @@ abstract class Ushahidi_Core {
 
 		// Event listener for the Post repo
 		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostCreateEvent';
-		//TODO: necessary? is there anything different from the other event?
-		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostLoggableUpdateEvent';
-
 		$di->setter['Ushahidi_Repository_Post']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_PostListener');
 
+		// Event listener for Post updates to Changelog
+		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'LoggablePostUpdateEvent';
 		$di->setter['Ushahidi_Repository_Post']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_ChangelogListener');
-
 
 		// WebhookJob repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setRepo'] =

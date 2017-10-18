@@ -121,6 +121,7 @@ Feature: Testing the Post Changelog API
         And the "post_id" property equals "99"
         Then the guzzle status code should be 200
 
+@collectionchangelog
     Scenario: Adding a post to collections creates an entry in Changelog
         Given that I want to make a new "Post"
         And that the request "data" is:
@@ -143,7 +144,7 @@ Feature: Testing the Post Changelog API
         And the type of the "results.0.post_id" property is "numeric"
         And the "results.0.post_id" property equals "1692"
         And the response has a "results.0.content" property
-        And the "results.0.content" property equals "Added post to collection."
+        And the "results.0.content" property contains "Added post to collection"
         Then the guzzle status code should be 200
 
 @updatingpostsforchangelog
@@ -152,11 +153,28 @@ Feature: Testing the Post Changelog API
       And that the request "data" is:
         """
         {
+          "form":1,
           "title":"This is a recently updated title.",
+          "type":"report",
+          "status":"published",
+          "locale":"en_US",
           "values":
           {
-            "last_location":["Atlanta"]
-          }
+            "full_name":["David Kobia"],
+            "description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+            "date_of_birth":[],
+            "missing_date":["2012/09/25"],
+            "last_location":["Chicago"],
+            "last_location_point":[
+              {
+                "lat": 33.755,
+                "lon": -85.39
+              }
+            ],
+            "missing_status":["believed_missing"]
+          },
+          "tags":["disaster","explosion"],
+          "completed_stages":[1]
         }
         """
       And that its "id" is "1"
@@ -165,6 +183,10 @@ Feature: Testing the Post Changelog API
       And the response has a "id" property
       Given that I want to get all "Changelogs"
       When I request "/posts/1/changelog"
+      And that the request "query string" is:
+        """
+            orderby=created&order=desc
+        """
       Then the response is JSON
       And the response has a "results" property
       And the response has a "results.0.post_id" property
@@ -182,7 +204,7 @@ Feature: Testing the Post Changelog API
       """
       {
         "form":1,
-        "title":"Updated Test Post",
+        "title": "Updated Test Post",
         "type":"report",
         "status":"published",
         "locale":"en_US",
@@ -222,8 +244,6 @@ Feature: Testing the Post Changelog API
     And the "results.0.post_id" property equals "1"
     And the response has a "results.0.content" property
     # TODO: for the moment, these are all being concatenated into one text blob. Worth reconsidering?
-    And the "results.0.content" property contains "Changed title to"
-    And the "results.0.content" property contains "Updated Test Post"
     And the "results.0.content" property contains "description"
     And the "results.0.content" property contains "last-location"
     And the "results.0.content" property contains "full-name"
@@ -242,6 +262,7 @@ Feature: Testing the Post Changelog API
         "locale":"en_US",
         "values":
         {
+          "last_location":["Chicago"],
           "date_of_birth":["2005/10/10"],
           "missing_date":["2006/10/10"]
         },

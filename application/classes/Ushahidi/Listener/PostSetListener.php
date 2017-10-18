@@ -39,34 +39,11 @@ class Ushahidi_Listener_PostSetListener extends AbstractListener
             //$this->$set_repo = $set_repo;
     }*/
 
-    public function handle(EventInterface $event, $set_id = null, $post_id = null, $event_type = null)
+    public function handle(EventInterface $event, $set_obj = null, $post_id = null, $event_type = null)
     {
-        Kohana::$log->add(Log::INFO, 'This post: '.$post_id.' was '.$event_type.' this set: '.print_r($set_id, true));
-
-        ///TODO:!!! we need to get the set name!
-
-        //DI won't let us set a set repository here.
-        //$set_repo = $this->set_repo->getEntity($set_id);
-
-        try {
-            $changelog_state = [
-            'post_id'=> $post_id,
-            'change_type' => 'Changed collection',
-            'item_changed' => 'Collections',
-            'content'=> 'Added post to collection. ',
-            'entry_type'=> 'a',
-            ];
-            //send this event to the changelog
-            $changelog_entity = $this->changelog_repo->getEntity();
-            $changelog_entity->setState($changelog_state);
-            $this->changelog_repo->create($changelog_entity);
-        } catch (Exception $e) {
-            Kohana::$log->add(Log::INFO, 'trying to send a post/collection change to changelog.'.print_r($e, true));
-        }
-
         // Insert into Notification Queue
         $state = [
-            'set'  => $set_id,
+            'set'  => $set_obj->id,
             'post' => $post_id
         ];
         $entity = $this->repo->getEntity();

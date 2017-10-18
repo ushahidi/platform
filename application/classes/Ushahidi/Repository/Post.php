@@ -138,7 +138,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'lock' => NULL,
 			];
 
-			// ATTENTION: For now all users can see Post Locks but only those 
+			// ATTENTION: For now all users can see Post Locks but only those
 			// with Manage::Post permission or Admin status can unlock
 			// if ($this->canUserSeePostLock(new Post($data), $user)) {
 			$data['lock'] = $this->getHydratedLock($data['id']);
@@ -165,7 +165,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected function getHydratedLock($post_id)
 	{
 		$lock_array = $this->post_lock_repo->getPostLock($post_id);
-		
+
 		return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : NULL;
 	}
 
@@ -994,6 +994,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		}
 
 		$this->emit($this->event, $entity, 'update');
+		$this->emit('LoggablePostUpdateEvent', $entity, 'update');
+
 		if ($this->post_lock_repo->isActive($entity->id)) {
 			$this->post_lock_repo->releaseLock($entity->id);
 		}
