@@ -12,12 +12,7 @@ use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\PostRepository;
 
-<<<<<<< Updated upstream
-class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
-=======
-
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post implements PostExportRepository
->>>>>>> Stashed changes
 {
 
 	/**
