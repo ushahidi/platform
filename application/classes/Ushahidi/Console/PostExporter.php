@@ -65,13 +65,13 @@ class Ushahidi_Console_PostExporter extends Command
 
         $data = $this->data->get('search');
 
-		$limit = $input->getOption('limit');
-        $offset = $input->getOption('offset');
+		$limit = $input->getOption('limit', 100);
+        $offset = $input->getOption('offset', 0);
 
 		$format = 'csv';
 
         $filters = [
-            'limit' => 100,
+            'limit' => $limit,
             'offset' => $offset,
 			'status' => 'all',
 			'exporter' => true
@@ -105,7 +105,7 @@ class Ushahidi_Console_PostExporter extends Command
 			]
 		];
 
-		
+
 
 		$this->handleResponse($response, $output);
 	}
