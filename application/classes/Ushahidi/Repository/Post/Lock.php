@@ -149,6 +149,8 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		// If the user already owns a lock that is active
 		// return that lock id
 		// Otherwise we return null
+
+		Kohana::$log->add(Log::ERROR, print_r('getting locked',true));
 		if (!$this->isActive($entity->id))
 		{
 			$expires = strtotime("+5 minutes");
@@ -178,8 +180,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 	{
 		$user = $this->getUser();
 		$lock = $this->getPostLock($post_id);
-
-		return $lock ? $user->id === $lock['user_id'] : false;
+		return intval($user->id) === intval($lock['user_id']);
 	}
 
 	public function getPostLock($entity_id)
