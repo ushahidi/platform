@@ -475,6 +475,7 @@ abstract class Ushahidi_Core {
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 				'form_repo' => $di->lazyGet('repository.form'),
 				'post_lock_repo' => $di->lazyGet('repository.post_lock'),
+				'contact_repo' => $di->lazyGet('repository.contact'),
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 			];
