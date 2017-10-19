@@ -66,6 +66,20 @@ Feature: Testing the Tags API
         And the response has a "errors" property
         Then the guzzle status code should be 422
 
+    Scenario: Creating a tag with a long name fails
+        Given that I want to make a new "Tag"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long",
+                "type":"category"
+            }
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 422
+
     Scenario: Check slug is generated on new tag
         Given that I want to make a new "Tag"
         And that the request "data" is:
