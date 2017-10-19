@@ -29,12 +29,12 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 	foreach ($data['values'] as $key => $val)
     {
         $attribute = $this->form_attribute_repo->getByKey($key);
-	 	$attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type, 'form_id'=> $data['form_id']];
+        $attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type, 'form_id'=> $data['form_id']];
 
-		// Set attribute names. This is for categories (custom field) to show their label and not the ids
-		if ($attribute->type === 'tags') {
-			$data['values'][$key] = $this->retrieveTagNames($val);
-		}
+        // Set attribute names. This is for categories (custom field) to show their label and not the ids
+        if ($attribute->type === 'tags') {
+          $data['values'][$key] = $this->retrieveTagNames($val);
+        }
     }
 
     $data += ['attributes' => $attributes];
@@ -42,7 +42,14 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
 
     // Set Set names
     if (!empty($data['sets'])) {
-      $data['sets'] = $this->retrieveSetNames($data['sets']);
+        $data['sets'] = $this->retrieveSetNames($data['sets']);
+    }
+
+    // Get contact
+    if (!empty($data['contact_id'])) {
+        $contact = $this->contact_repo->get($data['contact_id']);
+        $data['contact_type'] = $contact->type;
+        $data['contact'] = $contact->contact;
     }
 
     // Set Completed Stage names

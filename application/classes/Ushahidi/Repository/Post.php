@@ -31,6 +31,7 @@ use Ushahidi\Core\Tool\Permissions\AclTrait;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Entity\ContactRepository;
 
 use Aura\DI\InstanceFactory;
 
@@ -63,6 +64,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
 	protected $form_repo;
+	protected $contact_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	// By default remove all private responses
@@ -89,6 +91,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			FormStageRepository $form_stage_repo,
 			FormRepository $form_repo,
 			PostLockRepository $post_lock_repo,
+			ContactRepository $contact_repo,
 			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory
 		)
@@ -99,6 +102,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$this->form_stage_repo = $form_stage_repo;
 		$this->form_repo = $form_repo;
 		$this->post_lock_repo = $post_lock_repo;
+		$this->contact_repo = $contact_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
 	}
