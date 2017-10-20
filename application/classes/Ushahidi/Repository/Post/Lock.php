@@ -150,8 +150,6 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		// return that lock id
 		// Otherwise we return null
 
-		Kohana::$log->add(Log::INFO, "getting lock");
-
 		if (!$this->isActive($entity->id))
 		{
 			$expires = strtotime("+5 minutes");
