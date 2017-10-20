@@ -29,6 +29,7 @@ director:
     DEPLOYMENT_RULES_REPO: deployment-rules
     DEPLOYMENT_RULES_REPO_VERSION: master
     DEPLOYMENT_RULES_FILE: platform.yml
+  add_docker: true
 
 test:
   build:
