@@ -52,7 +52,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		$result = DB::select()->from('post_locks')
 			->where('post_id', '=', $post_id)
 			->limit(1)
-			->execute();
+			->execute($this->db);
 
 		$this->warnUserLockBroken($result->get('user_id'));
 
@@ -79,7 +79,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 	{
 		$results = DB::select()->from('post_locks')
 			->where('user_id', '=', $user_id)
-			->execute();
+			->execute($this->db);
 
 		$locks = $this->getCollection($results->as_array());
 
