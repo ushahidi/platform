@@ -43,7 +43,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
     // Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
-		
+
 		return new PostLock($data);
 	}
 
@@ -52,7 +52,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		$result = DB::select()->from('post_locks')
 			->where('post_id', '=', $post_id)
 			->limit(1)
-			->execute();
+			->execute($this->db);
 
 		$this->warnUserLockBroken($result->get('user_id'));
 
@@ -69,7 +69,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		$lock = $this->get($lock_id);
 
 		$this->warnUserLockBroken($lock->user_id);
-		
+
 		$this->delete($lock);
 
 		return $lock;
@@ -79,8 +79,8 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 	{
 		$results = DB::select()->from('post_locks')
 			->where('user_id', '=', $user_id)
-			->execute();
-		
+			->execute($this->db);
+
 		$locks = $this->getCollection($results->as_array());
 
 		foreach($locks as $lock) {
@@ -128,7 +128,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 
 	public function postIsLocked($post_id)
 	{
-		$user = $this->getUser();	
+		$user = $this->getUser();
 		$lock = $this->getPostLock($post_id);
 
 		if (empty($lock)) {
@@ -150,7 +150,8 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		// return that lock id
 		// Otherwise we return null
 
-		Kohana::$log->add(Log::ERROR, print_r('getting locked',true));
+		Kohana::$log->add(Log::INFO, "getting lock");
+
 		if (!$this->isActive($entity->id))
 		{
 			$expires = strtotime("+5 minutes");
