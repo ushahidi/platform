@@ -92,16 +92,16 @@ class PostRepository extends OhanzeeRepository implements
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
 	public function __construct(
-			Database $db,
-			FormAttributeRepositoryContract $form_attribute_repo,
-			FormStageRepositoryContract $form_stage_repo,
-			FormRepositoryContract $form_repo,
-			PostLockRepository $post_lock_repo,
-			ContactRepository $contact_repo,
-			PostValueFactory $post_value_factory,
-			InstanceFactory $bounding_box_factory
-		)
-	{
+        Database $db,
+        FormAttributeRepositoryContract $form_attribute_repo,
+        FormStageRepositoryContract $form_stage_repo,
+        FormRepositoryContract $form_repo,
+        PostLockRepository $post_lock_repo,
+        ContactRepository $contact_repo,
+        PostValueFactory $post_value_factory,
+        InstanceFactory $bounding_box_factory
+    ) {
+
 		parent::__construct($db);
 
 		$this->form_attribute_repo = $form_attribute_repo;
@@ -132,7 +132,6 @@ class PostRepository extends OhanzeeRepository implements
 			// Get Hidden Stage Ids to be excluded from results
 			$status = $data['status'] ? $data['status'] : '';
 			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id'], $data['status']);
-
 		}
 
 		if (!empty($data['id'])) {
@@ -142,7 +141,7 @@ class PostRepository extends OhanzeeRepository implements
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
-				'lock' => NULL,
+				'lock' => null,
 			];
 
 
@@ -168,7 +167,7 @@ class PostRepository extends OhanzeeRepository implements
 	{
 		$lock_array = $this->post_lock_repo->getPostLock($post_id);
 
-		return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : NULL;
+		return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : null;
 	}
 
 
@@ -401,8 +400,7 @@ class PostRepository extends OhanzeeRepository implements
 				;
 		}
 
-		if ($sources = $search->source)
-		{
+		if ($sources = $search->source) {
 			if (!is_array($sources)) {
 				$sources = explode(',', $sources);
 			}
@@ -410,7 +408,7 @@ class PostRepository extends OhanzeeRepository implements
 			// Special case: 'web' looks for null
 			if (in_array('web', $sources)) {
 				$query->and_where_open()
-					->where("messages.type", 'IS', NULL)
+					->where("messages.type", 'IS', null)
 					->or_where("messages.type", 'IN', $sources)
 					->and_where_close();
 			} else {
@@ -418,8 +416,12 @@ class PostRepository extends OhanzeeRepository implements
 			}
 		}
 
-		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
-		if($search->has_location === 'mapped') {
+		$raw_union = '(
+			select post_geometry.post_id from post_geometry
+			union
+			select post_point.post_id from post_point
+		)';
+		if ($search->has_location === 'mapped') {
 			$query->where("$table.id", 'IN',
 				DB::query(Database::SELECT, $raw_union)
 			);
@@ -652,10 +654,8 @@ class PostRepository extends OhanzeeRepository implements
 				->group_by('forms.id')
 				// ...and then by datasource
 				->group_by('messages.type');
-		}
-		// Group by tags
-		elseif ($search->group_by === 'tags')
-		{
+		} // Group by tags
+		elseif ($search->group_by === 'tags') {
 			/**
 			 * The output query looks something like
 			 * SELECT
@@ -866,12 +866,19 @@ class PostRepository extends OhanzeeRepository implements
 	// UpdateRepository
 	public function create(Entity $entity)
 	{
-
 		$post = $entity->asArray();
 		$post['created'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['lock']);
+		unset(
+			$post['values'],
+			$post['tags'],
+			$post['completed_stages'],
+			$post['sets'],
+			$post['source'],
+			$post['color'],
+			$post['lock']
+		);
 
 		// Set default value for post_date
 		if (empty($post['post_date'])) {
@@ -921,7 +928,15 @@ class PostRepository extends OhanzeeRepository implements
 		$post['updated'] = time();
 
 		// Remove attribute values and tags
-		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['lock']);
+		unset(
+			$post['values'],
+			$post['tags'],
+			$post['completed_stages'],
+			$post['sets'],
+			$post['source'],
+			$post['color'],
+			$post['lock']
+		);
 
 		// Convert post_date to mysql format
 		if (!empty($post['post_date'])) {

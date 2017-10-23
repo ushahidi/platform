@@ -20,5 +20,4 @@ class RolesController extends RESTController
 	{
 		return 'roles';
 	}
-
 }

@@ -63,14 +63,14 @@ return [
 
 	// Post locking
 	'post-locking' => [
-		'enabled' => TRUE,
+		'enabled' => true,
 	],
 
 	// Post locking
-	// Defaults to False, tests will fail if set to TRUE 
+	// Defaults to False, tests will fail if set to TRUE
 	// without complete Redis setup
 	// see TODO <docs link>
 	'redis' => [
-		'enabled' => FALSE,
+		'enabled' => false,
 	],
 ];

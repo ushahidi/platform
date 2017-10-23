@@ -104,14 +104,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Post Locking config settings
-        $di->set('post-locking.enabled', function() use ($di) {
+        $di->set('post-locking.enabled', function () use ($di) {
             $config = $di->get('features');
 
             return $config['post-locking']['enabled'];
         });
 
         // Redis config settings
-        $di->set('redis.enabled', function() use ($di) {
+        $di->set('redis.enabled', function () use ($di) {
             $config = $di->get('features');
 
             return $config['redis']['enabled'];

@@ -162,7 +162,6 @@ class AttributeRepository extends OhanzeeRepository implements
 		}
 
 		if ($search->form_id) {
-
 			$query
 				->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
 				->where('form_stages.form_id', '=', $search->form_id);
