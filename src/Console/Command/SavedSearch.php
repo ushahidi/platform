@@ -12,19 +12,13 @@
 
 namespace Ushahidi\Console\Command;
 
-use Ushahidi\Console\Command;
+use Illuminate\Console\Command;
 
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\SetRepository;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\MessageRepository;
-
 use Ushahidi\Factory\DataFactory;
-
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class SavedSearch extends Command
 {
@@ -35,40 +29,38 @@ class SavedSearch extends Command
 	private $data;
 	private $postSearchData;
 
-	public function setDataFactory(DataFactory $data)
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'savedsearch:sync';
+
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'savedsearch:sync';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Sync saved search posts';
+
+	public function __construct()
 	{
-		$this->data = $data;
+		parent::__construct();
+		$this->data = service('factory.data');
+		$this->contactRepository = service('repository.contact');
+		$this->setRepository = service('repository.savedsearch');
+		$this->postRepository = service('repository.post');
+		$this->messageRepository = service('repository.message');
 	}
 
-	public function setContactRepo(ContactRepository $repo)
-	{
-		$this->contactRepository = $repo;
-	}
-
-	public function setSetRepo(SetRepository $repo)
-	{
-		$this->setRepository = $repo;
-	}
-
-	public function setPostRepo(PostRepository $repo)
-	{
-		$this->postRepository = $repo;
-	}
-
-	public function setMessageRepo(MessageRepository $repo)
-	{
-		$this->messageRepository = $repo;
-	}
-
-	protected function configure()
-	{
-		$this
-			->setName('savedsearch')
-			->setDescription('Search and add posts to Saved Searches')
-			;
-	}
-
-	protected function execute(InputInterface $input, OutputInterface $output)
+	public function fire()
 	{
 		$count = 0;
 
@@ -98,12 +90,6 @@ class SavedSearch extends Command
 			}
 		}
 
-		$response = [
-			[
-				'Message' => sprintf('%d posts were added', $count)
-			]
-		];
-
-		$this->handleResponse($response, $output);
+		$this->info("{$count} posts were added");
 	}
 }

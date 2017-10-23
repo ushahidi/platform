@@ -21,35 +21,11 @@ $di->setter['Ushahidi\Console\Command\Import']['setImportUsecase'] = $di->lazy(f
 });
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
+    
+    
+// Post Exporter
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] =
+$di->lazyNew('Ushahidi\Console\Command\PostExporter');
+$di->setter['Ushahidi\Console\Command\PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
+$di->setter['Ushahidi\Console\Command\PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
 
-// Notification Collection command
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\Notification');
-$di->setter['Ushahidi\Console\Command\Notification']['setDatabase'] = $di->lazyGet('kohana.db');
-$di->setter['Ushahidi\Console\Command\Notification']['setPostRepo'] = $di->lazyGet('repository.post');
-$di->setter['Ushahidi\Console\Command\Notification']['setMessageRepo'] = $di->lazyGet('repository.message');
-$di->setter['Ushahidi\Console\Command\Notification']['setContactRepo'] = $di->lazyGet('repository.contact');
-$di->setter['Ushahidi\Console\Command\Notification']['setNotificationQueueRepo'] =
-	$di->lazyGet('repository.notification.queue');
-$di->setter['Ushahidi\Console\Command\Notification']['setSiteConfig'] = $di->lazyGet('site.config');
-$di->setter['Ushahidi\Console\Command\Notification']['setClientUrl'] = $di->lazyGet('clienturl');
-
-// Notification SavedSearch command
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\SavedSearch');
-$di->setter['Ushahidi\Console\Command\SavedSearch']['setSetRepo'] = $di->lazyGet('repository.savedsearch');
-$di->setter['Ushahidi\Console\Command\SavedSearch']['setPostRepo'] = $di->lazyGet('repository.post');
-$di->setter['Ushahidi\Console\Command\SavedSearch']['setMessageRepo'] = $di->lazyGet('repository.message');
-$di->setter['Ushahidi\Console\Command\SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
-$di->setter['Ushahidi\Console\Command\SavedSearch']['setDataFactory'] = $di->lazyGet('factory.data');
-
- // Post Exporter
- $di->setter['Ushahidi\Console\Application']['injectCommands'][] =
- 	$di->lazyNew('Ushahidi\Console\Command\PostExporter');
- $di->setter['Ushahidi\Console\Command\PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
- $di->setter['Ushahidi\Console\Command\PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
-
-// Webhook command
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\Webhook');
-$di->setter['Ushahidi\Console\Command\Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
-$di->setter['Ushahidi\Console\Command\Webhook']['setPostRepo'] = $di->lazyGet('repository.post');
-$di->setter['Ushahidi\Console\Command\Webhook']['setWebhookRepo'] = $di->lazyGet('repository.webhook');
-$di->setter['Ushahidi\Console\Command\Webhook']['setWebhookJobRepo'] = $di->lazyGet('repository.webhook.job');

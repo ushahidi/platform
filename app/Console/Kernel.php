@@ -21,6 +21,8 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\DataproviderOutgoing::class,
         \Ushahidi\Console\Command\UserCreate::class,
         \Ushahidi\Console\Command\UserDelete::class,
+        \Ushahidi\Console\Command\Notification::class,
+        \Ushahidi\Console\Command\SavedSearch::class,
         \Ushahidi\Console\Command\Webhook::class
     ];
 
