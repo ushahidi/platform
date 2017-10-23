@@ -20,11 +20,6 @@ $di->setter['Ushahidi\Console\Command\Import']['setImportUsecase'] = $di->lazy(f
 			->setAuthorizer($di->get('authorizer.console'));
 });
 
-// User command
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\User');
-$di->setter['Ushahidi\Console\Command\User']['setRepo'] = $di->lazyGet('repository.user');
-$di->setter['Ushahidi\Console\Command\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
-
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
 
 // Notification Collection command

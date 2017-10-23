@@ -18,7 +18,9 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\ConfigGet::class,
         \Ushahidi\Console\Command\DataproviderList::class,
         \Ushahidi\Console\Command\DataproviderIncoming::class,
-        \Ushahidi\Console\Command\DataproviderOutgoing::class
+        \Ushahidi\Console\Command\DataproviderOutgoing::class,
+        \Ushahidi\Console\Command\UserCreate::class,
+        \Ushahidi\Console\Command\UserDelete::class
     ];
 
     /**
