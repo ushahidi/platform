@@ -93,9 +93,9 @@ class PostRepository extends OhanzeeRepository implements
 	 */
 	public function __construct(
 			Database $db,
-			FormAttributeRepository $form_attribute_repo,
-			FormStageRepository $form_stage_repo,
-			FormRepository $form_repo,
+			FormAttributeRepositoryContract $form_attribute_repo,
+			FormStageRepositoryContract $form_stage_repo,
+			FormRepositoryContract $form_repo,
 			PostLockRepository $post_lock_repo,
 			ContactRepository $contact_repo,
 			PostValueFactory $post_value_factory,
@@ -145,7 +145,7 @@ class PostRepository extends OhanzeeRepository implements
 				'lock' => NULL,
 			];
 
-		
+
 			if ($this->canUserSeePostLock(new Post($data), $user)) {
 				$data['lock'] = $this->getHydratedLock($data['id']);
 			}
@@ -167,7 +167,7 @@ class PostRepository extends OhanzeeRepository implements
 	protected function getHydratedLock($post_id)
 	{
 		$lock_array = $this->post_lock_repo->getPostLock($post_id);
-		
+
 		return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : NULL;
 	}
 

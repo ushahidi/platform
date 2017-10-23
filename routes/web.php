@@ -203,10 +203,14 @@ $app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app)
             $app->get('/geojson/{zoom}/{x}/{y}[/]', 'GeoJSONController@index');
             $app->get('/{id:[0-9]+}/geojson[/]', 'GeoJSONController@show');
 
+            // Locks
+            $app->put('/{post_id:[0-9]+}/lock[/]', 'LockController@store');
+            $app->delete('/{post_id:[0-9]+}/lock[/]', 'LockController@destroy');
+
             // Export
             $app->get('/export[/]', 'ExportController@index');
 
-            // Export
+            // Stats
             $app->get('/stats[/]', 'PostsController@stats');
 
             // Sub-form routes

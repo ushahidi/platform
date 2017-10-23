@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Post Validator
@@ -9,10 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Validator\Post;
+
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
+use Kohana\Validation\Validation;
 
-class Ushahidi_Validator_Post_Update extends Ushahidi_Validator_Post_Create
+class Update extends Create
 {
 	protected function getRules()
 	{
@@ -37,8 +40,7 @@ class Ushahidi_Validator_Post_Update extends Ushahidi_Validator_Post_Create
 	public function checkLock(Validation $validation, $fullData)
 	{
         // Check if Post is locked
-        if ($this->post_lock_repo->postIsLocked($fullData['id']))
-        {
+        if ($this->post_lock_repo->postIsLocked($fullData['id'])) {
             $validation->error('title', 'alreadyLockedByDifferentUser');
             return;
         }

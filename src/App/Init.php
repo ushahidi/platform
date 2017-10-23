@@ -239,7 +239,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 	'media'                => $di->lazyNew(Ushahidi\App\Formatter\Media::class),
 	'messages'             => $di->lazyNew(Ushahidi\App\Formatter\Message::class),
 	'posts'                => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
-    'posts_lock'           => $di->lazyNew(Ushahidi\App\Formatter\PostLock::class),
+    'posts_lock'           => $di->lazyNew(Ushahidi\App\Formatter\Post\Lock::class),
 	'tags'                 => $di->lazyNew(Ushahidi\App\Formatter\Tag::class),
 	'savedsearches'        => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
 	'sets'                 => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
@@ -269,7 +269,7 @@ $di->setter[Ushahidi\App\Formatter\Layer::class]['setAuth'] = $di->lazyGet("auth
 $di->setter[Ushahidi\App\Formatter\Media::class]['setAuth'] = $di->lazyGet("authorizer.media");
 $di->setter[Ushahidi\App\Formatter\Message::class]['setAuth'] = $di->lazyGet("authorizer.message");
 $di->setter[Ushahidi\App\Formatter\Post::class]['setAuth'] = $di->lazyGet("authorizer.post");
-$di->setter[Ushahidi\App\Formatter\PostLock::class]['setAuth'] = $di->lazyGet("authorizer.post");
+$di->setter[Ushahidi\App\Formatter\Post\Lock::class]['setAuth'] = $di->lazyGet("authorizer.post");
 $di->setter[Ushahidi\App\Formatter\Tag::class]['setAuth'] = $di->lazyGet("authorizer.tag");
 $di->setter[Ushahidi\App\Formatter\Tos::class]['setAuth'] = $di->lazyGet("authorizer.tos");
 $di->setter[Ushahidi\App\Formatter\User::class]['setAuth'] = $di->lazyGet("authorizer.user");
@@ -292,7 +292,7 @@ $di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'))
 $di->set('formatter.entity.api', $di->lazyNew(Ushahidi\App\Formatter\API::class));
 $di->set('formatter.entity.console', $di->lazyNew(Ushahidi\App\Formatter\Console::class));
 $di->set('formatter.entity.post.value', $di->lazyNew(Ushahidi\App\Formatter\PostValue::class));
-$di->set('formatter.entity.post.lock', $di->lazyNew(Ushahidi\App\Formatter\PostLock::class));
+$di->set('formatter.entity.post.lock', $di->lazyNew(Ushahidi\App\Formatter\Post\Lock::class));
 $di->set('formatter.entity.post.geojson', $di->lazyNew(Ushahidi\App\Formatter\Post\GeoJSON::class));
 $di->set('formatter.entity.post.geojsoncollection', $di->lazyNew(Ushahidi\App\Formatter\Post\GeoJSONCollection::class));
 $di->set('formatter.entity.post.stats', $di->lazyNew(Ushahidi\App\Formatter\Post\Stats::class));
@@ -324,7 +324,7 @@ $di->set('repository.layer', $di->lazyNew(Ushahidi\App\Repository\LayerRepositor
 $di->set('repository.media', $di->lazyNew(Ushahidi\App\Repository\MediaRepository::class));
 $di->set('repository.message', $di->lazyNew(Ushahidi\App\Repository\MessageRepository::class));
 $di->set('repository.post', $di->lazyNew(Ushahidi\App\Repository\PostRepository::class));
-$di->set('repository.post_lock', $di->lazyNew(Ushahidi\App\Repository\PostLockRepository::class));
+$di->set('repository.post_lock', $di->lazyNew(Ushahidi\App\Repository\Post\LockRepository::class));
 $di->set('repository.tag', $di->lazyNew(Ushahidi\App\Repository\TagRepository::class));
 $di->set('repository.set', $di->lazyNew(Ushahidi\App\Repository\SetRepository::class));
 $di->set('repository.savedsearch', $di->lazyNew(
@@ -389,7 +389,7 @@ $di->params[Ushahidi\App\Repository\PostRepository::class] = [
 		'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 		'form_repo' => $di->lazyGet('repository.form'),
 		'post_lock_repo' => $di->lazyGet('repository.post_lock'),
-		'contact_repo' => $di->lazyGet('repository.contact_repo'),
+		'contact_repo' => $di->lazyGet('repository.contact'),
 		'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 		'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class)
 	];
@@ -658,6 +658,6 @@ $di->setter[Ushahidi\App\Repository\UserRepository::class]['setListener'] =
 	$di->lazyNew(Ushahidi\App\Listener\IntercomAdminListener::class);
 
 // Add Lock Listener
-$di->setter[Ushahidi\Repository\PostLock::class]['setEvent'] = 'LockBroken';
-$di->setter[Ushahidi\Repository\PostLock::class]['setListener'] =
+$di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';
+$di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
     $di->lazyNew(Ushahidi\App\Listener\Lock::class);

@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Post Lock Create Validator
@@ -9,7 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Ushahidi_Validator_Post_Lock_Create extends Ushahidi_Validator_Post_Lock_Update
+namespace Ushahidi\App\Validator\Post\Lock;
+
+class Create extends Update
 {
 	protected function getRules()
 	{

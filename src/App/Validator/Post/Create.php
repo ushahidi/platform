@@ -74,8 +74,10 @@ class Create extends Validator
 		RoleRepository $role_repo,
 		PostLockRepository $post_lock_repo,
 		PostValueFactory $post_value_factory,
-		ValueFactory $post_value_validator_factory)
-	{
+		ValueFactory $post_value_validator_factory,
+		array $limits
+    ) {
+	
 		$this->repo = $repo;
 		$this->attribute_repo = $attribute_repo;
 		$this->stage_repo = $stage_repo;

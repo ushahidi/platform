@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Post Lock Repository
@@ -9,15 +9,20 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Repository\Post;
+
+use Ohanzee\DB;
+use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\PostLock;
 use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\App\Repository\OhanzeeRepository;
 
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 
-class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostLockRepository
+class LockRepository extends OhanzeeRepository implements PostLockRepository
 {
 	// Provides getUser()
 	use UserContext;
@@ -41,7 +46,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 	}
 
     // Ushahidi_Repository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 
 		return new PostLock($data);
@@ -83,7 +88,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 
 		$locks = $this->getCollection($results->as_array());
 
-		foreach($locks as $lock) {
+		foreach ($locks as $lock) {
 			$this->warnUserLockBroken($lock->user_id);
 
 			$this->delete($lock);
@@ -92,7 +97,8 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		return;
 	}
 
-	public function warnUserLockBroken($user_id) {
+	public function warnUserLockBroken($user_id)
+    {
 		$user = $this->getUser();
 
 		if ($user_id !== $user->id) {
@@ -110,14 +116,12 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 			->limit(1)
 			->execute($this->db);
 
-		if ($result->get('expires'))
-		{
+		if ($result->get('expires')) {
 			$time = $result->get('expires');
 			$curtime = time();
 			// Check if the lock has expired
 			// Locks are active for a maximum of 5 minutes
-			if(($curtime - $time) > 300)
-			{
+			if (($curtime - $time) > 300) {
 				$release = $this->releaseLock($post_id);
 				return false;
 			}
@@ -150,8 +154,7 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 		// return that lock id
 		// Otherwise we return null
 
-		if (!$this->isActive($entity->id))
-		{
+		if (!$this->isActive($entity->id)) {
 			$expires = strtotime("+5 minutes");
 			$user = $this->getUser();
 			$lock = [
@@ -191,7 +194,6 @@ class Ushahidi_Repository_Post_Lock extends Ushahidi_Repository implements PostL
 			->execute($this->db)
 			->as_array();
 
-		return count($result) > 0 ? $result[0] : NULL;
+		return count($result) > 0 ? $result[0] : null;
 	}
-
 }

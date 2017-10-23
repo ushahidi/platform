@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php
 
 /**
  * Ushahidi Lock Listener
@@ -11,12 +11,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Listener;
+
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Ushahidi\Core\Traits\RedisFeature;
 use Ushahidi\Core\Traits\UserContext;
 
-class Ushahidi_Listener_Lock extends AbstractListener
+class Lock extends AbstractListener
 {
     // Provides getUser()
 	use UserContext;
@@ -32,7 +34,6 @@ class Ushahidi_Listener_Lock extends AbstractListener
         }
 
         if ($user_id) {
-            
             $host = getenv('REDIS_HOST');
             $port = getenv('REDIS_PORT');
             $redis_channel = getenv('REDIS_CHANNEL');
@@ -44,11 +45,11 @@ class Ushahidi_Listener_Lock extends AbstractListener
                     "channel" => $user_id . '-lock',
                     "message" => 'lock_broken'
                 ]);
-                
+
                 $redis->connect($host, $port);
 
                 $redis->publish($redis_channel, $event);
-                
+
                 $redis->close();
             }
         }
