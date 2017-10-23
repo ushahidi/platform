@@ -25,26 +25,6 @@ $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('
 $di->setter['Ushahidi\Console\Command\User']['setRepo'] = $di->lazyGet('repository.user');
 $di->setter['Ushahidi\Console\Command\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
 
-// Config commands
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ConfigGet');
-$di->setter['Ushahidi\Console\Command\ConfigGet']['setUsecase'] = $di->lazy(function () use ($di) {
-	return service('factory.usecase')
-			->get('config', 'read')
-			// Override authorizer for console
-			->setAuthorizer($di->get('authorizer.console'))
-			// Override formatter for console
-			->setFormatter($di->get('formatter.entity.console'));
-});
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ConfigSet');
-$di->setter['Ushahidi\Console\Command\ConfigSet']['setUsecase'] = $di->lazy(function () use ($di) {
-	return service('factory.usecase')
-			->get('config', 'update')
-			// Override authorizer for console
-			->setAuthorizer($di->get('authorizer.console'))
-			// Override formatter for console
-			->setFormatter($di->get('formatter.entity.console'));
-});
-
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
 
 // Console commands (oauth is disabled, pending T305)

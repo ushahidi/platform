@@ -11,17 +11,33 @@
 
 namespace Ushahidi\Console\Command;
 
-use Ushahidi\Core\Usecase;
-use Ushahidi\Console\Command;
+use Illuminate\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\TableHelper;
+use Ushahidi\Core\Usecase;
+use \Ushahidi\Factory\UsecaseFactory;
 
 class ConfigGet extends Command
 {
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'config:get';
+
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'config:get {group}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Get config params';
 
 	/**
 	 * @var Ushahidi\Core\Usecase\Usecase
@@ -29,37 +45,35 @@ class ConfigGet extends Command
 	 */
 	protected $usecase;
 
-	public function setUsecase(Usecase $usecase)
+	public function __construct()
 	{
-		$this->usecase = $usecase;
+		parent::__construct();
+
+		// @todo inject
+		$this->usecase = service('factory.usecase')
+			->get('config', 'read')
+			// Override authorizer for console
+			->setAuthorizer(service('authorizer.console'))
+			// Override formatter for console
+			->setFormatter(service('formatter.entity.console'));
 	}
 
-	protected function configure()
+	public function fire()
 	{
-		$this
-			->setName('config:get')
-			->setDescription('Get config')
-			->addArgument('group', InputArgument::REQUIRED, 'group')
-			;
-	}
-
-	// Execution router takes the action argument and uses it to reroute execution.
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$group = $input->getArgument('group');
+		$group = $this->argument('group');
 
 		$this->usecase->setIdentifiers([ 'id' => $group ]);
 
 		$response = $this->usecase->interact();
 
 		// Format the response and output
-		$this->handleResponse($response, $output);
+		$this->handleResponse($response);
 	}
 
 	/**
 	 * Override response handler to flatten array
 	 */
-	protected function handleResponse($response, OutputInterface $output)
+	protected function handleResponse($response)
 	{
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
 		$result = [];
@@ -70,6 +84,8 @@ class ConfigGet extends Command
 			}
 			$result[ join('.', $keys) ] = $leafValue;
 		}
-		return parent::handleResponse($result, $output);
+
+		// Format as table
+		$this->table(array_keys($result), [$result]);
 	}
 }

@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\RoutesCommand::class
+        Commands\RoutesCommand::class,
+        \Ushahidi\Console\Command\ConfigSet::class,
+        \Ushahidi\Console\Command\ConfigGet::class
     ];
 
     /**
