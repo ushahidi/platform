@@ -27,10 +27,6 @@ $di->setter['Ushahidi\Console\Command\User']['setValidator'] = $di->lazyNew('Ush
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
 
-// Console commands (oauth is disabled, pending T305)
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\Dataprovider');
-$di->setter['Ushahidi\Console\Command\Dataprovider']['setRepo'] = $di->lazyGet('repository.dataprovider');
-
 // Notification Collection command
 $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\Notification');
 $di->setter['Ushahidi\Console\Command\Notification']['setDatabase'] = $di->lazyGet('kohana.db');

@@ -15,7 +15,10 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\RoutesCommand::class,
         \Ushahidi\Console\Command\ConfigSet::class,
-        \Ushahidi\Console\Command\ConfigGet::class
+        \Ushahidi\Console\Command\ConfigGet::class,
+        \Ushahidi\Console\Command\DataproviderList::class,
+        \Ushahidi\Console\Command\DataproviderIncoming::class,
+        \Ushahidi\Console\Command\DataproviderOutgoing::class
     ];
 
     /**
