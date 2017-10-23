@@ -15,12 +15,12 @@ use Ushahidi\App\Validator\Set;
 
 class Create extends Set\Create
 {
-
 	protected function getRules()
 	{
-		return array_merge_recursive(parent::getRules(), [
-        'name' => [
-				['not_empty'],
+		$rules = parent::getRules();
+		return array_merge_recursive($rules, [
+	    'name' => [
+			['not_empty'],
 		],
 		'filter' => [
 				['not_empty'],

@@ -13,8 +13,8 @@ namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 use Ushahidi\Core\Exception\NotFoundException;
 

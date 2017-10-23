@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Ushahidi Platform Form Attribute Data for Read
+ * Ushahidi Platform Create Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,11 +8,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Form;
+namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Entity;
 
-class ReadFormAttributeData extends Data
+interface LockRepository extends CreateRepository, UpdateRepository
 {
-	public $id;
+
 }

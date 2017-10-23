@@ -20,6 +20,7 @@ use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
+use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Traits\UserContext;
@@ -44,6 +45,7 @@ class Create extends Validator
 	protected $attribute_repo;
 	protected $stage_repo;
 	protected $tag_repo;
+	protected $post_lock_repo;
 	protected $user_repo;
 	protected $post_value_factory;
 	protected $post_value_validator_factory;
@@ -70,11 +72,10 @@ class Create extends Validator
 		UserRepository $user_repo,
 		FormRepository $form_repo,
 		RoleRepository $role_repo,
+		PostLockRepository $post_lock_repo,
 		PostValueFactory $post_value_factory,
-		ValueFactory $post_value_validator_factory,
-		array $limits
-    ) {
-
+		ValueFactory $post_value_validator_factory)
+	{
 		$this->repo = $repo;
 		$this->attribute_repo = $attribute_repo;
 		$this->stage_repo = $stage_repo;
@@ -82,6 +83,7 @@ class Create extends Validator
 		$this->user_repo = $user_repo;
 		$this->form_repo = $form_repo;
 		$this->role_repo = $role_repo;
+		$this->post_lock_repo = $post_lock_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->post_value_validator_factory = $post_value_validator_factory;
 		$this->limits = $limits;

@@ -24,7 +24,8 @@ abstract class OhanzeeRepository implements
 	Usecase\UpdateRepository,
 	Usecase\DeleteRepository,
 	Usecase\SearchRepository,
-	Usecase\ImportRepository
+	Usecase\ImportRepository,
+	Usecase\LockRepository
 {
 
 	use CollectionLoader;
@@ -288,6 +289,7 @@ abstract class OhanzeeRepository implements
 	 */
 	protected function executeDelete(array $where)
 	{
+		
 		if (!$where) {
 			throw new RuntimeException(sprintf(
 				'Cannot delete every record in table "%s"',
@@ -301,6 +303,7 @@ abstract class OhanzeeRepository implements
 		}
 
 		$count = $query->execute($this->db);
+
 		return $count;
 	}
 

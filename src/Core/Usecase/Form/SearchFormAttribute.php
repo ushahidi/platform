@@ -12,8 +12,8 @@
 namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\SearchUsecase;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class SearchFormAttribute extends SearchUsecase
 {
