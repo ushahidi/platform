@@ -48,7 +48,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: "application/octet-stream"');
 		header('Content-Type: text/csv; charset=utf-8');
-		header('Content-Disposition: attachment; filename="uchaguzi.csv"');
+		header('Content-Disposition: attachment; filename="notbeingused.csv"');
 
 		header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
 
