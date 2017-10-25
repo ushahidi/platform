@@ -142,7 +142,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'lock' => NULL,
 			];
 
-		
+
 			if ($this->canUserSeePostLock(new Post($data), $user)) {
 				$data['lock'] = $this->getHydratedLock($data['id']);
 			}
@@ -168,7 +168,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected function getHydratedLock($post_id)
 	{
 		$lock_array = $this->post_lock_repo->getPostLock($post_id);
-		
+
 		return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : NULL;
 	}
 
@@ -245,6 +245,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
 			'published_to', 'source',
+			'post_id', // Search for just a single post id to check if it matches search criteria
 			'include_types', 'include_attributes', // Specify values to include
 			'include_unmapped',
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
@@ -438,6 +439,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			} else {
 				$query->where("messages.type", 'IN', $sources);
 			}
+		}
+
+		// Post id
+		if ($post_id = $search->post_id) {
+			if (!is_array($post_id)) {
+				$post_id = explode(',', $post_id);
+			}
+
+			$query
+				->where("$table.id", 'IN', $post_id)
+				;
 		}
 
 		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
