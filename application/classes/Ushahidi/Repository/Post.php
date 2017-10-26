@@ -31,6 +31,7 @@ use Ushahidi\Core\Tool\Permissions\AclTrait;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Entity\ContactRepository;
 
 use Aura\DI\InstanceFactory;
 
@@ -63,6 +64,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
 	protected $form_repo;
+	protected $contact_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	// By default remove all private responses
@@ -89,6 +91,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			FormStageRepository $form_stage_repo,
 			FormRepository $form_repo,
 			PostLockRepository $post_lock_repo,
+			ContactRepository $contact_repo,
 			Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 			InstanceFactory $bounding_box_factory
 		)
@@ -99,6 +102,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$this->form_stage_repo = $form_stage_repo;
 		$this->form_repo = $form_repo;
 		$this->post_lock_repo = $post_lock_repo;
+		$this->contact_repo = $contact_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
 	}
@@ -138,7 +142,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'lock' => NULL,
 			];
 
-		
+
 			if ($this->canUserSeePostLock(new Post($data), $user)) {
 				$data['lock'] = $this->getHydratedLock($data['id']);
 			}
@@ -164,7 +168,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected function getHydratedLock($post_id)
 	{
 		$lock_array = $this->post_lock_repo->getPostLock($post_id);
-		
+
 		return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : NULL;
 	}
 
@@ -241,6 +245,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
 			'published_to', 'source',
+			'post_id', // Search for just a single post id to check if it matches search criteria
 			'include_types', 'include_attributes', // Specify values to include
 			'include_unmapped',
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
@@ -436,15 +441,27 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			}
 		}
 
-		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
+		// Post id
+		if ($post_id = $search->post_id) {
+			if (!is_array($post_id)) {
+				$post_id = explode(',', $post_id);
+			}
+
+			$query
+				->where("$table.id", 'IN', $post_id)
+				;
+		}
+
 		if($search->has_location === 'mapped') {
-			$query->where("$table.id", 'IN',
-				DB::query(Database::SELECT, $raw_union)
-			);
+			$query->and_where_open()
+			->where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
+			->or_where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
+			->and_where_close();
 		} else if($search->has_location === 'unmapped') {
-			$query->where("$table.id", 'NOT IN',
-				DB::query(Database::SELECT, $raw_union)
-			);
+			$query->and_where_open()
+			->where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
+			->or_where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
+			->and_where_close();
 		}
 
 		// Filter by tag
