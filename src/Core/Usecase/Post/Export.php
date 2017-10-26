@@ -69,6 +69,8 @@ class Export extends SearchUsecase
 		}
 
 		// ... pass the search information to the formatter, for paging
+		// TODO: Refactor: This line appears to be totally unused within the
+		// actual formatter
 		$this->formatter->setSearch($search, $total);
 
 		// ... and return the formatted results.

@@ -120,6 +120,7 @@ abstract class Ushahidi_Repository implements
 		$query = $this->getSearchQuery();
 
 		$results = $query->distinct(TRUE)->execute($this->db);
+		//Kohana::$log->add(\Log::ERROR, print_r($results,true));
 
 		return $this->getCollection($results->as_array());
 	}

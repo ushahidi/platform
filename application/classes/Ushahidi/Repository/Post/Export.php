@@ -10,8 +10,9 @@
  */
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Entity\PostExportRepository;
 
-class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post
+class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post implements PostExportRepository
 {
 
 	/**
