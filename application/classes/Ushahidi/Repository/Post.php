@@ -526,11 +526,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			}
 		}
 
+		$user = $this->getUser();
 		// If there's no logged in user, or the user isn't admin
 		// restrict our search to make sure we still return SOME results
 		// they are allowed to see
 		if (!$search->exporter) {
-
 			if (!$user->id) {
 				$query->where("$table.status", '=', 'published');
 			} elseif (!$this->isUserAdmin($user) and
