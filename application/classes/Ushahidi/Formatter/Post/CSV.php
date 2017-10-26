@@ -43,10 +43,13 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		 */
 		$headingColumns = $this->getCSVHeading($records);
 		$heading = $this->createSortedHeading($headingColumns);
-
+		header('Access-Control-Expose-Headers: Content-Disposition');
 		// Send response as CSV download
 		header('Access-Control-Allow-Origin: *');
+		header('Content-Type: "application/octet-stream"');
 		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename="notbeingused.csv"');
+
 		header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
 
 		$fp = fopen('php://output', 'w');
