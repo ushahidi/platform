@@ -2014,6 +2014,24 @@ notifications:
     id: 6
     user_id: 4
     set_id: 4
+# PostDataExports
+postdataexports:
+  -
+    id: 2
+    user_id: 1
+    filter: ""
+  -
+    id: 3
+    user_id: 1
+    filter: ""
+  -
+    id: 4
+    user_id: 1
+    filter: ""
+  -
+    id: 5
+    user_id: 1
+    filter: ""
 # Webhooks
 webhooks:
   -

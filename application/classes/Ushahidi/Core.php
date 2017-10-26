@@ -88,6 +88,11 @@ abstract class Ushahidi_Core {
 			return Kohana::$config->load('features.webhooks.enabled');
 		});
 
+		// Post Data Exports config settings
+		$di->set('post-data-exports.enabled', function() use ($di) {
+			return Kohana::$config->load('features.post-data-exports.enabled');
+		});
+
 		// Post Locking config settings
 		$di->set('post-locking.enabled', function() use ($di) {
 			return Kohana::$config->load('features.post-locking.enabled');
@@ -162,8 +167,11 @@ abstract class Ushahidi_Core {
 
 		// Post Exporter
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_PostExporter');
+		$di->setter['Ushahidi_Console_PostExporter']['setDatabase'] = $di->lazyGet('kohana.db');
 		$di->setter['Ushahidi_Console_PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
 		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
+		$di->setter['Ushahidi_Console_PostExporter']['setPostDataExportRepo'] = $di->lazyGet('repository.postdataexport');
+		$di->setter['Ushahidi_Console_PostExporter']['setPostDataExportJobRepo'] = $di->lazyGet('repository.postdataexport.job');
 
 		// Webhook command
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
@@ -287,6 +295,9 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Notification_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Notification_Update'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['postdataexports'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_PostDataExport_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_PostDataExport_Update'),
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['webhooks'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Webhook_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Webhook_Update'),
@@ -339,7 +350,8 @@ abstract class Ushahidi_Core {
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
-			'webhooks'              => $di->lazyNew('Ushahidi_Formatter_Webhook'),
+			'webhooks'             => $di->lazyNew('Ushahidi_Formatter_Webhook'),
+			'postdataexports'    => $di->lazyNew('Ushahidi_Formatter_PostDataExport'),
 			'contacts'             => $di->lazyNew('Ushahidi_Formatter_Contact'),
 			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
 			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
@@ -368,6 +380,7 @@ abstract class Ushahidi_Core {
 			'set_post',
 			'notification',
 			'webhook',
+			'postdataexport',
 			'contact',
 			'role',
 			'permission',
@@ -436,8 +449,10 @@ abstract class Ushahidi_Core {
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
 		$di->set('repository.notification', $di->lazyNew('Ushahidi_Repository_Notification'));
 		$di->set('repository.webhook', $di->lazyNew('Ushahidi_Repository_Webhook'));
+		$di->set('repository.postdataexport', $di->lazyNew('Ushahidi_Repository_PostDataExport'));
 		$di->set('repository.csv', $di->lazyNew('Ushahidi_Repository_CSV'));
 		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
+		$di->set('repository.postdataexport.job', $di->lazyNew('Ushahidi_Repository_PostDataExport_Job'));
 		$di->set('repository.webhook.job', $di->lazyNew('Ushahidi_Repository_Webhook_Job'));
 		$di->set('repository.permission', $di->lazyNew('Ushahidi_Repository_Permission'));
 		$di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
@@ -584,6 +599,9 @@ abstract class Ushahidi_Core {
 			'savedsearch_repo' => $di->lazyGet('repository.savedsearch'),
 		];
 		$di->params['Ushahidi_Validator_Webhook_Update'] = [
+			'user_repo' => $di->lazyGet('repository.user'),
+		];
+		$di->params['Ushahidi_Validator_PostDataExport_Update'] = [
 			'user_repo' => $di->lazyGet('repository.user'),
 		];
 		$di->params['Ushahidi_Validator_SavedSearch_Create'] = [

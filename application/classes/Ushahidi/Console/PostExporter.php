@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access');
 
 /**
- * Ushahidi Webhook Console Command
+ * Ushahidi Post Data Export Console Command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Console
@@ -14,6 +14,8 @@ use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Factory\DataFactory;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Entity\PostDataExportJobRepository;
+use Ushahidi\Core\Entity\PostDataExportRepository;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,6 +31,14 @@ class Ushahidi_Console_PostExporter extends Command
 
     private $data;
 	private $postExportRepository;
+	private $postDataExportRepository;
+	private $postDataExportJobRepository;
+	private $db;
+
+	public function setDatabase(Database $db)
+	{
+		$this->db = $db;
+	}
 
 	public function setDataFactory(DataFactory $data)
 	{
@@ -38,6 +48,16 @@ class Ushahidi_Console_PostExporter extends Command
 	public function setPostExportRepo(PostExportRepository $repo)
 	{
 		$this->postExportRepository = $repo;
+	}
+
+	public function setPostDataExportJobRepo(PostDataExportJobRepository $repo)
+	{
+		$this->postDataExportJobRepository = $repo;
+	}
+
+	public function setPostDataExportRepo(PostDataExportRepository $repo)
+	{
+		$this->postDataExportRepository = $repo;
 	}
 
 	protected function configure()
