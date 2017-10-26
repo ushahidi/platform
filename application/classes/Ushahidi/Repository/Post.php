@@ -452,15 +452,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				;
 		}
 
-		$raw_union = '(select post_geometry.post_id from post_geometry union select post_point.post_id from post_point)';
 		if($search->has_location === 'mapped') {
-			$query->where("$table.id", 'IN',
-				DB::query(Database::SELECT, $raw_union)
-			);
+			$query->and_where_open()
+			->where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
+			->or_where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
+			->and_where_close();
 		} else if($search->has_location === 'unmapped') {
-			$query->where("$table.id", 'NOT IN',
-				DB::query(Database::SELECT, $raw_union)
-			);
+			$query->and_where_open()
+			->where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
+			->or_where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
+			->and_where_close();
 		}
 
 		// Filter by tag
