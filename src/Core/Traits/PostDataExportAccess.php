@@ -23,7 +23,7 @@ trait PostDataExportAccess
 	}
 
 	/**
-	 * Check if the user has webhooks feature
+	 * Check if the user has post data export feature
 	 * @return boolean
 	 */
 	public function isPostDataExportEnabled()

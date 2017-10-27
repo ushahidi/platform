@@ -60,7 +60,7 @@ class Ushahidi_Repository_PostDataExport extends Ushahidi_Repository implements 
 
 	public function getEntity(Array $data = null)
 	{
-		return new Webhook($data);
+		return new PostDataExport($data);
 	}
 
 
@@ -71,7 +71,7 @@ class Ushahidi_Repository_PostDataExport extends Ushahidi_Repository implements 
 
 		if ($id) {
 			// No need to insert a new record.
-			// Instead return the id of the Webhook that exists
+			// Instead return the id of the Post Data Export that exists
 			return $id;
 		}
 

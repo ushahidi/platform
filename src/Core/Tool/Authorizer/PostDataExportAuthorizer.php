@@ -18,7 +18,7 @@ use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\WebhookAccess;
+use Ushahidi\Core\Traits\PostDataExportAccess;
 
 class PostDataExportAuthorizer implements Authorizer
 {
@@ -28,7 +28,7 @@ class PostDataExportAuthorizer implements Authorizer
 	// To check whether the user has admin access
 	use AdminAccess;
 
-	// To check whether user owns the webhook
+	// To check whether user owns the post data export
 	use OwnerAccess;
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
@@ -37,16 +37,16 @@ class PostDataExportAuthorizer implements Authorizer
 	// It uses `PrivateDeployment` to check whether a deployment is private
 	use PrivateDeployment;
 
-	// Check if webhook feature is enabled
-	use WebhookAccess;
+	// Check if post data export feature is enabled
+	use PostDataExportAccess;
 
 
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
 
-		// Check if the webhooks feature enabled
-		if (!$this->isWebhookEnabled()) {
+		// Check if the post data export feature enabled
+		if (!$this->isPostDataExportEnabled()) {
 			return false;
 		}
 
