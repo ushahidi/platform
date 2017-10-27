@@ -194,6 +194,19 @@ Route::set('messages-api', $apiBase . 'messages(/<id>(/<action>))',
 	));
 
 /**
+ * Post Data Export API Route
+ */
+Route::set('postdataexports-api', $apiBase . 'postdataexports(/<id>)',
+	array(
+		'id' => '[a-zA-Z_-]+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api',
+		'controller' => 'PostDataExports',
+	));
+
+/**
  * Dataproviders API Route
  */
 Route::set('dataproviders-api', $apiBase . 'dataproviders(/<id>)',
