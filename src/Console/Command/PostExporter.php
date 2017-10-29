@@ -11,7 +11,8 @@
 
 namespace Ushahidi\Console\Command;
 
-use Ushahidi\Console\Command;
+use Illuminate\Console\Command;
+
 use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Factory\DataFactory;
 use Ushahidi\Core\Traits\UserContext;
@@ -31,43 +32,40 @@ class PostExporter extends Command
     private $data;
 	private $postExportRepository;
 
-	public function setDataFactory(DataFactory $data)
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'export';
+
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'export {--limit=100} {--offset=0}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Export posts';
+
+	public function __construct()
 	{
-		$this->data = $data;
+		parent::__construct();
+		$this->data = service('factory.data');
+		$this->postExportRepository = service('repository.posts_export');
 	}
 
-	public function setPostExportRepo(PostExportRepository $repo)
+	public function fire()
 	{
-		$this->postExportRepository = $repo;
-	}
-
-	protected function configure()
-	{
-		$this
-			->setName('exporter')
-			->setDescription('Export Posts')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, export', 'list')
-			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit')
-            ->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
-			;
-	}
-
-	protected function executeList(InputInterface $input, OutputInterface $output)
-	{
-		return [
-			[
-				'Available actions' => 'export'
-			]
-		];
-	}
-
-	protected function executeExport(InputInterface $input, OutputInterface $output)
-	{
-
         $data = $this->data->get('search');
 
-		$limit = $input->getOption('limit', 100);
-        $offset = $input->getOption('offset', 0);
+		$limit = $this->option('limit');
+        $offset = $this->option('offset');
 
 		$format = 'csv';
 
@@ -99,14 +97,7 @@ class PostExporter extends Command
 		}
 
         $res = service("formatter.entity.post.$format")->__invoke($posts);
-		$response = [
-			[
-				'Message' => sprintf('%d posts were found', $total)
-			]
-		];
 
-
-
-		$this->handleResponse($response, $output);
+		$this->info("{$total} posts were found");
 	}
 }
