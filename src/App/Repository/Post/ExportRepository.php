@@ -12,10 +12,12 @@
 namespace Ushahidi\App\Repository\Post;
 
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\PostRepository as PostRepositoryContract;
+use Ushahidi\Core\Entity\PostExportRepository;
+
+
 use Ushahidi\App\Repository\PostRepository;
 
-class ExportRepository extends PostRepository
+class ExportRepository extends PostRepository implements PostExportRepository
 {
 
     /**

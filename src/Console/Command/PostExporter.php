@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php
 
 /**
  * Ushahidi Webhook Console Command
@@ -8,6 +8,8 @@
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
+
+namespace Ushahidi\Console\Command;
 
 use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\PostExportRepository;
@@ -20,8 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
-class Ushahidi_Console_PostExporter extends Command
+class PostExporter extends Command
 {
 
 	use UserContext;
@@ -82,8 +83,8 @@ class Ushahidi_Console_PostExporter extends Command
         }
 
         $this->postExportRepository->setSearchParams($data);
-        
-		
+
+
         $posts = $this->postExportRepository->getSearchResults();
 
 		// ... get the total count for the search
