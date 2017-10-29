@@ -243,6 +243,7 @@ class PostRepository extends OhanzeeRepository implements
 			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
 			'published_to', 'source',
+			'post_id', // Search for just a single post id to check if it matches search criteria
 			'include_types', 'include_attributes', // Specify values to include
 			'include_unmapped',
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
@@ -416,19 +417,27 @@ class PostRepository extends OhanzeeRepository implements
 			}
 		}
 
-		$raw_union = '(
-			select post_geometry.post_id from post_geometry
-			union
-			select post_point.post_id from post_point
-		)';
-		if ($search->has_location === 'mapped') {
-			$query->where("$table.id", 'IN',
-				DB::query(Database::SELECT, $raw_union)
-			);
-		} elseif ($search->has_location === 'unmapped') {
-			$query->where("$table.id", 'NOT IN',
-				DB::query(Database::SELECT, $raw_union)
-			);
+		// Post id
+		if ($post_id = $search->post_id) {
+			if (!is_array($post_id)) {
+				$post_id = explode(',', $post_id);
+			}
+
+			$query
+				->where("$table.id", 'IN', $post_id)
+				;
+		}
+
+		if($search->has_location === 'mapped') {
+			$query->and_where_open()
+			->where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
+			->or_where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
+			->and_where_close();
+		} else if($search->has_location === 'unmapped') {
+			$query->and_where_open()
+			->where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
+			->or_where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
+			->and_where_close();
 		}
 
 		// Filter by tag
@@ -504,15 +513,17 @@ class PostRepository extends OhanzeeRepository implements
 		// If there's no logged in user, or the user isn't admin
 		// restrict our search to make sure we still return SOME results
 		// they are allowed to see
-		if (!$user->id) {
-			$query->where("$table.status", '=', 'published');
-		} elseif (!$this->isUserAdmin($user) and
-				  !$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-			$query
-				->and_where_open()
-				->where("$table.status", '=', 'published')
-				->or_where("$table.user_id", '=', $user->id)
-				->and_where_close();
+		if (!$search->exporter) {
+			if (!$user->id) {
+				$query->where("$table.status", '=', 'published');
+			} elseif (!$this->isUserAdmin($user) and
+					!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+				$query
+					->and_where_open()
+					->where("$table.status", '=', 'published')
+					->or_where("$table.user_id", '=', $user->id)
+					->and_where_close();
+			}
 		}
 	}
 
