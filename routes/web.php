@@ -19,39 +19,54 @@ $apiBase = 'api/v' . $apiVersion;
 
 $router->get('/', "API\IndexController@index");
 $router->get($apiBase, "API\IndexController@index");
-$router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($router) {
+$router->group([
+    'prefix' => $apiBase,
+    'namespace' => 'API'
+], function () use ($router) {
 
     // Collections
     $router->group([
-            'middleware' => ['auth:api', 'scope:collections,sets'],
             'namespace' => 'Collections',
             'prefix' => 'collections'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'CollectionsController@index');
-        $router->post('/', 'CollectionsController@store');
         $router->get('/{id}', 'CollectionsController@show');
-        $router->put('/{id}', 'CollectionsController@update');
-        $router->delete('/{id}', 'CollectionsController@destroy');
-
         $router->group(['prefix' => '/{set_id:[0-9]+}/posts'], function () use ($router) {
             $router->get('/', 'PostsController@index');
-            $router->post('/', 'PostsController@store');
             $router->get('/{id}', 'PostsController@show');
-            //$router->put('/{id}', 'PostsController@update');
-            $router->delete('/{id}', 'PostsController@destroy');
+        });
+
+        // Restricted access
+        $router->group([
+                'middleware' => ['auth:api', 'scope:collections,sets']
+        ], function () use ($router) {
+            $router->post('/', 'CollectionsController@store');
+            $router->put('/{id}', 'CollectionsController@update');
+            $router->delete('/{id}', 'CollectionsController@destroy');
+
+            $router->group(['prefix' => '/{set_id:[0-9]+}/posts'], function () use ($router) {
+                $router->post('/', 'PostsController@store');
+                //$router->put('/{id}', 'PostsController@update');
+                $router->delete('/{id}', 'PostsController@destroy');
+            });
         });
     });
 
     // Config
-    // Define /config outside the group otherwise prefix breaks optional trailing slash
-    $router->get('/config', ['uses' => 'ConfigController@index']);
-    // @todo stop using this in client, and remove?
-    $router->options('/config', ['uses' => 'ConfigController@indexOptions']);
-    // $router->post('/config', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@store']);
     $router->group(['prefix' => 'config/'], function () use ($router) {
-        $router->get('/{id}', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@show']);
-        $router->put('/{id}', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@update']);
-        // $router->delete('/{id}', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@destroy']);
+        // Public access
+        $router->get('/', ['uses' => 'ConfigController@index']);
+        // @todo stop using this in client, and remove?
+        $router->options('/', ['uses' => 'ConfigController@indexOptions']);
+        $router->get('/{id}', ['uses' => 'ConfigController@show']);
+
+        // Restricted access
+        $router->group(['middleware' => ['auth:api', 'scope:config']], function () use ($router) {
+            // $router->post('/', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@store']);
+            $router->put('/{id}', ['uses' => 'ConfigController@update']);
+            // $router->delete('/{id}', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@destroy']);
+        });
     });
 
     // Contacts
@@ -81,7 +96,6 @@ $router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($r
         $router->post('/{id}/import', 'CSVImportController@store');
     });
 
-
     // Data providers
     $router->group([
         'middleware' => ['auth:api', 'scope:dataproviders'],
@@ -93,15 +107,12 @@ $router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($r
 
     // Forms
     $router->group([
-        'middleware' => ['auth:api', 'scope:forms'],
         'namespace' => 'Forms',
         'prefix' => 'forms'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'FormsController@index');
-        $router->post('/', 'FormsController@store');
         $router->get('/{id:[0-9]+}', 'FormsController@show');
-        $router->put('/{id:[0-9]+}', 'FormsController@update');
-        $router->delete('/{id:[0-9]+}', 'FormsController@destroy');
 
         $router->get('/attributes', 'AttributesController@index');
         $router->get('/stages', 'StagesController@index');
@@ -111,51 +122,88 @@ $router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($r
             // Attributes
             $router->group(['prefix' => 'attributes'], function () use ($router) {
                 $router->get('/', 'AttributesController@index');
-                $router->post('/', 'AttributesController@store');
                 $router->get('/{id}', 'AttributesController@show');
-                $router->put('/{id}', 'AttributesController@update');
-                $router->delete('/{id}', 'AttributesController@destroy');
             });
 
             // Stages
             $router->group(['prefix' => 'stages'], function () use ($router) {
                 $router->get('/', 'StagesController@index');
-                $router->post('/', 'StagesController@store');
                 $router->get('/{id}', 'StagesController@show');
-                $router->put('/{id}', 'StagesController@update');
-                $router->delete('/{id}', 'StagesController@destroy');
             });
 
             // Roles
             $router->group(['prefix' => 'roles'], function () use ($router) {
                 $router->get('/', 'RolesController@index');
-                $router->put('/', 'RolesController@replace');
+            });
+        });
+
+        // Restricted access
+        $router->group([
+            'middleware' => ['auth:api', 'scope:forms']
+        ], function () use ($router) {
+            $router->post('/', 'FormsController@store');
+            $router->put('/{id:[0-9]+}', 'FormsController@update');
+            $router->delete('/{id:[0-9]+}', 'FormsController@destroy');
+
+            // Sub-form routes
+            $router->group(['prefix' => '/{form_id:[0-9]+}'], function () use ($router) {
+                // Attributes
+                $router->group(['prefix' => 'attributes'], function () use ($router) {
+                    $router->post('/', 'AttributesController@store');
+                    $router->put('/{id}', 'AttributesController@update');
+                    $router->delete('/{id}', 'AttributesController@destroy');
+                });
+
+                // Stages
+                $router->group(['prefix' => 'stages'], function () use ($router) {
+                    $router->post('/', 'StagesController@store');
+                    $router->put('/{id}', 'StagesController@update');
+                    $router->delete('/{id}', 'StagesController@destroy');
+                });
+
+                // Roles
+                $router->group(['prefix' => 'roles'], function () use ($router) {
+                    $router->put('/', 'RolesController@replace');
+                });
             });
         });
     });
 
     // Layers
     $router->group([
-        'middleware' => ['auth:api', 'scope:layers'],
         'prefix' => 'layers'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'LayersController@index');
-        $router->post('/', 'LayersController@store');
         $router->get('/{id}', 'LayersController@show');
-        $router->put('/{id}', 'LayersController@update');
-        $router->delete('/{id}', 'LayersController@destroy');
+
+        // Restricted access
+        $router->group([
+            'middleware' => ['auth:api', 'scope:layers']
+        ], function () use ($router) {
+            $router->post('/', 'LayersController@store');
+            $router->put('/{id}', 'LayersController@update');
+            $router->delete('/{id}', 'LayersController@destroy');
+        });
     });
 
     // Media
     $router->group([
-        'middleware' => ['auth:api', 'scope:media'],
         'prefix' => 'media'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'MediaController@index');
-        $router->post('/', 'MediaController@store');
         $router->get('/{id}', 'MediaController@show');
-        $router->put('/{id}', 'MediaController@update');
-        $router->delete('/{id}', 'MediaController@destroy');
+        // Public can upload media
+        $router->post('/', 'MediaController@store');
+
+        // Restricted access
+        $router->group([
+            'middleware' => ['auth:api', 'scope:media']
+        ], function () use ($router) {
+            $router->put('/{id}', 'MediaController@update');
+            $router->delete('/{id}', 'MediaController@destroy');
+        });
     });
 
     // Messages
@@ -209,26 +257,19 @@ $router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($r
 
     // Posts
     $router->group([
-        'middleware' => ['auth:api', 'scope:posts'],
         'namespace' => 'Posts',
         'prefix' => 'posts'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'PostsController@index');
         // @todo stop using this in client, and remove?
         $router->options('/', ['uses' => 'PostsController@indexOptions']);
-        $router->post('/', 'PostsController@store');
         $router->get('/{id:[0-9]+}', 'PostsController@show');
-        $router->put('/{id:[0-9]+}', 'PostsController@update');
-        $router->delete('/{id:[0-9]+}', 'PostsController@destroy');
 
         // GeoJSON
         $router->get('/geojson', 'GeoJSONController@index');
         $router->get('/geojson/{zoom}/{x}/{y}', 'GeoJSONController@index');
         $router->get('/{id:[0-9]+}/geojson', 'GeoJSONController@show');
-
-        // Locks
-        $router->put('/{post_id:[0-9]+}/lock', 'LockController@store');
-        $router->delete('/{post_id:[0-9]+}/lock', 'LockController@destroy');
 
         // Export
         $router->get('/export', 'ExportController@index');
@@ -236,7 +277,7 @@ $router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($r
         // Stats
         $router->get('/stats', 'PostsController@stats');
 
-        // Sub-form routes
+        // Sub-post routes
         $router->group(['prefix' => '/{parent_id:[0-9]+}'], function () use ($router) {
             // Revisions
             $router->group(['prefix' => 'revisions'], function () use ($router) {
@@ -247,27 +288,53 @@ $router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($r
             // Translations
             $router->group(['prefix' => 'translations'], function () use ($router) {
                 $router->get('/', 'TranslationsController@index');
-                $router->post('/', 'TranslationsController@store');
                 $router->get('/{id:[0-9]+}', 'TranslationsController@show');
-                $router->put('/{id:[0-9]+}', 'TranslationsController@update');
-                $router->delete('/{id:[0-9]+}', 'TranslationsController@destroy');
                 $router->get('/{locale:[A-Za-z_]+}', 'TranslationsController@show');
-                $router->put('/{locale:[A-Za-z_]+}', 'TranslationsController@update');
-                $router->delete('/{locale:[A-Za-z_]+}', 'TranslationsController@destroy');
+            });
+        });
+
+        // Restricted access
+        $router->group([
+            'middleware' => ['auth:api', 'scope:posts']
+        ], function () use ($router) {
+            $router->post('/', 'PostsController@store');
+            $router->put('/{id:[0-9]+}', 'PostsController@update');
+            $router->delete('/{id:[0-9]+}', 'PostsController@destroy');
+
+            // Locks
+            $router->put('/{post_id:[0-9]+}/lock', 'LockController@store');
+            $router->delete('/{post_id:[0-9]+}/lock', 'LockController@destroy');
+
+            // Sub-post routes
+            $router->group(['prefix' => '/{parent_id:[0-9]+}'], function () use ($router) {
+                // Translations
+                $router->group(['prefix' => 'translations'], function () use ($router) {
+                    $router->post('/', 'TranslationsController@store');
+                    $router->put('/{id:[0-9]+}', 'TranslationsController@update');
+                    $router->delete('/{id:[0-9]+}', 'TranslationsController@destroy');
+                    $router->put('/{locale:[A-Za-z_]+}', 'TranslationsController@update');
+                    $router->delete('/{locale:[A-Za-z_]+}', 'TranslationsController@destroy');
+                });
             });
         });
     });
 
     // Roles
     $router->group([
-        'middleware' => ['auth:api', 'scope:roles'],
         'prefix' => 'roles'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'RolesController@index');
-        $router->post('/', 'RolesController@store');
         $router->get('/{id}', 'RolesController@show');
-        $router->put('/{id}', 'RolesController@update');
-        $router->delete('/{id}', 'RolesController@destroy');
+
+        // Restricted access
+        $router->group([
+            'middleware' => ['auth:api', 'scope:roles']
+        ], function () use ($router) {
+            $router->post('/', 'RolesController@store');
+            $router->put('/{id}', 'RolesController@update');
+            $router->delete('/{id}', 'RolesController@destroy');
+        });
     });
 
     // Register
@@ -275,26 +342,38 @@ $router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($r
 
     // Saved Searches
     $router->group([
-        'middleware' => ['auth:api', 'scope:savedsearches'],
         'prefix' => 'savedsearches'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'SavedSearchesController@index');
-        $router->post('/', 'SavedSearchesController@store');
         $router->get('/{id}', 'SavedSearchesController@show');
-        $router->put('/{id}', 'SavedSearchesController@update');
-        $router->delete('/{id}', 'SavedSearchesController@destroy');
+
+        // Restricted access
+        $router->group([
+            'middleware' => ['auth:api', 'scope:savedsearches']
+        ], function () use ($router) {
+            $router->post('/', 'SavedSearchesController@store');
+            $router->put('/{id}', 'SavedSearchesController@update');
+            $router->delete('/{id}', 'SavedSearchesController@destroy');
+        });
     });
 
     // Tags
     $router->group([
-        'middleware' => ['auth:api', 'scope:tags'],
         'prefix' => 'tags'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'TagsController@index');
-        $router->post('/', 'TagsController@store');
         $router->get('/{id}', 'TagsController@show');
-        $router->put('/{id}', 'TagsController@update');
-        $router->delete('/{id}', 'TagsController@destroy');
+
+        // Restricted access
+        $router->group([
+            'middleware' => ['auth:api', 'scope:tags']
+        ], function () use ($router) {
+            $router->post('/', 'TagsController@store');
+            $router->put('/{id}', 'TagsController@update');
+            $router->delete('/{id}', 'TagsController@destroy');
+        });
     });
 
     // TOS
@@ -311,16 +390,22 @@ $router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($r
 
     // Users
     $router->group([
-        'middleware' => ['auth:api', 'scope:users'],
         'prefix' => 'users'
     ], function () use ($router) {
+        // Public access
         $router->get('/', 'UsersController@index');
-        $router->post('/', 'UsersController@store');
         $router->get('/{id:[0-9]+}', 'UsersController@show');
-        $router->put('/{id:[0-9]+}', 'UsersController@update');
-        $router->delete('/{id:[0-9]+}', 'UsersController@destroy');
-        $router->get('/me', 'UsersController@showMe');
-        $router->put('/me', 'UsersController@updateMe');
+
+        // Restricted access
+        $router->group([
+            'middleware' => ['auth:api', 'scope:users']
+        ], function () use ($router) {
+            $router->post('/', 'UsersController@store');
+            $router->put('/{id:[0-9]+}', 'UsersController@update');
+            $router->delete('/{id:[0-9]+}', 'UsersController@destroy');
+            $router->get('/me', 'UsersController@showMe');
+            $router->put('/me', 'UsersController@updateMe');
+        });
     });
 
     // Web hooks
