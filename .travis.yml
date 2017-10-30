@@ -15,6 +15,8 @@ matrix:
   exclude:
   - php: '7.1'
     env: coverage="--coverage"
+  - php: 'nightly'
+    env: coverage="--coverage"
   allow_failures:
   - env: coverage="--coverage"
   - php: 'nightly'
