@@ -153,11 +153,15 @@ class Notification extends Command
 					'contact_id' => $contact->id,
 					'notification_post_id' => $post->id,
 					'title' => strtr(Kohana::message(
-							'notifications', $messageType . '.title', "New post: :title"
-						), $subs),
+                        'notifications',
+                        $messageType . '.title',
+                        "New post: :title"
+                    ), $subs),
 					'message' => strtr(Kohana::message(
-							'notifications', $messageType . '.message', "New post: :title"
-						), $subs),
+                        'notifications',
+                        $messageType . '.message',
+                        "New post: :title"
+                    ), $subs),
 					'type' => $messageType,
 					'data_provider' => $data_provider,
 				];

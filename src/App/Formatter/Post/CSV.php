@@ -87,7 +87,7 @@ class CSV implements Formatter
 		$keySet = explode('.', $keyParam); //contains key + index of the key, if any
 		$headingKey = $keySet[0];
 		$key = isset($keySet[1]) ? $keySet[1] : null;
-		$recordValue = isset ($record['attributes']) &&
+		$recordValue = isset($record['attributes']) &&
 			isset($record['attributes'][$headingKey]) ? $record['values'] : $record;
 		if ($key === 'lat' || $key === 'lon') {
 			/*

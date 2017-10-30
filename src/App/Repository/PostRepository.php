@@ -381,7 +381,8 @@ class PostRepository extends OhanzeeRepository implements
 			$bounding_box = $this->createBoundingBoxFromCSV($search->bbox);
 		} elseif ($search->center_point && $search->within_km) {
 			$bounding_box = $this->createBoundingBoxFromCenter(
-				$search->center_point, $search->within_km
+				$search->center_point,
+                $search->within_km
 			);
 		}
 
@@ -428,15 +429,31 @@ class PostRepository extends OhanzeeRepository implements
 				;
 		}
 
-		if($search->has_location === 'mapped') {
+		if ($search->has_location === 'mapped') {
 			$query->and_where_open()
-			->where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
-			->or_where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
+			->where(
+                "$table.id",
+                'IN',
+                DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
+            )
+			->or_where(
+                "$table.id",
+                'IN',
+                DB::query(Database::SELECT, 'select post_point.post_id from post_point')
+            )
 			->and_where_close();
-		} else if($search->has_location === 'unmapped') {
+		} elseif ($search->has_location === 'unmapped') {
 			$query->and_where_open()
-			->where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
-			->or_where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
+			->where(
+                "$table.id",
+                'NOT IN',
+                DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
+            )
+			->or_where(
+                "$table.id",
+                'NOT IN',
+                DB::query(Database::SELECT, 'select post_point.post_id from post_point')
+            )
 			->and_where_close();
 		}
 
@@ -787,7 +804,10 @@ class PostRepository extends OhanzeeRepository implements
 
 		$bounding_box_factory = $this->bounding_box_factory;
 		$bounding_box = $bounding_box_factory(
-			$center_lon, $center_lat, $center_lon, $center_lat
+			$center_lon,
+            $center_lat,
+            $center_lon,
+            $center_lat
 		);
 
 		if ($within_km) {

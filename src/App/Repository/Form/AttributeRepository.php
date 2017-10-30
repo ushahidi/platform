@@ -132,7 +132,7 @@ class AttributeRepository extends OhanzeeRepository implements
 		if (!empty($sorting['orderby'])) {
 			$this->search_query->order_by(
 				$this->getTable() . '.' . $sorting['orderby'],
-			\Arr::get($sorting, 'order')
+                \Arr::get($sorting, 'order')
 			);
 		}
 

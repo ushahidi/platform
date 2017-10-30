@@ -128,8 +128,7 @@ class DropOldOauthTables extends AbstractMigration
         );
 
         // Insert scopes
-         $this->execute(
-            "
+         $this->execute("
             INSERT INTO `oauth_scopes` (`id`, `scope`, `name`, `description`)
             VALUES
                 (1,'api','api',NULL),

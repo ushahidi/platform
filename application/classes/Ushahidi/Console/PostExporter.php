@@ -91,7 +91,6 @@ class Ushahidi_Console_PostExporter extends Command
 
 		// // ... remove any entities that cannot be seen
 		foreach ($posts as $idx => $post) {
-
 			// Retrieved Attribute Labels for Entity's values
 			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray());
 

@@ -44,8 +44,8 @@ class TagsRepository extends ValueRepository
 
 		// Select 'tag_id' as value too
 		$query->select(
-				['posts_tags.tag_id', 'value']
-			);
+            ['posts_tags.tag_id', 'value']
+        );
 
 		return $query;
 	}
