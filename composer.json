@@ -127,7 +127,8 @@
         ],
         "pre-test" : [
             "@migrate",
-            "php artisan passport:keys"
+            "php artisan passport:keys",
+            "chmod 660 storage/passport/*.key"
         ],
         "test" : [
             "phpunit --no-coverage",
