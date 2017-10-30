@@ -17,296 +17,296 @@
 $apiVersion = '3';
 $apiBase = 'api/v' . $apiVersion;
 
-$app->get('/', "API\IndexController@index");
-$app->get($apiBase . '[/]', "API\IndexController@index");
-$app->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($app) {
+$router->get('/', "API\IndexController@index");
+$router->get($apiBase . '[/]', "API\IndexController@index");
+$router->group(['prefix' => $apiBase, 'namespace' => 'API'], function () use ($router) {
 
     // Collections
-    $app->group([
+    $router->group([
             'middleware' => ['auth:api', 'scope:collections,sets'],
             'namespace' => 'Collections'
-    ], function () use ($app) {
-        $app->get('/collections[/]', 'CollectionsController@index');
-        $app->post('/collections[/]', 'CollectionsController@store');
-        $app->group(['prefix' => 'collections/'], function () use ($app) {
-            $app->get('/{id}[/]', 'CollectionsController@show');
-            $app->put('/{id}[/]', 'CollectionsController@update');
-            $app->delete('/{id}[/]', 'CollectionsController@destroy');
+    ], function () use ($router) {
+        $router->get('/collections[/]', 'CollectionsController@index');
+        $router->post('/collections[/]', 'CollectionsController@store');
+        $router->group(['prefix' => 'collections/'], function () use ($router) {
+            $router->get('/{id}[/]', 'CollectionsController@show');
+            $router->put('/{id}[/]', 'CollectionsController@update');
+            $router->delete('/{id}[/]', 'CollectionsController@destroy');
 
-            $app->get('/{set_id}/posts[/]', 'PostsController@index');
-            $app->post('/{set_id}/posts[/]', 'PostsController@store');
-            $app->group(['prefix' => '/{set_id:[0-9]+}/posts/'], function () use ($app) {
-                $app->get('/{id}[/]', 'PostsController@show');
-                //$app->put('/{id}[/]', 'PostsController@update');
-                $app->delete('/{id}[/]', 'PostsController@destroy');
+            $router->get('/{set_id}/posts[/]', 'PostsController@index');
+            $router->post('/{set_id}/posts[/]', 'PostsController@store');
+            $router->group(['prefix' => '/{set_id:[0-9]+}/posts/'], function () use ($router) {
+                $router->get('/{id}[/]', 'PostsController@show');
+                //$router->put('/{id}[/]', 'PostsController@update');
+                $router->delete('/{id}[/]', 'PostsController@destroy');
             });
         });
     });
 
     // Config
     // Define /config outside the group otherwise prefix breaks optional trailing slash
-    $app->get('/config[/]', ['uses' => 'ConfigController@index']);
+    $router->get('/config[/]', ['uses' => 'ConfigController@index']);
     // @todo stop using this in client, and remove?
-    $app->options('/config[/]', ['uses' => 'ConfigController@indexOptions']);
-    // $app->post('/config[/]', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@store']);
-    $app->group(['prefix' => 'config/'], function () use ($app) {
-        $app->get('/{id}[/]', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@show']);
-        $app->put('/{id}[/]', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@update']);
-        // $app->delete('/{id}[/]', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@destroy']);
+    $router->options('/config[/]', ['uses' => 'ConfigController@indexOptions']);
+    // $router->post('/config[/]', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@store']);
+    $router->group(['prefix' => 'config/'], function () use ($router) {
+        $router->get('/{id}[/]', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@show']);
+        $router->put('/{id}[/]', ['middleware' => ['auth:api', 'scope:config'], 'uses' => 'ConfigController@update']);
+        // $router->delete('/{id}[/]', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@destroy']);
     });
 
     // Contacts
-    $app->group(['middleware' => ['auth:api', 'scope:contacts']], function () use ($app) {
-        $app->get('/contacts[/]', 'ContactsController@index');
-        $app->post('/contacts[/]', 'ContactsController@store');
-        $app->group(['prefix' => 'contacts/'], function () use ($app) {
-            $app->get('/{id}[/]', 'ContactsController@show');
-            $app->put('/{id}[/]', 'ContactsController@update');
-            $app->delete('/{id}[/]', 'ContactsController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:contacts']], function () use ($router) {
+        $router->get('/contacts[/]', 'ContactsController@index');
+        $router->post('/contacts[/]', 'ContactsController@store');
+        $router->group(['prefix' => 'contacts/'], function () use ($router) {
+            $router->get('/{id}[/]', 'ContactsController@show');
+            $router->put('/{id}[/]', 'ContactsController@update');
+            $router->delete('/{id}[/]', 'ContactsController@destroy');
         });
     });
 
     // CSV + Import
-    $app->group(['middleware' => ['auth:api', 'scope:csv'], 'namespace' => 'CSV'], function () use ($app) {
-        $app->get('/csv[/]', 'CSVController@index');
-        $app->post('/csv[/]', 'CSVController@store');
-        $app->group(['prefix' => 'csv/'], function () use ($app) {
-            $app->get('/{id}[/]', 'CSVController@show');
-            $app->put('/{id}[/]', 'CSVController@update');
-            $app->delete('/{id}[/]', 'CSVController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:csv'], 'namespace' => 'CSV'], function () use ($router) {
+        $router->get('/csv[/]', 'CSVController@index');
+        $router->post('/csv[/]', 'CSVController@store');
+        $router->group(['prefix' => 'csv/'], function () use ($router) {
+            $router->get('/{id}[/]', 'CSVController@show');
+            $router->put('/{id}[/]', 'CSVController@update');
+            $router->delete('/{id}[/]', 'CSVController@destroy');
 
-            $app->post('/{id}/import[/]', 'CSVImportController@store');
+            $router->post('/{id}/import[/]', 'CSVImportController@store');
         });
     });
 
 
     // Data providers
-    $app->group(['middleware' => ['auth:api', 'scope:dataproviders']], function () use ($app) {
-        $app->get('/dataproviders[/]', 'DataProvidersController@index');
-        $app->get('/dataproviders/{id}[/]', 'DataProvidersController@show');
+    $router->group(['middleware' => ['auth:api', 'scope:dataproviders']], function () use ($router) {
+        $router->get('/dataproviders[/]', 'DataProvidersController@index');
+        $router->get('/dataproviders/{id}[/]', 'DataProvidersController@show');
     });
 
     // Forms
-    $app->group(['middleware' => ['auth:api', 'scope:forms'], 'namespace' => 'Forms'], function () use ($app) {
-        $app->get('/forms[/]', 'FormsController@index');
-        $app->post('/forms[/]', 'FormsController@store');
-        $app->group(['prefix' => 'forms/'], function () use ($app) {
-            $app->get('/{id:[0-9]+}[/]', 'FormsController@show');
-            $app->put('/{id:[0-9]+}[/]', 'FormsController@update');
-            $app->delete('/{id:[0-9]+}[/]', 'FormsController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:forms'], 'namespace' => 'Forms'], function () use ($router) {
+        $router->get('/forms[/]', 'FormsController@index');
+        $router->post('/forms[/]', 'FormsController@store');
+        $router->group(['prefix' => 'forms/'], function () use ($router) {
+            $router->get('/{id:[0-9]+}[/]', 'FormsController@show');
+            $router->put('/{id:[0-9]+}[/]', 'FormsController@update');
+            $router->delete('/{id:[0-9]+}[/]', 'FormsController@destroy');
 
-            $app->get('/attributes[/]', 'AttributesController@index');
-            $app->get('/stages[/]', 'StagesController@index');
+            $router->get('/attributes[/]', 'AttributesController@index');
+            $router->get('/stages[/]', 'StagesController@index');
 
             // Sub-form routes
-            $app->group(['prefix' => '/{form_id:[0-9]+}'], function () use ($app) {
+            $router->group(['prefix' => '/{form_id:[0-9]+}'], function () use ($router) {
                 // Attributes
-                $app->get('/attributes[/]', 'AttributesController@index');
-                $app->post('/attributes[/]', 'AttributesController@store');
-                $app->group(['prefix' => 'attributes/'], function () use ($app) {
-                    $app->get('/{id}[/]', 'AttributesController@show');
-                    $app->put('/{id}[/]', 'AttributesController@update');
-                    $app->delete('/{id}[/]', 'AttributesController@destroy');
+                $router->get('/attributes[/]', 'AttributesController@index');
+                $router->post('/attributes[/]', 'AttributesController@store');
+                $router->group(['prefix' => 'attributes/'], function () use ($router) {
+                    $router->get('/{id}[/]', 'AttributesController@show');
+                    $router->put('/{id}[/]', 'AttributesController@update');
+                    $router->delete('/{id}[/]', 'AttributesController@destroy');
                 });
 
                 // Stages
-                $app->get('/stages[/]', 'StagesController@index');
-                $app->post('/stages[/]', 'StagesController@store');
-                $app->group(['prefix' => 'stages/'], function () use ($app) {
-                    $app->get('/{id}[/]', 'StagesController@show');
-                    $app->put('/{id}[/]', 'StagesController@update');
-                    $app->delete('/{id}[/]', 'StagesController@destroy');
+                $router->get('/stages[/]', 'StagesController@index');
+                $router->post('/stages[/]', 'StagesController@store');
+                $router->group(['prefix' => 'stages/'], function () use ($router) {
+                    $router->get('/{id}[/]', 'StagesController@show');
+                    $router->put('/{id}[/]', 'StagesController@update');
+                    $router->delete('/{id}[/]', 'StagesController@destroy');
                 });
 
                 // Roles
-                $app->get('/roles[/]', 'RolesController@index');
-                $app->put('/roles[/]', 'RolesController@replace');
+                $router->get('/roles[/]', 'RolesController@index');
+                $router->put('/roles[/]', 'RolesController@replace');
             });
         });
     });
 
     // Layers
-    $app->group(['middleware' => ['auth:api', 'scope:layers']], function () use ($app) {
-        $app->get('/layers[/]', 'LayersController@index');
-        $app->post('/layers[/]', 'LayersController@store');
-        $app->group(['prefix' => 'layers/'], function () use ($app) {
-            $app->get('/{id}[/]', 'LayersController@show');
-            $app->put('/{id}[/]', 'LayersController@update');
-            $app->delete('/{id}[/]', 'LayersController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:layers']], function () use ($router) {
+        $router->get('/layers[/]', 'LayersController@index');
+        $router->post('/layers[/]', 'LayersController@store');
+        $router->group(['prefix' => 'layers/'], function () use ($router) {
+            $router->get('/{id}[/]', 'LayersController@show');
+            $router->put('/{id}[/]', 'LayersController@update');
+            $router->delete('/{id}[/]', 'LayersController@destroy');
         });
     });
 
     // Media
-    $app->group(['middleware' => ['auth:api', 'scope:media']], function () use ($app) {
-        $app->get('/media[/]', 'MediaController@index');
-        $app->post('/media[/]', 'MediaController@store');
-        $app->group(['prefix' => 'media/'], function () use ($app) {
-            $app->get('/{id}[/]', 'MediaController@show');
-            $app->put('/{id}[/]', 'MediaController@update');
-            $app->delete('/{id}[/]', 'MediaController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:media']], function () use ($router) {
+        $router->get('/media[/]', 'MediaController@index');
+        $router->post('/media[/]', 'MediaController@store');
+        $router->group(['prefix' => 'media/'], function () use ($router) {
+            $router->get('/{id}[/]', 'MediaController@show');
+            $router->put('/{id}[/]', 'MediaController@update');
+            $router->delete('/{id}[/]', 'MediaController@destroy');
         });
     });
 
     // Messages
-    $app->group(['middleware' => ['auth:api', 'scope:messages']], function () use ($app) {
-        $app->get('/messages[/]', 'MessagesController@index');
-        $app->post('/messages[/]', 'MessagesController@store');
-        $app->group(['prefix' => 'messages/'], function () use ($app) {
-            $app->get('/{id}[/]', 'MessagesController@show');
-            $app->get('/{id}/post[/]', 'MessagesController@showPost');
-            $app->put('/{id}[/]', 'MessagesController@update');
-            // $app->delete('/{id}[/]', 'MessagesController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:messages']], function () use ($router) {
+        $router->get('/messages[/]', 'MessagesController@index');
+        $router->post('/messages[/]', 'MessagesController@store');
+        $router->group(['prefix' => 'messages/'], function () use ($router) {
+            $router->get('/{id}[/]', 'MessagesController@show');
+            $router->get('/{id}/post[/]', 'MessagesController@showPost');
+            $router->put('/{id}[/]', 'MessagesController@update');
+            // $router->delete('/{id}[/]', 'MessagesController@destroy');
         });
     });
 
     // Migration
-    $app->group(['middleware' => ['auth:api', 'scope:migrate']], function () use ($app) {
-        $app->get('/migration[/]', 'MigrationController@index');
-        $app->get('/migration/status[/]', 'MigrationController@status');
-        $app->post('/migration/rollback[/]', 'MigrationController@rollback');
-        $app->post('/migration/migrate[/]', 'MigrationController@migrate');
+    $router->group(['middleware' => ['auth:api', 'scope:migrate']], function () use ($router) {
+        $router->get('/migration[/]', 'MigrationController@index');
+        $router->get('/migration/status[/]', 'MigrationController@status');
+        $router->post('/migration/rollback[/]', 'MigrationController@rollback');
+        $router->post('/migration/migrate[/]', 'MigrationController@migrate');
     });
 
     // Notifications
-    $app->group(['middleware' => ['auth:api', 'scope:notifications']], function () use ($app) {
-        $app->get('/notifications[/]', 'NotificationsController@index');
-        $app->post('/notifications[/]', 'NotificationsController@store');
-        $app->group(['prefix' => 'notifications/'], function () use ($app) {
-            $app->get('/{id}[/]', 'NotificationsController@show');
-            $app->put('/{id}[/]', 'NotificationsController@update');
-            $app->delete('/{id}[/]', 'NotificationsController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:notifications']], function () use ($router) {
+        $router->get('/notifications[/]', 'NotificationsController@index');
+        $router->post('/notifications[/]', 'NotificationsController@store');
+        $router->group(['prefix' => 'notifications/'], function () use ($router) {
+            $router->get('/{id}[/]', 'NotificationsController@show');
+            $router->put('/{id}[/]', 'NotificationsController@update');
+            $router->delete('/{id}[/]', 'NotificationsController@destroy');
         });
     });
 
     // Password reset
-    $app->post('/passwordreset[/]', 'PasswordResetController@store');
-    $app->post('/passwordreset/confirm[/]', 'PasswordResetController@confirm');
+    $router->post('/passwordreset[/]', 'PasswordResetController@store');
+    $router->post('/passwordreset/confirm[/]', 'PasswordResetController@confirm');
 
     // Permissions
-    $app->group(['middleware' => ['auth:api', 'scope:permissions']], function () use ($app) {
-        $app->get('/permissions[/]', 'PermissionsController@index');
-        $app->get('/permissions/{id}[/]', 'PermissionsController@show');
+    $router->group(['middleware' => ['auth:api', 'scope:permissions']], function () use ($router) {
+        $router->get('/permissions[/]', 'PermissionsController@index');
+        $router->get('/permissions/{id}[/]', 'PermissionsController@show');
     });
 
     // Posts
-    $app->group(['middleware' => ['auth:api', 'scope:posts'], 'namespace' => 'Posts'], function () use ($app) {
-        $app->get('/posts[/]', 'PostsController@index');
+    $router->group(['middleware' => ['auth:api', 'scope:posts'], 'namespace' => 'Posts'], function () use ($router) {
+        $router->get('/posts[/]', 'PostsController@index');
         // @todo stop using this in client, and remove?
-        $app->options('/posts[/]', ['uses' => 'PostsController@indexOptions']);
-        $app->post('/posts[/]', 'PostsController@store');
-        $app->group(['prefix' => 'posts/'], function () use ($app) {
-            $app->get('/{id:[0-9]+}[/]', 'PostsController@show');
-            $app->put('/{id:[0-9]+}[/]', 'PostsController@update');
-            $app->delete('/{id:[0-9]+}[/]', 'PostsController@destroy');
+        $router->options('/posts[/]', ['uses' => 'PostsController@indexOptions']);
+        $router->post('/posts[/]', 'PostsController@store');
+        $router->group(['prefix' => 'posts/'], function () use ($router) {
+            $router->get('/{id:[0-9]+}[/]', 'PostsController@show');
+            $router->put('/{id:[0-9]+}[/]', 'PostsController@update');
+            $router->delete('/{id:[0-9]+}[/]', 'PostsController@destroy');
             // GeoJSON
-            $app->get('/geojson[/]', 'GeoJSONController@index');
-            $app->get('/geojson/{zoom}/{x}/{y}[/]', 'GeoJSONController@index');
-            $app->get('/{id:[0-9]+}/geojson[/]', 'GeoJSONController@show');
+            $router->get('/geojson[/]', 'GeoJSONController@index');
+            $router->get('/geojson/{zoom}/{x}/{y}[/]', 'GeoJSONController@index');
+            $router->get('/{id:[0-9]+}/geojson[/]', 'GeoJSONController@show');
 
             // Locks
-            $app->put('/{post_id:[0-9]+}/lock[/]', 'LockController@store');
-            $app->delete('/{post_id:[0-9]+}/lock[/]', 'LockController@destroy');
+            $router->put('/{post_id:[0-9]+}/lock[/]', 'LockController@store');
+            $router->delete('/{post_id:[0-9]+}/lock[/]', 'LockController@destroy');
 
             // Export
-            $app->get('/export[/]', 'ExportController@index');
+            $router->get('/export[/]', 'ExportController@index');
 
             // Stats
-            $app->get('/stats[/]', 'PostsController@stats');
+            $router->get('/stats[/]', 'PostsController@stats');
 
             // Sub-form routes
-            $app->group(['prefix' => '/{parent_id:[0-9]+}'], function () use ($app) {
+            $router->group(['prefix' => '/{parent_id:[0-9]+}'], function () use ($router) {
                 // Revisions
-                $app->get('/revisions[/]', 'RevisionsController@index');
-                $app->group(['prefix' => 'revisions/'], function () use ($app) {
-                    $app->get('/{id}[/]', 'RevisionsController@show');
+                $router->get('/revisions[/]', 'RevisionsController@index');
+                $router->group(['prefix' => 'revisions/'], function () use ($router) {
+                    $router->get('/{id}[/]', 'RevisionsController@show');
                 });
 
                 // Translations
-                $app->get('/translations[/]', 'TranslationsController@index');
-                $app->post('/translations[/]', 'TranslationsController@store');
-                $app->group(['prefix' => 'translations/'], function () use ($app) {
-                    $app->get('/{id:[0-9]+}[/]', 'TranslationsController@show');
-                    $app->put('/{id:[0-9]+}[/]', 'TranslationsController@update');
-                    $app->delete('/{id:[0-9]+}[/]', 'TranslationsController@destroy');
-                    $app->get('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@show');
-                    $app->put('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@update');
-                    $app->delete('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@destroy');
+                $router->get('/translations[/]', 'TranslationsController@index');
+                $router->post('/translations[/]', 'TranslationsController@store');
+                $router->group(['prefix' => 'translations/'], function () use ($router) {
+                    $router->get('/{id:[0-9]+}[/]', 'TranslationsController@show');
+                    $router->put('/{id:[0-9]+}[/]', 'TranslationsController@update');
+                    $router->delete('/{id:[0-9]+}[/]', 'TranslationsController@destroy');
+                    $router->get('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@show');
+                    $router->put('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@update');
+                    $router->delete('/{locale:[A-Za-z_]+}[/]', 'TranslationsController@destroy');
                 });
             });
         });
     });
 
     // Roles
-    $app->group(['middleware' => ['auth:api', 'scope:roles']], function () use ($app) {
-        $app->get('/roles[/]', 'RolesController@index');
-        $app->post('/roles[/]', 'RolesController@store');
-        $app->group(['prefix' => 'roles/'], function () use ($app) {
-            $app->get('/{id}[/]', 'RolesController@show');
-            $app->put('/{id}[/]', 'RolesController@update');
-            $app->delete('/{id}[/]', 'RolesController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:roles']], function () use ($router) {
+        $router->get('/roles[/]', 'RolesController@index');
+        $router->post('/roles[/]', 'RolesController@store');
+        $router->group(['prefix' => 'roles/'], function () use ($router) {
+            $router->get('/{id}[/]', 'RolesController@show');
+            $router->put('/{id}[/]', 'RolesController@update');
+            $router->delete('/{id}[/]', 'RolesController@destroy');
         });
     });
 
     // Register
-    $app->post('/register[/]', 'RegisterController@store');
+    $router->post('/register[/]', 'RegisterController@store');
 
     // Saved Searches
-    $app->group(['middleware' => ['auth:api', 'scope:savedsearches']], function () use ($app) {
-        $app->get('/savedsearches[/]', 'SavedSearchesController@index');
-        $app->post('/savedsearches[/]', 'SavedSearchesController@store');
-        $app->group(['prefix' => 'savedsearches/'], function () use ($app) {
-            $app->get('/{id}[/]', 'SavedSearchesController@show');
-            $app->put('/{id}[/]', 'SavedSearchesController@update');
-            $app->delete('/{id}[/]', 'SavedSearchesController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:savedsearches']], function () use ($router) {
+        $router->get('/savedsearches[/]', 'SavedSearchesController@index');
+        $router->post('/savedsearches[/]', 'SavedSearchesController@store');
+        $router->group(['prefix' => 'savedsearches/'], function () use ($router) {
+            $router->get('/{id}[/]', 'SavedSearchesController@show');
+            $router->put('/{id}[/]', 'SavedSearchesController@update');
+            $router->delete('/{id}[/]', 'SavedSearchesController@destroy');
         });
     });
 
     // Tags
-    $app->group(['middleware' => ['auth:api', 'scope:tags']], function () use ($app) {
-        $app->get('/tags[/]', 'TagsController@index');
-        $app->post('/tags[/]', 'TagsController@store');
-        $app->group(['prefix' => 'tags/'], function () use ($app) {
-            $app->get('/{id}[/]', 'TagsController@show');
-            $app->put('/{id}[/]', 'TagsController@update');
-            $app->delete('/{id}[/]', 'TagsController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:tags']], function () use ($router) {
+        $router->get('/tags[/]', 'TagsController@index');
+        $router->post('/tags[/]', 'TagsController@store');
+        $router->group(['prefix' => 'tags/'], function () use ($router) {
+            $router->get('/{id}[/]', 'TagsController@show');
+            $router->put('/{id}[/]', 'TagsController@update');
+            $router->delete('/{id}[/]', 'TagsController@destroy');
         });
     });
 
     // TOS
-    $app->group(['middleware' => ['auth:api', 'scope:tos']], function () use ($app) {
-        $app->get('/tos[/]', 'TosController@index');
-        $app->post('/tos[/]', 'TosController@store');
-        $app->group(['prefix' => 'tos/'], function () use ($app) {
-            $app->get('/{id}[/]', 'TosController@show');
-            //$app->put('/{id}[/]', 'TosController@update');
-            //$app->delete('/{id}[/]', 'TosController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:tos']], function () use ($router) {
+        $router->get('/tos[/]', 'TosController@index');
+        $router->post('/tos[/]', 'TosController@store');
+        $router->group(['prefix' => 'tos/'], function () use ($router) {
+            $router->get('/{id}[/]', 'TosController@show');
+            //$router->put('/{id}[/]', 'TosController@update');
+            //$router->delete('/{id}[/]', 'TosController@destroy');
         });
     });
 
     // Users
-    $app->group(['middleware' => ['auth:api', 'scope:users']], function () use ($app) {
-        $app->get('/users[/]', 'UsersController@index');
-        $app->post('/users[/]', 'UsersController@store');
-        $app->group(['prefix' => 'users/'], function () use ($app) {
-            $app->get('/{id:[0-9]+}[/]', 'UsersController@show');
-            $app->put('/{id:[0-9]+}[/]', 'UsersController@update');
-            $app->delete('/{id:[0-9]+}[/]', 'UsersController@destroy');
-            $app->get('/me[/]', 'UsersController@showMe');
-            $app->put('/me[/]', 'UsersController@updateMe');
+    $router->group(['middleware' => ['auth:api', 'scope:users']], function () use ($router) {
+        $router->get('/users[/]', 'UsersController@index');
+        $router->post('/users[/]', 'UsersController@store');
+        $router->group(['prefix' => 'users/'], function () use ($router) {
+            $router->get('/{id:[0-9]+}[/]', 'UsersController@show');
+            $router->put('/{id:[0-9]+}[/]', 'UsersController@update');
+            $router->delete('/{id:[0-9]+}[/]', 'UsersController@destroy');
+            $router->get('/me[/]', 'UsersController@showMe');
+            $router->put('/me[/]', 'UsersController@updateMe');
         });
     });
 
     // Web hooks
-    $app->group(['middleware' => ['auth:api', 'scope:webhooks']], function () use ($app) {
-        $app->get('/webhooks[/]', 'WebhooksController@index');
-        $app->post('/webhooks[/]', 'WebhooksController@store');
-        $app->group(['prefix' => 'webhooks/'], function () use ($app) {
-            $app->get('/{id:[0-9]+}[/]', 'WebhooksController@show');
-            $app->put('/{id:[0-9]+}[/]', 'WebhooksController@update');
-            $app->delete('/{id:[0-9]+}[/]', 'WebhooksController@destroy');
+    $router->group(['middleware' => ['auth:api', 'scope:webhooks']], function () use ($router) {
+        $router->get('/webhooks[/]', 'WebhooksController@index');
+        $router->post('/webhooks[/]', 'WebhooksController@store');
+        $router->group(['prefix' => 'webhooks/'], function () use ($router) {
+            $router->get('/{id:[0-9]+}[/]', 'WebhooksController@show');
+            $router->put('/{id:[0-9]+}[/]', 'WebhooksController@update');
+            $router->delete('/{id:[0-9]+}[/]', 'WebhooksController@destroy');
         });
     });
 });
 
 // Migration
-$app->get('/migrate[/]', 'MigrateController@migrate');
+$router->get('/migrate[/]', 'MigrateController@migrate');
