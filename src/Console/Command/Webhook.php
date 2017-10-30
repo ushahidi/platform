@@ -11,20 +11,12 @@
 
 namespace Ushahidi\Console\Command;
 
-use Ushahidi\Console\Command;
+use Illuminate\Console\Command;
 
 use Ushahidi\Core\Tool\Signer;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
-
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 
 class Webhook extends Command
 {
@@ -34,51 +26,41 @@ class Webhook extends Command
 	private $webhookJobRepository;
 	private $client;
 
-	public function setDatabase(Database $db)
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'webhook:send';
+
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'webhook:send {--limit=}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Send webhook requests';
+
+	public function __construct()
 	{
-		$this->db = $db;
+		parent::__construct();
+		$this->db = service('kohana.db');
+		$this->webhookRepository = service('repository.webhook');
+		$this->postRepository = service('repository.post');
+		$this->webhookJobRepository = service('repository.webhook.job');
 	}
 
-	public function setWebhookRepo(WebhookRepository $repo)
+	public function handle()
 	{
-		$this->webhookRepository = $repo;
-	}
+		$this->client = new \GuzzleHttp\Client();
 
-	public function setPostRepo(PostRepository $repo)
-	{
-		$this->postRepository = $repo;
-	}
-
-	public function setWebhookJobRepo(WebhookJobRepository $repo)
-	{
-		$this->webhookJobRepository = $repo;
-	}
-
-	protected function configure()
-	{
-		$this
-			->setName('webhook')
-			->setDescription('Manage webhook requests')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, send', 'list')
-			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of webhook requests to be sent')
-			;
-	}
-
-	protected function executeList(InputInterface $input, OutputInterface $output)
-	{
-		return [
-			[
-				'Available actions' => 'send'
-			]
-		];
-	}
-
-	protected function executeSend(InputInterface $input, OutputInterface $output)
-	{
-
-		$this->client = new GuzzleHttp\Client();
-
-		$limit = $input->getOption('limit');
+		$limit = $this->option('limit');
 
 		$count = 0;
 
@@ -97,11 +79,7 @@ class Webhook extends Command
 		// Finally commit changes
 		$this->db->commit();
 
-		return [
-			[
-				'Message' => sprintf('%d webhook requests sent', $count)
-			]
-		];
+		$this->info("{$count} webhook requests sent");
 	}
 
 	private function generateRequest($webhook_request)

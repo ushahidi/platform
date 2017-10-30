@@ -81,7 +81,7 @@ class ConfigRepository implements
 		// Merge defaults
 		$defaults = $this->getDefaults($group);
 
-		$config = array_merge_recursive($defaults, $config);
+		$config = array_replace_recursive($defaults, $config);
 
 		return $this->getEntity(['id' => $group] + $config);
 	}

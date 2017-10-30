@@ -1,16 +1,4 @@
 #!/usr/bin/env php
 <?php
 
-// Kohana requires that DOCROOT be defined. This script is expected to be run
-// from the project root, which is the DOCROOT.
-define('DOCROOT', getcwd() . DIRECTORY_SEPARATOR);
-
-// Make Kohana available for the console commands.
-require DOCROOT . 'application/kohana.php';
-
-// Load the console application as a service.
-$app = service('app.console');
-
-// All commands are automatically injected when the service is loaded.
-// Use `bin/ushahidi list` to show all available commands.
-$app->run();
+include(__DIR__.'/../artisan');
