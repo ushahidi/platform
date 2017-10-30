@@ -55,6 +55,6 @@ class CSVImportController extends RestController
             ->setPayload($records)
 			->setTransformer($transformer);
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

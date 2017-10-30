@@ -72,7 +72,7 @@ class PostsController extends RESTController
             ->setPayload($this->getPayload($request))
 			->setIdentifiers($this->getIdentifiers($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
 	/**
@@ -89,7 +89,7 @@ class PostsController extends RESTController
             ->setFilters($this->getFilters($request))
 			->setIdentifiers($this->getIdentifiers($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -105,7 +105,7 @@ class PostsController extends RESTController
             ->get($this->getResource(), 'read')
             ->setIdentifiers($this->getIdentifiers($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -122,7 +122,7 @@ class PostsController extends RESTController
             ->setIdentifiers($this->getIdentifiers($request))
             ->setPayload($this->getPayload($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -138,7 +138,7 @@ class PostsController extends RESTController
             ->get($this->getResource(), 'delete')
             ->setIdentifiers($this->getIdentifiers($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
 	/**
@@ -156,6 +156,6 @@ class PostsController extends RESTController
 			// @todo allow injecting formatters based on resource + action
 			->setFormatter(service('formatter.entity.post.stats'));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 }

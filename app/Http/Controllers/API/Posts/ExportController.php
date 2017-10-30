@@ -33,6 +33,6 @@ class ExportController extends PostsController
 			$this->usecase->setFormatter(service("formatter.entity.post.$format"));
 		}
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

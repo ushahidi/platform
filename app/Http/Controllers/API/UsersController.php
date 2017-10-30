@@ -36,7 +36,7 @@ class UsersController extends RESTController
                 'id' => $request->user()->id ?: 0
             ]);
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 
 	/**
@@ -65,6 +65,6 @@ class UsersController extends RESTController
             ])
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 }

@@ -61,7 +61,7 @@ class GeoJSONController extends PostsController
 			->setIdentifiers($this->getIdentifiers($request))
 			->setFormatter(service('formatter.entity.post.geojsoncollection'));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
 	/**
@@ -80,6 +80,6 @@ class GeoJSONController extends PostsController
             ->setIdentifiers($this->getIdentifiers($request))
             ->setFormatter(service('formatter.entity.post.geojson'));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

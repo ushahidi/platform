@@ -31,7 +31,7 @@ class RolesController extends RESTController
                 'form_id' => $params['form_id']
             ]);
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     public function replace(Request $request)
@@ -41,6 +41,6 @@ class RolesController extends RESTController
             ->setIdentifiers($this->getRouteParams($request))
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

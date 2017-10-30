@@ -30,7 +30,7 @@ class LockController extends PostsController
 			->setIdentifiers($this->getIdentifiers($request))
 			->setFormatter(service("formatter.entity.post.lock"));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
 	// Break Lock
@@ -41,6 +41,6 @@ class LockController extends PostsController
             ->setIdentifiers($this->getIdentifiers($request))
 			->setFormatter(service("formatter.entity.post.lock"));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

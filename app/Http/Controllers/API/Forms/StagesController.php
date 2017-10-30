@@ -31,7 +31,7 @@ class StagesController extends RESTController
                 'form_id' => isset($params['form_id']) ? $params['form_id'] : null
             ]);
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     public function store(Request $request)
@@ -42,6 +42,6 @@ class StagesController extends RESTController
             ->setIdentifiers($params)
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

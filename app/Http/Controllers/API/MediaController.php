@@ -38,6 +38,6 @@ class MediaController extends RESTController
             //->setPayload($request->all());
             ->setPayload(array_merge($request->input(), $_FILES));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }
