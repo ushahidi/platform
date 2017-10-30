@@ -56,19 +56,31 @@ class BoundingBox
 		];
 
 		$this->north = $this->newPointByVector(
-			$origin->north, $origin->west, $km, 0
+			$origin->north,
+            $origin->west,
+            $km,
+            0
 		)[0];
 
 		$this->east = $this->newPointByVector(
-			$origin->north, $origin->east, $km, 90
+			$origin->north,
+            $origin->east,
+            $km,
+            90
 		)[1];
 
 		$this->south = $this->newPointByVector(
-			$origin->south, $origin->west, $km, 180
+			$origin->south,
+            $origin->west,
+            $km,
+            180
 		)[0];
 
 		$this->west = $this->newPointByVector(
-			$origin->north, $origin->west, $km, 270
+			$origin->north,
+            $origin->west,
+            $km,
+            270
 		)[1];
 
 		return $this;

@@ -48,6 +48,8 @@ class PassportServiceProvider extends LaravelPassportServiceProvider
             \Ushahidi\App\Passport\UserRepository::class
         );
 
+        \Dusterio\LumenPassport\LumenPassport::routes($this->app);
+
         parent::boot();
     }
 

@@ -34,6 +34,6 @@ class RegisterController extends RESTController
             ->get($this->getResource(), 'register')
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

@@ -37,7 +37,7 @@ class PostsController extends RestController
 			// Send through parent collection id
 			->setIdentifiers($this->getRouteParams($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -59,6 +59,6 @@ class PostsController extends RestController
 			// Send through parent collection id
 			->setIdentifiers($params);
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

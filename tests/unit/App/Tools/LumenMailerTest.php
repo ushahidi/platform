@@ -53,9 +53,9 @@ class LumenMailerTest extends TestCase
             ->with(
                 'emails/forgot-password',
                 M::on(function ($data) {
-                    $this->assertArrayHasKey( 'site_name', $data );
-                    $this->assertArrayHasKey( 'token', $data );
-                    $this->assertArrayHasKey( 'client_url', $data );
+                    $this->assertArrayHasKey('site_name', $data);
+                    $this->assertArrayHasKey('token', $data);
+                    $this->assertArrayHasKey('client_url', $data);
 
                     return true;
                 }),
@@ -104,9 +104,9 @@ class LumenMailerTest extends TestCase
             ->with(
                 'emails/forgot-password',
                 M::on(function ($data) {
-                    $this->assertArrayHasKey( 'site_name', $data );
-                    $this->assertArrayHasKey( 'token', $data );
-                    $this->assertArrayHasKey( 'client_url', $data );
+                    $this->assertArrayHasKey('site_name', $data);
+                    $this->assertArrayHasKey('token', $data);
+                    $this->assertArrayHasKey('client_url', $data);
 
                     return true;
                 }),
@@ -156,9 +156,9 @@ class LumenMailerTest extends TestCase
             ->with(
                 'emails/forgot-password',
                 M::on(function ($data) {
-                    $this->assertArrayHasKey( 'site_name', $data );
-                    $this->assertArrayHasKey( 'token', $data );
-                    $this->assertArrayHasKey( 'client_url', $data );
+                    $this->assertArrayHasKey('site_name', $data);
+                    $this->assertArrayHasKey('token', $data);
+                    $this->assertArrayHasKey('client_url', $data);
 
                     return true;
                 }),

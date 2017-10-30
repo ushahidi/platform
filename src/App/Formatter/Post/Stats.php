@@ -61,7 +61,6 @@ class Stats implements Formatter
 		];
 		$cumulative_total = 0;
 
-
 		foreach ($records as $record) {
 			$record['label'] = $record['label'] ? $record['label'] : 'None';
 			if ($record['label'] !== $entry['key']) {
@@ -98,7 +97,8 @@ class Stats implements Formatter
 			$entry['values'][] = [
 				'label' => $record['label'] ? $record['label'] : 'None',
 				'total' => (int)$record['total'],
-				'id' => isset($record['id']) ? (int)$record['id'] : null
+				'id' => isset($record['id']) ? (int)$record['id'] : null,
+				'type' => isset($record['type']) ? $record['type'] : 'web'
 			];
 		}
 

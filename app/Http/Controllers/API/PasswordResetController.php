@@ -28,7 +28,7 @@ class PasswordResetController extends RESTController
             ->get($this->getResource(), 'getresettoken')
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 
 	public function confirmOptions()
@@ -42,6 +42,6 @@ class PasswordResetController extends RESTController
             ->get($this->getResource(), 'passwordreset')
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 }

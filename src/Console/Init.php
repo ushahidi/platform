@@ -70,6 +70,12 @@ $di->setter['Ushahidi\Console\Command\SavedSearch']['setMessageRepo'] = $di->laz
 $di->setter['Ushahidi\Console\Command\SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
 $di->setter['Ushahidi\Console\Command\SavedSearch']['setDataFactory'] = $di->lazyGet('factory.data');
 
+ // Post Exporter
+ $di->setter['Ushahidi\Console\Application']['injectCommands'][] =
+ 	$di->lazyNew('Ushahidi\Console\Command\PostExporter');
+ $di->setter['Ushahidi\Console\Command\PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
+ $di->setter['Ushahidi\Console\Command\PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
+
 // Webhook command
 $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\Webhook');
 $di->setter['Ushahidi\Console\Command\Webhook']['setDatabase'] = $di->lazyGet('kohana.db');

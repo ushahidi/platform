@@ -19,6 +19,8 @@ use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContr
 use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\PostLock;
+use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository as PostRepositoryContract;
 use Ushahidi\Core\Entity\PostSearchData;
@@ -33,6 +35,7 @@ use Ushahidi\Core\Tool\Permissions\AclTrait;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\Permissionable;
 use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\App\Util\BoundingBox;
 
@@ -67,6 +70,7 @@ class PostRepository extends OhanzeeRepository implements
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
 	protected $form_repo;
+	protected $contact_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
 	// By default remove all private responses
@@ -83,7 +87,8 @@ class PostRepository extends OhanzeeRepository implements
 	 * @param Database                              $db
 	 * @param FormAttributeRepository               $form_attribute_repo
 	 * @param FormStageRepository                   $form_stage_repo
-	 * @param Post_ValueFactory  $post_value_factory
+	 * @param PostLockRepository                    $post_lock_repo
+	 * @param Ushahidi_Repository_Post_ValueFactory $post_value_factory
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
 	public function __construct(
@@ -91,6 +96,8 @@ class PostRepository extends OhanzeeRepository implements
         FormAttributeRepositoryContract $form_attribute_repo,
         FormStageRepositoryContract $form_stage_repo,
         FormRepositoryContract $form_repo,
+        PostLockRepository $post_lock_repo,
+        ContactRepository $contact_repo,
         PostValueFactory $post_value_factory,
         InstanceFactory $bounding_box_factory
     ) {
@@ -100,6 +107,8 @@ class PostRepository extends OhanzeeRepository implements
 		$this->form_attribute_repo = $form_attribute_repo;
 		$this->form_stage_repo = $form_stage_repo;
 		$this->form_repo = $form_repo;
+		$this->post_lock_repo = $post_lock_repo;
+		$this->contact_repo = $contact_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->bounding_box_factory = $bounding_box_factory;
 	}
@@ -121,7 +130,8 @@ class PostRepository extends OhanzeeRepository implements
 				$this->restricted = false;
 			}
 			// Get Hidden Stage Ids to be excluded from results
-			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id']);
+			$status = $data['status'] ? $data['status'] : '';
+			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id'], $data['status']);
 		}
 
 		if (!empty($data['id'])) {
@@ -131,11 +141,17 @@ class PostRepository extends OhanzeeRepository implements
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
+				'lock' => null,
 			];
+
+
+			if ($this->canUserSeePostLock(new Post($data), $user)) {
+				$data['lock'] = $this->getHydratedLock($data['id']);
+			}
 		}
 		// NOTE: This and the restriction above belong somewhere else,
 		// ideally in their own step
-		//Check if author information should be returned
+		// Check if author information should be returned
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email']) {
 			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user)) {
 				unset($data['author_realname']);
@@ -146,6 +162,14 @@ class PostRepository extends OhanzeeRepository implements
 
 		return new Post($data);
 	}
+
+	protected function getHydratedLock($post_id)
+	{
+		$lock_array = $this->post_lock_repo->getPostLock($post_id);
+
+		return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : null;
+	}
+
 
 	// JsonTranscodeRepository
 	protected function getJsonProperties()
@@ -218,7 +242,8 @@ class PostRepository extends OhanzeeRepository implements
 			'date_before', 'date_after',
 			'bbox', 'tags', 'values',
 			'center_point', 'within_km',
-			'published_to',
+			'published_to', 'source',
+			'post_id', // Search for just a single post id to check if it matches search criteria
 			'include_types', 'include_attributes', // Specify values to include
 			'include_unmapped',
 			'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
@@ -302,7 +327,7 @@ class PostRepository extends OhanzeeRepository implements
 
 			if (is_numeric($search->q)) {
 				// if `q` is numeric, could be searching for a specific id
-				$query->or_where('id', '=', $search->q);
+				$query->or_where("$table.id", '=', $search->q);
 			}
 
 			$query->and_where_close();
@@ -339,7 +364,7 @@ class PostRepository extends OhanzeeRepository implements
 			$date_after = date_create($search->date_after, new DateTimeZone('UTC'));
 			// Convert to UTC (needed in case date came with a tz)
 			$date_after->setTimezone(new DateTimeZone('UTC'));
-			$query->where("$table.post_date", '>=', $date_after->format('Y-m-d H:i:s'));
+			$query->where("$table.post_date", '>', $date_after->format('Y-m-d H:i:s'));
 		}
 
 		if ($search->date_before) {
@@ -356,7 +381,8 @@ class PostRepository extends OhanzeeRepository implements
 			$bounding_box = $this->createBoundingBoxFromCSV($search->bbox);
 		} elseif ($search->center_point && $search->within_km) {
 			$bounding_box = $this->createBoundingBoxFromCenter(
-				$search->center_point, $search->within_km
+				$search->center_point,
+                $search->within_km
 			);
 		}
 
@@ -376,20 +402,59 @@ class PostRepository extends OhanzeeRepository implements
 				;
 		}
 
-		$raw_union = '(
-			select post_geometry.post_id from post_geometry
-			union
-			select post_point.post_id from post_point
-		)';
+		if ($sources = $search->source) {
+			if (!is_array($sources)) {
+				$sources = explode(',', $sources);
+			}
+
+			// Special case: 'web' looks for null
+			if (in_array('web', $sources)) {
+				$query->and_where_open()
+					->where("messages.type", 'IS', null)
+					->or_where("messages.type", 'IN', $sources)
+					->and_where_close();
+			} else {
+				$query->where("messages.type", 'IN', $sources);
+			}
+		}
+
+		// Post id
+		if ($post_id = $search->post_id) {
+			if (!is_array($post_id)) {
+				$post_id = explode(',', $post_id);
+			}
+
+			$query
+				->where("$table.id", 'IN', $post_id)
+				;
+		}
 
 		if ($search->has_location === 'mapped') {
-			$query->where("$table.id", 'IN',
-				DB::query(Database::SELECT, $raw_union)
-			);
+			$query->and_where_open()
+			->where(
+                "$table.id",
+                'IN',
+                DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
+            )
+			->or_where(
+                "$table.id",
+                'IN',
+                DB::query(Database::SELECT, 'select post_point.post_id from post_point')
+            )
+			->and_where_close();
 		} elseif ($search->has_location === 'unmapped') {
-			$query->where("$table.id", 'NOT IN',
-				DB::query(Database::SELECT, $raw_union)
-			);
+			$query->and_where_open()
+			->where(
+                "$table.id",
+                'NOT IN',
+                DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
+            )
+			->or_where(
+                "$table.id",
+                'NOT IN',
+                DB::query(Database::SELECT, 'select post_point.post_id from post_point')
+            )
+			->and_where_close();
 		}
 
 		// Filter by tag
@@ -465,15 +530,17 @@ class PostRepository extends OhanzeeRepository implements
 		// If there's no logged in user, or the user isn't admin
 		// restrict our search to make sure we still return SOME results
 		// they are allowed to see
-		if (!$user->id) {
-			$query->where("$table.status", '=', 'published');
-		} elseif (!$this->isUserAdmin($user) and
-				  !$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-			$query
-				->and_where_open()
-				->where("$table.status", '=', 'published')
-				->or_where("$table.user_id", '=', $user->id)
-				->and_where_close();
+		if (!$search->exporter) {
+			if (!$user->id) {
+				$query->where("$table.status", '=', 'published');
+			} elseif (!$this->isUserAdmin($user) and
+					!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+				$query
+					->and_where_open()
+					->where("$table.status", '=', 'published')
+					->or_where("$table.user_id", '=', $user->id)
+					->and_where_close();
+			}
 		}
 	}
 
@@ -511,7 +578,6 @@ class PostRepository extends OhanzeeRepository implements
 				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
 			}
 		}
-
 		return $total_posts - $mapped;
 	}
 
@@ -526,7 +592,9 @@ class PostRepository extends OhanzeeRepository implements
 	{
 		// Create a new query to select posts count
 		$this->search_query = DB::select([DB::expr('COUNT(DISTINCT posts.id)'), 'total'])
-			->from($this->getTable());
+				->from('posts')
+				->JOIN('messages', 'LEFT')
+				->ON('posts.id', '=', 'messages.post_id');
 
 		// Quick hack to ensure all posts are available to
 		// group_by=status
@@ -605,10 +673,15 @@ class PostRepository extends OhanzeeRepository implements
 		elseif ($search->group_by === 'form') {
 			$this->search_query
 				->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
+				// Select Datasource
+				->select(['messages.type', 'type'])
 				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
 				->select([DB::expr('MAX(forms.name)'), 'label'])
 				->select(['forms.id', 'id'])
-				->group_by('forms.id');
+				// First group by form...
+				->group_by('forms.id')
+				// ...and then by datasource
+				->group_by('messages.type');
 		} // Group by tags
 		elseif ($search->group_by === 'tags') {
 			/**
@@ -731,7 +804,10 @@ class PostRepository extends OhanzeeRepository implements
 
 		$bounding_box_factory = $this->bounding_box_factory;
 		$bounding_box = $bounding_box_factory(
-			$center_lon, $center_lat, $center_lon, $center_lat
+			$center_lon,
+            $center_lat,
+            $center_lon,
+            $center_lat
 		);
 
 		if ($within_km) {
@@ -821,7 +897,6 @@ class PostRepository extends OhanzeeRepository implements
 	// UpdateRepository
 	public function create(Entity $entity)
 	{
-
 		$post = $entity->asArray();
 		$post['created'] = time();
 
@@ -832,7 +907,8 @@ class PostRepository extends OhanzeeRepository implements
 			$post['completed_stages'],
 			$post['sets'],
 			$post['source'],
-			$post['color']
+			$post['color'],
+			$post['lock']
 		);
 
 		// Set default value for post_date
@@ -889,7 +965,8 @@ class PostRepository extends OhanzeeRepository implements
 			$post['completed_stages'],
 			$post['sets'],
 			$post['source'],
-			$post['color']
+			$post['color'],
+			$post['lock']
 		);
 
 		// Convert post_date to mysql format
@@ -919,6 +996,10 @@ class PostRepository extends OhanzeeRepository implements
 		if ($entity->hasChanged('completed_stages')) {
 			// Update post-stages
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
+		}
+
+		if ($this->post_lock_repo->isActive($entity->id)) {
+			$this->post_lock_repo->releaseLock($entity->id);
 		}
 
 		return $count;

@@ -62,6 +62,6 @@ class MessagesController extends RESTController
                 'type' => 'report'
             ]);
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

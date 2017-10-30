@@ -1,6 +1,5 @@
 @setsFixture @oauth2Skip
 Feature: Testing the Sets API
-
 	Scenario: Creating a SavedSearch
 		Given that I want to make a new "SavedSearch"
 		And that the request "data" is:
@@ -24,11 +23,12 @@ Feature: Testing the Sets API
 		And the "name" property equals "Search One"
 		And the "featured" property equals "1"
 		And the "view" property equals "map"
+		And the "user.id" property equals "2"
 		And the "filter.q" property equals "zombie"
 		Then the guzzle status code should be 200
 
 	Scenario: Creating a SavedSearch with search=0 is ignored
-		Given that I want to make a new "collection"
+		Given that I want to make a new "SavedSearch"
 		And that the request "data" is:
 			"""
 			{

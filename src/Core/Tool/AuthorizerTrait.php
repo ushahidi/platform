@@ -82,6 +82,18 @@ trait AuthorizerTrait
 	}
 
 	/**
+	 * Verifies the current user is allowed lock access on $entity
+	 *
+	 * @param  Entity  $entity
+	 * @return void
+	 * @throws AuthorizerException
+	 */
+	protected function verifyLockAuth(Entity $entity)
+	{
+		$this->verifyAuth($entity, 'lock');
+	}
+
+	/**
 	 * Verifies the current user is allowed delete access on $entity
 	 *
 	 * @param  Entity  $entity

@@ -19,6 +19,9 @@ use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContr
 use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
 use Ushahidi\App\Repository\FormsTagsTrait;
@@ -30,6 +33,13 @@ class AttributeRepository extends OhanzeeRepository implements
 	FormAttributeRepositoryContract
 {
 	use UserContext;
+	// Checks if user is Admin
+	use AdminAccess;
+
+	// Provides `acl`
+	use AclTrait;
+
+	use PostValueRestrictions;
 
 	protected $form_stage_repo;
 
@@ -83,6 +93,13 @@ class AttributeRepository extends OhanzeeRepository implements
 			$form_id = $this->getFormId();
 		}
 
+		// Restrict returned attributes based on User rights
+		$user = $this->getUser();
+		if (!$this->canUserEditForm($form_id, $user)) {
+			$exclude_stages =  $this->form_stage_repo->getHiddenStageIds($form_id);
+			$exclude_stages ? $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages) : null;
+		}
+
 		return $query;
 	}
 
@@ -115,7 +132,7 @@ class AttributeRepository extends OhanzeeRepository implements
 		if (!empty($sorting['orderby'])) {
 			$this->search_query->order_by(
 				$this->getTable() . '.' . $sorting['orderby'],
-			\Arr::get($sorting, 'order')
+                \Arr::get($sorting, 'order')
 			);
 		}
 

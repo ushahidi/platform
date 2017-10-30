@@ -84,7 +84,7 @@ abstract class RESTController extends Controller
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'options');
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -100,7 +100,7 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'options')
             ->setIdentifiers($this->getRouteParams($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -116,7 +116,7 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'create')
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -132,7 +132,7 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'search')
             ->setFilters($request->query());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -148,7 +148,7 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'read')
             ->setIdentifiers($this->getRouteParams($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -165,7 +165,7 @@ abstract class RESTController extends Controller
             ->setIdentifiers($this->getRouteParams($request))
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -181,7 +181,7 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'delete')
             ->setIdentifiers($this->getRouteParams($request));
 
-        return $this->prepResponse($this->executeUsecase(), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
     /**
@@ -207,7 +207,7 @@ abstract class RESTController extends Controller
      * @throws HTTP_Exception_404
      * @return void
      */
-    protected function executeUsecase()
+    protected function executeUsecase(Request $request)
     {
         try {
             // Attempt to execute the usecase to get the response
@@ -217,7 +217,13 @@ abstract class RESTController extends Controller
         } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
             abort(404, $e->getMessage());
         } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
-            abort(403, $e->getMessage());
+            // If we don't have an Authorization header, return 401
+            if (!$request->headers->has('Authorization')) {
+                throw abort(401, 'The request is missing an access token in either the Authorization header.', ['www-authenticate' => 'Bearer realm="OAuth"']);
+            } else {
+                // Otherwise throw a 403
+                abort(403, $e->getMessage());
+            }
         } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
             throw new ValidationException($e->getMessage(), $e);
         } catch (\InvalidArgumentException $e) {

@@ -12,31 +12,56 @@
 namespace Ushahidi\App\Repository\Post;
 
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\PostRepository as PostRepositoryContract;
+use Ushahidi\Core\Entity\PostExportRepository;
+
+
 use Ushahidi\App\Repository\PostRepository;
 
-class ExportRepository extends PostRepository
+class ExportRepository extends PostRepository implements PostExportRepository
 {
+
+    /**
+     * @param $data
+     * @return array
+     */
     public function retrieveColumnNameData($data)
     {
 
+        /**
+     * Tags (native) should not be shown in the CSV Export
+    */
+        unset($data['tags']);
         // Set attribute keys
         $attributes = [];
         foreach ($data['values'] as $key => $val) {
             $attribute = $this->form_attribute_repo->getByKey($key);
-            $attributes[$key] = $attribute->label;
+            $attributes[$key] = [
+                'label' => $attribute->label,
+                'priority' => $attribute->priority,
+                'stage' => $attribute->form_stage_id,
+                'type' => $attribute->type,
+                'form_id' => $data['form_id']
+            ];
 
-            // Set attribute names
+            // Set attribute names. This is for categories (custom field) to show their label and not the ids
             if ($attribute->type === 'tags') {
-                    $data['values'][$key] = $this->retrieveTagNames($val);
+                $data['values'][$key] = $this->retrieveTagNames($val);
             }
         }
 
         $data += ['attributes' => $attributes];
 
+
         // Set Set names
         if (!empty($data['sets'])) {
             $data['sets'] = $this->retrieveSetNames($data['sets']);
+        }
+
+        // Get contact
+        if (!empty($data['contact_id'])) {
+            $contact = $this->contact_repo->get($data['contact_id']);
+            $data['contact_type'] = $contact->type;
+            $data['contact'] = $contact->contact;
         }
 
         // Set Completed Stage names
@@ -49,11 +74,6 @@ class ExportRepository extends PostRepository
             $form = $this->form_repo->get($data['form_id']);
             $data['form_name'] = $form->name;
         }
-
-        if (!empty($data['tags'])) {
-            $data['tags'] = $this->retrieveTagNames($data['tags']);
-        }
-
         return $data;
     }
 

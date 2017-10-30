@@ -995,8 +995,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "15"
-		And the "total_count" property equals "15"
+		And the "count" property equals "18"
+		And the "total_count" property equals "18"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
@@ -1051,8 +1051,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "3"
-		And the "total_count" property equals "3"
+		And the "count" property equals "6"
+		And the "total_count" property equals "6"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
@@ -1068,6 +1068,30 @@ Feature: Testing the Posts API
 		And the type of the "count" property is "numeric"
 		And the "count" property equals "1"
 		And the "total_count" property equals "1"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Listing All Posts by sms
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			source=sms
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the "results.0.source" property equals "sms"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Listing All Posts from web
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			source=web
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the "results.0.source" property is empty
 		Then the guzzle status code should be 200
 
 	# @todo improve this test to check more response data
@@ -1583,3 +1607,39 @@ Feature: Testing the Posts API
 		And the response has an "errors.1.title" property
 		And the "errors.1.title" property equals "the field Last Location (point) must contain a valid longitude"
 		Then the guzzle status code should be 422
+
+	@resetFixture @search
+	Scenario: Filtering by post_id and other filters works
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			limit=1&post_id=121&status=published
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "1"
+		And the "results.0.id" property equals "121"
+		And the response has a "next" property
+		And the response has a "prev" property
+		And the response has a "curr" property
+		Then the guzzle status code should be 200
+
+
+	@resetFixture @search
+	Scenario: Filtering by post_id and other filters returns an empty set if the post doesn't match
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			limit=1&post_id=121&status=draft
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "0"
+		And the response has a "next" property
+		And the response has a "prev" property
+		And the response has a "curr" property
+		Then the guzzle status code should be 200

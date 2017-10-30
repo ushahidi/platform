@@ -65,13 +65,17 @@ class StageRepository extends OhanzeeRepository implements
 	}
 
 	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(array $where = [], $form_id = null)
+	protected function selectQuery(array $where = [], $form_id = null, $post_status = null)
 	{
 		$query = parent::selectQuery($where);
 
 		$user = $this->getUser();
 		if (!$this->canUserEditForm($form_id, $user)) {
 			$query->where('show_when_published', '=', "1");
+
+			if ($post_status !== 'published') {
+				$query->where('task_is_internal_only', '=', "0");
+			}
 		}
 
 		return $query;
@@ -87,7 +91,7 @@ class StageRepository extends OhanzeeRepository implements
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['form_id', 'label'];
+		return ['form_id', 'label', 'postStatus'];
 	}
 
 	// Override SearchRepository
@@ -98,14 +102,16 @@ class StageRepository extends OhanzeeRepository implements
 			$form_id = $search->form_id;
 		}
 
-		$this->search_query = $this->selectQuery([], $form_id);
+		$post_status = $search->postStatus ? $search->postStatus : '';
+
+		$this->search_query = $this->selectQuery([], $form_id, $post_status);
 
 		$sorting = $search->getSorting();
 
 		if (!empty($sorting['orderby'])) {
 			$this->search_query->order_by(
 				$this->getTable() . '.' . $sorting['orderby'],
-			\Arr::get($sorting, 'order')
+                \Arr::get($sorting, 'order')
 			);
 		}
 
@@ -162,15 +168,22 @@ class StageRepository extends OhanzeeRepository implements
 		* @param  $form_id
 		* @return Array
 		*/
-	public function getHiddenStageIds($form_id)
+	public function getHiddenStageIds($form_id, $post_status = null)
 	{
 			$stages = [];
 
 			$query = DB::select('id')
 					->from('form_stages')
+					->where('form_id', '=', $form_id);
 
-					->where('form_id', '=', $form_id)
-					->where('show_when_published', '=', 0);
+        if ($post_status === 'published') {
+            $query->where('show_when_published', '=', 0);
+        } else {
+            $query->and_where_open()
+            ->where('show_when_published', '=', 0)
+            ->or_where('task_is_internal_only', '=', 1)
+            ->and_where_close();
+        }
 
 			$results = $query->execute($this->db)->as_array();
 

@@ -20,6 +20,7 @@ Feature: Testing the Sets API
 		And the response has a "name" property
 		And the "name" property equals "Set One"
 		And the "featured" property equals "1"
+		And the "user.id" property equals "2"
 		And the "view" property equals "map"
 		Then the guzzle status code should be 200
 

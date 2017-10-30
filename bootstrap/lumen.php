@@ -94,9 +94,12 @@ $app->register(Barryvdh\Cors\ServiceProvider::class);
 |
 */
 
-$app->group(['namespace' => 'Ushahidi\App\Http\Controllers'], function ($app) {
+$app->router->group([
+    'namespace' => 'Ushahidi\App\Http\Controllers',
+], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
 
 // Configure CORS package
 $app->configure('cors');
