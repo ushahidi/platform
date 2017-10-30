@@ -89,7 +89,7 @@ class Import extends Command
 		return $this->readerMap[$type]();
 	}
 
-	public function fire()
+	public function handle()
 	{
 		// Get the filename
 		$filename = $this->option('file');

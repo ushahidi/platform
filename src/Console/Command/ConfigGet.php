@@ -58,7 +58,7 @@ class ConfigGet extends Command
 			->setFormatter(service('formatter.entity.console'));
 	}
 
-	public function fire()
+	public function handle()
 	{
 		$group = $this->argument('group');
 

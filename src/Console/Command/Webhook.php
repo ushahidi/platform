@@ -56,7 +56,7 @@ class Webhook extends Command
 		$this->webhookJobRepository = service('repository.webhook.job');
 	}
 
-	public function fire()
+	public function handle()
 	{
 		$this->client = new \GuzzleHttp\Client();
 

@@ -55,7 +55,7 @@ class DataproviderIncoming extends Command
 		return $providers;
 	}
 
-	public function fire()
+	public function handle()
 	{
 		$providers = $this->getProviders();
 		$limit = $this->option('limit');

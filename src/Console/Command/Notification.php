@@ -59,7 +59,7 @@ class Notification extends Command
 		$this->clientUrl = service('clienturl');
 	}
 
-	public function fire()
+	public function handle()
 	{
 		$limit = $this->option('limit');
 

@@ -60,7 +60,7 @@ class PostExporter extends Command
 		$this->postExportRepository = service('repository.posts_export');
 	}
 
-	public function fire()
+	public function handle()
 	{
         $data = $this->data->get('search');
 

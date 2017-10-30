@@ -60,7 +60,7 @@ class SavedSearch extends Command
 		$this->messageRepository = service('repository.message');
 	}
 
-	public function fire()
+	public function handle()
 	{
 		$count = 0;
 

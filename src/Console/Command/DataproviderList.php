@@ -55,7 +55,7 @@ class DataproviderList extends Command
 		return $providers;
 	}
 
-	public function fire()
+	public function handle()
 	{
 		$providers = $this->getProviders();
 

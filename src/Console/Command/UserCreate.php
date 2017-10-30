@@ -49,7 +49,7 @@ class UserCreate extends Command
 		$this->validator = service('factory.validator')->get('users', 'create');
 	}
 
-	public function fire()
+	public function handle()
 	{
 		$state = [
 			'realname' => $this->option('realname') ?: null,

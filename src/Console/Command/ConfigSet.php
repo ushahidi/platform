@@ -63,7 +63,7 @@ class ConfigSet extends Command
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
 		$group = $this->argument('group');
 		$key   = $this->option('key');

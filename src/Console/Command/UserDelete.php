@@ -48,7 +48,7 @@ class UserDelete extends Command
 		$this->repo = service('repository.user');
 	}
 
-	public function fire()
+	public function handle()
 	{
 		$email = $this->option('email');
 
