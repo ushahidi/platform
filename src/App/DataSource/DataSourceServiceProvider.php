@@ -40,6 +40,10 @@ class DataSourceServiceProvider extends ServiceProvider
 
             return $manager;
         });
+
+        $this->app->singleton(DataSourceManager::class, function ($app) {
+            return $app->make('datasources');
+        });
     }
 
     protected function registerDataSources($manager)

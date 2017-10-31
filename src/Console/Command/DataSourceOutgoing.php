@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Data Provider Console Commands
+ * Ushahidi Data Source Console Commands
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Console
@@ -31,7 +31,7 @@ class DataSourceOutgoing extends Command
      *
      * @var string
      */
-    protected $signature = 'datasource:outgoing {--provider=} {--all} {--limit=}';
+    protected $signature = 'datasource:outgoing {--source=} {--all} {--limit=}';
 
     /**
      * The console command description.
@@ -40,40 +40,42 @@ class DataSourceOutgoing extends Command
      */
     protected $description = 'Send outgoing messages via data sources';
 
-	public function __construct() {
+	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources) {
 		parent::__construct();
-		$this->repo = service('repository.dataprovider');
+		$this->sources = $sources;
 	}
 
-	protected function getProviders()
+	protected function getSources()
 	{
-		if ($provider = $this->option('provider')) {
-			$providers = [$this->repo->get($provider)];
+		if ($source = $this->option('source')) {
+			$sources = array_filter([$source => $this->sources->getSource($source)]);
+		} elseif ($this->option('all')) {
+			$sources = $this->sources->getSource();
 		} else {
-			$providers = $this->repo->all(!$this->option('all'));
+			$sources = $this->sources->getEnabledSources();
+
+			// Hack: always include email no matter what!
+			if (!isset($sources['email'])) {
+				$sources['email'] = $this->sources->getSource('email');
+			}
 		}
-		return $providers;
+		return $sources;
 	}
 
 	public function handle()
 	{
-		$providers = $this->getProviders();
+		$sources = $this->getSources();
 		$limit = $this->option('limit');
 
-		// Hack: always include email no matter what!
-		if (!isset($providers['email'])) {
-			$providers['email'] = $this->repo->get('email');
-		}
-
 		$totals = [];
-		foreach ($providers as $id => $provider) {
+		foreach ($sources as $id => $source) {
 			$totals[] = [
-				'Provider' => $provider->name,
-				'Total'    => \DataProvider::process_pending_messages($limit, $id)
+				'Source'   => $source->getName(),
+				'Total'    => $this->sources->processPendingMessages($limit, $id)
 			];
 		}
 
-		return $this->table(['Provider', 'Total'], $totals);
+		return $this->table(['Source', 'Total'], $totals);
 	}
 
 }

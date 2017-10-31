@@ -92,7 +92,7 @@ class DataSourceManager
         return $sources;
     }
 
-    public function getProviderForType($type)
+    public function getSourceForType($type)
     {
         // If a default source is defined, use that
         if ($this->defaultSources[$type]) {
@@ -128,7 +128,7 @@ class DataSourceManager
     }
 
     /**
-     * Process pending messages for provider
+     * Process pending messages for source
      *
      * For services where we can push messages (rather than being polled like SMS Sync):
      * this should grab pending messages and pass them to send()
@@ -136,18 +136,24 @@ class DataSourceManager
      * @param  boolean $limit   maximum number of messages to send at a time
      * @todo   move to help class??
      */
-    public static function processPendingMessages($limit = 20, $provider = false)
+    public static function processPendingMessages($limit = 20, $source = false)
     {
         $message_repo = service('repository.message');
         $contact_repo = service('repository.contact');
-        $providers = array();
+        $sources = array();
         $count = 0;
 
         // Grab latest messages
-        $pings = $message_repo->getPendingMessages(Message\Status::PENDING, $provider, $limit);
+        $messages = $message_repo->getPendingMessages(Message\Status::PENDING, $source, $limit);
 
-        foreach ($pings as $message) {
-            $source = $this->getSource($message->data_provider);
+        foreach ($messages as $message) {
+            // Grab the message source
+            if ($message->data_provider) {
+                $source = $this->getSource($message->data_provider);
+            // Or if the message doesn't have a source set, use the default for this message type
+            } else {
+                $source = $this->getSourceForType($message->type);
+            }
 
             // Load contact
             $contact = $contact_repo->get($message->contact_id);

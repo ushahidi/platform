@@ -31,7 +31,7 @@ class DataSourceIncoming extends Command
      *
      * @var string
      */
-    protected $signature = 'datasource:incoming {--provider=} {--all} {--limit=}';
+    protected $signature = 'datasource:incoming {--source=} {--all} {--limit=}';
 
     /**
      * The console command description.
@@ -40,36 +40,38 @@ class DataSourceIncoming extends Command
      */
     protected $description = 'Fetch incoming messages from data sources';
 
-	public function __construct() {
+	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources) {
 		parent::__construct();
-		$this->repo = service('repository.dataprovider');
+		$this->sources = $sources;
 	}
 
-	protected function getProviders()
+	protected function getSources()
 	{
-		if ($provider = $this->option('provider')) {
-			$providers = [$this->repo->get($provider)];
+		if ($source = $this->option('source')) {
+			$sources = array_filter([$source => $this->sources->getSource($source)]);
+		} elseif ($this->option('all')) {
+			$sources = $this->sources->getSource();
 		} else {
-			$providers = $this->repo->all(!$this->option('all'));
+			$sources = $this->sources->getEnabledSources();
 		}
-		return $providers;
+		return $sources;
 	}
 
 	public function handle()
 	{
-		$providers = $this->getProviders();
+		$sources = $this->getSources();
 		$limit = $this->option('limit');
 
 		$totals = [];
 
-		foreach ($providers as $provider) {
+		foreach ($sources as $source) {
 			$totals[] = [
-				'Provider' => $provider->name,
-				'Total'    => \DataProvider::factory($provider->id)->fetch($limit),
+				'Source'   => $source->getName(),
+				'Total'    => $source->fetch($limit),
 			];
 		}
 
-		return $this->table(['Provider', 'Total'], $totals);
+		return $this->table(['Source', 'Total'], $totals);
 	}
 
 }

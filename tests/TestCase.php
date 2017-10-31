@@ -13,4 +13,17 @@ abstract class TestCase extends \Laravel\Lumen\Testing\TestCase
     {
         return require __DIR__.'/../bootstrap/app.php';
     }
+
+
+    /**
+     * Call artisan command and return code.
+     *
+     * @param string  $command
+     * @param array   $parameters
+     * @return int
+     */
+    public function artisanOutput()
+    {
+        return $this->app['Illuminate\Contracts\Console\Kernel']->output();
+    }
 }

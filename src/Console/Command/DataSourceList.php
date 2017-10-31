@@ -31,7 +31,7 @@ class DataSourceList extends Command
      *
      * @var string
      */
-    protected $signature = 'datasource:list {--provider=} {--all}';
+    protected $signature = 'datasource:list {--source=} {--all}';
 
     /**
      * The console command description.
@@ -40,35 +40,36 @@ class DataSourceList extends Command
      */
     protected $description = 'List data sources';
 
-	public function __construct() {
+	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources) {
 		parent::__construct();
-		$this->repo = service('repository.dataprovider');
+		$this->sources = $sources;
 	}
 
-	protected function getProviders()
+	protected function getSources()
 	{
-		if ($provider = $this->option('provider')) {
-			$providers = [$this->repo->get($provider)];
+		if ($source = $this->option('source')) {
+			$sources = array_filter([$source => $this->sources->getSource($source)]);
+		} elseif ($this->option('all')) {
+			$sources = $this->sources->getSource();
 		} else {
-			$providers = $this->repo->all(!$this->option('all'));
+			$sources = $this->sources->getEnabledSources();
 		}
-		return $providers;
+		return $sources;
 	}
 
 	public function handle()
 	{
-		$providers = $this->getProviders();
+		$sources = $this->getSources();
 
 		$list = [];
-		foreach ($providers as $id => $provider) {
+		foreach ($sources as $id => $source) {
 			$list[] = [
-				'Name'        => $provider->name,
-				'Version'      => $provider->version,
-				'Capabilities' => implode(', ', array_keys(array_filter($provider->services))),
+				'Name'        => $source->getName(),
+				'Services'    => implode(', ', $source->getServices()),
 			];
 		}
 
-		return $this->table(['Name', 'Version', 'Capabilities'], $list);
+		return $this->table(['Name', 'Services'], $list);
 	}
 
 }
