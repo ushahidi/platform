@@ -32,6 +32,7 @@ class Ushahidi_Validator_Tag_Update extends Validator
 		return [
 			'tag' => [
 				['min_length', [':value', 2]],
+				['max_length', [':value', 255]],
 				// alphas, numbers, punctuation, and spaces
 				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
 			],

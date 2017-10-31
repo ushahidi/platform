@@ -30,7 +30,6 @@ class Ushahidi_Listener_Lock extends AbstractListener
         if (!$this->isRedisEnabled()) {
             return false;
         }
-        Kohana::$log->add(Log::ERROR, print_r('listener', true));
 
         if ($user_id) {
             

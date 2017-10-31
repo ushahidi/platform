@@ -160,6 +160,11 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
 		$di->setter['Ushahidi_Console_SavedSearch']['setDataFactory'] = $di->lazyGet('factory.data');
 
+		// Post Exporter
+		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_PostExporter');
+		$di->setter['Ushahidi_Console_PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
+		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
+
 		// Webhook command
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
@@ -492,6 +497,7 @@ abstract class Ushahidi_Core {
 				'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 				'form_repo' => $di->lazyGet('repository.form'),
 				'post_lock_repo' => $di->lazyGet('repository.post_lock'),
+				'contact_repo' => $di->lazyGet('repository.contact'),
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 			];
