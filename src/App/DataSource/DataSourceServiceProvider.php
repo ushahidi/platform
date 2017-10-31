@@ -64,7 +64,7 @@ class DataSourceServiceProvider extends ServiceProvider
 
     public function registerRoutes()
     {
-        // $this->app->post('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
-        // $this->app->get('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
+        // $this->app->router->post('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
+        // $this->app->router->get('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
     }
 }

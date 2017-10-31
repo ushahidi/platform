@@ -91,10 +91,10 @@ class SMSSync implements DataSource
 
 	public function registerRoutes($app)
 	{
-		$app->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$app->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$app->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$app->get('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSyncController@handleRequest');
+		$app->router->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$app->router->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$app->router->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$app->router->get('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSyncController@handleRequest');
 	}
 
 	public function verifySecret($secret)

@@ -126,9 +126,9 @@ class Nexmo implements DataSource
 
 	public function registerRoutes($app)
 	{
-		$app->post('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
-		$app->get('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
-		$app->post('sms/nexmo/reply', 'Ushahidi\App\DataSource\NexmoController\Nexmo\NexmoController@handleRequest');
-		$app->post('nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController\Nexmo@handleRequest');
+		$app->router->post('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
+		$app->router->get('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
+		$app->router->post('sms/nexmo/reply', 'Ushahidi\App\DataSource\NexmoController\Nexmo\NexmoController@handleRequest');
+		$app->router->post('nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController\Nexmo@handleRequest');
 	}
 }
