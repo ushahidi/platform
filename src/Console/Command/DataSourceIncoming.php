@@ -16,7 +16,7 @@ use Illuminate\Console\Command;
 use Ushahidi\Core\Usecase;
 use \Ushahidi\Factory\UsecaseFactory;
 
-class DataproviderOutgoing extends Command
+class DataSourceIncoming extends Command
 {
 
     /**
@@ -24,21 +24,21 @@ class DataproviderOutgoing extends Command
      *
      * @var string
      */
-    protected $name = 'dataprovider:outgoing';
+    protected $name = 'datasource:incoming';
 
     /**
      * The console command signature.
      *
      * @var string
      */
-    protected $signature = 'dataprovider:outgoing {--provider=} {--all} {--limit=}';
+    protected $signature = 'datasource:incoming {--provider=} {--all} {--limit=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send outgoing messages via data providers';
+    protected $description = 'Fetch incoming messages from data sources';
 
 	public function __construct() {
 		parent::__construct();
@@ -60,16 +60,12 @@ class DataproviderOutgoing extends Command
 		$providers = $this->getProviders();
 		$limit = $this->option('limit');
 
-		// Hack: always include email no matter what!
-		if (!isset($providers['email'])) {
-			$providers['email'] = $this->repo->get('email');
-		}
-
 		$totals = [];
-		foreach ($providers as $id => $provider) {
+
+		foreach ($providers as $provider) {
 			$totals[] = [
 				'Provider' => $provider->name,
-				'Total'    => \DataProvider::process_pending_messages($limit, $id)
+				'Total'    => \DataProvider::factory($provider->id)->fetch($limit),
 			];
 		}
 

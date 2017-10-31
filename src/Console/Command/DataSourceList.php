@@ -16,7 +16,7 @@ use Illuminate\Console\Command;
 use Ushahidi\Core\Usecase;
 use \Ushahidi\Factory\UsecaseFactory;
 
-class DataproviderIncoming extends Command
+class DataSourceList extends Command
 {
 
     /**
@@ -24,21 +24,21 @@ class DataproviderIncoming extends Command
      *
      * @var string
      */
-    protected $name = 'dataprovider:incoming';
+    protected $name = 'datasource:list';
 
     /**
      * The console command signature.
      *
      * @var string
      */
-    protected $signature = 'dataprovider:incoming {--provider=} {--all} {--limit=}';
+    protected $signature = 'datasource:list {--provider=} {--all}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetch incoming messages from data providers';
+    protected $description = 'List data sources';
 
 	public function __construct() {
 		parent::__construct();
@@ -58,18 +58,17 @@ class DataproviderIncoming extends Command
 	public function handle()
 	{
 		$providers = $this->getProviders();
-		$limit = $this->option('limit');
 
-		$totals = [];
-
-		foreach ($providers as $provider) {
-			$totals[] = [
-				'Provider' => $provider->name,
-				'Total'    => \DataProvider::factory($provider->id)->fetch($limit),
+		$list = [];
+		foreach ($providers as $id => $provider) {
+			$list[] = [
+				'Name'        => $provider->name,
+				'Version'      => $provider->version,
+				'Capabilities' => implode(', ', array_keys(array_filter($provider->services))),
 			];
 		}
 
-		return $this->table(['Provider', 'Total'], $totals);
+		return $this->table(['Name', 'Version', 'Capabilities'], $list);
 	}
 
 }

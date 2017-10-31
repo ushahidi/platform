@@ -16,7 +16,7 @@ use Illuminate\Console\Command;
 use Ushahidi\Core\Usecase;
 use \Ushahidi\Factory\UsecaseFactory;
 
-class DataproviderList extends Command
+class DataSourceOutgoing extends Command
 {
 
     /**
@@ -24,21 +24,21 @@ class DataproviderList extends Command
      *
      * @var string
      */
-    protected $name = 'dataprovider:list';
+    protected $name = 'datasource:outgoing';
 
     /**
      * The console command signature.
      *
      * @var string
      */
-    protected $signature = 'dataprovider:list {--provider=} {--all}';
+    protected $signature = 'datasource:outgoing {--provider=} {--all} {--limit=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'List data providers';
+    protected $description = 'Send outgoing messages via data sources';
 
 	public function __construct() {
 		parent::__construct();
@@ -58,17 +58,22 @@ class DataproviderList extends Command
 	public function handle()
 	{
 		$providers = $this->getProviders();
+		$limit = $this->option('limit');
 
-		$list = [];
+		// Hack: always include email no matter what!
+		if (!isset($providers['email'])) {
+			$providers['email'] = $this->repo->get('email');
+		}
+
+		$totals = [];
 		foreach ($providers as $id => $provider) {
-			$list[] = [
-				'Name'        => $provider->name,
-				'Version'      => $provider->version,
-				'Capabilities' => implode(', ', array_keys(array_filter($provider->services))),
+			$totals[] = [
+				'Provider' => $provider->name,
+				'Total'    => \DataProvider::process_pending_messages($limit, $id)
 			];
 		}
 
-		return $this->table(['Name', 'Version', 'Capabilities'], $list);
+		return $this->table(['Provider', 'Total'], $totals);
 	}
 
 }
