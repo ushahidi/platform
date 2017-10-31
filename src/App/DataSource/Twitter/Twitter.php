@@ -39,10 +39,11 @@ class Twitter implements DataSource
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config, ConfigRepository $configRepo = null)
+	public function __construct(array $config)
 	{
 		$this->config = $config;
-		$this->configRepo = $configRepo;
+		// @todo inject this
+		$this->configRepo = service('repository.config');
 	}
 
 	public function getName()
@@ -114,8 +115,8 @@ class Twitter implements DataSource
 		$this->initialize();
 
 		// Check we have the required config
-		if (!isset($config['twitter_search_terms'])) {
-			Log::warning('Could not fetch messages from twitter, incomplete config');
+		if (!isset($this->config['twitter_search_terms'])) {
+			app('log')->warning('Could not fetch messages from twitter, incomplete config');
 			return 0;
 		}
 
@@ -233,11 +234,11 @@ class Twitter implements DataSource
 
 			$this->request_count++; //Increment for successful request
 
-			$this->update($config);
+			$this->update();
 		} catch (\TwitterOAuthException $toe) {
-			Log::error($toe->getMessage());
+			app('log')->error($toe->getMessage());
 		} catch (Exception $e) {
-			Log::error($e->getMessage());
+			app('log')->error($e->getMessage());
 		}
 
 		return $count;
@@ -274,22 +275,22 @@ class Twitter implements DataSource
 		return  $this->request_count < self::MAX_REQUESTS_PER_WINDOW;
 	}
 
-	private function initialize($config)
+	private function initialize()
 	{
-		$twitterConfig = $configRepo->get('twitter');
+		$twitterConfig = $this->configRepo->get('twitter');
 
 		isset($twitterConfig->since_id) ?
 							   $this->since_id = $twitterConfig->since_id:
 							   $this->since_id = 0;
 
-		$this->search_terms = $this->config['twitter_search_terms'];
+		$this->search_terms = isset($this->config['twitter_search_terms']) ? $this->config['twitter_search_terms']: "";
 
 		// If search terms have changed, reset since_id
-		if ($this->config['twitter_search_terms'] !== $twitterConfig->search_terms) {
+		if ($this->search_terms !== $twitterConfig->search_terms) {
 			$this->since_id = 0;
 		}
 
-		$twitter_config && isset($twitterConfig->request_count)?
+		$twitterConfig && isset($twitterConfig->request_count)?
 							   $this->request_count = $twitterConfig->request_count:
 							   $this->request_count = 0;
 
@@ -308,7 +309,7 @@ class Twitter implements DataSource
 		}
 	}
 
-	private function update($config)
+	private function update()
 	{
 		// XXX: Store state in database config for now
 		$twitterConfig = $this->configRepo->get('twitter');
@@ -327,7 +328,7 @@ class Twitter implements DataSource
     {
 		// check if we have reached our rate limit
 		if (!$this->canMakeRequest()) {
-			Log::warning('You have reached your rate limit for this window');
+			app('log')->warning('You have reached your rate limit for this window');
 			return 0;
 		}
 			// Check we have the required config
@@ -336,7 +337,7 @@ class Twitter implements DataSource
 			 !isset($this->config['oauth_access_token']) ||
 			 !isset($this->config['oauth_access_token_secret'])
 		) {
-			Log::warning('Could not connect to twitter, incomplete config');
+			app('log')->warning('Could not connect to twitter, incomplete config');
 			return 0;
 		}
 

@@ -16,6 +16,7 @@ use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Shadowhand\Email as ShadowhandEmail;
 use Ushahidi\Core\Entity\Contact;
 use Illuminate\Http\Request;
+use Log;
 
 class Email implements DataSource
 {
@@ -113,18 +114,16 @@ class Email implements DataSource
 	 */
 	public function send($to, $message, $title = "")
 	{
-		$provider_options = $this->options();
-
-		$driver = $provider_options['outgoing_type'];
+		$driver = $this->config['outgoing_type'];
 		$options = array(
-			'hostname' => $provider_options['outgoing_server'],
-			'port' => $provider_options['outgoing_port'],
+			'hostname' => $this->config['outgoing_server'],
+			'port' => $this->config['outgoing_port'],
 			'encryption' =>
-				($provider_options['outgoing_security'] != 'none') ?
-				$provider_options['outgoing_security'] :
+				($this->config['outgoing_security'] != 'none') ?
+				$this->config['outgoing_security'] :
 				'',
-			'username' => $provider_options['outgoing_username'],
-			'password' => $provider_options['outgoing_password']
+			'username' => $this->config['outgoing_username'],
+			'password' => $this->config['outgoing_password']
 			);
 
 		$config = Kohana::$config->load('email');
@@ -144,7 +143,7 @@ class Email implements DataSource
 			$from = Kohana::$config->load('site.email') ?: 'noreply@ushahididev.com';
 		}
 
-		$from_name = ! empty($provider_options['from_name']) ? $provider_options['from_name'] : $from;
+		$from_name = ! empty($this->config['from_name']) ? $this->config['from_name'] : $from;
 
 		try {
 			$result = ShadowhandEmail::factory($title, $body->render(), 'text/html')
@@ -153,8 +152,8 @@ class Email implements DataSource
 				->send();
 
 			return array(DataSource\Message\Status::SENT, $tracking_id);
-		} catch (Exception $e) {
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
+		} catch (\Exception $e) {
+			app('log')->error($e->getMessage());
 			// Failed
 			return array(DataSource\Message\Status::FAILED, false);
 		}
@@ -175,13 +174,12 @@ class Email implements DataSource
 
 		$limit = 200;
 
-		$options = $this->options();
-		$type = $options['incoming_type'];
-		$server = $options['incoming_server'];
-		$port = $options['incoming_port'];
-		$encryption = $options['incoming_security'];
-		$username = $options['incoming_username'];
-		$password = $options['incoming_password'];
+		$type = $this->config['incoming_type'];
+		$server = $this->config['incoming_server'];
+		$port = $this->config['incoming_port'];
+		$encryption = $this->config['incoming_security'];
+		$username = $this->config['incoming_username'];
+		$password = $this->config['incoming_password'];
 
 		// Encryption type
 		$encryption = (strcasecmp($encryption, 'none') != 0) ? '/'.$encryption : '';
@@ -192,7 +190,7 @@ class Email implements DataSource
 
 			// Return on connection error
 			if (! $connection) {
-				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
+				app('log')->error("Could not connect to incoming email server");
 				return 0;
 			}
 
@@ -248,11 +246,10 @@ class Email implements DataSource
 			imap_errors();
 
 			imap_close($connection);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$errors = imap_errors();
 			$errors = is_array($errors) ? implode(', ', $errors) : "";
-			Kohana::$log->add(Log::ERROR, $e->getMessage() . ". Errors: :errors",
-				[':errors' => $errors]);
+			app('log')->error($e->getMessage(), [':errors' => $errors]);
 		}
 
 		return $count;

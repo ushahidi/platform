@@ -21,7 +21,7 @@ use Mockery as M;
 class DataSourceOutgoingTest extends TestCase
 {
 
-    public function testList()
+    public function testOutgoing()
     {
         $value = $this->artisan('datasource:outgoing', []);
 
@@ -34,6 +34,37 @@ class DataSourceOutgoingTest extends TestCase
 | Twilio       | 0     |
 | Email        | 0     |
 +--------------+-------+
+", $this->artisanOutput());
+    }
+
+    public function testOutgoingAll()
+    {
+        $value = $this->artisan('datasource:outgoing', ["--all" => true]);
+
+        $this->assertEquals(
+"+--------------+-------+
+| Source       | Total |
++--------------+-------+
+| Email        | 0     |
+| FrontlineSMS | 0     |
+| Nexmo        | 0     |
+| SMSSync      | 0     |
+| Twilio       | 0     |
+| Twitter      | 0     |
++--------------+-------+
+", $this->artisanOutput());
+    }
+
+    public function testOutgoingNexmo()
+    {
+        $value = $this->artisan('datasource:outgoing', ["--source" => "nexmo"]);
+
+        $this->assertEquals(
+"+--------+-------+
+| Source | Total |
++--------+-------+
+| Nexmo  | 0     |
++--------+-------+
 ", $this->artisanOutput());
     }
 

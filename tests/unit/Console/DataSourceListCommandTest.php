@@ -36,4 +36,22 @@ class DataSourceListTest extends TestCase
 ", $this->artisanOutput());
     }
 
+    public function testListAll()
+    {
+        $value = $this->artisan('datasource:list', ["--all" => true]);
+
+        $this->assertEquals(
+"+--------------+----------+
+| Name         | Services |
++--------------+----------+
+| Email        | email    |
+| FrontlineSMS | sms      |
+| Nexmo        | sms      |
+| SMSSync      | sms      |
+| Twilio       | sms      |
+| Twitter      | twitter  |
++--------------+----------+
+", $this->artisanOutput());
+    }
+
 }
