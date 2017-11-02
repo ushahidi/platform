@@ -167,18 +167,9 @@ class AppServiceProvider extends ServiceProvider
         ]));
 
         // @todo move to auth provider?
-        $di->set('session.user', function () use ($di) {
-            // Using the OAuth resource server, get the userid (owner id) for this request
-            // $server = $di->get('oauth.server.resource');
-            // $userid = $server->getOwnerId();
-            $genericUser = app('auth')->guard()->user();
-
-            // Using the user repository, load the user
-            $repo = $di->get('repository.user');
-            $user = $repo->get($genericUser ? $genericUser->id : null);
-
-            return $user;
-        });
+        $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\LumenSession::class, [
+            'userRepo' => $di->lazyGet('repository.user')
+        ]));
     }
 
     protected function getClientUrl($config)
