@@ -323,7 +323,7 @@ $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setRateLimiter'] = $di->laz
 $di->setter['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazyGet('tool.mailer');
 
 // Traits
-$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
+$di->setter['Ushahidi\Core\Traits\UserContext']['setSession'] = $di->lazyGet('session');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
 	= $di->lazyGet('repository.form_stage');

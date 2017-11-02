@@ -21,7 +21,7 @@ class MigrationController extends Controller
 
 	public function index(Request $request, $command = 'status')
 	{
-		$user = service('session.user');
+		$user = service('session')->getUser();
 
 		if ('admin' != $user->role) {
 			throw new HTTP_Exception_403('Must be an admin to access this service');

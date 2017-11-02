@@ -13,21 +13,22 @@
 
 namespace Ushahidi\Core\Traits;
 
+use Ushahidi\Core\Session;
 use Ushahidi\Core\Entity\User;
 
 trait UserContext
 {
 	// storage for the user
-	protected $user;
+	protected $session;
 
 	/**
-	 * Set the user context.
-	 * @param  User $user  set the context
+	 * Set the user session
+	 * @param  Session $session  set the context
 	 * @return void
 	 */
-	public function setUser(User $user)
+	public function setSession(Session $session)
 	{
-		$this->user = $user;
+		$this->session = $session;
 	}
 
 	/**
@@ -36,11 +37,11 @@ trait UserContext
 	 */
 	public function getUser()
 	{
-		if (!$this->user) {
+		if (!$this->session) {
 			throw new RuntimeException('Cannot get the user context before it has been set');
 		}
 
-		return $this->user;
+		return $this->session->getUser();
 	}
 
 	/**
@@ -49,7 +50,7 @@ trait UserContext
 	 */
 	public function getUserId()
 	{
-		return $this->user->id;
+		return $this->getUser()->id;
 	}
 
 	/**
