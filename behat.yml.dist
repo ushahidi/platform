@@ -1,4 +1,4 @@
-### Example behat.yml file for running Ushahidi tests
+## Example behat.yml file for running Ushahidi tests
 ## Replace base_url values with the url of your dev site
 ##
 default:
@@ -12,7 +12,7 @@ default:
                 - Tests\Integration\Bootstrap\KohanaContext
                 - Tests\Integration\Bootstrap\FeatureContext
                 - Tests\Integration\Bootstrap\RestContext:
-                    baseUrl: http://192.168.33.110
+                    baseUrl: http://localhost:8000
                     # proxyUrl: localhost:8888
                 - Tests\Integration\Bootstrap\PHPUnitFixtureContext
                 - Tests\Integration\Bootstrap\MinkExtendedContext
@@ -20,14 +20,14 @@ default:
                 tags: ~@dataproviders
             extensions:
                 Behat\MinkExtension:
-                    base_url:  http://192.168.33.110
+                    base_url:  http://localhost:8000
                     sessions:
                         default:
                             goutte: ~
-                    #goutte:
-                        #guzzle_parameters:
-                            #curl.options:
-                                #3 : 8000 #CURLOPT_PORT=3
+                    goutte:
+                        guzzle_parameters:
+                            curl.options:
+                                3 : 8000 #CURLOPT_PORT=3
                                 # 10004: localhost:8888 #CURLOPT_PROXY=10004
 ci:
     suites:
