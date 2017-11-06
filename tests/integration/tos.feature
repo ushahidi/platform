@@ -38,3 +38,10 @@ Feature: Testing the Tos API
         And the response has a "results" property
         And the "results.0.tos_version_date" property equals "2017-07-14T19:12:20+00:00"
         Then the guzzle status code should be 200
+
+@resetFixture 
+        Scenario: Anonymous users cannot get a ToS entry
+        Given that I want to find a "Tos"
+        And that the request "Authorization" header is "Bearer testanon"
+        When I request "/tos"
+        Then the guzzle status code should be 403

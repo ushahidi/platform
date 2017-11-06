@@ -43,8 +43,8 @@ class TosAuthorizer implements Authorizer
         // These checks are run within the user context.
         $user = $this->getUser();
 
-        //if user is not actual user user_id === 0
-        if ($privilege === 'create' &&
+        //if user is not actual user, but is in fact anonymous
+        if (($privilege === 'search' || $privilege === 'create') &&
             !$this->isUserOwner($entity, $user)
             && $this->isUserAndOwnerAnonymous($entity, $user)) {
             return false;
