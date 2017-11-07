@@ -124,11 +124,11 @@ class Nexmo implements DataSource
 		return false;
 	}
 
-	public function registerRoutes($app)
+	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
 	{
-		$app->router->post('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
-		$app->router->get('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
-		$app->router->post('sms/nexmo/reply', 'Ushahidi\App\DataSource\NexmoController\Nexmo\NexmoController@handleRequest');
-		$app->router->post('nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController\Nexmo@handleRequest');
+		$router->post('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
+		$router->get('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
+		$router->post('sms/nexmo/reply', 'Ushahidi\App\DataSource\NexmoController\Nexmo\NexmoController@handleRequest');
+		$router->post('nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController\Nexmo@handleRequest');
 	}
 }

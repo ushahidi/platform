@@ -43,5 +43,5 @@ interface DataSource
 	 */
 	public function fetch($limit = false);
 
-	public function registerRoutes($app);
+	public function registerRoutes(\Laravel\Lumen\Routing\Router $router);
 }

@@ -119,10 +119,10 @@ class FrontlineSMS implements DataSource
 		return false;
 	}
 
-	public function registerRoutes($app)
+	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
 	{
-		$app->router->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
-		$app->router->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
+		$router->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
+		$router->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
 	}
 
 	public function verifySecret($secret)

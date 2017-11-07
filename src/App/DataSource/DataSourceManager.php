@@ -6,11 +6,11 @@ class DataSourceManager
 {
 
     /**
-     * The application instance.
+     * Router instance
      *
-     * @var \Illuminate\Foundation\Application
+     * @var \Laravel\Lumen\Routing\Router
      */
-    protected $app;
+    protected $router;
 
     /**
      * The array of data sources.
@@ -44,12 +44,12 @@ class DataSourceManager
     /**
      * Create a new datasource manager instance.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Laravel\Lumen\Routing\Router  $router
      * @return void
      */
-    public function __construct($app)
+    public function __construct(\Laravel\Lumen\Routing\Router $router)
     {
-        $this->app = $app;
+        $this->router = $router;
     }
 
     public function addSource($name, DataSource $source)
@@ -113,7 +113,7 @@ class DataSourceManager
     public function registerRoutes()
     {
         foreach ($this->getEnabledSources() as $source) {
-            $source->registerRoutes($this->app);
+            $source->registerRoutes($this->router);
         }
     }
 

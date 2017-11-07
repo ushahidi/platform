@@ -25,7 +25,7 @@ class DataSourceServiceProvider extends ServiceProvider
     protected function registerManager()
     {
         $this->app->singleton('datasources', function () {
-            $manager = new DataSourceManager($this->app);
+            $manager = new DataSourceManager($this->app->router);
 
             $configRepo = service('repository.config');
             $dataProviderConfig = $configRepo->get('data-provider')->asArray();

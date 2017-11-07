@@ -106,9 +106,9 @@ class Twilio implements DataSource
 		return false;
 	}
 
-	public function registerRoutes($app)
+	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
 	{
-		$app->router->post('sms/twilio[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
+		$router->post('sms/twilio[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
 	}
 
 	public function verifySid($sid)

@@ -89,12 +89,12 @@ class SMSSync implements DataSource
 		return false;
 	}
 
-	public function registerRoutes($app)
+	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
 	{
-		$app->router->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$app->router->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$app->router->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$app->router->get('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSyncController@handleRequest');
+		$router->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$router->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$router->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+		$router->get('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSyncController@handleRequest');
 	}
 
 	public function verifySecret($secret)

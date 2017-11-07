@@ -353,7 +353,7 @@ class Twitter implements DataSource
 		return $connection;
 	}
 
-	public function registerRoutes($app)
+	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
 	{
 	}
 }

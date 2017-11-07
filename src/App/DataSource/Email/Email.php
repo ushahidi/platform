@@ -302,7 +302,7 @@ class Email implements DataSource
 		return null;
 	}
 
-	public function registerRoutes($app)
+	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
 	{
 	}
 }
