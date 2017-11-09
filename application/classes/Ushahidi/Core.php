@@ -736,9 +736,11 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_Set']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_PostSetListener');
 
-		$di->setter['Ushahidi_Repository_Set']['setEvent'] = 'LoggablePostSetEvent';
+		//REMOVING this because the DI will only let us set one event per repository
+		/*$di->setter['Ushahidi_Repository_Set']['setEvent'] = 'LoggablePostSetEvent';
 		$di->setter['Ushahidi_Repository_Set']['setListener'] =
 				$di->lazyNew('Ushahidi_Listener_ChangelogListener');
+				*/
 
 		// NotificationQueue repo for Set listener
 		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
@@ -763,14 +765,15 @@ abstract class Ushahidi_Core {
 						$di->lazyGet('repository.posts_changelog');
 
 		// Event listener for the Post repo
-		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostCreateEvent';
+		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostWriteEvent';
 		$di->setter['Ushahidi_Repository_Post']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_PostListener');
 
+		// TODO: commenting this out, because apparently each repo can only have one listener :(
 		// Event listener for Post updates to Changelog
-		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'LoggablePostUpdateEvent';
-		$di->setter['Ushahidi_Repository_Post']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_ChangelogListener');
+		//$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'LoggablePostUpdateEvent';
+		//$di->setter['Ushahidi_Repository_Post']['setListener'] =
+		//	$di->lazyNew('Ushahidi_Listener_ChangelogListener');
 
 		// WebhookJob repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setRepo'] =
@@ -779,6 +782,10 @@ abstract class Ushahidi_Core {
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
+
+		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_PostListener']['setChangeLogRepo'] =
+			$di->lazyGet('repository.posts_changelog');
 
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';

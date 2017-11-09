@@ -86,7 +86,7 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
 
             if (count($flat_changeset) > 0) {
                 //TODO: RECONSIDER: currently concatenating all the changes into one long string
-                // this will be impossible to translate.
+                // NOTE: this will be *impossible* to translate.
                 // Maybe do a translation code for each server-side field name, then
                 //	let the client group them?
                 $human_friendly_log = '- Updated fields.<br/>';
@@ -128,7 +128,7 @@ class Ushahidi_Listener_ChangelogListener extends AbstractListener
     }
 
 
-    // TODO: QUESTION
+    // TODO:
     //	Rather than guess at the structure of Post, is it enough to log known attributes and keys
     protected function getIsolatedChangesForPost($postEntity, $changed_items)
     {
