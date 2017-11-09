@@ -43,4 +43,13 @@ interface MessageRepository extends
 	 * @return int
 	 */
 	public function getTotalMessagesFromContact($contact_id);
+
+	/**
+	 * Update message status
+	 * @param  int    $id
+	 * @param  string $status
+	 * @param  string $data_provider_message_id
+	 * @return null
+	 */
+	public function updateMessageStatus($id, $status, $data_provider_message_id = null);
 }

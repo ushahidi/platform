@@ -117,7 +117,7 @@ class Twitter implements DataSource
 		// Check we have the required config
 		if (!isset($this->config['twitter_search_terms'])) {
 			app('log')->warning('Could not fetch messages from twitter, incomplete config');
-			return 0;
+			return [];
 		}
 
 		if ($limit === false) {
@@ -128,10 +128,10 @@ class Twitter implements DataSource
 		if (is_int($connection) && $connection == 0) {
 			// The connection didn't succeed, but this is not fatal to the application flow
 			// Just return 0 messages fetched
-			return 0;
+			return [];
 		}
 		$connection->setDecodeJsonAsArray(true);
-		$count = 0;
+		$messages = [];
 
 		try {
 			$results = $connection->get("search/tweets", [
@@ -142,7 +142,7 @@ class Twitter implements DataSource
 			]);
 
 			if (empty($results['statuses'])) {
-				return 0;
+				return [];
 			}
 
 			$statuses = $results['statuses'];
@@ -217,19 +217,16 @@ class Twitter implements DataSource
 				}
 
 				// @todo Check for similar messages in the database before saving
-				$this->storage->receive(
-					'twitter',
-					DataSource\Message\Type::TWITTER,
-					Contact::TWITTER,
-					$screen_name,
-					$text,
-					$to = null,
-					$title = null,
-					$id,
-					$additional_data
-				);
-
-				$count++;
+				$messages[] = [
+					'type' => DataSource\Message\Type::TWITTER,
+					'contact_type' => Contact::TWITTER,
+					'from' => $screen_name,
+					'message' => $text,
+					'to' => null,
+					'title' => null,
+					'data_provider_message_id' => $id,
+					'additional_data' => $additional_data
+				];
 			}
 
 			$this->request_count++; //Increment for successful request
@@ -241,7 +238,7 @@ class Twitter implements DataSource
 			app('log')->error($e->getMessage());
 		}
 
-		return $count;
+		return $messages;
 	}
 
 	// DataSource

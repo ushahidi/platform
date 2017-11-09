@@ -14,7 +14,9 @@ namespace Ushahidi\Console\Command;
 use Illuminate\Console\Command;
 
 use Ushahidi\Core\Usecase;
-use \Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\App\DataSource\DataSourceStorage;
 
 class DataSourceIncoming extends Command
 {
@@ -40,38 +42,65 @@ class DataSourceIncoming extends Command
      */
     protected $description = 'Fetch incoming messages from data sources';
 
-	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources) {
-		parent::__construct();
-		$this->sources = $sources;
-	}
+    /**
+     * @var DataSourceManager
+     */
+    protected $sources;
 
-	protected function getSources()
-	{
-		if ($source = $this->option('source')) {
-			$sources = array_filter([$source => $this->sources->getSource($source)]);
-		} elseif ($this->option('all')) {
-			$sources = $this->sources->getSource();
-		} else {
-			$sources = $this->sources->getEnabledSources();
-		}
-		return $sources;
-	}
+    /**
+     * @var DataSourceStorage
+     */
+    protected $storage;
 
-	public function handle()
-	{
-		$sources = $this->getSources();
-		$limit = $this->option('limit');
+    public function __construct(DataSourceManager $sources, DataSourceStorage $storage) {
+        parent::__construct();
+        $this->sources = $sources;
+        $this->storage = $storage;
+    }
 
-		$totals = [];
+    protected function getSources()
+    {
+        if ($source = $this->option('source')) {
+            $sources = array_filter([$source => $this->sources->getSource($source)]);
+        } elseif ($this->option('all')) {
+            $sources = $this->sources->getSource();
+        } else {
+            $sources = $this->sources->getEnabledSources();
+        }
+        return $sources;
+    }
 
-		foreach ($sources as $source) {
-			$totals[] = [
-				'Source'   => $source->getName(),
-				'Total'    => $source->fetch($limit),
-			];
-		}
+    public function handle()
+    {
+        $sources = $this->getSources();
+        $limit = $this->option('limit');
 
-		return $this->table(['Source', 'Total'], $totals);
-	}
+        $totals = [];
+
+        foreach ($sources as $sourceId => $source) {
+            $messages = $source->fetch($limit);
+
+            foreach ($messages as $message) {
+                $this->storage->receive(
+                    $sourceId,
+                    $message['type'],
+                    $message['contact_type'],
+                    $message['from'],
+                    $message['message'],
+                    $message['to'],
+                    $message['title'],
+                    $message['data_provider_message_id'],
+                    $message['additional_data']
+                );
+            }
+
+            $totals[] = [
+                'Source'   => $source->getName(),
+                'Total'    => count($messages)
+            ];
+        }
+
+        return $this->table(['Source', 'Total'], $totals);
+    }
 
 }

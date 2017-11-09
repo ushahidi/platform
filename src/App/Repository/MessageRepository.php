@@ -123,14 +123,33 @@ class MessageRepository extends OhanzeeRepository implements
 	public function getPendingMessages($status, $data_provider, $limit)
 	{
 		$direction = Message::OUTGOING;
-		$query = $this->selectQuery(compact('status', 'direction', 'data_provider'))
+		$query = $this->selectQuery(compact('status', 'direction'))
 			->limit($limit)
-			->order_by('created', 'ASC');
+			->order_by('created', 'ASC')
+			// Include contact in same query
+			->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
+			->select('contacts.contact')
+			;
 
-		// @todo load contact.contact in the same query
+		if ($data_provider) {
+			$query->where('messages.data_provider', '=', $data_provider);
+		}
+
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	// MessageRepository
+	public function updateMessageStatus($id, $status, $data_provider_message_id = null)
+	{
+		$changes = [
+			'status'   => $status,
+			'data_provider_message_id' => $data_provider_message_id,
+			'updated'  => time()
+		];
+
+		return $this->executeUpdate(['id' => $id], $changes);
 	}
 
 	public function getTotalMessagesFromContact($contact_id)

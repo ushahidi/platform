@@ -15,6 +15,8 @@ use Illuminate\Console\Command;
 
 use Ushahidi\Core\Usecase;
 use \Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\App\DataSource\DataSourceStorage;
 
 class DataSourceOutgoing extends Command
 {
@@ -40,42 +42,69 @@ class DataSourceOutgoing extends Command
      */
     protected $description = 'Send outgoing messages via data sources';
 
-	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources) {
-		parent::__construct();
-		$this->sources = $sources;
-	}
+    /**
+     * @var DataSourceManager
+     */
+    protected $sources;
 
-	protected function getSources()
-	{
-		if ($source = $this->option('source')) {
-			$sources = array_filter([$source => $this->sources->getSource($source)]);
-		} elseif ($this->option('all')) {
-			$sources = $this->sources->getSource();
-		} else {
-			$sources = $this->sources->getEnabledSources();
+    /**
+     * @var DataSourceStorage
+     */
+    protected $storage;
 
-			// Hack: always include email no matter what!
-			if (!isset($sources['email'])) {
-				$sources['email'] = $this->sources->getSource('email');
-			}
-		}
-		return $sources;
-	}
+    public function __construct(DataSourceManager $sources, DataSourceStorage $storage) {
+        parent::__construct();
+        $this->sources = $sources;
+        $this->storage = $storage;
+    }
 
-	public function handle()
-	{
-		$sources = $this->getSources();
-		$limit = $this->option('limit');
+    protected function getSources()
+    {
+        if ($source = $this->option('source')) {
+            $sources = array_filter([$source => $this->sources->getSource($source)]);
+        } elseif ($this->option('all')) {
+            $sources = $this->sources->getSource();
+        } else {
+            $sources = $this->sources->getEnabledSources();
 
-		$totals = [];
-		foreach ($sources as $id => $source) {
-			$totals[] = [
-				'Source'   => $source->getName(),
-				'Total'    => $this->sources->processPendingMessages($limit, $id)
-			];
-		}
+            // Hack: always include email no matter what!
+            if (!isset($sources['email'])) {
+                $sources['email'] = $this->sources->getSource('email');
+            }
+        }
+        return $sources;
+    }
 
-		return $this->table(['Source', 'Total'], $totals);
-	}
+    public function handle()
+    {
+        $sources = $this->getSources();
+        $limit = $this->option('limit');
+
+        $totals = [];
+        // @todo do we even need to do this by source at all? Could we just grab a chunk of pending messages and iterate through those instead?!
+        foreach ($sources as $id => $source) {
+            $totals[] = [
+                'Source'   => $source->getName(),
+                'Total'    => $this->processSource($source, $id)
+            ];
+        }
+
+        return $this->table(['Source', 'Total'], $totals);
+    }
+
+    protected function processSource($source, $id) // @todo can we drop $id
+    {
+        $messages = $this->storage->getPendingMessages($limit, $id);
+
+        foreach ($messages as $message) {
+            list($new_status, $tracking_id) = $source->send($message->contact, $message->message, $message->title);
+
+            $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
+
+            $count ++;
+        }
+
+        return $count;
+    }
 
 }

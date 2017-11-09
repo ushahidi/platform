@@ -101,18 +101,19 @@ class SMSSyncController extends DataSourceController
     {
         // Do we have any tasks for SMSSync?
         // Grab messages to send, 20 at a time.
-        //
-        // We don't know if the SMS from the phone itself work or not,
-        // but we'll update the messages status to 'unknown' so that
-        // its not picked up again
-        $messages = app('datasources')
-            ->getStorage()
-            ->getPendingMessages(20, MessageStatus::PENDING_POLL, MessageStatus::UNKNOWN);
+        $messages = $this->getPendingMessages(20);
 
         return ['payload' => [
             'task' => "send",
             'success' => true,
-            'messages' => $messages,
+            'messages' => array_map(function ($message) {
+                // Reformat message for SMSSYnc
+                return [
+                    'to' => $message->contact,
+                    'message' => $message->message,
+                    'message_id' => $message->id
+                ];
+            }, $messages),
             //'secret' => $this->options['secret'] ?: null
         ]];
     }

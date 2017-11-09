@@ -170,7 +170,7 @@ class Email implements DataSource
 	 */
 	public function fetch($limit = false)
 	{
-		$count = 0;
+		$messages = [];
 
 		$limit = 200;
 
@@ -191,7 +191,7 @@ class Email implements DataSource
 			// Return on connection error
 			if (! $connection) {
 				app('log')->error("Could not connect to incoming email server");
-				return 0;
+				return [];
 			}
 
 			$last_uid = service('repository.message')->getLastUID('email');
@@ -206,7 +206,7 @@ class Email implements DataSource
 				foreach ($emails as $email) {
 					// Break out if we've hit our limit
 					// @todo revist and decide if this is worth doing when imap_search has grabbed everything anyway.
-					if ($limit and $count >= $limit) {
+					if ($limit and count($messages) >= $limit) {
 						break;
                     }
 
@@ -233,13 +233,11 @@ class Email implements DataSource
 					// Process the email
 					if (! empty($html_message)) {
 						$html_message = imap_qprint($html_message);
-						$this->processIncoming($email, $html_message);
+						$messages[] = $this->processIncoming($email, $html_message);
 					} elseif (! empty($message)) {
 						$message = imap_qprint($message);
-						$this->processIncoming($email, $message);
+						$messages[] = $this->processIncoming($email, $message);
 					}
-
-					$count++;
 				}
 			}
 
@@ -252,7 +250,7 @@ class Email implements DataSource
 			app('log')->error($e->getMessage(), [':errors' => $errors]);
 		}
 
-		return $count;
+		return $messages;
 	}
 
 	/**
@@ -275,10 +273,19 @@ class Email implements DataSource
 		$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
 		if ($message) {
 			// Save the message
-			$this->receive(DataSource\Message\Type::EMAIL, $from, $message, $to, $title, $data_provider_message_id);
+			return [
+				'type' => DataSource\Message\Type::EMAIL,
+				'contact_type' => Contact::EMAIL,
+				'from' => $from,
+				'message' => $message,
+				'to' => $to,
+				'title' => $title,
+				'data_provider_message_id' => $data_provider_message_id,
+				'additional_data' => $additional_data
+			];
 		}
 
-		return;
+		return [];
 	}
 
 	/**

@@ -47,6 +47,8 @@ class Message extends StaticEntity
 	protected $created;
 	protected $additional_data;
 	protected $notification_post_id;
+	// Optionally including contact directly with message
+	protected $contact;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -69,7 +71,8 @@ class Message extends StaticEntity
 			'data_provider_message_id' => 'string',
 			// any additional message data
 			'additional_data' => '*json',
-			'notification_post_id' => 'int'
+			'notification_post_id' => 'int',
+			'contact' => 'string'
 		];
 	}
 
