@@ -25,7 +25,7 @@ class Ushahidi_Repository_Post_Datetime extends Ushahidi_Repository_Post_Value
 	{
 		// Convert post_date to DateTime
 		$value = date_create($data['value'], new \DateTimeZone('UTC'));
-		$data['value'] = $value ? $value->format(DateTime::W3C) : null;
+		$data['value'] = $value ? str_replace('+00:00', '.000Z', gmdate('c', strtotime($value->format(DateTime::ATOM)))) : null;
 		return new PostValue($data);
 	}
 
