@@ -20,9 +20,20 @@ class Ushahidi_Repository_Post_Datetime extends Ushahidi_Repository_Post_Value
 		return 'post_datetime';
 	}
 
+	// Ushahidi_Repository
+	public function getEntity(Array $data = null)
+	{
+		// Convert post_date to DateTime
+		$value = date_create($data['value'], new \DateTimeZone('UTC'));
+		$data['value'] = $value ? $value->format(DateTime::W3C) : null;
+		return new PostValue($data);
+	}
+
 	private function convertToMysqlFormat($value) {
-		$value = date("Y-m-d H:i:s", strtotime($value));
-		return $value;
+		$value = date_create($value, new \DateTimeZone('UTC'));
+		$value->setTimezone(new \DateTimeZone('UTC'));
+
+		return $value->format("Y-m-d H:i:s");
 	}
 
 	public function createValue($value, $form_attribute_id, $post_id)
