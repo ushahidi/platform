@@ -16,6 +16,7 @@ use League\Event\EventInterface;
 use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
 use Ushahidi\Core\Entity\PostsChangeLogRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Traits\RecursiveImplode;
 
 class Ushahidi_Listener_PostListener extends AbstractListener
@@ -23,6 +24,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
     protected $repo;
     protected $webhook_repo;
     protected $changelog_repo;
+	protected $formstages_repo;
 
     use RecursiveImplode;
 
@@ -39,6 +41,11 @@ class Ushahidi_Listener_PostListener extends AbstractListener
     public function setChangelogRepo(PostsChangeLogRepository $changelog_repo)
     {
         $this->changelog_repo = $changelog_repo;
+    }
+
+	public function setFormStagesRepo(FormStageRepository $formstages_repo)
+    {
+        $this->formstages_repo = $formstages_repo;
     }
 
     //TODO: note that we're only receiving the ID here.
@@ -88,6 +95,17 @@ class Ushahidi_Listener_PostListener extends AbstractListener
             Kohana::$log->add(Log::DEBUG, 'Unknown event was passed to PostListener '.print_r($event_type, true).'!');
         }
         }
+    }
+
+	protected function getLabelForCompletedStageId($id)
+    {
+        $formstage_label = "";
+        $formstage_entity = $this->formstages_repo->get($id);
+        if(is_object($formstage_entity))
+        {
+            $formstage_label = $formstage_entity->label;
+        }
+        return $formstage_label;
     }
 
 

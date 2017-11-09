@@ -196,7 +196,8 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 			->where('set_id', '=', $set_id)
 			->execute($this->db);
 
-			$this->emit($this->event, $set_id, $post_id, 'remove');
+			$setObj = $this->get($set_id);
+			$this->emit($this->event, $setObj, $post_id, 'remove');
 	}
 
 	// SetRepository
@@ -225,12 +226,11 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 			->values(array_values(compact('post_id', 'set_id')))
 			->execute($this->db);
 
-		$the_set = $this->get($set_id);
-		Kohana::$log->add(Log::INFO, 'Set Entity: '.print_r($the_set->name, true));
+		$setObj = $this->get($set_id);
+		Kohana::$log->add(Log::INFO, 'Set Entity: '.print_r($setObj->name, true));
 
 		// Fire event after post is added
 		// so that this is queued for the Notifications data provider
-		$this->emit('PostSetEvent', $set_id, $post_id, 'add');
-		$this->emit('LoggablePostSetEvent', $the_set, $post_id, 'addPostToSet');
+		$this->emit($this->event, $setObj, $post_id, 'add');
 	}
 }

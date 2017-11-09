@@ -738,42 +738,20 @@ abstract class Ushahidi_Core {
 
 		//REMOVING this because the DI will only let us set one event per repository
 		/*$di->setter['Ushahidi_Repository_Set']['setEvent'] = 'LoggablePostSetEvent';
-		$di->setter['Ushahidi_Repository_Set']['setListener'] =
-				$di->lazyNew('Ushahidi_Listener_ChangelogListener');
 				*/
 
 		// NotificationQueue repo for Set listener
 		$di->setter['Ushahidi_Listener_PostSetListener']['setRepo'] =
 			$di->lazyGet('repository.notification.queue');
 
-		// Changelog Listener wirings:
-		// 		setting User repo for Changelog listener
-		$di->setter['Ushahidi_Listener_ChangelogListener']['setUserRepo'] =
-			$di->lazyGet('repository.user');
+		$di->setter['Ushahidi_Listener_PostSetListener']['setChangeLogRepo'] =
+				$di->lazyGet('repository.posts_changelog');
 
-		$di->setter['Ushahidi_Listener_ChangelogListener']['setFormStagesRepo'] =
-				$di->lazyGet('repository.form_stage');
-
-		/* too many levels of redirection
-		//		setting Set repo for Changelog listener
-		$di->setter['Ushahidi_Listener_ChangelogListener']['setSetRepo']
-					=  $di->lazyGet('repository.set');
-		*/
-
-		// 		setting Changelog repo for Changelog listener
-		$di->setter['Ushahidi_Listener_ChangelogListener']['setChangeLogRepo'] =
-						$di->lazyGet('repository.posts_changelog');
 
 		// Event listener for the Post repo
 		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostWriteEvent';
 		$di->setter['Ushahidi_Repository_Post']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_PostListener');
-
-		// TODO: commenting this out, because apparently each repo can only have one listener :(
-		// Event listener for Post updates to Changelog
-		//$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'LoggablePostUpdateEvent';
-		//$di->setter['Ushahidi_Repository_Post']['setListener'] =
-		//	$di->lazyNew('Ushahidi_Listener_ChangelogListener');
+			$di->lazyNew('Ushahidi_Listener_PostListener');		
 
 		// WebhookJob repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setRepo'] =
@@ -783,9 +761,13 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
 
-		// Webhook repo for Post listener
+		// Changelog repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setChangeLogRepo'] =
 			$di->lazyGet('repository.posts_changelog');
+
+		// Formstage repo for Post listener
+		$di->setter['Ushahidi_Listener_PostListener']['setFormStagesRepo'] =
+					$di->lazyGet('repository.form_stage');
 
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
