@@ -78,41 +78,73 @@ class DataSourceOutgoing extends Command
 
     public function handle()
     {
-        $source = $this->option('source');
-        $limit = $this->option('limit');
+        $sources = $this->getSources();
 
         $totals = [];
 
-        $messages = $this->storage->getPendingMessages($limit, $this->option('source'));
+        foreach ($sources as $id => $source) {
+            if (!($source instanceof OutgoingAPIDataSource)) {
+                // Data source doesn't have an API we can push messages to
+                continue;
+            }
+
+            $totals[] = [
+                'Source'   => $source->getName(),
+                'Total'    => $this->processSource($source, $id)
+            ];
+        }
+
+        // If no source is specified
+        if (!$this->option('source')) {
+            $totals[] = [
+                'Source' => 'Unassigned', // @todo split into named types
+                'Total' => $this->processUnassignedSource()
+            ];
+        }
+
+        return $this->table(['Source', 'Total'], $totals);
+    }
+
+    protected function processSource($source)
+    {
+        $count = 0;
+        $messages = $this->storage->getPendingMessages($this->option('limit'), $source->getId());
 
         foreach ($messages as $message) {
-            if ($message->data_provider) {
-                $source = $this->sources->getEnabledSources($message->data_provider);
-            } else {
-                $source = $this->sources->getSourceForType($message->type);
-            }
+            list($new_status, $tracking_id) = $source->send($message->contact, $message->message, $message->title);
+
+            $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
+
+            $count ++;
+        }
+
+        return $count;
+    }
+
+    protected function processUnassignedSource()
+    {
+        $count = 0;
+
+        foreach (['sms', 'twitter', 'email'] as $type) {
+            $source = $this->sources->getSourceForType($type);
 
             if (!($source instanceof OutgoingAPIDataSource)) {
                 // Data source doesn't have an API we can push messages to
                 continue;
             }
 
-            list($new_status, $tracking_id) = $source->send($message->contact, $message->message, $message->title);
+            $messages = $this->storage->getPendingMessagesByType($this->option('limit'), $type);
 
-            // @todo save which provide sent message
-            $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
+            foreach ($messages as $message) {
+                list($new_status, $tracking_id) = $source->send($message->contact, $message->message, $message->title);
 
-            if (isset($totals[$source->getId()])) {
-                $totals[$source->getId()]['Total']++;
-            } else {
-                $totals[$source->getId()] = [
-                    'Source'   => $source->getName(),
-                    'Total'    => 1
-                ];
+                $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
+
+                $count ++;
             }
         }
 
-        return $this->table(['Source', 'Total'], $totals);
+        return $count;
     }
 
 }

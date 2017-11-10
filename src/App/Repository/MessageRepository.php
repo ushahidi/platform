@@ -120,8 +120,9 @@ class MessageRepository extends OhanzeeRepository implements
 	}
 
 	// MessageRepository
-	public function getPendingMessages($status, $data_provider, $limit)
+	public function getPendingMessages($data_provider, $limit)
 	{
+		$status = 'pending';
 		$direction = Message::OUTGOING;
 		$query = $this->selectQuery(compact('status', 'direction'))
 			->limit($limit)
@@ -133,6 +134,30 @@ class MessageRepository extends OhanzeeRepository implements
 
 		if ($data_provider) {
 			$query->where('messages.data_provider', '=', $data_provider);
+		}
+
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
+	// MessageRepository
+	public function getPendingMessagesByType($type, $limit)
+	{
+		$status = 'pending';
+		$direction = Message::OUTGOING;
+		$query = $this->selectQuery(compact('status', 'direction'))
+			->limit($limit)
+			->order_by('created', 'ASC')
+			// Include contact in same query
+			->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
+			->select('contacts.contact')
+			// Only return messages without a specified provider
+			->where('messages.data_provider', 'IS', null)
+			;
+
+		if ($type) {
+			$query->where('messages.type', '=', $type);
 		}
 
 		$results = $query->execute($this->db);

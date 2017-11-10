@@ -103,6 +103,7 @@ class DataSourceManager
     {
         // If a default source is defined, use that
         if (isset($this->defaultSources[$type])) {
+            // @todo ensure this is enabled
             return $this->sources[$this->defaultSources[$type]];
         }
 

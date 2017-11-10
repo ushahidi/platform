@@ -84,11 +84,20 @@ class DataSourceStorage
      */
     public function getPendingMessages($limit = 20, $source = false)
     {
-        $sources = array();
-        $count = 0;
-
         // Grab latest messages
-        return $this->messageRepo->getPendingMessages(Message\Status::PENDING, $source, $limit);
+        return $this->messageRepo->getPendingMessages($source, $limit);
+    }
+
+    /**
+     * Get pending messages for type
+     *
+     * @param  string  $source  data source id
+     * @param  boolean $limit   maximum number of messages to send at a time
+     */
+    public function getPendingMessagesByType($limit = 20, $type = false)
+    {
+        // Grab latest messages
+        return $this->messageRepo->getPendingMessagesByType($type, $limit);
     }
 
     /**
