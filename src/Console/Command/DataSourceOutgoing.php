@@ -78,39 +78,41 @@ class DataSourceOutgoing extends Command
 
     public function handle()
     {
-        $sources = $this->getSources();
+        $source = $this->option('source');
         $limit = $this->option('limit');
 
         $totals = [];
-        // @todo do we even need to do this by source at all? Could we just grab a chunk of pending messages and iterate through those instead?!
-        foreach ($sources as $id => $source) {
+
+        $messages = $this->storage->getPendingMessages($limit, $this->option('source'));
+
+        foreach ($messages as $message) {
+            if ($message->data_provider) {
+                $source = $this->sources->getEnabledSources($message->data_provider);
+            } else {
+                $source = $this->sources->getSourceForType($message->type);
+            }
+
             if (!($source instanceof OutgoingAPIDataSource)) {
                 // Data source doesn't have an API we can push messages to
                 continue;
             }
 
-            $totals[] = [
-                'Source'   => $source->getName(),
-                'Total'    => $this->processSource($source, $id)
-            ];
+            list($new_status, $tracking_id) = $source->send($message->contact, $message->message, $message->title);
+
+            // @todo save which provide sent message
+            $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
+
+            if (isset($totals[$source->getId()])) {
+                $totals[$source->getId()]['Total']++;
+            } else {
+                $totals[$source->getId()] = [
+                    'Source'   => $source->getName(),
+                    'Total'    => 1
+                ];
+            }
         }
 
         return $this->table(['Source', 'Total'], $totals);
-    }
-
-    protected function processSource($source, $id) // @todo can we drop $id
-    {
-        $messages = $this->storage->getPendingMessages($limit, $id);
-
-        foreach ($messages as $message) {
-            list($new_status, $tracking_id) = $source->send($message->contact, $message->message, $message->title);
-
-            $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
-
-            $count ++;
-        }
-
-        return $count;
     }
 
 }
