@@ -79,7 +79,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 	{
 		// Prepare data to send to frontline cloud
 		$data = array(
-			"apiKey" => isset($this->_options['key']) ? $this->_options['key'] : '',
+			"apiKey" => isset($this->config['key']) ? $this->config['key'] : '',
 			"payload" => array(
 				"message" => $message,
 				"recipients" => array(
@@ -92,24 +92,28 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 		);
 
 		// Make a POST request to send the data to frontline cloud
-		$request = Request::factory($this->apiUrl)
-				->method(Request::POST)
-				->body(json_encode($data))
-				->headers('Content-Type', 'application/json');
+
+		$client = new \GuzzleHttp\Client();
 
 		try {
-			$response = $request->execute();
+			$response = $client->request('POST', $this->apiUrl, [
+					'headers' => [
+						'Accept'               => 'application/json',
+						'Content-Type'         => 'application/json'
+					],
+					'json' => $data
+				]);
 			// Successfully executed the request
 
-			if ($response->status() === 200) {
+			if ($response->getStatusCode() === 200) {
 				return array(DataSource\Message\Status::SENT, $this->tracking_id(DataSource\Message\Type::SMS));
 			}
 
 			// Log warning to log file.
-			$status = $response->status();
+			$status = $response->getStatusCode();
 			Log::warning('Could not make a successful POST request',
 				array('message' => $response->messages[$status], 'status' => $status));
-		} catch (Request_Exception $e) {
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			// Log warning to log file.
 			Log::warning('Could not make a successful POST request',
 				array('message' => $e->getMessage()));
