@@ -11,6 +11,8 @@ namespace Ushahidi\App\DataSource;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Ushahidi\Core\Entity\MessageRepository;
+use Ushahidi\Core\Usecase;
 
 class DataSourceStorage
 {
@@ -18,10 +20,10 @@ class DataSourceStorage
     protected $receiveUsecase;
     protected $messageRepo;
 
-    public function __construct()
+    public function __construct(Usecase $receiveUsecase, MessageRepository $messageRepo)
     {
-        $this->receiveUsecase = service('factory.usecase')->get('messages', 'receive');
-        $this->messageRepo = service('repository.message');
+        $this->receiveUsecase = $receiveUsecase;
+        $this->messageRepo = $messageRepo;
     }
 
     /**

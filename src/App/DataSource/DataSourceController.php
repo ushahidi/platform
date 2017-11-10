@@ -22,10 +22,10 @@ abstract class DataSourceController extends Controller
 
     protected $source;
 
-    public function __construct()
+    public function __construct(DataSourceManager $manager, DataSourceStorage $storage)
     {
-        $this->source = app('datasources')->getSource($this->source);
-        $this->storage = app('datasources')->getStorage();
+        $this->source = $manager->getSource($this->source);
+        $this->storage = $storage;
     }
 
     abstract public function handleRequest(Request $request);

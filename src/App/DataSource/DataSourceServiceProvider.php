@@ -13,6 +13,7 @@ class DataSourceServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerStorage();
         $this->registerManager();
         $this->registerRoutes();
     }
@@ -24,8 +25,8 @@ class DataSourceServiceProvider extends ServiceProvider
      */
     protected function registerManager()
     {
-        $this->app->singleton('datasources', function () {
-            $manager = new DataSourceManager($this->app->router);
+        $this->app->singleton('datasources', function ($app) {
+            $manager = new DataSourceManager($app->router);
 
             $configRepo = service('repository.config');
             $dataProviderConfig = $configRepo->get('data-provider')->asArray();
@@ -33,7 +34,7 @@ class DataSourceServiceProvider extends ServiceProvider
             $manager->setEnabledSources($dataProviderConfig['providers']);
             $manager->setAvailableSources(service('features.data-providers'));
 
-            $manager->setStorage($this->makeStorage());
+            $manager->setStorage($app->make(DataSourceStorage::class));
 
             $this->registerDataSources($manager);
             $manager->registerRoutes();
@@ -61,9 +62,18 @@ class DataSourceServiceProvider extends ServiceProvider
         return $manager;
     }
 
+    protected function registerStorage()
+    {
+        $this->app->singleton(DataSourceStorage::class, function ($app) {
+            return $this->makeStorage();
+        });
+    }
+
     protected function makeStorage()
     {
-        return new DataSourceStorage();
+        $receiveUsecase = service('factory.usecase')->get('messages', 'receive');
+        $messageRepo = service('repository.message');
+        return new DataSourceStorage($receiveUsecase, $messageRepo);
     }
 
     public function registerRoutes()
