@@ -63,7 +63,6 @@ class Create extends Validator
 				['in_array', [':value', [
 					// @todo this should be shared via repo
 					MessageStatus::PENDING,
-					MessageStatus::PENDING_POLL,
 				]]],
 			],
 			'parent_id' => [
