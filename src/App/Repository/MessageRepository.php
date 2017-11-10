@@ -145,8 +145,7 @@ class MessageRepository extends OhanzeeRepository implements
 	{
 		$changes = [
 			'status'   => $status,
-			'data_provider_message_id' => $data_provider_message_id,
-			'updated'  => time()
+			'data_provider_message_id' => $data_provider_message_id
 		];
 
 		return $this->executeUpdate(['id' => $id], $changes);
@@ -167,16 +166,6 @@ class MessageRepository extends OhanzeeRepository implements
 			'direction' => MessageDirection::OUTGOING,
 			'created'   => time(),
 		]));
-	}
-
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$state = [
-			'updated'  => time(),
-		];
-
-		return parent::update($entity->setState($state));
 	}
 
 	// UpdateMessageRepository
