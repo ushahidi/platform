@@ -36,6 +36,13 @@ class DataSourceManager
     protected $availableSources = [];
 
     /**
+     * The array of default data sources (by name)
+     *
+     * @var [type => sourceId, ...]
+     */
+    protected $defaultSources = [];
+
+    /**
      * Data Source Storage
      * @var
      */
@@ -95,7 +102,7 @@ class DataSourceManager
     public function getSourceForType($type)
     {
         // If a default source is defined, use that
-        if ($this->defaultSources[$type]) {
+        if (isset($this->defaultSources[$type])) {
             return $this->sources[$this->defaultSources[$type]];
         }
 
