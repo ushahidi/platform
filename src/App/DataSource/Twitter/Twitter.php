@@ -14,6 +14,7 @@ namespace Ushahidi\App\DataSource\Twitter;
 use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Decoders\GeoJSON;
@@ -257,13 +258,13 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 			]);
 
 			if (!$response->id) {
-				return array(DataSource\Message\Status::FAILED, false);
+				return array(MessageStatus::FAILED, false);
 			}
-			return array(DataSource\Message\Status::SENT, $response->id);
+			return array(MessageStatus::SENT, $response->id);
 		} catch (TwitterOAuthException $toe) {
-			return array(DataSource\Message\Status::FAILED, false);
+			return array(MessageStatus::FAILED, false);
 		} catch (Exception $e) {
-			return array(DataSource\Message\Status::FAILED, false);
+			return array(MessageStatus::FAILED, false);
 		}
 	}
 

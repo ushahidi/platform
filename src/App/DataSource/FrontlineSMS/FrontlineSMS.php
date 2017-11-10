@@ -14,6 +14,7 @@ namespace Ushahidi\App\DataSource\FrontlineSMS;
 use Ushahidi\App\DataSource\CallbackDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
@@ -106,7 +107,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 			// Successfully executed the request
 
 			if ($response->getStatusCode() === 200) {
-				return array(DataSource\Message\Status::SENT, $this->tracking_id(DataSource\Message\Type::SMS));
+				return array(MessageStatus::SENT, $this->tracking_id(DataSource\Message\Type::SMS));
 			}
 
 			// Log warning to log file.
@@ -119,7 +120,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 				array('message' => $e->getMessage()));
 		}
 
-		return array(DataSource\Message\Status::FAILED, false);
+		return array(MessageStatus::FAILED, false);
 	}
 
 	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)

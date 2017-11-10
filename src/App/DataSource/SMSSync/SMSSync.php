@@ -13,6 +13,7 @@ namespace Ushahidi\App\DataSource\SMSSync;
 
 use Ushahidi\App\DataSource\CallbackDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Ushahidi\Core\Entity\Contact;
 
 class SMSSync implements CallbackDataSource

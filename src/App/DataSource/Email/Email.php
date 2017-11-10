@@ -14,6 +14,7 @@ namespace Ushahidi\App\DataSource\Email;
 use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Shadowhand\Email as ShadowhandEmail;
 use Ushahidi\Core\Entity\Contact;
 use Log;
@@ -156,11 +157,11 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				->from($from, $from_name)
 				->send();
 
-			return array(DataSource\Message\Status::SENT, $tracking_id);
+			return array(MessageStatus::SENT, $tracking_id);
 		} catch (\Exception $e) {
 			app('log')->error($e->getMessage());
 			// Failed
-			return array(DataSource\Message\Status::FAILED, false);
+			return array(MessageStatus::FAILED, false);
 		}
 	}
 

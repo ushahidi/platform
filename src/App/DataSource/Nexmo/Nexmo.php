@@ -14,6 +14,7 @@ namespace Ushahidi\App\DataSource\Nexmo;
 use Ushahidi\App\DataSource\CallbackDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\MessageStatus as MessageStatus;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
@@ -111,16 +112,16 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 			foreach ($info->messages as $message) {
 				if ($message->status != 0) {
 					Log::warning('Nexmo: '.$message->errortext);
-					return array(DataSource\Message\Status::FAILED, false);
+					return array(MessageStatus::FAILED, false);
 				}
 
-				return array(DataSource\Message\Status::SENT, $message->messageid);
+				return array(MessageStatus::SENT, $message->messageid);
 			}
 		} catch (Exception $e) {
 			Log::warning($e->getMessage());
 		}
 
-		return array(DataSource\Message\Status::FAILED, false);
+		return array(MessageStatus::FAILED, false);
 	}
 
 	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)

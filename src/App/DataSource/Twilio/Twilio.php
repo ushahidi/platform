@@ -14,6 +14,7 @@ namespace Ushahidi\App\DataSource\Twilio;
 use Ushahidi\App\DataSource\CallbackDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\MessageStatus as MessageStatus;
 use Ushahidi\Core\Entity\Contact;
 use Services_Twilio;
 use Services_Twilio_RestException;
@@ -97,12 +98,12 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 		// Send!
 		try {
 			$message = $this->client->account->messages->sendMessage($this->config['from'], '+'.$to, $message);
-			return array(DataSource\Message\Status::SENT, $message->sid);
+			return array(MessageStatus::SENT, $message->sid);
 		} catch (Services_Twilio_RestException $e) {
 			Log::error($e->getMessage());
 		}
 
-		return array(DataSource\Message\Status::FAILED, false);
+		return array(MessageStatus::FAILED, false);
 	}
 
 	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
