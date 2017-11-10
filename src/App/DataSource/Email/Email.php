@@ -11,14 +11,14 @@ namespace Ushahidi\App\DataSource\Email;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\IncomingAPIDataSource;
+use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Shadowhand\Email as ShadowhandEmail;
 use Ushahidi\Core\Entity\Contact;
-use Illuminate\Http\Request;
 use Log;
 
-class Email implements DataSource
+class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 {
 
 	protected $config;
@@ -309,7 +309,4 @@ class Email implements DataSource
 		return null;
 	}
 
-	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
-	{
-	}
 }

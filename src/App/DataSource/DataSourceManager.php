@@ -113,6 +113,11 @@ class DataSourceManager
     public function registerRoutes()
     {
         foreach ($this->getEnabledSources() as $source) {
+            if (!($source instanceof CallbackDataSource)) {
+                // Data source doesn't implement callbacks
+                continue;
+            }
+
             $source->registerRoutes($this->router);
         }
     }

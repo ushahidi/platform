@@ -17,9 +17,6 @@ interface Status
 	// Waiting to be sent
 	const PENDING        = 'pending';
 
-	// Waiting to be sent when provider polls (ie. SMSSync)
-	const PENDING_POLL   = 'pending_poll';
-
 	const SENT           = 'sent';
 	const RECEIVED       = 'received';
 

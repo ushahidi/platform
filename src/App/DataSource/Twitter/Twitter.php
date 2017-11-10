@@ -11,18 +11,18 @@ namespace Ushahidi\App\DataSource\Twitter;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\IncomingAPIDataSource;
+use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Decoders\GeoJSON;
 use Log;
-use Illuminate\Http\Request;
 
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\ConfigRepository;
 
-class Twitter implements DataSource
+class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 {
 
 	const MAX_REQUESTS_PER_WINDOW = 180;
@@ -350,7 +350,4 @@ class Twitter implements DataSource
 		return $connection;
 	}
 
-	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
-	{
-	}
 }

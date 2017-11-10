@@ -11,13 +11,13 @@ namespace Ushahidi\App\DataSource\Nexmo;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\DataSource;
+use Ushahidi\App\DataSource\CallbackDataSource;
+use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\Core\Entity\Contact;
 use Log;
-use Illuminate\Http\Request;
 
-class Nexmo implements DataSource
+class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 {
 
 	protected $config;
@@ -116,12 +116,6 @@ class Nexmo implements DataSource
 		}
 
 		return array(DataSource\Message\Status::FAILED, false);
-	}
-
-	// DataSource
-	public function fetch($limit = false)
-    {
-		return false;
 	}
 
 	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)

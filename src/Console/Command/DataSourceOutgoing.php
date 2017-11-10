@@ -17,6 +17,7 @@ use Ushahidi\Core\Usecase;
 use \Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\DataSourceStorage;
+use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 
 class DataSourceOutgoing extends Command
 {
@@ -83,6 +84,11 @@ class DataSourceOutgoing extends Command
         $totals = [];
         // @todo do we even need to do this by source at all? Could we just grab a chunk of pending messages and iterate through those instead?!
         foreach ($sources as $id => $source) {
+            if (!($source instanceof OutgoingAPIDataSource)) {
+                // Data source doesn't have an API we can push messages to
+                continue;
+            }
+
             $totals[] = [
                 'Source'   => $source->getName(),
                 'Total'    => $this->processSource($source, $id)

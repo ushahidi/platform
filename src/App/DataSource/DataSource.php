@@ -2,10 +2,8 @@
 
 namespace Ushahidi\App\DataSource;
 
-use Illuminate\Http\Request;
-
 /**
- * Base class for all Data Providers
+ * Base Interface for all Data Source
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    DataSource
@@ -18,30 +16,11 @@ interface DataSource
 	/**
 	 * Constructor function for DataSource
 	 */
+	// @todo add state store
 	public function __construct(array $config);
 
 	public function getName();
 	public function getServices();
 	public function getOptions();
 
-	/**
-	 * @param  string  to Phone number to receive the message
-	 * @param  string  message Message to be sent
-	 * @param  string  title   Message title
-	 * @return array   Array of message status, and tracking ID.
-	 */
-	public function send($to, $message, $title = "");
-
-	/**
-	 * Fetch messages from provider
-	 *
-	 * For services where we have to poll for message (Twitter, Email, FrontlineSMS) this should
-	 * poll the service and pass messages to $this->receive()
-	 *
-	 * @param  boolean $limit   maximum number of messages to fetch at a time
-	 * @return int              number of messages fetched
-	 */
-	public function fetch($limit = false);
-
-	public function registerRoutes(\Laravel\Lumen\Routing\Router $router);
 }

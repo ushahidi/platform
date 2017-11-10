@@ -17,6 +17,7 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\DataSourceStorage;
+use Ushahidi\App\DataSource\IncomingAPIDataSource;
 
 class DataSourceIncoming extends Command
 {
@@ -78,6 +79,11 @@ class DataSourceIncoming extends Command
         $totals = [];
 
         foreach ($sources as $sourceId => $source) {
+            if (!($source instanceof IncomingAPIDataSource)) {
+                // Data source doesn't have an API we can pull messages from
+                continue;
+            }
+
             $messages = $source->fetch($limit);
 
             foreach ($messages as $message) {
