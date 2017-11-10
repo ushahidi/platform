@@ -100,7 +100,7 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 			$message = $this->client->account->messages->sendMessage($this->config['from'], '+'.$to, $message);
 			return array(MessageStatus::SENT, $message->sid);
 		} catch (Services_Twilio_RestException $e) {
-			Log::error($e->getMessage());
+			app('log')->error($e->getMessage());
 		}
 
 		return array(MessageStatus::FAILED, false);

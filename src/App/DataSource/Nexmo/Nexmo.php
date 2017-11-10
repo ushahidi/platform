@@ -111,14 +111,14 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 			$info = $this->client->sendText('+'.$to, '+'.preg_replace("/[^0-9,.]/", "", $this->from()), $message);
 			foreach ($info->messages as $message) {
 				if ($message->status != 0) {
-					Log::warning('Nexmo: '.$message->errortext);
+					app('log')->warning('Nexmo: '.$message->errortext);
 					return array(MessageStatus::FAILED, false);
 				}
 
 				return array(MessageStatus::SENT, $message->messageid);
 			}
 		} catch (Exception $e) {
-			Log::warning($e->getMessage());
+			app('log')->warning($e->getMessage());
 		}
 
 		return array(MessageStatus::FAILED, false);

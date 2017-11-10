@@ -112,11 +112,11 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 
 			// Log warning to log file.
 			$status = $response->getStatusCode();
-			Log::warning('Could not make a successful POST request',
+			app('log')->warning('Could not make a successful POST request',
 				array('message' => $response->messages[$status], 'status' => $status));
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			// Log warning to log file.
-			Log::warning('Could not make a successful POST request',
+			app('log')->warning('Could not make a successful POST request',
 				array('message' => $e->getMessage()));
 		}
 

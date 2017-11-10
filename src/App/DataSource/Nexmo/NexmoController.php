@@ -151,8 +151,7 @@ class NexmoController extends DataSourceController
 				return ( ($ip_dec>=$lower_dec) && ($ip_dec<=$upper_dec) );
 			}
 
-			Kohana::$log->add(
-				Log::ERROR,
+			app('log')->error(
 				'IP Address Range argument is not in 1.2.3.4/24 or 1.2.3.4/255.255.255.0 format'
 			);
 
