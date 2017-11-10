@@ -35,6 +35,11 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 		return 'FrontlineSMS';
 	}
 
+	public function getId()
+	{
+		return strtolower($this->getName());
+	}
+
 	public function getServices()
 	{
 		return [MessageType::SMS];

@@ -33,6 +33,11 @@ class SMSSync implements CallbackDataSource
 		return 'SMSSync';
 	}
 
+	public function getId()
+	{
+		return strtolower($this->getName());
+	}
+
 	public function getServices()
 	{
 		return [MessageType::SMS];

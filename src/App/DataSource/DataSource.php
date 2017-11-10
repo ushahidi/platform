@@ -20,6 +20,7 @@ interface DataSource
 	public function __construct(array $config);
 
 	public function getName();
+	public function getId();
 	public function getServices();
 	public function getOptions();
 

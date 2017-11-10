@@ -52,9 +52,9 @@ class DataSourceManager
         $this->router = $router;
     }
 
-    public function addSource($name, DataSource $source)
+    public function addSource(DataSource $source)
     {
-        $this->sources[$name] = $source;
+        $this->sources[$source->getId()] = $source;
     }
 
     public function getSource($name = false)

@@ -47,8 +47,13 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 	}
 
 	public function getName()
-    {
+	{
 		return 'Twitter';
+	}
+
+	public function getId()
+	{
+		return strtolower($this->getName());
 	}
 
 	public function getServices()
@@ -111,7 +116,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 
 	// DataSource
 	public function fetch($limit = false)
-    {
+	{
 		$this->initialize();
 
 		// Check we have the required config
@@ -182,8 +187,8 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 							$geom = GeoJSON::geomFromText(json_encode($status['place']['bounding_box']));
 							// Use mysql to run Centroid
 							$result = DB::select([
-							 	DB::expr('AsText(Centroid(GeomFromText(:poly)))')
-							 		->param(':poly', $geom->toWKT()), 'center']
+								DB::expr('AsText(Centroid(GeomFromText(:poly)))')
+									->param(':poly', $geom->toWKT()), 'center']
 							)->execute(service('kohana.db'));
 
 							$centerGeom = WKT::geomFromText($result->get('center', 0));
@@ -322,7 +327,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 	}
 
 	private function connect()
-    {
+	{
 		// check if we have reached our rate limit
 		if (!$this->canMakeRequest()) {
 			app('log')->warning('You have reached your rate limit for this window');

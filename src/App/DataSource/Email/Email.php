@@ -36,6 +36,11 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 		return 'Email';
 	}
 
+	public function getId()
+	{
+		return strtolower($this->getName());
+	}
+
 	public function getServices()
 	{
 		return [MessageType::EMAIL];

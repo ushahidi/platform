@@ -35,6 +35,11 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 		return 'Nexmo';
 	}
 
+	public function getId()
+	{
+		return strtolower($this->getName());
+	}
+
 	public function getServices()
 	{
 		return [MessageType::SMS];

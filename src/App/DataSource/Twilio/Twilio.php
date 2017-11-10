@@ -37,6 +37,11 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 		return 'Twilio';
 	}
 
+	public function getId()
+	{
+		return strtolower($this->getName());
+	}
+
 	public function getServices()
 	{
 		return [MessageType::SMS];
