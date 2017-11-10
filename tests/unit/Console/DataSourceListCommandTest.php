@@ -21,6 +21,19 @@ use Mockery as M;
 class DataSourceListTest extends TestCase
 {
 
+    public function setUp() {
+        parent::setUp();
+        // Ensure enabled providers is in a known state
+        $this->app->make('datasources')->setEnabledSources([
+            'email' => false,
+            'frontlinesms' => true,
+            'nexmo' => false,
+            'twilio' => true,
+            'twitter' => false,
+            'smssync' => true,
+        ]);
+    }
+
     public function testList()
     {
         $value = $this->artisan('datasource:list', []);

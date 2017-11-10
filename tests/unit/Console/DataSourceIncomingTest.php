@@ -21,18 +21,29 @@ use Mockery as M;
 class DataSourceIncomingTest extends TestCase
 {
 
+    public function setUp() {
+        parent::setUp();
+        // Ensure enabled providers is in a known state
+        $this->app->make('datasources')->setEnabledSources([
+            'email' => false,
+            'frontlinesms' => true,
+            'nexmo' => false,
+            'twilio' => true,
+            'twitter' => true,
+            'smssync' => true,
+        ]);
+    }
+
     public function testIncoming()
     {
         $value = $this->artisan('datasource:incoming', []);
 
         $this->assertEquals(
-"+--------------+-------+
-| Source       | Total |
-+--------------+-------+
-| FrontlineSMS |       |
-| SMSSync      |       |
-| Twilio       |       |
-+--------------+-------+
+"+---------+-------+
+| Source  | Total |
++---------+-------+
+| Twitter | 0     |
++---------+-------+
 ", $this->artisanOutput());
     }
 
@@ -41,29 +52,25 @@ class DataSourceIncomingTest extends TestCase
         $value = $this->artisan('datasource:incoming', ["--all" => true]);
 
         $this->assertEquals(
-"+--------------+-------+
-| Source       | Total |
-+--------------+-------+
-| Email        | 0     |
-| FrontlineSMS |       |
-| Nexmo        |       |
-| SMSSync      |       |
-| Twilio       |       |
-| Twitter      | 0     |
-+--------------+-------+
+"+---------+-------+
+| Source  | Total |
++---------+-------+
+| Email   | 0     |
+| Twitter | 0     |
++---------+-------+
 ", $this->artisanOutput());
     }
 
-    public function testIncomingTwilio()
+    public function testIncomingTwitter()
     {
-        $value = $this->artisan('datasource:incoming', ["--source" => "twilio"]);
+        $value = $this->artisan('datasource:incoming', ["--source" => "twitter"]);
 
         $this->assertEquals(
-"+--------+-------+
-| Source | Total |
-+--------+-------+
-| Twilio |       |
-+--------+-------+
+"+---------+-------+
+| Source  | Total |
++---------+-------+
+| Twitter | 0     |
++---------+-------+
 ", $this->artisanOutput());
     }
 

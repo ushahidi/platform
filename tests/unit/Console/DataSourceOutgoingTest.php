@@ -21,6 +21,19 @@ use Mockery as M;
 class DataSourceOutgoingTest extends TestCase
 {
 
+    public function setUp() {
+        parent::setUp();
+        // Ensure enabled providers is in a known state
+        $this->app->make('datasources')->setEnabledSources([
+            'email' => false,
+            'frontlinesms' => true,
+            'nexmo' => false,
+            'twilio' => true,
+            'twitter' => false,
+            'smssync' => true,
+        ]);
+    }
+
     public function testOutgoing()
     {
         $value = $this->artisan('datasource:outgoing', []);
@@ -30,9 +43,9 @@ class DataSourceOutgoingTest extends TestCase
 | Source       | Total |
 +--------------+-------+
 | FrontlineSMS | 0     |
-| SMSSync      | 0     |
 | Twilio       | 0     |
 | Email        | 0     |
+| Unassigned   | 0     |
 +--------------+-------+
 ", $this->artisanOutput());
     }
@@ -48,9 +61,9 @@ class DataSourceOutgoingTest extends TestCase
 | Email        | 0     |
 | FrontlineSMS | 0     |
 | Nexmo        | 0     |
-| SMSSync      | 0     |
 | Twilio       | 0     |
 | Twitter      | 0     |
+| Unassigned   | 0     |
 +--------------+-------+
 ", $this->artisanOutput());
     }
