@@ -100,7 +100,7 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 	 */
 	public function send($to, $message, $title = "")
 	{
-		include_once __DIR__ . '/nexmo/NexmoMessage';
+		require_once __DIR__ . '/vendor/nexmo/NexmoMessage.php';
 
 		if (! isset($this->client)) {
 			$this->client = new \NexmoMessage($this->_options['api_key'], $this->_options['api_secret']);
