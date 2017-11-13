@@ -19,5 +19,4 @@ interface Session
 	 * @return User
 	 */
 	public function getUser();
-
 }

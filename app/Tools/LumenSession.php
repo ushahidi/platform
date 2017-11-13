@@ -23,7 +23,8 @@ class LumenSession implements Session
 		$this->userRepo = $userRepo;
 	}
 
-	function getUser () {
+	public function getUser()
+    {
         // Using the OAuth resource server, get the userid (owner id) for this request
         $genericUser = app('auth')->guard()->user();
 
@@ -32,5 +33,4 @@ class LumenSession implements Session
 
         return $user;
     }
-
 }
