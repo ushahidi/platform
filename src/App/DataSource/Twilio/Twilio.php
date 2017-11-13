@@ -14,7 +14,7 @@ namespace Ushahidi\App\DataSource\Twilio;
 use Ushahidi\App\DataSource\CallbackDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\MessageStatus as MessageStatus;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Ushahidi\Core\Entity\Contact;
 use Services_Twilio;
 use Services_Twilio_RestException;
@@ -28,9 +28,10 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config)
+	public function __construct(array $config, \Closure $clientFactory = null)
 	{
 		$this->config = $config;
+		$this->clientFactory = $clientFactory;
 	}
 
 	public function getName()
@@ -79,27 +80,38 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 		);
 	}
 
-	/**
-	 * Client to talk to the Twilio API
-	 *
-	 * @var Services_Twilio
-	 */
-	private $client;
 
 	/**
 	 * @return mixed
 	 */
 	public function send($to, $message, $title = "")
 	{
-		if (! isset($this->client)) {
-			$this->client = new Services_Twilio($this->config['account_sid'], $this->config['auth_token']);
+		// Check we have the required config
+		if (!isset($this->config['account_sid']) || !isset($this->config['auth_token'])) {
+			app('log')->warning('Could not send message with Twilio, incomplete config');
+			return array(MessageStatus::FAILED, false);
 		}
+
+		// Make twilio client
+		$client = ($this->clientFactory)($this->config['account_sid'], $this->config['auth_token']);
+
+		if (!($client instanceof \Twilio\Rest\Client)) {
+			throw new \Exception("Client is not an instance of Twilio\Rest\Client");
+		}
+
+		$from = isset($this->config['from']) ? $this->config['from'] : 'Ushahidi';
 
 		// Send!
 		try {
-			$message = $this->client->account->messages->sendMessage($this->config['from'], '+'.$to, $message);
+			$message = $client->messages->create(
+				$to,
+				[
+					'from' => $from,
+					'body' => $message
+				]
+			);
 			return array(MessageStatus::SENT, $message->sid);
-		} catch (Services_Twilio_RestException $e) {
+		} catch (\Twilio\Exceptions\RestException $e) {
 			app('log')->error($e->getMessage());
 		}
 

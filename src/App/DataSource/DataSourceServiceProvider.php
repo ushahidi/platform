@@ -56,10 +56,17 @@ class DataSourceServiceProvider extends ServiceProvider
         $manager->addSource(new FrontlineSMS\FrontlineSMS($dataProviderConfig['frontlinesms']));
         $manager->addSource(new Nexmo\Nexmo($dataProviderConfig['nexmo']));
         $manager->addSource(new SMSSync\SMSSync($dataProviderConfig['smssync']));
-        $manager->addSource(new Twilio\Twilio($dataProviderConfig['twilio']));
+        $manager->addSource($this->makeTwilio($dataProviderConfig));
         $manager->addSource(new Twitter\Twitter($dataProviderConfig['twitter']));
 
         return $manager;
+    }
+
+    protected function makeTwilio($dataProviderConfig)
+    {
+        return new Twilio\Twilio($dataProviderConfig['twilio'], function ($accountSid, $authToken) {
+            return new \Twilio\Rest\Client($accountSid, $authToken);
+        });
     }
 
     protected function registerStorage()
