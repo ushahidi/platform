@@ -27,7 +27,8 @@ $router->group([
     // Collections
     $router->group([
             'namespace' => 'Collections',
-            'prefix' => 'collections'
+            'prefix' => 'collections',
+            'middleware' => ['scope:collections,sets']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'CollectionsController@index');
@@ -39,7 +40,7 @@ $router->group([
 
         // Restricted access
         $router->group([
-                'middleware' => ['auth:api', 'scope:collections,sets']
+            'middleware' => ['auth:api', 'scope:collections,sets']
         ], function () use ($router) {
             $router->post('/', 'CollectionsController@store');
             $router->put('/{id}', 'CollectionsController@update');
@@ -54,7 +55,10 @@ $router->group([
     });
 
     // Config
-    $router->group(['prefix' => 'config/'], function () use ($router) {
+    $router->group([
+        'prefix' => 'config/',
+        'middleware' => ['scope:config']
+    ], function () use ($router) {
         // Public access
         $router->get('/', ['uses' => 'ConfigController@index']);
         // @todo stop using this in client, and remove?
@@ -108,7 +112,8 @@ $router->group([
     // Forms
     $router->group([
         'namespace' => 'Forms',
-        'prefix' => 'forms'
+        'prefix' => 'forms',
+        'middleware' => ['scope:forms']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'FormsController@index');
@@ -171,7 +176,8 @@ $router->group([
 
     // Layers
     $router->group([
-        'prefix' => 'layers'
+        'prefix' => 'layers',
+        'middleware' => ['scope:layers']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'LayersController@index');
@@ -189,7 +195,8 @@ $router->group([
 
     // Media
     $router->group([
-        'prefix' => 'media'
+        'prefix' => 'media',
+        'middleware' => ['scope:media']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'MediaController@index');
@@ -258,7 +265,8 @@ $router->group([
     // Posts
     $router->group([
         'namespace' => 'Posts',
-        'prefix' => 'posts'
+        'prefix' => 'posts',
+        'middleware' => ['scope:posts']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'PostsController@index');
@@ -321,7 +329,8 @@ $router->group([
 
     // Roles
     $router->group([
-        'prefix' => 'roles'
+        'prefix' => 'roles',
+        'middleware' => ['scope:roles']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'RolesController@index');
@@ -342,7 +351,8 @@ $router->group([
 
     // Saved Searches
     $router->group([
-        'prefix' => 'savedsearches'
+        'prefix' => 'savedsearches',
+        'middleware' => ['scope:savedsearches']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'SavedSearchesController@index');
@@ -360,7 +370,8 @@ $router->group([
 
     // Tags
     $router->group([
-        'prefix' => 'tags'
+        'prefix' => 'tags',
+        'middleware' => ['scope:tags']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'TagsController@index');
@@ -390,7 +401,8 @@ $router->group([
 
     // Users
     $router->group([
-        'prefix' => 'users'
+        'prefix' => 'users',
+        'middleware' => ['scope:users']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'UsersController@index');

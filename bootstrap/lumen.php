@@ -61,8 +61,11 @@ $app->middleware([
 $app->routeMiddleware([
     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
 	//'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
-    'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
-    'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+    // Customised scope middleware
+    'scopes' => Ushahidi\App\Http\Middleware\CheckScopes::class,
+    'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
+    //'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
+    //'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
 ]);
 
 /*
