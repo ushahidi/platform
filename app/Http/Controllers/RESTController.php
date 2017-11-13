@@ -219,7 +219,11 @@ abstract class RESTController extends Controller
         } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
             // If we don't have an Authorization header, return 401
             if (!$request->headers->has('Authorization')) {
-                throw abort(401, 'The request is missing an access token in either the Authorization header.', ['www-authenticate' => 'Bearer realm="OAuth"']);
+                throw abort(
+                    401,
+                    'The request is missing an access token in either the Authorization header.',
+                    ['www-authenticate' => 'Bearer realm="OAuth"']
+                );
             } else {
                 // Otherwise throw a 403
                 abort(403, $e->getMessage());
