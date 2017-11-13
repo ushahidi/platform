@@ -109,12 +109,12 @@
             "@migrate"
         ],
         "lint" : [
-            "phpcs --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/spec/*,migrations/*,bin/*,database/*,resources/views/* --standard=src/ruleset.xml --tab-width=4 ./",
+            "phpcs --standard=src/ruleset.xml --tab-width=4 ./",
             "phpcs --standard=tests/spec/ruleset.xml --tab-width=4 ./tests/spec/",
             "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/ ./database"
         ],
         "fixlint" : [
-            "phpcbf --ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/spec/*,migrations/*,bin/*,database/* --standard=src/ruleset.xml --tab-width=4 ./",
+            "phpcbf --standard=src/ruleset.xml --tab-width=4 ./",
             "phpcbf --standard=tests/spec/ruleset.xml --tab-width=4 ./tests/spec/",
             "phpcbf --standard=migrations/ruleset.xml --tab-width=4 ./migrations/ ./database"
         ],
