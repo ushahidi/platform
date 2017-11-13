@@ -85,6 +85,7 @@ class DataSourceStorage
     public function getPendingMessages($limit = 20, $source = false)
     {
         // Grab latest messages
+        // @todo reformat messages so we're not leaking Message entities
         return $this->messageRepo->getPendingMessages($source, $limit);
     }
 
@@ -97,6 +98,7 @@ class DataSourceStorage
     public function getPendingMessagesByType($limit = 20, $type = false)
     {
         // Grab latest messages
+        // @todo reformat messages so we're not leaking Message entities
         return $this->messageRepo->getPendingMessagesByType($type, $limit);
     }
 
