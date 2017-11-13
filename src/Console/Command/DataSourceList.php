@@ -40,7 +40,8 @@ class DataSourceList extends Command
      */
     protected $description = 'List data sources';
 
-	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources) {
+	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources)
+    {
 		parent::__construct();
 		$this->sources = $sources;
 	}
@@ -71,5 +72,4 @@ class DataSourceList extends Command
 
 		return $this->table(['Name', 'Services'], $list);
 	}
-
 }

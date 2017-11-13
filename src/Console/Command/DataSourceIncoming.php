@@ -53,7 +53,8 @@ class DataSourceIncoming extends Command
      */
     protected $storage;
 
-    public function __construct(DataSourceManager $sources, DataSourceStorage $storage) {
+    public function __construct(DataSourceManager $sources, DataSourceStorage $storage)
+    {
         parent::__construct();
         $this->sources = $sources;
         $this->storage = $storage;
@@ -108,5 +109,4 @@ class DataSourceIncoming extends Command
 
         return $this->table(['Source', 'Total'], $totals);
     }
-
 }

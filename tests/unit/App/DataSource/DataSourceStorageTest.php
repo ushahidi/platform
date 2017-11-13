@@ -26,14 +26,16 @@ use Ushahidi\Core\Entity\Message;
 class DataSourceStorageTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
 
         $this->usecase = M::mock(Usecase::class);
         $this->messageRepo = M::mock(MessageRepository::class);
     }
 
-    public function testReceive() {
+    public function testReceive()
+    {
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         $this->usecase
@@ -75,7 +77,8 @@ class DataSourceStorageTest extends TestCase
     /**
      * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function testFailedReceive() {
+    public function testFailedReceive()
+    {
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         $this->usecase
@@ -115,7 +118,8 @@ class DataSourceStorageTest extends TestCase
         // @todo test other errors and validate error message
     }
 
-    public function testGetPendingMessages() {
+    public function testGetPendingMessages()
+    {
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         // Test default params
@@ -133,7 +137,8 @@ class DataSourceStorageTest extends TestCase
         $this->assertInstanceOf(Message::class, $result[0]);
     }
 
-    public function testGetPendingMessagesByType() {
+    public function testGetPendingMessagesByType()
+    {
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         // Test default params
@@ -151,7 +156,8 @@ class DataSourceStorageTest extends TestCase
         $this->assertInstanceOf(Message::class, $result[0]);
     }
 
-    public function testUpdateMessageStatus() {
+    public function testUpdateMessageStatus()
+    {
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         // Test default params
@@ -164,5 +170,4 @@ class DataSourceStorageTest extends TestCase
     {
         M::close();
     }
-
 }

@@ -20,5 +20,4 @@ interface OutgoingAPIDataSource extends DataSource
 	 * @return array   Array of message status, and tracking ID.
 	 */
 	public function send($to, $message, $title = "");
-
 }

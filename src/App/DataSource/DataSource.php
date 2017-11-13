@@ -23,5 +23,4 @@ interface DataSource
 	public function getId();
 	public function getServices();
 	public function getOptions();
-
 }

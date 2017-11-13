@@ -314,5 +314,4 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 
 		return null;
 	}
-
 }

@@ -21,7 +21,8 @@ use Mockery as M;
 class DataSourceListTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         // Ensure enabled providers is in a known state
         $this->app->make('datasources')->setEnabledSources([
@@ -39,14 +40,16 @@ class DataSourceListTest extends TestCase
         $value = $this->artisan('datasource:list', []);
 
         $this->assertEquals(
-"+--------------+----------+
+            "+--------------+----------+
 | Name         | Services |
 +--------------+----------+
 | FrontlineSMS | sms      |
 | SMSSync      | sms      |
 | Twilio       | sms      |
 +--------------+----------+
-", $this->artisanOutput());
+",
+            $this->artisanOutput()
+        );
     }
 
     public function testListAll()
@@ -54,7 +57,7 @@ class DataSourceListTest extends TestCase
         $value = $this->artisan('datasource:list', ["--all" => true]);
 
         $this->assertEquals(
-"+--------------+----------+
+            "+--------------+----------+
 | Name         | Services |
 +--------------+----------+
 | Email        | email    |
@@ -64,7 +67,8 @@ class DataSourceListTest extends TestCase
 | Twilio       | sms      |
 | Twitter      | twitter  |
 +--------------+----------+
-", $this->artisanOutput());
+",
+            $this->artisanOutput()
+        );
     }
-
 }

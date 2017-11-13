@@ -125,5 +125,4 @@ class Import extends Command
 		// Execute the import
 		return $this->usecase->interact();
 	}
-
 }

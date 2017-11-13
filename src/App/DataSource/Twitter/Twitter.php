@@ -189,8 +189,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 							// Use mysql to run Centroid
 							$result = DB::select([
 								DB::expr('AsText(Centroid(GeomFromText(:poly)))')
-									->param(':poly', $geom->toWKT()), 'center']
-							)->execute(service('kohana.db'));
+									->param(':poly', $geom->toWKT()), 'center'])->execute(service('kohana.db'));
 
 							$centerGeom = WKT::geomFromText($result->get('center', 0));
 							// Save center as location
@@ -355,5 +354,4 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 		$connection->setTimeouts(100, 150);
 		return $connection;
 	}
-
 }

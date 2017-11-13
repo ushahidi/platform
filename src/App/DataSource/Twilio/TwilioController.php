@@ -55,13 +55,13 @@ class TwilioController extends DataSourceController
         // If we have an auto response configured, return the response messages
         if ($this->source->getSmsAutoResponse()) {
             return response(
-                    <<<XML
+                <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
 <Message>{$this->source->getSmsAutoResponse()}</Message>
 </Response>
 XML
-                )
+            )
                 ->header('Content-Type', 'text/xml');
         }
     }

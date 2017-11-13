@@ -53,7 +53,8 @@ class DataSourceOutgoing extends Command
      */
     protected $storage;
 
-    public function __construct(DataSourceManager $sources, DataSourceStorage $storage) {
+    public function __construct(DataSourceManager $sources, DataSourceStorage $storage)
+    {
         parent::__construct();
         $this->sources = $sources;
         $this->storage = $storage;
@@ -146,5 +147,4 @@ class DataSourceOutgoing extends Command
 
         return $count;
     }
-
 }

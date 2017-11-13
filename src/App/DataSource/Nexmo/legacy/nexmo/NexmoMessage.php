@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 /**
  * Class NexmoMessage handles the methods and properties of sending an SMS message.

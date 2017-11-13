@@ -21,7 +21,8 @@ use Mockery as M;
 class DataSourceIncomingTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         // Ensure enabled providers is in a known state
         $this->app->make('datasources')->setEnabledSources([
@@ -39,12 +40,14 @@ class DataSourceIncomingTest extends TestCase
         $value = $this->artisan('datasource:incoming', []);
 
         $this->assertEquals(
-"+---------+-------+
+            "+---------+-------+
 | Source  | Total |
 +---------+-------+
 | Twitter | 0     |
 +---------+-------+
-", $this->artisanOutput());
+",
+            $this->artisanOutput()
+        );
     }
 
     public function testIncomingAll()
@@ -52,13 +55,15 @@ class DataSourceIncomingTest extends TestCase
         $value = $this->artisan('datasource:incoming', ["--all" => true]);
 
         $this->assertEquals(
-"+---------+-------+
+            "+---------+-------+
 | Source  | Total |
 +---------+-------+
 | Email   | 0     |
 | Twitter | 0     |
 +---------+-------+
-", $this->artisanOutput());
+",
+            $this->artisanOutput()
+        );
     }
 
     public function testIncomingTwitter()
@@ -66,12 +71,13 @@ class DataSourceIncomingTest extends TestCase
         $value = $this->artisan('datasource:incoming', ["--source" => "twitter"]);
 
         $this->assertEquals(
-"+---------+-------+
+            "+---------+-------+
 | Source  | Total |
 +---------+-------+
 | Twitter | 0     |
 +---------+-------+
-", $this->artisanOutput());
+",
+            $this->artisanOutput()
+        );
     }
-
 }

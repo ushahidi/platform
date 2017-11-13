@@ -21,7 +21,8 @@ use Mockery as M;
 class DataSourceOutgoingTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         // Ensure enabled providers is in a known state
         $this->app->make('datasources')->setEnabledSources([
@@ -39,7 +40,7 @@ class DataSourceOutgoingTest extends TestCase
         $value = $this->artisan('datasource:outgoing', []);
 
         $this->assertEquals(
-"+--------------+-------+
+            "+--------------+-------+
 | Source       | Total |
 +--------------+-------+
 | FrontlineSMS | 0     |
@@ -47,7 +48,9 @@ class DataSourceOutgoingTest extends TestCase
 | Email        | 0     |
 | Unassigned   | 0     |
 +--------------+-------+
-", $this->artisanOutput());
+",
+            $this->artisanOutput()
+        );
     }
 
     public function testOutgoingAll()
@@ -55,7 +58,7 @@ class DataSourceOutgoingTest extends TestCase
         $value = $this->artisan('datasource:outgoing', ["--all" => true]);
 
         $this->assertEquals(
-"+--------------+-------+
+            "+--------------+-------+
 | Source       | Total |
 +--------------+-------+
 | Email        | 0     |
@@ -65,7 +68,9 @@ class DataSourceOutgoingTest extends TestCase
 | Twitter      | 0     |
 | Unassigned   | 0     |
 +--------------+-------+
-", $this->artisanOutput());
+",
+            $this->artisanOutput()
+        );
     }
 
     public function testOutgoingNexmo()
@@ -73,12 +78,13 @@ class DataSourceOutgoingTest extends TestCase
         $value = $this->artisan('datasource:outgoing', ["--source" => "nexmo"]);
 
         $this->assertEquals(
-"+--------+-------+
+            "+--------+-------+
 | Source | Total |
 +--------+-------+
 | Nexmo  | 0     |
 +--------+-------+
-", $this->artisanOutput());
+",
+            $this->artisanOutput()
+        );
     }
-
 }

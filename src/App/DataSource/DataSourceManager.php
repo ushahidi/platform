@@ -139,5 +139,4 @@ class DataSourceManager
     {
         return $this->storage;
     }
-
 }

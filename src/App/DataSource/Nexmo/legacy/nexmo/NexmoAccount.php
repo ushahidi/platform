@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 /**
  * Class NexmoAccount handles interaction with your Nexmo account

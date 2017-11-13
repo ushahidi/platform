@@ -27,7 +27,8 @@ use Ushahidi\App\DataSource\SMSSync\SMSSync;
 class DataSourceManagerTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
     }
 
@@ -114,5 +115,4 @@ class DataSourceManagerTest extends TestCase
         $this->assertInstanceOf(Twitter::class, $manager->getSourceForType('twitter'));
         $this->assertInstanceOf(Nexmo::class, $manager->getSourceForType('sms'));
     }
-
 }
