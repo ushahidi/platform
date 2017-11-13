@@ -86,7 +86,10 @@
         "psr-4": {
             "Ushahidi\\": "src/",
             "Ushahidi\\App\\": "app/"
-        }
+        },
+        "classmap": [
+            "src/App/DataSource/Nexmo/legacy/nexmo/"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

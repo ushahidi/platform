@@ -25,8 +25,6 @@ class NexmoController extends DataSourceController
 
 	public function handleRequest(Request $request)
     {
-		require_once __DIR__ . '/vendor/nexmo/NexmoMessage.php';
-
 		// Pong Sender
 		$ipAddress = $request->getClientIp();
 		$continue = false;
