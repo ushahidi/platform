@@ -26,9 +26,10 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config)
+	public function __construct(array $config, \GuzzleHttp\Client $client = null)
 	{
 		$this->config = $config;
+		$this->client = $client;
 	}
 
 	public function getName()
@@ -78,6 +79,12 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 	 */
 	public function send($to, $message, $title = "")
 	{
+		// Check we have the required config
+		if (!isset($this->config['key'])) {
+			app('log')->warning('Could not send message with FrontlineSMS, incomplete config');
+			return array(MessageStatus::FAILED, false);
+		}
+
 		// Prepare data to send to frontline cloud
 		$data = array(
 			"apiKey" => isset($this->config['key']) ? $this->config['key'] : '',
@@ -94,10 +101,8 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 
 		// Make a POST request to send the data to frontline cloud
 
-		$client = new \GuzzleHttp\Client();
-
 		try {
-			$response = $client->request('POST', $this->apiUrl, [
+			$response = $this->client->request('POST', $this->apiUrl, [
 					'headers' => [
 						'Accept'               => 'application/json',
 						'Content-Type'         => 'application/json'
@@ -107,7 +112,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 			// Successfully executed the request
 
 			if ($response->getStatusCode() === 200) {
-				return array(MessageStatus::SENT, $this->tracking_id(DataSource\Message\Type::SMS));
+				return array(MessageStatus::SENT, false);
 			}
 
 			// Log warning to log file.

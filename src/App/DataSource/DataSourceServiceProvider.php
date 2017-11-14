@@ -53,7 +53,7 @@ class DataSourceServiceProvider extends ServiceProvider
         $dataProviderConfig = $configRepo->get('data-provider')->asArray();
 
         $manager->addSource($this->makeEmail($dataProviderConfig));
-        $manager->addSource(new FrontlineSMS\FrontlineSMS($dataProviderConfig['frontlinesms']));
+        $manager->addSource($this->makeFrontlineSMS($dataProviderConfig));
         $manager->addSource($this->makeNexmo($dataProviderConfig));
         $manager->addSource(new SMSSync\SMSSync($dataProviderConfig['smssync']));
         $manager->addSource($this->makeTwilio($dataProviderConfig));
@@ -70,6 +70,11 @@ class DataSourceServiceProvider extends ServiceProvider
             service('site.config'),
             service('clienturl')
         );
+    }
+
+    protected function makeFrontlineSMS($dataProviderConfig)
+    {
+        return new FrontlineSMS\FrontlineSMS($dataProviderConfig['frontlinesms'], new \GuzzleHttp\Client());
     }
 
     protected function makeTwilio($dataProviderConfig)
