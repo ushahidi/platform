@@ -40,9 +40,10 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config)
+	public function __construct(array $config, \Closure $connectionFactory = null)
 	{
 		$this->config = $config;
+		$this->connectionFactory = $connectionFactory;
 		// @todo inject this
 		$this->configRepo = service('repository.config');
 	}
@@ -131,7 +132,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 		}
 
 		$connection = $this->connect();
-		if (is_int($connection) && $connection == 0) {
+		if (!$connection) {
 			// The connection didn't succeed, but this is not fatal to the application flow
 			// Just return 0 messages fetched
 			return [];
@@ -251,6 +252,10 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 	{
 		$connection = $this->connect();
 
+		if (!$connection) {
+			return [MessageStatus::FAILED, false];
+		}
+
 		try {
 			$response = $connection->post("statuses/update", [
 				"status" => '@' . $to . ' ' . $message
@@ -331,7 +336,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 		// check if we have reached our rate limit
 		if (!$this->canMakeRequest()) {
 			app('log')->warning('You have reached your rate limit for this window');
-			return 0;
+			return;
 		}
 			// Check we have the required config
 		if (!isset($this->config['consumer_key']) ||
@@ -340,15 +345,19 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 			 !isset($this->config['oauth_access_token_secret'])
 		) {
 			app('log')->warning('Could not connect to twitter, incomplete config');
-			return 0;
+			return;
 		}
 
-		$connection = new TwitterOAuth(
+		$connection = ($this->connectionFactory)(
 			$this->config['consumer_key'],
 			$this->config['consumer_secret'],
 			$this->config['oauth_access_token'],
 			$this->config['oauth_access_token_secret']
 		);
+
+		if (!($connection instanceof TwitterOAuth)) {
+			throw new \Exception("Client is not an instance of TwitterOAuth");
+		}
 
 		// Increase curl timeout values
 		$connection->setTimeouts(100, 150);

@@ -57,7 +57,7 @@ class DataSourceServiceProvider extends ServiceProvider
         $manager->addSource($this->makeNexmo($dataProviderConfig));
         $manager->addSource(new SMSSync\SMSSync($dataProviderConfig['smssync']));
         $manager->addSource($this->makeTwilio($dataProviderConfig));
-        $manager->addSource(new Twitter\Twitter($dataProviderConfig['twitter']));
+        $manager->addSource($this->makeTwitter($dataProviderConfig));
 
         return $manager;
     }
@@ -89,6 +89,21 @@ class DataSourceServiceProvider extends ServiceProvider
         return new Nexmo\Nexmo($dataProviderConfig['nexmo'], function ($apiKey, $apiSecret) {
             return new \Nexmo\Client(new \Nexmo\Client\Credentials\Basic($apiKey, $apiSecret));
         });
+    }
+
+    protected function makeTwitter($dataProviderConfig)
+    {
+        return new Twitter\Twitter(
+            $dataProviderConfig['twitter'],
+            function ($consumer_key, $consumer_secret, $oauth_access_token, $oauth_access_token_secret) {
+                return new \Abraham\TwitterOAuth\TwitterOAuth(
+                    $consumer_key,
+                    $consumer_secret,
+                    $oauth_access_token,
+                    $oauth_access_token_secret
+                );
+            }
+        );
     }
 
     protected function registerStorage()
