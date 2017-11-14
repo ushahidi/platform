@@ -52,7 +52,8 @@
         "barryvdh/laravel-cors": "^0.9.2",
         "ushahidi/kohana-validation": "dev-master",
         "illuminate/mail": "5.5.*",
-        "twilio/sdk": "^5.15"
+        "twilio/sdk": "^5.15",
+        "nexmo/client": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -87,10 +88,7 @@
         "psr-4": {
             "Ushahidi\\": "src/",
             "Ushahidi\\App\\": "app/"
-        },
-        "classmap": [
-            "src/App/DataSource/Nexmo/legacy/nexmo/"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

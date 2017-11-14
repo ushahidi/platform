@@ -14,7 +14,7 @@ namespace Ushahidi\App\DataSource\Nexmo;
 use Ushahidi\App\DataSource\CallbackDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\MessageStatus as MessageStatus;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
@@ -26,13 +26,14 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config)
+	public function __construct(array $config, \Closure $clientFactory = null)
 	{
 		$this->config = $config;
+		$this->clientFactory = $clientFactory;
 	}
 
 	public function getName()
-    {
+	{
 		return 'Nexmo';
 	}
 
@@ -84,38 +85,36 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 	private $client;
 
 	/**
-	 * Sets the FROM parameter for the provider
-	 *
-	 * @return int
-	 */
-	public function from()
-	{
-		// Get provider phone (FROM)
-		// Replace non-numeric
-		return preg_replace('/\D+/', "", parent::from());
-	}
-
-	/**
 	 * @return mixed
 	 */
 	public function send($to, $message, $title = "")
 	{
-		if (! isset($this->client)) {
-			$this->client = new \NexmoMessage($this->_options['api_key'], $this->_options['api_secret']);
+		// Check we have the required config
+		if (!isset($this->config['api_key']) || !isset($this->config['api_secret'])) {
+			app('log')->warning('Could not send message with Nexmo, incomplete config');
+			return array(MessageStatus::FAILED, false);
 		}
+
+		// Make twilio client
+		$client = ($this->clientFactory)($this->config['api_key'], $this->config['api_secret']);
+
+		$from = isset($this->config['from']) ? $this->config['from'] : 'Ushahidi';
 
 		// Send!
 		try {
-			$info = $this->client->sendText('+'.$to, '+'.preg_replace("/[^0-9,.]/", "", $this->from()), $message);
-			foreach ($info->messages as $message) {
-				if ($message->status != 0) {
-					app('log')->warning('Nexmo: '.$message->errortext);
-					return array(MessageStatus::FAILED, false);
-				}
+			$message = $client->message()->send([
+				'to' => $to,
+				'from' => $from,
+				'text' => $message
+			]);
 
-				return array(MessageStatus::SENT, $message->messageid);
+			if ($message->getStatus() !== 0) {
+				app('log')->warning('Nexmo: '.$message->errortext);
+				return array(MessageStatus::FAILED, false);
 			}
-		} catch (Exception $e) {
+
+			return array(MessageStatus::SENT, $message->getMessageId());
+		} catch (\Nexmo\Client\Exception\Exception $e) {
 			app('log')->warning($e->getMessage());
 		}
 

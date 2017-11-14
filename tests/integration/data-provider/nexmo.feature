@@ -5,7 +5,7 @@ Feature: Testing the FrontlineSms Data Provider
         Given that I want to find a "Message"
         And that the request "query string" is:
             """
-            secret=1234&text=Some+testing+message&msisdn=123456789&to=123&messageId=1
+            secret=1234&text=Some+testing+message&msisdn=123456789&to=123&messageId=1&type=text
             """
         And that the api_url is ""
         When I request "sms/nexmo"
@@ -17,7 +17,7 @@ Feature: Testing the FrontlineSms Data Provider
         Given that I want to find a "Message"
         And that the request "query string" is:
             """
-            secret=1234&msisdn=123456789&to=123&messageId=1
+            secret=1234&msisdn=123456789&to=123&messageId=1&type=text
             """
         And that the api_url is ""
         When I request "sms/nexmo"
@@ -31,7 +31,7 @@ Feature: Testing the FrontlineSms Data Provider
         Given that I want to find a "Message"
         And that the request "query string" is:
             """
-            secret=1234&text=Some+testing+message&to=123&messageId=1
+            secret=1234&text=Some+testing+message&to=123&messageId=1&type=text
             """
         And that the api_url is ""
         When I request "sms/nexmo"
