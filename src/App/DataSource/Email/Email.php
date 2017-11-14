@@ -15,7 +15,7 @@ use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Shadowhand\Email as ShadowhandEmail;
+use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
@@ -23,17 +23,22 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 {
 
 	protected $config;
+	protected $mailer;
 
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config)
+	public function __construct(array $config, Mailer $mailer = null, $siteConfig = null, $clientUrl = null)
 	{
 		$this->config = $config;
+		$this->mailer = $mailer;
+		// @todo figure out a better way to set these. Maybe globally for all emails?
+		$this->siteConfig = $siteConfig;
+		$this->clientUrl = $clientUrl;
 	}
 
 	public function getName()
-    {
+	{
 		return 'Email';
 	}
 
@@ -94,19 +99,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				'description' => '',
 				'placeholder' => 'Email account password',
 				'rules' => array('required')
-			),
-			// 'from' => array(
-			// 	'label' => 'Email Address',
-			// 	'input' => 'text',
-			// 	'description' => 'This will be used to send outgoing emails',
-			// 	'rules' => array('required')
-			// ),
-			// 'from_name' => array(
-			// 	'label' => 'Email Sender Name',
-			// 	'input' => 'text',
-			// 	'description' => 'Appears in the \'from:\' field on outgoing emails',
-			// 	'rules' => array('required')
-			// ),
+			)
 		);
 	}
 
@@ -120,44 +113,39 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 	 */
 	public function send($to, $message, $title = "")
 	{
-		$driver = $this->config['outgoing_type'];
-		$options = array(
-			'hostname' => $this->config['outgoing_server'],
-			'port' => $this->config['outgoing_port'],
-			'encryption' =>
-				($this->config['outgoing_security'] != 'none') ?
-				$this->config['outgoing_security'] :
-				'',
-			'username' => $this->config['outgoing_username'],
-			'password' => $this->config['outgoing_password']
-			);
+		$site_name = $this->siteConfig['name'];
+		$site_email = $this->siteConfig['email'];
+		$multisite_email = config('multisite.email');
 
-		$config = Kohana::$config->load('email');
-		$config->set('driver', $driver);
-		$config->set('options', $options);
-
-		$tracking_id = self::tracking_id('email');
-
-		$body = View::factory('email/layout');
-		$body->message = $message;
-		$body->tracking_id = $tracking_id;
-		$body->site_url = rtrim(URL::site(), '/');
-
-		$from = $this->from();
-
-		if (!$from) {
-			$from = Kohana::$config->load('site.email') ?: 'noreply@ushahididev.com';
+		// @todo make this more robust
+		if ($multisite_email) {
+			$from_email = $multisite_email;
+		} elseif ($site_email) {
+			$from_email = $site_email;
+		} else {
+			$from_email = false;
+			// Get host from lumen
+			// $host = app()->make('request')->getHost();
+			// $from_email = 'noreply@' . $host;
 		}
 
-		$from_name = ! empty($this->config['from_name']) ? $this->config['from_name'] : $from;
-
 		try {
-			$result = ShadowhandEmail::factory($title, $body->render(), 'text/html')
-				->to($to)
-				->from($from, $from_name)
-				->send();
+			$this->mailer->send(
+				'emails/outgoing-message',
+				[
+					'message' => $message,
+					'site_url' => $this->clientUrl
+				],
+				function ($message) use ($to, $subject, $from_email, $site_name) {
+					$message->to($to);
+					$message->subject($title);
+					if ($from_email) {
+						$message->from($from_email, $site_name);
+					}
+				}
+			);
 
-			return array(MessageStatus::SENT, $tracking_id);
+			return array(MessageStatus::SENT, false);
 		} catch (\Exception $e) {
 			app('log')->error($e->getMessage());
 			// Failed
@@ -214,7 +202,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 					// @todo revist and decide if this is worth doing when imap_search has grabbed everything anyway.
 					if ($limit and count($messages) >= $limit) {
 						break;
-                    }
+					}
 
 					$message = $html_message = "";
 					$structure = imap_fetchstructure($connection, $email->uid, FT_UID);

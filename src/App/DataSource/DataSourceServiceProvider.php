@@ -52,7 +52,7 @@ class DataSourceServiceProvider extends ServiceProvider
         $configRepo = service('repository.config');
         $dataProviderConfig = $configRepo->get('data-provider')->asArray();
 
-        $manager->addSource(new Email\Email($dataProviderConfig['email']));
+        $manager->addSource($this->makeEmail($dataProviderConfig));
         $manager->addSource(new FrontlineSMS\FrontlineSMS($dataProviderConfig['frontlinesms']));
         $manager->addSource($this->makeNexmo($dataProviderConfig));
         $manager->addSource(new SMSSync\SMSSync($dataProviderConfig['smssync']));
@@ -60,6 +60,16 @@ class DataSourceServiceProvider extends ServiceProvider
         $manager->addSource(new Twitter\Twitter($dataProviderConfig['twitter']));
 
         return $manager;
+    }
+
+    protected function makeEmail($dataProviderConfig)
+    {
+        return new Email\Email(
+            $dataProviderConfig['email'],
+            $this->app->make('mailer'),
+            service('site.config'),
+            service('clienturl')
+        );
     }
 
     protected function makeTwilio($dataProviderConfig)
