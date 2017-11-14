@@ -52,7 +52,7 @@ class SMSSync implements CallbackDataSource
 				'input' => 'read-only-text',
 				'description' => function () {
 					return 'Scan this QR Code with your phone to download the app from the Android Market
-						<img src="'. url('/media/images/smssync.png') .'" width="150"/>';
+						<img src="'. url('/images/smssync.png') .'" width="150"/>';
 				}
 			),
 			// @todo figure out how to inject link and fix base url
@@ -60,7 +60,7 @@ class SMSSync implements CallbackDataSource
 				'label' => 'Step 2: Android App Settings',
 				'input' => 'read-only-text',
 				'description' => function () {
-					return 'Turn on SMSSync and use the following link as the Sync URL: ' . url('smssync');
+					return 'Turn on SMSSync and use the following link as the Sync URL: ' . url('sms/smssync');
 				}
 			),
 			'secret' => array(
