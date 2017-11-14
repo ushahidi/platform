@@ -98,6 +98,10 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 		// Make twilio client
 		$client = ($this->clientFactory)($this->config['api_key'], $this->config['api_secret']);
 
+		if (!($client instanceof \Nexmo\Client)) {
+			throw new \Exception("Client is not an instance of Nexmo\Client");
+		}
+
 		$from = isset($this->config['from']) ? $this->config['from'] : 'Ushahidi';
 
 		// Send!
