@@ -13,7 +13,19 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\RoutesCommand::class
+        Commands\RoutesCommand::class,
+        \Ushahidi\Console\Command\ConfigSet::class,
+        \Ushahidi\Console\Command\ConfigGet::class,
+        \Ushahidi\Console\Command\DataproviderList::class,
+        \Ushahidi\Console\Command\DataproviderIncoming::class,
+        \Ushahidi\Console\Command\DataproviderOutgoing::class,
+        \Ushahidi\Console\Command\Import::class,
+        \Ushahidi\Console\Command\UserCreate::class,
+        \Ushahidi\Console\Command\UserDelete::class,
+        \Ushahidi\Console\Command\Notification::class,
+        \Ushahidi\Console\Command\PostExporter::class,
+        \Ushahidi\Console\Command\SavedSearch::class,
+        \Ushahidi\Console\Command\Webhook::class
     ];
 
     /**

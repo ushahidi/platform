@@ -11,83 +11,57 @@
 
 namespace Ushahidi\Console\Command;
 
-use Ushahidi\Console\Command;
+use Illuminate\Console\Command;
 
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\NotificationQueueRepository;
 use Ushahidi\Core\Entity\ContactRepository;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-
 class Notification extends Command
 {
-	private $db;
 	private $postRepository;
 	private $contactRepository;
 	private $messageRepository;
 	private $notificationQueueRepository;
 
-	public function setDatabase(Database $db)
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'notification:queue';
+
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'notification:queue {--limit=}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Queue notifications for sending';
+
+	public function __construct()
 	{
-		$this->db = $db;
+		parent::__construct();
+		$this->db = service('kohana.db');
+		$this->contactRepository = service('repository.contact');
+		$this->postRepository = service('repository.post');
+		$this->messageRepository = service('repository.message');
+		$this->notificationQueueRepository = service('repository.notification.queue');
+
+		$this->siteConfig = service('site.config');
+		$this->clientUrl = service('clienturl');
 	}
 
-	public function setContactRepo(ContactRepository $repo)
+	public function handle()
 	{
-		$this->contactRepository = $repo;
-	}
-
-	public function setPostRepo(PostRepository $repo)
-	{
-		$this->postRepository = $repo;
-	}
-
-	public function setMessageRepo(MessageRepository $repo)
-	{
-		$this->messageRepository = $repo;
-	}
-
-	public function setNotificationQueueRepo(NotificationQueueRepository $repo)
-	{
-		$this->notificationQueueRepository = $repo;
-	}
-
-	public function setSiteConfig($config)
-	{
-		$this->siteConfig = $config;
-	}
-
-	public function setClientUrl($clientUrl)
-	{
-		$this->clientUrl = $clientUrl;
-	}
-
-	protected function configure()
-	{
-		$this
-			->setName('notification')
-			->setDescription('Manage notifications')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, queue', 'list')
-			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of notifications')
-			;
-	}
-
-	protected function executeList(InputInterface $input, OutputInterface $output)
-	{
-		return [
-			[
-				'Available actions' => 'queue'
-			]
-		];
-	}
-
-	protected function executeQueue(InputInterface $input, OutputInterface $output)
-	{
-		$limit = $input->getOption('limit');
+		$limit = $this->option('limit');
 
 		$count = 0;
 
@@ -105,11 +79,7 @@ class Notification extends Command
 		// Finally commit changes
 		$this->db->commit();
 
-		return [
-			[
-				'Message' => sprintf('%d messages queued for sending', $count)
-			]
-		];
+		$this->info("{$count} messages queued for sending");
 	}
 
 	private function generateMessages($notification)
@@ -125,7 +95,7 @@ class Notification extends Command
 		$offset = 0;
 		$limit = 1000;
 
-		$site_name = $this->siteConfig['site.name'] ?: 'Ushahidi';
+		$site_name = $this->siteConfig['name'] ?: 'Ushahidi';
 		$client_url = $this->clientUrl;
 
 		// Get contacts (max $limit at a time) and generate messages.
