@@ -172,55 +172,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 					continue;
 				}
 
-				if ($status['coordinates'] || $status['place']) {
-					$additional_data['location'] = [];
-					if ($status['coordinates']) {
-						$additional_data['location'][] = $status['coordinates'];
-					}
-
-					if ($status['place'] && $status['place']['bounding_box']) {
-						// Make a valid linear ring
-						$status['place']['bounding_box']['coordinates'][0][] =
-							$status['place']['bounding_box']['coordinates'][0][0];
-
-						// If we don't already have a location
-						if (empty($additional_data['location'])) {
-							// Find center of bounding box
-							$geom = GeoJSON::geomFromText(json_encode($status['place']['bounding_box']));
-							// Use mysql to run Centroid
-							$result = DB::select([
-								DB::expr('AsText(Centroid(GeomFromText(:poly)))')
-									->param(':poly', $geom->toWKT()), 'center'])->execute(service('kohana.db'));
-
-							$centerGeom = WKT::geomFromText($result->get('center', 0));
-							// Save center as location
-							$additional_data['location'][] = $centerGeom->toGeoArray();
-						}
-
-						// Add that to location
-						// Also save the original bounding box
-						$additional_data['location'][] = $status['place']['bounding_box'];
-					}
-				} elseif ($status['user'] && $status['user']['location']) {
-					# Search the provided location for matches in twitter's geocoder
-					$results = $connection->get("geo/search", [
-						"query" => $status['user']['location']
-					]);
-					# If there are results, get the centroid of the first one
-					if (!empty($results['result']['places'])) {
-						$geoloc = $results['result']['places'][0];
-						if ($geoloc['centroid']) {
-							$additional_data['location'][] = array(
-								'coordinates' => $geoloc['centroid'],
-								'type' => 'Point'
-							);
-						}
-						# Add the bounding box too (if available)
-						if ($geoloc['bounding_box']) {
-							$additional_data['location'][] = $geoloc['bounding_box'];
-						}
-					}
-				}
+				$additional_data = array_merge($additional_data, $this->extractLocation($status));
 
 				// @todo Check for similar messages in the database before saving
 				$messages[] = [
@@ -245,6 +197,63 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 		}
 
 		return $messages;
+	}
+
+	protected function extractLocation($status)
+	{
+		$additional_data = [];
+
+		if ($status['coordinates'] || $status['place']) {
+			$additional_data['location'] = [];
+			if ($status['coordinates']) {
+				$additional_data['location'][] = $status['coordinates'];
+			}
+
+			if ($status['place'] && $status['place']['bounding_box']) {
+				// Make a valid linear ring
+				$status['place']['bounding_box']['coordinates'][0][] =
+					$status['place']['bounding_box']['coordinates'][0][0];
+
+				// If we don't already have a location
+				if (empty($additional_data['location'])) {
+					// Find center of bounding box
+					$geom = GeoJSON::geomFromText(json_encode($status['place']['bounding_box']));
+					// Use mysql to run Centroid
+					$result = DB::select([
+						DB::expr('AsText(Centroid(GeomFromText(:poly)))')
+							->param(':poly', $geom->toWKT()), 'center'])->execute(service('kohana.db'));
+
+					$centerGeom = WKT::geomFromText($result->get('center', 0));
+					// Save center as location
+					$additional_data['location'][] = $centerGeom->toGeoArray();
+				}
+
+				// Add that to location
+				// Also save the original bounding box
+				$additional_data['location'][] = $status['place']['bounding_box'];
+			}
+		} elseif ($status['user'] && $status['user']['location']) {
+			# Search the provided location for matches in twitter's geocoder
+			$results = $connection->get("geo/search", [
+				"query" => $status['user']['location']
+			]);
+			# If there are results, get the centroid of the first one
+			if (!empty($results['result']['places'])) {
+				$geoloc = $results['result']['places'][0];
+				if ($geoloc['centroid']) {
+					$additional_data['location'][] = array(
+						'coordinates' => $geoloc['centroid'],
+						'type' => 'Point'
+					);
+				}
+				# Add the bounding box too (if available)
+				if ($geoloc['bounding_box']) {
+					$additional_data['location'][] = $geoloc['bounding_box'];
+				}
+			}
+		}
+
+		return $additional_data;
 	}
 
 	// DataSource
