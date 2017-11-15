@@ -26,7 +26,7 @@ class CreateMessage extends CreateUsecase
 		if (! empty($this->payload['parent_id'])) {
 			$parent = $this->repo->get($this->payload['parent_id']);
 			$entity->setState(['type' => $parent->type,
-							   'data_provider' => $parent->data_provider]);
+							   'data_source' => $parent->data_source]);
 		}
 
 		// If no user information is provided, default to the current session user.

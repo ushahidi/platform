@@ -52,10 +52,10 @@ class Create extends Validator
 				// @todo this should be shared via repo or other means
 				['in_array', [':value', ['sms', 'ivr', 'email', 'twitter']]],
 			],
-			'data_provider' => [
+			'data_source' => [
 				['in_array', [':value', array_keys($sources->getEnabledSources())]],
 			],
-			'data_provider_message_id' => [
+			'data_source_message_id' => [
 				['max_length', [':value', 511]],
 			],
 			'status' => [

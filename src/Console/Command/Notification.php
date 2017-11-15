@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\NotificationQueueRepository;
 use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\App\DataSource\DataSourceManager;
 
 class Notification extends Command
 {
@@ -46,7 +47,7 @@ class Notification extends Command
      */
     protected $description = 'Queue notifications for sending';
 
-	public function __construct()
+	public function __construct(DataSourceManager $sources)
 	{
 		parent::__construct();
 		$this->db = service('kohana.db');
@@ -57,6 +58,8 @@ class Notification extends Command
 
 		$this->siteConfig = service('site.config');
 		$this->clientUrl = service('clienturl');
+
+        $this->sources = $sources;
 	}
 
 	public function handle()
@@ -117,7 +120,7 @@ class Notification extends Command
 				];
 
 				$messageType = $this->mapContactToMessageType($contact->type);
-				$data_provider = $contact->data_provider ?: \DataProvider::getProviderForType($messageType);
+				$data_source = $contact->data_source ?: $this->sources->getProviderForType($messageType);
 
 				$state = [
 					'contact_id' => $contact->id,
@@ -133,7 +136,7 @@ class Notification extends Command
                         "New post: :title"
                     ), $subs),
 					'type' => $messageType,
-					'data_provider' => $data_provider,
+					'data_source' => $data_source,
 				];
 
 				$entity = $this->messageRepository->getEntity();

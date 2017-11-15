@@ -57,7 +57,7 @@ class ContactRepository extends OhanzeeRepository implements
 	public function getSearchFields()
 	{
 		return [
-			'contact', 'type', 'user', 'data_provider'
+			'contact', 'type', 'user', 'data_source'
 		];
 	}
 
@@ -84,7 +84,7 @@ class ContactRepository extends OhanzeeRepository implements
 
 		foreach ([
 			'type',
-			'data_provider',
+			'data_source',
 			'contact'
 		] as $key) {
 			if ($search->$key) {

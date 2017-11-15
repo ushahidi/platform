@@ -49,7 +49,7 @@ class MessageRepository extends OhanzeeRepository implements
 	public function getSearchFields()
 	{
 		return [
-			'box', 'status', 'contact', 'parent', 'post', 'type', 'data_provider',
+			'box', 'status', 'contact', 'parent', 'post', 'type', 'data_source',
 			'q' /* LIKE contact, title, message */
 		];
 	}
@@ -111,7 +111,7 @@ class MessageRepository extends OhanzeeRepository implements
 
 		foreach ([
 			'type',
-			'data_provider',
+			'data_source',
 		] as $key) {
 			if ($search->$key) {
 				$query->where("messages.{$key}", '=', $search->$key);
@@ -120,7 +120,7 @@ class MessageRepository extends OhanzeeRepository implements
 	}
 
 	// MessageRepository
-	public function getPendingMessages($data_provider, $limit)
+	public function getPendingMessages($data_source, $limit)
 	{
 		$status = 'pending';
 		$direction = Message::OUTGOING;
@@ -132,8 +132,8 @@ class MessageRepository extends OhanzeeRepository implements
 			->select('contacts.contact')
 			;
 
-		if ($data_provider) {
-			$query->where('messages.data_provider', '=', $data_provider);
+		if ($data_source) {
+			$query->where('messages.data_source', '=', $data_source);
 		}
 
 		$results = $query->execute($this->db);
@@ -153,7 +153,7 @@ class MessageRepository extends OhanzeeRepository implements
 			->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
 			->select('contacts.contact')
 			// Only return messages without a specified provider
-			->where('messages.data_provider', 'IS', null)
+			->where('messages.data_source', 'IS', null)
 			;
 
 		if ($type) {
@@ -166,11 +166,11 @@ class MessageRepository extends OhanzeeRepository implements
 	}
 
 	// MessageRepository
-	public function updateMessageStatus($id, $status, $data_provider_message_id = null)
+	public function updateMessageStatus($id, $status, $data_source_message_id = null)
 	{
 		$changes = [
 			'status'   => $status,
-			'data_provider_message_id' => $data_provider_message_id
+			'data_source_message_id' => $data_source_message_id
 		];
 
 		return $this->executeUpdate(['id' => $id], $changes);
@@ -212,12 +212,12 @@ class MessageRepository extends OhanzeeRepository implements
 		return false;
 	}
 
-	public function getLastUID($data_provider_type)
+	public function getLastUID($data_source)
 	{
 		$last_uid = null;
-		$query = DB::select([DB::expr('ABS(' . $this->getTable() . '.' . 'data_provider_message_id' . ')'), 'uid'])
+		$query = DB::select([DB::expr('ABS(' . $this->getTable() . '.' . 'data_source_message_id' . ')'), 'uid'])
 			->from($this->getTable())
-			->where('data_provider', '=', $data_provider_type)
+			->where('data_source', '=', $data_source)
 			->order_by(
 				'uid',
 				'desc'

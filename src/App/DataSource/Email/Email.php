@@ -258,7 +258,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 		$from = $this->getEmail($overview->from);
 		$to = isset($overview->to) ? $this->getEmail($overview->to) : $this->from();
 		$title = isset($overview->subject) ? $overview->subject : null;
-		$data_provider_message_id = isset($overview->uid) ? $overview->uid : null;
+		$data_source_message_id = isset($overview->uid) ? $overview->uid : null;
 		// @todo revist hard coded HTML stripping & decoding
 		// strip all html
 
@@ -274,7 +274,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				'message' => $message,
 				'to' => $to,
 				'title' => $title,
-				'data_provider_message_id' => $data_provider_message_id,
+				'data_source_message_id' => $data_source_message_id,
 				'additional_data' => $additional_data
 			];
 		}

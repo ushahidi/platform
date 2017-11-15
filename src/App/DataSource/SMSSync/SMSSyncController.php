@@ -84,7 +84,7 @@ class SMSSyncController extends DataSourceController
             'contact_type' => Contact::PHONE,
             'message' => $message_text,
             'title' => null,
-            'data_provider' => 'smssync'
+            'data_source' => 'smssync'
         ]);
 
         return ['payload' => [

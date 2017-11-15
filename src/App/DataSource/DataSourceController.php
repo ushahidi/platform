@@ -58,7 +58,7 @@ abstract class DataSourceController extends Controller
      *     - string message Received Message
      *     - string to      To contact
      *     - string title   Received Message title
-     *     - string data_provider_message_id Message ID
+     *     - string data_source_message_id Message ID
      * @return void
      */
     protected function save($payload)
@@ -71,7 +71,7 @@ abstract class DataSourceController extends Controller
             $payload['message'],
             isset($payload['to']) ? $payload['to'] : null,
             isset($payload['title']) ? $payload['title'] : null,
-            isset($payload['data_provider_message_id']) ? $payload['data_provider_message_id'] : null
+            isset($payload['data_source_message_id']) ? $payload['data_source_message_id'] : null
         );
     }
 }

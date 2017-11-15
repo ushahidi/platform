@@ -41,8 +41,8 @@ class NexmoController extends DataSourceController
 			'message' => $message->getBody(),
 			'to' => $to,
 			'title' => null,
-			'data_provider_message_id' => $message->getMessageId(),
-			'data_provider' => 'nexmo'
+			'data_source_message_id' => $message->getMessageId(),
+			'data_source' => 'nexmo'
 		]);
 
 		// Then return success

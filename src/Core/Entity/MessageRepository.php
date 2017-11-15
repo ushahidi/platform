@@ -23,17 +23,17 @@ interface MessageRepository extends
 	 * Load pending message by data provider
 	 *
 	 * @param  String $status
-	 * @param  String $data_provider
+	 * @param  String $data_source
 	 * @param  integer $limit
 	 * @return [Message, ...]
 	 */
-	public function getPendingMessages($data_provider, $limit);
+	public function getPendingMessages($data_source, $limit);
 
 	/**
 	 * Load pending message by type
 	 *
 	 * @param  String $status
-	 * @param  String $data_provider
+	 * @param  String $data_source
 	 * @param  integer $limit
 	 * @return [Message, ...]
 	 */
@@ -58,8 +58,15 @@ interface MessageRepository extends
 	 * Update message status
 	 * @param  int    $id
 	 * @param  string $status
-	 * @param  string $data_provider_message_id
+	 * @param  string $data_source_message_id
 	 * @return null
 	 */
-	public function updateMessageStatus($id, $status, $data_provider_message_id = null);
+	public function updateMessageStatus($id, $status, $data_source_message_id = null);
+
+	/**
+	 * Get most recent message UID
+	 * @param  string $data_source
+	 * @return string
+	 */
+	public function getLastUID($data_source);
 }

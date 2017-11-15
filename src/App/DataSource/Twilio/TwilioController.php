@@ -48,8 +48,8 @@ class TwilioController extends DataSourceController
             'contact_type' => Contact::PHONE,
             'message' => $message_text,
             'title' => null,
-            'data_provider_message_id' => $message_sid,
-            'data_provider' => 'frontlinesms'
+            'data_source_message_id' => $message_sid,
+            'data_source' => 'frontlinesms'
         ]);
 
         // If we have an auto response configured, return the response messages

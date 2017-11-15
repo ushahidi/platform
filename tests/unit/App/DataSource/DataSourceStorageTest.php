@@ -41,14 +41,14 @@ class DataSourceStorageTest extends TestCase
         $this->usecase
             ->shouldReceive('setPayload')
             ->with([
-                'data_provider' => 'smssync',
+                'data_source' => 'smssync',
                 'type' => 'sms',
                 'contact_type' => 'phone',
                 'from' => 123456,
                 'message' => 'Yo dawg I heard you like messages, so I put some messages in your messages',
                 'to' => "YOU!",
                 'title' => null,
-                'data_provider_message_id' => null,
+                'data_source_message_id' => null,
                 'additional_data' => null
             ])
             ->andReturn($this->usecase);
@@ -84,14 +84,14 @@ class DataSourceStorageTest extends TestCase
         $this->usecase
             ->shouldReceive('setPayload')
             ->with([
-                'data_provider' => 'smssync',
+                'data_source' => 'smssync',
                 'type' => 'sms',
                 'contact_type' => 'phone',
                 'from' => 123456,
                 'message' => 'Yo dawg I heard you like messages, so I put some messages in your messages',
                 'to' => "YOU!",
                 'title' => null,
-                'data_provider_message_id' => null,
+                'data_source_message_id' => null,
                 'additional_data' => null
             ])
             ->andReturn($this->usecase);

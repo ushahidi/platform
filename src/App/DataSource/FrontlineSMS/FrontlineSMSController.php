@@ -50,7 +50,7 @@ class FrontlineSMSController extends DataSourceController
 			'contact_type' => Contact::PHONE,
 			'message' => $message_text,
 			'title' => null,
-			'data_provider' => 'frontlinesms'
+			'data_source' => 'frontlinesms'
 		]);
 
 		return ['payload' => [

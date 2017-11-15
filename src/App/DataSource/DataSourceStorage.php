@@ -36,7 +36,7 @@ class DataSourceStorage
      * @param  string message Received Message
      * @param  string to      To contact
      * @param  string title   Received Message title
-     * @param  string data_provider_message_id Message ID
+     * @param  string data_source_message_id Message ID
      * @return void
      */
     public function receive(
@@ -47,10 +47,10 @@ class DataSourceStorage
         $message,
         $to = null,
         $title = null,
-        $data_provider_message_id = null,
+        $data_source_message_id = null,
         array $additional_data = null
     ) {
-        $data_provider = $source_id;
+        $data_source = $source_id;
 
         try {
             return $this->receiveUsecase->setPayload(compact([
@@ -59,8 +59,8 @@ class DataSourceStorage
                     'message',
                     'to',
                     'title',
-                    'data_provider_message_id',
-                    'data_provider',
+                    'data_source_message_id',
+                    'data_source',
                     'contact_type',
                     'additional_data'
                 ]))

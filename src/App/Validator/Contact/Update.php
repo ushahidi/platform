@@ -42,7 +42,7 @@ class Update extends Validator
 				// @todo this should be shared via repo or other means
 				['in_array', [':value', [Contact::EMAIL, Contact::PHONE, Contact::TWITTER]]],
 			],
-			'data_provider' => [
+			'data_source' => [
 				['in_array', [':value', array_keys($sources->getEnabledSources())]],
 			],
 			'contact' => [

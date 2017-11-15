@@ -36,8 +36,8 @@ class Message extends StaticEntity
 	protected $contact_id;
 	protected $post_id;
 	protected $user_id;
-	protected $data_provider;
-	protected $data_provider_message_id;
+	protected $data_source;
+	protected $data_source_message_id;
 	protected $title;
 	protected $message;
 	protected $datetime;
@@ -67,8 +67,8 @@ class Message extends StaticEntity
 			'direction'  => 'string',
 			'created'    => 'int',
 			// data provider relations
-			'data_provider'            => 'string',
-			'data_provider_message_id' => 'string',
+			'data_source'            => 'string',
+			'data_source_message_id' => 'string',
 			// any additional message data
 			'additional_data' => '*json',
 			'notification_post_id' => 'int',
