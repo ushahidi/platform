@@ -10,12 +10,6 @@
  */
 
 return array(
-	'default_providers' => array(
-		Ushahidi\App\DataSource\Message\Type::SMS => 'smssync',
-		Ushahidi\App\DataSource\Message\Type::IVR => false,
-		Ushahidi\App\DataSource\Message\Type::EMAIL => 'email',
-		Ushahidi\App\DataSource\Message\Type::TWITTER => 'twitter'
-	),
 	'providers' => array(
 		// List of data providers key=provider value=enabled
 		'smssync' => false,
