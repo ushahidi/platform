@@ -63,15 +63,15 @@ class FrontlineSMSDataSourceTest extends TestCase
                 ],
                 'json' => [
                     "apiKey" => 'secret',
-                    "payload" => array(
+                    "payload" => [
                         "message" => 'A message',
-                        "recipients" => array(
-                            array(
+                        "recipients" => [
+                            [
                                 "type" => "mobile",
                                 "value" => 1234
-                            )
-                        )
-                    )
+                            ]
+                        ]
+                    ]
                 ]
             ]
         )->andReturn($mockResponse);

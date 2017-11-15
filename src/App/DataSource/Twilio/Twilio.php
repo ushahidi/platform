@@ -89,7 +89,7 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 		// Check we have the required config
 		if (!isset($this->config['account_sid']) || !isset($this->config['auth_token'])) {
 			app('log')->warning('Could not send message with Twilio, incomplete config');
-			return array(MessageStatus::FAILED, false);
+			return [MessageStatus::FAILED, false];
 		}
 
 		// Make twilio client
@@ -110,12 +110,12 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 					'body' => $message
 				]
 			);
-			return array(MessageStatus::SENT, $message->sid);
+			return [MessageStatus::SENT, $message->sid];
 		} catch (\Twilio\Exceptions\RestException $e) {
 			app('log')->error($e->getMessage());
 		}
 
-		return array(MessageStatus::FAILED, false);
+		return [MessageStatus::FAILED, false];
 	}
 
 	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
