@@ -18,7 +18,7 @@ use Mockery as M;
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class DataSourceIncomingTest extends TestCase
+class IncomingCommandTest extends TestCase
 {
 
     public function setUp()

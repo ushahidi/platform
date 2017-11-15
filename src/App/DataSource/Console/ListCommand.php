@@ -9,14 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Console\Command;
+namespace Ushahidi\App\DataSource\Console;
 
 use Illuminate\Console\Command;
 
 use Ushahidi\Core\Usecase;
 use \Ushahidi\Factory\UsecaseFactory;
 
-class DataSourceList extends Command
+class ListCommand extends Command
 {
 
     /**

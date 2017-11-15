@@ -15,7 +15,7 @@ class DataSourceServiceProvider extends ServiceProvider
     {
         $this->registerStorage();
         $this->registerManager();
-        $this->registerRoutes();
+        $this->registerCommands();
     }
 
     /**
@@ -120,9 +120,12 @@ class DataSourceServiceProvider extends ServiceProvider
         return new DataSourceStorage($receiveUsecase, $messageRepo);
     }
 
-    public function registerRoutes()
+    public function registerCommands()
     {
-        // $this->app->router->post('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
-        // $this->app->router->get('/sms/{source}[/]', 'Ushahidi\App\DataSource\DataSourceController@handleRequest');
+        $this->commands([
+            Console\IncomingCommand::class,
+            Console\OutgoingCommand::class,
+            Console\ListCommand::class,
+        ]);
     }
 }

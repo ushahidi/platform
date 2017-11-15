@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Console\Command;
+namespace Ushahidi\App\DataSource\Console;
 
 use Illuminate\Console\Command;
 
@@ -19,7 +19,7 @@ use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\DataSourceStorage;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 
-class DataSourceOutgoing extends Command
+class OutgoingCommand extends Command
 {
 
     /**
@@ -129,6 +129,7 @@ class DataSourceOutgoing extends Command
         foreach (['sms', 'twitter', 'email'] as $type) {
             $source = $this->sources->getSourceForType($type);
 
+            // @todo what if the only outgoing source is SMSSync
             if (!($source instanceof OutgoingAPIDataSource)) {
                 // Data source doesn't have an API we can push messages to
                 continue;
