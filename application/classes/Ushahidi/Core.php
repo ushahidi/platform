@@ -769,6 +769,10 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostListener']['setFormStagesRepo'] =
 					$di->lazyGet('repository.form_stage');
 
+		// Post Tags repo for Post listener
+		$di->setter['Ushahidi_Listener_PostListener']['setTagsRepo'] =
+			$di->lazyGet('repository.tag');
+
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
 		$di->setter['Ushahidi_Repository_Config']['setListener'] =

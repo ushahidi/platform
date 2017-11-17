@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
 use Ushahidi\Core\Entity\PostsChangeLogRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Traits\RecursiveImplode;
 
 class Ushahidi_Listener_PostListener extends AbstractListener
@@ -48,6 +49,12 @@ class Ushahidi_Listener_PostListener extends AbstractListener
         $this->formstages_repo = $formstages_repo;
     }
 
+	public function setTagsRepo(TagRepository $tags_repo)
+    {
+        $this->tags_repo = $tags_repo;
+    }
+
+
     //TODO: note that we're only receiving the ID here.
     public function handle(EventInterface $event, $postEntity = null, $event_type = null)
     {
@@ -77,7 +84,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
                 $changelog_entity = $this->changelog_repo->getEntity();
                 $changelog_entity->setState($changelog_state);
                 $this->changelog_repo->create($changelog_entity);
-
+            }
 
         } elseif ($event_type == 'create') {
             Kohana::$log->add(Log::DEBUG, 'Create event was caught in PostListener '.print_r($event, true).'!');
@@ -92,10 +99,23 @@ class Ushahidi_Listener_PostListener extends AbstractListener
             $entity->setState($state);
             $this->repo->create($entity);
         } else {
-            Kohana::$log->add(Log::DEBUG, 'Unknown event was passed to PostListener '.print_r($event_type, true).'!');
+            Kohana::$log->add(Log::DEBUG, 'Unknown event was passed to PostListener ['.print_r($event_type, true).'] ');
         }
-        }
+
     }
+
+    protected function getObjectForTagId($id)
+    {
+        $tag_entity = $this->tags_repo->get($id);
+        return $tag_entity;
+    }
+
+    //TODO: implement this
+    protected function getLabelForUpdatedSurveyField($id)
+    {
+        ///
+    }
+
 
 	protected function getLabelForCompletedStageId($id)
     {
@@ -112,43 +132,75 @@ class Ushahidi_Listener_PostListener extends AbstractListener
     protected function getIsolatedChangesForPost($postEntity, $changed_items)
     {
         $flat_changeset = [];
-        $ignored_fields = ['slug'];
+        $ignored_fields = ['slug', 'updated'];
         try {
             foreach ($changed_items as $changed_key => $changed_value) {
                 if (is_array($changed_value)) {
                     if ($changed_key == 'values') {
-                        //go only one level into this array, but then just concat the changes as text, since we're
+                        //dig into this array,  then just concat the changes as text, since we're
                         // presumably already at the individual field level
-                        foreach ($changed_value as $values_key => $values_val) {
-                            $imploded_str = $this->recursiveArrayImplode(" ", $values_val);
-                            $flat_changeset = array_merge($flat_changeset, [$values_key => $imploded_str ]);
 
-                            //TODO: build a workaround here for dates? or *can* we, because we don't have the
-                                // old date value to see if it's a legitimate change
+                        foreach ($changed_value as $values_key => $values_val)
+                        {
+                            //'tags1' is apparently where current category info is passed along
+                            if ($values_key == 'tags1')
+                            {
+                                foreach($values_val as $itemkey => $itemval)
+                                {
+                                    $tag_object = $this->getObjectForTagId($itemval);
+                                    if (is_object($tag_object) && $tag_object->type == 'category')
+                                    {
+                                        Kohana::$log->add(Log::INFO, 'Category updated: '.print_r($tag_object->tag, true));
+                                        $flat_changeset = array_merge($flat_changeset, ['category: '.$tag_object->tag  => 'added']);
+                                    }
+                                }
 
+                            }else{
+                                $imploded_str = $this->recursiveArrayImplode(" ", $values_val);
+                                $flat_changeset = array_merge($flat_changeset, [$values_key => $imploded_str ]);
+                            }
                         }
 
                     } elseif ($changed_key == 'completed_stages')
-                    {
-                        Kohana::$log->add(Log::ERROR, 'Changed stages: '.print_r($changed_items[$changed_key], true));
+                    { // TODO: how should we mark stages as incomplete?
+                        Kohana::$log->add(Log::INFO, '\n\nUPDATED TASKS/STAGES: '.print_r($changed_items[$changed_key], true));
                         if(is_array($changed_items[$changed_key]))
                         {
                             foreach($changed_items[$changed_key] as $stagekey => $stageval)
-                            $stage_label = $this->getLabelForCompletedStageId($stageval);
-                            Kohana::$log->add(Log::ERROR, 'Stage completed: '.print_r($stage_label, true));
-                            $flat_changeset = array_merge($flat_changeset, ['Task: '.$stage_label  => 'complete']);
+                            {
+                                $stage_label = $this->getLabelForCompletedStageId($stageval);
+                                Kohana::$log->add(Log::ERROR, 'Task completed: '.print_r($stage_label, true));
+                                $flat_changeset = array_merge($flat_changeset, ['Task: '.$stage_label  => 'complete']);
+                            }
                         }
 
-                    }  elseif ($changed_key == 'tags' || $changed_key == 'sets') {
-                        Kohana::$log->add(Log::ERROR, 'Tags where changed: '.print_r($changed_items[$changed_key], true));
+                    }  elseif ($changed_key == 'tags'){
+                        /// NOTE:  'tags' aren't apparently updated when categories are changed
+                        // instead, updates to categories are passed in the 'values' as an array called 'tags1'
 
-                        $imploded_str = $this->recursiveArrayImplode(" ", $changed_value);
-                        $flat_changeset = array_merge($flat_changeset, [$values_key => $imploded_str ]);
-                    }
-                } else { // not an array
+                        //TODO: however, the post 'tags' array apparently retains the categories info prior
+                        //  to being changed, so it might be useful to lookup this value and compare it to 'tags1'
+                        //  to see if categories have been unassociated, and which ones were unassociated
+                        /*foreach($changed_items[$changed_key] as $itemkey => $itemval)
+                        {
+                            $tag_object = $this->getObjectForTagId($itemval);
+                            if (is_object($tag_object) && $tag_object->type == 'category')
+                            {
+                                Kohana::$log->add(Log::INFO, 'Category updated: '.print_r($tag_object->tag, true));
+                                //$imploded_str = $this->recursiveArrayImplode(" ", $changed_value);
+                                //$flat_changeset = array_merge($flat_changeset, [$itemkey => $imploded_str ]);
+                                $flat_changeset = array_merge($flat_changeset, ['category: '.$tag_object->tag  => 'added']);
+                            }
+                        }*/
+                    } elseif ($changed_key == 'sets') {
+                        //TODO: implement this
+                        Kohana::$log->add(Log::INFO, 'Sets were updated');
+
+                    } else { // not an array
                         if (!in_array($changed_key, $ignored_fields)) {
                             $flat_changeset = array_merge($flat_changeset, [$changed_key => $changed_value ]);
                         }
+                    }
                 }
             }
         } catch (Exception $e) {
