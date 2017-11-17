@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
 use Ushahidi\Core\Entity\PostsChangeLogRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Traits\RecursiveImplode;
 
@@ -47,6 +48,11 @@ class Ushahidi_Listener_PostListener extends AbstractListener
 	public function setFormStagesRepo(FormStageRepository $formstages_repo)
     {
         $this->formstages_repo = $formstages_repo;
+    }
+
+    public function setFormAttributesRepo(FormAttributeRepository $form_attrs_repo)
+    {
+        $this->form_attrs_repo = $form_attrs_repo;
     }
 
 	public function setTagsRepo(TagRepository $tags_repo)
@@ -111,9 +117,10 @@ class Ushahidi_Listener_PostListener extends AbstractListener
     }
 
     //TODO: implement this
-    protected function getLabelForUpdatedSurveyField($id)
+    protected function getNameForFormAttributeByKey($key)
     {
-        ///
+        $form_attr_obj = $this->form_attrs_repo->getByKey($key);
+        return $form_attr_obj->label;
     }
 
 
@@ -156,8 +163,9 @@ class Ushahidi_Listener_PostListener extends AbstractListener
                                 }
 
                             }else{
+                                $attribute_label = $this->getNameForFormAttributeByKey($values_key);
                                 $imploded_str = $this->recursiveArrayImplode(" ", $values_val);
-                                $flat_changeset = array_merge($flat_changeset, [$values_key => $imploded_str ]);
+                                $flat_changeset = array_merge($flat_changeset, [$attribute_label => $imploded_str ]);
                             }
                         }
 

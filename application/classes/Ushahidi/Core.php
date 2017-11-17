@@ -751,7 +751,7 @@ abstract class Ushahidi_Core {
 		// Event listener for the Post repo
 		$di->setter['Ushahidi_Repository_Post']['setEvent'] = 'PostWriteEvent';
 		$di->setter['Ushahidi_Repository_Post']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_PostListener');		
+			$di->lazyNew('Ushahidi_Listener_PostListener');
 
 		// WebhookJob repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setRepo'] =
@@ -768,6 +768,10 @@ abstract class Ushahidi_Core {
 		// Formstage repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setFormStagesRepo'] =
 					$di->lazyGet('repository.form_stage');
+
+		// Form attributes repo for Post listener
+		$di->setter['Ushahidi_Listener_PostListener']['setFormAttributesRepo'] =
+					$di->lazyGet('repository.form_attribute');
 
 		// Post Tags repo for Post listener
 		$di->setter['Ushahidi_Listener_PostListener']['setTagsRepo'] =
