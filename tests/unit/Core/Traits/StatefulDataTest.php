@@ -21,6 +21,129 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
     protected $test_post_data_new;
     protected $changed_post_data;
 
+    public function testDetectedChangesWithIdenticalData()
+    {
+        $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
+        $new_data = $this->getTestArrayWithValuesArray();
+
+        //setting the state with NO CHANGES.
+        $updated_entity = $original_entity->setState( $new_data ); // setState with the same exact object
+
+        //assert that nothing has changed
+        $this->assertEquals( 0, sizeof($updated_entity->getChanged()) );
+    }
+
+    public function testDetectedChangesWhenOneFirstLevelItemIsDifferent()
+    {
+        $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
+        //create an array with identical data, but then change one element
+        $new_data = $this->getTestArrayWithValuesArray();
+        $new_data['color'] = 'somecolor';
+
+        //setting the state with single change.
+        $original_entity->setState($new_data); // setState with the same exact object
+
+        //assertions
+        $this->assertEquals(1, sizeof($original_entity->getChanged()));
+        $this->assertArrayHasKey("color", $original_entity->getChanged() );
+        $this->assertEquals("somecolor", $original_entity->getChanged()['color'] );
+    }
+
+    public function testDetectedChangesWhenNewDataAddsBogusKey()
+    {
+        $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
+        //create an array with identical data, but then change one element
+        $new_data = $this->getTestArrayWithValuesArray();
+        $new_data['bogus_key'] = 'some nonsense';
+
+        //setting the state with bogus key added.
+        $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
+
+        //assertions
+        $message = "Intersected array should be empty because we don't know about this new key ";
+        $this->assertEquals(0, sizeof($updated_entity->getChanged()), $message);
+    }
+
+    public function testDetectedChangesInTwoStagesWithNewKeyThatChanges()
+    {
+        $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
+        //create an array with identical data, but then change one element
+        $new_data = $this->getTestArrayWithValuesArray();
+        $new_data['bogus_key'] = 'some nonsense';
+
+        //setting the state with bogus key added.
+        $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
+
+        //assertions
+        $message = "Intersected array should be empty because we don't know about this new key ";
+        $this->assertEquals(0, sizeof($updated_entity->getChanged()), $message);
+
+        //second pass
+        $more_new_data = $this->getTestArrayWithValuesArray();
+        $more_new_data['bogus_key'] = 'more nonsense';
+
+        $updated_entity->setState($more_new_data); // setState with the same exact object
+
+        print "Here is the new changed array:".print_r($updated_entity->getChanged(), true);
+        print "Here is the newly updated entity:".print_r($updated_entity, true);
+
+        //test that this
+        $message = "Intersected array should now not be empty because now we DO know about this new key ";
+        $this->assertEquals(1, sizeof($updated_entity->getChanged()), $message);
+
+    }
+
+    public function testDetectedChangesAgainstNewNullPostValuesArray()
+    {
+        $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
+
+        //create otherwise identical data, but null the values array
+        $new_data = $this->getTestArrayWithValuesArray();
+        $new_data['values'] = null;
+
+        //set the state with this new data
+        $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
+
+        //assert that the changes for 'values' are null
+        $message = "The values array should not be changed";
+        $this->assertEmpty( $updated_entity->getChanged()['values'], $message );
+    }
+
+    public function testDetectedChangesForOneUpdatedPostValue()
+    {
+        $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
+
+        //create otherwise identical data, but change one element in values
+        $new_data = $this->getTestArrayWithValuesArray();
+        $new_data['values']['full_name'] = array('0'=>'Egbert Himmelgang');
+
+        //setting the state with single changes.
+        $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
+
+        //assert that values has changed
+        print "here is the changed array for one updated value: ".print_r($updated_entity->getChanged(), true);
+        $this->assertArrayHasKey('values', $updated_entity->getChanged() );
+
+        //WHY ARE ALL VALUES MARKED AS CHANGED?
+        $this->assertEquals(1, sizeof($updated_entity->getChanged()['values']));
+    }
+
+    public function testDetectedChangesForAllNewPostValues()
+    {
+        //starting off with an empty values array
+        $original_data = $this->getTestArrayWithValuesArray();
+        $original_data['values'] = array('0'=>'0');
+        $original_entity = new MockPostData($original_data);
+
+        $new_data = $this->getTestArrayWithValuesArray();
+
+        //now create the post object and set new state
+        $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
+
+        //array should now have 6 elements
+        $this->assertEquals(6, sizeof($updated_entity->getChanged()['values']));
+    }
+
     /**
         * Test setState method against a Post entity
         */
@@ -42,6 +165,60 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
     }
 
     // POST DATA SECTION
+
+    protected function getTestArrayWithValuesArray()
+    {
+        return array(
+                'id' => '110',
+                'parent_id' => null,
+                'form_id' => '1',
+                'user_id' => '1',
+                'type' => 'report',
+                'title' => 'Test Data Original',
+                'slug' => 'tests-data-original',
+                'content' => 'Testing oauth posts api access',
+                'author_email' => null,
+                'author_realname' => null,
+                'status' => 'published',
+                'published_to' => '[]',
+                'locale' => 'en_us',
+                'created' => '1355743120',
+                'updated' => null,
+                'post_date' => '2012-12-17 03:18:40',
+                'message_id' => '4',
+                'source' => 'sms',
+                'contact_id' => '3',
+                'color' => null,
+                'completed_stages' => [1],
+                'values' => array (
+                    'missing_date' => array (
+                        0 => '2012-09-25 00:00:00',
+                    ),
+                    'last_location_point' => array (
+                    0 => array (
+                            'lon' => -85.39,
+                            'lat' => 33.755,
+                        ),
+                    ),
+                    'full_name' => array (
+                        0 => 'Bruce Kobia',
+                    ),
+                    'last_location' => array (
+                            0 => 'atlanta',
+                    ),
+                    'missing_status' => array (
+                        0 => 'believed_missing',
+                    ),
+                    'tags1' => array (
+                        0 => '3',
+                        1 => '4',
+                    ),
+                ),
+            );
+        }
+
+
+
     protected function setPostTestData()
     {
         $this->test_post_data_current = array (
