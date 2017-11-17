@@ -205,6 +205,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		$output = [];
 		foreach ($values as $value) {
+
 			if (empty($output[$value->key])) {
 				$output[$value->key] = [];
 			}
@@ -963,10 +964,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
 		}
 
+		// We need to refetch the newly saved entity in order for it to be complete with an ID and other attributes
+		$newPostEntity = $this->get($id);
+
 		// TODO: Revist post-Kohana
 		// This might be better placed in the usecase but
 		// given Kohana's future I've put it here
-		$this->emit($this->event, $id, 'create');
+		$this->emit($this->event, $newPostEntity, 'create');
 
 		return $id;
 	}
@@ -1011,12 +1015,11 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
 
-		$this->emit($this->event, $entity, 'update');
-		$this->emit('LoggablePostUpdateEvent', $entity, 'update');
-
 		if ($this->post_lock_repo->isActive($entity->id)) {
 			$this->post_lock_repo->releaseLock($entity->id);
 		}
+
+		$this->emit($this->event, $entity, 'update');
 
 		return $count;
 	}
