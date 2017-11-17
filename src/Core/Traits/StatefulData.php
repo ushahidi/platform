@@ -194,18 +194,44 @@ trait StatefulData
 					$this->arrayRecursiveDiff($value, $current_key),
 					$this->arrayRecursiveDiff($current_key, $value)
 				);
+				/*
+				if(get_class($this) == 'Ushahidi\Core\Entity\Post' && $key === 'tags')
+				{
+					\Log::instance()->add(\Log::INFO, '======================= New call ======================='.print_r($current_key, true));
+					\Log::instance()->add(\Log::INFO, 'The key is:'.print_r($key, true));
+					\Log::instance()->add(\Log::INFO, 'The current_key is:'.print_r($this->$key, true));
+					\Log::instance()->add(\Log::INFO, 'The value of key attribute is:'.print_r($current_key, true));
+					\Log::instance()->add(\Log::INFO, 'The $value array is:'.print_r($value, true));
+					\Log::instance()->add(\Log::INFO, 'THE DIFF ARRAY IS:'.print_r($diff, true));
+				}*/
+
 				// If arrays differ, *or* if this is the first time
 				// we're setting this key
 				if (!empty($diff) || !isset($this->$key)) {
+
+					if ($key === 'values')
+					{
+					//	\Log::instance()->add(\Log::INFO, 'Planning to write diff to the changed array:'.print_r($diff, true));
+					}
+
 					// This is considered as a full update
 					// in the Repository update the array field will be overwritten
 					// with the new data
 					$this->setStateValue($key, $value);
 					// Track changes for changed array keys
+
 					$changed[$key] = array_keys($diff);
+
+					if(get_class($this) == 'Ushahidi\Core\Entity\Post' && $key === 'values')
+					{
+						//   \Log::instance()->add(\Log::INFO, 'The full state of changed IS:'.print_r($changed, true));
+					}
+
 				}
 			// Compare DateTime Objects
 			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
+				\Log::instance()->add(\Log::INFO, 'WE ARE COMPARING DATES!:'.print_r($value, true));
+
 				$current_key = $this->$key;
 				$interval = $value->diff($current_key);
 				if ($interval->format('F') > 0) {
@@ -220,6 +246,11 @@ trait StatefulData
 				$this->setStateValue($key, $value);
 				// ... and track the change.
 				$changed[$key] = $key;
+
+				if(get_class($this) == 'Ushahidi\Core\Entity\Post' && gettype($this->$key) !== 'NULL')
+				{
+					//\Log::instance()->add(\Log::INFO, 'Here is the current state of $changed[]:'.print_r($changed, true));
+				}
 			}
 		}
 		return $this;
@@ -274,6 +305,11 @@ trait StatefulData
 	{
 		// Array comparison
 		return array_intersect_key($this->asArray(), static::$changed[$this->getObjectId()]);
+	}
+
+	public function getChangedArray()
+	{
+		return static::$changed[$this->getObjectId()];
 	}
 
 	/**
