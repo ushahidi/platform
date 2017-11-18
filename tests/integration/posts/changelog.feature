@@ -198,6 +198,7 @@ Feature: Testing the Post Changelog API
       And the "results.0.content" property contains "This is a recently updated title."
       Then the guzzle status code should be 200
 
+@updatingpostvaluesforchangelog
   Scenario: Updating a Post should create a Changelog entry
     Given that I want to update a "Post"
     And that the request "data" is:
@@ -210,8 +211,8 @@ Feature: Testing the Post Changelog API
         "locale":"en_US",
         "values":
         {
-          "full_name":["David Kobia"],
-          "description":["Skinny, homeless Kenyan last seen in the vicinity of the greyhound station"],
+          "full_name":["New name"],
+          "description":["Skinny, homeless American last seen in the vicinity of the greyhound station"],
           "date_of_birth":[],
           "missing_date":["2012/09/25"],
           "last_location":["Chicago"],
@@ -243,10 +244,9 @@ Feature: Testing the Post Changelog API
     And the type of the "results.0.post_id" property is "numeric"
     And the "results.0.post_id" property equals "1"
     And the response has a "results.0.content" property
-    # TODO: for the moment, these are all being concatenated into one text blob. Worth reconsidering?
-    And the "results.0.content" property contains "description"
-    And the "results.0.content" property contains "last-location"
-    And the "results.0.content" property contains "full-name"
+    And the "results.0.content" property contains "Description"
+    And the "results.0.content" property contains "Last Location"
+    And the "results.0.content" property contains "Full Name"
     Then the guzzle status code should be 200
 
 @updatingpostvalueswithdates
@@ -288,7 +288,7 @@ Feature: Testing the Post Changelog API
     And the response has a "results" property
     And the response has a "results.0.post_id" property
     And the "results.0.content" property contains "birth"
-    And the "results.0.content" property contains "missing-date"
+    And the "results.0.content" property contains "Missing date"
     Then the guzzle status code should be 200
 
 @updatingpostvalueswithoutdates
@@ -331,5 +331,5 @@ Feature: Testing the Post Changelog API
     And the response has a "results" property
     And the response has a "results.0.post_id" property
     And the "results.0.content" property does not contain "birth"
-    And the "results.0.content" property does not contain "missing-date"
+    And the "results.0.content" property does not contain "Missing date"
     Then the guzzle status code should be 200
