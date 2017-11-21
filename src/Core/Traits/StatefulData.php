@@ -169,18 +169,26 @@ trait StatefulData
 			}
 		}
 
-		// To prevent polluting object properties, changes are tracked through a
-		// static property, indexed by the object id. This ensures that all object
-		// properties are associated directly with the entity, and that the change
-		// tracker will never appear when running `get_object_vars` or similar.
-		//
-		// tl;dr: it keeps the object properties clean and separated from state tracking.
+		$this->collectChangesToEntity($data);
+
+		return $this;
+	}
+
+
+	// To prevent polluting object properties, changes are tracked through a
+	// static property, indexed by the object id. This ensures that all object
+	// properties are associated directly with the entity, and that the change
+	// tracker will never appear when running `get_object_vars` or similar.
+	//
+	// tl;dr: it keeps the object properties clean and separated from state tracking.
+	protected function collectChangesToEntity(array $new_data)
+	{
+		$immutable = $this->getImmutable();
 		$changed =& static::$changed[$this->getObjectId()];
 
-		// Get the immutable values. Once set, these cannot be changed.
-		$immutable = $this->getImmutable();
 
-		foreach ($this->transform($data) as $key => $value) {
+		//now cycle through each of the attributes of the new_data
+		foreach ($this->transform($new_data) as $key => $value) {
 			if (in_array($key, $immutable) && $this->$key) {
 				// Value has already been set and cannot be changed.
 				continue;
@@ -189,71 +197,57 @@ trait StatefulData
 			if (is_array($value)) {
 				$current_key = is_array($this->$key) ? $this->$key : [$this->$key];
 
-				// Check for multi level recursion
-				$diff = array_merge(
+				//TODO: clean this --
+				//	we should only have a diff of arrays and values that have actually changed.
+				//	for example:
+				//		if ['values']['somedata'] has changed.
+ 				$diff = array_merge(
 					$this->arrayRecursiveDiff($value, $current_key),
 					$this->arrayRecursiveDiff($current_key, $value)
 				);
-				/*
-				if(get_class($this) == 'Ushahidi\Core\Entity\Post' && $key === 'tags')
-				{
-					\Log::instance()->add(\Log::INFO, '======================= New call ======================='.print_r($current_key, true));
-					\Log::instance()->add(\Log::INFO, 'The key is:'.print_r($key, true));
-					\Log::instance()->add(\Log::INFO, 'The current_key is:'.print_r($this->$key, true));
-					\Log::instance()->add(\Log::INFO, 'The value of key attribute is:'.print_r($current_key, true));
-					\Log::instance()->add(\Log::INFO, 'The $value array is:'.print_r($value, true));
-					\Log::instance()->add(\Log::INFO, 'THE DIFF ARRAY IS:'.print_r($diff, true));
-				}*/
 
 				// If arrays differ, *or* if this is the first time
 				// we're setting this key
 				if (!empty($diff) || !isset($this->$key)) {
 
-					if ($key === 'values')
-					{
-					//	\Log::instance()->add(\Log::INFO, 'Planning to write diff to the changed array:'.print_r($diff, true));
-					}
-
 					// This is considered as a full update
 					// in the Repository update the array field will be overwritten
 					// with the new data
-					$this->setStateValue($key, $value);
-					// Track changes for changed array keys
-
-					$changed[$key] = array_keys($diff);
-
-					if(get_class($this) == 'Ushahidi\Core\Entity\Post' && $key === 'values')
+					if(!empty($diff))
 					{
-						//   \Log::instance()->add(\Log::INFO, 'The full state of changed IS:'.print_r($changed, true));
+						//store the property key, the existing value (current_key), and the new value
+						$this->addKeyToChangedWithOldAndNewValues($key, $current_key, $value);
 					}
+					$this->setStateValue($key, $value);
 
 				}
 			// Compare DateTime Objects
 			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
-				\Log::instance()->add(\Log::INFO, 'WE ARE COMPARING DATES!:'.print_r($value, true));
 
-				$current_key = $this->$key;
-				$interval = $value->diff($current_key);
-				if ($interval->format('F') > 0) {
+				$orig_datetime = $this->$key;
+				$timediff = abs( $value->getTimestamp() - $orig_datetime->getTimestamp());
+
+				if ($timediff > 0) {
+					//save the old and new dates to changed
+					$this->addKeyToChangedWithOldAndNewValues($key, $orig_datetime, $value);
 					// Update the value...
 					$this->setStateValue($key, $value);
-					// ... and track the change.
-					$changed[$key] = $key;
-				//	\Log::instance()->add(\Log::INFO, 'Date has changed because the interval is > 0');
 				}
-			} elseif ($this->$key !== $value) {
+
+			} elseif ($this->$key !== $value) { // if the key points to neither an array nor a datatime, then we
+													// just compare values
+				$this->addKeyToChangedWithOldAndNewValues($key, $this->$key, $value);
+
 				// Update the value...
 				$this->setStateValue($key, $value);
-				// ... and track the change.
-				$changed[$key] = $key;
-
-				if(get_class($this) == 'Ushahidi\Core\Entity\Post' && gettype($this->$key) !== 'NULL')
-				{
-					//\Log::instance()->add(\Log::INFO, 'Here is the current state of $changed[]:'.print_r($changed, true));
-				}
 			}
-		}
-		return $this;
+		} //end for
+	}
+
+	protected function addKeyToChangedWithOldAndNewValues($key, $oldValue, $newValue)
+	{
+		static::$changed[$this->getObjectId()][$key] = array('old_value' => $oldValue,
+					'new_value'=>$newValue);
 	}
 
 	/**
@@ -301,15 +295,24 @@ trait StatefulData
 	 *
 	 * @return Array
 	 */
+
+	//TODO: this might be broken now
 	public function getChanged()
 	{
 		// Array comparison
 		return array_intersect_key($this->asArray(), static::$changed[$this->getObjectId()]);
 	}
 
+	//TODO: maybe this shouldn't exist
 	public function getChangedArray()
 	{
 		return static::$changed[$this->getObjectId()];
+	}
+
+	//TODO: this might be broken now
+	public function getNewChangedValueForKey($key)
+	{
+		return static::$changed[$this->getObjectId()][$key]['new_value'];
 	}
 
 	/**
