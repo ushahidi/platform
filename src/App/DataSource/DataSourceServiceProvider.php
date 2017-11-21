@@ -95,6 +95,7 @@ class DataSourceServiceProvider extends ServiceProvider
     {
         return new Twitter\Twitter(
             $dataProviderConfig['twitter'],
+            service('repository.config'),
             function ($consumer_key, $consumer_secret, $oauth_access_token, $oauth_access_token_secret) {
                 return new \Abraham\TwitterOAuth\TwitterOAuth(
                     $consumer_key,

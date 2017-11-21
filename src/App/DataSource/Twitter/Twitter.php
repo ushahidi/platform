@@ -40,12 +40,11 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config, \Closure $connectionFactory = null)
+	public function __construct(array $config, ConfigRepository $configRepo = null, \Closure $connectionFactory = null)
 	{
 		$this->config = $config;
 		$this->connectionFactory = $connectionFactory;
-		// @todo inject this
-		$this->configRepo = service('repository.config');
+		$this->configRepo = $configRepo;
 	}
 
 	public function getName()

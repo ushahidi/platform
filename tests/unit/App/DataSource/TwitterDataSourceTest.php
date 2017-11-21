@@ -32,11 +32,15 @@ class TwitterDataSourceTest extends TestCase
 	{
 		$mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
 		$mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
+		$mockRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
 
-		$twitter = new Twitter([
-		], function ($a, $b, $c, $d) use ($mockTwitterOAuth) {
-			return $mockTwitterOAuth;
-		});
+		$twitter = new Twitter(
+			[],
+			$mockRepo,
+			function ($a, $b, $c, $d) use ($mockTwitterOAuth) {
+				return $mockTwitterOAuth;
+			}
+		);
 
 		$response = $twitter->send('ushahidi', "A message");
 
@@ -50,15 +54,20 @@ class TwitterDataSourceTest extends TestCase
 		$mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
 		$mockTwitterOAuth->shouldReceive('setTimeouts');
 		$mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
+		$mockRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
 
-		$twitter = new Twitter([
-			'consumer_key' => '',
-			'consumer_secret' => '',
-			'oauth_access_token' => '',
-			'oauth_access_token_secret' =>  '',
-		], function ($a, $b, $c, $d) use ($mockTwitterOAuth) {
-			return $mockTwitterOAuth;
-		});
+		$twitter = new Twitter(
+			[
+				'consumer_key' => '',
+				'consumer_secret' => '',
+				'oauth_access_token' => '',
+				'oauth_access_token_secret' =>  '',
+			],
+			$mockRepo,
+			function ($a, $b, $c, $d) use ($mockTwitterOAuth) {
+				return $mockTwitterOAuth;
+			}
+		);
 
 		$mockTwitterOAuth
 			->shouldReceive('post')
@@ -83,15 +92,20 @@ class TwitterDataSourceTest extends TestCase
 		$mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
 		$mockTwitterOAuth->shouldReceive('setTimeouts');
 		$mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
+		$mockRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
 
-		$twitter = new Twitter([
-			'consumer_key' => '',
-			'consumer_secret' => '',
-			'oauth_access_token' => '',
-			'oauth_access_token_secret' =>  '',
-		], function ($a, $b, $c, $d) use ($mockTwitterOAuth) {
-			return $mockTwitterOAuth;
-		});
+		$twitter = new Twitter(
+			[
+				'consumer_key' => '',
+				'consumer_secret' => '',
+				'oauth_access_token' => '',
+				'oauth_access_token_secret' =>  '',
+			],
+			$mockRepo,
+			function ($a, $b, $c, $d) use ($mockTwitterOAuth) {
+				return $mockTwitterOAuth;
+			}
+		);
 
 		$mockTwitterOAuth
 			->shouldReceive('post')
