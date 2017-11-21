@@ -21,6 +21,23 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
     protected $test_post_data_new;
     protected $changed_post_data;
 
+
+    public function testCollectChangesToEntityUsingDates()
+    {
+        $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
+
+        $new_data = $this->getTestArrayWithValuesArray();
+        $new_data['post_date'] = '2017-11-20 11:08:40'; //change the date
+
+        $original_entity = $original_entity->setState($new_data);
+        $changed_array = $original_entity->getChangedArray();
+
+        //since we only changed one item, there should only be one item in this array
+        $this->assertEquals( 1, count($changed_array));
+        $this->assertTrue( array_key_exists('post_date', $changed_array) );
+
+    }
+
     public function testDetectedChangesWithIdenticalData()
     {
         $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
@@ -38,7 +55,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
         //create an array with identical data, but then change one element
         $new_data = $this->getTestArrayWithValuesArray();
-        $new_data['color'] = 'somecolor';
+        $new_data['color'] = 'some new color';
 
         //setting the state with single change.
         $original_entity->setState($new_data); // setState with the same exact object
@@ -46,7 +63,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         //assertions
         $this->assertEquals(1, sizeof($original_entity->getChanged()));
         $this->assertArrayHasKey("color", $original_entity->getChanged() );
-        $this->assertEquals("somecolor", $original_entity->getChanged()['color'] );
+        $this->assertEquals('some new color', $original_entity->getNewChangedValueForKey('color') );
     }
 
     public function testDetectedChangesWhenNewDataAddsBogusKey()
@@ -60,37 +77,8 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
 
         //assertions
-        $message = "Intersected array should be empty because we don't know about this new key ";
-        $this->assertEquals(0, sizeof($updated_entity->getChanged()), $message);
-    }
-
-    public function testDetectedChangesInTwoStagesWithNewKeyThatChanges()
-    {
-        $original_entity = new MockPostData($this->getTestArrayWithValuesArray() );
-        //create an array with identical data, but then change one element
-        $new_data = $this->getTestArrayWithValuesArray();
-        $new_data['bogus_key'] = 'some nonsense';
-
-        //setting the state with bogus key added.
-        $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
-
-        //assertions
-        $message = "Intersected array should be empty because we don't know about this new key ";
-        $this->assertEquals(0, sizeof($updated_entity->getChanged()), $message);
-
-        //second pass
-        $more_new_data = $this->getTestArrayWithValuesArray();
-        $more_new_data['bogus_key'] = 'more nonsense';
-
-        $updated_entity->setState($more_new_data); // setState with the same exact object
-
-        print "Here is the new changed array:".print_r($updated_entity->getChanged(), true);
-        print "Here is the newly updated entity:".print_r($updated_entity, true);
-
-        //test that this
-        $message = "Intersected array should now not be empty because now we DO know about this new key ";
-        $this->assertEquals(1, sizeof($updated_entity->getChanged()), $message);
-
+        $message = "Intersected array SHOULD be empty because we don't know about this new key ";
+        $this->assertEquals(0, count($updated_entity->getChanged()), $message);
     }
 
     public function testDetectedChangesAgainstNewNullPostValuesArray()
@@ -121,11 +109,10 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
 
         //assert that values has changed
-        print "here is the changed array for one updated value: ".print_r($updated_entity->getChanged(), true);
         $this->assertArrayHasKey('values', $updated_entity->getChanged() );
 
         //WHY ARE ALL VALUES MARKED AS CHANGED?
-        $this->assertEquals(1, sizeof($updated_entity->getChanged()['values']));
+        $this->assertEquals(1, count($updated_entity->getChanged()['values'] ));
     }
 
     public function testDetectedChangesForAllNewPostValues()
@@ -144,27 +131,10 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(6, sizeof($updated_entity->getChanged()['values']));
     }
 
-    /**
-        * Test setState method against a Post entity
-        */
-    public function testSetStatePost()
-    {
-        $this->setPostTestData();
+    /// TODO: test tags
 
-        // Construct StaefulData for Current Post
-        $mock = new MockPostData($this->test_post_data_current);
 
-        // Set StaefulData from updated Post
-        $entity = $mock->setState($this->test_post_data_new);
-
-        $this->assertEquals('Updated Test Post', $entity->title);
-
-        $this->assertEquals(true, $entity->hasChanged('values', 'full_name'));
-
-        $this->assertEquals($this->changed_post_data, $entity->getChanged());
-    }
-
-    // POST DATA SECTION
+    //  DATA SECTION
 
     protected function getTestArrayWithValuesArray()
     {
@@ -188,7 +158,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
                 'message_id' => '4',
                 'source' => 'sms',
                 'contact_id' => '3',
-                'color' => null,
+                'color' => 'no color!',
                 'completed_stages' => [1],
                 'values' => array (
                     'missing_date' => array (
