@@ -175,6 +175,11 @@ trait StatefulData
 	}
 
 
+	//TO ASK:
+		// IF a value is sent that is now null or empty,
+		//	should we assume that's correct? or should we NOT overwrite the
+		//	existing value with blank data?
+
 	// To prevent polluting object properties, changes are tracked through a
 	// static property, indexed by the object id. This ensures that all object
 	// properties are associated directly with the entity, and that the change
@@ -184,70 +189,84 @@ trait StatefulData
 	protected function collectChangesToEntity(array $new_data)
 	{
 		$immutable = $this->getImmutable();
-		$changed =& static::$changed[$this->getObjectId()];
 
+		//Recursive helper function
+		//NOTE: maybe not backwards compatible
+		$recursiveCompareOldNewValues = function($key, $existing_val, $new_val) use (&$recursiveCompareOldNewValues){
+
+			if(is_array($existing_val) && is_array($new_val))
+			{
+				//then cycle through each of those values
+				foreach ($existing_val as $subkey => $subvalue) //use current obj as source of truth
+				{
+					if(array_key_exists($subkey, $new_val))
+					{
+						$recursiveCompareOldNewValues($subkey, $subvalue, $new_val[$subkey]);
+					}else{
+						$this->addKeyToChangedWithOldAndNewValues($subkey, $existing_val, $new_val);
+					}
+				}
+				foreach ($new_val as $subkey => $subvalue) //use current obj as source of truth
+				{
+					if(array_key_exists($subkey, $existing_val))
+					{
+						//TODO: pass along an array of parent keys, so we know where to save this in the changed array
+						$recursiveCompareOldNewValues($subkey, $existing_val[$subkey], $subvalue);
+					}else{
+					 	$this->addKeyToChangedWithOldAndNewValues($subkey, $existing_val, $new_val);
+					}
+				}
+			}
+			else if( is_array($existing_val) && !is_array($new_val)) // Why does this happen?
+			{
+				//if new array is empty, then just ignore it?
+				// i.e., should new blank data always overwrite existing data?
+				//	or should it mean this new data should be ignored?
+
+				$this->addKeyToChangedWithOldAndNewValues($key, $existing_val, $new_val);
+				$this->setStateValue($key, $new_val);
+
+			}else if( !is_array($existing_val) && is_array($new_val))
+			{
+				$this->addKeyToChangedWithOldAndNewValues($key, $existing_val, $new_val);
+				$this->setStateValue($key, $new_val);
+			}
+			//base case -- neither values are arrays -- we've arrived at a 'leaf' in our recursion
+			else if(!is_array($existing_val) && !is_array($new_val))
+			{
+				//first, we first check items for objects that can't be compared with a simple '=='
+
+				//check for datetime objects and compare them
+				if ($existing_val instanceof \DateTime && $new_val instanceof \DateTime) {
+					$timediff = abs( $existing_val->getTimestamp() - $new_val->getTimestamp());
+					if ($timediff > 0) { // if they're not the same..
+						$this->addKeyToChangedWithOldAndNewValues($key, $existing_val, $new_val);
+						$this->setStateValue($key, $new_val);
+					}
+				//otherwise, assume we're just comparing simple values
+				}else if($existing_val !== $new_val){
+						$this->addKeyToChangedWithOldAndNewValues($key, $existing_val, $new_val);
+						$this->setStateValue($key, $new_val);
+				}
+			}
+		};
 
 		//now cycle through each of the attributes of the new_data
 		foreach ($this->transform($new_data) as $key => $value) {
+
 			if (in_array($key, $immutable) && $this->$key) {
 				// Value has already been set and cannot be changed.
 				continue;
 			}
-
-			if (is_array($value)) {
-				$current_key = is_array($this->$key) ? $this->$key : [$this->$key];
-
-				//TODO: clean this --
-				//	we should only have a diff of arrays and values that have actually changed.
-				//	for example:
-				//		if ['values']['somedata'] has changed.
- 				$diff = array_merge(
-					$this->arrayRecursiveDiff($value, $current_key),
-					$this->arrayRecursiveDiff($current_key, $value)
-				);
-
-				// If arrays differ, *or* if this is the first time
-				// we're setting this key
-				if (!empty($diff) || !isset($this->$key)) {
-
-					// This is considered as a full update
-					// in the Repository update the array field will be overwritten
-					// with the new data
-					if(!empty($diff))
-					{
-						//store the property key, the existing value (current_key), and the new value
-						$this->addKeyToChangedWithOldAndNewValues($key, $current_key, $value);
-					}
-					$this->setStateValue($key, $value);
-
-				}
-			// Compare DateTime Objects
-			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
-
-				$orig_datetime = $this->$key;
-				$timediff = abs( $value->getTimestamp() - $orig_datetime->getTimestamp());
-
-				if ($timediff > 0) {
-					//save the old and new dates to changed
-					$this->addKeyToChangedWithOldAndNewValues($key, $orig_datetime, $value);
-					// Update the value...
-					$this->setStateValue($key, $value);
-				}
-
-			} elseif ($this->$key !== $value) { // if the key points to neither an array nor a datatime, then we
-													// just compare values
-				$this->addKeyToChangedWithOldAndNewValues($key, $this->$key, $value);
-
-				// Update the value...
-				$this->setStateValue($key, $value);
-			}
+			//otherwise, let's compare
+			$recursiveCompareOldNewValues($key, $this->$key, $value);
 		} //end for
 	}
 
+	//TODO: what if we collide with a value actually called - e.g., 'old_value'?
 	protected function addKeyToChangedWithOldAndNewValues($key, $oldValue, $newValue)
 	{
-		static::$changed[$this->getObjectId()][$key] = array('old_value' => $oldValue,
-					'new_value'=>$newValue);
+		static::$changed[$this->getObjectId()][$key] = array('old_value' => $oldValue, 'new_value'=>$newValue);
 	}
 
 	/**
