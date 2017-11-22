@@ -143,8 +143,6 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         //set the state with this new data
         $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
 
-        echo "The changed_array for new null post values:".print_r($updated_entity->getChangedArray(), true );
-
         //TODO: WRONG! these changes should just be ignored!!!
         $this->assertArrayHasKey('values', $updated_entity->getChangedArray() );
         $this->assertEquals(1, count($updated_entity->getChangedArray()) );
@@ -162,8 +160,6 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         //setting the state with single changes.
         $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
 
-        echo "The changed_array for removed post values:".print_r($updated_entity->getChangedArray(), true );
-
         //assert that changed contains full_name, last_location and nothing else
         $this->assertArrayHasKey('full_name', $updated_entity->getChangedArray() );
         $this->assertArrayHasKey('last_location', $updated_entity->getChangedArray() );
@@ -180,14 +176,13 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         //setting the state with single changes.
         $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
 
-        //echo "The changed_array after updating one post value:".print_r($updated_entity->getChangedArray(), true );
-
         //assert that changed contains full_name and nothing else
         $this->assertArrayHasKey('full_name', $updated_entity->getChangedArray() );
         $this->assertEquals(1, count($updated_entity->getChangedArray()) );
 
     }
 
+    /* commenting this out until it's clear what's supposed to happen
     public function testDetectedChangesForNewTagsValues()
     {
         //starting off with empty values array with empty tags1 array
@@ -202,12 +197,9 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
         //now create the post object and set new state
         $updated_entity = $original_entity->setState($new_data); // setState with the same exact object
 
-        echo "The changed_array for new post values:".print_r($original_entity->getChangedArray(), true );
-
-
         $this->assertTrue(array_key_exists('tags1', $updated_entity->getChangedArray()));
         $this->assertTrue(array_key_exists('full_name', $updated_entity->getChangedArray()));
     }
-
+    */
 
 }
