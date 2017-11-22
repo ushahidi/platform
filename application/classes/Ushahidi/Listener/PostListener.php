@@ -78,7 +78,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
                 $human_friendly_log = '- Updated fields.<br/>';
                 foreach ($flat_changeset as $new_item => $new_value) {
                     //TODO: are these values already sanitized for HTML display?
-                    $human_friendly_log .= '- Changed '.str_replace("_", "-", $new_item).' to "'.$new_value.'"</br>';
+                    $human_friendly_log .= '- Changed '.str_replace("_", "-", $new_item).' to "'.print_r($new_value, true).'"</br>';
                 }
                 Kohana::$log->add(Log::DEBUG, 'Human-readable log: '.print_r($human_friendly_log, true).'!');
                 $changelog_state = [
@@ -93,7 +93,6 @@ class Ushahidi_Listener_PostListener extends AbstractListener
             }
 
         } elseif ($event_type == 'create') {
-            Kohana::$log->add(Log::DEBUG, 'Create event was caught in PostListener '.print_r($event, true).'!');
 
             //send event info off to webhook
             $state = [
@@ -117,10 +116,10 @@ class Ushahidi_Listener_PostListener extends AbstractListener
     }
 
     //TODO: implement this
-    protected function getNameForFormAttributeByKey($key)
+    protected function getFormAttributeObjByKey($key)
     {
         $form_attr_obj = $this->form_attrs_repo->getByKey($key);
-        return $form_attr_obj->label;
+        return $form_attr_obj;
     }
 
 
@@ -135,42 +134,51 @@ class Ushahidi_Listener_PostListener extends AbstractListener
         return $formstage_label;
     }
 
-
+    //TODO:  now that we've got a different format for $changed, this need to be updated to handle new/old values
+        // such that we don't have to lookup so many values to figure out what changed
     protected function getIsolatedChangesForPost($postEntity, $changed_items)
     {
         $flat_changeset = [];
-        $ignored_fields = ['slug', 'updated'];
+        $ignored_fields = ['slug', 'updated', 'lock'];
         try {
             foreach ($changed_items as $changed_key => $changed_value) {
+
                 if (is_array($changed_value)) {
                     if ($changed_key == 'values') {
+
                         //dig into this array,  then just concat the changes as text, since we're
                         // presumably already at the individual field level
-
                         foreach ($changed_value as $values_key => $values_val)
                         {
-                            //'tags1' is apparently where current category info is passed along
-                            if ($values_key == 'tags1')
+                            //TODO:
+                            //  first lookup the type of attribute, THEN lookup its label...
+                            //  for instance, tags1 is an attribute of category type
+                            Kohana::$log->add(Log::INFO, 'Trying to get attribute obj for key: '.print_r($values_key, true));
+
+                            $form_attr_obj = null;
+
+                            $form_attr_obj = $this->getFormAttributeObjByKey($values_key);
+                            Kohana::$log->add(Log::INFO, 'Attribute changed: '.print_r($form_attr_obj, true));
+
+
+                            if ($form_attr_obj !== null && $form_attr_obj->type == 'tags')
                             {
-                                foreach($values_val as $itemkey => $itemval)
-                                {
-                                    $tag_object = $this->getObjectForTagId($itemval);
+                                    $tag_object = $this->getObjectForTagId($values_val);
                                     if (is_object($tag_object) && $tag_object->type == 'category')
                                     {
                                         Kohana::$log->add(Log::INFO, 'Category updated: '.print_r($tag_object->tag, true));
                                         $flat_changeset = array_merge($flat_changeset, ['category: '.$tag_object->tag  => 'added']);
                                     }
-                                }
+                            }else if ($form_attr_obj !== null){ // we don't know what this is, so we won't look it up
 
-                            }else{
-                                $attribute_label = $this->getNameForFormAttributeByKey($values_key);
                                 $imploded_str = $this->recursiveArrayImplode(" ", $values_val);
-                                $flat_changeset = array_merge($flat_changeset, [$attribute_label => $imploded_str ]);
+                                $flat_changeset = array_merge($flat_changeset, [$form_attr_obj->label => $imploded_str ]);
                             }
                         }
 
                     } elseif ($changed_key == 'completed_stages')
-                    { // TODO: how should we mark stages as incomplete?
+                    {
+                        // TODO: how should we mark stages as incomplete?
                         Kohana::$log->add(Log::INFO, '\n\nUPDATED TASKS/STAGES: '.print_r($changed_items[$changed_key], true));
                         if(is_array($changed_items[$changed_key]))
                         {
@@ -182,27 +190,13 @@ class Ushahidi_Listener_PostListener extends AbstractListener
                             }
                         }
 
-                    }  elseif ($changed_key == 'tags'){
-                        /// NOTE:  'tags' aren't apparently updated when categories are changed
-                        // instead, updates to categories are passed in the 'values' as an array called 'tags1'
+                    } elseif ($changed_key == 'tags'){
+                            Kohana::$log->add(Log::INFO, 'Intercepted a change to tags.');
 
-                        //TODO: however, the post 'tags' array apparently retains the categories info prior
-                        //  to being changed, so it might be useful to lookup this value and compare it to 'tags1'
-                        //  to see if categories have been unassociated, and which ones were unassociated
-                        /*foreach($changed_items[$changed_key] as $itemkey => $itemval)
-                        {
-                            $tag_object = $this->getObjectForTagId($itemval);
-                            if (is_object($tag_object) && $tag_object->type == 'category')
-                            {
-                                Kohana::$log->add(Log::INFO, 'Category updated: '.print_r($tag_object->tag, true));
-                                //$imploded_str = $this->recursiveArrayImplode(" ", $changed_value);
-                                //$flat_changeset = array_merge($flat_changeset, [$itemkey => $imploded_str ]);
-                                $flat_changeset = array_merge($flat_changeset, ['category: '.$tag_object->tag  => 'added']);
-                            }
-                        }*/
                     } elseif ($changed_key == 'sets') {
                         //TODO: implement this
                         Kohana::$log->add(Log::INFO, 'Sets were updated');
+                    }
 
                     } else { // not an array
                         if (!in_array($changed_key, $ignored_fields)) {
@@ -210,7 +204,7 @@ class Ushahidi_Listener_PostListener extends AbstractListener
                         }
                     }
                 }
-            }
+
         } catch (Exception $e) {
             Kohana::$log->add(Log::ERROR, 'Error trying to log a change: '.print_r($e, true));
         }
