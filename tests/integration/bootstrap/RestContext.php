@@ -254,7 +254,7 @@ class RestContext implements Context
 
 		// Get response object
 		$this->response = $http_request->getResponse();
-	
+
 		// Create fake response object if Guzzle doesn't give us one
 		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
 			$this->response = new \Guzzle\Http\Message\Response(null, null, null);
@@ -380,7 +380,6 @@ class RestContext implements Context
 	public function theResponseHasAProperty($propertyName)
 	{
 		$data = json_decode($this->response->getBody(true), true);
-
 		$this->theResponseIsJson();
 
 		if (\Arr::path($data, $propertyName) === null) {
@@ -409,7 +408,6 @@ class RestContext implements Context
 	public function thePropertyEquals($propertyName, $propertyValue)
 	{
 		$data = json_decode($this->response->getBody(true), true);
-
 		$this->theResponseIsJson();
 
 		$actualPropertyValue = \Arr::path($data, $propertyName);

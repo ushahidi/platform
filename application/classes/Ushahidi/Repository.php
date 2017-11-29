@@ -20,7 +20,8 @@ abstract class Ushahidi_Repository implements
 	Usecase\UpdateRepository,
 	Usecase\DeleteRepository,
 	Usecase\SearchRepository,
-	Usecase\ImportRepository
+	Usecase\ImportRepository,
+	Usecase\LockRepository
 {
 
 	use CollectionLoader;
@@ -119,6 +120,7 @@ abstract class Ushahidi_Repository implements
 		$query = $this->getSearchQuery();
 
 		$results = $query->distinct(TRUE)->execute($this->db);
+		//Kohana::$log->add(\Log::ERROR, print_r($results,true));
 
 		return $this->getCollection($results->as_array());
 	}
@@ -286,6 +288,7 @@ abstract class Ushahidi_Repository implements
 	 */
 	protected function executeDelete(Array $where)
 	{
+		
 		if (!$where) {
 			throw new RuntimeException(sprintf(
 				'Cannot delete every record in table "%s"',
@@ -300,6 +303,7 @@ abstract class Ushahidi_Repository implements
 		}
 
 		$count = $query->execute($this->db);
+
 		return $count;
 	}
 
