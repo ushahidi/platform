@@ -19,7 +19,6 @@ use Ushahidi\Core\Entity\PostLock;
 use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Entity\PostValueContainer;
 use Ushahidi\Core\Entity\PostRepository;
-use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase\Post\StatsPostRepository;
