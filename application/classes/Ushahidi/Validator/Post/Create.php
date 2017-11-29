@@ -18,7 +18,6 @@ use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Entity\PostLockRepository;
-use Ushahidi\Core\Entity\PostSearchData;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
