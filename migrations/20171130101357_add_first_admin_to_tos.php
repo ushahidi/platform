@@ -14,7 +14,8 @@ class AddFirstAdminToTos extends AbstractMigration
 
         /* checking if user was created after the tos-feature was built.
         If not, they still need to sign the tos-agreement. */
-        if ($user['created'] < strtotime("21 December 2017")) {
+        if ($user['created'] > strtotime("21 October 2017")) {
+
             // adding first user to tos-table
             $insert = $pdo->prepare(
               'INSERT INTO tos (user_id, agreement_date, tos_version_date)
@@ -35,7 +36,7 @@ class AddFirstAdminToTos extends AbstractMigration
     {
         $pdo = $this->getAdapter()->getConnection();
         $user = $pdo->query("SELECT * FROM users where id = 1")->fetch();
-        if ($user['created'] < strtotime("21 December 2017")) {
+        if ($user['created'] > strtotime("21 October 2017")) {
             // removing first user to tos-table
             $delete = $pdo->prepare("DELETE FROM tos WHERE user_id = :user_id");
             $delete->execute([
