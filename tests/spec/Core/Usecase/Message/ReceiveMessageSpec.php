@@ -49,7 +49,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 			'from' => 1234,
 			'message' => 'Some message',
 			'title' => 'msgtitle',
-			'data_provider' => 'smssync'
+			'data_source' => 'smssync'
 		];
 	}
 
@@ -261,7 +261,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$contact->setState([
 			'contact' => $payload['from'],
 			'type' => $payload['contact_type'],
-			'data_provider' => $payload['data_provider'],
+			'data_source' => $payload['data_source'],
 		])->willReturn($contact);
 
 		// ... convert entity to array for validation
