@@ -20,6 +20,8 @@ use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Decoders\GeoJSON;
 use Log;
 
+use Ohanzee\DB;
+
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\ConfigRepository;
 
@@ -175,7 +177,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 
 				// @todo Check for similar messages in the database before saving
 				$messages[] = [
-					'type' => DataSource\Message\Type::TWITTER,
+					'type' => MessageType::TWITTER,
 					'contact_type' => Contact::TWITTER,
 					'from' => $screen_name,
 					'message' => $text,
@@ -202,13 +204,13 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 	{
 		$additional_data = [];
 
-		if ($status['coordinates'] || $status['place']) {
+		if (!empty($status['coordinates']) || !empty($status['place'])) {
 			$additional_data['location'] = [];
-			if ($status['coordinates']) {
+			if (!empty($status['coordinates'])) {
 				$additional_data['location'][] = $status['coordinates'];
 			}
 
-			if ($status['place'] && $status['place']['bounding_box']) {
+			if (!empty($status['place']) && $status['place']['bounding_box']) {
 				// Make a valid linear ring
 				$status['place']['bounding_box']['coordinates'][0][] =
 					$status['place']['bounding_box']['coordinates'][0][0];
@@ -231,7 +233,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 				// Also save the original bounding box
 				$additional_data['location'][] = $status['place']['bounding_box'];
 			}
-		} elseif ($status['user'] && $status['user']['location']) {
+		} elseif (!empty($status['user']) && !empty($status['user']['location'])) {
 			# Search the provided location for matches in twitter's geocoder
 			$results = $connection->get("geo/search", [
 				"query" => $status['user']['location']
