@@ -223,7 +223,6 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 						$message = imap_body($connection, $email->uid, FT_UID);
 					}
 
-
 					// Process the email
 					if (! empty($html_message)) {
 						$html_message = imap_qprint($html_message);
@@ -238,7 +237,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 			imap_errors();
 
 			imap_close($connection);
-		} catch (\Exception $e) {
+		} catch (\ErrorException $e) {
 			$errors = imap_errors();
 			$errors = is_array($errors) ? implode(', ', $errors) : "";
 			app('log')->error($e->getMessage(), [':errors' => $errors]);
@@ -256,7 +255,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 	protected function processIncoming($overview, $message)
 	{
 		$from = $this->getEmail($overview->from);
-		$to = isset($overview->to) ? $this->getEmail($overview->to) : $this->from();
+		$to = isset($overview->to) ? $this->getEmail($overview->to) : null;
 		$title = isset($overview->subject) ? $overview->subject : null;
 		$data_source_message_id = isset($overview->uid) ? $overview->uid : null;
 		// @todo revist hard coded HTML stripping & decoding
@@ -268,14 +267,13 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 		if ($message) {
 			// Save the message
 			return [
-				'type' => DataSource\Message\Type::EMAIL,
+				'type' => MessageType::EMAIL,
 				'contact_type' => Contact::EMAIL,
 				'from' => $from,
 				'message' => $message,
 				'to' => $to,
 				'title' => $title,
-				'data_source_message_id' => $data_source_message_id,
-				'additional_data' => $additional_data
+				'data_source_message_id' => $data_source_message_id
 			];
 		}
 
