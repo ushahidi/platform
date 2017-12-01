@@ -136,7 +136,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 					'message' => $message,
 					'site_url' => $this->clientUrl
 				],
-				function ($message) use ($to, $subject, $from_email, $site_name) {
+				function ($message) use ($to, $title, $from_email, $site_name) {
 					$message->to($to);
 					$message->subject($title);
 					if ($from_email) {
