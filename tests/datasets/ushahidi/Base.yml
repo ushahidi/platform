@@ -1422,7 +1422,7 @@ messages:
     status: "received"
     contact_id: 1
     datetime:
-    data_provider:
+    data_source:
   -
     id: 2
     title: ""
@@ -1433,7 +1433,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 3
     title: "Test email"
@@ -1444,7 +1444,7 @@ messages:
     contact_id: 2
     datetime: "2013-01-02 07:07"
     post_id:
-    data_provider:
+    data_source:
   -
     id: 4
     title: ""
@@ -1455,7 +1455,7 @@ messages:
     contact_id: 3
     datetime:
     post_id: 110
-    data_provider:
+    data_source:
   -
     id: 5
     title: ""
@@ -1465,7 +1465,7 @@ messages:
     status: "received"
     contact_id: 1
     datetime:
-    data_provider: "smssync"
+    data_source: "smssync"
   -
     id: 6
     title: ""
@@ -1476,7 +1476,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 7
     title: ""
@@ -1487,7 +1487,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 8
     title: ""
@@ -1498,7 +1498,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 9
     title: ""
@@ -1509,7 +1509,7 @@ messages:
     contact_id: 3
     datetime:
     post_id: 9999
-    data_provider: "smssync"
+    data_source: "smssync"
 layers:
   -
     id: 1
