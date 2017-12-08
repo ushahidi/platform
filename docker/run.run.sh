@@ -1,12 +1,12 @@
 #!/bin/bash
 
+## Perform container initialisation
+
 . /common.sh
 
 set -e
 
 run_composer_install
-
-wait_for_mysql
 
 if [ "${RUN_PLATFORM_MIGRATIONS}" == "true" ]; then
 	run_migrations
@@ -19,6 +19,4 @@ else
 	echo
 fi
 
-bin/phinx migrate -c application/phinx.php
-
-exec $*
+exec "$@"
