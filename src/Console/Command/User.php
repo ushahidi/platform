@@ -55,7 +55,7 @@ class User extends Command
 			->addOption('email', ['e'], InputOption::VALUE_REQUIRED, 'Email')
 			->addOption('role', ['r'], InputOption::VALUE_OPTIONAL, 'Role: admin, user')
 			->addOption('password', ['p'], InputOption::VALUE_REQUIRED, 'Password')
-			->addOption('with-hash', ['b'], InputOption::VALUE_OPTIONAL, 'password is already bcrypt hashed')
+			->addOption('with-hash', ['b'], InputOption::VALUE_NONE, 'password is already bcrypt hashed')
 			->addOption('tos', [], InputOption::VALUE_NONE, 'accept terms of service')
 			;
 	}
@@ -82,7 +82,7 @@ class User extends Command
 			'password' => $input->getOption('password')
 		];
 
-		$passwordAlreadyHashed = $input->hasOption('with-hash') ?: 'false';
+		$passwordAlreadyHashed = $input->getOption('with-hash');
 		if (!$this->validator->check($state)) {
 			throw new ValidatorException('Failed to validate user', $this->validator->errors());
 		}
