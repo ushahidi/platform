@@ -10,6 +10,7 @@ services:
   platform:
     build: .
     environment:
+      DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
       ENABLE_NGINX: "true"
       ENABLE_PHPFPM: "true"
       ENABLE_PLATFORM_TASKS: "false"
@@ -18,12 +19,13 @@ services:
       DB_HOST: mysql
       DB_USER: ushahidi
       DB_PASS: ushahidi
-    command: init.sh start
+    command: start
     ports:
       - "80:8080"
   platform_tasks:
     build: .
     environment:
+      DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
       ENABLE_NGINX: "false"
       ENABLE_PHPFPM: "false"
       ENABLE_PLATFORM_TASKS: "true"
@@ -32,4 +34,4 @@ services:
       DB_HOST: mysql
       DB_USER: ushahidi
       DB_PASS: ushahidi
-    command: init.sh start
+    command: start
