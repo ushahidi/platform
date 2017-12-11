@@ -90,6 +90,7 @@ $di->setter['Ushahidi\Console\Command\Import']['setImportUsecase'] = $di->lazy(f
 // User command
 $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\User');
 $di->setter['Ushahidi\Console\Command\User']['setRepo'] = $di->lazyGet('repository.user');
+$di->setter['Ushahidi\Console\Command\User']['setTosRepo'] = $di->lazyGet('repository.tos');
 $di->setter['Ushahidi\Console\Command\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
 
 // Config commands
@@ -314,6 +315,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [
 
 // Add custom create usecase for terms of service
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['tos'] = [
+	'create' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\CreateTos'),
 	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\SearchTos'),
 
 ];

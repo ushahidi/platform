@@ -37,7 +37,6 @@ class Ushahidi_Repository_Tos extends Ushahidi_Repository implements
 
         // Save the agreement date to the current time and the user ID
         $data['agreement_date']  = time();
-        $data['user_id'] = $this->getUserId();
         // Convert tos_version_date to timestamp
         $data['tos_version_date'] = $data['tos_version_date']->format("U");
 
