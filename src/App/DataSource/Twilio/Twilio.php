@@ -121,6 +121,7 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
 	{
 		$router->post('sms/twilio[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
+		$router->post('sms/twilio/reply[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
 	}
 
 	public function verifySid($sid)
