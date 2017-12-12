@@ -164,6 +164,12 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 	 */
 	public function fetch($limit = false)
 	{
+		// Return if no imap extension
+		if (! function_exists('imap_open')) {
+			app('log')->error("imap extension not enabled");
+			return [];
+		}
+
 		$messages = [];
 
 		$limit = 200;
