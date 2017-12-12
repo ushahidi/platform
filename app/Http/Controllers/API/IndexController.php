@@ -26,7 +26,7 @@ class IndexController extends Controller
 	 */
 	public function index()
 	{
-		$user = service('session.user');
+		$user = service('session')->getUser();
 
 		return [
 			'now'       => date(\DateTime::W3C),
