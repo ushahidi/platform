@@ -56,12 +56,6 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 				'description' => 'The from number',
 				'rules' => array('required')
 			),
-			'secret' => array(
-				'label' => 'Secret',
-				'input' => 'text',
-				'description' => 'The secret value',
-				'rules' => array('required')
-			),
 			'api_key' => array(
 				'label' => 'API Key',
 				'input' => 'text',
