@@ -173,7 +173,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 					continue;
 				}
 
-				$additional_data = array_merge($additional_data, $this->extractLocation($status));
+				$additional_data = array_merge($additional_data, $this->extractLocation($connection, $status));
 
 				// @todo Check for similar messages in the database before saving
 				$messages[] = [
@@ -200,7 +200,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 		return $messages;
 	}
 
-	protected function extractLocation($status)
+	protected function extractLocation($connection, $status)
 	{
 		$additional_data = [];
 
