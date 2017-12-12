@@ -45,4 +45,49 @@ class Config extends API
 
 		return $val;
 	}
+
+	protected function formatNexmo($val)
+	{
+		if ($this->config_group == 'data-provider') {
+			$val = (object) $val;
+		}
+
+		return $val;
+	}
+
+	protected function formatTwilio($val)
+	{
+		if ($this->config_group == 'data-provider') {
+			$val = (object) $val;
+		}
+
+		return $val;
+	}
+
+	protected function formatSmssync($val)
+	{
+		if ($this->config_group == 'data-provider') {
+			$val = (object) $val;
+		}
+
+		return $val;
+	}
+
+	protected function formatTwitter($val)
+	{
+		if ($this->config_group == 'data-provider') {
+			$val = (object) $val;
+		}
+
+		return $val;
+	}
+
+	protected function formatFrontlinesms($val)
+	{
+		if ($this->config_group == 'data-provider') {
+			$val = (object) $val;
+		}
+
+		return $val;
+	}
 }
