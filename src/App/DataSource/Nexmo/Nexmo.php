@@ -112,11 +112,6 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 				'text' => $message
 			]);
 
-			if ($message->getStatus() !== 0) {
-				app('log')->warning('Nexmo: '.$message->errortext);
-				return array(MessageStatus::FAILED, false);
-			}
-
 			return array(MessageStatus::SENT, $message->getMessageId());
 		} catch (\Nexmo\Client\Exception\Exception $e) {
 			app('log')->warning($e->getMessage());
