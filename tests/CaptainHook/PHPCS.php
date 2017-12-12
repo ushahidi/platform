@@ -37,6 +37,11 @@ class PHPCS implements Action
         $options = $action->getOptions()->getAll();
         $changedPHPFiles = $repository->getIndexOperator()->getStagedFilesOfType('php');
 
+        // If nothing has changed, skip
+        if (!$changedPHPFiles) {
+            return;
+        }
+
         $io->write('Running PHPCS:', true, IO::VERBOSE);
 
         $process = new Processor();
@@ -44,7 +49,7 @@ class PHPCS implements Action
             'bin/phpcs ' .
             implode(' ', $options) .
             ' ' .
-            escapeshellarg(implode(' ', $changedPHPFiles))
+            implode(' ', array_map('escapeshellarg', $changedPHPFiles))
         );
 
         if (!$result->isSuccessful()) {
