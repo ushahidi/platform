@@ -73,9 +73,6 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 
 		$results = $query->execute($this->db);
 
-		Kohana::$log->add(Log::ERROR, print_r($entity_id, true));
-		Kohana::$log->add(Log::ERROR, print_r($results->as_array(), true));
-
 		return $results->as_array();
 	}
 

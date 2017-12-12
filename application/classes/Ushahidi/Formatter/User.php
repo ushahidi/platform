@@ -33,7 +33,7 @@ class Ushahidi_Formatter_User extends Ushahidi_Formatter_API
 		if (!in_array('read_full', $data['allowed_privileges']))
 		{
 			// Remove sensitive fields
-			$data = array_intersect_key($data, array_fill_keys(['id', 'url', 'username', 'realname', 'allowed_privileges'], TRUE));
+			$data = array_intersect_key($data, array_fill_keys(['id', 'url', 'username', 'realname', 'allowed_privileges', 'contacts'], TRUE));
 		}
 
 		return $data;
