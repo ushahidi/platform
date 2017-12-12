@@ -70,7 +70,8 @@
         "laravel/homestead": "^5.2",
         "squizlabs/php_codesniffer": "~3.0",
         "php-mock/php-mock-mockery": "^1.2",
-        "mockery/mockery": "^1.0"
+        "mockery/mockery": "^1.0",
+        "sebastianfeldmann/captainhook": "^2.0"
     },
     "suggest" : {
         "ext-imap": "Needed for email data source"
@@ -140,6 +141,9 @@
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\"",
             "php artisan passport:keys"
+        ],
+        "post-install-cmd": [
+            "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install"
         ]
     }
 }
