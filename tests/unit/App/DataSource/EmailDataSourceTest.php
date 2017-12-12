@@ -27,6 +27,10 @@ class EmailDataSourceTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        if (!defined('FT_UID')) {
+            define('FT_UID', 0);
+        }
     }
 
     public function testSend()
