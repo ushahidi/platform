@@ -186,9 +186,6 @@ class MessageRepository extends OhanzeeRepository implements
 	public function create(Entity $entity)
 	{
 		return parent::create($entity->setState([
-			// New messages cannot have any other state
-			'status'    => MessageStatus::PENDING,
-			'direction' => MessageDirection::OUTGOING,
 			'created'   => time(),
 		]));
 	}

@@ -12,6 +12,7 @@
 namespace Ushahidi\Core\Usecase\Message;
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateMessage extends CreateUsecase
@@ -20,6 +21,12 @@ class CreateMessage extends CreateUsecase
 	protected function getEntity()
 	{
 		$entity = parent::getEntity();
+
+		// New messages cannot have any other state
+		$entity->setState([
+			'status' => Message::PENDING,
+			'direction' => Message::OUTGOING
+		]);
 
 		// Retrieve message type and data provider
 		// from incoming message when replying to a message
