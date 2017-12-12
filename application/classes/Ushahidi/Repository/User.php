@@ -54,7 +54,29 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
+		if (!empty($data['id']))
+		{
+			$data += [
+				'contacts' => $this->getContacts($data['id']),
+			];
+		}
 		return new User($data);
+	}
+
+	protected function getContacts($entity_id)
+	{
+		// Unfortunately there is a circular reference created if the Contact repo is
+		// injected into the User repo to avoid this we access the table directly
+		// NOTE: This creates a hard coded dependency on the table naming for contacts
+		$query = DB::select('*')->from('contacts')
+					->where('user_id', '=', $entity_id);
+
+		$results = $query->execute($this->db);
+
+		Kohana::$log->add(Log::ERROR, print_r($entity_id, true));
+		Kohana::$log->add(Log::ERROR, print_r($results->as_array(), true));
+
+		return $results->as_array();
 	}
 
 	// CreateRepository
