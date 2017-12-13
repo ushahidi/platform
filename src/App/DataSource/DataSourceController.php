@@ -36,7 +36,7 @@ abstract class DataSourceController extends Controller
     {
         // Get All "Sent" SMSSync messages
         // Limit it to 20 MAX and FIFO
-        $messages = $this->storage->getPendingMessages($limit, $this->sourceId);
+        $messages = $this->storage->getPendingMessages($limit, $this->source->getId());
 
         foreach ($messages as $message) {
             if (!$message->data_source_message_id) {
