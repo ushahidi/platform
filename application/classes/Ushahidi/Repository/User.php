@@ -140,12 +140,11 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			$query->and_where_open();
 			$query->where('email', 'LIKE', "%" . $search->q . "%");
 			$query->or_where('realname', 'LIKE', "%" . $search->q . "%");
-			// Adding search contacts
-			$query->or_where("$table.id", 'IN', 
-				DB::query(Database::SELECT, 'select contacts.user_id from contacts where contacts.contact LIKE :q')
-				->param(':q', '%' . $search->q . '%')
-			);
 			$query->and_where_close();
+
+			// Adding search contacts
+			$query->join('contacts')->on("$table.id", '=', 'contacts.user_id')
+			->or_where('contacts.contact', 'like', '%' . $search->q . '%');
 		}
 
 		if ($search->role) {
