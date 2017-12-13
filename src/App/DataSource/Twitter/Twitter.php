@@ -271,13 +271,16 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 				"status" => '@' . $to . ' ' . $message
 			]);
 
-			if (!$response->id) {
+			if (!isset($response->id)) {
+				app('log')->error("Twitter: Send failed", ['response' => $response]);
 				return array(MessageStatus::FAILED, false);
 			}
 			return array(MessageStatus::SENT, $response->id);
 		} catch (TwitterOAuthException $toe) {
+			app('log')->error($e->getMessage());
 			return array(MessageStatus::FAILED, false);
 		} catch (Exception $e) {
+			app('log')->error($e->getMessage());
 			return array(MessageStatus::FAILED, false);
 		}
 	}

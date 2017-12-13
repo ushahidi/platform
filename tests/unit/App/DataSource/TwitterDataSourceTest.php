@@ -118,7 +118,6 @@ class TwitterDataSourceTest extends TestCase
             )
             ->andReturn($mockResponse);
         $mockTwitterOAuth->shouldReceive('setTimeouts');
-        $mockResponse->id = 0;
 
         $response = $twitter->send('ushahidi', "A message");
 
