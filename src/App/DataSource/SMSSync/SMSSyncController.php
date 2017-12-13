@@ -106,14 +106,15 @@ class SMSSyncController extends DataSourceController
         return ['payload' => [
             'task' => "send",
             'success' => true,
-            'messages' => array_map(function ($message) {
+            'messages' => array_values(array_map(function ($message) {
                 // Reformat message for SMSSYnc
                 return [
                     'to' => $message->contact,
                     'message' => $message->message,
-                    'message_id' => $message->id
+                    'message_id' => $message->id,
+                    'uuid' => $message->data_source_message_id
                 ];
-            }, $messages),
+            }, $messages)),
             //'secret' => $this->options['secret'] ?: null
         ]];
     }

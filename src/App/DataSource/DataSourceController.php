@@ -16,6 +16,8 @@ use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ramsey\Uuid\Uuid;
 
 abstract class DataSourceController extends Controller
 {
@@ -37,12 +39,23 @@ abstract class DataSourceController extends Controller
         $messages = $this->storage->getPendingMessages($limit, $this->sourceId);
 
         foreach ($messages as $message) {
+            if (!$message->data_source_message_id) {
+                try {
+                    $uuid = Uuid::uuid4();
+                    $message->setState([
+                        'data_source_message_id' => $uuid->toString()
+                    ]);
+                } catch (UnsatisfiedDependencyException $e) {
+                    // continue
+                }
+            }
+
             // Update the message status
             //
             // We don't know if the SMS from the phone itself work or not,
             // but we'll update the messages status to 'unknown' so that
             // its not picked up again
-            $this->storage->updateMessageStatus($message->id, Message\Status::UNKNOWN);
+            $this->storage->updateMessageStatus($message->id, MessageStatus::UNKNOWN, $message->data_source_message_id);
         }
 
         return $messages;
