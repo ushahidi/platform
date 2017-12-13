@@ -38,6 +38,9 @@ abstract class DataSourceController extends Controller
         // Limit it to 20 MAX and FIFO
         $messages = $this->storage->getPendingMessages($limit, $this->source->getId());
 
+        // Grab unassigned messages too (effectively doubles `$limit`)
+        $messages += $this->storage->getPendingMessages($limit, null);
+
         foreach ($messages as $message) {
             if (!$message->data_source_message_id) {
                 try {
