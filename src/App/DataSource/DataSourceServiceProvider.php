@@ -68,7 +68,8 @@ class DataSourceServiceProvider extends ServiceProvider
             $dataProviderConfig['email'],
             $this->app->make('mailer'),
             service('site.config'),
-            service('clienturl')
+            service('clienturl'),
+            service('repository.message')
         );
     }
 

@@ -15,6 +15,7 @@ use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\Core\Entity\MessageRepository;
 use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\Core\Entity\Contact;
 use Log;
@@ -24,17 +25,24 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 
 	protected $config;
 	protected $mailer;
+	protected $messageRepo;
 
 	/**
 	 * Constructor function for DataSource
 	 */
-	public function __construct(array $config, Mailer $mailer = null, $siteConfig = null, $clientUrl = null)
-	{
+	public function __construct(
+		array $config,
+		Mailer $mailer = null,
+		$siteConfig = null,
+		$clientUrl = null,
+		MessageRepository $messageRepo = null
+	) {
 		$this->config = $config;
 		$this->mailer = $mailer;
 		// @todo figure out a better way to set these. Maybe globally for all emails?
 		$this->siteConfig = $siteConfig;
 		$this->clientUrl = $clientUrl;
+		$this->messageRepo = $messageRepo;
 	}
 
 	public function getName()
@@ -194,7 +202,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				return [];
 			}
 
-			$last_uid = service('repository.message')->getLastUID('email');
+			$last_uid = $this->messageRepo->getLastUID('email');
 			$max_range = $last_uid + $limit;
 			$search_string = $last_uid ? $last_uid + 1 . ':' . $max_range : '1:' . $max_range;
 

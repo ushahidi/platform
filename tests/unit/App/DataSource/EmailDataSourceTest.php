@@ -77,6 +77,9 @@ class EmailDataSourceTest extends TestCase
     public function testFetch()
     {
         $mockMailer = M::mock(\Illuminate\Contracts\Mail\Mailer::class);
+        $mockMessageRepo = M::mock(\Ushahidi\Core\Entity\MessageRepository::class);
+
+        $mockMessageRepo->shouldReceive('getLastUID')->andReturn(712);
 
         $email = new Email(
             [
@@ -92,7 +95,8 @@ class EmailDataSourceTest extends TestCase
                 'name' => 'TestDeploy',
                 'email' => 'test@ushahidi.app'
             ],
-            'https://ushahidi.app/'
+            'https://ushahidi.app/',
+            $mockMessageRepo
         );
 
         $mockImapOpen = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_open");
@@ -111,7 +115,7 @@ class EmailDataSourceTest extends TestCase
 
         $mockFetchOverview = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_fetch_overview");
         $mockFetchOverview
-            ->with('notreallyaconnection', '1:200', FT_UID)
+            ->with('notreallyaconnection', '713:912', FT_UID)
             ->andReturn([
                 (object)[
                     'uid' => 1,
