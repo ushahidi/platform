@@ -33,4 +33,7 @@
         <env name="MAIL_DRIVER" value="log"/>
         <env name="MAIL_PRETEND" value="true"/>
     </php>
+    <listeners>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    </listeners>
 </phpunit>
