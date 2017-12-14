@@ -173,7 +173,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 	public function fetch($limit = false)
 	{
 		// Return if no imap extension
-		if (! function_exists('imap_open')) {
+		if (! function_exists('imap_open') && ! function_exists(__NAMESPACE__ . '\imap_open')) {
 			app('log')->error("imap extension not enabled");
 			return [];
 		}
