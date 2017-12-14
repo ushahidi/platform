@@ -22,12 +22,6 @@ use Ushahidi\App\DataSource\SMSSync\SMSSync;
  */
 class SMSSyncDataSourceTest extends TestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function testVerifySecret()
     {
         $smssync = new SMSSync([

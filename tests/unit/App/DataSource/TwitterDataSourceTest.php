@@ -23,12 +23,6 @@ use Ushahidi\Core\Entity\Config;
  */
 class TwitterDataSourceTest extends TestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function testSendWithoutConfig()
     {
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
@@ -343,10 +337,5 @@ class TwitterDataSourceTest extends TestCase
                 ]
             ],
         ], $messages);
-    }
-
-    public function tearDown()
-    {
-        M::close();
     }
 }

@@ -270,9 +270,4 @@ class EmailDataSourceTest extends TestCase
             ],
         ], $messages);
     }
-
-    public function tearDown()
-    {
-        M::close();
-    }
 }

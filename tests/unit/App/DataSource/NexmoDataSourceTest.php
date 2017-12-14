@@ -22,12 +22,6 @@ use Ushahidi\App\DataSource\Nexmo\Nexmo;
  */
 class NexmoDataSourceTest extends TestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function testSendWithoutConfig()
     {
         // Unconfigured send should fail gracefully
@@ -85,10 +79,5 @@ class NexmoDataSourceTest extends TestCase
         $this->assertInternalType('array', $response);
         $this->assertEquals('failed', $response[0]);
         $this->assertEquals(false, $response[1]);
-    }
-
-    public function tearDown()
-    {
-        M::close();
     }
 }

@@ -25,7 +25,6 @@ use Ushahidi\Core\Entity\Message;
  */
 class DataSourceStorageTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -186,10 +185,5 @@ class DataSourceStorageTest extends TestCase
             ->with(7, 'failed', 'magicid');
 
         $storage->updateMessageStatus(7, 'failed', 'magicid');
-    }
-
-    public function tearDown()
-    {
-        M::close();
     }
 }

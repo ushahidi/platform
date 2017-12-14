@@ -22,12 +22,6 @@ use Ushahidi\App\DataSource\Twilio\Twilio;
  */
 class TwilioDataSourceTest extends TestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function testSendWithoutConfig()
     {
         // Unconfigured send should fail gracefully
@@ -117,10 +111,5 @@ class TwilioDataSourceTest extends TestCase
 
         $twilio = new Twilio([]);
         $this->assertFalse($twilio->getSmsAutoResponse());
-    }
-
-    public function tearDown()
-    {
-        M::close();
     }
 }

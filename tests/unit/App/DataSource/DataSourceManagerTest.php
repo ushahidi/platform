@@ -26,12 +26,6 @@ use Ushahidi\App\DataSource\SMSSync\SMSSync;
  */
 class DataSourceManagerTest extends TestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function testAddGetSource()
     {
         $manager = new DataSourceManager($this->app->router);

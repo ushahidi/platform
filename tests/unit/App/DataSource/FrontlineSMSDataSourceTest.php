@@ -23,13 +23,6 @@ use GuzzleHttp\Client as GuzzleClient;
  */
 class FrontlineSMSDataSourceTest extends TestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-
     public function testSendWithoutConfig()
     {
         // Unconfigured send should fail gracefully
@@ -115,10 +108,5 @@ class FrontlineSMSDataSourceTest extends TestCase
         $twilio = new FrontlineSMS([]);
 
         $this->assertFalse($sms->verifySecret('secret'));
-    }
-
-    public function tearDown()
-    {
-        M::close();
     }
 }
