@@ -56,9 +56,8 @@ class NexmoDataSourceTest extends TestCase
             return $mockNexmo;
         });
 
-        $mockNexmo->shouldReceive('message->send')->andReturn($mockMessage);
-        $mockMessage->shouldReceive('getStatus')->andReturn(0);
-        $mockMessage->shouldReceive('getMessageId')->andReturn(1234);
+        $mockNexmo->shouldReceive('message->send')->once()->andReturn($mockMessage);
+        $mockMessage->shouldReceive('getMessageId')->once()->andReturn(1234);
 
         $response = $nexmo->send(1234, "A message");
 
@@ -79,7 +78,7 @@ class NexmoDataSourceTest extends TestCase
             return $mockNexmo;
         });
 
-        $mockNexmo->shouldReceive('message->send')->andThrow(M::mock(\Nexmo\Client\Exception\Exception::class));
+        $mockNexmo->shouldReceive('message->send')->once()->andThrow(M::mock(\Nexmo\Client\Exception\Exception::class));
 
         $response = $nexmo->send(1234, "A message");
 

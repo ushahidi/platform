@@ -53,7 +53,7 @@ class TwitterDataSourceTest extends TestCase
     public function testSend()
     {
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
-        $mockTwitterOAuth->shouldReceive('setTimeouts');
+        $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
         $mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
         $mockRepo = M::mock(\Ushahidi\App\Repository\ConfigRepository::class);
 
@@ -71,7 +71,7 @@ class TwitterDataSourceTest extends TestCase
         );
 
         $mockTwitterOAuth
-            ->shouldReceive('post')
+            ->shouldReceive('post')->once()
             ->with(
                 "statuses/update",
                 [
@@ -91,7 +91,7 @@ class TwitterDataSourceTest extends TestCase
     public function testSendFailed()
     {
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
-        $mockTwitterOAuth->shouldReceive('setTimeouts');
+        $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
         $mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
         $mockRepo = M::mock(\Ushahidi\App\Repository\ConfigRepository::class);
 
@@ -109,7 +109,7 @@ class TwitterDataSourceTest extends TestCase
         );
 
         $mockTwitterOAuth
-            ->shouldReceive('post')
+            ->shouldReceive('post')->once()
             ->with(
                 "statuses/update",
                 [
@@ -117,7 +117,7 @@ class TwitterDataSourceTest extends TestCase
                 ]
             )
             ->andReturn($mockResponse);
-        $mockTwitterOAuth->shouldReceive('setTimeouts');
+        $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
 
         $response = $twitter->send('ushahidi', "A message");
 
@@ -133,6 +133,7 @@ class TwitterDataSourceTest extends TestCase
                     "status" => '@ushahidi A message'
                 ]
             )
+            ->once()
             ->andThrow(M::mock(\Abraham\TwitterOAuth\TwitterOAuthException::class));
 
         $response = $twitter->send('ushahidi', "A message");
@@ -146,7 +147,7 @@ class TwitterDataSourceTest extends TestCase
     {
 
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
-        $mockTwitterOAuth->shouldReceive('setTimeouts');
+        $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
         $mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
         $mockRepo = M::mock(\Ushahidi\App\Repository\ConfigRepository::class);
 
@@ -170,15 +171,15 @@ class TwitterDataSourceTest extends TestCase
                 'search_terms' => '#ushahidi,#test'
             ]);
 
-        $mockRepo->shouldReceive('get')
+        $mockRepo->shouldReceive('get')->atLeast()->once()
             ->with('twitter')
             ->andReturn($config);
-        $mockRepo->shouldReceive('update')
+        $mockRepo->shouldReceive('update')->once()
             ->with($config);
 
-        $mockTwitterOAuth->shouldReceive('setDecodeJsonAsArray');
+        $mockTwitterOAuth->shouldReceive('setDecodeJsonAsArray')->once();
 
-        $mockTwitterOAuth->shouldReceive('get')
+        $mockTwitterOAuth->shouldReceive('get')->once()
             ->with("search/tweets", [
                 "q" => '#ushahidi OR #test',
                 "since_id" => 1234,

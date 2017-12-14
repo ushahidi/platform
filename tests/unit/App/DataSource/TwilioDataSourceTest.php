@@ -58,7 +58,7 @@ class TwilioDataSourceTest extends TestCase
         });
 
         $mockTwilio->messages = $mockMessages;
-        $mockMessages->shouldReceive('create')->andReturn($mockMessage);
+        $mockMessages->shouldReceive('create')->once()->andReturn($mockMessage);
         $mockMessage->sid = 'test';
 
         $response = $twilio->send(1234, "A message");
@@ -81,7 +81,7 @@ class TwilioDataSourceTest extends TestCase
         });
 
         $mockTwilio->messages = $mockMessages;
-        $mockMessages->shouldReceive('create')->andThrow(M::mock(\Twilio\Exceptions\RestException::class));
+        $mockMessages->shouldReceive('create')->once()->andThrow(M::mock(\Twilio\Exceptions\RestException::class));
 
         $response = $twilio->send(1234, "A message");
 

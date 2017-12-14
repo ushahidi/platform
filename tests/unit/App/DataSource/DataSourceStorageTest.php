@@ -39,7 +39,7 @@ class DataSourceStorageTest extends TestCase
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         $this->usecase
-            ->shouldReceive('setPayload')
+            ->shouldReceive('setPayload')->once()
             ->with([
                 'data_source' => 'smssync',
                 'type' => 'sms',
@@ -54,7 +54,7 @@ class DataSourceStorageTest extends TestCase
             ->andReturn($this->usecase);
 
         $this->usecase
-            ->shouldReceive('interact')
+            ->shouldReceive('interact')->once()
             ->andReturn([
                 'id' => 1
             ]);
@@ -83,6 +83,7 @@ class DataSourceStorageTest extends TestCase
 
         $this->usecase
             ->shouldReceive('setPayload')
+            ->once()
             ->with([
                 'data_source' => 'smssync',
                 'type' => 'sms',
@@ -96,11 +97,11 @@ class DataSourceStorageTest extends TestCase
             ])
             ->andReturn($this->usecase);
 
-        $e = M::mock(\Ushahidi\Core\Exception\NotFoundException::class);
-        $e->shouldReceive('getMessage')->andReturn('the message');
+        $e = M::spy(\Ushahidi\Core\Exception\NotFoundException::class);
 
         $this->usecase
             ->shouldReceive('interact')
+            ->once()
             ->andThrow($e);
 
         $storage->receive(
@@ -115,6 +116,8 @@ class DataSourceStorageTest extends TestCase
             null
         );
 
+        $e->shouldHaveReceived('getMessage')->once();
+
         // @todo test other errors and validate error message
     }
 
@@ -123,14 +126,22 @@ class DataSourceStorageTest extends TestCase
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         // Test default params
-        $this->messageRepo->shouldReceive('getPendingMessages')->with(false, 20)->andReturn([new Message([])]);
+        $this->messageRepo
+            ->shouldReceive('getPendingMessages')
+            ->once()
+            ->with(false, 20)
+            ->andReturn([new Message([])]);
 
         $result = $storage->getPendingMessages();
         $this->assertCount(1, $result);
         $this->assertInstanceOf(Message::class, $result[0]);
 
         // Test custom params
-        $this->messageRepo->shouldReceive('getPendingMessages')->with('smssync', 21)->andReturn([new Message([])]);
+        $this->messageRepo
+            ->shouldReceive('getPendingMessages')
+            ->once()
+            ->with('smssync', 21)
+            ->andReturn([new Message([])]);
 
         $result = $storage->getPendingMessages(21, 'smssync');
         $this->assertCount(1, $result);
@@ -142,14 +153,22 @@ class DataSourceStorageTest extends TestCase
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         // Test default params
-        $this->messageRepo->shouldReceive('getPendingMessagesByType')->with(false, 20)->andReturn([new Message([])]);
+        $this->messageRepo
+            ->shouldReceive('getPendingMessagesByType')
+            ->once()
+            ->with(false, 20)
+            ->andReturn([new Message([])]);
 
         $result = $storage->getPendingMessagesByType();
         $this->assertCount(1, $result);
         $this->assertInstanceOf(Message::class, $result[0]);
 
         // Test custom params
-        $this->messageRepo->shouldReceive('getPendingMessagesByType')->with('sms', 21)->andReturn([new Message([])]);
+        $this->messageRepo
+            ->shouldReceive('getPendingMessagesByType')
+            ->once()
+            ->with('sms', 21)
+            ->andReturn([new Message([])]);
 
         $result = $storage->getPendingMessagesByType(21, 'sms');
         $this->assertCount(1, $result);
@@ -161,7 +180,10 @@ class DataSourceStorageTest extends TestCase
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         // Test default params
-        $this->messageRepo->shouldReceive('updateMessageStatus')->with(7, 'failed', 'magicid');
+        $this->messageRepo
+            ->shouldReceive('updateMessageStatus')
+            ->once()
+            ->with(7, 'failed', 'magicid');
 
         $storage->updateMessageStatus(7, 'failed', 'magicid');
     }

@@ -53,7 +53,7 @@ class FrontlineSMSDataSourceTest extends TestCase
             'key' => 'secret'
         ], $mockGuzzle);
 
-        $mockGuzzle->shouldReceive('request')->with(
+        $mockGuzzle->shouldReceive('request')->once()->with(
             'POST',
             'https://cloud.frontlinesms.com/api/1/webhook',
             [
@@ -76,7 +76,7 @@ class FrontlineSMSDataSourceTest extends TestCase
             ]
         )->andReturn($mockResponse);
 
-        $mockResponse->shouldReceive('getStatusCode')->andReturn(200);
+        $mockResponse->shouldReceive('getStatusCode')->once()->andReturn(200);
 
         $response = $sms->send(1234, "A message");
 
@@ -94,7 +94,7 @@ class FrontlineSMSDataSourceTest extends TestCase
             'key' => 'secret'
         ], $mockGuzzle);
 
-        $mockGuzzle->shouldReceive('request')->andThrow(M::mock(\GuzzleHttp\Exception\ClientException::class));
+        $mockGuzzle->shouldReceive('request')->once()->andThrow(M::mock(\GuzzleHttp\Exception\ClientException::class));
 
         $response = $sms->send(1234, "A message");
 
