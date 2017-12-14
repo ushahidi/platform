@@ -50,7 +50,7 @@ class EmailDataSourceTest extends TestCase
         $mockMailer->shouldReceive('send')->with(
             'emails/outgoing-message',
             [
-                'message' => 'A message',
+                'message_text' => 'A message',
                 'site_url' => 'https://ushahidi.app/'
             ],
             M::on(function (\Closure $closure) {
@@ -228,7 +228,8 @@ class EmailDataSourceTest extends TestCase
                 'message' => 'Some HTML',
                 'to' => null,
                 'title' => 'Message 1',
-                'data_source_message_id' => 1
+                'data_source_message_id' => 1,
+                'additional_data' => [],
             ],
             [
                 'type' => 'email',
@@ -237,7 +238,8 @@ class EmailDataSourceTest extends TestCase
                 'message' => 'HTML 2',
                 'to' => null,
                 'title' => 'Message 5',
-                'data_source_message_id' => 5
+                'data_source_message_id' => 5,
+                'additional_data' => [],
             ],
             [
                 'type' => 'email',
@@ -247,6 +249,7 @@ class EmailDataSourceTest extends TestCase
                 'to' => null,
                 'title' => 'Message 7',
                 'data_source_message_id' => 7,
+                'additional_data' => [],
             ],
         ], $messages);
     }

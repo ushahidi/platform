@@ -133,7 +133,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 			$this->mailer->send(
 				'emails/outgoing-message',
 				[
-					'message' => $message,
+					'message_text' => $message,
 					'site_url' => $this->clientUrl
 				],
 				function ($message) use ($to, $title, $from_email, $site_name) {
@@ -279,7 +279,8 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				'message' => $message,
 				'to' => $to,
 				'title' => $title,
-				'data_source_message_id' => $data_source_message_id
+				'data_source_message_id' => $data_source_message_id,
+				'additional_data' => [],
 			];
 		}
 
