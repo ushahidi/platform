@@ -16,6 +16,7 @@ use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Abraham\TwitterOAuth\TwitterOAuth;
+use Abraham\TwitterOAuth\TwitterOAuthException;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Decoders\GeoJSON;
 use Log;
@@ -276,7 +277,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 				return array(MessageStatus::FAILED, false);
 			}
 			return array(MessageStatus::SENT, $response->id);
-		} catch (TwitterOAuthException $toe) {
+		} catch (TwitterOAuthException $e) {
 			app('log')->error($e->getMessage());
 			return array(MessageStatus::FAILED, false);
 		} catch (Exception $e) {
