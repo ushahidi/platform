@@ -107,20 +107,21 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-		$state = [
-			'updated'  => time(),
-		];
+		$user = $entity->getChanged();
+
+		unset($user['contacts']);
+
+		$user['updated'] = time();
 
 		if ($entity->hasChanged('password')) {
-			$state['password'] = $this->hasher->hash($entity->password);
+			$user['password'] = $this->hasher->hash($entity->password);
 		}
 
-		$entity->setState($state);
 		if ($entity->role === 'admin') {
 			$this->updateIntercomAdminUsers($entity);
 		}
 
-		return parent::update($entity);
+		return $this->executeUpdate(['id' => $entity->id], $user);
 	}
 
 	// SearchRepository

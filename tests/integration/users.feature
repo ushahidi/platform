@@ -1,4 +1,4 @@
-@usersFixture @oauth2Skip
+ @oauth2Skip
 Feature: Testing the Users API
 
 	Scenario: Creating a User
@@ -21,7 +21,7 @@ Feature: Testing the Users API
 		And the "role" property equals "admin"
 		And the response does not have a "password" property
 		Then the guzzle status code should be 200
- 	
+ 	@usersFixture
 	Scenario: Updating a User
 		Given that I want to update a "user"
 		And that the request "data" is:
