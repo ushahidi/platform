@@ -1,4 +1,4 @@
-@usersFixture @oauth2Skip
+ @oauth2Skip
 Feature: Testing the Users API
 
 	Scenario: Creating a User
@@ -21,7 +21,7 @@ Feature: Testing the Users API
 		And the "role" property equals "admin"
 		And the response does not have a "password" property
 		Then the guzzle status code should be 200
-
+ 	@usersFixture
 	Scenario: Updating a User
 		Given that I want to update a "user"
 		And that the request "data" is:
@@ -30,7 +30,31 @@ Feature: Testing the Users API
 				"email":"robbie@ushahidi.com",
 				"realname":"Robbie Mackay",
 				"password":"testing",
-				"role":"admin"
+				"role":"admin",
+				"contacts": [
+					{
+						"id": "1",
+						"user_id": "1",
+						"data_provider": null,
+						"type": "phone",
+						"contact": "123456789",
+						"created": "0",
+						"updated": null,
+						"can_notify": "0",
+						"name": null
+					},
+					{
+						"id": "4",
+						"user_id": "1",
+						"data_provider": null,
+						"type": "email",
+						"contact": "robbie@ushahidi.com",
+						"created": "0",
+						"updated": null,
+						"can_notify": "0",
+						"name": null
+					}
+				]
 			}
 			"""
 		And that its "id" is "1"
@@ -43,6 +67,7 @@ Feature: Testing the Users API
 		And the "email" property equals "robbie@ushahidi.com"
 		And the "role" property equals "admin"
 		Then the guzzle status code should be 200
+
 
 	@resetFixture
 	Scenario: A normal user should not be able to change their own role
