@@ -27,8 +27,10 @@ $clientUrl = getenv('CLIENT_URL');
 
 if (!empty(getenv("MULTISITE_DOMAIN"))) {
 	try {
-		$host = \League\Url\Url::createFromServer($_SERVER)->getHost()->toUnicode();
-		$clientUrl = str_replace(getenv("MULTISITE_DOMAIN"), getenv("MULTISITE_CLIENT_DOMAIN"), $host);
+		$url = \League\Url\Url::createFromServer($_SERVER);
+		$host = $url->getHost()->toUnicode();
+		$scheme = $url->getScheme();
+		$clientUrl = $scheme->getUriComponent() . str_replace(getenv("MULTISITE_DOMAIN"), getenv("MULTISITE_CLIENT_DOMAIN"), $host);
 	} catch (Exception $e) {
 
 	}
