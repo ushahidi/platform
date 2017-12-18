@@ -33,7 +33,7 @@ class WebhookUpdatePost extends UpdateUsecase
 		$this->verifyValid($entity);
 
 		// ... persist the changes
-		$this->repo->update($entity);
+		$this->repo->updateFromService($entity);
 
 		// ... check that the entity can be read by the current user
 		if ($this->auth->isAllowed($entity, 'read')) {
