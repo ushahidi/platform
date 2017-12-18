@@ -124,42 +124,49 @@ form_stages:
     form_id: 1
     label: "Main"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "post"
   -
     id: 2
     form_id: 1
     label: "2nd step"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "task"
   -
     id: 3
     form_id: 1
     label: "3rd step"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "task"
   -
     id: 4
     form_id: 2
     label: "Main"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "post"
   -
     id: 5
     form_id: 3
     label: "Post"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "post"
   -
     id: 6
     form_id: 4
     label: "restricted"
     show_when_published: 0
+    task_is_internal_only: 0
     type: "task"
   -
     id: 7
     form_id: 4
     label: "Post"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "post"
 form_attributes:
   -
@@ -855,6 +862,72 @@ posts:
     created: 1412025016
     published_to: '[]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 1690
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1691
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1692
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post locking test"
+    type: "report"
+    content: "Post to test locking"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1693
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Test inbound message"
+    type: "report"
+    content: "Post to test inbound messages"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+post_locks:
+  -
+    id: 1
+    post_id: 1692
+    expires: 1412007022
+    user_id: 1 
 post_datetime:
 post_decimal:
 post_geometry:
@@ -1811,7 +1884,7 @@ contacts:
     type: "email"
   -
     id: 3
-    user_id:
+    user_id: 
     contact: 773456789
     type: "phone"
   -
@@ -1822,7 +1895,7 @@ contacts:
 messages:
   -
     id: 1
-    title: "abc"
+    title: "Test inbound message"
     message: "A test message"
     type: "sms"
     direction: "incoming"
@@ -1917,6 +1990,18 @@ messages:
     datetime:
     post_id: 9999
     data_provider: "smssync"
+  -
+    id: 10
+    title: "Test inbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1693
+    user_id:
+    datetime:
+    data_provider:
 layers:
   -
     id: 1

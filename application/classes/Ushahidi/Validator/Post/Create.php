@@ -17,7 +17,7 @@ use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
-use Ushahidi\Core\Entity\PostSearchData;
+use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
@@ -40,6 +40,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 	protected $attribute_repo;
 	protected $stage_repo;
 	protected $tag_repo;
+	protected $post_lock_repo;
 	protected $user_repo;
 	protected $post_value_factory;
 	protected $post_value_validator_factory;
@@ -66,6 +67,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		UserRepository $user_repo,
 		FormRepository $form_repo,
 		RoleRepository $role_repo,
+		PostLockRepository $post_lock_repo,
 		Ushahidi_Repository_Post_ValueFactory $post_value_factory,
 		Ushahidi_Validator_Post_ValueFactory $post_value_validator_factory)
 	{
@@ -76,6 +78,7 @@ class Ushahidi_Validator_Post_Create extends Validator
 		$this->user_repo = $user_repo;
 		$this->form_repo = $form_repo;
 		$this->role_repo = $role_repo;
+		$this->post_lock_repo = $post_lock_repo;
 		$this->post_value_factory = $post_value_factory;
 		$this->post_value_validator_factory = $post_value_validator_factory;
 	}

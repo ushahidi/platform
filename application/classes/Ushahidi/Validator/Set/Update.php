@@ -12,9 +12,13 @@
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\RoleRepository;
+use Ushahidi\Core\Traits\UserContext;
 
 class Ushahidi_Validator_Set_Update extends Validator
 {
+
+	use UserContext;
+
 	protected $user_repo;
 	protected $role_repo;
 	protected $default_error_source = 'set';
@@ -39,13 +43,22 @@ class Ushahidi_Validator_Set_Update extends Validator
 				['min_length', [':value', 3]],
 				['max_length', [':value', 255]],
 			],
+			'user_id' => [
+				[[$this->user_repo, 'exists'], [':value']],
+				[[$this, 'isUserOwner'], [':fulldata']]
+			],
 			'view' => [
 				// @todo stop hardcoding views
-				['in_array', [':value', ['map', 'list', 'chart', 'timeline']]]
+				['in_array', [':value', ['map', 'list', 'chart', 'timeline', 'data']]]
 			],
 			'role' => [
 				[[$this->role_repo, 'exists'], [':value']],
 			]
 		];
+	}
+
+
+	public function isUserOwner($entity) {
+		return ($this->user &&  $entity['user_id'] === $this->user->getId());
 	}
 }
