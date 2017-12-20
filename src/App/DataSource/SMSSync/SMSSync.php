@@ -83,7 +83,7 @@ class SMSSync implements CallbackDataSource
 		$router->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
 		$router->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
 		$router->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$router->get('smssync', 'Ushahidi\App\DataSource\SMSSync\Controller\SMSSyncController@handleRequest');
+		$router->get('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
 	}
 
 	public function verifySecret($secret)
