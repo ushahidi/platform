@@ -106,6 +106,7 @@ class SMSSyncController extends DataSourceController
         return ['payload' => [
             'task' => "send",
             'success' => true,
+            'secret' => $this->source->getSecret(),
             'messages' => array_values(array_map(function ($message) {
                 // Reformat message for SMSSYnc
                 return [
@@ -115,7 +116,6 @@ class SMSSyncController extends DataSourceController
                     'uuid' => $message->data_source_message_id
                 ];
             }, $messages)),
-            //'secret' => $this->options['secret'] ?: null
         ]];
     }
 }

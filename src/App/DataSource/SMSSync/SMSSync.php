@@ -94,4 +94,9 @@ class SMSSync implements CallbackDataSource
 
 		return false;
 	}
+
+	public function getSecret()
+	{
+		return isset($this->config['secret']) ? $this->config['secret'] : false;
+	}
 }
