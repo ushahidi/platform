@@ -988,6 +988,17 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		$values = $entity->values;
 
+		// Handle legacy post.tags attribute
+		if ($entity->hasChanged('tags'))
+		{
+			// Find first tag attribute
+			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+			// If we don't have tags in the values, use the post.tags value
+			if ($attr_key && !isset($values[$attr_key])) {
+				$values[$attr_key] = $entity->tags;
+			}
+		}
+
 		if ($entity->hasChanged('values'))
 		{
 			// Update post-values
