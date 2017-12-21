@@ -11,7 +11,6 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Kohana;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\OutputFormatter;
 use Ushahidi\Core\Exception\FormatterException;
