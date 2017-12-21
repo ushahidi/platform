@@ -22,10 +22,10 @@ class Media extends API
 	protected function addMetadata(array $data, Entity $media)
 	{
 		// Set image dimensions from the config file
-		$medium_width     = Kohana::$config->load('media.image_medium_width');
-		$medium_height    = Kohana::$config->load('media.image_medium_height');
-		$thumbnail_width  = Kohana::$config->load('media.image_thumbnail_width');
-		$thumbnail_height = Kohana::$config->load('media.image_thumbnail_height');
+		// $medium_width     = Kohana::$config->load('media.image_medium_width');
+		// $medium_height    = Kohana::$config->load('media.image_medium_height');
+		// $thumbnail_width  = Kohana::$config->load('media.image_thumbnail_width');
+		// $thumbnail_height = Kohana::$config->load('media.image_thumbnail_height');
 
 		return $data + [
 			// Add additional URLs and sizes
