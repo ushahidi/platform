@@ -559,7 +559,7 @@ $di->setter[Ushahidi\App\Validator\Form\Role\Update::class] = [
 ];
 $di->setter[Ushahidi\App\Validator\Media\Create::class] = [
 	'setMaxBytes' => $di->lazy(function () {
-		return \Kohana::$config->load('media.max_upload_bytes');
+		return config('media.max_upload_bytes');
 	}),
 ];
 $di->setter[Ushahidi\App\Validator\CSV\Create::class] = [

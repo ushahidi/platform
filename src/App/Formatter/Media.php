@@ -11,7 +11,6 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Kohana;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
@@ -21,12 +20,6 @@ class Media extends API
 
 	protected function addMetadata(array $data, Entity $media)
 	{
-		// Set image dimensions from the config file
-		// $medium_width     = Kohana::$config->load('media.image_medium_width');
-		// $medium_height    = Kohana::$config->load('media.image_medium_height');
-		// $thumbnail_width  = Kohana::$config->load('media.image_thumbnail_width');
-		// $thumbnail_height = Kohana::$config->load('media.image_thumbnail_height');
-
 		return $data + [
 			// Add additional URLs and sizes
 			// 'medium_file_url'    => $this->resizedUrl($medium_width, $medium_height, $media->o_filename),
@@ -60,53 +53,16 @@ class Media extends API
 
 	protected function formatOFilename($value)
 	{
-		if ($cdnBaseUrl = Kohana::$config->load('cdn.baseurl')) {
-			//removes path from image file name, encodes the filename, and joins the path and filename together
-			$url_path = explode("/", $value);
-			$filename = rawurlencode(array_pop($url_path));
-			array_push($url_path, $filename);
-			return $cdnBaseUrl . implode("/", $url_path);
+		// Removes path from image file name, encodes the filename, and joins the path and filename together
+		$url_path = explode("/", $value);
+		$filename = rawurlencode(array_pop($url_path));
+		array_push($url_path, $filename);
+		$path = implode("/", $url_path);
+
+		if ($cdnBaseUrl = config('cdn.baseurl')) {
+			return $cdnBaseUrl . $path;
 		} else {
-            // URL::site or Media::uri already encodes the path properly, skip the path wrangling seen above
-			return \URL::site(\Media::uri($this->getRelativePath() . $value), \Request::current());
+			return url(config('cdn.local.media_upload_dir') . '/' . $path); // @todo load from config
 		}
-	}
-
-	private function getRelativePath()
-	{
-		return str_replace(
-			Kohana::$config->load('imagefly.source_dir'),
-			'',
-			Kohana::$config->load('media.media_upload_dir')
-		);
-	}
-
-	/**
-	 * Return URL for accessing the resized image it.
-	 *
-	 * @param  integer $width    The width of the image
-	 * @param  integer $height   The height of the image
-	 * @param  string $filename  The file name of the image
-	 * @return string           URL to the resized image
-	 */
-	private function resizedUrl($width, $height, $filename)
-	{
-
-		// Format demensions appropriately depending on the value of the height
-		if ($height != null) {
-			// Image height has been set
-			$dimension = sprintf('w%s-h%s', $width, $height);
-		} else {
-			// No image height set.
-			$dimension = sprintf('w%s', $width);
-		}
-
-		return \URL::site(
-			\Route::get('imagefly')->uri(array(
-				'params'    => $dimension,
-				'imagepath' => $this->getRelativePath() . $filename,
-			)),
-			\Request::current()
-		);
 	}
 }

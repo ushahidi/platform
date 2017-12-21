@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->configure('cdn');
+        $this->app->configure('media');
         $this->app->configure('ratelimiter');
         $this->app->configure('multisite');
         $this->app->configure('ohanzee-db');
