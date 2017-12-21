@@ -29,7 +29,7 @@ class Multisite
 	{
 		if (!$this->domain && !$this->subdomain) {
 			// Load the default domain
-			$domain = Kohana::$config->load('multisite.domain');
+			$domain = config('multisite.domain');
 
 			// If no host passed in, check the for HOST in environment
 			if (!$host) {
