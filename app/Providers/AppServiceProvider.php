@@ -46,7 +46,18 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
+        $this->app->singleton('datasources', function () {
+            return $this->app->loadComponent(
+                'datasources',
+                \Ushahidi\App\DataSource\DataSourceServiceProvider::class,
+                'datasources'
+            );
+        });
+
         $this->configureAuraDI();
+
+        // Hack, must construct it to register route :/
+        $this->app->make('datasources');
     }
 
     // @todo move most of this elsewhere

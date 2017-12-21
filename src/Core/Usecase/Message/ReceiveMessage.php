@@ -138,7 +138,7 @@ class ReceiveMessage extends CreateUsecase
 			$contact =  $this->contactRepo->getEntity()->setState([
 				'contact' => $this->getPayload('from'),
 				'type' => $this->getPayload('contact_type'),
-				'data_provider' => $this->getPayload('data_provider'),
+				'data_source' => $this->getPayload('data_source'),
 			]);
 		}
 

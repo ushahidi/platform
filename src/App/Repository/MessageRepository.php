@@ -20,6 +20,9 @@ use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 use Ushahidi\Core\Usecase\Message\DeleteMessageRepository;
 use Ushahidi\Core\Usecase\Message\MessageData;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
+use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 
 class MessageRepository extends OhanzeeRepository implements
 	MessageRepositoryContract,
@@ -46,7 +49,7 @@ class MessageRepository extends OhanzeeRepository implements
 	public function getSearchFields()
 	{
 		return [
-			'box', 'status', 'contact', 'parent', 'post', 'type', 'data_provider',
+			'box', 'status', 'contact', 'parent', 'post', 'type', 'data_source',
 			'q' /* LIKE contact, title, message */
 		];
 	}
@@ -108,7 +111,7 @@ class MessageRepository extends OhanzeeRepository implements
 
 		foreach ([
 			'type',
-			'data_provider',
+			'data_source',
 		] as $key) {
 			if ($search->$key) {
 				$query->where("messages.{$key}", '=', $search->$key);
@@ -117,17 +120,60 @@ class MessageRepository extends OhanzeeRepository implements
 	}
 
 	// MessageRepository
-	public function getPendingMessages($status, $data_provider, $limit)
+	public function getPendingMessages($data_source, $limit)
 	{
+		$status = 'pending';
 		$direction = Message::OUTGOING;
-		$query = $this->selectQuery(compact('status', 'direction', 'data_provider'))
+		$query = $this->selectQuery(compact('status', 'direction'))
 			->limit($limit)
-			->order_by('created', 'ASC');
+			->order_by('created', 'ASC')
+			// Include contact in same query
+			->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
+			->select('contacts.contact')
+			;
 
-		// @todo load contact.contact in the same query
+		if ($data_source) {
+			$query->where('messages.data_source', '=', $data_source);
+		}
+
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	// MessageRepository
+	public function getPendingMessagesByType($type, $limit)
+	{
+		$status = 'pending';
+		$direction = Message::OUTGOING;
+		$query = $this->selectQuery(compact('status', 'direction'))
+			->limit($limit)
+			->order_by('created', 'ASC')
+			// Include contact in same query
+			->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
+			->select('contacts.contact')
+			// Only return messages without a specified provider
+			->where('messages.data_source', 'IS', null)
+			;
+
+		if ($type) {
+			$query->where('messages.type', '=', $type);
+		}
+
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
+	// MessageRepository
+	public function updateMessageStatus($id, $status, $data_source_message_id = null)
+	{
+		$changes = [
+			'status'   => $status,
+			'data_source_message_id' => $data_source_message_id
+		];
+
+		return $this->executeUpdate(['id' => $id], $changes);
 	}
 
 	public function getTotalMessagesFromContact($contact_id)
@@ -140,48 +186,35 @@ class MessageRepository extends OhanzeeRepository implements
 	public function create(Entity $entity)
 	{
 		return parent::create($entity->setState([
-			// New messages cannot have any other state
-			'status'    => \Message_Status::PENDING,
-			'direction' => \Message_Direction::OUTGOING,
 			'created'   => time(),
 		]));
-	}
-
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$state = [
-			'updated'  => time(),
-		];
-
-		return parent::update($entity->setState($state));
 	}
 
 	// UpdateMessageRepository
 	public function checkStatus($status, $direction)
 	{
-		if ($direction === \Message_Direction::INCOMING) {
-			return ($status == \Message_Status::RECEIVED);
+		if ($direction === MessageDirection::INCOMING) {
+			return ($status == MessageStatus::RECEIVED);
 		}
 
-		if ($direction === \Message_Direction::OUTGOING) {
+		if ($direction === MessageDirection::OUTGOING) {
 			// Outgoing messages can only be: pending, cancelled, failed, unknown, sent
 			return in_array($status, [
-				\Message_Status::PENDING,
-				\Message_Status::EXPIRED,
-				\Message_Status::CANCELLED,
+				MessageStatus::PENDING,
+				MessageStatus::EXPIRED,
+				MessageStatus::CANCELLED,
 			]);
 		}
 
 		return false;
 	}
 
-	public function getLastUID($data_provider_type)
+	public function getLastUID($data_source)
 	{
 		$last_uid = null;
-		$query = DB::select([DB::expr('ABS(' . $this->getTable() . '.' . 'data_provider_message_id' . ')'), 'uid'])
+		$query = DB::select([DB::expr('ABS(' . $this->getTable() . '.' . 'data_source_message_id' . ')'), 'uid'])
 			->from($this->getTable())
-			->where('data_provider', '=', $data_provider_type)
+			->where('data_source', '=', $data_source)
 			->order_by(
 				'uid',
 				'desc'

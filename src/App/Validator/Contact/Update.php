@@ -27,6 +27,9 @@ class Update extends Validator
 
 	protected function getRules()
 	{
+		// @todo inject
+		$sources = app('datasources');
+
 		return [
 			'id' => [
 				['numeric'],
@@ -39,9 +42,8 @@ class Update extends Validator
 				// @todo this should be shared via repo or other means
 				['in_array', [':value', [Contact::EMAIL, Contact::PHONE, Contact::TWITTER]]],
 			],
-			'data_provider' => [
-				// @todo DataProvider should provide a list of available types
-				['in_array', [':value', array_keys(\DataProvider::get_providers())]],
+			'data_source' => [
+				['in_array', [':value', array_keys($sources->getEnabledSources())]],
 			],
 			'contact' => [
 				['max_length', [':value', 255]],

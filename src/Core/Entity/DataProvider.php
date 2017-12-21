@@ -17,9 +17,7 @@ class DataProvider extends StaticEntity
 {
 	protected $id;
 	protected $name;
-	protected $version;
 	protected $services;
-	protected $links;
 	protected $options;
 
 	// DataTransformer
@@ -28,9 +26,7 @@ class DataProvider extends StaticEntity
 		return [
 			'id'       => 'string',
 			'name'     => 'string',
-			'version'  => 'float',
 			'services' => 'array',
-			'links'    => 'array',
 			'options'  => 'array',
 		];
 	}

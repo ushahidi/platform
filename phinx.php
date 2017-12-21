@@ -1,23 +1,27 @@
 <?php
 
-require_once __DIR__ . '/bootstrap/app.php';
+require_once __DIR__.'/vendor/autoload.php';
 
-$db = service('db.config');
+try {
+    (new Dotenv\Dotenv(__DIR__))->load();
+} catch (Dotenv\Exception\InvalidPathException $e) {
+    //
+}
 
 return [
 	'paths' => [
-		'migrations' => realpath(APPPATH . '../migrations'),
+		'migrations' => __DIR__ . '/migrations',
 	],
 	'environments' => [
 		'default_migration_table' => 'phinxlog',
 		'default_database' => 'ushahidi',
 		'ushahidi' => [
 			'adapter' => 'mysql', // todo: how to make this dynamic?
-			'host' => $db['connection']['hostname'],
-			'name' => $db['connection']['database'],
-			'user' => $db['connection']['username'],
-			'pass' => $db['connection']['password'],
-			'charset' => $db['charset'],
+			'host' => getenv('DB_HOST'),
+			'name' => getenv('DB_DATABASE'),
+			'user' => getenv('DB_USERNAME'),
+			'pass' => getenv('DB_PASSWORD'),
+			'charset' => 'utf8',
 		],
 	]
 ];

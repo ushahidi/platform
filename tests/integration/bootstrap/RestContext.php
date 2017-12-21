@@ -230,6 +230,10 @@ class RestContext implements Context
 					$http_request = $this->client
 						->post($this->requestUrl)
 						->setBody($request['data']);
+
+					if (empty($this->headers['Content-Type'])) {
+						$this->headers['Content-Type'] = 'application/json';
+					}
 				}
 				break;
 			case 'PUT':

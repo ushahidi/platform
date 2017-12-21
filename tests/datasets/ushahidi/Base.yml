@@ -914,7 +914,7 @@ post_locks:
     id: 1
     post_id: 1692
     expires: 1412007022
-    user_id: 1 
+    user_id: 1
 post_datetime:
 post_decimal:
 post_geometry:
@@ -1370,7 +1370,7 @@ config:
   -
     group_name: "data-provider"
     config_key: providers
-    config_value: '{"smssync":true,"frontlinesms":true,"nexmo":false,"email":false}'
+    config_value: '{"smssync":true,"frontlinesms":true,"nexmo":true,"email":false,"twilio":true}'
   -
     group_name: "data-provider"
     config_key: nexmo
@@ -1381,12 +1381,16 @@ config:
     config_value: '{"from":"12345","secret":"1234"}'
   -
     group_name: "data-provider"
+    config_key: twilio
+    config_value: '{"account_sid":"1234", "sms_auto_response": "Thanks!"}'
+  -
+    group_name: "data-provider"
     config_key: email
     config_value: '{"incoming_type":"","incoming_server":"","incoming_port":"","incoming_security":"","incoming_username":"","incoming_password":""}'
   -
     group_name: "data-provider"
     config_key: frontlinesms
-    config_value: '{"f":"12345","key":"1234","frontlinecloud_api_url":"http:\/\/frontlinesms.com:8130\/api\/1\/webconnection\/11"}'
+    config_value: '{"f":"12345","key":"1234","frontlinecloud_api_url":"http:\/\/frontlinesms.com:8130\/api\/1\/webconnection\/11","secret":"abc123"}'
 contacts:
   -
     id: 1
@@ -1418,7 +1422,7 @@ messages:
     status: "received"
     contact_id: 1
     datetime:
-    data_provider:
+    data_source:
   -
     id: 2
     title: ""
@@ -1429,7 +1433,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 3
     title: "Test email"
@@ -1440,7 +1444,7 @@ messages:
     contact_id: 2
     datetime: "2013-01-02 07:07"
     post_id:
-    data_provider:
+    data_source:
   -
     id: 4
     title: ""
@@ -1451,7 +1455,7 @@ messages:
     contact_id: 3
     datetime:
     post_id: 110
-    data_provider:
+    data_source:
   -
     id: 5
     title: ""
@@ -1461,7 +1465,7 @@ messages:
     status: "received"
     contact_id: 1
     datetime:
-    data_provider: "smssync"
+    data_source: "smssync"
   -
     id: 6
     title: ""
@@ -1472,7 +1476,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 7
     title: ""
@@ -1483,7 +1487,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 8
     title: ""
@@ -1494,7 +1498,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 9
     title: ""
@@ -1505,7 +1509,7 @@ messages:
     contact_id: 3
     datetime:
     post_id: 9999
-    data_provider: "smssync"
+    data_source: "smssync"
 layers:
   -
     id: 1
