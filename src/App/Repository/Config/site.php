@@ -1,7 +1,7 @@
   <?php
 
 /**
- * Kohana Site Config
+ * Site Config
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Config
