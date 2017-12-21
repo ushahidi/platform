@@ -13,6 +13,7 @@ namespace Tests\Unit\App\DataSource\Console;
 
 use Tests\TestCase;
 use Mockery as M;
+use phpmock\mockery\PHPMockery;
 
 /**
  * @backupGlobals disabled
@@ -33,6 +34,9 @@ class IncomingCommandTest extends TestCase
             'twitter' => true,
             'smssync' => true,
         ]);
+
+        PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_open");
+        PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_close");
     }
 
     public function testIncoming()

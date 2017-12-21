@@ -19,7 +19,6 @@ use phpmock\mockery\PHPMockery;
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
- * @runTestsInSeparateProcesses
  */
 class EmailDataSourceTest extends TestCase
 {
