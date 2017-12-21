@@ -54,8 +54,7 @@ class IntercomAdminListener extends AbstractListener
 
                     $client->users->update($intercom_user);
                 } catch (ClientException $e) {
-                    // $message = $e->getMessage();
-                    // Kohana::$log->add(Log::ERROR, print_r($message,true));
+                    \Log::info($e->getMessage());
                 }
             }
         }
