@@ -186,7 +186,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Kohana injection
         // DB config
-        $di->set('db.config', function() use ($di) {
+        $di->set('db.config', function () use ($di) {
             $config = config('ohanzee-db');
             $config = $config['default'];
 
@@ -205,12 +205,12 @@ class AppServiceProvider extends ServiceProvider
             return \Ohanzee\Database::instance('multisite', $config['default']);
         });
         // Deployment db
-        $di->set('kohana.db', function() use ($di) {
+        $di->set('kohana.db', function () use ($di) {
             return \Ohanzee\Database::instance('deployment', $di->get('db.config'));
         });
 
         // Intercom config settings
-        $di->set('site.intercomAppToken', function() use ($di) {
+        $di->set('site.intercomAppToken', function () use ($di) {
             // FIXME
             return false;
         });
