@@ -113,10 +113,10 @@ class Notification extends Command
 				}
 
 				$subs = [
-					':sitename' => $site_name,
-					':title' => $post->title,
-					':content' => $post->content,
-					':url' => $client_url . '/posts/' . $post->id
+					'sitename' => $site_name,
+					'title' => $post->title,
+					'content' => $post->content,
+					'url' => $client_url . '/posts/' . $post->id
 				];
 
 				$messageType = $this->mapContactToMessageType($contact->type);
@@ -125,16 +125,8 @@ class Notification extends Command
 				$state = [
 					'contact_id' => $contact->id,
 					'notification_post_id' => $post->id,
-					'title' => strtr(Kohana::message(
-                        'notifications',
-                        $messageType . '.title',
-                        "New post: :title"
-                    ), $subs),
-					'message' => strtr(Kohana::message(
-                        'notifications',
-                        $messageType . '.message',
-                        "New post: :title"
-                    ), $subs),
+					'title' => trans('notifications.' . $messageType . '.title', $subs),
+					'message' => trans('notifications.' . $messageType . '.message', $subs),
 					'type' => $messageType,
 					'data_source' => $data_source,
 				];
