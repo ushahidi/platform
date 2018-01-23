@@ -20,7 +20,6 @@ class MigrateController extends Controller
 
 	public function migrate()
 	{
-		$db = service('db.config');
 		$phinx_config = [
 			'configuration' => base_path('phinx.php'),
 			'parser' => 'php',

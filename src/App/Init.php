@@ -661,3 +661,76 @@ $di->setter[Ushahidi\App\Repository\UserRepository::class]['setListener'] =
 $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';
 $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
     $di->lazyNew(Ushahidi\App\Listener\Lock::class);
+
+// Set up config bindings
+
+// Site config
+$di->set('site.config', function () use ($di) {
+    return $di->get('repository.config')->get('site')->asArray();
+});
+
+// Feature config
+$di->set('features', function () use ($di) {
+    return $di->get('repository.config')->get('features')->asArray();
+});
+
+// @todo add some kind of FeatureManager that owns all these checkes
+// $features->isEnabled('roles')
+// $features->getQuota('admins');
+// Roles config settings
+$di->set('roles.enabled', function () use ($di) {
+    $config = $di->get('features');
+
+    return $config['roles']['enabled'];
+});
+
+// Feature config
+$di->set('features.limits', function () use ($di) {
+    $config = $di->get('features');
+
+    return $config['limits'];
+});
+
+// Webhooks config settings
+$di->set('webhooks.enabled', function () use ($di) {
+    $config = $di->get('features');
+
+    return $config['webhooks']['enabled'];
+});
+
+// Post Locking config settings
+$di->set('post-locking.enabled', function () use ($di) {
+    $config = $di->get('features');
+
+    return $config['post-locking']['enabled'];
+});
+
+// Redis config settings
+$di->set('redis.enabled', function () use ($di) {
+    $config = $di->get('features');
+
+    return $config['redis']['enabled'];
+});
+
+// Data import config settings
+$di->set('data-import.enabled', function () use ($di) {
+    $config = $di->get('features');
+
+    return $config['data-import']['enabled'];
+});
+
+// Dataprovider feature config
+$di->set('features.data-providers', function () use ($di) {
+    $config = $di->get('features');
+
+    return array_filter($config['data-providers']);
+});
+
+// Private deployment config settings
+// @todo move to repo
+$di->set('site.private', function () use ($di) {
+    $site = $di->get('site.config');
+    $features = $di->get('features');
+    return $site['private']
+        and $features['private']['enabled'];
+});

@@ -38,8 +38,8 @@ class MigrationController extends Controller
 			$command = 'status';
 		}
 
-		$db = service('db.config');
-		$phinx_config = ['configuration' => base_path('phinx.php'),
+		$phinx_config = [
+			'configuration' => base_path('phinx.php'),
 			'parser' => 'php',
 		];
 
