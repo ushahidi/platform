@@ -29,6 +29,7 @@ class Multisite
 	{
 		if (!$this->domain && !$this->subdomain) {
 			// Load the default domain
+			// @todo stop call config directly
 			$domain = config('multisite.domain');
 
 			// If no host passed in, check the for HOST in environment
@@ -79,7 +80,8 @@ class Multisite
 		}
 
 		// Set new database config
-		$config = Repository\OhanzeeRepository::getDefaultConfig();
+		// @todo stop call config directly
+		$config = config('ohanzee-db.default');
 
 		$config['connection'] = [
 			'hostname'   => $deployment['db_host'],
