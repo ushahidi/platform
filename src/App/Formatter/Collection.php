@@ -3,7 +3,7 @@
 /**
  * Ushahidi Collection Formatter
  *
- * Implements Kohana URL handling for paging parameters.
+ * Implements URL handling for paging parameters.
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application

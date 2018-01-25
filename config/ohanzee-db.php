@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php
 
 /**
  * Database Config
@@ -27,12 +27,12 @@ $config = [
 		'database'   => getenv('DB_DATABASE'),
 		'username'   => getenv('DB_USERNAME'),
 		'password'   => getenv('DB_PASSWORD'),
-		'persistent' => FALSE,
+		'persistent' => false,
 	],
 	'table_prefix' => '',
 	'charset'      => 'utf8',
-	'caching'      => TRUE,
-	'profiling'    => TRUE,
+	'caching'      => true,
+	'profiling'    => true,
 ];
 
 // If multisite is enabled
@@ -42,11 +42,11 @@ if (!empty(getenv("MULTISITE_DOMAIN"))) {
 		// Just define basics for default connection
 		'default'   => [
 			'type'         => 'MySQLi',
-			'connection'   => [ 'persistent' => FALSE, ],
+			'connection'   => [ 'persistent' => false, ],
 			'table_prefix' => '',
 			'charset'      => 'utf8',
-			'caching'      => TRUE,
-			'profiling'    => TRUE,
+			'caching'      => true,
+			'profiling'    => true,
 		],
 		'multisite' => $config
 	];

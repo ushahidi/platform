@@ -39,7 +39,7 @@ class IntercomCompanyListener extends AbstractListener
                 // Update company
                 $client->companies->create($company);
             } catch (ClientException $e) {
-                // Kohana::$log->add(Log::ERROR, print_r($e,true));
+                \Log::info($e->getMessage());
             }
         }
     }

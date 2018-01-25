@@ -144,7 +144,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 		if (!empty($sorting['orderby'])) {
 			$this->search_query->order_by(
 				$this->getTable() . '.' . $sorting['orderby'],
-                \Arr::get($sorting, 'order')
+				isset($sorting['order']) ? $sorting['order'] : null
 			);
 		}
 

@@ -112,7 +112,7 @@ class AttributeRepository extends OhanzeeRepository implements
 			$uuid = Uuid::uuid4();
 			$record['key'] = $uuid->toString();
 		} catch (UnsatisfiedDependencyException $e) {
-			\Kohana::$log->add(Log::ERROR, $e->getMessage());
+			Log::error($e->getMessage());
 		}
 		return $this->executeInsertAttribute($this->removeNullValues($record));
 	}
@@ -132,7 +132,7 @@ class AttributeRepository extends OhanzeeRepository implements
 		if (!empty($sorting['orderby'])) {
 			$this->search_query->order_by(
 				$this->getTable() . '.' . $sorting['orderby'],
-                \Arr::get($sorting, 'order')
+				isset($sorting['order']) ? $sorting['order'] : null
 			);
 		}
 

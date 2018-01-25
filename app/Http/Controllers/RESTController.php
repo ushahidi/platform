@@ -202,6 +202,8 @@ abstract class RESTController extends Controller
     /**
      * Execute the usecase that the controller prepared.
      *
+     * @todo  should this take Usecase as a param rather than use $this->usecase?
+     *
      * @throws HTTP_Exception_400
      * @throws HTTP_Exception_403
      * @throws HTTP_Exception_404
@@ -243,9 +245,6 @@ abstract class RESTController extends Controller
      */
     protected function prepResponse(array $responsePayload = null, Request $request)
     {
-        // Add CORS headers to the response
-        // $this->add_cors_headers($this->response);
-
         // Use JSON if the request method is OPTIONS
         if ($request->method() === Request::METHOD_OPTIONS) {
             $type = 'json';
@@ -255,45 +254,31 @@ abstract class RESTController extends Controller
             $type = strtolower($request->query('format')) ?: 'json';
         }
 
-        try {
-            //$format = service("formatter.output.$type");
+        if (empty($responsePayload)) {
+            // If the payload is empty, return a 204
+            // https://tools.ietf.org/html/rfc7231#section-6.3.5
+            $response = response('', 204);
+        } else {
+            $response = response()->json(
+                $responsePayload,
+                200,
+                [],
+                env('APP_DEBUG', false) ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null
+            );
 
-            // $body = $format($this->_response_payload);
-            // $mime = $format->getMimeType();
-            // $this->response->headers('Content-Type', $mime);
-
-            if (empty($responsePayload)) {
-                // If the payload is empty, return a 204
-                // https://tools.ietf.org/html/rfc7231#section-6.3.5
-                $response = response('', 204);
-            } else {
-                $response = response()->json(
-                    $responsePayload,
-                    200,
-                    [],
-                    env('APP_DEBUG', false) ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null
-                );
-
-                if ($type === 'jsonp') {
-                    $response->withCallback($request->input('callback'));
-                    // Prevent Opera and Chrome from executing the response as anything
-                    // other than JSONP, see T455.
-                    $response->headers->set('X-Content-Type-Options', 'nosniff');
-                }
+            if ($type === 'jsonp') {
+                $response->withCallback($request->input('callback'));
+                // Prevent Opera and Chrome from executing the response as anything
+                // other than JSONP
+                $response->headers->set('X-Content-Type-Options', 'nosniff');
             }
-
-            // Should we prevent this request from being cached?
-            if (! in_array($request->method(), $this->cacheableMethods)) {
-                $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
-            }
-
-            return $response;
-        } catch (\Aura\Di\Exception\ServiceNotFound $e) {
-            abort(400, 'Unknown response format:' . $type);
-        } catch (\InvalidArgumentException $e) {
-            abort(400, 'Bad formatting parameters:' . $e->getMessage());
-        } catch (\Ushahidi\Core\Exception\FormatterException $e) {
-            abort(500, 'Error while formatting response:' . $e->getMessage());
         }
+
+        // Should we prevent this request from being cached?
+        if (! in_array($request->method(), $this->cacheableMethods)) {
+            $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
+        }
+
+        return $response;
     }
 }

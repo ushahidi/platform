@@ -11,7 +11,6 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Kohana;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\OutputFormatter;
 use Ushahidi\Core\Exception\FormatterException;
@@ -21,8 +20,7 @@ class JSON implements Formatter, OutputFormatter
 	protected function getOptions()
 	{
 		// Are we in development environment?
-		$dev_env = Kohana::$environment === Kohana::DEVELOPMENT;
-		return $dev_env ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null;
+		return env('APP_DEBUG', false) ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null;
 	}
 
 	// Formatter
