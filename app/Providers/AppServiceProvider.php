@@ -129,6 +129,7 @@ class AppServiceProvider extends ServiceProvider
         // Multisite db
         // Move multisite enabled check to class and move to src/App
         $di->set('site', function () use ($di) {
+            // @todo default to using the current domain
             $site = '';
 
             // Is this a multisite install?

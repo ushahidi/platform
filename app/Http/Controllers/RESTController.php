@@ -269,7 +269,7 @@ abstract class RESTController extends Controller
             if ($type === 'jsonp') {
                 $response->withCallback($request->input('callback'));
                 // Prevent Opera and Chrome from executing the response as anything
-                // other than JSONP, see T455.
+                // other than JSONP
                 $response->headers->set('X-Content-Type-Options', 'nosniff');
             }
         }
