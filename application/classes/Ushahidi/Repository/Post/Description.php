@@ -14,7 +14,7 @@ use Ushahidi\Core\Entity\PostValueRepository;
 
 class Ushahidi_Repository_Post_Description extends Ushahidi_Repository_Post_Text
 {
-  public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $restricted = false)
+  public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $includePrivateValues = false)
 	{
     return [];
   }

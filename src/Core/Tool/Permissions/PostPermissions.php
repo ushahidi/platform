@@ -72,7 +72,7 @@ class PostPermissions
 	 * @param  Post $post
 	 * @return Boolean
 	 */
-	public function canUserReadPostsValues(User $user, Post $post)
+	public function canUserReadPrivateValues(User $user, Post $post)
 	{
 		// Delegate to post authorizer
 		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);

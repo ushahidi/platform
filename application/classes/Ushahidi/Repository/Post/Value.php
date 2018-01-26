@@ -57,7 +57,7 @@ abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implem
 	}
 
 	// ValuesForPostRepository
-	public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $restricted = false)
+	public function getAllForPost($post_id, Array $include_attributes = [], Array $exclude_stages = [], $includePrivateValues = false)
 	{
 		$query = $this->selectQuery(compact('post_id'));
 
@@ -65,7 +65,7 @@ abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implem
 			$query->where('form_attributes.key', 'IN', $include_attributes);
 		}
 
-		if ($restricted) {
+		if (!$includePrivateValues) {
 			$query->where('form_attributes.response_private', '!=', '1');
 			if ($exclude_stages) {
 				$query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages);

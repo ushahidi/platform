@@ -55,12 +55,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	protected $contact_repo;
 	protected $post_value_factory;
 	protected $bounding_box_factory;
-	// By default remove all private responses
-	protected $restricted = true;
 
 	protected $include_value_types = [];
 	protected $include_attributes = [];
-	protected $exclude_stages = [];
 
 	protected $listener;
 
@@ -107,26 +104,25 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Ensure we are dealing with a structured Post
 
 		$user = $this->getUser();
+		$includePrivateValues = false;
+		$excludeStages = [];
 		if ($data['form_id'])
 		{
 			// @todo move or double up in formatter. That should enforce what users can see
-			if ($this->postPermissions->canUserReadPostsValues($user, new Post($data), $this->form_repo)) {
-				$this->restricted = false; // @todo pass a param, don't set magic instance vars
-			}
+			$includePrivateValues = $this->postPermissions->canUserReadPrivateValues($user, new Post($data));
 			// Get Hidden Stage Ids to be excluded from results
 			$status = $data['status'] ? $data['status'] : '';
-			$this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id'], $data['status']);
-
+			$excludeStages = $this->form_stage_repo->getHiddenStageIds($data['form_id'], $data['status']);
 		}
 
 		if (!empty($data['id']))
 		{
 			$data += [
-				'values' => $this->getPostValues($data['id']),
+				'values' => $this->getPostValues($data['id'], $includePrivateValues, $excludeStages),
 				// Continued for legacy
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
-				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
+				'completed_stages' => $this->getCompletedStagesForPost($data['id'], $includePrivateValues, $excludeStages),
 				'lock' => NULL,
 			];
 
@@ -182,13 +178,13 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $query;
 	}
 
-	protected function getPostValues($id)
+	protected function getPostValues($id, $includePrivateValues, $excludeStages)
 	{
 
 		// Get all the values for the post. These are the EAV values.
 		$values = $this->post_value_factory
 			->proxy($this->include_value_types)
-			->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
+			->getAllForPost($id, $this->include_attributes, $excludeStages, $includePrivateValues);
 
 		$output = [];
 		foreach ($values as $value) {
@@ -202,17 +198,15 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $output;
 	}
 
-	protected function getCompletedStagesForPost($id)
+	protected function getCompletedStagesForPost($id, $includePrivateValues, $excludeStages)
 	{
 		$query = DB::select('form_stage_id', 'completed')
 			->from('form_stages_posts')
 			->where('post_id', '=', $id)
 			->where('completed', '=', 1);
 
-		if ($this->restricted) {
-			if ($this->exclude_stages) {
-				$query->where('form_stage_id', 'NOT IN', $this->exclude_stages);
-			}
+		if (!$includePrivateValues && $excludeStages) {
+			$query->where('form_stage_id', 'NOT IN', $excludeStages);
 		}
 
 		$result = $query->execute($this->db);

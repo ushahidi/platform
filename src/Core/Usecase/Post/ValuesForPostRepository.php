@@ -17,13 +17,15 @@ interface ValuesForPostRepository
 	/**
 	 * @param  int $post_id
 	 * @param  Array $include_attributes
+	 * @param  Array $exclude_stages
+	 * @param  boolean $includePrivateValues
 	 * @return [Ushahidi\Core\Entity\PostValue, ...]
 	 */
 	public function getAllForPost(
 		$post_id,
 		array $include_attributes = [],
 		array $exclude_stages = [],
-		$restricted = false
+		$includePrivateValues = false
 	);
 
 	/**
