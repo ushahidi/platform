@@ -57,8 +57,7 @@ class UserRepository extends OhanzeeRepository implements
 	// OhanzeeRepository
 	public function getEntity(array $data = null)
 	{
-		if (!empty($data['id']))
-		{
+		if (!empty($data['id'])) {
 			$data += [
 				'contacts' => $this->getContacts($data['id']),
 			];

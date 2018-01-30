@@ -183,7 +183,8 @@ class AppServiceProvider extends ServiceProvider
                 $url = \League\Url\Url::createFromServer($_SERVER);
                 $host = $url->getHost()->toUnicode();
                 $scheme = $url->getScheme();
-                $clientUrl = $scheme->getUriComponent() . str_replace(env("MULTISITE_DOMAIN"), env("MULTISITE_CLIENT_DOMAIN"), $host);
+                $clientUrl = $scheme->getUriComponent()
+                    . str_replace(env("MULTISITE_DOMAIN"), env("MULTISITE_CLIENT_DOMAIN"), $host);
             } catch (Exception $e) {
             }
         }

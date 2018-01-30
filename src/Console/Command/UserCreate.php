@@ -74,8 +74,9 @@ class UserCreate extends Command
 		if ($acceptTos) {
 				$tos = $this->tosRepo->getEntity([
 						'user_id' => $id,
-						'tos_version_date' => getenv('TOS_RELEASE_DATE') ? date_create(getenv('TOS_RELEASE_DATE'),
-								new \DateTimeZone('UTC')) : date_create()
+						'tos_version_date' => getenv('TOS_RELEASE_DATE')
+						? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
+						: date_create()
 				]);
 
 				$this->tosRepo->create($tos);
