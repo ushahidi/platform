@@ -180,8 +180,10 @@ class AppServiceProvider extends ServiceProvider
 
         if (env("MULTISITE_DOMAIN", false)) {
             try {
-                $host = \League\Url\Url::createFromServer($_SERVER)->getHost()->toUnicode();
-                $clientUrl = str_replace(env("MULTISITE_DOMAIN"), env("MULTISITE_CLIENT_DOMAIN"), $host);
+                $url = \League\Url\Url::createFromServer($_SERVER);
+                $host = $url->getHost()->toUnicode();
+                $scheme = $url->getScheme();
+                $clientUrl = $scheme->getUriComponent() . str_replace(env("MULTISITE_DOMAIN"), env("MULTISITE_CLIENT_DOMAIN"), $host);
             } catch (Exception $e) {
             }
         }

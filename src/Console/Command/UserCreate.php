@@ -15,29 +15,31 @@ use Illuminate\Console\Command;
 
 use \Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Entity\TosRepository;
+use Ushahidi\Core\Entity\UserRepository;
 
 class UserCreate extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'user:create';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'user:create';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'user:create {--realname=} {--email=} {--role=admin} {--password=} {--with-hash}';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'user:create {--realname=} {--email=} {--role=admin} {--password=} {--with-hash} {--tos}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a user';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Create a user';
 
 	protected $validator;
 	protected $repo;
@@ -47,6 +49,7 @@ class UserCreate extends Command
 		parent::__construct();
 		$this->repo = service('repository.user');
 		$this->validator = service('factory.validator')->get('users', 'create');
+		$this->tosRepo = service('repository.tos');
 	}
 
 	public function handle()
@@ -66,6 +69,17 @@ class UserCreate extends Command
 		$entity = $this->repo->getEntity();
 		$entity->setState($state);
 		$id = $this->option('with-hash') ? $this->repo->createWithHash($entity) : $this->repo->create($entity);
+
+		$acceptTos = $this->option('tos');
+		if ($acceptTos) {
+				$tos = $this->tosRepo->getEntity([
+						'user_id' => $id,
+						'tos_version_date' => getenv('TOS_RELEASE_DATE') ? date_create(getenv('TOS_RELEASE_DATE'),
+								new \DateTimeZone('UTC')) : date_create()
+				]);
+
+				$this->tosRepo->create($tos);
+		}
 
 		$this->info("Account was created successfully, id: {$id}");
 	}

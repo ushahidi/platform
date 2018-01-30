@@ -39,7 +39,7 @@ class User extends API
 			// Remove sensitive fields
 			$data = array_intersect_key(
 				$data,
-				array_fill_keys(['id', 'url', 'username', 'realname', 'allowed_privileges'], true)
+				array_fill_keys(['id', 'url', 'username', 'realname', 'allowed_privileges', 'contacts'], true)
 			);
 		}
 
