@@ -48,22 +48,22 @@ class PostPermissions
 	 */
 	public function canUserSeeAuthor(User $user, Post $post, FormRepository $form_repo)
 	{
-		// @todo check if we should actually *deny* by default for unstructured posts??
+		// If the user has manage post permission
+		// @todo delegate to authorizer
+		if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			// If so, they can also see post authors
+			return true;
+		}
+
 		// If the post is structured
 		if ($post->form_id) {
-			// ... check if the user can edit the form
-			// @todo delegate to authorizer
-			if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-				// If so, they can also see post authors
-				return true;
-			}
-
 			// @todo inject form repo via constructor or take form as parameter
 			// ... if not, check if the form has author set as hidden or public
 			return !$form_repo->isAuthorHidden($post->form_id);
 		}
 
-		return true;
+		// Default to scrubbing author info for non-admins on unstructured posts
+		return false;
 	}
 
 	/**
