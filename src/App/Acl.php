@@ -51,6 +51,12 @@ class Acl implements AclInterface
 			return false;
 		}
 
+		// Admin has all permissions
+		// This is probably never actually run, but here just in case
+		if ($user->role === 'admin') {
+			return true;
+		}
+
 		// Don't check for permissions if we don't have the
 		// roles feature enabled
 		if ($this->hasRolesEnabled()) {
@@ -70,12 +76,6 @@ class Acl implements AclInterface
 
 	protected function defaultHasPermission(User $user, $permission)
 	{
-		// Admin has all permissions
-		// This is probably never actually run, but here just in case
-		if ($user->role === 'admin') {
-			return true;
-		}
-
 		$defaultRoles = static::DEFAULT_ROLES;
 		$rolePermissions = isset($defaultRoles[$user->role]) ? $defaultRoles[$user->role] : [];
 

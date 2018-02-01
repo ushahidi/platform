@@ -25,11 +25,7 @@ use Ushahidi\Core\Usecase\Post\StatsPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Set\SetPostRepository;
 use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\Permissions\ManagePosts;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
-use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 use Ushahidi\Core\Entity\ContactRepository;
 
 use Aura\DI\InstanceFactory;
@@ -50,15 +46,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
 
-	// Provides `acl`
-	use AclTrait;
-
-	// Checks if user is Admin
-	use AdminAccess;
-
-	// Check for value restrictions
-	// provides canUserReadPostsValues
-	use PostValueRestrictions;
+	// Provides `postPermissions`
+	use InteractsWithPostPermissions;
 
 	protected $form_attribute_repo;
 	protected $form_stage_repo;
@@ -120,9 +109,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$user = $this->getUser();
 		if ($data['form_id'])
 		{
-
-			if ($this->canUserReadPostsValues(new Post($data), $user, $this->form_repo)) {
-				$this->restricted = false;
+			// @todo move or double up in formatter. That should enforce what users can see
+			if ($this->postPermissions->canUserReadPostsValues($user, new Post($data), $this->form_repo)) {
+				$this->restricted = false; // @todo pass a param, don't set magic instance vars
 			}
 			// Get Hidden Stage Ids to be excluded from results
 			$status = $data['status'] ? $data['status'] : '';
@@ -141,8 +130,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				'lock' => NULL,
 			];
 
-
-			if ($this->canUserSeePostLock(new Post($data), $user)) {
+			// @todo move or double up in formatter. That should enforce what users can see
+			if ($this->postPermissions->canUserSeePostLock($user, new Post($data))) {
 				$data['lock'] = $this->getHydratedLock($data['id']);
 			}
 		}
@@ -151,9 +140,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// Check if author information should be returned
 		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
 		{
-
-
-			if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user))
+			// @todo move to formatter. That where this normally happens
+			if (!$this->postPermissions->canUserSeeAuthor($user, new Post($data), $this->form_repo))
 			{
 				unset($data['author_realname']);
 				unset($data['author_email']);
@@ -549,8 +537,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if (!$search->exporter) {
 			if (!$user->id) {
 				$query->where("$table.status", '=', 'published');
-			} elseif (!$this->isUserAdmin($user) and
-					!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			} elseif (!$this->postPermissions->canUserViewUnpublishedPosts($user)) {
 				$query
 					->and_where_open()
 					->where("$table.status", '=', 'published')

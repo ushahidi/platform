@@ -383,6 +383,15 @@ $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGe
 // Set ACL for ACL Trait
 $di->setter['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
 
+// Set post permissions instance
+$di->setter['Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions']['setPostPermissions'] = $di->lazyNew(Ushahidi\Core\Tool\Permissions\PostPermissions::class);
+
+// Set form permissions instance
+$di->setter['Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions']['setFormPermissions'] = $di->lazyNew(Ushahidi\Core\Tool\Permissions\FormPermissions::class);
+
+// Set ACL for ACL Trait
+$di->setter['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
+
 // Tools
 $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));

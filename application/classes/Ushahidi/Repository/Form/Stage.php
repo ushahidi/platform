@@ -14,24 +14,14 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\FormRepository;
-use Ushahidi\Core\Traits\PostValueRestrictions;
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Traits\UserContext;
-
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 	FormStageRepository
 {
 	use UserContext;
-
-	// Provides `acl`
-	use AclTrait;
-
-	use PostValueRestrictions;
-
-	// Checks if user is Admin
-	use AdminAccess;
+	use InteractsWithFormPermissions;
 
 	protected $form_id;
 	protected $form_repo;
@@ -64,7 +54,7 @@ class Ushahidi_Repository_Form_Stage extends Ushahidi_Repository implements
 		$query = parent::selectQuery($where);
 
 		$user = $this->getUser();
-		if (!$this->canUserEditForm($form_id, $user)) {
+		if (!$this->formPermissions->canUserEditForm($user, $form_id)) {
 			$query->where('show_when_published', '=', "1");
 
 			if ($post_status !== 'published') {

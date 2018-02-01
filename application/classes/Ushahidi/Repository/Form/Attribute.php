@@ -16,9 +16,7 @@ use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\PostValueRestrictions;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
@@ -27,13 +25,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	FormAttributeRepository
 {
 	use UserContext;
-	// Checks if user is Admin
-	use AdminAccess;
 
-	// Provides `acl`
-	use AclTrait;
-
-	use PostValueRestrictions;
+	use InteractsWithFormPermissions;
 
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
@@ -90,7 +83,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 		// Restrict returned attributes based on User rights
 		$user = $this->getUser();
-		if (!$this->canUserEditForm($form_id, $user)) {
+		if (!$this->formPermissions->canUserEditForm($user, $form_id)) {
 			$exclude_stages =  $this->form_stage_repo->getHiddenStageIds($form_id);
 			$exclude_stages ? $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages) : null;
 		}
