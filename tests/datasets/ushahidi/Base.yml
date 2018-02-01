@@ -533,6 +533,18 @@ form_attributes:
     options: ""
     cardinality: 0
     form_stage_id: 7
+  -
+    id: 31
+    label: "Datetime"
+    key: "datetime_restrictions"
+    type: "datetime"
+    input: "datetime"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 0
+    form_stage_id: 7
 posts:
   -
     id: 1
@@ -945,6 +957,11 @@ post_locks:
     expires: 1412007022
     user_id: 1
 post_datetime:
+  -
+    id: 1
+    post_id: 1690
+    value: "2014-09-29 15:11:46"
+    form_attribute_id: 31
 post_decimal:
 post_geometry:
 post_int:

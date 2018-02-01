@@ -121,25 +121,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 
 		if (!empty($data['id']))
 		{
-			$data += [
-				'values' => $this->getPostValues($data['id'], $includePrivateValues, $excludeStages),
-				// Continued for legacy
-				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
-				'sets' => $this->getSetsForPost($data['id']),
-				'completed_stages' => $this->getCompletedStagesForPost($data['id'], $includePrivateValues, $excludeStages),
-				'lock' => NULL,
-			];
-
-			// @todo move or double up in formatter. That should enforce what users can see
-			if ($this->postPermissions->canUserSeePostLock($user, new Post($data))) {
-				$data['lock'] = $this->getHydratedLock($data['id']);
-			}
-
 			// NOTE: This and the restriction above belong somewhere else,
 			// ideally in their own step
 			// Check if time info should be returned
 			if (!$this->postPermissions->canUserSeeTime($user, new Post($data), $this->form_repo))
 			{
+				// Hide time on survey fields
+				$this->post_value_factory->getRepo('datetime')->hideTime(true);
+
 				// @todo move to formatter. That where this normally happens
 				// Replace time with 00:00:00
 				if ($postDate = date_create($data['post_date'], new \DateTimeZone('UTC'))) {
@@ -160,6 +149,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 				unset($data['author_realname']);
 				unset($data['author_email']);
 				unset($data['user_id']);
+			}
+
+			$data += [
+				'values' => $this->getPostValues($data['id'], $includePrivateValues, $excludeStages),
+				// Continued for legacy
+				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
+				'sets' => $this->getSetsForPost($data['id']),
+				'completed_stages' => $this->getCompletedStagesForPost($data['id'], $includePrivateValues, $excludeStages),
+				'lock' => NULL,
+			];
+
+			// @todo move or double up in formatter. That should enforce what users can see
+			if ($this->postPermissions->canUserSeePostLock($user, new Post($data))) {
+				$data['lock'] = $this->getHydratedLock($data['id']);
 			}
 		}
 

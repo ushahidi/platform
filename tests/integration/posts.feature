@@ -1659,6 +1659,7 @@ Feature: Testing the Posts API
 		And the response has a "values" property
 		And the "values.location_restrictions.0.lat" property equals "26.21"
 		And the "values.location_restrictions.0.lon" property equals "10.12"
+		And the "values.datetime_restrictions.0" property equals "2014-09-29 00:00:00"
 		And the "post_date" property equals "2014-09-29T00:00:00+00:00"
 		And the "created" property equals "2014-09-29T00:00:00+00:00"
 		And the "updated" property is empty
@@ -1683,6 +1684,7 @@ Feature: Testing the Posts API
 		And the response has a "values" property
 		And the "values.location_restrictions.0.lat" property equals "26.2135"
 		And the "values.location_restrictions.0.lon" property equals "10.1235"
+		And the "values.datetime_restrictions.0" property equals "2014-09-29 15:11:46"
 		And the "post_date" property equals "2014-09-29T14:10:16+00:00"
 		And the "created" property equals "2014-09-29T21:10:16+00:00"
 		And the "updated" property is empty
