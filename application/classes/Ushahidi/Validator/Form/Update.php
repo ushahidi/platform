@@ -55,6 +55,15 @@ class Ushahidi_Validator_Form_Update extends Validator
 			'disabled' => [
 				['in_array', [':value', [true, false]]]
 			],
+			'hide_author' => [
+				['in_array', [':value', [true, false]]]
+			],
+			'hide_location' => [
+				['in_array', [':value', [true, false]]]
+			],
+			'hide_time' => [
+				['in_array', [':value', [true, false]]]
+			],
 		];
 	}
 

@@ -120,6 +120,40 @@ class Ushahidi_Repository_Form extends Ushahidi_Repository implements
     }
 
     /**
+      * Get value of Form property hide_time
+      * if no form is found return false
+      * @param  $form_id
+      * @return Boolean
+      */
+    public function isTimeHidden($form_id)
+    {
+        $query = DB::select('hide_time')
+            ->from('forms')
+            ->where('id', '=', $form_id);
+
+        $results = $query->execute($this->db)->as_array();
+
+        return count($results) > 0 ? $results[0]['hide_time'] : false;
+    }
+
+    /**
+      * Get value of Form property hide_location
+      * if no form is found return false
+      * @param  $form_id
+      * @return Boolean
+      */
+    public function isLocationHidden($form_id)
+    {
+        $query = DB::select('hide_location')
+            ->from('forms')
+            ->where('id', '=', $form_id);
+
+        $results = $query->execute($this->db)->as_array();
+
+        return count($results) > 0 ? $results[0]['hide_location'] : false;
+    }
+
+    /**
      * Get `everyone_can_create` and list of roles that have access to post to the form
      * @param  $form_id
      * @return Array

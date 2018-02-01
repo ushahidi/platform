@@ -31,6 +31,12 @@ class Ushahidi_Repository_Post_Point extends Ushahidi_Repository_Post_Value
 		return 'post_point';
 	}
 
+	protected $hideLocation = false;
+
+	public function hideLocation($hide = true) {
+		$this->hideLocation = $hide;
+	}
+
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
@@ -40,6 +46,12 @@ class Ushahidi_Repository_Post_Point extends Ushahidi_Repository_Post_Value
 			if ($geometry instanceof Point)
 			{
 				$data['value'] = ['lon' => $geometry->lon, 'lat' => $geometry->lat];
+
+				if ($this->hideLocation) {
+					// Round to nearest 0.01 or roughly 500m
+					$data['value']['lat'] = round($data['value']['lat'], 2);
+					$data['value']['lon'] = round($data['value']['lon'], 2);
+				}
 			}
 		}
 		catch (InvalidText $e)

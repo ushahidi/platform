@@ -67,6 +67,62 @@ class PostPermissions
 	}
 
 	/**
+	 * Does the user have permission to view this posts exact time
+	 *
+	 * @param  User           $user
+	 * @param  Post           $post
+	 * @param  FormRepository $form_repo
+	 * @return boolean
+	 */
+	public function canUserSeeTime(User $user, Post $post, FormRepository $form_repo)
+	{
+		// If the user has manage post permission
+		// @todo delegate to authorizer
+		if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			// If so, they can also see post dates
+			return true;
+		}
+
+		// If the post is structured
+		if ($post->form_id) {
+			// @todo inject form repo via constructor or take form as parameter
+			// ... if not, check if the form has author set as hidden or public
+			return !$form_repo->isTimeHidden($post->form_id);
+		}
+
+		// Default to scrubbing info for non-admins on unstructured posts
+		return false;
+	}
+
+	/**
+	 * Does the user have permission to view this posts exact location
+	 *
+	 * @param  User           $user
+	 * @param  Post           $post
+	 * @param  FormRepository $form_repo
+	 * @return boolean
+	 */
+	public function canUserSeeLocation(User $user, Post $post, FormRepository $form_repo)
+	{
+		// If the user has manage post permission
+		// @todo delegate to authorizer
+		if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			// If so, they can also see post location
+			return true;
+		}
+
+		// If the post is structured
+		if ($post->form_id) {
+			// @todo inject form repo via constructor or take form as parameter
+			// ... if not, check if the form has location set as hidden or public
+			return !$form_repo->isLocationHidden($post->form_id);
+		}
+
+		// Default to scrubbing info for non-admins on unstructured posts
+		return false;
+	}
+
+	/**
 	 * Test whether the post instance requires value restriction
 	 *
 	 * @param  Post $post

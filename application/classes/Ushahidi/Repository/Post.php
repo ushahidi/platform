@@ -106,12 +106,16 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$user = $this->getUser();
 		$includePrivateValues = false;
 		$excludeStages = [];
+
+		// Check post permissions
+		// @todo move or double up in formatter. That should enforce what users can see
+		$includePrivateValues = $this->postPermissions->canUserReadPrivateValues($user, new Post($data));
+
+		$this->post_value_factory->getRepo('point')->hideLocation(!$this->postPermissions->canUserSeeLocation($user, new Post($data), $this->form_repo));
+
 		if ($data['form_id'])
 		{
-			// @todo move or double up in formatter. That should enforce what users can see
-			$includePrivateValues = $this->postPermissions->canUserReadPrivateValues($user, new Post($data));
 			// Get Hidden Stage Ids to be excluded from results
-			$status = $data['status'] ? $data['status'] : '';
 			$excludeStages = $this->form_stage_repo->getHiddenStageIds($data['form_id'], $data['status']);
 		}
 
@@ -130,15 +134,29 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			if ($this->postPermissions->canUserSeePostLock($user, new Post($data))) {
 				$data['lock'] = $this->getHydratedLock($data['id']);
 			}
-		}
-		// NOTE: This and the restriction above belong somewhere else,
-		// ideally in their own step
-		// Check if author information should be returned
-		if ($data['author_realname'] || $data['user_id'] || $data['author_email'])
-		{
-			// @todo move to formatter. That where this normally happens
-			if (!$this->postPermissions->canUserSeeAuthor($user, new Post($data), $this->form_repo))
+
+			// NOTE: This and the restriction above belong somewhere else,
+			// ideally in their own step
+			// Check if time info should be returned
+			if (!$this->postPermissions->canUserSeeTime($user, new Post($data), $this->form_repo))
 			{
+				// @todo move to formatter. That where this normally happens
+				// Replace time with 00:00:00
+				if ($postDate = date_create($data['post_date'], new \DateTimeZone('UTC'))) {
+					$data['post_date'] = $postDate->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+				}
+				if ($created = date_create('@'.$data['created'], new \DateTimeZone('UTC'))) {
+					$data['created'] = $created->setTime(0, 0, 0)->format('U');
+				}
+				if ($updated = date_create('@'.$data['updated'], new \DateTimeZone('UTC'))) {
+					$data['updated'] = $updated->setTime(0, 0, 0)->format('U');
+				}
+			}
+
+			if (!$this->postPermissions->canUserSeeAuthor($user, new Post($data), $this->form_repo)
+				&& ($data['author_realname'] || $data['user_id'] || $data['author_email']))
+			{
+				// @todo move to formatter. That where this normally happens
 				unset($data['author_realname']);
 				unset($data['author_email']);
 				unset($data['user_id']);
