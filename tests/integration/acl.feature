@@ -166,7 +166,7 @@ Feature: API Access Control Layer
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "3"
+        And the "count" property equals "5"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Attributes for a form with hidden stages with edit permission
@@ -176,7 +176,7 @@ Feature: API Access Control Layer
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "8"
+        And the "count" property equals "10"
         Then the guzzle status code should be 200
 
     Scenario: User can see hidden tasks of posts published when survey restricted to their role
