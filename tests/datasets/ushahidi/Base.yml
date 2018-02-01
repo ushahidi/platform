@@ -76,6 +76,8 @@ forms:
     description: "Testing form"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 1
   -
     id: 2
@@ -84,6 +86,8 @@ forms:
     description: "Missing persons"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
   -
     id: 3
@@ -92,6 +96,8 @@ forms:
     description: "Test video embed"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
   -
     id: 4
@@ -100,6 +106,8 @@ forms:
     description: "Test role restriction and private responses"
     require_approval: 1
     hide_author: 1
+    hide_time: 1
+    hide_location: 1
     everyone_can_create: 0
 form_roles:
   -
@@ -513,6 +521,18 @@ form_attributes:
     options: '["1","2","3","4","5","6","7"]'
     cardinality: 0
     form_stage_id: 7
+  -
+    id: 30
+    label: "Location"
+    key: "location_restrictions"
+    type: "point"
+    input: "location"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 0
+    form_stage_id: 7
 posts:
   -
     id: 1
@@ -923,7 +943,7 @@ post_locks:
     id: 1
     post_id: 1692
     expires: 1412007022
-    user_id: 1 
+    user_id: 1
 post_datetime:
 post_decimal:
 post_geometry:
@@ -1876,7 +1896,7 @@ contacts:
     type: "email"
   -
     id: 3
-    user_id: 
+    user_id:
     contact: 773456789
     type: "phone"
   -

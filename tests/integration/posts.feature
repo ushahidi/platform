@@ -1643,3 +1643,50 @@ Feature: Testing the Posts API
 		And the response has a "prev" property
 		And the response has a "curr" property
 		Then the guzzle status code should be 200
+
+	@get
+	Scenario: View post with restricted data as normal users limits info
+		Given that I want to find a "Post"
+		And that its "id" is "1690"
+        And that the request "Authorization" header is "Bearer testbasicuser"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "url" property
+		And the "title" property equals "Post published to members"
+		And the response has a "tags" property
+		And the response has a "values" property
+		And the "values.location_restrictions.0.lat" property equals "26.21"
+		And the "values.location_restrictions.0.lon" property equals "10.12"
+		And the "post_date" property equals "2014-09-29T00:00:00+00:00"
+		And the "created" property equals "2014-09-29T00:00:00+00:00"
+		And the "updated" property is empty
+		And the "user_id" property is empty
+		And the "user.id" property is empty
+		And the "author_email" property is empty
+		And the "author_realname" property is empty
+		Then the guzzle status code should be 200
+
+	@get
+	Scenario: View post with restricted data as admin gets full info
+		Given that I want to find a "Post"
+		And that its "id" is "1690"
+        And that the request "Authorization" header is "Bearer testadminuser"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "url" property
+		And the "title" property equals "Post published to members"
+		And the response has a "tags" property
+		And the response has a "values" property
+		And the "values.location_restrictions.0.lat" property equals "26.2135"
+		And the "values.location_restrictions.0.lon" property equals "10.1235"
+		And the "post_date" property equals "2014-09-29T14:10:16+00:00"
+		And the "created" property equals "2014-09-29T21:10:16+00:00"
+		And the "updated" property is empty
+		And the "user.id" property equals "3"
+		And the "author_email" property equals "test@ushahidi.com"
+		And the "author_realname" property equals "Test Name"
+		Then the guzzle status code should be 200
