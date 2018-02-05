@@ -11,35 +11,32 @@
 
 return array(
 
-	'baseurl' => false,
+	'baseurl' => getenv('CDN_BASEURL'),
 
 	// The default configuration using a local file system setup
-	'type' => 'local',
+	'type' => getenv('CDN_TYPE') ?: 'local',
 	'local' => [
 		// Where to upload media files eg. images. Take note of the trailing slash.
 		// This should be in the Document root.
 		'media_upload_dir' => APPPATH.'media'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR,
-	]
+	],
 	// AWS S3 v3 CDN config example
-	/*
-	'type' => 'aws',
+	// 'type' => 'aws',
 	'aws' => [
-		'key'         => '',
-		'secret'      => '',
-		'region'      => '',
-		'version'     => '',
-		'bucket_name' => '',
-	]
-	*/
+		'key'         => getenv('CDN_AWS_KEY'),
+		'secret'      => getenv('CDN_AWS_SECRET'),
+		'region'      => getenv('CDN_AWS_REGION'),
+		'version'     => getenv('CDN_AWS_VERSION'),
+		'bucket_name' => getenv('CDN_AWS_BUCKET'),
+	],
+
 
 	// Rackspace CDN config example
-	/*
-	'type' => 'rackspace',
-		'rackspace' => [
-		'username'  => '',
-		'apiKey'    => '',
-		'region'    => '',
-		'container' => ''
-	]
-	*/
+	// 'type' => 'rackspace',
+	'rackspace' => [
+		'username'  => getenv('CDN_RS_USERNAME'),
+		'apiKey'    => getenv('CDN_RS_APIKEY'),
+		'region'    => getenv('CDN_RS_REGION'),
+		'container' => getenv('CDN_RS_CONTAINER'),
+	],
 );

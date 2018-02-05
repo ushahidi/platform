@@ -16,7 +16,7 @@ return [
 	 * Please note that this only lasts the lifetime of the request.
 	 *
 	 */
-	'cache' => 'filesystem',
+	'cache' => getenv('RATELIMITER_CACHE') ?: 'filesystem',
 	'filesystem' => [
 		'directory' => '/tmp/ratelimitercache',
 	],
