@@ -48,14 +48,21 @@ class ConfigSet extends Command
 	public function __construct()
 	{
 		parent::__construct();
+	}
 
-		// @todo inject
-		$this->usecase = service('factory.usecase')
-			->get('config', 'update')
-			// Override authorizer for console
-			->setAuthorizer(service('authorizer.console'))
-			// Override formatter for console
-			->setFormatter(service('formatter.entity.console'));
+	protected function getUsecase()
+	{
+		if (!$this->usecase) {
+			// @todo inject
+			$this->usecase = service('factory.usecase')
+				->get('config', 'update')
+				// Override authorizer for console
+				->setAuthorizer(service('authorizer.console'))
+				// Override formatter for console
+				->setFormatter(service('formatter.entity.console'));
+		}
+
+		return $this->usecase;
 	}
 
     /**
@@ -80,10 +87,10 @@ class ConfigSet extends Command
 			}
 		}
 
-		$this->usecase->setIdentifiers([ 'id' => $group ])
+		$this->getUsecase()->setIdentifiers([ 'id' => $group ])
 			->setPayload($value);
 
-		$response = $this->usecase->interact();
+		$response = $this->getUsecase()->interact();
 
 		// Format the response and output
 		$this->handleResponse($response);

@@ -47,13 +47,14 @@ class UserCreate extends Command
 	public function __construct()
 	{
 		parent::__construct();
-		$this->repo = service('repository.user');
-		$this->validator = service('factory.validator')->get('users', 'create');
-		$this->tosRepo = service('repository.tos');
 	}
 
 	public function handle()
 	{
+		$this->repo = service('repository.user');
+		$this->validator = service('factory.validator')->get('users', 'create');
+		$this->tosRepo = service('repository.tos');
+
 		$state = [
 			'realname' => $this->option('realname') ?: null,
 			'email' => $this->option('email'),

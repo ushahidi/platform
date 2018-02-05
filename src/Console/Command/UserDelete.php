@@ -45,11 +45,12 @@ class UserDelete extends Command
 	public function __construct()
 	{
 		parent::__construct();
-		$this->repo = service('repository.user');
 	}
 
 	public function handle()
 	{
+		$this->repo = service('repository.user');
+
 		$email = $this->option('email');
 
 		$entity = $this->repo->getByEmail($email);

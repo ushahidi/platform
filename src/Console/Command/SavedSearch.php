@@ -53,15 +53,16 @@ class SavedSearch extends Command
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	public function handle()
+	{
 		$this->data = service('factory.data');
 		$this->contactRepository = service('repository.contact');
 		$this->setRepository = service('repository.savedsearch');
 		$this->postRepository = service('repository.post');
 		$this->messageRepository = service('repository.message');
-	}
 
-	public function handle()
-	{
 		$count = 0;
 
 		// Get saved searches

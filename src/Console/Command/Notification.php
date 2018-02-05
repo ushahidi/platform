@@ -50,6 +50,12 @@ class Notification extends Command
 	public function __construct(DataSourceManager $sources)
 	{
 		parent::__construct();
+
+        $this->sources = $sources;
+	}
+
+	public function handle()
+	{
 		$this->db = service('kohana.db');
 		$this->contactRepository = service('repository.contact');
 		$this->postRepository = service('repository.post');
@@ -59,11 +65,6 @@ class Notification extends Command
 		$this->siteConfig = service('site.config');
 		$this->clientUrl = service('clienturl');
 
-        $this->sources = $sources;
-	}
-
-	public function handle()
-	{
 		$limit = $this->option('limit');
 
 		$count = 0;

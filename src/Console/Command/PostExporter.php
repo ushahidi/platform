@@ -56,12 +56,13 @@ class PostExporter extends Command
 	public function __construct()
 	{
 		parent::__construct();
-		$this->data = service('factory.data');
-		$this->postExportRepository = service('repository.posts_export');
 	}
 
 	public function handle()
 	{
+        $this->data = service('factory.data');
+        $this->postExportRepository = service('repository.posts_export');
+
         $data = $this->data->get('search');
 
 		$limit = $this->option('limit');

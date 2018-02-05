@@ -59,11 +59,20 @@ class Import extends Command
 		$this->readerMap = [
 			'csv' => service('filereader.csv')
 		];
-		$this->usecase = service('factory.usecase')
-			->get('posts', 'import')
-			// Override authorizer for console
-			->setAuthorizer(service('authorizer.console'));
 		$this->transformer = service('transformer.mapping');
+	}
+
+	protected function getUsecase()
+	{
+		if (!$this->usecase) {
+			// @todo inject
+			$this->usecase = service('factory.usecase')
+				->get('posts', 'import')
+				// Override authorizer for console
+				->setAuthorizer(service('authorizer.console'));
+		}
+
+		return $this->usecase;
 	}
 
 
@@ -118,11 +127,11 @@ class Import extends Command
 		$payload = $reader->process($filename);
 
 		// Get the usecase and pass in authorizer, payload and transformer
-		$this->usecase
+		$this->getUsecase()
 			->setPayload($payload)
 			->setTransformer($this->transformer);
 
 		// Execute the import
-		return $this->usecase->interact();
+		return $this->getUsecase()->interact();
 	}
 }

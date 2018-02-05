@@ -48,23 +48,30 @@ class ConfigGet extends Command
 	public function __construct()
 	{
 		parent::__construct();
+	}
 
-		// @todo inject
-		$this->usecase = service('factory.usecase')
-			->get('config', 'read')
-			// Override authorizer for console
-			->setAuthorizer(service('authorizer.console'))
-			// Override formatter for console
-			->setFormatter(service('formatter.entity.console'));
+	protected function getUsecase()
+	{
+		if (!$this->usecase) {
+			// @todo inject
+			$this->usecase = service('factory.usecase')
+				->get('config', 'read')
+				// Override authorizer for console
+				->setAuthorizer(service('authorizer.console'))
+				// Override formatter for console
+				->setFormatter(service('formatter.entity.console'));
+		}
+
+		return $this->usecase;
 	}
 
 	public function handle()
 	{
 		$group = $this->argument('group');
 
-		$this->usecase->setIdentifiers([ 'id' => $group ]);
+		$this->getUsecase()->setIdentifiers([ 'id' => $group ]);
 
-		$response = $this->usecase->interact();
+		$response = $this->getUsecase()->interact();
 
 		// Format the response and output
 		$this->handleResponse($response);

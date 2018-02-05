@@ -50,14 +50,15 @@ class Webhook extends Command
 	public function __construct()
 	{
 		parent::__construct();
-		$this->db = service('kohana.db');
-		$this->webhookRepository = service('repository.webhook');
-		$this->postRepository = service('repository.post');
-		$this->webhookJobRepository = service('repository.webhook.job');
 	}
 
 	public function handle()
 	{
+		$this->db = service('kohana.db');
+		$this->webhookRepository = service('repository.webhook');
+		$this->postRepository = service('repository.post');
+		$this->webhookJobRepository = service('repository.webhook.job');
+
 		$this->client = new \GuzzleHttp\Client();
 
 		$limit = $this->option('limit');
