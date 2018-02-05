@@ -105,7 +105,7 @@ class AppServiceProvider extends ServiceProvider
         $di->set('kohana.db.multisite', function () use ($di) {
             $config = config('ohanzee-db');
 
-            return \Ohanzee\Database::instance('multisite', $config['default']);
+            return \Ohanzee\Database::instance('multisite', $config['multisite']);
         });
 
         // Deployment db
