@@ -51,6 +51,10 @@ class Log_Raven extends Log_Writer {
         {
             if (isset($message['additional']['exception']))
             {
+                if ($message['additional']['exception'] instanceof HTTP_Exception) {
+                    continue;
+                }
+
                 // Write each message into the log file
                 // Format: time --- level: body
                 $this->raven->captureException($message['additional']['exception']);
