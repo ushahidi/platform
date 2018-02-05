@@ -115,4 +115,11 @@ class Multisite
 		$this->parseHost($host);
 		return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
 	}
+
+	public function getClientUrl($host = null)
+	{
+		$this->parseHost($host);
+
+		return $this->subdomain . '.' . getenv('MULTISITE_CLIENT_DOMAIN');
+	}
 }

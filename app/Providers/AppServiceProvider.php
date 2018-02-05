@@ -154,7 +154,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Client Url
         $di->set('clienturl', function () use ($di) {
-            return $this->getClientUrl($di->get('site.config'));
+            return $this->getClientUrl($di->get('site.config'), $di->get('multisite'));
         });
     }
 
@@ -174,17 +174,13 @@ class AppServiceProvider extends ServiceProvider
         return $config;
     }
 
-    protected function getClientUrl($config)
+    protected function getClientUrl($config, $multisite)
     {
         $clientUrl = env('CLIENT_URL', false);
 
         if (env("MULTISITE_DOMAIN", false)) {
             try {
-                $url = \League\Url\Url::createFromServer($_SERVER);
-                $host = $url->getHost()->toUnicode();
-                $scheme = $url->getScheme();
-                $clientUrl = $scheme->getUriComponent()
-                    . str_replace(env("MULTISITE_DOMAIN"), env("MULTISITE_CLIENT_DOMAIN"), $host);
+                $clientUrl = $multisite->getClientUrl();
             } catch (Exception $e) {
             }
         }
