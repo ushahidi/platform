@@ -132,12 +132,14 @@
             "phpspec run --no-code-generation",
             "behat --strict --profile ci"
         ],
-        "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\"",
-            "php artisan passport:keys"
-        ],
         "post-install-cmd": [
-            "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install"
+            "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",
+            "php artisan passport:keys",
+            "chmod 660 storage/passport/*.key"
+        ],
+        "bootstrap:passport": [
+            "php artisan passport:keys",
+            "chmod 660 storage/passport/*.key"
         ]
     }
 }
