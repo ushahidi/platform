@@ -45,9 +45,14 @@ class Multisite
 					$host = $url->getHost()->toUnicode();
 				} catch (\RuntimeException $e) {
 					// Something went wrong parsing the host
-					// Finally fallback to just $_SERVER vars
-					$host = $_SERVER['HTTP_HOST'];
 				}
+			}
+
+			// If we still don't have a host
+			if (! $host) {
+				// Finally fallback to just $_SERVER vars
+				// Or just no subdomain if we can't figure it out
+				$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $domain;
 			}
 
 			// If $domain is set and we're at a subdomain of $domain..
