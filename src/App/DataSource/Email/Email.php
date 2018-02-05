@@ -254,7 +254,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 		} catch (\ErrorException $e) {
 			$errors = imap_errors();
 			$errors = is_array($errors) ? implode(', ', $errors) : "";
-			app('log')->error($e->getMessage(), [':errors' => $errors]);
+			app('log')->info($e->getMessage(), [':errors' => $errors]);
 		}
 
 		return $messages;
