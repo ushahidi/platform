@@ -134,8 +134,7 @@
         ],
         "post-install-cmd": [
             "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",
-            "php artisan passport:keys",
-            "chmod 660 storage/passport/*.key"
+            "php artisan passport:keys"
         ],
         "bootstrap:passport": [
             "php artisan passport:keys",
