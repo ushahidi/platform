@@ -22,7 +22,7 @@ class FormPermissions
 	use AdminAccess;
 
 	/**
-	 * Does the user have permission to edit the form?
+	 * Does the user have permission to edit posts for this form?
 	 *
 	 * @param  User   $user
 	 * @param  Int    $form_id
@@ -31,6 +31,6 @@ class FormPermissions
 	public function canUserEditForm(User $user, $form_id)
 	{
 		// @todo delegate to form authorizer
-		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
+		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS) || $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS);
 	}
 }

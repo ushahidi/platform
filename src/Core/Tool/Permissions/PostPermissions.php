@@ -32,10 +32,9 @@ class PostPermissions
 	 */
 	public function canUserSeePostLock(User $user, Post $post)
 	{
-		// At present only logged in users with Manage Post Permission can see that a Post is locked
-		// @todo if we're checking manage posts, check that - don't check if a user can edit a form!?
-		//       More accurately I think if they can edit a post, the should be able to see locks
-		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
+		// At present only logged in users with ability to edit a post can see that a Post is locked
+		// @todo delegate to authorizer
+		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS) || $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS);
 	}
 
 	/**
@@ -142,6 +141,7 @@ class PostPermissions
 	 */
 	public function canUserViewUnpublishedPosts(User $user)
 	{
-		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
+		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS) ||
+			$this->acl->hasPermission($user, Permission::VIEW_ANY_POSTS);
 	}
 }
