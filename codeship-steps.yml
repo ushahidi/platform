@@ -16,7 +16,7 @@
 
   - name: "Deploy"
     service: deploy
-    tag: develop
+    tag: staging
     command: >
       ANSIBLE_GITHUB_REPO=platform-cloud-ansible
       ANSIBLE_GITHUB_REPO_VERSION=master
