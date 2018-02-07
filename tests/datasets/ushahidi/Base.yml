@@ -1,3 +1,7 @@
+apikeys:
+  -
+    id: 2
+    api_key: "thisisatestapikeystring"
 roles:
   -
     name: "user"
@@ -903,6 +907,21 @@ posts:
     created: 1412025016
     published_to: '["user"]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 1693
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Test inbound message"
+    type: "report"
+    content: "Post to test inbound messages"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
 post_locks:
   -
     id: 1
@@ -1396,6 +1415,10 @@ oauth_scopes:
     id: 21
     scope: tos
     name: tos
+  -
+    id: 22
+    scope: apikeys
+    name: apikeys
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1861,7 +1884,7 @@ contacts:
     type: "email"
   -
     id: 3
-    user_id:
+    user_id: 
     contact: 773456789
     type: "phone"
   -
@@ -1872,7 +1895,7 @@ contacts:
 messages:
   -
     id: 1
-    title: "abc"
+    title: "Test inbound message"
     message: "A test message"
     type: "sms"
     direction: "incoming"
@@ -1967,6 +1990,18 @@ messages:
     datetime:
     post_id: 9999
     data_provider: "smssync"
+  -
+    id: 10
+    title: "Test inbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1693
+    user_id:
+    datetime:
+    data_provider:
 layers:
   -
     id: 1
@@ -2037,6 +2072,7 @@ webhooks:
   -
     id: 2
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -2045,6 +2081,7 @@ webhooks:
   -
     id: 3
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -2053,6 +2090,7 @@ webhooks:
   -
     id: 4
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -2061,6 +2099,7 @@ webhooks:
   -
     id: 5
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"

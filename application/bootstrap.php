@@ -123,12 +123,7 @@ Cookie::$salt = 'ushahidi-insecure-please-change-me';
  */
 if (getenv("RAVEN_URL"))
 {
-	$client = new Raven_Client(getenv("RAVEN_URL"));
-
-	$error_handler = new Raven_ErrorHandler($client);
-	$error_handler->registerExceptionHandler();
-	$error_handler->registerErrorHandler();
-	$error_handler->registerShutdownFunction();
+	$client = (new Raven_Client(getenv("RAVEN_URL"), ['exclude' => ['HTTP_Exception_404']]))->install();
 
 	Kohana::$log->attach(new Log_Raven($client));
 }

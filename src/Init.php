@@ -90,6 +90,7 @@ $di->setter['Ushahidi\Console\Command\Import']['setImportUsecase'] = $di->lazy(f
 // User command
 $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\User');
 $di->setter['Ushahidi\Console\Command\User']['setRepo'] = $di->lazyGet('repository.user');
+$di->setter['Ushahidi\Console\Command\User']['setTosRepo'] = $di->lazyGet('repository.tos');
 $di->setter['Ushahidi\Console\Command\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
 
 // Config commands
@@ -143,6 +144,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'notifications'        => $di->lazyGet('authorizer.notification'),
 	'webhooks'             => $di->lazyGet('authorizer.webhook'),
 	'postdataexports'      => $di->lazyGet('authorizer.postdataexport'),
+	'apikeys'              => $di->lazyGet('authorizer.apikey'),
 	'contacts'             => $di->lazyGet('authorizer.contact'),
 	'csv'                  => $di->lazyGet('authorizer.csv'),
 	'roles'                => $di->lazyGet('authorizer.role'),
@@ -175,6 +177,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'notifications'        => $di->lazyGet('repository.notification'),
 	'webhooks'             => $di->lazyGet('repository.webhook'),
 	'postdataexports'      => $di->lazyGet('repository.postdataexport'),
+	'apikeys'              => $di->lazyGet('repository.apikey'),
 	'contacts'             => $di->lazyGet('repository.contact'),
 	'csv'                  => $di->lazyGet('repository.csv'),
 	'roles'                => $di->lazyGet('repository.role'),
@@ -290,13 +293,14 @@ $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator
 
 // Add custom usecases for posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
-	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePost'),
-	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPost'),
-	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
-	'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
-	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
-	'stats'   => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
-	'import'  => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
+	'create'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePost'),
+	'read'            => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPost'),
+	'update'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
+	'webhook-update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\WebhookUpdatePost'),
+	'delete'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
+	'search'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
+	'stats'           => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
+	'import'          => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
 ];
 
 // Add custom create usecase for notifications
@@ -321,6 +325,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [
 
 // Add custom create usecase for terms of service
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['tos'] = [
+	'create' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\CreateTos'),
 	'search' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\SearchTos'),
 
 ];
@@ -430,6 +435,7 @@ $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthor
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 $di->set('authorizer.webhook', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\WebhookAuthorizer'));
 $di->set('authorizer.postdataexport', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostDataExportAuthorizer'));
+$di->set('authorizer.apikey', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ApiKeyAuthorizer'));
 $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
 $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthorizer'));
 $di->set('authorizer.role', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\RoleAuthorizer'));
