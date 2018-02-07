@@ -159,7 +159,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Client Url
         $di->set('clienturl', function () use ($di) {
-            return $this->getClientUrl($di->get('site.config'), $di->get('multisite'));
+            return $this->getClientUrl($di->get('site.config'), $di->lazyGet('multisite'));
         });
     }
 
@@ -185,7 +185,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (env("MULTISITE_DOMAIN", false)) {
             try {
-                $clientUrl = $multisite->getClientUrl();
+                $clientUrl = $multisite()->getClientUrl();
             } catch (Exception $e) {
             }
         }
