@@ -33,10 +33,16 @@ class Ushahidi_Multisite
 			}
 			// If we still don't have a host
 			if (! $host) {
-				// .. parse the current URL
-				$url = Url::createFromServer($_SERVER);
-				// .. and grab the host
-				$host = $url->getHost()->toUnicode();
+				try {
+					// .. parse the current URL
+					$url = Url::createFromServer($_SERVER);
+					// .. and grab the host
+					$host = $url->getHost()->toUnicode();
+				} catch (\RuntimeException $e) {
+					// Something went wrong parsing the host
+					// Finally fallback to just $_SERVER vars
+					$host = $_SERVER['HTTP_HOST'];
+				}
 			}
 
 			// If $domain is set and we're at a subdomain of $domain..

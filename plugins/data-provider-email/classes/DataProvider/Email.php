@@ -189,7 +189,7 @@ class DataProvider_Email extends DataProvider {
 		{
 			$errors = imap_errors();
 			$errors = is_array($errors) ? implode(', ', $errors) : "";
-			Kohana::$log->add(Log::ERROR, $e->getMessage() . ". Errors: :errors",
+			Kohana::$log->add(Log::INFO, $e->getMessage() . ". Errors: :errors",
 				[':errors' => $errors]);
 		}
 
