@@ -27,8 +27,11 @@ class AppServiceProvider extends ServiceProvider
 
         $this->configureAuraDI();
 
-        // Hack, must construct it to register route :/
         if (!$this->app->runningInConsole()) {
+            // Switch DB based on site
+            $this->setupMultisiteIlluminateDB();
+
+            // Hack, must construct it to register route :/
             $this->app->make('datasources');
         }
     }
@@ -193,5 +196,20 @@ class AppServiceProvider extends ServiceProvider
         }
 
         return $clientUrl;
+    }
+
+    protected function setupMultisiteIlluminateDB()
+    {
+        $di = service();
+        $config = $this->getDbConfig($di);
+
+        $existing = config('database.connections.mysql');
+
+        config(['database.connections.mysql' => [
+            'database'  => $config['connection']['database'],
+            'username'  => $config['connection']['username'],
+            'password'  => $config['connection']['password'],
+            'host'      => $config['connection']['hostname'],
+        ] + $existing]);
     }
 }
