@@ -31,6 +31,7 @@ class FormPermissions
 	public function canUserEditForm(User $user, $form_id)
 	{
 		// @todo delegate to form authorizer
-		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS) || $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS);
+		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS) ||
+			$this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS);
 	}
 }

@@ -34,7 +34,8 @@ class PostPermissions
 	{
 		// At present only logged in users with ability to edit a post can see that a Post is locked
 		// @todo delegate to authorizer
-		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS) || $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS);
+		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS) ||
+			$this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS);
 	}
 
 	/**
