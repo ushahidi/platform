@@ -11,6 +11,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -21,9 +23,11 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         AuthorizationException::class,
+        AuthenticationException::class,
         HttpException::class,
         ModelNotFoundException::class,
         IlluminateValidationException::class,
+        OAuthServerException::class,
     ];
 
     /**
@@ -60,6 +64,8 @@ class Handler extends ExceptionHandler
             $e = new NotFoundHttpException($e->getMessage(), $e);
         } elseif ($e instanceof AuthorizationException) {
             $e = new HttpException(403, $e->getMessage());
+        } elseif ($e instanceof AuthenticationException) {
+            $e = new HttpException(401, $e->getMessage());
         } elseif ($e instanceof IlluminateValidationException && $e->getResponse()) {
             // @todo check if we should still reformat this for json
             return $e->getResponse();
