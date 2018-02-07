@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\App\Auth\UshahidiUserProvider;
 use Laravel\Passport\Passport;
+use Carbon\Carbon;
+use Illuminate\Database\Connection;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -18,8 +20,20 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Skip migrations ... run with phinx
         Passport::ignoreMigrations();
-        //
+
+        // Set token expiries
+        Passport::tokensExpireIn(Carbon::now()->addDays(1));
+        Passport::refreshTokensExpireIn(Carbon::now()->addDays(7));
+
+        // Register routes
+        $this->passportRoutes();
+
+        // Provide connection class binding for Passport
+        $this->app->singleton(Connection::class, function () {
+            return $this->app['db.connection'];
+        });
     }
 
     /**
@@ -40,7 +54,15 @@ class AuthServiceProvider extends ServiceProvider
         //     }
         // });
 
+        // Set passport key path
         Passport::loadKeysFrom(storage_path('passport/'));
+
+        // Define passport scopes
+        $this->defineScopes();
+    }
+
+    protected function defineScopes()
+    {
         // Define possible scopes
         // @todo simplify / improve these
         Passport::tokensCan([
@@ -66,5 +88,17 @@ class AuthServiceProvider extends ServiceProvider
             'migrate' => 'Access migrate',
             'webhooks' => 'Access webhooks'
         ]);
+    }
+
+    protected function passportRoutes($callback = null, array $options = [])
+    {
+        $this->app->router->group([
+            'prefix' => 'oauth',
+            'namespace' => '\Laravel\Passport\Http\Controllers',
+        ], function ($router) {
+            $router->post('/token', [
+                'uses' => 'AccessTokenController@issueToken'
+            ]);
+        });
     }
 }

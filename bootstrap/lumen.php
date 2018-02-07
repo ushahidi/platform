@@ -83,7 +83,6 @@ $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
 // $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
 $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
-$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 

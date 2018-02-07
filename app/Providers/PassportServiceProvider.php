@@ -48,23 +48,7 @@ class PassportServiceProvider extends LaravelPassportServiceProvider
             \Ushahidi\App\Passport\UserRepository::class
         );
 
-        \Dusterio\LumenPassport\LumenPassport::routes($this->app);
-
         parent::boot();
-    }
-
-    /**
-     * Register the token guard.
-     *
-     * @return void
-     */
-    protected function registerGuard()
-    {
-        $this->app['auth']->extend('passport', function ($app, $name, array $config) {
-            return tap($this->makeGuard($config), function ($guard) {
-                $this->app->refresh('request', $guard, 'setRequest');
-            });
-        });
     }
 
     /**
@@ -79,25 +63,11 @@ class PassportServiceProvider extends LaravelPassportServiceProvider
             return (new TokenGuard(
                 $this->app->make(ResourceServer::class),
                 service('repository.user'),
-                //Auth::createUserProvider($config['provider']),
-                new TokenRepository,
+                // Auth::createUserProvider($config['provider']),
+                $this->app->make(TokenRepository::class),
                 $this->app->make(ClientRepository::class),
                 $this->app->make('encrypter')
             ))->user($request);
         }, $this->app['request']);
-    }
-
-    /**
-     * Register the cookie deletion event handler.
-     *
-     * @return void
-     */
-    protected function deleteCookieOnLogout()
-    {
-        $this->app['events']->listen(Logout::class, function () {
-            if ($this->app['request']->hasCookie(Passport::cookie())) {
-                $this->app['cookie']->queue($this->app['cookie']->forget(Passport::cookie()));
-            }
-        });
     }
 }
