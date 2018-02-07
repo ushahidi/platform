@@ -53,6 +53,7 @@ if (!empty(getenv("MULTISITE_DOMAIN"))) {
 } else {
 	// Otherwise this is the platform DB config
 	return [
-		'default' => $config
+		'default' => $config,
+		'multisite' => $config
 	];
 }
