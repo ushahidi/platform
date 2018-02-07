@@ -38,17 +38,22 @@ class Ushahidi_Repository_Post_ValueFactory
 		return array_keys($this->map);
 	}
 
-	public function proxy(Array $include_types = [])
+	public function proxy(Array $include_types = [], $exclude_types = [])
 	{
 		return new Ushahidi_Repository_Post_ValueProxy($this, $include_types);
 	}
 
-	public function each($callback, Array $include_types = [])
+	public function each($callback, Array $include_types = [], Array $exclude_types = [])
 	{
 		$map = $this->map;
 		if ($include_types)
 		{
 			$map = array_intersect_key($this->map, array_fill_keys($include_types, TRUE));
+		}
+
+		// NOTE: include_types overrules exclude_types, hence elseif
+		elseif ($exclude_types) {
+			$map = array_diff_key($this->map, array_fill_keys($exclude_types, TRUE));
 		}
 
 		foreach ($map as $type => $class)

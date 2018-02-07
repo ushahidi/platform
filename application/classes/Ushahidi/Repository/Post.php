@@ -955,7 +955,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if ($entity->values)
 		{
 			// Update post-values
-			$this->updatePostValues($id, $values);
+			$this->updatePostValues($id, $values, false);
 		}
 
 		if ($entity->completed_stages)
@@ -1020,14 +1020,34 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return $count;
 	}
 
-	protected function updatePostValues($post_id, $attributes)
+	protected function updatePostValues($post_id, $attributes, $update = true)
 	{
-		$this->post_value_factory->proxy()->deleteAllForPost($post_id);
+		$user = $this->getUser();
+		$exclude_types = [];
+		// HACK: If user cannot see time or location, don't clear values
+		if ($update && !$this->postPermissions->canUserSeeLocation($user, new Post(['id' => $post_id]), $this->form_repo)) {
+			$exclude_types[] = 'point';
+		}
+		if ($update && !$this->postPermissions->canUserSeeTime($user, new Post(['id' => $post_id]), $this->form_repo)) {
+			$exclude_types[] = 'datetime';
+		}
+
+		$this->post_value_factory->proxy()->deleteAllForPost($post_id, [], $exclude_types);
 
 		foreach ($attributes as $key => $values)
 		{
 			$attribute = $this->form_attribute_repo->getByKey($key);
 			if (!$attribute->id) {
+				continue;
+			}
+
+			// HACK: If user cannot see locations, don't update
+			if ($update && $attribute->type === 'point' && !$this->postPermissions->canUserSeeLocation($user, new Post(['id' => $post_id]), $this->form_repo)) {
+				continue;
+			}
+
+			// HACK: If user cannot see time, don't update
+			if ($update && $attribute->type === 'datetime' && !$this->postPermissions->canUserSeeTime($user, new Post(['id' => $post_id]), $this->form_repo)) {
 				continue;
 			}
 
