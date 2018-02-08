@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Data Provider Entity
+ * Ushahidi ApiKey Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,29 +13,28 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class DataProvider extends StaticEntity
+class ApiKey extends StaticEntity
 {
 	protected $id;
-	protected $name;
-	protected $services;
-	protected $options;
-	protected $inbound_fields;
+	protected $api_key;
+	protected $created;
+	protected $updated;
+
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
-			'id'       => 'string',
-			'name'     => 'string',
-			'services' => 'array',
-			'options'  => 'array',
-            'inbound_fields'  => 'array',
+			'id'            	=> 'int',
+			'api_key'					=> 'string',
+			'created'       	=> 'int',
+			'updated'       	=> 'int',
 		];
 	}
 
 	// Entity
 	public function getResource()
 	{
-		return 'dataprovider';
+		return 'apikey';
 	}
 }

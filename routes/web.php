@@ -24,6 +24,18 @@ $router->group([
     'namespace' => 'API'
 ], function () use ($router) {
 
+    // API keys
+    $router->group([
+        'middleware' => ['auth:api', 'scope:apikeys'],
+        'prefix' => 'apikeys'
+    ], function () use ($router) {
+        $router->get('/', 'ApiKeysController@index');
+        $router->post('/', 'ApiKeysController@store');
+        $router->get('/{id}', 'ApiKeysController@show');
+        $router->put('/{id}', 'ApiKeysController@update');
+        $router->delete('/{id}', 'ApiKeysController@destroy');
+    });
+
     // Collections
     $router->group([
             'namespace' => 'Collections',
@@ -430,6 +442,8 @@ $router->group([
         $router->get('/{id:[0-9]+}', 'WebhooksController@show');
         $router->put('/{id:[0-9]+}', 'WebhooksController@update');
         $router->delete('/{id:[0-9]+}', 'WebhooksController@destroy');
+
+        $router->put('/posts', 'WebhookPostsController@update');
     });
 });
 

@@ -131,6 +131,10 @@ $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 
 
 // Validator mapping
+$di->params['Ushahidi\Factory\ValidatorFactory']['map']['apikeys'] = [
+        'create' => $di->lazyNew(Ushahidi\App\Validator\ApiKey\Create::class),
+        'update' => $di->lazyNew(Ushahidi\App\Validator\ApiKey\Update::class),
+];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['config'] = [
 	'update' => $di->lazyNew(Ushahidi\App\Validator\Config\Update::class),
 ];
@@ -164,6 +168,7 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
 	'create' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
 	'update' => $di->lazyNew(Ushahidi\App\Validator\Post\Update::class),
 	'import' => $di->lazyNew(Ushahidi\App\Validator\Post\Import::class),
+    'webhook-update' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
 	'create' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
@@ -229,6 +234,7 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['tos'] = [
 
 // Formatter mapping
 $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
+    'apikeys'              => $di->lazyNew(Ushahidi\App\Formatter\ApiKey::class),
 	'config'               => $di->lazyNew(Ushahidi\App\Formatter\Config::class),
 	'dataproviders'        => $di->lazyNew(Ushahidi\App\Formatter\Dataprovider::class),
 	'forms'                => $di->lazyNew(Ushahidi\App\Formatter\Form::class),
@@ -258,6 +264,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 ];
 
 // Formatter parameters
+$di->setter[Ushahidi\App\Formatter\ApiKey::class]['setAuth'] = $di->lazyGet("authorizer.apikey");
 $di->setter[Ushahidi\App\Formatter\Config::class]['setAuth'] = $di->lazyGet("authorizer.config");
 $di->setter[Ushahidi\App\Formatter\CSV::class]['setAuth'] = $di->lazyGet("authorizer.csv");
 $di->setter[Ushahidi\App\Formatter\Dataprovider::class]['setAuth'] = $di->lazyGet("authorizer.dataprovider");
@@ -313,6 +320,7 @@ $di->setter[Ushahidi\App\Formatter\Post\GeoJSONCollection::class]['setDecoder'] 
 	$di->lazyNew('Symm\Gisconverter\Decoders\WKT');
 
 // Repositories
+$di->set('repository.apikey', $di->lazyNew(Ushahidi\App\Repository\ApiKeyRepository::class));
 $di->set('repository.config', $di->lazyNew(Ushahidi\App\Repository\ConfigRepository::class));
 $di->set('repository.contact', $di->lazyNew(Ushahidi\App\Repository\ContactRepository::class));
 $di->set('repository.dataprovider', $di->lazyNew(Ushahidi\App\Repository\DataproviderRepository::class));

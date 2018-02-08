@@ -67,6 +67,7 @@ class AuthServiceProvider extends ServiceProvider
         // @todo simplify / improve these
         Passport::tokensCan([
             'api' => 'Access API',
+            'apikeys' => 'Access API keys',
             'posts' => 'Access posts',
             'forms' => 'Access forms',
             'sets' => 'Access sets',

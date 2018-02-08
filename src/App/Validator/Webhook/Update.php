@@ -44,7 +44,7 @@ class Update extends Validator
 				['url']
 			],
 			'event_type' => [
-				['in_array', [':value', ['create', 'delete', 'update', 'search']]],
+				['in_array', [':value', ['create', 'delete', 'update']]],
 			],
 			'entity_type' => [
 				['in_array', [':value', ['post']]],

@@ -47,6 +47,7 @@ class DataSourceStorage
         $message,
         $to = null,
         $title = null,
+        $date = null,
         $data_source_message_id = null,
         array $additional_data = null
     ) {
@@ -59,6 +60,7 @@ class DataSourceStorage
                     'message',
                     'to',
                     'title',
+                    'date',
                     'data_source_message_id',
                     'data_source',
                     'contact_type',
