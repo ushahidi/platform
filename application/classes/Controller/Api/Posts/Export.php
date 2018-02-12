@@ -49,4 +49,14 @@ class Controller_Api_Posts_Export extends Ushahidi_Rest
 		))
 		->allowed(array_keys($this->_action_map));
 	}
+
+	public function action_put_index_collection()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get('posts', 'export');
+		$this->_usecase
+		    ->setRepository(service("repository.export.job"))
+			->setIdentifiers($this->request->param())
+			->setFormatter(service("formatter.entity.export.job"));
+	}
 }
