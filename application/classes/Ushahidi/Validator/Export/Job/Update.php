@@ -9,14 +9,21 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Ushahidi_Validator_Export_Create extends Ushahidi_Validator_Export_Update
+use Ushahidi\Core\Tool\Validator;
+
+class Ushahidi_Validator_Export_Job_Update extends Validator
 {
-  protected function getRules()
-  {
-    return array_merge_recursive(parent::getRules(), [
-      'entity_type' => [
-        ['not_empty'],
-      ],
-    ]);
-  }
+	protected $default_error_source = 'export';
+
+	protected function getRules()
+	{
+		return [
+			'id' => [
+				['numeric'],
+			],
+			'entity_type' => [
+				['in_array', [':value', ['post']]],
+			]
+		];
+	}
 }

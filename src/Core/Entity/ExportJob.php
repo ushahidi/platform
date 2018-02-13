@@ -17,10 +17,20 @@ class ExportJob extends StaticEntity
 {
 	protected $id;
 	protected $entity_type;
+	protected $user_id;
 	protected $fields;
 	protected $filters;
 	protected $created;
 	protected $updated;
+
+	// StatefulData
+	protected function getDerived()
+	{
+		// Foreign key alias
+		return [
+			'user_id' => ['user', 'user.id']
+		];
+	}
 
 	// DataTransformer
 	protected function getDefinition()
@@ -41,4 +51,9 @@ class ExportJob extends StaticEntity
 		return 'export_job';
 	}
 
+	// StatefulData
+	protected function getImmutable()
+	{
+		return array_merge(parent::getImmutable(), ['user_id']);
+	}
 }

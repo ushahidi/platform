@@ -282,17 +282,30 @@ Route::set('migration', $apiBase . 'migration/<action>',
 		'directory'  => 'Api'
 	));
 
-	/**
-	 * Dataproviders API Route
-	 */
-	Route::set('inbound-webhook-api', $apiBase . 'webhooks/<controller>/(<id>)',
-		array(
-			'id' => '\d+'
-		))
-		->defaults(array(
-			'action'     => 'index',
-			'directory'  => 'Api/Webhooks/'
-		));
+/**
+ * Webhook API Route
+ */
+Route::set('inbound-webhook-api', $apiBase . 'webhooks/<controller>/(<id>)',
+	array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api/Webhooks/'
+	));
+
+/**
+ * Export Job External API Route
+ */
+Route::set('external-export-job-api', $apiBase . 'ext/exports/<controller>/(<id>)',
+	array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api/Exports/'
+	));
+
 
 /**
  * Migration migrate Route
