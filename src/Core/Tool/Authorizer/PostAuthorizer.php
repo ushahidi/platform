@@ -56,7 +56,7 @@ class PostAuthorizer implements Authorizer
      */
     protected function getAllPrivs()
     {
-        return ['read', 'create', 'update', 'delete', 'search', 'change_status', 'read_full'];
+        return ['read', 'create', 'update', 'delete', 'search', 'change_status', 'read_full', 'lock'];
     }
 
     // It requires a `PostRepository` to load parent posts too.
@@ -165,6 +165,11 @@ class PostAuthorizer implements Authorizer
 
         // If user has Edit Any Posts, they can update the post
         if ($privilege === 'update' && $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS)) {
+            return true;
+        }
+
+        // If user has Edit Any Posts, they can lock/unlock the post
+        if ($privilege === 'lock' && $this->acl->hasPermission($user, Permission::EDIT_ANY_POSTS)) {
             return true;
         }
 
