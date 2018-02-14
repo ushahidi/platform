@@ -78,7 +78,7 @@ class TagAuthorizer implements Authorizer
 			return true;
 		}
 
-		if ($user->getId() and $privilege === 'search') {
+		if ($privilege === 'search') {
 			return true;
 		}
 
