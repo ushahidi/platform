@@ -86,7 +86,7 @@ class UserAuthorizer implements Authorizer
 		}
 
 		// Regular user can always read
-		if (in_array($privilege, ['read', 'search'])) {
+		if ($user->getId() and in_array($privilege, ['read', 'search'])) {
 			return true;
 		}
 

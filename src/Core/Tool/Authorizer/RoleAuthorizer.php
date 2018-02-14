@@ -42,11 +42,11 @@ class RoleAuthorizer implements Authorizer
 			return true;
 		}
 
-        if ($privilege === 'read') {
+        if ($user->getId() and $privilege === 'read') {
             return true;
         }
         // All users are allowed to search forms.
-        if ($privilege === 'search') {
+        if ($user->getId() and $privilege === 'search') {
             return true;
         }
 

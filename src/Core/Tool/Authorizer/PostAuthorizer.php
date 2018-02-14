@@ -121,7 +121,11 @@ class PostAuthorizer implements Authorizer
         }
 
         // All users are allowed to create and search posts.
-        if (in_array($privilege, ['create', 'search'])) {
+        if (in_array($privilege, ['create'])) {
+            return true;
+        }
+
+        if ($user->getId() and in_array($privilege, ['search'])) {
             return true;
         }
 
