@@ -85,11 +85,6 @@ class UserAuthorizer implements Authorizer
 			return true;
 		}
 
-		// Regular user can always read
-		if ($user->getId() and in_array($privilege, ['read', 'search'])) {
-			return true;
-		}
-
 		// Users should always be allowed to register
 		if ($privilege === 'register') {
 			return true;
