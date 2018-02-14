@@ -126,7 +126,7 @@ $di->set('factory.authorizer', $di->lazyNew('Ushahidi\Factory\AuthorizerFactory'
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'config'               => $di->lazyGet('authorizer.config'),
 	'dataproviders'        => $di->lazyGet('authorizer.dataprovider'),
-	//'export_jobs'          => $di->lazyGet('authorizer.export_job'),
+	'export_jobs'          => $di->lazyGet('authorizer.export_job'),
 	'forms'                => $di->lazyGet('authorizer.form'),
 	'form_attributes'      => $di->lazyGet('authorizer.form_attribute'),
 	'form_roles'           => $di->lazyGet('authorizer.form_role'),
@@ -159,7 +159,7 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config'               => $di->lazyGet('repository.config'),
-	//'export_jobs'		   => $di->lazyGet('repository.export_job'),
+	'export_jobs'		   => $di->lazyGet('repository.export_job'),
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
 	'forms'                => $di->lazyGet('repository.form'),
 	'form_attributes'      => $di->lazyGet('repository.form_attribute'),
@@ -314,10 +314,10 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['webhooks'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Webhook\CreateWebhook')
 ];
 
-// Add custom create usecase for webhooks
-// $di->params['Ushahidi\Factory\UsecaseFactory']['map']['export_jobs'] = [
-// 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Export\Job\CreateJob')
-// ];
+// Add custom create usecase for export jobs
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['export_jobs'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Export\Job\CreateJob')
+];
 
 // Add custom create usecase for contacts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [

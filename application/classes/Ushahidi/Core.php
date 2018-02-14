@@ -252,10 +252,10 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
 			'import' => $di->lazyNew('Ushahidi_Validator_Post_Import'),
 		];
-		// $di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
-		// 	'create' => $di->lazyNew('Ushahidi_Validator_Export_Job_Create'),
-		// 	'update' => $di->lazyNew('Ushahidi_Validator_Export_Job_Update'),
-		// ];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Export_Job_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Export_Job_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
@@ -332,7 +332,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 			'config'               => $di->lazyNew('Ushahidi_Formatter_Config'),
 			'dataproviders'        => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
-			//'export_jobs'		   => $di->lazyNew('Ushahidi_Formatter_Export_Job'),
+			'export_jobs'		   => $di->lazyNew('Ushahidi_Formatter_Export_Job'),
 			'forms'                => $di->lazyNew('Ushahidi_Formatter_Form'),
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
