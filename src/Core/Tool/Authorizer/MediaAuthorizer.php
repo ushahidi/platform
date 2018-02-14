@@ -58,7 +58,11 @@ class MediaAuthorizer implements Authorizer
 		}
 
 		// All users are allowed to view and create new media files.
-		if (in_array($privilege, ['read', 'create', 'search'])) {
+		if ($user->getId() and in_array($privilege, ['search'])) {
+			return true;
+		}
+
+		if (in_array($privilege, ['read', 'create'])) {
 			return true;
 		}
 
