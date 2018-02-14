@@ -92,7 +92,7 @@ class SetAuthorizer implements Authorizer
 		}
 
 		// Finally, all users can search sets
-		if ($user->getId() and $privilege === 'search') {
+		if ($privilege === 'search') {
 			return true;
 		}
 
