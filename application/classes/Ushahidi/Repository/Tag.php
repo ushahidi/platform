@@ -162,8 +162,29 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function deleteTag($id)
 	{
 		// Remove tag from attribute options
-		$this->removeTagFromAttributeOptions($entity->id);
-
+		$this->removeTagFromAttributeOptions($id);
 		return $this->delete(compact('id'));
 	}
+
+    /**
+     * Checks if the assigned role is valid for this tag.
+     * True if there is no role or if it's a parent with no children
+     * @param Validation $validation
+     * @param $fullData
+     * @return bool
+     */
+	public function isRoleValid(Validation $validation, $fullData) {
+	    $valid = true;
+	    $isChild = $fullData['parent_id'];
+	    $hasRole = !!$fullData['role'];
+        $parent = null;
+        if ($hasRole && $isChild) {
+            $parent = $this->selectOne(['id' => $fullData['parent_id']]);
+            $valid = $parent['role'] !== $fullData['role'];
+        }
+        if (!$valid) {
+            $validation->error('role', 'tag.role');
+        }
+        return $valid;
+    }
 }

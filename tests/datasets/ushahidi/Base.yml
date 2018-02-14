@@ -1128,6 +1128,38 @@ tags:
     priority: 0
     type: "category"
     role: '["admin"]'
+  -
+    id: 8
+    parent_id:
+    role: 'admin'
+    tag: "Test tag - no children"
+    slug: "test-tag-no-children"
+    priority: 0
+    type: 'category'
+  -
+    id: 9
+    parent_id:
+    role: 'admin'
+    tag: "Test tag - with children"
+    slug: "test-tag-with-children"
+    priority: 0
+    type: 'category'
+  -
+    id: 10
+    role: 'admin'
+    parent_id: 9
+    tag: "Child 1"
+    slug: "child-one"
+    priority: 0
+    type: 'category'
+  -
+    id: 11
+    role: 'admin'
+    parent_id: 9
+    tag: "Child 2"
+    slug: "child-two"
+    priority: 0
+    type: 'category'
 posts_tags:
   -
     post_id: 1
