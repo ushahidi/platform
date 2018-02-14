@@ -125,7 +125,7 @@ class PostAuthorizer implements Authorizer
             return true;
         }
 
-        if ($user->getId() and in_array($privilege, ['search'])) {
+        if (in_array($privilege, ['search'])) {
             return true;
         }
 
