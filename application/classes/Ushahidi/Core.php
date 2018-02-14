@@ -251,12 +251,11 @@ abstract class Ushahidi_Core {
 			'webhook-update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
 			'import' => $di->lazyNew('Ushahidi_Validator_Post_Import'),
-			'export' => $di->lazyNew('Ushahidi_Validator_Export_Create'),
 		];
-		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
-			'create' => $di->lazyNew('Ushahidi_Validator_Export_Job_Create'),
-			'update' => $di->lazyNew('Ushahidi_Validator_Export_Job_Update'),
-		];
+		// $di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
+		// 	'create' => $di->lazyNew('Ushahidi_Validator_Export_Job_Create'),
+		// 	'update' => $di->lazyNew('Ushahidi_Validator_Export_Job_Update'),
+		// ];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
@@ -333,7 +332,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 			'config'               => $di->lazyNew('Ushahidi_Formatter_Config'),
 			'dataproviders'        => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
-			'export_jobs'		   => $di->lazyNew('Ushahidi_Formatter_Export_Job'),
+			//'export_jobs'		   => $di->lazyNew('Ushahidi_Formatter_Export_Job'),
 			'forms'                => $di->lazyNew('Ushahidi_Formatter_Form'),
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
@@ -365,7 +364,7 @@ abstract class Ushahidi_Core {
 		foreach ([
 			'config',
 			'dataprovider',
-			'export_job',
+			//'export_job',
 			'form',
 			'form_attribute',
 			'form_role',
@@ -460,7 +459,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
 		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
-		$di->set('repository.export_job', $di->lazyNew('Ushahidi_Repository_Export_Job'));
+		//$di->set('repository.export_job', $di->lazyNew('Ushahidi_Repository_Export_Job'));
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
