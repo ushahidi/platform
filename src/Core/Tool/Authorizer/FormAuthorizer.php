@@ -83,7 +83,7 @@ class FormAuthorizer implements Authorizer
 		}
 
 		// If a form is not disabled, then *anyone* can view it.
-		if ($user->getId() and $privilege === 'read' && !$this->isFormDisabled($entity)) {
+		if ($privilege === 'read' && !$this->isFormDisabled($entity)) {
 			return true;
 		}
 
