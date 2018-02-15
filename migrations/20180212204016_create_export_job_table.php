@@ -16,7 +16,7 @@ class CreateExportJobTable extends AbstractMigration
             ->addColumn('fields', 'string', ['null' => true])
             ->addColumn('filters', 'string', ['null' => true])
             ->addColumn('status', 'string', ['null' => true])
-            ->addColumn('file', 'string', ['null' => true])
+            ->addColumn('url', 'string', ['null' => true])
             ->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['default' => 0])
             ->addForeignKey('user_id', 'users', 'id', [
@@ -31,6 +31,6 @@ class CreateExportJobTable extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('webhook_job');
+        $this->dropTable('export_job');
     }
 }
