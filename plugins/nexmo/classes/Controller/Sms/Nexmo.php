@@ -115,7 +115,7 @@ class Controller_Sms_Nexmo extends Controller {
     //Check if data provider is available
     $providers_available = Kohana::$config->load('features.data-providers');
 
-    if ( !$providers_available['nexmo'] ) 
+    if ( !$providers_available['nexmo'] )
     {
       throw HTTP_Exception::factory(403, 'The Nexmo data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
     }
@@ -157,6 +157,13 @@ class Controller_Sms_Nexmo extends Controller {
 		$to = preg_replace("/[^0-9,.]/", "", $sms->to);
 		$from  = preg_replace("/[^0-9,.]/", "", $sms->from);
 
-		$provider->receive(Message_Type::SMS, $from, $sms->text, $to, NULL, $sms->message_id);
+		// Check if a form id is already associated with this data provider
+		$additional_data = [];
+		if (isset($options['form_id'])) {
+			$additional_data['form_id'] = $options['form_id'];
+			$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
+		}
+
+		$provider->receive(Message_Type::SMS, $from, $sms->text, $to, $date = NULL, NULL, $sms->message_id, $additional_data);
 	}
 }

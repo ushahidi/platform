@@ -21,6 +21,7 @@ class CreateWebhook extends CreateUsecase
 		$entity = parent::getEntity();
 
 		// Add user id if this is not provided
+		// TODO: throw this away
 		if (empty($entity->user_id) && $this->auth->getUserId()) {
 			$entity->setState(['user_id' => $this->auth->getUserId()]);
 		}

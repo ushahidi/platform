@@ -105,27 +105,46 @@ class Ushahidi_Console_Webhook extends Command
 	private function generateRequest($webhook_request)
 	{
 		// Delete queued webhook request
-		//$this->webhookJobRepository->delete($webhook_request);
+		$this->webhookJobRepository->delete($webhook_request);
 
 		// Get post data
 		$post = $this->postRepository->get($webhook_request->post_id);
-		$json = json_encode($post->asArray());
 
 		// Get webhook data
-		$webhook = $this->webhookRepository->getByEventType($webhook_request->event_type);
+		$webhooks = $this->webhookRepository->getAllByEventType($webhook_request->event_type);
 
-		$this->signer = new Signer($webhook->shared_secret);
+		foreach ($webhooks as $webhook) {
 
-		$signature = $this->signer->sign($webhook->url, $json);
+			if ($post->form_id == $webhook['form_id']) {
+				$this->signer = new Signer($webhook['shared_secret']);
 
-		// This is an asynchronous request, we don't expect a result
-		// this can be extended to allow for handling of the returned promise
-		$promise = $this->client->request('POST', $webhook->url, [
-			'headers' => [
-				'X-Platform-Signature' => $signature,
-				'Accept'               => 'application/json'
-			],
-			'json' => $post->asArray()
-		]);
+				$data = $post->asArray();
+
+				// Attach Webhook Uuid so that service can subsequently identify itself
+				// when sending data to the Platform
+				$data['webhook_uuid'] = $webhook['webhook_uuid'];
+
+				// If set append the source and destination fields to the request
+				// These fields identify the UUIDs of the Post fields which the remot service should
+				// treat as the source of data and the destination for any data to be posted back to the Platform
+				$data['source_field_key'] = $webhook['source_field_key'] ?: null;
+				$data['destination_field_key'] = $webhook['destination_field_key'] ?: null;
+
+				$json = json_encode($data);
+				$signature = $this->signer->sign($webhook['url'], $json);
+
+				// This is an asynchronous request, we don't expect a result
+				// this can be extended to allow for handling of the returned promise
+				//TODO: HANDLE HTTP ERRORS
+				$promise = $this->client->request('POST', $webhook['url'], [
+					'headers' => [
+						'X-Ushahidi-Signature' => $signature,
+						'Accept'               => 'application/json'
+					],
+					'json' => $data
+				]);
+
+			}
+		}
 	}
 }

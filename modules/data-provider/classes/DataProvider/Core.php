@@ -297,7 +297,7 @@ abstract class DataProvider_Core {
 	 * @param  string data_provider_message_id Message ID
 	 * @return void
 	 */
-	abstract public function receive($type, $from, $message, $to = NULL, $title = NULL, $data_provider_message_id = NULL, Array $additional_data = NULL);
+	abstract public function receive($type, $from, $message, $to = NULL, $title = NULL, $date = NULL, $data_provider_message_id = NULL, Array $additional_data = NULL);
 
 	/**
 	 * Get queued outgoing messages
