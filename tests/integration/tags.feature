@@ -22,7 +22,6 @@ Feature: Testing the Tags API
             """
         When I request "/tags"
         Then the response is JSON
-        Then the response should be equal to "romna"
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         And the "tag" property equals "Boxes"

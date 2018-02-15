@@ -54,8 +54,6 @@ class Ushahidi_Validator_Media_Create extends Validator
 
 	public function validateSize($validation, $value)
 	{
-	    var_dump($this->max_bytes);
-        var_dump($value);
 		if ($value <= 0 || $value > $this->max_bytes)
 		{
 			$size_in_mb = ($this->max_bytes / 1024) / 1024;
