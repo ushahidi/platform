@@ -12,7 +12,7 @@
 use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
-class Ushahidi_Formatter_Export_Job implements Ushahidi_Formatter_API
+class Ushahidi_Formatter_Export_Job extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
 }

@@ -15,6 +15,8 @@ class CreateExportJobTable extends AbstractMigration
             ->addColumn('entity_type', 'string', ['null' => false])
             ->addColumn('fields', 'string', ['null' => true])
             ->addColumn('filters', 'string', ['null' => true])
+            ->addColumn('status', 'string', ['null' => true])
+            ->addColumn('file', 'string', ['null' => true])
             ->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['default' => 0])
             ->addForeignKey('user_id', 'users', 'id', [
