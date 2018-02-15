@@ -20,43 +20,43 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 		return null;
 	}
 
-	// public function checkApiKey($data)
-	// {
+	public function checkApiKey($data)
+	{
 
-	// 	if (isset($data['api_key'])) {
-	// 		// Get api key and compare
-	// 		return service('repository.apikey')->apiKeyExists($data['api_key']);
-	// 	}
+		if (isset($data['api_key'])) {
+			// Get api key and compare
+			return service('repository.apikey')->apiKeyExists($data['api_key']);
+		}
 
-	// 	return false;
-	// }
+		return false;
+	}
 
-	// public function checkSignature($data)
-	// {
-	// 	$signature = $this->request->headers('X-Ushahidi-Signature');
+	public function checkSignature($data)
+	{
+		$signature = $this->request->headers('X-Ushahidi-Signature');
 
-	// 	if ($signature) {
-	// 		//Validate signature
-	// 		$shared_secret = getenv('PLATFORM_SHARED_SECRET');
-	// 		$signer = new Signer($shared_secret);
-	// 		$fullURL = URL::site(Request::detect_uri(), TRUE) . URL::query();
+		if ($signature) {
+			//Validate signature
+			$shared_secret = getenv('PLATFORM_SHARED_SECRET');
+			$signer = new Signer($shared_secret);
+			$fullURL = URL::site(Request::detect_uri(), TRUE) . URL::query();
 
-	// 		return $signer->validate($signature, $fullURL, $data);
-	// 	}
-	// 	return false;
-	// }
+			return $signer->validate($signature, $fullURL, $data);
+		}
+		return false;
+	}
 
-	// public function before()
-	// {
-	// 	parent::before();
+	public function before()
+	{
+		parent::before();
 
-	// 	$post = $this->_request_payload;
+		$post = $this->_request_payload;
 
-	// 	if (!$this->checkApiKey($post) || !$this->checkSignature($post))
-	// 	{
-	// 		throw HTTP_Exception::factory(403, 'Forbidden');
-	// 	}
-	// }
+		if (!$this->checkApiKey($post) || !$this->checkSignature($post))
+		{
+			throw HTTP_Exception::factory(403, 'Forbidden');
+		}
+	}
 
 	protected function _is_auth_required()
 	{
