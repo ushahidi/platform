@@ -81,12 +81,7 @@ class UserAuthorizer implements Authorizer
 		}
 
 		// Regular user should be able to update and read_full only self
-		if ($this->isUserSelf($entity) && in_array($privilege, ['update', 'read_full'])) {
-			return true;
-		}
-
-		// Regular user can always read
-		if (in_array($privilege, ['read', 'search'])) {
+		if ($this->isUserSelf($entity) && in_array($privilege, ['update', 'read_full', 'read'])) {
 			return true;
 		}
 
