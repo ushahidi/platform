@@ -297,16 +297,16 @@ Route::set('inbound-webhook-api', $apiBase . 'webhooks/<controller>/(<id>)',
 /**
  * Export Job External API Route
  */
-// Route::set('external-export-job', $apiBase . 'exports/external/<controller>', array())
-// ->defaults(array(
-// 	'action'     => 'index',
-// 	'directory'  => 'Api/Exports/External/'
-// ));
+Route::set('external-export-job', $apiBase . 'exports/external/<controller>', array())
+->defaults(array(
+	'action'     => 'index',
+	'directory'  => 'Api/Exports/External/'
+));
 
 /**
  * Export Job External API Route
  */
-Route::set('export-job', $apiBase . 'exports/<controller>/(<id>)',
+Route::set('export-job', $apiBase . 'exports/<controller>(/<id>)',
 	array(
 		'id' => '\d+'
 	))

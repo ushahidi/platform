@@ -45,7 +45,7 @@ class Ushahidi_Console_PostExporter extends Command
 		$this
 			->setName('exporter')
 			->setDescription('Export Posts')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, export', 'list')
+			->addArgument('action', InputArgument::REQUIRED, 'list, export')
 			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit')
             ->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
 			;
@@ -62,6 +62,7 @@ class Ushahidi_Console_PostExporter extends Command
 
 	protected function executeExport(InputInterface $input, OutputInterface $output)
 	{
+		Kohana::$log->add(Log::ERROR, print_r('test', true));
 
         $data = $this->data->get('search');
 
