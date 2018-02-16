@@ -20,10 +20,4 @@ class Controller_Api_Exports_Jobs extends Ushahidi_Rest {
     {
         return 'export_jobs';
     }
-
-
-	protected function _is_auth_required()
-	{
-		return false;
-	}
 }

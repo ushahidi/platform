@@ -364,7 +364,7 @@ abstract class Ushahidi_Core {
 		foreach ([
 			'config',
 			'dataprovider',
-			//'export_job',
+			'export_job',
 			'form',
 			'form_attribute',
 			'form_role',

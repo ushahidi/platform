@@ -1,4 +1,4 @@
-@export
+@exportjobs
 Feature: Testing the Export Job API
 
     Scenario: Create a export job
@@ -12,7 +12,7 @@ Feature: Testing the Export Job API
             "entity_type":"post"
           }
           """
-        When I request "/posts/export"
+        When I request "/exports/jobs"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -29,8 +29,8 @@ Feature: Testing the Export Job API
               "entity_type":"post"
             }
             """
-        When I request "/posts/export"
-        Then the guzzle status code should be 400
+        When I request "/exports/jobs"
+        Then the guzzle status code should be 403
 
 #    @resetFixture
 #    Scenario: Listing Export Jobs for a user
@@ -40,7 +40,7 @@ Feature: Testing the Export Job API
 #            """
 #                user=0
 #            """
-#        When I request "/posts/export"
+#        When I request "/exports/jobs"
 #        Then the response is JSON
 #        And the response has a "count" property
 #        And the type of the "count" property is "numeric"
