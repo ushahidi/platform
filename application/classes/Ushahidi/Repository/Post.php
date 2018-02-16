@@ -135,6 +135,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$data += [
 				'values' => $this->getPostValues($data['id']),
 				// Continued for legacy
+				'media' => $this->getMediaForPost($data['id']),
 				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
@@ -870,6 +871,20 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->where('form_attribute_id', '=', $attr_id)
 			->execute($this->db);
 		return $result->as_array(NULL, 'tag_id');
+	}
+
+	/**
+	 * Get tags for a post
+	 * @param  int   $id  post id
+	 * @return array      tag ids for post
+	 */
+	private function getMediaForPost($id)
+	{
+		$result = DB::select('o_filename')->from('media')
+			->join('post_media')->on('value', '=', 'media.id')
+			->where('post_media.post_id', '=', $id)
+			->execute($this->db);
+		return $result->as_array(NULL, 'o_filename');
 	}
 
   /**
