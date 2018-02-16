@@ -151,7 +151,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			uasort($attributeKeys, function ($item1, $item2) {
 				if ($item1['priority'] === $item2['priority']){
 					/**
-					 * if they are the same in priority, then that maeans we will fall back to alphabetical priority for them
+					 * if they are the same in priority, then that means we will fall back to alphabetical priority for them
 					 */
 					return $item1['label'] < $item2['label'] ? -1 : 1;
 				}
@@ -167,7 +167,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 					 * This is to make sure we don't miss values in multi-value fields
 					 */
 
-					if ($attribute['count'] > 1 && !in_array($attribute['type'], ['tags', 'sets'])){
+					if ($attribute['count'] > 1 && !in_array($attribute['type'], ['tags'])){
 						for ($i = 0 ; $i < $attribute['count']; $i++){
 							$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
 						}
