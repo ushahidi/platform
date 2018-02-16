@@ -81,7 +81,16 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 	private function getValueFromRecord($record, $keyParam){
 		$return = '';
-		$keySet = explode('.', $keyParam); //contains key + index of the key, if any
+		$keySet = explode('.', $keyParam); //contains key + index of the key
+		if (count($keySet) == 1) {
+			preg_match('/([a-zA-Z]+)([0-9]+)\(([0-9]+)\)/',$keyParam, $match);
+			if ($match) {
+				$keySet[0] = $match[1].$match[2];
+				$keySet[1] = $match[1];
+				$keySet[2] = $match[3];
+			}
+		}
+
 		$headingKey = $keySet[0];
 		$key = isset($keySet[1]) ? $keySet[1] : null;
 		$recordValue = isset ($record['attributes']) && isset($record['attributes'][$headingKey])? $record['values']: $record;
@@ -90,6 +99,11 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
 			$return = isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
+		} else if (count($keySet) == 3 && $key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey])) {
+			/**
+			 * we need to join the array items in a single comma separated string
+			 */
+			$return = isset($recordValue[$headingKey])? (implode(',', $recordValue[$headingKey])): '';
 		} else if ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey])) {
 			/**
 			 * we work with multiple posts which means our actual count($record[$key])
@@ -152,10 +166,13 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 					 * If the attribute has a count key, it means we want to show that as key.index in the header.
 					 * This is to make sure we don't miss values in multi-value fields
 					 */
-					if ($attribute['count'] > 1){
+
+					if ($attribute['count'] > 1 && !in_array($attribute['type'], ['tags', 'sets'])){
 						for ($i = 0 ; $i < $attribute['count']; $i++){
 							$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
 						}
+					} else if ($attribute['count'] > 1 ) {
+						$attributeKeysWithStageFlat[$attributeKey.'('. $attribute['count'] . ')'] = $attribute['label'];
 					} else {
 						$attributeKeysWithStageFlat[$attributeKey.'.0'] = $attribute['label'];
 					}
