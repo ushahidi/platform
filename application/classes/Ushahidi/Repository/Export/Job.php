@@ -56,6 +56,7 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 	{
 		$state = [
 			'created' => time(),
+			'status' => "pending",
 		];
 
 		return parent::create($entity->setState($state));
