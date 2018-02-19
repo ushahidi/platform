@@ -49,6 +49,11 @@ class ExportJobAuthorizer implements Authorizer
 			return false;
 		}
 
+		// First check whether there is a role with the right permissions
+		if ($this->acl->hasPermission($user, Permission::DATA_IMPORT)) {
+			return true;
+		}
+
 		// Admin is allowed access to everything
 		if ($this->isUserAdmin($user)) {
 			return true;
