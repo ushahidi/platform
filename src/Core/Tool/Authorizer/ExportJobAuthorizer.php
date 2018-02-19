@@ -16,8 +16,10 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 class ExportJobAuthorizer implements Authorizer
 {
@@ -35,6 +37,10 @@ class ExportJobAuthorizer implements Authorizer
 
 	// It uses `PrivateDeployment` to check whether a deployment is private
 	use PrivateDeployment;
+
+	// Check that the user has the necessary permissions
+	// if roles are available for this deployment.
+	use AclTrait;
 
 
 	/* Authorizer */

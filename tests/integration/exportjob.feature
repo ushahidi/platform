@@ -8,7 +8,15 @@ Feature: Testing the Export Job API
           """
           {
             "fields":"test",
-            "filters":"test",
+            "filters": 
+            {
+              "status" : ["published","draft"],
+              "has_location" : "all",
+              "orderby" : "created",
+              "order" : "desc",
+              "order_unlocked_on_top" : "true",
+              "source" : ["sms","twitter","web","email"]
+            },
             "entity_type":"post"
           }
           """

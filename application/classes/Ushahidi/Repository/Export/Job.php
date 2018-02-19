@@ -16,9 +16,18 @@ use Ushahidi\Core\Entity\ExportJobRepository;
 
 class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements ExportJobRepository
 {
+	// Use the JSON transcoder to encode properties
+	use Ushahidi_JsonTranscodeRepository;
+
 	protected function getTable()
 	{
 		return 'export_job';
+	}
+
+	// Ushahidi_JsonTranscodeRepository
+	protected function getJsonProperties()
+	{
+		return ['fields', 'filters'];
 	}
 
 	// Ushahidi_Repository
