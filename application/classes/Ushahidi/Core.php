@@ -461,6 +461,10 @@ abstract class Ushahidi_Core {
 		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
 		$di->set('repository.export_job', $di->lazyNew('Ushahidi_Repository_Export_Job'));
 
+		$di->params['Ushahidi_Repository_Export_Job'] = [
+			'post_repo' => $di->lazyGet('repository.post')
+		];
+
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
 		// Repository parameters

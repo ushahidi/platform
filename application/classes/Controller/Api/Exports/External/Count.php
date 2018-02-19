@@ -1,17 +1,17 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * Ushahidi API External Webhook Posts Controller
+ * Ushahidi API External Export Jobs Post Count Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Controllers
- * @copyright  2013 Ushahidi
+ * @copyright  2018 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 use Ushahidi\Core\Tool\Signer;
 
-class Controller_Api_Exports_External_Jobs extends Ushahidi_Rest {
+class Controller_Api_Exports_External_Count extends Ushahidi_Rest {
 
     protected function _scope()
 	{
@@ -59,5 +59,12 @@ class Controller_Api_Exports_External_Jobs extends Ushahidi_Rest {
 		{
 			throw HTTP_Exception::factory(403, 'Forbidden');
 		}
+	}
+
+	public function action_get_index()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'post-count')
+			->setIdentifiers($this->_identifiers());
 	}
 }

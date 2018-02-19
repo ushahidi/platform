@@ -10,14 +10,33 @@
  */
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 
 class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements ExportJobRepository
 {
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
+
+	// - FilterRecords for setting search parameters
+	use FilterRecords;
+
+	/**
+	 * @var SearchData
+	 */
+	protected $search;
+
+	protected $post_repo;
+
+	public function __construct(Database $db, PostRepository $post_repo)
+	{
+		parent::__construct($db);
+
+		$this->post_repo = $post_repo;
+	}
 
 	protected function getTable()
 	{
@@ -72,6 +91,25 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
+	}
+
+	public function getPostCount($job_id)
+	{
+		$job = $this->get($job_id);
+		$this->setFilters($job->filters);
+
+		$fields = $this->post_repo->getSearchFields();
+
+		$this->search = new SearchData(
+			$this->getFilters($fields)
+		);
+
+		$this->search->group_by === 'form';
+		
+		$total = $this->post_repo->getGroupedTotals($this->search);
+
+		return $total;
+
 	}
 
 	public function getSearchFields()

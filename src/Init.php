@@ -316,7 +316,8 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['webhooks'] = [
 
 // Add custom create usecase for export jobs
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['export_jobs'] = [
-	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Export\Job\CreateJob')
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Export\Job\CreateJob'),
+	'post-count'  => $di->lazyNew('Ushahidi\Core\Usecase\Export\Job\PostCount')
 ];
 
 // Add custom create usecase for contacts

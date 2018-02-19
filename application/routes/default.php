@@ -297,7 +297,7 @@ Route::set('inbound-webhook-api', $apiBase . 'webhooks/<controller>/(<id>)',
 /**
  * Export Job External API Route
  */
-Route::set('external-export-job', $apiBase . 'exports/external/<controller>', array())
+Route::set('external-export-job', $apiBase . 'exports/external/<controller>(/<id>)', array())
 ->defaults(array(
 	'action'     => 'index',
 	'directory'  => 'Api/Exports/External/'
