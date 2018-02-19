@@ -40,6 +40,17 @@ Feature: Testing the Export Job API
         When I request "/exports/jobs"
         Then the guzzle status code should be 403
 
+    Scenario: Deleting a Export Job entry
+        Given that I want to delete a "ExportJob"
+        And that the request "Authorization" header is "Bearer testadminuser"
+        And that its "id" is "1"
+        When I request "/exports/jobs"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "id" property equals "1"
+        Then the guzzle status code should be 200
+
 #    @resetFixture
 #    Scenario: Listing Export Jobs for a user
 #        Given that I want to get all "ExportJob"

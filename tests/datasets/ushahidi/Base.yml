@@ -2088,6 +2088,11 @@ webhooks:
     entity_type: "post"
     event_type: "search"
 csv:
+export_job:
+  -
+    id: 1
+    entity_type: "post"
+    user_id: 2
 roles_permissions:
   -
     role: manager
