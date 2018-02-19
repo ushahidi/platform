@@ -67,7 +67,9 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
 			}
+
 			$values = [];
+
 			foreach ($heading as $key => $value) {
 				$values[] = $this->getValueFromRecord($record, $key);
 			}
@@ -93,8 +95,15 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 
 		$headingKey = $keySet[0];
 		$key = isset($keySet[1]) ? $keySet[1] : null;
-		$recordValue = isset ($record['attributes']) && isset($record['attributes'][$headingKey])? $record['values']: $record;
-		if($key === 'lat' || $key === 'lon'){
+		$recordAttributes = isset($record['attributes'][$headingKey]) ? $record['attributes'][$headingKey] : null;
+		$recordValue = isset ($record['attributes']) && $recordAttributes? $record['values']: $record;
+		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
+
+		if ($isDateField) {
+			$date = new DateTime($recordValue[$headingKey][$key]);
+			$recordValue[$headingKey][$key] = $date->format('Y-m-d');
+		}
+ 		if($key === 'lat' || $key === 'lon'){
 			/*
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
