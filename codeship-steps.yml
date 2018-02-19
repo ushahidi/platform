@@ -19,7 +19,7 @@
     tag: staging
     command: >
       ANSIBLE_GITHUB_REPO=platform-cloud-ansible
-      ANSIBLE_GITHUB_REPO_VERSION=master
+      ANSIBLE_GITHUB_REPO_VERSION=develop
       ush-ansible-playbook.sh -vv -i hosts/rackspace_staging platform-api-update.yml
         -e PLATFORM_CLIENT_VERSION="$CI_COMMIT_ID"
 
