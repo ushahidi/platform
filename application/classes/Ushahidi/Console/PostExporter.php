@@ -11,15 +11,19 @@
 
 use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\PostExportRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Factory\DataFactory;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Tool\FormatterTrait;
+
+use Ushahidi\Core\Tool\Filesystem;
+use Ushahidi\Core\Tool\FileData;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
+use League\Flysystem\Util\MimeType;
 
 class Ushahidi_Console_PostExporter extends Command
 {
@@ -29,6 +33,23 @@ class Ushahidi_Console_PostExporter extends Command
 
     private $data;
 	private $postExportRepository;
+	private $exportJobRepository;
+	private $fs;
+
+	public function setFileSystem(Filesystem $fs)
+	{
+		$this->fs = $fs;
+	}
+
+	public function setDatabase(Database $db)
+	{
+		$this->db = $db;
+	}
+
+	public function setExportJobRepo(ExportJobRepository $repo)
+	{
+		$this->exportJobRepository = $repo;
+	}
 
 	public function setDataFactory(DataFactory $data)
 	{
@@ -47,7 +68,8 @@ class Ushahidi_Console_PostExporter extends Command
 			->setDescription('Export Posts')
 			->addArgument('action', InputArgument::REQUIRED, 'list, export')
 			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit')
-            ->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
+			->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
+			->addOption('job', ['j'], InputOption::VALUE_OPTIONAL, 'job')
 			;
 	}
 
@@ -62,21 +84,23 @@ class Ushahidi_Console_PostExporter extends Command
 
 	protected function executeExport(InputInterface $input, OutputInterface $output)
 	{
-		Kohana::$log->add(Log::ERROR, print_r('test', true));
 
         $data = $this->data->get('search');
 
 		$limit = $input->getOption('limit', 100);
-        $offset = $input->getOption('offset', 0);
-
+		$offset = $input->getOption('offset', 0);
+		$job_id = $input->getOption('job', null);
 		$format = 'csv';
-
         $filters = [
             'limit' => $limit,
             'offset' => $offset,
-			'status' => 'all',
 			'exporter' => true
-        ];
+		];
+
+		if ($job_id) {
+			$job = $this->ExportJobRepository->get($job_id);
+			$filters = array_merge($filters, $job->filters);
+		}
 
         foreach ($filters as $key => $filter) {
             $data->$key = $filter;
@@ -99,15 +123,14 @@ class Ushahidi_Console_PostExporter extends Command
 			$posts[$idx] = $post;
 		}
 
-        $res = service("formatter.entity.post.$format")->__invoke($posts);
+		$file = service("formatter.entity.post.$format")->__invoke($posts, $this->fs);
+		
 		$response = [
 			[
-				'Message' => sprintf('%d posts were found', $total)
+				'file' => $file->file,
 			]
 		];
 
-
-
-		$this->handleResponse($response, $output);
+		$this->handleResponse($response, $output, 'json');
 	}
 }

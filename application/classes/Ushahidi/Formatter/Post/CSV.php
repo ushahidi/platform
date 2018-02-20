@@ -12,17 +12,28 @@
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\Formatter;
 
+use Ushahidi\Core\Tool\Filesystem;
+use Ushahidi\Core\Tool\FileData;
+use League\Flysystem\Util\MimeType;
+
 class Ushahidi_Formatter_Post_CSV implements Formatter
 {
 	/**
 	 * @var SearchData
 	 */
 	protected $search;
+	protected $fs;
+	protected $tmpfname;
 
 	// Formatter
-	public function __invoke($records)
+	public function __invoke($records, $fs)
 	{
-		$this->generateCSVRecords($records);
+		$this->tmpfname = tempnam("/tmp", strtolower(uniqid() . strftime('%G-%m-%d') . '.csv'));
+		$this->fs = $fs;
+
+		$this->configFileStream();
+
+		return $this->generateCSVRecords($records);
 	}
 
 	/**
@@ -43,23 +54,16 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		 */
 		$headingColumns = $this->getCSVHeading($records);
 		$heading = $this->createSortedHeading($headingColumns);
-		header('Access-Control-Expose-Headers: Content-Disposition');
-		// Send response as CSV download
-		header('Access-Control-Allow-Origin: *');
-		header('Content-Type: "application/octet-stream"');
-		header('Content-Type: text/csv; charset=utf-8');
-		header('Content-Disposition: attachment; filename="notbeingused.csv"');
 
-		header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
+		$stream = fopen('php://memory', 'w');
 
-		$fp = fopen('php://output', 'w');
 		/**
 		 * Before doing anything, clean the ouput buffer and avoid garbage like unnecessary space paddings in our csv export
 		 */
 		ob_clean();
 
 		// Add heading
-		fputcsv($fp, array_values($heading));
+		fputcsv($stream, array_values($heading));
 
 		foreach ($records as $record)
 		{
@@ -71,12 +75,50 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			foreach ($heading as $key => $value) {
 				$values[] = $this->getValueFromRecord($record, $key);
 			}
-			fputcsv($fp, $values);
+			fputcsv($stream, $values);
 		}
-		fclose($fp);
 
-		// No need for further processing
-		exit;
+		return $this->writeStreamToFS($stream);
+	}
+
+
+	private function writeStreamToFS($stream)
+	{
+
+		// Add the first and second letters of filename to the directory path
+		// to help segment the files, producing a more reasonable amount of
+		// files per directory, eg: abc-myfile.png -> a/b/abc-myfile.png
+		$filepath = implode('/', [
+			'csv',
+			$this->tmpfname[0],
+			$this->tmpfname[1],
+			$this->tmpfname,
+			]);
+
+		// Remove any leading slashes on the filename, path is always relative.
+		$filepath = ltrim($filepath, '/');
+
+		$extension = pathinfo($filepath, PATHINFO_EXTENSION);
+		
+		$mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
+		
+		$config = ['mimetype' => $mimeType];
+		
+		$this->fs->putStream($filepath, $stream, $config);
+
+		if (is_resource($stream)) {
+			fclose($stream);
+		}
+
+		$size = $this->fs->getSize($filepath);
+		$type = $this->fs->getMimetype($filepath);
+
+		return new FileData([
+			'file'   => $filepath,
+			'type'   => $type,
+			'size'   => $size,
+			]);
+
 	}
 
 	private function getValueFromRecord($record, $keyParam){

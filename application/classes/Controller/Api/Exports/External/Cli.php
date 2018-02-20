@@ -16,8 +16,7 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 
 	protected function _scope()
 	{
-		//return 'export_jobs';
-		return null;
+		return 'export_jobs';
 	}
 
 	public function checkApiKey($data)
@@ -46,17 +45,17 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 		return false;
 	}
 
-	public function before()
-	{
-		parent::before();
+	// public function before()
+	// {
+	// 	parent::before();
 
-		$post = $this->_request_payload;
+	// 	$post = $this->_request_payload;
 
-		if (!$this->checkApiKey($post) || !$this->checkSignature($post))
-		{
-			throw HTTP_Exception::factory(403, 'Forbidden');
-		}
-	}
+	// 	if (!$this->checkApiKey($post) || !$this->checkSignature($post))
+	// 	{
+	// 		throw HTTP_Exception::factory(403, 'Forbidden');
+	// 	}
+	// }
 
 	protected function _is_auth_required()
 	{
@@ -77,6 +76,7 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 			'action' => 'export',
 			'--limit' => $limit,
 			'--offset' => $offset,
+			'--job' => $job_id,
 		 ), $command->getDefinition());
 		 
 
@@ -88,10 +88,11 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 		$command->run($input, $output);
 
 		//Retrieve results
-		$export_results = $output->fetch();
+		$export_results = json_decode($output->fetch());
 
 		$this->_response_payload = [
-			'results'	=> explode("\n", $export_results, -1),
+			//'results'	=> explode("\n", $export_results, -1),
+			'results' => $export_results,
 		];
 	}
 
