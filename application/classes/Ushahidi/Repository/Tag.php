@@ -179,7 +179,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		$parent = null;
 		if ($hasRole && $isChild) {
 			$parent = $this->selectOne(['id' => $fullData['parent_id']]);
-			$valid = $parent['role'] !== $fullData['role'];
+			$valid = $parent['role'] === $fullData['role'];
 		}
 		if (!$valid) {
 			$validation->error('role', 'tag.role');

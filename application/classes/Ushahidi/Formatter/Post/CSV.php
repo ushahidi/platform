@@ -103,6 +103,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			$date = new DateTime($recordValue[$headingKey][$key]);
 			$recordValue[$headingKey][$key] = $date->format('Y-m-d');
 		}
+
  		if($key === 'lat' || $key === 'lon'){
 			/*
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
