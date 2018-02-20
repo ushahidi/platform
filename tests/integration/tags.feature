@@ -309,7 +309,7 @@ Feature: Testing the Tags API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role":["admin"]
+                "role": "admin"
             }
             """
         When I request "/tags"
