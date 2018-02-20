@@ -84,13 +84,18 @@ class Ushahidi_Console_PostExporter extends Command
 
 	protected function executeExport(InputInterface $input, OutputInterface $output)
 	{
-
+		// Construct a Search Data objec to hold the search info
         $data = $this->data->get('search');
 
+		// Get CLI params
 		$limit = $input->getOption('limit', 100);
 		$offset = $input->getOption('offset', 0);
 		$job_id = $input->getOption('job', null);
+
+		// At the moment there is only CSV format
 		$format = 'csv';
+
+		// Set the baseline filter parameters
         $filters = [
             'limit' => $limit,
             'offset' => $offset,
@@ -98,16 +103,26 @@ class Ushahidi_Console_PostExporter extends Command
 		];
 
 		if ($job_id) {
+			
+			// Load the export job
 			$job = $this->ExportJobRepository->get($job_id);
-			$filters = array_merge($filters, $job->filters);
+			
+			// Merge the export job filters with the base filters
+			if ($job->filters) {
+				$filters = array_merge($filters, $job->filters);
+			}
+			
+			// Set the fields that should be included if set
+			if ($job->fields) {
+				$data->include_attributes = $job->fields;
+			}
 		}
 
         foreach ($filters as $key => $filter) {
             $data->$key = $filter;
-        }
+		}
 
         $this->postExportRepository->setSearchParams($data);
-        
 		
         $posts = $this->postExportRepository->getSearchResults();
 

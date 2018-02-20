@@ -55,7 +55,8 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		$headingColumns = $this->getCSVHeading($records);
 		$heading = $this->createSortedHeading($headingColumns);
 
-		$stream = fopen('php://memory', 'w');
+		//$stream = fopen('php://memory', 'w');
+		$stream = tmpfile();
 
 		/**
 		 * Before doing anything, clean the ouput buffer and avoid garbage like unnecessary space paddings in our csv export
