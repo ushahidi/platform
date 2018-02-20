@@ -143,6 +143,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'users'                => $di->lazyGet('authorizer.user'),
 	'notifications'        => $di->lazyGet('authorizer.notification'),
 	'webhooks'             => $di->lazyGet('authorizer.webhook'),
+	'postdataexports'      => $di->lazyGet('authorizer.postdataexport'),
 	'apikeys'              => $di->lazyGet('authorizer.apikey'),
 	'contacts'             => $di->lazyGet('authorizer.contact'),
 	'csv'                  => $di->lazyGet('authorizer.csv'),
@@ -175,6 +176,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'users'                => $di->lazyGet('repository.user'),
 	'notifications'        => $di->lazyGet('repository.notification'),
 	'webhooks'             => $di->lazyGet('repository.webhook'),
+	'postdataexports'      => $di->lazyGet('repository.postdataexport'),
 	'apikeys'              => $di->lazyGet('repository.apikey'),
 	'contacts'             => $di->lazyGet('repository.contact'),
 	'csv'                  => $di->lazyGet('repository.csv'),
@@ -311,6 +313,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['webhooks'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Webhook\CreateWebhook')
 ];
 
+// Add custom create usecase for postdataexports
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['postdataexports'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\PostDataExports\CreatePostDataExports')
+];
+
 // Add custom create usecase for contacts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['contacts'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Contact\CreateContact')
@@ -379,6 +386,7 @@ $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository'
 $di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
 $di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
 $di->setter['Ushahidi\Core\Traits\WebhookAccess']['setEnabled'] = $di->lazyGet('webhooks.enabled');
+$di->setter['Ushahidi\Core\Traits\PostDataExportAccess']['setEnabled'] = $di->lazyGet('postdataexports.enabled');
 $di->setter['Ushahidi\Core\Traits\PostLockingFeature']['setEnabled'] = $di->lazyGet('post-locking.enabled');
 $di->setter['Ushahidi\Core\Traits\RedisFeature']['setEnabled'] = $di->lazyGet('redis.enabled');
 $di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
@@ -426,6 +434,7 @@ $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\S
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
 $di->set('authorizer.webhook', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\WebhookAuthorizer'));
+$di->set('authorizer.postdataexport', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostDataExportAuthorizer'));
 $di->set('authorizer.apikey', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ApiKeyAuthorizer'));
 $di->set('authorizer.contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ContactAuthorizer'));
 $di->set('authorizer.csv', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CSVAuthorizer'));

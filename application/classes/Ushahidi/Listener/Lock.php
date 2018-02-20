@@ -26,7 +26,7 @@ class Ushahidi_Listener_Lock extends AbstractListener
     public function handle(EventInterface $event, $user_id = null, $event_type = null)
     {
         $user = $this->getUser();
-        // Check if the webhooks feature enabled
+        // Check if the redis feature enabled
         if (!$this->isRedisEnabled()) {
             return false;
         }

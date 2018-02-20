@@ -71,6 +71,20 @@ class FeatureContext implements SnippetAcceptingContext
 		$config->set('webhooks.enabled', false);
 	}
 
+	/** @BeforeScenario @postDataExportsEnabled */
+	public function enablePostDataExports()
+	{
+		$config = \Kohana::$config->load('features');
+		$config->set('postdataexports.enabled', true);
+	}
+
+	/** @AfterScenario @postDataExportsDisabled */
+	public function disablePostDataExports()
+	{
+		$config = \Kohana::$config->load('features');
+		$config->set('postdataexports.enabled', false);
+	}
+
 	/** @BeforeScenario @dataImportEnabled */
 	public function enableDataImport()
 	{

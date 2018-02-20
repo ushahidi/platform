@@ -56,6 +56,11 @@ return [
 		'enabled' => TRUE,
 	],
 
+	// Webhooks
+	'postdataexports' => [
+		'enabled' => TRUE,
+	],
+
 	// Data import
 	'data-import' => [
 		'enabled' => TRUE,
