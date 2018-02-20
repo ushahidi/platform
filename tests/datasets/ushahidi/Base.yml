@@ -1085,6 +1085,7 @@ tags:
     slug: "test-tag"
     priority: 0
     type: 'category'
+    role: '["admin", "user"]'
   -
     id: 2
     parent_id:
