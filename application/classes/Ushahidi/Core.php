@@ -429,6 +429,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
+		$di->set('repository.csv_post', $di->lazyNew('Ushahidi_Repository_CSVPost'));
 		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.set', $di->lazyNew('Ushahidi_Repository_Set'));
@@ -492,6 +493,17 @@ abstract class Ushahidi_Core {
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 			];
+
+		// Post repository parameters
+		$di->params['Ushahidi_Repository_CSVPost'] = [
+			'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
+			'form_stage_repo' => $di->lazyGet('repository.form_stage'),
+			'form_repo' => $di->lazyGet('repository.form'),
+			'post_lock_repo' => $di->lazyGet('repository.post_lock'),
+			'contact_repo' => $di->lazyGet('repository.contact'),
+			'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
+			'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
+		];
 
 		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_Post_Datetime'));
 		$di->set('repository.post.decimal', $di->lazyNew('Ushahidi_Repository_Post_Decimal'));

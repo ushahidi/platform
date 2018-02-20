@@ -18,7 +18,7 @@ class Ushahidi_Repository_Post_Media extends Ushahidi_Repository_Post_Value
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
-		$data['value'] = $data['o_filename'];
+		$data['value'] = array('o_filename' => $data['o_filename'], 'id' =>$data['id']);
 		return new \Ushahidi\Core\Entity\PostValueMedia($data);
 	}
 	// Ushahidi_Repository

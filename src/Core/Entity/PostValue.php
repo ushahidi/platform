@@ -20,7 +20,6 @@ class PostValue extends StaticEntity
 	protected $form_attribute_id;
 	protected $value;
 	protected $created;
-	protected $media;
 	// Attribute fields
 	protected $key;
 	protected $cardinality;
