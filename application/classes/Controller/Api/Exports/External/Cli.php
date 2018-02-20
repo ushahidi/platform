@@ -62,7 +62,7 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 		return false;
 	}
 
-	public function action_get_index_collection($command = 'export')
+	public function action_get_index($command = 'export')
 	{
 
 		// Get Symfony console app
@@ -70,6 +70,8 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 		$command = $app->get('exporter');
 		$limit = 0;
 		$offset = 0;
+
+		$job_id = $this->request->param('id');
 
 		// Construct console command input
 		$input = new ArrayInput(array(
@@ -95,10 +97,4 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 			'results' => $export_results,
 		];
 	}
-
-	public function action_post_export_collection()
-	{
-		$this->action_get_index_collection();
-	}
-
 }

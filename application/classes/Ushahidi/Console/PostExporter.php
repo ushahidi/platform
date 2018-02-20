@@ -105,7 +105,7 @@ class Ushahidi_Console_PostExporter extends Command
 		if ($job_id) {
 			
 			// Load the export job
-			$job = $this->ExportJobRepository->get($job_id);
+			$job = $this->exportJobRepository->get($job_id);
 			
 			// Merge the export job filters with the base filters
 			if ($job->filters) {
@@ -126,9 +126,6 @@ class Ushahidi_Console_PostExporter extends Command
 		
         $posts = $this->postExportRepository->getSearchResults();
 
-		// ... get the total count for the search
-		$total = $this->postExportRepository->getSearchTotal();
-
 		// // ... remove any entities that cannot be seen
 		foreach ($posts as $idx => $post) {
 
@@ -138,7 +135,8 @@ class Ushahidi_Console_PostExporter extends Command
 			$posts[$idx] = $post;
 		}
 
-		$file = service("formatter.entity.post.$format")->__invoke($posts, $this->fs);
+		service("formatter.entity.post.$format")->setFS($this->fs);
+		$file = service("formatter.entity.post.$format")->__invoke($posts);
 		
 		$response = [
 			[

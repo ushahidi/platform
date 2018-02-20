@@ -10,13 +10,12 @@
  */
 
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Tool\Formatter;
 
 use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Tool\FileData;
 use League\Flysystem\Util\MimeType;
 
-class Ushahidi_Formatter_Post_CSV implements Formatter
+class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 {
 	/**
 	 * @var SearchData
@@ -26,14 +25,15 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	protected $tmpfname;
 
 	// Formatter
-	public function __invoke($records, $fs)
+	public function __invoke($records)
 	{
-		$this->tmpfname = tempnam("/tmp", strtolower(uniqid() . strftime('%G-%m-%d') . '.csv'));
-		$this->fs = $fs;
-
-		$this->configFileStream();
-
 		return $this->generateCSVRecords($records);
+	}
+
+	public function setFS($fs)
+	{
+		$this->tmpfname = "/tmp/" . strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
+		$this->fs = $fs;
 	}
 
 	/**
@@ -86,13 +86,8 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 	private function writeStreamToFS($stream)
 	{
 
-		// Add the first and second letters of filename to the directory path
-		// to help segment the files, producing a more reasonable amount of
-		// files per directory, eg: abc-myfile.png -> a/b/abc-myfile.png
 		$filepath = implode('/', [
 			'csv',
-			$this->tmpfname[0],
-			$this->tmpfname[1],
 			$this->tmpfname,
 			]);
 
