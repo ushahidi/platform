@@ -177,10 +177,9 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		$isChild = $fullData['parent_id'];
 		$hasRole = !!$fullData['role'];
 		$parent = $fullData['parent_id'] && $isChild && $this->getEntity(['id' => $fullData['parent_id']]);
-
 		if ($hasRole && $isChild && $parent) {
 			$parent = $this->selectOne(['id' => $fullData['parent_id']]);
-			$role = json_decode($parent['role']) || $parent['role'];
+			$role = json_decode($parent['role']) ? json_decode($parent['role']) : $parent['role'];
 			$valid = $role == $fullData['role'];
 		}
 		if (!$valid) {
