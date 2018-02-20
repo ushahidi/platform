@@ -114,6 +114,7 @@ Feature: Testing the Media API
         And the response has a "errors" property
         Then the guzzle status code should be 404
 
+    @resetFixture
     Scenario: Fail to create a new Media with size greater than limit
         Given that I want to make a new "Media"
         And that the post field "caption" is "ihub"

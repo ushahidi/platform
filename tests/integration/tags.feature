@@ -218,7 +218,7 @@ Feature: Testing the Tags API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "7"
+        And the "count" property equals "11"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -243,7 +243,7 @@ Feature: Testing the Tags API
             """
         When I request "/tags"
         Then the response is JSON
-        And the "count" property equals "5"
+        And the "count" property equals "9"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -301,3 +301,53 @@ Feature: Testing the Tags API
         When I request "/tags"
         And the response has a "errors" property
         Then the guzzle status code should be 404
+
+    Scenario: Creating a new child for a tag with role=admin
+        Given that I want to make a new "Tag"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":9,
+                "tag":"Valid child",
+                "slug":"valid-child",
+                "description":"I am a valid tag",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role":"admin"
+            }
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        And the "tag" property equals "Valid child"
+        And the "slug" property equals "valid-child"
+        And the "description" property equals "I am a valid tag"
+        And the "color" property equals "#00ff00"
+        And the "priority" property equals "1"
+        And the "type" property equals "category"
+        And the response has a "role" property
+        And the type of the "role" property is "array"
+        And the "parent.id" property equals "9"
+        Then the guzzle status code should be 200
+
+    Scenario: Creating a new invalid child for a tag with role=admin
+        Given that I want to make a new "Tag"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":9,
+                "tag":"Not a valid tag role",
+                "slug":"not-valid-tag-role",
+                "description":"My role is invalid",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role":"nope"
+            }
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 422
