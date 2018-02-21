@@ -174,12 +174,13 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	public function isRoleValid(Validation $validation, $fullData)
 	{
 		$valid = true;
-		$isChild = $fullData['parent_id'];
-		$hasRole = !!$fullData['role'];
-		$parent = null;
-		if ($hasRole && $isChild) {
-			$parent = $this->selectOne(['id' => $fullData['parent_id']]);
-			$valid = $parent['role'] !== $fullData['role'];
+		$entityFullData = $this->getEntity($fullData);
+		$isChild = !!$entityFullData->parent_id;
+		$hasRole = !!$entityFullData->role;
+		$parent = $isChild ? $this->selectOne(['id' => $entityFullData->parent_id]) : null;
+		if ($hasRole && $isChild && $parent) {
+			$parent = $this->getEntity($parent);
+			$valid = $parent->role == $entityFullData->role;
 		}
 		if (!$valid) {
 			$validation->error('role', 'tag.role');
