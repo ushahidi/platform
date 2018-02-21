@@ -49,7 +49,7 @@ class Export extends SearchUsecase
 		$this->repo->setSearchParams($search);
 
 		// ... get the results of the search
-		$results = $this->repo->getSearchResults(true);
+		$results = $this->repo->getSearchResults();
 
 		// ... get the total count for the search
 		$total = $this->repo->getSearchTotal();
