@@ -85,11 +85,11 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		$return = '';
 		$keySet = explode('.', $keyParam); //contains key + index of the key
 		if (count($keySet) == 1) {
-			preg_match('/([a-zA-Z]+)([0-9]+)\(([0-9]+)\)/',$keyParam, $match);
+			preg_match('/(.*?)\(([0-9]+)\)/',$keyParam, $match);
 			if ($match) {
-				$keySet[0] = $match[1].$match[2];
-				$keySet[1] = $match[1];
-				$keySet[2] = $match[3];
+				$keySet[0] = $match[1];
+				$keySet[1] = $match[0];
+				$keySet[2] = $match[2];
 			}
 		}
 
