@@ -13,11 +13,7 @@ Feature: Testing the Tags API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role":
-                    [
-                        "user",
-                        "admin"
-                    ]
+                "role": ["admin", "user"]
             }
             """
         When I request "/tags"
@@ -31,7 +27,6 @@ Feature: Testing the Tags API
         And the "priority" property equals "1"
         And the "type" property equals "category"
         And the response has a "role" property
-        And the type of the "role" property is "array"
         And the "parent.id" property equals "1"
         Then the guzzle status code should be 200
 
@@ -314,7 +309,7 @@ Feature: Testing the Tags API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role":"admin"
+                "role": "admin"
             }
             """
         When I request "/tags"
