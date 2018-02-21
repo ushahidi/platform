@@ -90,18 +90,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		$return = '';
 		$keySet = explode('.', $keyParam); //contains key + index of the key
 		$headingKey = isset($keySet[0]) ? $keySet[0] : null;
-
-		if (count($keySet) == 1) {
-			preg_match('/(.*?)\(([0-9]+)\)/',$keyParam, $match);
-			if ($match) {
-				$keySet[0] = $match[1];
-				$keySet[1] = $match[0];
-				$keySet[2] = $match[2];
-			}
-			$headingKey = $keySet[0];
-
-		}
-
 		$key = isset($keySet[1]) ? $keySet[1] : null;
 		$recordAttributes = isset($record['attributes'][$headingKey]) ? $record['attributes'][$headingKey] : null;
 		$format = 'single_raw';
@@ -126,7 +114,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			 * we need to join the array items in a single comma separated string
 			 */
 			$return = $this->singleColumnArray($recordValue, $headingKey);
-		} else if ($format ==='multiple_array' || $key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey])) {
+		} else if ($format ==='multiple_array' || ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
 			/**
 			 * we work with multiple posts which means our actual count($record[$key])
 			 * value might not exist in all of the posts we are posting in the CSV
@@ -213,8 +201,6 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 						for ($i = 0 ; $i < $attribute['count']; $i++){
 							$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
 						}
-					} else if ($attribute['count'] > 1 ) {
-						$attributeKeysWithStageFlat[$attributeKey.'('. $attribute['count'] . ')'] = $attribute['label'];
 					} else {
 						$attributeKeysWithStageFlat[$attributeKey.'.0'] = $attribute['label'];
 					}
