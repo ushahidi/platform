@@ -14,7 +14,11 @@ use Ushahidi\Core\Tool\Formatter;
 
 class Ushahidi_Formatter_Post_CSV implements Formatter
 {
-	public static $csv_schema = array('tags' => 'single_array', 'sets' => 'multiple_array', 'point'=> 'single_value_array');
+	public static $csv_schema = array(
+		'tags' => 'single_array',
+		'sets' => 'multiple_array',
+		'point'=> 'single_value_array'
+	);
 	/**
 	 * @var SearchData
 	 */
@@ -122,12 +126,12 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			 * we need to join the array items in a single comma separated string
 			 */
 			$return = $this->singleColumnArray($recordValue, $headingKey);
-		} else if ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey])) {
+		} else if ($format ==='multiple_array' || $key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey])) {
 			/**
 			 * we work with multiple posts which means our actual count($record[$key])
 			 * value might not exist in all of the posts we are posting in the CSV
 			 */
-			$return = isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
+			$return = $this->multiColumnArray($recordValue, $headingKey, $key);
 		} else if ($format === 'single_raw') {
 			$return = $this->singleRaw($recordValue, $record, $headingKey, $key);
 		}
@@ -141,18 +145,20 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 			return $emptyRecord ? '' : $record[$headingKey];
 		}
 	}
+	private function multiColumnArray($recordValue, $headingKey, $key) {
+		return isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
+	}
 	private function singleColumnArray($recordValue, $headingKey, $separator = ',') {
 		/**
 	 	* we need to join the array items in a single comma separated string
 	 	*/
-		return isset($recordValue[$headingKey])? (implode(',', $recordValue[$headingKey])): '';
+		return isset($recordValue[$headingKey])? (implode($separator, $recordValue[$headingKey])): '';
 	}
 	private function singleValueArray($recordValue, $headingKey, $key) {
 		/**
 		 * we need to join the array items in a single comma separated string
 		 */
 		return isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
-
 	}
 
 	/**
