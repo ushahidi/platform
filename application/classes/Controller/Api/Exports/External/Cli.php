@@ -45,24 +45,24 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 		return false;
 	}
 
-	// public function before()
-	// {
-	// 	parent::before();
+	public function before()
+	{
+		parent::before();
 
-	// 	$post = $this->_request_payload;
+		$post = $this->_request_payload;
 
-	// 	if (!$this->checkApiKey($post) || !$this->checkSignature($post))
-	// 	{
-	// 		throw HTTP_Exception::factory(403, 'Forbidden');
-	// 	}
-	// }
+		if (!$this->checkApiKey($post) || !$this->checkSignature($post))
+		{
+			throw HTTP_Exception::factory(403, 'Forbidden');
+		}
+	}
 
 	protected function _is_auth_required()
 	{
 		return false;
 	}
 
-	public function action_get_index($command = 'export')
+	public function action_get_index()
 	{
 
 		// Get Symfony console app
@@ -89,12 +89,14 @@ class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
 		// Run the command
 		$command->run($input, $output);
 
-		//Retrieve results
-		$export_results = json_decode($output->fetch());
+		// Retrieve the results of rhe export 
+		// which should be a json formatted string
+		// containing information aboutt he file generated and 
+		// saved by the exporter
+		$file_details = json_decode($output->fetch());
 
 		$this->_response_payload = [
-			//'results'	=> explode("\n", $export_results, -1),
-			'results' => $export_results,
+			'results' => $file_details,
 		];
 	}
 }

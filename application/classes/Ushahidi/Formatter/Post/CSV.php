@@ -30,7 +30,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		return $this->generateCSVRecords($records);
 	}
 
-	public function setFS($fs)
+	public function setFilesystem($fs)
 	{
 		$this->tmpfname = "/tmp/" . strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
 		$this->fs = $fs;
