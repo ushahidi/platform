@@ -14,7 +14,7 @@ use Ushahidi\Core\Tool\Formatter;
 
 class Ushahidi_Formatter_Post_CSV implements Formatter
 {
-	public static $csv_schema = array(
+	public static $csvFieldFormat = array(
 		'tags' => 'single_array',
 		'sets' => 'multiple_array',
 		'point'=> 'single_value_array'
@@ -93,8 +93,8 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 		$key = isset($keySet[1]) ? $keySet[1] : null;
 		$recordAttributes = isset($record['attributes'][$headingKey]) ? $record['attributes'][$headingKey] : null;
 		$format = 'single_raw';
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csv_schema[$recordAttributes['type']])){
-			$format = self::$csv_schema[$recordAttributes['type']];
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])){
+			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
 		$recordValue = isset ($record['attributes']) && $recordAttributes? $record['values']: $record;
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
@@ -196,7 +196,7 @@ class Ushahidi_Formatter_Post_CSV implements Formatter
 					 * If the attribute has a count key, it means we want to show that as key.index in the header.
 					 * This is to make sure we don't miss values in multi-value fields
 					 */
-					$singleColumnArray = (isset(self::$csv_schema[$attribute['type']]) && self::$csv_schema[$attribute['type']] === 'single_array');
+					$singleColumnArray = (isset(self::$csvFieldFormat[$attribute['type']]) && self::$csvFieldFormat[$attribute['type']] === 'single_array');
 					if ($attribute['count'] > 1 & !$singleColumnArray){
 						for ($i = 0 ; $i < $attribute['count']; $i++){
 							$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
