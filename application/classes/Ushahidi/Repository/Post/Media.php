@@ -18,6 +18,10 @@ class Ushahidi_Repository_Post_Media extends Ushahidi_Repository_Post_Value
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)
 	{
+		/**
+		 * This value is added here so that we can manipulate it in the CSV getpostvalues and use either id or filename
+		 * depending on the repository used
+		 */
 		$data['value'] = array('o_filename' => $data['o_filename'], 'id' =>$data['id']);
 		return new \Ushahidi\Core\Entity\PostValueMedia($data);
 	}

@@ -115,7 +115,7 @@ abstract class Ushahidi_Repository implements
 	}
 
 	// SearchRepository
-	public function getSearchResults($csv = false)
+	public function getSearchResults()
 	{
 		$query = $this->getSearchQuery();
 
