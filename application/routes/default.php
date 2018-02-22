@@ -63,17 +63,6 @@ Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',
 		'directory'  => 'Api/Collections'
 	));
 
-
-/**
- * Export Posts API SubRoute
- */
- Route::set('export', $apiBase . 'posts/export')
- 	->defaults(array(
- 		'action'     => 'index',
- 		'controller' => 'Export',
- 		'directory'  => 'Api/Posts'
- 	));
-
 /**
  * Stats Posts API SubRoute
  */
