@@ -89,13 +89,13 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	private function writeStreamToFS($stream)
 	{
 
-		$filepath = implode('/', [
+		$filepath = implode(DIRECTORY_SEPARATOR, [
 			'csv',
 			$this->tmpfname,
 			]);
 
 		// Remove any leading slashes on the filename, path is always relative.
-		$filepath = ltrim($filepath, '/');
+		$filepath = ltrim($filepath, DIRECTORY_SEPARATOR);
 
 		$extension = pathinfo($filepath, PATHINFO_EXTENSION);
 		
