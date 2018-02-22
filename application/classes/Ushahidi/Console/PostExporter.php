@@ -70,6 +70,7 @@ class Ushahidi_Console_PostExporter extends Command
 			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit')
 			->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
 			->addOption('job', ['j'], InputOption::VALUE_OPTIONAL, 'job')
+			->addOption('add-header', ['h'], InputOption::VALUE_OPTIONAL, 'add-header')
 			;
 	}
 
@@ -91,6 +92,7 @@ class Ushahidi_Console_PostExporter extends Command
 		$limit = $input->getOption('limit', 100);
 		$offset = $input->getOption('offset', 0);
 		$job_id = $input->getOption('job', null);
+		$add_header = $input->getOption('add-header', true);
 
 		// At the moment there is only CSV format
 		$format = 'csv';
@@ -130,7 +132,7 @@ class Ushahidi_Console_PostExporter extends Command
 		foreach ($posts as $idx => $post) {
 
 			// Retrieved Attribute Labels for Entity's values
-			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray());
+			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray(), $add_header);
 
 			$posts[$idx] = $post;
 		}

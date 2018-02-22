@@ -19,7 +19,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post implement
 	 * @param $data
 	 * @return array
 	 */
-  public function retrieveColumnNameData($data) {
+  public function retrieveColumnNameData($data, $add_header) {
 
     /**
      * Tags (native) should not be shown in the CSV Export

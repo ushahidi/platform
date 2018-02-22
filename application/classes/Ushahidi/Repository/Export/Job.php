@@ -115,7 +115,7 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 	public function getSearchFields()
 	{
 		return [
-			'entity_type'
+			'entity_type', 'user'
 		];
 	}
 }
