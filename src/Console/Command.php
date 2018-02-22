@@ -36,9 +36,12 @@ abstract class Command extends ConsoleCommand
 		$this->handleResponse($response, $output);
 	}
 
-	protected function handleResponse($response, OutputInterface $output)
+	protected function handleResponse($response, OutputInterface $output, $format = '')
 	{
-		if (is_array($response)) {
+		if ($format === 'json') {
+			$json = json_encode($response);
+			$output->writeln($json);
+		} elseif (is_array($response)) {
 			// Display arrays as tables.
 			$table = new Table($output);
 
