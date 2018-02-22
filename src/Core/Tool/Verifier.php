@@ -51,7 +51,7 @@ class Verifier
 		return false;
     }
     
-    public function verified() 
+    public function verified()
     {
         return !$this->checkApiKey() || !$this->checkSignature();
     }
