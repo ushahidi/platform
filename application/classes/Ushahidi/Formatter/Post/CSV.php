@@ -23,10 +23,12 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	protected $search;
 	protected $fs;
 	protected $tmpfname;
+	protected $add_header;
 
 	// Formatter
-	public function __invoke($records)
+	public function __invoke($records, $add_header)
 	{
+		$this->add_header = $add_header;
 		return $this->generateCSVRecords($records);
 	}
 
@@ -48,13 +50,6 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 */
 	protected function generateCSVRecords($records)
 	{
-
-		/**
-		 * Get the columns from the heading, already sorted to match the key's stage & priority.
-		 */
-		$headingColumns = $this->getCSVHeading($records);
-		$heading = $this->createSortedHeading($headingColumns);
-
 		//$stream = fopen('php://memory', 'w');
 		$stream = tmpfile();
 
@@ -63,8 +58,16 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		 */
 		ob_clean();
 
+		/**
+		 * Get the columns from the heading, already sorted to match the key's stage & priority.
+		 */
+		$headingColumns = $this->getCSVHeading($records);
+		$heading = $this->createSortedHeading($headingColumns);	
+
 		// Add heading
-		fputcsv($stream, array_values($heading));
+		if ($this->add_header) {
+			fputcsv($stream, array_values($heading));
+		}
 
 		foreach ($records as $record)
 		{

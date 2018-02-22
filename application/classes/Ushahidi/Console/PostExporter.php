@@ -132,13 +132,13 @@ class Ushahidi_Console_PostExporter extends Command
 		foreach ($posts as $idx => $post) {
 
 			// Retrieved Attribute Labels for Entity's values
-			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray(), $add_header);
+			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray());
 
 			$posts[$idx] = $post;
 		}
 
-		service("formatter.entity.post.$format")->setFS($this->fs);
-		$file = service("formatter.entity.post.$format")->__invoke($posts);
+		service("formatter.entity.post.$format")->setFileSystem($this->fs);
+		$file = service("formatter.entity.post.$format")->__invoke($posts, $add_header);
 		
 		$response = [
 			[
