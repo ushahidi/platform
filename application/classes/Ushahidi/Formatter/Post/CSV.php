@@ -31,10 +31,14 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	protected $add_header;
 
 	// Formatter
-	public function __invoke($records, $add_header)
+	public function __invoke($records)
+	{
+		return $this->generateCSVRecords($records);
+	}
+
+	public function setAddHeader($add_header)
 	{
 		$this->add_header = $add_header;
-		return $this->generateCSVRecords($records);
 	}
 
 	public function setFilesystem($fs)
