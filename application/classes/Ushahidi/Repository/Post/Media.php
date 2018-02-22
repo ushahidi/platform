@@ -40,6 +40,7 @@ class Ushahidi_Repository_Post_Media extends Ushahidi_Repository_Post_Value
 		$query->select(
 			$this->getTable().'.*',
 			'media.o_filename',
+			'media.id',
 			'form_attributes.key',
 			'form_attributes.form_stage_id',
 			'form_attributes.response_private'

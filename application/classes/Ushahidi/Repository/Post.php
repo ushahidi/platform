@@ -207,7 +207,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			if (empty($output[$value->key])) {
 				$output[$value->key] = [];
 			}
-			if ($value->value !== NULL) {
+			if (is_array($value->value) && isset($value->value['o_filename']) && isset($value->value['id'])) {
+				$output[$value->key][] = $value->value['id'];
+			} else if ($value->value !== NULL) {
 				$output[$value->key][] = $value->value;
 			}
 		}
