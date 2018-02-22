@@ -84,6 +84,13 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
 			}
+			// Transform post_date to a string
+			if (is_numeric($record['created'])) {
+				$record['created'] = date("Y-m-d H:i:s", $record['created']);
+			}
+			if (is_numeric($record['updated'])) {
+				$record['updated'] = date("Y-m-d H:i:s", $record['updated']);
+			}
 
 			$values = [];
 
