@@ -96,7 +96,11 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 	public function getPostCount($job_id)
 	{
 		$job = $this->get($job_id);
-		$this->setFilters($job->filters);
+
+		if ($job->filters) {
+			$this->setFilters($job->filters);
+		}
+		
 
 		$fields = $this->post_repo->getSearchFields();
 

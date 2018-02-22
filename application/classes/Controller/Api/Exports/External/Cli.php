@@ -12,7 +12,7 @@
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class Controller_Api_Exports_External_Cli extends Controller_Api_External_Api {
+class Controller_Api_Exports_External_Cli extends Controller_Api_External {
 
 	protected function _scope()
 	{
@@ -25,8 +25,8 @@ class Controller_Api_Exports_External_Cli extends Controller_Api_External_Api {
 		// Get Symfony console app
 		$app = service('app.console');
 		$command = $app->get('exporter');
-		$limit = 0;
-		$offset = 0;
+		$limit = $this->request->param('limit', 0);
+		$offset = $this->request->param('offset', 0);
 		$add_header = true;
 
 		$job_id = $this->request->param('id');
