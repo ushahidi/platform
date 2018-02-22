@@ -12,54 +12,11 @@
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class Controller_Api_Exports_External_Cli extends Ushahidi_Rest {
+class Controller_Api_Exports_External_Cli extends Controller_Api_External_Api {
 
 	protected function _scope()
 	{
 		return 'export_jobs';
-	}
-
-	public function checkApiKey($data)
-	{
-
-		if (isset($data['api_key'])) {
-			// Get api key and compare
-			return service('repository.apikey')->apiKeyExists($data['api_key']);
-		}
-
-		return false;
-	}
-
-	public function checkSignature($data)
-	{
-		$signature = $this->request->headers('X-Ushahidi-Signature');
-
-		if ($signature) {
-			//Validate signature
-			$shared_secret = getenv('PLATFORM_SHARED_SECRET');
-			$signer = new Signer($shared_secret);
-			$fullURL = URL::site(Request::detect_uri(), TRUE) . URL::query();
-
-			return $signer->validate($signature, $fullURL, $data);
-		}
-		return false;
-	}
-
-	public function before()
-	{
-		parent::before();
-
-		$post = $this->_request_payload;
-
-		if (!$this->checkApiKey($post) || !$this->checkSignature($post))
-		{
-			throw HTTP_Exception::factory(403, 'Forbidden');
-		}
-	}
-
-	protected function _is_auth_required()
-	{
-		return false;
 	}
 
 	public function action_get_index()
