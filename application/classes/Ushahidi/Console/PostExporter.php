@@ -70,7 +70,7 @@ class Ushahidi_Console_PostExporter extends Command
 			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit')
 			->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
 			->addOption('job', ['j'], InputOption::VALUE_OPTIONAL, 'job')
-			->addOption('add-header', ['h'], InputOption::VALUE_OPTIONAL, 'add-header')
+			->addOption('add-header', ['ah'], InputOption::VALUE_OPTIONAL, 'add-header')
 			;
 	}
 
@@ -138,7 +138,8 @@ class Ushahidi_Console_PostExporter extends Command
 		}
 
 		service("formatter.entity.post.$format")->setFileSystem($this->fs);
-		$file = service("formatter.entity.post.$format")->__invoke($posts, $add_header);
+		service("formatter.entity.post.$format")->setAddHeader($add_header);
+		$file = service("formatter.entity.post.$format")->__invoke($posts);
 		
 		$response = [
 			[
