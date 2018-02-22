@@ -298,7 +298,9 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		$prevColumnValue = isset($columns[$key]) ? $columns[$key]: ['count' => 0];
 		$headingCount = $prevColumnValue['count'] < count($value)?  count($value) : $prevColumnValue['count'] ;
 		if (!is_array($labelObject)){
-			$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => $key, 'nativeField' => $nativeField, 'priority' => -1, 'form_id' => -1, 'stage' => -1];
+			$labelObject = ['label' => $this->preprocessHeaderForItem($labelObject, $key), 'count' => $headingCount, 'type' => $key, 'nativeField' => $nativeField, 'priority' => -1, 'form_id' => -1, 'stage' => -1];
+		} else {
+			$labelObject['label'] = $this->preprocessHeaderForItem($labelObject['label'], $labelObject['type']);
 		}
 		$labelObject['count'] = $headingCount;
 		$columns[$key] = $labelObject;
@@ -342,6 +344,14 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			}
 		}
 		return $columns;
+	}
+	private function preprocessHeaderForItem($label, $type) {
+		// if it's a date, append (UTC) to the header
+		$dateFields = ['created', 'updated', 'post_date'];
+		if (in_array($label, $dateFields) || $type === 'datetime') {
+			return "$label(UTC)";
+		}
+		return $label;
 	}
 
 	/**
