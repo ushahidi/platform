@@ -12,7 +12,7 @@
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class Controller_Api_Exports_External_Cli extends Controller_Api_External_Api {
+class Controller_Api_Exports_External_Cli extends Controller_Api_External {
 
 	protected function _scope()
 	{
