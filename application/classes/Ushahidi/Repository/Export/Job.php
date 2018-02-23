@@ -54,8 +54,15 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 	{
 		$query = $this->search_query;
 
+		// Limit search to user's records unless they are admin
+		// or if we get user=me as a search param
+		if (! $this->isUserAdmin($user) || $search->user === 'me') {
+			$search->user = $this->getUserId();
+		}
+
 		foreach ([
 			'entity_type',
+			'user'
 		] as $fk)
 		{
 			if ($search->$fk)

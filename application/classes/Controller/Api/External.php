@@ -21,23 +21,23 @@ class Controller_Api_External extends Ushahidi_Rest {
 		return 'external';
 	}
 
-	public function before()
-	{
-		parent::before();
+	// public function before()
+	// {
+	// 	parent::before();
 
-		$data = $this->_request_payload;
+	// 	$data = $this->_request_payload;
 
-		$signature = $this->request->headers('X-Ushahidi-Signature');
-		$api_key = isset($data['api_key']) ? $data['api_key'] : null;
-		$shared_secret = getenv('PLATFORM_SHARED_SECRET');
-		$fullURL = URL::site(Request::detect_uri(), TRUE) . URL::query();
+	// 	$signature = $this->request->headers('X-Ushahidi-Signature');
+	// 	$api_key = isset($data['api_key']) ? $data['api_key'] : null;
+	// 	$shared_secret = getenv('PLATFORM_SHARED_SECRET');
+	// 	$fullURL = URL::site(Request::detect_uri(), TRUE) . URL::query();
 
-		$verifier = new Verifier($signature, $api_key, $shared_secret, $fullURL, $data);
+	// 	$verifier = new Verifier($signature, $api_key, $shared_secret, $fullURL, $data);
 
-		if (!$verifier->verified()) {
-			throw HTTP_Exception::factory(403, 'Forbidden');
-		}
-	}
+	// 	if (!$verifier->verified()) {
+	// 		throw HTTP_Exception::factory(403, 'Forbidden');
+	// 	}
+	// }
 
 	protected function _is_auth_required()
 	{
