@@ -113,6 +113,16 @@ $di->setter['Ushahidi\Console\Command\ConfigSet']['setUsecase'] = $di->lazy(func
 			->setFormatter($di->get('formatter.entity.console'));
 });
 
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ApikeySet');
+$di->setter['Ushahidi\Console\Command\ApikeySet']['setUsecase'] = $di->lazy(function () use ($di) {
+	return service('factory.usecase')
+			->get('apikeys', 'create')
+			// Override authorizer for console
+			->setAuthorizer($di->get('authorizer.console'))
+			// Override formatter for console
+			->setFormatter($di->get('formatter.entity.console'));
+});
+
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
 
