@@ -14,8 +14,12 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 use Ushahidi\Core\Tool\Verifier;
 
-class Controller_Api_External_Api extends Ushahidi_Rest {
+class Controller_Api_External extends Ushahidi_Rest {
 
+	protected function _scope()
+	{
+		return 'external';
+	}
 
 	public function before()
 	{

@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Controller_Api_Exports_External_Jobs extends Controller_Api_External_Api {
+class Controller_Api_Exports_External_Jobs extends Controller_Api_External {
 
     protected function _scope()
 	{
