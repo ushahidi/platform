@@ -38,7 +38,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 	public function setFilesystem($fs)
 	{
-		$this->tmpfname = DIRECTORY_SEPARATOR . "tmp" . DIRECTORY_SEPARATOR . strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
+		$this->tmpfname = "tmp" . DIRECTORY_SEPARATOR . strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
 		$this->fs = $fs;
 	}
 
