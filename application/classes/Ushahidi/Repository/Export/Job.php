@@ -15,6 +15,8 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
+use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\AdminAccess;
 
 class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements ExportJobRepository
 {
@@ -23,6 +25,11 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 
 	// - FilterRecords for setting search parameters
 	use FilterRecords;
+
+	use UserContext;
+
+	use AdminAccess;
+
 
 	/**
 	 * @var SearchData
@@ -52,10 +59,17 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 	// Ushahidi_Repository
 	public function setSearchConditions(SearchData $search)
 	{
-		$query = $this->search_query;
+		$user = $this->getUser();
+		// Limit search to user’s records unless they are admin
+        // or if we get user=me as a search param
+        if (! $this->isUserAdmin($user) || $search->user === 'me') {
+            $search->user = $this->getUserId();
+        }
+        $query = $this->search_query;
 
 		foreach ([
 			'entity_type',
+			'user',
 		] as $fk)
 		{
 			if ($search->$fk)
