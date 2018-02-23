@@ -16,16 +16,17 @@ use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Traits\AdminAccess;
 
 class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements ExportJobRepository
 {
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
-	use Ushahidi\Core\Traits\UserContext;
 
 	// - FilterRecords for setting search parameters
 	use FilterRecords;
 	use UserContext;
+	use AdminAccess;
 
 	/**
 	 * @var SearchData
