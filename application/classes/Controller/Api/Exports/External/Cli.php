@@ -27,7 +27,7 @@ class Controller_Api_Exports_External_Cli extends Controller_Api_External {
 		$command = $app->get('exporter');
 		$limit = $this->request->param('limit', 0);
 		$offset = $this->request->param('offset', 0);
-		$add_header = true;
+		$add_header = $this->request->param('include_header', 0);;
 
 		$job_id = $this->request->param('id');
 
