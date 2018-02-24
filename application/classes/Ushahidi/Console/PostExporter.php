@@ -13,7 +13,7 @@ use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Factory\DataFactory;
-use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\UserContextService;
 use Ushahidi\Core\Tool\FormatterTrait;
 
 use Ushahidi\Core\Tool\Filesystem;
@@ -24,17 +24,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use League\Flysystem\Util\MimeType;
+use Aura\Di\Container;
 
 class Ushahidi_Console_PostExporter extends Command
 {
 
-	use UserContext;
 	use FormatterTrait;
 
-    private $data;
+	private $data;
 	private $postExportRepository;
 	private $exportJobRepository;
+	private $userRepository;
 	private $fs;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+	}
 
 	public function setFileSystem(Filesystem $fs)
 	{
@@ -50,6 +57,15 @@ class Ushahidi_Console_PostExporter extends Command
 	{
 		$this->exportJobRepository = $repo;
 	}
+//	public function setUser(UserContext $userContext)
+//	{
+//		$this->userContext = $userContext;
+//	}
+	public function setUserRepo(\Ushahidi\Core\Entity\UserRepository $repo)
+	{
+		$this->userRepository = $repo;
+	}
+
 
 	public function setDataFactory(DataFactory $data)
 	{
@@ -85,6 +101,7 @@ class Ushahidi_Console_PostExporter extends Command
 
 	protected function executeExport(InputInterface $input, OutputInterface $output)
 	{
+		$userContextService = service('usercontext.service');
 		// Construct a Search Data objec to hold the search info
         $data = $this->data->get('search');
 
@@ -105,10 +122,13 @@ class Ushahidi_Console_PostExporter extends Command
 		];
 
 		if ($job_id) {
-			
 			// Load the export job
 			$job = $this->exportJobRepository->get($job_id);
-			
+			$user = $this->userRepository->get($job->user_id);
+			$userContextService->setUser($user);
+			//$this->di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $user;
+			///$this->setUser($user);
+//			$this->setUser()
 			// Merge the export job filters with the base filters
 			if ($job->filters) {
 				$filters = array_merge($filters, $job->filters);

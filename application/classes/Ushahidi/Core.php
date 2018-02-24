@@ -119,14 +119,11 @@ abstract class Ushahidi_Core {
 			'db' => $di->lazyGet('kohana.db.multisite')
 		];
 
-		$di->set('session.user', function() use ($di) {
-			// Using the OAuth resource server, get the userid (owner id) for this request
-			$server = $di->get('oauth.server.resource');
-			$userid = $server->getOwnerId();
 
+		$di->set('session.console.user', function() use ($di) {
 			// Using the user repository, load the user
 			$repo = $di->get('repository.user');
-			$user = $repo->get($userid);
+			$user = $repo->get(null);
 
 			return $user;
 		});
@@ -162,12 +159,14 @@ abstract class Ushahidi_Core {
 
 		// Post Exporter
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_PostExporter');
+//		$di->params['Ushahidi_Console_PostExporter']['di'] = &$di;
 		$di->setter['Ushahidi_Console_PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
 		$di->setter['Ushahidi_Console_PostExporter']['setExportJobRepo'] = $di->lazyGet('repository.export_job');
 		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
 		$di->setter['Ushahidi_Console_PostExporter']['setFileSystem'] = $di->lazyGet('tool.filesystem');
 		$di->setter['Ushahidi_Console_PostExporter']['setDatabase'] = $di->lazyGet('kohana.db');
-
+		//$di->setter['Ushahidi_Console_PostExporter']['setUser'] = $di->lazyGet('session.console.user');
+		$di->setter['Ushahidi_Console_PostExporter']['setUserRepo'] =  $di->lazyGet('repository.user');
 		// Webhook command
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
@@ -770,6 +769,21 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_Post_Lock']['setEvent'] = 'LockBroken';
 		$di->setter['Ushahidi_Repository_Post_Lock']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_Lock');
+
+		$di->set('session.user', function() use ($di) {
+			if (php_sapi_name() !== "cli") {
+
+				// Using the OAuth resource server, get the userid (owner id) for this request
+				$server = $di->get('oauth.server.resource');
+				$userid = $server->getOwnerId();
+
+				// Using the user repository, load the user
+				$repo = $di->get('repository.user');
+				$user = $repo->get($userid);
+
+				return $user;
+			}
+		});
 		/**
 		 * 1. Load the plugins
 		 */
@@ -840,4 +854,5 @@ abstract class Ushahidi_Core {
 		$log = \Log::instance();
 		$log->add(Log::INFO, $message);
 	}
+
 }

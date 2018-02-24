@@ -29,7 +29,50 @@ class ConsoleAuthorizer implements Authorizer
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
-		// All console requests are authorized
-		return true;
+		// These checks are run within the user context.
+		$user = $this->getUser();
+
+		// Only logged in users have access if the deployment is private
+		if (!$this->canAccessDeployment($user)) {
+			return false;
+		}
+
+		// User should not be able to delete self
+		if ($privilege === 'delete' && $this->isUserSelf($entity)) {
+			return false;
+		}
+
+		// Role with the Manage Users permission can manage all users
+		if ($this->acl->hasPermission($user, Permission::MANAGE_USERS)) {
+			return true;
+		}
+
+		// Admin user should be able to do anything - short of deleting self
+		if ($this->isUserAdmin($user)) {
+			return true;
+		}
+
+		// User cannot change their own role
+		if ('update' === $privilege && $this->isUserSelf($entity) && $entity->hasChanged('role')) {
+			return false;
+		}
+
+		// Regular user should be able to update and read_full only self
+		if ($this->isUserSelf($entity) && in_array($privilege, ['update', 'read_full'])) {
+			return true;
+		}
+
+		// Regular user can always read
+		if (in_array($privilege, ['read', 'search'])) {
+			return true;
+		}
+
+		// Users should always be allowed to register
+		if ($privilege === 'register') {
+			return true;
+		}
+
+		// If no other access checks succeed, we default to denying access
+		return false;
 	}
 }

@@ -26,7 +26,7 @@ trait AdminAccess
 	 * @param  User    $user
 	 * @return boolean
 	 */
-	protected function isUserAdmin(User $user)
+	protected function  isUserAdmin(User $user)
 	{
 		return ($user->id && $user->role === 'admin');
 	}

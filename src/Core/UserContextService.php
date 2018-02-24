@@ -11,11 +11,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Traits;
+namespace Ushahidi\Core;
 
 use Ushahidi\Core\Entity\User;
 
-trait UserContext
+class UserContextService
 {
 	// storage for the user
 	protected $user;
@@ -36,16 +36,11 @@ trait UserContext
 	 */
 	public function getUser()
 	{
-		$user = $this->user;
-		if (!$user) {
-			$userCtx = service('usercontext.service');
-			$user = $userCtx->getUser();
-		}
-		if (!$user) {
+		if (!$this->user) {
 			throw new RuntimeException('Cannot get the user context before it has been set');
 		}
 
-		return $user;
+		return $this->user;
 	}
 
 	/**
@@ -54,9 +49,6 @@ trait UserContext
 	 */
 	public function getUserId()
 	{
-		$userCtx = service('usercontext.service');
-		$ret = $userCtx->getUser();
-		//$this->user->id ? $this->user->id : service('usercontext.service')
 		return $this->user->id;
 	}
 

@@ -114,3 +114,9 @@ $di->set('ratelimiter.cache', function () use ($di) {
 // Rate limiter violation handler
 $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 	$di->lazyNew('Ushahidi\App\ThrottlingViolationHandler');
+
+if (php_sapi_name() !== "cli") {
+	$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
+}
+$di->set('usercontext.service', new \Ushahidi\Core\UserContextService());
+
