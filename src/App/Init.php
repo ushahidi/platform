@@ -115,8 +115,16 @@ $di->set('ratelimiter.cache', function () use ($di) {
 $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 	$di->lazyNew('Ushahidi\App\ThrottlingViolationHandler');
 
+/**
+ * @TODO
+ * This should only be for our csv exporter
+ */
 if (php_sapi_name() !== "cli") {
 	$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 }
+/**
+ * This service compliments the setUser result when in the cli.
+ * The setUser method in UserContext checks in the service if it can't find a user as a fallback
+ */
 $di->set('usercontext.service', new \Ushahidi\Core\UserContextService());
 
