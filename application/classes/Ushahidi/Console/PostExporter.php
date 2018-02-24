@@ -29,6 +29,7 @@ use Aura\Di\Container;
 class Ushahidi_Console_PostExporter extends Command
 {
 
+
 	use FormatterTrait;
 
 	private $data;
