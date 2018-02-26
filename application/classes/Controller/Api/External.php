@@ -43,4 +43,73 @@ class Controller_Api_External extends Ushahidi_Rest {
 	{
 		return false;
 	}
+
+
+	public function setExternalAuth() {
+		$this->_usecase->setAuthorizer(service('authorizer.external_auth'));
+	}
+	/**
+	 * Create An Entity
+	 *
+	 * POST /api/foo
+	 *
+	 * @return void
+	 */
+	public function action_post_index_collection()
+	{
+		parent::action_post_index_collection();
+		$this->setExternalAuth();
+	}
+
+	/**
+	 * Retrieve All Entities
+	 *
+	 * GET /api/foo
+	 *
+	 * @return void
+	 */
+	public function action_get_index_collection()
+	{
+		parent::action_get_index_collection();
+		$this->setExternalAuth();
+	}
+
+	/**
+	 * Retrieve An Entity
+	 *
+	 * GET /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function action_get_index()
+	{
+		parent::action_get_index();
+		$this->setExternalAuth();
+	}
+
+	/**
+	 * Update An Entity
+	 *
+	 * PUT /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function action_put_index()
+	{
+		parent::action_put_index();
+		$this->setExternalAuth();
+	}
+
+	/**
+	 * Delete An Entity
+	 *
+	 * DELETE /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function action_delete_index()
+	{
+		parent::action_delete_index();
+		$this->setExternalAuth();
+	}
 }
