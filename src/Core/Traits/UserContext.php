@@ -54,10 +54,12 @@ trait UserContext
 	 */
 	public function getUserId()
 	{
-		$userCtx = service('usercontext.service');
-		$ret = $userCtx->getUser();
-		//$this->user->id ? $this->user->id : service('usercontext.service')
-		return $this->user->id;
+		$user = $this->user;
+		if (!$user || !$user->id) {
+			$userCtx = service('usercontext.service');
+			$user = $userCtx->getUser();
+		}
+		return $user->id;
 	}
 
 	/**
