@@ -62,7 +62,7 @@ class MediaAuthorizer implements Authorizer
 			return true;
 		}
 
-		if (in_array($privilege, ['read', 'create'])) {
+		if (in_array($privilege, ['read', 'create', 'search'])) {
 			return true;
 		}
 
