@@ -17,6 +17,12 @@ use League\Flysystem\Util\MimeType;
 
 class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 {
+	public static $csvIgnoreFieldsByType = array(
+		'published_to',
+		'lock',
+		'parent_id',
+		'locale'
+	);
 	public static $csvFieldFormat = array(
 		'tags' => 'single_array',
 		'sets' => 'multiple_array',
@@ -333,13 +339,18 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 					foreach ($val as $key => $val)
 					{
-						$this->assignColumnHeading($columns, $key, $attributes[$key], $val, false);
+						if (array_search($attributes[$key],self::$csvIgnoreFieldsByType) === false) {
+							$this->assignColumnHeading($columns, $key, $attributes[$key], $val, false);
+						}
+
 					}
 				}
 				// Assign post keys
 				else
 				{
-					$this->assignColumnHeading($columns, $key, $key, $val);
+					if (array_search($key,self::$csvIgnoreFieldsByType) === false) {
+						$this->assignColumnHeading($columns, $key, $key, $val);
+					}
 				}
 			}
 		}
