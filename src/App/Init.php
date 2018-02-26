@@ -119,7 +119,7 @@ $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
  * @TODO
  * This should only be for our csv exporter
  */
-if (php_sapi_name() !== "cli") {
+if (php_sapi_name() !== "cli" && !isset($_SERVER['use_cli_auth'])) {
 	$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 }
 /**

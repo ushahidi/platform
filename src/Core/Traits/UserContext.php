@@ -57,9 +57,9 @@ trait UserContext
 		$user = $this->user;
 		if (!$user || !$user->id) {
 			$userCtx = service('usercontext.service');
-			$user = $userCtx->getUser();
+			$user = $userCtx->getUser(false);
 		}
-		return $user->id;
+		return $user ? $user->id : null;
 	}
 
 	/**

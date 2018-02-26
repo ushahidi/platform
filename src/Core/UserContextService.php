@@ -13,6 +13,7 @@
 
 namespace Ushahidi\Core;
 
+use http\Exception\RuntimeException;
 use Ushahidi\Core\Entity\User;
 
 class UserContextService
@@ -34,10 +35,10 @@ class UserContextService
 	 * Get the user context.
 	 * @return User
 	 */
-	public function getUser()
+	public function getUser($throw = true)
 	{
-		if (!$this->user) {
-			throw new RuntimeException('Cannot get the user context before it has been set');
+		if (!$this->user && $throw) {
+			throw new \Exception('Cannot get the user context before it has been set');
 		}
 
 		return $this->user;
