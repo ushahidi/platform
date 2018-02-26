@@ -33,7 +33,7 @@ class Controller_Api_Exports_External_Cli extends Controller_Api_External {
     // init and assume unset
     $limit = 0;
     $offset = 0;
-    $add_header = true;
+    $include_header = true;
     // then do some validation (remove this if Kohana is better at this)
     if (is_numeric($this->request->query('limit')))
     {
@@ -45,7 +45,7 @@ class Controller_Api_Exports_External_Cli extends Controller_Api_External {
     }
     // this is a trick to convert 'false' to falsy (which would be true),
     //      'true' to true, and an unset param to false
-    $add_header = json_decode($this->request->query('include_header')) == true ? 1 : 0;
+    $include_header = json_decode($this->request->query('include_header')) == true ? 1 : 0;
 
 		// Construct console command input
 		$input = new ArrayInput(array(
