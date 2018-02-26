@@ -21,15 +21,31 @@ class Controller_Api_Exports_External_Cli extends Controller_Api_External {
 
 	public function action_get_index()
 	{
-
 		// Get Symfony console app
 		$app = service('app.console');
 		$command = $app->get('exporter');
-		$limit = $this->request->param('limit', 0);
-		$offset = $this->request->param('offset', 0);
-		$add_header = true;
 
-		$job_id = $this->request->param('id');
+
+
+    $job_id = $this->request->param('id');
+
+    //Deal with query string -
+    // init and assume unset
+    $limit = 0;
+    $offset = 0;
+    $add_header = true;
+    // then do some validation (remove this if Kohana is better at this)
+    if (is_numeric($this->request->query('limit')))
+    {
+        $limit = $this->request->query('limit');
+    }
+    if (is_numeric($this->request->query('offset')))
+    {
+           $offset = $this->request->query('offset');
+    }
+    // this is a trick to convert 'false' to falsy (which would be true),
+    //      'true' to true, and an unset param to false
+    $add_header = json_decode($this->request->query('include_header')) == true ? 1 : 0;
 
 		// Construct console command input
 		$input = new ArrayInput(array(
@@ -37,20 +53,19 @@ class Controller_Api_Exports_External_Cli extends Controller_Api_External {
 			'--limit' => $limit,
 			'--offset' => $offset,
 			'--job' => $job_id,
-			'--add-header' => $add_header,
+			'--include_header' => $include_header,
 		 ), $command->getDefinition());
-		 
 
 		// Create Output Buffer
 		$output = new BufferedOutput();
 
-		
+
 		// Run the command
 		$command->run($input, $output);
 
-		// Retrieve the results of rhe export 
+		// Retrieve the results of rhe export
 		// which should be a json formatted string
-		// containing information aboutt he file generated and 
+		// containing information aboutt he file generated and
 		// saved by the exporter
 		$file_details = json_decode($output->fetch());
 

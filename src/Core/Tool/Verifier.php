@@ -53,6 +53,6 @@ class Verifier
     
     public function verified()
     {
-        return !$this->checkApiKey() || !$this->checkSignature();
+        return $this->checkApiKey() && $this->checkSignature();
     }
 }

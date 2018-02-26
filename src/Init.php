@@ -137,6 +137,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'config'               => $di->lazyGet('authorizer.config'),
 	'dataproviders'        => $di->lazyGet('authorizer.dataprovider'),
 	'export_jobs'          => $di->lazyGet('authorizer.export_job'),
+	'exteranl_auth'        => $di->lazyGet('authorizer.external_auth'),
 	'forms'                => $di->lazyGet('authorizer.form'),
 	'form_attributes'      => $di->lazyGet('authorizer.form_attribute'),
 	'form_roles'           => $di->lazyGet('authorizer.form_role'),
@@ -454,6 +455,7 @@ $di->set('authorizer.permission', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\Pe
 $di->set('authorizer.post', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->set('authorizer.post_lock', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\PostAuthorizer'));
 $di->set('authorizer.tos', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TosAuthorizer'));
+$di->set('authorizer.external_auth', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ExternalAuthorizer'));
 $di->set('authorizer.export_job', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ExportJobAuthorizer'));
 $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
