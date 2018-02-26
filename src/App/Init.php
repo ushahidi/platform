@@ -127,4 +127,3 @@ if (php_sapi_name() !== "cli" && !isset($_SERVER['use_cli_auth'])) {
  * The setUser method in UserContext checks in the service if it can't find a user as a fallback
  */
 $di->set('usercontext.service', new \Ushahidi\Core\UserContextService());
-
