@@ -15,6 +15,10 @@ class AddExpiresFieldToExportJob extends AbstractMigration
               'default' => false,
               'limit' => 12
               ])
+          ->addColumn('status_details', 'string', [
+                'null' => true,
+                'default' => false,
+            ])
           ->changeColumn('url', 'text', ['null' => true])
           ->update();
     }
@@ -26,6 +30,7 @@ class AddExpiresFieldToExportJob extends AbstractMigration
     {
         $this->table('export_job')
           ->removeColumn('url_expiration')
+          ->removeColumn('status_details')
           ->changeColumn('url', 'string', ['null' => true])
           ->update();
     }
