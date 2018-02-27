@@ -117,7 +117,8 @@ $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 
 /**
  * @TODO
- * This should only be for our csv exporter. use_cli_auth is a flag in case we don't want to use the session.user service in setUser
+ * This should only be for our csv exporter.
+ * use_cli_auth is a flag in case we don't want to use the session.user service in setUser
  * for some scenarios.
  */
 if (php_sapi_name() !== "cli" && !isset($_SERVER['use_cli_auth'])) {
