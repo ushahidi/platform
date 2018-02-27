@@ -127,9 +127,6 @@ class Ushahidi_Console_PostExporter extends Command
 			$job = $this->exportJobRepository->get($job_id);
 			$user = $this->userRepository->get($job->user_id);
 			$userContextService->setUser($user);
-			//$this->di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $user;
-			///$this->setUser($user);
-//			$this->setUser()
 			// Merge the export job filters with the base filters
 			if ($job->filters) {
 				$filters = array_merge($filters, $job->filters);

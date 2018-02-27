@@ -159,13 +159,13 @@ abstract class Ushahidi_Core {
 
 		// Post Exporter
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_PostExporter');
-//		$di->params['Ushahidi_Console_PostExporter']['di'] = &$di;
+
 		$di->setter['Ushahidi_Console_PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
 		$di->setter['Ushahidi_Console_PostExporter']['setExportJobRepo'] = $di->lazyGet('repository.export_job');
 		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
 		$di->setter['Ushahidi_Console_PostExporter']['setFileSystem'] = $di->lazyGet('tool.filesystem');
 		$di->setter['Ushahidi_Console_PostExporter']['setDatabase'] = $di->lazyGet('kohana.db');
-		//$di->setter['Ushahidi_Console_PostExporter']['setUser'] = $di->lazyGet('session.console.user');
+
 		$di->setter['Ushahidi_Console_PostExporter']['setUserRepo'] =  $di->lazyGet('repository.user');
 		// Webhook command
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
