@@ -118,7 +118,8 @@ $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 
 /**
  * This is only be for our csv exporter right now.
- * add to $userContextServiceCommands if you want  some commands to always use the usercontextservice
+ * add to $userContextServiceCommands if you want
+ * some commands to always use the usercontextservice
  * for some scenarios.
  */
 $userContextServiceCommands = array('exporter');
