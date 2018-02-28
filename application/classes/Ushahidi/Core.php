@@ -771,18 +771,15 @@ abstract class Ushahidi_Core {
 			$di->lazyNew('Ushahidi_Listener_Lock');
 
 		$di->set('session.user', function() use ($di) {
-			if (php_sapi_name() !== "cli") {
+			// Using the OAuth resource server, get the userid (owner id) for this request
+			$server = $di->get('oauth.server.resource');
+			$userid = $server->getOwnerId();
 
-				// Using the OAuth resource server, get the userid (owner id) for this request
-				$server = $di->get('oauth.server.resource');
-				$userid = $server->getOwnerId();
+			// Using the user repository, load the user
+			$repo = $di->get('repository.user');
+			$user = $repo->get($userid);
 
-				// Using the user repository, load the user
-				$repo = $di->get('repository.user');
-				$user = $repo->get($userid);
-
-				return $user;
-			}
+			return $user;
 		});
 		/**
 		 * 1. Load the plugins

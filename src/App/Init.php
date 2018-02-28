@@ -115,13 +115,14 @@ $di->set('ratelimiter.cache', function () use ($di) {
 $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 	$di->lazyNew('Ushahidi\App\ThrottlingViolationHandler');
 
+$userContextServiceCommands = array('savedsearch');
 /**
  * @TODO
  * This should only be for our csv exporter.
  * use_cli_auth is a flag in case we don't want to use the session.user service in setUser
  * for some scenarios.
  */
-if (php_sapi_name() !== "cli" && !isset($_SERVER['use_cli_auth'])) {
+if ((php_sapi_name() !== "cli" && !isset($_SERVER['use_cli_auth'])) || (isset($argv[1]) && array_search($argv[1], $userContextServiceCommands) !== false)){
 	$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 }
 /**
