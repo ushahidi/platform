@@ -40,7 +40,7 @@ class Ushahidi_Repository_Post_ValueFactory
 
 	public function proxy(Array $include_types = [], $exclude_types = [])
 	{
-		return new Ushahidi_Repository_Post_ValueProxy($this, $include_types);
+		return new Ushahidi_Repository_Post_ValueProxy($this, $include_types, $exclude_types);
 	}
 
 	public function each($callback, Array $include_types = [], Array $exclude_types = [])

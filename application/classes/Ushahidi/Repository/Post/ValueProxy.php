@@ -42,7 +42,7 @@ class Ushahidi_Repository_Post_ValueProxy implements ValuesForPostRepository
 
 		$this->factory->each(function ($repo) use ($post_id, &$total) {
 			$total += $repo->deleteAllForPost($post_id);
-		});
+		}, $this->include_types, $this->exclude_types);
 
 		return $total;
 	}

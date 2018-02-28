@@ -1032,7 +1032,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$exclude_types[] = 'datetime';
 		}
 
-		$this->post_value_factory->proxy()->deleteAllForPost($post_id, [], $exclude_types);
+		$this->post_value_factory->proxy([], $exclude_types)->deleteAllForPost($post_id);
 
 		foreach ($attributes as $key => $values)
 		{
