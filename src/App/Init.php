@@ -125,7 +125,7 @@ $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 $userContextServiceCommands = array('exporter');
 $commandName = isset($argv[1]) ? $argv[1] : null;
 $commandName = php_sapi_name() === 'cli' ? $commandName : null;
-if (array_search($commandName, $userContextServiceCommands) === false){
+if (array_search($commandName, $userContextServiceCommands) === false) {
 	$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 }
 /**
