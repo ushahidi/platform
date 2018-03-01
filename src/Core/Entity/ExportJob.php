@@ -40,6 +40,7 @@ class ExportJob extends StaticEntity
 		return [
 			'id'       			=> 'int',
 			'entity_type'     	=> 'string',
+			'user_id'			=> 'int',
 			'status'     		=> 'string',
 			'url'		     	=> 'string',
 			'fields'    	    => '*json',
