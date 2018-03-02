@@ -24,11 +24,16 @@ class Controller_Api_External extends Ushahidi_Rest {
 	public function before()
 	{
 		parent::before();
-
 		$data = $this->_request_payload;
+		$api_key = isset($data['api_key']) ? $data['api_key'] : null;
+
+		if ($this->request->method() === 'GET') {
+			$data = [];
+			$api_key = $this->request->query('api_key');
+		} 
 
 		$signature = $this->request->headers('X-Ushahidi-Signature');
-		$api_key = isset($data['api_key']) ? $data['api_key'] : null;
+		
 		$shared_secret = getenv('PLATFORM_SHARED_SECRET');
 		$fullURL = URL::site(Request::detect_uri(), TRUE) . URL::query();
 
