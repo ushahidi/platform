@@ -54,7 +54,7 @@ class LayerAuthorizer implements Authorizer
 
 		// If a post is active then *anyone* can view it.
 		// Only an admin can view inactive layers or create/edit/update layers
-		if ($privilege === 'read' && $this->isLayerActive($entity)) {
+		if ($user->getId() and $privilege === 'read' && $this->isLayerActive($entity)) {
 			return true;
 		}
 

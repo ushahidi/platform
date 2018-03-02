@@ -137,7 +137,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'config'               => $di->lazyGet('authorizer.config'),
 	'dataproviders'        => $di->lazyGet('authorizer.dataprovider'),
 	'export_jobs'          => $di->lazyGet('authorizer.export_job'),
-	'exteranl_auth'        => $di->lazyGet('authorizer.external_auth'),
+	'external_auth'        => $di->lazyGet('authorizer.external_auth'),
 	'forms'                => $di->lazyGet('authorizer.form'),
 	'form_attributes'      => $di->lazyGet('authorizer.form_attribute'),
 	'form_roles'           => $di->lazyGet('authorizer.form_role'),
@@ -391,7 +391,7 @@ $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setRateLimiter'] = $di->laz
 $di->setter['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazyGet('tool.mailer');
 
 // Traits
-$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
+
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
 	= $di->lazyGet('repository.form_stage');
@@ -463,5 +463,6 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	];
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
+
 
 require __DIR__ . '/App/Init.php';
