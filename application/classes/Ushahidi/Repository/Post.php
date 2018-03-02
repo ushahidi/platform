@@ -548,18 +548,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// If there's no logged in user, or the user isn't admin
 		// restrict our search to make sure we still return SOME results
 		// they are allowed to see
-		if (!$search->exporter) {
-			if (!$user->id) {
-				$query->where("$table.status", '=', 'published');
-			} elseif (!$this->isUserAdmin($user) and
-					!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-				$query
-					->and_where_open()
-					->where("$table.status", '=', 'published')
-					->or_where("$table.user_id", '=', $user->id)
-					->and_where_close();
-			}
+
+		if (!$user->id) {
+			$query->where("$table.status", '=', 'published');
+		} elseif (!$this->isUserAdmin($user) and
+				!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			$query
+				->and_where_open()
+				->where("$table.status", '=', 'published')
+				->or_where("$table.user_id", '=', $user->id)
+				->and_where_close();
 		}
+
 	}
 
 	// SearchRepository
