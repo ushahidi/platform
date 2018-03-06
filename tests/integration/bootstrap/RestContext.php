@@ -286,6 +286,17 @@ class RestContext implements Context
 		}
 	}
 
+	/**
+	 * @Then the csv response body should equal:
+	 */
+	public function theCsvResponseBodyShouldEqual(PyStringNode $string)
+	{
+		$data = $this->response->getBody(true);
+		if (trim($data) !== trim($string)) {
+			throw new \Exception("Body $data is not equal to \n $string");
+		}
+	}
+
 
 	/**
 	 * @Then /^the response is JSON$/
