@@ -17,6 +17,17 @@ use League\Flysystem\Util\MimeType;
 
 class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 {
+	public static $csvIgnoreFieldsByType = array(
+		'published_to',
+		'lock',
+		'parent_id',
+		'locale'
+	);
+	public static $csvFieldFormat = array(
+		'tags' => 'single_array',
+		'sets' => 'multiple_array',
+		'point'=> 'single_value_array'
+	);
 	/**
 	 * @var SearchData
 	 */
@@ -79,7 +90,16 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
 			}
+			// Transform post_date to a string
+			if (is_numeric($record['created'])) {
+				$record['created'] = date("Y-m-d H:i:s", $record['created']);
+			}
+			if (is_numeric($record['updated'])) {
+				$record['updated'] = date("Y-m-d H:i:s", $record['updated']);
+			}
+
 			$values = [];
+
 			foreach ($heading as $key => $value) {
 				$values[] = $this->getValueFromRecord($record, $key);
 			}
@@ -126,28 +146,65 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 	private function getValueFromRecord($record, $keyParam){
 		$return = '';
-		$keySet = explode('.', $keyParam); //contains key + index of the key, if any
-		$headingKey = $keySet[0];
+		$keySet = explode('.', $keyParam); //contains key + index of the key
+		$headingKey = isset($keySet[0]) ? $keySet[0] : null;
 		$key = isset($keySet[1]) ? $keySet[1] : null;
-		$recordValue = isset ($record['attributes']) && isset($record['attributes'][$headingKey])? $record['values']: $record;
-		if($key === 'lat' || $key === 'lon'){
+		$recordAttributes = isset($record['attributes'][$headingKey]) ? $record['attributes'][$headingKey] : null;
+		$format = 'single_raw';
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])){
+			$format = self::$csvFieldFormat[$recordAttributes['type']];
+		}
+		$recordValue = isset ($record['attributes']) && $recordAttributes? $record['values']: $record;
+		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
+
+		if ($isDateField) {
+			$date = new DateTime($recordValue[$headingKey][$key]);
+			$recordValue[$headingKey][$key] = $date->format('Y-m-d');
+		}
+
+ 		if($format === 'single_value_array'){
 			/*
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
-			$return = isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
-		} else if ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey])) {
+			$return = $this->singleValueArray($recordValue, $headingKey, $key);
+		} else if ($format === 'single_array') {
+			/**
+			 * we need to join the array items in a single comma separated string
+			 */
+			$return = $this->singleColumnArray($recordValue, $headingKey);
+		} else if ($format ==='multiple_array' || ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
 			/**
 			 * we work with multiple posts which means our actual count($record[$key])
 			 * value might not exist in all of the posts we are posting in the CSV
 			 */
-			$return = isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
-		} else if ($key !== null) {
-			$return = isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
-		} else{
-			$emptyRecord = !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]));
-			$return = $emptyRecord ? '' : $record[$headingKey];
+			$return = $this->multiColumnArray($recordValue, $headingKey, $key);
+		} else if ($format === 'single_raw') {
+			$return = $this->singleRaw($recordValue, $record, $headingKey, $key);
 		}
 		return $return;
+	}
+	private function singleRaw($recordValue, $record, $headingKey, $key){
+	 	if ($key !== null) {
+			return isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
+		} else {
+			$emptyRecord = !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]));
+			return $emptyRecord ? '' : $record[$headingKey];
+		}
+	}
+	private function multiColumnArray($recordValue, $headingKey, $key) {
+		return isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
+	}
+	private function singleColumnArray($recordValue, $headingKey, $separator = ',') {
+		/**
+	 	* we need to join the array items in a single comma separated string
+	 	*/
+		return isset($recordValue[$headingKey])? (implode($separator, $recordValue[$headingKey])): '';
+	}
+	private function singleValueArray($recordValue, $headingKey, $key) {
+		/**
+		 * we need to join the array items in a single comma separated string
+		 */
+		return isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
 	}
 
 	/**
@@ -182,7 +239,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			uasort($attributeKeys, function ($item1, $item2) {
 				if ($item1['priority'] === $item2['priority']){
 					/**
-					 * if they are the same in priority, then that maeans we will fall back to alphabetical priority for them
+					 * if they are the same in priority, then that means we will fall back to alphabetical priority for them
 					 */
 					return $item1['label'] < $item2['label'] ? -1 : 1;
 				}
@@ -197,7 +254,8 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 					 * If the attribute has a count key, it means we want to show that as key.index in the header.
 					 * This is to make sure we don't miss values in multi-value fields
 					 */
-					if ($attribute['count'] > 1){
+					$singleColumnArray = (isset(self::$csvFieldFormat[$attribute['type']]) && self::$csvFieldFormat[$attribute['type']] === 'single_array');
+					if ($attribute['count'] > 1 & !$singleColumnArray){
 						for ($i = 0 ; $i < $attribute['count']; $i++){
 							$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
 						}
@@ -246,7 +304,9 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		$prevColumnValue = isset($columns[$key]) ? $columns[$key]: ['count' => 0];
 		$headingCount = $prevColumnValue['count'] < count($value)?  count($value) : $prevColumnValue['count'] ;
 		if (!is_array($labelObject)){
-			$labelObject = ['label' => $labelObject, 'count' => $headingCount, 'type' => null, 'nativeField' => $nativeField, 'priority' => -1, 'form_id' => -1, 'stage' => -1];
+			$labelObject = ['label' => $this->preprocessHeaderForItem($labelObject, $key), 'count' => $headingCount, 'type' => $key, 'nativeField' => $nativeField, 'priority' => -1, 'form_id' => -1, 'stage' => -1];
+		} else {
+			$labelObject['label'] = $this->preprocessHeaderForItem($labelObject['label'], $labelObject['type']);
 		}
 		$labelObject['count'] = $headingCount;
 		$columns[$key] = $labelObject;
@@ -279,17 +339,30 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 					foreach ($val as $key => $val)
 					{
-						$this->assignColumnHeading($columns, $key, $attributes[$key], $val, false);
+						if (array_search($attributes[$key],self::$csvIgnoreFieldsByType) === false) {
+							$this->assignColumnHeading($columns, $key, $attributes[$key], $val, false);
+						}
+
 					}
 				}
 				// Assign post keys
 				else
 				{
-					$this->assignColumnHeading($columns, $key, $key, $val);
+					if (array_search($key,self::$csvIgnoreFieldsByType) === false) {
+						$this->assignColumnHeading($columns, $key, $key, $val);
+					}
 				}
 			}
 		}
 		return $columns;
+	}
+	private function preprocessHeaderForItem($label, $type) {
+		// if it's a date, append (UTC) to the header
+		$dateFields = ['created', 'updated', 'post_date'];
+		if (in_array($label, $dateFields) || $type === 'datetime') {
+			return "$label(UTC)";
+		}
+		return $label;
 	}
 
 	/**
