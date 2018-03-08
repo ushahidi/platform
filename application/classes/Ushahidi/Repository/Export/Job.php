@@ -65,7 +65,9 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 		if (! $this->isUserAdmin($user) || $search->user === 'me') {
 			$search->user = $this->getUserId();
 		}
-
+		if ($search->max_expiration) {
+			$query->where("url_expiration", '<', intval($search->max_expiration));
+		}
 		foreach ([
 			'user'
 		] as $fk)
@@ -142,7 +144,7 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 	public function getSearchFields()
 	{
 		return [
-			'entity_type', 'user'
+			'entity_type', 'user', 'max_expiration'
 		];
 	}
 }
