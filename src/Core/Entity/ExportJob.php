@@ -24,6 +24,7 @@ class ExportJob extends StaticEntity
 	protected $url;
 	protected $created;
 	protected $updated;
+	protected $url_expiration;
 
 	// StatefulData
 	protected function getDerived()
@@ -46,7 +47,8 @@ class ExportJob extends StaticEntity
 			'fields'    	    => '*json',
 			'filters'   	    => '*json',
 			'created' 			=> 'int',
-			'updated' 			=> 'int'
+			'updated' 			=> 'int',
+			'url_expiration'	=> 'int'
 		];
 	}
 
