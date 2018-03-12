@@ -1,5 +1,11 @@
 #!/bin/bash
 
+## "noop" command -- holds the execution so nothing gets done
+if [ "${@: -1}" == "noop" ]; then
+  sleep infinity
+  exit 0
+fi
+
 ## Perform container initialisation
 
 . /common.sh
