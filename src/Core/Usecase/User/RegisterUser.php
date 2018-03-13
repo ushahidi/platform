@@ -36,9 +36,6 @@ class RegisterUser extends CreateUsecase
 		// get the newly created entity
 		$entity = $this->getCreatedEntity($id);
 
-		// verify that the entity can be read by the current user
-		$this->verifyReadAuth($entity);
-
 		// return the formatted entity
 		return $this->formatter->__invoke($entity);
 	}

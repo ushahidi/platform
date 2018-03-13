@@ -2,7 +2,6 @@
   service: test
   command: composer test
 
-
 - type: parallel
   steps:
   - name: "Bundle"
@@ -41,3 +40,7 @@
     - name: "Deploy Docs (develop)"
       service: awscli
       command: aws s3 sync /vols/src/docs/ s3://preview.ushahidi.com/platform/develop --acl public-read
+
+  - name: "Deployment director"
+    service: deploy
+    command: ush-deployment-director.sh
