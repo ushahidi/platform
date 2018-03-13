@@ -67,6 +67,7 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 		}
 		if ($search->max_expiration) {
 			$query->where("url_expiration", '>', intval($search->max_expiration));
+			$query->or_where("url_expiration", 'IS', NULL);
 		}
 		foreach ([
 			'user'
