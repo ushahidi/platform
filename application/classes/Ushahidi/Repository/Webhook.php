@@ -16,18 +16,13 @@ use Ushahidi\Core\Entity\WebhookRepository;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+
 class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements WebhookRepository
 {
 	use UserContext;
 	use AdminAccess;
-
-	protected function getId(Entity $entity)
-	{
-		$result = $this->selectQuery()
-			->where('user_id', '=', $entity->user_id)
-			->execute($this->db);
-		return $result->get('id', 0);
-	}
 
 	protected function getTable()
 	{
@@ -68,23 +63,45 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 		return $this->getEntity($this->selectOne(compact('event_type')));
 	}
 
+	public function getAllByEventType($event_type= null)
+	{
+		$query = $this->selectQuery(compact('event_type'));
+
+		$results = $query->execute($this->db);
+		return $results->as_array();
+	}
+
+	public function getByUUID($webhook_uuid= null)
+	{
+		return $this->getEntity($this->selectOne(compact('webhook_uuid')));
+	}
+
 	// CreateRepository
 	public function create(Entity $entity)
 	{
-		$id = $this->getId($entity);
-
-		if ($id) {
-			// No need to insert a new record.
-			// Instead return the id of the Webhook that exists
-			return $id;
+		try {
+			$uuid = Uuid::uuid4();
+			$uuid = $uuid->toString();
+		} catch (UnsatisfiedDependencyException $e) {
+			Kohana::$log->add(Log::ERROR, $e->getMessage());
 		}
 
 		$state = [
 			'user_id' => $entity->user_id,
+			'webhook_uuid' => $uuid,
 			'created' => time(),
 		];
 
 		return parent::create($entity->setState($state));
+	}
+
+	// UpdateRepository
+	public function update(Entity $entity)
+	{
+
+		$record = $entity->asArray();
+		$record['updated'] = time();
+		return $this->executeUpdate(['id' => $entity->id], $record);
 	}
 
 	public function getSearchFields()
