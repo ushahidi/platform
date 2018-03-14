@@ -245,6 +245,20 @@ Route::set('forms', $apiBase . 'forms(/<form_id>)/<controller>(/<id>)',
 
 
 /**
+ * Forms API SubRoute
+ */
+Route::set('forms_contacts', $apiBase . 'form_contacts/(<form_id>)',
+	array(
+		'form_id' => '\d+',
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api/Forms',
+		'controller'  => 'Contacts'
+	));
+
+
+/**
  * Translations API SubRoute
  */
 Route::set('translations', $apiBase . 'posts/<parent_id>/translations(/<locale>)',

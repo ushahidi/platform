@@ -235,6 +235,15 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Role_Create'),
 			'update_collection' => $di->lazyNew('Ushahidi_Validator_Form_Role_Update'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_contacts'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Update'),
+		];
+
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_contact'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_stages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Update'),
@@ -339,6 +348,8 @@ abstract class Ushahidi_Core {
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
 			'form_stages'          => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
+			'form_contact'          => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
+			'form_contacts'          => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
 			'layers'               => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
@@ -370,6 +381,8 @@ abstract class Ushahidi_Core {
 			'form',
 			'form_attribute',
 			'form_role',
+			'form_contact',
+			 'form_contacts',
 			'form_stage',
 			'layer',
 			'media',
@@ -403,6 +416,7 @@ abstract class Ushahidi_Core {
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
 		// Formatters
+		$di->set('formatter.entity.form.contact', $di->lazyNew('Ushahidi_Formatter_Form_Contact'));
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.console', $di->lazyNew('Ushahidi_Formatter_Console'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
@@ -431,6 +445,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_role', $di->lazyNew('Ushahidi_Repository_Form_Role'));
+		$di->set('repository.form_contact', $di->lazyNew('Ushahidi_Repository_Form_Contact'));
 		$di->set('repository.form_stage', $di->lazyNew('Ushahidi_Repository_Form_Stage'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_Form_Attribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
