@@ -21,6 +21,13 @@ use Ddeboer\DataImport\Step\MappingStep;
 
 class Ushahidi_Transformer_MappingTransformer implements MappingTransformer
 {
+	protected $columnNames;
+	// MappingTransformer
+	public function setColumnNames(Array $columnNames)
+	{
+		$this->columnNames = $columnNames;
+	}
+
 	protected $map;
 	// MappingTransformer
 	public function setMap(Array $map)

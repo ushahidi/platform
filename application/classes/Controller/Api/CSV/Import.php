@@ -52,6 +52,7 @@ class Controller_API_CSV_Import extends Ushahidi_Rest {
 		$records = $reader->process($file);
 
 		// Set map and fixed values for transformer
+		$transformer->setColumnNames($csv->columns);
 		$transformer->setMap($csv->maps_to);
 		$transformer->setFixedValues($csv->fixed);
 

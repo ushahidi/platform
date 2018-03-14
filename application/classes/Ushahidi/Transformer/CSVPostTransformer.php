@@ -14,10 +14,16 @@ use Ushahidi\Core\Entity\PostRepository;
 
 class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 {
+	protected $columnNames;
 	protected $map;
 	protected $fixedValues;
 	protected $repo;
 	protected $unmapped;
+
+	public function setColumnNames(Array $columnNames)
+	{
+		$this->columnNames = $columnNames;
+	}
 
 	public function setRepo(PostRepository $repo)
 	{
@@ -36,10 +42,50 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		$this->fixedValues = $fixedValues;
 	}
 
+	/**
+	 * This function transforms values in the record read from the CSV,
+	 * according to specific syntax that's provided in CSV file column names.
+	 * the syntax is like this: "name->{transformSpec}"
+	 * i.e.
+	 *  - given: $record[x] == "1,2,3" and $this->columnNames[x] == "somename->{explodeCommas}"
+	 *  - explode(",", $record[x]) will be applied to the value in the record and as a result ...
+	 *  - $record[x] == array("1","2","3")
+	 *
+	 * if an unknown transformation specification is provided, the value is unchanged
+	 */
+	public function transformValues(&$record)
+	{
+		foreach($this->columnNames as $index=>$columnName) {
+			$transformMatch = array();
+			if (preg_match('/^.+(?=->)->\{(.+)(?=\})\}$/', $columnName, $transformMatch)) {
+				$record[$index] = $this->transformValue($transformMatch[1], $record[$index]);
+			}
+		}
+	}
+
+	public function transformValue($transformSpec, $value) {
+		switch($transformSpec) {
+			case 'explodeCommas':
+				return explode(',', $value);
+			default:
+				return $value;
+		}
+	}
+
 	// Transformer
 	public function interact(Array $record)
 	{
 		$record = array_values($record);
+
+		// Trim values
+		foreach ($record as $key => $val)
+		{
+			$record[$key] = trim($val);
+		}
+
+		// Transform values according to specs in column names
+		$this->transformValues($record);
+
 		$columns = $this->map;
 
 		// Don't import columns marked as NULL
@@ -53,13 +99,12 @@ class Ushahidi_Transformer_CSVPostTransformer implements MappingTransformer
 		// Remap record columns
 		$record = array_combine($columns, $record);
 
-		// Trim and remove empty values
-		foreach ($record as $key => $val)
-		{
-			$record[$key] = trim($val);
-
+		// Remove empty values
+		foreach ($record as $key => $val) {
 			if (empty($record[$key])) {
 				unset($record[$key]);
+			} else if (is_array($record[$key])) {
+				$record[$key] = array_filter($record[$key], function($x) { return !empty($x); });
 			}
 		}
 
