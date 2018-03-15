@@ -18,17 +18,35 @@ use Ushahidi\Core\Entity\FormContactRepository;
 class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	FormContactRepository
 {
+
+	protected $form_repo;
+
+	/**
+	 * Construct
+	 * @param Database                              $db
+	 * @param FormRepository                       $form_repo
+	 */
+	public function __construct(
+		Database $db,
+		Entity\FormRepository $form_repo
+	)
+	{
+		parent::__construct($db);
+
+		$this->form_repo = $form_repo;
+
+	}
 	// Ushahidi_Repository
 	protected function getTable()
 	{
-		return 'form_contacts';
+		return 'contacts';
 	}
 
 	// CreateRepository
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		return new FormContact($data);
+		return new Entity\Contact($data);
 	}
 
 	// SearchRepository
@@ -45,10 +63,6 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		if ($search->form_id) {
 			$query->where('form_id', '=', $search->form_id);
 		}
-
-		if ($search->contacts) {
-			$query->where('contacts_id', 'in', $search->contacts);
-		}
 	}
 
 	// FormContactRepository
@@ -60,7 +74,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 		// Delete all existing form contact records
 		// Assuming all entites have the same form id
-		$this->deleteAllForForm(current($entities)->form_id);
+		////nooope $this->deleteAllForForm(current($entities)->form_id);
 
 		$query = DB::insert($this->getTable())
 			->columns(array_keys(current($entities)->asArray()));

@@ -18,15 +18,18 @@ class Controller_API_Forms_Contacts extends Ushahidi_Rest {
 
 	protected function _resource()
 	{
-		return 'contacts';
+		return 'form_contacts';
 	}
 
 	// Get Lock
-	public function action_post_index()
+	public function action_post_index_collection()
 	{
+
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'create');
-		$this->_usecase
-			->setFormatter(service("formatter.entity.form.contact"));
+		$this->_usecase->setIdentifiers($this->request->param());
+		$this->_usecase->setPayload($this->_request_payload);
+//		$this->_usecase
+//			->setFormatter(service("formatter.entity.form.contact"));
 	}
 }

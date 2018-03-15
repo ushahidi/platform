@@ -29,17 +29,32 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 	{
 		$this->contact_repo = $contact_repo;
 	}
-
-	protected function getRules()
-	{
-		return [
-			'form_id' => [
-				['digit'],
-				[[$this->form_repo, 'exists'], [':value']],
-			],
-			'contacts' => [
-				[[$this->contact_repo, 'idExists'], [':value']],
-			],
-		];
+	protected function getRules() {
+		return [];
 	}
+//	protected function getRules()
+//	{
+//		return [
+//			'form_id' => [
+//				['digit'],
+//				[[$this->form_repo, 'exists'], [':value']],
+//			],
+//			'role_id' => [
+//				[[$this->role_repo, 'idExists'], [':value']],
+//			],
+//		];
+//	}
+//	protected function getRules()
+//	{
+//		return [
+//			'form_id' => [
+//				['digit'],
+//				[[$this->form_repo, 'exists'], [':value']],
+//			],
+//			'contacts' => [
+//				['not_empty'],
+//			],
+//		];
+//	}
+
 }

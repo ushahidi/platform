@@ -11,7 +11,7 @@
 
 use Ushahidi\Core\Entity;
 
-class Ushahidi_Validator_Form_Contact_Create extends Ushahidi_Validator_Form_Contact_Update
+class Ushahidi_Validator_Form_Contact_Create extends Ushahidi_Validator_Contact_Create
 {
 	protected $default_error_source = 'form_contact';
 

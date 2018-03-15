@@ -18,12 +18,12 @@ class Ushahidi_Formatter_Form_Contact extends Ushahidi_Formatter_API
 	public function __invoke($entity)
 	{
 		$data = [
-			'id'  => $entity->id,
-			'form_id' => $entity->form_id,
-			'contact_id' => $entity->contact_id,
+			'id'  => 0,
+			//'form_id' => $entity->form_id,
+			'contact' => 0,
 			];
 			
-		$data = $this->add_metadata($data, $entity);
+		//$data = $this->add_metadata($data, $entity);
 		
 		return $data;
 	}
