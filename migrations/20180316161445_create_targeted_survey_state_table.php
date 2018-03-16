@@ -12,7 +12,7 @@ class CreateTargetedSurveyStateTable extends AbstractMigration
         $this->table('targeted_survey_state')
             ->addColumn('form_id', 'integer', ['null' => false])
             ->addColumn('contact_id', 'integer', ['null' => false])
-            ->addColumn('current_field_id', 'integer', ['null' => true])
+            ->addColumn('current_form_attribute_id', 'integer', ['null' => true])
             ->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['default' => 0])
             ->addForeignKey('form_id', 'forms', 'id', [
@@ -23,7 +23,7 @@ class CreateTargetedSurveyStateTable extends AbstractMigration
                 'delete' => 'CASCADE',
                 'update' => 'CASCADE',
                 ])
-            ->addForeignKey('current_field_id', 'form_attributes', 'id', [
+            ->addForeignKey('current_form_attribute_id', 'form_attributes', 'id', [
                 'delete' => 'SET_NULL',
                 'update' => 'SET_NULL',
                 ])
