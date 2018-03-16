@@ -66,7 +66,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	}
 
 	// FormContactRepository
-	public function updateCollection(Array $entities)
+	public function updateCollection(Array $entities, $form_id = null)
 	{
 		if (empty($entities)) {
 			return;
@@ -83,8 +83,9 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			$query->values($entity->asArray());
 		}
 
-		$query->execute($this->db);
-		$this->emit($this->event, 1, 'create');
+		$result = $query->execute($this->db);
+
+		$this->emit($this->event,  $result[0] , $form_id, 'created_contact');
 
 		return $entities;
 	}

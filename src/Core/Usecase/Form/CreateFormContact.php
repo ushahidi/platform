@@ -63,7 +63,7 @@ class CreateFormContact extends CreateContact
 		}
 
 		// ... persist the new collection
-		$this->repo->updateCollection($entities);
+		$this->repo->updateCollection($entities, $this->getPayload('contacts'));
 
 		// ... and finally format it for output
 		return $this->formatter->__invoke($entities);

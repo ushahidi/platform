@@ -518,8 +518,16 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_ContactListener']['setFormRepo'] =
 			$di->lazyGet('repository.form');
 		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_ContactListener']['setFormAttributeRepo'] =
+			$di->lazyGet('repository.form_attribute');
+
+		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_ContactListener']['setPostRepo'] =
 			$di->lazyGet('repository.post');
+
+		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_ContactListener']['setMessageRepo'] =
+			$di->lazyGet('repository.message');
 
 		$di->setter['Ushahidi_Repository_Form_Contact']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_ContactListener');
