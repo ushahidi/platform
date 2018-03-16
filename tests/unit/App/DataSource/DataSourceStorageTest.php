@@ -47,6 +47,7 @@ class DataSourceStorageTest extends TestCase
                 'message' => 'Yo dawg I heard you like messages, so I put some messages in your messages',
                 'to' => "YOU!",
                 'title' => null,
+                'date' => null,
                 'data_source_message_id' => null,
                 'additional_data' => null
             ])
@@ -91,6 +92,7 @@ class DataSourceStorageTest extends TestCase
                 'message' => 'Yo dawg I heard you like messages, so I put some messages in your messages',
                 'to' => "YOU!",
                 'title' => null,
+                'date' => null,
                 'data_source_message_id' => null,
                 'additional_data' => null
             ])
