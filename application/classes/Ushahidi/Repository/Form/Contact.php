@@ -18,7 +18,7 @@ use Ushahidi\Core\Entity\FormContactRepository;
 class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	FormContactRepository
 {
-
+	use \Ushahidi\Core\Traits\Event;
 	protected $form_repo;
 
 	/**
@@ -84,6 +84,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		}
 
 		$query->execute($this->db);
+		$this->emit($this->event, 1, 'create');
 
 		return $entities;
 	}
