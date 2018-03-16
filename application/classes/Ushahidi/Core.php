@@ -451,6 +451,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
+		$di->set('repository.contact_post_state', $di->lazyNew('Ushahidi_Repository_Contact_Post_State'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
 		$di->set('repository.csv_post', $di->lazyNew('Ushahidi_Repository_CSVPost'));
 		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
@@ -528,6 +529,9 @@ abstract class Ushahidi_Core {
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_ContactListener']['setMessageRepo'] =
 			$di->lazyGet('repository.message');
+
+		$di->setter['Ushahidi_Listener_ContactListener']['setContactPostStateRepo'] =
+			$di->lazyGet('repository.contact_post_state');
 
 		$di->setter['Ushahidi_Repository_Form_Contact']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_ContactListener');
