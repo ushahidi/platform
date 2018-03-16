@@ -20,7 +20,7 @@ class RemovePermissionsFromRoles extends AbstractMigration
     public function down()
     {
         $table = $this->table('roles');
-        $table->addColumn('permissions')
+        $table->addColumn('permissions', 'string', ['null' => true])
               ->update();
     }
 }

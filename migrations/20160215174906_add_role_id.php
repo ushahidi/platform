@@ -26,11 +26,12 @@ class AddRoleId extends AbstractMigration
      */
     public function down()
     {
+        $this->execute("ALTER TABLE roles MODIFY id INT;");
         $this->execute("ALTER TABLE roles DROP PRIMARY KEY;");
+        $this->table('roles')
+            ->removeColumn('id')
+            ->update();
         $this->execute("ALTER TABLE roles ADD PRIMARY KEY(name);");
         $this->execute("ALTER TABLE roles DROP INDEX name;");
-        $this->table('roles')
-            ->removeColumn('user_id')
-            ->update();
     }
 }
