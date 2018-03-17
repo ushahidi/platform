@@ -14,7 +14,7 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\ContactPostStateRepository;
 
-class Ushahidi_Repository_Contact_Post_State extends Ushahidi_Repository implements
+class Ushahidi_Repository_Contact_PostState extends Ushahidi_Repository implements
 	ContactPostStateRepository
 {
 	// Ushahidi_Repository
@@ -46,26 +46,4 @@ class Ushahidi_Repository_Contact_Post_State extends Ushahidi_Repository impleme
 	{
 		return new Entity\Post($this->selectOne(compact('post')));
 	}
-
-//	// FormRoleRepository
-//	public function getByPost($post_id)
-//	{
-//		$query = $this->selectQuery(compact($post_id));
-//		$results = $query->execute($this->db);
-//
-//		return $this->getCollction($results->as_array());
-//	}
-//
-//	// ValuesForFormRoleRepository
-//	public function deleteAllForForm($form_id)
-//	{
-//		return $this->executeDelete(compact('form_id'));
-//	}
-//
-//	// FormRoleRepository
-//	public function existsInFormRole($role_id, $form_id)
-//	{
-//		return (bool) $this->selectCount(compact('role_id', 'form_id'));
-//	}e
-
 }

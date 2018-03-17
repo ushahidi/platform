@@ -32,6 +32,6 @@ class ContactPostState extends StaticEntity
 	// Entity
 	public function getResource()
 	{
-		return 'contact_post_state';
+		return 'contact_post_states';
 	}
 }

@@ -52,7 +52,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 		$this->form_attribute_repo = $repo;
 	}
 
-	public function setContactPostStateRepo(\Ushahidi\Core\Entity\ContactPostState $repo)
+	public function setContactPostStateRepo(\Ushahidi\Core\Entity\ContactPostStateRepository $repo)
 	{
 		$this->contact_post_state = $repo;
 	}
@@ -96,7 +96,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 		$contactPostState = $this->contact_post_state->getEntity();
 		$contactPostState->setState(array('post_id' => $postId, 'contact_id' => $contact_id, 'status' => 'pending'));
 
-		$contactPostStateId = $this->contact_post_state->create($post);
+		$contactPostStateId = $this->contact_post_state->create($contactPostState);
 		return $contactPostStateId;
 	}
 

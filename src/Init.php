@@ -173,6 +173,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config'               => $di->lazyGet('repository.config'),
 	'export_jobs'		   => $di->lazyGet('repository.export_job'),
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
+	'contact_post_states'   => $di->lazyGet('repository.contact_post_state'),
 	'forms'                => $di->lazyGet('repository.form'),
 	'form_attributes'      => $di->lazyGet('repository.form_attribute'),
 	'form_contacts'      => $di->lazyGet('repository.form_contact'),
