@@ -234,6 +234,14 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
+    //returns the attribute that follows the given form attribute
+    public function getNextAttribute(FormAttribute $last_attribute)
+    {
+        //@TODO: looks up the form_stage, then form_id,
+        //  then finds whats next, then returns an entity for the
+        //  next FormAttribute
+    }
+
 	// FormAttributeRepository
 	public function getRequired($stage_id)
 	{

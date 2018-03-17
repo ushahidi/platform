@@ -91,25 +91,42 @@ class ReceiveMessage extends CreateUsecase
 		// ... verify that the message entity is in a valid state
 		$this->verifyValid($entity);
 
-		// Find or create contact
+		// Find or create contact based on >$this->getPayload('from')
 		$contact = $this->getContactEntity();
 
 		// ... verify the contact is valid
 		$this->verifyValidContact($contact);
 
-		// ... create contact for message
-		$contact_id = $this->createContact($contact);
-		$entity->setState(compact('contact_id'));
+      // ... create contact for message
+      $contact_id = $this->createContact($contact);
+      $entity->setState(compact('contact_id'));
 
-		// ... create post for message
-		$post_id = $this->createPost($entity);
-		$entity->setState(compact('post_id'));
+      $post_id = null;
+      // check if contact is part of an open targeted_survey.
+      if($this->isContactInTargetedSurvey($contact))
+      {
+          //@TODO: lookup the last message sent to this contact
+          //$last_message = $this->contactRepo->getLastMessageSentToContact($contact);
 
-		// ... persist the new message entity
-		$id = $this->repo->create($entity);
+          //@TODO: grab the post_id from that message, attach it to this new message
+          //$post_id = $last_message->post_id;
 
-		// ... and return message id
-		return $id;
+          //@TODO: then throw an Event that we received a targeted survey response
+          // and deal with sending new messages to that contact
+
+      }else { // don't throw an event
+          // ... create post for message
+          $post_id = $this->createPost($entity);
+
+          // ... persist the new message entity
+      }
+      if($post_id)
+       {   $entity->setState(compact('post_id')); }
+
+      $id = $this->repo->create($entity);
+
+	  // ... and return message id
+      return $id;
 	}
 
 	/**
@@ -141,9 +158,14 @@ class ReceiveMessage extends CreateUsecase
 				'data_provider' => $this->getPayload('data_provider'),
 			]);
 		}
-
 		return $contact;
 	}
+
+    protected function isContactInTargetedSurvey($contact)
+    {
+        return $this->contactRepo->isInTargetedSurvey($contact->getId());
+    }
+
 
 	/**
 	 * Create contact (if its new)
@@ -272,5 +294,12 @@ class ReceiveMessage extends CreateUsecase
 	protected function verifyReceiveAuth(Entity $entity)
 	{
 		$this->verifyAuth($entity, 'receive');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function isInTargetedSurvey($argument1)
+	{
 	}
 }

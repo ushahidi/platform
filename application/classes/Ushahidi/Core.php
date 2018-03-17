@@ -427,7 +427,7 @@ abstract class Ushahidi_Core {
 
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
-		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));		
+		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_role', $di->lazyNew('Ushahidi_Repository_Form_Role'));
@@ -776,6 +776,11 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
+
+       // Add Listener to Message repository
+       $di->setter['Ushahidi_Repository_User']['setEvent'] = 'IncomingMessageEvent';
+       $di->setter['Ushahidi_Repository_User']['setListener'] =
+       $di->lazyNew('Ushahidi_Listener_IncomingMessageListener');
 
 		// Add Lock Listener
 		$di->setter['Ushahidi_Repository_Post_Lock']['setEvent'] = 'LockBroken';
