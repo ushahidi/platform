@@ -80,7 +80,11 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		 * but obviously insertingg in a foreach is gross.
 		 * Also, this is something we probably should run in a transaction. :/
 		 */
+
+		// Start transaction
+		$this->db->begin();
 		foreach($entities as $entity) {
+			//@fixme how to avoid this ugly line?
 			unset($entity->country_code);
 			$query = DB::insert($this->getTable())
 				->columns(array_keys($entity->asArray()));
@@ -95,6 +99,9 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			}
 			array_push($results, $result[0]);
 		}
+
+		// Start transaction
+		$this->db->commit();
 
 
 
