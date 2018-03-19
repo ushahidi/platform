@@ -9,10 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\FormContact;
 use Ushahidi\Core\Entity\FormContactRepository;
 
 class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements

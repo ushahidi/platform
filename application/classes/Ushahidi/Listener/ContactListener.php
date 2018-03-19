@@ -90,7 +90,6 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 				'title' => $firstAttribute->label,
 				'message' => $firstAttribute->label,
 				'status' => 'pending',
-				//we sohuld have a foreign key for the attribute itself
 			);
 			$message->setState($messageState);
 			$messageId = $this->message_repo->create($message);

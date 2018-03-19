@@ -156,4 +156,5 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 
 		return $this->getCollection($results->as_array());
 	}
+
 }

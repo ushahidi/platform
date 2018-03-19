@@ -52,10 +52,12 @@ class CreateFormContact extends CreateContact
 		// Get each item in the collection
 		$entities = [];
 		//$form_id = $this->getRequiredIdentifier('form_id');
+		$countryCode = $this->getPayload('country_code');
 		foreach (explode(',', $this->getPayload('contacts')) as $contact) {
 			// .. generate an entity for the item
 			$entity = $this->repo->getEntity(compact('contact'));
-			$entity->setState(['created' => time(), 'can_notify' => true, 'type' => 'phone']);
+
+			$entity->setState(['created' => time(), 'can_notify' => true, 'type' => 'phone', 'contact' => $countryCode . $entity->contact]);
 			// ... verify that the entity is in a valid state
 			$this->verifyValid($entity);
 			// ... and save it for later
