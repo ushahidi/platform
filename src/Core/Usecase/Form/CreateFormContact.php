@@ -40,7 +40,7 @@ class CreateFormContact extends CreateContact
 	public function interact()
 	{
 		// First verify that the form even exists
-		//$this->verifyFormExists();
+		$this->verifyFormExists();
 
 		// Fetch a default entity and ...
 		$entity = $this->getEntity();
@@ -63,7 +63,7 @@ class CreateFormContact extends CreateContact
 		}
 
 		// ... persist the new collection
-		$this->repo->updateCollection($entities, $this->getPayload('contacts'));
+		$this->repo->updateCollection($entities, $this->getPayload('form_id'));
 
 		// ... and finally format it for output
 		return $this->formatter->__invoke($entities);

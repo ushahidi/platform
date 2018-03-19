@@ -247,7 +247,7 @@ Route::set('forms', $apiBase . 'forms(/<form_id>)/<controller>(/<id>)',
 /**
  * Forms API SubRoute
  */
-Route::set('forms', $apiBase .  'forms(/<form_id>)/<controller>',
+Route::set('forms', $apiBase .  'forms(/<form_id>)/contacts',
 	array(
 		'form_id' => '\d+',
 	))

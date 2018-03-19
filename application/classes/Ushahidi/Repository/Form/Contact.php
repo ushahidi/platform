@@ -71,21 +71,35 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		if (empty($entities)) {
 			return;
 		}
+		$results = [];
 
 		// Delete all existing form contact records
 		// Assuming all entites have the same form id
 		////nooope $this->deleteAllForForm(current($entities)->form_id);
 
-		$query = DB::insert($this->getTable())
-			->columns(array_keys(current($entities)->asArray()));
-
+		/**
+		 * @TODO not sure how to solve the issue of not being able to get all the inserted ids
+		 * but obviously insertingg in a foreach is gross.
+		 * Also, this is something we probably should run in a transaction. :/
+		 */
 		foreach($entities as $entity) {
+			$query = DB::insert($this->getTable())
+				->columns(array_keys($entity->asArray()));
 			$query->values($entity->asArray());
+			$result = $query->execute($this->db);
+			if (!isset($result[0])) {
+				/**
+				 * @TODO add some custom exception because something has gone terribly wrong
+				 *
+				 */
+				throw new Exception();
+			}
+			array_push($results, $result[0]);
 		}
 
-		$result = $query->execute($this->db);
 
-		$this->emit($this->event,  $result[0] , $form_id, 'created_contact');
+
+		$this->emit($this->event,  $results , $form_id, 'created_contact');
 
 		return $entities;
 	}
