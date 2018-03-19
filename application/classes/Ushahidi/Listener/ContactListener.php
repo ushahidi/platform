@@ -13,9 +13,12 @@
 
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
-
-use Ushahidi\Core\Entity\WebhookJobRepository;
-use Ushahidi\Core\Entity\WebhookRepository;
+use \Ushahidi\Core\Entity\FormRepository;
+use \Ushahidi\Core\Entity\ContactRepository;
+use \Ushahidi\Core\Entity\PostRepository;
+use \Ushahidi\Core\Entity\MessageRepository;
+use \Ushahidi\Core\Entity\FormAttributeRepository;
+use \Ushahidi\Core\Entity\ContactPostStateRepository;
 
 class Ushahidi_Listener_ContactListener extends AbstractListener
 {
@@ -26,33 +29,33 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 	protected $form_attribute_repo;
 	protected $contact_post_state;
 
-	public function setRepo(\Ushahidi\Core\Entity\ContactRepository $repo)
+	public function setRepo(ContactRepository $repo)
 	{
 		$this->repo = $repo;
 	}
 
 
-	public function setPostRepo(\Ushahidi\Core\Entity\PostRepository $repo)
+	public function setPostRepo(PostRepository $repo)
 	{
 		$this->post_repo = $repo;
 	}
 
-	public function setFormRepo(\Ushahidi\Core\Entity\FormRepository $repo)
+	public function setFormRepo(FormRepository $repo)
 	{
 		$this->form_repo = $repo;
 	}
 
-	public function setMessageRepo(\Ushahidi\Core\Entity\MessageRepository $repo)
+	public function setMessageRepo(MessageRepository $repo)
 	{
 		$this->message_repo = $repo;
 	}
 
-	public function setFormAttributeRepo(\Ushahidi\Core\Entity\FormAttributeRepository $repo)
+	public function setFormAttributeRepo(FormAttributeRepository $repo)
 	{
 		$this->form_attribute_repo = $repo;
 	}
 
-	public function setContactPostStateRepo(\Ushahidi\Core\Entity\ContactPostStateRepository $repo)
+	public function setContactPostStateRepo(ContactPostStateRepository $repo)
 	{
 		$this->contact_post_state = $repo;
 	}
