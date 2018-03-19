@@ -81,6 +81,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		 * Also, this is something we probably should run in a transaction. :/
 		 */
 		foreach($entities as $entity) {
+			unset($entity->country_code);
 			$query = DB::insert($this->getTable())
 				->columns(array_keys($entity->asArray()));
 			$query->values($entity->asArray());

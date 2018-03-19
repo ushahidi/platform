@@ -56,8 +56,15 @@ class CreateFormContact extends CreateContact
 		foreach (explode(',', $this->getPayload('contacts')) as $contact) {
 			// .. generate an entity for the item
 			$entity = $this->repo->getEntity(compact('contact'));
-
-			$entity->setState(['created' => time(), 'can_notify' => true, 'type' => 'phone', 'contact' => $countryCode . $entity->contact]);
+			$entity->country_code = $countryCode;
+			$entity->setState(
+				[
+					'created' => time(),
+					'can_notify' => true,
+					'type' => 'phone',
+					'contact' => $entity->contact,
+				]
+			);
 			// ... verify that the entity is in a valid state
 			$this->verifyValid($entity);
 			// ... and save it for later
