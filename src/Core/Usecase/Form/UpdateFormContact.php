@@ -15,8 +15,9 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 use Ushahidi\Core\Entity\FormContact;
+use Ushahidi\Core\Usecase\UpdateUsecase;
 
-class UpdateFormContact extends CreateUsecase
+class UpdateFormContact extends UpdateUsecase
 {
 	// - VerifyFormLoaded for checking that the form exists
 	use VerifyFormLoaded;

@@ -240,10 +240,6 @@ abstract class Ushahidi_Core {
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Update'),
 		];
 
-		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_contact'] = [
-			'create' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Create'),
-			'update' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Update'),
-		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_stages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Update'),
@@ -348,7 +344,6 @@ abstract class Ushahidi_Core {
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
 			'form_stages'          => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
-			'form_contact'          => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
 			'form_contacts'          => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
 			'layers'               => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
@@ -381,8 +376,7 @@ abstract class Ushahidi_Core {
 			'form',
 			'form_attribute',
 			'form_role',
-			'form_contact',
-			 'form_contacts',
+			'form_contacts',
 			'form_stage',
 			'layer',
 			'media',
