@@ -234,7 +234,13 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
-	// FormAttributeRepository
+	/**
+	 * @param int $form_id
+	 * @return Entity|FormAttribute
+	 *
+	 * Selects the first attribute of the first stage
+	 * and returns it as a FormAttribute entity
+	 */
 	public function getFirstByForm($form_id)
 	{
 		$query = $this->selectQuery([

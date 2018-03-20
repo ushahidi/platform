@@ -13,22 +13,16 @@ namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Usecase\Contact\CreateContact;
-use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class CreateFormContact extends CreateContact
 {
-	// - VerifyStageLoaded for checking that the stage exists
 	use VerifyFormLoaded;
 
 	// For form check:
-	// - IdentifyRecords
 	use VerifyEntityLoaded;
 	use IdentifyRecords;
-	//	VerifyEntityLoaded;
-
-	// CreateUsecase
 
 	protected function getEntity()
 	{

@@ -101,7 +101,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			$contactPostState->setState(array('post_id' => $postId, 'contact_id' => $contactId, 'status' => 'pending'));
 
 			$contactPostStateId = $this->contact_post_state->create($contactPostState);
-			array_push($result, $contactPostStateId);
+			$result[] = $contactPostStateId;
 		}
 		return $result;
 	}

@@ -18,6 +18,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 {
 	use \Ushahidi\Core\Traits\Event;
 	protected $form_repo;
+	protected $contact_post_state_repo;
 
 	/**
 	 * Construct
@@ -71,14 +72,9 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		}
 		$results = [];
 
-		// Delete all existing form contact records
-		// Assuming all entites have the same form id
-		////nooope $this->deleteAllForForm(current($entities)->form_id);
-
 		/**
-		 * @TODO not sure how to solve the issue of not being able to get all the inserted ids
-		 * but obviously insertingg in a foreach is gross.
-		 * Also, this is something we probably should run in a transaction. :/
+		 * @TODO: not sure how to correctly solve the issue of not being able to get all the inserted ids
+		 * without inserting one by one. Inserting in a foreach is gross.
 		 */
 
 		// Start transaction
@@ -110,25 +106,52 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		return $entities;
 	}
 
-	// FormContactRepository
+	/**
+	 * @param int $form_id
+	 * @return Entity|Entity\Contact
+	 * Returns all
+	 */
 	public function getByForm($form_id)
 	{
-		$query = $this->selectQuery(compact($form_id));
+		$query = $this->selectQuery(array('posts.form_id' => $form_id))
+			->select('contacts.*')
+			->join('contact_post_state', 'INNER')
+			->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'contact_post_state.post_id');
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
 	}
 
-	// ValuesForFormContactRepository
+	/**
+	 * @param $form_id
+	 * @return int
+	 */
 	public function deleteAllForForm($form_id)
 	{
-		return $this->executeDelete(compact('form_id'));
+		$entities = $this->getByForm($form_id);
+		return $this->executeDelete(array('id' => array_column($entities, 'id')));
+
 	}
 
-	// FormContactRepository
+	/**
+	 * @param int $contact_id
+	 * @param int $form_id
+	 * @return bool
+	 */
 	public function existsInFormContact($contact_id, $form_id)
 	{
-		return (bool) $this->selectCount(compact('contact_id', 'form_id'));
+
+		return (bool) $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.id' => $contact_id))
+			->resetSelect()
+			->select([DB::expr('COUNT(*)'), 'total'])
+			->join('contact_post_state', 'INNER')
+			->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'contact_post_state.post_id')
+			->execute($this->db)
+			->get('total');
 	}
 
 }

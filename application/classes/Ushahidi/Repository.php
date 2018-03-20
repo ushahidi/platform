@@ -299,13 +299,15 @@ abstract class Ushahidi_Repository implements
 		$query = DB::delete($this->getTable());
 		foreach ($where as $column => $value)
 		{
-			$query->where($column, '=', $value);
+			$predicate = is_array($value) ? 'IN' : '=';
+			$query->where($column, $predicate, $value);
 		}
 
 		$count = $query->execute($this->db);
 
 		return $count;
 	}
+
 
 	/**
 	 * Check if an entity with the given id exists

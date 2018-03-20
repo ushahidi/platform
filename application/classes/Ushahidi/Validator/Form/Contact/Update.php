@@ -17,7 +17,12 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 
 	protected $form_repo;
 	protected $contact_repo;
+	protected $phone_validator;
 
+	public function setPhoneValidator($validator) {
+		$this->phone_validator = $validator;
+
+	}
 	public function setFormRepo(\Ushahidi\Core\Entity\FormRepository $form_repo)
 	{
 		$this->form_repo = $form_repo;
@@ -28,18 +33,6 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 		$this->contact_repo = $contact_repo;
 	}
 
-//	protected function getRules()
-//	{
-//		return [
-//			'form_id' => [
-//				['digit'],
-//				[[$this->form_repo, 'exists'], [':value']],
-//			],
-//			'role_id' => [
-//				[[$this->role_repo, 'idExists'], [':value']],
-//			],
-//		];
-//	}
 	protected function getRules()
 	{
 		return [
@@ -50,10 +43,19 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 			'country_code' => [
 				['not_empty'],
 			],
-			'contacts' => [
-				['not_empty'],
+			'contact' => [
+				[[$this, 'contactIsValid'], [':value', ':fulldata']],
 			],
 		];
+	}
+	public function contactIsValid($value, $fullData) {
+		try {
+			$number = $this->phone_validator->parse($value, $fullData['country_code']);
+			$isValid = $this->phone_validator->isValidNumber($number);
+			return $isValid;
+		} catch (\libphonenumber\NumberParseException $e) {
+			return false;
+		}
 	}
 
 }
