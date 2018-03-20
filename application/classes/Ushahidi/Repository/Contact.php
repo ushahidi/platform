@@ -25,7 +25,7 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	use UserContext;
 	use AdminAccess;
 	// Use Event trait to trigger events
-	use \Ushahidi\Core\Traits\Event;
+	// use \Ushahidi\Core\Traits\Event;
 
 	protected function getId(Entity $entity)
 	{
@@ -109,9 +109,7 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 			'created'  => time(),
 		];
 
-		$ret =  parent::create($entity->setState($state));
-		$this->emit($this->event, $id, 'create');
-		return $ret;
+		return parent::create($entity->setState($state));
 	}
 
 	// UpdateRepository
