@@ -86,7 +86,7 @@ class CreateFormContact extends CreateContact
 			), $invalid);
 		} else {
 			// ... persist the new collection
-			$this->repo->updateCollection($entities, $this->getPayload('form_id'));
+			$this->repo->updateCollection($entities, $this->getIdentifier('form_id'));
 			// ... and finally format it for output
 			return $this->formatter->__invoke($entities);
 		}
