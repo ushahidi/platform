@@ -11,6 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
+use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Usecase\Contact\CreateContact;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
@@ -28,14 +29,19 @@ class CreateFormContact extends CreateContact
 	//	VerifyEntityLoaded;
 
 	// CreateUsecase
+
 	protected function getEntity()
 	{
 		$entity = parent::getEntity();
 
-		// $this->verifyStageExists($entity);
+		// Add user id if this is not provided
+		if (empty($entity->user_id) && $this->auth->getUserId()) {
+			$entity->setState(['user_id' => $this->auth->getUserId()]);
+		}
 
 		return $entity;
 	}
+
 	// Usecase
 	public function interact()
 	{
@@ -48,14 +54,19 @@ class CreateFormContact extends CreateContact
 		// ... verify the current user has have permissions
 		$this->verifyCreateAuth($entity);
 
-
 		// Get each item in the collection
 		$entities = [];
-		//$form_id = $this->getRequiredIdentifier('form_id');
+		$invalid = [];
 		$countryCode = $this->getPayload('country_code');
-		foreach (explode(',', $this->getPayload('contacts')) as $contact) {
+		$contacts = explode(',', $this->getPayload('contacts'));
+		foreach ($contacts as $contact) {
 			// .. generate an entity for the item
 			$entity = $this->repo->getEntity(compact('contact'));
+			/**
+			 * we only use this field for validation
+			 * we check that country code + phone number are valid.
+			 * country_code is unset before saving the entity
+			 */
 			$entity->country_code = $countryCode;
 			$entity->setState(
 				[
@@ -65,16 +76,25 @@ class CreateFormContact extends CreateContact
 					'contact' => $entity->contact,
 				]
 			);
-			// ... verify that the entity is in a valid state
-			$this->verifyValid($entity);
 			// ... and save it for later
 			$entities[] = $entity;
+
+			if (!$this->validator->check($entity->asArray())) {
+				$invalid[$entity->contact] = $this->validator->errors();
+			}
 		}
-
-		// ... persist the new collection
-		$this->repo->updateCollection($entities, $this->getPayload('form_id'));
-
-		// ... and finally format it for output
-		return $this->formatter->__invoke($entities);
+		// FIXME: move to collection error trait?
+		if (!empty($invalid)) {
+			$invalidList = implode(',', array_keys($invalid));
+			throw new ValidatorException(sprintf(
+				'The following contacts are invalid:',
+				$invalidList
+			), $invalid);
+		} else {
+			// ... persist the new collection
+			$this->repo->updateCollection($entities, $this->getPayload('form_id'));
+			// ... and finally format it for output
+			return $this->formatter->__invoke($entities);
+		}
 	}
 }

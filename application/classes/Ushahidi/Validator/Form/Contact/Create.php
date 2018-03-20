@@ -56,11 +56,11 @@ class Ushahidi_Validator_Form_Contact_Create extends \Ushahidi\Core\Tool\Validat
 				['not_empty'],
 			],
 			'contact' => [
-				[[$this, 'contactsIsValid'], [':value', ':fulldata']],
+				[[$this, 'contactIsValid'], [':value', ':fulldata']],
 			],
 		];
 	}
-	public function contactsIsValid($value, $fullData) {
+	public function contactIsValid($value, $fullData) {
 		try {
 			$number = $this->phone_validator->parse($value, $fullData['country_code']);
 			$isValid = $this->phone_validator->isValidNumber($number);
