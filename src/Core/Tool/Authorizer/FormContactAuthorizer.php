@@ -16,7 +16,9 @@ use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\UserContext;
 
-// The `FormStageAuthorizer` class is responsible for access checks on `Forms`
+/** The `FormContactAuthorizer` class is responsible
+ for access checks on `Contacts` that are created for a targetted survey
+**/
 class FormContactAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
