@@ -23,7 +23,7 @@ Feature: Testing the Form Contacts API
         And that the request "data" is:
             """
             {
-                "contacts":"091532899, 22223241",
+                "contacts":"912899, 223241",
                 "country_code": "UY"
             }
             """
