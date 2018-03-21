@@ -56,5 +56,4 @@ class ContactPostState extends AbstractMigration
 	{
 		$this->dropTable('contact_post_state');
 	}
-
 }
