@@ -51,8 +51,9 @@ trait VerifyFormLoaded
 	{
 		$form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
 		// Ensure that the form exists.
-		if (!$form->targeted_survey)
+		if (!$form->targeted_survey) {
 			throw new \HTTP_Exception_400('Not a targeted survey');
+		}
 	}
 
 	// Usecase
