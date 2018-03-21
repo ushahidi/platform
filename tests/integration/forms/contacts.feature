@@ -30,3 +30,9 @@ Feature: Testing the Form Contacts API
         When I request "/forms/5/contacts"
         Then the response is JSON
         Then the guzzle status code should be 422
+        And the response has a "errors" property
+        And the response has a "errors.1" property
+        And the response has a "errors.1.title.contact" property
+        And the type of the "errors.1.title.contact" property is "string"
+        Then the property "errors.1.title.contact" equals "Invalid phone number"
+
