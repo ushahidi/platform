@@ -135,6 +135,20 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 	}
 
+	public function formExistsInPostStateRepo($form_id) {
+
+		$res = $this->selectQuery(array('posts.form_id' => $form_id))
+			->resetSelect()
+			->select([DB::expr('COUNT(*)'), 'total'])
+			->join('contact_post_state', 'INNER')
+			->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'contact_post_state.post_id')
+			->execute($this->db)
+			->get('total');
+		return (bool) $res;
+	}
+
 	/**
 	 * @param int $contact_id
 	 * @param int $form_id
@@ -144,6 +158,25 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	{
 
 		return (bool) $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.id' => $contact_id))
+			->resetSelect()
+			->select([DB::expr('COUNT(*)'), 'total'])
+			->join('contact_post_state', 'INNER')
+			->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'contact_post_state.post_id')
+			->execute($this->db)
+			->get('total');
+	}
+
+	/**
+	 * @param int $contact_id
+	 * @param int $form_id
+	 * @return bool
+	 */
+	public function existsInFormContactByContactNumber($contact, $form_id)
+	{
+
+		return (bool) $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.contact' => $contact))
 			->resetSelect()
 			->select([DB::expr('COUNT(*)'), 'total'])
 			->join('contact_post_state', 'INNER')

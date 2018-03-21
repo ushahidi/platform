@@ -42,7 +42,7 @@ class CreateFormContact extends CreateContact
 		// First verify that the form even exists
 		$this->verifyFormExists();
 		$this->verifyTargetedSurvey();
-
+		$this->verifyFormDoesNoExistInContactPostState();
 		// Fetch a default entity and ...
 		$entity = $this->getEntity();
 

@@ -405,6 +405,7 @@ $di->setter['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazy
 // Traits
 
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
+$di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormContactRepository'] = $di->lazyGet('repository.form_contact');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
 	= $di->lazyGet('repository.form_stage');
 

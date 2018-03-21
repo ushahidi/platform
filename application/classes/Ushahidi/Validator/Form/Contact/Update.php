@@ -14,9 +14,9 @@ use Ushahidi\Core\Tool\Validator;
 class Ushahidi_Validator_Form_Contact_Update extends Validator
 {
 	protected $default_error_source = 'form_contact';
-
 	protected $form_repo;
 	protected $contact_repo;
+	protected $form_contact_repo;
 	protected $phone_validator;
 
 	public function setPhoneValidator($validator) {
@@ -26,6 +26,11 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 	public function setFormRepo(\Ushahidi\Core\Entity\FormRepository $form_repo)
 	{
 		$this->form_repo = $form_repo;
+	}
+
+	public function setFormContactRepo(\Ushahidi\Core\Entity\FormContactRepository $form_contact_repo)
+	{
+		$this->form_contact_repo = $form_contact_repo;
 	}
 
 	public function setContactRepo(\Ushahidi\Core\Entity\ContactRepository $contact_repo)

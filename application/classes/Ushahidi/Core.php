@@ -538,7 +538,8 @@ abstract class Ushahidi_Core {
 
 		$di->setter['Ushahidi_Validator_Form_Contact_Create']['setContactRepo'] =
 			$di->lazyGet('repository.contact');
-
+		$di->setter['Ushahidi_Validator_Form_Contact_Create']['setFormContactRepo'] =
+			$di->lazyGet('repository.form_contact');
 
 		// Form Attribute repository parameters
 		$di->params['Ushahidi_Repository_Form_Attribute'] = [
