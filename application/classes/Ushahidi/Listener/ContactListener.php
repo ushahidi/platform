@@ -86,7 +86,10 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			 */
 			$message = $this->message_repo->getEntity();
 			$firstAttribute = $this->form_attribute_repo->getFirstByForm($form_id);
-
+			if (!$firstAttribute->id) {
+				//fixme add decent exception and log it
+				throw new Exception('If this happens it means that the form does not have attributes so we can\'t send messages');
+			}
 			$messageState = array(
 				'contact_id' => $contactId,
 				'post_id' => $postId,

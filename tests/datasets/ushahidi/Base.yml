@@ -131,6 +131,10 @@ form_roles:
     id: 3
     form_id: 4
     role_id: 3
+  -
+    id: 4
+    form_id: 5
+    role_id: 2
 form_stages:
   -
     id: 1
@@ -179,6 +183,13 @@ form_stages:
     form_id: 4
     label: "Post"
     show_when_published: 1
+    task_is_internal_only: 0
+    type: "post"
+  -
+    id: 8
+    form_id: 5
+    label: "Post"
+    show_when_published: 0
     task_is_internal_only: 0
     type: "post"
 form_attributes:
@@ -530,6 +541,18 @@ form_attributes:
     options: '["1","2","3","4","5","6","7"]'
     cardinality: 0
     form_stage_id: 7
+  -
+    id: 30
+    label: "Test varchar Targeted Survey"
+    key: "test_varchar_targeted_survey"
+    type: "varchar"
+    input: "text"
+    response_private: 1
+    required: 1
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 8
 posts:
   -
     id: 1
