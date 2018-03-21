@@ -81,6 +81,7 @@ forms:
     require_approval: 0
     hide_author: 0
     everyone_can_create: 1
+    targeted_survey: 0
   -
     id: 2
     name: "Missing people"
@@ -89,6 +90,7 @@ forms:
     require_approval: 0
     hide_author: 0
     everyone_can_create: 0
+    targeted_survey: 0
   -
     id: 3
     name: "Video Embed"
@@ -97,6 +99,7 @@ forms:
     require_approval: 0
     hide_author: 0
     everyone_can_create: 0
+    targeted_survey: 0
   -
     id: 4
     name: "Role Restriction"
@@ -105,6 +108,16 @@ forms:
     require_approval: 1
     hide_author: 1
     everyone_can_create: 0
+    targeted_survey: 0
+  -
+    id: 5
+    name: "Targeted survey"
+    type: "report"
+    description: "Testing Targeted survey"
+    require_approval: 0
+    hide_author: 0
+    everyone_can_create: 0
+    targeted_survey: 1
 form_roles:
   -
     id: 1

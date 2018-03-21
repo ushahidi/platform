@@ -42,6 +42,19 @@ trait VerifyFormLoaded
 		$this->verifyEntityLoaded($form, $this->identifiers);
 	}
 
+	/**
+	 * Checks that the form exists.
+	 * @param  Data $input
+	 * @return void
+	 */
+	protected function verifyTargetedSurvey()
+	{
+		$form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
+		// Ensure that the form exists.
+		if (!$form->targeted_survey)
+			throw new \HTTP_Exception_400('Not a targeted survey');
+	}
+
 	// Usecase
 	public function interact()
 	{

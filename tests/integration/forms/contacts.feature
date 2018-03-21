@@ -10,7 +10,7 @@ Feature: Testing the Form Contacts API
                 "country_code": "UY"
             }
             """
-        When I request "/forms/1/contacts"
+        When I request "/forms/5/contacts"
         Then the response is JSON
         And the response has a "form_id" property
         And the type of the "form_id" property is "numeric"
@@ -27,6 +27,6 @@ Feature: Testing the Form Contacts API
                 "country_code": "UY"
             }
             """
-        When I request "/forms/1/contacts"
+        When I request "/forms/5/contacts"
         Then the response is JSON
         Then the guzzle status code should be 422

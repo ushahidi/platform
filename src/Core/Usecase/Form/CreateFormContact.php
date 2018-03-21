@@ -23,7 +23,6 @@ class CreateFormContact extends CreateContact
 	// For form check:
 	use VerifyEntityLoaded;
 	use IdentifyRecords;
-
 	protected function getEntity()
 	{
 		$entity = parent::getEntity();
@@ -39,8 +38,10 @@ class CreateFormContact extends CreateContact
 	// Usecase
 	public function interact()
 	{
+
 		// First verify that the form even exists
 		$this->verifyFormExists();
+		$this->verifyTargetedSurvey();
 
 		// Fetch a default entity and ...
 		$entity = $this->getEntity();
