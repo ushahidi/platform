@@ -65,7 +65,6 @@ trait VerifyFormLoaded
 		if ($this->form_contact_repo->formExistsInPostStateRepo($this->getRequiredIdentifier('form_id'))) {
 			throw new \HTTP_Exception_400('The form already has a set of contacts');
 		}
-
 	}
 
 	/**
