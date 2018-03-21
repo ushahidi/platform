@@ -15,16 +15,13 @@ class Ushahidi_Formatter_Form_Contact extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
 	
-	public function __invoke($entity)
+	public function __invoke($form_id, $entities = [])
 	{
 		$data = [
-			'id'  => 0,
+			'form_id'  => $form_id,
 			//'form_id' => $entity->form_id,
-			'contact' => 0,
+			'count' => count($entities),
 			];
-			
-		//$data = $this->add_metadata($data, $entity);
-		
 		return $data;
 	}
 }
