@@ -12,7 +12,7 @@ Feature: Testing the Form Contacts API
             """
         When I request "/forms/1/contacts"
         Then the response is JSON
-        And the response has a "id" property
+        And the response has a "form_id" property
         And the type of the "form_id" property is "numeric"
         And the response has a "count" property
         And the type of the "count" property is "numeric"
