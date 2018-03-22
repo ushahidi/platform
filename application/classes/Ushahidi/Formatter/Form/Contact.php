@@ -19,7 +19,6 @@ class Ushahidi_Formatter_Form_Contact extends Ushahidi_Formatter_API
 	{
 		$data = [
 			'form_id'  => $form_id,
-			//'form_id' => $entity->form_id,
 			'count' => count($entities),
 			];
 		return $data;

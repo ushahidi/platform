@@ -267,14 +267,14 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_roles'] = [
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormRole'),
 ];
 
-
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_contacts'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormContact'),
-	// 'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormContact'),
-	'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormContact'),
-	// 'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormContact'),
-	// 'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormContact'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormContact'),
+	 //'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormContact'),
+	 // 'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormContact'),
+	 'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormContact'),
 ];
+
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormStage'),
 	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormStage'),

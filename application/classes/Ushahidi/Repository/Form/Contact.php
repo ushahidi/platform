@@ -14,7 +14,8 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormContactRepository;
 
 class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
-	FormContactRepository
+	FormContactRepository,
+	\Ushahidi\Core\Usecase\SearchRepository
 {
 	use \Ushahidi\Core\Traits\Event;
 	protected $form_repo;
@@ -187,4 +188,38 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			->get('total');
 	}
 
+	// SearchRepository
+	public function getSearchResults()
+	{
+		$query = $this->getSearchQuery();
+		$query
+		->join('contact_post_state', 'INNER')
+		->on('contacts.id', '=', 'contact_post_state.contact_id')
+		->join('posts', 'INNER')
+		->on('posts.id', '=', 'contact_post_state.post_id');
+
+		$results = $query->distinct(TRUE)->execute($this->db);
+		//Kohana::$log->add(\Log::ERROR, print_r($results,true));
+
+		return $this->getCollection($results->as_array());
+	}
+
+	public function getSearchTotal() {
+
+		// Assume we can simply count the results to get a total
+		$query = $this->getSearchQuery(true)
+			->resetSelect()
+			->select([DB::expr('COUNT(*)'), 'total'])
+			->join('contact_post_state', 'INNER')
+			->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'contact_post_state.post_id');
+
+
+		// Fetch the result and...
+		$result = $query->execute($this->db);
+
+		// ... return the total.
+		return (int) $result->get('total', 0);
+	}
 }
