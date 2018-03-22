@@ -6,7 +6,7 @@ Feature: Testing the Form Contacts API
         And that the request "data" is:
             """
             {
-                "contacts":"59899333222, 59891333222",
+                "contacts":"99333222, 91333222",
                 "country_code": "UY"
             }
             """
@@ -22,7 +22,7 @@ Feature: Testing the Form Contacts API
         And that the request "data" is:
             """
             {
-                "contacts":"59891636917,59898191532",
+                "contacts":"91636917,98191532",
                 "country_code": "UY"
             }
             """
@@ -58,7 +58,7 @@ Feature: Testing the Form Contacts API
         And that the request "data" is:
             """
             {
-                "contacts":"59891636917,59898191532",
+                "contacts":"91636917,98191532",
                 "country_code": "UY"
             }
             """

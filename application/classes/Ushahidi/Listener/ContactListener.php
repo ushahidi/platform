@@ -87,8 +87,17 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			$message = $this->message_repo->getEntity();
 			$firstAttribute = $this->form_attribute_repo->getFirstByForm($form_id);
 			if (!$firstAttribute->id) {
-				//fixme add decent exception and log it
-				throw new Exception('If this happens it means that the form does not have attributes so we can\'t send messages');
+				Kohana::$log->add(
+					Log::ERROR,
+					'Could not find attributes in form id :form. Messages for contact :contact in this form will not be sent',
+					array(':form' => $form_id, ':contact' => $contactId)
+				);
+				throw new Exception(
+					sprintf(
+						'Could not find attributes in form id %s. Messages for contact %s in this form will not be sent',
+						$form_id, $contactId
+					)
+				);
 			}
 			$messageState = array(
 				'contact_id' => $contactId,
@@ -99,6 +108,13 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			);
 			$message->setState($messageState);
 			$messageId = $this->message_repo->create($message);
+			if (!$messageId) {
+				Kohana::$log->add(
+					Log::ERROR,
+					'Could not create message for contact id :contact,  post id :post, and form id :form',
+					array(':contact' => $contactId, ':post' => $postId, ':form' => $form_id)
+				);
+			}
 			//contact post state
 			$contactPostState = $this->contact_post_state->getEntity();
 			$contactPostState->setState(array('post_id' => $postId, 'contact_id' => $contactId, 'status' => 'pending'));
