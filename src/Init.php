@@ -137,6 +137,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'config'               => $di->lazyGet('authorizer.config'),
 	'dataproviders'        => $di->lazyGet('authorizer.dataprovider'),
 	'export_jobs'          => $di->lazyGet('authorizer.export_job'),
+	'country_codes'        => $di->lazyGet('authorizer.country_code'),
 	'external_auth'        => $di->lazyGet('authorizer.external_auth'),
 	'forms'                => $di->lazyGet('authorizer.form'),
 	'form_attributes'      => $di->lazyGet('authorizer.form_attribute'),
@@ -170,6 +171,7 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config'               => $di->lazyGet('repository.config'),
+	'country_codes'        => $di->lazyGet('repository.country_code'),
 	'export_jobs'		   => $di->lazyGet('repository.export_job'),
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
 	'forms'                => $di->lazyGet('repository.form'),
@@ -379,6 +381,8 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
 $di->setter['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository'] = $di->lazyGet('repository.set');
 $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di->lazyGet('authorizer.set');
 
+// $di->setter['Ushahidi\Core\Usecase\CountryCode']['setAuthorizer'] = $di->lazyGet('authorizer.set');
+
 // User login is a custom read the uses authentication.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
 	'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),
@@ -463,6 +467,7 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	];
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
+$di->set('authorizer.country_code', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CountryCodeAuthorizer'));
 
 
 require __DIR__ . '/App/Init.php';

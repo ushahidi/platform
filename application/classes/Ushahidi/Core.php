@@ -334,6 +334,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 			'config'               => $di->lazyNew('Ushahidi_Formatter_Config'),
 			'dataproviders'        => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
+			'country_codes'		   => $di->lazyNew('Ushahidi_Formatter_CountryCode'),
 			'export_jobs'		   => $di->lazyNew('Ushahidi_Formatter_Export_Job'),
 			'forms'                => $di->lazyNew('Ushahidi_Formatter_Form'),
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
@@ -366,6 +367,7 @@ abstract class Ushahidi_Core {
 		foreach ([
 			'config',
 			'dataprovider',
+			'country_code',
 			'export_job',
 			'form',
 			'form_attribute',
@@ -395,6 +397,7 @@ abstract class Ushahidi_Core {
 
 		$di->setter['Ushahidi_Formatter_Set']['setAuth'] = $di->lazyGet("authorizer.set");
 		$di->setter['Ushahidi_Formatter_CSV']['setAuth'] = $di->lazyGet("authorizer.csv");
+        $di->setter['Ushahidi_Formatter_CountryCode']['setAuth'] = $di->lazyGet("authorizer.country_code");
 
 		// Set Formatter factory
 		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');
@@ -404,6 +407,7 @@ abstract class Ushahidi_Core {
 
 		// Formatters
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
+		$di->set('formatter.entity.country_code', $di->lazyNew('Ushahidi_Formatter_CountryCode'));
 		$di->set('formatter.entity.console', $di->lazyNew('Ushahidi_Formatter_Console'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
 		$di->set('formatter.entity.post.lock', $di->lazyNew('Ushahidi_Formatter_Post_Lock'));
@@ -427,11 +431,12 @@ abstract class Ushahidi_Core {
 
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
-		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));		
+		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_role', $di->lazyNew('Ushahidi_Repository_Form_Role'));
 		$di->set('repository.form_stage', $di->lazyNew('Ushahidi_Repository_Form_Stage'));
+		$di->set('repository.country_code', $di->lazyNew('Ushahidi_Repository_CountryCode'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_Form_Attribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
