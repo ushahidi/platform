@@ -14,6 +14,7 @@ namespace Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 
 /** The `FormContactAuthorizer` class is responsible
@@ -23,6 +24,7 @@ class FormContactAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
 	use UserContext;
+	use AdminAccess;
 
 	// It requires a `FormRepository` to load the owning form.
 	protected $form_repo;
@@ -45,7 +47,10 @@ class FormContactAuthorizer implements Authorizer
 		$form = $this->getForm($entity);
 
 		// All access is based on the form itself, not the stage.
-		return $this->form_auth->isAllowed($form, $privilege);
+		if (!$this->form_auth->isAllowed($form, $privilege)) {
+			return false;
+		}
+		return $this->isUserAdmin($this->getUser());
 	}
 
 	/* Authorizer */
