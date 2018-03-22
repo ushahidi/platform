@@ -57,9 +57,10 @@ class CreateFormContact extends CreateContact
 			$entities[] = $this->getContactEntity($contact, $countryCode, $invalid);
 		}
 		return $this->getContactCollection($entities, $invalid);
-
 	}
-	private function getContactEntity ($contactNumber, $countryCode, &$invalid) {
+
+	private function getContactEntity($contactNumber, $countryCode, &$invalid)
+    {
 		// .. generate an entity for the item
 		$entity = $this->repo->getEntity(array('contact' => $contactNumber));
 		/**
@@ -68,7 +69,7 @@ class CreateFormContact extends CreateContact
 		 * country_code is unset before saving the entity
 		 */
 		$entity->country_code = $countryCode;
-		$countryCodeNumber = $this->phone_validator->parse($contactNumber,  $countryCode)->getCountryCode();
+		$countryCodeNumber = $this->phone_validator->parse($contactNumber, $countryCode)->getCountryCode();
 		$contactNumber = $countryCodeNumber . $contactNumber;
 		$entity->setState(
 			[
@@ -87,7 +88,8 @@ class CreateFormContact extends CreateContact
 		return $entity;
 	}
 
-	private function getContactCollection($entities, $invalid) {
+	private function getContactCollection($entities, $invalid)
+    {
 		// FIXME: move to collection error trait?
 		if (!empty($invalid)) {
 			$invalidList = implode(',', array_keys($invalid));
@@ -103,8 +105,8 @@ class CreateFormContact extends CreateContact
 		}
 	}
 
-	public function setPhoneValidator($validator) {
+	public function setPhoneValidator($validator)
+    {
 		$this->phone_validator = $validator;
-
 	}
 }
