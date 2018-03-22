@@ -344,7 +344,7 @@ abstract class Ushahidi_Core {
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
 			'form_stages'          => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
-			'form_contacts'          => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
+			'form_contacts'        => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
 			'layers'               => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
