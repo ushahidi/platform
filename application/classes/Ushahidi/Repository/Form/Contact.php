@@ -88,11 +88,12 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			$query->values($entity->asArray());
 			$result = $query->execute($this->db);
 			if (!isset($result[0])) {
-				/**
-				 * @TODO add some custom exception because something has gone terribly wrong
-				 *
-				 */
-				throw new Exception();
+				throw new HTTP_Exception_500(
+					sprintf(
+						'Could not create contacts. Result:  %s',
+						var_export($entity, true)
+					)
+				);
 			}
 			array_push($results, $result[0]);
 		}
