@@ -23,6 +23,7 @@ class CreateFormContact extends CreateContact
 	// For form check:
 	use VerifyEntityLoaded;
 	use IdentifyRecords;
+	protected $phone_validator;
 	protected function getEntity()
 	{
 		$entity = parent::getEntity();
