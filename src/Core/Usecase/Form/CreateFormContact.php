@@ -68,11 +68,14 @@ class CreateFormContact extends CreateContact
 		 * country_code is unset before saving the entity
 		 */
 		$entity->country_code = $countryCode;
+		$countryCodeNumber = $this->phone_validator->parse($contactNumber,  $countryCode)->getCountryCode();
+		$contactNumber = $countryCodeNumber . $contactNumber;
 		$entity->setState(
 			[
 				'created' => time(),
 				'can_notify' => true,
 				'type' => 'phone',
+				'contact' => $contactNumber
 			]
 		);
 		// ... and save it for later
@@ -98,5 +101,10 @@ class CreateFormContact extends CreateContact
 			// ... and finally format it for output
 			return $this->formatter->__invoke(intval($this->getIdentifier('form_id')), $entities);
 		}
+	}
+
+	public function setPhoneValidator($validator) {
+		$this->phone_validator = $validator;
+
 	}
 }
