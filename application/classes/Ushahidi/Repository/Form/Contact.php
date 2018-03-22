@@ -115,11 +115,8 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	public function getByForm($form_id)
 	{
 		$query = $this->selectQuery(array('posts.form_id' => $form_id))
-			->select('contacts.*')
-			->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
-			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id');
+			->select('contacts.*');
+		$query = $this->contactPostStateJoin($query);
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
@@ -137,14 +134,11 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	}
 
 	public function formExistsInPostStateRepo($form_id) {
-
-		$res = $this->selectQuery(array('posts.form_id' => $form_id))
+		$query = $this->selectQuery(array('posts.form_id' => $form_id))
 			->resetSelect()
-			->select([DB::expr('COUNT(*)'), 'total'])
-			->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
-			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id')
+			->select([DB::expr('COUNT(*)'), 'total']);
+		$query = $this->contactPostStateJoin($query);
+		$res = $query
 			->execute($this->db)
 			->get('total');
 		return (bool) $res;
@@ -157,14 +151,11 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	 */
 	public function existsInFormContact($contact_id, $form_id)
 	{
-
-		return (bool) $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.id' => $contact_id))
+		$query = $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.id' => $contact_id))
 			->resetSelect()
-			->select([DB::expr('COUNT(*)'), 'total'])
-			->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
-			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id')
+			->select([DB::expr('COUNT(*)'), 'total']);
+		$query = $this->contactPostStateJoin($query);
+		return (bool) $query
 			->execute($this->db)
 			->get('total');
 	}
@@ -176,14 +167,11 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	 */
 	public function existsInFormContactByContactNumber($contact, $form_id)
 	{
-
-		return (bool) $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.contact' => $contact))
+		$query = $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.contact' => $contact))
 			->resetSelect()
-			->select([DB::expr('COUNT(*)'), 'total'])
-			->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
-			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id')
+			->select([DB::expr('COUNT(*)'), 'total']);
+		$query = $this->contactPostStateJoin($query);
+		return (bool) $query
 			->execute($this->db)
 			->get('total');
 	}
@@ -192,33 +180,27 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	public function getSearchResults()
 	{
 		$query = $this->getSearchQuery();
-		$query
-		->join('contact_post_state', 'INNER')
-		->on('contacts.id', '=', 'contact_post_state.contact_id')
-		->join('posts', 'INNER')
-		->on('posts.id', '=', 'contact_post_state.post_id');
-
+		$query = $this->contactPostStateJoin($query);
 		$results = $query->distinct(TRUE)->execute($this->db);
-		//Kohana::$log->add(\Log::ERROR, print_r($results,true));
-
 		return $this->getCollection($results->as_array());
 	}
 
+	private function contactPostStateJoin($query) {
+		return $query->join('contact_post_state', 'INNER')
+			->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'contact_post_state.post_id');
+
+	}
 	public function getSearchTotal() {
 
 		// Assume we can simply count the results to get a total
 		$query = $this->getSearchQuery(true)
 			->resetSelect()
-			->select([DB::expr('COUNT(*)'), 'total'])
-			->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
-			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id');
-
-
+			->select([DB::expr('COUNT(*)'), 'total']);
+		$query = $this->contactPostStateJoin($query);
 		// Fetch the result and...
 		$result = $query->execute($this->db);
-
 		// ... return the total.
 		return (int) $result->get('total', 0);
 	}

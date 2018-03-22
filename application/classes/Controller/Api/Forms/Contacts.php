@@ -29,8 +29,6 @@ class Controller_API_Forms_Contacts extends Ushahidi_Rest {
 			->get($this->_resource(), 'create');
 		$this->_usecase->setIdentifiers($this->request->param());
 		$this->_usecase->setPayload($this->_request_payload);
-		//$this->_usecase
-		//	->setFormatter(service("formatter.entity.form.contact"));
 	}
 
 	// Get Lock
