@@ -45,7 +45,6 @@ class CreateFormContact extends CreateContact
 		$this->verifyFormDoesNoExistInContactPostState();
 		// Fetch a default entity and ...
 		$entity = $this->getEntity();
-
 		// ... verify the current user has have permissions
 		$this->verifyCreateAuth($entity);
 
@@ -55,34 +54,42 @@ class CreateFormContact extends CreateContact
 		$countryCode = $this->getPayload('country_code');
 		$contacts = explode(',', $this->getPayload('contacts'));
 		foreach ($contacts as $contact) {
-			// .. generate an entity for the item
-			$entity = $this->repo->getEntity(compact('contact'));
-			/**
-			 * we only use this field for validation
-			 * we check that country code + phone number are valid.
-			 * country_code is unset before saving the entity
-			 */
-			$entity->country_code = $countryCode;
-			$entity->setState(
-				[
-					'created' => time(),
-					'can_notify' => true,
-					'type' => 'phone',
-					'contact' => $entity->contact,
-				]
-			);
-			// ... and save it for later
-			$entities[] = $entity;
-
-			if (!$this->validator->check($entity->asArray())) {
-				$invalid[$entity->contact] = $this->validator->errors();
-			}
+			$entities[] = $this->getContactEntity($contact, $countryCode, $invalid);
 		}
+		return $this->getContactCollection($entities, $invalid);
+
+	}
+	private function getContactEntity ($contactNumber, $countryCode, &$invalid) {
+		// .. generate an entity for the item
+		$entity = $this->repo->getEntity(array('contact' => $contactNumber));
+		/**
+		 * we only use this field for validation
+		 * we check that country code + phone number are valid.
+		 * country_code is unset before saving the entity
+		 */
+		$entity->country_code = $countryCode;
+		$entity->setState(
+			[
+				'created' => time(),
+				'can_notify' => true,
+				'type' => 'phone',
+			]
+		);
+		// ... and save it for later
+		$entities[] = $entity;
+
+		if (!$this->validator->check($entity->asArray())) {
+			$invalid[$entity->contact] = $this->validator->errors();
+		}
+		return $entity;
+	}
+
+	private function getContactCollection($entities, $invalid) {
 		// FIXME: move to collection error trait?
 		if (!empty($invalid)) {
 			$invalidList = implode(',', array_keys($invalid));
 			throw new ValidatorException(sprintf(
-				'The following contacts are invalid:',
+				'The following contacts have validation errors:',
 				$invalidList
 			), $invalid);
 		} else {
