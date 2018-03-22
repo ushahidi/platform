@@ -67,5 +67,4 @@ class SearchFormContact extends SearchUsecase
 		// ... and return the formatted results.
 		return $this->formatter->__invoke($results);
 	}
-
 }
