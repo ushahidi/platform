@@ -250,7 +250,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			->join('form_stages', 'INNER')
 			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
 			->order_by('form_stages.priority', 'ASC')
-			->order_by('form_attributes.priority', 'ASC');
+			->order_by('form_attributes.priority', 'ASC')
+			->limit(1);
 
 		$results = $query->execute($this->db);
 
