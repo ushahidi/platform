@@ -381,8 +381,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
 $di->setter['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository'] = $di->lazyGet('repository.set');
 $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di->lazyGet('authorizer.set');
 
-// $di->setter['Ushahidi\Core\Usecase\CountryCode']['setAuthorizer'] = $di->lazyGet('authorizer.set');
-
 // User login is a custom read the uses authentication.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
 	'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),

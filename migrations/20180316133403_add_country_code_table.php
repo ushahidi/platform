@@ -22,7 +22,8 @@ class AddCountryCodeTable extends AbstractMigration
                 'null' => false,
                 'default' => false
             ])
-          ->create();
+            ->addIndex(['country_code'])
+            ->create();
 
         $pdo = $this->getAdapter()->getConnection();
 
