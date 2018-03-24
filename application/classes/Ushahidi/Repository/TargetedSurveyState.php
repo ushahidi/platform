@@ -12,6 +12,8 @@
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\FormRepository;
+//use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
 class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implements
@@ -30,20 +32,28 @@ class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implem
 		return new Entity\TargetedSurveyState($data);
 	}
 
+    // UpdateRepository
+    public function update(Entity $entity)
+    {
+        $state = [
+            'updated'  => time(),
+        ];
+        return parent::update($entity->setState($state));
+    }
+
 	// SearchRepository
 	public function getSearchFields()
 	{
 		return ['form_id', 'contact_id', 'last_sent_form_attribute_id'];
 	}
 
-	// ContactRepository
-	public function getByContact($contact, $type)
+	public function getByContactId($contact_id)
 	{
-		return $this->getEntity($this->selectOne(compact('contact', 'type')));
+		return $this->getEntity($this->selectOne(compact('contact_id')));
 	}
 
-	public function getByPost($post)
+	public function getByForm($form)
 	{
-		return new Entity\Post($this->selectOne(compact('post')));
+		return new Entity\Form($this->selectOne(compact('form')));
 	}
 }
