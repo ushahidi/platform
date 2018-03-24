@@ -778,8 +778,8 @@ abstract class Ushahidi_Core {
 			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
 
        // Add Listener to Message repository
-       $di->setter['Ushahidi_Repository_User']['setEvent'] = 'IncomingMessageEvent';
-       $di->setter['Ushahidi_Repository_User']['setListener'] =
+       $di->setter['Ushahidi_Repository_Message']['setEvent'] = 'IncomingMessageEvent';
+       $di->setter['Ushahidi_Repository_Message']['setListener'] =
        $di->lazyNew('Ushahidi_Listener_IncomingMessageListener');
 
 		// Add Lock Listener
