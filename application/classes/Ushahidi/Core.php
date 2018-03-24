@@ -440,6 +440,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.csv_post', $di->lazyNew('Ushahidi_Repository_CSVPost'));
 		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
+        $di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_TargetedSurveyState'));
 		$di->set('repository.set', $di->lazyNew('Ushahidi_Repository_Set'));
 		$di->set('repository.savedsearch', $di->lazyNew(
 			'Ushahidi_Repository_Set',
@@ -762,14 +763,12 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
 
-        // Incoming message listener requires lots of repos
-        // Contact repo for Post listener
-		$di->setter['Ushahidi_Listener_IncomingMessageListener']['setContactRepo'] =
-		$di->lazyGet('repository.contact');
-
-        // Webhook repo for Post listener
+        // form attribute repo for Post listener
     	$di->setter['Ushahidi_Listener_IncomingMessageListener']['setFormAttributeRepo'] =
     			$di->lazyGet('repository.form_attribute');
+        // form attribute repo for Post listener
+        $di->setter['Ushahidi_Listener_IncomingMessageListener']['setTargetedSurveyStateRepo'] =
+                $di->lazyGet('repository.targeted_survey_state');
 
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
@@ -788,8 +787,8 @@ abstract class Ushahidi_Core {
 
        // Add Listener to Message repository
        $di->setter['Ushahidi_Repository_Message']['setEvent'] = 'IncomingMessageEvent';
-       $di->setter['Ushahidi_Repository_Message']['setListener'] =
-       $di->lazyNew('Ushahidi_Listener_IncomingMessageListener');
+        $di->setter['Ushahidi_Repository_Message']['setListener'] =
+        $di->lazyNew('Ushahidi_Listener_IncomingMessageListener');
 
 		// Add Lock Listener
 		$di->setter['Ushahidi_Repository_Post_Lock']['setEvent'] = 'LockBroken';
